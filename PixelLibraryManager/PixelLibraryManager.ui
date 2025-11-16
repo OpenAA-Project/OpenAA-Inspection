@@ -1,0 +1,386 @@
+<ui version="4.0" >
+ <class>PixelLibraryManagerClass</class>
+ <widget class="QWidget" name="PixelLibraryManagerClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>789</width>
+    <height>419</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>PixelLibraryManager</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout" >
+   <item row="0" column="0" colspan="8" >
+    <layout class="QVBoxLayout" name="verticalLayout" >
+     <item>
+      <widget class="QLabel" name="label" >
+       <property name="palette" >
+        <palette>
+         <active>
+          <colorrole role="Button" >
+           <brush brushstyle="SolidPattern" >
+            <color alpha="255" >
+             <red>193</red>
+             <green>193</green>
+             <blue>193</blue>
+            </color>
+           </brush>
+          </colorrole>
+          <colorrole role="Base" >
+           <brush brushstyle="SolidPattern" >
+            <color alpha="255" >
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+           </brush>
+          </colorrole>
+          <colorrole role="Window" >
+           <brush brushstyle="SolidPattern" >
+            <color alpha="255" >
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+           </brush>
+          </colorrole>
+         </active>
+         <inactive>
+          <colorrole role="Button" >
+           <brush brushstyle="SolidPattern" >
+            <color alpha="255" >
+             <red>193</red>
+             <green>193</green>
+             <blue>193</blue>
+            </color>
+           </brush>
+          </colorrole>
+          <colorrole role="Base" >
+           <brush brushstyle="SolidPattern" >
+            <color alpha="255" >
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+           </brush>
+          </colorrole>
+          <colorrole role="Window" >
+           <brush brushstyle="SolidPattern" >
+            <color alpha="255" >
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+           </brush>
+          </colorrole>
+         </inactive>
+         <disabled>
+          <colorrole role="Button" >
+           <brush brushstyle="SolidPattern" >
+            <color alpha="255" >
+             <red>193</red>
+             <green>193</green>
+             <blue>193</blue>
+            </color>
+           </brush>
+          </colorrole>
+          <colorrole role="Base" >
+           <brush brushstyle="SolidPattern" >
+            <color alpha="255" >
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+           </brush>
+          </colorrole>
+          <colorrole role="Window" >
+           <brush brushstyle="SolidPattern" >
+            <color alpha="255" >
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+           </brush>
+          </colorrole>
+         </disabled>
+        </palette>
+       </property>
+       <property name="font" >
+        <font>
+         <family>MS UI Gothic</family>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+         <underline>false</underline>
+         <strikeout>false</strikeout>
+        </font>
+       </property>
+       <property name="autoFillBackground" >
+        <bool>true</bool>
+       </property>
+       <property name="text" >
+        <string>ピクセルライブラリーの設定</string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTableWidget" name="twPixelLibraryList" >
+       <property name="editTriggers" >
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="selectionMode" >
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+       <property name="selectionBehavior" >
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
+       <property name="textElideMode" >
+        <enum>Qt::ElideNone</enum>
+       </property>
+       <property name="rowCount" >
+        <number>3</number>
+       </property>
+       <property name="columnCount" >
+        <number>5</number>
+       </property>
+       <row/>
+       <row/>
+       <row/>
+       <column/>
+       <column/>
+       <column/>
+       <column/>
+       <column/>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame" >
+       <property name="frameShape" >
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Raised</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QPushButton" name="pbSave" >
+     <property name="minimumSize" >
+      <size>
+       <width>111</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>111</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="font" >
+      <font>
+       <family>MS UI Gothic</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+       <underline>false</underline>
+       <strikeout>false</strikeout>
+      </font>
+     </property>
+     <property name="text" >
+      <string>保存</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" >
+    <widget class="QPushButton" name="pbUpdate" >
+     <property name="minimumSize" >
+      <size>
+       <width>111</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>111</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="font" >
+      <font>
+       <family>MS UI Gothic</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+       <underline>false</underline>
+       <strikeout>false</strikeout>
+      </font>
+     </property>
+     <property name="text" >
+      <string>更新</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2" >
+    <widget class="QPushButton" name="pbLoad" >
+     <property name="minimumSize" >
+      <size>
+       <width>111</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>111</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="font" >
+      <font>
+       <family>MS UI Gothic</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+       <underline>false</underline>
+       <strikeout>false</strikeout>
+      </font>
+     </property>
+     <property name="text" >
+      <string>読込</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3" >
+    <spacer name="horizontalSpacer" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>29</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="4" >
+    <widget class="QPushButton" name="pbAddRow" >
+     <property name="minimumSize" >
+      <size>
+       <width>111</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>111</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="font" >
+      <font>
+       <family>MS UI Gothic</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+       <underline>false</underline>
+       <strikeout>false</strikeout>
+      </font>
+     </property>
+     <property name="text" >
+      <string>行追加（＋）</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="5" >
+    <widget class="QPushButton" name="pbDeleteRow" >
+     <property name="minimumSize" >
+      <size>
+       <width>111</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>111</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="font" >
+      <font>
+       <family>MS UI Gothic</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+       <underline>false</underline>
+       <strikeout>false</strikeout>
+      </font>
+     </property>
+     <property name="text" >
+      <string>行削除（－）</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="6" >
+    <spacer name="horizontalSpacer_2" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>28</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="7" >
+    <widget class="QPushButton" name="pbClose" >
+     <property name="minimumSize" >
+      <size>
+       <width>111</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>111</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="font" >
+      <font>
+       <family>MS UI Gothic</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+       <underline>false</underline>
+       <strikeout>false</strikeout>
+      </font>
+     </property>
+     <property name="text" >
+      <string>閉じる</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

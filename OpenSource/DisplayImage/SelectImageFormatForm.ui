@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SelectImageFormatForm</class>
+ <widget class="QDialog" name="SelectImageFormatForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>299</width>
+    <height>127</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QComboBox" name="comboBoxFormat">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>30</y>
+     <width>121</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Bitmap(Bmp)</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>JPEG(Jpg)</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>PNG(Png)</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>10</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>保存種類</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonCancel">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>70</y>
+     <width>111</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>キャンセル</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DisplayImage.qrc">
+     <normaloff>:/Qtres/Cancel.png</normaloff>:/Qtres/Cancel.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonOK">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>設定・保存</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DisplayImage.qrc">
+     <normaloff>:/Qtres/Save.png</normaloff>:/Qtres/Save.png</iconset>
+   </property>
+   <property name="default">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="DisplayImage.qrc"/>
+ </resources>
+ <connections/>
+</ui>

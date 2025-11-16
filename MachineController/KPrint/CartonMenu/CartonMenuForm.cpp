@@ -1,0 +1,1275 @@
+#include "CartonMenuResource.h"
+#include "CartonMenuForm.h"
+#include "ui_CartonMenuForm.h"
+#include "GeneralStackForm.h"
+#include "SettingCartonDialog.h"
+#include "XPropertyDotColorMatchingPacket.h"
+#include "SetThresholdDialog.h"
+#include "SelectLibraryForGenerateDialog.h"
+#include "XCommToTrigger.h"
+#include "IntegrationInputLotForm.h"
+#include <QMessageBox>
+#include "ShowReqLotDialog.h"
+#include "IntegrationHistoryForm.h"
+#include "XIntegrationBase.h"
+#include "XServiceForLayers.h"
+#include "XMeasureLineMove.h"
+#include "OthersDialog.h"
+#include "EachSettingDialog.h"
+#include "ButtonAutoMode.h"
+#include "SetExposureDialog.h"
+#include "XIntegrationBase.h"
+#include "XParamIntegrationMaster.h"
+#include "SignalResultDoneToMaster.h"
+#include "InputBeltSpeedDialog.h"
+#include "XDisplayImage.h"
+#include "XPropertyAlignmentLargeCommon.h"
+#include "ButtonSettingThresholdForm.h"
+#include "SelectSlaveMachineDialog.h"
+#include "XWriteResultThread.h"
+
+extern	const	char	*sRoot;
+extern	const	char	*sName;
+
+CartonMenuForm::CartonMenuForm(LayersBase *Base ,QWidget *parent) :
+    GUIFormBase(Base,parent)
+	,Param(Base),
+    ui(new Ui::CartonMenuForm)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+
+	ShowBlade	=true;
+	Param.LoadDefault(GetLayersBase()->GetUserPath());
+	for(int i=0;i<sizeof(MenuButtons)/sizeof(MenuButtons[0]);i++){
+		MenuButtons[i]=NULL;
+	}
+
+	connect(this,SIGNAL(SignalResize()), this ,SLOT(ResizeAction()));
+}
+
+CartonMenuForm::~CartonMenuForm()
+{
+    delete ui;
+}
+
+class	BladeColumnInHistory	:public SpecialHistoryColumn ,public ServiceForLayers
+{
+public:
+	BladeColumnInHistory(LayersBase *Base);
+
+	virtual	QString		JudgeFunc(InspectionList *L[][2],int MachineCount ,QColor &RetColumnColor);
+};
+
+BladeColumnInHistory::BladeColumnInHistory(LayersBase* Base)
+	:ServiceForLayers(Base)
+{ 
+	ColumnName =LangSolver.GetString(CartonMenuForm_LS,LID_14)/*"鬮ｫｪ陜捺ｻゑｽｽｸｽｬ"*/;
+}
+
+QString		BladeColumnInHistory::JudgeFunc(InspectionList *L[][2],int MachineCount,QColor &RetColumnColor)
+{
+	for(int	n=0;n<MachineCount;n++){
+		if(L[n][0]!=NULL){
+			for(NGPointInAllPage *Ph=L[n][0]->NGPointAllPhases.GetFirst();Ph!=NULL;Ph=Ph->GetNext()){
+				for(NGPointInPage *Pg=Ph->NPListPack<NGPointInPage>::GetFirst();Pg!=NULL;Pg=Pg->GetNext()){
+					for(NGPoint *p=Pg->NPListPack<NGPoint>::GetFirst();p!=NULL;p=p->GetNext()){
+						if(p->LibType==DefLibTypeMeasureLineMove && p->UniqueID<100){
+							if(p->Error>=2){
+								RetColumnColor=Qt::red;
+								return /**/"NG";
+							}
+						}
+					}
+				}
+			}
+		}
+		if(L[n][1]!=NULL){
+			for(NGPointInAllPage *Ph=L[n][1]->NGPointAllPhases.GetFirst();Ph!=NULL;Ph=Ph->GetNext()){
+				for(NGPointInPage *Pg=Ph->NPListPack<NGPointInPage>::GetFirst();Pg!=NULL;Pg=Pg->GetNext()){
+					for(NGPoint *p=Pg->NPListPack<NGPoint>::GetFirst();p!=NULL;p=p->GetNext()){
+						if(p->LibType==DefLibTypeMeasureLineMove){
+							if(p->Error>=2){
+								RetColumnColor=Qt::red;
+								return /**/"NG";
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	RetColumnColor=Qt::white;
+	return /**/"OK";
+}
+
+void	CartonMenuForm::ReadyParam(void)
+{
+	int	MachineCount = GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();
+	if(MachineCount==1){
+		ui->PushButtonBottomDetail	->setVisible(false);
+		ui->PushButtonMonoDetail3	->setVisible(false);
+	}
+	else
+	if(MachineCount==2){
+		ui->PushButtonMonoDetail3	->setVisible(false);
+	}
+	if(ShowBlade==true){
+		ui->stackedWidget->setCurrentIndex(0);
+	}
+	else{
+		ui->stackedWidget->setCurrentIndex(1);
+	}
+
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Integration",/**/"History",/**/"");
+	if(f!=NULL){
+		CmdAddSpecialHistoryColumnPacket	Cmd(GetLayersBase());
+		Cmd.NewColumn=new BladeColumnInHistory(GetLayersBase());
+		f->TransmitDirectly(&Cmd);
+	}
+	for(int i=0;i<MachineCount;i++){
+		EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(i);
+		if(m!=NULL){
+			QString	s=m->GetMachineName();
+			if(m->IsDependent()==true){
+				s=s+QString(/**/"-1");
+			}
+			if(i==0){
+				ui->PushButtonTopDetail	->setText(s+QString(LangSolver.GetString(CartonMenuForm_LS,LID_15)/*"鬮ｫｧｽｳ鬩肴得ｽｰ"*/));
+				ui->PushButtonTopDetail3->setText(s+QString(LangSolver.GetString(CartonMenuForm_LS,LID_16)/*"鬮ｫｧｽｳ鬩肴得ｽｰ"*/));
+			}
+			else if(i==1){
+				ui->PushButtonBottomDetail	->setText(s+QString(LangSolver.GetString(CartonMenuForm_LS,LID_17)/*"鬮ｫｧｽｳ鬩肴得ｽｰ"*/));
+				ui->PushButtonBottomDetail3	->setText(s+QString(LangSolver.GetString(CartonMenuForm_LS,LID_18)/*"鬮ｫｧｽｳ鬩肴得ｽｰ"*/));
+			}
+			else if(i==2){
+				ui->PushButtonMonoDetail3	->setText(s+QString(LangSolver.GetString(CartonMenuForm_LS,LID_19)/*"鬮ｫｧｽｳ鬩肴得ｽｰ"*/));
+			}
+		}
+	}
+	if(MachineCount==2){
+		ui->stackedWidgetDetail->setCurrentIndex(0);
+	}
+	else if(MachineCount==3){
+		ui->stackedWidgetDetail->setCurrentIndex(1);
+	}
+	if(ButtonNameList.count()>0){
+		MenuButtons[0]=ui->PushButtonSwitchPhase;
+		MenuButtons[1]=ui->PushButtonMask;
+		MenuButtons[2]=ui->PushButtonAlignment;
+		MenuButtons[3]=ui->PushButtonInspection;
+		MenuButtons[4]=ui->PushButtonBlade;
+		MenuButtons[5]=ui->PushButtonAutoGenerate;
+		MenuButtons[6]=ui->PushButtonCheck;
+		MenuButtons[7]=ui->PushButtonSetting;
+		MenuButtons[8]=ui->PushButtonEachSetting;
+		MenuButtons[9]=ui->PushButtonLotList;
+		MenuButtons[10]=ui->PushButtonOther;
+		MenuButtons[11]=ui->PushButtonTopDetail;
+		MenuButtons[12]=ui->PushButtonBottomDetail;
+		MenuButtons[13]=ui->PushButtonColorDifference;
+		int	MenuButtonsCount=14;
+		for(int j=0;j<MenuButtonsCount;j++){
+			MenuButtons[j]->hide();
+		}
+
+		QObjectList Q=children();
+		for(int i=0;i<Q.count();i++){
+			QObject	*ChildObj=Q[i];
+			QWidget	*w=dynamic_cast<QWidget *>(ChildObj);
+			if(w!=NULL){
+				MenuButtons[MenuButtonsCount]=w;
+				MenuButtonsCount++;
+			}
+		}
+		int	ButtonMergin=3;
+		int	TopY=ui->PushButtonRun->geometry().bottom()+ButtonMergin;
+		for(int i=0;i<ButtonNameList.count();i++){
+			QString	s=ButtonNameList[i];
+			for(int j=0;j<MenuButtonsCount;j++){
+				if(MenuButtons[j]->objectName()==s){
+					MenuButtons[j]->show();
+					MenuButtons[j]->setParent(this);
+					MenuButtons[j]->raise();
+					MenuButtons[j]->move(10,TopY);
+					TopY+=MenuButtons[j]->height()+ButtonMergin;
+				}
+			}
+		}
+	}
+	SignalResultDoneToMaster	*fg=(SignalResultDoneToMaster *)GetLayersBase()->FindByName(/**/"Integration",/**/"SignalResultDoneToMaster",/**/"");
+	if(fg!=NULL){
+		connect(fg,SIGNAL(SignalTimeOutInMaster()),this,SLOT(SlotAliveProgress()),Qt::QueuedConnection);
+	}
+}
+
+void	CartonMenuForm::ResizeAction()
+{
+	ui->progressBarTimer->setGeometry(0,height()-ui->progressBarTimer->height(),width(),ui->progressBarTimer->height());
+}
+void	CartonMenuForm::TransmitDirectly(GUIDirectMessage *packet)
+{
+	IntegrationCartonSaveParameter	*IntegrationCartonSaveParameterVar=dynamic_cast<IntegrationCartonSaveParameter *>(packet);
+	if(IntegrationCartonSaveParameterVar!=NULL){
+		Param.SaveDefault(GetLayersBase()->GetUserPath());
+		return;
+	}
+	CmdSaveParamInMaster	*CmdSaveParamInMasterVar=dynamic_cast<CmdSaveParamInMaster *>(packet);
+	if(CmdSaveParamInMasterVar!=NULL){
+		QBuffer	Buff;
+		Buff.open(QIODevice::ReadWrite);
+		ParamInMaster.Save(&Buff);
+		GetLayersBase()->GetIntegrationBasePointer()->GetCommonData()->Something=Buff.buffer();
+		return;
+	}
+	CmdRequestCounter	*CmdRequestCounterVar=dynamic_cast<CmdRequestCounter *>(packet);
+	if(CmdRequestCounterVar!=NULL){
+		if(GetLayersBase()->GetIntegrationBasePointer()->GetParamIntegrationMaster()->Mastered==true){
+			CommToTrigger	CommToTriggerInst(this);
+			if(CommToTriggerInst.Connect()==true){
+				struct ResultCounterInfo	CounterData;
+				if(CommToTriggerInst.RequestCounter(CounterData)==true){
+					CmdRequestCounterVar->TotalCount=CounterData.TotalCount;
+					CmdRequestCounterVar->OKCount	=CounterData.OKCount;
+					CmdRequestCounterVar->NGCount	=CounterData.NGCount;
+					CmdRequestCounterVar->TMCount	=CounterData.TMCount;
+					CmdRequestCounterVar->Mismatch	=CounterData.Mismatch;
+					CmdRequestCounterVar->Ret		=true;
+					return;
+				}
+			}
+		}
+		CmdRequestCounterVar->Ret		=false;
+		return;
+	}
+	CmdResetCounter	*CmdResetCounterVar=dynamic_cast<CmdResetCounter *>(packet);
+	if(CmdResetCounterVar!=NULL){
+		if(GetLayersBase()->GetIntegrationBasePointer()->GetParamIntegrationMaster()->Mastered==true){
+			CommToTrigger	CommToTriggerInst(this);
+			if(CommToTriggerInst.Connect()==true){
+				if(CommToTriggerInst.ResetCounter()==true){
+					CmdResetCounterVar->Ret		=true;
+					return;
+				}
+			}
+		}
+		CmdResetCounterVar->Ret		=false;
+		return;
+	}
+}
+void	CartonMenuForm::BuildForShow(void)
+{
+	QBuffer	Buff(&GetLayersBase()->GetIntegrationBasePointer()->GetCommonData()->Something);
+	Buff.open(QIODevice::ReadOnly);
+	ParamInMaster.Load(&Buff);
+	SendTriggerInfo();
+}
+bool	CartonMenuForm::SendTriggerInfo(void)
+{
+	if(GetLayersBase()->GetIntegrationBasePointer()->GetParamIntegrationMaster()->Mastered==true){
+		CommToTrigger	CommToTriggerInst(this);
+		if(CommToTriggerInst.Connect()==true){
+			struct	TriggerInfo	TriggerInfoData;
+			TriggerInfoData.TriggerTiming1	=Param.TriggerTiming1;
+			TriggerInfoData.TriggerTiming2	=Param.TriggerTiming2;
+			TriggerInfoData.TriggerTiming3	=Param.TriggerTiming3;
+			TriggerInfoData.TriggerTiming4	=Param.TriggerTiming4;
+			TriggerInfoData.DropTiming		=Param.DropTiming;
+			if(CommToTriggerInst.Send(TriggerInfoData)==true){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+void	CartonMenuForm::OpenMask(int n)
+{
+	ui->PushButtonMask->setChecked(true);
+	on_PushButtonMask_clicked();
+
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Button",/**/"SelectStackedPage",/**/"SelectStackedPageMask");
+	if(f!=NULL){
+		QStringList Args;
+		if(n<0)
+			n=0;
+		if(n>=4)
+			n=3;
+		Args.append(QString::number(n));
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"SelectPage", Args, ExeReturn);
+	}
+}
+void CartonMenuForm::on_PushButtonMask_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(StackInstName);
+	if(f!=NULL){
+		CmdShowPage	RCmd(GetLayersBase());
+		RCmd.PageName=/**/"Mask";
+		f->TransmitDirectly(&RCmd);
+	}
+}
+void	CartonMenuForm::OpenAlignment(void)
+{
+	ui->PushButtonAlignment->setChecked(true);
+	on_PushButtonAlignment_clicked();
+}
+void CartonMenuForm::on_PushButtonAlignment_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(StackInstName);
+	if(f!=NULL){
+		CmdShowPage	RCmd(GetLayersBase());
+		RCmd.PageName=/**/"Alignment";
+		f->TransmitDirectly(&RCmd);
+	}
+}
+
+void	CartonMenuForm::OpenInspection(void)
+{
+	ui->PushButtonInspection->setChecked(true);
+	on_PushButtonInspection_clicked();
+}
+void CartonMenuForm::on_PushButtonInspection_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(StackInstName);
+	if(f!=NULL){
+		CmdShowPage	RCmd(GetLayersBase());
+		RCmd.PageName=/**/"Inspection";
+		f->TransmitDirectly(&RCmd);
+	}
+}
+
+void	CartonMenuForm::OpenBlade(void)
+{
+	ui->PushButtonBlade->setChecked(true);
+	on_PushButtonBlade_clicked();
+
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Button",/**/"SelectStackedPage",/**/"SelectStackedPageBlade");
+	if(f!=NULL){
+		QStringList Args;
+		int	n=0;
+		if(Param.GenerateBradeTop==true)
+			n=0;
+		else
+			n=1;
+		Args.append(QString::number(n));
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"SelectPage", Args, ExeReturn);
+	}
+}
+void CartonMenuForm::on_PushButtonBlade_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(StackInstName);
+	if(f!=NULL){
+		CmdShowPage	RCmd(GetLayersBase());
+		RCmd.PageName=/**/"Blade";
+		f->TransmitDirectly(&RCmd);
+	}
+}
+void	CartonMenuForm::OpenMakeAverage(void)
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(StackInstName);
+	if(f!=NULL){
+		CmdShowPage	RCmd(GetLayersBase());
+		RCmd.PageName=/**/"MakeAverage";
+		f->TransmitDirectly(&RCmd);
+	}
+}
+
+void CartonMenuForm::on_horizontalSliderLevel_valueChanged(int value)
+{
+	int	Level=ui->horizontalSliderLevel->value();
+	ui->label_Level	->setText(QString::number(Level));
+    //for(int SlaveNo=0;SlaveNo<GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();SlaveNo++){
+        int SlaveNo=0;
+		IntegrationSendInsectionLevel	Cmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		switch(Level){
+		case 0:		Cmd.Level=2.0;	break;
+		case 1:		Cmd.Level=1.7;	break;
+		case 2:		Cmd.Level=1.5;	break;
+		case 3:		Cmd.Level=1.4;	break;
+		case 4:		Cmd.Level=1.2;	break;
+		case 5:		Cmd.Level=1.0;	break;
+		case 6:		Cmd.Level=0.9;	break;
+		case 7:		Cmd.Level=0.8;	break;
+		case 8:		Cmd.Level=0.7;	break;
+		case 9:		Cmd.Level=0.6;	break;
+		case 10:	Cmd.Level=0.5;	break;
+		}
+		Cmd.Send(NULL,SlaveNo,0);
+    //}
+}
+
+void CartonMenuForm::on_horizontalSliderLevel2_valueChanged(int value)
+{
+    int	Level=ui->horizontalSliderLevel2->value();
+    ui->label_Level2	->setText(QString::number(Level));
+    //for(int SlaveNo=0;SlaveNo<GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();SlaveNo++){
+        int SlaveNo=1;
+        IntegrationSendInsectionLevel	Cmd(GetLayersBase(),sRoot,sName,SlaveNo);
+        switch(Level){
+        case 0:		Cmd.Level=2.0;	break;
+        case 1:		Cmd.Level=1.7;	break;
+        case 2:		Cmd.Level=1.5;	break;
+        case 3:		Cmd.Level=1.4;	break;
+        case 4:		Cmd.Level=1.2;	break;
+        case 5:		Cmd.Level=1.0;	break;
+        case 6:		Cmd.Level=0.9;	break;
+        case 7:		Cmd.Level=0.8;	break;
+        case 8:		Cmd.Level=0.7;	break;
+        case 9:		Cmd.Level=0.6;	break;
+        case 10:	Cmd.Level=0.5;	break;
+        }
+        Cmd.Send(NULL,SlaveNo,0);
+    //}
+}
+
+void CartonMenuForm::on_PushButtonCheck_clicked()
+{
+
+}
+void	CartonMenuForm::SetRun(bool StateRun)
+{
+	ui->PushButtonRun->setChecked(StateRun);
+	on_PushButtonRun_clicked();
+}
+void	CartonMenuForm::OpenRun(void)
+{
+	ui->PushButtonRun->setChecked(true);
+	on_PushButtonRun_clicked();
+}
+void	CartonMenuForm::SetInspectionRunOnly(bool StateRun)
+{
+	ui->PushButtonRun->setChecked(StateRun);
+	int	SlaveCount=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetCount();
+	for(int SlaveNo=0;SlaveNo<SlaveCount;SlaveNo++){
+		IntegrationSetRun	Cmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		Cmd.RunMode=StateRun;
+		Cmd.Send(NULL,SlaveNo,0);
+	}
+}
+void CartonMenuForm::on_PushButtonRun_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(StackInstName);
+	if(f!=NULL){
+		CmdGetShowPage		CurrentCmd(GetLayersBase());
+		f->TransmitDirectly(&CurrentCmd);
+		if(CurrentCmd.PageName!=/**/"Run" && ui->PushButtonRun->isChecked()==false){
+			ui->PushButtonRun->setChecked(true);
+		}
+
+
+		CmdShowPageCommand	RCmd(GetLayersBase());
+		RCmd.PageName=/**/"Run";
+		RCmd.EnableBroadcastLeavePage=false;
+		RCmd.EnableBroadcastStartPage=false;
+		f->TransmitDirectly(&RCmd);
+
+		int	SlaveCount=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetCount();
+		for(int SlaveNo=0;SlaveNo<SlaveCount;SlaveNo++){
+			IntegrationSetRun	Cmd(GetLayersBase(),sRoot,sName,SlaveNo);
+			Cmd.RunMode=ui->PushButtonRun->isChecked();
+			Cmd.Send(NULL,SlaveNo,0);
+		}
+		/*		bool	Flag=true;		int	ColumnCount=0;		for(int SlaveNo=0;SlaveNo<SlaveCount;SlaveNo++){			EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas[SlaveNo];			if(m->MasterCode<=0){				Flag=false;				break;			}		}		if(Flag==true){			bool	NeedLotInput=false;			for(int SlaveNo=0;SlaveNo<SlaveCount;SlaveNo++){				EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas[SlaveNo];				if(m->MasterCode>0){					if(m->CurrentLot==NULL){						NeedLotInput=true;					}				}			}			if(NeedLotInput==true){				QMessageBox::information(NULL,"Lot"										,"Please input lot information and push Regist button");			}		}			*/
+		if(ui->PushButtonRun->isChecked()==true){
+			IntegrationInputLotForm	*LotF=(IntegrationInputLotForm *)GetLayersBase()->FindByName(/**/"Integration",/**/"InputLot",/**/"");
+			if(LotF!=NULL){
+				if(LotF->Registered==false){
+					ShowReqLotDialog	D(GetLayersBase());
+					D.exec();
+				}
+			}
+		}
+	}
+	emit	SignalRun(ui->PushButtonRun->isChecked());
+}
+
+void	CartonMenuForm::ExecuteAutoGenerate(void)
+{
+	on_PushButtonAutoGenerate_clicked();
+}
+
+void CartonMenuForm::on_PushButtonAutoGenerate_clicked()
+{
+	SelectLibraryForGenerateDialog	D(this);
+	if(D.exec()==true){
+		QBuffer	Buff;
+		Buff.open(QIODevice::ReadWrite);
+		ParamInMaster.Save(&Buff);
+		GetLayersBase()->GetIntegrationBasePointer()->GetCommonData()->Something=Buff.buffer();
+
+
+		GUIFormBase *GUIRet[100];
+		int	n;
+		GetLayersBase()->ShowProcessingForm(LangSolver.GetString(CartonMenuForm_LS,LID_20)/*"鬮｢ｾｽｪ髯ｷ閧ｴｽ陷ｽｽ髫ｰ迹壽巡ｽｸｽｭ"*/);
+		GetLayersBase()->SetMaxProcessing(6);
+
+		GetLayersBase()->StepProcessing(0);
+		n=GetLayersBase()->EnumGUIInst(/**/"KidaPrint",/**/"EasyPropertyMasking",GUIRet ,100);
+		for(int i=0;i<n;i++){
+			QStringList Args;
+			bool ExeReturn;
+			GUIRet[i]->ExecuteMacro(/**/"Generate", Args, ExeReturn);
+		}
+		for(int i=0;i<n;i++){
+			QStringList Args;
+			bool ExeReturn;
+			GUIRet[i]->ExecuteMacro(/**/"DeleteOriginCAD", Args, ExeReturn);
+		}
+		GetLayersBase()->ShowProcessingForm(LangSolver.GetString(CartonMenuForm_LS,LID_21)/*"鬮｢ｾｽｪ髯ｷ閧ｴｽ陷ｽｽ髫ｰ迹壽巡ｽｸｽｭ"*/);
+		GetLayersBase()->SetMaxProcessing(5);
+
+		GetLayersBase()->GetIntegrationBasePointer()->WaitWhileProcessing();
+		GetLayersBase()->StepProcessing(0);
+		n=GetLayersBase()->EnumGUIInst(/**/"KidaPrint",/**/"EasyPropertyDXFOperation",GUIRet ,100);
+		for(int i=0;i<n;i++){
+			QStringList Args;
+			bool ExeReturn;
+			GUIRet[i]->ExecuteMacro(/**/"Generate", Args, ExeReturn);
+		}
+
+		GetLayersBase()->ShowProcessingForm(LangSolver.GetString(CartonMenuForm_LS,LID_22)/*"鬮｢ｾｽｪ髯ｷ閧ｴｽ陷ｽｽ髫ｰ迹壽巡ｽｸｽｭ"*/);
+		GetLayersBase()->SetMaxProcessing(4);
+
+		GetLayersBase()->GetIntegrationBasePointer()->WaitWhileProcessing();
+		GetLayersBase()->StepProcessing(0);
+		n=GetLayersBase()->EnumGUIInst(/**/"KidaPrint",/**/"EasyPropertyAlignment",GUIRet ,100);
+		for(int i=0;i<n;i++){
+			QStringList Args;
+			bool ExeReturn;
+			GUIRet[i]->ExecuteMacro(/**/"Generate", Args, ExeReturn);
+		}
+
+		GetLayersBase()->ShowProcessingForm(LangSolver.GetString(CartonMenuForm_LS,LID_23)/*"鬮｢ｾｽｪ髯ｷ閧ｴｽ陷ｽｽ髫ｰ迹壽巡ｽｸｽｭ"*/);
+		GetLayersBase()->SetMaxProcessing(3);
+
+		GetLayersBase()->GetIntegrationBasePointer()->WaitWhileProcessing();
+		GetLayersBase()->StepProcessing(0);
+		n=GetLayersBase()->EnumGUIInst(/**/"KidaPrint",/**/"EasyPropertyDotColorMatch",GUIRet ,100);
+		for(int i=0;i<n;i++){
+			QStringList Args;
+			bool ExeReturn;
+			GUIRet[i]->ExecuteMacro(/**/"Generate", Args, ExeReturn);
+		}
+
+		GetLayersBase()->ShowProcessingForm(LangSolver.GetString(CartonMenuForm_LS,LID_24)/*"鬮｢ｾｽｪ髯ｷ閧ｴｽ陷ｽｽ髫ｰ迹壽巡ｽｸｽｭ"*/);
+		GetLayersBase()->SetMaxProcessing(2);
+
+		GetLayersBase()->GetIntegrationBasePointer()->WaitWhileProcessing();
+		GetLayersBase()->StepProcessing(0);
+		n=GetLayersBase()->EnumGUIInst(/**/"KidaPrint",/**/"EasyPropertyDentMeasure",GUIRet ,100);
+		for(int i=0;i<n;i++){
+			QStringList Args;
+			bool ExeReturn;
+			GUIRet[i]->ExecuteMacro(/**/"Generate", Args, ExeReturn);
+		}
+
+		GetLayersBase()->ShowProcessingForm(LangSolver.GetString(CartonMenuForm_LS,LID_25)/*"鬮｢ｾｽｪ髯ｷ閧ｴｽ陷ｽｽ髫ｰ迹壽巡ｽｸｽｭ"*/);
+		GetLayersBase()->SetMaxProcessing(1);
+
+		GetLayersBase()->GetIntegrationBasePointer()->WaitWhileProcessing();
+		GetLayersBase()->StepProcessing(0);
+		for(int SlaveNo=0;SlaveNo<GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();SlaveNo++){
+			GetLayersBase()->GetIntegrationBasePointer()->ExecuteInitialAfterEdit(SlaveNo);
+		}
+
+		GetLayersBase()->GetIntegrationBasePointer()->WaitWhileProcessing();
+		GetLayersBase()->CloseProcessingForm();
+		RepaintAll();
+	}
+}
+
+void	CartonMenuForm::CalcFinalize(void)
+{
+	GetLayersBase()->ShowProcessingForm(LangSolver.GetString(CartonMenuForm_LS,LID_26)/*"鬩搾ｽｱｽｨ鬯ｮｮｽ｢ｽｺ髯橸ｽｳ陞｢ｻｽｸｽｭ"*/);
+
+	for(int SlaveNo=0;SlaveNo<GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();SlaveNo++){
+		GetLayersBase()->GetIntegrationBasePointer()->ExecuteInitialAfterEdit(SlaveNo);
+	}
+	ExecuteInitialAfterEditInfo EInfo;
+	GetLayersBase()->ExecuteInitialAfterEdit(EInfo);
+	BroadcastDirectly(_BC_BuildForShow	,0);
+
+	GetLayersBase()->GetIntegrationBasePointer()->WaitWhileProcessing();
+	GetLayersBase()->CloseProcessingForm();
+}
+
+void	CartonMenuForm::BuildAlignment(void)
+{
+	for(int SlaveNo=0;SlaveNo<GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();SlaveNo++){
+		IntegrationBuildAlignment	Cmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		if(Param.DotColorMatchCADLib1>0)
+			Cmd.CadLibID.Add(Param.DotColorMatchCADLib1);
+		if(Param.DotColorMatchCADLib2>0)
+			Cmd.CadLibID.Add(Param.DotColorMatchCADLib2);
+		if(Param.DotColorMatchCADLib3>0)
+			Cmd.CadLibID.Add(Param.DotColorMatchCADLib3);
+		if(Param.DotColorMatchCADLib4>0)
+			Cmd.CadLibID.Add(Param.DotColorMatchCADLib4);
+		if(Param.DotColorMatchCADLib5>0)
+			Cmd.CadLibID.Add(Param.DotColorMatchCADLib5);
+		Cmd.Send(NULL,SlaveNo,0);
+	}
+}
+
+void CartonMenuForm::on_PushButtonSetting_clicked()
+{
+	SettingCartonDialog	D(GetLayersBase(),this);
+	if(D.exec()==true){
+		Param.SaveDefault(GetLayersBase()->GetUserPath());
+	}
+}
+
+void CartonMenuForm::on_pushButtonSetLevel_clicked()
+{
+
+}
+
+void CartonMenuForm::on_PushButtonThresholdTop_clicked()
+{
+    //SetThresholdDialog	D(0,GetLayersBase(),this);
+    //D.exec();
+	GUIFormBase* GUIRet[100];
+	int	n=GetLayersBase()->EnumGUIInst(/**/"KidaPrint",/**/"SettingThreshold",GUIRet,100);
+	for (int i=0;i<n;i++) {
+		ButtonSettingThresholdForm* f=dynamic_cast<ButtonSettingThresholdForm*>(GUIRet[i]);
+		if (f->SlaveNo==0) {
+			IntegrationClickSettingThresholdForm	RCmd(GetLayersBase());
+			f->TransmitDirectly(&RCmd);
+			break;
+		}
+	}
+}
+
+void CartonMenuForm::on_PushButtonThresholdBottom_clicked()
+{
+    //SetThresholdDialog	D(1,GetLayersBase(),this);
+    //D.exec();
+	GUIFormBase* GUIRet[100];
+	int	n=GetLayersBase()->EnumGUIInst(/**/"KidaPrint",/**/"SettingThreshold",GUIRet,100);
+	for (int i=0;i<n;i++) {
+		ButtonSettingThresholdForm* f=dynamic_cast<ButtonSettingThresholdForm*>(GUIRet[i]);
+		if (f->SlaveNo==1) {
+			IntegrationClickSettingThresholdForm	RCmd(GetLayersBase());
+			f->TransmitDirectly(&RCmd);
+			break;
+		}
+	}
+}
+void	CartonMenuForm::OpenSwitchPhase(void)
+{
+	ui->PushButtonSwitchPhase->setChecked(true);
+	on_PushButtonSwitchPhase_clicked();
+}
+void CartonMenuForm::on_PushButtonSwitchPhase_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(StackInstName);
+	if(f!=NULL){
+		CmdShowPage	RCmd(GetLayersBase());
+		RCmd.PageName=/**/"SwitchPhase";
+		f->TransmitDirectly(&RCmd);
+	}
+}
+void CartonMenuForm::on_PushButtonColorDifference_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(StackInstName);
+	if(f!=NULL){
+		CmdShowPage	RCmd(GetLayersBase());
+		RCmd.PageName=/**/"ColorDifference";
+		f->TransmitDirectly(&RCmd);
+	}
+}
+void	CartonMenuForm::OpenExposure(void)
+{
+	SetExposureDialog	D(GetLayersBase());
+	D.exec();
+}
+void	CartonMenuForm::SlotAliveProgress(void)
+{
+	int	N=ui->progressBarTimer->value();
+	int	MaxN=ui->progressBarTimer->maximum();
+	N++;
+	if(N>MaxN){
+		N=0;
+	}
+	ui->progressBarTimer->setValue(N);
+}
+
+//========================================================
+
+void CartonMenuForm::on_PushButtonEachSetting_clicked()
+{
+	EachSettingDialog	D(GetLayersBase(),this);
+	D.exec();
+}
+
+void CartonMenuForm::on_PushButtonLotList_clicked()
+{
+	//if(GetLayersBase()->GetIntegrationBasePointer()->NowOnUsing()==false){
+		GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Integration",/**/"SelectLot",/**/"");
+		if(f!=NULL){
+			f->ExecAsDialog(this);
+		}
+	//}
+}
+
+void CartonMenuForm::on_PushButtonLotList2_clicked()
+{
+    on_PushButtonLotList_clicked();
+}
+
+void CartonMenuForm::on_PushButtonOther_clicked()
+{
+	OthersDialog	D(GetLayersBase(),this);
+	D.exec();	
+}
+
+void CartonMenuForm::on_PushButtonTopDetail_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Button",/**/"ExecuteCommand",/**/"Top");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"Execute", Args, ExeReturn);
+	}
+}
+
+void CartonMenuForm::on_PushButtonBottomDetail_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Button",/**/"ExecuteCommand",/**/"Bottom");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"Execute", Args, ExeReturn);
+	}
+}
+
+void CartonMenuForm::on_PushButtonTopDetail3_clicked()
+{
+	on_PushButtonTopDetail_clicked();
+}
+
+void CartonMenuForm::on_PushButtonBottomDetail3_clicked()
+{
+	on_PushButtonBottomDetail_clicked();
+}
+
+void CartonMenuForm::on_PushButtonMonoDetail3_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Button",/**/"ExecuteCommand",/**/"Mono");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"Execute", Args, ExeReturn);
+	}
+}
+
+void CartonMenuForm::on_PushButtonBCode_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(StackInstName);
+	if(f!=NULL){
+		CmdShowPage	RCmd(GetLayersBase());
+		RCmd.PageName=/**/"BCode";
+		f->TransmitDirectly(&RCmd);
+	}
+}
+
+
+bool	CartonMenuForm::SaveContent(QIODevice *f)
+{
+	int32	Ver=-2;
+
+	if(::Save(f,Ver)==false)
+		return false;
+	if(::Save(f,Param.TriggerTiming1)==false)
+		return false;
+	if(::Save(f,Param.TriggerTiming2)==false)
+		return false;
+	if(::Save(f,Param.TriggerTiming3)==false)
+		return false;
+	if(::Save(f,Param.TriggerTiming4)==false)
+		return false;
+	if(::Save(f,Param.DropTiming)==false)
+		return false;
+	return true;
+}
+bool	CartonMenuForm::LoadContent(QIODevice *f)
+{
+	int32	Ver;
+
+	if(::Load(f,Ver)==false)
+		return false;
+	if(Ver>=0){
+		Param.TriggerTiming1=Ver;
+		Ver=-1;
+	}
+	else{
+		if(::Load(f,Param.TriggerTiming1)==false)
+			return false;
+	}
+	if(::Load(f,Param.TriggerTiming2)==false)
+		return false;
+	if(Ver<=-2){
+		if(::Load(f,Param.TriggerTiming3)==false)
+			return false;
+		if(::Load(f,Param.TriggerTiming4)==false)
+			return false;
+	}
+	if(::Load(f,Param.DropTiming)==false)
+		return false;
+	return true;
+}
+
+void	CartonMenuForm::DeliverTimeoutValue(int timeoutvalue)
+{
+    for(int SlaveNo=0;SlaveNo<GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();SlaveNo++){
+ 		IntegrationDeliverTimeoutValue	Cmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		Cmd.TimeoutValue=timeoutvalue;
+		Cmd.Send(NULL,SlaveNo,0);
+	}
+}
+void	CartonMenuForm::SpecifiedDirectly(SpecifiedBroadcaster *v)
+{
+	CreateNewMasterSpecifiedBroadcaster	*CreateNewMasterSpecifiedBroadcasterVar=dynamic_cast<CreateNewMasterSpecifiedBroadcaster *>(v);
+	if(CreateNewMasterSpecifiedBroadcasterVar!=NULL){
+		if(GetLayersBase()->GetIntegrationBasePointer()->GetParamIntegrationMaster()->Mastered==true
+		&& Param.UseBeltSpeed==true){
+			GetLayersBase()->CloseProcessingForm();
+			InputBeltSpeedDialog	D(GetLayersBase(),this);
+			if(D.exec()==true){
+				DeliverTimeoutValue(D.TimeOutValue);
+			}
+		}
+		return;
+	}
+}
+void	CartonMenuForm::MoveForAlignment(void)
+{
+	SelectSlaveMachineDialog	D(GetLayersBase());
+	if(D.exec()==true){
+	
+		for(EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+			int	SlaveNo=m->GetIntegrationSlaveNo();
+			GetLayersBase()->GetIntegrationBasePointer()->SetCurrentPhase(SlaveNo,0);
+		}
+		GetLayersBase()->ShowProcessingForm(LangSolver.GetString(CartonMenuForm_LS,LID_1)/*"鬨ｾ蛹ｽｽｻ髯ｷ蜑ｽｸ讚ｽｭ蜴ｽｽｿ髣包ｽｳｽｭ"*/);
+		for(int SlaveNo=0;SlaveNo<GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();SlaveNo++){
+			IntegrationDeliverMoveForAlignment	Cmd(GetLayersBase(),sRoot,sName,SlaveNo);
+			Cmd.ResetSwitchPhase	=D.ResetSwitchPhase;
+			Cmd.ResetMakeAverage	=D.ResetMakeAverage;
+			Cmd.EnableChangeImage	=D.SelectedSlaveNoList.IsInclude(SlaveNo);
+			Cmd.EnableReGenerate	=D.ReGenList.IsInclude(SlaveNo);
+			Cmd.EnableKeepMark		=D.KeepMarkList.IsInclude(SlaveNo);
+			Cmd.Send(NULL,SlaveNo,0);
+		}
+	
+		bool	NowOnIdle;
+		do{
+			NowOnIdle=true;
+			for(EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+				int	SlaveNo=m->GetIntegrationSlaveNo();
+				if(D.SelectedSlaveNoList.IsInclude(SlaveNo)==true){
+					if(GetLayersBase()->GetIntegrationBasePointer()->CheckOnProcessing(SlaveNo)==false){
+						NowOnIdle=false;
+					}
+				}
+			}
+		}while(NowOnIdle==false);
+	
+		GSleep(2000);
+		
+		do{
+			NowOnIdle=true;
+			for(EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+				int	SlaveNo=m->GetIntegrationSlaveNo();
+				if(D.SelectedSlaveNoList.IsInclude(SlaveNo)==true){
+					if(GetLayersBase()->GetIntegrationBasePointer()->CheckOnProcessing(SlaveNo)==false){
+						NowOnIdle=false;
+					}
+				}
+			}
+		}while(NowOnIdle==false);
+
+		for(int SlaveNo=0;SlaveNo<GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();SlaveNo++){
+			if(D.SelectedSlaveNoList.IsInclude(SlaveNo)==true
+			&& D.ReGenList.IsInclude(SlaveNo)==true){
+				GUIFormBase	*fm=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"EasyGenerateInspection",/**/"");
+				if(fm!=NULL){
+					QStringList Args;
+					bool ExeReturn;
+					Args.append(QString::number(SlaveNo));
+					fm->ExecuteMacro(/**/"GenerateStartInSlave", Args, ExeReturn);
+				}
+			}
+		}
+	
+		GSleep(2000);
+		for(EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+			int	SlaveNo=m->GetIntegrationSlaveNo();
+			if(D.SelectedSlaveNoList.IsInclude(SlaveNo)==true){
+				m->ReleaseImageBuffer();
+				bool	OKSlaveInfo=false;
+				for(int i=0;i<10;i++){
+					if(m->RequireSlaveInfo()==true){
+						OKSlaveInfo=true;
+						break;
+					}
+					GSleep(2000);
+				}
+				if(OKSlaveInfo==true){
+					m->RequireMasterImage(GetParamGlobal()->MixMasterForIntegration);
+				}
+			}
+		}
+		CmdUpdatedMasterImage	ICmd;
+		BroadcastSpecifiedDirectly(&ICmd);
+		CreateUpdateMasterSpecifiedBroadcaster	LSCmd;
+		BroadcastSpecifiedDirectly(&LSCmd);
+
+		if(D.ResetSwitchPhase==true){
+			GUIFormBase* GUIRet[100];
+			int	n=GetLayersBase()->EnumGUIInst(/**/"KidaPrint",/**/"EasyPropertySwitchPhase",GUIRet,100);
+			for(int i=0;i<n;i++){
+				QStringList Args;
+				bool ExeReturn;
+				GUIRet[i]->ExecuteMacro(/**/"DeleteAllPhase", Args, ExeReturn);
+			}
+		}
+
+		GetLayersBase()->CloseProcessingForm();
+	}
+	QMessageBox::warning(NULL,LangSolver.GetString(CartonMenuForm_LS,LID_225)/*"注意"*/
+							,LangSolver.GetString(CartonMenuForm_LS,LID_226)/*"パターンの位置合わせを作成し、編集確定ボタンを押してください"*/);
+}
+void	CartonMenuForm::ResetSlaves(void)
+{
+	GetLayersBase()->ShowProcessingForm(LangSolver.GetString(CartonMenuForm_LS,LID_227)/*"スレーブをリセット"*/);
+	IntList	SlaveNoList;
+	for(int SlaveNo=0;SlaveNo<GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();SlaveNo++){
+		IntegrationResetSlaves	Cmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		Cmd.Send(NULL,SlaveNo,0);
+		SlaveNoList.Add(SlaveNo);
+	}
+
+	GSleep(2000);
+	QApplication::processEvents();
+	GSleep(2000);
+	QApplication::processEvents();
+	GSleep(2000);
+
+	bool	NowOnIdle;
+	do{
+		NowOnIdle=true;
+		for(IntClass *v=SlaveNoList.GetFirst();v!=NULL;v=v->GetNext()){
+			int	SlaveNo=v->GetValue();
+			if(GetLayersBase()->GetIntegrationBasePointer()->CheckOnProcessing(SlaveNo)==false){
+				NowOnIdle=false;
+			}
+		}
+		GSleep(3000);
+		QApplication::processEvents();
+	}while(NowOnIdle==false);
+
+	GetLayersBase()->CloseProcessingForm();
+
+}
+void	CartonMenuForm::AdjustTrigger(void)
+{
+	SettingCartonDialog	D(GetLayersBase(),this);
+	D.AdjustTrigger();
+}
+//=======================================================================
+
+IntegrationCartonMenuAutoGen::IntegrationCartonMenuAutoGen(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+
+void	IntegrationCartonMenuAutoGen::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	CartonMenuForm	*MainForm=(CartonMenuForm *)GetLayersBase()->FindByName(EmitterRoot,EmitterName,/**/"");
+
+	GUIFormBase	*maskform=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyMaskingForm",/**/"");
+	/*	if(maskform!=NULL && MainForm!=NULL){		ParamCustomized	*Param=MainForm->GetParam();		CmdGenerateMaskInSameColor	Cmd(GetLayersBase());		Cmd.PickupRL		=Param->MaskAutoPickupRL			;		Cmd.PickupRH		=Param->MaskAutoPickupRH			;		Cmd.PickupGL		=Param->MaskAutoPickupGL			;		Cmd.PickupGH		=Param->MaskAutoPickupGH			;		Cmd.PickupBL		=Param->MaskAutoPickupBL			;		Cmd.PickupBH		=Param->MaskAutoPickupBH			;		Cmd.Effective		=true		;		Cmd.MinPickupSize	=Param->MaskAutoMinPickupSize	;		Cmd.MaxPickupSize	=Param->MaskAutoMaxPickupSize	;		Cmd.MinPickupDots	=Param->MaskAutoMinPickupDots	;		Cmd.MaxPickupDots	=Param->MaskAutoMaxPickupDots	;		Cmd.Erosion			=Param->MaskAutoErosion			;		Cmd.TestMode		=false		;		maskform->TransmitDirectly(&Cmd);	}	*/
+}
+
+//=======================================================================
+IntegrationSendInsectionLevel::IntegrationSendInsectionLevel(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationSendInsectionLevel::Load(QIODevice *f)
+{
+	if(::Load(f,Level)==false)
+		return false;
+	if(::Load(f,Type)==false)
+		return false;
+	return true;
+}
+bool	IntegrationSendInsectionLevel::Save(QIODevice *f)
+{
+	if(::Save(f,Level)==false)
+		return false;
+	if(::Save(f,Type)==false)
+		return false;
+	return true;
+}
+
+void	IntegrationSendInsectionLevel::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"EasyPropertyDotColorMatch",/**/"");
+	if(f!=NULL){
+		CmdDotColorMatchingSetLevel	RCmd(GetLayersBase());
+		RCmd.Level=Level;
+		RCmd.Type=Type;
+		f->TransmitDirectly(&RCmd);
+	}
+}
+
+//=======================================================================
+
+IntegrationSetRun::IntegrationSetRun(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+	RunMode=true;
+}
+bool	IntegrationSetRun::Load(QIODevice *f)
+{
+	if(::Load(f,RunMode)==false)
+		return false;
+	return true;
+}
+bool	IntegrationSetRun::Save(QIODevice *f)
+{
+	if(::Save(f,RunMode)==false)
+		return false;
+	return true;
+}
+void	IntegrationSetRun::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Button",/**/"AutoMode",/**/"");
+	if(f!=NULL){
+		CmdSetStateOnAutoMode	RCmd(GetLayersBase());
+		RCmd.AutoModeOn=RunMode;
+		f->TransmitDirectly(&RCmd);
+	}
+}
+
+//=======================================================================
+IntegrationDeliverTimeoutValue::IntegrationDeliverTimeoutValue(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationDeliverTimeoutValue::Load(QIODevice *f)
+{
+	if(::Load(f,TimeoutValue)==false)
+		return false;
+	return true;
+}
+bool	IntegrationDeliverTimeoutValue::Save(QIODevice *f)
+{
+	if(::Save(f,TimeoutValue)==false)
+		return false;
+	return true;
+}
+
+void	IntegrationDeliverTimeoutValue::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GetParamGlobal()->MaxInspectMilisec=TimeoutValue;
+}
+
+//=======================================================================
+
+IntegrationDeliverMoveForAlignment::IntegrationDeliverMoveForAlignment(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationDeliverMoveForAlignment::Load(QIODevice *f)
+{
+	if(::Load(f,ResetSwitchPhase)==false)
+		return false;
+	if(::Load(f,ResetMakeAverage)==false)
+		return false;
+	if(::Load(f,EnableChangeImage)==false)
+		return false;
+	if(::Load(f,EnableReGenerate)==false)
+		return false;
+	if(::Load(f,EnableKeepMark)==false)
+		return false;
+	return true;
+}
+bool	IntegrationDeliverMoveForAlignment::Save(QIODevice *f)
+{
+	if(::Save(f,ResetSwitchPhase)==false)
+		return false;
+	if(::Save(f,ResetMakeAverage)==false)
+		return false;
+	if(::Save(f,EnableChangeImage)==false)
+		return false;
+	if(::Save(f,EnableReGenerate)==false)
+		return false;
+	if(::Save(f,EnableKeepMark)==false)
+		return false;
+	return true;
+}
+
+void	IntegrationDeliverMoveForAlignment::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	if(ResetSwitchPhase==true){
+		GUIFormBase	*f1=GetLayersBase()->FindByName(/**/"Button",/**/"PropertySwitchPhase",/**/"");
+		if(f1!=NULL){
+			QStringList Args;
+			bool ExeReturn;
+			f1->ExecuteMacro(/**/"DeleteAllPhases", Args, ExeReturn);
+		}
+	}
+	if(ResetMakeAverage==true){
+		GUIFormBase	*f1=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyMakeAverageImage",/**/"");
+		if(f1!=NULL){
+			QStringList Args;
+			bool ExeReturn;
+			f1->ExecuteMacro(/**/"ResetAverage", Args, ExeReturn);
+		}
+	}
+
+	if(EnableChangeImage==true){
+		GUIFormBase	*f3=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyAlignmentLargeForm",/**/"");
+		if(f3!=NULL && EnableKeepMark==false){
+			QStringList Args;
+			bool ExeReturn;
+			f3->ExecuteMacro(/**/"DeleteItemsExceptGlobal", Args, ExeReturn);
+		}
+		if(EnableReGenerate==false){
+			GetLayersBase()->GetResultThread()->Initial(GetLayersBase());
+		}
+		//GetLayersBase()->ReloadAllAlgorithm();
+
+		GUIFormBase	*f4=GetLayersBase()->FindByName(/**/"Button",/**/"CalcFinalization",/**/"");
+		if(f4!=NULL){
+			QStringList Args;
+			bool ExeReturn;
+			f4->ExecuteMacro(/**/"Execute", Args, ExeReturn);
+		}
+
+		GUIFormBase	*f1=GetLayersBase()->FindByName(/**/"Action",/**/"StartProcessAgainButton",/**/"");
+		if(f1!=NULL){
+			QStringList Args;
+			bool ExeReturn;
+			f1->ExecuteMacro(/**/"Push", Args, ExeReturn);
+		}
+		//GUIFormBase	*f5=GetLayersBase()->FindByName(/**/"Button",/**/"PropertySwitchPhase",/**/"");
+		//if(f5!=NULL){
+		//	QStringList Args;
+		//	bool ExeReturn;
+		//	//f5->ExecuteMacro(/**/"DeleteAllMarks", Args, ExeReturn);
+		//}
+
+
+		GetLayersBase()->DeliverMoveForAlignment();
+		
+		DisplayImage	*d=dynamic_cast<DisplayImage *>(GetLayersBase()->FindByName(/**/"Inspection",/**/"DisplayTargetImage",/**/""));
+		if(d!=NULL){
+			d->SlotCopyImageToMaster();
+		}
+
+		//GUIFormBase	*f2=GetLayersBase()->FindByName(/**/"Button",/**/"CalcFinalization",/**/"");
+		//if(f2!=NULL){
+		//	QStringList Args;
+		//	bool ExeReturn;
+		//	f2->ExecuteMacro(/**/"Execute", Args, ExeReturn);
+		//}
+	}
+	if(EnableReGenerate==true){
+
+	}
+}
+
+//=======================================================================
+
+IntegrationBuildAlignment::IntegrationBuildAlignment(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationBuildAlignment::Load(QIODevice *f)
+{
+	if(CadLibID.Load(f)==false)
+		return false;
+	return true;
+}
+bool	IntegrationBuildAlignment::Save(QIODevice *f)
+{
+	if(CadLibID.Save(f)==false)
+		return false;
+	return true;
+}
+
+void	IntegrationBuildAlignment::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyAlignmentLargeForm",/**/"");
+	if(f!=NULL){
+		for(int Layer=0;Layer<GetLayersBase()->GetMaxLayerNumb();Layer++){
+			CmdReqAlignmentLargeAreaListPack	Cmd(GetLayersBase());
+			Cmd.Layer=Layer;
+			f->TransmitDirectly(&Cmd);
+			if(Cmd.Area->GetCount()>=2){
+				AlignmentLargeAreaList	*A1=Cmd.Area->GetItem(0);
+				AlignmentLargeAreaList	*A2=Cmd.Area->GetItem(1);
+				if(A2->Priority==XAlignmentLargeArea::_PriorityGlobal
+				&& (A1->Priority==XAlignmentLargeArea::_PriorityHigh 
+					|| A1->Priority==XAlignmentLargeArea::_PriorityMiddle
+					|| A1->Priority==XAlignmentLargeArea::_PriorityLow)){
+					AlignmentLargeAreaList	*A3=A1;
+					A1=A2;
+					A2=A3;
+				}
+
+				if(A1->Priority==XAlignmentLargeArea::_PriorityGlobal
+				&& (A2->Priority==XAlignmentLargeArea::_PriorityHigh 
+				 || A2->Priority==XAlignmentLargeArea::_PriorityMiddle
+				 || A2->Priority==XAlignmentLargeArea::_PriorityLow)){
+					AlgorithmBase	*DotCBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+					if(DotCBase!=NULL){
+						AlgorithmLibraryContainer	*LibContainer=DotCBase->GetLibraryContainer();
+						if(LibContainer!=NULL){
+							AlgorithmLibraryListContainer LibIDList;
+							LibContainer->EnumLibrary(LibIDList);
+							for(AlgorithmLibraryList *L=LibIDList.GetFirst();L!=NULL;L=L->GetNext()){
+								int	LibID=L->GetLibID();
+								if(CadLibID.IsInclude(LibID)==false){
+									A2->LimitedLib.Merge(GetLayersBase(),LibContainer->GetLibType(),LibID);
+								}
+							}
+						}
+					}
+				}
+			}
+			CmdSetAlignmentLargeAreaListPackToSlave	SCmd(GetLayersBase());
+			SCmd.Layer=Layer;
+			f->TransmitDirectly(&SCmd);
+		}
+	}
+}
+
+//=======================================================================
+
+IntegrationResetSlaves::IntegrationResetSlaves(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+
+void	IntegrationResetSlaves::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	QString	FileName=GetLayersBase()->GetSystemPath()
+					+QString(/**/"\\")
+					+QString(/**/"RapidBoot.tmp");
+	{
+		QFile	File(FileName);
+		File.open(QIODevice::ReadWrite);
+		int32	Ver=1;
+		::Save(&File,Ver);
+		::Save(&File,GetLayersBase()->GetMasterCode());
+		File.close();
+	}
+	GetLayersBase()->CloseAll(-100);
+}

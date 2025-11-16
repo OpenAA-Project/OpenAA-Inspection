@@ -1,0 +1,22 @@
+/*******************************************************************************
+** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
+**
+** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
+** if any conditions of this licensing agreement are not clear to you.
+**
+** This file is C:\Regulus64v5\GUI\ButtonExecuteAreaFilter\buttonexecuteareafilter_global.h
+** Author : YYYYYYYYYY
+****************************************************************************-**/
+
+#ifndef BUTTONEXECUTEAREAFILTER_GLOBAL_H
+#define BUTTONEXECUTEAREAFILTER_GLOBAL_H
+
+#include <qglobal.h>
+
+#ifdef BUTTONEXECUTEAREAFILTER_LIB
+# define BUTTONEXECUTEAREAFILTER_EXPORT Q_DECL_EXPORT
+#else
+# define BUTTONEXECUTEAREAFILTER_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // BUTTONEXECUTEAREAFILTER_GLOBAL_H

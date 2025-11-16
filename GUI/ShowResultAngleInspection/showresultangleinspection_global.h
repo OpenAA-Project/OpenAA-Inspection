@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(SHOWRESULTANGLEINSPECTION_LIB)
+#  define SHOWRESULTANGLEINSPECTION_EXPORT Q_DECL_EXPORT
+# else
+#  define SHOWRESULTANGLEINSPECTION_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define SHOWRESULTANGLEINSPECTION_EXPORT
+#endif

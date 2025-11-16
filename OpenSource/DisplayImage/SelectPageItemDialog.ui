@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SelectPageItemDialog</class>
+ <widget class="QDialog" name="SelectPageItemDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>758</width>
+    <height>241</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Select items</string>
+  </property>
+  <widget class="QPushButton" name="ButtonOK">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>190</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DisplayImage.qrc">
+     <normaloff>:/Qtres/OK.png</normaloff>:/Qtres/OK.png</iconset>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetItem">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>731</width>
+     <height>171</height>
+    </rect>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::MultiSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <column>
+    <property name="text">
+     <string>Page</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Layer</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>LibID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Library</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources>
+  <include location="DisplayImage.qrc"/>
+ </resources>
+ <connections/>
+</ui>

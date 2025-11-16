@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/AreaShaderImagePanel.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/AutoModeImage-en.bmp</file>
+        <file>Resources/AutoModeImage.bmp</file>
+        <file>Resources/ButtonAutoMode.png</file>
+    </qresource>
+</RCC>

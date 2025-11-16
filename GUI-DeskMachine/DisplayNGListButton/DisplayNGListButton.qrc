@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/DisplayNGListImage-en.bmp</file>
+        <file>Resources/DisplayNGListImage.bmp</file>
+    </qresource>
+</RCC>

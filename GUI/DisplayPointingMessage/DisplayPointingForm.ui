@@ -1,0 +1,78 @@
+<ui version="4.0" >
+ <class>DisplayPointingFormClass</class>
+ <widget class="GUIFormBase" name="DisplayPointingFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>363</width>
+    <height>51</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>DisplayPointingForm</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>361</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="verticalScrollBarPolicy" >
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy" >
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="wordWrap" >
+    <bool>false</bool>
+   </property>
+   <property name="cornerButtonEnabled" >
+    <bool>false</bool>
+   </property>
+   <property name="rowCount" >
+    <number>1</number>
+   </property>
+   <row/>
+   <column>
+    <property name="text" >
+     <string>X</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Y</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>a</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>b</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>c</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

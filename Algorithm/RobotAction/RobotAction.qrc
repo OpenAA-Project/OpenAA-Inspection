@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/MarkCaptureP.png</file>
+        <file>Resources/MarkCaptureM.png</file>
+        <file>Resources/MarkMoveP.png</file>
+        <file>Resources/MarkMoveM.png</file>
+    </qresource>
+</RCC>

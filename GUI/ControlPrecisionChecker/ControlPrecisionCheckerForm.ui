@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ControlPrecisionCheckerFormClass</class>
+ <widget class="GUIFormBase" name="ControlPrecisionCheckerFormClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>94</width>
+    <height>222</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ControlPrecisionCheckerForm</string>
+  </property>
+  <widget class="QPushButton" name="pushButtonResolution">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Resolution</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ControlPrecisionChecker.qrc">
+     <normaloff>:/Qtres/Resolution.png</normaloff>:/Qtres/Resolution.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSetParam">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Param</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ControlPrecisionChecker.qrc">
+     <normaloff>:/Qtres/Parameter.png</normaloff>:/Qtres/Parameter.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonFocus">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>100</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Focus</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ControlPrecisionChecker.qrc">
+     <normaloff>:/Qtres/Focus.png</normaloff>:/Qtres/Focus.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonAngle">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>190</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Angle</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ControlPrecisionChecker.qrc">
+     <normaloff>:/Qtres/Angle.png</normaloff>:/Qtres/Angle.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonBrightness">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Brightness</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ControlPrecisionChecker.qrc">
+     <normaloff>:/Qtres/Bright.png</normaloff>:/Qtres/Bright.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonGrp">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>grp1</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ControlPrecisionChecker.qrc">
+     <normaloff>:/Qtres/Group.png</normaloff>:/Qtres/Group.png</iconset>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBoxPage">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>81</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <item>
+    <property name="text">
+     <string>Page 0</string>
+    </property>
+   </item>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="ControlPrecisionChecker.qrc"/>
+ </resources>
+ <connections/>
+</ui>

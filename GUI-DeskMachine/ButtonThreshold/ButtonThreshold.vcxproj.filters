@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="buttonthreshold_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="ButtonThreshold.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClCompile Include="ButtonThreshold.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="ButtonThresholdResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="ChoicePhaseDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="DetailSettingForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="PasswordForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ThresholdSettingForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="ButtonThreshold.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CancelImage.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\CancelImage-en.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\DecisionImage.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\DecisionImage-en.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\DetailSettingImage.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\DetailSettingImage-en.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\slider.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\slider-back.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\ThresholdImage.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\ThresholdImage-en.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ButtonThresholdResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChoicePhaseDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DetailSettingForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PasswordForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ThresholdSettingForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\SystemVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="ChoicePhaseDialog.ui" />
+    <QtUic Include="DetailSettingForm.ui" />
+    <QtUic Include="PasswordForm.ui" />
+    <QtUic Include="ThresholdSettingForm.ui" />
+  </ItemGroup>
+</Project>

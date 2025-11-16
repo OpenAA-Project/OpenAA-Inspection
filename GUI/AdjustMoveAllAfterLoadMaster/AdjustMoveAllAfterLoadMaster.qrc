@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/AdjustMoveAllAfterLoadMaster.png</file>
+        <file>Qtres/Close.png</file>
+        <file>Qtres/Load.png</file>
+        <file>Qtres/Save.png</file>
+    </qresource>
+</RCC>

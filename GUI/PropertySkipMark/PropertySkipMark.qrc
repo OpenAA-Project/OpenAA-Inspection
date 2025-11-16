@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertySkipMark.png</file>
+        <file>Qtres/Add.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Delete.png</file>
+        <file>Qtres/Edit.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Search.png</file>
+        <file>Qtres/SortNumber.png</file>
+        <file>Qtres/Make.png</file>
+    </qresource>
+</RCC>

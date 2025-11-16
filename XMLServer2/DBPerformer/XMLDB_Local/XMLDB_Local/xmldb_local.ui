@@ -1,0 +1,179 @@
+<ui version="4.0" >
+ <class>XMLDB_LocalClass</class>
+ <widget class="QWidget" name="XMLDB_LocalClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>608</width>
+    <height>590</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>XMLDB_Local</string>
+  </property>
+  <widget class="QTextEdit" name="textEdit" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>350</y>
+     <width>581</width>
+     <height>201</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnExit" >
+   <property name="geometry" >
+    <rect>
+     <x>520</x>
+     <y>560</y>
+     <width>75</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>&amp;Exit</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>581</width>
+     <height>261</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text" >
+     <string>Max</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Min</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>AVG</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>CNT</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>SUM</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QWidget" name="layoutWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>312</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" >
+    <item>
+     <widget class="QLabel" name="label" >
+      <property name="text" >
+       <string>INSPECT ID</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="txtEid" >
+      <property name="text" >
+       <string>1</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QSpinBox" name="spnCnt" >
+      <property name="minimum" >
+       <number>1</number>
+      </property>
+      <property name="maximum" >
+       <number>9999</number>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnInspect" >
+      <property name="text" >
+       <string>&amp;SelInspect</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>226</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" >
+    <item>
+     <widget class="QLabel" name="label_2" >
+      <property name="text" >
+       <string>LotID</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="txtLot" >
+      <property name="text" >
+       <string>1</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnLot" >
+      <property name="text" >
+       <string>Sel&amp;Lot</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>350</x>
+     <y>10</y>
+     <width>146</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" >
+    <item>
+     <widget class="QLabel" name="label_3" >
+      <property name="text" >
+       <string>table</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="txtTbl" >
+      <property name="text" >
+       <string>PPP1</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertyAreaFilter.png</file>
+        <file>Qtres/Select.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/ClearNew.png</file>
+        <file>Qtres/Close.png</file>
+        <file>Qtres/Default.png</file>
+        <file>Qtres/Delete.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/SaveNew.png</file>
+        <file>Qtres/Update.png</file>
+    </qresource>
+</RCC>

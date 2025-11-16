@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkPIOClient", "NetworkPIOClient.vcxproj", "{64004219-C6EE-4086-B61B-C6B4804BAB2F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkPIOLib", "..\NetworkPIOLib\NetworkPIOLib.vcxproj", "{FA55E722-92E3-494C-BBD9-7CAC8D9506EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64004219-C6EE-4086-B61B-C6B4804BAB2F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{64004219-C6EE-4086-B61B-C6B4804BAB2F}.Debug|Win32.Build.0 = Debug|Win32
+		{64004219-C6EE-4086-B61B-C6B4804BAB2F}.Debug|x64.ActiveCfg = Debug|x64
+		{64004219-C6EE-4086-B61B-C6B4804BAB2F}.Debug|x64.Build.0 = Debug|x64
+		{64004219-C6EE-4086-B61B-C6B4804BAB2F}.Release|Win32.ActiveCfg = Release|Win32
+		{64004219-C6EE-4086-B61B-C6B4804BAB2F}.Release|Win32.Build.0 = Release|Win32
+		{64004219-C6EE-4086-B61B-C6B4804BAB2F}.Release|x64.ActiveCfg = Release|x64
+		{64004219-C6EE-4086-B61B-C6B4804BAB2F}.Release|x64.Build.0 = Release|x64
+		{FA55E722-92E3-494C-BBD9-7CAC8D9506EE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FA55E722-92E3-494C-BBD9-7CAC8D9506EE}.Debug|Win32.Build.0 = Debug|Win32
+		{FA55E722-92E3-494C-BBD9-7CAC8D9506EE}.Debug|x64.ActiveCfg = Debug|x64
+		{FA55E722-92E3-494C-BBD9-7CAC8D9506EE}.Debug|x64.Build.0 = Debug|x64
+		{FA55E722-92E3-494C-BBD9-7CAC8D9506EE}.Release|Win32.ActiveCfg = Release|Win32
+		{FA55E722-92E3-494C-BBD9-7CAC8D9506EE}.Release|Win32.Build.0 = Release|Win32
+		{FA55E722-92E3-494C-BBD9-7CAC8D9506EE}.Release|x64.ActiveCfg = Release|x64
+		{FA55E722-92E3-494C-BBD9-7CAC8D9506EE}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

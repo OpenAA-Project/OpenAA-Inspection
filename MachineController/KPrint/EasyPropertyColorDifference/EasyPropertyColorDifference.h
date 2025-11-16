@@ -1,0 +1,7 @@
+#ifndef EASYPROPERTYCOLORDIFFERENCE_H
+#define EASYPROPERTYCOLORDIFFERENCE_H
+
+#include "easypropertycolordifference_global.h"
+
+
+#endif // EASYPROPERTYCOLORDIFFERENCE_H

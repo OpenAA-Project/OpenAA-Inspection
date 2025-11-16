@@ -1,0 +1,102 @@
+<ui version="4.0" >
+ <class>ViewerStringsClass</class>
+ <widget class="QDialog" name="ViewerStringsClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>833</width>
+    <height>459</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>ViewerStrings</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>811</width>
+     <height>401</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text" >
+     <string>File Name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang1</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang2</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang3</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang4</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang5</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang6</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang7</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang8</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang9</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang10</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>390</x>
+     <y>420</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>OK</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

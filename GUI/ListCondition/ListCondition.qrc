@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ListCondition.png</file>
+        <file>Qtres/Save.png</file>
+        <file>Qtres/Select.png</file>
+        <file>Qtres/Update.png</file>
+    </qresource>
+</RCC>

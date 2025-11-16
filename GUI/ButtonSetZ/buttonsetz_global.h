@@ -1,0 +1,12 @@
+#ifndef BUTTONSETZ_GLOBAL_H
+#define BUTTONSETZ_GLOBAL_H
+
+#include <qglobal.h>
+
+#ifdef BUTTONSETZ_LIB
+# define BUTTONSETZ_EXPORT Q_DECL_EXPORT
+#else
+# define BUTTONSETZ_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // BUTTONSETZ_GLOBAL_H

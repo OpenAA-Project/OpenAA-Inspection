@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PropertyRasterInspectionForm</class>
+ <widget class="GUIFormBase" name="PropertyRasterInspectionForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="pushButtonGetBack">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>100</y>
+     <width>39</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;=</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetGeneratedLibList">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>50</y>
+     <width>161</width>
+     <height>171</height>
+    </rect>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <column>
+    <property name="text">
+     <string>ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QLabel" name="labelLibFolderName">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>10</y>
+     <width>251</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>ＸＸＸ</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSetFrom">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>70</y>
+     <width>39</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>=&gt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSetFromAll">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>150</y>
+     <width>39</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>=&gt;&gt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonEditLibrary">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>300</y>
+     <width>161</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>ライブラリ編集</string>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Qtres/Edit.png</normaloff>:/Qtres/Edit.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonEditLibFolder">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>分類選択</string>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Qtres/Class.png</normaloff>:/Qtres/Class.png</iconset>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetLibList">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>161</width>
+     <height>171</height>
+    </rect>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <column>
+    <property name="text">
+     <string>ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetList">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>420</y>
+     <width>381</width>
+     <height>271</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>Phase</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Page</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>LibID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>LibName</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Count</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButtonGetBackAll">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>180</y>
+     <width>39</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;&lt;=</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonReferencePDF">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>350</y>
+     <width>161</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>色割り当てリスト</string>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Qtres/Edit.png</normaloff>:/Qtres/Edit.png</iconset>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="toolButtonDrawMode">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>230</y>
+     <width>201</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QToolButton {
+	border-style: outset;
+	border-width: 1px;
+	border-radius: 25px;
+	border-color: gray;
+	background-color: qlineargradient(spread:pad, x1:0.0113636, y1:0, x2:0, y2:1, stop:0 rgba(120, 254, 120, 255), stop:1 rgba(165, 165, 165, 255));
+}
+QToolButton:checked { 	
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 180, 180, 255), stop:1 rgba(141, 60, 60, 255));
+}</string>
+   </property>
+   <property name="text">
+    <string>検査領域</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="toolButtonShowPDF">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>300</y>
+     <width>181</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>No PDF</string>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonGenerate">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>230</y>
+     <width>161</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>検査領域ー自動生成</string>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Qtres/Edit.png</normaloff>:/Qtres/Edit.png</iconset>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

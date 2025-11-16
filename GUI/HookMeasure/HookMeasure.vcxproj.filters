@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{07d90f07-0fcc-4c8e-ac2c-dabd3612d440}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{400d288a-e745-4416-8e0b-65965fba8636}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="HookMeasure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\SystemVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
+    
+    <ClCompile Include="HookMeasureForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XHookMeasure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
+    
+    <ClCompile Include="SettingMeasureDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HookMeasure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    
+    
+    <ClInclude Include="hookmeasure_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="HookMeasureForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="HookMeasureForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtUic Include="SettingMeasureDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="SettingMeasureDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtRcc Include="hookmeasure.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AngleInLines.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Arc.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\CenterCircle.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Circle.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\FoldedPoints.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Isolation.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\PointToPoint.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\PolyLine.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Rectangle.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Circle3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Normal\AngleN.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Normal\BrokenLineN.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Normal\Circle1N.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Normal\Circle2N.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Normal\CircleTwoPointsN.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Normal\CrcularArcN.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Normal\MPolygonN.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Normal\ParallelLinesN.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Normal\RectangleN.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Normal\StraightLineN.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Select\AngleS.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Select\BrokenLineS.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Select\Circle1S.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Select\Circle2S.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Select\CircleTwoPointsS.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Select\CrcularArcS.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Select\MPolygonS.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Select\ParallelLinesS.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Select\RectangleS.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Select\StraightLineS.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

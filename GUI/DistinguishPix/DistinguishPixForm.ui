@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DistinguishPixForm</class>
+ <widget class="GUIFormBase" name="DistinguishPixForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>398</width>
+    <height>595</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Distinguish Pix</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Folder</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditFolderName">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>10</y>
+     <width>291</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSearchFolder">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>10</y>
+     <width>31</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>281</width>
+     <height>541</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonOK">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>120</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DistinguishPix.qrc">
+     <normaloff>:/Qtres/OK.png</normaloff>:/Qtres/OK.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonNG1">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>160</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>NG 1</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DistinguishPix.qrc">
+     <normaloff>:/Qtres/NG.png</normaloff>:/Qtres/NG.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSaveList">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>460</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save list</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DistinguishPix.qrc">
+     <normaloff>:/Qtres/Save.png</normaloff>:/Qtres/Save.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonLoadList">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>500</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Load list</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DistinguishPix.qrc">
+     <normaloff>:/Qtres/Load.png</normaloff>:/Qtres/Load.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClearList">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>550</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Clear list</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DistinguishPix.qrc">
+     <normaloff>:/Qtres/Clear.png</normaloff>:/Qtres/Clear.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonScanFolder">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>40</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Scan folder</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DistinguishPix.qrc">
+     <normaloff>:/Qtres/Folder.png</normaloff>:/Qtres/Folder.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonNG2">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>190</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>NG 2</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DistinguishPix.qrc">
+     <normaloff>:/Qtres/NG.png</normaloff>:/Qtres/NG.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonNG3">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>220</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>NG 3</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DistinguishPix.qrc">
+     <normaloff>:/Qtres/NG.png</normaloff>:/Qtres/NG.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonNG4">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>250</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>NG 4</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DistinguishPix.qrc">
+     <normaloff>:/Qtres/NG.png</normaloff>:/Qtres/NG.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonOKForNone">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>390</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK for none</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DistinguishPix.qrc">
+     <normaloff>:/Qtres/OK.png</normaloff>:/Qtres/OK.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonReleaseOne">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>300</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Release one</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DistinguishPix.qrc">
+     <normaloff>:/Qtres/Release.png</normaloff>:/Qtres/Release.png</iconset>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="DistinguishPix.qrc"/>
+ </resources>
+ <connections/>
+</ui>

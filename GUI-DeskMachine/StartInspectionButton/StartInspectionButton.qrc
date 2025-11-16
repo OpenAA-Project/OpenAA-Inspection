@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/StartInspectionButton.png</file>
+        <file>Resources/StartInspectionImage.bmp</file>
+    </qresource>
+</RCC>

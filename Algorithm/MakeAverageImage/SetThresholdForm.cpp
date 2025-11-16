@@ -1,0 +1,123 @@
+#include "MakeAverageImageResource.h"
+#include "SetThresholdForm.h"
+#include "ui_SetThresholdForm.h"
+#include "XDataInLayerCommander.h"
+
+SetThresholdForm::SetThresholdForm(LayersBase *Base,QWidget *parent) :
+    QWidget(parent),ServiceForLayers(Base),PasswordInQWodget(Base,this),
+    ui(new Ui::SetThresholdForm)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+
+	IData=NULL;
+	OnChanging	=false;
+	HistgramPage=-1;
+
+	InstallOperationLog(this);
+}
+
+SetThresholdForm::~SetThresholdForm()
+{
+    delete ui;
+}
+
+void	SetThresholdForm::Initial(AlgorithmBase *InstBase ,AlgorithmItemIndependentPack &Data)
+{
+	if(IData!=NULL)
+		delete	IData;
+	IData=new AlgorithmItemIndependentPack(InstBase->GetLayersBase());
+	*IData=Data;
+
+	for(AlgorithmItemIndependent	*D=IData->Items.GetFirst();D!=NULL;D=D->GetNext()){
+		AlgorithmItemRoot	*DA=D->Data;
+		if(DA!=NULL){
+			HistgramPage	=D->GlobalPage;
+			DA->SetParentPointer(InstBase,D->PhaseCode,D->GlobalPage,D->Layer);
+			MakeAverageImageItem	*BData=dynamic_cast<MakeAverageImageItem *>(DA);
+			if(BData!=NULL){
+				OnChanging=true;
+				ui->spinBoxSearchDot			->setValue(BData->GetThresholdR(GetLayersBase())->SearchDot);
+				ui->doubleSpinBoxRotationDegree	->setValue(BData->GetThresholdR(GetLayersBase())->RotationDegree);
+				OnChanging=false;
+				BData->TF_EnumHistList(HContainer);
+				break;
+			}
+		}
+	}
+	ui->doubleSpinBoxSearchDotUnit->setDecimals(GetParamGlobal()->SmallNumberFigure);
+	ui->labelUnitName	->setText(GetParamGlobal()->UnitName);
+}
+
+void	SetThresholdForm::GetDataFromWindow(void)
+{
+	for(AlgorithmItemIndependent *D=IData->Items.GetFirst();D!=NULL;D=D->GetNext()){
+		AlgorithmItemRoot	*DA=D->Data;
+		if(DA==NULL)
+			continue;
+		MakeAverageImageItem	*BData=dynamic_cast<MakeAverageImageItem *>(DA);
+		if(BData==NULL)
+			continue;
+		MakeAverageImageThreshold	*Thr=BData->GetThresholdW(GetLayersBase());
+		Thr->SearchDot		=ui->spinBoxSearchDot	->value();
+		Thr->RotationDegree	=ui->doubleSpinBoxRotationDegree->value();
+		//return;
+	}
+}
+
+void SetThresholdForm::on_pushButtonSetOne_clicked()
+{
+	GetLayersBase()->ClearAllAckFlag();
+	GetLayersBase()->ShowProcessingForm(LangSolver.GetString(SetThresholdForm_LS,LID_8)/*"Change one point"*/);
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Change one point");
+	GetDataFromWindow();
+	GUICmdSendAlgorithmItemIndependentPack	Packet(IData->Base,QString(/**/"ANY"),QString(/**/"ANY"),-1,true);
+	Packet.Command=SetIndependentItemDataCommand_OnlyOne;
+	Packet.IData=*IData;
+	for(int page=0;page<GetPageNumb();page++){
+		Packet.Send(NULL,page,0);
+	}
+	GetLayersBase()->WaitAllAcknowledged(60*10);
+	GetLayersBase()->CloseProcessingForm();
+}
+
+void SetThresholdForm::on_pushButtonSetAll_clicked()
+{
+	GetLayersBase()->ClearAllAckFlag();
+	GetLayersBase()->ShowProcessingForm(LangSolver.GetString(SetThresholdForm_LS,LID_9)/*"Change all points"*/);
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Change all points");
+	GetDataFromWindow();
+	GUICmdSendAlgorithmItemIndependentPack	Packet(IData->Base,QString(/**/"ANY"),QString(/**/"ANY"),-1,true);
+	Packet.Command=SetIndependentItemDataCommand_All;
+	Packet.IData=*IData;
+	for(int page=0;page<GetPageNumb();page++){
+		Packet.Send(NULL,page,0);
+	}
+	GetLayersBase()->WaitAllAcknowledged(60*10);
+	GetLayersBase()->CloseProcessingForm();
+}
+
+void SetThresholdForm::on_pushButtonClose_clicked()
+{
+	close();
+}
+
+void SetThresholdForm::on_spinBoxSearchDot_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ui->doubleSpinBoxSearchDotUnit->setValue(TransformPixelToUnit(HistgramPage,arg1));
+	OnChanging=false;
+}
+
+void SetThresholdForm::on_doubleSpinBoxSearchDotUnit_valueChanged(double arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ui->spinBoxSearchDot->setValue(TransformUnitToPixelSquare(HistgramPage,arg1));
+	OnChanging=false;
+}

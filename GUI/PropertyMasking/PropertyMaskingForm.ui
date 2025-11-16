@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PropertyMaskingFormClass</class>
+ <widget class="QWidget" name="PropertyMaskingFormClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PropertyMaskingForm</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidgetMaskingList">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>381</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <property name="wordWrap">
+    <bool>false</bool>
+   </property>
+   <property name="cornerButtonEnabled">
+    <bool>false</bool>
+   </property>
+   <column>
+    <property name="text">
+     <string>Page</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Layer</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Effective</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Limited</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Area</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QFrame" name="frameButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>381</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+    <property name="icon">
+     <iconset resource="PropertyMasking.qrc">
+      <normaloff>:/Qtres/Hole.png</normaloff>:/Qtres/Hole.png</iconset>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>450</y>
+     <width>381</width>
+     <height>321</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <widget class="QPushButton" name="ButtonGenerateMaskFromSameColor">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>200</y>
+      <width>251</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>同一輝度からのマスク生成</string>
+    </property>
+    <property name="icon">
+     <iconset resource="PropertyMasking.qrc">
+      <normaloff>:/Qtres/Add.png</normaloff>:/Qtres/Add.png</iconset>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frameGenerateMask">
+    <property name="geometry">
+     <rect>
+      <x>4</x>
+      <y>6</y>
+      <width>371</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <property name="palette">
+     <palette>
+      <active/>
+      <inactive/>
+      <disabled/>
+     </palette>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>87</y>
+       <width>91</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text">
+      <string>膨張ドット数</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>87</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text">
+      <string>輝度幅</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBoxPickupColorWidth">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>107</y>
+       <width>61</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>256</number>
+     </property>
+     <property name="value">
+      <number>30</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBoxExpandedDot">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>107</y>
+       <width>71</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>-100</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonLimited">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>156</y>
+       <width>211</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>有効／無効／限定マスク</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyMasking.qrc">
+       <normaloff>:/Qtres/Mask.png</normaloff>:/Qtres/Mask.png</iconset>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelPourMessage">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>159</y>
+       <width>131</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text">
+      <string>有効マスク</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QFrame" name="frame_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>351</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QToolButton" name="toolButtonGenerateExclusive">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>40</y>
+        <width>351</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>クリック位置の色（輝度）を除外する領域生成</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonGenerateOnClick">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>351</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>クリック位置の色（輝度）を基準とした領域生成</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>87</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text">
+      <string>最小サイズ</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBoxMinSize">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>107</y>
+       <width>71</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>2000000000</number>
+     </property>
+     <property name="value">
+      <number>30</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>107</y>
+       <width>31</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Dot</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>130</y>
+       <width>31</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>mm</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>110</y>
+       <width>31</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Dot</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>130</y>
+       <width>38</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>mm2</string>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="doubleSpinBoxMinSizeMM">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>130</y>
+       <width>71</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <double>2000000000.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="doubleSpinBoxExpandedDotMM">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>130</y>
+       <width>71</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <double>-100.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>100.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>284</x>
+       <y>87</y>
+       <width>71</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text">
+      <string>除去ノイズ</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_10">
+     <property name="geometry">
+      <rect>
+       <x>344</x>
+       <y>110</y>
+       <width>21</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Dot</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBoxPickupNoiseSize">
+     <property name="geometry">
+      <rect>
+       <x>284</x>
+       <y>107</y>
+       <width>61</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>20</number>
+     </property>
+     <property name="value">
+      <number>3</number>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="ButtonGenerateMaskOnSelectedItemsEdge">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>240</y>
+      <width>251</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>選択領域の輪郭部分に生成</string>
+    </property>
+    <property name="icon">
+     <iconset resource="PropertyMasking.qrc">
+      <normaloff>:/Qtres/Add.png</normaloff>:/Qtres/Add.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ButtonGenerateMaskPatternEdgeOnSelected">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>280</y>
+      <width>251</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>選択領域のパターン境界部分に生成</string>
+    </property>
+    <property name="icon">
+     <iconset resource="PropertyMasking.qrc">
+      <normaloff>:/Qtres/Add.png</normaloff>:/Qtres/Add.png</iconset>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButtonEditLibrary">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>50</y>
+     <width>131</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Edit library</string>
+   </property>
+   <property name="icon">
+    <iconset resource="PropertyMasking.qrc">
+     <normaloff>:/Qtres/Edit.png</normaloff>:/Qtres/Edit.png</iconset>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>430</y>
+     <width>381</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text">
+    <string>マスク生成</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonMakeBackGroundMaster">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>81</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>背景-M</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonMakeBackGroundTarget">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>90</y>
+     <width>81</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>背景-T</string>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="toolButtonShowBackGround">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>90</y>
+     <width>81</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>背景表示</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClearBackGround">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>90</y>
+     <width>81</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>背景消去</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSelectByLimited">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>50</y>
+     <width>151</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>限定選択</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSelectAll">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>81</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>全部選択</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonShowOnlyLibID">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>171</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>選択ライブラリのみ表示</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>pushButtonShowOnlyLibID</zorder>
+  <zorder>tableWidgetMaskingList</zorder>
+  <zorder>frameButton</zorder>
+  <zorder>frame</zorder>
+  <zorder>pushButtonEditLibrary</zorder>
+  <zorder>label</zorder>
+  <zorder>pushButtonMakeBackGroundMaster</zorder>
+  <zorder>pushButtonMakeBackGroundTarget</zorder>
+  <zorder>toolButtonShowBackGround</zorder>
+  <zorder>pushButtonClearBackGround</zorder>
+  <zorder>pushButtonSelectByLimited</zorder>
+  <zorder>pushButtonSelectAll</zorder>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="PropertyMasking.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -1,0 +1,91 @@
+<ui version="4.0" >
+ <class>WhichImageFormClass</class>
+ <widget class="GUIFormBase" name="WhichImageFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>396</width>
+    <height>20</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>WhichImageForm</string>
+  </property>
+  <widget class="QRadioButton" name="radioButtonMaster" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>85</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Master</string>
+   </property>
+   <property name="checked" >
+    <bool>true</bool>
+   </property>
+   <property name="autoExclusive" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButtonTarget" >
+   <property name="geometry" >
+    <rect>
+     <x>100</x>
+     <y>0</y>
+     <width>85</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Target</string>
+   </property>
+   <property name="autoExclusive" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButtonDark" >
+   <property name="geometry" >
+    <rect>
+     <x>200</x>
+     <y>0</y>
+     <width>85</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Dark</string>
+   </property>
+   <property name="autoExclusive" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButtonLight" >
+   <property name="geometry" >
+    <rect>
+     <x>300</x>
+     <y>0</y>
+     <width>85</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Light</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

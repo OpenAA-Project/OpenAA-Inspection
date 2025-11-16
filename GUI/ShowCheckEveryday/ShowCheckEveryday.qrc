@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ShowCheckEveryday.png</file>
+        <file>Qtres/Update.png</file>
+    </qresource>
+</RCC>

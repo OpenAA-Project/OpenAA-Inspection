@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SelectPasteForm</class>
+ <widget class="QWidget" name="SelectPasteForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>572</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="ButtonPasteSameAlgo">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>490</y>
+     <width>141</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Paste in Same Algorithm</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="CancelButton">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>360</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DisplayImage.qrc">
+     <normaloff>:/Qtres/Cancel.png</normaloff>:/Qtres/Cancel.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonPasteSameAlgoPosToSelectedLayer">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>240</y>
+     <width>391</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Same Algorithm ,Position / to Selected layer</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DisplayImage.qrc">
+     <normaloff>:/Qtres/Block.png</normaloff>:/Qtres/Block.png</iconset>
+   </property>
+   <property name="default">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="GridPaste">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>551</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>Date/Time</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Item Counts</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Root</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Remark</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSave">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>360</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save selected lines</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DisplayImage.qrc">
+     <normaloff>:/Qtres/Save.png</normaloff>:/Qtres/Save.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonLoad">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>360</y>
+     <width>201</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Load</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DisplayImage.qrc">
+     <normaloff>:/Qtres/Load.png</normaloff>:/Qtres/Load.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonCutOnShape">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>320</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cut items on Shape</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DisplayImage.qrc">
+     <normaloff>:/Qtres/Cut.png</normaloff>:/Qtres/Cut.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonFixedPasteByShape">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>320</y>
+     <width>201</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Fixed Paste by Shape</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DisplayImage.qrc">
+     <normaloff>:/Qtres/Paste.png</normaloff>:/Qtres/Paste.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonFixedPasteForImage">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>320</y>
+     <width>151</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Paste for Image</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DisplayImage.qrc">
+     <normaloff>:/Qtres/Image.png</normaloff>:/Qtres/Image.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonPasteSameAlgoPos">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>280</y>
+     <width>391</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Same Algorithm ,Same Position ,Same layer</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DisplayImage.qrc">
+     <normaloff>:/Qtres/Block.png</normaloff>:/Qtres/Block.png</iconset>
+   </property>
+   <property name="default">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QStackedWidget" name="stackedWidgetLayerType">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>411</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="page">
+    <widget class="QComboBox" name="comboBoxPastedLayer">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>0</y>
+       <width>181</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>181</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Layer to be Pasted</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_2">
+    <widget class="QToolButton" name="toolButtonAdoptLayer0">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>0</y>
+       <width>251</width>
+       <height>26</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Adopt only Layer-0</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButtonDelete">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>200</y>
+     <width>131</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Delete line</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DisplayImage.qrc">
+     <normaloff>:/Qtres/Delete.png</normaloff>:/Qtres/Delete.png</iconset>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="DisplayImage.qrc"/>
+ </resources>
+ <connections/>
+</ui>

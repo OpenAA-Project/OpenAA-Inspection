@@ -1,0 +1,7 @@
+#ifndef INTEGRATIONOUTPUTCONTROLLER_H
+#define INTEGRATIONOUTPUTCONTROLLER_H
+
+#include "integrationoutputcontroller_global.h"
+
+
+#endif // INTEGRATIONOUTPUTCONTROLLER_H

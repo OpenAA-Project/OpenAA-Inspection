@@ -1,0 +1,500 @@
+#include "DentHistgramForm.h"
+#include "ui_DentHistgramForm.h"
+#include "XDentInspection.h"
+#include "XDentLibrary.h"
+#include "XDataInLayerCommander.h"
+#include "XPieceArchitect.h"
+#include "XGeneralDialog.h"
+#include "swap.h"
+
+extern	const	char	*sRoot;
+extern	const	char	*sName;
+
+	
+DentDisplaySimPanel::DentDisplaySimPanel (LayersBase *base ,DentHistgramForm *p ,QWidget *parent)
+	:DisplaySimPanel(base,parent),Parent(p)
+{
+}
+
+void	DentDisplaySimPanel::GetDrawInformation(QByteArray &Something)
+{
+	Parent->GetDrawInformation(Something);
+}
+
+void	DentDisplaySimPanel::ExecuteMouseMove	(int GlobalX ,int GlobalY)
+{
+	GUICmdReqDSimPanelMouseMove	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+	GUICmdAckDSimPanelMouseMove	ACmd(GetLayersBase(),sRoot,sName,GlobalPage);
+	RCmd.ItemID	=ItemID;
+	RCmd.Layer	=Layer;
+	RCmd.GlobalX=GlobalX;
+	RCmd.GlobalY=GlobalY;
+	if(RCmd.Send(GlobalPage,0,ACmd)==true){
+		Parent->ShowResult(ACmd.ResultMaxD,ACmd.ResultWaveLen);
+	}
+}
+
+//===================================================================================
+
+DentHistgramForm::DentHistgramForm(LayersBase *Base,QWidget *parent) :
+    QWidget(parent),ServiceForLayers(Base),PasswordInQWodget(Base,this)
+    ,ui(new Ui::DentHistgramForm)
+	,SimPanel(Base,this,this)
+{
+    ui->setupUi(this);
+
+	OnChanging	=false;
+	InstBase	=NULL;
+	IData=NULL;
+
+	SimPanel.setParent(ui->frame_SimImage);
+	SimPanel.SetAlgo(/**/"Basic",/**/"DentInspection");
+	SimPanel.SetGUI(/**/"Button",/**/"PropertyDentForm");
+	SimPanel.setGeometry(0,0,ui->frame_SimImage->width(),ui->frame_SimImage->height());
+	connect(this,SIGNAL(SignalStartCalc()),this,SLOT(SlotStartCalc()),Qt::QueuedConnection);
+
+	LayerBar.setParent(ui->frameLayer);
+	LayerBar.move(0,0);
+	LayerBar.resize(ui->frameLayer->width(),ui->frameLayer->height());
+	LButtonList=new QToolButton*[GetLayerNumb()];
+	for(int Layer=0;Layer<GetLayerNumb();Layer++){
+		LButtonList[Layer]=new QToolButton();
+		LButtonList[Layer]->setText(GetParamGlobal()->GetLayerName(Layer));
+		LButtonList[Layer]->setAutoExclusive(true);
+		LButtonList[Layer]->setCheckable(true);
+		LButtonList[Layer]->setAutoRaise(true);
+		if(Layer==0)
+			LButtonList[Layer]->setChecked(true);
+		else
+			LButtonList[Layer]->setChecked(false);
+		LButtonList[Layer]->resize(48,32);
+		LayerBar.addWidget(LButtonList[Layer]);
+		connect(LButtonList[Layer],SIGNAL(clicked()),this,SLOT(SlotLayerClicked()));
+	}
+
+	ui->labelResultNGSize		->setText(/**/"");
+	ui->labelResultNGSizeUnit	->setText(/**/"");
+	SetupPassword();
+
+	InstallOperationLog(this);
+}
+
+DentHistgramForm::~DentHistgramForm()
+{
+    delete ui;
+
+	if(IData!=NULL)
+		delete	IData;
+	IData=NULL;
+	delete	[]LButtonList;
+	LButtonList=NULL;
+}
+
+void	DentHistgramForm::GetActiveLayerList(IntList &LayerList)
+{
+	for(int Layer=0;Layer<GetLayerNumb();Layer++){
+		if(LButtonList[Layer]->isChecked()==true){
+			LayerList.AppendList(new IntClass(Layer));
+		}
+	}
+}
+void	DentHistgramForm::Initial(AlgorithmBase *_InstBase ,AlgorithmItemIndependentPack &Data)
+{
+	InstBase	=_InstBase;
+	AlgorithmLibraryContainerForEnum		LibList(InstBase->GetLayersBase());
+	LibIDList.RemoveAll();
+	LibList.EnumAllLibraries(GetLayersBase()->GetDatabase(),InstBase->GetLibType(),LibIDList);
+
+	if(IData!=NULL)
+		delete	IData;
+	IData=new AlgorithmItemIndependentPack(InstBase->GetLayersBase());
+	*IData=Data;
+
+	for(AlgorithmItemIndependent	*D=IData->Items.GetFirst();D!=NULL;D=D->GetNext()){
+		LButtonList[D->Layer]->setChecked(true);
+		SimPanel.SetLayer(D->Layer);
+		AlgorithmItemRoot	*DA=D->Data;
+		if(DA!=NULL){
+			DentItem	*BData=dynamic_cast<DentItem *>(DA);
+			if(BData!=NULL){
+				SimPanel.SetGlobalPage(D->GlobalPage);
+				SimPanel.SetInitial(BData->GetID(),BData->GetArea());
+				SimPanel.SetModeShowBlock		(ui->toolButtonSimShowBlock ->isChecked());
+				SimPanel.SetModeShowBrightnessNG(ui->toolButtonSimShowBright->isChecked());
+
+				OldLibID		=DA->GetLibID();
+
+				NewLibID		=OldLibID			;
+			}
+		}
+	}
+	ShowLibrary();
+	ui->labelUnitName_1	->setText(GetParamGlobal()->UnitSquareName);
+}
+
+void	DentHistgramForm::GetDrawInformation(QByteArray &Something)
+{
+	bool	b=ui->toolButtonShowResult->isChecked();
+	Something.append(b);
+}
+
+void	DentHistgramForm::ShowResult(double ResultMaxD ,double ResultWaveLen)
+{
+	ui->EditResultMaxD		->setText(QString::number(ResultMaxD	,'f',4));
+	ui->EditResultWaveLen	->setText(QString::number(ResultWaveLen,'f',1));
+}
+
+void	DentHistgramForm::SlotStartCalc()
+{
+	SimPanel.SetModeShowBlock		(ui->toolButtonSimShowBlock ->isChecked());
+	SimPanel.SetModeShowBrightnessNG(ui->toolButtonSimShowBright->isChecked());
+	on_ButtonCalc_clicked();
+	SimPanel.repaint();
+}
+void	DentHistgramForm::SlotLayerClicked()
+{
+	int	Layer=0;
+	if(GetLayerNumb()>=1 && LButtonList[0]->isChecked()==true){
+		Layer=0;
+	}
+	else if(GetLayerNumb()>=2 && LButtonList[1]->isChecked()==true){
+		Layer=1;
+	}
+	else if(GetLayerNumb()>=3 && LButtonList[2]->isChecked()==true){
+		Layer=2;
+	}
+	GetDataFromWindowFromNo(Layer);
+	SimPanel.SetLayer(Layer);
+	ShowLibrary();
+	SimPanel.repaint();
+}
+void	DentHistgramForm::GetDataFromWindow(void)
+{
+	IntList LayerList;
+	GetActiveLayerList(LayerList);
+	if(LayerList.GetFirst()==NULL)
+		return;
+	GetDataFromWindowFromNo(LayerList.GetFirst()->GetValue());
+}
+void	DentHistgramForm::GetDataFromWindowFromNo(int LayerNo)
+{
+	for(AlgorithmItemIndependent *D=IData->Items.GetFirst();D!=NULL;D=D->GetNext()){
+		AlgorithmItemRoot	*DA=D->Data;
+		if(DA==NULL)
+			continue;
+		if(LayerNo!=D->Layer)
+			continue;
+		DentItem	*BData=dynamic_cast<DentItem *>(DA);
+		if(BData==NULL)
+			continue;
+
+		BData->SetItemName(ui->EditItemName	->text());
+		DentThreshold	*Thr=BData->GetThresholdW(GetLayersBase());
+		//Thr->Difference		=ui->doubleSpinBoxDifference	->value();
+		Thr->MinNGSize		=ui->doubleSpinBoxMinNGSize		->value();
+		Thr->MaxNGSize		=ui->doubleSpinBoxMaxNGSize		->value();
+		//Thr->BaseWaveLength	=ui->EditBaseWaveLength			->value();
+		Thr->MaxDiffCoef		=ui->doubleSpinBoxMaxDiffCoef	->value();
+		Thr->LinesForAverage	=ui->EditLinesForAverage		->value();
+	}
+}
+
+void DentHistgramForm::on_ButtonRelrectOnlyBlock_clicked()
+{
+	GetLayersBase()->ClearAllAckFlag();
+	GetLayersBase()->ShowProcessingForm("Reflecting ONE block threshold");
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Reflect one block threshold");
+	GetDataFromWindow();
+	GUICmdSendAlgorithmItemIndependentPack	Packet(IData->Base,QString(/**/"ANY"),QString(/**/"ANY"),-1,true);
+	Packet.Command=SetIndependentItemDataCommand_OnlyOne;
+	Packet.IData=*IData;
+	for(int page=0;page<GetPageNumb();page++){
+		Packet.Send(NULL,page,0);
+	}
+	GetLayersBase()->WaitAllAcknowledged(60*10);
+	GetLayersBase()->CloseProcessingForm();
+}
+
+void DentHistgramForm::on_ButtonReflectAllBlocks_clicked()
+{
+	GetLayersBase()->ClearAllAckFlag();
+	GetLayersBase()->ShowProcessingForm("Reflecting ALL blocks\' threshold");
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Reflect all blocks threshold");
+	GetDataFromWindow();
+	GUICmdSendAlgorithmItemIndependentPack	Packet(IData->Base,QString(/**/"ANY"),QString(/**/"ANY"),-1,true);
+	Packet.Command=SetIndependentItemDataCommand_All;
+	Packet.IData=*IData;
+	for(int page=0;page<GetPageNumb();page++){
+		Packet.Send(NULL,page,0);
+	}
+
+	GetLayersBase()->WaitAllAcknowledged(60*10);
+	GetLayersBase()->CloseProcessingForm();
+}
+
+void DentHistgramForm::on_ButtonSaveToLibrary_clicked()
+{
+	GetDataFromWindow();
+
+	IntList LayerList;
+	GetActiveLayerList(LayerList);
+	if(LayerList.GetFirst()==NULL)
+		return;
+	int	ThresholdLevel=GetLayersBase()->SelectThresholdLevel();
+	for(AlgorithmItemIndependent *D=IData->Items.GetFirst();D!=NULL;D=D->GetNext()){
+		AlgorithmItemRoot	*DA=D->Data;
+		if(DA==NULL)
+			continue;
+		if(LayerList.GetFirst()->GetValue()!=D->Layer)
+			continue;
+		DentItem	*BData=dynamic_cast<DentItem *>(DA);
+		if(BData==NULL)
+			continue;
+
+		int	LibID=BData->GetLibID();
+		AlgorithmLibraryContainer	*Container=BData->GetLibraryContainer();
+		AlgorithmLibraryLevelContainer	DestLib(Container);
+		if(Container->GetLibrary(LibID ,DestLib)==true){
+			DentLibrary	*ALib=dynamic_cast<DentLibrary *>(DestLib.GetLibrary(ThresholdLevel));
+			DentThreshold	*Thr=BData->GetThresholdW(GetLayersBase());
+			Thr->ToLibrary(ALib);
+			Container->Update(DestLib);
+			return;
+		}
+	}
+}
+
+void DentHistgramForm::on_ButtonLoadFromLibrary_clicked()
+{
+	IntList LayerList;
+	GetActiveLayerList(LayerList);
+	if(LayerList.GetFirst()==NULL)
+		return;
+	int	ThresholdLevel=GetLayersBase()->SelectThresholdLevel();
+	for(AlgorithmItemIndependent *D=IData->Items.GetFirst();D!=NULL;D=D->GetNext()){
+		AlgorithmItemRoot	*DA=D->Data;
+		if(DA==NULL)
+			continue;
+		if(LayerList.GetFirst()->GetValue()!=D->Layer)
+			continue;
+		DentItem	*BData=dynamic_cast<DentItem *>(DA);
+		if(BData==NULL)
+			continue;
+
+		int	LibID=BData->GetLibID();
+		AlgorithmLibraryContainer	*Container=BData->GetLibraryContainer();
+		AlgorithmLibraryLevelContainer	SrcLib(Container);
+		if(Container->GetLibrary(LibID ,SrcLib)==true){
+			DentLibrary	*ALib=dynamic_cast<DentLibrary *>(SrcLib.GetLibrary(ThresholdLevel));
+			DentThreshold	*Thr=BData->GetThresholdW(GetLayersBase());
+			Thr->FromLibrary(ALib);
+			ShowLibrary();
+			return;
+		}
+	}
+}
+
+void DentHistgramForm::on_ButtonClose_clicked()
+{
+	close();
+}
+
+void	DentHistgramForm::ShowLibrary(void)
+{
+	IntList LayerList;
+	GetActiveLayerList(LayerList);
+	if(LayerList.GetFirst()==NULL)
+		return;
+	for(AlgorithmItemIndependent	*D=IData->Items.GetFirst();D!=NULL;D=D->GetNext()){
+		AlgorithmItemRoot	*DA=D->Data;
+		if(DA==NULL)
+			continue;
+		if(LayerList.GetFirst()->GetValue()!=D->Layer)
+			continue;
+		DentItem	*BData=dynamic_cast<DentItem *>(DA);
+		if(BData==NULL)
+			continue;
+
+		if(DA->GetLibID()<0){
+			ui->EditLibID->setText(/**/"");
+			ui->EditLibName->setText(/**/"");
+		}
+		else{
+			ui->EditLibID	->setText(QString::number(DA->GetLibID()));
+			ui->EditLibName->setText(/**/"");
+			for(AlgorithmLibraryList *L=LibIDList.GetFirst();L!=NULL;L=L->GetNext()){
+				if(L->GetLibID()==DA->GetLibID()){
+					ui->EditLibName	->setText(L->GetLibName());
+					break;
+				}
+			}
+		}
+		ui->EditItemName				->setText(BData->GetItemName());
+
+		//ui->doubleSpinBoxDifference	->setValue(BData->GetThresholdR(GetLayersBase())->Difference);
+		ui->doubleSpinBoxMinNGSize	->setValue(BData->GetThresholdR(GetLayersBase())->MinNGSize);
+		ui->doubleSpinBoxMaxNGSize	->setValue(BData->GetThresholdR(GetLayersBase())->MaxNGSize);
+		//ui->EditBaseWaveLength		->setValue(BData->GetThresholdR(GetLayersBase())->BaseWaveLength);
+		ui->doubleSpinBoxMaxDiffCoef->setValue(BData->GetThresholdR(GetLayersBase())->MaxDiffCoef);
+		ui->EditLinesForAverage		->setValue(BData->GetThresholdR(GetLayersBase())->LinesForAverage);
+		return;
+	}
+}
+void DentHistgramForm::on_ButtonCalc_clicked()
+{
+	IntList LayerList;
+	GetActiveLayerList(LayerList);
+	if(LayerList.GetFirst()==NULL)
+		return;
+	for(AlgorithmItemIndependent	*D=IData->Items.GetFirst();D!=NULL;D=D->GetNext()){
+		AlgorithmItemRoot	*DA=D->Data;
+		if(DA==NULL)
+			continue;
+		if(LayerList.GetFirst()->GetValue()!=D->Layer)
+			continue;
+		DentItem	*nBData=dynamic_cast<DentItem *>(DA);
+		if(nBData==NULL)
+			continue;
+
+		GUICmdReqAlgorithmGeneralData	PacketReq(IData->Base,/**/"ANY",/**/"ANY",D->GlobalPage);
+		PacketReq.BuildData(sRoot,sName,DentReqTryThresholdCommand ,DentSendTryThresholdCommand);
+		DentItem	*BData=&((DentReqTryThreshold *)PacketReq.Data)->Threshold;
+		DentThreshold	*Thr=BData->GetThresholdW(GetLayersBase());
+		Thr->CopyFrom(*nBData->GetThresholdW());
+		((DentReqTryThreshold *)PacketReq.Data)->GlobalPage	=D->GlobalPage;
+		((DentReqTryThreshold *)PacketReq.Data)->BlockItemID	=DA->GetID();
+		((DentReqTryThreshold *)PacketReq.Data)->Layer			=D->Layer;
+
+		/*
+		Thr->BaseCycleDot	=ui->doubleSpinBoxBaseCycleDot	->value();
+		Thr->HeightPerShift	=ui->doubleSpinBoxHeightPerShift->value();
+		Thr->LargeTilt		=ui->doubleSpinBoxLargeTilt		->value();
+		Thr->LargeFlatness	=ui->doubleSpinBoxLargeFlatness	->value();
+		Thr->SmallFlatness	=ui->doubleSpinBoxSmallFlatness	->value();
+		Thr->SmallAreaSize	=ui->spinBoxSmallAreaSize		->value();
+		*/
+		//Thr->Difference		=ui->doubleSpinBoxDifference	->value();
+		Thr->MinNGSize		=ui->doubleSpinBoxMinNGSize		->value();
+		Thr->MaxNGSize		=ui->doubleSpinBoxMaxNGSize		->value();
+		Thr->MaxDiffCoef		=ui->doubleSpinBoxMaxDiffCoef	->value();
+		Thr->LinesForAverage	=ui->EditLinesForAverage		->value();
+
+		GUICmdSendAlgorithmGeneralData	PacketSend(IData->Base,/**/"ANY",/**/"ANY",D->GlobalPage);
+		if(PacketReq.Send(D->GlobalPage,0,PacketSend)==true){
+
+			DentSendTryThreshold	*R=((DentSendTryThreshold *)PacketSend.Data);
+				
+			ui->labelResultNGSize		->setText(QString::number(R->ResultNGSize	));
+			ui->labelResultNGSizeUnit	->setText(TransformPixelToUnitSquareStr(R->ResultNGSize		));
+
+			R->Result->SetAlignedXY(0,0);
+			SimPanel.SetResult(R->Result);
+
+			break;
+		}
+	}	
+}
+
+void DentHistgramForm::on_pushButtonTransmitItemNameAll_clicked()
+{
+	GetLayersBase()->ClearAllAckFlag();
+	GetLayersBase()->ShowProcessingForm("Transmiting ItemName all");
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Transmit ItemName all");
+	GetDataFromWindow();
+	GUICmdSendAlgorithmItemIndependentPack	Packet(IData->Base,QString(/**/"ANY"),QString(/**/"ANY"),-1,true);
+	Packet.Command=SetIndependentItemNameDataCommand_All;
+	Packet.IData=*IData;
+	for(int page=0;page<GetPageNumb();page++){
+		Packet.Send(NULL,page,0);
+	}
+	GetLayersBase()->WaitAllAcknowledged(60*10);
+	GetLayersBase()->CloseProcessingForm();
+}
+
+void DentHistgramForm::on_pushButtonChangeLib_clicked()
+{
+	AlgorithmBase	*ABase=IData->Base->GetAlgorithmBase(sRoot,sName);
+	int		RetSelectedLibID;
+	QString RetSelectedLibName;
+	ExeSelectLibraryForm(ABase->GetLibType(),IData->Base, this
+						,RetSelectedLibID
+						,RetSelectedLibName);
+	if(RetSelectedLibID>=0){
+		for(AlgorithmItemIndependent *D=IData->Items.GetFirst();D!=NULL;D=D->GetNext()){
+			AlgorithmItemRoot	*DA=D->Data;
+			if(DA==NULL)
+				continue;
+			DentItem	*BData=dynamic_cast<DentItem *>(DA);
+			if(BData==NULL)
+				continue;
+			int	OldID=DA->GetLibID();
+			DA->SetLibID(RetSelectedLibID);
+
+			ui->EditLibID	->setText(QString::number(DA->GetLibID()));
+		}
+	}
+}
+
+
+//==============================================================================================================
+GUICmdReqDSimPanelMouseMove::GUICmdReqDSimPanelMouseMove(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,int globalPage)
+:GUICmdPacketBase(Base,emitterRoot,emitterName ,typeid(this).name(),globalPage)
+{
+}
+bool	GUICmdReqDSimPanelMouseMove::Load(QIODevice *f)
+{
+	if(::Load(f,ItemID	)==false)	return false;
+	if(::Load(f,Layer	)==false)	return false;
+	if(::Load(f,GlobalX	)==false)	return false;
+	if(::Load(f,GlobalY	)==false)	return false;
+	return true;
+}
+bool	GUICmdReqDSimPanelMouseMove::Save(QIODevice *f)
+{
+	if(::Save(f,ItemID	)==false)	return false;
+	if(::Save(f,Layer	)==false)	return false;
+	if(::Save(f,GlobalX	)==false)	return false;
+	if(::Save(f,GlobalY	)==false)	return false;
+	return true;
+}
+
+void	GUICmdReqDSimPanelMouseMove::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUICmdAckDSimPanelMouseMove	*SendBack=GetSendBack(GUICmdAckDSimPanelMouseMove,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
+	
+	DentBase *BBase=(DentBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DentInspection");
+	if(BBase!=NULL){
+		CmdDentReqItemResult	Cmd(GetLayersBase());
+		Cmd.Layer	=Layer;
+		Cmd.ItemID	=ItemID;
+		Cmd.GlobalX	=GlobalX;
+		Cmd.GlobalY	=GlobalY;
+		BBase->GetPageData(localPage)->TransmitDirectly(&Cmd);
+		SendBack->ResultMaxD	=Cmd.ResultMaxD;
+		SendBack->ResultWaveLen	=Cmd.ResultWaveLen;
+	}
+	SendBack->Send(this ,GetLayersBase()->GetGlobalPageFromLocal(localPage),0);
+	CloseSendBack(SendBack);
+}
+
+GUICmdAckDSimPanelMouseMove::GUICmdAckDSimPanelMouseMove(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,int globalPage)
+:GUICmdPacketBase(Base,emitterRoot,emitterName ,typeid(this).name(),globalPage)
+{
+}
+
+bool	GUICmdAckDSimPanelMouseMove::Load(QIODevice *f)
+{
+	if(::Load(f,ResultMaxD		)==false)	return false;
+	if(::Load(f,ResultWaveLen	)==false)	return false;
+	return true;
+}
+bool	GUICmdAckDSimPanelMouseMove::Save(QIODevice *f)
+{
+	if(::Save(f,ResultMaxD		)==false)	return false;
+	if(::Save(f,ResultWaveLen	)==false)	return false;
+	return true;
+}
+

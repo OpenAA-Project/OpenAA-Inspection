@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(RESULTSAVETARGETIMAGE_LIB)
+#  define RESULTSAVETARGETIMAGE_EXPORT Q_DECL_EXPORT
+# else
+#  define RESULTSAVETARGETIMAGE_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define RESULTSAVETARGETIMAGE_EXPORT
+#endif

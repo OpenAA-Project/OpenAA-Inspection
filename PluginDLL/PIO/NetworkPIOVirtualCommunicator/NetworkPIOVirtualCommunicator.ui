@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>NetworkPIOVirtualCommunicatorClass</class>
+ <widget class="QMainWindow" name="NetworkPIOVirtualCommunicatorClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>287</width>
+    <height>75</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>NetworkPIOVirtualCommunicator</string>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="NetworkPIOVirtualCommunicator.qrc"/>
+ </resources>
+ <connections/>
+</ui>

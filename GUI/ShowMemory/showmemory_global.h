@@ -1,0 +1,12 @@
+#ifndef SHOWMEMORY_GLOBAL_H
+#define SHOWMEMORY_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef SHOWMEMORY_LIB
+# define SHOWMEMORY_EXPORT Q_DECL_EXPORT
+#else
+# define SHOWMEMORY_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // SHOWMEMORY_GLOBAL_H

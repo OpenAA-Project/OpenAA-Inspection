@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingDialogClass</class>
+ <widget class="QDialog" name="SettingDialogClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>395</width>
+    <height>635</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>NGImageList Setting</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_4">
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>NG Sort Order</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cbSortOrder">
+       <property name="sizeAdjustPolicy">
+        <enum>QComboBox::AdjustToContents</enum>
+       </property>
+       <item>
+        <property name="text">
+         <string>Y(TopToDown)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Y(DownToTop)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Lib(Lesser)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Lib(Greater)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>NGCause(Lesser)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>NGCause(Greater)</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbOK">
+       <property name="text">
+        <string>OK</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>J:/検査画面icon/flash_swf_64.PNG</normaloff>J:/検査画面icon/flash_swf_64.PNG</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbCancel">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>J:/検査画面icon/fireworks_64.PNG</normaloff>J:/検査画面icon/fireworks_64.PNG</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="gbSaveNGImage">
+     <property name="title">
+      <string>Save NG Image</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0" rowminimumheight="0,0,0" columnminimumwidth="0,0,0,0">
+        <item row="2" column="3">
+         <widget class="QToolButton" name="tbOpenSaveNGImageDirectory">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="3">
+         <widget class="QLineEdit" name="leSaveNGImageDirectoryBase"/>
+        </item>
+        <item row="0" column="0" rowspan="2" colspan="4">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Save Directory Base</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0">
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="cbDrawNGMark">
+        <property name="text">
+         <string>Draw NG Mark</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="Line" name="line_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Filename Format</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLineEdit" name="leSaveNGImageFileFormat">
+          <property name="text">
+           <string>%m-%M/%l/%i/%s/%S/%n-%N</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="5" column="0">
+       <widget class="QTableWidget" name="tableWidget">
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <property name="rowCount">
+         <number>9</number>
+        </property>
+        <property name="columnCount">
+         <number>2</number>
+        </property>
+        <attribute name="horizontalHeaderVisible">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <row/>
+        <row/>
+        <row/>
+        <row/>
+        <row/>
+        <row/>
+        <row/>
+        <row/>
+        <row/>
+        <column>
+         <property name="text">
+          <string>Macro</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Convert to</string>
+         </property>
+        </column>
+        <item row="0" column="0">
+         <property name="text">
+          <string>%m</string>
+         </property>
+        </item>
+        <item row="0" column="1">
+         <property name="text">
+          <string>MasterID</string>
+         </property>
+        </item>
+        <item row="1" column="0">
+         <property name="text">
+          <string>%M</string>
+         </property>
+        </item>
+        <item row="1" column="1">
+         <property name="text">
+          <string>MasterName</string>
+         </property>
+        </item>
+        <item row="2" column="0">
+         <property name="text">
+          <string>%l</string>
+         </property>
+        </item>
+        <item row="2" column="1">
+         <property name="text">
+          <string>LotName</string>
+         </property>
+        </item>
+        <item row="3" column="0">
+         <property name="text">
+          <string>%i</string>
+         </property>
+        </item>
+        <item row="3" column="1">
+         <property name="text">
+          <string>InspectionID</string>
+         </property>
+         <property name="toolTip">
+          <string/>
+         </property>
+        </item>
+        <item row="4" column="0">
+         <property name="text">
+          <string>%s</string>
+         </property>
+        </item>
+        <item row="4" column="1">
+         <property name="text">
+          <string>Sort order name</string>
+         </property>
+         <property name="toolTip">
+          <string/>
+         </property>
+        </item>
+        <item row="5" column="0">
+         <property name="text">
+          <string>%S</string>
+         </property>
+        </item>
+        <item row="5" column="1">
+         <property name="text">
+          <string>NGSide; &quot;Front&quot; or &quot;Back&quot;</string>
+         </property>
+        </item>
+        <item row="6" column="0">
+         <property name="text">
+          <string>%n</string>
+         </property>
+        </item>
+        <item row="6" column="1">
+         <property name="text">
+          <string>NGNumber(same as row)</string>
+         </property>
+        </item>
+        <item row="7" column="0">
+         <property name="text">
+          <string>%N</string>
+         </property>
+        </item>
+        <item row="7" column="1">
+         <property name="text">
+          <string>NGNumber(index on side)</string>
+         </property>
+        </item>
+        <item row="8" column="0">
+         <property name="text">
+          <string>/</string>
+         </property>
+        </item>
+        <item row="8" column="1">
+         <property name="text">
+          <string>Directory Separator</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Save CSV</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="1" column="0">
+         <widget class="QLineEdit" name="lineEditCSVPath"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Path</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

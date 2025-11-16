@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShowCOMForm</class>
+ <widget class="QWidget" name="ShowCOMForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>533</width>
+    <height>414</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>531</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>Time</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Send(Bin)</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Send(Text)</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Receive(Bin)</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Receive(Text)</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

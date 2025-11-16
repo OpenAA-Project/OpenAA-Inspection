@@ -1,0 +1,27 @@
+#include "PropertySwitchPhaseResource.h"
+#include "AddNewPhaseDialog.h"
+#include "ui_AddNewPhaseDialog.h"
+
+AddNewPhaseDialog::AddNewPhaseDialog(LayersBase *Base ,QWidget *parent) :
+    QDialog(parent),ServiceForLayers(Base),
+    ui(new Ui::AddNewPhaseDialog)
+{
+    ui->setupUi(this);
+    LangSolver.SetUI(this);
+}
+
+AddNewPhaseDialog::~AddNewPhaseDialog()
+{
+    delete ui;
+}
+
+void AddNewPhaseDialog::on_pushButtonOK_clicked()
+{
+	PhaseName=ui->lineEditPhaseName->text();
+	done(true);
+}
+
+void AddNewPhaseDialog::on_pushButtonCancel_clicked()
+{
+	done(false);
+}

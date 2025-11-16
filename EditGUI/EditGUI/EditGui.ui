@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EditGUIClass</class>
+ <widget class="QMainWindow" name="EditGUIClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>382</width>
+    <height>86</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>EditGUI</string>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>382</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <widget class="QMenu" name="menuSave_And_Rename">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="title">
+      <string>Save And &amp;Rename</string>
+     </property>
+     <property name="icon">
+      <iconset resource="EditGUI.qrc">
+       <normaloff>:/Qtres/SaveRename.png</normaloff>:/Qtres/SaveRename.png</iconset>
+     </property>
+    </widget>
+    <addaction name="actionCreate_new"/>
+    <addaction name="actionOpen_GUI_file"/>
+    <addaction name="actionSave_GUI_file"/>
+    <addaction name="actionSave_GUI_file_As"/>
+    <addaction name="menuSave_And_Rename"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuTool">
+    <property name="title">
+     <string>&amp;Tool</string>
+    </property>
+    <addaction name="actionTest"/>
+    <addaction name="separator"/>
+    <addaction name="actionGlobal_Setting"/>
+    <addaction name="actionScanning_setting"/>
+    <addaction name="actionCommunication_Setting"/>
+    <addaction name="actionSave_Setting"/>
+    <addaction name="actionOutlineOffset"/>
+    <addaction name="actionSave_Global_Param"/>
+    <addaction name="actionEdit_Filter"/>
+    <addaction name="action_Sync_GUI_File"/>
+    <addaction name="actionEditPhase"/>
+    <addaction name="actionUsage_component"/>
+    <addaction name="actionImage_direction_on_each_page"/>
+    <addaction name="actionMake_status_Def_fike"/>
+    <addaction name="actionMake_BAT_file"/>
+    <addaction name="separator"/>
+    <addaction name="actionMake_GUILanguage_file"/>
+    <addaction name="actionEdit_order"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionSearch"/>
+    <addaction name="actionCopy"/>
+    <addaction name="actionPaste"/>
+    <addaction name="actionDelete_Selected_components"/>
+    <addaction name="separator"/>
+    <addaction name="actionSnap_to_grid"/>
+    <addaction name="separator"/>
+    <addaction name="actionAlign_left"/>
+    <addaction name="actionAlign_right"/>
+    <addaction name="actionAlign_top"/>
+    <addaction name="actionAlign_bottom"/>
+    <addaction name="actionAlign_same_width"/>
+    <addaction name="actionAlign_same_height"/>
+    <addaction name="actionAlign_horizontal_same_gap"/>
+    <addaction name="actionAlign_vertical_same_gap"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuTool"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionCreate_new">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/CopyOne.png</normaloff>:/Qtres/CopyOne.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Create new</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
+  <action name="actionOpen_GUI_file">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Folder.png</normaloff>:/Qtres/Folder.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Open GUI file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
+  <action name="actionSave_GUI_file">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Save.png</normaloff>:/Qtres/Save.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Save GUI file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Close.png</normaloff>:/Qtres/Close.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Exit</string>
+   </property>
+  </action>
+  <action name="actionGlobal_Setting">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Setting.png</normaloff>:/Qtres/Setting.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Global Setting</string>
+   </property>
+  </action>
+  <action name="actionCommunication_Setting">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Commn.png</normaloff>:/Qtres/Commn.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Communication Setting</string>
+   </property>
+  </action>
+  <action name="actionScanning_setting">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Scan.png</normaloff>:/Qtres/Scan.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Scanning setting</string>
+   </property>
+  </action>
+  <action name="actionTest">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Test2.png</normaloff>:/Qtres/Test2.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Test</string>
+   </property>
+  </action>
+  <action name="actionXXX">
+   <property name="text">
+    <string>XXX</string>
+   </property>
+  </action>
+  <action name="actionSave_Setting">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/CommnSave.png</normaloff>:/Qtres/CommnSave.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save C&amp;ommSetting</string>
+   </property>
+  </action>
+  <action name="actionOutlineOffset">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Outline.png</normaloff>:/Qtres/Outline.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;OutlineOffset</string>
+   </property>
+  </action>
+  <action name="actionSave_Global_Param">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/ParameterSave.png</normaloff>:/Qtres/ParameterSave.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save G&amp;lobal Param</string>
+   </property>
+  </action>
+  <action name="actionEdit_Filter">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Filter.png</normaloff>:/Qtres/Filter.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Edit Filter</string>
+   </property>
+  </action>
+  <action name="actionSave_GUI_file_As">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/SaveNew.png</normaloff>:/Qtres/SaveNew.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save GUI file &amp;as...</string>
+   </property>
+  </action>
+  <action name="actionAbc">
+   <property name="text">
+    <string>abc</string>
+   </property>
+  </action>
+  <action name="action_Sync_GUI_File">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Sync.png</normaloff>:/Qtres/Sync.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Sync GUI File</string>
+   </property>
+  </action>
+  <action name="actionEditPhase">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Phase.png</normaloff>:/Qtres/Phase.png</iconset>
+   </property>
+   <property name="text">
+    <string>EditPhase</string>
+   </property>
+  </action>
+  <action name="actionUsage_component">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Learn.png</normaloff>:/Qtres/Learn.png</iconset>
+   </property>
+   <property name="text">
+    <string>Usage component</string>
+   </property>
+  </action>
+  <action name="actionImage_direction_on_each_page">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Image.png</normaloff>:/Qtres/Image.png</iconset>
+   </property>
+   <property name="text">
+    <string>Image direction on each page</string>
+   </property>
+  </action>
+  <action name="actionSort">
+   <property name="text">
+    <string>Sort</string>
+   </property>
+  </action>
+  <action name="actionSearch">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Search.png</normaloff>:/Qtres/Search.png</iconset>
+   </property>
+   <property name="text">
+    <string>Search</string>
+   </property>
+  </action>
+  <action name="actionSnap_to_grid">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Grid.png</normaloff>:/Qtres/Grid.png</iconset>
+   </property>
+   <property name="text">
+    <string>Snap to grid</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Copy.png</normaloff>:/Qtres/Copy.png</iconset>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Paste.png</normaloff>:/Qtres/Paste.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paste</string>
+   </property>
+  </action>
+  <action name="actionAlign_left">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/AlignLeft.png</normaloff>:/Qtres/AlignLeft.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align left</string>
+   </property>
+  </action>
+  <action name="actionAlign_top">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/AlignTop.png</normaloff>:/Qtres/AlignTop.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align top</string>
+   </property>
+  </action>
+  <action name="actionAlign_same_width">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/AlignWidth.png</normaloff>:/Qtres/AlignWidth.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align same width</string>
+   </property>
+  </action>
+  <action name="actionAlign_same_height">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/AlignHeight.png</normaloff>:/Qtres/AlignHeight.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align same height</string>
+   </property>
+  </action>
+  <action name="actionAlign_right">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/AlignRight.png</normaloff>:/Qtres/AlignRight.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align right</string>
+   </property>
+  </action>
+  <action name="actionAlign_bottom">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/AlignBottom.png</normaloff>:/Qtres/AlignBottom.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align bottom</string>
+   </property>
+  </action>
+  <action name="actionAlign_horizontal_same_gap">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/AlignHorizontal.png</normaloff>:/Qtres/AlignHorizontal.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align horizontal same gap</string>
+   </property>
+  </action>
+  <action name="actionAlign_vertical_same_gap">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/AlignVertical.png</normaloff>:/Qtres/AlignVertical.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align vertical same gap</string>
+   </property>
+  </action>
+  <action name="actionDelete_Selected_components">
+   <property name="icon">
+    <iconset resource="EditGUI.qrc">
+     <normaloff>:/Qtres/Delete.png</normaloff>:/Qtres/Delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete (Selected components)</string>
+   </property>
+  </action>
+  <action name="actionMake_BAT_file">
+   <property name="text">
+    <string>Make BAT file</string>
+   </property>
+  </action>
+  <action name="actionMake_status_Def_fike">
+   <property name="text">
+    <string>Make status Def file</string>
+   </property>
+  </action>
+  <action name="actionMake_GUILanguage_file">
+   <property name="text">
+    <string>Make GUILanguage file</string>
+   </property>
+  </action>
+  <action name="actionEdit_order">
+   <property name="text">
+    <string>Edit order</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="EditGUI.qrc"/>
+ </resources>
+ <connections/>
+</ui>

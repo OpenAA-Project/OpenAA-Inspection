@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/NamingImagePanel.png</file>
+    </qresource>
+</RCC>

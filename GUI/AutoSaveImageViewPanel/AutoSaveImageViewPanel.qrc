@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/AutoSaveImageViewPanel.png</file>
+    </qresource>
+</RCC>

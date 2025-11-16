@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonShrinkImage.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Start.png</file>
+    </qresource>
+</RCC>

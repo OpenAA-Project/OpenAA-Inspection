@@ -1,0 +1,138 @@
+#include "CameraChangeQuickPropertyForm.h"
+#include "ui_CameraChangeQuickPropertyForm.h"
+#include "XExecuteInspectBase.h"
+#include "XCameraClass.h"
+
+
+extern  const	char	*sRoot;
+extern  const	char	*sName;
+
+CameraChangeQuickPropertyForm::CameraChangeQuickPropertyForm(LayersBase *Base,QWidget *parent) :
+    GUIFormBase(Base,parent),
+    ui(new Ui::CameraChangeQuickPropertyForm)
+{
+    ui->setupUi(this);
+    TitleName="–¾‚é‚³";
+    VValue=0;
+}
+
+CameraChangeQuickPropertyForm::~CameraChangeQuickPropertyForm()
+{
+    delete ui;
+}
+
+void	CameraChangeQuickPropertyForm::ReadyParam(void)
+{
+    if(CameraQuickPropertyStr==/**/"Brighter")
+        Attr=CameraQuickProperty_Brighter;
+    else
+    if(CameraQuickPropertyStr==/**/"Faster")
+        Attr=CameraQuickProperty_Faster;
+    else
+    if(CameraQuickPropertyStr==/**/"SideBrighter")
+        Attr=CameraQuickProperty_SideBrighter;
+
+    VValue=0;
+    if(Attr==CameraQuickProperty_Brighter){
+        ui->label   ->setText("–¾‚é‚³");
+    }
+    if(Attr==CameraQuickProperty_Faster){
+        ui->label   ->setText("‘¬“x");
+    }
+    if(Attr==CameraQuickProperty_SideBrighter){
+        ui->label   ->setText("Žü•Ó–¾‚é‚³");
+    }
+
+    ui->spinBoxValue->setValue(VValue);
+    ui->label->setText(TitleName);
+}
+void CameraChangeQuickPropertyForm::on_toolButtonDown_clicked()
+{
+    VValue--;
+    ui->spinBoxValue->setValue(VValue);
+
+	for(int page=0;page<GetPageNumb();page++){
+		int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
+		GUICmdCameraChangeQuickProperty	RCmd(GetLayersBase(),sRoot,sName,globalPage);
+        RCmd.Attr   =Attr;
+        RCmd.VValue =VValue;
+		RCmd.Send(NULL,globalPage,0);
+	}
+}
+
+void CameraChangeQuickPropertyForm::on_toolButtonUp_clicked()
+{
+    VValue++;
+    ui->spinBoxValue->setValue(VValue);
+	for(int page=0;page<GetPageNumb();page++){
+		int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
+		GUICmdCameraChangeQuickProperty	RCmd(GetLayersBase(),sRoot,sName,globalPage);
+        RCmd.Attr   =Attr;
+        RCmd.VValue =VValue;
+		RCmd.Send(NULL,globalPage,0);
+	}
+}
+void	CameraChangeQuickPropertyForm::TransmitDirectly(GUIDirectMessage *packet)
+{
+    CmdCameraChangeQuickProperty    *CmdCameraChangeQuickPropertyVar=dynamic_cast<CmdCameraChangeQuickProperty *>(packet);
+    if(CmdCameraChangeQuickPropertyVar!=NULL){
+        VValue=CmdCameraChangeQuickPropertyVar->VValue;
+        ui->spinBoxValue->setValue(VValue);
+	    for(int page=0;page<GetPageNumb();page++){
+	    	int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
+	    	GUICmdCameraChangeQuickProperty	RCmd(GetLayersBase(),sRoot,sName,globalPage);
+            RCmd.Attr   =CmdCameraChangeQuickPropertyVar->Attr;
+            RCmd.VValue =VValue;
+	    	RCmd.Send(NULL,globalPage,0);
+	    }
+        return;
+    }
+    CmdReqCurrentCameraChangeQuickProperty  *CmdReqCurrentCameraChangeQuickPropertyVar=dynamic_cast<CmdReqCurrentCameraChangeQuickProperty *>(packet);
+    if(CmdReqCurrentCameraChangeQuickPropertyVar!=NULL){
+        CmdReqCurrentCameraChangeQuickPropertyVar->Attr=Attr;
+        CmdReqCurrentCameraChangeQuickPropertyVar->VValue=VValue;
+        return;
+    }
+}
+
+//===============================================================================
+
+GUICmdCameraChangeQuickProperty::GUICmdCameraChangeQuickProperty(LayersBase *Base ,const QString &emitterRoot ,const QString &emitterName,int globalPage)
+:GUICmdPacketBase(Base,emitterRoot,emitterName ,typeid(this).name(),globalPage)
+{
+}
+bool	GUICmdCameraChangeQuickProperty::Load(QIODevice *f)
+{
+	int32	d;
+	if(::Load(f,d)==false)
+		return false;
+	Attr=(CameraQuickProperty)d;
+	if(::Load(f,VValue)==false)
+		return false;
+	return true;
+}
+bool	GUICmdCameraChangeQuickProperty::Save(QIODevice *f)
+{
+	int32	d=(int32)Attr;
+	if(::Save(f,d)==false)
+		return false;
+	if(::Save(f,VValue)==false)
+		return false;
+	return true;
+}
+
+void	GUICmdCameraChangeQuickProperty::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+    EntryPointBase	*E=GetLayersBase()->GetEntryPoint();
+    if(E!=NULL){
+        ExecuteInspectBase	*B=E->GetExecuteInspect();
+        if(B!=NULL){
+            for(int i=0;i<B->GetAllocatedCameraCount();i++){
+                CameraClass *C=B->GetCamera(i);
+                if(C!=NULL){
+                    C->SetQuickProperty(Attr, VValue);
+                }
+            }
+        }
+    }
+}

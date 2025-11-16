@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(BUTTONRAISEOTHERPROCESS_LIB)
+#  define BUTTONRAISEOTHERPROCESS_EXPORT Q_DECL_EXPORT
+# else
+#  define BUTTONRAISEOTHERPROCESS_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define BUTTONRAISEOTHERPROCESS_EXPORT
+#endif

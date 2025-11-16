@@ -1,0 +1,100 @@
+#include "CommonGUIDLLResource.h"
+/*******************************************************************************
+** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
+**
+** Please consult your licensing agreement or contact customer@mega-trade.co.jp
+** if any conditions of this licensing agreement are not clear to you.
+**
+** This file is C:\Regulus64v5\ServiceLib\ServiceLib\AlgorithmItemPropertyGrid.cpp
+** Author : YYYYYYYYYY
+****************************************************************************-**/
+
+#include "AlgorithmItemPropertyGrid.h"
+#include "ui_AlgorithmItemPropertyGrid.h"
+
+AlgorithmItemPropertyGrid::AlgorithmItemPropertyGrid(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::AlgorithmItemPropertyGrid)
+{
+    ui->setupUi(this);
+}
+
+AlgorithmItemPropertyGrid::~AlgorithmItemPropertyGrid()
+{
+    delete ui;
+}
+
+
+void AlgorithmItemPropertyGrid::closeEvent ( QCloseEvent * event )
+{
+    QWidget::closeEvent (event);
+    deleteLater ();
+}
+
+void	AlgorithmItemPropertyGrid::ShowGrid(const AlgorithmItemPropertyContainer &_AlgorithmItemPropertyData)
+{
+    ItemLines.RemoveAll();
+    AlgorithmItemPropertyData=_AlgorithmItemPropertyData;
+    for(AlgorithmItemPropertyBase *a=AlgorithmItemPropertyData.GetFirst();a!=NULL;a=a->GetNext()){
+        for(ParamBase::ParamStruct *t=a->GetParamData().GetFirst();t!=NULL;t=t->GetNext()){
+            QString	V=t->GetValue();
+            bool	FoundB=false;
+            for(AlgorithmItemPropertyLine *b=ItemLines.GetFirst();b!=NULL && FoundB==false;b=b->GetNext()){
+                if(b->CategoryName==t->Category && b->PropertyName==t->Name){
+                    int i;
+                    for(i=0;i<b->Values.count();i++){
+                        if(V==b->Values.value(i)){
+                            break;
+                        }
+                    }
+                    if(i>=b->Values.count()){
+                        b->Values.append(V);
+                    }
+                    FoundB=true;
+                }
+            }
+            if(FoundB==false){
+                AlgorithmItemPropertyLine *b=new AlgorithmItemPropertyLine();
+                b->CategoryName=t->Category;
+                b->PropertyName=t->Name;
+                b->Values.append(V);
+                ItemLines.AppendList(b);
+            }
+        }
+    }
+    ui->tableWidget->setRowCount(ItemLines.GetNumber());
+    int	row=0;
+    for(AlgorithmItemPropertyLine *c=ItemLines.GetFirst();c!=NULL;c=c->GetNext()){
+        QTableWidgetItem *W;
+        W=ui->tableWidget->item ( row, 0);
+        if(W==NULL){
+            W=new QTableWidgetItem();
+            ui->tableWidget->setItem ( row, 0,W);
+            W->setFlags(Qt::ItemIsEnabled);
+        }
+        W->setText(c->CategoryName);
+
+        W=ui->tableWidget->item ( row, 1);
+        if(W==NULL){
+            W=new QTableWidgetItem();
+            ui->tableWidget->setItem ( row, 1,W);
+            W->setFlags(Qt::ItemIsEnabled);
+        }
+        W->setText(c->PropertyName);
+
+        W=ui->tableWidget->item ( row, 2);
+        if(W==NULL){
+            W=new QTableWidgetItem();
+            ui->tableWidget->setItem ( row, 2,W);
+            W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+        }
+        if(c->Values.count()==1){
+            W->font().setBold(true);
+        }
+        else{
+            W->font().setBold(false);
+        }
+        W->setText(c->Values.value(0));
+        row++;
+    }
+}

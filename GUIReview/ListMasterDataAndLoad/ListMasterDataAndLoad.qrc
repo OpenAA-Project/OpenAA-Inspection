@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ListMasterDataAndLoad.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}") = "LearningServer", "LearningServer.icproj", "{2FC9C06B-1699-4CC2-A669-815CED97C101}"
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2FC9C06B-1699-4CC2-A669-815CED97C101}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2FC9C06B-1699-4CC2-A669-815CED97C101}.Debug|Win32.Build.0 = Debug|Win32
+		{2FC9C06B-1699-4CC2-A669-815CED97C101}.Debug|x64.ActiveCfg = Debug|x64
+		{2FC9C06B-1699-4CC2-A669-815CED97C101}.Debug|x64.Build.0 = Debug|x64
+		{2FC9C06B-1699-4CC2-A669-815CED97C101}.Release|Win32.ActiveCfg = Release|Win32
+		{2FC9C06B-1699-4CC2-A669-815CED97C101}.Release|Win32.Build.0 = Release|Win32
+		{2FC9C06B-1699-4CC2-A669-815CED97C101}.Release|x64.ActiveCfg = Release|x64
+		{2FC9C06B-1699-4CC2-A669-815CED97C101}.Release|x64.Build.0 = Release|x64
+		{75EFF694-7E00-4140-9514-711474901996}.Release|x64.Build.0 = Release|x64
+		{75EFF694-7E00-4140-9514-711474901996}.Release|x64.ActiveCfg = Release|x64
+		{75EFF694-7E00-4140-9514-711474901996}.Release|Win32.Build.0 = Release|Win32
+		{75EFF694-7E00-4140-9514-711474901996}.Release|Win32.ActiveCfg = Release|Win32
+		{75EFF694-7E00-4140-9514-711474901996}.Debug|x64.Build.0 = Debug|x64
+		{75EFF694-7E00-4140-9514-711474901996}.Debug|x64.ActiveCfg = Debug|x64
+		{75EFF694-7E00-4140-9514-711474901996}.Debug|Win32.Build.0 = Debug|Win32
+		{75EFF694-7E00-4140-9514-711474901996}.Debug|Win32.ActiveCfg = Debug|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

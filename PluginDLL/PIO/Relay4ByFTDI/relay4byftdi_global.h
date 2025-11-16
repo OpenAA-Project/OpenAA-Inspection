@@ -1,0 +1,12 @@
+#ifndef RELAY4BYFTDI_GLOBAL_H
+#define RELAY4BYFTDI_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef RELAY4BYFTDI_LIB
+# define RELAY4BYFTDI_EXPORT Q_DECL_EXPORT
+#else
+# define RELAY4BYFTDI_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // RELAY4BYFTDI_GLOBAL_H

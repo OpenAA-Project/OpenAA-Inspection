@@ -1,0 +1,467 @@
+<ui version="4.0" >
+ <class>XMLDB_MakeDatThreadClass</class>
+ <widget class="QWidget" name="XMLDB_MakeDatThreadClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>834</width>
+    <height>669</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>XMLDB_MakeDatThread</string>
+  </property>
+  <widget class="QTableWidget" name="tblRes_1" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>170</y>
+     <width>401</width>
+     <height>261</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text" >
+     <string>Max</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Min</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>AVG</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>CNT</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>SUM</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QTableWidget" name="tblRes_2" >
+   <property name="geometry" >
+    <rect>
+     <x>420</x>
+     <y>170</y>
+     <width>401</width>
+     <height>261</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text" >
+     <string>Max</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Min</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>AVG</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>CNT</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>SUM</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QTextEdit" name="txtOut_1" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>440</y>
+     <width>401</width>
+     <height>191</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="txtOut_2" >
+   <property name="geometry" >
+    <rect>
+     <x>420</x>
+     <y>440</y>
+     <width>401</width>
+     <height>191</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnExit" >
+   <property name="geometry" >
+    <rect>
+     <x>740</x>
+     <y>640</y>
+     <width>75</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>&amp;Exit</string>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>811</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="currentIndex" >
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="tab_2" >
+    <attribute name="title" >
+     <string>InsDat</string>
+    </attribute>
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>0</y>
+       <width>461</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="title" >
+      <string>IST TAG</string>
+     </property>
+     <widget class="QPushButton" name="btnMkIst" >
+      <property name="geometry" >
+       <rect>
+        <x>10</x>
+        <y>80</y>
+        <width>75</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text" >
+       <string>&amp;IST ADD</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_4" >
+      <property name="geometry" >
+       <rect>
+        <x>360</x>
+        <y>50</y>
+        <width>95</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="_4" >
+       <item>
+        <widget class="QLabel" name="label_6" >
+         <property name="text" >
+          <string>NGICnt</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spnNgCnt_2" >
+         <property name="maximum" >
+          <number>9999</number>
+         </property>
+         <property name="singleStep" >
+          <number>10</number>
+         </property>
+         <property name="value" >
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_5" >
+      <property name="geometry" >
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>242</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="_5" >
+       <item>
+        <widget class="QLabel" name="label_4" >
+         <property name="text" >
+          <string>LotID</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spnLotIt" >
+         <property name="maximum" >
+          <number>9999999</number>
+         </property>
+         <property name="value" >
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_5" >
+         <property name="text" >
+          <string>INSPECTID</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spnEID" >
+         <property name="maximum" >
+          <number>99999999</number>
+         </property>
+         <property name="value" >
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_6" >
+      <property name="geometry" >
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>241</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="_6" >
+       <item>
+        <widget class="QLabel" name="label_7" >
+         <property name="text" >
+          <string>Ver</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="txtVer" >
+         <property name="text" >
+          <string>P-111</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_7" >
+      <property name="geometry" >
+       <rect>
+        <x>260</x>
+        <y>20</y>
+        <width>141</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="_7" >
+       <item>
+        <widget class="QLabel" name="label_8" >
+         <property name="text" >
+          <string>Count</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spnCnt_2" >
+         <property name="minimum" >
+          <number>10</number>
+         </property>
+         <property name="maximum" >
+          <number>9999999</number>
+         </property>
+         <property name="singleStep" >
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_8" >
+      <property name="geometry" >
+       <rect>
+        <x>260</x>
+        <y>50</y>
+        <width>95</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="_8" >
+       <item>
+        <widget class="QLabel" name="label_9" >
+         <property name="text" >
+          <string>NGPCnt</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spnNgCnt" >
+         <property name="maximum" >
+          <number>9999</number>
+         </property>
+         <property name="singleStep" >
+          <number>10</number>
+         </property>
+         <property name="value" >
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_9" >
+      <property name="geometry" >
+       <rect>
+        <x>260</x>
+        <y>80</y>
+        <width>191</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2" >
+       <item>
+        <widget class="QLabel" name="label_10" >
+         <property name="text" >
+          <string>DbFile</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="txtDbFile_2" >
+         <property name="text" >
+          <string>D:/Data/XMLDB.FDB</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab" >
+    <attribute name="title" >
+     <string>Search</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget_3" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>312</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="_3" >
+      <item>
+       <widget class="QLabel" name="label" >
+        <property name="text" >
+         <string>INSPECT ID</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="txtEid" >
+        <property name="text" >
+         <string>1</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spnCnt" >
+        <property name="minimum" >
+         <number>1</number>
+        </property>
+        <property name="maximum" >
+         <number>9999</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnInspect" >
+        <property name="text" >
+         <string>&amp;SelInspect</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="layoutWidget" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>226</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" >
+      <item>
+       <widget class="QLabel" name="label_2" >
+        <property name="text" >
+         <string>LotID</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="txtLot" >
+        <property name="text" >
+         <string>1</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnLot" >
+        <property name="text" >
+         <string>Sel&amp;Lot</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="layoutWidget_2" >
+     <property name="geometry" >
+      <rect>
+       <x>350</x>
+       <y>10</y>
+       <width>146</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="_2" >
+      <item>
+       <widget class="QLabel" name="label_3" >
+        <property name="text" >
+         <string>table</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="txtTbl" >
+        <property name="text" >
+         <string>PPP5</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

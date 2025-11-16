@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/MatrixCellList.png</file>
+        <file>Qtres/Close.png</file>
+        <file>Qtres/Color.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Display.png</file>
+        <file>Qtres/Frame.png</file>
+    </qresource>
+</RCC>

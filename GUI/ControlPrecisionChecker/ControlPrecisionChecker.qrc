@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ControlPrecisionChecker.png</file>
+        <file>Qtres/Angle.png</file>
+        <file>Qtres/Bright.png</file>
+        <file>Qtres/Focus.png</file>
+        <file>Qtres/Group.png</file>
+        <file>Qtres/Resolution.png</file>
+        <file>Qtres/Parameter.png</file>
+    </qresource>
+</RCC>

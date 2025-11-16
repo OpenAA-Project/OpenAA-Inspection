@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonToShowReviewSetting.png</file>
+    </qresource>
+</RCC>

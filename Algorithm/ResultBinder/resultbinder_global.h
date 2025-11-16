@@ -1,0 +1,12 @@
+#ifndef RESULTBINDER_GLOBAL_H
+#define RESULTBINDER_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef RESULTBINDER_LIB
+# define RESULTBINDER_EXPORT Q_DECL_EXPORT
+#else
+# define RESULTBINDER_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // RESULTBINDER_GLOBAL_H

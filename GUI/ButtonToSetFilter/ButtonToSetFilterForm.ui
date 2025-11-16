@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ButtonToSetFilterForm</class>
+ <widget class="GUIFormBase" name="ButtonToSetFilterForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>131</width>
+    <height>42</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Set filter</string>
+  </property>
+  <widget class="QPushButton" name="pushButtonFilter">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Filter</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ButtonToSetFilter.qrc">
+     <normaloff>:/Resources/ButtonToSetFilter.png</normaloff>:/Resources/ButtonToSetFilter.png</iconset>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="ButtonToSetFilter.qrc"/>
+ </resources>
+ <connections/>
+</ui>

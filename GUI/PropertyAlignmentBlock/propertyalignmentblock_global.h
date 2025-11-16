@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(PROPERTYALIGNMENTBLOCK_LIB)
+#  define PROPERTYALIGNMENTBLOCK_EXPORT Q_DECL_EXPORT
+# else
+#  define PROPERTYALIGNMENTBLOCK_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define PROPERTYALIGNMENTBLOCK_EXPORT
+#endif

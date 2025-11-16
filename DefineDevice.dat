@@ -1,0 +1,307 @@
+[DefineIO]	
+Board "DIO000","MechatroLinkPIO.dll"
+IN0		"iLoader1_SettingDetect"
+IN1		"iLoader1_PCBPickupPositionDetect"
+IN2		"iLoader1_SettingSWcomplete"
+IN3		"iLoader1_ClampUp"
+IN4		"iLoader1_ClampDown"
+IN5		"iLoader2_SettingDetect"
+IN6		"iLoader2_PCBPickupPositionDetect"
+IN7		"iLoader2_SettingSWcomplete"
+IN8		"iLoader2_ClampUp"
+IN9		"iLoader2_ClampDown"
+IN10	"iPickup1head_PCBDetectingVacuum"
+IN11	"iPickup1head_PickupNozzleUp"
+IN12	"iPickup1head_PickupNozzleDown"
+IN13	"iPickup1head_PCBPickupSupportUp"
+IN14	"iPickup1head_PCBPickupSupportDown"
+
+IN15		"iPrame_PaperDetecting"
+
+IN16		"iStageUp_PCBDetectingVacuum1"
+IN17		"iStageUp_PCBDetectingVacuum2"
+IN18		"iStageUp_PCBDetectingVacuum3"
+IN19		"iStageUp_CleanerCylinderUp"
+IN20		"iStageUp_CleanerCylinderDown"
+
+IN21		"iFlipUnit_FlipUp"
+IN22		"iFlipUnit_FlipDown"
+IN23		"iFlipUnit_PCBDetectingVacuum"
+IN24		"iFlipUnit_FlipDetect180"
+
+IN25		"iStageDown_PCBDetectingVacuum1"
+IN26		"iStageDown_PCBDetectingVacuum2"
+IN27		"iStageDown_PCBDetectingVacuum3"
+IN28		"iStageDown_CleanerCylinderUp"
+IN29		"iStageDown_CleanerCylinderDown"
+
+IN30		"iPickup21head_PCBDetectingVacuum"
+IN31		"iPickup21head_CylinderIn"
+IN32		"iPickup21head_CylinderOut"
+
+IN33	"iPickup22head_PCBDetectingVacuum"
+IN34	"iPickup22head_PickupNozzleUp"
+IN35	"iPickup22head_PickupNozzleDown"
+IN36	"iPickup22head_PCBPickupSupportUp"
+IN37	"iPickup22head_PCBPickupSupportDown"
+
+IN38	"iUnloader1_SettingDetect"
+IN39	"iUnloader1_PCBPickupPositionDetect"
+IN40	"iUnloader1_SettingSWcomplete"
+IN41	"iUnloader1_ClampUp"
+IN42	"iUnloader1_Unclamp"
+
+IN43	"iUnloader2_SettingDetect"
+IN44	"iUnloader2_PCBPickupPositionDetect"
+IN45	"iUnloader2_SettingSWcomplete"
+IN46	"iUnloader2_ClampUp"
+IN47	"iUnloader2_Unclamp"
+
+IN48	"iUnloader3_SettingDetect"
+IN49	"iUnloader3_PCBPickupPositionDetect"
+IN50	"iUnloader3_SettingSWcomplete"
+IN51	"iUnloader3_ClampUp"
+IN52	"iUnloader3_Unclamp"
+
+IN53	"iUnloader4_SettingDetect"
+IN54	"iUnloader4_PCBPickupPositionDetect"
+IN55	"iUnloader4_SettingSWcomplete"
+IN56	"iUnloader4_ClampUp"
+IN57	"iUnloader4_Unclamp"
+
+IN58	"iSaftyLine_Relay"
+IN59	"iMainAirLow"
+IN60	"iIsolatorAirLow"
+IN61	"iIonizerAlarm"
+IN62	"iDoorLockCheck"
+
+OUT0	"oLoader1_SettingLampOn"
+OUT1	"oLoader1_MagazineClampCylinderFront"
+OUT2	"oLoader1_LoaderUnClampCyinderDown"
+OUT3	"oLoader2_SettingLampOn"
+OUT4	"oLoader2_MagazineClampCylinderFront"
+OUT5	"oLoader2_LoaderUnClampCyinderDown"
+
+OUT6	"oUpStream_StopSignal"
+OUT7	"oPickup1head_EjectorPapearConversion"
+OUT8	"oPickup1head_Ejector"
+OUT9	"oPickup1head_EjectorExhaust"
+OUT10	"oPickup1head_PickupSupportUp"
+OUT11	"oPickup1head_PickupSupportDown"
+
+OUT12	"oStage_PCBVacuum"
+OUT13	"oStageUp_PCBVacuumLayer1"
+OUT14	"oStageUp_PCBVacuumExhaustBlower1"
+OUT15	"oStageUp_PCBVacuumLayer2"
+OUT16	"oStageUp_PCBVacuumExhaustBlower2"
+OUT17	"oStageUp_PCBVacuumLayer3"
+OUT18	"oStageUp_PCBVacuumExhaustBlower3"
+OUT19	"oStageUp_CleanerDown"
+OUT20	""
+OUT21	"oFlipUnit_FlipDown"
+OUT22	"oFlipUnit_PCBVacuumLayer1"
+OUT23	"oFlipUnit_PCBVacuumExhaustBlower1"
+OUT24	"oFlipUnit_PCBVacuumLayer2"
+OUT25	"oFlipUnit_PCBVacuumExhaustBlower2"
+OUT26	"oFlipUnit_PCBVacuumLayer3"
+OUT27	"oFlipUnit_PCBVacuumExhaustBlower3"
+
+OUT28	"oStageDown_PCBVacuumLayer1"
+OUT29	"oStageDown_PCBVacuumExhaustBlower1"
+OUT30	"oStageDown_PCBVacuumLayer2"
+OUT31	"oStageDown_PCBVacuumExhaustBlower2"
+OUT32	"oStageDown_PCBVacuumLayer3"
+OUT33	"oStageDown_PCBVacuumExhaustBlower3"
+OUT34	"oStageDown_CleanerDown"
+OUT35	"oStage_CleaningBlower"
+
+OUT36	"oPickup21head_Ejector"
+OUT37	"oPickup21head_EjectorExhaust"
+OUT38	"oPickup21head_PickupNozzleUp"
+OUT39	"oPickup21head_PickupNozzleDown"
+
+OUT40	"oDownStream_StopSignal"
+OUT41	"oPickup22head_EjectorPapearConversion"
+OUT42	"oPickup22head_Ejector"
+OUT43	"oPickup22head_EjectorExhaust"
+OUT44	"oPickup22head_PickupSupportUp"
+OUT45	"oPickup22head_PickupSupportDown"
+
+OUT46	"oUnloader1_SettingLampOn"
+OUT47	"oUnloader1_MagazineClamp"
+OUT48	"oUnloader1_LoaderUnclamp"
+
+OUT49	"oUnloader2_SettingLampOn"
+OUT50	"oUnloader2_MagazineClamp"
+OUT51	"oUnloader2_LoaderUnclamp"
+
+OUT52	"oUnloader3_SettingLampOn"
+OUT53	"oUnloader3_MagazineClamp"
+OUT54	"oUnloader3_LoaderUnclamp"
+
+OUT55	"oUnloader4_SettingLampOn"
+OUT56	"oUnloader4_MagazineClamp"
+OUT57	"oUnloader4_LoaderUnclamp"
+
+OUT58	"oDoorLock"
+OUT60	"oSignalTower_GreenLamp"
+OUT61	"oSignalTower_YellowLamp"
+OUT62	"oSignalTower_RedLamp"
+OUT63	"oSignalTower_Buzzer"
+
+[DefineIO]	
+Board "DIO002","UpperLinkPIO.dll","localhost,28200,UpperLinkPIODef.dat"
+IN0		"iPCUpStreamReady"
+IN1		"iPCDownStreamReady"
+IN2		"iPCUpResultOK"
+IN3		"iPCUpResultNG1"
+IN4		"iPCUpResultNG2"
+IN5		"iPCUpResultNG3"
+IN6		"iPCUpResultNG4"
+IN7		"iPCUpResultDone"
+IN8		"iPCDownResultOK"
+IN9		"iPCDownResultNG1"
+IN10		"iPCDownResultNG2"
+IN11		"iPCDownResultNG3"
+IN12		"iPCDownResultNG4"
+IN13		"iPCDownResultDone"
+IN14		"iPCUpAckExit"
+IN15		"iPCDownAckExit"
+
+OUT0	"oPCUpResultAck"
+OUT1	"oPCDownResultAck"
+OUT2	"oPCExitUnloaderUp"
+OUT3	"oPCExitUnloaderDown"
+
+
+[DefineNC]
+Board "MP2100","MechatroLinkNC.dll"
+Axis0	"nLoader1_Z"
+Axis1	"nLoader2_Z"
+Axis2	"nPickup1_Head_X"
+Axis3	"nPickup1_Head_Z"
+Axis4	"nFlip_unit"
+Axis5	"nPickup2_Head_X"
+Axis6	"nPickup2_Head_Z"
+Axis7	"nUnloader1_Z"
+Axis8	"nUnloader2_Z"
+Axis9	"nUnloader3_Z"
+Axis10	"nUnloader4_Z"
+Axis11	"nStageUp"
+Axis12	"nStageDown"
+
+Board "ARMControllerUp","AnessysArmNC.dll","17553"
+Axis0	"nStageUpX"
+Axis1	"nStageUpZ"
+
+Board "ARMControllerDown","AnessysArmNC.dll","17554"
+Axis0	"nStageDownX"
+Axis1	"nStageDownZ"
+
+[SharedMemory]
+Bit		"mAutoMode",0
+Bit		"mOriginMode",0
+Bit		"mStopMode",0
+Integer		"mCountOfScanStage"
+Integer		"mLanguage"
+Bit		"mPCLink"
+Bit		"mEmergencyMode",0
+float		"mHead1Loader1Position"
+float		"mHead1Loader2Position"
+float		"mHead1Inspection"
+Integer		"mHead1DelayForSupport"
+float		"mHead1ZOnLoader"
+float		"mHead1ZOnStage"
+
+float		"mStageUpForStartPosition"
+float		"mStageUpForScanLength"
+float		"mStageUpForStartPositionCam"
+float		"mStageUpForPosition2Cam"
+float		"mFlipFlapPosition"
+float		"mStageDownForStartPosition"
+float		"mStageDownForScanLength"
+float		"mStageDownForStartPositionCam"
+float		"mStageDownForPosition2Cam"
+
+float		"mHead2Unloader1Position"
+float		"mHead2Unloader2Position"
+float		"mHead2Unloader3Position"
+float		"mHead2Unloader4Position"
+float		"mHead2InspectionPosition"
+float		"mHead2FlipPosition"
+float		"mHead2StageFromFlipPosition"
+Integer		"mHead2DelayForSupport"
+float		"mHead2ZOnUnloader"
+float		"mHead2ZOnStage"
+
+Integer		"mMaxPCBCountInUnloader1"
+Integer		"mMaxPCBCountInUnloader2"
+Integer		"mMaxPCBCountInUnloader3"
+Integer		"mMaxPCBCountInUnloader4"
+
+Integer		"mCurrentPCBCountInUnloader1"
+Integer		"mCurrentPCBCountInUnloader2"
+Integer		"mCurrentPCBCountInUnloader3"
+Integer		"mCurrentPCBCountInUnloader4"
+Integer		"mTotalPCBCountInUnloader1"
+Integer		"mTotalPCBCountInUnloader2"
+Integer		"mTotalPCBCountInUnloader3"
+Integer		"mTotalPCBCountInUnloader4"
+
+Integer		"mCurrenResultUp"
+Integer		"mCurrenResultDown"
+float		"mCycleTime"
+
+Bit		"mManualLoader1Up"
+Bit		"mManualLoader2Up"
+Bit		"mManualUnloader1Up"
+Bit		"mManualUnloader2Up"
+Bit		"mManualUnloader3Up"
+Bit		"mManualUnloader4Up"
+
+Bit		"mAlarmOccurs"
+Integer	"mLoaderNumberToPick"
+Integer	"mUnloaderNumberToPick"
+
+Integer		"mPCB_LoaderHead"	//Bit0-3: UpStream
+Integer		"mPCB_UpStage"		//Bit4-7: DownStream	
+Integer		"mPCB_Flip"			//0:Nothing  1:Only exist  2:Scanned
+Integer		"mPCB_HeadFromFlip"	//3:OK 		Unloader4
+Integer		"mPCB_DownStage"		//4: NG-Inportant	Unloader1
+Integer		"mPCB_UnloaderHead"	//5: NG-Normal	Unloader2
+						//6: NG-Too many	Unloader3
+Integer		"mID_PCB_LoaderHead"
+Integer		"mID_PCB_UpStage"
+Integer		"mID_PCB_Flip"
+Integer		"mID_PCB_HeadFromFlip"
+Integer		"mID_PCB_DownStage"
+Integer		"mID_PCB_UnloaderHead"
+
+Integer		"mLoader1State"
+Integer		"mLoader2State"
+Integer		"mUnloader1State"
+Integer		"mUnloader2State"
+Integer		"mUnloader3State"
+Integer		"mUnloader4State"
+
+
+[SharedLocker]
+Locker	"mLockerID"
+
+[Process]
+//ExecuteSafety.exe
+//ExecuteLoader.exe
+//ExecuteUnloader.exe
+//ExecuteInspect.exe
+//ExecutePCLink.exe
+//ShowMonitor.exe
+
+[DefineStdOut]
+Device		"sLCDLoader1","LCDPanel.dll"
+Device		"sLCDLoader2","LCDPanel.dll"
+Device		"sLCDUnloader1","LCDPanel.dll"
+Device		"sLCDUnloader2","LCDPanel.dll"
+Device		"sLCDUnloader3","LCDPanel.dll"
+Device		"sLCDUnloader4","LCDPanel.dll"
+
+

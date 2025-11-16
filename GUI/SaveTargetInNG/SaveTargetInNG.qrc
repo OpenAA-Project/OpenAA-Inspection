@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/SaveTargetInNG.png</file>
+    </qresource>
+</RCC>

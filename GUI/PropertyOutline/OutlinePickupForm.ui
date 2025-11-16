@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OutlinePickupForm</class>
+ <widget class="QDialog" name="OutlinePickupForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>659</width>
+    <height>519</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QFrame" name="frameColorSample">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>10</y>
+     <width>205</width>
+     <height>501</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <widget class="QPushButton" name="pushButtonEliminateColor">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>470</y>
+      <width>161</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Eliminate color</string>
+    </property>
+    <property name="icon">
+     <iconset resource="PropertyOutline.qrc">
+      <normaloff>:/Qtres/ColorDelete.png</normaloff>:/Qtres/ColorDelete.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonAddColor">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>440</y>
+      <width>161</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add Color</string>
+    </property>
+    <property name="icon">
+     <iconset resource="PropertyOutline.qrc">
+      <normaloff>:/Qtres/ColorAdd.png</normaloff>:/Qtres/ColorAdd.png</iconset>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClearBaseColor">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>480</y>
+     <width>91</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Clear base</string>
+   </property>
+   <property name="icon">
+    <iconset resource="PropertyOutline.qrc">
+     <normaloff>:/Qtres/ClearBase.png</normaloff>:/Qtres/ClearBase.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClearEliminateColor">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>480</y>
+     <width>121</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Clear Eliminate</string>
+   </property>
+   <property name="icon">
+    <iconset resource="PropertyOutline.qrc">
+     <normaloff>:/Qtres/ClearCancel.png</normaloff>:/Qtres/ClearCancel.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClose">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>450</y>
+     <width>81</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="icon">
+    <iconset resource="PropertyOutline.qrc">
+     <normaloff>:/Qtres/Close.png</normaloff>:/Qtres/Close.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSetToColor">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>450</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Set to Color</string>
+   </property>
+   <property name="icon">
+    <iconset resource="PropertyOutline.qrc">
+     <normaloff>:/Qtres/Color.png</normaloff>:/Qtres/Color.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClearColor">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>450</y>
+     <width>221</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Clear</string>
+   </property>
+   <property name="icon">
+    <iconset resource="PropertyOutline.qrc">
+     <normaloff>:/Qtres/Clear.png</normaloff>:/Qtres/Clear.png</iconset>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frameColorCube">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>431</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="PropertyOutline.qrc"/>
+ </resources>
+ <connections/>
+</ui>

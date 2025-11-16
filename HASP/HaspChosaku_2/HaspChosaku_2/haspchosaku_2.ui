@@ -1,0 +1,128 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>HaspChosaku_2Class</class>
+ <widget class="QMainWindow" name="HaspChosaku_2Class" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>212</width>
+    <height>189</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>HaspChosaku_2</string>
+  </property>
+  <widget class="QWidget" name="centralWidget" >
+   <widget class="QDateEdit" name="dateEdit" >
+    <property name="geometry" >
+     <rect>
+      <x>60</x>
+      <y>80</y>
+      <width>110</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit" >
+    <property name="geometry" >
+     <rect>
+      <x>60</x>
+      <y>30</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="maxLength" >
+     <number>8</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbEND" >
+    <property name="geometry" >
+     <rect>
+      <x>120</x>
+      <y>120</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>END</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbOK" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>OK</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lCopyright" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>191</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>著作権認証番号(8桁)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lUsable" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>181</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>使用期限</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>212</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar" >
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <attribute name="toolBarArea" >
+    <number>4</number>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>171</y>
+     <width>212</width>
+     <height>18</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction></pixmapfunction>
+ <resources/>
+ <connections/>
+</ui>

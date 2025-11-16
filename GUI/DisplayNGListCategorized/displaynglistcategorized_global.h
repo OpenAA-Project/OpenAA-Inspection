@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(DISPLAYNGLISTCATEGORIZED_LIB)
+#  define DISPLAYNGLISTCATEGORIZED_EXPORT Q_DECL_EXPORT
+# else
+#  define DISPLAYNGLISTCATEGORIZED_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define DISPLAYNGLISTCATEGORIZED_EXPORT
+#endif

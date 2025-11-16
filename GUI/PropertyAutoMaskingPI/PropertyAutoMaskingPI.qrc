@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertyAutoMaskingPI.png</file>
+        <file>Qtres/Class.png</file>
+        <file>Qtres/ClearNew.png</file>
+        <file>Qtres/Close.png</file>
+        <file>Qtres/Color.png</file>
+        <file>Qtres/ColorAdd.png</file>
+        <file>Qtres/Delete.png</file>
+        <file>Qtres/Edit.png</file>
+        <file>Qtres/Extract.png</file>
+        <file>Qtres/Reload.png</file>
+        <file>Qtres/SaveNew.png</file>
+        <file>Qtres/Update.png</file>
+        <file>Qtres/Add.png</file>
+    </qresource>
+</RCC>

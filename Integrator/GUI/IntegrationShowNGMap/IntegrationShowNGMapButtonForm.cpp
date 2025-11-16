@@ -1,0 +1,43 @@
+#include "IntegrationShowNGMapResource.h"
+#include "IntegrationShowNGMapButtonForm.h"
+#include "ui_IntegrationShowNGMapButtonForm.h"
+#include "ShowNGMapDialog.h"
+#include "XIntegrationBase.h"
+#include "XDataInLayer.h"
+#include "IntegrationLib.h"
+
+IntegrationShowNGMapButtonForm::IntegrationShowNGMapButtonForm(LayersBase *Base ,QWidget *parent) :
+    GUIFormBase(Base,parent),
+    ui(new Ui::IntegrationShowNGMapButtonForm)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+	SlaveNo=0;
+	
+	Msg=/**/"NG Map";
+	connect(this,SIGNAL(SignalResize()), this ,SLOT(ResizeAction()));
+}
+
+IntegrationShowNGMapButtonForm::~IntegrationShowNGMapButtonForm()
+{
+    delete ui;
+}
+void	IntegrationShowNGMapButtonForm::Prepare(void)
+{
+	ui->PushButtonNGMap->setText(Msg);
+	ui->PushButtonNGMap->setFont (CFont);
+	ResizeAction();
+}
+void	IntegrationShowNGMapButtonForm::ResizeAction()
+{
+	ui->PushButtonNGMap->move(0,0);
+	ui->PushButtonNGMap->resize(width(),height());
+}
+
+void IntegrationShowNGMapButtonForm::on_PushButtonNGMap_clicked()
+{
+	//if(GetLayersBase()->GetIntegrationBasePointer()->NowOnUsing()==false){
+		ShowNGMapDialog	D(GetLayersBase(),this);
+		D.exec();
+	//}
+}

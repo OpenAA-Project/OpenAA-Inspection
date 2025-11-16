@@ -1,0 +1,2840 @@
+
+
+Microchip MPLAB XC8 Assembler V2.40 build 20220703182018 
+                                                                                               Sun Apr 16 00:58:01 2023
+
+Microchip MPLAB XC8 C Compiler v2.40 (Free license) build 20220703182018 Og1 
+     1                           	processor	18F26Q84
+     2                           	fnconf	rparam,??,?,0
+     3                           	pagewidth 120
+     4                           	opt	flic
+     5                           	psect	smallconst,global,reloc=2,class=SMALLCONST,delta=1,noexec
+     6                           	psect	nvCOMRAM,global,class=COMRAM,space=1,delta=1,lowdata,noexec
+     7                           	psect	cinit,global,reloc=2,class=CODE,delta=1
+     8                           	psect	cstackCOMRAM,global,class=COMRAM,space=1,delta=1,lowdata,noexec
+     9                           	psect	text0,global,reloc=2,class=CODE,delta=1
+    10                           	psect	text1,global,reloc=2,class=CODE,delta=1
+    11                           	psect	text2,global,reloc=2,class=CODE,delta=1
+    12                           	psect	text3,global,reloc=2,class=CODE,delta=1
+    13                           	psect	text4,global,reloc=2,class=CODE,delta=1
+    14                           	psect	text5,global,reloc=2,class=CODE,delta=1
+    15                           	psect	text6,global,reloc=2,class=CODE,delta=1
+    16                           	psect	text7,global,reloc=2,class=CODE,delta=1
+    17                           	psect	text8,global,reloc=2,class=CODE,delta=1
+    18                           	psect	text9,global,reloc=2,class=CODE,delta=1
+    19                           	psect	text10,global,reloc=2,class=CODE,delta=1
+    20                           	psect	text11,global,reloc=2,class=CODE,delta=1,inline
+    21                           	psect	text12,global,reloc=2,class=CODE,delta=1
+    22                           	psect	text13,global,reloc=2,class=CODE,delta=1
+    23                           	psect	text14,global,reloc=2,class=CODE,delta=1,inline
+    24                           	psect	intsave_regs,global,class=BIGRAM,space=1,delta=1,noexec
+    25                           	psect	rparam,global,class=COMRAM,space=1,delta=1,noexec
+    26                           	psect	idloc,global,abs,ovrld,class=IDLOC,space=5,delta=1,noexec
+    27                           	psect	config,global,abs,ovrld,class=CONFIG,space=4,delta=1,noexec
+    28   000000                     
+    29                           ; Generated 23/03/2023 GMT
+    30                           ; 
+    31                           ; Copyright © 2023, Microchip Technology Inc. and its subsidiaries ("Microchip")
+    32                           ; All rights reserved.
+    33                           ; 
+    34                           ; This software is developed by Microchip Technology Inc. and its subsidiaries ("Microch
+      +                          ip").
+    35                           ; 
+    36                           ; Redistribution and use in source and binary forms, with or without modification, are
+    37                           ; permitted provided that the following conditions are met:
+    38                           ; 
+    39                           ;     1. Redistributions of source code must retain the above copyright notice, this lis
+      +                          t of
+    40                           ;        conditions and the following disclaimer.
+    41                           ; 
+    42                           ;     2. Redistributions in binary form must reproduce the above copyright notice, this 
+      +                          list
+    43                           ;        of conditions and the following disclaimer in the documentation and/or other
+    44                           ;        materials provided with the distribution. Publication is not required when
+    45                           ;        this file is used in an embedded application.
+    46                           ; 
+    47                           ;     3. Microchip's name may not be used to endorse or promote products derived from th
+      +                          is
+    48                           ;        software without specific prior written permission.
+    49                           ; 
+    50                           ; THIS SOFTWARE IS PROVIDED BY MICROCHIP "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+    51                           ; INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS F
+      +                          OR
+    52                           ; PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL MICROCHIP BE LIABLE FOR ANY DIRECT, INDIREC
+      +                          T,
+    53                           ; INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT LIMITED TO
+    54                           ; PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS
+    55                           ; INTERRUPTION) HOWSOEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, ST
+      +                          RICT
+    56                           ; LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE U
+      +                          SE OF
+    57                           ; THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    58                           ; 
+    59                           ; 
+    60                           ; Code-generator required, PIC18F26Q84 Definitions
+    61                           ; 
+    62                           ; SFR Addresses
+    63   000000                     
+    64 ;; Function _ADC_DefaultADI_ISR is unused but had its address taken
+    65   000000                     
+    66 ;; Function _ADC_DefaultContext1Threshold_ISR is unused but had its address taken
+    67   000000                     
+    68 ;; Function _ADC_DefaultActiveClockTuning_ISR is unused but had its address taken
+    69   000000                     
+    70                           	psect	smallconst
+    71   002E00                     __psmallconst:
+    72                           	callstack 0
+    73   002E00  00                 	db	0
+    74   002E01                     _spi1_configuration:
+    75                           	callstack 0
+    76   002E01  00                 	db	0
+    77   002E02  40                 	db	64
+    78   002E03  00                 	db	0
+    79   002E04  00                 	db	0
+    80   002E05  01                 	db	1
+    81   002E06                     __end_of_spi1_configuration:
+    82                           	callstack 0
+    83   000000                     _TRISB	set	1223
+    84   000000                     _OSCTUNE	set	176
+    85   000000                     _OSCFRQ	set	177
+    86   000000                     _OSCEN	set	179
+    87   000000                     _ADERRL	set	989
+    88   000000                     _ADERRH	set	990
+    89   000000                     _ADPREVL	set	1000
+    90   000000                     _ADPREVH	set	1001
+    91   000000                     _ADFLTRL	set	993
+    92   000000                     _ADFLTRH	set	994
+    93   000000                     _ADREF	set	1016
+    94   000000                     _ADSTAT	set	1015
+    95   000000                     _ADCON3	set	1014
+    96   000000                     _ADCON2	set	1013
+    97   000000                     _ADCON1	set	1012
+    98   000000                     _ADCON0	set	1011
+    99   000000                     _ADPREH	set	1010
+   100   000000                     _ADPREL	set	1009
+   101   000000                     _ADCAP	set	1008
+   102   000000                     _ADACQH	set	1007
+   103   000000                     _ADRESL	set	1002
+   104   000000                     _ADRPT	set	999
+   105   000000                     _ADCNT	set	998
+   106   000000                     _ADACCU	set	997
+   107   000000                     _ADACCH	set	996
+   108   000000                     _ADACCL	set	995
+   109   000000                     _ADSTPTH	set	992
+   110   000000                     _ADSTPTL	set	991
+   111   000000                     _ADUTHH	set	988
+   112   000000                     _ADUTHL	set	987
+   113   000000                     _ADLTHH	set	986
+   114   000000                     _ADLTHL	set	985
+   115   002E06  00                 	db	0	; dummy byte at the end
+   116   000000                     
+   117                           	psect	nvCOMRAM
+   118   000526                     __pnvCOMRAM:
+   119                           	callstack 0
+   120   000526                     _ADC_ActiveClockTuning_ISR:
+   121                           	callstack 0
+   122   000526                     	ds	2
+   123   000528                     _ADC_Context1Thereshld_ISR:
+   124                           	callstack 0
+   125   000528                     	ds	2
+   126   00052A                     _ADC_ConversionComplete_ISR:
+   127                           	callstack 0
+   128   00052A                     	ds	2
+   129   000000                     _SPI1CON0bits	set	132
+   130   000000                     _FVRCONbits	set	983
+   131   000000                     _ADCPbits	set	984
+   132   000000                     _ADCON1bits	set	1012
+   133   000000                     _ADSTATbits	set	1015
+   134   000000                     _ADCON2bits	set	1013
+   135   000000                     _ADCON3bits	set	1014
+   136   000000                     _ADCSEL1bits	set	1020
+   137   000000                     _ADCON0bits	set	1011
+   138   000000                     _TRISC	set	1224
+   139   000000                     _PMD0	set	96
+   140   000000                     _OSCCON1	set	173
+   141   000000                     _ADCP	set	984
+   142   000000                     _ADACT	set	1017
+   143   000000                     _ANSELA	set	1024
+   144   000000                     _ANSELB	set	1032
+   145   000000                     _ANSELC	set	1040
+   146   000000                     _PIR1bits	set	1199
+   147   000000                     _ADCSEL1	set	1020
+   148   000000                     _ADCTX	set	1019
+   149   000000                     _ADCLK	set	1018
+   150   000000                     _ADACQL	set	1006
+   151   000000                     _ADPCH	set	1004
+   152   000000                     _ADRESH	set	1003
+   153   000000                     _LATA	set	1214
+   154   000000                     _PIR3bits	set	1201
+   155   000000                     _TRISCbits	set	1224
+   156   000000                     _PIR2bits	set	1200
+   157   000000                     _OSCCON3	set	175
+   158   000000                     _RC5PPS	set	534
+   159   000000                     _SPI1SCKPPS	set	618
+   160   000000                     _SPI1RXB	set	128
+   161   000000                     _SPI1TXB	set	129
+   162   000000                     _SPI1TCNTL	set	130
+   163   000000                     _SPI1CON0	set	132
+   164   000000                     _PMD8	set	104
+   165   000000                     _PMD7	set	103
+   166   000000                     _PMD6	set	102
+   167   000000                     _PMD5	set	101
+   168   000000                     _PMD4	set	100
+   169   000000                     _PMD3	set	99
+   170   000000                     _PMD2	set	98
+   171   000000                     _PMD1	set	97
+   172   000000                     _SPI1BAUD	set	137
+   173   000000                     _SPI1CLK	set	140
+   174   000000                     _SPI1CON2	set	134
+   175   000000                     _SPI1CON1	set	133
+   176   000000                     _TRISE	set	1226
+   177   000000                     _TRISA	set	1222
+   178   000000                     _LATC	set	1216
+   179   000000                     _LATB	set	1215
+   180   000000                     _INLVLC	set	1044
+   181   000000                     _SLRCONC	set	1043
+   182   000000                     _ODCONC	set	1042
+   183   000000                     _WPUC	set	1041
+   184   000000                     _WPUE	set	1057
+   185   000000                     _INLVLB	set	1036
+   186   000000                     _SLRCONB	set	1035
+   187   000000                     _ODCONB	set	1034
+   188   000000                     _WPUB	set	1033
+   189   000000                     _INLVLA	set	1028
+   190   000000                     _SLRCONA	set	1027
+   191   000000                     _ODCONA	set	1026
+   192   000000                     _WPUA	set	1025
+   193   000000                     _INLVLE	set	1060
+   194   000000                     _FVRCON	set	983
+   195   000000                     _SPI1SDIPPS	set	619
+   196                           
+   197                           ; #config settings
+   198                           
+   199                           	psect	cinit
+   200   003118                     __pcinit:
+   201                           	callstack 0
+   202   003118                     start_initialization:
+   203                           	callstack 0
+   204   003118                     __initialization:
+   205                           	callstack 0
+   206   003118                     end_of_initialization:
+   207                           	callstack 0
+   208   003118                     __end_of__initialization:
+   209                           	callstack 0
+   210   003118  0100               	movlb	0
+   211   00311A  EF04  F017         	goto	_main	;jump to C main() function
+   212                           
+   213                           	psect	cstackCOMRAM
+   214   000501                     __pcstackCOMRAM:
+   215                           	callstack 0
+   216   000501                     ??_ADC_EnableChannelScan:
+   217   000501                     ?_ADC_GetSingleConversion:
+   218                           	callstack 0
+   219   000501                     ADC_SelectContext@context:
+   220                           	callstack 0
+   221   000501                     ADC_SetADIInterruptHandler@InterruptHandler:
+   222                           	callstack 0
+   223   000501                     ADC_SetContext1ThresholdInterruptHandler@InterruptHandler:
+   224                           	callstack 0
+   225   000501                     ADC_SetActiveClockTuningInterruptHandler@InterruptHandler:
+   226                           	callstack 0
+   227                           
+   228                           ; 2 bytes @ 0x0
+   229   000501                     	ds	2
+   230   000503                     ??_ADC_GetSingleConversion:
+   231   000503                     ADC_EnableChannelScan@context:
+   232                           	callstack 0
+   233                           
+   234                           ; 1 bytes @ 0x2
+   235   000503                     	ds	2
+   236   000505                     ADC_GetSingleConversion@channel:
+   237                           	callstack 0
+   238                           
+   239                           ; 1 bytes @ 0x4
+   240   000505                     	ds	1
+   241   000506                     main@convertedValue:
+   242                           	callstack 0
+   243                           
+   244                           ; 32 bytes @ 0x5
+   245   000506                     	ds	32
+   246                           
+   247 ;;
+   248 ;;Main: autosize = 0, tempsize = 0, incstack = 0, save=0
+   249 ;;
+   250 ;; *************** function _main *****************
+   251 ;; Defined at:
+   252 ;;		line 49 in file "main.c"
+   253 ;; Parameters:    Size  Location     Type
+   254 ;;		None
+   255 ;; Auto vars:     Size  Location     Type
+   256 ;;  convertedVal   32    5[COMRAM] unsigned short [16]
+   257 ;; Return value:  Size  Location     Type
+   258 ;;                  1    wreg      void 
+   259 ;; Registers used:
+   260 ;;		wreg, status,2, status,0, cstack
+   261 ;; Tracked objects:
+   262 ;;		On entry : 0/0
+   263 ;;		On exit  : 0/0
+   264 ;;		Unchanged: 0/0
+   265 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+   266 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   267 ;;      Locals:        32       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   268 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   269 ;;      Totals:        32       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   270 ;;Total ram usage:       32 bytes
+   271 ;; Hardware stack levels required when called: 3
+   272 ;; This function calls:
+   273 ;;		_ADC_DisableChannelSequencer
+   274 ;;		_ADC_EnableChannelScan
+   275 ;;		_ADC_GetSingleConversion
+   276 ;;		_ADC_Initialize
+   277 ;;		_ADC_SelectContext
+   278 ;;		_SYSTEM_Initialize
+   279 ;; This function is called by:
+   280 ;;		Startup code after reset
+   281 ;; This function uses a non-reentrant model
+   282 ;;
+   283                           
+   284                           	psect	text0
+   285   002E08                     __ptext0:
+   286                           	callstack 0
+   287   002E08                     _main:
+   288                           	callstack 124
+   289   002E08                     
+   290                           ;main.c: 52:     SYSTEM_Initialize();
+   291   002E08  EC4F  F018         	call	_SYSTEM_Initialize	;wreg free
+   292                           
+   293                           ;main.c: 63:     ADC_Initialize();
+   294   002E0C  EC84  F017         	call	_ADC_Initialize	;wreg free
+   295   002E10                     
+   296                           ;main.c: 64:     ADC_DisableChannelSequencer();
+   297   002E10  EC8F  F018         	call	_ADC_DisableChannelSequencer	;wreg free
+   298   002E14                     
+   299                           ;main.c: 65:     ADC_SelectContext(CONTEXT_1);
+   300   002E14  0E00               	movlw	0
+   301   002E16  EC88  F018         	call	_ADC_SelectContext
+   302   002E1A                     l1508:
+   303                           
+   304                           ;main.c: 69:     {;main.c: 70:          convertedValue[0] = ADC_GetSingleConversion(ANA0
+      +                          );
+   305   002E1A  0E00               	movlw	0
+   306   002E1C  EC23  F018         	call	_ADC_GetSingleConversion
+   307   002E20  C501  F506         	movff	?_ADC_GetSingleConversion,main@convertedValue
+   308   002E24  C502  F507         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+1
+   309   002E28                     
+   310                           ;main.c: 71:          ADC_EnableChannelScan(CONTEXT_1);
+   311   002E28  0E00               	movlw	0
+   312   002E2A  EC0A  F018         	call	_ADC_EnableChannelScan
+   313   002E2E                     
+   314                           ;main.c: 72:          convertedValue[1] = ADC_GetSingleConversion(ANA1);
+   315   002E2E  0E01               	movlw	1
+   316   002E30  EC23  F018         	call	_ADC_GetSingleConversion
+   317   002E34  C501  F508         	movff	?_ADC_GetSingleConversion,main@convertedValue+2
+   318   002E38  C502  F509         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+3
+   319   002E3C                     
+   320                           ;main.c: 73:          convertedValue[2] = ADC_GetSingleConversion(ANA2);
+   321   002E3C  0E02               	movlw	2
+   322   002E3E  EC23  F018         	call	_ADC_GetSingleConversion
+   323   002E42  C501  F50A         	movff	?_ADC_GetSingleConversion,main@convertedValue+4
+   324   002E46  C502  F50B         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+5
+   325   002E4A                     
+   326                           ;main.c: 74:          convertedValue[3] = ADC_GetSingleConversion(ANA3);
+   327   002E4A  0E04               	movlw	4
+   328   002E4C  EC23  F018         	call	_ADC_GetSingleConversion
+   329   002E50  C501  F50C         	movff	?_ADC_GetSingleConversion,main@convertedValue+6
+   330   002E54  C502  F50D         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+7
+   331   002E58                     
+   332                           ;main.c: 75:          convertedValue[4] = ADC_GetSingleConversion(ANA4);
+   333   002E58  0E05               	movlw	5
+   334   002E5A  EC23  F018         	call	_ADC_GetSingleConversion
+   335   002E5E  C501  F50E         	movff	?_ADC_GetSingleConversion,main@convertedValue+8
+   336   002E62  C502  F50F         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+9
+   337   002E66                     
+   338                           ;main.c: 76:          convertedValue[5] = ADC_GetSingleConversion(ANA5);
+   339   002E66  0E07               	movlw	7
+   340   002E68  EC23  F018         	call	_ADC_GetSingleConversion
+   341   002E6C  C501  F510         	movff	?_ADC_GetSingleConversion,main@convertedValue+10
+   342   002E70  C502  F511         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+11
+   343   002E74                     
+   344                           ;main.c: 77:          convertedValue[6] = ADC_GetSingleConversion(ANA6);
+   345   002E74  0E08               	movlw	8
+   346   002E76  EC23  F018         	call	_ADC_GetSingleConversion
+   347   002E7A  C501  F512         	movff	?_ADC_GetSingleConversion,main@convertedValue+12
+   348   002E7E  C502  F513         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+13
+   349   002E82                     
+   350                           ;main.c: 78:          convertedValue[7] = ADC_GetSingleConversion(ANA7);
+   351   002E82  0E0C               	movlw	12
+   352   002E84  EC23  F018         	call	_ADC_GetSingleConversion
+   353   002E88  C501  F514         	movff	?_ADC_GetSingleConversion,main@convertedValue+14
+   354   002E8C  C502  F515         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+15
+   355   002E90                     
+   356                           ;main.c: 79:          convertedValue[8] = ADC_GetSingleConversion(ANA8);
+   357   002E90  0E0D               	movlw	13
+   358   002E92  EC23  F018         	call	_ADC_GetSingleConversion
+   359   002E96  C501  F516         	movff	?_ADC_GetSingleConversion,main@convertedValue+16
+   360   002E9A  C502  F517         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+17
+   361   002E9E                     
+   362                           ;main.c: 80:          convertedValue[9] = ADC_GetSingleConversion(ANA9);
+   363   002E9E  0E0E               	movlw	14
+   364   002EA0  EC23  F018         	call	_ADC_GetSingleConversion
+   365   002EA4  C501  F518         	movff	?_ADC_GetSingleConversion,main@convertedValue+18
+   366   002EA8  C502  F519         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+19
+   367   002EAC                     
+   368                           ;main.c: 81:          convertedValue[10] = ADC_GetSingleConversion(ANA10);
+   369   002EAC  0E0F               	movlw	15
+   370   002EAE  EC23  F018         	call	_ADC_GetSingleConversion
+   371   002EB2  C501  F51A         	movff	?_ADC_GetSingleConversion,main@convertedValue+20
+   372   002EB6  C502  F51B         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+21
+   373   002EBA                     
+   374                           ;main.c: 82:          convertedValue[11] = ADC_GetSingleConversion(ANA11);
+   375   002EBA  0E10               	movlw	16
+   376   002EBC  EC23  F018         	call	_ADC_GetSingleConversion
+   377   002EC0  C501  F51C         	movff	?_ADC_GetSingleConversion,main@convertedValue+22
+   378   002EC4  C502  F51D         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+23
+   379   002EC8                     
+   380                           ;main.c: 83:          convertedValue[12] = ADC_GetSingleConversion(ANA12);
+   381   002EC8  0E11               	movlw	17
+   382   002ECA  EC23  F018         	call	_ADC_GetSingleConversion
+   383   002ECE  C501  F51E         	movff	?_ADC_GetSingleConversion,main@convertedValue+24
+   384   002ED2  C502  F51F         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+25
+   385   002ED6                     
+   386                           ;main.c: 84:          convertedValue[13] = ADC_GetSingleConversion(ANA13);
+   387   002ED6  0E12               	movlw	18
+   388   002ED8  EC23  F018         	call	_ADC_GetSingleConversion
+   389   002EDC  C501  F520         	movff	?_ADC_GetSingleConversion,main@convertedValue+26
+   390   002EE0  C502  F521         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+27
+   391   002EE4                     
+   392                           ;main.c: 85:          convertedValue[14] = ADC_GetSingleConversion(ANA14);
+   393   002EE4  0E16               	movlw	22
+   394   002EE6  EC23  F018         	call	_ADC_GetSingleConversion
+   395   002EEA  C501  F522         	movff	?_ADC_GetSingleConversion,main@convertedValue+28
+   396   002EEE  C502  F523         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+29
+   397   002EF2                     
+   398                           ;main.c: 86:          convertedValue[15] = ADC_GetSingleConversion(ANA15);
+   399   002EF2  0E17               	movlw	23
+   400   002EF4  EC23  F018         	call	_ADC_GetSingleConversion
+   401   002EF8  C501  F524         	movff	?_ADC_GetSingleConversion,main@convertedValue+30
+   402   002EFC  C502  F525         	movff	?_ADC_GetSingleConversion+1,main@convertedValue+31
+   403   002F00  EF0D  F017         	goto	l1508
+   404   002F04  EFFE  F07F         	goto	start
+   405   002F08                     __end_of_main:
+   406                           	callstack 0
+   407                           
+   408 ;; *************** function _SYSTEM_Initialize *****************
+   409 ;; Defined at:
+   410 ;;		line 50 in file "mcc_generated_files/mcc.c"
+   411 ;; Parameters:    Size  Location     Type
+   412 ;;		None
+   413 ;; Auto vars:     Size  Location     Type
+   414 ;;		None
+   415 ;; Return value:  Size  Location     Type
+   416 ;;                  1    wreg      void 
+   417 ;; Registers used:
+   418 ;;		wreg, status,2, status,0, cstack
+   419 ;; Tracked objects:
+   420 ;;		On entry : 0/0
+   421 ;;		On exit  : 0/0
+   422 ;;		Unchanged: 0/0
+   423 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+   424 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   425 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   426 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   427 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   428 ;;Total ram usage:        0 bytes
+   429 ;; Hardware stack levels used: 1
+   430 ;; Hardware stack levels required when called: 2
+   431 ;; This function calls:
+   432 ;;		_ADC_Initialize
+   433 ;;		_FVR_Initialize
+   434 ;;		_OSCILLATOR_Initialize
+   435 ;;		_PIN_MANAGER_Initialize
+   436 ;;		_PMD_Initialize
+   437 ;;		_SPI1_Initialize
+   438 ;; This function is called by:
+   439 ;;		_main
+   440 ;; This function uses a non-reentrant model
+   441 ;;
+   442                           
+   443                           	psect	text1
+   444   00309E                     __ptext1:
+   445                           	callstack 0
+   446   00309E                     _SYSTEM_Initialize:
+   447                           	callstack 124
+   448   00309E                     
+   449                           ;mcc_generated_files/mcc.c: 52:     PMD_Initialize();
+   450   00309E  EC3B  F018         	call	_PMD_Initialize	;wreg free
+   451                           
+   452                           ;mcc_generated_files/mcc.c: 53:     PIN_MANAGER_Initialize();
+   453   0030A2  ECDA  F017         	call	_PIN_MANAGER_Initialize	;wreg free
+   454   0030A6                     
+   455                           ;mcc_generated_files/mcc.c: 54:     ADC_Initialize();
+   456   0030A6  EC84  F017         	call	_ADC_Initialize	;wreg free
+   457   0030AA                     
+   458                           ;mcc_generated_files/mcc.c: 55:     OSCILLATOR_Initialize();
+   459   0030AA  EC69  F018         	call	_OSCILLATOR_Initialize	;wreg free
+   460   0030AE                     
+   461                           ;mcc_generated_files/mcc.c: 56:     FVR_Initialize();
+   462   0030AE  EC84  F018         	call	_FVR_Initialize	;wreg free
+   463   0030B2                     
+   464                           ;mcc_generated_files/mcc.c: 57:     SPI1_Initialize();
+   465   0030B2  EC5C  F018         	call	_SPI1_Initialize	;wreg free
+   466   0030B6  0012               	return		;funcret
+   467   0030B8                     __end_of_SYSTEM_Initialize:
+   468                           	callstack 0
+   469                           
+   470 ;; *************** function _SPI1_Initialize *****************
+   471 ;; Defined at:
+   472 ;;		line 64 in file "mcc_generated_files/spi1.c"
+   473 ;; Parameters:    Size  Location     Type
+   474 ;;		None
+   475 ;; Auto vars:     Size  Location     Type
+   476 ;;		None
+   477 ;; Return value:  Size  Location     Type
+   478 ;;                  1    wreg      void 
+   479 ;; Registers used:
+   480 ;;		wreg, status,2
+   481 ;; Tracked objects:
+   482 ;;		On entry : 0/0
+   483 ;;		On exit  : 0/0
+   484 ;;		Unchanged: 0/0
+   485 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+   486 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   487 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   488 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   489 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   490 ;;Total ram usage:        0 bytes
+   491 ;; Hardware stack levels used: 1
+   492 ;; This function calls:
+   493 ;;		Nothing
+   494 ;; This function is called by:
+   495 ;;		_SYSTEM_Initialize
+   496 ;; This function uses a non-reentrant model
+   497 ;;
+   498                           
+   499                           	psect	text2
+   500   0030B8                     __ptext2:
+   501                           	callstack 0
+   502   0030B8                     _SPI1_Initialize:
+   503                           	callstack 125
+   504   0030B8                     
+   505                           ;mcc_generated_files/spi1.c: 67:     SPI1CON0 = 0x00;
+   506   0030B8  0E00               	movlw	0
+   507   0030BA  0100               	movlb	0	; () banked
+   508   0030BC  6F84               	movwf	132,b	;volatile
+   509                           
+   510                           ;mcc_generated_files/spi1.c: 69:     SPI1CON1 = 0x40;
+   511   0030BE  0E40               	movlw	64
+   512   0030C0  6F85               	movwf	133,b	;volatile
+   513                           
+   514                           ;mcc_generated_files/spi1.c: 71:     SPI1CON2 = 0x00;
+   515   0030C2  0E00               	movlw	0
+   516   0030C4  6F86               	movwf	134,b	;volatile
+   517                           
+   518                           ;mcc_generated_files/spi1.c: 73:     SPI1CLK = 0x00;
+   519   0030C6  0E00               	movlw	0
+   520   0030C8  6F8C               	movwf	140,b	;volatile
+   521                           
+   522                           ;mcc_generated_files/spi1.c: 75:     SPI1BAUD = 0x00;
+   523   0030CA  0E00               	movlw	0
+   524   0030CC  6F89               	movwf	137,b	;volatile
+   525   0030CE                     
+   526                           ; BSR set to: 0
+   527                           ;mcc_generated_files/spi1.c: 76:     TRISCbits.TRISC3 = 1;
+   528   0030CE  86C8               	bsf	200,3,c	;volatile
+   529   0030D0                     
+   530                           ; BSR set to: 0
+   531   0030D0  0012               	return		;funcret
+   532   0030D2                     __end_of_SPI1_Initialize:
+   533                           	callstack 0
+   534                           
+   535 ;; *************** function _PMD_Initialize *****************
+   536 ;; Defined at:
+   537 ;;		line 74 in file "mcc_generated_files/mcc.c"
+   538 ;; Parameters:    Size  Location     Type
+   539 ;;		None
+   540 ;; Auto vars:     Size  Location     Type
+   541 ;;		None
+   542 ;; Return value:  Size  Location     Type
+   543 ;;                  1    wreg      void 
+   544 ;; Registers used:
+   545 ;;		wreg, status,2
+   546 ;; Tracked objects:
+   547 ;;		On entry : 0/0
+   548 ;;		On exit  : 0/0
+   549 ;;		Unchanged: 0/0
+   550 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+   551 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   552 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   553 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   554 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   555 ;;Total ram usage:        0 bytes
+   556 ;; Hardware stack levels used: 1
+   557 ;; This function calls:
+   558 ;;		Nothing
+   559 ;; This function is called by:
+   560 ;;		_SYSTEM_Initialize
+   561 ;; This function uses a non-reentrant model
+   562 ;;
+   563                           
+   564                           	psect	text3
+   565   003076                     __ptext3:
+   566                           	callstack 0
+   567   003076                     _PMD_Initialize:
+   568                           	callstack 125
+   569   003076                     
+   570                           ;mcc_generated_files/mcc.c: 77:     PMD0 = 0x00;
+   571   003076  0E00               	movlw	0
+   572   003078  0100               	movlb	0	; () banked
+   573   00307A  6F60               	movwf	96,b	;volatile
+   574                           
+   575                           ;mcc_generated_files/mcc.c: 79:     PMD1 = 0x00;
+   576   00307C  0E00               	movlw	0
+   577   00307E  6F61               	movwf	97,b	;volatile
+   578                           
+   579                           ;mcc_generated_files/mcc.c: 81:     PMD2 = 0x00;
+   580   003080  0E00               	movlw	0
+   581   003082  6F62               	movwf	98,b	;volatile
+   582                           
+   583                           ;mcc_generated_files/mcc.c: 83:     PMD3 = 0x00;
+   584   003084  0E00               	movlw	0
+   585   003086  6F63               	movwf	99,b	;volatile
+   586                           
+   587                           ;mcc_generated_files/mcc.c: 85:     PMD4 = 0x00;
+   588   003088  0E00               	movlw	0
+   589   00308A  6F64               	movwf	100,b	;volatile
+   590                           
+   591                           ;mcc_generated_files/mcc.c: 87:     PMD5 = 0x00;
+   592   00308C  0E00               	movlw	0
+   593   00308E  6F65               	movwf	101,b	;volatile
+   594                           
+   595                           ;mcc_generated_files/mcc.c: 89:     PMD6 = 0x00;
+   596   003090  0E00               	movlw	0
+   597   003092  6F66               	movwf	102,b	;volatile
+   598                           
+   599                           ;mcc_generated_files/mcc.c: 91:     PMD7 = 0x00;
+   600   003094  0E00               	movlw	0
+   601   003096  6F67               	movwf	103,b	;volatile
+   602                           
+   603                           ;mcc_generated_files/mcc.c: 93:     PMD8 = 0x00;
+   604   003098  0E00               	movlw	0
+   605   00309A  6F68               	movwf	104,b	;volatile
+   606   00309C                     
+   607                           ; BSR set to: 0
+   608   00309C  0012               	return		;funcret
+   609   00309E                     __end_of_PMD_Initialize:
+   610                           	callstack 0
+   611                           
+   612 ;; *************** function _PIN_MANAGER_Initialize *****************
+   613 ;; Defined at:
+   614 ;;		line 55 in file "mcc_generated_files/pin_manager.c"
+   615 ;; Parameters:    Size  Location     Type
+   616 ;;		None
+   617 ;; Auto vars:     Size  Location     Type
+   618 ;;		None
+   619 ;; Return value:  Size  Location     Type
+   620 ;;                  1    wreg      void 
+   621 ;; Registers used:
+   622 ;;		wreg, status,2
+   623 ;; Tracked objects:
+   624 ;;		On entry : 0/0
+   625 ;;		On exit  : 0/0
+   626 ;;		Unchanged: 0/0
+   627 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+   628 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   629 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   630 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   631 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   632 ;;Total ram usage:        0 bytes
+   633 ;; Hardware stack levels used: 1
+   634 ;; This function calls:
+   635 ;;		Nothing
+   636 ;; This function is called by:
+   637 ;;		_SYSTEM_Initialize
+   638 ;; This function uses a non-reentrant model
+   639 ;;
+   640                           
+   641                           	psect	text4
+   642   002FB4                     __ptext4:
+   643                           	callstack 0
+   644   002FB4                     _PIN_MANAGER_Initialize:
+   645                           	callstack 125
+   646   002FB4                     
+   647                           ;mcc_generated_files/pin_manager.c: 60:     LATA = 0x00;
+   648   002FB4  0E00               	movlw	0
+   649   002FB6  6EBE               	movwf	190,c	;volatile
+   650                           
+   651                           ;mcc_generated_files/pin_manager.c: 61:     LATB = 0x00;
+   652   002FB8  0E00               	movlw	0
+   653   002FBA  6EBF               	movwf	191,c	;volatile
+   654                           
+   655                           ;mcc_generated_files/pin_manager.c: 62:     LATC = 0x00;
+   656   002FBC  0E00               	movlw	0
+   657   002FBE  6EC0               	movwf	192,c	;volatile
+   658                           
+   659                           ;mcc_generated_files/pin_manager.c: 67:     TRISE = 0x08;
+   660   002FC0  0E08               	movlw	8
+   661   002FC2  6ECA               	movwf	202,c	;volatile
+   662   002FC4                     
+   663                           ;mcc_generated_files/pin_manager.c: 68:     TRISA = 0xFF;
+   664   002FC4  68C6               	setf	198,c	;volatile
+   665   002FC6                     
+   666                           ;mcc_generated_files/pin_manager.c: 69:     TRISB = 0xFF;
+   667   002FC6  68C7               	setf	199,c	;volatile
+   668                           
+   669                           ;mcc_generated_files/pin_manager.c: 70:     TRISC = 0xDF;
+   670   002FC8  0EDF               	movlw	223
+   671   002FCA  6EC8               	movwf	200,c	;volatile
+   672                           
+   673                           ;mcc_generated_files/pin_manager.c: 75:     ANSELC = 0xE7;
+   674   002FCC  0EE7               	movlw	231
+   675   002FCE  0104               	movlb	4	; () banked
+   676   002FD0  6F10               	movwf	16,b	;volatile
+   677   002FD2                     
+   678                           ; BSR set to: 4
+   679                           ;mcc_generated_files/pin_manager.c: 76:     ANSELB = 0xFF;
+   680   002FD2  6908               	setf	8,b	;volatile
+   681                           
+   682                           ;mcc_generated_files/pin_manager.c: 77:     ANSELA = 0xBF;
+   683   002FD4  0EBF               	movlw	191
+   684   002FD6  6F00               	movwf	0,b	;volatile
+   685                           
+   686                           ;mcc_generated_files/pin_manager.c: 82:     WPUE = 0x00;
+   687   002FD8  0E00               	movlw	0
+   688   002FDA  6F21               	movwf	33,b	;volatile
+   689                           
+   690                           ;mcc_generated_files/pin_manager.c: 83:     WPUB = 0x00;
+   691   002FDC  0E00               	movlw	0
+   692   002FDE  6F09               	movwf	9,b	;volatile
+   693                           
+   694                           ;mcc_generated_files/pin_manager.c: 84:     WPUA = 0x00;
+   695   002FE0  0E00               	movlw	0
+   696   002FE2  6F01               	movwf	1,b	;volatile
+   697                           
+   698                           ;mcc_generated_files/pin_manager.c: 85:     WPUC = 0x00;
+   699   002FE4  0E00               	movlw	0
+   700   002FE6  6F11               	movwf	17,b	;volatile
+   701                           
+   702                           ;mcc_generated_files/pin_manager.c: 90:     ODCONA = 0x00;
+   703   002FE8  0E00               	movlw	0
+   704   002FEA  6F02               	movwf	2,b	;volatile
+   705                           
+   706                           ;mcc_generated_files/pin_manager.c: 91:     ODCONB = 0x00;
+   707   002FEC  0E00               	movlw	0
+   708   002FEE  6F0A               	movwf	10,b	;volatile
+   709                           
+   710                           ;mcc_generated_files/pin_manager.c: 92:     ODCONC = 0x00;
+   711   002FF0  0E00               	movlw	0
+   712   002FF2  6F12               	movwf	18,b	;volatile
+   713   002FF4                     
+   714                           ; BSR set to: 4
+   715                           ;mcc_generated_files/pin_manager.c: 97:     SLRCONA = 0xFF;
+   716   002FF4  6903               	setf	3,b	;volatile
+   717   002FF6                     
+   718                           ; BSR set to: 4
+   719                           ;mcc_generated_files/pin_manager.c: 98:     SLRCONB = 0xFF;
+   720   002FF6  690B               	setf	11,b	;volatile
+   721   002FF8                     
+   722                           ; BSR set to: 4
+   723                           ;mcc_generated_files/pin_manager.c: 99:     SLRCONC = 0xFF;
+   724   002FF8  6913               	setf	19,b	;volatile
+   725   002FFA                     
+   726                           ; BSR set to: 4
+   727                           ;mcc_generated_files/pin_manager.c: 104:     INLVLA = 0xFF;
+   728   002FFA  6904               	setf	4,b	;volatile
+   729   002FFC                     
+   730                           ; BSR set to: 4
+   731                           ;mcc_generated_files/pin_manager.c: 105:     INLVLB = 0xFF;
+   732   002FFC  690C               	setf	12,b	;volatile
+   733   002FFE                     
+   734                           ; BSR set to: 4
+   735                           ;mcc_generated_files/pin_manager.c: 106:     INLVLC = 0xFF;
+   736   002FFE  6914               	setf	20,b	;volatile
+   737                           
+   738                           ;mcc_generated_files/pin_manager.c: 107:     INLVLE = 0x08;
+   739   003000  0E08               	movlw	8
+   740   003002  6F24               	movwf	36,b	;volatile
+   741                           
+   742                           ;mcc_generated_files/pin_manager.c: 116:     SPI1SCKPPS = 0x13;
+   743   003004  0E13               	movlw	19
+   744   003006  0102               	movlb	2	; () banked
+   745   003008  6F6A               	movwf	106,b	;volatile
+   746                           
+   747                           ;mcc_generated_files/pin_manager.c: 117:     RC5PPS = 0x32;
+   748   00300A  0E32               	movlw	50
+   749   00300C  6F16               	movwf	22,b	;volatile
+   750                           
+   751                           ;mcc_generated_files/pin_manager.c: 118:     SPI1SDIPPS = 0x14;
+   752   00300E  0E14               	movlw	20
+   753   003010  6F6B               	movwf	107,b	;volatile
+   754   003012                     
+   755                           ; BSR set to: 2
+   756   003012  0012               	return		;funcret
+   757   003014                     __end_of_PIN_MANAGER_Initialize:
+   758                           	callstack 0
+   759                           
+   760 ;; *************** function _OSCILLATOR_Initialize *****************
+   761 ;; Defined at:
+   762 ;;		line 60 in file "mcc_generated_files/mcc.c"
+   763 ;; Parameters:    Size  Location     Type
+   764 ;;		None
+   765 ;; Auto vars:     Size  Location     Type
+   766 ;;		None
+   767 ;; Return value:  Size  Location     Type
+   768 ;;                  1    wreg      void 
+   769 ;; Registers used:
+   770 ;;		wreg, status,2
+   771 ;; Tracked objects:
+   772 ;;		On entry : 0/0
+   773 ;;		On exit  : 0/0
+   774 ;;		Unchanged: 0/0
+   775 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+   776 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   777 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   778 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   779 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   780 ;;Total ram usage:        0 bytes
+   781 ;; Hardware stack levels used: 1
+   782 ;; This function calls:
+   783 ;;		Nothing
+   784 ;; This function is called by:
+   785 ;;		_SYSTEM_Initialize
+   786 ;; This function uses a non-reentrant model
+   787 ;;
+   788                           
+   789                           	psect	text5
+   790   0030D2                     __ptext5:
+   791                           	callstack 0
+   792   0030D2                     _OSCILLATOR_Initialize:
+   793                           	callstack 125
+   794   0030D2                     
+   795                           ;mcc_generated_files/mcc.c: 63:     OSCCON1 = 0x70;
+   796   0030D2  0E70               	movlw	112
+   797   0030D4  0100               	movlb	0	; () banked
+   798   0030D6  6FAD               	movwf	173,b	;volatile
+   799                           
+   800                           ;mcc_generated_files/mcc.c: 65:     OSCCON3 = 0x00;
+   801   0030D8  0E00               	movlw	0
+   802   0030DA  6FAF               	movwf	175,b	;volatile
+   803                           
+   804                           ;mcc_generated_files/mcc.c: 67:     OSCEN = 0x00;
+   805   0030DC  0E00               	movlw	0
+   806   0030DE  6FB3               	movwf	179,b	;volatile
+   807                           
+   808                           ;mcc_generated_files/mcc.c: 69:     OSCFRQ = 0x02;
+   809   0030E0  0E02               	movlw	2
+   810   0030E2  6FB1               	movwf	177,b	;volatile
+   811                           
+   812                           ;mcc_generated_files/mcc.c: 71:     OSCTUNE = 0x00;
+   813   0030E4  0E00               	movlw	0
+   814   0030E6  6FB0               	movwf	176,b	;volatile
+   815   0030E8                     
+   816                           ; BSR set to: 0
+   817   0030E8  0012               	return		;funcret
+   818   0030EA                     __end_of_OSCILLATOR_Initialize:
+   819                           	callstack 0
+   820                           
+   821 ;; *************** function _FVR_Initialize *****************
+   822 ;; Defined at:
+   823 ;;		line 58 in file "mcc_generated_files/fvr.c"
+   824 ;; Parameters:    Size  Location     Type
+   825 ;;		None
+   826 ;; Auto vars:     Size  Location     Type
+   827 ;;		None
+   828 ;; Return value:  Size  Location     Type
+   829 ;;                  1    wreg      void 
+   830 ;; Registers used:
+   831 ;;		wreg, status,2
+   832 ;; Tracked objects:
+   833 ;;		On entry : 0/0
+   834 ;;		On exit  : 0/0
+   835 ;;		Unchanged: 0/0
+   836 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+   837 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   838 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   839 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   840 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   841 ;;Total ram usage:        0 bytes
+   842 ;; Hardware stack levels used: 1
+   843 ;; This function calls:
+   844 ;;		Nothing
+   845 ;; This function is called by:
+   846 ;;		_SYSTEM_Initialize
+   847 ;; This function uses a non-reentrant model
+   848 ;;
+   849                           
+   850                           	psect	text6
+   851   003108                     __ptext6:
+   852                           	callstack 0
+   853   003108                     _FVR_Initialize:
+   854                           	callstack 125
+   855   003108                     
+   856                           ;mcc_generated_files/fvr.c: 61:     FVRCON = 0x81;
+   857   003108  0E81               	movlw	129
+   858   00310A  0103               	movlb	3	; () banked
+   859   00310C  6FD7               	movwf	215,b	;volatile
+   860   00310E                     
+   861                           ; BSR set to: 3
+   862   00310E  0012               	return		;funcret
+   863   003110                     __end_of_FVR_Initialize:
+   864                           	callstack 0
+   865                           
+   866 ;; *************** function _ADC_Initialize *****************
+   867 ;; Defined at:
+   868 ;;		line 65 in file "mcc_generated_files/adc.c"
+   869 ;; Parameters:    Size  Location     Type
+   870 ;;		None
+   871 ;; Auto vars:     Size  Location     Type
+   872 ;;		None
+   873 ;; Return value:  Size  Location     Type
+   874 ;;                  1    wreg      void 
+   875 ;; Registers used:
+   876 ;;		wreg, status,2, status,0, cstack
+   877 ;; Tracked objects:
+   878 ;;		On entry : 0/0
+   879 ;;		On exit  : 0/0
+   880 ;;		Unchanged: 0/0
+   881 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+   882 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   883 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   884 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   885 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+   886 ;;Total ram usage:        0 bytes
+   887 ;; Hardware stack levels used: 1
+   888 ;; Hardware stack levels required when called: 1
+   889 ;; This function calls:
+   890 ;;		_ADC_SetADIInterruptHandler
+   891 ;;		_ADC_SetActiveClockTuningInterruptHandler
+   892 ;;		_ADC_SetContext1ThresholdInterruptHandler
+   893 ;; This function is called by:
+   894 ;;		_SYSTEM_Initialize
+   895 ;;		_main
+   896 ;; This function uses a non-reentrant model
+   897 ;;
+   898                           
+   899                           	psect	text7
+   900   002F08                     __ptext7:
+   901                           	callstack 0
+   902   002F08                     _ADC_Initialize:
+   903                           	callstack 124
+   904   002F08                     
+   905                           ;mcc_generated_files/adc.c: 68:     ADACT = 0x00;
+   906   002F08  0E00               	movlw	0
+   907   002F0A  0103               	movlb	3	; () banked
+   908   002F0C  6FF9               	movwf	249,b	;volatile
+   909                           
+   910                           ;mcc_generated_files/adc.c: 71:     ADCLK = 0x00;
+   911   002F0E  0E00               	movlw	0
+   912   002F10  6FFA               	movwf	250,b	;volatile
+   913                           
+   914                           ;mcc_generated_files/adc.c: 74:     ADCP = 0x00;
+   915   002F12  0E00               	movlw	0
+   916   002F14  6FD8               	movwf	216,b	;volatile
+   917                           
+   918                           ;mcc_generated_files/adc.c: 80:     ADCTX = 0x0;
+   919   002F16  0E00               	movlw	0
+   920   002F18  6FFB               	movwf	251,b	;volatile
+   921                           
+   922                           ;mcc_generated_files/adc.c: 83:     ADLTHL = 0x00;
+   923   002F1A  0E00               	movlw	0
+   924   002F1C  6FD9               	movwf	217,b	;volatile
+   925                           
+   926                           ;mcc_generated_files/adc.c: 86:     ADLTHH = 0x00;
+   927   002F1E  0E00               	movlw	0
+   928   002F20  6FDA               	movwf	218,b	;volatile
+   929                           
+   930                           ;mcc_generated_files/adc.c: 89:     ADUTHL = 0x00;
+   931   002F22  0E00               	movlw	0
+   932   002F24  6FDB               	movwf	219,b	;volatile
+   933                           
+   934                           ;mcc_generated_files/adc.c: 92:     ADUTHH = 0x00;
+   935   002F26  0E00               	movlw	0
+   936   002F28  6FDC               	movwf	220,b	;volatile
+   937                           
+   938                           ;mcc_generated_files/adc.c: 95:     ADSTPTL = 0x00;
+   939   002F2A  0E00               	movlw	0
+   940   002F2C  6FDF               	movwf	223,b	;volatile
+   941                           
+   942                           ;mcc_generated_files/adc.c: 98:     ADSTPTH = 0x00;
+   943   002F2E  0E00               	movlw	0
+   944   002F30  6FE0               	movwf	224,b	;volatile
+   945                           
+   946                           ;mcc_generated_files/adc.c: 101:     ADACCL = 0x00;
+   947   002F32  0E00               	movlw	0
+   948   002F34  6FE3               	movwf	227,b	;volatile
+   949                           
+   950                           ;mcc_generated_files/adc.c: 104:     ADACCH = 0x00;
+   951   002F36  0E00               	movlw	0
+   952   002F38  6FE4               	movwf	228,b	;volatile
+   953                           
+   954                           ;mcc_generated_files/adc.c: 107:     ADACCU = 0x00;
+   955   002F3A  0E00               	movlw	0
+   956   002F3C  6FE5               	movwf	229,b	;volatile
+   957                           
+   958                           ;mcc_generated_files/adc.c: 110:     ADCNT = 0x00;
+   959   002F3E  0E00               	movlw	0
+   960   002F40  6FE6               	movwf	230,b	;volatile
+   961                           
+   962                           ;mcc_generated_files/adc.c: 113:     ADRPT = 0x00;
+   963   002F42  0E00               	movlw	0
+   964   002F44  6FE7               	movwf	231,b	;volatile
+   965                           
+   966                           ;mcc_generated_files/adc.c: 116:     ADRESL = 0x00;
+   967   002F46  0E00               	movlw	0
+   968   002F48  6FEA               	movwf	234,b	;volatile
+   969                           
+   970                           ;mcc_generated_files/adc.c: 119:     ADRESH = 0x00;
+   971   002F4A  0E00               	movlw	0
+   972   002F4C  6FEB               	movwf	235,b	;volatile
+   973                           
+   974                           ;mcc_generated_files/adc.c: 122:     ADPCH = 0x00;
+   975   002F4E  0E00               	movlw	0
+   976   002F50  6FEC               	movwf	236,b	;volatile
+   977                           
+   978                           ;mcc_generated_files/adc.c: 125:     ADACQL = 0x00;
+   979   002F52  0E00               	movlw	0
+   980   002F54  6FEE               	movwf	238,b	;volatile
+   981                           
+   982                           ;mcc_generated_files/adc.c: 128:     ADACQH = 0x00;
+   983   002F56  0E00               	movlw	0
+   984   002F58  6FEF               	movwf	239,b	;volatile
+   985                           
+   986                           ;mcc_generated_files/adc.c: 131:     ADCAP = 0x00;
+   987   002F5A  0E00               	movlw	0
+   988   002F5C  6FF0               	movwf	240,b	;volatile
+   989                           
+   990                           ;mcc_generated_files/adc.c: 134:     ADPREL = 0x00;
+   991   002F5E  0E00               	movlw	0
+   992   002F60  6FF1               	movwf	241,b	;volatile
+   993                           
+   994                           ;mcc_generated_files/adc.c: 137:     ADPREH = 0x00;
+   995   002F62  0E00               	movlw	0
+   996   002F64  6FF2               	movwf	242,b	;volatile
+   997                           
+   998                           ;mcc_generated_files/adc.c: 140:     ADCON0 = 0x00;
+   999   002F66  0E00               	movlw	0
+  1000   002F68  6FF3               	movwf	243,b	;volatile
+  1001                           
+  1002                           ;mcc_generated_files/adc.c: 143:     ADCON1 = 0x00;
+  1003   002F6A  0E00               	movlw	0
+  1004   002F6C  6FF4               	movwf	244,b	;volatile
+  1005                           
+  1006                           ;mcc_generated_files/adc.c: 146:     ADCON2 = 0x10;
+  1007   002F6E  0E10               	movlw	16
+  1008   002F70  6FF5               	movwf	245,b	;volatile
+  1009                           
+  1010                           ;mcc_generated_files/adc.c: 149:     ADCON3 = 0x00;
+  1011   002F72  0E00               	movlw	0
+  1012   002F74  6FF6               	movwf	246,b	;volatile
+  1013                           
+  1014                           ;mcc_generated_files/adc.c: 152:     ADSTAT = 0x00;
+  1015   002F76  0E00               	movlw	0
+  1016   002F78  6FF7               	movwf	247,b	;volatile
+  1017                           
+  1018                           ;mcc_generated_files/adc.c: 155:     ADREF = 0x03;
+  1019   002F7A  0E03               	movlw	3
+  1020   002F7C  6FF8               	movwf	248,b	;volatile
+  1021                           
+  1022                           ;mcc_generated_files/adc.c: 158:     ADCSEL1 = 0x00;
+  1023   002F7E  0E00               	movlw	0
+  1024   002F80  6FFC               	movwf	252,b	;volatile
+  1025   002F82                     
+  1026                           ; BSR set to: 3
+  1027                           ;mcc_generated_files/adc.c: 161:     PIR1bits.ADIF = 0;
+  1028   002F82  94AF               	bcf	175,2,c	;volatile
+  1029   002F84                     
+  1030                           ; BSR set to: 3
+  1031                           ;mcc_generated_files/adc.c: 164:     PIR1bits.ACTIF = 0;
+  1032   002F84  96AF               	bcf	175,3,c	;volatile
+  1033   002F86                     
+  1034                           ; BSR set to: 3
+  1035                           ;mcc_generated_files/adc.c: 167:     PIR2bits.ADCH1IF = 0;
+  1036   002F86  90B0               	bcf	176,0,c	;volatile
+  1037   002F88                     
+  1038                           ; BSR set to: 3
+  1039                           ;mcc_generated_files/adc.c: 171:     ADC_SetADIInterruptHandler(ADC_DefaultADI_ISR);
+  1040   002F88  0E00               	movlw	0
+  1041   002F8A  6E01               	movwf	ADC_SetADIInterruptHandler@InterruptHandler^(0+1280),c
+  1042   002F8C  0E00               	movlw	0
+  1043   002F8E  6E02               	movwf	(ADC_SetADIInterruptHandler@InterruptHandler+1)^(0+1280),c
+  1044   002F90  EC7F  F018         	call	_ADC_SetADIInterruptHandler	;wreg free
+  1045   002F94                     
+  1046                           ;mcc_generated_files/adc.c: 172:     ADC_SetContext1ThresholdInterruptHandler(ADC_Defaul
+      +                          tContext1Threshold_ISR);
+  1047   002F94  0E00               	movlw	0
+  1048   002F96  6E01               	movwf	ADC_SetContext1ThresholdInterruptHandler@InterruptHandler^(0+1280),c
+  1049   002F98  0E00               	movlw	0
+  1050   002F9A  6E02               	movwf	(ADC_SetContext1ThresholdInterruptHandler@InterruptHandler+1)^(0+1280),c
+  1051   002F9C  EC75  F018         	call	_ADC_SetContext1ThresholdInterruptHandler	;wreg free
+  1052   002FA0                     
+  1053                           ;mcc_generated_files/adc.c: 173:     ADC_SetActiveClockTuningInterruptHandler(ADC_Defaul
+      +                          tActiveClockTuning_ISR);
+  1054   002FA0  0E00               	movlw	0
+  1055   002FA2  6E01               	movwf	ADC_SetActiveClockTuningInterruptHandler@InterruptHandler^(0+1280),c
+  1056   002FA4  0E00               	movlw	0
+  1057   002FA6  6E02               	movwf	(ADC_SetActiveClockTuningInterruptHandler@InterruptHandler+1)^(0+1280),c
+  1058   002FA8  EC7A  F018         	call	_ADC_SetActiveClockTuningInterruptHandler	;wreg free
+  1059   002FAC                     
+  1060                           ;mcc_generated_files/adc.c: 176:     ADCON0 = 0x84;
+  1061   002FAC  0E84               	movlw	132
+  1062   002FAE  0103               	movlb	3	; () banked
+  1063   002FB0  6FF3               	movwf	243,b	;volatile
+  1064   002FB2                     
+  1065                           ; BSR set to: 3
+  1066   002FB2  0012               	return		;funcret
+  1067   002FB4                     __end_of_ADC_Initialize:
+  1068                           	callstack 0
+  1069                           
+  1070 ;; *************** function _ADC_SetContext1ThresholdInterruptHandler *****************
+  1071 ;; Defined at:
+  1072 ;;		line 423 in file "mcc_generated_files/adc.c"
+  1073 ;; Parameters:    Size  Location     Type
+  1074 ;;  InterruptHan    2    0[COMRAM] PTR FTN()void 
+  1075 ;;		 -> ADC_DefaultContext1Threshold_ISR(1), 
+  1076 ;; Auto vars:     Size  Location     Type
+  1077 ;;		None
+  1078 ;; Return value:  Size  Location     Type
+  1079 ;;                  1    wreg      void 
+  1080 ;; Registers used:
+  1081 ;;		wreg, status,2, status,0
+  1082 ;; Tracked objects:
+  1083 ;;		On entry : 0/0
+  1084 ;;		On exit  : 0/0
+  1085 ;;		Unchanged: 0/0
+  1086 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+  1087 ;;      Params:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1088 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1089 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1090 ;;      Totals:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1091 ;;Total ram usage:        2 bytes
+  1092 ;; Hardware stack levels used: 1
+  1093 ;; This function calls:
+  1094 ;;		Nothing
+  1095 ;; This function is called by:
+  1096 ;;		_ADC_Initialize
+  1097 ;; This function uses a non-reentrant model
+  1098 ;;
+  1099                           
+  1100                           	psect	text8
+  1101   0030EA                     __ptext8:
+  1102                           	callstack 0
+  1103   0030EA                     _ADC_SetContext1ThresholdInterruptHandler:
+  1104                           	callstack 124
+  1105   0030EA                     
+  1106                           ;mcc_generated_files/adc.c: 423: void ADC_SetContext1ThresholdInterruptHandler(void (* I
+      +                          nterruptHandler)(void));mcc_generated_files/adc.c: 424: {;mcc_generated_files/adc.c: 425
+      +                          :     ADC_Context1Thereshld_ISR = InterruptHandler;
+  1107   0030EA  C501  F528         	movff	ADC_SetContext1ThresholdInterruptHandler@InterruptHandler,_ADC_Context1Thereshld_
+      +                          ISR
+  1108   0030EE  C502  F529         	movff	ADC_SetContext1ThresholdInterruptHandler@InterruptHandler+1,_ADC_Context1Thereshl
+      +                          d_ISR+1
+  1109   0030F2  0012               	return		;funcret
+  1110   0030F4                     __end_of_ADC_SetContext1ThresholdInterruptHandler:
+  1111                           	callstack 0
+  1112                           
+  1113 ;; *************** function _ADC_SetActiveClockTuningInterruptHandler *****************
+  1114 ;; Defined at:
+  1115 ;;		line 428 in file "mcc_generated_files/adc.c"
+  1116 ;; Parameters:    Size  Location     Type
+  1117 ;;  InterruptHan    2    0[COMRAM] PTR FTN()void 
+  1118 ;;		 -> ADC_DefaultActiveClockTuning_ISR(1), 
+  1119 ;; Auto vars:     Size  Location     Type
+  1120 ;;		None
+  1121 ;; Return value:  Size  Location     Type
+  1122 ;;                  1    wreg      void 
+  1123 ;; Registers used:
+  1124 ;;		wreg, status,2, status,0
+  1125 ;; Tracked objects:
+  1126 ;;		On entry : 0/0
+  1127 ;;		On exit  : 0/0
+  1128 ;;		Unchanged: 0/0
+  1129 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+  1130 ;;      Params:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1131 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1132 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1133 ;;      Totals:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1134 ;;Total ram usage:        2 bytes
+  1135 ;; Hardware stack levels used: 1
+  1136 ;; This function calls:
+  1137 ;;		Nothing
+  1138 ;; This function is called by:
+  1139 ;;		_ADC_Initialize
+  1140 ;; This function uses a non-reentrant model
+  1141 ;;
+  1142                           
+  1143                           	psect	text9
+  1144   0030F4                     __ptext9:
+  1145                           	callstack 0
+  1146   0030F4                     _ADC_SetActiveClockTuningInterruptHandler:
+  1147                           	callstack 124
+  1148   0030F4                     
+  1149                           ;mcc_generated_files/adc.c: 428: void ADC_SetActiveClockTuningInterruptHandler(void (* I
+      +                          nterruptHandler)(void));mcc_generated_files/adc.c: 429: {;mcc_generated_files/adc.c: 430
+      +                          :     ADC_ActiveClockTuning_ISR = InterruptHandler;
+  1150   0030F4  C501  F526         	movff	ADC_SetActiveClockTuningInterruptHandler@InterruptHandler,_ADC_ActiveClockTuning_
+      +                          ISR
+  1151   0030F8  C502  F527         	movff	ADC_SetActiveClockTuningInterruptHandler@InterruptHandler+1,_ADC_ActiveClockTunin
+      +                          g_ISR+1
+  1152   0030FC  0012               	return		;funcret
+  1153   0030FE                     __end_of_ADC_SetActiveClockTuningInterruptHandler:
+  1154                           	callstack 0
+  1155                           
+  1156 ;; *************** function _ADC_SetADIInterruptHandler *****************
+  1157 ;; Defined at:
+  1158 ;;		line 418 in file "mcc_generated_files/adc.c"
+  1159 ;; Parameters:    Size  Location     Type
+  1160 ;;  InterruptHan    2    0[COMRAM] PTR FTN()void 
+  1161 ;;		 -> ADC_DefaultADI_ISR(1), 
+  1162 ;; Auto vars:     Size  Location     Type
+  1163 ;;		None
+  1164 ;; Return value:  Size  Location     Type
+  1165 ;;                  1    wreg      void 
+  1166 ;; Registers used:
+  1167 ;;		wreg, status,2, status,0
+  1168 ;; Tracked objects:
+  1169 ;;		On entry : 0/0
+  1170 ;;		On exit  : 0/0
+  1171 ;;		Unchanged: 0/0
+  1172 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+  1173 ;;      Params:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1174 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1175 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1176 ;;      Totals:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1177 ;;Total ram usage:        2 bytes
+  1178 ;; Hardware stack levels used: 1
+  1179 ;; This function calls:
+  1180 ;;		Nothing
+  1181 ;; This function is called by:
+  1182 ;;		_ADC_Initialize
+  1183 ;; This function uses a non-reentrant model
+  1184 ;;
+  1185                           
+  1186                           	psect	text10
+  1187   0030FE                     __ptext10:
+  1188                           	callstack 0
+  1189   0030FE                     _ADC_SetADIInterruptHandler:
+  1190                           	callstack 124
+  1191   0030FE                     
+  1192                           ;mcc_generated_files/adc.c: 418: void ADC_SetADIInterruptHandler(void (* InterruptHandle
+      +                          r)(void));mcc_generated_files/adc.c: 419: {;mcc_generated_files/adc.c: 420:     ADC_Conv
+      +                          ersionComplete_ISR = InterruptHandler;
+  1193   0030FE  C501  F52A         	movff	ADC_SetADIInterruptHandler@InterruptHandler,_ADC_ConversionComplete_ISR
+  1194   003102  C502  F52B         	movff	ADC_SetADIInterruptHandler@InterruptHandler+1,_ADC_ConversionComplete_ISR+1
+  1195   003106  0012               	return		;funcret
+  1196   003108                     __end_of_ADC_SetADIInterruptHandler:
+  1197                           	callstack 0
+  1198                           
+  1199 ;; *************** function _ADC_SelectContext *****************
+  1200 ;; Defined at:
+  1201 ;;		line 194 in file "mcc_generated_files/adc.c"
+  1202 ;; Parameters:    Size  Location     Type
+  1203 ;;  context         1    wreg     enum E22183
+  1204 ;; Auto vars:     Size  Location     Type
+  1205 ;;  context         1    0[COMRAM] enum E22183
+  1206 ;; Return value:  Size  Location     Type
+  1207 ;;                  1    wreg      void 
+  1208 ;; Registers used:
+  1209 ;;		wreg
+  1210 ;; Tracked objects:
+  1211 ;;		On entry : 0/0
+  1212 ;;		On exit  : 0/0
+  1213 ;;		Unchanged: 0/0
+  1214 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+  1215 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1216 ;;      Locals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1217 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1218 ;;      Totals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1219 ;;Total ram usage:        1 bytes
+  1220 ;; Hardware stack levels used: 1
+  1221 ;; This function calls:
+  1222 ;;		Nothing
+  1223 ;; This function is called by:
+  1224 ;;		_main
+  1225 ;; This function uses a non-reentrant model
+  1226 ;;
+  1227                           
+  1228                           	psect	text11
+  1229   003110                     __ptext11:
+  1230                           	callstack 0
+  1231   003110                     _ADC_SelectContext:
+  1232                           	callstack 126
+  1233                           
+  1234                           ;incstack = 0
+  1235                           ;ADC_SelectContext@context stored from wreg
+  1236   003110  6E01               	movwf	ADC_SelectContext@context^(0+1280),c
+  1237   003112                     
+  1238                           ;mcc_generated_files/adc.c: 194: __attribute__((inline)) void ADC_SelectContext(ADC_cont
+      +                          ext_t context);mcc_generated_files/adc.c: 195: {;mcc_generated_files/adc.c: 196:     ADC
+      +                          TX = context;
+  1239   003112  C501  F3FB         	movff	ADC_SelectContext@context,1019	;volatile
+  1240   003116  0012               	return		;funcret
+  1241   003118                     __end_of_ADC_SelectContext:
+  1242                           	callstack 0
+  1243                           
+  1244 ;; *************** function _ADC_GetSingleConversion *****************
+  1245 ;; Defined at:
+  1246 ;;		line 246 in file "mcc_generated_files/adc.c"
+  1247 ;; Parameters:    Size  Location     Type
+  1248 ;;  channel         1    wreg     enum E22160
+  1249 ;; Auto vars:     Size  Location     Type
+  1250 ;;  channel         1    4[COMRAM] enum E22160
+  1251 ;; Return value:  Size  Location     Type
+  1252 ;;                  2    0[COMRAM] unsigned short 
+  1253 ;; Registers used:
+  1254 ;;		wreg, status,2, status,0
+  1255 ;; Tracked objects:
+  1256 ;;		On entry : 0/0
+  1257 ;;		On exit  : 0/0
+  1258 ;;		Unchanged: 0/0
+  1259 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+  1260 ;;      Params:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1261 ;;      Locals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1262 ;;      Temps:          2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1263 ;;      Totals:         5       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1264 ;;Total ram usage:        5 bytes
+  1265 ;; Hardware stack levels used: 1
+  1266 ;; This function calls:
+  1267 ;;		Nothing
+  1268 ;; This function is called by:
+  1269 ;;		_main
+  1270 ;; This function uses a non-reentrant model
+  1271 ;;
+  1272                           
+  1273                           	psect	text12
+  1274   003046                     __ptext12:
+  1275                           	callstack 0
+  1276   003046                     _ADC_GetSingleConversion:
+  1277                           	callstack 126
+  1278                           
+  1279                           ;incstack = 0
+  1280                           ;ADC_GetSingleConversion@channel stored from wreg
+  1281   003046  6E05               	movwf	ADC_GetSingleConversion@channel^(0+1280),c
+  1282   003048                     
+  1283                           ;mcc_generated_files/adc.c: 246: adc_result_t ADC_GetSingleConversion(ADC_channel_t chan
+      +                          nel);mcc_generated_files/adc.c: 247: {;mcc_generated_files/adc.c: 249:     ADPCH = chann
+      +                          el;
+  1284   003048  C505  F3EC         	movff	ADC_GetSingleConversion@channel,1004	;volatile
+  1285   00304C                     
+  1286                           ;mcc_generated_files/adc.c: 252:     ADCON0bits.ON = 1;
+  1287   00304C  0103               	movlb	3	; () banked
+  1288   00304E  8FF3               	bsf	243,7,b	;volatile
+  1289   003050                     
+  1290                           ; BSR set to: 3
+  1291                           ;mcc_generated_files/adc.c: 255:     ADCON0bits.CONT = 0;
+  1292   003050  9DF3               	bcf	243,6,b	;volatile
+  1293   003052                     
+  1294                           ; BSR set to: 3
+  1295                           ;mcc_generated_files/adc.c: 258:     ADCON0bits.GO = 1;
+  1296   003052  81F3               	bsf	243,0,b	;volatile
+  1297   003054                     l149:
+  1298                           
+  1299                           ; BSR set to: 3
+  1300                           ;mcc_generated_files/adc.c: 261:     while(ADCON0bits.GO)
+  1301   003054  B1F3               	btfsc	243,0,b	;volatile
+  1302   003056  EF2F  F018         	goto	u141
+  1303   00305A  EF31  F018         	goto	u140
+  1304   00305E                     u141:
+  1305   00305E  EF2A  F018         	goto	l149
+  1306   003062                     u140:
+  1307   003062                     
+  1308                           ; BSR set to: 3
+  1309                           ;mcc_generated_files/adc.c: 266:     return ((adc_result_t) ((ADRESH << 8) + ADRESL));
+  1310   003062  51EB               	movf	235,w,b	;volatile
+  1311   003064  6E04               	movwf	(??_ADC_GetSingleConversion+1)^(0+1280),c
+  1312   003066  6A03               	clrf	??_ADC_GetSingleConversion^(0+1280),c
+  1313   003068  51EA               	movf	234,w,b	;volatile
+  1314   00306A  2403               	addwf	??_ADC_GetSingleConversion^(0+1280),w,c
+  1315   00306C  6E01               	movwf	?_ADC_GetSingleConversion^(0+1280),c
+  1316   00306E  0E00               	movlw	0
+  1317   003070  2004               	addwfc	(??_ADC_GetSingleConversion+1)^(0+1280),w,c
+  1318   003072  6E02               	movwf	(?_ADC_GetSingleConversion+1)^(0+1280),c
+  1319   003074                     
+  1320                           ; BSR set to: 3
+  1321   003074  0012               	return		;funcret
+  1322   003076                     __end_of_ADC_GetSingleConversion:
+  1323                           	callstack 0
+  1324                           
+  1325 ;; *************** function _ADC_EnableChannelScan *****************
+  1326 ;; Defined at:
+  1327 ;;		line 199 in file "mcc_generated_files/adc.c"
+  1328 ;; Parameters:    Size  Location     Type
+  1329 ;;  context         1    wreg     enum E22183
+  1330 ;; Auto vars:     Size  Location     Type
+  1331 ;;  context         1    2[COMRAM] enum E22183
+  1332 ;; Return value:  Size  Location     Type
+  1333 ;;                  1    wreg      void 
+  1334 ;; Registers used:
+  1335 ;;		wreg, status,2, status,0
+  1336 ;; Tracked objects:
+  1337 ;;		On entry : 0/0
+  1338 ;;		On exit  : 0/0
+  1339 ;;		Unchanged: 0/0
+  1340 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+  1341 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1342 ;;      Locals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1343 ;;      Temps:          2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1344 ;;      Totals:         3       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1345 ;;Total ram usage:        3 bytes
+  1346 ;; Hardware stack levels used: 1
+  1347 ;; This function calls:
+  1348 ;;		Nothing
+  1349 ;; This function is called by:
+  1350 ;;		_main
+  1351 ;; This function uses a non-reentrant model
+  1352 ;;
+  1353                           
+  1354                           	psect	text13
+  1355   003014                     __ptext13:
+  1356                           	callstack 0
+  1357   003014                     _ADC_EnableChannelScan:
+  1358                           	callstack 126
+  1359                           
+  1360                           ; BSR set to: 3
+  1361                           ;incstack = 0
+  1362                           ;ADC_EnableChannelScan@context stored from wreg
+  1363   003014  6E03               	movwf	ADC_EnableChannelScan@context^(0+1280),c
+  1364   003016                     
+  1365                           ;mcc_generated_files/adc.c: 199: void ADC_EnableChannelScan(ADC_context_t context);mcc_g
+      +                          enerated_files/adc.c: 200: {;mcc_generated_files/adc.c: 201:     switch (context)
+  1366   003016  EF11  F018         	goto	l1196
+  1367   00301A                     l127:
+  1368                           
+  1369                           ;mcc_generated_files/adc.c: 204:         ADCSEL1bits.CHEN = 1;
+  1370   00301A  0103               	movlb	3	; () banked
+  1371   00301C  8FFC               	bsf	252,7,b	;volatile
+  1372                           
+  1373                           ;mcc_generated_files/adc.c: 205:         break;
+  1374   00301E  EF22  F018         	goto	l130
+  1375   003022                     l1196:
+  1376   003022  5003               	movf	ADC_EnableChannelScan@context^(0+1280),w,c
+  1377   003024  6E01               	movwf	??_ADC_EnableChannelScan^(0+1280),c
+  1378   003026  6A02               	clrf	(??_ADC_EnableChannelScan+1)^(0+1280),c
+  1379                           
+  1380                           ; Switch on 2 bytes has been partitioned into a top level switch of size 1, and 1 sub-sw
+      +                          itches
+  1381                           ; Switch size 1, requested type "simple"
+  1382                           ; Number of cases is 1, Range of values is 0 to 0
+  1383                           ; switch strategies available:
+  1384                           ; Name         Instructions Cycles
+  1385                           ; simple_byte            4     3 (average)
+  1386                           ;	Chosen strategy is simple_byte
+  1387   003028  5002               	movf	(??_ADC_EnableChannelScan+1)^(0+1280),w,c
+  1388   00302A  0A00               	xorlw	0	; case 0
+  1389   00302C  B4D8               	btfsc	status,2,c
+  1390   00302E  EF1B  F018         	goto	l1562
+  1391   003032  EF22  F018         	goto	l130
+  1392   003036                     l1562:
+  1393                           
+  1394                           ; Switch size 1, requested type "simple"
+  1395                           ; Number of cases is 1, Range of values is 0 to 0
+  1396                           ; switch strategies available:
+  1397                           ; Name         Instructions Cycles
+  1398                           ; simple_byte            4     3 (average)
+  1399                           ;	Chosen strategy is simple_byte
+  1400   003036  5001               	movf	??_ADC_EnableChannelScan^(0+1280),w,c
+  1401   003038  0A00               	xorlw	0	; case 0
+  1402   00303A  B4D8               	btfsc	status,2,c
+  1403   00303C  EF0D  F018         	goto	l127
+  1404   003040  EF22  F018         	goto	l130
+  1405   003044                     l130:
+  1406   003044  0012               	return		;funcret
+  1407   003046                     __end_of_ADC_EnableChannelScan:
+  1408                           	callstack 0
+  1409                           
+  1410 ;; *************** function _ADC_DisableChannelSequencer *****************
+  1411 ;; Defined at:
+  1412 ;;		line 184 in file "mcc_generated_files/adc.c"
+  1413 ;; Parameters:    Size  Location     Type
+  1414 ;;		None
+  1415 ;; Auto vars:     Size  Location     Type
+  1416 ;;		None
+  1417 ;; Return value:  Size  Location     Type
+  1418 ;;                  1    wreg      void 
+  1419 ;; Registers used:
+  1420 ;;		None
+  1421 ;; Tracked objects:
+  1422 ;;		On entry : 0/0
+  1423 ;;		On exit  : 0/0
+  1424 ;;		Unchanged: 0/0
+  1425 ;; Data sizes:     COMRAM   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15  BANK1
+      +6  BANK17  BANK18  BANK19  BANK20  BANK21  BANK22  BANK23  BANK24  BANK25  BANK26  BANK27  BANK28  BANK29  BANK30  BANK3
+      +1  BANK32  BANK33  BANK34  BANK35  BANK36
+  1426 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1427 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1428 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1429 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0       0
+  1430 ;;Total ram usage:        0 bytes
+  1431 ;; Hardware stack levels used: 1
+  1432 ;; This function calls:
+  1433 ;;		Nothing
+  1434 ;; This function is called by:
+  1435 ;;		_main
+  1436 ;; This function uses a non-reentrant model
+  1437 ;;
+  1438                           
+  1439                           	psect	text14
+  1440   00311E                     __ptext14:
+  1441                           	callstack 0
+  1442   00311E                     _ADC_DisableChannelSequencer:
+  1443                           	callstack 126
+  1444   00311E                     
+  1445                           ;mcc_generated_files/adc.c: 186:     ADCON0bits.CSEN = 0;
+  1446   00311E  0103               	movlb	3	; () banked
+  1447   003120  9BF3               	bcf	243,5,b	;volatile
+  1448   003122                     
+  1449                           ; BSR set to: 3
+  1450   003122  0012               	return		;funcret
+  1451   003124                     __end_of_ADC_DisableChannelSequencer:
+  1452                           	callstack 0
+  1453                           
+  1454                           	psect	rparam
+  1455   000000                     
+  1456                           	psect	idloc
+  1457                           
+  1458                           ;Config register IDLOC0 @ 0x200000
+  1459                           ;	unspecified, using default values
+  1460   200000                     	org	2097152
+  1461   200000  FFFF               	dw	65535
+  1462                           
+  1463                           ;Config register IDLOC1 @ 0x200002
+  1464                           ;	unspecified, using default values
+  1465   200002                     	org	2097154
+  1466   200002  FFFF               	dw	65535
+  1467                           
+  1468                           ;Config register IDLOC2 @ 0x200004
+  1469                           ;	unspecified, using default values
+  1470   200004                     	org	2097156
+  1471   200004  FFFF               	dw	65535
+  1472                           
+  1473                           ;Config register IDLOC3 @ 0x200006
+  1474                           ;	unspecified, using default values
+  1475   200006                     	org	2097158
+  1476   200006  FFFF               	dw	65535
+  1477                           
+  1478                           ;Config register IDLOC4 @ 0x200008
+  1479                           ;	unspecified, using default values
+  1480   200008                     	org	2097160
+  1481   200008  FFFF               	dw	65535
+  1482                           
+  1483                           ;Config register IDLOC5 @ 0x20000A
+  1484                           ;	unspecified, using default values
+  1485   20000A                     	org	2097162
+  1486   20000A  FFFF               	dw	65535
+  1487                           
+  1488                           ;Config register IDLOC6 @ 0x20000C
+  1489                           ;	unspecified, using default values
+  1490   20000C                     	org	2097164
+  1491   20000C  FFFF               	dw	65535
+  1492                           
+  1493                           ;Config register IDLOC7 @ 0x20000E
+  1494                           ;	unspecified, using default values
+  1495   20000E                     	org	2097166
+  1496   20000E  FFFF               	dw	65535
+  1497                           
+  1498                           ;Config register IDLOC8 @ 0x200010
+  1499                           ;	unspecified, using default values
+  1500   200010                     	org	2097168
+  1501   200010  FFFF               	dw	65535
+  1502                           
+  1503                           ;Config register IDLOC9 @ 0x200012
+  1504                           ;	unspecified, using default values
+  1505   200012                     	org	2097170
+  1506   200012  FFFF               	dw	65535
+  1507                           
+  1508                           ;Config register IDLOC10 @ 0x200014
+  1509                           ;	unspecified, using default values
+  1510   200014                     	org	2097172
+  1511   200014  FFFF               	dw	65535
+  1512                           
+  1513                           ;Config register IDLOC11 @ 0x200016
+  1514                           ;	unspecified, using default values
+  1515   200016                     	org	2097174
+  1516   200016  FFFF               	dw	65535
+  1517                           
+  1518                           ;Config register IDLOC12 @ 0x200018
+  1519                           ;	unspecified, using default values
+  1520   200018                     	org	2097176
+  1521   200018  FFFF               	dw	65535
+  1522                           
+  1523                           ;Config register IDLOC13 @ 0x20001A
+  1524                           ;	unspecified, using default values
+  1525   20001A                     	org	2097178
+  1526   20001A  FFFF               	dw	65535
+  1527                           
+  1528                           ;Config register IDLOC14 @ 0x20001C
+  1529                           ;	unspecified, using default values
+  1530   20001C                     	org	2097180
+  1531   20001C  FFFF               	dw	65535
+  1532                           
+  1533                           ;Config register IDLOC15 @ 0x20001E
+  1534                           ;	unspecified, using default values
+  1535   20001E                     	org	2097182
+  1536   20001E  FFFF               	dw	65535
+  1537                           
+  1538                           ;Config register IDLOC16 @ 0x200020
+  1539                           ;	unspecified, using default values
+  1540   200020                     	org	2097184
+  1541   200020  FFFF               	dw	65535
+  1542                           
+  1543                           ;Config register IDLOC17 @ 0x200022
+  1544                           ;	unspecified, using default values
+  1545   200022                     	org	2097186
+  1546   200022  FFFF               	dw	65535
+  1547                           
+  1548                           ;Config register IDLOC18 @ 0x200024
+  1549                           ;	unspecified, using default values
+  1550   200024                     	org	2097188
+  1551   200024  FFFF               	dw	65535
+  1552                           
+  1553                           ;Config register IDLOC19 @ 0x200026
+  1554                           ;	unspecified, using default values
+  1555   200026                     	org	2097190
+  1556   200026  FFFF               	dw	65535
+  1557                           
+  1558                           ;Config register IDLOC20 @ 0x200028
+  1559                           ;	unspecified, using default values
+  1560   200028                     	org	2097192
+  1561   200028  FFFF               	dw	65535
+  1562                           
+  1563                           ;Config register IDLOC21 @ 0x20002A
+  1564                           ;	unspecified, using default values
+  1565   20002A                     	org	2097194
+  1566   20002A  FFFF               	dw	65535
+  1567                           
+  1568                           ;Config register IDLOC22 @ 0x20002C
+  1569                           ;	unspecified, using default values
+  1570   20002C                     	org	2097196
+  1571   20002C  FFFF               	dw	65535
+  1572                           
+  1573                           ;Config register IDLOC23 @ 0x20002E
+  1574                           ;	unspecified, using default values
+  1575   20002E                     	org	2097198
+  1576   20002E  FFFF               	dw	65535
+  1577                           
+  1578                           ;Config register IDLOC24 @ 0x200030
+  1579                           ;	unspecified, using default values
+  1580   200030                     	org	2097200
+  1581   200030  FFFF               	dw	65535
+  1582                           
+  1583                           ;Config register IDLOC25 @ 0x200032
+  1584                           ;	unspecified, using default values
+  1585   200032                     	org	2097202
+  1586   200032  FFFF               	dw	65535
+  1587                           
+  1588                           ;Config register IDLOC26 @ 0x200034
+  1589                           ;	unspecified, using default values
+  1590   200034                     	org	2097204
+  1591   200034  FFFF               	dw	65535
+  1592                           
+  1593                           ;Config register IDLOC27 @ 0x200036
+  1594                           ;	unspecified, using default values
+  1595   200036                     	org	2097206
+  1596   200036  FFFF               	dw	65535
+  1597                           
+  1598                           ;Config register IDLOC28 @ 0x200038
+  1599                           ;	unspecified, using default values
+  1600   200038                     	org	2097208
+  1601   200038  FFFF               	dw	65535
+  1602                           
+  1603                           ;Config register IDLOC29 @ 0x20003A
+  1604                           ;	unspecified, using default values
+  1605   20003A                     	org	2097210
+  1606   20003A  FFFF               	dw	65535
+  1607                           
+  1608                           ;Config register IDLOC30 @ 0x20003C
+  1609                           ;	unspecified, using default values
+  1610   20003C                     	org	2097212
+  1611   20003C  FFFF               	dw	65535
+  1612                           
+  1613                           ;Config register IDLOC31 @ 0x20003E
+  1614                           ;	unspecified, using default values
+  1615   20003E                     	org	2097214
+  1616   20003E  FFFF               	dw	65535
+  1617                           
+  1618                           	psect	config
+  1619                           
+  1620                           ;Config register CONFIG1 @ 0x300000
+  1621                           ;	External Oscillator Selection
+  1622                           ;	FEXTOSC = OFF, Oscillator not enabled
+  1623                           ;	Reset Oscillator Selection
+  1624                           ;	RSTOSC = EXTOSC, EXTOSC operating per FEXTOSC bits (device manufacturing default)
+  1625   300000                     	org	3145728
+  1626   300000  FC                 	db	252
+  1627                           
+  1628                           ;Config register CONFIG2 @ 0x300001
+  1629                           ;	Clock out Enable bit
+  1630                           ;	CLKOUTEN = OFF, CLKOUT function is disabled
+  1631                           ;	PRLOCKED One-Way Set Enable bit
+  1632                           ;	PR1WAY = ON, PRLOCKED bit can be cleared and set only once
+  1633                           ;	Clock Switch Enable bit
+  1634                           ;	CSWEN = ON, Writing to NOSC and NDIV is allowed
+  1635                           ;	JTAG Enable bit
+  1636                           ;	JTAGEN = OFF, Disable JTAG Boundary Scan mode, JTAG pins revert to user functions
+  1637                           ;	Fail-Safe Clock Monitor Enable bit
+  1638                           ;	FCMEN = ON, Fail-Safe Clock Monitor enabled
+  1639                           ;	Fail-Safe Clock Monitor -Primary XTAL Enable bit
+  1640                           ;	FCMENP = ON, FSCM timer will set FSCMP bit and OSFIF interrupt on Primary XTAL failure
+  1641                           ;	Fail-Safe Clock Monitor -Secondary XTAL Enable bit
+  1642                           ;	FCMENS = ON, FSCM timer will set FSCMS bit and OSFIF interrupt on Secondary XTAL failu
+      +                          re
+  1643   300001                     	org	3145729
+  1644   300001  EF                 	db	239
+  1645                           
+  1646                           ;Config register CONFIG3 @ 0x300002
+  1647                           ;	MCLR Enable bit
+  1648                           ;	MCLRE = EXTMCLR, If LVP = 0, MCLR pin is MCLR; If LVP = 1, RE3 pin function is MCLR
+  1649                           ;	Power-up timer selection bits
+  1650                           ;	PWRTS = PWRT_OFF, PWRT is disabled
+  1651                           ;	Multi-vector enable bit
+  1652                           ;	MVECEN = OFF, Interrupt contoller does not use vector table to prioritze interrupts
+  1653                           ;	IVTLOCK bit One-way set enable bit
+  1654                           ;	IVT1WAY = ON, IVTLOCKED bit can be cleared and set only once
+  1655                           ;	Low Power BOR Enable bit
+  1656                           ;	LPBOREN = OFF, Low-Power BOR disabled
+  1657                           ;	Brown-out Reset Enable bits
+  1658                           ;	BOREN = SBORDIS, Brown-out Reset enabled , SBOREN bit is ignored
+  1659   300002                     	org	3145730
+  1660   300002  F7                 	db	247
+  1661                           
+  1662                           ;Config register CONFIG4 @ 0x300003
+  1663                           ;	Brown-out Reset Voltage Selection bits
+  1664                           ;	BORV = VBOR_1P9, Brown-out Reset Voltage (VBOR) set to 1.9V
+  1665                           ;	ZCD Disable bit
+  1666                           ;	ZCD = OFF, ZCD module is disabled. ZCD can be enabled by setting the ZCDSEN bit of ZCD
+      +                          CON
+  1667                           ;	PPSLOCK bit One-Way Set Enable bit
+  1668                           ;	PPS1WAY = ON, PPSLOCKED bit can be cleared and set only once; PPS registers remain loc
+      +                          ked after one clear/set cycle
+  1669                           ;	Stack Full/Underflow Reset Enable bit
+  1670                           ;	STVREN = ON, Stack full/underflow will cause Reset
+  1671                           ;	Low Voltage Programming Enable bit
+  1672                           ;	LVP = ON, Low voltage programming enabled. MCLR/VPP pin function is MCLR. MCLRE config
+      +                          uration bit is ignored
+  1673                           ;	Extended Instruction Set Enable bit
+  1674                           ;	XINST = OFF, Extended Instruction Set and Indexed Addressing Mode disabled
+  1675   300003                     	org	3145731
+  1676   300003  FF                 	db	255
+  1677                           
+  1678                           ;Config register CONFIG5 @ 0x300004
+  1679                           ;	WDT Period selection bits
+  1680                           ;	WDTCPS = WDTCPS_31, Divider ratio 1:65536; software control of WDTPS
+  1681                           ;	WDT operating mode
+  1682                           ;	WDTE = OFF, WDT Disabled; SWDTEN is ignored
+  1683   300004                     	org	3145732
+  1684   300004  9F                 	db	159
+  1685                           
+  1686                           ;Config register CONFIG6 @ 0x300005
+  1687                           ;	WDT Window Select bits
+  1688                           ;	WDTCWS = WDTCWS_7, window always open (100%); software control; keyed access not requi
+      +                          red
+  1689                           ;	WDT input clock selector
+  1690                           ;	WDTCCS = SC, Software Control
+  1691   300005                     	org	3145733
+  1692   300005  FF                 	db	255
+  1693                           
+  1694                           ;Config register CONFIG7 @ 0x300006
+  1695                           ;	Boot Block Size selection bits
+  1696                           ;	BBSIZE = BBSIZE_512, Boot Block size is 512 words
+  1697                           ;	Boot Block enable bit
+  1698                           ;	BBEN = OFF, Boot block disabled
+  1699                           ;	Storage Area Flash enable bit
+  1700                           ;	SAFEN = OFF, SAF disabled
+  1701                           ;	Background Debugger
+  1702                           ;	DEBUG = 0x1, unprogrammed default
+  1703   300006                     	org	3145734
+  1704   300006  FF                 	db	255
+  1705                           
+  1706                           ;Config register CONFIG8 @ 0x300007
+  1707                           ;	Boot Block Write Protection bit
+  1708                           ;	WRTB = OFF, Boot Block not Write protected
+  1709                           ;	Configuration Register Write Protection bit
+  1710                           ;	WRTC = OFF, Configuration registers not Write protected
+  1711                           ;	Data EEPROM Write Protection bit
+  1712                           ;	WRTD = OFF, Data EEPROM not Write protected
+  1713                           ;	SAF Write protection bit
+  1714                           ;	WRTSAF = OFF, SAF not Write Protected
+  1715                           ;	Application Block write protection bit
+  1716                           ;	WRTAPP = OFF, Application Block not write protected
+  1717   300007                     	org	3145735
+  1718   300007  FF                 	db	255
+  1719                           
+  1720                           ;Config register CONFIG9 @ 0x300008
+  1721                           ;	CRC on boot output pin selection
+  1722                           ;	BOOTPINSEL = RC5, CRC on boot output pin is RC5
+  1723                           ;	CRC on boot output pin enable bit
+  1724                           ;	BPEN = OFF, CRC on boot output pin disabled
+  1725                           ;	CRC on boot output pin open drain bit
+  1726                           ;	ODCON = OFF, Pin drives both high-going and low-going signals
+  1727   300008                     	org	3145736
+  1728   300008  FF                 	db	255
+  1729                           
+  1730                           ;Config register CONFIG10 @ 0x300009
+  1731                           ;	PFM and Data EEPROM Code Protection bit
+  1732                           ;	CP = OFF, PFM and Data EEPROM code protection disabled
+  1733   300009                     	org	3145737
+  1734   300009  FF                 	db	255
+  1735                           
+  1736                           ;Config register CONFIG11 @ 0x30000A
+  1737                           ;	CRC on boot scan enable for boot area
+  1738                           ;	BOOTSCEN = OFF, CRC on boot will not include the boot area of program memory in its ca
+      +                          lculation
+  1739                           ;	CRC on boot Continue on Error for boot areas bit
+  1740                           ;	BOOTCOE = HALT, CRC on boot will stop device if error is detected in boot areas
+  1741                           ;	CRC on boot application code scan enable
+  1742                           ;	APPSCEN = OFF, CRC on boot will not include the application area of program memory in 
+      +                          its calculation
+  1743                           ;	CRC on boot SAF area scan enable
+  1744                           ;	SAFSCEN = OFF, CRC on boot will not include the SAF area of program memory in its calc
+      +                          ulation
+  1745                           ;	CRC on boot Data EEPROM scan enable
+  1746                           ;	DATASCEN = OFF, CRC on boot will not include data EEPROM in its calculation
+  1747                           ;	CRC on boot Config fuses scan enable
+  1748                           ;	CFGSCEN = OFF, CRC on boot will not include the configuration fuses in its calculation
+  1749                           ;	CRC on boot Continue on Error for non-boot areas bit
+  1750                           ;	COE = HALT, CRC on boot will stop device if error is detected in non-boot areas
+  1751                           ;	Boot on CRC Enable bit
+  1752                           ;	BOOTPOR = OFF, CRC on boot will not run
+  1753   30000A                     	org	3145738
+  1754   30000A  FF                 	db	255
+  1755                           
+  1756                           ;Config register CONFIG12 @ 0x30000B
+  1757                           ;	Boot Sector Polynomial for CRC on boot bits 31-24
+  1758                           ;	BCRCPOLT = hFF, Bits 31:24 of BCRCPOL are 0xFF
+  1759   30000B                     	org	3145739
+  1760   30000B  FF                 	db	255
+  1761                           
+  1762                           ;Config register CONFIG13 @ 0x30000C
+  1763                           ;	Boot Sector Polynomial for CRC on boot bits 23-16
+  1764                           ;	BCRCPOLU = hFF, Bits 23:16 of BCRCPOL are 0xFF
+  1765   30000C                     	org	3145740
+  1766   30000C  FF                 	db	255
+  1767                           
+  1768                           ;Config register CONFIG14 @ 0x30000D
+  1769                           ;	Boot Sector Polynomial for CRC on boot bits 15-8
+  1770                           ;	BCRCPOLH = hFF, Bits 15:8 of BCRCPOL are 0xFF
+  1771   30000D                     	org	3145741
+  1772   30000D  FF                 	db	255
+  1773                           
+  1774                           ;Config register CONFIG15 @ 0x30000E
+  1775                           ;	Boot Sector Polynomial for CRC on boot bits 7-0
+  1776                           ;	BCRCPOLL = hFF, Bits 7:0 of BCRCPOL are 0xFF
+  1777   30000E                     	org	3145742
+  1778   30000E  FF                 	db	255
+  1779                           
+  1780                           ;Config register CONFIG16 @ 0x30000F
+  1781                           ;	Boot Sector Seed for CRC on boot bits 31-24
+  1782                           ;	BCRCSEEDT = hFF, Bits 31:24 of BCRCSEED are 0xFF
+  1783   30000F                     	org	3145743
+  1784   30000F  FF                 	db	255
+  1785                           
+  1786                           ;Config register CONFIG17 @ 0x300010
+  1787                           ;	Boot Sector Seed for CRC on boot bits 23-16
+  1788                           ;	BCRCSEEDU = hFF, Bits 23:16 of BCRCSEED are 0xFF
+  1789   300010                     	org	3145744
+  1790   300010  FF                 	db	255
+  1791                           
+  1792                           ;Config register CONFIG18 @ 0x300011
+  1793                           ;	Boot Sector Seed for CRC on boot bits 15-8
+  1794                           ;	BCRCSEEDH = hFF, Bits 15:8 of BCRCSEED are 0xFF
+  1795   300011                     	org	3145745
+  1796   300011  FF                 	db	255
+  1797                           
+  1798                           ;Config register CONFIG19 @ 0x300012
+  1799                           ;	Boot Sector Seed for CRC on boot bits 7-0
+  1800                           ;	BCRCSEEDL = hFF, Bits 7:0 of BCRCSEED are 0xFF
+  1801   300012                     	org	3145746
+  1802   300012  FF                 	db	255
+  1803                           
+  1804                           ;Config register CONFIG20 @ 0x300013
+  1805                           ;	unspecified, using default values
+  1806                           ;	Boot Sector Expected Result for CRC on boot bits 31-24
+  1807                           ;	BCRCEREST = 0xFF, unprogrammed default
+  1808   300013                     	org	3145747
+  1809   300013  FF                 	db	255
+  1810                           
+  1811                           ;Config register CONFIG21 @ 0x300014
+  1812                           ;	unspecified, using default values
+  1813                           ;	Boot Sector Expected Result for CRC on boot bits 23-16
+  1814                           ;	BCRCERESU = 0xFF, unprogrammed default
+  1815   300014                     	org	3145748
+  1816   300014  FF                 	db	255
+  1817                           
+  1818                           ;Config register CONFIG22 @ 0x300015
+  1819                           ;	unspecified, using default values
+  1820                           ;	Boot Sector Expected Result for CRC on boot bits 15-8
+  1821                           ;	BCRCERESH = 0xFF, unprogrammed default
+  1822   300015                     	org	3145749
+  1823   300015  FF                 	db	255
+  1824                           
+  1825                           ;Config register CONFIG23 @ 0x300016
+  1826                           ;	unspecified, using default values
+  1827                           ;	Boot Sector Expected Result for CRC on boot bits 7-0
+  1828                           ;	BCRCERESL = 0xFF, unprogrammed default
+  1829   300016                     	org	3145750
+  1830   300016  FF                 	db	255
+  1831                           
+  1832                           ;Config register CONFIG24 @ 0x300017
+  1833                           ;	Non-Boot Sector Polynomial for CRC on boot bits 31-24
+  1834                           ;	CRCPOLT = hFF, Bits 31:24 of CRCPOL are 0xFF
+  1835   300017                     	org	3145751
+  1836   300017  FF                 	db	255
+  1837                           
+  1838                           ;Config register CONFIG25 @ 0x300018
+  1839                           ;	Non-Boot Sector Polynomial for CRC on boot bits 23-16
+  1840                           ;	CRCPOLU = hFF, Bits 23:16 of CRCPOL are 0xFF
+  1841   300018                     	org	3145752
+  1842   300018  FF                 	db	255
+  1843                           
+  1844                           ;Config register CONFIG26 @ 0x300019
+  1845                           ;	Non-Boot Sector Polynomial for CRC on boot bits 15-8
+  1846                           ;	CRCPOLH = hFF, Bits 15:8 of CRCPOL are 0xFF
+  1847   300019                     	org	3145753
+  1848   300019  FF                 	db	255
+  1849                           
+  1850                           ;Config register CONFIG27 @ 0x30001A
+  1851                           ;	Non-Boot Sector Polynomial for CRC on boot bits 7-0
+  1852                           ;	CRCPOLL = hFF, Bits 7:0 of CRCPOL are 0xFF
+  1853   30001A                     	org	3145754
+  1854   30001A  FF                 	db	255
+  1855                           
+  1856                           ;Config register CONFIG28 @ 0x30001B
+  1857                           ;	Non-Boot Sector Seed for CRC on boot bits 31-24
+  1858                           ;	CRCSEEDT = hFF, Bits 31:24 of CRCSEED are 0xFF
+  1859   30001B                     	org	3145755
+  1860   30001B  FF                 	db	255
+  1861                           
+  1862                           ;Config register CONFIG29 @ 0x30001C
+  1863                           ;	Non-Boot Sector Seed for CRC on boot bits 23-16
+  1864                           ;	CRCSEEDU = hFF, Bits 23:16 of CRCSEED are 0xFF
+  1865   30001C                     	org	3145756
+  1866   30001C  FF                 	db	255
+  1867                           
+  1868                           ;Config register CONFIG30 @ 0x30001D
+  1869                           ;	Non-Boot Sector Seed for CRC on boot bits 15-8
+  1870                           ;	CRCSEEDH = hFF, Bits 15:8 of CRCSEED are 0xFF
+  1871   30001D                     	org	3145757
+  1872   30001D  FF                 	db	255
+  1873                           
+  1874                           ;Config register CONFIG31 @ 0x30001E
+  1875                           ;	Non-Boot Sector Seed for CRC on boot bits 7-0
+  1876                           ;	CRCSEEDL = hFF, Bits 7:0 of CRCSEED are 0xFF
+  1877   30001E                     	org	3145758
+  1878   30001E  FF                 	db	255
+  1879                           
+  1880                           ;Config register CONFIG32 @ 0x30001F
+  1881                           ;	unspecified, using default values
+  1882                           ;	Non-Boot Sector Expected Result for CRC on boot bits 31-24
+  1883                           ;	CRCEREST = 0xFF, unprogrammed default
+  1884   30001F                     	org	3145759
+  1885   30001F  FF                 	db	255
+  1886                           
+  1887                           ;Config register CONFIG33 @ 0x300020
+  1888                           ;	unspecified, using default values
+  1889                           ;	Non-Boot Sector Expected Result for CRC on boot bits 23-16
+  1890                           ;	CRCERESU = 0xFF, unprogrammed default
+  1891   300020                     	org	3145760
+  1892   300020  FF                 	db	255
+  1893                           
+  1894                           ;Config register CONFIG34 @ 0x300021
+  1895                           ;	unspecified, using default values
+  1896                           ;	Non-Boot Sector Expected Result for CRC on boot bits 15-8
+  1897                           ;	CRCERESH = 0xFF, unprogrammed default
+  1898   300021                     	org	3145761
+  1899   300021  FF                 	db	255
+  1900                           
+  1901                           ;Config register CONFIG35 @ 0x300022
+  1902                           ;	unspecified, using default values
+  1903                           ;	Non-Boot Sector Expected Result for CRC on boot bits 7-0
+  1904                           ;	CRCERESL = 0xFF, unprogrammed default
+  1905   300022                     	org	3145762
+  1906   300022  FF                 	db	255
+  1907                           tosu	equ	0x4FF
+  1908                           tosh	equ	0x4FE
+  1909                           tosl	equ	0x4FD
+  1910                           stkptr	equ	0x4FC
+  1911                           pclatu	equ	0x4FB
+  1912                           pclath	equ	0x4FA
+  1913                           pcl	equ	0x4F9
+  1914                           tblptru	equ	0x4F8
+  1915                           tblptrh	equ	0x4F7
+  1916                           tblptrl	equ	0x4F6
+  1917                           tablat	equ	0x4F5
+  1918                           prodh	equ	0x4F4
+  1919                           prodl	equ	0x4F3
+  1920                           indf0	equ	0x4EF
+  1921                           postinc0	equ	0x4EE
+  1922                           postdec0	equ	0x4ED
+  1923                           preinc0	equ	0x4EC
+  1924                           plusw0	equ	0x4EB
+  1925                           fsr0h	equ	0x4EA
+  1926                           fsr0l	equ	0x4E9
+  1927                           wreg	equ	0x4E8
+  1928                           indf1	equ	0x4E7
+  1929                           postinc1	equ	0x4E6
+  1930                           postdec1	equ	0x4E5
+  1931                           preinc1	equ	0x4E4
+  1932                           plusw1	equ	0x4E3
+  1933                           fsr1h	equ	0x4E2
+  1934                           fsr1l	equ	0x4E1
+  1935                           bsr	equ	0x4E0
+  1936                           indf2	equ	0x4DF
+  1937                           postinc2	equ	0x4DE
+  1938                           postdec2	equ	0x4DD
+  1939                           preinc2	equ	0x4DC
+  1940                           plusw2	equ	0x4DB
+  1941                           fsr2h	equ	0x4DA
+  1942                           fsr2l	equ	0x4D9
+  1943                           status	equ	0x4D8
+
+Data Sizes:
+    Strings     0
+    Constant    5
+    Data        0
+    BSS         0
+    Persistent  6
+    Stack       0
+
+Auto Spaces:
+    Space          Size  Autos    Used
+    COMRAM           95     37      43
+    BANK5           160      0       0
+    BANK6           256      0       0
+    BANK7           256      0       0
+    BANK8           256      0       0
+    BANK9           256      0       0
+    BANK10          256      0       0
+    BANK11          256      0       0
+    BANK12          256      0       0
+    BANK13          256      0       0
+    BANK14          256      0       0
+    BANK15          256      0       0
+    BANK16          256      0       0
+    BANK17          256      0       0
+    BANK18          256      0       0
+    BANK19          256      0       0
+    BANK20          256      0       0
+    BANK21          256      0       0
+    BANK22          256      0       0
+    BANK23          256      0       0
+    BANK24          256      0       0
+    BANK25          256      0       0
+    BANK26          256      0       0
+    BANK27          256      0       0
+    BANK28          256      0       0
+    BANK29          256      0       0
+    BANK30          256      0       0
+    BANK31          256      0       0
+    BANK32          256      0       0
+    BANK33          256      0       0
+    BANK34          256      0       0
+    BANK35          256      0       0
+    BANK36          256      0       0
+
+Pointer List with Targets:
+
+    ADC_SetActiveClockTuningInterruptHandler@InterruptHandler	PTR FTN()void  size(2) Largest target is 1
+		 -> ADC_DefaultActiveClockTuning_ISR(), 
+
+    ADC_SetContext1ThresholdInterruptHandler@InterruptHandler	PTR FTN()void  size(2) Largest target is 1
+		 -> ADC_DefaultContext1Threshold_ISR(), 
+
+    ADC_SetADIInterruptHandler@InterruptHandler	PTR FTN()void  size(2) Largest target is 1
+		 -> ADC_DefaultADI_ISR(), 
+
+    ADC_Context1Thereshld_ISR	PTR FTN()void  size(2) Largest target is 1
+		 -> Absolute function(), ADC_DefaultContext1Threshold_ISR(), 
+
+    ADC_ActiveClockTuning_ISR	PTR FTN()void  size(2) Largest target is 1
+		 -> Absolute function(), ADC_DefaultActiveClockTuning_ISR(), 
+
+    ADC_ConversionComplete_ISR	PTR FTN()void  size(2) Largest target is 1
+		 -> Absolute function(), ADC_DefaultADI_ISR(), 
+
+
+Critical Paths under _main in COMRAM
+
+    _main->_ADC_GetSingleConversion
+    _ADC_Initialize->_ADC_SetADIInterruptHandler
+    _ADC_Initialize->_ADC_SetActiveClockTuningInterruptHandler
+    _ADC_Initialize->_ADC_SetContext1ThresholdInterruptHandler
+
+Critical Paths under _main in BANK5
+
+    None.
+
+Critical Paths under _main in BANK6
+
+    None.
+
+Critical Paths under _main in BANK7
+
+    None.
+
+Critical Paths under _main in BANK8
+
+    None.
+
+Critical Paths under _main in BANK9
+
+    None.
+
+Critical Paths under _main in BANK10
+
+    None.
+
+Critical Paths under _main in BANK11
+
+    None.
+
+Critical Paths under _main in BANK12
+
+    None.
+
+Critical Paths under _main in BANK13
+
+    None.
+
+Critical Paths under _main in BANK14
+
+    None.
+
+Critical Paths under _main in BANK15
+
+    None.
+
+Critical Paths under _main in BANK16
+
+    None.
+
+Critical Paths under _main in BANK17
+
+    None.
+
+Critical Paths under _main in BANK18
+
+    None.
+
+Critical Paths under _main in BANK19
+
+    None.
+
+Critical Paths under _main in BANK20
+
+    None.
+
+Critical Paths under _main in BANK21
+
+    None.
+
+Critical Paths under _main in BANK22
+
+    None.
+
+Critical Paths under _main in BANK23
+
+    None.
+
+Critical Paths under _main in BANK24
+
+    None.
+
+Critical Paths under _main in BANK25
+
+    None.
+
+Critical Paths under _main in BANK26
+
+    None.
+
+Critical Paths under _main in BANK27
+
+    None.
+
+Critical Paths under _main in BANK28
+
+    None.
+
+Critical Paths under _main in BANK29
+
+    None.
+
+Critical Paths under _main in BANK30
+
+    None.
+
+Critical Paths under _main in BANK31
+
+    None.
+
+Critical Paths under _main in BANK32
+
+    None.
+
+Critical Paths under _main in BANK33
+
+    None.
+
+Critical Paths under _main in BANK34
+
+    None.
+
+Critical Paths under _main in BANK35
+
+    None.
+
+Critical Paths under _main in BANK36
+
+    None.
+
+Call Graph Tables:
+
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (0) _main                                                32    32      0    1001
+                                              5 COMRAM    32    32      0
+        _ADC_DisableChannelSequencer
+              _ADC_EnableChannelScan
+            _ADC_GetSingleConversion
+                     _ADC_Initialize
+                  _ADC_SelectContext
+                  _SYSTEM_Initialize
+ ---------------------------------------------------------------------------------
+ (1) _SYSTEM_Initialize                                    0     0      0     294
+                     _ADC_Initialize
+                     _FVR_Initialize
+              _OSCILLATOR_Initialize
+             _PIN_MANAGER_Initialize
+                     _PMD_Initialize
+                    _SPI1_Initialize
+ ---------------------------------------------------------------------------------
+ (2) _SPI1_Initialize                                      0     0      0       0
+ ---------------------------------------------------------------------------------
+ (2) _PMD_Initialize                                       0     0      0       0
+ ---------------------------------------------------------------------------------
+ (2) _PIN_MANAGER_Initialize                               0     0      0       0
+ ---------------------------------------------------------------------------------
+ (2) _OSCILLATOR_Initialize                                0     0      0       0
+ ---------------------------------------------------------------------------------
+ (2) _FVR_Initialize                                       0     0      0       0
+ ---------------------------------------------------------------------------------
+ (2) _ADC_Initialize                                       0     0      0     294
+         _ADC_SetADIInterruptHandler
+_ADC_SetActiveClockTuningInterruptHa
+_ADC_SetContext1ThresholdInterruptHa
+ ---------------------------------------------------------------------------------
+ (3) _ADC_SetContext1ThresholdInterruptHandler             2     0      2      98
+                                              0 COMRAM     2     0      2
+ ---------------------------------------------------------------------------------
+ (3) _ADC_SetActiveClockTuningInterruptHandler             2     0      2      98
+                                              0 COMRAM     2     0      2
+ ---------------------------------------------------------------------------------
+ (3) _ADC_SetADIInterruptHandler                           2     0      2      98
+                                              0 COMRAM     2     0      2
+ ---------------------------------------------------------------------------------
+ (1) _ADC_SelectContext                                    1     1      0      15
+                                              0 COMRAM     1     1      0
+ ---------------------------------------------------------------------------------
+ (1) _ADC_GetSingleConversion                              5     3      2      22
+                                              0 COMRAM     5     3      2
+ ---------------------------------------------------------------------------------
+ (1) _ADC_EnableChannelScan                                3     3      0      15
+                                              0 COMRAM     3     3      0
+ ---------------------------------------------------------------------------------
+ (1) _ADC_DisableChannelSequencer                          0     0      0       0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 3
+ ---------------------------------------------------------------------------------
+
+ Call Graph Graphs:
+
+ _main (ROOT)
+   _ADC_DisableChannelSequencer
+   _ADC_EnableChannelScan
+   _ADC_GetSingleConversion
+   _ADC_Initialize
+     _ADC_SetADIInterruptHandler
+     _ADC_SetActiveClockTuningInterruptHandler
+     _ADC_SetContext1ThresholdInterruptHandler
+   _ADC_SelectContext
+   _SYSTEM_Initialize
+     _ADC_Initialize
+     _FVR_Initialize
+     _OSCILLATOR_Initialize
+     _PIN_MANAGER_Initialize
+     _PMD_Initialize
+     _SPI1_Initialize
+
+ Address spaces:
+Name               Size   Autos  Total    Cost      Usage
+BITCOMRAM           5F      0       0       0        0.0%
+EEDATA             400      0       0       0        0.0%
+NULL                 0      0       0       0        0.0%
+CODE                 0      0       0       0        0.0%
+COMRAM              5F     25      2B       1       45.3%
+STACK                0      0       0       2        0.0%
+DATA                 0      0      2B       3        0.0%
+BITBANK5            A0      0       0       4        0.0%
+BANK5               A0      0       0       5        0.0%
+BITBANK6           100      0       0       6        0.0%
+BANK6              100      0       0       7        0.0%
+BITBANK7           100      0       0       8        0.0%
+BANK7              100      0       0       9        0.0%
+BITBANK8           100      0       0      10        0.0%
+BANK8              100      0       0      11        0.0%
+BITBANK9           100      0       0      12        0.0%
+BANK9              100      0       0      13        0.0%
+BITBANK10          100      0       0      14        0.0%
+BANK10             100      0       0      15        0.0%
+BITBANK11          100      0       0      16        0.0%
+BANK11             100      0       0      17        0.0%
+BITBANK12          100      0       0      18        0.0%
+BANK12             100      0       0      19        0.0%
+BITBANK13          100      0       0      20        0.0%
+BANK13             100      0       0      21        0.0%
+BITBANK14          100      0       0      22        0.0%
+BANK14             100      0       0      23        0.0%
+BITBANK15          100      0       0      24        0.0%
+BANK15             100      0       0      25        0.0%
+BITBANK16          100      0       0      26        0.0%
+BANK16             100      0       0      27        0.0%
+BITBANK17          100      0       0      28        0.0%
+BANK17             100      0       0      29        0.0%
+BITBANK18          100      0       0      30        0.0%
+BANK18             100      0       0      31        0.0%
+BITBANK19          100      0       0      32        0.0%
+BANK19             100      0       0      33        0.0%
+BITBANK20          100      0       0      34        0.0%
+BANK20             100      0       0      35        0.0%
+BITBANK21          100      0       0      36        0.0%
+BANK21             100      0       0      37        0.0%
+BITBANK22          100      0       0      38        0.0%
+BANK22             100      0       0      39        0.0%
+BITBANK23          100      0       0      40        0.0%
+BANK23             100      0       0      41        0.0%
+BITBANK24          100      0       0      42        0.0%
+BANK24             100      0       0      43        0.0%
+BITBANK25          100      0       0      44        0.0%
+BANK25             100      0       0      45        0.0%
+BITBANK26          100      0       0      46        0.0%
+BANK26             100      0       0      47        0.0%
+BITBANK27          100      0       0      48        0.0%
+BANK27             100      0       0      49        0.0%
+BITBANK28          100      0       0      50        0.0%
+BANK28             100      0       0      51        0.0%
+BITBANK29          100      0       0      52        0.0%
+BANK29             100      0       0      53        0.0%
+BITBANK30          100      0       0      54        0.0%
+BANK30             100      0       0      55        0.0%
+BITBANK31          100      0       0      56        0.0%
+BANK31             100      0       0      57        0.0%
+BITBANK32          100      0       0      58        0.0%
+BANK32             100      0       0      59        0.0%
+BITBANK33          100      0       0      60        0.0%
+BANK33             100      0       0      61        0.0%
+BITBANK34          100      0       0      62        0.0%
+BANK34             100      0       0      63        0.0%
+BITBANK35          100      0       0      64        0.0%
+BANK35             100      0       0      65        0.0%
+BITBANK36          100      0       0      66        0.0%
+BANK36             100      0       0      67        0.0%
+BITBIGSFR_1        900      0       0      68        0.0%
+BIGRAM            1FFF      0       0      69        0.0%
+BITBIGSFRhhhh       35      0       0      70        0.0%
+BITBIGSFRhhhl        1      0       0      71        0.0%
+BITBIGSFRhhlhl       5      0       0      72        0.0%
+BITBIGSFRhhll        C      0       0      73        0.0%
+BITBIGSFRhlhhh      8A      0       0      74        0.0%
+BITBIGSFRhlhhl       2      0       0      75        0.0%
+BITBIGSFRhlhl        C      0       0      76        0.0%
+BITBIGSFRhllh        3      0       0      77        0.0%
+BITBIGSFRhlllh       3      0       0      78        0.0%
+BITBIGSFRhllll       3      0       0      79        0.0%
+BITBIGSFRlhhhhl      1      0       0      80        0.0%
+BITBIGSFRllhhhh    16B      0       0      81        0.0%
+BITBIGSFRllhhhl     53      0       0      82        0.0%
+BITBIGSFRllhhhl    162      0       0      83        0.0%
+BITBIGSFRllhhlh      1      0       0      84        0.0%
+BITBIGSFRllhl        1      0       0      85        0.0%
+BITBIGSFRlllhhh     20      0       0      86        0.0%
+BITBIGSFRlllhhl      2      0       0      87        0.0%
+BITBIGSFRlllhhl      2      0       0      88        0.0%
+BITBIGSFRlllhlh      1      0       0      89        0.0%
+BITBIGSFRlllhll     17      0       0      90        0.0%
+BITBIGSFRllll       60      0       0      91        0.0%
+ABS                  0      0      2B      92        0.0%
+BIGSFR_1             0      0       0     200        0.0%
+BIGSFR               0      0       0     200        0.0%
+BITSFR_14            0      0       0     200        0.0%
+SFR_14               0      0       0     200        0.0%
+BITSFR_13            0      0       0     200        0.0%
+SFR_13               0      0       0     200        0.0%
+BITSFR_12            0      0       0     200        0.0%
+SFR_12               0      0       0     200        0.0%
+BITSFR_11            0      0       0     200        0.0%
+SFR_11               0      0       0     200        0.0%
+BITSFR_10            0      0       0     200        0.0%
+SFR_10               0      0       0     200        0.0%
+BITSFR_9             0      0       0     200        0.0%
+SFR_9                0      0       0     200        0.0%
+BITSFR_8             0      0       0     200        0.0%
+SFR_8                0      0       0     200        0.0%
+BITSFR_7             0      0       0     200        0.0%
+SFR_7                0      0       0     200        0.0%
+BITSFR_6             0      0       0     200        0.0%
+SFR_6                0      0       0     200        0.0%
+BITSFR_5             0      0       0     200        0.0%
+SFR_5                0      0       0     200        0.0%
+BITSFR_4             0      0       0     200        0.0%
+SFR_4                0      0       0     200        0.0%
+BITSFR_3             0      0       0     200        0.0%
+SFR_3                0      0       0     200        0.0%
+BITSFR_2             0      0       0     200        0.0%
+SFR_2                0      0       0     200        0.0%
+BITSFR_1             0      0       0     200        0.0%
+SFR_1                0      0       0     200        0.0%
+BITSFR               0      0       0     200        0.0%
+SFR                  0      0       0     200        0.0%
+
+
+Microchip Technology PIC18 Macro Assembler V2.40 build 20220703182018 
+Symbol Table                                                                                   Sun Apr 16 00:58:01 2023
+
+                                  __end_of_FVR_Initialize 3110  
+                                                     l111 2FB2  
+                                                     l130 3044  
+                                                     l123 3116  
+                                                     l300 30E8  
+                                                     l117 3122  
+                                                     l127 301A  
+                                                     l303 309C  
+                                                     l152 3074  
+                                                     l242 30F2  
+                                                     l330 30D0  
+                                                     l149 3054  
+                                                     l245 30FC  
+                                                     l239 3106  
+                                                     l427 3012  
+                                                     l457 310E  
+                                                     l297 30B6  
+                                                     u140 3062  
+                                                     u141 305E  
+                                                    l1160 2FB4  
+                                                    l1170 2FF6  
+                                                    l1162 2FC4  
+                                                    l1180 30D2  
+                                                    l1172 2FF8  
+                                                    l1164 2FC6  
+                                                    l1500 30B2  
+                                                    l1190 3112  
+                                                    l1182 3108  
+                                                    l1174 2FFA  
+                                                    l1166 2FD2  
+                                                    l1158 3076  
+                                                    l1510 2E28  
+                                                    l1502 2E08  
+                                                    l1192 3016  
+                                                    l1176 2FFC  
+                                                    l1168 2FF4  
+                                                    l1184 30B8  
+                                                    l1520 2E66  
+                                                    l1512 2E2E  
+                                                    l1504 2E10  
+                                                    l1178 2FFE  
+                                                    l1186 30CE  
+                                                    l1530 2EAC  
+                                                    l1522 2E74  
+                                                    l1514 2E3C  
+                                                    l1506 2E14  
+                                                    l1188 311E  
+                                                    l1196 3022  
+                                                    l1460 30EA  
+                                                    l1540 2EF2  
+                                                    l1532 2EBA  
+                                                    l1524 2E82  
+                                                    l1516 2E4A  
+                                                    l1508 2E1A  
+                                                    l1462 30F4  
+                                                    l1470 2F86  
+                                                    l1534 2EC8  
+                                                    l1526 2E90  
+                                                    l1518 2E58  
+                                                    l1480 3048  
+                                                    l1472 2F88  
+                                                    l1464 2F08  
+                                                    l1536 2ED6  
+                                                    l1528 2E9E  
+                                                    l1562 3036  
+                                                    l1482 304C  
+                                                    l1458 30FE  
+                                                    l1474 2F94  
+                                                    l1466 2F82  
+                                                    l1538 2EE4  
+                                                    l1484 3050  
+                                                    l1476 2FA0  
+                                                    l1468 2F84  
+                                                    l1492 309E  
+                                                    l1486 3052  
+                                                    l1478 2FAC  
+                                                    l1494 30A6  
+                                                    l1488 3062  
+                                                    l1496 30AA  
+                                                    l1498 30AE  
+                                                    _ADCP 0003D8  
+                                                    _LATA 0004BE  
+                                                    _LATB 0004BF  
+                                                    _LATC 0004C0  
+                                                    _PMD0 000060  
+                                                    _PMD1 000061  
+                                                    _PMD2 000062  
+                                                    _PMD3 000063  
+                                                    _PMD4 000064  
+                                                    _PMD5 000065  
+                                                    _PMD6 000066  
+                                                    _PMD7 000067  
+                                                    _PMD8 000068  
+                                                    _WPUA 000401  
+                                                    _WPUB 000409  
+                                                    _WPUC 000411  
+                                                    _WPUE 000421  
+                                                    _main 2E08  
+                                                    start FFFC  
+                                            ___param_bank 000000  
+                                         ?_FVR_Initialize 0501  
+                           __end_of_OSCILLATOR_Initialize 30EA  
+                            ?_ADC_DisableChannelSequencer 0501  
+                                                   _ADACT 0003F9  
+                                                   _ADCAP 0003F0  
+                                                   ?_main 0501  
+                                                   _ADCLK 0003FA  
+                                                   _ADCNT 0003E6  
+                                                   _ADCTX 0003FB  
+                                                   _ADPCH 0003EC  
+                                                   _ADREF 0003F8  
+                                                   _ADRPT 0003E7  
+                                                   _OSCEN 0000B3  
+                                                   _TRISA 0004C6  
+                                                   _TRISB 0004C7  
+                                                   _TRISC 0004C8  
+                                                   _TRISE 0004CA  
+                               ??_ADC_GetSingleConversion 0503  
+                                                   status 0004D8  
+                                         __initialization 3118  
+                                            __end_of_main 2F08  
+                                                  ??_main 0506  
+                                   _ADC_EnableChannelScan 3014  
+                                           __activetblptr 000003  
+                                                  _ADACCH 0003E4  
+                                                  _ADACCL 0003E3  
+                                                  _ADACCU 0003E5  
+                                                  _ADACQH 0003EF  
+                                                  _ADACQL 0003EE  
+                                                  _ADCON0 0003F3  
+                                                  _ADCON1 0003F4  
+                                                  _ADCON2 0003F5  
+                                                  _ADCON3 0003F6  
+                                                  _ADERRH 0003DE  
+                                                  _ADERRL 0003DD  
+                                                  _ADLTHH 0003DA  
+                                                  _ADLTHL 0003D9  
+                                                  _ADRESH 0003EB  
+                                                  _ADRESL 0003EA  
+                                                  _ADPREH 0003F2  
+                                                  _ADPREL 0003F1  
+                                                  _ADSTAT 0003F7  
+                                                  _ADUTHH 0003DC  
+                                                  _ADUTHL 0003DB  
+                                                  _ANSELA 000400  
+                                                  _ANSELB 000408  
+                                                  _ANSELC 000410  
+                                                  _RC5PPS 000216  
+                                                  _ODCONA 000402  
+                                                  _ODCONB 00040A  
+                                                  _ODCONC 000412  
+                                                  _INLVLA 000404  
+                                                  _INLVLB 00040C  
+                                                  _INLVLC 000414  
+                                                  _INLVLE 000424  
+                                                  _FVRCON 0003D7  
+                                                  _OSCFRQ 0000B1  
+                                      _ADC_DefaultADI_ISR 000000  
+                                                  isa$std 000001  
+                                          _PMD_Initialize 3076  
+                                            __mediumconst 0000  
+ADC_SetActiveClockTuningInterruptHandler@InterruptHandler 0501  
+ADC_SetContext1ThresholdInterruptHandler@InterruptHandler 0501  
+              ADC_SetADIInterruptHandler@InterruptHandler 0501  
+                                       _SYSTEM_Initialize 309E  
+                                              __accesstop 0560  
+                                 __end_of__initialization 3118  
+                                      ?_SYSTEM_Initialize 0501  
+                                           ___rparam_used 000001  
+                                          __pcstackCOMRAM 0501  
+                                     ??_SYSTEM_Initialize 0503  
+                                       ??_SPI1_Initialize 0501  
+                                  ?_ADC_EnableChannelScan 0501  
+                                  __end_of_PMD_Initialize 309E  
+                                      _spi1_configuration 2E01  
+        __end_of_ADC_SetActiveClockTuningInterruptHandler 30FE  
+              ??_ADC_SetActiveClockTuningInterruptHandler 0503  
+               ?_ADC_SetActiveClockTuningInterruptHandler 0501  
+                _ADC_SetActiveClockTuningInterruptHandler 30F4  
+                            ??_ADC_SetADIInterruptHandler 0503  
+                               __end_of_SYSTEM_Initialize 30B8  
+                                              __pnvCOMRAM 0526  
+                                        ??_FVR_Initialize 0501  
+                                                 _ADCSEL1 0003FC  
+                                                 _ADFLTRH 0003E2  
+                                                 _ADFLTRL 0003E1  
+                                                 _ADPREVH 0003E9  
+                                                 _ADPREVL 0003E8  
+                                                 _ADSTPTH 0003E0  
+                                                 _ADSTPTL 0003DF  
+                                         ?_PMD_Initialize 0501  
+                                                 _OSCCON1 0000AD  
+                                                 _OSCCON3 0000AF  
+                                                 _SPI1CLK 00008C  
+                                                 _SPI1RXB 000080  
+                                                 _SPI1TXB 000081  
+                                                 _OSCTUNE 0000B0  
+                                                 _SLRCONA 000403  
+                                                 _SLRCONB 00040B  
+                                                 _SLRCONC 000413  
+                              _ADC_ConversionComplete_ISR 052A  
+                                                 __Hparam 0000  
+                                                 __Lparam 0000  
+                                            __psmallconst 2E00  
+                                                 __pcinit 3118  
+                                                 __ramtop 2E00  
+                                                 __ptext0 2E08  
+                                                 __ptext1 309E  
+                                                 __ptext2 30B8  
+                                                 __ptext3 3076  
+                                                 __ptext4 2FB4  
+                                                 __ptext5 30D2  
+                                                 __ptext6 3108  
+                                                 __ptext7 2F08  
+                                                 __ptext8 30EA  
+                                                 __ptext9 30F4  
+                                   _OSCILLATOR_Initialize 30D2  
+                                ??_PIN_MANAGER_Initialize 0501  
+                                    end_of_initialization 3118  
+                                               _SPI1TCNTL 000082  
+                                ?_ADC_GetSingleConversion 0501  
+                      __end_of_ADC_SetADIInterruptHandler 3108  
+                              _ADC_SetADIInterruptHandler 30FE  
+                                               _TRISCbits 0004C8  
+                                             _ADCSEL1bits 0003FC  
+                                         _SPI1_Initialize 30B8  
+                                 ??_ADC_EnableChannelScan 0501  
+                     __end_of_ADC_DisableChannelSequencer 3124  
+                             _ADC_DisableChannelSequencer 311E  
+                                          _ADC_Initialize 2F08  
+                                  ?_OSCILLATOR_Initialize 0501  
+                                     start_initialization 3118  
+                           ??_ADC_DisableChannelSequencer 0501  
+                         __end_of_ADC_GetSingleConversion 3076  
+                                        ??_PMD_Initialize 0501  
+        __end_of_ADC_SetContext1ThresholdInterruptHandler 30F4  
+              ??_ADC_SetContext1ThresholdInterruptHandler 0503  
+               ?_ADC_SetContext1ThresholdInterruptHandler 0501  
+                _ADC_SetContext1ThresholdInterruptHandler 30EA  
+                                  __end_of_ADC_Initialize 2FB4  
+                                      main@convertedValue 0506  
+                                 __end_of_SPI1_Initialize 30D2  
+                                  _PIN_MANAGER_Initialize 2FB4  
+                                         ?_ADC_Initialize 0501  
+                                       _ADC_SelectContext 3110  
+                                      ?_ADC_SelectContext 0501  
+                                             __smallconst 2E00  
+                                                _ADCPbits 0003D8  
+                                     ??_ADC_SelectContext 0501  
+                                            _SPI1CON0bits 000084  
+                                                _PIR1bits 0004AF  
+                                                _PIR2bits 0004B0  
+                                                _SPI1BAUD 000089  
+                                                _PIR3bits 0004B1  
+                                                _SPI1CON0 000084  
+                                                _SPI1CON1 000085  
+                                                _SPI1CON2 000086  
+                               _ADC_ActiveClockTuning_ISR 0526  
+                               __end_of_ADC_SelectContext 3118  
+                        _ADC_DefaultActiveClockTuning_ISR 000000  
+                          ADC_GetSingleConversion@channel 0505  
+                                              _ADCON0bits 0003F3  
+                                              _ADCON1bits 0003F4  
+                                              _ADCON2bits 0003F5  
+                                              _ADCON3bits 0003F6  
+                             ?_ADC_SetADIInterruptHandler 0501  
+                                        ?_SPI1_Initialize 0501  
+                                              _ADSTATbits 0003F7  
+                                                __Hrparam 0000  
+                                                __Lrparam 0000  
+                                 ??_OSCILLATOR_Initialize 0501  
+                           __end_of_ADC_EnableChannelScan 3046  
+                               _ADC_Context1Thereshld_ISR 0528  
+                                                __ptext10 30FE  
+                                                __ptext11 3110  
+                                                __ptext12 3046  
+                                                __ptext13 3014  
+                                                __ptext14 311E  
+                                ADC_SelectContext@context 0501  
+                                                isa$xinst 000000  
+                                              _FVRCONbits 0003D7  
+                                 ?_PIN_MANAGER_Initialize 0501  
+                                        ??_ADC_Initialize 0503  
+                            ADC_EnableChannelScan@context 0503  
+                                              _SPI1SDIPPS 00026B  
+                                              _SPI1SCKPPS 00026A  
+                                          _FVR_Initialize 3108  
+                                 _ADC_GetSingleConversion 3046  
+                          __end_of_PIN_MANAGER_Initialize 3014  
+                        _ADC_DefaultContext1Threshold_ISR 000000  
+                              __end_of_spi1_configuration 2E06  

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Open\SystemVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
+    
+    
+    
+    <ClCompile Include="..\..\..\..\GeneralSource\LED64CTRLib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\GeneralSource\WinDriver10.21\wd_register_lib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LightDLL\LightDLL1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LightDLL2Port.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LightDLL2PortForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SetBaseForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Open\LED64CTRLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LightDLL2Port.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lightdll2port_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    
+    
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="LightDLL2PortForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SetBaseForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="LightDLL2PortForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SetBaseForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{2061aee9-0b3f-4d3e-91e2-406a9112051d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{723c6a2a-9a77-4529-adef-70b66269e879}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{2bf52193-2534-4da4-a6fa-5e71c66edf2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{86998eb8-d7ba-4369-8089-741812e87d01}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

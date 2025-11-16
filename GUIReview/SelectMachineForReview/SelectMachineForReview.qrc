@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/SelectMachineForReview.png</file>
+    </qresource>
+</RCC>

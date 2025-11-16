@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/StacksToSwitchMasterTarget.png</file>
+    </qresource>
+</RCC>

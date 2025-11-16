@@ -1,0 +1,80 @@
+<ui version="4.0" >
+ <class>ColorFolderInputFormClass</class>
+ <widget class="QDialog" name="ColorFolderInputFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>283</width>
+    <height>107</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>ColorFolderInputForm</string>
+  </property>
+  <widget class="QPushButton" name="ButtonCancel" >
+   <property name="geometry" >
+    <rect>
+     <x>140</x>
+     <y>60</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label" >
+   <property name="geometry" >
+    <rect>
+     <x>60</x>
+     <y>10</y>
+     <width>151</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>FolderName</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonOK" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>OK</string>
+   </property>
+   <property name="default" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="EditFolderName" >
+   <property name="geometry" >
+    <rect>
+     <x>60</x>
+     <y>30</y>
+     <width>151</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="maxLength" >
+    <number>32</number>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

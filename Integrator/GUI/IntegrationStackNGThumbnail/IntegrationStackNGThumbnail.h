@@ -1,0 +1,7 @@
+#ifndef INTEGRATIONSTACKNGTHUMBNAIL_H
+#define INTEGRATIONSTACKNGTHUMBNAIL_H
+
+#include "integrationstackngthumbnail_global.h"
+
+
+#endif // INTEGRATIONSTACKNGTHUMBNAIL_H

@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mtGraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mtImageButtonBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mtImageSliderBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mtButtonWithBalloon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtColorFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtFrameDraw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtGraphicUnit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtImageButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtImageButtonBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtImageButtonColored.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtImageButtonWithBalloon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtImageSlider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtImageSliderBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtImageToolButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtImageToolButtonColored.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtImageToolButtonWithBalloon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtLineGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtMeter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtPushButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtPushButtonColored.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtPushButtonWithBalloon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtTBarGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtToolButtonColored.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtToolButtonWithBalloon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtWidgetPosition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WMultiGrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtFrameDraw2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtFrameDraw3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="mtButtonWithBalloon.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtColorFrame.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtFrameDraw.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtGraphicUnit.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtImageButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtImageButtonColored.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtImageButtonWithBalloon.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtImageSlider.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtImageToolButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtImageToolButtonColored.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtImageToolButtonWithBalloon.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtLineGraph.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtMeter.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtPushButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtPushButtonColored.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtPushButtonWithBalloon.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtTBarGraph.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtToolButtonColored.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtToolButtonWithBalloon.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtWidgetPosition.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="WMultiGrid.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtFrameDraw3D.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="mtFrameDraw.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Icon\Ellipse1.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\Ellipse2.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\Ellipse3.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\EllipseTop.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\Free1.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\MoveItem1.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\Polygon1.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\Rectangle1.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\Rectangle2.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\RotEllipse1.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\RotRectangle1.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

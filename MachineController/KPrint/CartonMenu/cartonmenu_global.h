@@ -1,0 +1,12 @@
+#ifndef CARTONMENU_GLOBAL_H
+#define CARTONMENU_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef CARTONMENU_LIB
+# define CARTONMENU_EXPORT Q_DECL_EXPORT
+#else
+# define CARTONMENU_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // CARTONMENU_GLOBAL_H

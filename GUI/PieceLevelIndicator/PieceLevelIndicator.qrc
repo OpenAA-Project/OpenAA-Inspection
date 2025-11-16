@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/PieceLevelIndicator.png</file>
+    </qresource>
+</RCC>

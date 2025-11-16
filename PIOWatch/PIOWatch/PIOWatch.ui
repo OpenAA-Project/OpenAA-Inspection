@@ -1,0 +1,171 @@
+<ui version="4.0" >
+ <class>PIOWatchClass</class>
+ <widget class="QWidget" name="PIOWatchClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1040</width>
+    <height>709</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>PIO Watch</string>
+  </property>
+  <widget class="QTableWidget" name="twIN" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>251</width>
+     <height>612</height>
+    </rect>
+   </property>
+   <property name="selectionMode" >
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior" >
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <property name="showGrid" >
+    <bool>false</bool>
+   </property>
+   <property name="columnCount" >
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkEchoBack" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>670</y>
+     <width>81</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Echo Back</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbClose" >
+   <property name="geometry" >
+    <rect>
+     <x>410</x>
+     <y>660</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>&amp;Close</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="twOUT" >
+   <property name="geometry" >
+    <rect>
+     <x>260</x>
+     <y>40</y>
+     <width>251</width>
+     <height>612</height>
+    </rect>
+   </property>
+   <property name="selectionMode" >
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior" >
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <property name="showGrid" >
+    <bool>false</bool>
+   </property>
+   <property name="columnCount" >
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbRefer" >
+   <property name="geometry" >
+    <rect>
+     <x>480</x>
+     <y>5</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>…</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lePIODLL" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>471</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkEchoBack_2" >
+   <property name="geometry" >
+    <rect>
+     <x>540</x>
+     <y>670</y>
+     <width>81</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Echo Back</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="twIN_2" >
+   <property name="geometry" >
+    <rect>
+     <x>530</x>
+     <y>40</y>
+     <width>251</width>
+     <height>612</height>
+    </rect>
+   </property>
+   <property name="selectionMode" >
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior" >
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <property name="showGrid" >
+    <bool>false</bool>
+   </property>
+   <property name="columnCount" >
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="twOUT_2" >
+   <property name="geometry" >
+    <rect>
+     <x>780</x>
+     <y>40</y>
+     <width>251</width>
+     <height>612</height>
+    </rect>
+   </property>
+   <property name="selectionMode" >
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior" >
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <property name="showGrid" >
+    <bool>false</bool>
+   </property>
+   <property name="columnCount" >
+    <number>0</number>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

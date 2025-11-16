@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ShowStrategicAllNumber.png</file>
+        <file>Qtres/Preview.png</file>
+    </qresource>
+</RCC>

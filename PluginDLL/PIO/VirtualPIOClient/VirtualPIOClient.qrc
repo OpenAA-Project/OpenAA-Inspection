@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/VirtualPIOClient">
+        <file>Resources/VirtualPIOClient.png</file>
+    </qresource>
+</RCC>

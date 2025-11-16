@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(BUTTONCALIBRATECAMERA_LIB)
+#  define BUTTONCALIBRATECAMERA_EXPORT Q_DECL_EXPORT
+# else
+#  define BUTTONCALIBRATECAMERA_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define BUTTONCALIBRATECAMERA_EXPORT
+#endif

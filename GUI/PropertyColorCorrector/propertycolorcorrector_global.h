@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(PROPERTYCOLORCORRECTOR_LIB)
+#  define PROPERTYCOLORCORRECTOR_EXPORT Q_DECL_EXPORT
+# else
+#  define PROPERTYCOLORCORRECTOR_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define PROPERTYCOLORCORRECTOR_EXPORT
+#endif

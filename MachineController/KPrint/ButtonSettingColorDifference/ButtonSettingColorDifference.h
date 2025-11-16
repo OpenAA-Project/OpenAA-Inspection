@@ -1,0 +1,6 @@
+#ifndef BUTTONSETTINGCOLORDIFFERENCE_H
+#define BUTTONSETTINGCOLORDIFFERENCE_H
+
+#include "buttonsettingcolordifference_global.h"
+
+#endif // BUTTONSETTINGCOLORDIFFERENCE_H

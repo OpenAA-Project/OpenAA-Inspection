@@ -1,0 +1,12 @@
+#ifndef EXECUTEBATCH_GLOBAL_H
+#define EXECUTEBATCH_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef EXECUTEBATCH_LIB
+# define EXECUTEBATCH_EXPORT Q_DECL_EXPORT
+#else
+# define EXECUTEBATCH_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // EXECUTEBATCH_GLOBAL_H

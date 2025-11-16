@@ -1,0 +1,12 @@
+#ifndef DFSFILTERMJC_GLOBAL_H
+#define DFSFILTERMJC_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef DFSFILTERMJC_LIB
+# define DFSFILTERMJC_EXPORT Q_DECL_EXPORT
+#else
+# define DFSFILTERMJC_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // DFSFILTERMJC_GLOBAL_H

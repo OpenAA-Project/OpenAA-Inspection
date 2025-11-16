@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/GeneralHairLine.png</file>
+    </qresource>
+</RCC>

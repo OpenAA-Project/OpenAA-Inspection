@@ -1,0 +1,12 @@
+#ifndef EVOBJCOUNTUP_GLOBAL_H
+#define EVOBJCOUNTUP_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef EVOBJCOUNTUP_LIB
+# define EVOBJCOUNTUP_EXPORT Q_DECL_EXPORT
+#else
+# define EVOBJCOUNTUP_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // EVOBJCOUNTUP_GLOBAL_H

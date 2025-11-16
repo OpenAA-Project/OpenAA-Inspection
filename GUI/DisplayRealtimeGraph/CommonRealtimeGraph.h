@@ -1,0 +1,6 @@
+#if	!defined(COMMONREALTIMEGRAPH_H)
+#define	COMMONREALTIMEGRAPH_H
+
+
+
+#endif

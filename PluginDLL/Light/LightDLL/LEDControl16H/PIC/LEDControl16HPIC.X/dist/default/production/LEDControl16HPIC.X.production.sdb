@@ -1,0 +1,915 @@
+[p GLOBOPT AUTOSTATIC IEEE_FLT IEEE_DBL LFSROK EMI_WORD ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 18F57Q43 ]
+[d frameptr 1249 ]
+"113 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/adcc.c
+[e E16691 . `uc
+channel_ANA0 0
+channel_VSS 59
+channel_Temp 60
+channel_DAC1 61
+channel_FVR_Buffer1 62
+channel_FVR_Buffer2 63
+]
+"79 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/spi1.c
+[e E355 . `uc
+SPI1_DEFAULT 0
+]
+"4 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c99\common\fleq.c
+[v ___fleq __fleq `(b  1 e 0 0 ]
+"62 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c99\common\float.c
+[v ___ftpack __ftpack `(f  1 e 4 0 ]
+"86 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c99\common\ftadd.c
+[v ___ftadd __ftadd `(f  1 e 4 0 ]
+"54 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c99\common\ftdiv.c
+[v ___ftdiv __ftdiv `(f  1 e 4 0 ]
+"62 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c99\common\ftmul.c
+[v ___ftmul __ftmul `(f  1 e 4 0 ]
+"19 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c99\common\ftsub.c
+[v ___ftsub __ftsub `(f  1 e 4 0 ]
+"10 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c99\common\sprcadd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+"245
+[v ___flsub __flsub `(d  1 e 4 0 ]
+"11 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c99\common\sprcdiv.c
+[v ___fldiv __fldiv `(d  1 e 4 0 ]
+"8 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c99\common\sprcmul.c
+[v ___flmul __flmul `(d  1 e 4 0 ]
+"15 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c99\common\Umul16.c
+[v ___wmul __wmul `(ui  1 e 2 0 ]
+"15 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c99\common\Umul32.c
+[v ___lmul __lmul `(ul  1 e 4 0 ]
+"91 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c99\common\Umul64.c
+[v ___omul __omul `(uo  1 e 8 0 ]
+"56 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\main.c
+[v _FPGA_SetCmd FPGA_SetCmd `(v  1 e 1 0 ]
+"72
+[v _FPGA_SetAddress FPGA_SetAddress `(v  1 e 1 0 ]
+"94
+[v _FPGA_CLK FPGA_CLK `(v  1 e 1 0 ]
+"101
+[v _FPGA_CS FPGA_CS `(v  1 e 1 0 ]
+"108
+[v _FPGA_SetRW FPGA_SetRW `(v  1 e 1 0 ]
+"116
+[v _FPGA_SetData FPGA_SetData `(v  1 e 1 0 ]
+"151
+[v _FPGA_GetData FPGA_GetData `(uc  1 e 1 0 ]
+"167
+[v _FPGA_GetBuff FPGA_GetBuff `(v  1 e 1 0 ]
+"186
+[v _FPGA_SetBuff FPGA_SetBuff `(v  1 e 1 0 ]
+"206
+[v _FPGA_SetLightBaseCounter FPGA_SetLightBaseCounter `(v  1 e 1 0 ]
+"214
+[v _FPGA_SetLightHighCounter FPGA_SetLightHighCounter `(v  1 e 1 0 ]
+"222
+[v _FPGA_SetLightMask FPGA_SetLightMask `(v  1 e 1 0 ]
+"246
+[v _FPGA_SetMode FPGA_SetMode `(v  1 e 1 0 ]
+"256
+[v _FPGA_LightON FPGA_LightON `(v  1 e 1 0 ]
+"266
+[v _GetADFromLight GetADFromLight `(us  1 e 2 0 ]
+"298
+[v _main main `(v  1 e 1 0 ]
+"62 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/adcc.c
+[v _ADCC_Initialize ADCC_Initialize `(v  1 e 1 0 ]
+"131
+[v _ADCC_GetConversionResult ADCC_GetConversionResult `(us  1 e 2 0 ]
+"50 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/mcc.c
+[v _SYSTEM_Initialize SYSTEM_Initialize `(v  1 e 1 0 ]
+"60
+[v _OSCILLATOR_Initialize OSCILLATOR_Initialize `(v  1 e 1 0 ]
+"76
+[v _PMD_Initialize PMD_Initialize `(v  1 e 1 0 ]
+"55 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/pin_manager.c
+[v _PIN_MANAGER_Initialize PIN_MANAGER_Initialize `(v  1 e 1 0 ]
+"64 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/spi1.c
+[v _SPI1_Initialize SPI1_Initialize `(v  1 e 1 0 ]
+"99
+[v _SPI1_ExchangeByte SPI1_ExchangeByte `(uc  1 e 1 0 ]
+"66 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/uart1.c
+[v _UART1_Initialize UART1_Initialize `(v  1 e 1 0 ]
+"183
+[v _UART1_DefaultFramingErrorHandler UART1_DefaultFramingErrorHandler `(v  1 e 1 0 ]
+"185
+[v _UART1_DefaultOverrunErrorHandler UART1_DefaultOverrunErrorHandler `(v  1 e 1 0 ]
+"187
+[v _UART1_DefaultErrorHandler UART1_DefaultErrorHandler `(v  1 e 1 0 ]
+"190
+[v _UART1_SetFramingErrorHandler UART1_SetFramingErrorHandler `(v  1 e 1 0 ]
+"194
+[v _UART1_SetOverrunErrorHandler UART1_SetOverrunErrorHandler `(v  1 e 1 0 ]
+"198
+[v _UART1_SetErrorHandler UART1_SetErrorHandler `(v  1 e 1 0 ]
+"1281 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC18F-Q_DFP/1.13.211/xc8\pic\include\proc\pic18f57q43.h
+[v _PMD0 PMD0 `VEuc  1 e 1 @96 ]
+"1338
+[v _PMD1 PMD1 `VEuc  1 e 1 @97 ]
+"1400
+[v _PMD3 PMD3 `VEuc  1 e 1 @99 ]
+"1451
+[v _PMD4 PMD4 `VEuc  1 e 1 @100 ]
+"1507
+[v _PMD5 PMD5 `VEuc  1 e 1 @101 ]
+"1558
+[v _PMD6 PMD6 `VEuc  1 e 1 @102 ]
+"1620
+[v _PMD7 PMD7 `VEuc  1 e 1 @103 ]
+"1682
+[v _PMD8 PMD8 `VEuc  1 e 1 @104 ]
+"3339
+[v _SPI1RXB SPI1RXB `VEuc  1 e 1 @128 ]
+"3409
+[v _SPI1TXB SPI1TXB `VEuc  1 e 1 @129 ]
+"3486
+[v _SPI1TCNTL SPI1TCNTL `VEuc  1 e 1 @130 ]
+"3526
+[v _SPI1CON0 SPI1CON0 `VEuc  1 e 1 @132 ]
+[s S751 . 1 `uc 1 BMODE 1 0 :1:0 
+`uc 1 MST 1 0 :1:1 
+`uc 1 LSBF 1 0 :1:2 
+`uc 1 . 1 0 :4:3 
+`uc 1 EN 1 0 :1:7 
+]
+"3547
+[s S757 . 1 `uc 1 SPI1BMODE 1 0 :1:0 
+`uc 1 SPI1MST 1 0 :1:1 
+`uc 1 SPI1LSBF 1 0 :1:2 
+`uc 1 . 1 0 :4:3 
+`uc 1 SPI1SPIEN 1 0 :1:7 
+]
+[u S763 . 1 `S751 1 . 1 0 `S757 1 . 1 0 ]
+[v _SPI1CON0bits SPI1CON0bits `VES763  1 e 1 @132 ]
+"3592
+[v _SPI1CON1 SPI1CON1 `VEuc  1 e 1 @133 ]
+"3694
+[v _SPI1CON2 SPI1CON2 `VEuc  1 e 1 @134 ]
+"3894
+[v _SPI1BAUD SPI1BAUD `VEuc  1 e 1 @137 ]
+"4148
+[v _SPI1CLK SPI1CLK `VEuc  1 e 1 @140 ]
+"5141
+[v _ACTCON ACTCON `VEuc  1 e 1 @172 ]
+"5211
+[v _OSCCON1 OSCCON1 `VEuc  1 e 1 @173 ]
+"5351
+[v _OSCCON3 OSCCON3 `VEuc  1 e 1 @175 ]
+"5391
+[v _OSCTUNE OSCTUNE `VEuc  1 e 1 @176 ]
+"5449
+[v _OSCFRQ OSCFRQ `VEuc  1 e 1 @177 ]
+"5651
+[v _OSCEN OSCEN `VEuc  1 e 1 @179 ]
+"9709
+[v _RC3PPS RC3PPS `VEuc  1 e 1 @532 ]
+"9821
+[v _RC5PPS RC5PPS `VEuc  1 e 1 @534 ]
+"9877
+[v _RC6PPS RC6PPS `VEuc  1 e 1 @535 ]
+"14251
+[v _SPI1SCKPPS SPI1SCKPPS `VEuc  1 e 1 @618 ]
+"14317
+[v _SPI1SDIPPS SPI1SDIPPS `VEuc  1 e 1 @619 ]
+"14779
+[v _U1RXPPS U1RXPPS `VEuc  1 e 1 @626 ]
+"15475
+[v _RC4I2C RC4I2C `VEuc  1 e 1 @646 ]
+"15607
+[v _RC3I2C RC3I2C `VEuc  1 e 1 @647 ]
+"15739
+[v _RB2I2C RB2I2C `VEuc  1 e 1 @648 ]
+"15871
+[v _RB1I2C RB1I2C `VEuc  1 e 1 @649 ]
+"17048
+[v _U1RXB U1RXB `VEuc  1 e 1 @673 ]
+"17106
+[v _U1TXB U1TXB `VEuc  1 e 1 @675 ]
+"17171
+[v _U1P1L U1P1L `VEuc  1 e 1 @677 ]
+"17191
+[v _U1P1H U1P1H `VEuc  1 e 1 @678 ]
+"17218
+[v _U1P2L U1P2L `VEuc  1 e 1 @679 ]
+"17238
+[v _U1P2H U1P2H `VEuc  1 e 1 @680 ]
+"17265
+[v _U1P3L U1P3L `VEuc  1 e 1 @681 ]
+"17285
+[v _U1P3H U1P3H `VEuc  1 e 1 @682 ]
+"17305
+[v _U1CON0 U1CON0 `VEuc  1 e 1 @683 ]
+[s S194 . 1 `uc 1 MODE0 1 0 :1:0 
+`uc 1 MODE1 1 0 :1:1 
+`uc 1 MODE2 1 0 :1:2 
+`uc 1 MODE3 1 0 :1:3 
+]
+"17338
+[s S199 . 1 `uc 1 U1MODE 1 0 :4:0 
+`uc 1 U1RXEN 1 0 :1:4 
+`uc 1 U1TXEN 1 0 :1:5 
+`uc 1 U1ABDEN 1 0 :1:6 
+`uc 1 U1BRGS 1 0 :1:7 
+]
+[s S205 . 1 `uc 1 U1MODE0 1 0 :1:0 
+`uc 1 U1MODE1 1 0 :1:1 
+`uc 1 U1MODE2 1 0 :1:2 
+`uc 1 U1MODE3 1 0 :1:3 
+]
+[s S210 . 1 `uc 1 MODE 1 0 :4:0 
+`uc 1 RXEN 1 0 :1:4 
+`uc 1 TXEN 1 0 :1:5 
+`uc 1 ABDEN 1 0 :1:6 
+`uc 1 BRGS 1 0 :1:7 
+]
+[u S216 . 1 `S194 1 . 1 0 `S199 1 . 1 0 `S205 1 . 1 0 `S210 1 . 1 0 ]
+[v _U1CON0bits U1CON0bits `VES216  1 e 1 @683 ]
+"17433
+[v _U1CON1 U1CON1 `VEuc  1 e 1 @684 ]
+"17513
+[v _U1CON2 U1CON2 `VEuc  1 e 1 @685 ]
+"17662
+[v _U1BRGL U1BRGL `VEuc  1 e 1 @686 ]
+"17682
+[v _U1BRGH U1BRGH `VEuc  1 e 1 @687 ]
+"17702
+[v _U1FIFO U1FIFO `VEuc  1 e 1 @688 ]
+"17832
+[v _U1UIR U1UIR `VEuc  1 e 1 @689 ]
+"17888
+[v _U1ERRIR U1ERRIR `VEuc  1 e 1 @690 ]
+[s S244 . 1 `uc 1 TXCIF 1 0 :1:0 
+`uc 1 RXFOIF 1 0 :1:1 
+`uc 1 RXBKIF 1 0 :1:2 
+`uc 1 FERIF 1 0 :1:3 
+`uc 1 CERIF 1 0 :1:4 
+`uc 1 ABDOVF 1 0 :1:5 
+`uc 1 PERIF 1 0 :1:6 
+`uc 1 TXMTIF 1 0 :1:7 
+]
+"17915
+[s S253 . 1 `uc 1 U1TXCIF 1 0 :1:0 
+`uc 1 U1RXFOIF 1 0 :1:1 
+`uc 1 U1RXBKIF 1 0 :1:2 
+`uc 1 U1FERIF 1 0 :1:3 
+`uc 1 U1CERIF 1 0 :1:4 
+`uc 1 U1ABDOVF 1 0 :1:5 
+`uc 1 U1PERIF 1 0 :1:6 
+`uc 1 U1TXMTIF 1 0 :1:7 
+]
+[u S262 . 1 `S244 1 . 1 0 `S253 1 . 1 0 ]
+[v _U1ERRIRbits U1ERRIRbits `VES262  1 e 1 @690 ]
+"18000
+[v _U1ERRIE U1ERRIE `VEuc  1 e 1 @691 ]
+"35200
+[v _ADLTHL ADLTHL `VEuc  1 e 1 @985 ]
+"35328
+[v _ADLTHH ADLTHH `VEuc  1 e 1 @986 ]
+"35463
+[v _ADUTHL ADUTHL `VEuc  1 e 1 @987 ]
+"35591
+[v _ADUTHH ADUTHH `VEuc  1 e 1 @988 ]
+"35726
+[v _ADERRL ADERRL `VEuc  1 e 1 @989 ]
+"35854
+[v _ADERRH ADERRH `VEuc  1 e 1 @990 ]
+"35989
+[v _ADSTPTL ADSTPTL `VEuc  1 e 1 @991 ]
+"36117
+[v _ADSTPTH ADSTPTH `VEuc  1 e 1 @992 ]
+"36252
+[v _ADFLTRL ADFLTRL `VEuc  1 e 1 @993 ]
+"36380
+[v _ADFLTRH ADFLTRH `VEuc  1 e 1 @994 ]
+"36517
+[v _ADACCL ADACCL `VEuc  1 e 1 @995 ]
+"36645
+[v _ADACCH ADACCH `VEuc  1 e 1 @996 ]
+"36773
+[v _ADACCU ADACCU `VEuc  1 e 1 @997 ]
+"36901
+[v _ADCNT ADCNT `VEuc  1 e 1 @998 ]
+"37029
+[v _ADRPT ADRPT `VEuc  1 e 1 @999 ]
+"37164
+[v _ADPREVL ADPREVL `VEuc  1 e 1 @1000 ]
+"37292
+[v _ADPREVH ADPREVH `VEuc  1 e 1 @1001 ]
+"37427
+[v _ADRESL ADRESL `VEuc  1 e 1 @1002 ]
+"37555
+[v _ADRESH ADRESH `VEuc  1 e 1 @1003 ]
+"37675
+[v _ADPCH ADPCH `VEuc  1 e 1 @1004 ]
+"37740
+[v _ADACQL ADACQL `VEuc  1 e 1 @1006 ]
+"37868
+[v _ADACQH ADACQH `VEuc  1 e 1 @1007 ]
+"37960
+[v _ADCAP ADCAP `VEuc  1 e 1 @1008 ]
+"38019
+[v _ADPREL ADPREL `VEuc  1 e 1 @1009 ]
+"38147
+[v _ADPREH ADPREH `VEuc  1 e 1 @1010 ]
+"38239
+[v _ADCON0 ADCON0 `VEuc  1 e 1 @1011 ]
+[s S376 . 1 `uc 1 GO 1 0 :1:0 
+`uc 1 . 1 0 :1:1 
+`uc 1 FM 1 0 :2:2 
+`uc 1 CS 1 0 :1:4 
+`uc 1 . 1 0 :1:5 
+`uc 1 CONT 1 0 :1:6 
+`uc 1 ON 1 0 :1:7 
+]
+"38277
+[s S384 . 1 `uc 1 ADGO 1 0 :1:0 
+`uc 1 . 1 0 :1:1 
+`uc 1 ADFM 1 0 :2:2 
+`uc 1 ADCS 1 0 :1:4 
+`uc 1 . 1 0 :1:5 
+`uc 1 ADCONT 1 0 :1:6 
+`uc 1 ADON 1 0 :1:7 
+]
+"38277
+[s S392 . 1 `uc 1 DONE 1 0 :1:0 
+`uc 1 . 1 0 :1:1 
+`uc 1 FM0 1 0 :1:2 
+]
+"38277
+[s S396 . 1 `uc 1 GO_NOT_DONE 1 0 :1:0 
+]
+"38277
+[s S398 . 1 `uc 1 GO_nDONE 1 0 :1:0 
+`uc 1 . 1 0 :1:1 
+`uc 1 ADFM0 1 0 :1:2 
+]
+"38277
+[u S402 . 1 `S376 1 . 1 0 `S384 1 . 1 0 `S392 1 . 1 0 `S396 1 . 1 0 `S398 1 . 1 0 ]
+"38277
+"38277
+[v _ADCON0bits ADCON0bits `VES402  1 e 1 @1011 ]
+"38357
+[v _ADCON1 ADCON1 `VEuc  1 e 1 @1012 ]
+[s S616 . 1 `uc 1 DSEN 1 0 :1:0 
+`uc 1 . 1 0 :4:1 
+`uc 1 GPOL 1 0 :1:5 
+`uc 1 IPEN 1 0 :1:6 
+`uc 1 PPOL 1 0 :1:7 
+]
+"38378
+[s S622 . 1 `uc 1 ADDSEN 1 0 :1:0 
+`uc 1 . 1 0 :4:1 
+`uc 1 ADGPOL 1 0 :1:5 
+`uc 1 ADIPEN 1 0 :1:6 
+`uc 1 ADPPOL 1 0 :1:7 
+]
+"38378
+[u S628 . 1 `S616 1 . 1 0 `S622 1 . 1 0 ]
+"38378
+"38378
+[v _ADCON1bits ADCON1bits `VES628  1 e 1 @1012 ]
+"38423
+[v _ADCON2 ADCON2 `VEuc  1 e 1 @1013 ]
+[s S492 . 1 `uc 1 MD 1 0 :3:0 
+`uc 1 ACLR 1 0 :1:3 
+`uc 1 CRS 1 0 :3:4 
+`uc 1 PSIS 1 0 :1:7 
+]
+"38460
+[s S497 . 1 `uc 1 ADMD0 1 0 :1:0 
+`uc 1 ADMD1 1 0 :1:1 
+`uc 1 ADMD2 1 0 :1:2 
+`uc 1 ADACLR 1 0 :1:3 
+`uc 1 ADCRS0 1 0 :1:4 
+`uc 1 ADCRS1 1 0 :1:5 
+`uc 1 ADCRS2 1 0 :1:6 
+`uc 1 ADPSIS 1 0 :1:7 
+]
+"38460
+[s S506 . 1 `uc 1 ADMD 1 0 :3:0 
+`uc 1 . 1 0 :1:3 
+`uc 1 ADCRS 1 0 :3:4 
+]
+"38460
+[s S510 . 1 `uc 1 MD0 1 0 :1:0 
+`uc 1 MD1 1 0 :1:1 
+`uc 1 MD2 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 CRS0 1 0 :1:4 
+`uc 1 CRS1 1 0 :1:5 
+`uc 1 CRS2 1 0 :1:6 
+]
+"38460
+[u S518 . 1 `S492 1 . 1 0 `S497 1 . 1 0 `S506 1 . 1 0 `S510 1 . 1 0 ]
+"38460
+"38460
+[v _ADCON2bits ADCON2bits `VES518  1 e 1 @1013 ]
+"38565
+[v _ADCON3 ADCON3 `VEuc  1 e 1 @1014 ]
+[s S437 . 1 `uc 1 TMD 1 0 :3:0 
+`uc 1 SOI 1 0 :1:3 
+`uc 1 CALC 1 0 :3:4 
+]
+"38600
+[s S441 . 1 `uc 1 ADTMD0 1 0 :1:0 
+`uc 1 ADTMD1 1 0 :1:1 
+`uc 1 ADTMD2 1 0 :1:2 
+`uc 1 ADSOI 1 0 :1:3 
+`uc 1 ADCALC0 1 0 :1:4 
+`uc 1 ADCALC1 1 0 :1:5 
+`uc 1 ADCALC2 1 0 :1:6 
+]
+"38600
+[s S449 . 1 `uc 1 ADTMD 1 0 :3:0 
+`uc 1 . 1 0 :1:3 
+`uc 1 ADCALC 1 0 :3:4 
+]
+"38600
+[s S453 . 1 `uc 1 TMD0 1 0 :1:0 
+`uc 1 TMD1 1 0 :1:1 
+`uc 1 TMD2 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 CALC0 1 0 :1:4 
+`uc 1 CALC1 1 0 :1:5 
+`uc 1 CALC2 1 0 :1:6 
+]
+"38600
+[u S461 . 1 `S437 1 . 1 0 `S441 1 . 1 0 `S449 1 . 1 0 `S453 1 . 1 0 ]
+"38600
+"38600
+[v _ADCON3bits ADCON3bits `VES461  1 e 1 @1014 ]
+"38695
+[v _ADSTAT ADSTAT `VEuc  1 e 1 @1015 ]
+[s S552 . 1 `uc 1 STAT 1 0 :3:0 
+`uc 1 . 1 0 :1:3 
+`uc 1 MATH 1 0 :1:4 
+`uc 1 LTHR 1 0 :1:5 
+`uc 1 UTHR 1 0 :1:6 
+`uc 1 AOV 1 0 :1:7 
+]
+"38732
+[s S559 . 1 `uc 1 ADSTAT0 1 0 :1:0 
+`uc 1 ADSTAT1 1 0 :1:1 
+`uc 1 ADSTAT2 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 ADMATH 1 0 :1:4 
+`uc 1 ADLTHR 1 0 :1:5 
+`uc 1 ADUTHR 1 0 :1:6 
+`uc 1 ADAOV 1 0 :1:7 
+]
+"38732
+[s S568 . 1 `uc 1 ADSTAT 1 0 :3:0 
+`uc 1 . 1 0 :4:3 
+`uc 1 ADOV 1 0 :1:7 
+]
+"38732
+[s S572 . 1 `uc 1 STAT0 1 0 :1:0 
+`uc 1 STAT1 1 0 :1:1 
+`uc 1 STAT2 1 0 :1:2 
+`uc 1 . 1 0 :4:3 
+`uc 1 OV 1 0 :1:7 
+]
+"38732
+[u S578 . 1 `S552 1 . 1 0 `S559 1 . 1 0 `S568 1 . 1 0 `S572 1 . 1 0 ]
+"38732
+"38732
+[v _ADSTATbits ADSTATbits `VES578  1 e 1 @1015 ]
+"38827
+[v _ADREF ADREF `VEuc  1 e 1 @1016 ]
+"38909
+[v _ADACT ADACT `VEuc  1 e 1 @1017 ]
+"39013
+[v _ADCLK ADCLK `VEuc  1 e 1 @1018 ]
+"39117
+[v _ANSELA ANSELA `VEuc  1 e 1 @1024 ]
+"39179
+[v _WPUA WPUA `VEuc  1 e 1 @1025 ]
+"39241
+[v _ODCONA ODCONA `VEuc  1 e 1 @1026 ]
+"39303
+[v _SLRCONA SLRCONA `VEuc  1 e 1 @1027 ]
+"39365
+[v _INLVLA INLVLA `VEuc  1 e 1 @1028 ]
+"39613
+[v _ANSELB ANSELB `VEuc  1 e 1 @1032 ]
+"39675
+[v _WPUB WPUB `VEuc  1 e 1 @1033 ]
+"39737
+[v _ODCONB ODCONB `VEuc  1 e 1 @1034 ]
+"39799
+[v _SLRCONB SLRCONB `VEuc  1 e 1 @1035 ]
+"39861
+[v _INLVLB INLVLB `VEuc  1 e 1 @1036 ]
+"40109
+[v _ANSELC ANSELC `VEuc  1 e 1 @1040 ]
+"40171
+[v _WPUC WPUC `VEuc  1 e 1 @1041 ]
+"40233
+[v _ODCONC ODCONC `VEuc  1 e 1 @1042 ]
+"40295
+[v _SLRCONC SLRCONC `VEuc  1 e 1 @1043 ]
+"40357
+[v _INLVLC INLVLC `VEuc  1 e 1 @1044 ]
+"40605
+[v _ANSELD ANSELD `VEuc  1 e 1 @1048 ]
+"40667
+[v _WPUD WPUD `VEuc  1 e 1 @1049 ]
+"40729
+[v _ODCOND ODCOND `VEuc  1 e 1 @1050 ]
+"40791
+[v _SLRCOND SLRCOND `VEuc  1 e 1 @1051 ]
+"40853
+[v _INLVLD INLVLD `VEuc  1 e 1 @1052 ]
+"40915
+[v _ANSELE ANSELE `VEuc  1 e 1 @1056 ]
+"40947
+[v _WPUE WPUE `VEuc  1 e 1 @1057 ]
+"40985
+[v _ODCONE ODCONE `VEuc  1 e 1 @1058 ]
+"41017
+[v _SLRCONE SLRCONE `VEuc  1 e 1 @1059 ]
+"41049
+[v _INLVLE INLVLE `VEuc  1 e 1 @1060 ]
+"41150
+[v _ANSELF ANSELF `VEuc  1 e 1 @1064 ]
+"41212
+[v _WPUF WPUF `VEuc  1 e 1 @1065 ]
+"41274
+[v _ODCONF ODCONF `VEuc  1 e 1 @1066 ]
+"41336
+[v _SLRCONF SLRCONF `VEuc  1 e 1 @1067 ]
+"41398
+[v _INLVLF INLVLF `VEuc  1 e 1 @1068 ]
+[s S781 . 1 `uc 1 SPI1RXIF 1 0 :1:0 
+`uc 1 SPI1TXIF 1 0 :1:1 
+`uc 1 SPI1IF 1 0 :1:2 
+`uc 1 TMR2IF 1 0 :1:3 
+`uc 1 TMR1IF 1 0 :1:4 
+`uc 1 TMR1GIF 1 0 :1:5 
+`uc 1 CCP1IF 1 0 :1:6 
+`uc 1 TMR0IF 1 0 :1:7 
+]
+"46815
+[u S790 . 1 `S781 1 . 1 0 ]
+"46815
+"46815
+[v _PIR3bits PIR3bits `VES790  1 e 1 @1201 ]
+[s S175 . 1 `uc 1 U1RXIF 1 0 :1:0 
+`uc 1 U1TXIF 1 0 :1:1 
+`uc 1 U1EIF 1 0 :1:2 
+`uc 1 U1IF 1 0 :1:3 
+`uc 1 . 1 0 :2:4 
+`uc 1 PWM1PIF 1 0 :1:6 
+`uc 1 PWM1IF 1 0 :1:7 
+]
+"46876
+[u S183 . 1 `S175 1 . 1 0 ]
+"46876
+"46876
+[v _PIR4bits PIR4bits `VES183  1 e 1 @1202 ]
+"47513
+[v _LATA LATA `VEuc  1 e 1 @1214 ]
+[s S858 . 1 `uc 1 LATA0 1 0 :1:0 
+`uc 1 LATA1 1 0 :1:1 
+`uc 1 LATA2 1 0 :1:2 
+`uc 1 LATA3 1 0 :1:3 
+`uc 1 LATA4 1 0 :1:4 
+`uc 1 LATA5 1 0 :1:5 
+`uc 1 LATA6 1 0 :1:6 
+`uc 1 LATA7 1 0 :1:7 
+]
+"47530
+[u S867 . 1 `S858 1 . 1 0 ]
+"47530
+"47530
+[v _LATAbits LATAbits `VES867  1 e 1 @1214 ]
+"47575
+[v _LATB LATB `VEuc  1 e 1 @1215 ]
+[s S953 . 1 `uc 1 LATB0 1 0 :1:0 
+`uc 1 LATB1 1 0 :1:1 
+`uc 1 LATB2 1 0 :1:2 
+`uc 1 LATB3 1 0 :1:3 
+`uc 1 LATB4 1 0 :1:4 
+`uc 1 LATB5 1 0 :1:5 
+`uc 1 LATB6 1 0 :1:6 
+`uc 1 LATB7 1 0 :1:7 
+]
+"47592
+[u S962 . 1 `S953 1 . 1 0 ]
+"47592
+"47592
+[v _LATBbits LATBbits `VES962  1 e 1 @1215 ]
+"47637
+[v _LATC LATC `VEuc  1 e 1 @1216 ]
+[s S879 . 1 `uc 1 LATC0 1 0 :1:0 
+`uc 1 LATC1 1 0 :1:1 
+`uc 1 LATC2 1 0 :1:2 
+`uc 1 LATC3 1 0 :1:3 
+`uc 1 LATC4 1 0 :1:4 
+`uc 1 LATC5 1 0 :1:5 
+`uc 1 LATC6 1 0 :1:6 
+`uc 1 LATC7 1 0 :1:7 
+]
+"47654
+[u S888 . 1 `S879 1 . 1 0 ]
+"47654
+"47654
+[v _LATCbits LATCbits `VES888  1 e 1 @1216 ]
+"47699
+[v _LATD LATD `VEuc  1 e 1 @1217 ]
+[s S911 . 1 `uc 1 LATD0 1 0 :1:0 
+`uc 1 LATD1 1 0 :1:1 
+`uc 1 LATD2 1 0 :1:2 
+`uc 1 LATD3 1 0 :1:3 
+`uc 1 LATD4 1 0 :1:4 
+`uc 1 LATD5 1 0 :1:5 
+`uc 1 LATD6 1 0 :1:6 
+`uc 1 LATD7 1 0 :1:7 
+]
+"47716
+[u S920 . 1 `S911 1 . 1 0 ]
+"47716
+"47716
+[v _LATDbits LATDbits `VES920  1 e 1 @1217 ]
+"47761
+[v _LATE LATE `VEuc  1 e 1 @1218 ]
+[s S900 . 1 `uc 1 LATE0 1 0 :1:0 
+`uc 1 LATE1 1 0 :1:1 
+`uc 1 LATE2 1 0 :1:2 
+]
+"47773
+[u S904 . 1 `S900 1 . 1 0 ]
+"47773
+"47773
+[v _LATEbits LATEbits `VES904  1 e 1 @1218 ]
+"47793
+[v _LATF LATF `VEuc  1 e 1 @1219 ]
+"47855
+[v _TRISA TRISA `VEuc  1 e 1 @1222 ]
+"47917
+[v _TRISB TRISB `VEuc  1 e 1 @1223 ]
+"47979
+[v _TRISC TRISC `VEuc  1 e 1 @1224 ]
+[s S728 . 1 `uc 1 TRISC0 1 0 :1:0 
+`uc 1 TRISC1 1 0 :1:1 
+`uc 1 TRISC2 1 0 :1:2 
+`uc 1 TRISC3 1 0 :1:3 
+`uc 1 TRISC4 1 0 :1:4 
+`uc 1 TRISC5 1 0 :1:5 
+`uc 1 TRISC6 1 0 :1:6 
+`uc 1 TRISC7 1 0 :1:7 
+]
+"47996
+[u S737 . 1 `S728 1 . 1 0 ]
+"47996
+"47996
+[v _TRISCbits TRISCbits `VES737  1 e 1 @1224 ]
+"48041
+[v _TRISD TRISD `VEuc  1 e 1 @1225 ]
+"48103
+[v _TRISE TRISE `VEuc  1 e 1 @1226 ]
+"48135
+[v _TRISF TRISF `VEuc  1 e 1 @1227 ]
+[s S932 . 1 `uc 1 RF0 1 0 :1:0 
+`uc 1 RF1 1 0 :1:1 
+`uc 1 RF2 1 0 :1:2 
+`uc 1 RF3 1 0 :1:3 
+`uc 1 RF4 1 0 :1:4 
+`uc 1 RF5 1 0 :1:5 
+`uc 1 RF6 1 0 :1:6 
+`uc 1 RF7 1 0 :1:7 
+]
+"48500
+[u S941 . 1 `S932 1 . 1 0 ]
+"48500
+"48500
+[v _PORTFbits PORTFbits `VES941  1 e 1 @1235 ]
+[s S852 LightLineData 5 `us 1 BaseCounter 2 0 `us 1 HighCounter 2 2 `a 1 Mask 1 4 ]
+"50 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\main.c
+[s S856 LightPattern 80 `[16]S852 1 LineData 80 0 ]
+[v _CurrentPatternData CurrentPatternData `S856  1 e 80 0 ]
+"51
+[v _DipSW DipSW `i  1 e 2 0 ]
+"52
+[v _RegTestLED RegTestLED `a  1 e 1 0 ]
+"53
+[v _RegPLSEnable RegPLSEnable `a  1 e 1 0 ]
+"54
+[v _RegPulseOutMode RegPulseOutMode `a  1 e 1 0 ]
+[s S717 . 5 `uc 1 con0 1 0 `uc 1 con1 1 1 `uc 1 con2 1 2 `uc 1 baud 1 3 `uc 1 operation 1 4 ]
+"60 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/spi1.c
+[v _spi1_configuration spi1_configuration `C[1]S717  1 s 5 spi1_configuration ]
+[s S119 . 1 `uc 1 perr 1 0 :1:0 
+`uc 1 ferr 1 0 :1:1 
+`uc 1 oerr 1 0 :1:2 
+`uc 1 reserved 1 0 :5:3 
+]
+"53 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/uart1.c
+[u S124 . 1 `S119 1 . 1 0 `uc 1 status 1 0 ]
+[v _uart1RxLastError uart1RxLastError `VES124  1 s 1 uart1RxLastError ]
+"58
+[v _UART1_FramingErrorHandler UART1_FramingErrorHandler `*.38(v  1 e 3 0 ]
+"59
+[v _UART1_OverrunErrorHandler UART1_OverrunErrorHandler `*.38(v  1 e 3 0 ]
+"60
+[v _UART1_ErrorHandler UART1_ErrorHandler `*.38(v  1 e 3 0 ]
+"298 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\main.c
+[v _main main `(v  1 e 1 0 ]
+{
+"300
+[v main@Buff Buff `[16]uc  1 a 16 43 ]
+"302
+[v main@i i `i  1 a 2 59 ]
+"361
+} 0
+"50 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/mcc.c
+[v _SYSTEM_Initialize SYSTEM_Initialize `(v  1 e 1 0 ]
+{
+"58
+} 0
+"66 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/uart1.c
+[v _UART1_Initialize UART1_Initialize `(v  1 e 1 0 ]
+{
+"124
+} 0
+"194
+[v _UART1_SetOverrunErrorHandler UART1_SetOverrunErrorHandler `(v  1 e 1 0 ]
+{
+[v UART1_SetOverrunErrorHandler@interruptHandler interruptHandler `*.38(v  1 p 3 0 ]
+"196
+} 0
+"190
+[v _UART1_SetFramingErrorHandler UART1_SetFramingErrorHandler `(v  1 e 1 0 ]
+{
+[v UART1_SetFramingErrorHandler@interruptHandler interruptHandler `*.38(v  1 p 3 0 ]
+"192
+} 0
+"198
+[v _UART1_SetErrorHandler UART1_SetErrorHandler `(v  1 e 1 0 ]
+{
+[v UART1_SetErrorHandler@interruptHandler interruptHandler `*.38(v  1 p 3 0 ]
+"200
+} 0
+"64 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/spi1.c
+[v _SPI1_Initialize SPI1_Initialize `(v  1 e 1 0 ]
+{
+"77
+} 0
+"76 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/mcc.c
+[v _PMD_Initialize PMD_Initialize `(v  1 e 1 0 ]
+{
+"94
+} 0
+"55 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/pin_manager.c
+[v _PIN_MANAGER_Initialize PIN_MANAGER_Initialize `(v  1 e 1 0 ]
+{
+"148
+} 0
+"60 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/mcc.c
+[v _OSCILLATOR_Initialize OSCILLATOR_Initialize `(v  1 e 1 0 ]
+{
+"74
+} 0
+"62 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/adcc.c
+[v _ADCC_Initialize ADCC_Initialize `(v  1 e 1 0 ]
+{
+"111
+} 0
+"266 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\main.c
+[v _GetADFromLight GetADFromLight `(us  1 e 2 0 ]
+{
+[v GetADFromLight@Address Address `i  1 p 2 4 ]
+[v GetADFromLight@SelEN SelEN `a  1 p 1 6 ]
+"295
+} 0
+"131 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\mcc_generated_files/adcc.c
+[v _ADCC_GetConversionResult ADCC_GetConversionResult `(us  1 e 2 0 ]
+{
+"135
+} 0
+"246 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\main.c
+[v _FPGA_SetMode FPGA_SetMode `(v  1 e 1 0 ]
+{
+"248
+[v FPGA_SetMode@data data `uc  1 a 1 19 ]
+"254
+} 0
+"222
+[v _FPGA_SetLightMask FPGA_SetLightMask `(v  1 e 1 0 ]
+{
+"224
+[v FPGA_SetLightMask@data data `[2]uc  1 a 2 13 ]
+"244
+} 0
+"214
+[v _FPGA_SetLightHighCounter FPGA_SetLightHighCounter `(v  1 e 1 0 ]
+{
+"216
+[v FPGA_SetLightHighCounter@data data `[2]uc  1 a 2 17 ]
+"214
+[v FPGA_SetLightHighCounter@n n `i  1 p 2 13 ]
+"220
+} 0
+"206
+[v _FPGA_SetLightBaseCounter FPGA_SetLightBaseCounter `(v  1 e 1 0 ]
+{
+"208
+[v FPGA_SetLightBaseCounter@data data `[2]uc  1 a 2 17 ]
+"206
+[v FPGA_SetLightBaseCounter@n n `i  1 p 2 13 ]
+"212
+} 0
+"15 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c99\common\Umul16.c
+[v ___wmul __wmul `(ui  1 e 2 0 ]
+{
+"17
+[v ___wmul@product product `ui  1 a 2 4 ]
+"15
+[v ___wmul@multiplier multiplier `ui  1 p 2 0 ]
+[v ___wmul@multiplicand multiplicand `ui  1 p 2 2 ]
+"53
+} 0
+"256 C:\Regulus64v5\PluginDLL\Light\LightDLL\LEDControl16H\PIC\LEDControl16HPIC.X\main.c
+[v _FPGA_LightON FPGA_LightON `(v  1 e 1 0 ]
+{
+[v FPGA_LightON@ONMode ONMode `a  1 a 1 wreg ]
+"258
+[v FPGA_LightON@data data `uc  1 a 1 20 ]
+"256
+[v FPGA_LightON@ONMode ONMode `a  1 a 1 wreg ]
+"260
+[v FPGA_LightON@ONMode ONMode `a  1 a 1 13 ]
+"264
+} 0
+"186
+[v _FPGA_SetBuff FPGA_SetBuff `(v  1 e 1 0 ]
+{
+"188
+[v FPGA_SetBuff@i i `i  1 a 2 11 ]
+"186
+[v FPGA_SetBuff@Cmd Cmd `i  1 p 2 2 ]
+[v FPGA_SetBuff@Address Address `i  1 p 2 4 ]
+[v FPGA_SetBuff@data data `*.39uc  1 p 2 6 ]
+[v FPGA_SetBuff@DataLen DataLen `i  1 p 2 8 ]
+"204
+} 0
+"116
+[v _FPGA_SetData FPGA_SetData `(v  1 e 1 0 ]
+{
+[v FPGA_SetData@d d `uc  1 a 1 wreg ]
+[v FPGA_SetData@d d `uc  1 a 1 wreg ]
+"118
+[v FPGA_SetData@d d `uc  1 a 1 0 ]
+"150
+} 0
+"167
+[v _FPGA_GetBuff FPGA_GetBuff `(v  1 e 1 0 ]
+{
+"169
+[v FPGA_GetBuff@i i `i  1 a 2 24 ]
+"167
+[v FPGA_GetBuff@Cmd Cmd `i  1 p 2 15 ]
+[v FPGA_GetBuff@Address Address `i  1 p 2 17 ]
+[v FPGA_GetBuff@data data `*.39uc  1 p 2 19 ]
+[v FPGA_GetBuff@DataLen DataLen `i  1 p 2 21 ]
+"185
+} 0
+"108
+[v _FPGA_SetRW FPGA_SetRW `(v  1 e 1 0 ]
+{
+[v FPGA_SetRW@d d `i  1 p 2 0 ]
+"114
+} 0
+"56
+[v _FPGA_SetCmd FPGA_SetCmd `(v  1 e 1 0 ]
+{
+[v FPGA_SetCmd@Cmd Cmd `i  1 p 2 0 ]
+"70
+} 0
+"72
+[v _FPGA_SetAddress FPGA_SetAddress `(v  1 e 1 0 ]
+{
+[v FPGA_SetAddress@Address Address `i  1 p 2 0 ]
+"92
+} 0
+"151
+[v _FPGA_GetData FPGA_GetData `(uc  1 e 1 0 ]
+{
+"153
+[v FPGA_GetData@d d `uc  1 a 1 14 ]
+"165
+} 0
+"101
+[v _FPGA_CS FPGA_CS `(v  1 e 1 0 ]
+{
+[v FPGA_CS@d d `i  1 p 2 0 ]
+"107
+} 0
+"94
+[v _FPGA_CLK FPGA_CLK `(v  1 e 1 0 ]
+{
+[v FPGA_CLK@d d `i  1 p 2 0 ]
+"100
+} 0

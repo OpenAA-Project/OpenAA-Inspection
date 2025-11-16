@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(FILTERCONVERTRESOLUTION_LIB)
+#  define FILTERCONVERTRESOLUTION_EXPORT Q_DECL_EXPORT
+# else
+#  define FILTERCONVERTRESOLUTION_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define FILTERCONVERTRESOLUTION_EXPORT
+#endif

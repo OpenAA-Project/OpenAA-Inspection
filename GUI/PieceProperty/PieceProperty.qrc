@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PieceProperty.png</file>
+        <file>Qtres/Arrange.png</file>
+        <file>Qtres/Copy.png</file>
+        <file>Qtres/Cut.png</file>
+        <file>Qtres/Search.png</file>
+        <file>Qtres/Select.png</file>
+        <file>Qtres/Start.png</file>
+        <file>Qtres/Update.png</file>
+    </qresource>
+</RCC>

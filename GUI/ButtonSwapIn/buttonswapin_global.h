@@ -1,0 +1,12 @@
+#ifndef BUTTONSWAPIN_GLOBAL_H
+#define BUTTONSWAPIN_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef BUTTONSWAPIN_LIB
+# define BUTTONSWAPIN_EXPORT Q_DECL_EXPORT
+#else
+# define BUTTONSWAPIN_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // BUTTONSWAPIN_GLOBAL_H

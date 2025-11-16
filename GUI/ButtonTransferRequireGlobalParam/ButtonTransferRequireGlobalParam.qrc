@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonTransferRequireGlobalParam.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,12 @@
+#ifndef PANELXYSIZE_GLOBAL_H
+#define PANELXYSIZE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef PANELXYSIZE_LIB
+# define PANELXYSIZE_EXPORT Q_DECL_EXPORT
+#else
+# define PANELXYSIZE_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // PANELXYSIZE_GLOBAL_H

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PartialImagingImagePanel.png</file>
+    </qresource>
+</RCC>

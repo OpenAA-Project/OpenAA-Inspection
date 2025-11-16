@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/StartCaptureButtonForDesktop.png</file>
+        <file>Resources/StartCaptureImageForDesktop-en.bmp</file>
+        <file>Resources/StartCaptureImageForDesktop.bmp</file>
+    </qresource>
+</RCC>

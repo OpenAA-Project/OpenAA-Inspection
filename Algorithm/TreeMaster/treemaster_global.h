@@ -1,0 +1,12 @@
+#ifndef TREEMASTER_GLOBAL_H
+#define TREEMASTER_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef TREEMASTER_LIB
+# define TREEMASTER_EXPORT Q_DECL_EXPORT
+#else
+# define TREEMASTER_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // TREEMASTER_GLOBAL_H

@@ -1,0 +1,12 @@
+#ifndef SHUTDOWNDLL_GLOBAL_H
+#define SHUTDOWNDLL_GLOBAL_H
+
+#include <qglobal.h>
+
+#ifdef SHUTDOWNDLL_LIB
+# define SHUTDOWNDLL_EXPORT Q_DECL_EXPORT
+#else
+# define SHUTDOWNDLL_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // SHUTDOWNDLL_GLOBAL_H

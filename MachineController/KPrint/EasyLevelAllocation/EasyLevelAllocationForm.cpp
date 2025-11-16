@@ -1,0 +1,55 @@
+#include "EasyLevelAllocationResource.h"
+#include "EasyLevelAllocationForm.h"
+#include "ui_EasyLevelAllocationForm.h"
+#include "EasyLevelMapDialog.h"
+#include "CartonMenuForm.h"
+
+EasyLevelAllocationForm::EasyLevelAllocationForm(LayersBase *Base ,QWidget *parent) :
+    GUIFormBase(Base,parent),
+    ui(new Ui::EasyLevelAllocationForm)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+	Msg=/**/"Level";
+	connect(this,SIGNAL(SignalResize()), this ,SLOT(ResizeAction()));
+}
+
+EasyLevelAllocationForm::~EasyLevelAllocationForm()
+{
+    delete ui;
+}
+
+void	EasyLevelAllocationForm::Prepare(void)
+{
+	ui->PushButtonOpen->setText(Msg);
+	ui->PushButtonOpen->setFont (CFont);
+	ResizeAction();
+}
+
+void	EasyLevelAllocationForm::TransmitDirectly(GUIDirectMessage *packet)
+{
+	IntegrationShowLevelDialog	*IntegrationShowLevelDialogVar=dynamic_cast<IntegrationShowLevelDialog *>(packet);
+	if(IntegrationShowLevelDialogVar!=NULL){
+		on_PushButtonOpen_clicked();
+		return;
+	}
+}
+
+void EasyLevelAllocationForm::on_PushButtonOpen_clicked()
+{
+	EasyLevelMapDialog	D(GetLayersBase());
+	if(D.exec()==(int)true){
+		CartonMenuForm	*f=(CartonMenuForm	*)GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+		if(f!=NULL){
+			for(int i=0;i<CountOfLevel;i++){
+				f->Param.Level[i]=D.LevelData[i];
+			}
+			IntegrationCartonSaveParameter	Cmd(GetLayersBase());
+			f->TransmitDirectly(&Cmd);
+		}
+	}
+}
+void	EasyLevelAllocationForm::ResizeAction()
+{
+	ui->PushButtonOpen->resize(width(),height());
+}

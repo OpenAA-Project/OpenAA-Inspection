@@ -1,0 +1,475 @@
+#include "PropertyDentForm.h"
+#include "ui_PropertyDentForm.h"
+#include "XDentInspection.h"
+#include "XDatabaseLoader.h"
+#include "XDisplayImagePacket.h"
+#include "EditDentLibraryDialog.h"
+#include "XGeneralFunc.h"
+#include "XPropertyDentPacket.h"
+#include "XPropertyDentCommon.h"
+#include "SelectLibraryDialog.h"
+#include "XDentInspection.h"
+#include "XAlgorithmLibrary.h"
+#include "XGeneralDialog.h"
+
+extern	const	char	*sRoot;
+extern	const	char	*sName;
+
+PropertyDentForm::PropertyDentForm(LayersBase *Base,QWidget *parent) :
+     GUIFormBase(Base,parent),
+    ui(new Ui::PropertyDentForm)
+{
+    ui->setupUi(this);
+	//LangSolver.SetUI(this);
+
+	DentBase	*BBase=GetDentBase();
+	LibType=-1;
+	if(BBase!=NULL)	
+		LibType=BBase->GetLibType();
+
+	ui->tableWidgetLibList->setColumnWidth (0, 30);
+	ui->tableWidgetLibList->setColumnWidth (1, 80);
+	ui->tableWidgetGeneratedLibList->setColumnWidth (0, 30);
+	ui->tableWidgetGeneratedLibList->setColumnWidth (1, 80);
+
+	ui->tableWidget->setColumnWidth (0,48);
+	ui->tableWidget->setColumnWidth (1,48);
+	ui->tableWidget->setColumnWidth (2,120);
+
+	if(BBase!=NULL){
+		CmdCreateTempDentLibraryPacket	Packet(GetLayersBase());
+		BBase->TransmitDirectly(&Packet);
+		LLib=Packet.Point;
+	}
+	else{
+		LLib=new AlgorithmLibraryLevelContainer(BBase);
+	}
+	LLib->SetLibID(-1);
+}
+
+PropertyDentForm::~PropertyDentForm()
+{
+    delete ui;
+	if(LLib!=NULL)
+		delete	LLib;
+	LLib=NULL;
+}
+
+DentBase	*PropertyDentForm::GetDentBase(void)
+{
+	return (DentBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DentInspection");
+}
+
+void PropertyDentForm::on_pushButtonEditLibrary_clicked()
+{
+	EditDentLibraryDialog	D(GetLayersBase(),this);
+	D.exec();
+	ShowLibList();
+	if(LLib!=NULL){
+		CmdLoadDentLibraryPacket	Packet(GetLayersBase());
+		Packet.Point=LLib;
+		DentBase	*BBase=GetDentBase();
+		if(BBase!=NULL){
+			BBase->TransmitDirectly(&Packet);
+			if(Packet.Success==true){
+				ShowLibrary(*LLib);
+			}
+		}
+	}
+}
+
+void PropertyDentForm::ShowList(void)
+{
+	static	volatile	bool	ReEntrant=false;
+
+	if(ReEntrant==true)
+		return;
+	if(GetLayersBase()->IsValidData()==false)
+		return;
+
+	ReEntrant=true;
+
+	DentInfos.RemoveAll();
+	QString	EmitterRoot=sRoot;
+	QString	EmitterName=sName;
+	GUICmdSendDentInfoList	**BmpReceiver=new GUICmdSendDentInfoList*[GetParamGlobal()->PageNumb];
+	GUICmdReqDentInfoList	**BmpRequester=new GUICmdReqDentInfoList*[GetParamGlobal()->PageNumb];
+	for(int page=0;page<GetParamGlobal()->PageNumb;page++){
+		int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
+		BmpReceiver[page]	=new GUICmdSendDentInfoList	(GetLayersBase(),EmitterRoot,EmitterName,globalPage);
+		BmpRequester[page]	=new GUICmdReqDentInfoList		(GetLayersBase(),EmitterRoot,EmitterName,globalPage);
+	}
+	int row=0;
+	for(int phase=0;phase<GetPhaseNumb();phase++){
+		GetLayersBase()->TF_SetCurrentScanPhaseNumber(phase);
+		for(int page=0;page<GetParamGlobal()->PageNumb;page++){
+			if(BmpRequester[page]->Send(BmpRequester[page]->GetGlobalPage(),0,*BmpReceiver[page])==true
+			&& BmpReceiver[page]->IsReceived()==true){
+				DentInfos+=BmpReceiver[page]->DentInfos;
+			}
+		}
+	}
+	GetLayersBase()->TF_SetCurrentScanPhaseNumber(0);
+	for(int page=0;page<GetParamGlobal()->PageNumb;page++){
+		delete	BmpRequester[page];
+		delete	BmpReceiver[page];
+	}
+	delete	[]BmpRequester;
+	delete	[]BmpReceiver;
+
+	row=0;
+	int	Numb=DentInfos.GetNumber();
+	ui->tableWidget->setRowCount(Numb);
+	for(DentInfoList *L=DentInfos.GetFirst();L!=NULL;L=L->GetNext() ,row++){
+		SetDataToTable(ui->tableWidget ,0,row,L->GlobalPage);
+		SetDataToTable(ui->tableWidget ,1,row,QString::number(L->ItemID));
+		SetDataToTable(ui->tableWidget ,2,row,L->ItemName);
+	}
+
+	ReEntrant=false;
+}
+
+void PropertyDentForm::on_tableWidget_clicked(const QModelIndex &index)
+{
+	DentInfoList *L=DentInfos.GetItem(index.row());
+	if(L==NULL)
+		return;
+
+	DataInPage	*P=GetLayersBase()->GetPageData(L->GlobalPage);
+	if(P!=NULL){
+		CmdDrawImageRectPacket	Cmd( GetLayersBase()
+									,L->x1+P->GetOutlineOffset()->x,L->y1+P->GetOutlineOffset()->y
+									,L->x2+P->GetOutlineOffset()->x,L->y2+P->GetOutlineOffset()->y);
+		GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"DentImagePanel" ,/**/"");
+		if(GProp!=NULL)
+			GProp->TransmitDirectly(&Cmd);
+		CmdDrawImageActivate	ACmd(GetLayersBase(),L->GlobalPage,0,L->ItemID);
+		if(GProp!=NULL)
+			GProp->TransmitDirectly(&ACmd);
+	}
+}
+void	PropertyDentForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
+{
+
+}
+
+void PropertyDentForm::on_tableWidget_doubleClicked(const QModelIndex &index)
+{
+
+}
+
+void	PropertyDentForm::TransmitDirectly(GUIDirectMessage *packet)
+{
+	CmdDentDrawEnd	*CmdDentDrawEndVar=dynamic_cast<CmdDentDrawEnd *>(packet);
+	if(CmdDentDrawEndVar!=NULL){
+		SelectLibraryDialog	D(GetLayersBase());
+		if(D.exec()==(int)true){
+			GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Create manual Dent");
+
+			IntList PageList;
+			GetLayersBase()->GetLocalPageFromArea(CmdDentDrawEndVar->Area,PageList);
+			for(IntClass *P=PageList.GetFirst();P!=NULL;P=P->GetNext()){
+				int	page=P->GetValue();
+				DataInPage	*pdata=GetLayersBase()->GetPageData(page);
+				FlexArea	A=CmdDentDrawEndVar->Area;
+				pdata->ClipMoveAreaFromGlobal(A);
+				if(A.GetPatternByte()>0){
+					int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+					GUICmdSendAddManualDent	Cmd(GetLayersBase(),sRoot,sName,GlobalPage);
+					Cmd.Area=A;
+					Cmd.ItemName	=D.ItemName;
+					Cmd.LibID		=D.SelectedLibID;
+					Cmd.Layer		=(CmdDentDrawEndVar->LayerList.GetCount()==0)?0:CmdDentDrawEndVar->LayerList.GetFirst()->GetValue();
+					Cmd.SendOnly(GlobalPage,0);
+				}
+			}
+		}
+		ShowList();
+		return;
+	}
+	CmdDentGenerate	*CmdDentGenerateVar=dynamic_cast<CmdDentGenerate *>(packet);
+	if(CmdDentGenerateVar!=NULL){
+		for(int page=0;page<GetPageNumb();page++){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdDentGenerate	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			RCmd.ItemLibIDs		=CmdDentGenerateVar->ItemLibIDs;
+			RCmd.SendOnly(GlobalPage,0);
+		}
+		return;
+	}
+}
+void	PropertyDentForm::StartPage(void)
+{
+	int	MasterID=GetLayersBase()->GetMasterCode();
+	if(MasterID>=0 && LibFolderID<0){
+		QString		FolderName;
+		LibFolderID=GetLayersBase()->GetDatabaseLoader()->S_GetFirstLibFolderByMasterCode(GetLayersBase()->GetDatabase(),MasterID,FolderName);
+		ui->labelLibFolderName->setText(FolderName);
+	}
+}
+void	PropertyDentForm::BuildForShow(void)
+{
+	ShowList();
+}
+void PropertyDentForm::on_tableWidgetLibList_doubleClicked(const QModelIndex &index)
+{
+	on_pushButtonSetFrom_clicked();
+}
+
+void PropertyDentForm::on_pushButtonEditLibFolder_clicked()
+{
+	DentBase	*BBase=GetDentBase();
+	int		RetSelectedLibFolderID;
+	QString RetSelectedFolderName;
+	if(ExeSelectLibFolderDialog(BBase->GetLibType(),GetLayersBase(),this
+								,RetSelectedLibFolderID
+								,RetSelectedFolderName)==true){
+		SetLibFolder(RetSelectedLibFolderID,RetSelectedFolderName);
+	}
+}
+void	PropertyDentForm::SetLibFolder(int _LibFolderID ,const QString &LinFolderName)
+{
+	ui->labelLibFolderName->setText(LinFolderName);
+	LibFolderID=_LibFolderID;
+	ShowLibList();
+}
+void PropertyDentForm::on_ButtonPickupTest_clicked()
+{
+	if(LLib==NULL)
+		return;
+
+	GetLayersBase()->ShowProcessingForm("Pickup Test");
+
+	GetLibraryFromWindow(*LLib);
+
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdPickupTestList	Cmd(GetLayersBase(),QString(sRoot),QString(sName),GlobalPage);
+		Cmd.LibID	=LLib->GetLibID();
+		Cmd.SendOnly(GlobalPage,0);
+	}
+
+	GetLayersBase()->CloseProcessingForm();
+}
+
+void PropertyDentForm::on_ButtonPickupClearTest_clicked()
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdTestClear	Cmd(GetLayersBase(),QString(sRoot),QString(sName),GlobalPage);
+		Cmd.Send(NULL,GlobalPage,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void PropertyDentForm::on_ButtonGenerateLibs_clicked()
+{
+	if(LLib==NULL)
+		return;
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Generate Dents automatically");
+	
+	GetLayersBase()->ClearAllAckFlag();
+	GetLayersBase()->ShowProcessingForm("Generating items",GetLayersBase()->GetPageNumb()*10);
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdGenerateDents	Cmd(GetLayersBase(),QString(sRoot),QString(sName),GlobalPage);
+		Cmd.LibList		=SelectedLibList.GetIDList();
+		Cmd.Send(NULL,GlobalPage,0);
+	}
+	GetLayersBase()->WaitAllAcknowledged(60*20);
+	GetLayersBase()->CloseProcessingForm();
+}
+void	PropertyDentForm::ShowLibList(void)
+{
+	ui->tableWidgetLibList->setRowCount(0);
+	DentBase	*BBase=GetDentBase();
+	if(BBase!=NULL){
+		CmdGetDentLibraryListPacket	Packet(GetLayersBase());
+		Packet.LibFolderID=LibFolderID;
+		BBase->TransmitDirectly(&Packet);
+		LibList	=Packet.AList;
+		int	row=0;
+		ui->tableWidgetLibList->setRowCount(Packet.AList.GetNumber());
+		for(AlgorithmLibraryList *a=Packet.AList.GetFirst();a!=NULL;a=a->GetNext(),row++){
+			QTableWidgetItem *W;
+			W=ui->tableWidgetLibList->item ( row, 0);
+			if(W==NULL){
+				W=new QTableWidgetItem();
+				ui->tableWidgetLibList->setItem ( row, 0,W);
+				W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);			
+			}
+			W->setText(QString::number(a->GetLibID()));
+			W=ui->tableWidgetLibList->item ( row, 1);
+			if(W==NULL){
+				W=new QTableWidgetItem();
+				ui->tableWidgetLibList->setItem ( row, 1,W);
+				W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+			}
+			W->setText(a->GetLibName());
+		}
+	}
+}
+
+void	PropertyDentForm::ShowSelectedLibList(void)
+{
+	int	row=0;
+	int	CuPriority=-1;
+	int	ColNum=-1;
+	ui->tableWidgetGeneratedLibList->setRowCount(SelectedLibList.GetNumber());
+	for(AlgorithmLibraryList *a=SelectedLibList.GetFirst();a!=NULL;a=a->GetNext(),row++){
+		QTableWidgetItem *W;
+		W=ui->tableWidgetGeneratedLibList->item ( row, 0);
+		if(W==NULL){
+			W=new QTableWidgetItem();
+			ui->tableWidgetGeneratedLibList->setItem ( row, 0,W);
+			W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		}
+		W->setText(QString::number(a->GetLibID()));
+		W=ui->tableWidgetGeneratedLibList->item ( row, 1);
+		if(W==NULL){
+			W=new QTableWidgetItem();
+			ui->tableWidgetGeneratedLibList->setItem ( row, 1,W);
+			W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		}
+		W->setText(a->GetLibName());
+	}
+}
+
+bool	PropertyDentForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
+{
+	int	r=ui->tableWidgetGeneratedLibList->currentRow();
+	AlgorithmLibraryList	*a=SelectedLibList.GetItem(r);
+	if(a!=NULL){
+		GetDentBase()->GetLibraryContainer()->GetLibrary(a->GetLibID() ,data);
+		return true;
+	}
+	return false;
+}
+void PropertyDentForm::on_pushButtonSetFrom_clicked()
+{
+	int	r=ui->tableWidgetLibList->currentRow();
+	if(r<0)
+		return;
+	AlgorithmLibraryList	*a=LibList.GetItem(r);
+	for(AlgorithmLibraryList *c=SelectedLibList.GetFirst();c!=NULL;c=c->GetNext()){
+		if(c->GetLibID()==a->GetLibID())
+			return;
+	}
+	SelectedLibList.AppendList(new AlgorithmLibraryList(LibType,a->GetLibID(),a->GetLibName()));
+	ShowSelectedLibList();
+}
+
+void PropertyDentForm::on_pushButtonGetBack_clicked()
+{
+	int	r=ui->tableWidgetGeneratedLibList->currentRow();
+	if(r<0)
+		return;
+	AlgorithmLibraryList	*a=SelectedLibList.GetItem(r);
+	if(a!=NULL){
+		SelectedLibList.RemoveList(a);
+		delete	a;
+		ShowSelectedLibList();
+	}
+}
+
+void PropertyDentForm::on_pushButtonSetFromAll_clicked()
+{
+	SelectedLibList.RemoveAll();
+	for(AlgorithmLibraryList *a=LibList.GetFirst();a!=NULL;a=a->GetNext()){
+		SelectedLibList.AppendList(new AlgorithmLibraryList(LibType,a->GetLibID(),a->GetLibName()));
+	}
+	ShowSelectedLibList();
+}
+
+void PropertyDentForm::on_pushButtonGetBackAll_clicked()
+{
+	SelectedLibList.RemoveAll();
+	ShowSelectedLibList();
+}
+
+void PropertyDentForm::on_tableWidgetGeneratedLibList_clicked(const QModelIndex &index)
+{
+	int	r=ui->tableWidgetLibList->currentRow();
+	if(r<0)
+		return;
+	AlgorithmLibraryList	*a=LibList.GetItem(r);
+	for(AlgorithmLibraryList *c=SelectedLibList.GetFirst();c!=NULL;c=c->GetNext()){
+		if(c->GetLibID()==a->GetLibID())
+			return;
+	}
+	SelectedLibList.AppendList(new AlgorithmLibraryList(LibType,a->GetLibID(),a->GetLibName()));
+	ShowSelectedLibList();
+}
+
+void PropertyDentForm::on_tableWidgetGeneratedLibList_doubleClicked(const QModelIndex &index)
+{
+	on_pushButtonGetBackAll_clicked();
+}
+
+void	PropertyDentForm::SetLib(int LibID)
+{
+	for(AlgorithmLibraryList *c=SelectedLibList.GetFirst();c!=NULL;c=c->GetNext()){
+		if(c->GetLibID()==LibID)
+			return;
+	}
+	DentBase	*BBase=GetDentBase();
+	if(BBase!=NULL){
+		CmdGetLibName	Packet(GetLayersBase());
+		Packet.LibID=LibID;
+		BBase->TransmitDirectly(&Packet);
+
+		SelectedLibList.AppendList(new AlgorithmLibraryList(LibType,LibID,Packet.LibName));
+		ShowSelectedLibList();
+	}
+}
+
+void	PropertyDentForm::GenerateDents(void)
+{
+	on_ButtonGenerateLibs_clicked();
+}
+
+bool	PropertyDentForm::SaveContent(QIODevice *f)
+{
+	WORD	Ver=1;
+	if(::Save(f,Ver)==false)
+		return false;
+
+	if(::Save(f,LibType)==false)
+		return false;
+	if(LibList.Save(f)==false)
+		return false;
+	if(SelectedLibList.Save(f)==false)
+		return false;
+	if(::Save(f,LibFolderID)==false)
+		return false;
+
+	return true;
+}
+bool	PropertyDentForm::LoadContent(QIODevice *f)
+{
+	WORD	Ver;
+	if(::Load(f,Ver)==false)
+		return false;
+
+	if(::Load(f,LibType)==false)
+		return false;
+	if(LibList.Load(f)==false)
+		return false;
+	if(SelectedLibList.Load(f)==false)
+		return false;
+	if(::Load(f,LibFolderID)==false)
+		return false;
+
+	ShowLibList();
+	ShowSelectedLibList();
+
+	QString FolderName;
+	int ParentID;
+	int NumberInFolder;
+	if(GetLayersBase()->GetDatabaseLoader()->S_LibFolderFindData(GetLayersBase()->GetDatabase(),LibFolderID ,FolderName ,ParentID ,NumberInFolder)==true){
+		SetLibFolder(LibFolderID ,FolderName);
+	}
+	return true;
+}
+

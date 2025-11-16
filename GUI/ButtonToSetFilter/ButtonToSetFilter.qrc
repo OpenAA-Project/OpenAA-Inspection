@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonToSetFilter.png</file>
+        <file>Qtres/Close.png</file>
+    </qresource>
+</RCC>

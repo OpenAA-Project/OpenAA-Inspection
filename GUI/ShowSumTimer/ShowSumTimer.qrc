@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ShowSumTimer.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Refresh.png</file>
+    </qresource>
+</RCC>

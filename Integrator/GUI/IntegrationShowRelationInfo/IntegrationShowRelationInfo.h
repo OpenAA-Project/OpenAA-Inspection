@@ -1,0 +1,6 @@
+#ifndef INTEGRATIONSHOWRELATIONINFO_H
+#define INTEGRATIONSHOWRELATIONINFO_H
+
+#include "integrationshowrelationinfo_global.h"
+
+#endif // INTEGRATIONSHOWRELATIONINFO_H

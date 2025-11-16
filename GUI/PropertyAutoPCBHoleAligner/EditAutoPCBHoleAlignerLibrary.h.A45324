@@ -1,0 +1,22 @@
+#ifndef EDITAUTOPCBHOLEALIGNERLIBRARY_H
+#define EDITAUTOPCBHOLEALIGNERLIBRARY_H
+
+#include <QDialog>
+
+namespace Ui {
+class EditAutoPCBHoleAlignerLibrary;
+}
+
+class EditAutoPCBHoleAlignerLibrary : public QDialog
+{
+    Q_OBJECT
+    
+public:
+    explicit EditAutoPCBHoleAlignerLibrary(QWidget *parent = 0);
+    ~EditAutoPCBHoleAlignerLibrary();
+    
+private:
+    Ui::EditAutoPCBHoleAlignerLibrary *ui;
+};
+
+#endif // EDITAUTOPCBHOLEALIGNERLIBRARY_H

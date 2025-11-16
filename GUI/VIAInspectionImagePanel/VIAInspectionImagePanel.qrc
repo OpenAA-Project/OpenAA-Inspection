@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/VIAInspectionImagePanel.png</file>
+    </qresource>
+</RCC>

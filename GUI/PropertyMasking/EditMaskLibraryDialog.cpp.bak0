@@ -1,0 +1,387 @@
+#include "PropertyMaskingFormResource.h"
+#include "EditMaskLibraryDialog.h"
+#include "ui_EditMaskLibraryDialog.h"
+#include "XLibraryType.h"
+#include "XDataInLayer.h"
+#include "XMasking.h"
+#include "XMaskingLibrary.h"
+#include "XGeneralFunc.h"
+#include <QMessageBox>
+#include <QColorDialog>
+#include "XGeneralDialog.h"
+
+EditMaskLibraryDialog::EditMaskLibraryDialog(LayersBase *base ,QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::EditMaskLibraryDialog)
+	,ServiceForLayers(base)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+
+	pLibFolder=new GeneralLibFolderForm(-1,GetLayersBase(),ui->frameLibFolder);
+	connect(pLibFolder,SIGNAL(SelectLibFolder(int,QString)),this,SLOT(SlotSelectLibFolder(int,QString)));
+	ui->tableWidgetLibList->setColumnWidth (0, 30);
+	ui->tableWidgetLibList->setColumnWidth (1, 80);
+
+	pLibFolderSelect=new GeneralLibFolderForm(-1,GetLayersBase(),ui->frameLibFolderSelect);
+	connect(pLibFolderSelect,SIGNAL(SelectLibFolder(int,QString)),this,SLOT(SlotSelectLibFolderSelect(int,QString)));
+	ui->tableWidgetLibListSelect->setColumnWidth (0, 40);
+	ui->tableWidgetLibListSelect->setColumnWidth (1, 150);
+	ui->tableWidgetSelected->setColumnWidth (0, 130);
+	ui->tableWidgetSelected->setColumnWidth (1, 50);
+	ui->tableWidgetSelected->setColumnWidth (2, 130);
+	SetLibTypeInComboBox();
+	MaskingBase	*BBase=GetMaskingBase();
+	pLibFolder->SetLibType(BBase->GetLibType());
+
+	LLib=NULL;
+	if(BBase!=NULL){
+		CmdCreateTempMaskingLibraryPacket	Packet(GetLayersBase());
+		BBase->TransmitDirectly(&Packet);
+		LLib=Packet.Point;
+	}
+	AlgorithmLibraryContainerForEnum		LibList(GetLayersBase());
+	LibIDList.RemoveAll();
+	LibList.EnumAllLibraries(GetLayersBase()->GetDatabase(),BBase->GetLibType(),LibIDList);
+
+	LibNewFunc();
+	InstallOperationLog(this);
+}
+
+EditMaskLibraryDialog::~EditMaskLibraryDialog()
+{
+    delete ui;
+}
+
+MaskingBase	*EditMaskLibraryDialog::GetMaskingBase(void)
+{
+	return (MaskingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
+}
+
+void	EditMaskLibraryDialog::SetLibTypeInComboBox(void)
+{
+	ui->comboBoxLibTypeSelect->clear();
+	for(LibraryTypeList *L=GetLayersBase()->GetLibType()->GetFirst();L!=NULL;L=L->GetNext()){
+		if(GetLayersBase()->GetAlgorithmBase((int)L->GetLibType())!=NULL){
+			ui->comboBoxLibTypeSelect->addItem(L->GetLibName(),(int)L->GetLibType());
+		}
+	}
+}
+void	EditMaskLibraryDialog::ShowFolder(int LibType)
+{
+	pLibFolderSelect->SetLibType(LibType);
+}
+
+void EditMaskLibraryDialog::on_tableWidgetLibList_clicked(const QModelIndex &Index)
+{
+	int	r=Index.row();
+	if(r<0)
+		return;
+	AlgorithmLibraryList	*a=LibIDList.GetItem(r);
+	if(a!=NULL){
+		LLib->SetLibID(a->GetLibID());
+
+		CmdLoadMaskingLibraryPacket	Packet(GetLayersBase());
+		Packet.Point=LLib;
+		MaskingBase	*BBase=GetMaskingBase();
+		if(BBase!=NULL){
+			BBase->TransmitDirectly(&Packet);
+			if(Packet.Success==true){
+				ShowLibrary(*LLib);
+				ui->pushButtonUpdate	->setEnabled(true);
+				ui->pushButtonDelete	->setEnabled(true);
+			}
+			else{
+				QMessageBox::critical(NULL	,/**/"Library error"
+											,/**/"Not loaded this library record");
+			}
+		}
+	}
+}
+
+void EditMaskLibraryDialog::on_comboBoxLibTypeSelect_currentIndexChanged(int index)
+{
+	int	Index=ui->comboBoxLibTypeSelect->currentIndex();
+	LibraryTypeList *L=GetLayersBase()->GetLibType()->GetItem(Index);
+	if(L==NULL)
+		return;
+	QVariant V=ui->comboBoxLibTypeSelect->itemData(Index);
+	CurrentLibType=V.toInt();
+	ShowFolder(CurrentLibType);
+	LibIDListSelect.RemoveAll();
+	ui->tableWidgetLibListSelect->setRowCount(0);
+}
+
+void	EditMaskLibraryDialog::SlotSelectLibFolder(int libFolderID ,QString FolderName)
+{
+	LibFolderID=libFolderID;
+	ui->tableWidgetLibList->setRowCount(0);
+	AlgorithmLibraryContainerForEnum		LibList(GetLayersBase());
+	LibIDList.RemoveAll();
+	MaskingBase	*BBase=GetMaskingBase();
+	LibList.EnumLibrary(GetLayersBase()->GetDatabase(),BBase->GetLibType(),LibFolderID ,LibIDList);
+
+	int	row=0;
+	ui->tableWidgetLibList->setRowCount(LibIDList.GetNumber());
+	for(AlgorithmLibraryList *a=LibIDList.GetFirst();a!=NULL;a=a->GetNext(),row++){
+		::SetDataToTable(ui->tableWidgetLibList,0,row ,QString::number(a->GetLibID()));
+		::SetDataToTable(ui->tableWidgetLibList,1,row ,a->GetLibName());
+	}
+}
+void	EditMaskLibraryDialog::SlotSelectLibFolderSelect(int libFolderID ,QString FolderName)
+{
+	CurrentLibFolderID=libFolderID;
+	ui->tableWidgetLibListSelect->setRowCount(0);
+	AlgorithmLibraryContainerForEnum		LibList(GetLayersBase());
+	LibIDListSelect.RemoveAll();
+	LibList.EnumLibrary(GetLayersBase()->GetDatabase(),CurrentLibType,CurrentLibFolderID ,LibIDListSelect);
+
+	int	row=0;
+	ui->tableWidgetLibListSelect->setRowCount(LibIDListSelect.GetNumber());
+	for(AlgorithmLibraryList *a=LibIDListSelect.GetFirst();a!=NULL;a=a->GetNext(),row++){
+		::SetDataToTable(ui->tableWidgetLibListSelect,0,row ,QString::number(a->GetLibID()));
+		::SetDataToTable(ui->tableWidgetLibListSelect,1,row ,a->GetLibName());
+	}
+}
+
+void EditMaskLibraryDialog::on_tableWidgetLibListSelect_doubleClicked(const QModelIndex &index)
+{
+	on_pushButtonSelectButton_clicked();
+}
+
+void EditMaskLibraryDialog::on_pushButtonSelectButton_clicked()
+{
+	int	r=ui->tableWidgetLibListSelect->currentRow();
+	if(r<0)
+		return;
+	AlgorithmLibraryList	*a=LibIDListSelect[r];
+	if(a==NULL)
+		return;
+	AlgorithmLibraryList	*d=new AlgorithmLibraryList(*a);
+	LimitedLibraries.AppendList(d);
+
+	ShowTableSelect();
+}
+
+void EditMaskLibraryDialog::on_tableWidgetSelected_doubleClicked(const QModelIndex &index)
+{
+	int	r=ui->tableWidgetSelected->currentRow();
+	if(r<0)
+		return;
+	AlgorithmLibraryList	*d=LimitedLibraries[r];
+	if(d!=NULL){
+		LimitedLibraries.RemoveList(d);
+		delete	d;
+		ShowTableSelect();
+	}
+}
+
+void EditMaskLibraryDialog::on_pushButtonSaveNew_clicked()
+{
+	if(LLib==NULL)
+		return;
+	GetLibraryFromWindow(*LLib);
+
+	if(LLib->GetLibName()==/**/""){
+		QMessageBox::StandardButton ret=QMessageBox::warning ( NULL
+			, /**/"Warning"
+			, /**/"No Library Name"
+			, QMessageBox::Ok | QMessageBox::Cancel);
+		if(ret!=QMessageBox::Ok)
+			return;
+	}
+	LLib->SetLibFolderID(LibFolderID);
+	CmdInsertMaskingLibraryPacket	Packet(GetLayersBase());
+	Packet.Point=LLib;
+	MaskingBase	*BBase=GetMaskingBase();
+	if(BBase!=NULL){
+		BBase->TransmitDirectly(&Packet);		
+		ShowLibrary(*LLib);
+		ui->pushButtonUpdate	->setEnabled(true);
+		ui->pushButtonDelete	->setEnabled(true);
+	}
+	SlotSelectLibFolder(LibFolderID ,/**/"");
+}
+
+void EditMaskLibraryDialog::on_pushButtonUpdate_clicked()
+{
+	if(LLib==NULL)
+		return;
+	GetLibraryFromWindow(*LLib);
+	if(LLib->GetLibName()==/**/""){
+		QMessageBox::StandardButton ret=QMessageBox::warning ( NULL
+			, LangSolver.GetString(EditMaskLibraryDialog_LS,LID_0)/*"Warning"*/
+			, LangSolver.GetString(EditMaskLibraryDialog_LS,LID_1)/*"No Library Name"*/
+			, QMessageBox::Ok | QMessageBox::Cancel);
+		if(ret!=QMessageBox::Ok)
+			return;
+	}
+	if(LLib->GetLibID()<0){
+		LLib->SetLibFolderID(LibFolderID);
+
+		CmdInsertMaskingLibraryPacket	Packet(GetLayersBase());
+		Packet.Point=LLib;
+		MaskingBase	*BBase=GetMaskingBase();
+		if(BBase!=NULL){
+			BBase->TransmitDirectly(&Packet);
+			ShowLibrary(*LLib);
+			ui->pushButtonUpdate	->setEnabled(true);
+			ui->pushButtonDelete	->setEnabled(true);
+		}
+	}
+	else{
+		CmdUpdateMaskingLibraryPacket	Packet(GetLayersBase());
+		Packet.Point=LLib;
+		MaskingBase	*BBase=GetMaskingBase();
+		if(BBase!=NULL){
+			BBase->TransmitDirectly(&Packet);
+		}
+	}
+	SlotSelectLibFolder(LibFolderID ,/**/"");
+}
+
+void EditMaskLibraryDialog::on_pushButtonDelete_clicked()
+{
+	if(LLib==NULL)
+		return;
+	if(LLib->GetLibID()<0)
+		return;
+	QString  msg=LangSolver.GetString(EditMaskLibraryDialog_LS,LID_2)/*"Delete OK?"*/;
+	int	ret=QMessageBox::question(NULL
+					, LangSolver.GetString(EditMaskLibraryDialog_LS,LID_3)/*"Choose"*/
+					, msg
+					, QMessageBox::Yes , QMessageBox::No, QMessageBox::NoButton);
+	if(ret==QMessageBox::Yes){
+		CmdDeleteMaskingLibraryPacket 	Packet(GetLayersBase());
+		Packet.Point=LLib;
+		MaskingBase	*BBase=GetMaskingBase();
+		if(BBase!=NULL){
+			BBase->TransmitDirectly(&Packet);
+			LibNewFunc();
+			SlotSelectLibFolder(LibFolderID ,/**/"");
+		}
+	}
+}
+
+void	EditMaskLibraryDialog::LibNewFunc(void)
+{
+	if(LLib==NULL)
+		return;
+	LLib->Reset();
+	CmdClearMaskingLibraryPacket	Packet(GetLayersBase());
+	Packet.Point=LLib;
+	MaskingBase	*BBase=GetMaskingBase();
+	if(BBase!=NULL){
+		BBase->TransmitDirectly(&Packet);
+	}
+	ShowLibrary(*LLib);
+	ui->pushButtonUpdate	->setEnabled(false);
+	ui->pushButtonDelete	->setEnabled(false);
+	ui->radioButtonEffective	->setChecked(true);
+
+	LimitedLibraries.RemoveAll();
+	ShowTableSelect();
+
+}
+
+void EditMaskLibraryDialog::on_pushButtonClose_clicked()
+{
+	close();
+}
+
+void	EditMaskLibraryDialog::ShowTableSelect(void)
+{
+	ui->tableWidgetSelected	->setRowCount(LimitedLibraries.GetCount());
+	int	row=0;
+	for(AlgorithmLibraryList *a=LimitedLibraries.GetFirst();a!=NULL;a=a->GetNext(),row++){
+		LibraryTypeList	*LType=GetLayersBase()->GetLibType()->FindLibraryType(a->GetLibType());
+		if(LType!=NULL){
+			::SetDataToTable(ui->tableWidgetSelected,0,row ,LType->GetLibName());
+		}
+		else{
+			::SetDataToTable(ui->tableWidgetSelected,0,row ,LangSolver.GetString(EditMaskLibraryDialog_LS,LID_4)/*"Not registered"*/);
+		}
+		::SetDataToTable(ui->tableWidgetSelected,1,row ,QString::number(a->GetLibID()));
+		::SetDataToTable(ui->tableWidgetSelected,2,row ,a->GetLibName());
+	}
+}
+
+void	EditMaskLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
+{
+	MaskingLibrary	*d=dynamic_cast<MaskingLibrary *>(data.GetLibrary());
+	if(data.GetLibID()<0)
+		ui->spinBoxLibID->setValue(0);
+	else
+		ui->spinBoxLibID->setValue(data.GetLibID());
+	ui->lineEditLibName	->setText(data.GetLibName());
+
+	ui->radioButtonEffective	->setChecked(true);
+
+	if(d->Operation	==MaskingLibrary::_Masking_Effective)
+		ui->radioButtonEffective	->setChecked(true);
+	else if(d->Operation	==MaskingLibrary::_Masking_Ineffective)
+		ui->radioButtonIneffective	->setChecked(true);
+	else if(d->Operation	==MaskingLibrary::_Masking_LimitedEffective)
+		ui->radioButtonLimitedEffective	->setChecked(true);
+	else if(d->Operation	==MaskingLibrary::_Masking_LimitedIneffective)
+		ui->radioButtonLimitedIneffective	->setChecked(true);
+
+	LimitedLibraries	=	d->LimitedLibraries;
+	ShowTableSelect();
+}
+
+void	EditMaskLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
+{
+	MaskingLibrary	*d=dynamic_cast<MaskingLibrary *>(data.GetLibrary());
+	data.SetLibName(ui->lineEditLibName	->text());
+
+	if(ui->radioButtonEffective	->isChecked()==true)
+		d->Operation	=MaskingLibrary::_Masking_Effective;
+	else if(ui->radioButtonIneffective	->isChecked()==true)
+		d->Operation	=MaskingLibrary::_Masking_Ineffective;
+	else if(ui->radioButtonLimitedEffective	->isChecked()==true)
+		d->Operation	=MaskingLibrary::_Masking_LimitedEffective;
+	else if(ui->radioButtonLimitedIneffective	->isChecked()==true)
+		d->Operation	=MaskingLibrary::_Masking_LimitedIneffective;
+
+	d->LimitedLibraries	=	LimitedLibraries;
+}
+
+void EditMaskLibraryDialog::on_pushButtonColor_clicked()
+{
+	if(LLib!=NULL){
+		QColor Col=QColorDialog::getColor(LLib->GetLibColor(), nullptr
+										, "General library color");
+		if(Col.isValid()==true){
+			LLib->SetLibColor(Col);
+		}
+	}									 
+}
+
+void EditMaskLibraryDialog::on_radioButtonEffective_clicked()
+{
+	if(ui->radioButtonEffective->isChecked()==true){
+		ui->frameLimited->setEnabled(false);
+	}
+}
+
+void EditMaskLibraryDialog::on_radioButtonIneffective_clicked()
+{
+	if(ui->radioButtonIneffective->isChecked()==true){
+		ui->frameLimited->setEnabled(false);
+	}
+}
+
+void EditMaskLibraryDialog::on_radioButtonLimitedEffective_clicked()
+{
+	if(ui->radioButtonLimitedEffective->isChecked()==true){
+		ui->frameLimited->setEnabled(true);
+	}
+}
+
+void EditMaskLibraryDialog::on_radioButtonLimitedIneffective_clicked()
+{
+	if(ui->radioButtonLimitedIneffective->isChecked()==true){
+		ui->frameLimited->setEnabled(true);
+	}
+}

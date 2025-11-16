@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/SlaveIndicatorInvisible.png</file>
+    </qresource>
+</RCC>

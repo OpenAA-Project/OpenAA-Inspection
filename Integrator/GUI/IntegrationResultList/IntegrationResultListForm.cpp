@@ -1,0 +1,231 @@
+#include "IntegrationResultListResource.h"
+#include "IntegrationResultListForm.h"
+#include "ui_IntegrationResultListForm.h"
+#include "XGeneralFunc.h"
+
+IntegrationResultListForm::IntegrationResultListForm(LayersBase *Base ,QWidget *parent) :
+    GUIFormBase(Base,parent),
+    ui(new Ui::IntegrationResultListForm)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+
+	ResultDimCount	=0;
+	ShowPos			=true;
+	ShowCause		=true;
+	ShowValue		=true;
+	ScrollerWidth	=48;
+	connect(this,SIGNAL(SignalResize()), this ,SLOT(ResizeAction()));
+	connect(this,SIGNAL(SignalShowList()), this ,SLOT(SlotShowList()),Qt::QueuedConnection);
+}
+
+IntegrationResultListForm::~IntegrationResultListForm()
+{
+    delete ui;
+}
+
+void	IntegrationResultListForm::Prepare(void)
+{
+	ui->tableWidget->setFont(CharFont);
+
+	QString	s=QString(/**/"QScrollBar:vertical { width: ")
+			+ QString::number(ScrollerWidth)
+			+ QString(/**/"px; }");
+
+	ui->tableWidget->setStyleSheet(s);
+}
+
+void	IntegrationResultListForm::ResizeAction()
+{
+	ui->frame->move((width()-ui->frame->width())/2,height()-ui->frame->height());
+	ui->tableWidget->resize(width(),height()-ui->frame->height());
+
+	QStringList	Header;
+	Header.append(/**/"Mac");
+	int	XPoint=32;
+	int	ColumnCount=1;
+	if(ShowPos==true){
+		XPoint+=100;
+		Header.append(/**/"Pos");
+		ColumnCount++;
+	}
+	if(ShowCause==true){
+		XPoint+=100;
+		Header.append(/**/"Cause");
+		ColumnCount++;
+	}
+	if(ShowValue==true){
+		XPoint+=64;
+		Header.append(/**/"Value");
+		ColumnCount++;
+	}
+	double	Z=((double)(width()-50-ScrollerWidth))/((double)XPoint);
+
+	ui->tableWidget->setColumnCount(ColumnCount);
+	ui->tableWidget->setHorizontalHeaderLabels(Header);
+	ui->tableWidget->setColumnWidth(0,48*Z);
+	ColumnCount=1;
+	if(ShowPos==true){
+		ui->tableWidget->setColumnWidth(ColumnCount,100*Z);
+		ColumnCount++;
+	}
+	if(ShowCause==true){
+		ui->tableWidget->setColumnWidth(ColumnCount,100*Z);
+		ColumnCount++;
+	}
+	if(ShowValue==true){
+		ui->tableWidget->setColumnWidth(ColumnCount,64*Z);
+		ColumnCount++;
+	}
+}
+
+void	IntegrationResultListForm::ShowList(void)
+{
+	int	NGCount=0;
+	for(int i=0;i<ResultDimCount;i++){
+		for(NGPointInAllPage *RPhase=ResultDim[i]->NGPointAllPhases.GetFirst();RPhase!=NULL;RPhase=RPhase->GetNext()){
+			for(NGPointInPage *RPage=RPhase->NPListPack<NGPointInPage>::GetFirst();RPage!=NULL;RPage=RPage->GetNext()){			
+				NGCount+=RPage->NGImages.GetCount();
+			}
+		}
+	}
+	ui->tableWidget->setRowCount(NGCount);
+	int	Row=0;
+	for(int i=0;i<ResultDimCount;i++){
+		for(NGPointInAllPage *RPhase=ResultDim[i]->NGPointAllPhases.GetFirst();RPhase!=NULL;RPhase=RPhase->GetNext()){
+			for(NGPointInPage *RPage=RPhase->NPListPack<NGPointInPage>::GetFirst();RPage!=NULL;RPage=RPage->GetNext()){
+				for(IntegNGImage *n=RPage->NGImages.GetFirst();n!=NULL;n=n->GetNext()){
+					if(Row<NGCount){
+						NPListPack<NGPointPointerList> NGList;
+						n->EnumNGPoint(RPage ,NGList);
+						::SetDataToTable(ui->tableWidget ,0,Row ,ResultDim[i]->GetMaster()->GetMachineName());
+						int	Col=1;
+						if(ShowPos==true){
+							int cx, cy;
+							n->GetCenter(cx, cy);
+							::SetDataToTable(ui->tableWidget ,Col,Row ,QString::number(cx)+QString(/**/",")+QString::number(cy));
+							Col++;
+						}
+						if(ShowCause==true){
+							if(NGList.GetCount()!=0){
+								int	LibType	=NGList.GetFirst()->NG->LibType;
+								int	LibID	=NGList.GetFirst()->NG->LibID;
+								QString	LibName=GetLayersBase()->GetLibraryName(LibType,LibID);
+								::SetDataToTable(ui->tableWidget ,Col,Row ,QString::number(LibID)
+																		  +QString(/**/":")
+																		  +LibName);
+							}
+							Col++;
+						}
+						if(ShowValue==true){
+							if(NGList.GetCount()!=0){
+								int	Cause=NGList.GetFirst()->NG->Cause[0];
+								::SetDataToTable(ui->tableWidget ,Col,Row ,QString::number(Cause));
+							}
+							Col++;
+						}
+						Row++;
+					}
+				}
+			}
+		}
+	}
+	ui->lineEditTotalCount->setText(QString::number(NGCount));
+}
+
+void	IntegrationResultListForm::SlotShowList()
+{
+	ShowList();
+}
+
+void	IntegrationResultListForm::SpecifiedDirectly(SpecifiedBroadcaster *v)
+{
+	CmdReqUpdateHistory	*CmdReqUpdateHistoryVar=dynamic_cast<CmdReqUpdateHistory *>(v);
+	if(CmdReqUpdateHistoryVar!=NULL){
+
+	}
+	CmdSelectResult	*CmdSelectResultVar=dynamic_cast<CmdSelectResult *>(v);
+	if(CmdSelectResultVar!=NULL){
+		ResultDimCount=0;
+		if(GetLayersBase()->GetIntegrationBasePointer()!=NULL){
+			for(EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+				for(InspectionList *L=m->GetCurrentInspection().GetFirst();L!=NULL;L=L->GetNext()){
+					if(L->ID==CmdSelectResultVar->ResultID){
+						ResultDim[ResultDimCount]=L;
+						ResultDimCount++;
+						break;
+					}
+				}
+			}
+		}
+		emit	SignalShowList();
+	}
+	CmdClearMasterData	*CmdClearMasterDataVar=dynamic_cast<CmdClearMasterData *>(v);
+	if(CmdClearMasterDataVar!=NULL){
+		for(int i=0;i<ResultDimCount;i++){
+			ResultDim[i]=NULL;
+		}
+		ResultDimCount=0;
+		ShowList();
+		return;
+	}
+	CmdShowNGPoint	*CmdShowNGPointVar=dynamic_cast<CmdShowNGPoint *>(v);
+	if(CmdShowNGPointVar!=NULL){
+		ResultDimCount=0;
+		if(GetLayersBase()->GetIntegrationBasePointer()!=NULL){
+			for(EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+				for(InspectionList *L=m->GetCurrentInspection().GetFirst();L!=NULL;L=L->GetNext()){
+					if(L->ID==CmdShowNGPointVar->Result->ID){
+						ResultDim[ResultDimCount]=L;
+						ResultDimCount++;
+						break;
+					}
+				}
+			}
+		}
+		int	Row=0;
+		for(int i=0;i<ResultDimCount;i++){
+			for(NGPointInAllPage *RPhase=ResultDim[i]->NGPointAllPhases.GetFirst();RPhase!=NULL;RPhase=RPhase->GetNext()){
+				for(NGPointInPage *RPage=RPhase->NPListPack<NGPointInPage>::GetFirst();RPage!=NULL;RPage=RPage->GetNext()){
+					for(IntegNGImage *n=RPage->NGImages.GetFirst();n!=NULL;n=n->GetNext()){
+						if(n==CmdShowNGPointVar->NGImage){
+							SetCurrentRow(ui->tableWidget,Row);
+							return;
+						}
+						Row++;
+					}
+				}
+			}
+		}
+		return;
+	}
+}
+
+void IntegrationResultListForm::on_tableWidget_clicked(const QModelIndex &index)
+{
+	int	CurrentRow=ui->tableWidget->currentRow();
+	if(CurrentRow<0)
+		return;
+	int	Row=0;
+	for(int i=0;i<ResultDimCount;i++){
+		for(NGPointInAllPage *RPhase=ResultDim[i]->NGPointAllPhases.GetFirst();RPhase!=NULL;RPhase=RPhase->GetNext()){
+			for(NGPointInPage *RPage=RPhase->NPListPack<NGPointInPage>::GetFirst();RPage!=NULL;RPage=RPage->GetNext()){
+				for(IntegNGImage *n=RPage->NGImages.GetFirst();n!=NULL;n=n->GetNext()){
+					if(Row==CurrentRow){
+						CmdSelectNGLine	RCmd;
+						RCmd.NG=n;
+						BroadcastSpecifiedDirectly(&RCmd);
+						SetCurrentRow(ui->tableWidget ,CurrentRow);
+						return;
+					}
+					Row++;
+				}
+			}
+		}
+	}
+}
+void	IntegrationResultListForm::StartLot	(void)
+{
+	ResultDimCount=0;
+	ui->tableWidget->setRowCount(0);
+}

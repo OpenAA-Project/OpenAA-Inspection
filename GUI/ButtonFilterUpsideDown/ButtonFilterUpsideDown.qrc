@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonFilterUpsideDown.png</file>
+    </qresource>
+</RCC>

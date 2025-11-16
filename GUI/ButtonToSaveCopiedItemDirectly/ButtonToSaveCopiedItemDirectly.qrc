@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonToSaveCopiedItemDirectly.png</file>
+    </qresource>
+</RCC>

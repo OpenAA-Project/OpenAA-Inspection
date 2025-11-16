@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{0b1217fd-59eb-4c3e-8e92-15809dc7356f}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{e77be373-b4a6-4c99-8649-e987ec359fe5}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="CameraLib">
+      <UniqueIdentifier>{32540b9b-027d-4f73-b3ca-df7a6be5dade}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="classlib\include\smart_com.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\smart_ptr.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\tisudshl.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\UDSHL_defs.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\UDSHL_lnk.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\VCDPropertyDef.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\VCDPropertyID.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\VCDPropertyIDTis.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\VideoCaptureDeviceItem.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\VideoFormatDesc.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\VideoFormatItem.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\VideoNormItem.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\AnalogChannelItem.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\AviSink.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\Codec.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\DeBayerTransform.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\dshow_header.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\Error.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\filterdll.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\filterfactory.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\FilterInfoObject.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\filterloader.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\FrameFilter.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\FrameFilterBase.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\FrameFilterImpl.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\FrameGrabberSink.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\FrameHandlerSink.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\FrameType.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\Grabber.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\GrabberListener.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\GrabberSinkType.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\int_interface_pre.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\IVCDProperty.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\IVCDProperty_inl.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\IVCDPropertyInterfaces.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\IVCDPropertyInterfaces_inl.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\libbasedefs.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\libutil_string.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\MediaStreamContainer.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\MediaStreamSink.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\MemBuffer.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\MemBufferCollection.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\OverlayBitmap.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="classlib\include\simplectypes.h">
+      <Filter>CameraLib</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_LiveCameraArtCam_035IMX_WOMForm.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LiveCameraArtCam_035IMX_WOM_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LiveCameraArtCam_035IMX_WOMPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Open\SystemVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveCameraArtCam_035IMX_WOM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_LiveCameraArtCam_035IMX_WOM.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_LiveCameraArtCam_035IMX_WOM.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="LiveCameraArtCam_035IMX_WOMForm.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="LiveCameraArtCam_035IMX_WOM.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

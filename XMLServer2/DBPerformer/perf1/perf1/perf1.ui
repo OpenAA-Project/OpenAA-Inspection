@@ -1,0 +1,165 @@
+<ui version="4.0" >
+ <class>perf1Class</class>
+ <widget class="QWidget" name="perf1Class" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>624</width>
+    <height>315</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>perf1</string>
+  </property>
+  <widget class="QPushButton" name="btnClose" >
+   <property name="geometry" >
+    <rect>
+     <x>540</x>
+     <y>260</y>
+     <width>80</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="maximumSize" >
+    <size>
+     <width>150</width>
+     <height>100</height>
+    </size>
+   </property>
+   <property name="text" >
+    <string>&amp;Close</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnStart" >
+   <property name="geometry" >
+    <rect>
+     <x>11</x>
+     <y>261</y>
+     <width>80</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="maximumSize" >
+    <size>
+     <width>150</width>
+     <height>100</height>
+    </size>
+   </property>
+   <property name="text" >
+    <string>&amp;Start</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" >
+    <item>
+     <widget class="QLabel" name="label" >
+      <property name="text" >
+       <string>exec count</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QSpinBox" name="spnExecCnt" >
+      <property name="maximum" >
+       <number>99999999</number>
+      </property>
+      <property name="singleStep" >
+       <number>10</number>
+      </property>
+      <property name="value" >
+       <number>100</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>611</width>
+     <height>171</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text" >
+     <string>Max</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Min</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Avg</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Sum</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Count</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>ErrorCnt</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget_2" >
+   <property name="geometry" >
+    <rect>
+     <x>200</x>
+     <y>10</y>
+     <width>221</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text" >
+     <string>X Start</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Y Start</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QLabel" name="txtMess" >
+   <property name="geometry" >
+    <rect>
+     <x>103</x>
+     <y>261</y>
+     <width>431</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

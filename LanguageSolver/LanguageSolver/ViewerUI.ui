@@ -1,0 +1,112 @@
+<ui version="4.0" >
+ <class>ViewerUIClass</class>
+ <widget class="QDialog" name="ViewerUIClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>836</width>
+    <height>470</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>ViewerUI</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>821</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text" >
+     <string>UI File</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Type</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Onject Name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Property</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang1</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang2</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang3</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang4</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang5</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang6</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang7</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang8</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang9</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lang10</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>380</x>
+     <y>430</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>OK</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

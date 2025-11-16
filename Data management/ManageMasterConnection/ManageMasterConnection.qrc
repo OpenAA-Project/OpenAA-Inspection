@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/ManageMasterConnection">
+        <file>Qtres/fireworks_64.PNG</file>
+        <file>Qtres/fireworks_128.PNG</file>
+        <file>Qtres/flash_64.PNG</file>
+        <file>Qtres/flash_128.PNG</file>
+        <file>Qtres/flash_swf_64.PNG</file>
+        <file>Qtres/flash_swf_128.PNG</file>
+    </qresource>
+</RCC>

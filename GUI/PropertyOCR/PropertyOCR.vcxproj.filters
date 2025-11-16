@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{fbaa7af6-12ed-44cc-a075-ebe036fdd243}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{43ff0c32-ace6-4939-ab9e-8c674f33283b}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PropertyOCR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
+    
+    
+    
+    <ClCompile Include="EditOCRItemDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyOCRForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\SystemVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
+    <ClCompile Include="XPropertyOCRPacket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
+    
+    
+    
+    <ClCompile Include="AddManualItemForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddMonoManualItemForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PropertyOCR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="propertyocr_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    
+    
+    <ClInclude Include="XPropertyOCRPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    
+    
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="PropertyOCRForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="PropertyOCRForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="EditOCRItemDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtUic Include="EditOCRItemDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtRcc Include="propertyocr.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <QtUic Include="AddManualItemForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="AddMonoManualItemForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="AddManualItemForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="AddMonoManualItemForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Qtres\Add.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Cancel.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Class.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Clear.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\ClearNew.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Close.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Delete.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Edit.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Extract.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\OK.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Reflection.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\SaveNew.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Update.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Deg0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Deg90.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Deg180.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Deg270.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

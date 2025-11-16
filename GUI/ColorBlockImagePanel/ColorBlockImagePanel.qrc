@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/ColorBlockImagePanel.png</file>
+    </qresource>
+</RCC>

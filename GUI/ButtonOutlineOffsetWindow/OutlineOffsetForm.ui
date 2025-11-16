@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OutlineOffsetForm</class>
+ <widget class="QWidget" name="OutlineOffsetForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>708</width>
+    <height>577</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="ButtonCancel">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>520</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+   <property name="icon">
+    <iconset resource="../ButtonSettingParameters/ButtonSettingParameters.qrc">
+     <normaloff>:/Qtres/Cancel.png</normaloff>:/Qtres/Cancel.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonOK">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>520</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK  Save</string>
+   </property>
+   <property name="icon">
+    <iconset resource="../ButtonSettingParameters/ButtonSettingParameters.qrc">
+     <normaloff>:/Qtres/Save.png</normaloff>:/Qtres/Save.png</iconset>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../ButtonSettingParameters/ButtonSettingParameters.qrc"/>
+ </resources>
+ <connections/>
+</ui>

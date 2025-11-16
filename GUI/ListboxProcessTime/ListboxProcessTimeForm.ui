@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ListboxProcessTimeFormClass</class>
+ <widget class="GUIFormBase" name="ListboxProcessTimeFormClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>272</width>
+    <height>629</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ListboxProcessTimeForm</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>190</y>
+     <width>271</width>
+     <height>391</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>Filter</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>InitialAfterEdit</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>StartByInspection</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>PreAlignment</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Alignment</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>PreProcessing</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Processing</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>PostProcessing</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>PreScanning</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Scanning</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>PostScanning</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Total process time</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>Page0</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetAlgorithm">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>1</y>
+     <width>271</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <column>
+    <property name="text">
+     <string>Root</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QFrame" name="frameBottom">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>580</y>
+     <width>271</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="pushButtonClear">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>10</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clear</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ListboxProcessTime.qrc">
+      <normaloff>:/Qtres/Clear.png</normaloff>:/Qtres/Clear.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ListboxProcessTime.qrc">
+      <normaloff>:/Qtres/ListView.png</normaloff>:/Qtres/ListView.png</iconset>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="ListboxProcessTime.qrc"/>
+ </resources>
+ <connections/>
+</ui>

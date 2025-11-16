@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/SendMessenger.png</file>
+        <file>Qtres/Message.png</file>
+    </qresource>
+</RCC>

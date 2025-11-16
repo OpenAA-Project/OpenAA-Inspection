@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(RWBUTTONDEVICESHOWSETTING_LIB)
+#  define RWBUTTONDEVICESHOWSETTING_EXPORT Q_DECL_EXPORT
+# else
+#  define RWBUTTONDEVICESHOWSETTING_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define RWBUTTONDEVICESHOWSETTING_EXPORT
+#endif

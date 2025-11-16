@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/ButtonLoadOneAligorithm.png</file>
+    </qresource>
+</RCC>

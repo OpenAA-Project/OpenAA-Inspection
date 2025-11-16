@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(MULTISPECTRALIMAGEPANEL_LIB)
+#  define MULTISPECTRALIMAGEPANEL_EXPORT Q_DECL_EXPORT
+# else
+#  define MULTISPECTRALIMAGEPANEL_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define MULTISPECTRALIMAGEPANEL_EXPORT
+#endif

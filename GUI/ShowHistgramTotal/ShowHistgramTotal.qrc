@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ShowHistgramTotal.png</file>
+        <file>Qtres/draw_pen_64.png</file>
+        <file>Qtres/Select.png</file>
+        <file>Qtres/Calculator.png</file>
+        <file>Qtres/Chart.png</file>
+        <file>Qtres/Close.png</file>
+    </qresource>
+</RCC>

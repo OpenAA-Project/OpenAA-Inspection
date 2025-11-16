@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertyBCR.png</file>
+        <file>Qtres/Test.png</file>
+    </qresource>
+</RCC>

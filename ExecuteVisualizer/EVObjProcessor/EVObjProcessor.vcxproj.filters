@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EVObjProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\ExecuteVisualizerCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\SystemVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EVObjProcessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="evobjprocessor_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EVObjDLL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\XExecuteVisualizer.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <QtRcc Include="EVObjProcessor.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Proc_Running1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Running2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Running3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Running4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Running5.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Running6.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Running7.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Running8.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Running9.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Waiting1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Waiting2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Waiting3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Waiting4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Waiting5.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Waiting6.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Waiting7.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Waiting8.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Waiting9.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Waiting10.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Waiting11.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Proc_Waiting12.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

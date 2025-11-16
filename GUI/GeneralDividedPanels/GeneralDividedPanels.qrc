@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/GeneralDividedPanels.png</file>
+    </qresource>
+</RCC>

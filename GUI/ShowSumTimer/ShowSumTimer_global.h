@@ -1,0 +1,12 @@
+#ifndef SHOWSUMTIMER_GLOBAL_H
+#define SHOWSUMTIMER_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef SHOWSUMTIMER_LIB
+# define SHOWSUMTIMER_EXPORT Q_DECL_EXPORT
+#else
+# define SHOWSUMTIMER_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // SHOWSUMTIMER_GLOBAL_H

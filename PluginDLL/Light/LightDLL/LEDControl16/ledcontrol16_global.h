@@ -1,0 +1,12 @@
+#ifndef LEDCONTROL16_GLOBAL_H
+#define LEDCONTROL16_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef LEDCONTROL16_LIB
+# define LEDCONTROL16_EXPORT Q_DECL_EXPORT
+#else
+# define LEDCONTROL16_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // LEDCONTROL16_GLOBAL_H

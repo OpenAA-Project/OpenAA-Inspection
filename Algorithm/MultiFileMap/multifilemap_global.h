@@ -1,0 +1,12 @@
+#ifndef MULTIFILEMAP_GLOBAL_H
+#define MULTIFILEMAP_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef MULTIFILEMAP_LIB
+# define MULTIFILEMAP_EXPORT Q_DECL_EXPORT
+#else
+# define MULTIFILEMAP_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // MULTIFILEMAP_GLOBAL_H

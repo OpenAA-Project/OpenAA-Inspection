@@ -1,0 +1,949 @@
+#include "ConfirmPropDotColorMatchingForm.h"
+#include <QLabel>
+#include <QPalette>
+#include "ui_ConfirmPropDotColorMatchingForm.h"
+#include "ConfirmForm.h"
+#include "XConfirmPacket.h"
+#include "XDotColorMatchingLibrary.h"
+#include "XDotColorMatching.h"
+#include "XIntegrationBase.h"
+#include "SelectLibraryDialog.h"
+#include "CartonMenuForm.h"
+#include "XPropPacketDotColorMatching.h"
+
+ConfirmPropDotColorMatchingForm::ConfirmPropDotColorMatchingForm(ConfirmForm *p ,QWidget *parent) :
+    QWidget(parent)
+    ,ServiceForLayers(p->GetLayersBase())
+    ,ConfirmAlgorithm(p)
+    ,Parent(p)
+    ,ui(new Ui::ConfirmPropDotColorMatchingForm)
+{
+    ui->setupUi(this);
+}
+
+ConfirmPropDotColorMatchingForm::~ConfirmPropDotColorMatchingForm()
+{
+    delete ui;
+}
+
+QString	ConfirmPropDotColorMatchingForm::GetButtonName(void)
+{
+    return "ŒŸ¸ƒuƒƒbƒN";
+}
+int		ConfirmPropDotColorMatchingForm::GetLibType(void)
+{   
+    return DefLibTypeDotColorMatchingInspect;
+}
+void	ConfirmPropDotColorMatchingForm::SetDrawAttr(AlgorithmLibTypeWithAttrDataContainer &s)
+{
+    s.Add(DefLibTypeDotColorMatchingInspect,true,false);
+}
+
+void	ConfirmPropDotColorMatchingForm::InitialShow(void)
+{
+	int	SlaveNo=GetSlaveNo();
+	SelectedLib.SetLibType(GetLibType());
+	SelectedLib.SetLibID(0);
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(GProp!=NULL){
+		if(SlaveNo==0){
+			if(GProp->ParamInMaster.Slave0LibID!=0)
+				SelectedLib.SetLibID(GProp->ParamInMaster.Slave0LibID);
+			else
+				SelectedLib.SetLibID(GProp->Param.DotColorMatchLibPattern1);
+		}
+		else if(SlaveNo==1){
+			if(GProp->ParamInMaster.Slave1LibID!=0)
+				SelectedLib.SetLibID(GProp->ParamInMaster.Slave1LibID);
+			else
+				SelectedLib.SetLibID(GProp->Param.DotColorMatchLibPattern1);
+		}
+		else if (SlaveNo == 2) {
+			if(GProp->ParamInMaster.Slave2LibID!=0)
+				SelectedLib.SetLibID(GProp->ParamInMaster.Slave2LibID);
+			else
+				SelectedLib.SetLibID(GProp->Param.DotColorMatchMonoInspection1);
+		}
+		GetAllItems(SelectedLib.GetLibID());
+		ShowItemData();
+	}
+}
+
+void	ConfirmPropDotColorMatchingForm::AlgoMouseMove(int ux ,int uy)
+{
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+        ConfirmAlgorithm::AlgoMouseMove(ux ,uy);
+	}
+}
+
+void	ConfirmPropDotColorMatchingForm::AlgoMouseLDownWithShift(int ux ,int uy)
+{
+	GetItemsByPoint(ux, uy);
+	ShowItemData();
+	SetSelectItems();
+	ShowResult();
+}
+void	ConfirmPropDotColorMatchingForm::AlgoMouseRDown(int ux ,int uy)
+{
+	ConfirmAlgorithm::AlgoMouseRDown(ux ,uy);
+	NGShape.Clear();
+}
+void	ConfirmPropDotColorMatchingForm::CanvasSlotDrawEnd(FlexArea &Area)
+{
+	ConfirmAlgorithm::CanvasSlotDrawEnd(Area);
+
+	int	SlaveNo=GetSlaveNo();
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		IntegrationReqThresholdLibID	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		IntegrationAckThresholdLibID	ACmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.FilterLibType=DefLibTypeDotColorMatchingInspect;
+		RCmd.Area=Area;
+		RCmd.Phase=m->GetCurrentPhase();
+		if(RCmd.Send(SlaveNo,0,ACmd)==true){
+			if(ACmd.Libs.GetCount()>0){
+				if(ACmd.Libs.GetCount()>1){
+					SelectLibraryDialog	D(GetLayersBase(),Parent);
+					D.Initial(ACmd.Libs);
+					if(D.exec()==(int)true){
+						SelectedLib=*D.Selected;
+					}
+					else{
+						return;
+					}
+				}
+				else{
+					SelectedLib=*ACmd.Libs.GetFirst();
+				}
+				GetItemsByArea(SelectedLib.GetLibID(),Area);
+				ShowItemData();
+				SetSelectItems();
+			}
+		}
+	}
+}
+void	ConfirmPropDotColorMatchingForm::CanvasSlotOnPaint(mtGraphicUnit &ImagePanel,int page,QImage &Pnt)
+{
+	if(Parent->GetDrawModeSelectedArea()==true){
+		NGShape.DrawAlpha(0,0 ,&Pnt ,qRgba(255,0,0,160)
+					,ImagePanel.GetZoomRate(),ImagePanel.GetMovx() ,ImagePanel.GetMovy());
+	}
+}
+void	ConfirmPropDotColorMatchingForm::SetProperty(void)
+{
+	for(ListPhasePageLayerItem	*t=SelectedItems.GetFirst();t!=NULL;t=t->GetNext()){
+		int	SlaveNo=GetSlaveNo();
+		IntegrationReqItemThresholdData	RCmd(GetLayersBase(),sRoot,sName,SlaveNo ,t->Data.Page);
+		IntegrationAckItemThresholdData	ACmd(GetLayersBase(),sRoot,sName,SlaveNo ,t->Data.Page);
+		RCmd.LibType=SelectedLib.GetLibType();
+		RCmd.ItemIndex=*t;
+		if(RCmd.Send(SlaveNo ,t->Data.Page,0,ACmd)==true){
+			CmdCreateThreshold	Cmd(GetLayersBase());
+			AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(GetLibType());
+			if(ABase!=NULL){
+				ABase->TransmitDirectly(&Cmd);
+				QBuffer	Buff(&ACmd.ThresholdData);
+				Buff.open(QIODevice::ReadWrite);
+				Cmd.Threshold->Load(&Buff);
+				GetThresholdFromWindow(Cmd.Threshold);
+				Buff.seek(0);
+				Cmd.Threshold->Save(&Buff);
+
+				IntegrationSetItemThresholdData	SCmd(GetLayersBase(),sRoot,sName,SlaveNo ,t->Data.Page);
+				SCmd.LibType=SelectedLib.GetLibType();
+				SCmd.ItemIndex=*t;
+				SCmd.ThresholdData=Buff.buffer();
+				SCmd.Send(NULL,SlaveNo ,t->Data.Page,0);
+			}
+		}
+	}
+}
+
+void    ConfirmPropDotColorMatchingForm::ShowItemData(void)
+{
+	ListPhasePageLayerItem	*t=SelectedItems.GetFirst();
+	if(t!=NULL){
+		int	SlaveNo=GetSlaveNo();
+		IntegrationReqItemThresholdData	RCmd(GetLayersBase(),sRoot,sName,SlaveNo ,t->Data.Page);
+		IntegrationAckItemThresholdData	ACmd(GetLayersBase(),sRoot,sName,SlaveNo ,t->Data.Page);
+		RCmd.LibType=SelectedLib.GetLibType();
+		RCmd.ItemIndex=*t;
+		if(RCmd.Send(SlaveNo ,t->Data.Page,0,ACmd)==true){
+			CmdCreateThreshold	Cmd(GetLayersBase());
+			AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(GetLibType());
+			if(ABase!=NULL){
+				ABase->TransmitDirectly(&Cmd);
+				QBuffer	Buff(&ACmd.ThresholdData);
+				Buff.open(QIODevice::ReadWrite);
+				Cmd.Threshold->Load(&Buff);
+				ShowThreshold(ACmd.LibID,Cmd.Threshold);
+			}
+		}
+	}
+}
+
+void    ConfirmPropDotColorMatchingForm::ShowThreshold(int LibID,DotColorMatchingThreshold *RThr)
+{
+	OnChanging=true;
+
+	ui->lineEditLibID->setText(QString::number(LibID));
+	QString	LibName=GetLayersBase()->GetLibraryName(GetLibType(),LibID);
+	ui->lineEditLibName->setText(LibName);
+
+	ui->EditBrightWidthRL	->setValue		(RThr->BrightWidthRL);
+	ui->EditBrightWidthRH	->setValue		(RThr->BrightWidthRH);
+	ui->EditBrightWidthGL	->setValue		(RThr->BrightWidthGL);
+	ui->EditBrightWidthGH	->setValue		(RThr->BrightWidthGH);
+	ui->EditBrightWidthBL	->setValue		(RThr->BrightWidthBL);
+	ui->EditBrightWidthBH	->setValue		(RThr->BrightWidthBH);
+	//ui->doubleSpinBoxVarietySigma->setValue	(RThr->VarietySigma);
+	ui->EditOKDot			->setValue		(RThr->OKDot);
+	ui->EditOKLength		->setValue		(RThr->OKLength);
+	ui->EditBackGroundOKDot		->setValue	(RThr->BackGroundOKDot);
+	ui->EditBackGroundOKLength	->setValue	(RThr->BackGroundOKLength);
+	ui->checkBoxUseBackGround	->setChecked(RThr->UseBackGround);
+
+	ui->EditAdjustBlack		->setValue	(RThr->AdjustBlack);
+	ui->EditAdjustWhite		->setValue	(RThr->AdjustWhite);
+	ui->EditSelfSearch		->setValue	(RThr->SelfSearch);
+	ui->EditAreaSearch		->setValue	(RThr->AreaSearch);
+	//ui->checkBoxClusterize	->setChecked(RThr->Clusterize);
+	ui->EditMultiSpotDot	->setValue	(RThr->MultiSpotDot	);
+	ui->EditMultiSpotCount	->setValue	(RThr->MultiSpotCount);
+	//ui->checkBoxEnableT2M	->setChecked(RThr->EnableT2M);
+	//ui->checkBoxEnableM2T	->setChecked(RThr->EnableM2T);
+
+	ui->EditRThrOffsetL		->setValue	(RThr->RThrOffsetL);
+	ui->EditRThrOffsetH		->setValue	(RThr->RThrOffsetH);
+	ui->EditGThrOffsetL		->setValue	(RThr->GThrOffsetL);
+	ui->EditGThrOffsetH		->setValue	(RThr->GThrOffsetH);
+	ui->EditBThrOffsetL		->setValue	(RThr->BThrOffsetL);
+	ui->EditBThrOffsetH		->setValue	(RThr->BThrOffsetH);
+
+	//ui->doubleSpinBoxScratchStartDirection	->setValue	(RThr->ScratchStartDirection	);
+	//ui->doubleSpinBoxScratchRotationAngle	->setValue	(RThr->ScratchRotationAngle	);
+	//ui->doubleSpinBoxScratchVariety			->setValue	(RThr->ScratchVariety			);
+	//ui->EditScratchDetectLevelH				->setValue	(RThr->ScratchDetectLevelH	);
+	//ui->EditScratchDetectLevelL				->setValue	(RThr->ScratchDetectLevelL	);
+	//ui->EditScratchMaxWidth					->setValue	(RThr->ScratchMaxWidth		);
+	//ui->checkBoxScratchEnable				->setChecked(RThr->ScratchEnable		);
+	//ui->checkBoxScratchUseMaster			->setChecked(RThr->ScratchUseMaster	);
+	//ui->doubleSpinBoxScratchVOffset			->setValue	(RThr->ScratchVOffset		);
+	//ui->doubleSpinBoxScratchDiff			->setValue	(RThr->ScratchDiff			);
+	
+	//ui->comboBoxUseOneLayer	->clear();
+	//ui->comboBoxUseOneLayer	->addItem("Color");
+	//for(int layer=0;layer<GetLayerNumb();layer++){
+	//	ui->comboBoxUseOneLayer	->addItem(QString("Layer")+QString::number(layer));
+	//}
+	//ui->comboBoxUseOneLayer	->setCurrentIndex((RThr->UseOneLayer==0xFF)?0:RThr->UseOneLayer+1);
+
+	ui->checkBoxRedCheckMode			->setChecked(RThr->RedCheckMode			);
+	ui->EditRedHighRate					->setValue	(RThr->RedHighRate			);
+	ui->EditRedMinBrightness			->setValue	(RThr->RedMinBrightness		);
+	ui->EditRedGBMerginRate				->setValue	(RThr->RedGBMerginRate		);
+	ui->EditRedGBMerginOffset			->setValue	(RThr->RedGBMerginOffset	);
+	ui->EditRedOKDot					->setValue	(RThr->RedOKDot				);
+	ui->EditRedShrink					->setValue	(RThr->RedShrink			);
+	//ui->EditMatchBrightnessByLayerH		->setValue	(RThr->MatchBrightnessByLayerH	);
+	//ui->EditMatchBrightnessByLayerL		->setValue	(RThr->MatchBrightnessByLayerL	);
+
+	ui->frameBackGround->setEnabled(ui->checkBoxUseBackGround->isChecked());
+
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->doubleSpinBoxOKDotMM			->setValue(m->TransformPixelToUnitSquare(ui->EditOKDot->value()));
+		ui->doubleSpinBoxOKLengthMM			->setValue(m->TransformPixelToUnit		(ui->EditOKLength->value()));
+		ui->doubleSpinBoxBackGroundOKDotMM	->setValue(m->TransformPixelToUnitSquare(ui->EditBackGroundOKDot->value()));
+		ui->doubleSpinBoxBackGroundOKLengthMM->setValue(m->TransformPixelToUnit		(ui->EditBackGroundOKLength->value()));
+		ui->doubleSpinBoxAreaSearchMM		->setValue(m->TransformPixelToUnit		(ui->EditAreaSearch->value()));
+		ui->doubleSpinBoxSelfSearchMM		->setValue(m->TransformPixelToUnit		(ui->EditSelfSearch->value()));
+
+		ui->doubleSpinBoxMultiSpotDotMM		->setValue(m->TransformPixelToUnitSquare(ui->EditMultiSpotDot->value()));
+		ui->doubleSpinBoxRedOKDotMM			->setValue(m->TransformPixelToUnitSquare(ui->EditRedOKDot->value()));
+	}
+	OnChanging=false;
+}
+
+void    ConfirmPropDotColorMatchingForm::GetThresholdFromWindow(DotColorMatchingThreshold *DThr)
+{
+	DThr->BrightWidthRL	=ui->EditBrightWidthRL	->value();
+	DThr->BrightWidthRH	=ui->EditBrightWidthRH	->value();
+	DThr->BrightWidthGL	=ui->EditBrightWidthGL	->value();
+	DThr->BrightWidthGH	=ui->EditBrightWidthGH	->value();
+	DThr->BrightWidthBL	=ui->EditBrightWidthBL	->value();
+	DThr->BrightWidthBH	=ui->EditBrightWidthBH	->value();
+
+	//DThr->OrgBrightWidthRL	=OrgBrightWidthRL;
+	//DThr->OrgBrightWidthRH	=OrgBrightWidthRH;
+	//DThr->OrgBrightWidthGL	=OrgBrightWidthGL;
+	//DThr->OrgBrightWidthGH	=OrgBrightWidthGH;
+	//DThr->OrgBrightWidthBL	=OrgBrightWidthBL;
+	//DThr->OrgBrightWidthBH	=OrgBrightWidthBH;
+
+	//DThr->VarietySigma		=ui->doubleSpinBoxVarietySigma	->value();
+	DThr->OKDot				=ui->EditOKDot				->value();
+	DThr->OKLength			=ui->EditOKLength			->value();
+	DThr->BackGroundOKDot	=ui->EditBackGroundOKDot	->value();
+	DThr->BackGroundOKLength=ui->EditBackGroundOKLength	->value();
+	DThr->UseBackGround		=ui->checkBoxUseBackGround	->isChecked();
+
+	DThr->AdjustBlack		=ui->EditAdjustBlack	->value();
+	DThr->AdjustWhite		=ui->EditAdjustWhite	->value();
+	DThr->AreaSearch		=ui->EditAreaSearch		->value();
+	DThr->SelfSearch		=ui->EditSelfSearch		->value();
+	//DThr->Clusterize		=ui->checkBoxClusterize	->isChecked();
+	DThr->MultiSpotDot		=ui->EditMultiSpotDot	->value();
+	DThr->MultiSpotCount	=ui->EditMultiSpotCount	->value();
+	//DThr->EnableT2M			=ui->checkBoxEnableT2M	->isChecked();
+	//DThr->EnableM2T			=ui->checkBoxEnableM2T	->isChecked();
+
+	DThr->RThrOffsetL		=ui->EditRThrOffsetL	->value();
+	DThr->RThrOffsetH		=ui->EditRThrOffsetH	->value();
+	DThr->GThrOffsetL		=ui->EditGThrOffsetL	->value();
+	DThr->GThrOffsetH		=ui->EditGThrOffsetH	->value();
+	DThr->BThrOffsetL		=ui->EditBThrOffsetL	->value();
+	DThr->BThrOffsetH		=ui->EditBThrOffsetH	->value();
+
+	//DThr->ScratchStartDirection	=ui->doubleSpinBoxScratchStartDirection	->value();
+	//DThr->ScratchRotationAngle	=ui->doubleSpinBoxScratchRotationAngle	->value();
+	//DThr->ScratchVariety		=ui->doubleSpinBoxScratchVariety		->value();
+	//DThr->ScratchDetectLevelH	=ui->EditScratchDetectLevelH			->value();
+	//DThr->ScratchDetectLevelL	=ui->EditScratchDetectLevelL			->value();
+	//DThr->ScratchMaxWidth		=ui->EditScratchMaxWidth				->value();
+	//DThr->ScratchEnable			=ui->checkBoxScratchEnable				->isChecked();
+	//DThr->ScratchUseMaster		=ui->checkBoxScratchUseMaster			->isChecked();
+	//DThr->ScratchVOffset		=ui->doubleSpinBoxScratchVOffset		->value();
+	//DThr->ScratchDiff			=ui->doubleSpinBoxScratchDiff			->value();
+	
+	DThr->RedCheckMode			=ui->checkBoxRedCheckMode				->isChecked();
+	DThr->RedHighRate			=ui->EditRedHighRate					->value	();
+	DThr->RedMinBrightness		=ui->EditRedMinBrightness				->value	();
+	DThr->RedGBMerginRate		=ui->EditRedGBMerginRate				->value	();
+	DThr->RedGBMerginOffset		=ui->EditRedGBMerginOffset				->value	();
+	DThr->RedOKDot				=ui->EditRedOKDot						->value	();
+	DThr->RedShrink				=ui->EditRedShrink						->value	();
+
+	//DThr->MatchBrightnessByLayerH=ui->EditMatchBrightnessByLayerH		->value	();
+	//DThr->MatchBrightnessByLayerL=ui->EditMatchBrightnessByLayerL		->value	();
+	//
+	//int	L=ui->comboBoxUseOneLayer	->currentIndex();
+	//if(L==0){
+	//	DThr->UseOneLayer=0xFF;
+	//}
+	//else{
+	//	DThr->UseOneLayer=L-1;
+	//}
+}
+void	SetColor(QLabel *Label,const QColor &Col)
+{
+	Label->setAutoFillBackground(true);
+	QPalette	P=Label->palette();
+	P.setColor(QPalette::Window,Col);
+	Label->setPalette(P);
+}
+
+void    ConfirmPropDotColorMatchingForm::ShowResult(void)
+{
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ListPhasePageLayerItem	*t=SelectedItems.GetFirst();
+		if(t!=NULL){
+			int	SlaveNo=GetSlaveNo();
+			IntegrationReqItemThresholdData	RCmd(GetLayersBase(),sRoot,sName,SlaveNo ,t->Data.Page);
+			IntegrationAckItemThresholdData	ACmd(GetLayersBase(),sRoot,sName,SlaveNo ,t->Data.Page);
+			RCmd.LibType=SelectedLib.GetLibType();
+			RCmd.ItemIndex=*t;
+			if(RCmd.Send(SlaveNo ,t->Data.Page,0,ACmd)==true){
+				CmdCreateThreshold	Cmd(GetLayersBase());
+				AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(GetLibType());
+				if(ABase!=NULL){
+					ABase->TransmitDirectly(&Cmd);
+					QBuffer	Buff(&ACmd.ThresholdData);
+					Buff.open(QIODevice::ReadWrite);
+					Cmd.Threshold->Load(&Buff);
+					GetThresholdFromWindow(Cmd.Threshold);
+
+					Buff.seek(0);
+					Cmd.Threshold->Save(&Buff);
+
+					IntegrationReqDotColorMatchingTryResult	RTryCmd(GetLayersBase(),sRoot,sName,SlaveNo ,t->Data.Page);
+					IntegrationAckDotColorMatchingTryResult	ATryCmd(GetLayersBase(),sRoot,sName,SlaveNo ,t->Data.Page);
+					RTryCmd.ThresholdData=Buff.buffer();
+					RTryCmd.ItemIndex=*t;
+					if(RTryCmd.Send(SlaveNo ,t->Data.Page,0,ATryCmd)==true){
+						NGShape	=ATryCmd.NGShape;
+
+						ui->EditCenterBrightMasterR->setText(QString::number(ATryCmd.ResultInfoData.CenterBrightR));
+						ui->EditCenterBrightMasterG->setText(QString::number(ATryCmd.ResultInfoData.CenterBrightG));
+						ui->EditCenterBrightMasterB->setText(QString::number(ATryCmd.ResultInfoData.CenterBrightB));
+						ui->EditCenterBrightTargetR->setText(QString::number(ATryCmd.ResultInfoData.CenterTargetBrightR));
+						ui->EditCenterBrightTargetG->setText(QString::number(ATryCmd.ResultInfoData.CenterTargetBrightG));
+						ui->EditCenterBrightTargetB->setText(QString::number(ATryCmd.ResultInfoData.CenterTargetBrightB));
+
+						ui->labelResult					->setText(QString::number(ATryCmd.ResultInfoData.NGResultSize));
+						ui->labelResultLen				->setText(QString::number(ATryCmd.ResultInfoData.NGResultLength));
+						ui->labelResultBackGround		->setText(QString::number(ATryCmd.ResultInfoData.NGResultGroundSize));
+						ui->labelResultLenBackGround	->setText(QString::number(ATryCmd.ResultInfoData.NGResultGroundLength));
+						ui->labelResultRed				->setText(QString::number(ATryCmd.ResultInfoData.NGResultRedSize));
+						ui->labelResultMultiDot			->setText(QString::number(ATryCmd.ResultInfoData.NGResultMultiCount));
+
+						ui->labelResultMM				->setText(QString::number(m->TransformPixelToUnitSquare	(ATryCmd.ResultInfoData.NGResultSize)));
+						ui->labelResultLenMM			->setText(QString::number(m->TransformPixelToUnit		(ATryCmd.ResultInfoData.NGResultLength)));
+						ui->labelResultBackGroundMM		->setText(QString::number(m->TransformPixelToUnitSquare	(ATryCmd.ResultInfoData.NGResultGroundSize)));
+						ui->labelResultLenBackGroundMM	->setText(QString::number(m->TransformPixelToUnit		(ATryCmd.ResultInfoData.NGResultGroundLength)));
+						ui->labelResultRedMM			->setText(QString::number(m->TransformPixelToUnitSquare	(ATryCmd.ResultInfoData.NGResultRedSize)));
+
+						if(ATryCmd.ResultInfoData.ResultCode==1){
+							SetColor(ui->labelNormalResult			,Qt::lightGray);
+							SetColor(ui->labelBackGroundResult		,Qt::lightGray);
+							SetColor(ui->labelRedResult				,Qt::lightGray);
+							SetColor(ui->labelMultipleCountResult	,Qt::lightGray);
+
+							SetColor(ui->labelResult				,Qt::lightGray);
+							SetColor(ui->labelResultLen				,Qt::lightGray);
+							SetColor(ui->labelResultBackGround		,Qt::lightGray);
+							SetColor(ui->labelResultLenBackGround	,Qt::lightGray);
+							SetColor(ui->labelResultRed				,Qt::lightGray);
+							SetColor(ui->labelResultMultiDot		,Qt::lightGray);
+							
+							SetColor(ui->labelResultMM				,Qt::lightGray);
+							SetColor(ui->labelResultLenMM			,Qt::lightGray);
+							SetColor(ui->labelResultBackGroundMM	,Qt::lightGray);
+							SetColor(ui->labelResultLenBackGroundMM	,Qt::lightGray);
+							SetColor(ui->labelResultRedMM			,Qt::lightGray);
+						}
+						else
+						if(ATryCmd.ResultInfoData.ResultCode==2){
+							SetColor(ui->labelNormalResult			,Qt::red);
+							SetColor(ui->labelBackGroundResult		,Qt::lightGray);
+							SetColor(ui->labelRedResult				,Qt::lightGray);
+							SetColor(ui->labelMultipleCountResult	,Qt::lightGray);
+
+							SetColor(ui->labelResult				,Qt::red);
+							SetColor(ui->labelResultLen				,Qt::lightGray);
+							SetColor(ui->labelResultBackGround		,Qt::lightGray);
+							SetColor(ui->labelResultLenBackGround	,Qt::lightGray);
+							SetColor(ui->labelResultRed				,Qt::lightGray);
+							SetColor(ui->labelResultMultiDot		,Qt::lightGray);
+							
+							SetColor(ui->labelResultMM				,Qt::red);
+							SetColor(ui->labelResultLenMM			,Qt::lightGray);
+							SetColor(ui->labelResultBackGroundMM	,Qt::lightGray);
+							SetColor(ui->labelResultLenBackGroundMM	,Qt::lightGray);
+							SetColor(ui->labelResultRedMM			,Qt::lightGray);
+						}
+						else
+						if(ATryCmd.ResultInfoData.ResultCode==12){
+							SetColor(ui->labelNormalResult			,Qt::lightGray);
+							SetColor(ui->labelBackGroundResult		,Qt::red);
+							SetColor(ui->labelRedResult				,Qt::lightGray);
+							SetColor(ui->labelMultipleCountResult	,Qt::lightGray);
+
+							SetColor(ui->labelResult				,Qt::lightGray);
+							SetColor(ui->labelResultLen				,Qt::lightGray);
+							SetColor(ui->labelResultBackGround		,Qt::red);
+							SetColor(ui->labelResultLenBackGround	,Qt::lightGray);
+							SetColor(ui->labelResultRed				,Qt::lightGray);
+							SetColor(ui->labelResultMultiDot		,Qt::lightGray);
+							
+							SetColor(ui->labelResultMM				,Qt::lightGray);
+							SetColor(ui->labelResultLenMM			,Qt::lightGray);
+							SetColor(ui->labelResultBackGroundMM	,Qt::red);
+							SetColor(ui->labelResultLenBackGroundMM	,Qt::lightGray);
+							SetColor(ui->labelResultRedMM			,Qt::lightGray);
+						}
+						else
+						if(ATryCmd.ResultInfoData.ResultCode==4){
+							SetColor(ui->labelNormalResult			,Qt::red);
+							SetColor(ui->labelBackGroundResult		,Qt::lightGray);
+							SetColor(ui->labelRedResult				,Qt::lightGray);
+							SetColor(ui->labelMultipleCountResult	,Qt::lightGray);
+
+							SetColor(ui->labelResult				,Qt::lightGray);
+							SetColor(ui->labelResultLen				,Qt::red);
+							SetColor(ui->labelResultBackGround		,Qt::lightGray);
+							SetColor(ui->labelResultLenBackGround	,Qt::lightGray);
+							SetColor(ui->labelResultRed				,Qt::lightGray);
+							SetColor(ui->labelResultMultiDot		,Qt::lightGray);
+							
+							SetColor(ui->labelResultMM				,Qt::lightGray);
+							SetColor(ui->labelResultLenMM			,Qt::red);
+							SetColor(ui->labelResultBackGroundMM	,Qt::lightGray);
+							SetColor(ui->labelResultLenBackGroundMM	,Qt::lightGray);
+							SetColor(ui->labelResultRedMM			,Qt::lightGray);
+						}
+						else
+						if(ATryCmd.ResultInfoData.ResultCode==14){
+							SetColor(ui->labelNormalResult			,Qt::lightGray);
+							SetColor(ui->labelBackGroundResult		,Qt::red);
+							SetColor(ui->labelRedResult				,Qt::lightGray);
+							SetColor(ui->labelMultipleCountResult	,Qt::lightGray);
+
+							SetColor(ui->labelResult				,Qt::lightGray);
+							SetColor(ui->labelResultLen				,Qt::lightGray);
+							SetColor(ui->labelResultBackGround		,Qt::lightGray);
+							SetColor(ui->labelResultLenBackGround	,Qt::red);
+							SetColor(ui->labelResultRed				,Qt::lightGray);
+							SetColor(ui->labelResultMultiDot		,Qt::lightGray);
+							
+							SetColor(ui->labelResultMM				,Qt::lightGray);
+							SetColor(ui->labelResultLenMM			,Qt::lightGray);
+							SetColor(ui->labelResultBackGroundMM	,Qt::lightGray);
+							SetColor(ui->labelResultLenBackGroundMM	,Qt::red);
+							SetColor(ui->labelResultRedMM			,Qt::lightGray);
+						}
+						else
+						if(ATryCmd.ResultInfoData.ResultCode==3){
+							SetColor(ui->labelNormalResult			,Qt::lightGray);
+							SetColor(ui->labelBackGroundResult		,Qt::lightGray);
+							SetColor(ui->labelRedResult				,Qt::lightGray);
+							SetColor(ui->labelMultipleCountResult	,Qt::red);
+
+							SetColor(ui->labelResult				,Qt::lightGray);
+							SetColor(ui->labelResultLen				,Qt::lightGray);
+							SetColor(ui->labelResultBackGround		,Qt::lightGray);
+							SetColor(ui->labelResultLenBackGround	,Qt::lightGray);
+							SetColor(ui->labelResultRed				,Qt::lightGray);
+							SetColor(ui->labelResultMultiDot		,Qt::red);
+							
+							SetColor(ui->labelResultMM				,Qt::lightGray);
+							SetColor(ui->labelResultLenMM			,Qt::lightGray);
+							SetColor(ui->labelResultBackGroundMM	,Qt::lightGray);
+							SetColor(ui->labelResultLenBackGroundMM	,Qt::lightGray);
+							SetColor(ui->labelResultRedMM			,Qt::lightGray);
+						}
+						else
+						if(ATryCmd.ResultInfoData.ResultCode==5){
+							SetColor(ui->labelNormalResult			,Qt::lightGray);
+							SetColor(ui->labelBackGroundResult		,Qt::lightGray);
+							SetColor(ui->labelRedResult				,Qt::red);
+							SetColor(ui->labelMultipleCountResult	,Qt::lightGray);
+
+							SetColor(ui->labelResult				,Qt::lightGray);
+							SetColor(ui->labelResultLen				,Qt::lightGray);
+							SetColor(ui->labelResultBackGround		,Qt::lightGray);
+							SetColor(ui->labelResultLenBackGround	,Qt::lightGray);
+							SetColor(ui->labelResultRed				,Qt::red);
+							SetColor(ui->labelResultMultiDot		,Qt::lightGray);
+							
+							SetColor(ui->labelResultMM				,Qt::lightGray);
+							SetColor(ui->labelResultLenMM			,Qt::lightGray);
+							SetColor(ui->labelResultBackGroundMM	,Qt::lightGray);
+							SetColor(ui->labelResultLenBackGroundMM	,Qt::lightGray);
+							SetColor(ui->labelResultRedMM			,Qt::red);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditBrightWidthRL_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditBrightWidthGL_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditBrightWidthBL_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditBrightWidthRH_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditBrightWidthGH_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditBrightWidthBH_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditRThrOffsetL_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditGThrOffsetL_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditBThrOffsetL_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditRThrOffsetH_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditGThrOffsetH_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditBThrOffsetH_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditOKDot_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->doubleSpinBoxOKDotMM->setValue(m->TransformPixelToUnitSquare(ui->EditOKDot->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_doubleSpinBoxOKDotMM_valueChanged(double arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->EditOKDot->setValue(m->TransformUnitToPixelSquare(ui->doubleSpinBoxOKDotMM->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditOKLength_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->doubleSpinBoxOKLengthMM->setValue(m->TransformPixelToUnit(ui->EditOKLength->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_doubleSpinBoxOKLengthMM_valueChanged(double arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->EditOKLength->setValue(m->TransformUnitToPixel(ui->doubleSpinBoxOKLengthMM->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_checkBoxUseBackGround_clicked()
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ui->frameBackGround->setEnabled(ui->checkBoxUseBackGround->isChecked());
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditBackGroundOKDot_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->doubleSpinBoxBackGroundOKDotMM->setValue(m->TransformPixelToUnitSquare(ui->EditBackGroundOKDot->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_doubleSpinBoxBackGroundOKDotMM_valueChanged(double arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->EditBackGroundOKDot->setValue(m->TransformUnitToPixelSquare(ui->doubleSpinBoxBackGroundOKDotMM->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditBackGroundOKLength_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->doubleSpinBoxBackGroundOKLengthMM->setValue(m->TransformPixelToUnit(ui->EditBackGroundOKLength->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_doubleSpinBoxBackGroundOKLengthMM_valueChanged(double arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->EditBackGroundOKLength->setValue(m->TransformUnitToPixel(ui->doubleSpinBoxBackGroundOKLengthMM->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditAreaSearch_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->doubleSpinBoxAreaSearchMM->setValue(m->TransformPixelToUnit(ui->EditAreaSearch->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_doubleSpinBoxAreaSearchMM_valueChanged(double arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->EditAreaSearch->setValue(m->TransformUnitToPixel(ui->doubleSpinBoxAreaSearchMM->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditSelfSearch_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->doubleSpinBoxSelfSearchMM->setValue(m->TransformPixelToUnit(ui->EditSelfSearch->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_doubleSpinBoxSelfSearchMM_valueChanged(double arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->EditSelfSearch->setValue(m->TransformUnitToPixel(ui->doubleSpinBoxSelfSearchMM->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditAdjustBlack_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditAdjustWhite_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditMultiSpotDot_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->doubleSpinBoxMultiSpotDotMM->setValue(m->TransformPixelToUnitSquare(ui->EditMultiSpotDot->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_doubleSpinBoxMultiSpotDotMM_valueChanged(double arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->EditMultiSpotDot->setValue(m->TransformUnitToPixelSquare(ui->doubleSpinBoxMultiSpotDotMM->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditMultiSpotCount_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_checkBoxRedCheckMode_clicked()
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditRedHighRate_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditRedMinBrightness_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditRedGBMerginRate_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditRedGBMerginOffset_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditRedShrink_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_EditRedOKDot_valueChanged(int arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->doubleSpinBoxRedOKDotMM->setValue(m->TransformPixelToUnitSquare(ui->EditRedOKDot->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}
+
+void ConfirmPropDotColorMatchingForm::on_doubleSpinBoxRedOKDotMM_valueChanged(double arg1)
+{
+	if(OnChanging==true)
+		return;
+	OnChanging=true;
+    EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(GetSlaveNo());
+    if(m!=NULL){
+		ui->EditRedOKDot->setValue(m->TransformUnitToPixelSquare(ui->doubleSpinBoxRedOKDotMM->value()));
+	}
+	ShowResult();
+	OnChanging=false;
+}

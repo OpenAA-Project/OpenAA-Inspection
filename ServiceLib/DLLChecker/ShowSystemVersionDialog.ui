@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShowSystemVersionDialog</class>
+ <widget class="QDialog" name="ShowSystemVersionDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>768</width>
+    <height>669</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Show SystemVersion</string>
+  </property>
+  <widget class="QPushButton" name="pushButtonSaveCSV">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>630</y>
+     <width>75</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save CSV</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClose">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>630</y>
+     <width>75</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>751</width>
+     <height>611</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>DLL</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>FileName</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Qt version</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Revision</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Regulus</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Match</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

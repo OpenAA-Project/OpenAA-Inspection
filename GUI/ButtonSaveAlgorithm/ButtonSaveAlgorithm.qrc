@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/ButtonSaveAligorithm.png</file>
+    </qresource>
+</RCC>

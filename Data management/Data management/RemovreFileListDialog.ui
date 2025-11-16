@@ -1,0 +1,55 @@
+<ui version="4.0" >
+ <class>RemovreFileListDialogClass</class>
+ <widget class="QDialog" name="RemovreFileListDialogClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>283</width>
+    <height>269</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>RemovreFileListDialog</string>
+  </property>
+  <widget class="QListWidget" name="listWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>261</width>
+     <height>201</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonOK" >
+   <property name="geometry" >
+    <rect>
+     <x>30</x>
+     <y>222</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>削除実行</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonCancel" >
+   <property name="geometry" >
+    <rect>
+     <x>170</x>
+     <y>220</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>キャンセル</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

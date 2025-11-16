@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(PROPERTYMULTISPECTRAL_LIB)
+#  define PROPERTYMULTISPECTRAL_EXPORT Q_DECL_EXPORT
+# else
+#  define PROPERTYMULTISPECTRAL_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define PROPERTYMULTISPECTRAL_EXPORT
+#endif

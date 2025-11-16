@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/DrawArcButton.png</file>
+        <file>Resources/DrawDotButton.png</file>
+        <file>Resources/DrawEllipseButton.png</file>
+        <file>Resources/DrawEndlessLineButton.png</file>
+        <file>Resources/DrawFreelineButton.png</file>
+        <file>Resources/DrawHalfLineButton.png</file>
+        <file>Resources/DrawLineButton.png</file>
+        <file>Resources/DrawPolylineButton.png</file>
+        <file>Resources/DrawRectangleButton.png</file>
+        <file>Resources/DrawRingButton.png</file>
+        <file>Resources/DrawRotEllipseButton.png</file>
+        <file>Resources/DrawRotRectangleButton.png</file>
+        <file>Resources/ImagePannelTools.png</file>
+        <file>Resources/NonSelct.png</file>
+        <file>Resources/DrawArcwith3pointsButton.png</file>
+        <file>Resources/DrawCirclewith3pointsButton.png</file>
+        <file>Resources/DrawEllipsewith4pointsButton.png</file>
+        <file>Resources/DrawhorizontallinewithbothsidestopButton.png</file>
+        <file>Resources/DrawvirtucallinewithbothsidestopButton.png</file>
+        <file>Resources/DrawRingArc1Button.png</file>
+        <file>Resources/DrawRingArc4Button.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/OK.png</file>
+    </qresource>
+</RCC>

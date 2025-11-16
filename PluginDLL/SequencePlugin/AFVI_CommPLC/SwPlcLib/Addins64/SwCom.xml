@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addin>
+  <presets>
+    <preset type="TCP/IP" name="SwCom">
+      <Option></Option>
+    </preset>
+  </presets>
+  
+  <optionItems>
+  </optionItems>
+</addin>

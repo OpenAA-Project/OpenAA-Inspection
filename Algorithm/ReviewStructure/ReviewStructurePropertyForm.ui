@@ -1,0 +1,846 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ReviewStructureClass</class>
+ <widget class="QDialog" name="ReviewStructureClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>635</width>
+    <height>975</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ReviewStructureProperty</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_4">
+   <item row="2" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Pre NG image load length</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="sbPreNGImageLoadLength"/>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Master image quality</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_10">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cbMasterImageQuality">
+       <item>
+        <property name="text">
+         <string>1/1</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/3</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/4</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/5</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/6</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/7</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/8</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/9</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/10</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/11</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/12</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/13</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/14</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/15</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/16</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <spacer name="horizontalSpacer_11">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>424</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="5" column="1">
+    <widget class="QCheckBox" name="cbVRSOperationEnable">
+     <property name="text">
+      <string>VRS operation enable</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Sort</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3" columnstretch="0,1,1,0,0,0">
+      <item row="1" column="0" colspan="6">
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" colspan="2">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>History list</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="3" column="3">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="3" column="4" colspan="2">
+       <widget class="QComboBox" name="cbHistorySortOrder">
+        <property name="sizeAdjustPolicy">
+         <enum>QComboBox::AdjustToContents</enum>
+        </property>
+        <item>
+         <property name="text">
+          <string>InspectID(Lesser)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>InspectID(Greater)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>InspectTime(Lesser)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>InspectTime(Greater)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>NCCount(Lesser)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>NCCount(Greater)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>NCCountOnlyFront(Lesser)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>NCCountOnlyFront(Greater)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>NCCountOnlyBack(Lesser)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>NCCountOnlyBack(Greater)</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="1" colspan="2">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>NG image list</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="4" colspan="2">
+       <widget class="QComboBox" name="cbNGNailSortOrder">
+        <property name="sizeAdjustPolicy">
+         <enum>QComboBox::AdjustToContents</enum>
+        </property>
+        <item>
+         <property name="text">
+          <string>Y(Lesser)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Y(Greater)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>X(Lesser)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>X(Greater)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Lib(Lesser)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Lib(Greater)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>NGCause(Lesser)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>NGCause(Greater)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Area</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QGroupBox" name="gbSaveNGImageFileFormat">
+     <property name="title">
+      <string>Save NG image format</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0">
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="leSaveNGImageFileFormat"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>format</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="3">
+       <widget class="QTableWidget" name="twSaveNGImageFileFormatMacroTable">
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="tabKeyNavigation">
+         <bool>false</bool>
+        </property>
+        <property name="showDropIndicator" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+        <property name="cornerButtonEnabled">
+         <bool>true</bool>
+        </property>
+        <property name="rowCount">
+         <number>8</number>
+        </property>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <row/>
+        <row/>
+        <row/>
+        <row/>
+        <row/>
+        <row/>
+        <row/>
+        <row/>
+        <column>
+         <property name="text">
+          <string>Macro</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Detail</string>
+         </property>
+        </column>
+        <item row="0" column="0">
+         <property name="text">
+          <string>%S</string>
+         </property>
+        </item>
+        <item row="0" column="1">
+         <property name="text">
+          <string>Side Name(Front or Back)</string>
+         </property>
+        </item>
+        <item row="1" column="0">
+         <property name="text">
+          <string>%l</string>
+         </property>
+        </item>
+        <item row="1" column="1">
+         <property name="text">
+          <string>Lot Name</string>
+         </property>
+        </item>
+        <item row="2" column="0">
+         <property name="text">
+          <string>%n</string>
+         </property>
+        </item>
+        <item row="2" column="1">
+         <property name="text">
+          <string>Number of row on NG list</string>
+         </property>
+        </item>
+        <item row="3" column="0">
+         <property name="text">
+          <string>%M</string>
+         </property>
+        </item>
+        <item row="3" column="1">
+         <property name="text">
+          <string>Master Name</string>
+         </property>
+        </item>
+        <item row="4" column="0">
+         <property name="text">
+          <string>%N</string>
+         </property>
+        </item>
+        <item row="4" column="1">
+         <property name="text">
+          <string>Number of row on NG list at current side</string>
+         </property>
+        </item>
+        <item row="5" column="0">
+         <property name="text">
+          <string>%m</string>
+         </property>
+        </item>
+        <item row="5" column="1">
+         <property name="text">
+          <string>Master Code</string>
+         </property>
+        </item>
+        <item row="6" column="0">
+         <property name="text">
+          <string>%i</string>
+         </property>
+        </item>
+        <item row="6" column="1">
+         <property name="text">
+          <string>Inspect ID</string>
+         </property>
+        </item>
+        <item row="7" column="0">
+         <property name="text">
+          <string>/</string>
+         </property>
+        </item>
+        <item row="7" column="1">
+         <property name="text">
+          <string>directory separator</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="2">
+    <widget class="QGroupBox" name="gbXMLServer">
+     <property name="title">
+      <string>XML server connect</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1,1,0">
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>IP Address</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLineEdit" name="leXMLServerIPAddress"/>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="leXMLServerPortNo"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Port No</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <spacer name="horizontalSpacer_7">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="2">
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="0">
+       <spacer name="horizontalSpacer_8">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0">
+       <spacer name="horizontalSpacer_9">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="2" column="0">
+       <spacer name="horizontalSpacer_13">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Main path for NG image</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <spacer name="horizontalSpacer_12">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLineEdit" name="leNGImagePath"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="2">
+    <layout class="QHBoxLayout">
+     <property name="spacing">
+      <number>6</number>
+     </property>
+     <property name="margin">
+      <number>0</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>131</width>
+         <height>31</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="okButton">
+       <property name="text">
+        <string>OK</string>
+       </property>
+       <property name="icon">
+        <iconset resource="ReviewStructure.qrc">
+         <normaloff>:/Qtres/flash_swf_64.PNG</normaloff>:/Qtres/flash_swf_64.PNG</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+       <property name="icon">
+        <iconset resource="ReviewStructure.qrc">
+         <normaloff>:/Qtres/flash_64.PNG</normaloff>:/Qtres/flash_64.PNG</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="7" column="0" colspan="2">
+    <widget class="QGroupBox" name="gridGroupBox">
+     <property name="title">
+      <string>Directory for Save CSV</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_5">
+      <item row="3" column="0">
+       <widget class="QFrame" name="frame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_6">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_12">
+           <property name="text">
+            <string>X magnification</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxCSVMagnificationX">
+           <property name="decimals">
+            <number>6</number>
+           </property>
+           <property name="minimum">
+            <double>-99.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="spinBoxCSVOffsetX">
+           <property name="minimum">
+            <number>-999999999</number>
+           </property>
+           <property name="maximum">
+            <number>999999999</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string>Offset Y as Pixel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QSpinBox" name="spinBoxCSVOffsetY">
+           <property name="minimum">
+            <number>-999999999</number>
+           </property>
+           <property name="maximum">
+            <number>999999999</number>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QCheckBox" name="checkBoxCSVReverseX">
+           <property name="text">
+            <string>ReverseX(Left:+  , Right:-)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QCheckBox" name="checkBoxCSVReverseY">
+           <property name="text">
+            <string>ReverseY(Top:+  , Bottomt:-)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_10">
+           <property name="text">
+            <string>Offset X as Pixel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_13">
+           <property name="text">
+            <string>Y magnification</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxCSVMagnificationY">
+           <property name="decimals">
+            <number>6</number>
+           </property>
+           <property name="minimum">
+            <double>-99.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" colspan="3">
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>Pos (X,Y) mm = { Pixel (x,y) * Mag (Zx,Zy) + Offset (OffX,OffY) } * UnitPerPixel</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLineEdit" name="leDirectoryToSaveCSV"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="checkBoxCSVUnitMM">
+        <property name="text">
+         <string>Unit mm</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Directory</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="ReviewStructure.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>okButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ReviewStructureClass</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>278</x>
+     <y>253</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>96</x>
+     <y>254</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ReviewStructureClass</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>369</x>
+     <y>253</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>179</x>
+     <y>282</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

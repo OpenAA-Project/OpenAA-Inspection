@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SelectStartDialog</class>
+ <widget class="QDialog" name="SelectStartDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>892</width>
+    <height>486</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>選択開始</string>
+  </property>
+  <widget class="QLineEdit" name="lineEditCode">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>230</y>
+     <width>411</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>230</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>入力コード</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetStoredList">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>871</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <column>
+    <property name="text">
+     <string>コード</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>名前</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>DXF</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>PDF</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButtonGenerate">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>440</y>
+     <width>311</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>入力したコードのデータで生成</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>270</y>
+     <width>871</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>コード</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>名前</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>DXFファイル名</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>PDFファイル名</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>位置合わせファイル名</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>特殊ファイル名</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>設定項目</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

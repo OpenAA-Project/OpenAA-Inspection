@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/AlignmentArea.png</file>
+        <file>Resources/AlignmentArea100.png</file>
+        <file>Resources/AlignmentArea32.png</file>
+        <file>Resources/AlignmentArea64.png</file>
+        <file>Resources/AlignmentImagePanel.png</file>
+        <file>Resources/AlignmentInside.png</file>
+        <file>Resources/AlignmentInside100.png</file>
+        <file>Resources/AlignmentInside32.png</file>
+        <file>Resources/AlignmentInside64.png</file>
+        <file>Resources/AlignmentOutside.png</file>
+        <file>Resources/AlignmentOutside100.png</file>
+        <file>Resources/AlignmentOutside32.png</file>
+        <file>Resources/AlignmentOutside64.png</file>
+        <file>Resources/AlignmentShift.png</file>
+        <file>Resources/AlignmentShift100.png</file>
+        <file>Resources/AlignmentShift32.png</file>
+        <file>Resources/AlignmentShift64.png</file>
+    </qresource>
+</RCC>

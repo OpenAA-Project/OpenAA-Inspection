@@ -1,0 +1,12 @@
+#title	    "Print inspector"
+
+#iodefine	oPCRun	:0,0,2
+//#iodefine	oOK		:0,1,0
+//#iodefine	oNG		:0,1,1
+
+#steptime	1
+
+#Sequence Main:Main{
+	N Let	oPCRun,1	
+}
+

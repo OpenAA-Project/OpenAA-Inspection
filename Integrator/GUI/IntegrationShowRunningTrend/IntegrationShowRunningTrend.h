@@ -1,0 +1,6 @@
+#ifndef INTEGRATIONSHOWRUNNINGTREND_H
+#define INTEGRATIONSHOWRUNNINGTREND_H
+
+#include "integrationshowrunningtrend_global.h"
+
+#endif // INTEGRATIONSHOWRUNNINGTREND_H

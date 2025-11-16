@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChangeServerForMasterDialog</class>
+ <widget class="QDialog" name="ChangeServerForMasterDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>197</width>
+    <height>270</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Change server for Master</string>
+  </property>
+  <widget class="QListWidget" name="listWidgetServer">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>171</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="alternatingRowColors">
+    <bool>true</bool>
+   </property>
+   <item>
+    <property name="text">
+     <string>Server1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Server2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Server3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Server4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Server5</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Server6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Server7</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="pushButtonChange">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>81</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Change</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ButtonChangeServerForMaster.qrc">
+     <normaloff>:/Qtres/Change.png</normaloff>:/Qtres/Change.png</iconset>
+   </property>
+   <property name="default">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonCancel">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>160</y>
+     <width>81</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ButtonChangeServerForMaster.qrc">
+     <normaloff>:/Qtres/Cancel.png</normaloff>:/Qtres/Cancel.png</iconset>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>240</y>
+     <width>171</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Booting is necesary after changing</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonEdit">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>210</y>
+     <width>81</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Edit</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ButtonChangeServerForMaster.qrc">
+     <normaloff>:/Qtres/Edit.png</normaloff>:/Qtres/Edit.png</iconset>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="ButtonChangeServerForMaster.qrc"/>
+ </resources>
+ <connections/>
+</ui>

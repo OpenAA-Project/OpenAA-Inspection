@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ShowInspectionNumber.png</file>
+    </qresource>
+</RCC>

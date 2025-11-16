@@ -1,0 +1,12 @@
+#define	_USE_MATH_DEFINES
+#include <math.h>
+#include "XAlignmentProjection.h"
+#include "XCrossObj.h"
+#include "swap.h"
+#include "XAffin.h"
+#include "XDataInLayer.h"
+#include "XPointer.h"
+#include "XParamGlobal.h"
+#include "XGeneralFunc.h"
+#include "XGUI.h"
+#include "XImageProcess.h"

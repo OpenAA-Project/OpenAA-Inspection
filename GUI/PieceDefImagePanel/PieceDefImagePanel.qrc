@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PieceDefImagePanel.png</file>
+    </qresource>
+</RCC>

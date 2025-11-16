@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ShowStockedResult.png</file>
+        <file>Qtres/Trash.png</file>
+        <file>Qtres/Save.png</file>
+    </qresource>
+</RCC>

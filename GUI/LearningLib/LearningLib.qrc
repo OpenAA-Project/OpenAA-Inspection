@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Qtres/Point.png</file>
+        <file>Qtres/SelectAll.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/OK.png</file>
+    </qresource>
+</RCC>

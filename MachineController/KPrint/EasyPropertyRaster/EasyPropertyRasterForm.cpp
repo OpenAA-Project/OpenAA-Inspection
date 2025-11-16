@@ -1,0 +1,704 @@
+#include "EasyPropertyRasterResource.h"
+#include "EasyPropertyRasterForm.h"
+#include "ui_EasyPropertyRasterForm.h"
+#include "XRasterPacket.h"
+#include "CartonMenuForm.h"
+#include "XParamCustomized.h"
+#include "EasyRasterImagePanel.h"
+#include "swap.h"
+#include "XGUIRasterPacket.h"
+#include "XMaskingLibrary.h"
+#include "XMasking.h"
+#include "XDatabaseLoader.h"
+#include <QMessageBox>
+#include "SelectLibraryDialog.h"
+#include "XGeneralFunc.h"
+
+extern	const	char	*sRoot;
+extern	const	char	*sName;
+const	char	*AlgoRoot=/**/"Basic";
+const	char	*AlgoName=/**/"Raster";
+
+
+EasyPropertyRasterForm::EasyPropertyRasterForm(LayersBase *Base ,QWidget *parent) :
+    GUIFormBase(Base,parent),
+    ui(new Ui::EasyPropertyRasterForm)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+	SlaveNo	=0;
+	connect(this,SIGNAL(SignalResize()), this ,SLOT(ResizeAction()));
+
+	//ui->stackedWidget->setCurrentIndex(0);
+
+	::SetColumnWidthInTable(ui->tableWidgetAreaList,0, 20);
+	::SetColumnWidthInTable(ui->tableWidgetAreaList,1, 80);
+}
+
+EasyPropertyRasterForm::~EasyPropertyRasterForm()
+{
+    delete ui;
+}
+void	EasyPropertyRasterForm::ResizeAction()
+{
+}
+RasterBase	*EasyPropertyRasterForm::GetRasterBase(void)
+{
+	RasterBase	*Base=(RasterBase *)GetLayersBase()->GetAlgorithmBase(AlgoRoot ,AlgoName);
+	return Base;
+}
+MaskingBase	*EasyPropertyRasterForm::GetMaskingBase(void)
+{
+	MaskingBase	*Base=(MaskingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Masking");
+	return Base;
+}
+
+void	EasyPropertyRasterForm::TransmitDirectly(GUIDirectMessage *packet)
+{
+	IntegrationCmdReqMoveMode	*IntegrationCmdReqMoveModeVar=dynamic_cast<IntegrationCmdReqMoveMode *>(packet);
+	if(IntegrationCmdReqMoveModeVar!=NULL){
+		IntegrationCmdReqMoveModeVar->MoveMode=ui->toolButtonMove->isChecked();
+		return;
+	}
+	IntegrationCmdSetMoveMode	*IntegrationCmdSetMoveModeVar=dynamic_cast<IntegrationCmdSetMoveMode *>(packet);
+	if(IntegrationCmdSetMoveModeVar!=NULL){
+		ui->toolButtonMove->setChecked(IntegrationCmdSetMoveModeVar->MoveMode);
+		on_toolButtonMove_clicked();
+		return;
+	}
+	IntegrationGenerateAutomatically	*IntegrationGenerateAutomaticallyVar=dynamic_cast<IntegrationGenerateAutomatically *>(packet);
+	if(IntegrationGenerateAutomaticallyVar!=NULL){
+		GenerateAutomatically();
+		return;
+	}
+	IntegrationCmdReqAddArea	*IntegrationCmdReqAddAreaVar=dynamic_cast<IntegrationCmdReqAddArea *>(packet);
+	if(IntegrationCmdReqAddAreaVar!=NULL){
+		if(ui->toolButtonRegArea->isChecked()==true){
+			IntegrationCmdAddRegArea	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+			RCmd.AddedArea=IntegrationCmdReqAddAreaVar->AddedArea;
+			RCmd.SendReqAck(NULL,SlaveNo,0);
+			ui->toolButtonRegArea->setChecked(false);
+			ui->toolButtonRegColor->setChecked(true);
+		}
+		else
+		if(ui->toolButtonRegColor->isChecked()==true){
+			SelectLibraryDialog	D(GetLayersBase());
+			if(D.exec()==(int)true){
+				IntegrationCmdAddRegColorArea	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+				RCmd.PickupArea=IntegrationCmdReqAddAreaVar->AddedArea;
+				RCmd.LibID	=D.SelectedLibID;
+				RCmd.SendReqAck(NULL,SlaveNo,0);
+				ui->toolButtonRegArea->setChecked(true);
+				ui->toolButtonRegColor->setChecked(false);
+				ShowAlignmentList();
+				::SetCurrentRow(ui->tableWidgetAreaList, ElementIDList.GetCount()-1);
+			}
+		}
+		return;
+	}
+	IntegrationCmdSetRegColor	*IntegrationCmdSetRegColorVar=dynamic_cast<IntegrationCmdSetRegColor *>(packet);
+	if(IntegrationCmdSetRegColorVar!=NULL){
+		ui->toolButtonRegArea	->setChecked(IntegrationCmdSetRegColorVar->ModeRegArea);
+		ui->toolButtonRegColor	->setChecked(IntegrationCmdSetRegColorVar->ModeRegColor);
+		return;
+	}
+	IntegrationCmdReqRegColorElementID	*IntegrationCmdReqRegColorElementIDVar=dynamic_cast<IntegrationCmdReqRegColorElementID *>(packet);
+	if(IntegrationCmdReqRegColorElementIDVar!=NULL){
+		IntegrationCmdReqRegColorElementIDVar->ModeRegColor		=ui->toolButtonRegColor->isChecked();
+		int	Row=ui->tableWidgetAreaList->currentRow();
+		if(Row>=0){
+			IntegrationCmdReqRegColorElementIDVar->CurrentElementID	=ElementIDList[Row]->ElementID;
+		}
+		else{
+			IntegrationCmdReqRegColorElementIDVar->CurrentElementID	=-1;
+		}
+		return;
+	}
+	CmdRasterDrawAttr	*CmdRasterDrawAttrVar=dynamic_cast<CmdRasterDrawAttr *>(packet);
+	if(CmdRasterDrawAttrVar!=NULL){
+		if(ui->toolButtonRegArea	->isChecked()==true
+		|| ui->toolButtonRegColor	->isChecked()==true){
+			CmdRasterDrawAttrVar->DrawPickUpArea=true;
+			int	Row=ui->tableWidgetAreaList->currentRow();
+			PageElementIDClass	*E=ElementIDList[Row];
+			if(E!=NULL){
+				CmdRasterDrawAttrVar->CurrentElementID	=E->ElementID;
+			}
+		}
+		else{
+			CmdRasterDrawAttrVar->DrawPickUpArea=false;
+		}
+		return;
+	}
+}
+
+void EasyPropertyRasterForm::on_toolButtonLoadPDF_clicked()
+{
+	QString	FileName=QFileDialog::getOpenFileName(NULL,/**/"Load Raster file"
+								,QString()
+								,/**/"PDF(*.pdf);;All files(*.*)");
+	if(FileName.isEmpty()==false){
+		QFile	File(FileName);
+		if(File.open(QIODevice::ReadOnly)==true){
+			QByteArray	RasterData=File.readAll();;
+			IntegrationBase	*MBase=GetLayersBase()->GetIntegrationBasePointer();
+			IntegrationSlave	*s=MBase->GetParamIntegrationMaster()->Slaves[SlaveNo];
+			CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+			if(GProp!=NULL && s!=NULL){
+				IntegrationCmdLoadRaster	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+				RCmd.FileName=FileName;
+				RCmd.RasterData	=RasterData;
+				RCmd.SendReqAck(NULL,SlaveNo,0);
+
+				IntegrationCmdExtend	ECmd(GetLayersBase(),sRoot,sName,SlaveNo);
+				if(SlaveNo==0){
+					ECmd.ZoomX	=GProp->GetParam()->CADTopZoomX;
+					ECmd.ZoomY	=GProp->GetParam()->CADTopZoomY;
+					ECmd.YShear	=GProp->GetParam()->CADTopYShear;
+				}
+				else if(SlaveNo==1){
+					ECmd.ZoomX	=GProp->GetParam()->CADBottomZoomX;
+					ECmd.ZoomY	=GProp->GetParam()->CADBottomZoomY;
+					ECmd.YShear	=GProp->GetParam()->CADBottomYShear;
+				}
+				ECmd.SendReqAck(NULL,SlaveNo,0);
+			}
+			BroadcastRepaintAll();
+			//ui->stackedWidget->setCurrentIndex(1);
+		}
+	}
+}
+void	EasyPropertyRasterForm::GenerateAutomatically(void)
+{
+	on_toolButtonAutoGenerate_clicked();
+}
+
+void	EasyPropertyRasterForm::LeavePage	(void)
+{
+	on_toolButtonAutoGenerate_clicked();
+}
+void EasyPropertyRasterForm::on_toolButtonDeleteAll_clicked()
+{
+	if(QMessageBox::question(NULL,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_1)/*"Alert"*/
+							,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_2)/*"Del OK?"*/
+							,QMessageBox::Yes,QMessageBox::No)==QMessageBox::Yes){
+
+		IntegrationCmdRasterDeleteAllItem	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+		//ui->stackedWidget->setCurrentIndex(0);
+	}
+}
+void	EasyPropertyRasterForm::SpecifiedDirectly(SpecifiedBroadcaster *v)
+{
+	CmdClearMasterData	*CmdClearMasterDataVar=dynamic_cast<CmdClearMasterData *>(v);
+	LoadMasterSpecifiedBroadcaster	*LoadMasterSpecifiedBroadcasterVar=dynamic_cast<LoadMasterSpecifiedBroadcaster *>(v);
+	if(CmdClearMasterDataVar!=NULL || LoadMasterSpecifiedBroadcasterVar!=NULL){
+		Elements.RemoveAll();
+		ElementIDList.RemoveAll();
+		ShowAlignmentList();
+		return;
+	}
+}
+
+void EasyPropertyRasterForm::on_toolButtonRotate_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	SCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		if(SlaveNo==0){
+			SCmd.ZoomX	=1.0/GProp->GetParam()->CADTopZoomX;
+			SCmd.ZoomY	=1.0/GProp->GetParam()->CADTopZoomY;
+			SCmd.YShear	=-GProp->GetParam()->CADTopYShear;
+		}
+		else if(SlaveNo==1){
+			SCmd.ZoomX	=1.0/GProp->GetParam()->CADBottomZoomX;
+			SCmd.ZoomY	=1.0/GProp->GetParam()->CADBottomZoomY;
+			SCmd.YShear	=-GProp->GetParam()->CADBottomYShear;
+		}
+		SCmd.SendReqAck(NULL,SlaveNo,0);
+
+		IntegrationCmdRotate	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+
+		IntegrationCmdExtend	TCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		if(SlaveNo==0){
+			TCmd.ZoomX	=GProp->GetParam()->CADTopZoomX;
+			TCmd.ZoomY	=GProp->GetParam()->CADTopZoomY;
+			TCmd.YShear	=GProp->GetParam()->CADTopYShear;
+		}
+		else if(SlaveNo==1){
+			TCmd.ZoomX	=GProp->GetParam()->CADBottomZoomX;
+			TCmd.ZoomY	=GProp->GetParam()->CADBottomZoomY;
+			TCmd.YShear	=GProp->GetParam()->CADBottomYShear;
+		}
+		TCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyRasterForm::on_toolButtonYMirror_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		{
+			IntegrationCmdExtend	SCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+			if(SlaveNo==0){
+				SCmd.ZoomX	=1.0;
+				SCmd.ZoomY	=1.0;
+				SCmd.YShear	=-GProp->GetParam()->CADTopYShear;
+			}
+			else if(SlaveNo==1){
+				SCmd.ZoomX	=1.0;
+				SCmd.ZoomY	=1.0;
+				SCmd.YShear	=-GProp->GetParam()->CADBottomYShear;
+			}
+			SCmd.SendReqAck(NULL,SlaveNo,0);
+		}
+		IntegrationCmdYMirror	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+		BroadcastRepaintAll();
+
+		{
+			IntegrationCmdExtend	SCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+			if(SlaveNo==0){
+				SCmd.ZoomX	=1.0;
+				SCmd.ZoomY	=1.0;
+				SCmd.YShear	=GProp->GetParam()->CADTopYShear;
+			}
+			else if(SlaveNo==1){
+				SCmd.ZoomX	=1.0;
+				SCmd.ZoomY	=1.0;
+				SCmd.YShear	=GProp->GetParam()->CADBottomYShear;
+			}
+			SCmd.SendReqAck(NULL,SlaveNo,0);
+		}
+	}
+}
+
+void EasyPropertyRasterForm::on_toolButtonXMirror_clicked()
+{
+	IntegrationCmdXMirror	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	RCmd.SendReqAck(NULL,SlaveNo,0);
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyRasterForm::on_toolButtonExtend_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		if(SlaveNo==0){
+			RCmd.ZoomX	=1.0;	//GProp->GetParam()->CADTopZoomX;
+			if(GProp->GetParam()->CADTopZoomY>1.0)
+				RCmd.ZoomY	=GProp->GetParam()->CADTopZoomY;
+			else if(GProp->GetParam()->CADTopZoomY>0.0)
+				RCmd.ZoomY	=1.0/GProp->GetParam()->CADTopZoomY;
+			RCmd.YShear	=0.0;	//GProp->GetParam()->CADTopYShear;
+		}
+		else if(SlaveNo==1){
+			RCmd.ZoomX	=1.0;	//GProp->GetParam()->CADBottomZoomX;
+			if(GProp->GetParam()->CADBottomZoomY>1.0)
+				RCmd.ZoomY	=GProp->GetParam()->CADBottomZoomY;
+			else if(GProp->GetParam()->CADBottomZoomY>0.0)
+				RCmd.ZoomY	=1.0/GProp->GetParam()->CADBottomZoomY;
+			RCmd.YShear	=0.0;	//GProp->GetParam()->CADBottomYShear;
+		}
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyRasterForm::on_toolButtonShrinkY_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		if(SlaveNo==0){
+			RCmd.ZoomX	=1.0;	//1.0/GProp->GetParam()->CADTopZoomX;
+			if(GProp->GetParam()->CADTopZoomY>1.0)
+				RCmd.ZoomY	=1.0/GProp->GetParam()->CADTopZoomY;
+			else if(GProp->GetParam()->CADTopZoomY>0.0)
+				RCmd.ZoomY	=GProp->GetParam()->CADTopZoomY;
+			RCmd.YShear	=0.0;	//-GProp->GetParam()->CADTopYShear;
+		}
+		else if(SlaveNo==1){
+			RCmd.ZoomX	=1.0;	//1.0/GProp->GetParam()->CADBottomZoomX;
+			if(GProp->GetParam()->CADBottomZoomY>1.0)
+				RCmd.ZoomY	=1.0/GProp->GetParam()->CADBottomZoomY;
+			else if(GProp->GetParam()->CADBottomZoomY>0.0)
+				RCmd.ZoomY	=GProp->GetParam()->CADBottomZoomY;	
+			RCmd.YShear	=0.0;	//-GProp->GetParam()->CADTopYShear;
+		}
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyRasterForm::on_toolButtonTiltL_clicked()
+{
+	IntegrationCmdTilt	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	
+	EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(SlaveNo);
+	if(m!=NULL){
+		int	Phase=0;
+		int	Page=0;
+		RCmd.Radian=10.0/max(m->GetDotPerLine(Phase,Page),m->GetMaxLines(Phase,Page));
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+		BroadcastRepaintAll();
+	}
+}
+
+void EasyPropertyRasterForm::on_toolButtonTiltR_clicked()
+{
+	IntegrationCmdTilt	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	
+	EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(SlaveNo);
+	if(m!=NULL){
+		int	Phase=0;
+		int	Page=0;
+		RCmd.Radian=-10.0/max(m->GetDotPerLine(Phase,Page),m->GetMaxLines(Phase,Page));
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+		BroadcastRepaintAll();
+	}
+}
+
+void EasyPropertyRasterForm::on_toolButtonSlightExtend_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.ZoomX	=1.0;
+		RCmd.ZoomY	=1.002;
+		RCmd.YShear	=0;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyRasterForm::on_toolButtonSlightShrinkY_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.ZoomX	=1.0;
+		RCmd.ZoomY	=0.998;
+		RCmd.YShear	=0;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyRasterForm::on_toolButtonExtendX_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		if(SlaveNo==0){
+			RCmd.ZoomX	=GProp->GetParam()->CADTopZoomX;
+			RCmd.ZoomY	=1.0;	////GProp->GetParam()->CADTopZoomY;
+			RCmd.YShear	=0.0;	//GProp->GetParam()->CADTopYShear;
+		}
+		else if(SlaveNo==1){
+			RCmd.ZoomX	=GProp->GetParam()->CADBottomZoomX;
+			RCmd.ZoomY	=1.0;	//GProp->GetParam()->CADBottomZoomY;
+			RCmd.YShear	=0.0;	//GProp->GetParam()->CADBottomYShear;
+		}
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyRasterForm::on_toolButtonShrinkX_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		if(SlaveNo==0){
+			RCmd.ZoomX	=1.0/GProp->GetParam()->CADTopZoomX;
+			RCmd.ZoomY	=1.0;	//1.0/GProp->GetParam()->CADTopZoomY;
+			RCmd.YShear	=0.0;	//-GProp->GetParam()->CADTopYShear;
+		}
+		else if(SlaveNo==1){
+			RCmd.ZoomX	=1.0/GProp->GetParam()->CADBottomZoomX;
+			RCmd.ZoomY	=1.0;	//1.0/GProp->GetParam()->CADBottomZoomY;
+			RCmd.YShear	=0.0;	//-GProp->GetParam()->CADTopYShear;
+		}
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyRasterForm::on_toolButtonSlightExtend_2_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.ZoomX	=1.002;
+		RCmd.ZoomY	=1.0;
+		RCmd.YShear	=0;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyRasterForm::on_toolButtonSlightShrinkY_2_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.ZoomX	=0.998;
+		RCmd.ZoomY	=1.0;
+		RCmd.YShear	=0;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyRasterForm::on_toolButtonMove_clicked()
+{
+	GUIFormBase *GUIFormRet[100];
+	int	n=GetLayersBase()->EnumGUIInst(/**/"KidaPrint",/**/"EasyRasterImagePanel" ,GUIFormRet,100);
+	EachMaster	*ThisM=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(SlaveNo);
+	if(ThisM==NULL)
+		return;
+	EasyRasterImagePanel	*AccessPanel=NULL;
+	for(int i=0;i<n;i++){
+		if(((EasyRasterImagePanel *)GUIFormRet[i])->MachineCode==ThisM->GetMachineCode()){
+			AccessPanel=((EasyRasterImagePanel *)GUIFormRet[i]);
+			break;
+		}
+	}
+	if(AccessPanel!=NULL){
+		if(ui->toolButtonMove->isChecked()==true){
+			AccessPanel->SetMode(IntegrationSimpleImagePanel::Mode_AddItem);
+			AccessPanel->SetMode(mtFrameDraw::fdNone);
+			AccessPanel->SetEnableShiftImage(false);
+		}
+		else{
+			AccessPanel->SetMode();
+			AccessPanel->SetEnableShiftImage(true);
+		}
+	}
+}
+
+void EasyPropertyRasterForm::on_toolButtonAutoGenerate_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdDelMaskByCAD	DelCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		DelCmd.SendReqAck(NULL,SlaveNo,0);
+
+		RasterBase	*BBase=GetRasterBase();
+		//CmdLoadAllocationLibByColor	RCmd(GetLayersBase());
+		//BBase->TransmitDirectly(&RCmd);
+
+		MaskingBase	*MaskBase=GetMaskingBase();
+		AlgorithmLibraryListContainer MaskLibIDList;
+		
+		int	CountOfMaskLib=0;
+		AlgorithmLibraryLevelContainer	**MLibDim=NULL;
+		if(GetLayersBase()->GetDatabaseLoader() && GetLayersBase()->IsDatabaseOk()==true){
+			GetLayersBase()->GetDatabaseLoader()->G_EnumAllLibraryByType(
+									GetLayersBase()->GetDatabase(),DefLibTypeMasking,MaskLibIDList);
+			CountOfMaskLib=MaskLibIDList.GetCount();
+			MLibDim=new AlgorithmLibraryLevelContainer*[CountOfMaskLib];
+			int	n=0;
+			for(AlgorithmLibraryList *MLib=MaskLibIDList.GetFirst();MLib!=NULL;MLib=MLib->GetNext(),n++){
+				CmdCreateTempMaskingLibraryPacket	CMaskCmd(GetLayersBase());
+				MaskBase->TransmitDirectly(&CMaskCmd);
+				MLibDim[n]=CMaskCmd.Point;
+				MLibDim[n]->SetLibID(MLib->GetLibID());
+				CmdLoadMaskingLibraryPacket	MLCmd(GetLayersBase());
+				MLCmd.Point=MLibDim[n];
+				MaskBase->TransmitDirectly(&MLCmd);
+			}
+		}
+
+		//for(AllocationLibByColor *A=BBase->AllocationLibByColorContainerInst.GetFirst();A!=NULL;A=A->GetNext()){
+		//	int	FoundMaskLibID=-1;
+		//	for(int i=0;i<CountOfMaskLib;i++){
+		//		MaskingLibrary	*L=dynamic_cast<MaskingLibrary *>(MLibDim[i]->GetLibrary());
+		//		if(L->Operation==MaskingLibrary::_Masking_LimitedEffective
+		//		&& L->LimitedLibraries==A->LibList){
+		//			FoundMaskLibID=MLibDim[i]->GetLibID();
+		//			break;
+		//		}
+		//	}
+		//	if(FoundMaskLibID<0){
+		//		CmdCreateTempMaskingLibraryPacket	CMaskCmd(GetLayersBase());
+		//		MaskBase->TransmitDirectly(&CMaskCmd);
+		//		AlgorithmLibraryLevelContainer	*MaskLib=CMaskCmd.Point;
+		//		MaskingLibrary	*L=dynamic_cast<MaskingLibrary *>(MaskLib->GetLibrary());
+		//		if(L!=NULL){
+		//			L->Operation=MaskingLibrary::_Masking_LimitedEffective;
+		//			L->LimitedLibraries=A->LibList;
+		//			CmdInsertMaskingLibraryPacket	MSaveCmd(GetLayersBase());
+		//			MSaveCmd.Point=MaskLib;
+		//			MaskBase->TransmitDirectly(&MSaveCmd);
+		//			FoundMaskLibID=MSaveCmd.Point->GetLibID();
+		//		}
+		//	}
+		//	if(FoundMaskLibID>=0){
+		//		IntegrationCmdAutoGenerate	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		//		/*
+		//		if(SlaveNo==0){
+		//			RCmd.GenLibType	=GProp->GetParam()->CADTopGenLibType;
+		//			RCmd.GenLibID	=GProp->GetParam()->CADTopGenLibID	;
+		//		}
+		//		else if(SlaveNo==1){
+		//			RCmd.GenLibType	=GProp->GetParam()->CADBottomGenLibType	;
+		//			RCmd.GenLibID	=GProp->GetParam()->CADBottomGenLibID	;
+		//		}
+		//		*/
+		//		RCmd.ColorCode	=A->ColorCode;
+		//		RCmd.Color		=A->Color;
+		//		RCmd.GenLibType	=DefLibTypeMasking;
+		//		RCmd.GenLibID	=FoundMaskLibID;
+		//		RCmd.SendReqAck(NULL,SlaveNo,0);
+		//	}
+		//}
+		if(MLibDim!=NULL){
+			for(int i=0;i<CountOfMaskLib;i++){
+				delete	MLibDim[i];
+			}
+			delete	[]MLibDim;
+		}
+	}
+
+	emit	SignalBusy();
+
+	bool	NowOnIdle;
+	do{
+		NowOnIdle=true;
+		for(EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+			int	SNo=m->GetIntegrationSlaveNo();
+			if(GetLayersBase()->GetIntegrationBasePointer()->IsConnected(SNo)==true){
+				if(GetLayersBase()->GetIntegrationBasePointer()->CheckOnProcessing(SNo)==false){
+					NowOnIdle=false;
+				}
+			}
+		}
+	}while(NowOnIdle==false);
+
+	//IntegrationCmdExecuteInitialMask	EMask(GetLayersBase(),sRoot,sName,SlaveNo);
+	//EMask.SendReqAck(NULL,SlaveNo,0);
+
+	emit	SignalIdle();
+	BroadcastRepaintAll();
+}
+void	EasyPropertyRasterForm::ShowAlignmentList(void)
+{
+	IntegrationCmdReqElementInfo	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	IntegrationCmdAckElementInfo	SCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	if(RCmd.Send(SlaveNo,0,SCmd)==true){
+		ElementIDList	=SCmd.ElementIDList;
+		Elements		=SCmd.Elements;
+
+		ui->tableWidgetAreaList->setRowCount(ElementIDList.GetCount());
+		int	Row=0;
+		for(PageElementIDClass *v=ElementIDList.GetFirst();v!=NULL;v=v->GetNext(),Row++){
+
+			RasterElementList *Ref=NULL;
+			for(RasterElementList *e=Elements.GetFirst();e!=NULL;e=e->GetNext()){
+				if(e->Page==v->Page && e->ElementID==v->ElementID){
+					Ref=e;
+					break;
+				}
+			}
+			if(Ref!=NULL)
+				::SetDataColorToTable(ui->tableWidgetAreaList, 0, Row, Ref->ReferenceColor);
+			else
+				::SetDataColorToTable(ui->tableWidgetAreaList, 0, Row, Qt::black);
+			if(Ref!=NULL){
+				::SetDataToTable(ui->tableWidgetAreaList, 1, Row, QString::number(Ref->LibCount));
+			}
+			else{
+				::SetDataToTable(ui->tableWidgetAreaList, 1, Row, /**/"");
+			}
+		}
+	}
+}
+void EasyPropertyRasterForm::on_toolButtonAdjustPosition_clicked()
+{
+	if(ui->toolButtonAdjustPosition->isChecked()==true){
+        ui->frameAdjustPosition ->setEnabled(true);
+        ui->toolButtonRegColor  ->setChecked(false);
+        ui->toolButtonRegArea	->setChecked(false);
+	}
+	else{
+		ui->frameAdjustPosition->setEnabled(false);
+	}
+}
+
+void EasyPropertyRasterForm::on_toolButtonRegColor_clicked()
+{
+	if(ui->toolButtonRegColor->isChecked()==true){
+		ui->frameAdjustPosition->setEnabled(false);
+		ui->toolButtonAdjustPosition->setChecked(false);
+		ui->toolButtonRegArea		->setChecked(false);
+		ShowAlignmentList();
+	}
+		
+	IntegrationCmdSetRegColor	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	RCmd.ModeRegColor	=ui->toolButtonRegColor->isChecked();
+	RCmd.ModeRegArea	=ui->toolButtonRegArea->isChecked();
+	RCmd.SendReqAck(NULL,SlaveNo,0);
+}
+
+void EasyPropertyRasterForm::on_tableWidgetAreaList_itemSelectionChanged()
+{
+	int	Row=ui->tableWidgetAreaList->currentRow();
+	if(0<=Row && Row<ElementIDList.GetCount()){
+		IntegrationCmdSetCurrentElementID	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.CurrentElementID=ElementIDList[Row]->ElementID;
+		RCmd.Send(NULL,SlaveNo,0);
+	}
+}
+
+void EasyPropertyRasterForm::on_toolButtonRegArea_clicked()
+{
+	if(ui->toolButtonRegArea->isChecked()==true){
+		ui->frameAdjustPosition->setEnabled(false);
+		ui->toolButtonAdjustPosition->setChecked(false);
+		ui->toolButtonRegColor		->setChecked(false);
+		ShowAlignmentList();
+	}
+	IntegrationCmdSetRegColor	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	RCmd.ModeRegColor	=ui->toolButtonRegColor->isChecked();
+	RCmd.ModeRegArea	=ui->toolButtonRegArea->isChecked();
+	RCmd.SendReqAck(NULL,SlaveNo,0);
+}
+
+void EasyPropertyRasterForm::on_toolButtonGenerateAlgorithm_clicked()
+{
+	IntegrationCmdGeneraeRasterAlgorithm	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	RCmd.SendReqAck(NULL,SlaveNo,0);
+
+	QMessageBox::information(NULL,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_3)/*"髫ｲ�ｽ�ｽ�ｱ"*/
+								,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_4)/*"鬨ｾ蠅難ｽｻ骰具ｽｸ�ｺ髴郁ｲｻ�ｽ讙趣ｽｸ�ｺ�ｽ�ｾ驍ｵ�ｺ陷会ｽｱ隨ｳ�ｽ*/);
+}
+void	EasyPropertyRasterForm::MakeAllocation(void)
+{
+	on_toolButtonGenerateAlgorithm_clicked();
+}
+
+void EasyPropertyRasterForm::on_tableWidgetAreaList_doubleClicked(const QModelIndex &index)
+{
+	int	Row=ui->tableWidgetAreaList->currentRow();
+	if(0<=Row && Row<ElementIDList.GetCount()){
+		PageElementIDClass	*E=ElementIDList[Row];
+		if(QMessageBox::question(NULL,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_5)/*"髯ｷ蜿ｰ�ｼ竏晄ｱ�*/
+							,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_6)/*"驍ｵ�ｺ髦ｮ蜻趣ｽｿ�ｶ�ｽ�ｲ驛｢�ｧ髮区ｨ抵ｽ朱ｬｮ�ｯ�ｽ�､驍ｵ�ｺ�ｽ�ｾ驍ｵ�ｺ陷ｷ�ｶ�ゑｽｰ*/
+							,QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes){
+			IntegrationCmdDeleteRegColor	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+			RCmd.Page		=E->Page;
+			RCmd.ElementID	=E->ElementID;
+			RCmd.SendReqAck(NULL,SlaveNo,0);
+			ShowAlignmentList();
+		}
+	}
+}
+void	EasyPropertyRasterForm::StartInitial(void)
+{
+	ShowAlignmentList();
+}

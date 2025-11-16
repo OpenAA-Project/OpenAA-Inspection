@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(PANELOKNGEACHPHASEPAGE_LIB)
+#  define PANELOKNGEACHPHASEPAGE_EXPORT Q_DECL_EXPORT
+# else
+#  define PANELOKNGEACHPHASEPAGE_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define PANELOKNGEACHPHASEPAGE_EXPORT
+#endif

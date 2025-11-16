@@ -1,0 +1,172 @@
+<ui version="4.0" >
+ <class>LogErrDialogClass</class>
+ <widget class="QDialog" name="LogErrDialogClass" >
+  <property name="windowModality" >
+   <enum>Qt::ApplicationModal</enum>
+  </property>
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>806</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>処理結果ダイアログ</string>
+  </property>
+  <property name="modal" >
+   <bool>true</bool>
+  </property>
+  <widget class="QTableWidget" name="tableWidget_err" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>380</y>
+     <width>781</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text" >
+     <string>品種</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>ロット番号</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>基板番号</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>保存日付</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>保存時間</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>保存HD名</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>読み込んだログの数</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>686</x>
+     <y>582</y>
+     <width>111</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>閉じる(&amp;C)</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget_succ" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>781</width>
+     <height>301</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text" >
+     <string>品種</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>ロット番号</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>基板番号</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>保存日付</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>保存時刻</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>保存HD名</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>読み込んだログの数</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QLabel" name="label" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>成功したログ：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>360</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>エラーの発生したログ：</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbCancel" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>580</y>
+     <width>111</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>ここで処理を中止</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <tabstops>
+  <tabstop>pushButton</tabstop>
+  <tabstop>tableWidget_succ</tabstop>
+  <tabstop>tableWidget_err</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

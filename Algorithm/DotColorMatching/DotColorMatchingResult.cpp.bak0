@@ -1,0 +1,86 @@
+/*******************************************************************************
+** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
+**
+** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
+** if any conditions of this licensing agreement are not clear to you.
+**
+** This file is C:\Regulus64v5\Algorithm\DotColorMatching\DotColorMatchingResult.cpp
+** Author : YYYYYYYYYY
+****************************************************************************-**/
+#include "XAlgorithmDLL.h"
+#include "XDotColorMatching.h"
+#include "XDotColorMatchingLibrary.h"
+#include "XDLLType.h"
+
+DEFFUNCEX	bool	DLL_ResultItemToString(ResultInItemRoot *ItemRes ,QString &RetStrBuff)
+{
+	AlgorithmItemRoot	*aitem	=ItemRes->GetAlgorithmItem();
+	if(aitem==NULL){
+		RetStrBuff="Need Fin";
+		return false;
+	}
+	AlgorithmLibraryList	*c=aitem->GetParentBase()->FindLibFromCache(aitem->GetLibID());
+	if(c!=NULL){
+		RetStrBuff=c->GetLibName();
+	}
+	
+
+	return true;
+}
+
+
+DEFFUNCEX	bool	DLL_DrawResultDetail(AlgorithmItemRoot *Item ,ResultPosList *Pos 
+										 ,DetailResultInfoListContainer &RetList)
+{
+	QString	Str;
+	DetailResultInfoList	*L=new DetailResultInfoList();
+	if((Pos->result&0xFF00)==0x100){
+		L->SetMessage("単色");
+	}
+	else
+	if((Pos->result&0xFF00)==0x200){
+		L->SetMessage("グラデ");
+	}
+	else
+	if((Pos->result&0xFF00)==0x300){
+		L->SetMessage("文字");
+	}
+	else
+	if((Pos->result&0xFF00)==0x400){
+		L->SetMessage("無地");
+	}
+	else
+	if((Pos->result&0xFF00)==0x500){
+		L->SetMessage("赤色");
+	}
+
+	if((Pos->result&0xFF)==0x00){
+		L->Add("-面積",Pos->GetResult1());
+	}
+	else
+	if((Pos->result&0xFF)==0x02){
+		L->Add("-長さ",Pos->GetResult2());
+	}
+	else
+	if((Pos->result&0xFF)==0x10){
+		L->Add("-背景面積",Pos->GetResult1());
+	}
+	else
+	if((Pos->result&0xFF)==0x12){
+		L->Add("-背景長さ",Pos->GetResult2());
+	}
+	else
+	if((Pos->result&0xFF)==0x01){
+		L->Add("-多点",Pos->GetResult1());
+	}
+	else
+	if((Pos->result&0xFF)==0x02){
+		L->Add("-グレイ",Pos->GetResult1());
+	}
+
+	if(L->ResultValueContainer.GetCount()>0){
+		RetList.AppendList(L);
+	}
+
+	return true;
+}

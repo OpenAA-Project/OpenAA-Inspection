@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/ManualPixelImagePanel.png</file>
+    </qresource>
+</RCC>

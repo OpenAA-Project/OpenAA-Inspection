@@ -1,0 +1,110 @@
+<ui version="4.0" >
+ <class>CreateTunnelFormClass</class>
+ <widget class="QDialog" name="CreateTunnelFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>240</width>
+    <height>462</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>CreateTunnelForm</string>
+  </property>
+  <widget class="QFrame" name="frameLibFolder" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>221</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetLibList" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>270</y>
+     <width>221</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="selectionMode" >
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior" >
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <column>
+    <property name="text" >
+     <string>ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Name</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="ButtonOK" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>420</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>作成</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonCancel" >
+   <property name="geometry" >
+    <rect>
+     <x>140</x>
+     <y>420</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>閉じる</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonEditLibrary" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>201</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Edit Library</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

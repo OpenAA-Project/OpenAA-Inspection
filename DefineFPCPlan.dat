@@ -1,0 +1,8 @@
+Top pattern	,3	,129,109,1
+Bottom pattern	,3	,150,102,2
+Au PAD			,3	,106,129,7
+Slit		,10	,225,152,8
+Outline			,10	,410,415,6
+Hole				,6	,125,118,5
+Resist		,6	,371,374,3
+Silk			,20	,220,246,4

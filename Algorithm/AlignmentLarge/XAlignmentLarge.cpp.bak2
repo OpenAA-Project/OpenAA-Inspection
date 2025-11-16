@@ -1,0 +1,3056 @@
+/*******************************************************************************
+** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
+**
+** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
+** if any conditions of this licensing agreement are not clear to you.
+**
+** This file is C:\Regulus64v5\GeneralSource\XAlignmentLarge.cpp
+** Author : YYYYYYYYYY
+****************************************************************************-**/
+
+
+#include "XAlignmentLargeResource.h"
+#define	_USE_MATH_DEFINES
+#include <math.h>
+#include "XAlignmentLarge.h"
+#include "XCrossObj.h"
+#include "XPointer.h"
+#include "swap.h"
+#include "XAffin.h"
+#include "XDataInLayer.h"
+#include "XPointer.h"
+#include "XParamGlobal.h"
+#include "XGeneralFunc.h"
+#include "XGUI.h"
+#include "XDisplayImagePacket.h"
+#include "XYCross.h"
+#include "XAlignmentCommon.h"
+#include "XImageProcess.h"
+#include "XPacketAlignmentLarge.h"
+#include "XDataAlgorithmConfirm.h"
+#include <omp.h>
+
+extern	const	char	*sRoot;
+extern	const	char	*sName;
+
+//==========================================================================================
+XAlignmentLargePointer::XAlignmentLargePointer(void)
+{
+	Point=NULL;
+}
+
+XAlignmentLargePointer &XAlignmentLargePointer::operator=(XAlignmentLargePointer &src)
+{
+	Point	=src.Point;
+	return(*this);
+}
+
+bool    XAlignmentLargePointer::Save(QIODevice *file)
+{
+	int32	ID=-1;
+	if(Point!=NULL)
+		ID=Point->GetID();
+    if(file->write((const char *)&ID ,sizeof(ID))!=sizeof(ID))
+		return(false);
+	return(true);
+}
+bool    XAlignmentLargePointer::Load(QIODevice *file ,XAlignmentLargeArea *parent)
+{
+	int32	ID;
+    if(file->read((char *)&ID ,sizeof(ID))!=sizeof(ID))
+		return(false);
+	if(ID!=-1){
+		Point=dynamic_cast<XAlignmentLarge *>(parent->ParentInLayer->SearchIDItem(ID));
+	}
+	return(true);
+}
+
+DataInLayer	*XAlignmentLargePointer::GetDataInLayer(void)
+{
+	return(Point->GetDataInLayer());
+}
+//==========================================================================================
+
+AlignmentLargeInLayer::AlignmentLargeInLayer(AlgorithmInPageRoot *parent) : AlgorithmInLayerPLI(parent)
+{
+	ResultShiftX=ResultShiftY=0;	//
+	ResultAngle=0;					//
+	ResultExtend=1.0;				//
+    MVector		=NULL;
+    MVectorXNumb=0;
+    MVectorYNumb=0;
+    MVectorXRes	=0;
+    MVectorYRes	=0;
+	for(int i=0;i<sizeof(GCalcA)/sizeof(GCalcA[0]);i++){
+		GCalcA[i]=0;
+	}
+	for(int i=0;i<sizeof(GCalcAr)/sizeof(GCalcAr[0]);i++){
+		GCalcAr[i]=0;
+	}
+}
+AlignmentLargeInLayer::~AlignmentLargeInLayer(void)
+{
+	Release();
+}
+
+bool    AlignmentLargeInLayer::ClearAll(void)
+{
+	Areas.RemoveAll();
+	return(true);
+}
+void	AlignmentLargeInLayer::Draw(QImage &pnt, int movx ,int movy ,double ZoomRate ,AlgorithmDrawAttr *Attr)
+{
+	AlignmentLargeDrawAttr	*LAttr=dynamic_cast<AlignmentLargeDrawAttr *>(Attr);
+	if(LAttr!=NULL){
+		if(LAttr->Priority.IsInclude(XAlignmentLargeArea::_PriorityNone)){
+			for(XAlignmentLargeArea *c=Areas.GetFirst();c!=NULL;c=c->GetNext()){
+				c->Draw(pnt, movx ,movy ,ZoomRate ,Attr);
+			}
+		}
+		else
+		if(LAttr->AList.GetNumber()==0){
+			for(XAlignmentLargeArea *c=Areas.GetFirst();c!=NULL;c=c->GetNext()){
+				c->Draw(pnt, movx ,movy ,ZoomRate ,Attr);
+			}
+		}
+		else{
+			int	globalPage=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+			for(XAlignmentLargeArea *c=Areas.GetFirst();c!=NULL;c=c->GetNext()){
+				if(LAttr->AList.LayerExists(globalPage,GetLayer())==true){
+					c->Draw(pnt, movx ,movy ,ZoomRate ,Attr);
+				}
+			}
+		}
+	}
+	else{
+		for(XAlignmentLargeArea *c=Areas.GetFirst();c!=NULL;c=c->GetNext()){
+			c->Draw(pnt, movx ,movy ,ZoomRate ,Attr);
+		}
+	}
+}
+void	AlignmentLargeInLayer::DrawItem(QImage &pnt, int movx ,int movy ,double ZoomRate ,AlgorithmDrawAttr *Attr)
+{
+	AlignmentLargeDrawAttr	*LAttr=dynamic_cast<AlignmentLargeDrawAttr *>(Attr);
+	if(LAttr!=NULL){
+		if(LAttr->AList.GetNumber()==0){
+			for(XAlignmentLargeArea *c=Areas.GetFirst();c!=NULL;c=c->GetNext()){
+				c->DrawItems(pnt, movx ,movy ,ZoomRate ,Attr);
+			}
+		}
+		else{
+			int	globalPage=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+			for(XAlignmentLargeArea *c=Areas.GetFirst();c!=NULL;c=c->GetNext()){
+				if(LAttr->AList.LayerExists(globalPage,GetLayer())==true){
+					c->DrawItems(pnt, movx ,movy ,ZoomRate ,Attr);
+				}
+			}
+		}
+	}
+	else{
+		for(XAlignmentLargeArea *c=Areas.GetFirst();c!=NULL;c=c->GetNext()){
+			c->DrawItems(pnt, movx ,movy ,ZoomRate ,Attr);
+		}
+	}
+}
+
+void	AlignmentLargeInLayer::DrawMove(int dx ,int dy,QImage &pnt, int movx ,int movy ,double ZoomRate ,const QColor &Col,AlgorithmDrawAttr *Attr)
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			a->DrawMove(dx ,dy,pnt, movx ,movy ,ZoomRate ,Col,Attr);
+		}
+	}
+	else{
+		AlgorithmInLayerPLI::DrawMove(dx ,dy,pnt, movx ,movy ,ZoomRate ,Col,Attr);
+	}
+}
+
+void    AlignmentLargeInLayer::InitializeFromImage(ImageBuffer &IBuff)
+{
+	for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+		p->Initial(IBuff);
+	}
+    //?A?・?I?Q?´?_?d?I?O
+    double  MaxL=0;
+    int L1=-1,L2=-1;
+
+	int	N=0;
+	for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+		for(XAlignmentLargePointer *g=p->GPack.GetFirst();g!=NULL;g=g->GetNext()){
+	        if(g->Point->IsNull()==true){
+		        continue;
+			}
+			N++;
+		}
+	}
+	XAlignmentLargePointer	**GPoint=new XAlignmentLargePointer*[N];
+	N=0;
+	for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+		for(XAlignmentLargePointer *g=p->GPack.GetFirst();g!=NULL;g=g->GetNext()){
+	        if(g->Point->IsNull()==true){
+		        continue;
+			}
+			GPoint[N]=g;
+			N++;
+		}
+	}
+
+	for(int i=0;i<N;i++){
+        for(int j=i+1;j<N;j++){
+			double  L=hypot( GPoint[i]->Point->MasterX-GPoint[j]->Point->MasterX
+							,GPoint[i]->Point->MasterY-GPoint[j]->Point->MasterY);
+            if(L>MaxL){
+                MaxL=L;
+                L1=i;
+                L2=j;
+			}
+		}
+	}
+	delete	[]GPoint;
+}
+void    AlignmentLargeInLayer::Release(void)
+{
+	if(MVector!=NULL)
+		delete	[]MVector;
+	MVector=NULL;
+}
+void		AlignmentLargeInLayer::RemoveItem(AlgorithmItemRoot *item)
+{
+	AlgorithmInLayerPLI::RemoveItem(item);
+	XAlignmentLarge	*L=dynamic_cast<XAlignmentLarge *>(item);
+	if(L!=NULL){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			a->RemoveItem(L);
+		}
+	}
+}
+bool AlignmentLargeInLayer::BuildGlobalIndex(void)
+{
+	Release();
+    MVectorXRes=32;
+    MVectorYRes=32;
+    MVectorXNumb=(GetDotPerLine()+MVectorXRes-1)/MVectorXRes;
+    MVectorYNumb=(GetMaxLines()  +MVectorYRes-1)/MVectorYRes;
+    if(MVector!=NULL)
+        delete []MVector;
+    MVector=new QPoint[MVectorXNumb*MVectorYNumb];
+    for(int i=0;i<MVectorXNumb*MVectorYNumb;i++){
+        MVector[i].setX(0);
+        MVector[i].setY(0);
+	}
+	return(true);
+}
+ExeResult	AlignmentLargeInLayer::ExecuteInitialAfterEdit	(int ExeID 
+															,ResultInLayerRoot *Res
+															,ExecuteInitialAfterEditInfo &EInfo)
+{
+	ExeResult	Ret=AlgorithmInLayerPLI::ExecuteInitialAfterEdit	(ExeID ,Res,EInfo);
+	InitialThreadBufferForExecute();
+	BuildGlobalIndex();
+	for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+		p->ExecuteInitialAfterEdit(EInfo);
+	}
+	for(AlgorithmItemPLI *c=Data.GetFirst();c!=NULL;c=c->GetNext()){
+		XAlignmentLarge	*Item=(XAlignmentLarge *)c;
+		Item->MakeLineBuffer(EInfo);
+	}
+	return Ret;
+}
+
+
+XAlignmentLarge	*AlignmentLargeInLayer::GetAlignmentLarge(int index)
+{
+	int	N=0;
+	for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+		for(XAlignmentLargePointer *g=p->GPack.GetFirst();g!=NULL;g=g->GetNext()){
+			if(g->Point->IsEffective()==true){
+				if(N==index)
+					return(g->Point);
+				N++;
+			}
+		}
+	}
+	return(NULL);
+}
+void	AlignmentLargeInLayer::RemoveArea(XAlignmentLargeArea *a)
+{
+	XAlignmentLargePointer *p;
+	while((p=a->GPack.GetFirst())!=NULL){
+		RemoveItem(p->Point);
+	}
+	Areas.RemoveList(a);
+	CleanupItems();
+}
+
+void    AlignmentLargeInLayer::GetResultVectorXY(int rx ,int ry ,int &kx ,int &ky)
+{
+}
+
+ExeResult	AlignmentLargeInLayer::ExecuteStartByInspection(int ExeID ,ResultInLayerRoot *Res)
+{
+	ResultShiftX=ResultShiftY=0;	//???s?U?R?E
+	ResultAngle=0;					//?n?]?E?i???W?A???j
+	ResultExtend=1.0;				//?g?a?|
+
+	for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+		p->ExecuteStartByInspection();
+	}
+	AlgorithmInLayerPLI::ExecuteStartByInspection(ExeID ,Res);
+	return _ER_true;
+}
+ExeResult	AlignmentLargeInLayer::ExecutePreAlignment		(int ExeID ,ResultInLayerRoot *Res)
+{
+	for(AlgorithmItemPLI *c=Data.GetFirst();c!=NULL;c=c->GetNext()){
+		XAlignmentLarge	*Item=(XAlignmentLarge *)c;
+		if(Item->Priority==0){
+			Item->ExecutePreAlignment( ExeID ,0,Item->GetCurrentResult());
+		}
+	}
+	for(AlgorithmItemPLI *c=Data.GetFirst();c!=NULL;c=c->GetNext()){
+		XAlignmentLarge	*Item=(XAlignmentLarge *)c;
+		if(Item->Priority==1){
+			Item->ExecutePreAlignment( ExeID ,0,Item->GetCurrentResult());
+		}
+	}
+	for(AlgorithmItemPLI *c=Data.GetFirst();c!=NULL;c=c->GetNext()){
+		XAlignmentLarge	*Item=(XAlignmentLarge *)c;
+		if(Item->Priority==2){
+			Item->ExecutePreAlignment( ExeID ,0,Item->GetCurrentResult());
+		}
+	}
+	return _ER_true;
+}
+ExeResult	AlignmentLargeInLayer::ExecutePreAlignment0	(int ExeID ,ResultInLayerRoot *R)
+{
+	ExeResult	Ret=_ER_true;
+	ResultInLayerPLI *Res=(ResultInLayerPLI *)R;
+	if(Res->GetItemCount()<GetItemCount()){
+		Res->Alloc(this);
+	}
+	const int MaxGlobalItem=1000;
+	AlgorithmItemPLI	*GlobalItemPointers[MaxGlobalItem];
+	int	N=0;
+	for(AlgorithmItemPLI *c=Data.GetFirst();c!=NULL;c=c->GetNext()){
+		XAlignmentLarge	*Item=(XAlignmentLarge *)c;
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->IsEffective()==true
+			&& Item->AreaID==a->GetID()){
+				if(a->Priority==XAlignmentLargeArea::_PriorityGlobal){
+					if(N<MaxGlobalItem){
+						GlobalItemPointers[N]=Item;
+						N++;
+					}
+					break;
+				}
+			}
+		}
+	}
+	Res->SortResultDimPointer();
+
+	if(GetParamGlobal()->CalcSingleThread==false && N>1){
+		bool	RetryMode;
+		do{
+			RetryMode=false;
+			//#pragma omp parallel                             
+			//{                                                
+			//	#pragma omp for reduction(+:Ret)  
+				for(int i=0;i<N;i++){
+					ResultInItemRoot		*r=Res->FastSearchIDItem(GlobalItemPointers[i]->GetID());
+					ExeResult	RR=GlobalItemPointers[i]->ExecutePreAlignment(ExeID ,0,r);
+					if(RR==_ER_ReqRetryLater){
+						//#pragma omp critical
+						//{
+							RetryMode=true;
+						//}
+					}
+					else{
+						//#pragma omp critical
+						//{
+							Ret=RR;
+						//}
+					}
+				}
+			//}
+		}while(RetryMode==true);
+	}
+	else{
+		bool	RetryMode;
+		do{
+			RetryMode=false;
+			for(int i=0;i<N;i++){
+				ResultInItemRoot		*r=Res->FastSearchIDItem(GlobalItemPointers[i]->GetID());
+				ExeResult	RR=GlobalItemPointers[i]->ExecutePreAlignment(ExeID ,0,r);
+				if(RR==_ER_ReqRetryLater){
+					RetryMode=true;
+				}
+				else{
+					Ret=RR;
+				}
+			}
+		}while(RetryMode==true);
+	}
+
+	DataInLayer		*q=GetDataInLayer();
+	for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+		if(p->IsEffective()==true
+		&& p->Priority==XAlignmentLargeArea::_PriorityGlobal){
+			p->Calc(q->GetTargetBuff() ,MVector
+						,MVectorXNumb ,MVectorYNumb
+						,MVectorXRes  ,MVectorYRes);
+		}
+	}
+	return _ER_true;
+}
+
+ExeResult	AlignmentLargeInLayer::ExecuteAlignment(int ExeID ,ResultInLayerRoot *Res)
+{
+	ExeResult	Ret=AlgorithmInLayerPLI::ExecuteAlignment(ExeID ,Res);
+
+	AlignmentLargeBase	*PBase=(AlignmentLargeBase *)GetParentBase();
+	if(PBase->UseOtherPage==true){
+		bool	ReqDone=true;
+		for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+			if(p->IsEffective()==true
+			&& p->ReqOtherAlignmentLarge()==false){
+				ReqDone=false;
+			}
+		}
+
+		if(ReqDone==false){
+			return _ER_ReqRetryLater;
+		}
+	}
+
+	DataInLayer		*q=GetDataInLayer();
+	for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+		if(p->IsEffective()==true
+		&& p->Priority==XAlignmentLargeArea::_PriorityHigh){
+			p->Calc(q->GetTargetBuff() ,MVector
+						,MVectorXNumb ,MVectorYNumb
+						,MVectorXRes  ,MVectorYRes);
+		}
+	}
+	for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+		if(p->IsEffective()==true
+		&& p->Priority==XAlignmentLargeArea::_PriorityMiddle){
+			p->Calc(q->GetTargetBuff() ,MVector
+						,MVectorXNumb ,MVectorYNumb
+						,MVectorXRes  ,MVectorYRes);
+		}
+	}
+	for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+		if(p->IsEffective()==true
+		&& p->Priority==XAlignmentLargeArea::_PriorityLow){
+			p->Calc(q->GetTargetBuff() ,MVector
+						,MVectorXNumb ,MVectorYNumb
+						,MVectorXRes  ,MVectorYRes);
+		}
+	}
+	for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+		if(p->IsEffective()==true
+		&& p->Priority==XAlignmentLargeArea::_PriorityGlobal){
+			p->CalcAllocateOnly(q->GetTargetBuff() ,MVector
+								,MVectorXNumb ,MVectorYNumb
+								,MVectorXRes  ,MVectorYRes);
+		}
+	}
+	return Ret;
+}
+int     AlignmentLargeInLayer::GetAlignmentLargeNumb(void)
+{
+	int	N=0;
+	for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+		for(XAlignmentLargePointer *g=p->GPack.GetFirst();g!=NULL;g=g->GetNext()){
+			if(g->Point->IsEffective()==true){
+				N++;
+			}
+		}
+	}
+	return(N);
+}
+
+bool    AlignmentLargeInLayer::Save(QIODevice *file)
+{
+	WORD	Ver=2;
+
+	if(AlgorithmInLayerPLI::Save(file)==false)
+		return false;
+    if(file->write((const char *)&Ver	,sizeof(Ver))!=sizeof(Ver))
+		return(false);
+
+	int32	N=Areas.GetNumber();
+	if(file->write((const char *)&N,sizeof(N))!=sizeof(N))
+		return(false);
+
+	for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+		if(p->Save(file)==false)
+			return(false);
+	}
+	return(true);
+}
+
+bool    AlignmentLargeInLayer::Load(QIODevice *file)
+{
+	WORD	Ver;
+
+	if(AlgorithmInLayerPLI::Load(file)==false)
+		return false;
+    if(file->read((char *)&Ver	,sizeof(Ver))!=sizeof(Ver))
+		return(false);
+
+	int32	N;
+	if(file->read((char *)&N,sizeof(N))!=sizeof(N))
+		return(false);
+
+	Areas.RemoveAll();
+	for(int i=0;i<N;i++){
+		XAlignmentLargeArea	*a=new XAlignmentLargeArea(this);
+		if(a->Load(file,this)==true)
+			Areas.AppendList(a);
+		else
+			delete	a;
+	}
+	BuildGlobalIndex();
+
+	CleanupItems();
+	return(true);
+}
+bool    AlignmentLargeInLayer::LoadByTransform(QIODevice *f ,TransformBase &Param)
+{
+	if(AlgorithmInLayerPLI::LoadByTransform(f,Param)==false){
+		return false;
+	}
+	for(XAlignmentLargeArea *A=Areas.GetFirst();A!=NULL;A=A->GetNext()){
+		A->Transform(Param);
+	}
+    return(true);
+}
+void    AlignmentLargeInLayer::CleanupItems(void)
+{
+NextReduction:;
+	for(AlgorithmItemPLI *a=Data.GetFirst();a!=NULL;a=a->GetNext()){
+		XAlignmentLarge	*La=dynamic_cast<XAlignmentLarge *>(a);
+		if(La!=NULL){
+			for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+				for(XAlignmentLargePointer *g=p->GPack.GetFirst();g!=NULL;g=g->GetNext()){
+					if(g->Point==La)
+						goto	Found;
+				}
+			}
+		}
+		Data.RemoveList(a);
+		goto	NextReduction;
+Found:;
+	}
+}
+void	AlignmentLargeInLayer::TransmitDirectly(GUIDirectMessage *packet)
+{
+	AddAlignmentLargeAreaPacket	*AInL=dynamic_cast<AddAlignmentLargeAreaPacket*>(packet);
+	if(AInL!=NULL && AInL->Page==GetPage()){
+		if(GetLayer()==AInL->Layer){
+			XAlignmentLargeArea	*a=new XAlignmentLargeArea(this);
+			a->AreaID	=GetMaxAreaID()+1;
+			a->Area		=AInL->Area;
+			a->MasterNo	=AInL->MasterNo;
+			a->AreaName	=AInL->AreaName;
+			a->LimitedLib=AInL->LimitedLib;
+			a->Priority	=AInL->Priority;
+			a->ManualCreated=true;
+			Areas.AppendList(a);
+
+			UndoElement<AlignmentLargeInLayer>	*UPointer=new UndoElement<AlignmentLargeInLayer>(this,&AlignmentLargeInLayer::UndoAppendManualArea);
+			::Save(UPointer->GetWritePointer(),a->AreaID);
+			GetLayersBase()->GetUndoStocker().SetElementToNewTopic(UPointer);
+		}
+		return;
+	}
+	CmdReqAlignmentLargeShiftPacket	*CmdReqAlignmentLargeShiftPacketVar=dynamic_cast<CmdReqAlignmentLargeShiftPacket *>(packet);
+	if(CmdReqAlignmentLargeShiftPacketVar!=NULL){
+		for(IntClass *a=CmdReqAlignmentLargeShiftPacketVar->ItemIDPoint->GetFirst();a!=NULL;a=a->GetNext()){
+			AlgorithmItemRoot	*item=SearchIDItem(a->GetValue());
+			AlignmentLargeShiftList	*R=new AlignmentLargeShiftList();
+			if(item!=NULL){
+				XAlignmentLarge	*AItem=dynamic_cast<XAlignmentLarge *>(item);
+				if(AItem!=NULL){
+					if(AItem->IsProcessDone()==true){
+						R->GlobalPage	=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+						R->ItemID	=	AItem->GetID();
+						R->CalcDone	=	true;
+						R->ShiftX	=	AItem->LastResultDx;
+						R->ShiftY	=	AItem->LastResultDy;
+						R->MasterX	=	AItem->MasterX;
+						R->MasterY	=	AItem->MasterY;
+						CmdReqAlignmentLargeShiftPacketVar->ShiftDataPoint->AppendList(R);
+					}
+				}
+			}
+		}
+		return;
+	}
+	CmdReqAlignmentLargePointPacket	*CmdReqAlignmentLargePointPacketVar=dynamic_cast<CmdReqAlignmentLargePointPacket *>(packet);
+	if(CmdReqAlignmentLargePointPacketVar!=NULL){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if((CmdReqAlignmentLargePointPacketVar->AreaName.isEmpty()==false && CmdReqAlignmentLargePointPacketVar->AreaName==a->AreaName)
+			|| a->AreaID==CmdReqAlignmentLargePointPacketVar->AreaID){
+				for(XAlignmentLargePointer *ap=a->GPack.GetFirst();ap!=NULL;ap=ap->GetNext()){
+					if(ap->Point->GetThresholdR(GetLayersBase())->UsageGlobal==true){
+						AlignmentLargeShiftList	*k=new AlignmentLargeShiftList();
+						k->GlobalPage	=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+						k->ItemID	=ap->Point->GetID();
+						k->MasterX	=ap->Point->MasterX;
+						k->MasterY	=ap->Point->MasterY;
+						CmdReqAlignmentLargePointPacketVar->AlignmentLargePointData.AppendList(k);
+					}
+				}
+			}
+		}
+		return;
+	}
+	AddAlignmentLargePointPacket	*AInP=dynamic_cast<AddAlignmentLargePointPacket *>(packet);
+	if(AInP!=NULL){
+		int	AreaID=-1;
+		XAlignmentLargeArea	*SrcArea=NULL;
+		if(AInP->AreaID.GetCount()>=2){
+			for(IntClass *c=AInP->AreaID.GetFirst();c!=NULL;c=c->GetNext()){
+				XAlignmentLargeArea	*a=GetAlignmentLargeArea(c->GetValue());
+				if(a->Area.IsInclude(&AInP->Area)==true){
+					AreaID=a->AreaID;
+					break;
+				}
+			}
+		}
+		else if(AInP->AreaID.GetFirst()!=NULL){
+			AreaID=AInP->AreaID.GetFirst()->GetValue();
+		}
+		if(AreaID>=0){
+			SrcArea=GetAlignmentLargeArea(AreaID);
+			int SCx ,SCy;
+			SrcArea->GetMultiSelectOrign(SCx ,SCy);
+
+			for(IntClass *c=AInP->AreaID.GetFirst();c!=NULL;c=c->GetNext()){
+				XAlignmentLarge	*Item=dynamic_cast<XAlignmentLarge *>(CreateItem(0));
+				Item->AreaID	=c->GetValue();
+				FlexArea	tArea=AInP->Area;
+				XAlignmentLargeArea	*a=GetAlignmentLargeArea(Item->AreaID);
+				if(a!=NULL){
+					int dCx ,dCy;
+					a->GetMultiSelectOrign(dCx ,dCy);
+					tArea.MoveToNoClip(dCx-SCx,dCy-SCy);
+					Item->GetThresholdW()->MoveDotX			=AInP->MoveDotX;
+					Item->GetThresholdW()->MoveDotY			=AInP->MoveDotY;
+					Item->GetThresholdW()->MoveDotX2		=AInP->MoveDotX2;
+					Item->GetThresholdW()->MoveDotY2		=AInP->MoveDotY2;
+					Item->GetThresholdW()->SearchAround		=AInP->SearchAround;
+					Item->GroupNumber						=AInP->GroupNumber;
+					Item->GetThresholdW()->UsageGlobal		=AInP->UsageGlobal;
+					Item->UseBitBuff						=AInP->UseBitBuff;
+					Item->GetThresholdW()->JudgeWithBrDif	=AInP->JudgeWithBrDif;
+					Item->SetArea(tArea);
+					Item->SetManualCreated(true);
+					AppendItem(Item);
+
+					UndoElement<AlignmentLargeInLayer>	*UPointer=new UndoElement<AlignmentLargeInLayer>(this,&AlignmentLargeInLayer::UndoAppendManualPoint);
+					::Save(UPointer->GetWritePointer(),Item->GetID());
+					GetLayersBase()->GetUndoStocker().SetElementToNewTopic(UPointer);
+				}
+			}
+		}
+
+		return;
+	}
+	RemoveAlignmentLargeAreaPacket	*RInA=dynamic_cast<RemoveAlignmentLargeAreaPacket *>(packet);
+	if(RInA!=NULL){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->AreaID==RInA->AreaID){
+				RemoveArea(a);
+				delete	a;
+				return;				
+			}
+		}
+		return;
+	}
+	ModifyAlignmentLargePointPacket	*MInP=dynamic_cast<ModifyAlignmentLargePointPacket *>(packet);
+	if(MInP!=NULL){
+		AlgorithmItemRoot		*a=SearchIDItem(MInP->ItemID);
+		if(a!=NULL){
+			XAlignmentLarge	*AItem=dynamic_cast<XAlignmentLarge *>(a);
+			if(AItem!=NULL){
+				AItem->GetThresholdW()->MoveDotX	=MInP->MoveDotX;
+				AItem->GetThresholdW()->MoveDotY	=MInP->MoveDotY;
+				AItem->GetThresholdW()->MoveDotX2	=MInP->MoveDotX2;
+				AItem->GetThresholdW()->MoveDotY2	=MInP->MoveDotY2;
+				AItem->GetThresholdW()->SearchAround=MInP->SearchAround;
+				AItem->GetThresholdW()->UsageGlobal	=MInP->UsageGlobal;
+				AItem->GroupNumber					=MInP->GroupNumber;
+			}
+		}
+		return;
+	}
+	RemoveAlignmentLargePointPacket	*MInDel=dynamic_cast<RemoveAlignmentLargePointPacket *>(packet);
+	if(MInDel!=NULL){
+		AlgorithmItemRoot		*a=SearchIDItem(MInDel->ItemID);
+		if(a!=NULL){
+			XAlignmentLarge	*AItem=dynamic_cast<XAlignmentLarge *>(a);
+			if(AItem!=NULL){
+				RemoveItem(AItem);
+			}
+		}
+		return;
+	}
+	MakeAlignmentLargeGroupPacket	*MakeAlignmentLargeGroupPacketVar=dynamic_cast<MakeAlignmentLargeGroupPacket *>(packet);
+	if(MakeAlignmentLargeGroupPacketVar!=NULL){
+		for(XAlignmentLargeArea *A=Areas.GetFirst();A!=NULL;A=A->GetNext()){
+			for(int GroupNumb=1;GroupNumb<100;GroupNumb++){
+				bool	Found=false;
+				for(XAlignmentLargePointer *p=A->GPack.GetFirst();p!=NULL;p=p->GetNext()){
+					if(p->Point->GetSelected()==false && p->Point->GroupNumber==GroupNumb){
+						Found=true;
+						break;
+					}
+				}
+				if(Found==false){
+					for(XAlignmentLargePointer *p=A->GPack.GetFirst();p!=NULL;p=p->GetNext()){
+						if(p->Point->GetSelected()==true){
+							p->Point->GroupNumber=GroupNumb;
+							p->Point->Combination	=(MakeAlignmentLargeGroupPacketVar->Cmd==0)?false:true;
+						}
+					}
+					break;
+				}
+			}
+		}
+		return;
+	}
+	RemoveAlignmentLargeGroupPacket	*RemoveAlignmentLargeGroupPacketVar=dynamic_cast<RemoveAlignmentLargeGroupPacket *>(packet);
+	if(RemoveAlignmentLargeGroupPacketVar!=NULL){
+		for(XAlignmentLargeArea *A=Areas.GetFirst();A!=NULL;A=A->GetNext()){
+			for(XAlignmentLargePointer *p=A->GPack.GetFirst();p!=NULL;p=p->GetNext()){
+				if(p->Point->GetSelected()==true){
+					p->Point->GroupNumber=0;
+					p->Point->Combination	=false;
+				}
+			}
+		}
+		return;
+	}
+	CmdAlignmentSetSearchDot	*CmdAlignmentSetSearchDotVar=dynamic_cast<CmdAlignmentSetSearchDot *>(packet);
+	if(CmdAlignmentSetSearchDotVar!=NULL){
+		for(AlgorithmItemPLI *Item=GetFirstData();Item!=NULL;Item=Item->GetNext()){
+			XAlignmentLarge	*AItem=dynamic_cast<XAlignmentLarge *>(Item);
+			if(AItem!=NULL){
+				AItem->GetThresholdW()->MoveDotX =CmdAlignmentSetSearchDotVar->SearchDotX;
+				AItem->GetThresholdW()->MoveDotY =CmdAlignmentSetSearchDotVar->SearchDotY;
+				AItem->GetThresholdW()->MoveDotX2=CmdAlignmentSetSearchDotVar->SearchDotX;
+				AItem->GetThresholdW()->MoveDotY2=CmdAlignmentSetSearchDotVar->SearchDotY;
+			}
+		}
+		return;
+	}
+	CmdReqAlignmentArea	*CmdReqAlignmentAreaVar=dynamic_cast<CmdReqAlignmentArea *>(packet);
+	if(CmdReqAlignmentAreaVar!=NULL){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			CmdReqAlignmentAreaVar->Area+=a->Area;
+		}
+		return;
+	}
+	CmdSelectItemsAlignmentLarge	*CmdSelectItemsAlignmentLargeVar=dynamic_cast<CmdSelectItemsAlignmentLarge *>(packet);
+	if(CmdSelectItemsAlignmentLargeVar!=NULL){
+		XAlignmentLargeArea	*SelectedArea=NULL;
+		int		SelectedNumb=0;
+		for(AlgorithmItemPLI *a=GetFirstData();a!=NULL;a=a->GetNext()){
+			XAlignmentLarge	*Item=dynamic_cast<XAlignmentLarge *>(a);
+			if(Item!=NULL && Item->GetArea().CheckOverlap(&CmdSelectItemsAlignmentLargeVar->Area)==true){
+				if(CmdSelectItemsAlignmentLargeVar->AreaIDList.IsInclude(Item->AreaID)==true){
+					XAlignmentLargeArea	*A=GetAlignmentLargeArea(Item->AreaID);
+					if(A!=NULL){
+						SelectedNumb++;
+						SelectedArea=A;
+						Item->SetSelected(true);
+					}
+				}
+			}
+		}
+		if(SelectedNumb==1 && CmdSelectItemsAlignmentLargeVar->AreaIDList.GetCount()>1){
+			int	dCx,dCy;
+			SelectedArea->GetMultiSelectOrign(dCx,dCy);
+			for(AlgorithmItemPLI *a=GetFirstData();a!=NULL;a=a->GetNext()){
+				XAlignmentLarge	*Item=dynamic_cast<XAlignmentLarge *>(a);
+				if(Item!=NULL){
+					if(CmdSelectItemsAlignmentLargeVar->AreaIDList.IsInclude(Item->AreaID)==true){
+						XAlignmentLargeArea	*A=GetAlignmentLargeArea(Item->AreaID);
+						if(A!=NULL){
+							FlexArea	LArea=CmdSelectItemsAlignmentLargeVar->Area;
+							int	sCx,sCy;
+							A->GetMultiSelectOrign(sCx,sCy);
+							LArea.MoveToNoClip(sCx-dCx,sCy-dCy);
+
+							if(Item->GetArea().CheckOverlap(&LArea)==true){
+								Item->SetSelected(true);
+							}
+						}
+					}
+				}
+			}
+		}
+		return;
+	}
+	CmdCutItemsAlignmentLarge	*CmdCutItemsAlignmentLargeVar=dynamic_cast<CmdCutItemsAlignmentLarge *>(packet);
+	if(CmdCutItemsAlignmentLargeVar!=NULL){
+		XAlignmentLargeArea	*SelectedArea=NULL;
+		int		SelectedNumb=0;
+		for(AlgorithmItemPLI *a=GetFirstData();a!=NULL;a=a->GetNext()){
+			XAlignmentLarge	*Item=dynamic_cast<XAlignmentLarge *>(a);
+			if(Item!=NULL && Item->GetArea().CheckOverlap(&CmdCutItemsAlignmentLargeVar->Area)==true){
+				if(CmdCutItemsAlignmentLargeVar->AreaIDList.IsInclude(Item->AreaID)==true){
+					XAlignmentLargeArea	*A=GetAlignmentLargeArea(Item->AreaID);
+					if(A!=NULL){
+						SelectedNumb++;
+						SelectedArea=A;
+						bool	_Changed;
+						Item->CutArea(CmdCutItemsAlignmentLargeVar->Area,_Changed);
+						if(_Changed==true){
+							Changed=true;
+							CalcDone=false;
+						}
+					}
+				}
+			}
+		}
+		if(SelectedNumb==1 && CmdCutItemsAlignmentLargeVar->AreaIDList.GetCount()>1){
+			int	dCx,dCy;
+			SelectedArea->GetMultiSelectOrign(dCx,dCy);
+			for(AlgorithmItemPLI *a=GetFirstData();a!=NULL;a=a->GetNext()){
+				XAlignmentLarge	*Item=dynamic_cast<XAlignmentLarge *>(a);
+				if(Item!=NULL){
+					if(CmdCutItemsAlignmentLargeVar->AreaIDList.IsInclude(Item->AreaID)==true){
+						XAlignmentLargeArea	*A=GetAlignmentLargeArea(Item->AreaID);
+						if(A!=NULL){
+							FlexArea	LArea=CmdCutItemsAlignmentLargeVar->Area;
+							int	sCx,sCy;
+							A->GetMultiSelectOrign(sCx,sCy);
+							LArea.MoveToNoClip(sCx-dCx,sCy-dCy);
+
+							if(Item->GetArea().CheckOverlap(&LArea)==true){
+								bool	_Changed;
+								Item->CutArea(LArea,_Changed);
+								if(_Changed==true){
+									Changed=true;
+									CalcDone=false;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		for(AlgorithmItemPLI *L=GetFirstData();L!=NULL;){
+			AlgorithmItemPLI *NextL=L->GetNext();
+			if(L->IsNull()==true){
+				RemoveItem(L);
+			}
+			L=NextL;
+		}
+		return;
+	}
+	CmdClearAllPoints	*CmdClearAllPointsVar=dynamic_cast<CmdClearAllPoints *>(packet);
+	if(CmdClearAllPointsVar!=NULL){
+		for(AlgorithmItemPLI *a=GetFirstData();a!=NULL;){
+			AlgorithmItemPLI *NextA=a->GetNext();
+			XAlignmentLarge	*Item=dynamic_cast<XAlignmentLarge *>(a);
+			if(Item!=NULL){
+				XAlignmentLargeArea	*A=GetAlignmentLargeArea(Item->AreaID);
+				if(A!=NULL && A->Priority==(XAlignmentLargeArea::_EnumPriority)CmdClearAllPointsVar->Priority){
+					A->RemoveItem(Item);
+					RemoveItem(Item);
+					delete	Item;
+				}
+			}
+			a=NextA;
+		}
+		return;
+	}
+	CmdSelectItemsAlignmentLargeByPoint	*CmdSelectItemsAlignmentLargeByPointVar=dynamic_cast<CmdSelectItemsAlignmentLargeByPoint *>(packet);
+	if(CmdSelectItemsAlignmentLargeByPointVar!=NULL){
+		for(XAlignmentLargeArea *A=Areas.GetFirst();A!=NULL;A=A->GetNext()){
+			if(A->Area.IsInclude( CmdSelectItemsAlignmentLargeByPointVar->LocalX
+								 ,CmdSelectItemsAlignmentLargeByPointVar->LocalY)==true){
+				ListAreaIDInfo	*c=new ListAreaIDInfo();
+				c->GlobalPage	=GetPage();
+				c->Layer		=GetLayer();
+				c->AreaID		=A->AreaID;
+				c->Priority		=A->Priority;
+				CmdSelectItemsAlignmentLargeByPointVar->AreaList.AppendList(c);
+			}
+		}	
+		return;
+	}
+	CmdSelectAlignmentAreaByID	*CmdSelectAlignmentAreaByIDVar=dynamic_cast<CmdSelectAlignmentAreaByID *>(packet);
+	if(CmdSelectAlignmentAreaByIDVar!=NULL){
+		XAlignmentLargeArea	*A=GetAlignmentLargeArea(CmdSelectAlignmentAreaByIDVar->AreaID);
+		if(A!=NULL){
+			A->Selected=true;
+		}
+		return;
+	}
+	CmdSelectAreaByArea	*CmdSelectAreaByAreaVar=dynamic_cast<CmdSelectAreaByArea *>(packet);
+	if(CmdSelectAreaByAreaVar!=NULL){
+		for(XAlignmentLargeArea *A=Areas.GetFirst();A!=NULL;A=A->GetNext()){
+			if(A->Area.CheckOverlap(&CmdSelectAreaByAreaVar->Area)==true){
+				A->Selected=true;
+			}
+		}
+		return;
+	}
+	CmdReqAlignmentLargeAreaListWithMark	*CmdReqAlignmentLargeAreaListWithMarkVar=dynamic_cast<CmdReqAlignmentLargeAreaListWithMark *>(packet);
+	if(CmdReqAlignmentLargeAreaListWithMarkVar!=NULL){
+		for(XAlignmentLargeArea *A=Areas.GetFirst();A!=NULL;A=A->GetNext()){
+			if(A->GPack.GetCount()>0){
+				ListAreaIDInfo	*L=new ListAreaIDInfo();
+				L->GlobalPage	=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+				L->Layer		=GetLayer();
+				L->AreaID		=A->GetID();
+				L->Priority		=A->Priority;
+				CmdReqAlignmentLargeAreaListWithMarkVar->AreaList.AppendList(L);
+			}
+		}
+		return;
+	}
+	RemoveSelectedAlignmentLargeAreaPacket	*RemoveSelectedAlignmentLargeAreaPacketVar=dynamic_cast<RemoveSelectedAlignmentLargeAreaPacket *>(packet);
+	if(RemoveSelectedAlignmentLargeAreaPacketVar!=NULL){
+		for(XAlignmentLargeArea *A=Areas.GetFirst();A!=NULL;){
+			XAlignmentLargeArea	*ANext=A->GetNext();
+			if(A->Selected==true){
+				RemoveArea(A);
+			}
+			A=ANext;
+		}
+		return;
+	}
+	CmdFindAlignmentLargeArea	*CmdFindAlignmentLargeAreaVar=dynamic_cast<CmdFindAlignmentLargeArea *>(packet);
+	if(CmdFindAlignmentLargeAreaVar!=NULL){
+		CmdFindAlignmentLargeAreaVar->Area=GetAlignmentLargeArea(CmdFindAlignmentLargeAreaVar->AreaID);
+		return;
+	}
+}
+
+void	AlignmentLargeInLayer::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
+{
+	CheckAgain:;
+	for(XAlignmentLargeArea *A=Areas.GetFirst();A!=NULL;A=A->GetNext()){
+		int	x1,y1,x2,y2;
+		A->GetXY(x1,y1,x2,y2);
+		if(x1<0 || NewDotPerLine<=x2 || y1<0 || NewMaxLines<=y2){
+			RemoveArea(A);
+			goto	CheckAgain;
+		}
+	}
+	AlgorithmInLayerPLI::ReallocXYPixels(NewDotPerLine ,NewMaxLines);
+}
+
+bool	AlignmentLargeInLayer::AppendItem(AlgorithmItemRoot *item)
+{
+	XAlignmentLarge	*AItem=dynamic_cast<XAlignmentLarge *>(item);
+	if(AItem!=NULL){
+		XAlignmentLargeArea *A;
+		for(A=Areas.GetFirst();A!=NULL;A=A->GetNext()){
+			if(A->AreaID==AItem->AreaID){
+				break;
+			}
+		}
+		if(A==NULL){
+			//AlgorithmInLayer::AppendItem(AItem,AItem->GetID());
+			//AItem->SetParent(this);
+			//AItem->MakeArea(AItem->Threshold ,*GetMasterBuff());
+			//AlgorithmInLayer::AppendItem(AItem,AItem->GetID());
+			return true;
+		}
+		bool	Found=false;
+		for(XAlignmentLargePointer *p=A->GPack.GetFirst();p!=NULL;p=p->GetNext()){
+			if(p->Point==AItem){
+				Found=true;
+				break;
+			}
+		}
+		if(Found==false){
+			XAlignmentLargePointer	*AP=new XAlignmentLargePointer();
+			AP->Point=AItem;
+			A->GPack.AppendList(AP);
+		}
+
+		AItem->SetParent(this);
+		item->SetItemID();
+		AlignmentLargeBase	*ABase=(AlignmentLargeBase *)GetParentBase();
+		if(ABase->UseAllLayers==true){
+			AItem->ChooseSelectedLayer();
+		}
+		AItem->MakeArea(AItem->GetMasterBuffForMakeArea());
+
+		return AlgorithmInLayerPLI::AppendItem(AItem);
+	}
+	return false;
+}
+void	AlignmentLargeInLayer::AppendItemWithoutMakeArea(AlgorithmItemRoot *item ,int AreaID)
+{
+	XAlignmentLarge	*AItem=dynamic_cast<XAlignmentLarge *>(item);
+	if(AItem!=NULL){
+		XAlignmentLargeArea *A;
+		for(A=Areas.GetFirst();A!=NULL;A=A->GetNext()){
+			if(A->AreaID==AreaID){
+				break;
+			}
+		}
+		if(A==NULL){
+			//AlgorithmInLayer::AppendItem(AItem,AItem->GetID());
+			//AItem->SetParent(this);
+			//AItem->MakeArea(AItem->Threshold ,*GetMasterBuff());
+			//AlgorithmInLayer::AppendItem(AItem,AItem->GetID());
+			return;
+		}
+		bool	Found=false;
+		for(XAlignmentLargePointer *p=A->GPack.GetFirst();p!=NULL;p=p->GetNext()){
+			if(p->Point==AItem){
+				Found=true;
+				break;
+			}
+		}
+		if(Found==false){
+			XAlignmentLargePointer	*AP=new XAlignmentLargePointer();
+			AP->Point=AItem;
+			A->GPack.AppendList(AP);
+		}
+
+		AItem->SetParent(this);
+		item->SetItemID();
+		AlgorithmInLayerPLI::AppendItem(AItem);
+	}
+}
+bool	AlignmentLargeInLayer::AppendItemFromLoad(AlgorithmItemRoot *item)
+{
+	XAlignmentLarge	*AItem=dynamic_cast<XAlignmentLarge *>(item);
+	if(AItem!=NULL){
+		return AlgorithmInLayerPLI::AppendItem(AItem,AItem->GetID());
+	}
+	return false;
+}
+
+QPoint	*AlignmentLargeInLayer::GetPoint(int rx ,int ry)
+{
+	if(MVector==NULL)
+		return(NULL);
+	int	x=rx/MVectorXRes;
+	int	y=ry/MVectorYRes;
+	if(x<0)
+		x=0;
+	if(x>=MVectorXNumb)
+		x=MVectorXNumb-1;
+	if(y<0)
+		y=0;
+	if(y>=MVectorYNumb)
+		y=MVectorYNumb-1;
+	return(&MVector[y*MVectorXNumb+x]);
+}
+
+void	AlignmentLargeInLayer::CopyFrom(AlgorithmInPageRoot *DestParent
+							,AlgorithmInLayerRoot *src 
+							,int OffsetX,int OffsetY
+							,int PartsMaster ,int PartsID
+							,bool ReferedThresholdMode)
+{
+	AlignmentLargeInLayer	*srcAlign=dynamic_cast<AlignmentLargeInLayer *>(src);
+	if(srcAlign==NULL)
+		return;
+	for(XAlignmentLargeArea *a=srcAlign->Areas.GetFirst();a!=NULL;a=a->GetNext()){
+		XAlignmentLargeArea *d=new XAlignmentLargeArea(this);
+		d->CopyWithoutItems(*a,true);
+		d->PartsID		=PartsMaster;
+		d->PartsAllocID	=PartsID;
+		d->PartsAreaID	=a->AreaID;
+		d->AreaID		=GetMaxAreaID()+1;
+
+		d->MoveTo(OffsetX,OffsetY);
+
+		for(XAlignmentLargePointer *g=a->GPack.GetFirst();g!=NULL;g=g->GetNext()){
+			XAlignmentLargePointer	*gd=new XAlignmentLargePointer();
+			gd->Point=g->Point;	//???E?Y?e
+			d->GPack.AppendList(gd);
+		}
+		Areas.AppendList(d);
+		Changed=true;
+		CalcDone =false;
+	}
+	for(AlgorithmItemPLI *Item=srcAlign->GetFirstData();Item!=NULL;Item=Item->GetNext()){
+		AlgorithmItemRoot	*d=CreateItem(0);
+		AlgorithmItemPLI	*dL=dynamic_cast<AlgorithmItemPLI *>(d);
+		dL->SetParent(this);
+
+		d->SetRefereneFrom(Item,OffsetX,OffsetY);
+		d->CopyAttrFrom(Item);
+		d->SetPartsData(PartsMaster ,PartsID ,Item->GetID());
+		XAlignmentLarge	*SrcItem=dynamic_cast<XAlignmentLarge *>(Item);
+		XAlignmentLarge	*a=dynamic_cast<XAlignmentLarge *>(d);
+		for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+			if(p->PartsID==PartsMaster && p->PartsAllocID==PartsID && p->PartsAreaID==SrcItem->AreaID){
+				a->AreaID	=p->AreaID;
+				break;
+			}
+		}
+
+		int	DestAreaID=0;
+		for(XAlignmentLargeArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
+			for(XAlignmentLargePointer *g=p->GPack.GetFirst();g!=NULL;g=g->GetNext()){
+				if(g->Point==Item){
+					g->Point=a;
+					DestAreaID=p->AreaID;
+				}
+			}
+		}
+		if(SearchIDItem(Item->GetID())==NULL){
+			AppendItem(d);
+			d->SetID(Item->GetID());
+		}
+		else{
+			AppendItem(d);
+		}
+		Changed=true;
+		CalcDone =false;
+	}
+}
+
+void	AlignmentLargeInLayer::MoveItemsToDispatcherForLoadingParts(void)
+{
+	AlgorithmInLayerPLI::MoveItemsToDispatcherForLoadingParts();
+	Dispatcher.RemoveAll();
+	DispatchAreas.RemoveAll();
+QNext:;
+	for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+		if(a->PartsID>=0){
+			Areas.RemoveList(a);
+			DispatchAreas.AppendList(a);
+			Changed=true;
+			CalcDone =false;
+			goto	QNext;
+		}
+	}
+}
+
+void	AlignmentLargeInLayer::InitializeFromParts(void)
+{
+	AlgorithmInLayerPLI::InitializeFromParts();
+	for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;){
+		XAlignmentLargeArea *NextA=a->GetNext();
+		if(a->PartsID>=0){
+			Areas.RemoveList(a);
+			delete	a;
+		}
+		a=NextA;
+	}
+}
+
+void	AlignmentLargeInLayer::CopyItemsFormDispatcherForParts(void)
+{
+	AlgorithmInLayerPLI::CopyItemsFormDispatcherForParts();
+
+	for(XAlignmentLargeArea *Src=DispatchAreas.GetFirst();Src!=NULL;Src=Src->GetNext()){
+		for(XAlignmentLargeArea *Dest=Areas.GetFirst();Dest!=NULL;Dest=Dest->GetNext()){
+			if(Src->PartsID==Dest->PartsID
+			&& Src->PartsAllocID==Dest->PartsAllocID
+			&& Src->PartsAreaID ==Dest->PartsAreaID){
+				QBuffer	Buff;
+				Buff.open(QIODevice::ReadWrite);
+				Src->SaveUnique(&Buff);
+				Buff.seek(0);
+				Dest->LoadUnique(&Buff);
+			}
+		}
+	}
+}
+
+void	AlignmentLargeInLayer::RemoveItemFormDispatcher(void)
+{
+	AlgorithmInLayerPLI::RemoveItemFormDispatcher();
+	DispatchAreas.RemoveAll();
+}
+
+AlgorithmItemRoot	*AlignmentLargeInLayer::CreateItem(int ItemClassType)
+{	
+	XAlignmentLarge	*a=new XAlignmentLarge();
+	a->SetParent(this);
+	return a;
+}
+
+bool	AlignmentLargeInLayer::IsModeItemEditing(void)
+{
+	GUIFormBase	*DProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyAlignmentLargeForm" ,/**/"");
+	CmdAlignmentLargeIsModeItemEditingPacket	MCmd(GetLayersBase());
+	if(DProp!=NULL){
+		DProp->TransmitDirectly(&MCmd);
+	}
+	if(MCmd.ItemMode==CmdAlignmentLargeIsModeItemEditingPacket::_ItemMode)
+		return true;
+	return false;
+}
+bool	AlignmentLargeInLayer::IsModeAreaEditing(void)
+{
+	GUIFormBase	*DProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyAlignmentLargeForm" ,/**/"");
+	CmdAlignmentLargeIsModeItemEditingPacket	MCmd(GetLayersBase());
+	if(DProp!=NULL){
+		DProp->TransmitDirectly(&MCmd);
+	}
+	if(MCmd.ItemMode==CmdAlignmentLargeIsModeItemEditingPacket::_AreaMode)
+		return true;
+	return false;
+}
+
+int		AlignmentLargeInLayer::GetSelectedItemCount(void)
+{
+	if(IsModeAreaEditing()==true){
+		int	N=0;
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->Selected==true)
+				N++;
+		}
+		return N;
+	}
+	return AlgorithmInLayerPLI::GetSelectedItemCount();
+}
+void	AlignmentLargeInLayer::ReleaseAllSelectedItem(void)
+{
+	for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+		a->Selected=false;
+	}
+	AlgorithmInLayerPLI::ReleaseAllSelectedItem();
+}
+void	AlignmentLargeInLayer::SelectAll(void)
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			a->Selected=true;
+		}
+	}
+	else
+		AlgorithmInLayerPLI::SelectAll();
+}
+void	AlignmentLargeInLayer::SelectLocked(void)
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->Locked==true)
+				a->Selected=true;
+			else
+				a->Selected=false;
+		}
+	}
+	else
+		AlgorithmInLayerPLI::SelectLocked();
+}
+void	AlignmentLargeInLayer::SelectLibs(AlgorithmLibraryListContainer &SelectedList)
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			for(AlgorithmLibraryList *L=a->LimitedLib.GetFirst();L!=NULL;L=L->GetNext()){
+				for(AlgorithmLibraryList *m=SelectedList.GetFirst();m!=NULL;m=m->GetNext()){
+					if(m->GetLibID()==L->GetLibID()){
+						a->Selected=true;
+						goto	HNext;
+					}
+				}
+			}
+			a->Selected=false;
+HNext:;
+		}
+	}
+	else
+		AlgorithmInLayerPLI::SelectLibs(SelectedList);
+}
+void	AlignmentLargeInLayer::SelectArea(FlexArea &localArea,bool MultiSelect)		
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->Area.CheckOverlap(&localArea)==true)
+				a->Selected=true;
+			else
+				a->Selected=false;
+		}
+	}
+	else{
+		AlgorithmInLayerPLI::SelectArea(localArea,MultiSelect);
+	}
+}
+void	AlignmentLargeInLayer::SelectPoint(int localX, int localY)
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->Area.IsInclude(localX,localY)==true)
+				a->Selected=true;
+			else
+				a->Selected=false;
+		}
+	}
+	else
+		AlgorithmInLayerPLI::SelectPoint(localX,localY);
+}
+void	AlignmentLargeInLayer::CutArea(FlexArea &localArea ,bool MultiSelect)
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->Area.CheckOverlap(&localArea)==true){
+				FlexArea	area=a->Area;
+				a->Area.Sub(area,localArea);
+				Changed=true;
+				CalcDone =false;
+			}
+		}
+	}
+	else
+		AlgorithmInLayerPLI::CutArea(localArea ,MultiSelect);
+}
+void	AlignmentLargeInLayer::RegistArea(FlexArea &localArea)
+{
+	if(IsModeAreaEditing()==true){
+	}
+	else
+		AlgorithmInLayerPLI::RegistArea(localArea);
+}
+void	AlignmentLargeInLayer::DeleteSelectedItems(void)
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;){
+			if(a->Selected==true){
+				XAlignmentLargePointer *p;
+				while((p=a->GPack.GetFirst())!=NULL){
+					XAlignmentLarge		*item=p->Point;
+					a->RemoveItem(item);
+					for(XAlignmentLargeArea *t=Areas.GetFirst();t!=NULL;t=t->GetNext()){
+						t->RemoveItem(item);
+					}
+					AlgorithmInLayerPLI::RemoveItem(item);
+					delete	item;
+				}
+				XAlignmentLargeArea *NextA=a->GetNext();
+				Areas.RemoveList(a);
+				Changed=true;
+				CalcDone =false;
+				delete	a;
+				a=NextA;
+			}
+			else{
+				a=a->GetNext();
+			}
+		}
+	}
+	else{
+		AlgorithmInLayerPLI::DeleteSelectedItems();
+	}
+}
+
+void	AlignmentLargeInLayer::RemoveAllDatas(void)
+{
+	Areas.RemoveAll();
+	AlgorithmInLayerPLI::RemoveAllDatas();
+	ClearStartItemID();
+	Changed=true;
+	CalcDone =false;
+}
+
+void	AlignmentLargeInLayer::LockSelectedItems(void)
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->Selected==true)
+				a->Locked=true;
+			else
+				a->Locked=false;
+		}
+	}
+	else
+		AlgorithmInLayerPLI::SelectLocked();
+}
+void	AlignmentLargeInLayer::BindSelectedItems(void)
+{
+	if(IsModeAreaEditing()==true){
+		XAlignmentLargeArea *M;
+		for(M=Areas.GetFirst();M!=NULL;M=M->GetNext()){
+			if(M->Selected==true){
+				break;
+			}
+		}
+		if(M!=NULL){
+			for(XAlignmentLargeArea *a=M->GetNext();a!=NULL;){
+				if(a->Selected==true){
+					XAlignmentLargePointer *p;
+					while((p=a->GPack.GetFirst())!=NULL){
+						a->GPack.RemoveList(p);
+						M->GPack.AppendList(p);
+					}
+				}
+				M->Area+=a->Area;
+				XAlignmentLargeArea *NextA=a->GetNext();
+				Areas.RemoveList(a);
+				Changed=true;
+				CalcDone =false;
+				delete	a;
+				a=NextA;
+			}
+		}
+	}
+	else
+		AlgorithmInLayerPLI::BindSelectedItems();
+}
+void	AlignmentLargeInLayer::Activate(int localX ,int localY ,ListLayerAndIDPack &RetItem)	
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->IsInclude(localX,localY)==true)
+				a->Active=true;
+			else
+				a->Active=false;
+		}
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->Active==true){
+				RetItem.AppendList(new ListLayerAndID(GetLayer(),a->AreaID));
+			}
+		}
+	}
+	else
+		AlgorithmInLayerPLI::Activate(localX ,localY ,RetItem);
+}
+void	AlignmentLargeInLayer::Activate(int ItemID)
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->AreaID==ItemID)
+				a->Active=true;
+			else
+				a->Active=false;
+		}
+	}
+	else
+		AlgorithmInLayerPLI::Activate(ItemID);
+}
+void	AlignmentLargeInLayer::Inactivate(void)
+{
+	for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+		a->Active=false;
+	}
+	AlgorithmInLayerPLI::Inactivate();
+}
+
+void	AlignmentLargeInLayer::ExecuteCopy(ClipboardAlgorithm &Pack)
+{
+	if(IsModeAreaEditing()==true){
+	}
+	else
+		AlgorithmInLayerPLI::ExecuteCopy(Pack);
+}
+void	AlignmentLargeInLayer::ExecuteMove(int GlobalDx,int GlobalDy,bool AllItems)
+{
+	if(IsModeAreaEditing()==true || AllItems==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if((AllItems==false && a->Locked==false && a->Selected==true)
+			|| AllItems==true){
+				a->Area.MoveToNoClip(GlobalDx,GlobalDy);
+				for(XAlignmentLargePointer *p=a->GPack.GetFirst();p!=NULL;p=p->GetNext()){
+					XAlignmentLarge		*item=p->Point;
+					item->ExecuteMove(GlobalDx,GlobalDy);
+					Changed=true;
+					CalcDone =false;
+				}
+			}
+		}
+	}
+	else
+		AlgorithmInLayerPLI::ExecuteMove(GlobalDx,GlobalDy,AllItems);
+}
+
+void	AlignmentLargeInLayer::MakeArea(NPListPack<PureFlexAreaList> &FPack
+										,AlignmentLargeLibrary *Lib
+										,AlgorithmBase *Origin)
+{
+	for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;){
+		XAlignmentLargeArea *NextA=a->GetNext();
+		if(a->ManualCreated==false && a->LibID==Lib->GetLibID()){
+			bool	Found=false;
+			for(PureFlexAreaList *f=FPack.GetFirst();f!=NULL;f=f->GetNext()){
+				if(a->Area==*f){
+					Found=true;
+					break;
+				}
+			}
+			if(Found==false){
+				RemoveArea(a);
+				delete	a;
+			}
+			else{
+				a->Priority=(XAlignmentLargeArea::_EnumPriority)Lib->Priority;
+			}
+		}
+		a=NextA;
+	}
+	for(PureFlexAreaList *f=FPack.GetFirst();f!=NULL;f=f->GetNext()){
+		if(f->GetPatternByte()<=Lib->MinGenerationAreaDots)
+			continue;
+		bool	Found=false;
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->ManualCreated==false && a->LibID==Lib->GetLibID()){
+				if(a->Area==*f){
+					Found=true;
+					a->LibID	=Lib->GetLibID();
+					a->AreaName	=Lib->GetLibName();
+					a->LimitedLib=Lib->LimitedLib;
+					a->Priority	=(XAlignmentLargeArea::_EnumPriority)Lib->Priority;
+					break;
+				}
+			}
+		}
+		if(Found==false){
+			XAlignmentLargeArea	*A=new XAlignmentLargeArea(this);
+			A->AreaID	=GetMaxAreaID()+1;
+			A->Area		=*f;
+			A->LibID	=Lib->GetLibID();
+			A->AreaName	=Lib->GetLibName();
+			A->LimitedLib=Lib->LimitedLib;
+			A->Priority	=(XAlignmentLargeArea::_EnumPriority)Lib->Priority;
+			A->ManualCreated=false;
+			A->SetOrigin(Origin);
+			Areas.AppendList(A);
+		}
+	}
+}
+
+void	AlignmentLargeInLayer::GetOriginRootNames(NPListPack<OriginNames> &OriginNameList)
+{
+	if(IsModeAreaEditing()==true){
+		AlgorithmBase	*Dim[1000];
+		int				DimNumb=0;
+		int				ItemNumb[1000];
+
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			int i;
+			for(i=0;i<DimNumb;i++){
+				if(Dim[i]==a->Origin){
+					ItemNumb[i]++;
+					break;
+				}
+			}
+			if(i>=DimNumb && i<sizeof(Dim)/sizeof(Dim[0])){
+				Dim[DimNumb]=a->Origin;
+				ItemNumb[DimNumb]=1;
+				DimNumb++;
+			}
+		}
+		for(int i=0;i<DimNumb;i++){
+			OriginNames	*v=new OriginNames();
+			Dim[i]->GetDLLName(v->DLLRoot ,v->DLLName);
+			v->Numb=ItemNumb[i];
+			OriginNameList.AppendList(v);
+		}
+	}
+	else
+		AlgorithmInLayerPLI::GetOriginRootNames(OriginNameList);
+}
+
+void	AlignmentLargeInLayer::SelectOriginRootNames(AlgorithmBase *OriginBase)
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->Origin==OriginBase)
+				a->Selected=true;
+		}
+	}
+	else
+		AlgorithmInLayerPLI::SelectOriginRootNames(OriginBase);
+}
+void	AlignmentLargeInLayer::VisibleAll(void)			
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			a->Visible=true;
+		}
+	}
+	else
+		AlgorithmInLayerPLI::VisibleAll();
+}
+void	AlignmentLargeInLayer::InvisibleAll(void)			
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			a->Visible=false;
+		}
+	}
+	else
+		AlgorithmInLayerPLI::InvisibleAll();
+}
+void	AlignmentLargeInLayer::InvisibleSelected(void)		
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->Selected==true)
+				a->Visible=false;
+			else
+				a->Visible=true;
+		}
+	}
+	else
+		AlgorithmInLayerPLI::InvisibleSelected();
+}
+void	AlignmentLargeInLayer::SelectManualCreature(void)	
+{
+	if(IsModeAreaEditing()==true){
+		for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->ManualCreated==true)
+				a->Selected=true;
+			else
+				a->Selected=false;
+		}
+	}
+	else
+		AlgorithmInLayerPLI::SelectManualCreature();
+}
+
+bool	AlignmentLargeInLayer::ExistArea(int localX,int localY)
+{
+	for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+		if(a->Area.IsInclude(localX,localY)==true){
+			return true;
+		}
+	}
+	return false;
+}
+
+XAlignmentLargeArea	*AlignmentLargeInLayer::GetAlignmentLargeArea(int AreaID)
+{
+	for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+		if(a->AreaID==AreaID)
+			return a;
+	}
+	return NULL;
+}
+
+void	AlignmentLargeInLayer::UndoAppendManualArea(QIODevice *f)
+{
+	int32	AreaID;
+	::Load(f,AreaID);
+	XAlignmentLargeArea	*Area=GetAlignmentLargeArea(AreaID);
+	if(Area!=NULL){
+		RemoveArea(Area);
+		delete	Area;
+	}
+}
+void	AlignmentLargeInLayer::UndoAppendManualPoint(QIODevice *f)
+{
+	int	ItemID;
+	::Load(f,ItemID);
+	AlgorithmItemRoot	*Item=SearchIDItem(ItemID);
+	if(Item!=NULL){
+		RemoveItem(Item);
+		delete	Item;
+	}
+}
+
+int		AlignmentLargeInLayer::GetMaxAreaID(void)
+{
+	int	MaxAreaID=0;
+	for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+		if(a->AreaID>MaxAreaID){
+			MaxAreaID=a->AreaID;
+		}
+	}
+	return MaxAreaID;
+}
+void	AlignmentLargeInLayer::UndoSetIndependentItemDataCommand(QIODevice *f)
+{
+	int	ItemID;
+	if(::Load(f,ItemID)==false)
+		return;
+	AlgorithmItemRoot	*Item=SearchIDItem(ItemID);
+	if(Item!=NULL){
+		XAlignmentLarge	*BI=(XAlignmentLarge *)Item;
+		BI->GetThresholdW()->Load(f);
+	}
+}
+void	AlignmentLargeInLayer::MoveFromPipe(GeneralPipeInfo &Info)
+{
+	for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+		int		Cx,Cy;
+		double	AckX,AckY;
+		a->GetCenter(Cx,Cy);
+		if(Info.RequireAlignmentPosition(Cx,Cy,AckX,AckY)==true){
+			a->MoveTo(AckX-Cx,AckY-Cy);
+		}
+	}
+
+	for(AlgorithmItemPLI *k=GetFirstData();k!=NULL;k=k->GetNext()){
+		XAlignmentLarge	*a=dynamic_cast<XAlignmentLarge *>(k);
+		if(a!=NULL){
+			double	Cx,Cy;
+			double	AckX,AckY;
+			a->GetCenter(Cx,Cy);
+			if(Info.RequireAlignmentPosition(Cx,Cy,AckX,AckY)==true){
+				a->MoveTo(AckX-Cx,AckY-Cy);
+			}
+		}
+	}
+}
+void	AlignmentLargeInLayer::MatchCombination(void)
+{
+	for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+		a->MatchCombination(GetTargetBuff(),GetTargetTRBuff());
+	}
+}
+
+void	AlignmentLargeInLayer::CreateAreaInMask(int Priority,int Erosion)
+{
+	ConstMapBuffer MaskMap;
+	AlgorithmLibrary *Lib=NULL;
+	GetReflectionMap(_Reflection_Mask,MaskMap,Lib);
+
+	NPListPack<PureFlexAreaList> FPack;
+	::PickupFlexArea(MaskMap.GetBitMap(),MaskMap.GetXByte(),MaskMap.GetXLen(),MaskMap.GetYLen(),FPack);
+	if(FPack.GetCount()>0){
+		PureFlexAreaList	*MaxF=NULL;
+		int	MaxAreaDots=0;
+		for(PureFlexAreaList *f=FPack.GetFirst();f!=NULL;f=f->GetNext()){
+			int	d=f->GetPatternByte();
+			if(d>MaxAreaDots){
+				MaxAreaDots=d;
+				MaxF=f;
+			}
+		}
+		int		XLen	=GetDotPerLine();
+		int		XByte	=(XLen+7)/8;
+		int		YLen	=GetMaxLines();
+		BYTE	**BmpMap=MakeMatrixBuff(XByte,YLen);
+		BYTE	**TmpMap=MakeMatrixBuff(XByte,YLen);
+		MatrixBuffClear	(BmpMap ,0 ,XByte,YLen);
+		if(MaxF!=NULL){
+			MaxF->MakeBitData(BmpMap ,0,0 ,XLen,YLen);
+		}
+		GetLayersBase()->FatAreaN(BmpMap,TmpMap,XByte,YLen,Erosion);
+		NPListPack<PureFlexAreaList> GPack;
+		::PickupFlexArea(BmpMap,XByte,XLen,YLen,GPack);
+
+		XAlignmentLargeArea	*a=new XAlignmentLargeArea(this);
+		a->AreaID	=GetMaxAreaID()+1;
+		a->Area		=*GPack.GetFirst();
+		a->AreaName	=/**/"";
+		//a->LimitedLib=AInL->LimitedLib;
+		a->Priority	=(XAlignmentLargeArea::_EnumPriority)Priority;
+		a->ManualCreated=false;
+		Areas.AppendList(a);
+
+		DeleteMatrixBuff(BmpMap,YLen);
+		DeleteMatrixBuff(TmpMap,YLen);
+	}
+}
+
+void	AlignmentLargeInLayer::MoveForAlignment(void)
+{
+	for(XAlignmentLargeArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext()){
+		a->MoveForAlignment();
+	}
+	AlgorithmInLayerPLI::MoveForAlignment();
+}
+
+bool	AlignmentLargeInLayer::MakeConfirmItem(ConfirmItemListContainer &ItemList)
+{
+	AlignmentLargeBase	*ABase=(AlignmentLargeBase *)GetParentBase();
+	for(AlgorithmItemPLI *k=GetFirstData();k!=NULL;k=k->GetNext()){
+		XAlignmentLarge	*a=dynamic_cast<XAlignmentLarge *>(k);
+		if(a!=NULL){
+			CmdReqAlignmentLargeFinalResult	Cmd(GetLayersBase());
+			Cmd.Item=a;
+			ABase->TransmitDirectly(&Cmd);
+			if(Cmd.FinalResult!=NULL){
+				if (Cmd.FinalResult->Match<ABase->AlertThreshold){
+					ConfirmItemList	*d=new ConfirmItemList();
+					d->Page=GetPage();
+					d->Phase=GetPhaseCode();
+					d->Layer=GetLayer();
+					d->ItemID=a->GetID();
+					d->CType	=CF_Alert;
+					d->Cause	=QString::number(Cmd.FinalResult->Match,'f',3);
+					ItemList.AppendList(d);
+				}
+			}
+		}
+	}
+}
+
+//==========================================================================================
+AlignmentLargeInPage::AlignmentLargeInPage(AlgorithmBase *parent):AlgorithmInPagePLI(parent)
+{
+	ModeParallel.ModeParallelExecutePreAlignment=true;
+}
+
+bool	AlignmentLargeInPage::ExistArea(int localX,int localY)
+{
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		if(L->ExistArea(localX,localY)==true){
+			return true;
+		}
+	}
+	return false;
+}
+
+AlignmentPacket2D	*AlignmentLargeInPage::AppendAlignmentLargePacket2D(AlgorithmItemRoot *Item ,int localX ,int localY)
+{
+	if(ExistArea(localX,localY)==true){	
+		int	LibType	=Item->GetParentBase()->GetLibType();
+		int	LibID	=Item->GetLibID();
+
+		AlignmentPacket2DCreaterMutex.lock();
+		for(AlignmentPacket2DList *a=AlignmentPacket2DContainer.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->PosXOnTarget==localX && a->PosYOnTarget==localY
+			&& a->LibType==LibType && a->LibID==LibID){	// && a->SourceID==SourceID){
+				AlignmentPacket2DCreaterMutex.unlock();
+				return a;
+			}
+		}
+		XAlignmentLargeArea	*ClosedArea=NULL;
+		double	MinLen=99999999;
+		for(int layer=0;layer<GetLayerNumb();layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+			for(XAlignmentLargeArea *A=L->Areas.GetFirst();A!=NULL;A=A->GetNext()){
+				if(A->Priority==XAlignmentLargeArea::_PriorityLow
+				&& A->GetItemCount()>0
+				&& A->IsInclude(localX,localY)==true
+				&& (A->LimitedLib.GetCount()==0 || A->LimitedLib.IsInclude(LibType,LibID)==true)){
+					int	Cx,Cy;
+					A->GetCenter(Cx,Cy);
+					double	D=hypot(Cx-localX,Cy-localY);
+					if(D<MinLen){
+						MinLen=D;
+						ClosedArea=A;
+					}
+				}
+			}
+		}
+		if(ClosedArea==NULL){
+			for(int layer=0;layer<GetLayerNumb();layer++){
+				AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+				for(XAlignmentLargeArea *A=L->Areas.GetFirst();A!=NULL;A=A->GetNext()){
+					if(A->Priority==XAlignmentLargeArea::_PriorityMiddle
+					&& A->GetItemCount()>0
+					&& A->IsInclude(localX,localY)==true
+					&& (A->LimitedLib.GetCount()==0 || A->LimitedLib.IsInclude(LibType,LibID)==true)){
+						int	Cx,Cy;
+						A->GetCenter(Cx,Cy);
+						double	D=hypot(Cx-localX,Cy-localY);
+						if(D<MinLen){
+							MinLen=D;
+							ClosedArea=A;
+						}
+					}
+				}
+			}
+		}
+		if(ClosedArea==NULL){
+			for(int layer=0;layer<GetLayerNumb();layer++){
+				AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+				for(XAlignmentLargeArea *A=L->Areas.GetFirst();A!=NULL;A=A->GetNext()){
+					if(A->Priority==XAlignmentLargeArea::_PriorityHigh
+					&& A->GetItemCount()>0
+					&& A->IsInclude(localX,localY)==true
+					&& (A->LimitedLib.GetCount()==0 || A->LimitedLib.IsInclude(LibType,LibID)==true)){
+						int	Cx,Cy;
+						A->GetCenter(Cx,Cy);
+						double	D=hypot(Cx-localX,Cy-localY);
+						if(D<MinLen){
+							MinLen=D;
+							ClosedArea=A;
+						}
+					}
+				}
+			}
+		}
+		if(ClosedArea==NULL){
+			for(int layer=0;layer<GetLayerNumb();layer++){
+				AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+				for(XAlignmentLargeArea *A=L->Areas.GetFirst();A!=NULL;A=A->GetNext()){
+					if(A->Priority==XAlignmentLargeArea::_PriorityGlobal
+					&& A->GetItemCount()>0
+					&& A->IsInclude(localX,localY)==true
+					&& (A->LimitedLib.GetCount()==0 || A->LimitedLib.IsInclude(LibType,LibID)==true)){
+						int	Cx,Cy;
+						A->GetCenter(Cx,Cy);
+						double	D=hypot(Cx-localX,Cy-localY);
+						if(D<MinLen){
+							MinLen=D;
+							ClosedArea=A;
+						}
+					}
+				}
+			}
+		}
+
+		AlignmentPacket2DList	*L=new AlignmentPacket2DList();
+		L->Area			=ClosedArea;
+		L->LibType		=LibType;
+		L->LibID		=LibID;
+		L->SourceID		=Item->GetID();
+		L->PosXOnTarget	=localX;
+		L->PosYOnTarget	=localY;
+		AlignmentPacket2DContainer.AppendList(L);
+		AlignmentPacket2DCreaterMutex.unlock();
+
+		return L;
+	}
+	return NULL;
+}
+ExeResult	AlignmentLargeInPage::ExecuteInitialAfterEdit	(int ExeID ,ResultInPageRoot *Res,ExecuteInitialAfterEditInfo &EInfo)
+{
+	AlignmentPacket2DContainer.RemoveAll();
+	return AlgorithmInPagePLI::ExecuteInitialAfterEdit(ExeID ,Res,EInfo);
+}
+
+ExeResult	AlignmentLargeInPage::ExecutePreAlignment	(int ExeID ,ResultInPageRoot *Res)
+{
+	StartMilisecExecutePreAlignment();
+
+	ResultInPagePLI *R=(ResultInPagePLI *)Res;
+	ExeResult	Ret;
+	//omp_set_nested(0);
+
+	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+		bool	RetryMode;
+		do{
+			RetryMode=false;
+			for(int layer=0;layer<AllocatedLayerNumb;layer++){
+				AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)LayerData[layer];
+				ExeResult	RR=L->ExecutePreAlignment0(ExeID ,&R->GetLayerData(layer));
+				if(RR==_ER_ReqRetryLater){
+					RetryMode=true;
+				}
+				else{
+					Ret=RR;
+				}
+			}
+		}while(RetryMode==true);
+	}
+	else if(GetParamGlobal()->BufferedProcessing==false){
+		IntList	LayerList;
+		GetParamGlobal()->GetStrategyLayer(GetLayersBase()->GetCurrentStrategicNumberForCalc()
+											,GetPage(),LayerList);
+
+		bool	RetryMode;
+		do{
+			RetryMode=false;
+			for(IntClass *s=LayerList.GetFirst();s!=NULL;s=s->GetNext()){
+				int	layer=s->GetValue();
+				AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)LayerData[layer];
+				ExeResult	RR=L->ExecutePreAlignment0(ExeID ,&R->GetLayerData(layer));
+				if(RR==_ER_ReqRetryLater){
+					RetryMode=true;
+				}
+				else{
+					Ret=RR;
+				}
+			}
+		}while(RetryMode==true);
+	}
+	else{
+		bool	RetryMode;
+		do{
+			RetryMode=false;
+			if(GetLayersBase()->GetTopLayerInCapturedPageLayer()>=0){
+				AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)LayerData[GetLayersBase()->GetTopLayerInCapturedPageLayer()];
+				ExeResult	RR=L->ExecutePreAlignment0(ExeID ,&R->GetLayerData(GetLayersBase()->GetTopLayerInCapturedPageLayer()));
+				if(RR==_ER_ReqRetryLater){
+					RetryMode=true;
+				}
+				else{
+					Ret=RR;
+				}
+			}
+		}while(RetryMode==true);
+	}
+
+	Ret=AlgorithmInPagePLI::FuncExecutePreAlignment(ExeID ,Res);
+
+	for(int layer=0;layer<AllocatedLayerNumb;layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)LayerData[layer];
+		L->MatchCombination();
+	}
+	EndMilisecExecutePreAlignment();
+	//omp_set_nested(1);
+	return Ret;
+}
+
+ExeResult	AlignmentLargeInPage::ExecuteAlignment	(int ExeID ,ResultInPageRoot *Res)
+{
+	for(AlignmentPacket2DList *p=AlignmentPacket2DContainer.GetFirst();p!=NULL;p=p->GetNext()){
+		p->ShiftX=99999999;
+		p->ShiftY=99999999;
+		p->Calculated=false;
+	}
+	ExeResult	ret=AlgorithmInPagePLI::ExecuteAlignment(ExeID ,Res);
+	for(AlignmentPacket2DList *p=AlignmentPacket2DContainer.GetFirst();p!=NULL;p=p->GetNext()){
+		if(p->ShiftX==99999999 && p->ShiftY==99999999){
+			p->ShiftX=0;
+			p->ShiftY=0;
+		}
+	}
+	return ret;
+}
+
+void	AlignmentLargeInPage::Draw(QImage &pnt, IntList &LayerList ,int movx ,int movy ,double ZoomRate ,AlgorithmDrawAttr *Attr)
+{
+	AlgorithmInPagePLI::Draw(pnt, LayerList ,movx ,movy ,ZoomRate ,Attr);
+	if(LayerList.GetFirst()!=NULL){
+		for(IntClass *c=LayerList.GetFirst();c!=NULL;c=c->GetNext()){
+			if(c->GetValue()<0 || AllocatedLayerNumb<=c->GetValue()){
+				continue;
+			}
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(c->GetValue());
+			L->DrawItem(pnt, movx,movy,ZoomRate ,Attr);
+		}
+	}
+	else{
+		for(int layer=0;layer<GetLayerNumb();layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+			L->DrawItem(pnt, movx,movy,ZoomRate ,Attr);
+		}
+	}
+}
+
+int	AlignmentLargeLibType=1;
+int	AlignmentLargePage=0;
+int	AlignmentLargeLayer=0;
+int	AlignmentLargeID	=139;
+int	AlignmentLargeDbg;
+
+void	AlignmentLargeInPage::GetAlignmentLarge(AlignmentPacket2D &AData)
+{
+	if(AData.LibType==AlignmentLargeLibType
+	&& AData.Page==AlignmentLargePage
+	&& AData.Layer==AlignmentLargeLayer
+	&& AData.SourceID==AlignmentLargeID)
+		AlignmentLargeDbg++;
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityHigh){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned4){
+					a->GetAlignment(AData);
+					return;
+				}
+			}
+		}
+	}
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityHigh){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned3){
+					a->GetAlignment(AData);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityHigh){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned2){
+					a->GetAlignment(AData);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityHigh){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned1){
+					a->GetAlignment(AData);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityMiddle){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned4){
+					a->GetAlignment(AData);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityMiddle){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned3){
+					a->GetAlignment(AData);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityMiddle){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned2){
+					a->GetAlignment(AData);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityMiddle){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned1){
+					a->GetAlignment(AData);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityLow){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned4){
+					a->GetAlignment(AData);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityLow){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned3){
+					a->GetAlignment(AData);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityLow){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned2){
+					a->GetAlignment(AData);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityLow){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned1){
+					a->GetAlignment(AData);
+					return;
+				}
+			}
+		}
+	}
+	//------------------------------------
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		double	MinL=99999999;
+		XAlignmentLargeArea *MinArea=NULL;
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true){
+				double	Ld=a->GetClosedResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget);
+				if(Ld<MinL){
+					MinL=Ld;
+					MinArea=a;
+				}
+			}
+		}
+		if(MinArea!=NULL){
+			MinArea->GetAlignment(AData);
+			return;
+		}
+	}
+
+	AData.ShiftX=0;
+	AData.ShiftY=0;
+}
+
+void	AlignmentLargeInPage::GetAlignmentLargeByHandle(AlignmentPacket2D &AData ,void *Handle)
+{
+	if(AData.LibType==AlignmentLargeLibType
+	&& AData.Page==AlignmentLargePage
+	&& AData.Layer==AlignmentLargeLayer
+	&& AData.SourceID==AlignmentLargeID)
+		AlignmentLargeDbg++;
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityHigh){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned4){
+					a->GetAlignmentByHandle(AData,Handle);
+					return;
+				}
+			}
+		}
+	}
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityHigh){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned3){
+					a->GetAlignmentByHandle(AData,Handle);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityHigh){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned2){
+					a->GetAlignmentByHandle(AData,Handle);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityHigh){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned1){
+					a->GetAlignmentByHandle(AData,Handle);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityMiddle){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned4){
+					a->GetAlignmentByHandle(AData,Handle);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityMiddle){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned3){
+					a->GetAlignmentByHandle(AData,Handle);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityMiddle){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned2){
+					a->GetAlignmentByHandle(AData,Handle);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityMiddle){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned1){
+					a->GetAlignmentByHandle(AData,Handle);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityLow){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned4){
+					a->GetAlignmentByHandle(AData,Handle);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityLow){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned3){
+					a->GetAlignmentByHandle(AData,Handle);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityLow){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned2){
+					a->GetAlignmentByHandle(AData,Handle);
+					return;
+				}
+			}
+		}
+	}
+
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true 
+			&& a->Priority==XAlignmentLargeArea::_PriorityLow){
+				if(a->GetResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget)==XAlignmentLargeArea::_Aligned1){
+					a->GetAlignmentByHandle(AData,Handle);
+					return;
+				}
+			}
+		}
+	}
+	//------------------------------------
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		double	MinL=99999999;
+		XAlignmentLargeArea *MinArea=NULL;
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->IsEffective()==true){
+				double	L=a->GetClosedResultInPoint(AData.PosXOnTarget ,AData.PosYOnTarget);
+				if(L<MinL){
+					MinL=L;
+					MinArea=a;
+				}
+			}
+		}
+		if(MinArea!=NULL){
+			MinArea->GetAlignmentByHandle(AData,Handle);
+			return;
+		}
+	}
+
+	AData.ShiftX=0;
+	AData.ShiftY=0;
+}
+
+void	AlignmentLargeInPage::GetAlignmentLargeParam(double m[6])
+{
+	XAlignmentLargeArea *Largest=NULL;
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->GetCalcedItemCount()>=4){
+				if(Largest==NULL)
+					Largest=a;
+				else if(Largest->Area.GetPatternByte()<a->Area.GetPatternByte()){
+					Largest=a;
+				}
+			}
+		}
+	}
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+			if(a->GetCalcedItemCount()>=3){
+				if(Largest==NULL)
+					Largest=a;
+				else if(Largest->Area.GetPatternByte()<a->Area.GetPatternByte()){
+					Largest=a;
+				}
+			}
+		}
+	}
+	if(Largest==NULL){
+		for(int layer=0;layer<GetLayerNumb();layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+			for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+				if(a->GetCalcedItemCount()==2){
+					if(Largest==NULL)
+						Largest=a;
+					else if(Largest->Area.GetPatternByte()<a->Area.GetPatternByte()){
+						Largest=a;
+					}
+				}
+			}
+		}
+	}
+	if(Largest==NULL){
+		for(int layer=0;layer<GetLayerNumb();layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+			for(XAlignmentLargeArea *a=L->Areas.GetLast();a!=NULL;a=a->GetPrev()){
+				if(a->GetCalcedItemCount()==1){
+					if(Largest==NULL)
+						Largest=a;
+					else if(Largest->Area.GetPatternByte()<a->Area.GetPatternByte()){
+						Largest=a;
+					}
+				}
+			}
+		}
+	}
+	if(Largest!=NULL){
+		for(int i=0;i<6;i++)
+			m[i]=Largest->ALResult[0].AlignmentLargeResult[i];
+	}
+	else{
+		m[0]=1.0;
+		m[1]=0.0;
+		m[2]=0.0;
+		m[3]=0.0;
+		m[4]=1.0;
+		m[5]=0.0;
+	}
+}
+
+void	AlignmentLargeInPage::TransmitDirectly(GUIDirectMessage *packet)
+{
+	GetAlignmentLargeConclusion	*GetAlignmentLargeConclusionVar=dynamic_cast<GetAlignmentLargeConclusion *>(packet);
+	if(GetAlignmentLargeConclusionVar!=NULL){
+		GetAlignmentLargeConclusionVar->m[0]=1.0;
+		GetAlignmentLargeConclusionVar->m[1]=0.0;
+		GetAlignmentLargeConclusionVar->m[2]=0.0;
+		GetAlignmentLargeConclusionVar->m[3]=0.0;
+		GetAlignmentLargeConclusionVar->m[4]=1.0;
+		GetAlignmentLargeConclusionVar->m[5]=0.0;
+		GetAlignmentLargeParam(GetAlignmentLargeConclusionVar->m);
+		return;
+	}
+	CmdGetAlignmentAreas	*CmdGetAlignmentAreasVar=dynamic_cast<CmdGetAlignmentAreas *>(packet);
+	if(CmdGetAlignmentAreasVar!=NULL){
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(Layer);
+			for(XAlignmentLargeArea *a=L->Areas.GetFirst();a!=NULL;a=a->GetNext()){
+				FlexAreaPointerList *f;
+				for(f=CmdGetAlignmentAreasVar->Areas.GetFirst();f!=NULL;f=f->GetNext()){
+					if(*f->GetArea()==a->Area){
+						break;
+					}
+				}
+				if(f==NULL){
+					CmdGetAlignmentAreasVar->Areas.Add(&a->Area);
+				}
+			}
+		}
+		return;
+	}
+	MakeAlignmentLargeGroupPacket	*MakeAlignmentLargeGroupPacketVar=dynamic_cast<MakeAlignmentLargeGroupPacket *>(packet);
+	if(MakeAlignmentLargeGroupPacketVar!=NULL){
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(Layer);
+			L->TransmitDirectly(packet);
+		}
+		return;
+	}
+	RemoveAlignmentLargeGroupPacket	*RemoveAlignmentLargeGroupPacketVar=dynamic_cast<RemoveAlignmentLargeGroupPacket *>(packet);
+	if(RemoveAlignmentLargeGroupPacketVar!=NULL){
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(Layer);
+			L->TransmitDirectly(packet);
+		}
+		return;
+	}
+	CmdAlignmentSetSearchDot	*CmdAlignmentSetSearchDotVar=dynamic_cast<CmdAlignmentSetSearchDot *>(packet);
+	if(CmdAlignmentSetSearchDotVar!=NULL){
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(Layer);
+			L->TransmitDirectly(packet);
+		}
+		return;
+	}
+	CmdReqAlignmentLargeTransform	*CmdReqAlignmentLargeTransformVar=dynamic_cast<CmdReqAlignmentLargeTransform *>(packet);
+	if(CmdReqAlignmentLargeTransformVar!=NULL){
+		ImagePointerContainer	Images;
+		if(CmdReqAlignmentLargeTransformVar->MasterImage==true)
+			GetMasterImages(Images);
+		else
+			GetTargetImages(Images);
+
+		TransformImage(Images);
+		return;
+	}
+	CmdReqAlignmentArea	*CmdReqAlignmentAreaVar=dynamic_cast<CmdReqAlignmentArea *>(packet);
+	if(CmdReqAlignmentAreaVar!=NULL){
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(Layer);
+			L->TransmitDirectly(packet);
+		}
+		return;
+	}
+
+	CmdClearAllAreas	*CmdClearAllAreasVar=dynamic_cast<CmdClearAllAreas *>(packet);
+	if(CmdClearAllAreasVar!=NULL){
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(Layer);
+			L->Areas.RemoveAll();
+			L->RemoveAllDatas();
+		}
+		return;
+	}
+	CmdClearAllPoints	*CmdClearAllPointsVar=dynamic_cast<CmdClearAllPoints *>(packet);
+	if(CmdClearAllPointsVar!=NULL){
+		if(CmdClearAllPointsVar->Priority==-1){
+			for(int Layer=0;Layer<GetLayerNumb();Layer++){
+				AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(Layer);
+				L->SelectAll();
+				L->DeleteSelectedItems();
+				L->ClearStartItemID();
+			}
+		}
+		else{
+			for(int Layer=0;Layer<GetLayerNumb();Layer++){
+				AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(Layer);
+				L->TransmitDirectly(packet);
+			}
+		}
+		return;
+	}
+	CmdCreateAreaInMask	*CmdCreateAreaInMaskVar=dynamic_cast<CmdCreateAreaInMask *>(packet);
+	if(CmdCreateAreaInMaskVar!=NULL){
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(Layer);
+			L->CreateAreaInMask(CmdCreateAreaInMaskVar->Priority,CmdCreateAreaInMaskVar->Erosion);
+		}
+		return;
+	}
+	CmdAutoCreatePoint	*CmdAutoCreatePointVar=dynamic_cast<CmdAutoCreatePoint *>(packet);
+	if(CmdAutoCreatePointVar!=NULL){
+		int Layer=CmdAutoCreatePointVar->Layer;
+		AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(Layer);
+		for(XAlignmentLargeArea *a=L->Areas.GetFirst();a!=NULL;){
+			XAlignmentLargeArea *NextA=a->GetNext();
+			if(((int)a->Priority)==CmdAutoCreatePointVar->AreaPriority){
+				if(a->Priority==XAlignmentLargeArea::_PriorityGlobal
+				|| CmdAutoCreatePointVar->GeneratePartialAlignment==false){
+					a->AutoCreatePointInEdge(
+									   CmdAutoCreatePointVar->AlignmntPointSize
+									  ,CmdAutoCreatePointVar->AlignmntSearchAreaDotX	,CmdAutoCreatePointVar->AlignmntSearchAreaDotY
+									  ,CmdAutoCreatePointVar->AlignmntSearchAreaDot2X	,CmdAutoCreatePointVar->AlignmntSearchAreaDot2Y
+									  ,CmdAutoCreatePointVar->LimitedLibType,CmdAutoCreatePointVar->LimitedLibID
+									  ,CmdAutoCreatePointVar->AlignmntJudgeWithBrDif);
+				}
+				else{
+					a->AutoCreatePointInInside(
+									   CmdAutoCreatePointVar->AlignmntPointSize
+									  ,CmdAutoCreatePointVar->AlignmntSearchAreaDotX	,CmdAutoCreatePointVar->AlignmntSearchAreaDotY
+									  ,CmdAutoCreatePointVar->AlignmntSearchAreaDot2X	,CmdAutoCreatePointVar->AlignmntSearchAreaDot2Y
+									  ,CmdAutoCreatePointVar->LimitedLibType,CmdAutoCreatePointVar->LimitedLibID
+									  ,CmdAutoCreatePointVar->AlignmntJudgeWithBrDif);
+					if(a->GetItemCount()==0){
+						L->RemoveArea(a);
+						delete	a;
+					}
+				}
+			}
+			a=NextA;
+		}
+		return;
+	}
+	AddAlignmentMarkPacket	*AddAlignmentMarkPacketVar=dynamic_cast<AddAlignmentMarkPacket *>(packet);
+	if(AddAlignmentMarkPacketVar!=NULL){
+		if(AddAlignmentMarkPacketVar->AreaIDList.IsEmpty()==true){
+			for(int Layer=0;Layer<GetLayerNumb();Layer++){
+				AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(Layer);
+				for(XAlignmentLargeArea *a=L->Areas.GetFirst();a!=NULL;a=a->GetNext()){
+					if(a->Area.CheckOverlap(&AddAlignmentMarkPacketVar->Area)==true
+					&& ((int32)a->Priority)==AddAlignmentMarkPacketVar->Priority){
+						AddAlignmentLargePointPacket	Cmd(GetLayersBase());
+						Cmd.AreaID.Add(a->AreaID);
+						Cmd.Area			=AddAlignmentMarkPacketVar->Area;
+						Cmd.MoveDotX		=AddAlignmentMarkPacketVar->MoveDotX	;
+						Cmd.MoveDotY		=AddAlignmentMarkPacketVar->MoveDotY	;
+						Cmd.MoveDotX2		=AddAlignmentMarkPacketVar->MoveDotX2	;
+						Cmd.MoveDotY2		=AddAlignmentMarkPacketVar->MoveDotY2	;
+						Cmd.SearchAround	=AddAlignmentMarkPacketVar->SearchAround;
+						Cmd.GroupNumber		=AddAlignmentMarkPacketVar->GroupNumber	;
+						Cmd.UsageGlobal		=AddAlignmentMarkPacketVar->UsageGlobal	;
+						Cmd.JudgeWithBrDif	=AddAlignmentMarkPacketVar->JudgeWithBrDif	;
+						L->TransmitDirectly(&Cmd);
+						return;
+					}
+				}
+			}
+		}
+		else{
+			for(ListPhasePageLayerItem *P=AddAlignmentMarkPacketVar->AreaIDList.GetFirst();P!=NULL;P=P->GetNext()){
+				AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(P->Data.Layer);
+				XAlignmentLargeArea *a=L->GetAlignmentLargeArea(P->Data.ItemID);
+				if(a!=NULL){
+					AddAlignmentLargePointPacket	Cmd(GetLayersBase());
+					Cmd.AreaID.Add(a->AreaID);
+					Cmd.Area			=AddAlignmentMarkPacketVar->Area;
+					Cmd.MoveDotX		=AddAlignmentMarkPacketVar->MoveDotX	;
+					Cmd.MoveDotY		=AddAlignmentMarkPacketVar->MoveDotY	;
+					Cmd.MoveDotX2		=AddAlignmentMarkPacketVar->MoveDotX2	;
+					Cmd.MoveDotY2		=AddAlignmentMarkPacketVar->MoveDotY2	;
+					Cmd.SearchAround	=AddAlignmentMarkPacketVar->SearchAround;
+					Cmd.GroupNumber		=AddAlignmentMarkPacketVar->GroupNumber	;
+					Cmd.UsageGlobal		=AddAlignmentMarkPacketVar->UsageGlobal	;
+					Cmd.JudgeWithBrDif	=AddAlignmentMarkPacketVar->JudgeWithBrDif	;
+					L->TransmitDirectly(&Cmd);
+					return;
+				}
+			}
+		}
+		return;
+	}
+	AddAlignmentLargeAreaPacket	*AddAlignmentLargeAreaPacketVar=dynamic_cast<AddAlignmentLargeAreaPacket *>(packet);
+	if(AddAlignmentLargeAreaPacketVar!=NULL){
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(Layer);
+			L->TransmitDirectly(packet);
+		}
+		return;
+	}
+	SelectAlignmentPoints	*SelectAlignmentPointsVar=dynamic_cast<SelectAlignmentPoints *>(packet);
+	if(SelectAlignmentPointsVar!=NULL){
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			AlgorithmInLayerPLI	*AL=(AlgorithmInLayerPLI *)GetLayerData(Layer);
+			AL->AlgorithmInLayerPLI::SelectArea(SelectAlignmentPointsVar->Area,false);
+		}
+		return;
+	}
+}
+bool	AlignmentLargeInPage::PipeGeneration(GeneralPipeInfo &Info)
+{
+	if(Info.Cmd==GeneralPipeInfo::_GI_ReqFormat){
+		Info.Cmd=GeneralPipeInfo::_GI_AckBmpMap;
+		return true;
+	}
+	else
+	if(Info.Cmd==GeneralPipeInfo::_GI_ReqFormatBmpMap){
+		Info.Cmd=GeneralPipeInfo::_GI_AckBmpMap;
+		return true;
+	}
+	else
+	if(Info.Cmd==GeneralPipeInfo::_GI_SendBmpMap){
+		AlgorithmLibraryLevelContainer	*TmpLib=GetParentBase()->FindOrLoadLibFromManagedCacheLib(Info.LibID);
+		if(TmpLib!=NULL){
+			AlignmentLargeLibrary	*ALib=dynamic_cast<AlignmentLargeLibrary *>(TmpLib->GetLibrary());
+			if(ALib!=NULL){
+				if(ALib->GenerateBitBuff==true){
+					IntList	GenList=TmpLib->GetAdaptedGenLayers();
+					for(IntClass *c=GenList.GetFirst();c!=NULL;c=c->GetNext()){
+						int	Layer=c->GetValue();
+						DataInLayer	*DL=GetDataInPage()->GetLayerData(Layer);
+						if(DL->IsBitBuffEnabled()==true){
+							DL->GetBitBuff().CopyFrom(Info.BmpMap,Info.XByte ,Info.YLen);
+						}
+					}
+					if(GenList.GetCount()==0){
+						DataInLayer	*DL=GetDataInPage()->GetLayerData(0);
+						if(DL->IsBitBuffEnabled()==true){
+							DL->GetBitBuff().CopyFrom(Info.BmpMap,Info.XByte ,Info.YLen);
+						}
+					}
+				}
+				if(ALib->GenerateArea==true){
+					NPListPack<PureFlexAreaList> FPack;
+					::PickupFlexArea(Info.BmpMap,Info.XByte,Info.XByte*8,Info.YLen ,FPack);
+
+					IntList	GenList=TmpLib->GetAdaptedGenLayers();
+					for(IntClass *c=GenList.GetFirst();c!=NULL;c=c->GetNext()){
+						int	Layer=c->GetValue();
+						AlignmentLargeInLayer	*AL=(AlignmentLargeInLayer *)GetLayerData(Layer);
+						AL->MakeArea(FPack,ALib,Info.Origin);
+					}
+				}
+			}
+		}
+	}
+	else
+	if(Info.Cmd==GeneralPipeInfo::_GI_ReqToMoveByAlignment){
+		for(int layer=0;layer<GetLayerNumb();layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)GetLayerData(layer);
+			L->MoveFromPipe(Info);
+		}
+		return true;
+	}
+
+	return false;
+}
+void	AlignmentLargeInPage::TransformImage(ImagePointerContainer &Images)
+{
+}
+bool	AlignmentLargeInPage::ExecutePasteCreateWithShape(int32 PastedLayer,ClipboardAlgorithmItem *item ,QIODevice &Buff,int globalDx, int globalDy
+														,FlexArea &area ,AlgorithmBase *OriginBase
+														,int ItemClass)
+{
+	AlignmentLargeInLayer	*L;
+	if(PastedLayer==-1){
+		L=(AlignmentLargeInLayer *)GetLayerData(item->Layer);
+	}
+	else{
+		L=(AlignmentLargeInLayer *)GetLayerData(PastedLayer);
+	}
+	bool	Ret=false;
+	if(L!=NULL){
+		if(Buff.isOpen()==false){
+			Buff.open(QIODevice::ReadOnly);
+		}
+		else{
+			Buff.close();
+			Buff.open(QIODevice::ReadOnly);		
+		}
+		int32	Kind;
+		if(::Load(&Buff,Kind)==false)
+			return false;
+		if(Kind==1){
+			XAlignmentLargeArea	*a=new XAlignmentLargeArea(L);
+			a->AreaID	=L->GetMaxAreaID()+1;
+			a->Area		=area;
+			if(::Load(&Buff,a->AreaName)==false)
+				return false;
+			if(a->LimitedLib.Load(&Buff)==false)
+				return false;
+			int32	Priority;
+			if(::Load(&Buff,Priority)==false)
+				return false;
+			a->Priority=(XAlignmentLargeArea::_EnumPriority)Priority;
+			a->ManualCreated=true;
+			L->Areas.AppendList(a);
+
+			UndoElement<AlignmentLargeInLayer>	*UPointer=new UndoElement<AlignmentLargeInLayer>(L,&AlignmentLargeInLayer::UndoAppendManualArea);
+			::Save(UPointer->GetWritePointer(),a->AreaID);
+			GetLayersBase()->GetUndoStocker().SetElementToNewTopic(UPointer);
+			Ret=true;
+		}
+		else if(Kind==2){
+			int32	AreaID;
+			if(::Load(&Buff,AreaID)==false)
+				return false;
+			IntList	LayerList;
+			if(LayerList.Load(&Buff)==false)
+				return false;
+			WORD	MoveDotX;
+			if(::Load(&Buff,MoveDotX)==false)
+				return false;
+			WORD	MoveDotY;
+			if(::Load(&Buff,MoveDotY)==false)
+				return false;
+			WORD	MoveDotX2;
+			if(::Load(&Buff,MoveDotX2)==false)
+				return false;
+			WORD	MoveDotY2;
+			if(::Load(&Buff,MoveDotY2)==false)
+				return false;
+			WORD	SearchAround;
+			if(::Load(&Buff,SearchAround)==false)
+				return false;
+			WORD	GroupNumber;
+			if(::Load(&Buff,GroupNumber)==false)
+				return false;
+			bool	UsageGlobal;
+			if(::Load(&Buff,UsageGlobal)==false)
+				return false;
+			if(LayerList.IsInclude(L->GetLayer())==true){
+				XAlignmentLarge	*Item=dynamic_cast<XAlignmentLarge *>(L->CreateItem(ItemClass));
+				Item->AreaID						=AreaID;
+				Item->GetThresholdW()->MoveDotX		=MoveDotX;
+				Item->GetThresholdW()->MoveDotY		=MoveDotY;
+				Item->GetThresholdW()->MoveDotX2	=MoveDotX2;
+				Item->GetThresholdW()->MoveDotY2	=MoveDotY2;
+				Item->GetThresholdW()->SearchAround	=SearchAround;
+				Item->GroupNumber					=GroupNumber;
+				Item->GetThresholdW()->UsageGlobal	=UsageGlobal;
+				Item->SetArea(area);
+
+				Item->SetManualCreated(true);
+				L->AppendItem(Item);
+
+				UndoElement<AlgorithmInLayerPLI>	*UPointer	=new UndoElement<AlgorithmInLayerPLI>(L,&AlgorithmInLayerPLI::UndoExecutePaste);
+				::Save(UPointer->GetWritePointer(),Item->GetID());
+				GetLayersBase()->GetUndoStocker().SetElementToNewTopic(UPointer);
+			
+				Item->SetOrigin(OriginBase);
+				Ret=true;
+			}
+		}
+		Changed=true;
+		CalcDone =false;
+	}
+	return Ret;
+}
+//==========================================================================================
+AlignmentLargeBase::AlignmentLargeBase(LayersBase *Base)
+:AlgorithmBase(Base)
+{
+	ColorArea			=Qt::darkYellow;
+	ColorAreaSelected	=Qt::yellow;
+	ColorAreaActive		=Qt::red;
+	ColorPoint			=Qt::darkGreen;
+	ColorPointSelected	=Qt::green;
+	ColorPointActive	=Qt::red;
+	AlphaLevel	=100;
+	DefaultThreshold	=0;
+	DefaultMoveDot		=20;
+	DefaultAlignmentLargeOnOutline=false;
+	DefaultOutlineDivCount		=8;
+	DefaultOutlineWidth			=4;
+	UseOtherPage				=true;
+	PointsToUseOtherPage		=2;
+	AdoptedMinD					=0.05;
+	MaxSearchAreaFromItem		=1000;
+	MinDiffBrightness			=10;
+	MakeAreaInInitialAfterEdit	=true;
+	UseBitBuff					=false;
+	TransparentLevelInBitBuff	=60;
+	SkipDotForRoughSearch		=8;
+	AdoptLineDiff				=5;
+	Use3Lines					=true;
+	SkipOnMatchingLine			=4;
+	BrightnessVariery			=1.0;
+	UseLinkThroughPhase			=true;
+	AlertThreshold				=0.75;
+	UseAllLayers				=true;
+
+	ColorPriorityHigh	=QColor(128,255,196);
+	ColorPriorityMiddle	=QColor(64 ,196,128);
+	ColorPriorityLow	=QColor(0  ,196,0  );
+	ColorPriorityGlobal	=QColor(255,255,0  );
+
+	SetParam(&ColorArea					, /**/"Color"		,/**/"ColorArea"			,LangSolver.GetString(XAlignmentLarge_LS,LID_0)/*"AlignmentLarge Area color"*/);
+	SetParam(&ColorAreaSelected			, /**/"Color"		,/**/"ColorAreaSelected"	,LangSolver.GetString(XAlignmentLarge_LS,LID_1)/*"Selected AlignmentLarge Area color"*/);
+	SetParam(&ColorAreaActive			, /**/"Color"		,/**/"ColorAreaActive"		,LangSolver.GetString(XAlignmentLarge_LS,LID_2)/*"Active AlignmentLarge Area color"*/);
+	SetParam(&ColorPoint				, /**/"Color"		,/**/"ColorPoint"			,LangSolver.GetString(XAlignmentLarge_LS,LID_3)/*"AlignmentLarge Point color"*/);
+	SetParam(&ColorPointSelected		, /**/"Color"		,/**/"ColorPointSelected"	,LangSolver.GetString(XAlignmentLarge_LS,LID_4)/*"Selected AlignmentLarge Point color"*/);
+	SetParam(&ColorPointActive			, /**/"Color"		,/**/"ColorPointActive"		,LangSolver.GetString(XAlignmentLarge_LS,LID_5)/*"Active AlignmentLarge Point color"*/);
+	SetParam(&AlphaLevel				, /**/"Color"		,/**/"AlphaLevel"			,LangSolver.GetString(XAlignmentLarge_LS,LID_6)/*"AlignmentLarge transparent level"*/);
+	SetParam(&ColorPriorityHigh			, /**/"Color"		,/**/"ColorPriorityHigh	"	,LangSolver.GetString(XAlignmentLarge_LS,LID_17)/*"AlignmentLarge Point color for Priority High"*/);
+	SetParam(&ColorPriorityMiddle		, /**/"Color"		,/**/"ColorPriorityMiddle"	,LangSolver.GetString(XAlignmentLarge_LS,LID_18)/*"AlignmentLarge Point color for Priority Middle"*/);
+	SetParam(&ColorPriorityLow			, /**/"Color"		,/**/"ColorPriorityLow	"	,LangSolver.GetString(XAlignmentLarge_LS,LID_19)/*"AlignmentLarge Point color for Priority Low"*/);
+	SetParam(&ColorPriorityGlobal		, /**/"Color"		,/**/"ColorPriorityGlobal"	,LangSolver.GetString(XAlignmentLarge_LS,LID_20)/*"AlignmentLarge Point color for Priority Global"*/);
+
+	SetParam(&DefaultThreshold			, /**/"Threshold"	,/**/"DefaultThreshold"		,LangSolver.GetString(XAlignmentLarge_LS,LID_7)/*"Threshold point separation"*/);
+	SetParam(&DefaultMoveDot			, /**/"Threshold"	,/**/"DefaultMoveDot"		,LangSolver.GetString(XAlignmentLarge_LS,LID_8)/*"Searching dots for match"*/);
+	SetParam(&DefaultAlignmentLargeOnOutline	, /**/"Threshold"	,/**/"DefaultAlignmentLargeOnOutline"		,LangSolver.GetString(XAlignmentLarge_LS,LID_9)/*"if true, enabled outline matching"*/);
+
+	SetParam(&DefaultOutlineDivCount	,/**/"Threshold"	,/**/"DefaultOutlineDivCount",LangSolver.GetString(XAlignmentLarge_LS,LID_10)/*"Default Division count for Outline"*/);
+	SetParam(&DefaultOutlineWidth		,/**/"Threshold"	,/**/"DefaultOutlineWidth"	,LangSolver.GetString(XAlignmentLarge_LS,LID_11)/*"Default OutlineWidth"*/);
+	SetParam(&AlertThreshold			,/**/"Threshold"	,/**/"AlertThreshold"		,"Threshold for alert of Confirm");
+
+	SetParam(&UseBitBuff				, /**/"Setting"		,/**/"UseBitBuff"			,LangSolver.GetString(XAlignmentLarge_LS,LID_21)/*"Use BitBuff for MasterImage"*/);
+	SetParam(&TransparentLevelInBitBuff	, /**/"Setting"		,/**/"TransparentLevelInBitBuff",LangSolver.GetString(XAlignmentLarge_LS,LID_22)/*"Transparent Level of Master image in BitBuff mode"*/);
+	SetParam(&UseOtherPage				, /**/"Setting"		,/**/"UseOtherPage"			,LangSolver.GetString(XAlignmentLarge_LS,LID_12)/*"Use AlignmentLarge in other pages"*/);
+	SetParam(&PointsToUseOtherPage		, /**/"Setting"		,/**/"PointsToUseOtherPage"	,LangSolver.GetString(XAlignmentLarge_LS,LID_13)/*"Minimum points to use AlignmentLarge in other pages"*/);
+	SetParam(&AdoptedMinD				, /**/"Setting"		,/**/"AdoptedMinD"			,LangSolver.GetString(XAlignmentLarge_LS,LID_14)/*"Maximum difference from the most fittable to adopt matched location"*/);
+	SetParam(&MaxSearchAreaFromItem		, /**/"Setting"		,/**/"MaxSearchAreaFromItem",LangSolver.GetString(XAlignmentLarge_LS,LID_15)/*"Maximum search dot"*/);
+	SetParam(&MinDiffBrightness			, /**/"Setting"		,/**/"MinDiffBrightness"	,LangSolver.GetString(XAlignmentLarge_LS,LID_16)/*"Minimim Difference of Brightness IN/OUT"*/);
+	SetParam(&MakeAreaInInitialAfterEdit, /**/"Setting"		,/**/"MakeAreaInInitialAfterEdit",LangSolver.GetString(XAlignmentLarge_LS,LID_23)/*"MakeArea on item In ExecuteInitialAfterEdit"*/);
+	SetParam(&SkipDotForRoughSearch		, /**/"Setting"		,/**/"SkipDotForRoughSearch",LangSolver.GetString(XAlignmentLarge_LS,LID_24)/*"Skip-dot for rough search"*/);
+	SetParam(&AdoptLineDiff				, /**/"Setting"		,/**/"AdoptLineDiff"		,LangSolver.GetString(XAlignmentLarge_LS,LID_27)/*"Adoptted line diffused"*/);
+	SetParam(&Use3Lines					, /**/"Setting"		,/**/"Use3Lines"			,LangSolver.GetString(XAlignmentLarge_LS,LID_28)/*"Use 3 lines for matching"*/);
+	SetParam(&SkipOnMatchingLine		, /**/"Setting"		,/**/"SkipOnMatchingLine"	,LangSolver.GetString(XAlignmentLarge_LS,LID_29)/*"Skip dot on matching lines (>0)"*/);
+	SetParam(&BrightnessVariery			, /**/"Setting"		,/**/"BrightnessVariery"	,LangSolver.GetString(XAlignmentLarge_LS,LID_30)/*"Average brightness variety for matching"*/);
+	SetParam(&UseLinkThroughPhase		, /**/"Setting"		,/**/"UseLinkThroughPhase"	,LangSolver.GetString(XAlignmentLarge_LS,LID_31)/*"Use LinkThroughPhase mode in ModePhaseExecute(Pre)Alignment==-2"*/);
+	SetParam(&UseAllLayers				, /**/"Setting"		,/**/"UseAllLayers"			,"Use all selected layers in Item");
+}
+
+bool	AlignmentLargeBase::ShowPasteCreateWithShape(QByteArray &templateData,int Layer)
+{
+	GetSelectedAlignmentLargeAreaPacket	SMode(GetLayersBase());
+	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" 
+												,/**/"PropertyAlignmentLargeForm" 
+												,/**/"");
+	if(GProp!=NULL){
+		GProp->TransmitDirectly(&SMode);
+	}
+	templateData=SMode.BuffData;
+	return true;
+}
+AlgorithmDrawAttr	*AlignmentLargeBase::CreateDrawAttr(void)
+{
+	return new AlignmentLargeDrawAttr();
+}
+
+bool	AlignmentLargeBase::ExecutePaste(int32 PastedLayer,ClipboardAlgorithmItem *item ,int globalDx, int globalDy,bool SelectModeAfterPaste)
+{
+	FlexArea	area=item->Area;
+	area.MoveToNoClip(globalDx,globalDy);
+	for(int page=0;page<GetPageNumb();page++){
+		if(GetLayersBase()->GetPageData(page)->IsOverlapped(area)==true){
+			GetLayersBase()->GetPageData(page)->ClipMoveAreaFromGlobal(area);
+			AlgorithmInLayerPLI	*L;
+			AlgorithmInPagePLI	*Ap=dynamic_cast<AlgorithmInPagePLI *>(GetPageData(page));
+			if(Ap!=NULL){
+				if(PastedLayer==-1){
+					L=Ap->GetLayerDataPLI(item->Layer);
+				}
+				else{
+					L=Ap->GetLayerDataPLI(PastedLayer);
+				}
+				AlgorithmItemRoot	*a=((AlignmentLargeInLayer *)L)->CreateItem(item->ItemClassType);
+				QBuffer	Buff(&item->ItemData);
+				Buff.open(QIODevice::ReadOnly);
+				ListLayerAndIDPack	SelectedArea;
+				SelectedArea.Load(&Buff);
+				for(ListLayerAndID *s=SelectedArea.GetFirst();s!=NULL;s=s->GetNext()){
+					if(s->Layer!=PastedLayer)
+						continue;
+					((XAlignmentLarge *)a)->AreaID=s->ID;
+					a->SetArea(area);
+					L->AppendItem(a);
+				}
+			}
+		}
+	}
+	return true;
+}
+
+void	AlignmentLargeBase::TransmitDirectly(GUIDirectMessage *packet)
+{
+	CmdAlignmentSetSearchDot	*CmdAlignmentSetSearchDotVar=dynamic_cast<CmdAlignmentSetSearchDot *>(packet);
+	if(CmdAlignmentSetSearchDotVar!=NULL){
+		for(int page=0;page<GetPageNumb();page++){
+			GetPageData(page)->TransmitDirectly(packet);
+		}
+		return;
+	}
+	CmdGetLibName	*PCmdGetLibName=dynamic_cast<CmdGetLibName *>(packet);
+	if(PCmdGetLibName!=NULL){
+		AlgorithmLibraryLevelContainer	LibData(this);
+		if(GetLibraryContainer()!=NULL){
+			if(GetLibraryContainer()->GetLibrary(PCmdGetLibName->LibID,LibData)==true){
+				PCmdGetLibName->LibName=LibData.GetLibName();
+			}
+		}
+		return;
+	}
+	CmdGetAlignmentLargeLibraryListInPastePacket	*ACmdGetAlignmentLargeLibraryListInPastePacketVar=dynamic_cast<CmdGetAlignmentLargeLibraryListInPastePacket *>(packet);
+	if(ACmdGetAlignmentLargeLibraryListInPastePacketVar!=NULL){
+		if(GetLibraryContainer()!=NULL){
+			GetLibraryContainer()->EnumLibrary(GetLibType(),ACmdGetAlignmentLargeLibraryListInPastePacketVar->LibFolderID 
+				,ACmdGetAlignmentLargeLibraryListInPastePacketVar->AList);
+		}
+		return;
+	}
+	CmdGetAlignmentLargeLibraryListPacket	*AListPacket=dynamic_cast<CmdGetAlignmentLargeLibraryListPacket *>(packet);
+	if(AListPacket!=NULL){
+		if(GetLibraryContainer()!=NULL){
+			GetLibraryContainer()->EnumLibrary(GetLibType(),AListPacket->LibFolderID 
+				,AListPacket->AList);
+		}
+		return;
+	}
+	CmdCreateTempAlignmentLargeLibraryPacket	*BCreateLib=dynamic_cast<CmdCreateTempAlignmentLargeLibraryPacket *>(packet);
+	if(BCreateLib!=NULL){
+		BCreateLib->Point=new AlgorithmLibraryLevelContainer(this);
+		return;
+	}
+	CmdLoadAlignmentLargeLibraryPacket	*BLoadLib=dynamic_cast<CmdLoadAlignmentLargeLibraryPacket *>(packet);
+	if(BLoadLib!=NULL){
+		if(GetLibraryContainer()!=NULL){
+			BLoadLib->Success=GetLibraryContainer()->Load(*BLoadLib->Point);
+		}
+		return;
+	}
+	CmdClearAlignmentLargeLibraryPacket	*CmdClearBlockLibraryPacketVar=dynamic_cast<CmdClearAlignmentLargeLibraryPacket *>(packet);
+	if(CmdClearBlockLibraryPacketVar!=NULL){
+		CmdClearBlockLibraryPacketVar->Point->Clear();
+		return;
+	}
+	CmdDeleteAlignmentLargeLibraryPacket 	*BDeleteLib=dynamic_cast<CmdDeleteAlignmentLargeLibraryPacket  *>(packet);
+	if(BDeleteLib!=NULL){
+		if(GetLibraryContainer()!=NULL){
+			GetLibraryContainer()->Delete(BDeleteLib->Point->GetLibID());
+		}
+		return;
+	}
+	CmdInsertAlignmentLargeLibraryPacket	*BInsLib=dynamic_cast<CmdInsertAlignmentLargeLibraryPacket *>(packet);
+	if(BInsLib!=NULL){
+		BInsLib->Point->SetDataVersion(AlignmentLargeVersion);
+		if(GetLibraryContainer()!=NULL){
+			GetLibraryContainer()->SaveNew(*BInsLib->Point);
+		}
+		return;
+	}
+	CmdUpdateAlignmentLargeLibraryPacket	*BUpdLib=dynamic_cast<CmdUpdateAlignmentLargeLibraryPacket *>(packet);
+	if(BUpdLib!=NULL){
+		BUpdLib->Point->SetDataVersion(AlignmentLargeVersion);
+		if(GetLibraryContainer()!=NULL){
+			GetLibraryContainer()->Update(*BUpdLib->Point);
+		}
+		return;
+	}
+
+	CmdGetAlignmentLargeLibraryNamePacket	*CmdGetAlignmentLargeLibraryNamePacketVar=dynamic_cast<CmdGetAlignmentLargeLibraryNamePacket *>(packet);
+	if(CmdGetAlignmentLargeLibraryNamePacketVar!=NULL){
+		AlgorithmLibraryLevelContainer	TmpLib(this);
+		if(GetLibraryContainer()!=NULL){
+			CmdGetAlignmentLargeLibraryNamePacketVar->Success=GetLibraryContainer()->GetLibrary(CmdGetAlignmentLargeLibraryNamePacketVar->LibID,TmpLib);
+			CmdGetAlignmentLargeLibraryNamePacketVar->LibName=TmpLib.GetLibName();
+		}
+		return;
+	}
+	CmdCreateAlignmentLargeThreshold	*CmdCreateAlignmentLargeThresholdVar=dynamic_cast<CmdCreateAlignmentLargeThreshold *>(packet);
+	if(CmdCreateAlignmentLargeThresholdVar!=NULL){
+		CmdCreateAlignmentLargeThresholdVar->Item		=new XAlignmentLarge();
+		CmdCreateAlignmentLargeThresholdVar->Threshold	=new AlignmentLargeThreshold(CmdCreateAlignmentLargeThresholdVar->Item);
+		return;
+	}
+	CmdReqAlignmentLargeFinalResult	*CmdReqAlignmentLargeFinalResultVar=dynamic_cast<CmdReqAlignmentLargeFinalResult *>(packet);
+	if(CmdReqAlignmentLargeFinalResultVar!=NULL){
+		CmdReqAlignmentLargeFinalResultVar->FinalResult=CmdReqAlignmentLargeFinalResultVar->Item->GetFinalResult();
+		return;
+	}
+}
+QString	AlignmentLargeBase::GetNameByCurrentLanguage(void)
+{
+	return LangSolver.GetString(XAlignmentLarge_LS,LID_32)/*"位置合わ�*/;
+}

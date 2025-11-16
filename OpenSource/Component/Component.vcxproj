@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CDBE580B-950A-4285-B4E5-53D565C2BF6C}</ProjectGuid>
+    <Keyword>QtVS_v304</Keyword>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0</WindowsTargetPlatformVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>Intel C++ Compiler 2022</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>Intel C++ Compiler 2022</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
+    <QtInstall>$(DefaultQtVersion)</QtInstall>
+    <QtModules>core</QtModules>
+    <QtBuildConfig>debug</QtBuildConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
+    <QtInstall>$(DefaultQtVersion)</QtInstall>
+    <QtModules>core;gui;network;sql;widgets</QtModules>
+    <QtBuildConfig>release</QtBuildConfig>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutDir>..\..\Lib\Release\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <UseProcessorExtensions>SSE42</UseProcessorExtensions>
+      <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>COMPONENT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>MaxSpeedHighLevel</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>COMPONENT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <QtMoc Include="mtFrameDraw3D.h" />
+    <ClInclude Include="mtGraph.h" />
+    <ClInclude Include="mtImageButtonBase.h" />
+    <ClInclude Include="mtImageSliderBase.h" />
+    <QtMoc Include="WMultiGrid.h" />
+    <QtMoc Include="mtWidgetPosition.h" />
+    <QtMoc Include="mtToolButtonWithBalloon.h" />
+    <QtMoc Include="mtToolButtonColored.h" />
+    <QtMoc Include="mtTBarGraph.h" />
+    <QtMoc Include="mtPushButtonWithBalloon.h" />
+    <QtMoc Include="mtPushButtonColored.h" />
+    <QtMoc Include="mtPushButton.h" />
+    <QtMoc Include="mtMeter.h" />
+    <QtMoc Include="mtLineGraph.h" />
+    <QtMoc Include="mtImageToolButtonWithBalloon.h" />
+    <QtMoc Include="mtImageToolButtonColored.h" />
+    <QtMoc Include="mtImageToolButton.h" />
+    <QtMoc Include="mtImageSlider.h" />
+    <QtMoc Include="mtImageButtonWithBalloon.h" />
+    <QtMoc Include="mtImageButtonColored.h" />
+    <QtMoc Include="mtImageButton.h" />
+    <QtMoc Include="mtGraphicUnit.h" />
+    <QtMoc Include="mtFrameDraw.h" />
+    <QtMoc Include="mtColorFrame.h" />
+    <QtMoc Include="mtButtonWithBalloon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mtButtonWithBalloon.cpp" />
+    <ClCompile Include="mtColorFrame.cpp" />
+    <ClCompile Include="mtFrameDraw.cpp" />
+    <ClCompile Include="mtFrameDraw2.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</FunctionLevelLinking>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="mtFrameDraw3D.cpp" />
+    <ClCompile Include="mtGraph.cpp" />
+    <ClCompile Include="mtGraphicUnit.cpp" />
+    <ClCompile Include="mtImageButton.cpp" />
+    <ClCompile Include="mtImageButtonBase.cpp" />
+    <ClCompile Include="mtImageButtonColored.cpp" />
+    <ClCompile Include="mtImageButtonWithBalloon.cpp" />
+    <ClCompile Include="mtImageSlider.cpp" />
+    <ClCompile Include="mtImageSliderBase.cpp" />
+    <ClCompile Include="mtImageToolButton.cpp" />
+    <ClCompile Include="mtImageToolButtonColored.cpp" />
+    <ClCompile Include="mtImageToolButtonWithBalloon.cpp" />
+    <ClCompile Include="mtLineGraph.cpp" />
+    <ClCompile Include="mtMeter.cpp" />
+    <ClCompile Include="mtPushButton.cpp" />
+    <ClCompile Include="mtPushButtonColored.cpp" />
+    <ClCompile Include="mtPushButtonWithBalloon.cpp" />
+    <ClCompile Include="mtTBarGraph.cpp" />
+    <ClCompile Include="mtToolButtonColored.cpp" />
+    <ClCompile Include="mtToolButtonWithBalloon.cpp" />
+    <ClCompile Include="mtWidgetPosition.cpp" />
+    <ClCompile Include="WMultiGrid.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="mtFrameDraw.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Icon\Ellipse1.PNG" />
+    <Image Include="Icon\Ellipse2.PNG" />
+    <Image Include="Icon\Ellipse3.PNG" />
+    <Image Include="Icon\EllipseTop.PNG" />
+    <Image Include="Icon\Free1.PNG" />
+    <Image Include="Icon\MoveItem1.PNG" />
+    <Image Include="Icon\Polygon1.PNG" />
+    <Image Include="Icon\Rectangle1.PNG" />
+    <Image Include="Icon\Rectangle2.PNG" />
+    <Image Include="Icon\RotEllipse1.PNG" />
+    <Image Include="Icon\RotRectangle1.PNG" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertyTreeMaster.png</file>
+        <file>Qtres/Add.png</file>
+        <file>Qtres/Delete.png</file>
+        <file>Qtres/Edit.png</file>
+        <file>Qtres/Green.png</file>
+        <file>Qtres/Search.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Block.png</file>
+        <file>Qtres/Color.png</file>
+    </qresource>
+</RCC>

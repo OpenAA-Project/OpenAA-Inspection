@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ListboxProcessTime.png</file>
+        <file>Qtres/Clear.png</file>
+        <file>Qtres/ListView.png</file>
+    </qresource>
+</RCC>

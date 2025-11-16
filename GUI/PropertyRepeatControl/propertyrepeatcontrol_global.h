@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(PROPERTYREPEATCONTROL_LIB)
+#  define PROPERTYREPEATCONTROL_EXPORT Q_DECL_EXPORT
+# else
+#  define PROPERTYREPEATCONTROL_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define PROPERTYREPEATCONTROL_EXPORT
+#endif

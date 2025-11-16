@@ -1,0 +1,26 @@
+#include "WizardMasterMenuResource.h"
+#include "ChooseAutoGenerationDialog.h"
+#include "ui_ChooseAutoGenerationDialog.h"
+
+ChooseAutoGenerationDialog::ChooseAutoGenerationDialog(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::ChooseAutoGenerationDialog)
+{
+    ui->setupUi(this);
+    LangSolver.SetUI(this);
+}
+
+ChooseAutoGenerationDialog::~ChooseAutoGenerationDialog()
+{
+    delete ui;
+}
+
+void ChooseAutoGenerationDialog::on_PushButtonAutoGenerate_clicked()
+{
+	done(1);
+}
+
+void ChooseAutoGenerationDialog::on_PushButtonNext_clicked()
+{
+	done(0);
+}

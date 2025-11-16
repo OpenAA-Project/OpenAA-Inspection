@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SelectCreateNewClass</class>
+ <widget class="QDialog" name="SelectCreateNewClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>311</width>
+    <height>70</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SelectCreateNew</string>
+  </property>
+  <widget class="QPushButton" name="pushButtonCreateNew">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>141</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>領域の新規作成</string>
+   </property>
+   <property name="icon">
+    <iconset resource="MeasureHolePosImagePanel.qrc">
+     <normaloff>:/Qtres/Area.png</normaloff>:/Qtres/Area.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonGetColorMap">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>10</y>
+     <width>141</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>カラ―マップ取得</string>
+   </property>
+   <property name="icon">
+    <iconset resource="MeasureHolePosImagePanel.qrc">
+     <normaloff>:/Qtres/Color.png</normaloff>:/Qtres/Color.png</iconset>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="MeasureHolePosImagePanel.qrc"/>
+ </resources>
+ <connections/>
+</ui>

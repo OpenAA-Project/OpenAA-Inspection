@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/PanelOkNg.png</file>
+    </qresource>
+</RCC>

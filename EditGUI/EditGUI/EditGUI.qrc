@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Qtres/CopyOne.png</file>
+        <file>Qtres/Close.png</file>
+        <file>Qtres/Folder.png</file>
+        <file>Qtres/Save.png</file>
+        <file>Qtres/SaveNew.png</file>
+        <file>Qtres/SaveRename.png</file>
+        <file>Qtres/Copy.png</file>
+        <file>Qtres/Delete.png</file>
+        <file>Qtres/Paste.png</file>
+        <file>Qtres/Search.png</file>
+        <file>Qtres/AlignBottom.png</file>
+        <file>Qtres/AlignLeft.png</file>
+        <file>Qtres/AlignRight.png</file>
+        <file>Qtres/AlignTop.png</file>
+        <file>Qtres/Grid.png</file>
+        <file>Qtres/AlignHeight.png</file>
+        <file>Qtres/AlignWidth.png</file>
+        <file>Qtres/AlignVertical.png</file>
+        <file>Qtres/AlignHorizontal.png</file>
+        <file>Qtres/Sync.png</file>
+        <file>Qtres/Filter.png</file>
+        <file>Qtres/ParameterSave.png</file>
+        <file>Qtres/Phase.png</file>
+        <file>Qtres/Learn.png</file>
+        <file>Qtres/Image.png</file>
+        <file>Qtres/Scan.png</file>
+        <file>Qtres/Commn.png</file>
+        <file>Qtres/CommnSave.png</file>
+        <file>Qtres/Outline.png</file>
+        <file>Qtres/Setting.png</file>
+        <file>Qtres/Test2.png</file>
+        <file>Resources/LoadFileButton.png</file>
+        <file>Resources/OverwriteButton.png</file>
+        <file>Resources/SaveNewButton.png</file>
+        <file>Resources/SearchButton.png</file>
+        <file>Resources/Snap2GridButton.png</file>
+        <file>Resources/TestButton.png</file>
+        <file>Resources/UsageComponentButton.png</file>
+    </qresource>
+</RCC>

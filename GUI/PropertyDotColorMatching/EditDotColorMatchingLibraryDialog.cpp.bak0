@@ -1,0 +1,504 @@
+#include "PropertyDotColorMatchingResource.h"
+#include "EditDotColorMatchingLibraryDialog.h"
+#include "ui_EditDotColorMatchingLibraryDialog.h"
+#include "XDataInLayer.h"
+#include "XDLLOnly.h"
+#include "ImageControlTools.h"
+#include "XGUI.h"
+#include "XPropertyDotColorMatchingPacket.h"
+#include <QMessageBox>
+#include <QColorDialog> 
+#include "XGeneralDialog.h"
+
+EditDotColorMatchingLibraryDialog::EditDotColorMatchingLibraryDialog(LayersBase *base ,QWidget *parent) :
+    QDialog(parent),ServiceForLayers(base),
+    ui(new Ui::EditDotColorMatchingLibraryDialog)
+{
+    ui->setupUi(this);
+
+	OnChanging	=false;
+	LibFolderID =-1;
+	DotColorMatchingBase	*BBase=GetDotColorMatchingBase();
+	LibType=-1;
+	if(BBase!=NULL)	
+		LibType=BBase->GetLibType();
+	pLibFolderForm=new GeneralLibFolderForm(LibType,GetLayersBase(),ui->frameLibFolder);
+	connect(pLibFolderForm,SIGNAL(SelectLibFolder(int,QString)),this,SLOT(SlotSelectLibFolder(int,QString)));
+	pLibFolderForm->SetCurrentLibFolder(GetLayersBase()->GetLibFolderID());
+
+	LLib=NULL;
+	if(BBase!=NULL){
+		CmdCreateTempDotColorMatchingLibraryPacket	Packet(GetLayersBase());
+		BBase->TransmitDirectly(&Packet);
+		LLib=Packet.Point;
+	}
+	ui->tableWidgetLibList	->setColumnWidth(0,48);
+	ui->tableWidgetLibList	->setColumnWidth(1,120);
+
+	ui->ButtonLibSave	->setEnabled(false);
+	ui->ButtonLibDelete	->setEnabled(false);
+
+	ui->tabWidgetGeneration->setCurrentIndex(0);
+	on_toolButtonPickup_clicked();
+	on_toolButtonInspect_clicked();
+	InstallOperationLog(this);
+}
+
+EditDotColorMatchingLibraryDialog::~EditDotColorMatchingLibraryDialog()
+{
+    delete ui;
+
+	delete	LLib;
+	LLib=NULL;
+}
+
+DotColorMatchingBase	*EditDotColorMatchingLibraryDialog::GetDotColorMatchingBase(void)
+{
+	return (DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+}
+
+void	EditDotColorMatchingLibraryDialog::SlotSelectLibFolder(int libFolderID ,QString FolderName)
+{
+	LibFolderID=libFolderID;
+	//ui->tableWidgetLibList->clear();
+	ui->tableWidgetLibList->setRowCount(0);
+	DotColorMatchingBase	*BBase=GetDotColorMatchingBase();
+	if(BBase!=NULL){
+		CmdGetDotColorMatchingLibraryListPacket	Packet(GetLayersBase());
+		Packet.LibFolderID=LibFolderID;
+		BBase->TransmitDirectly(&Packet);
+		LibList	=Packet.AList;
+		int	row=0;
+		ui->tableWidgetLibList->setRowCount(Packet.AList.GetNumber());
+		for(AlgorithmLibraryList *a=Packet.AList.GetFirst();a!=NULL;a=a->GetNext(),row++){
+			QTableWidgetItem *W;
+			W=ui->tableWidgetLibList->item ( row, 0);
+			if(W==NULL){
+				W=new QTableWidgetItem();
+				ui->tableWidgetLibList->setItem ( row, 0,W);
+				W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);			
+			}
+			W->setText(QString::number(a->GetLibID()));
+			W=ui->tableWidgetLibList->item ( row, 1);
+			if(W==NULL){
+				W=new QTableWidgetItem();
+				ui->tableWidgetLibList->setItem ( row, 1,W);
+				W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+			}
+			W->setText(a->GetLibName());
+		}
+	}
+}
+void EditDotColorMatchingLibraryDialog::on_tableWidgetLibList_clicked(const QModelIndex &Index)
+{
+	int	r=Index.row();
+	AlgorithmLibraryList	*a=LibList.GetItem(r);
+	if(a!=NULL){
+		LLib->SetLibID(a->GetLibID());
+
+		CmdLoadDotColorMatchingLibraryPacket	Packet(GetLayersBase());
+		Packet.Point=LLib;
+		DotColorMatchingBase	*BBase=GetDotColorMatchingBase();
+		if(BBase!=NULL){
+			BBase->TransmitDirectly(&Packet);
+			if(Packet.Success==true){
+				ShowLibrary(*LLib);
+				ui->ButtonLibSave	->setEnabled(true);
+				ui->ButtonLibDelete	->setEnabled(true);
+			}
+			else{
+				QMessageBox::critical(NULL
+									, LangSolver.GetString(EditDotColorMatchingLibraryDialog_LS,LID_2)/*"Library error"*/
+									, LangSolver.GetString(EditDotColorMatchingLibraryDialog_LS,LID_3)/*"Not loaded this library record"*/);
+			}
+		}
+	}
+}
+
+void	EditDotColorMatchingLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
+{
+	if(data.GetLibID()<0)
+		ui->EditLibID->setText(/**/"");
+	else
+		ui->EditLibID->setText(QString::number(data.GetLibID()));
+	ui->EditLibName	->setText(data.GetLibName());
+
+	DotColorMatchingLibrary *d=(DotColorMatchingLibrary *)data.GetLibrary();
+
+	ui->EditPickupRL					->setValue(d->PickupRL);
+	ui->EditPickupRH					->setValue(d->PickupRH);
+	ui->EditPickupGL					->setValue(d->PickupGL);
+	ui->EditPickupGH					->setValue(d->PickupGH);
+	ui->EditPickupBL					->setValue(d->PickupBL);
+	ui->EditPickupBH					->setValue(d->PickupBH);
+	ui->EditEvenWidth0					->setValue(d->EvenWidth0);
+	ui->EditEvenWidth255				->setValue(d->EvenWidth255);
+	ui->EditPriorityToShow				->setValue(d->PriorityToShow);
+
+	ui->EditMinDotColorMatchingSize		->setValue(d->MinDotColorMatchingSize);
+	ui->EditMaxDotColorMatchingSize		->setValue(d->MaxDotColorMatchingSize);
+	ui->EditMinDotColorMatchingDots		->setValue(d->MinDotColorMatchingDots);
+	ui->EditMaxDotColorMatchingDots		->setValue(d->MaxDotColorMatchingDots);
+	ui->EditLimitDotColorMatchingSize	->setValue(d->LimitDotColorMatchingSize);
+	ui->EditSpaceToOutline				->setValue(d->SpaceToOutline);
+	ui->EditNoiseSize					->setValue(d->NoiseSize);
+	ui->EditNoiseSizePinHole			->setValue(d->NoiseSizePinHole);
+	ui->EditPriority					->setValue(d->Priority);
+	ui->comboBoxAreaType				->setCurrentIndex(d->AreaType);
+	ui->checkBoxEnableOverlap			->setChecked(d->EnableOverlap);
+	ui->checkBoxGenerateOutlineMode		->setChecked(d->GenerateOutlineMode);
+	ui->EditGenerateOnEdgeWidth			->setValue(d->GenerateOnEdgeWidth);
+	ui->EditOutlineAroundPriorItems		->setValue(d->OutlineAroundPriorItems);
+	ui->EditSearchDotForBrightnessRange	->setValue(d->SearchDotForBrightnessRange);
+	ui->EditBindGroupArea				->setValue(d->BindGroupArea);
+	ui->checkBoxGenerateHalfPitch		->setChecked(d->GenerateHalfPitch);
+	ui->doubleSpinBoxThresholdPickupEdge->setValue(d->ThresholdPickupEdge);
+	ui->doubleSpinBoxThresholdFlatPattern->setValue(d->ThresholdFlatPattern);
+
+	ui->EditBrightWidthRL			->setValue(d->BrightWidthRL);
+	ui->EditBrightWidthRH			->setValue(d->BrightWidthRH);
+	ui->EditBrightWidthGL			->setValue(d->BrightWidthGL);
+	ui->EditBrightWidthGH			->setValue(d->BrightWidthGH);
+	ui->EditBrightWidthBL			->setValue(d->BrightWidthBL);
+	ui->EditBrightWidthBH			->setValue(d->BrightWidthBH);
+	ui->doubleSpinBoxVarietySigma	->setValue(d->VarietySigma);
+	ui->EditOKDot					->setValue(d->OKDot);
+	ui->EditOKLength				->setValue(d->OKLength);
+	ui->EditMultiSpotDot			->setValue(d->MultiSpotDot	);
+	ui->EditMultiSpotCount			->setValue(d->MultiSpotCount);
+	ui->EditBackGroundOKDot			->setValue(d->BackGroundOKDot);
+	ui->EditBackGroundOKLength		->setValue(d->BackGroundOKLength);
+	ui->checkBoxUseBackGround		->setChecked(d->UseBackGround);
+
+	ui->EditAdjustBlack				->setValue	(d->AdjustBlack);
+	ui->EditAdjustWhite				->setValue	(d->AdjustWhite);
+	ui->EditAreaSearch				->setValue	(d->AreaSearch);
+	ui->EditSelfSearch				->setValue	(d->SelfSearch);
+	ui->checkBoxClusterize			->setChecked(d->Clusterize);
+	ui->checkBoxEnableT2M			->setChecked(d->EnableT2M);
+	ui->checkBoxEnableM2T			->setChecked(d->EnableM2T);
+	ui->checkBoxUseMaster2			->setChecked(d->UseMaster2);
+
+	ui->EditRThrOffsetL				->setValue	(d->RThrOffsetL);
+	ui->EditRThrOffsetH				->setValue	(d->RThrOffsetH);
+	ui->EditGThrOffsetL				->setValue	(d->GThrOffsetL);
+	ui->EditGThrOffsetH				->setValue	(d->GThrOffsetH);
+	ui->EditBThrOffsetL				->setValue	(d->BThrOffsetL);
+	ui->EditBThrOffsetH				->setValue	(d->BThrOffsetH);
+
+	ui->doubleSpinBoxScratchStartDirection	->setValue(d->ScratchStartDirection	);
+	ui->doubleSpinBoxScratchRotationAngle	->setValue(d->ScratchRotationAngle	);
+	ui->doubleSpinBoxScratchVariety			->setValue(d->ScratchVariety		);
+	ui->EditScratchDetectLevelH				->setValue(d->ScratchDetectLevelH	);
+	ui->EditScratchDetectLevelL				->setValue(d->ScratchDetectLevelL	);
+	ui->EditScratchMaxWidth					->setValue(d->ScratchMaxWidth		);
+	ui->checkBoxScratchEnable				->setChecked(d->ScratchEnable		);
+	ui->checkBoxScratchUseMaster			->setChecked(d->ScratchUseMaster	);
+	ui->doubleSpinBoxScratchVOffset			->setValue	(d->ScratchVOffset		);
+	ui->doubleSpinBoxScratchDiff			->setValue	(d->ScratchDiff			);
+
+	ui->checkBoxRedCheckMode			->setChecked(d->RedCheckMode		);
+	ui->EditRedHighRate					->setValue	(d->RedHighRate			);
+	ui->EditRedMinBrightness			->setValue	(d->RedMinBrightness	);
+	ui->EditRedGBMerginRate				->setValue	(d->RedGBMerginRate		);
+	ui->EditRedGBMerginOffset			->setValue	(d->RedGBMerginOffset	);
+	ui->EditRedOKDot					->setValue	(d->RedOKDot			);
+	ui->EditRedShrink					->setValue	(d->RedShrink			);
+
+	ui->EditMatchBrightnessByLayerH		->setValue	(d->MatchBrightnessByLayerH);
+	ui->EditMatchBrightnessByLayerL		->setValue	(d->MatchBrightnessByLayerL);
+
+	ui->comboBoxUseOneLayer	->clear();
+	ui->comboBoxUseOneLayer	->addItem("Color");
+	for(int layer=0;layer<GetLayerNumb();layer++){
+		ui->comboBoxUseOneLayer	->addItem(QString("Layer")+QString::number(layer));
+	}
+	ui->comboBoxUseOneLayer	->setCurrentIndex((d->UseOneLayer==0xFF)?0:d->UseOneLayer+1);
+	ui->EditMasterNo					->setValue(d->MasterNo);
+}
+
+void	EditDotColorMatchingLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
+{
+	data.SetLibName(ui->EditLibName	->text());
+
+	DotColorMatchingLibrary *d=(DotColorMatchingLibrary *)data.GetLibrary();
+
+	d->PickupRL						=ui->EditPickupRL			->value();
+	d->PickupRH						=ui->EditPickupRH			->value();
+	d->PickupGL						=ui->EditPickupGL			->value();
+	d->PickupGH						=ui->EditPickupGH			->value();
+	d->PickupBL						=ui->EditPickupBL			->value();
+	d->PickupBH						=ui->EditPickupBH			->value();
+	d->PriorityToShow				=ui->EditPriorityToShow		->value();
+
+	d->EvenWidth0					=ui->EditEvenWidth0			->value();
+	d->EvenWidth255					=ui->EditEvenWidth255		->value();
+	d->MinDotColorMatchingSize		=ui->EditMinDotColorMatchingSize	->value();
+	d->MaxDotColorMatchingSize		=ui->EditMaxDotColorMatchingSize	->value();
+	d->MinDotColorMatchingDots		=ui->EditMinDotColorMatchingDots	->value();
+	d->MaxDotColorMatchingDots		=ui->EditMaxDotColorMatchingDots	->value();
+	d->LimitDotColorMatchingSize	=ui->EditLimitDotColorMatchingSize	->value();
+	d->SpaceToOutline				=ui->EditSpaceToOutline				->value();
+	d->NoiseSize					=ui->EditNoiseSize					->value();
+	d->NoiseSizePinHole				=ui->EditNoiseSizePinHole			->value();
+	d->Priority						=ui->EditPriority					->value();
+	d->AreaType						=ui->comboBoxAreaType				->currentIndex();
+	d->EnableOverlap				=ui->checkBoxEnableOverlap			->isChecked();
+	d->GenerateOutlineMode			=ui->checkBoxGenerateOutlineMode	->isChecked();
+	d->GenerateOnEdgeWidth			=ui->EditGenerateOnEdgeWidth		->value();
+	d->OutlineAroundPriorItems		=ui->EditOutlineAroundPriorItems	->value();
+	d->SearchDotForBrightnessRange	=ui->EditSearchDotForBrightnessRange->value();
+	d->BindGroupArea				=ui->EditBindGroupArea				->value();
+	d->GenerateHalfPitch			=ui->checkBoxGenerateHalfPitch		->isChecked();
+	d->ThresholdPickupEdge			=ui->doubleSpinBoxThresholdPickupEdge->value();
+	d->ThresholdFlatPattern			=ui->doubleSpinBoxThresholdFlatPattern->value();
+
+	d->BrightWidthRL		=ui->EditBrightWidthRL		->value();
+	d->BrightWidthRH		=ui->EditBrightWidthRH		->value();
+	d->BrightWidthGL		=ui->EditBrightWidthGL		->value();
+	d->BrightWidthGH		=ui->EditBrightWidthGH		->value();
+	d->BrightWidthBL		=ui->EditBrightWidthBL		->value();
+	d->BrightWidthBH		=ui->EditBrightWidthBH		->value();
+	d->VarietySigma			=ui->doubleSpinBoxVarietySigma	->value();
+	d->OKDot				=ui->EditOKDot				->value();
+	d->OKLength				=ui->EditOKLength			->value();
+	d->MultiSpotDot			=ui->EditMultiSpotDot		->value();
+	d->MultiSpotCount		=ui->EditMultiSpotCount		->value();
+	d->BackGroundOKDot		=ui->EditBackGroundOKDot	->value();
+	d->BackGroundOKLength	=ui->EditBackGroundOKLength	->value();
+	d->UseBackGround		=ui->checkBoxUseBackGround	->isChecked();
+
+	d->AdjustBlack			=ui->EditAdjustBlack	->value();
+	d->AdjustWhite			=ui->EditAdjustWhite	->value();
+	d->AreaSearch			=ui->EditAreaSearch		->value();
+	d->SelfSearch			=ui->EditSelfSearch		->value();
+	d->Clusterize			=ui->checkBoxClusterize	->isChecked();
+	d->EnableT2M			=ui->checkBoxEnableT2M	->isChecked();
+	d->EnableM2T			=ui->checkBoxEnableM2T	->isChecked();
+	d->UseMaster2			=ui->checkBoxUseMaster2	->isChecked();
+
+	d->RThrOffsetL			=ui->EditRThrOffsetL	->value();
+	d->RThrOffsetH			=ui->EditRThrOffsetH	->value();
+	d->GThrOffsetL			=ui->EditGThrOffsetL	->value();
+	d->GThrOffsetH			=ui->EditGThrOffsetH	->value();
+	d->BThrOffsetL			=ui->EditBThrOffsetL	->value();
+	d->BThrOffsetH			=ui->EditBThrOffsetH	->value();
+
+	d->ScratchStartDirection=ui->doubleSpinBoxScratchStartDirection	->value();
+	d->ScratchRotationAngle	=ui->doubleSpinBoxScratchRotationAngle	->value();
+	d->ScratchVariety		=ui->doubleSpinBoxScratchVariety		->value();
+	d->ScratchDetectLevelH	=ui->EditScratchDetectLevelH			->value();
+	d->ScratchDetectLevelL	=ui->EditScratchDetectLevelL			->value();
+	d->ScratchMaxWidth		=ui->EditScratchMaxWidth				->value();
+	d->ScratchEnable		=ui->checkBoxScratchEnable				->isChecked();
+	d->ScratchUseMaster		=ui->checkBoxScratchUseMaster			->isChecked();
+	d->ScratchVOffset		=ui->doubleSpinBoxScratchVOffset		->value();
+	d->ScratchDiff			=ui->doubleSpinBoxScratchDiff			->value();
+
+	d->RedCheckMode			=ui->checkBoxRedCheckMode				->isChecked();
+	d->RedHighRate			=ui->EditRedHighRate					->value	();
+	d->RedMinBrightness		=ui->EditRedMinBrightness				->value	();
+	d->RedGBMerginRate		=ui->EditRedGBMerginRate				->value	();
+	d->RedGBMerginOffset	=ui->EditRedGBMerginOffset				->value	();
+	d->RedOKDot				=ui->EditRedOKDot						->value	();
+	d->RedShrink			=ui->EditRedShrink						->value	();
+
+	d->MatchBrightnessByLayerH=ui->EditMatchBrightnessByLayerH		->value	();
+	d->MatchBrightnessByLayerL=ui->EditMatchBrightnessByLayerL		->value	();
+
+	int	L=ui->comboBoxUseOneLayer	->currentIndex();
+	if(L==0){
+		d->UseOneLayer=0xFF;
+	}
+	else{
+		d->UseOneLayer=L-1;
+	}
+	d->MasterNo				=ui->EditMasterNo						->value();
+}
+void EditDotColorMatchingLibraryDialog::on_toolButtonPickup_clicked()
+{
+	if(ui->toolButtonPickup->isChecked()==true)
+		ui->stackedWidget->setCurrentIndex(0);
+}
+
+void EditDotColorMatchingLibraryDialog::on_toolButtonInspect_clicked()
+{
+	if(ui->toolButtonInspect->isChecked()==true)
+		ui->stackedWidget->setCurrentIndex(1);
+}
+
+void EditDotColorMatchingLibraryDialog::on_ButtonLibNew_clicked()
+{
+	if(LLib==NULL)
+		return;
+	LLib->Reset();
+	CmdClearDotColorMatchingLibraryPacket	Packet(GetLayersBase());
+	Packet.Point=LLib;
+	DotColorMatchingBase	*BBase=GetDotColorMatchingBase();
+	if(BBase!=NULL){
+		BBase->TransmitDirectly(&Packet);
+	}
+	ShowLibrary(*LLib);
+	ui->ButtonLibSave	->setEnabled(false);
+	ui->ButtonLibDelete	->setEnabled(false);
+}
+
+void EditDotColorMatchingLibraryDialog::on_ButtonLibDelete_clicked()
+{
+	if(LLib==NULL)
+		return;
+	if(LLib->GetLibID()<0)
+		return;
+	QString  msg=LangSolver.GetString(EditDotColorMatchingLibraryDialog_LS,LID_4)/*"Delete OK?"*/;
+	int	ret=QMessageBox::question(NULL, LangSolver.GetString(EditDotColorMatchingLibraryDialog_LS,LID_5)/*"Choose"*/
+					, msg
+					, QMessageBox::Yes , QMessageBox::No, QMessageBox::NoButton);
+	if(ret==QMessageBox::Yes){
+		CmdDeleteDotColorMatchingLibraryPacket	Packet(GetLayersBase());
+		Packet.Point=LLib->GetLibrary();
+		DotColorMatchingBase	*BBase=GetDotColorMatchingBase();
+		if(BBase!=NULL){
+			BBase->TransmitDirectly(&Packet);
+			on_ButtonLibNew_clicked();
+			SlotSelectLibFolder(LibFolderID ,/**/"");
+		}
+	}
+}
+
+void EditDotColorMatchingLibraryDialog::on_ButtonLibSaveNew_clicked()
+{
+	if(LLib==NULL)
+		return;
+	GetLibraryFromWindow(*LLib);
+
+	if(LLib->GetLibName()==/**/""){
+		QMessageBox::StandardButton ret=QMessageBox::warning ( NULL, LangSolver.GetString(EditDotColorMatchingLibraryDialog_LS,LID_6)/*"Warning"*/
+																, LangSolver.GetString(EditDotColorMatchingLibraryDialog_LS,LID_7)/*"No Library Name"*/
+																, QMessageBox::Ok | QMessageBox::Cancel);
+		if(ret!=QMessageBox::Ok)
+			return;
+	}
+	LLib->SetLibFolderID(LibFolderID);
+	CmdInsertDotColorMatchingLibraryPacket	Packet(GetLayersBase());
+	Packet.Point=LLib;
+	DotColorMatchingBase	*BBase=GetDotColorMatchingBase();
+	if(BBase!=NULL){
+		BBase->TransmitDirectly(&Packet);		
+		ShowLibrary(*LLib);
+		ui->ButtonLibSave	->setEnabled(true);
+		ui->ButtonLibDelete	->setEnabled(true);
+	}
+	SlotSelectLibFolder(LibFolderID ,/**/"");
+}
+
+void EditDotColorMatchingLibraryDialog::on_ButtonLibSave_clicked()
+{
+	if(LLib==NULL)
+		return;
+	GetLibraryFromWindow(*LLib);
+	if(LLib->GetLibName()==/**/""){
+		QMessageBox::StandardButton ret=QMessageBox::warning ( NULL, LangSolver.GetString(EditDotColorMatchingLibraryDialog_LS,LID_8)/*"Warning"*/
+																, LangSolver.GetString(EditDotColorMatchingLibraryDialog_LS,LID_9)/*"No Library Name"*/
+																, QMessageBox::Ok | QMessageBox::Cancel);
+		if(ret!=QMessageBox::Ok)
+			return;
+	}
+	if(LLib->GetLibID()<0){
+		LLib->SetLibFolderID(LibFolderID);
+
+		CmdInsertDotColorMatchingLibraryPacket	Packet(GetLayersBase());
+		Packet.Point=LLib;
+		DotColorMatchingBase	*BBase=GetDotColorMatchingBase();
+		if(BBase!=NULL){
+			BBase->TransmitDirectly(&Packet);
+			ShowLibrary(*LLib);
+			ui->ButtonLibSave	->setEnabled(true);
+			ui->ButtonLibDelete	->setEnabled(true);
+		}
+	}
+	else{
+		CmdUpdateDotColorMatchingLibraryPacket	Packet(GetLayersBase());
+		Packet.Point=LLib;
+		DotColorMatchingBase	*BBase=GetDotColorMatchingBase();
+		if(BBase!=NULL){
+			BBase->TransmitDirectly(&Packet);
+		}
+	}
+	SlotSelectLibFolder(LibFolderID ,/**/"");
+}
+
+void EditDotColorMatchingLibraryDialog::on_pushButton_clicked()
+{
+	close();
+}
+
+void EditDotColorMatchingLibraryDialog::on_EditAreaSearch_valueChanged(int arg1)
+{
+	if(OnChanging==true){
+		return;
+	}
+	OnChanging=true;
+	ui->doubleSpinBoxAreaSearch->setValue(TransformPixelToUnit(arg1));
+	OnChanging=false;
+}
+
+void EditDotColorMatchingLibraryDialog::on_doubleSpinBoxAreaSearch_valueChanged(double arg1)
+{
+	if(OnChanging==true){
+		return;
+	}
+	OnChanging=true;
+	ui->EditAreaSearch->setValue(TransformUnitToPixel(arg1));
+	OnChanging=false;
+}
+
+void EditDotColorMatchingLibraryDialog::on_EditSelfSearch_valueChanged(int arg1)
+{
+	if(OnChanging==true){
+		return;
+	}
+	OnChanging=true;
+	ui->doubleSpinBoxSelfSearch->setValue(TransformPixelToUnit(arg1));
+	OnChanging=false;
+}
+
+void EditDotColorMatchingLibraryDialog::on_doubleSpinBoxSelfSearch_valueChanged(double arg1)
+{
+	if(OnChanging==true){
+		return;
+	}
+	OnChanging=true;
+	ui->EditSelfSearch->setValue(TransformUnitToPixel(arg1));
+	OnChanging=false;
+}
+
+void EditDotColorMatchingLibraryDialog::on_EditOKDot_valueChanged(int arg1)
+{
+	if(OnChanging==true){
+		return;
+	}
+	OnChanging=true;
+	ui->doubleSpinBoxOKDot->setValue(TransformPixelToUnitSquare(arg1));
+	OnChanging=false;
+}
+
+void EditDotColorMatchingLibraryDialog::on_doubleSpinBoxOKDot_valueChanged(double arg1)
+{
+	if(OnChanging==true){
+		return;
+	}
+	OnChanging=true;
+	ui->EditOKDot->setValue(TransformUnitToPixelSquare(arg1));
+	OnChanging=false;
+}
+
+void EditDotColorMatchingLibraryDialog::on_pushButtonColor_clicked()
+{
+	if(LLib!=NULL){
+		QColor Col=QColorDialog::getColor(LLib->GetLibColor(), nullptr
+										, "General library color");
+		if(Col.isValid()==true){
+			LLib->SetLibColor(Col);
+		}
+	}	
+}

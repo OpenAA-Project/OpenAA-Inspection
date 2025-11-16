@@ -1,0 +1,12 @@
+#ifndef PLAYSOUND_GLOBAL_H
+#define PLAYSOUND_GLOBAL_H
+
+#include <qglobal.h>
+
+#ifdef PLAYSOUND_LIB
+# define PLAYSOUND_EXPORT Q_DECL_EXPORT
+#else
+# define PLAYSOUND_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // PLAYSOUND_GLOBAL_H

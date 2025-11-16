@@ -1,0 +1,12 @@
+#ifndef BUTTONCHANGE_GLOBAL_H
+#define BUTTONCHANGE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef BUTTONCHANGE_LIB
+# define BUTTONCHANGE_EXPORT Q_DECL_EXPORT
+#else
+# define BUTTONCHANGE_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // BUTTONCHANGE_GLOBAL_H

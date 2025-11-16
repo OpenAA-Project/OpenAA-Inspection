@@ -1,0 +1,411 @@
+<ui version="4.0" >
+ <class>RegistHalconFuncClass</class>
+ <widget class="QDialog" name="RegistHalconFuncClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>441</width>
+    <height>421</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>RegistHalconFunc</string>
+  </property>
+  <widget class="QLabel" name="label" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Operator/Procedure</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbFunc" >
+   <property name="geometry" >
+    <rect>
+     <x>130</x>
+     <y>17</y>
+     <width>291</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbOK" >
+   <property name="geometry" >
+    <rect>
+     <x>90</x>
+     <y>370</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbCancel" >
+   <property name="geometry" >
+    <rect>
+     <x>250</x>
+     <y>370</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="Line" name="line" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>350</y>
+     <width>421</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbArg_1" >
+   <property name="geometry" >
+    <rect>
+     <x>130</x>
+     <y>50</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>83</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbArg_2" >
+   <property name="geometry" >
+    <rect>
+     <x>130</x>
+     <y>80</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>113</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbArg_3" >
+   <property name="geometry" >
+    <rect>
+     <x>130</x>
+     <y>110</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>143</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbArg_4" >
+   <property name="geometry" >
+    <rect>
+     <x>130</x>
+     <y>140</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>173</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbArg_5" >
+   <property name="geometry" >
+    <rect>
+     <x>130</x>
+     <y>170</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>203</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbArg_6" >
+   <property name="geometry" >
+    <rect>
+     <x>130</x>
+     <y>200</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>233</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbArg_7" >
+   <property name="geometry" >
+    <rect>
+     <x>130</x>
+     <y>230</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>263</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbArg_8" >
+   <property name="geometry" >
+    <rect>
+     <x>130</x>
+     <y>260</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>293</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbArg_9" >
+   <property name="geometry" >
+    <rect>
+     <x>130</x>
+     <y>290</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>323</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cbArg_10" >
+   <property name="geometry" >
+    <rect>
+     <x>130</x>
+     <y>320</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_1" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>53</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10_1" >
+   <property name="geometry" >
+    <rect>
+     <x>320</x>
+     <y>322</y>
+     <width>115</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7_1" >
+   <property name="geometry" >
+    <rect>
+     <x>320</x>
+     <y>232</y>
+     <width>115</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6_1" >
+   <property name="geometry" >
+    <rect>
+     <x>320</x>
+     <y>202</y>
+     <width>115</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9_1" >
+   <property name="geometry" >
+    <rect>
+     <x>320</x>
+     <y>292</y>
+     <width>115</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5_1" >
+   <property name="geometry" >
+    <rect>
+     <x>320</x>
+     <y>172</y>
+     <width>115</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3_1" >
+   <property name="geometry" >
+    <rect>
+     <x>320</x>
+     <y>112</y>
+     <width>115</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_1_1" >
+   <property name="geometry" >
+    <rect>
+     <x>320</x>
+     <y>52</y>
+     <width>115</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2_1" >
+   <property name="geometry" >
+    <rect>
+     <x>320</x>
+     <y>82</y>
+     <width>115</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4_1" >
+   <property name="geometry" >
+    <rect>
+     <x>320</x>
+     <y>142</y>
+     <width>115</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8_1" >
+   <property name="geometry" >
+    <rect>
+     <x>320</x>
+     <y>262</y>
+     <width>115</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

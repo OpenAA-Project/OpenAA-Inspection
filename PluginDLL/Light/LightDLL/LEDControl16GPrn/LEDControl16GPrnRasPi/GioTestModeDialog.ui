@@ -1,0 +1,1098 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GioTestModeDialog</class>
+ <widget class="QDialog" name="GioTestModeDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>456</width>
+    <height>591</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>I/O Test</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox_7">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>160</y>
+     <width>151</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>G-Out</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxoGOUT0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxoGOUT3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxoGOUT2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxoGOUT1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P1</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxoGOUT7">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P7</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxoGOUT6">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P6</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxoGOUT4">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P4</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxoGOUT5">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P5</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_9">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>160</y>
+     <width>71</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>PIO-A</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxPIOBOUT0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOBOUT3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOBOUT2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOBOUT1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_6">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>10</y>
+     <width>71</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Trigger</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxTRGIN0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGIN3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGIN2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGIN1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>10</y>
+     <width>71</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>G-IN</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxGIN0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxGIN3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxGIN2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxGIN1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_5">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>10</y>
+     <width>71</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>PIO-D</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxPIODIN0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIODIN3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIODIN2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIODIN1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_11">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>160</y>
+     <width>71</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>PIO-A</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxPIODOUT0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIODOUT3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIODOUT2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIODOUT1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>10</y>
+     <width>71</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>PIO-A</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxPIOAIN0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOAIN3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOAIN2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOAIN1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_4">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>10</y>
+     <width>71</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>PIO-C</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxPIOCIN0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOCIN3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOCIN2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOCIN1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_8">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>160</y>
+     <width>71</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>PIO-A</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxPIOAOUT0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOAOUT3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOAOUT2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOAOUT1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_10">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>160</y>
+     <width>71</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>PIO-A</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxPIOCOUT0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOCOUT3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOCOUT2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOCOUT1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_3">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>10</y>
+     <width>71</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>PIO-B</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxPIOBIN0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOBIN3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOBIN2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPIOBIN1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IN1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_12">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>320</y>
+     <width>91</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>TrgOut-C</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxTRGCOUT0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGCOUT3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGCOUT2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGCOUT1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_13">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>320</y>
+     <width>91</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>TrgOut-D</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxTRGDOUT0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGDOUT3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGDOUT2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGDOUT1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_14">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>320</y>
+     <width>91</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>TrgOut-B</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxTRGBOUT0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGBOUT3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGBOUT2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGBOUT1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_15">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>320</y>
+     <width>91</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>TrgOut-A</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxTRGAOUT0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P0</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGAOUT3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P3</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGAOUT2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxTRGAOUT1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>61</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>P1</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClose">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>540</y>
+     <width>112</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxTestLEDReg">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>470</y>
+     <width>141</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TestLEDReg</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxLEDOut0">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>470</y>
+     <width>141</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>LEDOut0</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxLEDOut1">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>500</y>
+     <width>141</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>LEDOut1</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

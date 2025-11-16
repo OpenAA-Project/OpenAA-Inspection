@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ResetCameraSeq.png</file>
+    </qresource>
+</RCC>

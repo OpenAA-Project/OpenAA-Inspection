@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShowPlayerInside</class>
+ <widget class="QWidget" name="ShowPlayerInside">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>858</width>
+    <height>516</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PlayerInside</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidgetLayersBase">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>311</width>
+     <height>491</height>
+    </rect>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <row>
+    <property name="text">
+     <string>CurrentStrategicNumber</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>CurrentStrategicNumberForSeq</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>CurrentStrategicNumberForCalc</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>GetCurrentInspectIDForDisplay</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>GetCurrentInspectIDForDExecute</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>CurrentCalcPoint</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>CurrentDrawPoint</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>LastCurrentCalcPoint</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>CurrentPhase</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>_CurrentInspectID(Execute)</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>_LastInspectID(Display)</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>ResultWrittenID</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>CurrentScanPhaseNumber</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>Value</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>20</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text">
+    <string>CurrentStrategicQueue</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidgetCurrentStrategicQueue">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>40</y>
+     <width>141</width>
+     <height>311</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetReceivedFlag">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>40</y>
+     <width>361</width>
+     <height>311</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>Executer</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Pg0</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>20</y>
+     <width>361</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text">
+    <string>ReceivedFlag</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

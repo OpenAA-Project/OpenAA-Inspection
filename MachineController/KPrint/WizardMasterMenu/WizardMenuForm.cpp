@@ -1,0 +1,629 @@
+#include "WizardMasterMenuResource.h"
+#include "WizardMenuForm.h"
+#include "WizardMasterMenuForm.h"
+#include "ui_WizardMenuForm.h"
+#include "XDataInLayer.h"
+#include "XGUIFormBase.h"
+#include "..\ResultKidaOutput\ResultKidaOutput.h"
+#include "ChooseAutoGenerationDialog.h"
+#include "EasyPropertyDotColorMatchForm.h"
+#include "IntegrationShowRelationInfoForm.h"
+#include "IntegrationShowName.h"
+#include <QTextDocument>
+#include "XParamCustomized.h"
+
+bool DwmIsCompositionEnabled();
+extern	const	char	*sRoot;
+extern	const	char	*sName;
+
+WizardMenuForm::WizardMenuForm(WizardMasterMenuForm *p,LayersBase *Base ,QWidget *parent) :
+    QWidget(parent),ServiceForLayers(Base),Parent(p),
+    ui(new Ui::WizardMenuForm)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+
+	Qt::WindowFlags	f=windowFlags ();
+	f=Qt::WindowStaysOnTopHint | Qt::WindowTitleHint;
+	setWindowFlags(f);
+
+	UpperMode	=true;
+	ui->stackedWidget		->setCurrentIndex(2);
+	ui->stackedWidgetStory	->setCurrentIndex(0);
+	ui->stackedWidgetSenario->setCurrentIndex(0);
+
+	int	MachineCount = GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();
+	if (MachineCount == 1) {
+		ui->PushButtonReadDXFLower->setVisible(false);
+	}
+
+	EachMaster	*m0=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(0);
+	if(m0!=NULL){
+		QString	s=m0->GetMachineName();
+		ui->PushButtonReadDXFUpper->setText(s+QString(LangSolver.GetString(WizardMenuForm_LS,LID_11)/*"DXF???"*/));
+	}
+	EachMaster	*m1=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(1);
+	if(m1!=NULL){
+		QString	s=m1->GetMachineName();
+		ui->PushButtonReadDXFLower->setText(s+QString(LangSolver.GetString(WizardMenuForm_LS,LID_12)/*"DXF???"*/));
+	}
+
+
+	QString	NumberStr		=LangSolver.GetString(WizardMenuForm_LS,LID_13)/*"Number"*/;
+	QString	NameStr			=LangSolver.GetString(WizardMenuForm_LS,LID_14)/*"Name"*/;
+	QString	RemarkStr		=LangSolver.GetString(WizardMenuForm_LS,LID_15)/*"Remark"*/;
+	GUIFormBase	*kp=GetLayersBase()->FindByName(/**/"Integration",/**/"ShowRelationInfo",/**/"");
+	if(kp!=NULL){
+		IntegrationShowRelationInfoForm	*Rf=dynamic_cast<IntegrationShowRelationInfoForm *>(kp);
+		if(Rf!=NULL){
+			NumberStr=Rf->TitleMasterID;
+			NameStr	 =Rf->TitleMasterName;
+			RemarkStr=Rf->TitleLotName;
+		}
+	}
+	else{
+		kp=GetLayersBase()->FindByName(/**/"Integration",/**/"ShowName",/**/"");
+		if(kp!=NULL){
+			IntegrationShowName	*Rf=dynamic_cast<IntegrationShowName *>(kp);
+			if(Rf!=NULL){
+				NumberStr=Rf->TitleMasterNumber;
+				NameStr	 =Rf->TitleMasterName;
+				RemarkStr=Rf->TitleRemark;
+			}
+		}
+	}
+	QTextDocument *Doc=ui->textEdit->document();
+	QString Str=Doc->toPlainText();
+	Str=Str.replace(/**/"?i??",NumberStr);
+	Str=Str.replace(/**/"?i??",NameStr);
+	Str=Str.replace(/**/"???l",RemarkStr);
+	Doc->setPlainText(Str);
+	ui->textEdit->setDocument(Doc);
+
+}
+
+WizardMenuForm::~WizardMenuForm()
+{
+    delete ui;
+}
+
+void WizardMenuForm::showEvent ( QShowEvent * event )
+{
+	move(0,100);
+
+	ui->PushButtonCreateNew	->setAutoExclusive(false);
+	ui->PushButtonEdit		->setAutoExclusive(false);
+	ui->PushButtonLoadMaster->setAutoExclusive(false);
+
+	ui->PushButtonCreateNew	->setChecked(false);
+	ui->PushButtonEdit		->setChecked(false);
+	ui->PushButtonLoadMaster->setChecked(false);
+
+	ui->PushButtonCreateNew	->setAutoExclusive(true);
+	ui->PushButtonEdit		->setAutoExclusive(true);
+	ui->PushButtonLoadMaster->setAutoExclusive(true);
+
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"EasyPropertyDentMeasure",/**/"");
+	if(f!=NULL){
+		ui->textEdit_14->raise();
+		ui->textEdit_11->raise();
+	}
+	else{
+		ui->textEdit_7->raise();
+		ui->textEdit_13->raise();
+	}
+
+}
+
+void WizardMenuForm::on_PushButtonSetExposure_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"SetExposure", Args, ExeReturn);
+	}
+	ui->PushButtonSetExposure->setChecked(false);
+}
+
+
+void WizardMenuForm::on_PushButtonCreateNew_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(0);
+	ui->stackedWidgetStory	->setCurrentIndex(0);
+	ui->stackedWidgetSenario->setCurrentIndex(0);
+
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Integration",/**/"NewMaster",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"OpenDialog", Args, ExeReturn);
+	}
+	ui->PushButtonCreateNew->setChecked(false);
+}
+
+void WizardMenuForm::on_PushButtonEdit_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(0);
+
+}
+
+void WizardMenuForm::on_PushButtonLoadMaster_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Integration",/**/"LoadMaster",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"LoadDialog", Args, ExeReturn);
+	}
+	ui->stackedWidget		->setCurrentIndex(2);
+	showEvent(NULL);
+
+	ui->PushButtonLoadMaster->setChecked(false);
+}
+
+void WizardMenuForm::on_PushButtonClose_clicked()
+{
+	GUIFormBase	*fc=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"IntegrationOutputController",/**/"");
+	if(fc!=NULL){
+		IntegrationSetControlOutput	Cmd(GetLayersBase());
+		Cmd.ControlMode	=_FreeForResult;
+		fc->TransmitDirectly(&Cmd);
+	}
+	close();
+}
+
+void WizardMenuForm::on_PushButtonCreateNewNext1_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(0);
+	ui->stackedWidgetSenario->setCurrentIndex(1);
+}
+
+void WizardMenuForm::on_PushButtonCreateNewNext2_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(0);
+	ui->stackedWidgetSenario->setCurrentIndex(2);
+
+	int	N=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetCount();
+	for(int SlaveNo=0;SlaveNo<N;SlaveNo++){
+		GUICmdIntegrationCopyImageToTarget	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.Send(NULL,SlaveNo,0);
+	}
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"AutoGenerate", Args, ExeReturn);
+	}
+}
+
+void WizardMenuForm::on_PushButtonCreateNewSave_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Integration",/**/"SaveMaster",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		Args.append(/**/"false");
+		f->ExecuteMacro(/**/"SaveDialog", Args, ExeReturn);
+	}
+	ui->stackedWidget		->setCurrentIndex(0);
+	ui->stackedWidgetSenario->setCurrentIndex(3);
+}
+
+void WizardMenuForm::on_PushButtonCreateNewAgain_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(0);
+	ui->stackedWidgetSenario->setCurrentIndex(1);
+
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"AutoGenerate", Args, ExeReturn);
+	}
+}
+
+void WizardMenuForm::on_PushButtonCreateNewNext4_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(2);
+	showEvent(NULL);
+}
+
+void WizardMenuForm::on_PushButtonAutoGenerate_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"AutoGenerate", Args, ExeReturn);
+	}
+
+}
+
+void WizardMenuForm::on_PushButtonSwitchPhase_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(1);
+
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"OpenSwitchPhase", Args, ExeReturn);
+	}
+}
+
+void WizardMenuForm::on_PushButtonCopyImage_clicked()
+{
+	Parent->ExecuteSwitchImage();
+}
+
+void WizardMenuForm::on_PushButtonEditDetail_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(3);
+}
+
+void WizardMenuForm::on_PushButtonSwitchPhaseNext_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(2);
+}
+
+void WizardMenuForm::on_PushButtonSwitchPhaseNext2_clicked()
+{
+	GUIFormBase	*fsv=GetLayersBase()->FindByName(/**/"Integration",/**/"SaveMaster",/**/"");
+	if(fsv!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		fsv->ExecuteMacro(/**/"UpdateWithoutDialog", Args, ExeReturn);
+	}
+
+	GUIFormBase	*fld=GetLayersBase()->FindByName(/**/"Integration",/**/"LoadMaster",/**/"");
+	if(fld!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		fld->ExecuteMacro(/**/"LoadWithoutDialog", Args, ExeReturn);
+	}
+
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(0);
+
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		Args.append(/**/"1");
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"OpenRun", Args, ExeReturn);
+	}
+}
+
+void WizardMenuForm::on_PushButtonReadDXFUpper_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		Args.append(/**/"2");
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"OpenMask", Args, ExeReturn);
+		UpperMode=true;
+	}
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(4);
+}
+
+void WizardMenuForm::on_PushButtonReadDXFLower_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		Args.append(/**/"3");
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"OpenMask", Args, ExeReturn);
+		UpperMode=false;
+	}
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(4);
+}
+
+void WizardMenuForm::on_PushButtonDXFReturn_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		Args.append(/**/"0");
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"OpenMask", Args, ExeReturn);
+		UpperMode=false;
+	}
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(6);
+}
+
+void WizardMenuForm::on_DXFNext1_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(5);
+
+}
+
+void WizardMenuForm::on_PushButtonDXFNext2_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(6);
+
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		Args.append(/**/"1");
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"OpenMask", Args, ExeReturn);
+	}
+}
+
+void WizardMenuForm::on_PushButtonDXFNext3_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(6);
+
+	GetLayersBase()->StepProcessing(0);
+	int	n;
+	GUIFormBase *GUIRet[100];
+	n=GetLayersBase()->EnumGUIInst(/**/"KidaPrint",/**/"EasyPropertyMasking",GUIRet ,100);
+	for(int i=0;i<n;i++){
+		QStringList Args;
+		bool ExeReturn;
+		GUIRet[i]->ExecuteMacro(/**/"DeleteOriginCAD", Args, ExeReturn);
+	}
+
+	n=GetLayersBase()->EnumGUIInst(/**/"KidaPrint",/**/"EasyPropertyDXFOperation",GUIRet ,100);
+	for(int i=0;i<n;i++){
+		QStringList Args;
+		bool ExeReturn;
+		GUIRet[i]->ExecuteMacro(/**/"MakeAllocation", Args, ExeReturn);
+	}
+	n=GetLayersBase()->EnumGUIInst(/**/"KidaPrint",/**/"EasyPropertyRaster",GUIRet ,100);
+	for(int i=0;i<n;i++){
+		QStringList Args;
+		bool ExeReturn;
+		GUIRet[i]->ExecuteMacro(/**/"MakeAllocation", Args, ExeReturn);
+	}
+
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		if(UpperMode==true)
+			Args.append(/**/"0");
+		else
+			Args.append(/**/"1");
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"OpenMask", Args, ExeReturn);
+	}
+}
+
+void WizardMenuForm::on_PushButtonMaskNext1_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(7);
+
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		Args.append(/**/"1");
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"OpenAlignment", Args, ExeReturn);
+	}
+}
+
+void WizardMenuForm::on_PushButtonAlignmentNext_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(8);
+
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		{
+			QStringList Args;
+			bool ExeReturn;
+			f->ExecuteMacro(/**/"BuildAlignment", Args, ExeReturn);
+		}
+		{
+			QStringList Args;
+			Args.append(/**/"1");
+			bool ExeReturn;
+			f->ExecuteMacro(/**/"OpenInspection", Args, ExeReturn);
+		}
+	}
+
+}
+
+void WizardMenuForm::on_PushButtonInspectionNext1_clicked()
+{
+	ChooseAutoGenerationDialog	D;
+	if(D.exec()==1){
+		GUIFormBase	*g=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"EasyGenerateInspection",/**/"");
+		if(g!=NULL){
+			QStringList Args;
+			bool ExeReturn;
+			g->ExecuteMacro(/**/"GenerateStart", Args, ExeReturn);
+		}
+	}
+
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(9);
+
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		Args.append(/**/"1");
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"OpenBlade", Args, ExeReturn);
+	}
+}
+
+void WizardMenuForm::on_PushButtonBladeNext1_clicked()
+{
+	ui->stackedWidget		->setCurrentIndex(1);
+	ui->stackedWidgetStory	->setCurrentIndex(0);
+
+	GUIFormBase	*fsv=GetLayersBase()->FindByName(/**/"Integration",/**/"SaveMaster",/**/"");
+	if(fsv!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		fsv->ExecuteMacro(/**/"UpdateWithoutDialog", Args, ExeReturn);
+	}
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		Args.append(/**/"1");
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"OpenRun", Args, ExeReturn);
+	}
+}
+void WizardMenuForm::paintEvent(QPaintEvent* event)
+{
+	QColor backgroundColor = palette().light().color();
+	backgroundColor.setAlpha(160);
+	QPainter customPainter(this);
+	customPainter.fillRect(rect(),backgroundColor);
+}
+void WizardMenuForm::on_PushButtonCreateNewPrev4_clicked()
+{
+	ui->stackedWidgetSenario->setCurrentIndex(2);
+}
+
+void WizardMenuForm::on_PushButtonCreateNewPrev1_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Integration",/**/"NewMaster",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"CloseDialog", Args, ExeReturn);
+	}
+	ui->stackedWidget->setCurrentIndex(2);
+
+	ui->PushButtonCreateNew	->setAutoExclusive(false);
+	ui->PushButtonEdit		->setAutoExclusive(false);
+	ui->PushButtonLoadMaster->setAutoExclusive(false);
+
+	ui->PushButtonCreateNew	->setChecked(false);
+	ui->PushButtonEdit		->setChecked(false);
+	ui->PushButtonLoadMaster->setChecked(false);
+
+	ui->PushButtonCreateNew	->setAutoExclusive(true);
+	ui->PushButtonEdit		->setAutoExclusive(true);
+	ui->PushButtonLoadMaster->setAutoExclusive(true);
+}
+
+void WizardMenuForm::on_PushButtonCreateNewPrev2_clicked()
+{
+	ui->stackedWidgetSenario->setCurrentIndex(0);
+}
+
+void WizardMenuForm::on_PushButtonSwitchPhasePrev_clicked()
+{
+	ui->stackedWidgetStory->setCurrentIndex(0);
+}
+
+void WizardMenuForm::on_PushButtonSwitchPhasePrev2_clicked()
+{
+	ui->stackedWidgetStory->setCurrentIndex(1);
+}
+
+void WizardMenuForm::on_PushButtonDXFPrev_clicked()
+{
+	ui->stackedWidgetStory->setCurrentIndex(0);
+}
+
+void WizardMenuForm::on_DXFPrev1_clicked()
+{
+	ui->stackedWidgetStory->setCurrentIndex(3);
+}
+
+void WizardMenuForm::on_PushButtonDXFPrev3_clicked()
+{
+	ui->stackedWidgetStory->setCurrentIndex(4);
+}
+
+void WizardMenuForm::on_PushButtonMaskPrev1_clicked()
+{
+	ui->stackedWidgetStory->setCurrentIndex(5);
+	on_PushButtonReadDXFUpper_clicked();
+}
+
+void WizardMenuForm::on_PushButtonAlignmentPrev_clicked()
+{
+	ui->stackedWidgetStory->setCurrentIndex(6);
+	on_PushButtonDXFNext3_clicked();
+}
+
+void WizardMenuForm::on_PushButtonInspectionPrev1_clicked()
+{
+	ui->stackedWidgetStory->setCurrentIndex(7);
+	on_PushButtonMaskNext1_clicked();
+}
+
+void WizardMenuForm::on_PushButtonBladePrev1_clicked()
+{
+	ui->stackedWidgetStory->setCurrentIndex(8);
+	on_PushButtonAlignmentNext_clicked();
+}
+
+void WizardMenuForm::on_stackedWidgetSenario_currentChanged(int arg1)
+{
+	if(ui->stackedWidgetSenario->currentIndex()==1){
+		GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"IntegrationOutputController",/**/"");
+		if(f!=NULL){
+			IntegrationSetControlOutput	Cmd(GetLayersBase());
+			Cmd.ControlMode	=_Abs_Blade;	//_Abs_NG;
+			f->TransmitDirectly(&Cmd);
+		}
+	}
+	else{
+		GUIFormBase	*fc=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"IntegrationOutputController",/**/"");
+		if(fc!=NULL){
+			IntegrationSetControlOutput	Cmd(GetLayersBase());
+			Cmd.ControlMode	=_FreeForResult;
+			fc->TransmitDirectly(&Cmd);
+		}
+	}
+
+}
+
+void WizardMenuForm::on_stackedWidget_currentChanged(int arg1)
+{
+	GUIFormBase	*fc=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"IntegrationOutputController",/**/"");
+	if(fc!=NULL){
+		IntegrationSetControlOutput	Cmd(GetLayersBase());
+		Cmd.ControlMode	=_FreeForResult;
+		fc->TransmitDirectly(&Cmd);
+	}
+}
+
+void WizardMenuForm::on_pushButtonSetTriggerPosition_clicked()
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"CartonMenu",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"AdjustTrigger", Args, ExeReturn);
+	}
+}
+
+
+//===============================================================================================
+GUICmdIntegrationCopyImageToTarget::GUICmdIntegrationCopyImageToTarget(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+
+void	GUICmdIntegrationCopyImageToTarget::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*g=GetLayersBase()->FindByName(/**/"Inspection",/**/"DisplayMasterImage",/**/"");
+	if(g!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		g->ExecuteMacro(/**/"CopyTargetImageToMaster", Args, ExeReturn);
+	}
+}

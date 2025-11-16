@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ListCachTargetImage.png</file>
+        <file>Qtres/Save.png</file>
+        <file>Qtres/Setting.png</file>
+    </qresource>
+</RCC>

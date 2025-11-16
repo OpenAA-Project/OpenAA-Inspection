@@ -1,0 +1,12 @@
+#ifndef SHOWBARCODE_GLOBAL_H
+#define SHOWBARCODE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef SHOWBARCODE_LIB
+# define SHOWBARCODE_EXPORT Q_DECL_EXPORT
+#else
+# define SHOWBARCODE_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // SHOWBARCODE_GLOBAL_H

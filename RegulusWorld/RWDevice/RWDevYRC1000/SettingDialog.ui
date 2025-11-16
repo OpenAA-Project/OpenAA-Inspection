@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingDialog</class>
+ <widget class="QDialog" name="SettingDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>254</width>
+    <height>449</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="pushButtonManualMode">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>231</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>手動モード</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetCurrent6Axis">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>111</width>
+     <height>192</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Y</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Z</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>p</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>q</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>r</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>現在値</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetCurrent6Angle">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>110</y>
+     <width>111</width>
+     <height>192</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>R1</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>R2</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>R3</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>R4</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>R5</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>R6</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>現在値</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxServoON">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ServoON</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditIPAddress">
+   <property name="geometry">
+    <rect>
+     <x>102</x>
+     <y>49</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text">
+    <string>IP Address</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetIO">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>320</y>
+     <width>231</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>Clump</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Hand rotation</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>State</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

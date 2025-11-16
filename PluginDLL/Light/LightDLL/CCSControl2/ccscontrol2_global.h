@@ -1,0 +1,12 @@
+#ifndef CCSCONTROL2_GLOBAL_H
+#define CCSCONTROL2_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef CCSCONTROL2_LIB
+# define CCSCONTROL2_EXPORT Q_DECL_EXPORT
+#else
+# define CCSCONTROL2_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // CCSCONTROL2_GLOBAL_H

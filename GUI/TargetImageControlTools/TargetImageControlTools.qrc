@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/NoItem.png</file>
+        <file>Resources/RedCircle.png</file>
+        <file>Resources/ShowAllItems.png</file>
+        <file>Resources/ShowNGItem.png</file>
+        <file>Resources/TargetImageControlTools.png</file>
+    </qresource>
+</RCC>

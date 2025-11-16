@@ -1,0 +1,64 @@
+#title	    "Manual inspection machine"
+
+#DLLVar	vMotor : "SamsunManualSeq.dll"
+#steptime	2
+
+
+#Sequence Main:Main{
+
+     N Let	P10,0
+     N Let	W50,0
+	N DLLCmd	vMotor,"Open","\\.\COM22"
+
+100 :N Equal    S107,0
+     T Goto 100
+110 :N Equal    S107,2
+     T Let      P20,1
+     T Goto 2000
+     F Let      P20,1
+     F Goto 3000
+
+//
+2000:
+2010:	N Flag     P4
+     F Goto 	2010
+     N Let      P4,0
+     N Let      S107,0
+
+2100:N Equal    S101,0      //
+     T Goto 2100
+	
+     N FSet	B10
+     N Let      S101,0
+     N Goto 100
+
+//Inspection
+3000:
+3010:	N Flag     P4
+     F Goto 	3010
+     N Let      P4,0
+     N Let      S107,0
+
+3100:N Equal    S101,0      //
+     T Goto 3100
+     N Let	P20,1
+     N Equal    S101,1
+     N FSet	B10
+     N Let      S101,0
+
+    N Goto 100
+}
+
+
+#Sequence SetInformation:Watch{
+
+10:	N Equal	P460,1
+	F Goto	10
+	
+	N DLLCmd	vMotor,"XSize",S460
+	N DLLCmd	vMotor,"YSize",S461
+	N DLLCmd	vMotor,"FPCType",S464
+	N DLLCmd	vMotor,"SetInformation"
+
+	N Let	P460,0
+}

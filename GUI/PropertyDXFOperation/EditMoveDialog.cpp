@@ -1,0 +1,40 @@
+#include "PropertyDXFOperationResource.h"
+#include "EditMoveDialog.h"
+#include "ui_EditMoveDialog.h"
+#include "XRememberer.h"
+
+EditMoveDialog::EditMoveDialog(LayersBase *base, QWidget *parent) :
+    QDialog(parent)
+	,ServiceForLayers(base)
+    ,ui(new Ui::EditMoveDialog)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+
+	ui->doubleSpinBoxXDir	->setValue(ControlRememberer::GetDouble(ui->doubleSpinBoxXDir,0));
+	ui->doubleSpinBoxYDir	->setValue(ControlRememberer::GetDouble(ui->doubleSpinBoxYDir,0));
+	ui->radioButtonPixel	->setChecked(ControlRememberer::GetBool(ui->radioButtonPixel));
+
+	InstallOperationLog(this);
+}
+
+EditMoveDialog::~EditMoveDialog()
+{
+    delete ui;
+}
+
+void EditMoveDialog::on_pushButtonOK_clicked()
+{
+	XDir		=ui->doubleSpinBoxXDir	->value();
+	YDir		=ui->doubleSpinBoxYDir	->value();
+	PixelMode	=ui->radioButtonPixel	->isChecked();
+	ControlRememberer::SetValue(ui->doubleSpinBoxXDir ,ui->doubleSpinBoxXDir->value());
+	ControlRememberer::SetValue(ui->doubleSpinBoxYDir ,ui->doubleSpinBoxYDir->value());
+	ControlRememberer::SetValue(ui->radioButtonPixel  ,ui->radioButtonPixel->isChecked());
+	done(true);
+}
+
+void EditMoveDialog::on_pushButtonCancel_clicked()
+{
+	done(false);
+}

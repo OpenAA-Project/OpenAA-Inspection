@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertyMeasureHole.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Class.png</file>
+        <file>Qtres/Make.png</file>
+        <file>Qtres/Update.png</file>
+        <file>Qtres/Color.png</file>
+        <file>Qtres/ColorAdd.png</file>
+        <file>Qtres/ColorDelete.png</file>
+    </qresource>
+</RCC>

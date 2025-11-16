@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/AutoSaveImageButtonSave.png</file>
+        <file>Resources/GUICmdSaveAutoSaveImage.png</file>
+    </qresource>
+</RCC>

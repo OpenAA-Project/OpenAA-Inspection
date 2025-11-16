@@ -1,0 +1,12 @@
+#ifndef CAMERABUFFER_GLOBAL_H
+#define CAMERABUFFER_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef CAMERABUFFER_LIB
+# define CAMERABUFFER_EXPORT Q_DECL_EXPORT
+#else
+# define CAMERABUFFER_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // CAMERABUFFER_GLOBAL_H

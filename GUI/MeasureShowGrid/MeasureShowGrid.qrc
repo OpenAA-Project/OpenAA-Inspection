@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/MeasureShowGrid.png</file>
+        <file>Qtres/Save.png</file>
+    </qresource>
+</RCC>

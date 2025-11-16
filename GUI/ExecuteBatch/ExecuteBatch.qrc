@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ExecuteBatch.png</file>
+        <file>Qtres/Add.png</file>
+        <file>Qtres/Blue.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Delete.png</file>
+        <file>Qtres/Down.png</file>
+        <file>Qtres/Green.png</file>
+        <file>Qtres/Load.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Save.png</file>
+        <file>Qtres/Start.png</file>
+        <file>Qtres/Stop.png</file>
+        <file>Qtres/Up.png</file>
+        <file>Qtres/Edit.png</file>
+        <file>Qtres/Close.png</file>
+    </qresource>
+</RCC>

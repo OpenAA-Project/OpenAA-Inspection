@@ -1,0 +1,12 @@
+#ifndef EVOBJRESULT_GLOBAL_H
+#define EVOBJRESULT_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef EVOBJRESULT_LIB
+# define EVOBJRESULT_EXPORT Q_DECL_EXPORT
+#else
+# define EVOBJRESULT_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // EVOBJRESULT_GLOBAL_H

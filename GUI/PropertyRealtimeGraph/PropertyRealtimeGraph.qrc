@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertyRealtimeGraph.png</file>
+        <file>Qtres/Start.png</file>
+    </qresource>
+</RCC>

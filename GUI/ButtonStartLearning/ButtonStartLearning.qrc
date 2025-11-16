@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonStartLearning.png</file>
+        <file>Qtres/Clear.png</file>
+        <file>Qtres/Load.png</file>
+        <file>Qtres/Start.png</file>
+    </qresource>
+</RCC>

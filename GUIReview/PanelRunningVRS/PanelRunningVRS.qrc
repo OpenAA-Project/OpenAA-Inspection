@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PanelRunningVRS.png</file>
+    </qresource>
+</RCC>

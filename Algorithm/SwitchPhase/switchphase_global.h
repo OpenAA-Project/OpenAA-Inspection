@@ -1,0 +1,12 @@
+#ifndef SWITCHPHASE_GLOBAL_H
+#define SWITCHPHASE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef SWITCHPHASE_LIB
+# define SWITCHPHASE_EXPORT Q_DECL_EXPORT
+#else
+# define SWITCHPHASE_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // SWITCHPHASE_GLOBAL_H

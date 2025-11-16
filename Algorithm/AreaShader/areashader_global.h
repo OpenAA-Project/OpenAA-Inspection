@@ -1,0 +1,12 @@
+#ifndef AREASHADER_GLOBAL_H
+#define AREASHADER_GLOBAL_H
+
+#include <qglobal.h>
+
+#ifdef AREASHADER_LIB
+# define AREASHADER_EXPORT Q_DECL_EXPORT
+#else
+# define AREASHADER_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // AREASHADER_GLOBAL_H

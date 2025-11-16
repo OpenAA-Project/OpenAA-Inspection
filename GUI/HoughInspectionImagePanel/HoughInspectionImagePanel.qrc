@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/HoughInspectionImagePanel.png</file>
+    </qresource>
+</RCC>

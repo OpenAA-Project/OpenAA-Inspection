@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/SaveNewMaster.png</file>
+        <file>Qtres/SaveNew.png</file>
+    </qresource>
+</RCC>

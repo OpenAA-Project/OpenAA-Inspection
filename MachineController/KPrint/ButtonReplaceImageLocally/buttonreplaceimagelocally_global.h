@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(BUTTONREPLACEIMAGELOCALLY_LIB)
+#  define BUTTONREPLACEIMAGELOCALLY_EXPORT Q_DECL_EXPORT
+# else
+#  define BUTTONREPLACEIMAGELOCALLY_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define BUTTONREPLACEIMAGELOCALLY_EXPORT
+#endif

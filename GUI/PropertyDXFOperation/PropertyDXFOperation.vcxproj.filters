@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{bca489d1-7a39-4746-878f-f60a264d072b}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{089dfdfc-f9fa-4561-b0e9-aa3724d7f75c}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PropertyDXFOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\SystemVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyDXFOperationForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditMoveDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditRotateDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditShearDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditZoomDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XPropertyDXFOperationPacket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SetWidthDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Algorithm\DXFOperation\XDXFOperationCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectLibraryDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AllocationLibByColorDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyDXFOperationResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PropertyDXFOperation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="propertydxfoperation_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XPropertyDXFOperationPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="PropertyDXFOperationForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="PropertyDXFOperationForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtUic Include="EditMoveDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="EditRotateDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="EditShearDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="EditZoomDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="EditMoveDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="EditRotateDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="EditShearDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="EditZoomDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtUic Include="SetWidthDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="SetWidthDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtRcc Include="PropertyDXFOperation.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <QtUic Include="SelectLibraryDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="SelectLibraryDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtUic Include="AllocationLibByColorDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="AllocationLibByColorDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Qtres\Close.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Delete.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\SaveNew.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Update.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Cancel.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\OK.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Clear.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Load.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Save.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Composite.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Layers.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Marge.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Start.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Select.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Setting.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\CopyOne.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\ListView.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Area.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Image.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Make.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Move.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Rotate.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Zoom.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Cut.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Draw.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Mirror.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\MoveY.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\Point.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,314 @@
+<ui version="4.0" >
+ <class>cltSimulatorClass</class>
+ <widget class="QWidget" name="cltSimulatorClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>668</width>
+    <height>493</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>cltSimulator</string>
+  </property>
+  <widget class="QPushButton" name="btnExit" >
+   <property name="geometry" >
+    <rect>
+     <x>580</x>
+     <y>460</y>
+     <width>75</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>&amp;Exit</string>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>651</width>
+     <height>441</height>
+    </rect>
+   </property>
+   <property name="currentIndex" >
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="tab" >
+    <attribute name="title" >
+     <string>ExecSimulator</string>
+    </attribute>
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>0</y>
+       <width>471</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="title" >
+      <string>Simulator Parameter</string>
+     </property>
+     <widget class="QWidget" name="gridLayoutWidget" >
+      <property name="geometry" >
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>441</width>
+        <height>135</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label" >
+         <property name="text" >
+          <string>Svr</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QLabel" name="label_2" >
+         <property name="text" >
+          <string>BasePort</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QLabel" name="label_3" >
+         <property name="text" >
+          <string>WaitTime</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="QSpinBox" name="spnPort" >
+         <property name="maximum" >
+          <number>9999</number>
+         </property>
+         <property name="value" >
+          <number>8666</number>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="QLineEdit" name="txtSvr" >
+         <property name="text" >
+          <string>127.0.0.1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" >
+        <widget class="QSpinBox" name="spnWait" >
+         <property name="maximum" >
+          <number>9999</number>
+         </property>
+         <property name="value" >
+          <number>5000</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" >
+        <widget class="QLineEdit" name="txtLogDir" >
+         <property name="text" >
+          <string>C:\Data\XmlClientLog</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" >
+        <widget class="QLabel" name="label_4" >
+         <property name="text" >
+          <string>LogDir</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2" >
+        <widget class="QPushButton" name="btnSelDir" >
+         <property name="text" >
+          <string>&amp;Select</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3" >
+        <widget class="QLabel" name="label_5" >
+         <property name="text" >
+          <string>ExecCnt</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3" >
+        <widget class="QLabel" name="label_6" >
+         <property name="text" >
+          <string>ThrCnt</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3" >
+        <widget class="QLabel" name="label_7" >
+         <property name="text" >
+          <string>LotId</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3" >
+        <widget class="QLabel" name="label_8" >
+         <property name="text" >
+          <string>StartEid</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3" >
+        <widget class="QLabel" name="label_9" >
+         <property name="text" >
+          <string>NGCnt</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4" >
+        <widget class="QSpinBox" name="spnThrCnt" >
+         <property name="value" >
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4" >
+        <widget class="QSpinBox" name="spnLotId" >
+         <property name="maximum" >
+          <number>999</number>
+         </property>
+         <property name="value" >
+          <number>50</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4" >
+        <widget class="QSpinBox" name="spnStartEid" >
+         <property name="maximum" >
+          <number>9999</number>
+         </property>
+         <property name="value" >
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="4" >
+        <widget class="QSpinBox" name="spnExecCnt" >
+         <property name="value" >
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="4" >
+        <widget class="QSpinBox" name="spnNgCnt" >
+         <property name="maximum" >
+          <number>9999</number>
+         </property>
+         <property name="value" >
+          <number>50</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="btnStart" >
+      <property name="geometry" >
+       <rect>
+        <x>10</x>
+        <y>160</y>
+        <width>75</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text" >
+       <string>&amp;Start</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_2" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>190</y>
+       <width>631</width>
+       <height>211</height>
+      </rect>
+     </property>
+     <property name="title" >
+      <string>Response</string>
+     </property>
+     <widget class="QTableWidget" name="tableWidget" >
+      <property name="geometry" >
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>611</width>
+        <height>181</height>
+       </rect>
+      </property>
+      <column>
+       <property name="text" >
+        <string>IST</string>
+       </property>
+      </column>
+      <column>
+       <property name="text" >
+        <string>NGP/NGI</string>
+       </property>
+      </column>
+      <column>
+       <property name="text" >
+        <string>Read</string>
+       </property>
+      </column>
+      <column>
+       <property name="text" >
+        <string>Res</string>
+       </property>
+      </column>
+      <column>
+       <property name="text" >
+        <string>All</string>
+       </property>
+      </column>
+     </widget>
+    </widget>
+    <widget class="QTableWidget" name="tableWidget_2" >
+     <property name="geometry" >
+      <rect>
+       <x>490</x>
+       <y>10</y>
+       <width>151</width>
+       <height>171</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text" >
+       <string>NGPCnt</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_2" >
+    <attribute name="title" >
+     <string>Response Detail</string>
+    </attribute>
+   </widget>
+  </widget>
+  <widget class="QLineEdit" name="txtMess" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>460</y>
+     <width>551</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

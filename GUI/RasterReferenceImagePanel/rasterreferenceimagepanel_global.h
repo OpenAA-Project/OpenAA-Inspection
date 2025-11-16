@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(RASTERREFERENCEIMAGEPANEL_LIB)
+#  define RASTERREFERENCEIMAGEPANEL_EXPORT Q_DECL_EXPORT
+# else
+#  define RASTERREFERENCEIMAGEPANEL_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define RASTERREFERENCEIMAGEPANEL_EXPORT
+#endif

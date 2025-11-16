@@ -1,0 +1,61 @@
+<ui version="4.0" >
+ <class>OKCheckFormClass</class>
+ <widget class="QWidget" name="OKCheckFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>656</width>
+    <height>393</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>OKCheckForm</string>
+  </property>
+  <widget class="QLabel" name="lbMessage" >
+   <property name="geometry" >
+    <rect>
+     <x>50</x>
+     <y>100</y>
+     <width>551</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>25</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>良品判定です。</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbMessage_2" >
+   <property name="geometry" >
+    <rect>
+     <x>30</x>
+     <y>220</y>
+     <width>604</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>25</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>OK又はNGボタンを押して下さい。</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

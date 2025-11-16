@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertyMultiFileMap.png</file>
+        <file>Qtres/Library.png</file>
+    </qresource>
+</RCC>

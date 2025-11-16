@@ -1,0 +1,20 @@
+<ui version="4.0" >
+ <class>SlaveIndicatorClass</class>
+ <widget class="QMainWindow" name="SlaveIndicatorClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>57</width>
+    <height>59</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>SlaveIndicator</string>
+  </property>
+  <widget class="QWidget" name="centralWidget" />
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

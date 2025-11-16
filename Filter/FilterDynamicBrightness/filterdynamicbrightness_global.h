@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(FILTERDYNAMICBRIGHTNESS_LIB)
+#  define FILTERDYNAMICBRIGHTNESS_EXPORT Q_DECL_EXPORT
+# else
+#  define FILTERDYNAMICBRIGHTNESS_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define FILTERDYNAMICBRIGHTNESS_EXPORT
+#endif

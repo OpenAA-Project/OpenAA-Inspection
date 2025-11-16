@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ShowTotalNGNaming.png</file>
+        <file>Qtres/Refresh.png</file>
+    </qresource>
+</RCC>

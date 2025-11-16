@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="Form FIles">
+      <UniqueIdentifier>{ce4c7305-c543-43a6-ad42-5733997a81ac}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="startcapturebuttonfordesktop_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="StartCaptureButtonForDesktop.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClCompile Include="StartCaptureButtonForDesktop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="StartCaptureButtonForDesktopResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XCmdPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XPushCmdPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="EditLibraryForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="NextMasterForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EditLibraryForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NextMasterForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StartCaptureButtonForDesktopResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XCmdPacket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XPushCmdPacket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\SystemVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Algorithm\AutoAlignment\XAutoAlignmentCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\PropertyAutoMaskingPI\XPropertyAutoMaskingPIPacket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="StartCaptureButtonForDesktop.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StartCaptureButtonForDesktop.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\StartCaptureImageForDesktop.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\StartCaptureImageForDesktop-en.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="EditLibraryForm.ui">
+      <Filter>Form FIles</Filter>
+    </QtUic>
+    <QtUic Include="NextMasterForm.ui">
+      <Filter>Form FIles</Filter>
+    </QtUic>
+  </ItemGroup>
+</Project>

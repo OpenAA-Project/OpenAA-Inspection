@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShowResultDetailForm</class>
+ <widget class="GUIFormBase" name="ShowResultDetailForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>642</width>
+    <height>220</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>641</width>
+     <height>192</height>
+    </rect>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <column>
+    <property name="text">
+     <string>Phase</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Page</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Layer</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ItemID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>LibID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>LibName</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Message</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Res1</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Res2</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Res3</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButtonWriteResult">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>190</y>
+     <width>111</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Write result</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

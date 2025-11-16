@@ -1,0 +1,216 @@
+#include "ShowNGMapDialog.h"
+#include "ui_ShowNGMapDialog.h"
+#include "XDataInLayer.h"
+#include "XIntegrationBase.h"
+#include "IntegrationShowNGMapButtonForm.h"
+#include "swap.h"
+
+NGMapWidget::NGMapWidget(LayersBase *base ,ShowNGMapDialog *p)
+	:ServiceForLayers(base),Parent(p)
+{
+	setAutoFillBackground(true);
+}
+	
+void NGMapWidget::paintEvent ( QPaintEvent * event )
+{
+	QPainter	Pnt(this);
+
+	EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(Parent->Parent->SlaveNo);
+	if(m!=NULL){
+		int	ImageW=width();
+		int	ImageH=height();
+		if(MasterImage.width()!=ImageW || MasterImage.height()!=ImageH){
+			MasterImage=QImage(ImageW,ImageH,QImage::Format_RGB32);
+		}
+		int	Phase=0;
+		int	Page=0;
+		double	Zx=((double)width()) /m->GetDotPerLine(Phase,Page);
+		double	Zy=((double)height())/m->GetMaxLines(Phase,Page);
+		double	ZoomRate=min(Zx,Zy);
+		double	Z=1.0/ZoomRate;
+		int		DarkerShift=2;
+		for(int y=0;y<ImageH;y++){
+			QRgb	*d=(QRgb *)MasterImage.scanLine(y);
+			int	Y=y*Z;
+			if(0<=Y && Y<m->GetMaxLines(Phase,Page)){
+				BYTE	*s[3];
+				for(int Layer=0;Layer<m->GetLayerNumb() && Layer<3;Layer++){
+					s[Layer]=m->MasterImage[Phase][Page][Layer].GetY(Y);
+				}
+				if(m->GetLayerNumb()==1){
+					for(int x=0;x<ImageW;x++){
+						int	X=x*Z;
+						if(0<=X && X<m->GetDotPerLine(Phase,Page)){
+							d[x]=qRgb(s[0][X],s[0][X],s[0][X]);
+						}
+					}
+				}
+				else
+				if(m->GetLayerNumb()==2){
+					for(int x=0;x<ImageW;x++){
+						int	X=x*Z;
+						if(0<=X && X<m->GetDotPerLine(Phase,Page)){
+							d[x]=qRgb(s[0][X],s[1][X],s[1][X]);
+						}
+					}
+				}
+				else
+				if(m->GetLayerNumb()>=3){
+					for(int x=0;x<ImageW;x++){
+						int	X=x*Z;
+						if(0<=X && X<m->GetDotPerLine(Phase,Page)){
+							d[x]=qRgb(s[0][X],s[1][X],s[2][X]);
+						}
+					}
+				}
+			}
+		}
+		Pnt.drawImage(0,0,MasterImage);
+
+		if(NGMapImage.width()!=ImageW || NGMapImage.height()!=ImageH){
+			NGMapImage=QImage(ImageW,ImageH,QImage::Format_ARGB32);
+		}
+		int	MaxN=0;
+		if(Parent->NGCountMap!=NULL){
+			for(int yn=0;yn<Parent->YLen;yn++){
+				for(int xn=0;xn<Parent->XLen;xn++){
+					MaxN=max(MaxN,Parent->NGCountMap[yn][xn]);
+				}
+			}
+			for(int yn=0;yn<Parent->YLen;yn++){
+				for(int xn=0;xn<Parent->XLen;xn++){
+					int	x1=xn*Parent->XRes*ZoomRate;
+					int	y1=yn*Parent->YRes*ZoomRate;
+					int	x2=(xn+1)*Parent->XRes*ZoomRate;
+					int	y2=(yn+1)*Parent->YRes*ZoomRate;
+					x1=max(x1,0);
+					y1=max(y1,0);
+					x2=min(x2,ImageW-1);
+					y2=min(y2,ImageH-1);
+					QRgb	Col=qRgba(Parent->NGCountMap[yn][xn]*255.0/((double)MaxN),0,0,200);
+					for(int y=y1;y<y2;y++){
+						QRgb	*d=(QRgb *)NGMapImage.scanLine(y);
+						for(int x=x1;x<x2;x++){
+							d[x]=Col;
+						}
+					}
+				}
+			}
+		}
+		Pnt.drawImage(0,0,NGMapImage);
+	}
+}
+
+
+ShowNGMapDialog::ShowNGMapDialog(LayersBase *base ,IntegrationShowNGMapButtonForm *p,QWidget *parent) :
+    QDialog(parent),ServiceForLayers(base),Parent(p),
+    ui(new Ui::ShowNGMapDialog)
+	,Window(base,this)
+{
+    ui->setupUi(this);
+	setWindowFlags(Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+
+	NGCountMap=NULL;
+	XLen=0;
+	YLen=0;
+	XRes=0;
+	YRes=0;
+	NGCount=0;
+
+	Window.setParent(this);
+	Window.move(0,0);
+
+	on_pushButtonReview_clicked();
+}
+
+ShowNGMapDialog::~ShowNGMapDialog()
+{
+    delete ui;
+	ReleaseMap();
+}
+
+void ShowNGMapDialog::resizeEvent ( QResizeEvent * event )
+{
+	ui->frame->setGeometry(0,height()-ui->frame->height(),width(),ui->frame->height());
+	Window.resize(width(),height()-ui->frame->height());
+
+	ui->pushButtonClose->move(width()-ui->pushButtonClose->width()-10,10);
+	ui->progressBar->resize(670-290-40,ui->progressBar->height());
+}
+
+
+void	ShowNGMapDialog::AllocateMap(void)
+{
+	if(NGCountMap!=NULL){
+		ReleaseMap();
+	}
+	double	MM=ui->doubleSpinBoxMatrixSizeMM->value();
+	double	Pixel=GetParamGlobal()->TransformUnitToPixel(MM);
+	XRes=Pixel;
+	YRes=Pixel;
+	EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(Parent->SlaveNo);
+	if(m!=NULL){
+		XLen=m->GetDotPerLine(0,0)/Pixel;
+		YLen=m->GetMaxLines  (0,0)/Pixel;
+		NGCountMap=(int **)MakeMatrixBuff(XLen*sizeof(int),YLen);
+		for(int y=0;y<YLen;y++){
+			for(int x=0;x<XLen;x++){
+				NGCountMap[y][x]=0;
+			}
+		}
+	}
+}
+
+void	ShowNGMapDialog::ReleaseMap(void)
+{
+	if(NGCountMap!=NULL){
+		DeleteMatrixBuff((BYTE **)NGCountMap,YLen);
+		NGCountMap=NULL;
+		XLen=0;
+		YLen=0;
+		XRes=0;
+		YRes=0;
+	}
+}
+
+
+void ShowNGMapDialog::on_pushButtonReview_clicked()
+{
+	AllocateMap();
+	EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(Parent->SlaveNo);
+	if(m!=NULL){
+		NGCount=0;
+		ui->progressBar->setMaximum(m->CurrentInspection.GetCount());
+		int	N=0;
+		for(InspectionList *L=m->CurrentInspection.GetFirst();L!=NULL;L=L->GetNext(),N++){
+			for(NGPointInAllPage *Ph=L->NGPointAllPhases.GetFirst();Ph!=NULL;Ph=Ph->GetNext()){
+				for(NGPointInPage *Pg=Ph->NPListPack<NGPointInPage>::GetFirst();Pg!=NULL;Pg=Pg->GetNext()){
+					for(NGPoint *p=Pg->NPListPack<NGPoint>::GetFirst();p!=NULL;p=p->GetNext()){
+						int	cx, cy;
+						p->GetMasterCenter(cx, cy);
+						int	xn=cx/XRes;
+						int	yn=cy/YRes;
+						if(0<=xn && xn<XLen && 0<=yn && yn<YLen){
+							NGCountMap[yn][xn]++;
+							NGCount++;
+						}
+					}
+				}
+			}
+			ui->progressBar->setValue(N);
+		}
+		ui->progressBar->setValue(N);
+		Window.repaint();
+	}
+}
+
+void ShowNGMapDialog::on_pushButtonClose_clicked()
+{
+	ReleaseMap();
+	close();
+}
+
+void ShowNGMapDialog::on_doubleSpinBoxMatrixSizeMM_valueChanged(double arg1)
+{
+
+}

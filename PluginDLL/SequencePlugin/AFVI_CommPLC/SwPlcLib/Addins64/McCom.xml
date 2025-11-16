@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addin>
+  <presets>
+    <preset type="SERIAL" name="MCプロトコル3C 形式4">
+      <Option>Format=4;Frame=3C;SumCheck=1;StationNo=00;NetworkNo=00;PcNo=FF;SelfStationNo=00;ReadBitMaxSize=3584;WriteBitMaxSize=3584;ReadWordMaxSize=960;WriteWordMaxSize=960</Option>
+    </preset>
+    <preset type="SERIAL" name="MCプロトコル4C 形式4">
+      <Option>Format=4;Frame=4C;SumCheck=1;StationNo=00;NetworkNo=00;PcNo=FF;ReqDestModIONo=03FF;ReqDestModStationNo=00;SelfStationNo=00;ReadBitMaxSize=3584;WriteBitMaxSize=3584;ReadWordMaxSize=960;WriteWordMaxSize=960</Option>
+    </preset>
+    <preset type="SERIAL" name="MCプロトコル1C 形式4">
+      <Option>Format=4;Frame=1C;SumCheck=1;StationNo=00;PcNo=FF;ReadBitMaxSize=256;WriteBitMaxSize=160;ReadWordMaxSize=64;WriteWordMaxSize=64</Option>
+    </preset>
+    <preset type="TCP/IP,UDP/IP" name="MCプロトコル3E">
+      <Option>Frame=3E;Code=BINARY;NetworkNo=00;PcNo=FF;ReqDestModIONo=03FF;ReqDestModStationNo=00;ReadBitMaxSize=3584;WriteBitMaxSize=3584;ReadWordMaxSize=960;WriteWordMaxSize=960</Option>
+    </preset>
+    <preset type="TCP/IP,UDP/IP" name="MCプロトコル4E">
+      <Option>Frame=4E;Code=BINARY;NetworkNo=00;PcNo=FF;ReqDestModIONo=03FF;ReqDestModStationNo=00;ReadBitMaxSize=3584;WriteBitMaxSize=3584;ReadWordMaxSize=960;WriteWordMaxSize=960</Option>
+    </preset>
+    <preset type="TCP/IP,UDP/IP" name="MCプロトコル1E">
+      <Option>Frame=1E;Code=BINARY;NetworkNo=00;PcNo=FF;ReqDestModIONo=03FF;ReqDestModStationNo=00;ReadBitMaxSize=256;WriteBitMaxSize=160;ReadWordMaxSize=64;WriteWordMaxSize=64</Option>
+    </preset>
+  </presets>
+  <optionItems>
+    <optionItem name="Format" type="SERIAL" range="1/2/3/4" description="伝文形式"/>
+    <optionItem name="Code" type="TCP/IP,UDP/IP" range="ASCII/BINARY" description="伝文コード"/>
+    <optionItem name="Frame" type="SERIAL,TCP/IP,UDP/IP" range="1C/3C/4C/1E/3E/4E" description="伝文種類"/>
+    <optionItem name="SumCheck" type="SERIAL" range="0:無し/1:有り" description="サムチェック"/>
+    <optionItem name="StationNo" type="SERIAL" range="00h - FFh" description="局番号"/>
+    <optionItem name="NetworkNo" type="SERIAL,TCP/IP,UDP/IP" range="00h - FFh" description="ネットワーク番号"/>
+    <optionItem name="PcNo" type="SERIAL,TCP/IP,UDP/IP" range="00h - FFh" description="PC番号"/>
+    <optionItem name="ReqDestModIONo" type="SERIAL,TCP/IP,UDP/IP" range="0000h - FFFFh" description="要求先ユニットI/O番号"/>
+    <optionItem name="ReqDestModStationNo" type="SERIAL,TCP/IP,UDP/IP" range="00h - FFh" description="要求先ユニット局番号"/>
+    <optionItem name="SelfStationNo" type="SERIAL" range="00h - FFh" description="自局番号"/>
+    <optionItem name="ReadBitMaxSize" type="SERIAL,TCP/IP,UDP/IP" range="1-3584" description="ビット読込み最大点数"/>
+    <optionItem name="WriteBitMaxSize" type="SERIAL,TCP/IP,UDP/IP" range="1-3584" description="ビット書込み最大点数"/>
+    <optionItem name="ReadWordMaxSize" type="SERIAL,TCP/IP,UDP/IP" range="1-960" description="ワード読込み最大点数"/>
+    <optionItem name="WriteWordMaxSize" type="SERIAL,TCP/IP,UDP/IP" range="1-960" description="ワード書込み最大点数"/>
+    <optionItem name="ExtensionCommand" type="SERIAL" range="0/1" description="拡張コマンド ※1Cフレームのみ(0:BR,BW,WR,WWコマンド/1:JR,JW,QR,QWコマンド)"/>
+    <optionItem name="AsciiXYOctal" type="SERIAL,TCP/IP,UDP/IP" range="0/1" description="0:ASCII(X,Y 16進),1:ASCII(X,Y 8進)"/>
+  </optionItems>
+</addin>

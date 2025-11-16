@@ -1,0 +1,12 @@
+#ifndef PIOCLIENT_GLOBAL_H
+#define PIOCLIENT_GLOBAL_H
+
+#include <qglobal.h>
+
+#ifdef PIOCLIENT_LIB
+# define PIOCLIENT_EXPORT Q_DECL_EXPORT
+#else
+# define PIOCLIENT_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // PIOCLIENT_GLOBAL_H

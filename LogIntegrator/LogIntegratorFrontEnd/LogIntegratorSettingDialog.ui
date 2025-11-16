@@ -1,0 +1,215 @@
+<ui version="4.0" >
+ <class>LogIntegratorSettingDialogClass</class>
+ <widget class="QDialog" name="LogIntegratorSettingDialogClass" >
+  <property name="windowModality" >
+   <enum>Qt::ApplicationModal</enum>
+  </property>
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>371</width>
+    <height>161</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>設定ダイアログ</string>
+  </property>
+  <property name="modal" >
+   <bool>true</bool>
+  </property>
+  <widget class="QGroupBox" name="groupBox" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>351</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="title" >
+    <string>入出力設定</string>
+   </property>
+   <widget class="QLabel" name="label" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="layoutDirection" >
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text" >
+     <string>上面ログのあるHD：</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_LowerLogHD" >
+    <property name="geometry" >
+     <rect>
+      <x>120</x>
+      <y>50</y>
+      <width>171</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>F:\</string>
+    </property>
+    <property name="maxLength" >
+     <number>1000</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_SelectOutputDir" >
+    <property name="geometry" >
+     <rect>
+      <x>300</x>
+      <y>80</y>
+      <width>40</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>参照</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_UpperLogHD" >
+    <property name="geometry" >
+     <rect>
+      <x>120</x>
+      <y>20</y>
+      <width>171</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>E:\</string>
+    </property>
+    <property name="maxLength" >
+     <number>1000</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_SelectUpperLogHD" >
+    <property name="geometry" >
+     <rect>
+      <x>300</x>
+      <y>20</y>
+      <width>40</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>参照</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>下面ログのあるHD：</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>ログ出力先フォルダ：</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_OutputDir" >
+    <property name="geometry" >
+     <rect>
+      <x>120</x>
+      <y>80</y>
+      <width>171</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>D:\</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_SelectLowerLogHD" >
+    <property name="geometry" >
+     <rect>
+      <x>300</x>
+      <y>50</y>
+      <width>40</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>参照</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton_OK" >
+   <property name="geometry" >
+    <rect>
+     <x>194</x>
+     <y>130</y>
+     <width>81</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>&amp;OK</string>
+   </property>
+   <property name="default" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_Cancel" >
+   <property name="geometry" >
+    <rect>
+     <x>280</x>
+     <y>130</y>
+     <width>81</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>キャンセル(&amp;C)</string>
+   </property>
+   <property name="autoDefault" >
+    <bool>false</bool>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <tabstops>
+  <tabstop>lineEdit_UpperLogHD</tabstop>
+  <tabstop>pushButton_SelectUpperLogHD</tabstop>
+  <tabstop>lineEdit_LowerLogHD</tabstop>
+  <tabstop>pushButton_SelectLowerLogHD</tabstop>
+  <tabstop>lineEdit_OutputDir</tabstop>
+  <tabstop>pushButton_SelectOutputDir</tabstop>
+  <tabstop>pushButton_OK</tabstop>
+  <tabstop>pushButton_Cancel</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

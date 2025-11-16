@@ -1,0 +1,12 @@
+#ifndef EVOBJCAMERA_GLOBAL_H
+#define EVOBJCAMERA_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef EVOBJCAMERA_LIB
+# define EVOBJCAMERA_EXPORT Q_DECL_EXPORT
+#else
+# define EVOBJCAMERA_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // EVOBJCAMERA_GLOBAL_H

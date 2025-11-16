@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ExecuteMacroListFormClass</class>
+ <widget class="GUIFormBase" name="ExecuteMacroListFormClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>292</width>
+    <height>278</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ExecuteMacroListForm</string>
+  </property>
+  <widget class="QListWidget" name="listWidgetMacro">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>291</width>
+     <height>171</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonLoadMacro">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>151</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Load Macro file</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ExecuteMacroList.qrc">
+     <normaloff>:/Qtres/Load.png</normaloff>:/Qtres/Load.png</iconset>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditMacroFile">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>174</y>
+     <width>291</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonStartExecute">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>200</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Start macro</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ExecuteMacroList.qrc">
+     <normaloff>:/Qtres/Start.png</normaloff>:/Qtres/Start.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonStopExecute">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>240</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Stop macro</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ExecuteMacroList.qrc">
+     <normaloff>:/Qtres/Stop.png</normaloff>:/Qtres/Stop.png</iconset>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="ExecuteMacroList.qrc"/>
+ </resources>
+ <connections/>
+</ui>

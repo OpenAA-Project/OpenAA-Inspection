@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/ImageProcessorPanel.png</file>
+    </qresource>
+</RCC>

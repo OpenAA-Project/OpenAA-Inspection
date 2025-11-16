@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>InspectionListForm</class>
+ <widget class="QWidget" name="InspectionListForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1053</width>
+    <height>618</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1061</width>
+     <height>621</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>年月日</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>時間</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>マスターID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>マスター名</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ロット名</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>検査数</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>運転時間</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>NG数</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>NG率</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>サイクルタイム</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

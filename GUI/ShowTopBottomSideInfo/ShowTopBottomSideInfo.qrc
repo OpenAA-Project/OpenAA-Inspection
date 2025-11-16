@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ShowTopBottomSideInfo.png</file>
+    </qresource>
+</RCC>

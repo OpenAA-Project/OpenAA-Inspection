@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ItemListForm</class>
+ <widget class="QWidget" name="ItemListForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>889</width>
+    <height>407</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Item list</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>891</width>
+     <height>371</height>
+    </rect>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <column>
+    <property name="text">
+     <string>Page</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ItemID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>LibID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>SearchAreaX</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>SearchAreaY</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>SelfSearch</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>OKDot</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>OKDotN</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

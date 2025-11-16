@@ -1,0 +1,12 @@
+#ifndef PROPERTYOCR_GLOBAL_H
+#define PROPERTYOCR_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef PROPERTYOCR_LIB
+# define PROPERTYOCR_EXPORT Q_DECL_EXPORT
+#else
+# define PROPERTYOCR_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // PROPERTYOCR_GLOBAL_H

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/ButtonTransferMasterData.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/ButtonSavePWAFile.png</file>
+    </qresource>
+</RCC>

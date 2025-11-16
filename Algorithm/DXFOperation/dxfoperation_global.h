@@ -1,0 +1,12 @@
+#ifndef DXFOPERATION_GLOBAL_H
+#define DXFOPERATION_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef DXFOPERATION_LIB
+# define DXFOPERATION_EXPORT Q_DECL_EXPORT
+#else
+# define DXFOPERATION_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // DXFOPERATION_GLOBAL_H

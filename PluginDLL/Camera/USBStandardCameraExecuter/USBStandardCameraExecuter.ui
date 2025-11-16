@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>USBStandardCameraExecuterClass</class>
+ <widget class="QMainWindow" name="USBStandardCameraExecuterClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>531</width>
+    <height>161</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>USBStandardCameraExecuter</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>531</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <row>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>2</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>3</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>4</string>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>Camera</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>XLen</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>YLen</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>FPS</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Now</string>
+     </property>
+    </column>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

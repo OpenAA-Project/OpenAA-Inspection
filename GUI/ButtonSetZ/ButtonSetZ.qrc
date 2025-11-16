@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonSetZ.png</file>
+        <file>Qtres/Setting.png</file>
+    </qresource>
+</RCC>

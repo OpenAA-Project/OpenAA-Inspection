@@ -1,0 +1,7 @@
+#ifndef PROPERTYALIGNMENTPROJECTION_H
+#define PROPERTYALIGNMENTPROJECTION_H
+
+#include "propertyalignmentprojection_global.h"
+
+
+#endif // PROPERTYALIGNMENTPROJECTION_H

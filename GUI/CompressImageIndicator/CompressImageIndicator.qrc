@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/CompressImageIndicator.png</file>
+    </qresource>
+</RCC>

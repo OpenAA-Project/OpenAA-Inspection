@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/AutoSaveImageViewList.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Load.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Save.png</file>
+        <file>Qtres/Update.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addin>
+  <presets>
+    <preset type="SERIAL" name="OMRON Cモード">
+      <Option>UnitNo=0;Cmode=1;</Option>
+    </preset>
+    <preset type="SERIAL" name="OMRON FINS/Serial">
+      <Option>UnitNo=0;Cmode=0</Option>
+    </preset>
+    <preset type="TCP/IP" name="OMRON FINS/TCP">
+      <Option>AutoNodeNumber=1;DNA=0;SNA=0;DA1=1;DA2=0;SA1=1;SA2=0</Option>
+    </preset>
+    <preset type="UDP/IP" name="OMRON FINS/UDP">
+      <Option>DNA=0;SNA=0;DA1=1;DA2=0;SA1=1;SA2=0</Option>
+    </preset>
+  </presets>
+  <optionItems>
+    <optionItem name="DNA" type="SERIAL,TCP/IP,UDP/IP" range="0=自ネットワーク" description="相手先ネットワークアドレス"/>
+    <optionItem name="SNA" type="SERIAL,TCP/IP,UDP/IP" range="0=自ネットワーク" description="発信元ネットワークアドレス"/>
+    <optionItem name="DA1" type="SERIAL,TCP/IP,UDP/IP" range="1-FE" description="相手先ノードアドレス"/>
+    <optionItem name="DA2" type="SERIAL,TCP/IP,UDP/IP" range="0-FE" description="相手先号機アドレス"/>
+    <optionItem name="SA1" type="SERIAL,TCP/IP,UDP/IP" range="1-FE" description="発信元ノードアドレス"/>
+    <optionItem name="SA2" type="SERIAL,TCP/IP,UDP/IP" range="0-FE" description="発信元号機アドレス"/>
+    <optionItem name="AutoNodeNumber" type="TCP/IP" range="0=OFF/1=ON" description="FINSノードアドレス自動取得 ※FINS/TCP時のみ"/>
+    <optionItem name="UnitNo" type="SERIAL" range="" description="上位リンク用ユニットNo."/>
+    <optionItem name="Cmode" type="SERIAL" range="0=FINS/1=Cモード" description="通信モード選択"/>
+  </optionItems>
+</addin>

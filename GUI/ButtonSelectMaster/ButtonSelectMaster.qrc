@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonSelectMaster.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Search.png</file>
+        <file>Qtres/Select.png</file>
+    </qresource>
+</RCC>

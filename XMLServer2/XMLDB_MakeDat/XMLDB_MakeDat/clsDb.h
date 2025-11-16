@@ -1,0 +1,155 @@
+#ifndef CLSDB_H
+#define CLSDB_H
+
+#include <QObject>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QSqlQueryModel>
+#include <QSqlTableModel>
+#include <QSqlRecord>
+#include <QStringList>
+
+#include "clsLog.h"
+
+class clsDb : public QObject
+{
+	Q_OBJECT
+
+public:
+	clsDb(QObject *parent=0);
+	~clsDb();
+
+	/// データベース名
+	QString dbnam;
+
+	/// データベースタイプ
+	QString dbtype;
+
+	/// DBユーザ
+	QString dbusr;
+
+	/// DBパスワード
+	QString dbpwd;
+
+	/// DBホスト
+	QString dbhost;
+
+	clsLog *log;
+
+	/// 接続パラメータセット
+	/**
+	 * 接続パラメータを設定する。
+	 * @param QString _dbtyp   データベースタイプ
+	 * @param QString _dbhost  データベースサーバホスト名
+	 * @param QString _dbnam   データベース名
+	 * @param QString _dbusr   データベースユーザ名
+	 * @param QString _dbpwd   データベースパスワード
+	 */
+	void setPrm(QString _dbtyp, QString _dbhost, QString _dbnam, QString _dbusr, QString _dbpwd);
+	void setPrm();
+	void setPrm(QString _dbnam);
+
+	bool initDb();
+
+	/// 接続
+	/**
+	 * @return bool
+	 */
+	bool Connect();
+
+	/// 切断
+	/**
+	 * @return bool
+	 */
+	bool DisConnect();
+
+	/// 更新
+	/**
+	 * @param QString sql
+	 * @return void
+	 */
+	bool updExecSql(QString sql);
+
+	/// MAXID取得
+	/**
+	 * @param QString
+	 * @return QString
+	 */
+	QString maxId(QString tbl);
+
+	/// クエリーモデル生成
+	/**
+	 * @param QString sql
+	 * @return QSqlQueryModel
+	 */
+	QSqlQueryModel *mkQueryModel(QString sql);
+
+	QSqlRecord rec;
+	int readRec(QString sql);
+
+	QString mess;
+
+    QString curDay(bool flgTime=false);
+    int getInsId(QString tbl);
+
+    /**
+     * トランザクション開始
+     * @return bool
+     */
+    bool beginTran();
+
+    /**
+     * トランザクション終了
+     * @return bool
+     */
+    bool endTran(bool flg);
+
+    bool errflg;
+
+    bool addTopNode(int no, QString tag, QString &parid);
+    bool addTopAttr(int no, QString topid, QString tag, QString val);
+    bool addSecNode(int no, QString topid, QString tag, QString val, QString &parid);
+    bool addSecAttr(int no, QString topid, QString nid, QString tag, QString val);
+    int getMaxSrt(QString tbl, QString topid="");
+
+    bool addNgpAttr(QString topid, QString nid, QStringList lstAttr);
+    bool addNgiAttr(QString topid, QString nid, QStringList lstAttr);
+
+	QSqlQuery *queryTop;
+	QSqlQuery *queryTopAttr;
+	QSqlQuery *querySec;
+	QSqlQuery *querySecAttr;
+	bool makePrepare();
+
+    bool delTop(QString whr);
+    bool delSec(QString whr);
+
+    bool setTable(QString tbl);
+    bool setTag(QString tag, int lvl);
+    int tagLvl(QString tag);
+
+	bool createSequence(QString name);
+
+	bool createDb(QString dbpath);
+	long SQLCODE;
+
+private:
+	/// データベースオブジェクト
+	QSqlDatabase db;
+
+	/// テーブルヘッダ
+	QString tblHead;
+
+	QStringList lstTagTop;
+	QStringList lstTagSec;
+	int nTagTop;
+	int nTagSec;
+	bool mkTagTopLst();
+	bool mkTagSecLst();
+	bool setTagLst(QString sql, QStringList &lst, int &nTag);
+
+	bool createIndex(QString tbl, QString col, QString nam);
+};
+
+#endif // CLSDB_H

@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BackupBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="datamanagementResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="progressbar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="restorepath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="setting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\XShowVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ServiceLib\ServiceForDBLib\qsql_ibase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="datamanagement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="BackupBase.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="progressbar.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="restorepath.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="setting.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\ServiceLib\ServiceForDBLib\qsql_ibase_p.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="datamanagement.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="LoadPath.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="mastermove.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="mastertreemove.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="pass.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="progressbar.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="RemovreFileListDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="restorepath.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SelectMachineForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="setting.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="xmllot.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="datamanagement.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{7c0c3cca-439a-4a3d-8089-853cd60be704}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="datamanagementResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GeneralSource\connection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="Datamanagement.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Qtres\fireworks_64.PNG">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\fireworks_128.PNG">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\flash_64.PNG">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\flash_128.PNG">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\flash_swf_64.PNG">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Qtres\flash_swf_128.PNG">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Data management.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Data management.ico" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonLoadMasterDataWithoutMachine.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Load.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Search.png</file>
+        <file>Qtres/SortNumber.png</file>
+        <file>Qtres/SortText.png</file>
+    </qresource>
+</RCC>

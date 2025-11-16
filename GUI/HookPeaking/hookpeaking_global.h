@@ -1,0 +1,12 @@
+#ifndef HOOKPEAKING_GLOBAL_H
+#define HOOKPEAKING_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef HOOKPEAKING_LIB
+# define HOOKPEAKING_EXPORT Q_DECL_EXPORT
+#else
+# define HOOKPEAKING_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // HOOKPEAKING_GLOBAL_H

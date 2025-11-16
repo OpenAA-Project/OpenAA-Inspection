@@ -1,0 +1,12 @@
+#ifndef GENERALMENU_GLOBAL_H
+#define GENERALMENU_GLOBAL_H
+
+#include <qglobal.h>
+
+#ifdef GENERALMENU_LIB
+# define GENERALMENU_EXPORT Q_DECL_EXPORT
+#else
+# define GENERALMENU_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // GENERALMENU_GLOBAL_H

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/SetFilterToMoveXY.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Setting.png</file>
+    </qresource>
+</RCC>

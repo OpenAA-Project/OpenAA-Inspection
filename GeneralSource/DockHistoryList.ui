@@ -1,0 +1,97 @@
+<ui version="4.0" >
+ <class>DockHistoryListClass</class>
+ <widget class="QDockWidget" name="DockHistoryListClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>259</width>
+    <height>465</height>
+   </rect>
+  </property>
+  <widget class="QWidget" name="widget" >
+   <layout class="QGridLayout" >
+    <item row="0" column="0" >
+     <widget class="QSplitter" name="splitter" >
+      <property name="orientation" >
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QTableWidget" name="twHistoryList" >
+       <property name="columnCount" >
+        <number>3</number>
+       </property>
+       <column/>
+       <column/>
+       <column/>
+      </widget>
+      <widget class="QWidget" name="layoutWidget" >
+       <layout class="QGridLayout" >
+        <item row="0" column="0" >
+         <widget class="QCheckBox" name="chReverseOrderDisplay" >
+          <property name="text" >
+           <string>&amp;Reverse Order Display</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" >
+         <widget class="PasswordPushButton" name="pbChangeLot" >
+          <property name="minimumSize" >
+           <size>
+            <width>75</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="text" >
+           <string>Change Lot</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" >
+         <layout class="QHBoxLayout" >
+          <item>
+           <widget class="QLabel" name="label" >
+            <property name="text" >
+             <string>Inspect Count</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="leHistoryNumb" >
+            <property name="readOnly" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="1" >
+         <widget class="PasswordPushButton" name="pbUpdate" >
+          <property name="minimumSize" >
+           <size>
+            <width>75</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="text" >
+           <string>Update</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <customwidgets>
+  <customwidget>
+   <class>PasswordPushButton</class>
+   <extends>QPushButton</extends>
+   <header>PasswordPushButton.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

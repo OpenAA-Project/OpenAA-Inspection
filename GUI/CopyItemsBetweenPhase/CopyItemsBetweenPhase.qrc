@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/CopyItemsBetweenPhase.png</file>
+        <file>Qtres/Cancel.png</file>
+    </qresource>
+</RCC>

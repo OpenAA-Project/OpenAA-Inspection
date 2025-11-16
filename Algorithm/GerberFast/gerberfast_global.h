@@ -1,0 +1,12 @@
+#ifndef GERBERFAST_GLOBAL_H
+#define GERBERFAST_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef GERBERFAST_LIB
+# define GERBERFAST_EXPORT Q_DECL_EXPORT
+#else
+# define GERBERFAST_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // GERBERFAST_GLOBAL_H

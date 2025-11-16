@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertyMasking.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Clear.png</file>
+        <file>Qtres/ClearNew.png</file>
+        <file>Qtres/Close.png</file>
+        <file>Qtres/Delete.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Save.png</file>
+        <file>Qtres/SaveNew.png</file>
+        <file>Qtres/Update.png</file>
+        <file>Qtres/Effect.png</file>
+        <file>Qtres/EffectNG.png</file>
+        <file>Qtres/Extract.png</file>
+        <file>Qtres/Mask.png</file>
+        <file>Qtres/MaskAdd.png</file>
+        <file>Qtres/MaskDelete.png</file>
+        <file>Qtres/MaskLimit.png</file>
+        <file>Qtres/MaskNG.png</file>
+        <file>Qtres/ColorAdd.png</file>
+        <file>Qtres/ColorDelete.png</file>
+        <file>Qtres/Color.png</file>
+        <file>Qtres/Hole.png</file>
+        <file>Qtres/Edit.png</file>
+        <file>Qtres/Add.png</file>
+        <file>Qtres/Area.png</file>
+    </qresource>
+</RCC>

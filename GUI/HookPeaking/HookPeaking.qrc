@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PeakingN.png</file>
+        <file>Resources/PeakingS.png</file>
+    </qresource>
+</RCC>

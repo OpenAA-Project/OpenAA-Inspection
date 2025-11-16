@@ -1,0 +1,336 @@
+<ui version="4.0" >
+ <class>PropertyHalconFormClass</class>
+ <widget class="GUIFormBase" name="PropertyHalconFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>PropertyHalconForm</string>
+  </property>
+  <widget class="QFrame" name="frame_2" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>381</width>
+     <height>661</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <widget class="QLineEdit" name="lineEditLibID" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>190</y>
+      <width>41</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="readOnly" >
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frameLibFolder" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>191</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidgetLibList" >
+    <property name="geometry" >
+     <rect>
+      <x>210</x>
+      <y>10</y>
+      <width>161</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="selectionMode" >
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+    <property name="selectionBehavior" >
+     <enum>QAbstractItemView::SelectRows</enum>
+    </property>
+    <column>
+     <property name="text" >
+      <string>ID</string>
+     </property>
+    </column>
+    <column>
+     <property name="text" >
+      <string>Name</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QFrame" name="frame" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>260</y>
+      <width>361</width>
+      <height>391</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <widget class="QPushButton" name="pushButtonRegist_2" >
+     <property name="geometry" >
+      <rect>
+       <x>40</x>
+       <y>350</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>新規追加</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonUpdate" >
+     <property name="geometry" >
+      <rect>
+       <x>150</x>
+       <y>350</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>修正</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonDelete" >
+     <property name="geometry" >
+      <rect>
+       <x>260</x>
+       <y>350</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>削除</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="tableViewSampleList" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>341</width>
+       <height>331</height>
+      </rect>
+     </property>
+     <property name="editTriggers" >
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="selectionMode" >
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior" >
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="columnCount" >
+      <number>11</number>
+     </property>
+     <column>
+      <property name="text" >
+       <string>Function Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Arg1</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Arg2</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Arg3</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Arg4</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Arg5</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Arg6</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Arg7</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Arg8</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Arg9</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Arg10</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QLineEdit" name="lineEditLibName" >
+    <property name="geometry" >
+     <rect>
+      <x>70</x>
+      <y>190</y>
+      <width>151</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4" >
+    <property name="geometry" >
+     <rect>
+      <x>70</x>
+      <y>170</y>
+      <width>151</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="text" >
+     <string>名称</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonDeleteLib" >
+    <property name="geometry" >
+     <rect>
+      <x>230</x>
+      <y>220</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>削除</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonUpdateLib" >
+    <property name="geometry" >
+     <rect>
+      <x>120</x>
+      <y>220</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>登録</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonRegistLib" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>220</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>新規追加</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxDefault" >
+    <property name="geometry" >
+     <rect>
+      <x>240</x>
+      <y>190</y>
+      <width>121</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>常時使用</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label_2" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>381</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>生成</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/ImageControlTools.png</file>
+        <file>Resources/NonSelct.png</file>
+        <file>Resources/ViewGrayLower.png</file>
+        <file>Resources/ViewGrayUpper.png</file>
+        <file>Resources/ViewMaster.png</file>
+        <file>Resources/ViewTarget.png</file>
+        <file>Resources/ViewBackGround.png</file>
+    </qresource>
+</RCC>

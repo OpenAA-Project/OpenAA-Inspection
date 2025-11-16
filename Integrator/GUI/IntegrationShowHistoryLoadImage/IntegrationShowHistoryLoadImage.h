@@ -1,0 +1,8 @@
+#ifndef INTEGRATIONSHOWHISTORYLOADIMAGE_H
+#define INTEGRATIONSHOWHISTORYLOADIMAGE_H
+
+#include "integrationshowhistoryloadimage_global.h"
+
+
+
+#endif // INTEGRATIONSHOWHISTORYLOADIMAGE_H

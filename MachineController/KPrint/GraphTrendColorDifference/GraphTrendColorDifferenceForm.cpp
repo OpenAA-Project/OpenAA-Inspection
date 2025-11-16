@@ -1,0 +1,429 @@
+#include "GraphTrendColorDifferenceResource.h"
+#include "GraphTrendColorDifferenceForm.h"
+#include "ui_GraphTrendColorDifferenceForm.h"
+#include "XColorDifference.h"
+#include "XColorDifferenceLibrary.h"
+#include "LogListDialog.h"
+#include "XGeneralFunc.h"
+#include "libxl.h"
+using namespace libxl;
+
+extern	const	char	*sRoot;
+extern	const	char	*sName;
+
+TrendGraphList::TrendGraphList(int index,GraphTrendColorDifferenceForm *p,QWidget *Bp)
+	:mtLineGraph(p),ServiceForLayers(p->GetLayersBase()),Parent(p),Index(index)
+{
+	Machine			=NULL;
+	LibID			=-1;
+	UniqueID		=-1;
+	IndexInMachine	=-1;
+	StartIndex		=-1;
+
+	setParent(Bp);
+	SetScaleTypeY(mtLineGraph::mtConstant);
+
+	ColorThreshold	=Qt::red;
+
+	GraphData.SetLineColor(Qt::blue);
+	GraphData.SetLineWidth(1);
+	GraphData.SetOffsetX(0);
+
+	ThresholdL	.SetLineColor(ColorThreshold);
+	ThresholdL	.SetLineWidth(1);
+	ThresholdL	.SetOffsetX(0);
+	ThresholdH	.SetLineColor(ColorThreshold);	
+	ThresholdH	.SetLineWidth(1);
+	ThresholdH	.SetOffsetX(0);
+
+	AddGraph(&GraphData);
+	AddGraph(&ThresholdL);
+	AddGraph(&ThresholdH);
+}
+	
+void	TrendGraphList::DrawGraph(void)
+{
+	ThresholdL.DeleteXY();
+	ThresholdH.DeleteXY();
+
+	ColorItem		*c=Parent->GetCurrentItem();
+	if(c!=NULL){
+		double	ValueThresholdL=0;
+		double	ValueThresholdH=0;
+		if(Index==0){
+			ValueThresholdL	=c->ThreHL;
+			ValueThresholdH	=c->ThreHH;
+		}
+		else if(Index==1){
+			ValueThresholdL	=c->ThreSL;
+			ValueThresholdH	=c->ThreSH;
+		}
+		else if(Index==2){
+			ValueThresholdL	=c->ThreVL;
+			ValueThresholdH	=c->ThreVH;
+		}
+		else if(Index==3){
+			ValueThresholdL	=c->ThreE;
+			ValueThresholdH	=c->ThreE;
+		}
+		ThresholdL.AddXY(0,ValueThresholdL);
+		ThresholdL.AddXY(width(),ValueThresholdL);
+		ThresholdH.AddXY(0, ValueThresholdH);
+		ThresholdH.AddXY(width(), ValueThresholdH);
+
+		GraphData.DeleteXY();
+		double	Y=0;
+		int	XSpan=Parent->GetGraphXSpan();
+		if(XSpan==0){
+			for(int i=0;i<width() && c->CurrentCountDim-i>0;i++){
+				int	R=c->CurrentCountDim-i-1;
+				Y=c->RunningColorDim[R].HSVE[Index];
+				GraphData.AddXY(i,Y);
+			}
+		}
+		else if(XSpan==1){
+			for(int i=0;i<width();i++){
+				int	R=c->CurrentCountDim-i*100-1;
+				if(R>=0){
+					Y=c->RunningColorDim[R].HSVE[Index];
+					GraphData.AddXY(i,Y);
+				}
+			}
+		}
+		else if(XSpan==2){
+			int	R=c->CurrentCountDim;
+			for(int i=0;i<width();i++){
+				for(int i=R-1;i>=0;i--){
+					if(R==c->CurrentCountDim
+						|| c->RunningColorDim[R].TmInfo.Minute!=c->RunningColorDim[i].TmInfo.Minute){
+						R=i;
+						Y=c->RunningColorDim[R].HSVE[Index];
+						GraphData.AddXY(i,Y);
+					}
+				}
+			}
+		}
+		//GraphData.AddXY(width(),Y);
+	}
+
+	repaint();
+}
+//==================================================================================================
+ColorItem::ColorItem(GraphTrendColorDifferenceForm *p)
+	:Parent(p)
+{
+	AllocatedCountOfDim=10000000;
+	RunningColorDim =new struct	RunningColorHSVE[AllocatedCountOfDim];
+	CurrentCountDim=0;
+
+}
+ColorItem::~ColorItem(void)
+{
+	delete	[]RunningColorDim;
+	RunningColorDim=NULL;
+	AllocatedCountOfDim=0;
+}
+
+//==================================================================================================
+
+GraphTrendColorDifferenceForm::GraphTrendColorDifferenceForm(LayersBase *Base ,QWidget *parent) :
+    GUIFormBase(Base,parent),
+    ui(new Ui::GraphTrendColorDifferenceForm)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+	MaxCount		=20;
+
+	TrendGraphDimH	=new TrendGraphList(0,this,ui->widgetH);
+	TrendGraphDimS	=new TrendGraphList(1,this,ui->widgetS);
+	TrendGraphDimV	=new TrendGraphList(2,this,ui->widgetV);
+	TrendGraphDimE	=new TrendGraphList(3,this,ui->widgetE);
+	connect(this,SIGNAL(SignalResize()), this ,SLOT(ResizeAction()));
+}
+
+GraphTrendColorDifferenceForm::~GraphTrendColorDifferenceForm()
+{
+    delete ui;
+	TrendGraphDimH->deleteLater();
+	TrendGraphDimS->deleteLater();
+	TrendGraphDimV->deleteLater();
+	TrendGraphDimE->deleteLater();
+
+	TrendGraphDimH=NULL;
+	TrendGraphDimS=NULL;
+	TrendGraphDimV=NULL;
+	TrendGraphDimE=NULL;
+}
+
+void	GraphTrendColorDifferenceForm::ReadyParam(void)
+{
+	connect(GetLayersBase()->GetIntegrationBasePointer(),SIGNAL(SignalInspectionDone(int,int64,bool))
+			,this,SLOT(SlotInspectionDone(int,int64,bool)));
+}
+
+void	GraphTrendColorDifferenceForm::ResizeAction()
+{
+	ui->listWidgetItemList	->resize(ui->listWidgetItemList	->width(),height()-ui->comboBoxXScale->height()-ui->pushButtonLogOut->height());
+	ui->pushButtonLogOut->move(0,height()-ui->pushButtonLogOut->height());
+
+	int	H=height()/4;
+	ui->labelH->setGeometry(ui->listWidgetItemList	->width(),0		,41,H);
+	ui->labelS->setGeometry(ui->listWidgetItemList	->width(),H		,41,H);
+	ui->labelV->setGeometry(ui->listWidgetItemList	->width(),H*2	,41,H);
+	ui->labelE->setGeometry(ui->listWidgetItemList	->width(),H*3	,41,H);
+
+	int	XPos=ui->listWidgetItemList	->width()+41;
+	ui->widgetH->setGeometry(XPos	,0	,width()-XPos,H);
+	ui->widgetS->setGeometry(XPos	,H	,width()-XPos,H);
+	ui->widgetV->setGeometry(XPos	,H*2,width()-XPos,H);
+	ui->widgetE->setGeometry(XPos	,H*3,width()-XPos,H);
+
+	TrendGraphDimH->setGeometry(0,0		,width()-XPos,H);
+	TrendGraphDimS->setGeometry(0,0		,width()-XPos,H);
+	TrendGraphDimV->setGeometry(0,0		,width()-XPos,H);
+	TrendGraphDimE->setGeometry(0,0		,width()-XPos,H);
+}
+ColorItem	*GraphTrendColorDifferenceForm::GetCurrentItem(void)
+{
+	int	n=ui->listWidgetItemList->currentRow();
+	if(n<0)
+		return NULL;
+	ColorItem	*c=ColorItems[n];
+	return c;
+}
+void	GraphTrendColorDifferenceForm::BuildForShow(void)
+{
+	if(GetCurrentShadowLevel()==0){
+		ColorItems.RemoveAll();
+		for(int SlaveNo=0;SlaveNo<GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();SlaveNo++){
+			IntegrationCmdReqColorItem	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+			IntegrationCmdAckColorItem	ACmd(GetLayersBase(),sRoot,sName,SlaveNo);
+			if(RCmd.Send(SlaveNo,0,ACmd)==true){
+				for(int i=0;i<ACmd.ItemCount;i++){
+					ColorItem	*s=new ColorItem(this);
+					s->SlaveNo=SlaveNo;
+					s->Phase	=ACmd.ItemData[i].Phase;
+					s->Page		=ACmd.ItemData[i].Page;
+					s->ItemID	=ACmd.ItemData[i].ItemID;
+					s->ManualCreated	=ACmd.ItemData[i].ManualCreated;
+					s->ThreHL	=ACmd.ItemData[i].ThreHL;
+					s->ThreHH	=ACmd.ItemData[i].ThreHH;
+					s->ThreSL	=ACmd.ItemData[i].ThreSL;
+					s->ThreSH	=ACmd.ItemData[i].ThreSH;
+					s->ThreVL	=ACmd.ItemData[i].ThreVL;
+					s->ThreVH	=ACmd.ItemData[i].ThreVH;
+					s->ThreE	=ACmd.ItemData[i].ThreE	;
+					ColorItems.AppendList(s);
+				}
+			}
+		}
+		ui->listWidgetItemList->clear();
+		int	N=0;
+		for(ColorItem *c=ColorItems.GetFirst();c!=NULL && N<MaxCount;c=c->GetNext(),N++){
+			if(c->ManualCreated==true){
+				ui->listWidgetItemList->addItem( QString::number(c->SlaveNo)
+												+QString(/**/"-")
+												+QString::number(c->ItemID)
+												+QString(/**/"M"));
+			}
+			else{
+				ui->listWidgetItemList->addItem( QString::number(c->SlaveNo)
+												+QString(/**/"-")
+												+QString::number(c->ItemID));
+			}
+		}
+		if(ColorItems.GetCount()>0){
+			ui->listWidgetItemList->setCurrentRow(0);
+		}
+	}
+}
+
+int	GraphTrendColorDifferenceForm::GetGraphXSpan(void)
+{
+	return ui->comboBoxXScale->currentIndex();
+}
+
+void GraphTrendColorDifferenceForm::on_listWidgetItemList_pressed(const QModelIndex &index)
+{
+	TrendGraphDimH->DrawGraph();
+	TrendGraphDimS->DrawGraph();
+	TrendGraphDimV->DrawGraph();
+	TrendGraphDimE->DrawGraph();
+}
+
+void GraphTrendColorDifferenceForm::on_pushButtonLogOut_clicked()
+{
+	LogListDialog	D(this);
+	D.exec();
+}
+
+void GraphTrendColorDifferenceForm::on_comboBoxXScale_currentIndexChanged(int index)
+{
+	TrendGraphDimH->DrawGraph();
+	TrendGraphDimS->DrawGraph();
+	TrendGraphDimV->DrawGraph();
+	TrendGraphDimE->DrawGraph();
+}
+void	GraphTrendColorDifferenceForm::SlotInspectionDone(int SlaveNo,int64 InspectionID,bool OK)
+{
+	EachMaster *M=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(SlaveNo);
+	if(M!=NULL){
+		InspectionList	*n=M->GetCurrentInspection().GetLast();
+		while(n!=NULL && n->ID!=InspectionID){
+			n=n->GetPrev();
+		}
+		if(n!=NULL){
+			for(NGPointInAllPage *Ph=n->NGPointAllPhases.GetFirst();Ph!=NULL;Ph=Ph->GetNext()){
+				for(NGPointInPage *Pg=Ph->NPListPack<NGPointInPage>::GetFirst();Pg!=NULL;Pg=Pg->GetNext()){
+					ColorItem *ColorItemPoint[1000];
+					ColorItem *ColorItemStack[100];
+					int			ColorItemStackNumb=0;
+					memset(ColorItemPoint,0,sizeof(ColorItemPoint));
+					for(ColorItem *c=ColorItems.GetFirst();c!=NULL;c=c->GetNext()){
+						if(c->SlaveNo==SlaveNo && c->Phase==Ph->Phase && c->Page==Pg->Page){
+							ColorItemPoint[c->ItemID]=c;
+							ColorItemStack[ColorItemStackNumb]=c;
+							ColorItemStackNumb++;
+							struct	RunningColorHSVE	*C=&c->RunningColorDim[c->CurrentCountDim];
+							C->InspectionID	=n->ID;
+							C->TmInfo.Ok=true;
+							C->TmInfo.Year	=n->InspectionTime.year()-2000;
+							C->TmInfo.Month	=n->InspectionTime.month();
+							C->TmInfo.Day	=n->InspectionTime.day();
+							C->TmInfo.Hour	=n->InspectionTime.hour();
+							C->TmInfo.Minute=n->InspectionTime.minute();
+							C->TmInfo.Second=n->InspectionTime.second();
+							for(int i=0;i<sizeof(C->HSVE)/sizeof(C->HSVE[0]);i++){
+								C->HSVE[i]=0.0;
+							}
+						}
+					}
+					for(NGPoint *p=Pg->NPListPack<NGPoint>::GetFirst();p!=NULL;p=p->GetNext()){
+						if(p->LibType==DefLibTypeColorDifference){
+							if(0<=p->UniqueID && p->UniqueID<sizeof(ColorItemPoint)/sizeof(ColorItemPoint[0])){
+								ColorItem *c=ColorItemPoint[p->UniqueID];
+								if(c!=NULL){
+									struct	RunningColorHSVE	*C=&c->RunningColorDim[c->CurrentCountDim];
+									if(p->Cause[0]==11){
+										C->HSVE[0]=p->DoubleCause;
+									}
+									else if(p->Cause[0]==12){
+										C->HSVE[1]=p->DoubleCause;
+									}
+									else if(p->Cause[0]==13){
+										C->HSVE[2]=p->DoubleCause;
+									}
+									else{
+										C->HSVE[3]=p->DoubleCause;
+									}
+									if(p->Error>=2){
+										C->TmInfo.Ok=false;
+									}
+								}
+							}
+						}
+					}
+					for(int i=0;i<ColorItemStackNumb;i++){
+						ColorItemStack[i]->CurrentCountDim++;
+					}
+				}
+			}
+		}
+	}
+
+	TrendGraphDimH->DrawGraph();
+	TrendGraphDimS->DrawGraph();
+	TrendGraphDimV->DrawGraph();
+	TrendGraphDimE->DrawGraph();
+}
+//==================================================================================================
+IntegrationCmdReqColorItem::IntegrationCmdReqColorItem(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+
+void	IntegrationCmdReqColorItem::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	IntegrationCmdAckColorItem	*SendBack=GetSendBackIntegration(IntegrationCmdAckColorItem,GetLayersBase(),EmitterRoot,EmitterName,slaveNo);
+	
+	SendBack->ItemCount=0;
+	AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+	if(ABase!=NULL){
+		for(int phase=0;phase<GetPhaseNumb();phase++){
+			AlgorithmInPageInOnePhase	*Ph=ABase->GetPageDataPhase(phase);
+			for(int page=0;page<GetPageNumb();page++){
+				ColorDifferenceInPage	*Ap=(ColorDifferenceInPage *)Ph->GetPageData(page);
+				for(AlgorithmItemPI *a=Ap->GetFirstData();a!=NULL;a=a->GetNext()){
+					ColorDifferenceItem	*Item=dynamic_cast<ColorDifferenceItem *>(a);
+					if(Item!=NULL && SendBack->ItemCount<sizeof(SendBack->ItemData)/sizeof(SendBack->ItemData[0])){
+						if(Item->GetManualCreated()==true){
+							SendBack->ItemData[SendBack->ItemCount].Phase	=phase;
+							SendBack->ItemData[SendBack->ItemCount].Page	=page;
+							SendBack->ItemData[SendBack->ItemCount].ItemID	=Item->GetID();
+							SendBack->ItemData[SendBack->ItemCount].ManualCreated	=Item->GetManualCreated();
+							SendBack->ItemData[SendBack->ItemCount].ThreHL	=Item->StatisticData.HAvr-Item->GetThresholdR()->dH;
+							SendBack->ItemData[SendBack->ItemCount].ThreHH	=Item->StatisticData.HAvr+Item->GetThresholdR()->dH;
+							SendBack->ItemData[SendBack->ItemCount].ThreSL	=Item->StatisticData.SAvr-Item->GetThresholdR()->dSL;
+							SendBack->ItemData[SendBack->ItemCount].ThreSH	=Item->StatisticData.SAvr+Item->GetThresholdR()->dSH;
+							SendBack->ItemData[SendBack->ItemCount].ThreVL	=Item->StatisticData.VAvr-Item->GetThresholdR()->dVL;
+							SendBack->ItemData[SendBack->ItemCount].ThreVH	=Item->StatisticData.VAvr+Item->GetThresholdR()->dVH;
+							SendBack->ItemData[SendBack->ItemCount].ThreE	=Item->GetThresholdR()->THDeltaE;
+							SendBack->ItemCount++;
+						}
+					}
+				}
+				for(AlgorithmItemPI *a=Ap->GetFirstData();a!=NULL;a=a->GetNext()){
+					ColorDifferenceItem	*Item=dynamic_cast<ColorDifferenceItem *>(a);
+					if(Item!=NULL && SendBack->ItemCount<sizeof(SendBack->ItemData)/sizeof(SendBack->ItemData[0])){
+						if(Item->GetManualCreated()==false){
+							SendBack->ItemData[SendBack->ItemCount].Phase	=phase;
+							SendBack->ItemData[SendBack->ItemCount].Page	=page;
+							SendBack->ItemData[SendBack->ItemCount].ItemID	=Item->GetID();
+							SendBack->ItemData[SendBack->ItemCount].ManualCreated	=Item->GetManualCreated();
+							SendBack->ItemData[SendBack->ItemCount].ThreHL	=Item->StatisticData.HAvr-Item->GetThresholdR()->dH;
+							SendBack->ItemData[SendBack->ItemCount].ThreHH	=Item->StatisticData.HAvr+Item->GetThresholdR()->dH;
+							SendBack->ItemData[SendBack->ItemCount].ThreSL	=Item->StatisticData.SAvr-Item->GetThresholdR()->dSL;
+							SendBack->ItemData[SendBack->ItemCount].ThreSH	=Item->StatisticData.SAvr+Item->GetThresholdR()->dSH;
+							SendBack->ItemData[SendBack->ItemCount].ThreVL	=Item->StatisticData.VAvr-Item->GetThresholdR()->dVL;
+							SendBack->ItemData[SendBack->ItemCount].ThreVH	=Item->StatisticData.VAvr+Item->GetThresholdR()->dVH;
+							SendBack->ItemData[SendBack->ItemCount].ThreE	=Item->GetThresholdR()->THDeltaE;
+							SendBack->ItemCount++;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	SendBack->Send(this ,GetLayersBase()->GetGlobalPageFromLocal(slaveNo),0);
+	CloseSendBackIntegration(SendBack);
+}
+
+IntegrationCmdAckColorItem::IntegrationCmdAckColorItem(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+	ItemCount=0;
+}
+
+bool	IntegrationCmdAckColorItem::Load(QIODevice *f)
+{
+	if(::Load(f,ItemCount)==false)
+		return false;
+	for(int i=0;i<ItemCount && i<sizeof(ItemData)/sizeof(ItemData[0]);i++){
+		if(f->read((char *)&ItemData[i],sizeof(ItemData[0]))!=sizeof(ItemData[0])){
+			return false;
+		}
+	}
+	return true;
+}
+bool	IntegrationCmdAckColorItem::Save(QIODevice *f)
+{
+	if(::Save(f,ItemCount)==false)
+		return false;
+	for(int i=0;i<ItemCount && i<sizeof(ItemData)/sizeof(ItemData[0]);i++){
+		if(f->write((const char *)&ItemData[i],sizeof(ItemData[0]))!=sizeof(ItemData[0])){
+			return false;
+		}
+	}
+	return true;
+}

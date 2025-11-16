@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/StartModeOff1.png</file>
+        <file>Resources/StartModeOff2.png</file>
+        <file>Resources/StartModeOn1.png</file>
+        <file>Resources/StartModeOn2.png</file>
+    </qresource>
+</RCC>

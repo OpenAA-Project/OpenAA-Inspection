@@ -1,0 +1,81 @@
+<ui version="4.0" >
+ <class>SetAreaColorDialogClass</class>
+ <widget class="QDialog" name="SetAreaColorDialogClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>413</width>
+    <height>473</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>SetAreaColorDialog</string>
+  </property>
+  <widget class="QPushButton" name="pushButtonAdd" >
+   <property name="geometry" >
+    <rect>
+     <x>120</x>
+     <y>430</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>追加</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonReplace" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>430</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>置換</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonCancel" >
+   <property name="geometry" >
+    <rect>
+     <x>290</x>
+     <y>430</y>
+     <width>111</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>キャンセル</string>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>391</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <property name="currentIndex" >
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="OnlyThis" >
+    <attribute name="title" >
+     <string>この領域のみ</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="All" >
+    <attribute name="title" >
+     <string>追加し、全色表示</string>
+    </attribute>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

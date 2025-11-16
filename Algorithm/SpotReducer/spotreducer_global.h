@@ -1,0 +1,12 @@
+#ifndef SPOTREDUCER_GLOBAL_H
+#define SPOTREDUCER_GLOBAL_H
+
+#include <qglobal.h>
+
+#ifdef SPOTREDUCER_LIB
+# define SPOTREDUCER_EXPORT Q_DECL_EXPORT
+#else
+# define SPOTREDUCER_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // SPOTREDUCER_GLOBAL_H

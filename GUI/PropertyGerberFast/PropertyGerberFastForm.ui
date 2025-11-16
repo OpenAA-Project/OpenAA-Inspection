@@ -1,0 +1,2546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PropertyGerberFastForm</class>
+ <widget class="GUIFormBase" name="PropertyGerberFastForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>439</width>
+    <height>876</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Property GerberFast</string>
+  </property>
+  <widget class="QTabWidget" name="tabWidgetOperation">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>441</width>
+     <height>186</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="tab1">
+    <attribute name="title">
+     <string>Load</string>
+    </attribute>
+    <widget class="QPushButton" name="pushButtonLoadGerber">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>2</y>
+       <width>171</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>2: Load gerber</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/CopyOne.png</normaloff>:/Qtres/CopyOne.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonAutoFile">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>2</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>1: Auto files</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/ListView.png</normaloff>:/Qtres/ListView.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonClear">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>2</y>
+       <width>101</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Clear</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Clear.png</normaloff>:/Qtres/Clear.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonEditLayerType">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Edit Layer type</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Layers.png</normaloff>:/Qtres/Layers.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonEditCompositeDef">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Edit Composite</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Composite.png</normaloff>:/Qtres/Composite.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonSave">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>44</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Save</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Save.png</normaloff>:/Qtres/Save.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonLoad">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>44</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Load</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Load.png</normaloff>:/Qtres/Load.png</iconset>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_24">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>44</y>
+       <width>111</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>(Additional)</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonSetLibFolder">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>90</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Lib folder</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Composite.png</normaloff>:/Qtres/Composite.png</iconset>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_LibFolderName">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>90</y>
+       <width>221</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text">
+      <string>All</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab2">
+    <attribute name="title">
+     <string>Operation</string>
+    </attribute>
+    <widget class="QToolButton" name="toolButtonSimpleMode">
+     <property name="geometry">
+      <rect>
+       <x>2</x>
+       <y>10</y>
+       <width>71</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Skelton</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QFrame" name="frame">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>10</y>
+       <width>178</width>
+       <height>146</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <widget class="QPushButton" name="pushButtonMove">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>20</y>
+        <width>87</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Move</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Move.png</normaloff>:/Qtres/Move.png</iconset>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>171</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Dialog</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonRotate">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>50</y>
+        <width>87</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Rotate</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Rotate.png</normaloff>:/Qtres/Rotate.png</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonZoom">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>80</y>
+        <width>87</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Zoom</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Zoom.png</normaloff>:/Qtres/Zoom.png</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonShear">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>110</y>
+        <width>87</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Shear</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Cut.png</normaloff>:/Qtres/Cut.png</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonMirrorX">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>20</y>
+        <width>87</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Mirror X</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Mirror.png</normaloff>:/Qtres/Mirror.png</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonMirrorY">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>50</y>
+        <width>87</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Mirror Y</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Mirror.png</normaloff>:/Qtres/Mirror.png</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonCenterize">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>80</y>
+        <width>87</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ZmCenter</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonDraw">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>110</y>
+        <width>87</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Draw</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QFrame" name="frame_2">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>10</y>
+       <width>175</width>
+       <height>146</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>171</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Operation</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonMove">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>20</y>
+        <width>85</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Move</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Move.png</normaloff>:/Qtres/Move.png</iconset>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextBesideIcon</enum>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonRotate">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>50</y>
+        <width>85</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Rotate</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Rotate.png</normaloff>:/Qtres/Rotate.png</iconset>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextBesideIcon</enum>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonZoom">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>80</y>
+        <width>85</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Zoom</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Zoom.png</normaloff>:/Qtres/Zoom.png</iconset>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextBesideIcon</enum>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonShearX">
+      <property name="geometry">
+       <rect>
+        <x>88</x>
+        <y>20</y>
+        <width>85</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Shear X</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Cut.png</normaloff>:/Qtres/Cut.png</iconset>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextBesideIcon</enum>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonShearY">
+      <property name="geometry">
+       <rect>
+        <x>88</x>
+        <y>50</y>
+        <width>85</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Shear Y</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Cut.png</normaloff>:/Qtres/Cut.png</iconset>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextBesideIcon</enum>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonMatchPoints">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>111</y>
+        <width>165</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Match Points</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonDraw">
+      <property name="geometry">
+       <rect>
+        <x>88</x>
+        <y>80</y>
+        <width>85</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Draw</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Draw.png</normaloff>:/Qtres/Draw.png</iconset>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextBesideIcon</enum>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QFrame" name="frame_6">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>40</y>
+       <width>78</width>
+       <height>116</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <widget class="QLabel" name="label_25">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Creation</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonCreateLine">
+      <property name="geometry">
+       <rect>
+        <x>3</x>
+        <y>20</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Line</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonCreateArc">
+      <property name="geometry">
+       <rect>
+        <x>3</x>
+        <y>50</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Arc</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonCreatePolygon">
+      <property name="geometry">
+       <rect>
+        <x>3</x>
+        <y>80</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Polygon</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab3">
+    <attribute name="title">
+     <string>Make Image</string>
+    </attribute>
+    <widget class="QPushButton" name="pushButtonMaxEnlarge">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>10</y>
+       <width>135</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Max enlarge</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonMaxShrink">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>44</y>
+       <width>135</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Max shrink</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonShiftable">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>78</y>
+       <width>135</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Shiftable area</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonUnstableZone">
+     <property name="geometry">
+      <rect>
+       <x>292</x>
+       <y>10</y>
+       <width>136</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Unstable zone</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonClearImage">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>120</y>
+       <width>116</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Clear</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Clear.png</normaloff>:/Qtres/Clear.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonToImage">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>10</y>
+       <width>138</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>To Master Image</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonStableZone">
+     <property name="geometry">
+      <rect>
+       <x>292</x>
+       <y>44</y>
+       <width>136</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Stable zone</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonToNormalImage">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>78</y>
+       <width>138</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>To normal</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonToBitImage">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>44</y>
+       <width>138</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>To Bit Image</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonMakeCluster">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>112</y>
+       <width>138</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Clusterize</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab4">
+    <attribute name="title">
+     <string>Auto matching</string>
+    </attribute>
+    <widget class="QPushButton" name="pushButtonToAutoMatch">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>76</y>
+       <width>211</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>2 : Start auto matching</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Start.png</normaloff>:/Qtres/Start.png</iconset>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButtonShowAutoMatchArea">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>2</y>
+       <width>211</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>170</red>
+           <green>85</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>170</red>
+           <green>85</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>170</red>
+           <green>85</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
+     <property name="text">
+      <string>Show auto matching area</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Area.png</normaloff>:/Qtres/Area.png</iconset>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+     <property name="toolButtonStyle">
+      <enum>Qt::ToolButtonTextBesideIcon</enum>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButtonShowAutoMatchImage">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>2</y>
+       <width>211</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>170</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>170</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>170</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
+     <property name="text">
+      <string>Show auto matching image</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Image.png</normaloff>:/Qtres/Image.png</iconset>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="toolButtonStyle">
+      <enum>Qt::ToolButtonTextBesideIcon</enum>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonMakeAutoMatchArea">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>40</y>
+       <width>211</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>1 : Make matching area</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Make.png</normaloff>:/Qtres/Make.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonClearAutoMatchArea">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>40</y>
+       <width>211</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Clear matching area</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Clear.png</normaloff>:/Qtres/Clear.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonMoveOtherAlgorithm">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>114</y>
+       <width>211</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>3 : Move other algorithm</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Move.png</normaloff>:/Qtres/Move.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonMatchRoughly">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>114</y>
+       <width>211</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Rough match</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/OK.png</normaloff>:/Qtres/OK.png</iconset>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab5">
+    <attribute name="title">
+     <string>Make algorithm</string>
+    </attribute>
+    <widget class="QPushButton" name="pushButtonToAlgo">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>50</y>
+       <width>221</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Start to make Algo</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Start.png</normaloff>:/Qtres/Start.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonInitialAlgo">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>10</y>
+       <width>221</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Initial from layer/composite</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Composite.png</normaloff>:/Qtres/Composite.png</iconset>
+     </property>
+    </widget>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>10</y>
+       <width>201</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string/>
+     </property>
+     <widget class="QCheckBox" name="checkBoxMakeAlgoShiftable">
+      <property name="geometry">
+       <rect>
+        <x>4</x>
+        <y>10</y>
+        <width>201</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Shiftable area</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBoxMakeAlgoSeparate">
+      <property name="geometry">
+       <rect>
+        <x>4</x>
+        <y>40</y>
+        <width>201</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Separate Stable/Unstable</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBoxMakeAlgoEnlarge">
+      <property name="geometry">
+       <rect>
+        <x>4</x>
+        <y>70</y>
+        <width>201</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Enlarge area</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBoxMakeAlgoShrinked">
+      <property name="geometry">
+       <rect>
+        <x>4</x>
+        <y>100</y>
+        <width>201</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Shrinked area</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="pushButtonSetFlushMatrix">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>110</y>
+       <width>221</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set Flush matrix for paste</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Setting.png</normaloff>:/Qtres/Setting.png</iconset>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="Outline">
+    <attribute name="title">
+     <string>Outline</string>
+    </attribute>
+    <widget class="QPushButton" name="pushButtonGenerateOutline">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>211</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Generate outline</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonEchingFactor">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>211</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Eching factor - Corner</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonClearOutline">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>10</y>
+       <width>161</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Clear outline</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonGenerateCenter">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>211</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Centerize</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonGenerateAlgorithmFromOutline">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>110</y>
+       <width>211</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Make algorithm on line</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBoxOutlineWidth">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>111</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>99999999</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_26">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>110</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Line width</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QTabWidget" name="tabWidgetProperty">
+   <property name="geometry">
+    <rect>
+     <x>3</x>
+     <y>190</y>
+     <width>435</width>
+     <height>551</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="PTab1">
+    <attribute name="title">
+     <string>Gerber layer</string>
+    </attribute>
+    <widget class="QFrame" name="frameComposit">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>360</y>
+       <width>411</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_GerberTitle">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>411</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text">
+      <string>Gerber file</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonClearSelectComposite">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>316</y>
+       <width>31</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>C</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_CompositeTitle">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>340</y>
+       <width>411</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text">
+      <string>Composite</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonClearSelectLayer">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>4</y>
+       <width>31</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>C</string>
+     </property>
+    </widget>
+    <widget class="QFrame" name="frameFiles">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>411</width>
+       <height>261</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonClearFIleList">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>4</y>
+       <width>161</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Clear file list</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Clear.png</normaloff>:/Qtres/Clear.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonClearDrawLayer">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>4</y>
+       <width>31</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>C</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonClearCompositeDrawLayer">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>316</y>
+       <width>31</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>C</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="PTab2">
+    <attribute name="title">
+     <string>Match points</string>
+    </attribute>
+    <widget class="QTableWidget" name="tableWidgetAlignments">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>411</width>
+       <height>461</height>
+      </rect>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <row>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>3</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>4</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>5</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>6</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>7</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>8</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>9</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>10</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>Image point</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Gerber point</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QFrame" name="frame_7">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>470</y>
+       <width>431</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QPushButton" name="pushButtonClearMatchPoints">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>10</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Clear points</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Clear.png</normaloff>:/Qtres/Clear.png</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonStartMoveToMatch">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>10</y>
+        <width>211</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start move to match</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Start.png</normaloff>:/Qtres/Start.png</iconset>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="PTab3">
+    <attribute name="title">
+     <string>Auto matching</string>
+    </attribute>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>0</y>
+       <width>221</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Usage layer to match automatically</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBoxUseLayerToAutoMatch">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>391</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QStackedWidget" name="stackedWidgetAutoMatch">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>50</y>
+       <width>431</width>
+       <height>461</height>
+      </rect>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="AutoMatch">
+      <widget class="QFrame" name="frame_3">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>330</y>
+         <width>421</width>
+         <height>131</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <widget class="QTableWidget" name="tableWidgetAMManualPoints">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>291</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectItems</enum>
+        </property>
+        <column>
+         <property name="text">
+          <string>ImagePoint</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Gerber Point</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QLabel" name="label_11">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>421</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Panel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <property name="text">
+         <string>Manual control points</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButtonAMClearPoints">
+        <property name="geometry">
+         <rect>
+          <x>310</x>
+          <y>50</y>
+          <width>101</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Clear all</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButtonAMAllocate">
+        <property name="geometry">
+         <rect>
+          <x>310</x>
+          <y>90</y>
+          <width>101</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Allocate</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_12">
+        <property name="geometry">
+         <rect>
+          <x>310</x>
+          <y>30</y>
+          <width>101</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Shift+Click</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QCheckBox" name="checkBoxUseStable">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>116</y>
+         <width>341</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Use positions which are not effected by other item veriety</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_10">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>90</y>
+         <width>341</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string>Shrink dot for matching area (Eching factor)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QFrame" name="frameAutoMatchShiftableLayer">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>160</y>
+         <width>421</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBoxMinDotsForAutoMatching">
+       <property name="geometry">
+        <rect>
+         <x>340</x>
+         <y>70</y>
+         <width>81</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>999999999</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_9">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>70</y>
+         <width>341</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string>Minimum area pixels for matching</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBoxMinDotsForAutoMatchingArea">
+       <property name="geometry">
+        <rect>
+         <x>340</x>
+         <y>90</y>
+         <width>81</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>-99</number>
+       </property>
+       <property name="maximum">
+        <number>99</number>
+       </property>
+       <property name="value">
+        <number>1</number>
+       </property>
+      </widget>
+      <widget class="QFrame" name="frameAutoMatchShiftableComposite">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>250</y>
+         <width>421</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_7">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>140</y>
+         <width>391</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Shiftable layers</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="LikeManual">
+      <widget class="QSpinBox" name="spinBoxTransDot">
+       <property name="geometry">
+        <rect>
+         <x>321</x>
+         <y>90</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>999999999</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_13">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>90</y>
+         <width>314</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string>Trans Dot</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_14">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>120</y>
+         <width>314</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string>Rate for the width of rough-match 0-100</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="doubleSpinBoxRoughMatchAreaWidthRate">
+       <property name="geometry">
+        <rect>
+         <x>321</x>
+         <y>120</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="doubleSpinBoxRoughMatchAreaHeightRate">
+       <property name="geometry">
+        <rect>
+         <x>321</x>
+         <y>150</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_15">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>150</y>
+         <width>314</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string>Rate for height of rough-match 0-100</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButtonSetForAutoMatch">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>420</y>
+         <width>121</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Set</string>
+       </property>
+       <property name="icon">
+        <iconset resource="PropertyGerberFast.qrc">
+         <normaloff>:/Qtres/Setting.png</normaloff>:/Qtres/Setting.png</iconset>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_16">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>180</y>
+         <width>314</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string>Search Area in RoughMatch</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBoxSearchAreaRoughMatch">
+       <property name="geometry">
+        <rect>
+         <x>321</x>
+         <y>180</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>999999999</number>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBoxSearchAreaParallelMatch">
+       <property name="geometry">
+        <rect>
+         <x>321</x>
+         <y>210</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>999999999</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_17">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>210</y>
+         <width>314</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string>Search Area in Parallel match</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBoxSearchAreaRotateMatch">
+       <property name="geometry">
+        <rect>
+         <x>321</x>
+         <y>240</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>999999999</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_18">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>240</y>
+         <width>314</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string>Search Area in Rotation match</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_19">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>270</y>
+         <width>314</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string>Search Area in Zoom match</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBoxSearchAreaZoomMatch">
+       <property name="geometry">
+        <rect>
+         <x>321</x>
+         <y>270</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>999999999</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_20">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>300</y>
+         <width>314</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string>Search Area in Detail match</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBoxSearchAreaMatchDetail">
+       <property name="geometry">
+        <rect>
+         <x>321</x>
+         <y>300</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>999999999</number>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBoxDataIsolation">
+       <property name="geometry">
+        <rect>
+         <x>321</x>
+         <y>330</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>999999999</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_21">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>330</y>
+         <width>314</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string>Data Isolation</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_22">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>360</y>
+         <width>314</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string>Near By Pattern</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBoxNearByPattern">
+       <property name="geometry">
+        <rect>
+         <x>321</x>
+         <y>360</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>999999999</number>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="doubleSpinBoxMatchingRateToNeighbor">
+       <property name="geometry">
+        <rect>
+         <x>321</x>
+         <y>390</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_23">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>390</y>
+         <width>314</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="text">
+        <string>Matching RateTo Neighbor 0-100</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBoxBrighterInPattern">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>420</y>
+         <width>171</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Brighter in pattern</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QFrame" name="frame_5">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>54</y>
+       <width>427</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <widget class="QToolButton" name="toolButtonAreaForZoom">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>10</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>拡大縮小　３点目</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Zoom.png</normaloff>:/Qtres/Zoom.png</iconset>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextBesideIcon</enum>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonAreaForParallel">
+      <property name="geometry">
+       <rect>
+        <x>4</x>
+        <y>10</y>
+        <width>121</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>平行移動　1点目</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/MoveY.png</normaloff>:/Qtres/MoveY.png</iconset>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextBesideIcon</enum>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonAreaForRotate">
+      <property name="geometry">
+       <rect>
+        <x>128</x>
+        <y>10</y>
+        <width>151</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>回転－対角　２点目</string>
+      </property>
+      <property name="icon">
+       <iconset resource="PropertyGerberFast.qrc">
+        <normaloff>:/Qtres/Rotate.png</normaloff>:/Qtres/Rotate.png</iconset>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextBesideIcon</enum>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="PTab4">
+    <attribute name="title">
+     <string>Make algorithm</string>
+    </attribute>
+    <widget class="QFrame" name="frame_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>411</width>
+       <height>451</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QTableWidget" name="tableWidgetCrossedLayer">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>20</y>
+        <width>411</width>
+        <height>431</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <column>
+       <property name="text">
+        <string>L/C</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Generate</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Type</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>411</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Panel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="text">
+       <string>Base layer/composite</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>0</y>
+       <width>391</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Setting crossed layer</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonSaveAlgoGen">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>480</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Save</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Save.png</normaloff>:/Qtres/Save.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonLoadAlgoGen">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>480</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Load</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Load.png</normaloff>:/Qtres/Load.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonMergeLoadAlgoGen">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>480</y>
+       <width>161</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Merge and Load</string>
+     </property>
+     <property name="icon">
+      <iconset resource="PropertyGerberFast.qrc">
+       <normaloff>:/Qtres/Marge.png</normaloff>:/Qtres/Marge.png</iconset>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetGerberInfo">
+   <property name="geometry">
+    <rect>
+     <x>3</x>
+     <y>740</y>
+     <width>431</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>Lr</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Type</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>DCode</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Position</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="PropertyGerberFast.qrc"/>
+ </resources>
+ <connections/>
+</ui>

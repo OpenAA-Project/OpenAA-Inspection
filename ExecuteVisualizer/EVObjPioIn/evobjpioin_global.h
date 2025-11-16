@@ -1,0 +1,12 @@
+#ifndef EVOBJPIOIN_GLOBAL_H
+#define EVOBJPIOIN_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef EVOBJPIOIN_LIB
+# define EVOBJPIOIN_EXPORT Q_DECL_EXPORT
+#else
+# define EVOBJPIOIN_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // EVOBJPIOIN_GLOBAL_H

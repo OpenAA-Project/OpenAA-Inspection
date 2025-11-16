@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/VCutProperty.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/SaveNew.png</file>
+        <file>Qtres/Update.png</file>
+        <file>Qtres/ClearNew.png</file>
+        <file>Qtres/Close.png</file>
+        <file>Qtres/Cut.png</file>
+        <file>Qtres/Delete.png</file>
+    </qresource>
+</RCC>

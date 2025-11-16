@@ -1,0 +1,41 @@
+#include "DisplayImageResource.h"
+#include "XTypeDef.h"
+#include "ShrinkItemDialog.h"
+#include "ui_ShrinkItemDialog.h"
+#include "XDataInLayer.h"
+#include "XRememberer.h"
+
+ShrinkItemDialog::ShrinkItemDialog(LayersBase *Base,QWidget *parent) :
+    QDialog(parent)
+	,ServiceForLayers(Base)
+    ,ui(new Ui::ShrinkItemDialog)
+{
+    ui->setupUi(this);
+	setWindowFlags(Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+	LangDISolver.SetLanguage(GetLayersBase()->GetLanguagePackageData(),GetLayersBase()->GetLanguageCode());
+    LangDISolver.SetUI(this);
+
+    ui->spinBoxExpandRate		->setValue(ControlRememberer::GetInt(ui->spinBoxExpandRate));
+	ui->checkBoxMaskForSameLib	->setChecked(ControlRememberer::GetBool(ui->checkBoxMaskForSameLib));
+	MaskForSameLib=true;
+	ExpandPixels=0;
+
+	Base->InstallOperationLog(this);
+}
+
+ShrinkItemDialog::~ShrinkItemDialog()
+{
+    delete ui;
+}
+
+void ShrinkItemDialog::on_pushButtonOK_clicked()
+{
+	ExpandPixels	=ControlRememberer::SetValue(ui->spinBoxExpandRate);
+	MaskForSameLib	=ControlRememberer::SetValue(ui->checkBoxMaskForSameLib);
+	done(true);
+}
+
+void ShrinkItemDialog::on_pushButtonCancel_clicked()
+{
+	done(false);
+}

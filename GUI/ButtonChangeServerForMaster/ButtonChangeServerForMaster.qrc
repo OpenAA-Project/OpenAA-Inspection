@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonChangeServerForMaster.png</file>
+        <file>Qtres/Make.png</file>
+        <file>Qtres/Update.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Change.png</file>
+        <file>Qtres/Close.png</file>
+        <file>Qtres/Delete.png</file>
+        <file>Qtres/Edit.png</file>
+        <file>Qtres/Hole.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,96 @@
+<ui version="4.0" >
+ <class>PropertyTunnelCrackFormClass</class>
+ <widget class="GUIFormBase" name="PropertyTunnelCrackFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>353</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>PropertyTunnelCrackForm</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>381</width>
+     <height>281</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text" >
+     <string>Page</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Layer</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>LibID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Lib Name</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButtonEditLibrary" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>300</y>
+     <width>151</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Edit Library</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSaveAll" >
+   <property name="geometry" >
+    <rect>
+     <x>180</x>
+     <y>300</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Save all</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonLoadAll" >
+   <property name="geometry" >
+    <rect>
+     <x>290</x>
+     <y>300</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Load all</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

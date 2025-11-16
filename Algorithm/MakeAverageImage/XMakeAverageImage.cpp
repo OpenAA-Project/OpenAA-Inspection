@@ -1,0 +1,855 @@
+/*******************************************************************************
+** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
+**
+** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
+** if any conditions of this licensing agreement are not clear to you.
+**
+** This file is C:\Regulus64v5\GeneralSource\XMakeAverageImage.cpp
+** Author : YYYYYYYYYY
+****************************************************************************-**/
+
+#include "MakeAverageImageResource.h"
+#include "XMakeAverageImage.h"
+#include "XCrossObj.h"
+#include "XGeneralFunc.h"
+#include "XMakeAverageImagePacket.h"
+#include <QColor>
+#include <omp.h>
+#include "swap.h"
+#include "XMaskingFromGeneral.h"
+#include "XMainSchemeMemory.h"
+#include "XImageProcess.h"
+
+
+//==============================================================
+
+MakeAverageImageInPage::AverageLayerImage::AverageLayerImage(LayersBase *base,MakeAverageImageInPage *p,int layer)
+	:ServiceForLayers(base),Parent(p),Layer(layer)
+{
+	AddedCount=0;
+}
+bool	MakeAverageImageInPage::AverageLayerImage::AllocateMemory(void)
+{
+	bool	ShouldInit=false;
+	DataInPage	*P=Parent->GetDataInPage();
+	if(LightImage.GetWidth()!=P->GetDotPerLine() || LightImage.GetHeight()!=P->GetMaxLines()){
+		LightImage.Set(Parent->GetPage(),10,P->GetDotPerLine(),P->GetMaxLines());
+		ShouldInit=true;
+	}
+	if(DarkImage.GetWidth()!=P->GetDotPerLine() || DarkImage.GetHeight()!=P->GetMaxLines()){
+		DarkImage.Set(Parent->GetPage(),10,P->GetDotPerLine(),P->GetMaxLines());
+		ShouldInit=true;
+	}
+	if(AddedImage.GetWidth()!=2*P->GetDotPerLine() || AddedImage.GetHeight()!=P->GetMaxLines()){
+		AddedImage.Set(Parent->GetPage(),10,2*P->GetDotPerLine(),P->GetMaxLines());
+		ShouldInit=true;
+	}
+	if(Added2Image.GetWidth()!=4*P->GetDotPerLine() || Added2Image.GetHeight()!=P->GetMaxLines()){
+		Added2Image.Set(Parent->GetPage(),10,4*P->GetDotPerLine(),P->GetMaxLines());
+		ShouldInit=true;
+	}
+	if(ShouldInit==true){
+		AddedCount=0;
+	}
+	return true;
+}
+void	MakeAverageImageInPage::AverageLayerImage::ResetAverage(void)
+{
+	AddedImage	.Memset(0);
+	Added2Image	.Memset(0);
+	ImagePointerContainer MasterImageList;
+	Parent->GetMasterBuffList	(MasterImageList);
+	ImageBuffer	*IBuff=MasterImageList[Layer];
+	LightImage=*IBuff;
+	DarkImage=*IBuff;
+	AddedCount=0;
+}
+
+void	MakeAverageImageInPage::AverageLayerImage::CopyImage(ImageBuffer &buff)
+{
+	LightImage	=buff;
+	DarkImage	=buff;
+}
+void	MakeAverageImageInPage::AverageLayerImage::SetAverageImageIntoMaster(AlgorithmItemPointerListContainer	&UsageAreaContainer)
+{
+	if(AddedCount!=0){
+		DataInPage	*P=Parent->GetDataInPage();
+		int	YN=P->GetMaxLines();
+		int	XN=P->GetDotPerLine();
+		ImagePointerContainer MasterImageList;
+		Parent->GetMasterBuffList(MasterImageList);
+		ImageBuffer	*MImage=MasterImageList[Layer];
+
+		if(UsageAreaContainer.GetCount()==0){
+			#pragma omp parallel                             
+			{                                                
+				#pragma omp for
+				for(int y=0;y<YN;y++){
+					WORD	*s=(WORD *)AddedImage.GetY(y);
+					BYTE	*d=MImage->GetY(y);
+					for(int x=0;x<XN;x++){
+						if(*s!=0){
+							*d=*s/AddedCount;
+						}
+						s++;
+						d++;
+					}
+				}
+			}
+		}
+		else{
+			for(AlgorithmItemPointerList *a=UsageAreaContainer.GetFirst();a!=NULL;a=a->GetNext()){
+				FlexArea	&Area=a->GetItem()->GetArea();
+				int	N=Area.GetFLineLen();
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int i=0;i<N;i++){
+						int	y	=Area.GetFLineAbsY(i);
+						int	x1	=Area.GetFLineLeftX(i);
+						int	x2	=Area.GetFLineRightX(i);
+						WORD *s=(WORD *)AddedImage.GetY(y);
+						BYTE *d=MImage->GetY(y);
+						for(int x=x1;x <XN && x<=x2;x++) {
+							if(s[x] != 0) {
+								d[x]=s[x] / AddedCount;
+							}
+						}
+					}
+				}
+			}
+		}
+		MImage->SetChanged(true);
+	}
+}
+bool	MakeAverageImageInPage::AverageLayerImage::MakeVarietyMap(AlgorithmItemPointerListContainer	&UsageAreaContainer,ConstMapBuffer &Map)
+{
+	DataInPage	*P=Parent->GetDataInPage();
+	MakeVariable((BYTE **)Map.GetBitMap() ,UsageAreaContainer,P->GetDotPerLine(),P->GetMaxLines());
+	return true;
+}
+
+void	MakeAverageImageInPage::AverageLayerImage::MakeVariable(BYTE **RMap ,AlgorithmItemPointerListContainer	&UsageAreaContainer,int XLen,int YLen)
+{
+	if(AddedCount==0)
+		return;
+
+	if(AddedCount!=0){
+		if(UsageAreaContainer.GetCount()==0){
+			#pragma omp parallel                             
+			{                                                
+				#pragma omp for
+				for(int y=0;y<YLen;y++){
+					WORD	*s0 =( WORD *)AddedImage.GetY(y);
+					DWORD	*s20=(DWORD *)Added2Image.GetY(y);
+					BYTE	*d=(BYTE *)(RMap[y]);
+					for(int x=0;x<XLen;x++){
+						double	Ar=s0[x]/(double)AddedCount;
+						int	vr=sqrt((s20[x]-Ar*Ar*AddedCount)/(double)AddedCount);
+						d[x]=Clipping(vr,0,255);
+					}
+				}
+			}
+		}
+		else{
+			for(AlgorithmItemPointerList *a=UsageAreaContainer.GetFirst();a!=NULL;a=a->GetNext()){
+				FlexArea	&Area=a->GetItem()->GetArea();
+				int	N=Area.GetFLineLen();
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int i=0;i<N;i++){
+						int	y	=Area.GetFLineAbsY(i);
+						int	x1	=Area.GetFLineLeftX(i);
+						int	x2	=Area.GetFLineRightX(i);
+						WORD	*s0 =( WORD *)AddedImage.GetY(y);
+						DWORD	*s20=(DWORD *)Added2Image.GetY(y);
+						BYTE	*d=(BYTE *)(RMap[y]);
+						for(int x=x1;x <XLen && x<=x2;x++) {
+							double	Ar=s0[x]/(double)AddedCount;
+							int	vr=sqrt((s20[x]-Ar*Ar*AddedCount)/(double)AddedCount);
+							d[x]=Clipping(vr,0,255);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+bool    MakeAverageImageInPage::AverageLayerImage::Save(QIODevice *f)
+{
+	if(::Save(f,AddedCount)==false)
+		return false;
+	if(AddedCount!=0){
+		if(LightImage.Save(f)==false)
+			return false;
+		if(DarkImage.Save(f)==false)
+			return false;
+		if(AddedImage.Save(f)==false)
+			return false;
+		if(Added2Image.Save(f)==false)
+			return false;
+	}
+	return true;
+}
+bool    MakeAverageImageInPage::AverageLayerImage::Load(QIODevice *f)
+{
+	if(::Load(f,AddedCount)==false)
+		return false;
+	if(AddedCount!=0){
+		if(LightImage.Load(f)==false)
+			return false;
+		if(DarkImage.Load(f)==false)
+			return false;
+		if(AddedImage.Load(f)==false)
+			return false;
+		if(Added2Image.Load(f)==false)
+			return false;
+	}
+	return true;
+}
+
+//=================================================================================
+
+MakeAverageImageInPage::MakeAverageImageInPage(AlgorithmBase *parent)
+	:AlgorithmInPagePI(parent)
+{
+	AllocatedLayers	=0;
+	for(int i=0;i<sizeof(ALayerImages)/sizeof(ALayerImages[0]);i++){
+		ALayerImages[i]=NULL;
+	}
+}
+MakeAverageImageInPage::~MakeAverageImageInPage(void)
+{
+	for(int i=0;i<AllocatedLayers;i++){
+		delete	ALayerImages[i];
+		ALayerImages[i]=NULL;
+	}
+}
+ExeResult	MakeAverageImageInPage::ExecuteInitialAfterEdit	(int ExeID
+															,ResultInPageRoot *Res
+															,ExecuteInitialAfterEditInfo &EInfo)
+{
+	if(AllocatedLayers!=GetLayerNumb()){
+		for(int i=0;i<AllocatedLayers;i++){
+			delete	ALayerImages[i];
+			ALayerImages[i]=NULL;
+		}
+		AllocatedLayers=GetLayerNumb();
+		for(int i=0;i<AllocatedLayers;i++){
+			ALayerImages[i]=new AverageLayerImage(GetLayersBase(),this,i);
+		}
+	}
+	for(int i=0;i<AllocatedLayers;i++){
+		ALayerImages[i]->AllocateMemory();
+	}
+	//ResetAverage();
+
+	ConstMapBufferListContainer MaskMap;
+	if(GetReflectionMap(_Reflection_Mask,MaskMap)==true){
+		ConstMapBuffer Map;
+		MaskMap.BindOr(Map);
+		MakeAverageImageBase	*ABase=(MakeAverageImageBase *)GetParentBase();
+		int	PartialSize=ABase->PartialSize;
+
+		int	XLen	=GetDotPerLine();
+		int	YLen	=GetMaxLines();
+		int XByte	=(XLen+7)/8;
+
+		BYTE	**BMap	=MakeMatrixBuff(XByte,YLen);
+		BYTE	**TmpMap=MakeMatrixBuff(XByte,YLen);
+		MatrixBuffCopy	(BMap				,XByte,YLen
+						,Map.GetBitMap(),XByte,YLen);
+		GetLayersBase()->FatAreaN(BMap,TmpMap,XByte,YLen,ABase->ExpandingFromMask);
+		
+		int	MinX=99999999;
+		int	MaxX=-99999999;
+		int	MinY=99999999;
+		int	MaxY=-99999999;
+		{
+			PureFlexAreaListContainer tFPack;
+			PickupFlexArea(BMap,XByte ,XLen,YLen ,tFPack);
+
+			for(PureFlexAreaList *f=tFPack.GetFirst();f!=NULL;f=f->GetNext()){
+				int	x1,y1,x2,y2;
+				f->GetXY(x1,y1,x2,y2);
+				MinX=min(x1,MinX);
+				MinY=min(y1,MinY);
+				MaxX=max(x2,MaxX);
+				MaxY=max(y2,MaxY);
+			}
+		}
+
+		MinX-=PartialSize/2;
+		MinY-=PartialSize/2;
+		MaxX+=PartialSize/2;
+		MaxY+=PartialSize/2;
+
+		MinX=max(0,MinX);
+		MinY=max(0,MinY);
+		MaxX=min(GetDotPerLine(),MaxX);
+		MaxY=min(GetMaxLines()	,MaxY);
+
+		int	XNumb=(MaxX-MinX)/PartialSize;
+		int	YNumb=(MaxY-MinY)/PartialSize;
+
+		int	MerginX=((MaxX-MinX)-XNumb*PartialSize)/2;
+		int	MerginY=((MaxY-MinY)-YNumb*PartialSize)/2;
+		PureFlexAreaListContainer FPack[10000];
+		for(int yn=0;yn<YNumb && yn<10000;yn++){
+			for(int xn=0;xn<XNumb;xn++){
+				int	x1=MinX+MerginX+xn*PartialSize;
+				int	y1=MinY+MerginY+yn*PartialSize;
+
+				PureFlexAreaListContainer LFPack;
+				PickupFlexArea(BMap ,XByte , XLen, YLen ,LFPack 
+						,x1,y1,x1+PartialSize,y1+PartialSize);
+				PureFlexAreaList	*c=new PureFlexAreaList();
+				for(PureFlexAreaList *f=LFPack.GetFirst();f!=NULL;f=f->GetNext()){
+					(*c)+=*f;
+				}
+				FPack[yn].AppendList(c);
+			}
+		}
+		for(int yn=0;yn<YNumb;yn++){
+			for(int xn=0;xn<XNumb;xn++){
+				PureFlexAreaList	*c=FPack[yn].GetItem(xn);
+				if(c->GetPatternByte()<PartialSize*PartialSize*0.1){
+					PureFlexAreaList	*nLeft=NULL;
+					PureFlexAreaList	*nUpper=NULL;
+					PureFlexAreaList	*nLower=NULL;
+					PureFlexAreaList	*nRight=NULL;
+					if(xn>0)
+						nLeft=FPack[yn].GetItem(xn-1);
+					if(yn>0)
+						nLeft=FPack[yn-1].GetItem(xn);
+					if(xn+1<XNumb)
+						nRight=FPack[yn].GetItem(xn+1);
+					if(yn+1<YNumb)
+						nLower=FPack[yn+1].GetItem(xn);
+					PureFlexAreaList	*nNeighbor=NULL;
+					int	DCountLeft =(nLeft !=NULL)?nLeft ->GetPatternByte():0;
+					int	DCountUpper=(nUpper!=NULL)?nUpper->GetPatternByte():0;
+					int	DCountLower=(nLower!=NULL)?nLower->GetPatternByte():0;
+					int	DCountRight=(nRight!=NULL)?nRight->GetPatternByte():0;
+
+					if(DCountLeft>DCountUpper && DCountLeft>DCountLower && DCountLeft>DCountRight)
+						nNeighbor=nLeft;
+					else
+					if(DCountUpper>DCountLeft && DCountUpper>DCountLower && DCountUpper>DCountRight)
+						nNeighbor=nUpper;
+					else
+					if(DCountLower>DCountLeft && DCountLower>DCountUpper && DCountLower>DCountRight)
+						nNeighbor=nLower;
+					else
+					if(DCountRight>DCountLeft && DCountRight>DCountUpper && DCountRight>DCountLower)
+						nNeighbor=nRight;
+					if(nNeighbor!=NULL){
+						*nNeighbor+=*c;
+						c->Clear();
+					}
+				}
+			}
+		}
+		for(AlgorithmItemPI *k=GetFirstData();k != NULL;k=k->GetNext()) {
+			MakeAverageImageItem *a=dynamic_cast<MakeAverageImageItem *>(k);
+			if(a != NULL) {
+				a->SetSelected(true);
+			}
+			else{
+				k->SetSelected(false);
+			}
+		}
+		DeleteSelectedItems();
+		for(int yn=0;yn<YNumb;yn++){
+			for(int xn=0;xn<XNumb;xn++){
+				PureFlexAreaList	*c=FPack[yn].GetItem(xn);
+				if(c->GetPatternByte()!=0){
+					MakeAverageImageItem	*Item=(MakeAverageImageItem *)CreateItem(0);
+					Item->SetArea(*c);
+					AppendItem(Item);
+				}
+			}
+		}
+		DeleteMatrixBuff(BMap	,YLen);
+		DeleteMatrixBuff(TmpMap	,YLen);
+	}
+
+	ExeResult	Ret=AlgorithmInPagePI::ExecuteInitialAfterEdit	(ExeID,Res,EInfo);
+
+	return Ret;
+}
+
+ExeResult	MakeAverageImageInPage::ExecuteScanning	(int ExeID ,ResultInPageRoot *Res)
+{
+	ImagePointerContainer MasterImageList;
+	GetMasterBuffList(MasterImageList);
+	for(int i=0;i<AllocatedLayers;i++){
+		if(ALayerImages[i]->AddedCount==0){
+			ALayerImages[i]->CopyImage(*MasterImageList[i]);
+		}
+	}
+
+	ExeResult	Ret=AlgorithmInPagePI::ExecuteScanning	(ExeID ,Res);
+	for(int i=0;i<AllocatedLayers;i++){
+		ALayerImages[i]->AddedCount++;
+	}
+	return Ret;
+}
+
+void	MakeAverageImageInPage::Draw(QImage &pnt, IntList &LayerList ,int movx ,int movy ,double ZoomRate ,AlgorithmDrawAttr *Attr)
+{
+	ImageBuffer *Buff[1000];
+	MakeAverageImageDrawAttr	*MAttr=dynamic_cast<MakeAverageImageDrawAttr *>(Attr);
+	if(MAttr!=NULL){
+		if(MAttr->DrawMode==MakeAverageImageDrawAttr::_None){
+			AlgorithmInPagePI::Draw(pnt, LayerList ,movx ,movy ,ZoomRate ,Attr);
+		}
+		if(MAttr->DrawMode==MakeAverageImageDrawAttr::_Dark){
+			for(int i=0;i<AllocatedLayers;i++){
+				Buff[i]=&ALayerImages[i]->DarkImage;
+			}
+			ImageBuffer::MakeImage(pnt, Buff,AllocatedLayers
+									,ZoomRate ,movx ,movy
+									,255);
+			//AlgorithmInPagePI::Draw(pnt, LayerList ,movx ,movy ,ZoomRate ,Attr);
+		}
+		if(MAttr->DrawMode==MakeAverageImageDrawAttr::_Light){
+			for(int i=0;i<AllocatedLayers;i++){
+				Buff[i]=&ALayerImages[i]->LightImage;
+			}
+			ImageBuffer::MakeImage(pnt, Buff,AllocatedLayers
+									,ZoomRate ,movx ,movy
+									,255);
+			//AlgorithmInPagePI::Draw(pnt, LayerList ,movx ,movy ,ZoomRate ,Attr);
+		}
+		if(MAttr->DrawMode==MakeAverageImageDrawAttr::_Average){
+			int	AddedCount=0;
+			for(int i=0;i<AllocatedLayers;i++){
+				Buff[i]=&ALayerImages[i]->AddedImage;
+				AddedCount=ALayerImages[i]->AddedCount;
+			}
+			MakeImageAverage(pnt, Buff,AddedCount,AllocatedLayers
+									,ZoomRate ,movx ,movy
+									,255);
+			//AlgorithmInPagePI::Draw(pnt, LayerList ,movx ,movy ,ZoomRate ,Attr);
+		}
+		if(MAttr->DrawMode==MakeAverageImageDrawAttr::_AverageWithManualItem){
+			int	AddedCount=0;
+			for(int i=0;i<AllocatedLayers;i++){
+				Buff[i]=&ALayerImages[i]->AddedImage;
+				AddedCount=ALayerImages[i]->AddedCount;
+			}
+			MakeImageAverage(pnt, Buff,AddedCount,AllocatedLayers
+									,ZoomRate ,movx ,movy
+									,255);
+			for(AlgorithmItemPI *k=GetFirstData();k != NULL;k=k->GetNext()) {
+				MakeAverageImageUsageAreaItem *a=dynamic_cast<MakeAverageImageUsageAreaItem *>(k);
+				if(a != NULL) {
+					a->Draw(pnt, movx ,movy ,ZoomRate ,Attr);
+				}
+			}
+			//AlgorithmInPagePI::Draw(pnt, LayerList ,movx ,movy ,ZoomRate ,Attr);
+		}
+		if(MAttr->DrawMode==MakeAverageImageDrawAttr::_Variable){
+			ImageBuffer *Buff2[1000];
+			int	AddedCount=0;
+			for(int i=0;i<AllocatedLayers;i++){
+				Buff[i]	=&ALayerImages[i]->AddedImage;
+				Buff2[i]=&ALayerImages[i]->Added2Image;
+				AddedCount=ALayerImages[i]->AddedCount;
+			}
+			MakeImageVariable(pnt, Buff,Buff2,AddedCount,AllocatedLayers
+									,ZoomRate ,movx ,movy
+									,255,MAttr->VariableStrength);
+			//AlgorithmInPagePI::Draw(pnt, LayerList ,movx ,movy ,ZoomRate ,Attr);
+		}
+	}
+}
+void	MakeAverageImageInPage::MakeImageAverage(QImage &Dest, ImageBuffer *Buff[],int AddedCount ,int BuffNumb
+								,double ZoomRate ,int movx ,int movy
+								,int Alpha)
+{
+	if(AddedCount==0)
+		return;
+
+	int	W=Dest.width();
+	int	H=Dest.height();
+
+	int	BuffXLen=Buff[0]->GetWidth()/2;
+	int	BuffYLen=Buff[0]->GetHeight();
+	static	BYTE	DivTable[65535];
+	int	MaxV=256*AddedCount;
+	for(int i=0;i<MaxV;i++){
+		DivTable[i]=i/AddedCount;
+	}
+
+	double	Z=1.0/ZoomRate;
+	#pragma omp parallel                             
+	{                                                
+		#pragma omp for
+		for(int y=0;y<H;y++){
+			QRgb	*d=(QRgb *)Dest.scanLine(y);
+			int	Y=y*Z-movy;
+			if(0<=Y && Y<BuffYLen){
+				if(BuffNumb>=3){
+					WORD	*s0=(WORD *)Buff[0]->GetY(Y);
+					WORD	*s1=(WORD *)Buff[1]->GetY(Y);
+					WORD	*s2=(WORD *)Buff[2]->GetY(Y);
+					double	X=-movx;
+					for(int x=0;x<W;x++,X+=Z){
+						if(X<0)
+							continue;
+						if(X>=BuffXLen)
+							break;
+						int	iX=X;
+						d[x]=qRgba(DivTable[s0[iX]], DivTable[s1[iX]], DivTable[s2[iX]], Alpha);
+					}
+				}
+				else if(BuffNumb==2){
+					WORD	*s0=(WORD *)Buff[0]->GetY(Y);
+					WORD	*s1=(WORD *)Buff[1]->GetY(Y);
+					double	X=-movx;
+					for(int x=0;x<W;x++,X+=Z){
+						if(X<0)
+							continue;
+						if(X>=BuffXLen)
+							break;
+						int	iX=X;
+						d[x]=qRgba(DivTable[s0[iX]], DivTable[s1[iX]], DivTable[s1[iX]], Alpha);
+					}
+				}
+				else if(BuffNumb==1){
+					WORD	*s0=(WORD *)Buff[0]->GetY(Y);
+					double	X=-movx;
+					for(int x=0;x<W;x++,X+=Z){
+						if(X<0)
+							continue;
+						if(X>=BuffXLen)
+							break;
+						int	iX=X;
+						d[x]=qRgba(DivTable[s0[iX]], DivTable[s0[iX]], DivTable[s0[iX]], Alpha);
+					}
+				}
+			}
+		}
+	}
+}
+
+void	MakeAverageImageInPage::MakeImageVariable(QImage &Dest
+								, ImageBuffer *Buff[],ImageBuffer *Buff2[],int AddedCount ,int BuffNumb
+								,double ZoomRate ,int movx ,int movy
+								,int Alpha ,int VariableStrength)
+{
+	if(AddedCount==0)
+		return;
+
+	int	W=Dest.width();
+	int	H=Dest.height();
+
+	int	BuffXLen=Buff[0]->GetWidth()/2;
+	int	BuffYLen=Buff[0]->GetHeight();
+
+	double	Z=1.0/ZoomRate;
+	#pragma omp parallel                             
+	{                                                
+		#pragma omp for
+		for(int y=0;y<H;y++){
+			QRgb	*d=(QRgb *)Dest.scanLine(y);
+			int	Y=y*Z-movy;
+			if(0<=Y && Y<BuffYLen){
+				if(BuffNumb>=3){
+					WORD	*s0	=(WORD *)Buff[0]->GetY(Y);
+					WORD	*s1	=(WORD *)Buff[1]->GetY(Y);
+					WORD	*s2	=(WORD *)Buff[2]->GetY(Y);
+					DWORD	*s20=(DWORD *)Buff2[0]->GetY(Y);
+					DWORD	*s21=(DWORD *)Buff2[1]->GetY(Y);
+					DWORD	*s22=(DWORD *)Buff2[2]->GetY(Y);
+					double	X=-movx;
+					for(int x=0;x<W;x++,X+=Z){
+						if(X<0)
+							continue;
+						if(X>=BuffXLen)
+							break;
+						int	iX=X;
+						double	Ar=s0[iX]/(double)AddedCount;
+						int	vr=sqrt((s20[iX]-Ar*Ar*AddedCount)/(double)AddedCount);
+						double	Ag=s1[iX]/(double)AddedCount;
+						int	vg=sqrt((s21[iX]-Ag*Ag*AddedCount)/(double)AddedCount);
+						double	Ab=s2[iX]/(double)AddedCount;
+						int	vb=sqrt((s22[iX]-Ab*Ab*AddedCount)/(double)AddedCount);
+
+						d[x]=qRgba(vr*VariableStrength,vg*VariableStrength,vb*VariableStrength, Alpha);
+					}
+				}
+				else if(BuffNumb==2){
+					WORD	*s0=(WORD *)Buff[0]->GetY(Y);
+					WORD	*s1=(WORD *)Buff[1]->GetY(Y);
+					DWORD	*s20=(DWORD *)Buff2[0]->GetY(Y);
+					DWORD	*s21=(DWORD *)Buff2[1]->GetY(Y);
+					double	X=-movx;
+					for(int x=0;x<W;x++,X+=Z){
+						if(X<0)
+							continue;
+						if(X>=BuffXLen)
+							break;
+						int	iX=X;
+						double	Ar=s0[iX]/(double)AddedCount;
+						int	vr=sqrt((s20[iX]-Ar*Ar*AddedCount)/(double)AddedCount);
+						double	Ag=s1[iX]/(double)AddedCount;
+						int	vg=sqrt((s21[iX]-Ag*Ag*AddedCount)/(double)AddedCount);
+
+						d[x]=qRgba(vr*VariableStrength,vg*VariableStrength,vg*VariableStrength, Alpha);
+					}
+				}
+				else if(BuffNumb==1){
+					WORD	*s0=(WORD *)Buff[0]->GetY(Y);
+					DWORD	*s20=(DWORD *)Buff2[0]->GetY(Y);
+					double	X=-movx;
+					for(int x=0;x<W;x++,X+=Z){
+						if(X<0)
+							continue;
+						if(X>=BuffXLen)
+							break;
+						int	iX=X;
+						double	Ar=s0[iX]/(double)AddedCount;
+						int	vr=sqrt((s20[iX]-Ar*Ar*AddedCount)/(double)AddedCount);
+
+						d[x]=qRgba(vr*VariableStrength,vr*VariableStrength,vr*VariableStrength, Alpha);
+					}
+				}
+			}
+		}
+	}
+}
+ConstMapBuffer	*MakeAverageImageInPage::CreateReflectionMapForGenerator(ReflectionMode Mode ,int layer,AlgorithmLibrary *LibData ,void *Anything)
+{
+	if(Mode==_Reflection_Variety){
+		AlgorithmItemPointerListContainer	UsageAreaContainer;
+		for(AlgorithmItemPI *k=GetFirstData();k != NULL;k=k->GetNext()) {
+			MakeAverageImageUsageAreaItem *a=dynamic_cast<MakeAverageImageUsageAreaItem *>(k);
+			if(a != NULL) {
+				UsageAreaContainer.Add(a);
+			}
+		}
+		int	iXLen	=GetDotPerLine();
+		int	iYLen	=GetMaxLines();
+		ConstMapBuffer	*Dst=new ConstMapBuffer(GetDotPerLine() ,GetMaxLines(),MapBufferBase::_ByteMap);
+		MatrixBuffClear	((BYTE **)Dst->GetBitMap() ,0 ,iXLen,iYLen);
+		ALayerImages[layer]->MakeVariable((BYTE **)Dst->GetBitMap() ,UsageAreaContainer,iXLen,iYLen);
+		return Dst;
+	}
+	return NULL;
+}
+ConstMapBuffer	*MakeAverageImageInPage::CreateReflectionMapForGenerator(ReflectionMode Mode ,int layer,void *Anything)
+{
+	if(Mode==_Reflection_Variety){
+		AlgorithmItemPointerListContainer	UsageAreaContainer;
+		for(AlgorithmItemPI *k=GetFirstData();k != NULL;k=k->GetNext()) {
+			MakeAverageImageUsageAreaItem *a=dynamic_cast<MakeAverageImageUsageAreaItem *>(k);
+			if(a != NULL) {
+				UsageAreaContainer.Add(a);
+			}
+		}
+		ConstMapBuffer	*Dst=new ConstMapBuffer(GetDotPerLine() ,GetMaxLines(),MapBufferBase::_ByteMap);
+		int	iXLen	=GetDotPerLine();
+		int	iYLen	=GetMaxLines();
+		MatrixBuffClear	((BYTE **)Dst->GetBitMap() ,0 ,iXLen,iYLen);
+		ALayerImages[layer]->MakeVariable((BYTE **)Dst->GetBitMap() ,UsageAreaContainer,iXLen,iYLen);
+		return Dst;
+	}
+	return NULL;
+}
+
+bool	MakeAverageImageInPage::IncludeLibInReflectionForGenerator(ReflectionMode Mode,int layer,AlgorithmLibrary *LibData ,void *Anything)
+{
+	if(Mode==_Reflection_Variety){
+		return true;
+	}
+	return false;
+}
+bool    MakeAverageImageInPage::Save(QIODevice *f)
+{
+	if(AlgorithmInPagePI::Save(f)==false)
+		return false;
+	if(::Save(f,AllocatedLayers)==false)
+		return false;
+	for(int i=0;i<AllocatedLayers;i++){
+		if(ALayerImages[i]->Save(f)==false)
+			return false;
+	}
+	return true;
+}
+bool    MakeAverageImageInPage::Load(QIODevice *f)
+{
+	if(AlgorithmInPagePI::Load(f)==false)
+		return false;
+	if(::Load(f,AllocatedLayers)==false)
+		return false;
+	for(int i=0;i<AllocatedLayers && i<sizeof(ALayerImages)/sizeof(ALayerImages[0]);i++){
+		if(ALayerImages[i]==NULL){
+			ALayerImages[i]=new AverageLayerImage(GetLayersBase(),this,i);
+			ALayerImages[i]->AllocateMemory();
+		}
+		if(ALayerImages[i]->Load(f)==false)
+			return false;
+	}
+	return true;
+}
+
+void	MakeAverageImageInPage::ResetAverage(void)
+{
+	for(int i=0;i<AllocatedLayers;i++){
+		ALayerImages[i]->ResetAverage();
+	}
+}
+void	MakeAverageImageInPage::SetAverageImageIntoMaster(void)
+{
+	AlgorithmItemPointerListContainer	UsageAreaContainer;
+	for(AlgorithmItemPI *k=GetFirstData();k != NULL;k=k->GetNext()) {
+		MakeAverageImageUsageAreaItem *a=dynamic_cast<MakeAverageImageUsageAreaItem *>(k);
+		if(a != NULL) {
+			UsageAreaContainer.Add(a);
+		}
+	}
+	ConstMapBufferListContainer	MapContainer;
+	for(int i=0;i<AllocatedLayers;i++){
+		ALayerImages[i]->SetAverageImageIntoMaster(UsageAreaContainer);
+
+		ConstMapBuffer *Map=new ConstMapBuffer(GetDotPerLine(),GetMaxLines(),MapBufferBase::_ByteMap);
+		Map->ClearAll();
+		ALayerImages[i]->MakeVarietyMap(UsageAreaContainer,*Map);
+		MapContainer.AppendList(new ConstMapBufferList(Map));
+	}
+
+	GetLayersBase()->RefreshByMap(GetPhaseCode(),GetPage(),_Reflection_Variety,MapContainer);
+}
+
+void	MakeAverageImageInPage::TransmitDirectly(GUIDirectMessage *packet)
+{
+	CmdSetAverageToMaster	*CmdSetAverageToMasterVar=dynamic_cast<CmdSetAverageToMaster *>(packet);
+	if(CmdSetAverageToMasterVar!=NULL){
+		SetAverageImageIntoMaster();
+		return;
+	}
+	CmdAddAverageArea	*CmdAddAverageAreaVar=dynamic_cast<CmdAddAverageArea *>(packet);
+	if(CmdAddAverageAreaVar!=NULL){
+		MakeAverageImageUsageAreaItem	*a=(MakeAverageImageUsageAreaItem * )CreateItem(1);
+		a->SetArea(CmdAddAverageAreaVar->Area);
+		AppendItem(a);
+		return;
+	}
+	CmdResetAverage	*CmdResetAverageVar=dynamic_cast<CmdResetAverage *>(packet);
+	if(CmdResetAverageVar!=NULL){
+		ResetAverage();
+		return;
+	}
+}
+
+void	MakeAverageImageInPage::UndoSetIndependentItemDataCommand(QIODevice *f)
+{
+	int	ItemID;
+	if(::Load(f,ItemID)==false)
+		return;
+	AlgorithmItemRoot	*Item=SearchIDItem(ItemID);
+	if(Item!=NULL){
+		MakeAverageImageItem	*BI=(MakeAverageImageItem *)Item;
+		BI->GetThresholdW()->Load(f);
+	}
+}
+//==============================================================
+MakeAverageImageBase::MakeAverageImageBase(LayersBase *Base)
+:AlgorithmBase(Base)
+{
+	ColorSelected			=Qt::yellow;
+	ColorActive				=Qt::red;
+	UsageAreaColor			=QColor(255,192,0,190);
+	DefaultSearchDot		=10;
+	DefaultRotationDegree	=5;
+	PartialSize				=200;
+	ExpandingFromMask		=20;
+		
+	SetParam(&ColorSelected		, /**/"Color"	,/**/"ColorSelected"	,LangSolver.GetString(XMakeAverageImage_LS,LID_0)/*"Color for Selected Mask"*/	);
+	SetParam(&ColorActive		, /**/"Color"	,/**/"ColorActive"		,LangSolver.GetString(XMakeAverageImage_LS,LID_1)/*"Color for Active Mask"*/	);
+	SetParam(&UsageAreaColor	, /**/"Color"	,/**/"UsageAreaColor"	,LangSolver.GetString(XMakeAverageImage_LS,LID_2)/*"Color for Usage Area"*/);
+
+	SetParam(&DefaultSearchDot		, /**/"Setting" ,/**/"DefaultSearchDot"		,LangSolver.GetString(XMakeAverageImage_LS,LID_3)/*"Default search dot"*/);
+	SetParam(&DefaultRotationDegree	, /**/"Setting" ,/**/"DefaultRotationDegree",LangSolver.GetString(XMakeAverageImage_LS,LID_4)/*"Default rotation angle (degree) to search"*/);
+	SetParam(&PartialSize			, /**/"Setting" ,/**/"PartialSize"			,LangSolver.GetString(XMakeAverageImage_LS,LID_5)/*"Partial area size"*/);
+	SetParam(&ExpandingFromMask		, /**/"Setting" ,/**/"ExpandingFromMask"	,LangSolver.GetString(XMakeAverageImage_LS,LID_6)/*"Expand dots from mask area"*/);
+}
+
+MakeAverageImageBase::~MakeAverageImageBase(void)
+{
+
+}
+
+AlgorithmDrawAttr	*MakeAverageImageBase::CreateDrawAttr(void)
+{
+	return new MakeAverageImageDrawAttr();
+}
+
+void	MakeAverageImageBase::TransmitDirectly(GUIDirectMessage *packet)
+{
+	CmdGetAddedCountByPhases	*CmdGetAddedCountByPhasesVar=dynamic_cast<CmdGetAddedCountByPhases *>(packet);
+	if(CmdGetAddedCountByPhasesVar!=NULL){
+		for(int phase=0;phase<GetPhaseNumb();phase++){
+			AlgorithmInPageInOnePhase	*Ah=GetPageDataPhase(phase);
+			if(Ah!=NULL){
+				MakeAverageImageInPage	*Ap=(MakeAverageImageInPage *)Ah->GetPageData(0);
+				if(Ap!=NULL){
+					if(Ap->ALayerImages[0]!=NULL){
+						CmdGetAddedCountByPhasesVar->AddedCountByPhases[phase]=Ap->ALayerImages[0]->AddedCount;
+					}
+				}
+			}
+		}
+		return;
+	}
+	CmdClearAverage	*CmdClearAverageVar=dynamic_cast<CmdClearAverage *>(packet);
+	if(CmdClearAverageVar!=NULL){
+		AlgorithmInPageInOnePhase	*Ah=GetPageDataPhase(CmdClearAverageVar->Phase);
+		if(Ah!=NULL){
+			for(int page=0;page<GetPageNumb();page++){
+				MakeAverageImageInPage	*Ap=(MakeAverageImageInPage *)Ah->GetPageData(page);
+				if(Ap!=NULL){
+					Ap->ResetAverage();
+				}
+			}
+		}
+		return;
+	}
+	CmdExecuteAverage	*CmdExecuteAverageVar=dynamic_cast<CmdExecuteAverage *>(packet);
+	if(CmdExecuteAverageVar!=NULL){
+		for(int phase=0;phase<GetPhaseNumb();phase++){
+			AlgorithmInPageInOnePhase	*Ah=GetPageDataPhase(phase);
+			if(Ah!=NULL){
+				MakeAverageImageInPage	*Ap=(MakeAverageImageInPage *)Ah->GetPageData(0);
+				if(Ap!=NULL){
+					Ap->SetAverageImageIntoMaster();
+				}
+			}
+		}
+		return;
+	}
+	CmdResetAverage	*CmdResetAverageVar=dynamic_cast<CmdResetAverage *>(packet);
+	if(CmdResetAverageVar!=NULL){
+		for(int phase=0;phase<GetPhaseNumb();phase++){
+			AlgorithmInPageInOnePhase	*Ah=GetPageDataPhase(phase);
+			if(Ah!=NULL){
+				for(int page=0;page<GetPageNumb();page++){
+					MakeAverageImageInPage	*Ap=(MakeAverageImageInPage *)Ah->GetPageData(page);
+					if(Ap!=NULL){
+						Ap->ResetAverage();
+					}
+				}
+			}
+		}
+		return;
+	}
+}
+QString	MakeAverageImageBase::GetNameByCurrentLanguage(void)
+{
+	return LangSolver.GetString(XMakeAverageImage_LS,LID_7)/*"蟷ｳ蝮�喧蜃ｦ逅�*/;
+}

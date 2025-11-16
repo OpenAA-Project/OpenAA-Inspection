@@ -1,0 +1,12 @@
+#ifndef DUSTREDUCER_GLOBAL_H
+#define DUSTREDUCER_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef DUSTREDUCER_LIB
+# define DUSTREDUCER_EXPORT Q_DECL_EXPORT
+#else
+# define DUSTREDUCER_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // DUSTREDUCER_GLOBAL_H

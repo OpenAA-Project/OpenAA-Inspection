@@ -1,0 +1,12 @@
+#ifndef LCD_4DSYSTEM_1_GLOBAL_H
+#define LCD_4DSYSTEM_1_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef LCD_4DSYSTEM_1_LIB
+# define LCD_4DSYSTEM_1_EXPORT Q_DECL_EXPORT
+#else
+# define LCD_4DSYSTEM_1_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // LCD_4DSYSTEM_1_GLOBAL_H

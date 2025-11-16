@@ -1,0 +1,52 @@
+#include "PropertyDXFOperationResource.h"
+#include "EditRotateDialog.h"
+#include "ui_EditRotateDialog.h"
+#include "XRememberer.h"
+
+EditRotateDialog::EditRotateDialog(LayersBase *base, QWidget *parent) :
+    QDialog(parent)
+	,ServiceForLayers(base)
+    ,ui(new Ui::EditRotateDialog)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+
+	ui->doubleSpinBoxAngle	->setValue(ControlRememberer::GetDouble(ui->doubleSpinBoxAngle,0));
+
+	InstallOperationLog(this);
+}
+
+EditRotateDialog::~EditRotateDialog()
+{
+    delete ui;
+}
+
+void EditRotateDialog::on_pushButtonOK_clicked()
+{
+	Angle	=360-ui->doubleSpinBoxAngle	->value();
+	ControlRememberer::SetValue(ui->doubleSpinBoxAngle ,ui->doubleSpinBoxAngle->value());
+	done(true);
+}
+
+void EditRotateDialog::on_pushButtonCancel_clicked()
+{
+	done(false);
+}
+
+void EditRotateDialog::on_pushButton90_clicked()
+{
+	Angle	=270;
+	done(true);
+}
+
+void EditRotateDialog::on_pushButton180_clicked()
+{
+	Angle	=180;
+	done(true);
+}
+
+void EditRotateDialog::on_pushButton270_clicked()
+{
+	Angle	=90;
+	done(true);
+}

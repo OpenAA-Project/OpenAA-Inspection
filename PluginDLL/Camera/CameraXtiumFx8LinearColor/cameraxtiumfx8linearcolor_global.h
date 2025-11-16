@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(CAMERAXTIUMFX8LINEARCOLOR_LIB)
+#  define CAMERAXTIUMFX8LINEARCOLOR_EXPORT Q_DECL_EXPORT
+# else
+#  define CAMERAXTIUMFX8LINEARCOLOR_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define CAMERAXTIUMFX8LINEARCOLOR_EXPORT
+#endif

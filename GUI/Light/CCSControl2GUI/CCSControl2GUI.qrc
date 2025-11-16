@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/CCSControl2GUI.png</file>
+    </qresource>
+</RCC>

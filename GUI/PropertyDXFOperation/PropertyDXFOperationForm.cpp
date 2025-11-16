@@ -1,0 +1,1064 @@
+#include "PropertyDXFOperationResource.h"
+#include "PropertyDXFOperationForm.h"
+#include "ui_PropertyDXFOperationForm.h"
+#include "EditMoveDialog.h"
+#include "EditRotateDialog.h"
+#include "EditShearDialog.h"
+#include "EditZoomDialog.h"
+#include "SetWidthDialog.h"
+#include "XPropertyDXFOperationPacket.h"
+#include "swap.h"
+#include "SelectLibraryDialog.h"
+#include "XAlgorithmDLL.h"
+#include "AllocationLibByColorDialog.h"
+
+extern	const	char	*sRoot;
+extern	const	char	*sName;
+
+const	char	*AlgoRoot=/**/"Basic";
+const	char	*AlgoName=/**/"DXFOperation";
+
+PropertyDXFOperationForm::PropertyDXFOperationForm(LayersBase *Base,QWidget *parent) :
+    GUIFormBase(Base,parent)
+	,DXFLayerList(NULL)
+    ,ui(new Ui::PropertyDXFOperationForm)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+
+	ui->tableWidgetLayerInfo->setColumnWidth(0,200);
+	ui->tableWidgetLayerInfo->setColumnWidth(1,52);
+	ui->tableWidgetLayerInfo->setColumnWidth(2,52);
+
+	ui->tableWidgetMaskList->setColumnWidth(0,52);
+	ui->tableWidgetMaskList->setColumnWidth(1,240);
+
+	ui->tableWidgetInspectionList->setColumnWidth(0,64);
+	ui->tableWidgetInspectionList->setColumnWidth(1,52);
+	ui->tableWidgetInspectionList->setColumnWidth(2,200);
+}
+
+PropertyDXFOperationForm::~PropertyDXFOperationForm()
+{
+    delete ui;
+}
+
+void	PropertyDXFOperationForm::ReadyParam(void)
+{
+	DXFOperationBase	*Base=GetDXFOperationBase();
+	if(Base==NULL)
+		return;
+	CmdLoadAllocationLibByColor	Cmd(GetLayersBase());
+	Base->TransmitDirectly(&Cmd);
+}
+
+DXFOperationBase	*PropertyDXFOperationForm::GetDXFOperationBase(void)
+{
+	DXFOperationBase	*Base=(DXFOperationBase *)GetLayersBase()->GetAlgorithmBase(AlgoRoot ,AlgoName);
+	return Base;
+}
+void	PropertyDXFOperationForm::TransmitDirectly(GUIDirectMessage *packet)
+{
+	CmdDXFGetDrawAttr	*CmdGetDrawAttrVar=dynamic_cast<CmdDXFGetDrawAttr *>(packet);
+	if(CmdGetDrawAttrVar!=NULL){
+		for(DXFLayer *s=DXFLayerList.GetFirst();s!=NULL;s=s->GetNext()){
+			CmdGetDrawAttrVar->ShownDXFLayerID.Add(s->LayerID);
+		}
+		CmdGetDrawAttrVar->ShowFilledArea	=ui->toolButtonShowFilledArea->isChecked();
+		::GetSelectedRows(ui->listWidgetDXFFileName, CmdGetDrawAttrVar->ListFileNo);	
+		return;
+	}
+	CmdDXFGetOperationModePacket	*GGMode=dynamic_cast<CmdDXFGetOperationModePacket *>(packet);
+	if(GGMode!=NULL){
+		GGMode->Mode=GetCurrentOperationMode();
+		return;
+	}
+	CmdLoadDXF	*CmdLoadDXFVar=dynamic_cast<CmdLoadDXF *>(packet);
+	if(CmdLoadDXFVar!=NULL){
+		LoadDXF(0,*CmdLoadDXFVar->pData ,CmdLoadDXFVar->FileName);
+		ui->listWidgetDXFFileName->addItem(CmdLoadDXFVar->FileName);
+		PostLoadingDXF();
+		return;
+	}
+	CmdDXFRotateInCenter	*CmdRotateInCenterVar=dynamic_cast<CmdDXFRotateInCenter *>(packet);
+	if(CmdRotateInCenterVar!=NULL){
+		if(CmdRotateInCenterVar->OnlySelected==false){
+			((DisplayImageWithAlgorithm *)GetImagePanel())->SlotSelectAll();
+		}
+		else{
+			((DisplayImageWithAlgorithm *)GetImagePanel())->ButtonExecuteSelectByPage(CmdRotateInCenterVar->ActivePage);
+		}
+		CommandRotateItems(CmdRotateInCenterVar->Angle);
+		return;
+	}
+	CmdDXFZoomInCenter	*CmdZoomInCenterVar=dynamic_cast<CmdDXFZoomInCenter *>(packet);
+	if(CmdZoomInCenterVar!=NULL){
+		if(CmdZoomInCenterVar->OnlySelected==false){
+			((DisplayImageWithAlgorithm *)GetImagePanel())->SlotSelectAll();
+		}
+		else{
+			((DisplayImageWithAlgorithm *)GetImagePanel())->ButtonExecuteSelectByPage(CmdZoomInCenterVar->ActivePage);
+		}
+		CommandZoomItems(CmdZoomInCenterVar->XZoomDir,CmdZoomInCenterVar->YZoomDir);
+		return;
+	}
+	CmdMakeAlgo	*CmdMakeAlgoVar=dynamic_cast<CmdMakeAlgo *>(packet);
+	if(CmdMakeAlgoVar!=NULL){
+		for(int page=0;page<GetPageNumb();page++){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdMakeAlgo	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			gCmd.LibType=CmdMakeAlgoVar->LibType;
+			gCmd.LibID	=CmdMakeAlgoVar->LibID;
+			gCmd.Send(NULL,GlobalPage,0);
+		}
+		return;
+	}
+	CmdMakeAlgoByColor	*CmdMakeAlgoByColorVar=dynamic_cast<CmdMakeAlgoByColor *>(packet);
+	if(CmdMakeAlgoByColorVar!=NULL){
+		for(int page=0;page<GetPageNumb();page++){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdMakeAlgoByColor	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			gCmd.ColorCode	=CmdMakeAlgoByColorVar->ColorCode;
+			gCmd.Color		=CmdMakeAlgoByColorVar->Color;
+			gCmd.LibType	=CmdMakeAlgoByColorVar->LibType;
+			gCmd.LibID		=CmdMakeAlgoByColorVar->LibID;
+			gCmd.Send(NULL,GlobalPage,0);
+		}
+		return;
+	}
+	CmdDXFMirrorInCenter	*CmdMirrorInCenterVar=dynamic_cast<CmdDXFMirrorInCenter *>(packet);
+	if(CmdMirrorInCenterVar!=NULL){
+		if(CmdMirrorInCenterVar->OnlySelected==false){
+			((DisplayImageWithAlgorithm *)GetImagePanel())->SlotSelectAll();
+		}
+		else if(CmdMirrorInCenterVar->ActivePage>0){
+			((DisplayImageWithAlgorithm *)GetImagePanel())->ButtonExecuteSelectByPage(CmdMirrorInCenterVar->ActivePage);
+		}
+		if(CmdMirrorInCenterVar->XMode==true)
+			CommandMirrorX();
+		else
+			CommandMirrorY();
+
+		return;
+	}
+	CmdEnfatLine	*CmdEnfatLineVar=dynamic_cast<CmdEnfatLine *>(packet);
+	if(CmdEnfatLineVar!=NULL){
+		double	LineWidth=CmdEnfatLineVar->EnfatLineDot;
+		for(int page=0;page<GetPageNumb();page++){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdSetLineWidth	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			gCmd.LineWidth=LineWidth;
+			gCmd.Send(NULL,GlobalPage,0);
+		}
+		RepaintImage();
+		return;
+	}
+	CmdSelectInColor	*CmdSelectInColorVar=dynamic_cast<CmdSelectInColor *>(packet);
+	if(CmdSelectInColorVar!=NULL){
+		for(int page=0;page<GetPageNumb();page++){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdSelectInColor	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			gCmd.PickupRL=CmdSelectInColorVar->PickupRL;
+			gCmd.PickupRH=CmdSelectInColorVar->PickupRH;
+			gCmd.PickupGL=CmdSelectInColorVar->PickupGL;
+			gCmd.PickupGH=CmdSelectInColorVar->PickupGH;
+			gCmd.PickupBL=CmdSelectInColorVar->PickupBL;
+			gCmd.PickupBH=CmdSelectInColorVar->PickupBH;
+			gCmd.AreaX1	=CmdSelectInColorVar->AreaX1;
+			gCmd.AreaY1	=CmdSelectInColorVar->AreaY1;
+			gCmd.AreaX2	=CmdSelectInColorVar->AreaX2;
+			gCmd.AreaY2	=CmdSelectInColorVar->AreaY2;
+
+			gCmd.Send(NULL,GlobalPage,0);
+		}
+		RepaintImage();
+		return;
+	}
+	CmdReqDXFArea	*CmdReqDXFAreaVar=dynamic_cast<CmdReqDXFArea *>(packet);
+	if(CmdReqDXFAreaVar!=NULL){
+		GetCenterDXF(CmdReqDXFAreaVar->MinX ,CmdReqDXFAreaVar->MinY ,CmdReqDXFAreaVar->MaxX ,CmdReqDXFAreaVar->MaxY);
+		return;
+	}
+	CmdDXFShear	*CmdShearVar=dynamic_cast<CmdDXFShear *>(packet);
+	if(CmdShearVar!=NULL){
+		for(int page=0;page<GetPageNumb();page++){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdShear	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			gCmd.XMode	=CmdShearVar->XMode;
+			gCmd.Shear	=CmdShearVar->Shear;
+			gCmd.CenterX=CmdShearVar->CenterX-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->x;
+			gCmd.CenterY=CmdShearVar->CenterY-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->y;
+			gCmd.Send(NULL,GlobalPage,0);
+		}
+		RepaintImage();
+		return;
+	}
+	CmdReqDXFColor	*CmdReqDXFColorVar=dynamic_cast<CmdReqDXFColor *>(packet);
+	if(CmdReqDXFColorVar!=NULL){
+		for(int page=0;page<GetParamGlobal()->PageNumb;page++){
+			int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
+			GUICmdReqColorFromDXF	RCmd(GetLayersBase(),sRoot,sName,globalPage);
+			GUICmdAckColorFromDXF	ACmd(GetLayersBase(),sRoot,sName,globalPage);
+			if(RCmd.Send(globalPage,0,ACmd)==true){
+				for(AllocationLibByColor *a=ACmd.ColorList.GetFirst();a!=NULL;a=a->GetNext()){
+					if(CmdReqDXFColorVar->ColorList.IsExist(a->Color)==false){
+						CmdReqDXFColorVar->ColorList.AppendList(new ColorCodeList(a->ColorCode,a->Color));
+					}
+					else{
+						ColorCodeList	*v=CmdReqDXFColorVar->ColorList.Find(a->Color);
+						if(v!=NULL){
+							v->ColorCode.Merge(a->ColorCode);
+						}
+					}
+				}
+			}
+		}
+		return;
+	}
+	CmdDelMaskByCAD	*CmdDelMaskByCADVar=dynamic_cast<CmdDelMaskByCAD *>(packet);
+	if(CmdDelMaskByCADVar!=NULL){
+		for(int page=0;page<GetParamGlobal()->PageNumb;page++){
+			int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
+			GUICmdDelMaskByCAD	RCmd(GetLayersBase(),sRoot,sName,globalPage);
+			RCmd.Send(NULL,globalPage,0);
+		}
+		return;
+	}
+	CmdExecuteInitialMask	*CmdExecuteInitialMaskVar=dynamic_cast<CmdExecuteInitialMask *>(packet);
+	if(CmdExecuteInitialMaskVar!=NULL){
+		for(int page=0;page<GetParamGlobal()->PageNumb;page++){
+			int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
+			GUICmdExecuteInitialMask	RCmd(GetLayersBase(),sRoot,sName,globalPage);
+			RCmd.Send(NULL,globalPage,0);
+		}
+		return;
+	}
+	CmdDXFPaint	*CmdDXFPaintVar=dynamic_cast<CmdDXFPaint *>(packet);
+	if(CmdDXFPaintVar!=NULL){
+		int	FileNo=ui->listWidgetDXFFileName->currentRow();
+		if(FileNo<0)
+			FileNo=0;
+		IntList PageList;
+		GetLayersBase()->GetGlobalPage(CmdDXFPaintVar->GlobalX ,CmdDXFPaintVar->GlobalY,PageList);
+		for(IntClass *c=PageList.GetFirst();c!=NULL;c=c->GetNext()){
+			int	GlobalPage=c->GetValue();
+			DataInPage	*Pg=GetLayersBase()->GetPageData(GlobalPage);
+
+			GUICmdDXFDraw	SCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			SCmd.FileNo=FileNo;
+			Pg->GetLocalMatrixFromGlobalInMaster(CmdDXFPaintVar->GlobalX ,CmdDXFPaintVar->GlobalY
+												,SCmd.LocalX,SCmd.LocalY);
+			SCmd.Send(NULL,GlobalPage,0);
+		}
+		RepaintImage();
+		return;
+	}
+	CmdReqAllocationLibByColor	*CmdReqAllocationLibByColorVar=dynamic_cast<CmdReqAllocationLibByColor *>(packet);
+	if(CmdReqAllocationLibByColorVar!=NULL){
+		int	GlobalPage=0;
+		GUICmdReqAllocationLibByColor	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		GUICmdAckAllocationLibByColor	ACmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		RCmd.LevelID=CmdReqAllocationLibByColorVar->ThresholdLevelID;
+		if(RCmd.Send(GlobalPage,0,ACmd)==true){
+			CmdReqAllocationLibByColorVar->Container=ACmd.AllocationLibByColorContainerInst;
+		}
+		return;
+	}
+	CmdMakeEffectiveMask	*CmdMakeEffectiveMaskVar=dynamic_cast<CmdMakeEffectiveMask *>(packet);
+	if(CmdMakeEffectiveMaskVar!=NULL){
+		ui->spinBoxShrinkDotForMask->setValue(CmdMakeEffectiveMaskVar->ShrinkDot);
+		on_toolButtonMakeEffectiveMask_clicked();
+		on_toolButtonSendEffectiveMask_clicked();
+		return;
+	}
+	CmdSetDXFWithSelfTransform	*CmdSetDXFWithSelfTransformVar=dynamic_cast<CmdSetDXFWithSelfTransform *>(packet);
+	if(CmdSetDXFWithSelfTransformVar!=NULL){
+		for(int page=0;page<GetParamGlobal()->PageNumb;page++){
+			int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
+			GUICmdSetDXFWithSelfTransform	RCmd(GetLayersBase(),sRoot,sName,globalPage);
+			RCmd.DXFData=CmdSetDXFWithSelfTransformVar->DXFData;
+			RCmd.SendOnly(NULL,globalPage,0);
+		}
+		return;
+	}
+}
+
+DXFOperationMode	PropertyDXFOperationForm::GetCurrentOperationMode(void)
+{
+	if(ui->toolButtonMove->isChecked()==true){
+		return OM_Move;
+	}
+	else if(ui->toolButtonRotate->isChecked()==true){
+		return OM_Rotate;
+	}
+	else if(ui->toolButtonXShear->isChecked()==true){
+		return OM_SlopeX;
+	}
+	else if(ui->toolButtonYShear->isChecked()==true){
+		return OM_SlopeY;
+	}
+	else if(ui->toolButtonExpand->isChecked()==true){
+		return OM_Extend;
+	}
+	else if(ui->toolButtonDrawInside->isChecked()==true){
+		return OM_Paint;
+	}
+
+	return OM_None;
+}
+
+void	PropertyDXFOperationForm::ShowInEdit(void)
+{
+	ShowLayerList();
+}
+
+void	PropertyDXFOperationForm::BuildForShow(void)
+{
+	ShowLayerList();
+}
+
+void PropertyDXFOperationForm::on_listWidgetDXFFileName_clicked(const QModelIndex &index)
+{
+	int	FileNo=ui->listWidgetDXFFileName->currentRow();
+	if(FileNo<0)
+		return;
+	for(int page=0;page<GetParamGlobal()->PageNumb;page++){
+		int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
+		GUICmdSelectFileNo	RCmd(GetLayersBase(),sRoot,sName,globalPage);
+		RCmd.FileNo=FileNo;
+		RCmd.Send(NULL,globalPage,0);
+	}
+	RepaintImage();
+}
+
+void PropertyDXFOperationForm::on_pushButtonRegisterFileName_clicked()
+{
+	QString	FileName=QFileDialog::getOpenFileName(NULL,LangSolver.GetString(PropertyDXFOperationForm_LS,LID_3)/*"Entry DXF file name"*/
+													, QString()
+													,/**/"DXF(*.dxf);;All files(*.*)");
+	if(FileName.isEmpty()==false){
+		ui->listWidgetDXFFileName->addItem(FileName);
+	}
+}
+
+void PropertyDXFOperationForm::on_pushButtonRemoveFileName_clicked()
+{
+	int	Row=ui->listWidgetDXFFileName->currentRow();
+	if(Row<0)
+		return;
+	QListWidgetItem	*w=ui->listWidgetDXFFileName->item(Row);
+	ui->listWidgetDXFFileName->removeItemWidget(w);
+	delete	w;
+}
+
+void PropertyDXFOperationForm::on_pushButtonLoadDXF_clicked()
+{
+	for(int i=0;i<ui->listWidgetDXFFileName->count();i++){
+		QString	FileName=ui->listWidgetDXFFileName->item(i)->text();
+		QFile	File(FileName);
+		if(File.open(QIODevice::ReadOnly)==true){
+			QByteArray	Data=File.readAll();
+			LoadDXF(i,Data ,FileName);
+		}
+	}
+	PostLoadingDXF();
+}
+void PropertyDXFOperationForm::LoadDXF(int FileNo,QByteArray &Data ,QString &FileName)
+{
+	for(int page=0;page<GetParamGlobal()->PageNumb;page++){
+		int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
+		GUICmdLoadDXF	RCmd(GetLayersBase(),sRoot,sName,globalPage);
+		RCmd.FileName=FileName;
+		RCmd.Data	=Data;
+		RCmd.FileNo	=FileNo;
+		RCmd.SendOnly(globalPage,0);
+	}
+}
+void PropertyDXFOperationForm::PostLoadingDXF(void)
+{
+	for(int page=0;page<GetParamGlobal()->PageNumb;page++){
+		int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
+		GUICmdMove		gCmd(GetLayersBase(),sRoot,sName,globalPage);
+		gCmd.PixelMode	=true;
+		gCmd.XDir		=-GetLayersBase()->GetGlobalOutlineOffset(globalPage)->x;
+		gCmd.YDir		=-GetLayersBase()->GetGlobalOutlineOffset(globalPage)->y;
+		gCmd.OnlySelected	=true;
+		gCmd.Send(NULL,globalPage,0);
+	}
+
+	double	MinX,MinY;
+	double	MaxX,MaxY;
+	GetCenterDXF(MinX ,MinY ,MaxX ,MaxY);
+
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdZoom	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		gCmd.XZoomDir	=GetDXFOperationBase()->StartupZoomRateX;
+		gCmd.YZoomDir	=GetDXFOperationBase()->StartupZoomRateY;
+		gCmd.CenterX	=(MinX+MaxX)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->x;
+		gCmd.CenterY	=(MinY+MaxY)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->y;
+		gCmd.OnlySelected	=true;
+		gCmd.Send(NULL,GlobalPage,0);
+	}
+
+	on_toolButtonCenterize_clicked();
+
+	ShowLayerList();
+	int	Row=0;
+	IntList	RowList;
+	for(DXFLayer *s=DXFLayerList.GetFirst();s!=NULL;s=s->GetNext(),Row++){
+		RowList.Add(Row);
+	}
+	::SetSelectedRows(ui->tableWidgetLayerInfo,RowList);
+	RepaintImage();
+}
+
+QString	GetDXFColorName(int ColorCode)
+{
+	switch(ColorCode){
+		case 1:	return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_4)/*"Red"*/;
+		case 2:	return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_5)/*"yellow"*/;
+		case 3:	return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_6)/*"green"*/;
+		case 4:	return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_7)/*"cyan"*/;
+		case 5:	return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_8)/*"blue"*/;
+		case 6:	return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_9)/*"magenta"*/;
+		case 7:	return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_10)/*"white"*/;
+		default:return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_11)/*"black"*/;
+	}
+	return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_12)/*"Other"*/;
+}
+
+QString	GetDXFLineName(int LineType)
+{
+	switch(LineType){
+	case 1:	return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_13)/*"CONTINUOUS"*/;
+	case 2:	return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_14)/*"HIDDEN"*/;
+	case 3:	return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_15)/*"CENTER"*/;
+	case 4:	return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_16)/*"PHANTOM"*/;
+	}
+	return LangSolver.GetString(PropertyDXFOperationForm_LS,LID_17)/*"Other"*/;
+}
+
+
+void PropertyDXFOperationForm::ShowLayerList(void)
+{
+	DXFLayerList.RemoveAll();
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdReqDXFLayerInfo	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		GUICmdAckDXFLayerInfo	ACmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		if(RCmd.Send(GlobalPage,0,ACmd)==true){
+			DXFLayerList.Merge(ACmd.DXFLayerList);
+		}
+	}
+	ui->tableWidgetLayerInfo->setRowCount(DXFLayerList.GetCount());
+	int	Row=0;
+	for(DXFLayer *s=DXFLayerList.GetFirst();s!=NULL;s=s->GetNext(),Row++){
+		::SetDataToTable(ui->tableWidgetLayerInfo ,0 ,Row ,s->LayerName);
+		::SetDataToTable(ui->tableWidgetLayerInfo ,1 ,Row ,GetDXFColorName(s->ColorCode));
+		::SetDataToTable(ui->tableWidgetLayerInfo ,2 ,Row ,GetDXFLineName(s->LineType));
+	}
+}
+
+
+void PropertyDXFOperationForm::on_toolButtonMoveDialog_clicked()
+{
+	EditMoveDialog	D(GetLayersBase());
+	if(D.exec()==(int)true){
+		CommandMoveItems(D.XDir,D.YDir);
+	}
+}
+
+void PropertyDXFOperationForm::on_toolButtonExpandDialog_clicked()
+{
+	EditZoomDialog	D(GetLayersBase());
+	if(D.exec()==(int)true){
+		double	MinX,MinY;
+		double	MaxX,MaxY;
+		GetCenterDXF(MinX ,MinY ,MaxX ,MaxY);
+
+		GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Zoom DXF");
+		for(int page=0;page<GetPageNumb();page++){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdZoom	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			gCmd.XZoomDir	=D.XZoomDir;
+			gCmd.YZoomDir	=D.YZoomDir;
+			gCmd.CenterX	=(MinX+MaxX)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->x;
+			gCmd.CenterY	=(MinY+MaxY)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->y;
+			gCmd.Send(NULL,GlobalPage,0);
+		}
+		RepaintImage();
+	}
+}
+
+void PropertyDXFOperationForm::on_toolButtonRotationDialog_clicked()
+{
+	EditRotateDialog	D(GetLayersBase());
+	if(D.exec()==(int)true){
+		CommandRotateItems(D.Angle);
+	}
+}
+
+void PropertyDXFOperationForm::on_toolButtonShearDialog_clicked()
+{
+	EditShearDialog	D(GetLayersBase());
+	if(D.exec()==(int)true){
+		double	MinX,MinY;
+		double	MaxX,MaxY;
+		GetCenterDXF(MinX ,MinY ,MaxX ,MaxY);
+
+		GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Shear DXF");
+		for(int page=0;page<GetPageNumb();page++){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdShear	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			gCmd.XMode	=D.XMode;
+			gCmd.Shear	=D.Shear;
+			gCmd.CenterX=(MinX+MaxX)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->x;
+			gCmd.CenterY=(MinY+MaxY)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->y;
+			gCmd.Send(NULL,GlobalPage,0);
+		}
+		RepaintImage();
+	}
+}
+
+void PropertyDXFOperationForm::on_toolButtonCenterize_clicked()
+{
+	double pMinX ,pMinY ,pMaxX ,pMaxY;
+	GetCenterDXF(pMinX ,pMinY ,pMaxX ,pMaxY);
+	double	pXLen=pMaxX-pMinX;
+	double	pYLen=pMaxY-pMinY;
+	if(pXLen==0.0 || pYLen==0.0)
+		return;
+
+	int		x1 ,y1 ,x2 ,y2;
+	GetLayersBase()->GetArea(x1 ,y1 ,x2 ,y2);
+	int	XLen=x2-x1;
+	int	YLen=y2-y1;
+	if(XLen==0 || YLen==0)
+		return;
+
+	double	Zx=XLen/pXLen;
+	double	Zy=YLen/pYLen;
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Centerize only");
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdCenterizeOnly	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		gCmd.MovX	=(x2+x1)/2;
+		gCmd.MovY	=(y2+y1)/2;
+		gCmd.CenterX	=(pMaxX+pMinX)/2.0;
+		gCmd.CenterY	=(pMaxY+pMinY)/2.0;
+		gCmd.OnlySelected=true;
+		gCmd.Send(NULL,GlobalPage,0);
+	}
+	RepaintImage();
+}
+
+void PropertyDXFOperationForm::on_toolButtonMove_clicked()
+{
+	//ui->toolButtonMove		->setChecked(false);
+	ui->toolButtonRotate		->setChecked(false);
+	ui->toolButtonExpand			->setChecked(false);
+	ui->toolButtonXShear		->setChecked(false);
+	ui->toolButtonYShear		->setChecked(false);
+	DisplayImageWithAlgorithm	*DProp=(DisplayImageWithAlgorithm *)GetImagePanel();
+	if(ui->toolButtonMove->isChecked()==true){
+		if(DProp!=NULL)
+			DProp->MoveStart();
+	}
+	else{
+		if(DProp!=NULL)
+			DProp->MoveCancel();
+	}
+}
+
+void PropertyDXFOperationForm::on_toolButtonExpand_clicked()
+{
+	ui->toolButtonMove		->setChecked(false);
+	ui->toolButtonRotate	->setChecked(false);
+	//ui->toolButtonExpand	->setChecked(false);
+	ui->toolButtonXShear	->setChecked(false);
+	ui->toolButtonYShear	->setChecked(false);
+
+	DisplayImage	*DProp=(DisplayImage *)GetImagePanel();
+	if(ui->toolButtonExpand->isChecked()==true){
+		if(DProp!=NULL)
+			DProp->ExtendStart();
+	}
+	else{
+		if(DProp!=NULL)
+			DProp->ExtendCancel();
+	}
+}
+
+void PropertyDXFOperationForm::on_toolButtonRotate_clicked()
+{
+	ui->toolButtonMove		->setChecked(false);
+	//ui->toolButtonRotate	->setChecked(false);
+	ui->toolButtonExpand	->setChecked(false);
+	ui->toolButtonXShear	->setChecked(false);
+	ui->toolButtonYShear	->setChecked(false);
+
+	DisplayImage	*DProp=(DisplayImage *)GetImagePanel();
+	if(ui->toolButtonRotate->isChecked()==true){
+		if(DProp!=NULL)
+			DProp->RotateStart();
+	}
+	else{
+		if(DProp!=NULL)
+			DProp->RotateCancel();
+	}
+}
+
+void PropertyDXFOperationForm::on_toolButtonXShear_clicked()
+{
+	ui->toolButtonMove		->setChecked(false);
+	ui->toolButtonRotate	->setChecked(false);
+	ui->toolButtonExpand	->setChecked(false);
+	//ui->toolButtonXShear	->setChecked(false);
+	ui->toolButtonYShear	->setChecked(false);
+
+	DisplayImage	*DProp=(DisplayImage *)GetImagePanel();
+	if(ui->toolButtonXShear->isChecked()==true){
+		if(DProp!=NULL)
+			DProp->SlopeXStart();
+	}
+	else{
+		if(DProp!=NULL)
+			DProp->SlopeXCancel();
+	}
+}
+
+void PropertyDXFOperationForm::on_toolButtonYShear_clicked()
+{
+	ui->toolButtonMove		->setChecked(false);
+	ui->toolButtonRotate	->setChecked(false);
+	ui->toolButtonExpand	->setChecked(false);
+	ui->toolButtonXShear	->setChecked(false);
+	//ui->toolButtonYShear	->setChecked(false);
+
+	DisplayImage	*DProp=(DisplayImage *)GetImagePanel();
+	if(ui->toolButtonYShear->isChecked()==true){
+		if(DProp!=NULL)
+			DProp->SlopeYStart();
+	}
+	else{
+		if(DProp!=NULL)
+			DProp->SlopeYCancel();
+	}
+}
+
+void PropertyDXFOperationForm::on_toolButtonDrawInside_clicked()
+{
+
+}
+
+void PropertyDXFOperationForm::on_toolButtonAutoMatching_clicked()
+{
+
+}
+
+void PropertyDXFOperationForm::on_toolButtonFatLine_clicked()
+{
+	double	LineWidth=ui->doubleSpinBoxLineWidth->value();
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdSetLineWidth	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		gCmd.LineWidth=LineWidth;
+		gCmd.Send(NULL,GlobalPage,0);
+	}
+	RepaintImage();
+
+}
+
+void PropertyDXFOperationForm::on_toolButtonGenerateMask_clicked()
+{
+	for(AlgorithmLibraryList *a=MaskLib.GetFirst();a!=NULL;a=a->GetNext()){
+		for(int page=0;page<GetPageNumb();page++){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdMakeAlgo	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			gCmd.LibType=a->GetLibType();
+			gCmd.LibID	=a->GetLibID();
+			gCmd.Send(NULL,GlobalPage,0);
+		}
+	}
+
+}
+
+void PropertyDXFOperationForm::on_toolButtonLibraryMask_clicked()
+{
+	SelectLibraryDialog	D(AlgorithmBit_TypeMasking,this,GetLayersBase());
+	int	Ret=D.exec();
+	if(Ret==(int)true){
+		MaskLib=D.Selected;
+		ui->tableWidgetMaskList->setRowCount(MaskLib.GetCount());
+		int	Row=0;
+		for(AlgorithmLibraryList *a=MaskLib.GetFirst();a!=NULL;a=a->GetNext(),Row++){
+			::SetDataToTable(ui->tableWidgetMaskList ,0,Row ,QString::number(a->GetLibID()));
+			::SetDataToTable(ui->tableWidgetMaskList ,1,Row ,a->GetLibName());
+		}
+	}
+}
+
+void PropertyDXFOperationForm::on_toolButtonGenerateInspection_clicked()
+{
+	for(AlgorithmLibraryList *a=InspLib.GetFirst();a!=NULL;a=a->GetNext()){
+		for(int page=0;page<GetPageNumb();page++){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdMakeAlgo	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			gCmd.LibType=a->GetLibType();
+			gCmd.LibID	=a->GetLibID();
+			gCmd.Send(NULL,GlobalPage,0);
+		}
+	}
+
+}
+
+void PropertyDXFOperationForm::on_toolButtonLibraryInspection_clicked()
+{
+	SelectLibraryDialog	D(AlgorithmBit_TypeProcessing | AlgorithmBit_TypePreProcessing,this,GetLayersBase());
+	int	Ret=D.exec();
+	if(Ret==(int)true){
+		InspLib=D.Selected;
+		ui->tableWidgetInspectionList->setRowCount(MaskLib.GetCount());
+		int	Row=0;
+		for(AlgorithmLibraryList *a=InspLib.GetFirst();a!=NULL;a=a->GetNext(),Row++){
+			int	LibType=a->GetLibType();
+			AlgorithmBase	*Ab=GetLayersBase()->GetAlgorithmBase(LibType);
+			if(Ab!=NULL){
+				::SetDataToTable(ui->tableWidgetInspectionList ,0,Row ,Ab->GetLogicDLL()->GetDLLName());
+			}
+			::SetDataToTable(ui->tableWidgetInspectionList ,1,Row ,QString::number(a->GetLibID()));
+			::SetDataToTable(ui->tableWidgetInspectionList ,2,Row ,a->GetLibName());
+		}
+	}
+}
+
+void PropertyDXFOperationForm::on_toolButtonMirrorX_clicked()
+{
+	double	MinX,MinY;
+	double	MaxX,MaxY;
+	GetCenterDXF(MinX ,MinY ,MaxX ,MaxY);
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Mirror X DXF");
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdMirror	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		gCmd.XMode=true;
+		gCmd.CenterX=(MinX+MaxX)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->x;
+		gCmd.CenterY=(MinY+MaxY)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->y;
+		gCmd.Send(NULL,GlobalPage,0);
+	}
+	RepaintImage();
+}
+
+void PropertyDXFOperationForm::on_toolButtonMirrorY_clicked()
+{
+	double	MinX,MinY;
+	double	MaxX,MaxY;
+	GetCenterDXF(MinX ,MinY ,MaxX ,MaxY);
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Mirror Y DXF");
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdMirror	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		gCmd.XMode=false;
+		gCmd.CenterX=(MinX+MaxX)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->x;
+		gCmd.CenterY=(MinY+MaxY)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->y;
+		gCmd.Send(NULL,GlobalPage,0);
+	}
+	RepaintImage();
+}
+
+
+GUIFormBase	*PropertyDXFOperationForm::GetImagePanel(void)
+{
+	GUIFormBase	*GForm=GetLayersBase()->FindByName(/**/"Inspection",/**/"DXFOperationImagePanel",/**/"");
+	return GForm;
+}	
+void	PropertyDXFOperationForm::RepaintImage(void)
+{
+	GUIFormBase	*GForm=GetImagePanel();
+	if(GForm!=NULL){
+		GForm->repaint();
+	}
+}
+
+void	PropertyDXFOperationForm::GetCenterDXF(double &MinX ,double &MinY ,double &MaxX ,double &MaxY)
+{
+	MinX= 99999999;
+	MinY=99999999;
+	MaxX=-99999999;
+	MaxY=-99999999;
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdReqDXFArea		RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		GUICmdAckDXFArea		ACmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		if(RCmd.Send(GlobalPage,0,ACmd)==true){			
+			MinX=min(MinX,ACmd.MinX+GetLayersBase()->GetGlobalOutlineOffset(page)->x);
+			MinY=min(MinY,ACmd.MinY+GetLayersBase()->GetGlobalOutlineOffset(page)->y);
+			MaxX=max(MaxX,ACmd.MaxX+GetLayersBase()->GetGlobalOutlineOffset(page)->x);
+			MaxY=max(MaxY,ACmd.MaxY+GetLayersBase()->GetGlobalOutlineOffset(page)->y);
+		}
+	}
+}
+
+
+
+
+void	PropertyDXFOperationForm::CommandMoveItems(double Dx,double Dy)
+{
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Move DXF");
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdMove		gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		gCmd.PixelMode	=true;
+		gCmd.XDir		=Dx;
+		gCmd.YDir		=Dy;
+		gCmd.Send(NULL,GlobalPage,0);
+	}
+	RepaintImage();
+}
+void	PropertyDXFOperationForm::CommandRotateItems(double Angle)
+{
+	double	MinX,MinY;
+	double	MaxX,MaxY;
+	GetCenterDXF(MinX ,MinY ,MaxX ,MaxY);
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Rotate DXF");
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdRotate	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		gCmd.Angle	=Angle;
+		gCmd.CenterX=(MinX+MaxX)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->x;
+		gCmd.CenterY=(MinY+MaxY)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->y;
+		gCmd.Send(NULL,GlobalPage,0);
+	}
+	RepaintImage();
+}
+void	PropertyDXFOperationForm::CommandRotateItems(double Angle ,double Cx ,double Cy)
+{
+	double	MinX,MinY;
+	double	MaxX,MaxY;
+	GetCenterDXF(MinX ,MinY ,MaxX ,MaxY);
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Rotate DXF");
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdRotate	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		gCmd.Angle	=Angle;
+		gCmd.CenterX=Cx-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->x;
+		gCmd.CenterY=Cy-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->y;
+		gCmd.Send(NULL,GlobalPage,0);
+	}
+	RepaintImage();
+}
+void	PropertyDXFOperationForm::CommandShearXItems(double Angle)
+{
+	double	MinX,MinY;
+	double	MaxX,MaxY;
+	GetCenterDXF(MinX ,MinY ,MaxX ,MaxY);
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"ShearX DXF");
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdShear	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		gCmd.XMode	=true;
+		gCmd.Shear	=Angle;
+		gCmd.CenterX=(MinX+MaxX)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->x;
+		gCmd.CenterY=(MinY+MaxY)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->y;
+		gCmd.Send(NULL,GlobalPage,0);
+	}
+	RepaintImage();
+}
+void	PropertyDXFOperationForm::CommandShearYItems(double Angle)
+{
+	double	MinX,MinY;
+	double	MaxX,MaxY;
+	GetCenterDXF(MinX ,MinY ,MaxX ,MaxY);
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"ShearX DXF");
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdShear	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		gCmd.XMode	=false;
+		gCmd.Shear	=Angle;
+		gCmd.CenterX=(MinX+MaxX)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->x;
+		gCmd.CenterY=(MinY+MaxY)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->y;
+		gCmd.Send(NULL,GlobalPage,0);
+	}
+	RepaintImage();
+}
+void	PropertyDXFOperationForm::CommandZoomItems(double XZoomDir,double YZoomDir)
+{
+	double	MinX,MinY;
+	double	MaxX,MaxY;
+	GetCenterDXF(MinX ,MinY ,MaxX ,MaxY);
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Zoom DXF");
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdZoom	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		gCmd.XZoomDir	=XZoomDir;
+		gCmd.YZoomDir	=YZoomDir;
+		gCmd.CenterX=(MinX+MaxX)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->x;
+		gCmd.CenterY=(MinY+MaxY)/2.0-GetLayersBase()->GetGlobalOutlineOffset(GlobalPage)->y;
+		gCmd.Send(NULL,GlobalPage,0);
+	}
+	RepaintImage();
+}
+void	PropertyDXFOperationForm::CommandZoomItems(double XZoomDir,double YZoomDir ,double Cx ,double Cy)
+{
+	double	MinX,MinY;
+	double	MaxX,MaxY;
+	GetCenterDXF(MinX ,MinY ,MaxX ,MaxY);
+
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Zoom DXF");
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdZoom	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		gCmd.XZoomDir	=XZoomDir;
+		gCmd.YZoomDir	=YZoomDir;
+		gCmd.CenterX=Cx;
+		gCmd.CenterY=Cy;
+		gCmd.Send(NULL,GlobalPage,0);
+	}
+	RepaintImage();
+}
+
+void	PropertyDXFOperationForm::CommandMoveByMouse(void)
+{
+	ui->toolButtonMove->setChecked(true);
+	on_toolButtonMove_clicked();
+}
+
+void	PropertyDXFOperationForm::CommandRotateByMouse(void)
+{
+	ui->toolButtonRotate->setChecked(true);
+	on_toolButtonRotate_clicked();
+}
+
+void	PropertyDXFOperationForm::CommandZoomByMouse(void)
+{
+	ui->toolButtonExpand->setChecked(true);
+	on_toolButtonExpand_clicked();
+}
+	
+void	PropertyDXFOperationForm::CommandMirrorX(void)
+{
+	on_toolButtonMirrorX_clicked();
+}
+
+void	PropertyDXFOperationForm::CommandMirrorY(void)
+{
+	on_toolButtonMirrorY_clicked();
+}
+
+void PropertyDXFOperationForm::on_tableWidgetLayerInfo_clicked(const QModelIndex &index)
+{
+
+}
+
+void PropertyDXFOperationForm::on_pushButtonAllocateColor_clicked()
+{
+	AllocationLibByColorDialog	D(GetLayersBase(),this);
+	if(D.exec()==(int)true){
+		int	GlobalPage=0;
+		GUICmdSetAllocationLibByColor	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		RCmd.LevelID=GetLayersBase()->GetThresholdLevelID();
+		RCmd.AllocationLibByColorContainerInst=D.AllocationLibByColorContainerInst;
+		RCmd.Send(NULL,GlobalPage,0);
+	}
+}
+
+void PropertyDXFOperationForm::on_toolButtonShowFilledArea_clicked()
+{
+	RepaintImage();
+}
+
+void PropertyDXFOperationForm::on_toolButtonGenerateMaskFillArea_clicked()
+{
+    for(AlgorithmLibraryList *a=MaskLib.GetFirst();a!=NULL;a=a->GetNext()){
+        for(int page=0;page<GetPageNumb();page++){
+            int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+            GUICmdMakeAlgoFillArea	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+            gCmd.LibType=a->GetLibType();
+            gCmd.LibID	=a->GetLibID();
+            gCmd.Send(NULL,GlobalPage,0);
+        }
+    }
+}
+
+void PropertyDXFOperationForm::on_toolButtonMakeEffectiveMask_clicked()
+{
+	int	ShrinkDot=ui->spinBoxShrinkDotForMask->value();
+    for(int page=0;page<GetPageNumb();page++){
+        int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+        GUICmdMakeEffectiveMask	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		gCmd.ShrinkDot=ShrinkDot;
+        gCmd.Send(NULL,GlobalPage,0);
+    }
+	RepaintImage();
+}
+
+void PropertyDXFOperationForm::on_toolButtonSendEffectiveMask_clicked()
+{
+    for(int page=0;page<GetPageNumb();page++){
+        int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+        GUICmdSendEffectiveMask	gCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+        gCmd.Send(NULL,GlobalPage,0);
+    }
+	RepaintImage();
+}
+
+void PropertyDXFOperationForm::on_pushButtonSaveTransform_clicked()
+{
+	QString	FileName=QFileDialog::getSaveFileName(NULL,LangSolver.GetString(PropertyDXFOperationForm_LS,LID_18)/*"Save transform parameter"*/
+												,QString()
+												,/**/"TPR file(*.tpr);;All files(*.*)");
+	if(FileName.isEmpty()==false){
+		QFile	File(FileName);
+		if(File.open(QIODevice::WriteOnly)==true){
+			int	Ver=1;
+			if(::Save(&File,Ver)==false)	return;
+	
+			int	PageNumb=GetPageNumb();
+			if(::Save(&File,PageNumb)==false)	return;
+
+			for(int page=0;page<PageNumb;page++){
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+				GUICmdReqDXFTransformInfo	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+				GUICmdAckDXFTransformInfo	ACmd(GetLayersBase(),sRoot,sName,GlobalPage);
+				if(RCmd.Send(GlobalPage,0,ACmd)==false)	return;
+				if(::Save(&File,ACmd.TransformData)==false)	return;
+			}
+		}
+	}
+}
+
+
+void PropertyDXFOperationForm::on_pushButtonLoadTransform_clicked()
+{
+	QString	FileName=QFileDialog::getOpenFileName(NULL,LangSolver.GetString(PropertyDXFOperationForm_LS,LID_19)/*"Load transform parameter"*/
+												,QString()
+												,/**/"TPR file(*.tpr);;All files(*.*)");
+	if(FileName.isEmpty()==false){
+		QFile	File(FileName);
+		if(File.open(QIODevice::ReadOnly)==true){
+			int	Ver;
+			if(::Load(&File,Ver)==false)	return;
+	
+			int	PageNumb;
+			if(::Load(&File,PageNumb)==false)	return;
+
+			for(int page=0;page<GetPageNumb() && page<PageNumb;page++){
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+				GUICmdSetDXFTransformInfo	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+				if(::Load(&File,RCmd.TransformData)==false)	return;
+
+				if(RCmd.Send(NULL,GlobalPage,0)==false)	return;
+			}
+		}
+	}
+}
+

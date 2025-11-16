@@ -1,0 +1,603 @@
+#include "PropertyColorDifferenceForm.h"
+#include "ui_PropertyColorDifferenceForm.h"
+#include "XDLLOnly.h"
+#include "ImageControlTools.h"
+#include "XGUI.h"
+#include "XPropertyColorDifferencePacket.h"
+//#include "BrightHistogramForm.h"
+#include "EditColorDifferenceLibraryDialog.h"
+#include "XDatabaseLoader.h"
+#include "XDisplayImagePacket.h"
+#include "XColorDifferenceLibrary.h"
+#include "SetStatisticThresholdDialog.h"
+#include "XAlgorithmLibrary.h"
+#include "XGeneralDialog.h"
+
+extern	char	*sRoot;
+extern	char	*sName;
+
+PropertyColorDifferenceForm::PropertyColorDifferenceForm(LayersBase *Base ,QWidget *parent) :
+    GUIFormBase(Base,parent),
+    ui(new Ui::PropertyColorDifferenceForm)
+{
+    ui->setupUi(this);
+
+	//LangSolver.SetUI(this);
+	LibFolderID=-1;
+
+	ColorDifferenceBase	*BBase=GetColorDifferenceBase();
+	LibType=-1;
+	if(BBase!=NULL)	
+		LibType=BBase->GetLibType();
+
+	ItemListForPageData=NULL;
+
+	ui->tableWidgetLibList->setColumnWidth (0, 30);
+	ui->tableWidgetLibList->setColumnWidth (1, 80);
+	ui->tableWidgetGeneratedLibList->setColumnWidth (0, 30);
+	ui->tableWidgetGeneratedLibList->setColumnWidth (1, 80);
+
+	ui->tableWidget->setColumnWidth (0, 40);
+	ui->tableWidget->setColumnWidth (1, 48);
+	ui->tableWidget->setColumnWidth (2, 160);
+	ui->tableWidget->setColumnWidth (3, 56);
+
+	if(BBase!=NULL){
+		CmdCreateTempColorDifferenceLibraryPacket	Packet(GetLayersBase());
+		BBase->TransmitDirectly(&Packet);
+		LLib=Packet.Point;
+	}
+	else{
+		LLib=new AlgorithmLibraryLevelContainer(BBase);
+	}
+	LLib->SetLibID(-1);
+	OnFlowFormWindow=new OnFlowForm();
+}
+
+PropertyColorDifferenceForm::~PropertyColorDifferenceForm()
+{
+    delete ui;
+	if(LLib!=NULL)
+		delete	LLib;
+	OnFlowFormWindow->deleteLater();
+	LLib=NULL;
+}
+
+ColorDifferenceBase	*PropertyColorDifferenceForm::GetColorDifferenceBase(void)
+{
+	return (ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+}
+void PropertyColorDifferenceForm::on_toolButtonShowItem_clicked()
+{
+
+}
+
+void PropertyColorDifferenceForm::on_toolButtonShowRegulation_clicked()
+{
+
+}
+void	PropertyColorDifferenceForm::SetLibFolder(int _LibFolderID ,const QString &LinFolderName)
+{
+	ui->labelLibFolderName->setText(LinFolderName);
+	LibFolderID=_LibFolderID;
+	ShowLibList();
+}
+void PropertyColorDifferenceForm::on_pushButtonEditLibFolder_clicked()
+{
+	ColorDifferenceBase	*BBase=GetColorDifferenceBase();
+	int		RetSelectedLibFolderID;
+	QString RetSelectedFolderName;
+	if(ExeSelectLibFolderDialog(BBase->GetLibType(),GetLayersBase(),this
+								,RetSelectedLibFolderID
+								,RetSelectedFolderName)==true){
+		SetLibFolder(RetSelectedLibFolderID,RetSelectedFolderName);
+	}
+}
+void	PropertyColorDifferenceForm::ShowInEdit(void)
+{
+}
+void	PropertyColorDifferenceForm::StartPage(void)
+{
+	int	MasterID=GetLayersBase()->GetMasterCode();
+	if(MasterID>=0 && LibFolderID<0){
+		QString		FolderName;
+		LibFolderID=GetLayersBase()->GetDatabaseLoader()->S_GetFirstLibFolderByMasterCode(GetLayersBase()->GetDatabase(),MasterID,FolderName);
+		ui->labelLibFolderName->setText(FolderName);
+	}
+}
+void	PropertyColorDifferenceForm::BuildForShow(void)
+{
+	ShowItemList();
+}
+
+void	PropertyColorDifferenceForm::TransmitDirectly(GUIDirectMessage *packet)
+{
+	ColorDifferenceBase	*BBase=GetColorDifferenceBase();
+	CmdColorDifferenceDrawModePacket	*BDrawModePacket=dynamic_cast<CmdColorDifferenceDrawModePacket *>(packet);
+	if(BDrawModePacket!=NULL){
+		BDrawModePacket->ModeShowItem		=ui->toolButtonShowItem			->isChecked();
+		BDrawModePacket->ModeShowRegulation	=ui->toolButtonShowRegulation	->isChecked();
+		return;
+	}
+	CmdColorDifferenceDrawEnd	*ColorDifferenceDEnd=dynamic_cast<CmdColorDifferenceDrawEnd *>(packet);
+	if(ColorDifferenceDEnd!=NULL){
+		GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Create manual ColorDifference");
+		
+		if(LLib!=NULL && LLib->GetLibID()>=0){
+			IntList PageList;
+			GetLayersBase()->GetLocalPageFromArea(ColorDifferenceDEnd->Area,PageList);
+			for(IntClass *P=PageList.GetFirst();P!=NULL;P=P->GetNext()){
+				int	page=P->GetValue();
+				DataInPage	*pdata=GetLayersBase()->GetPageData(page);
+				FlexArea	A=ColorDifferenceDEnd->Area;
+				pdata->ClipMoveAreaFromGlobal(A);
+				if(A.GetPatternByte()>0){
+					int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+					GUICmdSendAddManualColorDifference	Cmd(GetLayersBase(),sRoot,sName,GlobalPage);
+					Cmd.Area=A;
+					Cmd.LayerList=ColorDifferenceDEnd->LayerList;
+					Cmd.LibID=LLib->GetLibID();
+					Cmd.SendOnly(GlobalPage,0);
+				}
+			}
+		}
+		//ShowColorDifferenceInfoList();
+	}
+	CmdColorDifferenceShowAttrPacket	*ShowAttr=dynamic_cast<CmdColorDifferenceShowAttrPacket *>(packet);
+	if(ShowAttr!=NULL){
+
+	}
+}
+
+void	PropertyColorDifferenceForm::ShowLibList(void)
+{
+	ui->tableWidgetLibList->setRowCount(0);
+	ColorDifferenceBase	*BBase=GetColorDifferenceBase();
+	if(BBase!=NULL){
+		CmdGetColorDifferenceLibraryListPacket	Packet(GetLayersBase());
+		Packet.LibFolderID=LibFolderID;
+		BBase->TransmitDirectly(&Packet);
+		LibList	=Packet.AList;
+		int	row=0;
+		ui->tableWidgetLibList->setRowCount(Packet.AList.GetNumber());
+		for(AlgorithmLibraryList *a=Packet.AList.GetFirst();a!=NULL;a=a->GetNext(),row++){
+			QTableWidgetItem *W;
+			W=ui->tableWidgetLibList->item ( row, 0);
+			if(W==NULL){
+				W=new QTableWidgetItem();
+				ui->tableWidgetLibList->setItem ( row, 0,W);
+				W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);			
+			}
+			W->setText(QString::number(a->GetLibID()));
+			W=ui->tableWidgetLibList->item ( row, 1);
+			if(W==NULL){
+				W=new QTableWidgetItem();
+				ui->tableWidgetLibList->setItem ( row, 1,W);
+				W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+			}
+			W->setText(a->GetLibName());
+		}
+	}
+}
+
+QColor	GetTableColor(int n)
+{
+	switch(n&7){
+		case 0 :	return QColor(255,255,0);
+		case 1 :	return QColor(235,255,0);
+		case 2 :	return QColor(235,235,0);
+		case 3 :	return QColor(215,235,0);
+		case 4 :	return QColor(215,215,0);
+		case 5 :	return QColor(195,215,0);
+		case 6 :	return QColor(195,195,0);
+		case 7 :	return QColor(175,195,0);
+	}
+	return Qt::white;
+}
+
+void	PropertyColorDifferenceForm::ShowSelectedLibList(void)
+{
+	int	row=0;
+	int	ColNum=0;
+	ui->tableWidgetGeneratedLibList->setRowCount(SelectedLibList.GetNumber());
+	for(AlgorithmLibraryList *a=SelectedLibList.GetFirst();a!=NULL;a=a->GetNext(),row++){
+
+		QColor	Col=GetTableColor(ColNum);
+
+		QTableWidgetItem *W;
+		W=ui->tableWidgetGeneratedLibList->item ( row, 0);
+		if(W==NULL){
+			W=new QTableWidgetItem();
+			ui->tableWidgetGeneratedLibList->setItem ( row, 0,W);
+			W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		}
+		W->setText(QString::number(a->GetLibID()));
+		W->setBackground(Col);
+		W=ui->tableWidgetGeneratedLibList->item ( row, 1);
+		if(W==NULL){
+			W=new QTableWidgetItem();
+			ui->tableWidgetGeneratedLibList->setItem ( row, 1,W);
+			W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		}
+		W->setText(a->GetLibName());
+		W->setBackground(Col);
+	}
+}
+
+void	PropertyColorDifferenceForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
+{
+
+}
+
+void	PropertyColorDifferenceForm::ShowItemList(void)
+{
+	ui->tableWidget->setRowCount(0);
+	ColorDifferenceBase	*BBase=GetColorDifferenceBase();
+	if(ItemListForPageData!=NULL){
+		delete	[]ItemListForPageData;
+		ItemListForPageData=NULL;
+	}
+	ItemListForPageData=new ItemListForPageContainer[GetPageNumb()];
+
+	if(BBase!=NULL){
+		int	ListCount=0;
+		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){	
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdReqItemListForPageContainer	ReqCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			GUICmdAckItemListForPageContainer	AckCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+
+			if(ReqCmd.Send(ReqCmd.GetGlobalPage(),0,AckCmd)==true){
+				ItemListForPageData[page]=AckCmd.ItemListForPageData;
+				ListCount+=ItemListForPageData[page].GetCount();
+			}
+		}
+		ui->tableWidget->setRowCount(ListCount);
+		int	Row=0;
+		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){	
+			for(ItemListForPage *L=ItemListForPageData[page].GetFirst();L!=NULL;L=L->GetNext()){
+				::SetDataToTable(ui->tableWidget ,0,Row ,QString::number(page));
+				::SetDataToTable(ui->tableWidget ,1,Row ,QString::number(L->LibID));
+				QString	LibName=BBase->GetLibraryContainer()->GetLibraryName(L->LibID);
+				::SetDataToTable(ui->tableWidget ,2,Row ,LibName);
+				::SetDataToTable(ui->tableWidget ,3,Row ,QString::number(L->ItemCount));
+				Row++;
+			}
+		}
+	}
+}
+
+void PropertyColorDifferenceForm::on_tableWidgetLibList_doubleClicked(const QModelIndex &index)
+{
+	on_pushButtonSetFrom_clicked();
+}
+
+void PropertyColorDifferenceForm::on_tableWidgetGeneratedLibList_doubleClicked(const QModelIndex &index)
+{
+
+}
+
+void PropertyColorDifferenceForm::on_pushButtonSetFrom_clicked()
+{
+	int	r=ui->tableWidgetLibList->currentRow();
+	if(r<0)
+		return;
+	AlgorithmLibraryList	*a=LibList.GetItem(r);
+	for(AlgorithmLibraryList *c=SelectedLibList.GetFirst();c!=NULL;c=c->GetNext()){
+		if(c->GetLibID()==a->GetLibID())
+			return;
+	}
+	SelectedLibList.AppendList(new AlgorithmLibraryList(LibType,a->GetLibID(),a->GetLibName()));
+	ShowSelectedLibList();
+}
+
+void PropertyColorDifferenceForm::on_pushButtonGetBack_clicked()
+{
+	int	r=ui->tableWidgetGeneratedLibList->currentRow();
+	if(r<0)
+		return;
+	AlgorithmLibraryList	*a=SelectedLibList.GetItem(r);
+	if(a!=NULL){
+		SelectedLibList.RemoveList(a);
+		delete	a;
+		ShowSelectedLibList();
+	}
+}
+
+void PropertyColorDifferenceForm::on_pushButtonSetFromAll_clicked()
+{
+	SelectedLibList.RemoveAll();
+	for(AlgorithmLibraryList *a=LibList.GetFirst();a!=NULL;a=a->GetNext()){
+		SelectedLibList.AppendList(new AlgorithmLibraryList(LibType,a->GetLibID(),a->GetLibName()));
+	}
+	ShowSelectedLibList();
+}
+
+void PropertyColorDifferenceForm::on_pushButtonGetBackAll_clicked()
+{
+	SelectedLibList.RemoveAll();
+	for(AlgorithmLibraryList *a=LibList.GetFirst();a!=NULL;a=a->GetNext()){
+		SelectedLibList.AppendList(new AlgorithmLibraryList(LibType,a->GetLibID(),a->GetLibName()));
+	}
+	ShowSelectedLibList();
+}
+
+void PropertyColorDifferenceForm::on_pushButtonEditLibrary_clicked()
+{
+	EditColorDifferenceLibraryDialog	D(GetLayersBase(),this);
+	D.exec();
+
+	ShowLibList();
+	if(LLib!=NULL){
+		CmdLoadColorDifferenceLibraryPacket	Packet(GetLayersBase());
+		Packet.Point=LLib;
+		ColorDifferenceBase	*BBase=GetColorDifferenceBase();
+		if(BBase!=NULL){
+			BBase->TransmitDirectly(&Packet);
+			if(Packet.Success==true){
+				ShowLibrary(*LLib);
+			}
+		}
+	}
+}
+void	PropertyColorDifferenceForm::ClearLibList(void)
+{
+	on_pushButtonGetBackAll_clicked();
+}
+void PropertyColorDifferenceForm::on_tableWidget_clicked(const QModelIndex &index)
+{
+
+}
+
+void PropertyColorDifferenceForm::on_tableWidget_doubleClicked(const QModelIndex &index)
+{
+
+}
+void	PropertyColorDifferenceForm::SetLib(int LibID)
+{
+	for(AlgorithmLibraryList *c=SelectedLibList.GetFirst();c!=NULL;c=c->GetNext()){
+		if(c->GetLibID()==LibID)
+			return;
+	}
+	ColorDifferenceBase	*BBase=GetColorDifferenceBase();
+	if(BBase!=NULL){
+		CmdGetColorDifferenceLibName	Packet(GetLayersBase());
+		Packet.LibID=LibID;
+		BBase->TransmitDirectly(&Packet);
+
+		SelectedLibList.AppendList(new AlgorithmLibraryList(LibType,LibID,Packet.LibName));
+		ShowSelectedLibList();
+	}
+}
+
+bool	PropertyColorDifferenceForm::SaveContent(QIODevice *f)
+{
+	WORD	Ver=1;
+	if(::Save(f,Ver)==false)
+		return false;
+
+	if(::Save(f,LibType)==false)
+		return false;
+	if(LibList.Save(f)==false)
+		return false;
+	if(SelectedLibList.Save(f)==false)
+		return false;
+	if(::Save(f,LibFolderID)==false)
+		return false;
+	if(GlobalPickupArea.Save(f)==false)
+		return false;
+	return true;
+}
+bool	PropertyColorDifferenceForm::LoadContent(QIODevice *f)
+{
+	WORD	Ver;
+	if(::Load(f,Ver)==false)
+		return false;
+
+	if(::Load(f,LibType)==false)
+		return false;
+	if(LibList.Load(f)==false)
+		return false;
+	if(SelectedLibList.Load(f)==false)
+		return false;
+	if(::Load(f,LibFolderID)==false)
+		return false;
+	if(GlobalPickupArea.Load(f)==false)
+		return false;
+	ShowLibList();
+	ShowSelectedLibList();
+
+	QString FolderName;
+	int ParentID;
+	int NumberInFolder;
+	if(GetLayersBase()->GetDatabaseLoader()->S_LibFolderFindData(GetLayersBase()->GetDatabase(),LibFolderID ,FolderName ,ParentID ,NumberInFolder)==true){
+		SetLibFolder(LibFolderID ,FolderName);
+	}
+	return true;
+}
+
+void PropertyColorDifferenceForm::on_pushButtonRegisterOK_clicked()
+{
+	AddColor(true);
+}
+
+void PropertyColorDifferenceForm::on_pushButtonRegisterNG_clicked()
+{
+	AddColor(false);
+}
+
+void	PropertyColorDifferenceForm::AddColor(bool OKMode)
+{
+	if(OKMode==true){
+		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){	
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdAddColorDifferenceOK	ReqCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+
+			ReqCmd.Send(NULL,GlobalPage,0);
+		}
+	}
+	else{
+		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){	
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdAddColorDifferenceNG	ReqCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+
+			ReqCmd.Send(NULL,GlobalPage,0);
+		}
+	}
+}
+
+void PropertyColorDifferenceForm::on_tableWidgetGeneratedLibList_clicked(const QModelIndex &index)
+{
+	int	r=ui->tableWidgetGeneratedLibList->currentRow();
+	if(r<0)
+		return;
+	AlgorithmLibraryList	*a=SelectedLibList.GetItem(r);
+	if(a!=NULL && LLib!=NULL){
+		LLib->SetLibID(a->GetLibID());
+	}
+}
+
+void PropertyColorDifferenceForm::on_toolButtonRegistInFlow_clicked()
+{
+	SetRegistInFlow(ui->toolButtonRegistInFlow->isChecked());
+}
+
+void PropertyColorDifferenceForm::on_toolButtonSetThresholdHSV_clicked()
+{
+	SetStatisticThresholdDialog	D;
+	if(D.exec()==(int)true){
+		SetStatisticThreshold(D.SigmaH,D.SigmaS,D.SigmaV);
+	}
+}
+
+void PropertyColorDifferenceForm::on_toolButtonClearFlow_clicked()
+{
+	ClearFlowStack();
+}
+
+void	PropertyColorDifferenceForm::SetRegistInFlow(bool ONMode)
+{
+	if(ONMode==true){
+		OnFlowFormWindow->show();
+		OnFlowFormWindow->update();
+		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){	
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdRegistInFlowON	ReqCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			ReqCmd.Send(NULL,GlobalPage,0);
+		}
+	}
+	else{
+		OnFlowFormWindow->close();
+		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){	
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdRegistInFlowOFF	ReqCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			ReqCmd.Send(NULL,GlobalPage,0);
+		}
+	}
+}
+
+void	PropertyColorDifferenceForm::SetStatisticThreshold(double SigmaH,double SigmaS,double SigmaV)
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){	
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdSetStatisticThreshold	ReqCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		ReqCmd.SigmaH	=SigmaH;
+		ReqCmd.SigmaS	=SigmaS;
+		ReqCmd.SigmaV	=SigmaV;
+		ReqCmd.Send(NULL,GlobalPage,0);
+	}
+}
+void	PropertyColorDifferenceForm::ClearFlowStack(void)
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){	
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdClearFlowStack	ReqCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		ReqCmd.Send(NULL,GlobalPage,0);
+	}
+}
+
+void PropertyColorDifferenceForm::on_pushButtonSaveFlow_clicked()
+{
+	QString	FileName=QFileDialog::getSaveFileName(NULL,"Save Flow data"
+												,QString()
+												,/**/"Flow data(*.flw);;All data(*.*)");
+	if(FileName.isEmpty()==false){
+		QFile	File(FileName);
+		if(File.open(QIODevice::WriteOnly)==true){
+			SaveFlow(&File);
+		}
+	}
+}
+
+void PropertyColorDifferenceForm::on_pushButtonLoadFlow_clicked()
+{
+	QString	FileName=QFileDialog::getOpenFileName(NULL,"Load Flow data"
+												,QString()
+												,/**/"Flow data(*.flw);;All data(*.*)");
+	if(FileName.isEmpty()==false){
+		QFile	File(FileName);
+		if(File.open(QIODevice::ReadOnly)==true){
+			LoadFlow(&File);
+		}
+	}
+
+}
+
+bool PropertyColorDifferenceForm::SaveFlow(QIODevice *f)
+{
+	int32	Ver=1;
+
+	if(::Save(f,Ver)==false)	return false;
+	int32	PageNumb=GetLayersBase()->GetPageNumb();
+	if(::Save(f,PageNumb)==false)	return false;
+
+	for(int page=0;page<PageNumb;page++){	
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdReqFlowData	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		GUICmdAckFlowData	ACmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		if(RCmd.Send(GlobalPage,0,ACmd)==true){
+			if(::Save(f,ACmd.Data)==false)	return false;
+		}
+	}
+	return true;
+}
+bool PropertyColorDifferenceForm::LoadFlow(QIODevice *f)
+{
+	int32	Ver;
+
+	if(::Load(f,Ver)==false)	return false;
+	int32	PageNumb;
+	if(::Load(f,PageNumb)==false)	return false;
+
+	for(int page=0;page<PageNumb && page<GetLayersBase()->GetPageNumb();page++){	
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdSendFlowData	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		if(::Load(f,RCmd.Data)==false)	return false;
+		RCmd.Send(NULL,GlobalPage,0);
+	}
+	return true;
+}
+
+void PropertyColorDifferenceForm::on_pushButtonAutoGenerate_clicked()
+{
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Generate ColorDifference automatically");
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){	
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdAutoGenerate	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		RCmd.SelectedLibList	=SelectedLibList;
+
+		RCmd.Send(NULL,GlobalPage,0);
+	}
+	GetLayersBase()->WaitAllAcknowledged(60*20);
+	GetLayersBase()->CloseProcessingForm();
+}
+
+void	PropertyColorDifferenceForm::AutoGenerate(int LibID)
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){	
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdAutoGenerate	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		RCmd.SelectedLibList.Merge(GetLayersBase(),DefLibTypeColorDifference,LibID);
+		RCmd.Send(NULL,GlobalPage,0);
+	}
+	GetLayersBase()->WaitAllAcknowledged(60*20);
+}

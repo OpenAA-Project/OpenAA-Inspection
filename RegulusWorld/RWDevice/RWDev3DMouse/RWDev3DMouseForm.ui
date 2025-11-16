@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RWDev3DMouseForm</class>
+ <widget class="QWidget" name="RWDev3DMouseForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>146</width>
+    <height>170</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>141</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Y</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Z</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>p</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>q</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>r</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>Value</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

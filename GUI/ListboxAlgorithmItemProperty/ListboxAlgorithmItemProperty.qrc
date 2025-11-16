@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/ListboxAlgorithmItemProperty.png</file>
+    </qresource>
+</RCC>

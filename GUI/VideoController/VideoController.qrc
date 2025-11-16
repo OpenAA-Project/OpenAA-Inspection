@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="/Resources/Normal">
+    <file>Resources/Normal/ForwardN.png</file>
+    <file>Resources/Normal/PlayN.png</file>
+    <file>Resources/Normal/RewindN.png</file>
+    <file>Resources/Normal/VideoN.png</file>
+  </qresource>
+  <qresource prefix="/Resources/Select">
+    <file>Resources/Select/ForwardS.png</file>
+    <file>Resources/Select/PauseS.png</file>
+    <file>Resources/Select/RewindS.png</file>
+    <file>Resources/Select/StillPictureS.png</file>
+  </qresource>
+</RCC>

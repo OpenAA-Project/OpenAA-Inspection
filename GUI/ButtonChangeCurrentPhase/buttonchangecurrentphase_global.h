@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(BUTTONCHANGECURRENTPHASE_LIB)
+#  define BUTTONCHANGECURRENTPHASE_EXPORT Q_DECL_EXPORT
+# else
+#  define BUTTONCHANGECURRENTPHASE_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define BUTTONCHANGECURRENTPHASE_EXPORT
+#endif

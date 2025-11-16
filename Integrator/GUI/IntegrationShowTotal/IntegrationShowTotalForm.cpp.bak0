@@ -1,0 +1,575 @@
+#include "IntegrationShowTotalForm.h"
+#include "ui_IntegrationShowTotalForm.h"
+#include "XIntegrationBasePacket.h"
+#include "XDatabaseLoader.h"
+#include <QSqlQuery>
+#include <QSqlRecord>
+#include "XGeneralFunc.h"
+#include "XDLLType.h"
+
+IntegrationShowTotalForm::IntegrationShowTotalForm(LayersBase *Base ,QWidget *parent) :
+	GUIFormBase(Base,parent),
+    ui(new Ui::IntegrationShowTotalForm)
+{
+    ui->setupUi(this);
+
+	InfoOkNgDim		=NULL;
+	InfoOkNgDimCount=0;
+
+	connect(this,SIGNAL(SignalResize()), this ,SLOT(ResizeAction()));
+}
+
+IntegrationShowTotalForm::~IntegrationShowTotalForm()
+{
+    delete ui;
+	if(InfoOkNgDim!=NULL){
+		delete	[]InfoOkNgDim;
+		InfoOkNgDim=NULL;
+	}
+	InfoOkNgDimCount=0;
+}
+	
+void	IntegrationShowTotalForm::ReadyParam(void)
+{
+	connect(GetLayersBase()->GetIntegrationBasePointer(),SIGNAL(SignalDoneLoadResult(InspectionList *)),this,SLOT(SlotDoneLoadResult(InspectionList *)));
+	InfoOkNgDimCount=GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();
+	InfoOkNgDim=new struct	InfoOkNg[InfoOkNgDimCount];
+
+	QStringList	VLabels;
+	VLabels.append("総検査数");
+	VLabels.append("総OK数");
+	VLabels.append("総NG数");
+
+	int	OkNgRowCount=0;
+	for(int i=0;i<InfoOkNgDimCount;i++){
+		EachMaster	*M		=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(i);
+		if(M!=NULL && M->IsDependent()==false){
+			QString	Str=M->GetMachineName();
+			VLabels.append(Str+QString("OK"));
+			OkNgRowCount++;
+		}
+	}
+	for(int i=0;i<InfoOkNgDimCount;i++){
+		EachMaster	*M		=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(i);
+		if(M!=NULL && M->IsDependent()==false){
+			QString	Str=M->GetMachineName();
+			VLabels.append(Str+QString("NG"));
+			OkNgRowCount++;
+		}
+	}
+	ui->tableWidget->setRowCount(OkNgRowCount+3);
+	ui->tableWidget->setVerticalHeaderLabels(VLabels);
+	on_PushButtonReset_clicked();
+}
+
+void	IntegrationShowTotalForm::ResizeAction()
+{
+	ui->frame->move(0,height()-ui->frame->height());
+	ui->frame->resize(width(),ui->frame->height());
+	int	Space=(width()-ui->PushButtonReset->width()-ui->pushButtonExcelSave->width())/3;
+	ui->PushButtonReset->move(Space,ui->PushButtonReset->geometry().top());
+	ui->pushButtonExcelSave->move(2*Space+ui->PushButtonReset->width(),ui->PushButtonReset->geometry().top());
+	ui->tableWidget->resize(width(),height()-ui->frame->height());
+	int	VWidth=ui->tableWidget->verticalHeader()->width();
+	ui->tableWidget->setColumnWidth(0,width()-VWidth);
+}
+
+void	IntegrationShowTotalForm::ShowData(void)
+{
+	int	TotalCount	=GetLayersBase()->GetIntegrationBasePointer()->TotalCount;
+	int	NGCount		=GetLayersBase()->GetIntegrationBasePointer()->NGCount;
+
+	::SetDataToTable(ui->tableWidget,0 ,0 ,QString::number(TotalCount));
+	::SetDataToTable(ui->tableWidget,0 ,1 ,QString::number(TotalCount-NGCount));
+	::SetDataToTable(ui->tableWidget,0 ,2 ,QString::number(NGCount));
+	int	Row=3;
+	for(int i=0;i<InfoOkNgDimCount;i++){
+		EachMaster	*M		=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(i);
+		if(M!=NULL && M->IsDependent()==false){
+			int	MachineID=M->GetMachineCode();
+			int	NGCount		=0;
+			int	TotalCount	=0;
+			EachMaster *Pointer[10];
+			int		MasterCount=GetLayersBase()->GetIntegrationBasePointer()->EnumMaster(MachineID,Pointer,10);
+			for(int m=0;m<MasterCount;m++){
+				NGCount		+=Pointer[m]->CurrentInspection.NGCount;
+				TotalCount	+=Pointer[m]->CurrentInspection.TotalCount;
+			}
+			::SetDataToTable(ui->tableWidget,0 ,Row  ,QString::number(TotalCount-NGCount));
+			Row++;
+		}
+	}
+	for(int i=0;i<InfoOkNgDimCount;i++){
+		EachMaster	*M		=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(i);
+		if(M!=NULL && M->IsDependent()==false){
+			int	MachineID=M->GetMachineCode();
+			int	NGCount		=0;
+			int	TotalCount	=0;
+			EachMaster *Pointer[10];
+			int		MasterCount=GetLayersBase()->GetIntegrationBasePointer()->EnumMaster(MachineID,Pointer,10);
+			for(int m=0;m<MasterCount;m++){
+				NGCount		+=Pointer[m]->CurrentInspection.NGCount;
+				TotalCount	+=Pointer[m]->CurrentInspection.TotalCount;
+			}
+			::SetDataToTable(ui->tableWidget,0 ,Row,QString::number(NGCount));
+			Row++;
+		}
+	}
+}
+void	IntegrationShowTotalForm::SpecifiedDirectly(SpecifiedBroadcaster *v)
+{
+	CmdChangeLotID	*CmdChangeLotIDVar=dynamic_cast<CmdChangeLotID *>(v);
+	CmdChangeNewLotID	*CmdChangeNewLotIDVar=dynamic_cast<CmdChangeNewLotID *>(v);
+	CmdUpdatedMasterImage	*CmdUpdatedMasterImageVar=dynamic_cast<CmdUpdatedMasterImage *>(v);
+	if(CmdChangeLotIDVar!=NULL || CmdUpdatedMasterImageVar!=NULL || CmdChangeNewLotIDVar!=NULL){
+		for(int i=0;i<InfoOkNgDimCount;i++){
+			InfoOkNgDim[i].NGCount=0;
+			InfoOkNgDim[i].OKCount=0;
+		}
+		ShowData();
+		return;
+	}
+}
+
+void	IntegrationShowTotalForm::SlotDoneLoadResult(InspectionList *n)
+{
+	ShowData();
+	emit	SignalUpdated();
+}
+
+
+void	IntegrationShowTotalForm::WriteCell(int Row, int Col ,const QString &Str)
+{
+	wchar_t	Buff[1000];
+	memset(Buff,0,sizeof(Buff));
+	Str.toWCharArray(Buff);
+
+	XLSXSheet->setCellFormat(Row, Col,Lang);
+	XLSXSheet->writeStr(Row, Col,Buff);
+}
+
+void	IntegrationShowTotalForm::WriteCellV(int Row, int Col ,const QVariant &Data)
+{
+	XLSXSheet->setCellFormat(Row, Col,Lang);
+
+	wchar_t	Buff[1000];
+	memset(Buff,0,sizeof(Buff));
+	if(Data.type()==QVariant::Bool){
+		if(Data.toBool()==true){
+			XLSXSheet->writeStr(Row, Col,L"true");
+		}
+		else{
+			XLSXSheet->writeStr(Row, Col,L"false");
+		}
+	}
+	else if(Data.type()==QVariant::Char){
+		QString	s(Data.toChar());
+		s.toWCharArray(Buff);	
+		XLSXSheet->writeStr(Row, Col,Buff);
+	}
+	else if(Data.type()==QVariant::Date){
+		QString	s(Data.toDate().toString(Qt::SystemLocaleLongDate));
+		s.toWCharArray(Buff);	
+		XLSXSheet->writeStr(Row, Col,Buff);
+	}
+	else if(Data.type()==QVariant::DateTime){
+		QString	s(Data.toDateTime().toString(Qt::SystemLocaleLongDate));
+		s.toWCharArray(Buff);	
+		XLSXSheet->writeStr(Row, Col,Buff);
+	}
+	else if(Data.type()==QVariant::Double){
+		QString	s=QString::number(Data.toDouble(),'f');
+		s.toWCharArray(Buff);
+		XLSXSheet->writeStr(Row, Col,Buff);
+	}
+	else if(Data.type()==QVariant::Int){
+		QString	s=QString::number(Data.toInt());
+		s.toWCharArray(Buff);
+		XLSXSheet->writeStr(Row, Col,Buff);
+	}
+	else if(Data.type()==QVariant::String){
+		QString	s=Data.toString();
+		s.toWCharArray(Buff);
+		XLSXSheet->writeStr(Row, Col,Buff);
+	}
+	else if(Data.type()==QVariant::Time){
+		QString	s(Data.toTime().toString(Qt::SystemLocaleLongDate));
+		s.toWCharArray(Buff);	
+		XLSXSheet->writeStr(Row, Col,Buff);
+	}
+	else if(Data.type()==QVariant::UInt){
+		QString	s=QString::number(Data.toUInt());
+		s.toWCharArray(Buff);
+		XLSXSheet->writeStr(Row, Col,Buff);
+	}
+	else{
+		XLSXSheet->writeStr(Row, Col,L"Error");
+	}
+}
+
+void IntegrationShowTotalForm::on_pushButtonExcelSave_clicked()
+{
+	QString	ExcelFileName=QFileDialog::getSaveFileName(NULL
+													,"Save EXCEL"
+													,QString()
+													,/**/"Excel(*.xlsx);;All files(*.*)");
+	if(ExcelFileName.isEmpty()==true)
+		return;
+
+	IntegrationBase	*MBase=GetLayersBase()->GetIntegrationBasePointer();
+	EachMaster		*M0=MBase->GetMaster(0);
+	if(M0==NULL)
+		return;
+
+	QString	RetRelationNumber;
+	QString	RetRelationName;
+	QString	RetRemark;
+	int		RetRelationType;
+	QByteArray	CommonData;
+	int32	ThresholdLevelID;
+	if(MBase->GetInformation(RetRelationNumber
+							,RetRelationName
+							,RetRemark
+							,RetRelationType
+							,CommonData
+							,ThresholdLevelID)==false){
+		return;
+	}
+
+	XLSXBook = xlCreateXMLBook();
+	XLSXBook->setKey(L"MASATOSHI SASAI", L"windows-252a28070ccee00f6fbd6d65adn7f2qe");
+	XLSXSheet=XLSXBook->addSheet(L"Master");
+
+	Lang	=XLSXBook->addFormat();
+	Fnt	=XLSXBook->addFont();
+	QString	FontName;
+	switch(GetLayersBase()->GetLanguageCode()){
+		case 0:	FontName= "ＭＳ Ｐゴシック";	break;
+		case 1:	FontName= "Arial";				break;
+		case 2:	FontName= "SimSun";				break;
+		case 3:	FontName= "MingLiU";			break;
+		case 4:	FontName= "Gulim";				break;
+	}
+	wchar_t	WBuff[100];
+	memset(WBuff, 0, sizeof(WBuff));
+	FontName.toWCharArray(WBuff);
+	Fnt->setName(WBuff);
+
+	Lang->setFont(Fnt);
+
+	WriteCell(0, 0,"作成日時");
+	WriteCell(0, 1,QDateTime::currentDateTime().toString(Qt::SystemLocaleLongDate));
+
+	WriteCell(1, 0,"マスター");
+	WriteCell(1, 1,QString::number(MBase->GetMasterRelationCode()));
+	WriteCell(2, 0,"名称");
+	WriteCell(2, 1,RetRelationNumber);
+	WriteCell(2, 2,RetRelationName);
+	WriteCell(3, 0,"備考");
+	WriteCell(3, 1,RetRemark);
+
+	WriteCell(4, 0,"ロット");
+	WriteCell(4, 1,M0->CurrentLot->LotName);
+	int	Row=5;
+
+	for(EachMaster *m=MBase->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+		if(m->IsDependent()==true){
+			int	MachineID=m->GetMachineCode();
+			EachMaster *Pointer[10];
+			int		MasterCount=GetLayersBase()->GetIntegrationBasePointer()->EnumMaster(MachineID,Pointer,10);
+
+			WriteCell(Row, 0,"検査ユニット");
+			WriteCell(Row, 1,m->MachineName);
+
+			XLSXSheet->setRow(Row,256);
+
+			QTemporaryFile	TmpImageFile;
+			TmpImageFile.setAutoRemove(true);
+			if(TmpImageFile.open()==true){
+				QString	TmpImageFileName=TmpImageFile.fileName();
+				QImage	TopView=LoadDataFromMaster(m->MasterCode);
+				TopView.save(&TmpImageFile,"PNG");
+				TmpImageFile.flush();
+				TmpImageFile.close();
+				wchar_t	TmpImageFileBuff[1000];
+				memset(TmpImageFileBuff,0,sizeof(TmpImageFileBuff));
+				TmpImageFileName.toWCharArray(TmpImageFileBuff);
+
+				int	ImageID=XLSXBook->addPicture(TmpImageFileBuff);
+				XLSXSheet->setPicture2(Row, 2, ImageID, 256, 256);
+			}
+
+			Row++;
+
+			for(int t=0;t<MasterCount;t++){
+				int	SlaveNo=Pointer[t]->GetIntegrationSlaveNo();
+
+				IntegrationReqUsageAlgorithm	RCmd(GetLayersBase(),/**/"ANY",/**/"ANY",SlaveNo);
+				IntegrationAckUsageAlgorithm	ACmd(GetLayersBase(),/**/"ANY",/**/"ANY",SlaveNo);
+				if(RCmd.Send(SlaveNo,0,ACmd)==true){
+					for(AlgorithmRootNameList *a=ACmd.Datas.GetFirst();a!=NULL;a=a->GetNext()){
+						IntegrationReqReportedTopics	ItemRCmd(GetLayersBase(),/**/"ANY",/**/"ANY",SlaveNo);
+						IntegrationAckReportedTopics	ItemACmd(GetLayersBase(),/**/"ANY",/**/"ANY",SlaveNo);
+
+						ItemRCmd.DLLRoot=a->DLLRoot;
+						ItemRCmd.DLLName=a->DLLName;
+
+						QStringList	TopicTitleList;
+
+						if(ItemRCmd.Send(SlaveNo,0,ItemACmd)==true){
+							for(ReportedTopicsInItem *Item=ItemACmd.Datas.GetFirst();Item!=NULL;Item=Item->GetNext()){
+								QString	LibName=GetLayersBase()->GetDatabaseLoader()->G_GetLibraryName2(*GetLayersBase()->GetDataBase(),a->LibType,Item->LibID);
+								WriteCell(Row, 0,QString::number(Item->LibID));
+								WriteCell(Row, 1,LibName);
+								int	Col=2;
+								for(ReportedTopic *t=Item->TopicsContainer.GetFirst();t!=NULL;t=t->GetNext(),Col++){
+									WriteCell(Row, Col,t->Title);
+								}
+								Row++;
+								Col=2;
+								for(ReportedTopic *t=Item->TopicsContainer.GetFirst();t!=NULL;t=t->GetNext(),Col++){
+									WriteCellV(Row, Col,t->Data);
+								}
+								Row++;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	WriteCell(Row, 0,"全体検査数");
+	WriteCell(Row, 1,QString::number(GetLayersBase()->GetIntegrationBasePointer()->TotalCount));
+	Row++;
+	WriteCell(Row, 0,"全体NG数");
+	WriteCell(Row, 1,QString::number(GetLayersBase()->GetIntegrationBasePointer()->NGCount));
+	Row++;
+
+
+	InspectionList	*L[10000];
+	for(int i=0;i<InfoOkNgDimCount;i++){
+		EachMaster	*M		=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(i);
+		if(M!=NULL && M->IsDependent()==false){
+			int	MachineID=M->GetMachineCode();
+			int	NGCount		=0;
+			int	TotalCount	=0;
+			EachMaster *Pointer[10];
+			int		MasterCount=GetLayersBase()->GetIntegrationBasePointer()->EnumMaster(MachineID,Pointer,10);
+			for(int m=0;m<MasterCount;m++){
+				NGCount		+=Pointer[m]->CurrentInspection.NGCount;
+				TotalCount	+=Pointer[m]->CurrentInspection.TotalCount;
+			}
+
+			QString	Str=M->GetMachineName();
+
+			WriteCell(Row, 0,Str+QString("NG数"));
+			WriteCell(Row, 1,QString::number(NGCount));
+			L[i]=M->CurrentInspection.GetLast();
+			Row++;
+		}
+		else
+		if(M!=NULL){
+			L[i]=M->CurrentInspection.GetLast();
+		}
+		else{
+			L[i]=NULL;
+		}
+	}
+
+	int	Printout_MaxCountfNGImage=10000;
+	int	N=0;
+	while(N<Printout_MaxCountfNGImage){
+		int	EffectiveNumb=0;
+		for(int i=0;i<InfoOkNgDimCount;i++){
+			if(L[i]!=NULL){
+				N=SetNGImageToExcel(L[i],Printout_MaxCountfNGImage,N,Row);
+				L[i]=L[i]->GetPrev();
+				EffectiveNumb++;
+			}
+		}
+		if(EffectiveNumb==0){
+			break;
+		}
+	}
+
+	wchar_t	FileNameStr[256];
+	memset(FileNameStr,0,sizeof(FileNameStr));
+	ExcelFileName.toWCharArray(FileNameStr);
+
+	if(XLSXBook->save(FileNameStr)==false){
+		delete	XLSXBook;
+		return;
+	}
+	XLSXBook->release();
+
+	return;
+}
+
+QStringList	IntegrationShowTotalForm::GetInformation(InspectionList *L,NGPoint *Rp)
+{
+	QString	CauseStr;
+	QString	LibName;
+	DetailResultInfoListContainer ItemDetailList;
+	if(Rp->LibType!=0){
+		if(Rp->LibID>=0){
+			LibName=GetLayersBase()->GetIntegrationBasePointer()->GetLibraryName(Rp->LibType ,Rp->LibID);
+		}
+		if(Rp->ResultType==_ResultDouble){
+			CauseStr=QString::number(Rp->DoubleCause,'f',2)
+					+QString('[')
+					+QString::number(L->GetMaster()->TransformPixelToUnit(Rp->Cause[0]),'f',2)
+					+QString(']');
+		}
+		else{
+			if((Rp->PosResult&0xFF)==2){
+				CauseStr=QString::number(Rp->Cause[1])
+						+QString('[')
+						+QString::number(L->GetMaster()->TransformPixelToUnit(Rp->Cause[1]),'f',2)
+						+QString("mm]");
+			}
+			else{
+				CauseStr=QString::number(Rp->Cause[0])
+						+QString('[')
+						+QString::number(L->GetMaster()->TransformPixelToUnitSquare(Rp->Cause[0]),'f',2)
+						+QString("mm2]");
+			}
+		}
+		AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(Rp->LibType);
+		if(ABase!=NULL){
+			QRgb		NGColor;
+
+			ResultPosList	RPos;
+			RPos.result		=Rp->PosResult;
+			if(Rp->ResultType==_ResultDouble){
+				RPos.SetResult(Rp->DoubleCause);
+			}
+			else
+			if(Rp->ResultType==_ResultDWORD){
+				RPos.SetResult1(Rp->Cause[0]);
+				RPos.SetResult2(Rp->Cause[1]);
+			}
+			RPos.Px			=Rp->MasterX;
+			RPos.Py			=Rp->MasterY;
+			RPos.Rx			=Rp->HX;
+			RPos.Ry			=Rp->HY;
+
+			ABase->GetDrawResultDetail(NULL ,&RPos ,ItemDetailList);
+		}
+	}
+	else{
+		LibName=Rp->Message;
+		if(Rp->ResultType==_ResultDouble){
+			CauseStr=QString::number(Rp->DoubleCause,'f',2);
+		}
+	}
+
+	QStringList	Ret;
+	if(LibName.isEmpty()==false){
+		Ret.append(LibName
+					+QString(/**/",")
+					+CauseStr);
+	}
+	else{
+		Ret.append(CauseStr);
+	}
+	Ret.append(L->InspectionTime.toString("hh:mm:ss")
+				+QString(/**/" (")
+				+QString::number(L->ID)
+				+QString(/**/")"));
+	if(ItemDetailList.count()>0){
+		DetailResultInfoList	*L=ItemDetailList.GetFirst();
+		Ret.append(L->GetInfoString());
+	}
+
+	return Ret;
+}
+QImage IntegrationShowTotalForm::LoadDataFromMaster(int masterCode)
+{
+	QString	S=QString(/**/"SELECT"
+							/**/" TOPVIEW"
+							/**/" from MASTERDATA where MASTERCODE=")+QString::number(masterCode);
+	QSqlQuery query(S ,GetLayersBase()->GetDatabase());
+	if(query.next()==true){
+		QByteArray	STopview=query.value(query.record().indexOf("TOPVIEW")).toByteArray();
+		QBuffer	TopviewBuff;
+		TopviewBuff.setData(STopview);
+		if(TopviewBuff.open(QIODevice::ReadOnly)==true){
+			QImage	TopView;
+			if(TopView.load(&TopviewBuff,"PNG")==true){
+				return TopView;
+			}
+		}
+	}
+	return QImage();
+}
+
+int	IntegrationShowTotalForm::SetNGImageToExcel(InspectionList *L, int Printout_MaxCountfNGImage ,int N,int &Row)
+{
+	if(N>=Printout_MaxCountfNGImage){
+		return N;
+	}
+	for(NGPointInAllPage *Ph=L->NGPointAllPhases.GetFirst();Ph!=NULL;Ph=Ph->GetNext()){
+		for(NGPointInPage *Pg=Ph->NPListPack<NGPointInPage>::GetFirst();Pg!=NULL;Pg=Pg->GetNext()){
+			for(IntegNGImage *g=Pg->NGImages.GetFirst();g!=NULL;g=g->GetNext()){
+				WriteCell(Row, 0,L->GetMaster()->MachineName);
+				WriteCell(Row, 1,L->InspectionTime.toString("yyyy/MM/dd-hh:mm:ss"));
+
+				QTemporaryFile	TmpImageFile;
+				TmpImageFile.setAutoRemove(true);
+				if(TmpImageFile.open()==true){
+					XLSXSheet->setRow(Row,256);
+					QString	TmpImageFileName=TmpImageFile.fileName();
+					g->GetImage().save(&TmpImageFile,"PNG");
+					TmpImageFile.flush();
+					TmpImageFile.close();
+					wchar_t	TmpImageFileBuff[10000];
+					memset(TmpImageFileBuff,0,sizeof(TmpImageFileBuff));
+					TmpImageFileName.toWCharArray(TmpImageFileBuff);
+
+					int	ImageID=XLSXBook->addPicture(TmpImageFileBuff);
+					XLSXSheet->setPicture2(Row, 2, ImageID, g->GetImage().width(), g->GetImage().height());
+				}
+				for(NGPoint *Rp=Pg->NPListPack<NGPoint>::GetFirst();Rp!=NULL;Rp=Rp->GetNext()){
+					int	TargetCx,TargetCy;
+					Rp->GetTargetCenter(TargetCx,TargetCy);
+					if(Rp->IsNG()==true
+					&& g->x1 <=TargetCx && TargetCx<g->x2
+					&& g->y1 <=TargetCy && TargetCy<g->y2){
+						QString	LibName=GetLayersBase()->GetDatabaseLoader()->G_GetLibraryName2(*GetLayersBase()->GetDataBase(), Rp->LibType,Rp->LibID);
+						WriteCell(Row, 3,QString::number(Rp->LibID));
+						QStringList	List=GetInformation(L,Rp);
+						for(int e=0;e<List.count();e++){
+							QString	Str=List[e];
+							WriteCell(Row, 4+e,Str);
+						}
+						break;
+					}
+				}
+				Row++;
+				N++;
+				if(N>=Printout_MaxCountfNGImage){
+					return N;
+				}
+			}
+		}
+	}
+	return N;
+}
+void IntegrationShowTotalForm::on_PushButtonReset_clicked()
+{
+	GetLayersBase()->GetIntegrationBasePointer()->TotalCount	=0;
+	GetLayersBase()->GetIntegrationBasePointer()->NGCount		=0;
+
+	for(int i=0;i<InfoOkNgDimCount;i++){
+		InfoOkNgDim[i].NGCount=0;
+		InfoOkNgDim[i].OKCount=0;
+
+		EachMaster	*M		=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(i);
+		if(M!=NULL){
+			M->CurrentInspection.NGCount	=0;
+			M->CurrentInspection.TotalCount=0;
+		}
+	}
+	ShowData();
+}

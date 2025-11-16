@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(SERVICEEXECUTIONPLAYER_LIB)
+#  define SERVICEEXECUTIONPLAYER_EXPORT Q_DECL_EXPORT
+# else
+#  define SERVICEEXECUTIONPLAYER_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define SERVICEEXECUTIONPLAYER_EXPORT
+#endif

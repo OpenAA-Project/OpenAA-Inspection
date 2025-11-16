@@ -1,0 +1,12 @@
+#ifndef ARARRANGE_GLOBAL_H
+#define ARARRANGE_GLOBAL_H
+
+#include <qglobal.h>
+
+#ifdef ARARRANGE_LIB
+# define ARARRANGE_EXPORT Q_DECL_EXPORT
+#else
+# define ARARRANGE_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // ARARRANGE_GLOBAL_H

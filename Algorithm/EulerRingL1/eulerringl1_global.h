@@ -1,0 +1,12 @@
+#ifndef EULERRINGL1_GLOBAL_H
+#define EULERRINGL1_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef EULERRINGL1_LIB
+# define EULERRINGL1_EXPORT Q_DECL_EXPORT
+#else
+# define EULERRINGL1_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // EULERRINGL1_GLOBAL_H

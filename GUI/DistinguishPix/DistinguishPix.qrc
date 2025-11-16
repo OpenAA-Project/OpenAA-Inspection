@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/DistinguishPix.png</file>
+        <file>Qtres/Clear.png</file>
+        <file>Qtres/Folder.png</file>
+        <file>Qtres/Load.png</file>
+        <file>Qtres/NG.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Save.png</file>
+        <file>Qtres/Release.png</file>
+    </qresource>
+</RCC>

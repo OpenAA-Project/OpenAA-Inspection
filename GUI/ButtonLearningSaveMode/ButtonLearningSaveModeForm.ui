@@ -1,0 +1,46 @@
+<ui version="4.0" >
+ <class>ButtonLearningSaveModeFormClass</class>
+ <widget class="GUIFormBase" name="ButtonLearningSaveModeFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>110</width>
+    <height>41</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>ButtonLearningSaveModeForm</string>
+  </property>
+  <widget class="QToolButton" name="toolButton" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>111</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>...</string>
+   </property>
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="autoExclusive" >
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,92 @@
+<ui version="4.0" >
+ <class>MessagerClass</class>
+ <widget class="QMainWindow" name="MessagerClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>411</width>
+    <height>263</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Messager</string>
+  </property>
+  <widget class="QWidget" name="centralWidget" >
+   <widget class="QTableWidget" name="tableWidget" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>110</y>
+      <width>411</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text" >
+      <string>Page</string>
+     </property>
+    </column>
+    <column>
+     <property name="text" >
+      <string>Time</string>
+     </property>
+    </column>
+    <column>
+     <property name="text" >
+      <string>Message</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QTableWidget" name="tableWidgetGeneral" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>411</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text" >
+      <string>Time</string>
+     </property>
+    </column>
+    <column>
+     <property name="text" >
+      <string>Message</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QPushButton" name="pushButtonSequence" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>240</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Sequence</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonClose" >
+    <property name="geometry" >
+     <rect>
+      <x>330</x>
+      <y>240</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Close</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

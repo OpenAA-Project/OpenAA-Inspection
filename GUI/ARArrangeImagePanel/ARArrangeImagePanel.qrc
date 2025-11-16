@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ARArrangeImagePanel.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PQSystemSettingForm</class>
+ <widget class="QWidget" name="PQSystemSettingForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>643</width>
+    <height>478</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>420</y>
+     <width>641</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="ButtonOK">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>10</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>OK  Save</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../../../../GUI/ButtonSettingParameters/ButtonSettingParameters.qrc">
+      <normaloff>:/Qtres/Save.png</normaloff>:/Qtres/Save.png</iconset>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QTabWidget" name="tabWidgetAllParam">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>641</width>
+     <height>421</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>1</number>
+   </property>
+   <widget class="QWidget" name="tabGeneral">
+    <attribute name="title">
+     <string>General Param</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tabRunner">
+    <attribute name="title">
+     <string>Runner</string>
+    </attribute>
+   </widget>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../../../../GUI/ButtonSettingParameters/ButtonSettingParameters.qrc"/>
+ </resources>
+ <connections/>
+</ui>

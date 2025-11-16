@@ -1,0 +1,12 @@
+#ifndef WINDUPIMAGE_GLOBAL_H
+#define WINDUPIMAGE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef WINDUPIMAGE_LIB
+# define WINDUPIMAGE_EXPORT Q_DECL_EXPORT
+#else
+# define WINDUPIMAGE_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // WINDUPIMAGE_GLOBAL_H

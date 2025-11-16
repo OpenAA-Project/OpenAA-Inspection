@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonUpdateMasterData.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Update.png</file>
+    </qresource>
+</RCC>

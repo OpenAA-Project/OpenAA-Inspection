@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>sentinelserial_1_ja.qm</file>
+        <file>sentinelserial_1_ja.ts</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OperateVRSForm</class>
+ <widget class="GUIFormBase" name="OperateVRSForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>300</width>
+    <height>227</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="pushButtonXP1">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>100</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+1</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonYM1">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>70</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>-1</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonYP1">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>130</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+1</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonXM1">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>100</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>-1</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonXP10">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>100</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+10</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonYP10">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>160</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+10</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonYM10">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>40</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>-10</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonXM10">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>100</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>-10</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonXP100">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>100</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+100</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonYM100">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>10</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>-100</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonYP100">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>190</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+100</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonXM100">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>100</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>-100</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonOrigin">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>10</y>
+     <width>75</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Origin</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonEscape">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>75</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Escape</string>
+   </property>
+  </widget>
+  <zorder>pushButtonYM1</zorder>
+  <zorder>pushButtonXP1</zorder>
+  <zorder>pushButtonYP1</zorder>
+  <zorder>pushButtonXM1</zorder>
+  <zorder>pushButtonXP10</zorder>
+  <zorder>pushButtonYP10</zorder>
+  <zorder>pushButtonYM10</zorder>
+  <zorder>pushButtonXM10</zorder>
+  <zorder>pushButtonXP100</zorder>
+  <zorder>pushButtonYM100</zorder>
+  <zorder>pushButtonYP100</zorder>
+  <zorder>pushButtonXM100</zorder>
+  <zorder>pushButtonOrigin</zorder>
+  <zorder>pushButtonEscape</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

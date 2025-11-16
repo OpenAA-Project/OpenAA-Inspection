@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonAnyMode.png</file>
+    </qresource>
+</RCC>

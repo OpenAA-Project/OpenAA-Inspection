@@ -1,0 +1,4 @@
+<RCC>
+    <qresource prefix="LEDControl16GTester">
+    </qresource>
+</RCC>

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ChangeCameraSettingInvisible.png</file>
+    </qresource>
+</RCC>

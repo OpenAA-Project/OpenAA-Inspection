@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ShowPartialImagingList.png</file>
+        <file>Qtres/Update.png</file>
+    </qresource>
+</RCC>

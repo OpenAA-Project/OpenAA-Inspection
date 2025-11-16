@@ -1,0 +1,12 @@
+#ifndef PROPERTYDENT_GLOBAL_H
+#define PROPERTYDENT_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef PROPERTYDENT_LIB
+# define PROPERTYDENT_EXPORT Q_DECL_EXPORT
+#else
+# define PROPERTYDENT_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // PROPERTYDENT_GLOBAL_H

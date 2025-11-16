@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertyStatisticImager.png</file>
+        <file>Qtres/Average.png</file>
+        <file>Qtres/Bright.png</file>
+        <file>Qtres/Dark.png</file>
+        <file>Qtres/Image.png</file>
+        <file>Qtres/Variation.png</file>
+        <file>Qtres/Add.png</file>
+    </qresource>
+</RCC>

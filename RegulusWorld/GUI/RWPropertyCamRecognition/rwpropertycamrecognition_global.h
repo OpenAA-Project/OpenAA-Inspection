@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(RWPROPERTYCAMRECOGNITION_LIB)
+#  define RWPROPERTYCAMRECOGNITION_EXPORT Q_DECL_EXPORT
+# else
+#  define RWPROPERTYCAMRECOGNITION_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define RWPROPERTYCAMRECOGNITION_EXPORT
+#endif

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/KoreaST8ChGUI.png</file>
+    </qresource>
+</RCC>

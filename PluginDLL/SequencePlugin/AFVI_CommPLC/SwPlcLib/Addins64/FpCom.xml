@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addin>
+  <presets>
+    <preset type="SERIAL" name="FP SERIAL">
+      <Option>ExtensionHeader=0;StationNo=1</Option>
+    </preset>
+    <preset type="TCP/IP" name="FP TCP">
+      <Option>StationNo=1;EtlanDestNo=1;EtlanSourceNo=2</Option>
+    </preset>
+  </presets>
+  <optionItems>
+    <optionItem name="StationNo" type="SERIAL,TCP/IP" range="1 - 32" description="送信先ユニットNo"/>
+    <optionItem name="ReadMaxSize" type="SERIAL,TCP/IP" range="" description="読込み最大点数"/>
+    <optionItem name="WriteMaxSize" type="SERIAL,TCP/IP" range="" description="書込み最大点数"/>
+    <optionItem name="ExtensionHeader" type="SERIAL,TCP/IP" range="" description="拡張ヘッダ 1:有効／0:無効"/>
+    <optionItem name="RelayAccess" type="SERIAL,TCP/IP" range="1:接点単位, 16:ワード単位" description="接点エリアのアクセスサイズ"/>
+    <optionItem name="EtlanSourceNo" type="TCP/IP" range="" description="ET-LAN自局の局番"/>
+    <optionItem name="EtlanDestNo" type="TCP/IP" range="" description="ET-LAN相手局の局番"/>
+  </optionItems>
+</addin>

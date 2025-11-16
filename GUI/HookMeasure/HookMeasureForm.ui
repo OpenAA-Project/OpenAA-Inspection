@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>HookMeasureForm</class>
+ <widget class="GUIFormBase" name="HookMeasureForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>450</width>
+    <height>43</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>計測の種類</string>
+  </property>
+  <widget class="QStackedWidget" name="stackedWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>451</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <widget class="QWidget" name="page">
+    <widget class="QToolButton" name="toolButtonCircle3">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>0</y>
+       <width>42</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;円②&lt;/p&gt;&lt;p&gt;円の半径・円周・面積を測定します（円周３点）&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>:/Resources/Normal/Resources/Normal/Circle2N.png</normaloff>
+       <normalon>:/Resources/Select/Resources/Select/Circle2S.png</normalon>:/Resources/Normal/Resources/Normal/Circle2N.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButtonIsolation">
+     <property name="geometry">
+      <rect>
+       <x>405</x>
+       <y>0</y>
+       <width>42</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;平行線距離&lt;/p&gt;&lt;p&gt;平行線の距離を測定します&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>:/Resources/Normal/Resources/Normal/ParallelLinesN.png</normaloff>
+       <normalon>:/Resources/Select/Resources/Select/ParallelLinesS.png</normalon>:/Resources/Normal/Resources/Normal/ParallelLinesN.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButtonPolyLine">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>0</y>
+       <width>42</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;多角形&lt;/p&gt;&lt;p&gt;多角形の円周・面積を測定します&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>:/Resources/Normal/Resources/Normal/MPolygonN.png</normaloff>
+       <normalon>:/Resources/Select/Resources/Select/MPolygonS.png</normalon>:/Resources/Normal/Resources/Normal/MPolygonN.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButtonPoint2Point">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>42</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;直線&lt;/p&gt;&lt;p&gt;2点間の距離を測定します&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>:/Resources/Normal/Resources/Normal/StraightLineN.png</normaloff>
+       <normalon>:/Resources/Select/Resources/Select/StraightLineS.png</normalon>:/Resources/Normal/Resources/Normal/StraightLineN.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButtonArc">
+     <property name="geometry">
+      <rect>
+       <x>135</x>
+       <y>0</y>
+       <width>42</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;円弧&lt;/p&gt;&lt;p&gt;円弧の長さ、半径、角度、面積を測定します&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>:/Resources/Normal/Resources/Normal/CrcularArcN.png</normaloff>
+       <normalon>:/Resources/Select/Resources/Select/CrcularArcS.png</normalon>:/Resources/Normal/Resources/Normal/CrcularArcN.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButtonAngle">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>0</y>
+       <width>42</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;角度&lt;/p&gt;&lt;p&gt;角度を測定します&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>:/Resources/Normal/Resources/Normal/AngleN.png</normaloff>
+       <normalon>:/Resources/Select/Resources/Select/AngleS.png</normalon>:/Resources/Normal/Resources/Normal/AngleN.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButtonRectangle">
+     <property name="geometry">
+      <rect>
+       <x>225</x>
+       <y>0</y>
+       <width>42</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;長方形&lt;/p&gt;&lt;p&gt;長方形の長さ（縦・横）・周長・面積を測定します&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>:/Resources/Normal/Resources/Normal/RectangleN.png</normaloff>
+       <normalon>:/Resources/Select/Resources/Select/RectangleS.png</normalon>:/Resources/Normal/Resources/Normal/RectangleN.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButtonCircle">
+     <property name="geometry">
+      <rect>
+       <x>315</x>
+       <y>0</y>
+       <width>42</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;円①&lt;/p&gt;&lt;p&gt;円の半径・円周・面積を測定します（直径２点）&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>:/Resources/Normal/Resources/Normal/Circle1N.png</normaloff>
+       <normalon>:/Resources/Select/Resources/Select/Circle1S.png</normalon>:/Resources/Normal/Resources/Normal/Circle1N.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButtonFoldedLines">
+     <property name="geometry">
+      <rect>
+       <x>45</x>
+       <y>0</y>
+       <width>42</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;折れ線&lt;/p&gt;&lt;p&gt;複数点の距離を測定します&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>:/Resources/Normal/Resources/Normal/BrokenLineN.png</normaloff>
+       <normalon>:/Resources/Select/Resources/Select/BrokenLineS.png</normalon>:/Resources/Normal/Resources/Normal/BrokenLineN.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButtonCenterCircle">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>0</y>
+       <width>42</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;円心2点間距離&lt;/p&gt;&lt;p&gt;2つの円心間の距離、円の半径、円周、面積を測定します&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>:/Resources/Normal/Resources/Normal/CircleTwoPointsN.png</normaloff>
+       <normalon>:/Resources/Select/Resources/Select/CircleTwoPointsS.png</normalon>:/Resources/Normal/Resources/Normal/CircleTwoPointsN.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_2"/>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="hookmeasure.qrc"/>
+ </resources>
+ <connections/>
+</ui>

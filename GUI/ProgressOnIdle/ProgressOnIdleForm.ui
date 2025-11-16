@@ -1,0 +1,40 @@
+<ui version="4.0" >
+ <class>ProgressOnIdleFormClass</class>
+ <widget class="GUIFormBase" name="ProgressOnIdleFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>377</width>
+    <height>21</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>ProgressOnIdleForm</string>
+  </property>
+  <widget class="QProgressBar" name="progressBar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>381</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="maximum" >
+    <number>200</number>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

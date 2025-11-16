@@ -1,0 +1,12 @@
+#ifndef PROPERTYBCR_GLOBAL_H
+#define PROPERTYBCR_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef PROPERTYBCR_LIB
+# define PROPERTYBCR_EXPORT Q_DECL_EXPORT
+#else
+# define PROPERTYBCR_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // PROPERTYBCR_GLOBAL_H

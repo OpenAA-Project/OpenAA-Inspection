@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertyMatchingAlignment.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Make.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Area.png</file>
+    </qresource>
+</RCC>

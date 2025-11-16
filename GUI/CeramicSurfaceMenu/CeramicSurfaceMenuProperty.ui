@@ -1,0 +1,69 @@
+<ui version="4.0" >
+ <class>CeramicSurfaceMenuPropertyClass</class>
+ <widget class="GUIFormBase" name="CeramicSurfaceMenuPropertyClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>182</width>
+    <height>641</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>CeramicSurfaceMenuProperty</string>
+  </property>
+  <widget class="QToolButton" name="toolButtonScanTarget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>161</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>検査実行</string>
+   </property>
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClose" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>560</y>
+     <width>161</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>終了</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonDetail" >
+   <property name="geometry" >
+    <rect>
+     <x>40</x>
+     <y>490</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>詳細</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

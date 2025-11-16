@@ -1,0 +1,145 @@
+<ui version="4.0" >
+ <class>AllCheckedFormClass</class>
+ <widget class="QWidget" name="AllCheckedFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>656</width>
+    <height>393</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>AllCheckedForm</string>
+  </property>
+  <widget class="QLabel" name="lbMessage1_1" >
+   <property name="geometry" >
+    <rect>
+     <x>50</x>
+     <y>100</y>
+     <width>551</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>25</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>すべてのNGポイントの確認が終わりました。</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbMessage1_2" >
+   <property name="geometry" >
+    <rect>
+     <x>30</x>
+     <y>220</y>
+     <width>604</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>25</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>搬送が終わるまで手を入れないで下さい。</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbMessage2_2" >
+   <property name="geometry" >
+    <rect>
+     <x>30</x>
+     <y>290</y>
+     <width>604</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>25</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>下流側で抜き取りを行って下さい。</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbMessage2_1" >
+   <property name="geometry" >
+    <rect>
+     <x>50</x>
+     <y>220</y>
+     <width>551</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>25</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>規定のNG個片数を超えました！</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbMessage3_1" >
+   <property name="geometry" >
+    <rect>
+     <x>50</x>
+     <y>180</y>
+     <width>570</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>25</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>LOT数???</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbMessage3_2" >
+   <property name="geometry" >
+    <rect>
+     <x>50</x>
+     <y>230</y>
+     <width>570</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>40</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>候補数過多！</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

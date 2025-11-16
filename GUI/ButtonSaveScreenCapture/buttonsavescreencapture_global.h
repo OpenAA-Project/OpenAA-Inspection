@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(BUTTONSAVESCREENCAPTURE_LIB)
+#  define BUTTONSAVESCREENCAPTURE_EXPORT Q_DECL_EXPORT
+# else
+#  define BUTTONSAVESCREENCAPTURE_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define BUTTONSAVESCREENCAPTURE_EXPORT
+#endif

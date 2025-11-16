@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(REPEATCONTROLIMAGEPANEL_LIB)
+#  define REPEATCONTROLIMAGEPANEL_EXPORT Q_DECL_EXPORT
+# else
+#  define REPEATCONTROLIMAGEPANEL_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define REPEATCONTROLIMAGEPANEL_EXPORT
+#endif

@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ChangedLotModeOff1.png</file>
+        <file>Resources/ChangedLotModeOff2.png</file>
+        <file>Resources/ChangedLotModeOff3.png</file>
+        <file>Resources/ChangedLotModeOff4.png</file>
+        <file>Resources/ChangedLotModeOff5.png</file>
+        <file>Resources/ChangedLotModeOff6.png</file>
+        <file>Resources/ChangedLotModeOn1.png</file>
+        <file>Resources/ChangedLotModeOn2.png</file>
+        <file>Resources/ChangedLotModeOn3.png</file>
+        <file>Resources/ChangedLotModeOn4.png</file>
+        <file>Resources/ChangedLotModeOn5.png</file>
+        <file>Resources/ChangedLotModeOn6.png</file>
+    </qresource>
+</RCC>

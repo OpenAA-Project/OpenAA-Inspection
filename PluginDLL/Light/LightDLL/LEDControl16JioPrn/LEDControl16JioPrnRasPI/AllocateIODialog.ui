@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AllocateIODialog</class>
+ <widget class="QDialog" name="AllocateIODialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>325</width>
+    <height>418</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>221</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Allocate GOut</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>40</y>
+     <width>68</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text">
+    <string>GOut 0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>80</y>
+     <width>68</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text">
+    <string>GOut 1</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>120</y>
+     <width>68</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text">
+    <string>GOut 2</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>160</y>
+     <width>68</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text">
+    <string>GOut 3</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>320</y>
+     <width>68</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text">
+    <string>GOut 7</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>280</y>
+     <width>68</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text">
+    <string>GOut 6</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>240</y>
+     <width>68</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text">
+    <string>GOut 5</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>200</y>
+     <width>68</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text">
+    <string>GOut 4</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBoxGOut0">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>40</y>
+     <width>131</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>SourceGOut-0</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-5</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-7</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="comboBoxGOut1">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>80</y>
+     <width>131</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>SourceGOut-0</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-5</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-7</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="comboBoxGOut2">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>120</y>
+     <width>131</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>SourceGOut-0</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-5</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-7</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="comboBoxGOut3">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>160</y>
+     <width>131</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>SourceGOut-0</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-5</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-7</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="comboBoxGOut5">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>240</y>
+     <width>131</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>SourceGOut-0</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-5</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-7</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="comboBoxGOut6">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>280</y>
+     <width>131</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>SourceGOut-0</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-5</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-7</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="comboBoxGOut4">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>200</y>
+     <width>131</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>SourceGOut-0</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-5</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-7</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="comboBoxGOut7">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>320</y>
+     <width>131</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>SourceGOut-0</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-5</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>SourceGOut-7</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="pushButtonOK">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>370</y>
+     <width>99</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+   <property name="default">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonCancel">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>370</y>
+     <width>99</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

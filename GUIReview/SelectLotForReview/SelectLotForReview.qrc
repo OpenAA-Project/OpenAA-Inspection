@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/SelectLotForReview.png</file>
+    </qresource>
+</RCC>

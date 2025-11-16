@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/LineEnhancer1LImagePanel.png</file>
+    </qresource>
+</RCC>

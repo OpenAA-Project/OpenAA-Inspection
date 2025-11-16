@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/MeasureHoleImagePanel.png</file>
+        <file>Qtres/Area.png</file>
+        <file>Qtres/Color.png</file>
+    </qresource>
+</RCC>

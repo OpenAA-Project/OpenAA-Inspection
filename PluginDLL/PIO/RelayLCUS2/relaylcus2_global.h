@@ -1,0 +1,12 @@
+#ifndef RELAYLCUS2_GLOBAL_H
+#define RELAYLCUS2_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef RELAYLCUS2_LIB
+# define RELAYLCUS2_EXPORT Q_DECL_EXPORT
+#else
+# define RELAYLCUS2_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // RELAYLCUS2_GLOBAL_H

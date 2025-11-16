@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonLearningOK.png</file>
+    </qresource>
+</RCC>

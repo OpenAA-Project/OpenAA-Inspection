@@ -1,0 +1,42 @@
+<ui version="4.0" >
+ <class>SelectCameraDialogClass</class>
+ <widget class="QDialog" name="SelectCameraDialogClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>160</width>
+    <height>182</height>
+   </rect>
+  </property>
+  <widget class="QScrollArea" name="scrollArea" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>10</y>
+     <width>141</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="horizontalScrollBarPolicy" >
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="widgetResizable" >
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>137</width>
+      <height>157</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

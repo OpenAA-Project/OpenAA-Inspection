@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ListboxErrorMessage.png</file>
+        <file>Qtres/Clear.png</file>
+        <file>Qtres/Update.png</file>
+    </qresource>
+</RCC>

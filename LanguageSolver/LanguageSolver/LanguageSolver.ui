@@ -1,0 +1,672 @@
+<ui version="4.0" >
+ <class>LanguageSolverClass</class>
+ <widget class="QMainWindow" name="LanguageSolverClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>707</width>
+    <height>737</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>LanguageSolver</string>
+  </property>
+  <widget class="QWidget" name="centralWidget" >
+   <widget class="QListWidget" name="listWidgetProject" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>132</y>
+      <width>171</width>
+      <height>251</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>112</y>
+      <width>171</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="text" >
+     <string>Projects</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2" >
+    <property name="geometry" >
+     <rect>
+      <x>209</x>
+      <y>292</y>
+      <width>371</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="text" >
+     <string>UI Files</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidgetUI" >
+    <property name="geometry" >
+     <rect>
+      <x>210</x>
+      <y>312</y>
+      <width>371</width>
+      <height>111</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidgetCPP" >
+    <property name="geometry" >
+     <rect>
+      <x>210</x>
+      <y>162</y>
+      <width>371</width>
+      <height>121</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3" >
+    <property name="geometry" >
+     <rect>
+      <x>210</x>
+      <y>142</y>
+      <width>371</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="text" >
+     <string>CPP Files</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditResourceFile" >
+    <property name="geometry" >
+     <rect>
+      <x>210</x>
+      <y>454</y>
+      <width>371</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="readOnly" >
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4" >
+    <property name="geometry" >
+     <rect>
+      <x>210</x>
+      <y>434</y>
+      <width>371</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="text" >
+     <string>Resource file</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5" >
+    <property name="geometry" >
+     <rect>
+      <x>210</x>
+      <y>512</y>
+      <width>371</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="text" >
+     <string>CSV file</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditCSVFile" >
+    <property name="geometry" >
+     <rect>
+      <x>210</x>
+      <y>532</y>
+      <width>371</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonAddCPPFiles" >
+    <property name="geometry" >
+     <rect>
+      <x>600</x>
+      <y>162</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Add files</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonAddUIFiles" >
+    <property name="geometry" >
+     <rect>
+      <x>600</x>
+      <y>302</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Add files</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonSetResourceFile" >
+    <property name="geometry" >
+     <rect>
+      <x>600</x>
+      <y>462</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>file</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonSetCSVFile" >
+    <property name="geometry" >
+     <rect>
+      <x>600</x>
+      <y>530</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>file</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonAddProject" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>412</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Add</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditProjectName" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>382</y>
+      <width>171</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonUpdateProject" >
+    <property name="geometry" >
+     <rect>
+      <x>100</x>
+      <y>412</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Update</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonDeleteProject" >
+    <property name="geometry" >
+     <rect>
+      <x>100</x>
+      <y>442</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Delete</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonDeleteCPPFiles" >
+    <property name="geometry" >
+     <rect>
+      <x>600</x>
+      <y>202</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Delete</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonDeleteUIFiles" >
+    <property name="geometry" >
+     <rect>
+      <x>600</x>
+      <y>342</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Delete</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonExecute" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>582</y>
+      <width>171</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Execute all</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6" >
+    <property name="geometry" >
+     <rect>
+      <x>210</x>
+      <y>0</y>
+      <width>278</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>1:Load resource file if it exists
+2:Load XLSX file if it exists. Otherwise CSV file is loaded
+   When CSV is loaded, newer resource file may be loaded
+3:Load UI file
+4:Create bak file for CPP if CPP file is changed
+5:Replace CPP file
+6:Add include word in CPP
+7:Save resource file
+8:Save XLSX file
+9:Save header file</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonFolderReference" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>472</y>
+      <width>151</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Folder reference</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="EditFolderReference" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>502</y>
+      <width>151</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonAutoResourceNaming" >
+    <property name="geometry" >
+     <rect>
+      <x>600</x>
+      <y>434</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Auto</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonAutoCSVNaming" >
+    <property name="geometry" >
+     <rect>
+      <x>600</x>
+      <y>502</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Auto</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditVarName" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>LangSolver</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="text" >
+     <string>Variable Name</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonExecuteOne" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>542</y>
+      <width>171</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Execute 1 selected project</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonViewString" >
+    <property name="geometry" >
+     <rect>
+      <x>600</x>
+      <y>242</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>View</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonViewUI" >
+    <property name="geometry" >
+     <rect>
+      <x>600</x>
+      <y>382</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>View</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonAutoXLSXNaming" >
+    <property name="geometry" >
+     <rect>
+      <x>600</x>
+      <y>582</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Auto</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditXLSXFile" >
+    <property name="geometry" >
+     <rect>
+      <x>210</x>
+      <y>612</y>
+      <width>371</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8" >
+    <property name="geometry" >
+     <rect>
+      <x>210</x>
+      <y>592</y>
+      <width>371</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="text" >
+     <string>XLSX file</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonSetXLSXFile" >
+    <property name="geometry" >
+     <rect>
+      <x>600</x>
+      <y>610</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>file</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditXLSXFolder" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>171</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>60</y>
+      <width>171</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="text" >
+     <string>XLSX Folder</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>707</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile" >
+    <property name="title" >
+     <string>File</string>
+    </property>
+    <addaction name="actionLoad_source_CPP" />
+    <addaction name="actionLoad_UI_ui" />
+    <addaction name="separator" />
+    <addaction name="actionSave_CSV" />
+    <addaction name="actionLoad_CSV" />
+    <addaction name="separator" />
+    <addaction name="actionSave_resource_files" />
+    <addaction name="actionLoad_resource_file" />
+    <addaction name="actionReplace_CPP" />
+    <addaction name="separator" />
+    <addaction name="actionSaveProject" />
+    <addaction name="actionLoad_Project" />
+    <addaction name="actionOverwrite_Project" />
+    <addaction name="separator" />
+    <addaction name="actionClose" />
+   </widget>
+   <widget class="QMenu" name="menuOption" >
+    <property name="title" >
+     <string>Option</string>
+    </property>
+    <addaction name="actionCodec" />
+    <addaction name="actionCodec_for_Languages" />
+   </widget>
+   <addaction name="menuFile" />
+   <addaction name="menuOption" />
+  </widget>
+  <widget class="QToolBar" name="mainToolBar" >
+   <attribute name="toolBarArea" >
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak" >
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar" />
+  <action name="actionLoad_source_CPP" >
+   <property name="text" >
+    <string>Load source(CPP)</string>
+   </property>
+  </action>
+  <action name="actionLoad_UI_ui" >
+   <property name="text" >
+    <string>Load UI(ui)</string>
+   </property>
+  </action>
+  <action name="actionSave_CSV" >
+   <property name="text" >
+    <string>Save CSV</string>
+   </property>
+  </action>
+  <action name="actionLoad_CSV" >
+   <property name="text" >
+    <string>Load CSV</string>
+   </property>
+  </action>
+  <action name="actionSave_resource_files" >
+   <property name="text" >
+    <string>Save resource file</string>
+   </property>
+  </action>
+  <action name="actionClose" >
+   <property name="text" >
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionReplace_CPP" >
+   <property name="text" >
+    <string>Replace CPP</string>
+   </property>
+  </action>
+  <action name="actionCodec" >
+   <property name="text" >
+    <string>Codec</string>
+   </property>
+  </action>
+  <action name="actionLoad_resource_file" >
+   <property name="text" >
+    <string>Load resource file</string>
+   </property>
+  </action>
+  <action name="actionCodec_for_Languages" >
+   <property name="text" >
+    <string>Codec for Languages</string>
+   </property>
+  </action>
+  <action name="actionLoad_Project" >
+   <property name="text" >
+    <string>Load Project</string>
+   </property>
+  </action>
+  <action name="actionSaveProject" >
+   <property name="text" >
+    <string>SaveProject</string>
+   </property>
+  </action>
+  <action name="actionOverwrite_Project" >
+   <property name="text" >
+    <string>Overwrite Project</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

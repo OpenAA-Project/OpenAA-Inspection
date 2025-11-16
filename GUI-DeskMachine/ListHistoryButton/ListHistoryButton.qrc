@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/ListHistoryButton.png</file>
+    </qresource>
+</RCC>

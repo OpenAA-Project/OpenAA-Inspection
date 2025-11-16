@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ProjectPropertyManagerClass</class>
+ <widget class="QMainWindow" name="ProjectPropertyManagerClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1776</width>
+    <height>1041</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ProjectPropertyManager</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QTableWidget" name="tableWidgetProjectList">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>1001</width>
+      <height>861</height>
+     </rect>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
+    </property>
+    <column>
+     <property name="text">
+      <string>Name</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Project file path</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Project file name</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QLineEdit" name="lineEditSolutionFileName">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>10</y>
+      <width>441</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>C:/Regulus64v3/ServiceLib/ServiceLib.sln</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>10</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Solution file</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonSearchSolutionFile">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>10</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>...</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonLoadSolution">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>10</y>
+      <width>93</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidgetType">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>40</y>
+      <width>281</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
+    </property>
+    <column>
+     <property name="text">
+      <string>Type</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Build</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QPushButton" name="pushButtonUpdateProject">
+    <property name="geometry">
+     <rect>
+      <x>732</x>
+      <y>910</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Overwrite Updated project</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidgetTagFolder">
+    <property name="geometry">
+     <rect>
+      <x>1310</x>
+      <y>40</y>
+      <width>211</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
+    </property>
+    <item>
+     <property name="text">
+      <string>ClCompile</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Link</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>BuildLog</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QTableWidget" name="tableWidgetProperty">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>250</y>
+      <width>741</width>
+      <height>651</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string>Type</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Data</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QPushButton" name="pushButtonCopyToAll">
+    <property name="geometry">
+     <rect>
+      <x>1110</x>
+      <y>910</y>
+      <width>271</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Copy selected property to all projects</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonCopy1">
+    <property name="geometry">
+     <rect>
+      <x>1110</x>
+      <y>950</y>
+      <width>271</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Copy selected property item</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonPaste1">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>950</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Paste valye in same Type/Property tag</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1776</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,19 @@
+<ui version="4.0" >
+ <class>GeneralDisplayWholeImageFormClass</class>
+ <widget class="QDialog" name="GeneralDisplayWholeImageFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>199</width>
+    <height>244</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>GeneralDisplayWholeImageForm</string>
+  </property>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

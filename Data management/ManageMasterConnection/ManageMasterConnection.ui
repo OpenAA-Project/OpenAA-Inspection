@@ -1,0 +1,403 @@
+<ui version="4.0" >
+ <class>ManageMasterConnectionClass</class>
+ <widget class="QMainWindow" name="ManageMasterConnectionClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1108</width>
+    <height>681</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Manage Master Connection</string>
+  </property>
+  <widget class="QWidget" name="centralWidget" >
+   <widget class="QFrame" name="frame" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>641</width>
+      <height>581</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <widget class="QTableView" name="tableView" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>380</y>
+       <width>611</width>
+       <height>192</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="EditRemark" >
+     <property name="geometry" >
+      <rect>
+       <x>340</x>
+       <y>350</y>
+       <width>281</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QFrame" name="frameCategory" >
+     <property name="geometry" >
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>361</width>
+       <height>251</height>
+      </rect>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelTopView" >
+     <property name="geometry" >
+      <rect>
+       <x>370</x>
+       <y>20</y>
+       <width>257</width>
+       <height>257</height>
+      </rect>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="EditMasterCode" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>300</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="readOnly" >
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2" >
+     <property name="geometry" >
+      <rect>
+       <x>340</x>
+       <y>330</y>
+       <width>281</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text" >
+      <string>Remark</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>280</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text" >
+      <string>Master Code</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>330</y>
+       <width>321</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text" >
+      <string>Master Name</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="EditMasterName" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>350</y>
+       <width>321</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3" >
+     <property name="geometry" >
+      <rect>
+       <x>-1</x>
+       <y>0</y>
+       <width>641</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text" >
+      <string>Master Data</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_2" >
+    <property name="geometry" >
+     <rect>
+      <x>720</x>
+      <y>50</y>
+      <width>381</width>
+      <height>581</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <widget class="QLabel" name="label_5" >
+     <property name="geometry" >
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>381</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text" >
+      <string>Connection</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QTableView" name="tableViewConnection" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>361</width>
+       <height>192</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QTableView" name="tableViewContents" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>361</y>
+       <width>361</width>
+       <height>171</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>361</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text" >
+      <string>Connection Data</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>340</y>
+       <width>361</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text" >
+      <string>Content Data</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonCreateNew" >
+     <property name="geometry" >
+      <rect>
+       <x>20</x>
+       <y>250</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Create new</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonDeleteConnection" >
+     <property name="geometry" >
+      <rect>
+       <x>140</x>
+       <y>250</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Delete</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="pushButtonClose" >
+    <property name="geometry" >
+     <rect>
+      <x>920</x>
+      <y>640</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Close</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonAddMaster" >
+    <property name="geometry" >
+     <rect>
+      <x>660</x>
+      <y>250</y>
+      <width>51</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>=></string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditHost" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>191</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditDatabaseFile" >
+    <property name="geometry" >
+     <rect>
+      <x>210</x>
+      <y>20</y>
+      <width>441</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>191</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="text" >
+     <string>host</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9" >
+    <property name="geometry" >
+     <rect>
+      <x>210</x>
+      <y>0</y>
+      <width>441</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="text" >
+     <string>database file</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

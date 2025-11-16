@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ObjectDesignerForm</class>
+ <widget class="QWidget" name="ObjectDesignerForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>646</width>
+    <height>563</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ObjectDesigner</string>
+  </property>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

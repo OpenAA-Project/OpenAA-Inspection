@@ -1,0 +1,1258 @@
+#include "EasyPropertyDXFOperationResource.h"
+#include "EasyPropertyDXFOperationForm.h"
+#include "ui_EasyPropertyDXFOperationForm.h"
+#include "XDXFOperationPacket.h"
+#include "CartonMenuForm.h"
+#include "XParamCustomized.h"
+#include "EasyDXFOperationImagePanel.h"
+#include "swap.h"
+#include "XPropertyDXFOperationPacket.h"
+#include "AllocationLibByColorDialog.h"
+#include "XMaskingLibrary.h"
+#include "XMasking.h"
+#include "XDatabaseLoader.h"
+#include <QMessageBox>
+
+extern	const	char	*sRoot;
+extern	const	char	*sName;
+const	char	*AlgoRoot=/**/"Basic";
+const	char	*AlgoName=/**/"DXFOperation";
+
+EasyPropertyDXFOperationForm::EasyPropertyDXFOperationForm(LayersBase *Base ,QWidget *parent) :
+    GUIFormBase(Base,parent),
+    ui(new Ui::EasyPropertyDXFOperationForm)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+
+	SlaveNo	=0;
+	connect(this,SIGNAL(SignalResize()), this ,SLOT(ResizeAction()));
+	ui->frameSelectPage->setVisible(false);
+	//ui->stackedWidget->setCurrentIndex(0);
+}
+
+EasyPropertyDXFOperationForm::~EasyPropertyDXFOperationForm()
+{
+    delete ui;
+}
+void	EasyPropertyDXFOperationForm::ResizeAction()
+{
+}
+
+void	EasyPropertyDXFOperationForm::ReadyParam(void)
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"KidaPrint",/**/"EasyPropertyDentMeasure",/**/"");
+	if(f==NULL){
+		ui->toolButtonDelBlade->setVisible(false);
+	}
+}
+void	EasyPropertyDXFOperationForm::BuildForShow(void)
+{
+	IntegrationBase	*MBase=GetLayersBase()->GetIntegrationBasePointer();
+	EachMaster	*m=MBase->GetMaster(SlaveNo);
+	if(m!=NULL){
+		if(m->GetPageNumb()>=2){
+			ui->frameSelectPage->setVisible(true);
+		}
+		else{
+			ui->frameSelectPage->setVisible(false);
+		}
+	}
+}
+DXFOperationBase	*EasyPropertyDXFOperationForm::GetDXFOperationBase(void)
+{
+	DXFOperationBase	*Base=(DXFOperationBase *)GetLayersBase()->GetAlgorithmBase(AlgoRoot ,AlgoName);
+	return Base;
+}
+MaskingBase	*EasyPropertyDXFOperationForm::GetMaskingBase(void)
+{
+	MaskingBase	*Base=(MaskingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Masking");
+	return Base;
+}
+
+void	EasyPropertyDXFOperationForm::TransmitDirectly(GUIDirectMessage *packet)
+{
+	CmdReqCurrentPage	*CmdReqCurrentPageVar=dynamic_cast<CmdReqCurrentPage *>(packet);
+	if(CmdReqCurrentPageVar!=NULL){
+		CmdReqCurrentPageVar->ActivePage=(ui->toolButtonPage0->isChecked()==true)?0:1;
+		return;
+	}
+	IntegrationCmdReqMoveMode	*IntegrationCmdReqMoveModeVar=dynamic_cast<IntegrationCmdReqMoveMode *>(packet);
+	if(IntegrationCmdReqMoveModeVar!=NULL){
+		IntegrationCmdReqMoveModeVar->MoveMode=ui->toolButtonMove->isChecked();
+		return;
+	}
+	IntegrationCmdSetMoveMode	*IntegrationCmdSetMoveModeVar=dynamic_cast<IntegrationCmdSetMoveMode *>(packet);
+	if(IntegrationCmdSetMoveModeVar!=NULL){
+		ui->toolButtonMove->setChecked(IntegrationCmdSetMoveModeVar->MoveMode);
+		on_toolButtonMove_clicked();
+		return;
+	}
+	IntegrationGenerateAutomatically	*IntegrationGenerateAutomaticallyVar=dynamic_cast<IntegrationGenerateAutomatically *>(packet);
+	if(IntegrationGenerateAutomaticallyVar!=NULL){
+		GenerateAutomatically();
+		return;
+	}
+	CmdReqEasyAllocationLibByColor	*CmdReqEasyAllocationLibByColorVar=dynamic_cast<CmdReqEasyAllocationLibByColor *>(packet);
+	if(CmdReqEasyAllocationLibByColorVar!=NULL){
+		IntegrationCmdReqAllocationLibByColor	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		IntegrationCmdAckAllocationLibByColor	ACmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.LevelID=CmdReqEasyAllocationLibByColorVar->ThresholdLevelID;
+		if(RCmd.Send(SlaveNo,0,ACmd)==true){
+			CmdReqEasyAllocationLibByColorVar->Container=ACmd.AllocationLibByColorContainerInst;
+		}
+		return;
+	}
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonLoadDXF_clicked()
+{
+	//QString	DXFLoaderTitle=/**/"Load DXF file";
+	//
+	//QString	FileName=QFileDialog::getOpenFileName(NULL,DXFLoaderTitle
+	//							,QString()
+	//							,/**/"All files(*.*);;DXF(*.dxf)");
+	QFileDialog	*W=new QFileDialog(nullptr, /**/"Load DXF file",QString(),/**/"DXF(*.dxf);;All files(*.*)");
+	QStringList	fileNames;
+	QString	FileName;
+	if (W->exec()){
+		fileNames = W->selectedFiles();
+		if(fileNames.count()>0){
+			FileName=fileNames[0];
+		}
+	}
+	int	ActivePage=(ui->toolButtonPage0->isChecked()==true)?0:1;
+	if(FileName.isEmpty()==false){
+		QFile	File(FileName);
+		if(File.open(QIODevice::ReadOnly)==true){
+			QByteArray	DXFData=File.readAll();;
+			IntegrationBase	*MBase=GetLayersBase()->GetIntegrationBasePointer();
+			IntegrationSlave	*s=GetLayersBase()->GetIntegrationBasePointer()->GetParamIntegrationMaster()->Slaves[SlaveNo];
+			CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+			if(GProp!=NULL && s!=NULL){
+				for(EachMaster *m=MBase->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+					int	_SlaveNo=m->GetIntegrationSlaveNo();
+					IntegrationCmdLoadDXF	RCmd(GetLayersBase(),sRoot,sName,_SlaveNo);
+					RCmd.FileName=FileName;
+					RCmd.DXFData	=DXFData;
+					RCmd.ActivePage	=ActivePage;
+					RCmd.SendReqAck(NULL,_SlaveNo,0);
+					IntegrationSlave	*d=GetLayersBase()->GetIntegrationBasePointer()->GetParamIntegrationMaster()->Slaves[_SlaveNo];
+					if(d!=NULL && _SlaveNo!=SlaveNo){
+						IntegrationCmdXMirror	MirrorCmd(GetLayersBase(),sRoot,sName,_SlaveNo);
+						MirrorCmd.ActivePage	=ActivePage;
+						MirrorCmd.SendReqAck(NULL,_SlaveNo,0);
+
+						IntegrationCmdMoveXY	MCmd(GetLayersBase(),sRoot,sName,_SlaveNo);
+						MCmd.MovX=d->OffsetXForSync-s->OffsetXForSync;
+						MCmd.MovY=d->OffsetYForSync-s->OffsetYForSync;
+						MCmd.ActivePage	=ActivePage;
+						MCmd.SendReqAck(NULL,_SlaveNo,0);
+
+						IntegrationCmdExtend	ECmd(GetLayersBase(),sRoot,sName,_SlaveNo);
+						if(_SlaveNo==0){
+							ECmd.ZoomX	=GProp->GetParam()->CADTopZoomX;
+							ECmd.ZoomY	=GProp->GetParam()->CADTopZoomY;
+							ECmd.YShear	=GProp->GetParam()->CADTopYShear;
+						}
+						else if(_SlaveNo==1){
+							ECmd.ZoomX	=GProp->GetParam()->CADBottomZoomX;
+							ECmd.ZoomY	=GProp->GetParam()->CADBottomZoomY;
+							ECmd.YShear	=GProp->GetParam()->CADBottomYShear;
+						}
+						else if(_SlaveNo==2){
+							ECmd.ZoomX	=GProp->GetParam()->CADMonoZoomX;
+							ECmd.ZoomY	=GProp->GetParam()->CADMonoZoomY;
+							ECmd.YShear	=GProp->GetParam()->CADMonoYShear;
+						}
+						ECmd.ActivePage	=ActivePage;
+						ECmd.SendReqAck(NULL,_SlaveNo,0);
+					}
+					else{
+						IntegrationCmdExtend	ECmd(GetLayersBase(),sRoot,sName,SlaveNo);
+						if(SlaveNo==0){
+							ECmd.ZoomX	=GProp->GetParam()->CADTopZoomX;
+							ECmd.ZoomY	=GProp->GetParam()->CADTopZoomY;
+							ECmd.YShear	=GProp->GetParam()->CADTopYShear;
+						}
+						else if(SlaveNo==1){
+							ECmd.ZoomX	=GProp->GetParam()->CADBottomZoomX;
+							ECmd.ZoomY	=GProp->GetParam()->CADBottomZoomY;
+							ECmd.YShear	=GProp->GetParam()->CADBottomYShear;
+						}
+						else if(SlaveNo==2){
+							ECmd.ZoomX	=GProp->GetParam()->CADMonoZoomX;
+							ECmd.ZoomY	=GProp->GetParam()->CADMonoZoomY;
+							ECmd.YShear	=GProp->GetParam()->CADMonoYShear;
+						}
+						ECmd.ActivePage	=ActivePage;
+						ECmd.SendReqAck(NULL,SlaveNo,0);
+					}
+				}
+				MakeAllocation();
+			}
+			BroadcastRepaintAll();
+			//ui->stackedWidget->setCurrentIndex(1);
+		}
+	}
+	delete	W;
+}
+
+void	EasyPropertyDXFOperationForm::GenerateAutomatically(void)
+{
+	on_toolButtonAutoGenerate_clicked();
+}
+
+void	EasyPropertyDXFOperationForm::LeavePage	(void)
+{
+	on_toolButtonAutoGenerate_clicked();
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonAutoGenerate_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdDelMaskByCAD	DelCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		DelCmd.SendReqAck(NULL,SlaveNo,0);
+
+		DXFOperationBase	*BBase=GetDXFOperationBase();
+		CmdLoadAllocationLibByColor	RCmd(GetLayersBase());
+		BBase->TransmitDirectly(&RCmd);
+
+		MaskingBase	*MaskBase=GetMaskingBase();
+		AlgorithmLibraryListContainer MaskLibIDList;
+		
+		int	CountOfMaskLib=0;
+		AlgorithmLibraryLevelContainer	**MLibDim=NULL;
+		if(GetLayersBase()->GetDatabaseLoader() && GetLayersBase()->IsDatabaseOk()==true){
+			GetLayersBase()->GetDatabaseLoader()->G_EnumAllLibraryByType(
+									GetLayersBase()->GetDatabase(),DefLibTypeMasking,MaskLibIDList);
+			CountOfMaskLib=MaskLibIDList.GetCount();
+			MLibDim=new AlgorithmLibraryLevelContainer*[CountOfMaskLib];
+			int	n=0;
+			for(AlgorithmLibraryList *MLib=MaskLibIDList.GetFirst();MLib!=NULL;MLib=MLib->GetNext(),n++){
+				CmdCreateTempMaskingLibraryPacket	CMaskCmd(GetLayersBase());
+				MaskBase->TransmitDirectly(&CMaskCmd);
+				MLibDim[n]=CMaskCmd.Point;
+				MLibDim[n]->SetLibID(MLib->GetLibID());
+				CmdLoadMaskingLibraryPacket	MLCmd(GetLayersBase());
+				MLCmd.Point=MLibDim[n];
+				MaskBase->TransmitDirectly(&MLCmd);
+			}
+		}
+		CmdReqEasyAllocationLibByColor	ColRCmd(GetLayersBase());
+		ColRCmd.ThresholdLevelID=GetLayersBase()->GetThresholdLevelID();
+		TransmitDirectly(&ColRCmd);
+		AllocationLibByColorContainer	AllocationLibByColorContainerInst(DXFCommonDataID);
+		AllocationLibByColorContainerInst=ColRCmd.Container;
+
+		for(AllocationLibByColor *A=AllocationLibByColorContainerInst.GetFirst();A!=NULL;A=A->GetNext()){
+			int	FoundMaskLibID=-1;
+			for(int i=0;i<CountOfMaskLib;i++){
+				MaskingLibrary	*L=dynamic_cast<MaskingLibrary *>(MLibDim[i]->GetLibrary());
+				if(L->Operation==MaskingLibrary::_Masking_LimitedEffective
+				&& L->LimitedLibraries==A->LibList){
+					FoundMaskLibID=MLibDim[i]->GetLibID();
+					break;
+				}
+			}
+			if(FoundMaskLibID<0){
+				CmdCreateTempMaskingLibraryPacket	CMaskCmd(GetLayersBase());
+				MaskBase->TransmitDirectly(&CMaskCmd);
+				AlgorithmLibraryLevelContainer	*MaskLib=CMaskCmd.Point;
+				MaskingLibrary	*L=dynamic_cast<MaskingLibrary *>(MaskLib->GetLibrary());
+				if(L!=NULL){
+					L->Operation=MaskingLibrary::_Masking_LimitedEffective;
+					L->LimitedLibraries=A->LibList;
+					CmdInsertMaskingLibraryPacket	MSaveCmd(GetLayersBase());
+					MSaveCmd.Point=MaskLib;
+					MaskBase->TransmitDirectly(&MSaveCmd);
+					FoundMaskLibID=MSaveCmd.Point->GetLibID();
+				}
+			}
+			if(FoundMaskLibID>=0){
+				IntegrationCmdAutoGenerate	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+				/*
+				if(SlaveNo==0){
+					RCmd.GenLibType	=GProp->GetParam()->CADTopGenLibType;
+					RCmd.GenLibID	=GProp->GetParam()->CADTopGenLibID	;
+				}
+				else if(SlaveNo==1){
+					RCmd.GenLibType	=GProp->GetParam()->CADBottomGenLibType	;
+					RCmd.GenLibID	=GProp->GetParam()->CADBottomGenLibID	;
+				}
+				*/
+				RCmd.ColorCode	=A->ColorCode;
+				RCmd.Color		=A->Color;
+				RCmd.GenLibType	=DefLibTypeMasking;
+				RCmd.GenLibID	=FoundMaskLibID;
+				RCmd.SendReqAck(NULL,SlaveNo,0);
+			}
+		}
+		if(MLibDim!=NULL){
+			for(int i=0;i<CountOfMaskLib;i++){
+				delete	MLibDim[i];
+			}
+			delete	[]MLibDim;
+		}
+	}
+
+	emit	SignalBusy();
+
+	bool	NowOnIdle;
+	do{
+		NowOnIdle=true;
+		for(EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+			int	SNo=m->GetIntegrationSlaveNo();
+			if(GetLayersBase()->GetIntegrationBasePointer()->IsConnected(SNo)==true){
+				if(GetLayersBase()->GetIntegrationBasePointer()->CheckOnProcessing(SNo)==false){
+					NowOnIdle=false;
+				}
+			}
+		}
+	}while(NowOnIdle==false);
+
+	IntegrationCmdExecuteInitialMask	EMask(GetLayersBase(),sRoot,sName,SlaveNo);
+	EMask.SendReqAck(NULL,SlaveNo,0);
+
+	emit	SignalIdle();
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonDeleteAll_clicked()
+{
+	if(QMessageBox::question(NULL,LangSolver.GetString(EasyPropertyDXFOperationForm_LS,LID_1)/*"Alert"*/
+							,LangSolver.GetString(EasyPropertyDXFOperationForm_LS,LID_2)/*"Del OK?"*/
+							,QMessageBox::Yes,QMessageBox::No)==QMessageBox::Yes){
+
+		IntegrationCmdDXFDeleteAllItem	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+		//ui->stackedWidget->setCurrentIndex(0);
+	}
+}
+void	EasyPropertyDXFOperationForm::SpecifiedDirectly(SpecifiedBroadcaster *v)
+{
+	CmdClearMasterData	*CmdClearMasterDataVar=dynamic_cast<CmdClearMasterData *>(v);
+	LoadMasterSpecifiedBroadcaster	*LoadMasterSpecifiedBroadcasterVar=dynamic_cast<LoadMasterSpecifiedBroadcaster *>(v);
+	if(CmdClearMasterDataVar!=NULL || LoadMasterSpecifiedBroadcasterVar!=NULL){
+		//ui->stackedWidget->setCurrentIndex(0);
+		return;
+	}
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonRotate_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	SCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		if(SlaveNo==0){
+			SCmd.ZoomX	=1.0/GProp->GetParam()->CADTopZoomX;
+			SCmd.ZoomY	=1.0/GProp->GetParam()->CADTopZoomY;
+			SCmd.YShear	=-GProp->GetParam()->CADTopYShear;
+		}
+		else if(SlaveNo==1){
+			SCmd.ZoomX	=1.0/GProp->GetParam()->CADBottomZoomX;
+			SCmd.ZoomY	=1.0/GProp->GetParam()->CADBottomZoomY;
+			SCmd.YShear	=-GProp->GetParam()->CADBottomYShear;
+		}
+		else if(SlaveNo==2){
+			SCmd.ZoomX	=1.0/GProp->GetParam()->CADMonoZoomX;
+			SCmd.ZoomY	=1.0/GProp->GetParam()->CADMonoZoomY;
+			SCmd.YShear	=-GProp->GetParam()->CADMonoYShear;
+		}
+		int	ActivePage=(ui->toolButtonPage0->isChecked()==true)?0:1;
+		SCmd.ActivePage=ActivePage;
+		SCmd.SendReqAck(NULL,SlaveNo,0);
+
+		IntegrationCmdRotate	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.ActivePage=ActivePage;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+
+		IntegrationCmdExtend	TCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		if(SlaveNo==0){
+			TCmd.ZoomX	=GProp->GetParam()->CADTopZoomX;
+			TCmd.ZoomY	=GProp->GetParam()->CADTopZoomY;
+			TCmd.YShear	=GProp->GetParam()->CADTopYShear;
+		}
+		else if(SlaveNo==1){
+			TCmd.ZoomX	=GProp->GetParam()->CADBottomZoomX;
+			TCmd.ZoomY	=GProp->GetParam()->CADBottomZoomY;
+			TCmd.YShear	=GProp->GetParam()->CADBottomYShear;
+		}
+		else if(SlaveNo==2){
+			TCmd.ZoomX	=GProp->GetParam()->CADMonoZoomX;
+			TCmd.ZoomY	=GProp->GetParam()->CADMonoZoomY;
+			TCmd.YShear	=GProp->GetParam()->CADMonoYShear;
+		}
+		TCmd.ActivePage=ActivePage;
+		TCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonMove_clicked()
+{
+	GUIFormBase *GUIFormRet[100];
+	int	n=GetLayersBase()->EnumGUIInst(/**/"KidaPrint",/**/"EasyDXFOperationImagePanel" ,GUIFormRet,100);
+	EachMaster	*ThisM=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(SlaveNo);
+	if(ThisM==NULL)
+		return;
+	EasyDXFOperationImagePanel	*AccessPanel=NULL;
+	for(int i=0;i<n;i++){
+		if(((EasyDXFOperationImagePanel *)GUIFormRet[i])->MachineCode==ThisM->GetMachineCode()){
+			AccessPanel=((EasyDXFOperationImagePanel *)GUIFormRet[i]);
+			break;
+		}
+	}
+	if(AccessPanel!=NULL){
+		if(ui->toolButtonMove->isChecked()==true){
+			AccessPanel->SetMode(IntegrationSimpleImagePanel::Mode_AddItem);
+			AccessPanel->SetMode(mtFrameDraw::fdNone);
+			AccessPanel->SetEnableShiftImage(false);
+		}
+		else{
+			AccessPanel->SetMode();
+			AccessPanel->SetEnableShiftImage(true);
+		}
+	}
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonExtend_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		if(SlaveNo==0){
+			RCmd.ZoomX	=GProp->GetParam()->CADTopZoomX;
+			RCmd.ZoomY	=GProp->GetParam()->CADTopZoomY;
+			RCmd.YShear	=GProp->GetParam()->CADTopYShear;
+		}
+		else if(SlaveNo==1){
+			RCmd.ZoomX	=GProp->GetParam()->CADBottomZoomX;
+			RCmd.ZoomY	=GProp->GetParam()->CADBottomZoomY;
+			RCmd.YShear	=GProp->GetParam()->CADBottomYShear;
+		}
+		else if(SlaveNo==2){
+			RCmd.ZoomX	=GProp->GetParam()->CADMonoZoomX;
+			RCmd.ZoomY	=GProp->GetParam()->CADMonoZoomY;
+			RCmd.YShear	=GProp->GetParam()->CADMonoYShear;
+		}
+		int	ActivePage=(ui->toolButtonPage0->isChecked()==true)?0:1;
+		RCmd.ActivePage=ActivePage;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+void EasyPropertyDXFOperationForm::on_toolButtonShrinkY_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		if(SlaveNo==0){
+			RCmd.ZoomX	=1.0/GProp->GetParam()->CADTopZoomX;
+			RCmd.ZoomY	=1.0/GProp->GetParam()->CADTopZoomY;
+			RCmd.YShear	=-GProp->GetParam()->CADTopYShear;
+		}
+		else if(SlaveNo==1){
+			RCmd.ZoomX	=1.0/GProp->GetParam()->CADBottomZoomX;
+			RCmd.ZoomY	=1.0/GProp->GetParam()->CADBottomZoomY;
+			RCmd.YShear	=-GProp->GetParam()->CADBottomYShear;
+		}
+		else if(SlaveNo==2){
+			RCmd.ZoomX	=1.0/GProp->GetParam()->CADMonoZoomX;
+			RCmd.ZoomY	=1.0/GProp->GetParam()->CADMonoZoomY;
+			RCmd.YShear	=-GProp->GetParam()->CADMonoYShear;
+		}
+		int	ActivePage=(ui->toolButtonPage0->isChecked()==true)?0:1;
+		RCmd.ActivePage=ActivePage;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+
+}
+void EasyPropertyDXFOperationForm::on_toolButtonSlightExtend_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.ZoomX	=1.0;
+		RCmd.ZoomY	=1.002;
+		RCmd.YShear	=0;
+		int	ActivePage=(ui->toolButtonPage0->isChecked()==true)?0:1;
+		RCmd.ActivePage=ActivePage;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonSlightShrinkY_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.ZoomX	=1.0;
+		RCmd.ZoomY	=0.998;
+		RCmd.YShear	=0;
+		int	ActivePage=(ui->toolButtonPage0->isChecked()==true)?0:1;
+		RCmd.ActivePage=ActivePage;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+void EasyPropertyDXFOperationForm::on_toolButtonExtendX_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.ZoomX	=1.002;
+		RCmd.ZoomY	=1.0;
+		RCmd.YShear	=0;
+		int	ActivePage=(ui->toolButtonPage0->isChecked()==true)?0:1;
+		RCmd.ActivePage=ActivePage;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonShrinkX_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdExtend	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.ZoomX	=0.998;
+		RCmd.ZoomY	=1.0;
+		RCmd.YShear	=0;
+		int	ActivePage=(ui->toolButtonPage0->isChecked()==true)?0:1;
+		RCmd.ActivePage=ActivePage;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonYMirror_clicked()
+{
+	int	ActivePage=(ui->toolButtonPage0->isChecked()==true)?0:1;
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		{
+			IntegrationCmdExtend	SCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+			if(SlaveNo==0){
+				SCmd.ZoomX	=1.0;
+				SCmd.ZoomY	=1.0;
+				SCmd.YShear	=-GProp->GetParam()->CADTopYShear;
+			}
+			else if(SlaveNo==1){
+				SCmd.ZoomX	=1.0;
+				SCmd.ZoomY	=1.0;
+				SCmd.YShear	=-GProp->GetParam()->CADBottomYShear;
+			}
+			else if(SlaveNo==2){
+				SCmd.ZoomX	=1.0;
+				SCmd.ZoomY	=1.0;
+				SCmd.YShear	=-GProp->GetParam()->CADMonoYShear;
+			}
+			SCmd.ActivePage=ActivePage;
+			SCmd.SendReqAck(NULL,SlaveNo,0);
+		}
+		IntegrationCmdYMirror	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.ActivePage=ActivePage;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+		BroadcastRepaintAll();
+
+		{
+			IntegrationCmdExtend	SCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+			if(SlaveNo==0){
+				SCmd.ZoomX	=1.0;
+				SCmd.ZoomY	=1.0;
+				SCmd.YShear	=GProp->GetParam()->CADTopYShear;
+			}
+			else if(SlaveNo==1){
+				SCmd.ZoomX	=1.0;
+				SCmd.ZoomY	=1.0;
+				SCmd.YShear	=GProp->GetParam()->CADBottomYShear;
+			}
+			else if(SlaveNo==2){
+				SCmd.ZoomX	=1.0;
+				SCmd.ZoomY	=1.0;
+				SCmd.YShear	=GProp->GetParam()->CADMonoYShear;
+			}
+			SCmd.ActivePage=ActivePage;
+			SCmd.SendReqAck(NULL,SlaveNo,0);
+		}
+	}
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonXMirror_clicked()
+{
+	IntegrationCmdXMirror	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	int	ActivePage=(ui->toolButtonPage0->isChecked()==true)?0:1;
+	RCmd.ActivePage=ActivePage;
+	RCmd.SendReqAck(NULL,SlaveNo,0);
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonEnfatLine_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdEnfatLine	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+
+		if(ui->toolButtonEnfatLine->isChecked()==true){
+			if(SlaveNo==0){
+				RCmd.EnfatLineDot	=GProp->GetParam()->CADTopEnfatLine;
+			}
+			else if(SlaveNo==1){
+				RCmd.EnfatLineDot	=GProp->GetParam()->CADBottomEnfatLine;
+			}
+			else if(SlaveNo==2){
+				RCmd.EnfatLineDot	=GProp->GetParam()->CADMonoEnfatLine;
+			}
+		}
+		else{
+			RCmd.EnfatLineDot	=0;
+		}
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+
+}
+void EasyPropertyDXFOperationForm::on_toolButtonTiltL_clicked()
+{
+	IntegrationCmdTilt	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	
+	EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(SlaveNo);
+	if(m!=NULL){
+		int	Phase=0;
+		int	Page=0;
+		RCmd.Radian=5.0/max(m->GetDotPerLine(Phase,Page),m->GetMaxLines(Phase,Page));
+		int	ActivePage=(ui->toolButtonPage0->isChecked()==true)?0:1;
+		RCmd.ActivePage=ActivePage;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+		BroadcastRepaintAll();
+	}
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonTiltR_clicked()
+{
+	IntegrationCmdTilt	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	
+	EachMaster	*m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(SlaveNo);
+	if(m!=NULL){
+		int	Phase=0;
+		int	Page=0;
+		RCmd.Radian=-5.0/max(m->GetDotPerLine(Phase,Page),m->GetMaxLines(Phase,Page));
+		int	ActivePage=(ui->toolButtonPage0->isChecked()==true)?0:1;
+		RCmd.ActivePage=ActivePage;
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+		BroadcastRepaintAll();
+	}
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonDelBlade_clicked()
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdDelBrade	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		if(SlaveNo==0){
+			RCmd.BladePickupRL=GProp->Param.BladeTopPickupRL;
+			RCmd.BladePickupRH=GProp->Param.BladeTopPickupRH;
+			RCmd.BladePickupGL=GProp->Param.BladeTopPickupGL;
+			RCmd.BladePickupGH=GProp->Param.BladeTopPickupGH;
+			RCmd.BladePickupBL=GProp->Param.BladeTopPickupBL;
+			RCmd.BladePickupBH=GProp->Param.BladeTopPickupBH;
+			RCmd.BladeAreaX1	=GProp->Param.BladeTopLeft;
+			RCmd.BladeAreaY1	=0;
+			RCmd.BladeAreaX2	=GProp->Param.BladeTopRight;
+			RCmd.BladeAreaY2	=0;
+		}
+		else if(SlaveNo==1){
+			RCmd.BladePickupRL=GProp->Param.BladeBottomPickupRL;
+			RCmd.BladePickupRH=GProp->Param.BladeBottomPickupRH;
+			RCmd.BladePickupGL=GProp->Param.BladeBottomPickupGL;
+			RCmd.BladePickupGH=GProp->Param.BladeBottomPickupGH;
+			RCmd.BladePickupBL=GProp->Param.BladeBottomPickupBL;
+			RCmd.BladePickupBH=GProp->Param.BladeBottomPickupBH;
+			RCmd.BladeAreaX1	=GProp->Param.BladeBottomLeft;
+			RCmd.BladeAreaY1	=0;
+			RCmd.BladeAreaX2	=GProp->Param.BladeBottomRight;
+			RCmd.BladeAreaY2	=0;
+		}
+		else if(SlaveNo==2){
+			RCmd.BladePickupRL=GProp->Param.BladeBottomPickupRL;
+			RCmd.BladePickupRH=GProp->Param.BladeBottomPickupRH;
+			RCmd.BladePickupGL=GProp->Param.BladeBottomPickupGL;
+			RCmd.BladePickupGH=GProp->Param.BladeBottomPickupGH;
+			RCmd.BladePickupBL=GProp->Param.BladeBottomPickupBL;
+			RCmd.BladePickupBH=GProp->Param.BladeBottomPickupBH;
+			RCmd.BladeAreaX1	=GProp->Param.BladeTopLeft;
+			RCmd.BladeAreaY1	=0;
+			RCmd.BladeAreaX2	=GProp->Param.BladeTopRight;
+			RCmd.BladeAreaY2	=0;
+		}
+
+		RCmd.SendReqAck(NULL,SlaveNo,0);
+	}
+	BroadcastRepaintAll();
+}
+
+void EasyPropertyDXFOperationForm::on_toolButtonAllocList_clicked()
+{
+	AllocationLibByColorDialog	D(this,GetLayersBase());
+	D.exec();
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCartonSaveParameter	RCmd(GetLayersBase());
+		GProp->TransmitDirectly(&RCmd);
+	}
+}
+
+void	EasyPropertyDXFOperationForm::MakeAllocation(void)
+{
+	CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+	if(GProp!=NULL){
+		IntegrationCmdSetAllocationLibByColor	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+
+		CmdReqEasyAllocationLibByColor	ColRCmd(GetLayersBase());
+		ColRCmd.ThresholdLevelID=GetLayersBase()->GetThresholdLevelID();
+		TransmitDirectly(&ColRCmd);
+		RCmd.LevelID	=GetLayersBase()->GetThresholdLevelID();
+		RCmd.AllocationLibByColorContainerInst=ColRCmd.Container;
+		RCmd.Send(NULL,SlaveNo,0);
+	}
+}
+
+//=================================================================================================
+
+IntegrationCmdLoadDXF::IntegrationCmdLoadDXF(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdLoadDXF::Load(QIODevice *f)
+{
+	if(::Load(f,FileName)==false)
+		return false;
+	if(::Load(f,DXFData)==false)
+		return false;
+	if(::Load(f,ActivePage)==false)
+		return false;
+	return true;
+}
+bool	IntegrationCmdLoadDXF::Save(QIODevice *f)
+{
+	if(::Save(f,FileName)==false)
+		return false;
+	if(::Save(f,DXFData)==false)
+		return false;
+	if(::Save(f,ActivePage)==false)
+		return false;
+	return true;
+}
+
+void	IntegrationCmdLoadDXF::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*FormP=GetLayersBase()->FindByName(/**/"Inspection",/**/"DXFOperationImagePanel",/**/"");
+	if(FormP!=NULL){
+		DisplayImageWithAlgorithm	*W=(DisplayImageWithAlgorithm *)FormP;
+		if(GetPageNumb()!=1){
+			W->ButtonExecuteSelectByPage(ActivePage);
+			W->DeleteBtnDown();
+		}
+		else{
+			W->SlotSelectAll();
+			W->DeleteBtnDown();
+		}
+	}
+
+	GUIFormBase	*Form=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyDXFOperation",/**/"");
+	if(Form!=NULL){
+		CmdLoadDXF	Cmd(GetLayersBase());
+		Cmd.FileName	=FileName;
+		Cmd.pData		=&DXFData;
+		Form->TransmitDirectly(&Cmd);
+	}
+
+	GUIFormBase	*Form2=GetLayersBase()->FindByName(/**/"Inspection",/**/"DXFOperationImagePanel",/**/"");
+	if(Form2!=NULL){
+		DisplayImageWithAlgorithm	*W=dynamic_cast<DisplayImageWithAlgorithm *>(Form2);
+		if(W!=NULL){
+			W->ExecuteReleaseAllSelection();
+		}
+	}
+
+	SendAck(slaveNo);
+}
+//=================================================================================================
+IntegrationCmdRotate::IntegrationCmdRotate(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdRotate::Load(QIODevice *f)
+{
+	if(::Load(f,ActivePage)==false)	return false;
+	return true;
+	}
+bool	IntegrationCmdRotate::Save(QIODevice *f)
+{
+	if(::Save(f,ActivePage)==false)	return false;
+	return true;
+}
+void	IntegrationCmdRotate::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*Form=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyDXFOperation",/**/"");
+	if(Form!=NULL){
+		CmdDXFRotateInCenter		Cmd(GetLayersBase());
+		Cmd.Angle	=90.0;//M_PI/2;
+		if(GetPageNumb()==1){
+			Cmd.OnlySelected=false;
+		}
+		else{
+			Cmd.OnlySelected=true;
+			Cmd.ActivePage=ActivePage;
+		}
+		Form->TransmitDirectly(&Cmd);
+	}
+	GUIFormBase	*Form2=GetLayersBase()->FindByName(/**/"Inspection",/**/"DXFOperationImagePanel",/**/"");
+	if(Form2!=NULL){
+		DisplayImageWithAlgorithm	*W=dynamic_cast<DisplayImageWithAlgorithm *>(Form2);
+		if(W!=NULL){
+			W->ExecuteReleaseAllSelection();
+		}
+	}
+
+	SendAck(slaveNo);
+}
+//=================================================================================================
+IntegrationCmdExtend::IntegrationCmdExtend(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdExtend::Load(QIODevice *f)
+{
+	if(::Load(f,ZoomX)==false)
+		return false;
+	if(::Load(f,ZoomY)==false)
+		return false;
+	if(::Load(f,YShear)==false)
+		return false;
+	if(::Load(f,ActivePage)==false)
+		return false;
+	return true;
+
+}
+bool	IntegrationCmdExtend::Save(QIODevice *f)
+{
+	if(::Save(f,ZoomX)==false)
+		return false;
+	if(::Save(f,ZoomY)==false)
+		return false;
+	if(::Save(f,YShear)==false)
+		return false;
+	if(::Save(f,ActivePage)==false)
+		return false;
+	return true;
+
+}
+void	IntegrationCmdExtend::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*Form=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyDXFOperation",/**/"");
+	if(Form!=NULL){
+		CmdDXFZoomInCenter		Cmd(GetLayersBase());
+		Cmd.XZoomDir	=ZoomX;
+		Cmd.YZoomDir	=ZoomY;
+		if(GetPageNumb()==1){
+			Cmd.OnlySelected=false;
+		}
+		else{
+			Cmd.OnlySelected=true;
+			Cmd.ActivePage=ActivePage;
+		}
+
+		Form->TransmitDirectly(&Cmd);
+
+		CmdReqDXFArea	ACmd(GetLayersBase());
+		Form->TransmitDirectly(&ACmd);
+
+		CmdDXFShear		SCmd(GetLayersBase());
+		SCmd.XMode		=false;
+		SCmd.Shear		=YShear;
+		SCmd.CenterX	=(ACmd.MinX+ACmd.MaxX)/2;
+		SCmd.CenterY	=(ACmd.MinY+ACmd.MaxY)/2;
+		SCmd.OnlySelected=false;
+		Form->TransmitDirectly(&SCmd);
+	}
+	
+	GUIFormBase	*Form2=GetLayersBase()->FindByName(/**/"Inspection",/**/"DXFOperationImagePanel",/**/"");
+	if(Form2!=NULL){
+		DisplayImageWithAlgorithm	*W=dynamic_cast<DisplayImageWithAlgorithm *>(Form2);
+		if(W!=NULL){
+			W->ExecuteReleaseAllSelection();
+		}
+	}
+
+	SendAck(slaveNo);
+}
+//=================================================================================================
+IntegrationCmdAutoGenerate::IntegrationCmdAutoGenerate(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdAutoGenerate::Load(QIODevice *f)
+{
+	if(ColorCode.Load(f)==false)
+		return false;
+	if(::Load(f,Color)==false)
+		return false;
+	if(::Load(f,GenLibType)==false)
+		return false;
+	if(::Load(f,GenLibID)==false)
+		return false;
+	return true;
+
+}
+bool	IntegrationCmdAutoGenerate::Save(QIODevice *f)
+{
+	if(ColorCode.Save(f)==false)
+		return false;
+	if(::Save(f,Color)==false)
+		return false;
+	if(::Save(f,GenLibType)==false)
+		return false;
+	if(::Save(f,GenLibID)==false)
+		return false;
+	return true;
+
+}
+void	IntegrationCmdAutoGenerate::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*Form=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyDXFOperation",/**/"");
+	if(Form!=NULL){
+		CmdMakeAlgoByColor		Cmd(GetLayersBase());
+		Cmd.ColorCode	=ColorCode;
+		Cmd.Color		=Color;
+		Cmd.LibType		=GenLibType;
+		Cmd.LibID		=GenLibID;
+		Form->TransmitDirectly(&Cmd);
+	}
+	SendAck(slaveNo);
+}
+
+//=================================================================================================
+IntegrationCmdExecuteInitialMask::IntegrationCmdExecuteInitialMask(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+
+void	IntegrationCmdExecuteInitialMask::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*Form=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyDXFOperation",/**/"");
+	if(Form!=NULL){
+		CmdExecuteInitialMask		Cmd(GetLayersBase());
+		Form->TransmitDirectly(&Cmd);
+	}
+	SendAck(slaveNo);
+}
+//=================================================================================================
+IntegrationCmdXMirror::IntegrationCmdXMirror(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdXMirror::Load(QIODevice *f)
+{
+	if(::Load(f,ActivePage)==false)	return false;
+	return true;
+	}
+bool	IntegrationCmdXMirror::Save(QIODevice *f)
+{
+	if(::Save(f,ActivePage)==false)	return false;
+	return true;
+}
+void	IntegrationCmdXMirror::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*Form=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyDXFOperation",/**/"");
+	if(Form!=NULL){
+		CmdDXFMirrorInCenter		Cmd(GetLayersBase());
+		Cmd.XMode	=true;
+		if(GetPageNumb()==1){
+			Cmd.OnlySelected=false;
+		}
+		else{
+			Cmd.OnlySelected=true;
+			Cmd.ActivePage	=ActivePage;
+		}
+		Form->TransmitDirectly(&Cmd);
+	}
+	GUIFormBase	*Form2=GetLayersBase()->FindByName(/**/"Inspection",/**/"DXFOperationImagePanel",/**/"");
+	if(Form2!=NULL){
+		DisplayImageWithAlgorithm	*W=dynamic_cast<DisplayImageWithAlgorithm *>(Form2);
+		if(W!=NULL){
+			W->ExecuteReleaseAllSelection();
+		}
+	}
+
+	SendAck(slaveNo);
+}
+//=================================================================================================
+IntegrationCmdYMirror::IntegrationCmdYMirror(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdYMirror::Load(QIODevice *f)
+{
+	if(::Load(f,ActivePage)==false)	return false;
+	return true;
+	}
+bool	IntegrationCmdYMirror::Save(QIODevice *f)
+{
+	if(::Save(f,ActivePage)==false)	return false;
+	return true;
+}
+void	IntegrationCmdYMirror::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*Form=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyDXFOperation",/**/"");
+	if(Form!=NULL){
+		CmdDXFMirrorInCenter		Cmd(GetLayersBase());
+		Cmd.XMode	=false;
+		if(GetPageNumb()==1){
+			Cmd.OnlySelected=false;
+		}
+		else{
+			Cmd.OnlySelected=true;
+			Cmd.ActivePage	=ActivePage;
+		}
+		Form->TransmitDirectly(&Cmd);
+	}
+	GUIFormBase	*Form2=GetLayersBase()->FindByName(/**/"Inspection",/**/"DXFOperationImagePanel",/**/"");
+	if(Form2!=NULL){
+		DisplayImageWithAlgorithm	*W=dynamic_cast<DisplayImageWithAlgorithm *>(Form2);
+		if(W!=NULL){
+			W->ExecuteReleaseAllSelection();
+		}
+	}
+
+	SendAck(slaveNo);
+}
+//=================================================================================================
+IntegrationCmdEnfatLine::IntegrationCmdEnfatLine(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdEnfatLine::Load(QIODevice *f)
+{
+	if(::Load(f,EnfatLineDot)==false)
+		return false;
+
+	return true;
+
+}
+bool	IntegrationCmdEnfatLine::Save(QIODevice *f)
+{
+	if(::Save(f,EnfatLineDot)==false)
+		return false;
+
+	return true;
+
+}
+void	IntegrationCmdEnfatLine::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*FormImage=GetLayersBase()->FindByName(/**/"Inspection",/**/"DXFOperationImagePanel",/**/"");
+	if(FormImage!=NULL){
+		DisplayImageWithAlgorithm	*W=(DisplayImageWithAlgorithm *)FormImage;
+		W->SlotSelectAll();
+	}
+	GUIFormBase	*Form=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyDXFOperation",/**/"");
+	if(Form!=NULL){
+		CmdEnfatLine		Cmd(GetLayersBase());
+		Cmd.EnfatLineDot	=EnfatLineDot;
+		Form->TransmitDirectly(&Cmd);
+	}
+	GUIFormBase	*Form2=GetLayersBase()->FindByName(/**/"Inspection",/**/"DXFOperationImagePanel",/**/"");
+	if(Form2!=NULL){
+		DisplayImageWithAlgorithm	*W=dynamic_cast<DisplayImageWithAlgorithm *>(Form2);
+		if(W!=NULL){
+			W->ExecuteReleaseAllSelection();
+		}
+	}
+
+	SendAck(slaveNo);
+}
+//=================================================================================================
+IntegrationCmdDXFDeleteAllItem::IntegrationCmdDXFDeleteAllItem(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+								  
+void	IntegrationCmdDXFDeleteAllItem::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*Form=GetLayersBase()->FindByName(/**/"Inspection",/**/"DXFOperationImagePanel",/**/"");
+	if(Form!=NULL){
+		DisplayImageWithAlgorithm	*W=(DisplayImageWithAlgorithm *)Form;
+		W->SlotSelectAll();
+		W->DeleteBtnDown();
+	}
+	SendAck(slaveNo);
+}
+//=================================================================================================
+IntegrationCmdTilt::IntegrationCmdTilt(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdTilt::Load(QIODevice *f)
+{
+	if(::Load(f,Radian)==false)
+		return false;
+	if(::Load(f,ActivePage)==false)
+		return false;
+
+	return true;
+
+}
+bool	IntegrationCmdTilt::Save(QIODevice *f)
+{
+	if(::Save(f,Radian)==false)
+		return false;
+	if(::Save(f,ActivePage)==false)
+		return false;
+
+	return true;
+
+}
+void	IntegrationCmdTilt::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*Form=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyDXFOperation",/**/"");
+	if(Form!=NULL){
+		CmdDXFRotateInCenter		Cmd(GetLayersBase());
+		Cmd.Angle	=180.0*Radian/M_PI;
+		if(GetPageNumb()==1){
+			Cmd.OnlySelected=false;
+		}
+		else{
+			Cmd.OnlySelected=true;
+			Cmd.ActivePage	=ActivePage;
+		}
+		Form->TransmitDirectly(&Cmd);
+	}
+	GUIFormBase	*Form2=GetLayersBase()->FindByName(/**/"Inspection",/**/"DXFOperationImagePanel",/**/"");
+	if(Form2!=NULL){
+		DisplayImageWithAlgorithm	*W=dynamic_cast<DisplayImageWithAlgorithm *>(Form2);
+		if(W!=NULL){
+			W->ExecuteReleaseAllSelection();
+		}
+	}
+
+	SendAck(slaveNo);
+}
+//=================================================================================================
+IntegrationCmdDelBrade::IntegrationCmdDelBrade(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdDelBrade::Load(QIODevice *f)
+{
+	if(::Load(f,BladePickupRL)==false)	return false;
+	if(::Load(f,BladePickupRH)==false)	return false;
+	if(::Load(f,BladePickupGL)==false)	return false;
+	if(::Load(f,BladePickupGH)==false)	return false;
+	if(::Load(f,BladePickupBL)==false)	return false;
+	if(::Load(f,BladePickupBH)==false)	return false;
+
+	if(::Load(f,BladeAreaX1)==false)	return false;
+	if(::Load(f,BladeAreaY1)==false)	return false;
+	if(::Load(f,BladeAreaX2)==false)	return false;
+	if(::Load(f,BladeAreaY2)==false)	return false;
+	return true;
+}
+bool	IntegrationCmdDelBrade::Save(QIODevice *f)
+{
+	if(::Save(f,BladePickupRL)==false)	return false;
+	if(::Save(f,BladePickupRH)==false)	return false;
+	if(::Save(f,BladePickupGL)==false)	return false;
+	if(::Save(f,BladePickupGH)==false)	return false;
+	if(::Save(f,BladePickupBL)==false)	return false;
+	if(::Save(f,BladePickupBH)==false)	return false;
+
+	if(::Save(f,BladeAreaX1)==false)	return false;
+	if(::Save(f,BladeAreaY1)==false)	return false;
+	if(::Save(f,BladeAreaX2)==false)	return false;
+	if(::Save(f,BladeAreaY2)==false)	return false;
+	return true;
+}
+void	IntegrationCmdDelBrade::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*fm=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyDXFOperation",/**/"");
+	if(fm!=NULL){
+		{
+			CmdSelectInColor	RCmd(GetLayersBase());
+
+			RCmd.PickupRL	=BladePickupRL;
+			RCmd.PickupRH	=BladePickupRH;
+			RCmd.PickupGL	=BladePickupGL;
+			RCmd.PickupGH	=BladePickupGH;
+			RCmd.PickupBL	=BladePickupBL;
+			RCmd.PickupBH	=BladePickupBH;
+			RCmd.AreaX1		=BladeAreaX1;
+			RCmd.AreaY1		=BladeAreaY1;
+			RCmd.AreaX2		=BladeAreaX2;
+			RCmd.AreaY2		=BladeAreaY2;
+
+			fm->TransmitDirectly(&RCmd);
+		}
+	}
+	GUIFormBase	*Form=GetLayersBase()->FindByName(/**/"Inspection",/**/"DXFOperationImagePanel",/**/"");
+	if(Form!=NULL){
+		DisplayImageWithAlgorithm	*W=(DisplayImageWithAlgorithm *)Form;
+		W->DeleteBtnDown();
+	}
+	SendAck(slaveNo);
+}
+//=================================================================================================
+
+IntegrationCmdMoveXY::IntegrationCmdMoveXY(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdMoveXY::Load(QIODevice *f)
+{
+	if(::Load(f,MovX)==false)
+		return false;
+	if(::Load(f,MovY)==false)
+		return false;
+	if(::Load(f,ActivePage)==false)
+		return false;
+	return true;
+}
+bool	IntegrationCmdMoveXY::Save(QIODevice *f)
+{
+	if(::Save(f,MovX)==false)
+		return false;
+	if(::Save(f,MovY)==false)
+		return false;
+	if(::Save(f,ActivePage)==false)
+		return false;
+	return true;
+}
+
+void	IntegrationCmdMoveXY::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*Form=GetLayersBase()->FindByName(/**/"Inspection",/**/"DXFOperationImagePanel",/**/"");
+	if(Form!=NULL){
+		DisplayImageWithAlgorithm	*W=(DisplayImageWithAlgorithm *)Form;
+		W->ButtonExecuteSelectByPage(ActivePage);
+		W->ExecuteMove(MovX,MovY);
+	}
+	SendAck(slaveNo);
+}
+
+IntegrationCmdDelMaskByCAD::IntegrationCmdDelMaskByCAD(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+void	IntegrationCmdDelMaskByCAD::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*Form=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyDXFOperation",/**/"");
+	if(Form!=NULL){
+		CmdDelMaskByCAD		Cmd(GetLayersBase());
+		Form->TransmitDirectly(&Cmd);
+	}
+	SendAck(slaveNo);
+}
+

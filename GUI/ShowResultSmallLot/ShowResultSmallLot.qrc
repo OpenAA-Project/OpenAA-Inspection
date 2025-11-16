@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ShowResultSmallLot.png</file>
+        <file>Qtres/Change.png</file>
+    </qresource>
+</RCC>

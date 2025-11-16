@@ -1,0 +1,402 @@
+<ui version="4.0" >
+ <class>clsParamClass</class>
+ <widget class="QWidget" name="clsParamClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>707</width>
+    <height>463</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>clsParam</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>341</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="title" >
+    <string>SvrDef</string>
+   </property>
+   <widget class="QWidget" name="gridLayoutWidget" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>321</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" >
+     <item row="0" column="0" >
+      <widget class="QLabel" name="label" >
+       <property name="text" >
+        <string>BasePort</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" >
+      <widget class="QSpinBox" name="spnPort" >
+       <property name="maximum" >
+        <number>9999</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" >
+      <widget class="QSpinBox" name="spnTimeOut" >
+       <property name="maximum" >
+        <number>999999</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" >
+      <widget class="QComboBox" name="cmbLogLvl" >
+       <item>
+        <property name="text" >
+         <string>Debug</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>Warning</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>Info</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>Fatail</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>NoLog</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="3" column="1" >
+      <widget class="QLineEdit" name="txtLogDir" />
+     </item>
+     <item row="1" column="0" >
+      <widget class="QLabel" name="label_2" >
+       <property name="text" >
+        <string>TimeOut</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" >
+      <widget class="QLabel" name="label_3" >
+       <property name="text" >
+        <string>LOGLVL</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" >
+      <widget class="QLabel" name="label_4" >
+       <property name="text" >
+        <string>LogDir</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2" >
+      <widget class="QPushButton" name="btnFolder" >
+       <property name="text" >
+        <string>&amp;LogFolder</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2" >
+   <property name="geometry" >
+    <rect>
+     <x>360</x>
+     <y>10</y>
+     <width>341</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="title" >
+    <string>DataBase</string>
+   </property>
+   <widget class="QWidget" name="gridLayoutWidget_2" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>321</width>
+      <height>139</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" >
+     <item row="0" column="0" >
+      <widget class="QLabel" name="label_5" >
+       <property name="text" >
+        <string>Username</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" >
+      <widget class="QLabel" name="label_6" >
+       <property name="text" >
+        <string>Password</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" >
+      <widget class="QLabel" name="label_7" >
+       <property name="text" >
+        <string>DbFile</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" >
+      <widget class="QLineEdit" name="txtUser" />
+     </item>
+     <item row="1" column="1" >
+      <widget class="QLineEdit" name="txtPwd" />
+     </item>
+     <item row="2" column="1" >
+      <widget class="QLineEdit" name="txtDbFile" />
+     </item>
+     <item row="2" column="2" >
+      <widget class="QPushButton" name="btnFile" >
+       <property name="text" >
+        <string>&amp;File</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" >
+      <widget class="QLabel" name="label_8" >
+       <property name="text" >
+        <string>DbDir</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1" >
+      <widget class="QLineEdit" name="txtDbFolder" />
+     </item>
+     <item row="4" column="0" >
+      <widget class="QLabel" name="label_9" >
+       <property name="text" >
+        <string>ChangeDbDay</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1" >
+      <widget class="QSpinBox" name="spnChgDbDay" />
+     </item>
+     <item row="3" column="2" >
+      <widget class="QPushButton" name="btnDbFolder" >
+       <property name="text" >
+        <string>&amp;DbFolder</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="btnCreate" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>160</y>
+      <width>75</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>&amp;Create</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_3" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>691</width>
+     <height>221</height>
+    </rect>
+   </property>
+   <property name="title" >
+    <string>FixAttrTag</string>
+   </property>
+   <widget class="QTableWidget" name="tlwTag" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>221</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text" >
+      <string>TagName</string>
+     </property>
+    </column>
+    <column>
+     <property name="text" >
+      <string>ItemCount</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QTableWidget" name="tlwAttr" >
+    <property name="geometry" >
+     <rect>
+      <x>260</x>
+      <y>20</y>
+      <width>411</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text" >
+      <string>No</string>
+     </property>
+    </column>
+    <column>
+     <property name="text" >
+      <string>AttrName</string>
+     </property>
+    </column>
+    <column>
+     <property name="text" >
+      <string>ColName</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QWidget" name="layoutWidget" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>204</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QPushButton" name="btnTagAdd" >
+       <property name="text" >
+        <string>&amp;AddTag</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnTagDel" >
+       <property name="text" >
+        <string>&amp;DelTag</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget" >
+    <property name="geometry" >
+     <rect>
+      <x>260</x>
+      <y>180</y>
+      <width>261</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QPushButton" name="btnAttrAdd" >
+       <property name="text" >
+        <string>&amp;AddAttr</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnAttrDel" >
+       <property name="text" >
+        <string>&amp;DelAttr</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="layoutWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>430</y>
+     <width>691</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" >
+    <item>
+     <widget class="QPushButton" name="btnSave" >
+      <property name="text" >
+       <string>&amp;Save</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer>
+      <property name="orientation" >
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" >
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnClose" >
+      <property name="text" >
+       <string>&amp;Close</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

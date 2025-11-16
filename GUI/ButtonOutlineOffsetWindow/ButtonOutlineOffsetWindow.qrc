@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Save.png</file>
+    </qresource>
+</RCC>

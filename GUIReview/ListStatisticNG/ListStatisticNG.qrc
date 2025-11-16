@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ListStatisticNG.png</file>
+    </qresource>
+</RCC>

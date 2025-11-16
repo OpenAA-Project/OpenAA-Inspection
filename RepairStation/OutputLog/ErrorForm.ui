@@ -1,0 +1,103 @@
+<ui version="4.0" >
+ <class>ErrorFormClass</class>
+ <widget class="QWidget" name="ErrorFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>656</width>
+    <height>393</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>ErrorForm</string>
+  </property>
+  <widget class="QLabel" name="lbMessage" >
+   <property name="geometry" >
+    <rect>
+     <x>50</x>
+     <y>60</y>
+     <width>551</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>25</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>異常が発生しました。</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbMessage_2" >
+   <property name="geometry" >
+    <rect>
+     <x>30</x>
+     <y>150</y>
+     <width>604</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>25</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>すべての基板を取り出して下さい。</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbMessage3_1" >
+   <property name="geometry" >
+    <rect>
+     <x>50</x>
+     <y>230</y>
+     <width>570</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>25</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>LOT数???</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbMessage3_2" >
+   <property name="geometry" >
+    <rect>
+     <x>50</x>
+     <y>290</y>
+     <width>570</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>25</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>までログファイルが作成されています。</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

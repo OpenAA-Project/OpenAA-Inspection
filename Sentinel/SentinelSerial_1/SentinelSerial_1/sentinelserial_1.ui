@@ -1,0 +1,82 @@
+<ui version="4.0" >
+ <class>SentinelSerial_1Class</class>
+ <widget class="QMainWindow" name="SentinelSerial_1Class" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>198</width>
+    <height>130</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Sentinel Serial File Out</string>
+  </property>
+  <widget class="QWidget" name="centralWidget" >
+   <widget class="QLabel" name="label" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Is the preparation for Sentinel good?</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbYES" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>YES</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbNO" >
+    <property name="geometry" >
+     <rect>
+      <x>110</x>
+      <y>60</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>NO</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>198</width>
+     <height>18</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar" >
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <attribute name="toolBarArea" >
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak" >
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar" />
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

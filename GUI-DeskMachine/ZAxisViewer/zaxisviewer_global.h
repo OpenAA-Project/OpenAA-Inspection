@@ -1,0 +1,12 @@
+#ifndef ZAXISVIEWER_GLOBAL_H
+#define ZAXISVIEWER_GLOBAL_H
+
+#include <qglobal.h>
+
+#ifdef ZAXISVIEWER_LIB
+# define ZAXISVIEWER_EXPORT Q_DECL_EXPORT
+#else
+# define ZAXISVIEWER_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // ZAXISVIEWER_GLOBAL_H

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ChangeCameraSetting.png</file>
+    </qresource>
+</RCC>

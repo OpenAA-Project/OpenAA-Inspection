@@ -1,0 +1,54 @@
+#include "XAlignmentLarge.h"
+#include "XCrossObj.h"
+#include "swap.h"
+#include "XDataInLayer.h"
+#include "XPointer.h"
+#include "XParamGlobal.h"
+#include "XGeneralFunc.h"
+
+void	AlignmentLargeBase::MakeReportedTopics(ReportedTopicContainer &RetContainer)	const
+{
+	for(int page=0;page<GetPageNumb();page++){
+		AlgorithmInPagePLI	*Pg=(AlgorithmInPagePLI *)GetPageData(page);
+		for(int layer=0;layer<Pg->GetLayerNumb();layer++){
+			AlignmentLargeInLayer	*L=(AlignmentLargeInLayer *)Pg->GetLayerData(layer);
+			int	N=L->GetAlignmentLargeAreaCount();
+			ReportedTopic	*r=new ReportedTopic(QString("P:")
+												+QString::number(page)
+												+QString(" L:")
+												+QString::number(layer)
+												,QString::number(N));
+			RetContainer.AppendList(r);
+		}
+	}
+
+}
+
+void	AlignmentLargeLibrary::MakeReportedTopics(ReportedTopicContainer &RetContainer)	const
+{
+	RetContainer.Add("MoveDotX"			,MoveDotX);
+	RetContainer.Add("MoveDotY"			,MoveDotY);
+	RetContainer.Add("MoveDotX2"		,MoveDotX2);
+	RetContainer.Add("MoveDotY2"		,MoveDotY2);
+
+	RetContainer.Add("SearchAround"		,SearchAround);
+	RetContainer.Add("UsageGlobal"		,UsageGlobal);
+	RetContainer.Add("MaxCountHLine"	,MaxCountHLine);
+	RetContainer.Add("MaxCountVLine"	,MaxCountVLine);
+	RetContainer.Add("JudgeWithBrDif"	,JudgeWithBrDif);
+}
+
+
+void	AlignmentLargeThreshold::MakeReportedTopics(ReportedTopicContainer &RetContainer)	const
+{
+	RetContainer.Add("MoveDotX"			,MoveDotX);
+	RetContainer.Add("MoveDotY"			,MoveDotY);
+	RetContainer.Add("MoveDotX2"		,MoveDotX2);
+	RetContainer.Add("MoveDotY2"		,MoveDotY2);
+
+	RetContainer.Add("SearchAround"		,SearchAround);
+	RetContainer.Add("UsageGlobal"		,UsageGlobal);
+	RetContainer.Add("MaxCountHLine"	,MaxCountHLine);
+	RetContainer.Add("MaxCountVLine"	,MaxCountVLine);
+	RetContainer.Add("JudgeWithBrDif"	,JudgeWithBrDif);
+}

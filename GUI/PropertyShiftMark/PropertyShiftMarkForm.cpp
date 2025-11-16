@@ -1,0 +1,521 @@
+#include "PropertyShiftMarkResource.h"
+#include "PropertyShiftMarkForm.h"
+#include "ui_PropertyShiftMarkForm.h"
+#include "XShiftMark.h"
+#include "XDatabaseLoader.h"
+#include "XDisplayImagePacket.h"
+#include "EditLibraryDialog.h"
+#include "XGeneralFunc.h"
+#include "XPropertyShiftMarkPacket.h"
+#include "XAlgorithmLibrary.h"
+#include "XGeneralDialog.h"
+#include "XRememberer.h"
+#include "XShiftMarkAlgoPacket.h"
+#include "InputEditItemDialog.h"
+#include "ShowMarkRotationDialog.h"
+
+extern	const	char	*sRoot;
+extern	const	char	*sName;
+
+PropertyShiftMarkForm::PropertyShiftMarkForm(LayersBase *Base,QWidget *parent) :
+    GUIFormBase(Base,parent),
+    ui(new Ui::PropertyShiftMarkForm)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+
+	LibFolderID =-1;
+	LTable		=NULL;
+
+	ShiftMarkBase	*BBase=GetShiftMarkBase();
+	LibType=-1;
+	if(BBase!=NULL)	
+		LibType=BBase->GetLibType();
+
+	ui->tableWidgetLibList->setColumnWidth (0, 30);
+	ui->tableWidgetLibList->setColumnWidth (1, 80);
+	ui->tableWidgetGeneratedLibList->setColumnWidth (0, 30);
+	ui->tableWidgetGeneratedLibList->setColumnWidth (1, 80);
+
+	::SetColumnWidthInTable(ui->tableWidget ,0, 15);
+	::SetColumnWidthInTable(ui->tableWidget ,1, 15);
+	::SetColumnWidthInTable(ui->tableWidget ,2, 65);
+
+	if(BBase!=NULL){
+		CmdCreateTempShiftMarkLibraryPacket	Packet(GetLayersBase());
+		BBase->TransmitDirectly(&Packet);
+		LLib=Packet.Point;
+	}
+	else{
+		LLib=new AlgorithmLibraryLevelContainer(BBase);
+	}
+	LLib->SetLibID(-1);
+
+	int	LibFolderID=ControlRememberer::GetInt(objectName()+/**/"\\LibFolderID",-1);
+	if(LibFolderID>=0){
+		QString	FolderName=GetLayersBase()->GetLibFolderName(LibFolderID);
+		SetLibFolder(LibFolderID,FolderName);
+	}
+}
+
+PropertyShiftMarkForm::~PropertyShiftMarkForm()
+{
+    delete ui;
+	if(LLib!=NULL)
+		delete	LLib;
+	LLib=NULL;
+}
+
+ShiftMarkBase	*PropertyShiftMarkForm::GetShiftMarkBase(void)
+{
+	return (ShiftMarkBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
+}
+void	PropertyShiftMarkForm::StartPage(void)
+{
+	int	MasterID=GetLayersBase()->GetMasterCode();
+	if(MasterID>=0 && LibFolderID<0){
+		QString		FolderName;
+		LibFolderID=GetLayersBase()->GetDatabaseLoader()->S_GetFirstLibFolderByMasterCode(GetLayersBase()->GetDatabase(),MasterID,FolderName);
+		ui->labelLibFolderName->setText(FolderName);
+	}
+	ShowListGrid();
+}
+void	PropertyShiftMarkForm::BuildForShow(void)
+{
+	ShowListGrid();
+}
+void PropertyShiftMarkForm::on_pushButtonEditLibFolder_clicked()
+{
+	ShiftMarkBase	*BBase=GetShiftMarkBase();
+	int		RetSelectedLibFolderID;
+	QString RetSelectedFolderName;
+	if(ExeSelectLibFolderDialog(BBase->GetLibType(),GetLayersBase(),this
+								,RetSelectedLibFolderID
+								,RetSelectedFolderName)==true){
+		ControlRememberer::SetValue(objectName()+/**/"\\LibFolderID",RetSelectedLibFolderID);
+		SetLibFolder(RetSelectedLibFolderID,RetSelectedFolderName);
+	}
+}
+
+void	PropertyShiftMarkForm::SetLibFolder(int _LibFolderID ,const QString &LinFolderName)
+{
+	ui->labelLibFolderName->setText(LinFolderName);
+	LibFolderID=_LibFolderID;
+	ShowLibList();
+}
+
+void	PropertyShiftMarkForm::ShowLibList(void)
+{
+	ui->tableWidgetLibList->setRowCount(0);
+	ShiftMarkBase	*BBase=GetShiftMarkBase();
+	if(BBase!=NULL){
+		CmdGetShiftMarkLibraryListPacket	Packet(GetLayersBase());
+		Packet.LibFolderID=LibFolderID;
+		BBase->TransmitDirectly(&Packet);
+		LibList	=Packet.AList;
+		int	row=0;
+		ui->tableWidgetLibList->setRowCount(Packet.AList.GetNumber());
+		for(AlgorithmLibraryList *a=Packet.AList.GetFirst();a!=NULL;a=a->GetNext(),row++){
+			QTableWidgetItem *W;
+			W=ui->tableWidgetLibList->item ( row, 0);
+			if(W==NULL){
+				W=new QTableWidgetItem();
+				ui->tableWidgetLibList->setItem ( row, 0,W);
+				W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);			
+			}
+			W->setText(QString::number(a->GetLibID()));
+			W=ui->tableWidgetLibList->item ( row, 1);
+			if(W==NULL){
+				W=new QTableWidgetItem();
+				ui->tableWidgetLibList->setItem ( row, 1,W);
+				W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+			}
+			W->setText(a->GetLibName());
+		}
+	}
+}
+
+
+void	PropertyShiftMarkForm::TransmitDirectly(GUIDirectMessage *packet)
+{
+	ShiftMarkBase	*BBase=GetShiftMarkBase();
+	CmdShiftMarkDrawModePacket	*BDrawModePacket=dynamic_cast<CmdShiftMarkDrawModePacket *>(packet);
+	if(BDrawModePacket!=NULL){
+		//BDrawModePacket->ModeShowItem		=ui->toolButtonShowItem			->isChecked();
+		//BDrawModePacket->ModeShowRegulation	=ui->toolButtonShowRegulation	->isChecked();
+		return;
+	}
+	CmdShiftMarkDrawEnd	*ShiftMarkDEnd=dynamic_cast<CmdShiftMarkDrawEnd *>(packet);
+	if(ShiftMarkDEnd!=NULL){
+		GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Create manual ShiftMark");
+
+		QModelIndex	RIndex=ui->tableWidget->currentIndex();
+		if(RIndex.isValid()==false)
+			return;
+		int	R=RIndex.row();
+		if(LTable!=NULL){
+			ShiftMarkListForPacket *L=LTable[R];
+			if(L==NULL)
+				return;
+			bool		ModeAddEdge=false;
+			bool		ModeAddMark=false;
+			if(ui->toolButtonAddEdge->isChecked()==true){
+				ModeAddEdge=true;
+			}
+			if(ui->toolButtonAddMark->isChecked()==true){
+				ModeAddMark=true;
+			}
+
+			int	page=L->Page;
+			DataInPage	*pdata=GetLayersBase()->GetPageData(page);
+			FlexArea	A=ShiftMarkDEnd->Area;
+			pdata->ClipMoveAreaFromGlobal(A);
+			if(A.GetPatternByte()>0){
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+				GUICmdSendAddEdgeMark	Cmd(GetLayersBase(),sRoot,sName,GlobalPage);
+				Cmd.Area=A;
+				Cmd.ItemID=L->ItemID;
+				Cmd.ModeAddEdge	=ModeAddEdge;
+				Cmd.ModeAddMark	=ModeAddMark;
+				Cmd.SendOnly(GlobalPage,0);
+			}
+		}
+		//ShowShiftMarkInfoList();
+	}
+	ReqItemAddMode	*ReqItemAddModeVar=dynamic_cast<ReqItemAddMode *>(packet);
+	if(ReqItemAddModeVar!=NULL){
+		if(ui->toolButtonAddLine->isChecked()==true)
+			ReqItemAddModeVar->ModeAddLine=true;
+		if(ui->toolButtonAddEdge->isChecked()==true)
+			ReqItemAddModeVar->ModeAddEdge=true;
+		if(ui->toolButtonAddMark->isChecked()==true)
+			ReqItemAddModeVar->ModeAddMark=true;
+		return;
+	}
+	AddLinePacket	*AddLinePacketVar=dynamic_cast<AddLinePacket *>(packet);
+	if(AddLinePacketVar!=NULL){
+		IntList PageList;
+		GetLayersBase()->GetLocalPageFromVector(AddLinePacketVar->Vector,PageList);
+
+		for(IntClass *P=PageList.GetFirst();P!=NULL;P=P->GetNext()){
+			int	page=P->GetValue();
+			DataInPage	*pdata=GetLayersBase()->GetPageData(page);
+			VectorLineBase	*v=AddLinePacketVar->Vector->CreateEmpty();
+			*v=*AddLinePacketVar->Vector;
+			pdata->ClipMoveVectorFromGlobal(v);
+
+			GUICmdSendAddManualShiftMark	Cmd(GetLayersBase(),sRoot,sName,page);
+			Cmd.Vector=v->CreateDup();
+					
+			int	n=ui->tableWidgetLibList->currentRow();
+			int	SelectedID=-1;
+			if(n>=0){
+				SelectedID=LibList[n]->GetLibID();
+			}
+			if(SelectedID<0){
+				//SelectLibraryDialog	DD(GetLayersBase());
+				//if(DD.exec()!=(int)true || DD.SelectedID<0){
+				//	return;
+				//}
+				//SelectedID=DD.SelectedID;
+				//Cmd.ItemName=DD.ItemName;
+			}
+			Cmd.SelectedLibID=SelectedID;
+			Cmd.Send(NULL,page,0);
+		}
+
+		ShowListGrid();
+		return;
+	}
+}
+
+void PropertyShiftMarkForm::on_tableWidgetLibList_doubleClicked(const QModelIndex &index)
+{
+	on_pushButtonSetFrom_clicked();
+}
+
+
+void PropertyShiftMarkForm::on_tableWidgetGeneratedLibList_doubleClicked(const QModelIndex &index)
+{
+	on_pushButtonGetBackAll_clicked();
+}
+
+
+void PropertyShiftMarkForm::on_pushButtonSetFrom_clicked()
+{
+	int	r=ui->tableWidgetLibList->currentRow();
+	if(r<0)
+		return;
+	AlgorithmLibraryList	*a=LibList.GetItem(r);
+	for(AlgorithmLibraryList *c=SelectedLibList.GetFirst();c!=NULL;c=c->GetNext()){
+		if(c->GetLibID()==a->GetLibID())
+			return;
+	}
+	SelectedLibList.AppendList(new AlgorithmLibraryList(LibType,a->GetLibID(),a->GetLibName()));
+	ShowSelectedLibList();
+}
+
+
+void PropertyShiftMarkForm::on_pushButtonGetBack_clicked()
+{
+	int	r=ui->tableWidgetGeneratedLibList->currentRow();
+	if(r<0)
+		return;
+	AlgorithmLibraryList	*a=SelectedLibList.GetItem(r);
+	if(a!=NULL){
+		SelectedLibList.RemoveList(a);
+		delete	a;
+		ShowSelectedLibList();
+	}
+}
+
+
+void PropertyShiftMarkForm::on_pushButtonSetFromAll_clicked()
+{
+	SelectedLibList.RemoveAll();
+	for(AlgorithmLibraryList *a=LibList.GetFirst();a!=NULL;a=a->GetNext()){
+		SelectedLibList.AppendList(new AlgorithmLibraryList(LibType,a->GetLibID(),a->GetLibName()));
+	}
+	ShowSelectedLibList();
+}
+
+
+void PropertyShiftMarkForm::on_pushButtonGetBackAll_clicked()
+{
+	SelectedLibList.RemoveAll();
+	ShowSelectedLibList();
+}
+
+static	QColor	GetTableColor(int n)
+{
+	switch(n&7){
+		case 0 :	return QColor(255,255,0);
+		case 1 :	return QColor(235,255,0);
+		case 2 :	return QColor(235,235,0);
+		case 3 :	return QColor(215,235,0);
+		case 4 :	return QColor(215,215,0);
+		case 5 :	return QColor(195,215,0);
+		case 6 :	return QColor(195,195,0);
+		case 7 :	return QColor(175,195,0);
+	}
+	return Qt::white;
+}
+
+void	PropertyShiftMarkForm::ShowSelectedLibList(void)
+{
+	int	row=0;
+	int	ColNum=0;
+	ui->tableWidgetGeneratedLibList->setRowCount(SelectedLibList.GetNumber());
+	for(AlgorithmLibraryList *a=SelectedLibList.GetFirst();a!=NULL;a=a->GetNext(),row++){
+
+		QColor	Col=GetTableColor(ColNum);
+
+		QTableWidgetItem *W;
+		W=ui->tableWidgetGeneratedLibList->item ( row, 0);
+		if(W==NULL){
+			W=new QTableWidgetItem();
+			ui->tableWidgetGeneratedLibList->setItem ( row, 0,W);
+			W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		}
+		W->setText(QString::number(a->GetLibID()));
+		W->setBackground(Col);
+		W=ui->tableWidgetGeneratedLibList->item ( row, 1);
+		if(W==NULL){
+			W=new QTableWidgetItem();
+			ui->tableWidgetGeneratedLibList->setItem ( row, 1,W);
+			W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		}
+		W->setText(a->GetLibName());
+		W->setBackground(Col);
+	}
+}
+static	int	SortFuncLTable(const void *a ,const void *b)
+{
+	ShiftMarkListForPacket	*ai=((ShiftMarkListForPacket **)a)[0];
+	ShiftMarkListForPacket	*bi=((ShiftMarkListForPacket **)b)[0];
+
+	if(ai->ItemID>bi->ItemID)
+		return 1;
+	if(ai->ItemID<bi->ItemID)
+		return -1;
+	return 0;
+}
+void	PropertyShiftMarkForm::ShowListGrid(void)
+{
+	static	volatile	bool	ReEntrant=false;
+
+	if(ReEntrant==true)
+		return;
+	if(GetLayersBase()->IsValidData()==false)
+		return;
+
+	ReEntrant=true;
+	QString	EmitterRoot=sRoot;
+	QString	EmitterName=sName;
+	GUICmdSendItemList	**BmpReceiver=new GUICmdSendItemList*[GetParamGlobal()->PageNumb];
+	GUICmdReqItemList	**BmpRequester=new GUICmdReqItemList*[GetParamGlobal()->PageNumb];
+	for(int page=0;page<GetParamGlobal()->PageNumb;page++){
+		int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
+		BmpReceiver[page]=new GUICmdSendItemList(GetLayersBase(),EmitterRoot,EmitterName,globalPage);
+		BmpRequester[page]=new GUICmdReqItemList(GetLayersBase(),EmitterRoot,EmitterName,globalPage);
+	}
+
+	ListInfo.RemoveAll();
+	for(int page=0;page<GetParamGlobal()->PageNumb;page++){
+		if(BmpRequester[page]->Send(BmpRequester[page]->GetGlobalPage(),0,*BmpReceiver[page],60000)==true
+		&& BmpReceiver[page]->IsReceived()==true){
+			ListInfo+=BmpReceiver[page]->ListInfo;
+		}
+	}
+	for(int page=0;page<GetParamGlobal()->PageNumb;page++){
+		delete	BmpRequester[page];
+		delete	BmpReceiver[page];
+	}
+	delete	[]BmpRequester;
+	delete	[]BmpReceiver;
+
+	int	Numb=0;
+	for(ShiftMarkListForPacketPackForPhase *L=ListInfo.GetFirst();L!=NULL;L=L->GetNext()){
+		if(L->Phase==GetLayersBase()->GetCurrentPhase()){
+			Numb+=L->GetCount();
+		}
+	}
+	ui->tableWidget->setRowCount(Numb);
+	if(LTable!=NULL){
+		delete	[]LTable;
+	}
+	LTable=new ShiftMarkListForPacket*[Numb];
+	for(ShiftMarkListForPacketPackForPhase *L=ListInfo.GetFirst();L!=NULL;L=L->GetNext()){
+		if(L->Phase==GetLayersBase()->GetCurrentPhase()){
+			int	N=0;
+			for(ShiftMarkListForPacket *s=L->NPListPackSaveLoad<ShiftMarkListForPacket>::GetFirst();s!=NULL;s=s->GetNext(),N++){
+				LTable[N]=s;
+			}
+			LTableCount=N;
+		}
+	}
+	//while(ListInfo.GetFirst()!=NULL){
+	//	ShiftMarkListForPacket *M=ListInfo.GetFirst();
+	//	ListInfo.RemoveList(M);
+	//}
+
+	QSort(LTable,LTableCount,sizeof(ShiftMarkListForPacket *),SortFuncLTable);
+	ShiftMarkBase	*ABase=GetShiftMarkBase();
+	AlgorithmLibraryContainer	*LibConatiner=ABase->GetLibraryContainer();
+
+	ui->tableWidget->setUpdatesEnabled(false);
+	for(int i=0;i<LTableCount;i++){
+		ShiftMarkListForPacket *L=LTable[i];
+
+		::SetDataToTable(ui->tableWidget ,0,i ,QString::number(L->Page));
+		::SetDataToTable(ui->tableWidget ,1,i ,QString::number(L->ItemID));
+		::SetDataToTable(ui->tableWidget ,2,i ,L->ItemName);
+		//if(L->ItemName.isEmpty()==false) {
+		//	iSetDataToTable(ui.tableWidgetLineMoveList, 2, i, L->ItemName);
+		//}
+		//else if(LibConatiner!=NULL && L->LibID>=0){
+		//	QString	LibName=LibConatiner->GetLibraryName(L->LibID);
+		//	iSetDataToTable(ui.tableWidgetLineMoveList, 2, i, LibName);
+		//}
+		//iSetDataToTable(ui.tableWidgetLineMoveList ,3,i ,QString::number(L->SearchDot));
+	}
+	ui->tableWidget->setUpdatesEnabled(true);
+
+	ReEntrant=false;
+}
+
+
+void PropertyShiftMarkForm::on_tableWidget_clicked(const QModelIndex &MIndex)
+{
+	if(LTable!=NULL){
+		ShiftMarkListForPacket *L=LTable[MIndex.row()];
+		if(L==NULL)
+			return;
+
+		DataInPage	*P=GetLayersBase()->GetPageData(GetLayersBase()->GetLocalPageFromGlobal(L->Page));
+		if(P!=NULL){
+			CmdDrawImageRectPacket	Cmd( GetLayersBase()
+										,L->x1+P->GetOutlineOffset()->x,L->y1+P->GetOutlineOffset()->y
+										,L->x2+P->GetOutlineOffset()->x,L->y2+P->GetOutlineOffset()->y);
+			GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ShiftMarkImagePanel" ,/**/"");
+			if(GProp!=NULL)
+				GProp->TransmitDirectly(&Cmd);
+			CmdDrawImageActivate	ACmd(GetLayersBase(),L->Page,0,L->ItemID);
+			if(GProp!=NULL)
+				GProp->TransmitDirectly(&ACmd);
+		}
+	}
+}
+
+
+void PropertyShiftMarkForm::on_tableWidget_doubleClicked(const QModelIndex &index)
+{
+	QModelIndex	RIndex=ui->tableWidget->currentIndex();
+	if(RIndex.isValid()==false)
+		return;
+	int	R=RIndex.row();
+	if(LTable!=NULL){
+		ShiftMarkListForPacket *L=LTable[R];
+		if(L==NULL)
+			return;
+
+		InputEditItemDialog	D(GetLayersBase(),L->Page,L->ItemID);
+		D.exec();
+		ShowListGrid();
+	}
+}
+
+
+void PropertyShiftMarkForm::on_pushButtonEditLibrary_clicked()
+{
+	EditLibraryDialog	D(GetLayersBase(),this);
+	D.exec();
+	ShowLibList();
+	//if(LLib!=NULL){
+	//	CmdLoadShiftMarkLibraryPacket	Packet(GetLayersBase());
+	//	Packet.Point=LLib;
+	//	ShiftMarkBase	*BBase=GetShiftMarkBase();
+	//	if(BBase!=NULL){
+	//		BBase->TransmitDirectly(&Packet);
+	//		if(Packet.Success==true){
+	//			ShowLibrary(*LLib);
+	//		}
+	//	}
+	//}
+}
+
+
+void PropertyShiftMarkForm::on_toolButtonAddLine_clicked()
+{
+
+}
+
+
+void PropertyShiftMarkForm::on_toolButtonAddEdge_clicked()
+{
+
+}
+
+
+void PropertyShiftMarkForm::on_toolButtonAddMark_clicked()
+{
+
+}
+
+
+void PropertyShiftMarkForm::on_pushButtonShowMarkRotation_clicked()
+{
+	QModelIndex	RIndex=ui->tableWidget->currentIndex();
+	if(RIndex.isValid()==false)
+		return;
+	int	R=RIndex.row();
+	if(LTable!=NULL){
+		ShiftMarkListForPacket *L=LTable[R];
+		if(L==NULL)
+			return;
+		ShowMarkRotationDialog	D(GetLayersBase(),L->Page,L->ItemID);
+		D.exec();
+		ShowListGrid();
+	}
+}
+

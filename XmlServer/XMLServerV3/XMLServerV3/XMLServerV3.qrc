@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/XMLServerV3.png</file>
+    </qresource>
+</RCC>

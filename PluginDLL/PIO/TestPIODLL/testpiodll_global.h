@@ -1,0 +1,12 @@
+#ifndef TESTPIODLL_GLOBAL_H
+#define TESTPIODLL_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef TESTPIODLL_LIB
+# define TESTPIODLL_EXPORT Q_DECL_EXPORT
+#else
+# define TESTPIODLL_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // TESTPIODLL_GLOBAL_H

@@ -1,0 +1,44 @@
+#include "LargeColorDifferenceForm.h"
+#include "ui_LargeColorDifferenceForm.h"
+
+LargeColorDifferenceForm::LargeColorDifferenceForm(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::LargeColorDifferenceForm)
+{
+    ui->setupUi(this);
+}
+
+LargeColorDifferenceForm::~LargeColorDifferenceForm()
+{
+    delete ui;
+}
+
+void LargeColorDifferenceForm::on_PushButtonOKbyDeltaE_clicked()
+{
+
+}
+
+
+void LargeColorDifferenceForm::on_PushButtonOKbyDeltaEWhole_clicked()
+{
+
+}
+
+
+void LargeColorDifferenceForm::on_toolButtonShowNGMark_triggered(QAction *arg1)
+{
+
+}
+
+
+void LargeColorDifferenceForm::on_pushButtonDetail_clicked()
+{
+
+}
+
+
+void LargeColorDifferenceForm::on_pushButtonClose_clicked()
+{
+
+}
+

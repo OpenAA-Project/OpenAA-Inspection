@@ -1,0 +1,12 @@
+#ifndef SEARCH9POS_GLOBAL_H
+#define SEARCH9POS_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef SEARCH9POS_LIB
+# define SEARCH9POS_EXPORT Q_DECL_EXPORT
+#else
+# define SEARCH9POS_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // SEARCH9POS_GLOBAL_H

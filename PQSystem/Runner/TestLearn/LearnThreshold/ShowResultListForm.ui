@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShowResultListForm</class>
+ <widget class="QWidget" name="ShowResultListForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>820</width>
+    <height>652</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>821</width>
+     <height>651</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>検査ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>日時</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>重要度高</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>重要度中</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>判定</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

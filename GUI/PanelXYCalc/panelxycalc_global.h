@@ -1,0 +1,12 @@
+#ifndef PANELXYCALC_GLOBAL_H
+#define PANELXYCALC_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef PANELXYCALC_LIB
+# define PANELXYCALC_EXPORT Q_DECL_EXPORT
+#else
+# define PANELXYCALC_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // PANELXYCALC_GLOBAL_H

@@ -1,0 +1,12 @@
+#ifndef AFVI_COMMPLC_GLOBAL_H
+#define AFVI_COMMPLC_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef AFVI_COMMPLC_LIB
+# define AFVI_COMMPLC_EXPORT Q_DECL_EXPORT
+#else
+# define AFVI_COMMPLC_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // AFVI_COMMPLC_GLOBAL_H

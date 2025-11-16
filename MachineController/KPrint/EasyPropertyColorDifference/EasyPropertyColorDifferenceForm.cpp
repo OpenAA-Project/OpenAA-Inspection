@@ -1,0 +1,346 @@
+#include "EasyPropertyColorDifferenceResource.h"
+#include "EasyPropertyColorDifferenceForm.h"
+#include "ui_EasyPropertyColorDifferenceForm.h"
+#include "XColorDifference.h"
+#include "CartonMenuForm.h"
+#include "XParamCustomized.h"
+#include "XColorDifferenceLibrary.h"
+#include "SetStatisticThresholdDialog.h"
+#include "XGUIFormBase.h"
+
+extern	const	char	*sRoot;
+extern	const	char	*sName;
+
+EasyPropertyColorDifferenceForm::EasyPropertyColorDifferenceForm(LayersBase *Base ,QWidget *parent) :
+    GUIFormBase(Base,parent),
+    ui(new Ui::EasyPropertyColorDifferenceForm)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+	SlaveNo	=0;
+	OnFlowFormWindow	=new OnFlowForm();
+	connect(this,SIGNAL(SignalResize()), this ,SLOT(ResizeAction()));
+}
+
+EasyPropertyColorDifferenceForm::~EasyPropertyColorDifferenceForm()
+{
+    delete ui;
+	OnFlowFormWindow->deleteLater();
+}
+ColorDifferenceBase	*EasyPropertyColorDifferenceForm::GetColorDifferenceBase(void)
+{
+	ColorDifferenceBase	*base=(ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(DefLibTypeColorDifference);
+	return base;
+}
+void	EasyPropertyColorDifferenceForm::ResizeAction()
+{
+}
+
+void	EasyPropertyColorDifferenceForm::Prepare(void)
+{
+	on_toolButtonItem_clicked();
+	on_toolButtonReference_clicked();
+	if(LibList.GetCount()>0){
+		CartonMenuForm	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"KidaPrint" ,/**/"CartonMenu" ,/**/"");
+		if(GProp!=NULL){
+			int	Row=0;
+			for(AlgorithmLibraryList *L=LibList.GetFirst();L!=NULL;L=L->GetNext(),Row++){
+				if(L->GetLibID()==GProp->Param.ColorDifferenceLibID1){
+					::SetCurrentRow(ui->tableWidgetLibList, Row);
+				}
+			}
+		}
+	}
+}
+void	EasyPropertyColorDifferenceForm::TransmitDirectly(GUIDirectMessage *packet)
+{
+	CmdColorDifferenceDrawInfo	*CmdColorDifferenceDrawInfoVar=dynamic_cast<CmdColorDifferenceDrawInfo *>(packet);
+	if(CmdColorDifferenceDrawInfoVar!=NULL){
+		CmdColorDifferenceDrawInfoVar->LibID=-1;
+		int	Row=ui->tableWidgetLibList->currentRow();
+		if(Row>=0 && LibList[Row]!=NULL){
+			AlgorithmLibraryList	*L=LibList[Row];
+			CmdColorDifferenceDrawInfoVar->LibID=L->GetLibID();
+		}
+		return;
+	}
+}
+
+void EasyPropertyColorDifferenceForm::on_toolButtonItem_clicked()
+{
+	if(ui->toolButtonItem->isChecked()==true){
+		LibList.RemoveAll();
+		ColorDifferenceBase	*ABase=GetColorDifferenceBase();
+		if(ABase!=NULL){
+			AlgorithmLibraryListContainer tLibIDList;
+			ABase->GetLibraryContainer()->EnumLibrary(tLibIDList);
+			CmdCreateTempColorDifferenceLibraryPacket	Cmd(GetLayersBase());
+			ABase->TransmitDirectly(&Cmd);
+			for(AlgorithmLibraryList *L=tLibIDList.GetFirst();L!=NULL;L=L->GetNext()){
+				if(ABase->GetLibraryContainer()->GetLibrary(L->GetLibID(),*Cmd.Point)==true){
+					ColorDifferenceLibrary	*ALib=dynamic_cast<ColorDifferenceLibrary *>(Cmd.Point->GetLibrary());
+					if(ALib!=NULL && ALib->ItemClass==0){
+						AlgorithmLibraryList	*s=new AlgorithmLibraryList(DefLibTypeColorDifference,L->GetLibID(),L->GetLibName());
+						LibList.AppendList(s);
+					}
+				}
+			}
+			delete	Cmd.Point;
+
+			ui->tableWidgetLibList->setRowCount(LibList.GetCount());
+			int	Row=0;
+			for(AlgorithmLibraryList *L=LibList.GetFirst();L!=NULL;L=L->GetNext(),Row++){
+				::SetDataToTable(ui->tableWidgetLibList,0 ,Row ,QString::number(L->GetLibID()));
+				::SetDataToTable(ui->tableWidgetLibList,1 ,Row ,L->GetLibName());
+			}
+		}
+	}
+}
+
+void EasyPropertyColorDifferenceForm::on_toolButtonReference_clicked()
+{
+	if(ui->toolButtonReference->isChecked()==true){
+		LibList.RemoveAll();
+		ColorDifferenceBase	*ABase=GetColorDifferenceBase();
+		if(ABase!=NULL){
+			AlgorithmLibraryListContainer tLibIDList;
+			ABase->GetLibraryContainer()->EnumLibrary(tLibIDList);
+			CmdCreateTempColorDifferenceLibraryPacket	Cmd(GetLayersBase());
+			ABase->TransmitDirectly(&Cmd);
+			for(AlgorithmLibraryList *L=tLibIDList.GetFirst();L!=NULL;L=L->GetNext()){
+				if(ABase->GetLibraryContainer()->GetLibrary(L->GetLibID(),*Cmd.Point)==true){
+					ColorDifferenceLibrary	*ALib=dynamic_cast<ColorDifferenceLibrary *>(Cmd.Point->GetLibrary());
+					if(ALib!=NULL && ALib->ItemClass==1){
+						AlgorithmLibraryList	*s=new AlgorithmLibraryList(DefLibTypeColorDifference,L->GetLibID(),L->GetLibName());
+						LibList.AppendList(s);
+					}
+				}
+			}
+			delete	Cmd.Point;
+
+			ui->tableWidgetLibList->setRowCount(LibList.GetCount());
+			int	Row=0;
+			for(AlgorithmLibraryList *L=LibList.GetFirst();L!=NULL;L=L->GetNext(),Row++){
+				::SetDataToTable(ui->tableWidgetLibList,0 ,Row ,QString::number(L->GetLibID()));
+				::SetDataToTable(ui->tableWidgetLibList,1 ,Row ,L->GetLibName());
+			}
+		}
+	}
+}
+
+void EasyPropertyColorDifferenceForm::on_toolButtonRegisterOK_clicked()
+{
+	IntegrationCmdRegisterOK	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	RCmd.Send(NULL,SlaveNo,0);
+}
+
+void EasyPropertyColorDifferenceForm::on_toolButtonRegisterNG_clicked()
+{
+	IntegrationCmdRegisterNG	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	RCmd.Send(NULL,SlaveNo,0);
+}
+
+
+void EasyPropertyColorDifferenceForm::on_toolButtonRegistInFlow_clicked()
+{
+	if(ui->toolButtonRegistInFlow->isChecked()==true){
+		OnFlowFormWindow->show();
+		OnFlowFormWindow->update();
+		IntegrationCmdRegistInFlowON	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.Send(NULL,SlaveNo,0);
+	}
+	else{
+		OnFlowFormWindow->close();
+		IntegrationCmdRegistInFlowOFF	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		RCmd.Send(NULL,SlaveNo,0);
+	}
+}
+void EasyPropertyColorDifferenceForm::on_toolButtonSetThresholdByFlow_clicked()
+{
+	SetStatisticThresholdDialog	D;
+	if(D.exec()==true){
+		IntegrationCmdSetStatisticThreshold	ReqCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+		ReqCmd.SigmaH	=D.SigmaH;
+		ReqCmd.SigmaS	=D.SigmaS;
+		ReqCmd.SigmaV	=D.SigmaV;
+		ReqCmd.Send(NULL,SlaveNo,0);
+	}
+}
+
+void EasyPropertyColorDifferenceForm::on_toolButtonClearFlow_clicked()
+{
+	IntegrationCmdClearFlowStack	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+	RCmd.Send(NULL,SlaveNo,0);
+}
+
+void EasyPropertyColorDifferenceForm::on_toolButtonAutoGenerate_clicked()
+{
+	int	Row=ui->tableWidgetLibList->currentRow();
+	if(Row>=0){
+		AlgorithmLibraryList *L=LibList[Row];
+		if(L!=NULL){
+			GetLayersBase()->ShowProcessingForm(LangSolver.GetString(EasyPropertyColorDifferenceForm_LS,LID_1)/*"逕滓�荳ｭ"*/);
+			IntegrationCmdAutoGenerate	ReqCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+			ReqCmd.LibID	=L->GetLibID();
+			ReqCmd.SendReqAck(NULL,SlaveNo,0);
+			GetLayersBase()->CloseProcessingForm();
+		}
+	}
+}
+void	EasyPropertyColorDifferenceForm::StartInitial(void)
+{
+	on_toolButtonItem_clicked();
+}
+
+//===================================================================================================
+IntegrationCmdRegisterOK::IntegrationCmdRegisterOK(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+void	IntegrationCmdRegisterOK::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyColorDifference",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"AddColorOK", Args, ExeReturn);
+	}
+}
+
+IntegrationCmdRegisterNG::IntegrationCmdRegisterNG(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+void	IntegrationCmdRegisterNG::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyColorDifference",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"AddColorNG", Args, ExeReturn);
+	}
+
+}
+//===================================================================================================
+IntegrationCmdRegistInFlowON::IntegrationCmdRegistInFlowON(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+void	IntegrationCmdRegistInFlowON::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyColorDifference",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"RegistInFlowON", Args, ExeReturn);
+	}
+}
+//===================================================================================================
+IntegrationCmdRegistInFlowOFF::IntegrationCmdRegistInFlowOFF(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+void	IntegrationCmdRegistInFlowOFF::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyColorDifference",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"RegistInFlowOFF", Args, ExeReturn);
+	}
+}
+
+
+//===================================================================================================
+IntegrationCmdSetStatisticThreshold::IntegrationCmdSetStatisticThreshold(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdSetStatisticThreshold::Load(QIODevice *f)
+{
+	if(::Load(f,SigmaH)==false)
+		return false;
+	if(::Load(f,SigmaS)==false)
+		return false;
+	if(::Load(f,SigmaV)==false)
+		return false;
+	return true;
+}
+bool	IntegrationCmdSetStatisticThreshold::Save(QIODevice *f)
+{
+	if(::Save(f,SigmaH)==false)
+		return false;
+	if(::Save(f,SigmaS)==false)
+		return false;
+	if(::Save(f,SigmaV)==false)
+		return false;
+	return true;
+}
+
+void	IntegrationCmdSetStatisticThreshold::Receive(int32 slaveNo3, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*f1=GetLayersBase()->FindByName(/**/"Inspection",/**/"ColorDifferenceImagePanel",/**/"");
+	if(f1!=NULL){
+		{
+			QStringList Args;
+			bool ExeReturn;
+			f1->ExecuteMacro(/**/"SelectAllItems", Args, ExeReturn);
+		}
+	}
+	GUIFormBase	*f2=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyColorDifference",/**/"");
+	if(f2!=NULL){
+		{
+			QStringList Args;
+			bool ExeReturn;
+			Args.append(QString::number(SigmaH,'f',5));
+			Args.append(QString::number(SigmaS,'f',5));
+			Args.append(QString::number(SigmaV,'f',5));
+			f2->ExecuteMacro(/**/"SetStatisticThreshold", Args, ExeReturn);
+		}
+	}
+}
+//===================================================================================================
+IntegrationCmdClearFlowStack::IntegrationCmdClearFlowStack(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+void	IntegrationCmdClearFlowStack::Receive(int32 slaveNo3, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyColorDifference",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		f->ExecuteMacro(/**/"ClearFlowStack", Args, ExeReturn);
+	}
+
+}
+
+//===================================================================================================
+
+IntegrationCmdAutoGenerate::IntegrationCmdAutoGenerate(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdAutoGenerate::Load(QIODevice *f)
+{
+	if(::Load(f,LibID)==false)
+		return false;
+	return true;
+}
+bool	IntegrationCmdAutoGenerate::Save(QIODevice *f)
+{
+	if(::Save(f,LibID)==false)
+		return false;
+	return true;
+}
+void	IntegrationCmdAutoGenerate::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Button",/**/"PropertyColorDifference",/**/"");
+	if(f!=NULL){
+		QStringList Args;
+		bool ExeReturn;
+		Args.append(QString::number(LibID));
+		f->ExecuteMacro(/**/"AutoGenerate", Args, ExeReturn);
+	}
+	SendAck(slaveNo);
+}

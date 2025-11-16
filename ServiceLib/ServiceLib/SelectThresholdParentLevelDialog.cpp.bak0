@@ -1,0 +1,145 @@
+#include "SelectThresholdParentLevelDialog.h"
+#include "ui_SelectThresholdParentLevelDialog.h"
+#include "XLevel.h"
+#include "XDataInLayer.h"
+#include "XGeneralFunc.h"
+#include "XDatabaseLoader.h"
+
+SelectThresholdParentLevelDialog::SelectThresholdParentLevelDialog(LayersBase *Base, QWidget *parent) :
+    QDialog(parent),ServiceForLayers(Base),
+    ui(new Ui::SelectThresholdParentLevelDialog)
+{
+    ui->setupUi(this);
+    SelectedLevelID=-1;
+    ShowTreeGrid();
+    InstallOperationLog(this);
+}
+
+SelectThresholdParentLevelDialog::~SelectThresholdParentLevelDialog()
+{
+    delete ui;
+}
+
+void    SelectThresholdParentLevelDialog::ShowTreeGrid(void)
+{
+    ui->treeWidgetLevel->clear();
+    if(GetLayersBase()->GetLevelFolderContainer()!=NULL){
+        GetLayersBase()->GetLevelFolderContainer()->Sort();
+        for(LevelFolder *a=GetLayersBase()->GetLevelFolderContainer()->GetFirst();a!=NULL;a=a->GetNext()){
+            QTreeWidgetItem	*Item=new QTreeWidgetItem(ui->treeWidgetLevel);
+            Item->setText(0,QString::number(a->LevelValue));
+            Item->setText(1,a->LevelName);
+            Item->setData(0,Qt::UserRole,a->LevelID);
+            if(a->Children.count()==0){
+                Item->setDisabled(true);
+            }
+            else {
+                Item->setDisabled(false);
+            }
+            ui->treeWidgetLevel->addTopLevelItem(Item);
+            ShowTreeGrid(Item,a);
+        }
+    }
+}
+void SelectThresholdParentLevelDialog::ShowTreeGrid(QTreeWidgetItem *Item,LevelFolder *tParent)
+{
+    for(LevelFolder *a=tParent->Children.GetFirst();a!=NULL;a=a->GetNext()){
+        QTreeWidgetItem	*m=new QTreeWidgetItem(Item);
+        m->setText(0,QString::number(a->LevelValue));
+        m->setText(1,a->LevelName);
+        m->setData(0,Qt::UserRole,a->LevelID);
+        if(a->Children.count()==0){
+            m->setDisabled(true);
+        }
+        else {
+            m->setDisabled(false);
+        }
+        Item->addChild(m);
+        ShowTreeGrid(Item,a);
+    }
+}
+
+static  QTreeWidgetItem *GetCurrentSelectedItemsInner(QTreeWidgetItem *W)
+{
+	int	N=W->childCount();
+	for(int i=0;i<N;i++){
+		QTreeWidgetItem *t=W->child(i);
+		if(t->isSelected()==true){
+			return t;
+		}
+		t=GetCurrentSelectedItemsInner(t);
+        if(t!=NULL){
+            return t;
+        }
+	}
+    return NULL;
+}
+
+QTreeWidgetItem *SelectThresholdParentLevelDialog::GetCurrentItem(void)
+{
+	int	N=ui->treeWidgetLevel->topLevelItemCount();
+	for(int i=0;i<N;i++){
+		QTreeWidgetItem *t=ui->treeWidgetLevel->topLevelItem(i);
+		if(t->isSelected()==true){
+			return t;
+		}
+		t=GetCurrentSelectedItemsInner(t);
+        if(t!=NULL){
+            return t;
+        }
+	}
+    return NULL;
+}
+
+void SelectThresholdParentLevelDialog::on_pushButtonSelect_clicked()
+{
+    QTreeWidgetItem *Item=GetCurrentItem();
+    if(Item!=NULL){
+        SelectedLevelID=Item->data(0,Qt::UserRole).toInt();
+        done(true);
+    }
+}
+
+void SelectThresholdParentLevelDialog::on_pushButtonCancel_clicked()
+{
+    done(false);
+}
+
+void SelectThresholdParentLevelDialog::on_treeWidgetLevel_itemDoubleClicked(QTreeWidgetItem *item, int column)
+{
+    on_pushButtonSelect_clicked();
+}
+
+void SelectThresholdParentLevelDialog::resizeEvent(QResizeEvent *event)
+{
+    ui->frame           ->move(0,height()-ui->frame->height());
+    ui->treeWidgetLevel ->resize(width(),height()-ui->frame->height());
+}
+
+void SelectThresholdParentLevelDialog::on_treeWidgetLevel_itemSelectionChanged()
+{
+    QTreeWidgetItem *Item=GetCurrentItem();
+    if(Item!=NULL){
+        ui->pushButtonSelect->setEnabled(true);
+    }
+    else{
+        ui->pushButtonSelect->setEnabled(false);
+    }
+}
+
+void SelectThresholdParentLevelDialog::on_treeWidgetLevel_clicked(const QModelIndex &index)
+{
+    QTreeWidgetItem *Item=GetCurrentItem();
+    if(Item!=NULL){
+        ui->pushButtonSelect->setEnabled(true);
+    }
+    else{
+        ui->pushButtonSelect->setEnabled(false);
+    }
+}
+
+void SelectThresholdParentLevelDialog::on_pushButtonTopRoot_clicked()
+{
+    SelectedLevelID=0;
+    done(true);
+}

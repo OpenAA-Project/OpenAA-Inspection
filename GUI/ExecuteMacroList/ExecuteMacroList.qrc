@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ExecuteMacroList.png</file>
+        <file>Qtres/Load.png</file>
+        <file>Qtres/Start.png</file>
+        <file>Qtres/Stop.png</file>
+    </qresource>
+</RCC>

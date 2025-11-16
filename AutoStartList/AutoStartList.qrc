@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Qtres/flash_64.PNG</file>
+        <file>Qtres/flash_swf_64.PNG</file>
+        <file>Qtres/AutoStartList.png</file>
+    </qresource>
+</RCC>

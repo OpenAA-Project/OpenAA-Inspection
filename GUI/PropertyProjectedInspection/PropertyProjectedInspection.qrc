@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertyProjectedInspection.png</file>
+        <file>Qtres/Add.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Class.png</file>
+        <file>Qtres/ClearNew.png</file>
+        <file>Qtres/Close.png</file>
+        <file>Qtres/Copy.png</file>
+        <file>Qtres/Delete.png</file>
+        <file>Qtres/Edit.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/SaveNew.png</file>
+        <file>Qtres/Search.png</file>
+        <file>Qtres/Select.png</file>
+        <file>Qtres/Update.png</file>
+    </qresource>
+</RCC>

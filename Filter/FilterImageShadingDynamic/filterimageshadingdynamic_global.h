@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(FILTERIMAGESHADINGDYNAMIC_LIB)
+#  define FILTERIMAGESHADINGDYNAMIC_EXPORT Q_DECL_EXPORT
+# else
+#  define FILTERIMAGESHADINGDYNAMIC_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define FILTERIMAGESHADINGDYNAMIC_EXPORT
+#endif

@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8A8D34D9-7627-4ABD-A6D4-8EE11FCE6AC7}</ProjectGuid>
+    <Keyword>QtVS_v304</Keyword>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.20348.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0</WindowsTargetPlatformVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>Intel C++ Compiler 2022</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>Intel C++ Compiler 2022</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
+    <QtInstall>5.15.10_msvc2019_64</QtInstall>
+    <QtModules>core</QtModules>
+    <QtBuildConfig>debug</QtBuildConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
+    <QtInstall>$(DefaultQtVersion)</QtInstall>
+    <QtModules>core;gui;network;sql;widgets;core5compat</QtModules>
+    <QtBuildConfig>release</QtBuildConfig>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutDir>..\..\..\GUI</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\EasyPropertyDXFOperation;..\..\..\Algorithm\DXFOperation;..\..\..\Integrator\GUI\IntegrationImageBank;..\..\..\Integrator\GUI\IntegrationStackNGThumbnail;..\..\..\OpenSource\Component;..\..\..\ServiceLib\ServiceLib;..\..\..\OpenSource\DisplayImage;..\..\..\Algorithm\DotColorMatching;..\..\..\Algorithm\ColorDifference;..\..\..\Algorithm\AlignmentLarge;..\..\..\Algorithm\BCRInspection;..\..\..\Algorithm\MeasureLineMove;..\..\..\GUI\ImageBank;..\..\..\GUI\PropertyDotColorMatching;..\..\..\GUI\StartProcessAgainButton;..\..\..\GUI\DisplayNGList;..\CartonMenu;..\..\..\Integrator\IntegrationLib;..\..\..\Open;..\..\..\OpenSource\\FFT\api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Component.lib;DisplayImage.lib;ServiceLib.lib;IntegrationLib.lib;EditPasswordOnControl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>BUTTONSHOWCONFIRM_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>BUTTONSHOWCONFIRM_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ButtonShowConfirmResource.cpp" />
+    <ClCompile Include="ConfirmForm.cpp" />
+    <ClCompile Include="ConfirmItemListForm.cpp" />
+    <ClCompile Include="ConfirmPropAlignmentForm.cpp" />
+    <ClCompile Include="ConfirmPropBCRInspectionForm.cpp" />
+    <ClCompile Include="ConfirmPropColorDifferenceForm.cpp" />
+    <ClCompile Include="ConfirmPropDotColorMatchingForm.cpp" />
+    <ClCompile Include="ConfirmPropMeasureLineMoveForm.cpp" />
+    <ClCompile Include="SelectLibraryDialog.cpp" />
+    <ClCompile Include="XConfirmAlgorithm.cpp" />
+    <ClCompile Include="XConfirmPacket.cpp" />
+    <ClCompile Include="XPropPacketAlignment.cpp" />
+    <ClCompile Include="XPropPacketBCRInspection.cpp" />
+    <ClCompile Include="XPropPacketColorDifference.cpp" />
+    <ClCompile Include="XPropPacketDotColorMatching.cpp" />
+    <ClCompile Include="XPropPacketMeasureLineMove.cpp" />
+    <ClInclude Include="buttonshowconfirm_global.h" />
+    <QtMoc Include="SelectLibraryDialog.h" />
+    <QtMoc Include="ConfirmItemListForm.h" />
+    <ClInclude Include="XPropPacketAlignment.h" />
+    <ClInclude Include="XPropPacketBCRInspection.h" />
+    <ClInclude Include="XPropPacketColorDifference.h" />
+    <ClInclude Include="XPropPacketDotColorMatching.h" />
+    <ClInclude Include="XPropPacketMeasureLineMove.h" />
+    <QtMoc Include="ConfirmPropAlignmentForm.h" />
+    <QtMoc Include="ConfirmPropBCRInspectionForm.h" />
+    <QtMoc Include="ConfirmPropColorDifferenceForm.h" />
+    <QtMoc Include="ConfirmPropDotColorMatchingForm.h" />
+    <QtMoc Include="ConfirmPropMeasureLineMoveForm.h" />
+    <QtMoc Include="XConfirmAlgorithm.h" />
+    <ClInclude Include="XConfirmPacket.h" />
+    <QtMoc Include="ConfirmForm.h" />
+    <QtMoc Include="ButtonShowConfirm.h" />
+    <ClCompile Include="..\..\..\Open\GUIDllCommon.cpp" />
+    <ClCompile Include="..\..\..\Open\SystemVersion.cpp" />
+    <ClCompile Include="ButtonShowConfirm.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="ConfirmForm.ui" />
+    <QtUic Include="ConfirmItemListForm.ui" />
+    <QtUic Include="ConfirmPropAlignmentForm.ui" />
+    <QtUic Include="ConfirmPropBCRInspectionForm.ui" />
+    <QtUic Include="ConfirmPropColorDifferenceForm.ui" />
+    <QtUic Include="ConfirmPropDotColorMatchingForm.ui" />
+    <QtUic Include="ConfirmPropMeasureLineMoveForm.ui" />
+    <QtUic Include="SelectLibraryDialog.ui" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

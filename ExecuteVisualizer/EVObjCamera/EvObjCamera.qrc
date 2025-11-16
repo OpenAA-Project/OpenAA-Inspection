@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/Captured1.png</file>
+        <file>Resources/Captured2.png</file>
+        <file>Resources/Captured3.png</file>
+        <file>Resources/Captured4.png</file>
+        <file>Resources/CapturedAndWait1.png</file>
+        <file>Resources/CapturedAndWait2.png</file>
+        <file>Resources/CapturedAndWait3.png</file>
+        <file>Resources/CapturedAndWait4.png</file>
+        <file>Resources/Nothing1.png</file>
+        <file>Resources/Nothing2.png</file>
+        <file>Resources/Nothing3.png</file>
+        <file>Resources/Nothing4.png</file>
+        <file>Resources/Nothing5.png</file>
+        <file>Resources/Nothing6.png</file>
+        <file>Resources/Waiting1.png</file>
+    </qresource>
+</RCC>

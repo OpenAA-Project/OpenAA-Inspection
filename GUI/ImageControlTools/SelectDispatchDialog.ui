@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SelectDispatchDialog</class>
+ <widget class="QDialog" name="SelectDispatchDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>221</width>
+    <height>78</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Select Master</string>
+  </property>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

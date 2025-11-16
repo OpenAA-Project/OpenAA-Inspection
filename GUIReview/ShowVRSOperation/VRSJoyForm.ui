@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VRSJoyClass</class>
+ <widget class="QWidget" name="VRSJoyClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>290</width>
+    <height>273</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>VRSJoyForm</string>
+  </property>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DefineSignalDialog</class>
+ <widget class="QDialog" name="DefineSignalDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>601</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>391</width>
+     <height>551</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>PIO-IN</string>
+    </attribute>
+    <widget class="QTableWidget" name="tableWidgetPIOIN">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>371</width>
+       <height>521</height>
+      </rect>
+     </property>
+     <row>
+      <property name="text">
+       <string>AIN0</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>AIN1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>AIN2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>AIN3</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>BIN0</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>BIN1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>BIN2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>BIN3</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>CIN0</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>CIN1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>CIN2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>CIN3</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>DIN0</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>DIN1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>DIN2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>DIN3</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
+     <string>PIO-OUT</string>
+    </attribute>
+    <widget class="QTableWidget" name="tableWidgetPIOOUT">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>371</width>
+       <height>521</height>
+      </rect>
+     </property>
+     <row>
+      <property name="text">
+       <string>AOUT0</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>AOUT1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>AOUT2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>AOUT3</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>BOUT0</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>BOUT1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>BOUT2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>BOUT3</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>COUT0</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>COUT1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>COUT2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>COUT3</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>DOUT0</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>DOUT1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>DOUT2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>DOUT3</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_3">
+    <attribute name="title">
+     <string>G-I/O</string>
+    </attribute>
+    <widget class="QTableWidget" name="tableWidgetGIN">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>371</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <row>
+      <property name="text">
+       <string>GIN0</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>GIN1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>GIN2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>GIN3</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QTableWidget" name="tableWidgetGOUT">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>170</y>
+       <width>371</width>
+       <height>281</height>
+      </rect>
+     </property>
+     <row>
+      <property name="text">
+       <string>GOUT0</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>GOUT1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>GOUT2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>GOUT3</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>GOUT4</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>GOUT5</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>GOUT6</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>GOUT7</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_4">
+    <attribute name="title">
+     <string>TRG/etc</string>
+    </attribute>
+    <widget class="QTableWidget" name="tableWidgetTRGIN">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>371</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <row>
+      <property name="text">
+       <string>TRGIN0</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>TRGIN1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>TRGIN2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>TRGIN3</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QLineEdit" name="lineEditOuterSW">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>170</y>
+       <width>281</width>
+       <height>24</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>170</y>
+       <width>81</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text">
+      <string>OuterSW</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>200</y>
+       <width>81</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text">
+      <string>ExtDirect</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditExtDirect">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>200</y>
+       <width>281</width>
+       <height>24</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButtonUpdate">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>560</y>
+     <width>112</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Update</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

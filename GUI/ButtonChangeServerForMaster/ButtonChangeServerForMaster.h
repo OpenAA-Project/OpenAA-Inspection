@@ -1,0 +1,7 @@
+#ifndef BUTTONCHANGESERVERFORMASTER_H
+#define BUTTONCHANGESERVERFORMASTER_H
+
+#include "buttonchangeserverformaster_global.h"
+
+
+#endif // BUTTONCHANGESERVERFORMASTER_H

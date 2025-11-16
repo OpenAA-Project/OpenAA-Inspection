@@ -1,0 +1,4367 @@
+/*******************************************************************************
+** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
+**
+** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
+** if any conditions of this licensing agreement are not clear to you.
+** This file is provided as is with no warranty
+**
+** This file is C:\Regulus64v5\OpenSource\DisplayImage\XDisplayImage.cpp
+** Author : YYYYYYYYYY
+****************************************************************************-**/
+#include "DisplayImageResource.h"
+#define	_USE_MATH_DEFINES
+#include <QMessageBox>
+#include <QMenu>
+#include "XDisplayImage.h"
+#include "XDisplayImagePacket.h"
+#include "XTypeDef.h"
+#include "XCrossObj.h"
+#include "SelectPasteForm.h"
+#include "XGeneralDialog.h"
+#include "SelectByLibraryDialog.h"
+#include "NegPosImageDialog.h"
+#include "ExpandedPasteForm.h"
+#include "XGeneralFunc.h"
+#include "XCriticalFunc.h"
+#include <omp.h>
+#define	_USE_MATH_DEFINES
+#include <math.h>
+#include <QColorDialog>
+#include "SelectPages.h"
+#include "MoveImageForm.h"
+#include "SelectByOrigin.h"
+#include "SelectMovePastePage.h"
+#include "XDataInLayer.h"
+#include "XFileRegistry.h"
+#include "SaveImageOnPointDialog.h"
+#include "SelectImageFormatForm.h"
+#include "InputSavingFileNameForm.h"
+#include "RegulateBrightnessForm.h"
+#include "RegistColorLibForm.h"
+#include "XGeneralStocker.h"
+#include "XJpeg2000.h"
+#include "mtImageToolButtonWithBalloon.h"
+#include "mtImageToolButtonColored.h"
+#include "mtImageButtonWithBalloon.h"
+#include "swap.h"
+#include "RotateImageForm.h"
+#include "CopyImageInPhasesDialog.h"
+#include "MirrorImageDialog.h"
+#include "SelectMasterNumberDialog.h"
+#include "PourImageDialog.h"
+
+DisplayImage::eDummyClassForStatus::eDummyClassForStatus(LayersBase *_LayersBasePoint,DisplayImage *p ,QWidget *parent)
+:GUIFormBase(_LayersBasePoint,parent),Parent(p)
+{
+}
+
+DisplayImage::eDummyClassForStatus::~eDummyClassForStatus(void)
+{
+	Parent->DummyClassForStatus=NULL;
+}
+
+DisplayImage::DisplayImage(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,DisplayType dtype,QWidget *parent)
+:GUIFormBase(Base,parent) ,DisplayImageHooked(this)
+{
+	qRegisterMetaType<ListPageLayerIDPack *>(/**/"ListPageLayerIDPack *");
+
+	int	LanguageCode=GetLayersBase()->GetFRegistry()->LoadRegInt(/**/"Language",0);
+	LangDISolver.SetLanguage(GetLayersBase()->GetLanguagePackageData(),LanguageCode);
+
+	ReEntrant						=false;
+	//PainterInIdle					=NULL;
+	ShowFixedPhase					=-1;
+	ErrorOccurs						=false;
+	ClippedImageGlobalPosX			=ClippedImageGlobalPosY	=0;
+	ClippedImageGlobalCx			=ClippedImageGlobalCy	=0;	
+	IconSize						=32;
+	BtnW							=IconSize+8;
+	BtnH							=IconSize+2;
+	CountOfMaskPaint				=0;
+	TransparentLevelInBitBuff		=0;
+	BmpReceiver						=NULL;
+	BmpRequester					=NULL;
+	AllocedBmp						=0;
+	ModeShowOnlyTopTurn				=false;
+	ModeToMakeImageInThread			=false;
+	ShowOnePage						=-1;
+	FirstDraw						=true;
+	IdlePainter						=NULL;
+	ShowNGMarkInTarget				=true;
+	MinInterval						=0;
+	LastTimeToDraw					=0;
+	LastTimeToPaint					=0;
+	DrawRectMode					=mtFrameDraw::fdRectangle;
+	CurrentMasterNo					=0;
+	WorkingTime						=0;
+	ScaleColor						=Qt::yellow;
+
+	PastedItems						=NULL;
+	DrawingMode						=_Normal;
+	TopOfAll						=0;
+	DType							=dtype;
+	RedCircleMode					=true;
+	Connected						=false;
+	Option.ZoomInButton				=true;
+	Option.ZoomRectButton			=true;
+	Option.ZoomWholeButton			=true;
+	Option.CopyRectButton			=true;
+	Option.PasteButton				=true;
+	Option.PickColorButton			=true;
+	Option.DrawRectButton			=true;
+	Option.DrawDotButton			=true;
+	Option.ToolManuButton			=true;
+	Option.DrawColorMessage			=true;
+	Option.SaveImageOnRectButton	=false;
+	Option.SaveImageOnPointButton	=false;
+	Option.RegulateBrightnessButton	=false;
+	Option.MeasureButton			=true;
+	Option.ExpandedPasteButton		=true;
+	Option.RegistColorLibButton		=false;
+	Option.DrawCrossLineButton		=false;
+	Option.UndoButton				=true;
+	Option.RedoButton				=false;
+	Option.LensButton				=true;
+	Option.ModeShowScale			=_ScalePositionNoShow;
+	StrModeShowScale				=/**/"_ScalePositionNoShow";
+
+	ViewWindowStyle.EnableMeasure	=true;
+	ViewWindowStyle.EnableToolArea	=true;
+	ViewWindowStyle.EnableVScroller	=true;
+	ViewWindowStyle.EnableHScroller	=true;
+	ViewWindowStyle.EnableZoom		=true;
+	ViewWindowStyle.EnableMove		=true;
+
+	ModeFromOther	=mtFrameDraw::fdNone;
+	ModeDrawOutOfView	=true;
+	CmdSendClippedImage		=new GUICmdSendClippedImage(Base,emitterRoot,emitterName);
+
+	MainCanvas				=NULL;
+	NoneBtn					=NULL;
+	ZoomInBtn				=NULL;
+	ZoomRectBtn				=NULL;
+	ZoomWholeBtn			=NULL;
+	CopyRectBtn				=NULL;
+	PasteBtn				=NULL;
+	PickColorBtn			=NULL;
+	DrawRectBtn				=NULL;
+	DrawDotBtn				=NULL;
+	ToolMenuBtn				=NULL;
+	SaveImageOnRectBtn		=NULL;
+	SaveImageOnPointBtn		=NULL;
+	RegulateBrightnessBtn	=NULL;
+	MeasureBtn				=NULL;
+	ExpandedPasteBtn		=NULL;
+	LabelColorMessage		=NULL;
+	XPosLabel				=NULL;
+	YPosLabel				=NULL;
+	RegistColorLibBtn		=NULL;
+	DrawCrossLineBtn		=NULL;
+	UndoBtn					=NULL;
+	RedoBtn					=NULL;
+	LensBtn					=NULL;
+
+	ActionScrollUp			=NULL;
+	ActionScrollDown		=NULL;
+	FModeRepaintOnMouseMove	=true;
+
+	EmitterRoot	=emitterRoot;
+	EmitterName	=emitterName;
+	PickedColor.setRgb(0,0,0);
+	IBar.setParent(this);
+	IBar.move(0,0);
+
+	SaveImageX=SaveImageY=0;
+	SaveImageXCount=SaveImageYCount=1;
+	ImgFormat=/**/"BMP";
+
+	resize(200,200);
+	ClientTop=0;
+	AllocInnerBuff();
+	DummyClassForStatus=new eDummyClassForStatus(Base,this,parent);
+	DummyClassForStatus->move(0,0);
+	DummyClassForStatus->resize(1,1);
+	Yz=1.0;
+	RepaintContinuously	=false;
+
+	FrameColor=Qt::red;
+	SetKeyGrab(true);
+	FloatingExpandedPasteForm=new ExpandedPasteForm(this,NULL);
+	connect(FloatingExpandedPasteForm,SIGNAL(ExecuteOk(void))				,this,SLOT(SlotExpandedPasteExecute(void)));
+	connect(FloatingExpandedPasteForm,SIGNAL(ExecuteOkInSameAlgorithm(void)),this,SLOT(SlotExecuteOkInSameAlgorithm(void)));
+	connect(FloatingExpandedPasteForm,SIGNAL(CancelPaste(void))				,this,SLOT(SlotExpandedPasteCancel(void)));
+	connect(FloatingExpandedPasteForm,SIGNAL(ExecuteMatrix(void))			,this,SLOT(SlotExecuteMatrix(void)));
+
+	ImageTunableList.append(/**/"ZoomIn");
+	ImageTunableList.append(/**/"ZoomRect");
+	ImageTunableList.append(/**/"ZoomWhole");
+	ImageTunableList.append(/**/"CopyRect");
+	ImageTunableList.append(/**/"Paste");
+	ImageTunableList.append(/**/"PickColor");
+	ImageTunableList.append(/**/"DrawRect");
+	ImageTunableList.append(/**/"DrawDot");
+	ImageTunableList.append(/**/"ToolMenu");
+	ImageTunableList.append(/**/"Measure");
+	ImageTunableList.append(/**/"ExpandedPaste");
+	ImageTunableList.append(/**/"SaveImageOnRect");
+	ImageTunableList.append(/**/"SaveImageOnPoint");
+	ImageTunableList.append(/**/"RegulateBrightness");
+	ImageTunableList.append(/**/"RegistColorLib");
+	ImageTunableList.append(/**/"DrawCrossLine");
+	ImageTunableList.append(/**/"Undo");
+	ImageTunableList.append(/**/"Redo");
+	ImageTunableList.append(/**/"Lens");
+
+	connect(this,SIGNAL(SignalResize()), this ,SLOT(ResizeAction()));
+	LastDrawnTime	=::GetComputerMiliSec();
+
+	GetTopParent()->installEventFilter(this);
+}
+
+bool DisplayImage::eventFilter(QObject *obj, QEvent *event)
+{
+     if (event->type() == QEvent::KeyPress) {
+         //QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+         //qDebug("Ate key press %d", keyEvent->key());
+         return true;
+     } else {
+         // standard event processing
+         return QObject::eventFilter(obj, event);
+     }
+}
+
+void	DisplayImage::AllocInnerBuff(void)
+{
+	if(GetPageNumb()==AllocedBmp){
+		return;
+	}
+	if(AllocedBmp!=0){
+		for(int i=0;i<AllocedBmp;i++){
+			delete	BmpRequester[i];
+			delete	BmpReceiver[i];
+		}
+		delete	[]BmpRequester;
+		delete	[]BmpReceiver;
+	}
+	BmpReceiver=new GUICmdSendBmp*[GetLayersBase()->GetPageNumb()];
+	BmpRequester=new GUICmdReqBmp*[GetLayersBase()->GetPageNumb()];
+	AllocedBmp=0;
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	globalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		BmpReceiver[page]=new GUICmdSendBmp(GetLayersBase(),EmitterRoot,EmitterName,globalPage);
+		BmpRequester[page]=new GUICmdReqBmp(GetLayersBase(),EmitterRoot,EmitterName,DType,globalPage);
+		AllocedBmp++;
+	}
+}
+DisplayImage::~DisplayImage(void)
+{
+	disconnect(this,SLOT(SlotExpandedPasteExecute(void)));
+	disconnect(this,SLOT(SlotExecuteOkInSameAlgorithm(void)));
+	disconnect(this,SLOT(SlotExpandedPasteCancel(void)));
+	disconnect(this,SLOT(SlotExecuteMatrix(void)));
+
+	disconnect(this,SLOT(SlotDrawing(mtFrameDraw::DrawingMode,int)));
+	disconnect(this,SLOT(SlotDrawMessage(const QStringList &,const QStringList &)));
+	disconnect(this,SLOT(SlotCancelDraw()));
+	disconnect(this,SLOT(SlotJustMouseLPress	(int,int)));
+	disconnect(this,SLOT(SlotJustMouseRPress	(int,int)));
+	disconnect(this,SLOT(SlotJustMouseLRelease	(int,int)));
+	disconnect(this,SLOT(SlotJustMouseRRelease	(int,int)));
+	disconnect(this,SLOT(ResizeAction()));
+
+	disconnect(this,SLOT(NoneButtonDown()));
+	disconnect(this,SLOT(ZoomInButtonDown()));
+	disconnect(this,SLOT(ZoomRectButtonDown()));
+	disconnect(this,SLOT(WholeButtonDown()));
+	disconnect(this,SLOT(CopyRectButtonDown()));
+	disconnect(this,SLOT(PasteButtonDown()));
+	disconnect(this,SLOT(PickColorButtonDown()));
+	disconnect(this,SLOT(DrawRectButtonDown()));
+	disconnect(this,SLOT(DrawDotButtonDown()));
+	disconnect(this,SLOT(MeasureButtonDown(bool)));
+	disconnect(this,SLOT(ExpandedPasteBtnDown(bool)));
+	disconnect(this,SLOT(ToolMenuBtnDown()));
+	disconnect(this,SLOT(SaveImageOnRectBtnDown(bool)));
+	disconnect(this,SLOT(SaveImageOnRectRClick(QMouseEvent *)));
+	disconnect(this,SLOT(SaveImageOnPointBtnDown(bool)));
+	disconnect(this,SLOT(SaveImageOnPointRClick(QMouseEvent *)));
+	disconnect(this,SLOT(RegulateBrightnessBtnDown(bool)));
+	disconnect(this,SLOT(WheelBarrowBtnDown(bool)));
+	disconnect(this,SLOT(RegistColorLibBtnDown(bool)));
+	disconnect(this,SLOT(DrawCrossLineBtnDown(bool)));
+	disconnect(this,SLOT(LensBtnDown(bool)));
+	disconnect(this,SLOT(UndoButtonDown()));
+	disconnect(this,SLOT(RedoButtonDown()));
+	disconnect(this,SLOT(XYLabelEditingFinished()));
+	disconnect(this,SLOT(XYLabelEditingFinished()));
+	disconnect(this,SLOT(CanvasSlotDrawEnd(void)) );
+	disconnect(this,SLOT(SlotScrollDraw())		);
+	disconnect(this,SLOT(CanvasSlotOnPaint(QPainter &)));
+	disconnect(this,SLOT(SlotMouseMove(int ,int)));
+	disconnect(this,SLOT(SlotMouseLDown(int ,int)));
+	disconnect(this,SLOT(SlotMouseRDown(int ,int)));
+	disconnect(this,SLOT(SlotMouseLDownWithShift(int ,int)));
+	disconnect(this,SLOT(SlotMouseRDownWithShift(int ,int)));
+	disconnect(this,SLOT(SlotKeyPress(int ,int ,int ,bool &)));
+	disconnect(this,SLOT(SlotMouseLDoubleClick(int ,int)));
+	disconnect(this,SLOT(SlotMouseRDoubleClick(int ,int)));
+	disconnect(this,SLOT(SlotMouseWheel(int,int,int)));
+	disconnect(this,SLOT(SlotShiftAll(void)));
+	disconnect(this,SLOT(SlotRefreshInPlayer(int64)));
+	disconnect(this,SLOT(SlotRefreshInEdit()));
+	disconnect(this ,SLOT(ResizeAction()));
+	disconnect(this, SLOT(SlotScrollUp()));
+	disconnect(this, SLOT(SlotScrollDown()));
+	disconnect(this, SLOT(SlotFitZoom()));
+
+	delete	DummyClassForStatus;
+	DummyClassForStatus=NULL;
+
+	for(int i=0;i<AllocedBmp;i++){
+		delete	BmpRequester[i];
+		delete	BmpReceiver[i];
+	}
+	delete	[]BmpRequester;
+	delete	[]BmpReceiver;
+	BmpRequester=NULL;
+	BmpReceiver	=NULL;
+
+	if(FloatingExpandedPasteForm!=NULL){
+		delete	FloatingExpandedPasteForm;
+		FloatingExpandedPasteForm=NULL;
+	}
+
+	if(IdlePainter!=NULL){
+		delete	IdlePainter;
+		IdlePainter=NULL;
+	}
+
+	if(NoneBtn!=NULL){
+		delete	NoneBtn;
+		NoneBtn=NULL;
+	}
+	if(ZoomInBtn!=NULL){
+		delete ZoomInBtn;
+		ZoomInBtn=NULL;
+	}
+	if(ZoomRectBtn!=NULL){
+		delete ZoomRectBtn;
+		ZoomRectBtn=NULL;
+	}
+	if(ZoomWholeBtn!=NULL){
+		delete ZoomWholeBtn;
+		ZoomWholeBtn=NULL;
+	}
+	if(CopyRectBtn!=NULL){
+		delete CopyRectBtn;
+		CopyRectBtn=NULL;
+	}
+	if(PasteBtn!=NULL){
+		delete PasteBtn;
+		PasteBtn=NULL;
+	}
+	if(PickColorBtn!=NULL){
+		delete PickColorBtn;
+		PickColorBtn=NULL;
+	}
+	if(DrawRectBtn!=NULL){
+		delete DrawRectBtn;
+		DrawRectBtn=NULL;
+	}
+	if(DrawDotBtn!=NULL){
+		delete DrawDotBtn;
+		DrawDotBtn=NULL;
+	}
+	if(LabelColorMessage!=NULL){
+		delete	LabelColorMessage;
+		LabelColorMessage=NULL;
+	}
+	if(MeasureBtn!=NULL){
+		delete	MeasureBtn;
+		MeasureBtn=NULL;
+	}
+	if(ToolMenuBtn!=NULL){
+		delete	ToolMenuBtn;
+		ToolMenuBtn=NULL;
+	}
+	if(ExpandedPasteBtn!=NULL){
+		delete	ExpandedPasteBtn;
+		ExpandedPasteBtn=NULL;
+	}
+	if(SaveImageOnRectBtn!=NULL){
+		delete	SaveImageOnRectBtn;
+		SaveImageOnRectBtn=NULL;
+	}
+	if(SaveImageOnPointBtn!=NULL){
+		delete	SaveImageOnPointBtn;
+		SaveImageOnPointBtn=NULL;
+	}
+	if(RegulateBrightnessBtn!=NULL){
+		delete	RegulateBrightnessBtn;
+		RegulateBrightnessBtn=NULL;
+	}
+	if(RegistColorLibBtn!=NULL){
+		delete	RegistColorLibBtn;
+		RegistColorLibBtn=NULL;
+	}
+	if(UndoBtn!=NULL){
+		delete	UndoBtn;
+		UndoBtn=NULL;
+	}
+	if(RedoBtn!=NULL){
+		delete	RedoBtn;
+		RedoBtn=NULL;
+	}
+	//delete	ClippedImageStructure;
+	//ClippedImageStructure=NULL;
+	delete	CmdSendClippedImage;
+	CmdSendClippedImage=NULL;
+
+	if(ActionScrollUp!=NULL){
+		delete	ActionScrollUp;
+		ActionScrollUp=NULL;
+	}
+	if(ActionScrollDown!=NULL){
+		delete	ActionScrollDown;
+		ActionScrollDown=NULL;
+	}
+	//if(PainterInIdle!=NULL){
+	//	delete	PainterInIdle;
+	//	PainterInIdle=NULL;
+	//}
+	if(MainCanvas!=NULL){
+		delete	MainCanvas;
+		MainCanvas=NULL;
+	}
+}
+
+void	DisplayImage::CreatedInEditMode(GUIFormBase *PutTop)
+{
+	GUIFormPointerContainer Children;
+	PutTop->EnumChildren(Children);
+	for(GUIFormPointer *f=Children.GetFirst();f!=NULL;f=f->GetNext()){
+		if(f->GetGUIFormBase()->GetDLLRoot()==/**/"Button" && f->GetGUIFormBase()->GetDLLName()==/**/"ImageControlTools"){
+			ImageControlToolsName=f->GetGUIFormBase()->GetName();
+			f->GetGUIFormBase()->CreatedInEditMode(PutTop);
+		}
+		else if(f->GetGUIFormBase()->GetDLLRoot()==/**/"Button" && f->GetGUIFormBase()->GetDLLName()==/**/"ImagePanelTools"){
+			f->GetGUIFormBase()->CreatedInEditMode(PutTop);
+		}
+	}
+}
+
+void	DisplayImage::GetDrawingArea(int &GlobalX1,int &GlobalY1,int &GlobalX2,int &GlobalY2)	const
+{
+	GlobalX1=-GetMovx();
+	GlobalY1=-GetMovy();
+	GlobalX2=GlobalX1+GetCanvasWidth()/GetZoomRate();
+	GlobalY2=GlobalY1+GetCanvasHeight()/GetZoomRate();
+}
+
+void	DisplayImage::AfterPrepare(void)
+{
+	//MainCanvas->ZoomDrawWhole();
+}
+void	DisplayImage::SetAreaSize(void)
+{
+	if(MainCanvas!=NULL){
+		if(ShowOnePage<0){
+			int x1 ,y1 ,x2 ,y2;
+			GetLayersBase()->GetArea(x1 ,y1 ,x2 ,y2);
+			MainCanvas->SetAreaSize(x2,y2);
+		}
+		else{
+			DataInPage *Dp=GetLayersBase()->GetPageData(ShowOnePage);
+			if(Dp!=NULL){
+				MainCanvas->SetAreaSize(Dp->GetDotPerLine(),Dp->GetMaxLines());
+			}
+			else{
+				MainCanvas->SetAreaSize(GetLayersBase()->GetDotPerLine(-1),GetLayersBase()->GetMaxLines(-1));
+			}
+		}
+	}
+}
+
+void	DisplayImage::BuildForShow(void)
+{
+	SetAreaSize();
+	//WholeButtonDown();
+}
+
+void	DisplayImage::AllUpImagePanel(void)
+{
+	if(NoneBtn!=NULL){
+		NoneBtn->setChecked(true);
+		NoneButtonDown();
+	}
+}
+
+void	DisplayImage::SetTopPosition(int top)
+{
+	TopOfAll=top;
+}
+
+int		DisplayImage::GetButtonIndex(const QString &IconStr)	const
+{
+	for(int i=0;i<ShownButtons.count();i++){
+		if(ShownButtons[i]==IconStr){
+			return i;
+		}
+	}
+	return -1;
+}
+
+void	DisplayImage::InsertIconButton(const QString &BeforeIcon,QWidget *b)
+{
+	int	Index=GetButtonIndex(BeforeIcon);
+	if(Index>=0){
+		QList<QAction *> L=IBar.actions();
+		if(Index<L.count()){
+			QAction *a=L[Index];
+			IBar.insertWidget(a,b);
+		}
+		else if(L.count()!=0){
+			QAction *a=L[0];
+			IBar.insertWidget(a,b);
+		}
+		else{
+			IBar.addWidget(b);
+		}
+	}
+	else{
+		QList<QAction *> L=IBar.actions();
+		if(L.count()!=0){
+			QAction *a=L[0];
+			IBar.insertWidget(a,b);
+		}
+		else{
+			IBar.addWidget(b);
+		}
+	}
+}
+
+void	DisplayImage::Repaint(void)
+{
+	if(MainCanvas!=NULL){
+		LastDrawnTime=0;
+		OnIdle();
+		MainCanvas->Repaint();
+	}
+}
+
+void	DisplayImage::SlotChangeCurrentPhase()
+{
+	MainCanvas->Repaint();
+}
+
+DisplayImage::DrawingState::DrawingState(DrawingState &src)
+{
+	operator=(src);
+	Altered=false;
+}
+DisplayImage::DrawingState	&DisplayImage::DrawingState::operator=(DisplayImage::DrawingState &src)
+{
+	Movx		=src.Movx;
+	Movy		=src.Movy;
+	ZoomRate	=src.ZoomRate;
+	DType		=src.DType;
+	LayerList	=src.LayerList;
+	Altered		=src.Altered;
+	return *this;
+}
+DisplayImage::DrawingState	&DisplayImage::DrawingState::operator=(const DisplayImage::DrawingState &src)
+{
+	Movx		=src.Movx;
+	Movy		=src.Movy;
+	ZoomRate	=src.ZoomRate;
+	DType		=src.DType;
+	LayerList	=src.LayerList;
+	Altered		=src.Altered;
+	return *this;
+}
+
+bool	DisplayImage::DrawingState::operator==(DisplayImage::DrawingState &src) const
+{
+	if(Movx!=src.Movx){
+		return false;
+	}
+	if(Movy!=src.Movy){
+		return false;
+	}
+	if(ZoomRate!=src.ZoomRate){
+		return false;
+	}
+	if(DType!=src.DType){
+		return false;
+	}
+	if(LayerList!=src.LayerList){
+		return false;
+	}
+	return true;
+}
+DisplayImage::DrawingState	DisplayImage::GetDrawingState(void)	const
+{
+	DrawingState	Ret;
+	Ret.Movx	=GetMovx();
+	Ret.Movy	=GetMovy();
+	Ret.ZoomRate=GetZoomRate();
+	Ret.DType=DType;
+	GetActiveLayerList(Ret.LayerList);
+	return Ret;
+}
+void	DisplayImage::SetAlterSomething(void)
+{
+	LastState.Altered=true;
+}
+bool	DisplayImage::ShouldDrawBuild(void)
+{
+	if((LastState.Altered==true) || (LastState!=CurrentState)){
+		return true;
+	}
+	return false;
+}
+
+void	DisplayImage::SetModeToImagePanelTools(mtFrameDraw::DrawingMode mode ,const QColor &lineColor)
+{
+	GUIFormBase *Ret[100];
+	int N=GetLayersBase()->EnumGUIInst(/**/"Button" ,/**/"ImagePanelTools" ,Ret,100);
+	for(int i=0;i<N;i++){
+		GUIFormBase	*s=dynamic_cast<GUIFormBase *>(Ret[i]);
+		if(s!=NULL){
+			for(int k=0;k<s->GetRelatedForm().count();k++){
+				QString	v=s->GetRelatedForm().value(k);
+				if(v==GetName()){
+					CmdPanelSetButton	SCmd(GetLayersBase());
+					SCmd.Mode=mode;
+					s->TransmitDirectly(&SCmd);					
+				}
+			}
+		}
+	}
+}
+void	DisplayImage::SetModeByOthers(mtFrameDraw::DrawingMode mode ,const QColor &lineColor)
+{
+	SetModeToImagePanelTools(mode ,lineColor);
+
+	if(((DrawRectBtn!=NULL)				&& (DrawRectBtn->isChecked()==true)) 
+	|| ((RegistColorLibBtn!=NULL)		&& (RegistColorLibBtn->isChecked()==true))
+	|| ((RegulateBrightnessBtn!=NULL)	&& (RegulateBrightnessBtn->isChecked()==true))
+	|| ((SaveImageOnRectBtn!=NULL)		&& (SaveImageOnRectBtn->isChecked()==true))){
+
+	}
+	else{
+		if(NoneBtn!=NULL){
+			NoneBtn->setChecked(true);
+		}
+		if(ZoomInBtn!=NULL){
+			ZoomInBtn->setChecked(false);
+		}
+		if(ZoomRectBtn!=NULL){
+			ZoomRectBtn->setChecked(false);
+		}
+		if(CopyRectBtn!=NULL){
+			CopyRectBtn->setChecked(false);
+		}
+		if(PasteBtn!=NULL){
+			PasteBtn->setChecked(false);
+		}
+		if(PickColorBtn!=NULL){
+			PickColorBtn->setChecked(false);
+		}
+		if(DrawRectBtn!=NULL){
+			DrawRectBtn->setChecked(false);
+		}
+		if(DrawDotBtn!=NULL){
+			DrawDotBtn->setChecked(false);
+		}
+		if(MeasureBtn!=NULL){
+			MeasureBtn->setChecked(false);
+		}
+	}
+	ModeFromOther=mode;
+	if(MainCanvas!=NULL){
+		MainCanvas->Clear();
+		MainCanvas->SetMode(mode);
+		MainCanvas->SetFrameColor(lineColor);
+	}
+}
+
+void	DisplayImage::ChangeDisplayType(DisplayImage::DisplayType dtype)
+{
+	if(DType!=dtype){
+		DType=dtype;
+		Repaint();
+	}
+}
+
+
+void	DisplayImage::ResizeAction()
+{
+	GetLayersBase()->SetOnChanging(true);
+	//GSleep(100);
+	if(MainCanvas!=NULL){
+		int	W=width();
+		int	H=height();
+		MainCanvas->resize(W,H-ClientTop);
+		//MainCanvas->resizeEvent(NULL);
+		SetAlterSomething();
+	}
+	GetLayersBase()->SetOnChanging(false);
+}
+
+void	DisplayImage::NoneButtonDown()
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(mtFrameDraw::fdNone);
+	}
+	if((DrawingMode==_MeasureFirst)
+	|| (DrawingMode==_MeasureSecond)
+	|| (DrawingMode==_MeasureDone)
+	|| (DrawingMode==_SaveImageOnPoint)
+	|| (DrawingMode==_SaveImageOnRect)
+	|| (DrawingMode==_RegulateBrightness)
+	|| (DrawingMode==_RegistColorLib)){
+		SetDrawingMode(_Normal);
+	}
+	GetLayersBase()->SetStatusModes(this,/**/"ImageNone");
+
+	if(NoneBtn->isChecked()==true){
+		emit	SignalButtonClicked(NoneBtn->objectName());
+	}
+}
+void	DisplayImage::ZoomInButtonDown()
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(mtFrameDraw::fdPoint);
+	}
+	AllUpToolButton();
+	SetAlterSomething();
+
+	if(ZoomInBtn->isChecked()==true){
+		emit	SignalButtonClicked(ZoomInBtn->objectName());
+	}
+}
+void	DisplayImage::ZoomRectButtonDown()
+{
+	AllUpToolButton();
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		MainCanvas->SetFrameColor(FrameColor);
+	}
+	SetAlterSomething();
+	GetLayersBase()->SetStatusModes(this,/**/"ImageZoomRect");
+
+	if(ZoomRectBtn->isChecked()==true){
+		emit	SignalButtonClicked(ZoomRectBtn->objectName());
+	}
+}
+void	DisplayImage::CopyRectButtonDown()
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		MainCanvas->SetFrameColor(FrameColor);
+	}
+	//AllUpToolButton();
+	SetAlterSomething();
+	GetLayersBase()->SetStatusModes(this,/**/"CopyRect");
+
+	if(CopyRectBtn->isChecked()==true){
+		emit	SignalButtonClicked(CopyRectBtn->objectName());
+	}
+}
+void	DisplayImage::PasteButtonDown()
+{
+	//ClippedImageStructure->LoadDefaultFile();
+	ClippedImageGlobalPosX		=ClippedImageGlobalPosY		= -1;
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(mtFrameDraw::fdPoint);
+	}
+	AllUpToolButton();
+	SetAlterSomething();
+	GetLayersBase()->SetStatusModes(this,/**/"ImagePaste");
+
+	if(PasteBtn->isChecked()==true){
+		emit	SignalButtonClicked(PasteBtn->objectName());
+	}
+}
+void	DisplayImage::MeasureButtonDown(bool checked)
+{
+	if(checked==true){
+		if(MainCanvas!=NULL){
+			MainCanvas->SetMode(mtFrameDraw::fdPoint);
+		}
+		AllUpToolButton();
+		SetAlterSomething();
+		if((MeasureBtn!=NULL) && (MeasureBtn->isChecked()==true)){
+			SetDrawingMode(_MeasureFirst);
+		}
+		GetLayersBase()->SetStatusModes(this,/**/"ImageMeasure");
+		SetCursor(_MeasureFirst);
+	}
+
+	if(MeasureBtn->isChecked()==true){
+		emit	SignalButtonClicked(MeasureBtn->objectName());
+	}
+}
+bool	DisplayImage::IsMoveModeButtonDown(void)	const
+{
+	return true;
+}
+void	DisplayImage::ExpandedPasteBtnDown(bool checked)
+{
+	if(ExpandedPasteBtn!=NULL && ExpandedPasteBtn->isChecked()==true){
+		GetSelectedLists();
+		if(ExpandedPasteStart.SelectedItemLists.GetCount()==0){
+			QMessageBox::warning(NULL,/**/"Alarm"
+									,"Selected items are necessary");
+			return;
+		}
+		SetWidgetCenter(FloatingExpandedPasteForm);
+		int	MinX=  99999999;
+		int	MaxX= -99999999;
+		int	MinY=  99999999;
+		int	MaxY= -99999999;
+		//for(ExpandedSelectedItemList *p=ExpandedPasteStart.SelectedItemLists.GetFirst();p!=NULL;p=p->GetNext()){
+		for(int i=0;i<ExpandedPasteStart.SelectedItemLists.GetCount();i++){
+			ExpandedSelectedItemList *p=ExpandedPasteStart.SelectedItemLists.Get(i);
+			if(MinX>p->X1){
+				MinX=p->X1;
+			}
+			if(MinY>p->Y1){
+				MinY=p->Y1;
+			}
+			if(MaxX<p->X2){
+				MaxX=p->X2;
+			}
+			if(MaxY<p->Y2){
+				MaxY=p->Y2;
+			}
+		}
+		FloatingExpandedPasteForm->SetZone(MaxX-MinX,MaxY-MinY);
+
+		FloatingExpandedPasteForm->show();
+		if(MainCanvas!=NULL){
+			MainCanvas->SetMode(mtFrameDraw::fdPoint);
+		}
+		AllUpToolButton();
+		SetAlterSomething();
+		if((ExpandedPasteBtn!=NULL) && (ExpandedPasteBtn->isChecked()==true)){
+			DrawingMode=_ExpandedPaste;
+		}
+	}
+	if(MeasureBtn->isChecked()==true){
+		emit	SignalButtonClicked(MeasureBtn->objectName());
+	}
+}
+void	DisplayImage::PickColorButtonDown()
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(mtFrameDraw::fdPoint);
+	}
+	AllUpToolButton();
+	SetAlterSomething();
+	GetLayersBase()->SetStatusModes(this,/**/"ImagePickup");
+
+	if(PickColorBtn->isChecked()==true){
+		emit	SignalButtonClicked(PickColorBtn->objectName());
+	}
+}
+void	DisplayImage::DrawRectButtonDown()
+{
+	AllUpToolButton();
+	SetAlterSomething();
+	if(MainCanvas!=NULL){
+		//MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		MainCanvas->Clear();
+		MainCanvas->SetMode(DrawRectMode);
+
+		//if((MainCanvas->GetMode()==mtFrameDraw::fdPoint) || (MainCanvas->GetMode()==mtFrameDraw::fdNone)){
+		//	SetModeToImagePanelTools(DrawRectMode ,FrameColor);
+		//}
+		MainCanvas->SetFrameColor(FrameColor);
+	}
+	GetLayersBase()->SetStatusModes(this,/**/"ImageDrawRect");
+
+	if(DrawRectBtn->isChecked()==true){
+		emit	SignalButtonClicked(DrawRectBtn->objectName());
+	}
+}
+void	DisplayImage::DrawDotButtonDown()
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(mtFrameDraw::fdPoint);
+	}
+	AllUpToolButton();
+	SetAlterSomething();
+	GetLayersBase()->SetStatusModes(this,/**/"ImageDrawDot");
+
+	if(DrawDotBtn->isChecked()==true){
+		emit	SignalButtonClicked(DrawDotBtn->objectName());
+	}
+}
+void	DisplayImage::WholeButtonDown()
+{
+	if(MainCanvas!=NULL){
+		SetAreaSize();
+		MainCanvas->ZoomDrawWhole();
+		emit	SignalChangedDrawingPosition();
+	}
+	BroadcastDraw();
+	SetAlterSomething();
+
+	emit	SignalButtonClicked(ZoomWholeBtn->objectName());
+}
+
+void	DisplayImage::FitButtonDown()
+{
+	if(MainCanvas!=NULL){
+		SetAreaSize();
+		MainCanvas->ZoomDrawFit();
+		emit	SignalChangedDrawingPosition();
+	}
+	BroadcastDraw();
+	SetAlterSomething();
+}
+
+void	DisplayImage::SlotFitZoom()
+{
+	if(MainCanvas!=NULL){
+		emit	SignalChangedDrawingPosition();
+	}
+}
+
+void	DisplayImage::BroadcastDraw(void)
+{
+	if(ReEntrant==true){
+		return;
+	}
+	ReEntrant=true;
+
+	if(MainCanvas!=NULL){
+		QRect	rect;
+		rect.setLeft(-MainCanvas->GetMovx());
+		rect.setTop(-MainCanvas->GetMovy());
+		rect.setWidth(MainCanvas->GetCanvasWidth()/MainCanvas->GetZoomRate());
+		rect.setHeight(MainCanvas->GetCanvasHeight()/MainCanvas->GetZoomRate());
+
+		for(int i=0;i<RelatedItems.count();i++){
+			QString	str=RelatedItems.value(i);
+			GUIFormBase		*r=GetFormByName(str);
+			if(r!=NULL){
+				DisplayImage	*Img=dynamic_cast<DisplayImage *>(r);
+				if(Img!=NULL){
+					Img->SetDrawPosition(rect.left(),rect.top() , rect.right(),rect.bottom());
+				}
+				else{
+					r->Repaint();
+				}
+			}
+		}
+	}
+	emit	SignalDraw(this);
+	/*
+	QRect	rect;
+	if(MainCanvas!=NULL){
+		rect.setLeft(-MainCanvas->GetMovx());
+		rect.setTop(-MainCanvas->GetMovy());
+		rect.setWidth(MainCanvas->GetCanvasWidth()/MainCanvas->GetZoomRate());
+		rect.setHeight(MainCanvas->GetCanvasHeight()/MainCanvas->GetZoomRate());
+
+		for(int i=0;i<RelatedItems.count();i++){
+			QString	str=RelatedItems.value(i);
+			GUIFormBase		*r=GetFormByName(str);
+			if(r!=NULL){
+				r->ReceiveFromRelated(CmdDerivePosition ,&rect);
+			}
+		}
+	}
+	*/
+	ReEntrant=false;
+}
+
+void	DisplayImage::TransmitDirectly(GUIDirectMessage *packet)
+{
+	CmdDrawImageRectPacket	*ICmdDrawImageRectPacket=dynamic_cast<CmdDrawImageRectPacket *>(packet);
+	if(ICmdDrawImageRectPacket!=NULL){
+		int	W=ICmdDrawImageRectPacket->Ux2-ICmdDrawImageRectPacket->Ux1;
+		int	H=ICmdDrawImageRectPacket->Uy2-ICmdDrawImageRectPacket->Uy1;
+		for(int Z=1;Z<20;Z++){
+			if(ZoomRect( ICmdDrawImageRectPacket->Ux1-Z*W/4,ICmdDrawImageRectPacket->Uy1-Z*H/4
+						,ICmdDrawImageRectPacket->Ux2+Z*W/4,ICmdDrawImageRectPacket->Uy2+Z*H/4)==true){
+				break;
+			}
+		}
+		emit	SignalChangedDrawingPosition();
+		return;
+	}
+	CmdSetDisplayType	*CmdSetDisplayTypeVar=dynamic_cast<CmdSetDisplayType *>(packet);
+	if(CmdSetDisplayTypeVar!=NULL){
+		ChangeDisplayType(CmdSetDisplayTypeVar->DType);
+		CurrentMasterNo=CmdSetDisplayTypeVar->MasterNo;
+		return;
+	}
+}
+bool	DisplayImage::ZoomRect(int globalX1, int globalY1, int globalX2, int globalY2)
+{
+	bool	Ret=false;
+	if(MainCanvas!=NULL){
+		Ret=MainCanvas->ZoomRectU(globalX1, globalY1, globalX2, globalY2);
+		emit	SignalChangedDrawingPosition();
+	}
+	BroadcastDraw();
+	return Ret;
+}
+bool	DisplayImage::ShowCenter(int globalCx, int globalCy,double ZoomRate)
+{
+	bool	Ret=false;
+	if(MainCanvas!=NULL){
+		int	W=MainCanvas->GetCanvasWidth()/ZoomRate;
+		int	H=MainCanvas->GetCanvasHeight()/ZoomRate;
+		Ret=ZoomRect(globalCx-W/2,globalCy-H/2 ,globalCx+W/2,globalCy+H/2);
+		emit	SignalChangedDrawingPosition();
+	}
+	return Ret;
+}
+
+void	DisplayImage::ExeCopyRect(FlexArea &Area)
+{
+	//??I?i????I?i????S????W??????a??
+	Area.GetCenter(ClippedImageGlobalCx,ClippedImageGlobalCy);
+	//??R??s??[??a??i??I?~??I?????X??g??R??????e??i??????N??????A
+	ClippedImageStructure.RemoveAll();
+	//??y??[??W??????I?????[??v
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		FlexArea	area;
+		area=Area;
+		//??I?i????????e??y??[??W??I?a????I?i????A?N??????b??v??????????I?i????E?I?i??
+		if(GetLayersBase()->GetPageData(page)->ClipMoveAreaFromGlobal(area)==true){
+			if(area.GetPatternByte()>0){
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+
+				GUICmdCopyRectPacket	CopyRectRequester(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+				CopyRectRequester.Area		=area;
+				CopyRectRequester.Source	=DType;
+				GUICmdSendCopyRectPacket	DCmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+				//??R??s??[??I?i????v???????????
+				if(CopyRectRequester.Send(GlobalPage,0,DCmd)==true){
+					//??????M??A?i????????A?i????A??a??i??f??[??^??\??????I?i????R??????e??i??E?i??????????
+					DisplayImageCopyStructure	*c=new DisplayImageCopyStructure(CurrentMasterNo);
+					*c=DCmd.ImageClipData;
+					ClippedImageStructure.AppendList(c);
+				}
+			}
+		}
+	}
+	if(MainCanvas!=NULL){
+		MainCanvas->Clear();
+	}
+}
+void	DisplayImage::ExeDrawRect(FlexArea &Area)
+{
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Draw rectangle");
+
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		FlexArea	MArea;
+		MArea=Area;
+		if(GetLayersBase()->GetPageData(page)->ClipMoveAreaFromGlobal(MArea)==true){
+			if(MArea.IsNull()==false){
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+
+				GUICmdDrawColor		DrawColorRequester(GetLayersBase(),EmitterRoot,EmitterName ,DType,GlobalPage);
+				DrawColorRequester.Col	=PickedColor;
+				DrawColorRequester.Area	=MArea;
+				DrawColorRequester.DType=DType;
+				DrawColorRequester.MasterNo=CurrentMasterNo;
+				if(DrawColorRequester.Send(NULL,GlobalPage,0)==false){
+					SetError(Error_Comm , /**/"Send error :ExeDrawRect",ErrorCodeList::_Alart);
+				}
+			}
+		}
+	}
+	if(MainCanvas!=NULL){
+		MainCanvas->Clear();
+	}
+	Repaint();
+}
+void	DisplayImage::ExePourImage(int globalX,int globalY)
+{
+	if(DrawRectMode==mtFrameDraw::fdPoint){
+		int	GlobalPage	=GetLayersBase()->GetGlobalPage(globalX,globalY);
+		int	LocalPage	=GetParamComm()->GetLocalPageFromGlobal	(*GetParamGlobal(),GlobalPage);
+		if(GlobalPage>=0 && LocalPage>=0 && LocalPage<GetPageNumb()){
+			GUICmdPourImage		PourColorRequester(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+			int	LocalX,LocalY;
+			DataInPage	*P=GetLayersBase()->GetPageData(LocalPage);
+			P->GetLocalMatrixFromGlobalInMaster(globalX,globalY,LocalX,LocalY);
+			PourColorRequester.LocalX=LocalX;
+			PourColorRequester.LocalY=LocalY;
+			PourColorRequester.MasterNo=CurrentMasterNo;
+			PourColorRequester.DType=DType;
+			PourColorRequester.BrightnessWidth	=PourPickupBrightness;
+			PourColorRequester.ExpandedDot		=PourExpandedDot;
+			PourColorRequester.PickedColor=PickColorBtn->color();
+
+			GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Pour image");
+
+			if(PourColorRequester.Send(NULL,GlobalPage,0)==false){
+				SetError(Error_Comm , /**/"Send error :GUICmdPourImage",ErrorCodeList::_Alart);
+			}
+		}
+		if(MainCanvas!=NULL){
+			MainCanvas->Clear();
+		}
+		Repaint();
+	}
+}
+
+void	DisplayImage::ExeReplaceColorImage(int globalX,int globalY)
+{
+	if(DrawRectMode==mtFrameDraw::fdPoint){
+		int	GlobalPage	=GetLayersBase()->GetGlobalPage(globalX,globalY);
+		int	LocalPage	=GetParamComm()->GetLocalPageFromGlobal	(*GetParamGlobal(),GlobalPage);
+		if(GlobalPage>=0 && LocalPage>=0 && LocalPage<GetPageNumb()){
+			GUICmdReplaceColorImage		PourColorRequester(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+			int	LocalX,LocalY;
+			DataInPage	*P=GetLayersBase()->GetPageData(LocalPage);
+			P->GetLocalMatrixFromGlobalInMaster(globalX,globalY,LocalX,LocalY);
+			PourColorRequester.LocalX=LocalX;
+			PourColorRequester.LocalY=LocalY;
+			PourColorRequester.MasterNo=CurrentMasterNo;
+			PourColorRequester.DType=DType;
+			PourColorRequester.BrightnessWidth	=PourPickupBrightness;
+			PourColorRequester.ExpandedDot		=PourExpandedDot;
+			PourColorRequester.PickedColor=PickColorBtn->color();
+
+			GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"ReplaceColor image");
+
+			if(PourColorRequester.Send(NULL,GlobalPage,0)==false){
+				SetError(Error_Comm , /**/"Send error :GUICmdReplaceColorImage",ErrorCodeList::_Alart);
+			}
+		}
+		if(MainCanvas!=NULL){
+			MainCanvas->Clear();
+		}
+		Repaint();
+	}
+}
+void	DisplayImage::ExeDrawDot(int globalX,int globalY)
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int localX ,localY;
+		GetLayersBase()->GetPageData(page)->GetLocalMatrixFromGlobalInMaster(globalX ,globalY ,localX ,localY);
+		if(GetLayersBase()->GetPageData(page)->IsInclude(localX ,localY)==true){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+
+			GUICmdDrawDot		DrawDotRequester(GetLayersBase(),EmitterRoot,EmitterName ,DType,GlobalPage);
+			DrawDotRequester.Col	=PickedColor;
+			DrawDotRequester.LocalX	=localX;
+			DrawDotRequester.LocalY	=localY;
+			DrawDotRequester.DType	=DType;
+			DrawDotRequester.MasterNo=CurrentMasterNo;
+			if(DrawDotRequester.Send(NULL,GlobalPage,0)==false){
+				SetError(Error_Comm , /**/"Send error :ExeDrawDot",ErrorCodeList::_Alart);
+			}
+		}
+	}
+	if(MainCanvas!=NULL){
+		MainCanvas->Clear();
+	}
+	Repaint();
+}
+
+void	DisplayImage::CanvasSlotDrawEnd(void)
+{
+	if(HookedExecuteDrawEnd()==false){
+		MainCanvas->Clear();
+		return;
+	}
+
+	if(MainCanvas!=NULL){
+		if((ZoomInBtn!=NULL) && (ZoomInBtn->isChecked()==true)){
+		    //int LX=(int)((double)GetRawSDataPoint()->UData.PointData.x/MainCanvas->GetZoomRate()/2.0);
+			//int LY=(int)((double)GetRawSDataPoint()->UData.PointData.y/MainCanvas->GetZoomRate()/2.0);
+			//MainCanvas->ZoomDraw(MainCanvas->GetMovx()-LX, MainCanvas->GetMovy()-LY, MainCanvas->GetZoomRate()*2.0);
+			BroadcastDraw();
+		}
+		else if((ZoomRectBtn!=NULL) && (ZoomRectBtn->isChecked()==true)){
+		    int x1=(int)((double)GetRawSDataPoint()->UData.RectangleData.x1);
+			int y1=(int)((double)GetRawSDataPoint()->UData.RectangleData.y1);
+		    int x2=(int)((double)GetRawSDataPoint()->UData.RectangleData.x2);
+			int y2=(int)((double)GetRawSDataPoint()->UData.RectangleData.y2);
+			ZoomRect(x1 ,y1 ,x2 ,y2);
+			emit	SignalChangedDrawingPosition();
+			MainCanvas->Clear();
+		}
+		else if((DrawRectBtn!=NULL) && (DrawRectBtn->isChecked()==true)){
+			if(DrawRectMode!=mtFrameDraw::fdPoint){
+				FlexArea	Area;
+				PickedColor=PickColorBtn->color();
+				ToFlexArea( *GetRawSDataPoint() ,Area);
+				if(0<=ShowOnePage && ShowOnePage<GetPageNumb()){
+					DataInPage *P=GetLayersBase()->GetPageData(ShowOnePage);
+					Area.MoveToNoClip(P->GetOutlineOffset()->x,P->GetOutlineOffset()->y);
+				}
+				ExeDrawRect(Area);
+			}
+		}
+		else if((DrawDotBtn!=NULL) && (DrawDotBtn->isChecked()==true)){
+		}
+		else if((CopyRectBtn!=NULL) && (CopyRectBtn->isChecked()==true)){
+			FlexArea	Area;
+			ToFlexArea( *GetRawSDataPoint() ,Area);
+			if(0<=ShowOnePage && ShowOnePage<GetPageNumb()){
+				DataInPage *P=GetLayersBase()->GetPageData(ShowOnePage);
+				Area.MoveToNoClip(P->GetOutlineOffset()->x,P->GetOutlineOffset()->y);
+			}
+			ExeCopyRect(Area);
+		}
+		else if((PasteBtn!=NULL) && (PasteBtn->isChecked()==true)){
+		}
+		else if((PickColorBtn!=NULL) && (PickColorBtn->isChecked()==true)){
+		}
+		else if((SaveImageOnRectBtn!=NULL) && (SaveImageOnRectBtn->isChecked()==true)){
+		    int x1=(int)((double)GetRawSDataPoint()->UData.RectangleData.x1);
+			int y1=(int)((double)GetRawSDataPoint()->UData.RectangleData.y1);
+		    int x2=(int)((double)GetRawSDataPoint()->UData.RectangleData.x2);
+			int y2=(int)((double)GetRawSDataPoint()->UData.RectangleData.y2);
+			SaveImage(x1,y1,x2,y2,0,0);
+			MainCanvas->Clear();
+		}
+		else if((RegulateBrightnessBtn!=NULL) && (RegulateBrightnessBtn->isChecked()==true)){
+			FlexArea	Area;
+			ToFlexArea( *GetRawSDataPoint() ,Area);
+			if(0<=ShowOnePage && ShowOnePage<GetPageNumb()){
+				DataInPage *P=GetLayersBase()->GetPageData(ShowOnePage);
+				Area.MoveToNoClip(P->GetOutlineOffset()->x,P->GetOutlineOffset()->y);
+			}
+			ExeRegulateBrightness(Area);
+			MainCanvas->Clear();
+		}
+		else if((RegistColorLibBtn!=NULL) && (RegistColorLibBtn->isChecked()==true)){
+			FlexArea	Area;
+			ToFlexArea( *GetRawSDataPoint() ,Area);
+			if(0<=ShowOnePage && ShowOnePage<GetPageNumb()){
+				DataInPage *P=GetLayersBase()->GetPageData(ShowOnePage);
+				Area.MoveToNoClip(P->GetOutlineOffset()->x,P->GetOutlineOffset()->y);
+			}
+			ExeRegistColorLib(Area);
+			MainCanvas->Clear();
+		}
+		else
+		if((DrawingMode!=_PasteMovePreStart) 
+		&& (DrawingMode!=_PasteMove)
+		&& (DrawingMode!=_PasteCreateShape)
+		&& (DrawingMode!=_PasteForImage)
+		&& (DrawingMode!=_PasteCreateShapeStart)
+		&& (DrawingMode!=_ItemMoveWait)
+		&& (DrawingMode!=_ItemMove)
+		&& (DrawingMode!=_RotateMoveWait)
+		&& (DrawingMode!=_RotateMoveAngleStart)
+		&& (DrawingMode!=_RotateMoveAngling)
+		&& (DrawingMode!=_SlopeXMoveWait)
+		&& (DrawingMode!=_SlopeXMoveAngleStart)
+		&& (DrawingMode!=_SlopeXMoveAngling)
+		&& (DrawingMode!=_SlopeYMoveWait)
+		&& (DrawingMode!=_SlopeYMoveAngleStart)
+		&& (DrawingMode!=_SlopeYMoveAngling)
+		&& (DrawingMode!=_ExtendMoveWait)
+		&& (DrawingMode!=_ExtendMoveStart)
+		&& (DrawingMode!=_ExtendMoving)
+		&& (DrawingMode!=_MeasureFirst)
+		&& (DrawingMode!=_MeasureSecond)
+		&& (DrawingMode!=_MeasureDone)
+		&& (DrawingMode!=_ExpandedPaste)
+		&& (DrawingMode!=_ExpandedPasteMove)
+		&& (DrawingMode!=_ExpandedPasteRotate0)
+		&& (DrawingMode!=_ExpandedPasteRotate1)
+		&& (DrawingMode!=_ExpandedPasteRotate2)
+		&& (DrawingMode!=_ExpandedPasteRotate3)
+		&& (DrawingMode!=_ExpandedPasteZoom01)
+		&& (DrawingMode!=_ExpandedPasteZoom12)
+		&& (DrawingMode!=_ExpandedPasteZoom23)
+		&& (DrawingMode!=_ExpandedPasteZoom30)
+		&& (DrawingMode!=_CutByShape)
+		&& (DrawingMode!=_CutByShapePreStart)){
+			FlexArea resultarea;
+			ToFlexArea( *GetRawSDataPoint()
+		                            ,resultarea);
+			if(ShowOnePage<0 || GetPageNumb()<=ShowOnePage){
+				DrawEndAfterOperation(resultarea);
+			}
+			else{
+				DataInPage *P=GetLayersBase()->GetPageData(ShowOnePage);
+				resultarea.MoveToNoClip(P->GetOutlineOffset()->x,P->GetOutlineOffset()->y);
+				DrawEndAfterOperation(resultarea);
+			}
+			MainCanvas->Clear();
+		}
+		SetAlterSomething();
+	}
+	Repaint();
+}
+void	DisplayImage::DrawEndAfterOperation(FlexArea &area)
+{
+	emit	SignalDrawEndAfterOperation(area);
+}
+
+void	DisplayImage::ChangeDxy2Gxy(int Dx,int Dy ,int &Gx ,int &Gy)	const
+{
+	if(MainCanvas!=NULL){
+		if(GetShowOnePage()<0 || GetPageNumb()<=GetShowOnePage()){
+			Gx=(Dx+MainCanvas->GetMovx())*MainCanvas->GetZoomRate();
+			Gy=(Dy+MainCanvas->GetMovy())*MainCanvas->GetZoomRate();
+		}
+		else{
+			DataInPage *P=GetLayersBase()->GetPageData(GetShowOnePage());
+			Gx=(Dx-P->GetOutlineOffset()->x+MainCanvas->GetMovx())*MainCanvas->GetZoomRate();
+			Gy=(Dy-P->GetOutlineOffset()->y+MainCanvas->GetMovy())*MainCanvas->GetZoomRate();
+		}
+	}
+}
+void	DisplayImage::ChangeGxy2Dxy(int Gx,int Gy ,int &Dx ,int &Dy)	const
+{
+	if(MainCanvas!=NULL){
+		if(GetShowOnePage()<0 || GetPageNumb()<=GetShowOnePage()){
+			Dx=Gx/MainCanvas->GetZoomRate() - MainCanvas->GetMovx();
+			Dy=Gy/MainCanvas->GetZoomRate() - MainCanvas->GetMovy();
+		}
+		else{
+			DataInPage *P=GetLayersBase()->GetPageData(GetShowOnePage());
+			Dx=Gx/MainCanvas->GetZoomRate() - MainCanvas->GetMovx() +P->GetOutlineOffset()->x;
+			Dy=Gy/MainCanvas->GetZoomRate() - MainCanvas->GetMovy() +P->GetOutlineOffset()->y;
+		}
+	}
+}
+
+void	DisplayImage::SetDrawPosition(int datax1 ,int datay1 , int datax2 ,int datay2)
+{
+	if(MainCanvas!=NULL){
+		int	Lx=datax2-datax1;
+		int	Ly=datay2-datay1;
+		double	zx=(double)MainCanvas->GetCanvasWidth()/(double)Lx;
+		double	zy=(double)MainCanvas->GetCanvasHeight()/(double)Ly;
+		double	Z=(zx>zy)?zy:zx;
+		MainCanvas->ZoomDraw(-datax1, -datay1, Z);
+		emit	SignalChangedDrawingPosition();
+	}
+}
+
+void	DisplayImage::StartPage(void)
+{
+	SetKeyGrab(true);
+}
+void	DisplayImage::LeavePage(void)
+{
+	SetKeyGrab(false);
+}
+
+void	DisplayImage::MouseMoveEvent(int globalX ,int globalY)
+{
+}
+void	DisplayImage::DrawAfterImage(QPainter &pnt,QImage &PntImage)
+{
+}
+void	DisplayImage::MoveStart(int globalX ,int globalY)
+{
+}
+void	DisplayImage::MoveStart(void)
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(ModeFromOther);
+		AllUpImagePanel();
+		SetDrawingMode(_ItemMoveWait);
+		SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+		SetAlterSomething();
+		GetLayersBase()->SetStatusModes(this,/**/"Move");
+	}
+}
+
+void	DisplayImage::MovingNow(int globalX ,int globalY)
+{
+}
+void	DisplayImage::MoveCancel(void)
+{
+}
+void	DisplayImage::MoveFinish(void)
+{
+}
+void	DisplayImage::RotateStart(void)		//Changing mode Only inside
+{
+	//DrawingMode=_RotateMoveWait;
+
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(ModeFromOther);
+	}
+	AllUpImagePanel();
+	SetDrawingMode(_RotateMoveWait);
+	SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+	SetAlterSomething();
+	GetLayersBase()->SetStatusModes(this,/**/"Rotate");
+}
+void	DisplayImage::SlopeXStart(void)		//Changing mode Only inside
+{
+	//DrawingMode=_SlopeXMoveWait;
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(ModeFromOther);
+	}
+	AllUpImagePanel();
+	SetDrawingMode(_SlopeXMoveWait);
+	SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+	SetAlterSomething();
+	GetLayersBase()->SetStatusModes(this,/**/"SlopeX");
+}
+void	DisplayImage::SlopeYStart(void)		//Changing mode Only inside
+{
+	//DrawingMode=_SlopeYMoveWait;
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(ModeFromOther);
+	}
+	AllUpImagePanel();
+	SetDrawingMode(_SlopeYMoveWait);
+	SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+	SetAlterSomething();
+	GetLayersBase()->SetStatusModes(this,/**/"SlopeY");
+}
+void	DisplayImage::ExtendStart(void)		//Changing mode Only inside
+{
+	DrawingMode=_ExtendMoveWait;
+}
+
+void	DisplayImage::ShowInPlayer(int64 shownInspectionID)
+{
+	if(IsShown()==true){
+		ViewRefreshInPlayer(shownInspectionID);
+	}
+}
+
+void	DisplayImage::ShowInEdit(void)
+{
+	ViewRefreshInEdit();
+}
+void	DisplayImage::resizeEvent (QResizeEvent * ev)
+{
+	GUIFormBase::resizeEvent(ev);
+	ModeDrawOutOfView=true;
+}
+
+void	DisplayImage::ViewRefreshInPlayer(int64 shownInspectionID)
+{
+	//MainCanvas->repaint (0, 0, MainCanvas->GetCanvasWidth(), MainCanvas->GetCanvasHeight() );
+	if(MainCanvas!=NULL){
+		MainCanvas->Repaint();
+	}
+}
+void	DisplayImage::ViewRefreshInEdit(void)
+{
+	//MainCanvas->repaint (0, 0, MainCanvas->GetCanvasWidth(), MainCanvas->GetCanvasHeight() );
+	if(MainCanvas!=NULL){
+		MainCanvas->Repaint();
+	}
+}
+
+void	DisplayImage::ReleaseHook(FunctionServerClass *f)
+{
+	DisplayImageHooked::ReleaseHook(f);
+}
+
+void	DisplayImage::SetEnableShiftImage(bool b)
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetEnableShiftImage(b);
+	}
+}
+bool	DisplayImage::GetEnableShiftImage(void)	const
+{
+	if(MainCanvas!=NULL){
+		return MainCanvas->GetEnableShiftImage();
+	}
+	return true;
+}
+
+bool	DisplayImage::DynamicPickupColor(int universalX,int universalY ,QColor &Ret)
+{
+	int	GlobalPage	=GetLayersBase()->GetGlobalPage(universalX,universalY);
+	int	LocalPage	=GetParamComm()->GetLocalPageFromGlobal	(*GetParamGlobal(),GlobalPage);
+	if(GlobalPage>=0 && LocalPage>=0 && LocalPage<GetPageNumb()){
+		GUICmdSendPixelColor	PickupColorReceiver(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		GUICmdReqPixelColor		PickupColorRequester(GetLayersBase(),EmitterRoot,EmitterName ,DType,GlobalPage);
+		int	LocalX,LocalY;
+		DataInPage	*P=GetLayersBase()->GetPageData(LocalPage);
+		//??O??????[??o????????W??????c??i??[??J????????W??O?I?I?i??
+		P->GetLocalMatrixFromGlobalInMaster(universalX,universalY,LocalX,LocalY);
+		PickupColorRequester.LocalX=LocalX;
+		PickupColorRequester.LocalY=LocalY;
+		PickupColorRequester.MasterNo=CurrentMasterNo;
+		//??P??x??v??????I?i????M
+		if(PickupColorRequester.Send(GlobalPage,0,PickupColorReceiver)==true){
+			//????????????????
+			Ret=PickupColorReceiver.Col;
+			return true;
+		}
+		else{
+			int	mPage=GetLayersBase()->GetGlobalPageFromLocal(GlobalPage);
+			if(mPage>=0){
+				if(PickupColorRequester.Send(mPage,0,PickupColorReceiver)==true){
+					//????????????????
+					Ret=PickupColorReceiver.Col;
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+void	DisplayImage::SlotMouseMove(int globalX,int globalY)
+{
+	if(0<=GetShowOnePage() && GetShowOnePage()<GetPageNumb()){
+		DataInPage *P=GetLayersBase()->GetPageData(GetShowOnePage());
+		globalX+=P->GetOutlineOffset()->x;
+		globalY+=P->GetOutlineOffset()->y;
+	}
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	globalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		if(GetLayersBase()->GetSendingData(globalPage)==true){
+			return;
+		}
+	}
+	if(LensBtn!=NULL && LensBtn->isChecked()==true){
+		GetLayersBase()->ShowLens(this,globalX,globalY);
+	}
+	if(HookedExecuteMouseMove(globalX,globalY)==false)
+		return;
+
+	int	GlobalPage=GetLayersBase()->GetGlobalPage(globalX,globalY);
+	if(GlobalPage>=0){
+		QColor Ret;
+		if(DynamicPickupColor(globalX,globalY ,Ret)==true){
+			if(XPosLabel!=NULL){
+				XPosLabel->setText(QString::number(globalX));
+			}
+			if(YPosLabel!=NULL){
+				YPosLabel->setText(QString::number(globalY));
+			}
+
+			if(LabelColorMessage!=NULL){
+				QString	msg;
+				if(GetLayersBase()->GetLayerNumb()>3){
+					msg= QString::number(Ret.red()) + QString(/**/",")
+						+QString::number(Ret.green()) + QString(/**/",")
+						+QString::number(Ret.blue())
+						+QString(/**/"...");
+				}
+				else
+				if(GetLayersBase()->GetLayerNumb()==3){
+					msg= QString::number(Ret.red()) + QString(/**/",")
+						+QString::number(Ret.green()) + QString(/**/",")
+						+QString::number(Ret.blue());
+				}
+				else
+				if(GetLayersBase()->GetLayerNumb()==2){
+					msg= QString::number(Ret.red()) + QString(/**/",")
+						+QString::number(Ret.green());
+				}
+				else
+				if(GetLayersBase()->GetLayerNumb()==1){
+					msg=QString::number(Ret.red());
+				}
+				LabelColorMessage->setText(msg);
+			}
+			int		MeterX ,MeterY;
+			GetMeterMatrix(globalX ,globalY ,MeterX ,MeterY);
+			emit	SignalPointColor(MeterX ,MeterY ,Ret);
+		}
+	}
+	if((ExpandedPasteBtn!=NULL) && (ExpandedPasteBtn->isChecked()==true)){
+		if((DrawingMode==_ExpandedPasteRotate0)
+		|| (DrawingMode==_ExpandedPasteRotate1)
+		|| (DrawingMode==_ExpandedPasteRotate2)
+		|| (DrawingMode==_ExpandedPasteRotate3)
+		|| (DrawingMode==_ExpandedPasteZoom01)
+		|| (DrawingMode==_ExpandedPasteZoom12)
+		|| (DrawingMode==_ExpandedPasteZoom23)
+		|| (DrawingMode==_ExpandedPasteZoom30)
+		|| (DrawingMode==_ExpandedPasteMove)){
+			SetExpandedPasteFrame(globalX,globalY);
+			ExpandedPasteCurrentGlobalX=globalX;
+			ExpandedPasteCurrentGlobalY=globalY;
+			MainCanvas->Repaint();
+		}
+	}
+	else if((PasteBtn!=NULL) && (PasteBtn->isChecked()==true)){
+		if(ClippedImageStructure.GetFirst()!=NULL){
+			ClippedImageGlobalPosX=globalX;
+			ClippedImageGlobalPosY=globalY;
+		}
+		else{
+			ClippedImageGlobalPosX= -1;
+			ClippedImageGlobalPosY= -1;
+		}
+		MainCanvas->Repaint();
+	}
+	else if((SaveImageOnPointBtn!=NULL) && (SaveImageOnPointBtn->isChecked()==true)){
+		SaveImageX=globalX;
+		SaveImageY=globalY;
+		if(MainCanvas!=NULL){
+			MainCanvas->Repaint();
+		}
+	}
+	else if((SaveImageOnRectBtn!=NULL) && (SaveImageOnRectBtn->isChecked()==true)){
+		MainCanvas->Repaint();
+	}
+	else if((RegulateBrightnessBtn!=NULL) && (RegulateBrightnessBtn->isChecked()==true)){
+		MainCanvas->Repaint();
+	}
+	else if((RegistColorLibBtn!=NULL) && (RegistColorLibBtn->isChecked()==true)){
+		MainCanvas->Repaint();
+	}
+	else{
+		/*
+		if(((MainCanvas->GetStateMouseButtons() & Qt::LeftButton)!=0) && (GetComputerMiliSec()-ClickedMilisec>200)){
+			//DrawingMode=_DraggingScroll;
+			int	CurrentDx,CurrentDy;
+			ChangeDxy2Gxy(globalX,globalY,CurrentDx,CurrentDy);
+			if((CurrentDx!=StartDx) || (CurrentDy!=StartDy)){
+				int	SGx,SGy;
+				ChangeGxy2Dxy(StartDx,StartDy,SGx,SGy);
+				MainCanvas->SetDrawOffset(StartMovx+globalX-SGx, StartMovy+globalY-SGy);
+				BroadcastDraw();
+			}
+		}
+		*/
+		if((MeasureBtn!=NULL) && (MeasureBtn->isChecked()==true)){
+			if(DrawingMode==_MeasureSecond){
+				MeasureCurrentGlobalX	=globalX;
+				MeasureCurrentGlobalY	=globalY;
+				MainCanvas->Repaint();
+			}
+		}
+	}
+	MouseMoveEvent(globalX ,globalY);
+}
+void	DisplayImage::GetMeterMatrix(int GlobalX ,int GlobalY ,int &MeterX ,int &MeterY)	const
+{
+	if(MainCanvas!=NULL){
+		int	OffsetX=0,OffsetY=0;
+		MainCanvas->GetMeterOffset(OffsetX ,OffsetY);
+		MeterX=GlobalX+OffsetX;
+		MeterY=GlobalY+OffsetY;
+	}
+}
+void	DisplayImage::SlotMouseWheel(int delta ,int globalX,int globalY)
+{
+	if(MainCanvas!=NULL){
+		if(0<=GetShowOnePage() && GetShowOnePage()<GetPageNumb()){
+			DataInPage *P=GetLayersBase()->GetPageData(GetShowOnePage());
+			globalX+=P->GetOutlineOffset()->x;
+			globalY+=P->GetOutlineOffset()->y;
+		}
+		if(delta>0){
+			int	GlobalPage=GetLayersBase()->GetGlobalPage(globalX,globalY);
+			if((GlobalPage>=0) && (MainCanvas->GetZoomRate()<GetMaxZoomValue())){
+				int Gx ,Gy;
+				ChangeDxy2Gxy(globalX, globalY,Gx ,Gy);
+				if(ViewWindowStyle.EnableZoom==true){
+					MainCanvas->ZoomIn(Gx ,Gy);
+				}
+				emit	SignalChangedDrawingPosition();
+				BroadcastDraw();
+			}
+		}
+		else if(delta<0){
+			int	GlobalPage=GetLayersBase()->GetGlobalPage(globalX,globalY);
+			if((GlobalPage>=0) && (MainCanvas->GetZoomRate()>GetMinZoomValue())){
+				int Gx ,Gy;
+				ChangeDxy2Gxy(globalX, globalY,Gx ,Gy);
+				if(ViewWindowStyle.EnableZoom==true){
+					MainCanvas->ZoomOut(Gx ,Gy);
+				}
+				emit	SignalChangedDrawingPosition();
+				BroadcastDraw();
+			}
+		}
+	}
+}
+void	DisplayImage::SlotShiftAll(void)
+{
+	BroadcastDraw();
+}
+
+void	DisplayImage::ExePasteImage(int dx,int dy)
+{
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Paste image");
+
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+
+		GUICmdReqPasteRectPacket	RCmd(GetLayersBase(),EmitterRoot ,EmitterName,GlobalPage);
+		RCmd.dx=dx;
+		RCmd.dy=dy;
+		RCmd.MasterNo=CurrentMasterNo;
+		for(DisplayImageCopyStructure *a=ClippedImageStructure.GetFirst();a!=NULL;a=a->GetNext()){
+			DisplayImageCopyStructure *b=new DisplayImageCopyStructure(CurrentMasterNo);
+			*b= *a;
+			RCmd.ImageClipData.AppendList(b);
+		}
+		if(RCmd.Send(NULL,GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :ExePasteImage",ErrorCodeList::_Alart);
+		}
+	}
+}
+void	DisplayImage::ExePickupColor(int globalX,int globalY)
+{
+	int	GlobalPage=GetLayersBase()->GetGlobalPage(globalX,globalY);
+	if(GlobalPage>=0){
+		AllocInnerBuff();
+		GUICmdSendPixelColor	BmpReceiver(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		GUICmdReqPixelColor		BmpRequester(GetLayersBase(),EmitterRoot,EmitterName ,DType,GlobalPage);
+		int	LocalX,LocalY;
+		DataInPage	*P=GetLayersBase()->GetPageData(GlobalPage);
+		P->GetLocalMatrixFromGlobalInMaster(globalX,globalY,LocalX,LocalY);
+		BmpRequester.LocalX	 =LocalX;
+		BmpRequester.LocalY	 =LocalY;
+		BmpRequester.MasterNo=CurrentMasterNo;
+		if(BmpRequester.Send(GlobalPage,0,BmpReceiver)==true){
+			PickedColor=BmpReceiver.Col;
+			PickColorBtn->setColor(PickedColor);
+		}
+	}
+}
+
+void	DisplayImage::SlotMouseLDown(int globalX,int globalY)
+{
+	if(MainCanvas!=NULL){
+		if(0<=GetShowOnePage() && GetShowOnePage()<GetPageNumb()){
+			DataInPage *P=GetLayersBase()->GetPageData(GetShowOnePage());
+			globalX+=P->GetOutlineOffset()->x;
+			globalY+=P->GetOutlineOffset()->y;
+		}
+		if(HookedExecuteLClickOnFree(globalX,globalY)==false){
+			return;
+		}
+
+		ClickedMilisec	=GetComputerMiliSec();
+		StartMovx=MainCanvas->GetMovx();
+		StartMovy=MainCanvas->GetMovy();
+		StartGlobalX=globalX;
+		StartGlobalY=globalY;
+		ChangeDxy2Gxy(globalX,globalY,StartDx,StartDy);
+
+		if((ZoomInBtn!=NULL) && (ZoomInBtn->isChecked ()==true)){
+			if(ViewWindowStyle.EnableZoom==true){
+				ExeZoomIn(globalX,globalY);
+			}
+		}
+		else if((PasteBtn!=NULL) && (PasteBtn->isChecked()==true) && ((ClippedImageGlobalPosX!=-1) && (ClippedImageGlobalPosY!=-1)) 
+		&& (ClippedImageStructure.GetFirst()!=NULL)){
+			ExePasteImage(ClippedImageGlobalPosX-ClippedImageGlobalCx,ClippedImageGlobalPosY-ClippedImageGlobalCy);
+		}
+
+		else if(DrawingMode==_PasteMovePreStart){
+			MoveCurrentGlobalX=MoveStartGlobalX=globalX;
+			MoveCurrentGlobalY=MoveStartGlobalY=globalY;
+			DrawingMode=_PasteMove;
+			for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+				int	localX,localY;
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+				GetLayersBase()->GetPageData(page)->GetLocalMatrixFromGlobalInMaster(MoveStartGlobalX,MoveStartGlobalY,localX ,localY);
+				GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+				Cmd.InstName=GetName();
+				Cmd.DMode=DrawingMode;
+				Cmd.localX=localX;
+				Cmd.localY=localY;
+				if(Cmd.SendOnly(GlobalPage,0)==false){
+					SetError(Error_Comm , /**/"Send error :_PasteMovePreStart",ErrorCodeList::_Alart);
+				}
+			}
+			StartMovx=MainCanvas->GetMovx();
+			StartMovy=MainCanvas->GetMovy();
+		}
+		else if(DrawingMode==_CutByShapePreStart){
+			MoveCurrentGlobalX=MoveStartGlobalX=globalX;
+			MoveCurrentGlobalY=MoveStartGlobalY=globalY;
+			DrawingMode=_CutByShape;
+			for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+				int	localX,localY;
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+				GetLayersBase()->GetPageData(page)->GetLocalMatrixFromGlobalInMaster(MoveStartGlobalX,MoveStartGlobalY,localX ,localY);
+				GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+				Cmd.InstName=GetName();
+				Cmd.DMode=DrawingMode;
+				Cmd.localX=localX;
+				Cmd.localY=localY;
+				if(Cmd.SendOnly(GlobalPage,0)==false){
+					SetError(Error_Comm , /**/"Send error :_CutByShapePreStart",ErrorCodeList::_Alart);
+				}
+			}
+			StartMovx=MainCanvas->GetMovx();
+			StartMovy=MainCanvas->GetMovy();
+		}
+		else if(DrawingMode==_PasteMove){
+			GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Paste in same algorithm");
+			for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+				GUICmdExecutePaste	Cmd(GetLayersBase(),GUICmdExecutePaste::_PurePaste,EmitterRoot,EmitterName ,GlobalPage);
+				Cmd.InstName=GetName();
+				Cmd.Dx=MoveCurrentGlobalX-MoveStartGlobalX;
+				Cmd.Dy=MoveCurrentGlobalY-MoveStartGlobalY;
+				if(Cmd.SendOnly(GlobalPage,0)==false){
+					SetError(Error_Comm , /**/"Send error :_PasteMove",ErrorCodeList::_Alart);
+				}
+			}
+			DrawingMode=_Normal;
+			MainCanvas->Clear();
+			BroadcastDirectly(_BC_BuildForShow ,GetLayersBase()->GetCurrentInspectIDForDisplay());
+			StartMovx=MainCanvas->GetMovx();
+			StartMovy=MainCanvas->GetMovy();
+		}
+		else if((DrawingMode==_PasteCreateShapeStart) && (PastedItems!=NULL)){
+			MoveCurrentGlobalX=MoveStartGlobalX=globalX;
+			MoveCurrentGlobalY=MoveStartGlobalY=globalY;
+			DrawingMode=_PasteCreateShape;
+			for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+				int	localX,localY;
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+				GetLayersBase()->GetPageData(page)->GetLocalMatrixFromGlobalInMaster(MoveStartGlobalX,MoveStartGlobalY,localX ,localY);
+				GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+				Cmd.InstName=GetName();
+				Cmd.DMode=DrawingMode;
+				Cmd.localX=localX;
+				Cmd.localY=localY;
+				if(Cmd.SendOnly(GlobalPage,0)==false){
+					SetError(Error_Comm , /**/"Send error :_PasteCreateShapeStart",ErrorCodeList::_Alart);
+				}
+			}
+		}
+		else if((DrawingMode==_PasteCreateShape) && (PastedItems!=NULL)){
+			ExecutePasteShape(/**/"",/**/"");
+			DrawingMode=_Normal;
+			BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
+		}
+		else if(DrawingMode==_PasteForImage){
+			ExecutePasteForImage(/**/"",/**/"");
+			DrawingMode=_Normal;
+			BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
+		}
+		//else if(DrawingMode==_ItemMoveWait || GetImageDrawingMode()==_ItemMoveWait){
+		else if(DrawingMode==_ItemMoveWait){
+			if(GetImageDrawingMode()==_ItemMoveWait){
+				MoveCurrentGlobalX=MoveStartGlobalX=globalX;
+				MoveCurrentGlobalY=MoveStartGlobalY=globalY;
+				DrawingMode=_ItemMove;
+			}
+		}
+		else if(GetImageDrawingMode()==_ItemMoveWait && DrawingMode==_Normal){
+			MoveCurrentGlobalX=MoveStartGlobalX=globalX;
+			MoveCurrentGlobalY=MoveStartGlobalY=globalY;
+			DrawingMode=_ItemMove;
+		}
+		else if(DrawingMode==_ItemMove){
+			ExecuteMove();
+			MoveFinish();
+			Repaint();
+			DrawingMode=_Normal;
+			//SetDrawingMode(_ItemMoveWait);
+		}
+		else if(DrawingMode==_RotateMoveWait){
+			RotateFixedCenter(globalX ,globalY);
+			DrawingMode=_RotateMoveAngleStart;
+		}
+		else if(DrawingMode==_RotateMoveAngleStart){
+			RotateStartAngle(globalX ,globalY);
+			DrawingMode=_RotateMoveAngling;
+		}
+		else if(DrawingMode==_RotateMoveAngling){
+			RotateFinish();
+			Repaint();
+			DrawingMode=_Normal;
+		}
+		else if(DrawingMode==_SlopeXMoveWait){
+			SlopeXFixedCenter(globalX ,globalY);
+			DrawingMode=_SlopeXMoveAngleStart;
+		}
+		else if(DrawingMode==_SlopeXMoveAngleStart){
+			SlopeXStartAngle(globalX ,globalY);
+			DrawingMode=_SlopeXMoveAngling;
+		}
+		else if(DrawingMode==_SlopeXMoveAngling){
+			SlopeXFinish();
+			Repaint();
+			DrawingMode=_Normal;
+		}
+		else if(DrawingMode==_SlopeYMoveWait){
+			SlopeYFixedCenter(globalX ,globalY);
+			DrawingMode=_SlopeYMoveAngleStart;
+		}
+		else if(DrawingMode==_SlopeYMoveAngleStart){
+			SlopeYStartAngle(globalX ,globalY);
+			DrawingMode=_SlopeYMoveAngling;
+		}
+		else if(DrawingMode==_SlopeYMoveAngling){
+			SlopeYFinish();
+			Repaint();
+			DrawingMode=_Normal;
+		}
+		else if(DrawingMode==_ExtendMoveWait){
+			ExtendFixedCenter(globalX ,globalY);
+			DrawingMode=_ExtendMoveStart;
+		}
+		else if(DrawingMode==_ExtendMoveStart){
+			ExtendingStart(globalX ,globalY);
+			DrawingMode=_ExtendMoving;
+		}
+		else if(DrawingMode==_ExtendMoving){
+			ExtendFinish();
+			Repaint();
+			DrawingMode=_Normal;
+		}
+		else if((PickColorBtn!=NULL) && (PickColorBtn->isChecked()==true)){
+			ExePickupColor(globalX,globalY);
+		}
+		else if((MeasureBtn!=NULL) && (MeasureBtn->isChecked()==true)){
+			if(DrawingMode==_MeasureFirst){
+				MeasureCurrentGlobalX	=MeasureStartGlobalX	=globalX;
+				MeasureCurrentGlobalY	=MeasureStartGlobalY	=globalY;
+				DrawingMode=_MeasureSecond;
+			}
+			else if(DrawingMode==_MeasureSecond){
+				MeasureCurrentGlobalX	=globalX;
+				MeasureCurrentGlobalY	=globalY;
+				DrawingMode=_MeasureDone;
+				MainCanvas->Repaint();
+				double	L=hypot(MeasureCurrentGlobalX-MeasureStartGlobalX,MeasureCurrentGlobalY-MeasureStartGlobalY);
+				emit	SignalMeasure(L);
+			}
+			else if(DrawingMode==_MeasureDone){
+				DrawingMode=_MeasureFirst;
+				MainCanvas->Repaint();
+			}
+		}
+		else if((ExpandedPasteBtn!=NULL) && (ExpandedPasteBtn->isChecked()==true)){
+			if(DrawingMode==_ExpandedPaste){
+				ExpandedPasteEachStart=ExpandedPasteCurrent;
+				double	Len;
+				double	SepLen=5/GetZoomRate();
+				Len=hypot(ExpandedPasteCurrent.ExpandedPasteFrame[0].X-globalX,ExpandedPasteCurrent.ExpandedPasteFrame[0].Y-globalY);
+				if(Len<SepLen){
+					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
+					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
+					DrawingMode=_ExpandedPasteRotate0;
+				}
+				Len=hypot(ExpandedPasteCurrent.ExpandedPasteFrame[1].X-globalX,ExpandedPasteCurrent.ExpandedPasteFrame[1].Y-globalY);
+				if(Len<SepLen){
+					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
+					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
+					DrawingMode=_ExpandedPasteRotate1;
+				}
+				Len=hypot(ExpandedPasteCurrent.ExpandedPasteFrame[2].X-globalX,ExpandedPasteCurrent.ExpandedPasteFrame[2].Y-globalY);
+				if(Len<SepLen){
+					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
+					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
+					DrawingMode=_ExpandedPasteRotate2;
+				}
+				Len=hypot(ExpandedPasteCurrent.ExpandedPasteFrame[3].X-globalX,ExpandedPasteCurrent.ExpandedPasteFrame[3].Y-globalY);
+				if(Len<SepLen){
+					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
+					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
+					DrawingMode=_ExpandedPasteRotate3;
+				}
+				Len=hypot((ExpandedPasteCurrent.ExpandedPasteFrame[0].X+ExpandedPasteCurrent.ExpandedPasteFrame[1].X)/2-globalX
+						, (ExpandedPasteCurrent.ExpandedPasteFrame[0].Y+ExpandedPasteCurrent.ExpandedPasteFrame[1].Y)/2-globalY);
+				if(Len<SepLen){
+					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
+					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
+					DrawingMode=_ExpandedPasteZoom01;
+				}
+				Len=hypot((ExpandedPasteCurrent.ExpandedPasteFrame[1].X+ExpandedPasteCurrent.ExpandedPasteFrame[2].X)/2-globalX
+						, (ExpandedPasteCurrent.ExpandedPasteFrame[1].Y+ExpandedPasteCurrent.ExpandedPasteFrame[2].Y)/2-globalY);
+				if(Len<SepLen){
+					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
+					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
+					DrawingMode=_ExpandedPasteZoom12;
+				}
+				Len=hypot((ExpandedPasteCurrent.ExpandedPasteFrame[2].X+ExpandedPasteCurrent.ExpandedPasteFrame[3].X)/2-globalX
+						 ,(ExpandedPasteCurrent.ExpandedPasteFrame[2].Y+ExpandedPasteCurrent.ExpandedPasteFrame[3].Y)/2-globalY);
+				if(Len<SepLen){
+					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
+					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
+					DrawingMode=_ExpandedPasteZoom23;
+				}
+				Len=hypot((ExpandedPasteCurrent.ExpandedPasteFrame[3].X+ExpandedPasteCurrent.ExpandedPasteFrame[0].X)/2-globalX
+						 ,(ExpandedPasteCurrent.ExpandedPasteFrame[3].Y+ExpandedPasteCurrent.ExpandedPasteFrame[0].Y)/2-globalY);
+				if(Len<SepLen){
+					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
+					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
+					DrawingMode=_ExpandedPasteZoom30;
+				}
+				if(DrawingMode==_ExpandedPaste){
+					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
+					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
+					DrawingMode=_ExpandedPasteMove;
+				}
+				ExpandedPasteOpeCurrent=ExpandedPasteOpe;
+			}
+			else if((DrawingMode==_ExpandedPasteRotate0)
+				 || (DrawingMode==_ExpandedPasteRotate1)
+				 || (DrawingMode==_ExpandedPasteRotate2)
+				 || (DrawingMode==_ExpandedPasteRotate3)
+				 || (DrawingMode==_ExpandedPasteZoom01)
+				 || (DrawingMode==_ExpandedPasteZoom12)
+				 || (DrawingMode==_ExpandedPasteZoom23)
+				 || (DrawingMode==_ExpandedPasteZoom30)
+				 || (DrawingMode==_ExpandedPasteMove)){
+				ExpandedPasteOpe=ExpandedPasteOpeCurrent;
+				BuildCurrentExpandedPaste(ExpandedPasteOpe);
+				DrawingMode=_ExpandedPaste;
+			}
+		}
+		else if(DrawingMode==_CutByShape){
+			for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+				GUICmdReqCutByPasted	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+				Cmd.InstName=GetName();
+				Cmd.Dx=MoveCurrentGlobalX-MoveStartGlobalX;
+				Cmd.Dy=MoveCurrentGlobalY-MoveStartGlobalY;
+				if(Cmd.SendOnly(GlobalPage,0)==false){
+					SetError(Error_Comm , /**/"Send error :_CutByShape",ErrorCodeList::_Alart);
+				}
+			}
+			DrawingMode=_Normal;
+			MainCanvas->Clear();
+			BroadcastDirectly(_BC_BuildForShow ,GetLayersBase()->GetCurrentInspectIDForDisplay());
+			StartMovx=MainCanvas->GetMovx();
+			StartMovy=MainCanvas->GetMovy();
+		}
+		else if((SaveImageOnPointBtn!=NULL) && (SaveImageOnPointBtn->isChecked()==true)){
+			int	XN=SaveImageXCount/2;
+			int	YN=SaveImageYCount/2;
+			int	yc=0;
+			for(int yn= -YN;yn<=YN;yn++,yc++){
+				int	xc=0;
+				for(int xn= -XN;xn<=XN;xn++,xc++){
+					int	x1=SaveImageSizeXDot*xn+SaveImageX-SaveImageSizeXDot/2;
+					int	y1=SaveImageSizeYDot*yn+SaveImageY-SaveImageSizeYDot/2;
+					int	x2=SaveImageSizeXDot*xn+SaveImageX+SaveImageSizeXDot/2;
+					int	y2=SaveImageSizeYDot*yn+SaveImageY+SaveImageSizeYDot/2;
+					SaveImage(x1,y1,x2,y2,xc,yc);
+				}
+			}
+		}
+		else if((DrawDotBtn!=NULL) && (DrawDotBtn->isChecked()==true)){
+			PickedColor=PickColorBtn->color();
+			ExeDrawDot(globalX,globalY);
+		}
+		else if((DrawRectBtn!=NULL) && (DrawRectBtn->isChecked()==true)){
+			if(GetImageDrawingMode()==_Pour){
+				ExePourImage(globalX,globalY);
+			}
+			if(GetImageDrawingMode()==_ReplaceColor){
+				ExeReplaceColorImage(globalX,globalY);
+			}
+		}
+		else if(MainCanvas->GetMode()==mtFrameDraw::fdNone){
+			emit	SignalMouseLDown(globalX ,globalY);
+			ExecuteMouseLDown(globalX ,globalY);
+			//setFocus();
+		}
+		else{
+			emit	SignalMouseLDown(globalX ,globalY);
+			ExecuteMouseLDown(globalX ,globalY);
+		}
+	}
+	setFocus();
+	SetAlterSomething();
+}
+
+static void	ConvertQImageToJ2kRaw(QImage &Img,BYTE *RawData,int XLen,int YLen)
+{
+	if(Img.depth()==32){
+		int	XLoop=min(Img.width(),XLen);
+		int	YLoop=min(Img.height(),YLen);
+		for(int y=0;y<YLoop;y++){
+			BYTE	*s=Img.scanLine(y);
+			BYTE	*d= &RawData[y*XLen*3];
+			for(int x=0;x<XLoop;x++){
+				*(d+0)= *(s+2);
+				*(d+1)= *(s+1);
+				*(d+2)= *(s+0);
+				d+=3;
+				s+=4;
+			}
+		}
+	}
+}
+
+QImage	DisplayImage::GetSaveImage(int gx1, int gy1, int gx2 ,int gy2)
+{
+	FlexArea	TmpArea;
+	TmpArea.SetRectangle(gx1,gy1,gx2,gy2);
+	IntList PageList;
+	GetLayersBase()->GetLocalPageFromArea(TmpArea,PageList);
+	QImage	Img(gx2-gx1,gy2-gy1,QImage::Format_RGB32);
+	Img.fill(0);
+
+	for(IntClass *P=PageList.GetFirst();P!=NULL;P=P->GetNext()){
+		DataInPage	*pdata=GetLayersBase()->GetPageData(P->GetValue());
+		FlexArea	A=TmpArea;
+		if(pdata->ClipMoveAreaFromGlobal(A)==true){
+			if(A.GetPatternByte()>0){
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(pdata->GetPage());
+
+				GUICmdReqSavingImage	RCmd(GetLayersBase(),EmitterRoot,EmitterName,GlobalPage);
+				GUICmdAckSavingImage	ACmd(GetLayersBase(),EmitterRoot,EmitterName,GlobalPage);
+				RCmd.MinX=A.GetMinX();
+				RCmd.MinY=A.GetMinY();
+				RCmd.MaxX=A.GetMaxX();
+				RCmd.MaxY=A.GetMaxY();
+				if((DType&__Master)!=0){
+					RCmd.Mastered=true;
+				}
+				else{
+					RCmd.Mastered=false;
+				}
+				if(RCmd.Send(GlobalPage,0,ACmd)==false){
+					SetError(Error_Comm , /**/"Send error :SaveImage",ErrorCodeList::_Alart);
+				}
+
+				QPainter	Pnt(&Img);
+				Pnt.drawImage(A.GetMinX()+(pdata->GetOutlineOffset()->x)-gx1
+							 ,A.GetMinY()+(pdata->GetOutlineOffset()->y)-gy1,ACmd.Img);
+			}
+		}
+	}
+	return Img;
+}
+
+bool	DisplayImage::SaveImage(int gx1, int gy1, int gx2 ,int gy2 ,int xn ,int yn)
+{
+	QImage	Img=GetSaveImage(gx1, gy1, gx2 ,gy2);
+
+	QVariantList	ArgV;
+	ArgV<<QVariant(xn);
+	ArgV<<QVariant(yn);
+	ArgV<<QVariant(ImgFormat);
+	ArgV<<gx1;
+	ArgV<<gy1;
+	ArgV<<gx2;
+	ArgV<<gy2;
+	QVariantList	RetV;
+	QString	FileName;
+	if(GetLayersBase()->GetGeneralStocker()->GetData(/**/"FileNameOnSavingImage",RetV,ArgV)==true){
+		SavedFileName=RetV[0].toString();
+		FileName=SavedFileName;
+	}
+	else{
+		if((xn==0) && (yn==0)){
+			SavedFileName=GetLayersBase()->LGetSaveFileName(0
+														, QString()
+														, QString()
+														, /**/"BMP(*.bmp);;PNG(*.png);;JPEG(*.jpg);;JPEG2000(*.j2k)");
+			FileName=SavedFileName;
+		}
+		else{
+			QFileInfo	FInfo(SavedFileName);
+			FileName=FInfo.path()+::GetSeparator()+FInfo.baseName()
+				+QString(/**/"-")+QString::number(xn)+QString(/**/"-")+QString::number(yn)
+				+QString(/**/".")
+				+FInfo.suffix();
+		}
+	}
+	if(FileName.isEmpty()==true){
+		return false;
+	}
+
+	InputSavingFileNameForm	InpForm(GetLayersBase(),FileName,this);
+	SetWidgetCenter(&InpForm);
+	if(InpForm.exec()==(int)true){
+		FileName=InpForm.GetPathFileName();
+
+		QFileInfo	FInfo(FileName);
+		QString	ImagePath=FInfo.path();
+		ForceDirectories(ImagePath);
+		if(FInfo.suffix()==/**/""){
+			FileName=FileName+QString(/**/".")+ImgFormat;
+		}
+
+
+		QFile	FL(FileName);
+		if(FInfo.suffix()==QString(/**/"j2k")){
+			struct	ConvertJpeg2000RawStruct	SrcData;
+			struct	ConvertJpeg2000Struct		DstData;
+			SrcData.XLen=Img.width();
+			SrcData.YLen=Img.height();
+			SrcData.RawDataByte=SrcData.XLen*SrcData.YLen*3;
+			SrcData.AllocatedRawDataByte	=SrcData.XLen*SrcData.YLen*3;
+			SrcData.RawData=new BYTE[SrcData.AllocatedRawDataByte];
+			ConvertQImageToJ2kRaw(Img,SrcData.RawData,SrcData.XLen,SrcData.YLen);
+
+			DstData.XLen=Img.width();
+			DstData.YLen=Img.height();
+			DstData.Jp2kDataByte=0;
+			DstData.AllocatedJp2kDataByte	=DstData.XLen*DstData.YLen*3;
+			DstData.Jp2kData=new BYTE[DstData.AllocatedJp2kDataByte];
+
+			//ConvertDataToJpeg2000Dim(&SrcData,&DstData,1);
+	
+			if(FL.open(QIODevice::WriteOnly)==true){
+				if(FL.write((const char *)DstData.Jp2kData,DstData.Jp2kDataByte)!=DstData.Jp2kDataByte){
+					delete	[]SrcData.RawData;
+					delete	[]DstData.Jp2kData;
+					return false;
+				}
+			}	
+			delete	[]SrcData.RawData;
+			delete	[]DstData.Jp2kData;
+		}
+		else{
+			if(FL.open(QIODevice::WriteOnly)==true){
+				if(Img.save(&FL)==false){
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+
+
+void	DisplayImage::SetExpandedPasteFrame(int globalX ,int globalY)
+{
+	if((DrawingMode==_ExpandedPasteRotate0)
+	|| (DrawingMode==_ExpandedPasteRotate1)
+	|| (DrawingMode==_ExpandedPasteRotate2)
+	|| (DrawingMode==_ExpandedPasteRotate3)){
+		double	Cx,Cy;
+		ExpandedPasteCurrent.GetCenter(Cx,Cy);
+		double	s1=GetSita(ExpandedPasteCurrentGlobalX-Cx
+						  ,ExpandedPasteCurrentGlobalY-Cy);
+		double	s2=GetSita(globalX-Cx,globalY-Cy);
+		double	s=s2-s1;
+		ExpandedPasteOpeCurrent.ExpandedPasteRotate+=s;
+		BuildCurrentExpandedPaste(ExpandedPasteOpeCurrent);
+	}
+	if(DrawingMode==_ExpandedPasteZoom01){
+		//double	X=(ExpandedPasteCurrent.ExpandedPasteFrame[0].X+ExpandedPasteCurrent.ExpandedPasteFrame[1].X)/2.0;
+		double	Y=(ExpandedPasteCurrent.ExpandedPasteFrame[0].Y+ExpandedPasteCurrent.ExpandedPasteFrame[1].Y)/2.0;
+		//double	Cx=(ExpandedPasteCurrent.ExpandedPasteFrame[2].X+ExpandedPasteCurrent.ExpandedPasteFrame[3].X)/2.0;
+		double	Cy=(ExpandedPasteCurrent.ExpandedPasteFrame[2].Y+ExpandedPasteCurrent.ExpandedPasteFrame[3].Y)/2.0;
+
+		double	Vx=0;
+		double	Vy=Y-Cy;
+		double	D=Vx*Vx+Vy*Vy;
+		if(D>0){
+			double	k1= -(double)(Vy*(Cy-ExpandedPasteCurrentGlobalY)/D);
+			double	k2= -(double)(Vy*(Cy-globalY					)/D);
+			if(fabs(k1)>0.000001){
+				ExpandedPasteOpeCurrent.ExpandedPasteZoomY*=k2/k1;
+				int	LastX=ExpandedPasteCurrent.ExpandedPasteFrame[2].X;
+				int	LastY=ExpandedPasteCurrent.ExpandedPasteFrame[2].Y;
+				BuildCurrentExpandedPaste(ExpandedPasteOpeCurrent);
+				ExpandedPasteOpeCurrent.ExpandedPasteMovX-=ExpandedPasteCurrent.ExpandedPasteFrame[2].X-LastX;
+				ExpandedPasteOpeCurrent.ExpandedPasteMovY-=ExpandedPasteCurrent.ExpandedPasteFrame[2].Y-LastY;
+				BuildCurrentExpandedPaste(ExpandedPasteOpeCurrent);
+			}
+		}
+	}
+	if(DrawingMode==_ExpandedPasteZoom12){
+		double	X=(ExpandedPasteCurrent.ExpandedPasteFrame[1].X+ExpandedPasteCurrent.ExpandedPasteFrame[2].X)/2.0;
+		double	Y=(ExpandedPasteCurrent.ExpandedPasteFrame[1].Y+ExpandedPasteCurrent.ExpandedPasteFrame[2].Y)/2.0;
+		double	Cx=(ExpandedPasteCurrent.ExpandedPasteFrame[3].X+ExpandedPasteCurrent.ExpandedPasteFrame[0].X)/2.0;
+		double	Cy=(ExpandedPasteCurrent.ExpandedPasteFrame[3].Y+ExpandedPasteCurrent.ExpandedPasteFrame[0].Y)/2.0;
+
+		double	Vx=X-Cx;
+		double	Vy=Y-Cy;
+		double	D=Vx*Vx+Vy*Vy;
+		if(D>0){
+			double	k1= -(double)(Vx*(Cx-ExpandedPasteCurrentGlobalX )+Vy*(Cy-ExpandedPasteCurrentGlobalY)/D);
+			double	k2= -(double)(Vx*(Cx-globalX					 )+Vy*(Cy-globalY					)/D);
+			if(fabs(k1)>0.000001){
+				ExpandedPasteOpeCurrent.ExpandedPasteZoomX*=k2/k1;
+				int	LastX=ExpandedPasteCurrent.ExpandedPasteFrame[0].X;
+				int	LastY=ExpandedPasteCurrent.ExpandedPasteFrame[0].Y;
+				BuildCurrentExpandedPaste(ExpandedPasteOpeCurrent);
+				ExpandedPasteOpeCurrent.ExpandedPasteMovX-=ExpandedPasteCurrent.ExpandedPasteFrame[0].X-LastX;
+				ExpandedPasteOpeCurrent.ExpandedPasteMovY-=ExpandedPasteCurrent.ExpandedPasteFrame[0].Y-LastY;
+				BuildCurrentExpandedPaste(ExpandedPasteOpeCurrent);
+			}
+		}
+	}
+	if(DrawingMode==_ExpandedPasteZoom23){
+		double	X=(ExpandedPasteCurrent.ExpandedPasteFrame[2].X+ExpandedPasteCurrent.ExpandedPasteFrame[3].X)/2.0;
+		double	Y=(ExpandedPasteCurrent.ExpandedPasteFrame[2].Y+ExpandedPasteCurrent.ExpandedPasteFrame[3].Y)/2.0;
+		double	Cx=(ExpandedPasteCurrent.ExpandedPasteFrame[0].X+ExpandedPasteCurrent.ExpandedPasteFrame[1].X)/2.0;
+		double	Cy=(ExpandedPasteCurrent.ExpandedPasteFrame[0].Y+ExpandedPasteCurrent.ExpandedPasteFrame[1].Y)/2.0;
+		//ExpandedPasteCurrent.GetCenter(Cx,Cy);
+
+		double	Vx=X-Cx;
+		double	Vy=Y-Cy;
+		double	D=Vx*Vx+Vy*Vy;
+		if(D>0){
+			double	k1= -(double)(Vx*(Cx-ExpandedPasteCurrentGlobalX )+Vy*(Cy-ExpandedPasteCurrentGlobalY)/D);
+			double	k2= -(double)(Vx*(Cx-globalX					 )+Vy*(Cy-globalY					)/D);
+			if(fabs(k1)>0.000001){
+				ExpandedPasteOpeCurrent.ExpandedPasteZoomY*=k2/k1;
+				int	LastX=ExpandedPasteCurrent.ExpandedPasteFrame[0].X;
+				int	LastY=ExpandedPasteCurrent.ExpandedPasteFrame[0].Y;
+				BuildCurrentExpandedPaste(ExpandedPasteOpeCurrent);
+				ExpandedPasteOpeCurrent.ExpandedPasteMovX-=ExpandedPasteCurrent.ExpandedPasteFrame[0].X-LastX;
+				ExpandedPasteOpeCurrent.ExpandedPasteMovY-=ExpandedPasteCurrent.ExpandedPasteFrame[0].Y-LastY;
+				BuildCurrentExpandedPaste(ExpandedPasteOpeCurrent);
+			}
+		}
+	}
+	if(DrawingMode==_ExpandedPasteZoom30){
+		double	X=(ExpandedPasteCurrent.ExpandedPasteFrame[3].X+ExpandedPasteCurrent.ExpandedPasteFrame[0].X)/2.0;
+		double	Y=(ExpandedPasteCurrent.ExpandedPasteFrame[3].Y+ExpandedPasteCurrent.ExpandedPasteFrame[0].Y)/2.0;
+		double	Cx=(ExpandedPasteCurrent.ExpandedPasteFrame[1].X+ExpandedPasteCurrent.ExpandedPasteFrame[2].X)/2.0;
+		double	Cy=(ExpandedPasteCurrent.ExpandedPasteFrame[1].Y+ExpandedPasteCurrent.ExpandedPasteFrame[2].Y)/2.0;
+
+		double	Vx=X-Cx;
+		double	Vy=Y-Cy;
+		double	D=Vx*Vx+Vy*Vy;
+		if(D>0){
+			double	k1= -(double)(Vx*(Cx-ExpandedPasteCurrentGlobalX )+Vy*(Cy-ExpandedPasteCurrentGlobalY)/D);
+			double	k2= -(double)(Vx*(Cx-globalX					 )+Vy*(Cy-globalY					)/D);
+			if(fabs(k1)>0.000001){
+				ExpandedPasteOpeCurrent.ExpandedPasteZoomX*=k2/k1;
+				int	LastX=ExpandedPasteCurrent.ExpandedPasteFrame[2].X;
+				int	LastY=ExpandedPasteCurrent.ExpandedPasteFrame[2].Y;
+				BuildCurrentExpandedPaste(ExpandedPasteOpeCurrent);
+				ExpandedPasteOpeCurrent.ExpandedPasteMovX-=ExpandedPasteCurrent.ExpandedPasteFrame[2].X-LastX;
+				ExpandedPasteOpeCurrent.ExpandedPasteMovY-=ExpandedPasteCurrent.ExpandedPasteFrame[2].Y-LastY;
+				BuildCurrentExpandedPaste(ExpandedPasteOpeCurrent);
+			}
+		}
+	}
+	if(DrawingMode==_ExpandedPasteMove){
+		ExpandedPasteOpeCurrent.ExpandedPasteMovX+=globalX-ExpandedPasteCurrentGlobalX;
+		ExpandedPasteOpeCurrent.ExpandedPasteMovY+=globalY-ExpandedPasteCurrentGlobalY;
+		BuildCurrentExpandedPaste(ExpandedPasteOpeCurrent);
+	}
+}
+
+void	DisplayImage::SaveImageOnRectBtnDown(bool)
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		MainCanvas->SetFrameColor(FrameColor);
+	}
+	AllUpToolButton();
+	SetDrawingMode(_SaveImageOnRect);
+	SetAlterSomething();
+	GetLayersBase()->SetStatusModes(this,/**/"ImageSaveOnRect");
+}
+void	DisplayImage::SaveImageOnPointBtnDown(bool)
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(mtFrameDraw::fdPoint);
+		MainCanvas->SetFrameColor(FrameColor);
+	}
+	AllUpToolButton();
+	SetDrawingMode(_SaveImageOnPoint);
+	SetAlterSomething();
+	GetLayersBase()->SetStatusModes(this,/**/"ImageSaveOnPoint");
+}
+
+void	DisplayImage::RegulateBrightnessBtnDown(bool)
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		MainCanvas->SetFrameColor(FrameColor);
+	}
+	AllUpToolButton();
+	SetDrawingMode(_RegulateBrightness);
+	SetAlterSomething();
+	GetLayersBase()->SetStatusModes(this,/**/"ImageRegulateBrightness");
+}
+
+void	DisplayImage::RegistColorLibBtnDown(bool)
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		MainCanvas->SetFrameColor(FrameColor);
+	}
+	//AllUpToolButton();
+	SetDrawingMode(_RegistColorLib);
+	SetAlterSomething();
+	GetLayersBase()->SetStatusModes(this,/**/"ImageColorLib");
+}
+
+void	DisplayImage::DrawCrossLineBtnDown(bool b)
+{
+	if(DrawCrossLineBtn!=NULL){
+		if(MainCanvas!=NULL){
+			MainCanvas->SetCrossLineMode(DrawCrossLineBtn->isChecked());
+		}
+		SetAlterSomething();
+		GetLayersBase()->SetStatusModes(this,/**/"DrawCrossLine");
+	}
+}
+bool	DisplayImage::SetCrossLineMode(bool b,const QColor &Col)
+{
+	if(DrawCrossLineBtn!=NULL){
+		DrawCrossLineBtn->setChecked(b);
+		if(MainCanvas!=NULL){
+			MainCanvas->SetCrossLineMode(b,Col);
+		}
+		SetAlterSomething();
+		GetLayersBase()->SetStatusModes(this,/**/"DrawCrossLine");
+		return true;
+	}
+	return false;
+}
+
+void	DisplayImage::LensBtnDown(bool b)
+{
+	if(LensBtn!=NULL){
+		if(LensBtn->isChecked()==true){
+			GetLayersBase()->ShowLensWindow(true);
+		}
+		else{
+			GetLayersBase()->ShowLensWindow(false);
+		}
+		SetAlterSomething();
+		GetLayersBase()->SetStatusModes(this,/**/"Lens");
+	}
+}
+
+LensWindowForm	*DisplayImage::ShowLensWindow(bool b,const QString &WindowTitle)
+{
+	LensWindowForm	*Ret=NULL;
+	if(LensBtn!=NULL){
+		if(b==true){
+			LensBtn->setChecked(true);
+			Ret=GetLayersBase()->ShowLensWindow(true,WindowTitle);
+		}
+		else{
+			LensBtn->setChecked(false);
+			Ret=GetLayersBase()->ShowLensWindow(false,WindowTitle);
+		}
+		SetAlterSomething();
+		GetLayersBase()->SetStatusModes(this,/**/"Lens");
+	}
+	return Ret;
+}
+
+void	DisplayImage::WheelBarrowBtnDown(bool)
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		MainCanvas->SetFrameColor(FrameColor);
+	}
+	AllUpToolButton();
+	SetDrawingMode(_WheelBarrow);
+	SetAlterSomething();
+	GetLayersBase()->SetStatusModes(this,/**/"ImageWheelBarroe");
+}
+
+void	DisplayImage::SaveImageOnRectRClick(QMouseEvent * event )
+{
+	SelectImageFormatForm	D(this,this);
+	QPoint	Q=mapToGlobal(SaveImageOnRectBtn->geometry().center());
+	D.move(Q.x(),Q.y());
+	D.exec();
+
+	QFile	FL(GetLayersBase()->GetUserPath()+QDir::separator()+GetSettingFileName());
+	if(FL.open(QIODevice::WriteOnly)==true){
+		if(SaveSetting(&FL)==false){
+			SetError(Error_FileAccess , /**/"Send error :SaveImageOnRectRClick",ErrorCodeList::_Alart);
+		}
+	}
+}
+
+void	DisplayImage::SaveImageOnPointRClick(QMouseEvent * event )
+{
+	SaveImageOnPointDialog	D(this,this);
+	QPoint	Q=mapToGlobal(SaveImageOnPointBtn->geometry().center());
+	D.move(Q.x(),Q.y());
+	D.exec();
+
+	QFile	FL(GetLayersBase()->GetUserPath()+QDir::separator()+GetSettingFileName());
+	if(FL.open(QIODevice::WriteOnly)==true){
+		if(SaveSetting(&FL)==false){
+			SetError(Error_FileAccess , /**/"Send error :SaveImageOnPointRClick",ErrorCodeList::_Alart);
+		}
+	}
+}
+
+bool	DisplayImage::ExeZoomIn(int globalX,int globalY)
+{
+	bool	Ret=false;
+	if(MainCanvas!=NULL){
+		int	GlobalPage=GetLayersBase()->GetGlobalPage(globalX,globalY);
+		if((GlobalPage>=0) && (MainCanvas->GetZoomRate()<GetMaxZoomValue())){
+			int Gx ,Gy;
+			ChangeDxy2Gxy(globalX, globalY,Gx ,Gy);
+			Ret=MainCanvas->ZoomIn(Gx ,Gy);
+			emit	SignalChangedDrawingPosition();
+			BroadcastDraw();
+		}
+		StartMovx=MainCanvas->GetMovx();
+		StartMovy=MainCanvas->GetMovy();
+	}
+	return Ret;
+}
+
+bool	DisplayImage::ExeZoomOut(int globalX,int globalY)
+{
+	bool	Ret=false;
+	if(MainCanvas!=NULL){
+		int	GlobalPage=GetLayersBase()->GetGlobalPage(globalX,globalY);
+		if((GlobalPage>=0) && (MainCanvas->GetZoomRate()>GetMinZoomValue())){
+			int Gx ,Gy;
+			double	tZoomRate=MainCanvas->GetZoomRate()/2.0;
+			if(tZoomRate<MainCanvas->GetMinZoomRate()){
+				return false;
+			}
+			MainCanvas->SetZoomRate(tZoomRate*2);
+			ChangeDxy2Gxy(globalX, globalY,Gx ,Gy);
+			Ret=MainCanvas->ZoomOut(Gx ,Gy);
+			emit	SignalChangedDrawingPosition();
+			BroadcastDraw();
+		}
+	}
+	return Ret;
+}
+bool	DisplayImage::ExeSetZoom(int globalX,int globalY , double _ZoomRate)
+{
+	bool	Ret=false;
+	if(MainCanvas!=NULL){
+		int	GlobalPage=GetLayersBase()->GetGlobalPage(globalX,globalY);
+		if((GlobalPage>=0) && (MainCanvas->GetZoomRate()>GetMinZoomValue())){
+			int Gx ,Gy;
+			ChangeDxy2Gxy(globalX, globalY,Gx ,Gy);
+			Ret=MainCanvas->SetZoom(Gx ,Gy,_ZoomRate);
+			emit	SignalChangedDrawingPosition();
+			BroadcastDraw();
+		}
+	}
+	return Ret;
+}
+void	DisplayImage::UndoButtonDown()
+{
+	if(GetLayersBase()->ExecuteUndoInMaster()==false){
+		SetError(Error_Comm , /**/"Send error : GUICmdReqUndo",ErrorCodeList::_Alart);
+	}
+	BroadcastBuildForShow();
+}
+void	DisplayImage::ExeUndo(void)
+{
+	UndoButtonDown();
+}
+void	DisplayImage::RedoButtonDown()
+{
+	if(GetLayersBase()->ExecuteRedoInMaster()==false){
+		SetError(Error_Comm , /**/"Send error : GUICmdReqRedo",ErrorCodeList::_Alart);
+	}
+	BroadcastBuildForShow();
+}
+void	DisplayImage::ExeRedo(void)
+{
+	RedoButtonDown();
+}
+void	DisplayImage::SlotMouseRDown(int globalX,int globalY)
+{
+	if(MainCanvas!=NULL){
+		if(0<=GetShowOnePage() && GetShowOnePage()<GetPageNumb()){
+			DataInPage *P=GetLayersBase()->GetPageData(GetShowOnePage());
+			globalX+=P->GetOutlineOffset()->x;
+			globalY+=P->GetOutlineOffset()->y;
+		}
+		if(HookedExecuteRClickOnFree(globalX,globalY)==false)
+			return;
+
+		if((ZoomInBtn!=NULL) && (ZoomInBtn->isChecked ()==true)){
+			if(ViewWindowStyle.EnableZoom==true){
+				ExeZoomOut(globalX,globalY);
+			}
+		}
+		else if((MeasureBtn!=NULL) && (MeasureBtn->isChecked()==true)){
+			if(DrawingMode==_MeasureSecond){
+				DrawingMode=_MeasureFirst;
+			}
+			else if(DrawingMode==_MeasureDone){
+				DrawingMode=_MeasureSecond;
+				MainCanvas->Repaint();
+			}
+		}
+		else 
+		if((DrawingMode==_PasteMovePreStart)
+		|| (DrawingMode==_PasteMove)
+		|| (DrawingMode==_PasteCreateShape)
+		|| (DrawingMode==_PasteForImage)
+		|| (DrawingMode==_PasteCreateShapeStart)
+		|| (DrawingMode==_ItemMoveWait)
+		|| (DrawingMode==_ItemMove)
+		|| (DrawingMode==_RotateMoveWait)
+		|| (DrawingMode==_RotateMoveAngleStart)
+		|| (DrawingMode==_RotateMoveAngling)
+		|| (DrawingMode==_SlopeXMoveWait)
+		|| (DrawingMode==_SlopeXMoveAngleStart)
+		|| (DrawingMode==_SlopeXMoveAngling)
+		|| (DrawingMode==_SlopeYMoveWait)
+		|| (DrawingMode==_SlopeYMoveAngleStart)
+		|| (DrawingMode==_SlopeYMoveAngling)
+		|| (DrawingMode==_ExtendMoveWait)
+		|| (DrawingMode==_ExtendMoveStart)
+		|| (DrawingMode==_ExtendMoving)){
+			if(DrawingMode==_ItemMove){
+				MoveCancel();
+			}
+			if((DrawingMode==_RotateMoveWait) || (DrawingMode==_RotateMoveAngleStart) || (DrawingMode==_RotateMoveAngling)){
+				RotateCancel();
+			}
+			if((DrawingMode==_SlopeXMoveWait) || (DrawingMode==_SlopeXMoveAngleStart) || (DrawingMode==_SlopeXMoveAngling)){
+				SlopeXCancel();
+			}
+			if((DrawingMode==_SlopeYMoveWait) || (DrawingMode==_SlopeYMoveAngleStart) || (DrawingMode==_SlopeYMoveAngling)){
+				SlopeYCancel();
+			}
+			if((DrawingMode==_ExtendMoveWait) || (DrawingMode==_ExtendMoveStart) || (DrawingMode==_ExtendMoving)){
+				ExtendCancel();
+			}
+			if(DrawingMode==_ItemMoveWait){
+				emit	SignalMouseRDown(globalX,globalY);
+				ExecuteMouseRDown(globalX ,globalY);
+			}
+			DrawingMode=_Normal;
+			for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+				GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+				Cmd.DMode=DrawingMode;
+				Cmd.InstName=GetName();
+				if(Cmd.SendOnly(GlobalPage,0)==false){
+					SetError(Error_Comm , /**/"Send error :SlotMouseRDown",ErrorCodeList::_Alart);
+				}
+			}
+		}
+		else if((DrawingMode==_ExpandedPasteMove)
+		     || (DrawingMode==_ExpandedPasteZoom01)
+			 || (DrawingMode==_ExpandedPasteZoom12)
+			 || (DrawingMode==_ExpandedPasteZoom23)
+			 || (DrawingMode==_ExpandedPasteZoom30)
+			 || (DrawingMode==_ExpandedPasteRotate0)
+			 || (DrawingMode==_ExpandedPasteRotate1)
+			 || (DrawingMode==_ExpandedPasteRotate2)
+			 || (DrawingMode==_ExpandedPasteRotate3)){
+				DrawingMode=_ExpandedPaste;
+				ExpandedPasteCurrent=ExpandedPasteEachStart;
+		}
+		else{
+			emit	SignalMouseRDown(globalX,globalY);
+			ExecuteMouseRDown(globalX ,globalY);
+		}
+	}
+	SetAlterSomething();
+}
+void	DisplayImage::ExpandedPasteButtonOff(void)
+{
+	if(ExpandedPasteBtn!=NULL){
+		ExpandedPasteBtn->setChecked(false);
+	}
+}
+void	DisplayImage::SlotMouseLDoubleClick(int globalX,int globalY)
+{
+	if(0<=GetShowOnePage() && GetShowOnePage()<GetPageNumb()){
+		DataInPage *P=GetLayersBase()->GetPageData(GetShowOnePage());
+		globalX+=P->GetOutlineOffset()->x;
+		globalY+=P->GetOutlineOffset()->y;
+	}
+	if(HookedExecuteLDoubleClick(globalX,globalY)==false){
+		MainCanvas->Clear();
+		return;
+	}
+
+	if((DrawingMode==_PasteMovePreStart) && (PastedItems!=NULL)){
+		MoveCurrentGlobalX=MoveStartGlobalX=globalX;
+		MoveCurrentGlobalY=MoveStartGlobalY=globalY;
+		DrawingMode=_PasteMove;
+		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+			int	localX,localY;
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GetLayersBase()->GetPageData(page)->GetLocalMatrixFromGlobalInMaster(MoveStartGlobalX,MoveStartGlobalY,localX ,localY);
+			GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+			Cmd.InstName=GetName();
+			Cmd.DMode=DrawingMode;
+			Cmd.localX=localX;
+			Cmd.localY=localY;
+			if(Cmd.SendOnly(GlobalPage,0)==false){
+				SetError(Error_Comm , /**/"Send error :SlotMouseLDoubleClick",ErrorCodeList::_Alart);
+			}
+		}
+		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdExecutePaste	Cmd(GetLayersBase(),GUICmdExecutePaste::_PurePaste,EmitterRoot,EmitterName ,GlobalPage);
+			Cmd.InstName=GetName();
+			if(Cmd.SendOnly(GlobalPage,0)==false){
+				SetError(Error_Comm , /**/"Send error :SlotMouseLDoubleClick",ErrorCodeList::_Alart);
+			}
+		}
+		BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
+	}
+	else if((DrawingMode==_PasteMove) && (PastedItems!=NULL)){
+		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdExecutePaste	Cmd(GetLayersBase(),GUICmdExecutePaste::_PurePaste,EmitterRoot,EmitterName ,GlobalPage);
+			Cmd.InstName=GetName();
+			if(Cmd.SendOnly(GlobalPage,0)==false){
+				SetError(Error_Comm , /**/"Send error :SlotMouseLDoubleClick",ErrorCodeList::_Alart);
+			}
+		}
+		BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
+	}
+	else if((DrawingMode==_PasteCreateShapeStart) && (PastedItems!=NULL)){
+		MoveCurrentGlobalX=MoveStartGlobalX=globalX;
+		MoveCurrentGlobalY=MoveStartGlobalY=globalY;
+		DrawingMode=_PasteCreateShape;
+		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+			int	localX,localY;
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GetLayersBase()->GetPageData(page)->GetLocalMatrixFromGlobalInMaster(MoveStartGlobalX,MoveStartGlobalY,localX ,localY);
+			GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+			Cmd.InstName=GetName();
+			Cmd.DMode=DrawingMode;
+			Cmd.localX=localX;
+			Cmd.localY=localY;
+			if(Cmd.SendOnly(GlobalPage,0)==false){
+				SetError(Error_Comm , /**/"Send error :SlotMouseLDoubleClick",ErrorCodeList::_Alart);
+			}
+		}
+		ExecutePasteShape(/**/"",/**/"");
+		BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
+	}
+	else if((DrawingMode==_PasteCreateShape) && (PastedItems!=NULL)){
+		ExecutePasteShape(/**/"",/**/"");
+		BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
+	}
+	else if(DrawingMode==_PasteForImage){
+		ExecutePasteForImage(/**/"",/**/"");
+		BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
+	}
+	else if(DrawingMode==_ItemMove){
+		ExecuteMove();
+		MoveFinish();
+		Repaint();
+	}
+	else if(DrawingMode==_RotateMoveAngling){
+		RotateFinish();
+		DrawingMode=_Normal;
+	}
+	else if(DrawingMode==_ExtendMoving){
+		ExtendFinish();
+		Repaint();
+		DrawingMode=_Normal;
+	}
+	else{
+		emit	SignalMouseLDoubleClick(globalX,globalY);
+		ExecuteMouseLDoubleClick(globalX ,globalY);
+	}
+	setFocus();
+	SetAlterSomething();
+}
+void	DisplayImage::SlotMouseRDoubleClick(int globalX,int globalY)
+{
+	if(0<=GetShowOnePage() && GetShowOnePage()<GetPageNumb()){
+		DataInPage *P=GetLayersBase()->GetPageData(GetShowOnePage());
+		globalX+=P->GetOutlineOffset()->x;
+		globalY+=P->GetOutlineOffset()->y;
+	}
+	emit	SignalMouseRDoubleClick(globalX,globalY);
+	ExecuteMouseRDoubleClick(globalX ,globalY);	
+	setFocus();
+	SetAlterSomething();
+}
+
+void	DisplayImage::ToolMenuBtnDown()
+{
+	QMenu	Menu(this);
+	Menu.addAction ("Undo"			, this, SLOT(UndoButtonDown()));
+	Menu.addAction ("Redo"			, this, SLOT(RedoButtonDown()));
+	Menu.addSeparator ();
+	Menu.addAction (LangDISolver.GetString(XDisplayImage_LS,LID_20)/*"Move Image"*/				, this, SLOT(SlotMoveImage()));
+	Menu.addAction ("Rotate Image"			, this, SLOT(SlotRotateImage()));
+	Menu.addAction ("Mirror Image"			, this, SLOT(SlotMirrorImage()));
+	if(GetParamGlobal()->AllocateMasterBuff==true
+	&& GetParamGlobal()->AllocateTargetBuff==true){
+		Menu.addAction (LangDISolver.GetString(XDisplayImage_LS,LID_21)/*"Swap Image"*/				, this, SLOT(SlotSwapImage()));
+	}
+
+	Menu.addAction (LangDISolver.GetString(XDisplayImage_LS,LID_183)/*"Negative<-->Positive"*/	, this, SLOT(SlotNegPosImage()));
+	if(GetParamGlobal()->AllocateMasterBuff==true
+	&& GetParamGlobal()->AllocateTargetBuff==true){
+		Menu.addAction (LangDISolver.GetString(XDisplayImage_LS,LID_22)/*"Copy Master -> Target"*/	, this, SLOT(SlotCopyImageToTarget()));
+		Menu.addAction (LangDISolver.GetString(XDisplayImage_LS,LID_23)/*"Copy Target -> Master"*/	, this, SLOT(SlotCopyImageToMaster()));
+	}
+	if(GetParamGlobal()->AllocateTargetTRBuff==true)
+		Menu.addAction (QString("Transposition Target -> TargetTR"), this, SLOT(SlotTranspositionTarget()));
+	if(GetCountOnlyMasterBuff()>1){
+		Menu.addSeparator ();
+		Menu.addAction (QString("Copy image Target -> MasterN"), this, SLOT(SlotCopyTargetToMasterBuffN()));
+		Menu.addAction (QString("Copy image Master -> MasterN"), this, SLOT(SlotCopyMasterToMasterBuffN()));
+		Menu.addAction (QString("Swap image Master <-> MasterN"),this, SLOT(SlotSwapMasterBuffN()));
+	}
+
+	Menu.addSeparator ();
+	if(GetParamGlobal()->AllocateMasterBuff==true){
+		Menu.addAction (LangDISolver.GetString(XDisplayImage_LS,LID_178)/*"Clear Master Image"*/	, this, SLOT(SlotClearMasterImage()));
+	}
+	if(GetParamGlobal()->AllocateTargetBuff==true){
+		Menu.addAction (LangDISolver.GetString(XDisplayImage_LS,LID_179)/*"Clear Target Image"*/	, this, SLOT(SlotClearTargetImage()));
+	}
+	if(GetParamGlobal()->AllocBitBuffer==true){
+		Menu.addAction (QString("Clear BitBuffer Image")			, this, SLOT(SlotClearBitBuffer()));
+	}
+	Menu.addSeparator ();
+	//Menu.addAction (LangDISolver.GetString(XDisplayImage_LS,LID_38)/*"Regulate brightness"*/,this,SLOT(SlotRegulateBrightness()));
+	if(GetParamGlobal()->AllocRawTargetBuffForNGImage==true){
+		Menu.addAction (LangDISolver.GetString(XDisplayImage_LS,LID_184)/*"Copy Raw -> Target"*/, this, SLOT(SlotCopyRawToTarget()));
+		Menu.addAction (LangDISolver.GetString(XDisplayImage_LS,LID_39)/*"Swap Raw -> Target"*/, this, SLOT(SlotSwapRawToTarget()));
+	}
+	if(GetPhaseNumb()>1){
+		Menu.addAction ("Copy Image between Phases"			, this, SLOT(SlotCopyImageInPhases()));
+	}
+
+	AddMenuToolMenuBtn(Menu);
+
+	StartMenu(ToolMenuBtn ,&Menu);
+
+	QPoint	Q=mapToGlobal(ToolMenuBtn->geometry().center());
+	Menu.exec(Q);
+}
+
+void	DisplayImage::SlotClearMasterImage()
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdClearImage	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		Cmd.Mastered=0;
+		Cmd.TargetPhase=ShowFixedPhase;
+		Cmd.Color=Qt::black;
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :ClearMasterImage",ErrorCodeList::_Alart);
+		}
+	}
+	BroadcastShowInEdit();
+}
+void	DisplayImage::SlotClearTargetImage()
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdClearImage	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		Cmd.Mastered=1;
+		Cmd.TargetPhase=ShowFixedPhase;
+		Cmd.Color=Qt::black;
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :ClearTargetImage",ErrorCodeList::_Alart);
+		}
+	}
+	BroadcastShowInEdit();
+}
+
+void	DisplayImage::SlotClearBitBuffer()
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdClearImage	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		Cmd.Mastered=2;
+		Cmd.TargetPhase=ShowFixedPhase;
+		Cmd.Color=Qt::black;
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :ClearTargetImage",ErrorCodeList::_Alart);
+		}
+	}
+	BroadcastShowInEdit();
+}
+
+void	DisplayImage::ExeMoveImage(int dx ,int dy ,bool FlagMaster,bool FlagTarget)
+{
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Move image");
+
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdMoveImage	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		Cmd.FlagMaster=FlagMaster;
+		Cmd.FlagTarget=FlagTarget;
+		Cmd.XDir	  =dx;
+		Cmd.YDir	  =dy;
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :ExeMoveImage",ErrorCodeList::_Alart);
+		}
+	}
+	BroadcastShowInEdit();
+}
+void	DisplayImage::ExeRotateImage(double Angle,bool FlagMaster,bool FlagTarget)
+{
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Rotate image");
+
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdRotateImage	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		Cmd.FlagMaster=FlagMaster;
+		Cmd.FlagTarget=FlagTarget;
+		Cmd.Angle	  =Angle;
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :ExeRotateImage",ErrorCodeList::_Alart);
+		}
+	}
+	BroadcastShowInEdit();
+}
+
+void	DisplayImage::ExeMirrorImage(bool FlagMaster,bool FlagTarget ,bool MirrorX ,bool MirrorY)
+{
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Mirror image");
+
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdMirrorXYImage	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		Cmd.FlagMaster	=FlagMaster;
+		Cmd.FlagTarget	=FlagTarget;
+		Cmd.MirrorX		=MirrorX;
+		Cmd.MirrorY		=MirrorY;
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :ExeMirrorImage",ErrorCodeList::_Alart);
+		}
+	}
+	BroadcastShowInEdit();
+}
+void	DisplayImage::ExeCopyImageInPhases(bool FlagMaster,bool FlagTarget,int SrcPhase,int DstPhase)
+{
+	GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Copy image between phases");
+
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdCopyImageInPhases	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		Cmd.SrcPhase	=SrcPhase;
+		Cmd.DstPhase	=DstPhase;
+		Cmd.FlagMaster=FlagMaster;
+		Cmd.FlagTarget=FlagTarget;
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :ExeCopyImageInPhases",ErrorCodeList::_Alart);
+		}
+	}
+	BroadcastShowInEdit();
+}
+void	DisplayImage::SlotMoveImage()
+{
+	MoveImageForm	*MForm=new MoveImageForm(GetLayersBase());
+	GeneralDialog	D(GetLayersBase(),MForm,this);
+	D.exec();
+	if(MForm->RetMode==true){
+		ExeMoveImage(MForm->XDir,MForm->YDir,MForm->FlagMaster,MForm->FlagTarget);
+		BroadcastShowInEdit();
+	}
+	delete	MForm;
+}
+void	DisplayImage::SlotRotateImage()
+{
+	RotateImageForm	*MForm=new RotateImageForm(GetLayersBase());
+	MForm->exec();
+	if(MForm->RetMode==true){
+		ExeRotateImage(MForm->Angle,MForm->FlagMaster,MForm->FlagTarget);
+		BroadcastShowInEdit();
+	}
+	delete	MForm;
+}
+
+void	DisplayImage::SlotMirrorImage()
+{
+	MirrorImageDialog	*MForm=new MirrorImageDialog(GetLayersBase());
+	MForm->exec();
+	if(MForm->RetMode==true){
+		ExeMirrorImage(MForm->FlagMaster,MForm->FlagTarget
+						,MForm->MirrorX,MForm->MirrorY);
+		BroadcastShowInEdit();
+	}
+	delete	MForm;
+}
+void	DisplayImage::SlotCopyImageInPhases()
+{
+	CopyImageInPhasesDialog	*MForm=new CopyImageInPhasesDialog(GetLayersBase());
+	if(MForm->exec()==(int)true){
+		ExeCopyImageInPhases(MForm->FlagMaster,MForm->FlagTarget,MForm->SrcPhase,MForm->DstPhase);
+		BroadcastShowInEdit();
+	}
+	delete	MForm;
+}
+void	DisplayImage::SlotSwapImage()
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdSwapImage	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :SlotSwapImage",ErrorCodeList::_Alart);
+		}
+	}
+	//Repaint();
+	BroadcastShowInEdit();
+}
+void	DisplayImage::SlotNegPosImage()
+{
+	NegPosImageDialog	D(GetLayersBase());
+	D.exec();
+	if(D.MasterBuff==true || D.TargetBuff==true){
+		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+			GUICmdNegPosImage	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+			Cmd.MasterBuff=D.MasterBuff;
+			Cmd.TargetBuff=D.TargetBuff;
+			if(Cmd.SendOnly(GlobalPage,0)==false){
+				SetError(Error_Comm , /**/"Send error :SlotNegPosImage",ErrorCodeList::_Alart);
+			}
+		}
+		//Repaint();
+		BroadcastShowInEdit();
+	}
+}
+void	DisplayImage::SlotCopyImageToTarget()
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdCopyImageToTarget	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :SlotCopyImageToTarget",ErrorCodeList::_Alart);
+		}
+	}
+	//Repaint();
+	BroadcastShowInEdit();
+}
+
+void	DisplayImage::SlotCopyTargetToMasterBuffN()
+{
+	if(GetCountOnlyMasterBuff()<=1){
+		return;
+	}
+
+	int	MasterNo=1;
+	if(GetCountOnlyMasterBuff()>2){
+		SelectMasterNumberDialog	D(GetLayersBase());
+		if(D.exec()==false){
+			return;
+		}
+		MasterNo=D.SelectedMasterNo;
+	}
+	if(MasterNo<0 || CurrentMasterNo==MasterNo){
+		return;
+	}
+
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdCopyImageToMasterBuffN	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		Cmd.SourceMaster=false;
+		Cmd.MasterNo	=MasterNo;
+		Cmd.SwapMode	=false;
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :SlotCopyTargetToMasterBuffN",ErrorCodeList::_Alart);
+		}
+	}
+	//Repaint();
+	BroadcastShowInEdit();
+}
+
+void	DisplayImage::SlotCopyMasterToMasterBuffN()
+{
+	if(GetCountOnlyMasterBuff()<=1){
+		return;
+	}
+
+	int	MasterNo=1;
+	if(GetCountOnlyMasterBuff()>2){
+		SelectMasterNumberDialog	D(GetLayersBase());
+		if(D.exec()==false){
+			return;
+		}
+		MasterNo=D.SelectedMasterNo;
+	}
+	if(MasterNo<0 || CurrentMasterNo==MasterNo){
+		return;
+	}
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdCopyImageToMasterBuffN	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		Cmd.SourceMaster=true;
+		Cmd.MasterNo	=MasterNo;
+		Cmd.SwapMode	=false;
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :SlotCopyMasterToMasterBuffN",ErrorCodeList::_Alart);
+		}
+	}
+	//Repaint();
+	BroadcastShowInEdit();
+}
+
+void	DisplayImage::SlotSwapMasterBuffN()
+{
+	if(GetCountOnlyMasterBuff()<=1){
+		return;
+	}
+
+	int	MasterNo=1;
+	if(GetCountOnlyMasterBuff()>2){
+		SelectMasterNumberDialog	D(GetLayersBase());
+		if(D.exec()==false){
+			return;
+		}
+		MasterNo=D.SelectedMasterNo;
+	}
+	if(MasterNo<0 || CurrentMasterNo==MasterNo){
+		return;
+	}
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdCopyImageToMasterBuffN	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		Cmd.SourceMaster=true;
+		Cmd.MasterNo	=MasterNo;
+		Cmd.SwapMode	=true;
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :SlotSwapMasterBuffN",ErrorCodeList::_Alart);
+		}
+	}
+	//Repaint();
+	BroadcastShowInEdit();
+}
+void	DisplayImage::SlotCopyImageToMaster()
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdCopyImageToMaster	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :SlotCopyImageToMaster",ErrorCodeList::_Alart);
+		}
+	}
+	BroadcastShowInEdit();
+}
+void	DisplayImage::SlotTranspositionTarget()
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdTranspositionTarget	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :SlotTranspositionTarget",ErrorCodeList::_Alart);
+		}
+	}
+	BroadcastShowInEdit();
+}
+void	DisplayImage::SlotCopyRawToTarget(void)
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdCopyRawToTarget	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :SlotCopyImageToMaster",ErrorCodeList::_Alart);
+		}
+	}
+	BroadcastShowInEdit();
+}
+void	DisplayImage::SlotSwapRawToTarget(void)
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdSwapRawToTarget	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error :SlotSwapRawToTarget",ErrorCodeList::_Alart);
+		}
+	}
+	BroadcastShowInEdit();
+}
+
+void	DisplayImage::SlotScrollUp()
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SlotUpPageButtonDown();
+	}
+}
+void	DisplayImage::SlotScrollDown()
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SlotDownPageButtonDown();
+	}
+}
+
+
+void	DisplayImage::ExeRegulateBrightness(FlexArea &TmpArea)
+{
+	//if((abs(gx1-gx2)>2000) || (abs(gy1-gy2)>2000)){
+	//	QMessageBox::warning(NULL,/**/"Alarm",LangDISolver.GetString(XDisplayImage_LS,LID_40)/*"Too large area"*/);
+	//	return;
+	//}
+	IntList PageList;
+	GetLayersBase()->GetLocalPageFromArea(TmpArea,PageList);
+
+	double	PixelCount=0;
+	HistgramListContainer		HistDatas;
+	AvrVarListByLayerContainer	AvrDatas;
+	for(int Layer=0;Layer<GetLayerNumb();Layer++){
+		AvrVarListByLayer	*A=new AvrVarListByLayer();
+		A->Layer=Layer;
+		AvrDatas.AppendList(A);
+		HistgramList	*H=new HistgramList();
+		H->Layer=Layer;
+		memset(H->BrightList,0,sizeof(H->BrightList));
+		HistDatas.AppendList(H);
+	}
+
+	for(IntClass *P=PageList.GetFirst();P!=NULL;P=P->GetNext()){
+		int	page=P->GetValue();
+		DataInPage	*pdata=GetLayersBase()->GetPageData(page);
+		FlexArea	Ar=TmpArea;
+		if(pdata->ClipMoveAreaFromGlobal(Ar)==true){
+			double	LocalPixelCount=Ar.GetPatternByte();
+			if(LocalPixelCount>1){
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+
+				GUICmdGetAvrVar	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+				GUICmdAckAvrVar	Ack(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+				Cmd.ImageType=DType;
+				Cmd.Area	=Ar;
+				Cmd.MasterNo=CurrentMasterNo;
+				GetActiveLayerList(Cmd.LayerList);
+				if(Cmd.Send(GlobalPage,0,Ack)==true){
+					int	Row=0;
+					for(IntClass *C=Cmd.LayerList.GetFirst();C!=NULL;C=C->GetNext(),Row++){
+						int Layer=C->GetValue();
+						AvrVarListByLayer	*A=AvrDatas.GetItem(Layer);
+						HistgramList		*H=HistDatas.GetItem(Layer);
+						A->Average		+=Ack.AvrDatas.GetItem(Row)->Average*LocalPixelCount;
+						A->Dispersion	+=Ack.AvrDatas.GetItem(Row)->Dispersion*LocalPixelCount;
+						for(int i=0;i<256;i++){
+							H->BrightList[i]+=Ack.HistDatas.GetItem(Row)->BrightList[i];
+						}
+					}
+				}
+				PixelCount+=LocalPixelCount;
+			}
+		}
+	}
+	if(PixelCount<=0.0){
+		return;
+	}
+	for(int Layer=0;Layer<GetLayerNumb();Layer++){
+		AvrVarListByLayer	*A=AvrDatas.GetItem(Layer);
+		A->Average		/=PixelCount;
+		A->Dispersion	/=PixelCount;
+		A->Dispersion	=sqrt(A->Dispersion);
+	}
+	IntList	LayerList;
+	GetActiveLayerList(LayerList);
+	RegulateBrightnessForm	Q(LayerList,HistDatas,AvrDatas,GetLayersBase(),this);
+	if(Q.exec()==(int)true){
+		for(IntClass *P=PageList.GetFirst();P!=NULL;P=P->GetNext()){
+			int	page=P->GetValue();
+			DataInPage	*pdata=GetLayersBase()->GetPageData(page);
+			FlexArea	A=TmpArea;
+			if(pdata->ClipMoveAreaFromGlobal(A)==true){
+				if(A.GetPatternByte()>0){
+					int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+					GUICmdRegulateBrightness	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+					Cmd.AvrDatas	=Q.AvrDatas;
+					Cmd.ImageType	=DType;
+					Cmd.MasterNo	=CurrentMasterNo;
+					Cmd.BlockSize	=Q.BlockSize;
+					Cmd.Area		=A;
+					if(Cmd.SendOnly(GlobalPage,0)==false){
+						SetError(Error_Comm , /**/"Send error :ExeRegulateBrightness",ErrorCodeList::_Alart);
+					}
+				}
+			}
+		}
+	}
+}
+
+void	DisplayImage::ExeRegistColorLib(FlexArea &Area)
+{
+	IntList PageList;
+	GetLayersBase()->GetLocalPageFromArea(Area,PageList);
+
+	RGBStockData.Clear();
+	for(IntClass *P=PageList.GetFirst();P!=NULL;P=P->GetNext()){
+		int	page=P->GetValue();
+		DataInPage	*pdata=GetLayersBase()->GetPageData(page);
+		FlexArea	Ar=Area;
+		if(pdata->ClipMoveAreaFromGlobal(Ar)==true){
+			double	LocalPixelCount=Ar.GetPatternByte();
+			if(LocalPixelCount>1){
+				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+
+				GUICmdGetColorSample	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+				GUICmdAckColorSample	Ack(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+				Cmd.Area	=Ar;
+				Cmd.MasterNo=CurrentMasterNo;
+				Cmd.ImageType=GetDisplayType();
+				if(Cmd.Send(GlobalPage,0,Ack)==true){
+					RGBStockData+=Ack.ColorSample;
+				}
+			}
+		}
+	}
+	RegistColorLibForm	Dlg(&RGBStockData,GetLayersBase());
+	GeneralDialog	D(GetLayersBase(),&Dlg,this,false);
+	D.exec();
+}
+
+void	DisplayImage::SlotMouseLDownWithShift(int globalX,int globalY)
+{
+	if(HookedExecuteLClickWithShift(globalX,globalY)==false)
+		return;
+	if(GetShowOnePage()<0 || GetPageNumb()<=GetShowOnePage()){
+		emit	SignalMouseLDownWithShift(globalX,globalY);
+		ExecuteMouseLDownWithShift(globalX ,globalY);
+	}
+	else{
+		DataInPage *P=GetLayersBase()->GetPageData(GetShowOnePage());
+		emit	SignalMouseLDownWithShift(globalX+P->GetOutlineOffset()->x ,globalY+P->GetOutlineOffset()->y);
+		ExecuteMouseLDownWithShift(globalX+P->GetOutlineOffset()->x ,globalY+P->GetOutlineOffset()->y);
+	}
+	SetAlterSomething();
+}
+void	DisplayImage::SlotMouseRDownWithShift(int globalX,int globalY)
+{
+	if(HookedExecuteRClickWithShift(globalX,globalY)==false)
+		return;
+	if(GetShowOnePage()<0 || GetPageNumb()<=GetShowOnePage()){
+		emit	SignalMouseRDownWithShift(globalX,globalY);
+		ExecuteMouseRDownWithShift(globalX ,globalY);
+	}
+	else{
+		DataInPage *P=GetLayersBase()->GetPageData(GetShowOnePage());
+		emit	SignalMouseRDownWithShift(globalX+P->GetOutlineOffset()->x ,globalY+P->GetOutlineOffset()->y);
+		ExecuteMouseRDownWithShift(globalX+P->GetOutlineOffset()->x ,globalY+P->GetOutlineOffset()->y);
+	}
+	SetAlterSomething();
+}
+
+void	DisplayImage::SlotKeyPress(int key ,int XonG, int YonG ,bool &Accept)
+{
+	if(key==Qt::Key_I){
+		Accept=true;
+		if(MainCanvas!=NULL){
+			if(MainCanvas->GetZoomRate()<GetMaxZoomValue()){
+				MainCanvas->ZoomIn(XonG, YonG);
+				int	globalX,globalY;
+				ChangeGxy2Dxy(XonG, YonG ,globalX,globalY);
+				StartMovx=MainCanvas->GetMovx();
+				StartMovy=MainCanvas->GetMovy();
+				StartGlobalX=globalX;
+				StartGlobalY=globalY;
+				ChangeDxy2Gxy(globalX,globalY,StartDx,StartDy);
+
+				emit	SignalChangedDrawingPosition();
+				BroadcastDraw();
+				SetAlterSomething();
+			}
+		}
+	}
+	else if(key==Qt::Key_O){
+		Accept=true;
+		if(MainCanvas!=NULL){
+			if(MainCanvas->GetZoomRate()>GetMinZoomValue()){
+				MainCanvas->ZoomOut(XonG, YonG);
+				int	globalX,globalY;
+				ChangeGxy2Dxy(XonG, YonG ,globalX,globalY);
+				StartMovx=MainCanvas->GetMovx();
+				StartMovy=MainCanvas->GetMovy();
+				StartGlobalX=globalX;
+				StartGlobalY=globalY;
+				ChangeDxy2Gxy(globalX,globalY,StartDx,StartDy);
+
+				emit	SignalChangedDrawingPosition();
+				BroadcastDraw();
+				SetAlterSomething();
+			}
+		}
+	}	
+	else if(key==Qt::Key_L){
+		Accept=true;
+		if(MainCanvas!=NULL){
+			MainCanvas->ZoomDrawWhole();
+			emit	SignalChangedDrawingPosition();
+		}
+		BroadcastDraw();
+		SetAlterSomething();
+	}
+}
+void	DisplayImage::SlotScrollDraw()
+{
+	BroadcastDraw();
+	SetAlterSomething();
+}
+
+void	DisplayImage::SlotMirrorX()
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdMirrorImage	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		Cmd.XMode=true;
+		Cmd.YMode=false;
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error : GUICmdMirrorImage",ErrorCodeList::_Alart);
+		}
+	}
+	BroadcastBuildForShow();
+}
+void	DisplayImage::SlotMirrorY()
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdMirrorImage	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		Cmd.XMode=false;
+		Cmd.YMode=true;
+		if(Cmd.SendOnly(GlobalPage,0)==false){
+			SetError(Error_Comm , /**/"Send error : GUICmdMirrorImage",ErrorCodeList::_Alart);
+		}
+	}
+	BroadcastBuildForShow();
+
+}
+
+
+void DisplayImage::keyPressEvent ( QKeyEvent * event )
+{
+	if(GetKeyGrab()==false){
+		GUIFormBase::keyPressEvent (event);
+		return;
+	}
+	if(MainCanvas!=NULL){
+		QPoint	P=MainCanvas->GetCursorPos();
+		if((visibleRegion().isEmpty()==false) && (MainCanvas->IsIncludeInCanvas(P)==true)){
+			if(event->key()==Qt::Key_I){
+				if(MainCanvas->GetZoomRate()<GetMaxZoomValue()){
+					MainCanvas->ZoomIn(P.x(), P.y());
+
+					int	globalX,globalY;
+					ChangeGxy2Dxy(P.x(), P.y(),globalX,globalY);
+					StartMovx=MainCanvas->GetMovx();
+					StartMovy=MainCanvas->GetMovy();
+					StartGlobalX=globalX;
+					StartGlobalY=globalY;
+					ChangeDxy2Gxy(globalX,globalY,StartDx,StartDy);
+
+					BroadcastDraw();
+				}
+				event->accept();
+			}
+			else if(event->key()==Qt::Key_O){
+				if(MainCanvas->GetZoomRate()>GetMinZoomValue()){
+					MainCanvas->ZoomOut(P.x(), P.y());
+
+					int	globalX,globalY;
+					ChangeGxy2Dxy(P.x(), P.y(),globalX,globalY);
+					StartMovx=MainCanvas->GetMovx();
+					StartMovy=MainCanvas->GetMovy();
+					StartGlobalX=globalX;
+					StartGlobalY=globalY;
+					ChangeDxy2Gxy(globalX,globalY,StartDx,StartDy);
+
+					BroadcastDraw();
+				}
+				event->accept();
+			}	
+
+			else if(event->key()==Qt::Key_Y){	//Upper
+				int	globalX,globalY;
+				ChangeGxy2Dxy(P.x(), P.y(),globalX,globalY);
+
+				StartMovx=MainCanvas->GetMovx();
+				StartMovy=MainCanvas->GetMovy();
+
+				int	H=MainCanvas->GetCanvasHeight()/2/MainCanvas->GetZoomRate();
+				StartMovy+=H;
+				MainCanvas->SetDrawOffset(StartMovx,StartMovy);
+
+				StartGlobalX=globalX;
+				StartGlobalY=globalY;
+				ChangeDxy2Gxy(globalX,globalY,StartDx,StartDy);
+				MainCanvas->ExecuteMouseMove(P.x(), P.y());
+
+				BroadcastDraw();
+				event->accept();
+			}
+			else if(event->key()==Qt::Key_G){	//Left
+				int	globalX,globalY;
+				ChangeGxy2Dxy(P.x(), P.y(),globalX,globalY);
+
+				StartMovx=MainCanvas->GetMovx();
+				StartMovy=MainCanvas->GetMovy();
+
+				int	H=MainCanvas->GetCanvasWidth()/2/MainCanvas->GetZoomRate();
+				StartMovx+=H;
+				MainCanvas->SetDrawOffset(StartMovx,StartMovy);
+
+				StartGlobalX=globalX;
+				StartGlobalY=globalY;
+				ChangeDxy2Gxy(globalX,globalY,StartDx,StartDy);
+				MainCanvas->ExecuteMouseMove(P.x(), P.y());
+
+				BroadcastDraw();
+				event->accept();
+			}
+			else if(event->key()==Qt::Key_H){	//Right
+				int	globalX,globalY;
+				ChangeGxy2Dxy(P.x(), P.y(),globalX,globalY);
+
+				StartMovx=MainCanvas->GetMovx();
+				StartMovy=MainCanvas->GetMovy();
+
+				int	H=MainCanvas->GetCanvasWidth()/2/MainCanvas->GetZoomRate();
+				StartMovx-=H;
+				MainCanvas->SetDrawOffset(StartMovx,StartMovy);
+
+				StartGlobalX=globalX;
+				StartGlobalY=globalY;
+				ChangeDxy2Gxy(globalX,globalY,StartDx,StartDy);
+				MainCanvas->ExecuteMouseMove(P.x(), P.y());
+
+				BroadcastDraw();
+				event->accept();
+			}
+			else if(event->key()==Qt::Key_B){	//Doen
+				int	globalX,globalY;
+				ChangeGxy2Dxy(P.x(), P.y(),globalX,globalY);
+
+				StartMovx=MainCanvas->GetMovx();
+				StartMovy=MainCanvas->GetMovy();
+
+				int	H=MainCanvas->GetCanvasHeight()/2/MainCanvas->GetZoomRate();
+				StartMovy-=H;
+				MainCanvas->SetDrawOffset(StartMovx,StartMovy);
+
+				StartGlobalX=globalX;
+				StartGlobalY=globalY;
+				ChangeDxy2Gxy(globalX,globalY,StartDx,StartDy);
+				MainCanvas->ExecuteMouseMove(P.x(), P.y());
+
+				BroadcastDraw();
+				event->accept();
+			}
+			else if(event->key()==Qt::Key_L){
+				MainCanvas->ZoomDrawWhole();
+
+				int	globalX,globalY;
+				ChangeGxy2Dxy(P.x(), P.y(),globalX,globalY);
+				StartMovx=MainCanvas->GetMovx();
+				StartMovy=MainCanvas->GetMovy();
+				StartGlobalX=globalX;
+				StartGlobalY=globalY;
+				ChangeDxy2Gxy(globalX,globalY,StartDx,StartDy);
+
+				BroadcastDraw();
+				emit	SignalChangedDrawingPosition();
+				event->accept();
+			}	
+			else{
+				GUIFormBase::keyPressEvent (event);
+			}
+		}
+		else{
+			GUIFormBase::keyPressEvent (event);
+		}
+		((LQWidget *)MainCanvas)->KeyPressEvent(event);
+	}
+}
+
+void	DisplayImage::GetIdentity(QString &emitterRoot ,QString &emitterName)	const
+{
+	emitterRoot=EmitterRoot;
+	emitterName=EmitterName;
+}
+
+void	DisplayImage::SetMouseCursorPos(int XonG, int YonG)
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetMouseCursorPos(XonG,YonG);
+	}
+}
+
+void	DisplayImage::SetDrawingMode(__DrawingMode mode)
+{
+	DrawingMode=mode;
+}
+
+	
+void	DisplayImage::SetCursor(mtFrameDraw::DrawingMode mode)
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SetCursor(mode);
+	}
+}
+
+void	DisplayImage::SetCursor(DisplayImage::__DrawingMode mode)
+{
+	if(mode==_MeasureFirst || mode==_MeasureSecond){
+		setCursor(QCursor(QPixmap(":/Resources/Meassure1.PNG"),0,0));
+	}
+}
+
+bool	DisplayImage::PastedItemsDraw(int localPage ,int dx ,int dy ,QImage &pnt, int movx ,int movy ,double ZoomRate ,QColor Col)
+{
+	if(PastedItems!=NULL){
+		return PastedItems->Draw(localPage ,dx ,dy ,pnt, movx ,movy ,ZoomRate ,Col);
+	}
+	return false;
+}
+void	DisplayImage::SlotPickColorBtn(QMouseEvent *)
+{
+	QColor Color=QColorDialog::getColor(PickedColor);
+	if(Color.isValid()==true){
+		PickedColor=Color;
+		PickColorBtn->setColor(PickedColor);
+	}
+}
+void	DisplayImage::SlotSelectDrawShape(QMouseEvent * event )
+{
+	QMenu	Menu(this);
+	Menu.addAction ("Rectangle"			, this, SLOT(SlotSelectRectangle()));
+	Menu.addAction ("Ellipse-Center"	, this, SLOT(SlotSelectEllipseCenter()));
+	Menu.addAction ("Ellipse-4Points"	, this, SLOT(SlotSelectEllipse4Points()));
+	Menu.addAction ("Long hole"			, this, SLOT(SlotSelectLongCircle()));
+	Menu.addAction ("Rotated rect"		, this, SLOT(SlotSelectRotatedRect()));
+	Menu.addAction ("Ring"				, this, SLOT(SlotSelectRing()));
+	Menu.addAction ("Polygon"			, this, SLOT(SlotSelectPolygon()));
+	Menu.addAction ("Free hand"			, this, SLOT(SlotSelectFreeHand()));
+	Menu.addAction ("Pour"				, this, SLOT(SlotSelectPour()));
+	Menu.addAction ("Replace color"		, this, SLOT(SlotSelectReplaceColor()));
+
+	StartMenu(DrawRectBtn ,&Menu);
+
+	QPoint	Q=mapToGlobal(DrawRectBtn->geometry().center());
+	Menu.exec(Q);
+
+}
+void	DisplayImage::SlotSelectRectangle()
+{
+	DrawRectMode=mtFrameDraw::fdRectangle;
+	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
+		MainCanvas->Clear();
+		MainCanvas->SetMode(DrawRectMode);
+	}
+}
+void	DisplayImage::SlotSelectEllipseCenter()
+{
+	DrawRectMode=mtFrameDraw::fdEllipse;
+	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
+		MainCanvas->Clear();
+		MainCanvas->SetMode(DrawRectMode);
+	}
+}
+void	DisplayImage::SlotSelectEllipse4Points()
+{
+	DrawRectMode=mtFrameDraw::fdEllipse4;
+	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
+		MainCanvas->Clear();
+		MainCanvas->SetMode(DrawRectMode);
+	}
+}
+void	DisplayImage::SlotSelectLongCircle()
+{
+	DrawRectMode=mtFrameDraw::fdLongCircle;
+	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
+		MainCanvas->Clear();
+		MainCanvas->SetMode(DrawRectMode);
+	}
+}
+void	DisplayImage::SlotSelectRotatedRect()
+{
+	DrawRectMode=mtFrameDraw::fdRotRectangle;
+	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
+		MainCanvas->Clear();
+		MainCanvas->SetMode(DrawRectMode);
+	}
+}
+void	DisplayImage::SlotSelectRing()
+{
+	DrawRectMode=mtFrameDraw::fdRing;
+	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
+		MainCanvas->Clear();
+		MainCanvas->SetMode(DrawRectMode);
+	}
+}
+void	DisplayImage::SlotSelectPolygon()
+{
+	DrawRectMode=mtFrameDraw::fdPoly;
+	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
+		MainCanvas->Clear();
+		MainCanvas->SetMode(DrawRectMode);
+	}
+}
+void	DisplayImage::SlotSelectFreeHand()
+{
+	DrawRectMode=mtFrameDraw::fdFree;
+	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
+		MainCanvas->Clear();
+		MainCanvas->SetMode(DrawRectMode);
+	}
+}
+void	DisplayImage::SlotSelectPour()
+{
+	DrawRectMode=mtFrameDraw::fdPoint;
+	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
+		PourImageDialog	D(GetLayersBase());
+		if(D.exec()==true){
+			PourPickupBrightness=D.PickupBrightness;
+			PourExpandedDot		=D.ExpandedDot;
+			MainCanvas->Clear();
+			MainCanvas->SetMode(DrawRectMode);
+			SetDrawingMode(_Pour);
+		}
+	}
+}
+void	DisplayImage::SlotSelectReplaceColor()
+{
+	DrawRectMode=mtFrameDraw::fdPoint;
+	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
+		PourImageDialog	D(GetLayersBase());
+		D.setWindowTitle("Replace color");
+		if(D.exec()==true){
+			PourPickupBrightness=D.PickupBrightness;
+			PourExpandedDot		=D.ExpandedDot;
+			MainCanvas->Clear();
+			MainCanvas->SetMode(DrawRectMode);
+			SetDrawingMode(_ReplaceColor);
+		}
+	}
+}
+
+GUIFormBase	*DisplayImage::GetImageControlTools(void)	const
+{
+	if(ImageControlToolsName.isEmpty()==false){
+		GUIFormBase	*TProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"ImageControlTools" ,ImageControlToolsName);
+		if(TProp!=NULL){
+			return TProp;
+		}
+	}
+	GUIFormBase *Ret[100];
+	int n=GetLayersBase()->EnumGUIInst(/**/"Button" ,/**/"ImageControlTools" ,Ret ,100);
+	for(int i=0;i<n;i++){
+		CmdCheckRegistered	CmdCheckRegisteredCmd(GetLayersBase());
+		CmdCheckRegisteredCmd.InstName=GetName();
+		Ret[i]->TransmitDirectly(&CmdCheckRegisteredCmd);
+		if(CmdCheckRegisteredCmd.Ret==true){
+			return Ret[i];
+		}
+	}
+	return NULL;
+}
+
+void	DisplayImage::GetActiveLayerList(IntList &LayerList)	const
+{
+	CmdReqImageLayer	DrawMode(GetLayersBase(),GetLayerNumb());
+	GUIFormBase	*TProp=GetImageControlTools();
+	if(TProp!=NULL){
+		TProp->TransmitDirectly(&DrawMode);
+		LayerList=DrawMode.LayerList;
+		return;
+	}
+	for(int Layer=0;Layer<GetLayersBase()->GetLayerNumb();Layer++){
+		LayerList.AppendList(new IntClass(Layer));
+	}
+}
+
+void	DisplayImage::SetActiveLayerList(IntList &LayerList)
+{
+	CmdSetImageLayer	DrawMode(GetLayersBase());
+	DrawMode.LayerList=LayerList;
+	GUIFormBase	*TProp=GetImageControlTools();
+	if(TProp!=NULL){
+		TProp->TransmitDirectly(&DrawMode);
+		Repaint();
+	}
+}
+
+void	DisplayImage::SetExpandedPaste(int XNumb,int YNumb,int XDot,int YDot)
+{
+	ExpandedPasteStart.ExpandedItems.RemoveAll();
+	ExpandedPasteStart.ExpandedPasteFrame[0].X=  99999999;
+	ExpandedPasteStart.ExpandedPasteFrame[0].Y=  99999999;
+	ExpandedPasteStart.ExpandedPasteFrame[1].X= -99999999;
+	ExpandedPasteStart.ExpandedPasteFrame[1].Y=  99999999;
+	ExpandedPasteStart.ExpandedPasteFrame[2].X= -99999999;
+	ExpandedPasteStart.ExpandedPasteFrame[2].Y= -99999999;
+	ExpandedPasteStart.ExpandedPasteFrame[3].X=  99999999;
+	ExpandedPasteStart.ExpandedPasteFrame[3].Y= -99999999;
+
+	int	MinX=  99999999;
+	int	MaxX= -99999999;
+	int	MinY=  99999999;
+	int	MaxY= -99999999;
+	for(int i=0;i<ExpandedPasteStart.SelectedItemLists.GetCount();i++){
+		ExpandedSelectedItemList *p=ExpandedPasteStart.SelectedItemLists.Get(i);
+		if(MinX>p->X1){
+			MinX=p->X1;
+		}
+		if(MinY>p->Y1){
+			MinY=p->Y1;
+		}
+		if(MaxX<p->X2){
+			MaxX=p->X2;
+		}
+		if(MaxY<p->Y2){
+			MaxY=p->Y2;
+		}
+	}
+
+	int	Mx= MinX;
+	int	My= MinY;
+	for(int y=0;y<YNumb;y++){
+		for(int x=0;x<XNumb;x++){
+			ExpandedItemPos	*C=new ExpandedItemPos();
+			C->Pos[0].X=Mx+x*XDot;
+			C->Pos[0].Y=My+y*YDot;
+			C->Pos[1].X=Mx+x*XDot+XDot-1;
+			C->Pos[1].Y=My+y*YDot;
+			C->Pos[2].X=Mx+x*XDot+XDot-1;
+			C->Pos[2].Y=My+y*YDot+YDot-1;
+			C->Pos[3].X=Mx+x*XDot;
+			C->Pos[3].Y=My+y*YDot+YDot-1;
+			for(int i=0;i<4;i++){
+				if(ExpandedPasteStart.ExpandedPasteFrame[0].X>C->Pos[i].X){
+					ExpandedPasteStart.ExpandedPasteFrame[0].X=C->Pos[i].X;
+				}
+				if(ExpandedPasteStart.ExpandedPasteFrame[0].Y>C->Pos[i].Y){
+					ExpandedPasteStart.ExpandedPasteFrame[0].Y=C->Pos[i].Y;
+				}
+
+				if(ExpandedPasteStart.ExpandedPasteFrame[1].X<C->Pos[i].X){
+					ExpandedPasteStart.ExpandedPasteFrame[1].X=C->Pos[i].X;
+				}
+				if(ExpandedPasteStart.ExpandedPasteFrame[1].Y>C->Pos[i].Y){
+					ExpandedPasteStart.ExpandedPasteFrame[1].Y=C->Pos[i].Y;
+				}
+
+				if(ExpandedPasteStart.ExpandedPasteFrame[2].X<C->Pos[i].X){
+					ExpandedPasteStart.ExpandedPasteFrame[2].X=C->Pos[i].X;
+				}
+				if(ExpandedPasteStart.ExpandedPasteFrame[2].Y<C->Pos[i].Y){
+					ExpandedPasteStart.ExpandedPasteFrame[2].Y=C->Pos[i].Y;
+				}
+
+				if(ExpandedPasteStart.ExpandedPasteFrame[3].X>C->Pos[i].X){
+					ExpandedPasteStart.ExpandedPasteFrame[3].X=C->Pos[i].X;
+				}
+				if(ExpandedPasteStart.ExpandedPasteFrame[3].Y<C->Pos[i].Y){
+					ExpandedPasteStart.ExpandedPasteFrame[3].Y=C->Pos[i].Y;
+				}
+			}
+			ExpandedPasteStart.ExpandedItems.AppendList(C);
+		}
+	}
+	ExpandedPasteCurrent=ExpandedPasteStart;
+	ExpandedPasteOpe.Initial();
+	ExpandedPasteOpeCurrent=ExpandedPasteOpe;
+	ExpandedPasteEachStart=ExpandedPasteStart;
+	Repaint();
+}	
+
+DisplayImage::ExpandedPasteOperation::ExpandedPasteOperation(void)
+{
+	Initial();
+}
+void	DisplayImage::ExpandedPasteOperation::Initial(void)
+{
+	ExpandedPasteZoomY	=1.0;
+	ExpandedPasteZoomX	=1.0;
+	ExpandedPasteRotate	=0.0;
+	ExpandedPasteMovX	=0.0;
+	ExpandedPasteMovY	=0.0;
+}
+
+DisplayImage::ExpandedPasteOperation	&DisplayImage::ExpandedPasteOperation::operator=(DisplayImage::ExpandedPasteOperation &src)
+{
+	ExpandedPasteZoomY	=src.ExpandedPasteZoomY;
+	ExpandedPasteZoomX	=src.ExpandedPasteZoomX;
+	ExpandedPasteRotate	=src.ExpandedPasteRotate;
+	ExpandedPasteMovX	=src.ExpandedPasteMovX;
+	ExpandedPasteMovY	=src.ExpandedPasteMovY;
+	return *this;
+}
+
+void	DisplayImage::ExpandedPasteXY::Build(DisplayImage::ExpandedPasteOperation &ope ,double cx,double cy)
+{
+	double	mx=(X-cx)*ope.ExpandedPasteZoomX;
+	double	my=(Y-cy)*ope.ExpandedPasteZoomY;
+	double	coss=cos(ope.ExpandedPasteRotate);
+	double	sins=sin(ope.ExpandedPasteRotate);
+	double	tx= mx*coss - my*sins;
+	double	ty= mx*sins + my*coss;
+	X=tx+cx+ope.ExpandedPasteMovX;
+	Y=ty+cy+ope.ExpandedPasteMovY;
+}
+void	DisplayImage::ExpandedPasteData::GetCenter(double &cx ,double &cy) const
+{
+	cx=(ExpandedPasteFrame[0].X+ExpandedPasteFrame[1].X+ExpandedPasteFrame[2].X+ExpandedPasteFrame[3].X)/4.0;
+	cy=(ExpandedPasteFrame[0].Y+ExpandedPasteFrame[1].Y+ExpandedPasteFrame[2].Y+ExpandedPasteFrame[3].Y)/4.0;
+}
+void	DisplayImage::BuildCurrentExpandedPaste(ExpandedPasteOperation &ope)
+{
+	ExpandedPasteCurrent=ExpandedPasteStart;
+	double cx ,cy;
+	ExpandedPasteStart.GetCenter(cx ,cy);
+	for(int i=0;i<4;i++){
+		ExpandedPasteCurrent.ExpandedPasteFrame[i].Build(ope ,cx,cy);
+	}
+	for(ExpandedItemPos *c=ExpandedPasteCurrent.ExpandedItems.GetFirst();c!=NULL;c=c->GetNext()){
+		for(int i=0;i<4;i++){
+			c->Pos[i].Build(ope ,cx,cy);
+		}
+	}
+}
+
+DisplayImage::ExpandedPasteXY	&DisplayImage::ExpandedPasteXY::operator=(DisplayImage::ExpandedPasteXY &src)
+{
+	X=src.X;
+	Y=src.Y;
+	return *this;
+}
+bool	DisplayImage::ExpandedPasteXY::Save(QIODevice *f)
+{
+	if(::Save(f,X)==false)
+		return false;
+	if(::Save(f,X)==false)
+		return false;
+	return true;
+}
+bool	DisplayImage::ExpandedPasteXY::Load(QIODevice *f)
+{
+	if(::Load(f,X)==false)
+		return false;
+	if(::Load(f,X)==false)
+		return false;
+	return true;
+}
+
+DisplayImage::ExpandedItemPos	&DisplayImage::ExpandedItemPos::operator=(DisplayImage::ExpandedItemPos &src)
+{
+	for(int i=0;i<4;i++){
+		Pos[i]=src.Pos[i];
+	}
+	return *this;
+}
+
+void	DisplayImage::ExpandedItemPos::GetCenter(double &Cx ,double &Cy)
+{
+	Cx=(Pos[0].X+Pos[1].X+Pos[2].X+Pos[3].X)/4;
+	Cy=(Pos[0].Y+Pos[1].Y+Pos[2].Y+Pos[3].Y)/4;
+}
+
+double	DisplayImage::ExpandedItemPos::GetWidth(void)
+{
+	double	MinX=min(min(Pos[0].X,Pos[1].X),min(Pos[2].X,Pos[3].X));
+	double	MaxX=max(max(Pos[0].X,Pos[1].X),max(Pos[2].X,Pos[3].X));
+	return MaxX-MinX;
+}
+double	DisplayImage::ExpandedItemPos::GetHeight(void)
+{
+	double	MinY=min(min(Pos[0].Y,Pos[1].Y),min(Pos[2].Y,Pos[3].Y));
+	double	MaxY=max(max(Pos[0].Y,Pos[1].Y),max(Pos[2].Y,Pos[3].Y));
+	return MaxY-MinY;
+}
+bool	DisplayImage::ExpandedItemPos::Save(QIODevice *f)
+{
+	for(int i=0;i<sizeof(Pos)/sizeof(Pos[0]);i++){
+		if(Pos[i].Save(f)==false){
+			return false;
+		}
+	}
+	return true;
+}
+bool	DisplayImage::ExpandedItemPos::Load(QIODevice *f)
+{
+	for(int i=0;i<sizeof(Pos)/sizeof(Pos[0]);i++){
+		if(Pos[i].Load(f)==false){
+			return false;
+		}
+	}
+	return true;
+}
+
+DisplayImage::ExpandedItemPosContainer	&DisplayImage::ExpandedItemPosContainer::operator=(DisplayImage::ExpandedItemPosContainer &src)
+{
+	RemoveAll();
+	for(ExpandedItemPos *p=src.GetFirst();p!=NULL;p=p->GetNext()){
+		ExpandedItemPos *k=new ExpandedItemPos();
+		*k=*p;
+		AppendList(k);
+	}
+	return *this;
+}
+DisplayImage::ExpandedItemPosContainer	&DisplayImage::ExpandedItemPosContainer::operator=(const DisplayImage::ExpandedItemPosContainer &src)
+{
+	RemoveAll();
+	for(ExpandedItemPos *p=src.GetFirst();p!=NULL;p=p->GetNext()){
+		ExpandedItemPos *k=new ExpandedItemPos();
+		*k=*p;
+		AppendList(k);
+	}
+	return *this;
+}
+bool	DisplayImage::ExpandedItemPosContainer::Save(QIODevice *f)
+{
+	int32	N=GetCount();
+	if(::Save(f,N)==false)
+		return false;
+	for(ExpandedItemPos *p=GetFirst();p!=NULL;p=p->GetNext()){
+		if(p->Save(f)==false){
+			return false;
+		}
+	}
+	return true;
+}
+bool	DisplayImage::ExpandedItemPosContainer::Load(QIODevice *f)
+{
+	int32	N;
+
+	if(::Load(f,N)==false)
+		return false;
+	RemoveAll();
+	for(int i=0;i<N;i++){
+		ExpandedItemPos *p=new ExpandedItemPos();
+		if(p->Load(f)==false){
+			return false;
+		}
+		AppendList(p);
+	}
+	return true;
+}
+
+//===============================================================
+
+
+DisplayImage::ExpandedPasteData	&DisplayImage::ExpandedPasteData::operator=(DisplayImage::ExpandedPasteData &src)
+{
+	for(int i=0;i<4;i++){
+		ExpandedPasteFrame[i]=src.ExpandedPasteFrame[i];
+	}
+	ExpandedItems.RemoveAll();
+	for(ExpandedItemPos *c=src.ExpandedItems.GetFirst();c!=NULL;c=c->GetNext()){
+		ExpandedItemPos	*d=new ExpandedItemPos();
+		*d= *c;
+		ExpandedItems.AppendList(d);
+	}
+	SelectedItemLists=src.SelectedItemLists;
+	return *this;
+}
+bool	DisplayImage::ExpandedPasteData::IsEffective(void)
+{
+	if(ExpandedItems.GetFirst()==NULL){
+		return false;
+	}
+	return true;
+}
+
+void	DisplayImage::SlotExpandedPasteExecute(void)
+{
+	ExpandedPasteExecute(ExpandedPasteCurrent.ExpandedItems);
+	ExpandedPasteStart	.Clear();
+	ExpandedPasteCurrent.Clear();
+	BroadcastDirectly(_BC_BuildForShow ,GetLayersBase()->GetCurrentInspectIDForDisplay());
+}
+void	DisplayImage::SlotExecuteOkInSameAlgorithm(void)
+{
+	ExpandedPasteExecuteInSameAlgorithm(ExpandedPasteCurrent.ExpandedItems);
+	ExpandedPasteStart	.Clear();
+	ExpandedPasteCurrent.Clear();
+	BroadcastDirectly(_BC_BuildForShow ,GetLayersBase()->GetCurrentInspectIDForDisplay());
+}
+void	DisplayImage::SlotExpandedPasteCancel(void)
+{
+	ExpandedPasteStart	.Clear();
+	ExpandedPasteCurrent.Clear();
+}
+
+void	DisplayImage::SlotExecuteMatrix(void)
+{
+	ExecuteMatrix();
+	BroadcastDirectly(_BC_BuildForShow ,GetLayersBase()->GetCurrentInspectIDForDisplay());
+}
+
+void	DisplayImage::ExpandedPasteExecute(ExpandedItemPosContainer &ExpandedItems)
+{
+}
+
+bool	DisplayImage::ExecuteClickButton(const QString &ButtonName)
+{
+	if((ButtonName==/**/"None") && (NoneBtn!=NULL)){
+		NoneBtn->click();
+		return true;
+	}
+	if((ButtonName==/**/"ZoomIn") && (ZoomInBtn!=NULL)){
+		ZoomInBtn->click();
+		return true;
+	}
+	if((ButtonName==/**/"ZoomRect") && (ZoomRectBtn!=NULL)){
+		ZoomRectBtn->click();
+		return true;
+	}
+	if((ButtonName==/**/"ZoomWhole") && (ZoomWholeBtn!=NULL)){
+		ZoomWholeBtn->click();
+		return true;
+	}
+	if((ButtonName==/**/"CopyRect") && (CopyRectBtn!=NULL)){
+		CopyRectBtn->click();
+		return true;
+	}
+	if((ButtonName==/**/"Paste") && (PasteBtn!=NULL)){
+		PasteBtn->click();
+		return true;
+	}
+	if((ButtonName==/**/"PickColor") && (PickColorBtn!=NULL)){
+		PickColorBtn->click();
+		return true;
+	}
+	if((ButtonName==/**/"DrawRect") && (DrawRectBtn!=NULL)){
+		DrawRectBtn->click();
+		return true;
+	}
+	if((ButtonName==/**/"DrawDot") && (DrawDotBtn!=NULL)){
+		DrawDotBtn->click();
+		return true;
+	}
+	if((ButtonName==/**/"ToolMenu") && (ToolMenuBtn!=NULL)){
+		ToolMenuBtn->click();
+		return true;
+	}
+	if((ButtonName==/**/"Measure") && (MeasureBtn!=NULL)){
+		MeasureBtn->click();
+		return true;
+	}
+	if((ButtonName==/**/"ExpandedPaste") && (ExpandedPasteBtn!=NULL)){
+		ExpandedPasteBtn->click();
+		return true;
+	}
+	return false;
+}
+
+bool	DisplayImage::SaveSetting(QIODevice *f)
+{
+	if(::Save(f,SaveImageSizeXDot)==false){
+		return false;
+	}
+	if(::Save(f,SaveImageSizeYDot)==false){
+		return false;
+	}
+	if(::Save(f,SaveImageXCount)==false){
+		return false;
+	}
+	if(::Save(f,SaveImageYCount)==false){
+		return false;
+	}
+	if(::Save(f,ImgFormat)==false){
+		return false;
+	}
+	return true;
+}
+bool	DisplayImage::LoadSetting(QIODevice *f)
+{
+	if(::Load(f,SaveImageSizeXDot)==false){
+		return false;
+	}
+	if(::Load(f,SaveImageSizeYDot)==false){
+		return false;
+	}
+	if(::Load(f,SaveImageXCount)==false){
+		return false;
+	}
+	if(::Load(f,SaveImageYCount)==false){
+		return false;
+	}
+	if(::Load(f,ImgFormat)==false){
+		return false;
+	}
+	return true;
+}
+
+void	DisplayImage::XYLabelEditingFinished ()
+{
+	if((XPosLabel==NULL) || (YPosLabel==NULL)){
+		return;
+	}
+	bool	ok;
+	int	XPos=XPosLabel->text().toInt(&ok);
+	if(ok==false){
+		return;
+	}
+	int	YPos=YPosLabel->text().toInt(&ok);
+	if(ok==false){
+		return;
+	}
+	if(MainCanvas!=NULL){
+		MainCanvas->ZoomRectU(XPos-GetCanvasWidth()/2 ,YPos-GetCanvasHeight()/2
+							 ,XPos+GetCanvasWidth()/2 ,YPos+GetCanvasHeight()/2);
+		emit	SignalChangedDrawingPosition();
+	}
+}
+
+void	DisplayImage::GetMenuInfo(MenuInfoContainer &Info)
+{
+	if(ZoomWholeBtn!=NULL){
+		MenuInfoList	*p=new MenuInfoList(1,LangDISolver.GetString(XDisplayImage_LS,LID_41)/*"Display"*/,LangDISolver.GetString(XDisplayImage_LS,LID_42)/*"Zoom whole"*/,this);
+		p->SetMenuNumber(100);
+		p->SetShowingAttributeAsSwicthInTab();
+		Info.AppendList(p);
+	}
+	if(ToolMenuBtn!=NULL){
+		MenuInfoList	*p=new MenuInfoList(2,LangDISolver.GetString(XDisplayImage_LS,LID_43)/*"Tool"*/,LangDISolver.GetString(XDisplayImage_LS,LID_44)/*"Move Image"*/,this);
+		p->SetMenuNumber(100);
+		p->SetShowingAttributeAsSwicthInTab();
+		Info.AppendList(p);
+	}
+	if(ToolMenuBtn!=NULL){
+		MenuInfoList	*p=new MenuInfoList(3,LangDISolver.GetString(XDisplayImage_LS,LID_45)/*"Tool"*/,LangDISolver.GetString(XDisplayImage_LS,LID_46)/*"Swap Image"*/,this);
+		p->SetMenuNumber(101);
+		p->SetShowingAttributeAsSwicthInTab();
+		Info.AppendList(p);
+	}
+	if(ToolMenuBtn!=NULL){
+		MenuInfoList	*p=new MenuInfoList(4,LangDISolver.GetString(XDisplayImage_LS,LID_47)/*"Tool"*/,LangDISolver.GetString(XDisplayImage_LS,LID_48)/*"Copy Image Master->Target"*/,this);
+		p->SetMenuNumber(102);
+		p->SetShowingAttributeAsSwicthInTab();
+		Info.AppendList(p);
+	}
+	if(ToolMenuBtn!=NULL){
+		MenuInfoList	*p=new MenuInfoList(5,LangDISolver.GetString(XDisplayImage_LS,LID_49)/*"Tool"*/,LangDISolver.GetString(XDisplayImage_LS,LID_70)/*"Copy Image Target->Master"*/,this);
+		p->SetMenuNumber(103);
+		p->SetShowingAttributeAsSwicthInTab();
+		Info.AppendList(p);
+	}
+	if(ToolMenuBtn!=NULL){
+		MenuInfoList	*p=new MenuInfoList(5,LangDISolver.GetString(XDisplayImage_LS,LID_71)/*"Tool"*/,LangDISolver.GetString(XDisplayImage_LS,LID_72)/*"Separator"*/,this);
+		p->SetMenuNumber(104);
+		p->SetShowingAttributeAsSwicthInTab();
+		Info.AppendList(p);
+	}
+}
+void	DisplayImage::ExecuteMenu(int ID)
+{
+	switch(ID){
+		case 1:
+			break;
+		case 2:
+			SlotMoveImage();
+			break;
+		case 3:
+			SlotSwapImage();
+			break;
+		case 4:
+			SlotCopyImageToTarget();
+			break;
+		case 5:
+			SlotCopyImageToMaster();
+			break;
+	}
+}
+void	DisplayImage::SlotDrawing(mtFrameDraw::DrawingMode mode,int stage)
+{
+	if(MainCanvas!=NULL){
+		QString	Status=MainCanvas->ToString(mode)+QString(/**/" ")+QString::number(stage);
+		GetLayersBase()->SetStatusModes(DummyClassForStatus,Status);
+	}
+}
+
+void	DisplayImage::SlotDrawMessage(const QStringList &title ,const QStringList &msg)
+{
+	emit	SignalDrawMessage(title ,msg);
+
+}
+
+void	DisplayImage::SlotDrawFromOutside(QStringList &data)
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->DrawFromOutside(data);
+	}
+}
+void	DisplayImage::SlotCancelDraw()
+{
+}
+void	DisplayImage::SlotJustMouseLPress  (int UniversalDx,int UniversalDy)
+{
+	emit	SignalJustMouseLPress  (UniversalDx,UniversalDy);
+}
+void	DisplayImage::SlotJustMouseRPress  (int UniversalDx,int UniversalDy)
+{
+	emit	SignalJustMouseRPress  (UniversalDx,UniversalDy);
+}
+void	DisplayImage::SlotJustMouseLRelease(int UniversalDx,int UniversalDy)
+{
+	if(HookedExecuteLClick(UniversalDx,UniversalDy)==false){
+		bool	b=MainCanvas->GetCancelClicked();
+		MainCanvas->SetCancelClicked(true);
+		MainCanvas->Repaint();
+		MainCanvas->SetCancelClicked(b);
+		return;
+	}
+	emit	SignalJustMouseLRelease(UniversalDx,UniversalDy);
+}
+void	DisplayImage::SlotJustMouseRRelease(int UniversalDx,int UniversalDy)
+{
+	if(HookedExecuteRClick(UniversalDx,UniversalDy)==false){
+		bool	b=MainCanvas->GetCancelClicked();
+		MainCanvas->SetCancelClicked(true);
+		MainCanvas->Repaint();
+		MainCanvas->SetCancelClicked(b);
+		return;
+	}
+	emit	SignalJustMouseLRelease(UniversalDx,UniversalDy);
+}
+void	DisplayImage::ExecuteReleaseAllSelection(void)
+{
+	emit	SignalReleaseAllSelection();
+}
+void DisplayImage::moveEvent ( QMoveEvent * event )
+{
+	//QRect	R=geometry();
+	GUIFormBase::moveEvent ( event );
+}
+
+void	DisplayImage::SetModeShowScale(__ScalePosition b)
+{
+	Option.ModeShowScale=b;
+	GetCanvas()->Repaint();
+}
+
+double	DisplayImage::GetScaleLen(double RealLen)
+{
+	double ImagePosX0,ImagePosY0;
+	double ImagePosX1,ImagePosY1;
+
+	int		Page=GetShowOnePage();
+	if(Page<0)
+		Page=0;
+	DataInPage *Dp=GetLayersBase()->GetPageData(Page);
+	if(Dp!=NULL){
+		ImagePosX0=Dp->GetDotPerLine()/2.0;
+		ImagePosY0=Dp->GetMaxLines()/2.0;
+		double	realX ,realY;
+		bool	ExistRegulation=true;
+		if(Dp->TransformImageToReal(ImagePosX0,ImagePosY0,realX ,realY)==false){
+			ExistRegulation=false;
+		}
+		double	realX2 ,realY2;
+		if(Dp->TransformImageToReal(ImagePosX0+1,ImagePosY0,realX2 ,realY2)==false){
+			ExistRegulation=false;
+		}
+		if(ExistRegulation==false){
+			return GetParamGlobal()->TransformUnitDistanceToPixel(0 ,0  ,RealLen ,0)*GetZoomRate();
+		}
+
+		double	L=hypot(realX2-realX,realY2-realY);
+		if(L==0){
+			return 0;
+		}
+		ImagePosX1=ImagePosX0+RealLen/L;
+		ImagePosY1=ImagePosY0;
+
+		int Dx0,Dy0;
+		int Dx1,Dy1;
+		ChangeDxy2Gxy(ImagePosX0,ImagePosY0,Dx0,Dy0);
+		ChangeDxy2Gxy(ImagePosX1,ImagePosY1,Dx1,Dy1);
+		return hypot(Dx0-Dx1,Dy0-Dy1);
+	}
+	return 0;
+}
+
+
+//===============================================================================================================
+void	DisplayImagePointerContainer::Repaint(void)
+{
+	for(DisplayImagePointer *a=GetFirst();a!=NULL;a=a->GetNext()){
+		a->GetPanel()->RepaintAll();
+	}
+}

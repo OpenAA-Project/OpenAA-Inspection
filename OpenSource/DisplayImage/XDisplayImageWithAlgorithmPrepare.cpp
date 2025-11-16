@@ -1,0 +1,795 @@
+#include "DisplayImageResource.h"
+#define	_USE_MATH_DEFINES
+#include <QMessageBox>
+#include <QMenu>
+#include "XDisplayImage.h"
+#include "XDisplayImagePacket.h"
+#include "XTypeDef.h"
+#include "XCrossObj.h"
+#include "SelectPasteForm.h"
+#include "XGeneralDialog.h"
+#include "SelectItemForm.h"
+#include "SelectByLibraryDialog.h"
+#include "ExpandedPasteForm.h"
+#include "XGeneralFunc.h"
+#include "XCriticalFunc.h"
+#include <omp.h>
+#include <math.h>
+#include "SelectPages.h"
+#include "MoveImageForm.h"
+#include "SelectByOrigin.h"
+#include "SelectMovePastePage.h"
+#include "XDataInLayer.h"
+#include "XFileRegistry.h"
+#include "SaveImageOnPointDialog.h"
+#include "RegulateBrightnessForm.h"
+#include "XGeneralStocker.h"
+#include "mtImageToolButtonWithBalloon.h"
+#include "mtImageToolButtonColored.h"
+#include "swap.h"
+#include "InputRotate.h"
+#include "InputMirror.h"
+#include "SelectOneItemForm.h"
+#include "EditItemNameDialog.h"
+#include "SetectSearchItemDialog.h"
+#include "SelectPageItemDialog.h"
+#include "XImageStocker.h"
+
+void	DisplayImageWithAlgorithm::Prepare(void)
+{
+	int	BtnX=0;
+	int	BtnW=IconSize+8;
+	int	BtnH=IconSize+2;
+
+	WBar.setIconSize(QSize(IconSize,IconSize));
+	if(NoneBtn==NULL){
+		ShownButtons.append(/**/"None");
+		NoneBtn		=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtToolButtonWithBalloon();
+		NoneBtn->setInvertMode(true);
+		NoneBtn->setObjectName(/**/"NoneBtnAlgorithm");
+		connect(NoneBtn,SIGNAL(clicked()),this,SLOT(DrawNoneBtnBtnDown()));
+		NoneBtn->setMessage(LangDISolver.GetString(XDisplayImage_LS,LID_115)/*"None Item operation"*/);
+		NoneBtn->setAutoExclusive(true);
+		NoneBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+		NoneBtn->setCheckable(true);
+		NoneBtn->setAutoRaise(true);
+		WBar.addWidget(NoneBtn);
+	}
+	//if(NoneBtn->icon().isNull()){
+	if(IconItemImages.NoneItemIcon.isNull()==true){
+		if(IconSize<=32){
+			NoneBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/NonSelect32.png"));
+		}
+		else if(IconSize<=64){
+			NoneBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/NonSelect64.png"));
+		}
+		else{
+			NoneBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/NonSelect100.png"));
+		}
+	}
+	else{
+		NoneBtn->setFaceImage(IconItemImages.NoneItemIcon);
+	}
+	//}
+	BtnX+=BtnW;
+
+	for(int v=0;v<ItemTunableList.count();v++){
+		QString	MStr=ItemTunableList[v];
+		if(MStr==/**/"DrawBtn"){
+			if(AlgoOptions.DrawBtn==true){
+				if(DrawBtn==NULL){
+					ShownButtons.append(MStr);
+					DrawBtn		=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtToolButtonWithBalloon();
+					DrawBtn->setInvertMode(true);
+					connect(DrawBtn,SIGNAL(clicked()),this,SLOT(DrawBtnDown()));
+					DrawBtn->setMessage(LangDISolver.GetString(XDisplayImage_LS,LID_117)/*"Draw Item operation"*/);
+					DrawBtn->setAutoExclusive(true);
+					DrawBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					DrawBtn->setCheckable(true);
+					DrawBtn->setAutoRaise(true);
+					DrawBtn->setObjectName(/**/"DrawBtn");
+					WBar.addWidget(DrawBtn);
+				}
+				//if(DrawBtn->icon().isNull()){
+				if(IconItemImages.DrawItemIcon.isNull()==true){
+					if(IconSize<=32){
+						DrawBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/WheelBarrow32.png"));
+					}
+					else if(IconSize<=64){
+						DrawBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/WheelBarrow64.png"));
+					}
+					else{
+						DrawBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/WheelBarrow100"));
+					}
+				}
+				else{
+					DrawBtn->setFaceImage(IconItemImages.DrawItemIcon);
+				}
+				//}
+			}
+			else if(DrawBtn!=NULL){
+				delete DrawBtn;
+				DrawBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"SelectBtn"){
+			if(AlgoOptions.SelectBtn==true){
+				if(SelectBtn==NULL){
+					ShownButtons.append(MStr);
+					SelectBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtToolButtonWithBalloon();
+					SelectBtn->setInvertMode(true);
+					SelectBtn->setMessage(LangDISolver.GetString(XDisplayImage_LS,LID_119)/*"Select Item operation"*/);
+					connect(SelectBtn,SIGNAL(clicked()),this,SLOT(SelectBtnDown()));
+					SelectBtn->setAutoExclusive(true);
+					SelectBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					SelectBtn->setCheckable(true);
+					SelectBtn->setAutoRaise(true);
+					SelectBtn->setObjectName(/**/"SelectBtn");
+					WBar.addWidget(SelectBtn);
+				}
+				//if(SelectBtn->icon().isNull()){
+				if(IconItemImages.SelectItemIcon.isNull()==true){
+					if(IconSize<=32){
+						SelectBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/SelectArea32.png"));
+					}
+					else if(IconSize<=64){
+						SelectBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/SelectArea64.png"));
+					}
+					else{
+						SelectBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/SelectArea100.png"));
+					}
+				}
+				else{
+					SelectBtn->setFaceImage(IconItemImages.SelectItemIcon);
+				}
+				//}
+			}
+			else if(SelectBtn!=NULL){
+				delete SelectBtn;
+				SelectBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"SelectMenuBtn"){
+			if(AlgoOptions.SelectMenuBtn==true){
+				if(SelectMenuBtn==NULL){
+					ShownButtons.append(MStr);
+					SelectMenuBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtPushButtonWithBalloon();
+					SelectMenuBtn->setMessage(LangDISolver.GetString(XDisplayImage_LS,LID_121)/*"Select menu operation"*/);
+					connect(SelectMenuBtn,SIGNAL(clicked()),this,SLOT(SelectMenuBtnDown()));
+					SelectMenuBtn->setAutoExclusive(false);
+					SelectMenuBtn->resize(SelectBtn->width(),SelectBtn->height());
+					SelectMenuBtn->setObjectName(/**/"SelectMenuBtn");
+					//SelectMenuBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					SelectMenuBtn->setCheckable(false);
+					WBar.addWidget(SelectMenuBtn);
+				}
+				//if(SelectMenuBtn->icon().isNull()){
+					SelectMenuBtn->setContentsMargins(0,0,0,0);
+				if(IconItemImages.SelectMenuItemIcon.isNull()==true){
+					if(IconSize<=32){
+						SelectMenuBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/SelectArea32.png"));
+					}
+					else if(IconSize<=64){
+						SelectMenuBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/SelectArea64.png"));
+					}
+					else{
+						SelectMenuBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/SelectArea100.png"));
+					}
+				}
+				else{
+					SelectMenuBtn->setFaceImage(IconItemImages.SelectMenuItemIcon);
+				}
+				//}
+			}
+			else if(SelectMenuBtn!=NULL){
+				delete SelectMenuBtn;
+				SelectMenuBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"CutItemBtn"){
+			if(AlgoOptions.CutItemBtn==true){
+				if(CutItemBtn==NULL){
+					ShownButtons.append(MStr);
+					CutItemBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtToolButtonWithBalloon();
+					CutItemBtn->setInvertMode(true);
+					CutItemBtn->setMessage(LangDISolver.GetString(XDisplayImage_LS,LID_123)/*"Cut Item operation"*/);
+					connect(CutItemBtn,SIGNAL(clicked()),this,SLOT(CutItemBtnDown()));
+					CutItemBtn->setAutoExclusive(true);
+					CutItemBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					CutItemBtn->setCheckable(true);
+					CutItemBtn->setAutoRaise(true);
+					CutItemBtn->setObjectName(/**/"CutItemBtn");
+					WBar.addWidget(CutItemBtn);
+				}
+				//if(CutItemBtn->icon().isNull()){
+				if(IconItemImages.CutItemItemIcon.isNull()==true){
+					if(IconSize<=32){
+						CutItemBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/CutItem32.png"));
+					}
+					else if(IconSize<=64){
+						CutItemBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/CutItem64.png"));
+					}
+					else{
+						CutItemBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/CutItem100.png"));
+					}
+				}
+				else{
+					CutItemBtn->setFaceImage(IconItemImages.CutItemItemIcon);
+				}
+				//}
+			}
+			else if(CutItemBtn!=NULL){
+				delete CutItemBtn;
+				CutItemBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"MoveItemBtn"){
+			if(AlgoOptions.MoveItemBtn==true){
+				if(MoveItemBtn==NULL){
+					ShownButtons.append(MStr);
+					MoveItemBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtToolButtonWithBalloon();
+					MoveItemBtn->setInvertMode(true);
+					MoveItemBtn->setMessage(LangDISolver.GetString(XDisplayImage_LS,LID_125)/*"Move Item operation"*/);
+					connect(MoveItemBtn,SIGNAL(clicked()),this,SLOT(MoveItemBtnDown()));
+					MoveItemBtn->setAutoExclusive(true);
+					MoveItemBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					MoveItemBtn->setCheckable(true);
+					MoveItemBtn->setAutoRaise(true);
+					MoveItemBtn->setObjectName(/**/"MoveItemBtn");
+					WBar.addWidget(MoveItemBtn);
+				}
+				//if(MoveItemBtn->icon().isNull()){
+				if(IconItemImages.MoveItemIcon.isNull()==true){
+					if(IconSize<=32){
+						MoveItemBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/MoveItem32.png"));
+					}
+					else if(IconSize<=64){
+						MoveItemBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/MoveItem64.png"));
+					}
+					else{
+						MoveItemBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/MoveItem100.png"));
+					}
+				}
+				else{
+					MoveItemBtn->setFaceImage(IconItemImages.MoveItemIcon);
+				}
+				//}
+			}
+			else if(MoveItemBtn!=NULL){
+				delete MoveItemBtn;
+				MoveItemBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"DeleteBtn"){
+			if(AlgoOptions.DeleteBtn==true){
+				if(DeleteBtn==NULL){
+					ShownButtons.append(MStr);
+					DeleteBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtPushButtonWithBalloon();
+					DeleteBtn->setMessage(LangDISolver.GetString(XDisplayImage_LS,LID_127)/*"Delete Item operation"*/);
+					connect(DeleteBtn,SIGNAL(clicked()),this,SLOT(DeleteBtnDown()));
+					DeleteBtn->setAutoExclusive(false);
+					//DeleteBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					DeleteBtn->setCheckable(false);
+					DeleteBtn->setObjectName(/**/"DeleteBtn");
+					WBar.addWidget(DeleteBtn);
+				}
+				//if(DeleteBtn->icon().isNull()){
+				if(IconItemImages.DeleteItemIcon.isNull()==true){
+					if(IconSize<=32){
+						DeleteBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/DeleteItem32.png"));
+					}
+					else if(IconSize<=64){
+						DeleteBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/DeleteItem64.png"));
+					}
+					else{
+						DeleteBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/DeleteItem100.png"));
+					}
+				}
+				else{
+					DeleteBtn->setFaceImage(IconItemImages.DeleteItemIcon);
+				}
+				//}
+			}
+			else if(DeleteBtn!=NULL){
+				delete DeleteBtn;
+				DeleteBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"LockBtn"){
+			if(AlgoOptions.LockBtn==true){
+				if(LockBtn==NULL){
+					ShownButtons.append(MStr);
+					LockBtn		=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtPushButtonWithBalloon();
+					LockBtn->setMessage(LangDISolver.GetString(XDisplayImage_LS,LID_129)/*"Lock Item operation"*/);
+					connect(LockBtn,SIGNAL(clicked()),this,SLOT(LockBtnDown()));
+					LockBtn->setAutoExclusive(false);
+					//LockBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					LockBtn->setCheckable(false);
+					LockBtn->setObjectName(/**/"LockBtn");
+					WBar.addWidget(LockBtn);
+				}
+				//if(LockBtn->icon().isNull()){
+				if(IconItemImages.LockItemIcon.isNull()==true){
+					if(IconSize<=32){
+						LockBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/LockItem32.png"));
+					}
+					else if(IconSize<=64){
+						LockBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/LockItem64.png"));
+					}
+					else{
+						LockBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/LockItem100.png"));
+					}
+				}
+				else{
+					LockBtn->setFaceImage(IconItemImages.LockItemIcon);
+				}
+				//}
+			}
+			else if(LockBtn!=NULL){
+				delete LockBtn;
+				LockBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"GroupBtn"){
+			if(AlgoOptions.GroupBtn==true){
+				if(GroupBtn==NULL){
+					ShownButtons.append(MStr);
+					GroupBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtPushButtonWithBalloon();
+					GroupBtn->setMessage(LangDISolver.GetString(XDisplayImage_LS,LID_131)/*"Group Item operation"*/);
+					connect(GroupBtn,SIGNAL(clicked()),this,SLOT(GroupBtnDown()));
+					GroupBtn->setAutoExclusive(false);
+					//GroupBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					GroupBtn->setCheckable(false);
+					GroupBtn->setObjectName(/**/"GroupBtn");
+					WBar.addWidget(GroupBtn);
+				}
+				//if(GroupBtn->icon().isNull()){
+				if(IconItemImages.GroupItemIcon.isNull()==true){
+					if(IconSize<=32){
+						GroupBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/GroupItem32.png"));
+					}
+					else if(IconSize<=64){
+						GroupBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/GroupItem64.png"));
+					}
+					else{
+						GroupBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/GroupItem100.png"));
+					}
+				}
+				else{
+					GroupBtn->setFaceImage(IconItemImages.GroupItemIcon);
+				}
+				//}
+			}
+			else if(GroupBtn!=NULL){
+				delete GroupBtn;
+				GroupBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"CopyBtn"){
+			if(AlgoOptions.CopyBtn==true){
+				if(CopyBtn==NULL){
+					ShownButtons.append(MStr);
+					CopyBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtPushButtonWithBalloon();
+					CopyBtn->setMessage(LangDISolver.GetString(XDisplayImage_LS,LID_133)/*"Copy operation"*/);
+					connect(CopyBtn,SIGNAL(clicked()),this,SLOT(CopyBtnDown()));
+					CopyBtn->setAutoExclusive(false);
+					//CopyBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					CopyBtn->setCheckable(false);
+					CopyBtn->setObjectName(/**/"CopyBtn");
+					WBar.addWidget(CopyBtn);
+				}
+				//if(CopyBtn->icon().isNull()){
+				if(IconItemImages.CopyItemIcon.isNull()==true){
+					if(IconSize<=32){
+						CopyBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Copy32.png"));
+					}
+					else if(IconSize<=64){
+						CopyBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Copy64.png"));
+					}
+					else{
+						CopyBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Copy100.png"));
+					}
+				}
+				else{
+					CopyBtn->setFaceImage(IconItemImages.CopyItemIcon);
+				}
+				//}
+			}
+			else if(CopyBtn!=NULL){
+				delete CopyBtn;
+				CopyBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"PasteBtn"){
+			if(AlgoOptions.PasteBtn==true){
+				if(PasteBtn==NULL){
+					ShownButtons.append(MStr);
+					PasteBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtPushButtonWithBalloon();
+					PasteBtn->setMessage(LangDISolver.GetString(XDisplayImage_LS,LID_135)/*"Paste operation"*/);
+					connect(PasteBtn,SIGNAL(clicked()),this,SLOT(PasteBtnDown()));
+					PasteBtn->setAutoExclusive(false);
+					//PasteBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					PasteBtn->setCheckable(false);
+					PasteBtn->setObjectName(/**/"PasteBtn");
+					WBar.addWidget(PasteBtn);
+				}
+				//if(PasteBtn->icon().isNull()){
+				if(IconItemImages.PasteItemIcon.isNull()==true){
+					if(IconSize<=32){
+						PasteBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Paste32.png"));
+					}
+					else if(IconSize<=64){
+						PasteBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Paste64.png"));
+					}
+					else{
+						PasteBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Paste100.png"));
+					}
+				}
+				else{
+					PasteBtn->setFaceImage(IconItemImages.PasteItemIcon);
+				}
+				//}
+			}
+			else if(PasteBtn!=NULL){
+				delete PasteBtn;
+				PasteBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"RegistAreaBtn"){
+			if(AlgoOptions.RegistAreaBtn==true){
+				if(RegistAreaBtn==NULL){
+					ShownButtons.append(MStr);
+					RegistAreaBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtToolButtonWithBalloon();
+					RegistAreaBtn->setInvertMode(true);
+					RegistAreaBtn->setMessage(LangDISolver.GetString(XDisplayImage_LS,LID_28)/*"Registration area for algorithm"*/);
+					connect(RegistAreaBtn,SIGNAL(clicked()),this,SLOT(RegistAreaBtnDown()));
+					RegistAreaBtn->setAutoExclusive(true);
+					RegistAreaBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					RegistAreaBtn->setCheckable(true);
+					RegistAreaBtn->setAutoRaise(true);
+					RegistAreaBtn->setObjectName(/**/"RegistAreaBtn");
+					WBar.addWidget(RegistAreaBtn);
+				}
+				//if(RegistAreaBtn->icon().isNull()){
+				if(IconItemImages.RegistAreaItemIcon.isNull()==true){
+					if(IconSize<=32){
+						RegistAreaBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/RegistAreaBtn32.png"));
+					}
+					else if(IconSize<=64){
+						RegistAreaBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/RegistAreaBtn64.png"));
+					}
+					else{
+						RegistAreaBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/RegistAreaBtn100.png"));
+					}
+				}
+				else{
+					RegistAreaBtn->setFaceImage(IconItemImages.RegistAreaItemIcon);
+				}
+				//}
+			}
+			else if(RegistAreaBtn!=NULL){
+				delete RegistAreaBtn;
+				RegistAreaBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"VisibleMenuBtn"){
+			if(AlgoOptions.VisibleMenuBtn==true){
+				if(VisibleMenuBtn==NULL){
+					ShownButtons.append(MStr);
+					VisibleMenuBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtPushButtonWithBalloon();
+					VisibleMenuBtn->setMessage(LangDISolver.GetString(XDisplayImage_LS,LID_29)/*"Visible menu operation"*/);
+					connect(VisibleMenuBtn,SIGNAL(clicked()),this,SLOT(VisibleMenuBtnDown()));
+					VisibleMenuBtn->setAutoExclusive(false);
+					//VisibleMenuBtn->resize(SelectBtn->width(),SelectBtn->height());
+					VisibleMenuBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					VisibleMenuBtn->setCheckable(false);
+					VisibleMenuBtn->setObjectName(/**/"VisibleMenuBtn");
+					WBar.addWidget(VisibleMenuBtn);
+				}
+				//if(VisibleMenuBtn->icon().isNull()){
+				if(IconItemImages.VisibleMenuItemIcon.isNull()==true){
+					if(IconSize<=32){
+						VisibleMenuBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/VisibleMenuBtn32.png"));
+					}
+					else if(IconSize<=64){
+						VisibleMenuBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/VisibleMenuBtn64.png"));
+					}
+					else{
+						VisibleMenuBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/VisibleMenuBtn100.png"));
+					}
+				}
+				else{
+					VisibleMenuBtn->setFaceImage(IconItemImages.VisibleMenuItemIcon);
+				}
+				//}
+			}
+			else if(VisibleMenuBtn!=NULL){
+				delete VisibleMenuBtn;
+				VisibleMenuBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"RotateBtn"){
+			if(AlgoOptions.RotateBtn==true){
+				if(RotateBtn==NULL){
+					ShownButtons.append(MStr);
+					RotateBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtPushButtonWithBalloon();
+					RotateBtn->setMessage(LangDISolver.GetString(XDisplayImageWithAlgorithm_LS,LID_78)/*"Rotate operation"*/);
+					connect(RotateBtn,SIGNAL(clicked()),this,SLOT(RotateBtnDown()));
+					RotateBtn->setAutoExclusive(false);
+					//RotateBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					RotateBtn->setCheckable(false);
+					RotateBtn->setObjectName(/**/"RotateBtn");
+					WBar.addWidget(RotateBtn);
+				}
+				//if(PasteBtn->icon().isNull()){
+				if(IconItemImages.RotateItemIcon.isNull()==true){
+					if(IconSize<=32){
+						RotateBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Rotate32.png"));
+					}
+					else if(IconSize<=64){
+						RotateBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Rotate64.png"));
+					}
+					else{
+						RotateBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Rotate100.png"));
+					}
+				}
+				else{
+					RotateBtn->setFaceImage(IconItemImages.RotateItemIcon);
+				}
+				//}
+			}
+			else if(RotateBtn!=NULL){
+				delete RotateBtn;
+				RotateBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"MirrorBtn"){
+			if(AlgoOptions.MirrorBtn==true){
+				if(MirrorBtn==NULL){
+					ShownButtons.append(MStr);
+					MirrorBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtPushButtonWithBalloon();
+					MirrorBtn->setMessage(LangDISolver.GetString(XDisplayImageWithAlgorithm_LS,LID_79)/*"Mirror operation"*/);
+					connect(MirrorBtn,SIGNAL(clicked()),this,SLOT(MirrorBtnDown()));
+					MirrorBtn->setAutoExclusive(false);
+					//MirrorBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					MirrorBtn->setCheckable(false);
+					MirrorBtn->setObjectName(/**/"MirrorBtn");
+					WBar.addWidget(MirrorBtn);
+				}
+				//if(PasteBtn->icon().isNull()){
+				if(IconItemImages.MirrorItemIcon.isNull()==true){
+					if(IconSize<=32){
+						MirrorBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Mirror32.png"));
+					}
+					else if(IconSize<=64){
+						MirrorBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Mirror64.png"));
+					}
+					else{
+						MirrorBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Mirror100.png"));
+					}
+				}
+				else{
+					MirrorBtn->setFaceImage(IconItemImages.MirrorItemIcon);
+				}
+				//}
+			}
+			else if(MirrorBtn!=NULL){
+				delete MirrorBtn;
+				MirrorBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"UncoveredBtn"){
+			if(AlgoOptions.UncoveredBtn==true){
+				if(UncoveredBtn==NULL){
+					ShownButtons.append(MStr);
+					UncoveredBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);
+					UncoveredBtn->setMessage(LangDISolver.GetString(XDisplayImageWithAlgorithm_LS,LID_180)/*"Show Uncovered operation"*/);
+					connect(UncoveredBtn,SIGNAL(clicked()),this,SLOT(UncoveredBtnDown()));
+					UncoveredBtn->setAutoExclusive(true);
+					//UncoveredBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					UncoveredBtn->setCheckable(true);
+					UncoveredBtn->setAutoRaise(true);
+					UncoveredBtn->setObjectName(/**/"UncoveredBtn");
+					WBar.addWidget(UncoveredBtn);
+				}
+				//if(PasteBtn->icon().isNull()){
+				if(IconItemImages.UncoveredItemIcon.isNull()==true){
+					if(IconSize<=32){
+						UncoveredBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Uncovered32.png"));
+					}
+					else if(IconSize<=64){
+						UncoveredBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Uncovered64.png"));
+					}
+					else{
+						UncoveredBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/Uncovered100.png"));
+					}
+				}
+				else{
+					UncoveredBtn->setFaceImage(IconItemImages.UncoveredItemIcon);
+				}
+				//}
+			}
+			else if(UncoveredBtn!=NULL){
+				delete UncoveredBtn;
+				UncoveredBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"ItemMenuBtn"){
+			if(AlgoOptions.ItemMenuBtn==true){
+				if(ItemMenuBtn==NULL){
+					ShownButtons.append(MStr);
+					ItemMenuBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtPushButtonWithBalloon();
+					ItemMenuBtn->setMessage(LangDISolver.GetString(XDisplayImageWithAlgorithmPrepare_LS,LID_238)/*"Select menu operation"*/);
+					connect(ItemMenuBtn,SIGNAL(clicked()),this,SLOT(ItemMenuBtnDown()));
+					ItemMenuBtn->setAutoExclusive(false);
+					ItemMenuBtn->resize(ItemMenuBtn->width(),ItemMenuBtn->height());
+					ItemMenuBtn->setObjectName(/**/"ItemMenuBtn");
+					//ItemMenuBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					ItemMenuBtn->setCheckable(false);
+					WBar.addWidget(ItemMenuBtn);
+				}
+				//if(ItemMenuBtn->icon().isNull()){
+					ItemMenuBtn->setContentsMargins(0,0,0,0);
+				if(IconItemImages.ItemMenuIcon.isNull()==true){
+					if(IconSize<=32){
+						ItemMenuBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/ItemMenu32.png"));
+					}
+					else if(IconSize<=64){
+						ItemMenuBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/ItemMenu64.png"));
+					}
+					else{
+						ItemMenuBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/ItemMenu100.png"));
+					}
+				}
+				else{
+					ItemMenuBtn->setFaceImage(IconItemImages.ItemMenuIcon);
+				}
+				//}
+			}
+			else if(ItemMenuBtn!=NULL){
+				delete ItemMenuBtn;
+				ItemMenuBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"MultiSelectBtn"){
+			if(AlgoOptions.MultiSelectBtn==true){
+				if(MultiSelectBtn==NULL){
+					ShownButtons.append(MStr);
+					MultiSelectBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);
+					MultiSelectBtn->setMessage(LangDISolver.GetString(XDisplayImageWithAlgorithmPrepare_LS,LID_239)/*"Multi selection mode"*/);
+					connect(MultiSelectBtn,SIGNAL(clicked()),this,SLOT(MultiSelectBtnDown()));
+					MultiSelectBtn->setAutoExclusive(false);
+					//MultiSelectBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					MultiSelectBtn->setCheckable(true);
+					MultiSelectBtn->setAutoRaise(false);
+					MultiSelectBtn->setObjectName(/**/"MultiSelectBtn");
+					WBar.addWidget(MultiSelectBtn);
+				}
+				//if(PasteBtn->icon().isNull()){
+				if(IconItemImages.MultiSelectIcon.isNull()==true){
+					if(IconSize<=32){
+						MultiSelectBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/MultiSelect32.png"));
+					}
+					else if(IconSize<=64){
+						MultiSelectBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/MultiSelect64.png"));
+					}
+					else{
+						MultiSelectBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/MultiSelect100.png"));
+					}
+				}
+				else{
+					MultiSelectBtn->setFaceImage(IconItemImages.MultiSelectIcon);
+				}
+				//}
+			}
+			else if(MultiSelectBtn!=NULL){
+				delete MultiSelectBtn;
+				MultiSelectBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+		else if(MStr==/**/"SeparateItemBtn"){
+			if(AlgoOptions.SeparateItemBtn==true){
+				if(SeparateItemBtn==NULL){
+					ShownButtons.append(MStr);
+					SeparateItemBtn	=new mtImageToolButtonWithBalloon(QImage(),NULL);	//mtToolButtonWithBalloon();
+					SeparateItemBtn->setInvertMode(true);
+					SeparateItemBtn->setMessage("Separate Item operation");
+					connect(SeparateItemBtn,SIGNAL(clicked()),this,SLOT(SeparateItemBtnDown()));
+					SeparateItemBtn->setAutoExclusive(true);
+					SeparateItemBtn->setIconSize (QSize(DefIconSize,DefIconSize));
+					SeparateItemBtn->setCheckable(true);
+					SeparateItemBtn->setAutoRaise(true);
+					SeparateItemBtn->setObjectName(/**/"SeparateItemBtn");
+					WBar.addWidget(SeparateItemBtn);
+				}
+				//if(SelectBtn->icon().isNull()){
+				if(IconItemImages.SeparateItemIcon.isNull()==true){
+					if(IconSize<=32){
+						SeparateItemBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/SeparateItem32.png"));
+					}
+					else if(IconSize<=64){
+						SeparateItemBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/SeparateItem64.png"));
+					}
+					else{
+						SeparateItemBtn->setFaceImage(GetLayersBase()->GetListOfQImageStocker()->GetImage(/**/":Resources/SeparateItem100.png"));
+					}
+				}
+				else{
+					SeparateItemBtn->setFaceImage(IconItemImages.SelectItemIcon);
+				}
+				//}
+			}
+			else if(SeparateItemBtn!=NULL){
+				delete SeparateItemBtn;
+				SeparateItemBtn=NULL;
+			}
+			BtnX+=BtnW;
+		}
+	}
+	if(ActionSelectAll!=NULL){
+		removeAction (ActionSelectAll);
+		delete	ActionSelectAll;
+	}
+
+	ActionSelectAll	=new QAction(this);
+	ActionSelectAll->setShortcut(tr(/**/"Ctrl+A"));
+	connect(ActionSelectAll, SIGNAL(triggered()), this, SLOT(SlotSelectAll()));
+	addAction(ActionSelectAll);
+
+	if(ActionCopy!=NULL){
+		removeAction (ActionCopy);
+		delete	ActionCopy;
+	}
+	ActionCopy	=new QAction(this);
+	ActionCopy->setShortcut(tr(/**/"Ctrl+C"));
+	connect(ActionCopy, SIGNAL(triggered()), this, SLOT(CopyBtnDown()));
+	addAction(ActionCopy);
+
+	if(ActionPaste!=NULL){
+		removeAction (ActionPaste);
+		delete	ActionPaste;
+	}
+	ActionPaste	=new QAction(this);
+	ActionPaste->setShortcut(tr(/**/"Ctrl+V"));
+	connect(ActionPaste, SIGNAL(triggered()), this, SLOT(PasteBtnDownFromShortcut()));
+	addAction(ActionPaste);
+
+	if(ActionDelete!=NULL){
+		removeAction (ActionDelete);
+		delete	ActionDelete;
+	}
+	ActionDelete	=new QAction(this);
+	ActionDelete->setShortcut(tr(/**/"Del"));
+	connect(ActionDelete, SIGNAL(triggered()), this, SLOT(DeleteBtnDown()));
+	addAction(ActionDelete);
+
+	WBar.move(0,TopOfAll);
+	if(ViewWindowStyle.EnableToolArea==true){
+		WBar.resize(BtnX,BtnH);
+	}
+	else{
+		WBar.resize(BtnX,0);
+	}
+	TopOfAll+=BtnH;
+	DisplayImage::Prepare();
+	AllUpToolButton();
+
+	GetLayersBase()->InstallOperationLog(this);
+}

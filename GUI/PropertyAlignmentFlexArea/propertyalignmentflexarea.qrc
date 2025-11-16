@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertyAlignmentFlexArea.png</file>
+        <file>Qtres/Area.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/Default.png</file>
+        <file>Qtres/Delete.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Point.png</file>
+        <file>Qtres/Group.png</file>
+        <file>Qtres/Link.png</file>
+        <file>Qtres/User.png</file>
+    </qresource>
+</RCC>
+<RCC/>
+

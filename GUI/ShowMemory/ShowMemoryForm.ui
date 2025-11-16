@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShowMemoryForm</class>
+ <widget class="GUIFormBase" name="ShowMemoryForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>383</width>
+    <height>160</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>381</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <row>
+    <property name="text">
+     <string>使用率</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>物理メモリの空き容量</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>ページングの空き容量</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>仮想メモリの空き容量</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>Page0</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/CancelImage-en.bmp</file>
+        <file>Resources/CancelImage.bmp</file>
+        <file>Resources/DecisionImage-en.bmp</file>
+        <file>Resources/DecisionImage.bmp</file>
+        <file>Resources/DetailSettingImage-en.bmp</file>
+        <file>Resources/DetailSettingImage.bmp</file>
+        <file>Resources/ThresholdImage-en.bmp</file>
+        <file>Resources/ThresholdImage.bmp</file>
+        <file>Resources/slider-back.bmp</file>
+        <file>Resources/slider.bmp</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/PropertyImageProcessor.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Add.png</file>
+        <file>Qtres/Clear.png</file>
+        <file>Qtres/Delete.png</file>
+        <file>Qtres/Load.png</file>
+        <file>Qtres/Trash.png</file>
+    </qresource>
+</RCC>

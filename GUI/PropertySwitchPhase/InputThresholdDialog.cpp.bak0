@@ -1,0 +1,31 @@
+#include "InputThresholdDialog.h"
+#include "ui_InputThresholdDialog.h"
+
+InputThresholdDialog::InputThresholdDialog(LayersBase *Base ,QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::InputThresholdDialog),ServiceForLayers(Base)
+{
+    ui->setupUi(this);
+}
+
+InputThresholdDialog::~InputThresholdDialog()
+{
+    delete ui;
+}
+
+void	InputThresholdDialog::Initialize(int searchdot)
+{
+	SearchDot=searchdot;
+	ui->spinBoxSearchDot->setValue(SearchDot);
+}
+
+void InputThresholdDialog::on_pushButtonOK_clicked()
+{
+	SearchDot	=ui->spinBoxSearchDot->value();
+	done(true);
+}
+
+void InputThresholdDialog::on_pushButtonCancel_clicked()
+{
+	done(false);
+}

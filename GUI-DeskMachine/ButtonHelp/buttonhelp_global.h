@@ -1,0 +1,12 @@
+#ifndef BUTTONHELP_GLOBAL_H
+#define BUTTONHELP_GLOBAL_H
+
+#include <qglobal.h>
+
+#ifdef BUTTONHELP_LIB
+# define BUTTONHELP_EXPORT Q_DECL_EXPORT
+#else
+# define BUTTONHELP_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // BUTTONHELP_GLOBAL_H

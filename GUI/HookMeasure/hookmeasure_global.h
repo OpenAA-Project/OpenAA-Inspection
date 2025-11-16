@@ -1,0 +1,12 @@
+#ifndef HOOKMEASURE_GLOBAL_H
+#define HOOKMEASURE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef HOOKMEASURE_LIB
+# define HOOKMEASURE_EXPORT Q_DECL_EXPORT
+#else
+# define HOOKMEASURE_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // HOOKMEASURE_GLOBAL_H

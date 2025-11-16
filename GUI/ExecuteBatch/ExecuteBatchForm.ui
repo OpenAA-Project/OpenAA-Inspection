@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ExecuteBatchForm</class>
+ <widget class="GUIFormBase" name="ExecuteBatchForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>751</width>
+    <height>534</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Execute Batch</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>621</width>
+     <height>531</height>
+    </rect>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <column>
+    <property name="text">
+     <string>Root</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Command</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Arg1</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Arg2</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Arg3</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>10</y>
+     <width>131</width>
+     <height>501</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <widget class="QPushButton" name="pushButtonSave">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>450</y>
+      <width>111</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Save</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ExecuteBatch.qrc">
+      <normaloff>:/Qtres/Save.png</normaloff>:/Qtres/Save.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonInsert">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>111</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Insert new</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ExecuteBatch.qrc">
+      <normaloff>:/Qtres/Add.png</normaloff>:/Qtres/Add.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonExecuteAll">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>220</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Execute all</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ExecuteBatch.qrc">
+      <normaloff>:/Qtres/Start.png</normaloff>:/Qtres/Start.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonUp">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>111</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Up</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ExecuteBatch.qrc">
+      <normaloff>:/Qtres/Up.png</normaloff>:/Qtres/Up.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonDown">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>111</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Down</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ExecuteBatch.qrc">
+      <normaloff>:/Qtres/Down.png</normaloff>:/Qtres/Down.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonDelete">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>160</y>
+      <width>111</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ExecuteBatch.qrc">
+      <normaloff>:/Qtres/Delete.png</normaloff>:/Qtres/Delete.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonModify">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>111</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Modify</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ExecuteBatch.qrc">
+      <normaloff>:/Qtres/Edit.png</normaloff>:/Qtres/Edit.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonLoad">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>380</y>
+      <width>111</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ExecuteBatch.qrc">
+      <normaloff>:/Qtres/Load.png</normaloff>:/Qtres/Load.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonExecuteOne">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>270</y>
+      <width>111</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Execute one</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ExecuteBatch.qrc">
+      <normaloff>:/Qtres/Start.png</normaloff>:/Qtres/Start.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonStop">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>310</y>
+      <width>111</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ExecuteBatch.qrc">
+      <normaloff>:/Qtres/Stop.png</normaloff>:/Qtres/Stop.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonAppend">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>410</y>
+      <width>111</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Append</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ExecuteBatch.qrc">
+      <normaloff>:/Qtres/Add.png</normaloff>:/Qtres/Add.png</iconset>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="ExecuteBatch.qrc"/>
+ </resources>
+ <connections/>
+</ui>

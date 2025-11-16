@@ -1,0 +1,571 @@
+#include "CartonMenuResource.h"
+#include"XParamCustomized.h"
+#include"XGeneralFunc.h"
+#include "XDXFOperationCommon.h"
+
+ParamCustomized::ParamCustomized(LayersBase *base)
+	:ServiceForLayers(base)
+{
+	MaskAutoPickupRL		=0;
+	MaskAutoPickupRH		=50;
+	MaskAutoPickupGL		=0;
+	MaskAutoPickupGH		=50;
+	MaskAutoPickupBL		=0;
+	MaskAutoPickupBH		=50;
+	MaskAutoLayer			=0;
+	MaskAutoMinPickupSize	=100;
+	MaskAutoMaxPickupSize	=1000000;
+	MaskAutoMinPickupDots	=1000;
+	MaskAutoMaxPickupDots	=100000000;
+	MaskAutoErosion			=-8;
+	MaskAutoOutsideXPos		=3800;
+	MaskAutoOutsideYPos		=20;
+	MaskAutoExcludeLeftX	=0;
+	MaskAutoExcludeRightX	=8192;
+	MaskNoisePinhole		=0;
+	MaskNoiseSmallDot		=0;
+
+	Mask2AutoPickupRL = 0;
+	Mask2AutoPickupRH = 0;
+	Mask2AutoPickupGL = 0;
+	Mask2AutoPickupGH = 0;
+	Mask2AutoPickupBL = 0;
+	Mask2AutoPickupBH = 0;
+	Mask2AutoMinPickupSize = 100;
+	Mask2AutoMaxPickupSize = 1000000;
+	Mask2AutoMinPickupDots = 1000;
+	Mask2AutoMaxPickupDots = 100000000;
+	Mask2AutoErosion = -8;
+	Mask2AutoOutsideXPos= 3800;
+	Mask2AutoOutsideYPos= 20;
+	Mask2NoisePinhole	=0;
+	Mask2NoiseSmallDot	=0;
+
+	Mask3AutoPickupRL = 0;
+	Mask3AutoPickupRH = 0;
+	Mask3AutoPickupGL = 0;
+	Mask3AutoPickupGH = 0;
+	Mask3AutoPickupBL = 0;
+	Mask3AutoPickupBH = 0;
+	Mask3AutoMinPickupSize = 100;
+	Mask3AutoMaxPickupSize = 1000000;
+	Mask3AutoMinPickupDots = 1000;
+	Mask3AutoMaxPickupDots = 100000000;
+	Mask3AutoErosion = -8;
+	Mask3AutoOutsideXPos= 3800;
+	Mask3AutoOutsideYPos= 20;
+	Mask3NoisePinhole	=0;
+	Mask3NoiseSmallDot	=0;
+
+	Mask4AutoPickupRL = 0;
+	Mask4AutoPickupRH = 0;
+	Mask4AutoPickupGL = 0;
+	Mask4AutoPickupGH = 0;
+	Mask4AutoPickupBL = 0;
+	Mask4AutoPickupBH = 0;
+	Mask4AutoMinPickupSize = 100;
+	Mask4AutoMaxPickupSize = 1000000;
+	Mask4AutoMinPickupDots = 1000;
+	Mask4AutoMaxPickupDots = 100000000;
+	Mask4AutoErosion = -8;
+	Mask4AutoOutsideXPos= 3800;
+	Mask4AutoOutsideYPos= 20;
+	Mask4NoisePinhole	=0;
+	Mask4NoiseSmallDot	=0;
+
+	DotColorMatchLibPattern1	=0;
+	DotColorMatchLibPattern2	=0;
+	DotColorMatchLibPattern3	=0;
+	DotColorMatchLibPattern4	=0;
+	DotColorMatchLibPattern5	=0;
+	DotColorMatchLibFlat1		=0;
+	DotColorMatchLibFlat2		=0;
+	DotColorMatchLibFlat3		=0;
+	DotColorMatchLibFlat4		=0;
+	DotColorMatchLibFlat5		=0;
+	DotColorMatchCADLib1		=0;
+	DotColorMatchCADLib2		=0;
+	DotColorMatchCADLib3		=0;
+	DotColorMatchCADLib4		=0;
+	DotColorMatchCADLib5		=0;
+	DotColorMatchBladeLib1		=0;
+	DotColorMatchBladeLib2		=0;
+	DotColorMatchBladeLib3		=0;
+	DotColorMatchBladeLib4		=0;
+	DotColorMatchBladeLib5		=0;
+	DotColorMatchRedInspection1	=0;
+	DotColorMatchRedInspection2	=0;
+	DotColorMatchRedInspection3	=0;
+	DotColorMatchRedInspection4	=0;
+	DotColorMatchRedInspection5	=0;
+
+	DotColorMatchMonoInspection1= 0;
+	DotColorMatchMonoInspection2= 0;
+	DotColorMatchMonoInspection3= 0;
+	DotColorMatchMonoInspection4= 0;
+	DotColorMatchMonoInspection5= 0;
+	DotColorMatchMonoFlat1		= 0;
+	DotColorMatchMonoFlat2		= 0;
+	DotColorMatchMonoFlat3		= 0;
+	DotColorMatchMonoFlat4		= 0;
+	DotColorMatchMonoFlat5		= 0;
+
+	GeneratePartialAlignment	=false;
+	AlignmentLib1				=0;
+	AlignmentLib2				=0;
+	AlignmentLib3				=0;
+	AlignmentLib4				=0;
+	AlignmentLib5				=0;
+	AlignmentLib6				=0;
+	AlignmentLib7				=0;
+	AlignmentLib8				=0;
+	AlignmntAreaErosion			=20;
+	AlignmntPointSize			=300;
+	AlignmntSearchAreaDot		=200;
+	AlignmntSearchAreaDot2		=150;
+	AlignmntSearchAreaDotY		=0;
+	AlignmntSearchAreaDot2Y		=0;
+	AlignmntSearchAreaDotMiddle	=30;
+	AlignmntSearchAreaDotMiddleY=0;
+	AlignmntGeneratedLayer		=0;
+	AlignmntJudgeWithBrDif		=true;
+
+	BladeBottomPickupRL			=200;
+	BladeBottomPickupRH			=255;
+	BladeBottomPickupGL			=200;
+	BladeBottomPickupGH			=255;
+	BladeBottomPickupBL			=200;
+	BladeBottomPickupBH			=255;
+	BladeBottomLeft				=6000;
+	BladeBottomRight			=6500;
+	BladeTopPickupRL			=0;
+	BladeTopPickupRH			=50;
+	BladeTopPickupGL			=0;
+	BladeTopPickupGH			=50;
+	BladeTopPickupBL			=0;
+	BladeTopPickupBH			=50;
+	BladeTopLeft				=6000;
+	BladeTopRight				=6500;
+	MaskLibIDForBlade			=2;
+	BladeHoleMinArea			=400;
+	BladeHoleErosionDot			=20;
+
+	LevelTopCharBrightness		=5;
+	LevelTopCharSize			=5;
+	LevelTopFlatBrightness		=5;
+	LevelTopFlatSize			=5;
+	LevelBottomCharBrightness	=5;
+	LevelBottomCharSize			=5;
+	LevelBottomFlatBrightness	=5;
+	LevelBottomFlatSize			=5;
+
+	GenerateBradeTop	=false;
+	GenerateBradeBottom	=true;
+	DentLib1	=0;
+	DentLib2	=-1;
+	DentLib3	=-1;	
+	DentLib4	=-1;
+	DentLib5	=-1;
+	DentLib6	=-1;
+	DentLib7	=-1;
+	DentLib8	=-1;
+	BladeLineLib	=-1;
+	BladeRxLineLib	=-1;
+	BladeDistanceLib=-1;
+
+	ColorDifferenceLibID1		=3;
+
+	SearchDotForPhase			=200;
+	Printout_MaxCountfNGImage	=1000;
+
+	CADTopZoomX			=1.0;
+	CADTopZoomY			=1.115607158755149;
+	CADTopGenLibType	=24;
+	CADTopGenLibID		=1;
+	CADBottomZoomX		=1.0;
+	CADBottomZoomY		=1.10573199070488;
+	CADBottomGenLibType	=24;
+	CADBottomGenLibID	=1;
+	CADTopYShear		=0;
+	CADBottomYShear		=0;
+	CADMonoZoomX		=1.0;
+	CADMonoZoomY		=1.115607158755149;
+	CADMonoGenLibType	=24;
+	CADMonoGenLibID		=1;
+	CADMonoEnfatLine	=20;
+	CADMonoYShear		=0;
+
+	SyncAllSides		=true;
+
+	SystemTriggerIPAddress	=/**/"192.168.0.100";
+	TriggerTiming1		=22000;
+	TriggerTiming2		=53000;
+	TriggerTiming3		=0;
+	TriggerTiming4		=0;
+	DropTiming			=1750;
+	TriggerMMPerPulse	=0.1;
+	SystemBeltLength	=1050;	
+	AddedTimeoutMilisec	=-20;
+	UseBeltSpeed		=true;
+
+	SetParam(&MaskAutoPickupRL		, /**/"マスク"	,/**/"MaskAutoPickupRL"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_31)/*"抽出輝度―R暗�?"*/		),0,1000000);
+	SetParam(&MaskAutoPickupRH		, /**/"マスク"	,/**/"MaskAutoPickupRH"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_32)/*"抽出輝度―R明�?"*/		),0,1000000);
+	SetParam(&MaskAutoPickupGL		, /**/"マスク"	,/**/"MaskAutoPickupGL"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_33)/*"抽出輝度―G暗�?"*/		),0,1000000);
+	SetParam(&MaskAutoPickupGH		, /**/"マスク"	,/**/"MaskAutoPickupGH"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_34)/*"抽出輝度―G明�?"*/		),0,1000000);
+	SetParam(&MaskAutoPickupBL		, /**/"マスク"	,/**/"MaskAutoPickupBL"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_35)/*"抽出輝度―B暗�?"*/		),0,1000000);
+	SetParam(&MaskAutoPickupBH		, /**/"マスク"	,/**/"MaskAutoPickupBH"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_36)/*"抽出輝度―B明�?"*/		),0,1000000);
+	SetParam(&MaskAutoLayer			, /**/"マスク"	,/**/"MaskAutoLayer"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_37)/*"自動抽出レイヤー"*/		),0,1000000);
+	SetParam(&MaskAutoMinPickupSize	, /**/"マスク"	,/**/"MaskAutoMinPickupSize",QString(LangSolver.GetString(XParamCustomized_LS,LID_38)/*"自動抽出�?長さ下限"*/	),0,1000000);
+	SetParam(&MaskAutoMaxPickupSize	, /**/"マスク"	,/**/"MaskAutoMaxPickupSize",QString(LangSolver.GetString(XParamCustomized_LS,LID_39)/*"自動抽出�?長さ上限"*/	),0,1000000);
+	SetParam(&MaskAutoMinPickupDots	, /**/"マスク"	,/**/"MaskAutoMinPickupDots",QString(LangSolver.GetString(XParamCustomized_LS,LID_40)/*"自動抽出�?面積下限"*/	),0,1000000);
+	SetParam(&MaskAutoMaxPickupDots	, /**/"マスク"	,/**/"MaskAutoMaxPickupDots",QString(LangSolver.GetString(XParamCustomized_LS,LID_41)/*"自動抽出�?面積上限"*/	),0,200000000);
+	SetParam(&MaskAutoErosion		, /**/"マスク"	,/**/"MaskAutoErosion"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_42)/*"自動抽出�?膨張?��?ラス?��?�収縮?��?イナス?��??ピクセル数"*/)	,-100,100);
+	SetParam(&MaskAutoOutsideXPos	, /**/"マスク"	,/**/"MaskAutoOutsideXPos"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_43)/*"自動抽出�?外部領域の開始位置X?�ピクセル??*/)	,0,200000000);
+	SetParam(&MaskAutoOutsideYPos	, /**/"マスク"	,/**/"MaskAutoOutsideYPos"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_44)/*"自動抽出�?外部領域の開始位置Y?�ピクセル??*/)	,0,200000000);
+	SetParam(&MaskAutoExcludeLeftX	, /**/"マスク"	,/**/"MaskAutoExcludeLeftX"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_45)/*"自動抽出�?これより右側を�?動抽出?�ピクセル??*/), 0, 200000000);
+	SetParam(&MaskAutoExcludeRightX	, /**/"マスク"	,/**/"MaskAutoExcludeRightX",QString(LangSolver.GetString(XParamCustomized_LS,LID_46)/*"自動抽出�?これより左側を�?動抽出?�ピクセル??*/), 0, 200000000);
+	SetParam(&MaskNoisePinhole		, /**/"マスク"	,/**/"MaskNoisePinhole"		,LangSolver.GetString(XParamCustomized_LS,LID_217)/*"自動抽出�?ノイズ削除ピンホ�?ル半�?��ピクセル??*/, 0, 100);
+	SetParam(&MaskNoiseSmallDot		, /**/"マスク"	,/**/"MaskNoiseSmallDot"	,LangSolver.GetString(XParamCustomized_LS,LID_218)/*"自動抽出�?ノイズ削除小ド�?��半�?��ピクセル??*/, 0, 100);
+
+	SetParam(&Mask2AutoPickupRL		, /**/"マスク2",/**/"Mask2AutoPickupRL"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_47)/*"抽出輝度―R暗�?"*/), 0, 1000000);
+	SetParam(&Mask2AutoPickupRH		, /**/"マスク2",/**/"Mask2AutoPickupRH"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_48)/*"抽出輝度―R明�?"*/), 0, 1000000);
+	SetParam(&Mask2AutoPickupGL		, /**/"マスク2",/**/"Mask2AutoPickupGL"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_49)/*"抽出輝度―G暗�?"*/), 0, 1000000);
+	SetParam(&Mask2AutoPickupGH		, /**/"マスク2",/**/"Mask2AutoPickupGH"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_50)/*"抽出輝度―G明�?"*/), 0, 1000000);
+	SetParam(&Mask2AutoPickupBL		, /**/"マスク2",/**/"Mask2AutoPickupBL"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_51)/*"抽出輝度―B暗�?"*/), 0, 1000000);
+	SetParam(&Mask2AutoPickupBH		, /**/"マスク2",/**/"Mask2AutoPickupBH"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_52)/*"抽出輝度―B明�?"*/), 0, 1000000);
+	SetParam(&Mask2AutoMinPickupSize, /**/"マスク2",/**/"Mask2AutoMinPickupSize", QString(LangSolver.GetString(XParamCustomized_LS,LID_53)/*"自動抽出�?長さ下限"*/), 0, 1000000);
+	SetParam(&Mask2AutoMaxPickupSize, /**/"マスク2",/**/"Mask2AutoMaxPickupSize", QString(LangSolver.GetString(XParamCustomized_LS,LID_54)/*"自動抽出�?長さ上限"*/), 0, 1000000);
+	SetParam(&Mask2AutoMinPickupDots, /**/"マスク2",/**/"Mask2AutoMinPickupDots", QString(LangSolver.GetString(XParamCustomized_LS,LID_55)/*"自動抽出�?面積下限"*/), 0, 1000000);
+	SetParam(&Mask2AutoMaxPickupDots, /**/"マスク2",/**/"Mask2AutoMaxPickupDots", QString(LangSolver.GetString(XParamCustomized_LS,LID_56)/*"自動抽出�?面積上限"*/), 0, 200000000);
+	SetParam(&Mask2AutoErosion		, /**/"マスク2",/**/"Mask2AutoErosion"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_57)/*"自動抽出�?膨張?��?ラス?��?�収縮?��?イナス?��??ピクセル数"*/), -100, 100);
+	SetParam(&Mask2AutoOutsideXPos	, /**/"マスク2",/**/"Mask2AutoOutsideXPos"	, QString(LangSolver.GetString(XParamCustomized_LS,LID_58)/*"自動抽出�?外部領域の開始位置X?�ピクセル??*/), 0, 200000000);
+	SetParam(&Mask2AutoOutsideYPos	, /**/"マスク2",/**/"Mask2AutoOutsideYPos"	, QString(LangSolver.GetString(XParamCustomized_LS,LID_59)/*"自動抽出�?外部領域の開始位置Y?�ピクセル??*/), 0, 200000000);
+	SetParam(&Mask2NoisePinhole		, /**/"マスク2",/**/"Mask2NoisePinhole"		,LangSolver.GetString(XParamCustomized_LS,LID_219)/*"自動抽出�?ノイズ削除ピンホ�?ル半�?��ピクセル??*/, 0, 100);
+	SetParam(&Mask2NoiseSmallDot	, /**/"マスク2",/**/"Mask2NoiseSmallDot"	,LangSolver.GetString(XParamCustomized_LS,LID_220)/*"自動抽出�?ノイズ削除小ド�?��半�?��ピクセル??*/, 0, 100);
+
+	SetParam(&Mask3AutoPickupRL		, /**/"マスク3",/**/"Mask3AutoPickupRL"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_60)/*"抽出輝度―R暗�?"*/), 0, 1000000);
+	SetParam(&Mask3AutoPickupRH		, /**/"マスク3",/**/"Mask3AutoPickupRH"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_61)/*"抽出輝度―R明�?"*/), 0, 1000000);
+	SetParam(&Mask3AutoPickupGL		, /**/"マスク3",/**/"Mask3AutoPickupGL"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_62)/*"抽出輝度―G暗�?"*/), 0, 1000000);
+	SetParam(&Mask3AutoPickupGH		, /**/"マスク3",/**/"Mask3AutoPickupGH"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_63)/*"抽出輝度―G明�?"*/), 0, 1000000);
+	SetParam(&Mask3AutoPickupBL		, /**/"マスク3",/**/"Mask3AutoPickupBL"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_64)/*"抽出輝度―B暗�?"*/), 0, 1000000);
+	SetParam(&Mask3AutoPickupBH		, /**/"マスク3",/**/"Mask3AutoPickupBH"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_65)/*"抽出輝度―B明�?"*/), 0, 1000000);
+	SetParam(&Mask3AutoMinPickupSize, /**/"マスク3",/**/"Mask3AutoMinPickupSize", QString(LangSolver.GetString(XParamCustomized_LS,LID_66)/*"自動抽出�?長さ下限"*/), 0, 1000000);
+	SetParam(&Mask3AutoMaxPickupSize, /**/"マスク3",/**/"Mask3AutoMaxPickupSize", QString(LangSolver.GetString(XParamCustomized_LS,LID_67)/*"自動抽出�?長さ上限"*/), 0, 1000000);
+	SetParam(&Mask3AutoMinPickupDots, /**/"マスク3",/**/"Mask3AutoMinPickupDots", QString(LangSolver.GetString(XParamCustomized_LS,LID_68)/*"自動抽出�?面積下限"*/), 0, 1000000);
+	SetParam(&Mask3AutoMaxPickupDots, /**/"マスク3",/**/"Mask3AutoMaxPickupDots", QString(LangSolver.GetString(XParamCustomized_LS,LID_69)/*"自動抽出�?面積上限"*/), 0, 200000000);
+	SetParam(&Mask3AutoErosion		, /**/"マスク3",/**/"Mask3AutoErosion"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_70)/*"自動抽出�?膨張?��?ラス?��?�収縮?��?イナス?��??ピクセル数"*/), -100, 100);
+	SetParam(&Mask3AutoOutsideXPos	, /**/"マスク3",/**/"Mask3AutoOutsideXPos"	, QString(LangSolver.GetString(XParamCustomized_LS,LID_71)/*"自動抽出�?外部領域の開始位置X?�ピクセル??*/), 0, 200000000);
+	SetParam(&Mask3AutoOutsideYPos	, /**/"マスク3",/**/"Mask3AutoOutsideYPos"	, QString(LangSolver.GetString(XParamCustomized_LS,LID_72)/*"自動抽出�?外部領域の開始位置Y?�ピクセル??*/), 0, 200000000);
+	SetParam(&Mask3NoisePinhole		, /**/"マスク3",/**/"Mask3NoisePinhole"		,LangSolver.GetString(XParamCustomized_LS,LID_221)/*"自動抽出�?ノイズ削除ピンホ�?ル半�?��ピクセル??*/, 0, 100);
+	SetParam(&Mask3NoiseSmallDot	, /**/"マスク3",/**/"Mask3NoiseSmallDot"	,LangSolver.GetString(XParamCustomized_LS,LID_222)/*"自動抽出�?ノイズ削除小ド�?��半�?��ピクセル??*/, 0, 100);
+
+	SetParam(&Mask4AutoPickupRL		, /**/"マスク4",/**/"Mask4AutoPickupRL"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_73)/*"抽出輝度―R暗�?"*/), 0, 1000000);
+	SetParam(&Mask4AutoPickupRH		, /**/"マスク4",/**/"Mask4AutoPickupRH"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_74)/*"抽出輝度―R明�?"*/), 0, 1000000);
+	SetParam(&Mask4AutoPickupGL		, /**/"マスク4",/**/"Mask4AutoPickupGL"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_75)/*"抽出輝度―G暗�?"*/), 0, 1000000);
+	SetParam(&Mask4AutoPickupGH		, /**/"マスク4",/**/"Mask4AutoPickupGH"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_76)/*"抽出輝度―G明�?"*/), 0, 1000000);
+	SetParam(&Mask4AutoPickupBL		, /**/"マスク4",/**/"Mask4AutoPickupBL"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_77)/*"抽出輝度―B暗�?"*/), 0, 1000000);
+	SetParam(&Mask4AutoPickupBH		, /**/"マスク4",/**/"Mask4AutoPickupBH"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_78)/*"抽出輝度―B明�?"*/), 0, 1000000);
+	SetParam(&Mask4AutoMinPickupSize, /**/"マスク4",/**/"Mask4AutoMinPickupSize", QString(LangSolver.GetString(XParamCustomized_LS,LID_79)/*"自動抽出�?長さ下限"*/), 0, 1000000);
+	SetParam(&Mask4AutoMaxPickupSize, /**/"マスク4",/**/"Mask4AutoMaxPickupSize", QString(LangSolver.GetString(XParamCustomized_LS,LID_80)/*"自動抽出�?長さ上限"*/), 0, 1000000);
+	SetParam(&Mask4AutoMinPickupDots, /**/"マスク4",/**/"Mask4AutoMinPickupDots", QString(LangSolver.GetString(XParamCustomized_LS,LID_81)/*"自動抽出�?面積下限"*/), 0, 1000000);
+	SetParam(&Mask4AutoMaxPickupDots, /**/"マスク4",/**/"Mask4AutoMaxPickupDots", QString(LangSolver.GetString(XParamCustomized_LS,LID_82)/*"自動抽出�?面積上限"*/), 0, 200000000);
+	SetParam(&Mask4AutoErosion		, /**/"マスク4",/**/"Mask4AutoErosion"		, QString(LangSolver.GetString(XParamCustomized_LS,LID_83)/*"自動抽出�?膨張?��?ラス?��?�収縮?��?イナス?��??ピクセル数"*/), -100, 100);
+	SetParam(&Mask4AutoOutsideXPos	, /**/"マスク4",/**/"Mask4AutoOutsideXPos"	, QString(LangSolver.GetString(XParamCustomized_LS,LID_84)/*"自動抽出�?外部領域の開始位置X?�ピクセル??*/), 0, 200000000);
+	SetParam(&Mask4AutoOutsideYPos	, /**/"マスク4",/**/"Mask4AutoOutsideYPos"	, QString(LangSolver.GetString(XParamCustomized_LS,LID_85)/*"自動抽出�?外部領域の開始位置Y?�ピクセル??*/), 0, 200000000);
+	SetParam(&Mask4NoisePinhole		, /**/"マスク4",/**/"Mask4NoisePinhole"		,LangSolver.GetString(XParamCustomized_LS,LID_223)/*"自動抽出�?ノイズ削除ピンホ�?ル半�?��ピクセル??*/, 0, 100);
+	SetParam(&Mask4NoiseSmallDot	, /**/"マスク4",/**/"Mask4NoiseSmallDot"	,LangSolver.GetString(XParamCustomized_LS,LID_224)/*"自動抽出�?ノイズ削除小ド�?��半�?��ピクセル??*/, 0, 100);
+
+	SetParam(&DotColorMatchLibPattern1	, /**/"検査"	,/**/"DotColorMatchLibPattern1"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_86)/*"印刷面�?検査のライブラリID 1"*/)	,-1,10000);
+	SetParam(&DotColorMatchLibPattern2	, /**/"検査"	,/**/"DotColorMatchLibPattern2"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_87)/*"印刷面�?検査のライブラリID 2"*/)	,-1,10000);
+	SetParam(&DotColorMatchLibPattern3	, /**/"検査"	,/**/"DotColorMatchLibPattern3"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_88)/*"印刷面�?検査のライブラリID 3"*/)	,-1,10000);
+	SetParam(&DotColorMatchLibPattern4	, /**/"検査"	,/**/"DotColorMatchLibPattern4"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_89)/*"印刷面�?検査のライブラリID 4"*/)	,-1,10000);
+	SetParam(&DotColorMatchLibPattern5	, /**/"検査"	,/**/"DotColorMatchLibPattern5"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_90)/*"印刷面�?検査のライブラリID 5"*/)	,-1,10000);
+	SetParam(&DotColorMatchLibFlat1		, /**/"検査"	,/**/"DotColorMatchLibFlat1"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_91)/*"無地面�?検査のライブラリID 1"*/)	,-1,10000);
+	SetParam(&DotColorMatchLibFlat2		, /**/"検査"	,/**/"DotColorMatchLibFlat2"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_92)/*"無地面�?検査のライブラリID 2"*/)	,-1,10000);
+	SetParam(&DotColorMatchLibFlat3		, /**/"検査"	,/**/"DotColorMatchLibFlat3"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_93)/*"無地面�?検査のライブラリID 3"*/)	,-1,10000);
+	SetParam(&DotColorMatchLibFlat4		, /**/"検査"	,/**/"DotColorMatchLibFlat4"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_94)/*"無地面�?検査のライブラリID 4"*/)	,-1,10000);
+	SetParam(&DotColorMatchLibFlat5		, /**/"検査"	,/**/"DotColorMatchLibFlat5"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_95)/*"無地面�?検査のライブラリID 5"*/)	,-1,10000);
+	SetParam(&DotColorMatchCADLib1		, /**/"検査"	,/**/"DotColorMatchCADLib1"		  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_96)/*"CADの検査のライブラリID 1"*/	)	,-1,10000);
+	SetParam(&DotColorMatchCADLib2		, /**/"検査"	,/**/"DotColorMatchCADLib2"		  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_97)/*"CADの検査のライブラリID 2"*/	)	,-1,10000);
+	SetParam(&DotColorMatchCADLib3		, /**/"検査"	,/**/"DotColorMatchCADLib3"		  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_98)/*"CADの検査のライブラリID 3"*/	)	,-1,10000);
+	SetParam(&DotColorMatchCADLib4		, /**/"検査"	,/**/"DotColorMatchCADLib4"		  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_99)/*"CADの検査のライブラリID 4"*/	)	,-1,10000);
+	SetParam(&DotColorMatchCADLib5		, /**/"検査"	,/**/"DotColorMatchCADLib5"		  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_100)/*"CADの検査のライブラリID 5"*/	)	,-1,10000);
+	SetParam(&DotColorMatchBladeLib1	, /**/"検査"	,/**/"DotColorMatchBladeLib1"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_101)/*"計測の検査のライブラリID 1"*/	)	,-1,10000);
+	SetParam(&DotColorMatchBladeLib2	, /**/"検査"	,/**/"DotColorMatchBladeLib2"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_102)/*"計測の検査のライブラリID 2"*/	)	,-1,10000);
+	SetParam(&DotColorMatchBladeLib3	, /**/"検査"	,/**/"DotColorMatchBladeLib3"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_103)/*"計測の検査のライブラリID 3"*/	)	,-1,10000);
+	SetParam(&DotColorMatchBladeLib4	, /**/"検査"	,/**/"DotColorMatchBladeLib4"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_104)/*"計測の検査のライブラリID 4"*/	)	,-1,10000);
+	SetParam(&DotColorMatchBladeLib5	, /**/"検査"	,/**/"DotColorMatchBladeLib5"	  ,QString(LangSolver.GetString(XParamCustomized_LS,LID_105)/*"計測の検査のライブラリID 5"*/	)	,-1,10000);
+	SetParam(&DotColorMatchRedInspection1, /**/"検査2"	,/**/"DotColorMatchRedInspection1",QString(LangSolver.GetString(XParamCustomized_LS,LID_106)/*"赤色検査のライブラリID 1"*/	)	,-1,10000);
+	SetParam(&DotColorMatchRedInspection2, /**/"検査2"	,/**/"DotColorMatchRedInspection2",QString(LangSolver.GetString(XParamCustomized_LS,LID_107)/*"赤色検査のライブラリID 2"*/	)	,-1,10000);
+	SetParam(&DotColorMatchRedInspection3, /**/"検査2"	,/**/"DotColorMatchRedInspection3",QString(LangSolver.GetString(XParamCustomized_LS,LID_108)/*"赤色検査のライブラリID 3"*/	)	,-1,10000);
+	SetParam(&DotColorMatchRedInspection4, /**/"検査2"	,/**/"DotColorMatchRedInspection4",QString(LangSolver.GetString(XParamCustomized_LS,LID_109)/*"赤色検査のライブラリID 4"*/	)	,-1,10000);
+	SetParam(&DotColorMatchRedInspection5, /**/"検査2"	,/**/"DotColorMatchRedInspection5",QString(LangSolver.GetString(XParamCustomized_LS,LID_110)/*"赤色検査のライブラリID 5"*/	)	,-1,10000);
+	SetParam(&DotColorMatchMonoInspection1, /**/"検査3",/**/"DotColorMatchMonoInspection1",QString(LangSolver.GetString(XParamCustomized_LS,LID_111)/*"モノクロ検査のライブラリID 1"*/), -1, 10000);
+	SetParam(&DotColorMatchMonoInspection2, /**/"検査3",/**/"DotColorMatchMonoInspection2",QString(LangSolver.GetString(XParamCustomized_LS,LID_112)/*"モノクロ検査のライブラリID 2"*/), -1, 10000);
+	SetParam(&DotColorMatchMonoInspection3, /**/"検査3",/**/"DotColorMatchMonoInspection3",QString(LangSolver.GetString(XParamCustomized_LS,LID_113)/*"モノクロ検査のライブラリID 3"*/), -1, 10000);
+	SetParam(&DotColorMatchMonoInspection4, /**/"検査3",/**/"DotColorMatchMonoInspection4",QString(LangSolver.GetString(XParamCustomized_LS,LID_114)/*"モノクロ検査のライブラリID 4"*/), -1, 10000);
+	SetParam(&DotColorMatchMonoInspection5, /**/"検査3",/**/"DotColorMatchMonoInspection5",QString(LangSolver.GetString(XParamCustomized_LS,LID_115)/*"モノクロ検査のライブラリID 5"*/), -1, 10000);
+	SetParam(&DotColorMatchMonoFlat1, /**/"検査3",/**/"DotColorMatchMonoFlat1", QString(LangSolver.GetString(XParamCustomized_LS,LID_116)/*"モノクロ無地のライブラリID 1"*/), -1, 10000);
+	SetParam(&DotColorMatchMonoFlat2, /**/"検査3",/**/"DotColorMatchMonoFlat2", QString(LangSolver.GetString(XParamCustomized_LS,LID_117)/*"モノクロ無地のライブラリID 2"*/), -1, 10000);
+	SetParam(&DotColorMatchMonoFlat3, /**/"検査3",/**/"DotColorMatchMonoFlat3", QString(LangSolver.GetString(XParamCustomized_LS,LID_118)/*"モノクロ無地のライブラリID 3"*/), -1, 10000);
+	SetParam(&DotColorMatchMonoFlat4, /**/"検査3",/**/"DotColorMatchMonoFlat4", QString(LangSolver.GetString(XParamCustomized_LS,LID_119)/*"モノクロ無地のライブラリID 4"*/), -1, 10000);
+	SetParam(&DotColorMatchMonoFlat5, /**/"検査3",/**/"DotColorMatchMonoFlat5", QString(LangSolver.GetString(XParamCustomized_LS,LID_120)/*"モノクロ無地のライブラリID 5"*/), -1, 10000);
+
+	SetParam(&GeneratePartialAlignment	, /**/"位置合わ�?,/**/"GeneratePartialAlignment"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_121)/*"外部?��?部の領域生�?"*/	));
+	SetParam(&AlignmentLib1				, /**/"位置合わ�?	,/**/"AlignmentLib1"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_122)/*"位置合わせ�?ライブラリID 1"*/	)	,-100,100);
+	SetParam(&AlignmentLib2				, /**/"位置合わ�?	,/**/"AlignmentLib2"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_123)/*"位置合わせ�?ライブラリID 2"*/	)	,-100,100);
+	SetParam(&AlignmentLib3				, /**/"位置合わ�?	,/**/"AlignmentLib3"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_124)/*"位置合わせ�?ライブラリID 3"*/	)	,-100,100);
+	SetParam(&AlignmentLib4				, /**/"位置合わ�?	,/**/"AlignmentLib4"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_125)/*"位置合わせ�?ライブラリID 4"*/	)	,-100,100);
+	SetParam(&AlignmentLib5				, /**/"位置合わ�?	,/**/"AlignmentLib5"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_126)/*"位置合わせ�?ライブラリID 5"*/	)	,-100,100);
+	SetParam(&AlignmentLib6				, /**/"位置合わ�?	,/**/"AlignmentLib6"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_127)/*"位置合わせ�?ライブラリID 6"*/	)	,-100,100);
+	SetParam(&AlignmentLib7				, /**/"位置合わ�?	,/**/"AlignmentLib7"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_128)/*"位置合わせ�?ライブラリID 7"*/	)	,-100,100);
+	SetParam(&AlignmentLib8				, /**/"位置合わ�?	,/**/"AlignmentLib8"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_129)/*"位置合わせ�?ライブラリID 8"*/	)	,-100,100);
+	SetParam(&AlignmntAreaErosion		, /**/"位置合わ�?	,/**/"AlignmntAreaErosion"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_130)/*"位置合わせ�?�域の膨張"*/			)	,0,1000);
+	SetParam(&AlignmntPointSize			, /**/"位置合わ�?	,/**/"AlignmntPointSize"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_131)/*"位置合わせ�?イント�?サイズ"*/	)	,0,1000);
+	SetParam(&AlignmntSearchAreaDot		, /**/"位置合わ�?	,/**/"AlignmntSearchAreaDot"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_132)/*"位置合わせ�?イント�?探索�?��X�?主領域"*/),0,10000);
+	SetParam(&AlignmntSearchAreaDot2	, /**/"位置合わ�?	,/**/"AlignmntSearchAreaDot2"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_133)/*"位置合わせ�?イント�?探索�?��X�?副領域"*/),0,10000);
+	SetParam(&AlignmntSearchAreaDotY	, /**/"位置合わ�?	,/**/"AlignmntSearchAreaDotY"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_134)/*"位置合わせ�?イント�?探索�?��Y�?主領域"*/),0,10000);
+	SetParam(&AlignmntSearchAreaDot2Y	, /**/"位置合わ�?	,/**/"AlignmntSearchAreaDot2Y"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_135)/*"位置合わせ�?イント�?探索�?��Y�?副領域"*/),0,10000);
+	SetParam(&AlignmntSearchAreaDotMiddle, /**/"位置合わ�?	,/**/"AlignmntSearchAreaDotMiddle"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_136)/*"位置合わせ�?イント�?探索�?��X�?ミドル"*/),0,10000);
+	SetParam(&AlignmntSearchAreaDotMiddleY,/**/"位置合わ�?	,/**/"AlignmntSearchAreaDotMiddleY"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_137)/*"位置合わせ�?イント�?探索�?��Y�?ミドル"*/),0,10000);
+	SetParam(&AlignmntGeneratedLayer	, /**/"位置合わ�?	,/**/"AlignmntGeneratedLayer"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_138)/*"位置合わせ�?イント�?生�?レイヤー"*/),0,10000);
+	SetParam(&AlignmntJudgeWithBrDif	, /**/"位置合わ�?	,/**/"AlignmntJudgeWithBrDif"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_28)/*"輝度差で判�?*/));
+	
+	SetParam(&BladeBottomPickupRL	, /**/"�?��測"		,/**/"BladeBottomPickupRL"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_139)/*"裏面の計測抽出-R暗�?"*/		),0,255);
+	SetParam(&BladeBottomPickupRH	, /**/"�?��測"		,/**/"BladeBottomPickupRH"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_140)/*"裏面の計測抽出-R暗�?"*/		),0,255);
+	SetParam(&BladeBottomPickupGL	, /**/"�?��測"		,/**/"BladeBottomPickupGL"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_141)/*"裏面の計測抽出-G暗�?"*/		),0,255);
+	SetParam(&BladeBottomPickupGH	, /**/"�?��測"		,/**/"BladeBottomPickupGH"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_142)/*"裏面の計測抽出-G暗�?"*/		),0,255);
+	SetParam(&BladeBottomPickupBL	, /**/"�?��測"		,/**/"BladeBottomPickupBL"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_143)/*"裏面の計測抽出-B暗�?"*/		),0,255);
+	SetParam(&BladeBottomPickupBH	, /**/"�?��測"		,/**/"BladeBottomPickupBH"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_144)/*"裏面の計測抽出-B暗�?"*/		),0,255);
+	SetParam(&BladeBottomLeft		, /**/"�?��測"		,/**/"BladeBottomLeft"				,QString("裏面の計測抽出-左端"		),0,99999999);
+	SetParam(&BladeBottomRight		, /**/"�?��測"		,/**/"BladeBottomRight"				,QString("裏面の計測抽出-右端"		),0,99999999);
+	SetParam(&BladeTopPickupRL		, /**/"�?��測"		,/**/"BladeTopPickupRL"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_145)/*"おもて面の計測抽出-R暗�?"*/	),0,255);
+	SetParam(&BladeTopPickupRH		, /**/"�?��測"		,/**/"BladeTopPickupRH"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_146)/*"おもて面の計測抽出-R暗�?"*/	),0,255);
+	SetParam(&BladeTopPickupGL		, /**/"�?��測"		,/**/"BladeTopPickupGL"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_147)/*"おもて面の計測抽出-G暗�?"*/	),0,255);
+	SetParam(&BladeTopPickupGH		, /**/"�?��測"		,/**/"BladeTopPickupGH"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_148)/*"おもて面の計測抽出-G暗�?"*/	),0,255);
+	SetParam(&BladeTopPickupBL		, /**/"�?��測"		,/**/"BladeTopPickupBL"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_149)/*"おもて面の計測抽出-B暗�?"*/	),0,255);
+	SetParam(&BladeTopPickupBH		, /**/"�?��測"		,/**/"BladeTopPickupBH"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_150)/*"おもて面の計測抽出-B暗�?"*/	),0,255);
+	SetParam(&BladeTopLeft			, /**/"�?��測"		,/**/"BladeTopLeft"					,QString("おもて面の計測抽出-左端"		),0,99999999);
+	SetParam(&BladeTopRight			, /**/"�?��測"		,/**/"BladeTopRight"				,QString("おもて面の計測抽出-右端"		),0,99999999);
+	SetParamFileName(&BradeDefFileNameTop	, /**/"�?��測"	,/**/"BradeDefFileNameTop"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_151)/*"計測の検査定義ファイル名上�?*/));
+	SetParamFileName(&BradeDefFileNameBottom, /**/"�?��測"	,/**/"BradeDefFileNameBottom"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_152)/*"計測の検査定義ファイル名下�?*/));
+	SetParam(&MaskLibIDForBlade		, /**/"�?��測"		,/**/"MaskLibIDForBlade"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_153)/*"計測の限定�?スク生�?のMaskingライブラリID"*/)	,0,10000);
+
+	SetParam(&GenerateBradeTop		, /**/"�??検査"	,/**/"GenerateBradeTop"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_154)/*"上流での�??検査許可"*/));
+	SetParam(&GenerateBradeBottom	, /**/"�??検査"	,/**/"GenerateBradeBottom"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_155)/*"下流での�??検査許可"*/));
+	SetParam(&DentLib1				, /**/"�??検査"	,/**/"DentLib1"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_156)/*"検査のライブラリID 1"*/),-1,10000);
+	SetParam(&DentLib2				, /**/"�??検査"	,/**/"DentLib2"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_157)/*"検査のライブラリID 2"*/),-1,10000);
+	SetParam(&DentLib3				, /**/"�??検査"	,/**/"DentLib3"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_158)/*"検査のライブラリID 3"*/),-1,10000);
+	SetParam(&DentLib4				, /**/"�??検査"	,/**/"DentLib4"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_159)/*"検査のライブラリID 4"*/),-1,10000);
+	SetParam(&DentLib5				, /**/"�??検査"	,/**/"DentLib5"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_160)/*"検査のライブラリID 5"*/),-1,10000);
+	SetParam(&DentLib6				, /**/"�??検査"	,/**/"DentLib6"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_161)/*"検査のライブラリID 6"*/),-1,10000);
+	SetParam(&DentLib7				, /**/"�??検査"	,/**/"DentLib7"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_162)/*"検査のライブラリID 7"*/),-1,10000);
+	SetParam(&DentLib8				, /**/"�??検査"	,/**/"DentLib8"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_163)/*"検査のライブラリID 8"*/),-1,10000);
+
+	SetParam(&BladeLineLib			, /**/"�??検査"	,/**/"BladeLineLib"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_164)/*"計測―基準線�?ライブラリID"*/	),-1,10000);
+	SetParam(&BladeRxLineLib		, /**/"�??検査"	,/**/"BladeRxLineLib"		,"計測―基準線�?RxLineライブラリID"	,-1,10000);
+	SetParam(&BladeDistanceLib		, /**/"�??検査"	,/**/"BladeDistanceLib"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_165)/*"計測―距離のライブラリID"*/		),-1,10000);
+	SetParam(&BladeHoleMinArea		, /**/"�??検査"	,/**/"BladeHoleMinArea"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_166)/*"計測の穴の�?小面�?*/				),-1,1000000);
+	SetParam(&BladeHoleErosionDot	, /**/"�??検査"	,/**/"BladeHoleErosionDot"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_167)/*"計測の穴のマスク膨張ドット数"*/	),-1,10000);
+
+	SetParam(&LevelTopCharBrightness	, /**/"検査レベル"	,/**/"LevelTopCharBrightness"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_168)/*"検査レベル�?検査面?��??�?���?輝度"*/),0,5);
+	SetParam(&LevelTopCharSize			, /**/"検査レベル"	,/**/"LevelTopCharSize"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_169)/*"検査レベル�?検査面?��??�?��サイズ"*/),0,5);
+	SetParam(&LevelTopFlatBrightness	, /**/"検査レベル"	,/**/"LevelTopFlatBrightness"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_170)/*"検査レベル�?検査面?��??ベタの輝度"*/),0,5);
+	SetParam(&LevelTopFlatSize			, /**/"検査レベル"	,/**/"LevelTopFlatSize"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_171)/*"検査レベル�?検査面?��??ベタサイズ"*/),0,5);
+	SetParam(&LevelBottomCharBrightness	, /**/"検査レベル"	,/**/"LevelBottomCharBrightness",QString(LangSolver.GetString(XParamCustomized_LS,LID_172)/*"検査レベル�?検査面?��??�?���?輝度"*/),0,5);
+	SetParam(&LevelBottomCharSize		, /**/"検査レベル"	,/**/"LevelBottomCharSize"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_173)/*"検査レベル�?検査面?��??�?��サイズ"*/),0,5);
+	SetParam(&LevelBottomFlatBrightness	, /**/"検査レベル"	,/**/"LevelBottomFlatBrightness",QString(LangSolver.GetString(XParamCustomized_LS,LID_174)/*"検査レベル�?検査面?��??ベタの輝度"*/),0,5);
+	SetParam(&LevelBottomFlatSize		, /**/"検査レベル"	,/**/"LevelBottomFlatSize"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_175)/*"検査レベル�?検査面?��??ベタサイズ"*/),0,5);
+
+	SetParam(&SearchDotForPhase			, /**/"�?��替�?	,/**/"SearchDotForPhase"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_176)/*"探索�?��ピクセル"*/)	,0,10000);
+
+	SetParam(&CADTopZoomX			, /**/"CAD"	,/**/"CADTopZoomX"					,QString(LangSolver.GetString(XParamCustomized_LS,LID_177)/*"CAD 上�?X拡大�?*/				),0,10);
+	SetParam(&CADTopZoomY			, /**/"CAD"	,/**/"CADTopZoomY"					,QString(LangSolver.GetString(XParamCustomized_LS,LID_178)/*"CAD 上�?Y拡大�?*/				),0,10);
+	SetParam(&CADTopGenLibType		, /**/"CAD"	,/**/"CADTopGenLibType"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_179)/*"CAD 上�?生�?Type番号"*/		),0,1000);
+	SetParam(&CADTopGenLibID		, /**/"CAD"	,/**/"CADTopGenLibID"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_180)/*"CAD 上�?生�?ライブラリID"*/	),0,10000);
+	SetParam(&CADTopEnfatLine		, /**/"CAD"	,/**/"CADTopEnfatLine"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_181)/*"CAD 上流�??線�?膨張ドット数"*/	),0,1000);
+	SetParam(&CADTopYShear			, /**/"CAD"	,/**/"CADTopYShear"					,QString(LangSolver.GetString(XParamCustomized_LS,LID_182)/*"CAD 上流�??せん断�?*/			),-1000,1000);
+	SetParam(&CADBottomZoomX		, /**/"CAD"	,/**/"CADBottomZoomX"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_183)/*"CAD 下�?X拡大�?*/				),0,10);
+	SetParam(&CADBottomZoomY		, /**/"CAD"	,/**/"CADBottomZoomY"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_184)/*"CAD 下�?Y拡大�?*/				),0,10);
+	SetParam(&CADBottomGenLibType	, /**/"CAD"	,/**/"CADBottomGenLibType"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_185)/*"CAD 下�?生�?Type番号"*/		),0,1000);
+	SetParam(&CADBottomGenLibID		, /**/"CAD"	,/**/"CADBottomGenLibID"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_186)/*"CAD 下�?生�?ライブラリID"*/	),0,10000);
+	SetParam(&CADBottomEnfatLine	, /**/"CAD"	,/**/"CADBottomEnfatLine"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_187)/*"CAD 下流�??線�?膨張ドット数"*/	),0,1000);
+	SetParam(&CADBottomYShear		, /**/"CAD"	,/**/"CADBottomYShear"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_188)/*"CAD 下流�??せん断�?*/			),-1000,1000);
+	SetParam(&CADMonoZoomX			, /**/"CAD"	,/**/"CADMonoZoomX"					,QString(LangSolver.GetString(XParamCustomized_LS,LID_189)/*"CAD モノクロ X拡大�?*/				),0,10);
+	SetParam(&CADMonoZoomY			, /**/"CAD"	,/**/"CADMonoZoomY"					,QString(LangSolver.GetString(XParamCustomized_LS,LID_190)/*"CAD モノクロ Y拡大�?*/				),0,10);
+	SetParam(&CADMonoGenLibType		, /**/"CAD"	,/**/"CADMonoGenLibType"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_191)/*"CAD モノクロ 生�?Type番号"*/		),0,1000);
+	SetParam(&CADMonoGenLibID		, /**/"CAD"	,/**/"CADMonoGenLibID"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_192)/*"CAD モノクロ 生�?ライブラリID"*/	),0,10000);
+	SetParam(&CADMonoEnfatLine		, /**/"CAD"	,/**/"CADMonoEnfatLine"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_193)/*"CAD モノクロ�?線�?膨張ドット数"*/	),0,1000);
+	SetParam(&CADMonoYShear			, /**/"CAD"	,/**/"CADMonoYShear"				,QString(LangSolver.GetString(XParamCustomized_LS,LID_194)/*"CAD モノクロ�?せん断�?*/			),-1000,1000);
+	SetParam(&SyncAllSides			, /**/"CAD"	,/**/"SyncAllSides"					,QString(LangSolver.GetString(XParamCustomized_LS,LID_195)/*"CAD 両面同期"*/					));
+
+	SetParam(&ColorDifferenceLibID1	, /**/"色差検査",/**/"ColorDifferenceLibID1"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_196)/*"色差検査の�?��ォルトライブラリID"*/	),0,10000);
+
+	SetParam(&SystemTriggerIPAddress, /**/"System"	,/**/"SystemTriggerIPAddress"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_197)/*"トリガーコントローラのIPアドレス"*/));
+	SetParam(&TriggerTiming1		, /**/"System"	,/**/"TriggerTiming1"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_198)/*"トリガー?��?位置"*/));
+	SetParam(&TriggerTiming2		, /**/"System"	,/**/"TriggerTiming2"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_199)/*"トリガー?��?位置"*/));
+	SetParam(&TriggerTiming3		, /**/"System"	,/**/"TriggerTiming3"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_30)/*"トリガー?��?位置"*/));
+	SetParam(&TriggerTiming4		, /**/"System"	,/**/"TriggerTiming4"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_216)/*"トリガー?��?位置"*/));
+	SetParam(&DropTiming			, /**/"System"	,/**/"DropTiming"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_200)/*"落下タイミング"*/));
+	SetParam(&TriggerMMPerPulse		, /**/"System"	,/**/"TriggerMMPerPulse"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_201)/*"トリガー1パルスのミリメートル"*/));
+	SetParam(&SystemBeltLength		, /**/"System"	,/**/"SystemBeltLength"		,QString(LangSolver.GetString(XParamCustomized_LS,LID_202)/*"下流カメラ下からリジェクトまでの距離のミリメートル"*/));
+	SetParam(&AddedTimeoutMilisec	, /**/"System"	,/**/"AddedTimeoutMilisec"	,QString(LangSolver.GetString(XParamCustomized_LS,LID_203)/*"タイ�?アウト計算でのマ�?ジンタイ�??�ミリ秒�?*/),-10000,10000);
+	SetParam(&UseBeltSpeed			, /**/"System"	,/**/"UseBeltSpeed"			,QString(LangSolver.GetString(XParamCustomized_LS,LID_204)/*"ベルト�?�度を設定す�?*/));
+
+	SetCategoryLanguage(/**/"マスク"		,LangSolver.GetString(XParamCustomized_LS,LID_0)/*"マスク"*/);
+	SetCategoryLanguage(/**/"マスク2"		,LangSolver.GetString(XParamCustomized_LS,LID_2)/*"マスク2"*/);
+	SetCategoryLanguage(/**/"マスク3"		,LangSolver.GetString(XParamCustomized_LS,LID_7)/*"マスク3"*/);
+	SetCategoryLanguage(/**/"マスク4"		,LangSolver.GetString(XParamCustomized_LS,LID_8)/*"マスク4"*/);
+	SetCategoryLanguage(/**/"検査"			,LangSolver.GetString(XParamCustomized_LS,LID_205)/*"検査"*/);
+	SetCategoryLanguage(/**/"検査2"			,LangSolver.GetString(XParamCustomized_LS,LID_206)/*"検査2"*/);
+	SetCategoryLanguage(/**/"検査3"			,LangSolver.GetString(XParamCustomized_LS,LID_207)/*"検査3"*/);
+	SetCategoryLanguage(/**/"位置合わ�?	,LangSolver.GetString(XParamCustomized_LS,LID_208)/*"位置合わ�?*/);
+	SetCategoryLanguage(/**/"�?��測"		,LangSolver.GetString(XParamCustomized_LS,LID_209)/*"�?��測"*/);
+	SetCategoryLanguage(/**/"�??検査"		,LangSolver.GetString(XParamCustomized_LS,LID_210)/*"�??検査"*/);
+	SetCategoryLanguage(/**/"�?��替�?		,LangSolver.GetString(XParamCustomized_LS,LID_211)/*"�?��替�?*/);
+	SetCategoryLanguage(/**/"検査レベル"	,LangSolver.GetString(XParamCustomized_LS,LID_212)/*"検査レベル"*/);
+	SetCategoryLanguage(/**/"CAD"			,LangSolver.GetString(XParamCustomized_LS,LID_213)/*"CAD"*/);
+	SetCategoryLanguage(/**/"色差検査"		,LangSolver.GetString(XParamCustomized_LS,LID_214)/*"色差検査"*/);
+	SetCategoryLanguage(/**/"System"		,LangSolver.GetString(XParamCustomized_LS,LID_215)/*"System"*/);
+}
+
+bool	ParamCustomized::SaveParam(QIODevice *f ,int EnableCondition)
+{
+	if(ParamBase::SaveParam(f,EnableCondition)==false)
+		return false;
+	int32	Ver=5;
+	if(::Save(f,Ver)==false)			return false;
+	int32	tCountOfLevel=sizeof(Level)/sizeof(Level[0]);
+	if(::Save(f,tCountOfLevel)==false)	return false;
+	for(int i=0;i<tCountOfLevel;i++){
+		if(Level[i].Save(f)==false)		return false;
+	}
+	//for(int side=0;side<CountOfSides;side++){
+	//	for(int i=0;i<tCountOfLevel;i++){
+	//		if(AllocationLibByColorContainerInst[side][i].Save(f)==false)		return false;
+	//	}
+	//}
+	UsageTopSide.Save(f);
+	UsageBottomSide.Save(f);
+	UsageMonoSide.Save(f);
+
+	return true;
+}
+bool	ParamCustomized::LoadParam(QIODevice *f ,int EnableCondition)
+{
+	if(ParamBase::LoadParam(f,EnableCondition)==false)
+		return false;
+	int32	Ver;
+	if(::Load(f,Ver)==false)			return false;
+	int32	tCountOfLevel;
+	if(::Load(f,tCountOfLevel)==false)	return false;
+	for(int i=0;i<tCountOfLevel && i<sizeof(Level)/sizeof(Level[0]);i++){
+		if(Level[i].Load(f)==false)		return false;
+	}
+	if(Ver==2){
+		AllocationLibByColorContainer	AllocationLibByColorContainerInst(DXFCommonDataID);
+		for(int i=0;i<tCountOfLevel;i++){
+			if(AllocationLibByColorContainerInst.Load(f)==false)		return false;
+		}
+	}
+	else if(Ver==3){
+		AllocationLibByColorContainer	AllocationLibByColorContainerInst(DXFCommonDataID);
+		for(int side=0;side<CountOfSides;side++){
+			for(int i=0;i<tCountOfLevel;i++){
+				if(AllocationLibByColorContainerInst.Load(f)==false)		return false;
+			}
+		}
+	}
+	if(Ver>=5){
+		UsageTopSide.Load(f);
+		UsageBottomSide.Load(f);
+		UsageMonoSide.Load(f);
+	}
+	return true;
+}
+
+bool	ParamLevel::Save(QIODevice *f)
+{
+	if(::Save(f,LevelID)==false)	return false;
+	if(::Save(f,LevelName)==false)	return false;
+	return true;
+}
+
+bool	ParamLevel::Load(QIODevice *f)
+{
+	if(::Load(f,LevelID)==false)	return false;
+	if(::Load(f,LevelName)==false)	return false;
+	return true;
+}
+//==================================================================================================
+ParamForEachMaster::ParamForEachMaster(void)
+{
+	//Slave0LibID	=0;
+	//Slave1LibID	=0;
+	//Slave2LibID	=0;
+
+	TriggerTiming1	=22000;
+	TriggerTiming2	=53000;
+	TriggerTiming3	=0;
+	TriggerTiming4	=0;
+	DropTiming		=1750;
+}
+
+bool	ParamForEachMaster::Save(QIODevice *f)
+{
+	int32	Ver=4;
+	if(::Save(f,Ver)			==false)	return false;
+	//if(::Save(f,Slave0LibID)	==false)	return false;
+	//if(::Save(f,Slave1LibID)	==false)	return false;
+	//if(::Save(f,Slave2LibID)	==false)	return false;
+	if(Slave0LibID.Save(f)==false)	return false;
+	if(Slave1LibID.Save(f)==false)	return false;
+	if(Slave2LibID.Save(f)==false)	return false;
+	if(Slave3LibID.Save(f)==false)	return false;
+	if(::Save(f,TriggerTiming1)	==false)	return false;
+	if(::Save(f,TriggerTiming2)	==false)	return false;
+	if(::Save(f,TriggerTiming3)	==false)	return false;
+	if(::Save(f,TriggerTiming4)	==false)	return false;
+	if(::Save(f,DropTiming)		==false)	return false;
+
+	return true;
+}
+
+bool	ParamForEachMaster::Load(QIODevice *f)
+{
+	int32	Ver;
+	if(::Load(f,Ver)			==false)	return false;
+
+	if(Ver<4){
+		int32	tSlave0LibID;
+		int32	tSlave1LibID;
+		int32	tSlave2LibID;
+		if(::Load(f,tSlave0LibID)	==false)	return false;
+		if(::Load(f,tSlave1LibID)	==false)	return false;
+		if(Ver>=2){
+			if (::Load(f, tSlave2LibID)== false)	return false;
+		}
+		else{
+			tSlave2LibID=0;
+		}
+		Slave0LibID.Add(tSlave0LibID);
+		Slave1LibID.Add(tSlave1LibID);
+		Slave2LibID.Add(tSlave2LibID);
+	}
+	else{
+		if(Slave0LibID.Load(f)==false)	return false;
+		if(Slave1LibID.Load(f)==false)	return false;
+		if(Slave2LibID.Load(f)==false)	return false;
+		if(Slave3LibID.Load(f)==false)	return false;
+	}
+
+	if(::Load(f,TriggerTiming1)	==false)	return false;
+	if(::Load(f,TriggerTiming2)	==false)	return false;
+	if(Ver>=3){
+		if(::Load(f,TriggerTiming3)	==false)	return false;
+		if(::Load(f,TriggerTiming4)	==false)	return false;
+	}
+	if(::Load(f,DropTiming)		==false)	return false;
+
+	return true;
+}

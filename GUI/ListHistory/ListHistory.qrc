@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ListHistory.png</file>
+        <file>Qtres/Reload.png</file>
+    </qresource>
+</RCC>

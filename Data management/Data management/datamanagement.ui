@@ -1,0 +1,2030 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Datamanagement</class>
+ <widget class="QWidget" name="Datamanagement">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1300</width>
+    <height>884</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1300</width>
+    <height>884</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1300</width>
+    <height>884</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Arial Unicode MS</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Datamanagement</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QPushButton" name="pbSET">
+   <property name="geometry">
+    <rect>
+     <x>1125</x>
+     <y>835</y>
+     <width>75</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial Unicode MS</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	border-style: outset;
+	border-width: 1px;
+	border-radius: 15px;
+	border-color: gray;
+	background-color: qlineargradient(spread:pad, x1:0.0113636, y1:0, x2:0, y2:1, stop:0 rgba(254, 254, 254, 255), stop:1 rgba(165, 165, 165, 255));
+}
+QPushButton:pressed { 	
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(225, 225, 225, 255), stop:1 rgba(141, 141, 141, 255));
+}</string>
+   </property>
+   <property name="text">
+    <string>Setting</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbEND">
+   <property name="geometry">
+    <rect>
+     <x>1210</x>
+     <y>835</y>
+     <width>75</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial Unicode MS</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	border-style: outset;
+	border-width: 1px;
+	border-radius: 15px;
+	border-color: gray;
+	background-color: qlineargradient(spread:pad, x1:0.0113636, y1:0, x2:0, y2:1, stop:0 rgba(254, 254, 254, 255), stop:1 rgba(165, 165, 165, 255));
+}
+QPushButton:pressed { 	
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(225, 225, 225, 255), stop:1 rgba(141, 141, 141, 255));
+}
+
+ </string>
+   </property>
+   <property name="text">
+    <string>END</string>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1304</width>
+     <height>800</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial Unicode MS</family>
+     <pointsize>21</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QTabBar::tab {				
+	
+	background-color: qlineargradient(spread:reflect, x1:0, y1:0.494727, x2:0, y2:0.068, stop:0 rgba(105, 105, 105, 255), stop:1 rgba(150, 150, 150, 255));
+	color: rgb(245, 245, 245);
+	border: 1px solid  gray;
+	min-width: 108ex;
+}
+QTabBar::tab:selected {
+     
+	background-color: qlineargradient(spread:reflect, x1:0, y1:0.494727, x2:0, y2:0.068, stop:0 rgba(38, 38, 38, 255), stop:1 rgba(96, 96, 96, 255));
+ }
+
+</string>
+   </property>
+   <property name="tabPosition">
+    <enum>QTabWidget::North</enum>
+   </property>
+   <property name="tabShape">
+    <enum>QTabWidget::Rounded</enum>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="elideMode">
+    <enum>Qt::ElideNone</enum>
+   </property>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>統合マスター</string>
+    </attribute>
+    <widget class="QTableView" name="tableView">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>290</y>
+       <width>1261</width>
+       <height>361</height>
+      </rect>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+    </widget>
+    <widget class="QFrame" name="frameView">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>1261</width>
+       <height>256</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERNAME_2">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>660</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>RELATIONNAME</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leRELATIONNAME">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>690</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERCODE_2">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>660</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>RELATIONCODE</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leRELATIONCODE">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>690</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0.488318, x2:0, y2:0, stop:0 rgba(192, 233, 255, 255), stop:1 rgba(121, 205, 255, 255));
+border: 1px solid gray;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERNAME_3">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>660</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>RELATIONNUMBER</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leRELATIONNUMBER">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>690</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERNAME_4">
+     <property name="geometry">
+      <rect>
+       <x>750</x>
+       <y>660</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>REMARK</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leREMARK">
+     <property name="geometry">
+      <rect>
+       <x>750</x>
+       <y>690</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tabMaster">
+    <attribute name="title">
+     <string>MASTER</string>
+    </attribute>
+    <widget class="QLineEdit" name="leMASTERMACHINEID">
+     <property name="geometry">
+      <rect>
+       <x>820</x>
+       <y>490</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERMACID">
+     <property name="geometry">
+      <rect>
+       <x>820</x>
+       <y>460</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>MACHINEID</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERWORKERID">
+     <property name="geometry">
+      <rect>
+       <x>820</x>
+       <y>560</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERWORKERID">
+     <property name="geometry">
+      <rect>
+       <x>820</x>
+       <y>530</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>WORKERID</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERNAME">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>460</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>MASTERNAME</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERNAME">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>490</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERLASTD">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>530</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>LASTEDITTIME</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERLAST">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>560</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0.488318, x2:0, y2:0, stop:0 rgba(192, 233, 255, 255), stop:1 rgba(121, 205, 255, 255));
+border: 1px solid gray;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERCODE">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>460</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>MASTERCODE</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERCODE">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>490</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0.488318, x2:0, y2:0, stop:0 rgba(192, 233, 255, 255), stop:1 rgba(121, 205, 255, 255));
+border: 1px solid gray;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERREMARK">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>530</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>REMARK</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERREMARK">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>560</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTEDOT">
+     <property name="geometry">
+      <rect>
+       <x>820</x>
+       <y>630</y>
+       <width>230</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0.488318, x2:0, y2:0, stop:0 rgba(192, 233, 255, 255), stop:1 rgba(121, 205, 255, 255));
+border: 1px solid gray;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERDOT">
+     <property name="geometry">
+      <rect>
+       <x>820</x>
+       <y>600</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>DOTPERLINE</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERVer">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>630</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0.488318, x2:0, y2:0, stop:0 rgba(192, 233, 255, 255), stop:1 rgba(121, 205, 255, 255));
+border: 1px solid gray;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERVERSION">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>600</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>VERSION</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERCAT">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>600</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>CATEGORYID</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERCAT">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>630</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0.488318, x2:0, y2:0, stop:0 rgba(192, 233, 255, 255), stop:1 rgba(121, 205, 255, 255));
+border: 1px solid gray;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERREG">
+     <property name="geometry">
+      <rect>
+       <x>1060</x>
+       <y>460</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>REGTIME</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERREG">
+     <property name="geometry">
+      <rect>
+       <x>1060</x>
+       <y>490</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0.488318, x2:0, y2:0, stop:0 rgba(192, 233, 255, 255), stop:1 rgba(121, 205, 255, 255));
+border: 1px solid gray;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERTYPE">
+     <property name="geometry">
+      <rect>
+       <x>1060</x>
+       <y>530</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>MASTERTYPE</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERTYPE">
+     <property name="geometry">
+      <rect>
+       <x>1060</x>
+       <y>560</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0.488318, x2:0, y2:0, stop:0 rgba(192, 233, 255, 255), stop:1 rgba(121, 205, 255, 255));
+border: 1px solid gray;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERLINE">
+     <property name="geometry">
+      <rect>
+       <x>1060</x>
+       <y>600</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>MAXLINES</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERLINE">
+     <property name="geometry">
+      <rect>
+       <x>1060</x>
+       <y>630</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0.488318, x2:0, y2:0, stop:0 rgba(192, 233, 255, 255), stop:1 rgba(121, 205, 255, 255));
+border: 1px solid gray;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERPAGE">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>700</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0.488318, x2:0, y2:0, stop:0 rgba(192, 233, 255, 255), stop:1 rgba(121, 205, 255, 255));
+border: 1px solid gray;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERPAGE">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>670</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>PAGENUMBER</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERLAYER">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>670</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>LAYERNUMBER</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERLAY">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>700</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0.488318, x2:0, y2:0, stop:0 rgba(192, 233, 255, 255), stop:1 rgba(121, 205, 255, 255));
+border: 1px solid gray;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>450</y>
+       <width>331</width>
+       <height>310</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkbMASTERSort">
+     <property name="geometry">
+      <rect>
+       <x>1155</x>
+       <y>10</y>
+       <width>90</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>DESC</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="combMASTERSel_1">
+     <property name="geometry">
+      <rect>
+       <x>1155</x>
+       <y>40</y>
+       <width>140</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>13</pointsize>
+      </font>
+     </property>
+     <property name="currentIndex">
+      <number>-1</number>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="combMASTERSel_11">
+     <property name="geometry">
+      <rect>
+       <x>1155</x>
+       <y>140</y>
+       <width>140</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="currentIndex">
+      <number>-1</number>
+     </property>
+    </widget>
+    <widget class="QTreeWidget" name="trMasterList">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>241</width>
+       <height>450</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="lineWidth">
+      <number>1</number>
+     </property>
+     <property name="midLineWidth">
+      <number>0</number>
+     </property>
+     <property name="autoScrollMargin">
+      <number>14</number>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
+     <property name="indentation">
+      <number>20</number>
+     </property>
+     <attribute name="headerDefaultSectionSize">
+      <number>100</number>
+     </attribute>
+     <attribute name="headerMinimumSectionSize">
+      <number>10</number>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QPushButton" name="pbMASTERSELECT">
+     <property name="geometry">
+      <rect>
+       <x>1160</x>
+       <y>200</y>
+       <width>130</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border-style: outset;
+	border-width: 1px;
+	border-radius: 25px;
+	border-color: rgb(70, 70, 70);		
+	background-color: qlineargradient(spread:pad, x1:0.0113636, y1:0, x2:0, y2:1, stop:0 rgba(254, 254, 254, 255), stop:1 rgba(165, 165, 165, 255));
+}
+QPushButton:pressed { 	
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(225, 225, 225, 255), stop:1 rgba(141, 141, 141, 255));
+}</string>
+     </property>
+     <property name="text">
+      <string>Select</string>
+     </property>
+    </widget>
+    <widget class="QDateEdit" name="dataMASTER_1">
+     <property name="geometry">
+      <rect>
+       <x>1155</x>
+       <y>90</y>
+       <width>140</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="MASTERView">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>0</y>
+       <width>910</width>
+       <height>450</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMASTERPHASE">
+     <property name="geometry">
+      <rect>
+       <x>820</x>
+       <y>670</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>PHASENUMBER</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERPHASE">
+     <property name="geometry">
+      <rect>
+       <x>820</x>
+       <y>700</y>
+       <width>230</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0.488318, x2:0, y2:0, stop:0 rgba(192, 233, 255, 255), stop:1 rgba(121, 205, 255, 255));
+border: 1px solid gray;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMASTERSel_1">
+     <property name="geometry">
+      <rect>
+       <x>1155</x>
+       <y>90</y>
+       <width>135</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+    </widget>
+    <zorder>leMASTERSel_1</zorder>
+    <zorder>leMASTERMACHINEID</zorder>
+    <zorder>lMASTERMACID</zorder>
+    <zorder>leMASTERWORKERID</zorder>
+    <zorder>lMASTERWORKERID</zorder>
+    <zorder>lMASTERNAME</zorder>
+    <zorder>leMASTERNAME</zorder>
+    <zorder>lMASTERLASTD</zorder>
+    <zorder>leMASTERLAST</zorder>
+    <zorder>lMASTERCODE</zorder>
+    <zorder>leMASTERCODE</zorder>
+    <zorder>lMASTERREMARK</zorder>
+    <zorder>leMASTERREMARK</zorder>
+    <zorder>leMASTEDOT</zorder>
+    <zorder>lMASTERDOT</zorder>
+    <zorder>leMASTERVer</zorder>
+    <zorder>lMASTERVERSION</zorder>
+    <zorder>lMASTERCAT</zorder>
+    <zorder>leMASTERCAT</zorder>
+    <zorder>lMASTERREG</zorder>
+    <zorder>leMASTERREG</zorder>
+    <zorder>lMASTERTYPE</zorder>
+    <zorder>leMASTERTYPE</zorder>
+    <zorder>lMASTERLINE</zorder>
+    <zorder>leMASTERLINE</zorder>
+    <zorder>leMASTERPAGE</zorder>
+    <zorder>lMASTERPAGE</zorder>
+    <zorder>lMASTERLAYER</zorder>
+    <zorder>leMASTERLAY</zorder>
+    <zorder>label</zorder>
+    <zorder>checkbMASTERSort</zorder>
+    <zorder>combMASTERSel_1</zorder>
+    <zorder>combMASTERSel_11</zorder>
+    <zorder>trMasterList</zorder>
+    <zorder>pbMASTERSELECT</zorder>
+    <zorder>dataMASTER_1</zorder>
+    <zorder>MASTERView</zorder>
+    <zorder>lMASTERPHASE</zorder>
+    <zorder>leMASTERPHASE</zorder>
+   </widget>
+   <widget class="QWidget" name="tabM">
+    <attribute name="title">
+     <string>MACHINE</string>
+    </attribute>
+    <widget class="QLineEdit" name="leMACHINEREMARK">
+     <property name="geometry">
+      <rect>
+       <x>1050</x>
+       <y>620</y>
+       <width>230</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMACHINEID">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>620</y>
+       <width>230</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMACHINENETID">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>590</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>IP</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMACHINEVERSION">
+     <property name="geometry">
+      <rect>
+       <x>790</x>
+       <y>590</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>VERSION</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMACHINEID">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>590</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>MACHINEID</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMACHINEREMARK">
+     <property name="geometry">
+      <rect>
+       <x>1050</x>
+       <y>590</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>REMARK</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMACHINENETID">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>620</y>
+       <width>230</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leMACHINEVERSION">
+     <property name="geometry">
+      <rect>
+       <x>790</x>
+       <y>620</y>
+       <width>230</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>32</number>
+     </property>
+    </widget>
+    <widget class="QTableView" name="MACHINEView">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>1300</width>
+       <height>540</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-style: outset;
+border-bottom-width:1px;
+border-bottom-color: rgb(0, 0, 0);</string>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>74</number>
+     </attribute>
+     <attribute name="verticalHeaderMinimumSectionSize">
+      <number>16</number>
+     </attribute>
+    </widget>
+    <widget class="QLineEdit" name="leMACHINENAME">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>620</y>
+       <width>230</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>32</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lMACHINENAME">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>590</y>
+       <width>230</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>NAME</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tabW">
+    <attribute name="title">
+     <string>WORKER</string>
+    </attribute>
+    <widget class="QLabel" name="lWORKERSECTION">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>590</y>
+       <width>270</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>SECTION</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leWORKERSECTION">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>620</y>
+       <width>230</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+    </widget>
+    <widget class="QDateTimeEdit" name="dateTimeEditWORKER">
+     <property name="geometry">
+      <rect>
+       <x>1040</x>
+       <y>620</y>
+       <width>260</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lWORKERREMARK">
+     <property name="geometry">
+      <rect>
+       <x>790</x>
+       <y>590</y>
+       <width>270</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>REMARK</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leWORKERID">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>620</y>
+       <width>230</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lWORKERNAME">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>590</y>
+       <width>270</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>NAME</string>
+     </property>
+    </widget>
+    <widget class="QTableView" name="WORKERView">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>1300</width>
+       <height>540</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-style: outset;
+border-bottom-width:1px;
+border-bottom-color: rgb(0, 0, 0);</string>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>74</number>
+     </attribute>
+    </widget>
+    <widget class="QLabel" name="lWORKERUPDATATIME">
+     <property name="geometry">
+      <rect>
+       <x>1040</x>
+       <y>590</y>
+       <width>270</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>UPDATETIME</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lWORKERID">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>590</y>
+       <width>270</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>WORKERID</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leWORKERNAME">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>620</y>
+       <width>230</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leWORKERREMARK">
+     <property name="geometry">
+      <rect>
+       <x>790</x>
+       <y>620</y>
+       <width>230</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>64</number>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tabLIB">
+    <attribute name="title">
+     <string>LIBRARY</string>
+    </attribute>
+    <widget class="QTableWidget" name="INSPECTLIBView">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>0</y>
+       <width>1030</width>
+       <height>753</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>40</number>
+     </attribute>
+    </widget>
+    <widget class="QTreeWidget" name="LibTreeWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>270</width>
+       <height>753</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Unicode MS</family>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
+     <column>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pbInsert">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>815</y>
+     <width>200</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial Unicode MS</family>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	border-style: outset;
+	border-width: 1px;
+	border-radius: 25px;
+	border-color: gray;
+	background-color: qlineargradient(spread:pad, x1:0.0113636, y1:0, x2:0, y2:1, stop:0 rgba(254, 254, 254, 255), stop:1 rgba(165, 165, 165, 255));
+}
+QPushButton:pressed { 	
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(225, 225, 225, 255), stop:1 rgba(141, 141, 141, 255));
+}</string>
+   </property>
+   <property name="text">
+    <string>Insert</string>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+   <property name="default">
+    <bool>false</bool>
+   </property>
+   <property name="flat">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbUpdate">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>815</y>
+     <width>200</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial Unicode MS</family>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	border-style: outset;
+	border-width: 1px;
+	border-radius: 25px;
+	border-color: gray;
+	background-color: qlineargradient(spread:pad, x1:0.0113636, y1:0, x2:0, y2:1, stop:0 rgba(254, 254, 254, 255), stop:1 rgba(165, 165, 165, 255));
+}
+QPushButton:pressed { 
+	
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(225, 225, 225, 255), stop:1 rgba(141, 141, 141, 255));
+}
+ </string>
+   </property>
+   <property name="text">
+    <string>UpDate</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbBackup">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>815</y>
+     <width>200</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial Unicode MS</family>
+     <pointsize>23</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	border-style: outset;
+	border-width: 1px;
+	border-radius: 25px;
+	border-color: gray;
+	background-color: qlineargradient(spread:pad, x1:0.0113636, y1:0, x2:0, y2:1, stop:0 rgba(254, 254, 254, 255), stop:1 rgba(165, 165, 165, 255));
+}
+QPushButton:pressed { 	
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(225, 225, 225, 255), stop:1 rgba(141, 141, 141, 255));
+}</string>
+   </property>
+   <property name="text">
+    <string>Backup</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbDelete">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>815</y>
+     <width>200</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial Unicode MS</family>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	border-style: outset;
+	border-width: 1px;
+	border-radius: 25px;
+	border-color: gray;
+	background-color: qlineargradient(spread:pad, x1:0.0113636, y1:0, x2:0, y2:1, stop:0 rgba(254, 254, 254, 255), stop:1 rgba(165, 165, 165, 255));
+}
+QPushButton:pressed { 	
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(225, 225, 225, 255), stop:1 rgba(141, 141, 141, 255));
+}</string>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbRestore">
+   <property name="geometry">
+    <rect>
+     <x>900</x>
+     <y>815</y>
+     <width>200</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial Unicode MS</family>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	border-style: outset;
+	border-width: 1px;
+	border-radius: 25px;
+	border-color: gray;
+	background-color: qlineargradient(spread:pad, x1:0.0113636, y1:0, x2:0, y2:1, stop:0 rgba(254, 254, 254, 255), stop:1 rgba(165, 165, 165, 255));
+}
+QPushButton:pressed { 	
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(225, 225, 225, 255), stop:1 rgba(141, 141, 141, 255));
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Restore</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>800</y>
+     <width>1303</width>
+     <height>82</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(14, 14, 14, 255), stop:1 rgba(63, 63, 63, 255));
+border: 1px solid  black;
+</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <property name="lineWidth">
+    <number>1</number>
+   </property>
+  </widget>
+  <zorder>tabWidget</zorder>
+  <zorder>frame</zorder>
+  <zorder>pbEND</zorder>
+  <zorder>pbBackup</zorder>
+  <zorder>pbDelete</zorder>
+  <zorder>pbRestore</zorder>
+  <zorder>pbInsert</zorder>
+  <zorder>pbUpdate</zorder>
+  <zorder>pbSET</zorder>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

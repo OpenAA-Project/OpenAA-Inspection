@@ -1,0 +1,182 @@
+#include "IntegrationSelectLotResource.h"
+#include "IntegrationSelectLotForm.h"
+#include "ui_IntegrationSelectLotForm.h"
+#include "XCriticalFunc.h"
+#include "XGeneralStocker.h"
+
+IntegrationSelectLotForm::IntegrationSelectLotForm(LayersBase *Base ,QWidget *parent) :
+    GUIFormBase(Base,parent),
+    ui(new Ui::IntegrationSelectLotForm)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+	ReEntrant=false;
+	connect(this,SIGNAL(SignalResize()), this ,SLOT(ResizeAction()));
+}
+
+IntegrationSelectLotForm::~IntegrationSelectLotForm()
+{
+    delete ui;
+}
+void	IntegrationSelectLotForm::ResizeAction()
+{
+	ui->frame->move(width()-ui->frame->width(),0);
+	ui->listWidget->resize(width()-ui->frame->width()-2,height()-2);
+}
+
+void IntegrationSelectLotForm::on_listWidget_doubleClicked(const QModelIndex &index)
+{
+	on_toolButtonSelect_clicked();
+}
+
+void IntegrationSelectLotForm::on_toolButtonSelect_clicked()
+{
+	ReEntrant=true;
+	on_toolButtonUpdate_clicked();
+	int	CurrentRow=ui->listWidget->currentRow();
+	LotList *L=LotContainer[CurrentRow];
+	if(L!=NULL){
+		int	GlobalID=L->GlobalID;
+		if(GetLayersBase()->GetIntegrationBasePointer()!=NULL){
+			GetLayersBase()->GetIntegrationBasePointer()->TotalCount	=0;
+			GetLayersBase()->GetIntegrationBasePointer()->NGCount		=0;
+
+			CmdChangeLotID	ResetCmd;
+			BroadcastSpecifiedDirectly(&ResetCmd);
+
+			GetLayersBase()->GetIntegrationBasePointer()->SelectLot(GlobalID);
+			BroadcastStartLot();
+		}
+	}
+	ReEntrant=false;
+}
+
+void IntegrationSelectLotForm::on_toolButtonSetFilter_clicked()
+{
+	GetLayersBase()->GetGeneralStocker()->ShowDialog(/**/"SearchFilter",NULL);
+}
+
+void	IntegrationSelectLotForm::BuildForShow(void)
+{
+	on_toolButtonUpdate_clicked();
+}
+struct	MergeLotStruct
+{
+	LotList		*Lot;
+	EachMaster	*Master;
+};
+
+int	MergeLotStructFuncByNumber(const void *a ,const void *b)
+{
+	struct	MergeLotStruct	*aa=(struct	MergeLotStruct *)a;
+	struct	MergeLotStruct	*bb=(struct	MergeLotStruct *)b;
+	int	n=aa->Lot->GlobalID<bb->Lot->GlobalID;
+	return n;
+}
+int	MergeLotStructFuncByLotName(const void *a ,const void *b)
+{
+	struct	MergeLotStruct	*aa=(struct	MergeLotStruct *)a;
+	struct	MergeLotStruct	*bb=(struct	MergeLotStruct *)b;
+	if(aa->Lot->LotName<bb->Lot->LotName)
+		return 1;
+	if(aa->Lot->LotName>bb->Lot->LotName)
+		return -1;
+	return 0;
+}
+void IntegrationSelectLotForm::on_toolButtonUpdate_clicked()
+{
+	if(ReEntrant==true){
+		return;
+	}
+	ReEntrant=true;
+	LotContainer.RemoveAll();
+	if(GetLayersBase()->GetIntegrationBasePointer()!=NULL){
+		GetLayersBase()->GetIntegrationBasePointer()->LoadLotData();
+
+		int	AllLotCount=0;
+		for(EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+			AllLotCount+=m->GetLotCount();
+		}
+		struct	MergeLotStruct	*Dim=new struct	MergeLotStruct[AllLotCount];
+		int	Index=0;
+		for(EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+			for(LotList *L=m->GetLotFirst();L!=NULL;L=L->GetNext()){
+				Dim[Index].Lot=L;
+				Dim[Index].Master	=m;
+				Index++;
+			}
+		}
+		qsort(Dim,AllLotCount,sizeof(struct	MergeLotStruct),MergeLotStructFuncByLotName);
+		int	GlobalID=-1;
+		QString	LastLotName;
+		QStringList	LotNames;
+		for(int i=0;i<AllLotCount;i++){
+			LotList	*L;
+			for(L=LotContainer.GetFirst();L!=NULL;L=L->GetNext()){
+				if(L->LotName==Dim[i].Lot->LotName){
+					Dim[i].Lot->GlobalID=L->GlobalID;
+					break;
+				}
+			}
+			if(L==NULL){
+				GlobalID=LotContainer.GetCount();
+				LotList	*L=new LotList();
+				L->GlobalID			=GlobalID;
+				Dim[i].Lot->GlobalID=GlobalID;
+				L->LotName=Dim[i].Lot->LotName;
+				LotNames.append(Dim[i].Lot->LotName);
+				LotContainer.AppendList(L);
+			}
+		}
+		delete	[]Dim;
+
+		ui->listWidget->clear();
+		ui->listWidget->addItems(LotNames);
+	}
+	ReEntrant=false;
+}
+void	IntegrationSelectLotForm::SpecifiedDirectly(SpecifiedBroadcaster *v)
+{
+	if(ReEntrant==true){
+		return;
+	}
+	CmdChangeLotID	*CmdChangeLotIDVar=dynamic_cast<CmdChangeLotID *>(v);
+	if(CmdChangeLotIDVar!=NULL){
+		on_toolButtonUpdate_clicked();
+		if(GetLayersBase()->GetIntegrationBasePointer()!=NULL){
+			int	CurrentLotGlobalID=GetLayersBase()->GetIntegrationBasePointer()->CurrentLotGlobalID;
+			int	CurrentRow=0;
+			for(LotList *L=LotContainer.GetFirst();L!=NULL;L=L->GetNext(),CurrentRow++){
+				if(L->LotID==CmdChangeLotIDVar->LotID && L->LotName==CmdChangeLotIDVar->LotName){
+					break;
+				}
+			}
+			
+			if(CurrentRow>=0){
+				ui->listWidget->setCurrentRow(CurrentRow);
+				LotList *L=LotContainer[CurrentRow];
+				if(L!=NULL){
+					GetLayersBase()->GetIntegrationBasePointer()->SelectLot(L->GlobalID);
+					BroadcastStartLot();
+				}
+			}
+		}
+		return;
+	}
+	CmdChangeNewLotID	*CmdChangeNewLotIDVar=dynamic_cast<CmdChangeNewLotID *>(v);
+	if(CmdChangeNewLotIDVar!=NULL){
+		int	CurrentRow=0;
+		if(CurrentRow>=0){
+			ui->listWidget->setCurrentRow(CurrentRow);
+			LotList *L=LotContainer[CurrentRow];
+			if(L!=NULL){
+				if(GetLayersBase()->GetIntegrationBasePointer()!=NULL){
+					GetLayersBase()->GetIntegrationBasePointer()->SelectLot(L->GlobalID);
+					BroadcastStartLot();
+				}
+			}
+		}
+		return;
+	}
+}
+

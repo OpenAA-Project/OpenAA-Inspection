@@ -1,0 +1,12 @@
+#ifndef KOREAST8CH_GLOBAL_H
+#define KOREAST8CH_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef KOREAST8CH_LIB
+# define KOREAST8CH_EXPORT Q_DECL_EXPORT
+#else
+# define KOREAST8CH_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // KOREAST8CH_GLOBAL_H

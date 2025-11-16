@@ -1,0 +1,1279 @@
+#include "IntegrationStackNGThumbnailForm.h"
+#include "ui_IntegrationStackNGThumbnailForm.h"
+#include "XDataAlgorithm.h"
+#include "XAlgorithmLibrary.h"
+#include "LargeWindowForm.h"
+#include "LargeMeasureWindowForm.h"
+#include "swap.h"
+#include "XDLLType.h"
+#include "XCriticalFunc.h"
+#include <QScrollArea>
+#include <QScrollBar>
+#include "XMeasureLineMoveLibrary.h"
+#include "XDataAlgorithmList.h"
+
+extern	char	*sRoot;
+extern	char	*sName;
+
+ThumbnailPanel::ThumbnailPanel(InspectionList *L,IntegrationStackNGThumbnailForm *p,EachMaster *m,int phase,NGPointInPage *page,IntegNGImage *imagePoint)
+	:QWidget(p->GetParentWidget()),Parent(p),Result(L)
+{
+	Master		=m;
+	Phase		=phase;
+	RPage		=page;
+	ImagePoint	=imagePoint;
+	CurrentInspection	=NULL;
+	RepresentativePoint	=NULL;
+	MasterImage		=NULL;
+	NGMarkImage		=NULL;
+	Visible			=true;
+	setMouseTracking(true);
+}
+ThumbnailPanel::~ThumbnailPanel(void)
+{
+	if(MasterImage!=NULL){
+		delete	MasterImage;
+		MasterImage=NULL;
+	}
+	if(NGMarkImage!=NULL){
+		delete	NGMarkImage;
+		NGMarkImage=NULL;
+	}
+}
+
+LayersBase	*ThumbnailPanel::GetLayersBase(void)
+{	
+	return Parent->GetLayersBase();	
+}
+
+const	int	MessageHeight=13;
+const	int	MessageRowCount=3;
+
+void	ThumbnailPanel::MakeImage(void)
+{
+	int	W=Parent->ThumbnailWidth;
+	int	H=Parent->ThumbnailHeight;
+	int	Mergin=Parent->ThumbnailMergin;
+
+	if(Parent->ShowInformation==true){
+		H-=(MessageHeight+2)*MessageRowCount;
+	}
+	int	Cx,Cy;
+	ImagePoint->GetCenter(Cx,Cy);
+	double	Zx	=((double)W)/((double)ImagePoint->GetImage().width());
+	double	Zy	=((double)H)/((double)ImagePoint->GetImage().height());
+	double	ZoomRate=(Zx<Zy)?Zx:Zy;
+	NGImage		=QImage(W,H,QImage::Format_ARGB32);
+	NGImage.fill(Qt::black);
+	QImage	Img=ImagePoint->GetImage().scaled (W,H,Qt::KeepAspectRatio,Qt::SmoothTransformation);
+	QPainter	NGPnt(&NGImage);
+	NGPnt.drawImage(0,0,Img);
+
+	MasterImage	=new QImage(W,H,QImage::Format_ARGB32);
+	NGMarkImage	=new QImage(W,H,QImage::Format_ARGB32);
+	NGMarkImage->fill(0);
+	
+	int	r=3;
+	int	D=6;
+	QPainter	Pnt(NGMarkImage);
+	int	dx=0;
+	int	dy=0;
+	int	AddedN=0;
+	for(NGPoint *Rp=RPage->NPListPack<NGPoint>::GetFirst();Rp!=NULL;Rp=Rp->GetNext()){
+		int	TargetCx,TargetCy;
+		Rp->GetTargetCenter(TargetCx,TargetCy);
+
+		if(Rp->IsNG()==true
+		&& ImagePoint->x1 <=TargetCx && TargetCx<ImagePoint->x2
+		&& ImagePoint->y1 <=TargetCy && TargetCy<ImagePoint->y2){
+			int	hx=TargetCx-Rp->MasterX;
+			int	hy=TargetCy-Rp->MasterY;
+			Pnt.setPen(Qt::red);
+			Pnt.drawArc((TargetCx-ImagePoint->x1)*ZoomRate-r  ,(TargetCy-ImagePoint->y1)*ZoomRate-r  ,D  ,D  ,0,5760);
+			Pnt.setPen(Qt::cyan);
+			Pnt.drawArc((TargetCx-ImagePoint->x1)*ZoomRate-r-1,(TargetCy-ImagePoint->y1)*ZoomRate-r-1,D+2,D+2,0,5760);
+			if(RepresentativePoint==NULL){
+				RepresentativePoint=Rp;
+			}
+			int	mx,my;
+			Rp->GetMasterCenter(mx,my);
+			dx+=TargetCx-mx;
+			dy+=TargetCy-my;
+			AddedN++;
+		}
+	}
+	if(AddedN!=0){
+		dx/=AddedN;
+		dy/=AddedN;
+	}
+	if(RepresentativePoint==NULL){
+		for(NGPoint *Rp=RPage->NPListPack<NGPoint>::GetFirst();Rp!=NULL;Rp=Rp->GetNext()){
+			if(Rp->IsNG()==true){
+				int	cx,cy;
+				Rp->GetTargetCenter(cx,cy);
+				Pnt.setPen(Qt::red);
+				Pnt.drawArc((cx-ImagePoint->x1)*ZoomRate-r  ,(cy-ImagePoint->y1)*ZoomRate-r  ,D  ,D  ,0,5760);
+				Pnt.setPen(Qt::cyan);
+				Pnt.drawArc((cx-ImagePoint->x1)*ZoomRate-r-1,(cy-ImagePoint->y1)*ZoomRate-r-1,D+2,D+2,0,5760);
+				if(RepresentativePoint==NULL){
+					RepresentativePoint=Rp;
+				}
+			}
+		}
+	}
+	QPainter	ImgPnt(&NGImage);
+	if(Parent->ShowInformation==true && RepresentativePoint!=NULL){
+		Messages=Parent->GetInformation(Result,RepresentativePoint);
+	}
+	LayersBase	*LBase=GetLayersBase()->GetShadowTree(ImagePoint->ShadowLevel ,ImagePoint->ShadowNumber);
+	int	Mx1=ImagePoint->x1;
+	int	My1=ImagePoint->y1;
+	int	Mx2=ImagePoint->x2;
+	int	My2=ImagePoint->y2;
+	double	tZoomRate=ZoomRate;
+	if(LBase!=NULL){
+		LBase->ConvertToTop(Mx1,My1);
+		LBase->ConvertToTop(Mx2,My2);
+		tZoomRate=ZoomRate/((double)(Mx2-Mx1))*((double)(ImagePoint->x2-ImagePoint->x1));
+	}
+	RPage->MakeMasterImage(MasterImage,(Mx1+Mx2)/2-dx,(My1+My2)/2-dy,tZoomRate);
+}
+
+int	ThumbnailPanel::Compare(ThumbnailPanel &src)
+{
+	int	d=Result->ID-src.Result->ID;
+	if(d==0){
+		if(RepresentativePoint!=NULL && src.RepresentativePoint!=NULL){
+			d=RepresentativePoint->MasterY-src.RepresentativePoint->MasterY;
+			if(d==0){
+				d=RepresentativePoint->MasterX-src.RepresentativePoint->MasterX;
+			}
+		}
+	}
+	return -d;
+}
+void ThumbnailPanel::paintEvent ( QPaintEvent * event )
+{
+	if(Visible==true){
+		QPainter	Pnt(this);
+
+		if(Index!=Parent->GetCurrentIndex() || ShowingNGOnFlip==false){
+			Pnt.drawImage(0,0,NGImage);
+		}
+		else{
+			Pnt.drawImage(0,0,*MasterImage);
+		}
+		if(Index!=Parent->CurrentIndex){
+			Pnt.drawImage(0,0,*NGMarkImage);
+		}
+		
+		if(Parent->ShowInformation==true){
+			{
+				int	H=Parent->ThumbnailHeight;
+				H-=(MessageHeight+2)*MessageRowCount;
+				Pnt.setBrush(Qt::black);
+				Pnt.setPen(Qt::black);
+				Pnt.drawRect(0,H,width(),(MessageHeight+2)*MessageRowCount);
+			}
+			{
+				int	H=Parent->ThumbnailHeight;
+				H-=(MessageHeight+2)*MessageRowCount;
+				Pnt.setBrush(Qt::white);
+				Pnt.setPen(Qt::white);
+				int	Mergin=Parent->ThumbnailMergin;
+				int	CMessageRow=Messages.count();
+				for(int row=0;row<CMessageRow;row++){
+					Pnt.drawText(Mergin,H+MessageHeight+MessageHeight*row,Messages[row]);
+				}
+			}
+		}
+
+		if(Index==Parent->CurrentIndex){
+			int	W=Parent->ThumbnailWidth;
+			int	H=Parent->ThumbnailHeight;
+			int	Mergin=Parent->ThumbnailMergin;
+			QColor	Col=Qt::red;
+
+			QPen	Pen(Col);
+			Pen.setWidth(1);
+			Pnt.setPen(Pen);
+
+			if(Parent->ShowInformation==true){
+				int	mh=0;	//MessageHeight*MessageRowCount;
+				for(int L=0;L<Mergin;L++){
+					Pnt.drawLine(L		,L			,W-1-L	,L			);
+					Pnt.drawLine(W-1-L	,L			,W-1-L	,H-1-L-mh	);
+					Pnt.drawLine(W-1-L	,H-1-L-mh	,L		,H-1-L-mh	);
+					Pnt.drawLine(L		,H-1-L-mh	,L		,L			);
+				}
+			}
+			else{
+				for(int L=0;L<Mergin;L++){
+					Pnt.drawLine(L		,L		,W-1-L	,L		);
+					Pnt.drawLine(W-1-L	,L		,W-1-L	,H-1-L	);
+					Pnt.drawLine(W-1-L	,H-1-L	,L		,H-1-L	);
+					Pnt.drawLine(L		,H-1-L	,L		,L		);
+				}
+			}
+			ShowingNGOnFlip=!ShowingNGOnFlip;
+		}
+	}
+}
+void ThumbnailPanel::mousePressEvent ( QMouseEvent * event )
+{
+	if(Visible==true){
+		Parent->LastPressedTime	=::GetComputerMiliSec();
+		Parent->CurrentIndex=Index;
+		Parent->RepaintPanel();
+		Parent->BroadcastNGPoint();
+	}
+}
+void ThumbnailPanel::mouseDoubleClickEvent ( QMouseEvent * event )
+{
+	if(Visible==true){
+		if(Parent->LargeWindow!=NULL){
+			Parent->LargeWindow->Parent=NULL;
+			delete	Parent->LargeWindow;
+			Parent->LargeWindow=NULL;
+		}
+		if(Parent->LargeMeasureWindow!=NULL){
+			Parent->LargeMeasureWindow->Parent=NULL;
+			delete	Parent->LargeMeasureWindow;
+			Parent->LargeMeasureWindow=NULL;
+		}
+		if(RepresentativePoint->LibType==DefLibTypeMeasureLineMove){
+			Parent->LargeMeasureWindow=new LargeMeasureWindowForm(this);
+			Parent->LargeMeasureWindow->Initial();
+			Parent->LargeMeasureWindow->show();
+		}
+		else{
+			Parent->LargeWindow=new LargeWindowForm(this);
+			Parent->LargeWindow->show();
+		}
+	}
+}
+void	ThumbnailPanel::SlotShowDetail()
+{
+	if(Visible==true){
+		Parent->DetailFromThumbnail(this);
+	}
+}
+
+void	ThumbnailPanel::SendLearning(int LearningMenuID, bool AllItems)
+{
+	Parent->SendLearning(ImagePoint ,RepresentativePoint
+						,Phase ,RPage->Page
+						,LearningMenuID, AllItems);
+}
+
+//=========================================================================================================
+
+IntegrationStackNGThumbnailForm::IntegrationStackNGThumbnailForm(LayersBase *Base ,QWidget *parent) :
+     GUIFormBase(Base,parent),
+    ui(new Ui::IntegrationStackNGThumbnailForm)
+{
+    ui->setupUi(this);
+
+	SlaveNo				=-1;
+	MachineID			=-1;
+	ThumbnailWidth		=200;
+	ThumbnailHeight		=200;
+	ThumbnailMergin		=5;
+	CurrentIndex		=0;
+	ShowInformation		=true;
+	ShowInformationTime	=true;
+	ShowInformationNumber=true;
+	ZoomRate			=0.20;
+	MaxXCount			=10;
+	MaxYCount			=10;
+	ScrollerWidth		=32;
+	LargeWindow			=NULL;
+	LargeMeasureWindow	=NULL;
+	LastPressedTime		=0;
+
+	ui->scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	ui->scrollArea->setVerticalScrollBarPolicy	(Qt::ScrollBarAlwaysOn);
+
+	connect(this,SIGNAL(SignalResize()), this ,SLOT(ResizeAction()));
+	connect(ui->scrollArea->horizontalScrollBar(),SIGNAL(valueChanged(int)),this,SLOT(SlotScrollerChanged(int)));
+
+}
+
+IntegrationStackNGThumbnailForm::~IntegrationStackNGThumbnailForm()
+{
+    delete ui;
+}
+
+void	IntegrationStackNGThumbnailForm::Prepare(void)
+{
+	QWidget	*w=GetParentWidget();
+	w->setGeometry(0,0,MaxXCount*ThumbnailWidth,MaxYCount*ThumbnailHeight);
+	w->setMinimumSize(MaxXCount*ThumbnailWidth,MaxYCount*ThumbnailHeight);	
+
+	QString	s=QString("QScrollBar:vertical { width: ")
+		+QString::number(ScrollerWidth)
+		+QString("px;} ")
+		+QString("QScrollBar:horizontal { height: ")
+		+QString::number(ScrollerWidth)
+		+QString("px;}");
+	ui->scrollArea->setStyleSheet(s);
+
+	FlipTimer.setInterval(400);
+	FlipTimer.setSingleShot(false);
+	connect(&FlipTimer,SIGNAL(timeout()),this,SLOT(SlotFlipTimer()));
+	FlipTimer.start();
+}
+
+void	IntegrationStackNGThumbnailForm::ResizeAction()
+{
+	ui->scrollArea->setGeometry(0,0,width(),height());
+
+	//QCheckBox	*p1=new QCheckBox(ui->scrollAreaWidgetContents);
+	//p1->move(200,200);
+	//QCheckBox	*p2=new QCheckBox(ui->scrollAreaWidgetContents);
+	//p2->move(1700,1500);
+}
+
+QWidget	*IntegrationStackNGThumbnailForm::GetParentWidget(void)
+{
+	QWidget	*w=ui->scrollArea->widget();
+	return w;
+}
+
+void	IntegrationStackNGThumbnailForm::StartLot(void)
+{
+	AddNGImagesAll();
+}
+static	int	IntervalToKeepPosition=5000;
+
+void	IntegrationStackNGThumbnailForm::SpecifiedDirectly(SpecifiedBroadcaster *v)
+{
+	CmdChangeLotID	*CmdChangeLotIDVar=dynamic_cast<CmdChangeLotID *>(v);
+	if(CmdChangeLotIDVar!=NULL){
+		AddNGImagesAll();
+		return;
+	}
+	CmdChangeNewLotID	*CmdChangeNewLotIDVar=dynamic_cast<CmdChangeNewLotID *>(v);
+	if(CmdChangeNewLotIDVar!=NULL){
+		Panels.RemoveAll();
+		return;
+	}
+	CmdAppendResult	*CmdAppendResultVar=dynamic_cast<CmdAppendResult *>(v);
+	if(CmdAppendResultVar!=NULL){
+		if((SlaveNo<0 && MachineID<0) || CmdAppendResultVar->SlaveNo==SlaveNo){
+			if(AddNGImagesAll(CmdAppendResultVar->SlaveNo)==true){
+				if((::GetComputerMiliSec()-LastPressedTime)>IntervalToKeepPosition){
+					ThumbnailPanel *a=Panels.GetFirst();
+					if(a!=NULL){
+						CurrentIndex=a->Index;
+					}
+					BroadcastNGPoint();
+				}
+			}
+		}
+		else
+		if(SlaveNo<0 && MachineID>=0){
+			EachMaster *Pointer[10];
+			int		MasterCount=GetLayersBase()->GetIntegrationBasePointer()->EnumMaster(MachineID,Pointer,10);
+			for(int m=0;m<MasterCount;m++){
+				int	SlaveNo=Pointer[m]->GetIntegrationSlaveNo();
+				if(CmdAppendResultVar->SlaveNo==SlaveNo){
+					if(AddNGImagesAll(CmdAppendResultVar->SlaveNo)==true){
+						if((::GetComputerMiliSec()-LastPressedTime)>IntervalToKeepPosition){
+							ThumbnailPanel *a=Panels.GetFirst();
+							if(a!=NULL){
+								CurrentIndex=a->Index;
+							}
+							BroadcastNGPoint();
+						}
+					}
+					break;
+				}
+			}
+		}
+		return;
+	}
+	CmdSelectResult	*CmdSelectResultVar=dynamic_cast<CmdSelectResult *>(v);
+	if(CmdSelectResultVar!=NULL){
+
+		for(ThumbnailPanel *a=Panels.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->Result->ID==CmdSelectResultVar->ResultID){
+				CurrentIndex=a->Index;
+				SetToShowPanel(CurrentIndex);
+				RepaintPanel();
+				BroadcastNGPoint();
+				break;
+			}
+		}
+		return;
+	}
+	CmdClearMasterData	*CmdClearMasterDataVar=dynamic_cast<CmdClearMasterData *>(v);
+	if(CmdClearMasterDataVar!=NULL){
+		Panels.RemoveAll();
+		return;
+	}
+	CmdSelectNGLine	*CmdSelectNGLineVar=dynamic_cast<CmdSelectNGLine *>(v);
+	if(CmdSelectNGLineVar!=NULL){
+		for(ThumbnailPanel *a=Panels.GetFirst();a!=NULL;a=a->GetNext()){
+			if(a->ImagePoint==CmdSelectNGLineVar->NG){
+				CurrentIndex=a->Index;
+				SetToShowPanel(CurrentIndex);
+				RepaintPanel();
+				BroadcastNGPoint();
+				break;
+			}
+		}
+		return;
+	}
+	LoadMasterSpecifiedBroadcaster	*CmdLoadedMasterDataVar=dynamic_cast<LoadMasterSpecifiedBroadcaster *>(v);
+	if(CmdLoadedMasterDataVar!=NULL){
+		Panels.RemoveAll();
+		return;
+	}
+}
+
+bool	IntegrationStackNGThumbnailForm::IsShownPanelCompletely(int Index)
+{
+	int	x1=ui->scrollArea->horizontalScrollBar()->value();
+	int	x2=x1+ui->scrollArea->horizontalScrollBar()->pageStep();
+
+	int	y1=ui->scrollArea->verticalScrollBar()->value();
+	int	y2=x1+ui->scrollArea->verticalScrollBar()->pageStep();
+
+	ThumbnailPanel	*p=GetPanel(Index);
+	if(p!=NULL){
+		if(x1<=p->geometry().left() && p->geometry().right()<=x2
+		&& y1<=p->geometry().top() && p->geometry().bottom()<=y2){
+			return true;
+		}
+	}
+	return false;
+}
+void	IntegrationStackNGThumbnailForm::SetToShowPanel(int Index)
+{
+	int	x1=ui->scrollArea->horizontalScrollBar()->value();
+	int	y1=ui->scrollArea->verticalScrollBar()->value();
+
+	ThumbnailPanel	*p=GetPanel(Index);
+	if(p!=NULL){
+		while((ui->scrollArea->horizontalScrollBar()->value()+ui->scrollArea->horizontalScrollBar()->pageStep())<p->geometry().right()){
+			x1+=ui->scrollArea->horizontalScrollBar()->pageStep()/2;
+			//ui->scrollArea->scroll(x1,y1);
+			ui->scrollArea->horizontalScrollBar()->setValue(x1);
+		}
+		while(p->geometry().left()<ui->scrollArea->horizontalScrollBar()->value()){
+			x1-=ui->scrollArea->horizontalScrollBar()->pageStep()/2;
+			//ui->scrollArea->scroll(x1,y1);
+			ui->scrollArea->horizontalScrollBar()->setValue(x1);
+		}
+		while((ui->scrollArea->verticalScrollBar()->value()+ui->scrollArea->verticalScrollBar()->pageStep())<p->geometry().bottom()){
+			y1+=ui->scrollArea->verticalScrollBar()->pageStep()/2;
+			//ui->scrollArea->scroll(x1,y1);
+			ui->scrollArea->verticalScrollBar()->setValue(y1);
+		}
+		while(p->geometry().top()<ui->scrollArea->verticalScrollBar()->value()){
+			y1-=ui->scrollArea->verticalScrollBar()->pageStep()/2;
+			//ui->scrollArea->scroll(x1,y1);
+			ui->scrollArea->verticalScrollBar()->setValue(y1);
+		}
+	}
+}
+void	IntegrationStackNGThumbnailForm::SlotScrollerChanged(int value)
+{
+	BroadcastNGPoint();
+}
+void	IntegrationStackNGThumbnailForm::BroadcastNGPoint(void)
+{
+	ThumbnailPanel	*p=GetPanel(CurrentIndex);
+	if(p!=NULL){
+		CmdShowNGPoint	NGCmd;
+		NGCmd.Master	=p->Master;
+		NGCmd.NG		=p->RepresentativePoint;
+		NGCmd.NGImage	=p->ImagePoint;
+		NGCmd.Result	=p->Result;
+		BroadcastSpecifiedDirectly(&NGCmd);
+	}
+}
+ThumbnailPanel	*IntegrationStackNGThumbnailForm::GetPanel(int index)
+{
+	for(ThumbnailPanel *a=Panels.GetFirst();a!=NULL;a=a->GetNext()){
+		if(a->Index==index){
+			return a;
+		}
+	}
+	return NULL;
+}
+bool	IntegrationStackNGThumbnailForm::ExistsInPanel(InspectionList *L)
+{
+	for(ThumbnailPanel *p=Panels.GetFirst();p!=NULL;p=p->GetNext()){
+		if(p->Result==L){
+			return true;
+		}
+	}
+	return false;
+}
+
+void	IntegrationStackNGThumbnailForm::AddNGImagesAll(void)
+{
+	Panels.RemoveAll();
+	int	MaxPanelID=-1;
+	int	MaxID=0;
+	if(SlaveNo<0 && MachineID<0){
+		for(EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+			InspectionList *L=NULL;
+			for(L=m->CurrentInspection.GetFirst();L!=NULL;L=L->GetNext()){
+				MaxID=max(MaxID,L->ID);
+			}
+		}
+	}
+	else
+	if(SlaveNo<0 && MachineID>=0){
+		EachMaster *Pointer[10];
+		int	MCount=GetLayersBase()->GetIntegrationBasePointer()->EnumMaster(MachineID,Pointer,10);
+		for(int i=0;i<MCount;i++){
+			EachMaster *m=Pointer[i];
+			InspectionList *L=NULL;
+			for(L=m->CurrentInspection.GetFirst();L!=NULL;L=L->GetNext()){
+				MaxID=max(MaxID,L->ID);
+			}
+		}
+	}
+	else{
+		EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas[SlaveNo];
+		if(m!=0){
+			InspectionList *L=NULL;
+			for(L=m->CurrentInspection.GetFirst();L!=NULL;L=L->GetNext()){
+				MaxID=max(MaxID,L->ID);
+			}
+		}
+	}
+	int	N=MaxXCount*MaxYCount;
+	for(int ID=MaxPanelID;ID<=MaxID;ID++){
+		if(SlaveNo<0){
+			for(EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas.GetFirst();m!=NULL;m=m->GetNext()){
+				InspectionList *L=NULL;
+				for(L=m->CurrentInspection.GetFirst();L!=NULL;L=L->GetNext()){
+					if(L->ID==ID){
+						break;
+					}
+				}
+				if(L!=NULL){
+					for(ThumbnailPanel *p=Panels.GetFirst();p!=NULL;p=p->GetNext()){
+						if(p->Result!=NULL){
+							if(p->Master==m && p->Result==L){
+								goto	ExistPanel;
+							}
+						}
+					}
+					NPListPack<IntegNGImage> NGImages[100000];
+					for(NGPointInAllPage *RPhase=L->NGPointAllPhases.GetFirst();RPhase!=NULL;RPhase=RPhase->GetNext()){
+						for(NGPointInPage *RPage=RPhase->NPListPack<NGPointInPage>::GetFirst();RPage!=NULL;RPage=RPage->GetNext()){
+							if(RPage->ImageFileName.isEmpty()==false){
+								LoadNGImageFile(RPage->ImageFileName,NGImages,1000);
+							}
+							if(RPage->NPListPack<NGPoint>::GetCount()!=0){
+								IntegNGImage	*G;
+								while((G=NGImages[RPhase->Phase].GetFirst())!=NULL){
+									NGImages[RPhase->Phase].RemoveList(G);
+									RPage->NGImages.AppendList(G);
+								}
+								RPage->UncompressImages();
+								for(IntegNGImage *Np=RPage->NGImages.GetFirst();Np!=NULL;Np=Np->GetNext()){
+									ThumbnailPanel	*P=new ThumbnailPanel(L,this,L->GetMaster(),RPhase->Phase,RPage,Np);
+									P->MakeImage();
+									Panels.InsertTop(P);
+									if(N<Panels.GetCount()){
+										goto	NextP;
+									}
+								}
+							}
+						}
+					}
+				}
+				ExistPanel:;
+			}
+		}
+		else
+		if(SlaveNo<0 && MachineID>=0){
+			EachMaster *Pointer[10];
+			int	MCount=GetLayersBase()->GetIntegrationBasePointer()->EnumMaster(MachineID,Pointer,10);
+			for(int i=0;i<MCount;i++){
+				EachMaster *m=Pointer[i];
+
+				InspectionList *L=NULL;
+				for(L=m->CurrentInspection.GetFirst();L!=NULL;L=L->GetNext()){
+					if(L->ID==ID){
+						break;
+					}
+				}
+				if(L!=NULL){
+					for(ThumbnailPanel *p=Panels.GetFirst();p!=NULL;p=p->GetNext()){
+						if(p->Result!=NULL){
+							if(p->Master==m && p->Result==L){
+								goto	ExistPanel3;
+							}
+						}
+					}
+					NPListPack<IntegNGImage> NGImages[100000];
+					for(NGPointInAllPage *RPhase=L->NGPointAllPhases.GetFirst();RPhase!=NULL;RPhase=RPhase->GetNext()){
+						for(NGPointInPage *RPage=RPhase->NPListPack<NGPointInPage>::GetFirst();RPage!=NULL;RPage=RPage->GetNext()){
+							if(RPage->ImageFileName.isEmpty()==false){
+								LoadNGImageFile(RPage->ImageFileName,NGImages,1000);
+							}
+							if(RPage->NPListPack<NGPoint>::GetCount()!=0){
+								IntegNGImage	*G;
+								while((G=NGImages[RPhase->Phase].GetFirst())!=NULL){
+									NGImages[RPhase->Phase].RemoveList(G);
+									RPage->NGImages.AppendList(G);
+								}
+								RPage->UncompressImages();
+								for(IntegNGImage *Np=RPage->NGImages.GetFirst();Np!=NULL;Np=Np->GetNext()){
+									ThumbnailPanel	*P=new ThumbnailPanel(L,this,L->GetMaster(),RPhase->Phase,RPage,Np);
+									P->MakeImage();
+									Panels.InsertTop(P);
+									if(N<Panels.GetCount()){
+										goto	NextP;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+ExistPanel3:;
+		}
+		else{
+			EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->MasterDatas[SlaveNo];
+			if(m!=0){
+				InspectionList *L=NULL;
+				for(L=m->CurrentInspection.GetFirst();L!=NULL;L=L->GetNext()){
+					if(L->ID==ID){
+						break;
+					}
+				}
+				if(L!=NULL){
+					for(ThumbnailPanel *p=Panels.GetFirst();p!=NULL;p=p->GetNext()){
+						if(p->Result!=NULL){
+							if(p->Master==m && p->Result==L){
+								goto	ExistPanel2;
+							}
+						}
+					}
+					NPListPack<IntegNGImage> NGImages[100000];
+					for(NGPointInAllPage *RPhase=L->NGPointAllPhases.GetFirst();RPhase!=NULL;RPhase=RPhase->GetNext()){
+						for(NGPointInPage *RPage=RPhase->NPListPack<NGPointInPage>::GetFirst();RPage!=NULL;RPage=RPage->GetNext()){
+							if(RPage->ImageFileName.isEmpty()==false){
+								LoadNGImageFile(RPage->ImageFileName,NGImages,1000);
+							}
+							if(RPage->NPListPack<NGPoint>::GetCount()!=0){
+								IntegNGImage	*G;
+								while((G=NGImages[RPhase->Phase].GetFirst())!=NULL){
+									NGImages[RPhase->Phase].RemoveList(G);
+									RPage->NGImages.AppendList(G);
+								}
+								RPage->UncompressImages();
+								for(IntegNGImage *Np=RPage->NGImages.GetFirst();Np!=NULL;Np=Np->GetNext()){
+									ThumbnailPanel	*P=new ThumbnailPanel(L,this,L->GetMaster(),RPhase->Phase,RPage,Np);
+									P->MakeImage();
+									Panels.InsertTop(P);
+									if(N<Panels.GetCount()){
+										goto	NextP;
+									}
+								}
+							}
+						}
+					}
+				}
+ExistPanel2:;
+			}
+		}	
+	}
+	NextP:;
+	Panels.Sort();
+	ArrangePanelPosition();
+	RepaintPanel();
+}
+
+bool	IntegrationStackNGThumbnailForm::AddNGImagesAll(int SlaveNo)
+{
+	int	MaxID=-1;
+	bool	AddedPanel=false;
+	EachMaster *m=GetLayersBase()->GetIntegrationBasePointer()->GetMaster(SlaveNo);
+	if(m!=NULL){
+		for(ThumbnailPanel *p=Panels.GetFirst();p!=NULL;p=p->GetNext()){
+			if(p->Master==m && p->Result!=NULL){
+				MaxID=max(MaxID,p->Result->ID);
+			}
+		}
+		int	N=MaxXCount*MaxYCount;
+		for(InspectionList *L=m->CurrentInspection.GetFirst();L!=NULL;L=L->GetNext()){
+			if(L->ID>MaxID){
+				NPListPack<IntegNGImage> NGImages[1000];
+
+				for(NGPointInAllPage *RPhase=L->NGPointAllPhases.GetFirst();RPhase!=NULL;RPhase=RPhase->GetNext()){
+					for(NGPointInPage *RPage=RPhase->NPListPack<NGPointInPage>::GetFirst();RPage!=NULL;RPage=RPage->GetNext()){
+						if(RPage->ImageFileName.isEmpty()==false){
+							LoadNGImageFile(RPage->ImageFileName,NGImages,1000);
+						}
+						if(RPage->NPListPack<NGPoint>::GetCount()!=0){
+							IntegNGImage	*G;
+							while((G=NGImages[RPhase->Phase].GetFirst())!=NULL){
+								NGImages[RPhase->Phase].RemoveList(G);
+								RPage->NGImages.AppendList(G);
+							}
+							RPage->UncompressImages();
+							for(IntegNGImage *Np=RPage->NGImages.GetFirst();Np!=NULL;Np=Np->GetNext()){
+								if(N<Panels.GetCount()){
+									ThumbnailPanel	*p=Panels.GetLast();
+									Panels.RemoveList(p);
+									delete	p;
+								}
+								ThumbnailPanel	*P=new ThumbnailPanel(L,this,L->GetMaster(),RPhase->Phase,RPage,Np);
+								P->MakeImage();
+								Panels.InsertTop(P);
+								AddedPanel=true;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	if(AddedPanel==true){
+		Panels.Sort();
+		ArrangePanelPosition();
+		RepaintPanel();
+		return true;
+	}
+	return false;
+}
+
+void	IntegrationStackNGThumbnailForm::ArrangePanelPosition(void)
+{
+	int	MaxRow=0;
+	int	MaxCol=0;
+	int	Index=0;
+	for(ThumbnailPanel *p=Panels.GetFirst();p!=NULL;p=p->GetNext()){
+		p->Row	 =Index/MaxXCount;
+		p->Column=Index%MaxXCount;
+		MaxRow=max(MaxRow,p->Row);
+		MaxCol=max(MaxCol,p->Column);
+		p->Index	=Index;
+		p->setGeometry(p->Column*ThumbnailWidth ,p->Row*ThumbnailHeight,ThumbnailWidth,ThumbnailHeight);
+		p->show();
+		Index++;
+	}
+
+	QWidget	*w=GetParentWidget();
+	w->setGeometry(0,0,(MaxCol+1)*ThumbnailWidth,(MaxRow+1)*ThumbnailHeight);
+	w->setMinimumSize((MaxCol+1)*ThumbnailWidth,(MaxRow+1)*ThumbnailHeight);	
+}
+void	IntegrationStackNGThumbnailForm::TransmitDirectly(GUIDirectMessage *packet)
+{
+	CmdReqNGPositionInPanel	*CmdReqNGPositionInPanelVar=dynamic_cast<CmdReqNGPositionInPanel *>(packet);
+	if(CmdReqNGPositionInPanelVar!=NULL){
+		ThumbnailPanel	*p=GetPanel(CurrentIndex);
+		if(p!=NULL && CmdReqNGPositionInPanelVar->Master->MasterCode==p->Master->MasterCode){
+			int	x1=p->geometry().left();
+			int	y1=p->geometry().top();
+			int	x2=p->geometry().right();
+			int	y2=p->geometry().bottom();
+			QWidget	*w=GetParentWidget();
+			QPoint	P1=w->mapToGlobal(QPoint(x1,y1));
+			QPoint	P2=w->mapToGlobal(QPoint(x2,y2));
+			CmdReqNGPositionInPanelVar->WorldX1	=P1.x();
+			CmdReqNGPositionInPanelVar->WorldY1	=P1.y();
+			CmdReqNGPositionInPanelVar->WorldX2	=P2.x();
+			CmdReqNGPositionInPanelVar->WorldY2	=P2.y();
+			CmdReqNGPositionInPanelVar->Found=true;
+		}
+		else{
+			CmdReqNGPositionInPanelVar->Found=false;
+		}
+		return;
+	}
+	CmdSetInvisibleAll	*CmdSetInvisibleAllVar=dynamic_cast<CmdSetInvisibleAll *>(packet);
+	if(CmdSetInvisibleAllVar!=NULL){
+		SetInvisibleAll();
+		return;
+	}
+}
+void	IntegrationStackNGThumbnailForm::RepaintPanel(void)
+{
+	for(ThumbnailPanel *a=Panels.GetFirst();a!=NULL;a=a->GetNext()){
+		a->repaint();
+	}
+}
+
+void	IntegrationStackNGThumbnailForm::SlotFlipTimer()
+{
+	for(ThumbnailPanel *a=Panels.GetFirst();a!=NULL;a=a->GetNext()){
+		a->repaint();
+	}
+}
+
+bool	IntegrationStackNGThumbnailForm::LoadNGImageFile(const QString &FileName,NPListPack<IntegNGImage> NGImages[] ,int PhaseCount)
+{
+	QFile	File(FileName);
+	if(File.open(QIODevice::ReadOnly)==true){
+		if(LoadNGImageFile(&File,NGImages, PhaseCount
+							,0,0)==false){
+			return false;
+		}
+		int32	ShadowNumb;
+		if(::Load(&File,ShadowNumb)==false){
+			return false;
+		}
+		for(int i=0;i<ShadowNumb;i++){
+			int		ShadowLevel=0;
+			int		ShadowNumber=0;
+			if(::Load(&File,ShadowLevel)==false){
+				return false;
+			}
+			if(::Load(&File,ShadowNumber)==false){
+				return false;
+			}
+
+			if(LoadNGImageFile(&File,NGImages, PhaseCount
+								,ShadowLevel,ShadowNumber)==false){
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
+bool	IntegrationStackNGThumbnailForm::LoadNGImageFile(QIODevice *f ,NPListPack<IntegNGImage> NGImages[],int PhaseCount
+														,int ShadowLevel,int ShadowNumber)
+{
+	DWORD	Ver;
+
+	LayersBase	*LBase=GetLayersBase()->GetShadowTree(ShadowLevel ,ShadowNumber);
+
+	if(::Load(f,Ver)==false){
+		return false;
+	}
+	int32	PhaseNumb;
+	if(::Load(f,PhaseNumb)==false){
+		return false;
+	}
+	for(int phase=0;phase<PhaseNumb;phase++){
+		DWORD	PVer;
+		if(::Load(f,PVer)==false){
+			return false;
+		}
+		int32	Phase;
+		if(::Load(f,Phase)==false){
+			return false;
+		}
+		if(PVer<5){
+			int32	N;
+			if(::Load(f,N)==false){
+				return false;
+			}
+			for(int i=0;i<N;i++){
+				IntegNGImage	*G=new IntegNGImage(ShadowLevel,ShadowNumber);
+				if(G->LoadJDT(f)==false)
+					return false;
+				//if(LBase!=NULL){
+				//	LBase->ConvertToTop(G->x1,G->y1);
+				//	LBase->ConvertToTop(G->x2,G->y2);
+				//}
+				if(0<=Phase && Phase<PhaseCount){
+					NGImages[Phase].AppendList(G);
+				}
+				else{
+					delete	G;
+				}
+			}
+		}
+		else{
+			int16	SaveMode;
+			if(::Load(f,SaveMode)==false){
+				return false;
+			}
+			int32	N;
+			if(::Load(f,N)==false){
+				return false;
+			}
+			for(int i=0;i<N;i++){
+				IntegNGImage	*G=new IntegNGImage(ShadowLevel,ShadowNumber);
+				if(SaveMode==1){
+					if(G->LoadJDT(f)==false)
+						return false;
+				}
+				else
+				if(SaveMode==0){
+					if(G->LoadRawImage(f)==false)
+						return false;
+				}
+				//if(LBase!=NULL){
+				//	LBase->ConvertToTop(G->x1,G->y1);
+				//	LBase->ConvertToTop(G->x2,G->y2);
+				//}
+				if(0<=Phase && Phase<PhaseCount){
+					NGImages[Phase].AppendList(G);
+				}
+				else{
+					delete	G;
+				}
+			}
+		}
+	}
+	return true;
+}
+
+class AlgorithmItemDummy : public AlgorithmItemRoot
+{
+public:
+	AlgorithmItemDummy(){}
+	~AlgorithmItemDummy(){}
+
+private:
+	virtual	LogicDLL			*GetLogicDLL(void)				{	return NULL;	}
+	virtual	ResultInspection	*GetResultInspection(void)		{	return NULL;	}
+	virtual	int					GetPage(void)					{	return 0;		}
+	virtual	AlgorithmItemRoot	*GetAlgorithmItemRoot(void)		{	return NULL;	}
+	virtual	LayersBase			*GetLayersBase(void)			{	return NULL;	}
+	virtual	int					GetDotPerLine(void)				{	return 0;		}
+	virtual	int					GetMaxLines(void)				{	return 0;		}
+};
+
+	
+QStringList	IntegrationStackNGThumbnailForm::GetInformation(InspectionList *L,NGPoint *Rp)
+{
+	QString	CauseStr;
+	QString	LibName;
+	DetailResultInfoListContainer ItemDetailList;
+	if(Rp->LibType!=0){
+		if(Rp->LibID>=0){
+			LibName=GetLayersBase()->GetIntegrationBasePointer()->GetLibraryName(Rp->LibType ,Rp->LibID);
+		}
+		if(Rp->ResultType==_ResultDouble){
+			CauseStr=QString::number(Rp->DoubleCause,'f',2)
+					+QString('[')
+					+QString::number(L->GetMaster()->TransformPixelToUnit(Rp->Cause[0]),'f',2)
+					+QString(']');
+		}
+		else{
+			if((Rp->PosResult&0xFF)==2){
+				CauseStr=QString::number(Rp->Cause[1])
+						+QString('[')
+						+QString::number(L->GetMaster()->TransformPixelToUnit(Rp->Cause[1]),'f',2)
+						+QString("mm]");
+			}
+			else{
+				CauseStr=QString::number(Rp->Cause[0])
+						+QString('[')
+						+QString::number(L->GetMaster()->TransformPixelToUnitSquare(Rp->Cause[0]),'f',2)
+						+QString("mm2]");
+			}
+		}
+		AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(Rp->LibType);
+		if(ABase!=NULL){
+			QRgb		NGColor;
+
+			ResultPosList	RPos;
+			RPos.result		=Rp->PosResult;
+			if(Rp->ResultType==_ResultDouble){
+				RPos.SetResult(Rp->DoubleCause);
+			}
+			else
+			if(Rp->ResultType==_ResultDWORD){
+				RPos.SetResult1(Rp->Cause[0]);
+				RPos.SetResult2(Rp->Cause[1]);
+			}
+			RPos.Px			=Rp->MasterX;
+			RPos.Py			=Rp->MasterY;
+			RPos.Rx			=Rp->HX;
+			RPos.Ry			=Rp->HY;
+
+			ABase->GetDrawResultDetail(NULL ,&RPos ,ItemDetailList);
+		}
+	}
+	else{
+		LibName=Rp->Message;
+		if(Rp->ResultType==_ResultDouble){
+			CauseStr=QString::number(Rp->DoubleCause,'f',2);
+		}
+	}
+	QStringList	Ret;
+	if(ShowInformationTime==true && ShowInformationNumber==true){
+		if(LibName.isEmpty()==false){
+			Ret.append(LibName
+						+QString(/**/",")
+						+CauseStr);
+		}
+		else{
+			Ret.append(CauseStr);
+		}
+		Ret.append(L->InspectionTime.toString("hh:mm:ss")
+					+QString(/**/" (")
+					+QString::number(L->ID)
+					+QString(/**/")"));
+		if(ItemDetailList.count()>0){
+			DetailResultInfoList	*L=ItemDetailList.GetFirst();
+			Ret.append(L->MessageString+QString(/**/":")+L->GetInfoString());
+		}
+	}
+	else
+	if(ShowInformationTime==false && ShowInformationNumber==true){
+		Ret.append(LibName
+					+QString(/**/",")
+					+CauseStr
+					+QString(/**/" (")
+					+QString::number(L->ID)
+					+QString(/**/")"));
+		if(ItemDetailList.count()>0){
+			DetailResultInfoList	*L=ItemDetailList.GetFirst();
+			Ret.append(L->MessageString+QString(/**/":")+L->GetInfoString());
+		}
+	}
+	else
+	if(ShowInformationTime==true && ShowInformationNumber==false){
+		Ret.append(LibName
+					+QString(/**/",")
+					+CauseStr);
+
+		Ret.append(L->InspectionTime.toString("hh:mm:ss"));
+		if(ItemDetailList.count()>0){
+			DetailResultInfoList	*L=ItemDetailList.GetFirst();
+			Ret.append(L->MessageString+QString(/**/":")+L->GetInfoString());
+		}
+	}
+	else{
+		Ret.append(LibName
+					+QString(/**/",")
+					+CauseStr);
+		if(ItemDetailList.count()>0){
+			DetailResultInfoList	*L=ItemDetailList.GetFirst();
+			Ret.append(L->MessageString+QString(/**/":")+L->GetInfoString());
+		}
+	}
+	return Ret;
+}
+void	IntegrationStackNGThumbnailForm::DetailFromThumbnail(ThumbnailPanel *p)
+{
+	NPListPack<NGPointPointerList> NGList;
+	p->ImagePoint->EnumNGPoint(p->RPage ,NGList);
+	IntList	ItemIDList;
+	for(NGPointPointerList *g=NGList.GetFirst();g!=NULL;g=g->GetNext()){
+		ItemIDList.Add(g->NG->UniqueID);
+	}
+	emit	SignalReqDetail(p->Master ,p->Result, p->CurrentInspection, p->RepresentativePoint
+							,p->Phase ,p->RPage->Page,ItemIDList);
+}
+
+void	IntegrationStackNGThumbnailForm::SetInvisibleAll(void)
+{
+	for(ThumbnailPanel *p=Panels.GetFirst();p!=NULL;p=p->GetNext()){
+		p->Visible=false;
+	}
+	repaint();
+}
+
+void	IntegrationStackNGThumbnailForm::SendLearning(IntegNGImage	*ImagePoint ,NGPoint *RepresentativePoint
+													  ,int Phase ,int Page
+													  ,int LearningMenuID, bool AllItems)
+{
+	if(RepresentativePoint!=NULL){
+		if(SlaveNo>=0){
+			IntegrationCmdUpdateThreshold	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+			RCmd.LibType		=RepresentativePoint->LibType;
+			RCmd.LibID			=RepresentativePoint->LibID;
+			RCmd.LearningMenuID	=LearningMenuID	;
+			RCmd.InspectionID	=RepresentativePoint->UniqueID;
+			RCmd.Phase			=Phase;
+			RCmd.Page			=Page;
+			RCmd.ItemID			=(AllItems==true)?-1:RepresentativePoint->UniqueID;
+			RCmd.ShadowLevel	=ImagePoint->ShadowLevel;
+			RCmd.ShadowNumber	=ImagePoint->ShadowNumber;
+			RCmd.LRes.x1		=ImagePoint->x1;
+			RCmd.LRes.y1		=ImagePoint->y1;
+			RCmd.LRes.x2		=ImagePoint->x2;
+			RCmd.LRes.y2		=ImagePoint->y2;
+			RCmd.LRes.Image		=ImagePoint->Image;
+			RCmd.LRes.Cause[0]	=RepresentativePoint->Cause[0];
+			RCmd.LRes.Cause[1]	=RepresentativePoint->Cause[1];
+			RCmd.LRes.DoubleCause=RepresentativePoint->DoubleCause;
+			RCmd.LRes.Hx		=RepresentativePoint->HX;
+			RCmd.LRes.Hy		=RepresentativePoint->HY;
+			RCmd.Send(NULL,SlaveNo,0);
+		}
+		else
+		if(SlaveNo<0 && MachineID>=0){
+			EachMaster *Pointer[10];
+			int		MasterCount=GetLayersBase()->GetIntegrationBasePointer()->EnumMaster(MachineID,Pointer,10);
+			for(int m=0;m<MasterCount;m++){				
+				int	SlaveNo=Pointer[m]->GetIntegrationSlaveNo();
+				IntegrationCmdUpdateThreshold	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
+				RCmd.LibType		=RepresentativePoint->LibType;
+				RCmd.LibID			=RepresentativePoint->LibID;
+				RCmd.LearningMenuID	=LearningMenuID	;
+				RCmd.InspectionID	=RepresentativePoint->UniqueID;
+				RCmd.Phase			=Phase;
+				RCmd.Page			=Page;
+				RCmd.ItemID			=(AllItems==true)?-1:RepresentativePoint->UniqueID;
+				RCmd.ShadowLevel	=ImagePoint->ShadowLevel;
+				RCmd.ShadowNumber	=ImagePoint->ShadowNumber;
+				RCmd.LRes.x1		=ImagePoint->x1;
+				RCmd.LRes.y1		=ImagePoint->y1;
+				RCmd.LRes.x2		=ImagePoint->x2;
+				RCmd.LRes.y2		=ImagePoint->y2;
+				RCmd.LRes.Image		=ImagePoint->Image;
+				RCmd.LRes.Cause[0]	=RepresentativePoint->Cause[0];
+				RCmd.LRes.Cause[1]	=RepresentativePoint->Cause[1];
+				RCmd.LRes.DoubleCause=RepresentativePoint->DoubleCause;
+				RCmd.LRes.Hx		=RepresentativePoint->HX;
+				RCmd.LRes.Hy		=RepresentativePoint->HY;
+				RCmd.Send(NULL,SlaveNo,0);
+			}
+		}
+	}
+}
+//==========================================================================================================
+
+IntegrationCmdUpdateThreshold::IntegrationCmdUpdateThreshold(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdUpdateThreshold::Load(QIODevice *f)
+{
+	if(::Load(f,LibType			)==false)	return false;
+	if(::Load(f,LibID			)==false)	return false;
+	if(::Load(f,LearningMenuID	)==false)	return false;
+	if(::Load(f,InspectionID	)==false)	return false;
+	if(::Load(f,Phase			)==false)	return false;
+	if(::Load(f,Page			)==false)	return false;
+	if(::Load(f,ItemID			)==false)	return false;
+	if(::Load(f,ShadowLevel		)==false)	return false;
+	if(::Load(f,ShadowNumber	)==false)	return false;
+	if(LRes.Load(f)==false)	return false;
+	return true;
+}
+bool	IntegrationCmdUpdateThreshold::Save(QIODevice *f)
+{
+	if(::Save(f,LibType			)==false)	return false;
+	if(::Save(f,LibID			)==false)	return false;
+	if(::Save(f,LearningMenuID	)==false)	return false;
+	if(::Save(f,InspectionID	)==false)	return false;
+	if(::Save(f,Phase			)==false)	return false;
+	if(::Save(f,Page			)==false)	return false;
+	if(::Save(f,ItemID			)==false)	return false;
+	if(::Save(f,ShadowLevel		)==false)	return false;
+	if(::Save(f,ShadowNumber	)==false)	return false;
+	if(LRes.Save(f)==false)	return false;
+	return true;
+}
+
+void	IntegrationCmdUpdateThreshold::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	AlgorithmBase	*ABase=GetLayersBase()->GetShadowTree(ShadowLevel,ShadowNumber)->GetAlgorithmBase(LibType);
+	if(ABase!=NULL){
+		AlgorithmItemPointerListContainer Items;
+		AlgorithmInPageInOnePhase	*Ph=ABase->GetPageDataPhase(Phase);
+		if(Ph!=NULL){
+			AlgorithmInPageRoot	*Ap=Ph->GetPageData(Page);
+			if(Ap!=NULL){
+				ListLayerAndIDPack ItemList;
+				for(int Layer=0;Layer<GetLayerNumb();Layer++){
+					ListLayerAndID	*a=new ListLayerAndID(Layer,ItemID);
+					ItemList.AppendList(a);
+				}
+				Ap->GetItems(ItemList ,Items);					
+			}
+		}
+		IntList LayerList;
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			LayerList.Add(Layer);
+		}
+		for(int dphase=0;dphase<GetPhaseNumb();dphase++){
+			AlgorithmInPageInOnePhase	*dPh=ABase->GetPageDataPhase(dphase);
+			if(dPh!=NULL){
+				AlgorithmInPageRoot	*Ap=dPh->GetPageData(Page);
+				if(Ap!=NULL){
+					for(AlgorithmItemPointerList *item=Items.GetFirst();item!=NULL;item=item->GetNext()){
+						int	cx,cy;
+						item->GetItem()->GetCenter(cx,cy);
+						ListLayerIDLibNamePack ItemList;
+						Ap->GetLayerAndItemID(cx,cy ,ItemList,LayerList);
+						for(ListLayerIDLibName *d=ItemList.GetFirst();d!=NULL;d=d->GetNext()){
+							if(d->LibID==LibID){
+								Ap->UpdateThreshold(LearningMenuID,LibID,d->ID,LRes);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+IntegrationCmdReqLearningMenu::IntegrationCmdReqLearningMenu(LayersBase *Base,const QString &EmitterRoot ,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+
+bool	IntegrationCmdReqLearningMenu::Load(QIODevice *f)
+{
+	if(::Load(f,LibType)==false)	return false;
+	return true;
+}
+bool	IntegrationCmdReqLearningMenu::Save(QIODevice *f)
+{
+	if(::Save(f,LibType)==false)	return false;
+	return true;
+}
+
+void	IntegrationCmdReqLearningMenu::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	IntegrationCmdAckLearningMenu	*SendBack=GetSendBackIntegration(IntegrationCmdAckLearningMenu,GetLayersBase(),EmitterRoot,EmitterName,slaveNo);
+	
+	AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(LibType);
+	if(ABase!=NULL){
+		SendBack->MenuDimNumb=ABase->GetLearningMenu(SendBack->LearningMenuDim,100);
+	}
+	else{
+		SendBack->MenuDimNumb=0;
+	}
+	LearningRegister	*L=GetLayersBase()->GetLearningRegister();
+	if(L!=NULL){
+		SendBack->MenuDimNumb=L->GetLearningMenu(LibType,SendBack->LearningMenuDim,sizeof(SendBack->LearningMenuDim)/sizeof(SendBack->LearningMenuDim[0]));
+	}
+	else{
+		SendBack->MenuDimNumb=0;
+	}
+
+	SendBack->Send(this ,GetLayersBase()->GetGlobalPageFromLocal(slaveNo),0);
+	CloseSendBackIntegration(SendBack);
+}
+
+IntegrationCmdAckLearningMenu::IntegrationCmdAckLearningMenu(LayersBase *Base,const QString &EmitterRoot ,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+
+bool	IntegrationCmdAckLearningMenu::Load(QIODevice *f)
+{
+
+	if(::Load(f,MenuDimNumb)==false)	return false;
+	for(int i=0;i<MenuDimNumb && i<100;i++){
+		if(LearningMenuDim[i].Load(f)==false){
+			return false;
+		}
+	}
+	return true;
+}
+bool	IntegrationCmdAckLearningMenu::Save(QIODevice *f)
+{
+	if(::Save(f,MenuDimNumb)==false)	return false;
+	for(int i=0;i<MenuDimNumb;i++){
+		if(LearningMenuDim[i].Save(f)==false){
+			return false;
+		}
+	}
+
+	return true;
+}

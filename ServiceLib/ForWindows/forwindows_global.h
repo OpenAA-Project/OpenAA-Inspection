@@ -1,0 +1,12 @@
+#ifndef FORWINDOWS_GLOBAL_H
+#define FORWINDOWS_GLOBAL_H
+
+#include <qglobal.h>
+
+#ifdef FORWINDOWS_LIB
+# define FORWINDOWS_EXPORT Q_DECL_EXPORT
+#else
+# define FORWINDOWS_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // FORWINDOWS_GLOBAL_H

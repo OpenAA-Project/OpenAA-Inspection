@@ -1,0 +1,35 @@
+#include "EditZoomDialog.h"
+#include "ui_EditZoomDialog.h"
+#include "XRememberer.h"
+
+EditZoomDialog::EditZoomDialog(LayersBase *base, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::EditZoomDialog),ServiceForLayers(base)
+{
+    ui->setupUi(this);
+	//LangSolver.SetUI(this);
+
+	ui->doubleSpinBoxXZoomDir	->setValue(ControlRememberer::GetDouble(ui->doubleSpinBoxXZoomDir,0));
+	ui->doubleSpinBoxYZoomDir	->setValue(ControlRememberer::GetDouble(ui->doubleSpinBoxYZoomDir,0));
+
+	InstallOperationLog(this);
+}
+
+EditZoomDialog::~EditZoomDialog()
+{
+    delete ui;
+}
+
+void EditZoomDialog::on_pushButtonOK_clicked()
+{
+	XZoomDir		=ui->doubleSpinBoxXZoomDir	->value();
+	YZoomDir		=ui->doubleSpinBoxYZoomDir	->value();
+	ControlRememberer::SetValue(ui->doubleSpinBoxXZoomDir ,ui->doubleSpinBoxXZoomDir->value());
+	ControlRememberer::SetValue(ui->doubleSpinBoxYZoomDir ,ui->doubleSpinBoxYZoomDir->value());
+	done(true);
+}
+
+void EditZoomDialog::on_pushButtonCancel_clicked()
+{
+	done(false);
+}

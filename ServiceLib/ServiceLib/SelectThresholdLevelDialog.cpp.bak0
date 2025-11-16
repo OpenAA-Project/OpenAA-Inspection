@@ -1,0 +1,145 @@
+#include "SelectThresholdLevelDialog.h"
+#include "ui_SelectThresholdLevelDialog.h"
+#include "XLevel.h"
+#include "XDataInLayer.h"
+#include "XGeneralFunc.h"
+#include "XDatabaseLoader.h"
+
+SelectThresholdLevelDialog::SelectThresholdLevelDialog(LayersBase *base ,QWidget *parent) :
+    QDialog(parent),ServiceForLayers(base),
+    ui(new Ui::SelectThresholdLevelDialog)
+{
+    ui->setupUi(this);
+
+    ShowTreeGrid();
+    ShowCurrentParent();
+    SelectedLevelID=-1;
+
+    InstallOperationLog(this);
+}
+
+SelectThresholdLevelDialog::~SelectThresholdLevelDialog()
+{
+    delete ui;
+}
+
+void SelectThresholdLevelDialog::resizeEvent(QResizeEvent *event)
+{
+    ui->frame           ->move(0,height()-ui->frame->height());
+    ui->treeWidgetLevel ->resize(width(),height()-ui->frame->height());
+}
+void    SelectThresholdLevelDialog::ShowTreeGrid(void)
+{
+    ui->treeWidgetLevel->clear();
+    if(GetLayersBase()->GetLevelFolderContainer()!=NULL){
+        GetLayersBase()->GetLevelFolderContainer()->Sort();
+        for(LevelFolder *a=GetLayersBase()->GetLevelFolderContainer()->GetFirst();a!=NULL;a=a->GetNext()){
+            QTreeWidgetItem	*Item=new QTreeWidgetItem(ui->treeWidgetLevel);
+            Item->setText(0,QString::number(a->LevelValue));
+            Item->setText(1,a->LevelName);
+            Item->setData(0,Qt::UserRole,a->LevelID);
+            ui->treeWidgetLevel->addTopLevelItem(Item);
+            ShowTreeGrid(Item,a);
+        }
+    }
+}
+void SelectThresholdLevelDialog::ShowTreeGrid(QTreeWidgetItem *Item,LevelFolder *tParent)
+{
+    for(LevelFolder *a=tParent->Children.GetFirst();a!=NULL;a=a->GetNext()){
+        QTreeWidgetItem	*m=new QTreeWidgetItem(Item);
+        m->setText(0,QString::number(a->LevelValue));
+        m->setText(1,a->LevelName);
+        m->setData(0,Qt::UserRole,a->LevelID);
+        Item->addChild(m);
+        ShowTreeGrid(Item,a);
+    }
+}
+
+void    SelectThresholdLevelDialog::ShowLevelItem(int LevelID)
+{
+    LevelFolder	*c=GetLayersBase()->GetLevelFolderContainer()->FindByLevelID(LevelID);
+    if(c!=NULL){
+        ui->lineEditLevelName   ->setText(c->LevelName);
+        ui->lineEditRemark      ->setText(c->Remark);
+        ui->spinBoxLevelValue   ->setValue(c->LevelValue);
+    }
+}
+void    SelectThresholdLevelDialog::ShowCurrentParent(void)
+{
+    QTreeWidgetItem *Item=GetCurrentItem();
+    if(Item!=NULL){
+        int LevelID=Item->data(0,Qt::UserRole).toInt();
+        int ParentID=GetLayersBase()->GetThresholdParentLevelID(LevelID);
+        if(ParentID>0){
+            ui->lineEditParentName->setText(GetLayersBase()->GetThresholdLevelName(ParentID));
+        }
+        else{
+            ui->lineEditParentName->setText(/**/"Root top");
+        }
+    }
+    else{
+        ui->lineEditParentName->setText(/**/"Root top");
+    }
+}
+
+void SelectThresholdLevelDialog::on_treeWidgetLevel_itemSelectionChanged()
+{
+    QTreeWidgetItem *Item=GetCurrentItem();
+    if(Item!=NULL){
+        int LevelID=Item->data(0,Qt::UserRole).toInt();
+        ShowLevelItem(LevelID);
+        ShowCurrentParent();
+        ui->pushButtonSelect->setEnabled(true);
+    }
+}
+
+void SelectThresholdLevelDialog::on_treeWidgetLevel_doubleClicked(const QModelIndex &index)
+{
+    on_pushButtonSelect_clicked();
+}
+ 
+static  QTreeWidgetItem *GetCurrentSelectedItemsInner(QTreeWidgetItem *W)
+{
+	int	N=W->childCount();
+	for(int i=0;i<N;i++){
+		QTreeWidgetItem *t=W->child(i);
+		if(t->isSelected()==true){
+			return t;
+		}
+		t=GetCurrentSelectedItemsInner(t);
+        if(t!=NULL){
+            return t;
+        }
+	}
+    return NULL;
+}
+
+QTreeWidgetItem *SelectThresholdLevelDialog::GetCurrentItem(void)
+{
+	int	N=ui->treeWidgetLevel->topLevelItemCount();
+	for(int i=0;i<N;i++){
+		QTreeWidgetItem *t=ui->treeWidgetLevel->topLevelItem(i);
+		if(t->isSelected()==true){
+			return t;
+		}
+		t=GetCurrentSelectedItemsInner(t);
+        if(t!=NULL){
+            return t;
+        }
+	}
+    return NULL;
+}
+
+void SelectThresholdLevelDialog::on_pushButtonSelect_clicked()
+{
+    QTreeWidgetItem *Item=GetCurrentItem();
+    if(Item!=NULL){
+        SelectedLevelID=Item->data(0,Qt::UserRole).toInt();
+        done(true);
+    }
+}
+
+void SelectThresholdLevelDialog::on_pushButtonClose_clicked()
+{
+    done(false);
+}

@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/UpperFolder.png</file>
+        <file>Resources/icon/20/02.png</file>
+        <file>Resources/icon/20/01.png</file>
+    </qresource>
+</RCC>

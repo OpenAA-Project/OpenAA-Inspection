@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/ButtonChangeOverlap.png</file>
+    </qresource>
+</RCC>

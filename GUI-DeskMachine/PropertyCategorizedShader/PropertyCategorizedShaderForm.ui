@@ -1,0 +1,27 @@
+<ui version="4.0" >
+ <class>PropertyCategorizedShaderFormClass</class>
+ <widget class="GUIFormBase" name="PropertyCategorizedShaderFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>411</width>
+    <height>730</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>PropertyCategorizedShaderForm</string>
+  </property>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

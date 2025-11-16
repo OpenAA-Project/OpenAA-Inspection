@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>QtRes/blueBall.png</file>
+        <file>QtRes/redBall.png</file>
+        <file>Resources/ShowVRSOperation.png</file>
+    </qresource>
+</RCC>

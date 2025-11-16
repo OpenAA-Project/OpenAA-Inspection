@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/CeramicSurfaceMenuProperty.png</file>
+    </qresource>
+</RCC>

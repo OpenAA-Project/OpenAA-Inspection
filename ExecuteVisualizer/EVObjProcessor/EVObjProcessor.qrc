@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/Proc_Running1.png</file>
+        <file>Resources/Proc_Running2.png</file>
+        <file>Resources/Proc_Running3.png</file>
+        <file>Resources/Proc_Running4.png</file>
+        <file>Resources/Proc_Running5.png</file>
+        <file>Resources/Proc_Running6.png</file>
+        <file>Resources/Proc_Running7.png</file>
+        <file>Resources/Proc_Running8.png</file>
+        <file>Resources/Proc_Running9.png</file>
+        <file>Resources/Proc_Waiting1.png</file>
+        <file>Resources/Proc_Waiting2.png</file>
+        <file>Resources/Proc_Waiting3.png</file>
+        <file>Resources/Proc_Waiting4.png</file>
+        <file>Resources/Proc_Waiting5.png</file>
+        <file>Resources/Proc_Waiting6.png</file>
+        <file>Resources/Proc_Waiting7.png</file>
+        <file>Resources/Proc_Waiting8.png</file>
+        <file>Resources/Proc_Waiting9.png</file>
+        <file>Resources/Proc_Waiting10.png</file>
+        <file>Resources/Proc_Waiting11.png</file>
+        <file>Resources/Proc_Waiting12.png</file>
+    </qresource>
+</RCC>

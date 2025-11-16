@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/AutoModeOff1.png</file>
+        <file>Resources/AutoModeOff2.png</file>
+        <file>Resources/AutoModeOn1.png</file>
+        <file>Resources/AutoModeOn2.png</file>
+    </qresource>
+</RCC>

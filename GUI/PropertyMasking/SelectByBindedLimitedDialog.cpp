@@ -1,0 +1,305 @@
+#include "PropertyMaskingFormResource.h"
+#include "SelectByBindedLimitedDialog.h"
+#include "ui_SelectByBindedLimitedDialog.h"
+#include "XGeneralDialog.h"
+#include "XGeneralFunc.h"
+#include "SelectLibraryInMaskForm.h"
+
+extern	const	char	*sRoot;
+extern	const	char	*sName;
+
+SelectByBindedLimitedDialog::SelectByBindedLimitedDialog(LayersBase *base ,QWidget *parent) :
+    QDialog(parent),ServiceForLayers(base),
+    ui(new Ui::SelectByBindedLimitedDialog)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdReqBindedLimitedLibMask	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		GUICmdAckBindedLimitedLibMask	SCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		if(RCmd.Send(GlobalPage,0,SCmd)==true){
+			for(MaskingBindedList *d=SCmd.InstList.GetFirst();d!=NULL;d=d->GetNext()){
+				bool	Found=false;
+				d->BindedInPageContainerInst.GetFirst()->Page=page;
+				for(MaskingBindedList *s=InstList.GetFirst();s!=NULL;s=s->GetNext()){
+					if(s->LimitedLib==d->LimitedLib){
+						s->BindedInPageContainerInst.Merge(d->BindedInPageContainerInst);
+						Found=true;
+						break;
+					}
+				}
+				if(Found==false){
+					MaskingBindedList	*m=new MaskingBindedList();
+					*m=*d;
+					InstList.AppendList(m);
+				}
+			}
+		}
+	}
+	ShowBindedList();
+	setResult((int)false);
+
+	InstallOperationLog(this);
+}
+
+SelectByBindedLimitedDialog::~SelectByBindedLimitedDialog()
+{
+    delete ui;
+}
+
+void SelectByBindedLimitedDialog::ShowBindedList(void)
+{
+	QStringList	BindedLabels;
+	if(ui->toolButtonPage->isChecked()==true){
+		BindedLabels.append(LangSolver.GetString(SelectByBindedLimitedDialog_LS,LID_11)/*"Page"*/);
+	}
+	if(ui->toolButtonLayer->isChecked()==true){
+		BindedLabels.append(LangSolver.GetString(SelectByBindedLimitedDialog_LS,LID_12)/*"Layer"*/);
+	}
+	BindedLabels.append(LangSolver.GetString(SelectByBindedLimitedDialog_LS,LID_17)/*"Count"*/);
+	BindedLabels.append(LangSolver.GetString(SelectByBindedLimitedDialog_LS,LID_18)/*"Limit"*/);
+
+	int	ColCount=BindedLabels.count();
+	int	Percentage=100/ColCount;
+	ui->tableWidgetBinded->setColumnCount(ColCount);
+	for(int col=0;col<ColCount;col++){
+		::SetColumnWidthInTable(ui->tableWidgetBinded,col, Percentage);
+	}
+	::SetColumnWidthInTable(ui->tableWidgetLibList,0, 35);
+	::SetColumnWidthInTable(ui->tableWidgetLibList,1, 15);
+	::SetColumnWidthInTable(ui->tableWidgetLibList,2, 50);
+
+	ui->tableWidgetBinded->setHorizontalHeaderLabels(BindedLabels);
+
+	LineInfoInst.RemoveAll();
+	if(ui->toolButtonPage->isChecked()==false
+	&& ui->toolButtonLayer->isChecked()==false){
+		for(MaskingBindedList *s=InstList.GetFirst();s!=NULL;s=s->GetNext()){
+			LineInfoBinded	*D=new LineInfoBinded();
+			D->LibPointer	=&s->LimitedLib;
+			for(MaskingBindedList::BindedInPage *Sp=s->BindedInPageContainerInst.GetFirst();Sp!=NULL;Sp=Sp->GetNext()){
+				for(MaskingBindedList::BindedInPage::BindedInLayer *Lp=Sp->BindedInLayerContainerInst.GetFirst();Lp!=NULL;Lp=Lp->GetNext()){
+					LineItemPointer	*Item=new LineItemPointer(Lp);
+					D->PointerInst.AppendList(Item);
+				}
+			}
+			LineInfoInst.AppendList(D);
+		}
+	}
+	else
+	if(ui->toolButtonPage->isChecked()==true
+	&& ui->toolButtonLayer->isChecked()==false){
+		for(MaskingBindedList *s=InstList.GetFirst();s!=NULL;s=s->GetNext()){
+			LineInfoBinded	*D=new LineInfoBinded();
+			for(MaskingBindedList::BindedInPage *Sp=s->BindedInPageContainerInst.GetFirst();Sp!=NULL;Sp=Sp->GetNext()){
+				D->LibPointer	=&s->LimitedLib;
+				for(MaskingBindedList::BindedInPage::BindedInLayer *Lp=Sp->BindedInLayerContainerInst.GetFirst();Lp!=NULL;Lp=Lp->GetNext()){
+					LineItemPointer	*Item=new LineItemPointer(Lp);
+					D->PointerInst.AppendList(Item);
+				}
+				LineInfoInst.AppendList(D);
+			}
+		}
+	}
+	else
+	if(ui->toolButtonPage->isChecked()==false
+	&& ui->toolButtonLayer->isChecked()==true){
+		for(MaskingBindedList *s=InstList.GetFirst();s!=NULL;s=s->GetNext()){
+			for(MaskingBindedList::BindedInPage *Sp=s->BindedInPageContainerInst.GetFirst();Sp!=NULL;Sp=Sp->GetNext()){
+				for(MaskingBindedList::BindedInPage::BindedInLayer *Lp=Sp->BindedInLayerContainerInst.GetFirst();Lp!=NULL;Lp=Lp->GetNext()){
+					bool	Found=false;
+					for(LineInfoBinded *b=LineInfoInst.GetFirst();b!=NULL;b=b->GetNext()){
+						if(*b->LibPointer==s->LimitedLib
+						&& b->PointerInst.GetFirst()->Pointer->Layer==Lp->Layer){					
+							LineItemPointer	*Item=new LineItemPointer(Lp);
+							b->PointerInst.AppendList(Item);
+							Found=true;
+							break;
+						}
+					}
+					if(Found==false){
+						LineInfoBinded	*D=new LineInfoBinded();
+						D->LibPointer	=&s->LimitedLib;
+						LineItemPointer	*Item=new LineItemPointer(Lp);
+						D->PointerInst.AppendList(Item);
+						LineInfoInst.AppendList(D);
+					}
+				}
+			}
+		}
+	}
+	else{
+		for(MaskingBindedList *s=InstList.GetFirst();s!=NULL;s=s->GetNext()){
+			for(MaskingBindedList::BindedInPage *Sp=s->BindedInPageContainerInst.GetFirst();Sp!=NULL;Sp=Sp->GetNext()){	
+				for(MaskingBindedList::BindedInPage::BindedInLayer *Lp=Sp->BindedInLayerContainerInst.GetFirst();Lp!=NULL;Lp=Lp->GetNext()){
+					LineInfoBinded	*D=new LineInfoBinded();
+					D->LibPointer	=&s->LimitedLib;
+					LineItemPointer	*Item=new LineItemPointer(Lp);
+					D->PointerInst.AppendList(Item);
+					LineInfoInst.AppendList(D);
+				}
+			}
+		}
+	}
+	ui->tableWidgetBinded->setRowCount(LineInfoInst.GetCount());
+	int	row=0;
+	for(LineInfoBinded *b=LineInfoInst.GetFirst();b!=NULL;b=b->GetNext(),row++){
+		int	Col=0;
+		if(ui->toolButtonPage->isChecked()==true){
+			int	page=b->PointerInst.GetFirst()->Pointer->Parent->Page;
+			::SetDataToTable(ui->tableWidgetBinded,Col, row, QString::number(page));
+			Col++;
+		}
+		if(ui->toolButtonLayer->isChecked()==true){
+			int	Layer=b->PointerInst.GetFirst()->Pointer->Layer;
+			::SetDataToTable(ui->tableWidgetBinded,Col, row, QString::number(Layer));
+			Col++;
+		}
+		int	ItemCount=0;
+		for(LineItemPointer *p=b->PointerInst.GetFirst();p!=NULL;p=p->GetNext()){
+			ItemCount+=p->Pointer->ItemIDs.GetCount();
+		}
+		::SetDataToTable(ui->tableWidgetBinded,Col, row, QString::number(ItemCount));
+		Col++;
+
+		::SetDataToTable(ui->tableWidgetBinded,Col, row, QString::number(b->LibPointer->GetCount()));
+	}
+}
+void SelectByBindedLimitedDialog::on_toolButtonPage_clicked()
+{
+	ShowBindedList();
+}
+
+void SelectByBindedLimitedDialog::on_toolButtonLayer_clicked()
+{
+	ShowBindedList();
+}
+
+void SelectByBindedLimitedDialog::on_tableWidgetBinded_itemSelectionChanged()
+{
+	int	Row=ui->tableWidgetBinded->currentRow();
+	if(Row<0)
+		return;
+	LineInfoBinded *s=LineInfoInst[Row];
+	if(s==NULL)
+		return;
+
+	ui->tableWidgetLibList->setRowCount(s->LibPointer->GetCount());
+	int	row=0;
+	for(AlgorithmLibraryList *a=s->LibPointer->GetFirst();a!=NULL;a=a->GetNext(),row++){
+		QString	LibTypeName=GetLayersBase()->GetLibTypeName(a->GetLibType());
+		::SetDataToTable(ui->tableWidgetLibList, 0, row,LibTypeName);
+		::SetDataToTable(ui->tableWidgetLibList, 1, row,QString::number(a->GetLibID()));
+		::SetDataToTable(ui->tableWidgetLibList, 2, row,a->GetLibName());
+	}
+}
+
+void SelectByBindedLimitedDialog::on_pushButtonSelect_clicked()
+{
+	int	Row=ui->tableWidgetBinded->currentRow();
+	if(Row<0)
+		return;
+	int	row=0;
+	for(LineInfoBinded *b=LineInfoInst.GetFirst();b!=NULL;b=b->GetNext(),row++){
+		if(row==Row)
+			b->Selected=true;
+		else
+			b->Selected=false;
+	}
+
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		for(int Layer=0;Layer<GetLayerNumb(page);Layer++){
+			GUICmdSelectBindedLimitedLibMask	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			for(LineInfoBinded *b=LineInfoInst.GetFirst();b!=NULL;b=b->GetNext(),row++){
+				if(b->Selected==true){
+					for(LineItemPointer *s=b->PointerInst.GetFirst();s!=NULL;s=s->GetNext()){
+						if(s->Pointer->Layer==Layer){
+							RCmd.ItemIDs+=s->Pointer->ItemIDs;
+						}
+					}
+				}
+			}
+			RCmd.Layer=Layer;
+			RCmd.Send(NULL,GlobalPage,0);
+		}
+	}
+
+	done(true);
+}
+
+void SelectByBindedLimitedDialog::on_pushButtonEdit_clicked()
+{
+	int	Row=ui->tableWidgetBinded->currentRow();
+	if(Row<0)
+		return;
+	LineInfoBinded *s=LineInfoInst[Row];
+	if(s==NULL)
+		return;
+	SelectLibraryInMaskForm	*DForm=new SelectLibraryInMaskForm(true,GetLayersBase());
+	GeneralDialog	D(GetLayersBase(),DForm,this);
+	DForm->SetSelected(*s->LibPointer);
+	D.exec();
+	if(DForm->RetOK==false)
+		return;
+
+	for(LineItemPointer	*p=s->PointerInst.GetFirst();p!=NULL;p=p->GetNext()){
+		p->Pointer->Parent->Parent->LimitedLib=DForm->GetSelectedList();
+	}
+	s->LibPointer	=&s->PointerInst.GetFirst()->Pointer->Parent->Parent->LimitedLib;
+
+	for(int page=0;page<GetPageNumb();page++){
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdSetBindedLimitedLibMask	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		for(LineItemPointer *L=s->PointerInst.GetFirst();L!=NULL;L=L->GetNext()){
+			MaskingBindedList	*B=L->Pointer->Parent->Parent;
+			bool	Found=false;
+			for(MaskingBindedList *dB=RCmd.InstList.GetFirst();dB!=NULL;dB=dB->GetNext()){
+				if(dB->LimitedLib==B->LimitedLib){
+					MaskingBindedList::BindedInPage	*dP=dB->BindedInPageContainerInst.GetFirst();
+					MaskingBindedList::BindedInPage::BindedInLayer	*dL=dP->BindedInLayerContainerInst.FindByLayer(L->Pointer->Layer);
+					if(dL!=NULL){
+						dL->ItemIDs.Merge(L->Pointer->ItemIDs);
+					}
+					else{
+						dL=new MaskingBindedList::BindedInPage::BindedInLayer(dP);
+						dL->Layer=L->Pointer->Layer;
+						dL->ItemIDs=L->Pointer->ItemIDs;
+						dP->BindedInLayerContainerInst.AppendList(dL);
+					}
+					Found=true;
+					break;
+				}
+			}
+			if(Found==false){
+				MaskingBindedList	*dB=new MaskingBindedList();
+				dB->LimitedLib=B->LimitedLib;
+				MaskingBindedList::BindedInPage	*dP=new MaskingBindedList::BindedInPage(dB);
+				dP->Page=0;
+				dB->BindedInPageContainerInst.AppendList(dP);
+
+				MaskingBindedList::BindedInPage::BindedInLayer	*dL=new MaskingBindedList::BindedInPage::BindedInLayer(dP);
+				dL->Layer=L->Pointer->Layer;
+				dL->ItemIDs=L->Pointer->ItemIDs;
+				dP->BindedInLayerContainerInst.AppendList(dL);
+
+				RCmd.InstList.AppendList(dB);
+			}
+		}
+		RCmd.Send(NULL,GlobalPage,0);
+	}
+
+	on_tableWidgetBinded_itemSelectionChanged();
+}
+
+void SelectByBindedLimitedDialog::on_pushButtonClose_clicked()
+{
+	done(false);
+}
+
+void SelectByBindedLimitedDialog::on_tableWidgetBinded_doubleClicked(const QModelIndex &index)
+{
+	on_pushButtonSelect_clicked();
+}

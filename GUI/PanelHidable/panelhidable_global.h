@@ -1,0 +1,12 @@
+#ifndef PANELHIDABLE_GLOBAL_H
+#define PANELHIDABLE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef PANELHIDABLE_LIB
+# define PANELHIDABLE_EXPORT Q_DECL_EXPORT
+#else
+# define PANELHIDABLE_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // PANELHIDABLE_GLOBAL_H

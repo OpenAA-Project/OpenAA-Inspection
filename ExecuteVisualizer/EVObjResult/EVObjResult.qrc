@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/Res_Common1.png</file>
+        <file>Resources/Res_Common2.png</file>
+        <file>Resources/Res_Common3.png</file>
+        <file>Resources/Res_Common4.png</file>
+        <file>Resources/Res_Pages1.png</file>
+        <file>Resources/Res_Pages2.png</file>
+        <file>Resources/Res_Pages3.png</file>
+        <file>Resources/Res_Pages4.png</file>
+        <file>Resources/Res_Pages5.png</file>
+        <file>Resources/Res_Pages6.png</file>
+        <file>Resources/Res_Waiting1.png</file>
+        <file>Resources/Res_Waiting2.png</file>
+    </qresource>
+</RCC>

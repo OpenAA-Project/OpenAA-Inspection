@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(BUTTONLOADFILTERCONFIG_LIB)
+#  define BUTTONLOADFILTERCONFIG_EXPORT Q_DECL_EXPORT
+# else
+#  define BUTTONLOADFILTERCONFIG_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define BUTTONLOADFILTERCONFIG_EXPORT
+#endif

@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(INTEGRATIONSETTINGLIGHT_LIB)
+#  define INTEGRATIONSETTINGLIGHT_EXPORT Q_DECL_EXPORT
+# else
+#  define INTEGRATIONSETTINGLIGHT_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define INTEGRATIONSETTINGLIGHT_EXPORT
+#endif

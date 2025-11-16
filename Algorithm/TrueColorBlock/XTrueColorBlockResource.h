@@ -1,0 +1,51 @@
+#if !defined(LSHEADER_H)
+#define LSHEADER_H
+#include "XLanguageClass.h"
+extern	LangSolverNew	LangSolver;
+#define	XTrueColorBlock_LS	1
+#define	TrueColorHistgramForm_LS	2
+#define	TrueColorBlockResult_LS	3
+#define	LID_1	4
+#define	LID_3	5
+#define	LID_5	6
+#define	LID_7	7
+#define	LID_9	8
+#define	LID_11	9
+#define	LID_13	10
+#define	LID_15	11
+#define	LID_17	12
+#define	LID_19	13
+#define	LID_21	14
+#define	LID_23	15
+#define	LID_25	16
+#define	LID_26	17
+#define	LID_27	18
+#define	LID_28	19
+#define	LID_29	20
+#define	LID_30	21
+#define	LID_31	22
+#define	LID_32	23
+#define	LID_33	24
+#define	LID_34	25
+#define	LID_35	26
+#define	LID_36	27
+#define	LID_37	28
+#define	LID_38	29
+#define	LID_39	30
+#define	LID_40	31
+#define	LID_41	32
+#define	LID_42	33
+#define	LID_43	34
+#define	LID_44	35
+#define	LID_45	36
+#define	LID_46	37
+#define	LID_47	38
+#define	LID_48	39
+#define	LID_49	40
+#define	LID_50	41
+#define	LID_51	42
+#define	LID_52	43
+#define	LID_53	44
+#define	LID_54	45
+#define	LID_55	46
+#endif

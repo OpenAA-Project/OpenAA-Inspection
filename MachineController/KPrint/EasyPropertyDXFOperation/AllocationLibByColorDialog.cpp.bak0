@@ -1,0 +1,520 @@
+#include "AllocationLibByColorDialog.h"
+#include "ui_AllocationLibByColorDialog.h"
+#include "CartonMenuForm.h"
+#include "XDXFOperation.h"
+#include "XDotColorMatching.h"
+#include <QColorDialog>
+#include "EasyPropertyDXFOperationForm.h"
+#include "XPropertyDXFOperationPacket.h"
+#include "XGeneralFunc.h"
+#include "XGeneralDialog.h"
+
+extern	char	*AlgoRoot;
+extern	char	*AlgoName;
+extern	char	*sRoot;
+extern	char	*sName;
+
+ColotButtonInList::ColotButtonInList(int row ,QWidget *parent)
+	:mtPushButtonColored(parent)
+{	
+	Row=row;
+	connect(this,SIGNAL(SignalClicked()),this,SLOT(SlotClicked()));
+}
+void	ColotButtonInList::SlotClicked()
+{
+	emit	SignalClicked(Row);
+}
+
+
+
+AllocationLibByColorDialog::AllocationLibByColorDialog(EasyPropertyDXFOperationForm *p,LayersBase *Base ,QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::AllocationLibByColorDialog)
+	,ServiceForLayers(Base)
+	,Parent(p)
+	,AllocationLibByColorContainerInst(DXFCommonDataID)
+{
+    ui->setupUi(this);
+	ui->frame->setEnabled(false);
+	ui->tableWidget->setColumnWidth(0,48);
+	ui->tableWidget->setColumnWidth(1,40);
+
+	SetColumnWidthInTable(ui->tableWidgetLibList,0, 25);
+	SetColumnWidthInTable(ui->tableWidgetLibList,1, 75);
+
+	SetColumnWidthInTable(ui->tableWidgetGeneratedLibList,0, 25);
+	SetColumnWidthInTable(ui->tableWidgetGeneratedLibList,1, 75);
+
+	int	LevelID		=GetLayersBase()->GetThresholdLevelID();
+	IntList RetLevelIDs;
+	GetLayersBase()->EnumThresholdLevelIDInFolder(RetLevelIDs);
+	if(RetLevelIDs.GetCount()>0){
+		int	LevelOrder	=GetLayersBase()->GetThresholdLevelOrderInParentOnly();
+		ui->horizontalSliderEasyThreshold->setMaximum(RetLevelIDs.GetCount());
+		ui->horizontalSliderEasyThreshold->setValue(LevelOrder);
+	}
+
+	ReqAllocationLibByColorContainer(LevelID);
+
+	LibFolderID =-1;
+	DotColorMatchingBase	*BBase=GetDotColorMatchingBase();
+	LibType=-1;
+	if(BBase!=NULL)	
+		LibType=BBase->GetLibType();
+	pLibFolderForm=new GeneralLibFolderForm(LibType,GetLayersBase(),ui->frameLibFolder);
+	connect(pLibFolderForm,SIGNAL(SelectLibFolder(int,QString)),this,SLOT(SlotSelectLibFolder(int,QString)));
+	pLibFolderForm->SetCurrentLibFolder(GetLayersBase()->GetLibFolderID());
+
+	on_horizontalSliderEasyThreshold_valueChanged(0);
+}
+
+AllocationLibByColorDialog::~AllocationLibByColorDialog()
+{
+    delete ui;
+}
+DXFOperationBase	*AllocationLibByColorDialog::GetDXFOperationBase(void)
+{
+	DXFOperationBase	*Base=(DXFOperationBase *)GetLayersBase()->GetAlgorithmBase(AlgoRoot ,AlgoName);
+	return Base;
+}
+
+DotColorMatchingBase	*AllocationLibByColorDialog::GetDotColorMatchingBase(void)
+{
+	return (DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+}
+
+void	AllocationLibByColorDialog::SlotSelectLibFolder(int libFolderID ,QString FolderName)
+{
+	LibFolderID=libFolderID;
+	//ui->tableWidgetLibList->clear();
+	ui->tableWidgetLibList->setRowCount(0);
+	DotColorMatchingBase	*BBase=GetDotColorMatchingBase();
+	if(BBase!=NULL){
+		CmdGetDotColorMatchingLibraryListPacket	Packet(GetLayersBase());
+		Packet.LibFolderID=LibFolderID;
+		BBase->TransmitDirectly(&Packet);
+		LibList	=Packet.AList;
+		int	row=0;
+		ui->tableWidgetLibList->setRowCount(Packet.AList.GetNumber());
+		for(AlgorithmLibraryList *a=Packet.AList.GetFirst();a!=NULL;a=a->GetNext(),row++){
+			QTableWidgetItem *W;
+			W=ui->tableWidgetLibList->item ( row, 0);
+			if(W==NULL){
+				W=new QTableWidgetItem();
+				ui->tableWidgetLibList->setItem ( row, 0,W);
+				W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);			
+			}
+			W->setText(QString::number(a->GetLibID()));
+			W=ui->tableWidgetLibList->item ( row, 1);
+			if(W==NULL){
+				W=new QTableWidgetItem();
+				ui->tableWidgetLibList->setItem ( row, 1,W);
+				W->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+			}
+			W->setText(a->GetLibName());
+		}
+	}
+}
+void AllocationLibByColorDialog::on_horizontalSliderEasyThreshold_valueChanged(int value)
+{
+	int	LevelOrder	=ui->horizontalSliderEasyThreshold->value();
+	int	LevelID		=GetLayersBase()->GetThresholdLevelIDFromOrder(LevelOrder);
+	ui->labelEasyNumber->setText(QString::number(LevelOrder+1));
+	ui->label_LevelName->setText(GetLayersBase()->GetThresholdLevelName(LevelID));
+
+	ReqAllocationLibByColorContainer(LevelID);
+	ShowAllocation();
+}
+
+void AllocationLibByColorDialog::ShowAllocation(void)
+{
+	ui->tableWidget->setRowCount(0);
+	ui->tableWidget->setRowCount(AllocationLibByColorContainerInst.GetCount());
+	int	row=0;
+	for(AllocationLibByColor *a=AllocationLibByColorContainerInst.GetFirst();a!=NULL;a=a->GetNext(),row++){
+		int	col=0;
+		QTableWidgetItem *L=ui->tableWidget->item ( row, col);
+		if(L==NULL || dynamic_cast<ColotButtonInList *>(L)==NULL){
+			ColotButtonInList	*b=new ColotButtonInList(row);
+			b->setColor(a->GetColor());
+			ui->tableWidget->setCellWidget(row,col,b);
+			connect(b,SIGNAL(SignalClicked(int)),this,SLOT(SignalClickedColorList(int)));
+		}
+		else{
+			ColotButtonInList	*b=dynamic_cast<ColotButtonInList *>(L);
+			b->setColor(a->GetColor());
+		}
+		int	N=a->LibList.GetCount();
+		::SetDataToTable(ui->tableWidget ,1 ,row ,QString::number(N),Qt::ItemIsSelectable);
+	}
+}
+
+
+void AllocationLibByColorDialog::on_pushButtonFromDXF_clicked()
+{
+	int	LevelOrder	=ui->horizontalSliderEasyThreshold->value();
+	int	LevelID		=GetLayersBase()->GetThresholdLevelIDFromOrder(LevelOrder);
+
+	IntegrationCmdReqDXFColor	RCmd(GetLayersBase(),sRoot,sName,Parent->SlaveNo);
+	IntegrationCmdAckDXFColor	ACmd(GetLayersBase(),sRoot,sName,Parent->SlaveNo);
+	RCmd.LevelID=LevelID;
+	if(RCmd.Send(Parent->SlaveNo,0,ACmd)==true){
+		for(int i=0;i<ACmd.ColorList.GetCount();i++){
+			bool	Found=false;
+			ColorCodeList	*CCode=ACmd.ColorList[i];
+			for(AllocationLibByColor *a=AllocationLibByColorContainerInst.GetFirst();a!=NULL;a=a->GetNext()){
+				if(a->Color==CCode->Color){
+					Found=true;
+					break;
+				}
+			}
+			if(Found==false){
+				AllocationLibByColor *a=new AllocationLibByColor();
+				a->ColorCode	=CCode->ColorCode;
+				a->Color		=CCode->Color;
+				AllocationLibByColorContainerInst.AppendList(a);
+			}
+		}
+		ShowAllocation();
+	}
+	
+	//CommonDataInLibType	CommonData;
+	//CommonData.CommonID=DXFCommonDataID;
+	//DXFOperationBase *BBase=(DXFOperationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DXFOperation");
+	//if(BBase!=NULL){
+	//	if(BBase->GetLibraryContainer()->LoadCommonDataInLibType(CommonData)==true){
+	//		QBuffer	File(&CommonData.Data);
+	//		if(File.open(QIODevice::ReadOnly)==true){
+	//			AllocationLibByColorContainer	TmpContainer;
+	//			if(TmpContainer.Load(&File)==true){
+	//				for(AllocationLibByColor *a=AllocationLibByColorContainerInst.GetFirst();a!=NULL;a=a->GetNext()){
+	//					for(AllocationLibByColor *b=TmpContainer.GetFirst();b!=NULL;b=b->GetNext()){
+	//						if(a->Color==b->Color){
+	//							a->LibList.Merge(b->LibList);
+	//						}
+	//					}
+	//				}
+	//				for(AllocationLibByColor *b=TmpContainer.GetFirst();b!=NULL;b=b->GetNext()){
+	//					bool	Found=false;
+	//					for(AllocationLibByColor *a=AllocationLibByColorContainerInst.GetFirst();a!=NULL;a=a->GetNext()){
+	//						if(a->Color==b->Color){
+	//							Found=true;
+	//							break;
+	//						}
+	//					}
+	//					if(Found==false){
+	//						AllocationLibByColor	*t=new AllocationLibByColor();
+	//						*t=*b;
+	//						AllocationLibByColorContainerInst.AppendList(t);
+	//					}
+	//				}
+	//				ShowAllocation();
+	//			}
+	//		}
+	//	}
+	//}
+}
+
+void AllocationLibByColorDialog::on_tableWidgetLibList_doubleClicked(const QModelIndex &index)
+{
+	on_pushButtonSetFrom_clicked();
+}
+
+void AllocationLibByColorDialog::on_tableWidgetGeneratedLibList_doubleClicked(const QModelIndex &index)
+{
+	on_pushButtonGetBack_clicked();
+}
+
+void AllocationLibByColorDialog::on_pushButtonSetFrom_clicked()
+{
+	int	r=ui->tableWidgetLibList->currentRow();
+	if(r<0)
+		return;
+	int	Level=ui->horizontalSliderEasyThreshold->value();
+	int	RIndex=ui->tableWidget->currentRow();
+	if(RIndex<0)
+		return;
+
+	AllocationLibByColor *ALib=AllocationLibByColorContainerInst.GetItem(RIndex);
+	if(ALib==NULL)
+		return;
+
+	AlgorithmLibraryList	*a=LibList.GetItem(r);
+	for(AlgorithmLibraryList *c=ALib->LibList.GetFirst();c!=NULL;c=c->GetNext()){
+		if(c->GetLibID()==a->GetLibID())
+			return;
+	}
+	ALib->LibList.AppendList(new AlgorithmLibraryList(LibType,a->GetLibID(),a->GetLibName()));
+	ShowSelectedLibList();
+}
+
+void AllocationLibByColorDialog::on_pushButtonGetBack_clicked()
+{
+	int	r=ui->tableWidgetGeneratedLibList->currentRow();
+	if(r<0)
+		return;
+	int	Level=ui->horizontalSliderEasyThreshold->value();
+	int	RIndex=ui->tableWidget->currentRow();
+	if(RIndex<0)
+		return;
+	AllocationLibByColor *ALib=AllocationLibByColorContainerInst.GetItem(RIndex);
+	if(ALib==NULL)
+		return;
+	AlgorithmLibraryList	*a=ALib->LibList.GetItem(r);
+	if(a!=NULL){
+		ALib->LibList.RemoveList(a);
+		delete	a;
+		ShowSelectedLibList();
+	}
+}
+
+void AllocationLibByColorDialog::on_pushButtonSetFromAll_clicked()
+{
+	int	Level=ui->horizontalSliderEasyThreshold->value();
+	int	RIndex=ui->tableWidget->currentRow();
+	if(RIndex<0)
+		return;
+
+	AllocationLibByColor *ALib=AllocationLibByColorContainerInst.GetItem(RIndex);
+	if(ALib==NULL)
+		return;
+
+	ALib->LibList.RemoveAll();
+	for(AlgorithmLibraryList *a=LibList.GetFirst();a!=NULL;a=a->GetNext()){
+		ALib->LibList.AppendList(new AlgorithmLibraryList(LibType,a->GetLibID(),a->GetLibName()));
+	}
+	ShowSelectedLibList();
+}
+
+void AllocationLibByColorDialog::on_pushButtonGetBackAll_clicked()
+{
+	int	Level=ui->horizontalSliderEasyThreshold->value();
+	int	RIndex=ui->tableWidget->currentRow();
+	if(RIndex<0)
+		return;
+
+	AllocationLibByColor *ALib=AllocationLibByColorContainerInst.GetItem(RIndex);
+	if(ALib==NULL)
+		return;
+
+	ALib->LibList.RemoveAll();
+	ShowSelectedLibList();
+}
+
+void	AllocationLibByColorDialog::ShowSelectedLibList(void)
+{
+	int	Level=ui->horizontalSliderEasyThreshold->value();
+	int	RIndex=ui->tableWidget->currentRow();
+	if(RIndex<0)
+		return;
+	AllocationLibByColor *ALib=AllocationLibByColorContainerInst.GetItem(RIndex);
+	if(ALib==NULL)
+		return;
+	ui->tableWidgetGeneratedLibList->setRowCount(ALib->LibList.GetCount());
+	int	row=0;
+	for(AlgorithmLibraryList *a=ALib->LibList.GetFirst();a!=NULL;a=a->GetNext(),row++){	
+		::SetDataToTable(ui->tableWidgetGeneratedLibList ,0 ,row ,QString::number(a->GetLibID()));
+		::SetDataToTable(ui->tableWidgetGeneratedLibList ,1 ,row ,a->GetLibName());
+	}
+	row=0;
+	for(AllocationLibByColor *a=AllocationLibByColorContainerInst.GetFirst();a!=NULL;a=a->GetNext(),row++){
+		int	N=a->LibList.GetCount();
+		::SetDataToTable(ui->tableWidget ,1 ,row ,QString::number(N),Qt::ItemIsSelectable);
+	}
+}
+
+void AllocationLibByColorDialog::on_tableWidget_cellClicked(int row, int column)
+{
+	int	Level=ui->horizontalSliderEasyThreshold->value();
+	int	RIndex=ui->tableWidget->currentRow();
+	if(RIndex<0)
+		return;
+	AllocationLibByColor *ALib=AllocationLibByColorContainerInst.GetItem(RIndex);
+	if(ALib==NULL)
+		return;
+
+	if(column==0){
+		QColor Col=QColorDialog::getColor ( ALib->Color, NULL, /**/"DXF color");
+		if(Col.isValid()==true){
+			ALib->Color=Col;
+
+			QTableWidgetItem *L=ui->tableWidget->item ( RIndex, 0);
+			if(L==NULL || dynamic_cast<ColotButtonInList *>(L)==NULL){
+				ColotButtonInList	*b=new ColotButtonInList(RIndex);
+				b->setColor(ALib->GetColor());
+				ui->tableWidget->setCellWidget(RIndex,0,b);
+				connect(b,SIGNAL(SignalClicked(int)),this,SLOT(SignalClickedColorList(int)));
+			}
+			else{
+				ColotButtonInList	*b=dynamic_cast<ColotButtonInList *>(L);
+				b->setColor(ALib->GetColor());
+			}
+		}
+	}
+	else if(column==1){
+		ui->frame->setEnabled(true);
+		ShowSelectedLibList();
+
+	}
+}
+
+void AllocationLibByColorDialog::on_pushButtonOK_clicked()
+{
+	int	LevelOrder	=ui->horizontalSliderEasyThreshold->value();
+	int	LevelID		=GetLayersBase()->GetThresholdLevelIDFromOrder(LevelOrder);
+	int	RIndex=ui->tableWidget->currentRow();
+	if(RIndex>=0){
+		IntegrationCmdSetAllocationLibByColor	RCmd(GetLayersBase(),sRoot,sName,Parent->SlaveNo);
+		RCmd.LevelID=LevelID;
+		RCmd.AllocationLibByColorContainerInst=AllocationLibByColorContainerInst;
+		RCmd.Send(NULL,Parent->SlaveNo,0);
+	}
+	done(true);
+}
+
+void	AllocationLibByColorDialog::ReqAllocationLibByColorContainer(int LevelID)
+{
+	CmdReqEasyAllocationLibByColor	RCmd(GetLayersBase());
+	RCmd.ThresholdLevelID=LevelID;
+	Parent->TransmitDirectly(&RCmd);
+	AllocationLibByColorContainerInst=RCmd.Container;
+}
+
+//========================================================================================================
+
+IntegrationCmdReqAllocationLibByColor::IntegrationCmdReqAllocationLibByColor(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+
+bool	IntegrationCmdReqAllocationLibByColor::Load(QIODevice *f)
+{
+	if(::Load(f,LevelID)==false)	return false;
+	return true;
+}
+bool	IntegrationCmdReqAllocationLibByColor::Save(QIODevice *f)
+{
+	if(::Save(f,LevelID)==false)	return false;
+	return true;
+}
+
+void	IntegrationCmdReqAllocationLibByColor::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	IntegrationCmdAckAllocationLibByColor	*SendBack=GetSendBackIntegration(IntegrationCmdAckAllocationLibByColor,GetLayersBase(),EmitterRoot,EmitterName ,slaveNo);
+
+	DXFOperationBase *BBase=(DXFOperationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DXFOperation");
+	if(BBase!=NULL){
+		CmdReqAllocationLibByColor	Cmd(GetLayersBase());
+		Cmd.ThresholdLevelID=LevelID;
+		BBase->TransmitDirectly(&Cmd);
+
+		SendBack->AllocationLibByColorContainerInst	=Cmd.Container;
+	}
+
+	SendBack->Send(this ,slaveNo,0);
+	CloseSendBackIntegration(SendBack);
+}
+
+IntegrationCmdAckAllocationLibByColor::IntegrationCmdAckAllocationLibByColor(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+	,AllocationLibByColorContainerInst(DXFCommonDataID)
+{
+}
+bool	IntegrationCmdAckAllocationLibByColor::Load(QIODevice *f)
+{
+	if(AllocationLibByColorContainerInst.Load(f)==false)
+		return false;
+	return true;
+}
+bool	IntegrationCmdAckAllocationLibByColor::Save(QIODevice *f)
+{
+	if(AllocationLibByColorContainerInst.Save(f)==false)
+		return false;
+	return true;
+}
+
+IntegrationCmdSetAllocationLibByColor::IntegrationCmdSetAllocationLibByColor(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+	,AllocationLibByColorContainerInst(DXFCommonDataID)
+{
+}
+bool	IntegrationCmdSetAllocationLibByColor::Load(QIODevice *f)
+{
+	if(::Load(f,LevelID)==false)
+		return false;
+	if(AllocationLibByColorContainerInst.Load(f)==false)
+		return false;
+	return true;
+}
+bool	IntegrationCmdSetAllocationLibByColor::Save(QIODevice *f)
+{
+	if(::Save(f,LevelID)==false)
+		return false;
+	if(AllocationLibByColorContainerInst.Save(f)==false)
+		return false;
+	return true;
+}
+
+void	IntegrationCmdSetAllocationLibByColor::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	DXFOperationBase *BBase=(DXFOperationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DXFOperation");
+	if(BBase!=NULL){
+		CmdSetAllocationLibByColor	Cmd(GetLayersBase());
+		Cmd.ThresholdLevelID=LevelID;
+		Cmd.Container		=AllocationLibByColorContainerInst;
+		BBase->TransmitDirectly(&Cmd);
+
+		CmdSaveAllocationLibByColor	RCmd(GetLayersBase());
+		BBase->TransmitDirectly(&RCmd);
+	}
+}
+
+
+IntegrationCmdReqDXFColor::IntegrationCmdReqDXFColor(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+bool	IntegrationCmdReqDXFColor::Load(QIODevice *f)
+{
+	if(::Load(f,LevelID)==false)	return false;
+	return true;
+}
+bool	IntegrationCmdReqDXFColor::Save(QIODevice *f)
+{
+	if(::Save(f,LevelID)==false)	return false;
+	return true;
+}
+
+void	IntegrationCmdReqDXFColor::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	IntegrationCmdAckDXFColor	*SendBack=GetSendBackIntegration(IntegrationCmdAckDXFColor,GetLayersBase(),EmitterRoot,EmitterName ,slaveNo);
+
+	GUIFormBase	*GProp=(CartonMenuForm *)GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyDXFOperation" ,/**/"");
+	if(GProp!=NULL){
+		CmdReqDXFColor	RCmd(GetLayersBase());
+		GProp->TransmitDirectly(&RCmd);
+		SendBack->ColorList	=RCmd.ColorList;
+	}
+
+	SendBack->Send(this ,slaveNo,0);
+	CloseSendBackIntegration(SendBack);
+}
+	ColorCodeListContainer	ColorList;
+
+IntegrationCmdAckDXFColor::IntegrationCmdAckDXFColor(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo)
+	:IntegrationCmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),SlaveNo)
+{
+}
+
+bool	IntegrationCmdAckDXFColor::Load(QIODevice *f)
+{
+	if(ColorList.Load(f)==false)
+		return false;
+	return true;
+}
+bool	IntegrationCmdAckDXFColor::Save(QIODevice *f)
+{
+	if(ColorList.Save(f)==false)
+		return false;
+	return true;
+}

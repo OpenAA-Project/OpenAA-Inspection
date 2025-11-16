@@ -1,0 +1,1072 @@
+<ui version="4.0" >
+ <class>InfoDynamicClassifyFormClass</class>
+ <widget class="QWidget" name="InfoDynamicClassifyFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>834</width>
+    <height>629</height>
+   </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle" >
+   <string>InfoDynamicClassifyForm</string>
+  </property>
+  <widget class="QSpinBox" name="EditNoiseDot" >
+   <property name="geometry" >
+    <rect>
+     <x>120</x>
+     <y>60</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum" >
+    <number>1000000</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_59" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>ノイズサイズ</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_60" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>収縮ドット</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="EditShrinkDot" >
+   <property name="geometry" >
+    <rect>
+     <x>120</x>
+     <y>90</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum" >
+    <number>1000000</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_61" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>120</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>処理優先度</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="EditPriority" >
+   <property name="geometry" >
+    <rect>
+     <x>120</x>
+     <y>120</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum" >
+    <number>1000000</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_62" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>150</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>変動ドット数</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="EditVariableWidth" >
+   <property name="geometry" >
+    <rect>
+     <x>120</x>
+     <y>150</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum" >
+    <number>1000000</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_63" >
+   <property name="geometry" >
+    <rect>
+     <x>190</x>
+     <y>150</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>領域重複ドット</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="EditOutlineTWidth" >
+   <property name="geometry" >
+    <rect>
+     <x>300</x>
+     <y>90</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum" >
+    <number>1000000</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_64" >
+   <property name="geometry" >
+    <rect>
+     <x>190</x>
+     <y>60</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>輪郭－内側</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="EditOverlapInEachArea" >
+   <property name="geometry" >
+    <rect>
+     <x>300</x>
+     <y>150</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum" >
+    <number>1000000</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="EditOutlineIWidth" >
+   <property name="geometry" >
+    <rect>
+     <x>300</x>
+     <y>60</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum" >
+    <number>1000000</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_65" >
+   <property name="geometry" >
+    <rect>
+     <x>190</x>
+     <y>90</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>輪郭－遷移</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_66" >
+   <property name="geometry" >
+    <rect>
+     <x>190</x>
+     <y>120</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>輪郭－外側</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="EditOutlineOWidth" >
+   <property name="geometry" >
+    <rect>
+     <x>300</x>
+     <y>120</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum" >
+    <number>1000000</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7" >
+   <property name="geometry" >
+    <rect>
+     <x>300</x>
+     <y>250</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>追加色</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidgetBaseColor" >
+   <property name="geometry" >
+    <rect>
+     <x>300</x>
+     <y>270</y>
+     <width>61</width>
+     <height>61</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8" >
+   <property name="geometry" >
+    <rect>
+     <x>300</x>
+     <y>410</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>除外色</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frameThreshold" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>250</y>
+     <width>271</width>
+     <height>251</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Raised</enum>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidgetEliminatedColor" >
+   <property name="geometry" >
+    <rect>
+     <x>300</x>
+     <y>430</y>
+     <width>61</width>
+     <height>61</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonChangeLib" >
+   <property name="geometry" >
+    <rect>
+     <x>230</x>
+     <y>30</y>
+     <width>31</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>...</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="EditLibName" >
+   <property name="geometry" >
+    <rect>
+     <x>70</x>
+     <y>30</y>
+     <width>161</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>XXX</string>
+   </property>
+   <property name="readOnly" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>62</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>ライブラリＩＤ</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="EditLibID" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>61</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>12345</string>
+   </property>
+   <property name="readOnly" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5" >
+   <property name="geometry" >
+    <rect>
+     <x>70</x>
+     <y>10</y>
+     <width>161</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="text" >
+    <string>ライブラリ名称</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>380</x>
+     <y>10</y>
+     <width>441</width>
+     <height>551</height>
+    </rect>
+   </property>
+   <property name="currentIndex" >
+    <number>1</number>
+   </property>
+   <widget class="QWidget" name="tab_7" >
+    <attribute name="title" >
+     <string>色登録ライブラリ</string>
+    </attribute>
+    <widget class="QFrame" name="frameColorSample" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>205</width>
+       <height>511</height>
+      </rect>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <widget class="QPushButton" name="pushButtonEliminateColor" >
+      <property name="geometry" >
+       <rect>
+        <x>20</x>
+        <y>480</y>
+        <width>161</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text" >
+       <string>Eliminate color</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonAddColor" >
+      <property name="geometry" >
+       <rect>
+        <x>20</x>
+        <y>450</y>
+        <width>161</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text" >
+       <string>Add Color</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_8" >
+    <attribute name="title" >
+     <string>ピクセル抽出色</string>
+    </attribute>
+    <widget class="QFrame" name="framePicked_3" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>191</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <widget class="QLabel" name="label_44" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>191</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="frameShape" >
+       <enum>QFrame::Panel</enum>
+      </property>
+      <property name="frameShadow" >
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="text" >
+       <string>ピックアップ色の追加・除外</string>
+      </property>
+      <property name="alignment" >
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonSubPickupColor" >
+      <property name="geometry" >
+       <rect>
+        <x>40</x>
+        <y>80</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text" >
+       <string>Sub =></string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonAddPickupColor" >
+      <property name="geometry" >
+       <rect>
+        <x>40</x>
+        <y>50</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text" >
+       <string>Add =></string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinBoxMerginAddPickupColor" >
+      <property name="geometry" >
+       <rect>
+        <x>120</x>
+        <y>50</y>
+        <width>61</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="value" >
+       <number>10</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinBoxMerginSubPickupColor" >
+      <property name="geometry" >
+       <rect>
+        <x>120</x>
+        <y>80</y>
+        <width>61</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="value" >
+       <number>10</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_45" >
+      <property name="geometry" >
+       <rect>
+        <x>120</x>
+        <y>30</y>
+        <width>64</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="frameShape" >
+       <enum>QFrame::Panel</enum>
+      </property>
+      <property name="frameShadow" >
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="text" >
+       <string>マージン輝度</string>
+      </property>
+      <property name="alignment" >
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QFrame" name="framePickupColor" >
+      <property name="geometry" >
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>21</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="frameShape" >
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow" >
+       <enum>QFrame::Plain</enum>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_9" >
+    <attribute name="title" >
+     <string>領域抽出色</string>
+    </attribute>
+    <widget class="QFrame" name="frameShowColorSmples" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>415</width>
+       <height>355</height>
+      </rect>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Plain</enum>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonAddColorArea" >
+     <property name="geometry" >
+      <rect>
+       <x>60</x>
+       <y>370</y>
+       <width>161</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Add Color</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonEliminateColorArea" >
+     <property name="geometry" >
+      <rect>
+       <x>60</x>
+       <y>400</y>
+       <width>161</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Eliminate color</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="ButtonLoadFromLibrary" >
+   <property name="geometry" >
+    <rect>
+     <x>200</x>
+     <y>550</y>
+     <width>171</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>ライブラリから読み出し</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonSaveToLibrary" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>550</y>
+     <width>171</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>ライブラリに保存</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonReflectAllBlocks" >
+   <property name="geometry" >
+    <rect>
+     <x>200</x>
+     <y>510</y>
+     <width>171</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>同一種類のブロックに反映</string>
+   </property>
+  </widget>
+  <widget class="QStackedWidget" name="stackedWidgetParts" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>510</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="currentIndex" >
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="page" >
+    <widget class="QPushButton" name="ButtonRelrectOnlyBlock" >
+     <property name="geometry" >
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>171</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>このブロックだけに反映</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_3" >
+    <widget class="QPushButton" name="ButtonRelrectSaveParts" >
+     <property name="geometry" >
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>171</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>部品保存</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_2" />
+  </widget>
+  <widget class="QPushButton" name="ButtonClose" >
+   <property name="geometry" >
+    <rect>
+     <x>200</x>
+     <y>590</y>
+     <width>171</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>閉じる</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame_25" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>180</y>
+     <width>291</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <widget class="QLabel" name="label_86" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>31</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Raised</enum>
+    </property>
+    <property name="text" >
+     <string>補
+正</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+    <property name="indent" >
+     <number>1</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="EditAdjustBlack" >
+    <property name="geometry" >
+     <rect>
+      <x>220</x>
+      <y>10</y>
+      <width>61</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum" >
+     <number>255</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="EditAdjustWhite" >
+    <property name="geometry" >
+     <rect>
+      <x>220</x>
+      <y>30</y>
+      <width>61</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum" >
+     <number>255</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_88" >
+    <property name="geometry" >
+     <rect>
+      <x>40</x>
+      <y>30</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="text" >
+     <string>明側　最大補正輝度量</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_89" >
+    <property name="geometry" >
+     <rect>
+      <x>40</x>
+      <y>10</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="text" >
+     <string>暗側　最大補正輝度量</string>
+    </property>
+    <property name="alignment" >
+     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>640</y>
+     <width>181</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <widget class="QToolButton" name="toolButtonCoreArea" >
+    <property name="geometry" >
+     <rect>
+      <x>100</x>
+      <y>10</y>
+      <width>71</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Core</string>
+    </property>
+    <property name="checkable" >
+     <bool>true</bool>
+    </property>
+    <property name="checked" >
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButtonMaxZone" >
+    <property name="geometry" >
+     <rect>
+      <x>100</x>
+      <y>30</y>
+      <width>71</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Max Zone</string>
+    </property>
+    <property name="checkable" >
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButtonOutlineIArea" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>71</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Outline-I</string>
+    </property>
+    <property name="checkable" >
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButtonOutlineTArea" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>71</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Outline-T</string>
+    </property>
+    <property name="checkable" >
+     <bool>true</bool>
+    </property>
+    <property name="checked" >
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButtonOutlineOArea" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>71</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Outline-O</string>
+    </property>
+    <property name="checkable" >
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonReCalc" >
+    <property name="geometry" >
+     <rect>
+      <x>90</x>
+      <y>60</y>
+      <width>81</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>再計算</string>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButtonBareArea" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>71</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Bare</string>
+    </property>
+    <property name="checkable" >
+     <bool>true</bool>
+    </property>
+    <property name="checked" >
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButtonInside" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>71</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Inside</string>
+    </property>
+    <property name="checkable" >
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

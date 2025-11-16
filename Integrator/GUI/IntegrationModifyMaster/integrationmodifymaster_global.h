@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(INTEGRATIONMODIFYMASTER_LIB)
+#  define INTEGRATIONMODIFYMASTER_EXPORT Q_DECL_EXPORT
+# else
+#  define INTEGRATIONMODIFYMASTER_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define INTEGRATIONMODIFYMASTER_EXPORT
+#endif

@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Qtres/Close.png</file>
+        <file>Qtres/Delete.png</file>
+        <file>Qtres/SaveNew.png</file>
+        <file>Qtres/Update.png</file>
+        <file>Qtres/Cancel.png</file>
+        <file>Qtres/OK.png</file>
+        <file>Qtres/Clear.png</file>
+        <file>Qtres/Load.png</file>
+        <file>Qtres/Save.png</file>
+        <file>Qtres/Composite.png</file>
+        <file>Qtres/Layers.png</file>
+        <file>Qtres/Marge.png</file>
+        <file>Qtres/Start.png</file>
+        <file>Qtres/Select.png</file>
+        <file>Qtres/Setting.png</file>
+        <file>Qtres/CopyOne.png</file>
+        <file>Qtres/ListView.png</file>
+        <file>Qtres/Area.png</file>
+        <file>Qtres/Image.png</file>
+        <file>Qtres/Make.png</file>
+        <file>Qtres/Move.png</file>
+        <file>Qtres/Rotate.png</file>
+        <file>Qtres/Zoom.png</file>
+        <file>Qtres/Cut.png</file>
+        <file>Qtres/Draw.png</file>
+        <file>Qtres/Mirror.png</file>
+        <file>Qtres/MoveY.png</file>
+        <file>Qtres/Point.png</file>
+    </qresource>
+</RCC>

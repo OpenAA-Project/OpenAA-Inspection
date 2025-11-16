@@ -1,0 +1,29 @@
+#include "ColorDifferenceResource.h"
+#include "SetStatisticThresholdDialog.h"
+#include "ui_SetStatisticThresholdDialog.h"
+
+SetStatisticThresholdDialog::SetStatisticThresholdDialog(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::SetStatisticThresholdDialog)
+{
+    ui->setupUi(this);
+	LangSolver.SetUI(this);
+}
+
+SetStatisticThresholdDialog::~SetStatisticThresholdDialog()
+{
+    delete ui;
+}
+
+void SetStatisticThresholdDialog::on_pushButtonSet_clicked()
+{
+	SigmaH	=ui->doubleSpinBoxSigmaH->value();
+	SigmaS	=ui->doubleSpinBoxSigmaS->value();
+	SigmaV	=ui->doubleSpinBoxSigmaV->value();
+	done(true);
+}
+
+void SetStatisticThresholdDialog::on_pushButtonCancel_clicked()
+{
+	done(false);
+}

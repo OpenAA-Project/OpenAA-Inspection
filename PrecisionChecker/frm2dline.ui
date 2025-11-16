@@ -1,0 +1,75 @@
+<ui version="4.0" >
+ <class>frm2DLineClass</class>
+ <widget class="QWidget" name="frm2DLineClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1255</width>
+    <height>954</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>frm2DLine</string>
+  </property>
+  <widget class="QPushButton" name="pushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>1170</x>
+     <y>910</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Close(&amp;C)</string>
+   </property>
+  </widget>
+  <widget class="QTableView" name="tableView" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>141</width>
+     <height>881</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QDockWidget" name="dwShowGraph" >
+   <property name="geometry" >
+    <rect>
+     <x>160</x>
+     <y>10</y>
+     <width>1081</width>
+     <height>891</height>
+    </rect>
+   </property>
+   <widget class="QWidget" name="dockWidgetContents" />
+  </widget>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>760</x>
+     <y>910</y>
+     <width>168</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" >
+    <item>
+     <widget class="QLabel" name="lblThreshold" >
+      <property name="text" >
+       <string>Threshold</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="txtThreshold" />
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

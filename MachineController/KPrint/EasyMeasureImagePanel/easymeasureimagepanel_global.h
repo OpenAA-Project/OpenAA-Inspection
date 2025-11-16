@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(EASYMEASUREIMAGEPANEL_LIB)
+#  define EASYMEASUREIMAGEPANEL_EXPORT Q_DECL_EXPORT
+# else
+#  define EASYMEASUREIMAGEPANEL_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define EASYMEASUREIMAGEPANEL_EXPORT
+#endif

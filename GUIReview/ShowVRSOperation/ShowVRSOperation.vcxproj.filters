@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{48c183e7-b99e-4734-bb57-6f6ec87d75c0}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{ed354d91-b857-4054-8e86-5f9a008b6238}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ShowVRSOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\SystemVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\XGUIReviewGlobal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\XReviewCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShowVRSOperationProperty.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShowVRSOperationPropertyFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShowVRSOperationTransmitDirectoly.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XReviewSettingFileSectionReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
+    
+    
+    
+    
+    
+    <ClCompile Include="WholeAlignmentSettingForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlignmentManageForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VRSControlForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\InputRectInMultiImageDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\InputRectInMultiImageWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
+    
+    
+    
+    
+    
+    
+    
+    <ClCompile Include="CameraAlignmentSettingForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputRectInConstImageLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Algorithm\ReviewStructure\ReviewStructureVRSSetting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VRSJoyForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
+    
+    
+    
+    <ClCompile Include="VRSSettingForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
+    
+    
+    
+    <ClCompile Include="RadioButtonSelectWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
+    <ClCompile Include="ShowVRSOperationResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="showvrsoperation_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowVRSOperationProperty.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    
+    
+    <ClInclude Include="AlignmentSettingForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    
+    
+    
+    
+    
+    
+    
+    <ClInclude Include="InputRectInConstImageLabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    
+    <ClInclude Include="..\..\Open\ImageWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XVRSControlCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowVRSOperationResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="ShowVRSOperationPropertyForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="VRSControlForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="WholeAlignmentSettingForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="AlignmentManageForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="VRSControlForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtUic Include="AlignmentManageForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="AlignmentSettingForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ShowVRSOperationForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="VRSSettingForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WholeAlignmentSettingForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="..\..\Open\InputRectInMultiImageWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\Open\InputRectInUpdatingImageWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\Open\InputRectInMultiImageDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ShowVRSOperation.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtUic Include="..\..\GeneralSource\InputRectInMultiImageDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="CameraAlignmentSettingForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="VRSJoyForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="VRSJoyForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CameraAlignmentSettingForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="VRSSettingForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="RadioButtonSelectWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtRcc Include="ShowVRSOperation.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShowVRSOperation.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

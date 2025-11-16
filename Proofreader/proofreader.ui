@@ -1,0 +1,325 @@
+<ui version="4.0" >
+ <class>ProofreaderClass</class>
+ <widget class="QMainWindow" name="ProofreaderClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>768</width>
+    <height>778</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Proofreader</string>
+  </property>
+  <widget class="QWidget" name="centralWidget" >
+   <layout class="QGridLayout" >
+    <item row="0" column="0" >
+     <layout class="QHBoxLayout" >
+      <item>
+       <widget class="QToolButton" name="tbExpansion" >
+        <property name="minimumSize" >
+         <size>
+          <width>45</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="toolTip" >
+         <string>Expansion</string>
+        </property>
+        <property name="text" >
+         <string>Exp</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="tbWhole" >
+        <property name="minimumSize" >
+         <size>
+          <width>45</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="toolTip" >
+         <string>Whole</string>
+        </property>
+        <property name="text" >
+         <string>Whole</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="tbRectangle" >
+        <property name="minimumSize" >
+         <size>
+          <width>45</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="toolTip" >
+         <string>Rectangle</string>
+        </property>
+        <property name="text" >
+         <string>Rect</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cbCamera" >
+        <property name="minimumSize" >
+         <size>
+          <width>80</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="chkReverse" >
+        <property name="text" >
+         <string>White-Black Reverse</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>31</width>
+          <height>41</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbLoadPixHalcon" >
+        <property name="minimumSize" >
+         <size>
+          <width>101</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>Load PIX For HALCON</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>31</width>
+          <height>41</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item rowspan="2" row="0" column="1" >
+     <layout class="QVBoxLayout" >
+      <item>
+       <widget class="QPushButton" name="pbLoadMasterImage" >
+        <property name="minimumSize" >
+         <size>
+          <width>101</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>LoadMasterImage</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>116</width>
+          <height>61</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="sbThreshold" >
+        <property name="maximum" >
+         <number>255</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbThreshold" >
+        <property name="minimumSize" >
+         <size>
+          <width>101</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>Threshold</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbLabelingX" >
+        <property name="minimumSize" >
+         <size>
+          <width>101</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>Labeling X</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbLabelingY" >
+        <property name="minimumSize" >
+         <size>
+          <width>101</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>Labeling Y</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbSave" >
+        <property name="minimumSize" >
+         <size>
+          <width>101</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>Save</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbShowGraph" >
+        <property name="minimumSize" >
+         <size>
+          <width>101</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>ShowGraph</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbShowGraphFromCsv" >
+        <property name="minimumSize" >
+         <size>
+          <width>101</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>ShowGraph from csv</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>116</width>
+          <height>51</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbWhiteBalance" >
+        <property name="minimumSize" >
+         <size>
+          <width>101</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>White Balance</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>116</width>
+          <height>51</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbClose" >
+        <property name="minimumSize" >
+         <size>
+          <width>101</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>Close</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0" >
+     <widget class="QDockWidget" name="dwMasterImage" >
+      <widget class="QWidget" name="dockWidgetContents" />
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>768</width>
+     <height>18</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar" >
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <attribute name="toolBarArea" >
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak" >
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar" />
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

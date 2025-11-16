@@ -1,0 +1,12 @@
+#ifndef INSERTTELOP_GLOBAL_H
+#define INSERTTELOP_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef INSERTTELOP_LIB
+# define INSERTTELOP_EXPORT Q_DECL_EXPORT
+#else
+# define INSERTTELOP_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // INSERTTELOP_GLOBAL_H

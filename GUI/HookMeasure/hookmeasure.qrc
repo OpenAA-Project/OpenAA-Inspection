@@ -1,0 +1,38 @@
+<RCC>
+    <qresource prefix="/Resources">
+        <file>Resources/AngleInLines.png</file>
+        <file>Resources/Arc.png</file>
+        <file>Resources/CenterCircle.png</file>
+        <file>Resources/Circle.png</file>
+        <file>Resources/Circle3.png</file>
+        <file>Resources/FoldedPoints.png</file>
+        <file>Resources/Isolation.png</file>
+        <file>Resources/PointToPoint.png</file>
+        <file>Resources/PolyLine.png</file>
+        <file>Resources/Rectangle.png</file>
+    </qresource>
+  <qresource prefix="/">
+    <file>Resources/Normal/AngleN.png</file>
+    <file>Resources/Normal/BrokenLineN.png</file>
+    <file>Resources/Normal/Circle1N.png</file>
+    <file>Resources/Normal/Circle2N.png</file>
+    <file>Resources/Normal/CircleTwoPointsN.png</file>
+    <file>Resources/Normal/CrcularArcN.png</file>
+    <file>Resources/Normal/MPolygonN.png</file>
+    <file>Resources/Normal/ParallelLinesN.png</file>
+    <file>Resources/Normal/RectangleN.png</file>
+    <file>Resources/Normal/StraightLineN.png</file>
+  </qresource>
+  <qresource prefix="/">
+    <file>Resources/Select/AngleS.png</file>
+    <file>Resources/Select/BrokenLineS.png</file>
+    <file>Resources/Select/Circle1S.png</file>
+    <file>Resources/Select/Circle2S.png</file>
+    <file>Resources/Select/CircleTwoPointsS.png</file>
+    <file>Resources/Select/CrcularArcS.png</file>
+    <file>Resources/Select/MPolygonS.png</file>
+    <file>Resources/Select/ParallelLinesS.png</file>
+    <file>Resources/Select/RectangleS.png</file>
+    <file>Resources/Select/StraightLineS.png</file>
+  </qresource>
+</RCC>

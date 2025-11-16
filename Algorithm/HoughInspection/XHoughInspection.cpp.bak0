@@ -1,0 +1,703 @@
+#include "HoughInspectionResource.h"
+#include "XHoughInspection.h"
+#include "XGeneralFunc.h"
+#include "XDynamicMaskingPICommon.h"
+
+HoughThreshold::HoughThreshold(HoughItem *parent)
+	:AlgorithmThreshold(parent)
+{
+	ZoneWidth		=10;
+	MaxIsolation	=10;
+	MinPixels		=10000;
+	NGLength		=100;
+	BinarizedLength	=200;
+	PickupL			=0;
+	PickupH			=255;
+	RemoveDynamicMask=true;
+	ReducedSize		=5;
+	MaxLineCount	=100;
+	MinNGWidth		=0;
+	MaxNGWidth		=10;
+	MinAverageContinuous	=20;
+	DynamicBinarize	=true;
+}
+
+void	HoughThreshold::CopyFrom(const AlgorithmThreshold &src)
+{
+	AlgorithmThreshold::CopyFrom(src);
+
+	const HoughThreshold	*s=dynamic_cast<const HoughThreshold *>(&src);
+	ZoneWidth		=s->ZoneWidth;	
+	MaxIsolation	=s->MaxIsolation;
+	MinPixels		=s->MinPixels;
+	NGLength		=s->NGLength;
+	BinarizedLength	=s->BinarizedLength;
+	PickupL			=s->PickupL;
+	PickupH			=s->PickupH;
+	RemoveDynamicMask=s->RemoveDynamicMask;
+	ReducedSize		=s->ReducedSize;
+	MaxLineCount	=s->MaxLineCount;
+	MinNGWidth		=s->MinNGWidth;
+	MaxNGWidth		=s->MaxNGWidth;
+	MinAverageContinuous	=s->MinAverageContinuous;
+	DynamicBinarize	=s->DynamicBinarize;
+}
+bool	HoughThreshold::IsEqual(const AlgorithmThreshold &src)
+{
+	const HoughThreshold	*s=dynamic_cast<const HoughThreshold *>(&src);
+	if(ZoneWidth		!=s->ZoneWidth			)	return false;
+	if(MaxIsolation		!=s->MaxIsolation		)	return false;
+	if(MinPixels		!=s->MinPixels			)	return false;
+	if(NGLength			!=s->NGLength			)	return false;
+	if(BinarizedLength	!=s->BinarizedLength	)	return false;
+	if(PickupL			!=s->PickupL			)	return false;
+	if(PickupH			!=s->PickupH			)	return false;
+	if(RemoveDynamicMask!=s->RemoveDynamicMask	)	return false;
+	if(ReducedSize		!=s->ReducedSize		)	return false;
+	if(MaxLineCount		!=s->MaxLineCount		)	return false;
+	if(MinNGWidth		!=s->MinNGWidth			)	return false;
+	if(MaxNGWidth		!=s->MaxNGWidth			)	return false;
+	if(MinAverageContinuous	!=s->MinAverageContinuous	)	return false;
+	if(DynamicBinarize	!=s->DynamicBinarize	)	return false;
+	return true;
+}
+bool	HoughThreshold::Save(QIODevice *f)
+{
+	int32	Ver=7;
+
+	if(::Save(f,Ver)==false){
+		return false;
+	}
+	if(::Save(f,ZoneWidth)==false){
+		return false;
+	}
+	if(::Save(f,MaxIsolation)==false){
+		return false;
+	}
+	if(::Save(f,MinPixels)==false){
+		return false;
+	}
+	if(::Save(f,NGLength)==false){
+		return false;
+	}
+	if(::Save(f,BinarizedLength)==false){
+		return false;
+	}
+	if(::Save(f,PickupL)==false){
+		return false;
+	}
+	if(::Save(f,PickupH)==false){
+		return false;
+	}
+	if(::Save(f,RemoveDynamicMask)==false){
+		return false;
+	}
+	if(::Save(f,ReducedSize)==false){
+		return false;
+	}
+	if(::Save(f,MaxLineCount)==false){
+		return false;
+	}
+	if(::Save(f,MaxNGWidth)==false){
+		return false;
+	}
+	if(::Save(f,MinNGWidth)==false){
+		return false;
+	}
+	if(::Save(f,MinAverageContinuous)==false){
+		return false;
+	}
+	if(::Save(f,DynamicBinarize)==false){
+		return false;
+	}
+	return true;
+}
+
+bool	HoughThreshold::Load(QIODevice *f)
+{
+	int32	Ver;
+
+	if(::Load(f,Ver)==false){
+		return false;
+	}
+	if(::Load(f,ZoneWidth)==false){
+		return false;
+	}
+	if(::Load(f,MaxIsolation)==false){
+		return false;
+	}
+	if(::Load(f,MinPixels)==false){
+		return false;
+	}
+	if(::Load(f,NGLength)==false){
+		return false;
+	}
+	if(::Load(f,BinarizedLength)==false){
+		return false;
+	}
+	if(::Load(f,PickupL)==false){
+		return false;
+	}
+	if(::Load(f,PickupH)==false){
+		return false;
+	}
+	if(::Load(f,RemoveDynamicMask)==false){
+		return false;
+	}
+	if(Ver>=2){
+		if(::Load(f,ReducedSize)==false){
+			return false;
+		}
+	}
+	if(Ver>=3){
+		if(::Load(f,MaxLineCount)==false){
+			return false;
+		}
+	}
+	if(Ver>=4){
+		if(::Load(f,MaxNGWidth)==false){
+			return false;
+		}
+	}
+	if(Ver>=5){
+		if(::Load(f,MinNGWidth)==false){
+			return false;
+		}
+	}
+	if(Ver>=6){
+		if(::Load(f,MinAverageContinuous)==false){
+			return false;
+		}
+	}
+	if(Ver>=7){
+		if(::Load(f,DynamicBinarize)==false){
+			return false;
+		}
+	}
+	return true;
+}
+
+void	HoughThreshold::FromLibrary(AlgorithmLibrary *src)
+{
+	HoughLibrary	*s=dynamic_cast<HoughLibrary *>(src);
+	ZoneWidth		=s->ZoneWidth;	
+	MaxIsolation	=s->MaxIsolation;
+	MinPixels		=s->MinPixels;
+	NGLength		=s->NGLength;
+	BinarizedLength	=s->BinarizedLength;
+	PickupL			=s->PickupL;
+	PickupH			=s->PickupH;
+	RemoveDynamicMask=s->RemoveDynamicMask;
+	ReducedSize		=s->ReducedSize;
+	MaxLineCount	=s->MaxLineCount;
+	MinNGWidth		=s->MinNGWidth;
+	MaxNGWidth		=s->MaxNGWidth;
+	MinAverageContinuous	=s->MinAverageContinuous;
+	DynamicBinarize	=s->DynamicBinarize;
+}
+
+void	HoughThreshold::ToLibrary(AlgorithmLibrary *Dest)
+{
+	HoughLibrary	*d=dynamic_cast<HoughLibrary *>(Dest);
+	d->ZoneWidth		=ZoneWidth;	
+	d->MaxIsolation		=MaxIsolation;
+	d->MinPixels		=MinPixels;
+	d->NGLength			=NGLength;
+	d->BinarizedLength	=BinarizedLength;
+	d->PickupL			=PickupL;
+	d->PickupH			=PickupH;
+	d->RemoveDynamicMask=RemoveDynamicMask;
+	d->ReducedSize		=ReducedSize;
+	d->MaxLineCount		=MaxLineCount;
+	d->MinNGWidth		=MinNGWidth;
+	d->MaxNGWidth		=MaxNGWidth;
+	d->MinAverageContinuous	=MinAverageContinuous;
+	d->DynamicBinarize	=DynamicBinarize;
+}
+
+//=====================================================================
+
+HoughInLayer::HoughInLayer(AlgorithmInPageRoot *parent)
+	:AlgorithmInLayerPLI(parent)
+{
+	DynamicMaskMap	=NULL;
+	DynamicMaskMapXByte	=0;
+	DynamicMaskMapYLen	=0;
+}
+
+HoughInLayer::~HoughInLayer(void)
+{
+	DynamicMaskMap	=NULL;		//This is only pointer. So memory doesn't leak
+	DynamicMaskMapXByte	=0;
+	DynamicMaskMapYLen	=0;
+}
+
+
+void	HoughInLayer::TransmitDirectly(GUIDirectMessage *packet)
+{
+	CmdAddHoughItemPacket	*CmdAddHoughItemVar=dynamic_cast<CmdAddHoughItemPacket *>(packet);
+	if(CmdAddHoughItemVar!=NULL){
+		AlgorithmItemRoot	*Item=CreateItem(0);
+		Item->SetArea(CmdAddHoughItemVar->Area);
+		Item->SetLibID(CmdAddHoughItemVar->LibID);
+		HoughBase	*BBase=(HoughBase *)GetParentBase();
+		AlgorithmLibraryLevelContainer	LLib(BBase);
+		if(BBase->GetLibraryContainer()->GetLibrary(CmdAddHoughItemVar->LibID,LLib)==true){
+			((HoughItem *)Item)->CopyThresholdFromLibrary(&LLib);
+			AppendItem(Item);
+		}
+		return;
+	}
+	HoughMakeListPacket	*HoughMakeListPacketVar=dynamic_cast<HoughMakeListPacket *>(packet);
+	if(HoughMakeListPacketVar!=NULL){
+		for(AlgorithmItemPLI *k=GetFirstData();k!=NULL;k=k->GetNext()){
+			HoughItem	*a=dynamic_cast<HoughItem *>(k);
+			if(a!=NULL){
+				HoughListForPacket	*k=new HoughListForPacket();
+				k->ItemID	=a->GetID();
+				k->Page		=a->GetPage();
+				k->Layer	=a->GetLayer();
+				a->GetXY(k->x1,k->y1,k->x2,k->y2);
+				k->Angle	=0;
+				HoughMakeListPacketVar->ListInfo->AppendList(k);
+			}
+		}
+		return;
+	}
+	CmdGenerateHoughPacket	*CmdGenerateHoughPacketVar=dynamic_cast<CmdGenerateHoughPacket *>(packet);
+	if(CmdGenerateHoughPacketVar!=NULL){
+		GenerateBlocks(CmdGenerateHoughPacketVar->LibList);
+	}
+}
+
+void	HoughInLayer::GenerateBlocks(IntList &LibList)
+{
+}
+
+ExeResult	HoughInLayer::ExecuteProcessing(int ExeID ,ResultInLayerRoot *R)
+{
+	DynamicMaskMap		=GetDataInPage()->GetDynamicMaskingMap();
+	DynamicMaskMapXByte	=GetDataInPage()->GetDynamicMaskMapXByte();
+	DynamicMaskMapYLen	=GetDataInPage()->GetDynamicMaskMapYLen();
+
+	return AlgorithmInLayerPLI::ExecuteProcessing(ExeID ,R);
+}
+
+void	HoughInLayer::UndoSetIndependentItemDataCommand(QIODevice *f)
+{
+	int	ItemID;
+	if(::Load(f,ItemID)==false)
+		return;
+	AlgorithmItemRoot	*Item=SearchIDItem(ItemID);
+	if(Item!=NULL){
+		HoughItem	*BI=(HoughItem *)Item;
+		BI->GetThresholdW()->Load(f);
+	}
+}
+
+//=====================================================================
+
+HoughInPage::HoughInPage(AlgorithmBase *parent)
+	:AlgorithmInPagePLI(parent)
+{
+}
+
+void	HoughInPage::TransmitDirectly(GUIDirectMessage *packet)
+{
+	CmdAddHoughItemPacket	*CmdAddHoughItemVar=dynamic_cast<CmdAddHoughItemPacket *>(packet);
+	if(CmdAddHoughItemVar!=NULL){
+		for(IntClass *L=CmdAddHoughItemVar->LayerList.GetFirst();L!=NULL;L=L->GetNext()){
+			AlgorithmInLayerRoot	*AL=GetLayerData(L->GetValue());
+			AL->TransmitDirectly(packet);
+		}
+		return;
+	}
+	HoughMakeListPacket	*HoughMakeListPacketVar=dynamic_cast<HoughMakeListPacket *>(packet);
+	if(HoughMakeListPacketVar!=NULL){
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			AlgorithmInLayerRoot	*AL=GetLayerData(Layer);
+			AL->TransmitDirectly(packet);
+		}
+		return;
+
+	}
+	CmdGenerateHoughPacket	*CmdGenerateHoughPacketVar=dynamic_cast<CmdGenerateHoughPacket *>(packet);
+	if(CmdGenerateHoughPacketVar!=NULL){
+		for(IntClass *L=CmdGenerateHoughPacketVar->LayerList.GetFirst();L!=NULL;L=L->GetNext()){
+			AlgorithmInLayerRoot	*AL=GetLayerData(L->GetValue());
+			AL->TransmitDirectly(packet);
+		}
+		return;
+	}
+}
+
+//=====================================================================
+HoughBase::HoughBase(LayersBase *Base)
+:AlgorithmBase(Base)
+{
+	ColorMask		=Qt::green;
+	ColorSelected	=Qt::yellow;
+	ColorActive		=Qt::red;
+	NegColorMask	=Qt::darkRed;
+	NegColorSelected=Qt::darkYellow;
+	TransparentLevel=80;
+	OutputDebugFile	=false;
+	SearchNeighborRate	=0.05;
+	FillRate			=1.0;
+	DefaultDivCount		=10;
+	RangeToFillWidth	=0.3;
+	ModeThread			=true;
+
+	SetParam(&ColorMask			, /**/"Color" ,/**/"ColorMask"			,LangSolver.GetString(XHoughInspection_LS,LID_0)/*"Color for Mask"*/);
+	SetParam(&ColorSelected		, /**/"Color" ,/**/"ColorSelected"		,LangSolver.GetString(XHoughInspection_LS,LID_1)/*"Color for Selected Mask"*/);
+	SetParam(&ColorActive		, /**/"Color" ,/**/"ColorActive"		,LangSolver.GetString(XHoughInspection_LS,LID_2)/*"Color for Active Mask"*/);
+	SetParam(&NegColorMask		, /**/"Color" ,/**/"NegColorMask"		,LangSolver.GetString(XHoughInspection_LS,LID_3)/*"Color for Negative Mask"*/);
+	SetParam(&NegColorSelected	, /**/"Color" ,/**/"NegColorSelected"	,LangSolver.GetString(XHoughInspection_LS,LID_4)/*"Color for Selected Negative Mask"*/);
+	SetParam(&TransparentLevel	, /**/"Color" ,/**/"TransparentLevel"	,LangSolver.GetString(XHoughInspection_LS,LID_5)/*"Color for Transparent display level"*/);
+	SetParam(&OutputDebugFile	, /**/"Setting" ,/**/"OutputDebugFile"	,LangSolver.GetString(XHoughInspection_LS,LID_6)/*"Output Hough map files for debug"*/);
+	SetParam(&SearchNeighborRate, /**/"Setting" ,/**/"SearchNeighborRate"	,LangSolver.GetString(XHoughInspection_LS,LID_7)/*"Find Hough point neighbor under this rate"*/);
+	SetParam(&FillRate			, /**/"Setting" ,/**/"FillRate"			,"Minimum rate to fill line.  Pixels/Length");
+	SetParam(&DefaultDivCount	, /**/"Setting" ,/**/"DefaultDivCount"	,"Default Divided Count for partial check");
+	SetParam(&RangeToFillWidth	, /**/"Setting" ,/**/"RangeToFillWidth"	,"Rate to fill width range for partial check(0-1.0)");
+	SetParam(&ModeThread		, /**/"Setting" ,/**/"ModeThread"		,"Use multi core to accelerate");
+}
+
+AlgorithmDrawAttr	*HoughBase::CreateDrawAttr(void)
+{
+	return new HoughDrawAttr();
+}
+
+void	HoughBase::TransmitDirectly(GUIDirectMessage *packet)
+{
+
+	CmdGetHoughLibraryListPacket	*AListPacket=dynamic_cast<CmdGetHoughLibraryListPacket *>(packet);
+	if(AListPacket!=NULL){
+		GetLibraryContainer()->EnumLibrary(GetLibType(),AListPacket->LibFolderID 
+			,AListPacket->AList);
+		return;
+	}
+	CmdCreateTempHoughLibraryPacket	*BCreateLib=dynamic_cast<CmdCreateTempHoughLibraryPacket *>(packet);
+	if(BCreateLib!=NULL){
+		BCreateLib->Point=new AlgorithmLibraryLevelContainer(this);
+		return;
+	}
+	CmdLoadHoughLibraryPacket	*BLoadLib=dynamic_cast<CmdLoadHoughLibraryPacket *>(packet);
+	if(BLoadLib!=NULL){
+		BLoadLib->Success=GetLibraryContainer()->Load(*BLoadLib->Point);
+		return;
+	}
+	CmdClearHoughLibraryPacket	*CmdClearBlockLibraryPacketVar=dynamic_cast<CmdClearHoughLibraryPacket *>(packet);
+	if(CmdClearBlockLibraryPacketVar!=NULL){
+		CmdClearBlockLibraryPacketVar->Point->Clear();
+		return;
+	}
+	CmdDeleteHoughLibraryPacket 	*BDeleteLib=dynamic_cast<CmdDeleteHoughLibraryPacket  *>(packet);
+	if(BDeleteLib!=NULL){
+		GetLibraryContainer()->Delete(BDeleteLib->Point->GetLibID());
+		return;
+	}
+	CmdInsertHoughLibraryPacket	*BInsLib=dynamic_cast<CmdInsertHoughLibraryPacket *>(packet);
+	if(BInsLib!=NULL){
+		BInsLib->Point->SetDataVersion(HoughVersion);
+		GetLibraryContainer()->SaveNew(*BInsLib->Point);
+		return;
+	}
+	CmdUpdateHoughLibraryPacket	*BUpdLib=dynamic_cast<CmdUpdateHoughLibraryPacket *>(packet);
+	if(BUpdLib!=NULL){
+		BUpdLib->Point->SetDataVersion(HoughVersion);
+		GetLibraryContainer()->Update(*BUpdLib->Point);
+		return;
+	}
+
+	CmdGetHoughLibraryNamePacket	*CmdGetHoughLibraryNamePacketVar=dynamic_cast<CmdGetHoughLibraryNamePacket *>(packet);
+	if(CmdGetHoughLibraryNamePacketVar!=NULL){
+		AlgorithmLibraryLevelContainer	TmpLib(this);
+		CmdGetHoughLibraryNamePacketVar->Success=GetLibraryContainer()->GetLibrary(CmdGetHoughLibraryNamePacketVar->LibID,TmpLib);
+		if(CmdGetHoughLibraryNamePacketVar->Success==true){
+			CmdGetHoughLibraryNamePacketVar->LibName=TmpLib.GetLibName();
+		}
+		return;
+	}
+}
+
+bool	HoughBase::GeneralDataRelease(int32 Command,void *data)
+{
+	if(Command==HoughReqThresholdReqCommand){
+		delete	data;
+		return true;
+	}
+	else if(Command==HoughReqThresholdSendCommand){
+		delete	data;
+		return true;
+	}
+	else{
+		return AlgorithmBase::GeneralDataRelease(Command,data);
+	}
+}
+void	*HoughBase::GeneralDataCreate(int32 Command ,void *reqData)
+{
+
+	if(Command==HoughReqThresholdReqCommand){
+		return new HoughThresholdReq();
+	}
+	else if(Command==HoughReqThresholdSendCommand){
+		HoughThresholdSend	*pSend=new HoughThresholdSend();
+		if(reqData!=NULL){
+			HoughThresholdReq	*req=(HoughThresholdReq *)reqData;
+			pSend->ConstructList(req,this);
+		}
+		return pSend;
+	}
+	else{
+		return AlgorithmBase::GeneralDataCreate(Command,reqData);
+	}
+}
+bool	HoughBase::GeneralDataLoad(QIODevice *f,int32 Command,void *data)
+{
+	if(Command==HoughReqThresholdReqCommand){
+		HoughThresholdReq	*p=(HoughThresholdReq *)data;
+		return p->Load(f);
+	}
+	else if(Command==HoughReqThresholdSendCommand){
+		HoughThresholdSend	*p=(HoughThresholdSend *)data;
+		return p->Load(f);
+	}
+	else{
+		return AlgorithmBase::GeneralDataLoad(f,Command,data);
+	}
+}
+bool	HoughBase::GeneralDataSave(QIODevice *f,int32 Command,void *data)
+{
+	if(Command==HoughReqThresholdReqCommand){
+		HoughThresholdReq	*p=(HoughThresholdReq *)data;
+		return p->Save(f);
+	}
+	else if(Command==HoughReqThresholdSendCommand){
+		HoughThresholdSend	*p=(HoughThresholdSend *)data;
+		return p->Save(f);
+	}
+	else{
+		return AlgorithmBase::GeneralDataSave(f,Command,data);
+	}
+}
+bool	HoughBase::GeneralDataReply(int32 Command,void *data)
+{
+	if(Command==HoughReqThresholdReqCommand){
+		HoughThresholdReq	*p=(HoughThresholdReq *)data;
+		return true;
+	}
+	else if(Command==HoughReqThresholdSendCommand){
+		HoughThresholdSend	*p=(HoughThresholdSend *)data;
+		return true;
+	}
+	else{
+		return AlgorithmBase::GeneralDataReply(Command,data);
+	}
+}
+
+QString	HoughBase::GetNameByCurrentLanguage(void)
+{
+	return "’¼üŒŸ¸";
+}
+//======================================================================
+
+HoughThresholdReq::HoughThresholdReq(void)
+{
+	GlobalPage	=-1;
+	ItemID		=-1;
+	Layer		=-1;
+	Mastered	=true;
+	Dx			=0;
+	Dy			=0;
+}
+
+bool	HoughThresholdReq::Save(QIODevice *f)
+{
+	if(::Save(f,GlobalPage)==false)
+		return false;
+	if(::Save(f,ItemID)==false)
+		return false;
+	if(::Save(f,Layer)==false)
+		return false;
+	if(::Save(f,Mastered)==false)
+		return false;
+	if(::Save(f,Dx)==false)
+		return false;
+	if(::Save(f,Dy)==false)
+		return false;
+	return true;
+}
+
+bool	HoughThresholdReq::Load(QIODevice *f)
+{
+	if(::Load(f,GlobalPage)==false)
+		return false;
+	if(::Load(f,ItemID)==false)
+		return false;
+	if(::Load(f,Layer)==false)
+		return false;
+	if(::Load(f,Mastered)==false)
+		return false;
+	if(::Load(f,Dx)==false)
+		return false;
+	if(::Load(f,Dy)==false)
+		return false;
+	return true;
+}
+
+HoughThresholdSend::HoughThresholdSend(void)
+{
+	GlobalPage	=-1;
+	ItemID		=-1;
+	Layer		=-1;
+	Dx			=0;
+	Dy			=0;
+	ZoneWidth		=10;	
+	MaxIsolation	=10;
+	MinPixels		=100;
+	NGLength		=100;
+	MinNGWidth		=0;
+	MaxNGWidth		=10;
+	BinarizedLength	=200;
+	PickupL			=0;
+	PickupH			=255;
+	RemoveDynamicMask=true;
+	ReducedSize		=5;
+	MaxLineCount	=100;
+}
+
+void	HoughThresholdSend::ConstructList(HoughThresholdReq *reqPacket,HoughBase *Base)
+{
+	GlobalPage	=reqPacket->GlobalPage;
+	Layer		=reqPacket->Layer;
+	ItemID		=reqPacket->ItemID;
+	Dx			=reqPacket->Dx;
+	Dy			=reqPacket->Dy;
+
+	int	localPage=Base->GetLayersBase()->GetLocalPageFromGlobal(GlobalPage);
+	AlgorithmInPagePLI	*Ap=dynamic_cast<AlgorithmInPagePLI *>(Base->GetPageData(localPage));
+	if(Ap!=NULL){
+		AlgorithmInLayerPLI	*L	=Ap->GetLayerDataPLI(Layer);
+		if(L!=NULL){
+			AlgorithmItemRoot	*item	=L->SearchIDItem(ItemID);
+			if(item!=NULL){
+				HoughItem	*Item=dynamic_cast<HoughItem*>(item);
+				const HoughThreshold	*RThr=Item->GetThresholdR(Ap->GetLayersBase());
+				ZoneWidth			=RThr->ZoneWidth;	
+				MaxIsolation		=RThr->MaxIsolation;
+				MinPixels			=RThr->MinPixels;
+				NGLength			=RThr->NGLength;
+				BinarizedLength		=RThr->BinarizedLength;
+				PickupL				=RThr->PickupL;
+				PickupH				=RThr->PickupH;
+				RemoveDynamicMask	=RThr->RemoveDynamicMask;
+				ReducedSize			=RThr->ReducedSize;
+				MaxLineCount		=RThr->MaxLineCount;
+				MinNGWidth			=RThr->MinNGWidth;
+				MaxNGWidth			=RThr->MaxNGWidth;
+			}
+		}
+	}
+}
+	
+bool	HoughThresholdSend::Save(QIODevice *f)
+{
+	if(::Save(f,GlobalPage)==false)
+		return false;
+	if(::Save(f,ItemID)==false)
+		return false;
+	if(::Save(f,Layer)==false)
+		return false;
+	if(::Save(f,Dx)==false)
+		return false;
+	if(::Save(f,Dy)==false)
+		return false;
+	if(::Save(f,ZoneWidth)==false){
+		return false;
+	}
+	if(::Save(f,MaxIsolation)==false){
+		return false;
+	}
+	if(::Save(f,MinPixels)==false){
+		return false;
+	}
+	if(::Save(f,NGLength)==false){
+		return false;
+	}
+	if(::Save(f,BinarizedLength)==false){
+		return false;
+	}
+	if(::Save(f,PickupL)==false){
+		return false;
+	}
+	if(::Save(f,PickupH)==false){
+		return false;
+	}
+	if(::Save(f,RemoveDynamicMask)==false){
+		return false;
+	}
+	if(::Save(f,ReducedSize)==false){
+		return false;
+	}
+	if(::Save(f,MaxLineCount)==false){
+		return false;
+	}
+	if(::Save(f,MaxNGWidth)==false){
+		return false;
+	}
+	if(::Save(f,MinNGWidth)==false){
+		return false;
+	}
+	return true;
+}
+	
+bool	HoughThresholdSend::Load(QIODevice *f)
+{
+	if(::Load(f,GlobalPage)==false)
+		return false;
+	if(::Load(f,ItemID)==false)
+		return false;
+	if(::Load(f,Layer)==false)
+		return false;
+	if(::Load(f,Dx)==false)
+		return false;
+	if(::Load(f,Dy)==false)
+		return false;
+	if(::Load(f,ZoneWidth)==false){
+		return false;
+	}
+	if(::Load(f,MaxIsolation)==false){
+		return false;
+	}
+	if(::Load(f,MinPixels)==false){
+		return false;
+	}
+	if(::Load(f,NGLength)==false){
+		return false;
+	}
+	if(::Load(f,BinarizedLength)==false){
+		return false;
+	}
+	if(::Load(f,PickupL)==false){
+		return false;
+	}
+	if(::Load(f,PickupH)==false){
+		return false;
+	}
+	if(::Load(f,RemoveDynamicMask)==false){
+		return false;
+	}
+	if(::Load(f,ReducedSize)==false){
+		return false;
+	}
+	if(::Load(f,MaxLineCount)==false){
+		return false;
+	}
+	if(::Load(f,MaxNGWidth)==false){
+		return false;
+	}
+	if(::Load(f,MinNGWidth)==false){
+		return false;
+	}
+	return true;
+}

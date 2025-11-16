@@ -1,0 +1,56 @@
+#include "ServiceLibResource.h"
+#include "XTypeDef.h"
+#include "SelectTransferHostDialog.h"
+#include "ui_SelectTransferHostDialog.h"
+
+#include "XGeneralFunc.h"
+#include "XTransfer.h"
+#include "XDataInLayer.h"
+
+SelectTransferHostDialog::SelectTransferHostDialog(LayersBase *Base, QWidget *parent) :
+    QDialog(parent), ServiceForLayers(Base),
+    ui(new Ui::SelectTransferHostDialog)
+{
+    ui->setupUi(this);
+	LangLibSolver.SetUI(this);
+
+	int	W=ui->tableWidget->width();
+	ui->tableWidget->setColumnWidth(0, W*0.4);
+	ui->tableWidget->setColumnWidth(1, W*0.4);
+	ui->tableWidget->setColumnWidth(2, W*0.2);
+
+	MixTransferComm *Trans=GetLayersBase()->GetMTransfer();
+	RemoteTransferListDimNumb	=Trans->GetRemoteTransferList(List);
+
+	ui->tableWidget->setRowCount(RemoteTransferListDimNumb);
+	for(int Row=0;Row<RemoteTransferListDimNumb;Row++){
+		::SetDataToTable(ui->tableWidget, 0, Row, List[Row].Name);
+		::SetDataToTable(ui->tableWidget, 1, Row, List[Row].IPAddress);
+		::SetDataToTable(ui->tableWidget, 2, Row, QString::number(List[Row].Port));
+	}
+	InstallOperationLog(this);
+}
+
+SelectTransferHostDialog::~SelectTransferHostDialog()
+{
+    delete ui;
+}
+
+void SelectTransferHostDialog::on_tableWidget_doubleClicked(const QModelIndex &index)
+{
+	on_pushButtonSelect_clicked();
+}
+
+void SelectTransferHostDialog::on_pushButtonSelect_clicked()
+{
+	int	Row=ui->tableWidget->currentRow();
+	if(Row<0)
+		return;
+	Selected	=List[Row];
+	done(true);
+}
+
+void SelectTransferHostDialog::on_pushButtonCancel_clicked()
+{
+	done(false);
+}

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/LoadAlgorithmWithMachine.png</file>
+    </qresource>
+</RCC>

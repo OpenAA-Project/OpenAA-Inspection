@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShowCheckEverydayForm</class>
+ <widget class="GUIFormBase" name="ShowCheckEverydayForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>590</width>
+    <height>241</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Show CheckEveryday</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>50</y>
+     <width>571</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>Page</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>LightR</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>LightG</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>LightB</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Focus</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>ID0</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ID1</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ID2</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ID3</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ID4</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ID5</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ID6</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ID7</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ID8</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QFrame" name="frameTop">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>591</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="pushButtonUpdate">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>10</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Update</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ShowCheckEveryday.qrc">
+      <normaloff>:/Qtres/Update.png</normaloff>:/Qtres/Update.png</iconset>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="ShowCheckEveryday.qrc"/>
+ </resources>
+ <connections/>
+</ui>

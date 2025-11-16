@@ -1,0 +1,41 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+<Qt_DEFINES_>_WINDOWS;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;QT_SQL_LIB;QT_NETWORK_LIB;QT_GUI_LIB;QT_CORE_LIB</Qt_DEFINES_>
+<Qt_INCLUDEPATH_>C:\Qt\Qt5.15.13\5.15.13\msvc2019_64\include;C:\Qt\Qt5.15.13\5.15.13\msvc2019_64\include\QtSql;C:\Qt\Qt5.15.13\5.15.13\msvc2019_64\include\QtNetwork;C:\Qt\Qt5.15.13\5.15.13\msvc2019_64\include\QtGui;C:\Qt\Qt5.15.13\5.15.13\msvc2019_64\include\QtANGLE;C:\Qt\Qt5.15.13\5.15.13\msvc2019_64\include\QtCore;C:\Qt\Qt5.15.13\5.15.13\msvc2019_64\mkspecs\win32-msvc</Qt_INCLUDEPATH_>
+<Qt_STDCPP_></Qt_STDCPP_>
+<Qt_RUNTIME_>MultiThreadedDLL</Qt_RUNTIME_>
+<Qt_CL_OPTIONS_>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus</Qt_CL_OPTIONS_>
+<Qt_LIBS_>C:\Qt\Qt5.15.13\5.15.13\msvc2019_64\lib\Qt5Sql.lib;C:\Qt\Qt5.15.13\5.15.13\msvc2019_64\lib\Qt5Network.lib;C:\Qt\Qt5.15.13\5.15.13\msvc2019_64\lib\Qt5Gui.lib;C:\Qt\Qt5.15.13\5.15.13\msvc2019_64\lib\Qt5Core.lib;C:\Qt\Qt5.15.13\5.15.13\msvc2019_64\lib\qtmain.lib;shell32.lib</Qt_LIBS_>
+<Qt_LINK_OPTIONS_>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'"</Qt_LINK_OPTIONS_>
+<QMake_QT_SYSROOT_></QMake_QT_SYSROOT_>
+<QMake_QT_INSTALL_PREFIX_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64</QMake_QT_INSTALL_PREFIX_>
+<QMake_QT_INSTALL_ARCHDATA_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64</QMake_QT_INSTALL_ARCHDATA_>
+<QMake_QT_INSTALL_DATA_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64</QMake_QT_INSTALL_DATA_>
+<QMake_QT_INSTALL_DOCS_>C:/Qt/Qt5.15.13/Docs/Qt-5.15.13</QMake_QT_INSTALL_DOCS_>
+<QMake_QT_INSTALL_HEADERS_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64/include</QMake_QT_INSTALL_HEADERS_>
+<QMake_QT_INSTALL_LIBS_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64/lib</QMake_QT_INSTALL_LIBS_>
+<QMake_QT_INSTALL_LIBEXECS_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64/bin</QMake_QT_INSTALL_LIBEXECS_>
+<QMake_QT_INSTALL_BINS_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64/bin</QMake_QT_INSTALL_BINS_>
+<QMake_QT_INSTALL_TESTS_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64/tests</QMake_QT_INSTALL_TESTS_>
+<QMake_QT_INSTALL_PLUGINS_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64/plugins</QMake_QT_INSTALL_PLUGINS_>
+<QMake_QT_INSTALL_IMPORTS_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64/imports</QMake_QT_INSTALL_IMPORTS_>
+<QMake_QT_INSTALL_QML_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64/qml</QMake_QT_INSTALL_QML_>
+<QMake_QT_INSTALL_TRANSLATIONS_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64/translations</QMake_QT_INSTALL_TRANSLATIONS_>
+<QMake_QT_INSTALL_CONFIGURATION_></QMake_QT_INSTALL_CONFIGURATION_>
+<QMake_QT_INSTALL_EXAMPLES_>C:/Qt/Qt5.15.13/Examples/Qt-5.15.13</QMake_QT_INSTALL_EXAMPLES_>
+<QMake_QT_INSTALL_DEMOS_>C:/Qt/Qt5.15.13/Examples/Qt-5.15.13</QMake_QT_INSTALL_DEMOS_>
+<QMake_QT_HOST_PREFIX_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64</QMake_QT_HOST_PREFIX_>
+<QMake_QT_HOST_DATA_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64</QMake_QT_HOST_DATA_>
+<QMake_QT_HOST_BINS_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64/bin</QMake_QT_HOST_BINS_>
+<QMake_QT_HOST_LIBS_>C:/Qt/Qt5.15.13/5.15.13/msvc2019_64/lib</QMake_QT_HOST_LIBS_>
+<QMake_QMAKE_SPEC_>win32-msvc</QMake_QMAKE_SPEC_>
+<QMake_QMAKE_XSPEC_>win32-msvc</QMake_QMAKE_XSPEC_>
+<QMake_QMAKE_VERSION_>3.1</QMake_QMAKE_VERSION_>
+<QMake_QT_VERSION_>5.15.13</QMake_QT_VERSION_>
+<QtBkup_QtHash>jVHLTsQwDPwVfwFleUkc9uC1vcVsmgQ7Aa3Qqv//F6RVUSUuRIov8czYM/5Wlli0XI/Pd4f2HufJP+nh/vA6vzwBJRPwjwBRyleyC4xV4aRxLZazRvHjkC29C5VBi0zrpxZNcbRU80CB0pQ1SENJA5K4J9tRDhopVJaM5a1XCpnXERg2Mqu1BZKpOHhhyrlXKmAcK47iBSOjMVhtcUzSy9/gQU+GdgUKc8qL++5Ydi8bEZrWP+xm+zLsxBaexHZGWuwvvb4d/qj8jjcJgi63Hw==</QtBkup_QtHash>
+    <QtVersion>5.15.13</QtVersion>
+    <QtVersionMajor>5</QtVersionMajor>
+    <QtVersionMinor>15</QtVersionMinor>
+    <QtVersionPatch>13</QtVersionPatch>
+  </PropertyGroup>
+</Project>

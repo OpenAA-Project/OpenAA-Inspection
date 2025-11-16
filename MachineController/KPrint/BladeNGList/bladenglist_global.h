@@ -1,0 +1,12 @@
+#ifndef BLADENGLIST_GLOBAL_H
+#define BLADENGLIST_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef BLADENGLIST_LIB
+# define BLADENGLIST_EXPORT Q_DECL_EXPORT
+#else
+# define BLADENGLIST_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // BLADENGLIST_GLOBAL_H

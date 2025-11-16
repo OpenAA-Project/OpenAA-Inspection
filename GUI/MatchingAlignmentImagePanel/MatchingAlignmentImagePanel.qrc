@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/MatchingAlignmentImagePanel.png</file>
+    </qresource>
+</RCC>

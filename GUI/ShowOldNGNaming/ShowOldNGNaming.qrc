@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ShowOldNGNaming.png</file>
+        <file>Qtres/OK.png</file>
+    </qresource>
+</RCC>

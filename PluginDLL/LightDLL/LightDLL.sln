@@ -1,0 +1,40 @@
+ÅEø
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}") = "DummyLightDLL", "DummyLightDLL\DummyLightDLL.icproj", "{6F7B358E-27E6-4289-92C5-84752964A7B5}"
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+EndProject
+Global
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F7B358E-27E6-4289-92C5-84752964A7B5}.Debug|Win32.ActiveCfg = Debug|x64
+		{6F7B358E-27E6-4289-92C5-84752964A7B5}.Debug|Win32.Build.0 = Debug|x64
+		{6F7B358E-27E6-4289-92C5-84752964A7B5}.Debug|x64.ActiveCfg = Debug|x64
+		{6F7B358E-27E6-4289-92C5-84752964A7B5}.Debug|x64.Build.0 = Debug|x64
+		{6F7B358E-27E6-4289-92C5-84752964A7B5}.Release|Win32.ActiveCfg = Release|x64
+		{6F7B358E-27E6-4289-92C5-84752964A7B5}.Release|Win32.Build.0 = Release|x64
+		{6F7B358E-27E6-4289-92C5-84752964A7B5}.Release|x64.ActiveCfg = Release|x64
+		{6F7B358E-27E6-4289-92C5-84752964A7B5}.Release|x64.Build.0 = Release|x64
+		{0D201566-3D57-4D1C-9CE3-731478CD65CF}.Release|x64.Build.0 = Release|x64
+		{0D201566-3D57-4D1C-9CE3-731478CD65CF}.Release|x64.ActiveCfg = Release|x64
+		{0D201566-3D57-4D1C-9CE3-731478CD65CF}.Release|Win32.Build.0 = Release|x64
+		{0D201566-3D57-4D1C-9CE3-731478CD65CF}.Release|Win32.ActiveCfg = Release|x64
+		{0D201566-3D57-4D1C-9CE3-731478CD65CF}.Debug|x64.Build.0 = Debug|x64
+		{0D201566-3D57-4D1C-9CE3-731478CD65CF}.Debug|x64.ActiveCfg = Debug|x64
+		{0D201566-3D57-4D1C-9CE3-731478CD65CF}.Debug|Win32.Build.0 = Debug|x64
+		{0D201566-3D57-4D1C-9CE3-731478CD65CF}.Debug|Win32.ActiveCfg = Debug|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Resources/ButtonEditFilterBank.png</file>
+    </qresource>
+</RCC>

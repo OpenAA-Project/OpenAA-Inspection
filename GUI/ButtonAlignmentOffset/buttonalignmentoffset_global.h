@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(BUTTONALIGNMENTOFFSET_LIB)
+#  define BUTTONALIGNMENTOFFSET_EXPORT Q_DECL_EXPORT
+# else
+#  define BUTTONALIGNMENTOFFSET_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define BUTTONALIGNMENTOFFSET_EXPORT
+#endif

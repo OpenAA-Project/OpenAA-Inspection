@@ -1,0 +1,12 @@
+#ifndef FILTERVBAND_GLOBAL_H
+#define FILTERVBAND_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef FILTERVBAND_LIB
+# define FILTERVBAND_EXPORT Q_DECL_EXPORT
+#else
+# define FILTERVBAND_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // FILTERVBAND_GLOBAL_H

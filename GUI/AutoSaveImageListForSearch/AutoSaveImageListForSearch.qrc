@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/AutoSaveImageListForSearch.png</file>
+        <file>Qtres/Load.png</file>
+        <file>Qtres/Search.png</file>
+        <file>Qtres/Cancel.png</file>
+    </qresource>
+</RCC>

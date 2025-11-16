@@ -1,0 +1,57 @@
+﻿#include "networkdriveautoconnectResource.h"
+static struct LSStringResource LSStrDictionary[]={
+	{	networkdriveautoconnect_LS,LID_0,	"ネットワークドライバが確立しました",	"Netwrok Driver was Connected.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_1,	"接続が確立されました。",	"Netwrok Driver was Connected.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_2,	"ネットワーク資源へのアクセスが拒否されました。",	"Access to the network resource was denied.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_3,	"指定したローカルデバイスは既にネットワーク資源に接続されています。",	"The local device is already connected to a network resource.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_4,	"ローカルデバイスの種類とネットワーク資源の種類が一致しません。",	"The type of local device and the type of network resource do not match.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_5,	"ローカルネットワークドライブ名が無効です。",	"The Local Name is invalid.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_6,	"共有ネットワークフォルダパスをどのネットワーク資源のプロバイダも受け付けません。\n資源の名前が無効か、指定したパスが見つかりません。",	"The value specified by Target Network Folder Path is not acceptable to any\n network resourceprovider.The resource name is invalid, or the named resource\ncannot be located.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_7,	"ユーザープロファイルの形式が正しくありません。",	"The user profile is in an incorrect format.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_8,	"指定した値がどのプロバイダとも一致しません。",	"The value specified by Provider does not match any provider.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_9,	"ルーターまたはプロバイダがビジー（おそらく初期化中）です。",	"The router or provider is busy, possibly initializing. The caller should retry.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_10,	"ネットワーク資源のプロバイダのいずれかでユーザーがダイアログボックスを使って\n接続操作を取り消したか、接続先の資源が接続操作を取り消しました。",	"The attempt to make the connection was canceled by the user through a dialog box\nfrom one of the network resource providers, or by a called resource.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_11,	"恒久的な接続を処理するためのユーザープロファイルを開くことができません。",	"The system is unable to open the user profile to process persistent connections.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_12,	"指定したローカルデバイス名のエントリは既にユーザープロファイル内に存在します。",	"The local device name has a remembered connection to another network resource.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_13,	"ネットワーク固有のエラーが発生しました。",	"A network-specific error occurred.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_14,	"指定したパスワードが無効です。",	"The specified password is invalid.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_15,	"ネットワークに到達できません。ネットワークのトラブルシューティングについては\nWindows ヘルプを参照してください。",	"This computer can\'t reach network.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_16,	"ネットワークに接続されていません。",	"This computer is not on the network.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_17,	"ログオン失敗: ユーザー名を認識できないか、またはパスワードが間違っています。",	"A logon failure because of an unknown user name or a bad password.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_18,	"ネットワークコンポーネントが開始されていないか、指定した名前が利用できないために、\n操作を行えませんでした。",	"No network provider accepted the given network path.\nThis error is returned if no network provider recognized the Name inputed.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_19,	"不明なエラーが発生しました。",	"Unknown error is occurrd.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_20,	"ネットワークドライバが確立しました",	"Netwrok Driver was Connected.",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_21,	"自動接続中断",	"StartAuto",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_22,	"自動接続開始",	"Stop Auto",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	networkdriveautoconnect_LS,LID_23,	"%1",	"%1",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	-1,-1,"","","","","","","","","",""	}
+	};
+static struct LSUIResource LSUIDictionary[]={
+	{	"NetworkDriveAutoConnectClass","QMainWindow","NetworkDriveAutoConnectClass","windowTitle",	"NetworkDriveAutoConnect",	"NetworkDriveAutoConnect",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	"NetworkDriveAutoConnectClass","QPushButton","QBtnExitButton","text",	"Exit",	"Exit",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	"NetworkDriveAutoConnectClass","QProgressBar","progressBar","format",	"",	"",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	"NetworkDriveAutoConnectClass","QLabel","label_5","text",	"リトライ間隔[ms]",	"Retry Time[ms]",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	"NetworkDriveAutoConnectClass","QLineEdit","QLiedRetryTime","text",	"1000",	"1000",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	"NetworkDriveAutoConnectClass","QPushButton","QBtnSaveDefault","text",	"起動時設定へ保存",	"Save as StartUpIni",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	"NetworkDriveAutoConnectClass","QLabel","label_6","text",	"状態 ：",	"State ：",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	"NetworkDriveAutoConnectClass","QPushButton","QBtnConnectNow","text",	"すぐに接続",	"Connect Now",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	"NetworkDriveAutoConnectClass","QLabel","label","text",	"ローカルネットワークドライブ名",	"Local Network Drive Name",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	"NetworkDriveAutoConnectClass","QLabel","label_2","text",	"共有ネットワークフォルダパス",	"Target Network Folder Path",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	"NetworkDriveAutoConnectClass","QLabel","label_3","text",	"ユーザー名",	"User Name",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	"NetworkDriveAutoConnectClass","QLabel","label_4","text",	"パスワード",	"Password",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	"NetworkDriveAutoConnectClass","QPushButton","QBtnConnectStart","text",	"自動接続開始",	"StartAuto",	"",	"",	"",	"",	"",	"",	"",	""	},
+	{	"","","","","","","","","","","","","",""	}
+	};
+static char	*CodecList[]={
+	"Shift_JIS",
+	"Shift_JIS",
+	"Shift_JIS",
+	"Shift_JIS",
+	"Shift_JIS",
+	"Shift_JIS",
+	"Shift_JIS",
+	"Shift_JIS",
+	"Shift_JIS",
+	"Shift_JIS",
+	""	};
+LangSolverClass	LangSolver(LSStrDictionary,LSUIDictionary,CodecList);

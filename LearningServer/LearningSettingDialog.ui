@@ -1,0 +1,61 @@
+<ui version="4.0" >
+ <class>LearningSettingDialogClass</class>
+ <widget class="QDialog" name="LearningSettingDialogClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>697</width>
+    <height>483</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>LearningSettingDialog</string>
+  </property>
+  <widget class="QPushButton" name="ButtonCancel" >
+   <property name="geometry" >
+    <rect>
+     <x>490</x>
+     <y>420</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonOK" >
+   <property name="geometry" >
+    <rect>
+     <x>80</x>
+     <y>420</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>OK  Save</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>661</width>
+     <height>371</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Raised</enum>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

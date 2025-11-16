@@ -1,0 +1,1369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|x64">
+      <Configuration>Template</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BB2FF5F6-288D-438B-8285-B4829B22C896}</ProjectGuid>
+    <RootNamespace>ServiceLib</RootNamespace>
+    <Keyword>QtVS_v304</Keyword>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>Intel C++ Compiler 2022</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>Intel C++ Compiler 2022</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>Intel C++ Compiler 2022</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>Intel C++ Compiler 2022</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>Intel C++ Compiler 2022</PlatformToolset>
+    <InterproceduralOptimization>true</InterproceduralOptimization>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>Intel C++ Compiler 2022</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Template|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|x64'">
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\..\Lib\Release\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\Lib\Release\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>..\..\Lib\Debug\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\Lib\Debug</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Template|x64'">
+    <QtModules>core;sql;network;gui</QtModules>
+    <QtInstall>$(DefaultQtVersion)</QtInstall>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <QtModules>core;sql;network;gui</QtModules>
+    <QtInstall>$(DefaultQtVersion)</QtInstall>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <QtModules>core;gui;network;widgets;core5compat;sql</QtModules>
+    <QtInstall>$(DefaultQtVersion)</QtInstall>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <QtModules>core;gui;network;sql;widgets</QtModules>
+    <QtInstall>$(DefaultQtVersion)</QtInstall>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <QtModules>core;sql;network;gui</QtModules>
+    <QtInstall>$(DefaultQtVersion)</QtInstall>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <QtModules>core;sql;network;gui</QtModules>
+    <QtInstall>$(DefaultQtVersion)</QtInstall>
+  </PropertyGroup>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
+    <Import Project="$(QtMsBuild)\qt.props" />
+  </ImportGroup>
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\OpenSource\eigen;..\..\Integrator\IntegrationLib;..\..\OpenSource\LibPNG;..\..\EditGUI\EditGUILib\GeneratedFiles;..\..\OpenSource\DisplayImage;..\..\OpenSource\DisplayImage\GeneratedFiles;..\..\OpenSource\Component;..\..\GUI\ImagePanelTools\GeneratedFiles;..\..\GUI\ImagePanelTools;..\..\GUI\ImageControlTools\GeneratedFiles;..\..\GUI\ImageControlTools;..\..\ServiceLib\ServiceLib;..\..\Open;..\..\EditGUI\EditGUI;..\..\EditGUI\EditGUI\GeneratedFiles;..\..\GeneralSource;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;SERVICELIB_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
+      <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
+      <Parallelization>true</Parallelization>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <GenerateAlternateCodePaths>SSE2</GenerateAlternateCodePaths>
+      <UseProcessorExtensions>SSE3</UseProcessorExtensions>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>QtCore4.lib;QtGui4.lib;QtSql4.lib;QtNetwork4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>ForWindows.lib;NetworkDrive.lib;LibPNGDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../Lib/Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <QtMoc>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+      <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
+      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+    </QtMoc>
+    <QtRcc>
+      <InitFuncName>ServiceLib</InitFuncName>
+      <Compression>default</Compression>
+      <NoCompression>true</NoCompression>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <QtRccDir>.\GeneratedFiles</QtRccDir>
+      <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
+    </QtRcc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <QtUicDir>.\GeneratedFiles</QtUicDir>
+      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>..\ServiceForAlgorithm;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\OpenSource\eigen;..\..\Integrator\IntegrationLib;..\..\OpenSource\LibPNG;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\ServiceLib\ServiceLib;..\..\Open;..\..\EditGUI\EditGUI;..\..\GeneralSource;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;SERVICELIB_LIB;NO_INLINE_ASSEMBLER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <OpenMPSupport>true</OpenMPSupport>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Parallelization>true</Parallelization>
+      <UseIntelOptimizedHeaders>false</UseIntelOptimizedHeaders>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <GenerateAlternateCodePaths>SSE3</GenerateAlternateCodePaths>
+      <UseProcessorExtensions>None</UseProcessorExtensions>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <CheckPointers>None</CheckPointers>
+      <CheckDanglingPointers>None</CheckDanglingPointers>
+      <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
+      <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>ForWindows.lib;NetworkDrive.lib;LibPNGDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../Lib/Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <QtMoc>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+      <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
+      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+    </QtMoc>
+    <QtRcc>
+      <InitFuncName>ServiceLib</InitFuncName>
+      <Compression>default</Compression>
+      <NoCompression>true</NoCompression>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <QtRccDir>.\GeneratedFiles</QtRccDir>
+      <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
+    </QtRcc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <QtUicDir>.\GeneratedFiles</QtUicDir>
+      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
+    </QtUic>
+    <CustomBuild />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\OpenSource\eigen;..\..\Integrator\IntegrationLib;..\..\OpenSource\LibPNG;..\..\EditGUI\EditGUILib\GeneratedFiles;..\..\OpenSource\DisplayImage;..\..\OpenSource\DisplayImage\GeneratedFiles;..\..\OpenSource\Component;..\..\GUI\ImagePanelTools\GeneratedFiles;..\..\GUI\ImagePanelTools;..\..\GUI\ImageControlTools\GeneratedFiles;..\..\GUI\ImageControlTools;..\..\ServiceLib\ServiceLib;..\..\Open;..\..\EditGUI\EditGUI;..\..\EditGUI\EditGUI\GeneratedFiles;..\..\GeneralSource;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;SERVICELIB_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>ForWindows.lib;NetworkDrive.lib;LibPNGDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../Lib/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <QtMoc>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+      <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
+      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+    </QtMoc>
+    <QtRcc>
+      <InitFuncName>ServiceLib</InitFuncName>
+      <NoCompression>true</NoCompression>
+      <Compression>default</Compression>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <QtRccDir>.\GeneratedFiles</QtRccDir>
+      <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
+    </QtRcc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <QtUicDir>.\GeneratedFiles</QtUicDir>
+      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\OpenSource\eigen;..\..\Integrator\IntegrationLib;..\..\OpenSource\LibPNG;..\..\EditGUI\EditGUILib\GeneratedFiles;..\..\OpenSource\DisplayImage;..\..\OpenSource\DisplayImage\GeneratedFiles;..\..\OpenSource\Component;..\..\GUI\ImagePanelTools\GeneratedFiles;..\..\GUI\ImagePanelTools;..\..\GUI\ImageControlTools\GeneratedFiles;..\..\GUI\ImageControlTools;..\..\ServiceLib\ServiceLib;..\..\Open;..\..\EditGUI\EditGUI;..\..\EditGUI\EditGUI\GeneratedFiles;..\..\GeneralSource;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;SERVICELIB_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <OpenMPSupport>true</OpenMPSupport>
+      <AssemblerOutput>
+      </AssemblerOutput>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ShowIncludes>false</ShowIncludes>
+      <Parallelization>true</Parallelization>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <VectorizerDiagnosticLevel>Default</VectorizerDiagnosticLevel>
+      <GenerateAlternateCodePaths>None</GenerateAlternateCodePaths>
+      <UseProcessorExtensions>None</UseProcessorExtensions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>ForWindows.lib;NetworkDrive.lib;LibPNGDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../Lib/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+    </Lib>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <QtMoc>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+      <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
+      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+    </QtMoc>
+    <QtRcc>
+      <InitFuncName>ServiceLib</InitFuncName>
+      <Compression>default</Compression>
+      <NoCompression>true</NoCompression>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <QtRccDir>.\GeneratedFiles</QtRccDir>
+      <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
+    </QtRcc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <QtUicDir>.\GeneratedFiles</QtUicDir>
+      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <QtMoc>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+      <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
+      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+    </QtMoc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <QtUicDir>.\GeneratedFiles</QtUicDir>
+      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Template|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <QtMoc>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+      <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
+      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+    </QtMoc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <QtUicDir>.\GeneratedFiles</QtUicDir>
+      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\GeneralSource\X3DCommon.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XAlgorithmWindow.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XAuthentication.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XCameraHandle.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XClipboard.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XColorConvert.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XControlPoints.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XCrossObj.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XCSVGui.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDataAlgorithmConfirm.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDataAlgorithmList.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDataAlgorithmPipe.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDataAlgorithmThreshold.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDataComponent.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDataInLayer2.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDataInLayerComm.cpp">
+      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </FunctionLevelLinking>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XDataInLayerForDebug.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <OptimizeForWindowsApplication Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</OptimizeForWindowsApplication>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XDataInLayerNoOptimized.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <OptimizeForWindowsApplication Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</OptimizeForWindowsApplication>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XDataInLayerStructor.cpp">
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</BufferSecurityCheck>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XDataInLayerToDisplayImage.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDateTime.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDFS.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDisplayImageOptimized.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDLLManager.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDLLType.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDrawFunc.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XEntryPoint.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XErrorMessage.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XFFT1d.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XFileThread.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XFlexAreaHough.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XFlexAreaImageBuffer.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XFloatShort.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XForWindowsLib.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XGeneralFunc2.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XGeneralFuncCore.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XGeneralWidget.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XGUIComponent.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XGUIPacketGeneral.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XImagePNG.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XImageProcess.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XImageProcess2.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XImageProcess3.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XInterpolation.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XLanguageStockerLoader.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XLevel.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XLineMatching.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XLotInformation.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XManualExecuter.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XMapBuffer.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XMasterData.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XMasterDataInfo.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XMemoryStream.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XMultiLayerColor.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XOpenSaveDialog.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XParameterHelp.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XPointerAsm.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XPrinterDLLBaseClass.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XPrinterManager.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XQuickBuffer.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XRegulation.cpp">
+      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnableFiberSafeOptimizations>
+      <GenerateAlternateCodePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</GenerateAlternateCodePaths>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XReportedTopic.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XResize.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XResultAnalizer.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XResultCompress.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XRobotClass.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</FunctionLevelLinking>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XRobotControl.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</FunctionLevelLinking>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XShadowControlInterface.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XShadowTree.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XShareMasterData.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XSort.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XStatistic.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XTransferCommand.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XTransferPacket.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XTransFile.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XTransform.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XTransSocket.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XUndo.cpp" />
+    <ClCompile Include="..\..\Integrator\IntegrationLib\XIntegrationComm.cpp" />
+    <ClCompile Include="..\..\Open\XGUILanguage.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <OptimizeForWindowsApplication Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</OptimizeForWindowsApplication>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\ForWindows\XForWindows.cpp" />
+    <ClCompile Include="AlertDialog.cpp" />
+    <ClCompile Include="EditItemIDDialog.cpp" />
+    <ClCompile Include="EditStatusDialog.cpp">
+      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnableFiberSafeOptimizations>
+      <GenerateAlternateCodePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</GenerateAlternateCodePaths>
+    </ClCompile>
+    <ClCompile Include="EditTextMessages.cpp" />
+    <ClCompile Include="GUITurnUpDownForm.cpp" />
+    <ClCompile Include="InputPasswordForm.cpp" />
+    <ClCompile Include="LensWindowForm.cpp">
+      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnableFiberSafeOptimizations>
+      <GenerateAlternateCodePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</GenerateAlternateCodePaths>
+    </ClCompile>
+    <ClCompile Include="LibFolderForm.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="LibFolderInputForm.cpp" />
+    <ClCompile Include="MessageBoxStringList.cpp" />
+    <ClCompile Include="OnProcessingForm.cpp" />
+    <ClCompile Include="ParameterHelpDialog.cpp" />
+    <ClCompile Include="Regulus64Version.cpp" />
+    <ClCompile Include="SelectAlgorithmDialog.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="SelectLibFolderDialog.cpp" />
+    <ClCompile Include="SelectLibrariesForAnyType.cpp" />
+    <ClCompile Include="SelectLibraryForm.cpp" />
+    <ClCompile Include="SelectLibraryOneDialog.cpp" />
+    <ClCompile Include="SelectMasterNoDialog.cpp" />
+    <ClCompile Include="SelectOneLibratyForAnyTypeForm.cpp" />
+    <ClCompile Include="SelectPhasePageLayerDialog.cpp" />
+    <ClCompile Include="SelectTabTop.cpp" />
+    <ClCompile Include="SelectThresholdLevelDialog.cpp" />
+    <ClCompile Include="SelectThresholdParentLevelDialog.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="SelectTransferHostDialog.cpp" />
+    <ClCompile Include="ServiceLib.cpp" />
+    <ClCompile Include="ServiceLibResource.cpp" />
+    <ClCompile Include="SetThresholdLevelForm.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="ShowLoadingDLLForm.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XAffin.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XAlgorithmBase.cpp">
+      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </FunctionLevelLinking>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XAlgorithmLibNGType.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XAlgorithmLibrary.cpp">
+      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnableFiberSafeOptimizations>
+      <GenerateAlternateCodePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</GenerateAlternateCodePaths>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XAnyData.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XArrangementFromFile.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XBitImageProcessor.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XBoolList.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XBsearch.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XCameraClass.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XColorSpace.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XCritialFunc.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XCSV.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XDataAlgorithm.cpp">
+      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </FunctionLevelLinking>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XDataBase.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XDatabaseLoader.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XDataInExecuter.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</FunctionLevelLinking>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XDataInLayer.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDataInLayerCommander.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDataInLayerImage.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDirectCommPacket.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDisplayBitImage.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDLLOnly.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDot.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDoubleClass.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDualIntList.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XErrorCode.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XExecuteInspectBase.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XFifoClass.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XFileRegistry.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XFilterClass.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XFilterManager.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XFlexArea.cpp">
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AssemblyAndMachineCode</AssemblerOutput>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiFile</InterproceduralOptimization>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XFlexAreaImage.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XFlexAreaNoOptimize.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XFormOperator.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XGeneralDialog.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XGeneralFunc.cpp">
+      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </FunctionLevelLinking>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XGeneralStocker.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XGUICommon.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XGUIFormBase.cpp">
+      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnableFiberSafeOptimizations>
+      <GenerateAlternateCodePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</GenerateAlternateCodePaths>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</FunctionLevelLinking>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XGUIPacketForDLL.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XHistgramByParam.cpp">
+      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnableFiberSafeOptimizations>
+      <GenerateAlternateCodePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</GenerateAlternateCodePaths>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XImageBufferFunctions.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XImageStocker.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XIntClass.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XLanguageClass.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XLearningRegist.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XLearningRule.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XLibraryType.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XLightClass.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XLogo.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XLogOut.cpp">
+      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnableFiberSafeOptimizations>
+      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </FunctionLevelLinking>
+      <GenerateAlternateCodePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</GenerateAlternateCodePaths>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XMacroExecuter.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XMainSchemeMemory.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XMultiEquSolve.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XOutlineOffset.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XParamBase.cpp">
+      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnableFiberSafeOptimizations>
+      <GenerateAlternateCodePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</GenerateAlternateCodePaths>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XParamDatabase.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XParamGlobal.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XPassword.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</FunctionLevelLinking>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XPieceArchitect.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XPieceArchitect2.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XPointer.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XPSpline.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XRememberer.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XResult.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XResultDLLManager.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XServiceForLayers.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XStatusController.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <OptimizeForWindowsApplication Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</OptimizeForWindowsApplication>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XStrTo.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XSyncGUI.cpp">
+      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnableFiberSafeOptimizations>
+      <GenerateAlternateCodePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</GenerateAlternateCodePaths>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XTransfer.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XTreeLines.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XtunnelItemfunc.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XVector.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XWriteResultThread.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XYCross.cpp" />
+    <ClCompile Include="XNormal.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="..\..\Integrator\IntegrationLib\XIntegrationComm.h">
+    </QtMoc>
+    <ClInclude Include="..\..\GeneralSource\XAlgorithmInterfaceDLL.h" />
+    <ClInclude Include="..\..\GeneralSource\XAuthenticationInside.h" />
+    <QtMoc Include="..\..\GeneralSource\XCameraInterfaceDLL.h" />
+    <ClInclude Include="..\..\GeneralSource\XDataInLayerCmdLocal.h" />
+    <ClInclude Include="..\..\GeneralSource\XGUIInterfaceDLL.h" />
+    <ClInclude Include="..\..\GeneralSource\XLightInterfaceDLL.h" />
+    <ClInclude Include="..\..\GeneralSource\XMatrix.h" />
+    <ClInclude Include="..\..\GeneralSource\XResultInterfaceDLL.h" />
+    <QtMoc Include="..\..\GeneralSource\XTransferInterface.h" />
+    <ClInclude Include="..\..\GeneralSource\XShadowControlInterface.h" />
+    <ClInclude Include="..\..\Open\NListComp.h" />
+    <ClInclude Include="..\..\Open\Regulus64System.h" />
+    <ClInclude Include="..\..\Open\X3DCommon.h" />
+    <ClInclude Include="..\..\Open\XAlgorithmCommon.h" />
+    <QtMoc Include="..\..\Open\XDataInLayer.h" />
+    <QtMoc Include="..\..\Open\XAlgorithmWindow.h" />
+    <ClInclude Include="..\..\Open\XAllocationLibByColor.h" />
+    <ClInclude Include="..\..\Open\XAuthentication.h" />
+    <ClInclude Include="..\..\Open\XBsearch.h" />
+    <QtMoc Include="..\..\Open\XCameraClass.h" />
+    <QtMoc Include="..\..\Open\XCameraHandle.h" />
+    <ClInclude Include="..\..\Open\XColorConvert.h" />
+    <ClInclude Include="..\..\Open\XControlPoints.h" />
+    <ClInclude Include="..\..\Open\XDataAlgorithmConfirm.h" />
+    <ClInclude Include="..\..\Open\XDataAlgorithmList.h" />
+    <ClInclude Include="..\..\Open\XDataAlgorithmPipe.h" />
+    <ClInclude Include="..\..\Open\XDataAlgorithmThreshold.h" />
+    <ClInclude Include="..\..\Open\XDataComponent.h" />
+    <ClInclude Include="..\..\Open\XDataInLayerCommander.h" />
+    <ClInclude Include="..\..\Open\XDataInLayerToDisplayImage.h" />
+    <ClInclude Include="..\..\Open\XDateTime.h" />
+    <ClInclude Include="..\..\Open\XDFS.h" />
+    <ClInclude Include="..\..\Open\XDLLManager.h" />
+    <ClInclude Include="..\..\Open\XDrawFunc.h" />
+    <ClInclude Include="..\..\Open\XEntryPoint.h" />
+    <ClInclude Include="..\..\Open\XErrorMessage.h" />
+    <ClInclude Include="..\..\Open\XExcelStringList.h" />
+    <ClInclude Include="..\..\Open\XFileThread.h" />
+    <ClInclude Include="..\..\Open\XFilterInstance.h" />
+    <ClInclude Include="..\..\Open\XFlexAreaHough.h" />
+    <ClInclude Include="..\..\Open\XFlexAreaImageBuffer.h" />
+    <QtMoc Include="..\..\Open\XGeneralDialog.h" />
+    <ClInclude Include="..\..\Open\XFloatShort.h" />
+    <ClInclude Include="..\..\Open\XGeneralFuncCore.h" />
+    <QtMoc Include="..\..\Open\XGeneralWidget.h" />
+    <QtMoc Include="..\..\Open\XGUIComponent.h" />
+    <ClInclude Include="..\..\Open\XGeneralStockerClass.h" />
+    <ClInclude Include="..\..\Open\XGUIDirectMessage.h" />
+    <QtMoc Include="..\..\Open\XGUIFormBase.h" />
+    <ClInclude Include="..\..\Open\XGUILanguage.h" />
+    <ClInclude Include="..\..\Open\XGUIPacketGeneral.h" />
+    <ClInclude Include="..\..\Open\XHaspLib.h" />
+    <ClInclude Include="..\..\Open\XImageExpand.h" />
+    <ClInclude Include="..\..\Open\XImagePNG.h" />
+    <ClInclude Include="..\..\Open\XImagePngDef.h" />
+    <ClInclude Include="..\..\Open\XLanguageStockerLoader.h" />
+    <QtMoc Include="..\..\Open\XMainSchemeMemory.h" />
+    <ClInclude Include="..\..\Open\XLearningServerComm.h" />
+    <ClInclude Include="..\..\Open\XLevel.h" />
+    <ClInclude Include="..\..\Open\XLineMatching.h" />
+    <ClInclude Include="..\..\Open\XMacro.h" />
+    <ClInclude Include="..\..\Open\XManualExecuter.h" />
+    <ClInclude Include="..\..\Open\XMapBuffer.h" />
+    <ClInclude Include="..\..\Open\XMasterData.h" />
+    <ClInclude Include="..\..\Open\XMemoryStream.h" />
+    <ClInclude Include="..\..\Open\XMLGeneralFunc.h" />
+    <ClInclude Include="..\..\Open\XMultiLayerColor.h" />
+    <ClInclude Include="..\..\Open\XParameterHelp.h" />
+    <ClInclude Include="..\..\Open\XPrinterDLLBaseClass.h" />
+    <QtMoc Include="..\..\Open\XPassword.h" />
+    <ClInclude Include="..\..\Open\XPrinterManager.h" />
+    <ClInclude Include="..\..\Open\XPSpline.h" />
+    <ClInclude Include="..\..\Open\XQuickBuffer.h" />
+    <ClInclude Include="..\..\Open\XRegulation.h" />
+    <ClInclude Include="..\..\Open\XResize.h" />
+    <ClInclude Include="..\..\Open\XResultAnalizer.h" />
+    <ClInclude Include="..\..\Open\XResultDLLManager.h" />
+    <QtMoc Include="..\..\Open\XRobotClass.h" />
+    <ClInclude Include="..\..\Open\XRobotControl.h" />
+    <ClInclude Include="..\..\Open\XShadowTree.h" />
+    <ClInclude Include="..\..\Open\XShareMasterData.h" />
+    <QtMoc Include="..\..\Open\XTransFile.h">
+    </QtMoc>
+    <QtMoc Include="..\..\Open\XTransSocket.h">
+    </QtMoc>
+    <QtMoc Include="AlertDialog.h" />
+    <QtMoc Include="EditStatusDialog.h" />
+    <QtMoc Include="EditTextMessages.h" />
+    <QtMoc Include="GUITurnUpDownForm.h" />
+    <QtMoc Include="InputPasswordForm.h" />
+    <QtMoc Include="MessageBoxStringList.h" />
+    <QtMoc Include="OnProcessingForm.h" />
+    <QtMoc Include="ParameterHelpDialog.h" />
+    <QtMoc Include="ShowLoadingDLLForm.h" />
+    <QtMoc Include="..\..\Open\XStatusController.h" />
+    <QtMoc Include="..\..\Open\XSyncGUI.h" />
+    <QtMoc Include="..\..\Open\XWriteResultThread.h" />
+    <QtMoc Include="..\..\Open\XTransfer.h" />
+    <ClInclude Include="..\..\Open\XStandardCommand.h" />
+    <QtMoc Include="SelectTransferHostDialog.h" />
+    <ClInclude Include="..\..\Open\XStatistic.h" />
+    <QtMoc Include="SetThresholdLevelForm.h" />
+    <QtMoc Include="LensWindowForm.h" />
+    <QtMoc Include="LibFolderForm.h" />
+    <QtMoc Include="LibFolderInputForm.h" />
+    <QtMoc Include="SelectLibFolderDialog.h" />
+    <QtMoc Include="SelectLibrariesForAnyType.h" />
+    <QtMoc Include="SelectLibraryForm.h" />
+    <QtMoc Include="SelectLibraryOneDialog.h" />
+    <QtMoc Include="SelectPhasePageLayerDialog.h" />
+    <QtMoc Include="SelectTabTop.h" />
+    <QtMoc Include="SelectThresholdParentLevelDialog.h" />
+    <QtMoc Include="SelectThresholdLevelDialog.h" />
+    <QtMoc Include="SelectAlgorithmDialog.h" />
+    <ClInclude Include="..\..\Open\XTransform.h" />
+    <QtMoc Include="SelectMasterNoDialog.h" />
+    <QtMoc Include="EditItemIDDialog.h" />
+    <QtMoc Include="SelectOneLibratyForAnyTypeForm.h" />
+    <ClInclude Include="XNormal.h" />
+    <ClInclude Include="..\..\Open\NList.h" />
+    <ClInclude Include="..\..\Open\XLotInformation.h" />
+    <ClInclude Include="..\..\Open\XReportedTopic.h" />
+    <ClInclude Include="..\..\Open\XStandardPropertyForm.h" />
+    <ClInclude Include="..\..\Open\XUndo.h" />
+    <ClInclude Include="..\..\Open\XUndoBase.h" />
+    <ClInclude Include="..\..\Open\XUnicodeGeneralFunc.h" />
+    <ClInclude Include="ServiceLib.h" />
+    <ClInclude Include="servicelib_global.h" />
+    <ClInclude Include="ServiceLibResource.h" />
+    <ClInclude Include="..\..\Open\swap.h" />
+    <QtMoc Include="..\..\Open\XAlgorithmBase.h" />
+    <ClInclude Include="..\..\Open\XAlgorithmLibNGType.h" />
+    <ClInclude Include="..\..\Open\XAlgorithmLibrary.h" />
+    <ClInclude Include="..\..\Open\XAnyData.h" />
+    <ClInclude Include="..\..\Open\XArrangementDLL.h" />
+    <ClInclude Include="..\..\Open\XArrangementFromFile.h" />
+    <ClInclude Include="..\..\Open\XBitImageProcessor.h" />
+    <ClInclude Include="..\..\Open\XBoolList.h" />
+    <ClInclude Include="..\..\Open\XCameraCommon.h" />
+    <ClInclude Include="..\..\Open\XColorSpace.h" />
+    <ClInclude Include="..\..\Open\XComplex.h" />
+    <ClInclude Include="..\..\Open\XCriticalFunc.h" />
+    <ClInclude Include="..\..\Open\XCrossObj.h" />
+    <ClInclude Include="..\..\Open\XCSV.h" />
+    <ClInclude Include="..\..\Open\XDataAlgorithm.h" />
+    <ClInclude Include="..\..\Open\XDatabase.h" />
+    <ClInclude Include="..\..\Open\XDatabaseLoader.h" />
+    <ClInclude Include="..\..\Open\XDatabaseType.h" />
+    <ClInclude Include="..\..\Open\XDirectCommPacket.h" />
+    <ClInclude Include="..\..\Open\XDisplayBitImage.h" />
+    <CustomBuild Include="..\..\Open\XDLLType.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\..\Open\XDot.h" />
+    <ClInclude Include="..\..\Open\XDoubleClass.h" />
+    <ClInclude Include="..\..\Open\XDualIntList.h" />
+    <CustomBuild Include="..\..\Open\XErrorCode.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Outputs)</Outputs>
+    </CustomBuild>
+    <QtMoc Include="..\..\Open\XExecuteInspectBase.h">
+    </QtMoc>
+    <ClInclude Include="..\..\Open\XFFT1d.h" />
+    <ClInclude Include="..\..\Open\XFifoClass.h" />
+    <ClInclude Include="..\..\Open\XFileRegistry.h" />
+    <ClInclude Include="..\..\Open\XFilterClass.h" />
+    <ClInclude Include="..\..\GeneralSource\XFilterManager.h" />
+    <CustomBuild Include="..\..\Open\XFlexArea.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\..\Open\XFlexAreaImage.h" />
+    <ClInclude Include="..\..\Open\XFormOperator.h" />
+    <QtMoc Include="..\..\Open\XGeneralFunc.h" />
+    <ClInclude Include="..\..\Open\XGeneralStocker.h" />
+    <CustomBuild Include="..\..\Open\XGUIPacketForDLL.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\..\Open\XHistgramByParam.h" />
+    <ClInclude Include="..\..\Open\XImageBufferFunctions.h" />
+    <ClInclude Include="..\..\Open\XImageProcess.h" />
+    <ClInclude Include="..\..\Open\XImageStocker.h" />
+    <ClInclude Include="..\..\Open\XIntClass.h" />
+    <ClInclude Include="..\..\Open\XInterpolation.h" />
+    <ClInclude Include="..\..\Open\XLanguageClass.h" />
+    <ClInclude Include="..\..\Open\XLearningInPage.h" />
+    <ClInclude Include="..\..\Open\XLearningRegist.h" />
+    <ClInclude Include="..\..\GeneralSource\XLearningRegistPacket.h" />
+    <ClInclude Include="..\..\Open\XLearningRule.h" />
+    <ClInclude Include="..\..\Open\XLibraryType.h" />
+    <QtMoc Include="..\..\Open\XLightClass.h">
+    </QtMoc>
+    <ClInclude Include="..\..\GeneralSource\XLinearSolve.h" />
+    <ClInclude Include="..\..\Open\XLogo.h" />
+    <QtMoc Include="..\..\Open\XLogOut.h">
+    </QtMoc>
+    <ClInclude Include="..\..\Open\XMacroExecuter.h" />
+    <ClInclude Include="..\..\Open\XMacroFunction.h" />
+    <ClInclude Include="..\..\Open\XMultiEquSolve.h" />
+    <ClInclude Include="..\..\GeneralSource\XNetworkDrive.h" />
+    <ClInclude Include="..\..\Open\XOutlineOffset.h" />
+    <CustomBuild Include="..\..\Open\XParamBase.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\..\Open\XParamDatabase.h" />
+    <CustomBuild Include="..\..\Open\XParamGlobal.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\..\Open\XPieceArchitect.h" />
+    <ClInclude Include="..\..\Open\XPointer.h" />
+    <ClInclude Include="..\..\Open\XRememberer.h" />
+    <CustomBuild Include="..\..\Open\XResult.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\..\Open\XServiceForLayers.h" />
+    <ClInclude Include="..\..\Open\XTreeLines.h" />
+    <ClInclude Include="..\..\Open\XtunnelItemfunc.h" />
+    <ClInclude Include="..\..\Open\XTypeDef.h" />
+    <ClInclude Include="..\..\Open\XVector.h" />
+    <CustomBuild Include="..\..\Open\XYCross.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SelctArea.png" />
+    <QtRcc Include="ServiceLib.qrc">
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EditGUI\EditGUILib\EditGUILib.vcxproj">
+      <Project>{95e38321-ce69-46ee-b364-33dc57067570}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="AlertDialog.ui" />
+    <QtUic Include="EditItemIDDialog.ui" />
+    <QtUic Include="EditStatusDialog.ui" />
+    <QtUic Include="EditTextMessages.ui" />
+    <QtUic Include="GUITurnUpDownForm.ui" />
+    <QtUic Include="InputPasswordForm.ui" />
+    <QtUic Include="LensWindowForm.ui" />
+    <QtUic Include="LibFolderForm.ui" />
+    <QtUic Include="LibFolderInputForm.ui" />
+    <QtUic Include="MessageBoxStringList.ui" />
+    <QtUic Include="OnProcessingForm.ui" />
+    <QtUic Include="ParameterHelpDialog.ui" />
+    <QtUic Include="SelectAlgorithmDialog.ui" />
+    <QtUic Include="SelectLibFolderDialog.ui" />
+    <QtUic Include="SelectLibrariesForAnyType.ui" />
+    <QtUic Include="SelectLibraryForm.ui" />
+    <QtUic Include="SelectLibraryOneDialog.ui" />
+    <QtUic Include="SelectMasterNoDialog.ui" />
+    <QtUic Include="SelectOneLibratyForAnyTypeForm.ui" />
+    <QtUic Include="SelectPhasePageLayerDialog.ui" />
+    <QtUic Include="SelectTabTop.ui" />
+    <QtUic Include="SelectThresholdLevelDialog.ui" />
+    <QtUic Include="SelectThresholdParentLevelDialog.ui" />
+    <QtUic Include="SelectTransferHostDialog.ui" />
+    <QtUic Include="SetThresholdLevelForm.ui" />
+    <QtUic Include="ShowLoadingDLLForm.ui" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties QtVersion="4.4.3" QtVersion_x0020_x64="$(DefaultQtVersion)" QtVersion_x0020_Win32="$(DefaultQtVersion)" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

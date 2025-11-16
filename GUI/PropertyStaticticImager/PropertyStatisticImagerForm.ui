@@ -1,0 +1,154 @@
+<ui version="4.0" >
+ <class>PropertyStatisticImagerFormClass</class>
+ <widget class="GUIFormBase" name="PropertyStatisticImagerFormClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>PropertyStatisticImagerForm</string>
+  </property>
+  <widget class="QPushButton" name="pushButtonCreateIdealMasterImage" >
+   <property name="geometry" >
+    <rect>
+     <x>100</x>
+     <y>430</y>
+     <width>181</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>平均画像生成</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame" >
+   <property name="geometry" >
+    <rect>
+     <x>60</x>
+     <y>20</y>
+     <width>261</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QToolButton" name="toolButtonMaster" >
+    <property name="geometry" >
+     <rect>
+      <x>40</x>
+      <y>20</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>マスター画像</string>
+    </property>
+    <property name="checkable" >
+     <bool>true</bool>
+    </property>
+    <property name="checked" >
+     <bool>true</bool>
+    </property>
+    <property name="autoExclusive" >
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButtonAverage" >
+    <property name="geometry" >
+     <rect>
+      <x>40</x>
+      <y>70</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>平均化画像</string>
+    </property>
+    <property name="checkable" >
+     <bool>true</bool>
+    </property>
+    <property name="autoExclusive" >
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButtonDark" >
+    <property name="geometry" >
+     <rect>
+      <x>40</x>
+      <y>120</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>暗い画像</string>
+    </property>
+    <property name="checkable" >
+     <bool>true</bool>
+    </property>
+    <property name="autoExclusive" >
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButtonLight" >
+    <property name="geometry" >
+     <rect>
+      <x>40</x>
+      <y>170</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>明るい画像</string>
+    </property>
+    <property name="checkable" >
+     <bool>true</bool>
+    </property>
+    <property name="autoExclusive" >
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButtonDisorder" >
+    <property name="geometry" >
+     <rect>
+      <x>40</x>
+      <y>220</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>ばらつき画像</string>
+    </property>
+    <property name="checkable" >
+     <bool>true</bool>
+    </property>
+    <property name="autoExclusive" >
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <customwidgets>
+  <customwidget>
+   <class>GUIFormBase</class>
+   <extends>QWidget</extends>
+   <header>guiformbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

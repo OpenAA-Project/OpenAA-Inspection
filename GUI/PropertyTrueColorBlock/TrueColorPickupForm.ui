@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TrueColorPickupFormClass</class>
+ <widget class="QDialog" name="TrueColorPickupFormClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>620</width>
+    <height>506</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TrueColorPickupForm</string>
+  </property>
+  <widget class="QFrame" name="frameColorCube">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>401</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClose">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>440</y>
+     <width>71</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="icon">
+    <iconset resource="PropertyTrueColorBlock.qrc">
+     <normaloff>:/Qtres/Close.png</normaloff>:/Qtres/Close.png</iconset>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frameColorSample">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>0</y>
+     <width>205</width>
+     <height>501</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <widget class="QPushButton" name="pushButtonEliminateColor">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>470</y>
+      <width>161</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Eliminate color</string>
+    </property>
+    <property name="icon">
+     <iconset resource="PropertyTrueColorBlock.qrc">
+      <normaloff>:/Qtres/ColorDelete.png</normaloff>:/Qtres/ColorDelete.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonAddColor">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>440</y>
+      <width>161</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add Color</string>
+    </property>
+    <property name="icon">
+     <iconset resource="PropertyTrueColorBlock.qrc">
+      <normaloff>:/Qtres/ColorAdd.png</normaloff>:/Qtres/ColorAdd.png</iconset>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSetToColor">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>440</y>
+     <width>91</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Set to Color</string>
+   </property>
+   <property name="icon">
+    <iconset resource="PropertyTrueColorBlock.qrc">
+     <normaloff>:/Qtres/Color.png</normaloff>:/Qtres/Color.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClearColor">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>440</y>
+     <width>211</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Clear</string>
+   </property>
+   <property name="icon">
+    <iconset resource="PropertyTrueColorBlock.qrc">
+     <normaloff>:/Qtres/Clear.png</normaloff>:/Qtres/Clear.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClearBaseColor">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>470</y>
+     <width>91</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Clear base</string>
+   </property>
+   <property name="icon">
+    <iconset resource="PropertyTrueColorBlock.qrc">
+     <normaloff>:/Qtres/ClearBase.png</normaloff>:/Qtres/ClearBase.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClearEliminateColor">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>470</y>
+     <width>111</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Clear Eliminate</string>
+   </property>
+   <property name="icon">
+    <iconset resource="PropertyTrueColorBlock.qrc">
+     <normaloff>:/Qtres/ClearCancel.png</normaloff>:/Qtres/ClearCancel.png</iconset>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="PropertyTrueColorBlock.qrc"/>
+ </resources>
+ <connections/>
+</ui>

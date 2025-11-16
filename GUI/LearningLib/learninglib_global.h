@@ -1,0 +1,12 @@
+#ifndef LEARNINGLIB_GLOBAL_H
+#define LEARNINGLIB_GLOBAL_H
+
+#include <qglobal.h>
+
+#ifdef LEARNINGLIB_LIB
+# define LEARNINGLIB_EXPORT Q_DECL_EXPORT
+#else
+# define LEARNINGLIB_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // LEARNINGLIB_GLOBAL_H

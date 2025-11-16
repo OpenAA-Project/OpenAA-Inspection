@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonSelectLearningTargetImage.png</file>
+        <file>Qtres/Close.png</file>
+        <file>Qtres/Delete.png</file>
+        <file>Qtres/Edit.png</file>
+        <file>Qtres/Mask.png</file>
+        <file>Qtres/Select.png</file>
+        <file>Qtres/Update.png</file>
+    </qresource>
+</RCC>

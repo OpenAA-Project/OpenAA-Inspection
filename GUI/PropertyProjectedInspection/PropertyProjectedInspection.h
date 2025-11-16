@@ -1,0 +1,7 @@
+#ifndef PROPERTYPROJECTEDINSPECTION_H
+#define PROPERTYPROJECTEDINSPECTION_H
+
+#include "propertyprojectedinspection_global.h"
+
+
+#endif // PROPERTYPROJECTEDINSPECTION_H

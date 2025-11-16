@@ -1,0 +1,12 @@
+#ifndef IMAGEROUNDUP_GLOBAL_H
+#define IMAGEROUNDUP_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef IMAGEROUNDUP_LIB
+# define IMAGEROUNDUP_EXPORT Q_DECL_EXPORT
+#else
+# define IMAGEROUNDUP_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // IMAGEROUNDUP_GLOBAL_H
