@@ -1,4 +1,4 @@
-#title	    "Manual inspection machine"
+#title	    "OpenAA"
 
 #DLLVar	vMotor : "SamsunManualSeq.dll"
 #steptime	2
