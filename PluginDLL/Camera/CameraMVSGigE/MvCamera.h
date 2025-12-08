@@ -43,6 +43,8 @@ public:
 
     // ch:判断相机是否处于连接状态 | en:Is The Device Connected
     bool IsDeviceConnected();
+    
+    int GetResolution(int &Width ,int &Height);
 
     // ch:注册图像数据回调 | en:Register Image Data CallBack
     int RegisterImageCallBack(void(__stdcall* cbOutput)(unsigned char * pData, MV_FRAME_OUT_INFO_EX* pFrameInfo, void* pUser), void* pUser);

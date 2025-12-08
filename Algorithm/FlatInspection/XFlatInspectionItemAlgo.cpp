@@ -529,7 +529,7 @@ void	FlatInspectionItem::AddDarkLightDot(FlexArea &ZoneArea)
 		int	Lt=BTable[L+2]+BTable[L+1]+BTable[L  ]+BTable[L-1]+BTable[L-2];
 		int	L1=BTable[L+3]+BTable[L+4]+BTable[L+5]+BTable[L+6]+BTable[L+7];
 		int	L2=BTable[L-4]+BTable[L-4]+BTable[L-5]+BTable[L-6]+BTable[L-7];
-		if(L1<Lt && Lt<L2){
+		if(L1<Lt && Lt>L2){
 			LevelL=L;
 			break;
 		}
@@ -613,7 +613,7 @@ static	int	FuncDim(const void *ai, const void *bi)
 	return 0;
 }
 
-void	FlatInspectionItem::SearchByDot(int mx ,int my ,int &Dx ,int &Dy,double &Expansion)
+void	FlatInspectionItem::SearchByDot(int mx ,int my ,int LimitUpperY ,int &Dx ,int &Dy,double &Expansion)
 {
 	const	FlatInspectionThreshold	*RThr=GetThresholdR();
 	int	Layer;
@@ -621,12 +621,144 @@ void	FlatInspectionItem::SearchByDot(int mx ,int my ,int &Dx ,int &Dy,double &Ex
 	ImageBuffer		*TargetImageList[100];
 	int	LayerNumb=GetTargetBuffList(TargetImageList);
 	ImageBuffer		*Image=TargetImageList[Layer];
+	FlatInspectionInPage	*Ap=tGetParentInPage();
+	FlatInspectionBase		*ABase=tGetParentBase();
+
+	int	tx1,ty1,tx2,ty2;
+	GetXY(tx1,ty1,tx2,ty2);
+	int	x1=max(tx1+mx-RThr->AreaSearchX,0);
+	int	y1=max(ty1+my-RThr->AreaSearchY,0);
+	int	x2=min(tx2+mx+RThr->AreaSearchX,GetDotPerLine());
+	int	y2=min(ty2+my+RThr->AreaSearchY,GetMaxLines());
+	x1=max(x1,tx1);
+	y1=max(y1,ty1);
+	x2=max(x2,tx2);
+	y2=max(y2,ty2);
+
+	y1=max(y1,LimitUpperY+1);
+
+	int	BrTable[256];
+	memset(BrTable,0,sizeof(BrTable));
+	for(int y=y1;y<y2;y++){
+		BYTE	*s=Image->GetY(y);
+		BYTE	*m=Ap->MaskMap[y];
+		for(int x=x1;x<x2;x++){
+			if(GetBmpBitOnY(m,x)!=0){
+				BrTable[s[x]]++;
+			}
+		}
+	}
+
+	int	D=0;
+	int	CL=0;
+	for(int i=0;i<256;i++){
+		if(D+BrTable[i]>=ABase->SpecialMinDotL){
+			CL=i;
+			break;
+		}
+	}
+	int	PeakH=255;
+	int	Peak=0;
+	for(int i=0;i<256;i++){
+		if(Peak<BrTable[i]){
+			Peak=BrTable[i];
+			PeakH=i;
+		}
+	}
+	int	LevelC=(PeakH+CL)/2;
+
+//
+//
+//	int	N=0;
+//	double	Avr=0;
+//	double	AA=0;
+//	for(int i=0;i<256;i++){
+//		int	C=BrTable[i];
+//		Avr+=C*i;
+//		N+=C;
+//		AA+=C*i*i;
+//	}
+//
+//	Avr/=N;
+//	double	Q=(AA-N*Avr*Avr)/((double)N);
+//	double	sQ=sqrt(Q);
+//
+//	int	LevelL=Avr-sQ*ABase->LowSpecialDeviation ;
+//	int	LevelH=Avr+sQ*ABase->HighSpecialDeviation;
+//
+//	int	Y1=0;
+//	for(int y=y1;y<y2;y++){
+//		BYTE	*s=Image->GetY(y);
+//		BYTE	*m=Ap->MaskMap[y];
+//		for(int x=x1;x<x2;x++){
+//			if(GetBmpBitOnY(m,x)!=0){
+//				int	C=s[x];
+//				if(C<LevelL || LevelH<C){
+//					Y1=y;
+//					goto	FoundY1;
+//				}
+//			}
+//		}
+//	}
+//FoundY1:;
+//	int	Y2=0;
+//	for(int y=y2;y>y1;y--){
+//		BYTE	*s=Image->GetY(y);
+//		BYTE	*m=Ap->MaskMap[y];
+//		for(int x=x1;x<x2;x++){
+//			if(GetBmpBitOnY(m,x)!=0){
+//				int	C=s[x];
+//				if(C<LevelL || LevelH<C){
+//					Y2=y;
+//					goto	FoundY2;
+//				}
+//			}
+//		}
+//	}
+//FoundY2:;
+
+
+
+	int	Y1=0;
+	for(int y=y1;y<y2;y++){
+		BYTE	*s=Image->GetY(y);
+		BYTE	*m=Ap->MaskMap[y];
+		for(int x=x1;x<x2;x++){
+			if(GetBmpBitOnY(m,x)!=0){
+				int	C=s[x];
+				if(C<LevelC){
+					Y1=y;
+					goto	FoundY1;
+				}
+			}
+		}
+	}
+FoundY1:;
+	int	Y2=0;
+	for(int y=y2;y>y1;y--){
+		BYTE	*s=Image->GetY(y);
+		BYTE	*m=Ap->MaskMap[y];
+		for(int x=x1;x<x2;x++){
+			if(GetBmpBitOnY(m,x)!=0){
+				int	C=s[x];
+				if(C<LevelC){
+					Y2=y;
+					goto	FoundY2;
+				}
+			}
+		}
+	}
+FoundY2:;
+
+	if(Y1!=0 && Y2!=0){
+		my=(Y1+Y2)/2-(ty1+ty2)/2;
+	}
 
 	#pragma omp parallel
 	{
 		#pragma omp for
 		for(int i=0;i<DimCount;i++){
-			Dim[i].Coef=CalcCoefRough(Image,RThr->SelfSearch,mx+Dim[i].Dx,my+Dim[i].Dy,Dim[i].E);
+			Dim[i].Coef=CalcCoefRough(Image,RThr->SelfSearch,mx+Dim[i].Dx,my+Dim[i].Dy,Dim[i].E,LimitUpperY);
 		}
 	}
 	QSort(Dim,DimCount,sizeof(struct SearchParam),FuncDim);
@@ -639,7 +771,7 @@ void	FlatInspectionItem::SearchByDot(int mx ,int my ,int &Dx ,int &Dy,double &Ex
 	{
 		#pragma omp for
 		for(int i=0;i<Kn;i++){
-			Dim[i].Coef=CalcCoef(Image,RThr->SelfSearch,mx+Dim[i].Dx,my+Dim[i].Dy,Dim[i].E);
+			Dim[i].Coef=CalcCoef(Image,RThr->SelfSearch,mx+Dim[i].Dx,my+Dim[i].Dy,Dim[i].E,LimitUpperY);
 		}
 	}
 	double	MaxCoef=0.0;
@@ -659,7 +791,7 @@ void	FlatInspectionItem::SearchByDot(int mx ,int my ,int &Dx ,int &Dy,double &Ex
 	}
 }
 
-double	FlatInspectionItem::CalcCoef(ImageBuffer *Image ,int SelfSearch,int mx ,int my ,double E)
+double	FlatInspectionItem::CalcCoef(ImageBuffer *Image ,int SelfSearch,int mx ,int my ,double E ,int LimitUpperY)
 {
 	double	A=-((int)DarkerDots.GetCount())
 			  +((int)LighterDots.GetCount());
@@ -677,6 +809,9 @@ double	FlatInspectionItem::CalcCoef(ImageBuffer *Image ,int SelfSearch,int mx ,i
 	for(XYClass *c=LighterDots.GetFirst();c!=NULL;c=c->GetNext()){
 		int	x=c->x	+mx+OffsetX;
 		int	y=c->y*E+my+OffsetY;
+		if(y<LimitUpperY){
+			return 0;
+		}
 		//BYTE	C=0;
 		//for(int i=-SelfSearch;i<=SelfSearch;i++){
 		//	BYTE	*s=Image->GetY(y+i);
@@ -702,6 +837,9 @@ double	FlatInspectionItem::CalcCoef(ImageBuffer *Image ,int SelfSearch,int mx ,i
 		int	y=c->y*E+my+OffsetY;
 		BYTE	C=255;
 		for(int i=-SelfSearch;i<=SelfSearch;i++){
+			if((y+i)<LimitUpperY){
+				return 0;
+			}
 			BYTE	*s=Image->GetY(y+i);
 			for(int j=-SelfSearch;j<=SelfSearch;j++){
 				BYTE	CC=s[x+j];
@@ -741,7 +879,7 @@ double	FlatInspectionItem::CalcCoef(ImageBuffer *Image ,int SelfSearch,int mx ,i
 	//return s;
 }
 
-double	FlatInspectionItem::CalcCoefRough(ImageBuffer *Image ,int SelfSearch ,int mx ,int my ,double E)
+double	FlatInspectionItem::CalcCoefRough(ImageBuffer *Image ,int SelfSearch ,int mx ,int my ,double E ,int LimitUpperY)
 {
 	double	A=-((int)RoughDarkerDots.GetCount())
 			  +((int)RoughLighterDots.GetCount());
@@ -764,6 +902,9 @@ double	FlatInspectionItem::CalcCoefRough(ImageBuffer *Image ,int SelfSearch ,int
 	for(XYClass *c=RoughLighterDots.GetFirst();c!=NULL;c=c->GetNext()){
 		int	x=c->x	+mx+OffsetX;
 		int	y=c->y*E+my+OffsetY;
+		if(y<LimitUpperY){
+			return 0;
+		}
 		//BYTE	C=0;
 		//for(int i=-SelfSearch;i<=SelfSearch;i++){
 		//	BYTE	*s=Image->GetY(y+i);
@@ -792,6 +933,9 @@ double	FlatInspectionItem::CalcCoefRough(ImageBuffer *Image ,int SelfSearch ,int
 
 		BYTE	C=255;
 		for(int i=-SelfSearch;i<=SelfSearch;i+=SelfSearch){
+			if((y+i)<LimitUpperY){
+				return 0;
+			}
 			BYTE	*s=Image->GetY(y+i);
 			BYTE	*m=Ap->MaskMap[y+i];
 			for(int j=-SelfSearch;j<=SelfSearch;j++){
@@ -871,9 +1015,10 @@ double	FlatInspectionItem::CalcAverage(ImageBuffer *Image ,int mx ,int my ,doubl
 
 void	FlatInspectionItem::MakeRoughDots(void)
 {
+	FlatInspectionBase	*ABase=tGetParentBase();
 	int	Nd=DarkerDots.GetCount();
-	if(Nd>=20){
-		int	Sep=Nd/10;
+	int	Sep=Nd/ABase->RoughSparse;
+	if(Sep>=2){
 		RoughDarkerDots.RemoveAll();
 		int	k=0;
 		for(XYClass *a=DarkerDots.GetFirst();a!=NULL;a=a->GetNext(),k++){
@@ -884,8 +1029,8 @@ void	FlatInspectionItem::MakeRoughDots(void)
 		}
 	}
 	int	Nl=LighterDots.GetCount();
-	if(Nl>=20){
-		int	Sep=Nl/10;
+	Sep=Nl/ABase->RoughSparse;
+	if(Sep>=2){
 		RoughLighterDots.RemoveAll();
 		int	k=0;
 		for(XYClass *a=LighterDots.GetFirst();a!=NULL;a=a->GetNext(),k++){
@@ -916,7 +1061,7 @@ ExeResult	FlatInspectionItem::ExecuteProcessing(int ExeID ,int ThreadNo,ResultIn
 		Ret=ExecuteProcessingInspectionArea(ExeID ,ThreadNo,Res);
 	}
 	const	FlatInspectionThreshold	*RThr=GetThresholdR();
-	if(Res->GetError()==1 && RThr->LineMode==true){
+	if(RThr->LineMode==true){
 		ExecuteProcessingPickLine(Res
 								,NGMapB
 								,ResultDx,ResultDy);
@@ -1097,55 +1242,57 @@ ExeResult	FlatInspectionItem::ExecuteProcessingSpecialShape(int ExeID ,int Threa
 				BYTE	*db=TargetImageList[2]->GetY(Y);
 				for(int n=0;n<numb;n++){
 					int	x=x1+n;
-					int	DifR=dr[X1+n]-Ar;
-					if(DifR>=0){
-						if(DifR>RThr->Broad.RThrOffsetH){
-							SetBmpBitOnY1(mb,x-NGMapOffsetX);
+					if(GetBmpBitOnY(Mp,x)!=0){
+						int	DifR=dr[X1+n]-Ar;
+						if(DifR>=0){
+							if(DifR>RThr->Broad.RThrOffsetH){
+								SetBmpBitOnY1(mb,x-NGMapOffsetX);
+							}
+							if(DifR>RThr->Narrow.RThrOffsetH){
+								SetBmpBitOnY1(mn,x-NGMapOffsetX);
+							}
 						}
-						if(DifR>RThr->Narrow.RThrOffsetH){
-							SetBmpBitOnY1(mn,x-NGMapOffsetX);
+						else{
+							if(-DifR>RThr->Broad.RThrOffsetL){
+								SetBmpBitOnY1(mb,x-NGMapOffsetX);
+							}
+							if(-DifR>RThr->Narrow.RThrOffsetL){
+								SetBmpBitOnY1(mn,x-NGMapOffsetX);
+							}
 						}
-					}
-					else{
-						if(-DifR>RThr->Broad.RThrOffsetL){
-							SetBmpBitOnY1(mb,x-NGMapOffsetX);
+						int	DifG=dg[X1+n]-Ag;
+						if(DifG>=0){
+							if(DifG>RThr->Broad.GThrOffsetH){
+								SetBmpBitOnY1(mb,x-NGMapOffsetX);
+							}
+							if(DifG>RThr->Narrow.GThrOffsetH){
+								SetBmpBitOnY1(mn,x-NGMapOffsetX);
+							}
 						}
-						if(-DifR>RThr->Narrow.RThrOffsetL){
-							SetBmpBitOnY1(mn,x-NGMapOffsetX);
+						else{
+							if(-DifG>RThr->Broad.GThrOffsetL){
+								SetBmpBitOnY1(mb,x-NGMapOffsetX);
+							}
+							if(-DifG>RThr->Narrow.GThrOffsetL){
+								SetBmpBitOnY1(mn,x-NGMapOffsetX);
+							}
 						}
-					}
-					int	DifG=dg[X1+n]-Ag;
-					if(DifG>=0){
-						if(DifG>RThr->Broad.GThrOffsetH){
-							SetBmpBitOnY1(mb,x-NGMapOffsetX);
+						int	DifB=db[X1+n]-Ab;
+						if(DifB>=0){
+							if(DifB>RThr->Broad.BThrOffsetH){
+								SetBmpBitOnY1(mb,x-NGMapOffsetX);
+							}
+							if(DifB>RThr->Narrow.BThrOffsetH){
+								SetBmpBitOnY1(mn,x-NGMapOffsetX);
+							}
 						}
-						if(DifG>RThr->Narrow.GThrOffsetH){
-							SetBmpBitOnY1(mn,x-NGMapOffsetX);
-						}
-					}
-					else{
-						if(-DifG>RThr->Broad.GThrOffsetL){
-							SetBmpBitOnY1(mb,x-NGMapOffsetX);
-						}
-						if(-DifG>RThr->Narrow.GThrOffsetL){
-							SetBmpBitOnY1(mn,x-NGMapOffsetX);
-						}
-					}
-					int	DifB=db[X1+n]-Ab;
-					if(DifB>=0){
-						if(DifB>RThr->Broad.BThrOffsetH){
-							SetBmpBitOnY1(mb,x-NGMapOffsetX);
-						}
-						if(DifB>RThr->Narrow.BThrOffsetH){
-							SetBmpBitOnY1(mn,x-NGMapOffsetX);
-						}
-					}
-					else{
-						if(-DifB>RThr->Broad.BThrOffsetL){
-							SetBmpBitOnY1(mb,x-NGMapOffsetX);
-						}
-						if(-DifB>RThr->Narrow.BThrOffsetL){
-							SetBmpBitOnY1(mn,x-NGMapOffsetX);
+						else{
+							if(-DifB>RThr->Broad.BThrOffsetL){
+								SetBmpBitOnY1(mb,x-NGMapOffsetX);
+							}
+							if(-DifB>RThr->Narrow.BThrOffsetL){
+								SetBmpBitOnY1(mn,x-NGMapOffsetX);
+							}
 						}
 					}
 					SetBmpBitOnY0(Mp,X1+n);
@@ -1157,21 +1304,23 @@ ExeResult	FlatInspectionItem::ExecuteProcessingSpecialShape(int ExeID ,int Threa
 				BYTE	*dr=TargetImageList[0]->GetY(Y);
 				for(int n=0;n<numb;n++){
 					int	x=x1+n;
-					int	DifR=dr[X1+n]-Ar;
-					if(DifR>=0){
-						if(DifR>RThr->Broad.RThrOffsetH){
-							SetBmpBitOnY1(mb,x-NGMapOffsetX);
+					if(GetBmpBitOnY(Mp,x)!=0){
+						int	DifR=dr[X1+n]-Ar;
+						if(DifR>=0){
+							if(DifR>RThr->Broad.RThrOffsetH){
+								SetBmpBitOnY1(mb,x-NGMapOffsetX);
+							}
+							if(DifR>RThr->Narrow.RThrOffsetH){
+								SetBmpBitOnY1(mn,x-NGMapOffsetX);
+							}
 						}
-						if(DifR>RThr->Narrow.RThrOffsetH){
-							SetBmpBitOnY1(mn,x-NGMapOffsetX);
-						}
-					}
-					else{
-						if(-DifR>RThr->Broad.RThrOffsetL){
-							SetBmpBitOnY1(mb,x-NGMapOffsetX);
-						}
-						if(-DifR>RThr->Narrow.RThrOffsetL){
-							SetBmpBitOnY1(mn,x-NGMapOffsetX);
+						else{
+							if(-DifR>RThr->Broad.RThrOffsetL){
+								SetBmpBitOnY1(mb,x-NGMapOffsetX);
+							}
+							if(-DifR>RThr->Narrow.RThrOffsetL){
+								SetBmpBitOnY1(mn,x-NGMapOffsetX);
+							}
 						}
 					}
 					SetBmpBitOnY0(Mp,X1+n);
@@ -1191,8 +1340,6 @@ ExeResult	FlatInspectionItem::ExecuteProcessingSpecialShape(int ExeID ,int Threa
 
 ExeResult	FlatInspectionItem::ExecuteProcessingInspectionArea(int ExeID ,int ThreadNo,ResultInItemRoot *Res)
 {
-	int	BandXNumb=8;
-	int	BandXWidth=(ResultMaxX-ResultMinX+BandXNumb-1)/BandXNumb;
 	NGMapOffsetX	=ResultMinX;
 	NGMapOffsetY	=ResultY1;
 
@@ -1205,103 +1352,138 @@ ExeResult	FlatInspectionItem::ExecuteProcessingInspectionArea(int ExeID ,int Thr
 	int	LayerNumb=GetTargetBuffList(TargetImageList);
 	FlatInspectionInPage	*Ap=tGetParentInPage();
 
-	#pragma omp parallel
-	{
-		#pragma omp for
-		for(int b=0;b<BandXNumb;b++){
-			int	X1=ResultMinX+b*BandXWidth;
-			int	X2=X1+BandXWidth;
-			if(X2>ResultMinX+W){
-				X2=ResultMinX+W;
-			}
-			int	Ar=0;
-			int	Ag=0;
-			int	Ab=0;
-			int	N=0;
-			if(LayerNumb>=3){
-				for(int	Y=ResultY1+100;Y<ResultY2-100;Y+=20){
-					BYTE	*dr=TargetImageList[0]->GetY(Y);
-					BYTE	*dg=TargetImageList[1]->GetY(Y);
-					BYTE	*db=TargetImageList[2]->GetY(Y);
-					BYTE	*mn=Ap->MaskMap[Y];
-					for(int X=X1;X<X2;X++){
-						if(GetBmpBitOnY(mn,X)!=0){
-							Ar+=dr[X];
-							Ag+=dg[X];
-							Ab+=db[X];
-							N++;
-						}
-					}
-				}
-				if(N!=0){
-					int	AvrR=Ar/N;
-					int	AvrG=Ag/N;
-					int	AvrB=Ab/N;
+	int	XLen=ResultMaxX-ResultMinX;
+	int	YLen=ResultY2-ResultY1;
+	int	XDivCount=XLen/RThr->DivLenX;
+	int	YDivCount=YLen/RThr->DivLenY;
+	if(XDivCount==0){
+		XDivCount=1;
+	}
+	if(YDivCount==0){
+		YDivCount=1;
+	}
+	int	DivXLen = (XLen+XDivCount-1)/XDivCount;
+	int	DivYLen = (YLen+YDivCount-1)/YDivCount;
 
-					for(int	Y=ResultY1;Y<ResultY2;Y++){
+	{
+		struct XYDivCell
+		{
+			int	X,Y;
+		};
+		struct XYDivCell	XYDivCellDim[10000];
+		struct XYDivCell	*XYDiv=XYDivCellDim;
+		int	XYDivCount=XDivCount*YDivCount;
+		if(XYDivCount>10000){
+			XYDiv=new struct XYDivCell[XYDivCount];
+		}
+		int	Nd=0;
+		for(int yn=0;yn<YDivCount;yn++){
+			for(int xn=0;xn<XDivCount;xn++){
+				XYDiv[Nd].X = ResultMinX+xn*DivXLen;
+				XYDiv[Nd].Y = ResultY1+yn*DivYLen;
+				Nd++;
+			}
+		}
+
+		#pragma omp parallel
+		{
+			#pragma omp for
+			for(int i=0;i<Nd;i++){
+				int	X1=XYDiv[i].X;
+				int	X2=X1+DivXLen;
+				if(X2>ResultMaxX){
+					X2=ResultMaxX;
+				}
+				int	Ar=0;
+				int	Ag=0;
+				int	Ab=0;
+				int	N=0;
+				int	LastY=XYDiv[i].Y+DivYLen;
+				if(LayerNumb>=3){
+					for(int	Y=XYDiv[i].Y;Y<LastY;Y+=20){
 						BYTE	*dr=TargetImageList[0]->GetY(Y);
 						BYTE	*dg=TargetImageList[1]->GetY(Y);
 						BYTE	*db=TargetImageList[2]->GetY(Y);
-						BYTE	*mp=Ap->MaskMap[Y];
-						if(Y-NGMapOffsetY<0 || NGMapYLen<=Y-NGMapOffsetY){
-							continue;
+						BYTE	*mn=Ap->MaskMap[Y];
+						for(int X=X1;X<X2;X++){
+							if(GetBmpBitOnY(mn,X)!=0){
+								Ar+=dr[X];
+								Ag+=dg[X];
+								Ab+=db[X];
+								N++;
+							}
 						}
+					}
+					if(N!=0){
+						int	AvrR=Ar/N;
+						int	AvrG=Ag/N;
+						int	AvrB=Ab/N;
 
-						BYTE	*mb=NGMapB[Y-NGMapOffsetY];
-						BYTE	*mn=NGMapN[Y-NGMapOffsetY];
-						if(mb!=NULL && mn!=NULL){
-							for(int X=X1;X<X2;X++){
-								if(GetBmpBitOnY(mp,X)!=0){
+						for(int	Y=XYDiv[i].Y;Y<LastY;Y++){
+							BYTE	*dr=TargetImageList[0]->GetY(Y);
+							BYTE	*dg=TargetImageList[1]->GetY(Y);
+							BYTE	*db=TargetImageList[2]->GetY(Y);
+							BYTE	*mp=Ap->MaskMap[Y];
+							if(Y-NGMapOffsetY<0 || NGMapYLen<=Y-NGMapOffsetY){
+								continue;
+							}
 
-									int	DifR=dr[X]-AvrR;
-									if(DifR>=0){
-										if(DifR>RThr->Broad.RThrOffsetH){
-											SetBmpBitOnY1(mb,X-NGMapOffsetX);
+							BYTE	*mb=NGMapB[Y-NGMapOffsetY];
+							BYTE	*mn=NGMapN[Y-NGMapOffsetY];
+							if(mb!=NULL && mn!=NULL){
+								for(int X=X1;X<X2;X++){
+									if(GetBmpBitOnY(mp,X)!=0){
+
+										int	DifR=dr[X]-AvrR;
+										if(DifR>=0){
+											if(DifR>RThr->Broad.RThrOffsetH){
+												SetBmpBitOnY1(mb,X-NGMapOffsetX);
+											}
+											if(DifR>RThr->Narrow.RThrOffsetH){
+												SetBmpBitOnY1(mn,X-NGMapOffsetX);
+											}
 										}
-										if(DifR>RThr->Narrow.RThrOffsetH){
-											SetBmpBitOnY1(mn,X-NGMapOffsetX);
+										else{
+											if(-DifR>RThr->Broad.RThrOffsetL){
+												SetBmpBitOnY1(mb,X-NGMapOffsetX);
+											}
+											if(-DifR>RThr->Narrow.RThrOffsetL){
+												SetBmpBitOnY1(mn,X-NGMapOffsetX);
+											}
 										}
-									}
-									else{
-										if(-DifR>RThr->Broad.RThrOffsetL){
-											SetBmpBitOnY1(mb,X-NGMapOffsetX);
+										int	DifG=dg[X]-AvrG;
+										if(DifG>=0){
+											if(DifG>RThr->Broad.GThrOffsetH){
+												SetBmpBitOnY1(mb,X-NGMapOffsetX);
+											}
+											if(DifG>RThr->Narrow.GThrOffsetH){
+												SetBmpBitOnY1(mn,X-NGMapOffsetX);
+											}
 										}
-										if(-DifR>RThr->Narrow.RThrOffsetL){
-											SetBmpBitOnY1(mn,X-NGMapOffsetX);
+										else{
+											if(-DifG>RThr->Broad.GThrOffsetL){
+												SetBmpBitOnY1(mb,X-NGMapOffsetX);
+											}
+											if(-DifG>RThr->Narrow.GThrOffsetL){
+												SetBmpBitOnY1(mn,X-NGMapOffsetX);
+											}
 										}
-									}
-									int	DifG=dg[X]-AvrG;
-									if(DifG>=0){
-										if(DifG>RThr->Broad.GThrOffsetH){
-											SetBmpBitOnY1(mb,X-NGMapOffsetX);
+										int	DifB=db[X]-AvrB;
+										if(DifB>=0){
+											if(DifB>RThr->Broad.BThrOffsetH){
+												SetBmpBitOnY1(mb,X-NGMapOffsetX);
+											}
+											if(DifB>RThr->Narrow.BThrOffsetH){
+												SetBmpBitOnY1(mn,X-NGMapOffsetX);
+											}
 										}
-										if(DifG>RThr->Narrow.GThrOffsetH){
-											SetBmpBitOnY1(mn,X-NGMapOffsetX);
-										}
-									}
-									else{
-										if(-DifG>RThr->Broad.GThrOffsetL){
-											SetBmpBitOnY1(mb,X-NGMapOffsetX);
-										}
-										if(-DifG>RThr->Narrow.GThrOffsetL){
-											SetBmpBitOnY1(mn,X-NGMapOffsetX);
-										}
-									}
-									int	DifB=db[X]-AvrB;
-									if(DifB>=0){
-										if(DifB>RThr->Broad.BThrOffsetH){
-											SetBmpBitOnY1(mb,X-NGMapOffsetX);
-										}
-										if(DifB>RThr->Narrow.BThrOffsetH){
-											SetBmpBitOnY1(mn,X-NGMapOffsetX);
-										}
-									}
-									else{
-										if(-DifB>RThr->Broad.BThrOffsetL){
-											SetBmpBitOnY1(mb,X-NGMapOffsetX);
-										}
-										if(-DifB>RThr->Narrow.BThrOffsetL){
-											SetBmpBitOnY1(mn,X-NGMapOffsetX);
+										else{
+											if(-DifB>RThr->Broad.BThrOffsetL){
+												SetBmpBitOnY1(mb,X-NGMapOffsetX);
+											}
+											if(-DifB>RThr->Narrow.BThrOffsetL){
+												SetBmpBitOnY1(mn,X-NGMapOffsetX);
+											}
 										}
 									}
 								}
@@ -1309,49 +1491,49 @@ ExeResult	FlatInspectionItem::ExecuteProcessingInspectionArea(int ExeID ,int Thr
 						}
 					}
 				}
-			}
-			else
-			if(LayerNumb==1){
-				for(int	Y=ResultY1+100;Y<ResultY2-100;Y+=20){
-					BYTE	*dr=TargetImageList[0]->GetY(Y);
-					BYTE	*mn=Ap->MaskMap[Y];
-					for(int X=X1;X<X2;X++){
-						if(GetBmpBitOnY(mn,X)!=0){
-							Ar+=dr[X];
-							N++;
+				else
+				if(LayerNumb==1){
+					for(int	Y=XYDiv[i].Y;Y<LastY;Y+=20){
+						BYTE	*dr=TargetImageList[0]->GetY(Y);
+						BYTE	*mn=Ap->MaskMap[Y];
+						for(int X=X1;X<X2;X++){
+							if(GetBmpBitOnY(mn,X)!=0){
+								Ar+=dr[X];
+								N++;
+							}
 						}
 					}
-				}
-				if(N!=0){
-					int	AvrR=Ar/N;
+					if(N!=0){
+						int	AvrR=Ar/N;
 
-					for(int	Y=ResultY1;Y<ResultY2;Y++){
-						BYTE	*dr=TargetImageList[0]->GetY(Y);
-						BYTE	*mp=Ap->MaskMap[Y];
-						if(Y-NGMapOffsetY<0 || NGMapYLen<=Y-NGMapOffsetY){
-							continue;
-						}
-						BYTE	*mb=NGMapB[Y-NGMapOffsetY];
-						BYTE	*mn=NGMapN[Y-NGMapOffsetY];
-						if(mb!=NULL && mn!=NULL){
-							for(int X=X1;X<X2;X++){
-								if(GetBmpBitOnY(mp,X)!=0){
+						for(int	Y=XYDiv[i].Y;Y<LastY;Y++){
+							BYTE	*dr=TargetImageList[0]->GetY(Y);
+							BYTE	*mp=Ap->MaskMap[Y];
+							if(Y-NGMapOffsetY<0 || NGMapYLen<=Y-NGMapOffsetY){
+								continue;
+							}
+							BYTE	*mb=NGMapB[Y-NGMapOffsetY];
+							BYTE	*mn=NGMapN[Y-NGMapOffsetY];
+							if(mb!=NULL && mn!=NULL){
+								for(int X=X1;X<X2;X++){
+									if(GetBmpBitOnY(mp,X)!=0){
 
-									int	DifR=dr[X]-AvrR;
-									if(DifR>=0){
-										if(DifR>RThr->Broad.RThrOffsetH){
-											SetBmpBitOnY1(mb,X-NGMapOffsetX);
+										int	DifR=dr[X]-AvrR;
+										if(DifR>=0){
+											if(DifR>RThr->Broad.RThrOffsetH){
+												SetBmpBitOnY1(mb,X-NGMapOffsetX);
+											}
+											if(DifR>RThr->Narrow.RThrOffsetH){
+												SetBmpBitOnY1(mn,X-NGMapOffsetX);
+											}
 										}
-										if(DifR>RThr->Narrow.RThrOffsetH){
-											SetBmpBitOnY1(mn,X-NGMapOffsetX);
-										}
-									}
-									else{
-										if(-DifR>RThr->Broad.RThrOffsetL){
-											SetBmpBitOnY1(mb,X-NGMapOffsetX);
-										}
-										if(-DifR>RThr->Narrow.RThrOffsetL){
-											SetBmpBitOnY1(mn,X-NGMapOffsetX);
+										else{
+											if(-DifR>RThr->Broad.RThrOffsetL){
+												SetBmpBitOnY1(mb,X-NGMapOffsetX);
+											}
+											if(-DifR>RThr->Narrow.RThrOffsetL){
+												SetBmpBitOnY1(mn,X-NGMapOffsetX);
+											}
 										}
 									}
 								}
@@ -1361,7 +1543,12 @@ ExeResult	FlatInspectionItem::ExecuteProcessingInspectionArea(int ExeID ,int Thr
 				}
 			}
 		}
+		if(XYDiv!=XYDivCellDim){
+			delete[] XYDiv;
+			XYDiv=NULL;
+		}
 	}
+
 	HandleNGMapToResult(Res ,ResultMinX,NGMapOffsetY);
 	if(Res->GetError()==1 && RThr->RedCheckMode==true){
 		ExecuteProcessingRed(Res

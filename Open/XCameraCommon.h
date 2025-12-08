@@ -49,6 +49,7 @@ public:
 	int32	YLen;			//Dot counts of Y direction
 	int32	LayerNumber;	//Layer counts of simultanious caption
 	int32	PageNumb;		//Local page count
+	double	MaxFPS;			//May be no sense
 
   //Set in DLL_Initial in CameraDLL
 	int32		CamMinimumDotPerLine;

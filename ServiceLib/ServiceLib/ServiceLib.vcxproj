@@ -218,7 +218,7 @@
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>..\ServiceForAlgorithm;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\OpenSource\eigen;..\..\Integrator\IntegrationLib;..\..\OpenSource\LibPNG;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\ServiceLib\ServiceLib;..\..\Open;..\..\EditGUI\EditGUI;..\..\GeneralSource;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ServiceForAlgorithm;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\..\..\OpenAA-OtherLibrary\eigen\eigen-5.0.0\Eigen;..\..\Integrator\IntegrationLib;..\..\..\OpenAA-OtherLibrary\LibPNG\lpng1653;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\ServiceLib\ServiceLib;..\..\Open;..\..\EditGUI\EditGUI;..\..\GeneralSource;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;SERVICELIB_LIB;NO_INLINE_ASSEMBLER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <OpenMPSupport>true</OpenMPSupport>

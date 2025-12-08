@@ -58,6 +58,8 @@ bool	FuncCall	Save(QIODevice* f, const QByteArrayList& d);
 bool	FuncCall	Save(QIODevice* f, BYTE** Point, int XLen, int YLen);
 bool	FuncCall	SaveText(QIODevice* f, char* s);
 bool	FuncCall	Save(QIODevice* f, const QPoint& d);
+bool	FuncCall	Save(QIODevice* f, const QPointF& d);
+bool	FuncCall	Save(QIODevice* f, const QSize& d);
 	
 bool	FuncCall	Load(QIODevice* f, int8& d);
 bool	FuncCall	Load(QIODevice* f, int32& d);
@@ -90,6 +92,8 @@ bool	FuncCall	Load(QIODevice* f, QByteArray& d);
 bool	FuncCall	Load(QIODevice* f, QByteArrayList& d);
 bool	FuncCall	Load(QIODevice* f, BYTE** Point, int XLen, int YLen);
 bool	FuncCall	Load(QIODevice* f, QPoint& d);
+bool	FuncCall	Load(QIODevice* f, QPointF& d);
+bool	FuncCall	Load(QIODevice* f, QSize& d);
 
 QString FuncCall	ForceDirectories(const QString &path);
 //DelphiÇÃä÷êîÇ∆ìÆçÏÇÕìØÇ∂ ï‘ílÇÕà·Ç§

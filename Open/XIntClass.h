@@ -169,13 +169,13 @@ public:
 	~IntList(void){}
 
 
-	IntClass	*GetFirst(void)	const	{	return (IntClass *)DataValueDimContainer<int>::GetFirst();			}
-	IntClass	*GetLast(void)	const	{	return (IntClass *)DataValueDimContainer<int>::GetLast();			}
+	IntClass	*GetFirst(void)		const	{	return (IntClass *)DataValueDimContainer<int>::GetFirst();			}
+	IntClass	*GetLast(void)		const	{	return (IntClass *)DataValueDimContainer<int>::GetLast();			}
 	IntClass	*GetItem(int index)	const	{	return (IntClass *)DataValueDimContainer<int>::GetItem(index);	}
 
 	bool	IsInclude(int d)	const;
 	void	Remove(int d);
-	void	Merge(const IntList &src);	//異なる値だけをコピー
+	void	Merge(const IntList &src);
 	void	Merge(int d);
 
 	IntList	&operator=(IntList &src);

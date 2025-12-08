@@ -55,6 +55,8 @@ public:
 	}Broad,Narrow;
 
     short	SpaceToOutline;
+	int		DivLenX;
+	int		DivLenY;
 
 	DWORD	MultiSpotDot;	//’P‘½“_
 	DWORD	MultiSpotCount;

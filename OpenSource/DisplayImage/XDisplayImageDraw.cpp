@@ -1071,11 +1071,12 @@ void	DisplayImage::DrawScale(QPainter &pnt
 	if(iPage>=0){
 		XYRegPointContainer	&C=GetLayersBase()->GetPageData(iPage)->GetRegulation();
 		if(C.IsEffective()==true){
-			ScaleMsg=QString::number(RealLen,'f',C.UnitFigure) + C.GetUnitName();
+			ScaleMsg=QString::number(RealLen,'f',GetParamGlobal()->SmallNumberFigure) + C.GetUnitName();
 		}
 	}
 	if(ScaleMsg.isEmpty()==true){
-		ScaleMsg=QString::number(RealLen,'f',2) + GetParamGlobal()->UnitName;
+		ScaleMsg=QString::number(RealLen,'f',GetParamGlobal()->SmallNumberFigure)
+						+ GetParamGlobal()->UnitName;
 	}
 	QFontMetrics	Mtr(pnt.font());
 	QRect	R=Mtr.boundingRect(ScaleMsg);

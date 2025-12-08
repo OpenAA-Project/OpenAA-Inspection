@@ -6,6 +6,7 @@
 #include "XTypeDef.h"
 #include <QIODevice>
 #include "XParamGlobal.h"
+#include "XCameraCommon.h"
 
 class	ExecuteInitialAfterEditInfo;
 
@@ -30,12 +31,14 @@ public:
 
 	virtual	bool	Save(QIODevice *f)	{		return true;	}
 	virtual	bool	Load(QIODevice *f)	{		return true;	}
+	virtual	bool	GetCurrentInfo(CameraReqInfo &RetInfo)	{	return false;	}
 
 	int		GetCamNo(void)	{	return CamNo;	}
 	void	SetCamNo(int n)	{	CamNo=n;		}
 
 	int		GetDotPerLine(void);
 	int		GetMaxLines(void);
+	virtual	bool	IsAlive(void)	{	return true;	}
 
 	virtual	bool	ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)					{	return true;	}
 	virtual	bool	Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb)	{	return true;	}

@@ -13082,13 +13082,48 @@ bool	PureFlexAreaList::Load(QIODevice *f)
 		return false;
 	return true;
 }
+PureFlexAreaListContainer::PureFlexAreaListContainer(void)
+{
+	MinX=INT_MAX;
+	MinY=INT_MAX;
+	MaxX=INT_MIN;
+	MaxY=INT_MIN;
+}
 
 PureFlexAreaListContainer::PureFlexAreaListContainer(const PureFlexAreaListContainer &src)
 {
+	MinX=INT_MAX;
+	MinY=INT_MAX;
+	MaxX=INT_MIN;
+	MaxY=INT_MIN;
+
 	for(PureFlexAreaList *a=src.GetFirst();a!=NULL;a=a->GetNext()){
 		PureFlexAreaList	*b=new PureFlexAreaList();
 		*b=*a;
 		AppendList(b);
+	}
+}
+
+void	PureFlexAreaListContainer::AppendList(PureFlexAreaList *L)
+{
+	MinX=min(MinX,L->GetMinX());
+	MinY=min(MinY,L->GetMinY());
+	MaxX=max(MaxX,L->GetMaxX());
+	MaxY=max(MaxY,L->GetMaxY());
+	NPListPackSaveLoad<PureFlexAreaList>::AppendList(L);
+}
+
+void    PureFlexAreaListContainer::RestructMinMax(void)
+{
+	MinX=INT_MAX;
+	MinY=INT_MAX;
+	MaxX=INT_MIN;
+	MaxY=INT_MIN;
+	for(PureFlexAreaList *a=GetFirst();a!=NULL;a=a->GetNext()){
+		MinX=min(MinX,a->GetMinX());
+		MinY=min(MinY,a->GetMinY());
+		MaxX=max(MaxX,a->GetMaxX());
+		MaxY=max(MaxY,a->GetMaxY());
 	}
 }
 
@@ -13113,6 +13148,10 @@ bool    PureFlexAreaListContainer::Load(QIODevice *f)
 	if(::Load(f,N)==false)
 		return false;
 	RemoveAll();
+	MinX=INT_MAX;
+	MinY=INT_MAX;
+	MaxX=INT_MIN;
+	MaxY=INT_MIN;
 	for(int i=0;i<N;i++){
 		PureFlexAreaList	*a=new PureFlexAreaList();
 		if(a->Load(f)==false)
@@ -13126,6 +13165,10 @@ void	PureFlexAreaListContainer::MoveNoClip(int dx ,int dy)
 	for(PureFlexAreaList *a=GetFirst();a!=NULL;a=a->GetNext()){
 		a->MoveToNoClip(dx,dy);
 	}
+	MinX+=dx;
+	MinY+=dy;
+	MaxX+=dx;
+	MaxY+=dy;
 }
 
 void	PureFlexAreaListContainer::MoveClip(int dx ,int dy ,int Left ,int Top ,int Right ,int Bottom)
@@ -13133,87 +13176,92 @@ void	PureFlexAreaListContainer::MoveClip(int dx ,int dy ,int Left ,int Top ,int 
 	for(PureFlexAreaList *a=GetFirst();a!=NULL;a=a->GetNext()){
 		a->MoveToClip(dx,dy,Left ,Top ,Right ,Bottom);
 	}
+	RestructMinMax();
 }
 int     PureFlexAreaListContainer::GetWidth(void)	const
 {
-	PureFlexAreaList *a=GetFirst();
-	if(a==NULL){
-		return 0;
-	}
-	int	MinX=a->GetMinX();
-	int	MaxX=a->GetMaxX();
-	for(a=a->GetNext();a!=NULL;a=a->GetNext()){
-		MinX=min(MinX,a->GetMinX());
-		MaxX=max(MaxX,a->GetMaxX());
-	}
+	//PureFlexAreaList *a=GetFirst();
+	//if(a==NULL){
+	//	return 0;
+	//}
+	//int	MinX=a->GetMinX();
+	//int	MaxX=a->GetMaxX();
+	//for(a=a->GetNext();a!=NULL;a=a->GetNext()){
+	//	MinX=min(MinX,a->GetMinX());
+	//	MaxX=max(MaxX,a->GetMaxX());
+	//}
 	return MaxX-MinX;
 }
 int     PureFlexAreaListContainer::GetHeight(void)	const
 {
-	PureFlexAreaList *a=GetFirst();
-	if(a==NULL){
-		return 0;
-	}
-	int	MinY=a->GetMinY();
-	int	MaxY=a->GetMaxY();
-	for(a=a->GetNext();a!=NULL;a=a->GetNext()){
-		MinY=min(MinY,a->GetMinY());
-		MaxY=max(MaxY,a->GetMaxY());
-	}
+	//PureFlexAreaList *a=GetFirst();
+	//if(a==NULL){
+	//	return 0;
+	//}
+	//int	MinY=a->GetMinY();
+	//int	MaxY=a->GetMaxY();
+	//for(a=a->GetNext();a!=NULL;a=a->GetNext()){
+	//	MinY=min(MinY,a->GetMinY());
+	//	MaxY=max(MaxY,a->GetMaxY());
+	//}
 	return MaxY-MinY;
 }
 int     PureFlexAreaListContainer::GetMinX(void)	const
 {
-	PureFlexAreaList *a=GetFirst();
-	if(a==NULL){
-		return -99999999;
-	}
-	int	MinX=a->GetMinX();
-	for(a=a->GetNext();a!=NULL;a=a->GetNext()){
-		MinX=min(MinX,a->GetMinX());
-	}
+	//PureFlexAreaList *a=GetFirst();
+	//if(a==NULL){
+	//	return -99999999;
+	//}
+	//int	MinX=a->GetMinX();
+	//for(a=a->GetNext();a!=NULL;a=a->GetNext()){
+	//	MinX=min(MinX,a->GetMinX());
+	//}
 	return MinX;
 }
 int     PureFlexAreaListContainer::GetMinY(void)	const
 {
-	PureFlexAreaList *a=GetFirst();
-	if(a==NULL){
-		return -99999999;
-	}
-	int	MinY=a->GetMinY();
-	for(a=a->GetNext();a!=NULL;a=a->GetNext()){
-		MinY=min(MinY,a->GetMinY());
-	}
+	//PureFlexAreaList *a=GetFirst();
+	//if(a==NULL){
+	//	return -99999999;
+	//}
+	//int	MinY=a->GetMinY();
+	//for(a=a->GetNext();a!=NULL;a=a->GetNext()){
+	//	MinY=min(MinY,a->GetMinY());
+	//}
 	return MinY;
 }
 int     PureFlexAreaListContainer::GetMaxX(void)	const
 {
-	PureFlexAreaList *a=GetFirst();
-	if(a==NULL){
-		return 99999999;
-	}
-	int	MaxX=a->GetMaxX();
-	for(a=a->GetNext();a!=NULL;a=a->GetNext()){
-		MaxX=max(MaxX,a->GetMaxX());
-	}
+	//PureFlexAreaList *a=GetFirst();
+	//if(a==NULL){
+	//	return 99999999;
+	//}
+	//int	MaxX=a->GetMaxX();
+	//for(a=a->GetNext();a!=NULL;a=a->GetNext()){
+	//	MaxX=max(MaxX,a->GetMaxX());
+	//}
 	return MaxX;
 }
 int     PureFlexAreaListContainer::GetMaxY(void)	const
 {
-	PureFlexAreaList *a=GetFirst();
-	if(a==NULL){
-		return 99999999;
-	}
-	int	MaxY=a->GetMaxY();
-	for(a=a->GetNext();a!=NULL;a=a->GetNext()){
-		MaxY=max(MaxY,a->GetMaxY());
-	}
+	//PureFlexAreaList *a=GetFirst();
+	//if(a==NULL){
+	//	return 99999999;
+	//}
+	//int	MaxY=a->GetMaxY();
+	//for(a=a->GetNext();a!=NULL;a=a->GetNext()){
+	//	MaxY=max(MaxY,a->GetMaxY());
+	//}
 	return MaxY;
 }
 
 PureFlexAreaListContainer	&PureFlexAreaListContainer::operator=(const PureFlexAreaListContainer &src)
 {
 	RemoveAll();
+	MinX=INT_MAX;
+	MinY=INT_MAX;
+	MaxX=INT_MIN;
+	MaxY=INT_MIN;
 	for(PureFlexAreaList *a=src.GetFirst();a!=NULL;a=a->GetNext()){
 		PureFlexAreaList	*b=new PureFlexAreaList();
 		*b=*a;

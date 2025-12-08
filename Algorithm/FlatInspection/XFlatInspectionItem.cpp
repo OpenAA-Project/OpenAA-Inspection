@@ -225,8 +225,13 @@ FlatInspectionThreshold::FlatInspectionThreshold(FlatInspectionItem *parent)
 :AlgorithmThreshold(parent)
 {
 	SpaceToOutline		=10;
+	ExpansionRange		=0.1;
+	MerginForSpecial	=20;
 	OrgMultiSpotDot		=0;
 	OrgMultiSpotCount	=0;
+
+	DivLenX				=300;
+	DivLenY				=300;
 
 	MultiSpotDot			=0;
 	MultiSpotCount			=0;
@@ -298,6 +303,11 @@ void	FlatInspectionThreshold::CopyFrom(const AlgorithmThreshold &src)
 	Narrow.CopyFrom(s->Narrow);
 
 	SpaceToOutline			=s->SpaceToOutline;
+	ExpansionRange			=s->ExpansionRange;
+	MerginForSpecial		=s->MerginForSpecial;
+	DivLenX					=s->DivLenX;
+	DivLenY					=s->DivLenY;
+
 	OrgMultiSpotDot			=s->OrgMultiSpotDot	;
 	OrgMultiSpotCount		=s->OrgMultiSpotCount;
 	OrgBackGroundOKDot		=s->OrgBackGroundOKDot;
@@ -357,6 +367,10 @@ void	FlatInspectionThreshold::CopyFrom(const AlgorithmThreshold &src,IntList &Ed
 	
 	if(EdittedMemberID.IsInclude(ID_SpaceToOutline)==true)
 		SpaceToOutline		=s->SpaceToOutline;
+	if(EdittedMemberID.IsInclude(ID_ExpansionRange)==true)
+		ExpansionRange		=s->ExpansionRange;
+	if(EdittedMemberID.IsInclude(ID_MerginForSpecial)==true)
+		MerginForSpecial	=s->MerginForSpecial;
 
 	if(EdittedMemberID.IsInclude(ID_BroadOKDot			)==true)
 		Broad.OKDot			=s->Broad.OKDot;
@@ -393,6 +407,11 @@ void	FlatInspectionThreshold::CopyFrom(const AlgorithmThreshold &src,IntList &Ed
 		Narrow.BThrOffsetL		=s->Narrow.BThrOffsetL;
 	if(EdittedMemberID.IsInclude(ID_NarrowBThrOffsetH)==true)
 		Narrow.BThrOffsetH		=s->Narrow.BThrOffsetH;
+
+	if(EdittedMemberID.IsInclude(ID_DivLenX	)==true)
+		DivLenX	=s->DivLenX	;
+	if(EdittedMemberID.IsInclude(ID_DivLenY	)==true)
+		DivLenY	=s->DivLenY	;
 
 	if(EdittedMemberID.IsInclude(ID_MultiSpotDot	)==true)
 		MultiSpotDot	=s->MultiSpotDot	;
@@ -510,6 +529,10 @@ bool	FlatInspectionThreshold::IsEqual(const AlgorithmThreshold &src)	const
 	if(Narrow.BThrOffsetH		!=s->Narrow.BThrOffsetH)		return false;
 
 	if(SpaceToOutline		!=s->SpaceToOutline)	return false;
+	if(ExpansionRange		!=s->ExpansionRange)	return false;
+	if(MerginForSpecial		!=s->MerginForSpecial)	return false;
+	if(DivLenX				!=s->DivLenX)			return false;
+	if(DivLenY				!=s->DivLenY)			return false;
 
 	if(OrgMultiSpotDot		!=s->OrgMultiSpotDot)	return false;
 	if(OrgMultiSpotCount	!=s->OrgMultiSpotCount)	return false;
@@ -576,6 +599,14 @@ bool	FlatInspectionThreshold::Save(QIODevice *file)
 		return false;
 
 	if(::Save(file,SpaceToOutline)==false)
+		return false;
+	if(::Save(file,ExpansionRange)==false)
+		return false;
+	if(::Save(file,MerginForSpecial)==false)
+		return false;
+	if(::Save(file,DivLenX)==false)
+		return false;
+	if(::Save(file,DivLenY)==false)
 		return false;
 
 	if(::Save(file,OrgMultiSpotDot)==false)
@@ -690,6 +721,18 @@ bool	FlatInspectionThreshold::Load(QIODevice *file)
 
 	if(::Load(file,SpaceToOutline)==false)
 		return false;
+	if(Ver>=3){
+		if(::Load(file,ExpansionRange)==false)
+			return false;
+		if(::Load(file,MerginForSpecial)==false)
+			return false;
+	}
+	if(Ver>=4){
+		if(::Load(file,DivLenX)==false)
+			return false;
+		if(::Load(file,DivLenY)==false)
+			return false;
+	}
 	if(::Load(file,OrgMultiSpotDot)==false)
 		return false;
 	if(::Load(file,OrgMultiSpotCount)==false)
@@ -802,7 +845,7 @@ void	FlatInspectionThreshold::FromLibrary(AlgorithmLibrary *src)
 	OrgMultiSpotCount	=LSrc->MultiSpotCount;
 	OrgBackGroundOKDot		=LSrc->BackGroundOKDot;
 	OrgBackGroundOKLength	=LSrc->BackGroundOKLength;
-	OrgUseBackGround	=LSrc->UseBackGround;
+	OrgUseBackGround		=LSrc->UseBackGround;
 
 	MultiSpotDot			=LSrc->MultiSpotDot	;
 	MultiSpotCount			=LSrc->MultiSpotCount;
@@ -1620,7 +1663,7 @@ ExeResult	FlatInspectionItem::ExecuteInitialAfterEdit	(int ExeID ,int ThreadNo,R
 		GetXY(x1,y1,x2,y2);
 
 		double	dd		=tGetParentBase()->SearchDot4SpecialArea/(y2-y1);
-		double	ERange	=tGetParentBase()->ExpansionRange;
+		double	ERange	=RThr->ExpansionRange;
 		double	MinD=1.0-ERange;
 		double	MaxD=1.0+ERange;
 

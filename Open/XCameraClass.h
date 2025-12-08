@@ -62,6 +62,7 @@ public:
 	void	AfterStartSequence(void);
 
 	bool	ChangeInfo(int XLen ,int YLen, int LayerCount ,int PageNumb,CameraReqInfoAnyData *anydata=NULL);
+	bool	GetCurrentInfo(CameraReqInfo &RetInfo);
 	bool	RestoreCamInfo(void);
 	bool	ResetToDefault(void);
 
@@ -77,6 +78,7 @@ public:
 	void	AssociateComponent	(ComponentListContainer &List);
 	
 	bool	IsCameraDLL(void);
+	bool	IsAlive(void);
 	bool	LoadDLL(const QString &dllfilename,int32 &ErrorCode);
 	int		GetCameraCount(QString &dllfilename,const QString &CameraParameter);
 

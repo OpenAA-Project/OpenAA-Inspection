@@ -151,6 +151,8 @@ FlatInspectionLibrary::FlatInspectionLibrary(int LibType,LayersBase *Base)
 	NoiseSizePinHole		=0;
     SpaceToOutline			=0;
 	UseBackGround			=false;
+	DivLenX					=300;
+	DivLenY					=300;
 
 	MultiSpotDot	=0;
 	MultiSpotCount	=0;
@@ -233,6 +235,10 @@ bool	FlatInspectionLibrary::SaveBlob(QIODevice *f)
     if(::Save(f,SpaceToOutline)==false)
 		return false;
 	if(::Save(f,UseBackGround)==false)
+		return false;
+	if(::Save(f,DivLenX)==false)
+		return false;
+	if(::Save(f,DivLenY)==false)
 		return false;
 
 	if(Broad.SaveBlob(f)==false)
@@ -366,6 +372,12 @@ bool	FlatInspectionLibrary::LoadBlob(QIODevice *f)
 	if(::Load(f,UseBackGround)==false)
 		return false;
 
+	if(Ver>=4){
+		if(::Load(f,DivLenX)==false)
+			return false;
+		if(::Load(f,DivLenY)==false)
+			return false;
+	}
 
 	if(Broad.LoadBlob(f)==false)
 		return false;

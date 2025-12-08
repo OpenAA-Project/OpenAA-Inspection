@@ -18,6 +18,8 @@ class	ShowFPSInCamera : public GUIFormBase
 	class	CapturedInfoInCam
 	{
 	public:
+		ShowFPSInCamera	*Parent;
+		int		CamNo;	
 		DWORD	TimeDim[100];
 		int		Pointer;
 		int		StockedCount;
@@ -63,8 +65,6 @@ private slots:
 	void	SlotCapturedInCamera13();
 	void	SlotCapturedInCamera14();
 	void	SlotCapturedInCamera15();
-signals:
-	void	SignalCycleTime(double FPS);
 
 private:
 	void	CapturedInCameraFromSlot(int CamNo);

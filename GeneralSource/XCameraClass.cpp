@@ -594,6 +594,21 @@ bool	CameraInterface::ChangeInfo(int XLen ,int YLen, int LayerCount ,int PageNum
 	}
 	return false;
 }
+bool	CameraInterface::GetCurrentInfo(CameraReqInfo &RetInfo)
+{
+	if(Handle!=NULL){
+		return Handle->GetCurrentInfo(RetInfo);
+	}
+	return false;
+}
+
+bool	CameraInterface::IsAlive(void)
+{
+	if(Handle!=NULL){
+		return Handle->IsAlive();
+	}
+	return false;
+}
 
 bool	CameraInterface::RestoreCamInfo(void)
 {
@@ -629,6 +644,7 @@ bool	CameraInterface::SetLanguageCode(int LanguageCode)
 	}
 	return true;
 }
+
 bool	CameraInterface::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
 {
 	return Handle->ReallocXYPixels(NewDotPerLine ,NewMaxLines);
@@ -1559,7 +1575,7 @@ bool	CameraClass::Initial(ParamGlobal *param ,int32 &ErrorCode)
 		return false;
 	bool	Ret=Camera->Initial(param ,param->ModeToShowLoadingDLLWindow,ErrorCode);
 	if(Ret==true){
-		connect(Camera,SIGNAL(SignalCaptured()),this,SLOT(SlotCaptured));
+		Ret=connect(Camera,SIGNAL(SignalCaptured()),this,SLOT(SlotCaptured()));
 	}
 	return Ret;
 }
@@ -1606,7 +1622,12 @@ bool	CameraClass::ChangeInfo(int XLen ,int YLen, int LayerCount ,int PageNumb,Ca
 		return false;
 	return Camera->ChangeInfo(XLen ,YLen, LayerCount ,PageNumb,anydata);
 }
-
+bool	CameraClass::IsAlive(void)
+{
+	if(Camera==NULL)
+		return false;
+	return Camera->IsAlive();
+}
 bool	CameraClass::IsCameraDLL(void)
 {
 	if(Camera==NULL)
@@ -1650,7 +1671,12 @@ int		CameraClass::GetCameraCount(QString &dllfilename,const QString &CameraParam
 		return 0;
 	return Camera->GetCameraCount(dllfilename,CameraParameter);
 }
-
+bool	CameraClass::GetCurrentInfo(CameraReqInfo &RetInfo)
+{
+	if(Camera==NULL)
+		return false;
+	return Camera->GetCurrentInfo(RetInfo);
+}
 bool	CameraClass::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
 {
 	if(Camera==NULL)

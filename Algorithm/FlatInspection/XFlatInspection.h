@@ -8,7 +8,7 @@
 #include <QPainter>
 #include <QByteArray>
 
-#define	FlatInspectionVersion	2
+#define	FlatInspectionVersion	4
 
 class	FlatInspectionItem;
 class	FlatInspectionRegulation;
@@ -54,6 +54,10 @@ public:
 	}Broad,Narrow;
 
 	short	SpaceToOutline;
+	double	ExpansionRange;
+	int		MerginForSpecial;
+	int		DivLenX;
+	int		DivLenY;
 
 	DWORD	OrgMultiSpotDot;
 	DWORD	OrgMultiSpotCount;
@@ -143,7 +147,10 @@ enum ThresholdMember
 	,ID_NarrowBThrOffsetH	=34
 
 	,ID_SpaceToOutline		=40
-
+	,ID_ExpansionRange		=41
+	,ID_MerginForSpecial	=42
+	,ID_DivLenX				=43
+	,ID_DivLenY				=44
 	,ID_MultiSpotDot			=51
 	,ID_MultiSpotCount			=52
 	,ID_MultiSpotDotGathered	=53
@@ -172,7 +179,6 @@ enum ThresholdMember
 	,ID_RedGBMerginOffset	=105
 	,ID_RedOKDot			=106
 	,ID_RedShrink			=107
-
 
 	,ID_VariationMode			=161
 	,ID_VariationRL				=162
@@ -331,7 +337,7 @@ public:
 	void	SearchMax(int mx ,int my ,int &Dx ,int &Dy);
 	void	MakeWindow(int mx ,int my);
 	void	AddDarkLightDot(FlexArea &ZoneArea);
-	void	SearchByDot(int mx ,int my ,int &Dx ,int &Dy,double &Expansion);
+	void	SearchByDot(int mx ,int my ,int LimitUpperY ,int &Dx ,int &Dy,double &Expansion);
 	void	CopyFrom(FlatInspectionItem *src);
 
 	WORD	CalcCenterBright(ImageBuffer &IBuff ,int mx ,int my ,float &LVar ,float &HVar);
@@ -339,8 +345,8 @@ public:
 
 private:
 	int64	CalcSum(ImageBuffer *Image,int dx,int dy,FlexArea &InsideArea);
-	double	CalcCoef(ImageBuffer *Image ,int SelfSearch,int mx ,int my ,double E);
-	double	CalcCoefRough(ImageBuffer *Image ,int SelfSearch,int mx ,int my ,double E);
+	double	CalcCoef(ImageBuffer *Image ,int SelfSearch,int mx ,int my ,double E,int LimitUpperY);
+	double	CalcCoefRough(ImageBuffer *Image ,int SelfSearch,int mx ,int my ,double E,int LimitUpperY);
 	double	CalcAverage(ImageBuffer *Image ,int mx ,int my ,double E);
 	void	MakeRoughDots(void);
 
@@ -420,8 +426,11 @@ public:
 	double	SearchDot4SpecialArea;
 	double	ExpansionRange;
 	int32	MaxNGCountForMultiSpot;
+	int32	RoughSparse;
 	double	DeviationParam1;
 	double	DeviationParam2;
+	int		SpecialMinDotL;
+	int		SpecialMinDotH;
 
 	FlatInspectionBase(LayersBase *Base);
 

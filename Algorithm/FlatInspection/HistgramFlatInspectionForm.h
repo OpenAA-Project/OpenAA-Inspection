@@ -177,8 +177,9 @@ private slots:
     void on_EditLineMinCluster_valueChanged(int arg1);
     void on_toolButtonBroad_clicked();
     void on_toolButtonNarrow_clicked();
-
     void on_EditSpaceToOutline_valueChanged(int arg1);
+    void on_EditDivLenX_valueChanged(int arg1);
+    void on_EditDivLenY_valueChanged(int arg1);
 
 private:
     Ui::HistgramFlatInspectionForm *ui;

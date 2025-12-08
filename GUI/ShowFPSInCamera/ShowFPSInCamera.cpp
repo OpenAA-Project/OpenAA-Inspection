@@ -18,6 +18,8 @@
 #include <QIcon>
 #include <QPixmap>
 #include "XEntryPoint.h"
+#include "XCameraClass.h"
+#include "swap.h"
 
 const	char	*sRoot=/**/"Action";
 const	char	*sName=/**/"ShowFPSInCamera";
@@ -126,25 +128,27 @@ void	ShowFPSInCamera::ReadyParam(void)
 		AllocatedCamCount=E->GetAllocatedCameraCount();	
 		CamDim=new CapturedInfoInCam[AllocatedCamCount];
 		for(int cam=0;cam<AllocatedCamCount;cam++){
+			CamDim[cam].Parent	= this;
+			CamDim[cam].CamNo	= cam;
 			CameraClass		*C=E->GetCamera(cam);
 			if(C!=NULL){
 				switch(cam){
-				case 0:	connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera0()));	break;
-				case 1:	connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera1()));	break;
-				case 2:	connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera2()));	break;
-				case 3:	connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera3()));	break;
-				case 4:	connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera4()));	break;
-				case 5:	connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera5()));	break;
-				case 6:	connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera6()));	break;
-				case 7:	connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera7()));	break;
-				case 8:	connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera8()));	break;
-				case 9:	connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera9()));	break;
-				case 10:connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera10()));break;
-				case 11:connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera11()));break;
-				case 12:connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera12()));break;
-				case 13:connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera13()));break;
-				case 14:connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera14()));break;
-				case 15:connect(E,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera15()));break;
+				case 0:	connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera0()));	break;
+				case 1:	connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera1()));	break;
+				case 2:	connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera2()));	break;
+				case 3:	connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera3()));	break;
+				case 4:	connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera4()));	break;
+				case 5:	connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera5()));	break;
+				case 6:	connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera6()));	break;
+				case 7:	connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera7()));	break;
+				case 8:	connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera8()));	break;
+				case 9:	connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera9()));	break;
+				case 10:connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera10()));break;
+				case 11:connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera11()));break;
+				case 12:connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera12()));break;
+				case 13:connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera13()));break;
+				case 14:connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera14()));break;
+				case 15:connect(C,SIGNAL(SignalCaptured()),this,SLOT(SlotCapturedInCamera15()));break;
 				default:	break;
 				}
 			}
@@ -168,9 +172,9 @@ static	int	SortFunc(const void *a ,const void *b)
 	DWORD	*bi=(DWORD *)b;
 
 	if(*ai<*bi)
-		return 1;
-	if(*ai>*bi)
 		return -1;
+	if(*ai>*bi)
+		return 1;
 	return 0;
 }
 
@@ -183,18 +187,28 @@ ShowFPSInCamera::CapturedInfoInCam::CapturedInfoInCam(void)
 
 double	ShowFPSInCamera::CapturedInfoInCam::GetFPS(void)
 {
+	double	MaxFPS=10000000;
+	ExecuteInspectBase	*E=Parent->GetLayersBase()->GetEntryPoint()->GetExecuteInspect();
+	if(E!=NULL){
+		CameraClass		*C=E->GetCamera(CamNo);
+		if(C!=NULL){
+			CameraReqInfo RetInfo;
+			if(C->GetCurrentInfo(RetInfo)==true){
+				MaxFPS=RetInfo.MaxFPS;
+			}
+		}
+	}
+
 	DWORD	STimeDim[100];
 	memcpy(STimeDim,TimeDim,sizeof(TimeDim));
 	if(StockedCount!=0){
 		QSort(STimeDim,StockedCount,sizeof(DWORD),SortFunc);
 
-		qint64	Added=0;
-		for(int i=0;i<StockedCount;i++){
-			Added+=STimeDim[i];
-		}
+		qint64	Added=STimeDim[StockedCount-1]-STimeDim[0];
 		double	d=((double)Added)/((double)StockedCount);
 		if(d>0){
-			return 1000.0/d;
+			double	FPS=min(MaxFPS,1000.0/d);
+			return FPS;
 		}
 	}
 	return 0;

@@ -206,6 +206,8 @@ ExeResult	FlatInspectionInPage::ExecuteInitialAfterEdit	(int ExeID ,ResultInPage
 	MatrixBuffClear	(MaskMap ,0 ,MaskMapXByte,MaskMapYLen);
 
 	ExeResult	Ret=AlgorithmInPagePITemplate<FlatInspectionItem,FlatInspectionBase>::ExecuteInitialAfterEdit(ExeID ,Res,EInfo);
+	
+	
 	return Ret;
 }
 
@@ -278,8 +280,40 @@ ExeResult	FlatInspectionInPage::ExecuteProcessing		(int ExeID ,ResultInPageRoot 
 			if(L->FIT_Type==FlatInspectionItem::_FIType_SpecialShape){
 				int	cx,cy;
 				L->GetCenter(cx,cy);
+
+
+				int	LimitUpperY=0;
+				for(FlatInspectionItem	*w=tGetFirstData();w!=NULL;w=(FlatInspectionItem *)w->GetNext()){
+					if(w->FIT_Type==FlatInspectionItem::_FIType_Window){
+						int	tx1,ty1,tx2,ty2;
+						w->MasterArea.GetXY(tx1,ty1,tx2,ty2);
+						if(cy>ty2){
+							const	FlatInspectionThreshold	*CThr=w->GetThresholdR();
+							if(LimitUpperY<ty2+w->ResultDyRightBottom-CThr->MerginForSpecial){
+								LimitUpperY=ty2+w->ResultDyRightBottom-CThr->MerginForSpecial;
+							}
+							if(LimitUpperY<ty2+w->ResultDyLeftBottom-CThr->MerginForSpecial){
+								LimitUpperY=ty2+w->ResultDyLeftBottom-CThr->MerginForSpecial;
+							}
+						}
+					}
+				}
+				for(FlatInspectionItem	*w=tGetFirstData();w!=NULL;w=(FlatInspectionItem *)w->GetNext()){
+					if(w->FIT_Type==FlatInspectionItem::_FIType_SpecialShape){
+						int	tx1,ty1,tx2,ty2;
+						w->GetXY(tx1,ty1,tx2,ty2);
+						if(cy>ty2){
+							const	FlatInspectionThreshold	*CThr=w->GetThresholdR();
+							int	wwy=(w->ResultExpansion-1.0)*(ty2-ty1)+CThr->MerginForSpecial;
+							if(LimitUpperY<ty2+w->ResultDy+wwy){
+								LimitUpperY=ty2+w->ResultDy+wwy;
+							}
+						}
+					}
+				}
+
 				int	dy=(cy-MasterY1)*(TargetY2-TargetY1)/(MasterY2-MasterY1)+MasterY1-cy;
-				L->SearchByDot(Dx,Dy+dy,L->ResultDx,L->ResultDy,L->ResultExpansion);
+				L->SearchByDot(Dx,Dy+dy,LimitUpperY,L->ResultDx,L->ResultDy,L->ResultExpansion);
 				L->ExecuteProcessing(ExeID,0,L->GetCurrentResult());
 			}
 		}
@@ -304,7 +338,30 @@ void	FlatInspectionInPage::TransmitDirectly(GUIDirectMessage *packet)
 		item->FIT_Type=CmdSendAddManualFlatInspectionVar->FIType;
 		item->SetArea(CmdSendAddManualFlatInspectionVar->Area);
 		item->SetLibID(CmdSendAddManualFlatInspectionVar->LibID);
+
+		FlatInspectionBase	*BBase=(FlatInspectionBase *)GetParentBase(); 
+		AlgorithmLibraryLevelContainer	LLib(BBase); 
+		if(BBase->GetLibraryContainer()->GetLibrary(CmdSendAddManualFlatInspectionVar->LibID,LLib)==true){ 
+			FlatInspectionLibrary	*ALib=dynamic_cast<FlatInspectionLibrary *>(LLib.GetLibrary()); 
+			if(ALib!=NULL){ 
+				item->CopyThresholdFromLibrary(&LLib); 
+			} 
+		}
+		//Item->SetItemName(CmdSendAddManualFlatInspectionVar->ItemName);
+
 		AppendItem(item);
+		return;
+	}
+	CmdAlgoSimulate	*CmdAlgoSimulateVar=dynamic_cast<CmdAlgoSimulate *>(packet);
+	if(CmdAlgoSimulateVar!=NULL){
+		FlatInspectionItem *Item=(FlatInspectionItem *)SearchIDItem(CmdAlgoSimulateVar->ItemID);
+		if(Item!=NULL){
+			QColor	Col=Qt::green;
+			Col.setAlpha(100);
+
+			Item->GetArea().DrawAlpha(0,0 , CmdAlgoSimulateVar->Image,Col.rgba()
+						,CmdAlgoSimulateVar->ZoomRate ,CmdAlgoSimulateVar->MovX ,CmdAlgoSimulateVar->MovY);
+		}
 		return;
 	}
 }
@@ -354,6 +411,9 @@ FlatInspectionBase::FlatInspectionBase(LayersBase *Base)
 	ExpansionRange			=0.1;
 	DeviationParam1			=1.0;
 	DeviationParam2			=2.0;
+	SpecialMinDotL			=10;
+	SpecialMinDotH			=0;
+	RoughSparse				=5;
 
 	SetParam(&ColorArea			, /**/"Color" ,/**/"ColorArea"			,"Color for FlatInspection");
 	SetParam(&ColorSelected		, /**/"Color" ,/**/"ColorSelected"		,"Color for Selected FlatInspection");
@@ -367,6 +427,9 @@ FlatInspectionBase::FlatInspectionBase(LayersBase *Base)
 	SetParam(&MaxNGCountForMultiSpot, /**/"Setting" ,/**/"MaxNGCountForMultiSpot"	,"Max NG count to check MultiSpot");
 	SetParam(&DeviationParam1		, /**/"Setting" ,/**/"DeviationParam1"			,"Deviation Param 1");
 	SetParam(&DeviationParam2		, /**/"Setting" ,/**/"DeviationParam2"			,"Deviation Param 2");
+	SetParam(&SpecialMinDotL		, /**/"Setting" ,/**/"SpecialMinDotL"			,"Special minimum dot , darker side");
+	SetParam(&SpecialMinDotH		, /**/"Setting" ,/**/"SpecialMinDotH"			,"Special minimum dot , lighter side");
+	SetParam(&RoughSparse			, /**/"Setting" ,/**/"RoughSparse"				,"Rough Sparse (5-20)");
 			
 	ModeParallelForPhase.ModeParallelExecuteInitialAfterEdit=false;
 }

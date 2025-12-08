@@ -20,6 +20,21 @@
 #include "XDataInExe.h"
 #include "XDisplayImage.h"
 
+QString	GUIItemInstance::GetDLLRoot(void)
+{
+	if(DLLAccess!=NULL){
+		return DLLAccess->RootName;
+	}
+	return /**/"";
+}
+QString	GUIItemInstance::GetDLLName(void)
+{
+	if(DLLAccess!=NULL){
+		return DLLAccess->Name;
+	}
+	return /**/"";
+}
+
 GUIFormBase	*GUIInstancePack::GetFirstForm(void)
 {
 	GUIItemInstance *v=NPListPack<GUIItemInstance>::GetFirst();
@@ -111,4 +126,15 @@ void	GUIInstancePack::SetAreaSizeInImagePanel(bool DrawWholeMode)
 			}
 		}
 	}
+}
+
+GUIFormBase	*GUIInitializer::Search(QString &DLLRoot,QString &DLLName ,QString &InstName)
+{
+	for(GUIInstancePack	*f=GetGUIInstanceRoot();f!=NULL;f=f->GetNext()){
+		GUIFormBase	*form=f->FindByName(DLLRoot ,DLLName ,InstName);
+		if(form!=NULL){
+			return form;
+		}
+	}
+	return NULL;
 }

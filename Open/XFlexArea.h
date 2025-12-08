@@ -671,9 +671,14 @@ class   PureFlexAreaList : public NPListSaveLoad<PureFlexAreaList> ,public FlexA
 
 class	PureFlexAreaListContainer : public NPListPackSaveLoad<PureFlexAreaList>
 {
+	int MinX,MinY,MaxX,MaxY;
 public:
-	PureFlexAreaListContainer(void){}
+
+	PureFlexAreaListContainer(void);
     PureFlexAreaListContainer(const PureFlexAreaListContainer &src);
+
+	void	AppendList(PureFlexAreaList *L);
+    void    RestructMinMax(void);
 
 	virtual bool    Save(QIODevice *str)    override;
 	virtual bool    Load(QIODevice *str)    override;

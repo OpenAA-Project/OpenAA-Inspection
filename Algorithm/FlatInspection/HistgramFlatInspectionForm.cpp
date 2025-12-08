@@ -423,12 +423,16 @@ HistgramFlatInspectionForm::HistgramFlatInspectionForm(LayersBase *Base,QWidget 
 	RegisterComponent((int)ID_NarrowOKLength		,ui->EditOKLengthN);
 
 	RegisterComponent((int)ID_SpaceToOutline	,ui->EditSpaceToOutline);
+	RegisterComponent((int)ID_ExpansionRange	,ui->doubleSpinBoxExpansionRange);
+	RegisterComponent((int)ID_MerginForSpecial	,ui->EditMerginForSpecial);
 
 	RegisterComponent((int)ID_AdjustBlack		,ui->EditAdjustBlack);
 	RegisterComponent((int)ID_AdjustWhite		,ui->EditAdjustWhite);
 	RegisterComponent((int)ID_BackGroundOKDot	,ui->EditBackGroundOKDot);
 	RegisterComponent((int)ID_BackGroundOKLength,ui->EditBackGroundOKLength);
 	RegisterComponent((int)ID_UseBackGround		,ui->checkBoxUseBackGround);
+	RegisterComponent((int)ID_DivLenX			,ui->EditDivLenX);
+	RegisterComponent((int)ID_DivLenY			,ui->EditDivLenY);
 
 	RegisterComponent((int)ID_AreaSearchX	,ui->EditAreaSearchX);
 	RegisterComponent((int)ID_AreaSearchY	,ui->EditAreaSearchY);
@@ -531,6 +535,9 @@ void	HistgramFlatInspectionForm::Initial(AlgorithmBase *InstBase ,AlgorithmItemI
 	else{
 		ui->ButtonReflectAllFlatInspections->setVisible(true);
 	}
+
+	SimPanel.SetZoomRate(2.0);
+	SimPanel.SetCenter(Data.LocalX,Data.LocalY);
 
 	SetEnableChangeMode(false);
 
@@ -775,10 +782,14 @@ void	HistgramFlatInspectionForm::ShowLibrary(const	FlatInspectionThreshold *RThr
 	ui->EditBThrOffsetNH	->setValue	(RThr->Narrow.BThrOffsetH);
 
 	ui->EditSpaceToOutline	->setValue	(RThr->SpaceToOutline);
+	ui->doubleSpinBoxExpansionRange	->setValue(RThr->ExpansionRange);
+	ui->EditMerginForSpecial->setValue	(RThr->MerginForSpecial);
 
 	ui->EditBackGroundOKDot		->setValue	(RThr->BackGroundOKDot);
 	ui->EditBackGroundOKLength	->setValue	(RThr->BackGroundOKLength);
 	ui->checkBoxUseBackGround	->setChecked(RThr->UseBackGround);
+	ui->EditDivLenX		->setValue	(RThr->DivLenX);
+	ui->EditDivLenY		->setValue	(RThr->DivLenY);
 
 	ui->EditAdjustBlack		->setValue	(RThr->AdjustBlack);
 	ui->EditAdjustWhite		->setValue	(RThr->AdjustWhite);
@@ -938,11 +949,15 @@ void	HistgramFlatInspectionForm::GetDataFromWindowFromNo(int LayerNo)
 		DThr->Narrow.BThrOffsetL		=ui->EditBThrOffsetNL	->value();
 		DThr->Narrow.BThrOffsetH		=ui->EditBThrOffsetNH	->value();
 
-		DThr->SpaceToOutline	=ui->EditSpaceToOutline	->value();
+		DThr->SpaceToOutline	=ui->EditSpaceToOutline			->value();
+		DThr->ExpansionRange	=ui->doubleSpinBoxExpansionRange->value();
+		DThr->MerginForSpecial	=ui->EditMerginForSpecial	->value();
 
 		DThr->BackGroundOKDot	=ui->EditBackGroundOKDot	->value();
 		DThr->BackGroundOKLength=ui->EditBackGroundOKLength	->value();
 		DThr->UseBackGround		=ui->checkBoxUseBackGround	->isChecked();
+		DThr->DivLenX			=ui->EditDivLenX		->value	();
+		DThr->DivLenY			=ui->EditDivLenY		->value	();
 
 		DThr->AdjustBlack		=ui->EditAdjustBlack	->value();
 		DThr->AdjustWhite		=ui->EditAdjustWhite	->value();
@@ -1485,6 +1500,10 @@ void HistgramFlatInspectionForm::on_ButtonCalc_clicked()
 			DThr->Narrow.BThrOffsetH			=ui->EditBThrOffsetNH	->value();
 
 			DThr->SpaceToOutline	=ui->EditSpaceToOutline	->value();
+			DThr->ExpansionRange	=ui->doubleSpinBoxExpansionRange->value();
+			DThr->MerginForSpecial	=ui->EditMerginForSpecial	->value();
+			DThr->DivLenX			=ui->EditDivLenX		->value	();
+			DThr->DivLenY			=ui->EditDivLenY		->value	();
 
 			DThr->BackGroundOKDot	=ui->EditBackGroundOKDot	->value();
 			DThr->BackGroundOKLength=ui->EditBackGroundOKLength	->value();
@@ -2348,5 +2367,23 @@ void HistgramFlatInspectionForm::on_toolButtonBroad_clicked()
 void HistgramFlatInspectionForm::on_toolButtonNarrow_clicked()
 {
 	ui->stackedWidget->setCurrentIndex(1);
+}
+
+
+void HistgramFlatInspectionForm::on_EditDivLenX_valueChanged(int arg1)
+{
+    if(OnChanging==true){
+        return;
+    }
+	on_ButtonCalc_clicked();
+}
+
+
+void HistgramFlatInspectionForm::on_EditDivLenY_valueChanged(int arg1)
+{
+    if(OnChanging==true){
+        return;
+    }
+	on_ButtonCalc_clicked();
 }
 

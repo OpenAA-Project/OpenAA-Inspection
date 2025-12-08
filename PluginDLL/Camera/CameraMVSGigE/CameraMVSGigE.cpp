@@ -88,7 +88,7 @@ bool    CameraMVSGigE::Initial(void)
 		return false;
 	}
 
-	// ch:将?加入到信息列表框中并?示出来 | en:Add value to the information list box and display
+	// ch:将值加入到信息列表框中并显示出来 | en:Add value to the information list box and display
 	for (unsigned int i = 0; i < m_stDevList.nDeviceNum; i++){
 		MV_CC_DEVICE_INFO* pDeviceInfo = m_stDevList.pDeviceInfo[i];
 		if (NULL == pDeviceInfo)
@@ -104,7 +104,7 @@ bool    CameraMVSGigE::Initial(void)
 		    int nIp3 = ((m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0x0000ff00) >> 8);
 		    int nIp4 = (m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0x000000ff);
 
-		    if (strcmp("", (const char *)(pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName)) != 0)
+		    if (strcmp("", (LPCSTR)(pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName)) != 0)
 		    {
 				memset(strUserName,0,256);
 				sprintf_s(strUserName, 256, "%s (%s)", pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName,
@@ -276,63 +276,63 @@ void	CameraMVSGigE::GetImage(ImageBuffer *Buff[3] ,int LayerNumb)
     CamBufferStack		*p=CamBuffDim[CamBuffRPoint];
                
     MV_CC_PIXEL_CONVERT_PARAM_EX stConvertParam = {0};
-
+       
     MutexImageSize.lock();
 
-    stConvertParam.nWidth   = p->XLen;                 //ch:?像? | en:image width
-    stConvertParam.nHeight  = p->YLen;               //ch:?像高 | en:image height
-    stConvertParam.pSrcData = p->Data;                         //ch:?入数据?存 | en:input data buffer
-	stConvertParam.nSrcDataLen = p->FrameSize;         //ch:?入数据大小 | en:input data size
-    stConvertParam.enSrcPixelType = p->PixelFormat;    //ch:?入像素格式 | en:input pixel format
-    stConvertParam.enDstPixelType = PixelType_Gvsp_RGB8_Packed;                         //ch:?出像素格式 | en:output pixel format
-    stConvertParam.pDstBuffer = RGBBuff;                               //ch:?出数据?存 | en:output data buffer
-    stConvertParam.nDstBufferSize = XLen*YLen*4;                       //ch:?出?存大小 | en:output buffer size
+    if(LayerNumb==3){
+        stConvertParam.nWidth   = p->XLen;                 //ch:图像宽 | en:image width
+        stConvertParam.nHeight  = p->YLen;               //ch:图像高 | en:image height
+        stConvertParam.pSrcData = p->Data;                         //ch:输入数据缓存 | en:input data buffer
+	    stConvertParam.nSrcDataLen = p->FrameSize;         //ch:输入数据大小 | en:input data size
+        stConvertParam.enSrcPixelType = p->PixelFormat;    //ch:输入像素格式 | en:input pixel format
+        stConvertParam.enDstPixelType = PixelType_Gvsp_RGB8_Packed;                         //ch:输出像素格式 | en:output pixel format
+        stConvertParam.pDstBuffer = RGBBuff;                               //ch:输出数据缓存 | en:output data buffer
+        stConvertParam.nDstBufferSize = XLen*YLen*4;                       //ch:输出缓存大小 | en:output buffer size
 
-    int Ret=Cam.ConvertPixelType(&stConvertParam);
-    if(Ret==MV_OK){
-        BYTE    *s=RGBBuff;
-        if(LayerNumb>=3){
-            for(int y=0;y<YLen;y++){
-                BYTE    *dR=Buff[0]->GetY(y);
-                BYTE    *dG=Buff[1]->GetY(y);
-                BYTE    *dB=Buff[2]->GetY(y);
-                for(int x=0;x<XLen;x++){
-                    *dR=*(s+0);
-                    *dG=*(s+1);
-                    *dB=*(s+2);
-                    s+=3;
-                    dR++;
-                    dG++;
-                    dB++;
-                }
-            }
-        }
-        else
-        if(LayerNumb==2){
-            for(int y=0;y<YLen;y++){
-                BYTE    *dR=Buff[0]->GetY(y);
-                BYTE    *dG=Buff[1]->GetY(y);
-                for(int x=0;x<XLen;x++){
-                    *dR=*(s+0);
-                    *dG=*(s+1);
-                    s+=3;
-                    dR++;
-                    dG++;
-                }
-            }
-        }
-        else
-        if(LayerNumb==1){
-            for(int y=0;y<YLen;y++){
-                BYTE    *dR=Buff[0]->GetY(y);
-                for(int x=0;x<XLen;x++){
-                    *dR=*(s+0);
-                    s+=3;
-                    dR++;
+        int Ret=Cam.ConvertPixelType(&stConvertParam);
+        if(Ret==MV_OK){
+            BYTE    *s=RGBBuff;
+            if(LayerNumb>=3){
+                for(int y=0;y<YLen;y++){
+                    BYTE    *dR=Buff[0]->GetY(y);
+                    BYTE    *dG=Buff[1]->GetY(y);
+                    BYTE    *dB=Buff[2]->GetY(y);
+                    for(int x=0;x<XLen;x++){
+                        *dR=*(s+0);
+                        *dG=*(s+1);
+                        *dB=*(s+2);
+                        s+=3;
+                        dR++;
+                        dG++;
+                        dB++;
+                    }
                 }
             }
         }
     }
+    else if(LayerNumb==1){
+        stConvertParam.nWidth   = p->XLen;                 //ch:图像宽 | en:image width
+        stConvertParam.nHeight  = p->YLen;               //ch:图像高 | en:image height
+        stConvertParam.pSrcData = p->Data;                         //ch:输入数据缓存 | en:input data buffer
+        stConvertParam.nSrcDataLen = p->FrameSize;         //ch:输入数据大小 | en:input data size
+        stConvertParam.enSrcPixelType = p->PixelFormat;    //ch:输入像素格式 | en:input pixel format
+        stConvertParam.enDstPixelType = PixelType_Gvsp_Mono8;                         //ch:输出像素格式 | en:output pixel format
+        stConvertParam.pDstBuffer = RGBBuff;                               //ch:输出数据缓存 | en:output data buffer
+        stConvertParam.nDstBufferSize = XLen*YLen;                       //ch:输出缓存大小 | en:output buffer size
+        int Ret=Cam.ConvertPixelType(&stConvertParam);
+        if(Ret==MV_OK){
+            BYTE    *s=RGBBuff;
+            BYTE    *dR;
+            for(int y=0;y<YLen;y++){
+                dR=Buff[0]->GetY(y);
+                for(int x=0;x<XLen;x++){
+                    *dR=*s;
+                    s++;
+                    dR++;
+                }
+            }
+        }
+	}
     CamBuffRPoint++;
     if(CamBuffRPoint>=MaxCountCamBufferStack){
         CamBuffRPoint=0;
@@ -380,7 +380,7 @@ bool	CameraMVSGigE::Load(QIODevice *f)
 	return true;
 }
 
-// ch:?取触?模式 | en:Get Trigger Mode
+// ch:获取触发模式 | en:Get Trigger Mode
 int CameraMVSGigE::GetTriggerMode()
 {
     MVCC_ENUMVALUE stEnumValue = {0};
@@ -396,13 +396,13 @@ int CameraMVSGigE::GetTriggerMode()
     return MV_OK;
 }
 
-// ch:?置触?模式 | en:Set Trigger Mode
+// ch:设置触发模式 | en:Set Trigger Mode
 int CameraMVSGigE::SetTriggerMode()
 {
     return Cam.SetEnumValue("TriggerMode", TriggerMode);
 }
 
-// ch:?取曝光?? | en:Get Exposure Time
+// ch:获取曝光时间 | en:Get Exposure Time
 int CameraMVSGigE::GetExposureTime()
 {
     MVCC_FLOATVALUE stFloatValue = {0};
@@ -418,7 +418,7 @@ int CameraMVSGigE::GetExposureTime()
     return MV_OK;
 }
 
-// ch:?置曝光?? | en:Set Exposure Time
+// ch:设置曝光时间 | en:Set Exposure Time
 int CameraMVSGigE::SetExposureTime()
 {
     Cam.SetEnumValue("ExposureAuto", MV_EXPOSURE_AUTO_MODE_OFF);
@@ -426,7 +426,7 @@ int CameraMVSGigE::SetExposureTime()
     return Cam.SetFloatValue("ExposureTime", (float)ExposureTime);
 }
 
-// ch:?取增益 | en:Get Gain
+// ch:获取增益 | en:Get Gain
 int CameraMVSGigE::GetGain()
 {
     MVCC_FLOATVALUE stFloatValue = {0};
@@ -441,17 +441,17 @@ int CameraMVSGigE::GetGain()
     return MV_OK;
 }
 
-// ch:?置增益 | en:Set Gain
+// ch:设置增益 | en:Set Gain
 int CameraMVSGigE::SetGain()
 {
-    // ch:?置增益前先把自?增益??，失?无需返回
+    // ch:设置增益前先把自动增益关闭，失败无需返回
     //en:Set Gain after Auto Gain is turned off, this failure does not need to return
     Cam.SetEnumValue("GainAuto", 0);
 
     return Cam.SetFloatValue("Gain", (float)Gain);
 }
 
-// ch:?取?率 | en:Get Frame Rate
+// ch:获取帧率 | en:Get Frame Rate
 int CameraMVSGigE::GetFrameRate()
 {
     MVCC_FLOATVALUE stFloatValue = {0};
@@ -466,7 +466,7 @@ int CameraMVSGigE::GetFrameRate()
     return MV_OK;
 }
 
-// ch:?置?率 | en:Set Frame Rate
+// ch:设置帧率 | en:Set Frame Rate
 int CameraMVSGigE::SetFrameRate()
 {
     int nRet = Cam.SetBoolValue("AcquisitionFrameRateEnable", true);
@@ -478,7 +478,7 @@ int CameraMVSGigE::SetFrameRate()
     return Cam.SetFloatValue("AcquisitionFrameRate", (float)FrameRate);
 }
 
-// ch:?取触?源 | en:Get Trigger Source
+// ch:获取触发源 | en:Get Trigger Source
 int CameraMVSGigE::GetTriggerSource()
 {
     MVCC_ENUMVALUE stEnumValue = {0};
@@ -501,7 +501,7 @@ int CameraMVSGigE::GetTriggerSource()
     return MV_OK;
 }
 
-// ch:?置触?源 | en:Set Trigger Source
+// ch:设置触发源 | en:Set Trigger Source
 int CameraMVSGigE::SetTriggerSource()
 {
     int nRet = MV_OK;
@@ -527,7 +527,7 @@ int CameraMVSGigE::SetTriggerSource()
     return nRet;
 }
 
-// ?接口只展示GetEnumEntrySymbolic接口的使用方法
+// 该接口只展示GetEnumEntrySymbolic接口的使用方法
 int CameraMVSGigE::GetPixelFormat()
 {
     MVCC_ENUMVALUE stEnumValue = {0};
@@ -594,7 +594,7 @@ WORD DLL_GetDLLType(void)
 	return(DLLCameraMode);
 }
 
-bool _cdecl	DLL_GetName(QString &str)
+bool cdecl	DLL_GetName(QString &str)
 //	return DLL-Name. 
 {
 	str=/**/"MVS Camera GigE";

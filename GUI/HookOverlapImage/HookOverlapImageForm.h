@@ -44,9 +44,14 @@ public:
 	virtual void	ReadyParam(void)	override;
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet)override;
 	void	Draw	(DisplayImage	*DImage
-					,QPainter &pnt	,QImage &PntImage
-					,double ZoomRate,int movx ,int movy
-					,int CanvasWidth ,int CanvasHeight);
+						,QPainter &pnt	,QImage &PntImage
+						,double ZoomRate,int movx ,int movy
+						,int CanvasWidth ,int CanvasHeight);
+	void	Draw	(DisplayImage	*DImage
+						,QPainter &pnt	,QImage &PntImage
+						,double ZoomRate,int movx ,int movy
+						,int CanvasWidth ,int CanvasHeight
+						,int V);
 	virtual	QStringList	GetRelatedForm(void)	override	{	return HookTargetListInst;	}
 
 	void	SetActive(bool b);
@@ -67,6 +72,9 @@ private:
 private slots:
 	void	ResizeAction();
     void on_horizontalSlider_valueChanged(int value);
+
+signals:
+	void	SignalChanged(int Position);
 };
 
 class	CmdGetAlphaMasterToTarget : public GUIDirectMessage
@@ -81,7 +89,7 @@ public:
 class	CmdSetAlphaMasterToTarget : public GUIDirectMessage
 {
 public:
-	double	Alpha;
+	double	Alpha;		//0.0-1.0	0:Overlap	1:DisplayImage
 	bool	Active;
 
 	CmdSetAlphaMasterToTarget(LayersBase *base):GUIDirectMessage(base){}

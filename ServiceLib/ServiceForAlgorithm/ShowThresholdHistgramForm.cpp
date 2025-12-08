@@ -41,10 +41,10 @@ ShowThresholdHistgramForm::ShowThresholdHistgramForm(LayersBase *Base ,QWidget *
     LGraph.resize(ui->frame->width(),ui->frame->height());
 
     GraphHistgram	.SetLineColor(GetParamGlobal()->HistgramGraphColor);
-    GraphHistgram	.SetLineWidth(1);
+    GraphHistgram	.SetLineWidth(3);
     GraphHistgram	.SetOffsetX(0);
     GraphThresh		.SetLineColor(GetParamGlobal()->HistgramThreshColor);
-    GraphThresh		.SetLineWidth(1);
+    GraphThresh		.SetLineWidth(3);
     GraphThresh		.SetOffsetX(2);
 
     LGraph.AddGraph(&GraphHistgram);
@@ -207,6 +207,8 @@ void ShowThresholdHistgramForm::ShowGrah(void)
     }
     GraphThresh.AddXY(ThresholdA,GraphData.GetMaxData());
     GraphThresh.AddXY(ThresholdB,GraphData.GetMaxData());
+
+    LGraph.repaint();
 }
 
 void ShowThresholdHistgramForm::ShowCalculated(void)

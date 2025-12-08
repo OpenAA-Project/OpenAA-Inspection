@@ -399,6 +399,7 @@ public:
 	virtual	QTcpSocket	*GetIntegrationSocket(int SlaveNo);
 
 	GuiDLLItem	*Search(QString &rootName ,QString &name);
+	GUIFormBase	*Search(QString &DLLRoot,QString &DLLName ,QString &InstName);
 	bool	LoadReplaceNameList(FILE *file);
 	bool	InitialAdditionalFieldFromGUI(QSqlDatabase &DB,QString &ErrorMsg);
 	bool	CreateExcludedList(ExcludedListPack &EList);

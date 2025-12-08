@@ -5,6 +5,7 @@
 #include "XCrossObj.h"
 #include "XDisplayBitImage.h"
 #include "mtPushButtonColored.h"
+#include "HookPeakingThread.h"
 #include "HookPeakingCommon.h"
 #include "XCriticalFunc.h"
 
@@ -179,8 +180,10 @@ void	HookPeakingForm::TransmitDirectly(GUIDirectMessage *packet)
 
 void HookPeakingForm::on_horizontalSliderTransparentRate_valueChanged(int value)
 {
-	ui->labelTransparent->setText(QString::number(ui->horizontalSliderTransparentRate->value()));
+	int	Level = ui->horizontalSliderTransparentRate->value();
+	ui->labelTransparent->setText(QString::number(Level));
 	TargetPanels.Repaint();
+	emit	SignalChanged(Level);
 }
 void	HookPeakingForm::SlotShowPeaking()
 {

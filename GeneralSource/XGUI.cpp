@@ -2310,20 +2310,7 @@ bool	GUIItemInstance::Initial(LayersBase *Base,QWidget *parent ,DWORD &ErrorCode
 	return(true);
 }
 
-QString	GUIItemInstance::GetDLLRoot(void)
-{
-	if(DLLAccess!=NULL){
-		return DLLAccess->RootName;
-	}
-	return /**/"";
-}
-QString	GUIItemInstance::GetDLLName(void)
-{
-	if(DLLAccess!=NULL){
-		return DLLAccess->Name;
-	}
-	return /**/"";
-}
+
 void	GUIItemInstance::AssociateComponent(ComponentListContainer &List)
 {
 	if(Handle!=NULL){

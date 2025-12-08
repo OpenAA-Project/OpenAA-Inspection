@@ -8,6 +8,7 @@
 #include "swap.h"
 #include "XGeneralFunc.h"
 #include "XCriticalFunc.h"
+#include "HookPeakingThread.h"
 
 void	HookPeakingForm::Draw	(QPainter &pnt	,QImage &PntImage,double ZoomRate,int movx ,int movy ,int CanvasWidth , int CanvasHeight)
 {

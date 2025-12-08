@@ -238,6 +238,29 @@ bool	FuncCall	Save(QIODevice *f,const QPoint &d)
 	}
 	return true;
 }
+bool	FuncCall	Save(QIODevice *f,const QPointF &d)
+{
+	double	P[2];
+	P[0]=d.x();
+	P[1]=d.y();
+
+	if(f->write((const char *)P,sizeof(P))!=sizeof(P)){
+		return false;
+	}
+	return true;
+}
+bool	FuncCall	Save(QIODevice *f,const QSize &d)
+{
+	int32	P[2];
+	P[0]=d.width();
+	P[1]=d.height();
+
+	if(f->write((const char *)P,sizeof(P))!=sizeof(P)){
+		return false;
+	}
+	return true;
+}
+
 
 
 bool	FuncCall	Save(QIODevice *f,const QDate &d)
@@ -755,6 +778,28 @@ bool	FuncCall	Load(QIODevice *f,QPoint &d)
 	}
 	d.setX(P[0]);
 	d.setY(P[1]);
+	return true;
+}
+bool	FuncCall	Load(QIODevice *f,QPointF &d)
+{
+	double	P[2];
+
+	if(f->read((char *)P,sizeof(P))!=sizeof(P)){
+		return false;
+	}
+	d.setX(P[0]);
+	d.setY(P[1]);
+	return true;
+}
+bool	FuncCall	Load(QIODevice *f,QSize &d)
+{
+	int32	P[2];
+
+	if(f->read((char *)P,sizeof(P))!=sizeof(P)){
+		return false;
+	}
+	d.setWidth (P[0]);
+	d.setHeight(P[1]);
 	return true;
 }
 

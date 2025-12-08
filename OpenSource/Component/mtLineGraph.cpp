@@ -102,7 +102,6 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 
 	//ソート＆目盛りの最小値／最大値の取得
 	if(!OnSorted){
-		bool	FirstMode=true;
 		for(int GNumb=0;GNumb<GraphList.count();GNumb++){
 			if(GraphList[GNumb]->isSortXY()==false){
 				if(GraphList[GNumb]->SortXY()==NULL){
@@ -116,19 +115,18 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 				uMaxY=GraphList[GNumb]->uMaxY;
 			}
 			else{
-				if(GraphList[GNumb]->uMinX<uMinX || FirstMode==true){
+				if(GraphList[GNumb]->uMinX<uMinX ){
 					uMinX=GraphList[GNumb]->uMinX;
 				}
-				if(GraphList[GNumb]->uMaxX>uMaxX || FirstMode==true){
+				if(GraphList[GNumb]->uMaxX>uMaxX){
 					uMaxX=GraphList[GNumb]->uMaxX;
 				}
-				if(GraphList[GNumb]->uMinY<uMinY || FirstMode==true){
+				if(GraphList[GNumb]->uMinY<uMinY){
 					uMinY=GraphList[GNumb]->uMinY;
 				}
-				if(GraphList[GNumb]->uMaxY>uMaxY || FirstMode==true){
+				if(GraphList[GNumb]->uMaxY>uMaxY){
 					uMaxY=GraphList[GNumb]->uMaxY;
 				}
-				FirstMode=false;
 			}
 		}
 		double	dy=uMaxY-uMinY;

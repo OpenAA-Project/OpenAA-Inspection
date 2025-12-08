@@ -93,6 +93,27 @@ int CMvCamera::SetBayerCvtQuality(int n)
 {
 	return MV_CC_SetBayerCvtQuality(m_hDevHandle, n);
 }
+int CMvCamera::GetResolution(int &Width ,int &Height)
+{
+    int nRet = MV_OK;
+    MVCC_INTVALUE stWidth = {0};
+    MVCC_INTVALUE stHeight = {0};
+    
+    // 1. 幅 (Width) の取得
+    nRet = MV_CC_GetIntValue(m_hDevHandle, "Width", &stWidth);
+    if (MV_OK != nRet) {
+        return nRet;
+    }
+
+    // 2. 高さ (Height) の取得
+    nRet = MV_CC_GetIntValue(m_hDevHandle, "Height", &stHeight);
+    if (MV_OK != nRet) {
+        return nRet;
+    }
+    Width   =stWidth.nCurValue;
+	Height  = stHeight.nCurValue;
+    return  nRet;
+}
 
 // ch:判断相机是否处于连接状态 | en:Is The Device Connected
 bool CMvCamera::IsDeviceConnected()

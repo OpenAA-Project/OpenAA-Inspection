@@ -84,6 +84,14 @@ static	bool TargetFunctionPaintLast(FunctionServerClass *Obj,GUIFormBase *Target
 				DbgLocked=true;
 			}
 		}
+		//else{
+		//	if(Form->GetLayersBase()->TryLockWeakDraw()==true){
+		//		Form->Draw	(DImage,pnt,PntImage
+		//					,DImage->GetZoomRate(),DImage->GetMovx(),DImage->GetMovy()
+		//					,DImage->GetCanvasWidth(),DImage->GetCanvasHeight());
+		//		Form->GetLayersBase()->UnlockWeakDraw();
+		//	}
+		//}
 	}
 	return true;
 }
@@ -108,6 +116,8 @@ void HookOverlapImageForm::on_horizontalSlider_valueChanged(int value)
 	SlidebarPosition	=ui->horizontalSlider->value();
 	ui->labelValue->setText(QString::number(SlidebarPosition));
 	TargetPanels.Repaint();
+
+	emit	SignalChanged(SlidebarPosition);
 }
 
 void	HookOverlapImageForm::Draw	(DisplayImage	*DImage
@@ -118,9 +128,23 @@ void	HookOverlapImageForm::Draw	(DisplayImage	*DImage
 	static	int	NoImage=0;
 
 	int	V=SlidebarPosition;
-	if(isEnabled()==false){
-		V=0;
-	}
+	//if(isEnabled()==false){
+	//	V=0;
+	//}
+	Draw	(DImage
+				,pnt	,PntImage
+				,ZoomRate,movx ,movy
+				,CanvasWidth ,CanvasHeight
+				,V);
+}
+
+void	HookOverlapImageForm::Draw	(DisplayImage	*DImage
+									,QPainter &pnt	,QImage &PntImage
+									,double ZoomRate,int movx ,int movy
+									,int CanvasWidth ,int CanvasHeight
+									,int V)
+{
+	static	int	NoImage=0;
 
 	if(OverlapImage==NULL){
 		if(DImage!=NULL)	DImage->LockPaintMutex();
@@ -177,7 +201,6 @@ void	HookOverlapImageForm::Draw	(DisplayImage	*DImage
 		}
 	}
 }
-
 void	HookOverlapImageForm::AllocInnerBuff(void)
 {
 	BmpReceiver=new GUICmdSendBmp*[GetLayersBase()->GetPageNumb()];
@@ -715,6 +738,7 @@ void	 HookOverlapImageForm::TransmitDirectly(GUIDirectMessage *packet)
 	if(CmdSetAlphaMasterToTargettVar!=NULL){
 		int	V=CmdSetAlphaMasterToTargettVar->Alpha*ui->horizontalSlider->maximum();
 		ui->horizontalSlider->setValue(V);
+		SlidebarPosition=V;
 		SetActive(CmdSetAlphaMasterToTargettVar->Active);
 		return;
 	}
