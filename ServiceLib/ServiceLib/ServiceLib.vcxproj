@@ -460,6 +460,7 @@
     <ClCompile Include="..\..\GeneralSource\XDateTime.cpp" />
     <ClCompile Include="..\..\GeneralSource\XDFS.cpp" />
     <ClCompile Include="..\..\GeneralSource\XDisplayImageOptimized.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XDisplaySimPanel.cpp" />
     <ClCompile Include="..\..\GeneralSource\XDLLManager.cpp" />
     <ClCompile Include="..\..\GeneralSource\XDLLType.cpp" />
     <ClCompile Include="..\..\GeneralSource\XDrawFunc.cpp" />

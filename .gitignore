@@ -21,8 +21,12 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+[Tt]emplate/
+[Tt]emplates/
+[Ii]ntel_SSA/
 x64/
 x86/
+X/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/

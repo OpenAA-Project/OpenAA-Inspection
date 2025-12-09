@@ -62,9 +62,6 @@
     <ClCompile Include="XDotColorMatchingLibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\GeneralSource\XDisplaySimPanel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DotColorMatchingResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

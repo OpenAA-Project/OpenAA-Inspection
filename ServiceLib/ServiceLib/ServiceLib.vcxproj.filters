@@ -607,6 +607,9 @@
     <ClCompile Include="..\..\GeneralSource\XRobotClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XDisplaySimPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Open\NList.h">

@@ -244,7 +244,6 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\GeneralSource\XDisplaySimPanel.cpp" />
     <ClCompile Include="..\..\Open\AlgorithmCommon.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="DotColorMatching.cpp" />

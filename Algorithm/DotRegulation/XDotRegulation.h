@@ -24,6 +24,7 @@
 
 class	DotRegulationItem;
 class	DotRegulationInLayer;
+class	PureFlexAreaListContainer;
 
 
 class	DotRegulationDrawAttr : public AlgorithmDrawAttr
@@ -113,7 +114,7 @@ private:
 class	DotRegulationDotArea : public AlgorithmItemPLI
 {
 public:
-	PureFlexAreaListContainer	PureFlexAreaListContainer;
+	PureFlexAreaListContainer	PureFlexAreaListContainerInst;
 
 	DotRegulationDotArea(void);
 	~DotRegulationDotArea(void);
@@ -134,10 +135,10 @@ public:
 	void	MakeYPosListStr(DoubleList &List);
 	void	MakeBrightnessListStr(QStringListListCSV &List);
 private:
-	PureFlexAreaList	*FindUpper(PureFlexAreaList *a,PureFlexAreaListContainer &PureFlexAreaListContainer);
-	PureFlexAreaList	*FindDown (PureFlexAreaList *a,PureFlexAreaListContainer &PureFlexAreaListContainer);
-	PureFlexAreaList	*FindLeft (PureFlexAreaList *a,PureFlexAreaListContainer &PureFlexAreaListContainer);
-	PureFlexAreaList	*FindRight(PureFlexAreaList *a,PureFlexAreaListContainer &PureFlexAreaListContainer);
+	PureFlexAreaList	*FindUpper(PureFlexAreaList *a,PureFlexAreaListContainer &tPureFlexAreaListContainerInst);
+	PureFlexAreaList	*FindDown (PureFlexAreaList *a,PureFlexAreaListContainer &tPureFlexAreaListContainerInst);
+	PureFlexAreaList	*FindLeft (PureFlexAreaList *a,PureFlexAreaListContainer &tPureFlexAreaListContainerInst);
+	PureFlexAreaList	*FindRight(PureFlexAreaList *a,PureFlexAreaListContainer &tPureFlexAreaListContainerInst);
 
 };
 

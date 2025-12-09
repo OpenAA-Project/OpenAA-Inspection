@@ -165,7 +165,7 @@ void	DotRegulationDotArea::Draw(QImage &pnt, int movx ,int movy ,double ZoomRate
 
 	QRgb	col=qRgb(200,0,130);
 
-	for(PureFlexAreaList *p=PureFlexAreaListContainer.GetFirst();p!=NULL;p=p->GetNext()){
+	for(PureFlexAreaList *p=PureFlexAreaListContainerInst.GetFirst();p!=NULL;p=p->GetNext()){
 		p->Draw(0,0,&pnt,col,ZoomRate,movx,movy);
 	}
 }
@@ -195,7 +195,7 @@ void	DotRegulationDotArea::Pickup(int Threshold)
 		}
 	}
 
-	PureFlexAreaListContainer.RemoveAll();
+	PureFlexAreaListContainerInst.RemoveAll();
 	PureFlexAreaListContainer FPack;
 	PickupFlexArea(BmpMap ,XByte ,GetDotPerLine(),YLen,FPack);
 	double	AreaSum=0;
@@ -213,7 +213,7 @@ void	DotRegulationDotArea::Pickup(int Threshold)
 			if(ThreL<N && N<ThreH){
 				PureFlexAreaList	*L=new PureFlexAreaList();
 				*L=*f;
-				PureFlexAreaListContainer.AppendList(L);
+				PureFlexAreaListContainerInst.AppendList(L);
 			}
 		}
 	}
@@ -237,17 +237,17 @@ void	DotRegulationDotArea::MakeXPosListStr(DoubleList &List)
 	double	DDim[2000];
 	int		DDimNumb=0;
 	PureFlexAreaList *f;
-	while((f=PureFlexAreaListContainer.GetFirst())!=NULL){
+	while((f=PureFlexAreaListContainerInst.GetFirst())!=NULL){
 		PureFlexAreaListContainer	PContainer;
-		PureFlexAreaListContainer.RemoveList(f);
+		PureFlexAreaListContainerInst.RemoveList(f);
 		PContainer.AppendList(f);
 
 		PureFlexAreaList	*a=f;
-		while((a=FindUpper(a,PureFlexAreaListContainer))!=NULL){
+		while((a=FindUpper(a,PureFlexAreaListContainerInst))!=NULL){
 			PContainer.AppendList(a);
 		}
 		a=f;
-		while((a=FindDown(a,PureFlexAreaListContainer))!=NULL){
+		while((a=FindDown(a,PureFlexAreaListContainerInst))!=NULL){
 			PContainer.AppendList(a);
 		}
 
@@ -272,13 +272,13 @@ void	DotRegulationDotArea::MakeXPosListStr(DoubleList &List)
 	}
 }
 
-PureFlexAreaList	*DotRegulationDotArea::FindUpper(PureFlexAreaList *a,PureFlexAreaListContainer &PureFlexAreaListContainer)
+PureFlexAreaList	*DotRegulationDotArea::FindUpper(PureFlexAreaList *a,PureFlexAreaListContainer &tPureFlexAreaListContainerInst)
 {
 	double	MinL=99999999;
 	PureFlexAreaList	*Found=NULL;
 	int	sx1,sy1,sx2,sy2;
 	a->GetXY(sx1,sy1,sx2,sy2);
-	for(PureFlexAreaList *b=PureFlexAreaListContainer.GetFirst();b!=NULL;b=b->GetNext()){
+	for(PureFlexAreaList *b=tPureFlexAreaListContainerInst.GetFirst();b!=NULL;b=b->GetNext()){
 		int	cx,cy;
 		b->GetCenter(cx,cy);
 		if(sx1<=cx && cx<=sx2 && sy1>cy){
@@ -290,18 +290,18 @@ PureFlexAreaList	*DotRegulationDotArea::FindUpper(PureFlexAreaList *a,PureFlexAr
 		}
 	}
 	if(Found!=NULL){
-		PureFlexAreaListContainer.RemoveList(Found);
+		tPureFlexAreaListContainerInst.RemoveList(Found);
 	}
 	return Found;
 }
 
-PureFlexAreaList	*DotRegulationDotArea::FindDown(PureFlexAreaList *a,PureFlexAreaListContainer &PureFlexAreaListContainer)
+PureFlexAreaList	*DotRegulationDotArea::FindDown(PureFlexAreaList *a,PureFlexAreaListContainer &tPureFlexAreaListContainerInst)
 {
 	double	MinL=99999999;
 	PureFlexAreaList	*Found=NULL;
 	int	sx1,sy1,sx2,sy2;
 	a->GetXY(sx1,sy1,sx2,sy2);
-	for(PureFlexAreaList *b=PureFlexAreaListContainer.GetFirst();b!=NULL;b=b->GetNext()){
+	for(PureFlexAreaList *b=tPureFlexAreaListContainerInst.GetFirst();b!=NULL;b=b->GetNext()){
 		int	cx,cy;
 		b->GetCenter(cx,cy);
 		if(sx1<=cx && cx<=sx2 && sy2<cy){
@@ -313,7 +313,7 @@ PureFlexAreaList	*DotRegulationDotArea::FindDown(PureFlexAreaList *a,PureFlexAre
 		}
 	}
 	if(Found!=NULL){
-		PureFlexAreaListContainer.RemoveList(Found);
+		tPureFlexAreaListContainerInst.RemoveList(Found);
 	}
 	return Found;
 }
@@ -325,17 +325,17 @@ void	DotRegulationDotArea::MakeYPosListStr(DoubleList &List)
 	//_CrtCheckMemory();
 
 	PureFlexAreaList *f;
-	while((f=PureFlexAreaListContainer.GetFirst())!=NULL){
+	while((f=PureFlexAreaListContainerInst.GetFirst())!=NULL){
 		PureFlexAreaListContainer	PContainer;
-		PureFlexAreaListContainer.RemoveList(f);
+		PureFlexAreaListContainerInst.RemoveList(f);
 		PContainer.AppendList(f);
 
 		PureFlexAreaList	*a=f;
-		while((a=FindLeft(a,PureFlexAreaListContainer))!=NULL){
+		while((a=FindLeft(a,PureFlexAreaListContainerInst))!=NULL){
 			PContainer.AppendList(a);
 		}
 		a=f;
-		while((a=FindRight(a,PureFlexAreaListContainer))!=NULL){
+		while((a=FindRight(a,PureFlexAreaListContainerInst))!=NULL){
 			PContainer.AppendList(a);
 		}
 
@@ -448,17 +448,17 @@ void	DotRegulationDotArea::MakeBrightnessListStr(QStringListListCSV &List)
 
 	int	Row=0;
 	PureFlexAreaList *f;
-	while((f=PureFlexAreaListContainer.GetFirst())!=NULL){
+	while((f=PureFlexAreaListContainerInst.GetFirst())!=NULL){
 		PureFlexAreaListContainer	PContainer;
-		PureFlexAreaListContainer.RemoveList(f);
+		PureFlexAreaListContainerInst.RemoveList(f);
 		PContainer.AppendList(f);
 
 		PureFlexAreaList	*a=f;
-		while((a=FindLeft(a,PureFlexAreaListContainer))!=NULL){
+		while((a=FindLeft(a,PureFlexAreaListContainerInst))!=NULL){
 			PContainer.AppendList(a);
 		}
 		a=f;
-		while((a=FindRight(a,PureFlexAreaListContainer))!=NULL){
+		while((a=FindRight(a,PureFlexAreaListContainerInst))!=NULL){
 			PContainer.AppendList(a);
 		}
 
