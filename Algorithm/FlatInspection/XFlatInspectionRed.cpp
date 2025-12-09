@@ -49,6 +49,7 @@ int	FlatInspectionItem::ExecuteProcessingRed(ResultInItemRoot* Res
 
 	int		RedGBMerginRate	=Th->RedGBMerginRate*256/100;
 	int		RedHighRate		=Th->RedHighRate*256/100;
+	FlatInspectionInPage	*Ap=tGetParentInPage();
 
 	int	N=MapArea.GetFLineLen();
 	for(int i=0;i<N;i++){
@@ -62,24 +63,26 @@ int	FlatInspectionItem::ExecuteProcessingRed(ResultInItemRoot* Res
 			BYTE	*sR=ImageTargetList[0]->GetY(Y);
 			BYTE	*sG=ImageTargetList[1]->GetY(Y);
 			BYTE	*sB=ImageTargetList[2]->GetY(Y);
-
+			BYTE	*Mp=Ap->MaskMap[Y];
 			X1=max(0,X1);
 			X2=min(X2,DotPerLine);
 			BYTE	*m=NGMapRed[y-NGMapOffsetY];
 			for(int X=X1;X<X2;X++){
-				BYTE	r=sR[X];
-				if(r>=Th->RedMinBrightness){
-					BYTE	g=sG[X];
-					BYTE	b=sB[X];
-					int	gL=((g-Th->RedGBMerginOffset)*(256-RedGBMerginRate))>>8;
-					int	bL=((b-Th->RedGBMerginOffset)*(256-RedGBMerginRate))>>8;
-					if(gL<=b  || bL<=g){
-						int	gH=((g+Th->RedGBMerginOffset)*(256+RedGBMerginRate))>>8;
-						int	bH=((b+Th->RedGBMerginOffset)*(256+RedGBMerginRate))>>8;
-						if((gL<=b && b<gH) || (bL<=g && g<=bH)){
-							int	rL=((g+b)*RedHighRate)>>9;
-							if(r>=rL){
-								SetBmpBitOnY1(m,X-NGMapOffsetX);
+				if(GetBmpBitOnY(Mp,X)!=0){
+					BYTE	r=sR[X];
+					if(r>=Th->RedMinBrightness){
+						BYTE	g=sG[X];
+						BYTE	b=sB[X];
+						int	gL=((g-Th->RedGBMerginOffset)*(256-RedGBMerginRate))>>8;
+						int	bL=((b-Th->RedGBMerginOffset)*(256-RedGBMerginRate))>>8;
+						if(gL<=b  || bL<=g){
+							int	gH=((g+Th->RedGBMerginOffset)*(256+RedGBMerginRate))>>8;
+							int	bH=((b+Th->RedGBMerginOffset)*(256+RedGBMerginRate))>>8;
+							if((gL<=b && b<gH) || (bL<=g && g<=bH)){
+								int	rL=((g+b)*RedHighRate)>>9;
+								if(r>=rL){
+									SetBmpBitOnY1(m,X-NGMapOffsetX);
+								}
 							}
 						}
 					}

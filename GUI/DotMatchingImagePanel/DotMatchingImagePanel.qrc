@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>Resources/DotMatchingImagePanel.png</file>
-    </qresource>
-</RCC>

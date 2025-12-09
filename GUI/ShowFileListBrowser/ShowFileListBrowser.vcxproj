@@ -208,7 +208,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;SHOWFILELISTBROWSER_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\GUI\ButtonLoadBmpJpg;..\..\OpenSource\JPeg\jpeg-9c;..\ButtonLoadBmpJpg;..\..\Open;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\GUI\ButtonLoadBmpJpg;..\..\..\OpenAA-OtherLibrary\JPEG\jpeg-9d;..\ButtonLoadBmpJpg;..\..\Open;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -227,9 +227,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\..\..\OpenAA-OtherLibrary\JPEG\jpeg-9d\x64\Release;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ServiceLib.lib;Component.lib;JPeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ServiceLib.lib;Component.lib;LibJpeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>

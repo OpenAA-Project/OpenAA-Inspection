@@ -594,7 +594,7 @@ WORD DLL_GetDLLType(void)
 	return(DLLCameraMode);
 }
 
-bool cdecl	DLL_GetName(QString &str)
+bool _cdecl	DLL_GetName(QString &str)
 //	return DLL-Name. 
 {
 	str=/**/"MVS Camera GigE";

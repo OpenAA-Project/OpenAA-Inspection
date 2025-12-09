@@ -17,10 +17,10 @@
 #include "swap.h"
 #include "XCriticalFunc.h"
 
-extern	"C"
-{
-extern	jmp_buf err_jmpbuf;
-};
+//extern	"C"
+//{
+//extern	jmp_buf err_jmpbuf;
+//};
 
 static	const	char	*sRoot=/**/"Button";
 static	const	char	*sName=/**/"ButtonLoadBmpJpg";
@@ -263,14 +263,14 @@ bool	ButtonLoadBmpJpg::LoadFile(QString &FileName ,bool iToMaster)
 
 			FILE	*file=fopen(NameBuff,"rb");
 			if(file!=NULL){
-				int c = setjmp(err_jmpbuf);
-				if (c == 0) {
+				//int c = setjmp(err_jmpbuf);
+				//if (c == 0) {
 					bool	Ret=read_jpeg_stream(file,Buff ,min(3,LayerNumb));
 					fclose(file);
 					DWORD	LoadingMilisec=::GetComputerMiliSec()-t;
 					return Ret;
-				}
-				fclose(file);
+				//}
+				//fclose(file);
 			}
 		}
 		else 
@@ -310,13 +310,13 @@ bool	ButtonLoadBmpJpg::LoadFile(QString &FileName ,QImage &Img)
 
 			FILE	*file=fopen(NameBuff,"rb");
 			if(file!=NULL){
-				int c = setjmp(err_jmpbuf);
-				if (c == 0) {
+				//int c = setjmp(err_jmpbuf);
+				//if (c == 0) {
 					bool	Ret=read_jpeg_stream(file,Img);
 					fclose(file);
 					return Ret;
-				}
-				fclose(file);
+				//}
+				//fclose(file);
 			}
 		}
 	}

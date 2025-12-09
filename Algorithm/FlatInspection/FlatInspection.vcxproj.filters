@@ -88,6 +88,9 @@
     <ClCompile Include="XFlatInspectionLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="XFlexAreaClusterize.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="HistgramFlatInspectionForm.ui">

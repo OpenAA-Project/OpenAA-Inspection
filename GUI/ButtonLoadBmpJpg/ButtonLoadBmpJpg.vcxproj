@@ -188,7 +188,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\OpenSource\JPeg\jpeg-9c;..\..\Open;.\GeneratedFiles\$(Configuration);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\..\..\OpenAA-OtherLibrary\JPEG\jpeg-9d;..\..\Open;.\GeneratedFiles\$(Configuration);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;BUTTONLOADBMPJPG_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -198,9 +198,9 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>ServiceLib.lib;Component.lib;JPeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ServiceLib.lib;Component.lib;LibJpeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\Lib\Release;..\..\..\OpenAA-OtherLibrary\JPEG\jpeg-9d\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>

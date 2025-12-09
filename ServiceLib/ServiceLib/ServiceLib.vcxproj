@@ -242,8 +242,8 @@
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>ForWindows.lib;NetworkDrive.lib;LibPNGDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../Lib/Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ForWindows.lib;NetworkDrive.lib;libpng16.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../../OpenAA-OtherLibrary/LibPNG/lpng1653/projects/vstudio/x64/Release;../../Lib/Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>

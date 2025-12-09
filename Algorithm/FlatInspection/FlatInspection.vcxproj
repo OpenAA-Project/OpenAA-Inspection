@@ -123,6 +123,7 @@
     <ClCompile Include="XFlatInspectionLine.cpp" />
     <ClCompile Include="XFlatInspectionRed.cpp" />
     <ClCompile Include="XFlatInspectionReport.cpp" />
+    <ClCompile Include="XFlexAreaClusterize.cpp" />
     <ClInclude Include="..\..\Open\XDisplaySimPanel.h" />
     <ClInclude Include="flatinspection_global.h" />
     <QtMoc Include="HistgramFlatInspectionForm.h" />

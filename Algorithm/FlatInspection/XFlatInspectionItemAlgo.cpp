@@ -938,13 +938,15 @@ double	FlatInspectionItem::CalcCoefRough(ImageBuffer *Image ,int SelfSearch ,int
 			}
 			BYTE	*s=Image->GetY(y+i);
 			BYTE	*m=Ap->MaskMap[y+i];
-			for(int j=-SelfSearch;j<=SelfSearch;j++){
-				if(GetBmpBitOnY(m,x+j)==0){
-					return 0;
-				}
-				BYTE	CC=s[x+j];
-				if(CC<C){
-					C=CC;
+			if(GetBmpBitOnY(m,x)!=0){
+				for(int j=-SelfSearch;j<=SelfSearch;j++){
+					//if(GetBmpBitOnY(m,x+j)==0){
+					//	return 0;
+					//}
+					BYTE	CC=s[x+j];
+					if(CC<C){
+						C=CC;
+					}
 				}
 			}
 		}

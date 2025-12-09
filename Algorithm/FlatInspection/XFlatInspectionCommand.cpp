@@ -588,9 +588,40 @@ void	FlatInspectionSendTryThreshold::ConstructList(FlatInspectionReqTryThreshold
 			if(BI->FIT_Type==FlatInspectionItem::_FIType_SpecialShape){
 				int	cx,cy;
 				BI->GetCenter(cx,cy);
+
+				int	LimitUpperY=0;
+				for(FlatInspectionItem	*w=BP->tGetFirstData();w!=NULL;w=(FlatInspectionItem *)w->GetNext()){
+					if(w->FIT_Type==FlatInspectionItem::_FIType_Window){
+						int	tx1,ty1,tx2,ty2;
+						w->GetXY(tx1,ty1,tx2,ty2);
+						if(cy>ty2){
+							if(LimitUpperY<ty2+w->ResultDyRightBottom){
+								LimitUpperY=ty2+w->ResultDyRightBottom;
+							}
+							if(LimitUpperY<ty2+w->ResultDyLeftBottom){
+								LimitUpperY=ty2+w->ResultDyLeftBottom;
+							}
+						}
+					}
+				}
+				for(FlatInspectionItem	*w=BP->tGetFirstData();w!=NULL;w=(FlatInspectionItem *)w->GetNext()){
+					if(w->FIT_Type==FlatInspectionItem::_FIType_SpecialShape){
+						int	tx1,ty1,tx2,ty2;
+						w->GetXY(tx1,ty1,tx2,ty2);
+						if(cy>ty2){
+							if(LimitUpperY<ty2+w->ResultDy){
+								LimitUpperY=ty2+w->ResultDy;
+							}
+							if(LimitUpperY<ty2+w->ResultDy){
+								LimitUpperY=ty2+w->ResultDy;
+							}
+						}
+					}
+				}
+
 				if((BP->MasterY2-BP->MasterY1)!=0){
 					int	dy=(cy-BP->MasterY1)*(BP->TargetY2-BP->TargetY1)/(BP->MasterY2-BP->MasterY1)+BP->MasterY1-cy;
-					BI->SearchByDot(Dx,Dy+dy,BI->ResultDx,BI->ResultDy,BI->ResultExpansion);
+					BI->SearchByDot(Dx,Dy+dy,LimitUpperY,BI->ResultDx,BI->ResultDy,BI->ResultExpansion);
 				}
 				else{
 					BI->ResultDx=0;

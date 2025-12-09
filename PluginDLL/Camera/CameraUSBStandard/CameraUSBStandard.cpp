@@ -15,7 +15,6 @@
 #include "XCameraCommon.h"
 #include "swap.h"
 #include "XLogOut.h"
-#include "libusb.h"
 
 #define		CameraNameID	"USB Camera"
 
