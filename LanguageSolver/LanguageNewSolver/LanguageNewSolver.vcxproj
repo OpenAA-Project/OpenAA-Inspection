@@ -242,9 +242,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>..\..\ServiceLib\EXCEL\lib64;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libxl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LanguageManagerLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
@@ -274,7 +274,6 @@
     <ClCompile Include="..\..\GeneralSource\XIntClass.cpp" />
     <ClCompile Include="..\..\GeneralSource\XStrTo.cpp" />
     <ClCompile Include="..\..\Open\XShowVersion.cpp" />
-    <ClCompile Include="..\..\ServiceLib\LanguageManager\XExcelOperator.cpp" />
     <ClCompile Include="..\..\ServiceLib\LanguageManager\XLanguageCodec.cpp" />
     <ClCompile Include="EditProjectForm.cpp" />
     <ClCompile Include="LanguageNewSolver.cpp" />

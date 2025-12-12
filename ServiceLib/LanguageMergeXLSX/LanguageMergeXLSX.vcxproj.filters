@@ -41,16 +41,10 @@
     <ClCompile Include="LanguageMergeXLSX.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="..\..\Open\XShowVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XMergeXLSX.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\LanguageManager\XExcelOperator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\LanguageManager\XLanguageCodec.cpp">
@@ -69,7 +63,6 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    
     <ClInclude Include="XMergeXLSX.h">
       <Filter>Header Files</Filter>
     </ClInclude>

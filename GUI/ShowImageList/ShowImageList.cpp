@@ -20,10 +20,10 @@
 #include <QMessageBox>
 #include <setjmp.h>
 
-extern	"C"
-{
-extern	jmp_buf err_jmpbuf;
-};
+//extern	"C"
+//{
+//extern	jmp_buf err_jmpbuf;
+//};
 
 const	char	*sRoot=/**/"General";
 const	char	*sName=/**/"ShowImageList";
@@ -442,14 +442,14 @@ bool	ShowImageList::FileList::LoadImageForIcon(int IconSize)
 
 			FILE	*file=fopen(NameBuff,"rb");
 			if(file!=NULL){
-				int c = setjmp(err_jmpbuf);
-				if (c == 0) {
+				//int c = setjmp(err_jmpbuf);
+				//if (c == 0) {
 					QImage	*Img=read_jpeg_stream(file);
 					if(Img!=NULL){
 						IconImage=Img->scaled(IconSize,IconSize);
 						Ret=true;
 					}
-				}
+				//}
 				fclose(file);
 			}
 		}
@@ -489,14 +489,14 @@ bool	ShowImageList::FileList::LoadImage(DataInPage *P)
 
 			FILE	*file=fopen(NameBuff,"rb");
 			if(file!=NULL){
-				int c = setjmp(err_jmpbuf);
-				if (c == 0) {
+				//int c = setjmp(err_jmpbuf);
+				//if (c == 0) {
 					bool	Ret=read_jpeg_stream(file,Buff ,P->GetLayerNumb());
 					fclose(file);
 					Parent->EmitSignalSelectFile(FileNameWithPath);
 					return Ret;
-				}
-				fclose(file);
+				//}
+				//fclose(file);
 			}
 		}
 		else

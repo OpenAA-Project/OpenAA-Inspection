@@ -244,7 +244,7 @@
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\ServiceLib\EXCEL\include_cpp;..\..\Integrator\IntegrationLib;..\..\ServiceLib\LanguageManager;..\..\ServiceLib\ServiceLib;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\EditGUI\EditGUILib;..\..\GeneralSource;..\..\EditGUI\EditGUI;..\..\Open;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(OPENXLSX)\include\OpenXLSX;..\..\Integrator\IntegrationLib;..\..\ServiceLib\LanguageManager;..\..\ServiceLib\ServiceLib;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\EditGUI\EditGUILib;..\..\GeneralSource;..\..\EditGUI\EditGUI;..\..\Open;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;ModeEditGUI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <OpenMPSupport>true</OpenMPSupport>
@@ -259,9 +259,9 @@
       <BufferSecurityCheck>true</BufferSecurityCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Component.lib;CommonGUIDLL.lib;ServiceLib.lib;DisplayImage.lib;IntegrationLib.lib;ServiceExecutionEditor.lib;libxl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Component.lib;CommonGUIDLL.lib;ServiceLib.lib;DisplayImage.lib;IntegrationLib.lib;ServiceExecutionEditor.lib;OpenXLSX.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>..\..\ServiceLib\EXCEL\lib64;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OPENXLSX)\lib;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <HeapReserveSize>256000000</HeapReserveSize>

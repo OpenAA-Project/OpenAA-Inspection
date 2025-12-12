@@ -1,55 +1,35 @@
 #include "MakeLanguageDialog.h"
 #include "XGUILanguage.h"
+#include "XGeneralFunc.h"
+#include <OpenXLSX.hpp>
 
-#include "libxl.h"
-using namespace libxl;
-
-static	const	wchar_t	*ExcelUser	=L"MASATOSHI SASAI";
-static	const	wchar_t *ExcelKey = L"windows-252a28070ccee00f6fbd6d65ady7m2ue";
-
+using namespace std;
+using namespace OpenXLSX;
     
 bool MakeLanguageDialog::LoadExcelFile(LanguagePack &LPack ,QString &ExcelFileName,GUILanguageContainer &LangC)
 {
-    Book* XLSXBook = xlCreateXMLBook();
-	XLSXBook->setKey(ExcelUser, ExcelKey);
+    XLDocument doc;
+    
+	const std::string	Str=ExcelFileName.toStdString();
+	
+	doc.open(Str);
+	XLWorkbook wb=doc.workbook();
+	int	sheetNo = 0;
+	if((doc.workbook().sheetCount()+1)>=sheetNo){
+		auto sheet = doc.workbook().worksheet(sheetNo+1);	//1-based
 
-	wchar_t	FileNameStr[256];
-	memset(FileNameStr,0,sizeof(FileNameStr));
-	ExcelFileName.toWCharArray(FileNameStr);
-	if(XLSXBook->load(FileNameStr)==false){
-		const	char	*ErrorMsg=XLSXBook->errorMessage();
-		return false;
-	}
-	int	sheetNo=0;
-	Sheet* sheet = XLSXBook->getSheet(sheetNo);
-	if(sheet){
 		for(GUILanguageList *g=LangC.GetFirst();g!=NULL;g=g->GetNext()){
 			g->LanguageText.RemoveAll();
 		}
-		int	LastRow=sheet->lastRow();
-		int	LastCol=sheet->lastCol();
+		int	LastRow=sheet.rowCount();
+		int	LastCol=sheet.columnCount();
 
 		for(int row=1;row<=LastRow;row++){
-			QString	DLLRoot;
-			QString	DLLName;
-			QString	InstName;
-			QString	MemberName;
-			const wchar_t	*pDLLRoot= sheet->readStr(row, 0);
-			if(pDLLRoot!=NULL){
-				DLLRoot=QString::fromWCharArray (pDLLRoot);
-			}
-			const wchar_t	*pDLLName= sheet->readStr(row, 1);
-			if(pDLLName!=NULL){
-				DLLName=QString::fromWCharArray (pDLLName);
-			}
-			const wchar_t	*pInstName= sheet->readStr(row, 2);
-			if(pInstName!=NULL){
-				InstName=QString::fromWCharArray (pInstName);
-			}
-			const wchar_t	*pMemberName= sheet->readStr(row, 3);
-			if(pMemberName!=NULL){
-				MemberName=QString::fromWCharArray (pMemberName);
-			}
+			QString	DLLRoot		=QString::fromStdString (sheet.cell(row+1, 0+1).value().get<std::string>());
+			QString	DLLName		=QString::fromStdString (sheet.cell(row+1, 1+1).value().get<std::string>());
+			QString	InstName	=QString::fromStdString (sheet.cell(row+1, 2+1).value().get<std::string>());
+			QString	MemberName	=QString::fromStdString (sheet.cell(row+1, 3+1).value().get<std::string>());
+
 			if(DLLRoot.isEmpty()==false
 			&& DLLName.isEmpty()==false
 			&& InstName.isEmpty()==false
@@ -68,11 +48,8 @@ bool MakeLanguageDialog::LoadExcelFile(LanguagePack &LPack ,QString &ExcelFileNa
 				}
 				for(int col=4;col<=LastCol;col++){
 					int	LanguageCode=col-4;
-					const wchar_t	*pTxt= sheet->readStr(row, col);
-					QString	Text;
-					if(pTxt!=NULL){
-						Text=QString::fromWCharArray (pTxt);
-					}
+					QString	Text		=QString::fromStdString (sheet.cell(row+1, col+1).value().get<std::string>());
+
 					if(Text.isEmpty()==false){
 						LanguageStringList	*s=g->LanguageText.FindLanguage(LanguageCode);
 						if(s==NULL){
@@ -92,52 +69,45 @@ bool MakeLanguageDialog::LoadExcelFile(LanguagePack &LPack ,QString &ExcelFileNa
 			}
 		}
 	}
-	XLSXBook->release();
+	doc.close();
 	return true;
 }
+
+#include "xlsxwriter.h"
     
 bool MakeLanguageDialog::SaveExcelFile(LanguagePack &LPack 
 										,QString &ExcelFileName
 										,GUILanguageContainer &LangC)
 {
-    Book* XLSXBook = xlCreateXMLBook();
-	XLSXBook->setKey(ExcelUser, ExcelKey);
-
-	Format	*LangEN	=XLSXBook->addFormat();
-	Font	*FntEN	=XLSXBook->addFont();
-	FntEN->setName(L"Arial");
-	LangEN->setFont(FntEN);
-
+	char	FileNameStr[2048];
+	::QString2Char(ExcelFileName, FileNameStr, sizeof(FileNameStr));
+	
+	lxw_workbook  *workbook  = workbook_new(FileNameStr);
+    if (!workbook) {
+		return false;
+	}
+	lxw_format *LangEN = workbook_add_format(workbook);
+	if (LangEN) {
+        format_set_font_name(LangEN, "Arial");
+    }
 	int	FontCount=LPack.GetCount();
-	Format	**LangOnj	=new Format*[FontCount];
-	Font	**FntObj	=new Font  *[FontCount];
+	lxw_format	**LangOnj	=new lxw_format*[FontCount];
 	for(int i=0;i<FontCount;i++){
 		LanguageClass	*C=LPack[i];
-		LangOnj[i]	=XLSXBook->addFormat();
-		FntObj[i]	=XLSXBook->addFont();
 		if(C->ExcelFont.isEmpty()==false){
-			wchar_t	ExcelFontStr[256];
-			memset(ExcelFontStr,0,sizeof(ExcelFontStr));
-			C->ExcelFont.toWCharArray(ExcelFontStr);
-			FntObj[i]->setName(ExcelFontStr);
-			LangOnj[i]->setFont(FntObj[i]);
-		}
-		else{
-			LangOnj[i]->setFont(FntEN);
+			LangOnj[i]	=workbook_add_format(workbook);
+			if(LangOnj[i]) {
+				QString ExcelFont_unicode = C->ExcelFont;
+				char	*FontChar=ExcelFont_unicode.toUtf8().data();
+				format_set_font_name(LangOnj[i], FontChar);
+			}
 		}
 	}
 
-	wchar_t	FileNameStr[256];
-	memset(FileNameStr,0,sizeof(FileNameStr));
-	ExcelFileName.toWCharArray(FileNameStr);
-
-	Sheet	*sheet=XLSXBook->addSheet(L"GUI");
-	wchar_t	Buff[20000];
+	lxw_worksheet *sheet = workbook_add_worksheet(workbook,"GUI");
 
 	int	row=0;
 	for(int col=0;col<(4+FontCount);col++){
-		sheet->setCellFormat(row, col,LangEN);
-		memset(Buff,0,sizeof(Buff));
 		QString	Str;
 		if(col==0){
 			Str="DLLRoot";
@@ -155,16 +125,14 @@ bool MakeLanguageDialog::SaveExcelFile(LanguagePack &LPack
 			LanguageClass	*C=LPack[col-4];
 			Str=C->LanguageName;
 		}
-		memset(Buff,0,sizeof(Buff));
-		Str.toWCharArray(Buff);
-		sheet->writeStr(row,col,Buff);
+		char	*FontChar=Str.toUtf8().data();
+		worksheet_write_string(sheet,(lxw_row_t)row,(lxw_col_t)col,FontChar,LangEN);
 	}
 	row++;
 	for(GUILanguageList *g=LangC.GetFirst();g!=NULL;g=g->GetNext(),row++){
 		for(int col=0;col<(4+FontCount);col++){
-			sheet->setCellFormat(row, col,LangEN);
-			wchar_t	Buff[20000];
-			memset(Buff,0,sizeof(Buff));
+			lxw_format	*Fmt=LangEN;
+
 			QString	Str;
 			if(col==0){
 				Str=g->DLLRoot;
@@ -180,7 +148,8 @@ bool MakeLanguageDialog::SaveExcelFile(LanguagePack &LPack
 			}
 			else{
 				int		LanguageCode=col-4;
-				sheet->setCellFormat(row, col,LangOnj[LanguageCode]);
+				Fmt=LangOnj[LanguageCode];
+
 				LanguageClass	*C=LPack[LanguageCode];
 				LanguageStringList	*s=g->LanguageText.FindLanguage(LanguageCode);
 				if(s!=NULL){
@@ -198,22 +167,14 @@ bool MakeLanguageDialog::SaveExcelFile(LanguagePack &LPack
 					}
 				}
 			}
-			memset(Buff,0,sizeof(Buff));
-			Str.toWCharArray(Buff);
-			sheet->writeStr(row,col,Buff);
+			char	*FontChar=Str.toUtf8().data();
+			worksheet_write_string(sheet,(lxw_row_t)row,(lxw_col_t)col,FontChar,Fmt);
 		}
 	}
-	if(XLSXBook->save(FileNameStr)==false){
-		delete	XLSXBook;
-		delete	[]LangOnj;
-		delete	[]FntObj;
+	int result = workbook_close(workbook);
+	if(result!=0){
 		return false;
 	}
-	XLSXBook->release();
-	//delete	XLSXBook;
-
-	delete	[]LangOnj;
-	delete	[]FntObj;
 
 	return true;
 }

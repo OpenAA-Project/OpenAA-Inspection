@@ -436,7 +436,7 @@ public:
 						,double ZoomRate,int movx ,int movy
 						,bool EnableToColorizeFor3Layers=true);
 
-	bool	RequireMasterImage(bool MixMaster);
+	bool	RequireMasterImage(bool MixMaster ,int SparseCountOfLine=1000);
 	bool	RequireMasterImageInPhase(int phase,bool MixMaster);
 	bool	RequireSlaveInfo(void);
 	bool	RequireAccessToPage(void);

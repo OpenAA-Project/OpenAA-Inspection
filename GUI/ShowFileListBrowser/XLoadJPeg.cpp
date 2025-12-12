@@ -7,17 +7,17 @@
 #include "swap.h"
 #include <setjmp.h>
 
-extern	"C"
-{
-extern	jmp_buf err_jmpbuf;
-};
+//extern	"C"
+//{
+//extern	jmp_buf err_jmpbuf;
+//};
 
 bool	read_jpeg_stream(FILE *fp,ImageBuffer *Buff[] ,int LayerNumb);
 
 bool	LoadJpeg(const QString &PFileName ,ImageBuffer *Buff[] ,int LayerNumb)
 {
-	int c = setjmp(err_jmpbuf);
-	if (c == 0) {
+	//int c = setjmp(err_jmpbuf);
+	//if (c == 0) {
 		QFile	File(PFileName);
 		if(File.open(QIODevice::ReadOnly)==true){
 			FILE *file=fdopen(File.handle() ,/**/"rb");
@@ -27,7 +27,7 @@ bool	LoadJpeg(const QString &PFileName ,ImageBuffer *Buff[] ,int LayerNumb)
 				return ret;
 			}
 		}
-	}
+	//}
 	return false;
 }
 
@@ -110,8 +110,8 @@ QImage	read_jpeg_stream(FILE *fp);
 
 QImage	LoadJpeg(const QString &PFileName)
 {
-	int c = setjmp(err_jmpbuf);
-	if (c == 0) {
+	//int c = setjmp(err_jmpbuf);
+	//if (c == 0) {
 		QFile	File(PFileName);
 		if(File.open(QIODevice::ReadOnly)==true){
 			FILE *file=fdopen(File.handle() ,/**/"rb");
@@ -121,7 +121,7 @@ QImage	LoadJpeg(const QString &PFileName)
 				return r;
 			}
 		}
-	}
+	//}
 	return QImage();
 }
 

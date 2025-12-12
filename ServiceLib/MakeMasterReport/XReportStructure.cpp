@@ -18,8 +18,6 @@
 #include "ShowExecutingDialog.h"
 #include "XDataAlgorithmList.h"
 
-static	const	wchar_t	*ExcelUser	=L"MASATOSHI SASAI";
-static	const	wchar_t *ExcelKey = L"windows-252a28070ccee00f6fbd6d65ady7m2ue";
 
 ThreadReport::ThreadReport(int masterCode ,LayersBase *base, QObject *parent)
 	:QThread(parent),ServiceForLayers(base)
@@ -418,82 +416,76 @@ bool	ThreadReport::SaveEXCEL(const QString &filename)
 
 void	ReportDataStructure::WriteCell(int Row, int Col ,const QString &Str)
 {
-	wchar_t	Buff[1000];
-	memset(Buff,0,sizeof(Buff));
-	Str.toWCharArray(Buff);
-
-	XLSXSheet->setCellFormat(Row, Col,Lang);
-	XLSXSheet->writeStr(Row, Col,Buff);
+	char	*FontChar=Str.toUtf8().data();
+	worksheet_write_string(XLSXSheet,(lxw_row_t)Row,(lxw_col_t)Col,FontChar,Lang);
 }
 
 void	ReportDataStructure::WriteCellV(int Row, int Col ,const QVariant &Data)
 {
-	XLSXSheet->setCellFormat(Row, Col,Lang);
-
-	wchar_t	Buff[1000];
-	memset(Buff,0,sizeof(Buff));
+	char	*FontChar;
 	if(Data.type()==QVariant::Bool){
 		if(Data.toBool()==true){
-			XLSXSheet->writeStr(Row, Col,L"true");
+			worksheet_write_string(XLSXSheet,(lxw_row_t)Row,(lxw_col_t)Col,"true",Lang);
 		}
 		else{
-			XLSXSheet->writeStr(Row, Col,L"false");
+			worksheet_write_string(XLSXSheet,(lxw_row_t)Row,(lxw_col_t)Col,"false",Lang);
 		}
 	}
 	else if(Data.type()==QVariant::Char){
 		QString	s(Data.toChar());
-		s.toWCharArray(Buff);	
-		XLSXSheet->writeStr(Row, Col,Buff);
+		FontChar=s.toUtf8().data();
+		worksheet_write_string(XLSXSheet,(lxw_row_t)Row,(lxw_col_t)Col,FontChar,Lang);
 	}
 	else if(Data.type()==QVariant::Date){
 		QString	s(Data.toDate().toString());
-		s.toWCharArray(Buff);	
-		XLSXSheet->writeStr(Row, Col,Buff);
+		FontChar=s.toUtf8().data();
+		worksheet_write_string(XLSXSheet,(lxw_row_t)Row,(lxw_col_t)Col,FontChar,Lang);
 	}
 	else if(Data.type()==QVariant::DateTime){
 		QString	s(Data.toDateTime().toString());
-		s.toWCharArray(Buff);	
-		XLSXSheet->writeStr(Row, Col,Buff);
+		FontChar=s.toUtf8().data();
+		worksheet_write_string(XLSXSheet,(lxw_row_t)Row,(lxw_col_t)Col,FontChar,Lang);
 	}
 	else if(Data.type()==QVariant::Double){
 		QString	s=QString::number(Data.toDouble(),'f');
-		s.toWCharArray(Buff);
-		XLSXSheet->writeStr(Row, Col,Buff);
+		FontChar=s.toUtf8().data();
+		worksheet_write_string(XLSXSheet,(lxw_row_t)Row,(lxw_col_t)Col,FontChar,Lang);
 	}
 	else if(Data.type()==QVariant::Int){
 		QString	s=QString::number(Data.toInt());
-		s.toWCharArray(Buff);
-		XLSXSheet->writeStr(Row, Col,Buff);
+		FontChar=s.toUtf8().data();
+		worksheet_write_string(XLSXSheet,(lxw_row_t)Row,(lxw_col_t)Col,FontChar,Lang);
 	}
 	else if(Data.type()==QVariant::String){
 		QString	s=Data.toString();
-		s.toWCharArray(Buff);
-		XLSXSheet->writeStr(Row, Col,Buff);
+		FontChar=s.toUtf8().data();
+		worksheet_write_string(XLSXSheet,(lxw_row_t)Row,(lxw_col_t)Col,FontChar,Lang);
 	}
 	else if(Data.type()==QVariant::Time){
 		QString	s(Data.toTime().toString());
-		s.toWCharArray(Buff);	
-		XLSXSheet->writeStr(Row, Col,Buff);
+		FontChar=s.toUtf8().data();
+		worksheet_write_string(XLSXSheet,(lxw_row_t)Row,(lxw_col_t)Col,FontChar,Lang);
 	}
 	else if(Data.type()==QVariant::UInt){
 		QString	s=QString::number(Data.toUInt());
-		s.toWCharArray(Buff);
-		XLSXSheet->writeStr(Row, Col,Buff);
+		FontChar=s.toUtf8().data();
+		worksheet_write_string(XLSXSheet,(lxw_row_t)Row,(lxw_col_t)Col,FontChar,Lang);
 	}
 	else{
-		XLSXSheet->writeStr(Row, Col,L"Error");
+		worksheet_write_string(XLSXSheet,(lxw_row_t)Row,(lxw_col_t)Col,"Error",Lang);
 	}
 }
 
 bool	ReportDataStructure::SaveEXCEL(LayersBase *base ,const QString &XLSXFileName)
 {
-	XLSXBook = xlCreateXMLBook();
-	XLSXBook->setKey(ExcelUser, ExcelKey);
-	XLSXSheet=XLSXBook->addSheet(L"Master");
+	char	FileNameStr[2048];
+	::QString2Char(XLSXFileName, FileNameStr, sizeof(FileNameStr));
 
-	Lang	=XLSXBook->addFormat();
-	Fnt	=XLSXBook->addFont();
-	QString	FontName;
+	XLSXBook  = workbook_new(FileNameStr);
+	XLSXSheet = workbook_add_worksheet(XLSXBook,"Master");
+
+	Lang	=workbook_add_format(XLSXBook);;
+	const	char	*FontName=NULL;
 	switch (base->GetLanguageCode()) {
 	case 0:	FontName = "ＭＳ Ｐゴシック";	break;
 	case 1:	FontName = "Arial";				break;
@@ -501,12 +493,8 @@ bool	ReportDataStructure::SaveEXCEL(LayersBase *base ,const QString &XLSXFileNam
 	case 3:	FontName = "MingLiU";			break;
 	case 4:	FontName = "Gulim";				break;
 	}
-	wchar_t	WBuff[100];
-	memset(WBuff, 0, sizeof(WBuff));
-	FontName.toWCharArray(WBuff);
-	Fnt->setName(WBuff);
 
-	Lang->setFont(Fnt);
+	format_set_font_name(Lang, FontName);
 
 	int	Row=0;
 	WriteCell(Row, 0,"Reported");
@@ -579,6 +567,8 @@ bool	ReportDataStructure::SaveEXCEL(LayersBase *base ,const QString &XLSXFileNam
 
 		int	ImageID=XLSXBook->addPicture(TmpImageFileBuff);
 		XLSXSheet->setPicture2(Row, 1, ImageID, 256, 256);
+
+		worksheet_insert_image(XLSXSheet,Row, 1,);
 	}
 	Row++;
 	Row++;

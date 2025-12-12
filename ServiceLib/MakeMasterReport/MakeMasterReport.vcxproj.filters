@@ -83,7 +83,4 @@
   <ItemGroup>
     <ResourceCompile Include="MakeMasterReport.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\EXCEL\lib64\libxl.lib" />
-  </ItemGroup>
 </Project>

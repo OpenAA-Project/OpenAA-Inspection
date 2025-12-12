@@ -41,20 +41,9 @@
     <ClCompile Include="LanguageManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="..\..\Open\XShowVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
-    
-    
-    
-    
-    
     <ClCompile Include="NewProjectForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -68,9 +57,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XLanguageManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XExcelOperator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XLanguageCodec.cpp">
@@ -113,11 +99,6 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    
-    
-    
-    
-    
     <ClInclude Include="XLanguageManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>

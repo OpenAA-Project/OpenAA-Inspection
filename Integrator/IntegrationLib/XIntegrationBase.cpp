@@ -2259,7 +2259,7 @@ int		EachMaster::GetIntegrationSlaveNo(void)	const
 	}
 	return -1;
 }
-bool	EachMaster::RequireMasterImage(bool MixMaster)
+bool	EachMaster::RequireMasterImage(bool MixMaster,int SparseCountOfLine)
 {
 	if(GetParamIntegrationMaster()->IsIntegrationMaster()==true){
 		if(MasterImage==NULL){
@@ -2269,7 +2269,7 @@ bool	EachMaster::RequireMasterImage(bool MixMaster)
 			return false;
 
 		int	ErrorLoopCounter=0;
-		int	LineCount=100;
+		int	LineCount=SparseCountOfLine;
 		int	SlaveNo	=GetIntegrationSlaveNo();
 		IntegrationReqMasterImage	RCmd(GetLayersBase(),/**/"ANY",/**/"ANY",SlaveNo);
 		IntegrationAckMasterImage	ACmd(GetLayersBase(),/**/"ANY",/**/"ANY",SlaveNo);

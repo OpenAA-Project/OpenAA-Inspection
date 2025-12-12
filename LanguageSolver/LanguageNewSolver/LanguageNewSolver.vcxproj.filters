@@ -47,9 +47,6 @@
     <ClCompile Include="..\..\Open\XShowVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ServiceLib\LanguageManager\XExcelOperator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="XLSProjectNew.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

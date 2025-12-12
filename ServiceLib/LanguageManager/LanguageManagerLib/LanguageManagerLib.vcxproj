@@ -192,20 +192,20 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;QT_LARGEFILE_SUPPORT;QT_NO_DEBUG;NDEBUG;LANGUAGEMANAGERLIB_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\EXCEL\include_cpp;..\..\..\Open;..\;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(OPENXLSX)\include\OpenXLSX;..\..\..\Open;..\;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
-      <Optimization>MaxSpeedHighLevel</Optimization>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <GenerateAlternateCodePaths>SSE3</GenerateAlternateCodePaths>
-      <UseProcessorExtensions>SSE3</UseProcessorExtensions>
+      <UseProcessorExtensions>None</UseProcessorExtensions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
       <OpenMP>GenerateParallelCode</OpenMP>
       <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -218,8 +218,8 @@
       <AdditionalDependencies>QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>libxl.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\EXCEL\lib64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenXLSX.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OPENXLSX)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

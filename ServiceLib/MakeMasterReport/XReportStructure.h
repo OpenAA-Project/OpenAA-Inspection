@@ -10,8 +10,7 @@
 #include "XIntClass.h"
 #include "XAlgorithmLibrary.h"
 #include "XReportedTopic.h"
-#include "libxl.h"
-using namespace libxl;
+#include "xlsxwriter.h"
 
 class	LogicDLL;
 
@@ -74,10 +73,10 @@ public:
 	bool	SaveEXCEL(LayersBase *base ,const QString &XLSXFileName);
 
 private:
-	Book	*XLSXBook;
-	Sheet	*XLSXSheet;
-	Format	*Lang;
-	Font	*Fnt;
+	lxw_workbook	*XLSXBook	=NULL;
+	lxw_worksheet	*XLSXSheet	=NULL;
+	lxw_format		*Lang		=NULL;
+	//Font	*Fnt;
 
 	void	WriteCell(int Row, int Col ,const QString &Str);
 	void	WriteCellV(int Row, int Col ,const QVariant &Data);

@@ -1,152 +1,140 @@
 #include "XExcelStringList.h"
 #include "swap.h"
+#include <QFile>
+#include "XGeneralFunc.h"
 
-#if	defined(WIN64)
+#include <OpenXLSX.hpp>
 
-#include "libxl.h"
-using namespace libxl;
+using namespace std;
+using namespace OpenXLSX;
 
-static	wchar_t	*ExcelUser	=L"MASATOSHI SASAI";
-//static	wchar_t	*ExcelKey	=L"windows-252a28070ccee00f6fbd6d65ad5742ae";
-//static	wchar_t	*ExcelKey	=L"windows-252a28070ccee00f6fbd6d65adn7f2qe";
-static	wchar_t* ExcelKey = L"windows-252a28070ccee00f6fbd6d65ady7m2ue";
 
 //================================================================================
 bool	QStringListListXLSX::LoadFromXLSXFile(int sheetNo ,const QString &FileName)
 {
-    Book* XLSXBook = xlCreateXMLBook();
-	XLSXBook->setKey(ExcelUser, ExcelKey);
+    XLDocument doc;
+    
+	const std::string	Str=FileName.toStdString();
+	
+	doc.open(Str);
+	XLWorkbook wb=doc.workbook();
 
-	wchar_t	FileNameStr[256];
-	memset(FileNameStr,0,sizeof(FileNameStr));
-	FileName.toWCharArray(FileNameStr);
-	if(XLSXBook->load(FileNameStr)==false)
-		return false;
-		
-	Sheet* sheet = XLSXBook->getSheet(sheetNo);
-	if(sheet){
-		int	LastRow=sheet->lastRow();
-		int	LastCol=sheet->lastCol();
+	if((doc.workbook().sheetCount()+1)>=sheetNo){
+		auto sheet = doc.workbook().worksheet(sheetNo+1);	//1-based
+
+		int	LastRow=sheet.rowCount();
+		int	LastCol=sheet.columnCount();
 		for(int row=0;row<=LastRow;row++){
 			QStringList	ColList;
 			for(int col=0;col<=LastCol;col++){
-				const wchar_t	*pp= sheet->readStr(row, col);
-				if(pp!=NULL){
-					QString	H=QString::fromWCharArray (pp);
-					ColList.append(H);
+				XLCellAssignable a=sheet.cell(row+1, col+1);
+
+				if(a.empty()==false){
+					if(a.value().type()==XLValueType::String){
+						std::string	S=a.value().get<std::string>();
+						QString	H=QString::fromStdString (S);
+						ColList.append(H);
+					}
+					else if(a.value().type()==XLValueType::Float){
+						double	D=a.value().get<double>();
+						ColList.append(QString::number(D));
+					}
+					else if(a.value().type()==XLValueType::Integer){
+						int	D=a.value().get<int>();
+						ColList.append(QString::number(D));
+					}
+					else{
+						std::string	S=a.value().get<std::string>();
+						QString	H=QString::fromStdString (S);
+						ColList.append(H);
+					}
 				}
 				else{
-					double D= sheet->readNum(row, col);
-					ColList.append(QString::number(D));
+					ColList.append("");
 				}
 			}
 			append(ColList);
         }
-        XLSXBook->release();
-		//delete	XLSXBook;
+		doc.close();
 		return true;
 	}
-	delete	XLSXBook;
+	doc.close();
+
 	return false;
 }
+
+#include "xlsxwriter.h"
 
 bool	QStringListListXLSX::SaveFromXLSXFile(QStringListListXLSX &SheetExcel1,const QString &FileName
 											 ,wchar_t **ExcelFont ,int FontCount)
 {
-    Book* XLSXBook = xlCreateXMLBook();
-	XLSXBook->setKey(ExcelUser, ExcelKey);
+	char	FileNameStr[2048];
+	::QString2Char(FileName, FileNameStr, sizeof(FileNameStr));
+	
+	lxw_workbook  *workbook  = workbook_new(FileNameStr);
+    if (!workbook) {
+		return false;
+	}
 
-	Format	*LangEN	=XLSXBook->addFormat();
-	Font	*FntEN	=XLSXBook->addFont();
-	FntEN->setName(L"Arial");
-	LangEN->setFont(FntEN);
-
-	Format	**LangOnj	=new Format*[FontCount];
-	Font	**FntObj	=new Font  *[FontCount];
+	lxw_format *LangEN = workbook_add_format(workbook);
+	if (LangEN) {
+        format_set_font_name(LangEN, "Arial");
+    }
+	lxw_format	**LangOnj	=new lxw_format*[FontCount];
 	for(int i=0;i<FontCount;i++){
-		LangOnj[i]	=XLSXBook->addFormat();
-		FntObj[i]	=XLSXBook->addFont();
-		if(ExcelFont[i]!=NULL){
-			FntObj[i]->setName(ExcelFont[i]);
-			LangOnj[i]->setFont(FntObj[i]);
-		}
-		else{
-			LangOnj[i]->setFont(FntEN);
+		LangOnj[i]	=workbook_add_format(workbook);
+		if (LangOnj[i]) {
+			QString ExcelFont_unicode = QString::fromWCharArray(ExcelFont[i]);
+			char	*FontChar=ExcelFont_unicode.toUtf8().data();
+			format_set_font_name(LangOnj[i], FontChar);
 		}
 	}
 
-	wchar_t	FileNameStr[256];
-	memset(FileNameStr,0,sizeof(FileNameStr));
-	FileName.toWCharArray(FileNameStr);
-
+	lxw_worksheet *sheet = workbook_add_worksheet(workbook,"Language");
 	bool	UIMode=false;
-	Sheet	*sheet=XLSXBook->addSheet(L"Language");
 	for(int row=0;row<count();row++){
 		QStringList	LList=at(row);
 		for(int col=0;col<LList.count();col++){
-			wchar_t	Buff[20000];
-			memset(Buff,0,sizeof(Buff));
-			LList[col].toWCharArray(Buff);
+			char	*FontChar=LList[col].toUtf8().data();
+
 			if(LList[0]==/**/"UI"){
 				UIMode=true;
 			}
 			if(UIMode==false){
 				int	n=col-2;
 				if(n<FontCount){
-					sheet->setCellFormat(row, col,LangOnj[n]);
+					worksheet_write_string(sheet,(lxw_row_t)row,(lxw_col_t)col,FontChar,LangOnj[n]);
 				}
 				else{
-					sheet->setCellFormat(row, col,LangEN);
+					worksheet_write_string(sheet,(lxw_row_t)row,(lxw_col_t)col,FontChar,LangEN);
 				}
 			}
 			else{
 				int	n=col-4;
 				if(n<FontCount){
-					sheet->setCellFormat(row, col,LangOnj[n]);
+					worksheet_write_string(sheet,(lxw_row_t)row,(lxw_col_t)col,FontChar,LangOnj[n]);
 				}
 				else{
-					sheet->setCellFormat(row, col,LangEN);
+					worksheet_write_string(sheet,(lxw_row_t)row,(lxw_col_t)col,FontChar,LangEN);
 				}
 			}
-
-			sheet->writeStr(row,col,Buff);
 		}
 	}
 
-	Sheet	*sheet2=XLSXBook->addSheet(L"Define");
+	lxw_worksheet *sheet2 = workbook_add_worksheet(workbook,"Define");
 	for(int row=0;row<SheetExcel1.count();row++){
 		QStringList	LList=SheetExcel1.at(row);
 		for(int col=0;col<LList.count();col++){
-			wchar_t	Buff[20000];
-			memset(Buff,0,sizeof(Buff));
-			LList[col].toWCharArray(Buff);
-			sheet2->setCellFormat(row, col,LangEN);
-			sheet2->writeStr(row,col,Buff);
+			char	*FontChar=LList[col].toUtf8().data();
+			worksheet_write_string(sheet2,(lxw_row_t)row,(lxw_col_t)col,FontChar,LangEN);
 		}
 	}
-	if(XLSXBook->save(FileNameStr)==false){
-		delete	XLSXBook;
-		delete	[]LangOnj;
-		delete	[]FntObj;
+
+	int result = workbook_close(workbook);
+	if(result!=0){
 		return false;
 	}
-	XLSXBook->release();
-	//delete	XLSXBook;
-
-	delete	[]LangOnj;
-	delete	[]FntObj;
 
 	return true;
 }
 
-#else
-bool	QStringListListXLSX::LoadFromXLSXFile(int sheetNo ,const QString &FileName)
-{
-	return true;
-}
-bool	QStringListListXLSX::SaveFromXLSXFile(QStringListListXLSX &SheetExcel1,const QString &FileName
-											 ,wchar_t **ExcelFont ,int FontCount)
-{
-	return true;
-}
-#endif

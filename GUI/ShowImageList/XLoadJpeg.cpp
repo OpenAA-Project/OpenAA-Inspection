@@ -7,10 +7,10 @@
 #include "swap.h"
 #include <setjmp.h>
 
-extern	"C"
-{
-extern	jmp_buf err_jmpbuf;
-};
+//extern	"C"
+//{
+//extern	jmp_buf err_jmpbuf;
+//};
 
 QImage	*read_jpeg_stream(FILE *fp)
 {
