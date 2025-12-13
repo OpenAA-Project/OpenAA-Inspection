@@ -61,12 +61,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\OpenSource\xpdf-4.04\xpdf;..\..\OpenSource\xpdf-4.04\splash;..\..\OpenSource\xpdf-4.04\goo;..\..\OpenSource\xpdf-4.04\build;..\..\OpenSource\xpdf-4.04;..\..\OpenSource\xpdf-4.04\xpdf-qt;..\..\GUI\PropertyRasterInspection;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\Open;..\Raster;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(XPDF)\xpdf;$(XPDF)\splash;$(XPDF)\goo;$(XPDF);$(XPDF)\xpdf-qt;..\..\GUI\PropertyRasterInspection;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\Open;..\Raster;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\..\OpenSource\xpdf-4.04\build\xpdf\xpdf_objs.dir\Release;..\..\OpenSource\xpdf-4.04\build\xpdf\xpdf_widget_objs.dir\Release;..\..\OpenSource\FreeType\freetype-2.12.1\objs;..\..\OpenSource\xpdf-4.04\build\goo\goo_objs.dir\Release;..\..\OpenSource\xpdf-4.04\build\splash\splash_objs.dir\Release;..\..\OpenSource\xpdf-4.04\build\fofi\fofi_objs.dir\Release;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Component.lib;ServiceForAlgorithm.lib;ModelPageItem.lib;ServiceLib.lib;EditPasswordOnControl.lib;xpdf_objs.lib;xpdf_widget_objs.lib;freetype.lib;goo_objs.lib;splash_objs.lib;fofi_objs.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(XPDF)\Lib\Release;$(FREETYPE)\build\Release;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Component.lib;ServiceForAlgorithm.lib;ModelPageItem.lib;ServiceLib.lib;EditPasswordOnControl.lib;xpdf_objs.lib;freetype.lib;goo_objs.lib;fofi_objs.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">

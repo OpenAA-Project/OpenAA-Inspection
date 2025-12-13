@@ -37,13 +37,13 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Open\SystemVersion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="XBoardInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShowRebootForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Open\XShowVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

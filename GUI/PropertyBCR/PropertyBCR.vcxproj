@@ -223,7 +223,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;QT_LARGEFILE_SUPPORT;QT_NO_DEBUG;NDEBUG;PROPERTYBCR_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\GUI\ImagePanelTools;..\..\Algorithm\BCRInspection\DTK\Include;..\..\Algorithm\BCRInspection;..\..\GUI\ImageControlTools;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\Open;..\..\OpenSource\\FFT\api;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\GUI\ImagePanelTools;..\..\Algorithm\BCRInspection\DTK\Include;..\..\Algorithm\BCRInspection;..\..\GUI\ImageControlTools;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\Open;$(FFTW)\api;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>

@@ -42,7 +42,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>$(DefaultQtVersion)</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;network;sql;widgets;core5compat</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -74,7 +74,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ServiceLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Component.lib;ServiceLib.lib;IntegrationLib.lib;ServiceExecutionEditor.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -106,6 +106,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Open\XShowVersion.cpp" />
     <ClCompile Include="ShowRebootForm.cpp" />
     <ClCompile Include="XBoardInfo.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
@@ -113,7 +114,6 @@
     </ClCompile>
     <QtRcc Include="CheckBoard.qrc" />
     <QtMoc Include="CheckBoard.h" />
-    <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="CheckBoard.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
       <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>

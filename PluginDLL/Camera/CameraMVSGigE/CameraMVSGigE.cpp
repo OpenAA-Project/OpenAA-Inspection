@@ -104,7 +104,7 @@ bool    CameraMVSGigE::Initial(void)
 		    int nIp3 = ((m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0x0000ff00) >> 8);
 		    int nIp4 = (m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0x000000ff);
 
-		    if (strcmp("", (LPCSTR)(pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName)) != 0)
+		    if (strcmp("", (const char *)(pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName)) != 0)
 		    {
 				memset(strUserName,0,256);
 				sprintf_s(strUserName, 256, "%s (%s)", pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName,

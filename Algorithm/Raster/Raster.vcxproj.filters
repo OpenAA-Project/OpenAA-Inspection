@@ -81,15 +81,6 @@
     <ClCompile Include="XRasterLibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\OpenSource\xpdf-4.04\xpdf-qt\QtPDFCore.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenSource\xpdf-4.04\xpdf-qt\XpdfWidget.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\OpenSource\xpdf-4.04\xpdf-qt\XpdfWidgetPrint.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="XRasterReport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -101,7 +92,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="..\..\OpenSource\xpdf-4.04\xpdf-qt\XpdfWidget.h">
+    <QtMoc Include="..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf-qt\XpdfWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

@@ -9,9 +9,7 @@
 extern	const	char	*sRoot;
 extern	const	char	*sName;
 
-using namespace LargeFlatInspection;
-
-LargeFlatInspection::FrameLargeWindow::FrameLargeWindow(LargeFlatInspectionForm *p)
+LFIFrameLargeWindow::LFIFrameLargeWindow(LargeFlatInspectionForm *p)
 	:Parent(p)
 {	
 	ShowingMasterImage=false;
@@ -19,16 +17,16 @@ LargeFlatInspection::FrameLargeWindow::FrameLargeWindow(LargeFlatInspectionForm 
 	FlipTimer.setSingleShot(false);
 	connect(&FlipTimer,SIGNAL(timeout()),this,SLOT(SlotTimeOut()));
 }
-void	LargeFlatInspection::FrameLargeWindow::StartTimer(void)
+void	LFIFrameLargeWindow::StartTimer(void)
 {
 	FlipTimer.start();
 }
-void	LargeFlatInspection::FrameLargeWindow::SlotTimeOut()
+void	LFIFrameLargeWindow::SlotTimeOut()
 {
 	ShowingMasterImage=!ShowingMasterImage;
 	repaint();
 }
-void	LargeFlatInspection::FrameLargeWindow::paintEvent(QPaintEvent *event)
+void	LFIFrameLargeWindow::paintEvent(QPaintEvent *event)
 {
 	QPainter	Pnt(this);
 	Pnt.drawImage(0,0,Parent->NGImage);
@@ -39,11 +37,11 @@ void	LargeFlatInspection::FrameLargeWindow::paintEvent(QPaintEvent *event)
 	}
 }
 
-LargeFlatInspection::FrameMasterWindow::FrameMasterWindow(LargeFlatInspectionForm *p)
+LFIFrameMasterWindow::LFIFrameMasterWindow(LargeFlatInspectionForm *p)
 	:Parent(p)
 {	
 }
-void	LargeFlatInspection::FrameMasterWindow::paintEvent(QPaintEvent *event)
+void	LFIFrameMasterWindow::paintEvent(QPaintEvent *event)
 {
 	QPainter	Pnt(this);
 	Pnt.drawImage(0,0,Parent->MasterImage);

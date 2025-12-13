@@ -239,7 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IntegrationStackNGThumbnail.h" />
-    <ClInclude Include="LargeFlatInspectionForm.h" />
+    <QtMoc Include="LargeFlatInspectionForm.h" />
     <ClInclude Include="XIntegrationStackNGThumbnailPacket.h" />
     <QtMoc Include="LargeColorDifferenceForm.h" />
     <QtMoc Include="LargeMeasureWindowForm.h" />

@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pdfwidget_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf-qt\XpdfWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf-qt\QtPDFCore.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf-qt\XpdfWidget.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf-qt\XpdfWidgetPrint.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\PDFCore.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\SplashOutputDev.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\DisplayState.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\TileMap.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\TextOutputDev.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\TileCache.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\AcroForm.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Annot.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Array.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\BuiltinFont.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\BuiltinFontTables.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Catalog.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\CharCodeToUnicode.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\CMap.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Decrypt.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Dict.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Error.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\FontEncodingTables.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Function.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Gfx.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\GfxFont.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\GfxState.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\GlobalParams.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\HTMLGen.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\ImageOutputDev.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\JArithmeticDecoder.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\JBIG2Stream.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\JPXStream.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Lexer.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Link.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\LocalParams.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\NameToCharCode.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Object.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\OptionalContent.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Outline.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\OutputDev.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Page.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Parser.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\PDF417Barcode.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\pdfdetach.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\PDFDoc.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\PDFDocEncoding.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\pdffonts.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\pdfimages.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\pdfinfo.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\pdftohtml.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\pdftopng.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\pdftoppm.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\pdftops.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\pdftotext.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\PreScanOutputDev.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\PSOutputDev.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\PSTokenizer.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\SecurityHandler.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\ShadingImage.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Stream.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\TextString.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\TileCompositor.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\UnicodeMap.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\UnicodeRemapping.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\UnicodeTypeTable.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\UTF8.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\WebFont.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\XFAScanner.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\XRef.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf\Zoox.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\Splash.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashBitmap.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashClip.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashFont.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashFontEngine.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashFontFile.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashFontFileID.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashFTFont.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashFTFontEngine.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashFTFontFile.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashPath.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashPattern.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashScreen.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashState.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashXPath.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\SplashXPathScanner.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

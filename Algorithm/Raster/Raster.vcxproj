@@ -61,7 +61,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\OpenSource\xpdf-4.04\xpdf;..\..\OpenSource\xpdf-4.04\splash;..\..\OpenSource\xpdf-4.04\goo;..\..\OpenSource\xpdf-4.04\build;..\..\OpenSource\xpdf-4.04;..\..\OpenSource\xpdf-4.04\xpdf-qt;..\..\GUI\PropertyRaster;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(XPDF)\xpdf;$(XPDF)\splash;$(XPDF)\goo;$(XPDF);$(XPDF)\xpdf-qt;..\..\GUI\PropertyRaster;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <OpenMP>GenerateParallelCode</OpenMP>
       <ControlFlowGuard>false</ControlFlowGuard>
@@ -74,8 +74,8 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\..\OpenSource\xpdf-4.04\build\xpdf\xpdf_objs.dir\Release;..\..\OpenSource\xpdf-4.04\build\xpdf\xpdf_widget_objs.dir\Release;..\..\OpenSource\FreeType\freetype-2.12.1\objs;..\..\OpenSource\xpdf-4.04\build\goo\goo_objs.dir\Release;..\..\OpenSource\xpdf-4.04\build\splash\splash_objs.dir\Release;..\..\OpenSource\xpdf-4.04\build\fofi\fofi_objs.dir\Release;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Component.lib;ServiceForAlgorithm.lib;ModelPageItem.lib;ServiceLib.lib;EditPasswordOnControl.lib;xpdf_objs.lib;xpdf_widget_objs.lib;freetype.lib;goo_objs.lib;splash_objs.lib;fofi_objs.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(XPDF)\lib\Release;$(FREETYPE)\build\Release;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Component.lib;ServiceForAlgorithm.lib;ModelPageItem.lib;ServiceLib.lib;EditPasswordOnControl.lib;xpdf_objs.lib;freetype.lib;goo_objs.lib;fofi_objs.lib;PDFWidget.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
@@ -108,9 +108,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\OpenSource\xpdf-4.04\xpdf-qt\QtPDFCore.cc" />
-    <ClCompile Include="..\..\OpenSource\xpdf-4.04\xpdf-qt\XpdfWidget.cc" />
-    <ClCompile Include="..\..\OpenSource\xpdf-4.04\xpdf-qt\XpdfWidgetPrint.cc" />
     <ClCompile Include="..\..\Open\AlgorithmCommon.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="RasterResource.cpp" />
@@ -127,7 +124,7 @@
     <ClCompile Include="XRasterReferenceItem.cpp" />
     <ClCompile Include="XRasterReport.cpp" />
     <ClCompile Include="XRasterTransmitDirectly.cpp" />
-    <QtMoc Include="..\..\OpenSource\xpdf-4.04\xpdf-qt\XpdfWidget.h" />
+    <QtMoc Include="..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf-qt\XpdfWidget.h" />
     <ClInclude Include="RasterResource.h" />
     <ClInclude Include="raster_global.h" />
     <ClInclude Include="XRaster.h" />

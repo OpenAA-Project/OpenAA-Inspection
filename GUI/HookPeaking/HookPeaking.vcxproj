@@ -223,7 +223,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;QT_LARGEFILE_SUPPORT;QT_NO_DEBUG;NDEBUG;HOOKPEAKING_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\OpenSource\\FFT\api;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\Open;.;C:\Program Files (x86)\Intel\oneAPI\mkl\latest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(FFTW)\api;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\Open;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -243,9 +243,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\;..\..\Lib\Release;C:\Program Files (x86)\Intel\oneAPI\mkl\latest\lib\intel64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FFTW)\..\vcpkg\installed\x64-windows-static\lib;..\..\;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>CommonGUIDLL.lib;Component.lib;DisplayImage.lib;ServiceLib.lib;libfftw-3.3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CommonGUIDLL.lib;Component.lib;DisplayImage.lib;ServiceLib.lib;fftw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
@@ -272,16 +272,13 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="HookPeaking.cpp" />
     <ClCompile Include="HookPeakingForm.cpp" />
-    <ClCompile Include="XPeaking.cpp">
-      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</EnableFiberSafeOptimizations>
-      <GenerateAlternateCodePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SSE3</GenerateAlternateCodePaths>
-    </ClCompile>
+    <ClCompile Include="XPeaking.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HookPeaking.h" />
-    <QtMoc Include="HookPeakingForm.h">
-    </QtMoc>
     <ClInclude Include="HookPeakingCommon.h" />
+    <QtMoc Include="HookPeakingForm.h" />
+    <QtMoc Include="HookPeakingThread.h" />
     <ClInclude Include="hookpeaking_global.h" />
   </ItemGroup>
   <ItemGroup>

@@ -44,15 +44,12 @@
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="HookPeakingForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XPeaking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HookPeaking.h">
@@ -61,7 +58,6 @@
     <ClInclude Include="hookpeaking_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
     <ClInclude Include="HookPeakingCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -70,9 +66,6 @@
     <QtUic Include="HookPeakingForm.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="HookPeakingForm.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtRcc Include="HookPeaking.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
@@ -84,5 +77,13 @@
     <None Include="Resources\PeakingS.png">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="HookPeakingForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="HookPeakingThread.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

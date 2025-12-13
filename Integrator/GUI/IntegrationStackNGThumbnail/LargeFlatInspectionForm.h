@@ -9,15 +9,11 @@
 namespace Ui {
 class	LargeFlatInspectionForm;
 }
-namespace LargeFlatInspection {
-class	FrameLargeWindow;
-class	FrameMasterWindow;
-}
 
 class	ThumbnailPanel;
 class	LargeFlatInspectionForm;
 
-class	LargeFlatInspection::FrameLargeWindow : public QWidget
+class	LFIFrameLargeWindow : public QWidget
 {
     Q_OBJECT
 		
@@ -27,7 +23,7 @@ class	LargeFlatInspection::FrameLargeWindow : public QWidget
 	bool	ShowingMasterImage;
 	QTimer	FlipTimer;
 public:
-	FrameLargeWindow(LargeFlatInspectionForm *p);
+	LFIFrameLargeWindow(LargeFlatInspectionForm *p);
 
 	void	StartTimer(void);
 private slots:
@@ -38,7 +34,7 @@ private:
 	virtual	void	paintEvent(QPaintEvent *event) override;
 };
 
-class	LargeFlatInspection::FrameMasterWindow : public QWidget
+class	LFIFrameMasterWindow : public QWidget
 {
     Q_OBJECT
 		
@@ -47,7 +43,7 @@ class	LargeFlatInspection::FrameMasterWindow : public QWidget
 	LargeFlatInspectionForm	*Parent;
 
 public:
-	FrameMasterWindow(LargeFlatInspectionForm *p);
+	LFIFrameMasterWindow(LargeFlatInspectionForm *p);
 
 private:
 	virtual	void	paintEvent(QPaintEvent *event) override;
@@ -57,8 +53,8 @@ class LargeFlatInspectionForm : public QWidget,public ServiceForLayers,public Pa
 {
     Q_OBJECT
 	friend	class	ThumbnailPanel;
-	friend	class	LargeFlatInspection::FrameLargeWindow;
-	friend	class	LargeFlatInspection::FrameMasterWindow;
+	friend	class	LFIFrameLargeWindow;
+	friend	class	LFIFrameMasterWindow;
 
 	Qt::WindowFlags	SavedFlag;
 	ThumbnailPanel	*Parent;
@@ -67,8 +63,8 @@ class LargeFlatInspectionForm : public QWidget,public ServiceForLayers,public Pa
 	QImage	MasterImage;
 	LearningMenu	LearningMenuDim[100];
 	int				LearningMenuDimNumb;
-	LargeFlatInspection::FrameLargeWindow	ImagePanel;
-	LargeFlatInspection::FrameMasterWindow	MasterPanel;
+	LFIFrameLargeWindow	ImagePanel;
+	LFIFrameMasterWindow	MasterPanel;
 
 public:
     explicit LargeFlatInspectionForm(ThumbnailPanel *p ,QWidget *parent = nullptr);
