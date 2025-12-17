@@ -170,6 +170,7 @@ BCRInspectionBase::BCRInspectionBase(LayersBase *Base)
 	barReader			=NULL;
 	IdealSize			=150;
 	TryAllFilter		=true;
+	MinBarcodeImageDispersion	=5.0;
 
 	LicenseKey		=/**/"Q19ZE7ES9AIIO6CCF5E8";
 
@@ -187,6 +188,7 @@ BCRInspectionBase::BCRInspectionBase(LayersBase *Base)
 	SetParam(&LicenseKey		, /**/"Setting"		,/**/"LicenseKey"		,LangSolver.GetString(XBCRInspection_LS,LID_4)/*"LicenseKey"*/);
 	SetParam(&AdotpedLayer		, /**/"Setting"		,/**/"AdotpedLayer"		,LangSolver.GetString(XBCRInspection_LS,LID_5)/*"Adotped Layer , -1:Color"*/);	
 	SetParam(&IdealSize			, /**/"Setting"		,/**/"IdealSize"		,LangSolver.GetString(XBCRInspection_LS,LID_14)/*"Ideal size insside"*/);
+	SetParam(&MinBarcodeImageDispersion	, /**/"Setting"	,/**/"MinBarcodeImageDispersion"	,"Minimum Barcode Image Dispersion");
 
 	SetParam(&TryAllFilter			, /**/"Option"		,/**/"TryAllFilter"				,LangSolver.GetString(XBCRInspection_LS,LID_15)/*"Try al filter"*/);
 	SetParam(&BarcodeImageInvert	, /**/"Option"		,/**/"BarcodeImageInvert"		,LangSolver.GetString(XBCRInspection_LS,LID_7)/*"Option Invert"*/);

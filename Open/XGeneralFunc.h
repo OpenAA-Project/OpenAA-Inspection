@@ -99,6 +99,7 @@ void	DrawImage(QPainter &Pnt ,int PanelXLen ,int PanelYLen
 					,const QImage &Img ,int movx ,int movy ,double ZoomRate);
 void	DrawImageAlpha(QImage &Pnt
 					,const QImage &Img ,int movx ,int movy ,double ZoomRate);
+QColor	GetAvrDivColor(const QImage &img ,double dispersion[]);
 
 class	CheckBoxInTable : public QCheckBox
 {

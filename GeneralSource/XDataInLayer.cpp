@@ -363,7 +363,7 @@ void	LayersBase::TF_BufferInfo(void)
 BufferInfoList	*LayersBase::GetBufferInfo(int index)
 {
 	TF_BufferInfo();
-	if(0<index && index<AllocatedBufferInfoCount){
+	if(0<=index && index<AllocatedBufferInfoCount){
 		return &BufferInfoListDim[index];
 	}
 	if(BufferInfoListDim!=NULL){

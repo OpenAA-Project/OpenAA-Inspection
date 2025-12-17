@@ -728,6 +728,50 @@ void	TransformImage(QImage& dest, QImage& src, double m[6])
 	}
 }
 
+QColor	GetAvrDivColor(const QImage &img ,double dispersion[])
+{
+	int	Depth=img.depth();
+	int	XLen=img.width();
+	int	YLen=img.height();
+	double	Rsum = 0.0;
+	double	Gsum = 0.0;
+	double	Bsum = 0.0;
+	double	RRsum = 0.0;
+	double	GGsum = 0.0;
+	double	BBsum = 0.0;
+	if(Depth==32){                                                
+		for(int y=0;y<YLen;y++){
+			QRgb	*d=(QRgb *)img.scanLine(y);
+			for(int x=0;x<XLen;x++,d++){
+				int	R = qRed(*d);
+				int	G = qGreen(*d);
+				int	B = qBlue(*d);
+
+				Rsum += R;
+				Gsum += G;
+				Bsum += B;
+				RRsum += R*R;
+				GGsum += G*G;
+				BBsum += B*B;
+			}
+		}
+	}
+	int	PixelNumb = XLen*YLen;
+	double	AvrR = Rsum / PixelNumb;
+	double	AvrG = Gsum / PixelNumb;
+	double	AvrB = Bsum / PixelNumb;
+	double	VarR = RRsum / PixelNumb - AvrR*AvrR;
+	double	VarG = GGsum / PixelNumb - AvrG*AvrG;
+	double	VarB = BBsum / PixelNumb - AvrB*AvrB;
+	dispersion[0] = sqrt(VarR);
+	dispersion[1] = sqrt(VarG);
+	dispersion[2] = sqrt(VarB);
+
+	return QColor(Clipping((int)AvrR,0,255)
+				 ,Clipping((int)AvrG,0,255)
+				 ,Clipping((int)AvrB,0,255));
+}
+
 void	FuncCall	DrawLine(QImage &dest,QRgb col ,int x1, int y1 ,int x2 ,int y2)
 {
 	int	dx=x2-x1;
