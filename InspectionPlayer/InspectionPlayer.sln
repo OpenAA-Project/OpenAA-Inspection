@@ -1,14 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31112.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36804.6 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InspectionPlayer", "InspectionPlayer\InspectionPlayer.vcxproj", "{E5CB2EE7-3033-45FC-AF10-BF8A0084F6C9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HozanPlayer", "HozanPlayer\HozanPlayer.vcxproj", "{A8EFD2D6-D870-4B28-B36B-EE4CD0759B76}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InspectionFastPlayer", "InspectionFastPlayer\InspectionFastPlayer.vcxproj", "{3519D365-9BCD-41D0-B0B0-B8C6A98DA4A4}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HozanProCount", "HozanProCount\HozanProCount.vcxproj", "{EB556F41-E8A9-4416-90B2-829588C27677}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,17 +28,6 @@ Global
 		{E5CB2EE7-3033-45FC-AF10-BF8A0084F6C9}.Template|Win32.Build.0 = Template|Win32
 		{E5CB2EE7-3033-45FC-AF10-BF8A0084F6C9}.Template|x64.ActiveCfg = Template|x64
 		{E5CB2EE7-3033-45FC-AF10-BF8A0084F6C9}.Template|x64.Build.0 = Template|x64
-		{A8EFD2D6-D870-4B28-B36B-EE4CD0759B76}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A8EFD2D6-D870-4B28-B36B-EE4CD0759B76}.Debug|Win32.Build.0 = Debug|Win32
-		{A8EFD2D6-D870-4B28-B36B-EE4CD0759B76}.Debug|x64.ActiveCfg = Debug|x64
-		{A8EFD2D6-D870-4B28-B36B-EE4CD0759B76}.Debug|x64.Build.0 = Debug|x64
-		{A8EFD2D6-D870-4B28-B36B-EE4CD0759B76}.Release|Win32.ActiveCfg = Release|Win32
-		{A8EFD2D6-D870-4B28-B36B-EE4CD0759B76}.Release|Win32.Build.0 = Release|Win32
-		{A8EFD2D6-D870-4B28-B36B-EE4CD0759B76}.Release|x64.ActiveCfg = Release|x64
-		{A8EFD2D6-D870-4B28-B36B-EE4CD0759B76}.Release|x64.Build.0 = Release|x64
-		{A8EFD2D6-D870-4B28-B36B-EE4CD0759B76}.Template|Win32.ActiveCfg = Release|x64
-		{A8EFD2D6-D870-4B28-B36B-EE4CD0759B76}.Template|x64.ActiveCfg = Release|x64
-		{A8EFD2D6-D870-4B28-B36B-EE4CD0759B76}.Template|x64.Build.0 = Release|x64
 		{3519D365-9BCD-41D0-B0B0-B8C6A98DA4A4}.Debug|Win32.ActiveCfg = Debug|Win32
 		{3519D365-9BCD-41D0-B0B0-B8C6A98DA4A4}.Debug|Win32.Build.0 = Debug|Win32
 		{3519D365-9BCD-41D0-B0B0-B8C6A98DA4A4}.Debug|x64.ActiveCfg = Debug|x64
@@ -55,24 +40,14 @@ Global
 		{3519D365-9BCD-41D0-B0B0-B8C6A98DA4A4}.Template|Win32.Build.0 = Template|Win32
 		{3519D365-9BCD-41D0-B0B0-B8C6A98DA4A4}.Template|x64.ActiveCfg = Template|x64
 		{3519D365-9BCD-41D0-B0B0-B8C6A98DA4A4}.Template|x64.Build.0 = Template|x64
-		{EB556F41-E8A9-4416-90B2-829588C27677}.Debug|Win32.ActiveCfg = Debug|x64
-		{EB556F41-E8A9-4416-90B2-829588C27677}.Debug|x64.ActiveCfg = Debug|x64
-		{EB556F41-E8A9-4416-90B2-829588C27677}.Debug|x64.Build.0 = Debug|x64
-		{EB556F41-E8A9-4416-90B2-829588C27677}.Release|Win32.ActiveCfg = Release|x64
-		{EB556F41-E8A9-4416-90B2-829588C27677}.Release|x64.ActiveCfg = Release|x64
-		{EB556F41-E8A9-4416-90B2-829588C27677}.Release|x64.Build.0 = Release|x64
-		{EB556F41-E8A9-4416-90B2-829588C27677}.Template|Win32.ActiveCfg = Debug|x64
-		{EB556F41-E8A9-4416-90B2-829588C27677}.Template|Win32.Build.0 = Debug|x64
-		{EB556F41-E8A9-4416-90B2-829588C27677}.Template|x64.ActiveCfg = Debug|x64
-		{EB556F41-E8A9-4416-90B2-829588C27677}.Template|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		QtVersion = $(DefaultQtVersion)
-		SolutionGuid = {46951DFD-E8DC-4742-AECD-3D739A4290FF}
 		Qt5Version = $(DefaultQtVersion)
+		SolutionGuid = {46951DFD-E8DC-4742-AECD-3D739A4290FF}
+		QtVersion = $(DefaultQtVersion)
 	EndGlobalSection
 	GlobalSection(Qt) = preSolution
 		Integration = True

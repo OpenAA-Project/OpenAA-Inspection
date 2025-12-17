@@ -216,7 +216,8 @@
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
@@ -376,7 +377,6 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\EditGUI\ImageDialog.cpp" />
     <ClCompile Include="EditFilterBank.cpp" />
     <ClCompile Include="EditGUILib.cpp" />
     <ClCompile Include="EditGUILibResource.cpp" />
@@ -389,10 +389,12 @@
     <ClCompile Include="FormCommSetting.cpp" />
     <ClCompile Include="FormDirectionOnEachPage.cpp" />
     <ClCompile Include="FormScanStrategy.cpp" />
+    <ClCompile Include="ImageDialog.cpp" />
     <ClCompile Include="ShareMasterChangeMultiplyDialog.cpp" />
     <ClCompile Include="ShareMasterDataForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ImageDialog.h" />
     <QtMoc Include="FormCommErrorListDialog.h" />
     <QtMoc Include="FormDirectionOnEachPage.h" />
     <QtMoc Include="FilterInPhaseForm.h" />
@@ -413,9 +415,6 @@
       <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
       <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
     </QtMoc>
-    <QtMoc Include="..\EditGUI\itemlistwindow.h" />
-    <QtMoc Include="..\EditGUI\propertylist.h" />
-    <QtMoc Include="..\EditGUI\ImageDialog.h" />
     <ClInclude Include="EditGUILib.h" />
     <ClInclude Include="editguilib_global.h" />
     <QtMoc Include="EditOutlineOffset.h">
@@ -436,7 +435,6 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="..\EditGUI\ImageDialog.ui" />
     <QtUic Include="EditFilterBank.ui" />
     <QtUic Include="EditOutlineOffset.ui">
     </QtUic>
@@ -458,6 +456,7 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="ImageDialog.ui" />
     <QtUic Include="ShareMasterDataForm.ui">
     </QtUic>
   </ItemGroup>

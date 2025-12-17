@@ -79,10 +79,10 @@
     <ClCompile Include="EditOutlineOffsetAddDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\EditGUI\ImageDialog.cpp">
+    <ClCompile Include="FormCommErrorListDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FormCommErrorListDialog.cpp">
+    <ClCompile Include="ImageDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -91,6 +91,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="editguilib_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -126,15 +129,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="FormDirectionOnEachPage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\EditGUI\itemlistwindow.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\EditGUI\propertylist.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\EditGUI\ImageDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="FormCommErrorListDialog.h">
@@ -180,10 +174,10 @@
     <QtUic Include="FilterInPhaseForm.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="..\EditGUI\ImageDialog.ui">
+    <QtUic Include="FormCommErrorListDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="FormCommErrorListDialog.ui">
+    <QtUic Include="ImageDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

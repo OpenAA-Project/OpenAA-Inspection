@@ -240,7 +240,4 @@
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\EditGUILib.lib" />
-  </ItemGroup>
 </Project>

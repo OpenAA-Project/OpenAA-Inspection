@@ -837,9 +837,9 @@ protected:
 	virtual	void moveEvent ( QMoveEvent * event )	override;
 	virtual	double	GetScaleLen(double RealLen);
 
-	virtual	bool	Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb);
-	virtual	bool	InsertPage(int IndexPage);	//Create page before Indexed page
-	virtual	bool	RemovePage(int IndexPage);
+	virtual	bool	Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb)	override;
+	virtual	bool	InsertPage(int IndexPage)	override;	//Create page before Indexed page
+	virtual	bool	RemovePage(int IndexPage)	override;
 
 };
 

@@ -259,9 +259,9 @@
       <BufferSecurityCheck>true</BufferSecurityCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Component.lib;CommonGUIDLL.lib;ServiceLib.lib;DisplayImage.lib;IntegrationLib.lib;ServiceExecutionEditor.lib;OpenXLSX.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Component.lib;CommonGUIDLL.lib;ServiceLib.lib;DisplayImage.lib;IntegrationLib.lib;ServiceExecutionEditor.lib;OpenXLSX.lib;EditGUILib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OPENXLSX)\lib;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\;$(OPENXLSX)\lib;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <HeapReserveSize>256000000</HeapReserveSize>
@@ -517,7 +517,10 @@
     <ClCompile Include="..\..\ServiceLib\LanguageManager\XLanguageCodec.cpp" />
     <ClCompile Include="CommDialogForm.cpp" />
     <ClCompile Include="CopyBATDialog.cpp" />
-    <ClCompile Include="EditGui.cpp" />
+    <ClCompile Include="EditGui.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+    </ClCompile>
     <ClCompile Include="EditOrderDialog.cpp" />
     <ClCompile Include="EditSyncGUIForm.cpp" />
     <ClCompile Include="guilistwindow.cpp" />
@@ -740,9 +743,6 @@
     <QtUic Include="SearchDialog.ui" />
     <QtUic Include="TunableListDialog.ui" />
     <QtUic Include="UsageConponentListForm.ui" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\EditGUILib.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
