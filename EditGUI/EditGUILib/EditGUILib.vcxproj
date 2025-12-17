@@ -394,7 +394,7 @@
     <ClCompile Include="ShareMasterDataForm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ImageDialog.h" />
+    <QtMoc Include="ImageDialog.h" />
     <QtMoc Include="FormCommErrorListDialog.h" />
     <QtMoc Include="FormDirectionOnEachPage.h" />
     <QtMoc Include="FilterInPhaseForm.h" />
