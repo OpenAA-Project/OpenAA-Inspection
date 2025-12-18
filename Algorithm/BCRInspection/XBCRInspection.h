@@ -198,6 +198,7 @@ public:
 	bool	BarcodeImageErode;
 	bool	BarcodeImageSharp;
 	double	MinBarcodeImageDispersion;
+	bool	ResultOKWithoutBarcode;
 
 	BCRInspectionBase(LayersBase *Base);
 	~BCRInspectionBase(void);

@@ -221,19 +221,19 @@
       <BufferSecurityCheck>true</BufferSecurityCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Psapi.Lib;CommonGUIDLL.lib;EditPasswordOnControl.lib;ServiceLib.lib;SeqLib.lib;Hasp.lib;IntegrationLib.lib;ServiceExecutionPlayer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Psapi.Lib;CommonGUIDLL.lib;EditPasswordOnControl.lib;ServiceLib.lib;SeqLib.lib;IntegrationLib.lib;ServiceExecutionPlayer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>..\..\Lib\Release;$(VCInstallDir)PlatformSDK\Lib\AMD64;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <StackReserveSize>256000000</StackReserveSize>
+      <StackReserveSize>
+      </StackReserveSize>
       <StackCommitSize>64000000</StackCommitSize>
       <TargetMachine>MachineX64</TargetMachine>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <HeapReserveSize>
       </HeapReserveSize>
-      <HeapCommitSize>
-      </HeapCommitSize>
+      <HeapCommitSize>256000000</HeapCommitSize>
       <ForceFileOutput>
       </ForceFileOutput>
     </Link>
