@@ -114,10 +114,10 @@ const	char	*LayersBase::GetLanguageSolutionFileName(void)
 int main(int argc, char *argv[])
 {
 	char	TBuff[256];
-
 	strcpy(TBuff,"-platformpluginpath");
 	argv[argc] = TBuff;
 	argc++;
+
 	char	CurrentBuff[256];
 	strcpy(CurrentBuff,(char *)QDir::currentPath().toStdString().c_str());
 	argv[argc] = CurrentBuff;	
