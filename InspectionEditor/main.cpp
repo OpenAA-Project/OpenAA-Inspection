@@ -33,11 +33,6 @@
 #include "XGeneralDialog.h"
 #include "SelectWorkerForm.h"
 
-#ifdef _MSC_VER
-#include "hasplib.h"
-#include "sentinellib.h"
-#endif
-
 #include "SingleExecute.h"
 #include "PasswordDropper.h"
 #include "XPassword.h"
@@ -92,24 +87,6 @@ void	MainApplication::QuitProcess()
 	StopForDebug	Stop for Debug at first
 */
 
-static	bool HaspCheck(QString strKey)
-{
-#ifdef _MSC_VER
-	QStringList RetList;
-	Hasplib Hasp;
-	if(Hasp.HaspExecute(RetList)==false)
-		return false;
-	for(int Cnt=0;Cnt<RetList.count();Cnt++){
-		if(RetList.at(Cnt)==strKey){
-			if(QDate::currentDate()<=QDate::fromString(RetList.at(Cnt-1),/**/"yyyyMMdd"))
-				return true;
-		}
-	}
-	return false;
-#else
-	return true;
-#endif
-}
 
 #ifdef HASP_ENABLE
 static	bool SentinelCheck(QString strKey)
@@ -136,6 +113,16 @@ const	char	*LayersBase::GetLanguageSolutionFileName(void)
 
 int main(int argc, char *argv[])
 {
+	char	TBuff[256];
+
+	strcpy(TBuff,"-platformpluginpath");
+	argv[argc] = TBuff;
+	argc++;
+	char	CurrentBuff[256];
+	strcpy(CurrentBuff,(char *)QDir::currentPath().toStdString().c_str());
+	argv[argc] = CurrentBuff;	
+	argc++;
+
 	MainApplication *a=new MainApplication(argc, argv);
 
 	bool	PartsReEntrantMode=false;
@@ -170,22 +157,6 @@ int main(int argc, char *argv[])
 
 	if(CheckExeVersion(argc, argv)==false)
 		return 1;
-
-#ifdef HASP_ENABLE
-	if (HaspCheck("k38fj306") == false) {
-		if (HaspCheck("je8398hw") == false) {
-			Hasplib* hasplib = new Hasplib();
-			if (hasplib->HaspCheck(1) == false) {
-				if (hasplib->HaspCheck(0) == false) {
-					QMessageBox::critical(NULL, "Hasp Error", "Mismatch Hasp code", QMessageBox::Ok);
-					delete hasplib;
-					return 0;
-				}
-			}
-			delete hasplib;
-		}
-	}
-#endif
 
 
 	/*

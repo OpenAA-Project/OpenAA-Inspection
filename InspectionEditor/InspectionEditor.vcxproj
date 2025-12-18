@@ -248,7 +248,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(VCInstallDir)PlatformSDK\Lib\AMD64;..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Psapi.Lib;CommonGUIDLL.lib;EditPasswordOnControl.lib;ServiceLib.lib;wsock32.lib;Hasp.lib;IntegrationLib.lib;ServiceExecutionEditor.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Psapi.Lib;CommonGUIDLL.lib;EditPasswordOnControl.lib;ServiceLib.lib;IntegrationLib.lib;ServiceExecutionEditor.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <StackReserveSize>1024000000</StackReserveSize>
       <StackCommitSize>512000000</StackCommitSize>
     </Link>
