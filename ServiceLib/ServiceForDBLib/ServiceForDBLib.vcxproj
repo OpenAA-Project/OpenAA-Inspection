@@ -61,7 +61,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\TransDatabaseLib;..\..\Open;..\..\GeneralSource;.\;$(QTDIR)\include\QtSql\5.15.13;$(QTDIR)\include\QtCore\5.15.13;$(QTDIR)\include\QtCore\5.15.13\QtCore;..\..\OpenSource\Firebird_2_1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\TransDatabaseLib;..\..\Open;..\..\GeneralSource;.\;$(FIREBIRD)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
       <OpenMP>GenerateParallelCode</OpenMP>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>

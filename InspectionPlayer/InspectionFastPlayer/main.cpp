@@ -138,6 +138,7 @@ int main(int argc, char *argv[])
 	argv[argc] = CurrentBuff;	
 	argc++;
 	
+	QCoreApplication::addLibraryPath(CurrentBuff);
 	QApplication a(argc, argv);
 
 	/*
@@ -458,6 +459,8 @@ int main(int argc, char *argv[])
 	if(Layers->GetParamComm()->GetConnectedPCNumb()!=0){
 		Layers->GetParamComm()->EnabledComm=true;
 	}
+
+	QStringList	SqlDatabaseList=QSqlDatabase::drivers();
 
 	LocalDatabaseBasicClass	*KDatabase=new LocalDatabaseBasicClass(Layers->GetDatabaseLoader(false)
 																, Layers->GetParamGlobal()->LocalDatabase_FileName

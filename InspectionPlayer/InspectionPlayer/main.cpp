@@ -132,7 +132,8 @@ int main(int argc, char *argv[])
 	char	CurrentBuff[256];
 	strcpy(CurrentBuff,(char *)QDir::currentPath().toStdString().c_str());
 	argv[argc] = CurrentBuff;	
-	argc++;	
+	argc++;
+	QCoreApplication::addLibraryPath(CurrentBuff);
 	QApplication a(argc, argv);
 	
 	bool	LogOutMode=false;

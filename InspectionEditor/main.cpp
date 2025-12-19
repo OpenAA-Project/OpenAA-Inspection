@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
 	strcpy(CurrentBuff,(char *)QDir::currentPath().toStdString().c_str());
 	argv[argc] = CurrentBuff;	
 	argc++;
-
+	QCoreApplication::addLibraryPath(CurrentBuff);
 	MainApplication *a=new MainApplication(argc, argv);
 
 	bool	PartsReEntrantMode=false;
