@@ -26,6 +26,7 @@ public:
 private:
 	virtual	void paintEvent(QPaintEvent *event)			override;
 	virtual	void mouseReleaseEvent(QMouseEvent *event)	override;
+	virtual void mouseDoubleClickEvent(QMouseEvent *event);
 };
 
 #define	TitleHeightTarget	30
@@ -46,6 +47,8 @@ public:
 	bool	IsBlickON(void);
 	void	SetResult(bool3 ResultOK,bool MaxError,bool TimeOver);
 	void	MouseReleased(QMouseEvent *event);
+	void	DoubleClickEvent(QMouseEvent *event);
+
 protected:
 	void	resizeEvent(QResizeEvent *event);
 };
@@ -74,6 +77,7 @@ public:
 	virtual	bool	RemovePage(int IndexPage);
 
 	void	MouseReleased(int Page,QMouseEvent *event);
+	void	DoubleClickEvent(int Page,int X,int Y);
 
 private slots:
     void	ResizeAction();

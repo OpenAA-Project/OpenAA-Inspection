@@ -308,6 +308,9 @@ public:
 	int		GetThresholdLevelID(void)	const	{	return ThresholdLevelID;	}
 	void	SetThresholdLevelID(int d)			{	ThresholdLevelID=d;			}
 
+	virtual	void	SetAutoThresholdByHistogram(int HistID,double Probability);				//Probability:0.0-1.0
+	virtual	void	SetThresholdByHistogram(int HistID,double LValue,double HValue){}	
+
 	//For learning
 	void	SetLearningParam(LearningInDBThreshold &L,char *value	,char MinValue,char MaxValue	,double stepoffset,double stepmultiply);
 	void	SetLearningParam(LearningInDBThreshold &L,BYTE *value	,BYTE MinValue,BYTE MaxValue	,double stepoffset,double stepmultiply);
@@ -345,6 +348,8 @@ public:
 	virtual	bool	SaveMember(QIODevice *f);
     virtual	bool	LoadMember(QIODevice *f);
 
+protected:
+	void	GetMinMaxByDistribution(double Average,double StdDev,double Strength,double &MinRet,double &MaxRet);
 };
 
 class AlgorithmThresholdContainer : public NPListPack<AlgorithmThreshold>

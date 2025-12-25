@@ -69,6 +69,7 @@ public:
 
 	double	GetAverage(void);
 	double	GetDispersion(void);
+	bool	GetDistribution(double &Average,double &Dispersion);
 
 	bool	GetMinMax(T &MinData ,T &MaxData);
 
@@ -117,6 +118,7 @@ public:
 
 	double	GetAverage(void);
 	double	GetDispersion(void);
+	bool	GetDistribution(double &Average,double &Dispersion);
 
 	bool	GetMinMax(T &MinData ,T &MaxData);
 	T		GetStep(void)	{	return Step;	}
@@ -155,6 +157,8 @@ public:
 	bool	LoadHistgram(QIODevice *f)	{	return Base->Load(f);	}
 
 	ValueDimStockerBase	*CreateCopy(void);
+
+	virtual	bool	GetDistribution(double &Average,double &Dispersion)	=0;
 };
 
 //-------------------------
@@ -169,6 +173,7 @@ public:
 	virtual	void	Set(int data)		override;
 	virtual	void	Set(double data)	override;
 	virtual	bool	GetMinMaxData(double &MinData ,double &MaxData)	override;
+	virtual	bool	GetDistribution(double &Average,double &Dispersion)	override;
 	virtual	bool	AddTo(HistStepClass *Dest)	override{	return ValueDimStocker<BYTE>::AddTo(Dest);	}
 
 };
@@ -193,6 +198,7 @@ public:
 	virtual	void	Set(int data)		override;
 	virtual	void	Set(double data)	override;
 	virtual	bool	GetMinMaxData(double &MinData ,double &MaxData)	override;
+	virtual	bool	GetDistribution(double &Average,double &Dispersion)	override;
 	virtual	bool	AddTo(HistStepClass *Dest)		override{	return ValueDimStocker<char>::AddTo(Dest);	}
 };
 
@@ -217,6 +223,7 @@ public:
 	virtual	void	Set(int data)		override;
 	virtual	void	Set(double data)	override;
 	virtual	bool	GetMinMaxData(double &MinData ,double &MaxData)	override;
+	virtual	bool	GetDistribution(double &Average,double &Dispersion)	override;
 	virtual	bool	AddTo(HistStepClass *Dest)		override{	return ValueDimStocker<int>::AddTo(Dest);	}
 };
 inline	void	HistgramByParamInt::Set(int data)
@@ -240,6 +247,7 @@ public:
 	virtual	void	Set(int data)		override;
 	virtual	void	Set(double data)	override;
 	virtual	bool	GetMinMaxData(double &MinData ,double &MaxData)	override;
+	virtual	bool	GetDistribution(double &Average,double &Dispersion)	override;
 	virtual	bool	AddTo(HistStepClass *Dest)		override{	return ValueDimStocker<short>::AddTo(Dest);	}
 };
 inline	void	HistgramByParamShort::Set(int data)	
@@ -264,6 +272,7 @@ public:
 	virtual	void	Set(int data)		override;
 	virtual	void	Set(double data)	override;
 	virtual	bool	GetMinMaxData(double &MinData ,double &MaxData)	override;
+	virtual	bool	GetDistribution(double &Average,double &Dispersion)	override;
 	virtual	bool	AddTo(HistStepClass *Dest)		override{	return ValueDimStocker<double>::AddTo(Dest);	}
 	virtual	bool	SaveText(QIODevice *f)	override;
 };
@@ -296,6 +305,7 @@ public:
 	virtual	void	Set(int data)		override;
 	virtual	void	Set(double data)	override;
 	virtual	bool	GetMinMaxData(double &MinData ,double &MaxData)	override;
+	virtual	bool	GetDistribution(double &Average,double &Dispersion)	override;
 	virtual	bool	AddTo(HistStepClass *Dest)		override{	return HistgramDimStocker<BYTE>::AddTo(Dest);	}
 };
 inline	void	HistgramByBoundaryByte::Set(int data)
@@ -326,6 +336,7 @@ public:
 	virtual	void	Set(int data)		override;
 	virtual	void	Set(double data)	override;
 	virtual	bool	GetMinMaxData(double &MinData ,double &MaxData)	override;
+	virtual	bool	GetDistribution(double &Average,double &Dispersion)	override;
 	virtual	bool	AddTo(HistStepClass *Dest)		override{	return HistgramDimStocker<char>::AddTo(Dest);	}
 };
 inline	void	HistgramByBoundaryChar::Set(int data)
@@ -356,6 +367,7 @@ public:
 	virtual	void	Set(int data)		override;
 	virtual	void	Set(double data)	override;
 	virtual	bool	GetMinMaxData(double &MinData ,double &MaxData)	override;
+	virtual	bool	GetDistribution(double &Average,double &Dispersion)	override;
 	virtual	bool	AddTo(HistStepClass *Dest)		override{	return HistgramDimStocker<int>::AddTo(Dest);	}
 };
 inline	void	HistgramByBoundaryInt::Set(int data)
@@ -385,6 +397,7 @@ public:
 	virtual	void	Set(int data)		override{	HistgramDimStocker<short>::Set((short)data);	}
 	virtual	void	Set(double data)	override{	HistgramDimStocker<short>::Set((short)data);	}
 	virtual	bool	GetMinMaxData(double &MinData ,double &MaxData)	override;
+	virtual	bool	GetDistribution(double &Average,double &Dispersion)	override;
 	virtual	bool	AddTo(HistStepClass *Dest)		override{	return HistgramDimStocker<short>::AddTo(Dest);	}
 };
 
@@ -406,6 +419,7 @@ public:
 	virtual	void	Set(int data)		override{	HistgramDimStocker<double>::Set((double)data);	}
 	virtual	void	Set(double data)	override{	HistgramDimStocker<double>::Set(data);			}
 	virtual	bool	GetMinMaxData(double &MinData ,double &MaxData)	override;
+	virtual	bool	GetDistribution(double &Average,double &Dispersion)	override;
 	virtual	bool	AddTo(HistStepClass *Dest)	override{	return HistgramDimStocker<double>::AddTo(Dest);	}
 	virtual	bool	SaveText(QIODevice *f)		override;
 };

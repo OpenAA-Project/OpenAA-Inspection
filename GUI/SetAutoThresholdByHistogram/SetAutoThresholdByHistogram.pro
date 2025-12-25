@@ -3,23 +3,26 @@
 # ------------------------------------------------------
 
 TEMPLATE = lib
-TARGET = DisplayTargetList
+TARGET = SetAutoThresholdByHistogram
 DESTDIR = ../
 CONFIG += release
-DEFINES += DISPLAYTARGETLIST_LIB
+DEFINES += SETAUTOTHRESHOLDBYHISTOGRAM_LIB
 LIBS += -L"."
 DEPENDPATH += .
 MOC_DIR += .
 OBJECTS_DIR += release
 UI_DIR += GeneratedFiles
 RCC_DIR += GeneratedFiles
-include(DisplayTargetList.pri)
+include(SetAutoThresholdByHistogram.pri)
 
 FORMS += \
-    AddOkNgDialog.ui
+    SetAutoThresholdByHistogramForm.ui \
+    SettingDialogAuto.ui
 
 HEADERS += \
-    AddOkNgDialog.h
+    SetAutoThresholdByHistogramForm.h \
+    SettingDialogAuto.h
 
 SOURCES += \
-    AddOkNgDialogdialog.cpp
+    SetAutoThresholdByHistogramForm.cpp \
+    SettingDialogAuto.cpp

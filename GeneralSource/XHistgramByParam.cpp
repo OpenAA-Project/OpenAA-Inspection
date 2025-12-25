@@ -107,7 +107,35 @@ double	ValueDimStocker<T>::GetAverage(void)
 template<class T>
 double	ValueDimStocker<T>::GetDispersion(void)
 {
-	return 0.0;
+	double	D=0.0;
+	double	DD=0.0;
+	for(int i=0;i<CurrentCount;i++){
+		double	v = (double)Dim[i];
+		D	+=v;
+		DD	+= v*v;
+	}
+	if(CurrentCount!=0){
+		double	Avr=D/CurrentCount;
+		return DD/CurrentCount - Avr*Avr;
+	}
+	return 0;
+}
+template<class T>
+bool	ValueDimStocker<T>::GetDistribution(double &Average,double &Dispersion)
+{
+	double	D=0.0;
+	double	DD=0.0;
+	for(int i=0;i<CurrentCount;i++){
+		double	v = (double)Dim[i];
+		D	+=v;
+		DD	+= v*v;
+	}
+	if(CurrentCount!=0){
+		Average=D/CurrentCount;
+		Dispersion=DD/CurrentCount - Average*Average;
+		return true;
+	}
+	return false;
 }
 
 template<class T>
@@ -285,6 +313,23 @@ double	HistgramDimStocker<T>::GetDispersion(void)
 	}
 	return 0;
 }
+template<class T>
+bool	HistgramDimStocker<T>::GetDistribution(double &Average,double &Dispersion)
+{
+	double	D=0.0;
+	double	DD=0.0;
+	for(int i=0;i<AllocatedCount;i++){
+		double	v = (double)Dim[i];
+		D	+=v;
+		DD	+= v*v;
+	}
+	if(AllocatedCount!=0){
+		Average=D/AllocatedCount;
+		Dispersion=DD/AllocatedCount - Average*Average;
+		return true;
+	}
+	return false;
+}
 
 template<class T>
 bool	HistgramDimStocker<T>::GetMinMax(T &_MinData ,T &_MaxData)
@@ -392,6 +437,10 @@ bool	HistgramByParamByte::GetMinMaxData(double &MinData ,double &MaxData)
 	MaxData=tMax;
 	return true;
 }
+bool	HistgramByParamByte::GetDistribution(double &Average,double &Dispersion)
+{
+	return ValueDimStocker<BYTE>::GetDistribution(Average,Dispersion);
+}
 
 bool	HistgramByParamChar::GetMinMaxData(double &MinData ,double &MaxData)
 {
@@ -401,6 +450,10 @@ bool	HistgramByParamChar::GetMinMaxData(double &MinData ,double &MaxData)
 	MinData=tMin;
 	MaxData=tMax;
 	return true;
+}
+bool	HistgramByParamChar::GetDistribution(double &Average,double &Dispersion)
+{
+	return ValueDimStocker<char>::GetDistribution(Average,Dispersion);
 }
 
 bool	HistgramByParamInt::GetMinMaxData(double &MinData ,double &MaxData)
@@ -412,6 +465,10 @@ bool	HistgramByParamInt::GetMinMaxData(double &MinData ,double &MaxData)
 	MaxData=tMax;
 	return true;
 }
+bool	HistgramByParamInt::GetDistribution(double &Average,double &Dispersion)
+{
+	return ValueDimStocker<int>::GetDistribution(Average,Dispersion);
+}
 
 bool	HistgramByParamShort::GetMinMaxData(double &MinData ,double &MaxData)
 {
@@ -422,12 +479,20 @@ bool	HistgramByParamShort::GetMinMaxData(double &MinData ,double &MaxData)
 	MaxData=tMax;
 	return true;
 }
+bool	HistgramByParamShort::GetDistribution(double &Average,double &Dispersion)
+{
+	return ValueDimStocker<short>::GetDistribution(Average,Dispersion);
+}
 
 bool	HistgramByParamDouble::GetMinMaxData(double &MinData ,double &MaxData)
 {
 	if(GetMinMax(MinData,MaxData)==false)
 		return false;
 	return true;
+}
+bool	HistgramByParamDouble::GetDistribution(double &Average,double &Dispersion)
+{
+	return ValueDimStocker<double>::GetDistribution(Average,Dispersion);
 }
 
 bool	HistgramByBoundaryByte::GetMinMaxData(double &MinData ,double &MaxData)
@@ -439,7 +504,10 @@ bool	HistgramByBoundaryByte::GetMinMaxData(double &MinData ,double &MaxData)
 	MaxData=tMax;
 	return true;
 }
-
+bool	HistgramByBoundaryByte::GetDistribution(double &Average,double &Dispersion)
+{
+	return HistgramDimStocker<BYTE>::GetDistribution(Average,Dispersion);
+}
 bool	HistgramByBoundaryChar::GetMinMaxData(double &MinData ,double &MaxData)
 {
 	char	tMin,tMax;
@@ -449,7 +517,10 @@ bool	HistgramByBoundaryChar::GetMinMaxData(double &MinData ,double &MaxData)
 	MaxData=tMax;
 	return true;
 }
-
+bool	HistgramByBoundaryChar::GetDistribution(double &Average,double &Dispersion)
+{
+	return HistgramDimStocker<char>::GetDistribution(Average,Dispersion);
+}
 bool	HistgramByBoundaryInt::GetMinMaxData(double &MinData ,double &MaxData)
 {
 	int	tMin,tMax;
@@ -458,6 +529,10 @@ bool	HistgramByBoundaryInt::GetMinMaxData(double &MinData ,double &MaxData)
 	MinData=tMin;
 	MaxData=tMax;
 	return true;
+}
+bool	HistgramByBoundaryInt::GetDistribution(double &Average,double &Dispersion)
+{
+	return HistgramDimStocker<int>::GetDistribution(Average,Dispersion);
 }
 
 bool	HistgramByBoundaryShort::GetMinMaxData(double &MinData ,double &MaxData)
@@ -469,6 +544,10 @@ bool	HistgramByBoundaryShort::GetMinMaxData(double &MinData ,double &MaxData)
 	MaxData=tMax;
 	return true;
 }
+bool	HistgramByBoundaryShort::GetDistribution(double &Average,double &Dispersion)
+{
+	return HistgramDimStocker<short>::GetDistribution(Average,Dispersion);
+}
 
 bool	HistgramByBoundaryDouble::GetMinMaxData(double &MinData ,double &MaxData)
 {
@@ -476,7 +555,10 @@ bool	HistgramByBoundaryDouble::GetMinMaxData(double &MinData ,double &MaxData)
 		return false;
 	return true;
 }
-
+bool	HistgramByBoundaryDouble::GetDistribution(double &Average,double &Dispersion)
+{
+	return HistgramDimStocker<double>::GetDistribution(Average,Dispersion);
+}
 
 bool	HistgramByParamDouble::SaveText(QIODevice *f)
 {
@@ -508,6 +590,7 @@ ValueDimStockerBase	*HistgramByParamBase::CreateCopy(void)
 {
 	return ValueDimStockerBase::Create(Base->GetTypeCode(),Base->GetParamID());
 }
+
 
 //====================================================================================
 

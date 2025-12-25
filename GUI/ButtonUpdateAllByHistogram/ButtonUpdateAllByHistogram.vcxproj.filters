@@ -23,38 +23,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="displaytargetlist_global.h">
+    <ClInclude Include="buttonupdateallbyhistogram_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClCompile Include="DisplayTargetList.cpp">
+    <QtMoc Include="ButtonUpdateAllByHistogram.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClCompile Include="ButtonUpdateAllByHistogram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Open\SystemVersion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DisplayTargetListForm.cpp">
+    <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AddOkNgDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="DisplayTargetList.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="AddOkNgDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="AddOkNgDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
   </ItemGroup>
 </Project>

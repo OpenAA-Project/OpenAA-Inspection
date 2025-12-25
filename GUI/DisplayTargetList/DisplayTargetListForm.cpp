@@ -4,6 +4,7 @@
 #include "ListSelectFixedPage.h"
 #include "XDataInLayer.h"
 #include "swap.h"
+#include "AddOkNgDialog.h"
 
 extern	const	char	*sRoot;
 extern	const	char	*sName;
@@ -47,7 +48,10 @@ void TargetImageWindow::mouseReleaseEvent(QMouseEvent *event)
 {
 	Parent->MouseReleased(event);
 }
-
+void TargetImageWindow::mouseDoubleClickEvent(QMouseEvent *event)
+{
+	Parent->DoubleClickEvent(event);
+}
 
 //======================================================================
 TargetPanelInList::TargetPanelInList(DisplayTargetList *p ,QWidget *parent,int page)
@@ -113,6 +117,29 @@ void	TargetPanelInList::MouseReleased(QMouseEvent *event)
 {
 	Parent->MouseReleased(Page,event);
 }
+
+void	TargetPanelInList::DoubleClickEvent(QMouseEvent *event)
+{
+	if(event->button()==Qt::LeftButton){
+		int	X = event->x();
+		int	Y = event->y();
+
+		PageDataInOnePhase	*Ph=GetLayersBase()->GetPageDataPhase(0);
+		if(Ph!=NULL){
+			DataInPage *Pd=Ph->GetPageData(Page);
+			if(Pd!=NULL){
+				int	DotPerLine	=Pd->GetDotPerLine();
+				int	MaxLines	=Pd->GetMaxLines();
+
+				double	Zx=((double)ImageWindow.width() )/((double)DotPerLine);
+				double	Zy=((double)ImageWindow.height())/((double)MaxLines);
+				double	ZoomRate=min(Zx,Zy);
+				Parent->DoubleClickEvent(Page,X/ZoomRate,Y/ZoomRate);
+			}
+		}
+	}
+}
+
 //======================================================================
 
 DisplayTargetList::DisplayTargetList(LayersBase *Base ,QWidget *parent)
@@ -234,6 +261,15 @@ void	DisplayTargetList::MouseReleased(int Page,QMouseEvent *event)
 		}
 	}
 }
+void	DisplayTargetList::DoubleClickEvent(int Page,int X,int Y)
+{
+	AddOkNgDialog	D;
+	D.exec();
+	int	Ret=D.Ret;
+	if(Ret==1){
+	}
+}
+
 //======================================================================
 GUICmdReqImageForList::GUICmdReqImageForList(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
 :GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)

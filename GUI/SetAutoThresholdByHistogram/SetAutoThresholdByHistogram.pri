@@ -7,9 +7,8 @@
 message("You are running qmake on a generated .pro file. This may not work!")
 
 
-HEADERS += ./displaytargetlist_global.h \
-    ./DisplayTargetList.h
+HEADERS += ./setautothresholdbyhistogram_global.h \
+    ./SetAutoThresholdByHistogram.h
 SOURCES += ../../Open/GUIDllCommon.cpp \
-    $$PWD/AddOkNgDialog.cpp \
     ../../Open/SystemVersion.cpp \
-    ./DisplayTargetList.cpp
+    ./SetAutoThresholdByHistogram.cpp
