@@ -75,7 +75,7 @@ public:
 	bool	EnableInspection;
 	WORD	MaxAreaSearch;	//最大領域探索ドット数
     WORD	MaxSelfSearch;	//最大自己探索ドット数
-
+	WORD	ShrinkNGSize;	//NG領域縮小サイズ
 
 	bool	RedCheckMode;
 	WORD	RedHighRate;	//G,Bに比べてRの輝度値の増値割合(%)

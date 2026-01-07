@@ -1098,6 +1098,17 @@ void	ParamBase::Pop(void)
 	}
 }
 
+bool	ParamBase::SetValue(const QString &name,const QString &value)
+{
+	for(ParamStruct *c=ParamData.GetFirst();c!=NULL;c=c->GetNext()){
+		if(c->Name==name){
+			c->SetValue(value);
+			return true;
+		}
+	}
+	return false;
+}
+
 bool	ParamBase::IsChangedCritically(const QString &name)
 {
 	ParamStruct *src1=NULL;

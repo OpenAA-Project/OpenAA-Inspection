@@ -8,7 +8,7 @@
 #include <QPainter>
 #include <QByteArray>
 
-#define	FlatInspectionVersion	4
+#define	FlatInspectionVersion	5
 
 class	FlatInspectionItem;
 class	FlatInspectionRegulation;
@@ -82,7 +82,7 @@ public:
 	bool	EnableInspection;
 	WORD	MaxAreaSearch;	//最大領域探索ドット数
     WORD	MaxSelfSearch;	//最大自己探索ドット数
-
+	WORD	ShrinkNGSize;	//NG領域縮小サイズ
 
 	bool	RedCheckMode;
 	WORD	RedHighRate;	//G,Bに比べてRの輝度値の増値割合(%)
@@ -167,6 +167,7 @@ enum ThresholdMember
 	,ID_SelfSearch			=66	//自己探索ドット数
 	,ID_MaxAreaSearch		=69
 	,ID_MaxSelfSearch		=70
+	,ID_ShrinkNGSize		=71
 
 	,ID_AddedBrightness			=91	//-10 ～ +10
 	,ID_AddedOffset				=92	//-10 ～ +10
@@ -308,6 +309,7 @@ public:
 	BYTE	**NGMapB;	
 	BYTE	**NGMapN;
 	BYTE	**NGMapRed;
+	BYTE	**TmpNGMap;
 	int		NGMapXByte	;
 	int		NGMapXLen	;
 	int		NGMapYLen	;

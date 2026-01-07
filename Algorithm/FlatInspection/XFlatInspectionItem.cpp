@@ -249,6 +249,7 @@ FlatInspectionThreshold::FlatInspectionThreshold(FlatInspectionItem *parent)
     SelfSearch		=4;     //自己探索ドット数
 	MaxAreaSearch	=99;		//最大領域探索ドット数
     MaxSelfSearch	=99;		//最大自己探索ドット数
+	ShrinkNGSize	=0;
 
 	RedCheckMode		=false;
 	RedHighRate			=150;
@@ -331,6 +332,7 @@ void	FlatInspectionThreshold::CopyFrom(const AlgorithmThreshold &src)
     SelfSearch			=s->SelfSearch;
 	MaxAreaSearch		=s->MaxAreaSearch;
     MaxSelfSearch		=s->MaxSelfSearch;
+	ShrinkNGSize		=s->ShrinkNGSize;
 
 	RedCheckMode			=s->RedCheckMode		;
 	RedHighRate				=s->RedHighRate		;
@@ -446,7 +448,8 @@ void	FlatInspectionThreshold::CopyFrom(const AlgorithmThreshold &src,IntList &Ed
 		MaxAreaSearch	=s->MaxAreaSearch;
  	if(EdittedMemberID.IsInclude(ID_MaxSelfSearch		)==true)
 		MaxSelfSearch	=s->MaxSelfSearch;
-
+ 	if(EdittedMemberID.IsInclude(ID_ShrinkNGSize		)==true)
+		ShrinkNGSize	=s->ShrinkNGSize;
 
 	if(EdittedMemberID.IsInclude(ID_RedCheckMode)==true)
 		RedCheckMode		=s->RedCheckMode		;
@@ -556,6 +559,7 @@ bool	FlatInspectionThreshold::IsEqual(const AlgorithmThreshold &src)	const
     if(SelfSearch		!=s->SelfSearch	)		return false;
 	if(MaxAreaSearch	!=s->MaxAreaSearch	)	return false;
     if(MaxSelfSearch	!=s->MaxSelfSearch	)	return false;
+	if(ShrinkNGSize		!=s->ShrinkNGSize	)	return false;
 
 	if(RedCheckMode			!=s->RedCheckMode		)	return false;
 	if(RedHighRate			!=s->RedHighRate		)	return false;
@@ -652,7 +656,8 @@ bool	FlatInspectionThreshold::Save(QIODevice *file)
 		return false;
 	if(::Save(file,MaxSelfSearch)==false)
 		return false;
-
+	if(::Save(file,ShrinkNGSize)==false)
+		return false;
 
     if(::Save(file,RedCheckMode)==false)
 		return false;
@@ -775,6 +780,13 @@ bool	FlatInspectionThreshold::Load(QIODevice *file)
 		return false;
 	if(::Load(file,MaxSelfSearch)==false)
 		return false;
+	if(Ver>=5){
+		if(::Load(file,ShrinkNGSize)==false)
+			return false;
+	}
+	else{
+		ShrinkNGSize=0l;
+	}
 
 	if(::Load(file,RedCheckMode)==false)
 		return false;
@@ -863,6 +875,7 @@ void	FlatInspectionThreshold::FromLibrary(AlgorithmLibrary *src)
 	SelfSearch			=LSrc->SelfSearch;
 	MaxAreaSearch		=LSrc->MaxAreaSearch;
 	MaxSelfSearch		=LSrc->MaxSelfSearch;
+	ShrinkNGSize		=LSrc->ShrinkNGSize;
 
 	LayersBase	*LBase=GetLayersBase();
 	if(LBase==NULL){
@@ -923,6 +936,7 @@ void	FlatInspectionThreshold::ToLibrary(AlgorithmLibrary *Dest)
 	LDst->SelfSearch		=SelfSearch		;
 	LDst->MaxAreaSearch		=MaxAreaSearch	;
 	LDst->MaxSelfSearch		=MaxSelfSearch	;
+	LDst->ShrinkNGSize		=ShrinkNGSize	;
 
 	LayersBase	*LBase=GetLayersBase();
 	if(LBase==NULL){
@@ -984,6 +998,7 @@ FlatInspectionItem::FlatInspectionItem(void)
 
 	NGMapB=NULL;
 	NGMapN=NULL;
+	TmpNGMap=NULL;
 	NGMapRed=NULL;
 
 	Dim	=NULL;
@@ -998,6 +1013,9 @@ FlatInspectionItem::~FlatInspectionItem(void)
 	if(NGMapN!=NULL){
 		DeleteMatrixBuff(NGMapN,NGMapYLen);
 	}
+	if(TmpNGMap!=NULL){
+		DeleteMatrixBuff(TmpNGMap,NGMapYLen);
+	}
 	if(NGMapRed!=NULL){
 		DeleteMatrixBuff(NGMapRed,NGMapYLen);
 	}
@@ -1007,6 +1025,7 @@ FlatInspectionItem::~FlatInspectionItem(void)
 
 	NGMapB=NULL;
 	NGMapN=NULL;
+	TmpNGMap=NULL;
 	NGMapRed=NULL;
 
 	if(Dim!=NULL){
@@ -1303,6 +1322,10 @@ ExeResult	FlatInspectionItem::ExecuteInitialAfterEdit	(int ExeID ,int ThreadNo,R
 	if(NGMapN!=NULL){
 		DeleteMatrixBuff(NGMapN,NGMapYLen);
 		NGMapN=NULL;
+	}
+	if(TmpNGMap!=NULL){
+		DeleteMatrixBuff(TmpNGMap,NGMapYLen);
+		TmpNGMap=NULL;
 	}
 	if(NGMapRed!=NULL){
 		DeleteMatrixBuff(NGMapRed,NGMapYLen);
@@ -1692,8 +1715,9 @@ ExeResult	FlatInspectionItem::ExecuteInitialAfterEdit	(int ExeID ,int ThreadNo,R
 			}
 		}
 	}
-	NGMapB=MakeMatrixBuff(NGMapXByte,NGMapYLen);
-	NGMapN=MakeMatrixBuff(NGMapXByte,NGMapYLen);
+	NGMapB	=MakeMatrixBuff(NGMapXByte,NGMapYLen);
+	NGMapN	=MakeMatrixBuff(NGMapXByte,NGMapYLen);
+	TmpNGMap=MakeMatrixBuff(NGMapXByte,NGMapYLen);
 	NGMapRed=MakeMatrixBuff(NGMapXByte,NGMapYLen);
 }
 
@@ -1768,6 +1792,10 @@ void	FlatInspectionItem::CopyFrom(FlatInspectionItem *src)
 		DeleteMatrixBuff(NGMapN,NGMapYLen);
 		NGMapN=NULL;
 	}
+	if(TmpNGMap!=NULL){
+		DeleteMatrixBuff(TmpNGMap,NGMapYLen);
+		TmpNGMap=NULL;
+	}
 	if(NGMapRed!=NULL){
 		DeleteMatrixBuff(NGMapRed,NGMapYLen);
 		NGMapRed=NULL;
@@ -1778,6 +1806,7 @@ void	FlatInspectionItem::CopyFrom(FlatInspectionItem *src)
 
 	NGMapB	=MakeMatrixBuff(NGMapXByte,NGMapYLen);
 	NGMapN	=MakeMatrixBuff(NGMapXByte,NGMapYLen);
+	TmpNGMap=MakeMatrixBuff(NGMapXByte,NGMapYLen);
 	NGMapRed=MakeMatrixBuff(NGMapXByte,NGMapYLen);
 	NGMapOffsetX=src->NGMapOffsetX;
 	NGMapOffsetY=src->NGMapOffsetY;

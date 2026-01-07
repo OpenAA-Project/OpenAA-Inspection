@@ -584,6 +584,19 @@ FlexArea::FlexArea(int tDotPerLine,int tMaxLines) : FlexAreaBasePure(tDotPerLine
 {
 	Clear();
 }
+
+FlexArea::FlexArea(const FlexAreaFast &src)
+{
+	struct	FlexLine	*tmp=new struct FlexLine[src.GetFLineLen()];
+	memcpy(tmp,src.GetFLinePoint(),src.GetFLineLen()*sizeof(struct FlexLine));
+
+	SetFLine(tmp,src.GetFLineLen());
+	SetShape(src.GetShape());
+
+	Regulate();
+}
+
+
 /*----------------------------------------------------------------------------*/
 //
 //	1.日本語名
@@ -2303,6 +2316,18 @@ FlexArea    &FlexArea::operator=(const FlexArea &src)
 	PointerCopy(&src);
 	return(*this);
 }
+
+void    FlexArea::CopyFrom(const FlexAreaFast &src)
+{
+	struct	FlexLine	*tmp=new struct FlexLine[src.GetFLineLen()];
+	memcpy(tmp,src.GetFLinePoint(),src.GetFLineLen()*sizeof(struct FlexLine));
+
+	SetFLine(tmp,src.GetFLineLen());
+	SetShape(src.GetShape());
+
+	Regulate();
+}
+
 /*----------------------------------------------------------------------------*/
 //
 //	1.日本語名
@@ -7261,6 +7286,7 @@ void	FlexArea::Add(const FlexArea &src1 , const FlexArea &src2)
 		L++;
 	}
 	SetFLine(FL,L);
+	delete	[]tFL;
 }
 
 bool	FlexArea::SubInside(const FlexArea &src, int dx ,int dy ,float Multiply)
@@ -13277,6 +13303,19 @@ PureFlexAreaListContainer	&PureFlexAreaListContainer::operator+=(const PureFlexA
 		AppendList(b);
 	}
 	return *this;
+}
+PureFlexAreaListContainer	&PureFlexAreaListContainer::operator=(FlexAreaFastDimPack &src)
+{
+	RemoveAll();
+	int	N = src.GetCount();
+	for(int i=0;i<N;i++){
+		PureFlexAreaList	*a=new PureFlexAreaList();
+		FlexAreaFast    &s=src[i];
+		if(s.GetPatternByte()>0){
+			a->CopyFrom(s);
+		}
+		AppendList(a);
+	}
 }
 
 bool	PureFlexAreaListContainer::IsInclude(int x ,int y)	const

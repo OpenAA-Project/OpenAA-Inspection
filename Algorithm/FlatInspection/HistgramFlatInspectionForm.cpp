@@ -439,6 +439,7 @@ HistgramFlatInspectionForm::HistgramFlatInspectionForm(LayersBase *Base,QWidget 
 	RegisterComponent((int)ID_SelfSearch	,ui->EditSelfSearch);
 	RegisterComponent((int)ID_MaxAreaSearch	,ui->EditMaxAreaSearch);
 	RegisterComponent((int)ID_MaxSelfSearch	,ui->EditMaxSelfSearch);
+	RegisterComponent((int)ID_ShrinkNGSize	,ui->EditShrinkNGSize);
 
 	RegisterComponent((int)ID_MultiSpotDot	,ui->EditMultiSpotDot);
 	RegisterComponent((int)ID_MultiSpotCount,ui->EditMultiSpotCount);
@@ -797,6 +798,7 @@ void	HistgramFlatInspectionForm::ShowLibrary(const	FlatInspectionThreshold *RThr
 	ui->EditAreaSearchX		->setValue	(RThr->AreaSearchX);
 	ui->EditAreaSearchY		->setValue	(RThr->AreaSearchY);
 	ui->EditMaxSelfSearch	->setValue	(RThr->MaxSelfSearch);
+	ui->EditShrinkNGSize	->setValue	(RThr->ShrinkNGSize);
 	ui->EditMaxAreaSearch	->setValue	(RThr->MaxAreaSearch);
 	ui->EditMultiSpotDot	->setValue	(RThr->MultiSpotDot	);
 	ui->EditMultiSpotCount	->setValue	(RThr->MultiSpotCount);
@@ -966,6 +968,7 @@ void	HistgramFlatInspectionForm::GetDataFromWindowFromNo(int LayerNo)
 		DThr->SelfSearch		=ui->EditSelfSearch		->value();
 		DThr->MaxAreaSearch		=ui->EditMaxAreaSearch	->value();
 		DThr->MaxSelfSearch		=ui->EditMaxSelfSearch	->value();
+		DThr->ShrinkNGSize		=ui->EditShrinkNGSize	->value();
 		DThr->MultiSpotDot		=ui->EditMultiSpotDot	->value();
 		DThr->MultiSpotCount	=ui->EditMultiSpotCount	->value();
 		DThr->MultiSpotDotGathered		=ui->EditMultiSpotDotGathered	->value();
@@ -1516,6 +1519,7 @@ void HistgramFlatInspectionForm::on_ButtonCalc_clicked()
 			DThr->SelfSearch			=ui->EditSelfSearch		->value();
 			DThr->MaxAreaSearch			=ui->EditMaxAreaSearch	->value();
 			DThr->MaxSelfSearch			=ui->EditMaxSelfSearch	->value();
+			DThr->ShrinkNGSize			=ui->EditShrinkNGSize	->value();
 			DThr->MultiSpotDot			=ui->EditMultiSpotDot	->value();
 			DThr->MultiSpotCount		=ui->EditMultiSpotCount	->value();
 			DThr->MultiSpotDotGathered		=ui->EditMultiSpotDotGathered	->value();
@@ -2385,5 +2389,14 @@ void HistgramFlatInspectionForm::on_EditDivLenY_valueChanged(int arg1)
         return;
     }
 	on_ButtonCalc_clicked();
+}
+
+
+void HistgramFlatInspectionForm::on_EditShrinkNGSize_valueChanged(int arg1)
+{
+	if(OnChanging==true){
+		return;
+	}
+    on_ButtonCalc_clicked();
 }
 

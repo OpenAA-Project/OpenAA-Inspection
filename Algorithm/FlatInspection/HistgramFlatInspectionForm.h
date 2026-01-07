@@ -181,6 +181,8 @@ private slots:
     void on_EditDivLenX_valueChanged(int arg1);
     void on_EditDivLenY_valueChanged(int arg1);
 
+    void on_EditShrinkNGSize_valueChanged(int arg1);
+
 private:
     Ui::HistgramFlatInspectionForm *ui;
 

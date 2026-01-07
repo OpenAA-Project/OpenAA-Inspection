@@ -26,6 +26,16 @@ int	LanguageCode;
 //ItemListWindow	*MainItem;
 //PropertyList	*MainProperty;
 
+/*
+	Arguments:
+		A[path]	: Set current path to [path]
+		Q[path]	: Set user path to [path] for data 
+		P[Param name]=[value] : Set parameter [name] to [value]
+		V		: Save as default
+		C		: Close after save
+		StopForDebug : Stop for debug
+*/
+
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
 	return "EditParameter.lng";
@@ -40,9 +50,12 @@ int main(int argc, char *argv[])
 
 	QString	AbsPath;
 	QString	UserPath;
-	bool	StopForDebug=false;
+	bool	StopForDebug	=false;
+	bool	CloseAfterSave	= false;
+	NPListPack<ParamClass>	ParamList;
+	bool	SaveAsDefault = false;
 
-	for(int i=0;i<argc;i++){
+	for(int i=1;i<argc;i++){
 		if(*argv[i]=='A' || *argv[i]=='a'){
 			char	*fp=argv[i]+1;
 			AbsPath	=fp;
@@ -51,6 +64,25 @@ int main(int argc, char *argv[])
 		else if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
 			char	*fp=argv[i]+1;
 			UserPath	=fp;
+		}
+		else if(*argv[i]=='C' || *argv[i]=='c'){
+			CloseAfterSave = true;
+		}
+		else if((*argv[i]=='P' || *argv[i]=='p')){
+			char	*pp=argv[i]+1;
+			char	*eqpos=strchr(pp,'=');
+			if(eqpos!=NULL){
+				*eqpos=0;
+				char	*paramname=pp;
+				char	*paramvalue=eqpos+1;
+				ParamClass *a = new ParamClass();
+				a->ParamName	= paramname;
+				a->ParamValue	= paramvalue;
+				ParamList.AppendList(a);
+			}
+		}
+		else if((*argv[i]=='V' || *argv[i]=='v')){
+			SaveAsDefault = true;
 		}
 		else if(strnicmp(argv[i],"StopForDebug",12)==0){
 			StopForDebug=true;
@@ -87,11 +119,20 @@ int main(int argc, char *argv[])
 	Layers->InitialFilterBank();
 
 	ParamComm	ParamCommData(Layers);
-    EditParameter w(Layers,&ParamCommData);
+    EditParameter w(Layers,&ParamCommData,ParamList);
 
     w.show();
     a.connect(&a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()));
 
+
 	Layers->CloseInformed();
+
+	if(SaveAsDefault==true){
+		Layers->GetParamGlobal()->SaveDefault(Layers->GetUserPath());
+	}
+	if(CloseAfterSave==true){
+		return 0;
+	}
+
     return a.exec();
 }

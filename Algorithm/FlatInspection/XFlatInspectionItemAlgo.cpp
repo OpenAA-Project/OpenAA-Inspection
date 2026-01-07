@@ -1568,7 +1568,16 @@ void	FlatInspectionItem::HandleNGMapToResult(ResultInItemRoot *Res
 	bool	NG=false;
 	ResultPosListContainer	NowList;
 	PureFlexAreaListContainer FPackB;
-	PickupFlexArea(NGMapB ,NGMapXByte ,NGMapXLen,NGMapYLen ,FPackB);
+	//PickupFlexArea(NGMapB ,NGMapXByte ,NGMapXLen,NGMapYLen ,FPackB);
+
+	if(RThr->ShrinkNGSize!=0){
+		GetLayersBase()->ThinAreaN(NGMapB,TmpNGMap,NGMapXByte,NGMapYLen,RThr->ShrinkNGSize);
+	}
+	int	MinDotSize = min(RThr->Broad.OKDot,RThr->Broad.OKLength);
+	FlexAreaFastDimPack RetFPackDim;
+	PickupFlexAreaFastDim(NGMapB ,NGMapXByte ,NGMapXLen,NGMapYLen ,RetFPackDim,MinDotSize);
+	FPackB=RetFPackDim;
+
 	for(PureFlexAreaList *p=FPackB.GetFirst();p!=NULL;p=p->GetNext()){
 		int	Dots=p->GetPatternByte();
 		int	NGW=p->GetWidth();
@@ -1614,8 +1623,16 @@ void	FlatInspectionItem::HandleNGMapToResult(ResultInItemRoot *Res
 		NG=true;
 	}
 	else{
+		if(RThr->ShrinkNGSize!=0){
+			GetLayersBase()->ThinAreaN(NGMapN,TmpNGMap,NGMapXByte,NGMapYLen,RThr->ShrinkNGSize);
+		}
 		PureFlexAreaListContainer FPackN;
-		PickupFlexArea(NGMapN ,NGMapXByte ,NGMapXLen,NGMapYLen ,FPackN);
+		//PickupFlexArea(NGMapN ,NGMapXByte ,NGMapXLen,NGMapYLen ,FPackN);
+		FlexAreaFastDimPack RetFPackDim;
+		MinDotSize = min(RThr->Narrow.OKDot,RThr->Narrow.OKLength);
+		PickupFlexAreaFastDim(NGMapN ,NGMapXByte ,NGMapXLen,NGMapYLen ,RetFPackDim,MinDotSize);
+		FPackN=RetFPackDim;
+
 		for(PureFlexAreaList *p=FPackN.GetFirst();p!=NULL;p=p->GetNext()){
 			int	Dots=p->GetPatternByte();
 			int	NGW=p->GetWidth();

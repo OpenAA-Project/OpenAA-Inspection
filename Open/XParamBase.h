@@ -111,6 +111,8 @@ public:
 	virtual	void	Pop(void);
 	virtual	bool	IsChangedCritically(const QString &name);
 
+	bool	SetValue(const QString &name,const QString &value);
+
 	void	SetCategoryLanguage(const QString &OriginalCategory,const QString &CurrentCategory);
 	QString	GetCategoryLabel(const QString &OriginalCategory);
 

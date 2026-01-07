@@ -46,14 +46,25 @@ protected:
 
 };
 
+class ParamClass : public NPList<ParamClass>
+{
+public:
+	QString	ParamName;
+	QString	ParamValue;
+
+	ParamClass(void){}
+
+};
+
 class EditParameter : public QMainWindow,public ServiceForLayers
 {
     Q_OBJECT
     friend	class	OutlineOffsetGrid;
 public:
     explicit EditParameter(LayersBase *base
-                           ,ParamComm	*ParamCommData
-                           ,QWidget *parent = 0);
+                            ,ParamComm	*ParamCommData
+                            ,NPListPack<ParamClass>	&ParamList
+                            ,QWidget *parent = 0);
     ~EditParameter();
 
     WEditParameterTab	*WTab;

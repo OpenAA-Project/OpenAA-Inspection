@@ -47,6 +47,7 @@ extern	LangSolverNew	LangSolverGUILib;
 
 EditParameter::EditParameter(LayersBase *base
                              ,ParamComm	*ParamCommData
+                             ,NPListPack<ParamClass>	&ParamList
                              ,QWidget *parent) :
     QMainWindow(parent),ServiceForLayers(base)
     ,ui(new Ui::EditParameter)
@@ -72,6 +73,9 @@ EditParameter::EditParameter(LayersBase *base
             WTab->ShowToWindow();
         }
     }
+	for(ParamClass *p = ParamList.GetFirst();p!=NULL;p = p->GetNext()){
+		GetLayersBase()->GetParamGlobal()->SetValue(p->ParamName,p->ParamValue);
+	}
     //--------------------------------------------------------------------
     WStrategy=new FormScanStrategy(GetLayersBase(),ui->frameFormStrategy);
     ui->lineEditStrategy->setText(GlobalParamLoadedFileName);
@@ -159,6 +163,9 @@ EditParameter::EditParameter(LayersBase *base
 
 	InitialImageTable();
     connect(ui->bgRedBrightnessGraph,SIGNAL(SignalChanged(void))	,this,SLOT(SlotChanged(void)));
+
+    QString    path=GetLayersBase()->GetParamGlobal()->GetDefaultFileName();
+    setWindowTitle(GetLayersBase()->GetUserPath()+QDir::separator()+path);
 }
 
 EditParameter::~EditParameter()

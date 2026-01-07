@@ -141,11 +141,12 @@ void	EditFlatInspectionLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer
 	ui->EditMaxFlatInspectionSize		->setValue(d->MaxFlatInspectionSize);
 	ui->EditMinFlatInspectionDots		->setValue(d->MinFlatInspectionDots);
 	ui->EditMaxFlatInspectionDots		->setValue(d->MaxFlatInspectionDots);
-	ui->EditLimitFlatInspectionSize		->setValue(d->LimitFlatInspectionSize);
 	ui->EditOverlappedLength			->setValue(d->OverlappedLength);
 	ui->EditSpaceToOutline				->setValue(d->SpaceToOutline);
 	ui->EditNoiseSize					->setValue(d->NoiseSize);
 	ui->EditNoiseSizePinHole			->setValue(d->NoiseSizePinHole);
+	ui->EditDivLenX						->setValue(d->DivLenX);
+	ui->EditDivLenY						->setValue(d->DivLenY);
 
 	ui->EditOKDotB					->setValue(d->Broad.OKDot);
 	ui->EditOKLengthB				->setValue(d->Broad.OKLength);
@@ -181,6 +182,7 @@ void	EditFlatInspectionLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer
 	ui->EditSelfSearch				->setValue	(d->SelfSearch);
 	ui->EditMaxAreaSearch			->setValue	(d->MaxAreaSearch);
 	ui->EditMaxSelfSearch			->setValue	(d->MaxSelfSearch);
+	ui->EditShrinkNGSize			->setValue	(d->ShrinkNGSize);
 
 	ui->checkBoxRedCheckMode			->setChecked(d->RedCheckMode		);
 	ui->EditRedHighRate					->setValue	(d->RedHighRate			);
@@ -228,11 +230,12 @@ void	EditFlatInspectionLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevel
 	d->MaxFlatInspectionSize		=ui->EditMaxFlatInspectionSize	->value();
 	d->MinFlatInspectionDots		=ui->EditMinFlatInspectionDots	->value();
 	d->MaxFlatInspectionDots		=ui->EditMaxFlatInspectionDots	->value();
-	d->LimitFlatInspectionSize	=ui->EditLimitFlatInspectionSize	->value();
 	d->OverlappedLength				=ui->EditOverlappedLength			->value();
 	d->SpaceToOutline				=ui->EditSpaceToOutline				->value();
 	d->NoiseSize					=ui->EditNoiseSize					->value();
 	d->NoiseSizePinHole				=ui->EditNoiseSizePinHole			->value();
+	d->DivLenX						=ui->EditDivLenX					->value();
+	d->DivLenY						=ui->EditDivLenY					->value();
 
 	d->Broad.OKDot				=ui->EditOKDotB			->value();
 	d->Broad.OKLength			=ui->EditOKLengthB		->value();
@@ -268,6 +271,7 @@ void	EditFlatInspectionLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevel
 	d->SelfSearch			=ui->EditSelfSearch			->value();
 	d->MaxAreaSearch		=ui->EditMaxAreaSearch		->value();
 	d->MaxSelfSearch		=ui->EditMaxSelfSearch		->value();
+	d->ShrinkNGSize			=ui->EditShrinkNGSize		->value();
 
 	d->RedCheckMode			=ui->checkBoxRedCheckMode				->isChecked();
 	d->RedHighRate			=ui->EditRedHighRate					->value	();

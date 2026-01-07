@@ -117,7 +117,9 @@ void	AutoRegPutPick(struct PickupStruct &PData,int xbyte,int x,int y);
 
 bool	PickupFlexArea(const BYTE **Bmp ,int XByte ,int XLen,int YLen ,PureFlexAreaListContainer &FPack ,int MaxAreaCount=-1,bool Multithread=true);
 bool	PickupFlexArea(		 BYTE **Bmp ,int XByte ,int XLen,int YLen ,PureFlexAreaListContainer &FPack ,int MaxAreaCount=-1,bool Multithread=true);
-bool	PickupFlexAreaFast(		 BYTE **Bmp ,int XByte ,int XLen,int YLen ,PureFlexAreaListContainer &FPack ,int MaxAreaCount=-1);
+bool	PickupFlexAreaFast(	 BYTE **Bmp ,int XByte ,int XLen,int YLen ,PureFlexAreaListContainer &FPack ,int MaxAreaCount=-1);
+
+int		PickupFlexAreaFastDim(BYTE **Bmp ,int XByte ,int XLen,int YLen ,FlexAreaFastDimPack &RetFPackDim ,int MinDotCount=0 ,bool Multithread=true);
 
 bool	PickupFlexArea(const BYTE **Bmp ,int XByte ,int XLen,int YLen ,PureFlexAreaListContainer &FPack 
 					,int AreaX1 ,int AreaY1 ,int AreaX2 ,int AreaY2

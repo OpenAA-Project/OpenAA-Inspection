@@ -27,6 +27,12 @@
 ItemListWindow	*MainItem;
 PropertyList	*MainProperty;
 
+/*
+	Arguments:
+		A[path]	: Set current path to [path]
+		Q[path]	: Set user path to [path] for data 
+		StopForDebug : Stop for debug
+*/
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
 	return "EditParameter.lng";
@@ -82,14 +88,19 @@ int main(int argc, char *argv[])
 	QCoreApplication::addLibraryPath(CurrentBuff);
 
 	QApplication a(argc, argv);
+	QString	UserPath;
 	QString	AbsPath;
 	bool	StopForDebug=false;
 
-	for(int i=0;i<argc;i++){
+	for(int i=1;i<argc;i++){
 		if(*argv[i]=='A' || *argv[i]=='a'){
 			char	*fp=argv[i]+1;
 			AbsPath	=fp;
 			QDir::setCurrent(AbsPath);
+		}
+		else if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
+			char	*fp=argv[i]+1;
+			UserPath	=fp;
 		}
 		else if(strnicmp(argv[i],"StopForDebug",12)==0){
 			StopForDebug=true;
@@ -111,6 +122,8 @@ int main(int argc, char *argv[])
 
 	LayersBase	*Layers	=new LayersBase(E);
 	E->SetLayersBase(Layers);
+	Layers->SetUserPath(UserPath);
+
 	GUIInitializer	*G=new GUIInitializer(Layers);
 	Layers->SetGUIInitializer(G);
 

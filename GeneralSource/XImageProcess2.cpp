@@ -512,6 +512,23 @@ struct	PickupFlexAreaRDim
 
 #pragma	pack(push)
 #pragma	pack(1)
+struct	PickupFlexAreaRDimAreaY
+{
+	struct PickupFlexAreaStruct			*LDim;
+	struct	PickupFlexAreaStructPointer	*YPointer;
+	int		YLen;
+	int		AreaY1,AreaY2;
+	int		AreaCode;
+	int		FPointerCount;
+	struct PickupFlexAreaStruct			**FPointer;
+	int		ReEntrantCount;
+	bool	LimitY1;
+	bool	LimitY2;
+};
+#pragma	pack(pop)
+
+#pragma	pack(push)
+#pragma	pack(1)
 struct	PickupFlexAreaRDimPartial
 {
 	struct PickupFlexAreaStruct			*LDim;
@@ -524,6 +541,7 @@ struct	PickupFlexAreaRDimPartial
 	int		ReEntrantCount;
 };
 #pragma	pack(pop)
+
 static	bool	RecursivePickupFlexArea(struct	PickupFlexAreaRDim &PData ,struct PickupFlexAreaStruct *SPoint)
 {
 	int	L=SPoint->AbsY;
@@ -567,6 +585,50 @@ static	bool	RecursivePickupFlexArea(struct	PickupFlexAreaRDim &PData ,struct Pic
 	PData.ReEntrantCount--;
 	return Ret;
 }
+
+static	bool	RecursivePickupFlexArea(struct	PickupFlexAreaRDimAreaY &PData ,struct PickupFlexAreaStruct *SPoint)
+{
+	int	L=SPoint->AbsY-PData.AreaY1;
+	int	N;
+	int j;
+	struct	PickupFlexAreaStruct	*s;
+	bool	Ret=false;
+
+	PData.ReEntrantCount++;
+	if(SPoint->Code==-1){
+		PData.FPointer[PData.FPointerCount]=SPoint;
+		PData.FPointerCount++;
+		SPoint->Code=PData.AreaCode;
+	}
+
+	if(L>0){
+		N=PData.YPointer[L-1].Count;
+		s=PData.YPointer[L-1].DimPointer;
+		for(j=0;j<N;j++,s++){
+			if(s->Code==-1){
+				if(IsNearby(*SPoint,*s)==true){
+					RecursivePickupFlexArea(PData,s);
+					Ret=true;
+				}
+			}
+		}
+	}
+	if((L+1)<PData.AreaY2-PData.AreaY1){
+		N=PData.YPointer[L+1].Count;
+		s=PData.YPointer[L+1].DimPointer;
+		for(j=0;j<N;j++,s++){
+			if(s->Code==-1){
+				if(IsNearby(*SPoint,*s)==true){
+					RecursivePickupFlexArea(PData,s);
+					Ret=true;
+				}
+			}
+		}
+	}
+	PData.ReEntrantCount--;
+	return Ret;
+}
+
 static	bool	RecursivePickupFlexArea(struct	PickupFlexAreaRDimPartial &PData ,struct PickupFlexAreaStruct *SPoint)
 {
 	int	L=SPoint->AbsY-PData.AreaY1;
@@ -1783,6 +1845,330 @@ FoundBitEnd:
 	}
 
 	return true;
+}
+
+
+
+
+//=============================================
+
+
+int		PickupFlexAreaFastDimPartial(BYTE ** Bmp ,int XByte ,int XLen,int YLen 
+							,FlexAreaFastDimPack &FPackDim
+							,int Y1,int Y2
+							,int MinDotCount);
+
+int		PickupFlexAreaFastDim(BYTE **Bmp ,int XByte ,int XLen,int YLen 
+							,FlexAreaFastDimPack &RetPackDim 
+							,int MinDotCount,bool Multithread)
+{
+	int	MaxLinesCount=1000;
+	if(YLen<MaxLinesCount){
+		return PickupFlexAreaFastDimPartial(Bmp ,XByte ,XLen,YLen 
+									,RetPackDim 
+									,0,YLen
+									,MinDotCount);
+	}
+	int	N = (YLen+MaxLinesCount-1)/MaxLinesCount;
+	int	DCounter[1000];
+	FlexAreaFastDimPack	*FPackDim=new FlexAreaFastDimPack[N];
+	int	Counter=0;
+	if(Multithread==true){
+		#pragma omp parallel
+		{
+			#pragma omp for
+			for(int i=0;i<N;i++){
+				int	Y1=i*MaxLinesCount;
+				int	Y2=(i+1)*MaxLinesCount;
+				if(Y2>YLen)
+					Y2=YLen;
+				DCounter[i]=PickupFlexAreaFastDimPartial(Bmp ,XByte ,XLen,YLen 
+									,FPackDim[i]
+									,Y1,Y2
+									,Multithread);
+			}
+		}
+	}
+	else{
+		for(int i=0;i<N;i++){
+			int	Y1=i*MaxLinesCount;
+			int	Y2=(i+1)*MaxLinesCount;
+			if(Y2>YLen)
+				Y2=YLen;
+			DCounter[i]=PickupFlexAreaFastDimPartial(Bmp ,XByte ,XLen,YLen 
+								,FPackDim[i]
+								,Y1,Y2
+								,Multithread);
+		}
+	}
+
+	for(int i=0;i<N-1;i++){
+		int	Y2=(i+1)*MaxLinesCount;
+		FlexAreaFast	*Upper[1000];
+		int	UCounter = 0;
+		for(int u=0;u<DCounter[i];u++){
+			if((FPackDim[i])[u].GetMaxY()==Y2){
+				Upper[UCounter] = &(FPackDim[i])[u];
+				UCounter++;
+			}
+		}
+		FlexAreaFast	*Lower[1000];
+		int	LCounter = 0;
+		for(int d=0;d<DCounter[i+1];d++){
+			if((FPackDim[i+1])[d].GetMinY()==Y2){
+				Lower[LCounter] = &(FPackDim[i+1])[d];
+				LCounter++;
+			}
+		}
+		for(int u=0;u<UCounter;u++){
+			int	UIndexStart ,UIndexEnd;
+			Upper[u]->FindIndex(Y2-1 ,UIndexStart ,UIndexEnd);
+			for(int d=0;d<LCounter;d++){
+				int	DIndexStart ,DIndexEnd;
+				Lower[d]->FindIndex(Y2 ,DIndexStart ,DIndexEnd);
+				for(int k=UIndexStart;k<=UIndexEnd;k++){
+					int	UX1 = Upper[u]->GetFLineLeftX(k);
+					int	UX2 = Upper[u]->GetFLineRightX(k);
+					for(int j=DIndexStart;j<=DIndexEnd;j++){
+						int	DX1 = Lower[d]->GetFLineLeftX(j);
+						int	DX2 = Lower[d]->GetFLineRightX(j);
+						if((UX1<=DX1 && DX1<=UX2)
+						|| (UX1<=DX2 && DX2<=UX2)
+						|| (DX1<=UX1 && UX1<=DX2)){
+							(*Upper[u]) += *(Lower[d]);
+							Lower[d]->Clear();
+						}
+					}
+				}
+			}
+		}
+	}
+	int	RetCounter=0;
+	if(MinDotCount==0){
+		for(int i=0;i<N;i++){
+			FlexAreaFastDimPack	*SrcD=&FPackDim[i];
+			for(int u=0;u<DCounter[i];u++){
+				FlexAreaFast	&s=(*SrcD)[u];
+				int	c = s.GetPatternByte();
+				if(c>0){
+					RetPackDim[RetCounter]=s;
+					RetCounter++;
+				}
+			}
+		}
+	}
+	else{
+		for(int i=0;i<N;i++){
+			FlexAreaFastDimPack	*SrcD=&FPackDim[i];
+			for(int u=0;u<DCounter[i];u++){
+				FlexAreaFast	&s=(*SrcD)[u];
+				int	c = s.GetPatternByte();
+				if(c>=MinDotCount){
+					RetPackDim[RetCounter]=s;
+					RetCounter++;
+				}
+			}
+		}
+	}
+
+
+	delete[]FPackDim;
+
+
+
+	return Counter;
+}
+
+
+
+
+int		PickupFlexAreaFastDimPartial(BYTE **Bmp ,int XByte ,int XLen,int YLen 
+							,FlexAreaFastDimPack &RetPackDim
+							,int Y1,int Y2
+							,int MinDotCount)
+{
+	const	int	__MaxDimCount=10000;
+
+	int		MaxDimCount=__MaxDimCount;
+	struct	PickupFlexAreaStruct	LDim[__MaxDimCount];
+	int								LDimCount;
+	struct	PickupFlexAreaStructPointer	YPointerDim[__MaxDimCount];
+
+	struct	PickupFlexAreaStruct		*LDimPointer=LDim;
+	struct	PickupFlexAreaStructPointer	*YPointer;
+	
+	struct	PickupFlexAreaStruct		*FPointerDim[__MaxDimCount];
+	struct	PickupFlexAreaStruct		**FPointer=FPointerDim;
+	PureFlexAreaList					*PureFlexAreaListDim[__MaxDimCount];
+	//PureFlexAreaList					**PureFlexAreaListPointer=PureFlexAreaListDim;
+	//int									MaxPureFlexAreaListPointerCount=__MaxDimCount;
+	//int									PureFlexAreaListPointerCount=0;
+	
+	int	Yn=Y2-Y1;
+	if(YLen>=Yn){
+		YPointer=new struct PickupFlexAreaStructPointer[Yn];
+	}
+	else{
+		YPointer	=YPointerDim;
+	}
+	XLen=min(XLen,XByte*8);
+
+	LDimCount=0;
+	int	n=0;
+	for(int y=Y1;y<YLen && y<Y2;y++,n++){
+		const BYTE	*b=Bmp[y];
+		YPointer[n].DimPoint=LDimCount;
+		YPointer[n].Count=0;
+		int		Offset=0;
+		for(int x=0;x<XLen;x+=8,Offset++){
+			if(b[Offset]==0){
+				continue;
+			}
+			BYTE	Mask=0x80;
+			for(int r=0;r<8;r++,Mask>>=1){
+				if((b[Offset] & Mask)!=0){
+					LDimPointer[LDimCount].AbsY		=y;
+					LDimPointer[LDimCount].LeftX	=x+r;
+					LDimPointer[LDimCount].Numb		=1;
+					LDimPointer[LDimCount].Code		=-1;
+					int x2=x;
+					Mask>>=1;
+					r++;
+					for(;;){
+						for(;r<8;r++,Mask>>=1){
+							if((b[Offset] & Mask)==0){
+								goto	FoundBitEnd;
+							}
+						}
+						Mask=0x80;
+						r=0;
+						do{
+							Offset++;
+							x2+=8;
+							if(x2>=XLen){
+								goto	FoundBitEnd;
+							}
+						}while(b[Offset]==0xFF);
+					}
+FoundBitEnd:
+					LDimPointer[LDimCount].Numb	=x2+r-LDimPointer[LDimCount].LeftX;
+					x=x2;
+
+					//_heapchk();
+
+					LDimCount++;
+					YPointer[n].Count++;
+					if(LDimCount>=MaxDimCount){
+						MaxDimCount=MaxDimCount*2;
+						struct PickupFlexAreaStruct	*LDimPointer2=new struct PickupFlexAreaStruct[MaxDimCount];
+						int	h;
+						for(h=0;h<LDimCount;h++){
+							LDimPointer2[h]=LDimPointer[h];
+						}
+						//_heapchk();
+
+						//memcpy(LDimPointer2,LDimPointer,sizeof(LDimPointer[0])*LDimCount);
+						if(LDimPointer!=LDim){
+							delete	[]LDimPointer;
+						}
+						LDimPointer=LDimPointer2;
+					}
+					if(x>=XLen){
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	for(int n=0;n<Yn;n++){
+		YPointer[n].DimPointer=&LDimPointer[YPointer[n].DimPoint];
+	}
+
+	if(LDimCount>=__MaxDimCount){
+		FPointer	=new struct	PickupFlexAreaStruct*[LDimCount];
+	}
+
+	int	AreaCode=0;
+	for(int i=0;i<LDimCount;i++){
+		if(LDimPointer[i].Code==-1){
+			struct	PickupFlexAreaRDimAreaY	PData;
+			PData.LDim		=LDimPointer;
+			PData.YLen		=YLen;
+			PData.AreaY1	=Y1;
+			PData.AreaY2	=Y2;
+			PData.YPointer	=YPointer;
+			PData.AreaCode	=AreaCode;
+			PData.FPointer	=FPointer;
+			PData.FPointerCount=0;
+			PData.ReEntrantCount=0;
+			PData.LimitY1	=false;
+			PData.LimitY2	= false;
+			RecursivePickupFlexArea(PData,&LDimPointer[i]);
+
+			bool	RetMode;
+			do{
+				RetMode=false;
+				for(int j=0;j<PData.FPointerCount;j++){
+					if(RecursivePickupFlexArea(PData,PData.FPointer[j])==true){
+						RetMode=true;
+					}
+				}
+			}while(RetMode==true);
+
+			if(PData.FPointerCount>0){
+				FlexAreaFast	&S=RetPackDim[AreaCode];
+				S.Clear();
+				struct FlexLine	*L;
+				if(PData.FPointerCount<=MAXFlexAreaFastLines){
+					L=S.GetFLinesDim();
+				}
+				else{
+					L=new struct FlexLine[PData.FPointerCount];
+				}
+				S.SetFLineLen(PData.FPointerCount);
+				for(int j=0;j<PData.FPointerCount;j++){
+					L[j]._LeftX	=FPointer[j]->LeftX;
+					L[j]._Numb	=FPointer[j]->Numb;
+					L[j]._AbsY	=FPointer[j]->AbsY;
+				}
+				if(PData.FPointerCount>MAXFlexAreaFastLines){
+					S.SetFLinesPointer(L);
+				}
+				S.Regulate();
+				if(MinDotCount==0){
+					if(S.GetPatternByte()>0){
+						AreaCode++;
+					}
+					else{
+						S.Clear();
+					}
+				}
+				else{
+					if(S.GetPatternByte()>=MinDotCount){
+						AreaCode++;
+					}
+					else{
+						S.Clear();
+					}
+				}
+			}
+		}
+	}
+
+	if(LDimPointer!=LDim){
+		delete	[]LDimPointer;
+	}
+	if(YPointer!=YPointerDim){
+		delete	[]YPointer;
+	}
+	if(FPointer!=FPointerDim){
+		delete	[]FPointer;
+	}
+	//if(PureFlexAreaListPointer!=PureFlexAreaListDim){
+	//	delete	[]PureFlexAreaListPointer;
+	//}
+	return AreaCode;
 }
 
 //====================================================================================

@@ -47,6 +47,8 @@ class	PureFlexAreaListContainer;
 class	PureFlexAreaList;
 class   FlexAreaBasePure;
 class   TransformBase;
+class   FlexAreaFast;
+class   FlexAreaFastDimPack;
 
 #define	MAXFLINESBUFF	100000
 
@@ -98,6 +100,15 @@ struct   FlexLine
     int		_GetRightX(const FlexAreaBasePure*f)  const ;
     void	_SetAbsY(FlexAreaBasePure *f,int absY);
     void	_SetLeftX(FlexAreaBasePure *f,int leftX);
+
+    int		_GetAbsY(FlexAreaFast *f)   const ;
+    int		_GetLeftX(FlexAreaFast *f)  const ;
+    int		_GetRightX(FlexAreaFast*f)  const ;
+    int		_GetAbsY(const FlexAreaFast *f)   const ;
+    int		_GetLeftX(const FlexAreaFast *f)  const ;
+    int		_GetRightX(const FlexAreaFast*f)  const ;
+    void	_SetAbsY(FlexAreaFast *f,int absY);
+    void	_SetLeftX(FlexAreaFast *f,int leftX);
 };
 
 
@@ -273,6 +284,7 @@ public:
     void    SetMinX(int d)          {     MinX=d; }
     void    SetMaxX(int d)          {     MaxX=d; }
     double  GetLength(void) const;
+	void	SetAddXY(int addX,int addY) { AddX = addX;  AddY=addY;  }
 
 	int		GetFLineLen(void)		const {		return(Len);					}
     int		GetFLineNumb(int n)		const {		return(FLines[n].GetNumb());	}
@@ -337,6 +349,7 @@ class  FlexArea : public FlexAreaBasePure
     FlexArea(void);
 	FlexArea(const FlexArea &src);
     FlexArea(int tDotPerLine,int tMaxLines);
+	FlexArea(const FlexAreaFast &src);
     ~FlexArea(void);
 
     bool    IsNull(void)                    const ;
@@ -419,6 +432,8 @@ class  FlexArea : public FlexAreaBasePure
     FlexArea    &operator|=(const FlexArea &src);
     bool        operator==(const FlexArea &src) const;
     bool        operator!=(const FlexArea &src) const;
+
+    void    CopyFrom(const FlexAreaFast &src);
 
 	qint64		GetCrossCount(FlexArea &src ,int dx ,int dy)    const;
 	qint64		GetCrossCount(int x1,int y1 ,int x2,int y2)     const;
@@ -683,6 +698,7 @@ public:
 	virtual bool    Save(QIODevice *str)    override;
 	virtual bool    Load(QIODevice *str)    override;
 	PureFlexAreaListContainer	&operator=(const PureFlexAreaListContainer &src);
+	PureFlexAreaListContainer	&operator=(FlexAreaFastDimPack &src);
 	PureFlexAreaListContainer	&operator+=(const PureFlexAreaListContainer &src);
 
 	virtual	PureFlexAreaList	*Create(void)	override    {	return new PureFlexAreaList();	}
@@ -715,6 +731,253 @@ class	FlexAreaPointerContainer : public NPListPack<FlexAreaPointerList>
 public:
 	FlexAreaPointerContainer(void){}
 	void	Add(FlexArea *a);
+};
+
+//=================================================================================
+#define	MAXFlexAreaFastLines	100
+
+
+class  FlexAreaFast
+{
+    friend  class  FlexArea;
+    const	static  BYTE	BitCountTable[];
+
+    struct  FlexLine    FLinesDim[MAXFlexAreaFastLines];
+    struct  FlexLine    *FLinesPointer;
+    struct FlexAreaInfo
+    {
+        uint32		Len;
+
+        int32		AddX,AddY;
+        int32		MinX,MaxX;
+	    int64		PatternByte;
+    }Info;
+protected:
+    struct  BlockShape  AShape;
+
+public:
+	FlexAreaFast(void){     FLinesPointer=NULL; }
+    FlexAreaFast(const FlexAreaFast &src);
+	FlexAreaFast(const FlexArea &src);
+	virtual ~FlexAreaFast(void);
+
+	void	Initial(void)
+    {
+        FLinesPointer=NULL;
+        Info.Len=0;
+        Info.AddX=0;	Info.AddY=0;
+        Info.MinX=0;	Info.MaxX=0;
+        Info.PatternByte=0;
+    }
+
+	int     GetWidth(void)  const   {     return(Info.MaxX-Info.MinX);  }
+    int     GetHeight(void) const;
+    int     GetMinX(void)   const   {      return(Info.MinX);       }
+    int     GetMinY(void)   const;
+    int     GetMaxX(void)   const   {      return(Info.MaxX);       }
+    int     GetMaxY(void)   const;
+    void    SetMinX(int d)          {     Info.MinX=d; }
+    void    SetMaxX(int d)          {     Info.MaxX=d; }
+    double  GetLength(void) const;
+    void	SetAddXY(int addX,int addY) { Info.AddX = addX;  Info.AddY=addY;  }
+	int     GetAddX(void)    const   { return(Info.AddX); }
+	int     GetAddY(void)    const   { return(Info.AddY); }
+
+	int		GetFLineLen(void)		const {		return(Info.Len);					}
+    int		GetFLineNumb(int n)		const {		return (FLinesPointer==NULL)?FLinesDim[n].GetNumb():FLinesPointer[n].GetNumb();	}
+    int		GetFLineAbsY(int n)		const {		return (FLinesPointer==NULL)?(FLinesDim[n]._GetAbsY() +Info.AddY):(FLinesPointer[n]._GetAbsY() +Info.AddY);	}
+    int		GetFLineLeftX(int n)	const {		return (FLinesPointer==NULL)?(FLinesDim[n]._GetLeftX()+Info.AddX):(FLinesPointer[n]._GetLeftX()+Info.AddX);	}
+    int		GetFLineRightX(int n)	const {		return (FLinesPointer==NULL)?(FLinesDim[n]._GetLeftX()+Info.AddX+FLinesDim[n].GetNumb()):(FLinesPointer[n]._GetLeftX()+Info.AddX+FLinesPointer[n].GetNumb());  }
+	int		GetFLineAddX(void)		const {		return Info.AddX;	}
+	int		GetFLineAddY(void)		const {		return Info.AddY;	}
+
+	void	SetFLineLen(int len)    { Info.Len = len; }
+	void	SetFLinesPointer( struct  FlexLine *L)    {    FLinesPointer=L; }
+
+    void    SetShape(struct BlockShape &bshape);
+    struct  BlockShape  &GetShape(void) const;
+
+    void    CopyFLine(struct FlexLine *FL,int len);
+    void    CopyFLineOnly(struct FlexLine *FL,int len);
+    void    SuckFrom(FlexAreaBasePure &src);
+
+    struct  FlexLine    *GetFLinePoint(void)    {    return (FLinesPointer==NULL)?FLinesDim:FLinesPointer;      }
+    struct  FlexLine    *GetFLinePoint(void)    const{    return (struct FlexLine *)((FLinesPointer==NULL)?FLinesDim:FLinesPointer);      }
+	struct  FlexLine *GetFLinesDim(void)     { return FLinesDim; }
+
+    bool	ShrinkLen(int sLen)				{	if(Info.Len>=sLen){	Info.Len=sLen;	return true;}	return false;	}
+    void    Regulate(void);
+    virtual	void    Clear(void);
+    virtual	void    MoveToNoClip(int dx, int dy);
+
+    int		DirectCopyTo(struct FlexLine dest[] ,int destnumb ,int startIndex=0);
+    int     SearchNearBy(struct FlexLine Key);
+    struct FlexLine *GetFlexLine(int index);
+	bool	GetFlexLine(int index , struct FlexLine &Ret)   const;
+	int		FindIndex(int AbsY ,int &IndexStart ,int &IndexEnd);
+
+    bool    WriteBase(QIODevice *str);
+    bool    ReadBase(QIODevice *str);
+
+	void	SortFLine(struct FlexLine *FL ,int FLNumb);
+	void	SortFLine(void);
+	int64   GetPatternByte(void)	const 	{	return Info.PatternByte;	}
+
+    //-----------------------------------------
+
+    bool    IsNull(void)                    const ;
+    bool    IsInclude(int x ,int y)         const ;
+    void    Initial(int NoZone,int DotPerLine, int MaxLines);
+    bool    IsInRectangle(int x1 ,int y1 ,int x2 ,int y2)   const ;
+    bool    CheckOverlap(const FlexAreaFast *b)           const ;
+    bool    CheckOverlap(const FlexAreaFast *src ,int srcDx, int srcDy) const ;
+    bool    CheckOverlapNeighbor(const FlexAreaFast *b)   const ;
+    bool    IsInclude(const FlexAreaFast *b)  const ;
+    bool    CheckOverlapRectangle(int x1 ,int y1 ,int x2 ,int y2)   const ;
+    bool    CheckOverlapLine(int x1 ,int y1 ,int x2 ,int y2)        const ;
+    bool    CheckOverlapLine(double x1 ,double y1 ,double x2 ,double y2)    const ;
+    int     SearchFirst(int y) const;     //ｙは絶対値
+    bool    NearBy(struct FlexLine &L);
+    void    EatArea(const FlexAreaFast *food);
+    void    Restruct(void);
+    void    BindArea(void);
+    int     GetByte(void);
+    void    CopyFrom(FlexAreaFast &src ,int dx ,int dy);
+    void    GetWeightCenter(double &cx, double &cy);  //重心の計算
+	void	CreateZoom(double ZoomRate ,int Cx,int Cy);
+	void	Swap(FlexAreaFast &dest);
+
+    virtual	void     MoveToClip(int dx, int dy
+                                  ,int x1 ,int y1 ,int x2 ,int y2);
+
+    void     MakeBitData(BYTE **data ,int XDotLen ,int YDotLen ,bool EnableThread=true) const;
+    void     MakeNotBitData(BYTE **data ,int XDotLen ,int YDotLen ,int mx=0 ,int my=0)  const;
+    void     MakeBitData(BYTE **data 
+                        ,int dx ,int dy
+                        ,int XDotLen, int YDotLen)                      const;
+	void	 MakeBitData(ImageBuffer &BitImg ,int dx, int dy)           const;
+    void     MakeMaskBitData(BYTE **data,int DotPerLine, int MaxLines)  const;
+
+    bool     CheckOverlapBit(BYTE *data  ,int xbyte,int DotPerLine, int MaxLines)   const;
+    bool     CheckOverlapBit(BYTE **data , int XDot ,int YDot)  const;
+	int64	 GetCrossBitCount(BYTE **data)  const;
+	int64	 GetCrossBitCount(BYTE **data,int dx ,int dy,int srcxbyte ,int srcylen ,int LineIsolation=1)    const;
+
+    void     BuildFromRaster(uchar **srcdata ,int srcxbyte ,int srcylen
+                                        ,int OffsetX ,int OffsetY);
+    void     BuildFromRaster(uchar **srcdata ,int srcxbyte ,int srcylen
+                                        ,int px ,int py
+                                        ,int minx ,int miny ,int maxx ,int maxy
+										,int DotPerLine, int MaxLines);
+
+    void    Sub(const FlexAreaFast &src1 , const FlexAreaFast &src2);
+    void    Sub(const FlexAreaFast &src1 , int dx ,int dy);
+	void    Add(const FlexAreaFast &src1 , const FlexAreaFast &src2);
+    void    CopyMove(const FlexAreaFast &src , int dx ,int dy);
+
+
+    FlexAreaFast    &operator=(const FlexAreaFast &src);
+    FlexAreaFast    &operator=(const FlexArea &src);
+    FlexAreaFast    &operator+=(const FlexAreaFast &src);
+	FlexAreaFast    &operator-=(const FlexAreaFast &src)    {   Sub(src,0,0);	return *this;	}
+    FlexAreaFast    &operator&=(const FlexAreaFast &src);
+    FlexAreaFast    &operator|=(const FlexAreaFast &src);
+    bool            operator==(const FlexAreaFast &src) const;
+    bool            operator!=(const FlexAreaFast &src) const;
+
+	qint64		GetCrossCount(FlexAreaFast &src ,int dx ,int dy)    const;
+	qint64		GetCrossCount(int x1,int y1 ,int x2,int y2)     const;
+
+    virtual void    ClipArea(int Left ,int Top ,int Right ,int Bottom);
+	void    ClipArea(FlexAreaFast &BoundArea);
+    void    ClipByMask(BYTE **data,int DotPerLine, int MaxLines);
+
+	virtual bool    Save(QIODevice *str){	return WriteBase(str);	}
+	virtual bool    Load(QIODevice *str){	return ReadBase(str);	}
+    int     GetTopY(void)       const   {   return(GetMinY());   }
+    int     GetBottomY(void)    const   {   return(GetMaxY());   }
+
+    int     MakeBrightList(int *BrList ,int DotPerLine, int MaxLines ,ImageBuffer &data,int dx=0 ,int dy=0,int Isolation=1);
+	int     MakeBrightList(unsigned int   *BrList ,int DotPerLine, int MaxLines ,ImageBuffer &data,int dx=0 ,int dy=0,int Isolation=1);
+	int     MakeBrightList(unsigned short *BrList ,int DotPerLine, int MaxLines ,ImageBuffer &data,int dx=0 ,int dy=0,int Isolation=1);
+
+    void    ThinAreaPartial(uchar **bmpdata,uchar **tmpdata,int xbyte ,int YLen=-1);
+    void    FatAreaPartial (int turn ,uchar **bmpdata,uchar **tmpdata,int xbyte ,int YLen=-1);
+    void    ThinAreaN(int TurnN);
+    void    FatAreaN (int TurnN);
+	void    ThinArea1(void);	//1画素収縮して切れる場合、残す
+
+    void    GetLowHightColor(int dx,int dy,ImageBuffer &src	,int &LColor ,int &HColor ,int xdotperline ,int ymaxlines);
+    void    GetLowHightColor(int dx,int dy,BYTE **src		,int &LColor ,int &HColor ,int xdotperline ,int ymaxlines);
+
+private:
+    bool	SubInside(const FlexArea &src, int dx ,int dy ,float Multiply);
+};
+
+inline  int FlexLine::_GetAbsY(FlexAreaFast *f)			const   {	return(f->GetFLineAddY()+_AbsY);		}
+inline  int FlexLine::_GetLeftX(FlexAreaFast *f)		const   {	return(f->GetFLineAddX()+_LeftX);		}
+inline  int FlexLine::_GetRightX(FlexAreaFast *f)		const   {	return(f->GetFLineAddX()+_LeftX+_Numb);	}
+inline  int FlexLine::_GetAbsY(const FlexAreaFast *f)	const   {	return(f->GetFLineAddY()+_AbsY);		}
+inline  int FlexLine::_GetLeftX(const FlexAreaFast *f)	const   {	return(f->GetFLineAddX()+_LeftX);		}
+inline  int FlexLine::_GetRightX(const FlexAreaFast *f)	const   {	return(f->GetFLineAddX()+_LeftX+_Numb);	}
+inline  void FlexLine::_SetAbsY(FlexAreaFast *f,int absY)	    {    _AbsY=absY-f->GetFLineAddY();	        }
+inline  void FlexLine::_SetLeftX(FlexAreaFast *f,int leftX)	    {    _LeftX=leftX-f->GetFLineAddX();        }
+
+class FlexAreaFastDim
+{
+protected:
+    int			    DimNumb;
+public:
+	FlexAreaFastDim(void)   {   DimNumb = 0;    }
+
+	virtual FlexAreaFast &operator[](int index) =0;
+	int     GetCount(void)  const   {   return DimNumb; }
+};
+
+class FlexAreaFastDim10 : public FlexAreaFastDim
+{
+    FlexAreaFast    Dim[10];
+	
+public:
+	FlexAreaFastDim10(void){}
+
+	virtual FlexAreaFast &operator[](int index) override;
+};
+
+class FlexAreaFastDim100 : public FlexAreaFastDim
+{
+    FlexAreaFast    Dim[100];
+	int			    DimNumb;
+public:
+	FlexAreaFastDim100(void){}
+
+	virtual FlexAreaFast &operator[](int index) override;
+};
+
+class FlexAreaFastDim1000 : public FlexAreaFastDim
+{
+    FlexAreaFast    Dim[1000];
+
+public:
+	FlexAreaFastDim1000(void){}
+
+	virtual FlexAreaFast &operator[](int index) override;
+};
+
+
+class FlexAreaFastDimPack
+{
+    FlexAreaFastDim10 Dim10;
+    FlexAreaFastDim100 *Dim100;
+    FlexAreaFastDim1000 *Dim1000[10000];
+	int			 Dim1000Counter;
+
+public:
+    FlexAreaFastDimPack(void);
+    virtual ~FlexAreaFastDimPack(void);
+
+    FlexAreaFast    &operator[](int index);
+    int     GetCount(void)  const;
 };
 
 

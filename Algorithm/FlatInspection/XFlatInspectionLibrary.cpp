@@ -169,6 +169,7 @@ FlatInspectionLibrary::FlatInspectionLibrary(int LibType,LayersBase *Base)
     SelfSearch		=0;		//自己探索ドット数
 	MaxAreaSearch	=99;		//最大領域探索ドット数
     MaxSelfSearch	=99;		//最大自己探索ドット数
+	ShrinkNGSize	=0;
 
 	RedCheckMode		=false;
 	RedHighRate			=150;
@@ -274,6 +275,8 @@ bool	FlatInspectionLibrary::SaveBlob(QIODevice *f)
     if(::Save(f,MaxAreaSearch)==false)
 		return false;
     if(::Save(f,MaxSelfSearch)==false)
+		return false;
+    if(::Save(f,ShrinkNGSize)==false)
 		return false;
 
     if(::Save(f,RedCheckMode)==false)
@@ -413,6 +416,10 @@ bool	FlatInspectionLibrary::LoadBlob(QIODevice *f)
 		return false;
 	if(::Load(f,MaxSelfSearch)==false)
 		return false;
+	if(Ver>=5){
+		if(::Load(f,ShrinkNGSize)==false)
+			return false;
+	}
 
 	if(::Load(f,RedCheckMode)==false)
 		return false;
