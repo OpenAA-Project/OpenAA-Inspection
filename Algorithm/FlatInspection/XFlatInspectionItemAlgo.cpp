@@ -1574,6 +1574,13 @@ void	FlatInspectionItem::HandleNGMapToResult(ResultInItemRoot *Res
 		GetLayersBase()->ThinAreaN(NGMapB,TmpNGMap,NGMapXByte,NGMapYLen,RThr->ShrinkNGSize);
 	}
 	int	MinDotSize = min(RThr->Broad.OKDot,RThr->Broad.OKLength);
+	if(RThr->MultiSpotCountGathered>0 && RThr->MultiSpotDotGathered>0){
+		MinDotSize = min(MinDotSize,(int)RThr->MultiSpotDotGathered);
+	}
+	if(RThr->MultiSpotDot>0 && RThr->MultiSpotCount>0){
+		MinDotSize = min(MinDotSize,(int)RThr->MultiSpotDot);
+	}
+
 	FlexAreaFastDimPack RetFPackDim;
 	PickupFlexAreaFastDim(NGMapB ,NGMapXByte ,NGMapXLen,NGMapYLen ,RetFPackDim,MinDotSize);
 	FPackB=RetFPackDim;
@@ -1630,6 +1637,12 @@ void	FlatInspectionItem::HandleNGMapToResult(ResultInItemRoot *Res
 		//PickupFlexArea(NGMapN ,NGMapXByte ,NGMapXLen,NGMapYLen ,FPackN);
 		FlexAreaFastDimPack RetFPackDim;
 		MinDotSize = min(RThr->Narrow.OKDot,RThr->Narrow.OKLength);
+		if(RThr->MultiSpotCountGathered>0 && RThr->MultiSpotDotGathered>0){
+			MinDotSize = min(MinDotSize,(int)RThr->MultiSpotDotGathered);
+		}
+		if(RThr->MultiSpotDot>0 && RThr->MultiSpotCount>0){
+			MinDotSize = min(MinDotSize,(int)RThr->MultiSpotDot);
+		}
 		PickupFlexAreaFastDim(NGMapN ,NGMapXByte ,NGMapXLen,NGMapYLen ,RetFPackDim,MinDotSize);
 		FPackN=RetFPackDim;
 

@@ -32,6 +32,31 @@
 #include "XImageProcess.h"
 #include "XTransform.h"
 
+
+
+static	int   YSortFunc(const void *a ,const void *b)
+{
+	struct	FlexLine	*ma=(struct FlexLine *)a;
+	struct	FlexLine	*mb=(struct FlexLine *)b;
+
+	if(ma->_GetAbsY()>mb->_GetAbsY()){
+		return(1);
+	}
+	if(ma->_GetAbsY()<mb->_GetAbsY()){
+		return(-1);
+	}
+
+	if(ma->_GetLeftX()>mb->_GetLeftX()){
+		return(1);
+	}
+	if(ma->_GetLeftX()<mb->_GetLeftX()){
+		return(-1);
+	}
+
+	return(0);
+}
+
+
 FlexAreaFast::FlexAreaFast(const FlexAreaFast &src)
 {
 	Initial();
@@ -149,6 +174,11 @@ void  FlexAreaFast::Regulate(void)
 		Info.MaxX=0;
 		return;
 	}
+	struct FlexLine *tFL=GetFLinePoint();
+	if(Info.Len>1){
+		QSort(tFL,Info.Len,sizeof(struct FlexLine),YSortFunc);
+	}
+
 	minx=GetFLineLeftX(0);
 	maxx=GetFLineRightX(0);
 	Info.PatternByte	=0;
@@ -777,28 +807,6 @@ bool    FlexAreaFast::NearBy(struct FlexLine &L)
 	}
 
 	return(false);
-}
-
-static	int   YSortFunc(const void *a ,const void *b)
-{
-	struct	FlexLine	*ma=(struct FlexLine *)a;
-	struct	FlexLine	*mb=(struct FlexLine *)b;
-
-	if(ma->_GetAbsY()>mb->_GetAbsY()){
-		return(1);
-	}
-	if(ma->_GetAbsY()<mb->_GetAbsY()){
-		return(-1);
-	}
-
-	if(ma->_GetLeftX()>mb->_GetLeftX()){
-		return(1);
-	}
-	if(ma->_GetLeftX()<mb->_GetLeftX()){
-		return(-1);
-	}
-
-	return(0);
 }
 
 

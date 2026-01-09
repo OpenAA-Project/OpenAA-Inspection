@@ -1370,6 +1370,7 @@ public:
 	void		SetLotName(const QString &lotName)		{	LotName=lotName;	}
 
 	void	ClearAllErrorGroup(void);
+	void	ClearTmpRect(int phase);
 	void	ClearResult(int phase);
 
 	void	AddRemark(const QString &Str);

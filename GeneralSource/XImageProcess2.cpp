@@ -1847,16 +1847,51 @@ FoundBitEnd:
 	return true;
 }
 
-
-
-
 //=============================================
-
 
 int		PickupFlexAreaFastDimPartial(BYTE ** Bmp ,int XByte ,int XLen,int YLen 
 							,FlexAreaFastDimPack &FPackDim
 							,int Y1,int Y2
 							,int MinDotCount);
+
+class FlexAreaFastPointerDim
+{
+	FlexAreaFast *Pointer[200];
+	int			CountOfPointer;
+public:
+	FlexAreaFastPointerDim()
+	{
+		CountOfPointer=0;
+	}
+	void	AddPointer(FlexAreaFast *P)
+	{
+		if(0<=CountOfPointer && CountOfPointer<sizeof(Pointer)/sizeof(Pointer[0])){
+			Pointer[CountOfPointer]=P;
+			CountOfPointer++;
+		}
+	}
+	int		GetCountOfPointer()
+	{
+		return	CountOfPointer;
+	}
+	FlexAreaFast*	GetPointer(int Index)
+	{
+		return	Pointer[Index];
+	}
+	void	ClearPointer(int Index)
+	{
+		if(0<=Index && Index<CountOfPointer){
+			Pointer[Index]=NULL;
+		}
+	}
+	void	SetPointer(int Index ,FlexAreaFast *P)
+	{
+		if(0<=Index && Index<CountOfPointer){
+			Pointer[Index]=P;
+		}
+	}
+};
+
 
 int		PickupFlexAreaFastDim(BYTE **Bmp ,int XByte ,int XLen,int YLen 
 							,FlexAreaFastDimPack &RetPackDim 
@@ -1885,7 +1920,7 @@ int		PickupFlexAreaFastDim(BYTE **Bmp ,int XByte ,int XLen,int YLen
 				DCounter[i]=PickupFlexAreaFastDimPartial(Bmp ,XByte ,XLen,YLen 
 									,FPackDim[i]
 									,Y1,Y2
-									,Multithread);
+									,MinDotCount);
 			}
 		}
 	}
@@ -1898,51 +1933,74 @@ int		PickupFlexAreaFastDim(BYTE **Bmp ,int XByte ,int XLen,int YLen
 			DCounter[i]=PickupFlexAreaFastDimPartial(Bmp ,XByte ,XLen,YLen 
 								,FPackDim[i]
 								,Y1,Y2
-								,Multithread);
+								,MinDotCount);
 		}
 	}
+
+	FlexAreaFastPointerDim	MaxYPointerDim[N];
+	FlexAreaFastPointerDim	MinYPointerDim[N];
 
 	for(int i=0;i<N-1;i++){
 		int	Y2=(i+1)*MaxLinesCount;
 		FlexAreaFast	*Upper[1000];
-		int	UCounter = 0;
 		for(int u=0;u<DCounter[i];u++){
-			if((FPackDim[i])[u].GetMaxY()==Y2){
-				Upper[UCounter] = &(FPackDim[i])[u];
-				UCounter++;
+			FlexAreaFast &p = (FPackDim[i])[u];
+			if(p.GetMaxY()==Y2){
+				MaxYPointerDim[i].AddPointer(&p);
 			}
 		}
 		FlexAreaFast	*Lower[1000];
-		int	LCounter = 0;
-		for(int d=0;d<DCounter[i+1];d++){
-			if((FPackDim[i+1])[d].GetMinY()==Y2){
-				Lower[LCounter] = &(FPackDim[i+1])[d];
-				LCounter++;
+		int	Y1=i*MaxLinesCount;
+		for(int d=0;d<DCounter[i];d++){
+			FlexAreaFast &p = (FPackDim[i])[d];
+			if(p.GetMinY()==Y1){
+				MinYPointerDim[i].AddPointer(&p);
 			}
 		}
-		for(int u=0;u<UCounter;u++){
+	}
+	for(int i=0;i<N-1;i++){
+		int	Y2=(i+1)*MaxLinesCount;
+		for(int u=0;u<MaxYPointerDim[i].GetCountOfPointer();u++){
+			FlexAreaFast *uP = MaxYPointerDim[i].GetPointer(u);
+			if(uP==NULL)
+				continue;
 			int	UIndexStart ,UIndexEnd;
-			Upper[u]->FindIndex(Y2-1 ,UIndexStart ,UIndexEnd);
-			for(int d=0;d<LCounter;d++){
+			uP->FindIndex(Y2-1 ,UIndexStart ,UIndexEnd);
+			for(int d=0;d<MinYPointerDim[i+1].GetCountOfPointer();d++){
+				FlexAreaFast *dP = MinYPointerDim[i+1].GetPointer(d);
+				if(dP==NULL)
+					continue;
 				int	DIndexStart ,DIndexEnd;
-				Lower[d]->FindIndex(Y2 ,DIndexStart ,DIndexEnd);
+				dP->FindIndex(Y2 ,DIndexStart ,DIndexEnd);
 				for(int k=UIndexStart;k<=UIndexEnd;k++){
-					int	UX1 = Upper[u]->GetFLineLeftX(k);
-					int	UX2 = Upper[u]->GetFLineRightX(k);
+					int	UX1 = uP->GetFLineLeftX(k);
+					int	UX2 = uP->GetFLineRightX(k);
 					for(int j=DIndexStart;j<=DIndexEnd;j++){
-						int	DX1 = Lower[d]->GetFLineLeftX(j);
-						int	DX2 = Lower[d]->GetFLineRightX(j);
+						int	DX1 = dP->GetFLineLeftX(j);
+						int	DX2 = dP->GetFLineRightX(j);
 						if((UX1<=DX1 && DX1<=UX2)
 						|| (UX1<=DX2 && DX2<=UX2)
 						|| (DX1<=UX1 && UX1<=DX2)){
-							(*Upper[u]) += *(Lower[d]);
-							Lower[d]->Clear();
+							(*uP) += *(dP);
+							dP->Clear();
+							MaxYPointerDim[i].ClearPointer(u);
+							int j=i+1;
+							for(int m = 0;m<MaxYPointerDim[j].GetCountOfPointer();m++){
+								FlexAreaFast *tP = MaxYPointerDim[j].GetPointer(m);
+								if(tP==dP){
+									MaxYPointerDim[j].SetPointer(m,uP);
+								}
+							}
 						}
 					}
 				}
 			}
 		}
 	}
+
+
+
+
 	int	RetCounter=0;
 	if(MinDotCount==0){
 		for(int i=0;i<N;i++){

@@ -3410,7 +3410,9 @@ ExeResult	ResultBasePhase::ExecuteProcessing		(int ExeID ,AlgorithmBase *Base)
 		for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
 			int	page=s->GetValue();
 			ResultInPageRoot	*R=GetPageData(page);
-			ExeResult	RR=Ap->GetPageData(page)->ExecuteProcessing(ExeID ,R);
+			AlgorithmInPageRoot	*ARoot=Ap->GetPageData(page);
+			ARoot->SetStartTimeMilisec();
+			ExeResult	RR=ARoot->ExecuteProcessing(ExeID ,R);
 			if(RR!=_ER_true){
 				Ret=RR;
 			}
@@ -3425,7 +3427,9 @@ ExeResult	ResultBasePhase::ExecuteProcessing		(int ExeID ,AlgorithmBase *Base)
 		int	Pg=LBase->GetTopPageInCapturedPageLayer();
 		if(Pg>=0){
 			ResultInPageRoot	*R=GetPageData(Pg);
-			ExeResult	RR=Ap->GetPageData(Pg)->ExecuteProcessing(ExeID ,R);
+			AlgorithmInPageRoot	*ARoot=Ap->GetPageData(Pg);
+			ARoot->SetStartTimeMilisec();
+			ExeResult	RR=ARoot->ExecuteProcessing(ExeID ,R);
 			if(RR!=_ER_true){
 				Ret=RR;
 			}
@@ -6102,8 +6106,10 @@ void	ResultInspection::InitialForInspection(void)
 		ClearTimeOutBreak();
 	}
 	for(IntClass *v=PhaseCodes.GetFirst();v!=NULL;v=v->GetNext()){
-		NGImageContainerInPhase *ph=NGImageInPhase[v->GetValue()];
+		int	Phase = v->GetValue();
+		NGImageContainerInPhase *ph=NGImageInPhase[Phase];
 		ph->ClearAll();
+		ClearTmpRect(Phase);
 	}
 }
 
@@ -6932,221 +6938,7 @@ bool	ResultInspection::BuildNGImages(void)
 	}
 	return true;
 }
-/*
-bool	ResultInspection::BuildNGImages2(void)
-{
-	ResultDLLBaseRoot	*ResultDLLBasePointer=NULL;
-	LayersBase	*LBase=GetLayersBase();
-	if(LBase->GetShadowLevel()==0){
-		ResultDLLBasePointer=GetResultDLLBase();
-	}
-	else{
-		LayersBase	*PBase=LBase->GetParentLayersBase();
-		ResultDLLBasePointer=PBase->GetResultDLLBase()->GetFirst()->GetDLLPoint();
-	}
-	if(ResultDLLBasePointer==NULL){
-		return true;
-	}
 
-	TmpNGDim	**TmpRect=new TmpNGDim*[GetPhaseNumb()];
-	for(int phase=0;phase<GetPhaseNumb();phase++){
-		TmpRect[phase]=new TmpNGDim[GetPageNumb()];
-		for(int page=0;page<GetPageNumb();page++){
-			(TmpRect[phase])[page].Set(LBase);
-		}
-	}
-	int	ImageW	=ResultDLLBasePointer->NGImageWidth;
-	int	ImageH	=ResultDLLBasePointer->NGImageHeight;
-	int	Bevel	=ResultDLLBasePointer->NGImageBevel;
-
-	ErrorGroupPack *SpecializedGroup=new ErrorGroupPack[GetPageNumb()];
-	for(ResultBaseForAlgorithmRoot *B=ResultBaseDim.GetFirst();B!=NULL;B=B->GetNext()){
-		B->BuildNGImages(ImageW ,ImageH ,Bevel ,TmpRect,SpecializedGroup);
-	}
-	IntList	PhaseList;
-	ParamGlobal	*PGlobal=GetParamGlobal();
-	if(PGlobal->ModePhaseExecuteManageResult==-2){
-		for(int phase=0;phase<GetPhaseNumb();phase++){
-			PhaseList.Add(phase);
-		}
-	}
-	else
-	if(PGlobal->ModePhaseExecuteManageResult==-1){
-		PGlobal->GetPhaseNumber(PhaseList ,LBase->GetCurrentScanPhaseNumber());
-	}
-	else
-	if(PGlobal->ModePhaseExecuteManageResult>=0){
-		PhaseList.Add(PGlobal->ModePhaseExecuteManageResult);
-	}
-
-	for(IntClass *phi=PhaseList.GetFirst();phi!=NULL;phi=phi->GetNext()){
-		int	phase=phi->GetValue();
-		NGImageContainerInPhase	*Ph=NGImageInPhase[phase];
-		if(Ph==NULL){
-			Ph=new NGImageContainerInPhase(this,phase,LBase);
-			NGImageInPhase.AppendList(Ph);
-		}
-		else{
-			Ph->ClearAll();
-		}
-		
-		for(int localPage=0;localPage<GetPageNumb();localPage++){
-			NGImageContainerInPage	*s=Ph->GetNGImageInPage(localPage);
-			if(s==NULL){
-				s=new NGImageContainerInPage(Ph
-											,GetParamComm()->GetGlobalPageFromLocal(*PGlobal,localPage)
-											,LBase);
-				Ph->AppendListPageData(s);
-			}
-			TmpNGDim	&L=(TmpRect[phase])[localPage];
-			for(int Yn=0;Yn<L.YNumb;Yn++){
-				for(int Xn=0;Xn<L.XNumb;Xn++){
-					NPListPack<TmpNGRectClass>	&P=(L.Dim[Yn])[Xn];
-					for(TmpNGRectClass *c=P.GetFirst();c!=NULL;c=c->GetNext()){
-						ErrorGroup	*k=new ErrorGroup(LBase);
-						k->SetResult(c->result);
-						k->SetRectangle(c->x1,c->y1,c->x2,c->y2);
-						k->SetPage(localPage);
-						k->SetImportanceLevel(c->ImportanceLevel);
-						k->SetPieceAreaNumber(c->PieceAreaNumber);
-						k->SetNGSize(c->NGSize);
-						k->SetCause(c->CauseStr);
-						k->SetName(c->ItemName);
-						for(int t=0;t<c->RepresentativeItemCount;t++){
-							k->SetRepresentativeItem(c->RepresentativeItem[t],c->RepresentativeResultPosList[t]);
-						}
-						k->SetMxy(c->GetMx(),c->GetMy());
-						s->AddErrorGroupData(k);
-					}
-				}
-			}
-			for(;;){
-				ErrorGroup *g=SpecializedGroup[localPage].GetFirst();
-				if(g==NULL){
-					break;
-				}
-				SpecializedGroup[localPage].RemoveList(g);
-				s->AddErrorGroupData(g);
-				TmpNGRectClass *c=NULL;
-				int	gx1,gy1,gx2,gy2;
-				g->GetXY(gx1,gy1,gx2,gy2);
-				NPListPack<TmpNGRectClass>	*P=L.GetPoint((gx1+gx2)/2 ,(gy1+gy2)/2);
-
-				if(P!=NULL){
-					bool	Found=false;
-					for(c=P->GetFirst();c!=NULL;c=c->GetNext()){
-						if(c->x1<=gx1 && gx2<=c->x2 && c->y1<=gy1 && gy2<=c->y2
-						&& c->PieceAreaNumber==g->GetPieceAreaNumber()){
-							for(int t=0;t<c->RepresentativeItemCount;t++){
-								g->SetRepresentativeItem(c->RepresentativeItem[t],c->RepresentativeResultPosList[t]);
-							}
-							Found=true;
-						}
-					}
-			
-					if(Found==false){
-						c=new TmpNGRectClass();
-						c->result	=g->GetResult();
-						c->x1		=gx1;
-						c->y1		=gy1;
-						c->x2		=gx2;
-						c->y2		=gy2;
-						c->mx		+=g->GetMx();
-						c->my		+=g->GetMy();
-						c->ImportanceLevel	=g->GetImportanceLevel();
-						c->PieceAreaNumber	=g->GetPieceAreaNumber();
-						c->NGSize			=g->GetNGSize();
-						c->RepresentativeItem			[0]=g->RepresentativeItemPoint;
-						c->RepresentativeResultPosList	[0]=g->TmpRepresentativeResultPosList[0];
-						c->RepresentativeItemCount=1;
-						c->Count++;
-						P->AppendList(c);
-					}
-				}
-			}
-			s->SetErrorGroupID();
-		}
-	}
-	delete	[]SpecializedGroup;
-
-	for(IntClass *phi=PhaseList.GetFirst();phi!=NULL;phi=phi->GetNext()){
-		int	phase=phi->GetValue();
-		PageDataInOnePhase	*Dh=LBase->GetPageDataPhase(phase);
-		NGImageContainerInPhase	*Ph=NGImageInPhase[phase];
-		if(Ph==NULL){
-			Ph=new NGImageContainerInPhase(this,phase,LBase);
-			NGImageInPhase.AppendList(Ph);
-		}
-		for(int localPage=0;localPage<GetPageNumb();localPage++){
-			DataInPage *Dp=Dh->GetPageData(localPage);
-			NGImageContainerInPage	*s=Ph->GetNGImageInPage(localPage);
-			TmpNGDim	&L=(TmpRect[phase])[localPage];
-			int32	N=0;
-			for(int Yn=0;Yn<L.YNumb;Yn++){
-				for(int Xn=0;Xn<L.XNumb;Xn++){
-					NPListPack<TmpNGRectClass>	&P=(L.Dim[Yn])[Xn];
-					for(TmpNGRectClass *c=P.GetFirst();c!=NULL;c=c->GetNext()){
-						if(N<PGlobal->MaxNGCountsPerCam && N<PGlobal->MaxNGImageNumbPerPage){
-							int	Cx,Cy;
-							c->GetCenter(Cx,Cy);
-							NGImage	*d=s->GetNGImageFromStockker();
-							if(d==NULL){
-								d=new NGImage(LBase);
-							}
-							int	gx1=Cx-ImageW/2;
-							int	gy1=Cy-ImageH/2;
-							int	gx2=gx1+ImageW;
-							int	gy2=gy1+ImageH;
-							if(gx1<0){
-								gx1=0;
-								gx2=gx1+ImageW;
-							}
-							if(gy1<0){
-								gy1=0;
-								gy2=gy1+ImageH;
-							}
-							if(gx2>=Dp->GetDotPerLine()){
-								gx2=Dp->GetDotPerLine()-1;
-								gx1=gx2-ImageW;
-							}
-							if(gy2>=Dp->GetMaxLines()){
-								gy2=Dp->GetMaxLines()-1;
-								gy1=gy2-ImageH;
-							}
-							d->SetRectangle(gx1,gy1, gx2,gy2);
-							d->SetMxy(c->GetMx(),c->GetMy());
-							d->SetNumber(N);
-							d->SetGlobalPage(LBase->GetGlobalPageFromLocal(localPage));
-							s->AddNGImageData(d);
-							N++;
-						}
-					}
-				}
-			}
-			if(N!=0){
-				s->SetCompressedFlag(false);
-				DataInPage	*P=LBase->GetPageDataPhase(phase)->GetPageData(localPage);
-				s->CopyImageFromTarget(P);
-				if(PGlobal->BufferedProcessing==false){
-					P->SetCompressedContainer(s);
-				}
-				else{
-					s->CompressImages();
-				}
-			}
-			else{
-				s->SetCompressedFlag(true);
-			}
-		}
-	}
-	for(int phase=0;phase<GetPhaseNumb();phase++){
-		delete	[]TmpRect[phase];
-	}
-	delete	[]TmpRect;
-
-	return true;
-}
-*/
 
 void	NGImageContainerInPage::CompressImages(void)
 {
@@ -7767,6 +7559,33 @@ void	ResultInspection::ClearRemarkData(void)
 	RemarkData.clear();
 }
 
+void	ResultInspection::ClearTmpRect(int phase)
+{
+	if(0<=phase && phase<AllocatedTmpRect){
+		if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+			for(int page=0;page<GetPageNumb();page++){
+				TmpRect[phase][page].RemoveAll();
+			}
+		}
+		else if(GetParamGlobal()->BufferedProcessing==false){
+			int	StrN=GetLayersBase()->GetCurrentStrategicNumber();
+			if(StrN==0){
+				for(int page=0;page<GetPageNumb();page++){
+					TmpRect[phase][page].RemoveAll();
+				}
+			}
+			else{
+				IntList	PageList;
+				GetParamGlobal()->GetStrategyPage (StrN
+												,PageList);
+				for(IntClass *p=PageList.GetFirst();p!=NULL;p=p->GetNext()){
+					int	page=p->GetValue();
+					TmpRect[phase][page].RemoveAll();
+				}
+			}
+		}
+	}
+}
 int		ResultInspection::GetRemarkStr(BYTE Buff[],int MaxBuffLen)
 {
 	int	Len=min(MaxBuffLen,(int)RemarkData.size());

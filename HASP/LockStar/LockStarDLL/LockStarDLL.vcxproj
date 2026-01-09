@@ -62,10 +62,10 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>..\..\..\Hasplib\LockStar\Lib\X64;..\..\..\Hasplib\LockStar;..\..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Hasplib\LockStar\Lib\X64;..\..\..\Hasplib\LockStar;..\..\..\Open;$(LOCKSTAR)\samples\64bit\VC;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\..\..\Hasplib\LockStar\Lib\X64;..\..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\Hasplib\LockStar\Lib\X64;..\..\..\Lib\Release;$(LOCKSTAR)\common\64bit;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ServiceLib.lib;LTPKAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
