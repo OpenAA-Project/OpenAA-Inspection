@@ -186,7 +186,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;QT_LARGEFILE_SUPPORT;QT_NO_DEBUG;NDEBUG;RECORDMOVIE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\OpenSource\ffmpeg\include\libavcodec;..\..\OpenSource\ffmpeg\include;..\..\OpenSource\LibGWAVI\libgwavi-master\inc;..\..\OpenSource\JPeg\jpeg-9c;..\..\OpenSource\DisplayImage;..\ShowMemory;..\ShowCycleTime;..\..\InspectionPlayer;..\..\OpenSource\Component;..\..\Open;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\OpenSource\DisplayImage;..\ShowMemory;..\ShowCycleTime;..\..\InspectionPlayer;..\..\OpenSource\Component;..\..\Open;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -208,9 +208,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\OpenSource\ffmpeg\lib;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>CommonGUIDLL.lib;ServiceLib.lib;Component.lib;Vfw32.Lib;avutil.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CommonGUIDLL.lib;ServiceLib.lib;Component.lib;Vfw32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
@@ -225,24 +225,12 @@
     <ClCompile Include="..\ShowMemory\XMemoryForWindows.cpp" />
     <ClCompile Include="RecordMovie.cpp" />
     <ClCompile Include="SettingRecordDialog.cpp" />
-    <ClCompile Include="XMovieOptimize.cpp">
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MaxSpeedHighLevel</Optimization>
-      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AnySuitable</InlineFunctionExpansion>
-      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IntrinsicFunctions>
-      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Speed</FavorSizeOrSpeed>
-      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MultiFile</InterproceduralOptimization>
-      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</BufferSecurityCheck>
-      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</FunctionLevelLinking>
-      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SSE42</UseProcessorExtensions>
-    </ClCompile>
-    <ClCompile Include="XRecordMovie.cpp">
-      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</FunctionLevelLinking>
-    </ClCompile>
+    <ClCompile Include="XRecordMovieForWindows.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="XRecordMovieForWindows.h" />
     <QtMoc Include="SettingRecordDialog.h" />
     <ClInclude Include="XMovieCommon.h" />
-    <QtMoc Include="XMovieThread.h" />
     <QtMoc Include="RecordMovie.h">
     </QtMoc>
     <ClInclude Include="recordmovie_global.h" />

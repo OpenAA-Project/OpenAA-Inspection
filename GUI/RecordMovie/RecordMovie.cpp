@@ -18,8 +18,8 @@
 #include <QMutex>
 #include <QMessageBox>
 #include <QDir>
-#include "XMovieThread.h"
 #include "XExecuteInspectBase.h"
+#include "XRecordMovieForWindows.h"
 #include "XEntryPoint.h"
 #include "ShowCycleTime.h"
 #include "SettingRecordDialog.h"
@@ -227,10 +227,11 @@ void RecordMovie::SlotClicked (bool checked)
 		ForceDirectories( SavedFolder ); 
 		CurrentFileName=SavedFolder+GetSeparator()+NowTime.toString(FileNameFormat)+QString(/**/".avi");
 		CurrentFPS=GetFPS();
-		ThreadImage->StartRecording(GetAVFormat(),CurrentFileName,CurrentFPS,MovieQuality);
+		ThreadImage->StartRecording(CurrentFileName
+									,MovieXSize,MovieYSize
+									,CurrentFPS,8000000);
 	}
 	else{
-		ThreadImage->StopRecording();
 		ThreadImage->EndRecording();
 	}
 }
@@ -269,10 +270,9 @@ void	RecordMovie::TransmitDirectly(GUIDirectMessage *packet)
 		ForceDirectories( FInfo.absolutePath() ); 
 		SetTargetPage(CmdStartRecordMovieWithFileNameVar->RecordPageNo);
 		//CurrentFPS=GetFPS();
-		ThreadImage->StartRecording(GetAVFormat()
-								,CurrentFileName
-								,CmdStartRecordMovieWithFileNameVar->FPS
-								,CmdStartRecordMovieWithFileNameVar->Quality);
+		ThreadImage->StartRecording(CurrentFileName
+									,MovieXSize,MovieYSize
+									,CmdStartRecordMovieWithFileNameVar->FPS,8000000);
 		return;
 	}
 	CmdEndRecordMovie	*CmdEndRecordMovieVar=dynamic_cast<CmdEndRecordMovie *>(packet);

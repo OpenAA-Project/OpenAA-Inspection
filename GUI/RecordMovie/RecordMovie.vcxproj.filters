@@ -44,16 +44,13 @@
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XRecordMovie.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\ShowMemory\XMemoryForWindows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SettingRecordDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XMovieOptimize.cpp">
+    <ClCompile Include="XRecordMovieForWindows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,10 +66,10 @@
     <QtMoc Include="RecordMovie.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="XMovieThread.h">
+    <QtMoc Include="SettingRecordDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="SettingRecordDialog.h">
+    <QtMoc Include="XRecordMovieForWindows.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
