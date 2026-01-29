@@ -4,12 +4,17 @@
 #include "recordmovie_global.h"
 #include <QToolButton>
 #include <QThread>
+#include <QLocalSocket>
+#include <QLocalServer>
+#include <QSharedMemory>
+#include <QSystemSemaphore>
 #include "XGUIDLL.h"
 #include "XDLLOnly.h"
 #include "XGUIPacketForDLL.h"
 #include "XServiceForLayers.h"
 #include "XMainSchemeMemory.h"
 #include "XMovieCommon.h"
+#include "XProcess.h"
 
 class	AddImageForMovieThread;
 
@@ -18,6 +23,9 @@ class	RecordMovie : public GUIFormBase
 	Q_OBJECT
 
 	friend	class	AddImageForMovie;
+
+	QLocalSocket	*Socket;
+	QLocalServer	Server;
 
 	QToolButton	Button;
 	AddImageForMovie		*ThreadImage;
@@ -33,8 +41,13 @@ class	RecordMovie : public GUIFormBase
 	DWORD	CapturedTime[50];
 	int		CapturedCount;
 	int		CapturedWIndex;
+	DWORD	StartTime;
 	DWORD	LastTime;
 
+	int					SharedAllocatedSize;
+	QSharedMemory		*SharedMemForMovie;
+	QSystemSemaphore	*Semaphore;
+	volatile	bool	Running;
 	double	CurrentFPS;
 public:
 	QString	Msg;
@@ -51,16 +64,32 @@ public:
 	int32	JpegQuality;
 	int32	FPS;
 	int32	UsePage;
+	double	ZoomRate;
+
+	QString			ProgramFileName;
+	ProcessManager	ProcessExe;
 
 	RecordMovie(LayersBase *Base ,QWidget *parent);
 	~RecordMovie(void);
 	virtual void	Prepare(void)		override;
-	virtual void	ReadyParam(void)	override;
+	virtual void	AfterStartSequence(void)	override;
 
 	virtual void	TransmitDirectly(GUIDirectMessage *packet)	override;
-	virtual void	Terminated(void)							override;
 
+	virtual	bool	ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)	override;
 	double	GetFPS(void);
+
+
+	bool	StartRecording(const QString &filename
+							, int width
+							, int height
+							, int fps
+							, int bitrate);
+	bool	RestartRecording(void);
+	bool	HaltRecording(void);
+	bool	EndRecording(void);
+	bool	AddImage(void);
+
 
 	virtual	bool	SaveContent(QIODevice *f)	override;
 	virtual	bool	LoadContent(QIODevice *f)	override;
@@ -73,9 +102,8 @@ private slots:
 	void	ResizeAction();
 	void	SlotTargetImageCaptured();
 	void	SlotCaptured(int);
-
+	void	SlotNewConnection();
 private:
-	void	ReallocMovieXYPixels(void);
 	EnumAVFormat	GetAVFormat(void);
 
 	void	SetMovieSize(int Index);

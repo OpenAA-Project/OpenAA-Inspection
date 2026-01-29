@@ -50,7 +50,7 @@
     <ClCompile Include="SettingRecordDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XRecordMovieForWindows.cpp">
+    <ClCompile Include="XRecordovieOptimised.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -67,9 +67,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="SettingRecordDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="XRecordMovieForWindows.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

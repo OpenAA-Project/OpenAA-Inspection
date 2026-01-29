@@ -48,7 +48,7 @@ SetAllocationDialog::SetAllocationDialog(bool NewMode,LayersBase *base ,QWidget 
 		ui->pushButtonDelete->setVisible(false);
 	}
 
-	ControlRememberer::RestoreForm(this);
+	RestoreForm(this);
 
 	InstallOperationLog(this);
 }
@@ -246,7 +246,7 @@ void SetAllocationDialog::on_pushButtonOK_clicked()
 	InsideEdgeWidth		=ui->spinBoxInsideEdgeWidth	->value();
 	OutsideEdgeWidth	=ui->spinBoxOutsideEdgeWidth->value();
 
-	ControlRememberer::SaveForm(this);
+	SaveForm(this);
 	done(1);
 }
 

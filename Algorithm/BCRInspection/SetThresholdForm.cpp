@@ -24,22 +24,6 @@ SetThresholdForm::SetThresholdForm(LayersBase *Base,QWidget *parent) :
 	ui->tableWidgetGradeList->setColumnWidth(0,W*0.5);
 	ui->tableWidgetGradeList->setColumnWidth(1,W*0.5);
 
-	ui->tableWidgetBarcodeType->setRowCount(GetBarcodeTypeTableCount());
-	for(int i=0;i<GetBarcodeTypeTableCount();i++){
-		QString TypeName;
-		GetBarcodeTypeTable(i,TypeName);
-		BarcodeTypeTableCb[i]=::SetDataToTableCheckable(ui->tableWidgetBarcodeType
-														, 0, i
-														,TypeName , false);
-	}
-	ui->tableWidgetBarcodeOrientation->setRowCount(GetBarcodeOrientationTableCount());
-	for(int i=0;i<GetBarcodeOrientationTableCount();i++){	
-		QString TypeName;
-		GetBarcodeOrientationTable(i,TypeName);
-		BarcodeOrientationTableCb[i]=::SetDataToTableCheckable(ui->tableWidgetBarcodeOrientation
-																, 0, i
-																,TypeName , false);
-	}
 	on_comboBoxCheckType_currentIndexChanged(0);
 
 	InstallOperationLog(this);
@@ -77,30 +61,7 @@ void	SetThresholdForm::SetDataToWindow(const	BCRInspectionThreshold	*R)
 {
 	ui->comboBoxCheckType			->setCurrentIndex(R->CheckType);
 	ui->doubleSpinBoxQuilityGrade	->setValue(R->QuilityGrade);
-	for(int i=0;i<GetBarcodeTypeTableCount();i++){	
-		if(BarcodeTypeTableCb[i]!=NULL){
-			QString TypeName;
-			uint32	m=GetBarcodeTypeTable(i,TypeName);
-			if((R->BarcodeType & m)==m){
-				BarcodeTypeTableCb[i]->setChecked(true);
-			}
-			else{
-				BarcodeTypeTableCb[i]->setChecked(false);
-			}
-		}
-	}
-	for(int i=0;i<GetBarcodeOrientationTableCount();i++){	
-		if(BarcodeOrientationTableCb[i]!=NULL){
-			QString TypeName;
-			uint32	m=GetBarcodeOrientationTable(i,TypeName);
-			if((R->BarcodeOrientation & m)==m){
-				BarcodeOrientationTableCb[i]->setChecked(true);
-			}
-			else{
-				BarcodeOrientationTableCb[i]->setChecked(false);
-			}
-		}
-	}
+
 	ui->checkBoxBarcodeIsOnlyDigit->setChecked(R->BarcodeIsOnlyDigit);
 	ShowGradeList(((BCRInspectionThreshold *)R)->GradeList);
 }
@@ -119,23 +80,6 @@ void	SetThresholdForm::GetDataFromWindow(void)
 		BData->GetThresholdW(GetLayersBase())->QuilityGrade	=ui->doubleSpinBoxQuilityGrade	->value();
 		LoadGradeListFromWindow(BData->GetThresholdW()->GradeList);
 
-		BData->GetThresholdW(GetLayersBase())->BarcodeType			=0;
-		BData->GetThresholdW(GetLayersBase())->BarcodeOrientation	=0;
-
-		for(int i=0;i<GetBarcodeTypeTableCount();i++){	
-			bool	b=::GetCheckedFromTable(ui->tableWidgetBarcodeType, 0, i);
-			if(b==true){
-				QString TypeName;
-				BData->GetThresholdW(GetLayersBase())->BarcodeType |=GetBarcodeTypeTable(i,TypeName);
-			}
-		}
-		for(int i=0;i<GetBarcodeOrientationTableCount();i++){	
-			bool	b=::GetCheckedFromTable(ui->tableWidgetBarcodeOrientation, 0, i);
-			if(b==true){
-				QString TypeName;
-				BData->GetThresholdW(GetLayersBase())->BarcodeOrientation |=GetBarcodeOrientationTable(i,TypeName);
-			}
-		}
 		BData->GetThresholdW(GetLayersBase())->BarcodeIsOnlyDigit	=ui->checkBoxBarcodeIsOnlyDigit->isChecked();
 		//return;
 	}
@@ -253,23 +197,7 @@ void    SetThresholdForm::CalcResult(void)
 
 	CheckType		=ui->comboBoxCheckType	->currentIndex();
 	QuilityGrade	=ui->doubleSpinBoxQuilityGrade	->value();
-	BarcodeType		=0;
-	BarcodeOrientation	=0;
 
-	for(int i=0;i<GetBarcodeTypeTableCount();i++){	
-		bool	b=::GetCheckedFromTable(ui->tableWidgetBarcodeType, 0, i);
-		if(b==true){
-			QString TypeName;
-			BarcodeType |=GetBarcodeTypeTable(i,TypeName);
-		}
-	}
-	for(int i=0;i<GetBarcodeOrientationTableCount();i++){	
-		bool	b=::GetCheckedFromTable(ui->tableWidgetBarcodeOrientation, 0, i);
-		if(b==true){
-			QString TypeName;
-			BarcodeOrientation |=GetBarcodeOrientationTable(i,TypeName);
-		}
-	}
 	BarcodeIsOnlyDigit	=ui->checkBoxBarcodeIsOnlyDigit->isChecked();
 
 	LoadGradeListFromWindow(GradeList);
@@ -304,7 +232,6 @@ void    SetThresholdForm::CalcResult(void)
 			BCRInspectionSendTryThreshold	*R=((BCRInspectionSendTryThreshold *)PacketSend.Data);
 	
 			ui->labelResultQuality	->setText(R->ResultStr);
-			ui->labelResultBarCode	->setText(R->ResultStr);
 			break;
 		}
 	}

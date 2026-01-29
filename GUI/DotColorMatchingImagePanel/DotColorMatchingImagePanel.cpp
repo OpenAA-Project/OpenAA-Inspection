@@ -248,7 +248,7 @@ void	DotColorMatchingImagePanel::AddMenuSelectMenuBtn(QMenu &menu)
 }
 void	DotColorMatchingImagePanel::SlotSelectByLibOutline()
 {
-	SelectBlockBySpecialDialog	D(DefLibTypeDotColorMatchingInspect,GetLayersBase());
+	SelectBlockBySpecialDialog	D(this,DefLibTypeDotColorMatchingInspect,GetLayersBase());
 	if(D.exec()==(int)true){
 		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);

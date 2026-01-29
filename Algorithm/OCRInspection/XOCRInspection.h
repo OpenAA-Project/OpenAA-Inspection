@@ -19,28 +19,20 @@
 #include "NListComp.h"
 
 class	OCRInspectionItem;
+namespace tesseract {
+    class TessBaseAPI;
+}
 
 class	OCRInspectionThreshold : public AlgorithmThreshold
 {
 public:
-	int32		AbsLR, AbsHR;
-	int32		AbsLG, AbsHG;
-	int32		AbsLB, AbsHB;
-	int32		EnsmallDot;
-	int32		EnlargeDot;
-	int32		BlockWidth;
-	int32		BlockHeight;
-	int32		MinSize;
 	int32		Mergin;
-	ColorLogic	MaskingColor;
-	bool		UseColorLogic;
-	double		Rotation;
 
-	int				RegNumber;
-	bool			InspectMatching;
-	bool			SaveIntoResult;
-	bool			OKByFailingRecognition;
-	QStringList		CorrectList;
+	int			RegNumber;
+	bool		InspectMatching;
+	bool		SaveIntoResult;	
+	bool		OKByFailingRecognition;
+	QStringList	CorrectList;
 
 	OCRInspectionThreshold(OCRInspectionItem *parent);
 
@@ -53,9 +45,10 @@ public:
 
 class	OCRInspectionItem : public AlgorithmItemPI
 {
-	BYTE	**MaskingMap;
-	BYTE	**TmpBuff;
+	QImage	Map;
+
 	int		XByte;
+	int		XLen;	
 	int		YLen;
 public:
 	AlignmentPacket2D	*AVector;
@@ -79,7 +72,8 @@ public:
 	bool	Match(QString &_Result);
 	virtual	QString	OutputResult(ResultPosList *p)	override;
 private:
-	void	MakeImage (int mx,int my,ImagePointerContainer &ImageList);
+	void	MakeImage (QImage &Map,int mx,int my,ImagePointerContainer &ImageList);
+	void	AllocateBuff(void);
 };
 
 class   OCRInspectionInPage : public AlgorithmInPagePI
@@ -106,6 +100,9 @@ public:
 	QColor	NegColorOCR;
 	QColor	NegColorSelected;
 	int32	AdotpedLayer;
+	tesseract::TessBaseAPI *OcrApi;
+	QString		OCRDataPath;
+	QString		OCRLanguage;
 
 	OCRInspectionBase(LayersBase *Base);
 	virtual	~OCRInspectionBase(void);
@@ -119,6 +116,7 @@ public:
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet)	override;
 
 	bool	GetOCR(const QString &FileName ,QString &Result);
+	bool	GetOCR(const QImage &Image ,QString &Result);
 
 private:
 
@@ -128,18 +126,7 @@ private:
 class	AddOCRInspectionAreaPacket : public GUIDirectMessage
 {
 public:
-	int32		AbsLR, AbsHR;
-	int32		AbsLG, AbsHG;
-	int32		AbsLB, AbsHB;
-	int32		EnsmallDot;
-	int32		EnlargeDot;
-	int32		BlockWidth;
-	int32		BlockHeight;
-	int32		MinSize;
 	int32		Mergin;
-	ColorLogic	MaskingColor;
-	bool		UseColorLogic;
-	double		Rotation;
 
 	FlexArea		Area;
 	QString			ItemName;
@@ -155,18 +142,7 @@ public:
 class	UpdateOCRInspectionAreaPacket : public GUIDirectMessage
 {
 public:
-	int32		AbsLR, AbsHR;
-	int32		AbsLG, AbsHG;
-	int32		AbsLB, AbsHB;
-	int32		EnsmallDot;
-	int32		EnlargeDot;
-	int32		BlockWidth;
-	int32		BlockHeight;
-	int32		MinSize;
 	int32		Mergin;
-	ColorLogic	MaskingColor;
-	bool		UseColorLogic;
-	double		Rotation;
 
 	int				ItemID;
 	QString			ItemName;
@@ -245,6 +221,16 @@ public:
 		:GUIDirectMessage(base){}
 };
 
+class	CmdReqOCRResults : public GUIDirectMessage
+{
+public:
+	QString	ItemName;
+	QString	ResultOCR;
+
+	CmdReqOCRResults(LayersBase *base):GUIDirectMessage(base){}
+	CmdReqOCRResults(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
+
 //----------------------------------------------------------
 class	OCRList : public NPListSaveLoad<OCRList>
 {
@@ -253,18 +239,7 @@ public:
 	int			ItemID;
 	QString		ItemName;
 
-	int32		AbsLR, AbsHR;
-	int32		AbsLG, AbsHG;
-	int32		AbsLB, AbsHB;
-	int32		EnsmallDot;
-	int32		EnlargeDot;
-	int32		BlockWidth;
-	int32		BlockHeight;
-	int32		MinSize;
 	int32		Mergin;
-	ColorLogic	MaskingColor;
-	bool		UseColorLogic;
-	double		Rotation;
 
 	int			RegNumber;
 	bool		InspectMatching;
@@ -292,18 +267,8 @@ inline	OCRList::OCRList(void)
 	GlobalPage	=-1;
 	ItemID=-1;
 
-	AbsLR=AbsHR=0;
-	AbsLG=AbsHG=0;
-	AbsLB=AbsHB=0;
-
-	EnlargeDot	=0;
-	EnsmallDot	=0;
-	MinSize		=0;
-
-	BlockWidth=BlockHeight	=100;
 	Mergin					=0;
-	UseColorLogic			=false;
-	Rotation				=0;
+
 }
 inline	bool	OCRList::Save(QIODevice *f)
 {
@@ -314,37 +279,10 @@ inline	bool	OCRList::Save(QIODevice *f)
 	if(::Save(f,ItemName)==false)
 		return false;
 
-	if(::Save(f,AbsLR)==false)
-		return false;
-	if(::Save(f,AbsHR)==false)
-		return false;
-	if(::Save(f,AbsLG)==false)
-		return false;
-	if(::Save(f,AbsHG)==false)
-		return false;
-	if(::Save(f,AbsLB)==false)
-		return false;
-	if(::Save(f,AbsHB)==false)
-		return false;
-	if(::Save(f,EnlargeDot)==false)
-		return false;
-	if(::Save(f,EnsmallDot)==false)
-		return false;
-	if(::Save(f,BlockWidth)==false)
-		return false;
-	if(::Save(f,BlockHeight)==false)
-		return false;
 
 	if(::Save(f,Mergin)==false)
 		return false;
-	if(MaskingColor.Save(f)==false)
-		return false;
-	if(::Save(f,MinSize)==false)
-		return false;
-	if(::Save(f,UseColorLogic)==false)
-		return false;
-	if(::Save(f,Rotation)==false)
-		return false;
+
 
 	if(::Save(f,RegNumber)==false)
 		return false;
@@ -378,36 +316,8 @@ inline	bool	OCRList::Load(QIODevice *f)
 	if(::Load(f,ItemName)==false)
 		return false;
 
-	if(::Load(f,AbsLR)==false)
-		return false;
-	if(::Load(f,AbsHR)==false)
-		return false;
-	if(::Load(f,AbsLG)==false)
-		return false;
-	if(::Load(f,AbsHG)==false)
-		return false;
-	if(::Load(f,AbsLB)==false)
-		return false;
-	if(::Load(f,AbsHB)==false)
-		return false;
-	if(::Load(f,EnlargeDot)==false)
-		return false;
-	if(::Load(f,EnsmallDot)==false)
-		return false;
-	if(::Load(f,BlockWidth)==false)
-		return false;
-	if(::Load(f,BlockHeight)==false)
-		return false;
 
 	if(::Load(f,Mergin)==false)
-		return false;
-	if(MaskingColor.Load(f)==false)
-		return false;
-	if(::Load(f,MinSize)==false)
-		return false;
-	if(::Load(f,UseColorLogic)==false)
-		return false;
-	if(::Load(f,Rotation)==false)
 		return false;
 
 	if(::Load(f,RegNumber)==false)
@@ -459,23 +369,5 @@ public:
 		:GUIDirectMessage(base){}
 };
 
-class	CmdReqBCodeResults : public GUIDirectMessage
-{
-public:
-	QStringList	ResultBarcode;
-
-	CmdReqBCodeResults(LayersBase *base)
-		:GUIDirectMessage(base){}
-};
-
-class	CmdSetBCodeResults: public GUIDirectMessage
-{
-public:
-	QString		ResultBarcode;
-	bool		OK;
-
-	CmdSetBCodeResults(LayersBase *base)
-		:GUIDirectMessage(base){	OK=false;	}
-};
 
 #endif

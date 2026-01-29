@@ -141,10 +141,6 @@ bool	GUICmdAddBCodeArea::Load(QIODevice *f)
 		return false;
 	if(GradeList.Load(f)==false)
 		return false;
-	if(::Load(f,BarcodeOrientation)==false)
-		return false;
-	if(::Load(f,BarcodeType)==false)
-		return false;
 	if(::Load(f,BarcodeIsOnlyDigit)==false)
 		return false;
 	return true;
@@ -161,10 +157,6 @@ bool	GUICmdAddBCodeArea::Save(QIODevice *f)
 	if(::Save(f,QuilityGrade)==false)
 		return false;
 	if(GradeList.Save(f)==false)
-		return false;
-	if(::Save(f,BarcodeOrientation)==false)
-		return false;
-	if(::Save(f,BarcodeType)==false)
 		return false;
 	if(::Save(f,BarcodeIsOnlyDigit)==false)
 		return false;
@@ -184,8 +176,6 @@ void	GUICmdAddBCodeArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 		Cmd.CheckType			=CheckType;
 		Cmd.QuilityGrade		=QuilityGrade;
 		Cmd.GradeList			=GradeList;
-		Cmd.BarcodeOrientation	=BarcodeOrientation;
-		Cmd.BarcodeType			=BarcodeType;
 		Cmd.BarcodeIsOnlyDigit	=BarcodeIsOnlyDigit;
 		APage->TransmitDirectly(&Cmd);
 	}
@@ -236,8 +226,6 @@ void	GUICmdReqBCodeInfoByID::Receive(int32 localPage, int32 cmd ,QString &Emitte
 			SendBack->CheckType			=D.CheckType	;		
 			SendBack->QuilityGrade		=D.QuilityGrade	;
 			SendBack->GradeList			=D.GradeList	;
-			SendBack->BarcodeOrientation=D.BarcodeOrientation	;
-			SendBack->BarcodeType		=D.BarcodeType	;
 			SendBack->BarcodeIsOnlyDigit=D.BarcodeIsOnlyDigit	;
 		}
 	}
@@ -260,10 +248,6 @@ bool	GUICmdAckBCodeInfoByID::Load(QIODevice *f)
 		return false;
 	if(GradeList.Load(f)==false)
 		return false;
-	if(::Load(f,BarcodeOrientation)==false)
-		return false;
-	if(::Load(f,BarcodeType)==false)
-		return false;
 	if(::Load(f,BarcodeIsOnlyDigit)==false)
 		return false;
 	return true;
@@ -277,10 +261,6 @@ bool	GUICmdAckBCodeInfoByID::Save(QIODevice *f)
 	if(::Save(f,QuilityGrade)==false)
 		return false;
 	if(GradeList.Save(f)==false)
-		return false;
-	if(::Save(f,BarcodeOrientation)==false)
-		return false;
-	if(::Save(f,BarcodeType)==false)
 		return false;
 	if(::Save(f,BarcodeIsOnlyDigit)==false)
 		return false;
@@ -311,10 +291,6 @@ bool	GUICmdSetBCodeInfoByID::Load(QIODevice *f)
 		return false;
 	if(GradeList.Load(f)==false)
 		return false;
-	if(::Load(f,BarcodeOrientation)==false)
-		return false;
-	if(::Load(f,BarcodeType)==false)
-		return false;
 	if(::Load(f,BarcodeIsOnlyDigit)==false)
 		return false;
 	return true;
@@ -333,10 +309,6 @@ bool	GUICmdSetBCodeInfoByID::Save(QIODevice *f)
 	if(::Save(f,QuilityGrade)==false)
 		return false;
 	if(GradeList.Save(f)==false)
-		return false;
-	if(::Save(f,BarcodeOrientation)==false)
-		return false;
-	if(::Save(f,BarcodeType)==false)
 		return false;
 	if(::Save(f,BarcodeIsOnlyDigit)==false)
 		return false;
@@ -358,8 +330,6 @@ void	GUICmdSetBCodeInfoByID::Receive(int32 localPage, int32 cmd ,QString &Emitte
 			Cmd.CheckType			=CheckType;
 			Cmd.QuilityGrade		=QuilityGrade;
 			Cmd.GradeList			=GradeList;
-			Cmd.BarcodeOrientation	=BarcodeOrientation;
-			Cmd.BarcodeType			=BarcodeType;
 			Cmd.BarcodeIsOnlyDigit	=BarcodeIsOnlyDigit;
 			APage->TransmitDirectly(&Cmd);
 		}

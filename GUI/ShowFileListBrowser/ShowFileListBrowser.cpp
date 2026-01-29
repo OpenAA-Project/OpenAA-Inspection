@@ -363,7 +363,8 @@ bool	ShowFileListBrowser::LoadImage(const QString &FileNameWithPath ,int page)
 		QFileInfo	Info(FileNameWithPath);
 		QString	Suf=Info.suffix();
 
-		if(Suf.toUpper()==/**/"MJPG"
+		if(Suf.toUpper()==/**/"MP4"
+		|| Suf.toUpper()==/**/"MJPG"
 		|| Suf.toUpper()==/**/"AVI"
 		|| Suf.toUpper()==/**/"MPG"
 		|| Suf.toUpper()==/**/"MPEG"

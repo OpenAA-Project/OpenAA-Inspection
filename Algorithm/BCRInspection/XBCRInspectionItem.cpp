@@ -1,8 +1,6 @@
 #include "BCRInspectionResource.h"
 #include "swap.h"
 #include "XBCRInspection.h"
-#include "DTKBarReader.h"
-#include "DTKImage.h"
 #include "fftw3.h"
 #include "XCriticalFunc.h"
 
@@ -13,8 +11,6 @@ BCRInspectionThreshold::BCRInspectionThreshold(BCRInspectionItem *parent)
 {
 	CheckType			=0;
 	QuilityGrade		=10;
-	BarcodeOrientation	=0;
-	BarcodeType			=0;
 	BarcodeIsOnlyDigit	=true;
 }
 	
@@ -24,8 +20,6 @@ void	BCRInspectionThreshold::CopyFrom(const AlgorithmThreshold &src)
 	CheckType			=s->CheckType;
 	QuilityGrade		=s->QuilityGrade;
 	GradeList			=s->GradeList;
-	BarcodeOrientation	=s->BarcodeOrientation;
-	BarcodeType			=s->BarcodeType;
 	BarcodeIsOnlyDigit	=s->BarcodeIsOnlyDigit;
 }
 	
@@ -35,8 +29,6 @@ bool	BCRInspectionThreshold::IsEqual(const AlgorithmThreshold &src)	const
 	if(CheckType		==s->CheckType
 	&& QuilityGrade		==s->QuilityGrade
 	&& GradeList		==s->GradeList
-	&& BarcodeOrientation==s->BarcodeOrientation
-	&& BarcodeType		==s->BarcodeType
 	&& BarcodeIsOnlyDigit==s->BarcodeIsOnlyDigit){
 		return true;
 	}
@@ -53,8 +45,6 @@ bool	BCRInspectionThreshold::Save(QIODevice *f)
 	if(::Save(f,CheckType	)==false)	return false;
 	if(::Save(f,QuilityGrade)==false)	return false;
 	if(GradeList.Save(f)	==false)	return false;
-	if(::Save(f,BarcodeOrientation	)==false)	return false;
-	if(::Save(f,BarcodeType			)==false)	return false;
 	if(::Save(f,BarcodeIsOnlyDigit	)==false)	return false;
 	return true;
 }
@@ -77,8 +67,6 @@ bool	BCRInspectionThreshold::Load(QIODevice *f)
 		if(::Load(f,CheckType	)==false)	return false;
 		if(::Load(f,QuilityGrade)==false)	return false;
 		if(GradeList.Load(f)	==false)	return false;
-		if(::Load(f,BarcodeOrientation	)==false)	return false;
-		if(::Load(f,BarcodeType			)==false)	return false;
 		if(::Load(f,BarcodeIsOnlyDigit	)==false)	return false;
 	}
 	return true;
@@ -255,8 +243,6 @@ void	BCRInspectionItem::CopyThresholdOnly(BCRInspectionItem *src)
 	W->CheckType			=R->CheckType;
 	W->QuilityGrade			=R->QuilityGrade;
 	W->GradeList			=R->GradeList;
-	W->BarcodeOrientation	=R->BarcodeOrientation;
-	W->BarcodeType			=R->BarcodeType;
 	W->BarcodeIsOnlyDigit	=R->BarcodeIsOnlyDigit;
 }
 
@@ -341,7 +327,7 @@ bool	BCRInspectionItem::Calc1D(ImagePointerContainer &ImageList)
 		}
 		catch(...){}
 		const	BCRInspectionThreshold	*RThr=GetThresholdR();
-		ABase->GetBCR1D(RThr->BarcodeOrientation,RThr->BarcodeType,RThr->BarcodeIsOnlyDigit
+		ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
 						,/**/"TmpBCR.bmp",Result);
 
 		if(Result.isEmpty()==true && GetLayerNumb()>1){
@@ -349,13 +335,13 @@ bool	BCRInspectionItem::Calc1D(ImagePointerContainer &ImageList)
 				QImage	Img(W*ZoomRate,H*ZoomRate,QImage::Format_RGB32);
 				MakeImage(Img,ZoomRate,1,L,ImageList);
 				Img.save(/**/"TmpBCRR.bmp",/**/"BMP");
-				ABase->GetBCR1D(RThr->BarcodeOrientation,RThr->BarcodeType,RThr->BarcodeIsOnlyDigit
+				ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
 								,/**/"TmpBCRR.bmp",Result);
 				if(Result.isEmpty()==false)
 					break;
 				RMakeImage(Img,ZoomRate,1,L,ImageList);
 				Img.save(/**/"TmpBCRR.bmp",/**/"BMP");
-				ABase->GetBCR1D(RThr->BarcodeOrientation,RThr->BarcodeType,RThr->BarcodeIsOnlyDigit
+				ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
 								,/**/"TmpBCRR.bmp",Result);
 				if(Result.isEmpty()==false)
 					break;

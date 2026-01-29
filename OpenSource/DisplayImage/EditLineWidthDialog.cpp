@@ -8,7 +8,7 @@ EditLineWidthDialog::EditLineWidthDialog(LayersBase *Base,QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->spinBoxLineWidth->setValue(ControlRememberer::GetInt(ui->spinBoxLineWidth));
+    ui->spinBoxLineWidth->setValue(GetInt(ui->spinBoxLineWidth));
 
     InstallOperationLog(this);
 }
@@ -20,7 +20,7 @@ EditLineWidthDialog::~EditLineWidthDialog()
 
 void EditLineWidthDialog::on_pushButtonOK_clicked()
 {
-    LineWidth=ControlRememberer::SetValue(ui->spinBoxLineWidth);
+    LineWidth=SetValue(ui->spinBoxLineWidth);
     done(true);
 }
 

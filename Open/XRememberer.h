@@ -32,12 +32,15 @@
 #include "XTypeDef.h"
 
 class	ControlRemembererList;
+class	LayersBase;
+class	ControlRememberer;
 
 
 class ControlRemembererListContainer : public NPListPack<ControlRemembererList>
 {
+	ControlRememberer	*Rememberer;
 public:
-	ControlRemembererListContainer(){}
+	ControlRemembererListContainer(ControlRememberer *rememberer):Rememberer(rememberer){}
 	~ControlRemembererListContainer(){}
 
 	void	SetValue(const QString &VariableName,int d);
@@ -110,7 +113,7 @@ private:
 	ControlRemembererListContainer	Children;
 
 public:
-	ControlRemembererList(void);
+	ControlRemembererList(ControlRememberer *rememberer);
 	~ControlRemembererList(void);
 
 	void	ReleaseValue(void);
@@ -154,78 +157,83 @@ class	ControlRememberer
 {
 	friend	class ControlRemembererListContainer;
 
+	LayersBase	*Base;
+
 	static	QString	FileName;
 	static	bool	ReEntrant;
 public:
-	ControlRememberer(void){}
+	ControlRememberer(LayersBase *base):Base(base){}
 
-	static	int			GetInt			(QWidget *W	,int defaultValue=0);
-	static	double		GetDouble		(QWidget *W	,double defaultValue=0.0);
-	static	QString		GetString		(QWidget *W ,const QString &defaultValue=/**/"");
-	static	bool		GetBool			(QWidget *W	,bool defaultValue=true);
-	static	QStringList	GetStringList	(QWidget *W ,const QStringList &defaultValue=QStringList());
-	static	QDateTime	GetDateTime		(QWidget *W ,const QDateTime &defaultValue=QDateTime::currentDateTime());
-	static	IntListContainer	GetIntListContainer(QTreeWidget *W);
+	int			GetInt			(QWidget *W	,int defaultValue=0);
+	double		GetDouble		(QWidget *W	,double defaultValue=0.0);
+	QString		GetString		(QWidget *W ,const QString &defaultValue=/**/"");
+	bool		GetBool			(QWidget *W	,bool defaultValue=true);
+	QStringList	GetStringList	(QWidget *W ,const QStringList &defaultValue=QStringList());
+	QDateTime	GetDateTime		(QWidget *W ,const QDateTime &defaultValue=QDateTime::currentDateTime());
+	IntListContainer	GetIntListContainer(QTreeWidget *W);
 
-	static	void	LoadValue(QSpinBox *W		,int defaultValue);
-	static	void	LoadValue(QSlider *W		,int defaultValue);
-	static	void	LoadValue(QDoubleSpinBox *W	,double defaultValue);
-	static	void	LoadValue(QCheckBox *W		,bool defaultValue);
-	static	void	LoadValue(QRadioButton *W	,bool defaultValue);
-	static	void	LoadValue(QToolButton *W	,bool defaultValue);
-	static	void	LoadValue(QLineEdit *W		,const QString &defaultValue);
-	static	void	LoadValue(QTextEdit *W		,const QString &defaultValue);
-	static	void	LoadValue(QDateTimeEdit *W	,const QDateTime &defaultValue);
+	void	LoadValue(QSpinBox *W		,int defaultValue);
+	void	LoadValue(QSlider *W		,int defaultValue);
+	void	LoadValue(QDoubleSpinBox *W	,double defaultValue);
+	void	LoadValue(QCheckBox *W		,bool defaultValue);
+	void	LoadValue(QRadioButton *W	,bool defaultValue);
+	void	LoadValue(QToolButton *W	,bool defaultValue);
+	void	LoadValue(QLineEdit *W		,const QString &defaultValue);
+	void	LoadValue(QTextEdit *W		,const QString &defaultValue);
+	void	LoadValue(QDateTimeEdit *W	,const QDateTime &defaultValue);
 
-	static	void	SetValue(QWidget *W ,int d);
-	static	void	SetValue(QWidget *W ,const QString &d);
-	static	void	SetValue(QWidget *W ,bool d);
-	static	void	SetValue(QWidget *W ,double d);
-	static	void	SetValue(QWidget *W ,const QStringList &d);
-	static	void	SetValue(QWidget *W ,const QDateTime &d);
-	static	void	SetValue(QTreeWidget *W ,const IntListContainer &d);
+	void	SetValue(QWidget *W ,int d);
+	void	SetValue(QWidget *W ,const QString &d);
+	void	SetValue(QWidget *W ,bool d);
+	void	SetValue(QWidget *W ,double d);
+	void	SetValue(QWidget *W ,const QStringList &d);
+	void	SetValue(QWidget *W ,const QDateTime &d);
+	void	SetValue(QTreeWidget *W ,const IntListContainer &d);
 
-	static	int			SetValue(QSpinBox *W);
-	static	int			SetValue(QSlider *W);
-	static	double		SetValue(QDoubleSpinBox *W);
-	static	bool		SetValue(QCheckBox *W);
-	static	bool		SetValue(QRadioButton *W);
-	static	bool		SetValue(QToolButton *W);
-	static	QString		SetValue(QLineEdit *W);
-	static	QString		SetValue(QTextEdit *W);
-	static	QDateTime	SetValue(QDateTimeEdit *W);
+	int			SetValue(QSpinBox *W);
+	int			SetValue(QSlider *W);
+	double		SetValue(QDoubleSpinBox *W);
+	bool		SetValue(QCheckBox *W);
+	bool		SetValue(QRadioButton *W);
+	bool		SetValue(QToolButton *W);
+	QString		SetValue(QLineEdit *W);
+	QString		SetValue(QTextEdit *W);
+	QDateTime	SetValue(QDateTimeEdit *W);
 
-	static	int			GetInt			(const QString &VariableName,int defaultValue=0);
-	static	IntList		GetIntList		(const QString &VariableName,const IntList &defaultValue=IntList());
-	static	double		GetDouble		(const QString &VariableName,double defaultValue=0.0);
-	static	QString		GetString		(const QString &VariableName,const QString &defaultValue=/**/"");
-	static	bool		GetBool			(const QString &VariableName,bool defaultValue=true);
-	static	QStringList	GetStringList	(const QString &VariableName,const QStringList &defaultValue=QStringList());
-	static	QDateTime	GetDateTime		(const QString &VariableName,const QDateTime &defaultValue=QDateTime::currentDateTime());
-	static	QByteArray	GetByteArray	(const QString &VariableName);
+	int			GetInt			(const QString &VariableName,int defaultValue=0);
+	IntList		GetIntList		(const QString &VariableName,const IntList &defaultValue=IntList());
+	double		GetDouble		(const QString &VariableName,double defaultValue=0.0);
+	QString		GetString		(const QString &VariableName,const QString &defaultValue=/**/"");
+	bool		GetBool			(const QString &VariableName,bool defaultValue=true);
+	QStringList	GetStringList	(const QString &VariableName,const QStringList &defaultValue=QStringList());
+	QDateTime	GetDateTime		(const QString &VariableName,const QDateTime &defaultValue=QDateTime::currentDateTime());
+	QByteArray	GetByteArray	(const QString &VariableName);
 
-	static	void	SetValue(const QString &VariableName,int Value);
-	static	void	SetValue(const QString &VariableName,const IntList &Value);
-	static	void	SetValue(const QString &VariableName,double Value);
-	static	void	SetValue(const QString &VariableName,const QString &Value);
-	static	void	SetValue(const QString &VariableName,bool Value);
-	static	void	SetValue(const QString &VariableName,const QStringList &Value);
-	static	void	SetValue(const QString &VariableName,const QDateTime &Value);
-	static	void	SetValue(const QString &VariableName,const QByteArray &Value);
+	void	SetValue(const QString &VariableName,int Value);
+	void	SetValue(const QString &VariableName,const IntList &Value);
+	void	SetValue(const QString &VariableName,double Value);
+	void	SetValue(const QString &VariableName,const QString &Value);
+	void	SetValue(const QString &VariableName,bool Value);
+	void	SetValue(const QString &VariableName,const QStringList &Value);
+	void	SetValue(const QString &VariableName,const QDateTime &Value);
+	void	SetValue(const QString &VariableName,const QByteArray &Value);
 
-	static	void	SetDefaultFileName(const QString &filename);
+	void	SetRemembererDefaultFileName(const QString &filename);
 
-	static	void	SaveForm(QWidget *Form);
-	static	void	RestoreForm(QWidget *Form);
-	static	void	SaveForm(int ID,QWidget *Form);
-	static	void	RestoreForm(int ID,QWidget *Form);
+	void	SaveForm	(QWidget *Form);
+	void	RestoreForm	(QWidget *Form);
+	void	SaveForm	(int ID,QWidget *Form);
+	void	RestoreForm	(int ID,QWidget *Form);
 private:
-	static	QStringList	GetObjectNameList(QWidget *W);
-	static	QStringList	GetObjectNameList(QObject *W);
-	static	bool	LoadList(ControlRemembererListContainer &Stocker);
-	static	bool	SaveList(ControlRemembererListContainer &Stocker);
-	static	void	SaveFormChildren(QObject *Form,ControlRemembererList *p);
-	static	void	LoadFormChildren(QObject *Form,ControlRemembererList *p);
+	QStringList	GetObjectNameList(QWidget *W);
+	QStringList	GetObjectNameList(QObject *W);
+	bool	LoadList	(ControlRemembererListContainer &Stocker);
+	bool	SaveList	(ControlRemembererListContainer &Stocker);
+	void	SaveFormChildren(QObject *Form,ControlRemembererList *p);
+	void	LoadFormChildren(QObject *Form,ControlRemembererList *p);
+
+protected:
+	QString	GetRemembererFileName(void);
 };
 
 #endif

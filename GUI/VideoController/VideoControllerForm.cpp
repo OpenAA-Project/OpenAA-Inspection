@@ -1,6 +1,6 @@
 #include "VideoControllerForm.h"
 #include "ui_VideoControllerForm.h"
-#include "PlayVideoWidget.h"
+#include "XVideoCommon.h"
 
 VideoControllerForm::VideoControllerForm(LayersBase *Base ,QWidget *parent) :
     GUIFormBase(Base,parent),
@@ -19,7 +19,7 @@ VideoControllerForm::~VideoControllerForm()
 
 void	VideoControllerForm::ReadyParam(void)
 {
-	PlayVideoWidgetPointer	=dynamic_cast<PlayVideoWidget *>(GetLayersBase()->FindByName(/**/"Video",/**/"PlayWidget",/**/""));
+	PlayVideoWidgetPointer	=GetLayersBase()->FindByName(/**/"Video",/**/"PlayWidget",/**/"");
 	if(ShowFileOpenButton==false){
 		ui->toolButtonOpenFile->setVisible(false);
 	}
@@ -29,11 +29,13 @@ void	VideoControllerForm::ReadyParam(void)
 	connect(&TM,SIGNAL(timeout()),this,SLOT(SlotTimeOut()));
 	TM.start();
 }
+
 void	VideoControllerForm::TransmitDirectly(GUIDirectMessage *packet)
 {
 	CmdLoadFileAndStart	*CmdLoadFileAndStartVar=dynamic_cast<CmdLoadFileAndStart *>(packet);
 	if (CmdLoadFileAndStartVar != NULL) {
 		{
+			ui->toolButtonForwardMovie->setChecked(false);
 			CmdVideo_LoadFile	Cmd(GetLayersBase());
 			Cmd.FileName = CmdLoadFileAndStartVar->VideoFileName;
 			if (PlayVideoWidgetPointer != NULL) {
@@ -77,7 +79,13 @@ void VideoControllerForm::on_toolButtonRunMovie_clicked()
 		PlayVideoWidgetPointer->TransmitDirectly(&Cmd);
 	}
 	else {
-		{
+		if(ui->toolButtonRunMovie->isChecked()==false){
+			CmdVideo_Pause	Cmd(GetLayersBase());
+			if (PlayVideoWidgetPointer != NULL) {
+				PlayVideoWidgetPointer->TransmitDirectly(&Cmd);
+			}
+		}
+		else{
 			CmdVideo_Play	Cmd(GetLayersBase());
 			if (PlayVideoWidgetPointer != NULL) {
 				PlayVideoWidgetPointer->TransmitDirectly(&Cmd);
@@ -133,7 +141,7 @@ void VideoControllerForm::on_horizontalSliderMovie_valueChanged(int value)
 void VideoControllerForm::on_toolButtonOpenFile_clicked()
 {
 	QString	FileName=QFileDialog::getOpenFileName(NULL,"Open video file",QString()
-								,"MPeg file(*.mpg);;AVI file(*.avi);;Motion JPEG(*.mjpg);;All files(*.*)");
+								,"H264(*.mp4);;MPeg file(*.mpg);;AVI file(*.avi);;Motion JPEG(*.mjpg);;All files(*.*)");
 	if(FileName.isNull()==false){	
 		CmdVideo_LoadFile	Cmd(GetLayersBase());
 		Cmd.FileName=FileName;
@@ -149,6 +157,12 @@ void	VideoControllerForm::SlotTimeOut()
 	if(PlayVideoWidgetPointer!=NULL){
 		PlayVideoWidgetPointer->TransmitDirectly(&Cmd);
 		if(Cmd.IsPlaying==true){
+			ui->toolButtonRunMovie->setChecked(true);
+			ui->horizontalSliderMovie->setMaximum(Cmd.MaxTime);
+			ui->horizontalSliderMovie->setValue((int)Cmd.CurrentTime);
+		}
+		else{
+			ui->toolButtonRunMovie->setChecked(false);
 			ui->horizontalSliderMovie->setMaximum(Cmd.MaxTime);
 			ui->horizontalSliderMovie->setValue((int)Cmd.CurrentTime);
 		}

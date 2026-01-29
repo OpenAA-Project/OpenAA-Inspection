@@ -262,7 +262,9 @@ bool	TextMessageContainer::Load(QIODevice *f)
 
 //----------------------------------------------------------------------------------------------
 
-GUIFormBase::GUIFormBase(LayersBase	*_LayersBasePoint,QWidget *parent):QFrame(parent)
+GUIFormBase::GUIFormBase(LayersBase	*_LayersBasePoint,QWidget *parent)
+	:QFrame(parent)
+	,ControlRememberer(_LayersBasePoint)
 {
 	LayersBasePoint		=_LayersBasePoint;
 	TargetPage			=-1;

@@ -1,6 +1,6 @@
 #include "AutoSaveImageViewListResource.h"
 #include "FormSelectFolders.h"
-#include <QDirModel>
+#include <QFileSystemModel>
 #include <QDir>
 #include <QFileInfo>
 
@@ -8,7 +8,7 @@ FormSelectFolders::FormSelectFolders(LayersBase *base, QWidget *parent)
 	: QDialog(parent),ServiceForLayers(base)
 {
 	ui.setupUi(this);
-	QDirModel *model = new QDirModel();
+	QFileSystemModel *model = new QFileSystemModel();
 	model->setFilter(QDir::Drives | QDir::Dirs);
 	ui.treeViewFolders->setModel(model);
 	//ui.treeViewFolders->setRootIndex(model->index(QDir::currentPath()));
@@ -27,7 +27,7 @@ void FormSelectFolders::on_pushButtonOK_clicked()
 	PathLists.clear();
 	QItemSelectionModel *SelectedItemsmodel=ui.treeViewFolders->QAbstractItemView::selectionModel();
 	QModelIndexList SIndex=SelectedItemsmodel->selectedIndexes();
-	QDirModel *DModel = (QDirModel *)ui.treeViewFolders->model();
+	QFileSystemModel *DModel = (QFileSystemModel *)ui.treeViewFolders->model();
 	for(int i=0;i<SIndex.count();i++){
 		QModelIndex Index=SIndex[i];
 		if(Index.column()==0){

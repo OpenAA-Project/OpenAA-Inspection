@@ -18,17 +18,7 @@ EditOCRItemDialog::EditOCRItemDialog(LayersBase *Base, QWidget *parent) :
 	SaveIntoResult	=false;
 	OKByFailingRecognition=false;
 
-	AbsLR=AbsHR=0;
-	AbsLG=AbsHG=0;
-	AbsLB=AbsHB=0;
-	EnsmallDot=0;
-	EnlargeDot=0;
-	BlockWidth=0;
-	BlockHeight=0;
-	MinSize=0;
 	Mergin=0;
-	UseColorLogic=false;
-	Rotation	=0;
 
 	ui->checkBoxInspectMatching			->setChecked(ControlRememberer::GetBool(ui->checkBoxInspectMatching			,false));
 	ui->checkBoxSaveIntoResult			->setChecked(ControlRememberer::GetBool(ui->checkBoxSaveIntoResult			,false));
@@ -38,9 +28,6 @@ EditOCRItemDialog::EditOCRItemDialog(LayersBase *Base, QWidget *parent) :
 	ui->ButtonDeleteItem	->setVisible(false);
 	ui->ButtonSaveNewItem	->setVisible(true);
 	ui->ButtonUpdateItem	->setVisible(false);
-	int	LayerNumb=GetLayersBase()->GetMaxLayerNumb();
-	if(LayerNumb<3)
-		ui->pushButtonPickupColor->setVisible(false);
 
 	InstallOperationLog(this);
 }
@@ -62,7 +49,6 @@ void EditOCRItemDialog::ReflectToWindow(void)
 	ui->ButtonDeleteItem	->setVisible(true);
 	ui->ButtonSaveNewItem	->setVisible(true);
 	ui->ButtonUpdateItem	->setVisible(true);
-	ui->spinBoxRotation		->setValue(Rotation);
 }
 void EditOCRItemDialog::FromWindow(void)
 {
@@ -72,7 +58,6 @@ void EditOCRItemDialog::FromWindow(void)
 	OKByFailingRecognition	=ui->checkBoxOKByFailingRecognition	->isChecked();
 	RegNumber				=ui->spinBoxRegNumber				->value	();
 	CorrectList				=::GetDataFromListWidget(ui->listWidgetMatchingList);
-	Rotation				=ui->spinBoxRotation				->value();
 }
 
 void EditOCRItemDialog::on_listWidgetMatchingList_doubleClicked(const QModelIndex &index)
@@ -140,96 +125,4 @@ void EditOCRItemDialog::on_pushButtonClose_clicked()
 void EditOCRItemDialog::on_ButtonDeleteItem_clicked()
 {
 	done(3);
-}
-
-void EditOCRItemDialog::on_pushButtonPickupColor_clicked()
-{
-	int	LayerNumb=GetLayersBase()->GetMaxLayerNumb();
-	if(LayerNumb>=3){
-		AddManualItemForm	D(GetLayersBase(),NULL);
-		D.AbsLR			=AbsLR;
-		D.AbsHR			=AbsHR;
-		D.AbsLG			=AbsLG;
-		D.AbsHG			=AbsHG;
-		D.AbsLB			=AbsLB;
-		D.AbsHB			=AbsHB;
-		D.EnsmallDot	=EnsmallDot;
-		D.EnlargeDot	=EnlargeDot;
-		D.BlockWidth	=BlockWidth;
-		D.BlockHeight	=BlockHeight;
-		D.MinSize		=MinSize;
-		D.Mergin		=Mergin;
-		D.MaskingColor	=MaskingColor;
-		D.Initial();
-		if(D.exec()==(int)true){
-			AbsLR			=D.AbsLR;
-			AbsHR			=D.AbsHR;
-			AbsLG			=D.AbsLG;
-			AbsHG			=D.AbsHG;
-			AbsLB			=D.AbsLB;
-			AbsHB			=D.AbsHB;
-			EnsmallDot		=D.EnsmallDot;
-			EnlargeDot		=D.EnlargeDot;
-			BlockWidth		=D.BlockWidth;
-			BlockHeight		=D.BlockHeight;
-			MinSize			=D.MinSize;
-			Mergin			=D.Mergin;
-			MaskingColor	=D.MaskingColor;
-			UseColorLogic	=true;
-		}
-	}
-	else{
-		on_pushButtonPickupBrightness_clicked();
-	}
-}
-
-void EditOCRItemDialog::on_pushButtonPickupBrightness_clicked()
-{
-	AddMonoManualItemForm	D(GetLayersBase(),NULL);
-	D.AbsLR			=AbsLR;
-	D.AbsHR			=AbsHR;
-	D.AbsLG			=AbsLG;
-	D.AbsHG			=AbsHG;
-	D.AbsLB			=AbsLB;
-	D.AbsHB			=AbsHB;
-	D.EnsmallDot	=EnsmallDot;
-	D.EnlargeDot	=EnlargeDot;
-	D.BlockWidth	=BlockWidth;
-	D.BlockHeight	=BlockHeight;
-	D.MinSize		=MinSize;
-	D.SetInitial();
-	if(D.exec()==(int)true){
-		AbsLR			=D.AbsLR;
-		AbsHR			=D.AbsHR;
-		AbsLG			=D.AbsLG;
-		AbsHG			=D.AbsHG;
-		AbsLB			=D.AbsLB;
-		AbsHB			=D.AbsHB;
-		EnsmallDot		=D.EnsmallDot;
-		EnlargeDot		=D.EnlargeDot;
-		BlockWidth		=D.BlockWidth;
-		BlockHeight		=D.BlockHeight;
-		MinSize			=D.MinSize;
-		UseColorLogic	=false;
-	}
-}
-
-void EditOCRItemDialog::on_pushButtonRotation0_clicked()
-{
-	ui->spinBoxRotation	->setValue(0);
-}
-
-void EditOCRItemDialog::on_pushButtonRotation90_clicked()
-{
-	ui->spinBoxRotation	->setValue(90);
-}
-
-void EditOCRItemDialog::on_pushButton180_clicked()
-{
-	ui->spinBoxRotation	->setValue(180);
-}
-
-void EditOCRItemDialog::on_pushButton270_clicked()
-{
-	ui->spinBoxRotation	->setValue(270);
 }

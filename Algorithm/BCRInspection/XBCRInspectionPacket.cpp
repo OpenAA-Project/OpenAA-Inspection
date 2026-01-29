@@ -32,8 +32,6 @@ BCRInspectionThresholdSend::BCRInspectionThresholdSend(void)
 
 	CheckType			=0;		   
 	QuilityGrade		=10.0;
-	BarcodeOrientation	=0;
-	BarcodeType			=0;
 	BarcodeIsOnlyDigit	=false;
 }
 
@@ -53,8 +51,6 @@ void	BCRInspectionThresholdSend::ConstructList(BCRInspectionThresholdReq *reqPac
 			CheckType			=RThr->CheckType			;
 			QuilityGrade		=RThr->QuilityGrade			;
 			GradeList			=RThr->GradeList			;
-			BarcodeOrientation	=RThr->BarcodeOrientation	;
-			BarcodeType			=RThr->BarcodeType			;
 			BarcodeIsOnlyDigit	=RThr->BarcodeIsOnlyDigit	;
 		}
 	}
@@ -73,10 +69,6 @@ bool	BCRInspectionThresholdSend::Save(QIODevice *f)
 		return false;
 	if(GradeList.Save(f)==false)
 		return false;
-	if(::Save(f,BarcodeOrientation)==false)
-		return false;
-	if(::Save(f,BarcodeType)==false)
-		return false;
 	if(::Save(f,BarcodeIsOnlyDigit)==false)
 		return false;
 
@@ -94,10 +86,6 @@ bool	BCRInspectionThresholdSend::Load(QIODevice *f)
 	if(::Load(f,QuilityGrade)==false)
 		return false;
 	if(GradeList.Load(f)==false)
-		return false;
-	if(::Load(f,BarcodeOrientation)==false)
-		return false;
-	if(::Load(f,BarcodeType)==false)
 		return false;
 	if(::Load(f,BarcodeIsOnlyDigit)==false)
 		return false;
@@ -202,8 +190,6 @@ void	BCRInspectionSendTryThreshold::Calc(BCRInspectionItem *Target
 		Target->GetThresholdW()->CheckType			=Req->Data.CheckType			;		   
 		Target->GetThresholdW()->QuilityGrade		=Req->Data.QuilityGrade			;
 		Target->GetThresholdW()->GradeList			=Req->Data.GradeList			;
-		Target->GetThresholdW()->BarcodeOrientation	=Req->Data.BarcodeOrientation	;
-		Target->GetThresholdW()->BarcodeType		=Req->Data.BarcodeType			;		
 		Target->GetThresholdW()->BarcodeIsOnlyDigit	=Req->Data.BarcodeIsOnlyDigit	;
 	}
 	Target->ExecuteStartByInspection	(0,0,Result);

@@ -215,9 +215,9 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\ServiceForAlgorithm;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\..\..\OpenAA-OtherLibrary\eigen\eigen-5.0.0\Eigen;..\..\Integrator\IntegrationLib;..\..\..\OpenAA-OtherLibrary\LibPNG\lpng1653;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\ServiceLib\ServiceLib;..\..\Open;..\..\EditGUI\EditGUI;..\..\GeneralSource;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;SERVICELIB_LIB;NO_INLINE_ASSEMBLER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -227,19 +227,19 @@
       <UseIntelOptimizedHeaders>false</UseIntelOptimizedHeaders>
       <OpenMP>GenerateParallelCode</OpenMP>
       <GenerateAlternateCodePaths>SSE3</GenerateAlternateCodePaths>
-      <UseProcessorExtensions>SSE42</UseProcessorExtensions>
+      <UseProcessorExtensions>None</UseProcessorExtensions>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <CheckPointers>None</CheckPointers>
       <CheckDanglingPointers>None</CheckDanglingPointers>
-      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
       <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <Optimization>MaxSpeedHighLevel</Optimization>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>ForWindows.lib;NetworkDrive.lib;libpng16.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -522,6 +522,7 @@
     <ClCompile Include="..\..\GeneralSource\XPointerAsm.cpp" />
     <ClCompile Include="..\..\GeneralSource\XPrinterDLLBaseClass.cpp" />
     <ClCompile Include="..\..\GeneralSource\XPrinterManager.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XProcess.cpp" />
     <ClCompile Include="..\..\GeneralSource\XQuickBuffer.cpp" />
     <ClCompile Include="..\..\GeneralSource\XRegulation.cpp">
       <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnableFiberSafeOptimizations>
@@ -984,6 +985,7 @@
     <ClInclude Include="..\..\Open\XPrinterDLLBaseClass.h" />
     <QtMoc Include="..\..\Open\XPassword.h" />
     <ClInclude Include="..\..\Open\XPrinterManager.h" />
+    <QtMoc Include="..\..\Open\XProcess.h" />
     <ClInclude Include="..\..\Open\XPSpline.h" />
     <ClInclude Include="..\..\Open\XQuickBuffer.h" />
     <ClInclude Include="..\..\Open\XRegulation.h" />

@@ -40,7 +40,7 @@ InputAlignmentPointForm::InputAlignmentPointForm(bool EditMode
 									+GetParamGlobal()->GetLayerName(layer));
 	}
 
-	ControlRememberer::RestoreForm((int)AreaPriority,this);
+	RestoreForm((int)AreaPriority,this);
 	InstallOperationLog(this);
 
 }
@@ -77,7 +77,7 @@ void InputAlignmentPointForm::on_ButtonOK_clicked()
 	UseLayer		=ui.comboBoxUseLayer->currentIndex()-1;
 	ThresholdColor	=ui.spinBoxThresholdColor	->value();
 
-	ControlRememberer::SaveForm((int)AreaPriority,this);
+	SaveForm((int)AreaPriority,this);
 
 	accept();
 }

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>431</width>
-    <height>724</height>
+    <height>569</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -75,10 +75,10 @@
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::Shape::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -93,7 +93,7 @@
      <string>Matching list (Regular expression)</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
    <widget class="QListWidget" name="listWidgetMatchingList">
@@ -110,8 +110,8 @@
   <widget class="QPushButton" name="ButtonDeleteItem">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>640</y>
+     <x>20</x>
+     <y>490</y>
      <width>121</width>
      <height>31</height>
     </rect>
@@ -132,8 +132,8 @@
   <widget class="QPushButton" name="pushButtonClose">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>680</y>
+     <x>290</x>
+     <y>530</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -154,8 +154,8 @@
   <widget class="QPushButton" name="ButtonSaveNewItem">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>640</y>
+     <x>150</x>
+     <y>490</y>
      <width>131</width>
      <height>31</height>
     </rect>
@@ -176,8 +176,8 @@
   <widget class="QPushButton" name="ButtonUpdateItem">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>640</y>
+     <x>290</x>
+     <y>490</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -205,10 +205,10 @@
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::Shape::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
    <widget class="QSpinBox" name="spinBoxRegNumber">
     <property name="geometry">
@@ -239,16 +239,16 @@
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Panel</enum>
+     <enum>QFrame::Shape::Panel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
     <property name="text">
      <string>Reg No (Q)</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
   </widget>
@@ -298,168 +298,17 @@
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::Shape::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
    <property name="text">
     <string>Item name</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
-  </widget>
-  <widget class="QPushButton" name="pushButtonPickupColor">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>230</y>
-     <width>112</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Color map</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButtonPickupBrightness">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>290</y>
-     <width>112</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Brightness</string>
-   </property>
-  </widget>
-  <widget class="QFrame" name="frame_3">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>480</y>
-     <width>411</width>
-     <height>111</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Panel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
-   </property>
-   <widget class="QPushButton" name="pushButtonRotation90">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>41</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="propertyocr.qrc">
-      <normaloff>:/Qtres/Deg270.png</normaloff>:/Qtres/Deg270.png</iconset>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonRotation0">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>10</y>
-      <width>41</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="propertyocr.qrc">
-      <normaloff>:/Qtres/Deg0.png</normaloff>:/Qtres/Deg0.png</iconset>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton180">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>60</y>
-      <width>41</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="propertyocr.qrc">
-      <normaloff>:/Qtres/Deg180.png</normaloff>:/Qtres/Deg180.png</iconset>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton270">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>40</y>
-      <width>41</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="propertyocr.qrc">
-      <normaloff>:/Qtres/Deg90.png</normaloff>:/Qtres/Deg90.png</iconset>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>20</y>
-      <width>91</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Panel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
-    </property>
-    <property name="text">
-     <string>Rotation</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="spinBoxRotation">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>40</y>
-      <width>91</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>0</number>
-    </property>
-    <property name="maximum">
-     <number>359</number>
-    </property>
-    <property name="value">
-     <number>0</number>
-    </property>
-   </widget>
   </widget>
  </widget>
  <resources>

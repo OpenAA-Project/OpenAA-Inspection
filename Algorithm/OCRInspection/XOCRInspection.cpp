@@ -6,26 +6,15 @@
 #include "XDisplayBitImage.h"
 #include <QMessageBox>
 
+// Tesseractのヘッダー
+#include <tesseract/baseapi.h>
+#include <leptonica/allheaders.h>
 
-#include "TOCRdll.h"
-#include "TOCRuser.h"
-#include "TOCRerrs.h"
 
 OCRInspectionThreshold::OCRInspectionThreshold(OCRInspectionItem *parent) 
 	: AlgorithmThreshold(parent)
 {	
-	AbsLR=AbsHR=0;
-	AbsLG=AbsHG=0;
-	AbsLB=AbsHB=0;
-
-	EnlargeDot	=0;
-	EnsmallDot	=0;
-	MinSize		=0;
-
-	BlockWidth=BlockHeight	=100;
 	Mergin					=0;
-	UseColorLogic			=false;
-	Rotation				=0;
 
 	RegNumber				=0;
 	InspectMatching			=false;
@@ -37,21 +26,7 @@ void	OCRInspectionThreshold::CopyFrom(const AlgorithmThreshold &src)
 {
 	const OCRInspectionThreshold	*s=dynamic_cast<const OCRInspectionThreshold *>(&src);
 	if(s!=NULL){
-		AbsLR=((OCRInspectionThreshold *)&src)->AbsLR;
-		AbsHR=((OCRInspectionThreshold *)&src)->AbsHR;
-		AbsLG=((OCRInspectionThreshold *)&src)->AbsLG;
-		AbsHG=((OCRInspectionThreshold *)&src)->AbsHG;
-		AbsLB=((OCRInspectionThreshold *)&src)->AbsLB;
-		AbsHB=((OCRInspectionThreshold *)&src)->AbsHB;
-		EnlargeDot		=((OCRInspectionThreshold *)&src)->EnlargeDot;
-		EnsmallDot		=((OCRInspectionThreshold *)&src)->EnsmallDot;
-		BlockWidth		=((OCRInspectionThreshold *)&src)->BlockWidth;
-		BlockHeight		=((OCRInspectionThreshold *)&src)->BlockHeight;
-		MinSize			=((OCRInspectionThreshold *)&src)->MinSize;
 		Mergin			=((OCRInspectionThreshold *)&src)->Mergin;
-		MaskingColor	=((OCRInspectionThreshold *)&src)->MaskingColor;
-		UseColorLogic	=((OCRInspectionThreshold *)&src)->UseColorLogic;
-		Rotation		=((OCRInspectionThreshold *)&src)->Rotation;
 
 		RegNumber		=s->RegNumber;
 		InspectMatching	=s->InspectMatching;
@@ -65,21 +40,7 @@ bool	OCRInspectionThreshold::IsEqual(const AlgorithmThreshold &src)	const
 {
 	const OCRInspectionThreshold	*s=dynamic_cast<const OCRInspectionThreshold *>(&src);
 	if(s!=NULL){
-		if(AbsLR			!=((OCRInspectionThreshold *)&src)->AbsLR		)	return false;
-		if(AbsHR			!=((OCRInspectionThreshold *)&src)->AbsHR		)	return false;
-		if(AbsLG			!=((OCRInspectionThreshold *)&src)->AbsLG		)	return false;
-		if(AbsHG			!=((OCRInspectionThreshold *)&src)->AbsHG		)	return false;
-		if(AbsLB			!=((OCRInspectionThreshold *)&src)->AbsLB		)	return false;
-		if(AbsHB			!=((OCRInspectionThreshold *)&src)->AbsHB		)	return false;
-		if(EnlargeDot		!=((OCRInspectionThreshold *)&src)->EnlargeDot	)	return false;
-		if(EnsmallDot		!=((OCRInspectionThreshold *)&src)->EnsmallDot	)	return false;
-		if(BlockWidth		!=((OCRInspectionThreshold *)&src)->BlockWidth	)	return false;
-		if(BlockHeight		!=((OCRInspectionThreshold *)&src)->BlockHeight	)	return false;
-		if(MinSize			!=((OCRInspectionThreshold *)&src)->MinSize		)	return false;
 		if(Mergin			!=((OCRInspectionThreshold *)&src)->Mergin		)	return false;
-		if(MaskingColor		!=((OCRInspectionThreshold *)&src)->MaskingColor)	return false;
-		if(UseColorLogic	!=((OCRInspectionThreshold *)&src)->UseColorLogic)	return false;
-		if(Rotation			!=((OCRInspectionThreshold *)&src)->Rotation	)	return false;
 
 		if(RegNumber		!=s->RegNumber									)	return false;
 		if(InspectMatching	!=s->InspectMatching							)	return false;
@@ -97,36 +58,8 @@ bool	OCRInspectionThreshold::Save(QIODevice *f)
 
 	if(::Save(f,Ver)==false)
 		return(false);
-	if(::Save(f,AbsLR)==false)
-		return false;
-	if(::Save(f,AbsHR)==false)
-		return false;
-	if(::Save(f,AbsLG)==false)
-		return false;
-	if(::Save(f,AbsHG)==false)
-		return false;
-	if(::Save(f,AbsLB)==false)
-		return false;
-	if(::Save(f,AbsHB)==false)
-		return false;
-	if(::Save(f,EnlargeDot)==false)
-		return false;
-	if(::Save(f,EnsmallDot)==false)
-		return false;
-	if(::Save(f,BlockWidth)==false)
-		return false;
-	if(::Save(f,BlockHeight)==false)
-		return false;
 
 	if(::Save(f,Mergin)==false)
-		return false;
-	if(MaskingColor.Save(f)==false)
-		return false;
-	if(::Save(f,MinSize)==false)
-		return false;
-	if(::Save(f,UseColorLogic)==false)
-		return false;
-	if(::Save(f,Rotation)==false)
 		return false;
 
 	if(::Save(f,RegNumber)==false)
@@ -148,36 +81,8 @@ bool	OCRInspectionThreshold::Load(QIODevice *f)
 
 	if(::Load(f,Ver)==false)
 		return(false);
-	if(::Load(f,AbsLR)==false)
-		return false;
-	if(::Load(f,AbsHR)==false)
-		return false;
-	if(::Load(f,AbsLG)==false)
-		return false;
-	if(::Load(f,AbsHG)==false)
-		return false;
-	if(::Load(f,AbsLB)==false)
-		return false;
-	if(::Load(f,AbsHB)==false)
-		return false;
-	if(::Load(f,EnlargeDot)==false)
-		return false;
-	if(::Load(f,EnsmallDot)==false)
-		return false;
-	if(::Load(f,BlockWidth)==false)
-		return false;
-	if(::Load(f,BlockHeight)==false)
-		return false;
 
 	if(::Load(f,Mergin)==false)
-		return false;
-	if(MaskingColor.Load(f)==false)
-		return false;
-	if(::Load(f,MinSize)==false)
-		return false;
-	if(::Load(f,UseColorLogic)==false)
-		return false;
-	if(::Load(f,Rotation)==false)
 		return false;
 
 	if(::Load(f,RegNumber)==false)
@@ -196,9 +101,8 @@ bool	OCRInspectionThreshold::Load(QIODevice *f)
 //===============================================================================================================================
 OCRInspectionItem::OCRInspectionItem(void)
 {
-	MaskingMap	=NULL;
-	TmpBuff		=NULL;
 	XByte	=0;
+	XLen	=0;
 	YLen	=0;
 	Mx=My=0;
 	AVector=NULL;
@@ -206,12 +110,6 @@ OCRInspectionItem::OCRInspectionItem(void)
 
 OCRInspectionItem::~OCRInspectionItem(void)
 {
-	if(MaskingMap!=NULL){
-		DeleteMatrixBuff(MaskingMap,YLen);
-		DeleteMatrixBuff(TmpBuff,YLen);
-		MaskingMap	=NULL;
-		TmpBuff		=NULL;
-	}
 }
 
 const	int	XMergin=16;
@@ -223,15 +121,8 @@ ExeResult	OCRInspectionItem::ExecuteInitialAfterEdit	(int ExeID,int ThreadNo
 {
 	ExeResult	Ret=AlgorithmItemPI::ExecuteInitialAfterEdit	(ExeID,ThreadNo,Res,EInfo);
 
-	if(MaskingMap!=NULL){
-		DeleteMatrixBuff(MaskingMap,YLen);
-		DeleteMatrixBuff(TmpBuff,YLen);
-	}
-	YLen		=GetArea().GetHeight()+YMergin*2;
-	XByte		=(GetArea().GetWidth()+XMergin*2+7)/8;
-	MaskingMap	=MakeMatrixBuff(XByte ,YLen);
-	TmpBuff		=MakeMatrixBuff(XByte ,YLen);
-	MatrixBuffClear	(MaskingMap ,0 ,XByte ,YLen);
+
+	AllocateBuff();
 
 	int	cx,cy;
 	GetCenter(cx,cy);
@@ -241,6 +132,25 @@ ExeResult	OCRInspectionItem::ExecuteInitialAfterEdit	(int ExeID,int ThreadNo
 	Mx=My=0;
 
 	return Ret;
+}
+
+void	OCRInspectionItem::AllocateBuff(void)
+{
+	int	iYLen		=GetArea().GetHeight()+YMergin*2;
+	if(iYLen>=GetMaxLines())
+		iYLen = GetMaxLines()-1;
+	int	iXLen		=GetArea().GetWidth()+XMergin*2;
+	if(iXLen>=GetDotPerLine())
+		iXLen = GetDotPerLine()-1;
+	int	iXByte		=(XLen+7)/8;
+
+	if(iXLen!=XLen || iYLen!=YLen){
+		YLen		=iYLen;
+		XLen		=iXLen;
+		XByte		=(XLen+7)/8;
+		Map = QImage(XLen,YLen,QImage::Format_RGB888);
+		Map.fill(Qt::black);
+	}
 }
 
 ExeResult	OCRInspectionItem::ExecuteProcessing		(int ExeID,int ThreadNo,ResultInItemRoot *Res)
@@ -312,138 +222,36 @@ bool	OCRInspectionItem::Calc(ImagePointerContainer &ImageList)
 	Result=/**/"";
 	OCRInspectionBase		*ABase=(OCRInspectionBase *)GetParentBase();
 	if(ABase!=NULL){
-		QString	FileName=QString(/**/"TmpOCR")+QString::number(GetPage())+QString(/**/"-")+QString::number(GetID())
-						+QString(/**/".bmp");
 		try{
-			MakeImage(Mx,My,ImageList);
-			SaveBmpFileBit (FileName ,MaskingMap ,XByte ,YLen);
+			AllocateBuff();
+			//QImage	Map(XLen,YLen,QImage::Format_RGB888);
+			MakeImage(Map,Mx,My,ImageList);
+
+			//QImage	TmpImage=Map.convertToFormat(QImage::Format_RGB32);
+			//TmpImage.save("TmpOCR.png","PNG");
+
+			ABase->GetOCR(Map,Result);
 		}
 		catch(...){}
-
 		
-		ABase->GetOCR(FileName,Result);
 	}
 
 	return true;
 }
 
-void	OCRInspectionItem::MakeImage(int mx,int my,ImagePointerContainer &ImageList)
+void	OCRInspectionItem::MakeImage(QImage &Map,int mx,int my,ImagePointerContainer &ImageList)
 {
-	int	MinX=GetArea().GetMinX();
-	int	MinY=GetArea().GetMinY();
-	int	H=GetArea().GetHeight();
-	int	W=GetArea().GetWidth();
-	MatrixBuffClear	(MaskingMap ,0 ,XByte ,YLen);
-	const OCRInspectionThreshold	*RThr=GetThresholdR();
-	if(GetLayerNumb()>=3){
-		ImageBuffer *hR=ImageList[0];
-		ImageBuffer *hG=ImageList[1];
-		ImageBuffer *hB=ImageList[2];
-		for(int y=0;y<H;y++){
-			BYTE	*d=MaskingMap[y];
-			int		Y=MinY+y+my;
-			if(Y<0)
-				continue;
-			if(Y>=GetMaxLines())
-				break;
-			BYTE	*sR=hR->GetY(Y);
-			BYTE	*sG=hG->GetY(Y);
-			BYTE	*sB=hB->GetY(Y);
-			if(RThr->UseColorLogic==false){
-				for(int x=0;x<W;x++){
-					int	X=MinX+x+mx;
-					if(0<=X && X<GetDotPerLine()){
-						BYTE	R=sR[X];
-						BYTE	G=sG[X];
-						BYTE	B=sB[X];
-						if(RThr->AbsLR<=R && R<=RThr->AbsHR
-						&& RThr->AbsLG<=G && G<=RThr->AbsHG
-						&& RThr->AbsLB<=B && B<=RThr->AbsHB){
-							SetBmpBitOnY1(d,x);
-						}
-					}
-				}
-			}
-			else{
-				for(int x=0;x<W;x++){
-					int	X=MinX+x+mx;
-					if(0<=X && X<GetDotPerLine()){
-						BYTE	R=sR[X];
-						BYTE	G=sG[X];
-						BYTE	B=sB[X];
-						if(GetThresholdW()->MaskingColor.Calc(R,G,B,RThr->Mergin)==true){
-							SetBmpBitOnY1(d,x);
-						}
-					}
-				}
-			}
-		}
-	}
-	else if(GetLayerNumb()>=2){
-		ImageBuffer *hR=ImageList[0];
-		ImageBuffer *hG=ImageList[1];
-		for(int y=0;y<H;y++){
-			BYTE	*d=MaskingMap[y];
-			int		Y=MinY+y+my;
-			if(Y<0)
-				continue;
-			if(Y>=GetMaxLines())
-				break;
-			BYTE	*sR=hR->GetY(Y);
-			BYTE	*sG=hG->GetY(Y);
-			for(int x=0;x<W;x++){
-				int	X=MinX+x+mx;
-				if(0<=X && X<GetDotPerLine()){
-					BYTE	R=sR[X];
-					BYTE	G=sG[X];
-					if(RThr->AbsLR<=R && R<=RThr->AbsHR
-					&& RThr->AbsLG<=G && G<=RThr->AbsHG){
-						SetBmpBitOnY1(d,x);
-					}
-				}
-			}
-		}
-	}
-	else if(GetLayerNumb()>=1){
-		ImageBuffer *hR=ImageList[0];
-		for(int y=0;y<H;y++){
-			BYTE	*d=MaskingMap[y];
-			int		Y=MinY+y+my;
-			if(Y<0)
-				continue;
-			if(Y>=GetMaxLines())
-				break;
-			BYTE	*sR=hR->GetY(Y);
-			for(int x=0;x<W;x++){
-				int	X=MinX+x+mx;
-				if(0<=X && X<GetDotPerLine()){
-					BYTE	R=sR[X];
-					if(RThr->AbsLR<=R && R<=RThr->AbsHR){
-						SetBmpBitOnY1(d,x);
-					}
-				}
-			}
-		}
-	}
-	GetLayersBase()->ThinAreaN(MaskingMap
-			,TmpBuff
-			,XByte, YLen 
-			,RThr->EnsmallDot);
-	GetLayersBase()->FatAreaN(MaskingMap
-			,TmpBuff
-			,XByte, YLen 
-			,RThr->EnsmallDot+RThr->EnlargeDot);
+	int	X1 = GetArea().GetMinX()+mx-XMergin;
+	int	Y1 = GetArea().GetMinY()+my-YMergin;
+	int	X2 = GetArea().GetMaxX()+mx+XMergin;
+	int	Y2 = GetArea().GetMaxY()+my+YMergin;
 
-	PureFlexAreaListContainer FPack;
-	PickupFlexArea(MaskingMap ,XByte ,XByte*8,YLen ,FPack);
-	MatrixBuffClear	(MaskingMap ,0 ,XByte ,YLen);
-	for(PureFlexAreaList *f=FPack.GetFirst();f!=NULL;f=f->GetNext()){
-		if(f->GetWidth()>=RThr->BlockWidth
-		&& f->GetHeight()>=RThr->BlockHeight
-		&& f->GetPatternByte()>=RThr->MinSize){
-			f->MakeBitData(MaskingMap,XByte*8 ,YLen);
-		}
-	}
+	if(X1<0)			X1 = 0;
+	if(Y1<0)			Y1 = 0;
+	if(X2>=GetDotPerLine())	X1 -= X2-GetDotPerLine();
+	if(Y2>=GetMaxLines())	Y1 -= Y2-GetMaxLines();
+
+	ImageList.MakeImage(Map ,-X1 ,-Y1);
 }
 
 static	int	Clip255(int n,int d)
@@ -463,13 +271,6 @@ void	OCRInspectionItem::Draw(QImage &pnt, int movx ,int movy ,double ZoomRate ,A
 	OCRInspectionDrawAttr	*A=dynamic_cast<OCRInspectionDrawAttr *>(Attr);
 	if(A!=NULL){
 		AlgorithmItemPI::DrawAlpha(pnt, movx ,movy ,ZoomRate ,Attr);
-
-		if(MaskingMap!=NULL){
-			DrawBitImage(pnt, (const BYTE **)MaskingMap ,XByte*8 ,XByte ,YLen
-						,movx ,movy ,ZoomRate
-						,-GetArea().GetMinX() ,-GetArea().GetMinY()
-						,Qt::cyan);
-		}
 	}
 }
 	
@@ -477,10 +278,6 @@ void	OCRInspectionItem::DrawResultItem(ResultInItemRoot *Res,QImage &IData ,QPai
 {
 	AlgorithmItemPI::DrawResultItem(Res,IData ,PData ,MovX ,MovY ,ZoomRate,OnlyNG);
 
-	DrawBitImage(IData, (const BYTE **)MaskingMap ,XByte*8 ,XByte ,YLen
-					,MovX ,MovY ,ZoomRate
-					,-GetArea().GetMinX()-Mx ,-GetArea().GetMinY()-My
-					,Qt::cyan);
 	int	cx,cy;
 	GetArea().GetCenter(cx,cy);
 	int	kx=(cx+MovX+Mx)*ZoomRate;
@@ -512,21 +309,7 @@ void	OCRInspectionInPage::TransmitDirectly(GUIDirectMessage *packet)
 				k->ItemID					=Item->GetID();
 				k->ItemName					=Item->GetItemName();
 				const OCRInspectionThreshold	*RThr=Item->GetThresholdR(GetLayersBase());
-				k->AbsLR		=RThr->AbsLR		;
-				k->AbsHR		=RThr->AbsHR		;
-				k->AbsLG		=RThr->AbsLG		;
-				k->AbsHG		=RThr->AbsHG		;
-				k->AbsLB		=RThr->AbsLB		;
-				k->AbsHB		=RThr->AbsHB		;
-				k->EnsmallDot	=RThr->EnsmallDot	;
-				k->EnlargeDot	=RThr->EnlargeDot	;
-				k->BlockWidth	=RThr->BlockWidth	;
-				k->BlockHeight	=RThr->BlockHeight	;
-				k->MinSize		=RThr->MinSize		;
 				k->Mergin		=RThr->Mergin		;
-				k->MaskingColor	=RThr->MaskingColor	;
-				k->UseColorLogic=RThr->UseColorLogic	;
-				k->Rotation		=RThr->Rotation		;
 		
 				k->RegNumber				=RThr->RegNumber;
 				k->InspectMatching			=RThr->InspectMatching;
@@ -566,21 +349,7 @@ void	OCRInspectionInPage::TransmitDirectly(GUIDirectMessage *packet)
 		OCRInspectionItem	*Item=new OCRInspectionItem();
 		Item->SetArea(AddOCRInspectionAreaVar->Area);
 		Item->SetItemName(AddOCRInspectionAreaVar->ItemName);
-		Item->GetThresholdW()->AbsLR		=AddOCRInspectionAreaVar->AbsLR;
-		Item->GetThresholdW()->AbsHR		=AddOCRInspectionAreaVar->AbsHR;
-		Item->GetThresholdW()->AbsLG		=AddOCRInspectionAreaVar->AbsLG;
-		Item->GetThresholdW()->AbsHG		=AddOCRInspectionAreaVar->AbsHG;
-		Item->GetThresholdW()->AbsLB		=AddOCRInspectionAreaVar->AbsLB;
-		Item->GetThresholdW()->AbsHB		=AddOCRInspectionAreaVar->AbsHB;
-		Item->GetThresholdW()->EnsmallDot	=AddOCRInspectionAreaVar->EnsmallDot;
-		Item->GetThresholdW()->EnlargeDot	=AddOCRInspectionAreaVar->EnlargeDot;
-		Item->GetThresholdW()->BlockWidth	=AddOCRInspectionAreaVar->BlockWidth;
-		Item->GetThresholdW()->BlockHeight	=AddOCRInspectionAreaVar->BlockHeight;
-		Item->GetThresholdW()->MinSize		=AddOCRInspectionAreaVar->MinSize;
 		Item->GetThresholdW()->Mergin		=AddOCRInspectionAreaVar->Mergin;
-		Item->GetThresholdW()->MaskingColor	=AddOCRInspectionAreaVar->MaskingColor;
-		Item->GetThresholdW()->UseColorLogic=AddOCRInspectionAreaVar->UseColorLogic;
-		Item->GetThresholdW()->Rotation		=AddOCRInspectionAreaVar->Rotation;
 
 		Item->GetThresholdW()->RegNumber				=AddOCRInspectionAreaVar->RegNumber;
 		Item->GetThresholdW()->InspectMatching			=AddOCRInspectionAreaVar->InspectMatching;
@@ -594,21 +363,7 @@ void	OCRInspectionInPage::TransmitDirectly(GUIDirectMessage *packet)
 	if(UpdateOCRInspectionAreaPacketVar!=NULL){
 		OCRInspectionItem	*Item=(OCRInspectionItem *)SearchIDItem(UpdateOCRInspectionAreaPacketVar->ItemID);
 		Item->SetItemName(UpdateOCRInspectionAreaPacketVar->ItemName);
-		Item->GetThresholdW()->AbsLR		=UpdateOCRInspectionAreaPacketVar->AbsLR;
-		Item->GetThresholdW()->AbsHR		=UpdateOCRInspectionAreaPacketVar->AbsHR;
-		Item->GetThresholdW()->AbsLG		=UpdateOCRInspectionAreaPacketVar->AbsLG;
-		Item->GetThresholdW()->AbsHG		=UpdateOCRInspectionAreaPacketVar->AbsHG;
-		Item->GetThresholdW()->AbsLB		=UpdateOCRInspectionAreaPacketVar->AbsLB;
-		Item->GetThresholdW()->AbsHB		=UpdateOCRInspectionAreaPacketVar->AbsHB;
-		Item->GetThresholdW()->EnsmallDot	=UpdateOCRInspectionAreaPacketVar->EnsmallDot;
-		Item->GetThresholdW()->EnlargeDot	=UpdateOCRInspectionAreaPacketVar->EnlargeDot;
-		Item->GetThresholdW()->BlockWidth	=UpdateOCRInspectionAreaPacketVar->BlockWidth;
-		Item->GetThresholdW()->BlockHeight	=UpdateOCRInspectionAreaPacketVar->BlockHeight;
-		Item->GetThresholdW()->MinSize		=UpdateOCRInspectionAreaPacketVar->MinSize;
 		Item->GetThresholdW()->Mergin		=UpdateOCRInspectionAreaPacketVar->Mergin;
-		Item->GetThresholdW()->MaskingColor	=UpdateOCRInspectionAreaPacketVar->MaskingColor;
-		Item->GetThresholdW()->UseColorLogic=UpdateOCRInspectionAreaPacketVar->UseColorLogic;
-		Item->GetThresholdW()->Rotation		=UpdateOCRInspectionAreaPacketVar->Rotation;
 
 		Item->GetThresholdW()->RegNumber				=UpdateOCRInspectionAreaPacketVar->RegNumber;
 		Item->GetThresholdW()->InspectMatching			=UpdateOCRInspectionAreaPacketVar->InspectMatching;
@@ -629,27 +384,7 @@ void	OCRInspectionInPage::TransmitDirectly(GUIDirectMessage *packet)
 		ReqOCRItemPacketVar->Area	=Item->GetArea();
 		return;
 	}
-	CmdReqBCodeResults	*CmdReqBCodeResultsVar=dynamic_cast<CmdReqBCodeResults *>(packet);
-	if(CmdReqBCodeResultsVar!=NULL){
-		for(AlgorithmItemPI *a=GetFirstData();a!=NULL;a=a->GetNext()){
-			OCRInspectionItem	*Item=dynamic_cast<OCRInspectionItem *>(a);
-			if(Item!=NULL){
-				CmdReqBCodeResultsVar->ResultBarcode.append(Item->Result);
-			}
-		}
-		return;
-	}
-	CmdSetBCodeResults	*CmdSetBCodeResultsVar=dynamic_cast<CmdSetBCodeResults *>(packet);
-	if(CmdSetBCodeResultsVar!=NULL){
-		for(AlgorithmItemPI *a=GetFirstData();a!=NULL;a=a->GetNext()){
-			OCRInspectionItem	*Item=dynamic_cast<OCRInspectionItem *>(a);
-			if(Item!=NULL){
-				Item->Result=CmdSetBCodeResultsVar->ResultBarcode;
-				CmdSetBCodeResultsVar->OK=true;
-			}
-		}
-		return;
-	}
+
 	CmdReqOCRTest	*CmdReqOCRTestVar=dynamic_cast<CmdReqOCRTest *>(packet);
 	if(CmdReqOCRTestVar!=NULL){
 		OCRInspectionItem	*Item=(OCRInspectionItem *)SearchIDItem(CmdReqOCRTestVar->ItemID);
@@ -660,6 +395,19 @@ void	OCRInspectionInPage::TransmitDirectly(GUIDirectMessage *packet)
 		Item->Calc(ImageList);
 
 		CmdReqOCRTestVar->Result	=Item->Result;
+		return;
+	}
+	CmdReqOCRResults *CmdReqOCRResultsVar = dynamic_cast<CmdReqOCRResults *>(packet);
+	if(CmdReqOCRResultsVar!= NULL) {
+		for (AlgorithmItemPI* a = GetFirstData(); a != NULL; a = a->GetNext()) {
+			OCRInspectionItem* Item = dynamic_cast<OCRInspectionItem*>(a);
+			if (Item != NULL) {
+				if(CmdReqOCRResultsVar->ItemName.isEmpty()==true
+				|| Item->GetItemName()==CmdReqOCRResultsVar->ItemName){
+					CmdReqOCRResultsVar->ResultOCR=Item->Result;
+				}
+			}
+		}
 		return;
 	}
 }
@@ -676,12 +424,22 @@ OCRInspectionBase::OCRInspectionBase(LayersBase *Base)
 	NegColorOCR			=Qt::darkGreen;
 	NegColorSelected	=Qt::darkYellow;
 	AdotpedLayer		=0;
+	OcrApi				=NULL;
+	OCRDataPath			="./tessdata";
+	OCRLanguage			= "jpn";
 
 	SetParam(&AdotpedLayer		, /**/"Setting"		,/**/"AdotpedLayer"		,"Adotped Layer , -1:Color");	
+	SetParam(&OCRDataPath		, /**/"Setting"		,/**/"OCRDataPath"		,"OCR Data Path (./tessdata)");	
+	SetParam(&OCRLanguage		, /**/"Setting"		,/**/"OCRLanguage"		,"Language name(jpn)");	
 }
 
 OCRInspectionBase::~OCRInspectionBase(void)
 {
+	if(OcrApi!=NULL){
+		OcrApi->End();
+        delete OcrApi;
+		OcrApi = NULL;
+	}
 }
 
 AlgorithmDrawAttr	*OCRInspectionBase::CreateDrawAttr(void)
@@ -691,191 +449,70 @@ AlgorithmDrawAttr	*OCRInspectionBase::CreateDrawAttr(void)
 
 void	OCRInspectionBase::InitialAfterParamLoaded(void)
 {
+    OcrApi = new tesseract::TessBaseAPI();
+    
+    
+	char *OCRDataPathCStr = new char[OCRDataPath.length() + 1];
+	std::strcpy(OCRDataPathCStr,OCRDataPath.toStdString().c_str());
+	char *OCRLanguageCStr = new char[OCRLanguage.length() + 1];
+	std::strcpy(OCRLanguageCStr,OCRLanguage.toStdString().c_str());
+
+
+    if (OcrApi->Init(OCRDataPathCStr, OCRLanguageCStr)) { 
+        delete OcrApi;
+		OcrApi = NULL;
+    }
+	delete[] OCRDataPathCStr;
+	delete[] OCRLanguageCStr;
 }
 
 void	OCRInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 {
-	CmdReqBCodeResults	*CmdReqBCodeResultsVar=dynamic_cast<CmdReqBCodeResults *>(packet);
-	if(CmdReqBCodeResultsVar!=NULL){
-		for(int page=0;page<GetPageNumb();page++){
-			AlgorithmInPageRoot	*Pg=GetPageData(page);
-			Pg->TransmitDirectly(packet);
-		}
-		return;
-	}
+
 }
 
-bool OCRWait(long JobNo, TOCRJOBINFO_EG JobInfoEg)
-{
-	long				Status;
-	long				JobStatus=-1;
-	long				ErrorMode;
-	char				Msg[TOCRJOBMSGLENGTH];
-
-	Status = TOCRDoJob_EG(JobNo, &JobInfoEg);
-	if (Status == TOCR_OK) {
-		Status = TOCRWaitForJob(JobNo, &JobStatus);
-	}
-
-	if (Status == TOCR_OK && JobStatus == TOCRJOBSTATUS_DONE)
-	{
-		return true;
-	}
-	else {
-		// If something has gone wrong display a message
-		// (Check that the OCR engine hasn't already displayed a message)
-		TOCRGetConfig(JobNo, TOCRCONFIG_DLL_ERRORMODE, &ErrorMode);
-		if (ErrorMode == TOCRERRORMODE_NONE) {
-			TOCRGetJobStatusMsg(JobNo, Msg);
-			QMessageBox::warning(NULL, "OCRWait", Msg);
-		}
-		return false;
-	}
-} // OCRWait()
-
-// Get the results from TOCR
-bool getresults(long JobNo, long mode, void **Results)
-{
-	long				Status;
-	long				ResultsInf;
-	char				Msg[TOCRJOBMSGLENGTH];
-
-	if ( mode == TOCRGETRESULTS_NORMAL_EG || mode == TOCRGETRESULTS_EXTENDED_EG ) {
-		Status = TOCRGetJobResultsEx_EG(JobNo, mode, &ResultsInf, 0);
-		if ( Status != TOCR_OK ) {
-			sprintf(Msg, "TOCRGetJobResultsEx_EG failed - %d\n", (int)Status);
-		}
-	} else {
-		Status = TOCRGetJobResultsEx(JobNo, mode, &ResultsInf, 0);
-		if ( Status != TOCR_OK ) {
-			sprintf(Msg, "TOCRGetJobResultsEx failed - %d\n", (int)Status);
-		}
-	}
-	if ( Status != TOCR_OK ) {
-		QMessageBox::warning(NULL, "getresults",Msg);
-		return false;
-	}
-	if ( ResultsInf > 0 ) {
-		// Allocate memory for results
-
-		*Results = (void *)malloc(ResultsInf * sizeof(unsigned char));
-		if ( *Results ) {
-
-			// Retrieve the results
-			if ( mode == TOCRGETRESULTS_NORMAL_EG || mode == TOCRGETRESULTS_EXTENDED_EG ) {
-				Status = TOCRGetJobResultsEx_EG(JobNo, mode, &ResultsInf, *Results);
-				if ( Status != TOCR_OK ) {
-					sprintf(Msg, "TOCRGetJobResultsEx_EG failed - %d\n", (int)Status);
-				}
-			} else {
-				Status = TOCRGetJobResultsEx(JobNo, mode, &ResultsInf, *Results);
-				if ( Status != TOCR_OK ) {
-					sprintf(Msg, "TOCRGetJobResultsEx failed - %d\n", (int)Status);
-				}
-			}
-			if ( Status != TOCR_OK ) {
-				QMessageBox::warning(NULL, "getresults", Msg);
-				free(*Results);
-				*Results = 0;
-				return false;
-			}
-		} else {
-			QMessageBox::warning(NULL, "getresults", "Failed to allocate memory for results\n");
-			return false;
-		}
-	} else {
-		QMessageBox::warning(NULL, "getresults","No results found\n");
-	}
-	
-	return true;
-} // getresults()
-
-// Get normal results
-bool GetResults(long JobNo, TOCRRESULTS **Results)
-{
-	return getresults(JobNo, TOCRGETRESULTS_NORMAL, (void **)Results);
-} // GetResults()
-
-// Get extended results
-bool GetResults(long JobNo, TOCRRESULTSEX **Results)
-{
-	return getresults(JobNo, TOCRGETRESULTS_EXTENDED, (void **)Results);
-} // GetResults()
-
-// Get extended eg results
-bool GetResults(long JobNo, TOCRRESULTSEX_EG **Results)
-{
-	return getresults(JobNo, TOCRGETRESULTS_EXTENDED_EG, (void **)Results);
-} // GetResults()
-
-// Convert results to a string
-bool FormatResults(TOCRRESULTS *Results, char *Msg)
-{
-	long			ItemNo;
-	long			APos = 0;
-	bool			Status = false;
-
-	if ( Results->Hdr.NumItems > 0 ) {
-		for (ItemNo = 0; ItemNo < Results->Hdr.NumItems; ItemNo ++ ) {
-			if ( Results->Item[ItemNo].OCRCha == '\r' )
-				Msg[APos] = '\n';
-			else
-				Msg[APos] = (char)Results->Item[ItemNo].OCRCha;
-			APos ++;
-		}
-		Msg[APos] = 0;
-		Status = true;
-	}
-
-	return Status;
-
-} // FormatResults()
 
 bool	OCRInspectionBase::GetOCR(const QString &FileName ,QString &Result)
 {
-	TOCRJOBINFO_EG		JobInfo_EG;
-	TOCRRESULTS			*Results = 0;
-	long				Status;
-	long				JobNo = 0;
-	char				InputFile[MAX_PATH];
-	char				Msg[10240];
+    QImage image(FileName);
+    if (image.isNull()) {
+        return false;
+    }
+	return GetOCR(image ,Result);
+}
 
-	TOCRSetConfig(TOCRCONFIG_DEFAULTJOB, TOCRCONFIG_DLL_ERRORMODE, TOCRERRORMODE_MSGBOX);
-	//TOCRSetConfig(TOCRCONFIG_DEFAULTJOB, TOCRCONFIG_DLL_ERRORMODE, TOCRERRORMODE_LOG); // Log Errors
-	//	TOCRGetJobDBInfo(&JobNo);
-
-	memset(&JobInfo_EG, 0, sizeof(JobInfo_EG));
-
-	QString2Char(FileName ,InputFile ,sizeof(InputFile));
-	JobInfo_EG.JobType = TOCRJOBTYPE_DIBFILE;
-
-	JobInfo_EG.InputFile = InputFile;
-
-	Status = TOCRInitialise(&JobNo);
-
-
-	if ( Status == TOCR_OK ) {
-		if ( OCRWait(JobNo, JobInfo_EG) ) {
-		//if ( OCRPoll(JobNo, JobInfo2) ) {
-			if ( GetResults(JobNo, &Results) ) {
-
-				// Display the results
-
-				if (FormatResults(Results, Msg)) {
-					//QMessageBox::warning(NULL, "Example 1", Msg);
-					Result=Msg;
-				}
-
-				free(Results);
-			}
-		}
-
-		TOCRShutdown(JobNo);
+bool	OCRInspectionBase::GetOCR(const QImage &Image ,QString &Result)
+{
+	QImage	image;
+	QImage	*pImage;
+	if(Image.format() != QImage::Format_RGB888){
+		image = Image.convertToFormat(QImage::Format_RGB888);
+		pImage=&image;
+	}
+	else{
+		pImage = (QImage *)&Image;
 	}
 
+    // 3. QImage のデータを直接 Tesseract に渡す
+    // SetImage(buffer, width, height, bytes_per_pixel, bytes_per_line)
+	if(OcrApi!=NULL){
+		int	XLen=pImage->width();
+		int	YLen=pImage->height();
+		OcrApi->SetImage(
+				pImage->bits(),           // 画像データの先頭ポインタ
+				XLen,          // 幅
+				YLen,         // 高さ
+				3,                      // 1ピクセルあたりのバイト数 (RGB888なら3)
+				pImage->bytesPerLine()    // 1行あたりのバイト数 (ストライド)
+			);
 
-	bool	Ret=false;
+		// 4. 文字認識の実行
+		char* outText = OcrApi->GetUTF8Text();
+		Result = QString::fromUtf8(outText);
+		// 5. 後片付け
+		delete[] outText;
+		return true;
+	}
 
-
-	return Ret;
+	return false;
 }

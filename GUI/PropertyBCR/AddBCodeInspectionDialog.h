@@ -16,8 +16,6 @@ class AddBCodeInspectionDialog : public QDialog,public ServiceForLayers
 {
     Q_OBJECT
     
-    QCheckBox   *BarcodeTypeTableCb[100];
-    QCheckBox   *BarcodeOrientationTableCb[100];
 public:
     explicit AddBCodeInspectionDialog(LayersBase *Base,QWidget *parent = 0);
     ~AddBCodeInspectionDialog();
@@ -25,8 +23,6 @@ public:
 	int		                CheckType;		    //0:Read	1:Quality Check
 	double	                QuilityGrade;
 	BCRGradeListContainer	GradeList;
-    BYTE					BarcodeOrientation;	//BarcodeOrientationEnum
-	uint32					BarcodeType;		//BarcodeTypeEnum
     bool					BarcodeIsOnlyDigit;
 
     void	GetDataFromWindow(void);

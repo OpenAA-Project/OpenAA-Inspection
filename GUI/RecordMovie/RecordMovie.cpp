@@ -19,7 +19,6 @@
 #include <QMessageBox>
 #include <QDir>
 #include "XExecuteInspectBase.h"
-#include "XRecordMovieForWindows.h"
 #include "XEntryPoint.h"
 #include "ShowCycleTime.h"
 #include "SettingRecordDialog.h"
@@ -111,7 +110,7 @@ DEFFUNCEX	QIcon	*DLL_GetIcon(void)
 
 //==================================================================================================
 RecordMovie::RecordMovie(LayersBase *Base ,QWidget *parent)
-:GUIFormBase(Base,parent)
+:GUIFormBase(Base,parent),ProcessExe(this)
 {
 	Button.setParent(this);
 	Button.move(0,0);
@@ -134,6 +133,11 @@ RecordMovie::RecordMovie(LayersBase *Base ,QWidget *parent)
 	FileNameFormat	=/**/"yyyyMMdd_hhmmss";
 	AVFormat		=FormatMPeg1;
 	AVFormatStr		=/**/"MPEG1";
+	SharedMemForMovie=NULL;
+	Socket			=NULL;
+	SharedAllocatedSize=0;
+	Semaphore		=NULL;
+	Running			=false;
 
 	resize(60,25);
 	connect(&Button,SIGNAL(clicked(bool)), this ,SLOT(SlotClicked(bool)));
@@ -143,34 +147,20 @@ RecordMovie::RecordMovie(LayersBase *Base ,QWidget *parent)
 												,"Folder path to save mpg file");
 	GetParamGUI()->SetParam(&JpegQuality, /**/"RecordMovie",/**/"JpegQuality"	
 												,"Compression quality");
-
-	ThreadImage = new AddImageForMovie		 (GetLayersBase(),this);
-
-	connect(ThreadImage,SIGNAL(SignalMemoryOver()),this,SLOT(SlotMemoryOver()),Qt::QueuedConnection);
-	connect(ThreadImage,SIGNAL(SignalWriteError()),this,SLOT(SlotWriteError()),Qt::QueuedConnection);
 }
 
 RecordMovie::~RecordMovie(void)
 {
-	Terminated();
-	AVIFileExit();
-}
-
-void	RecordMovie::Terminated(void)
-{
-	if (ThreadImage != NULL) {
-		ThreadImage->Terminated = true;
+	if(Semaphore!=NULL){
+		delete	Semaphore;
 	}
-	if (ThreadImage != NULL) {
-		ThreadImage->deleteLater();
-		ThreadImage =NULL;
+	if(SharedMemForMovie!=NULL){
+		delete	SharedMemForMovie;
 	}
 }
 
 void	RecordMovie::Prepare(void)
 {
-	AVIFileInit();
-
 	Button.setText(Msg);
 	Button.setFont (CFont);
 	Button.setCheckable(true);
@@ -190,15 +180,16 @@ void	RecordMovie::Prepare(void)
 			SetMovieSize(MovieSizeMode);
 		}
 	}
+	Semaphore=new QSystemSemaphore(QString(/**/"RecordMovieSem")+QString::number(UsePage), 0, QSystemSemaphore::Create);
+	//Semaphore->acquire();
 
 	ResizeAction();
-	ThreadImage->Initialize();
-	AVFormat=GetAVFormat();
-	ReallocMovieXYPixels();
-	ThreadImage->start();
+
+	ProgramFileName	=GetLayersBase()->GetSystemPath()+QDir::separator()+QString("RecordMoiveWinExe.exe");
+	ProcessExe.killExistingProcess(ProgramFileName);
 }
 
-void	RecordMovie::ReadyParam(void)
+void	RecordMovie::AfterStartSequence(void)
 {
 	ExecuteInspectBase	*e=GetLayersBase()->GetEntryPoint()->GetExecuteInspect();
 	if(e!=NULL){
@@ -213,6 +204,13 @@ void	RecordMovie::ReadyParam(void)
 			Ret=(connect(E,SIGNAL(SignalCaptured(int))	,this,SLOT(SlotCaptured(int))	,Qt::QueuedConnection))?true:false;
 		}
 	}
+
+	Server.listen(QString(/**/"RecordMovieServer")+QString::number(UsePage));
+	connect(&Server,SIGNAL(newConnection()),this,SLOT(SlotNewConnection()));
+
+	QStringList arguments;
+	arguments.append(QString::number(UsePage));
+	ProcessExe.startExternalProgram(ProgramFileName,GetLayersBase()->GetUserPath(),arguments);
 }
 
 void	RecordMovie::ResizeAction()
@@ -220,19 +218,27 @@ void	RecordMovie::ResizeAction()
 	Button.resize(width(),height());
 }
 
+void	RecordMovie::SlotNewConnection()
+{
+	QLocalSocket	*NewSocket=Server.nextPendingConnection();
+	if(NewSocket!=NULL){
+		Socket=NewSocket;
+	}
+}
+
 void RecordMovie::SlotClicked (bool checked)
 {
 	if(Button.isChecked()==true){
 		QDateTime	NowTime=QDateTime::currentDateTime();
 		ForceDirectories( SavedFolder ); 
-		CurrentFileName=SavedFolder+GetSeparator()+NowTime.toString(FileNameFormat)+QString(/**/".avi");
+		CurrentFileName=SavedFolder+GetSeparator()+NowTime.toString(FileNameFormat)+QString(/**/".mp4");
 		CurrentFPS=GetFPS();
-		ThreadImage->StartRecording(CurrentFileName
-									,MovieXSize,MovieYSize
-									,CurrentFPS,8000000);
+		StartRecording(CurrentFileName
+						,MovieXSize,MovieYSize
+						,CurrentFPS,8000000);
 	}
 	else{
-		ThreadImage->EndRecording();
+		EndRecording();
 	}
 }
 EnumAVFormat	RecordMovie::GetAVFormat(void)
@@ -266,13 +272,16 @@ void	RecordMovie::TransmitDirectly(GUIDirectMessage *packet)
 	if(CmdStartRecordMovieWithFileNameVar!=NULL){
 		Button.setChecked(true);	
 		CurrentFileName=CmdStartRecordMovieWithFileNameVar->FileName;
-		QFileInfo	FInfo(CurrentFileName);
-		ForceDirectories( FInfo.absolutePath() ); 
+		{
+			QFileInfo	FInfo(CurrentFileName);
+			ForceDirectories( FInfo.absolutePath() ); 
+		}
 		SetTargetPage(CmdStartRecordMovieWithFileNameVar->RecordPageNo);
-		//CurrentFPS=GetFPS();
-		ThreadImage->StartRecording(CurrentFileName
+		double	X=CmdStartRecordMovieWithFileNameVar->Quality;
+		double	Y=1000000*pow(2,X/25.0);
+		StartRecording(CurrentFileName
 									,MovieXSize,MovieYSize
-									,CmdStartRecordMovieWithFileNameVar->FPS,8000000);
+									,CmdStartRecordMovieWithFileNameVar->FPS,Y);	//8000000);
 		return;
 	}
 	CmdEndRecordMovie	*CmdEndRecordMovieVar=dynamic_cast<CmdEndRecordMovie *>(packet);
@@ -290,7 +299,7 @@ void	RecordMovie::TransmitDirectly(GUIDirectMessage *packet)
 		MovieQuality=CmdSetRecordMovieSizeVar->MovieQuality;
 		CurrentFPS=GetFPS();
 		CmdSetRecordMovieSizeVar->ReturnFPS=CurrentFPS;
-		ReallocMovieXYPixels();
+		ReallocXYPixels(MovieXSize ,MovieYSize);
 		return;
 	}
 	CmdShowSettingRecordDialog	*CmdShowSettingRecordDialogVar=dynamic_cast<CmdShowSettingRecordDialog *>(packet);
@@ -343,15 +352,10 @@ void	RecordMovie::SetMovieSize(int Index)
 	}
 }
 
-void	RecordMovie::ReallocMovieXYPixels(void)
-{
-	ThreadImage->AllocateBuff();
-}
-
 void	RecordMovie::SlotTargetImageCaptured()
 {
 	if(GetLayersBase()->GetOnTerminating()==false){
-		ThreadImage->AddImage();
+		AddImage();
 	}
 }
 
@@ -434,3 +438,116 @@ bool	RecordMovie::LoadContent(QIODevice *f)
 	return true;
 }
 
+bool	RecordMovie::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
+{
+	return true;
+}
+bool	RecordMovie::StartRecording(const QString &filename
+						, int width
+						, int height
+						, int fps
+						, int bitrate)
+{
+	MovieXSize=width;
+	MovieYSize=height;
+	FPS=fps;
+
+	int	SByte=sizeof(struct RecordHeaderStruct)
+						+MovieXSize*MovieYSize*4;
+	if(SByte!=SharedAllocatedSize){
+		SharedAllocatedSize=SByte;
+		if(SharedMemForMovie!=NULL){
+			SharedMemForMovie->detach();
+			struct RecordStruct	RCmd;
+			RCmd.Cmd = RecordStruct::_ReqDetach;
+			Socket->write((char *)&RCmd,sizeof(RCmd));
+			Socket->flush();
+			delete	SharedMemForMovie;
+			SharedMemForMovie=NULL;
+		}
+		SharedMemForMovie = new QSharedMemory(QString("RecordMovieMem")+QString::number(UsePage));
+		SharedMemForMovie->create(SharedAllocatedSize);
+	
+
+		struct RecordStruct	RCmd;
+		RCmd.Cmd = RecordStruct::_ReqAttach;
+		RCmd.MovieXSize	= MovieXSize;
+		RCmd.MovieYSize	= MovieYSize;
+		RCmd.LayerNumb=GetLayerNumb(UsePage);
+		RCmd.FPS = CurrentFPS;	
+		Socket->write((char *)&RCmd,sizeof(RCmd));
+		Socket->flush();
+	}
+
+	SharedMemForMovie->lock();
+	struct RecordHeaderStruct *HeaderPtr = (struct RecordHeaderStruct *)SharedMemForMovie->data();
+	CurrentFileName=filename;
+	wcsncpy_s(HeaderPtr->FileName,1024,(wchar_t *)CurrentFileName.toStdWString().c_str(),_TRUNCATE);
+	HeaderPtr->MovieXSize	= MovieXSize;
+	HeaderPtr->MovieYSize	= MovieYSize;
+	HeaderPtr->LayerNumb	=GetLayerNumb(UsePage);
+	HeaderPtr->FPS			= fps;
+	HeaderPtr->Quality		=bitrate;
+	HeaderPtr->CurrentTime	=0;
+	HeaderPtr->Duration		=0;
+	HeaderPtr->Opened		=false;
+	SharedMemForMovie->unlock();
+
+	struct RecordStruct	RCmd;
+	RCmd.Cmd = RecordStruct::_StartRecording;
+	RCmd.MovieXSize	= MovieXSize;
+	RCmd.MovieYSize	= MovieYSize;
+	RCmd.LayerNumb	=GetLayerNumb(UsePage);
+	RCmd.FPS		= fps;
+	RCmd.Quality	= bitrate;
+	Socket->write((char *)&RCmd,sizeof(RCmd));
+	Socket->flush();
+	
+	QElapsedTimer timer;
+    timer.start();
+    while(timer.elapsed()<20000){
+		SharedMemForMovie->lock();
+		bool	tmpOpened=HeaderPtr->Opened;
+		SharedMemForMovie->unlock();
+		if(tmpOpened==true){
+			break;
+		}
+		QThread::msleep(1); 
+    }
+
+	LastTime=0;
+	double	Zx=((double)MovieXSize)/((double)GetDotPerLine(UsePage));
+	double	Zy=((double)MovieYSize)/((double)GetMaxLines  (UsePage));
+	ZoomRate=min(Zx,Zy);
+	Running=true;
+	return true;
+}
+bool	RecordMovie::RestartRecording(void)
+{
+	struct RecordStruct	RCmd;
+	RCmd.Cmd = RecordStruct::_RestartRecording;
+	Socket->write((char *)&RCmd,sizeof(RCmd));
+	Socket->flush();
+	Running=true;
+	return true;
+}
+
+bool	RecordMovie::HaltRecording(void)
+{
+	struct RecordStruct	RCmd;
+	RCmd.Cmd = RecordStruct::_HaltRecording;
+	Socket->write((char *)&RCmd,sizeof(RCmd));
+	Socket->flush();
+	Running=false;
+	return true;
+}
+
+bool	RecordMovie::EndRecording(void)
+{
+	struct RecordStruct	RCmd;
+	RCmd.Cmd = RecordStruct::_EndRecording;
+	Socket->write((char *)&RCmd,sizeof(RCmd));
+	Socket->flush();
+	Running=false;
+	return true;
+}

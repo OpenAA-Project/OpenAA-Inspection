@@ -28,23 +28,11 @@ public:
 
 	void	Initial(void);
 
-	int32		AbsLR, AbsHR;
-	int32		AbsLG, AbsHG;
-	int32		AbsLB, AbsHB;
-	int32		BlockWidth;
-	int32		BlockHeight;
-	int32		MinSize;
-	ColorLogic	MaskingColor;
-
 	int			Mergin;
-	int			EnsmallDot;
-	int			EnlargeDot;
+
 
 private:
 	Ui::AddManualItemFormClass ui;
-
-	ShowRGBSpace		ColorMap;
-	SelectColorSample	ColorSamples;
 
 private slots:
 	void on_pushButtonCancel_clicked();

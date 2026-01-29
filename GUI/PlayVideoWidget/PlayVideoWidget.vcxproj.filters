@@ -28,12 +28,18 @@
     <ClCompile Include="PlayVideoWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClInclude Include="XVideoCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MMFVideoWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -10,13 +10,17 @@ namespace Ui {
 class SelectBlockBySpecialDialog;
 }
 
+class	DotColorMatchingImagePanel;
+
 class SelectBlockBySpecialDialog : public QDialog
 {
     Q_OBJECT
+
+    DotColorMatchingImagePanel  *Parent;
 public:
     SelectLibrariesForm		Libs;
 public:
-    explicit SelectBlockBySpecialDialog(int libType ,LayersBase *Base,QWidget *parent = nullptr);
+    explicit SelectBlockBySpecialDialog(DotColorMatchingImagePanel *p,int libType ,LayersBase *Base,QWidget *parent = nullptr);
     ~SelectBlockBySpecialDialog();
 
     bool    OutlineMode;

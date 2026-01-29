@@ -61,8 +61,6 @@ void	PropertyBCRForm::TransmitDirectly(GUIDirectMessage *packet)
 					Cmd.CheckType			=D.CheckType			;
 					Cmd.QuilityGrade		=D.QuilityGrade			;
 					Cmd.GradeList			=D.GradeList			;
-					Cmd.BarcodeOrientation	=D.BarcodeOrientation	;
-					Cmd.BarcodeType			=D.BarcodeType			;
 					Cmd.BarcodeIsOnlyDigit	=D.BarcodeIsOnlyDigit	;
 					Cmd.SendOnly(GlobalPage,0);
 				}
@@ -88,8 +86,6 @@ void	PropertyBCRForm::TransmitDirectly(GUIDirectMessage *packet)
 			CmdReqBCodeInfoByItemVar->CheckType			=ACmd.CheckType			;
 			CmdReqBCodeInfoByItemVar->QuilityGrade		=ACmd.QuilityGrade		;
 			CmdReqBCodeInfoByItemVar->GradeList			=ACmd.GradeList			;
-			CmdReqBCodeInfoByItemVar->BarcodeOrientation=ACmd.BarcodeOrientation;
-			CmdReqBCodeInfoByItemVar->BarcodeType		=ACmd.BarcodeType		;
 			CmdReqBCodeInfoByItemVar->BarcodeIsOnlyDigit=ACmd.BarcodeIsOnlyDigit;
 		}
 		return;
@@ -104,8 +100,6 @@ void	PropertyBCRForm::TransmitDirectly(GUIDirectMessage *packet)
 		RCmd.CheckType			=CmdSetBCodeInfoByItemVar->CheckType			;
 		RCmd.QuilityGrade		=CmdSetBCodeInfoByItemVar->QuilityGrade			;
 		RCmd.GradeList			=CmdSetBCodeInfoByItemVar->GradeList			;	
-		RCmd.BarcodeOrientation	=CmdSetBCodeInfoByItemVar->BarcodeOrientation	;	
-		RCmd.BarcodeType		=CmdSetBCodeInfoByItemVar->BarcodeType			;
 		RCmd.BarcodeIsOnlyDigit	=CmdSetBCodeInfoByItemVar->BarcodeIsOnlyDigit	;	
 		RCmd.Send(NULL,GlobalPage,0);
 		return;
@@ -203,8 +197,6 @@ void PropertyBCRForm::on_tableWidget_doubleClicked(const QModelIndex &index)
 		D.CheckType			=ACmd.CheckType			;		    
 		D.QuilityGrade		=ACmd.QuilityGrade		;
 		D.GradeList			=ACmd.GradeList			;
-		D.BarcodeOrientation=ACmd.BarcodeOrientation;	
-		D.BarcodeType		=ACmd.BarcodeType		;
 		D.BarcodeIsOnlyDigit=ACmd.BarcodeIsOnlyDigit;
 		D.SetDataToWindow();
 		if(D.exec()==true){
@@ -214,8 +206,6 @@ void PropertyBCRForm::on_tableWidget_doubleClicked(const QModelIndex &index)
 			SCmd.CheckType			=D.CheckType			;		    
 			SCmd.QuilityGrade		=D.QuilityGrade			;
 			SCmd.GradeList			=D.GradeList			;
-			SCmd.BarcodeOrientation	=D.BarcodeOrientation	;	
-			SCmd.BarcodeType		=D.BarcodeType			;
 			SCmd.BarcodeIsOnlyDigit	=D.BarcodeIsOnlyDigit	;
 			if(SCmd.Send(NULL,globalPage,0)==true){
 				ShowGrid();

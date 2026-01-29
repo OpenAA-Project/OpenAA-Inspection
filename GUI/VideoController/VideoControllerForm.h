@@ -18,7 +18,7 @@ class	PlayVideoWidget;
 class VideoControllerForm : public GUIFormBase
 {
     Q_OBJECT
-    PlayVideoWidget	*PlayVideoWidgetPointer;
+    GUIFormBase	*PlayVideoWidgetPointer;
 	QTimer	TM;
 
 public:

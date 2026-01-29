@@ -11,7 +11,7 @@ EditZoomDialog::EditZoomDialog(LayersBase *base, QWidget *parent) :
     ui->setupUi(this);
 	LangSolver.SetUI(this);
 
-	ControlRememberer::RestoreForm(this);
+	RestoreForm(this);
 
 	InstallOperationLog(this);
 }
@@ -25,7 +25,7 @@ void EditZoomDialog::on_pushButtonOK_clicked()
 {
 	XZoomDir		=ui->doubleSpinBoxXZoomDir	->value();
 	YZoomDir		=ui->doubleSpinBoxYZoomDir	->value();
-	ControlRememberer::SaveForm(this);
+	SaveForm(this);
 	done(true);
 }
 

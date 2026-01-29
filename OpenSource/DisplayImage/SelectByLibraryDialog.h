@@ -5,12 +5,13 @@
 #include "XAlgorithmLibrary.h"
 #include "LibFolderForm.h"
 #include "SelectLibrariesForm.h"
+#include "XServiceForLayers.h"
 
 namespace Ui {
 class SelectByLibraryDialog;
 }
 
-class SelectByLibraryDialog : public QDialog
+class SelectByLibraryDialog : public QDialog,public ServiceForLayers
 {
     Q_OBJECT
     

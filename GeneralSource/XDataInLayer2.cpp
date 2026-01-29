@@ -4824,9 +4824,9 @@ bool	PageDataInOnePhase::GetXY(int &x1 ,int &y1 ,int &x2 ,int &y2)	const
 		int	ix2=Pg->GetOutlineOffset()->x+Pg->GetDotPerLine();
 		int	iy2=Pg->GetOutlineOffset()->y+Pg->GetMaxLines();
 		x1=min(x1,ix1);
-		y1=min(x1,iy1);
+		y1=min(y1,iy1);
 		x2=max(x2,ix2);
-		y2=max(x2,iy2);
+		y2=max(y2,iy2);
 	}
 	return true;
 }

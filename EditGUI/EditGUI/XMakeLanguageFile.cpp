@@ -79,6 +79,7 @@ bool MakeLanguageDialog::SaveExcelFile(LanguagePack &LPack
 										,QString &ExcelFileName
 										,GUILanguageContainer &LangC)
 {
+	
 	char	FileNameStr[2048];
 	::QString2Char(ExcelFileName, FileNameStr, sizeof(FileNameStr));
 	

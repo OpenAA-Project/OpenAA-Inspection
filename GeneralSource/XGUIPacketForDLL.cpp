@@ -96,6 +96,16 @@ GUIDirectMessage::GUIDirectMessage(GUICmdPacketBase *base)
 	}
 }
 
+GUICmdPacketBasePointerListContainer::GUICmdPacketBasePointerListContainer(void)
+{}
+
+GUICmdPacketBasePointerListContainer	&GUICmdPacketBasePointerListContainer::operator=(GUICmdPacketBase *a)
+{	
+	GUICmdPacketBasePointerList	*t=new GUICmdPacketBasePointerList(a);
+	AppendList(t);
+	return *this;
+}
+
 
 GUICmdPacketBase::GUICmdPacketBase(LayersBase *base,const QString &emitterRoot ,const QString &emitterName ,const QString &className ,int globalPage)
 	:GUIDirectMessage(base),ServiceForLayers(base)

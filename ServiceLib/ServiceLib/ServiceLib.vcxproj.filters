@@ -613,6 +613,9 @@
     <ClCompile Include="..\..\GeneralSource\XFlexAreaFast.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XProcess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Open\NList.h">
@@ -1222,6 +1225,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\Open\XRobotClass.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\Open\XProcess.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

@@ -12,6 +12,7 @@
 #define	XSERVICEFORLAYERS_H
 #include <QString>
 #include "XTypeDef.h"
+#include "XRememberer.h"
 
 class	LayersBase;
 class	ParamGlobal;
@@ -20,11 +21,11 @@ class	ParamGUI;
 class	EntryPointBase;
 class	QObject;
 
-class	ServiceForLayers
+class	ServiceForLayers:public ControlRememberer
 {
 	LayersBase	*Base;
 public:
-	explicit	ServiceForLayers(LayersBase *base):Base(base){}
+	explicit	ServiceForLayers(LayersBase *base):ControlRememberer(base),Base(base){}
 	virtual	~ServiceForLayers(void){	Base=NULL;	}
 
 	void			Copy(const ServiceForLayers *src){	Base=src->Base;	}

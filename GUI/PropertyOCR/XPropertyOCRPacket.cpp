@@ -136,42 +136,11 @@ GUICmdAddOCRArea::GUICmdAddOCRArea(LayersBase *Base ,const QString &EmitterRoot,
 	InspectMatching			=false;
 	SaveIntoResult			=false;
 	OKByFailingRecognition	=false;
-	UseColorLogic			=false;
-	Rotation				=0;
 }
 
 bool	GUICmdAddOCRArea::Load(QIODevice *f)
 {
-	if(::Load(f,AbsLR)==false)
-		return false;
-	if(::Load(f,AbsHR)==false)
-		return false;
-	if(::Load(f,AbsLG)==false)
-		return false;
-	if(::Load(f,AbsHG)==false)
-		return false;
-	if(::Load(f,AbsLB)==false)
-		return false;
-	if(::Load(f,AbsHB)==false)
-		return false;
-	if(::Load(f,EnlargeDot)==false)
-		return false;
-	if(::Load(f,EnsmallDot)==false)
-		return false;
-	if(::Load(f,BlockWidth)==false)
-		return false;
-	if(::Load(f,BlockHeight)==false)
-		return false;
-
 	if(::Load(f,Mergin)==false)
-		return false;
-	if(MaskingColor.Load(f)==false)
-		return false;
-	if(::Load(f,MinSize)==false)
-		return false;
-	if(::Load(f,UseColorLogic)==false)
-		return false;
-	if(::Load(f,Rotation)==false)
 		return false;
 
 	if(Area.Load(f)==false)
@@ -193,36 +162,7 @@ bool	GUICmdAddOCRArea::Load(QIODevice *f)
 
 bool	GUICmdAddOCRArea::Save(QIODevice *f)
 {
-	if(::Save(f,AbsLR)==false)
-		return false;
-	if(::Save(f,AbsHR)==false)
-		return false;
-	if(::Save(f,AbsLG)==false)
-		return false;
-	if(::Save(f,AbsHG)==false)
-		return false;
-	if(::Save(f,AbsLB)==false)
-		return false;
-	if(::Save(f,AbsHB)==false)
-		return false;
-	if(::Save(f,EnlargeDot)==false)
-		return false;
-	if(::Save(f,EnsmallDot)==false)
-		return false;
-	if(::Save(f,BlockWidth)==false)
-		return false;
-	if(::Save(f,BlockHeight)==false)
-		return false;
-
 	if(::Save(f,Mergin)==false)
-		return false;
-	if(MaskingColor.Save(f)==false)
-		return false;
-	if(::Save(f,MinSize)==false)
-		return false;
-	if(::Save(f,UseColorLogic)==false)
-		return false;
-	if(::Save(f,Rotation)==false)
 		return false;
 
 	if(Area.Save(f)==false)
@@ -250,21 +190,8 @@ void	GUICmdAddOCRArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 	AlgorithmInPageRoot		*APage=ABase->GetPageData(localPage);
 	if(APage!=NULL){
 		AddOCRInspectionAreaPacket	Cmd(GetLayersBase());
-		Cmd.AbsLR			=AbsLR;
-		Cmd.AbsHR			=AbsHR;
-		Cmd.AbsLG			=AbsLG;
-		Cmd.AbsHG			=AbsHG;
-		Cmd.AbsLB			=AbsLB;
-		Cmd.AbsHB			=AbsHB;
-		Cmd.EnsmallDot		=EnsmallDot;
-		Cmd.EnlargeDot		=EnlargeDot;
-		Cmd.BlockWidth		=BlockWidth;
-		Cmd.BlockHeight		=BlockHeight;
-		Cmd.MinSize			=MinSize;
+
 		Cmd.Mergin			=Mergin;
-		Cmd.MaskingColor	=MaskingColor;
-		Cmd.UseColorLogic	=UseColorLogic;
-		Cmd.Rotation		=Rotation;
 				
 		Cmd.Area					=Area;
 		Cmd.ItemName				=ItemName;
@@ -289,8 +216,6 @@ GUICmdUpdateOCRArea::GUICmdUpdateOCRArea(LayersBase *Base ,const QString &Emitte
 	InspectMatching			=false;
 	SaveIntoResult			=false;
 	OKByFailingRecognition	=false;
-	UseColorLogic			=false;
-	Rotation				=0;
 }
 
 bool	GUICmdUpdateOCRArea::Load(QIODevice *f)
@@ -300,36 +225,7 @@ bool	GUICmdUpdateOCRArea::Load(QIODevice *f)
 	if(::Load(f,ItemName)==false)
 		return false;
 
-	if(::Load(f,AbsLR)==false)
-		return false;
-	if(::Load(f,AbsHR)==false)
-		return false;
-	if(::Load(f,AbsLG)==false)
-		return false;
-	if(::Load(f,AbsHG)==false)
-		return false;
-	if(::Load(f,AbsLB)==false)
-		return false;
-	if(::Load(f,AbsHB)==false)
-		return false;
-	if(::Load(f,EnlargeDot)==false)
-		return false;
-	if(::Load(f,EnsmallDot)==false)
-		return false;
-	if(::Load(f,BlockWidth)==false)
-		return false;
-	if(::Load(f,BlockHeight)==false)
-		return false;
-
 	if(::Load(f,Mergin)==false)
-		return false;
-	if(MaskingColor.Load(f)==false)
-		return false;
-	if(::Load(f,MinSize)==false)
-		return false;
-	if(::Load(f,UseColorLogic)==false)
-		return false;
-	if(::Load(f,Rotation)==false)
 		return false;
 
 	if(::Load(f,RegNumber)==false)
@@ -352,36 +248,7 @@ bool	GUICmdUpdateOCRArea::Save(QIODevice *f)
 	if(::Save(f,ItemName)==false)
 		return false;
 
-	if(::Save(f,AbsLR)==false)
-		return false;
-	if(::Save(f,AbsHR)==false)
-		return false;
-	if(::Save(f,AbsLG)==false)
-		return false;
-	if(::Save(f,AbsHG)==false)
-		return false;
-	if(::Save(f,AbsLB)==false)
-		return false;
-	if(::Save(f,AbsHB)==false)
-		return false;
-	if(::Save(f,EnlargeDot)==false)
-		return false;
-	if(::Save(f,EnsmallDot)==false)
-		return false;
-	if(::Save(f,BlockWidth)==false)
-		return false;
-	if(::Save(f,BlockHeight)==false)
-		return false;
-
 	if(::Save(f,Mergin)==false)
-		return false;
-	if(MaskingColor.Save(f)==false)
-		return false;
-	if(::Save(f,MinSize)==false)
-		return false;
-	if(::Save(f,UseColorLogic)==false)
-		return false;
-	if(::Save(f,Rotation)==false)
 		return false;
 
 	if(::Save(f,RegNumber)==false)
@@ -405,21 +272,8 @@ void	GUICmdUpdateOCRArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	AlgorithmInPageRoot		*APage=ABase->GetPageData(localPage);
 	if(APage!=NULL){
 		UpdateOCRInspectionAreaPacket		Cmd(GetLayersBase());
-		Cmd.AbsLR			=AbsLR;
-		Cmd.AbsHR			=AbsHR;
-		Cmd.AbsLG			=AbsLG;
-		Cmd.AbsHG			=AbsHG;
-		Cmd.AbsLB			=AbsLB;
-		Cmd.AbsHB			=AbsHB;
-		Cmd.EnsmallDot		=EnsmallDot;
-		Cmd.EnlargeDot		=EnlargeDot;
-		Cmd.BlockWidth		=BlockWidth;
-		Cmd.BlockHeight		=BlockHeight;
-		Cmd.MinSize			=MinSize;
+
 		Cmd.Mergin			=Mergin;
-		Cmd.MaskingColor	=MaskingColor;
-		Cmd.UseColorLogic	=UseColorLogic;
-		Cmd.Rotation		=Rotation;
 
 		Cmd.ItemID					=ItemID;
 		Cmd.ItemName				=ItemName;

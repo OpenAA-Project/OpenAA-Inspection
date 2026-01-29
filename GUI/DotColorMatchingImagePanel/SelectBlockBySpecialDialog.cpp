@@ -4,10 +4,11 @@
 #include "XTypeDef.h"
 #include "XDataInLayer.h"
 #include "XRememberer.h"
+#include "DotColorMatchingImagePanel.h"
 
-
-SelectBlockBySpecialDialog::SelectBlockBySpecialDialog(int libType ,LayersBase *Base,QWidget *parent) :
+SelectBlockBySpecialDialog::SelectBlockBySpecialDialog(DotColorMatchingImagePanel *p,int libType ,LayersBase *Base,QWidget *parent) :
     QDialog(parent)
+    ,Parent(p)
     ,Libs(libType ,Base)
     ,ui(new Ui::SelectBlockBySpecialDialog)
 {
@@ -19,7 +20,7 @@ SelectBlockBySpecialDialog::SelectBlockBySpecialDialog(int libType ,LayersBase *
     Libs.move(0,0);
     Libs.resize(ui->frameLibrary->width(),ui->frameLibrary->height());
 
-    ControlRememberer::RestoreForm(this);
+    Parent->RestoreForm(this);
 
     Base->InstallOperationLog(this);
 }
@@ -31,7 +32,7 @@ SelectBlockBySpecialDialog::~SelectBlockBySpecialDialog()
 
 void SelectBlockBySpecialDialog::on_ButtonSelect_clicked()
 {
-    ControlRememberer::SaveForm(this);
+    Parent->SaveForm(this);
     OutlineMode=ui->checkBoxOutline->isChecked();
     done(true);
 }

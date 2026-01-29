@@ -12,6 +12,7 @@
 #include "XGeneralDialog.h"
 #include "XGeneralFunc.h"
 #include "XCriticalFunc.h"
+#include "XVideoCommon.h"
 
 #define SLIDER_RANGE 8
 
@@ -181,28 +182,38 @@ void MediaVideoWidget::dragEnterEvent(QDragEnterEvent* e) {
 PlayVideoWidget::PlayVideoWidget(LayersBase* Base, QWidget* parent)
     :GUIFormBase(Base, parent)
 {
-    VideoWidget = new MediaVideoWidget(this);
-    VideoWidget->setParent(this);
-    LastState   =QMediaPlayer::StoppedState;
+    Player		=NULL;
+    VideoWidget =NULL;
+    glWidget	=NULL;
 
-    Player  = new QMediaPlayer(this);
-    Player->setVideoOutput(VideoWidget);
-
-    bool    DbgRet=connect(Player, SIGNAL(playbackStateChanged(QMediaPlayer::PlaybackState)), this, SLOT(stateChanged(QMediaPlayer::PlaybackState)));
-    int Error = 0;
-    if (!connect(this, SIGNAL(SignalResize()), this, SLOT(ResizeAction()))) {
-        Error = 1;
-    }
+    LastDuration=0;
 }
 
 PlayVideoWidget::~PlayVideoWidget()
 {
     delete	VideoWidget;
     delete	Player;
+    delete  glWidget;
 }
 
 void	PlayVideoWidget::Prepare(void)
 {
+    //VideoWidget = new MediaVideoWidget(this);
+    //VideoWidget->setParent(this);
+    //LastState   =QMediaPlayer::StoppedState;
+    //
+    //Player  = new QMediaPlayer(this);
+    //Player->setVideoOutput(VideoWidget);
+    //
+    //bool    DbgRet=connect(Player, SIGNAL(playbackStateChanged(QMediaPlayer::PlaybackState)), this, SLOT(stateChanged(QMediaPlayer::PlaybackState)));
+    
+    glWidget=new MMFVideoWidget(this);
+    glWidget->setParent(this);
+    
+    int Error = 0;
+    if (!connect(this, SIGNAL(SignalResize()), this, SLOT(ResizeAction()))) {
+        Error = 1;
+    }
 }
 void	PlayVideoWidget::ReadyParam(void)
 {
@@ -216,10 +227,12 @@ void	PlayVideoWidget::ResizeAction()
 {
     int	W = width();
     int	H = height();
-    VideoWidget->setGeometry(0, 0, W, H);
-
-    //slider->move(width(), 0);
-    //volume->move(width(), 0);
+    if(VideoWidget!=NULL){
+        VideoWidget->setGeometry(0, 0, W, H);
+    }
+    if(glWidget!=NULL){
+        glWidget->setGeometry(0, 0, W, H);
+    }
 }
 
 void PlayVideoWidget::handleDrop(QDropEvent* e)
@@ -254,21 +267,43 @@ void PlayVideoWidget::dragMoveEvent(QDragMoveEvent* e)
 
 void PlayVideoWidget::playPause()
 {
-    if (Player->playbackState() == QMediaPlayer::PlayingState)
-        Player->pause();
-    else {
-        if (Player->position() == Player->duration())
-            Player->setPosition(0);
-        Player->setPlaybackRate(1.0);
-        Player->play();
+    if(Player!=NULL){
+        if (Player->playbackState() == QMediaPlayer::PlayingState)
+            Player->pause();
+        else {
+            if (Player->position() == Player->duration())
+                Player->setPosition(0);
+            Player->setPlaybackRate(1.0);
+            Player->play();
+        }
+    }
+    else if(glWidget!=NULL){
+        if(glWidget->IsPlaying()==true){
+            glWidget->play();
+        }
+        else{
+            if(glWidget->IsPausing()==true){
+                glWidget->restart();
+            }
+            else{
+                glWidget->play();
+            }
+        }
     }
 }
 
 void PlayVideoWidget::setFile(const QString& fileName)
 {
     setWindowTitle(fileName.right(fileName.length() - fileName.lastIndexOf('/') - 1));
-    Player->setSource(QUrl::fromLocalFile(fileName));
-    Player->play();
+
+    if(Player!=NULL){
+        Player->setSource(QUrl::fromLocalFile(fileName));
+        Player->play();
+    }
+    else{
+        glWidget->setSource(fileName);
+        glWidget->play();
+    }
 }
 
 void PlayVideoWidget::updateInfo()
@@ -277,55 +312,78 @@ void PlayVideoWidget::updateInfo()
 
 void PlayVideoWidget::updateTime()
 {
-    long len = Player->duration();
-    long pos = Player->position();
-    QString timeString;
-    if (pos || len)
-    {
-        int sec = pos / 1000;
-        int min = sec / 60;
-        int hour = min / 60;
-        int msec = pos;
+    if(Player!=NULL){
+        long len = Player->duration();
+        long pos = Player->position();
+        QString timeString;
+        if (pos || len)
+        {
+            int sec = pos / 1000;
+            int min = sec / 60;
+            int hour = min / 60;
+            int msec = pos;
 
-        QTime playTime(hour % 60, min % 60, sec % 60, msec % 1000);
-        sec = len / 1000;
-        min = sec / 60;
-        hour = min / 60;
-        msec = len;
+            QTime playTime(hour % 60, min % 60, sec % 60, msec % 1000);
+            sec = len / 1000;
+            min = sec / 60;
+            hour = min / 60;
+            msec = len;
 
-        QTime stopTime(hour % 60, min % 60, sec % 60, msec % 1000);
-        QString timeFormat = "m:ss";
-        if (hour > 0)
-            timeFormat = "h:mm:ss";
-        timeString = playTime.toString(timeFormat);
-        if (len)
-            timeString += " / " + stopTime.toString(timeFormat);
+            QTime stopTime(hour % 60, min % 60, sec % 60, msec % 1000);
+            QString timeFormat = "m:ss";
+            if (hour > 0)
+                timeFormat = "h:mm:ss";
+            timeString = playTime.toString(timeFormat);
+            if (len)
+                timeString += " / " + stopTime.toString(timeFormat);
+        }
+        // timeLabel->setText(timeString);
     }
-    // timeLabel->setText(timeString);
+    else{
+    }
 }
 
 void PlayVideoWidget::rewind()
 {
-    Player->setPosition(0);
+    if(Player!=NULL){
+        Player->setPosition(0);
+    }
+    else if(glWidget!=NULL){
+        glWidget->rewind();
+    }
 }
 
 void PlayVideoWidget::forward()
 {
-    Player->setPlaybackRate(2.0);
-    Player->play();
+    if(Player!=NULL){
+        Player->setPlaybackRate(2.0);
+        Player->play();
+    }
+    else if(glWidget!=NULL){
+        glWidget->forward();
+    }
+}
+void PlayVideoWidget::pause()
+{
+    if(Player!=NULL){
+        Player->pause();
+    }
+    else if(glWidget!=NULL){
+        glWidget->pause();
+    }
 }
 
 bool PlayVideoWidget::playPauseForDialog()
 {
-    // If we're running on a small screen, we want to pause the video when
-    // popping up dialogs. We neither want to tamper with the state if the
-    // user has paused.
-    //if (m_smallScreen && m_MediaObject.hasVideo()) {
-    if (Player->isAvailable() && Player->hasVideo()) {
-        if (QMediaPlayer::PlayingState == Player->playbackState()) {
-            Player->pause();
-            return true;
+    if(Player!=NULL){
+        if (Player->isAvailable() && Player->hasVideo()) {
+            if (QMediaPlayer::PlayingState == Player->playbackState()) {
+                Player->pause();
+                return true;
+            }
         }
+    }
+    else{
     }
     return false;
 }
@@ -334,32 +392,20 @@ qint64 PlayVideoWidget::openFile(QString& fileName)
 {
     const bool hasPausedForDialog = playPauseForDialog();
 
-    if (hasPausedForDialog)
-        Player->play();
+    if(Player!=NULL){
+        if (hasPausedForDialog){
+            Player->play();
+            Player->setSource(QUrl::fromLocalFile(fileName));
+        }
+        return Player->duration();
+    }
+    else if(glWidget!=NULL){
+        glWidget->setSource(fileName);
+        
+        return glWidget->duration();
+    }
 
-    Player->setSource(QUrl::fromLocalFile(fileName));
-    return Player->duration();
 }
-//
-//void PlayVideoWidget::setSaturation(int val)
-//{
-//    VideoWidget->setSaturation(val / qreal(SLIDER_RANGE));
-//}
-//
-//void PlayVideoWidget::setHue(int val)
-//{
-//    VideoWidget->setHue(val / qreal(SLIDER_RANGE));
-//}
-//
-//void PlayVideoWidget::setBrightness(int val)
-//{
-//    VideoWidget->setBrightness(val / qreal(SLIDER_RANGE));
-//}
-//
-//void PlayVideoWidget::setContrast(int val)
-//{
-//    VideoWidget->setContrast(val / qreal(SLIDER_RANGE));
-//}
 
 void PlayVideoWidget::finished()
 {
@@ -390,6 +436,11 @@ void	PlayVideoWidget::TransmitDirectly(GUIDirectMessage* packet)
         playPause();
         return;
     }
+    CmdVideo_Pause  *CmdVideo_PauseVar=dynamic_cast<CmdVideo_Pause *>(packet);
+    if(CmdVideo_PauseVar!=NULL){
+        pause();
+        return;
+    }
     CmdVideo_LoadFile* CmdVideo_LoadFileVar = dynamic_cast<CmdVideo_LoadFile*>(packet);
     if (CmdVideo_LoadFileVar != NULL) {
         CmdVideo_LoadFileVar->TotalTime = openFile(CmdVideo_LoadFileVar->FileName);
@@ -397,39 +448,64 @@ void	PlayVideoWidget::TransmitDirectly(GUIDirectMessage* packet)
     }
     CmdVideo_GetCurrentTime* CmdVideo_GetCurrentTimeVar = dynamic_cast<CmdVideo_GetCurrentTime*>(packet);
     if (CmdVideo_GetCurrentTimeVar != NULL) {
-        QMediaPlayer::PlaybackState state=Player->playbackState();
-        if (state == QMediaPlayer::PlayingState) {
-            CmdVideo_GetCurrentTimeVar->IsPlaying = true;
-            qint64  duration=Player->duration();
-            qint64  position=Player->position();
-            CmdVideo_GetCurrentTimeVar->MaxTime     = duration;
-            CmdVideo_GetCurrentTimeVar->CurrentTime = position;
-            LastPosition=position;
-            LastDuration=duration;
-        }
-        else {
-            if(LastState==QMediaPlayer::PlayingState){
-                CmdVideo_GetCurrentTimeVar->MaxTime     = LastDuration;
-                CmdVideo_GetCurrentTimeVar->CurrentTime = LastDuration;
+        if(Player!=NULL){
+            QMediaPlayer::PlaybackState state=Player->playbackState();
+            if (state == QMediaPlayer::PlayingState) {
                 CmdVideo_GetCurrentTimeVar->IsPlaying = true;
+                qint64  duration=Player->duration();
+                qint64  position=Player->position();
+                CmdVideo_GetCurrentTimeVar->MaxTime     = duration;
+                CmdVideo_GetCurrentTimeVar->CurrentTime = position;
+                LastPosition=position;
+                LastDuration=duration;
+            }
+            else {
+                if(LastState==QMediaPlayer::PlayingState){
+                    CmdVideo_GetCurrentTimeVar->MaxTime     = LastDuration;
+                    CmdVideo_GetCurrentTimeVar->CurrentTime = LastDuration;
+                    CmdVideo_GetCurrentTimeVar->IsPlaying = true;
+                }
+                else{
+                    CmdVideo_GetCurrentTimeVar->MaxTime = Player->duration();
+                    CmdVideo_GetCurrentTimeVar->CurrentTime = Player->position();
+                    CmdVideo_GetCurrentTimeVar->IsPlaying = false;
+                }
+            }
+            LastState=state;
+        }
+        else if(glWidget!=NULL){
+            if (glWidget->IsPlaying()==true) {
+                CmdVideo_GetCurrentTimeVar->IsPlaying = true;
+                qint64  duration=glWidget->duration();
+                qint64  position=glWidget->position();
+                CmdVideo_GetCurrentTimeVar->MaxTime     = duration;
+                CmdVideo_GetCurrentTimeVar->CurrentTime = position;
+                LastPosition=position;
+                LastDuration=duration;
             }
             else{
-                CmdVideo_GetCurrentTimeVar->MaxTime = Player->duration();
-                CmdVideo_GetCurrentTimeVar->CurrentTime = Player->position();
+                CmdVideo_GetCurrentTimeVar->MaxTime     = LastDuration;
+                CmdVideo_GetCurrentTimeVar->CurrentTime = glWidget->position();
                 CmdVideo_GetCurrentTimeVar->IsPlaying = false;
             }
         }
-        LastState=state;
         return;
     }
     CmdVideo_SetPlaybackRate* CmdVideo_SetPlaybackRateVar = dynamic_cast<CmdVideo_SetPlaybackRate*>(packet);
     if (CmdVideo_SetPlaybackRateVar != NULL) {
-        Player->setPlaybackRate(CmdVideo_SetPlaybackRateVar->PlaybackRate);
+        if(Player!=NULL){
+            Player->setPlaybackRate(CmdVideo_SetPlaybackRateVar->PlaybackRate);
+        }
+        else if(glWidget!=NULL){
+            glWidget->setPlaybackRate(CmdVideo_SetPlaybackRateVar->PlaybackRate);
+        }
         return;
     }
     CmdVideo_GetPlaybackRate* CmdVideo_GetPlaybackRateVar = dynamic_cast<CmdVideo_GetPlaybackRate*>(packet);
     if (CmdVideo_GetPlaybackRateVar != NULL) {
-        CmdVideo_GetPlaybackRateVar->PlaybackRate= Player->playbackRate();
+        if(Player!=NULL){
+            CmdVideo_GetPlaybackRateVar->PlaybackRate= Player->playbackRate();
+        }
         return;
     }
 }

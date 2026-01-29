@@ -11,7 +11,7 @@ EditRotateDialog::EditRotateDialog(LayersBase *base, QWidget *parent) :
     ui->setupUi(this);
 	LangSolver.SetUI(this);
 
-	ControlRememberer::RestoreForm(this);
+	RestoreForm(this);
 
 	InstallOperationLog(this);
 }
@@ -24,7 +24,7 @@ EditRotateDialog::~EditRotateDialog()
 void EditRotateDialog::on_pushButtonOK_clicked()
 {
 	Angle	=360-ui->doubleSpinBoxAngle	->value();
-	ControlRememberer::SaveForm(this);
+	SaveForm(this);
 	done(true);
 }
 

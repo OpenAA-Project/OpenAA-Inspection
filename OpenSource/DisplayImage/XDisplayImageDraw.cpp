@@ -981,22 +981,27 @@ void	DisplayImage::DrawScale(QPainter &pnt
 	int	YDrawMergin=0;
 	int	XImageMergin=0;
 	int	YImageMergin=0;
+	int	Edge=40;
 	int		x1 ,y1 ,XLen ,YLen;
 	GetLayersBase()->GetXY(x1 ,y1 ,XLen ,YLen);
 
 	double	Zx=CanvasWidth	/((double)XLen);
 	double	Zy=CanvasHeight	/((double)YLen);
 	double	Z=min(Zx,Zy);
-	int	GWidth	=XLen*Z;
-	int	GHeight	=YLen*Z;
+	int	GWidth	=XLen*LZoomRate;
+	int	GHeight	=YLen*LZoomRate;
 	if(CanvasWidth>GWidth){
 		XDrawMergin=(CanvasWidth-GWidth)/2;
-		XImageMergin=XDrawMergin/Z;
+		XImageMergin=XDrawMergin/LZoomRate;
 	}
 	else{
 		YDrawMergin=(CanvasHeight-GHeight)/2;
-		YImageMergin=YDrawMergin/Z;
+		YImageMergin=YDrawMergin/LZoomRate;
 	}
+	int	gx1=(0   +LMovX)*LZoomRate;
+	int	gy1=(0   +LMovY)*LZoomRate;
+	int	gx2=(XLen+LMovX)*LZoomRate;
+	int	gy2=(YLen+LMovY)*LZoomRate;
 
 	double	RealLen=1.0;
 	double	ImageLen=GetScaleLen(RealLen)*LZoomRate/GetZoomRate();
@@ -1026,29 +1031,31 @@ void	DisplayImage::DrawScale(QPainter &pnt
 			break;
 		}
 	}
-	//int	LeftPos		=(LMovX)*GetZoomRate()+40;
-	//int	TopPos		=(LMovY)*GetZoomRate()+40;
-	//int	RightPos	=(GetDotPerLine()+LMovX)*GetZoomRate();
-	//int	BottomPos	=(GetMaxLines()+LMovY)*GetZoomRate();
-	int	LeftPos		=(LMovX+XImageMergin)*LZoomRate+40;
-	int	TopPos		=(LMovY+YImageMergin)*LZoomRate+40;
-	int	RightPos	=(XLen+LMovX-XImageMergin)*LZoomRate-40;
-	int	BottomPos	=(YLen+LMovY-YImageMergin)*LZoomRate-40;
+
+	//int	LeftPos		=(LMovX+XImageMergin)*LZoomRate+Edge;
+	//int	TopPos		=(LMovY+YImageMergin)*LZoomRate+Edge;
+	//int	RightPos	=(XLen+LMovX-XImageMergin)*LZoomRate-Edge;
+	//int	BottomPos	=(YLen+LMovY-YImageMergin)*LZoomRate-Edge;
+
+	int	LeftPos		=(LMovX)*LZoomRate+Edge;
+	int	TopPos		=(LMovY)*LZoomRate+Edge;
+	int	RightPos	=(XLen+LMovX)*LZoomRate-Edge;
+	int	BottomPos	=(YLen+LMovY)*LZoomRate-Edge;
 
 	int	sx=0,sy=0;
 	switch((__ScalePosition)Option.ModeShowScale){
 	case _ScalePositionNoShow		:
 		break;
 	case _ScalePositionLeftTop		:
-		sx=max(40,LeftPos);
-		sy=max(40,TopPos);
+		sx=max(Edge,LeftPos);
+		sy=max(Edge,TopPos);
 		break;
 	case _ScalePositionRightTop		:
 		sx=min(CanvasWidth,RightPos)-ImageLen-50;
-		sy=max(40,TopPos);
+		sy=max(Edge,TopPos);
 		break;
 	case _ScalePositionLeftBottom:
-		sx=max(40,LeftPos);
+		sx=max(Edge,LeftPos);
 		sy=min(CanvasHeight,BottomPos)-60;
 		break;
 	case _ScalePositionRightBottom:
@@ -1060,6 +1067,31 @@ void	DisplayImage::DrawScale(QPainter &pnt
 	QPen	Pen(GetScaleColor());
 	Pen.setWidth(3);
 	pnt.setPen(Pen);
+	if((CanvasWidth-Edge)<sx+ImageLen){
+		sx=(CanvasWidth-Edge)-ImageLen;
+	}
+	if((CanvasHeight-Edge)<sy+10){
+		sy=(CanvasHeight-Edge)-10;
+	}
+	if(sx<Edge){
+		sx=Edge;
+	}
+	if(sy<Edge){
+		sy=Edge;
+	}
+	if(sx<gx1){
+		sx=gx1;
+	}
+	if(sy<gy1){
+		sy=gy1;
+	}
+	if(sx+ImageLen>gx2){
+		sx=gx2-ImageLen;
+	}
+	if(sy+10>gy2){
+		sy=gy2-10;
+	}
+
 	pnt.drawLine(sx,sy,sx+ImageLen,sy);
 	pnt.drawLine(sx,sy-10,sx,sy+10);
 	pnt.drawLine(sx+ImageLen,sy-10,sx+ImageLen,sy+10);

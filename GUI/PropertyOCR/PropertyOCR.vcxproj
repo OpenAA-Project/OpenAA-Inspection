@@ -223,7 +223,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;QT_LARGEFILE_SUPPORT;QT_NO_DEBUG;NDEBUG;PROPERTYOCR_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\ServiceLib\CommonGUIDLL;..\..\GUI\ImagePanelTools;..\..\Algorithm\OCRInspection;..\..\GUI\ImageControlTools;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\Open;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ServiceLib\CommonGUIDLL;..\..\GUI\ImagePanelTools;..\..\Algorithm\OCRInspection;..\..\GUI\ImageControlTools;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\Open;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>

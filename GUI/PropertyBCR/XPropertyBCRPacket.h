@@ -103,8 +103,6 @@ public:
 	int				CheckType;		//0:Read	1:Quality Check
 	double			QuilityGrade;
 	BCRGradeListContainer	GradeList;
-	BYTE			BarcodeOrientation;	//BarcodeOrientationEnum
-	uint32			BarcodeType;		//BarcodeTypeEnum
 	bool			BarcodeIsOnlyDigit;
 
 	GUICmdAddBCodeArea(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage=-1);
@@ -137,8 +135,6 @@ public:
 	int						CheckType;		//0:Read	1:Quality Check
 	double					QuilityGrade;
 	BCRGradeListContainer	GradeList;
-	BYTE					BarcodeOrientation;	//BarcodeOrientationEnum
-	uint32					BarcodeType;		//BarcodeTypeEnum
 	bool					BarcodeIsOnlyDigit;
 
 	GUICmdAckBCodeInfoByID(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage=-1);
@@ -158,8 +154,6 @@ public:
 	int						CheckType;		//0:Read	1:Quality Check
 	double					QuilityGrade;
 	BCRGradeListContainer	GradeList;
-	BYTE					BarcodeOrientation;	//BarcodeOrientationEnum
-	uint32					BarcodeType;		//BarcodeTypeEnum
 	bool					BarcodeIsOnlyDigit;
 
 	GUICmdSetBCodeInfoByID(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage=-1);

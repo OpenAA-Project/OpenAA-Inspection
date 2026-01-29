@@ -132,9 +132,9 @@ public:
 class	GUICmdPacketBasePointerListContainer : public NPListPack<GUICmdPacketBasePointerList>
 {
 public:
-	GUICmdPacketBasePointerListContainer(void){}
+	GUICmdPacketBasePointerListContainer(void);
 
-	GUICmdPacketBasePointerListContainer	&operator=(GUICmdPacketBase *a){	AppendList(new GUICmdPacketBasePointerList(a));	return *this;	}
+	GUICmdPacketBasePointerListContainer	&operator=(GUICmdPacketBase *a);
 };
 
 class	GUICmdPacketBaseContainer : public NPListPack<GUICmdPacketBase>

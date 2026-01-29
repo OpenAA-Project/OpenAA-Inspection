@@ -22,8 +22,7 @@ class SetThresholdForm : public QWidget,public ServiceForLayers ,public Password
     Q_OBJECT
 
     bool	    OnChanging;
-    QCheckBox   *BarcodeTypeTableCb[100];
-    QCheckBox   *BarcodeOrientationTableCb[100];    
+
 public:
     explicit SetThresholdForm(LayersBase *Base,QWidget *parent = 0);
     ~SetThresholdForm();

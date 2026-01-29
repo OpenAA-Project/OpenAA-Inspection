@@ -11,7 +11,7 @@ EditShearDialog::EditShearDialog(LayersBase *base, QWidget *parent) :
     ui->setupUi(this);
 	LangSolver.SetUI(this);
 
-	ControlRememberer::RestoreForm(this);
+	RestoreForm(this);
 
 	InstallOperationLog(this);
 }
@@ -25,7 +25,7 @@ void EditShearDialog::on_pushButtonOK_clicked()
 {
 	Shear	=ui->doubleSpinBoxShear	->value();
 	XMode	=ui->radioButtonXDir	->isChecked();
-	ControlRememberer::SaveForm(this);
+	SaveForm(this);
 	done(true);
 }
 

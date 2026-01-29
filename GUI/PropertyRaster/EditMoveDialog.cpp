@@ -11,7 +11,7 @@ EditMoveDialog::EditMoveDialog(LayersBase *base, QWidget *parent) :
     ui->setupUi(this);
 	LangSolver.SetUI(this);
 
-	ControlRememberer::RestoreForm(this);
+	RestoreForm(this);
 
 	InstallOperationLog(this);
 }
@@ -26,7 +26,7 @@ void EditMoveDialog::on_pushButtonOK_clicked()
 	XDir		=ui->doubleSpinBoxXDir	->value();
 	YDir		=ui->doubleSpinBoxYDir	->value();
 	PixelMode	=ui->radioButtonPixel	->isChecked();
-	ControlRememberer::SaveForm(this);
+	SaveForm(this);
 	done(true);
 }
 

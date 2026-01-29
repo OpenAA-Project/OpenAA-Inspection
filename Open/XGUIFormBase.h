@@ -25,6 +25,7 @@
 #include"XParamBase.h"
 #include"XExecuteInspectBase.h"
 #include"XGUIPacketForDLL.h"
+#include "XRememberer.h"
 
 const int	GUIFormMergin=4;
 class	GUIFormBase;
@@ -315,7 +316,7 @@ signals:
 	EditGUIでくっつけるベースになる部分にはGUIFormBaseから導出したクラスを使用しなければならない
 */
 
-class	GUIFormBase : public QFrame,public IdentifiedClass
+class	GUIFormBase : public QFrame,public ControlRememberer,public IdentifiedClass
 {
     Q_OBJECT
 friend class	GUIItemInstance;

@@ -12,7 +12,7 @@
 #include "XGeneralDialog.h"
 #include "XGeneralFunc.h"
 #include "XCriticalFunc.h"
-#include "PlayVideoWidget.h"
+#include "XVideoCommon.h"
 
 const	char	*sRoot=/**/"Video";
 const	char	*sName=/**/"VideoController";

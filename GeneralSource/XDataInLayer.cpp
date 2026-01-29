@@ -5952,7 +5952,7 @@ void	LayersBase::SetLibFolderID(int libFolderID ,int originalLibFolder ,bool Tra
 
 QString		LayersBase::GetLibFolderName(int libFolderID)	const
 {
-	if(GetDatabaseLoader() && GetDatabaseLoader()->S_LibFolderFindData!=NULL){
+	if(GetDatabaseLoader() && GetDatabaseLoader()->S_LibFolderFindData!=NULL && IsDatabaseOk()==true){
 		QString FolderName;
 		int		ParentID;
 		int		NumberInFolder;

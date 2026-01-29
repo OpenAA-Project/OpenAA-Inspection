@@ -17,6 +17,7 @@
 
 SelectByLibraryDialog::SelectByLibraryDialog(int libType ,LayersBase *Base,QWidget *parent) :
     QDialog(parent)
+    ,ServiceForLayers(Base)
     ,Libs(libType ,Base)
     ,ui(new Ui::SelectByLibraryDialog)
     
@@ -30,7 +31,7 @@ SelectByLibraryDialog::SelectByLibraryDialog(int libType ,LayersBase *Base,QWidg
     Libs.move(0,0);
     Libs.resize(ui->frameLibrary->width(),ui->frameLibrary->height());
 
-    ControlRememberer::RestoreForm(this);
+    RestoreForm(this);
 
     Base->InstallOperationLog(this);
 }
@@ -42,7 +43,7 @@ SelectByLibraryDialog::~SelectByLibraryDialog()
 
 void SelectByLibraryDialog::on_ButtonSelect_clicked()
 {
-    ControlRememberer::SaveForm(this);
+    SaveForm(this);
     done(true);
 }
 

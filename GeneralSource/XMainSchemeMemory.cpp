@@ -1457,6 +1457,23 @@ QImage	ImagePointerContainer::TransformImage(int LocalX1,int LocalY1
 	}
 }
 
+#pragma pack(push)
+#pragma pack(1)
+typedef struct BGR24{
+	BYTE	b;
+	BYTE	g;
+	BYTE	r;
+
+	BGR24(int R ,int G ,int B)
+	{
+		r=(BYTE)R;
+		g=(BYTE)G;
+		b=(BYTE)B;
+	}
+} PackBGR24;
+#pragma pack(pop)
+
+
 void	ImagePointerContainer::MakeImage(QImage &Dest ,int movx ,int movy ,double ZoomRate
 										,bool UseOpenMP)
 {
@@ -1464,211 +1481,424 @@ void	ImagePointerContainer::MakeImage(QImage &Dest ,int movx ,int movy ,double Z
 	int	H=Dest.height();
 	int	LayerNumb=GetCount();
 	double	Z=1.0/ZoomRate;
-	QRgb	Blk=qRgb(0,0,0);
-	if(LayerNumb>=3){
-		ImageBuffer	*s0=GetItem(0)->GetImage();
-		ImageBuffer	*s1=GetItem(1)->GetImage();
-		ImageBuffer	*s2=GetItem(2)->GetImage();
-		int	Minx=min(W,max(0,(int)(movx*ZoomRate)));
-		int	Maxx=max(0,min(W,(int)((s0->GetWidth()+movx)*ZoomRate)));
-		if(UseOpenMP==true){
-			#pragma omp parallel                             
-			{                                                
-				#pragma omp for
-				for(int y=0;y<H;y++){
-					int	Y=y*Z-movy;
-					QRgb	*d=(QRgb *)Dest.scanLine(y);
-					if(Y<0 || s0->GetHeight()<=Y){
-						for(int x=0;x<W;x++){
-							d[x]=Blk;
+	int	BytePerPixel=Dest.bytesPerLine()/Dest.width();
+
+	if(BytePerPixel==4){
+		QRgb	Blk=qRgb(0,0,0);
+		if(LayerNumb>=3){
+			ImageBuffer	*s0=GetItem(0)->GetImage();
+			ImageBuffer	*s1=GetItem(1)->GetImage();
+			ImageBuffer	*s2=GetItem(2)->GetImage();
+			int	Minx=min(W,max(0,(int)(movx*ZoomRate)));
+			int	Maxx=max(0,min(W,(int)((s0->GetWidth()+movx)*ZoomRate)));
+			if(UseOpenMP==true){
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int y=0;y<H;y++){
+						int	Y=y*Z-movy;
+						QRgb	*d=(QRgb *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
 						}
-					}
-					else{
-						BYTE	*sR=s0->GetY(Y);
-						BYTE	*sG=s1->GetY(Y);
-						BYTE	*sB=s2->GetY(Y);
-						int	x;
-						for(x=0;x<Minx;x++){
-							*d=Blk;
-							d++;
-						}
-						for(;x<Maxx;x++){
-							int	X=x*Z-movx;
-							*d=qRgb(sR[X],sG[X],sB[X]);
-							d++;
-						}
-						for(;x<W;x++){
-							*d=Blk;
-							d++;
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+							BYTE	*sB=s2->GetY(Y);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x*Z-movx;
+								*d=qRgb(sR[X],sG[X],sB[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
 				}
 			}
-		}
-		else{
-				for(int y=0;y<H;y++){
-					int	Y=y*Z-movy;
-					QRgb	*d=(QRgb *)Dest.scanLine(y);
-					if(Y<0 || s0->GetHeight()<=Y){
-						for(int x=0;x<W;x++){
-							d[x]=Blk;
+			else{
+					for(int y=0;y<H;y++){
+						int	Y=y*Z-movy;
+						QRgb	*d=(QRgb *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+							BYTE	*sB=s2->GetY(Y);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x*Z-movx;
+								*d=qRgb(sR[X],sG[X],sB[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
-					else{
-						BYTE	*sR=s0->GetY(Y);
-						BYTE	*sG=s1->GetY(Y);
-						BYTE	*sB=s2->GetY(Y);
-						int	x;
-						for(x=0;x<Minx;x++){
-							*d=Blk;
-							d++;
+			}
+		}
+		else
+		if(LayerNumb==2){
+			ImageBuffer	*s0=GetItem(0)->GetImage();
+			ImageBuffer	*s1=GetItem(1)->GetImage();
+			int	Minx=min(W,max(0,(int)(movx*ZoomRate)));
+			int	Maxx=max(0,min(W,(int)((s0->GetWidth()+movx)*ZoomRate)));
+			if(UseOpenMP==true){
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int y=0;y<H;y++){
+						int	Y=y*Z-movy;
+						QRgb	*d=(QRgb *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
 						}
-						for(;x<Maxx;x++){
-							int	X=x*Z-movx;
-							*d=qRgb(sR[X],sG[X],sB[X]);
-							d++;
-						}
-						for(;x<W;x++){
-							*d=Blk;
-							d++;
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x*Z-movx;
+								*d=qRgb(sR[X],sG[X],sG[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
 				}
+			}
+			else{
+					for(int y=0;y<H;y++){
+						int	Y=y*Z-movy;
+						QRgb	*d=(QRgb *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x*Z-movx;
+								*d=qRgb(sR[X],sG[X],sG[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
+						}
+					}
+			}
+		}
+		else
+		if(LayerNumb==1){
+			ImageBuffer	*s0=GetItem(0)->GetImage();
+			int	Minx=min(W,max(0,(int)(movx*ZoomRate)));
+			int	Maxx=max(0,min(W,(int)((s0->GetWidth()+movx)*ZoomRate)));
+			if(UseOpenMP==true){
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int y=0;y<H;y++){
+						int	Y=y*Z-movy;
+						QRgb	*d=(QRgb *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x*Z-movx;
+								*d=qRgb(sR[X],sR[X],sR[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
+						}
+					}
+				}
+			}
+			else{
+					for(int y=0;y<H;y++){
+						int	Y=y*Z-movy;
+						QRgb	*d=(QRgb *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x*Z-movx;
+								*d=qRgb(sR[X],sR[X],sR[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
+						}
+					}
+			}
 		}
 	}
-	else
-	if(LayerNumb==2){
-		ImageBuffer	*s0=GetItem(0)->GetImage();
-		ImageBuffer	*s1=GetItem(1)->GetImage();
-		int	Minx=min(W,max(0,(int)(movx*ZoomRate)));
-		int	Maxx=max(0,min(W,(int)((s0->GetWidth()+movx)*ZoomRate)));
-		if(UseOpenMP==true){
-			#pragma omp parallel                             
-			{                                                
-				#pragma omp for
-				for(int y=0;y<H;y++){
-					int	Y=y*Z-movy;
-					QRgb	*d=(QRgb *)Dest.scanLine(y);
-					if(Y<0 || s0->GetHeight()<=Y){
-						for(int x=0;x<W;x++){
-							d[x]=Blk;
+	else if(BytePerPixel==3){
+		PackBGR24	Blk=BGR24(0,0,0);
+		if(LayerNumb>=3){
+			ImageBuffer	*s0=GetItem(0)->GetImage();
+			ImageBuffer	*s1=GetItem(1)->GetImage();
+			ImageBuffer	*s2=GetItem(2)->GetImage();
+			int	Minx=min(W,max(0,(int)(movx*ZoomRate)));
+			int	Maxx=max(0,min(W,(int)((s0->GetWidth()+movx)*ZoomRate)));
+			if(UseOpenMP==true){
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int y=0;y<H;y++){
+						int	Y=y*Z-movy;
+						PackBGR24	*d=(PackBGR24 *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
 						}
-					}
-					else{
-						BYTE	*sR=s0->GetY(Y);
-						BYTE	*sG=s1->GetY(Y);
-						int	x;
-						for(x=0;x<Minx;x++){
-							*d=Blk;
-							d++;
-						}
-						for(;x<Maxx;x++){
-							int	X=x*Z-movx;
-							*d=qRgb(sR[X],sG[X],sG[X]);
-							d++;
-						}
-						for(;x<W;x++){
-							*d=Blk;
-							d++;
-						}
-					}
-				}
-			}
-		}
-		else{
-				for(int y=0;y<H;y++){
-					int	Y=y*Z-movy;
-					QRgb	*d=(QRgb *)Dest.scanLine(y);
-					if(Y<0 || s0->GetHeight()<=Y){
-						for(int x=0;x<W;x++){
-							d[x]=Blk;
-						}
-					}
-					else{
-						BYTE	*sR=s0->GetY(Y);
-						BYTE	*sG=s1->GetY(Y);
-						int	x;
-						for(x=0;x<Minx;x++){
-							*d=Blk;
-							d++;
-						}
-						for(;x<Maxx;x++){
-							int	X=x*Z-movx;
-							*d=qRgb(sR[X],sG[X],sG[X]);
-							d++;
-						}
-						for(;x<W;x++){
-							*d=Blk;
-							d++;
-						}
-					}
-				}
-		}
-	}
-	else
-	if(LayerNumb==1){
-		ImageBuffer	*s0=GetItem(0)->GetImage();
-		int	Minx=min(W,max(0,(int)(movx*ZoomRate)));
-		int	Maxx=max(0,min(W,(int)((s0->GetWidth()+movx)*ZoomRate)));
-		if(UseOpenMP==true){
-			#pragma omp parallel                             
-			{                                                
-				#pragma omp for
-				for(int y=0;y<H;y++){
-					int	Y=y*Z-movy;
-					QRgb	*d=(QRgb *)Dest.scanLine(y);
-					if(Y<0 || s0->GetHeight()<=Y){
-						for(int x=0;x<W;x++){
-							d[x]=Blk;
-						}
-					}
-					else{
-						BYTE	*sR=s0->GetY(Y);
-						int	x;
-						for(x=0;x<Minx;x++){
-							*d=Blk;
-							d++;
-						}
-						for(;x<Maxx;x++){
-							int	X=x*Z-movx;
-							*d=qRgb(sR[X],sR[X],sR[X]);
-							d++;
-						}
-						for(;x<W;x++){
-							*d=Blk;
-							d++;
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+							BYTE	*sB=s2->GetY(Y);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x*Z-movx;
+								*d=BGR24(sR[X],sG[X],sB[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
 				}
 			}
-		}
-		else{
-				for(int y=0;y<H;y++){
-					int	Y=y*Z-movy;
-					QRgb	*d=(QRgb *)Dest.scanLine(y);
-					if(Y<0 || s0->GetHeight()<=Y){
-						for(int x=0;x<W;x++){
-							d[x]=Blk;
+			else{
+					for(int y=0;y<H;y++){
+						int	Y=y*Z-movy;
+						PackBGR24	*d=(PackBGR24 *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+							BYTE	*sB=s2->GetY(Y);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x*Z-movx;
+								*d=BGR24(sR[X],sG[X],sB[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
-					else{
-						BYTE	*sR=s0->GetY(Y);
-						int	x;
-						for(x=0;x<Minx;x++){
-							*d=Blk;
-							d++;
+			}
+		}
+		else
+		if(LayerNumb==2){
+			ImageBuffer	*s0=GetItem(0)->GetImage();
+			ImageBuffer	*s1=GetItem(1)->GetImage();
+			int	Minx=min(W,max(0,(int)(movx*ZoomRate)));
+			int	Maxx=max(0,min(W,(int)((s0->GetWidth()+movx)*ZoomRate)));
+			if(UseOpenMP==true){
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int y=0;y<H;y++){
+						int	Y=y*Z-movy;
+						PackBGR24	*d=(PackBGR24 *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
 						}
-						for(;x<Maxx;x++){
-							int	X=x*Z-movx;
-							*d=qRgb(sR[X],sR[X],sR[X]);
-							d++;
-						}
-						for(;x<W;x++){
-							*d=Blk;
-							d++;
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x*Z-movx;
+								*d=BGR24(sR[X],sG[X],sG[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
 				}
+			}
+			else{
+					for(int y=0;y<H;y++){
+						int	Y=y*Z-movy;
+						PackBGR24	*d=(PackBGR24 *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x*Z-movx;
+								*d=BGR24(sR[X],sG[X],sG[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
+						}
+					}
+			}
+		}
+		else
+		if(LayerNumb==1){
+			ImageBuffer	*s0=GetItem(0)->GetImage();
+			int	Minx=min(W,max(0,(int)(movx*ZoomRate)));
+			int	Maxx=max(0,min(W,(int)((s0->GetWidth()+movx)*ZoomRate)));
+			if(UseOpenMP==true){
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int y=0;y<H;y++){
+						int	Y=y*Z-movy;
+						PackBGR24	*d=(PackBGR24 *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x*Z-movx;
+								*d=BGR24(sR[X],sR[X],sR[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
+						}
+					}
+				}
+			}
+			else{
+					for(int y=0;y<H;y++){
+						int	Y=y*Z-movy;
+						PackBGR24	*d=(PackBGR24 *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x*Z-movx;
+								*d=BGR24(sR[X],sR[X],sR[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
+						}
+					}
+			}
 		}
 	}
 }
@@ -1678,223 +1908,449 @@ void	ImagePointerContainer::MakeImage(QImage &Dest ,int OffsetX,int OffsetY,bool
 	int	W=Dest.width();
 	int	H=Dest.height();
 	int	LayerNumb=GetCount();
-	QRgb	Blk=qRgb(0,0,0);
-	if(LayerNumb>=3){
-		ImageBuffer	*s0=GetItem(0)->GetImage();
-		ImageBuffer	*s1=GetItem(1)->GetImage();
-		ImageBuffer	*s2=GetItem(2)->GetImage();
-		if(UseOpenMP==true){
-			#pragma omp parallel                             
-			{                                                
-				#pragma omp for
-				for(int y=0;y<H;y++){
-					int	Y=y-OffsetY;
-					QRgb	*d=(QRgb *)Dest.scanLine(y);
-					if(Y<0 || s0->GetHeight()<=Y){
-						for(int x=0;x<W;x++){
-							d[x]=Blk;
-						}
-					}
-					else{
-						BYTE	*sR=s0->GetY(Y);
-						BYTE	*sG=s1->GetY(Y);
-						BYTE	*sB=s2->GetY(Y);
+	int	BytePerPixel=Dest.bytesPerLine()/Dest.width();
 
-						int	Minx=max(0,OffsetX);
-						int	Maxx=min(W,s0->GetWidth()+OffsetX);
-						int	x;
-						for(x=0;x<Minx;x++){
-							*d=Blk;
-							d++;
+	if(BytePerPixel==4){
+		QRgb	Blk=qRgb(0,0,0);
+		if(LayerNumb>=3){
+			ImageBuffer	*s0=GetItem(0)->GetImage();
+			ImageBuffer	*s1=GetItem(1)->GetImage();
+			ImageBuffer	*s2=GetItem(2)->GetImage();
+			if(UseOpenMP==true){
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int y=0;y<H;y++){
+						int	Y=y-OffsetY;
+						QRgb	*d=(QRgb *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
 						}
-						for(;x<Maxx;x++){
-							int	X=x-OffsetX;
-							*d=qRgb(sR[X],sG[X],sB[X]);
-							d++;
-						}
-						for(;x<W;x++){
-							*d=Blk;
-							d++;
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+							BYTE	*sB=s2->GetY(Y);
+
+							int	Minx=max(0,OffsetX);
+							int	Maxx=min(W,s0->GetWidth()+OffsetX);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x-OffsetX;
+								*d=qRgb(sR[X],sG[X],sB[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
 				}
 			}
-		}
-		else{
-				for(int y=0;y<H;y++){
-					int	Y=y-OffsetY;
-					QRgb	*d=(QRgb *)Dest.scanLine(y);
-					if(Y<0 || s0->GetHeight()<=Y){
-						for(int x=0;x<W;x++){
-							d[x]=Blk;
+			else{
+					for(int y=0;y<H;y++){
+						int	Y=y-OffsetY;
+						QRgb	*d=(QRgb *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+							BYTE	*sB=s2->GetY(Y);
+
+							int	Minx=max(0,OffsetX);
+							int	Maxx=min(W,s0->GetWidth()+OffsetX);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x-OffsetX;
+								*d=qRgb(sR[X],sG[X],sB[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
-					else{
-						BYTE	*sR=s0->GetY(Y);
-						BYTE	*sG=s1->GetY(Y);
-						BYTE	*sB=s2->GetY(Y);
+			}
+		}
+		else
+		if(LayerNumb==2){
+			ImageBuffer	*s0=GetItem(0)->GetImage();
+			ImageBuffer	*s1=GetItem(1)->GetImage();
+			if(UseOpenMP==true){
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int y=0;y<H;y++){
+						int	Y=y-OffsetY;
+						QRgb	*d=(QRgb *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
 
-						int	Minx=max(0,OffsetX);
-						int	Maxx=min(W,s0->GetWidth()+OffsetX);
-						int	x;
-						for(x=0;x<Minx;x++){
-							*d=Blk;
-							d++;
-						}
-						for(;x<Maxx;x++){
-							int	X=x-OffsetX;
-							*d=qRgb(sR[X],sG[X],sB[X]);
-							d++;
-						}
-						for(;x<W;x++){
-							*d=Blk;
-							d++;
+							int	Minx=max(0,-OffsetX);
+							int	Maxx=min(W,s0->GetWidth()-OffsetX);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x-OffsetX;
+								*d=qRgb(sR[X],sG[X],sG[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
 				}
+			}
+			else{
+					for(int y=0;y<H;y++){
+						int	Y=y-OffsetY;
+						QRgb	*d=(QRgb *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+
+							int	Minx=max(0,-OffsetX);
+							int	Maxx=min(W,s0->GetWidth()-OffsetX);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x-OffsetX;
+								*d=qRgb(sR[X],sG[X],sG[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
+						}
+					}
+			}
+		}
+		else
+		if(LayerNumb==1){
+			ImageBuffer	*s0=GetItem(0)->GetImage();
+			if(UseOpenMP==true){
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int y=0;y<H;y++){
+						int	Y=y-OffsetY;
+						QRgb	*d=(QRgb *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+
+							int	Minx=max(0,-OffsetX);
+							int	Maxx=min(W,s0->GetWidth()-OffsetX);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x-OffsetX;
+								*d=qRgb(sR[X],sR[X],sR[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
+						}
+					}
+				}
+			}
+			else{
+					for(int y=0;y<H;y++){
+						int	Y=y-OffsetY;
+						QRgb	*d=(QRgb *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+
+							int	Minx=max(0,-OffsetX);
+							int	Maxx=min(W,s0->GetWidth()-OffsetX);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x-OffsetX;
+								*d=qRgb(sR[X],sR[X],sR[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
+						}
+					}
+			}
 		}
 	}
 	else
-	if(LayerNumb==2){
-		ImageBuffer	*s0=GetItem(0)->GetImage();
-		ImageBuffer	*s1=GetItem(1)->GetImage();
-		if(UseOpenMP==true){
-			#pragma omp parallel                             
-			{                                                
-				#pragma omp for
-				for(int y=0;y<H;y++){
-					int	Y=y-OffsetY;
-					QRgb	*d=(QRgb *)Dest.scanLine(y);
-					if(Y<0 || s0->GetHeight()<=Y){
-						for(int x=0;x<W;x++){
-							d[x]=Blk;
+	if(BytePerPixel==3){
+		PackBGR24	Blk=BGR24(0,0,0);
+		if(LayerNumb>=3){
+			ImageBuffer	*s0=GetItem(0)->GetImage();
+			ImageBuffer	*s1=GetItem(1)->GetImage();
+			ImageBuffer	*s2=GetItem(2)->GetImage();
+			if(UseOpenMP==true){
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int y=0;y<H;y++){
+						int	Y=y-OffsetY;
+						PackBGR24	*d=(PackBGR24 *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
 						}
-					}
-					else{
-						BYTE	*sR=s0->GetY(Y);
-						BYTE	*sG=s1->GetY(Y);
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+							BYTE	*sB=s2->GetY(Y);
 
-						int	Minx=max(0,-OffsetX);
-						int	Maxx=min(W,s0->GetWidth()-OffsetX);
-						int	x;
-						for(x=0;x<Minx;x++){
-							*d=Blk;
-							d++;
-						}
-						for(;x<Maxx;x++){
-							int	X=x-OffsetX;
-							*d=qRgb(sR[X],sG[X],sG[X]);
-							d++;
-						}
-						for(;x<W;x++){
-							*d=Blk;
-							d++;
+							int	Minx=max(0,OffsetX);
+							int	Maxx=min(W,s0->GetWidth()+OffsetX);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x-OffsetX;
+								*d=BGR24(sR[X],sG[X],sB[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
 				}
 			}
-		}
-		else{
-				for(int y=0;y<H;y++){
-					int	Y=y-OffsetY;
-					QRgb	*d=(QRgb *)Dest.scanLine(y);
-					if(Y<0 || s0->GetHeight()<=Y){
-						for(int x=0;x<W;x++){
-							d[x]=Blk;
+			else{
+					for(int y=0;y<H;y++){
+						int	Y=y-OffsetY;
+						PackBGR24	*d=(PackBGR24 *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
 						}
-					}
-					else{
-						BYTE	*sR=s0->GetY(Y);
-						BYTE	*sG=s1->GetY(Y);
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+							BYTE	*sB=s2->GetY(Y);
 
-						int	Minx=max(0,-OffsetX);
-						int	Maxx=min(W,s0->GetWidth()-OffsetX);
-						int	x;
-						for(x=0;x<Minx;x++){
-							*d=Blk;
-							d++;
-						}
-						for(;x<Maxx;x++){
-							int	X=x-OffsetX;
-							*d=qRgb(sR[X],sG[X],sG[X]);
-							d++;
-						}
-						for(;x<W;x++){
-							*d=Blk;
-							d++;
+							int	Minx=max(0,OffsetX);
+							int	Maxx=min(W,s0->GetWidth()+OffsetX);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x-OffsetX;
+								*d=BGR24(sR[X],sG[X],sB[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
-				}
+			}
 		}
-	}
-	else
-	if(LayerNumb==1){
-		ImageBuffer	*s0=GetItem(0)->GetImage();
-		if(UseOpenMP==true){
-			#pragma omp parallel                             
-			{                                                
-				#pragma omp for
-				for(int y=0;y<H;y++){
-					int	Y=y-OffsetY;
-					QRgb	*d=(QRgb *)Dest.scanLine(y);
-					if(Y<0 || s0->GetHeight()<=Y){
-						for(int x=0;x<W;x++){
-							d[x]=Blk;
+		else
+		if(LayerNumb==2){
+			ImageBuffer	*s0=GetItem(0)->GetImage();
+			ImageBuffer	*s1=GetItem(1)->GetImage();
+			if(UseOpenMP==true){
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int y=0;y<H;y++){
+						int	Y=y-OffsetY;
+						PackBGR24	*d=(PackBGR24 *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
 						}
-					}
-					else{
-						BYTE	*sR=s0->GetY(Y);
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
 
-						int	Minx=max(0,-OffsetX);
-						int	Maxx=min(W,s0->GetWidth()-OffsetX);
-						int	x;
-						for(x=0;x<Minx;x++){
-							*d=Blk;
-							d++;
-						}
-						for(;x<Maxx;x++){
-							int	X=x-OffsetX;
-							*d=qRgb(sR[X],sR[X],sR[X]);
-							d++;
-						}
-						for(;x<W;x++){
-							*d=Blk;
-							d++;
+							int	Minx=max(0,-OffsetX);
+							int	Maxx=min(W,s0->GetWidth()-OffsetX);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x-OffsetX;
+								*d=BGR24(sR[X],sG[X],sG[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
 				}
 			}
-		}
-		else{
-				for(int y=0;y<H;y++){
-					int	Y=y-OffsetY;
-					QRgb	*d=(QRgb *)Dest.scanLine(y);
-					if(Y<0 || s0->GetHeight()<=Y){
-						for(int x=0;x<W;x++){
-							d[x]=Blk;
+			else{
+					for(int y=0;y<H;y++){
+						int	Y=y-OffsetY;
+						PackBGR24	*d=(PackBGR24 *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+							BYTE	*sG=s1->GetY(Y);
+
+							int	Minx=max(0,-OffsetX);
+							int	Maxx=min(W,s0->GetWidth()-OffsetX);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x-OffsetX;
+								*d=BGR24(sR[X],sG[X],sG[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
-					else{
-						BYTE	*sR=s0->GetY(Y);
+			}
+		}
+		else
+		if(LayerNumb==1){
+			ImageBuffer	*s0=GetItem(0)->GetImage();
+			if(UseOpenMP==true){
+				#pragma omp parallel                             
+				{                                                
+					#pragma omp for
+					for(int y=0;y<H;y++){
+						int	Y=y-OffsetY;
+						PackBGR24	*d=(PackBGR24 *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
 
-						int	Minx=max(0,-OffsetX);
-						int	Maxx=min(W,s0->GetWidth()-OffsetX);
-						int	x;
-						for(x=0;x<Minx;x++){
-							*d=Blk;
-							d++;
-						}
-						for(;x<Maxx;x++){
-							int	X=x-OffsetX;
-							*d=qRgb(sR[X],sR[X],sR[X]);
-							d++;
-						}
-						for(;x<W;x++){
-							*d=Blk;
-							d++;
+							int	Minx=max(0,-OffsetX);
+							int	Maxx=min(W,s0->GetWidth()-OffsetX);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x-OffsetX;
+								*d=BGR24(sR[X],sR[X],sR[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
 						}
 					}
 				}
+			}
+			else{
+					for(int y=0;y<H;y++){
+						int	Y=y-OffsetY;
+						PackBGR24	*d=(PackBGR24 *)Dest.scanLine(y);
+						if(Y<0 || s0->GetHeight()<=Y){
+							for(int x=0;x<W;x++){
+								d[x]=Blk;
+							}
+						}
+						else{
+							BYTE	*sR=s0->GetY(Y);
+
+							int	Minx=max(0,-OffsetX);
+							int	Maxx=min(W,s0->GetWidth()-OffsetX);
+							int	x;
+							for(x=0;x<Minx;x++){
+								*d=Blk;
+								d++;
+							}
+							for(;x<Maxx;x++){
+								int	X=x-OffsetX;
+								*d=BGR24(sR[X],sR[X],sR[X]);
+								d++;
+							}
+							for(;x<W;x++){
+								*d=Blk;
+								d++;
+							}
+						}
+					}
+			}
 		}
 	}
 }

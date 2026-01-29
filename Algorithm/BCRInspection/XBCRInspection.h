@@ -91,8 +91,6 @@ public:
 	int						CheckType;		//0:Read-2D	1:Quality Check	2:Read-1D
 	double					QuilityGrade;
 	BCRGradeListContainer	GradeList;
-	BYTE					BarcodeOrientation;	//BarcodeOrientationEnum
-	uint32					BarcodeType;		//BarcodeTypeEnum
 	bool					BarcodeIsOnlyDigit;
 
 	BCRInspectionThreshold(BCRInspectionItem *parent);
@@ -184,19 +182,12 @@ public:
 	QColor	NegColorSelected;
 	int32	AdotpedLayer;
 	int32	IdealSize;
-	bool	TryAllFilter;
 
 	bool	FixedMode;
 	int		FixedValue;
 	int		FixedValueMax;
 	int		FixedValueMin;
-	QString	LicenseKey;
 
-	bool	BarcodeImageInvert;
-	bool	BarcodeImageDespeckle;
-	bool	BarcodeImageDilate;
-	bool	BarcodeImageErode;
-	bool	BarcodeImageSharp;
 	double	MinBarcodeImageDispersion;
 	bool	ResultOKWithoutBarcode;
 
@@ -207,13 +198,12 @@ public:
 	virtual	AlgorithmDrawAttr	*CreateDrawAttr(void)				override;
 	virtual	QString	GetDataText(void)			override{	return QString("BCRInspection");				}
 	virtual	QString	GetDefaultFileName(void)	override{	return QString("ConfigBCRInspection.dat");		}
-	virtual	void	InitialAfterParamLoaded(void)	override;
 
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet)	override;
 
 	bool	GetBCR2D(bool BarcodeIsOnlyDigit
 					,const QString &FileName ,QString &Result);
-	bool	GetBCR1D(BYTE BarcodeOrientation,uint32 BarcodeType,bool BarcodeIsOnlyDigit
+	bool	GetBCR1D(bool BarcodeIsOnlyDigit
 					,const QString &FileName ,QString &Result);
 	virtual	QString	GetNameByCurrentLanguage(void)	override;
 
@@ -251,8 +241,6 @@ public:
 	int		                CheckType;		    //0:Read	1:Quality Check
 	double	                QuilityGrade;
 	BCRGradeListContainer	GradeList;
-    BYTE					BarcodeOrientation;	//BarcodeOrientationEnum
-	uint32					BarcodeType;		//BarcodeTypeEnum
     bool					BarcodeIsOnlyDigit;
 
 	BCRInspectionThresholdSend(void);
@@ -283,8 +271,6 @@ public:
 	int						CheckType;		//0:Read	1:Quality Check
 	double					QuilityGrade;
 	BCRGradeListContainer	GradeList;
-	BYTE					BarcodeOrientation;	//BarcodeOrientationEnum
-	uint32					BarcodeType;		//BarcodeTypeEnum
 	bool					BarcodeIsOnlyDigit;
 
 	AddBCRInspectionAreaPacket(LayersBase *base):GUIDirectMessage(base){}
@@ -553,8 +539,6 @@ public:
 	int						CheckType;		//0:Read	1:Quality Check
 	double					QuilityGrade;
 	BCRGradeListContainer	GradeList;
-	BYTE					BarcodeOrientation;	//BarcodeOrientationEnum
-	uint32					BarcodeType;		//BarcodeTypeEnum
 	bool					BarcodeIsOnlyDigit;
 
 	CmdReqBCodeInfoByItem(LayersBase *base):GUIDirectMessage(base){}
@@ -570,8 +554,6 @@ public:
 	int						CheckType;		//0:Read	1:Quality Check
 	double					QuilityGrade;
 	BCRGradeListContainer	GradeList;
-	BYTE					BarcodeOrientation;	//BarcodeOrientationEnum
-	uint32					BarcodeType;		//BarcodeTypeEnum
 	bool					BarcodeIsOnlyDigit;
 
 	CmdSetBCodeInfoByItem(LayersBase *base):GUIDirectMessage(base){}

@@ -68,22 +68,8 @@ void	PropertyOCRForm::TransmitDirectly(GUIDirectMessage *packet)
 			if(A.GetPatternByte()>0){
 				int	GlobalPage=SelectedPage;
 				GUICmdAddOCRArea	Cmd(GetLayersBase(),QString(sRoot),QString(sName),GlobalPage);
-				Cmd.AbsLR			=E.AbsLR;
-				Cmd.AbsHR			=E.AbsHR;
-				Cmd.AbsLG			=E.AbsLG;
-				Cmd.AbsHG			=E.AbsHG;
-				Cmd.AbsLB			=E.AbsLB;
-				Cmd.AbsHB			=E.AbsHB;
-				Cmd.EnsmallDot		=E.EnsmallDot;
-				Cmd.EnlargeDot		=E.EnlargeDot;
-				Cmd.BlockWidth		=E.BlockWidth;
-				Cmd.BlockHeight		=E.BlockHeight;
-				Cmd.MinSize			=E.MinSize;
 				Cmd.Mergin			=E.Mergin;
-				Cmd.MaskingColor	=E.MaskingColor;
-				Cmd.UseColorLogic	=E.UseColorLogic;
-				Cmd.Rotation		=E.Rotation;
-			
+	
 				Cmd.Area					=A;
 				Cmd.ItemName				=E.ItemName;
 				Cmd.RegNumber				=E.RegNumber;
@@ -182,23 +168,8 @@ void PropertyOCRForm::on_tableWidget_doubleClicked(const QModelIndex &index)
 	if(L==NULL)
 		return;
 	EditOCRItemDialog	E(GetLayersBase());
-
-	E.AbsLR			=L->AbsLR;
-	E.AbsHR			=L->AbsHR;
-	E.AbsLG			=L->AbsLG;
-	E.AbsHG			=L->AbsHG;
-	E.AbsLB			=L->AbsLB;
-	E.AbsHB			=L->AbsHB;
-	E.EnsmallDot	=L->EnsmallDot;
-	E.EnlargeDot	=L->EnlargeDot;
-	E.BlockWidth	=L->BlockWidth;
-	E.BlockHeight	=L->BlockHeight;
-	E.MinSize		=L->MinSize;
-	E.Mergin		=L->Mergin;
-	E.MaskingColor	=L->MaskingColor;
-	E.UseColorLogic	=L->UseColorLogic;
-	E.Rotation		=L->Rotation;
 		
+	E.Mergin					= L->Mergin;	
 	E.ItemName					=L->ItemName;
 	E.RegNumber					=L->RegNumber;
 	E.InspectMatching			=L->InspectMatching;
@@ -213,21 +184,8 @@ void PropertyOCRForm::on_tableWidget_doubleClicked(const QModelIndex &index)
 		RCmd.ItemID	=L->ItemID;
 		if(RCmd.Send(L->GlobalPage,0,ACmd)==true){
 			GUICmdAddOCRArea	Cmd(GetLayersBase(),QString(sRoot),QString(sName),L->GlobalPage);
-			Cmd.AbsLR			=E.AbsLR;
-			Cmd.AbsHR			=E.AbsHR;
-			Cmd.AbsLG			=E.AbsLG;
-			Cmd.AbsHG			=E.AbsHG;
-			Cmd.AbsLB			=E.AbsLB;
-			Cmd.AbsHB			=E.AbsHB;
-			Cmd.EnsmallDot		=E.EnsmallDot;
-			Cmd.EnlargeDot		=E.EnlargeDot;
-			Cmd.BlockWidth		=E.BlockWidth;
-			Cmd.BlockHeight		=E.BlockHeight;
-			Cmd.MinSize			=E.MinSize;
+
 			Cmd.Mergin			=E.Mergin;
-			Cmd.MaskingColor	=E.MaskingColor;
-			Cmd.UseColorLogic	=E.UseColorLogic;
-			Cmd.Rotation		=E.Rotation;
 
 			Cmd.Area					=ACmd.Area;
 			Cmd.ItemName				=E.ItemName;
@@ -241,21 +199,8 @@ void PropertyOCRForm::on_tableWidget_doubleClicked(const QModelIndex &index)
 	}
 	else if(Ret==2){
 		GUICmdUpdateOCRArea	Cmd(GetLayersBase(),QString(sRoot),QString(sName),L->GlobalPage);
-		Cmd.AbsLR			=E.AbsLR;
-		Cmd.AbsHR			=E.AbsHR;
-		Cmd.AbsLG			=E.AbsLG;
-		Cmd.AbsHG			=E.AbsHG;
-		Cmd.AbsLB			=E.AbsLB;
-		Cmd.AbsHB			=E.AbsHB;
-		Cmd.EnsmallDot		=E.EnsmallDot;
-		Cmd.EnlargeDot		=E.EnlargeDot;
-		Cmd.BlockWidth		=E.BlockWidth;
-		Cmd.BlockHeight		=E.BlockHeight;
-		Cmd.MinSize			=E.MinSize;
+
 		Cmd.Mergin			=E.Mergin;
-		Cmd.MaskingColor	=E.MaskingColor;
-		Cmd.UseColorLogic	=E.UseColorLogic;
-		Cmd.Rotation		=E.Rotation;
 
 		Cmd.ItemID					=L->ItemID;
 		Cmd.ItemName				=E.ItemName;
