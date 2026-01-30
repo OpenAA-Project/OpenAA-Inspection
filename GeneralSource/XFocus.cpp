@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XFocus.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XFocus.h"
 #include "XPointer.h"
 #include "XFlexArea.h"
@@ -27,7 +36,7 @@ static	void	GetAddBrightFormBit(ImageBuffer &Img
 									,BYTE **TmpBit ,int XLen ,int YLen
 									,int MovX ,int MovY
 									,double &AvrD, int &AvrN)
-//ƒrƒbƒg‚ª‚P‚Ì‰æ‘œ‚Ì‹P“x‚Ì‰ÁZ’l‚Æƒhƒbƒg”‚ğŒvZ‚·‚é
+//ï¿½rï¿½bï¿½gï¿½ï¿½ï¿½Pï¿½Ì‰æ‘œï¿½Ì‹Pï¿½xï¿½Ì‰ï¿½ï¿½Zï¿½lï¿½Æƒhï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½
 {
 	AvrD=0;
 	AvrN=0;
@@ -52,7 +61,7 @@ static	void	GetAddBrightFormBit(ImageBuffer &Img
 
 static	double	CalcV(double Ex,double Ox,double Ey,double Oy
 					  ,double AvrTable[] ,int AvrTableN)
-//ƒVƒOƒ‚ƒCƒhŠÖ”‚Æ‚Ì‚QæŒë·˜a‚ğŒvZ‚·‚é
+//ï¿½Vï¿½Oï¿½ï¿½ï¿½Cï¿½hï¿½Öï¿½ï¿½Æ‚Ì‚Qï¿½ï¿½ï¿½ë·ï¿½aï¿½ï¿½ï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½
 {
 	double	ret=0;
 	for(int x=0;x<AvrTableN;x++){
@@ -65,7 +74,7 @@ static	double	CalcV(double Ex,double Ox,double Ey,double Oy
 
 static	double	CalcV(double H,double L,double X,double A,double G,double C,double S
 					  ,double AvrTable[] ,int AvrTableN)
-//ƒVƒOƒ‚ƒCƒhŠÖ”‚Æ‚Ì‚QæŒë·˜a‚ğŒvZ‚·‚é
+//ï¿½Vï¿½Oï¿½ï¿½ï¿½Cï¿½hï¿½Öï¿½ï¿½Æ‚Ì‚Qï¿½ï¿½ï¿½ë·ï¿½aï¿½ï¿½ï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½
 {
 	double	ret=0;
 	for(int x=0;x<AvrTableN;x++){
@@ -77,7 +86,7 @@ static	double	CalcV(double H,double L,double X,double A,double G,double C,double
 }
 static	double	CalcV2(double H,double L,double X,double A
 					  ,double AvrTable[] ,int AvrTableN)
-//ƒVƒOƒ‚ƒCƒhŠÖ”‚Æ‚Ì‚QæŒë·˜a‚ğŒvZ‚·‚é
+//ï¿½Vï¿½Oï¿½ï¿½ï¿½Cï¿½hï¿½Öï¿½ï¿½Æ‚Ì‚Qï¿½ï¿½ï¿½ë·ï¿½aï¿½ï¿½ï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½
 {
 	double	ret=0;
 	for(int x=0;x<AvrTableN;x++){

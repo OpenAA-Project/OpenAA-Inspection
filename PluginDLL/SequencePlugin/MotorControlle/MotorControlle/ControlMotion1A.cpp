@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\PluginDLL\SequencePlugin\MotorControlle\MotorControlle\ControlMotion1A.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "ControlMotion1A.h"
@@ -23,48 +32,48 @@ ControlMotion1A::ControlMotion1A(void)
 	RxNumb	=0;
 	RxCmd	=0;
 
-    //Œ´“_¨ŽB‘œŠ®—¹ˆÊ’u‚Ü‚ÅˆÚ“®
-//    MotionStage1Data.TargetCount=70;	//“™‘¬‹æŠÔ‚Ì‘¬“x‚É‚È‚éƒJƒEƒ“ƒ^[”
-    MotionStage1Data.TargetCount=110;	//“™‘¬‹æŠÔ‚Ì‘¬“x‚É‚È‚éƒJƒEƒ“ƒ^[”
-	MotionStage1Data.Direction  =0;		//‰ñ“]•ûŒü@0 or 1
-	MotionStage1Data.StartPulse =100;  	//‰Á‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	MotionStage1Data.MiddlePulse=2600;	//“™‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	MotionStage1Data.EndPulse   =200;  	//Œ¸‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
+    //ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½Ü‚ÅˆÚ“ï¿½
+//    MotionStage1Data.TargetCount=70;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ì‘ï¿½ï¿½xï¿½É‚È‚ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½
+    MotionStage1Data.TargetCount=110;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ì‘ï¿½ï¿½xï¿½É‚È‚ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½
+	MotionStage1Data.Direction  =0;		//ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½@0 or 1
+	MotionStage1Data.StartPulse =100;  	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	MotionStage1Data.MiddlePulse=2600;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	MotionStage1Data.EndPulse   =200;  	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
 
-    //Œ´“_¨ƒvƒ‰ƒXƒŠƒ~ƒbƒg‚Ü‚ÅˆÚ“®
-    MotionStage2Data.TargetCount=70;	//“™‘¬‹æŠÔ‚Ì‘¬“x‚É‚È‚éƒJƒEƒ“ƒ^[”
-	MotionStage2Data.Direction  =0;		//‰ñ“]•ûŒü@0 or 1
-	MotionStage2Data.StartPulse =100;  	//‰Á‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	MotionStage2Data.MiddlePulse=3000;	//“™‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	MotionStage2Data.EndPulse   =20;  	//Œ¸‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
+    //ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½~ï¿½bï¿½gï¿½Ü‚ÅˆÚ“ï¿½
+    MotionStage2Data.TargetCount=70;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ì‘ï¿½ï¿½xï¿½É‚È‚ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½
+	MotionStage2Data.Direction  =0;		//ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½@0 or 1
+	MotionStage2Data.StartPulse =100;  	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	MotionStage2Data.MiddlePulse=3000;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	MotionStage2Data.EndPulse   =20;  	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
 
-    //ŽB‘œŠ®—¹ˆÊ’u¨ƒvƒ‰ƒXƒŠƒ~ƒbƒg‚Ü‚ÅˆÚ“®
-    MotionStage3Data.TargetCount=100;	//“™‘¬‹æŠÔ‚Ì‘¬“x‚É‚È‚éƒJƒEƒ“ƒ^[”
-	MotionStage3Data.Direction  =0;		//‰ñ“]•ûŒü@0 or 1
-	MotionStage3Data.StartPulse =50;  	//‰Á‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	MotionStage3Data.MiddlePulse=150;	//“™‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	MotionStage3Data.EndPulse   =10;  	//Œ¸‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
+    //ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½~ï¿½bï¿½gï¿½Ü‚ÅˆÚ“ï¿½
+    MotionStage3Data.TargetCount=100;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ì‘ï¿½ï¿½xï¿½É‚È‚ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½
+	MotionStage3Data.Direction  =0;		//ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½@0 or 1
+	MotionStage3Data.StartPulse =50;  	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	MotionStage3Data.MiddlePulse=150;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	MotionStage3Data.EndPulse   =10;  	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
 
-    //ƒ}ƒCƒiƒXƒŠƒ~ƒbƒg‚Ü‚ÅˆÚ“®
-    MotionStage4Data.TargetCount=70;	//“™‘¬‹æŠÔ‚Ì‘¬“x‚É‚È‚éƒJƒEƒ“ƒ^[”
-	MotionStage4Data.Direction  =1;		//‰ñ“]•ûŒü@0 or 1
-	MotionStage4Data.StartPulse =200;  	//‰Á‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	MotionStage4Data.MiddlePulse=3000;	//“™‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	MotionStage4Data.EndPulse   =100;  	//Œ¸‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
+    //ï¿½}ï¿½Cï¿½iï¿½Xï¿½ï¿½ï¿½~ï¿½bï¿½gï¿½Ü‚ÅˆÚ“ï¿½
+    MotionStage4Data.TargetCount=70;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ì‘ï¿½ï¿½xï¿½É‚È‚ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½
+	MotionStage4Data.Direction  =1;		//ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½@0 or 1
+	MotionStage4Data.StartPulse =200;  	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	MotionStage4Data.MiddlePulse=3000;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	MotionStage4Data.EndPulse   =100;  	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
 
-    //Œ´“_•œ‹AˆÚ“®‚Q(ƒvƒ‰ƒX•ûŒü)
-    MotionStage5Data.TargetCount=500;	//“™‘¬‹æŠÔ‚Ì‘¬“x‚É‚È‚éƒJƒEƒ“ƒ^[”
-	MotionStage5Data.Direction  =0;		//‰ñ“]•ûŒü@0 or 1
-	MotionStage5Data.StartPulse =20;  	//‰Á‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	MotionStage5Data.MiddlePulse=50;	//“™‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	MotionStage5Data.EndPulse   =20;  	//Œ¸‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
+    //ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Aï¿½Ú“ï¿½ï¿½Q(ï¿½vï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½)
+    MotionStage5Data.TargetCount=500;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ì‘ï¿½ï¿½xï¿½É‚È‚ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½
+	MotionStage5Data.Direction  =0;		//ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½@0 or 1
+	MotionStage5Data.StartPulse =20;  	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	MotionStage5Data.MiddlePulse=50;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	MotionStage5Data.EndPulse   =20;  	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
 
-    //Œ´“_•œ‹AˆÚ“®@“dŒ¹‚n‚mŒã‚Ì“®ì
-    MotionStage6Data.TargetCount=500;	//“™‘¬‹æŠÔ‚Ì‘¬“x‚É‚È‚éƒJƒEƒ“ƒ^[”
-	MotionStage6Data.Direction  =0;		//‰ñ“]•ûŒü@0 or 1
-	MotionStage6Data.StartPulse =10;  	//‰Á‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	MotionStage6Data.MiddlePulse=200;	//“™‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	MotionStage6Data.EndPulse   =10;  	//Œ¸‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
+    //ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Aï¿½Ú“ï¿½ï¿½@ï¿½dï¿½ï¿½ï¿½nï¿½mï¿½ï¿½ï¿½Ì“ï¿½ï¿½ï¿½
+    MotionStage6Data.TargetCount=500;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ì‘ï¿½ï¿½xï¿½É‚È‚ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½
+	MotionStage6Data.Direction  =0;		//ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½@0 or 1
+	MotionStage6Data.StartPulse =10;  	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	MotionStage6Data.MiddlePulse=200;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	MotionStage6Data.EndPulse   =10;  	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
 }
 ControlMotion1A::~ControlMotion1A(void)
 {

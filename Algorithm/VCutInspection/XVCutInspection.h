@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\VCutInspection\XVCutInspection.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #ifndef XVCutInspection_h
 #define XVCutInspection_h
@@ -106,21 +115,21 @@ class	VCutBand
 	VCutInspectionItem	*Parent;
 
 	int		Px,Py;
-	double	Ux,Uy;	//VƒJƒbƒg‚ğ‚’¼‚É‰¡Ø‚é•ûŒü‚Ì’PˆÊƒxƒNƒgƒ‹
-	double	Vx,Vy;	//VƒJƒbƒg•ûŒü‚Ì’PˆÊƒxƒNƒgƒ‹
-	int		WLen;		//VƒJƒbƒg‚ğ‚’¼‚É‰¡Ø‚é•ûŒü‚Ìƒoƒ“ƒh‚Ì’·‚³
-	int		StackedLen;	//VƒJƒbƒg•ûŒü‚Ì’·‚³
+	double	Ux,Uy;	//Vï¿½Jï¿½bï¿½gï¿½ğ‚’ï¿½ï¿½É‰ï¿½ï¿½Ø‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì’Pï¿½Êƒxï¿½Nï¿½gï¿½ï¿½
+	double	Vx,Vy;	//Vï¿½Jï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ì’Pï¿½Êƒxï¿½Nï¿½gï¿½ï¿½
+	int		WLen;		//Vï¿½Jï¿½bï¿½gï¿½ğ‚’ï¿½ï¿½É‰ï¿½ï¿½Ø‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒoï¿½ï¿½ï¿½hï¿½Ì’ï¿½ï¿½ï¿½
+	int		StackedLen;	//Vï¿½Jï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½
 
 	double	*BList;
 
-	MapBuffer	ResultBitImage;		//Œ‹‰ÊƒGƒŠƒA
+	MapBuffer	ResultBitImage;		//ï¿½ï¿½ï¿½ÊƒGï¿½ï¿½ï¿½A
 	int			ResImageX1,ResImageY1,ResImageX2,ResImageY2;
 	int			MidAvr;
 public:
 	int		ResultU1,ResultU2;
-	double	ResultDifference;		//”»’èŒ‹‰Ê‚Ì’l
-	AlignmentPacket2D	*AVector;	//ƒAƒ‰ƒCƒ“ƒƒ“ƒg
-	int		ResMx,ResMy;			//ŒŸ¸‚µ‚½Œ‹‰ÊAˆÚ“®—Ê
+	double	ResultDifference;		//ï¿½ï¿½ï¿½èŒ‹ï¿½Ê‚Ì’l
+	AlignmentPacket2D	*AVector;	//ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½g
+	int		ResMx,ResMy;			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÊAï¿½Ú“ï¿½ï¿½ï¿½
 	FlexArea	Area;
 	FlexArea	MaskArea;
 
@@ -155,9 +164,9 @@ class	VCutInspectionItem : public AlgorithmItemPI
 	VCutBand	*InspectedBands;
 	int			BandNumb;
 	int			MasterX,MasterY;
-	AlignmentPacket2D	*AVector;	//ƒAƒ‰ƒCƒ“ƒƒ“ƒg
+	AlignmentPacket2D	*AVector;	//ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½g
 public:
-	FlexArea	BandZone;	//ExecuteIntialAfterEdit‚Å©“®¶¬
+	FlexArea	BandZone;	//ExecuteIntialAfterEditï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	VCutInspectionItem(void);
 	~VCutInspectionItem(void);

@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ButtonAutoModeResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\ButtonAutoMode\ButtonAutoMode.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 #include "ButtonAutoMode.h"
 #include "ThreadSequence.h"
@@ -88,15 +97,15 @@ DEFFUNCEX	void	DLL_EntryAlgorithm(LayersBase *Base,RootNameListContainer &List)
 ButtonAutoMode::ButtonAutoMode(LayersBase *Base ,QWidget *parent)
 :GUIFormBase(Base,parent),Button(parent)
 {
-	//Œ¾Œê‘Î‰
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½
 	FileRegistry	*FRegistry=new FileRegistry(/**/"./MachineInfo.dat");
 	int	LanguageCode=FRegistry->LoadRegInt(/**/"Language",0);
 
 	QString ImageBmpFile[5]={
-		/**/":Resources/AutoModeImage.bmp",		//“ú–{Œê
+		/**/":Resources/AutoModeImage.bmp",		//ï¿½ï¿½ï¿½{ï¿½ï¿½
 		/**/":Resources/AutoModeImage-en.bmp",	//English
-		/**/":Resources/AutoModeImage-en.bmp",	//ŠÈ‘Ì’†•¶
-		/**/":Resources/AutoModeImage-en.bmp",	//”É‘Ì’†•¶
+		/**/":Resources/AutoModeImage-en.bmp",	//ï¿½È‘Ì’ï¿½ï¿½ï¿½
+		/**/":Resources/AutoModeImage-en.bmp",	//ï¿½É‘Ì’ï¿½ï¿½ï¿½
 		/**/":Resources/AutoModeImage-en.bmp"	//Korean
 	};
 	Button.setImageBmpColored(QImage(ImageBmpFile[LanguageCode]));
@@ -134,7 +143,7 @@ void	ButtonAutoMode::SlotClicked (bool checked)
 {
 	if(GetLayersBase()->GetLot(0)->GetLotID()==/**/"-1" || GetLayersBase()->GetLot(0)->GetLotID().isEmpty()==true){
 		if(IsNecessaryLot==true){
-			QMessageBox::warning(NULL,/**/"Warning",LangSolver.GetString(ButtonAutoMode_LS,LID_1)/*"ƒƒbƒg‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢"*/);
+			QMessageBox::warning(NULL,/**/"Warning",LangSolver.GetString(ButtonAutoMode_LS,LID_1)/*"ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½İ’è‚µï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"*/);
 			Button.Cancel();
 			return;
 		}

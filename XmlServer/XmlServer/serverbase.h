@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\XmlServer\XmlServer\serverbase.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #ifndef SERVERBASE_H
@@ -51,7 +60,7 @@ public:
 	QString DDB;
 	int DDBNo;
 	XMLMainStock *DStock;
-	ServerBase *DBase;		//<ServerMain>Class:ServerBase‚ÌŒp³
+	ServerBase *DBase;		//<ServerMain>Class:ServerBaseï¿½ÌŒpï¿½ï¿½
 signals:
 	void MemDelete();
 protected:
@@ -69,7 +78,7 @@ public:
 	int iSeverNo;	        //<Server_Start>
 	QList <int> buffSize;//<Server_UpApp>
 	
-	XmlAPI *xmlClient[1000];//‘½”g—p
+	XmlAPI *xmlClient[1000];//ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½p
 	XmlAPI *xml;
 	unsigned long Server_GetSize(QList<QByteArray> &List) ;
 	bool Server_LastLotData(QList<QByteArray> InList, QByteArray &RetEID);
@@ -77,66 +86,66 @@ public:
 	bool Server_DBXML(QList<QByteArray> &InList, QList<QByteArray> &RetList);
 	bool Server_FileGet(QList<QByteArray> &List, QList<QByteArray> &RetFile, QList<QByteArray> &RetData);
 	bool Server_FileLoad(QList<QByteArray> &List);
-	//Šî–{ˆ—
-	//ƒXƒ^[ƒg<DB‚ğ“n‚µ‚ÄAƒNƒ‰ƒCƒAƒ“ƒg”Ô†‚ÆDB”Ô†‚ğ“n‚·>
+	//ï¿½ï¿½ï¿½{ï¿½ï¿½ï¿½ï¿½
+	//ï¿½Xï¿½^ï¿½[ï¿½g<DBï¿½ï¿½ï¿½nï¿½ï¿½ï¿½ÄAï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Ôï¿½ï¿½ï¿½DBï¿½Ôï¿½ï¿½ï¿½ï¿½nï¿½ï¿½>
 	//bool Server_Start(QByteArray &DataBase, int &Client, int &DB);
 	int Server_MasterStart(QList<QByteArray> &List, int &iClient, int &iDB);
-	//V‹Kì¬
+	//ï¿½Vï¿½Kï¿½ì¬
 	bool Server_Create(QList<QByteArray> &List);
-	//‘}“ü
+	//ï¿½}ï¿½ï¿½
 	bool Server_Insert(QList<QByteArray> &List);
-	//LotID‚Æ–¼Ì‚ğ•Ô‚·
+	//LotIDï¿½Æ–ï¿½ï¿½Ì‚ï¿½ï¿½Ô‚ï¿½
 	bool Server_LotGet(QList<QByteArray> &List, QList<QByteArray> &RetLotList);
 
-	//QByteArray‚ÅInt‚ÆQString‚ğ•Ô‚·
+	//QByteArrayï¿½ï¿½Intï¿½ï¿½QStringï¿½ï¿½ï¿½Ô‚ï¿½
 	void Server_Str(QByteArray &Str, QString &RetStr);
-	//XML‚Ì”Ô†‚ğ•Ô‚·
+	//XMLï¿½Ì”Ôï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 	int Server_XnmNum(const char *DB);
-	//ƒtƒ@ƒCƒ‹–¼•¶š—ñ‚Ì‚İæ“¾
+	//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚İæ“¾
 	void Server_FileName(const char *FileName, char *RetFile);
 	
 	void Server_GetData(QByteArray &Info, QString &RetDAY, QString &RetMAC);
-	//ƒŠƒXƒgƒA
+	//ï¿½ï¿½ï¿½Xï¿½gï¿½A
 	bool Server_Restore(QList<QByteArray> &List);
-    //NGJ‚Ìî•ñæ“¾
+    //NGJï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾
 	//void XMLGetData(QString &Info, QString &NGJ);
-	//ŒŸ¸ƒf[ƒ^”
+	//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½
 	bool Server_Count(QList<QByteArray> &List, int &Count);
 	
-	//ŒŸõ
+	//ï¿½ï¿½ï¿½ï¿½
 	bool Server_Select(QList<QByteArray> &List, unsigned long &Count, XMLElement **RetAns);	
 	void Server_Resvalue(char *Target, char *buffer, qint64 &ElementID, char *Retbuff);//(char *Target, XMLElement *RetAns, char *Retbuff);
-	//NG‚ğŒÂ”‚Å•Ô‚·ˆ—
+	//NGï¿½ï¿½ï¿½Âï¿½ï¿½Å•Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½
 	void  Server_NGsyori(qint64 &ID, char *buff, char *buffer);
-	//‘S‚Ä‚Ìƒf[ƒ^‚ğ•Ô‚·
+	//ï¿½Sï¿½Ä‚Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ô‚ï¿½
 	void  Server_Normalsyori(qint64 &ID, char *buff, char *buffer);
-	//ID‚Åíœ
+	//IDï¿½Åíœ
 	bool Server_Delete(QList<QByteArray> &List);	
 	
-	//ŒŸ¸ƒf[ƒ^—p“Á•Êˆ—
+	//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½pï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½
 	bool Server_UpApp(QList<QByteArray> &List);
-	//XmlLot‚ğæ“¾
+	//XmlLotï¿½ï¿½ï¿½æ“¾
 	void Server_XmlLotGetData(QByteArray &Info, QString &RetLotID, QString &RetLotName);
-	//Xml Time&Master&Lot‚ğæ“¾
+	//Xml Time&Master&Lotï¿½ï¿½ï¿½æ“¾
 	//void Server_XmlTimMasLotGetData(QString &Info, QString &RetTIM, QString &RetMID, QString &RetLID);
 
 
-	//ƒtƒ@ƒCƒ‹‚Ìì¬
+	//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìì¬
 	bool Server_CreateFile(QString &DBName);
-	//’Ç‰Á
+	//ï¿½Ç‰ï¿½
 	bool Server_Append(QList<QByteArray> &List);
-	//•Û‘¶
+	//ï¿½Û‘ï¿½
 	bool Server_Save(QString &DBNum, QString &DBName); 
 
-	//I—¹
+	//ï¿½Iï¿½ï¿½
 	void Server_Close(int &cNum);	
 	bool Server_End(QString &Target, int &DBNum, QString &DBName);
-	//No‚ÌƒGƒ‰[
+	//Noï¿½ÌƒGï¿½ï¿½ï¿½[
 	bool Server_NumError(int &iClientNum);
-    //ƒŠƒyƒA‚Åg—p
+    //ï¿½ï¿½ï¿½yï¿½Aï¿½Ågï¿½p
 	bool Server_TagDel(QList<QByteArray> &List);
 	bool Server_FileDelete(QList<QByteArray> &List);
-	//TagLsit‚Ìíœ
+	//TagLsitï¿½Ìíœ
 	void DeleteTagList();
 
 	bool Deletesyori(int &cNum, int &Num, qint64 &ID, QList<QByteArray> &RetNGJ);
@@ -145,7 +154,7 @@ public:
 	void Sever_EndCheck();
 private:
 	//QList<int> ThredList;
-	//‘¼ƒNƒ‰ƒX‚Ì’è‹`
+	//ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½Ì’ï¿½ï¿½`
 	
 	XMLElement		*Element;
 	XMLElement		*Answer;
@@ -156,7 +165,7 @@ private:
 	char *RestoreXML;		//<Server_Restore>
 	QString LotID;//<Selectsyori>
 	QString LotName;//<Selectsyori>
-	QList<XMLTag*>	MatchTagList;//‘½”g—p
+	QList<XMLTag*>	MatchTagList;//ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½p
 };
 
 #endif // SOCKB_H

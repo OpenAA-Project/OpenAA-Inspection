@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2009 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Sentinel\SentinelCopyright_2\SentinelCopyright_2\sentinelcopyright_2.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <windows.h>
 #include "spromeps.h"
 #include "sentinelcopyright_2.h"
@@ -65,7 +74,7 @@ void SentinelCopyright_2::Decrypt()
 	bool boo;
 
 	SerialNumber = SerialNumberArray.toInt(&boo, 16);
-	SerialNumber = (SerialNumber ^ DeveloperID) & 0xffff; // •¡‡
+	SerialNumber = (SerialNumber ^ DeveloperID) & 0xffff; // ï¿½ï¿½ï¿½ï¿½
 
 	SerialNumberArrayDecrypt.clear();
 	SerialNumberArrayDecrypt = QByteArray::number(SerialNumber, 16);
@@ -92,7 +101,7 @@ void SentinelCopyright_2::Encrypt()
 		uctmp = SentinelDataArray[i * 2 + 1];
 		itmp |= (int)uctmp & 0xff;
 
-		itmp = (itmp ^ DeveloperID) & 0xffff; // ˆÃ†
+		itmp = (itmp ^ DeveloperID) & 0xffff; // ï¿½Ãï¿½
 
 		uctmp = (itmp >> 8) & 0xff;
 		SentinelDataArray[i * 2] = uctmp;

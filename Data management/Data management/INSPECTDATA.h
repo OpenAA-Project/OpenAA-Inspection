@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Data management\Data management\INSPECTDATA.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #ifndef INSPECTDATA_H
@@ -42,25 +51,25 @@ public:
 	bool INSPECTDATAistSelect(QList<QByteArray> &RetList);
 	bool INSPECTDATATagToTagSelect(QList<QByteArray> &sSelData, QList<QByteArray> &List);
 	//bool INSPECTDATATagToTagSelect(QStringList &sSelData, QString &Parent, QStringList &List);
-	//ID‚Åíœ
+	//IDï¿½Åíœ
 	bool INSPECTDATADelete(QList<QByteArray> &DelKey);
 	//bool INSPECTDATADelete(QStringList &DelKey, QStringList &NGJ);
-	//ˆêğŒ‚ÅŒŸõíœ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅŒï¿½ï¿½ï¿½ï¿½íœ
 	bool INSPECTDATATagSelectDele(QByteArray &sSelData, QByteArray &Parent);
 	//bool INSPECTDATATagSelectDele(QString &sSelData, QString &Parent, QStringList &NGJData);
-	//ƒŠƒXƒgƒA
+	//ï¿½ï¿½ï¿½Xï¿½gï¿½A
 	bool INSPECTDATARestore(QByteArray &Data);
     //bool INSPECTDATARestore(QStringList &List, QStringList &NGJ);
-	//1ğŒŒŸõ‚ÅNG”‚ğ•Ô‚·
+	//1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 	//bool INSPECTDATASelect(QString &JYOUKEN, QString &Parent, QList<QByteArray> &List);	
 	bool INSPECTDATASelect(QByteArray &JYOUKEN, QByteArray &Parent, QList<QByteArray> &List);
-	//•¡”ğŒŒŸõ‚ÅNG”‚ğ•Ô‚·
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 	bool INSPECTDATATagToTagnotNG(QList<QByteArray> &TagList, QList<QByteArray> &List)	;
-	///•¡”ğŒŒŸõ
+	///ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	bool INSPECTDATATagSelect(QByteArray &sSelData, QByteArray &Parent, QList<QByteArray> &List);
-	//•¡”ğŒ‚ÅŒŸõ‚µíœ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½íœ
 	bool INSPECTDATAtagtotagdel(QList<QByteArray> &TagList);
-	//MasterID‚ÅLot‚ğŒŸõ‚·‚é
+	//MasterIDï¿½ï¿½Lotï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	bool INSPECTDATAMasterToLot(QByteArray &Master, QByteArray &Parent, QList<QByteArray> &List);
 	
 	bool LOTCUNT(QList<QByteArray> &TagList, QByteArray &Cunt);

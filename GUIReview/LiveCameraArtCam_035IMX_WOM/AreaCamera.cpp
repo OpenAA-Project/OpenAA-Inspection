@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2017
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "LiveCameraArtCam_035IMX_WOMResource.h"
 #include "AreaCamera.h"
 
@@ -40,13 +58,13 @@ DShowLib::MemBufferCollection::tMemBufferPtr	getSingleFrame( DShowLib::Grabber& 
 AreaCamera::AreaCamera(QWidget *parent)
 	:QLabel(parent),m_paintWidget(this),m_thread(NULL),m_isEditMode(true)
 {
-	// ‰æ–ÊXV—pƒXƒŒƒbƒh¶¬
+	// ï¿½ï¿½ï¿½ÊXï¿½Vï¿½pï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ï¿½ï¿½ï¿½
 	m_thread = new ThreadView(50);
 
-	// •\¦XVƒ^ƒCƒ~ƒ“ƒO‚ğƒXƒŒƒbƒh‚ÌƒVƒOƒiƒ‹‚É‚ ‚í‚¹‚é
+	// ï¿½\ï¿½ï¿½ï¿½Xï¿½Vï¿½^ï¿½Cï¿½~ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ÌƒVï¿½Oï¿½iï¿½ï¿½ï¿½É‚ï¿½ï¿½í‚¹ï¿½ï¿½
 	connect(m_thread, SIGNAL(update()), this, SLOT(Update()), Qt::QueuedConnection);
 
-	// ‹Ù‹}’â~‘Î‰
+	// ï¿½Ù‹}ï¿½ï¿½ï¿½~ï¿½Î‰ï¿½
 	connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(uninit()));
 }
 
@@ -116,21 +134,21 @@ bool AreaCamera::init()
 	m_thread->start();
 
 	//// Adjust the live video to the size of the window.
-	//// o—Í’†‚ÌƒfƒtƒHƒ‹ƒgƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ÌƒTƒCƒY
+	//// ï¿½oï¿½Í’ï¿½ï¿½Ìƒfï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½rï¿½fï¿½Iï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ÌƒTï¿½Cï¿½Y
 	//int fmt_width = m_cGrabber.getAcqSizeMaxX();
 	//int fmt_height = m_cGrabber.getAcqSizeMaxY();
 
-	//// ƒAƒXƒyƒNƒg•ÛŒã‚ÌƒrƒfƒIo—ÍƒEƒCƒ“ƒhƒEƒTƒCƒY
+	//// ï¿½Aï¿½Xï¿½yï¿½Nï¿½gï¿½Ûï¿½ï¿½ï¿½ï¿½Ìƒrï¿½fï¿½Iï¿½oï¿½ÍƒEï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½Tï¿½Cï¿½Y
 	////int fix_width, fix_height;
 
-	//// ƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ÌƒAƒXƒyƒNƒg”ä‚É‡‚í‚¹‚½o—Í‰æ‘œƒTƒCƒYŒvZ
+	//// ï¿½rï¿½fï¿½Iï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ÌƒAï¿½Xï¿½yï¿½Nï¿½gï¿½ï¿½ï¿½Éï¿½ï¿½í‚¹ï¿½ï¿½ï¿½oï¿½Í‰æ‘œï¿½Tï¿½Cï¿½Yï¿½vï¿½Z
 	//QSize canvasSize = size();
 	//QSize formatSize = QSize(m_cGrabber.getAcqSizeMaxX(), m_cGrabber.getAcqSizeMaxY());
 
 	//QSize fix_size = canvasSize;
 	//fix_size.scale(formatSize, Qt::KeepAspectRatio);
 
-	//// •Û
+	//// ï¿½Ûï¿½
 	////m_dWidth = fix_width;
 	////m_dHeight = fix_height;
 	//m_outputImageSize = fix_size;
@@ -176,21 +194,21 @@ void AreaCamera::Update()
 void AreaCamera::Resize(void)
 {
 	// Adjust the live video to the size of the window.
-	// o—Í’†‚ÌƒfƒtƒHƒ‹ƒgƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ÌƒTƒCƒY
+	// ï¿½oï¿½Í’ï¿½ï¿½Ìƒfï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½rï¿½fï¿½Iï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ÌƒTï¿½Cï¿½Y
 	int fmt_width = m_cGrabber.getAcqSizeMaxX();
 	int fmt_height = m_cGrabber.getAcqSizeMaxY();
 
-	// ƒAƒXƒyƒNƒg•ÛŒã‚ÌƒrƒfƒIo—ÍƒEƒCƒ“ƒhƒEƒTƒCƒY
+	// ï¿½Aï¿½Xï¿½yï¿½Nï¿½gï¿½Ûï¿½ï¿½ï¿½ï¿½Ìƒrï¿½fï¿½Iï¿½oï¿½ÍƒEï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½Tï¿½Cï¿½Y
 	//int fix_width, fix_height;
 
-	// ƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ÌƒAƒXƒyƒNƒg”ä‚É‡‚í‚¹‚½o—Í‰æ‘œƒTƒCƒYŒvZ
+	// ï¿½rï¿½fï¿½Iï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ÌƒAï¿½Xï¿½yï¿½Nï¿½gï¿½ï¿½ï¿½Éï¿½ï¿½í‚¹ï¿½ï¿½ï¿½oï¿½Í‰æ‘œï¿½Tï¿½Cï¿½Yï¿½vï¿½Z
 	QSize canvasSize = m_paintWidget->size();
 	QSize formatSize = QSize(fmt_width, fmt_height);
 
 	QSize fix_size = formatSize;
 	fix_size.scale(canvasSize, Qt::KeepAspectRatio);
 
-	// •Û
+	// ï¿½Ûï¿½
 	//m_dWidth = fix_width;
 	//m_dHeight = fix_height;
 	m_outputImageSize = fix_size;
@@ -341,21 +359,21 @@ void AreaCamera::grapWindow(WId id)
 	GetWindowInfo(id, &wi);
 	
 	// Adjust the live video to the size of the window.
-	// o—Í’†‚ÌƒfƒtƒHƒ‹ƒgƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ÌƒTƒCƒY
+	// ï¿½oï¿½Í’ï¿½ï¿½Ìƒfï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½rï¿½fï¿½Iï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ÌƒTï¿½Cï¿½Y
 	int fmt_width = m_cGrabber.getAcqSizeMaxX();
 	int fmt_height = m_cGrabber.getAcqSizeMaxY();
 
-	// ƒAƒXƒyƒNƒg•ÛŒã‚ÌƒrƒfƒIo—ÍƒEƒCƒ“ƒhƒEƒTƒCƒY
+	// ï¿½Aï¿½Xï¿½yï¿½Nï¿½gï¿½Ûï¿½ï¿½ï¿½ï¿½Ìƒrï¿½fï¿½Iï¿½oï¿½ÍƒEï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½Tï¿½Cï¿½Y
 	//int fix_width, fix_height;
 
-	// ƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ÌƒAƒXƒyƒNƒg”ä‚É‡‚í‚¹‚½o—Í‰æ‘œƒTƒCƒYŒvZ
+	// ï¿½rï¿½fï¿½Iï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ÌƒAï¿½Xï¿½yï¿½Nï¿½gï¿½ï¿½ï¿½Éï¿½ï¿½í‚¹ï¿½ï¿½ï¿½oï¿½Í‰æ‘œï¿½Tï¿½Cï¿½Yï¿½vï¿½Z
 	QSize canvasSize = QSize(qAbs(wi.rcWindow.left - wi.rcWindow.right), qAbs(wi.rcWindow.top - wi.rcWindow.bottom));
 	QSize formatSize = QSize(m_cGrabber.getAcqSizeMaxX(), m_cGrabber.getAcqSizeMaxY());
 
 	QSize fix_size = canvasSize;
 	fix_size.scale(formatSize, Qt::KeepAspectRatio);
 
-	// •Û
+	// ï¿½Ûï¿½
 	//m_dWidth = fix_width;
 	//m_dHeight = fix_height;
 	m_outputImageSize = fix_size;

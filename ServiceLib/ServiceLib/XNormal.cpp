@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XTypeDef.h"
 #include "XNormal.h"
 
@@ -11,7 +29,7 @@ NormalDistribution::NormalDistribution( double mu, double sigma )
     : _mu( mu ), _var( pow( sigma, 2 ) ) {}
 
 
-  // Šm—¦•Ï” a ‚É‚¨‚¯‚éŠm—¦–§“x‚ð•Ô‚·
+  // ï¿½mï¿½ï¿½ï¿½Ïï¿½ a ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Ô‚ï¿½
 double NormalDistribution::operator[]( double x ) const
 {
 	return( exp( -pow( x - _mu, 2 ) / ( 2 * _var ) ) / sqrt( 2 * M_PI * _var ) );
@@ -19,11 +37,11 @@ double NormalDistribution::operator[]( double x ) const
 
 
 /*
-  NormalDistribution::lower_p : ‹æŠÔ (-‡,a] ‚É‚¨‚¯‚éŠm—¦‚ð•Ô‚·
+  NormalDistribution::lower_p : ï¿½ï¿½ï¿½ï¿½ (-ï¿½ï¿½,a] ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 
-  double a : ‹æŠÔ‚ÌãŒÀ
+  double a : ï¿½ï¿½ï¿½Ô‚Ìï¿½ï¿½ï¿½
 
-  –ß‚è’l : Šm—¦
+  ï¿½ß‚ï¿½ï¿½l : ï¿½mï¿½ï¿½
 */
 double NormalDistribution::lower_p( double a ) const
 {
@@ -39,11 +57,11 @@ double NormalDistribution::lower_p( double a ) const
 }
 
 /*
-  NormalDistribution::p : ‹æŠÔ [a,b] ‚É‚¨‚¯‚éŠm—¦‚ð•Ô‚·
+  NormalDistribution::p : ï¿½ï¿½ï¿½ï¿½ [a,b] ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 
-  double a, b : Šm—¦‚ð‹‚ß‚é‹æŠÔ
+  double a, b : ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½ï¿½ï¿½ï¿½ï¿½
 
-  –ß‚è’l : Šm—¦
+  ï¿½ß‚ï¿½ï¿½l : ï¿½mï¿½ï¿½
 */
 double NormalDistribution::p( double a, double b ) const
 {
@@ -465,4 +483,3 @@ double erfc(double x)
             if(hx>0) return tiny*tiny; else return two-tiny;
         }
 }
-

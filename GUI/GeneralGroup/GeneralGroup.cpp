@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "GeneralGroupResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\GeneralGroup\GeneralGroup.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 #include "GeneralGroup.h"
 #include "XDataInLayer.h"
@@ -82,23 +91,23 @@ DEFFUNCEX	void	DLL_SetLanguage(LanguagePackage &Pkg ,int LanguageCode)
 GeneralGroup::GeneralGroup(LayersBase *Base ,QWidget *parent)
 :GUIFormBase(Base,parent)
 {
-	// ŠJ•Âƒ{ƒ^ƒ“ì¬
+	// ï¿½Jï¿½Âƒ{ï¿½^ï¿½ï¿½ï¿½ì¬
 	m_button = new QPushButton(this);
 	m_button->setCheckable(true);
 	m_button->move(0,0);
 
-	// ƒfƒtƒHƒ‹ƒg’l
+	// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½l
 	m_text = /**/"Group";
 	m_initState = false;
 	
-	// ŠO˜gì¬
+	// ï¿½Oï¿½gï¿½ì¬
 	setLineWidth(1);
 	setMidLineWidth(1);
 	setFrameStyle(Shape::Box | Shadow::Sunken);
 	if(GetEditMode()==true){
 		resize(200,200);
 	}else{
-		// ƒCƒxƒ“ƒgƒtƒBƒ‹ƒ^‘g‚İ‚İ
+		// ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½tï¿½Bï¿½ï¿½ï¿½^ï¿½gï¿½İï¿½ï¿½ï¿½
 		m_button->installEventFilter(this);
 		connect(m_button, SIGNAL(toggled(bool)), this, SLOT(buttonToggled(bool)));
 	}
@@ -123,7 +132,7 @@ void GeneralGroup::resizeEvent(QResizeEvent *event)
 
 void GeneralGroup::updateButtonText(void)
 {
-	// ƒ{ƒ^ƒ“‚Ìƒ`ƒFƒbƒNó‘Ô‚É‘Î‰‚µ‚½ŠJ•Â•¶š—ñ‚ğ’Ç‹L
+	// ï¿½{ï¿½^ï¿½ï¿½ï¿½Ìƒ`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½Ô‚É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Â•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‹L
 	QString str = m_text;
 	if(GetEditMode()==true){
 		str += /**/" <<";
@@ -139,19 +148,19 @@ void GeneralGroup::updateButtonText(void)
 
 bool GeneralGroup::eventFilter(QObject *obj, QEvent *event)
 {
-	// ƒCƒxƒ“ƒgŒ³‚ªŠJ•Âƒ{ƒ^ƒ“‚Å‚ ‚èAƒNƒŠƒbƒNƒCƒxƒ“ƒg‚Ìê‡
+	// ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Âƒ{ï¿½^ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Aï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìê‡
 	if(obj==m_button && event->type()==QEvent::MouseButtonPress){
-		QMouseEvent *me = static_cast<QMouseEvent*>(event);// ƒ}ƒEƒXƒCƒxƒ“ƒg‚Ì’²¸
-		if(me->button()==Qt::MouseButton::LeftButton){// ¶ƒNƒŠƒbƒN‚¾‚Á‚½ê‡
-			if(m_passwordLock==false){// ƒpƒXƒ[ƒh‰ğœó‘Ô‚Å‚ ‚éê‡
+		QMouseEvent *me = static_cast<QMouseEvent*>(event);// ï¿½}ï¿½Eï¿½Xï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ì’ï¿½ï¿½ï¿½
+		if(me->button()==Qt::MouseButton::LeftButton){// ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
+			if(m_passwordLock==false){// ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Å‚ï¿½ï¿½ï¿½ï¿½ê‡
 				return QObject::eventFilter(obj, event);
 			}
-			GeneralGroupSelfPasswordForm form(GetLayersBase());// ƒpƒXƒ[ƒh“ü—Íƒ_ƒCƒAƒƒO
-			if(form.exec()==QDialog::Accepted && m_selfPassword==form.password()){// I—¹‚ªó‚¯æ‚è‚ÅAƒpƒXƒ[ƒh‚Éˆê’v‚µ‚Ä‚¢‚éê‡
-				m_passwordLock = false;// ƒpƒXƒ[ƒh‰ğœó‘Ô‚Ö
+			GeneralGroupSelfPasswordForm form(GetLayersBase());// ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½Íƒ_ï¿½Cï¿½Aï¿½ï¿½ï¿½O
+			if(form.exec()==QDialog::Accepted && m_selfPassword==form.password()){// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ó‚¯ï¿½ï¿½ï¿½ï¿½ÅAï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½Éˆï¿½ï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡
+				m_passwordLock = false;// ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 				QPushButton *btn = dynamic_cast<QPushButton*>(obj);
 				if(btn!=NULL){
-					btn->setChecked( !btn->isChecked() );// ’Êí‚Ìƒ{ƒ^ƒ“ƒNƒŠƒbƒN“®ì‚ğƒ}ƒjƒ…ƒAƒ‹Às
+					btn->setChecked( !btn->isChecked() );// ï¿½Êï¿½ï¿½Ìƒ{ï¿½^ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½jï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½s
 				}
 			}else{
 				return true;
@@ -163,11 +172,11 @@ bool GeneralGroup::eventFilter(QObject *obj, QEvent *event)
 
 void GeneralGroup::buttonToggled(bool on)
 {
-	if(GetEditMode()==true){// GUIì¬’†‚Í•Â‚¶‚é•K—v‚ª–³‚¢
+	if(GetEditMode()==true){// GUIï¿½ì¬ï¿½ï¿½ï¿½Í•Â‚ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		on = true;
 	}
-	const QObjectList &list = children();// “à•”‚ÉŠi”[‚µ‚Ä‚¢‚éqGUI‚ÌƒŠƒXƒg‚ğæ“¾
-	for(int i=0; i<list.count(); i++){// ŠeqGUI‚É‘Î‚µ‚Ä•\¦‚ÌONOFF‚ğƒ{ƒ^ƒ“‚Ì‰Ÿ‰ºó‘Ô‚©‚çİ’è‚·‚é
+	const QObjectList &list = children();// ï¿½ï¿½ï¿½ï¿½ï¿½ÉŠiï¿½[ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½qGUIï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½æ“¾
+	for(int i=0; i<list.count(); i++){// ï¿½eï¿½qGUIï¿½É‘Î‚ï¿½ï¿½Ä•\ï¿½ï¿½ï¿½ï¿½ONOFFï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½
 		QObject *o = list[i];
 		if(o==NULL || o==m_button){
 			continue;
@@ -226,7 +235,7 @@ void	GeneralGroup::StartPage(void)
 
 void	GeneralGroup::Prepare(void)
 {
-	// ƒ{ƒ^ƒ“‚É‚Â‚¯‚ç‚ê‚Ä‚¢‚é–¼‘O‚©‚ç•K—v‚È’·‚³‚ğŒvZ‚µ‚Äƒ{ƒ^ƒ“‚Ì‰¡•‚ğ’²®‚·‚é
+	// ï¿½{ï¿½^ï¿½ï¿½ï¿½É‚Â‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é–¼ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½È’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Zï¿½ï¿½ï¿½Äƒ{ï¿½^ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ğ’²ï¿½ï¿½ï¿½ï¿½ï¿½
 	QFontMetrics fm(m_button->font());
 
 	QString str = m_text;
@@ -240,7 +249,7 @@ void	GeneralGroup::Prepare(void)
 
 	QRect r = m_button->geometry();
 
-	if(len<50){// Å¬’·‚³
+	if(len<50){// ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½
 		len = 50;
 	}
 
@@ -258,4 +267,3 @@ void	GeneralGroup::Prepare(void)
 	
 	buttonToggled(m_button->isChecked());
 }
-

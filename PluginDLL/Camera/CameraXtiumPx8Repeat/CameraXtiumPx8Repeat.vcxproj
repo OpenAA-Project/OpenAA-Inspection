@@ -61,7 +61,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SAPERA)\Classes\Basic;..\..\..\InspectionPlayer;..\..\..\GeneralSource\Sequence;..\..\..\OpenSource\Component;..\..\..\Open;$(SAPERA)\Include;$(SAPERA)\Classes\Gui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OpenAAUseLibrary)\Dalsa;$(SAPERA)\Classes\Basic;..\..\..\InspectionPlayer;..\..\..\GeneralSource\Sequence;..\..\..\OpenSource\Component;..\..\..\Open;$(SAPERA)\Include;$(SAPERA)\Classes\Gui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <OpenMP>GenerateParallelCode</OpenMP>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -104,10 +104,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\featureCtrl.cpp" />
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\RunLen.Cpp" />
     <ClCompile Include="..\..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="CLHS_PX8CommandCreater.cpp" />
-    <ClCompile Include="featureCtrl.cpp" />
-    <ClCompile Include="RunLen.Cpp" />
     <ClCompile Include="saperaCtrl.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
       <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
@@ -128,10 +128,7 @@
     </ClCompile>
     <ClInclude Include="CLHS_PX8CommandCreater.h" />
     <ClInclude Include="CLHS_PX8CommandManager.h" />
-    <ClInclude Include="featureCtrl.h" />
-    <ClInclude Include="RunLen.h" />
     <QtMoc Include="saperaCtrl.h" />
-    <ClInclude Include="screenformat.h" />
     <QtMoc Include="CameraSetting.h" />
     <ClInclude Include="cameraxtiumpx8repeat_global.h" />
     <QtMoc Include="CameraXtiumPx8Repeat.h" />

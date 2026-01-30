@@ -1,23 +1,21 @@
-/****************************************************************************
-**
-** Copyright (C) 2005-2007 Trolltech ASA. All rights reserved.
-**
-** This file is part of the example classes of the Qt Toolkit.
-**
-** Licensees holding a valid Qt License Agreement may use this file in
-** accordance with the rights, responsibilities and obligations
-** contained therein.  Please consult your licensing agreement or
-** contact sales@trolltech.com if any conditions of this licensing
-** agreement are not clear to you.
-**
-** Further information about Qt licensing is available at:
-** http://www.trolltech.com/products/qt/licensing.html or by
-** contacting info@trolltech.com.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-****************************************************************************/
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include <QtGui>
 #include <QtOpenGL>
@@ -113,35 +111,35 @@ void GLWidget::setZRotation(int angle)
 
 void GLWidget::initializeGL()
 {
-    qglClearColor(BackgroundColor);	//glClearColor ƒoƒbƒtƒ@‚ğ‰Šú‰»‚·‚éƒJƒ‰[î•ñ
+    qglClearColor(BackgroundColor);	//glClearColor ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
     object = makeObject();
-    glShadeModel(GL_FLAT);			//ƒtƒ‰ƒbƒgƒVƒF[ƒfƒBƒ“ƒO‚Ìİ’è‚ÅA“¯‚¶–Ê‚Ì–¾‚é‚³‚Íˆê’è‚É‚È‚è‚Ü‚·
-    glEnable(GL_DEPTH_TEST);		//ƒfƒvƒXƒeƒXƒg‚ğ—LŒø‚É‚µ‚Ü‚· ‘½ŠpŒ`‚É‰e‚ğ•t‚¯‚é‚É‚ÍAŠe‘½ŠpŒ`‚Ì‘OŒãŠÖŒW‚ğŒˆ’è‚·‚é•K—v‚ª‚ ‚é
-//    glEnable(GL_CULL_FACE);			//•Ğ–Ê•\¦‚ğ—LŒø‚É‚µ‚Ü‚· ƒ|ƒŠƒSƒ“‚Ì‚¨‚à‚Ä–Ê‚Ì‚İ‚ğ•`‚«A— ‚ğ•`‚©‚È‚¢‚æ‚¤‚É‚·‚é
+    glShadeModel(GL_FLAT);			//ï¿½tï¿½ï¿½ï¿½bï¿½gï¿½Vï¿½Fï¿½[ï¿½fï¿½Bï¿½ï¿½ï¿½Oï¿½Ìİ’ï¿½ï¿½ÅAï¿½ï¿½ï¿½ï¿½ï¿½Ê‚Ì–ï¿½ï¿½é‚³ï¿½Íˆï¿½ï¿½ï¿½ï¿½É‚È‚ï¿½ï¿½Ü‚ï¿½
+    glEnable(GL_DEPTH_TEST);		//ï¿½fï¿½vï¿½Xï¿½eï¿½Xï¿½gï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ ï¿½ï¿½ï¿½pï¿½`ï¿½É‰eï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½É‚ÍAï¿½eï¿½ï¿½ï¿½pï¿½`ï¿½Ì‘Oï¿½ï¿½ï¿½ÖŒWï¿½ï¿½ï¿½ï¿½ï¿½è‚·ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//    glEnable(GL_CULL_FACE);			//ï¿½Ğ–Ê•\ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Ä–Ê‚Ì‚İ‚ï¿½ï¿½`ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
 
-	glDisable(GL_CULL_FACE);		//—¼–Ê‚ğ•`‚­
+	glDisable(GL_CULL_FACE);		//ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½`ï¿½ï¿½
 
-	glEnable(GL_BLEND);				//ƒuƒŒƒ“ƒh‚ğ—LŒø‰»
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //¬‡‚Ìİ’è
+	glEnable(GL_BLEND);				//ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //ï¿½ï¿½ï¿½ï¿½ï¿½Ìİ’ï¿½
 }
 
 void GLWidget::paintGL()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//w’è‚µ‚½ƒoƒbƒtƒ@‚ğ“Á’è‚ÌF‚ÅÁ‹
-			//GL_COLOR_BUFFER_BIT ƒJƒ‰[ ƒoƒbƒtƒ@ 
-			//GL_DEPTH_BUFFER_BIT ƒfƒvƒX ƒoƒbƒtƒ@ 
-			//GL_ACCUM_BUFFER_BIT ƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ ƒoƒbƒtƒ@ 
-			//GL_STENCIL_BUFFER_BIT ƒXƒeƒ“ƒVƒ‹ ƒoƒbƒtƒ@ 
-    glLoadIdentity();						//Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚és—ñ‚É’PˆÊs—ñ‚ğƒ[ƒh‚·‚é
-    glTranslated(0.0, 0.0, -10.0);			//•ÏŠ·s—ñ‚É•½sˆÚ“®‚Ìs—ñ‚ğæ‚¶‚Ü‚·
-    glRotated(xRot / 16.0, 1.0, 0.0, 0.0);	//•ÏŠ·s—ñ‚É‰ñ“]‚Ìs—ñ‚ğæ‚¶‚Ü‚·
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//ï¿½wï¿½è‚µï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌFï¿½Åï¿½ï¿½ï¿½
+			//GL_COLOR_BUFFER_BIT ï¿½Jï¿½ï¿½ï¿½[ ï¿½oï¿½bï¿½tï¿½@ 
+			//GL_DEPTH_BUFFER_BIT ï¿½fï¿½vï¿½X ï¿½oï¿½bï¿½tï¿½@ 
+			//GL_ACCUM_BUFFER_BIT ï¿½Aï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ ï¿½oï¿½bï¿½tï¿½@ 
+			//GL_STENCIL_BUFFER_BIT ï¿½Xï¿½eï¿½ï¿½ï¿½Vï¿½ï¿½ ï¿½oï¿½bï¿½tï¿½@ 
+    glLoadIdentity();						//ï¿½ï¿½ï¿½İ‘Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½É’Pï¿½Êsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½
+    glTranslated(0.0, 0.0, -10.0);			//ï¿½ÏŠï¿½ï¿½sï¿½ï¿½ï¿½É•ï¿½ï¿½sï¿½Ú“ï¿½ï¿½Ìsï¿½ï¿½ï¿½ï¿½ï¿½æ‚¶ï¿½Ü‚ï¿½
+    glRotated(xRot / 16.0, 1.0, 0.0, 0.0);	//ï¿½ÏŠï¿½ï¿½sï¿½ï¿½ï¿½É‰ï¿½ï¿½]ï¿½Ìsï¿½ï¿½ï¿½ï¿½ï¿½æ‚¶ï¿½Ü‚ï¿½
     glRotated(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotated(zRot / 16.0, 0.0, 0.0, 1.0);
-//    glTranslated((double)(dx)/side, (double)(dy)/side, 0.0);			//•ÏŠ·s—ñ‚É•½sˆÚ“®‚Ìs—ñ‚ğæ‚¶‚Ü‚·
+//    glTranslated((double)(dx)/side, (double)(dy)/side, 0.0);			//ï¿½ÏŠï¿½ï¿½sï¿½ï¿½ï¿½É•ï¿½ï¿½sï¿½Ú“ï¿½ï¿½Ìsï¿½ï¿½ï¿½ï¿½ï¿½æ‚¶ï¿½Ü‚ï¿½
 	glScaled (Scale,Scale,Scale);
-    glCallList(object);						//•Û‘¶‚³‚ê‚½ƒRƒ}ƒ“ƒh‚ğŒÄ‚Ño‚·iƒŠƒXƒg“à—e‚ğ•`‰æ‚µ‚Ü‚·j
+    glCallList(object);						//ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½iï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½eï¿½ï¿½ï¿½`ï¿½æ‚µï¿½Ü‚ï¿½ï¿½j
 
-	//ƒeƒLƒXƒg‚Ì•\¦
+	//ï¿½eï¿½Lï¿½Xï¿½gï¿½Ì•\ï¿½ï¿½
 	QFont f=QFont("Helvetica",14);
 	f.setBold(true);
 	qglColor(QColor(255,0,0,200));
@@ -157,18 +155,18 @@ void GLWidget::paintGL()
 void GLWidget::resizeGL(int width, int height)
 {
     side = qMin(width, height);
-    glViewport((width - side) / 2, (height - side) / 2, side, side);	//ƒrƒ…[ƒ|[ƒg‚Ìİ’è ¶‰º‹÷ width ‚Æ height
+    glViewport((width - side) / 2, (height - side) / 2, side, side);	//ï¿½rï¿½ï¿½ï¿½[ï¿½|ï¿½[ï¿½gï¿½Ìİ’ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ width ï¿½ï¿½ height
 
-    glMatrixMode(GL_PROJECTION);	//s—ñ‰‰Z‚ÉŠÖŒW‚·‚éƒRƒ}ƒ“ƒh‚ğ—˜—p‚·‚é
-				//GL_MODELVIEW ƒ‚ƒfƒ‹ƒrƒ…[s—ñ 
-				//GL_PROJECTION Ë‰es—ñ 
-				//GL_TEXTURE ƒeƒNƒXƒ`ƒƒs—ñ 
-    glLoadIdentity();							//Œ»İ‚Ìs—ñ‚ğ’PˆÊs—ñ‚É‚·‚é
-    glOrtho(-0.5, +0.5, +0.5, -0.5, 4.0, 15.0);	//³Ë‰e‚Ì‹‘ÌÏ‚ğì¬‚·‚é
-    glMatrixMode(GL_MODELVIEW);		//s—ñ‰‰Z‚ÉŠÖŒW‚·‚éƒRƒ}ƒ“ƒh‚ğ—˜—p‚·‚é
-				//GL_MODELVIEW ƒ‚ƒfƒ‹ƒrƒ…[s—ñ 
-				//GL_PROJECTION Ë‰es—ñ 
-				//GL_TEXTURE ƒeƒNƒXƒ`ƒƒs—ñ 
+    glMatrixMode(GL_PROJECTION);	//ï¿½sï¿½ñ‰‰Zï¿½ÉŠÖŒWï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ğ—˜—pï¿½ï¿½ï¿½ï¿½
+				//GL_MODELVIEW ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½sï¿½ï¿½ 
+				//GL_PROJECTION ï¿½Ë‰eï¿½sï¿½ï¿½ 
+				//GL_TEXTURE ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½sï¿½ï¿½ 
+    glLoadIdentity();							//ï¿½ï¿½ï¿½İ‚Ìsï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½Êsï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
+    glOrtho(-0.5, +0.5, +0.5, -0.5, 4.0, 15.0);	//ï¿½ï¿½ï¿½Ë‰eï¿½Ìï¿½ï¿½ÌÏ‚ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
+    glMatrixMode(GL_MODELVIEW);		//ï¿½sï¿½ñ‰‰Zï¿½ÉŠÖŒWï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ğ—˜—pï¿½ï¿½ï¿½ï¿½
+				//GL_MODELVIEW ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½sï¿½ï¿½ 
+				//GL_PROJECTION ï¿½Ë‰eï¿½sï¿½ï¿½ 
+				//GL_TEXTURE ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½sï¿½ï¿½ 
 }
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
@@ -197,24 +195,24 @@ void GLWidget::wheelEvent(QWheelEvent *event)
     dx = event->position().x() - lastPos.x();
     dy = event->position().y() - lastPos.y();
 
-	//xAyAz ‚É‚ÍA‚»‚ê‚¼‚êƒXƒP[ƒŠƒ“ƒOŒW”‚ğw’è‚µ‚Ü‚·
-	//1 ˆÈã‚Å‚ ‚ê‚ÎƒIƒuƒWƒFƒNƒg‚ªŠg‘å‚³‚êA1 ‚æ‚è¬‚³‚¯‚ê‚Îk¬‚³‚ê‚Ü‚·
-	//‚Ü‚½A-1 ‚É‚·‚ê‚Îü‘ÎÌ•ÏŠ·‚³‚ê‚Ü‚·
+	//xï¿½Ayï¿½Az ï¿½É‚ÍAï¿½ï¿½ï¿½ê‚¼ï¿½ï¿½ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è‚µï¿½Ü‚ï¿½
+	//1 ï¿½Èï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ÎƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½gï¿½å‚³ï¿½ï¿½ï¿½A1 ï¿½ï¿½ï¿½è¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îkï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+	//ï¿½Ü‚ï¿½ï¿½A-1 ï¿½É‚ï¿½ï¿½ï¿½ï¿½Îï¿½ï¿½ÎÌ•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
 	D > 0 ? Scale += Scale*0.1 : Scale -= Scale*0.1;
 	updateGL();
 }
 
 void GLWidget::UpdateObject()
 {
-    glNewList(object, GL_COMPILE);	//glNewList`glEndList‚ÌŠÔ‚É•`‰æƒRƒ}ƒ“ƒh‚ğw’è
+    glNewList(object, GL_COMPILE);	//glNewListï¿½`glEndListï¿½ÌŠÔ‚É•`ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½wï¿½ï¿½
 
-	//²‚Ìü‚ğ•`‚­
+	//ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½
 	DrawAxis();
 
-	//”CˆÓ‚Ì“_‚ğ•`‚­
+	//ï¿½Cï¿½Ó‚Ì“_ï¿½ï¿½ï¿½`ï¿½ï¿½
 	DrawPoint();
 
-	//è‡’l‚Ì—§‘Ì‚ğ•`‚­
+	//è‡’lï¿½Ì—ï¿½ï¿½Ì‚ï¿½ï¿½`ï¿½ï¿½
 	DrawThreshold();
 
     glEndList();
@@ -222,22 +220,22 @@ void GLWidget::UpdateObject()
 
 GLuint GLWidget::makeObject()
 {
-    GLuint list = glGenLists(1);	//V‹K‚ÉƒfƒBƒXƒvƒŒƒCƒŠƒXƒg‚ğŠm•Û‚·‚é
+    GLuint list = glGenLists(1);	//ï¿½Vï¿½Kï¿½Éƒfï¿½Bï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½mï¿½Û‚ï¿½ï¿½ï¿½
     object = list;
 	UpdateObject();
 /*
-    glNewList(list, GL_COMPILE);	//glNewList`glEndList‚ÌŠÔ‚É•`‰æƒRƒ}ƒ“ƒh‚ğw’è
+    glNewList(list, GL_COMPILE);	//glNewListï¿½`glEndListï¿½ÌŠÔ‚É•`ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½wï¿½ï¿½
 
-	//²‚Ìü‚ğ•`‚­
+	//ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½
 	DrawAxis();
 
-	//”CˆÓ‚Ì“_‚ğ•`‚­
+	//ï¿½Cï¿½Ó‚Ì“_ï¿½ï¿½ï¿½`ï¿½ï¿½
 	DrawPoint();
 
-	//è‡’l‚Ì—§‘Ì‚ğ•`‚­
+	//è‡’lï¿½Ì—ï¿½ï¿½Ì‚ï¿½ï¿½`ï¿½ï¿½
 	DrawThreshold();
 /*
-	//è‘O‘¤‚Ì–Ê ƒVƒAƒ“
+	//ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ì–ï¿½ ï¿½Vï¿½Aï¿½ï¿½
 	glColor3d( 0.0, 1.0, 1.0);
 	int R11,G11,B11;
 	GetRGB(PL,SL,RL,R11,G11,B11);
@@ -253,7 +251,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d(B13-127,128-G13,128-R13);
 	glVertex3d(B14-127,128-G14,128-R14);
 
-	//‰œ‘¤‚Ì–Ê ‡
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 	glColor3d(1.0, 0.0, 1.0);
 	int R24,G24,B24;
 	GetRGB(PL,SH,RH,R24,G24,B24);
@@ -269,28 +267,28 @@ GLuint GLWidget::makeObject()
 	glVertex3d(B22-127,128-G22,128-R22);
 	glVertex3d(B21-127,128-G21,128-R21);
 
-	//‰E‘¤‚Ì–Ê Â
+	//ï¿½Eï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 	glColor3d(0.0, 0.0, 1.0);
 	glVertex3d(B22-127,128-G22,128-R22);
 	glVertex3d(B12-127,128-G12,128-R12);
 	glVertex3d(B11-127,128-G11,128-R11);
 	glVertex3d(B21-127,128-G21,128-R21);
 
-	//¶‘¤‚Ì–Ê ‰©
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 	glColor3d(1.0, 1.0, 0.0);
 	glVertex3d(B24-127,128-G24,128-R24);
 	glVertex3d(B14-127,128-G14,128-R14);
 	glVertex3d(B13-127,128-G13,128-R13);
 	glVertex3d(B23-127,128-G23,128-R23);
 
-	// ã‘¤‚Ì–Ê Ô
+	// ï¿½ã‘¤ï¿½Ì–ï¿½ ï¿½ï¿½
 	glColor3d(1.0, 0.0, 0.0);
 	glVertex3d(B12-127,128-G12,128-R12);
 	glVertex3d(B22-127,128-G22,128-R22);
 	glVertex3d(B23-127,128-G23,128-R23);
 	glVertex3d(B13-127,128-G13,128-R13);
 
-	// ‰º‘¤‚Ì–Ê —Î
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 	glColor3d(0.0, 1.0, 0.0);
 	glVertex3d(B14-127,128-G14,128-R14);
 	glVertex3d(B24-127,128-G24,128-R24);
@@ -298,7 +296,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d(B11-127,128-G11,128-R11);
 */
 /*
-	//è‘O‘¤‚Ì–Ê ƒVƒAƒ“
+	//ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ì–ï¿½ ï¿½Vï¿½Aï¿½ï¿½
 	glColor3d( 0.0, 1.0, 1.0);
 	int R11,G11,B11;
 	GetRGBValue(PL,SL,RL,Coefficient,R11,G11,B11);
@@ -316,7 +314,7 @@ GLuint GLWidget::makeObject()
 	GetRGBValue(PL,SH,RL,Coefficient,R14,G14,B14);
 	glVertex3d(B14-127,128-G14,128-R14);
 
-	//‰œ‘¤‚Ì–Ê ‡
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 	glColor3d(1.0, 0.0, 1.0);
 	int R24,G24,B24;
 	GetRGBValue(PL,SH,RH,Coefficient,R24,G24,B24);
@@ -334,28 +332,28 @@ GLuint GLWidget::makeObject()
 	GetRGBValue(PL,SL,RH,Coefficient,R21,G21,B21);
 	glVertex3d(B21-127,128-G21,128-R21);
 
-	//‰E‘¤‚Ì–Ê Â
+	//ï¿½Eï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 	glColor3d(0.0, 0.0, 1.0);
 	glVertex3d(B22-127,128-G22,128-R22);
 	glVertex3d(B12-127,128-G12,128-R12);
 	glVertex3d(B11-127,128-G11,128-R11);
 	glVertex3d(B21-127,128-G21,128-R21);
 
-	//¶‘¤‚Ì–Ê ‰©
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 	glColor3d(1.0, 1.0, 0.0);
 	glVertex3d(B24-127,128-G24,128-R24);
 	glVertex3d(B14-127,128-G14,128-R14);
 	glVertex3d(B13-127,128-G13,128-R13);
 	glVertex3d(B23-127,128-G23,128-R23);
 
-	// ã‘¤‚Ì–Ê Ô
+	// ï¿½ã‘¤ï¿½Ì–ï¿½ ï¿½ï¿½
 	glColor3d(1.0, 0.0, 0.0);
 	glVertex3d(B12-127,128-G12,128-R12);
 	glVertex3d(B22-127,128-G22,128-R22);
 	glVertex3d(B23-127,128-G23,128-R23);
 	glVertex3d(B13-127,128-G13,128-R13);
 
-	// ‰º‘¤‚Ì–Ê —Î
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 	glColor3d(0.0, 1.0, 0.0);
 	glVertex3d(B14-127,128-G14,128-R14);
 	glVertex3d(B24-127,128-G24,128-R24);
@@ -363,7 +361,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d(B11-127,128-G11,128-R11);
 /*
 	glBegin(GL_QUADS);
-	// ‰œ‘¤‚Ì–Ê Ô
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 //	glColor3d(1.0, 0.0, 0.0);
 	glColor4d(1.0, 0.0, 0.0 ,0.5);
 //	glVertex3d( 0.0, -0.2, -0.2);
@@ -376,7 +374,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d( 0.1,  0.1,-0.05);
 	glVertex3d(-0.1,  0.1,-0.05);
 
-	// è‘O‘¤‚Ì–Ê —Î
+	// ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 //	glColor3d(0.0, 1.0, 0.0);
 	glColor4d(0.0, 1.0, 0.0 ,0.5);
 //	glVertex3d( 0.0,  0.0, 0.0);
@@ -389,7 +387,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d( 0.1, -0.1, 0.05);
 	glVertex3d(-0.1, -0.1, 0.05);
 
-	// ‰E‘¤‚Ì–Ê Â
+	// ï¿½Eï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 //	glColor3d(0.0, 0.0, 1.0);
 	glColor4d(0.0, 0.0, 1.0 ,0.5);
 //	glVertex3d( 0.2, -0.2, -0.2);
@@ -402,7 +400,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d( 0.1,  0.1, 0.05);
 	glVertex3d( 0.1,  0.1,-0.05);
 
-	// ¶‘¤‚Ì–Ê ‰©
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 //	glColor3d(1.0, 1.0, 0.0);
 	glColor4d(1.0, 1.0, 0.0 ,0.5);
 //	glVertex3d( 0.0,  0.0, -0.2);
@@ -415,7 +413,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d(-0.1, -0.1, 0.05);
 	glVertex3d(-0.1, -0.1,-0.05);
 
-	// ã‘¤‚Ì–Ê ‡
+	// ï¿½ã‘¤ï¿½Ì–ï¿½ ï¿½ï¿½
 //	glColor3d(1.0, 0.0, 1.0);
 	glColor4d(1.0, 0.0, 1.0 ,0.5);
 //	glVertex3d( 0.0, -0.2,  0.0);
@@ -428,7 +426,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d( 0.1, -0.1,-0.05);
 	glVertex3d(-0.1, -0.1,-0.05);
 
-	// ‰º‘¤‚Ì–Ê ƒVƒAƒ“
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ ï¿½Vï¿½Aï¿½ï¿½
 //	glColor3d(0.0, 1.0, 1.0);
 	glColor4d(0.0, 1.0, 1.0 ,0.5);
 //	glVertex3d( 0.0, 0.0, -0.2);
@@ -507,12 +505,12 @@ void GLWidget::normalizeAngle(int *angle)
 
 void GLWidget::DrawAxis()
 {
-	glEnable(GL_CULL_FACE);			//•Ğ–Ê•\¦‚ğ—LŒø‚É‚µ‚Ü‚· ƒ|ƒŠƒSƒ“‚Ì‚¨‚à‚Ä–Ê‚Ì‚İ‚ğ•`‚«A— ‚ğ•`‚©‚È‚¢‚æ‚¤‚É‚·‚é
+	glEnable(GL_CULL_FACE);			//ï¿½Ğ–Ê•\ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Ä–Ê‚Ì‚İ‚ï¿½ï¿½`ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
 
-	//²•½–Ê‚ğ•`‚­
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½`ï¿½ï¿½
 	glBegin(GL_QUADS);
 
-	//R-G²iZ-Y²•ûŒüj
+	//R-Gï¿½ï¿½ï¿½iZ-Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 	for(int Green=0;Green<255;Green++){
 		for(int Red=0;Red<255;Red++){
 			qglColor(QColor(Red,Green,0));
@@ -523,7 +521,7 @@ void GLWidget::DrawAxis()
 		}
 	}
 
-	//B-G²iX-Y²•ûŒüj
+	//B-Gï¿½ï¿½ï¿½iX-Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 	for(int Green=0;Green<255;Green++){
 		for(int Blue=0;Blue<255;Blue++){
 			qglColor(QColor(0,Green,Blue));
@@ -534,7 +532,7 @@ void GLWidget::DrawAxis()
 		}
 	}
 
-	//B-R²iX-Z²•ûŒüj
+	//B-Rï¿½ï¿½ï¿½iX-Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 	for(int Red=0;Red<255;Red++){
 		for(int Blue=0;Blue<255;Blue++){
 			qglColor(QColor(Red,0,Blue));
@@ -545,7 +543,7 @@ void GLWidget::DrawAxis()
 		}
 	}
 /*
-	//R-G²‰œiZ-Y²‰œ•ûŒüj
+	//R-Gï¿½ï¿½ï¿½ï¿½ï¿½iZ-Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 	for(int Green=0;Green<255;Green++){
 		for(int Red=0;Red<255;Red++){
 			qglColor(QColor(Red,Green,255));
@@ -556,7 +554,7 @@ void GLWidget::DrawAxis()
 		}
 	}
 
-	//B-G²‰œiX-Y²‰œ•ûŒüj
+	//B-Gï¿½ï¿½ï¿½ï¿½ï¿½iX-Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 	for(int Green=0;Green<255;Green++){
 		for(int Blue=0;Blue<255;Blue++){
 			qglColor(QColor(255,Green,Blue));
@@ -567,7 +565,7 @@ void GLWidget::DrawAxis()
 		}
 	}
 
-	//B-R²‰œiX-Z²‰œ•ûŒüj
+	//B-Rï¿½ï¿½ï¿½ï¿½ï¿½iX-Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 	for(int Red=0;Red<255;Red++){
 		for(int Blue=0;Blue<255;Blue++){
 			qglColor(QColor(Red,255,Blue));
@@ -580,12 +578,12 @@ void GLWidget::DrawAxis()
 */
     glEnd();
 
-	glDisable(GL_CULL_FACE);		//—¼–Ê‚ğ•`‚­
+	glDisable(GL_CULL_FACE);		//ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½`ï¿½ï¿½
 
-	//²‚ğ•`‚­
+	//ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½
 	glBegin(GL_LINES);
 
-	//R²iZ²•ûŒüj
+	//Rï¿½ï¿½ï¿½iZï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 	qglColor(QColor(255,0,0));
 	glVertex3i(-127,128,128);
 	glVertex3i(-127,128,-127);
@@ -594,7 +592,7 @@ void GLWidget::DrawAxis()
 	glVertex3i(-127,128,-127);
 	glVertex3i(-122,128,-117);
 
-	//G²iY²•ûŒüj
+	//Gï¿½ï¿½ï¿½iYï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 	qglColor(QColor(0,255,0));
 	glVertex3i(-127,128,128);
 	glVertex3i(-127,-127,128);
@@ -603,7 +601,7 @@ void GLWidget::DrawAxis()
 	glVertex3i(-127,-127,128);
 	glVertex3i(-124,-117,133);
 
-	//B²iX²•ûŒüj
+	//Bï¿½ï¿½ï¿½iXï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 	qglColor(QColor(0,0,255));
 	glVertex3i(-127,128,128);
 	glVertex3i(128,128,128);
@@ -616,17 +614,17 @@ void GLWidget::DrawAxis()
 /*
 	glBegin(GL_LINES);
 
-	//R²iZ²•ûŒüj
+	//Rï¿½ï¿½ï¿½iZï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 	glColor3d( 1.0, 0.0, 0.0);
 	glVertex3i( -127.0, 127.0, 127.0);
 	glVertex3i( -127.0, 127.0, -128.0);
 
-	//G²iY²•ûŒüj
+	//Gï¿½ï¿½ï¿½iYï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 	glColor3d( 0.0, 1.0, 0.0);
 	glVertex3i( -127.0, 127.0, 127.0);
 	glVertex3i( -127.0, -128.0, 127.0);
 
-	//B²iX²•ûŒüj
+	//Bï¿½ï¿½ï¿½iXï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 	glColor3d( 0.0, 0.0, 1.0);
 	glVertex3i( -127.0, 127.0, 127.0);
 	glVertex3i( 128.0, 127.0, 127.0);
@@ -637,26 +635,26 @@ void GLWidget::DrawAxis()
 
 void GLWidget::DrawPoint()
 {
-	//”CˆÓ‚Ì“_‚ğ•`‚­
+	//ï¿½Cï¿½Ó‚Ì“_ï¿½ï¿½ï¿½`ï¿½ï¿½
 	double Red,Green,Blue;
 	GetRGBValue(P,S,R,Coefficient,Red,Green,Blue);
 	qglColor(QColor(Red,Green,Blue));
 	glTranslated(Blue-127,128-Green,128-Red);
-	sphere = gluNewQuadric();				//ƒIƒuƒWƒFƒNƒg‚ğ¶¬
-	gluQuadricDrawStyle(sphere, GLU_FILL);	//ƒIƒuƒWƒFƒNƒg‚Ì•`‰æƒ^ƒCƒv‚ğİ’èiÈ—ª‰Âj
-	gluSphere(sphere,3,10,10);				//‰~‚Ì•`‰æ
+	sphere = gluNewQuadric();				//ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ğ¶ï¿½
+	gluQuadricDrawStyle(sphere, GLU_FILL);	//ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ì•`ï¿½ï¿½ï¿½^ï¿½Cï¿½vï¿½ï¿½ï¿½İ’ï¿½ï¿½iï¿½È—ï¿½ï¿½Âj
+	gluSphere(sphere,3,10,10);				//ï¿½~ï¿½Ì•`ï¿½ï¿½
 	glTranslated(-(Blue-127),-(128-Green),-(128-Red));
-	gluDeleteQuadric(sphere);				//ƒƒ‚ƒŠ‰ğ•ú
+	gluDeleteQuadric(sphere);				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 /*
 	qglColor(QColor(Red,Green,Blue));
 	glTranslated(Blue-127,128-Green,128-Red);
-	sphere = gluNewQuadric();				//ƒIƒuƒWƒFƒNƒg‚ğ¶¬
-	gluQuadricDrawStyle(sphere, GLU_FILL);	//ƒIƒuƒWƒFƒNƒg‚Ì•`‰æƒ^ƒCƒv‚ğİ’èiÈ—ª‰Âj
-	gluSphere(sphere,3,10,10);				//‰~‚Ì•`‰æ
+	sphere = gluNewQuadric();				//ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ğ¶ï¿½
+	gluQuadricDrawStyle(sphere, GLU_FILL);	//ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ì•`ï¿½ï¿½ï¿½^ï¿½Cï¿½vï¿½ï¿½ï¿½İ’ï¿½ï¿½iï¿½È—ï¿½ï¿½Âj
+	gluSphere(sphere,3,10,10);				//ï¿½~ï¿½Ì•`ï¿½ï¿½
 	glTranslated(-(Blue-127),-(128-Green),-(128-Red));
-	gluDeleteQuadric(sphere);				//ƒƒ‚ƒŠ‰ğ•ú
+	gluDeleteQuadric(sphere);				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
-	//–îˆó‚ğ•`‚­
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½
 //	glLineWidth(10);
 	glBegin(GL_LINES);
 
@@ -675,7 +673,7 @@ void GLWidget::DrawThreshold()
 {
 	glBegin(GL_QUADS);
 
-	//è‘O‘¤‚Ì–Ê ƒVƒAƒ“
+	//ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ì–ï¿½ ï¿½Vï¿½Aï¿½ï¿½
 	for(BYTE P=PL;P<PH;P++){
 		for(BYTE S=SL;S<SH;S++){
 			double Red,Green,Blue;
@@ -691,7 +689,7 @@ void GLWidget::DrawThreshold()
 		}
 	}
 
-	//‰œ‘¤‚Ì–Ê ‡
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 	for(BYTE P=PL;P<PH;P++){
 		for(BYTE S=SL;S<SH;S++){
 			double Red,Green,Blue;
@@ -707,7 +705,7 @@ void GLWidget::DrawThreshold()
 		}
 	}
 
-	//‰E‘¤‚Ì–Ê Â
+	//ï¿½Eï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 	for(BYTE P=PL;P<PH;P++){
 		for(BYTE R=RL;R<RH;R++){
 			double Red,Green,Blue;
@@ -723,7 +721,7 @@ void GLWidget::DrawThreshold()
 		}
 	}
 
-	//¶‘¤‚Ì–Ê ‰©
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 	for(BYTE P=PL;P<PH;P++){
 		for(BYTE R=RL;R<RH;R++){
 			double Red,Green,Blue;
@@ -739,7 +737,7 @@ void GLWidget::DrawThreshold()
 		}
 	}
 
-	// ã‘¤‚Ì–Ê Ô
+	// ï¿½ã‘¤ï¿½Ì–ï¿½ ï¿½ï¿½
 	for(BYTE R=RL;R<RH;R++){
 		for(BYTE S=SL;S<SH;S++){
 			double Red,Green,Blue;
@@ -755,7 +753,7 @@ void GLWidget::DrawThreshold()
 		}
 	}
 
-	// ‰º‘¤‚Ì–Ê —Î
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ ï¿½ï¿½
 	for(BYTE R=RL;R<RH;R++){
 		for(BYTE S=SL;S<SH;S++){
 			double Red,Green,Blue;
@@ -782,7 +780,7 @@ void GLWidget::GetRGB(BYTE P,BYTE S,BYTE R,BYTE &Red,BYTE &Green,BYTE &Blue)
 
 	double r=sqrt(3.0*R*R*(1.0-A2)/(B*B+1));
 	double temp,temp1;
-	if(A==1.0){		//S==0‚Æ“¯ˆÓH
+	if(A==1.0){		//S==0ï¿½Æ“ï¿½ï¿½ÓH
 		temp=R*sin((P/255.0)*(M_PI/2.0))*(sqrt((double)(255*255+255*255+255*255))/255.0);;
 	}
 	else{

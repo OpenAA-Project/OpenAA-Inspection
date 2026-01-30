@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "LiveCameraMightexUSB2Resource.h"
 #include "LiveMightexForm.h"
 #include "ui_LiveMightexForm.h"
@@ -88,7 +106,7 @@ void cameraFrameDataCallBack( TProcessedDataProperty* Attributes, unsigned char 
 	//static int count = 0;
 	CameraItem &item = CameraList->fromDeviceID(Attributes->CameraID);
 
-	// E½BE½E½E½vE½E½E½E½E½E½E½Ä‚ï¿½E½È‚ï¿½E½E½E½Î‰ï¿½E½E½E½E½E½E½E½ÉIE½E?
+	// ï¿½Eï¿½Bï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½vï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ä‚ï¿½ï¿½Eï¿½È‚ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Î‰ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ÉIï¿½Eï¿½ï¿½E?
 	if(item.grabberState()!=stL_Grabber){
 		return;
 	}
@@ -96,10 +114,10 @@ void cameraFrameDataCallBack( TProcessedDataProperty* Attributes, unsigned char 
 	CurentCapturedTime=t-LastCapturedTime;
 	LastCapturedTime=t;
 
-	// E½E½E½İƒvE½E½E½pE½eE½BE½E½E½iE?
+	// ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½İƒvï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½pï¿½Eï¿½eï¿½Eï¿½Bï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½iï¿½E?
 	item.setProcessedDataProperty(*Attributes);
 
-	// E½æ‘œï¿½oE½bE½tE?E½E½E½RE½sE?
+	// ï¿½Eï¿½æ‘œï¿½oï¿½Eï¿½bï¿½Eï¿½tï¿½E?ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Rï¿½Eï¿½sï¿½E?
 	memcpy(item.frameMem(), BytePtr, qMin(item.frameSize(), Attributes->Column*Attributes->Row*3));
 	item.MakeImage();
 	//item.Img->save("c:/data/test.bmp","BMP");
@@ -182,7 +200,7 @@ void	LiveMightexForm::Prepare(void)
 	}
 
 	CameraItem	*a;
-	// E½gE½pE½E½E½E½E½fE½oE½CE½XE½E½E½Ç‰ï¿½
+	// ï¿½Eï¿½gï¿½Eï¿½pï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½fï¿½Eï¿½oï¿½Eï¿½Cï¿½Eï¿½Xï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ç‰ï¿½
 	if(TotalDevices>0){
 		ret=BUFUSB_AddDeviceToWorkingSet(1);
 		if(ret<0){
@@ -193,7 +211,7 @@ void	LiveMightexForm::Prepare(void)
 		connect(a,SIGNAL(SignalDraw()),this,SLOT(SlotDraw()),Qt::QueuedConnection);
 	}
 
-	// E½eE½fE½oE½CE½XE½ÌE¿½E½WE½E½E?E½E½E½E½E½ÆƒVE½E½E½AE½E½E½E½E½E½E½æ“¾
+	// ï¿½Eï¿½eï¿½Eï¿½fï¿½Eï¿½oï¿½Eï¿½Cï¿½Eï¿½Xï¿½Eï¿½ÌEï¿½ï¿½ï¿½Eï¿½Wï¿½Eï¿½ï¿½Eï¿½ï¿½E?ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ÆƒVï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Aï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½æ“¾
 	for(int i=0; i<TotalDevices; i++){
 		char moduleNo[32];	// least 16byte
 		char serialNo[32];	// least 16byte
@@ -204,7 +222,7 @@ void	LiveMightexForm::Prepare(void)
 		CameraList->fromDeviceID(i+1).setModuleNoSerialNo(moduleNo, serialNo);
 	}
 
-	// E½GE½E½E?E½RE?E½E½E½oE½bE½NE½ÆƒtE½E½E?E½E½E½æ“¾E½RE?E½E½E½oE½bE½NE½İ’ï¿½
+	// ï¿½Eï¿½Gï¿½Eï¿½ï¿½Eï¿½ï¿½E?ï¿½Eï¿½Rï¿½E?ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½oï¿½Eï¿½bï¿½Eï¿½Nï¿½Eï¿½Æƒtï¿½Eï¿½ï¿½Eï¿½ï¿½E?ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½æ“¾ï¿½Eï¿½Rï¿½E?ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½oï¿½Eï¿½bï¿½Eï¿½Nï¿½Eï¿½İ’ï¿½
 	if(TotalDevices>0){
 		ret = BUFUSB_InstallUSBDeviceHooker(cameraFaultCallBack);
 		if(ret<0){
@@ -217,12 +235,12 @@ void	LiveMightexForm::Prepare(void)
 	}
 
 
-	ret=BUFUSB_StartCameraEngine(0, 8);	// E½GE½E½E?E½Ê’mE½eE½EE½BE½E½E½hE½EE½È‚ï¿½E½A8E½rE½bE½gE½fE?E?E½dE½l
+	ret=BUFUSB_StartCameraEngine(0, 8);	// ï¿½Eï¿½Gï¿½Eï¿½ï¿½Eï¿½ï¿½E?ï¿½Eï¿½Ê’mï¿½Eï¿½eï¿½Eï¿½Eï¿½Eï¿½Bï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½hï¿½Eï¿½Eï¿½Eï¿½È‚ï¿½ï¿½Eï¿½A8ï¿½Eï¿½rï¿½Eï¿½bï¿½Eï¿½gï¿½Eï¿½fï¿½E?ï¿½E?ï¿½Eï¿½dï¿½Eï¿½l
 	if(ret<0){
 		return;
 	}
 
-	// E½?œ“xE½E½E½ÏX
+	// ï¿½Eï¿½?ï¿½ï¿½xï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ÏX
 	for(int i=0; i<TotalDevices; i++){
 		CameraList->fromDeviceID(i+1).setResolution(8);
 		ret = BUFUSB_SetCustomizedResolution(i+1, 1280, 960, 0, 1);//	2592,1944,0,1);	//1280, 960, 0, 1);	// 11:2592 x1944
@@ -241,7 +259,7 @@ void	LiveMightexForm::Prepare(void)
 		CameraList->fromDeviceID(i+1).setEnable(true);
 	}
 	
-	// E½tE½E½E?E½E½E½xE½E½E½E½E½Åï¿½E½É‚ï¿½E½E½E½æ‚¤E½İ’ï¿½
+	// ï¿½Eï¿½tï¿½Eï¿½ï¿½Eï¿½ï¿½E?ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½xï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Åï¿½ï¿½Eï¿½É‚ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½æ‚¤ï¿½Eï¿½İ’ï¿½
 	ret = BUFUSB_SetMinimumFrameDelay(1);
 	if(ret<0){
 		QMessageBox::warning(NULL
@@ -250,7 +268,7 @@ void	LiveMightexForm::Prepare(void)
 		return;
 	}
 
-	// E½BE½E½E½JE½n
+	// ï¿½Eï¿½Bï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Jï¿½Eï¿½n
 	for(int i=0; i<TotalDevices; i++){
 		ret = BUFUSB_StartFrameGrab(GRAB_FRAME_FOREVER);	//grab frame forever
 		if(ret<0){

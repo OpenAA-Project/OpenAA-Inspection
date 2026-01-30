@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\AutoSaveImage\XAutoSaveImage.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XAUTOSAVEIMAGE_H)
 #define	XAUTOSAVEIMAGE_H
 
@@ -66,7 +75,7 @@ class	AutoSaveThread : public QThread
 	AutoSaveImageBase    *Base;
 public:
 	QString	FileName;
-	QString	FolderName;	//eƒtƒHƒ‹ƒ_‚Ì‰º‚Éì‚éƒtƒHƒ‹ƒ_–¼('/'‚Å‹æØ‚ç‚ê‚é‚±‚Æ‚à‚ ‚é)
+	QString	FolderName;	//ï¿½eï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½Ì‰ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½ï¿½('/'ï¿½Å‹ï¿½ï¿½Ø‚ï¿½ï¿½ï¿½ï¿½é‚±ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½)
 	QString RootPath;
 	int InspectionID;
 	int ClusterID;
@@ -102,7 +111,7 @@ class   AutoSaveImageInLayer : public AlgorithmInLayerPLI
 	AutoSaveThread	**SThread;
 	ImageBuffer		*MiniImage;
 public:
-	QString FolderNameFormat;	//QDateTime‚ÅtoString()‚Å‚«‚éƒtƒH[ƒ}ƒbƒgyyyy-mm-dd/hh‚È‚Ç@‹æØ‚è/‚àOK
+	QString FolderNameFormat;	//QDateTimeï¿½ï¿½toString()ï¿½Å‚ï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gyyyy-mm-dd/hhï¿½È‚Ç@ï¿½ï¿½ï¿½Ø‚ï¿½/ï¿½ï¿½OK
 	
 	
 	QStringList	FileNames;
@@ -161,8 +170,8 @@ public:
 class	AutoSaveImageBase : public AlgorithmBase
 {
 public:
-	int32	PartialDot;		//ŠÔˆø‚¢‚Ä•Û‘¶‚·‚éÛ‚ÌŠÔˆø‚­ƒhƒbƒg”
-	QString	SavedFolder1;	//8‚Â‚ ‚é‚Ì‚ÍŠO•t‚¯USBƒƒfƒBƒA‚ğ”²‚«·‚µ‚µ‚È‚ª‚ç•Û‘¶‚·‚é‚©‚ç‚ç‚µ‚¢
+	int32	PartialDot;		//ï¿½Ôˆï¿½ï¿½ï¿½ï¿½Ä•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‚ÌŠÔˆï¿½ï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	QString	SavedFolder1;	//8ï¿½Â‚ï¿½ï¿½ï¿½ï¿½Ì‚ÍŠOï¿½tï¿½ï¿½USBï¿½ï¿½ï¿½fï¿½Bï¿½Aï¿½ğ”²‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½é‚©ï¿½ï¿½ï¿½ç‚µï¿½ï¿½
 	QString	SavedFolder2;
 	QString	SavedFolder3;
 	QString	SavedFolder4;
@@ -433,4 +442,3 @@ public:
 };
 
 #endif
-

@@ -1,8 +1,22 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
-/* //////////////////////////////////////////////////////////////////////////////////////////////////////////
-   fileid : saperaCtrl.cpp
-  subject : Sapera SDK control functions
-////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 #include "XCameraHandle.h"
 #include "XMainSchemeMemory.h"
@@ -93,7 +107,7 @@ class saperaCtrl : virtual public QThread ,virtual public CameraHandle
 public:
 	char			ConfigFileName[256];
 
-	int		StateInPage[100];	//-1:–¢“Ç‚İ‚İ	1:B‰eŠ®—¹@2:GetImageŠ®—¹
+	int		StateInPage[100];	//-1:ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½	1:ï¿½Bï¿½eï¿½ï¿½ï¿½ï¿½ï¿½@2:GetImageï¿½ï¿½ï¿½ï¿½
 	int		CurrentWPage;
 	int		CurrentRPage;
 
@@ -175,8 +189,8 @@ private:
 	SapTransfer		*_Xfer;
 	SapGio			*_Gio; // General IO objects
 	bool _bLinked;
-	int _nStatus;		// •ÔM—p
-	int _nCtrlStatus;	// §Œä—p
+	int _nStatus;		// ï¿½ÔMï¿½p
+	int _nCtrlStatus;	// ï¿½ï¿½ï¿½ï¿½ï¿½p
 	int _nGioDev;
 	int _nStartReserve;
 
@@ -203,5 +217,4 @@ signals:
 protected:
 	virtual	void	run();
 };
-
 

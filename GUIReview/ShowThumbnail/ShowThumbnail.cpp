@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ShowThumbnailResource.h"
 #include "ShowThumbnail.h"
 #include "ReviewStructureItems.h"
@@ -124,7 +142,7 @@ ShowThumbnail::ShowThumbnail(LayersBase *Base,QWidget *parent)
 	,m_drawNGSingEnable(true)
 	,LabelInfo(new QLabel(this))
 {
-	// ƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO‚Ì‰Šú‰»
+	// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	initProperty();
 	LangSolver.SetUI(this);
 
@@ -310,25 +328,25 @@ int ShowThumbnail::getMoveDelay(){
 		return m_delayMSec;
 	}
 
-	int AnyDataLibWait=-1;// AnyDataInLibrary‚É‚æ‚éƒEƒFƒCƒgƒ^ƒCƒ€İ’è’l‚Ìæ“¾]
+	int AnyDataLibWait=-1;// AnyDataInLibraryï¿½É‚ï¿½ï¿½ï¿½ï¿½Eï¿½Fï¿½Cï¿½gï¿½^ï¿½Cï¿½ï¿½ï¿½İ’ï¿½ï¿½lï¿½Ìæ“¾]
 
-	if(getMoveMode()==_moveMode::PerPage){// ƒy[ƒWƒ‚[ƒh
-		int priority = -1;// Œ»İ—Dæ“x
+	if(getMoveMode()==_moveMode::PerPage){// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½[ï¿½h
+		int priority = -1;// ï¿½ï¿½ï¿½İ—Dï¿½ï¿½ï¿½x
 		for(int k=0;k<getThumbnailPageList(getCurrentSide())[getCurrentPage()].count();k++){
 			Thumbnail *Thm=getThumbnailPageList(getCurrentSide())[getCurrentPage()][k];
 			const ReviewNGPointList list = Thm->getNGNailItem().NGPointList;
 			for(int i=0; i<list.count(); i++){
-				if(list[i].Tag.TCode!=-1 && list[i].LibCode!=-1 && list[i].Tag.NGPriority){//LC‚ÆTC‚ª“K“–‚Å—Dæ“x‚ª‚‚¢ê‡
+				if(list[i].Tag.TCode!=-1 && list[i].LibCode!=-1 && list[i].Tag.NGPriority){//LCï¿½ï¿½TCï¿½ï¿½ï¿½Kï¿½ï¿½ï¿½Å—Dï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
 					AnyDataLibWait = list[i].Tag.Wait;
 					priority = list[i].Tag.NGPriority;
 				}
 			}
 		}
-	}else{// ƒTƒ€ƒlƒCƒ‹ƒ‚[ƒh
-		int priority = -1;// Œ»İ—Dæ“x
+	}else{// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h
+		int priority = -1;// ï¿½ï¿½ï¿½İ—Dï¿½ï¿½ï¿½x
 		const ReviewNGPointList list = getCurrentThumbnail()->getNGNailItem().NGPointList;
 		for(int i=0; i<list.count(); i++){
-			if(list[i].Tag.TCode!=-1 && list[i].LibCode!=-1 && list[i].Tag.NGPriority){//LC‚ÆTC‚ª“K“–‚Å—Dæ“x‚ª‚‚¢ê‡
+			if(list[i].Tag.TCode!=-1 && list[i].LibCode!=-1 && list[i].Tag.NGPriority){//LCï¿½ï¿½TCï¿½ï¿½ï¿½Kï¿½ï¿½ï¿½Å—Dï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
 				AnyDataLibWait = list[i].Tag.Wait;
 				priority = list[i].Tag.NGPriority;
 			}
@@ -336,7 +354,7 @@ int ShowThumbnail::getMoveDelay(){
 	}
 
 	if(AnyDataLibWait==-1){
-		return m_delayMSec;// ƒfƒtƒHƒ‹ƒg
+		return m_delayMSec;// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½g
 	}else{
 		return AnyDataLibWait;
 	}
@@ -345,18 +363,18 @@ int ShowThumbnail::getPageDelay(const ThumbnailPage *pageWidget)
 {
 	if(pageWidget!=NULL){
 		int sumDelay = 0;
-		int defDelay = getMoveDelay();// ƒvƒƒpƒeƒBİ’è‚É‚æ‚éƒfƒtƒHƒ‹ƒg‚Ì‘Ò‹@ŠÔ
-		for(int i=0; i<pageWidget->count(); i++){// ŠeƒTƒ€ƒlƒCƒ‹‚Å‚Ì‘Ò‹@ŠÔ‚Ì‘˜a‚ğæ‚é
+		int defDelay = getMoveDelay();// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ì‘Ò‹@ï¿½ï¿½ï¿½ï¿½
+		for(int i=0; i<pageWidget->count(); i++){// ï¿½eï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Å‚Ì‘Ò‹@ï¿½ï¿½ï¿½Ô‚Ì‘ï¿½ï¿½aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(pageWidget->item(i)!=NULL){
-				int addDelay = defDelay;// ƒTƒ€ƒlƒCƒ‹‚ÌŠî–{‘Ò‹@ŠÔ
-				int nowPriority = INT_MAX;// —Dæ“x
-				if(pageWidget->item(i)->isChecked()==true){// ƒ`ƒFƒbƒNÏ‚İ‚È‚ç‘Ò‹@ŠÔ‚È‚µ
+				int addDelay = defDelay;// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½ÌŠï¿½ï¿½{ï¿½Ò‹@ï¿½ï¿½ï¿½ï¿½
+				int nowPriority = INT_MAX;// ï¿½Dï¿½ï¿½ï¿½x
+				if(pageWidget->item(i)->isChecked()==true){// ï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚È‚ï¿½ï¿½Ò‹@ï¿½ï¿½ï¿½Ô‚È‚ï¿½
 					addDelay = 0;
-				}else{// –¢ƒ`ƒFƒbƒN‚ÌƒTƒ€ƒlƒCƒ‹
+				}else{// ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ÌƒTï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½
 					for(int j=0; j<pageWidget->item(i)->getNGNailItem().NGPointList.count(); j++){
 						int NGWait = pageWidget->item(i)->getNGNailItem().NGPointList[j].Tag.Wait;
 						int priority = pageWidget->item(i)->getNGNailItem().NGPointList[j].Tag.NGPriority;
-						if(NGWait>defDelay && NGWait>addDelay && priority<nowPriority){// ‘Ò‹@ŠÔ‚æ‚è’·‚­A‚©‚ÂŒ»İ‚Ì‘Ò‹@ŠÔ‚æ‚è‘å‚«‚­A‚©‚Â—Dæ“x‚ª‚æ‚è‚‚¢ê‡
+						if(NGWait>defDelay && NGWait>addDelay && priority<nowPriority){// ï¿½Ò‹@ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½è’·ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ÂŒï¿½ï¿½İ‚Ì‘Ò‹@ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Â—Dï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½è‚ï¿½ï¿½ï¿½ê‡
 							addDelay = NGWait;
 						}
 					}
@@ -549,7 +567,7 @@ ShowThumbnail::~ShowThumbnail()
 	if(thumbnailBook()!=NULL)delete thumbnailBook();
 	delete infoLabel();
 	delete mainLayout();
-	//if(FrontThumbnailList.isEmpty()==false){// delete ThumbnailBook ‚É‚Â‚ç‚ê‚Ä‚·‚Å‚É delete ‚³‚ê‚Ä‚¢‚é‚ç‚µ‚¢
+	//if(FrontThumbnailList.isEmpty()==false){// delete ThumbnailBook ï¿½É‚Â‚ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Å‚ï¿½ delete ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ç‚µï¿½ï¿½
 	//	qDeleteAll(FrontThumbnailList);
 	//}
 	//if(BackThumbnailList.isEmpty()==false){
@@ -584,7 +602,7 @@ void ShowThumbnail::TransmitDirectly(GUIDirectMessage *packet)
 				CmdSetNGChecked NGCheckCmd(GetLayersBase());
 				NGCheckCmd.side = getCurrentSide();
 				NGCheckCmd.begin = getGlobalIndex(getCurrentPage(), getCurrentRow(), getCurrentColumn(), getCurrentSide());
-				NGCheckCmd.length = getRowCount() * getColumnCount();	//1;// ‚»‚ÌNG‚Ì‚İ
+				NGCheckCmd.length = getRowCount() * getColumnCount();	//1;// ï¿½ï¿½ï¿½ï¿½NGï¿½Ì‚ï¿½
 				ReviewPIBase *RBase = GetReviewAlgorithm();
 				if(RBase!=NULL){
 					RBase->TransmitDirectly(&NGCheckCmd);
@@ -697,7 +715,7 @@ void	ShowThumbnail::SetFKeyIndex(int GlobalIndex ,Review::FKey key)
 			}
 		}
 	}else{
-		int bindex = GlobalIndex - getThumbnailList(Review::Front).count();// — ‚Ì‚İ‚ÅŒ©‚½ƒCƒ“ƒfƒbƒNƒX
+		int bindex = GlobalIndex - getThumbnailList(Review::Front).count();// ï¿½ï¿½ï¿½Ì‚İ‚ÅŒï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X
 		int page = bindex / (getRowCount() * getColumnCount());
 		int row = (bindex % (getRowCount() * getColumnCount())) / getColumnCount();
 		int column = bindex % getColumnCount();
@@ -715,19 +733,19 @@ void ShowThumbnail::updateGUI()
 {
 	setUpdatesEnabled(false);
 
-	// Œ»İ‚ÌƒTƒ€ƒlƒCƒ‹ƒAƒCƒeƒ€‚ğ”jŠü
+	// ï¿½ï¿½ï¿½İ‚ÌƒTï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½
 	clearThumbnailList();
 
-	// FƒL[ƒJƒ‰[æ“¾
+	// Fï¿½Lï¿½[ï¿½Jï¿½ï¿½ï¿½[ï¿½æ“¾
 	updateFKeyColorList();
 
-	// Äæ“¾
+	// ï¿½Äæ“¾
 	updateThumbnailList();
 
-	// ƒŒƒCƒAƒEƒgÄ\¬
+	// ï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½gï¿½Ä\ï¿½ï¿½
 	createThumbnailBook();
 
-	// ƒXƒe[ƒ^ƒX‰Šú‰»
+	// ï¿½Xï¿½eï¿½[ï¿½^ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	setCurrentPage(-1);
 	setCurrentRow(-1);
 	setCurrentColumn(-1);
@@ -735,7 +753,7 @@ void ShowThumbnail::updateGUI()
 	setCurrentThumbnail(NULL);
 
 	if(isModeShowPageByPiece()==false){
-	// Œ»İ‘I‘ğ’†‚ÌNGNail‚ğ’T‚µ‚Ä•\¦‚·‚é
+	// ï¿½ï¿½ï¿½İ‘Iï¿½ğ’†‚ï¿½NGNailï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½Ä•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ReviewPIBase *RBase = GetReviewAlgorithm();
 		if(RBase!=NULL){
 			CmdReqAdjacentCurrentNG Send(GetLayersBase());
@@ -840,7 +858,7 @@ void ShowThumbnail::setThumbnailList(OrganizedHistoryIndex orgHistoryPtr)
 {
 	clearThumbnailList();
 
-	// ‘SNGƒŠƒXƒg‚ÌÄ\¬
+	// ï¿½SNGï¿½ï¿½ï¿½Xï¿½gï¿½ÌÄ\ï¿½ï¿½
 	if(orgHistoryPtr==NULL)return;
 
 	ReviewPIBase *RBase = GetReviewAlgorithm();
@@ -859,7 +877,7 @@ void ShowThumbnail::setThumbnailList(OrganizedHistoryIndex orgHistoryPtr)
 	RBase->TransmitDirectly( &ReqMWInfo );
 
 	if(orgHistoryPtr->hasFront()==true && orgHistoryPtr->getFront()->getNGNails().count()>0){
-		// ƒTƒ€ƒlƒCƒ‹ƒAƒCƒeƒ€ì¬
+		// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ì¬
 		HistoryIndex FHistory = orgHistoryPtr->getFront();
 
 		CmdReqForSaveNGList	hCmdReqForSaveNGList(GetLayersBase());
@@ -925,7 +943,7 @@ void ShowThumbnail::setThumbnailList(OrganizedHistoryIndex orgHistoryPtr)
 	}
 
 	if(orgHistoryPtr->hasBack()==true && orgHistoryPtr->getBack()->getNGNails().count()>0){
-		// ƒTƒ€ƒlƒCƒ‹ƒAƒCƒeƒ€ì¬
+		// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ì¬
 		HistoryIndex BHistory = orgHistoryPtr->getBack();
 
 		CmdReqForSaveNGList	hCmdReqForSaveNGList(GetLayersBase());
@@ -1002,43 +1020,43 @@ void ShowThumbnail::createThumbnailPageList()
 	getThumbnailPageList(Review::Back).clear();
 
 	int globalIndex = 0;
-	// ƒy[ƒW‚Ìì¬
-	int frontPageMax = getThumbnailList(Review::Front).count() / (getThumbnailCountInPage());// ì‚é‚×‚«ƒy[ƒW‚Ì”
+	// ï¿½yï¿½[ï¿½Wï¿½Ìì¬
+	int frontPageMax = getThumbnailList(Review::Front).count() / (getThumbnailCountInPage());// ï¿½ï¿½ï¿½ï¿½ï¿½×‚ï¿½ï¿½yï¿½[ï¿½Wï¿½Ìï¿½
 	if((getThumbnailList(Review::Front).count() % getThumbnailCountInPage())!=0){
 		frontPageMax++;
 	}
 	for(int page=0; page<frontPageMax; page++){
-		getThumbnailPageList(Review::Front).append(ThumbnailPageItem(page));// ƒy[ƒWì¬
+		getThumbnailPageList(Review::Front).append(ThumbnailPageItem(page));// ï¿½yï¿½[ï¿½Wï¿½ì¬
 	}
-	// ƒy[ƒWƒŠƒXƒg‚Ìì¬
+	// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Xï¿½gï¿½Ìì¬
 	for(int i=0; i<getThumbnailList(Review::Front).count(); i++, globalIndex++){
-		int page = i / (getRowCount() * getColumnCount());// ƒy[ƒW”Ô†
-		int row =  (i - page * (getRowCount() * getColumnCount())) / getColumnCount(); // cˆÊ’u
-		int column = (i - page * (getRowCount() * getColumnCount())) % getColumnCount();// ‰¡ˆÊ’u
-		getThumbnailList(Review::Front)[i]->setPosision(page,row, column);// ˆÊ’uî•ñİ’è
+		int page = i / (getRowCount() * getColumnCount());// ï¿½yï¿½[ï¿½Wï¿½Ôï¿½
+		int row =  (i - page * (getRowCount() * getColumnCount())) / getColumnCount(); // ï¿½cï¿½Ê’u
+		int column = (i - page * (getRowCount() * getColumnCount())) % getColumnCount();// ï¿½ï¿½ï¿½Ê’u
+		getThumbnailList(Review::Front)[i]->setPosision(page,row, column);// ï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 		getThumbnailList(Review::Front)[i]->setIndexInLocal(i);
 		getThumbnailList(Review::Front)[i]->setIndexInGlobal(globalIndex);
-		getThumbnailPageList(Review::Front)[page].append(getThumbnailList(Review::Front)[i]);// ƒy[ƒWƒŠƒXƒg‚É’Ç‰Á
+		getThumbnailPageList(Review::Front)[page].append(getThumbnailList(Review::Front)[i]);// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Xï¿½gï¿½É’Ç‰ï¿½
 	}
 	
-	// ƒy[ƒW‚Ìì¬
-	int backPageMax = getThumbnailList(Review::Back).count() / (getRowCount() * getColumnCount());// ì‚é‚×‚«ƒy[ƒW‚Ì”
+	// ï¿½yï¿½[ï¿½Wï¿½Ìì¬
+	int backPageMax = getThumbnailList(Review::Back).count() / (getRowCount() * getColumnCount());// ï¿½ï¿½ï¿½ï¿½ï¿½×‚ï¿½ï¿½yï¿½[ï¿½Wï¿½Ìï¿½
 	if((getThumbnailList(Review::Back).count() % getThumbnailCountInPage())!=0){
 		backPageMax++;
 	}
 	for(int page=0; page<backPageMax; page++){
-		getThumbnailPageList(Review::Back).append(ThumbnailPageItem(page));// ƒy[ƒWì¬
+		getThumbnailPageList(Review::Back).append(ThumbnailPageItem(page));// ï¿½yï¿½[ï¿½Wï¿½ì¬
 	}
-	// ƒy[ƒWƒŠƒXƒg‚Ìì¬
+	// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Xï¿½gï¿½Ìì¬
 	for(int i=0; i<getThumbnailList(Review::Back).count(); i++){
-		int page = i / (getRowCount() * getColumnCount());// ƒy[ƒW”Ô†
-		int row =  (i - page * (getRowCount() * getColumnCount())) / getColumnCount(); // cˆÊ’u
-		int column = (i - page * (getRowCount() * getColumnCount())) % getColumnCount();// ‰¡ˆÊ’u
-		getThumbnailList(Review::Back)[i]->setPosision(page,row, column);// ˆÊ’uî•ñİ’è
+		int page = i / (getRowCount() * getColumnCount());// ï¿½yï¿½[ï¿½Wï¿½Ôï¿½
+		int row =  (i - page * (getRowCount() * getColumnCount())) / getColumnCount(); // ï¿½cï¿½Ê’u
+		int column = (i - page * (getRowCount() * getColumnCount())) % getColumnCount();// ï¿½ï¿½ï¿½Ê’u
+		getThumbnailList(Review::Back)[i]->setPosision(page,row, column);// ï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 		getThumbnailList(Review::Back)[i]->setIndexInLocal(i);
 		getThumbnailList(Review::Back)[i]->setIndexInGlobal(globalIndex);
 		globalIndex++;
-		getThumbnailPageList(Review::Back)[page].append(getThumbnailList(Review::Back)[i]);// ƒy[ƒWƒŠƒXƒg‚É’Ç‰Á
+		getThumbnailPageList(Review::Back)[page].append(getThumbnailList(Review::Back)[i]);// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Xï¿½gï¿½É’Ç‰ï¿½
 	}
 }
 
@@ -1066,7 +1084,7 @@ void ShowThumbnail::createThumbnailPageListByPiece()
 	int globalIndex = 0;
 	int frontPageMax=0;
 	if(FrontPieceList.count()!=0){
-		// ƒy[ƒW‚Ìì¬
+		// ï¿½yï¿½[ï¿½Wï¿½Ìì¬
 		int		*TmpNailCountInPiece=new int[FrontPieceList.count()];
 		for(int t=0;t<FrontPieceList.count();t++){
 			TmpNailCountInPiece[t]=0;
@@ -1086,13 +1104,13 @@ void ShowThumbnail::createThumbnailPageListByPiece()
 			frontPageMax+=(TmpNailCountInPiece[i]+getThumbnailCountInPage()-1)/getThumbnailCountInPage();
 		}
 		for(int page=0; page<frontPageMax; page++){
-			getThumbnailPageList(Review::Front).append(ThumbnailPageItem(page));// ƒy[ƒWì¬
+			getThumbnailPageList(Review::Front).append(ThumbnailPageItem(page));// ï¿½yï¿½[ï¿½Wï¿½ì¬
 		}
 		for(int t=0;t<FrontPieceList.count();t++){
 			TmpNailCountInPiece[t]=0;
 		}
 		for(int t=0;t<FrontPieceList.count();t++){
-			// ƒy[ƒWƒŠƒXƒg‚Ìì¬
+			// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Xï¿½gï¿½Ìì¬
 			int	GPage=0;
 			for(int h=0;h<t;h++){
 				GPage+=(TmpNailCountInPiece[h]+getThumbnailCountInPage()-1)/getThumbnailCountInPage();
@@ -1103,13 +1121,13 @@ void ShowThumbnail::createThumbnailPageListByPiece()
 				QStringList	LList=Area.split(',');
 				Area=LList[0];
 				if(FrontPieceList[t]==Area && getThumbnailList(Review::Front)[i]->getNGNailItem().phase==0){
-					int page = TmpNailCountInPiece[t] / getThumbnailCountInPage();// ƒy[ƒW”Ô†
-					int row =  (TmpNailCountInPiece[t] - page * getThumbnailCountInPage()) / getColumnCount(); // cˆÊ’u
-					int column = (TmpNailCountInPiece[t] - page * getThumbnailCountInPage()) % getColumnCount();// ‰¡ˆÊ’u
-					getThumbnailList(Review::Front)[i]->setPosision(GPage+page ,row, column);// ˆÊ’uî•ñİ’è
+					int page = TmpNailCountInPiece[t] / getThumbnailCountInPage();// ï¿½yï¿½[ï¿½Wï¿½Ôï¿½
+					int row =  (TmpNailCountInPiece[t] - page * getThumbnailCountInPage()) / getColumnCount(); // ï¿½cï¿½Ê’u
+					int column = (TmpNailCountInPiece[t] - page * getThumbnailCountInPage()) % getColumnCount();// ï¿½ï¿½ï¿½Ê’u
+					getThumbnailList(Review::Front)[i]->setPosision(GPage+page ,row, column);// ï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 					getThumbnailList(Review::Front)[i]->setIndexInLocal(LocalIndex);
 					getThumbnailList(Review::Front)[i]->setIndexInGlobal(globalIndex);
-					getThumbnailPageList(Review::Front)[GPage+page].append(getThumbnailList(Review::Front)[i]);// ƒy[ƒWƒŠƒXƒg‚É’Ç‰Á
+					getThumbnailPageList(Review::Front)[GPage+page].append(getThumbnailList(Review::Front)[i]);// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Xï¿½gï¿½É’Ç‰ï¿½
 					TmpNailCountInPiece[t]++;
 					globalIndex++;
 					LocalIndex++;
@@ -1120,8 +1138,8 @@ void ShowThumbnail::createThumbnailPageListByPiece()
 	}
 	bool	BackInPhase=false;
 	if(BackPieceList.count()!=0){
-		//Phase‘Î‰
-		// ƒy[ƒW‚Ìì¬
+		//Phaseï¿½Î‰ï¿½
+		// ï¿½yï¿½[ï¿½Wï¿½Ìì¬
 		int		*TmpNailCountInPiece=new int[BackPieceList.count()];
 		for(int t=0;t<BackPieceList.count();t++){
 			TmpNailCountInPiece[t]=0;
@@ -1142,16 +1160,16 @@ void ShowThumbnail::createThumbnailPageListByPiece()
 			backPageMax+=(TmpNailCountInPiece[i]+getThumbnailCountInPage()-1)/getThumbnailCountInPage();
 		}
 		//for(int page=0; page<frontPageMax; page++){
-		//	getThumbnailPageList(Review::Back).append(ThumbnailPageItem(page));// dummy ƒy[ƒWì¬
+		//	getThumbnailPageList(Review::Back).append(ThumbnailPageItem(page));// dummy ï¿½yï¿½[ï¿½Wï¿½ì¬
 		//}
 		for(int page=0; page<backPageMax; page++){
-			getThumbnailPageList(Review::Back).append(ThumbnailPageItem(frontPageMax+page));// ƒy[ƒWì¬
+			getThumbnailPageList(Review::Back).append(ThumbnailPageItem(frontPageMax+page));// ï¿½yï¿½[ï¿½Wï¿½ì¬
 		}
 		for(int t=0;t<BackPieceList.count();t++){
 			TmpNailCountInPiece[t]=0;
 		}
 		for(int t=0;t<BackPieceList.count();t++){
-			// ƒy[ƒWƒŠƒXƒg‚Ìì¬
+			// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Xï¿½gï¿½Ìì¬
 			int	GPage=0;
 			for(int h=0;h<t;h++){
 				GPage+=(TmpNailCountInPiece[h]+getThumbnailCountInPage()-1)/getThumbnailCountInPage();
@@ -1162,13 +1180,13 @@ void ShowThumbnail::createThumbnailPageListByPiece()
 				QStringList	LList=Area.split(',');
 				Area=LList[0];
 				if(BackPieceList[t]==Area && getThumbnailList(Review::Front)[i]->getNGNailItem().phase==1){
-					int page = TmpNailCountInPiece[t] / getThumbnailCountInPage();// ƒy[ƒW”Ô†
-					int row =  (TmpNailCountInPiece[t] - page * getThumbnailCountInPage()) / getColumnCount(); // cˆÊ’u
-					int column = (TmpNailCountInPiece[t] - page * getThumbnailCountInPage()) % getColumnCount();// ‰¡ˆÊ’u
-					getThumbnailList(Review::Front)[i]->setPosision(GPage+page,row, column);// ˆÊ’uî•ñİ’è
+					int page = TmpNailCountInPiece[t] / getThumbnailCountInPage();// ï¿½yï¿½[ï¿½Wï¿½Ôï¿½
+					int row =  (TmpNailCountInPiece[t] - page * getThumbnailCountInPage()) / getColumnCount(); // ï¿½cï¿½Ê’u
+					int column = (TmpNailCountInPiece[t] - page * getThumbnailCountInPage()) % getColumnCount();// ï¿½ï¿½ï¿½Ê’u
+					getThumbnailList(Review::Front)[i]->setPosision(GPage+page,row, column);// ï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 					getThumbnailList(Review::Front)[i]->setIndexInLocal(LocalIndex);
 					getThumbnailList(Review::Front)[i]->setIndexInGlobal(globalIndex);
-					getThumbnailPageList(Review::Back)[GPage+page].append(getThumbnailList(Review::Front)[i]);// ƒy[ƒWƒŠƒXƒg‚É’Ç‰Á
+					getThumbnailPageList(Review::Back)[GPage+page].append(getThumbnailList(Review::Front)[i]);// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Xï¿½gï¿½É’Ç‰ï¿½
 					TmpNailCountInPiece[t]++;
 					globalIndex++;
 					LocalIndex++;
@@ -1179,7 +1197,7 @@ void ShowThumbnail::createThumbnailPageListByPiece()
 		delete	[]TmpNailCountInPiece;
 	}
 	if(BackInPhase==false && BackPieceList.count()!=0){
-		// ƒy[ƒW‚Ìì¬
+		// ï¿½yï¿½[ï¿½Wï¿½Ìì¬
 		int		*TmpNailCountInPiece=new int[BackPieceList.count()];
 		for(int t=0;t<BackPieceList.count();t++){
 			TmpNailCountInPiece[t]=0;
@@ -1200,13 +1218,13 @@ void ShowThumbnail::createThumbnailPageListByPiece()
 			backPageMax+=(TmpNailCountInPiece[i]+getThumbnailCountInPage()-1)/getThumbnailCountInPage();
 		}
 		for(int page=0; page<backPageMax; page++){
-			getThumbnailPageList(Review::Back).append(ThumbnailPageItem(page));// ƒy[ƒWì¬
+			getThumbnailPageList(Review::Back).append(ThumbnailPageItem(page));// ï¿½yï¿½[ï¿½Wï¿½ì¬
 		}
 		for(int t=0;t<BackPieceList.count();t++){
 			TmpNailCountInPiece[t]=0;
 		}
 		for(int t=0;t<BackPieceList.count();t++){
-			// ƒy[ƒWƒŠƒXƒg‚Ìì¬
+			// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Xï¿½gï¿½Ìì¬
 			int	GPage=0;
 			for(int h=0;h<t;h++){
 				GPage+=(TmpNailCountInPiece[h]+getThumbnailCountInPage()-1)/getThumbnailCountInPage();
@@ -1217,13 +1235,13 @@ void ShowThumbnail::createThumbnailPageListByPiece()
 				QStringList	LList=Area.split(',');
 				Area=LList[0];
 				if(BackPieceList[t]==Area){
-					int page = TmpNailCountInPiece[t] / getThumbnailCountInPage();// ƒy[ƒW”Ô†
-					int row =  (TmpNailCountInPiece[t] - page * getThumbnailCountInPage()) / getColumnCount(); // cˆÊ’u
-					int column = (TmpNailCountInPiece[t] - page * getThumbnailCountInPage()) % getColumnCount();// ‰¡ˆÊ’u
-					getThumbnailList(Review::Back)[i]->setPosision(GPage+page,row, column);// ˆÊ’uî•ñİ’è
+					int page = TmpNailCountInPiece[t] / getThumbnailCountInPage();// ï¿½yï¿½[ï¿½Wï¿½Ôï¿½
+					int row =  (TmpNailCountInPiece[t] - page * getThumbnailCountInPage()) / getColumnCount(); // ï¿½cï¿½Ê’u
+					int column = (TmpNailCountInPiece[t] - page * getThumbnailCountInPage()) % getColumnCount();// ï¿½ï¿½ï¿½Ê’u
+					getThumbnailList(Review::Back)[i]->setPosision(GPage+page,row, column);// ï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 					getThumbnailList(Review::Back)[i]->setIndexInLocal(LocalIndex);
 					getThumbnailList(Review::Back)[i]->setIndexInGlobal(globalIndex);
-					getThumbnailPageList(Review::Back)[GPage+page].append(getThumbnailList(Review::Back)[i]);// ƒy[ƒWƒŠƒXƒg‚É’Ç‰Á
+					getThumbnailPageList(Review::Back)[GPage+page].append(getThumbnailList(Review::Back)[i]);// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Xï¿½gï¿½É’Ç‰ï¿½
 					TmpNailCountInPiece[t]++;
 					globalIndex++;
 					LocalIndex++;
@@ -1236,22 +1254,22 @@ void ShowThumbnail::createThumbnailPageListByPiece()
 
 bool ShowThumbnail::setCurrentNG(Review::SideType side, int page, int row, int column)
 {
-	if(row<0 || getRowCount()<=row || column<0 || getColumnCount()<=column)return false;// –³ŒøƒCƒ“ƒfƒbƒNƒX
-	//if((row+1)*(column+1)>getThumbnailList(side).count())return false;// ƒCƒ“ƒfƒbƒNƒXƒI[ƒo[
+	if(row<0 || getRowCount()<=row || column<0 || getColumnCount()<=column)return false;// ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X
+	//if((row+1)*(column+1)>getThumbnailList(side).count())return false;// ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Iï¿½[ï¿½oï¿½[
 
 	ReviewPIBase *RBase = GetReviewAlgorithm();
 	if(RBase!=NULL){
 		CmdSetCurrentNGNail Send(GetLayersBase());
-		Send.refType = Review::Ref_Index;// ƒƒP[ƒg‚É‚æ‚éw’è
-		Send.locate = Review::Manual;// ƒCƒ“ƒfƒbƒNƒX‚Ì’¼Úw’è
-		Send.Index = getGlobalIndex(page, row, column, side);// ƒCƒ“ƒfƒbƒNƒXİ’è
-		RBase->TransmitDirectly(&Send);// ‘—M
+		Send.refType = Review::Ref_Index;// ï¿½ï¿½ï¿½Pï¿½[ï¿½gï¿½É‚ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½
+		Send.locate = Review::Manual;// ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Ì’ï¿½ï¿½Úwï¿½ï¿½
+		Send.Index = getGlobalIndex(page, row, column, side);// ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½İ’ï¿½
+		RBase->TransmitDirectly(&Send);// ï¿½ï¿½ï¿½M
 
-		if(Send.Ret==true){// ˆÚ“®¬Œ÷
+		if(Send.Ret==true){// ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½
 			Thumbnail	*Thm=getThumbnail(side,  page,  row,  column);
 			if(Thm!=NULL){
-				if(getCurrentThumbnail()!=NULL){// ‘O‚Ì‘I‘ğƒTƒ€ƒlƒCƒ‹‚ª‚ ‚éê‡
-					getCurrentThumbnail()->setSelected(false);// ”ñ‘I‘ğó‘Ô‚É–ß‚·
+				if(getCurrentThumbnail()!=NULL){// ï¿½Oï¿½Ì‘Iï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
+					getCurrentThumbnail()->setSelected(false);// ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ô‚É–ß‚ï¿½
 				}
 
 				setCurrentSide(side);
@@ -1264,17 +1282,17 @@ bool ShowThumbnail::setCurrentNG(Review::SideType side, int page, int row, int c
 				setExpandThumbnailVisible(getExpandThumbnailVisible());
 				
 
-				// ƒ`ƒFƒbƒNÏ‚İ•t—^ ‚½‚¾‚µƒTƒ€ƒlƒCƒ‹ƒ‚[ƒh‚Ì‚Æ‚«‚Ì‚İ
+				// ï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ•tï¿½^ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½Ì‚Æ‚ï¿½ï¿½Ì‚ï¿½
 				if(getMoveMode()==_moveMode::PerThumbnail && getCurrentThumbnail()!=NULL && getCurrentThumbnail()->isChecked()==false){
 					CmdSetNGChecked NGCheckCmd(GetLayersBase());
 					NGCheckCmd.side = getCurrentSide();
-					if(getMoveMode()==_moveMode::PerThumbnail){// ƒTƒ€ƒlƒCƒ‹’PˆÊƒ‚[ƒh‚È‚çŒ»İNGNail‚¾‚¯
-						NGCheckCmd.begin = getCurrentThumbnail()->getIndexInLocal();// Œ»İNGNail
-						NGCheckCmd.length = 1;// ‚»‚ÌNG‚Ì‚İ
+					if(getMoveMode()==_moveMode::PerThumbnail){// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Pï¿½Êƒï¿½ï¿½[ï¿½hï¿½È‚çŒ»ï¿½ï¿½NGNailï¿½ï¿½ï¿½ï¿½
+						NGCheckCmd.begin = getCurrentThumbnail()->getIndexInLocal();// ï¿½ï¿½ï¿½ï¿½NGNail
+						NGCheckCmd.length = 1;// ï¿½ï¿½ï¿½ï¿½NGï¿½Ì‚ï¿½
 						RBase->TransmitDirectly(&NGCheckCmd);
 					}else{
-						//NGCheckCmd.begin = getCurrentPage() * getThumbnailCountInPage();// Œ»İ‚Ìƒy[ƒW‚É‚¨‚¯‚éÅ‰‚ÌNGNail
-						//NGCheckCmd.length = getThumbnailCountInPage();// 1ƒy[ƒW•ª
+						//NGCheckCmd.begin = getCurrentPage() * getThumbnailCountInPage();// ï¿½ï¿½ï¿½İ‚Ìƒyï¿½[ï¿½Wï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½NGNail
+						//NGCheckCmd.length = getThumbnailCountInPage();// 1ï¿½yï¿½[ï¿½Wï¿½ï¿½
 					}
 					if(NGCheckCmd.Ret==true){
 						getCurrentThumbnail()->setChecked(true);
@@ -1286,9 +1304,9 @@ bool ShowThumbnail::setCurrentNG(Review::SideType side, int page, int row, int c
 					}
 				}
 
-				// –îˆóƒL[‚É‚æ‚éˆÚ“®‚ªƒTƒ€ƒlƒCƒ‹’PˆÊ‚È‚ç‚Î
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½[ï¿½É‚ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Pï¿½Ê‚È‚ï¿½ï¿½ï¿½
 				if(getMoveMode()==_moveMode::PerThumbnail){
-					getCurrentThumbnail()->setSelected(true);// ‘I‘ğó‘Ô‚Ì•\¦Œ`®‚Ö•ÏX
+					getCurrentThumbnail()->setSelected(true);// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ì•\ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½Ö•ÏX
 				}
 
 				return true;
@@ -1313,7 +1331,7 @@ ThumbnailPageList *ShowThumbnail::currentThumbnailPageList()
 	return &getThumbnailPageList(getCurrentSide());
 }
 
-// w’èƒTƒCƒh‚Ì‚İ‚ÌƒCƒ“ƒfƒbƒNƒX
+// ï¿½wï¿½ï¿½ï¿½Tï¿½Cï¿½hï¿½Ì‚İ‚ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X
 int ShowThumbnail::getLocalIndex(int page, int row, int column, Review::SideType side) const
 {
 	for(int i=0; i<getThumbnailList(side).count(); i++){
@@ -1351,7 +1369,7 @@ int ShowThumbnail::getLocalIndex(int page, int row, int column, Review::SideType
 	}
 }
 
-// •\Œã‚ë‡‚í‚¹‚½ƒCƒ“ƒfƒbƒNƒX
+// ï¿½\ï¿½ï¿½ï¿½ë‡ï¿½í‚¹ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X
 int ShowThumbnail::getGlobalIndex(int page, int row, int column, Review::SideType side) const
 {
 	for(int i=0; i<getThumbnailList(side).count(); i++){
@@ -1373,7 +1391,7 @@ int ShowThumbnail::getGlobalIndex(int page, int row, int column, Review::SideTyp
 	}
 	int index = getLocalIndex(page, row, column, side);
 	if(side==Review::Back){
-		index += getThumbnailList(Review::Front).count();// — ‚Ìê‡A•\‚Ì•ª‚ğ‡‚í‚¹‚½ƒCƒ“ƒfƒbƒNƒX‚É‚·‚é
+		index += getThumbnailList(Review::Front).count();// ï¿½ï¿½ï¿½Ìê‡ï¿½Aï¿½\ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½í‚¹ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½É‚ï¿½ï¿½ï¿½
 	}
 	return index;
 }
@@ -1448,14 +1466,14 @@ void ShowThumbnail::createThumbnailBook()
 			getThumbnailPageList(Review::Front)[page][i]->setParent(NULL);
 			curPage->addThumnail(getThumbnailPageList(Review::Front)[page][i]);
 		}
-		// ŒŠ–„‚ß
-		if(getThumbnailPageList(Review::Front)[page].count() != getThumbnailCountInPage()){// ƒy[ƒW‚ÌƒTƒ€ƒlƒCƒ‹˜g‚É‹ó‚«‚ª‚ ‚é‚Æ‚«
-			int fillCount = getThumbnailCountInPage() - getThumbnailPageList(Review::Front)[page].count();// ‹ó‚«‚Ì”‚ğŒvZ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		if(getThumbnailPageList(Review::Front)[page].count() != getThumbnailCountInPage()){// ï¿½yï¿½[ï¿½Wï¿½ÌƒTï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½gï¿½É‹ó‚«‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
+			int fillCount = getThumbnailCountInPage() - getThumbnailPageList(Review::Front)[page].count();// ï¿½ó‚«‚Ìï¿½ï¿½ï¿½ï¿½vï¿½Z
 			int lastLocalIndex = getThumbnailPageList(Review::Front)[page].last()->getIndexInLocal();
 			for(int i=0; i<fillCount; i++){
 				int nowLocalIndex = lastLocalIndex + i + 1;
-				int row    =  (nowLocalIndex % getThumbnailCountInPage()) / getColumnCount(); // cˆÊ’u
-				int column =  (nowLocalIndex % getThumbnailCountInPage()) % getColumnCount(); // ‰¡ˆÊ’u
+				int row    =  (nowLocalIndex % getThumbnailCountInPage()) / getColumnCount(); // ï¿½cï¿½Ê’u
+				int column =  (nowLocalIndex % getThumbnailCountInPage()) % getColumnCount(); // ï¿½ï¿½ï¿½Ê’u
 				
 				Thumbnail *thumb = new Thumbnail(this);
 				thumb->setDummy(true);
@@ -1480,14 +1498,14 @@ void ShowThumbnail::createThumbnailBook()
 			getThumbnailPageList(Review::Back)[page][i]->setParent(NULL);
 			curPage->addThumnail(getThumbnailPageList(Review::Back)[page][i]);
 		}
-		// ŒŠ–„‚ß
-		if(getThumbnailPageList(Review::Back)[page].count() != getThumbnailCountInPage()){// ƒy[ƒW‚ÌƒTƒ€ƒlƒCƒ‹˜g‚É‹ó‚«‚ª‚ ‚é‚Æ‚«
-			int fillCount = getThumbnailCountInPage() - getThumbnailPageList(Review::Back)[page].count();// ‹ó‚«‚Ì”‚ğŒvZ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		if(getThumbnailPageList(Review::Back)[page].count() != getThumbnailCountInPage()){// ï¿½yï¿½[ï¿½Wï¿½ÌƒTï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½gï¿½É‹ó‚«‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
+			int fillCount = getThumbnailCountInPage() - getThumbnailPageList(Review::Back)[page].count();// ï¿½ó‚«‚Ìï¿½ï¿½ï¿½ï¿½vï¿½Z
 			int lastLocalIndex = getThumbnailPageList(Review::Back)[page].last()->getIndexInLocal();
 			for(int i=0; i<fillCount; i++){
 				int nowLocalIndex = lastLocalIndex + i + 1;
-				int row    =  (nowLocalIndex % getThumbnailCountInPage()) / getColumnCount(); // cˆÊ’u
-				int column =  (nowLocalIndex % getThumbnailCountInPage()) % getColumnCount(); // ‰¡ˆÊ’u
+				int row    =  (nowLocalIndex % getThumbnailCountInPage()) / getColumnCount(); // ï¿½cï¿½Ê’u
+				int column =  (nowLocalIndex % getThumbnailCountInPage()) % getColumnCount(); // ï¿½ï¿½ï¿½Ê’u
 				
 				Thumbnail *thumb = new Thumbnail(this);
 				thumb->setDummy(true);
@@ -1597,7 +1615,7 @@ void ShowThumbnail::showPage(Review::SideType side, int page, Review::ListLocate
 		}
 	}
 
-	if(page!=getCurrentPage() || getCurrentSide()!=side){// •\¦‚·‚éƒy[ƒWE•\— ‚Ì‚Ç‚¿‚ç‚©‚ªˆá‚¤ê‡
+	if(page!=getCurrentPage() || getCurrentSide()!=side){// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½[ï¿½Wï¿½Eï¿½\ï¿½ï¿½ï¿½Ì‚Ç‚ï¿½ï¿½ç‚©ï¿½ï¿½ï¿½á‚¤ï¿½ê‡
 		if(thumbnailBook()!=NULL && page>=0 && page<getPageCount(side)){
 			if(side==Review::Front){
 				thumbnailBook()->setCurrentIndex(page);
@@ -1611,16 +1629,16 @@ void ShowThumbnail::showPage(Review::SideType side, int page, Review::ListLocate
 			}
 		}
 	}
-	if(page!=getCurrentPage() || getCurrentSide()!=side || getCurrentRow()!=row || getCurrentColumn()!=column){// ƒTƒ€ƒlƒCƒ‹‚ÌêŠ‚ªˆá‚¤ê‡
-		// ƒTƒ€ƒlƒCƒ‹‚ğ‘I‘ğ‚·‚é
-		if(locate==Review::First){// ˆê”Ô‘O
+	if(page!=getCurrentPage() || getCurrentSide()!=side || getCurrentRow()!=row || getCurrentColumn()!=column){// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½ÌêŠï¿½ï¿½ï¿½á‚¤ï¿½ê‡
+		// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		if(locate==Review::First){// ï¿½ï¿½ï¿½Ô‘O
 			setCurrentNG(side, page, 0, 0);
 		}else if(locate==Review::End){
 			setCurrentNG(side, page,
 			(getThumbnailPageList(side)[page].count()-1) / getColumnCount(),
 			(getThumbnailPageList(side)[page].count()-1) % getColumnCount());
 		}else{
-			if(getLocalIndex(page, row, column, side)==-1){// –³ŒøƒCƒ“ƒfƒbƒNƒX
+			if(getLocalIndex(page, row, column, side)==-1){// ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X
 				return;
 			}
 			setCurrentNG(side, page, row, column);
@@ -1665,7 +1683,7 @@ void ShowThumbnail::showPage(Review::ListLocate locate, int GlobalIndex)
 			showPage(Review::Back, getPageCount(Review::Back), locate);
 		}
 	}else{
-		if(GlobalIndex<0 || GlobalIndex>=getThumbnailList(Review::Front).count()+getThumbnailList(Review::Back).count())return;// ƒCƒ“ƒfƒbƒNƒXƒI[ƒo[
+		if(GlobalIndex<0 || GlobalIndex>=getThumbnailList(Review::Front).count()+getThumbnailList(Review::Back).count())return;// ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Iï¿½[ï¿½oï¿½[
 
 		if(GlobalIndex<getThumbnailList(Review::Front).count()){
 			for(int i=0; i<getThumbnailList(Review::Front).count(); i++){
@@ -1693,7 +1711,7 @@ void ShowThumbnail::showPage(Review::ListLocate locate, int GlobalIndex)
 
 bool ShowThumbnail::isMoveHistoryEnable()
 {
-	return isCurrentHistoryAllChecked();// ¡‚Í‘Sƒ`ƒFƒbƒN‚Ì‚İŠm”F
+	return isCurrentHistoryAllChecked();// ï¿½ï¿½ï¿½Í‘Sï¿½`ï¿½Fï¿½bï¿½Nï¿½Ì‚İŠmï¿½F
 }
 
 bool ShowThumbnail::moveHistory(Review::Direction direction, Review::ListLocate NGLocate, bool *historyExisted)
@@ -1702,7 +1720,7 @@ bool ShowThumbnail::moveHistory(Review::Direction direction, Review::ListLocate 
 
 	if(RBase==NULL)return false;
 	
-	CmdReqAdjacentCurrentNG NGAdjacentCmd(GetLayersBase());// ƒJƒŒƒ“ƒgNG‚ÌˆÚ“®ˆæŠm”F
+	CmdReqAdjacentCurrentNG NGAdjacentCmd(GetLayersBase());// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ÌˆÚ“ï¿½ï¿½ï¿½ï¿½mï¿½F
 	RBase->TransmitDirectly(&NGAdjacentCmd);
 	if(NGAdjacentCmd.Ret==false)return false;
 
@@ -1724,12 +1742,12 @@ bool ShowThumbnail::moveHistory(Review::Direction direction, Review::ListLocate 
 		}
 	}
 
-	CmdMoveCurrentHistoryToNGBoard MoveHistoryCmd(GetLayersBase());// NGBoard’PˆÊ‚ÅˆÚ“®
+	CmdMoveCurrentHistoryToNGBoard MoveHistoryCmd(GetLayersBase());// NGBoardï¿½Pï¿½Ê‚ÅˆÚ“ï¿½
 	MoveHistoryCmd.direction = direction;
 	RBase->TransmitDirectly(&MoveHistoryCmd);
 	if(MoveHistoryCmd.Ret==false)return false;
 
-	if(MoveHistoryCmd.CurrentHistoryPtr == tmp_current)return true;// NGBoard‚ÌˆÚ“®æ‚ª‚È‚©‚Á‚½‚Ì‚ÅˆÚ“®‚µ‚Ä‚¢‚È‚¢ê‡‚ÍˆÈ~‚Ìˆ—‚ğ‚µ‚È‚¢
+	if(MoveHistoryCmd.CurrentHistoryPtr == tmp_current)return true;// NGBoardï¿½ÌˆÚ“ï¿½ï¿½æ‚ªï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅˆÚ“ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍˆÈ~ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 
 	if(MoveHistoryCmd.CurrentHistoryPtr==NULL)return false;
 
@@ -1785,8 +1803,8 @@ void ShowThumbnail::slotSetCurrentThumbnail(Thumbnail *thumbnail)
 		}
 		CmdSetNGChecked NGCheckCmd(GetLayersBase());
 		NGCheckCmd.side = getCurrentSide();
-		NGCheckCmd.begin = getCurrentThumbnail()->getIndexInLocal();// Œ»İNGNail
-		NGCheckCmd.length = 1;// ‚»‚ÌNG‚Ì‚İ
+		NGCheckCmd.begin = getCurrentThumbnail()->getIndexInLocal();// ï¿½ï¿½ï¿½ï¿½NGNail
+		NGCheckCmd.length = 1;// ï¿½ï¿½ï¿½ï¿½NGï¿½Ì‚ï¿½
 		RBase->TransmitDirectly(&NGCheckCmd);
 		getCurrentThumbnail()->setChecked(true);
 	}

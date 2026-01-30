@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "windows.h"
 #include "atlstr.h"
@@ -56,7 +74,7 @@ bool	CameraXtiumMitsubishiCIS::Open(void)
 			}
 		}
 	}
-	//ƒVƒŠƒAƒ‹ƒ|[ƒg‚ğŠJ‚­(A)
+	//ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½|ï¿½[ï¿½gï¿½ï¿½ï¿½Jï¿½ï¿½(A)
 	if(Board[0]->OpenCOM()==false){
 		//ErrMsg.append(QObject::tr("Failed open the sirial port."));
 		return false;
@@ -175,7 +193,7 @@ bool	CameraXtiumMitsubishiCIS::SetLineTriggerMode(bool ExternalTrigger)
 			return false;
 	}
 	else{
-		//88ƒÊsec/line
+		//88ï¿½ï¿½sec/line
 		Param[0]=0;
 		if(SendPacket(0xb2 ,2 ,0x1A0 ,Param ,1)==false)	
 			return false;
@@ -200,12 +218,12 @@ bool	CameraXtiumMitsubishiCIS::Reflect(void)
 	if(SendPacket(0xb2 ,2 ,0x120 ,Param ,1)==false)	
 		return false;
 
-	//o—ÍCLK 84MHz
+	//ï¿½oï¿½ï¿½CLK 84MHz
 	Param[0]=0x0c;
 	SendPacket(0xa2 ,2 ,0x1b8 ,Param ,1);
 	Param[0]=0x03;
 	SendPacket(0xa2 ,2 ,0x1b9 ,Param ,1);
-	//o—ÍCLK 51MHz
+	//ï¿½oï¿½ï¿½CLK 51MHz
 	//Param[0]=0x0f;
 	//if(SendPacket(0xa2 ,2 ,0x1b8 ,Param ,1)==false)	
 	//	return false;
@@ -213,7 +231,7 @@ bool	CameraXtiumMitsubishiCIS::Reflect(void)
 	//if(SendPacket(0xa2 ,2 ,0x1b9 ,Param ,1)==false)	
 	//	return false;
 
-	//å‘–¸‰ğ‘œ“x
+	//ï¿½å‘–ï¿½ï¿½ï¿½ğ‘œ“x
 	Param[0]=Resolution;
 	if(SendPacket(0xb2 ,2 ,0x124 ,Param ,1)==false)	
 		return false;

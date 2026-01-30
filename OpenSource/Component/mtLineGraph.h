@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\OpenSource\Component\mtLineGraph.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef MTLINEGRAPH_H
 #define MTLINEGRAPH_H
 
@@ -32,10 +40,10 @@ public:
 	};
 
 	ScaleType	STypeX,STypeY;
-	int		OffsetX,OffsetY;				//ƒOƒ‰ƒt•\¦—Ìˆæ‚ÌƒIƒtƒZƒbƒg’l
-	double	uWidth,uHeight;					//ƒf[ƒ^À•W‚ÌX²—Ìˆæ•^Y²—Ìˆæ•
-	double	uGraphMinX,uGraphMaxX;			//ƒOƒ‰ƒt•\¦—Ìˆæ‚ÌX²Å¬’lAÅ‘å’liƒf[ƒ^À•Wj
-	double	uGraphMinY,uGraphMaxY;			//ƒOƒ‰ƒt•\¦—Ìˆæ‚ÌY²Å¬’lAÅ‘å’liƒf[ƒ^À•Wj
+	int		OffsetX,OffsetY;				//ï¿½Oï¿½ï¿½ï¿½tï¿½\ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ÌƒIï¿½tï¿½Zï¿½bï¿½gï¿½l
+	double	uWidth,uHeight;					//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½Ìˆæ•ï¿½^Yï¿½ï¿½ï¿½Ìˆæ•
+	double	uGraphMinX,uGraphMaxX;			//ï¿½Oï¿½ï¿½ï¿½tï¿½\ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Åï¿½ï¿½lï¿½Aï¿½Å‘ï¿½ï¿½lï¿½iï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½j
+	double	uGraphMinY,uGraphMaxY;			//ï¿½Oï¿½ï¿½ï¿½tï¿½\ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Åï¿½ï¿½lï¿½Aï¿½Å‘ï¿½ï¿½lï¿½iï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½j
 	double	uLogXDbl,uLogYDbl;
 	bool	OnSorted;
 	bool	OnSTypeFlag;
@@ -82,17 +90,17 @@ private:
 	double	uMinX,uMaxX;
 	double	uMinY,uMaxY;
 
-	double	StepMeasureX,StepMeasureY;		//–Ú·‚ÌƒXƒeƒbƒv”
-	QVariant	wuGraphMinX,wuGraphMaxX;	//ƒOƒ‰ƒt•\¦—Ìˆæ‚ÌX²Å¬’lAÅ‘å’liƒf[ƒ^À•Wj‘Ş”ğ—p
-	QVariant	wuGraphMinY,wuGraphMaxY;	//ƒOƒ‰ƒt•\¦—Ìˆæ‚ÌY²Å¬’lAÅ‘å’liƒf[ƒ^À•Wj‘Ş”ğ—p
+	double	StepMeasureX,StepMeasureY;		//ï¿½Úï¿½ï¿½ÌƒXï¿½eï¿½bï¿½vï¿½ï¿½
+	QVariant	wuGraphMinX,wuGraphMaxX;	//ï¿½Oï¿½ï¿½ï¿½tï¿½\ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Åï¿½ï¿½lï¿½Aï¿½Å‘ï¿½ï¿½lï¿½iï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½jï¿½Ş”ï¿½ï¿½p
+	QVariant	wuGraphMinY,wuGraphMaxY;	//ï¿½Oï¿½ï¿½ï¿½tï¿½\ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Åï¿½ï¿½lï¿½Aï¿½Å‘ï¿½ï¿½lï¿½iï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½jï¿½Ş”ï¿½ï¿½p
 
-	void	gGetCanvasToUniverse	(double gx,double gy,	int &ux,int &uy);	//XYÀ•W•ÏŠ·‚ÌeŠÖ”
-	void	GetCanvasToUniverse		(double gx,double gy,	int &ux,int &uy);	//‰æ–ÊÀ•W(gx,gy)‚ğƒf[ƒ^À•W(ux,uy)‚É•ÏŠ·‚·‚é
-	void	GetCanvasToUniverseX	(double gx,				int &ux);			//‰æ–ÊÀ•W‚ÌXÀ•W(gx)‚ğƒf[ƒ^À•W‚ÌXÀ•W(ux)‚É•ÏŠ·‚·‚é
-	void	GetCanvasToUniverseY	(double gy,				int &uy);			//‰æ–ÊÀ•W‚ÌYÀ•W(gy)‚ğƒf[ƒ^À•W‚ÌYÀ•W(uy)‚É•ÏŠ·‚·‚é
-	void	GetCanvasToUniverseLog	(double gx,double gy,	int &ux,int &uy);	//‰æ–ÊÀ•W(gx,gy)‚ğƒf[ƒ^À•W(ux,uy)‚É•ÏŠ·‚·‚éi‘Î”•\¦j
-	void	GetCanvasToUniverseLogX	(double gx,				int &ux);			//‰æ–ÊÀ•W‚ÌXÀ•W(gx)‚ğƒf[ƒ^À•W‚ÌXÀ•W(ux)‚É•ÏŠ·‚·‚éi‘Î”•\¦j
-	void	GetCanvasToUniverseLogY	(double gy,				int &uy);			//‰æ–ÊÀ•W‚ÌYÀ•W(gy)‚ğƒf[ƒ^À•W‚ÌYÀ•W(uy)‚É•ÏŠ·‚·‚éi‘Î”•\¦j
+	void	gGetCanvasToUniverse	(double gx,double gy,	int &ux,int &uy);	//XYï¿½ï¿½ï¿½Wï¿½ÏŠï¿½ï¿½Ìeï¿½Öï¿½
+	void	GetCanvasToUniverse		(double gx,double gy,	int &ux,int &uy);	//ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
+	void	GetCanvasToUniverseX	(double gx,				int &ux);			//ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(gx)ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(ux)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
+	void	GetCanvasToUniverseY	(double gy,				int &uy);			//ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(gy)ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(uy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
+	void	GetCanvasToUniverseLog	(double gx,double gy,	int &ux,int &uy);	//ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½j
+	void	GetCanvasToUniverseLogX	(double gx,				int &ux);			//ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(gx)ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(ux)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½j
+	void	GetCanvasToUniverseLogY	(double gy,				int &uy);			//ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(gy)ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(uy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½j
 
 	QColor	BackgroundColor;
 	QColor	MeasureColor;

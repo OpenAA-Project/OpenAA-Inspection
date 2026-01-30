@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <cmath>
 #include "XPickupPad.h"
 #include "XPointer.h"
@@ -9,12 +27,12 @@
 static	int	MakeColorCenterInside(int BrListSum[256],int	ColSeparation);
 
 int	MakeColorCenter(int BrList[256])
-//	‹P“xƒŠƒXƒg‚Ì‚Q‚Â‚Ìƒs[ƒN‚Ì’†‰›’l‚ğ‹‚ß‚é
+//	ï¿½Pï¿½xï¿½ï¿½ï¿½Xï¿½gï¿½Ì‚Qï¿½Â‚Ìƒsï¿½[ï¿½Nï¿½Ì’ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 {
 	int BrListSum[256];
 	int	ColSeparation=10;
 
-	//ƒmƒCƒY‚ğœ‹‚·‚é‚½‚ß‚É‹ß—×‚ğ‰ÁZ‚·‚é
+	//ï¿½mï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚É‹ß—×‚ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½
 	int	N=5;
 	for(int i=0;i<256;i++){
 		BrListSum[i]=BrList[i];

@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\XML\MTXMLServer\MTXMLLib\MTXMLLib.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "MTXMLLib.h"
@@ -165,10 +174,10 @@ char	*XMLTagAttr::Analyze(char *fp)
 
 	fp=SkipSpace(fp);
 	int iLen;
-	/*if(*fp!='=')			//•s“™†‚Ì”»’f
+	/*if(*fp!='=')			//ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f
 		return NULL;
 	iLen=1;*/
-	if(*fp=='=' ){		//•s“™†‚Ì”»’f
+	if(*fp=='=' ){		//ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f
 		iLen=1;
 		CompareType=_Equal;
 	}else if( *fp=='>' && *(fp+1)=='=' ){
@@ -638,16 +647,16 @@ bool	XMLTag::Match(XMLTag &MatchPoint,XMLElement *e)
 	//if(src.TagName==NULL)
 	if(MatchPoint.TagName==NULL)
 		return false;
-	if(strcmp(MatchPoint.TagName->GetString(),"ANY")!=0 && strcmp(TagName->GetString(),MatchPoint.TagName->GetString())!=0)//ANY–”‚Íˆê’v‚·‚éƒ^ƒO–¼‚ª‚ ‚Á‚½’Ê‰ß
+	if(strcmp(MatchPoint.TagName->GetString(),"ANY")!=0 && strcmp(TagName->GetString(),MatchPoint.TagName->GetString())!=0)//ANYï¿½ï¿½ï¿½Íˆï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‰ï¿½
 		return false;
-	for(XMLTagAttr *a=MatchPoint.Attrs.GetFirst();a!=NULL;a=a->GetNext()){//MachiPoint‚©‚çƒf[ƒ^‚ğ“n‚·
+	for(XMLTagAttr *a=MatchPoint.Attrs.GetFirst();a!=NULL;a=a->GetNext()){//MachiPointï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½nï¿½ï¿½
 		XMLTagAttr *b;
-		for(b=Attrs.GetFirst();b!=NULL;b=b->GetNext()){//©•ª©g‚Ìƒf[ƒ^‚ğ“n‚·
+		for(b=Attrs.GetFirst();b!=NULL;b=b->GetNext()){//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½nï¿½ï¿½
 //			if(a->AttrSign=="="){
 				//if(*a == *b){
-			if( a->hCompare(*b)){//ˆê‚Â–Ú‚ÌğŒ‚ğ”»’f‚·‚é
-					if(e->Parent->GetTop()!=NULL){//XMLElement‚ğæ‚Á‚Ä‚­‚é
-						if(e->Parent->GetTop()->MatchXMLTag->count()==0)//ƒf[ƒ^‚ª‚ ‚é
+			if( a->hCompare(*b)){//ï¿½ï¿½ï¿½Â–Ú‚Ìï¿½ï¿½ï¿½ï¿½ğ”»’fï¿½ï¿½ï¿½ï¿½
+					if(e->Parent->GetTop()!=NULL){//XMLElementï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+						if(e->Parent->GetTop()->MatchXMLTag->count()==0)//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 							break;
 						if(CheckNextTag(e->Parent,*(e->Parent->GetTop()->MatchXMLTag)))
 							break;
@@ -684,11 +693,11 @@ bool	XMLTag::Matched(XMLTag &MatchPoint)
 		return false;
 	if(MatchPoint.TagName==NULL)
 		return false;
-	if(strcmp(MatchPoint.TagName->GetString(),"ANY")!=0 && strcmp(TagName->GetString(),MatchPoint.TagName->GetString())!=0)//ANY–”‚Íˆê’v‚·‚éƒ^ƒO–¼‚ª‚ ‚Á‚½’Ê‰ß
+	if(strcmp(MatchPoint.TagName->GetString(),"ANY")!=0 && strcmp(TagName->GetString(),MatchPoint.TagName->GetString())!=0)//ANYï¿½ï¿½ï¿½Íˆï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‰ï¿½
 		return false;
-	for(XMLTagAttr *a=MatchPoint.Attrs.GetFirst();a!=NULL;a=a->GetNext()){//MachiPoint‚©‚çƒf[ƒ^‚ğ“n‚·
+	for(XMLTagAttr *a=MatchPoint.Attrs.GetFirst();a!=NULL;a=a->GetNext()){//MachiPointï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½nï¿½ï¿½
 		XMLTagAttr *b;
-		for(b=Attrs.GetFirst();b!=NULL;b=b->GetNext()){//©•ª©g‚Ìƒf[ƒ^‚ğ“n‚·
+		for(b=Attrs.GetFirst();b!=NULL;b=b->GetNext()){//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½nï¿½ï¿½
 			if(a->hCompare(*b)==true){
 				break;
 			}
@@ -797,7 +806,7 @@ bool	XMLTag::AddTag(XMLTag &Src)
 
 
 bool	XMLTag::CheckNextTag(XMLElement *Src,QList<XMLTag*> MatchPoint)
-//2‚Â–Ú‚ÌğŒ‚ğŒ©‚éiˆø”1:@ˆø”2Fj
+//2ï¿½Â–Ú‚Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½1:ï¿½@ï¿½ï¿½ï¿½ï¿½2ï¿½Fï¿½j
 {
 	for(int Cnt=0;Cnt<MatchPoint.count();Cnt++){
 		for(XMLElement *E=Src->GetFirst();E!=NULL;E=E->GetNext()){
@@ -816,7 +825,7 @@ bool	XMLTag::CheckNextTag(XMLElement *Src,QList<XMLTag*> MatchPoint)
 						if(strcmp(TA->AttrName->GetString(),MatchPoint.at(Cnt)->Attrs.GetFirst()->AttrName->GetString())==0){
 							if( MatchPoint.at(Cnt)->Attrs.GetFirst()->hCompare(*TA))
 							//XMLTagAttr *b;
-							//for(b=MatchPoint.at(Cnt)->Attrs.GetFirst();b!=NULL;b=b->GetNext()){//©•ª©g‚Ìƒf[ƒ^‚ğ“n‚·
+							//for(b=MatchPoint.at(Cnt)->Attrs.GetFirst();b!=NULL;b=b->GetNext()){//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½nï¿½ï¿½
 							//	if( b->hCompare(*TA))
 									return true;
 							//}
@@ -859,14 +868,14 @@ bool	XMLTag::AnalyzeXMLElement(char *fp,QString strTagName,QString strAttrName,Q
 		if(fp==NULL)
 			break;
 
-		//TagName‚Ì”äŠr
+		//TagNameï¿½Ì”ï¿½ï¿½r
 		if(strTagName!=buff){
 			fp=GotoTagEnd(fp,buff);
 			continue;
 		}
 
 		for(;;){
-			//TagName‚ª‡’v‚µ‚½‚çAttrName‚Ì”äŠr
+			//TagNameï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½AttrNameï¿½Ì”ï¿½ï¿½r
 			fp=SkipSpace(fp);
 			char	buff[1000];
 			fp=CutWord(fp,buff ,sizeof(buff));
@@ -892,7 +901,7 @@ bool	XMLTag::AnalyzeXMLElement(char *fp,QString strTagName,QString strAttrName,Q
 			strRet=buff;
 			fp=cp+1;
 
-			//AttrName‚Ì”äŠr
+			//AttrNameï¿½Ì”ï¿½ï¿½r
 			if(sAttrName==strAttrName)
 				return true;
 		}
@@ -1432,7 +1441,7 @@ bool	XMLElement::MatchOnly(XMLElement &SearchElement)
 					break;
 				}
 			}
-			if(e==NULL){	//Match‚·‚é‚Æ‚«
+			if(e==NULL){	//Matchï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 				return true;
 			}
 		}

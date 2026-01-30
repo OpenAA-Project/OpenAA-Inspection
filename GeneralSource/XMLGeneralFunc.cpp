@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XMLGeneralFunc.h"
 #include <QtXml/QDomElement>
 
@@ -287,15 +305,15 @@ QString	FromWChar(wchar_t *src ,int MaxLen)
 //===============================================================================================================
 bool SearchXMLAttr(const QDomElement &elem, const QString &TagName, const QString &AttrName, QString &RetAttrValue)
 {
-	if((TagName.isEmpty() || elem.tagName()==TagName) && elem.hasAttribute(AttrName)==true){// TagName‚ª‹ó‚Ìê‡‚ÍÅ‰‚Ì‘®«’l‚ğ•Ô‚·
+	if((TagName.isEmpty() || elem.tagName()==TagName) && elem.hasAttribute(AttrName)==true){// TagNameï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½ÍÅï¿½ï¿½Ì‘ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ô‚ï¿½
 		RetAttrValue = elem.attribute(AttrName);
 		return true;
 	}
-	if(elem.hasChildNodes()==false){// qƒm[ƒh‚ª‚à‚¤‚È‚¢ê‡‚ÍI—¹
+	if(elem.hasChildNodes()==false){// ï¿½qï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍIï¿½ï¿½
 		return false;
 	}
-	for(QDomElement e = elem.firstChildElement(); !e.isNull(); e = e.nextSiblingElement()){// qƒm[ƒhŒŸõ
-		if(SearchXMLAttr(e, TagName, AttrName, RetAttrValue)==true){// Ä‹Aˆ—
+	for(QDomElement e = elem.firstChildElement(); !e.isNull(); e = e.nextSiblingElement()){// ï¿½qï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½
+		if(SearchXMLAttr(e, TagName, AttrName, RetAttrValue)==true){// ï¿½Ä‹Aï¿½ï¿½ï¿½ï¿½
 			return true;
 		}
 	}
@@ -303,15 +321,15 @@ bool SearchXMLAttr(const QDomElement &elem, const QString &TagName, const QStrin
 }
 bool SearchXMLText(const QDomElement &elem, const QString &TagName, QString &RetAttrValue)
 {
-	if(TagName.isEmpty() || elem.tagName()==TagName){// TagName‚ª‹ó‚Ìê‡‚ÍÅ‰‚Ì‘®«’l‚ğ•Ô‚·
+	if(TagName.isEmpty() || elem.tagName()==TagName){// TagNameï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½ÍÅï¿½ï¿½Ì‘ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ô‚ï¿½
 		RetAttrValue = elem.firstChild().toText().data();
 		return true;
 	}
-	if(elem.hasChildNodes()==false){// qƒm[ƒh‚ª‚à‚¤‚È‚¢ê‡‚ÍI—¹
+	if(elem.hasChildNodes()==false){// ï¿½qï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍIï¿½ï¿½
 		return false;
 	}
-	for(QDomElement e = elem.firstChildElement(); !e.isNull(); e = e.nextSiblingElement()){// qƒm[ƒhŒŸõ
-		if(SearchXMLText(e, TagName, RetAttrValue)==true){// Ä‹Aˆ—
+	for(QDomElement e = elem.firstChildElement(); !e.isNull(); e = e.nextSiblingElement()){// ï¿½qï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½
+		if(SearchXMLText(e, TagName, RetAttrValue)==true){// ï¿½Ä‹Aï¿½ï¿½ï¿½ï¿½
 			return true;
 		}
 	}
@@ -624,4 +642,3 @@ bool	GetXMLCountValue(const QString &XMLSentense ,const QString &_TagName ,int &
 	}
 	return Ret;
 }
-

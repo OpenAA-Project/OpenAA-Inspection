@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\OpenSource\Component\mtGraph.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef MTGRAPH_H
 #define MTGRAPH_H
 
@@ -49,12 +57,12 @@ public:
 	void	DeleteXY	(void);
 	void	ReplaceXY	(double X,double Y);
 
-	void	SetMinX		(double MinX)	{	wuGraphMinX=uGraphMinX=MinX;	}	//ƒOƒ‰ƒt•\¦—Ìˆæ‚ÌX²Å¬’l‚ğƒZƒbƒg
-	void	SetMaxX		(double MaxX)	{	wuGraphMaxX=uGraphMaxX=MaxX;	}	//ƒOƒ‰ƒt•\¦—Ìˆæ‚ÌX²Å‘å’l‚ğƒZƒbƒg
-	void	SetMinY		(double MinY)	{	wuGraphMinY=uGraphMinY=MinY;	}	//ƒOƒ‰ƒt•\¦—Ìˆæ‚ÌY²Å¬’l‚ğƒZƒbƒg
-	void	SetMaxY		(double MaxY)	{	wuGraphMaxY=uGraphMaxY=MaxY;	}	//ƒOƒ‰ƒt•\¦—Ìˆæ‚ÌY²Å‘å’l‚ğƒZƒbƒg
-//	void	SetuMinY	(double MinY);	//À•Wƒf[ƒ^‚ÌY²Å¬’l‚ğƒZƒbƒg
-//	void	SetuMaxY	(double MaxY);	//À•Wƒf[ƒ^‚ÌY²Å‘å’l‚ğƒZƒbƒg
+	void	SetMinX		(double MinX)	{	wuGraphMinX=uGraphMinX=MinX;	}	//ï¿½Oï¿½ï¿½ï¿½tï¿½\ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Åï¿½ï¿½lï¿½ï¿½ï¿½Zï¿½bï¿½g
+	void	SetMaxX		(double MaxX)	{	wuGraphMaxX=uGraphMaxX=MaxX;	}	//ï¿½Oï¿½ï¿½ï¿½tï¿½\ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Å‘ï¿½ï¿½lï¿½ï¿½ï¿½Zï¿½bï¿½g
+	void	SetMinY		(double MinY)	{	wuGraphMinY=uGraphMinY=MinY;	}	//ï¿½Oï¿½ï¿½ï¿½tï¿½\ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Åï¿½ï¿½lï¿½ï¿½ï¿½Zï¿½bï¿½g
+	void	SetMaxY		(double MaxY)	{	wuGraphMaxY=uGraphMaxY=MaxY;	}	//ï¿½Oï¿½ï¿½ï¿½tï¿½\ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Å‘ï¿½ï¿½lï¿½ï¿½ï¿½Zï¿½bï¿½g
+//	void	SetuMinY	(double MinY);	//ï¿½ï¿½ï¿½Wï¿½fï¿½[ï¿½^ï¿½ï¿½Yï¿½ï¿½ï¿½Åï¿½ï¿½lï¿½ï¿½ï¿½Zï¿½bï¿½g
+//	void	SetuMaxY	(double MaxY);	//ï¿½ï¿½ï¿½Wï¿½fï¿½[ï¿½^ï¿½ï¿½Yï¿½ï¿½ï¿½Å‘ï¿½ï¿½lï¿½ï¿½ï¿½Zï¿½bï¿½g
 
 	void*	SortXY		(void);
 	bool	isSortXY	(void){	return(Sorted);	}
@@ -68,18 +76,18 @@ public:
 	mtLineGraph	*ParentGraph;
 	mtLineGraph	*GetParent(void)	{	return(ParentGraph);	}
 
-	void	gGetUniverseToCanvas	(double ux,double uy,	int &gx,int &gy);	//XYÀ•W•ÏŠ·‚ÌeŠÖ”
-	void	GetUniverseToCanvas		(double ux,double uy,	int &gx,int &gy);	//ƒf[ƒ^À•W(ux,uy)‚ğ‰æ–ÊÀ•W(gx,gy)‚É•ÏŠ·‚·‚é
-	void	GetUniverseToCanvasX	(double ux,				int &gx);			//ƒf[ƒ^À•W‚ÌXÀ•W(ux)‚ğ‰æ–ÊÀ•W‚ÌXÀ•W(gx)‚É•ÏŠ·‚·‚é
-	void	GetUniverseToCanvasY	(double uy,				int &gy);			//ƒf[ƒ^À•W‚ÌYÀ•W(uy)‚ğ‰æ–ÊÀ•W‚ÌYÀ•W(gy)‚É•ÏŠ·‚·‚é
-	void	GetUniverseToCanvasLog	(double ux,double uy,	int &gx,int &gy);	//ƒf[ƒ^À•W(ux,uy)‚ğ‰æ–ÊÀ•W(gx,gy)‚É•ÏŠ·‚·‚éi‘Î”•\¦j
-	void	GetUniverseToCanvasLogX	(double ux,				int &gx);			//ƒf[ƒ^À•W‚ÌXÀ•W(ux)‚ğ‰æ–ÊÀ•W‚ÌXÀ•W(gx)‚É•ÏŠ·‚·‚éi‘Î”•\¦j
-	void	GetUniverseToCanvasLogY	(double uy,				int &gy);			//ƒf[ƒ^À•W‚ÌYÀ•W(uy)‚ğ‰æ–ÊÀ•W‚ÌYÀ•W(gy)‚É•ÏŠ·‚·‚éi‘Î”•\¦j
+	void	gGetUniverseToCanvas	(double ux,double uy,	int &gx,int &gy);	//XYï¿½ï¿½ï¿½Wï¿½ÏŠï¿½ï¿½Ìeï¿½Öï¿½
+	void	GetUniverseToCanvas		(double ux,double uy,	int &gx,int &gy);	//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
+	void	GetUniverseToCanvasX	(double ux,				int &gx);			//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(ux)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(gx)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
+	void	GetUniverseToCanvasY	(double uy,				int &gy);			//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
+	void	GetUniverseToCanvasLog	(double ux,double uy,	int &gx,int &gy);	//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½j
+	void	GetUniverseToCanvasLogX	(double ux,				int &gx);			//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(ux)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(gx)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½j
+	void	GetUniverseToCanvasLogY	(double uy,				int &gy);			//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½j
 
 	QList<double>	XValue;
 	QList<double>	YValue;
-	double	uMinX,uMaxX;					//À•Wƒf[ƒ^‚ÌX²Å¬’lAÅ‘å’l
-	double	uMinY,uMaxY;					//À•Wƒf[ƒ^‚ÌY²Å¬’lAÅ‘å’l
+	double	uMinX,uMaxX;					//ï¿½ï¿½ï¿½Wï¿½fï¿½[ï¿½^ï¿½ï¿½Xï¿½ï¿½ï¿½Åï¿½ï¿½lï¿½Aï¿½Å‘ï¿½ï¿½l
+	double	uMinY,uMaxY;					//ï¿½ï¿½ï¿½Wï¿½fï¿½[ï¿½^ï¿½ï¿½Yï¿½ï¿½ï¿½Åï¿½ï¿½lï¿½Aï¿½Å‘ï¿½ï¿½l
 
 	int		GetOffsetX	()			{	return OffsetX;	}
 	void	SetOffsetX	(int X)		{	OffsetX=X;		}
@@ -105,10 +113,10 @@ private:
 	int		LineWidth;
 	Qt::PenStyle	LineStyle;
 
-	double	uGraphMinX,uGraphMaxX;			//ƒOƒ‰ƒt•\¦—Ìˆæ‚ÌX²Å¬’lAÅ‘å’liƒf[ƒ^À•Wj
-	double	uGraphMinY,uGraphMaxY;			//ƒOƒ‰ƒt•\¦—Ìˆæ‚ÌY²Å¬’lAÅ‘å’liƒf[ƒ^À•Wj
-	QVariant	wuGraphMinX,wuGraphMaxX;	//ƒOƒ‰ƒt•\¦—Ìˆæ‚ÌX²Å¬’lAÅ‘å’liƒf[ƒ^À•Wj‘Ş”ğ—p
-	QVariant	wuGraphMinY,wuGraphMaxY;	//ƒOƒ‰ƒt•\¦—Ìˆæ‚ÌY²Å¬’lAÅ‘å’liƒf[ƒ^À•Wj‘Ş”ğ—p
+	double	uGraphMinX,uGraphMaxX;			//ï¿½Oï¿½ï¿½ï¿½tï¿½\ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Åï¿½ï¿½lï¿½Aï¿½Å‘ï¿½ï¿½lï¿½iï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½j
+	double	uGraphMinY,uGraphMaxY;			//ï¿½Oï¿½ï¿½ï¿½tï¿½\ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Åï¿½ï¿½lï¿½Aï¿½Å‘ï¿½ï¿½lï¿½iï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½j
+	QVariant	wuGraphMinX,wuGraphMaxX;	//ï¿½Oï¿½ï¿½ï¿½tï¿½\ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Åï¿½ï¿½lï¿½Aï¿½Å‘ï¿½ï¿½lï¿½iï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½jï¿½Ş”ï¿½ï¿½p
+	QVariant	wuGraphMinY,wuGraphMaxY;	//ï¿½Oï¿½ï¿½ï¿½tï¿½\ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Åï¿½ï¿½lï¿½Aï¿½Å‘ï¿½ï¿½lï¿½iï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½jï¿½Ş”ï¿½ï¿½p
 	//double	uLogXDbl,uLogYDbl;
 	//bool	LineFlag;
 	//int		LineX,LineY;

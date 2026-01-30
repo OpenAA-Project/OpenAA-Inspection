@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\AreaShader\XAreaShader.h
-** Author : YYYYYYYYYY
-*******************************************************************************/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #if	!defined(XAREASHADER_H)
 #define	XAREASHADER_H
@@ -35,10 +44,10 @@ public:
 	bool	GenerateOverlap;
 
 	int		CellSize;
-	double	AdoptRate;	//Ì—p—¦
+	double	AdoptRate;	//ï¿½Ì—pï¿½ï¿½
 	bool	Fixed;
 	double	Average;
-	double	Sigma;		//•W€•Î·
+	double	Sigma;		//ï¿½Wï¿½ï¿½ï¿½Îï¿½
 	bool	PreProcessingMode;
 
 	AreaShaderLibrary(int LibType,LayersBase *Base);
@@ -79,10 +88,10 @@ class	AreaShaderThreshold : public AlgorithmThreshold
 {
 public:
 	int		CellSize;
-	double	AdoptRate;	//Ì—p—¦
+	double	AdoptRate;	//ï¿½Ì—pï¿½ï¿½
 	bool	Fixed;
 	double	Average;
-	double	Sigma;		//•W€•Î·
+	double	Sigma;		//ï¿½Wï¿½ï¿½ï¿½Îï¿½
 	bool	PreProcessingMode;
 
 	AreaShaderThreshold(AreaShaderItem *parent);
@@ -112,7 +121,7 @@ class	AreaShaderItem : public AlgorithmItemPLI
 	};
 	struct	ShaderStruct	*SDim;
 
-	double	Avr,Var;	//–Ú•W
+	double	Avr,Var;	//ï¿½Ú•W
 	AlignmentPacket2D	*AVector;
 public:
 	AreaShaderItem(void);
@@ -286,10 +295,10 @@ public:
 	int		ItemID;
 	int32	Dx,Dy;
 	int		CellSize;
-	double	AdoptRate;	//Ì—p—¦
+	double	AdoptRate;	//ï¿½Ì—pï¿½ï¿½
 	bool	Fixed;
 	double	Average;
-	double	Sigma;		//•W€•Î·
+	double	Sigma;		//ï¿½Wï¿½ï¿½ï¿½Îï¿½
 
 	AreaShaderThresholdSend(void);
 
@@ -425,10 +434,10 @@ public:
 	int			LocalPage;
 	IntList		LayerList;
 	int		CellSize;
-	double	AdoptRate;	//Ì—p—¦
+	double	AdoptRate;	//ï¿½Ì—pï¿½ï¿½
 	bool	Fixed;
 	double	Average;
-	double	Sigma;		//•W€•Î·
+	double	Sigma;		//ï¿½Wï¿½ï¿½ï¿½Îï¿½
 
 	CmdAddAreaShaderItemPacket(LayersBase *base):GUIDirectMessage(base){}
 	CmdAddAreaShaderItemPacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
@@ -453,10 +462,10 @@ public:
 	int		Page;
 	int		x1,y1,x2,y2;
 	int		CellSize;
-	double	AdoptRate;	//Ì—p—¦
+	double	AdoptRate;	//ï¿½Ì—pï¿½ï¿½
 	bool	Fixed;
 	double	Average;
-	double	Sigma;		//•W€•Î·
+	double	Sigma;		//ï¿½Wï¿½ï¿½ï¿½Îï¿½
 	
 	AreaShaderListForPacket(void){}
 
@@ -549,10 +558,10 @@ inline	AreaShaderListForPacket	&AreaShaderListForPacket::operator=(AreaShaderLis
 	y2		=src.y2;
 
 	CellSize	=src.CellSize;
-	AdoptRate	=src.AdoptRate;	//Ì—p—¦
+	AdoptRate	=src.AdoptRate;	//ï¿½Ì—pï¿½ï¿½
 	Fixed		=src.Fixed;
 	Average		=src.Average;
-	Sigma		=src.Sigma;		//•W€•Î·
+	Sigma		=src.Sigma;		//ï¿½Wï¿½ï¿½ï¿½Îï¿½
 
 	return *this;
 }

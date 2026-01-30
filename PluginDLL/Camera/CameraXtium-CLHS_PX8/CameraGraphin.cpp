@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\PluginDLL\Camera\CameraGraphinXCM8040\CameraGraphin\CameraGraphin.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 //#include "windows.h"
@@ -39,43 +48,43 @@ CameraGraphin::~CameraGraphin()
 
 }
 
-//HANDLE			g_hDev;					// IPM¡¦ÌÃÞÊÞ²½ÊÝÄÞÙ
-BOOL			m_fAorD;				// 8540A 8540D ¡¦¡¦ÊÌ×¸¡¦IPMCAMCONFIG	m_CameraPar;			// ¶Ò¡¦¡¦¡¦IPMCAMCONFIG	m_CameraParB;			// ¶Ò¡¦¡¦¡¦IPMANALOGPAR	m_AnalogPar;			// ±ÅÛ¸¡¦¡¦¡¦IPMCLPAR		m_CLPar;
+//HANDLE			g_hDev;					// IPMï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+BOOL			m_fAorD;				// 8540A 8540D ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½ï¿½IPMCAMCONFIG	m_CameraPar;			// ï¿½Ò¡ï¿½ï¿½ï¿½ï¿½ï¿½IPMCAMCONFIG	m_CameraParB;			// ï¿½Ò¡ï¿½ï¿½ï¿½ï¿½ï¿½IPMANALOGPAR	m_AnalogPar;			// ï¿½ï¿½Û¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½IPMCLPAR		m_CLPar;
 IPMCLPAR		m_CLParB;
-OSVERSIONINFO	g_osVer;				// OSÊÞ°¼Þ®¡¦ULONG_PTR		m_processMinSizeDef, m_processMaxSizeDef;
-DWORD			m_dwAllocSize;			// ¡¦¡¦¡¦¡¦éÒÓØ»²½Þ
+OSVERSIONINFO	g_osVer;				// OSï¿½Þ°ï¿½Þ®ï¿½ï¿½ULONG_PTR		m_processMinSizeDef, m_processMaxSizeDef;
+DWORD			m_dwAllocSize;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø»ï¿½ï¿½ï¿½
 DWORD			m_prcSts;
-LPVOID			g_pHandle		= NULL;	// NT¡¦pÒÓØÊÝÄÞÙ
-BOOL			m_fContFlg;				// ¡¦A¡¦¡¦¡¦¡¦Ì×¸Þ
-BOOL			m_fLoopStartEnb;		// Ù°Ìß¡¦¡¦]¡¦¡¦¡¦J¡¦Ì×¸Þ
-BOOL			m_fLoopIntEnb;			// Ù°Ìß¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦J¡¦Ì×¸Þ
-BOOL			m_fExit;				// ¡¦¡¦¡¦Ì×¸Þ
-ULONG			m_ulTim;				// ¡¦¡¦¡¦¡¦v¡¦¡¦p
-HANDLE			g_hEvent		= NULL;	// ¡¦]¡¦¡¦¡¦p
-HANDLE			g_hLocalEvent	= NULL;	// ¡¦]¡¦¡¦¡¦p
-HANDLE			g_hEventB		= NULL;	// ¡¦]¡¦¡¦¡¦p
-HANDLE			g_hLocalEventB	= NULL;	// ¡¦]¡¦¡¦¡¦p
-DWORD			m_dwTimeout		= 0;	// À²Ñ±³Ä¡¦l
-//CDlgSetLoop		m_DlgSetLoop;			// Ù°Ìß¡¦¡¦¡¦OVERLAPPED		g_Ov;					// µ°ÊÞ°×¡¦¡¦\¡¦¡¦¡¦//afx_msg void OnExit();
-//BOOL			m_fRdyLoop;				// Ù°Ìß¡¦¡¦¡¦¡¦\Ì×¸Þ
+LPVOID			g_pHandle		= NULL;	// NTï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+BOOL			m_fContFlg;				// ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½
+BOOL			m_fLoopStartEnb;		// Ù°ï¿½ß¡ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½×¸ï¿½
+BOOL			m_fLoopIntEnb;			// Ù°ï¿½ß¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½×¸ï¿½
+BOOL			m_fExit;				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½
+ULONG			m_ulTim;				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½p
+HANDLE			g_hEvent		= NULL;	// ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½p
+HANDLE			g_hLocalEvent	= NULL;	// ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½p
+HANDLE			g_hEventB		= NULL;	// ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½p
+HANDLE			g_hLocalEventB	= NULL;	// ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½p
+DWORD			m_dwTimeout		= 0;	// ï¿½ï¿½Ñ±ï¿½Ä¡ï¿½l
+//CDlgSetLoop		m_DlgSetLoop;			// Ù°ï¿½ß¡ï¿½ï¿½ï¿½ï¿½ï¿½OVERLAPPED		g_Ov;					// ï¿½ï¿½ï¿½Þ°×¡ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½//afx_msg void OnExit();
+//BOOL			m_fRdyLoop;				// Ù°ï¿½ß¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½×¸ï¿½
 
 //global.h
-BOOL			g_f8530;				// IPM-8530D¡¦ÌÌ×¸¡¦BOOL			g_f8530CL;				// IPM-8530CL¡¦ÌÌ×¸¡¦BOOL			g_CL_B;
+BOOL			g_f8530;				// IPM-8530Dï¿½ï¿½ï¿½ï¿½×¸ï¿½ï¿½BOOL			g_f8530CL;				// IPM-8530CLï¿½ï¿½ï¿½ï¿½×¸ï¿½ï¿½BOOL			g_CL_B;
 BOOL			g_CL_M;
 BOOL			g_CL_F;
-IPMFRAMEINFO	g_FramePar;				// ÌÚ°Ñ¡¦¡¦¡¦IPMFRAMEINFO	g_FrameParB;			// ÌÚ°Ñ¡¦¡¦¡¦BOOL			g_fRdyRL;				// ×ÝÚÝ¸Þ¡¦¡¦¡¦p¡¦¡¦\Ì×¸Þ
-int				g_iFrmCnt	=1;			// ÌÚ°Ñ¡¦¡¦¡¦¡¦
-int				g_iFrmCntB	=1;			// ÌÚ°Ñ¡¦¡¦¡¦¡¦
-IPMUSERMEMORY	g_mtbl;					// ÒÓØ°Ã°ÌÞ¡¦ULONG			g_ulRlStart;			// ×ÝÚÝ¸Þ¡¦¡¦¡¦FFSET
-ULONG			g_ulRlSize;				// ×ÝÚÝ¸Þ¡¦¡¦æ»²½¡¦BYTE			*g_bMem;				// ²Ò°¼¡¦Æ×ÝÚÝ¸Þ½¡¦¡¦¡¦BOOL			g_fEnbRL;				// ×ÝÚÝ¸Þ¡¦¡¦¡¦¡¦¡¦¡¦nable
-//CRFrm			*g_pRFrm;				// ×ÝÚÝ¸Þ½ÌÚ°¡¦//CChildFrame		*g_pCFrm;				// ²Ò°¼ÞÌÚ°¡¦//CChildView		*g_pCView;				// ²Ò°¼ÞËÞ­¡¦//CTView			*g_pTView;				// ½Ú¡¦¡¦ÄÞËÞ­°
-//CTViewB			*g_pTViewB;				// ½Ú¡¦¡¦ÄÞËÞ­°
-//CRView			*g_pRView;				// ×ÝÚÝ¸Þ½ËÞ­¡¦//CTFrmB			*g_pTFrmB;				// ½Ú¡¦¡¦ÄÞÌÚ°Ñ
-BOOL			g_fLoop;				// Ù°Ìß¡¦¡¦ìÓ°Ä¡¦int				g_iFrmNo;				// ¡¦¡¦¡¦\Ž¦¡¦¡¦ÌÚ°Ñ¡¦¡¦¡¦
-BOOL			g_fGrabber;				// ¡¦¡¦¡¦¡¦¡¦Ì×¸Þ
-ULONG			g_ulIntCnt;				// ×²¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦
-BOOL			g_ConvFlag;				//Convert¡¦t¡¦¡¦¡¦O
-BOOL			g_AdjustFlag;			//Convert¡¦t¡¦¡¦¡¦O
+IPMFRAMEINFO	g_FramePar;				// ï¿½Ú°Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½IPMFRAMEINFO	g_FrameParB;			// ï¿½Ú°Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½BOOL			g_fRdyRL;				// ï¿½ï¿½ï¿½Ý¸Þ¡ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½\ï¿½×¸ï¿½
+int				g_iFrmCnt	=1;			// ï¿½Ú°Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+int				g_iFrmCntB	=1;			// ï¿½Ú°Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+IPMUSERMEMORY	g_mtbl;					// ï¿½ï¿½Ø°Ã°ï¿½Þ¡ï¿½ULONG			g_ulRlStart;			// ï¿½ï¿½ï¿½Ý¸Þ¡ï¿½ï¿½ï¿½ï¿½ï¿½FFSET
+ULONG			g_ulRlSize;				// ï¿½ï¿½ï¿½Ý¸Þ¡ï¿½ï¿½ï¿½æ»²ï¿½ï¿½ï¿½BYTE			*g_bMem;				// ï¿½Ò°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½BOOL			g_fEnbRL;				// ï¿½ï¿½ï¿½Ý¸Þ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½nable
+//CRFrm			*g_pRFrm;				// ï¿½ï¿½ï¿½Ý¸Þ½ï¿½Ú°ï¿½ï¿½//CChildFrame		*g_pCFrm;				// ï¿½Ò°ï¿½ï¿½ï¿½Ú°ï¿½ï¿½//CChildView		*g_pCView;				// ï¿½Ò°ï¿½ï¿½ï¿½Þ­ï¿½ï¿½//CTView			*g_pTView;				// ï¿½Ú¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ­ï¿½
+//CTViewB			*g_pTViewB;				// ï¿½Ú¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ­ï¿½
+//CRView			*g_pRView;				// ï¿½ï¿½ï¿½Ý¸Þ½ï¿½Þ­ï¿½ï¿½//CTFrmB			*g_pTFrmB;				// ï¿½Ú¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½
+BOOL			g_fLoop;				// Ù°ï¿½ß¡ï¿½ï¿½ï¿½ï¿½Ó°Ä¡ï¿½int				g_iFrmNo;				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½
+BOOL			g_fGrabber;				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½
+ULONG			g_ulIntCnt;				// ×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+BOOL			g_ConvFlag;				//Convertï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½O
+BOOL			g_AdjustFlag;			//Convertï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½O
 
 //LUT
 const int	CamDepth=256;		//8bit
@@ -107,39 +116,39 @@ int			ProofDataDecim[8192];
 QString		ProofDataFile;
 bool		pbProofFlag;
 bool		pbProofCancelFlag;
-int			RtoL=0;				//¡¦¡¦E¡¦¡¦]
+int			RtoL=0;				//ï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½]
 
-// ÒÓ¡¦m¡¦¡¦//BOOL		MemorySecure(HANDLE handle);
-// Û¯¸»²½¡¦¡¦¡¦X
+// ï¿½Ó¡ï¿½mï¿½ï¿½ï¿½ï¿½//BOOL		MemorySecure(HANDLE handle);
+// Û¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½X
 void		ChangeLockSize(HANDLE handle);
-// ÒÓ¡¦¡¦J¡¦¡¦void		FreeMem();
-// ×ÝÚÝ¸Þ¡¦¡¦\¡¦s¡¦¡¦\¡¦¡¦¡¦X
+// ï¿½Ó¡ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½void		FreeMem();
+// ï¿½ï¿½ï¿½Ý¸Þ¡ï¿½ï¿½ï¿½\ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½X
 void		ChgRl();
-// ²Ò°¼Þ»²½¡¦¡¦¡¦¡¦void		SetImgSize();
-// ÌÚ°Ñ¡¦¡¦¡¦¡¦¡¦¡¦¡¦X¡¦¡¦¡¦¡¦
+// ï¿½Ò°ï¿½Þ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½void		SetImgSize();
+// ï¿½Ú°Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void		ChgFrmCnt(HANDLE handle, int iFrmCnt );
-// ¡¦¡¦¡¦½Ú¡¦¡¦//UINT		GrabThread();
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½//UINT		GrabThread();
 UINT		GrabThread(void *handle);
-// ¡¦¡¦¡¦]¡¦¡¦¡¦¡¦¡¦¡¦
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void		NormalPrc(void *handle);
-// Ù°Ìß¡¦]¡¦¡¦¡¦¡¦¡¦¡¦
+// Ù°ï¿½ß¡ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void		LoopPrc(void *handle);
-// Ù°Ìß¡¦¡¦]¡¦¡¦¡¦J¡¦½Ú¡¦¡¦UINT		LoopStartThread(void *handle);
-// Ù°Ìß¡¦¡¦]¡¦¡¦¡¦J¡¦¡¦¡¦¡¦¡¦
+// Ù°ï¿½ß¡ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½UINT		LoopStartThread(void *handle);
+// Ù°ï¿½ß¡ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void		LoopStartPrc(void *handle);
-// Ù°Ìß¡¦¡¦¡¦¡¦¡¦¡¦Ý¶³ÝÄÚ¡¦¡¦UINT		LoopIntCntThread(void *handle);
-// Ù°Ìß¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¶³ÝÄ¡¦¡¦¡¦¡¦
+// Ù°ï¿½ß¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½UINT		LoopIntCntThread(void *handle);
+// Ù°ï¿½ß¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void		LoopIntCntPrc(void *handle);
-// ¡¦I¡¦¡¦¡¦¡¦¡¦
+// ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void		ExitProcess(HANDLE handle);
-// ÒÓ¡¦¡¦nlock
+// ï¿½Ó¡ï¿½ï¿½ï¿½nlock
 void		UnlockMem();
-// ÎÞ°ÄÞ¾¡¦Ý¸¡¦¡¦X¡¦V
+// ï¿½Þ°ï¿½Þ¾ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½V
 void		UpdateSetting(void *handle);
 
 #if 0
 // ********************************************************************
-// ÒÓ¡¦¡¦m¡¦¡¦Ã°ÌÞ¡¦¡¦¡¦¡¦¡¦¡¦\¡¦¡¦// ********************************************************************
+// ï¿½Ó¡ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½Ã°ï¿½Þ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½// ********************************************************************
 BOOL MemorySecure(HANDLE handle)
 {
 	HANDLE					hProcess	= NULL;
@@ -152,9 +161,9 @@ BOOL MemorySecure(HANDLE handle)
 	ULONG					ulSize;
 	BYTE					*bMem		= NULL;
 
-	// NT,2000,XP¡¦¡¦¡¦¡¦	if(g_osVer.dwPlatformId==VER_PLATFORM_WIN32_NT){
+	// NT,2000,XPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	if(g_osVer.dwPlatformId==VER_PLATFORM_WIN32_NT){
 		//###########################################################
-		//        ¡¦¡¦ÌÌßÛ¾½¡¦¡¦AMÛ¯¸»²½¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦l¡¦¡¦¡¦¡¦
+		//        ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¾ï¿½ï¿½ï¿½ï¿½ï¿½AMÛ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		//###########################################################
 		hProcess	= GetCurrentProcess();
 		fResult		= GetProcessWorkingSetSize( hProcess, &m_processMinSizeDef, &m_processMaxSizeDef );
@@ -163,7 +172,7 @@ BOOL MemorySecure(HANDLE handle)
 		}
 
 		//###############################################
-		//        ¡¦¡¦ÌÌßÛ¾½¡¦¡¦AMÛ¯¸»²½¡¦¡¦¡¦X
+		//        ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¾ï¿½ï¿½ï¿½ï¿½ï¿½AMÛ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½X
 		//###############################################
 		m_dwAllocSize	= (g_FramePar.XSIZE * g_FramePar.YSIZE * g_FramePar.PIXBYTE * g_iFrmCnt) + (g_FrameParB.XSIZE * g_FrameParB.YSIZE * g_FrameParB.PIXBYTE * g_iFrmCntB);
 		processMinSize	= m_dwAllocSize + MYPROCESSYOYU;
@@ -177,8 +186,8 @@ BOOL MemorySecure(HANDLE handle)
 		}
 
 		//###############################################
-		//    ¡¦¡¦z±ÄÞÚ¡¦¡¦¡¦¡¦¢ºÐ¯¡¦¡¦¡¦\¡¦¡¦  
-		//    ¡¦¡¦z±ÄÞÚ¡¦¡¦¡¦ðºÐ¯¡¦¡¦¡¦¡¦¡¦¡¦ÒÓ¡¦¡¦m¡¦¡¦
+		//    ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½  
+		//    ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½
 		//###############################################
 		g_pHandle		= VirtualAlloc( NULL, m_dwAllocSize, MEM_COMMIT, PAGE_READWRITE );
 		if( !g_pHandle ){
@@ -190,7 +199,7 @@ BOOL MemorySecure(HANDLE handle)
 		bMem			= (BYTE*)g_pHandle;
 
 		//###############################################
-		//                 ¡¦¡¦¡¦¡¦¡¦\Ž¦
+		//                 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
 		//###############################################
 //		strMsg.Format( "[result] : %x , [pHandle] : %x !!\n", fResult, g_pHandle );
 		if( fResult==false ){
@@ -205,20 +214,20 @@ BOOL MemorySecure(HANDLE handle)
 		}
 
 		//###################################################################################  
-		//                    ¡¦¡¦¡¦¡¦¡¦¡¦¡¦e¡¦[¡¦u¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦ 
+		//                    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½ï¿½[ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 		//###################################################################################  
 		g_mtbl.off			= 0L;
-		g_mtbl.lm			= (ULONG_PTR)g_pHandle;					// 06/02/06 ULONG=>ULONG_PTR¡¦¡¦¡¦X
+		g_mtbl.lm			= (ULONG_PTR)g_pHandle;					// 06/02/06 ULONG=>ULONG_PTRï¿½ï¿½ï¿½ï¿½ï¿½ï¿½X
 		g_mtbl.size			= m_dwAllocSize;
 		g_mtbl.tableNum		= 0L;
 		if( g_fRdyRL ){
-			// AchÃÞ°À¡¦¡¦¡¦æ»²½¡¦			ulSize			= ( ( g_FramePar.XSIZE * g_FramePar.YSIZE * g_FramePar.PIXBYTE ) * g_iFrmCnt );
-			// Bch¡¦p¡¦¡¦¡¦¡¦¡¦¡¦ÄÞÚ½
+			// Achï¿½Þ°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ»²ï¿½ï¿½ï¿½			ulSize			= ( ( g_FramePar.XSIZE * g_FramePar.YSIZE * g_FramePar.PIXBYTE ) * g_iFrmCnt );
+			// Bchï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú½
 			g_ulRlStart		= ulSize;
-			// Bch¡¦p¡¦¡¦¡¦Ì»²½¡¦			g_ulRlSize		= ( ( g_FrameParB.XSIZE * g_FrameParB.YSIZE * g_FrameParB.PIXBYTE ) * g_iFrmCntB );
+			// Bchï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì»ï¿½ï¿½ï¿½ï¿½			g_ulRlSize		= ( ( g_FrameParB.XSIZE * g_FrameParB.YSIZE * g_FrameParB.PIXBYTE ) * g_iFrmCntB );
 			lRet	= mgCreateMemoryTableEx( handle, &g_mtbl, ulSize, g_ulRlSize );
 			wsprintf(ctemp,"Create Table Ex Error!!%x",lRet);
-		/* Bch¡¦¡¦¡¦p¡¦s¡¦¡¦\ */
+		/* Bchï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½sï¿½ï¿½ï¿½ï¿½\ */
 		} else {
 			lRet	= mgCreateMemoryTable( handle, &g_mtbl );
 			wsprintf(ctemp,"Create Table Error!!%x",lRet);
@@ -229,8 +238,8 @@ BOOL MemorySecure(HANDLE handle)
 			goto INITEND;
 		}
 	}
-	// 98,ME¡¦¡¦¡¦¡¦	else{
-		// "¡¦¡¦¡¦¡¦S¡¦¡¦¡¦g¡¦p¡¦s¡¦¡¦¡¦¡¦
+	// 98,MEï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	else{
+		// "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½pï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //		strMsg.LoadString( IDS_ERR_OS );
 //		MessageBox( strMsg );
 		fResult = IPM_ERROR;
@@ -252,8 +261,8 @@ BOOL MemorySecure(HANDLE handle)
 			lRet	= mgTempToMyHardwareB_CL( handle, &m_CLParB, &m_CameraParB );
 		}
 	}
-	if(m_fAorD)		mgTempToMyHardware_A( handle, &m_AnalogPar);  // IPM-8540A¡¦¡¦p
-	// ¡¦m¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦	g_bMem	= bMem;
+	if(m_fAorD)		mgTempToMyHardware_A( handle, &m_AnalogPar);  // IPM-8540Aï¿½ï¿½ï¿½ï¿½p
+	// ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	g_bMem	= bMem;
 //	maketable();
 INITEND:
   return( fResult );
@@ -261,7 +270,7 @@ INITEND:
 #endif
 
 // ********************************************************************
-// Û¯¸»²½¡¦¡¦¡¦X
+// Û¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½X
 // ********************************************************************
 void ChangeLockSize(HANDLE handle) 
 {
@@ -270,7 +279,7 @@ void ChangeLockSize(HANDLE handle)
 	HANDLE	hProcess;
 
 	//###############################################
-	//        ¡¦¡¦ÌÌßÛ¾½¡¦¡¦AMÛ¯¸»²½¡¦¡¦¡¦X
+	//        ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¾ï¿½ï¿½ï¿½ï¿½ï¿½AMÛ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½X
 	//###############################################
 	if(g_osVer.dwPlatformId==VER_PLATFORM_WIN32_NT){		// WinNT Ver
 		if(m_prcSts){
@@ -287,7 +296,7 @@ void ChangeLockSize(HANDLE handle)
 }
 
 // ********************************************************************
-// ÒÓ¡¦¡¦J¡¦¡¦// ********************************************************************
+// ï¿½Ó¡ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½// ********************************************************************
 void FreeMem() 
 {
 	BOOL result;
@@ -301,33 +310,33 @@ void FreeMem()
 }
 
 // ********************************************************************
-// 2ch¡¦¡¦\¡¦s¡¦¡¦\¡¦¡¦¡¦X
+// 2chï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½X
 // ********************************************************************
 void ChgRl()
 {
-	// 2ch¡¦s¡¦¡¦\¡¦¡¦¡¦¡¦¡¦¡¦¡¦	if( !g_fRdyRL )	g_fEnbRL		= false;
-	// 2ch¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦//	if( g_pRFrm ){		g_pRFrm->ChgRl();}
-	// ²Ò°¼¡¦¡¦¡¦¡¦¡¦u¡¦¡¦¡¦X
+	// 2chï¿½ï¿½sï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	if( !g_fRdyRL )	g_fEnbRL		= false;
+	// 2chï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½//	if( g_pRFrm ){		g_pRFrm->ChgRl();}
+	// ï¿½Ò°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½X
 //	if( g_pCFrm )		g_pCFrm->ChgRl();
 }
 
 // ********************************************************************
-// ²Ò°¼Þ»²½¡¦¡¦¡¦¡¦// ********************************************************************
+// ï¿½Ò°ï¿½Þ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½// ********************************************************************
 void SetImgSize()
 {
 	ULONG	ulFrmByte	= g_FramePar.XSIZE * g_FramePar.YSIZE * g_FramePar.PIXBYTE;
-	// ¡¦¡¦¡¦P¡¦x¡¦¡¦Z¡¦o
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½ï¿½xï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½o
 	int	iMaxKido;
-	// ÓÉ¸Û
+	// ï¿½É¸ï¿½
 	if((g_FramePar.TYPE & COLORMSK)==MONOTONE){
 		iMaxKido	= (int)pow(2.0,(int)g_FramePar.PIXBIT)-1;
-	// ¶×¡¦	} else {
+	// ï¿½×¡ï¿½	} else {
 		iMaxKido	= (int)pow(2.0,(int)(g_FramePar.PIXBIT/3))-1;
 	}
 
-	// ²Ò°¼¡¦¡¦¡¦Ì»²½¡¦¡¦X
+	// ï¿½Ò°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½X
 //	if( g_pCView )		g_pCView->SetImgSize();
-	// ½Ú¡¦¡¦ÄÞ¡¦¡¦¡¦¡¦X¡¦V
+	// ï¿½Ú¡ï¿½ï¿½ï¿½ï¿½Þ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½V
 //	if( g_pTView )		g_pTView->SetImgSize();
 	if( g_CL_M && g_fRdyRL){
 //		if( g_pTViewB )		g_pTViewB->SetImgSize();
@@ -338,47 +347,47 @@ void SetImgSize()
 }
 
 // ********************************************************************
-// ÌÚ°Ñ¡¦¡¦¡¦¡¦¡¦¡¦¡¦X¡¦¡¦¡¦¡¦
+// ï¿½Ú°Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // ********************************************************************
 void ChgFrmCnt(HANDLE handle, int iFrmCnt )
 {
 	DWORD	result;
-	int		fbak = g_iFrmCnt;			// ¡¦¡¦¡¦¡¦¡¦¡¦¡¦l¡¦ÌÊÞ¯¸±¡¦¡¦//	CString	strMsg;
-	// ¡¦¡¦¡¦¡¦¡¦m¡¦¡¦¡¦¡¦¡¦¡¦¡¦	if(g_bMem){
+	int		fbak = g_iFrmCnt;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½Þ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½//	CString	strMsg;
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	if(g_bMem){
 		ExitProcess(handle);
 	}
 	g_iFrmCnt	= iFrmCnt;
-	// ¡¦¡¦ÝÌÚ°¡¦¡¦¡¦¡¦¡¦z¡¦¡¦¡¦¡¦¡¦¡¦
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if( g_iFrmNo > g_iFrmCnt-1 )	g_iFrmNo	= g_iFrmCnt-1;
-	// ÒÓ¡¦¡¦¡¦¡¦m¡¦¡¦	result = MemorySecure(handle);
+	// ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½	result = MemorySecure(handle);
 	if(result = false){
-		// "ÒÓ¡¦m¡¦¡¦¡¦¡¦s¡¦¡¦¡¦¡¦¡¦
+		// "ï¿½Ó¡ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //		strMsg.LoadString( IDS_ERR_MEM_GET );
 //		MessageBox( strMsg );
 
 		g_iFrmCnt = fbak;
 		result = MemorySecure(handle);
 		if(result = false){
-			// "ÒÓ¡¦¡¦¡¦m¡¦¡¦¡¦¡¦s¡¦¡¦¡¦¡¦¡¦I¡¦¡¦¡¦¡¦¡¦
+			// "ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //			strMsg.LoadString( IDS_ERR_MEMGET_END );
 //			MessageBox( strMsg );
 //			OnExit();
 		}
 	}
 	else{
-		// ¡¦¡¦¡¦¡¦¡¦¡¦X¡¦V
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½V
 //		m_DlgReview.ChgFrmCnt();
 	}
 }
 
 // ********************************************************************
-// ¡¦I¡¦¡¦¡¦¡¦¡¦
+// ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // ********************************************************************
 void ExitProcess(HANDLE handle) 
 {
 	//###############################################
-	//    ¡¦¡¦z±ÄÞÚ¡¦¡¦¡¦ðÃÞºÐ¯¡¦¡¦¡¦¡¦¡¦¡¦ÒÓ¡¦¡¦m¡¦¡¦
-	//    ¡¦¡¦z±ÄÞÚ¡¦¡¦¡¦¡¦J¡¦¡¦  
+	//    ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÞºÐ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½
+	//    ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½  
 	//###############################################
 	if(g_osVer.dwPlatformId==VER_PLATFORM_WIN32_NT){
 		UnlockMem();
@@ -388,7 +397,7 @@ void ExitProcess(HANDLE handle)
 }
 
 // ********************************************************************
-// ÒÓ¡¦¡¦nlock
+// ï¿½Ó¡ï¿½ï¿½ï¿½nlock
 // ********************************************************************
 void UnlockMem() 
 {
@@ -400,38 +409,38 @@ void UnlockMem()
 }
 
 //*********************************************************************
-// ¡¦¡¦¡¦½Ú¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //*********************************************************************
 //UINT  GrabThread(LPVOID Prm)
 UINT  GrabThread(void *handle)
 {
 /*
 	CMainFrame	*pWnd		= (CMainFrame*)Prm;
-	// ¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦	pWnd->GrabPrc();
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	pWnd->GrabPrc();
 */
-	// ¡¦¡¦¡¦]¡¦¡¦¡¦¡¦¡¦¡¦	if( !g_fLoop )
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	if( !g_fLoop )
 		NormalPrc(handle);
-	// Ù°Ìß¡¦]¡¦¡¦¡¦¡¦¡¦¡¦	else
+	// Ù°ï¿½ß¡ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	else
 		LoopPrc(handle);
 
 	return( 0 );
 }
 
 // ********************************************************************
-// ¡¦¡¦¡¦]¡¦¡¦¡¦¡¦¡¦¡¦
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // ********************************************************************
 void NormalPrc(void *handle)
 {
 	DWORD		dwRet, dwRet2;
 //	CString	strMsg;
 	ULONG		ret;
-	m_ulTim				= GetTickCount();								// ¡¦J¡¦¡¦¡¦¡¦
-	// ¼ª°ÃÞ¨Ý¸¡¦¡¦¡¦¡¦X¡¦V
+	m_ulTim				= GetTickCount();								// ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½Þ¨Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½V
 //	m_DlgShd.Enable( false );
 
 	do {
 		ret=ResetEvent(g_hEvent);
-		g_Ov.hEvent		= g_hEvent;// OVERLAPPED¡¦¡¦g¡¦¡¦		g_ConvFlag		=	TRUE;
+		g_Ov.hEvent		= g_hEvent;// OVERLAPPEDï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½		g_ConvFlag		=	TRUE;
 		g_AdjustFlag	=	TRUE;
 		dwRet			= mgGrabberStart( handle,
 			&g_FramePar,
@@ -442,35 +451,35 @@ void NormalPrc(void *handle)
 			g_iFrmCnt,
 			m_dwTimeout,
 			(PVOID)0L );
-		// ¡¦]¡¦¡¦¡¦J¡¦´×¡¦		if( dwRet!=IPM_NOERROR )	break;
+		// ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½×¡ï¿½		if( dwRet!=IPM_NOERROR )	break;
 
-		// ¡¦I¡¦¡¦¡¦¡¦//		dwRet2					= WaitForSingleObject(g_hEvent,INFINITE);
+		// ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½//		dwRet2					= WaitForSingleObject(g_hEvent,INFINITE);
 		dwRet2					= WaitForSingleObject(g_hEvent,IGNORE);
 		
 		if( dwRet2==WAIT_OBJECT_0 ){
-			// ¡¦¡¦¡¦Ì×¸Þ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½
 			if( m_fExit ){
 				m_fContFlg	= false;
 				break;
 			}
-			// ¡¦`¡¦¡¦¡¦¡¦¡¦
+			// ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //			g_pCView->DrawScreen();
 //			DrawScreen();
 		}
-	// ¡¦A¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦	} while( m_fContFlg );
+	// ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	} while( m_fContFlg );
 
 /* D-20061116
-	// ¡¦¡¦¡¦¡¦I¡¦¡¦	g_fGrabber		= false;
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½	g_fGrabber		= false;
 
-	// ¡¦¡¦¡¦I¡¦¡¦	mgGrabberCancel( handle );
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½	mgGrabberCancel( handle );
 
-	// ×²¡¦¡¦¡¦¡¦¡¦Ý·¡¦¾Ù
+	// ×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý·ï¿½ï¿½ï¿½ï¿½
 	mgCancelLineIntWaitEvent( handle );
 
-	// ¼ª°ÃÞ¨Ý¸¡¦¡¦¡¦¡¦X¡¦V
+	// ï¿½ï¿½ï¿½ï¿½Þ¨Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½V
 //	m_DlgShd.Enable( TRUE );
 
-	// ¡¦]¡¦¡¦¡¦J¡¦´×¡¦	if( dwRet!=IPM_NOERROR )
+	// ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½×¡ï¿½	if( dwRet!=IPM_NOERROR )
 	{
 //		strMsg.Format( "mgGrabberStart=%X", dwRet );
 //		MessageBox( strMsg );
@@ -479,34 +488,34 @@ void NormalPrc(void *handle)
 }
 
 // ********************************************************************
-// Ù°Ìß¡¦]¡¦¡¦¡¦¡¦¡¦¡¦
+// Ù°ï¿½ß¡ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // ********************************************************************
 void LoopPrc(void *handle)
 {
 	DWORD		dwRet;
-	BOOL		fFirstFrm;		// ¡¦¡¦¡¦¡¦ÌÌÚ°¡¦¡¦\Ž¦Ì×¸Þ
-	ULONG		ulLine;				// ¡¦¡¦¡¦¡¦¡¦¡¦s¡¦¡¦
-	ULONG		ulFrmCnt;			// ¡¦¡¦¡¦¡¦¡¦ÏÌÚ°¡¦¡¦
-	ULONG		ulFrmNo;			// ¡¦\Ž¦¡¦¡¦éÌÚ°¡¦¡¦¡¦
+	BOOL		fFirstFrm;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½×¸ï¿½
+	ULONG		ulLine;				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
+	ULONG		ulFrmCnt;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ï¿½
+	ULONG		ulFrmNo;			// ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	BOOL		fStatus		= TRUE;
 //	CString	strMsg;
-	ULONG		ulIntCnt;			// ¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦
+	ULONG		ulIntCnt;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ULONG		ret;
-	// ¡¦¡¦¡¦¡¦ÌÌÚ°¡¦¡¦\Ž¦Ì×¸Þ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½×¸ï¿½
 	fFirstFrm			= TRUE;
 
-	// ¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ulIntCnt			= 0;
 
-	// ¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦\Ž¦¡¦¡¦¡¦¡¦X¡¦V
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½V
 //	m_DlgSetLoop.Enable( false );
-	// ¼ª°ÃÞ¨Ý¸¡¦¡¦¡¦¡¦X¡¦V
+	// ï¿½ï¿½ï¿½ï¿½Þ¨Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½V
 //	m_DlgShd.Enable( false );
 
-	m_ulTim				= GetTickCount();								// ¡¦J¡¦¡¦¡¦¡¦
+	m_ulTim				= GetTickCount();								// ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	do {
-		// ×²¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦		ret=ResetEvent(g_hLocalEvent);
-		// ¡¦]¡¦¡¦¡¦J¡¦¡¦¡¦¡¦¡¦		m_fLoopIntEnb	= TRUE;
+		// ×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		ret=ResetEvent(g_hLocalEvent);
+		// ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		m_fLoopIntEnb	= TRUE;
 
 		if(m_dwTimeout){
 			dwRet					= WaitForSingleObject(g_hLocalEvent,m_dwTimeout);
@@ -516,66 +525,66 @@ void LoopPrc(void *handle)
 		}
 
 		if( dwRet==WAIT_OBJECT_0 ){
-			// ¡¦¡¦¡¦Ì×¸Þ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½
 			if( m_fExit ){
 				m_fContFlg	= false;
 				break;
 			}
 /*
 			// --------------------------------
-			// ¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦\Ž¦
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
 			// --------------------------------
 			ulIntCnt++;
 			m_DlgSetLoop.DspCnt( g_ulIntCnt, ulIntCnt );
 
-			// ¡¦\Ž¦ÌÚ°Ñ¡¦¡¦¡¦¡¦¡¦Z¡¦o
+			// ï¿½ï¿½\ï¿½ï¿½ï¿½Ú°Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½o
 			ulLine		= (g_ulIntCnt-1) * g_ulLineCnt;
 			ulFrmCnt	= ulLine / g_FramePar.YSIZE;
 			ulFrmNo		= ulFrmCnt==0 ? 0 : ulFrmCnt-1;
 			ulFrmNo		= ulFrmNo % g_iFrmCnt;
 
-			// ¡¦\Ž¦¡¦¡¦¡¦ÌÌÚ°¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦A¡¦¡¦¡¦¡¦ÌÌÚ°¡¦¡¦¡¦¡¦			if( g_iFrmNo != (int)ulFrmNo || fFirstFrm ){
+			// ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½			if( g_iFrmNo != (int)ulFrmNo || fFirstFrm ){
 				g_iFrmNo	= ulFrmNo;
-				// ¡¦`¡¦¡¦¡¦¡¦¡¦
+				// ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				g_pCView->DrawScreen();
 			}
 
-			// ÌÚ°Ñ¡¦¡¦¡¦¡¦¡¦QÌÚ°Ñ¡¦¡¦¡¦¡¦¡¦			if( g_iFrmNo > 0 ){
-				// ¡¦¡¦¡¦¡¦ÌÌÚ°¡¦¡¦A¡¦\Ž¦¡¦¡¦¡¦				fFirstFrm	= false;
+			// ï¿½Ú°Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Qï¿½Ú°Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½			if( g_iFrmNo > 0 ){
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½				fFirstFrm	= false;
 			}
 */
 		}
 		else {
-			// ¡¦`¡¦¡¦¡¦¡¦¡¦
+			// ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //			g_pCView->DrawScreen();
-			mgGrabberCancel( handle );			// ¡¦¡¦¡¦I¡¦¡¦			m_fContFlg	= false;
+			mgGrabberCancel( handle );			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½			m_fContFlg	= false;
 			fStatus			= false;
-			// "À²Ñ±³Ä¡¦¡¦¡¦
+			// "ï¿½ï¿½Ñ±ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ï¿½
 //			strMsg.LoadString( IDS_ERR_TIMEOUT );
 			break;
 		}
-	// ¡¦A¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦	} while( m_fContFlg );
+	// ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	} while( m_fContFlg );
 
-	// ¡¦¡¦¡¦¡¦I¡¦¡¦	g_fGrabber		= false;
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½	g_fGrabber		= false;
 
-	// ¡¦¡¦¡¦I¡¦¡¦	mgGrabberCancel( handle );
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½	mgGrabberCancel( handle );
 
-	// ×²¡¦¡¦¡¦¡¦¡¦Ý·¡¦¾Ù
+	// ×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý·ï¿½ï¿½ï¿½ï¿½
 	mgCancelLineIntWaitEvent( handle );
 
-	// ¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦\Ž¦¡¦¡¦¡¦¡¦X¡¦V
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½V
 //	m_DlgSetLoop.Enable( TRUE );
-	// ¼ª°ÃÞ¨Ý¸¡¦¡¦¡¦¡¦X¡¦V
+	// ï¿½ï¿½ï¿½ï¿½Þ¨Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½V
 //	m_DlgShd.Enable( TRUE );
 
-	// ´×°Ò¡¦°¼¡¦¡¦\Ž¦
+	// ï¿½×°Ò¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
 	if( !fStatus ){
 //		MessageBox( strMsg );
 	}
 }
 
 //*********************************************************************
-// Ù°Ìß¡¦¡¦¡¦]¡¦¡¦¡¦J¡¦½Ú¡¦¡¦//*********************************************************************
+// Ù°ï¿½ß¡ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½//*********************************************************************
 //UINT  LoopStartThread(LPVOID Prm)
 //UINT  LoopStartThread()
 UINT  LoopStartThread(void *handle)
@@ -583,34 +592,34 @@ UINT  LoopStartThread(void *handle)
 /*
 	CMainFrame	*pWnd		= (CMainFrame*)Prm;
 
-	// Ù°Ìß¡¦¡¦]¡¦¡¦¡¦J¡¦¡¦¡¦¡¦¡¦¡¦¡¦	pWnd->LoopStartPrc();
+	// Ù°ï¿½ß¡ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	pWnd->LoopStartPrc();
 */
 	LoopStartPrc(handle);
 	return( 0 );
 }
 
 // ********************************************************************
-// Ù°Ìß¡¦¡¦]¡¦¡¦¡¦J¡¦¡¦¡¦¡¦¡¦
+// Ù°ï¿½ß¡ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // ********************************************************************
 void LoopStartPrc(void *handle)
 {
 	DWORD		dwRet;
 //	CString	strMsg;
 
-	// ¡¦]¡¦¡¦¡¦J¡¦¡¦¡¦¡¦	while( !m_fLoopStartEnb )		Sleep(1);
+	// ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	while( !m_fLoopStartEnb )		Sleep(1);
 
-	// Grabber ¡¦J¡¦
+	// Grabber ï¿½ï¿½Jï¿½ï¿½
 		dwRet	= mgGrabberStart( handle, &g_FramePar, &g_mtbl, NULL,
 							MGGRAB_INFINITE, 1L, g_iFrmCnt, 0, (PVOID)0L );
 
-	// ¡¦]¡¦¡¦¡¦J¡¦´×¡¦	if( dwRet!=IPM_NOERROR ){
+	// ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½×¡ï¿½	if( dwRet!=IPM_NOERROR ){
 
-		// ¡¦¡¦¡¦I¡¦¡¦		mgGrabberCancel( handle );
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½		mgGrabberCancel( handle );
 
-		// ×²¡¦¡¦¡¦¡¦¡¦Ý·¡¦¾Ù
+		// ×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý·ï¿½ï¿½ï¿½ï¿½
 		mgCancelLineIntWaitEvent( handle );
 
-		// 2ch¡¦¡¦¡¦		if( !g_fEnbRL ){
+		// 2chï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		if( !g_fEnbRL ){
 //			strMsg.Format( "mgGrabberStart=%X", dwRet );
 		}
 //		MessageBox( strMsg );
@@ -618,38 +627,38 @@ void LoopStartPrc(void *handle)
 }
 
 //*********************************************************************
-// Ù°Ìß¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¶³ÝÄ½Ú¡¦¡¦//*********************************************************************
+// Ù°ï¿½ß¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½Ú¡ï¿½ï¿½ï¿½//*********************************************************************
 //UINT  LoopIntCntThread(LPVOID Prm)
 UINT  LoopIntCntThread(void *handle)
 {
 /*
 	CMainFrame	*pWnd		= (CMainFrame*)Prm;
-	// Ù°Ìß¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¶³ÝÄ¡¦¡¦¡¦¡¦¡¦¡¦	pWnd->LoopIntCntPrc();
+	// Ù°ï¿½ß¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	pWnd->LoopIntCntPrc();
 */
 	LoopIntCntPrc(handle);
 	return( 0 );
 }
 
 // ********************************************************************
-// Ù°Ìß¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¶³ÝÄ¡¦¡¦¡¦¡¦
+// Ù°ï¿½ß¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // ********************************************************************
 void LoopIntCntPrc(void *handle)
 {
 	DWORD		dwRet;
 	ULONG		ret;
-	// ¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	g_ulIntCnt		= 0;
 
-	// ²ÍÞÝ¡¦¡¦¡¦	g_Ov.hEvent		= g_hEvent;
+	// ï¿½ï¿½ï¿½Ý¡ï¿½ï¿½ï¿½ï¿½ï¿½	g_Ov.hEvent		= g_hEvent;
 
-	// ¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦J¡¦¡¦¡¦¡¦	while( !m_fLoopIntEnb )		Sleep(1);
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	while( !m_fLoopIntEnb )		Sleep(1);
 
 	do {
 		ret=ResetEvent(g_hEvent);
-		// ×²¡¦¡¦¡¦¡¦¡¦¡¦¡¦J¡¦
+		// ×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½
 		mgSetLineIntWaitEvent( handle, &g_Ov );
-		// ¡¦]¡¦¡¦¡¦J¡¦¡¦¡¦¡¦¡¦		m_fLoopStartEnb	= TRUE;
-		// ×²¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦		if(m_dwTimeout){
+		// ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		m_fLoopStartEnb	= TRUE;
+		// ×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		if(m_dwTimeout){
 			dwRet					= WaitForSingleObject(g_hEvent,m_dwTimeout);
 		}
 		else{
@@ -657,12 +666,12 @@ void LoopIntCntPrc(void *handle)
 		}
 
 		if( dwRet==WAIT_OBJECT_0 ){
-			// ¡¦¡¦¡¦Ì×¸Þ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½
 			if( m_fExit ){
 				SetEvent( g_hLocalEvent );
 				break;
 			}
-			// ¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			g_ulIntCnt++;
 			SetEvent( g_hLocalEvent );
 		}
@@ -670,32 +679,32 @@ void LoopIntCntPrc(void *handle)
 			SetEvent( g_hLocalEvent );
 			break;
 		}
-	// ¡¦A¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦	} while( m_fContFlg );
+	// ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	} while( m_fContFlg );
 }
 /*
 // ********************************************************************
-// ¡¦I¡¦¡¦// ********************************************************************
+// ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½// ********************************************************************
 void OnExit() 
 {
 	DWORD lret;
 	CHAR *myFile;
 
-	// ¡¦¡¦¡¦¡¦
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if( g_fGrabber ){
-		// ¡¦¡¦¡¦Ì×¸Þ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½
 		m_fExit			= TRUE;
-		// ¡¦A¡¦¡¦¡¦¡¦Ì×¸Þ
+		// ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½
 		m_fContFlg	= false;
-		// ¡¦¡¦¡¦I¡¦¡¦		mgGrabberCancel( handle );
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½		mgGrabberCancel( handle );
 	}
 /*
-	// ¡¦¡¦¡¦¡¦
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if( g_fGrabber_B ){
-		// ¡¦¡¦¡¦Ì×¸Þ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½
 		m_fExit_B			= TRUE;
-		// ¡¦A¡¦¡¦¡¦¡¦Ì×¸Þ
+		// ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½
 		m_fContFlg_B	= false;
-		// ¡¦¡¦¡¦I¡¦¡¦		mgGrabberCancelB( handle );
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½		mgGrabberCancelB( handle );
 	}
 */
 /*
@@ -720,5 +729,5 @@ void UpdateSetting(void *handle)
 			lRet	= mgTempToMyHardwareB_CL( handle, &m_CLParB, &m_CameraParB );
 	}
 	if(m_fAorD)
-		mgTempToMyHardware_A( handle, &m_AnalogPar);  // IPM-8540A¡¦¡¦p
+		mgTempToMyHardware_A( handle, &m_AnalogPar);  // IPM-8540Aï¿½ï¿½ï¿½ï¿½p
 }

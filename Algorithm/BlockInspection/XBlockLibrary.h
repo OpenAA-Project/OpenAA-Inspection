@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XBlockLibrary.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #if	!defined(XBLOCKLIBRARY_H)
@@ -41,7 +50,7 @@ public:
 class	BlockLibrary : public AlgorithmLibrary , public ServiceForLayers
 {
 public:
-//¶¬ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
     IntList					SubtractBlock; //Removal library
 #pragma	pack(push,1)
 	int32					PickupL;
@@ -51,7 +60,7 @@ public:
     int32					MinBlockDots;
     int32					MaxBlockDots;
     int32					LimitBlockSize;
-	int32					RegularBrightness;	//Šî€‹P“x -1‚Ì‚Æ‚«ƒ}ƒXƒ^[‹P“x‚ğÌ—p
+	int32					RegularBrightness;	//ï¿½î€ï¿½Pï¿½x -1ï¿½Ì‚Æ‚ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Pï¿½xï¿½ï¿½ï¿½Ì—p
 	int32					FollowLineLength;
 #pragma	pack(pop)
 	struct{
@@ -64,9 +73,9 @@ public:
 	struct    {
 		bool    Transparent:1;		
 		bool    LeftPickup:1;
-		bool	OverlappedGen:1;	//d•¡¶¬‚·‚éƒuƒƒbƒN
+		bool	OverlappedGen:1;	//ï¿½dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½bï¿½N
 		bool	PlusHalfDotIsolation:1;
-		bool	LockFirst:1;		//¶¬‚ÉƒƒbƒN‚ğ‚©‚¯‚é
+		bool	LockFirst:1;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éƒï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		bool	BindSmallBlock:1;
 	}GenerationMode;
 	enum    _GenerationCategory
@@ -82,37 +91,37 @@ public:
 	}GenerationCategory;
 
 #pragma	pack(push,1)
-	WORD		NoiseSize;			//ŒÇ—§“_íœ
-	WORD		NoiseSizePinHole;	//ƒsƒ“ƒz[ƒ‹íœ
+	WORD		NoiseSize;			//ï¿½Ç—ï¿½ï¿½_ï¿½íœ
+	WORD		NoiseSizePinHole;	//ï¿½sï¿½ï¿½ï¿½zï¿½[ï¿½ï¿½ï¿½íœ
     WORD		SpaceToOutline;
     WORD		Priority;
-	WORD		OutlineGeneration;	//—ÖŠs‚É¶¬‚·‚éƒhƒbƒg”	1000ˆÈã‚Å’Êí¶¬
+	WORD		OutlineGeneration;	//ï¿½ÖŠsï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½	1000ï¿½Èï¿½ï¿½Å’Êí¶ï¿½ï¿½
 #pragma	pack(pop)
 
-//ŒŸ¸ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 #pragma	pack(push,1)
-	WORD	NBrightWidthL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-	WORD	NBrightWidthH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-	DWORD	NOKDotL;		//‹·ˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-	DWORD	NOKDotH;		//‹·ˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
-	WORD	NOKLengthL;		//‹·ˆæ‚ÌˆÃ‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-	WORD	NOKLengthH;		//‹·ˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-	DWORD	NMaxNGDotL;		//‹·ˆæ‚ÌˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	DWORD	NMaxNGDotH;		//‹·ˆæ‚Ì–¾‘¤Å‘å‚m‚fƒhƒbƒg”
-	WORD	NMinNGCountL;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	NMinNGCountH;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BBrightWidthL;	//Lˆæ‚ÌˆÃ‘¤‹P“x•
-	WORD	BBrightWidthH;	//Lˆæ‚Ì–¾‘¤‹P“x•
-	DWORD	BOKDotL;		//Lˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-	DWORD	BOKDotH;		//Lˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
-	DWORD	BMaxNGDotL;		//Lˆæ‚ÌˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	DWORD	BMaxNGDotH;		//Lˆæ‚Ì–¾‘¤Å‘å‚m‚fƒhƒbƒg”
-	WORD	BOKLengthL;		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-	WORD	BOKLengthH;		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-	WORD	BMinNGCountL;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCountH;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	int8	NConnectLen;	//‹·ˆæ‚Ì‚m‚fÚ‘±‹——£
-	int8	BConnectLen;	//Lˆæ‚Ì‚m‚fÚ‘±‹——£
+	WORD	NBrightWidthL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	NBrightWidthH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	DWORD	NOKDotL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NOKDotH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	NOKLengthL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+	WORD	NOKLengthH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+	DWORD	NMaxNGDotL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NMaxNGDotH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	NMinNGCountL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	NMinNGCountH;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BBrightWidthL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	BBrightWidthH;	//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	DWORD	BOKDotL;		//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BOKDotH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BMaxNGDotL;		//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BMaxNGDotH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	BOKLengthL;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+	WORD	BOKLengthH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+	WORD	BMinNGCountL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCountH;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	int8	NConnectLen;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
+	int8	BConnectLen;	//ï¿½Lï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
 	WORD	DiffBrightWidthL;
 	WORD	DiffBrightWidthH;
 	WORD	ExpandForGenMask;	//Expansion dot for dynamic mask to generate in ExecuteIntialAfterEdit
@@ -147,9 +156,9 @@ public:
 	}PointMove;
 
 #pragma	pack(push,1)
-    WORD	AdjustBlack;    //‹P“x•â³‚Ì‰ºŒÀ•
-    WORD	AdjustWhite;    //‹P“x•â³‚ÌãŒÀ•
-    WORD	SelfSearch;     //©ŒÈ’Tõƒhƒbƒg”
+    WORD	AdjustBlack;    //ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	AdjustWhite;    //ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	SelfSearch;     //ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
     WORD	CommonMoveDot;
 #pragma	pack(pop)
 

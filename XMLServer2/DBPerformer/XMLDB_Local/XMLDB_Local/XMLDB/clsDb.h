@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef CLSDB_H
 #define CLSDB_H
 
@@ -33,64 +51,64 @@ public:
 	clsDb(QObject *parent=0);
 	~clsDb();
 
-	/// ƒf[ƒ^ƒx[ƒX–¼
+	/// ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½
 	QString dbnam;
 
-	/// ƒf[ƒ^ƒx[ƒXƒ^ƒCƒv
+	/// ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½^ï¿½Cï¿½v
 	QString dbtype;
 
-	/// DBƒ†[ƒU
+	/// DBï¿½ï¿½ï¿½[ï¿½U
 	QString dbusr;
 
-	/// DBƒpƒXƒ[ƒh
+	/// DBï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½h
 	QString dbpwd;
 
-	/// DBƒzƒXƒg
+	/// DBï¿½zï¿½Xï¿½g
 	QString dbhost;
 
 	clsLog *log;
 
-	/// Ú‘±ƒpƒ‰ƒ[ƒ^ƒZƒbƒg
+	/// ï¿½Ú‘ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Zï¿½bï¿½g
 	/**
-	 * Ú‘±ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-	 * @param QString _dbtyp   ƒf[ƒ^ƒx[ƒXƒ^ƒCƒv
-	 * @param QString _dbhost  ƒf[ƒ^ƒx[ƒXƒT[ƒoƒzƒXƒg–¼
-	 * @param QString _dbnam   ƒf[ƒ^ƒx[ƒX–¼
-	 * @param QString _dbusr   ƒf[ƒ^ƒx[ƒXƒ†[ƒU–¼
-	 * @param QString _dbpwd   ƒf[ƒ^ƒx[ƒXƒpƒXƒ[ƒh
+	 * ï¿½Ú‘ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½ï¿½B
+	 * @param QString _dbtyp   ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½^ï¿½Cï¿½v
+	 * @param QString _dbhost  ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Tï¿½[ï¿½oï¿½zï¿½Xï¿½gï¿½ï¿½
+	 * @param QString _dbnam   ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½
+	 * @param QString _dbusr   ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½
+	 * @param QString _dbpwd   ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½h
 	 */
 	void setPrm(QString _dbtyp, QString _dbhost, QString _dbnam, QString _dbusr, QString _dbpwd);
 	void setPrm();
 
 	bool initDb();
 
-	/// Ú‘±
+	/// ï¿½Ú‘ï¿½
 	/**
 	 * @return bool
 	 */
 	bool Connect();
 
-	/// Ø’f
+	/// ï¿½Ø’f
 	/**
 	 * @return bool
 	 */
 	bool DisConnect();
 
-	/// XV
+	/// ï¿½Xï¿½V
 	/**
 	 * @param QString sql
 	 * @return void
 	 */
 	bool updExecSql(QString sql);
 
-	/// MAXIDæ“¾
+	/// MAXIDï¿½æ“¾
 	/**
 	 * @param QString
 	 * @return QString
 	 */
 	QString maxId(QString tbl);
 
-	/// ƒNƒGƒŠ[ƒ‚ƒfƒ‹¶¬
+	/// ï¿½Nï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	/**
 	 * @param QString sql
 	 * @return QSqlQueryModel
@@ -106,13 +124,13 @@ public:
     int getInsId(QString tbl);
 
     /**
-     * ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ŠJn
+     * ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Uï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½n
      * @return bool
      */
     bool beginTran();
 
     /**
-     * ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“I—¹
+     * ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Uï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
      * @return bool
      */
     bool endTran(bool flg);
@@ -139,10 +157,10 @@ public:
 	clsTagAttrRec *getTagDef(QString tag);
 
 private:
-	/// ƒf[ƒ^ƒx[ƒXƒIƒuƒWƒFƒNƒg
+	/// ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½g
 	QSqlDatabase db;
 
-	/// ƒe[ƒuƒ‹ƒwƒbƒ_
+	/// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½wï¿½bï¿½_
 	QString tblHead;
 
 	QStringList lstTagTop;

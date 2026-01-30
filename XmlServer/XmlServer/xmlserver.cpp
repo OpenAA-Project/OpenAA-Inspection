@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\XmlServer\XmlServer\xmlserver.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "xmlserver.h"
@@ -28,12 +37,12 @@ XmlServer::XmlServer(QWidget *parent, Qt::WindowFlags flags)
 	ui.setupUi(this);
 	setWindowTitle(tr("Xml Server ")+ Ver);
 	Base=NULL;
-	Base = new ServerBase();//ServerXmlClass‚ğƒwƒbƒ_[‚Å‚Íƒ|ƒCƒ“ƒ^‚Å‚Á‚Ä‚¢‚½‚Ì‚ÅAÀ‘Ô‚ğì‚éthis
+	Base = new ServerBase();//ServerXmlClassï¿½ï¿½ï¿½wï¿½bï¿½_ï¿½[ï¿½Å‚Íƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½Åï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Ì‚ÅAï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½this
 	socket=NULL;
 	PortFileOpen(Port,Timer);
 	ui.lTime->setText(QString::number(Timer));
 	tcpServer = new QTcpServer(this);    
-	if (!tcpServer->listen(QHostAddress::Any,Port)) {//ƒT[ƒo[‚ªŠJ‚¢‚Ä‚¢‚é‚©‚ÌŠm”F
+	if (!tcpServer->listen(QHostAddress::Any,Port)) {//ï¿½Tï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½ÌŠmï¿½F
 		QMessageBox::critical(this, tr("Fortune Server"),
                               tr("Unable to start the server: %1.")
                               .arg(tcpServer->errorString()));
@@ -42,10 +51,10 @@ XmlServer::XmlServer(QWidget *parent, Qt::WindowFlags flags)
 	}
 	ui.statusLabel->setText(tr("The server is running on port %1.\n"
                                "Run the Fortune Client example now.")
-                             .arg(tcpServer->serverPort()));//Form‚ÉPort”Ô†‚ª•\¦‚³‚ê‚é
+                             .arg(tcpServer->serverPort()));//Formï¿½ï¿½Portï¿½Ôï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	PPORT =tr("%1\n").arg(tcpServer->serverPort());
 	connect(tcpServer, SIGNAL(newConnection()), this, SLOT(sendFortune()));
-	//ƒNƒ‰ƒCƒAƒ“ƒg‘¤‚©‚ç—v‹‚ª‚ ‚Á‚½newConnection‚É“ü‚èAsendFortuneŠÖ”‚ğŒÄ‚Ño‚·
+	//ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½newConnectionï¿½É“ï¿½ï¿½ï¿½ï¿½AsendFortuneï¿½Öï¿½ï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½
 
 	ui.tableWidget->setColumnCount(4);
 	ui.tableWidget->setRowCount(0);	
@@ -108,9 +117,9 @@ close();
 void XmlServer::sendFortune()
 {
 	try {
-		clientConnection = tcpServer->nextPendingConnection();//ƒNƒ‰ƒCƒAƒ“ƒg‘¤‚Ìƒ\ƒPƒbƒgÄæ“¾
-//Š„‚èU‚é
-		Main = new ServerMain(clientConnection,Base, ui);//VƒNƒ‰ƒX‚Éƒ\ƒPƒbƒg‚ğ“n‚·Base‚à“n‚·//this,,serverName,PPORT
+		clientConnection = tcpServer->nextPendingConnection();//ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ìƒ\ï¿½Pï¿½bï¿½gï¿½Äæ“¾
+//ï¿½ï¿½ï¿½ï¿½ï¿½Uï¿½ï¿½
+		Main = new ServerMain(clientConnection,Base, ui);//ï¿½Vï¿½Nï¿½ï¿½ï¿½Xï¿½Éƒ\ï¿½Pï¿½bï¿½gï¿½ï¿½ï¿½nï¿½ï¿½Baseï¿½ï¿½ï¿½nï¿½ï¿½//this,,serverName,PPORT
 	} catch(int) {//XmlException  
 //		QMessageBox::information(this,"XmlServer Error", e.what());
 		tcpServer->close();
@@ -165,17 +174,17 @@ void XmlServer::on_Button_clicked()
 	 QString BackupPass;
     QString FileName;
 	QString	File=CurrPath+QString("\\XmlServer.dat");
-	QFile datFile(File);//•Û‘¶æEƒtƒ@ƒCƒ‹–¼‚Ì•Û‘¶	
+	QFile datFile(File);//ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Eï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ì•Û‘ï¿½	
 	if(datFile.open(QIODevice::ReadOnly)==true){
 		QTextStream mystream(&datFile);
 		int i=1;
 		while (mystream.atEnd()==0){
 			switch(i){
 			case 1:
-				BackupPass=mystream.readLine();	//•Û‘¶æ
+				BackupPass=mystream.readLine();	//ï¿½Û‘ï¿½ï¿½ï¿½
 				break;
 			case 2:
-				FileName=mystream.readLine();		//ƒtƒ@ƒCƒ‹–¼
+				FileName=mystream.readLine();		//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½
 				break;
 			}
 			i++;

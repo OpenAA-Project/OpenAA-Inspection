@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2020
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "mtImageToolButton.h"
 
 mtImageToolButton::mtImageToolButton(QWidget *parent, bool checked)
@@ -229,7 +247,7 @@ void mtImageToolButton::SlotClicked(bool checked)
 			vChecked=true;
 		}
 		else{
-			//‰æ–ÊˆÈŠO‚©‚çƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½ê‡‚É’Ê‚é
+			//ï¿½ï¿½ï¿½ÊˆÈŠOï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ê‡ï¿½É’Ê‚ï¿½
 ///			emit SignalClicked(checked);
 			emit SignalClicked(false);
 		}
@@ -264,7 +282,7 @@ void mtImageToolButton::SlotClicked(bool checked)
 void	mtImageToolButton::click()
 {
 /*
-	//PressedImg‚Ì•Û‘¶
+	//PressedImgï¿½Ì•Û‘ï¿½
 	PressedImg.save("PressedImg.bmp","BMP");
 */
 	if(isCheckable()==false){

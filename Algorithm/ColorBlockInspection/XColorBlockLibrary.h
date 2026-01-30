@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XColorBlockLibrary.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #if	!defined(XCOLORBLOCKLIBRARY_H)
@@ -43,9 +52,9 @@ public:
 class	ColorBlockLibrary : public AlgorithmLibrary , public ServiceForLayers
 {
 public:
-//¶¬ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 #pragma	pack(push,1)
-    IntList					SubtractBlock; //œ‹ƒ‰ƒCƒuƒ‰ƒŠ
+    IntList					SubtractBlock; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½
 	int32					PickupRL;
 	int32					PickupRH;
 	int32					PickupGL;
@@ -61,7 +70,7 @@ public:
 	struct    {
 		bool    Transparent:1;
 		bool    LeftPickup:1;
-		bool	OverlappedGen:1;	//d•¡¶¬‚·‚éƒuƒƒbƒN
+		bool	OverlappedGen:1;	//ï¿½dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½bï¿½N
 	}GenerationMode;
 	enum    _GenerationCategory
 	{
@@ -76,40 +85,40 @@ public:
 	}GenerationCategory;
 
 #pragma	pack(push,1)
-	WORD		NoiseSize;			//ŒÇ—§“_íœ
-	WORD		NoiseSizePinHole;	//ƒsƒ“ƒz[ƒ‹íœ
+	WORD		NoiseSize;			//ï¿½Ç—ï¿½ï¿½_ï¿½íœ
+	WORD		NoiseSizePinHole;	//ï¿½sï¿½ï¿½ï¿½zï¿½[ï¿½ï¿½ï¿½íœ
     WORD		SpaceToOutline;
     WORD		Priority;
 #pragma	pack(pop)
 
-//ŒŸ¸ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 
 	class	InspectionData
 	{
 	public:
 	#pragma	pack(push,1)
-		WORD	NBrightWidthL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		WORD	NBrightWidthH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-		WORD	BBrightWidthL;	//Lˆæ‚ÌˆÃ‘¤‹P“x•
-		WORD	BBrightWidthH;	//Lˆæ‚Ì–¾‘¤‹P“x•
+		WORD	NBrightWidthL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	NBrightWidthH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	BBrightWidthL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	BBrightWidthH;	//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 
-		DWORD	NOKDotL;		//‹·ˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-		DWORD	NOKDotH;		//‹·ˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
-		DWORD	BOKDotL;		//Lˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-		DWORD	BOKDotH;		//Lˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
+		DWORD	NOKDotL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+		DWORD	NOKDotH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+		DWORD	BOKDotL;		//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+		DWORD	BOKDotH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
 
-		WORD	NMinNGCountL;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-		WORD	NMinNGCountH;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-		WORD	BMinNGCountL;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-		WORD	BMinNGCountH;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
+		WORD	NMinNGCountL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+		WORD	NMinNGCountH;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+		WORD	BMinNGCountL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+		WORD	BMinNGCountH;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
 
-		WORD	BOKLengthL;		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-		WORD	BOKLengthH;		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-		WORD	NOKLengthL;		//‹·ˆæ‚ÌˆÃ‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-		WORD	NOKLengthH;		//‹·ˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
+		WORD	BOKLengthL;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+		WORD	BOKLengthH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+		WORD	NOKLengthL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+		WORD	NOKLengthH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
 
-	    WORD	AdjustBlack;    //‹P“x•â³‚Ì‰ºŒÀ•
-		WORD	AdjustWhite;    //‹P“x•â³‚ÌãŒÀ•
+	    WORD	AdjustBlack;    //ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+		WORD	AdjustWhite;    //ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	#pragma	pack(pop)
 
 		InspectionData(void);
@@ -133,7 +142,7 @@ public:
 	}PointMove;
 
 	#pragma	pack(push,1)
-    WORD	SelfSearch;     //©ŒÈ’Tõƒhƒbƒg”
+    WORD	SelfSearch;     //ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
 	WORD	CommonMoveDot;
 	#pragma	pack(pop)
 

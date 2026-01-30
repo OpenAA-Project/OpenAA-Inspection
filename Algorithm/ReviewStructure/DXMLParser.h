@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include <QString>
@@ -28,16 +46,16 @@ private:
 	PCEItem m_data;
 };
 
-// StringXMLParser‚ğeƒNƒ‰ƒX‚Æ‚·‚éƒp[ƒT‚ğs‚¤ƒNƒ‰ƒX
-// À‘•ŠÖ”‚ÍA
+// StringXMLParserï¿½ï¿½ï¿½eï¿½Nï¿½ï¿½ï¿½Xï¿½Æ‚ï¿½ï¿½ï¿½ï¿½pï¿½[ï¿½Tï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
+// ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½ÍA
 //
-// (•K{)
-// ƒp[ƒXŒ‹‰Ê‚ğ•Û‚·‚éƒƒ“ƒo•Ï”
-// analyze(QDomElement &elem) : ƒp[ƒXƒƒCƒ“ŠÖ”
+// (ï¿½Kï¿½{)
+// ï¿½pï¿½[ï¿½Xï¿½ï¿½ï¿½Ê‚ï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½éƒï¿½ï¿½ï¿½oï¿½Ïï¿½
+// analyze(QDomElement &elem) : ï¿½pï¿½[ï¿½Xï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Öï¿½
 //
-// (“K‹X)
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^AƒfƒXƒgƒ‰ƒNƒ^
-// getXXX() : ƒp[ƒT‚µ‚½ƒf[ƒ^‚Ìæ“¾
+// (ï¿½Kï¿½X)
+// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Aï¿½fï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
+// getXXX() : ï¿½pï¿½[ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìæ“¾
 // 
 
 class LotXMLInsLibParser : public StringXMLParser
@@ -75,7 +93,7 @@ private:
 };
 
 
-// <NGP ` />
+// <NGP ï¿½` />
 class LotXMLNgpParser : public StringXMLParser
 {
 public:
@@ -101,7 +119,7 @@ public:
 
 	void clear()
 	{
-		// ƒfƒtƒHƒ‹ƒg‚Å–³Œø‚È’l
+		// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Å–ï¿½ï¿½ï¿½ï¿½È’l
 		x = -1;
 		y = -1;
 		width = -1;
@@ -109,11 +127,11 @@ public:
 		IDX = -1;
 		Index = -1;
 
-		// ƒfƒtƒHƒ‹ƒg‚Å‚¸‚ê–³‚µ
+		// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Å‚ï¿½ï¿½ê–³ï¿½ï¿½
 		AlignedX = 0;
 		AlignedY = 0;
 
-		// ƒ`ƒFƒbƒNÏ‚İƒtƒ‰ƒO
+		// ï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İƒtï¿½ï¿½ï¿½O
 		isChecked = false;
 		FKey = Review::NoFKey;
 	};
@@ -123,7 +141,7 @@ public:
 	int IDX;
 	int Index;
 
-	int AlignedX;// ƒAƒ‰ƒCƒƒ“ƒg‚¸‚ê—Ê
+	int AlignedX;// ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	int AlignedY;// 
 
 	bool isChecked;
@@ -226,7 +244,7 @@ public:
 class ISTMultiList : public QList<ISTSingle>
 {};
 
-// <IST `>*</IST>
+// <IST ï¿½`>*</IST>
 class LotXMLIstParser : public StringXMLParser
 {
 public:

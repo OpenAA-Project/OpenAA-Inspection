@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "SelectLotForReviewResource.h"
 #include "SelectLotForReview.h"
 #include "../XGUIReviewGlobal.h"
@@ -152,8 +170,8 @@ SelectLotForReview::SelectLotForReview(LayersBase *Base,QWidget *parent)
 
 	ui.cancelButton->setVisible(false);
 
-	ui.twFrontLot->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);	// ‰¡ƒwƒbƒ_[•”‚ª‹Ï“™‚Ì•‚ÅLk•\¦‚³‚ê‚é
-	ui.twBackLot->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);	// ‰¡ƒwƒbƒ_[•”‚ª‹Ï“™‚Ì•‚ÅLk•\¦‚³‚ê‚é
+	ui.twFrontLot->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);	// ï¿½ï¿½ï¿½wï¿½bï¿½_ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ï“ï¿½ï¿½Ì•ï¿½ï¿½ÅLï¿½kï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ui.twBackLot->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);	// ï¿½ï¿½ï¿½wï¿½bï¿½_ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ï“ï¿½ï¿½Ì•ï¿½ï¿½ÅLï¿½kï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	if(GetEditMode()==false){
 		ui.twFrontLot->setRowCount(0);
@@ -314,7 +332,7 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 {
 	ReviewPIBase *RBase = GetReviewAlgorithm();
 
-	if(RBase==NULL){// AlgorithmƒGƒ‰[
+	if(RBase==NULL){// Algorithmï¿½Gï¿½ï¿½ï¿½[
 		return;
 	}
 
@@ -328,18 +346,18 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 	CmdReqMasterDataInfo reqMInfo(GetLayersBase());
 	RBase->TransmitDirectly(&reqMInfo);
 	
-	// •\‘¤
+	// ï¿½\ï¿½ï¿½
 	int MasterCode = reqMInfo.FrontMasterDataInfo.MasterCode;//m_FrontMasterCode;
 	int MachineID = reqMInfo.FrontMasterDataInfo.MachineID;//m_FrontMachineID;
 
-	// — ‘¤
+	// ï¿½ï¿½ï¿½ï¿½
 	int rMasterCode = reqMInfo.BackMasterDataInfo.MasterCode;//m_BackMasterCode;
 	int rMachineID = reqMInfo.BackMasterDataInfo.MachineID;//m_BackMachineID;
 
-	// ƒƒbƒg–¼‚ÌŒŸõ
+	// ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½
 	QString tagLot;
 	QString rtagLot;
-	if(ui.tabWidget->currentIndex()==0){// •\‘¤ƒe[ƒuƒ‹‚Ìƒ_ƒuƒ‹ƒNƒŠƒbƒN
+	if(ui.tabWidget->currentIndex()==0){// ï¿½\ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Ìƒ_ï¿½uï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½
 		tagLot = ui.twFrontLot->item(row, 0)->text();
 		for(int i=0; i<ui.twBackLot->rowCount(); i++){
 			if(tagLot==ui.twBackLot->item(i, 0)->text()){
@@ -347,7 +365,7 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 				break;
 			}
 		}
-	}else{// — ‘¤ƒe[ƒuƒ‹‚Ìƒ_ƒuƒ‹ƒNƒŠƒbƒN
+	}else{// ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Ìƒ_ï¿½uï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½
 		rtagLot = ui.twBackLot->item(row, 0)->text();
 		for(int i=0; i<ui.twFrontLot->rowCount(); i++){
 			if(rtagLot==ui.twFrontLot->item(i, 0)->text()){
@@ -357,25 +375,25 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 		}
 	}
 
-	CmdServerSetLot Send(GetLayersBase());// ƒƒbƒg“Ç‚İ‚İƒRƒ}ƒ“ƒhƒpƒPƒbƒg
-	CmdClearSideLot ClearCmd(GetLayersBase());// ƒƒbƒgíœƒRƒ}ƒ“ƒhƒpƒPƒbƒg
+	CmdServerSetLot Send(GetLayersBase());// ï¿½ï¿½ï¿½bï¿½gï¿½Ç‚İï¿½ï¿½İƒRï¿½}ï¿½ï¿½ï¿½hï¿½pï¿½Pï¿½bï¿½g
+	CmdClearSideLot ClearCmd(GetLayersBase());// ï¿½ï¿½ï¿½bï¿½gï¿½íœï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½pï¿½Pï¿½bï¿½g
 
-	if(MasterCode!=-1 && MachineID!=-1 && tagLot.isEmpty()==false){// ³í
-		// •\‘¤“Ç‚İ‚İ
+	if(MasterCode!=-1 && MachineID!=-1 && tagLot.isEmpty()==false){// ï¿½ï¿½ï¿½ï¿½
+		// ï¿½\ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
 		Send.side = Review::Front;
 		Send.LotFileName = tagLot;//Review::makeLotFileName(MasterCode, MachineID, tagLot);
 		RBase->TransmitDirectly(&Send);
-	}else{// •s³
+	}else{// ï¿½sï¿½ï¿½
 		ClearCmd.side = Review::Front;
 		RBase->TransmitDirectly(&ClearCmd);
 	}
 	
-	if(rMasterCode!=-1 && rMachineID!=-1 && rtagLot.isEmpty()==false){// ³í
-		// — ‘¤“Ç‚İ‚İ
+	if(rMasterCode!=-1 && rMachineID!=-1 && rtagLot.isEmpty()==false){// ï¿½ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
 		Send.side = Review::Back;
 		Send.LotFileName = rtagLot;//Review::makeLotFileName(rMasterCode, rMachineID, rtagLot);
 		RBase->TransmitDirectly(&Send);
-	}else{// •s³
+	}else{// ï¿½sï¿½ï¿½
 		ClearCmd.side = Review::Back;
 		RBase->TransmitDirectly(&ClearCmd);
 	}
@@ -436,7 +454,7 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 		}
 	}
 
-	// ‰ŠúˆÊ’uİ’è
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½İ’ï¿½
 	CmdSetCurrentHistory SetCurrentHistoryCmd(GetLayersBase());
 	SetCurrentHistoryCmd.Index = 0;
 	RBase->TransmitDirectly(&SetCurrentHistoryCmd);
@@ -455,7 +473,7 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 	CmdReqCurrentHistory ReqCurrentHistoryCmd(GetLayersBase());
 	RBase->TransmitDirectly(&ReqCurrentHistoryCmd);
 
-	// NG‚ÌŒŸ¸Šî”Õ‚Ü‚ÅƒXƒLƒbƒv
+	// NGï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ‚Ü‚ÅƒXï¿½Lï¿½bï¿½v
 	if(ReqCurrentHistoryCmd.historyPrt()!=NULL){
 		if(ReqCurrentHistoryCmd.historyPrt()->isOK()==true){
 			CmdMoveCurrentHistoryToNGBoard MoveCurrentHistoryToNGCmd(GetLayersBase());
@@ -479,7 +497,7 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 		}
 	}
 
-	// Å‰‚Éƒ`ƒFƒbƒN‚ğ“ü‚ê‚é
+	// ï¿½Åï¿½ï¿½Éƒ`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//CmdSetCurrentNGChecked SetCurrentNGCheckedCmd(GetLayersBase());
 	//SetCurrentNGCheckedCmd.isChecked = true;
 	//Base->TransmitDirectly(&SetCurrentNGCheckedCmd);
@@ -492,7 +510,7 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 	RBase->TransmitDirectly( &UpdateForSaveLotCmd );
 
 
-	// GUI‚ğXV
+	// GUIï¿½ï¿½ï¿½Xï¿½V
 	ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::ShowHistoryListForReview);
 	ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::NGImageListForReview);
 	ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::ListStatisticNG);
@@ -503,7 +521,7 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 	//ReviewGUI::UpdateHistoryGUI(GetLayersBase(), ReviewGUI::Name::WholeImageForReview);
 	ReviewGUI::UpdateLotGUI(GetLayersBase(), ReviewGUI::Name::WholeImageForReview);
 
-	// ‘SŠm”FÏ‚İ‚ğƒ`ƒFƒbƒN
+	// ï¿½Sï¿½mï¿½Fï¿½Ï‚İ‚ï¿½ï¿½`ï¿½Fï¿½bï¿½N
 	GUICmdUpdateCurrentHistoryChecked CheckHistoryCmd(GetLayersBase());
 	ReviewGUI::ReviewGUICmdSend(GetLayersBase(), &CheckHistoryCmd, ReviewGUI::Name::ShowHistoryListForReview);
 
@@ -543,45 +561,45 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 	//Base->TransmitDirectly( &ReqOrgCmd );
 
 	//if(ReqOrgCmd.listPtr!=NULL && ReqOrgCmd.listPtr->isEmpty()==false){
-	//	if(oside==Review::OrganizedSideType::Both){// —¼–Ê‚Ìê‡
-	//		// ƒGƒ‰[ƒ`ƒFƒbƒN
-	//		// ŒŸ¸ID‚Ì”ò‚ÑAd•¡‚ğŒŸõ
+	//	if(oside==Review::OrganizedSideType::Both){// ï¿½ï¿½ï¿½Ê‚Ìê‡
+	//		// ï¿½Gï¿½ï¿½ï¿½[ï¿½`ï¿½Fï¿½bï¿½N
+	//		// ï¿½ï¿½ï¿½ï¿½IDï¿½Ì”ï¿½ï¿½ÑAï¿½dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	//		//QList<int> InspectIDList;
 	//		QHash<int,bool> FrontMultiIDError;
-	//		QList<int> FrontNoExistError;// •\‘¤‚Ì‚È‚¢ID
+	//		QList<int> FrontNoExistError;// ï¿½\ï¿½ï¿½ï¿½Ì‚È‚ï¿½ID
 	//		QHash<int,bool> BackMultiIDError;
-	//		QList<int> BackNoExistError;// — ‘¤‚Ì‚È‚¢ID
+	//		QList<int> BackNoExistError;// ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚È‚ï¿½ID
 	//		int FrontOKCount=0;
 	//		int FrontNGCount=0;
 	//		int BackOKCount=0;
 	//		int BackNGCount=0;
 
 	//		for(int i=0; i<ReqOrgCmd.listPtr->count(); i++){
-	//			//InspectIDList.append(ReqOrgCmd.listPtr->at(i).getInspectID());// ID‚Ì•Û‘¶
-	//			if(ReqOrgCmd.listPtr->at(i).hasFront()==false){// •\ŒŸ¸—š—ğƒ`ƒFƒbƒN
-	//				FrontNoExistError.append(ReqOrgCmd.listPtr->at(i).getInspectID());// ŒŸ¸—š—ğ‚È‚µ
+	//			//InspectIDList.append(ReqOrgCmd.listPtr->at(i).getInspectID());// IDï¿½Ì•Û‘ï¿½
+	//			if(ReqOrgCmd.listPtr->at(i).hasFront()==false){// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
+	//				FrontNoExistError.append(ReqOrgCmd.listPtr->at(i).getInspectID());// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 	//			}else{
-	//				if(FrontMultiIDError.contains(ReqOrgCmd.listPtr->at(i).getInspectID())==true){// ŒŸ¸ID‚ª•¡”‘¶İ‚µ‚Ä‚¢‚é
+	//				if(FrontMultiIDError.contains(ReqOrgCmd.listPtr->at(i).getInspectID())==true){// ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	//					FrontMultiIDError[ReqOrgCmd.listPtr->at(i).getInspectID()] = false;
 	//				}else{
-	//					FrontMultiIDError.insert(ReqOrgCmd.listPtr->at(i).getInspectID(), true);// ’Êí‚ÍID‚²‚Æ‚É‚±‚±‚Éˆê“x‚¾‚¯“ü‚é
+	//					FrontMultiIDError.insert(ReqOrgCmd.listPtr->at(i).getInspectID(), true);// ï¿½Êï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½Æ‚É‚ï¿½ï¿½ï¿½ï¿½Éˆï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//				}
-	//				if(ReqOrgCmd.listPtr->at(i).getFront()->isOK()){// OK‚©NG‚©‚Å•ªŠòA‰ÁZ
+	//				if(ReqOrgCmd.listPtr->at(i).getFront()->isOK()){// OKï¿½ï¿½NGï¿½ï¿½ï¿½Å•ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Z
 	//					FrontOKCount++;
 	//				}else{
 	//					FrontNGCount++;
 	//				}
 	//			}
-	//			if(ReqOrgCmd.listPtr->at(i).hasBack()==false){// — ŒŸ¸—š—ğƒ`ƒFƒbƒN
-	//				BackNoExistError.append(ReqOrgCmd.listPtr->at(i).getInspectID());// ŒŸ¸—š—ğ‚È‚µ
+	//			if(ReqOrgCmd.listPtr->at(i).hasBack()==false){// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
+	//				BackNoExistError.append(ReqOrgCmd.listPtr->at(i).getInspectID());// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 	//			}else{
-	//				if(BackMultiIDError.contains(ReqOrgCmd.listPtr->at(i).getInspectID())==true){// ŒŸ¸ID‚ª•¡”‘¶İ‚µ‚Ä‚¢‚é
+	//				if(BackMultiIDError.contains(ReqOrgCmd.listPtr->at(i).getInspectID())==true){// ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	//					BackMultiIDError[ReqOrgCmd.listPtr->at(i).getInspectID()] = BackMultiIDError[ReqOrgCmd.listPtr->at(i).getInspectID()] + 1;
 	//				}else{
-	//					BackMultiIDError.insert(ReqOrgCmd.listPtr->at(i).getInspectID(), 1);// ’Êí‚ÍID‚²‚Æ‚É‚±‚±‚Éˆê“x‚¾‚¯“ü‚é
+	//					BackMultiIDError.insert(ReqOrgCmd.listPtr->at(i).getInspectID(), 1);// ï¿½Êï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½Æ‚É‚ï¿½ï¿½ï¿½ï¿½Éˆï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//				}
-	//				if(ReqOrgCmd.listPtr->at(i).getBack()->isOK()){// OK‚©NG‚©‚Å•ªŠòA‰ÁZ
+	//				if(ReqOrgCmd.listPtr->at(i).getBack()->isOK()){// OKï¿½ï¿½NGï¿½ï¿½ï¿½Å•ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Z
 	//					BackOKCount++;
 	//				}else{
 	//					BackNGCount++;
@@ -590,18 +608,18 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 	//		}
 
 	//		{
-	//		// ƒGƒ‰[‚¶‚á‚È‚¢‚à‚Ì‚ğæ‚èœ‚­
-	//		QList<int> keys = FrontMultiIDError.keys(true);// ƒGƒ‰[‚¶‚á‚È‚¢
+	//		// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½èœï¿½ï¿½
+	//		QList<int> keys = FrontMultiIDError.keys(true);// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 	//		for(int i=0; i<keys.count(); i++){
-	//			FrontMultiIDError.remove(keys[i]);// æ‚èœ‚«
+	//			FrontMultiIDError.remove(keys[i]);// ï¿½ï¿½ï¿½èœï¿½ï¿½
 	//		}
-	//		keys = BackMultiIDError.keys(true);// ƒGƒ‰[‚¶‚á‚È‚¢
+	//		keys = BackMultiIDError.keys(true);// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 	//		for(int i=0; i<keys.count(); i++){
-	//			BackMultiIDError.remove(keys[i]);// æ‚èœ‚«
+	//			BackMultiIDError.remove(keys[i]);// ï¿½ï¿½ï¿½èœï¿½ï¿½
 	//		}
 	//		}
 
-	//		//// ŒŸ¸ID‚ÌÅ‘å’l‚ğŒvZ
+	//		//// ï¿½ï¿½ï¿½ï¿½IDï¿½ÌÅ‘ï¿½ï¿½lï¿½ï¿½ï¿½vï¿½Z
 	//		//int maxID=INT_MIN;
 	//		//for(int i=0; i<InspectIDList.count(); i++){
 	//		//	if(maxID<InspectIDList[i]){
@@ -609,30 +627,30 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 	//		//	}
 	//		//}
 
-	//		//// ŒŸ¸ID‚Ì”ò‚ÑAd•¡‚ğƒ`ƒFƒbƒN
-	//		//QList<int> MultiErrorInspectIDList;//	ID‚ªd•¡‚µ‚Ä‚¢‚éê‡
-	//		//QList<int> NoExistErrorInspectIDList;//	ID‚ª‚È‚¢ê‡
+	//		//// ï¿½ï¿½ï¿½ï¿½IDï¿½Ì”ï¿½ï¿½ÑAï¿½dï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
+	//		//QList<int> MultiErrorInspectIDList;//	IDï¿½ï¿½ï¿½dï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡
+	//		//QList<int> NoExistErrorInspectIDList;//	IDï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡
 	//		//for(int i=0; i<maxID; i++){
-	//		//	int cnt = InspectIDList.count(i);// i”Ô‚ÌŒŸ¸ID‚Ì”(’Êí‚PŒÂ)
-	//		//	if(cnt>1){// •¡”ƒGƒ‰[‚Ìê‡
+	//		//	int cnt = InspectIDList.count(i);// iï¿½Ô‚ÌŒï¿½ï¿½ï¿½IDï¿½Ìï¿½(ï¿½Êï¿½ï¿½Pï¿½ï¿½)
+	//		//	if(cnt>1){// ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[ï¿½Ìê‡
 	//		//		MultiErrorInspectIDList.append(i);
-	//		//	}else if(cnt==0){// ID–³‚µƒGƒ‰[‚Ìê‡
+	//		//	}else if(cnt==0){// IDï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[ï¿½Ìê‡
 	//		//		NoExistErrorInspectIDList.append(i);
 	//		//	}
 	//		//}
 	//		
-	//		// ‰½‚ç‚©‚ÌƒGƒ‰[‚ª‚ ‚Á‚½ê‡
+	//		// ï¿½ï¿½ï¿½ç‚©ï¿½ÌƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
 	//		if(/*MultiErrorInspectIDList.isEmpty()==false	|| NoExistErrorInspectIDList.empty()==false ||*/
 	//			FrontMultiIDError.isEmpty()==false		|| FrontNoExistError.isEmpty()==false ||
 	//			BackMultiIDError.isEmpty()==false		|| BackNoExistError.isEmpty()==false){
-	//			QDialog diag;// ƒGƒ‰[•\¦ƒ_ƒCƒAƒƒO
+	//			QDialog diag;// ï¿½Gï¿½ï¿½ï¿½[ï¿½\ï¿½ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½O
 	//			if(resultUi!=NULL){
 	//				delete resultUi;
 	//			}
 	//			resultUi = new Ui::SelectLotResultClass;
 	//			resultUi->setupUi(&diag);
 
-	//			// ŒŸ¸ƒ{[ƒhŒvãŒ‹‰Ê
+	//			// ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½[ï¿½hï¿½vï¿½ãŒ‹ï¿½ï¿½
 	//			resultUi->twBoardCount->setItem(0, 0, new QTableWidgetItem(QString::number(FrontOKCount)));
 	//			resultUi->twBoardCount->setItem(1, 0, new QTableWidgetItem(QString::number(FrontNGCount)));
 	//			resultUi->twBoardCount->setItem(2, 0, new QTableWidgetItem(QString::number(FrontOKCount+FrontNGCount)));
@@ -641,15 +659,15 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 	//			resultUi->twBoardCount->setItem(2, 1, new QTableWidgetItem(QString::number(BackOKCount+BackNGCount)));
 
 	//			if(FrontMultiIDError.isEmpty()==false || FrontNoExistError.isEmpty()==false){
-	//				resultUi->twFrontError->setRowCount(FrontMultiIDError.count() + FrontNoExistError.count());// s”‚Ì’²®
-	//				QList<int> keyList = FrontMultiIDError.keys();// ƒL[‚Ìæ“¾
-	//				qSort(keyList);// ID‚ğ¸‡‚É•À‚×‘Ö‚¦
+	//				resultUi->twFrontError->setRowCount(FrontMultiIDError.count() + FrontNoExistError.count());// ï¿½sï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½
+	//				QList<int> keyList = FrontMultiIDError.keys();// ï¿½Lï¿½[ï¿½Ìæ“¾
+	//				qSort(keyList);// IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½×‘Ö‚ï¿½
 	//				int row;
 	//				for(int i=0, row=0; i<keyList.count(); i++,row++){
 	//					resultUi->twFrontError->setItem(row, 0, new QTableWidgetItem(QString::number(FrontMultiIDError[keyList[i]])));
 	//					resultUi->twFrontError->setItem(row, 1, new QTableWidgetItem("Multi ID"));
 	//				}
-	//				qSort(FrontNoExistError);// ID‚ğ¸‡‚É•À‚×‘Ö‚¦
+	//				qSort(FrontNoExistError);// IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½×‘Ö‚ï¿½
 	//				for(int i=0; i<FrontNoExistError.count(); i++,row++){
 	//					resultUi->twFrontError->setItem(row, 0, new QTableWidgetItem(QString::number(FrontNoExistError[i])));
 	//					resultUi->twFrontError->setItem(row, 1, new QTableWidgetItem("No ID"));
@@ -657,15 +675,15 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 	//			}
 
 	//			if(BackMultiIDError.isEmpty()==false || BackNoExistError.isEmpty()==false){
-	//				resultUi->twBackError->setRowCount(BackMultiIDError.count() + BackNoExistError.count());// s”‚Ì’²®
-	//				QList<int> keyList = BackMultiIDError.keys();// ƒL[‚Ìæ“¾
-	//				qSort(keyList);// ID‚ğ¸‡‚É•À‚×‘Ö‚¦
+	//				resultUi->twBackError->setRowCount(BackMultiIDError.count() + BackNoExistError.count());// ï¿½sï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½
+	//				QList<int> keyList = BackMultiIDError.keys();// ï¿½Lï¿½[ï¿½Ìæ“¾
+	//				qSort(keyList);// IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½×‘Ö‚ï¿½
 	//				int row;
 	//				for(int i=0, row=0; i<keyList.count(); i++,row++){
 	//					resultUi->twBackError->setItem(row, 0, new QTableWidgetItem(QString::number(BackMultiIDError[keyList[i]])));
 	//					resultUi->twBackError->setItem(row, 1, new QTableWidgetItem("Multi ID"));
 	//				}
-	//				qSort(BackNoExistError);// ID‚ğ¸‡‚É•À‚×‘Ö‚¦
+	//				qSort(BackNoExistError);// IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½×‘Ö‚ï¿½
 	//				for(int i=0; i<BackNoExistError.count(); i++,row++){
 	//					resultUi->twBackError->setItem(row, 0, new QTableWidgetItem(QString::number(BackNoExistError[i])));
 	//					resultUi->twBackError->setItem(row, 1, new QTableWidgetItem("No ID"));
@@ -682,7 +700,7 @@ void SelectLotForReview::doubleClicked(int row, int /*column*/)
 	//	}
 	//}
 
-	// ƒtƒH[ƒJƒX‚ğˆÚ“®
+	// ï¿½tï¿½Hï¿½[ï¿½Jï¿½Xï¿½ï¿½ï¿½Ú“ï¿½
 	GUIFormBase *GBase;
 	GUICmdSetFocus Cmd(GetLayersBase());
 	GBase = GetReviewGUIForm(ReviewGUI::Name::NGImageListForReview);

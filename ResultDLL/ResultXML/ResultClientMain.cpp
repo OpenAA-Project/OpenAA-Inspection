@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\clientmain.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "ResultClientMain.h"
@@ -15,7 +24,7 @@
 #include <QMessageBox>
 //bool ConnectFlag=false;
 #include <QTextCodec>
-QByteArray ClientMain::sClientNo ;		//ƒT[ƒo[‚©‚çŠ„‚èU‚ç‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg”Ô†
+QByteArray ClientMain::sClientNo ;		//ï¿½Tï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½çŠ„ï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½ê‚½ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Ôï¿½
 
 
 
@@ -50,7 +59,7 @@ bool ClientMain::Client_Connect(QByteArray &sError)
 	ConnectFlag=true;
 	return true;
 }
-bool ClientMain::Client_Start(const QByteArray &FileName, QByteArray &Msg, int &Client) //"START"‚ğ—v‹‚ğ‘—‚èAƒT[ƒo[Ú‘±‚ÌŠm—§
+bool ClientMain::Client_Start(const QByteArray &FileName, QByteArray &Msg, int &Client) //"START"ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ğ‘—‚ï¿½ï¿½Aï¿½Tï¿½[ï¿½oï¿½[ï¿½Ú‘ï¿½ï¿½ÌŠmï¿½ï¿½
 {
 	sOutlist.append("JyoukenStart");
 	sOutlist.append(FileName);
@@ -454,12 +463,12 @@ void ClientMain::Client_Send()
 	}
 	/*
 	block.clear();
-	QDataStream out(&block, QIODevice::WriteOnly);		//‘‚­€”õText
+	QDataStream out(&block, QIODevice::WriteOnly);		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Text
 	out.setVersion(QDataStream::Qt_4_3);
-	out << (quint16)0;									//0‚ğg—p
-	out << sOutlist;									//ÀÛ‘—‚é•¶š
-	out.device()->seek(0);								//0‚ğ’u‚«Š·‚¦‚é
-	out << (quint16)(block.size() - sizeof(quint16));	//“ª‚Ì0ˆø‚¢‚½ÀÛ‚ÌƒTƒCƒY					//‘—‚é
+	out << (quint16)0;									//0ï¿½ï¿½ï¿½gï¿½p
+	out << sOutlist;									//ï¿½ï¿½ï¿½Û‘ï¿½ï¿½é•¶ï¿½ï¿½
+	out.device()->seek(0);								//0ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	out << (quint16)(block.size() - sizeof(quint16));	//ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‚ÌƒTï¿½Cï¿½Y					//ï¿½ï¿½ï¿½ï¿½
 	ClientInst->TxData(&block);
 	*/
 
@@ -638,7 +647,7 @@ bool ClientMain::Client_TagToTagnotNG(const QList<QByteArray> &sQueryXmlList, co
 	sOutlist.append(_sDBName);
 	sOutlist<<sQueryXmlList;
 	Client_Send();
-	while(1){ // ƒT[ƒo‚©‚ç‚Ì•ÔM‚ğ‘Ò‚Â
+	while(1){ // ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Ì•ÔMï¿½ï¿½ï¿½Ò‚ï¿½
 		if (Client_Get(sMsg)==false){
 			return true	;
 		}

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "XDLLOnly.h"
@@ -8,31 +26,31 @@
 #include "XReviewStructure.h"
 
 //////////////////////////////////
-// ‘¼GUI‚©‚ç‘—M‚³‚ê‚éƒRƒ}ƒ“ƒh
+// ï¿½ï¿½GUIï¿½ï¿½ï¿½ç‘—ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 
-// –³‚µ
-
-//////////////////////////////////////
-// ‘—‚éƒRƒ}ƒ“ƒh(‘¼GUI‚ÌƒpƒPƒbƒg)
-
-// –³‚µ
+// ï¿½ï¿½ï¿½ï¿½
 
 //////////////////////////////////////
-// ƒ}ƒXƒ^[ƒXƒŒ[ƒuƒRƒ}ƒ“ƒh
-//  GUI‹¤’Ê€–Ú
-//   [XV] -> NGPosList‚ÌXV
+// ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h(ï¿½ï¿½GUIï¿½Ìƒpï¿½Pï¿½bï¿½g)
+
+// ï¿½ï¿½ï¿½ï¿½
+
+//////////////////////////////////////
+// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Xï¿½ï¿½ï¿½[ï¿½uï¿½Rï¿½}ï¿½ï¿½ï¿½h
+//  GUIï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½
+//   [ï¿½Xï¿½V] -> NGPosListï¿½ÌXï¿½V
 //   GUICmdReviewUpdateLocal
 //   GUICmdReviewUpdate
 // 
 
 /*
-// ‘—M‘¤
+// ï¿½ï¿½ï¿½Mï¿½ï¿½
 class GUIReqXXX : public GUICmdPacketBase
 {
 public:
-	// ‘—M‚·‚éƒf[ƒ^
+	// ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 	int data_req;
-	// óM‚·‚éƒf[ƒ^
+	// ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 	bool Ret;
 public:
 	GUIReqXXX(LayersBase *Base ,QString EmitterRoot,QString EmitterName ,int globalPage=-1);
@@ -43,13 +61,13 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-// óM‘¤
+// ï¿½ï¿½ï¿½Mï¿½ï¿½
 class GUIAckXXX : public GUICmdPacketBase
 {
 public:
-	// ‘—M‚·‚éƒf[ƒ^
+	// ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 	int data_ack;
-	// óM‚·‚éƒf[ƒ^
+	// ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 	bool Ret;
 public:
 	GUIAckXXX(LayersBase *Base ,QString EmitterRoot,QString EmitterName ,int globalPage=-1);

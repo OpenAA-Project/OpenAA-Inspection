@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "JDTAnalyzer.h"
 
 #include <QFile>
@@ -54,20 +72,20 @@ JDTFile::JDTFile(const QString &filename,const QString &_TransFileHost, int _Tra
 
 	switch(ver){
 	case 1:
-		m_ok = analyze_v1(filename);// ƒo[ƒWƒ‡ƒ“1—p
+		m_ok = analyze_v1(filename);// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½1ï¿½p
 		break;
 	case 2:
-		m_ok = analyze_v2(filename);// ƒo[ƒWƒ‡ƒ“2—p
+		m_ok = analyze_v2(filename);// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½2ï¿½p
 		break;
 	case 3:
 	case 4:
-		m_ok = analyze_v3(filename);// ƒo[ƒWƒ‡ƒ“3—p
+		m_ok = analyze_v3(filename);// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½3ï¿½p
 		break;
 	case 5:
-		m_ok = analyze_v5(filename);// ƒo[ƒWƒ‡ƒ“3—p
+		m_ok = analyze_v5(filename);// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½3ï¿½p
 		break;
 	default:
-		return;// –³Œøƒo[ƒWƒ‡ƒ“
+		return;// ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
 	}
 }
 
@@ -102,7 +120,7 @@ bool JDTFile::analyze_v2(const QString &filename)
 bool JDTFile::analyze_v2(QIODevice &file)
 {
 	if(file.open(QIODevice::ReadOnly)==true){
-		// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¬Œ÷
+		// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		QDataStream stream(&file);
 		int ImageNumb;
 
@@ -111,12 +129,12 @@ bool JDTFile::analyze_v2(QIODevice &file)
 		stream >> ImageNumb;
 
 		if(ImageNumb<=0){
-			// NG‰æ‘œ–‡”•s–¾
+			// NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 			return false;
 		}else{
-			// ‰æ‘œ–‡”³íæ“¾
+			// ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 			//QStringList loadImage;
-			for(int NGI=0; NGI<ImageNumb; NGI++){// NG‰æ‘œ•ª‚¾‚¯ƒ‹[ƒv
+			for(int NGI=0; NGI<ImageNumb; NGI++){// NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½v
 				unsigned char ver[2];
 				int page;
 				int staticID;
@@ -128,23 +146,23 @@ bool JDTFile::analyze_v2(QIODevice &file)
 				stream >> ver[0];
 				stream >> ver[1];
 					
-				// ƒo[ƒWƒ‡ƒ“
+				// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
 				int version = ((int)ver[1] << 8) + ver[0];
-				if(version>=1 && version<=2){// ‰Šúƒo[ƒWƒ‡ƒ“‚Í1AŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚Í2‚Ü‚Å
+				if(version>=1 && version<=2){// ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½Aï¿½ï¿½ï¿½İ‚Ìƒoï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½Ü‚ï¿½
 					jdtParts.setVersion(version);
-				}else{// ƒo[ƒWƒ‡ƒ“ƒGƒ‰[ 
+				}else{// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[ 
 					return false;
 				}
 					
-				stream >> page// ƒy[ƒW”Ô†
-					>> staticID// ’Ê‚µ”Ô†
-					>> x1// ¶‘¤
-					>> y1// ã‘¤
-					>> x2// ‰E‘¤
-					>> y2// ‰º‘¤
-					>> ImageByte;// ‰æ‘œ‚ÌƒoƒCƒg”
+				stream >> page// ï¿½yï¿½[ï¿½Wï¿½Ôï¿½
+					>> staticID// ï¿½Ê‚ï¿½ï¿½Ôï¿½
+					>> x1// ï¿½ï¿½ï¿½ï¿½
+					>> y1// ï¿½ã‘¤
+					>> x2// ï¿½Eï¿½ï¿½
+					>> y2// ï¿½ï¿½ï¿½ï¿½
+					>> ImageByte;// ï¿½æ‘œï¿½Ìƒoï¿½Cï¿½gï¿½ï¿½
 
-				//ƒ`ƒFƒbƒN‚Æƒf[ƒ^Ši”[
+				//ï¿½`ï¿½Fï¿½bï¿½Nï¿½Æƒfï¿½[ï¿½^ï¿½iï¿½[
 				if(page<0 ||
 					staticID<0 ||
 					x1<0 ||
@@ -152,7 +170,7 @@ bool JDTFile::analyze_v2(QIODevice &file)
 					x2<0 ||
 					y2<0 ||
 					ImageByte<0){
-					// ƒf[ƒ^•sˆê’v
+					// ï¿½fï¿½[ï¿½^ï¿½sï¿½ï¿½ï¿½v
 					return false;
 				}else{
 					jdtParts.setPage(page);
@@ -163,10 +181,10 @@ bool JDTFile::analyze_v2(QIODevice &file)
 					jdtParts.setBottom(y2);
 					QImage pix;
 					QByteArray pixData = file.read(ImageByte);
-					if(pix.loadFromData(pixData, /**/"PNG")==true){// ƒo[ƒWƒ‡ƒ“2‚ÍPNG‰æ‘œ
+					if(pix.loadFromData(pixData, /**/"PNG")==true){// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½PNGï¿½æ‘œ
 						jdtParts.setImageExtention(/**/"PNG");
 					}else{
-						if(pix.loadFromData(pixData, /**/"JPG")==true){// ƒo[ƒWƒ‡ƒ“1‚ÍJPG‰æ‘œ
+						if(pix.loadFromData(pixData, /**/"JPG")==true){// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½JPGï¿½æ‘œ
 							jdtParts.setImageExtention(/**/"JPG");
 						}else{
 						
@@ -181,7 +199,7 @@ bool JDTFile::analyze_v2(QIODevice &file)
 		}
 		return true;
 	}else{
-		// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¸”s
+		// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½s
 		return false;
 	}
 
@@ -210,15 +228,15 @@ bool JDTFile::analyze_v3(QIODevice &file)
 {
 	if(file.open(QIODevice::ReadOnly)==true){
 
-		// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¬Œ÷
+		// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		QDataStream stream(&file);
 		qint32 ver;
 		QStringList loadImage;
 
-		// ƒoƒCƒg“Ç‚İ‚İ‡˜‚ğ‹t‚Éİ’è
+		// ï¿½oï¿½Cï¿½gï¿½Ç‚İï¿½ï¿½İï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Éİ’ï¿½
 		stream.setByteOrder(QDataStream::LittleEndian);
 
-		// ƒo[ƒWƒ‡ƒ“î•ñ
+		// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		stream >> ver;// 2 2
 
 		ver = getVersion(ver);
@@ -226,65 +244,65 @@ bool JDTFile::analyze_v3(QIODevice &file)
 			return false;
 		}
 
-		// ƒtƒFƒCƒY”
+		// ï¿½tï¿½Fï¿½Cï¿½Yï¿½ï¿½
 		qint32 phaseNumb;
 		stream >> phaseNumb;// 4 6
 
 		if(phaseNumb<=0){
-			return false;// ƒtƒFƒCƒY”ƒ`ƒFƒbƒN¸”s
+			return false;// ï¿½tï¿½Fï¿½Cï¿½Yï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½s
 		}
 
-		// Phaseƒf[ƒ^\‘¢
+		// Phaseï¿½fï¿½[ï¿½^ï¿½\ï¿½ï¿½
 		for(qint32 phase_cnt=0; phase_cnt<phaseNumb; phase_cnt++){
-			// ƒo[ƒWƒ‡ƒ“æ“¾
+			// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 			qint32 PhaseVer;
 			stream >> PhaseVer;// 2 8
 			if(PhaseVer<0){
 				return false;
 			}
 
-			// ƒtƒFƒCƒY”Ô†
+			// ï¿½tï¿½Fï¿½Cï¿½Yï¿½Ôï¿½
 			qint32 phase;
 			stream >> phase;// 4 12
 
-			// NG‰æ‘œŒÂ”
+			// NGï¿½æ‘œï¿½Âï¿½
 			qint32 NGImageNumb;
 			stream >> NGImageNumb;// 4 16
 
-			// NG‰æ‘œƒf[ƒ^\‘¢
+			// NGï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½\ï¿½ï¿½
 			for(int NGCnt=0; NGCnt<NGImageNumb; NGCnt++){
-				// ƒo[ƒWƒ‡ƒ“æ“¾
+				// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 				qint32 NGVer;
 				stream >> NGVer;
 				if(NGVer<0){
 					return false;
 				}
 
-				// ƒy[ƒW”Ô†
+				// ï¿½yï¿½[ï¿½Wï¿½Ôï¿½
 				qint32 page;
 				stream >> page;
 
-				// ’Ê‚µ”Ô†
+				// ï¿½Ê‚ï¿½ï¿½Ôï¿½
 				qint32 staID;
 				stream >> staID;
 				
-				// ŠeÀ•Wæ“¾
+				// ï¿½eï¿½ï¿½ï¿½Wï¿½æ“¾
 				qint32 left,top,right,bottom;
 				stream >> left >> top >> right >> bottom;
 
 				if(left<0 || top<0 || right<0 || bottom<0){
-					return false;// ³í’lƒ`ƒFƒbƒN¸”s
+					return false;// ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½s
 				}
 
-				// NG‰æ‘œ‚ÌƒoƒCƒg”
+				// NGï¿½æ‘œï¿½Ìƒoï¿½Cï¿½gï¿½ï¿½
 				qint32 ImgSize;
 				stream >> ImgSize;
 						
-				// NG‰æ‘œ“Ç‚İ‚İ
+				// NGï¿½æ‘œï¿½Ç‚İï¿½ï¿½ï¿½
 				QByteArray NGImage = file.read(ImgSize);
 				QImage image;
-				if(image.loadFromData(NGImage, "PNG")==false){// PNG‚Å“Ç‚İ‚İ
-					image.loadFromData(NGImage, "JPG");// o—ˆ‚È‚¯‚ê‚ÎJPG‚ÅÄ“Ç‚İ‚İ
+				if(image.loadFromData(NGImage, "PNG")==false){// PNGï¿½Å“Ç‚İï¿½ï¿½ï¿½
+					image.loadFromData(NGImage, "JPG");// ï¿½oï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½JPGï¿½ÅÄ“Ç‚İï¿½ï¿½ï¿½
 				}
 			
 				JDTImage jdtParts;
@@ -335,15 +353,15 @@ bool JDTFile::analyze_v5(QIODevice &file)
 {
 	if(file.open(QIODevice::ReadOnly)==true){
 
-		// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¬Œ÷
+		// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		QDataStream stream(&file);
 		qint32 ver;
 		QStringList loadImage;
 
-		// ƒoƒCƒg“Ç‚İ‚İ‡˜‚ğ‹t‚Éİ’è
+		// ï¿½oï¿½Cï¿½gï¿½Ç‚İï¿½ï¿½İï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Éİ’ï¿½
 		stream.setByteOrder(QDataStream::LittleEndian);
 
-		// ƒo[ƒWƒ‡ƒ“î•ñ
+		// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		stream >> ver;// 2 2
 
 		ver = getVersion(ver);
@@ -351,37 +369,37 @@ bool JDTFile::analyze_v5(QIODevice &file)
 			return false;
 		}
 
-		// ƒtƒFƒCƒY”
+		// ï¿½tï¿½Fï¿½Cï¿½Yï¿½ï¿½
 		qint32 phaseNumb;
 		stream >> phaseNumb;// 4 6
 
 		if(phaseNumb<=0){
-			return false;// ƒtƒFƒCƒY”ƒ`ƒFƒbƒN¸”s
+			return false;// ï¿½tï¿½Fï¿½Cï¿½Yï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½s
 		}
 
-		// Phaseƒf[ƒ^\‘¢
+		// Phaseï¿½fï¿½[ï¿½^ï¿½\ï¿½ï¿½
 		for(qint32 phase_cnt=0; phase_cnt<phaseNumb; phase_cnt++){
-			// ƒo[ƒWƒ‡ƒ“æ“¾
+			// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 			qint32 PhaseVer;
 			stream >> PhaseVer;// 2 8
 			if(PhaseVer<0){
 				return false;
 			}
 
-			// ƒtƒFƒCƒY”Ô†
+			// ï¿½tï¿½Fï¿½Cï¿½Yï¿½Ôï¿½
 			qint32 phase;
 			stream >> phase;// 4 12
 
 			int16	SaveMode;
 			stream >> SaveMode;
 
-			// NG‰æ‘œŒÂ”
+			// NGï¿½æ‘œï¿½Âï¿½
 			qint32 NGImageNumb;
 			stream >> NGImageNumb;// 4 16
 
-			// NG‰æ‘œƒf[ƒ^\‘¢
+			// NGï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½\ï¿½ï¿½
 			for(int NGCnt=0; NGCnt<NGImageNumb; NGCnt++){
-				// ƒo[ƒWƒ‡ƒ“æ“¾
+				// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 				if(SaveMode==1){
 					qint32 NGVer;
 					stream >> NGVer;
@@ -389,31 +407,31 @@ bool JDTFile::analyze_v5(QIODevice &file)
 						return false;
 					}
 
-					// ƒy[ƒW”Ô†
+					// ï¿½yï¿½[ï¿½Wï¿½Ôï¿½
 					qint32 page;
 					stream >> page;
 
-					// ’Ê‚µ”Ô†
+					// ï¿½Ê‚ï¿½ï¿½Ôï¿½
 					qint32 staID;
 					stream >> staID;
 					
-					// ŠeÀ•Wæ“¾
+					// ï¿½eï¿½ï¿½ï¿½Wï¿½æ“¾
 					qint32 left,top,right,bottom;
 					stream >> left >> top >> right >> bottom;
 
 					if(left<0 || top<0 || right<0 || bottom<0){
-						return false;// ³í’lƒ`ƒFƒbƒN¸”s
+						return false;// ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½s
 					}
 
-					// NG‰æ‘œ‚ÌƒoƒCƒg”
+					// NGï¿½æ‘œï¿½Ìƒoï¿½Cï¿½gï¿½ï¿½
 					qint32 ImgSize;
 					stream >> ImgSize;
 							
-					// NG‰æ‘œ“Ç‚İ‚İ
+					// NGï¿½æ‘œï¿½Ç‚İï¿½ï¿½ï¿½
 					QByteArray NGImage = file.read(ImgSize);
 					QImage image;
-					if(image.loadFromData(NGImage, "PNG")==false){// PNG‚Å“Ç‚İ‚İ
-						image.loadFromData(NGImage, "JPG");// o—ˆ‚È‚¯‚ê‚ÎJPG‚ÅÄ“Ç‚İ‚İ
+					if(image.loadFromData(NGImage, "PNG")==false){// PNGï¿½Å“Ç‚İï¿½ï¿½ï¿½
+						image.loadFromData(NGImage, "JPG");// ï¿½oï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½JPGï¿½ÅÄ“Ç‚İï¿½ï¿½ï¿½
 					}
 					JDTImage jdtParts;
 						
@@ -442,23 +460,23 @@ bool JDTFile::analyze_v5(QIODevice &file)
 						return false;
 					}
 
-					// ƒy[ƒW”Ô†
+					// ï¿½yï¿½[ï¿½Wï¿½Ôï¿½
 					qint32 page;
 					stream >> page;
 
-					// ’Ê‚µ”Ô†
+					// ï¿½Ê‚ï¿½ï¿½Ôï¿½
 					qint32 staID;
 					stream >> staID;
 					
-					// ŠeÀ•Wæ“¾
+					// ï¿½eï¿½ï¿½ï¿½Wï¿½æ“¾
 					qint32 left,top,right,bottom;
 					stream >> left >> top >> right >> bottom;
 
 					if(left<0 || top<0 || right<0 || bottom<0){
-						return false;// ³í’lƒ`ƒFƒbƒN¸”s
+						return false;// ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½s
 					}
 
-					// NG‰æ‘œ‚ÌƒoƒCƒg”
+					// NGï¿½æ‘œï¿½Ìƒoï¿½Cï¿½gï¿½ï¿½
 					qint32 SrcImageXLen,SrcImageYLen;
 					stream >> SrcImageXLen >> SrcImageYLen;
 						
@@ -522,14 +540,14 @@ int JDTFile::checkVer(QIODevice &file) const
 	qint32 ver = -1;
 	for(int h=0;h<2;h++){
 		if(file.open(QIODevice::ReadOnly)==true){
-			// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¬Œ÷
+			// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			QDataStream stream(&file);
 			QStringList loadImage;
 
-			// ƒoƒCƒg“Ç‚İ‚İ‡˜‚ğ‹t‚Éİ’è
+			// ï¿½oï¿½Cï¿½gï¿½Ç‚İï¿½ï¿½İï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Éİ’ï¿½
 			stream.setByteOrder(QDataStream::LittleEndian);
 
-			// ƒo[ƒWƒ‡ƒ“î•ñ
+			// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			stream >> ver;
 			ver = getVersion(ver);
 			if(ver<1){

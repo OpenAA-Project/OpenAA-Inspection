@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2017
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "LiveCameraMightexUSB2Resource.h"
 #include "XMightexControl.h"
 #include "XGeneralFunc.h"
@@ -247,13 +265,13 @@ bool CameraItem::bayerToBMP(const unsigned char *bayer, unsigned char *bmp, int 
 	//QImage image(width, height, QImage::Format_RGB32);
 	//image.fill(0);
 	
-	// —ÖŠs•”
+	// ï¿½ÖŠsï¿½ï¿½
 
-	// Šp•”
+	// ï¿½pï¿½ï¿½
 	// y==0
 	{
 		// x==0
-		// G R G R G R <-¶ã
+		// G R G R G R <-ï¿½ï¿½ï¿½ï¿½
 		// B G B G B G
 		// G R G R G R
 		// B G B G B G
@@ -276,7 +294,7 @@ bool CameraItem::bayerToBMP(const unsigned char *bayer, unsigned char *bmp, int 
 	}
 	{
 		// x==width-1
-		// G R G R G R <-‰Eã
+		// G R G R G R <-ï¿½Eï¿½ï¿½
 		// B G B G B G
 		// G R G R G R
 		// B G B G B G
@@ -304,7 +322,7 @@ bool CameraItem::bayerToBMP(const unsigned char *bayer, unsigned char *bmp, int 
 		// G R G R G R
 		// B G B G B G
 		// G R G R G R
-		// B G B G B G <-¶‰º
+		// B G B G B G <-ï¿½ï¿½ï¿½ï¿½
 		const int startIndex = (height-1)*width;
 		const unsigned int center		= *(bayer + startIndex);
 		const unsigned int right		= *(bayer + startIndex + 1);
@@ -329,7 +347,7 @@ bool CameraItem::bayerToBMP(const unsigned char *bayer, unsigned char *bmp, int 
 		// G R G R G R
 		// B G B G B G
 		// G R G R G R
-		// B G B G B G <-‰E‰º
+		// B G B G B G <-ï¿½Eï¿½ï¿½
 		const int startIndex = height*width - 1;
 		const unsigned int center		= *(bayer + startIndex);
 		const unsigned int left			= *(bayer + startIndex - 1);
@@ -349,7 +367,7 @@ bool CameraItem::bayerToBMP(const unsigned char *bayer, unsigned char *bmp, int 
 		//image.setPixel(width-1, height-1, pic);
 	}
 
-	// ã•”
+	// ï¿½ã•”
 	// y==0, x=1~width-1
 	for(int x=1; x<width-1; x++){
 		// G R G R G R <-
@@ -385,7 +403,7 @@ bool CameraItem::bayerToBMP(const unsigned char *bayer, unsigned char *bmp, int 
 		//image.setPixel(x, 0, pic);
 	}
 	
-	// ‰º•”
+	// ï¿½ï¿½ï¿½ï¿½
 	for(int x=1; x<width-1; x++){
 		int startIndex = (height - 1)*width;
 		// G R G R G R
@@ -421,11 +439,11 @@ bool CameraItem::bayerToBMP(const unsigned char *bayer, unsigned char *bmp, int 
 		//image.setPixel(x, height-1, pic);
 	}
 	
-	// ¶•”
+	// ï¿½ï¿½ï¿½ï¿½
 	for(int y=1; y<height-1; y++){
 		// G R G R G R
-		// B G B G B G <-¶?
-		// G R G R G R <-¶?
+		// B G B G B G <-ï¿½ï¿½?
+		// G R G R G R <-ï¿½ï¿½?
 		// B G B G B G
 
 		int startIndex = y*width;
@@ -458,11 +476,11 @@ bool CameraItem::bayerToBMP(const unsigned char *bayer, unsigned char *bmp, int 
 		//qDebug() << qRed(pic) << "," << qGreen(pic) << "," << qBlue(pic);
 	}
 
-	// ‰E•”
+	// ï¿½Eï¿½ï¿½
 	for(int y=1; y<height-1; y++){
 		// G R G R G R
-		// B G B G B G <-‰E?
-		// G R G R G R <-‰E?
+		// B G B G B G <-ï¿½E?
+		// G R G R G R <-ï¿½E?
 		// B G B G B G
 
 		int startIndex = y*width - 1;
@@ -830,4 +848,3 @@ bool	MightexCameraContainer::Load(QIODevice *f)
 	}
 	return true;
 }
-

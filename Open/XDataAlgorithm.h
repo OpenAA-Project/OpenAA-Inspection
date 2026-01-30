@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\XDataAlgorithm.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef XDataAlgorithmH
 #define XDataAlgorithmH
 
@@ -550,14 +558,14 @@ class	AlgorithmItemRoot :public LearningValueByLib,public IdentifiedClass
 		bool			Changed:1;
 		bool			CalcDone:1;
 		bool			Visible:1;
-		bool			InvertLogic:1;		//˜_—”½“]@‚±‚ê‚ğg‚¤ƒƒWƒbƒN‚ÍŒÂX‚ÌƒAƒ‹ƒSƒŠƒY?‚ÅÀ‘•‚·‚é
+		bool			InvertLogic:1;		//ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½bï¿½Nï¿½ÍŒÂXï¿½ÌƒAï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Y?ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		bool			FromRental:1;
-		bool			Editable:1;			//•”•i‚©‚ç¶¬‚³‚ê‚½‚æ‚¤‚È‚Æ‚«‚Ì•ÒW‰Â?‘®«
+		bool			Editable:1;			//ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ç¶ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½æ‚¤ï¿½È‚Æ‚ï¿½ï¿½Ì•ÒWï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½
 		bool			ManualCreated:1;
 		bool			ProcessDone:1;
 		bool			CalcEnable:1;		//Enable inspection process.  Implement in each algorithm
 		bool			MultiSelection:1;
-		bool			ModeReferedAttr:1;	//•”•i—R—ˆ‚Ìƒf[ƒ^‚Ì‚Æ‚«true
+		bool			ModeReferedAttr:1;	//ï¿½ï¿½ï¿½iï¿½Rï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½Ì‚Æ‚ï¿½true
 		bool			LastMakeHistgramData:1;
 		bool			ThroughAllPhases:1;
 	};
@@ -566,11 +574,11 @@ class	AlgorithmItemRoot :public LearningValueByLib,public IdentifiedClass
 	
 protected:
   #pragma	pack(push,1)
-	int64				ItemID;				//–³İ’è -1
+	int64				ItemID;				//ï¿½ï¿½ï¿½İ’è -1
 	int64				LibID;
 	int32				LoadedVersion;
-    int32				PartsID;			//•”•i”Ô†		–³İ’è -1
-    int32				PartsAllocID;       //•”•i”z’u‚h‚c
+    int32				PartsID;			//ï¿½ï¿½ï¿½iï¿½Ôï¿½		ï¿½ï¿½ï¿½İ’è -1
+    int32				PartsAllocID;       //ï¿½ï¿½ï¿½iï¿½zï¿½uï¿½hï¿½c
     int32				PartsItemID;
 	int32				MasterNo;
 	ResultInItemRoot			*ResultInThisTime;	
@@ -581,7 +589,7 @@ protected:
 protected:
 	OriginType		GeneratedOrigin;
   #pragma	pack(pop)
-    SubtractItemContainer	SubBlock;	//œŠOƒuƒƒbƒN”Ô†
+    SubtractItemContainer	SubBlock;	//ï¿½ï¿½ï¿½Oï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½Ôï¿½
 
 public:
 	enum _MirrorMode{
@@ -758,9 +766,9 @@ public:
 	virtual	bool	FromClipboardItem(ClipboardAlgorithmItem *Src,LayersBase *LBase);
 
 	//void			GetShiftAfterAlignment(double &dx ,double &dy ,WORD OmitVectorIndex);
-	//ƒAƒ‰ƒCƒ“ƒƒ“ƒgî•ñæ“¾è’i
-	//	EExecuteInitialAfterEdit“à‚ÅGetAlignmentPointer‚ğŒÄ‚ñ‚ÅAƒAƒ‰ƒCƒ“ƒƒ“ƒgƒf???ƒCƒ“?‚ğæ“¾‚·‚é
-	//	EExecuteAlignmentˆÈ?‚ÅAGetAlignmentForProcessing‚ğŒÄ‚Ô
+	//ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½i
+	//	ï¿½EExecuteInitialAfterEditï¿½ï¿½ï¿½ï¿½GetAlignmentPointerï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ÅAï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½f???ï¿½Cï¿½ï¿½?ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
+	//	ï¿½EExecuteAlignmentï¿½ï¿½?ï¿½ÅAGetAlignmentForProcessingï¿½ï¿½ï¿½Ä‚ï¿½
 	AlignmentPacketBase	*GetAlignmentPointer(int localX ,int localY ,bool FromGlobal=true);
 	void			GetAlignmentForProcessing(AlignmentPacketBase &Packet);
 
@@ -1878,7 +1886,7 @@ class	AlgorithmInPageInOnePhase	final :public IdentifiedClass
 	AlgorithmInPageRoot	**PageData;
 	int32				AllocatedPageNumb;
 	int32				EffectivePageNumb;
-	int32				PhaseCode;			//‚O‚©‚ç‡”Ô‚É•t‚¯‚ç‚ê‚é
+	int32				PhaseCode;			//ï¿½Oï¿½ï¿½ï¿½ç‡ï¿½Ô‚É•tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	AlgorithmBase		*ParentBase;
 	LayersBase			*Parent;
 	bool				EnableExecute;
@@ -2161,7 +2169,7 @@ public:
 	virtual	ExeResult	ExecuteManageResult			(int ExeID ,ResultInspection *Res)			{	return _ER_true;	}
 
 	virtual	ExeResult	ExecuteRemoveResult(int32 MasterCode , LotBase *Lot , int64 InspectionID ,ResultBaseForAlgorithmRoot *Ref){	return _ER_true;	}
-	//	ExecuteRemoveResult?‚ªŒÄ‚Î‚ê‚é‚Ì‚ÍAŒŸ¸Œ‹‰Ê‚ª‘‚«‚Ü‚ê‚¸‚Éƒoƒbƒt?‚©‚çæ‚èœ‚©‚ê‚é‚Æ‚«
+	//	ExecuteRemoveResult?ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½ï¿½Ì‚ÍAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ê‚¸ï¿½Éƒoï¿½bï¿½t?ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½èœï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 
 	bool			GetEnableMoveForAlignment(void)		{	return EnableMoveForAlignment;	}
 	void			SetEnableMoveForAlignment(bool b)	{	EnableMoveForAlignment=b;		}
@@ -2407,4 +2415,3 @@ public:
 };
 
 #endif
-

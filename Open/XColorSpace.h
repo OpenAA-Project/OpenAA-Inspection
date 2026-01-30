@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\XColorSpace.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XCOLORSPACE_H)
 #define	XCOLORSPACE_H
 
@@ -449,7 +457,7 @@ public:
 private:
 	ColorDataType	DataType;
 	XDateTime	UpdateTime;
-	int32 SelectedColorFolder;	//•Û‘¶‚³‚ê‚È‚¢
+	int32 SelectedColorFolder;	//ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 
 public:
 	ColorSampleList(void){	AutoCount=-1;	Data=NULL;	}
@@ -462,7 +470,7 @@ public:
 	void	Set(RGBStock &src ,float weight);
 
 	RGBStock	*GetRGBStock(void)		const;
-	ColorLogic	*GetColorLogic(void)	const;	//Thread-safe‚Å‚È‚¢
+	ColorLogic	*GetColorLogic(void)	const;	//Thread-safeï¿½Å‚È‚ï¿½
 
 	ColorSampleList	&operator=(ColorSampleList &src);
 
@@ -556,19 +564,19 @@ struct HSVValue
 #pragma	pack(pop)
 //------------------------------------------------------------------------------------
 void	HSV2RGB(double h,double s ,double v ,int &R ,int &G ,int &B);
-// HSV(HSB)F‹óŠÔ‚©‚çRGBF‹óŠÔ‚Ö•ÏŠ·‚·‚é 
-//  h(hue)       : F‘Š/F‡‚¢   0-360“x‚Ì’l
-//  s(saturation): Ê“x/‘N‚â‚©‚³ 0-255‚Ì’l
-//  v(Value)     : –¾“x/–¾‚é‚³   0-255‚Ì’l 
-//  ¦v ‚Í b(Brightness)‚Æ“¯—l 
+// HSV(HSB)ï¿½Fï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½RGBï¿½Fï¿½ï¿½ï¿½Ô‚Ö•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ 
+//  h(hue)       : ï¿½Fï¿½ï¿½/ï¿½Fï¿½ï¿½ï¿½ï¿½   0-360ï¿½xï¿½Ì’l
+//  s(saturation): ï¿½Ê“x/ï¿½Nï¿½â‚©ï¿½ï¿½ 0-255ï¿½Ì’l
+//  v(Value)     : ï¿½ï¿½ï¿½x/ï¿½ï¿½ï¿½é‚³   0-255ï¿½Ì’l 
+//  ï¿½ï¿½v ï¿½ï¿½ b(Brightness)ï¿½Æ“ï¿½ï¿½l 
 
 
 void	RGB2HSV(double &h,double &s ,double &v ,int r ,int g ,int b);
 void	RGB2HSV(double &h,double &s ,double &v ,double r ,double g ,double b);
- // RGBF‹óŠÔ‚©‚çHSVF‹óŠÔ‚Ö•ÏŠ·‚·‚é 
- //  r(red)  : ÔF 0-255‚Ì’l
- //  g(green): —ÎF 0-255‚Ì’l
- //  b(blue) : ÂF 0-255‚Ì’l 
+ // RGBï¿½Fï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½HSVï¿½Fï¿½ï¿½ï¿½Ô‚Ö•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ 
+ //  r(red)  : ï¿½ÔF 0-255ï¿½Ì’l
+ //  g(green): ï¿½ÎF 0-255ï¿½Ì’l
+ //  b(blue) : ï¿½ÂF 0-255ï¿½Ì’l 
 
 void	RGB2XYZ(double R,double G ,double B,double &X ,double &Y ,double &Z);
 void	XYZ2RGB(double X ,double Y ,double Z,double &R,double &G ,double &B);
@@ -580,4 +588,3 @@ double	GetDeltaE76	 (double L1 ,double A1 ,double B1 ,double L2 ,double A2 ,doub
 double	GetDeltaE2000(double L1 ,double A1 ,double B1 ,double L2 ,double A2 ,double B2);
 
 #endif
-

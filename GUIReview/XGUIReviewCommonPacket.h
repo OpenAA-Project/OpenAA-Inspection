@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2018
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "XDLLOnly.h"
@@ -6,15 +24,15 @@
 #include "XGUIReviewGlobal.h"
 #include "XReviewCommon.h"
 
-// Review‚ÌGUI‚Ö‚Ì‹¤’ÊƒpƒPƒbƒg
-// ReviewGUI‚ÌTransmitDirectry‚ÅŠeX’è‹`‚·‚é
+// Reviewï¿½ï¿½GUIï¿½Ö‚Ì‹ï¿½ï¿½Êƒpï¿½Pï¿½bï¿½g
+// ReviewGUIï¿½ï¿½TransmitDirectryï¿½ÅŠeï¿½Xï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½
 
-// ƒ[ƒJƒ‹ƒpƒPƒbƒg
+// ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½pï¿½Pï¿½bï¿½g
 // 
-// ‰Šú‰»—v‹
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½
 // 
-//// ‘å‚«‚È•ÏX‚ð‚µ‚½Žž(ƒ}ƒXƒ^[ƒf[ƒ^‚ð“Ç‚Ýž‚ñ‚¾‚èAƒƒbƒg‚ð•ÏX‚µ‚½‚è‚µ‚½‚Æ‚«‚È‚Ç)‚ÉAReviewƒAƒ‹ƒSƒŠƒYƒ€‚Ìƒf[ƒ^‚Öƒ|ƒCƒ“ƒ^ŽQÆ‚µ‚Ä‚¢‚éê‡
-//// delete‚È‚Ç‚ÅÁ‹Ž‚µ‚½ƒCƒ“ƒXƒ^ƒ“ƒX‚ÖƒAƒNƒZƒX‚³‚¹‚È‚¢‚½‚ß‚Ì‰Šú‰»–½—ßƒpƒPƒbƒg
+//// ï¿½å‚«ï¿½È•ÏXï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ç‚Ýï¿½ï¿½ñ‚¾‚ï¿½ï¿½Aï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½ï¿½è‚µï¿½ï¿½ï¿½Æ‚ï¿½ï¿½È‚ï¿½)ï¿½ÉAReviewï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½Öƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½Qï¿½Æ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡
+//// deleteï¿½È‚Ç‚Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ÖƒAï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ß‚Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ßƒpï¿½Pï¿½bï¿½g
 //class GUICmdReviewInitializeLocal : public GUIDirectMessage
 //{
 //public:
@@ -27,7 +45,7 @@
 //		:GUIDirectMessage(Base),Ret(false){};
 //};
 
-// XV—v‹
+// ï¿½Xï¿½Vï¿½vï¿½ï¿½
 class GUICmdReviewUpdateLocal : public GUIDirectMessage
 {
 public:
@@ -38,7 +56,7 @@ public:
 		:GUIDirectMessage(Base),Ret(false){};
 };
 
-// ƒtƒH[ƒJƒX‚ðˆÚ‚·
+// ï¿½tï¿½Hï¿½[ï¿½Jï¿½Xï¿½ï¿½ï¿½Ú‚ï¿½
 class GUICmdSetFocus : public GUIDirectMessage
 {
 public:
@@ -46,7 +64,7 @@ public:
 		:GUIDirectMessage(Base){};
 };
 
-// CurrentNGNail‚ð•ÏX‚·‚é
+// CurrentNGNailï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½
 class GUICmdSetCurrentNGNail : public GUIDirectMessage
 {
 public:
@@ -109,7 +127,7 @@ public:
 };
 
 
-// —š—ð‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ð’Ê’m‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ê’mï¿½ï¿½ï¿½ï¿½
 class GUICmdUpdateCurrentHistory : public GUIDirectMessage
 {
 public:
@@ -124,7 +142,7 @@ public:
 		:GUIDirectMessage(Base){};
 };
 
-// NGNail‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ð’Ê’m‚·‚é
+// NGNailï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ê’mï¿½ï¿½ï¿½ï¿½
 class GUICmdUpdateCurrentNGNail : public GUIDirectMessage
 {
 public:
@@ -132,11 +150,11 @@ public:
 		:GUIDirectMessage(Base){};
 };
 
-// ƒ}ƒXƒ^[ƒXƒŒ[ƒuŠÔ’ÊMƒpƒPƒbƒg
+// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Xï¿½ï¿½ï¿½[ï¿½uï¿½Ô’ÊMï¿½pï¿½Pï¿½bï¿½g
 
-// ‘—M‚Ì‚ÝƒpƒPƒbƒg
+// ï¿½ï¿½ï¿½Mï¿½Ì‚Ýƒpï¿½Pï¿½bï¿½g
 
-//// ‰Šú‰»—v‹ : •\Ž¦‚µ‚Ä‚¢‚éƒf[ƒ^‚ð‰Šú‰»‚·‚é -> Žå‚É‰Šú‰»ŠÖ”‚ÌŽÀs‚ð‘£‚·
+//// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ : ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½ÌŽï¿½ï¿½sï¿½ð‘£‚ï¿½
 //class GUICmdReviewInitialize : public GUICmdPacketBase
 //{
 //public:
@@ -148,7 +166,7 @@ public:
 //	GUICmdReviewInitialize(LayersBase *Base ,QString EmitterRoot,QString EmitterName ,int globalPage=-1);
 //};
 
-// XV—v‹ : RviewStructure‚©‚çƒf[ƒ^‚ðÄŽæ“¾‚µ‚Ä•ÛŽ‚µ‚Ä‚¢‚éƒf[ƒ^‚ðXV‚³‚¹‚é -> Žå‚É‰Šú‰»ŠÖ” > XV‚ðŽÀs‚³‚¹‚é
+// ï¿½Xï¿½Vï¿½vï¿½ï¿½ : RviewStructureï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ÄŽæ“¾ï¿½ï¿½ï¿½Ä•ÛŽï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ > ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 class GUICmdReviewUpdate : public GUICmdPacketBase
 {
 public:

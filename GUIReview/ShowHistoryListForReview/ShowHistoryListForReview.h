@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef SHOWHIERARCHYFORREVIEW_H
 #define SHOWHIERARCHYFORREVIEW_H
 
@@ -10,7 +28,7 @@
 
 #include "XDLLOnly.h"
 
-// ƒvƒƒpƒeƒBéŒ¾ŠJn
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Jï¿½n
 
 class ShowHistoryListForReview;
 
@@ -23,7 +41,7 @@ namespace Ui{
 class ShowHistoryListForReviewPropertyClass;
 }
 
-// ƒvƒƒpƒeƒBéŒ¾I—¹
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Iï¿½ï¿½
 
 class SHOWHISTORYLISTFORREVIEW_EXPORT ShowHistoryListForReview : public GUIFormBase
 {
@@ -89,13 +107,13 @@ public:
 		bool existBack;
 	};
 public:
-	// ShowHistoryListForReview‚Ì‘—óM
+	// ShowHistoryListForReviewï¿½Ì‘ï¿½ï¿½ï¿½ï¿½M
 	// [Send]
-	// ENGImageListForReview‚ÖNGƒŠƒXƒg‚ÌXV—v‹
+	// ï¿½ENGImageListForReviewï¿½ï¿½NGï¿½ï¿½ï¿½Xï¿½gï¿½ÌXï¿½Vï¿½vï¿½ï¿½
 	// 
 	// [Recive]
-	// E—š—ğƒŠƒXƒg‚ÌXV
-	// E—š—ğƒŠƒXƒg‚ÌˆÚ“®
+	// ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ÌXï¿½V
+	// ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ÌˆÚ“ï¿½
 	virtual	void TransmitDirectly(GUIDirectMessage *packet)	override;
 	
 	void ShowHistoryList(OrganizedHistoryListPtr orgHistryListPtr);
@@ -113,8 +131,8 @@ private:
 
 public slots:
 	void ResizeAction();
-	void relativeCellClicked(int currentRow, int currentColumn, int previousRow, int previousColumn);	// ƒŠƒXƒg‚ğƒNƒŠƒbƒN‚µ‚½‚Æ‚«‚Ì“®ì
-								// ƒNƒŠƒbƒN‚µ‚½s”Ô†‚ğó‚¯æ‚èANGImageListForReview‚É‘—‚é
+	void relativeCellClicked(int currentRow, int currentColumn, int previousRow, int previousColumn);	// ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ì“ï¿½ï¿½ï¿½
+								// ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Ôï¿½ï¿½ï¿½ï¿½ó‚¯ï¿½ï¿½ï¿½ï¿½ANGImageListForReviewï¿½É‘ï¿½ï¿½ï¿½
 	void setOKBoardVisible(bool v){ if(ui.cbOKVisible->isChecked()==v)return; ui.cbOKVisible->setChecked(v); updateTable(); };
 	void updateTable();
 	void reloadData();
@@ -139,35 +157,35 @@ private:
 	QString hhlFrontInfo;
 	QString hhlBackInfo;
 
-	bool OKBoardVisible;// OKŠî”Õ‚ğ?¦‚·‚éƒ‚?ƒh
-	QList<int> NGIndexAtTableRow;//	?¦‚³‚ê‚Ä‚¢‚éƒe?ƒuƒ‹‚ÌNGs‚ªReviewStrucrure‘¤‚É‚¨‚¯‚é‚Ç‚Ì—š—ğƒCƒ“ƒfƒbƒNƒX‚©‚ğ¦‚·ƒŠƒXƒg
-								//	NGIndexAtTableRow[ƒe?ƒuƒ‹‚ÌsƒCƒ“ƒfƒbƒNƒX] == OrgDataList‚ÌƒCƒ“ƒfƒbƒNƒX
+	bool OKBoardVisible;// OKï¿½ï¿½ï¿½Õ‚ï¿½?ï¿½ï¿½ï¿½ï¿½ï¿½éƒ‚?ï¿½h
+	QList<int> NGIndexAtTableRow;//	?ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½e?ï¿½uï¿½ï¿½ï¿½ï¿½NGï¿½sï¿½ï¿½ReviewStrucrureï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚Ì—ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½g
+								//	NGIndexAtTableRow[ï¿½e?ï¿½uï¿½ï¿½ï¿½Ìsï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X] == OrgDataListï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X
 
 	QList<TableData> OrgDataList;
 
 
 /*------------------------------------------------------------------------------------------------*/
-/*----------------------------ƒvƒƒpƒeƒBŠÖ˜A - ŠJn-----------------------------------------------*/
+/*----------------------------ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö˜A - ï¿½Jï¿½n-----------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 	
-// ƒvƒƒpƒeƒB‚ÌƒƒCƒ“ƒoƒbƒt?(GUI‚Ég—p‚·‚éî•ñ‚ÆUi‚©‚ç‚Ì“üo—Í‚Ég—p)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒï¿½ï¿½Cï¿½ï¿½ï¿½oï¿½bï¿½t?(GUIï¿½Égï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Uiï¿½ï¿½ï¿½ï¿½ï¿½Ì“ï¿½ï¿½oï¿½Í‚Égï¿½p)
 private:
 	ShowHistoryListForReviewProperty *m_property;
 
-// ƒvƒƒpƒeƒBİ’è?ƒCƒAƒƒO(ŠO•”‚©‚ç(*å‚ÉƒvƒƒpƒeƒBİ’èGUI)‚Ì—v‹‚ÅŒÄ‚Ño‚³‚ê‚é)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½?ï¿½Cï¿½Aï¿½ï¿½ï¿½O(ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(*ï¿½ï¿½ï¿½Éƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½GUI)ï¿½Ì—vï¿½ï¿½ï¿½ÅŒÄ‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 private:
 	Ui::ShowHistoryListForReviewPropertyClass *m_propertyUi;
 	QDialog *m_propertyDialog;
 
-// ƒvƒƒpƒeƒB‚Ö‚ÌƒAƒNƒZƒX
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½X
 public:
 	inline const ShowHistoryListForReviewProperty &getProperty() const { return *m_property; };
 	ShowHistoryListForReviewProperty *getPropertyPtr() { return m_property; }
 
-private:// •ÒW‰Â?‚Í“à•”‚©‚ç‚Ì‚İ
+private:// ï¿½ÒWï¿½ï¿½?ï¿½Í“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
 	inline ShowHistoryListForReviewProperty &getProperty() { return *m_property; };
 
-// ƒvƒƒpƒeƒB‚Ìƒoƒbƒt?‚ÆƒvƒƒpƒeƒBİ’è?ƒCƒAƒƒO‚Ö‚ÌƒAƒNƒZƒXŠÖ”
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒoï¿½bï¿½t?ï¿½Æƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½?ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½Öï¿½
 private:
 	void setProperty(ShowHistoryListForReviewProperty *property){ m_property = property; };
 	void setPropertyUi(Ui::ShowHistoryListForReviewPropertyClass *ui){ m_propertyUi = ui; };
@@ -175,11 +193,11 @@ private:
 	void setPropertyDialog(QDialog *dialog){ m_propertyDialog = dialog; };
 	QDialog *getPropertyDialog(void){ return m_propertyDialog; };
 	
-// ƒvƒƒpƒeƒB?ƒCƒAƒƒO‚ÌƒVƒOƒiƒ‹accepted()‚É‘Î‰‚·‚éƒXƒƒbƒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½B?ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ÌƒVï¿½Oï¿½iï¿½ï¿½accepted()ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½g
 private slots:
 	void slot_propertyModified();
 
-// ƒvƒƒpƒeƒB‚ÌƒRƒs?‚ÆUiƒt?ƒCƒ‹‚Æ‚Ì˜AŒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½ÌƒRï¿½s?ï¿½ï¿½Uiï¿½t?ï¿½Cï¿½ï¿½ï¿½Æ‚Ì˜Aï¿½g
 public:
 	void setProperty(const ShowHistoryListForReviewProperty &property);
 private:
@@ -188,7 +206,7 @@ private:
 	void setPropertyFromUi(ShowHistoryListForReviewProperty &property);
 	void setPropertyFromUi();
 
-// ƒRƒ“ƒXƒgƒ‰ƒN?‚Åg—p‚·‚éƒvƒƒpƒeƒB‚Ì‰Šú‰»
+// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½N?ï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 private:
 	void initProperty();
 
@@ -196,7 +214,7 @@ private:
 	void updateProperty(){ setProperty(getProperty()); };
 	
 /*------------------------------------------------------------------------------------------------*/
-/*----------------------------ƒvƒƒpƒeƒBŠÖ˜A - I—¹-----------------------------------------------*/
+/*----------------------------ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö˜A - ï¿½Iï¿½ï¿½-----------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 };
 

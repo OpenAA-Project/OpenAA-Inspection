@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ButtonSelectLotResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\ButtonSelectLot\ButtonSelectLot.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 #include "ButtonSelectLot.h"
 #include "XExecuteInspectBase.h"
@@ -79,15 +88,15 @@ DEFFUNCEX	QIcon	*DLL_GetIcon(void)
 ButtonSelectLot::ButtonSelectLot(LayersBase *Base ,QWidget *parent)
 :GUIFormBase(Base,parent),Button(parent,false)
 {
-	//Œ¾Œê‘Î‰ž
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½
 	FileRegistry	*FRegistry=new FileRegistry(/**/"./MachineInfo.dat");
 	int	LanguageCode=FRegistry->LoadRegInt(/**/"Language",0);
 
 	QString ImageBmpFile[5]={
-		/**/":Resources/SelectLotImage.bmp",	//“ú–{Œê
+		/**/":Resources/SelectLotImage.bmp",	//ï¿½ï¿½ï¿½{ï¿½ï¿½
 		/**/":Resources/SelectLotImage-en.bmp",	//English
-		/**/":Resources/SelectLotImage-en.bmp",	//ŠÈ‘Ì’†•¶
-		/**/":Resources/SelectLotImage-en.bmp",	//”É‘Ì’†•¶
+		/**/":Resources/SelectLotImage-en.bmp",	//ï¿½È‘Ì’ï¿½ï¿½ï¿½
+		/**/":Resources/SelectLotImage-en.bmp",	//ï¿½É‘Ì’ï¿½ï¿½ï¿½
 		/**/":Resources/SelectLotImage-en.bmp"	//Korean
 	};
 	Button.setImageBmp(QImage(ImageBmpFile[LanguageCode]));
@@ -142,7 +151,7 @@ void ButtonSelectLot::SlotClicked (bool checked)
 
 		BroadcastDirectly(_BC_BuildForShow ,GetLayersBase()->GetCurrentInspectIDForDisplay());
 
-		//¡‰ñŒŸ¸ID(S102)‚É‚àŒŸ¸ID‚ðƒZƒbƒg‚·‚é
+		//ï¿½ï¿½ï¿½ñŒŸï¿½ID(S102)ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 		if(GetLayersBase()->GetEntryPoint()->GetExecuteInspect()!=NULL){
 			SeqControlParam	*Param=(SeqControlParam *)GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetSeqParam();
 			if(Param!=NULL){
@@ -203,4 +212,3 @@ void	GUICmdSelectLot::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 		GetLayersBase()->GetLot(0)->SetLotName		(LotName);
 	}
 }
-

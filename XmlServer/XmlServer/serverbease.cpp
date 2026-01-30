@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\XmlServer\XmlServer\serverbease.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "XMacro.h"
 #include "serverbase.h"
@@ -31,13 +40,13 @@ ServerBase::ServerBase( ) //QWidget *parent, Qt::WindowFlags flags
 	Answer	=NULL;
 	wxAnswer=NULL;
 	xml = new XmlAPI();
-	//Server‹N“®FƒNƒ‰ƒCƒ“ƒAƒ“ƒg“¯Ú‘±100‘S‚Ä‚ğ‹ó‚É‚·‚é
+	//Serverï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Nï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ú‘ï¿½100ï¿½Sï¿½Ä‚ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 	iSeverNo = 0;
 
-	for(int i=0; i<1000; ++i){  /* c•ûŒü‚Ì“Yš */
+	for(int i=0; i<1000; ++i){  /* ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½Ì“Yï¿½ï¿½ */
 		xmlClient[i]=NULL;
 		ServerData[i]=NULL;
-		UpAppSize[i]=NULL;	/* Še—v‘f‚Ö”’l‚ğ‘ã“ü */
+		UpAppSize[i]=NULL;	/* ï¿½eï¿½vï¿½fï¿½Öï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 		UpAppXML[i]=NULL;
 		ThreadDB[i]=NULL;
 		ThreadStart[i]=NULL;
@@ -50,7 +59,7 @@ int ServerBase::Server_MasterStart(QList<QByteArray> &List, int &iClient, int &i
 {
 	qint64 ID;
 	int Size;
-	//ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒXƒ^[ƒg‚Ì‡}‚ª—ˆ‚½‚ç
+	//ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½^ï¿½[ï¿½gï¿½Ìï¿½ï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	QByteArray Target=List.at(0);
 	QByteArray DB=List.at(1);
 	//QString
@@ -61,13 +70,13 @@ int ServerBase::Server_MasterStart(QList<QByteArray> &List, int &iClient, int &i
 	char DBbuff[128];
 	int	n=::QString2Char(DataBase, DBbuff, len);
 
-//ğŒ‚ğ’Ê‰ß‚µ‚½‚çÀ‘Ô‚ğì‚é
-	//’Êí‚Ìˆ—<‰Šú‰»ˆ—‚È‚Ç>
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‰ß‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ï¿½Êï¿½ï¿½Ìï¿½ï¿½ï¿½<ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½>
 	int Num=Server_XnmNum(DBbuff);
 	if (Num==-2)
 		return -2;
 
-	//‹ó‚Ì”Ô†‚ğ“n‚·
+	//ï¿½ï¿½ï¿½Ì”Ôï¿½ï¿½ï¿½ï¿½nï¿½ï¿½
 	//iClient =iSeverNo;
 	for(int No=1; No<1000; No++){
 		if ( xmlClient[No] == NULL ) {		//if (xmlClient[No] = '\0') {
@@ -162,7 +171,7 @@ int ServerBase::Server_MasterStart(QList<QByteArray> &List, int &iClient, int &i
 			}
 		}
 
-		//Server‚©‚ç“n‚³‚ê‚½”Ô†‚ª100ˆÈã‚Å‚ ‚ê‚ÎError‚ğ•Ô‚·
+		//Serverï¿½ï¿½ï¿½ï¿½ï¿½nï¿½ï¿½ï¿½ê‚½ï¿½Ôï¿½ï¿½ï¿½100ï¿½Èï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½Errorï¿½ï¿½ï¿½Ô‚ï¿½
 		if (iClient == iSeverNo) {
 			iSeverNo++;
 			if (iSeverNo >= 1000 )
@@ -195,7 +204,7 @@ int ServerBase::Server_MasterStart(QList<QByteArray> &List, int &iClient, int &i
 	xmlClient[iClient]->XMLMain[iDB]= xml->XMLMain[iDB];
 	return 0;
 }
-//g‚¦‚È‚¢”Ô†‚ªg—p‚³‚ê‚Ä‚¢‚È‚¢‚©‚Ìˆ—
+//ï¿½gï¿½ï¿½ï¿½È‚ï¿½ï¿½Ôï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
 bool ServerBase::Server_NumError(int &iClientNum)
 {
 	//if ( iClientNum >= iSeverNo )
@@ -221,11 +230,11 @@ int ServerBase::Server_XnmNum(const char *DBbuff)
 	Server_FileName(DBbuff, RedDB);
 
 	for (int i=1; i<1000; i++){
-		//QThreadŠm”F(—‚µ‚Ä‚¢‚éí‘Ô‚©‚Ç‚¤‚©H)
+		//QThreadï¿½mï¿½F(ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½H)
 		if(ThreadDB[i]!=NULL){//
 			char * RedThread=new char[strlen(ThreadDB[i])+1];
 			Server_FileName(ThreadDB[i], RedThread);
-			if(stricmp(RedDB, RedThread)==0)//Threadˆ—’†
+			if(stricmp(RedDB, RedThread)==0)//Threadï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #if 1 // 20100302
 			{
 				delete[] RedThread;
@@ -258,7 +267,7 @@ int ServerBase::Server_XnmNum(const char *DBbuff)
 				/*QTextCodec *code=QTextCodec::codecForName ("Shift-JIS") ;
 				QString RDB=code->toUnicode(RedDB);
 				QString RSD=code->toUnicode(RedSD);
-				if(RDB.toUpper()==RSD.toUpper()){//“ú–{Œê•¶š—ñ‚ª“ü‚é‰Â”\«‚ª‚ ‚éˆ×’Êí‚Ìstrcmp‚ÍError‚É‚È‚é
+				if(RDB.toUpper()==RSD.toUpper()){//ï¿½ï¿½ï¿½{ï¿½ê•¶ï¿½ï¿½ï¿½ñ‚ª“ï¿½ï¿½ï¿½ï¿½Â”\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×’Êï¿½ï¿½ï¿½strcmpï¿½ï¿½Errorï¿½É‚È‚ï¿½
 				*/
 				delete []RedSD;
 				delete []RedDB;
@@ -525,7 +534,7 @@ bool ServerBase::Server_Select(QList<QByteArray> &List, int &No, XMLElement **Re
 	strcpy(buff, List.at(3).data());
 
 	if(strcmp(Target, "Select")==0 || strcmp(Target, "SelectNotNG")==0){
-		if(No==1){//1‰ñ–Ú
+		if(No==1){//1ï¿½ï¿½ï¿½ï¿½
 			Answer=xmlClient[CNum]->XMLMain[Num]->FindFirstByTag(buff);
 			*RetAns=Answer;
 		}else{
@@ -542,7 +551,7 @@ bool ServerBase::Server_Select(QList<QByteArray> &List, int &No, XMLElement **Re
 		Tag.Analyze(buff, Finished);
 
 		if( strcmp(Target,"TagToTagSelect")==0 || strcmp(Target,"TagToTagnotNG")==0 ){
-			for(int i=4; i<List.count()-1; i++){//0:1:2:ÅŒã‚ÉParent
+			for(int i=4; i<List.count()-1; i++){//0:1:2:ï¿½ÅŒï¿½ï¿½ï¿½Parent
 				bool	wFinished;
 				XMLTag	*a1=new XMLTag(NULL);
 				MatchTagList << a1;
@@ -558,11 +567,11 @@ bool ServerBase::Server_Select(QList<QByteArray> &List, int &No, XMLElement **Re
 			}
 		}
 
-		if(No==1){//1‰ñ–Ú
+		if(No==1){//1ï¿½ï¿½ï¿½ï¿½
 			LotID="";
 			LotName="";
 			*RetAns=xmlClient[CNum]->XMLMain[Num]->MatchFirst(&Answer, Tag, iParent);
-		}else{//2‰ñ–ÚˆÈ~
+		}else{//2ï¿½ï¿½ï¿½ÚˆÈ~
 			*RetAns=xmlClient[CNum]->XMLMain[Num]->MatchNext(Tag, Answer, &Answer,iParent);
 		}
 		xmlClient[CNum]->XMLMain[Num]->MatchXMLTag->clear();
@@ -600,7 +609,7 @@ bool ServerBase::Server_Select(QList<QByteArray> &List, unsigned long &No, XMLEl
 #else
 	if(strcmp(Target, "Select")==0 || strcmp(Target, "SelectNotNG")==0 ||strcmp(Target, "Select_desc")==0 || strcmp(Target, "SelectNotNG_desc")==0 ||strcmp(Target, "TagSelnotNG")==0){
 #endif
-		if(No==0){//1‰ñ–Ú
+		if(No==0){//1ï¿½ï¿½ï¿½ï¿½
 			Answer=xmlClient[CNum]->XMLMain[Num]->FindFirstByTag(buff);
 			*RetAns=Answer;
 		}else{
@@ -617,7 +626,7 @@ bool ServerBase::Server_Select(QList<QByteArray> &List, unsigned long &No, XMLEl
 		XMLTag	Tag(NULL);
 		Tag.Analyze(buff, Finished);
 		if( strcmp(Target,"TagToTagSelect")==0 || strcmp(Target,"TagToTagnotNG")==0 || strcmp(Target,"TagToTagSelect_desc")==0 || strcmp(Target,"TagToTagnotNG_desc")==0){
-			for(int i=4; i<List.count()-1; i++){//0:1:2:ÅŒã‚ÉParent
+			for(int i=4; i<List.count()-1; i++){//0:1:2:ï¿½ÅŒï¿½ï¿½ï¿½Parent
 				bool	wFinished;
 				XMLTag	*a1=new XMLTag(NULL);
 				MatchTagList << a1;
@@ -631,11 +640,11 @@ bool ServerBase::Server_Select(QList<QByteArray> &List, unsigned long &No, XMLEl
 				xmlClient[CNum]->XMLMain[Num]->MatchXMLTag->append(a2);
 			}
 		}
-		if(No==0){//1‰ñ–Ú
+		if(No==0){//1ï¿½ï¿½ï¿½ï¿½
 			LotID=/**/"";
 			LotName=/**/"";
 			*RetAns=xmlClient[CNum]->XMLMain[Num]->MatchFirst(&Answer, Tag, iParent);
-		}else{//2‰ñ–ÚˆÈ~
+		}else{//2ï¿½ï¿½ï¿½ÚˆÈ~
 			*RetAns=xmlClient[CNum]->XMLMain[Num]->MatchNext(Tag, Answer, &Answer,iParent);
 		}
 		xmlClient[CNum]->XMLMain[Num]->MatchXMLTag->clear();
@@ -684,9 +693,9 @@ void ServerBase::Server_Resvalue(char *Target, char *buffer, qint64 &ElementID, 
 }
 void  ServerBase::Server_NGsyori(qint64 &ID, char *buff, char *buffer)
 {
-	int  NGP=QByteArray(buff).count("<NGP");//NGƒ|ƒCƒ“ƒg‚Ì”
-	int iP=QByteArray(buff).indexOf("<NGP");//•\¦ˆÊ’u
-	int iI=QByteArray(buff).indexOf("<NGI");//•\¦ˆÊ’u
+	int  NGP=QByteArray(buff).count("<NGP");//NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½Ìï¿½
+	int iP=QByteArray(buff).indexOf("<NGP");//ï¿½\ï¿½ï¿½ï¿½Ê’u
+	int iI=QByteArray(buff).indexOf("<NGI");//ï¿½\ï¿½ï¿½ï¿½Ê’u
 
 	int size=iP;
 	if (iP>iI)
@@ -758,7 +767,7 @@ bool ServerBase::Server_UpApp(QList<QByteArray> &List)
 		MTag.Analyze(Tagbuff, Finished);
 		delete	[]Tagbuff;
 
-		RetAns=xmlClient[CNum]->XMLMain[Num]->MatchFirst(MTag);	//SelectğŒ‚ğ’T‚·
+		RetAns=xmlClient[CNum]->XMLMain[Num]->MatchFirst(MTag);	//Selectï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½
 		xmlClient[CNum]->XMLMain[Num]->MatchXMLTag->clear();
 		DeleteTagList();
 
@@ -809,7 +818,7 @@ bool ServerBase::Server_UpApp(QList<QByteArray> &List)
 
 	}
 
-//^‚ñ’†‚Ìˆ—
+//ï¿½^ï¿½ñ’†‚Ìï¿½ï¿½ï¿½
 	QByteArray NGData=List.at(4);
 	if(UpAppXML[CNum]!=NULL){
 		strcat(UpAppXML[CNum], NGData.data());
@@ -850,7 +859,7 @@ bool ServerBase::Server_Count(QList<QByteArray> &List, int &Count)
 	XMLTag	Tag(NULL);
 	Tag.Analyze(buff, Finished);
 	while(1){
-		for(int i=4; i<List.count()-1; i++){//0:1:2:ÅŒã‚ÉParent
+		for(int i=4; i<List.count()-1; i++){//0:1:2:ï¿½ÅŒï¿½ï¿½ï¿½Parent
 			bool	wFinished;
 			XMLTag	*a1=new XMLTag(NULL);
 			MatchTagList << a1;
@@ -922,10 +931,10 @@ bool ServerBase::Server_Restore(QList<QByteArray> &List)
 		int Count=1;
 		qint64 AnsID;
 		while(1){
-			if(Count==1){//1‰ñ–Ú
+			if(Count==1){//1ï¿½ï¿½ï¿½ï¿½
 				Answer=xmlClient[CNum]->XMLMain[Num]->MatchFirst(Tag);
 
-			}else{//2‰ñ–ÚˆÈ~
+			}else{//2ï¿½ï¿½ï¿½ÚˆÈ~
 				Answer=xmlClient[CNum]->XMLMain[Num]->MatchNext(Tag, Answer);
 			}
 			if(Answer!=NULL){
@@ -985,7 +994,7 @@ void ServerBase::Server_LastLotGet(QByteArray &Info, QString &RetEID)
 			QDomElement child = n.firstChildElement();
 			while (!child.isNull()) {
 				if (child.tagName()=="INSPECT"){
-					RetEID=child.attribute("EID");//5:ŒŸ¸ID”Ô†
+					RetEID=child.attribute("EID");//5:ï¿½ï¿½ï¿½ï¿½IDï¿½Ôï¿½
 					return ;
 				}
 				child=child.nextSiblingElement();
@@ -1026,8 +1035,8 @@ void ServerBase::Server_XmlLotGetData(QByteArray &Info, QString &RetLotID, QStri
 			QDomElement child = n.firstChildElement();
 			while (!child.isNull()) {
 				if (child.tagName()=="LOT"){
-					RetLotID=child.attribute("LID");//6:ŒŸ¸ƒƒbƒg”Ô†
-					RetLotName=child.text();//7:ŒŸ¸ƒƒbƒg–¼Ì
+					RetLotID=child.attribute("LID");//6:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bï¿½gï¿½Ôï¿½
+					RetLotName=child.text();//7:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 				}
 				child=child.nextSiblingElement();
 			}
@@ -1181,7 +1190,7 @@ void ServerBase::Server_Close(int &CNum)
 {
 	if(xmlClient[CNum] !=NULL){
 		delete xmlClient[CNum];
-		xmlClient[CNum] =NULL;//Œ‡”Ô '\0'
+		xmlClient[CNum] =NULL;//ï¿½ï¿½ï¿½ï¿½ '\0'
 	}
 }
 void ServerBase::Sever_EndCheck()
@@ -1240,9 +1249,9 @@ void MemDeleteThread::run()
 	ThreadDB[DDBNo]=new char[len];
 	char *DB=new char[len];
 	int n=::QString2Char(DDB, DB, len);
-	strcpy(ThreadDB[DDBNo], DB);//Threadˆ—’†‚Ìƒf[ƒ^•Û
+	strcpy(ThreadDB[DDBNo], DB);//Threadï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½Ûï¿½
 	delete []DB;
-//File‚Éî•ñ‚ğ‘‚«‚Ş€”õ
+//Fileï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Şï¿½ï¿½ï¿½
 	char IST[7];
 	strcpy(IST, "IST");
 	QString RetLotID;
@@ -1250,7 +1259,7 @@ void MemDeleteThread::run()
 	QString RetDAY1;
 	QString RetDAY2;
 	QString RetMAC;
-//æ“ªs‚Ìî•ñæ“¾
+//ï¿½æ“ªï¿½sï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾
 	XMLElement *RetAns=NULL;
 	RetAns=DStock->FindFirstByTag(IST);
 	if(RetAns==NULL){
@@ -1264,7 +1273,7 @@ void MemDeleteThread::run()
 		DBase->Server_XmlLotGetData(QByteArray(buffer1), RetLotID, RetLotName);
 		DBase->Server_GetData(QByteArray(buffer1), RetDAY1, RetMAC);
 		delete []buffer1;
-//ÅIs‚Ìƒf[ƒ^æ“¾
+//ï¿½ÅIï¿½sï¿½Ìƒfï¿½[ï¿½^ï¿½æ“¾
 		XMLElement *RetAns2=NULL;
 		RetAns2=DStock->FindLastByTag(IST);
 		int len3 =RetAns2->Size();

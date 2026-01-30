@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\ImageDataUnit.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "ImageDataUnit.h"
@@ -20,7 +29,7 @@
 #include <QMessageBox>
 
 //**********************************
-//@‰æ‘œƒf[ƒ^Ši”[ƒNƒ‰ƒXƒ†ƒjƒbƒg
+//ï¿½@ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½jï¿½bï¿½g
 //**********************************
 ImageDataUnit::ImageDataUnit()
 {
@@ -38,7 +47,7 @@ ImageDataUnit::~ImageDataUnit()
 		delete CImageList[Cnt];
 }
 
-//‰æ‘œƒf[ƒ^ƒNƒ‰ƒX‚ğƒŠƒXƒg‚ÉŠi”[
+//ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ÉŠiï¿½[
 void	ImageDataUnit::AddImage(MasterImage *ImageClass)
 {
 	MImageClassList.append(ImageClass);
@@ -73,7 +82,7 @@ void	ImageDataUnit::AddImage(MasterSnapImage *ImageClass)
 	MSnapImageList.append(ImageClass);
 }
 
-//‰æ‘œ‚Ì•À‚×•û‚Ìİ’è
+//ï¿½æ‘œï¿½Ì•ï¿½ï¿½×•ï¿½ï¿½Ìİ’ï¿½
 void	ImageDataUnit::SetAlignment(MasterImage *ImageClass, AlignmentType type)
 {
 }
@@ -90,7 +99,7 @@ void	ImageDataUnit::SetAlignment(CameraImage *ImageClass, AlignmentType type)
 {
 }
 //********************************************
-//@‰æ‘œƒNƒ‰ƒXƒx[ƒX
+//ï¿½@ï¿½æ‘œï¿½Nï¿½ï¿½ï¿½Xï¿½xï¿½[ï¿½X
 //********************************************
 ImageBase::ImageBase(QWidget *parent)
 {
@@ -148,14 +157,14 @@ void ImageBase::SetMScaledY(double Y)
 	Matrix.scale(MScaledX,MScaledY);
 }
 
-//ƒf[ƒ^À•W(ux,uy)‚ğ‰æ–ÊÀ•W(gx,gy)‚É•ÏŠ·‚·‚é
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 void ImageBase::GetUniverseToCanvas(double ux,double uy,int &gx,int &gy)
 {
 	gx=ux*Scaled;
 	gy=uy*Scaled;
 }
 
-//F”ÍˆÍ‚ğ0-255‚Åƒ‹[ƒv‚·‚é‚æ‚¤‚Éİ’è
+//ï¿½Fï¿½ÍˆÍ‚ï¿½0-255ï¿½Åƒï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½Éİ’ï¿½
 int ImageBase::ColorClip(int ColorInt,double dColor,int i)
 {
 	int RetColorInt=ColorInt+dColor*i;
@@ -165,7 +174,7 @@ int ImageBase::ColorClip(int ColorInt,double dColor,int i)
 }
 
 void ImageBase::AlgColorGet(QString Str, QList<QPair<QString, QString> > citemList, QColor &color)
-{//ƒAƒ‹ƒSƒŠƒYƒ€•ÊƒGƒ‰[‚ÌŠÛ•\¦‚ÌFİ’è
+{//ï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½ÊƒGï¿½ï¿½ï¿½[ï¿½ÌŠÛ•\ï¿½ï¿½ï¿½ÌFï¿½İ’ï¿½
 	color=QColor(Qt::red);
 	int count=citemList.count();
 	for(int i=0; i<count; i++){
@@ -180,7 +189,7 @@ void ImageBase::AlgColorGet(QString Str, QList<QPair<QString, QString> > citemLi
 	}
 }
 //********************************************
-//@ƒ}ƒXƒ^[‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 MasterImage::MasterImage(QWidget *parent) : ImageBase(this)
 {
@@ -207,7 +216,7 @@ MasterImage::~MasterImage()
 
 void MasterImage::DrawPaint(QPainter &MPnt)
 {
-	//‰æ‘œ‚Ì•`‰æ
+	//ï¿½æ‘œï¿½Ì•`ï¿½ï¿½
 	for(int Cnt=0;Cnt<CameraNumb;Cnt++){
 		int gx,gy;
 		GetUniverseToCanvas(ImageList[Cnt]->OffsetX,ImageList[Cnt]->OffsetY,gx,gy);
@@ -229,7 +238,7 @@ void MasterImage::SetPieceDraw(int CanvasWidth,int CanvasHeight,double ExpRate)
 //void MasterImage::DrawNGDot(QPainter &Pnt,QTableWidget *W,int Index,NPListPack<NGPointList> *pNGPointList,int NGCnt, QList<QPair<QString, QString> > citemList)
 void MasterImage::DrawNGDot(QPainter &Pnt,QTableWidget *W,int Index,NPListPack<NGPointList> *pNGPointList,NPListPack<NGPointBaseList> *pNoImageNGPointList,int NGCnt, QList<QPair<QString, QString> > citemList)
 {
-	//ƒ}ƒXƒ^[‘S‘Ì‰æ‘œã‚ÉNGƒ|ƒCƒ“ƒg‚ğ•\¦
+	//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Sï¿½Ì‰æ‘œï¿½ï¿½ï¿½ï¿½NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ï¿½\ï¿½ï¿½
 	for(int Row=0;Row<NGCnt;Row++){
 		for(NGPointList *P=pNGPointList[Row].GetFirst();P!=NULL;P=P->GetNext()){
 			int gX,gY;
@@ -250,7 +259,7 @@ void MasterImage::DrawNGDot(QPainter &Pnt,QTableWidget *W,int Index,NPListPack<N
 
 void MasterImage::DrawPieceRect(QPainter &Pnt)
 {
-	//•\¦ƒGƒŠƒA‹éŒ`‚Ì•`‰æ
+	//ï¿½\ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½`ï¿½Ì•`ï¿½ï¿½
 	Pnt.setPen(QPen(PieceRectColor,PieceRectWidth,PieceRectStyle));
 	Pnt.drawRect(RectX+gmovx,RectY+gmovy,RectWidth,RectHeight);
 
@@ -272,7 +281,7 @@ void MasterImage::DrawRect(QRect &rect, QPen &pen)
 //Show piece information(XML)
 void MasterImage::DrawPieceInfo(QPainter &Pnt,int Count,PieceInfoData *pPieceInfoDataList,QColor PieceColor,QStringList *NGAreaNameList,QStringList *AreaNameList)
 {
-	//NULLƒ`ƒFƒbƒN
+	//NULLï¿½`ï¿½Fï¿½bï¿½N
 	if(pPieceInfoDataList==NULL){
 		return;
 	}
@@ -290,11 +299,11 @@ void MasterImage::DrawPieceInfo(QPainter &Pnt,int Count,PieceInfoData *pPieceInf
 //	double	dPieceColor		=255.0/AreaNameList->count();
 
 	for(int i=0;i<Count;i++){
-		//NULLƒ`ƒFƒbƒN
+		//NULLï¿½`ï¿½Fï¿½bï¿½N
 		if(pPieceInfoDataList[i].PieceCoordinates==NULL){
 			continue;
 		}
-		//Œ»İ‚ÌNGˆÊ’u‚ÌŒÂ•Ğ‚ğ–ÔŠ|‚¯‚·‚é
+		//ï¿½ï¿½ï¿½İ‚ï¿½NGï¿½Ê’uï¿½ÌŒÂ•Ğ‚ï¿½ï¿½ÔŠ|ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		QStringList CurrentPieceNameList=CurrentPieceName.split(',');
 		for(int j=0;j<CurrentPieceNameList.count();j++){
 			if(pPieceInfoDataList[i].GetPieceName()==CurrentPieceNameList[j]){
@@ -302,11 +311,11 @@ void MasterImage::DrawPieceInfo(QPainter &Pnt,int Count,PieceInfoData *pPieceInf
 				break;
 			}
 		}
-		//NG‚Æ‚³‚ê‚½ŒÂ•Ğ‚ğ–ÔŠ|‚¯‚·‚é
+		//NGï¿½Æ‚ï¿½ï¿½ê‚½ï¿½Â•Ğ‚ï¿½ï¿½ÔŠ|ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if(NGAreaNameList->contains(pPieceInfoDataList[i].GetPieceName())==true){
 			Pnt.setBrush(NGAreaColor);
 		}
-		//ŒÂ•Ğ‚²‚Æ‚ÉF•ª‚¯‚·‚é
+		//ï¿½Â•Ğ‚ï¿½ï¿½Æ‚ÉFï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ///		PieceColor.setRgb(ColorClip(PieceColorRed,dPieceColor,i),ColorClip(PieceColorGreen,dPieceColor,i),ColorClip(PieceColorBlue,dPieceColor,i),PieceColorAlpha);
 ///		Pnt.setPen(QPen(PieceColor));
 		switch(AreaNameList->indexOf(pPieceInfoDataList[i].GetPieceName())){
@@ -408,14 +417,14 @@ void MasterImage::mtMouseLDown(QMouseEvent *Ev ,int x ,int y)
 	MMouseLDown(RectX,RectY,gw,gh,true);
 }
 
-//SignalMMouseLDown‚ÌƒXƒƒbƒg
+//SignalMMouseLDownï¿½ÌƒXï¿½ï¿½ï¿½bï¿½g
 void MasterImage::SlotMMouseLDown(int x,int y,int w,int h)
 {
 	uX=x;
 	uY=y;
 	uW=w;
 	uH=h;
-	//ƒf[ƒ^À•W‚ğ‰æ–ÊÀ•W‚É•ÏŠ·‚·‚é
+	//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 	int gX,gY,gW,gH;
 	GetUniverseToCanvas(uX,uY,gX,gY);
 	GetUniverseToCanvas(uW,uH,gW,gH);
@@ -436,7 +445,7 @@ void MasterImage::MMouseLDown(int x,int y,int w,int h,bool FlagTrans)
 	}
 
 
-	//Ä•`‰æ
+	//ï¿½Ä•`ï¿½ï¿½
 	wRectX=RectX;
 	wRectY=RectY;
 	wRectWidth=RectWidth;
@@ -445,11 +454,11 @@ void MasterImage::MMouseLDown(int x,int y,int w,int h,bool FlagTrans)
 		repaint();
 	}
 
-	//Šg‘å—¦‚Ìİ’è
+	//ï¿½gï¿½å—¦ï¿½Ìİ’ï¿½
 //	ZoomRate=MScaled;
 	ZoomRate=Scaled;
 
-	//ƒVƒOƒiƒ‹‚Ì”­s
+	//ï¿½Vï¿½Oï¿½iï¿½ï¿½ï¿½Ì”ï¿½ï¿½s
 	if(FlagTrans){
 		GetCanvasToUniverse(RectX,RectY,uX,uY);
 		RectX-=gmovx;
@@ -458,7 +467,7 @@ void MasterImage::MMouseLDown(int x,int y,int w,int h,bool FlagTrans)
 	emit SignalOnMouseLDown(uX,uY,this);
 }
 
-//ƒf[ƒ^À•W(ux,uy)‚ğ‰æ–ÊÀ•W(gx,gy)‚É•ÏŠ·‚·‚é
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 void MasterImage::GetUniverseToCanvas(double ux,double uy,int &gx,int &gy)
 {
 	gx=ux*ZoomRate;
@@ -470,7 +479,7 @@ void MasterImage::SetExpand()
 	ZoomRate=Scaled;
 }
 
-//‰æ‘œ‚Ì‹P“x•â³
+//ï¿½æ‘œï¿½Ì‹Pï¿½xï¿½â³
 void MasterImage::SetMasterBrightness(int Brightness[])
 {
 	for(int Page=0;Page<ImageList.count();Page++){
@@ -478,7 +487,7 @@ void MasterImage::SetMasterBrightness(int Brightness[])
 	}
 }
 
-//•ÛÀ•W‚ÌƒNƒŠƒA
+//ï¿½Ûï¿½ï¿½ï¿½ï¿½Wï¿½ÌƒNï¿½ï¿½ï¿½A
 void MasterImage::wRectClear()
 {
 	wRectX=0;
@@ -493,7 +502,7 @@ void MasterImage::mouseMoveEvent(QMouseEvent *e)
 
 }
 //********************************************
-//@ŒÂ•Ğƒ}ƒXƒ^[‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½Â•Ğƒ}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 MasterImagePiece::MasterImagePiece(QWidget *parent) : ImageBase(this)
 {
@@ -512,7 +521,7 @@ void MasterImagePiece::SetZoomRate(double Exp)
 
 void MasterImagePiece::DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase,int Side)
 {
-	//‰æ‘œ‚Ì•`‰æ
+	//ï¿½æ‘œï¿½Ì•`ï¿½ï¿½
 //	int		AAA=-GetMovx();
 //	int		BBB=-GetMovy();
 //	int		CCC=GetCanvasWidth();
@@ -529,28 +538,28 @@ void MasterImagePiece::DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase,int Side)
 		int uOffsetY=IDBase->MImageClassList[Side]->ImageList[Cnt]->OffsetY;
 		int ImageW=IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->width();
 		int ImageH=IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->height();
-		//‘I‘ğ‹éŒ`‚ª‰æ‘œ’†‚Éû‚Ü‚éê‡
+		//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚ï¿½ï¿½ê‡
 		if(-TransMovx>=uOffsetX && (-TransMovx+uW)<=(uOffsetX+ImageW) && -TransMovy>=uOffsetY && (-TransMovy+uH)<=(uOffsetY+ImageH)){
 			Pnt.drawImage(0,0,Image=IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->copy(-TransMovx-uOffsetX,-TransMovy-uOffsetY,uW,uH).transformed(matrix));
 			break;
 		}
 		else{
 			int X,Y,W,H;
-			//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì‰E’[‚ğ‚Ü‚½‚®ê‡
+			//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ì‰Eï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 			if(-TransMovx<(uOffsetX+ImageW) && (-TransMovx+uW)>(uOffsetX+ImageW) && (-TransMovy+uH)>=uOffsetY && -TransMovy<(uOffsetY+ImageH))
 				Pnt.drawImage(0,Y=(-TransMovy<uOffsetY) ? (uOffsetY+TransMovy)<<IDBase->MImageClassList[Side]->ImgRate : 0,Image=IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->copy(-TransMovx-uOffsetX,-TransMovy-uOffsetY+Y,uOffsetX+ImageW+TransMovx,((-TransMovy+uH)>(H=uOffsetY+ImageH)) ? H+TransMovy : uH-Y).transformed(matrix));
-			//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì¶’[‚ğ‚Ü‚½‚®ê‡
+			//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ìï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 			else if(-TransMovx<uOffsetX && (-TransMovx+uW)>uOffsetX && (-TransMovy+uH)>=uOffsetY && -TransMovy<(uOffsetY+ImageH))
 				Pnt.drawImage((uOffsetX+TransMovx)<<IDBase->MImageClassList[Side]->ImgRate,Y=(-TransMovy<uOffsetY) ? (uOffsetY+TransMovy)<<IDBase->MImageClassList[Side]->ImgRate : 0,Image=IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->copy(0,-TransMovy-uOffsetY+Y,-TransMovx+uW-uOffsetX,((-TransMovy+uH)>(H=uOffsetY+ImageH)) ? H+TransMovy : uH-Y).transformed(matrix));
-			//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì‰º’[‚ğ‚Ü‚½‚®ê‡
+			//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ì‰ï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 			else if(-TransMovy<(uOffsetY+ImageH) && (-TransMovy+uH)>(uOffsetY+ImageH) && (-TransMovx+uW)>=uOffsetX && -TransMovx<(uOffsetX+ImageW))
 				Pnt.drawImage((uOffsetX+TransMovx)<<IDBase->MImageClassList[Side]->ImgRate,Y=(-TransMovy<uOffsetY) ? (uOffsetY+TransMovy)<<IDBase->MImageClassList[Side]->ImgRate : 0,Image=IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->copy(0,-TransMovy-uOffsetY+Y,-TransMovx+uW-uOffsetX,((-TransMovy+uH)>(H=uOffsetY+ImageH)) ? H+TransMovy : uH-Y).transformed(matrix));
-			//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ìã’[‚ğ‚Ü‚½‚®ê‡
+			//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ìï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 			else if(-TransMovy<uOffsetY && (-TransMovy+uH)>uOffsetY && (-TransMovx+uW)>=uOffsetX && -TransMovx<(uOffsetX+ImageW))
 				Pnt.drawImage((uOffsetX+TransMovx)<<IDBase->MImageClassList[Side]->ImgRate,Y=(-TransMovy<uOffsetY) ? (uOffsetY+TransMovy)<<IDBase->MImageClassList[Side]->ImgRate : 0,Image=IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->copy(0,-TransMovy-uOffsetY+Y,-TransMovx+uW-uOffsetX,((-TransMovy+uH)>(H=uOffsetY+ImageH)) ? H+TransMovy : uH-Y).transformed(matrix));
 		}
 	}
-	//ƒVƒOƒiƒ‹‚Ì”­s
+	//ï¿½Vï¿½Oï¿½iï¿½ï¿½ï¿½Ì”ï¿½ï¿½s
 	int gx,gy;
 	MScaled=IDBase->MImageClassList[Side]->MScaled;
 	GetUniverseToCanvas(-TransMovx+(((int)(GetCanvasWidth()/GetZoomRate()))>>1),-TransMovy+(((int)(GetCanvasHeight()/GetZoomRate()))>>1),gx,gy);
@@ -559,13 +568,13 @@ void MasterImagePiece::DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase,int Side)
 
 void MasterImagePiece::DrawNoPaint(QPainter &Pnt)
 {
-	//‰æ‘œ‚Ì•`‰æ
+	//ï¿½æ‘œï¿½Ì•`ï¿½ï¿½
 	Pnt.setPen(QColor(Qt::lightGray));
 	Pnt.drawRect(0,0,GetCanvasWidth(),GetCanvasHeight());
 }
 
 //********************************************
-//@ŒÂ•Ğ‚m‚f‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½Â•Ğ‚mï¿½fï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 NGImagePiece::NGImagePiece(QWidget *parent) : ImageBase(this)
 {
@@ -621,7 +630,7 @@ QImage* NGImagePiece::GetImage(){
 
 void NGImagePiece::DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase,int Side)
 {
-	//‰æ‘œ‚Ì‰ñ“]Šp“x‚É‚æ‚éÀ•W•ÏŠ·
+	//ï¿½æ‘œï¿½Ì‰ï¿½ï¿½]ï¿½pï¿½xï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ÏŠï¿½
 	int CanvasWidth,CanvasHeight;
 	if(ImageRotation==0 || ImageRotation==180){
 		CanvasWidth	=GetCanvasWidth();
@@ -632,7 +641,7 @@ void NGImagePiece::DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase,int Side)
 		CanvasHeight=GetCanvasWidth();
 	}
 
-	//‰æ‘œ‚Ì•`‰æ
+	//ï¿½æ‘œï¿½Ì•`ï¿½ï¿½
 	if(Image!=NULL){
 //		QMatrix matrix;
 //		matrix.scale(GetZoomRate(),GetZoomRate());
@@ -652,23 +661,23 @@ void NGImagePiece::DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase,int Side)
 			int uOffsetY=IDBase->MImageClassList[Side]->ImageList[Cnt]->OffsetY;
 			int ImageW=IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->width();
 			int ImageH=IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->height();
-			//‘I‘ğ‹éŒ`‚ª‰æ‘œ’†‚Éû‚Ü‚éê‡
+			//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚ï¿½ï¿½ê‡
 			if(-TransMovx>=uOffsetX && (-TransMovx+uW)<=(uOffsetX+ImageW) && -TransMovy>=uOffsetY && (-TransMovy+uH)<=(uOffsetY+ImageH)){
 				Pnt.drawImage(0,0,IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->copy(-TransMovx-uOffsetX,-TransMovy-uOffsetY,uW,uH).transformed(matrix));
 				break;
 			}
 			else{
 				int X,Y,W,H;
-				//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì‰E’[‚ğ‚Ü‚½‚®ê‡
+				//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ì‰Eï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 				if(-TransMovx<(uOffsetX+ImageW) && (-TransMovx+uW)>(uOffsetX+ImageW) && (-TransMovy+uH)>=uOffsetY && -TransMovy<(uOffsetY+ImageH))
 					Pnt.drawImage(0,Y=(-TransMovy<uOffsetY) ? (uOffsetY+TransMovy)<<IDBase->MImageClassList[Side]->ImgRate : 0,IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->copy(-TransMovx-uOffsetX,-TransMovy-uOffsetY+Y,uOffsetX+ImageW+TransMovx,((-TransMovy+uH)>(H=uOffsetY+ImageH)) ? H+TransMovy : uH-Y).transformed(matrix));
-				//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì¶’[‚ğ‚Ü‚½‚®ê‡
+				//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ìï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 				else if(-TransMovx<uOffsetX && (-TransMovx+uW)>uOffsetX && (-TransMovy+uH)>=uOffsetY && -TransMovy<(uOffsetY+ImageH))
 					Pnt.drawImage((uOffsetX+TransMovx)<<IDBase->MImageClassList[Side]->ImgRate,Y=(-TransMovy<uOffsetY) ? (uOffsetY+TransMovy)<<IDBase->MImageClassList[Side]->ImgRate : 0,IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->copy(0,-TransMovy-uOffsetY+Y,-TransMovx+uW-uOffsetX,((-TransMovy+uH)>(H=uOffsetY+ImageH)) ? H+TransMovy : uH-Y).transformed(matrix));
-				//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì‰º’[‚ğ‚Ü‚½‚®ê‡
+				//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ì‰ï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 				else if(-TransMovy<(uOffsetY+ImageH) && (-TransMovy+uH)>(uOffsetY+ImageH) && (-TransMovx+uW)>=uOffsetX && -TransMovx<(uOffsetX+ImageW))
 					Pnt.drawImage((uOffsetX+TransMovx)<<IDBase->MImageClassList[Side]->ImgRate,Y=(-TransMovy<uOffsetY) ? (uOffsetY+TransMovy)<<IDBase->MImageClassList[Side]->ImgRate : 0,IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->copy(0,-TransMovy-uOffsetY+Y,-TransMovx+uW-uOffsetX,((-TransMovy+uH)>(H=uOffsetY+ImageH)) ? H+TransMovy : uH-Y).transformed(matrix));
-				//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ìã’[‚ğ‚Ü‚½‚®ê‡
+				//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ìï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 				else if(-TransMovy<uOffsetY && (-TransMovy+uH)>uOffsetY && (-TransMovx+uW)>=uOffsetX && -TransMovx<(uOffsetX+ImageW))
 					Pnt.drawImage((uOffsetX+TransMovx)<<IDBase->MImageClassList[Side]->ImgRate,Y=(-TransMovy<uOffsetY) ? (uOffsetY+TransMovy)<<IDBase->MImageClassList[Side]->ImgRate : 0,IDBase->MImageClassList[Side]->ImageList[Cnt]->Image->copy(0,-TransMovy-uOffsetY+Y,-TransMovx+uW-uOffsetX,((-TransMovy+uH)>(H=uOffsetY+ImageH)) ? H+TransMovy : uH-Y).transformed(matrix));
 			}
@@ -678,14 +687,14 @@ void NGImagePiece::DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase,int Side)
 
 void NGImagePiece::DrawNoPaint(QPainter &Pnt)
 {
-	//‰æ‘œ‚Ì•`‰æ
+	//ï¿½æ‘œï¿½Ì•`ï¿½ï¿½
 	Pnt.setPen(QColor(Qt::lightGray));
 	Pnt.drawRect(0,0,GetCanvasWidth(),GetCanvasHeight());
 }
 
 void NGImagePiece::DrawNGPoint(QPainter &Pnt,int &MaxPointX,int &MinPointX,int &MaxPointY,int &MinPointY, QList<QPair<QString, QString> > citemList)
 {
-	//NG‚ª‚È‚¢ê‡‚Ì”»’f
+	//NGï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Ì”ï¿½ï¿½f
 	if(NGList.GetNumber()==0){
 		return;
 	}
@@ -694,7 +703,7 @@ void NGImagePiece::DrawNGPoint(QPainter &Pnt,int &MaxPointX,int &MinPointX,int &
 		return;
 	}
 
-	//NGÔŠÛ‚Ì•`‰æ
+	//NGï¿½ÔŠÛ‚Ì•`ï¿½ï¿½
 	//Pnt.setPen(QPen(QColor(Qt::red),2));
 	//Pnt.setPen(QPen(QColor(Qt::red),2));
 	int PointX,PointY;
@@ -707,18 +716,18 @@ void NGImagePiece::DrawNGPoint(QPainter &Pnt,int &MaxPointX,int &MinPointX,int &
 		PointY=P->y;
 		Str=P->colorAlg;
 		AlgColorGet(Str, citemList, color);
-		//NGŠÛ‚Ì•`‰æ
+		//NGï¿½Û‚Ì•`ï¿½ï¿½
 		if(NGImageExist==true){
 			Pnt.setPen(QPen(color,2));
 		}
 		else{
-///			//NG‰æ‘œ‚ª–³‚¢ê‡AÂŠÛ‚Å•\¦
+///			//NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ÂŠÛ‚Å•\ï¿½ï¿½
 ///			Pnt.setPen(QPen(QColor(Qt::blue),2));
-			//NG‰æ‘œ‚ª–³‚¢ê‡‚ÌŠÛF
+			//NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÌŠÛF
 			Pnt.setPen(QPen(NoNGColor,2));
 		}
 		Pnt.drawEllipse((PointX+GetMovx()+Dx)*GetZoomRate()-(NGMarkSize>>1),(PointY+GetMovy()+Dy)*GetZoomRate()-(NGMarkSize>>1),NGMarkSize,NGMarkSize);
-		//NG‚ÌX,YÀ•W‚ÌÅ¬’l‚ÆÅ‘å’l‚ğ‹‚ß‚é
+		//NGï¿½ï¿½X,Yï¿½ï¿½ï¿½Wï¿½ÌÅï¿½ï¿½lï¿½ÆÅ‘ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 		if(PointX>MaxPointX)
 			MaxPointX=PointX;
 		if(PointX<MinPointX)
@@ -732,7 +741,7 @@ void NGImagePiece::DrawNGPoint(QPainter &Pnt,int &MaxPointX,int &MinPointX,int &
 
 void NGImagePiece::DrawMPaint(QPainter &Pnt,ImageDataUnit *IDBase)
 {
-	//‰æ‘œ‚Ì•`‰æ
+	//ï¿½æ‘œï¿½Ì•`ï¿½ï¿½
 	QMatrix matrix;
 	matrix.scale(GetZoomRate(),GetZoomRate());
 	int uW=GetCanvasWidth()/GetZoomRate();
@@ -743,21 +752,21 @@ void NGImagePiece::DrawMPaint(QPainter &Pnt,ImageDataUnit *IDBase)
 			int uOffsetY=IDBase->MImageClassList[MCnt]->ImageList[Cnt]->OffsetY;
 			int ImageW=IDBase->MImageClassList[MCnt]->ImageList[Cnt]->Image->width();
 			int ImageH=IDBase->MImageClassList[MCnt]->ImageList[Cnt]->Image->height();
-			//‘I‘ğ‹éŒ`‚ª‰æ‘œ’†‚Éû‚Ü‚éê‡
+			//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚ï¿½ï¿½ê‡
 			if(-GetMovx()>=uOffsetX && (-GetMovx()+uW)<=(uOffsetX+ImageW) && -GetMovy()>=uOffsetY && (-GetMovy()+uH)<=(uOffsetY+ImageH))
 				Pnt.drawImage(0,0,IDBase->MImageClassList[MCnt]->ImageList[Cnt]->Image->copy(-GetMovx()-uOffsetX,-GetMovy()-uOffsetY,uW,uH).transformed(matrix));
 			else{
 				int X,Y,W,H;
-				//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì‰E’[‚ğ‚Ü‚½‚®ê‡
+				//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ì‰Eï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 				if(-GetMovx()<(uOffsetX+ImageW) && (-GetMovx()+uW)>(uOffsetX+ImageW) && (-GetMovy()+uH)>=uOffsetY && -GetMovy()<(uOffsetY+ImageH))
 					Pnt.drawImage(0,Y=(-GetMovy()<uOffsetY) ? (uOffsetY+GetMovy())*GetZoomRate() : 0,IDBase->MImageClassList[MCnt]->ImageList[Cnt]->Image->copy(-GetMovx()-uOffsetX,-GetMovy()-uOffsetY+Y,uOffsetX+ImageW+GetMovx(),((-GetMovy()+uH)>(H=uOffsetY+ImageH)) ? H+GetMovy() : uH-Y).transformed(matrix));
-				//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì¶’[‚ğ‚Ü‚½‚®ê‡
+				//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ìï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 				else if(-GetMovx()<uOffsetX && (-GetMovx()+uW)>uOffsetX && (-GetMovy()+uH)>=uOffsetY && -GetMovy()<(uOffsetY+ImageH))
 					Pnt.drawImage((uOffsetX+GetMovx())*GetZoomRate(),Y=(-GetMovy()<uOffsetY) ? (uOffsetY+GetMovy())*GetZoomRate() : 0,IDBase->MImageClassList[MCnt]->ImageList[Cnt]->Image->copy(0,-GetMovy()-uOffsetY+Y,-GetMovx()+uW-uOffsetX,((-GetMovy()+uH)>(H=uOffsetY+ImageH)) ? H+GetMovy() : uH-Y).transformed(matrix));
-				//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì‰º’[‚ğ‚Ü‚½‚®ê‡
+				//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ì‰ï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 				else if(-GetMovy()<(uOffsetY+ImageH) && (-GetMovy()+uH)>(uOffsetY+ImageH) && (-GetMovx()+uW)>=uOffsetX && -GetMovx()<(uOffsetX+ImageW))
 					Pnt.drawImage((uOffsetX+GetMovx())*GetZoomRate(),Y=(-GetMovy()<uOffsetY) ? (uOffsetY+GetMovy())*GetZoomRate() : 0,IDBase->MImageClassList[MCnt]->ImageList[Cnt]->Image->copy(0,-GetMovy()-uOffsetY+Y,-GetMovx()+uW-uOffsetX,((-GetMovy()+uH)>(H=uOffsetY+ImageH)) ? H+GetMovy() : uH-Y).transformed(matrix));
-				//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ìã’[‚ğ‚Ü‚½‚®ê‡
+				//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ìï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 				else if(-GetMovy()<uOffsetY && (-GetMovy()+uH)>uOffsetY && (-GetMovx()+uW)>=uOffsetX && -GetMovx()<(uOffsetX+ImageW))
 					Pnt.drawImage((uOffsetX+GetMovx())*GetZoomRate(),Y=(-GetMovy()<uOffsetY) ? (uOffsetY+GetMovy())*GetZoomRate() : 0,IDBase->MImageClassList[MCnt]->ImageList[Cnt]->Image->copy(0,-GetMovy()-uOffsetY+Y,-GetMovx()+uW-uOffsetX,((-GetMovy()+uH)>(H=uOffsetY+ImageH)) ? H+GetMovy() : uH-Y).transformed(matrix));
 			}
@@ -765,7 +774,7 @@ void NGImagePiece::DrawMPaint(QPainter &Pnt,ImageDataUnit *IDBase)
 	}
 }
 
-//ŒÂ•Ğ˜g‚Ì•\¦
+//ï¿½Â•Ğ˜gï¿½Ì•\ï¿½ï¿½
 void NGImagePiece::DrawPieceLine(QPainter &Pnt,int Count,PieceInfoData *pPieceInfoDataList,QStringList *AreaNameList,MasterImage *MImage)
 {
 	if(PieceLineVisible==false){
@@ -781,11 +790,11 @@ void NGImagePiece::DrawPieceLine(QPainter &Pnt,int Count,PieceInfoData *pPieceIn
 //	Pnt.setPen(QPen(PieceLineColor));
 
 	for(int i=0;i<Count;i++){
-		//NULLƒ`ƒFƒbƒN
+		//NULLï¿½`ï¿½Fï¿½bï¿½N
 		if(pPieceInfoDataList[i].PieceCoordinates==NULL){
 			continue;
 		}
-		//ŒÂ•Ğ‚²‚Æ‚ÉF•ª‚¯‚·‚é
+		//ï¿½Â•Ğ‚ï¿½ï¿½Æ‚ÉFï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ///		PieceColor.setRgb(ColorClip(PieceColorRed,dPieceColor,i),ColorClip(PieceColorGreen,dPieceColor,i),ColorClip(PieceColorBlue,dPieceColor,i),PieceColorAlpha);
 ///		Pnt.setPen(QPen(PieceColor));
 		switch(AreaNameList->indexOf(pPieceInfoDataList[i].GetPieceName())){
@@ -895,7 +904,7 @@ void NGImagePiece::SetNGBrightness(int Brightness[])
 }
 
 //********************************************
-//@ƒJƒƒ‰‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 //CameraImage::CameraImage(QWidget *parent) : ImageBase(this)
 CameraImage::CameraImage(int W,int H) : ImageBase(this)
@@ -952,7 +961,7 @@ void CameraImage::mtMouseLDown(QMouseEvent *Ev ,int x ,int y)
 }
 
 //********************************************
-//@ƒJƒƒ‰ƒXƒiƒbƒv‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½iï¿½bï¿½vï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 CameraSnapImage::CameraSnapImage(int ANum) : ImageBase(this)
 {
@@ -1015,7 +1024,7 @@ void CameraSnapImage::mtMouseRDown(QMouseEvent *Ev ,int x ,int y)
 /*
 void CameraSnapImage::DrawEnd()
 {
-	//‘I‘ğ‚³‚ê‚½•”•ª‚ğÔ‚­–ÔŠ|‚¯•\¦‚·‚é
+	//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ÔŠ|ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(X1>X2){
 		int wX=X2;
 		X2=X1;
@@ -1027,7 +1036,7 @@ void CameraSnapImage::DrawEnd()
 		Y1=wY;
 	}
 
-	//dS‚ÌŒvZ
+	//ï¿½dï¿½Sï¿½ÌŒvï¿½Z
 	CalcGravity();
 	emit SignalOnCalc(true);
 
@@ -1044,7 +1053,7 @@ void CameraSnapImage::SetArea(int W,int H)
 
 void CameraSnapImage::SlotDrawEnd()
 {
-	//‘I‘ğ‚³‚ê‚½•”•ª‚ğÔ‚­–ÔŠ|‚¯•\¦‚·‚é
+	//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ÔŠ|ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//ux=gx/ZoomRate-movx;
 	X1=(SData.UData.RectangleData.x1+movx)*ZoomRate;
 	Y1=(SData.UData.RectangleData.y1+movy)*ZoomRate;
@@ -1056,7 +1065,7 @@ void CameraSnapImage::SlotDrawEnd()
 	X2	=SData.UData.RectangleData.x2;
 	Y2	=SData.UData.RectangleData.y2;
 */
-	//dS‚ÌŒvZ
+	//ï¿½dï¿½Sï¿½ÌŒvï¿½Z
 	CalcGravity();
 	emit SignalOnCalc(true);
 
@@ -1083,7 +1092,7 @@ void CameraSnapImage::CalcGravity()
 }
 
 //********************************************
-//@ƒ}ƒXƒ^[ƒXƒiƒbƒv‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Xï¿½iï¿½bï¿½vï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 MasterSnapImage::MasterSnapImage(int ANum,int T) : ImageBase(this)
 {
@@ -1105,7 +1114,7 @@ MasterSnapImage::~MasterSnapImage()
 
 void MasterSnapImage::DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase)
 {
-	//‰æ‘œ‚Ì‰ñ“]Šp“x‚É‚æ‚é•`‰æ‹óŠÔ•ÏŠ·
+	//ï¿½æ‘œï¿½Ì‰ï¿½ï¿½]ï¿½pï¿½xï¿½É‚ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Ô•ÏŠï¿½
 	if(ImageRotation==90)
 		Pnt.translate(width(),0);
 	else if(ImageRotation==-90)
@@ -1114,7 +1123,7 @@ void MasterSnapImage::DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase)
 		Pnt.translate(width(),height());
 	Pnt.rotate(ImageRotation);
 
-	//‰æ‘œ‚Ì•`‰æ
+	//ï¿½æ‘œï¿½Ì•`ï¿½ï¿½
 	QMatrix matrix;
 	matrix.scale(ZoomRate,ZoomRate);
 //	matrix.rotate(ImageRotation);
@@ -1125,21 +1134,21 @@ void MasterSnapImage::DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase)
 		int uOffsetY=IDBase->MImageClassList[Type]->ImageList[Cnt]->OffsetY;
 		int ImageW=IDBase->MImageClassList[Type]->ImageList[Cnt]->Image->width();
 		int ImageH=IDBase->MImageClassList[Type]->ImageList[Cnt]->Image->height();
-		//‘I‘ğ‹éŒ`‚ª‰æ‘œ’†‚Éû‚Ü‚éê‡
+		//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚ï¿½ï¿½ê‡
 		if(-movx>=uOffsetX && (-movx+uW)<=(uOffsetX+ImageW) && -movy>=uOffsetY && (-movy+uH)<=(uOffsetY+ImageH))
 			Pnt.drawImage(0,0,IDBase->MImageClassList[Type]->ImageList[Cnt]->Image->copy(-movx-uOffsetX,-movy-uOffsetY,uW,uH).transformed(matrix));
 		else{
 			int X,Y,W,H;
-			//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì‰E’[‚ğ‚Ü‚½‚®ê‡
+			//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ì‰Eï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 			if(-movx<(uOffsetX+ImageW) && (-movx+uW)>(uOffsetX+ImageW) && (-movy+uH)>=uOffsetY && -movy<(uOffsetY+ImageH))
 				Pnt.drawImage(0,Y=(-movy<uOffsetY) ? (uOffsetY+movy)*ZoomRate : 0,IDBase->MImageClassList[Type]->ImageList[Cnt]->Image->copy(-movx-uOffsetX,-movy-uOffsetY+Y,uOffsetX+ImageW+movx,((-movy+uH)>(H=uOffsetY+ImageH)) ? H+movy : uH-Y).transformed(matrix));
-			//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì¶’[‚ğ‚Ü‚½‚®ê‡
+			//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ìï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 			else if(-movx<uOffsetX && (-movx+uW)>uOffsetX && (-movy+uH)>=uOffsetY && -movy<(uOffsetY+ImageH))
 				Pnt.drawImage((uOffsetX+movx)*ZoomRate,Y=(-movy<uOffsetY) ? (uOffsetY+movy)*ZoomRate : 0,IDBase->MImageClassList[Type]->ImageList[Cnt]->Image->copy(0,-movy-uOffsetY+Y,-movx+uW-uOffsetX,((-movy+uH)>(H=uOffsetY+ImageH)) ? H+movy : uH-Y).transformed(matrix));
-			//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì‰º’[‚ğ‚Ü‚½‚®ê‡
+			//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ì‰ï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 			else if(-movy<(uOffsetY+ImageH) && (-movy+uH)>(uOffsetY+ImageH) && (-movx+uW)>=uOffsetX && -movx<(uOffsetX+ImageW))
 				Pnt.drawImage((uOffsetX+movx)*ZoomRate,Y=(-movy<uOffsetY) ? (uOffsetY+movy)*ZoomRate : 0,IDBase->MImageClassList[Type]->ImageList[Cnt]->Image->copy(0,-movy-uOffsetY+Y,-movx+uW-uOffsetX,((-movy+uH)>(H=uOffsetY+ImageH)) ? H+movy : uH-Y).transformed(matrix));
-			//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ìã’[‚ğ‚Ü‚½‚®ê‡
+			//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ìï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 			else if(-movy<uOffsetY && (-movy+uH)>uOffsetY && (-movx+uW)>=uOffsetX && -movx<(uOffsetX+ImageW))
 				Pnt.drawImage((uOffsetX+movx)*ZoomRate,Y=(-movy<uOffsetY) ? (uOffsetY+movy)*ZoomRate : 0,IDBase->MImageClassList[Type]->ImageList[Cnt]->Image->copy(0,-movy-uOffsetY+Y,-movx+uW-uOffsetX,((-movy+uH)>(H=uOffsetY+ImageH)) ? H+movy : uH-Y).transformed(matrix));
 		}
@@ -1186,7 +1195,7 @@ void MasterSnapImage::mtMouseRDown(QMouseEvent *Ev ,int x ,int y)
 /*
 void MasterSnapImage::DrawEnd()
 {
-	//‘I‘ğ‚³‚ê‚½•”•ª‚ğÔ‚­–ÔŠ|‚¯•\¦‚·‚é
+	//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ÔŠ|ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(X1>X2){
 		int wX=X2;
 		X2=X1;
@@ -1198,7 +1207,7 @@ void MasterSnapImage::DrawEnd()
 		Y1=wY;
 	}
 
-	//dS‚ÌŒvZ
+	//ï¿½dï¿½Sï¿½ÌŒvï¿½Z
 	CalcGravity();
 	emit SignalOnCalc(true);
 
@@ -1207,7 +1216,7 @@ void MasterSnapImage::DrawEnd()
 */
 void MasterSnapImage::SlotDrawEnd()
 {
-	//‘I‘ğ‚³‚ê‚½•”•ª‚ğÔ‚­–ÔŠ|‚¯•\¦‚·‚é
+	//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ÔŠ|ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//ux=gx/ZoomRate-movx;
 	X1=(SData.UData.RectangleData.x1+movx)*ZoomRate;
 	Y1=(SData.UData.RectangleData.y1+movy)*ZoomRate;
@@ -1219,7 +1228,7 @@ void MasterSnapImage::SlotDrawEnd()
 	X2	=SData.UData.RectangleData.x2;
 	Y2	=SData.UData.RectangleData.y2;
 */
-	//dS‚ÌŒvZ
+	//ï¿½dï¿½Sï¿½ÌŒvï¿½Z
 	CalcGravity();
 	emit SignalOnCalc(true);
 
@@ -1228,12 +1237,12 @@ void MasterSnapImage::SlotDrawEnd()
 
 void MasterSnapImage::CalcGravity()
 {
-	//dS‚ÌŒvZ
-/*	//ƒ}ƒXƒ^[ƒXƒiƒbƒv‰æ‘œ‚Ì¶ãÀ•W‚ª(-movx,-movy)‚ÅŠg‘å—¦‚ªZoomRate‚È‚Ì‚Å
+	//ï¿½dï¿½Sï¿½ÌŒvï¿½Z
+/*	//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Xï¿½iï¿½bï¿½vï¿½æ‘œï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½(-movx,-movy)ï¿½ÅŠgï¿½å—¦ï¿½ï¿½ZoomRateï¿½È‚Ì‚ï¿½
 	GX=(int)((-movx+X1/ZoomRate)+(-movx+X2/ZoomRate))>>1;
 	GY=(int)((-movy+Y1/ZoomRate)+(-movy+Y2/ZoomRate))>>1;
 */
-	//‰æ‘œ‚Ì‰ñ“]Šp“x‚É‚æ‚é•`‰æ‹óŠÔ•ÏŠ·
+	//ï¿½æ‘œï¿½Ì‰ï¿½ï¿½]ï¿½pï¿½xï¿½É‚ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Ô•ÏŠï¿½
 	if(ImageRotation==0){
 		GX=(int)((-movx+X1/ZoomRate)+(-movx+X2/ZoomRate))>>1;
 		GY=(int)((-movy+Y1/ZoomRate)+(-movy+Y2/ZoomRate))>>1;
@@ -1255,7 +1264,7 @@ void MasterSnapImage::CalcGravity()
 }
 
 //********************************************
-//@ƒJƒƒ‰–ˆƒNƒ‰ƒX
+//ï¿½@ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 ImageInPage::ImageInPage(int X,int Y)
 {
@@ -1276,7 +1285,7 @@ ImageInPage::~ImageInPage()
 	}
 }
 
-//‰æ‘œ‚Ì‹P“x•â³
+//ï¿½æ‘œï¿½Ì‹Pï¿½xï¿½â³
 void ImageInPage::SetMasterBrightness(int Brightness[])
 {
 	int MaxLinesInImage		=Image->height();

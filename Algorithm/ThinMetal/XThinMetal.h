@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XThinMetal_H)
 #define	XThinMetal_H
 
@@ -77,14 +95,14 @@ public:
 	short		SpaceToOutline;
 
 #pragma	pack(push,1)
-	WORD	BrightWidthL;	//ˆÃ‘¤‹P“x•
-	WORD	BrightWidthH;	//–¾‘¤‹P“x•
-	DWORD	OKDotL;			//ˆÃ‘¤‚n‚jƒhƒbƒg”
-	DWORD	OKDotH;			//–¾‘¤‚n‚jƒhƒbƒg”
-	WORD	OKLengthL;		//ˆÃ‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-	WORD	OKLengthH;		//–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-	DWORD	MaxNGDotL;		//ˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	DWORD	MaxNGDotH;		//–¾‘¤Å‘å‚m‚fƒhƒbƒg”
+	WORD	BrightWidthL;	//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	BrightWidthH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	DWORD	OKDotL;			//ï¿½Ã‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	OKDotH;			//ï¿½ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	OKLengthL;		//ï¿½Ã‘ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+	WORD	OKLengthH;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+	DWORD	MaxNGDotL;		//ï¿½Ã‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	MaxNGDotH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
 	BYTE	ShrinkDot;
 	BYTE	EnlargeDot;
 #pragma	pack(pop)
@@ -339,8 +357,8 @@ public:
 	WORD	CenterBright;
 	WORD	CenterTargetBright;
 
-	short	AbsBrightWidthL;	//ˆÃ‘¤‹P“x•
-	short	AbsBrightWidthH;	//–¾‘¤‹P“x•
+	short	AbsBrightWidthL;	//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	short	AbsBrightWidthH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 
 	BYTE	ShrinkDot;
 	BYTE	EnlargeDot;

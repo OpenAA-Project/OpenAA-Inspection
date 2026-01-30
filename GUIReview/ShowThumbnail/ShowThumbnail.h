@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef SHOWTHUMBNAIL_H
 #define SHOWTHUMBNAIL_H
 
@@ -24,7 +42,7 @@
 #include <QTimeLine>
 #include <QLabel>
 
-// ƒvƒƒpƒeƒBéŒ¾ŠJn
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Jï¿½n
 #include "XReviewPropertyBase.h"
 
 class	ShowThumbnail;
@@ -39,16 +57,16 @@ namespace Ui{
 class ShowThumbnailPropertyClass;
 }
 
-// ƒvƒƒpƒeƒBéŒ¾I—¹
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Iï¿½ï¿½
 
-// ƒTƒ€ƒlƒCƒ‹•\¦ƒRƒ“ƒ|[ƒlƒ“ƒg–{‘Ì
-// NGImageListForReview‚Éæ‚Á‚Ä‘ã‚í‚é‚±‚Æ‚ğ‘O’ñ‚Æ‚·‚é
-// ‚±‚ê‚ğg—p‚·‚é‚±‚Æ‚É‚æ‚èNGImageForReview‚ª•K—v–³‚­‚È‚é‚©‚Í•s–¾
-// ‹@”\‚Æ‚µ‚ÄAShowHistoryListForReview‚©‚çNGƒŠƒXƒg‚Ì‘—M‚É‚æ‚èƒTƒ€ƒlƒCƒ‹•\¦‚ğs‚¤
-// ƒJ[ƒ\ƒ‹ƒL[‚Å’–Ú‰æ‘œ‚ğˆÚ“®‚µAƒNƒŠƒbƒN‚µ‚½NG‰æ‘œ‚ğ‘I‘ğó‘Ô‚É‚·‚é
-// ‘I‘ğó‘Ô‚É‚È‚Á‚½NG‰æ‘œ‚ÍNGImageForReview‚É•\¦‚³‚ê(€Šg‘å‰æ‘œˆµ‚¢H)‚éB
-// ƒTƒ€ƒlƒCƒ‹ƒy[ƒW‚ÌÅ‰‚Ìƒy[ƒW‚ÌÅ‰‚Ì—ñ‚©‚çªƒJ[ƒ\ƒ‹‚Å‘O‚ÌŠî”Â‚ÖAÅŒã‚Ìƒy[ƒW‚Ì‰º‚ª–³‚¢—ñ‚Å«ƒJ[ƒ\ƒ‹‚ÅŸ‚ÌŠî”Â‚Ö
-// Šî–{‚Í¨ƒJ[ƒ\ƒ‹ƒL[‚Å‡ŸNG‰æ‘œ‚ª‘—‚ç‚êAˆÚ“®‡‚Íƒ‰ƒXƒ^‡‚Æ‚È‚éB©ƒJ[ƒ\ƒ‹‚Í‚»‚Ì‹t‚Å‚ ‚éB
+// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½{ï¿½ï¿½
+// NGImageListForReviewï¿½Éï¿½ï¿½ï¿½ï¿½Ä‘ï¿½ï¿½ï¿½ï¿½é‚±ï¿½Æ‚ï¿½ï¿½Oï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½é‚±ï¿½Æ‚É‚ï¿½ï¿½ï¿½NGImageForReviewï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½È‚é‚©ï¿½Í•sï¿½ï¿½
+// ï¿½@ï¿½\ï¿½Æ‚ï¿½ï¿½ÄAShowHistoryListForReviewï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½Xï¿½gï¿½Ì‘ï¿½ï¿½Mï¿½É‚ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
+// ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½Lï¿½[ï¿½Å’ï¿½ï¿½Ú‰æ‘œï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½Aï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½NGï¿½æ‘œï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ô‚É‚ï¿½ï¿½ï¿½
+// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ô‚É‚È‚ï¿½ï¿½ï¿½NGï¿½æ‘œï¿½ï¿½NGImageForReviewï¿½É•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½H)ï¿½ï¿½ï¿½B
+// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½yï¿½[ï¿½Wï¿½ÌÅï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½ÌÅï¿½ï¿½Ì—ñ‚©‚çªï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½Å‘Oï¿½ÌŠï¿½ï¿½Â‚ÖAï¿½ÅŒï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½Åï¿½ï¿½ÌŠï¿½ï¿½Â‚ï¿½
+// ï¿½ï¿½ï¿½{ï¿½Íï¿½ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½Lï¿½[ï¿½Åï¿½ï¿½ï¿½NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Ú“ï¿½ï¿½ï¿½ï¿½Íƒï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Æ‚È‚ï¿½ï¿½Bï¿½ï¿½ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ì‹tï¿½Å‚ï¿½ï¿½ï¿½ï¿½B
 class SHOWTHUMBNAIL_EXPORT ShowThumbnail : public GUIFormBase
 {
 	Q_OBJECT
@@ -67,14 +85,14 @@ public:
 public:
 	virtual void	Prepare(void)	override;
 	
-	// ENGList‚ÌXV
+	// ï¿½ENGListï¿½ÌXï¿½V
 	virtual	void TransmitDirectly(GUIDirectMessage *packet)	override;
 	void updateGUI();
 	void updateInfoLabel();
 	//void updateHelpLabel();
 
 protected:
-	// ã‰º¶‰EƒCƒxƒ“ƒg
+	// ï¿½ã‰ºï¿½ï¿½ï¿½Eï¿½Cï¿½xï¿½ï¿½ï¿½g
 	virtual	void keyPressEvent(QKeyEvent *event)	override;
 	virtual	void keyReleaseEvent(QKeyEvent *event)	override;
 
@@ -89,19 +107,19 @@ private:
 	void createEditerThumbnail();
 	QImage createEditerImage(int width, int height, QColor backgroundColor, Review::FKey key);
 	void updateFKeyColorList();
-	// ƒy[ƒW”Ô†[page]‚Ìlocate‚ÉˆÚ“®Alocate==Review::Manual‚Ìê‡‚Írow,column‚ğg—p
-	void showPage(Review::SideType side, int page, Review::ListLocate, int row=-1, int column=-1);// ‘Sw’è
-	void showPage(Review::SideType side, Review::ListLocate locate);// •\— ‚Ææ“ª––”öw’è
-	void showPage(Review::ListLocate locate, int GlobalIndex=-1);// ‘SNGƒŠƒXƒg‚ÌƒCƒ“ƒfƒbƒNƒXw’è
+	// ï¿½yï¿½[ï¿½Wï¿½Ôï¿½[page]ï¿½ï¿½locateï¿½ÉˆÚ“ï¿½ï¿½Alocate==Review::Manualï¿½Ìê‡ï¿½ï¿½row,columnï¿½ï¿½ï¿½gï¿½p
+	void showPage(Review::SideType side, int page, Review::ListLocate, int row=-1, int column=-1);// ï¿½Sï¿½wï¿½ï¿½
+	void showPage(Review::SideType side, Review::ListLocate locate);// ï¿½\ï¿½ï¿½ï¿½Ææ“ªï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½
+	void showPage(Review::ListLocate locate, int GlobalIndex=-1);// ï¿½SNGï¿½ï¿½ï¿½Xï¿½gï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½wï¿½ï¿½
 	int getLocalIndex(int page, int row, int column, Review::SideType side) const;
 	int getGlobalIndex(int page, int row, int column, Review::SideType side) const;
 
 	int calcPage(int localIndex) const;
 
-	// –îˆóƒL[‚É‚æ‚éˆÚ“®‚Ì•ÏX
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½[ï¿½É‚ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½Ì•ÏX
 	void inputKeyMoveModeChange();
 
-	// –îˆóƒL[‚É‚æ‚éˆÚ“®
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½[ï¿½É‚ï¿½ï¿½ï¿½ï¿½Ú“ï¿½
 	void inputKeyUpArrow();
 	void inputKeyDownArrow(bool Skip);
 	void inputKeyRightArrow(bool Skip);
@@ -110,14 +128,14 @@ private:
 	void inputKeyDelete();
 	bool	GetAreaNameAndChecked(int GlobalIndex ,QString &AreaName);
 
-	// FƒL[‚Ì—v‘f‚ğXML‚É‹Lq‚·‚é.–ß‚è’l‚ÍƒL[‚É‘Î‰‚·‚éF
+	// Fï¿½Lï¿½[ï¿½Ì—vï¿½fï¿½ï¿½XMLï¿½É‹Lï¿½qï¿½ï¿½ï¿½ï¿½.ï¿½ß‚ï¿½ï¿½lï¿½ÍƒLï¿½[ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½F
 public:
 	QColor setFKey(Review::FKey key);
-	// FƒL[‚Ì—v‘f‚ğíœ‚·‚é
+	// Fï¿½Lï¿½[ï¿½Ì—vï¿½fï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 	bool removeFKey(QColor &afterColor);
 private:
 	bool isMoveHistoryEnable();
-	bool moveHistory(Review::Direction direction/*ˆÚ“®‚·‚é•ûŒü:‘OEŒã‚ë*/, Review::ListLocate NGLocate/* NGNail‚ÌˆÊ’u */, bool *historyExisted=NULL);
+	bool moveHistory(Review::Direction direction/*ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:ï¿½Oï¿½Eï¿½ï¿½ï¿½ï¿½*/, Review::ListLocate NGLocate/* NGNailï¿½ÌˆÊ’u */, bool *historyExisted=NULL);
 
 	ThumbnailList *currentThumbnailList();
 	ThumbnailPageList *currentThumbnailPageList();
@@ -127,7 +145,7 @@ private:
 	bool isPageAllChecked(Review::SideType side, int LocalPage);
 	bool isCurrentHistoryAllChecked();
 
-private:// currentXXX‚ğ’¼Ú•ÏX‚·‚éŠÖ”
+private:// currentXXXï¿½ğ’¼Ú•ÏXï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½
 	bool setCurrentNG(Review::SideType side, int page, int row, int column);
 
 protected:
@@ -222,28 +240,28 @@ private:
 	//};
 
 private:
-	// EditGUI‚Åw’è‚·‚é‚±‚Æ‚ªo—ˆ‚éc‰¡‚Ì•\¦”‚ÌÅ‘å’l
-	//int rowCount;		// c—ñÅ‘å’l
-	//int columnCount;	// ‰¡—ñÅ‘å’l
-	//int NGSignSize; // NG•`‰æƒTƒCƒY
-	//bool viewMaster;// ƒ}ƒXƒ^[‰æ‘œ‚ğ•\¦‚·‚é‚©‚Ç‚¤‚©
-	//bool enableExpandThumbnal;// Šg‘åƒTƒ€ƒlƒCƒ‹—LŒø”»’è
+	// EditGUIï¿½Åwï¿½è‚·ï¿½é‚±ï¿½Æ‚ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½cï¿½ï¿½ï¿½Ì•\ï¿½ï¿½ï¿½ï¿½ï¿½ÌÅ‘ï¿½ï¿½l
+	//int rowCount;		// ï¿½cï¿½ï¿½ï¿½Å‘ï¿½ï¿½l
+	//int columnCount;	// ï¿½ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½l
+	//int NGSignSize; // NGï¿½`ï¿½ï¿½ï¿½Tï¿½Cï¿½Y
+	//bool viewMaster;// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
+	//bool enableExpandThumbnal;// ï¿½gï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	QList<QColor> m_FKeyColorList;
 
-	Review::SideType m_currentSide;// Œ»İ•\¦’†‚ÌƒTƒCƒh Front or Back
-	int m_currentPage;// Œ»İ•\¦’†‚Ìƒy[ƒWB‚Pƒy[ƒW’†‚ÉÅ‘å rowMax * columnMax ‚ÌNG‰æ‘œ‚ª•\¦‚³‚ê‚é
-	int m_currentRow;		// ”ñ‘I‘ğó‘Ô‚Å‚Í-1(NG‰æ‘œ–³‚µ‚È‚Ç)
-	int m_currentColumn;	// ”ñ‘I‘ğó‘Ô‚Å‚Í-1(NG‰æ‘œ–³‚µ‚È‚Ç)
-	Thumbnail *m_currentThumbnail;// Œ»İ‘I‘ğ’†‚ÌNG‰æ‘œ
+	Review::SideType m_currentSide;// ï¿½ï¿½ï¿½İ•\ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½h Front or Back
+	int m_currentPage;// ï¿½ï¿½ï¿½İ•\ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½Bï¿½Pï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½ÉÅ‘ï¿½ rowMax * columnMax ï¿½ï¿½NGï¿½æ‘œï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int m_currentRow;		// ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Å‚ï¿½-1(NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½)
+	int m_currentColumn;	// ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Å‚ï¿½-1(NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½)
+	Thumbnail *m_currentThumbnail;// ï¿½ï¿½ï¿½İ‘Iï¿½ğ’†‚ï¿½NGï¿½æ‘œ
 
 	int m_delayMSec;
 
-	ThumbnailList m_FrontThumbnailList;	// ‘SƒTƒ€ƒlƒCƒ‹ƒAƒCƒeƒ€‚ÌƒŠƒXƒgƒoƒbƒtƒ@(•\)
-	ThumbnailList m_BackThumbnailList;		// ‘SƒTƒ€ƒlƒCƒ‹ƒAƒCƒeƒ€‚ÌƒŠƒXƒgƒoƒbƒtƒ@(— )
+	ThumbnailList m_FrontThumbnailList;	// ï¿½Sï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½gï¿½oï¿½bï¿½tï¿½@(ï¿½\)
+	ThumbnailList m_BackThumbnailList;		// ï¿½Sï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½gï¿½oï¿½bï¿½tï¿½@(ï¿½ï¿½)
 
-	ThumbnailPageList m_FrontThumbnailPageList;	// •\‘¤ƒy[ƒWƒŠƒXƒg
-	ThumbnailPageList m_BackThumbnailPageList;	// — ‘¤ƒy[ƒWƒŠƒXƒg
+	ThumbnailPageList m_FrontThumbnailPageList;	// ï¿½\ï¿½ï¿½ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Xï¿½g
+	ThumbnailPageList m_BackThumbnailPageList;	// ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Xï¿½g
 
 	_moveMode m_moveMode;
 
@@ -311,16 +329,16 @@ private slots:
 	void slotSetMasterVisible(int state);
 	void slotSortOrderChanged(int index);
 	
-// ƒvƒƒpƒeƒB‚ÌƒƒCƒ“ƒoƒbƒtƒ@(GUI‚Ég—p‚·‚éî•ñ‚ÆUi‚©‚ç‚Ì“üo—Í‚Ég—p)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒï¿½ï¿½Cï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@(GUIï¿½Égï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Uiï¿½ï¿½ï¿½ï¿½ï¿½Ì“ï¿½ï¿½oï¿½Í‚Égï¿½p)
 private:
 	ShowThumbnailProperty *m_property;
 
-// ƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO(ŠO•”‚©‚ç(*å‚ÉƒvƒƒpƒeƒBİ’èGUI)‚Ì—v‹‚ÅŒÄ‚Ño‚³‚ê‚é)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½O(ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(*ï¿½ï¿½ï¿½Éƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½GUI)ï¿½Ì—vï¿½ï¿½ï¿½ÅŒÄ‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 private:
 	Ui::ShowThumbnailPropertyClass *m_propertyUi;
 	QDialog *m_propertyDialog;
 
-// ƒvƒƒpƒeƒB‚Ö‚ÌƒAƒNƒZƒX
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½X
 public:
 	inline const ShowThumbnailProperty &getProperty() const { return *m_property; };
 	ShowThumbnailProperty *getPropertyPtr() { return m_property; }
@@ -328,10 +346,10 @@ public:
 	ReviewPIBase *GetReviewBase(void);
 	void	ShowLabelInfo(const QString &Message);
 	void	SetFKeyIndex(int GlobalIndex ,Review::FKey key);
-private:// •ÒW‰Â”\‚Í“à•”‚©‚ç‚Ì‚İ
+private:// ï¿½ÒWï¿½Â”\ï¿½Í“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
 	inline ShowThumbnailProperty &getProperty() { return *m_property; };
 
-// ƒvƒƒpƒeƒB‚Ìƒoƒbƒtƒ@‚ÆƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO‚Ö‚ÌƒAƒNƒZƒXŠÖ”
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½Æƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½Öï¿½
 private:
 	void setProperty(ShowThumbnailProperty *property){ m_property = property; };
 	void setPropertyUi(Ui::ShowThumbnailPropertyClass *ui){ m_propertyUi = ui; };
@@ -339,7 +357,7 @@ private:
 	void setPropertyDialog(QDialog *dialog){ m_propertyDialog = dialog; };
 	QDialog *getPropertyDialog(void){ return m_propertyDialog; };
 	
-// ƒvƒƒpƒeƒBƒ_ƒCƒAƒƒO‚ÌƒVƒOƒiƒ‹accepted()‚É‘Î‰‚·‚éƒXƒƒbƒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ÌƒVï¿½Oï¿½iï¿½ï¿½accepted()ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½g
 private slots:
 	void slot_propertyModified();
     void on_pushButtonColorNoChecked_clicked();
@@ -356,7 +374,7 @@ private slots:
     void on_pushButtonColorF10_clicked();
     void on_pushButtonColorF11_clicked();
     void on_pushButtonColorF12_clicked();
-// ƒvƒƒpƒeƒB‚ÌƒRƒs[‚ÆUiƒtƒ@ƒCƒ‹‚Æ‚Ì˜AŒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½ÌƒRï¿½sï¿½[ï¿½ï¿½Uiï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Æ‚Ì˜Aï¿½g
 public:
 	void setProperty(const ShowThumbnailProperty &property);
 private:
@@ -365,7 +383,7 @@ private:
 	void setPropertyFromUi(ShowThumbnailProperty &property);
 	void setPropertyFromUi();
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Åg—p‚·‚éƒvƒƒpƒeƒB‚Ì‰Šú‰»
+// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 private:
 	void initProperty();
 

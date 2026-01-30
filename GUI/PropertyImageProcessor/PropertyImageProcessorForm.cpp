@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "AddProgramFormResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\PropertyImageProcessor\PropertyImageProcessorForm.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 #include <QScrollArea>
 #include <QMenu>
@@ -155,77 +164,77 @@ void PropertyImageProcessorForm::on_ButtonDelFile_clicked()
 
 void PropertyImageProcessorForm::on_FilterMonoButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_1)/*"ƒ‚ƒmƒNƒ"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_1)/*"ï¿½ï¿½ï¿½mï¿½Nï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonOpposite_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_2)/*"–¾ˆÃ”½“]"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_2)/*"ï¿½ï¿½ï¿½Ã”ï¿½ï¿½]"*/;
 }
 
 void PropertyImageProcessorForm::on_FilterAddButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_3)/*"‰ÁZ"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_3)/*"ï¿½ï¿½ï¿½Z"*/;
 }
 
 void PropertyImageProcessorForm::on_FilterSubButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_4)/*"Œ¸Z"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_4)/*"ï¿½ï¿½ï¿½Z"*/;
 }
 
 void PropertyImageProcessorForm::on_FilterMulButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_5)/*"À””{"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_5)/*"ï¿½ï¿½ï¿½ï¿½ï¿½{"*/;
 }
 
 void PropertyImageProcessorForm::on_FilterCoefButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_6)/*"‘ŠŠÖ"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_6)/*"ï¿½ï¿½ï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonFilterLineEmphasis_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_7)/*"ü‹­’²"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_7)/*"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonLaplace_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_8)/*"×Ìß×¼±İ"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_8)/*"ï¿½ï¿½ï¿½×¼ï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonGradiant_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_9)/*"Œù”z"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_9)/*"ï¿½ï¿½ï¿½z"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonTransLog_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_10)/*"‘Î”•ÏŠ·"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_10)/*"ï¿½Îï¿½ï¿½ÏŠï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonDiverse_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_11)/*"·•ª"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_11)/*"ï¿½ï¿½ï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_FilterBinarizeButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_12)/*"‚Q’l‰»"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_12)/*"ï¿½Qï¿½lï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_FilterEnfatButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_13)/*"–c’£"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_13)/*"ï¿½cï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_FilterShrinkButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_14)/*"ûk"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_14)/*"ï¿½ï¿½ï¿½k"*/;
 }
 
 void PropertyImageProcessorForm::on_FilterRelativeBinarizeButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_15)/*"‘Š‘Î‚Q’l"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_15)/*"ï¿½ï¿½ï¿½Î‚Qï¿½l"*/;
 }
 
 void PropertyImageProcessorForm::on_FilterAndButton_clicked()
@@ -250,12 +259,12 @@ void PropertyImageProcessorForm::on_FilterNotButton_clicked()
 
 void PropertyImageProcessorForm::on_FilterThresholdButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_20)/*"‚µ‚«‚¢’l"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_20)/*"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½l"*/;
 }
 
 void PropertyImageProcessorForm::on_FilterAllocButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_21)/*"Œ‹‰ÊŠ„“–"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_21)/*"ï¿½ï¿½ï¿½ÊŠï¿½ï¿½ï¿½"*/;
 }
 
 void	PropertyImageProcessorForm::SlotMouseLClickPanel(int x ,int y)
@@ -545,62 +554,62 @@ void PropertyImageProcessorForm::on_LoadImageButton_clicked()
 
 void PropertyImageProcessorForm::on_DigitalFilterLineNotchButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_28)/*"üŠúüœ‹"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_28)/*"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_FractalDimButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_29)/*"ƒtƒ‰ƒNƒ^ƒ‹ŸŒ³"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_29)/*"ï¿½tï¿½ï¿½ï¿½Nï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_StatisticButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_30)/*"’·‚³“Œv"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_30)/*"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½v"*/;
 }
 
 void PropertyImageProcessorForm::on_LinearizeButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_31)/*"×ü‰»"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_31)/*"ï¿½×ï¿½ï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonRemoveNoise_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_32)/*"ƒmƒCƒYœ‹"*/;	
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_32)/*"ï¿½mï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½"*/;	
 }
 
 void PropertyImageProcessorForm::on_MatchLearnButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_33)/*"ŠwKƒ}ƒbƒ`"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_33)/*"ï¿½wï¿½Kï¿½}ï¿½bï¿½`"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonRemoveStandalone_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_34)/*"ŒÇ—§“_œ‹"*/;	
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_34)/*"ï¿½Ç—ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½"*/;	
 }
 
 void PropertyImageProcessorForm::on_ButtonDisorderRegular_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_35)/*"³‹K•ª•z˜¨—£"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_35)/*"ï¿½ï¿½ï¿½Kï¿½ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonErgod_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_36)/*"ƒGƒ‹ƒS[ƒh«"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_36)/*"ï¿½Gï¿½ï¿½ï¿½Sï¿½[ï¿½hï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonRemoveSpot_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_37)/*"‹P“_œ‹"*/;	
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_37)/*"ï¿½Pï¿½_ï¿½ï¿½ï¿½ï¿½"*/;	
 }
 
 void PropertyImageProcessorForm::on_ButtonConnectNearBy_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_38)/*"‹ß–TÚ‘±"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_38)/*"ï¿½ß–Tï¿½Ú‘ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonMakeMaxPath_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_39)/*"Å’·ƒpƒX"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_39)/*"ï¿½Å’ï¿½ï¿½pï¿½X"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonLoadDef_clicked()
@@ -634,30 +643,30 @@ void PropertyImageProcessorForm::on_ButtonDelAllProgram_clicked()
 
 void PropertyImageProcessorForm::on_AverageBinarizeButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_41)/*"•½‹Ï‚Q’l‰»"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_41)/*"ï¿½ï¿½ï¿½Ï‚Qï¿½lï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_FilterMedianButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_42)/*"’†‰›•½‹Ï‰»"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_42)/*"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï‰ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_FilterMosaicButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_43)/*"ƒ‚ƒUƒCƒN‰»"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_43)/*"ï¿½ï¿½ï¿½Uï¿½Cï¿½Nï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_FilterLineEmphasizerButton_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_44)/*"ü‹­’²"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_44)/*"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonPickupWeb_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_45)/*"–Ô–ÚŒŸo"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_45)/*"ï¿½Ô–ÚŒï¿½ï¿½o"*/;
 }
 
 void PropertyImageProcessorForm::on_ButtonConnectPartial_clicked()
 {
-	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_46)/*"“rØÚ‘±"*/;
+	CurrentTitle=LangSolver.GetString(PropertyImageProcessorForm_LS,LID_46)/*"ï¿½rï¿½ØÚ‘ï¿½"*/;
 }

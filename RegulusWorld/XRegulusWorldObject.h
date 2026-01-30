@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 #include "XTypeDef.h"
 #include "NListComp.h"
@@ -187,14 +205,14 @@ public:
 	Vector3D	operator-()	const;
 	Vector3D	operator+(const Vector3D &src)	const;
 	Vector3D	operator-(const Vector3D &src)	const;
-	Vector3D	operator*(const Vector3D &src)	const;	//Cross product@ŠOÏ
+	Vector3D	operator*(const Vector3D &src)	const;	//Cross productï¿½@ï¿½Oï¿½ï¿½
 	Vector3D	operator*(float m)	const;
 	Vector3D	operator*(RWMatrix4x4 &src)	const;
 	Vector3D	operator/(float m)	const;
 	Vector3D	&operator+=(const Vector3D &src);
 	Vector3D	&operator-=(const Vector3D &src);
 	Vector3D	&operator*=(float m);
-	Vector3D	&operator*=(const Vector3D &src);	//Cross product@ŠOÏ
+	Vector3D	&operator*=(const Vector3D &src);	//Cross productï¿½@ï¿½Oï¿½ï¿½
 	Vector3D	&operator*=(RWMatrix4x4 &src);
 	Vector3D	&operator/=(float m);
 
@@ -241,8 +259,8 @@ public:
 	int			ViewXLen;
 	int			ViewYLen;
 	/*
-	* Point=0	Radian=0‚Ì‚Æ‚«A(x,y,z)=(Length,0,0)‚ÌˆÊ’u‚ÉlŠpŒ`‚ğ—§‚Ä‚Ä’u‚­
-	* Radian‚ÍAŠe²‚Ìü‚è‚É‰ñ“]‚·‚éŠp“x‚ğ•\‚·
+	* Point=0	Radian=0ï¿½Ì‚Æ‚ï¿½ï¿½A(x,y,z)=(Length,0,0)ï¿½ÌˆÊ’uï¿½Élï¿½pï¿½`ï¿½ğ—§‚Ä‚Ä’uï¿½ï¿½
+	* Radianï¿½ÍAï¿½eï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½É‰ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½xï¿½ï¿½ï¿½\ï¿½ï¿½
 	*/
 
 	CameraView(void);
@@ -273,10 +291,10 @@ public:
 class   Surface3D :public SurfaceBase
 {
 public:
-	float	Reflection	;		//”½Ë—¦	0-1.0
-	float	Diffusion	;		//ŠgU—¦	0-1.0
-	float	Transparent	;		//“§‰ß—¦	0-1.0
-	float	Refraction	;		//‹üÜ—¦
+	float	Reflection	;		//ï¿½ï¿½ï¿½Ë—ï¿½	0-1.0
+	float	Diffusion	;		//ï¿½gï¿½Uï¿½ï¿½	0-1.0
+	float	Transparent	;		//ï¿½ï¿½ï¿½ß—ï¿½	0-1.0
+	float	Refraction	;		//ï¿½ï¿½ï¿½Ü—ï¿½
 	QColor	Color;
 	
 	Surface3D(void);

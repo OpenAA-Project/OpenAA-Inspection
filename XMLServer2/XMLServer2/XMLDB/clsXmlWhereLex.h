@@ -1,9 +1,21 @@
 /*
- * clsXmlWhereLex.h
+ * Copyright (C) 2012
+ * Author : cony
  *
- *  Created on: 2009/11/26
- *      Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #ifndef CLSXMLWHERELEX_H_
 #define CLSXMLWHERELEX_H_
@@ -14,9 +26,9 @@
 #include "clsDb.h"
 
 /**
- * @brief ‘®«ğŒƒNƒ‰ƒX
+ * @brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
  *
- * ‘®«ğŒ‚ğ•Û‘¶
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½
  */
 class clsXMLAttrRec : public NPList<clsXMLAttrRec> {
 public:
@@ -36,7 +48,7 @@ public:
 };
 
 /**
- * @brief ƒ\[ƒg‡ğŒƒNƒ‰ƒX
+ * @brief ï¿½\ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
  */
 class clsXMLOrderRec : public NPList<clsXMLOrderRec> {
 public:
@@ -58,7 +70,7 @@ public:
 };
 
 /**
- * @brief ƒ^ƒOğŒƒNƒ‰ƒX
+ * @brief ï¿½^ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
  */
 class clsXMLRec : public NPList<clsXMLRec> {
 public:
@@ -81,7 +93,7 @@ public:
 };
 
 /**
- * @brief ğŒ‘€ìŠî’êƒNƒ‰ƒX
+ * @brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
  */
 class clsXmlLexBase {
 public:
@@ -111,7 +123,7 @@ protected:
 	clsDb *db;
 	virtual void mkXMLRec(){};
 
-	/// ‘®«æ“¾
+	/// ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	virtual bool getAttr(NPListPack<clsXMLAttrRec> *attrs);
 
 	int nextTagName();
@@ -147,7 +159,7 @@ protected:
 };
 
 /**
- * @brief o—ÍğŒ‘€ìƒNƒ‰ƒX
+ * @brief ï¿½oï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
  */
 class clsXmlOutLex : public clsXmlLexBase  {
 public:
@@ -168,7 +180,7 @@ protected:
 };
 
 /**
- * @brief ŒŸõğŒ‘€ìƒNƒ‰ƒX
+ * @brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
  */
 class clsXmlWhereLex : public clsXmlLexBase {
 public:
@@ -179,22 +191,22 @@ public:
 	int nSelTblCnt;
 
 	/**
-	 * @brief ƒgƒbƒvƒm[ƒhğŒ¶¬
+	 * @brief ï¿½gï¿½bï¿½vï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	QByteArray mkWhrTopNode();
 
 	/**
-	 * @brief ƒgƒbƒvƒm[ƒh‘®«ğŒ¶¬
+	 * @brief ï¿½gï¿½bï¿½vï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	QByteArray mkWhrTopAttr();
 
 	/**
-	 * @brief qƒm[ƒhğŒ¶¬
+	 * @brief ï¿½qï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	QByteArray mkWhrSecNode();
 
 	/**
-	 * @brief qƒm[ƒh‘®«ğŒ¶¬
+	 * @brief ï¿½qï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	QByteArray mkWhrSecAttr();
 
@@ -205,12 +217,12 @@ public:
 	 */
 
 	/**
-	 * @brief DBƒ}ƒXƒ^ŒŸõğŒ¶¬
+	 * @brief DBï¿½}ï¿½Xï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	QByteArray mkDbMstWhr();
 
 	/**
-	 * @brief ‘•’u”Ô†AŒŸ¸“úæ“¾
+	 * @brief ï¿½ï¿½ï¿½uï¿½Ôï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	 */
 	bool getDbKey(QByteArray &mac, QByteArray &day);
 
@@ -224,7 +236,7 @@ private:
 };
 
 /**
- * @brief ƒ\[ƒgğŒ‘€ìƒNƒ‰ƒX
+ * @brief ï¿½\ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
  */
 class clsXmlOrderLex : public clsXmlLexBase {
 public:

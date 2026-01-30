@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2018
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "CLHS_PX8CommandManager.h"
 
 #include <QStringList>
@@ -5,28 +23,28 @@
 
 QPair<QList<bool>, CLHS_PX8Setting> CLHS_PX8CommandAnalyzer::analyze(const QString &str)
 {
-	QStringList ComStep = str.split(QChar((char)0x04), QString::SkipEmptyParts);// ŠeƒRƒ}ƒ“ƒhI’[‹æØ‚è‚Å•ªŠ„(0x04)
+	QStringList ComStep = str.split(QChar((char)0x04), QString::SkipEmptyParts);// ï¿½eï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Iï¿½[ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½Å•ï¿½ï¿½ï¿½(0x04)
 
 	CLHS_PX8Setting setting;
 	QList<bool> flagList = QVector<bool>(TYPE_ENUM_COUNT, false).toList();
 	
 	for(int cs=0; cs<ComStep.count(); cs++){
-		QStringList list = ComStep[cs].split('\r', QString::SkipEmptyParts);// ƒRƒ}ƒ“ƒh•ÔM‹æ•ª‚¯‚Å•ªŠ„(CR)
+		QStringList list = ComStep[cs].split('\r', QString::SkipEmptyParts);// ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ÔMï¿½æ•ªï¿½ï¿½ï¿½Å•ï¿½ï¿½ï¿½(CR)
 
-		// —á){>OK>r200, >CMD OVR ERR!, EOF}
+		// ï¿½ï¿½){>OK>r200, >CMD OVR ERR!, EOF}
 		for(int i=0; i<list.count(); i++){
-			QStringList parts = list[i].split('>');// ƒRƒ}ƒ“ƒh‚ÌŠJn•¶š‚Å•ªŠ„('>')
+			QStringList parts = list[i].split('>');// ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ÌŠJï¿½nï¿½ï¿½ï¿½ï¿½ï¿½Å•ï¿½ï¿½ï¿½('>')
 			if(parts.isEmpty()==false){
 				if(parts.contains("CMD ERR!") || list.contains("CMD OVR ERR!") || list.contains("VAL ERR!") || list.contains("MEM ERR!")){
-					continue;// ƒGƒ‰[‚É‚æ‚èŸ‚ÌƒRƒ}ƒ“ƒh•Ô“š‚Ö
+					continue;// ï¿½Gï¿½ï¿½ï¿½[ï¿½É‚ï¿½ï¿½èŸï¿½ÌƒRï¿½}ï¿½ï¿½ï¿½hï¿½Ô“ï¿½ï¿½ï¿½
 				}else{
-					if(parts.count()>=2){// 2ŒÂ–Ú‚ª–{–½
-						CLHS_PX8Type type = checkCmd(parts[1]);// ƒ^ƒCƒv‘I•Ê
+					if(parts.count()>=2){// 2ï¿½Â–Ú‚ï¿½ï¿½{ï¿½ï¿½
+						CLHS_PX8Type type = checkCmd(parts[1]);// ï¿½^ï¿½Cï¿½vï¿½Iï¿½ï¿½
 						if(type==TYPE_ENUM_COUNT)continue;
 						double value1;
 						double value2=-99999999;
-						if(checkValue(parts[1], value1,value2)==true){// ’læ“¾
-							// ‘‚İ
+						if(checkValue(parts[1], value1,value2)==true){// ï¿½lï¿½æ“¾
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 							flagList[type] = true;
 							if(value2>-99999999){
 								setData(type, setting, value2);
@@ -51,10 +69,10 @@ CLHS_PX8Type CLHS_PX8CommandAnalyzer::checkCmd(const QString &recieve)
 	QString trmStr = recieve.trimmed();
 
 	for(int i=0; i<trmStr.count(); i++){
-		if(trmStr[i].isNumber()==true){// ”’l
+		if(trmStr[i].isNumber()==true){// ï¿½ï¿½ï¿½l
 			break;
 		}
-		if(trmStr[i]==QChar(' ')){// ƒ}ƒCƒiƒX’l
+		if(trmStr[i]==QChar(' ')){// ï¿½}ï¿½Cï¿½iï¿½Xï¿½l
 			break;
 		}
 		cmdStr.append(recieve[i]);
@@ -81,21 +99,21 @@ CLHS_PX8Type CLHS_PX8CommandAnalyzer::checkCmd(const QString &recieve)
 
 bool CLHS_PX8CommandAnalyzer::checkValue(const QString &recieve, double &value1,double &value2)
 {
-	int index = recieve.indexOf('>');// ƒRƒ}ƒ“ƒhŠJn“_
+	int index = recieve.indexOf('>');// ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Jï¿½nï¿½_
 
-	// ”’l‚Ü‚Å”ò‚Î‚·
+	// ï¿½ï¿½ï¿½lï¿½Ü‚Å”ï¿½ï¿½Î‚ï¿½
 	for(index = index+1; index<recieve.count(); index++){
-		if(recieve[index].isNumber()==true){// ”’l
+		if(recieve[index].isNumber()==true){// ï¿½ï¿½ï¿½l
 			break;
 		}
-		if(recieve[index]==QChar(' ')){// ƒ}ƒCƒiƒX’l
+		if(recieve[index]==QChar(' ')){// ï¿½}ï¿½Cï¿½iï¿½Xï¿½l
 			break;
 		}
 	}
 
 	QString valueStr;
 	for(index++; index<recieve.count(); index++){
-		if(recieve[index]!='.' && recieve[index].isNumber()==false && recieve[index]!=QChar('-')){// ”’l‚à‚µ‚­‚Íƒ}ƒCƒiƒX’l
+		if(recieve[index]!='.' && recieve[index].isNumber()==false && recieve[index]!=QChar('-')){// ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íƒ}ï¿½Cï¿½iï¿½Xï¿½l
 			break;
 		}
 		valueStr.append(recieve[index]);
@@ -107,7 +125,7 @@ bool CLHS_PX8CommandAnalyzer::checkValue(const QString &recieve, double &value1,
 	if(recieve[index]==','|| recieve[index]==' '){
 		QString valueStr2;
 		for(index++; index<recieve.count(); index++){
-			if(recieve[index]!='.' && recieve[index].isNumber()==false && recieve[index]!=QChar('-')){// ”’l‚à‚µ‚­‚Íƒ}ƒCƒiƒX’l
+			if(recieve[index]!='.' && recieve[index].isNumber()==false && recieve[index]!=QChar('-')){// ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íƒ}ï¿½Cï¿½iï¿½Xï¿½l
 				break;
 			}
 			valueStr2.append(recieve[index]);

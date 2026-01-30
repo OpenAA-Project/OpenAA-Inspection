@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\PropertyDotColorMatching\XPropertyDotColorMatchingPacket.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #if	!defined(XPROPERTYDotColorMatchingPACKET_H)
 #define	XPROPERTYDotColorMatchingPACKET_H
@@ -553,7 +562,7 @@ public:
 
 //================================================================================================
 
-class	GUICmdSelectByLibOutline : public GUICmdPacketBase	//ƒ‰ƒCƒuƒ‰ƒŠ‚É‚æ‚éƒAƒCƒeƒ€‘I‘ğ—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdSelectByLibOutline : public GUICmdPacketBase	//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	bool					OutlineMode;
@@ -568,7 +577,7 @@ public:
 };
 //================================================================================================
 
-class	GUICmdSetItemsByLibID : public GUICmdPacketBase	//ƒ‰ƒCƒuƒ‰ƒŠ‚É‚æ‚éƒAƒCƒeƒ€‘I‘ğ—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdSetItemsByLibID : public GUICmdPacketBase	//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	int		ItemID;		//-1: All Item with LibID

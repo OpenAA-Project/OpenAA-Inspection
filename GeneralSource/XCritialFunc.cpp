@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XCritialFunc.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XTypeDef.h"
 #include "XCriticalFunc.h"
 
@@ -22,7 +31,7 @@ DWORD	GetComputerMiliSec(void)
 int64	GetComputerMicrosec(void)
 {
 	LARGE_INTEGER PerformanceCount;
-	if(QueryPerformanceCounter(&PerformanceCount)==TRUE){   // ƒJƒEƒ“ƒ^‚Ì’l
+	if(QueryPerformanceCounter(&PerformanceCount)==TRUE){   // ï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½Ì’l
 		return PerformanceCount.QuadPart;
 	}
 	return 0;
@@ -35,10 +44,10 @@ void	InitialMicrosecTimer(struct	InitializedMicrosecTimerStruct &IData)
 	*Dif1Milisec=0;
 
 	LARGE_INTEGER LastPerformanceCount;
-	if(QueryPerformanceCounter(&LastPerformanceCount)==TRUE){   // ƒJƒEƒ“ƒ^‚Ì’l
+	if(QueryPerformanceCounter(&LastPerformanceCount)==TRUE){   // ï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½Ì’l
 		::Sleep(100);
 		LARGE_INTEGER CurrentPerformanceCount;
-		QueryPerformanceCounter(&CurrentPerformanceCount);   // ƒJƒEƒ“ƒ^‚Ì’l
+		QueryPerformanceCounter(&CurrentPerformanceCount);   // ï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½Ì’l
 
 		*Dif1Milisec=(CurrentPerformanceCount.QuadPart-LastPerformanceCount.QuadPart)/100;
 	}
@@ -50,10 +59,10 @@ void	WaitMicrosec(struct	InitializedMicrosecTimerStruct &IData,int MicroSec)
 	LONGLONG	LDif=(*Dif1Milisec)*MicroSec/1000;
 	if(IData.Dif1Milisec!=0){
 		LARGE_INTEGER LastPerformanceCount;
-		if(QueryPerformanceCounter(&LastPerformanceCount)==TRUE){   // ƒJƒEƒ“ƒ^‚Ì’l
+		if(QueryPerformanceCounter(&LastPerformanceCount)==TRUE){   // ï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½Ì’l
 			for(;;){
 				LARGE_INTEGER CurrentPerformanceCount;
-				QueryPerformanceCounter(&CurrentPerformanceCount);   // ƒJƒEƒ“ƒ^‚Ì’l
+				QueryPerformanceCounter(&CurrentPerformanceCount);   // ï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½Ì’l
 				if(LDif<=CurrentPerformanceCount.QuadPart-LastPerformanceCount.QuadPart){
 					break;
 				}

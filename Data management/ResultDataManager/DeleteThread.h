@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include <QThread>
@@ -23,7 +41,7 @@ public:
 	void pause(bool p=true);
 	qint64 remainFileCount() const;
 	QStringList remainFiles() const;
-	void setDeleteAtFlush(bool flush);// ƒfƒXƒgƒ‰ƒNƒ^‚Åc‚Á‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚ğíœ‚·‚é
+	void setDeleteAtFlush(bool flush);// ï¿½fï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Åcï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 
 	bool deleteAtFlush() const;
 

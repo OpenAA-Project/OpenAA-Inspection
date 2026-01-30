@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\OutlineInspection\XOutlineLibrary.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 
@@ -45,11 +54,11 @@ public:
 class	OutlineInspectLibrary : public AlgorithmLibrary , public ServiceForLayers
 {
 public:
-	//’Šo‚Ìƒf[ƒ^
+	//ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^
 	ColorLogic	PickupColor;
-	WORD		TransDot;			//—ÖŠs‚Î‚ç‚Â‚«ƒhƒbƒg
-	WORD		InsideWidth;		//“à‘¤ˆÀ’èˆæ‚Ì•
-	WORD		OutsideWidth;		//ŠO‘¤ˆÀ’èˆæ‚Ì•
+	WORD		TransDot;			//ï¿½ÖŠsï¿½Î‚ï¿½ï¿½Â‚ï¿½ï¿½hï¿½bï¿½g
+	WORD		InsideWidth;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½
+	WORD		OutsideWidth;		//ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½
 	WORD		NoiseDot;
 	WORD		ChoppedLength;
 	WORD		Priority;
@@ -59,42 +68,42 @@ public:
 	int32		MaxAreaSize;
 	bool		MatchSlideOnMaster;
 
-	WORD		InsideTrWidth;		//“à‘¤‘JˆÚˆæ‚Ì•
-	WORD		OutsideTrWidth;		//ŠO‘¤‘JˆÚˆæ‚Ì•
+	WORD		InsideTrWidth;		//ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Úˆï¿½ï¿½Ì•ï¿½
+	WORD		OutsideTrWidth;		//ï¿½Oï¿½ï¿½ï¿½Jï¿½Úˆï¿½ï¿½Ì•ï¿½
 
-	//ŒŸ¸‚Ìƒf[ƒ^
-	RelativeThresholdColorBox	InsideNOKColor;		//‹·ˆæ@“à‘¤ˆÀ’èˆæ‚Ì‹·ˆæ‹P“x”ÍˆÍ
-	RelativeThresholdColorBox	InsideNTrOKColor;	//‹·ˆæ@“à‘¤‘JˆÚˆæ‚Ì‹·ˆæ‹P“x”ÍˆÍ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^
+	RelativeThresholdColorBox	InsideNOKColor;		//ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½Íˆï¿½
+	RelativeThresholdColorBox	InsideNTrOKColor;	//ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Úˆï¿½ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½Íˆï¿½
 	WORD						InsideNOKDot;
 	WORD						InsideNMergin;
-	RelativeThresholdColorBox	OutsideNOKColor;	//‹·ˆæ@ŠO‘¤ˆÀ’èˆæ‚Ì‹·ˆæ‹P“x”ÍˆÍ
-	RelativeThresholdColorBox	OutsideNTrOKColor;	//‹·ˆæ@ŠO‘¤‘JˆÚˆæ‚Ì‹·ˆæ‹P“x”ÍˆÍ
+	RelativeThresholdColorBox	OutsideNOKColor;	//ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½Íˆï¿½
+	RelativeThresholdColorBox	OutsideNTrOKColor;	//ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½Oï¿½ï¿½ï¿½Jï¿½Úˆï¿½ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½Íˆï¿½
 	WORD						OutsideNOKDot;
 	WORD						OutsideNMergin;
 
-	RelativeThresholdColorBox	InsideBOKColor;		//Lˆæ@“à‘¤ˆÀ’èˆæ‚ÌLˆæ‹P“x”ÍˆÍ
-	RelativeThresholdColorBox	InsideBTrOKColor;	//Lˆæ@“à‘¤‘JˆÚˆæ‚ÌLˆæ‹P“x”ÍˆÍ
+	RelativeThresholdColorBox	InsideBOKColor;		//ï¿½Lï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌLï¿½ï¿½ï¿½Pï¿½xï¿½Íˆï¿½
+	RelativeThresholdColorBox	InsideBTrOKColor;	//ï¿½Lï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Úˆï¿½ï¿½ÌLï¿½ï¿½ï¿½Pï¿½xï¿½Íˆï¿½
 	WORD						InsideBOKDot;
 	WORD						InsideBMergin;
-	RelativeThresholdColorBox	OutsideBOKColor;	//Lˆæ@ŠO‘¤ˆÀ’èˆæ‚ÌLˆæ‹P“x”ÍˆÍ
-	RelativeThresholdColorBox	OutsideBTrOKColor;	//Lˆæ@ŠO‘¤‘JˆÚˆæ‚ÌLˆæ‹P“x”ÍˆÍ
+	RelativeThresholdColorBox	OutsideBOKColor;	//ï¿½Lï¿½ï¿½ï¿½@ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌLï¿½ï¿½ï¿½Pï¿½xï¿½Íˆï¿½
+	RelativeThresholdColorBox	OutsideBTrOKColor;	//ï¿½Lï¿½ï¿½ï¿½@ï¿½Oï¿½ï¿½ï¿½Jï¿½Úˆï¿½ï¿½ÌLï¿½ï¿½ï¿½Pï¿½xï¿½Íˆï¿½
 	WORD						OutsideBOKDot;
 	WORD						OutsideBMergin;
 
-	bool		EffectiveNInside;		//ŒŸ¸Œ‹‰Êo—Í@‹·ˆæ@“à‘¤ŒŸ¸
-	bool		EffectiveNOutside;		//ŒŸ¸Œ‹‰Êo—Í@‹·ˆæ@ŠO‘¤ŒŸ¸
-	bool		EffectiveBInside;		//ŒŸ¸Œ‹‰Êo—Í@Lˆæ@“à‘¤ŒŸ¸
-	bool		EffectiveBOutside;		//ŒŸ¸Œ‹‰Êo—Í@Lˆæ@ŠO‘¤ŒŸ¸
+	bool		EffectiveNInside;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êoï¿½Í@ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	bool		EffectiveNOutside;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êoï¿½Í@ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	bool		EffectiveBInside;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êoï¿½Í@ï¿½Lï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	bool		EffectiveBOutside;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êoï¿½Í@ï¿½Lï¿½ï¿½ï¿½@ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 
-	WORD		SelfSearch;			//ŒŸ¸@’Tõ‹——£
-	bool		AdjustMode;			//•½‹Ï‹P“x•â³‚·‚é‚©
+	WORD		SelfSearch;			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	bool		AdjustMode;			//ï¿½ï¿½ï¿½Ï‹Pï¿½xï¿½â³ï¿½ï¿½ï¿½é‚©
 	WORD		AdjustLimitLInside;
-	WORD		AdjustLimitHInside;		//·•ªƒ‚[ƒh‚Ì‚Æ‚«A•½‹Ï‹P“x“¯m‚ª‚±‚Ì”ÍˆÍ“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğŒŸ¸‚·‚é
+	WORD		AdjustLimitHInside;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½Ì‚Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½Ï‹Pï¿½xï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½Ì”ÍˆÍ“ï¿½ï¿½É‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	WORD		AdjustLimitLOutside;
-	WORD		AdjustLimitHOutside;	//·•ªƒ‚[ƒh‚Ì‚Æ‚«A•½‹Ï‹P“x“¯m‚ª‚±‚Ì”ÍˆÍ“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğŒŸ¸‚·‚é
-	bool		DiffMode;			//·•ªƒ‚[ƒh
-	bool		AbsMode;			//â‘Î’lƒ‚[ƒh
+	WORD		AdjustLimitHOutside;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½Ì‚Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½Ï‹Pï¿½xï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½Ì”ÍˆÍ“ï¿½ï¿½É‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	bool		DiffMode;			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h
+	bool		AbsMode;			//ï¿½ï¿½ï¿½Î’lï¿½ï¿½ï¿½[ï¿½h
 
 	OutlineInspectLibrary(int LibType,LayersBase *Base);
 

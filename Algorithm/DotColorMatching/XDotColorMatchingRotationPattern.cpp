@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\DotColorMatchingInspection\XDotColorMatching.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "XDotColorMatching.h"
 #include "XGeneralFunc.h"
@@ -410,7 +419,7 @@ void	RotationPattern::MakePatternOnAngle(DotColorMatchingItem *p
 
 
 	//double	Avr=((double)A[AdoptLayer])/ACalcNumb[AdoptLayer];
-	//double	V=AA[AdoptLayer]-Avr*Avr*ACalcNumb[AdoptLayer];	//V=•ªŽU
+	//double	V=AA[AdoptLayer]-Avr*Avr*ACalcNumb[AdoptLayer];	//V=ï¿½ï¿½ï¿½U
 	//double	VTh=sqrt(V/ACalcNumb[AdoptLayer])*((DotColorMatchingBase *)Parent->GetParentBase())->ThresholdPickupEdge;
 	int		AreaSize=((DotColorMatchingBase *)Parent->GetParentBase())->PatternEdgeWidth;
 	int		MaxD=0;
@@ -909,7 +918,7 @@ void	RotationPattern::InitializeOnlyByImage (ImageBuffer *ImageMasterList[]
 
 
 	//double	Avr=((double)A[AdoptLayer])/ACalcNumb[AdoptLayer];
-	//double	V=AA[AdoptLayer]-Avr*Avr*ACalcNumb[AdoptLayer];	//V=•ªŽU
+	//double	V=AA[AdoptLayer]-Avr*Avr*ACalcNumb[AdoptLayer];	//V=ï¿½ï¿½ï¿½U
 	//double	VTh=sqrt(V/ACalcNumb[AdoptLayer])*((DotColorMatchingBase *)Parent->GetParentBase())->ThresholdPickupEdge;
 	int		AreaSize=((DotColorMatchingBase *)Parent->GetParentBase())->PatternEdgeWidth;
 	int		MaxD=0;
@@ -2430,7 +2439,7 @@ double	RotationPattern::CalcSmallBlockV(int X,int Y,BMatrix &map,int AreaSize)
 		return 0;
 
 	double	Avr=((double)MAddA)/CalcNumb;
-	double	V=MAddAA-Avr*Avr*CalcNumb;	//V=•ªŽU
+	double	V=MAddAA-Avr*Avr*CalcNumb;	//V=ï¿½ï¿½ï¿½U
 	double	S=sqrt(V/CalcNumb);
 	return S;
 }

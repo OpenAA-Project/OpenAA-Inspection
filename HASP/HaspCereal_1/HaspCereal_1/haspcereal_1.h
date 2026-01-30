@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\HASP\HaspCereal_1\HaspCereal_1\haspcereal_1.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef HASPCEREAL_1_H
 #define HASPCEREAL_1_H
 
@@ -30,20 +39,19 @@ public:
 private:
     Ui::HaspCereal_1Class ui;
 	hasp_handle_t   handle;
-	QByteArray HaspInfo;	//YES_clicked:Session()¨GetHaspID()
-	int HaspID;				//YES_clicked:GetHaspID()¨Encrypt()
-	QByteArray CerealID;	//YES_clicked:Encrypt()¨SaveData()
-	QString File;			//YES_clicked:SaveFile()¨SaveData()
+	QByteArray HaspInfo;	//YES_clicked:Session()ï¿½ï¿½GetHaspID()
+	int HaspID;				//YES_clicked:GetHaspID()ï¿½ï¿½Encrypt()
+	QByteArray CerealID;	//YES_clicked:Encrypt()ï¿½ï¿½SaveData()
+	QString File;			//YES_clicked:SaveFile()ï¿½ï¿½SaveData()
 private slots:
 	bool HaspLogin(hasp_handle_t &handle);										//HaspLogint
-	bool Session(hasp_handle_t handle, QByteArray &info);						//HASP“àŒÅ—Lƒf[ƒ^‚Ìæ“¾
-	void GetHaspID(QByteArray haspInfo,int &haspID);							//HASP“àŒÅ—Lƒf[ƒ^‚Ì’†‚©‚çƒVƒŠƒAƒ‹ƒR[ƒh‚Ìæ“¾
-	bool Encrypt(hasp_handle_t handle, int cerealNo, QByteArray &cerealData);	//ƒVƒŠƒAƒ‹‚ÌˆÃ†‰»
-	bool SaveFile(QString &sfile);												//•Û‘¶‚·‚éƒtƒ@ƒCƒ‹–¼‚Ìæ“¾
-	bool SaveData(QString fileName, QByteArray cerealCode);	 					//ƒtƒ@ƒCƒ‹‚Éƒf[ƒ^‚Ì•Û‘¶
+	bool Session(hasp_handle_t handle, QByteArray &info);						//HASPï¿½ï¿½ï¿½Å—Lï¿½fï¿½[ï¿½^ï¿½Ìæ“¾
+	void GetHaspID(QByteArray haspInfo,int &haspID);							//HASPï¿½ï¿½ï¿½Å—Lï¿½fï¿½[ï¿½^ï¿½Ì’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Ìæ“¾
+	bool Encrypt(hasp_handle_t handle, int cerealNo, QByteArray &cerealData);	//ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ÌˆÃï¿½ï¿½ï¿½
+	bool SaveFile(QString &sfile);												//ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
+	bool SaveData(QString fileName, QByteArray cerealCode);	 					//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Éƒfï¿½[ï¿½^ï¿½Ì•Û‘ï¿½
 	void on_pbYES_clicked();
 	void on_pbNO_clicked();
 };
 
 #endif // HASPCEREAL_1_H
-

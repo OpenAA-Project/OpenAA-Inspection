@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\SigmoidGraphForm.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef SIGMOIDGRAPHFORM_H
 #define SIGMOIDGRAPHFORM_H
 
@@ -17,9 +25,9 @@
 class mtLineGraph;
 class RepairBase;
 
-/********** ƒVƒOƒ‚ƒCƒhŠÖ”
+/********** ï¿½Vï¿½Oï¿½ï¿½ï¿½Cï¿½hï¿½Öï¿½
 			  1
-	f(x)=„ª„ª„ª„ª„ª„ª	e‚Ì’l‚ğA1 < e < XXX ‚Æ•Ï‰»‚³‚¹‚ÄƒOƒ‰ƒt‚ğ•`‚­
+	f(x)=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	eï¿½Ì’lï¿½ï¿½ï¿½A1 < e < XXX ï¿½Æ•Ï‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄƒOï¿½ï¿½ï¿½tï¿½ï¿½ï¿½`ï¿½ï¿½
 		  1 + e^(-x)
 **********/
 

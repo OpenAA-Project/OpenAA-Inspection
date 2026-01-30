@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "DisplayThumbnailImageResource.h"
 #include "ThumbnailForm.h"
 #include "XAlgorithmBase.h"
@@ -11,7 +29,7 @@ ThumbnailForm::ThumbnailForm(LayersBase *Base,QWidget *parent)
 	MasterCanvas.SetMode(mtFrameDraw::fdNone);
 	TargetCanvas.SetMode(mtFrameDraw::fdNone);
 
-	//ÉåÉCÉAÉEÉg
+	//ÔøΩÔøΩÔøΩCÔøΩAÔøΩEÔøΩg
 	horizontalLayout = new QHBoxLayout(this);
 	horizontalLayout->setSpacing(6);
 	horizontalLayout->setContentsMargins(11, 11, 11, 11);
@@ -24,7 +42,7 @@ ThumbnailForm::ThumbnailForm(LayersBase *Base,QWidget *parent)
 	ZoomRate=1;
 	ZoomInRate=1;
 
-	//ï\é¶ògëŒâû
+	//ÔøΩ\ÔøΩÔøΩÔøΩgÔøΩŒâÔøΩ
 	strDefaultBackgroundStyleSheet	= /**/"background-color: "
 									+ palette().color(QPalette::Window).name();
 	strColorBackgroundStyleSheet	= /**/"background-color: "
@@ -54,7 +72,7 @@ void	ThumbnailForm::ExecMousePressEvent(GUIFormBase	*DNGListButtonForm)
 	ThumDialog.SetZoomRate(DTImageClass->ZoomInRate);
 	ThumDialog.exec();
 
-	//ÉtÉHÅ[ÉJÉXà⁄ìÆ
+	//ÔøΩtÔøΩHÔøΩ[ÔøΩJÔøΩXÔøΩ⁄ìÔøΩ
 	if(DNGListButtonForm==NULL){
 		DNGListButtonForm=LBase->FindByName(/**/"Button" ,/**/"DisplayNGListButton" ,/**/"");
 	}
@@ -65,11 +83,11 @@ void	ThumbnailForm::ExecMousePressEvent(GUIFormBase	*DNGListButtonForm)
 
 void	ThumbnailForm::mousePressEvent(QMouseEvent *event)
 {
-	//NGÉäÉXÉg
+	//NGÔøΩÔøΩÔøΩXÔøΩg
 	GUIFormBase	*DNGListButtonForm=LBase->FindByName(/**/"Button" ,/**/"DisplayNGListButton" ,/**/"");
 
 	if(CenterX==-1 || CenterY==-1){
-		//ÉtÉHÅ[ÉJÉXà⁄ìÆ
+		//ÔøΩtÔøΩHÔøΩ[ÔøΩJÔøΩXÔøΩ⁄ìÔøΩ
 		if(DNGListButtonForm!=NULL){
 			((DisplayNGListButton *)DNGListButtonForm)->GetNGListForm()->activateWindow();
 		}
@@ -77,20 +95,20 @@ void	ThumbnailForm::mousePressEvent(QMouseEvent *event)
 		return;
 	}
 
-	//NGÉäÉXÉgà⁄ìÆ
+	//NGÔøΩÔøΩÔøΩXÔøΩgÔøΩ⁄ìÔøΩ
 	if(DNGListButtonForm!=NULL){
 		CmdSetCurrentRow	CmdSetCurRow(LBase);
 		CmdSetCurRow.CurrentRow	=CurrentRow;
 		DNGListButtonForm->TransmitDirectly(&CmdSetCurRow);
 	}
 
-	//ägëÂï\é¶
+	//ÔøΩgÔøΩÔøΩÔøΩ\ÔøΩÔøΩ
 	ExecMousePressEvent(DNGListButtonForm);
 /*
-	//ÉtÉHÅ[ÉJÉXà⁄ìÆ
+	//ÔøΩtÔøΩHÔøΩ[ÔøΩJÔøΩXÔøΩ⁄ìÔøΩ
 	DTImageClass->setFocus();
 /*
-	//ÉtÉHÅ[ÉJÉXà⁄ìÆ
+	//ÔøΩtÔøΩHÔøΩ[ÔøΩJÔøΩXÔøΩ⁄ìÔøΩ
 	if(DNGListButtonForm!=NULL){
 		CmdSetCurrentFocus	CmdSetCurFocus(LBase);
 		DNGListButtonForm->TransmitDirectly(&CmdSetCurFocus);
@@ -101,7 +119,7 @@ void	ThumbnailForm::mousePressEvent(QMouseEvent *event)
 
 void	ThumbnailForm::wheelEvent(QWheelEvent *event)
 {
-	//ÉTÉÄÉlÉCÉãÇÉyÅ[ÉWà⁄ìÆÇ∑ÇÈ
+	//ÔøΩTÔøΩÔøΩÔøΩlÔøΩCÔøΩÔøΩÔøΩÔøΩÔøΩyÔøΩ[ÔøΩWÔøΩ⁄ìÔøΩÔøΩÔøΩÔøΩÔøΩ
 	GUIFormBase	*DNGListButtonForm=LBase->FindByName(/**/"Button" ,/**/"DisplayNGListButton" ,/**/"");
 	if(DNGListButtonForm!=NULL){
 		QCoreApplication::sendEvent(DNGListButtonForm,event);
@@ -128,7 +146,7 @@ void	ThumbnailForm::SlotOnMasterPaint(QPainter &pnt)
 
 	ReEntrantMaster=true;
 
-	//é¿çs
+	//ÔøΩÔøΩÔøΩs
 	ExecuteSlotOnPaint(pnt);
 
 	ReEntrantMaster=false;
@@ -145,7 +163,7 @@ void	ThumbnailForm::SlotOnTargetPaint(QPainter &pnt)
 
 	ReEntrantTarget=true;
 
-	//é¿çs
+	//ÔøΩÔøΩÔøΩs
 	ExecuteSlotOnPaint(pnt,false,DTImageClass->ShowNG,DTImageClass->BlinkNG,DTImageClass->BlinkOn);
 
 	ReEntrantTarget=false;
@@ -155,14 +173,14 @@ void	ThumbnailForm::ExecuteSlotOnPaint(QPainter &pnt,bool IsMastered,bool IsShow
 {
 ///	HookedExecutePaintFirst(pnt);
 
-	//èâä˙ï\é¶
+	//ÔøΩÔøΩÔøΩÔøΩÔøΩ\ÔøΩÔøΩ
 	if(CenterX==-1 || CenterY==-1){
 		QBrush	brush(Qt::lightGray);
 		pnt.fillRect (0,0,DTImageClass->GetThumForm(0,0)->MasterCanvas.width(),DTImageClass->GetThumForm(0,0)->MasterCanvas.height(), brush );
 		return;
 	}
 
-	//NGâÊëúÉTÉCÉYÇéÊìæÇµägëÂó¶ÇãÅÇﬂÇÈ
+	//NGÔøΩÊëúÔøΩTÔøΩCÔøΩYÔøΩÔøΩÔøΩÊìæÔøΩÔøΩÔøΩgÔøΩÂó¶ÔøΩÔøΩÔøΩÔøΩÔøΩﬂÇÔøΩ
 	ResultDLLBaseRoot	*RBase=LBase->GetResultDLLBase()->GetFirst()->GetDLLPoint();
 ///	double	zx=((double)TargetCanvas.width())/((double)RBase->NGImageWidth);
 ///	double	zy=((double)TargetCanvas.height())/((double)RBase->NGImageHeight);
@@ -224,7 +242,7 @@ ThumbnailDialog::ThumbnailDialog(LayersBase *Base,double Rate,QWidget *parent)
 	MasterCanvas.SetMode(mtFrameDraw::fdNone);
 	TargetCanvas.SetMode(mtFrameDraw::fdNone);
 
-	//ÉåÉCÉAÉEÉg
+	//ÔøΩÔøΩÔøΩCÔøΩAÔøΩEÔøΩg
 	horizontalLayout = new QHBoxLayout(this);
 	horizontalLayout->setSpacing(6);
 	horizontalLayout->setContentsMargins(11, 11, 11, 11);
@@ -251,7 +269,7 @@ ThumbnailDialog::~ThumbnailDialog()
 
 void	ThumbnailDialog::mousePressEvent(QMouseEvent *event)
 {
-	//ï¬Ç∂ÇÈ
+	//ÔøΩ¬ÇÔøΩÔøΩÔøΩ
 	close();
 }
 
@@ -260,7 +278,7 @@ void	ThumbnailDialog::keyPressEvent(QKeyEvent *event)
     switch(event->key()){
 		case Qt::Key_Return:
 		case Qt::Key_Enter:
-			//ÉTÉÄÉlÉCÉãéûÅAägëÂâÊëúÇï¬Ç∂ÇÈ
+			//ÔøΩTÔøΩÔøΩÔøΩlÔøΩCÔøΩÔøΩÔøΩÔøΩÔøΩAÔøΩgÔøΩÔøΩÔøΩÊëúÔøΩÔøΩÔøΩ¬ÇÔøΩÔøΩÔøΩ
 			close();
 			break;
 		case Qt::Key_Up:
@@ -276,7 +294,7 @@ void	ThumbnailDialog::keyPressEvent(QKeyEvent *event)
 
 void	ThumbnailDialog::wheelEvent(QWheelEvent *event)
 {
-	//ÉCÉÅÅ[ÉWÇägëÂèkè¨Ç∑ÇÈ
+	//ÔøΩCÔøΩÔøΩÔøΩ[ÔøΩWÔøΩÔøΩÔøΩgÔøΩÔøΩÔøΩkÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ
 	if(event->delta()>0){
 		ExecZoomIn();
 	}
@@ -296,7 +314,7 @@ void	ThumbnailDialog::SlotOnMasterPaint(QPainter &pnt)
 
 	ReEntrantMaster=true;
 
-	//é¿çs
+	//ÔøΩÔøΩÔøΩs
 	ExecuteSlotOnPaint(pnt);
 
 	ReEntrantMaster=false;
@@ -313,7 +331,7 @@ void	ThumbnailDialog::SlotOnTargetPaint(QPainter &pnt)
 
 	ReEntrantTarget=true;
 
-	//é¿çs
+	//ÔøΩÔøΩÔøΩs
 	ExecuteSlotOnPaint(pnt,false,ThumForm->GetDTImageClass()->ShowNG,ThumForm->GetDTImageClass()->BlinkNG,ThumForm->GetDTImageClass()->BlinkOn);
 
 	ReEntrantTarget=false;
@@ -335,7 +353,7 @@ void	ThumbnailDialog::ExecuteSlotOnPaint(QPainter &pnt,bool IsMastered,bool IsSh
 {
 ///	HookedExecutePaintFirst(pnt);
 
-	//èâä˙ï\é¶
+	//ÔøΩÔøΩÔøΩÔøΩÔøΩ\ÔøΩÔøΩ
 	if(CenterX==-1 || CenterY==-1){
 		QBrush	brush(Qt::lightGray);
 		pnt.fillRect (0,0,TargetCanvas.width(),TargetCanvas.height(), brush );

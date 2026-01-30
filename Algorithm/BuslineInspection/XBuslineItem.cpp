@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XBuslineInspection.h"
 #include "XGeneralFunc.h"
 #include "XPointer.h"
@@ -890,7 +908,7 @@ int		BuslineItem::GetBinarizedBrightness(ImageBuffer &Buff,int mx ,int my
 			}
 		}
 	}
-	//’J‚ª•¡”‚ ‚éA‚æ‚èŠî€’l‚É‹ß‚¢‚Ù‚¤‚ğÌ—p‚·‚é
+	//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½éï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½î€ï¿½lï¿½É‹ß‚ï¿½ï¿½Ù‚ï¿½ï¿½ï¿½ï¿½Ì—pï¿½ï¿½ï¿½ï¿½
 	int	DiffC=0x7FFFFFFF;
 	CenterBright=(LPeak+HPeak+1)/2;
 	for(int k=LPeak+2;k<HPeak-2;k++){
@@ -989,7 +1007,7 @@ void		BuslineItem::MakeBMap(ImageBuffer &Buff,int mx ,int my ,bool DarkSide)
 				, BMapXByte,BMapYLen);	
 	}
 	else{
-		//”÷¬ƒmƒCƒY‚Ìíœ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Cï¿½Yï¿½Ìíœ
 		MatrixBuffCopy	(BMapOpen			,BMapXByte,BMapYLen
 						,(const BYTE **)BMap,BMapXByte,BMapYLen);
 		::FatArea(BMapOpen

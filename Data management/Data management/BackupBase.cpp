@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Data management\Data management\BackupBase.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "BackupBase.h"
 #include "XGeneralFunc.h"
@@ -49,7 +58,7 @@ void BackupBase::FieldLoad(QIODevice &Device, QStringList &BField)
 void BackupBase::FieldGet(const QString &Table, QStringList &NowField)
 {
 	QSqlQuery Query(/**/"SELECT * FROM "+ Table);
-	int Field = Query.record().count();//ƒtƒB[ƒ‹ƒh”
+	int Field = Query.record().count();//ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½
 	for (int i=0; i<Field ; i++)
 		NowField.append(Query.record().fieldName(i));
 }
@@ -58,8 +67,8 @@ void BackupBase::RestoreField(QStringList &Backup, QStringList &Now, QString &Ta
 	QString sInsert;
 	QString sAtai;
 	for (int i=0; i<Backup.size(); i++){
-		if(Now.indexOf(Backup.at(i))!=-1){//Œ»ó‚Ìƒf[ƒ^ƒx[ƒX‚ÆBackup‚ÌƒtƒB[ƒ‹ƒh‚ğ”äŠrA‹¤’Ê‚Å‚È‚¯‚ê‚Î-1
-			if(i!=0){//Å‰ˆÈŠO
+		if(Now.indexOf(Backup.at(i))!=-1){//ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½Backupï¿½Ìƒtï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½rï¿½Aï¿½ï¿½ï¿½Ê‚Å‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½-1
+			if(i!=0){//ï¿½Åï¿½ï¿½ÈŠO
 				sInsert.append(/**/",");
 				sAtai.append(/**/",");
 			}
@@ -215,14 +224,14 @@ void MasterData::Save(QIODevice &Device, const QString &MASTERCODE)
 	QByteArray Type=QByteArray(typeid(this).name());
 	::Save(&Device, Type);
 	QSqlQuery Query(/**/"SELECT * FROM MASTERDATA WHERE MASTERCODE="+ MASTERCODE);
- 	int iField = Query.record().count();//ƒtƒB[ƒ‹ƒh”
+ 	int iField = Query.record().count();//ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½
 	::Save(&Device, iField);
 	int Cnt=0;
 	if(Query.next()==false){
 		::Save(&Device, Cnt);
 		return;
 	}
-	Cnt = Query.numRowsAffected();//DataSelect”
+	Cnt = Query.numRowsAffected();//DataSelectï¿½ï¿½
 	::Save(&Device, Cnt);
 	for (int iX=0; iX<Cnt ; iX++){
 		for (int iY=0; iY<iField; iY++){
@@ -310,13 +319,13 @@ void MasterPage::Save(QIODevice &Device, const QString &MASTERCODE)
 	::Save(&Device, Type);
 
 	QSqlQuery Query(/**/"SELECT * FROM MASTERPAGE WHERE MASTERCODE=" + MASTERCODE);
-	int iField = Query.record().count();//ƒtƒB[ƒ‹ƒh”
+	int iField = Query.record().count();//ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½
 	::Save(&Device, iField);
 	int Cnt=0;
 	if(Query.next()==false){
 		::Save(&Device, Cnt);
 	}else{
-		Cnt = Query.numRowsAffected();//DataSelect”
+		Cnt = Query.numRowsAffected();//DataSelectï¿½ï¿½
 		::Save(&Device, Cnt);
 		for (int iX=0; Cnt>iX ; iX++){
 			for (int iY=0; iField>iY; iY++){
@@ -414,13 +423,13 @@ void MasterCategory::Select(QByteArray FolderID, QSqlQueryModel *model)
 }
 void MasterCategory::ParentSave(QIODevice &Device, const QString &CATEGORYID)
 {
-//eŠK‘w‚Ì•Û‘¶
+//ï¿½eï¿½Kï¿½wï¿½Ì•Û‘ï¿½
 	int Cnt=0;
 	QSqlQuery Query(/**/"SELECT PARENTID FROM MASTERCATEGORY WHERE CATEGORYID=" + CATEGORYID );
 	if(Query.next()==false){
 		::Save(&Device, Cnt);
 	}else{
-		Cnt = Query.numRowsAffected();//ŒŸõŒ‹‰Ê‚Ì”
+		Cnt = Query.numRowsAffected();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚Ìï¿½
 		::Save(&Device, Cnt);
 		for (int i=0; Cnt>i; i++){
 			QString ParentID=Query.value(0).toString();
@@ -437,13 +446,13 @@ void  MasterCategory::Save(QIODevice &Device, const QString &CATEGORYID)
 	::Save(&Device, Type);
 
 	QSqlQuery Query(/**/"SELECT * FROM MASTERCATEGORY WHERE CATEGORYID=" + CATEGORYID );
-	int iField = Query.record().count();//ƒtƒB[ƒ‹ƒh”
+	int iField = Query.record().count();//ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½
 	::Save(&Device, iField);
 	int Cnt=0;
 	if(Query.next()==false){
 		::Save(&Device, Cnt);
 	}else{
-		Cnt = Query.numRowsAffected();//CategorySelect”
+		Cnt = Query.numRowsAffected();//CategorySelectï¿½ï¿½
 		::Save(&Device, Cnt);
 		for (int iX=0; iX<Cnt ; iX++){
 			for (int iY=0; iY<iField; iY++){
@@ -532,7 +541,7 @@ void MasterImage::UpdateMachineID(const QString &MasterCode,const QString &Machi
 }
 void MasterImage::Save(QIODevice &Device, const QString &Mastercode)
 {
-//BlobField‚Ìæ“¾
+//BlobFieldï¿½Ìæ“¾
 	QStringList BOLBFIELD;
 	BlobField(BOLBFIELD);
 
@@ -549,7 +558,7 @@ void MasterImage::Save(QIODevice &Device, const QString &Mastercode)
 	 while (PageQuery.next())
 		 PAGECODE.append(PageQuery.value(0).toString());
 
-//Saveˆ—
+//Saveï¿½ï¿½ï¿½ï¿½
 	QByteArray Type=QByteArray(typeid(this).name());
 	::Save(&Device, Type);
 	::Save(&Device, MACHINEID.size());
@@ -558,7 +567,7 @@ void MasterImage::Save(QIODevice &Device, const QString &Mastercode)
 		MaxPhase = sPhaseNumber.toInt();
 	::Save(&Device,MaxPhase);
 	::Save(&Device, PAGECODE.size());
-//Master‰æ‘œ‚ÆBLOBƒtƒ@ƒCƒ‹‚ÌSave
+//Masterï¿½æ‘œï¿½ï¿½BLOBï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½Save
 	QDir Dir;
 	ImageFile imgFile(&Device);
 	for(int iX=0;iX<MPathList.size();iX++){
@@ -598,7 +607,7 @@ void MasterImage::Delete(const QString &Mastercode)
 	QStringList PAGECODE;
 	QStringList BOLBFIELD;
 
-//Blob‚ÌƒtƒB[ƒ‹ƒh–¼‚ğæ“¾
+//Blobï¿½Ìƒtï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	QSqlQuery FieldQuery(/**/"SELECT * FROM MASTERPAGE");
 	for(int i=0; i<FieldQuery.record().count(); i++){
 		if(FieldQuery.record().field(i).type()==12)//Bolb
@@ -706,7 +715,7 @@ void MasterImage::Load(QIODevice &Device, QString &MASTERID)
 	}
 }
 void MasterImage::BlobField(QStringList &BOLBFIELD)
-{//Blob‚ÌƒtƒB[ƒ‹ƒh–¼‚ğæ“¾
+{//Blobï¿½Ìƒtï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	QSqlQuery Query(/**/"SELECT * FROM MASTERPAGE");
 	for(int i=0; i<Query.record().count(); i++){
 		if(Query.record().field(i).type()==12){//Bolb
@@ -821,7 +830,7 @@ Machine::~Machine(){
 void Machine::Select(QSqlQueryModel *model)
 {
 	model->setQuery(/**/"SELECT MACHINEID,NETID,NAME,VERSION,REMARK FROM MACHINE ORDER BY MACHINEID ");
-		//" " + sOrder + " DESC"  'w_'‚Íw‚Ån‚Ü‚é2•¶š‚É‚È‚é VERSION LIKE '%w%'
+		//" " + sOrder + " DESC"  'w_'ï¿½ï¿½wï¿½Ånï¿½Ü‚ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½É‚È‚ï¿½ VERSION LIKE '%w%'
 	model->setHeaderData(0, Qt::Horizontal, tr("ID"));
 	model->setHeaderData(1, Qt::Horizontal, tr("IP"));
 	model->setHeaderData(2, Qt::Horizontal, tr("NAME"));
@@ -885,7 +894,7 @@ void Machine::Save(QIODevice &Device)
 	::Save(&Device, Type);
 
 	QSqlQuery Query(/**/"SELECT * FROM MACHINE");
-	int iField = Query.record().count();//ƒtƒB[ƒ‹ƒh”
+	int iField = Query.record().count();//ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½
 	::Save(&Device, iField);
 
 	int Cnt=0;
@@ -893,7 +902,7 @@ void Machine::Save(QIODevice &Device)
 		::Save(&Device, Cnt);
 		return;
 	}
-	Cnt = Query.numRowsAffected();//DataSelect”
+	Cnt = Query.numRowsAffected();//DataSelectï¿½ï¿½
 	::Save(&Device, Cnt);
 	for (int iX=0; Cnt>iX ; iX++){
 		for (int iY=0; iField>iY; iY++){
@@ -929,7 +938,7 @@ void Machine::Load(QIODevice &Device, QStringList &Backup, QStringList &Now, QSt
 				QString MACHINEID = QString::number(MacID);
 				QSqlQuery Query(/**/"SELECT MACHINEID FROM MACHINE WHERE MACHINEID=" + MACHINEID);
 				if (Query.next() == true)
-					Delete(MACHINEID); // Šù‚É‘¶İ‚µ‚Ä‚¢‚éê‡ //ã‘‚«‚Ìê‡
+					Delete(MACHINEID); // ï¿½ï¿½ï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ //ï¿½ã‘ï¿½ï¿½ï¿½Ìê‡
 				InsertQuery.addBindValue(MacID);
 				continue;
 			}
@@ -1019,7 +1028,7 @@ void Worker::Save(QIODevice &Device)
 	::Save(&Device, Type);
 
 	QSqlQuery Query(/**/"SELECT * FROM WORKER");
-	int iField = Query.record().count();//ƒtƒB[ƒ‹ƒh”
+	int iField = Query.record().count();//ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½
 	::Save(&Device, iField);
 
 	int Cnt=0;
@@ -1027,7 +1036,7 @@ void Worker::Save(QIODevice &Device)
 		::Save(&Device, Cnt);
 		return;
 	}
-	Cnt = Query.numRowsAffected();//DataSelect”
+	Cnt = Query.numRowsAffected();//DataSelectï¿½ï¿½
 	::Save(&Device, Cnt);
 	for (int iX=0; Cnt>iX ; iX++){
 		for (int iY=0; iField>iY; iY++){
@@ -1063,7 +1072,7 @@ void Worker::Load(QIODevice &Device, QStringList &Backup, QStringList &Now, QStr
 				QString WORKERID = QString::number(iData);
 				QSqlQuery Query(/**/"SELECT MACHINEID FROM MACHINE WHERE MACHINEID=" + WORKERID);
 				if (Query.next() == true)
-					Delete(WORKERID); // Šù‚É‘¶İ‚µ‚Ä‚¢‚éê‡ //ã‘‚«‚Ìê‡
+					Delete(WORKERID); // ï¿½ï¿½ï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ //ï¿½ã‘ï¿½ï¿½ï¿½Ìê‡
 				continue;
 			}
 			if(load(Device,InsertQuery)==false)
@@ -1081,7 +1090,7 @@ LibFolder::LibFolder(QObject *parent)
 void LibFolder::RetFolderID(QString Mid, QStringList &idList)
 {
 	idList.clear();
-	//RELATEDMASTERCODE‚ğLIBFOLDERID‚ğ’T‚·
+	//RELATEDMASTERCODEï¿½ï¿½LIBFOLDERIDï¿½ï¿½ï¿½Tï¿½ï¿½
 	QString Select=/**/"SELECT LIBFOLDERID FROM LIBFOLDER WHERE RELATEDMASTERCODE="+ Mid +/**/" ORDER BY LIBFOLDERID";
 	QSqlQuery q(Select);
 
@@ -1091,25 +1100,25 @@ void LibFolder::RetFolderID(QString Mid, QStringList &idList)
 }
 void LibFolder::SubSave(QString &Target, QIODevice &Device, QString &FolderID)
 {
-//eŠK‘w‚Ì•Û‘¶
-//q‹Ÿ‚Ì•Û‘¶
+//ï¿½eï¿½Kï¿½wï¿½Ì•Û‘ï¿½
+//ï¿½qï¿½ï¿½ï¿½Ì•Û‘ï¿½
 	QString Select;
 	int Cnt=0;
 	::Save(&Device, Target);
-	if(Target==/**/"Parent"){//©•ª‚ª‚ÂParentID‚ğ•Ô‚·
+	if(Target==/**/"Parent"){//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ParentIDï¿½ï¿½ï¿½Ô‚ï¿½
 		Select=/**/"SELECT LIBPARENTID FROM LIBFOLDER WHERE LIBFOLDERID=" + FolderID + /**/" ORDER BY LIBFOLDERID";
-	}else if(Target==/**/"Child"){	//FolderID‚ğe‚É‚Âq‹Ÿ‚ÌŒŸõ
+	}else if(Target==/**/"Child"){	//FolderIDï¿½ï¿½ï¿½eï¿½Éï¿½ï¿½Âqï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½
 		Select=/**/"SELECT LIBFOLDERID FROM LIBFOLDER WHERE LIBPARENTID="+ FolderID +/**/" ORDER BY LIBFOLDERID";
 	}
 	QSqlQuery Query(Select);
 	if(Query.next()==false){
 		::Save(&Device, Cnt);
 	}else{
-		Cnt = Query.numRowsAffected();//ŒŸõŒ‹‰Ê‚Ì”
+		Cnt = Query.numRowsAffected();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚Ìï¿½
 		::Save(&Device, Cnt);
 		for (int i=0; i<Cnt; i++){
 			QString LIBFOLDERID=Query.value(0).toString();
-			Save(Device, LIBFOLDERID);//©•ª©g‚Ì•Û‘¶
+			Save(Device, LIBFOLDERID);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ì•Û‘ï¿½
 			SubSave(Target, Device, LIBFOLDERID);
 			if(Target==/**/"Child")
 				Lib->Save(Device, LIBFOLDERID);
@@ -1118,26 +1127,26 @@ void LibFolder::SubSave(QString &Target, QIODevice &Device, QString &FolderID)
 	}
 }
 void LibFolder::Save(QIODevice &Device, QString &FolderID)
-{//©•ª©g‚Ì•Û‘¶
+{//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ì•Û‘ï¿½
 	QString Select;
 	QByteArray Buffer;
 	QByteArray Type = QByteArray(typeid(this).name());
 	::Save(&Device, Type);
 
-	if(FolderID==/**/"-1"){//Root‚Ìê‡‘S•Û‘¶
+	if(FolderID==/**/"-1"){//Rootï¿½Ìê‡ï¿½Sï¿½Û‘ï¿½
 		Select=/**/"SELECT * FROM LIBFOLDER ORDER BY LIBFOLDERID";
 	}else{
-		Select=/**/"SELECT * FROM LIBFOLDER WHERE LIBFOLDERID=" + FolderID;//©•ª©g‚Ì•Û‘¶
+		Select=/**/"SELECT * FROM LIBFOLDER WHERE LIBFOLDERID=" + FolderID;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ì•Û‘ï¿½
 	}
 	QSqlQuery Query(Select);
-	int iField = Query.record().count();//ƒtƒB[ƒ‹ƒh”
+	int iField = Query.record().count();//ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½
 	::Save(&Device, iField);
 	int Cnt=0;
 	if(Query.next()==false){
 		::Save(&Device, Cnt);
 		return;
 	}
-	Cnt = Query.numRowsAffected();//ŒŸõŒ‹‰Ê‚Ì”
+	Cnt = Query.numRowsAffected();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚Ìï¿½
 	::Save(&Device, Cnt);
 	for (int iX=0; Cnt>iX ; iX++){
 		for (int iY=0; iField>iY; iY++){
@@ -1149,8 +1158,8 @@ void LibFolder::Save(QIODevice &Device, QString &FolderID)
 
 void LibFolder::SubLoad(QIODevice &Device, QStringList &Backup, QStringList &Now, QString &InsertData)
 {
-//eŠK‘w‚Ì“Ç‚İ
-//q‹Ÿ‚Ì“Ç‚İ
+//ï¿½eï¿½Kï¿½wï¿½Ì“Çï¿½ï¿½ï¿½
+//ï¿½qï¿½ï¿½ï¿½Ì“Çï¿½ï¿½ï¿½
 	QString Target;
 	if(::Load(&Device, Target)==false)
 		return ;
@@ -1198,8 +1207,8 @@ void LibFolder::Load(QString &Target, QIODevice &Device, QStringList &Backup, QS
 				return;
 		}
 		QSqlQuery SelQuery(/**/"SELECT LIBFOLDERID FROM LIBFOLDER WHERE LIBFOLDERID="+ FOLDERID);
-		if(SelQuery.next()==true)//Šù‚É‘¶İ‚µ‚Ä‚¢‚éê‡
-			Delete(FOLDERID);//ã‘‚«‚Ìê‡
+		if(SelQuery.next()==true)//ï¿½ï¿½ï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡
+			Delete(FOLDERID);//ï¿½ã‘ï¿½ï¿½ï¿½Ìê‡
 		if(Target!=/**/"Parent")
 			InsertQuery.exec();
 		//InsertQuery.clear();
@@ -1208,8 +1217,8 @@ void LibFolder::Load(QString &Target, QIODevice &Device, QStringList &Backup, QS
 
 void LibFolder::RootSubLoad(QIODevice &Device, QStringList &Backup, QStringList &Now, QString &InsertData)
 {
-//eŠK‘w‚Ì“Ç‚İ
-//q‹Ÿ‚Ì“Ç‚İ
+//ï¿½eï¿½Kï¿½wï¿½Ì“Çï¿½ï¿½ï¿½
+//ï¿½qï¿½ï¿½ï¿½Ì“Çï¿½ï¿½ï¿½
 	QString Target;
 	if(::Load(&Device, Target)==false)
 		return ;
@@ -1260,12 +1269,12 @@ void LibFolder::RootLoad(QIODevice &Device, QStringList &Backup, QStringList &No
 				return;
 		}
 		QSqlQuery SelQuery(/**/"SELECT LIBFOLDERID FROM LIBFOLDER WHERE LIBFOLDERID="+ FOLDERID);
-		if(SelQuery.next()==true)//Šù‚É‘¶İ‚µ‚Ä‚¢‚éê‡
-			Delete(FOLDERID);//ã‘‚«‚Ìê‡
+		if(SelQuery.next()==true)//ï¿½ï¿½ï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡
+			Delete(FOLDERID);//ï¿½ã‘ï¿½ï¿½ï¿½Ìê‡
 		InsertQuery.exec();
 		InsertQuery.clear();
 		QSqlQuery PQuery(/**/"SELECT LIBFOLDERID FROM LIBFOLDER WHERE LIBFOLDERID="+ ParentID);
-		if(PQuery.next()==false){//‘¶İ‚µ‚Ä‚¢‚È‚¢ê‡
+		if(PQuery.next()==false){//ï¿½ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡
 			QSqlQuery upQuery(/**/"UPDATE LIBFOLDER SET LIBPARENTID=0 WHERE LIBFOLDERID="+ FOLDERID);
 			upQuery.exec();
 		}
@@ -1299,7 +1308,7 @@ void LibFolder::RootLoad2(QIODevice &Device, QStringList &Backup, QStringList &N
 					return;
 				if (Backup.at(iY) == /**/"LIBPARENTID"){
 					QSqlQuery PQuery(/**/"SELECT LIBFOLDERID FROM LIBFOLDER WHERE LIBFOLDERID=" + QString::number(iData));
-					if (PQuery.next() == false) // ‘¶İ‚µ‚Ä‚¢‚È‚¢ê‡
+					if (PQuery.next() == false) // ï¿½ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡
 						iData=0;
 				}else
 					FOLDERID = QString::number(iData);
@@ -1310,8 +1319,8 @@ void LibFolder::RootLoad2(QIODevice &Device, QStringList &Backup, QStringList &N
 				return;
 		}
 		QSqlQuery SelQuery(/**/"SELECT LIBFOLDERID FROM LIBFOLDER WHERE LIBFOLDERID="+ FOLDERID);
-		if(SelQuery.next()==true){//Šù‚É‘¶İ‚µ‚Ä‚¢‚éê‡
-			Delete(FOLDERID);//ã‘‚«‚Ìê‡
+		if(SelQuery.next()==true){//ï¿½ï¿½ï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡
+			Delete(FOLDERID);//ï¿½ã‘ï¿½ï¿½ï¿½Ìê‡
 		}
 		InsertQuery.exec();
 	}
@@ -1328,13 +1337,13 @@ void LibFolder::Delete(QString &FolderID)
 }
 void LibFolder::ChildDelete(QString &FolderID)
 {
-	//LibParentID‚ğe‚É‚Âq‹Ÿ‚ğ’T‚·
+	//LibParentIDï¿½ï¿½ï¿½eï¿½Éï¿½ï¿½Âqï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½
 	QString Select=/**/"SELECT LIBFOLDERID FROM LIBFOLDER WHERE LIBPARENTID="+ FolderID +/**/" ORDER BY LIBPARENTID";
 	QSqlQuery FolderQuery(Select);
 	while(FolderQuery.next()){
 		QString LibFolderID=FolderQuery.value(0).toString();
-		Lib->FolderDelete(LibFolderID);//InspeclLib‚ğíœ
-		Delete(LibFolderID);//ƒŠƒuƒtƒHƒ‹ƒ_[íœ
+		Lib->FolderDelete(LibFolderID);//InspeclLibï¿½ï¿½ï¿½íœ
+		Delete(LibFolderID);//ï¿½ï¿½ï¿½uï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½[ï¿½íœ
 		ChildDelete(LibFolderID);
 	}
 }
@@ -1371,7 +1380,7 @@ void InspectLib::Delete(QString &TypeName, QString &LibID)
 {
 	QString LibType;
 	QSqlQuery Query(/**/"SELECT LIBTYPE FROM INSPECTLIBTYPE WHERE TYPENAME LIKE \'"+ TypeName +/**/"\'");
-	if(Query.next()==true){//‘¶İ‚µ‚Ä‚¢‚éê‡
+	if(Query.next()==true){//ï¿½ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡
 		LibType= Query.value(0).toString();
 		QSqlQuery DeleteQuery(/**/"DELETE FROM INSPECTLIB WHERE LIBID=" + LibID + /**/"AND LIBTYPE=" + LibType);
 		DeleteQuery.exec();
@@ -1386,14 +1395,14 @@ void InspectLib::Save(QIODevice &Device, QString &FolderID)
 	if(FolderID==/**/"-1")
 		Select=/**/"SELECT * FROM INSPECTLIB ORDER BY LIBFOLDERID";
 	QSqlQuery Query(Select);
-	int iField = Query.record().count();//ƒtƒB[ƒ‹ƒh”
+	int iField = Query.record().count();//ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½
 	::Save(&Device, iField);
 	int Cnt=0;
 	if(Query.next()==false){
 		::Save(&Device, Cnt);
 		return;
 	}
-	Cnt = Query.numRowsAffected();//DataSelect”
+	Cnt = Query.numRowsAffected();//DataSelectï¿½ï¿½
 	::Save(&Device, Cnt);
 	for (int iX=0; Cnt>iX ; iX++){
 		for (int iY=0; iField>iY; iY++){
@@ -1435,7 +1444,7 @@ void InspectLib::Load(QIODevice &Device, QStringList &Backup, QStringList &Now, 
 				if(LibID.isEmpty()==false && LibTYPE.isEmpty()==false)
 				{
 					QSqlQuery Query(/**/"SELECT LIBTYPE,LIBID FROM INSPECTLIB WHERE LIBID=" + LibID + /**/"AND LIBTYPE=" + LibTYPE);
-					if(Query.next()==true)	//Šù‚É‘¶İ‚µ‚Ä‚¢‚éê‡
+					if(Query.next()==true)	//ï¿½ï¿½ï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡
 						Delete(LibID, LibTYPE);
 				}
 				InsertQuery.addBindValue(iData);
@@ -1457,14 +1466,14 @@ void InspectLibType::Save(QIODevice &Device)
 	QByteArray Type=QByteArray(typeid(this).name());
 	::Save(&Device, Type);
 	QSqlQuery Query(/**/"SELECT * FROM INSPECTLIBTYPE");
-	int iField = Query.record().count();//ƒtƒB[ƒ‹ƒh”
+	int iField = Query.record().count();//ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½
 	::Save(&Device, iField);
 	int Cnt=0;
 	if(Query.next()==false){
 		::Save(&Device, Cnt);
 		return;
 	}
-	Cnt = Query.numRowsAffected();//DataSelect”
+	Cnt = Query.numRowsAffected();//DataSelectï¿½ï¿½
 	::Save(&Device, Cnt);
 	for (int iX=0; Cnt>iX ; iX++){
 		for (int iY=0; iField>iY; iY++){

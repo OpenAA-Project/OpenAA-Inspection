@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "LiveCameraAlgoNTSCResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUIReview\LiveCameraAlgoNTSC\LiveCameraAlgoNTSC.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 #include <Windows.h>
 #include <QMenu>
@@ -121,47 +130,47 @@ CameraView::CameraView(QWidget *parent, bool EditMode, int refleshTime)
 {
 	m_EditMode = EditMode;
 
-	// ˜g•\¦
+	// ï¿½gï¿½\ï¿½ï¿½
 	setFrameStyle(QFrame::WinPanel | QFrame::Raised);
 	setLineWidth(2);
 
 	if(m_EditMode)return;
 
-	// ƒtƒŠƒbƒJ–h~
+	// ï¿½tï¿½ï¿½ï¿½bï¿½Jï¿½hï¿½~
 	//setUpdatesEnabled(false);
 
-	// ŠeFƒoƒCƒAƒX’l‰Šú‰»
+	// ï¿½eï¿½Fï¿½oï¿½Cï¿½Aï¿½Xï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	m_PlusRed = m_PlusGreen = m_PlusBlue = 0;
 
-	// ‹P“xƒAƒŒƒC‰Šú‰»
+	// ï¿½Pï¿½xï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for(int i=0; i<256; i++){
 		m_BrightArray[i] = i;
 	}
 
-	// ‰æ–ÊXV—pƒXƒŒƒbƒh¶¬
+	// ï¿½ï¿½ï¿½ÊXï¿½Vï¿½pï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ï¿½ï¿½ï¿½
 	m_Thread = new ThreadView(refleshTime);
 
-	// ƒfƒoƒCƒXƒI[ƒvƒ“
+	// ï¿½fï¿½oï¿½Cï¿½Xï¿½Iï¿½[ï¿½vï¿½ï¿½
 	if(Open()==false)
 		return;
 
-	// ƒ‰ƒCƒuƒXƒ^[ƒg
+	// ï¿½ï¿½ï¿½Cï¿½uï¿½Xï¿½^ï¿½[ï¿½g
 	StartLive();
 
-	// ƒƒ‚ƒŠ¶¬
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	CreateImageBuffer(pxd_imageXdim(), pxd_imageYdim());
 
-	// •\¦XVƒ^ƒCƒ~ƒ“ƒO‚ğƒXƒŒƒbƒh‚ÌƒVƒOƒiƒ‹‚É‚ ‚í‚¹‚é
+	// ï¿½\ï¿½ï¿½ï¿½Xï¿½Vï¿½^ï¿½Cï¿½~ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ÌƒVï¿½Oï¿½iï¿½ï¿½ï¿½É‚ï¿½ï¿½í‚¹ï¿½ï¿½
 	connect(m_Thread, SIGNAL(update()), this, SLOT(Update()), Qt::QueuedConnection);
 
-	// İ’èƒ_ƒCƒAƒƒO¶¬
+	// ï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
 	m_SettingForm = new CameraSettingForm(&m_PlusRed, &m_PlusGreen, &m_PlusBlue);
-	m_SettingForm->setWindowFlags(Qt::WindowStaysOnTopHint);// í‚Éè‘O‚É•\¦
+	m_SettingForm->setWindowFlags(Qt::WindowStaysOnTopHint);// ï¿½ï¿½ï¿½Éï¿½ï¿½Oï¿½É•\ï¿½ï¿½
 
-	// İ’èƒ_ƒCƒAƒƒO‚ÌOKƒ{ƒ^ƒ“‚ğe‚ÌSaveƒXƒƒbƒg‚ÉÚ‘±
+	// ï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½OKï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½ï¿½Saveï¿½Xï¿½ï¿½ï¿½bï¿½gï¿½ÉÚ‘ï¿½
 	connect(m_SettingForm, SIGNAL(accepted()), parent, SLOT(Save()));
 
-	// ƒXƒŒƒbƒhŠJn
+	// ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Jï¿½n
 	StartUpdate();
 }
 
@@ -169,22 +178,22 @@ CameraView::~CameraView()
 {
 	if(m_EditMode)return;
 
-	// ƒXƒŒƒbƒh‚ÌÁ‹
+	// ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Ìï¿½ï¿½ï¿½
 	if(m_Thread!=NULL){
 		m_Thread->stop();
 		m_Thread->wait();
 		delete m_Thread;
 	}
 
-	//ƒJƒƒ‰ƒ‰ƒCƒu‚Ì’â~
+	//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½Ì’ï¿½ï¿½~
 	StopLive();
 	
-	//ƒJƒƒ‰‚ÌI—¹
+	//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ÌIï¿½ï¿½
 	if(Close()==false){
 		QMessageBox::warning(this, /**/"Close Error", LangSolver.GetString(LiveCameraAlgoNTSC_LS,LID_1)/*"Camera GUI couldn't close Device."*/, QMessageBox::Ok);
 	}
 
-	// Šù‘¶ƒf[ƒ^”jŠü
+	// ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½jï¿½ï¿½
 	if(m_iData.size()!=0){
 		for(int i=0; i<m_iData.size(); i++){
 			for(int j=0; j<m_iData[i].size(); j++){
@@ -193,13 +202,13 @@ CameraView::~CameraView()
 		}
 	}
 
-	// ƒCƒ[ƒWƒCƒ“ƒXƒ^ƒ“ƒX”jŠü
+	// ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½jï¿½ï¿½
 	m_Image = QImage();
 
 	if(m_SettingForm)delete m_SettingForm;
 }
 
-// ‰æ–ÊXV
+// ï¿½ï¿½ï¿½ÊXï¿½V
 void CameraView::Update()
 {
 	//GetCameraImageModify();
@@ -208,14 +217,14 @@ void CameraView::Update()
 
 bool CameraView::CreateImageBuffer(int width, int height)
 {
-	// “ü—Íƒ`ƒFƒbƒN
+	// ï¿½ï¿½ï¿½Íƒ`ï¿½Fï¿½bï¿½N
 	if(width<=0 || height<=0)return false;
 
-	// c‰¡ƒTƒCƒYæ“¾
+	// ï¿½cï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½æ“¾
 	m_CapXLen = width;
 	m_CapYLen = height;
 
-	// Šù‘¶ƒf[ƒ^”jŠü
+	// ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½jï¿½ï¿½
 	if(m_iData.size()!=0){
 		for(int i=0; i<m_iData.size(); i++){
 			for(int j=0; j<m_iData[i].size(); j++){
@@ -224,7 +233,7 @@ bool CameraView::CreateImageBuffer(int width, int height)
 		}
 	}
 
-	// ƒƒ‚ƒŠ¶¬
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	m_iData.resize(height);
 	for(int i=0; i<m_iData.size(); i++){
 		m_iData[i].resize(3);
@@ -233,7 +242,7 @@ bool CameraView::CreateImageBuffer(int width, int height)
 		}
 	}
 
-	// ƒCƒ[ƒWƒCƒ“ƒXƒ^ƒ“ƒXÄ¶¬
+	// ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Äï¿½ï¿½ï¿½
 	m_Image = QImage(width, height, QImage::Format_RGB32);
 
 	return true;
@@ -243,14 +252,14 @@ void CameraView::ShowSettingForm()
 {
 	if(m_SettingForm->isVisible()){
 		m_SettingForm->setVisible(false);
-	}else{// ”ñ•\¦‚Ìê‡‚ÉÄ•\¦
+	}else{// ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½Ìê‡ï¿½ÉÄ•\ï¿½ï¿½
 		m_SettingForm->ResetRGB(&m_PlusRed, &m_PlusGreen, &m_PlusBlue);
 		m_SettingForm->setVisible(true);
 	}
 }
 
-// ƒJƒƒ‰‰æ‘œ‚Ìæ“¾E•\¦
-// ‚‘¬”Å(ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ÌsetUpdatesEnabled(false)‚ÌƒRƒƒ“ƒg‚ğŠO‚·‚±‚Æ)
+// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½Ìæ“¾ï¿½Eï¿½\ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½ï¿½setUpdatesEnabled(false)ï¿½ÌƒRï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 void CameraView::GetCameraImageFast()
 {
 	static QImage preImg;
@@ -320,8 +329,8 @@ void CameraView::GetCameraImageFast()
 	}
 }
 
-// ƒJƒƒ‰İ’è”½‰f”Å
-// QImage‚ÉƒJƒƒ‰‰æ‘œ‚ğƒRƒs[‚µ‚ÄRGB‚ğ’²®‚·‚é
+// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½İ’è”½ï¿½fï¿½ï¿½
+// QImageï¿½ÉƒJï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½Rï¿½sï¿½[ï¿½ï¿½ï¿½ï¿½RGBï¿½ğ’²ï¿½ï¿½ï¿½ï¿½ï¿½
 void CameraView::GetCameraImageModify()
 {
 	static QImage prePix;
@@ -339,14 +348,14 @@ void CameraView::GetCameraImageModify()
 		m_Image = QImage(m_CapYLen, m_CapXLen, QImage::Format_RGB32);
 	}
 
-	//ƒf[ƒ^‚Ö‚ÌƒAƒNƒZƒX
+	//ï¿½fï¿½[ï¿½^ï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½X
 	//#pragma omp parallel
 	{
 		//#pragma omp for
 		for(int y=0;y<m_CapYLen;y++){
-			//unsigned char *bufR = new unsigned char[XLength];				// ƒTƒCƒY>= # ƒsƒNƒZƒ‹ per AOIƒ‰ƒCƒ“
-			//unsigned char *bufG = new unsigned char[XLength];				// ƒTƒCƒY>= # ƒsƒNƒZƒ‹ per AOIƒ‰ƒCƒ“
-			//unsigned char *bufB = new unsigned char[XLength];				// ƒTƒCƒY>= # ƒsƒNƒZƒ‹ per AOIƒ‰ƒCƒ“
+			//unsigned char *bufR = new unsigned char[XLength];				// ï¿½Tï¿½Cï¿½Y>= # ï¿½sï¿½Nï¿½Zï¿½ï¿½ per AOIï¿½ï¿½ï¿½Cï¿½ï¿½
+			//unsigned char *bufG = new unsigned char[XLength];				// ï¿½Tï¿½Cï¿½Y>= # ï¿½sï¿½Nï¿½Zï¿½ï¿½ per AOIï¿½ï¿½ï¿½Cï¿½ï¿½
+			//unsigned char *bufB = new unsigned char[XLength];				// ï¿½Tï¿½Cï¿½Y>= # ï¿½sï¿½Nï¿½Zï¿½ï¿½ per AOIï¿½ï¿½ï¿½Cï¿½ï¿½
 
 			//pxd_readuchar(UNITSMAP, 1, 0, y, -1, y+1, bufR, XLength, /**/"RofRGB");
 			//pxd_readuchar(UNITSMAP, 1, 0, y, -1, y+1, bufG, XLength, /**/"GofRGB");
@@ -413,16 +422,16 @@ bool CameraView::GetCameraImage(QImage *image)
 	return true;
 }
 
-//‹P“xƒAƒŒƒC‚ğİ’è 255
+//ï¿½Pï¿½xï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½İ’ï¿½ 255
 void	CameraView::SetBrightness(int BArray[])
 {
 	memcpy(m_BrightArray,BArray,sizeof(int[256]));
 }
 
-// ƒJƒƒ‰ƒfƒoƒCƒX‚ÌƒI[ƒvƒ“
+// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½fï¿½oï¿½Cï¿½Xï¿½ÌƒIï¿½[ï¿½vï¿½ï¿½
 bool CameraView::Open()
 {
-	//•W€‚ÌNTSCƒtƒH[ƒ}ƒbƒg‚ÅƒI[ƒvƒ“
+	//ï¿½Wï¿½ï¿½ï¿½ï¿½NTSCï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ÅƒIï¿½[ï¿½vï¿½ï¿½
 	if (pxd_PIXCIopen(/**/"", /**/"", /**/"./SV5.fmt") < 0){
 		pxd_mesgFault(1);
 		return false;
@@ -430,14 +439,14 @@ bool CameraView::Open()
 	return true;
 }
 
-// ƒJƒƒ‰ƒfƒoƒCƒX‚ÌƒNƒ[ƒY
+// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½fï¿½oï¿½Cï¿½Xï¿½ÌƒNï¿½ï¿½ï¿½[ï¿½Y
 bool	CameraView::Close()
 {
 	pxd_PIXCIclose();
 	return true;
 }
 
-//ƒXƒiƒbƒvƒVƒ‡ƒbƒgB‰e
+//ï¿½Xï¿½iï¿½bï¿½vï¿½Vï¿½ï¿½ï¿½bï¿½gï¿½Bï¿½e
 bool	CameraView::SingleShot()
 {
 	int err;
@@ -447,7 +456,7 @@ bool	CameraView::SingleShot()
 	return true;
 }
 
-//ƒ‰ƒCƒu’â~
+//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½~
 bool	CameraView::StopLive()
 {
 	pxd_goUnLive(UNITSMAP);
@@ -455,7 +464,7 @@ bool	CameraView::StopLive()
 	return true;
 }
 
-//ƒ‰ƒCƒuŠJn
+//ï¿½ï¿½ï¿½Cï¿½uï¿½Jï¿½n
 bool	CameraView::StartLive()
 {
 	pxd_goLive(UNITSMAP, 1);
@@ -551,11 +560,11 @@ void	CameraView::SetWindow(QLabel *target)
 LiveCameraAlgoNTSC::LiveCameraAlgoNTSC(LayersBase *Base ,QWidget *parent)
 	:GUIFormBase(Base,parent),m_CameraView(this, GetEditMode(), 1000/60.0)
 {
-	// GUI“\‚è•t‚¯‚Å˜g‚ª‚Â‚¢‚Ä‚¢‚½‚Ù‚¤‚ªŒ©‚â‚·‚¢
+	// GUIï¿½\ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Å˜gï¿½ï¿½ï¿½Â‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Ù‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â‚·ï¿½ï¿½
 	m_CameraView.setFrameStyle(QFrame::WinPanel | QFrame::Raised);
 	m_CameraView.setLineWidth(2);
 
-	// e•Û‘¶
+	// ï¿½eï¿½Û‘ï¿½
 	m_parent = parent;
 
 	if(!Load()){
@@ -565,22 +574,22 @@ LiveCameraAlgoNTSC::LiveCameraAlgoNTSC(LayersBase *Base ,QWidget *parent)
 
 	connect(this, SIGNAL(SignalResize()), this, SLOT(ResizeAction()));
 
-	// ƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[ì¬
+	// ï¿½Rï¿½ï¿½ï¿½eï¿½Lï¿½Xï¿½gï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½ì¬
 	m_ContextMenu = new QMenu(this);
 
-	// ƒJƒƒ‰İ’èƒAƒNƒVƒ‡ƒ“’Ç‰Á
-	m_SettingAction = new QAction(LangSolver.GetString(LiveCameraAlgoNTSC_LS,LID_2)/*"ƒJƒƒ‰İ’è"*/, this);
-	m_SettingAction->setStatusTip(LangSolver.GetString(LiveCameraAlgoNTSC_LS,LID_3)/*"ƒJƒƒ‰‰f‘œ‚ÉŠÖ‚·‚éİ’è‚ğs‚¢‚Ü‚·"*/);
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½ï¿½Aï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½
+	m_SettingAction = new QAction(LangSolver.GetString(LiveCameraAlgoNTSC_LS,LID_2)/*"ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½"*/, this);
+	m_SettingAction->setStatusTip(LangSolver.GetString(LiveCameraAlgoNTSC_LS,LID_3)/*"ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ÉŠÖ‚ï¿½ï¿½ï¿½ï¿½İ’ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½"*/);
 	connect(m_SettingAction, SIGNAL(triggered()), this, SLOT(SettingAction()));
 	m_ContextMenu->addAction(m_SettingAction);
 
-	m_ResetAction = new QAction(LangSolver.GetString(LiveCameraAlgoNTSC_LS,LID_4)/*"ƒJƒƒ‰ƒŠƒZƒbƒg"*/, this);
-	m_ResetAction->setStatusTip(LangSolver.GetString(LiveCameraAlgoNTSC_LS,LID_5)/*"ƒJƒƒ‰ƒ‰ƒCƒu‚ğÄƒXƒ^[ƒg‚µ‚Ü‚·"*/);
+	m_ResetAction = new QAction(LangSolver.GetString(LiveCameraAlgoNTSC_LS,LID_4)/*"ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g"*/, this);
+	m_ResetAction->setStatusTip(LangSolver.GetString(LiveCameraAlgoNTSC_LS,LID_5)/*"ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ÄƒXï¿½^ï¿½[ï¿½gï¿½ï¿½ï¿½Ü‚ï¿½"*/);
 	connect(m_ResetAction, SIGNAL(triggered()), this, SLOT(RestartAction()));
 	m_ContextMenu->addAction(m_ResetAction);
 
-	//m_SnapAction = new QAction(tr(/**/"ƒXƒiƒbƒvƒeƒXƒg"), this);
-	//m_SnapAction->setStatusTip(/**/"ƒXƒiƒbƒvƒCƒ[ƒW‚ğƒeƒXƒg‚µ‚Ü‚·");
+	//m_SnapAction = new QAction(tr(/**/"ï¿½Xï¿½iï¿½bï¿½vï¿½eï¿½Xï¿½g"), this);
+	//m_SnapAction->setStatusTip(/**/"ï¿½Xï¿½iï¿½bï¿½vï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½eï¿½Xï¿½gï¿½ï¿½ï¿½Ü‚ï¿½");
 	//connect(m_SnapAction, SIGNAL(triggered()), this, SLOT(SnapAction()));
 	//m_ContextMenu->addAction(m_SnapAction);
 
@@ -594,16 +603,16 @@ LiveCameraAlgoNTSC::~LiveCameraAlgoNTSC(void)
 
 void	LiveCameraAlgoNTSC::Prepare(void)
 {
-	//ƒJƒƒ‰‚Ì‰Šú‰»
-	//ŠeFƒoƒCƒAƒX’l‰Šú‰»
+	//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+	//ï¿½eï¿½Fï¿½oï¿½Cï¿½Aï¿½Xï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	m_PlusRed=m_PlusGreen=m_PlusBlue=0;
 
-	//‹P“xƒAƒŒƒC‰Šú‰»
+	//ï¿½Pï¿½xï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for(int i=0;i<256;i++){
 		m_BrightArray[i]=i;
 	}
 
-	//ƒJƒƒ‰ƒrƒ…[ƒEƒBƒWƒFƒbƒg‚ÌƒTƒCƒY‚ğ•ÏX
+	//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½Eï¿½Bï¿½Wï¿½Fï¿½bï¿½gï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ÏX
 	m_CameraView.resize(width(), height());
 }
 
@@ -612,7 +621,7 @@ void	LiveCameraAlgoNTSC::ResizeAction()
 	m_CameraView.resize(this->size());
 }
 
-//ŠeRGB‚ÌƒoƒCƒAƒX’lİ’è
+//ï¿½eRGBï¿½Ìƒoï¿½Cï¿½Aï¿½Xï¿½lï¿½İ’ï¿½
 void	LiveCameraAlgoNTSC::SetPlusRGB(int Red,int Green,int Blue)
 {
 	m_PlusRed	=Red;
@@ -653,7 +662,7 @@ void	LiveCameraAlgoNTSC::SnapAction()
 
 bool	LiveCameraAlgoNTSC::Save()
 {
-	// ƒZ[ƒu
+	// ï¿½Zï¿½[ï¿½u
 	QFile file(/**/"Review-LiveCameraAlgoNTSC.dat");
 	if(file.open(QIODevice::WriteOnly)==false){
 		return false;
@@ -676,7 +685,7 @@ bool	LiveCameraAlgoNTSC::Save()
 
 bool	LiveCameraAlgoNTSC::Load()
 {
-	// ƒ[ƒh
+	// ï¿½ï¿½ï¿½[ï¿½h
 	QFile file(/**/"Review-LiveCameraAlgoNTSC.dat");
 	if(file.open(QIODevice::ReadOnly)==false){
 		return false;

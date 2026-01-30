@@ -1,12 +1,30 @@
+/*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "../Open/XAlgorithmLibNGType.h"
 #include <QPainter>
 #include <QColor>
 
-// GUIReview‚Åg—p‚·‚é‹¤’Ê“®ì‚ğ”²‚«o‚µ‚½‚à‚Ì
-// å‚É•\¦ŠÖŒW‚Ì‘€ì
-// ‰æ‘œEƒŠƒXƒg‚Ì•`‰æA’Ç‰ÁAV‹Kì¬‚È‚Ç‚È‚Ç
+// GUIReviewï¿½Ågï¿½pï¿½ï¿½ï¿½é‹¤ï¿½Ê“ï¿½ï¿½ï¿½ï¿½ğ”²‚ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½É•\ï¿½ï¿½ï¿½ÖŒWï¿½Ì‘ï¿½ï¿½ï¿½
+// ï¿½æ‘œï¿½Eï¿½ï¿½ï¿½Xï¿½gï¿½Ì•`ï¿½ï¿½ï¿½Aï¿½Ç‰ï¿½ï¿½Aï¿½Vï¿½Kï¿½ì¬ï¿½È‚Ç‚È‚ï¿½
 
 namespace GUIReview{
 

@@ -1,9 +1,21 @@
 /*
- * clsXmlUpd.h
+ * Copyright (C) 2012
+ * Author : cony
  *
- *  Created on: 2009/11/20
- *      Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #ifndef CLSXMLUPD_H_
 #define CLSXMLUPD_H_
@@ -21,7 +33,7 @@
 #include "clsXmlReadSql.h"
 
 /**
- * @brief XML‘€ìƒNƒ‰ƒX
+ * @brief XMLï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
  */
 class clsXmlUpd {
 public:
@@ -31,41 +43,41 @@ public:
 	clsXmlReadSql *readSql;
 
 	/**
-	 * @brief ŒŸõŒnSQL‰ğÍ
+	 * @brief ï¿½ï¿½ï¿½ï¿½ï¿½nSQLï¿½ï¿½ï¿½ï¿½
 	 */
 	bool lexSelSql(const QByteArray &sql);
 
 	/**
-	 * @brief XVŒnSQL‰ğÍ
+	 * @brief ï¿½Xï¿½Vï¿½nSQLï¿½ï¿½ï¿½ï¿½
 	 */
 	bool lexUpdSql(const QByteArray &sql);
 
 	/**
-	 * @brief XML•¶ƒp[ƒX
+	 * @brief XMLï¿½ï¿½ï¿½pï¿½[ï¿½X
 	 */
 	bool parse(const QByteArray &buf);
 
 	/**
-	 * @brief XML’Ç‰Á
+	 * @brief XMLï¿½Ç‰ï¿½
 	 */
 	bool addXml();
 
 	/**
-	 * @brief ƒ^ƒO’Ç‰Á
+	 * @brief ï¿½^ï¿½Oï¿½Ç‰ï¿½
 	 */
 	bool appendXml();
 
 	/**
-	 * @brief XMLíœ
+	 * @brief XMLï¿½íœ
 	 */
 	bool deleteXml();
 
 	bool updateXml();
 
 	/**
-	 * @brief XML•¶ŒŸõ
+	 * @brief XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 *
-	 * @param int idx 1‚Ìê‡AÅ‰‚Ì‚PŒƒŠƒ^[ƒ“
+	 * @param int idx 1ï¿½Ìê‡ï¿½Aï¿½Åï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½
 	 */
 	bool searchXml(int idx=-1);
 	QList<QByteArray> lstResult;
@@ -73,39 +85,39 @@ public:
 	int nResCnt;
 
 	/**
-	 * @brief ŸXML•¶ŒŸõ
+	 * @brief ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 *
-	 * searchXml(1)‚ÅƒŠ[ƒh‚µ‚½Ÿ‚ÌsiXMLj‚ğæ“¾‚·‚é
+	 * searchXml(1)ï¿½Åƒï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìsï¿½iXMLï¿½jï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	 */
 	bool nextXml(const QString &id);
 
 	QList<QByteArray> lstDbFile;
 
 	/**
-	 * @brief XML•¶ŒŸõ
+	 * @brief XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 *
-	 * ‘SDBƒtƒ@ƒCƒ‹‚ğ‘ÎÛ‚ÉXML•¶‚ğŒŸõ‚·‚é
+	 * ï¿½SDBï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ÎÛ‚ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	bool allSearchXml(int idx=-1);
 
 	/**
-	 * @brief ŸXML•¶ŒŸõ
+	 * @brief ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 *
-	 * allSearchXml(1)‚ÅƒŠ[ƒh‚µ‚½Ÿ‚ÌsiXMLj‚ğæ“¾‚·‚é
+	 * allSearchXml(1)ï¿½Åƒï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìsï¿½iXMLï¿½jï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	 */
 	bool allNextXml(const QString &id, const QByteArray &dbFile);
 
 	/**
-	 * @brief XML•¶ƒŠ[ƒh
+	 * @brief XMLï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h
 	 *
-	 * w’è‚µ‚½topid‚©‚çXML•¶‚ğƒŠ[ƒh‚·‚é
+	 * ï¿½wï¿½è‚µï¿½ï¿½topidï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½
 	 */
 	bool readXml(QString topid);
 
 	/**
-	 * @brief XML•¶•ÏŠ·
+	 * @brief XMLï¿½ï¿½ï¿½ÏŠï¿½
 	 *
-	 * XML•¶‚ğƒeƒLƒXƒg‚É•ÏŠ·‚·‚é
+	 * XMLï¿½ï¿½ï¿½ï¿½ï¿½eï¿½Lï¿½Xï¿½gï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	QByteArray toString();
 

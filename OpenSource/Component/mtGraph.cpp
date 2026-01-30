@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\OpenSource\Component\mtGraph.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 //#include <QtGui>
 //#include <math.h>
 #include <QPainter>
@@ -215,16 +223,16 @@ void*	mtGraph::SortXY()
 		uMinY=min(uMinY,W[i].YValue);
 		uMaxY=max(uMaxY,W[i].YValue);
 	}
-	uMinX=XValue.at(0);							//X²’l‚ÌÅ¬’l‚ğæ“¾
-	uMaxX=XValue.at(XValue.count()-1);			//X²’l‚ÌÅ‘å’l‚ğæ“¾
+	uMinX=XValue.at(0);							//Xï¿½ï¿½ï¿½lï¿½ÌÅï¿½ï¿½lï¿½ï¿½ï¿½æ“¾
+	uMaxX=XValue.at(XValue.count()-1);			//Xï¿½ï¿½ï¿½lï¿½ÌÅ‘ï¿½ï¿½lï¿½ï¿½ï¿½æ“¾
 
 	if(W!=WDim){
 		delete	[]W;
 	}
 
 
-	//QList<int>		wXValue;		//ƒ\[ƒgƒCƒ“ƒfƒbƒNƒX‚Ì‘Ş”ğ
-	//QList<double>	wYValue;		//Y²’l‚Ì‘Ş”ğ
+	//QList<int>		wXValue;		//ï¿½\ï¿½[ï¿½gï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Ì‘Ş”ï¿½
+	//QList<double>	wYValue;		//Yï¿½ï¿½ï¿½lï¿½Ì‘Ş”ï¿½
 	//wXValue.clear();
 	//for(int i=0;i<XValue.count();i++){
 	//	wXValue << i;
@@ -232,22 +240,22 @@ void*	mtGraph::SortXY()
 	//for(int i=0;i<XValue.count()-1;i++){
 	//	for(int j=i+1;j<XValue.count();j++){
 	//		if(XValue.at(i)>XValue.at(j)){
-	//			XValue.swap(i,j);		//X²’l‚Ìƒ\[ƒg
+	//			XValue.swap(i,j);		//Xï¿½ï¿½ï¿½lï¿½Ìƒ\ï¿½[ï¿½g
 	//			wXValue.swap(i,j);
 	//		}
 	//	}
 	//}
 	//wYValue=YValue;
 	//for(int i=0;i<YValue.count();i++){
-	//	YValue.replace(i,wYValue.at(wXValue.at(i)));		//Y²’l‚Ìƒ\[ƒg
+	//	YValue.replace(i,wYValue.at(wXValue.at(i)));		//Yï¿½ï¿½ï¿½lï¿½Ìƒ\ï¿½[ï¿½g
 	//}
 	//
 	//qSort(wYValue.begin(),wYValue.end());
 	//
-	//uMinX=XValue.at(0);							//X²’l‚ÌÅ¬’l‚ğæ“¾
-	//uMaxX=XValue.at(XValue.count()-1);			//X²’l‚ÌÅ‘å’l‚ğæ“¾
-	//uMinY=wYValue.at(0);						//Y²’l‚ÌÅ¬’l‚ğæ“¾
-	//uMaxY=wYValue.at(wYValue.count()-1);		//Y²’l‚ÌÅ‘å’l‚ğæ“¾
+	//uMinX=XValue.at(0);							//Xï¿½ï¿½ï¿½lï¿½ÌÅï¿½ï¿½lï¿½ï¿½ï¿½æ“¾
+	//uMaxX=XValue.at(XValue.count()-1);			//Xï¿½ï¿½ï¿½lï¿½ÌÅ‘ï¿½ï¿½lï¿½ï¿½ï¿½æ“¾
+	//uMinY=wYValue.at(0);						//Yï¿½ï¿½ï¿½lï¿½ÌÅï¿½ï¿½lï¿½ï¿½ï¿½æ“¾
+	//uMaxY=wYValue.at(wYValue.count()-1);		//Yï¿½ï¿½ï¿½lï¿½ÌÅ‘ï¿½ï¿½lï¿½ï¿½ï¿½æ“¾
 	//
 	//wYValue.clear();
 	Sorted=true;
@@ -258,7 +266,7 @@ void*	mtGraph::SortXY()
 //{
 //}
 
-//ƒf[ƒ^À•W(ux,uy)‚ğ‰æ–ÊÀ•W(gx,gy)‚É•ÏŠ·‚·‚é
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 void	mtGraph::gGetUniverseToCanvas(double ux,double uy,int &gx,int &gy)
 {
 	if(GetParent()->STypeX==GetParent()->mtConstant){
@@ -281,26 +289,26 @@ void	mtGraph::gGetUniverseToCanvas(double ux,double uy,int &gx,int &gy)
 	}
 }
 
-//ƒf[ƒ^À•W(ux,uy)‚ğ‰æ–ÊÀ•W(gx,gy)‚É•ÏŠ·‚·‚é
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 void	mtGraph::GetUniverseToCanvas(double ux,double uy,int &gx,int &gy)
 {
 	gx=GetParent()->OffsetX+(ux-GetParent()->uGraphMinX)*((GetParent()->width()-GetParent()->OffsetX)/GetParent()->uWidth);
 	gy=(GetParent()->uGraphMaxY-uy)*((GetParent()->height()-GetParent()->OffsetY)/GetParent()->uHeight);
 }
 
-//ƒf[ƒ^À•W‚ÌXÀ•W(ux)‚ğ‰æ–ÊÀ•W‚ÌXÀ•W(gx)‚É•ÏŠ·‚·‚é
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(ux)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(gx)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 void	mtGraph::GetUniverseToCanvasX(double ux,int &gx)
 {
 	gx=GetParent()->OffsetX+(ux-GetParent()->uGraphMinX)*((GetParent()->width()-GetParent()->OffsetX)/GetParent()->uWidth);
 }
 
-//ƒf[ƒ^À•W‚ÌYÀ•W(uy)‚ğ‰æ–ÊÀ•W‚ÌYÀ•W(gy)‚É•ÏŠ·‚·‚é
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 void	mtGraph::GetUniverseToCanvasY(double uy,int &gy)
 {
 	gy=(GetParent()->uGraphMaxY-uy)*((GetParent()->height()-GetParent()->OffsetY)/GetParent()->uHeight);
 }
 
-//ƒf[ƒ^À•W(ux,uy)‚ğ‰æ–ÊÀ•W(gx,gy)‚É•ÏŠ·‚·‚éi‘Î”•\¦j
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½j
 void	mtGraph::GetUniverseToCanvasLog(double ux,double uy,int &gx,int &gy)
 {
 	if(ux>0.0){
@@ -317,7 +325,7 @@ void	mtGraph::GetUniverseToCanvasLog(double ux,double uy,int &gx,int &gy)
 	}
 }
 
-//ƒf[ƒ^À•W‚ÌXÀ•W(ux)‚ğ‰æ–ÊÀ•W‚ÌXÀ•W(gx)‚É•ÏŠ·‚·‚éi‘Î”•\¦j
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(ux)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(gx)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½j
 void	mtGraph::GetUniverseToCanvasLogX(double ux,int &gx)
 {
 	if(ux>0.0){
@@ -328,7 +336,7 @@ void	mtGraph::GetUniverseToCanvasLogX(double ux,int &gx)
 	}
 }
 
-//ƒf[ƒ^À•W‚ÌYÀ•W(uy)‚ğ‰æ–ÊÀ•W‚ÌYÀ•W(gy)‚É•ÏŠ·‚·‚éi‘Î”•\¦j
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½j
 void	mtGraph::GetUniverseToCanvasLogY(double uy,int &gy)
 {
 	if(uy<=0.0){

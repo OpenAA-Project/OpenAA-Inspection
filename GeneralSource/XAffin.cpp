@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XAffin.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 //---------------------------------------------------------------------------
@@ -19,18 +28,18 @@
 //---------------------------------------------------------------------------
 
 bool Gaujor(double a[], int l, int m, int n, double eps);
-/* ˜A—§‚PŸ•û’ö®(‚¸“x”Åj*/
+/* ï¿½Aï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Åj*/
 bool    Leqacc( double a[] , double x[] ,double b[] , int n);
 
 
 bool    GetAffin(int x1,int y1
-                ,int x2,int y2          //ƒ}ƒXƒ^[‰æ‘œã‚ÌƒAƒ‰ƒCƒƒ“ƒgŠî€ˆÊ’u
-                ,double cx, double cy   //‰ñ“]’†S
+                ,int x2,int y2          //ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½ÌƒAï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½î€ï¿½Ê’u
+                ,double cx, double cy   //ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½S
                 ,int X1 ,int Y1
-                ,int X2 ,int Y2     //’Tõ‚µ‚½Œ‹‰Ê‚ÌƒAƒ‰ƒCƒ“ƒƒ“ƒgˆÊ’u
-                ,double &ResultPx,double &ResultPy  //•½sˆÚ“®—Ê
-                ,double &ResultS                    //‰ñ“]—Êiƒ‰ƒWƒAƒ“j
-                ,double &ResultAlpha)               //Šg‘å—¦
+                ,int X2 ,int Y2     //ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚ÌƒAï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ê’u
+                ,double &ResultPx,double &ResultPy  //ï¿½ï¿½ï¿½sï¿½Ú“ï¿½ï¿½ï¿½
+                ,double &ResultS                    //ï¿½ï¿½ï¿½]ï¿½Êiï¿½ï¿½ï¿½Wï¿½Aï¿½ï¿½ï¿½j
+                ,double &ResultAlpha)               //ï¿½gï¿½å—¦
 {
     double  mx1=x1-cx;
     double  my1=y1-cy;
@@ -263,7 +272,7 @@ void racc( double a[] , double x[] , double b[] , double r[] , int n , int nn );
 void decacc(double a[] ,int n, int nn);
 
 
-/* ˜A—§‚PŸ•û’ö®(‚¸“x”Åj*/
+/* ï¿½Aï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Åj*/
 bool    Leqacc( double a[] , double x[] ,double b[] , int n)
 {
     int nn=n;
@@ -274,7 +283,7 @@ bool    Leqacc( double a[] , double x[] ,double b[] , int n)
     double  aa[8*8*8],sf[8],rr[8],dx[8];
 
 
-   /* ‘Oˆ—(s) */
+   /* ï¿½Oï¿½ï¿½ï¿½ï¿½(ï¿½s) */
    for ( i=0 , ai=a ; i<n ; ++i , ai+=nn )
    {
       p=0.0;
@@ -289,7 +298,7 @@ bool    Leqacc( double a[] , double x[] ,double b[] , int n)
 	  }
       b[i]/=p;
    }
-   /* ‘Oˆ—(—ñ) */
+   /* ï¿½Oï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½) */
    for ( j=0 , aj=a ; j<n ; ++j , ++aj )
    {
       p=0.0;
@@ -304,29 +313,29 @@ bool    Leqacc( double a[] , double x[] ,double b[] , int n)
 	  }
       sf[j]=p;
    }
-   /* ‚`‚ğ‘Ò”ğ */
+   /* ï¿½`ï¿½ï¿½ï¿½Ò”ï¿½ */
    cpm( a , aa , n , nn );
-   /* —\”õ“I‚k‚t•ª‰ğ */
+   /* ï¿½\ï¿½ï¿½ï¿½Iï¿½kï¿½tï¿½ï¿½ï¿½ï¿½ */
    predec( a , aa , b , n , nn , jun );
    //printf( "L[n-1][n-1]=%15.8e\n",*(a+(n-1)*nn+n-1));
 
-   /* ‚`‚ğ•œŒ³ */
+   /* ï¿½`ï¿½ğ•œŒï¿½ */
    cpm( aa , a , n , nn );
-   /* ¸–§‚k‚t•ª‰ğ */
+   /* ï¿½ï¿½ï¿½ï¿½ï¿½kï¿½tï¿½ï¿½ï¿½ï¿½ */
    decacc( a , n , nn );
-   /* ‚Ğ‚Æ‚Ü‚¸‰ğ‚­ */
+   /* ï¿½Ğ‚Æ‚Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½ */
    solacc( a , x , b , n , nn );
-   /* ”½•œ‰ü—Ç */
+   /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
    for ( k=0 ; k<3 ; ++k )
    {
-      /* c·ŒvZ */
+      /* ï¿½cï¿½ï¿½ï¿½vï¿½Z */
       racc( aa , x , b , rr , n , nn );
-      /* •â³—ÊZ’è */
+      /* ï¿½â³ï¿½ÊZï¿½ï¿½ */
       solacc( a , dx , rr , n , nn );
-      /* •â³ */
+      /* ï¿½â³ */
       for ( i=0 ; i<n ; ++i )
          x[i]+=dx[i];
-      /* ’†ŠÔo—Í */
+      /* ï¿½ï¿½ï¿½Ôoï¿½ï¿½ */
       rmax=0.0; dmax=0.0;
       for ( i=0 ; i<n ; ++i )
       {
@@ -338,20 +347,20 @@ bool    Leqacc( double a[] , double x[] ,double b[] , int n)
                rmax , dmax );
       */
    }
-   /* ‡˜•œŒ³ */
+   /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
    for ( k=n-2 ; k>=0 ; --k )
    {
       swap(x[k],x[jun[k]]);
    }
 
-   /* ƒXƒP[ƒŠƒ“ƒO‚Ì•œŒ³ */
+   /* ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ì•ï¿½ï¿½ï¿½ */
    for ( k=0 ; k<n ; ++k ){
       x[k]/=sf[k];
    }
    return(true);
 }
 
-/* s—ñ‚Ì•¡Ê */
+/* ï¿½sï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ */
 void cpm( double a[] , double b[] , int n , int nn )
 {
    int     i,j ;
@@ -364,7 +373,7 @@ void cpm( double a[] , double b[] , int n , int nn )
    }
 }
 
-/* —\”õ“I‚k‚t•ª‰ğ */
+/* ï¿½\ï¿½ï¿½ï¿½Iï¿½kï¿½tï¿½ï¿½ï¿½ï¿½ */
 void predec( double a[] , double aa[] , double b[] , int n , int nn , int jun[] )
 {
    int     i,j,k,k1,imax,jmax ;
@@ -372,12 +381,12 @@ void predec( double a[] , double aa[] , double b[] , int n , int nn , int jun[] 
    double  *ai,*ak,*aik,*aij ;
    double  *aai,*aak,*aaik,*aaij ;
 
-   /* ‘OiÁ‹ */
+   /* ï¿½Oï¿½iï¿½ï¿½ï¿½ï¿½ */
    for ( k=0 , ak=a , aak=aa ; k<n-1 ;
          ++k , ak+=nn , aak+=nn )
    {
       k1=k+1 ;
-      /* ƒsƒ{ƒbƒg‘I‘ğ */
+      /* ï¿½sï¿½{ï¿½bï¿½gï¿½Iï¿½ï¿½ */
       imax=k;
       jmax=k;
       p=0.0;
@@ -394,7 +403,7 @@ void predec( double a[] , double aa[] , double b[] , int n , int nn , int jun[] 
          }
       }
       jun[k]=jmax;
-      /* s‚Ì“ü‚êŠ·‚¦ */
+      /* ï¿½sï¿½Ì“ï¿½ï¿½êŠ·ï¿½ï¿½ */
       if ( imax!=k )
       {
           ai=a+imax*nn;
@@ -406,7 +415,7 @@ void predec( double a[] , double aa[] , double b[] , int n , int nn , int jun[] 
           }
           swap(b[imax],b[k]);
       }
-      /* —ñ‚Ì“ü‚êŠ·‚¦ */
+      /* ï¿½ï¿½ï¿½Ì“ï¿½ï¿½êŠ·ï¿½ï¿½ */
       if ( jmax!=k )
       {
           for ( i=0 , aik=a+k , aij=a+jmax
@@ -418,7 +427,7 @@ void predec( double a[] , double aa[] , double b[] , int n , int nn , int jun[] 
          swap((*aaik),(*aaij));
           }
       }
-      /*  Á‹ */
+      /*  ï¿½ï¿½ï¿½ï¿½ */
       p=ak[k] ;
 	  for ( j=k1 ; j<n ; ++j ){
          ak[j]/=p ;
@@ -437,7 +446,7 @@ void predec( double a[] , double aa[] , double b[] , int n , int nn , int jun[] 
 #define   adon(ax)  qs=s; s+=(ax)+t; ds=s-qs; t=(ax)+t-ds;
 
 
-/* ‹‰ğ */
+/* ï¿½ï¿½ï¿½ï¿½ */
 void solacc( double a[] , double x[] , double b[] , int n , int nn )
 {
    int     j,k,k1;
@@ -445,7 +454,7 @@ void solacc( double a[] , double x[] , double b[] , int n , int nn )
    double  qs,ds,t;
    double  *ak;
 
-   /* ‘OiÁ‹ */
+   /* ï¿½Oï¿½iï¿½ï¿½ï¿½ï¿½ */
    for ( k=0 , ak=a ; k<n ; ++k , ak+=nn )
    {
       s=b[k] ;
@@ -456,7 +465,7 @@ void solacc( double a[] , double x[] , double b[] , int n , int nn )
       }
       x[k]=s/ak[k] ;
    }
-   /* ¸–§Œã‘Ş‘ã“ü */
+   /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş‘ï¿½ï¿½ï¿½ */
    for ( k=n-2 , ak=a+nn*(n-2) ; k>=0 ; --k , ak-=nn )
    {
       k1=k+1 ;
@@ -471,7 +480,7 @@ void solacc( double a[] , double x[] , double b[] , int n , int nn )
 }
 
 
-/* c·ŒvZi‚¸“x”Åj*/
+/* ï¿½cï¿½ï¿½ï¿½vï¿½Zï¿½iï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Åj*/
 void racc( double a[] , double x[] , double b[] , double r[] , int n , int nn )
 {
     int    i, j;
@@ -479,8 +488,8 @@ void racc( double a[] , double x[] , double b[] , double r[] , int n , int nn )
    double *ai ;
    for ( i=0 , ai=a ; i<n ; ++i , ai+=nn )
    {
-      s=b[i];     /* •”•ª˜a */
-      t=0.0;      /* Ï‚İc‚µ */
+      s=b[i];     /* ï¿½ï¿½ï¿½ï¿½ï¿½a */
+      t=0.0;      /* ï¿½Ï‚İcï¿½ï¿½ */
       for ( j=0 ; j<n ; ++j )
       {
          adon(-ai[j]*x[j]);
@@ -489,7 +498,7 @@ void racc( double a[] , double x[] , double b[] , double r[] , int n , int nn )
    }
 }
 
-/* ¸–§‚k‚t•ª‰ğ */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½kï¿½tï¿½ï¿½ï¿½ï¿½ */
 void decacc(double a[] ,int n, int nn)
 {
    int   i,j,k;
@@ -497,15 +506,15 @@ void decacc(double a[] ,int n, int nn)
    double   qs,ds;
    double   *ai,*aj,*ak;
 
-   /* ‘æ‚Os‚ğa[0][0]‚ÅŠ„‚é */
+   /* ï¿½ï¿½ï¿½Oï¿½sï¿½ï¿½a[0][0]ï¿½ÅŠï¿½ï¿½ï¿½ */
    ai=a;
    p=ai[0];
    for ( j=1 ; j<n ; ++j )
       ai[j]/=p;
-   /* ‚‰‚Ìƒ‹[ƒv */
+   /* ï¿½ï¿½ï¿½Ìƒï¿½ï¿½[ï¿½v */
    for ( i=1 , ai=a+nn ; i<n ; ++i , ai+=nn )
    {
-      /* ‘ÎŠp—v‘f */
+      /* ï¿½ÎŠpï¿½vï¿½f */
       s=ai[i];
       t=0.0;
       for ( k=0 , ak=a ; k<i ; ++k , ak+=nn )
@@ -513,7 +522,7 @@ void decacc(double a[] ,int n, int nn)
          adon(-ai[k]*ak[i]);
       }
       ai[i]=p=s;
-      /* ”ñ‘ÎŠp—v‘f */
+      /* ï¿½ï¿½ï¿½ÎŠpï¿½vï¿½f */
       for ( j=i+1 ; j<n ; ++j )
       {
          aj=a+j*nn;
@@ -536,5 +545,4 @@ void decacc(double a[] ,int n, int nn)
       }
    }
 }
-
 

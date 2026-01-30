@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef WHOLEIMAGEFORREVIEW_H
 #define WHOLEIMAGEFORREVIEW_H
 
@@ -13,7 +31,7 @@ class WholeDisplay;
 #include "XReviewCommon.h"
 #include "ReviewStructureItems.h"
 
-// ƒvƒƒpƒeƒBéŒ¾ŠJn
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Jï¿½n
 #include "XReviewPropertyBase.h"
 
 class WholeImageForReview;
@@ -28,7 +46,7 @@ namespace Ui{
 class WholeImageForReviewPropertyClass;
 }
 
-// ƒvƒƒpƒeƒBéŒ¾I—¹
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Iï¿½ï¿½
 
 class WHOLEIMAGEFORREVIEW_EXPORT WholeImageForReview : public GUIFormBase
 {
@@ -83,8 +101,8 @@ public:
 	WholeDisplay_impl *getWholeDisplayCanvas(Review::SideType side, int phase);
 
 private:
-	QList<WholeDisplay *> FrontImageList;// ƒtƒFƒCƒY‘Î‰
-	QList<WholeDisplay *> BackImageList;// ƒtƒFƒCƒY‘Î‰
+	QList<WholeDisplay *> FrontImageList;// ï¿½tï¿½Fï¿½Cï¿½Yï¿½Î‰ï¿½
+	QList<WholeDisplay *> BackImageList;// ï¿½tï¿½Fï¿½Cï¿½Yï¿½Î‰ï¿½
 
 	QWidget *FrontWidget;
 	QWidget *BackWidget;
@@ -110,38 +128,38 @@ private:
 	//bool viewOnlyCurrentNail;
 	
 /*------------------------------------------------------------------------------------------------*/
-/*----------------------------ƒvƒƒpƒeƒBŠÖ˜A - ŠJn-----------------------------------------------*/
+/*----------------------------ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö˜A - ï¿½Jï¿½n-----------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 	
-// ƒvƒƒpƒeƒB‚ÌƒƒCƒ“ƒoƒbƒtƒ@(GUI‚Ég—p‚·‚éî•ñ‚ÆUi‚©‚ç‚Ì“üo—Í‚Ég—p)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒï¿½ï¿½Cï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@(GUIï¿½Égï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Uiï¿½ï¿½ï¿½ï¿½ï¿½Ì“ï¿½ï¿½oï¿½Í‚Égï¿½p)
 private:
 	WholeImageForReviewProperty *m_property;
 
-// ƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO(ŠO•”‚©‚ç(*å‚ÉƒvƒƒpƒeƒBİ’èGUI)‚Ì—v‹‚ÅŒÄ‚Ño‚³‚ê‚é)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½O(ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(*ï¿½ï¿½ï¿½Éƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½GUI)ï¿½Ì—vï¿½ï¿½ï¿½ÅŒÄ‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 private:
 	Ui::WholeImageForReviewPropertyClass *m_propertyUi;
 	QDialog *m_propertyDialog;
 
-// ƒvƒƒpƒeƒB‚Ö‚ÌƒAƒNƒZƒX
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½X
 public:
 	inline const WholeImageForReviewProperty &getProperty() const { return *m_property; };
 	WholeImageForReviewProperty *getPropertyPtr() { return m_property; }
 
-private:// •ÒW‰Â”\‚Í“à•”‚©‚ç‚Ì‚İ
+private:// ï¿½ÒWï¿½Â”\ï¿½Í“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
 	inline WholeImageForReviewProperty &getProperty() { return *m_property; };
 
-// ƒvƒƒpƒeƒB‚Ìƒoƒbƒtƒ@‚ÆƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO‚Ö‚ÌƒAƒNƒZƒXŠÖ”
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½Æƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½Öï¿½
 private:
 	void setPropertyUi(Ui::WholeImageForReviewPropertyClass *ui){ m_propertyUi = ui; };
 	Ui::WholeImageForReviewPropertyClass *getPropertyUi(void) const { return m_propertyUi; };
 	void setPropertyDialog(QDialog *dialog){ m_propertyDialog = dialog; };
 	QDialog *getPropertyDialog(void){ return m_propertyDialog; };
 	
-// ƒvƒƒpƒeƒBƒ_ƒCƒAƒƒO‚ÌƒVƒOƒiƒ‹accepted()‚É‘Î‰‚·‚éƒXƒƒbƒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ÌƒVï¿½Oï¿½iï¿½ï¿½accepted()ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½g
 private slots:
 	void slot_propertyModified();
 
-// ƒvƒƒpƒeƒB‚ÌƒRƒs[‚ÆUiƒtƒ@ƒCƒ‹‚Æ‚Ì˜AŒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½ÌƒRï¿½sï¿½[ï¿½ï¿½Uiï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Æ‚Ì˜Aï¿½g
 public:
 	void setProperty(const WholeImageForReviewProperty &property);
 private:
@@ -151,7 +169,7 @@ private:
 	void setPropertyFromUi(WholeImageForReviewProperty &property);
 	void setPropertyFromUi();
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Åg—p‚·‚éƒvƒƒpƒeƒB‚Ì‰Šú‰»
+// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 private:
 	void initProperty();
 
@@ -159,7 +177,7 @@ private:
 	void updateProperty(){ setProperty(getProperty()); };
 	
 /*------------------------------------------------------------------------------------------------*/
-/*----------------------------ƒvƒƒpƒeƒBŠÖ˜A - I—¹-----------------------------------------------*/
+/*----------------------------ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö˜A - ï¿½Iï¿½ï¿½-----------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 
 private:

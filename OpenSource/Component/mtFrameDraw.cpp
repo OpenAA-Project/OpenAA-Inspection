@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\OpenSource\Component\mtFrameDraw.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <QtGui>
 #define	_USE_MATH_DEFINES
 #include <math.h>
@@ -1879,7 +1887,7 @@ void mtFrameDraw::mousePressEvent ( QMouseEvent *Ev )
 	MousePressY=Y;
 	ClickedTime=GetComputerMiliSec();
 
-	// ƒtƒ‰ƒO‚ðŽæ“¾(¶‰EƒNƒŠƒbƒNAƒVƒtƒgƒL[)
+	// ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½æ“¾(ï¿½ï¿½ï¿½Eï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½Aï¿½Vï¿½tï¿½gï¿½Lï¿½[)
 	LeftClicked		= ((Ev->buttons() & Qt::LeftButton)!=0) ? true : false;
 	RightClicked	= ((Ev->buttons() & Qt::RightButton)!=0) ? true : false;
 	ShiftKey		= ((Ev->modifiers() & Qt::ShiftModifier)!=0) ? true : false;
@@ -3928,6 +3936,5 @@ void mtFrameDraw::SetStartCursor(void)
 		}
 	*/
 }
-
 
 

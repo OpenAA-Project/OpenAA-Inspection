@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ReviewSequenceThread.h"
 #include "XServiceForLayers.h"
 #include "XDataInLayer.h"
@@ -281,7 +299,7 @@ void ReviewSequenceThread::append(const ReviewSequenceRequire &reqItem)
 
 	//m_ReqList.append(reqItem);
 
-	ReviewSequenceRequire remainItem;// c‚Á‚½ÀsƒRƒ}ƒ“ƒh‚Ìƒoƒbƒtƒ@
+	ReviewSequenceRequire remainItem;// ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Ìƒoï¿½bï¿½tï¿½@
 	ReviewSequenceRequire ReqItem;
 
 	if(reqItem.isEmpty()==false){
@@ -291,20 +309,20 @@ void ReviewSequenceThread::append(const ReviewSequenceRequire &reqItem)
 		return;
 	}
 
-	//ReqItem = compressRequire(m_ReqList);// ˆ³k‚µ‚Äˆê‚Â‚ÌÀsƒRƒ}ƒ“ƒh‚É‚·‚é
+	//ReqItem = compressRequire(m_ReqList);// ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½Äˆï¿½ï¿½Â‚Ìï¿½ï¿½sï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½É‚ï¿½ï¿½ï¿½
 	ReqItem = compressRequire(m_ReqList);
 
-	m_ReqList.clear();// —v‹ƒAƒCƒeƒ€‚ğƒNƒŠƒA
+	m_ReqList.clear();// ï¿½vï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½A
 
 	if(ReqItem.isEmpty()==true){
 		return;
 	}
 
-	// ƒV[ƒPƒ“ƒXˆ—Às
+	// ï¿½Vï¿½[ï¿½Pï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
 	bool ok = execSequence(ReqItem, remainItem);
-	if(ok==false){// c‚è‚ª‚ ‚é
+	if(ok==false){// ï¿½cï¿½è‚ªï¿½ï¿½ï¿½ï¿½
 		QMutexLocker locker(&m_mutex);
-		m_ReqList.push_front(remainItem);// Å—DæˆÊ’u‚É’Ç‰Á
+		m_ReqList.push_front(remainItem);// ï¿½Å—Dï¿½ï¿½ï¿½Ê’uï¿½É’Ç‰ï¿½
 		if(timer->isActive()==true){
 			timer->stop();
 		}
@@ -316,7 +334,7 @@ void ReviewSequenceThread::append(const ReviewSequenceRequire &reqItem)
 
 //void ReviewSequenceThread::run()
 //{
-//	ReviewSequenceRequire remainItem;// c‚Á‚½ÀsƒRƒ}ƒ“ƒh‚Ìƒoƒbƒtƒ@
+//	ReviewSequenceRequire remainItem;// ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Ìƒoï¿½bï¿½tï¿½@
 //	ReviewSequenceRequire ReqItem;
 //
 //	while(m_stop==false){
@@ -330,16 +348,16 @@ void ReviewSequenceThread::append(const ReviewSequenceRequire &reqItem)
 //			}
 //
 //
-//			ReqItem = compressRequire(m_ReqList);// ˆ³k‚µ‚Äˆê‚Â‚ÌÀsƒRƒ}ƒ“ƒh‚É‚·‚é
+//			ReqItem = compressRequire(m_ReqList);// ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½Äˆï¿½ï¿½Â‚Ìï¿½ï¿½sï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½É‚ï¿½ï¿½ï¿½
 //
-//			m_ReqList.clear();// —v‹ƒAƒCƒeƒ€‚ğƒNƒŠƒA
+//			m_ReqList.clear();// ï¿½vï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½A
 //		}
 //
-//		// ƒV[ƒPƒ“ƒXˆ—Às
+//		// ï¿½Vï¿½[ï¿½Pï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
 //		bool ok = execSequence(ReqItem, remainItem);
-//		if(ok==false){// c‚è‚ª‚ ‚é
+//		if(ok==false){// ï¿½cï¿½è‚ªï¿½ï¿½ï¿½ï¿½
 //			QMutexLocker locker(&m_mutex);
-//			m_ReqList.push_front(remainItem);// Å—DæˆÊ’u‚É’Ç‰Á
+//			m_ReqList.push_front(remainItem);// ï¿½Å—Dï¿½ï¿½ï¿½Ê’uï¿½É’Ç‰ï¿½
 //		}
 //
 //		qDebug() << "Seq is updated.";
@@ -360,8 +378,8 @@ void ReviewSequenceThread::debugOut()
 	//}
 }
 
-// ƒ‚[ƒ^[“®ì‚ğÀs‚·‚é
-// ƒV[ƒPƒ“ƒX‘¤‚Ìİ’è‚É‚æ‚Á‚Ä“®ì•s‰Â”\ó‘Ô‚É‚È‚éê‡‚ª‚ ‚é‚Ì‚ÅA‚»‚Ìê‡‚ÍremainRequire‚É•Û‘¶‚³‚ê‚é
+// ï¿½ï¿½ï¿½[ï¿½^ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
+// ï¿½Vï¿½[ï¿½Pï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Ìİ’ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½Ä“ï¿½ï¿½ï¿½ï¿½sï¿½Â”\ï¿½ï¿½ï¿½Ô‚É‚È‚ï¿½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅAï¿½ï¿½ï¿½Ìê‡ï¿½ï¿½remainRequireï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 bool ReviewSequenceThread::execSequence(const ReviewSequenceRequire &reqItem, ReviewSequenceRequire &remainRequire)
 {
 	bool ret = true;

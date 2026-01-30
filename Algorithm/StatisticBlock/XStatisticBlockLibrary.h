@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\StatisticBlock\XStatisticBlockLibrary.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #if	!defined(XSTATISTICBLOCKLIBRARY_H)
@@ -24,7 +33,7 @@
 class	StatisticBlockLibrary : public AlgorithmLibrary , public ServiceForLayers
 {
 public:
-//¶¬ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 	int32					PickupL;
 	int32					PickupH;
     int32					MinBlockSize;
@@ -35,7 +44,7 @@ public:
 	struct    {
 		bool    Transparent:1;		
 		bool    LeftPickup:1;
-		bool	OverlappedGen:1;	//d•¡¶¬‚·‚éƒuƒƒbƒN
+		bool	OverlappedGen:1;	//ï¿½dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½bï¿½N
 	}GenerationMode;
 	enum    _GenerationCategory
 	{
@@ -53,14 +62,14 @@ public:
     WORD		SpaceToOutline;
     WORD		Priority;
 
-//ŒŸ¸ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 
-	double	BrightWidthL;	//ƒĞ‚É‘Î‚µ‚Ä‚ÌˆÃ‘¤”{—¦
-	double	BrightWidthH;	//ƒĞ‚É‘Î‚µ‚Ä‚Ì–¾‘¤”{—¦
-	DWORD	OKDotL;			//ˆÃ‘¤‚n‚jƒhƒbƒg”
-	DWORD	OKDotH;			//–¾‘¤‚n‚jƒhƒbƒg”
-	WORD	OKLengthL;		//–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-	WORD	OKLengthH;		//–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
+	double	BrightWidthL;	//ï¿½Ğ‚É‘Î‚ï¿½ï¿½Ä‚ÌˆÃ‘ï¿½ï¿½{ï¿½ï¿½
+	double	BrightWidthH;	//ï¿½Ğ‚É‘Î‚ï¿½ï¿½Ä‚Ì–ï¿½ï¿½ï¿½ï¿½{ï¿½ï¿½
+	DWORD	OKDotL;			//ï¿½Ã‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	OKDotH;			//ï¿½ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	OKLengthL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+	WORD	OKLengthH;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
 
 	struct{
 		bool	ModeEnabled:1;
@@ -70,15 +79,15 @@ public:
 		bool    ModeBlackMask:1;
 	}PointMove;
 
-    WORD	AdjustBlack;    //‹P“x•â³‚Ì‰ºŒÀ•
-    WORD	AdjustWhite;    //‹P“x•â³‚ÌãŒÀ•
+    WORD	AdjustBlack;    //ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	AdjustWhite;    //ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
     WORD	OverlapDot;
 
-	//–c’£Eûk
-	bool	UseMorphology;		//–c’£Eûk‚ğ‚·‚é‚©‚Ç‚¤‚©
-	bool	EliminateAcnode;	//ŒÇ—§“_‚Ìœ‹
-	WORD	DilationDotCount;	//–c’£‚·‚éƒhƒbƒg”
-	WORD	ErosionDotCount;	//ûk‚·‚éƒhƒbƒg”
+	//ï¿½cï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½k
+	bool	UseMorphology;		//ï¿½cï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
+	bool	EliminateAcnode;	//ï¿½Ç—ï¿½ï¿½_ï¿½Ìï¿½ï¿½ï¿½
+	WORD	DilationDotCount;	//ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	ErosionDotCount;	//ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
 	enum _MorphologyApplyTo{
 		MAT_Both=0,
 		MAT_DarkSideOnly=1,

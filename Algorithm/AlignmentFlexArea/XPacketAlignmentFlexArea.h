@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\XPacketAlignmentFlexArea.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XPACKETAlignmentFlexArea_H)
 #define	XPACKETAlignmentFlexArea_H
 
@@ -102,7 +110,7 @@ public:
 	CmdGetCurrentAreaIDPacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase)	{	AreaID=-1;	}
 };
 
-//‘¼‚Ìƒy[ƒW‚ÌƒAƒ‰ƒCƒ“ƒƒ“ƒgƒ|ƒCƒ“ƒg‚ğæ“¾
+//ï¿½ï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½ÌƒAï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ï¿½æ“¾
 class	SlaveCommReqAlignmentFlexAreaPoint : public DirectCommPacketBase
 {
 public:
@@ -398,7 +406,7 @@ public:
 	bool	IsIncluded(int LibID);
 };
 
-//‘¼‚ÌƒXƒŒ[ƒu‚ÅŒÀ’èƒ}ƒXƒN‚Åƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
+//ï¿½ï¿½ï¿½ÌƒXï¿½ï¿½ï¿½[ï¿½uï¿½ÅŒï¿½ï¿½ï¿½ï¿½}ï¿½Xï¿½Nï¿½Åƒï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
 class	SlaveCommReqLibraryInMaskOfBlock : public DirectCommPacketBase
 {
 public:
@@ -428,7 +436,7 @@ public:
 };
 
 //================================================================================
-//‘¼‚ÌƒXƒŒ[ƒu‚ÅWholeMatch‚ÌSArea‚ğ“]‘—
+//ï¿½ï¿½ï¿½ÌƒXï¿½ï¿½ï¿½[ï¿½uï¿½ï¿½WholeMatchï¿½ï¿½SAreaï¿½ï¿½ï¿½]ï¿½ï¿½
 class	SlaveCommReqSAreaInWholeMatch : public DirectCommPacketBase
 {
 public:

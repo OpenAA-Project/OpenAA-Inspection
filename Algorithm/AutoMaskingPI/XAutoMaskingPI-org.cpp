@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\AutoMaskingPI\XAutoMaskingPI.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "XAutoMaskingPIResource.h"
 #include "XAutoMaskingPI.h"
@@ -207,7 +216,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 
 	MatrixBuffClear(MaskBitmap,0,XByte,YLen);
 
-	//Šî”Â–³‚µ‚Ì‰æ‘œ‚Ì•½‹Ï‹P“x‚ğŒvZ‚·‚é
+	//ï¿½ï¿½ï¿½Â–ï¿½ï¿½ï¿½ï¿½Ì‰æ‘œï¿½Ì•ï¿½ï¿½Ï‹Pï¿½xï¿½ï¿½ï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½
 	double	AddedCTargetR=0;
 	double	AddedCTargetG=0;
 	double	AddedCTargetB=0;
@@ -247,7 +256,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 	AvrCTarget[1]=AddedCTargetG/(XLen*YLen);
 	AvrCTarget[2]=AddedCTargetB/(XLen*YLen);
 
-	//·•ª‚É‚æ‚éƒsƒNƒZƒ‹‚²‚Æ‚Ìƒ}ƒXƒNƒrƒbƒg‚ğ¶¬
+	//ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Æ‚Ìƒ}ï¿½Xï¿½Nï¿½rï¿½bï¿½gï¿½ğ¶ï¿½
 	#pragma omp parallel
 	{
 		#pragma omp for
@@ -269,7 +278,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 				for(int L=0;L<LayerCount && L<3;L++){
 					MLen += MLine[L][x]*MLine[L][x];
 					if(TLine[L][x]<=StageShadeColor){
-						//Šî”Â–³‚µ‰æ‘œ‚ÅƒXƒe[ƒWa‚È‚Ç‚ÅˆÃ‚·‚¬‚é•”•ª‚Í•½‹Ï‹P“x‚ğÌ—p‚·‚é
+						//ï¿½ï¿½ï¿½Â–ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ÅƒXï¿½eï¿½[ï¿½Wï¿½aï¿½È‚Ç‚ÅˆÃ‚ï¿½ï¿½ï¿½ï¿½é•”ï¿½ï¿½ï¿½Í•ï¿½ï¿½Ï‹Pï¿½xï¿½ï¿½ï¿½Ì—pï¿½ï¿½ï¿½ï¿½
 						TLen += AvrCTarget[L]*AvrCTarget[L];
 						DLen +=(MLine[L][x]-AvrCTarget[L])*(MLine[L][x]-AvrCTarget[L]);
 					}
@@ -291,7 +300,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 			}
 		}
 	}
-	//‚S•Ó‹ß–T‚ğ–³ŒøƒGƒŠƒA‚É‚·‚é
+	//ï¿½Sï¿½Ó‹ß–Tï¿½ğ–³Œï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½É‚ï¿½ï¿½ï¿½
 	int	Len=max(EnLargeDot,EnSmallDot);
 	Len=max(Len,30);
 	for(int y=0;y<Len;y++){
@@ -307,7 +316,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 			SetBmpBitOnY0(M,(XLen-x-1));
 		}
 	}
-	//ƒmƒCƒYœ‹
+	//ï¿½mï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½
 	for(int i=0;i<NoiseSize;i++){
 		FatArea(MaskBitmap
 				,TmpMap
@@ -332,18 +341,18 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 	MatrixBuffCopy(TmpMap2,XByte, YLen
                  , (const BYTE **)MaskBitmap,XByte, YLen);
 
-	//¬‚³‚ÈŒŠAƒXƒŠƒbƒg‚ğ“h‚è‚Â‚Ô‚·
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ÈŒï¿½ï¿½Aï¿½Xï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½
 	for(int i=0;i<EnLargeDot;i++){
 		FatArea(MaskBitmap
 				,TmpMap
 				,XByte, YLen);
 	}
 
-	//MinSlitDotˆÈã‚Ì‚Â‚Ô‚µ‚·‚¬‚½ƒXƒŠƒbƒg‚ğ‰ñ•œ‚³‚¹‚é
+	//MinSlitDotï¿½Èï¿½ï¿½Ì‚Â‚Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½ñ•œ‚ï¿½ï¿½ï¿½ï¿½ï¿½
 	MatrixBuffCopy(TmpMap	 ,XByte, YLen
                  , (const BYTE **)MaskBitmap,XByte, YLen);
 
-		//‚±‚ÌNotAnd‚ÅƒXƒŠƒbƒgAŒŠ‚È‚ÇA‚Â‚Ô‚µ‚·‚¬‚½Bitmap‚ğ¶¬
+		//ï¿½ï¿½ï¿½ï¿½NotAndï¿½ÅƒXï¿½ï¿½ï¿½bï¿½gï¿½Aï¿½ï¿½ï¿½È‚ÇAï¿½Â‚Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Bitmapï¿½ğ¶ï¿½
 	MatrixBuffNotAnd(TmpMap,(const BYTE **)TmpMap2,XByte, YLen);
 	
 	PureFlexAreaListContainer FPack;
@@ -367,7 +376,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 	}
 	MatrixBuffNotAnd(MaskBitmap,(const BYTE **)TmpMap2,XByte, YLen);
 	
-	//ŒÇ“‡‚Ì‚ ‚éŒÎ‚ğŒ©‚Â‚¯A‚»‚ê‚ğ—LŒøƒGƒŠƒA‚É‚·‚é
+	//ï¿½Ç“ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Î‚ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½É‚ï¿½ï¿½ï¿½
 	PureFlexAreaListContainer PickedPack;
 	PickupFlexArea(MaskBitmap,XByte ,XLen,YLen ,PickedPack);
 
@@ -391,7 +400,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 			}
 		}
 	}
-	//¬‚³‚È—LŒøƒ}ƒXƒN‚ğíœ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½È—Lï¿½ï¿½ï¿½}ï¿½Xï¿½Nï¿½ï¿½ï¿½íœ
 	PickedPack.RemoveAll();
 	PickupFlexArea(MaskBitmap,XByte ,XLen,YLen ,PickedPack);
 	MatrixBuffClear(MaskBitmap ,0,XByte ,YLen);
@@ -401,7 +410,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 		}
 	}
 /*
-	//ûk‚³‚¹‚é
+	//ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for(int i=0;i<(EnLargeDot+EnSmallDot);i++){
 		ThinArea(MaskBitmap
 				,TmpMap
@@ -413,7 +422,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 */
 
 	if(chkEnLargeDot==true){
-		//ûk‚³‚¹‚é
+		//ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		for(int i=0;i<EnLargeDot+EnSmallDot;i++){
 			ThinArea(MaskBitmap
 					,TmpMap
@@ -421,29 +430,29 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 		}
 	}
 	else{
-		//ûk‚³‚¹‚é
+		//ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		for(int i=0;i<EnLargeDot;i++){
 			ThinArea(MaskBitmap
 					,TmpMap
 					,XByte, YLen);
 		}
 
-		//EnLargeDot•ª‚¾‚¯ûk‚³‚¹‚½Map‚ğ“¾‚é
+		//EnLargeDotï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Mapï¿½ğ“¾‚ï¿½
 		MatrixBuffCopy(TmpMap2,XByte,YLen
 					 , (const BYTE **)MaskBitmap,XByte, YLen);
 
-		//ûk‚³‚¹‚é
+		//ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		for(int i=0;i<EnSmallDot;i++){
 			ThinArea(MaskBitmap
 					,TmpMap
 					,XByte, YLen);
 		}
 
-		//ûk‚³‚¹‚é‘O‚ÌMap‚ÆAnd‚ğæ‚é
+		//ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½Mapï¿½ï¿½Andï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		MatrixBuffXor(TmpMap2 ,(const BYTE **)MaskBitmap,XByte, YLen);
 //		MatrixBuffXor(MaskBitmap,TmpMap2 ,XByte, YLen);
 
-		//ƒpƒbƒhã‚ğ”wŒiiƒXƒŠƒbƒgj‚ÆŒë”F¯‚µ‚È‚¢‚æ‚¤‚ÉAƒpƒbƒh’ŠoF‚Æ”äŠr‚·‚é
+		//ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ï¿½wï¿½iï¿½iï¿½Xï¿½ï¿½ï¿½bï¿½gï¿½jï¿½ÆŒï¿½ï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½ÉAï¿½pï¿½bï¿½hï¿½ï¿½ï¿½oï¿½Fï¿½Æ”ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½
 ///		AutoPCBHoleAlignerLibrary *PCBHoleAlignLib=GetFirstAutoPCBHoleAlignerLibrary();
 		AutoAlignmentLibrary *AlignLib=GetFirstAutoAlignmentLibrary();
 
@@ -456,11 +465,11 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 			}
 		}
 
-		//ûk‚³‚¹‚é‘O‚ÌMap‚ÆAnd‚ğæ‚é
+		//ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½Mapï¿½ï¿½Andï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		MatrixBuffXor(MaskBitmap,(const BYTE **)TmpMap2 ,XByte, YLen);
 	}
 
-	//¬‚³‚È—LŒøƒ}ƒXƒN‚ğíœ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½È—Lï¿½ï¿½ï¿½}ï¿½Xï¿½Nï¿½ï¿½ï¿½íœ
 	PickedPack.RemoveAll();
 	PickupFlexArea(MaskBitmap,XByte ,XLen,YLen ,PickedPack);
 	MatrixBuffClear(MaskBitmap ,0,XByte ,YLen);
@@ -476,12 +485,12 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 
 AutoAlignmentLibrary *AutoMaskingPILibrary::GetFirstAutoAlignmentLibrary()
 {
-	//ƒ‰ƒCƒuƒ‰ƒŠî•ñ‚ğæ“¾
+	//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	AlgorithmBase	*AutoAlignmentBasePointer=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoAlignment");
 	if(AutoAlignmentBasePointer==NULL){
 		return NULL;
 	}
-	//ŒÂ”æ“¾
+	//ï¿½Âï¿½ï¿½æ“¾
 	CmdReqAutoAlignmentEnumLibs	CmdAlignEnum(GetLayersBase());
 	AutoAlignmentBasePointer->TransmitDirectly(&CmdAlignEnum);
 
@@ -492,14 +501,14 @@ AutoAlignmentLibrary *AutoMaskingPILibrary::GetFirstAutoAlignmentLibrary()
 	IntClass *LibIDPoint=CmdAlignEnum.LibIDList.GetFirst();
 	if(LibIDPoint!=NULL){
 		int	LibID=LibIDPoint->GetValue();
-		//ƒ‰ƒCƒuƒ‰ƒŠ‚Ì’†g‚ğ‚h‚c”Ô†‚©‚çæ“¾
-		//ƒ‰ƒCƒuƒ‰ƒŠ‚Ì“ÇƒR[ƒh‚ª–³‚­‚Ä‚à‰¼‘zŠÖ”‚Å“Ç‚Å‚«‚é
+		//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ì’ï¿½ï¿½gï¿½ï¿½ï¿½hï¿½cï¿½Ôï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+		//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ì“Çï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½zï¿½Öï¿½ï¿½Å“Çï¿½ï¿½Å‚ï¿½ï¿½ï¿½
 		AutoAlignmentBasePointer->GetLibraryContainer()->GetLibrary(LibID,*Lib);
 	}
 	return Lib;
 }
 
-//ƒpƒbƒhã‚ğ”wŒiiƒXƒŠƒbƒgj‚ÆŒë”F¯‚µ‚È‚¢‚æ‚¤‚ÉAƒpƒbƒh’ŠoF‚Æ”äŠr‚·‚é
+//ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ï¿½wï¿½iï¿½iï¿½Xï¿½ï¿½ï¿½bï¿½gï¿½jï¿½ÆŒï¿½ï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½ÉAï¿½pï¿½bï¿½hï¿½ï¿½ï¿½oï¿½Fï¿½Æ”ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½
 bool AutoMaskingPILibrary::ComparePickupPadColor(PureFlexAreaList *AreaList,AutoAlignmentLibrary *Lib,ImageBuffer *MImageList[])
 {
 	int DotCounter=0;
@@ -717,7 +726,7 @@ void	AutoMaskingPIInPage::TransmitDirectly(GUIDirectMessage *packet)
 				break;
 			}
 		}
-		//ƒ^[ƒQƒbƒg‰æ‘œ‚ğ•Û‘¶
+		//ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½æ‘œï¿½ï¿½ï¿½Û‘ï¿½
 		if(PBase->NoPCBImagePath.isEmpty()==true){
 			return;
 		}
@@ -864,12 +873,12 @@ void	AutoMaskingPIInPage::SetLimitedMask(int LibType,int LibID,BYTE **MaskBitmap
 /*
 AutoPCBHoleAlignerLibrary *AutoMaskingPIInPage::GetFirstAutoPCBHoleAlignerLibrary()
 {
-	//ƒ‰ƒCƒuƒ‰ƒŠî•ñ‚ğæ“¾
+	//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	AlgorithmBase	*AutoPCBHoleAlignerBasePointer=GetLayersBase()->GetAlgorithmBase("Basic","AutoPCBHoleAligner");
 	if(AutoPCBHoleAlignerBasePointer==NULL){
 		return NULL;
 	}
-	//ŒÂ”æ“¾
+	//ï¿½Âï¿½ï¿½æ“¾
 	CmdReqAutoPCBHoleAlignerEnumLibs	CmdPCBHoleAlignEnum;
 	AutoPCBHoleAlignerBasePointer->TransmitDirectly(&CmdPCBHoleAlignEnum);
 
@@ -880,14 +889,14 @@ AutoPCBHoleAlignerLibrary *AutoMaskingPIInPage::GetFirstAutoPCBHoleAlignerLibrar
 	IntClass *LibIDPoint=CmdPCBHoleAlignEnum.LibIDList.GetFirst();
 	if(LibIDPoint!=NULL){
 		int	LibID=LibIDPoint->GetValue();
-		//ƒ‰ƒCƒuƒ‰ƒŠ‚Ì’†g‚ğ‚h‚c”Ô†‚©‚çæ“¾
-		//ƒ‰ƒCƒuƒ‰ƒŠ‚Ì“ÇƒR[ƒh‚ª–³‚­‚Ä‚à‰¼‘zŠÖ”‚Å“Ç‚Å‚«‚é
+		//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ì’ï¿½ï¿½gï¿½ï¿½ï¿½hï¿½cï¿½Ôï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+		//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ì“Çï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½zï¿½Öï¿½ï¿½Å“Çï¿½ï¿½Å‚ï¿½ï¿½ï¿½
 		AutoPCBHoleAlignerBasePointer->GetLibraryContainer()->GetLibrary(LibID,*Lib);
 	}
 	return Lib;
 }
 
-//Šî”Âã‚ğ”wŒiiƒXƒŠƒbƒgj‚ÆŒë”F¯‚µ‚È‚¢‚æ‚¤‚ÉAŒŠ’ŠoF‚Æ”äŠr‚·‚é
+//ï¿½ï¿½ï¿½Âï¿½ï¿½ï¿½ï¿½wï¿½iï¿½iï¿½Xï¿½ï¿½ï¿½bï¿½gï¿½jï¿½ÆŒï¿½ï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½ÉAï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Fï¿½Æ”ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½
 bool AutoMaskingPIInPage::ComparePickupHoleColor(PureFlexAreaList *AreaList,AutoPCBHoleAlignerLibrary *Lib,ImageBuffer *MImageList[])
 {
 	int DotCounter=0;
@@ -918,12 +927,12 @@ bool AutoMaskingPIInPage::ComparePickupHoleColor(PureFlexAreaList *AreaList,Auto
 
 AutoAlignmentLibrary *AutoMaskingPIInPage::GetFirstAutoAlignmentLibrary()
 {
-	//ƒ‰ƒCƒuƒ‰ƒŠî•ñ‚ğæ“¾
+	//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	AlgorithmBase	*AutoAlignmentBasePointer=GetLayersBase()->GetAlgorithmBase("Basic","AutoAlignment");
 	if(AutoAlignmentBasePointer==NULL){
 		return NULL;
 	}
-	//ŒÂ”æ“¾
+	//ï¿½Âï¿½ï¿½æ“¾
 	CmdReqAutoAlignmentEnumLibs	CmdAlignEnum;
 	AutoAlignmentBasePointer->TransmitDirectly(&CmdAlignEnum);
 
@@ -934,14 +943,14 @@ AutoAlignmentLibrary *AutoMaskingPIInPage::GetFirstAutoAlignmentLibrary()
 	IntClass *LibIDPoint=CmdAlignEnum.LibIDList.GetFirst();
 	if(LibIDPoint!=NULL){
 		int	LibID=LibIDPoint->GetValue();
-		//ƒ‰ƒCƒuƒ‰ƒŠ‚Ì’†g‚ğ‚h‚c”Ô†‚©‚çæ“¾
-		//ƒ‰ƒCƒuƒ‰ƒŠ‚Ì“ÇƒR[ƒh‚ª–³‚­‚Ä‚à‰¼‘zŠÖ”‚Å“Ç‚Å‚«‚é
+		//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ì’ï¿½ï¿½gï¿½ï¿½ï¿½hï¿½cï¿½Ôï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+		//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ì“Çï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½zï¿½Öï¿½ï¿½Å“Çï¿½ï¿½Å‚ï¿½ï¿½ï¿½
 		AutoAlignmentBasePointer->GetLibraryContainer()->GetLibrary(LibID,*Lib);
 	}
 	return Lib;
 }
 
-//ƒpƒbƒhã‚ğ”wŒiiƒXƒŠƒbƒgj‚ÆŒë”F¯‚µ‚È‚¢‚æ‚¤‚ÉAƒpƒbƒh’ŠoF‚Æ”äŠr‚·‚é
+//ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ï¿½wï¿½iï¿½iï¿½Xï¿½ï¿½ï¿½bï¿½gï¿½jï¿½ÆŒï¿½ï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½ÉAï¿½pï¿½bï¿½hï¿½ï¿½ï¿½oï¿½Fï¿½Æ”ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½
 bool AutoMaskingPIInPage::ComparePickupPadColor(PureFlexAreaList *AreaList,AutoAlignmentLibrary *Lib,ImageBuffer *MImageList[])
 {
 	int DotCounter=0;
@@ -1229,11 +1238,11 @@ bool	AutoMaskingPIInPage::PipeInAutoGenerationForLearning (QIODevice *f ,int loc
 		return false;
 	}
 
-	//Šî”Â‚È‚µ‰æ‘œ‚Ì“Ç‚İ‚İ
+	//ï¿½ï¿½ï¿½Â‚È‚ï¿½ï¿½æ‘œï¿½Ì“Ç‚İï¿½ï¿½ï¿½
 	if(LoadTargetImage(PipeInNoPCBImagePath,localX1,localY1,localX2,localY2)==true){
 	}
 	else{
-		//Šî”Â‚È‚µ‰æ‘œ‚ª“Ç‚İ‚ß‚È‚©‚Á‚½ê‡
+		//ï¿½ï¿½ï¿½Â‚È‚ï¿½ï¿½æ‘œï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ß‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
 	}
 /*
 	int32	N=0;

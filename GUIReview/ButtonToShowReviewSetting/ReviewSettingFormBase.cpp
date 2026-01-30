@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ButtonToShowReviewSettingResource.h"
 #include "ReviewSettingFormBase.h"
 #include "XGUIReviewGlobal.h"
@@ -106,7 +124,7 @@ ReviewSettingFormBase::ReviewSettingFormBase(LayersBase *layer, QWidget *parent)
 
 	QTabWidget *tWid = new QTabWidget;
 	for(int i=0; i<list.count(); i++){
-		// ƒ‹[ƒgƒ^ƒu‚Æ–¼‘O‚ª“¯‚¶ƒ^ƒu‚ð’T‚·
+		// ï¿½ï¿½ï¿½[ï¿½gï¿½^ï¿½uï¿½Æ–ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½uï¿½ï¿½ï¿½Tï¿½ï¿½
 		int tabIndex = -1;
 		for(int t=0; t<tWid->count(); t++){
 			if(tWid->tabText(t)==list[i].first.groupName()){
@@ -115,7 +133,7 @@ ReviewSettingFormBase::ReviewSettingFormBase(LayersBase *layer, QWidget *parent)
 			}
 		}
 
-		// “¯‚¶ƒ^ƒu‚ª–³‚¯‚ê‚Î’Ç‰Á
+		// ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î’Ç‰ï¿½
 		if(tabIndex==-1){
 			QWidget *wid = new QWidget;
 
@@ -126,7 +144,7 @@ ReviewSettingFormBase::ReviewSettingFormBase(LayersBase *layer, QWidget *parent)
 			tabIndex = tWid->count()-1;
 		}
 
-		// ƒ{ƒ^ƒ“‚ð’Ç‰Á
+		// ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½
 		list[i].second->setText(list[i].first.GUIName());
 		list[i].second->setMinimumSize( list[i].second->fontMetrics().width(list[i].first.GUIName()) + 30, list[i].second->minimumHeight() );
 		tWid->widget(tabIndex)->layout()->addWidget( list[i].second );

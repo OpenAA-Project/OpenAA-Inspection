@@ -1,7 +1,21 @@
-/* //////////////////////////////////////////////////////////////////////////////////////////////////////////
-   fileid : saperaCtrl.cpp
-  subject : Sapera SDK control functions
-////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -140,7 +154,7 @@ saperaCtrlMono::saperaCtrlMono(int CamNo ,LayersBase *base,CameraXtiumFx8Mono *p
 	_FeatureInfo= NULL;
 	_Gio		= NULL;
 	_bLinked	= false;
-	_nStatus	= EN_CTRLSTS_IDLE;		// §Œä—p
+	_nStatus	= EN_CTRLSTS_IDLE;		// ï¿½ï¿½ï¿½ï¿½ï¿½p
 	_nGioDev	= 0;
 	_nStartReserve = 0;
 	fc			=NULL;
@@ -282,8 +296,8 @@ bool saperaCtrlMono::link(char *pConfigFilename)
 	_AcqDevice->GetFeatureInfo("Gain", &feature);
 	feature.GetMax(&_gainMax);
 	feature.GetMin(&_gainMin);
-	_gainMax = floor(_gainMax);     // Round down to previous integer •W€ŠÖ”‚Ì‚æ‚¤‚Å‚·BØ‚èÌ‚ÄB
-	_gainMin = ceil(_gainMin);      // Round up to next integer •W€ŠÖ”‚Ì‚æ‚¤‚Å‚·BØ‚èã‚°B
+	_gainMax = floor(_gainMax);     // Round down to previous integer ï¿½Wï¿½ï¿½ï¿½Öï¿½ï¿½Ì‚æ‚¤ï¿½Å‚ï¿½ï¿½Bï¿½Ø‚ï¿½ï¿½Ì‚ÄB
+	_gainMin = ceil(_gainMin);      // Round up to next integer ï¿½Wï¿½ï¿½ï¿½Öï¿½ï¿½Ì‚æ‚¤ï¿½Å‚ï¿½ï¿½Bï¿½Ø‚ï¿½ï¿½ã‚°ï¿½B
 
 	// Get current Gain value in camera
 	status = _AcqDevice->GetFeatureValue("Gain", &_currentGain);
@@ -616,7 +630,7 @@ bool saperaCtrlMono::stopCapture(void)
  function : bool unlink(void)
      arg1 : nil
    result : true	false
-  subject : Sapera ‰Šú‰»‚ğs‚¢‚Ü‚·B
+  subject : Sapera ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 bool saperaCtrlMono::unlink(void)
 {
@@ -678,14 +692,14 @@ bool saperaCtrlMono::unlink(void)
  function : void acqCallback(SapXferCallbackInfo *pInfo)
      arg1 : SapXferCallbackInfo *pInfo
    result : nil
-  subject : ƒJƒƒ‰ƒf[ƒ^“’…‚ÅCallback‚³‚ê‚Ü‚·B
+  subject : ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Callbackï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 void saperaCtrlMono::acqCallback(SapXferCallbackInfo *pInfo)
 {
 	saperaCtrlMono *pSapera = (saperaCtrlMono *)pInfo->GetContext();
 
 	// Resfresh view
-//	pSapera->_View->Show();		// ‚¢‚é‚Ì‚©‚È???
+//	pSapera->_View->Show();		// ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½???
 	pSapera->_nStatus = EN_CTRLSTS_GRABED;
 }
 
@@ -894,13 +908,13 @@ bool saperaCtrlMono::saperaAutoWhiteBalance(char *pConfigFilename)
 	// Monochrome models are not supported for White Balance Calibration.
 	UINT32 colorType = 0;
 	isAvailable = false;
-	if (acqDevice.IsFeatureAvailable("ColorType",&isAvailable) && isAvailable) {	// g—p‰Â”\‚©?
+	if (acqDevice.IsFeatureAvailable("ColorType",&isAvailable) && isAvailable) {	// ï¿½gï¿½pï¿½Â”\ï¿½ï¿½?
 		if(acqDevice.GetFeatureValue("ColorType", &colorType)) {
 			if (colorType == 0) return false;
 		}
 	}
 
-	// GAIN’²®‰Â”\?
+	// GAINï¿½ï¿½ï¿½ï¿½ï¿½Â”\?
 	BOOL bRedGain = false;
 	BOOL bGreenGain = false;
 	BOOL bBlueGain = false;
@@ -1129,12 +1143,12 @@ bool saperaCtrlMono::saperaAutoWhiteBalance(char *pConfigFilename)
 
 /* //////////////////////////////////////////////////////////////////////////////////////////////////////////
  function : bool :ComputeGain(char* Name, SapAcqDevice* AcqDevice, SapFeature* featureInfo, double coefGain)
-     arg1 : char* Name				ƒQƒCƒ“–¼
-     arg2 : SapAcqDevice* AcqDevice	AcqDeviceƒ|ƒCƒ“ƒ^
-     arg3 : SapFeature* featureInfo	featureInfoƒ|ƒCƒ“ƒ^
-     arg4 : double coefGain			ƒQƒCƒ“
+     arg1 : char* Name				ï¿½Qï¿½Cï¿½ï¿½ï¿½ï¿½
+     arg2 : SapAcqDevice* AcqDevice	AcqDeviceï¿½|ï¿½Cï¿½ï¿½ï¿½^
+     arg3 : SapFeature* featureInfo	featureInfoï¿½|ï¿½Cï¿½ï¿½ï¿½^
+     arg4 : double coefGain			ï¿½Qï¿½Cï¿½ï¿½
    result : true	false
-  subject : w’è‚Ì’l‚ğ•]‰¿‚µA‚»‚ÌŒ‹‰Ê‚ğ–ß‚è’l‚É•Ô‚µ‚Ü‚·B
+  subject : ï¿½wï¿½ï¿½ï¿½Ì’lï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ÌŒï¿½ï¿½Ê‚ï¿½ï¿½ß‚ï¿½ï¿½lï¿½É•Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 bool saperaCtrlMono::ComputeGain(char* Name, SapAcqDevice* AcqDevice, SapFeature* featureInfo, double coefGain)
 {
@@ -1144,7 +1158,7 @@ bool saperaCtrlMono::ComputeGain(char* Name, SapAcqDevice* AcqDevice, SapFeature
 	double NewGainValuePrecision;
 	INT32 NewGainRounded;
 
-	// w’è–¼Ì‚ÌŒ»İ‚Ìİ’è’l‚ğ“¾‚é
+	// ï¿½wï¿½è–¼ï¿½Ì‚ÌŒï¿½ï¿½İ‚Ìİ’ï¿½ï¿½lï¿½ğ“¾‚ï¿½
 	if(!AcqDevice->GetFeatureInfo(Name, featureInfo)) return false;
 
 	// Get Gain Red minimum
@@ -1157,17 +1171,17 @@ bool saperaCtrlMono::ComputeGain(char* Name, SapAcqDevice* AcqDevice, SapFeature
 	featureInfo->GetSiToNativeExp10(&featureExponent);
 
 	if (gainCameraValue == 0) {
-		powValue = pow((float)10, featureExponent);	// ‚×‚«æ
+		powValue = pow((float)10, featureExponent);	// ï¿½×‚ï¿½ï¿½ï¿½
 		NewGainValuePrecision = (coefGain * powValue);
 	}
 	else {
 		NewGainValuePrecision = (coefGain * gainCameraValue);
 	}
-	NewGainRounded = (INT32)(NewGainValuePrecision + 0.5);	// ­”ˆÈ‰ºlÌŒÜ“ü
+	NewGainRounded = (INT32)(NewGainValuePrecision + 0.5);	// ï¿½ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½lï¿½ÌŒÜ“ï¿½
 
 	if (!ValidateWhiteBalance(NewGainRounded, gainRedMin, gainRedMax)) return false;
 
-	// Zo‚³‚ê‚½’l‚ğİ’è
+	// ï¿½Zï¿½oï¿½ï¿½ï¿½ê‚½ï¿½lï¿½ï¿½ï¿½İ’ï¿½
 	AcqDevice->SetFeatureValue(Name, (UINT32)NewGainRounded);
 
 	return true;
@@ -1175,11 +1189,11 @@ bool saperaCtrlMono::ComputeGain(char* Name, SapAcqDevice* AcqDevice, SapFeature
 
 /* //////////////////////////////////////////////////////////////////////////////////////////////////////////
  function : bool ValidateWhiteBalance(int value, int minValue, int maxValue)
-     arg1 : int value		•]‰¿‚·‚é’l
-     arg2 : int minValue	Å¬’l
-     arg3 : int maxValue	Å‘å’l
+     arg1 : int value		ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½l
+     arg2 : int minValue	ï¿½Åï¿½ï¿½l
+     arg3 : int maxValue	ï¿½Å‘ï¿½ï¿½l
    result : true	false
-  subject : w’è‚Ì’l‚ğ•]‰¿‚µA‚»‚ÌŒ‹‰Ê‚ğ–ß‚è’l‚É•Ô‚µ‚Ü‚·B
+  subject : ï¿½wï¿½ï¿½ï¿½Ì’lï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ÌŒï¿½ï¿½Ê‚ï¿½ï¿½ß‚ï¿½ï¿½lï¿½É•Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 bool saperaCtrlMono::ValidateWhiteBalance(int value, int minValue, int maxValue)
 {
@@ -1191,7 +1205,7 @@ bool saperaCtrlMono::ValidateWhiteBalance(int value, int minValue, int maxValue)
  function : int prepareCapture(void)
      arg1 : nil
    result : true	false
-  subject : ƒLƒƒƒvƒ`ƒƒŠJn€”õ
+  subject : ï¿½Lï¿½ï¿½ï¿½vï¿½`ï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½ï¿½
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 bool saperaCtrlMono::prepareCapture(void)
 {
@@ -1206,7 +1220,7 @@ bool saperaCtrlMono::prepareCapture(void)
  function : int getStatus(void)
      arg1 : nil
    result : _nStatus
-  subject : Œ»İ‚ÌƒXƒe[ƒ^ƒX‚ğ–ß‚è’l‚É•Ô‚µ‚Ü‚·B
+  subject : ï¿½ï¿½ï¿½İ‚ÌƒXï¿½eï¿½[ï¿½^ï¿½Xï¿½ï¿½ï¿½ß‚ï¿½ï¿½lï¿½É•Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 int saperaCtrlMono::getStatusInside(void)
 {
@@ -1229,21 +1243,21 @@ int saperaCtrlMono::getStatus(void)
 
 /* //////////////////////////////////////////////////////////////////////////////////////////////////////////
  function : bool ValidateWhiteBalance(int value, int minValue, int maxValue)
-     arg1 : int value		•]‰¿‚·‚é’l
-     arg2 : int minValue	Å¬’l
-     arg3 : int maxValue	Å‘å’l
+     arg1 : int value		ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½l
+     arg2 : int minValue	ï¿½Åï¿½ï¿½l
+     arg3 : int maxValue	ï¿½Å‘ï¿½ï¿½l
    result : true	false
-  subject : w’è‚Ì’l‚ğ•]‰¿‚µA‚»‚ÌŒ‹‰Ê‚ğ–ß‚è’l‚É•Ô‚µ‚Ü‚·B
+  subject : ï¿½wï¿½ï¿½ï¿½Ì’lï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ÌŒï¿½ï¿½Ê‚ï¿½ï¿½ß‚ï¿½ï¿½lï¿½É•Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 
 /* //////////////////////////////////////////////////////////////////////////////////////////////////////////
  function : bool ValidateWhiteBalance(int value, int minValue, int maxValue)
-     arg1 : int value		•]‰¿‚·‚é’l
-     arg2 : int minValue	Å¬’l
-     arg3 : int maxValue	Å‘å’l
+     arg1 : int value		ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½l
+     arg2 : int minValue	ï¿½Åï¿½ï¿½l
+     arg3 : int maxValue	ï¿½Å‘ï¿½ï¿½l
    result : true	false
-  subject : w’è‚Ì’l‚ğ•]‰¿‚µA‚»‚ÌŒ‹‰Ê‚ğ–ß‚è’l‚É•Ô‚µ‚Ü‚·B
+  subject : ï¿½wï¿½ï¿½ï¿½Ì’lï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ÌŒï¿½ï¿½Ê‚ï¿½ï¿½ß‚ï¿½ï¿½lï¿½É•Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 //void saperaCtrl::setFeature()
 //{

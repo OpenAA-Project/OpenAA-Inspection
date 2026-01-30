@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\RepairStation\OutputLog\OutputLog.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef OUTPUTLOG_H
 #define OUTPUTLOG_H
 
@@ -26,7 +35,7 @@
 
 #define	DEFFUNCEX		__declspec(dllexport) 
 
-//ƒvƒƒZƒXƒ`ƒFƒbƒNƒXƒŒƒbƒh
+//ï¿½vï¿½ï¿½ï¿½Zï¿½Xï¿½`ï¿½Fï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½bï¿½h
 class ProcessCheckThread : public QThread
 {
 	Q_OBJECT
@@ -49,7 +58,7 @@ private:
 	QStringList	ProcessNameList;
 };
 
-//NG‰æ‘œ(JPEG)•Û‘¶ƒXƒŒƒbƒh
+//NGï¿½æ‘œ(JPEG)ï¿½Û‘ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½h
 class NGImageSaveThread : public QThread
 {
 	Q_OBJECT
@@ -121,7 +130,7 @@ typedef	struct	_LogInformation
 	int					NGNumb;
 	KohenInformation	*KohenInfo;
 	int					KohenNumb;
-	QStringList			KohenNameList;	//""‚àŠÜ‚Ş
+	QStringList			KohenNameList;	//""ï¿½ï¿½ï¿½Ü‚ï¿½
 	bool				IsOutputLog;
 
 	_LogInformation():IsOutputLog(false),KohenInfo(NULL){}
@@ -197,7 +206,7 @@ static bool					ReviewEnable=true;
 
 static int	IsShowPickupEnable(QStringList &NGKohenNoList,int MaxNGAreaNumb);
 
-static void	WriteDebugLogFile(const QString &WriteMsg,QTextStream &FileStream);	//ƒfƒoƒbƒOƒƒOo—Í
+static void	WriteDebugLogFile(const QString &WriteMsg,QTextStream &FileStream);	//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½Oï¿½oï¿½ï¿½
 };
 
 #endif // OUTPUTLOG_H

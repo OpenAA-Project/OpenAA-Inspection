@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XOutlineInspect.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 
@@ -38,25 +47,25 @@ class	XOutlineList;
 class	OutlineInspectLibrary : public AlgorithmLibrary , public ServiceForLayers
 {
 public:
-	int32	Code;			/*	—ÖŠsƒf[ƒ^‚Ö‚ÌƒCƒ“ƒfƒbƒNƒX	ˆêˆÓ‚Ì’l*/
-	QString	LibName;		/*	ƒ‰ƒCƒuƒ‰ƒŠ–¼			*/
-	int32	OutlineJanle;	/*	—\”õ	*/
+	int32	Code;			/*	ï¿½ÖŠsï¿½fï¿½[ï¿½^ï¿½Ö‚ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X	ï¿½ï¿½ï¿½Ó‚Ì’l*/
+	QString	LibName;		/*	ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½			*/
+	int32	OutlineJanle;	/*	ï¿½\ï¿½ï¿½	*/
 
-	WORD	GenColorBlack;	/*	¶¬	’Šo‹P“x‚ÌˆÃ‘¤		*/
-	WORD	GenColorWhite;	/*	¶¬	’Šo‹P“x‚Ì–¾‘¤		*/
-	int32	GenSizeMin;		/*	¶¬	’ŠoƒTƒCƒY‚ÌÅ¬	*/
-	int32	GenSizeMax;		/*	¶¬	’ŠoƒTƒCƒY‚ÌÅ‘å	*/
-	int32	GenGap;			/*	¶¬	¶¬ŠÔŠu		*/
-	bool	GenFat;			/*	¶¬	‘¾‚è•ûŒü‚Ö‚Ì’Šo	*/
+	WORD	GenColorBlack;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½oï¿½Pï¿½xï¿½ÌˆÃ‘ï¿½		*/
+	WORD	GenColorWhite;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½oï¿½Pï¿½xï¿½Ì–ï¿½ï¿½ï¿½		*/
+	int32	GenSizeMin;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½oï¿½Tï¿½Cï¿½Yï¿½ÌÅï¿½	*/
+	int32	GenSizeMax;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½oï¿½Tï¿½Cï¿½Yï¿½ÌÅ‘ï¿½	*/
+	int32	GenGap;			/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ÔŠu		*/
+	bool	GenFat;			/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö‚Ì’ï¿½ï¿½o	*/
 
-	int32	InsVNumb;		/*	ŒŸ¸@‚m‚fƒxƒNƒgƒ‹‰ò”	*/
-	int32	InsSizeBlack;	/*	ŒŸ¸@Œ‡Š×Å¬ƒTƒCƒYˆÃ‘¤	*/
-	int32	InsSizeWhite;	/*	ŒŸ¸@Œ‡Š×Å¬ƒTƒCƒY–¾‘¤	*/
-	int32	InsCornerBlack;	/*	ŒŸ¸@Šp•”•ª‚ÌÅ¬ƒTƒCƒYˆÃ‘¤	*/
-	int32	InsCornerWhite;	/*	ŒŸ¸@Šp•”•ª‚ÌÅ¬ƒTƒCƒY–¾‘¤	*/
-	int32	InsOKWidthBlack;/*	ŒŸ¸@••	*/
-	int32	InsOKWidthWhite;/*	ŒŸ¸@”’•	*/
-	WORD	SelfSearch;		/*	ŒŸ¸@’Tõ‹——£	*/
+	int32	InsVNumb;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½mï¿½fï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	*/
+	int32	InsSizeBlack;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½×Åï¿½ï¿½Tï¿½Cï¿½Yï¿½Ã‘ï¿½	*/
+	int32	InsSizeWhite;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½×Åï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½	*/
+	int32	InsCornerBlack;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Tï¿½Cï¿½Yï¿½Ã‘ï¿½	*/
+	int32	InsCornerWhite;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½	*/
+	int32	InsOKWidthBlack;/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½	*/
+	int32	InsOKWidthWhite;/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½	*/
+	WORD	SelfSearch;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	*/
 
 	OutlineInspectLibrary(int LibType,LayersBase *Base);
 
@@ -105,9 +114,9 @@ class   XOutlineStructList : public NPList<XOutlineStructList>
 //===============================================================================================
 struct   XOutlineListResult
 {
-    ushort  X,Y;                        //ƒXƒvƒ‰ƒCƒ“ã‚Ì“_
-    short   Vx,Vy;                      //’PˆÊ–@üƒxƒNƒgƒ‹@‰º‚Wƒrƒbƒg‚Í¬”@
-    float   ResultBorder;   //‹«ŠEˆæ
+    ushort  X,Y;                        //ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ì“_
+    short   Vx,Vy;                      //ï¿½Pï¿½Ê–@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½Wï¿½rï¿½bï¿½gï¿½Íï¿½ï¿½ï¿½ï¿½@
+    float   ResultBorder;   //ï¿½ï¿½ï¿½Eï¿½ï¿½
 
     XOutlineListResult(void);
 	int32	GetByte(void)		;
@@ -147,18 +156,18 @@ class   XOutlineResultPack : public AddedDataClass
 
 class   XOutlineList //: public NPList<XOutlineList>
 {
-    int32	X,Y;                        //ƒXƒvƒ‰ƒCƒ“ã‚Ì“_
-    short   Vx,Vy;                      //’PˆÊ–@üƒxƒNƒgƒ‹@‰º‚Wƒrƒbƒg‚Í¬”@
+    int32	X,Y;                        //ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ì“_
+    short   Vx,Vy;                      //ï¿½Pï¿½Ê–@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½Wï¿½rï¿½bï¿½gï¿½Íï¿½ï¿½ï¿½ï¿½@
     WORD    PCol,MCol;
-    short   VLen;           //=ceil(hypot(Vx/256.0,Vy/256.0)*256.0) ‰º‚Wƒrƒbƒg‚Í¬”
+    short   VLen;           //=ceil(hypot(Vx/256.0,Vy/256.0)*256.0) ï¿½ï¿½ï¿½Wï¿½rï¿½bï¿½gï¿½Íï¿½ï¿½ï¿½
 
     float   UVx;
-    float   UVy;            //’PˆÊ–@üƒxƒNƒgƒ‹
+    float   UVy;            //ï¿½Pï¿½Ê–@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½
   public:
-    WORD    KensaAvr;       //ƒxƒNƒgƒ‹’Tõ”ÍˆÍ‚Å‚ÌŒŸ¸ƒf[ƒ^‚Ì•½‹Ï‹P“xiè‡’lj
-    WORD    LooseThre;      //•¡”ƒf[ƒ^‚É‚æ‚é‹«ŠE‚µ‚«‚¢’l“î‰»—Ê
+    WORD    KensaAvr;       //ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ÍˆÍ‚Å‚ÌŒï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ì•ï¿½ï¿½Ï‹Pï¿½xï¿½iè‡’lï¿½j
+    WORD    LooseThre;      //ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½É‚ï¿½ï¿½é‹«ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½î‰»ï¿½ï¿½
 
-    bool    Selected;       //’Tõ‚Ì‚½‚ß‚Ì‘I‘ğƒtƒ‰ƒO
+    bool    Selected;       //ï¿½Tï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ß‚Ì‘Iï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
 
     XOutlineList(void){ X=Y=0;  Vx=Vy=0;    Selected=false; LooseThre=0;    UVx=0;  UVy=0;    }
     XOutlineList(XOutlineList &src);
@@ -239,13 +248,13 @@ class   XOutlineList //: public NPList<XOutlineList>
 class	OutlineThreshold :public AlgorithmThreshold
 {
 public: 
-	int32			InsVNumb;		/*	ŒŸ¸@‚m‚fƒxƒNƒgƒ‹‰ò”	*/
-	int32			InsSizeBlack;	/*	ŒŸ¸@Œ‡Š×Å¬ƒTƒCƒYˆÃ‘¤	*/
-	int32			InsSizeWhite;	/*	ŒŸ¸@Œ‡Š×Å¬ƒTƒCƒY–¾‘¤	*/
-	int32			InsCornerBlack;	/*	ŒŸ¸@Šp•”•ª‚ÌÅ¬ƒTƒCƒYˆÃ‘¤	*/
-	int32			InsCornerWhite;	/*	ŒŸ¸@Šp•”•ª‚ÌÅ¬ƒTƒCƒY–¾‘¤	*/
-	int32			InsOKWidthBlack;/*	ŒŸ¸@••	*/
-	int32           InsOKWidthWhite;/*	ŒŸ¸@”’•	*/
+	int32			InsVNumb;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½mï¿½fï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	*/
+	int32			InsSizeBlack;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½×Åï¿½ï¿½Tï¿½Cï¿½Yï¿½Ã‘ï¿½	*/
+	int32			InsSizeWhite;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½×Åï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½	*/
+	int32			InsCornerBlack;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Tï¿½Cï¿½Yï¿½Ã‘ï¿½	*/
+	int32			InsCornerWhite;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½	*/
+	int32			InsOKWidthBlack;/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½	*/
+	int32           InsOKWidthWhite;/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½	*/
 	WORD			SelfSearch;
 
 	OutlineThreshold(AlgorithmItemRoot *parent);
@@ -261,12 +270,12 @@ class	OutlineItem : public AlgorithmItemPLI
 {
 public:
 	FlexArea		FLines;
-	//int32			LibID;			//ƒ‰ƒCƒuƒ‰ƒŠID
+	//int32			LibID;			//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ID
 
-	XOutlineList    *OList;	            // PAD—ÖŠs
+	XOutlineList    *OList;	            // PADï¿½ÖŠs
     int             OListNumb;
 
-    QPoint		*VectorIndex;			//–Œã¶¬
+    QPoint		*VectorIndex;			//ï¿½ï¿½ï¿½ã¶ï¿½ï¿½
 
 	OutlineItem(void);
 	~OutlineItem(void);

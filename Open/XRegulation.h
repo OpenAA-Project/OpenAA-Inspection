@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XRegulation_h)
 #define	XRegulation_h
 
@@ -71,7 +89,7 @@ public:
 	double	OffsetRealY;
 	double	MinLenX;
 	double	MinLenY;
-	int16	UnitIndex;	//-1:Ineffective	0:cm	1:mm	2:ƒÊm	3:m
+	int16	UnitIndex;	//-1:Ineffective	0:cm	1:mm	2:ï¿½ï¿½m	3:m
 	int16	UnitFigure;
 
 	XYRegPointContainer(void);

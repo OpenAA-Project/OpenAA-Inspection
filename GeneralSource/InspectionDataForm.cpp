@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "RepairStationResource.h"
 #include "InspectionDataForm.h"
 
@@ -28,7 +46,7 @@ InspectionDataForm::InspectionDataForm()
 	PaletteDefault=palette();
 	PaletteAlarm[0].setColor(QPalette::Window,QColor(Qt::red));
 	PaletteAlarm[1].setColor(QPalette::Window,QColor(Qt::yellow));
-	setWindowTitle(LangSolver.GetString(InspectionDataForm_LS,LID_891)/*"???ÅC?f?[?^?\?|"*/);
+	setWindowTitle(LangSolver.GetString(InspectionDataForm_LS,LID_891)/*"???ÔøΩC?f?[?^?\?|"*/);
 
 	//Timer
 	Index=0;
@@ -86,15 +104,15 @@ void InspectionDataForm::SetDialog(int Type,QList<QByteArray> *XMLFData,QList<QB
 	setPalette(PaletteDefault);
 	ui.teMessage->clear();
 	if(ui.leOKInsDataF->text().toInt()+ui.leNGInsDataF->text().toInt()!=ui.leSumInsDataF->text().toInt()){
-		ui.teMessage->append(LangSolver.GetString(InspectionDataForm_LS,LID_454)/*"?a?Å ???I?????a?}?b?`?É ?U?1?n?I"*/);
+		ui.teMessage->append(LangSolver.GetString(InspectionDataForm_LS,LID_454)/*"?a?ÔøΩÔøΩ???I?????a?}?b?`?ÔøΩÔøΩ?U?1?n?I"*/);
 		timer->start(500);
 	}
 	if(ui.leOKInsDataB->text().toInt()+ui.leNGInsDataB->text().toInt()!=ui.leSumInsDataB->text().toInt()){
-		ui.teMessage->append(LangSolver.GetString(InspectionDataForm_LS,LID_455)/*"?o?Å ???I?????a?}?b?`?É ?U?1?n?I"*/);
+		ui.teMessage->append(LangSolver.GetString(InspectionDataForm_LS,LID_455)/*"?o?ÔøΩÔøΩ???I?????a?}?b?`?ÔøΩÔøΩ?U?1?n?I"*/);
 		timer->start(500);
 	}
 	if(MCount==2 && ui.leSumInsDataF->text().toInt()!=ui.leSumInsDataB->text().toInt()){
-		ui.teMessage->append(LangSolver.GetString(InspectionDataForm_LS,LID_456)/*"?a?Å ???A?o?Å ???I?????a?}?b?`?É ?U?1?n?I"*/);
+		ui.teMessage->append(LangSolver.GetString(InspectionDataForm_LS,LID_456)/*"?a?ÔøΩÔøΩ???A?o?ÔøΩÔøΩ???I?????a?}?b?`?ÔøΩÔøΩ?U?1?n?I"*/);
 		timer->start(500);
 	}
 	if(ui.teMessage->toPlainText().isEmpty()==true){

@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2009 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Sentinel\SentinelWrite_3\SentinelWrite_3\sentinelwrite_3.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <windows.h>
 #include "spromeps.h"
 #include "sentinelwrite_3.h"
@@ -154,7 +163,7 @@ bool SentinelWrite_3::GetSentinelID()
 		unsigned char uctmp;
 		int itmp;
 
-		itmp = (MemCell[ict] ^ DeveloperID) & 0xffff; // •œ†
+		itmp = (MemCell[ict] ^ DeveloperID) & 0xffff; // ï¿½ï¿½ï¿½ï¿½
 		uctmp = (itmp >> 8) & 0xff;
 		WidgetString.append(uctmp);
 		uctmp = itmp & 0xff;
@@ -243,7 +252,7 @@ void SentinelWrite_3::Decrypt()
 		uctmp = SentinelDataArray[i * 2 + 1];
 		itmp |= (int)uctmp & 0xff;
 
-		itmp = (itmp ^ DeveloperID) & 0xffff; // •œ†
+		itmp = (itmp ^ DeveloperID) & 0xffff; // ï¿½ï¿½ï¿½ï¿½
 
 		uctmp = (itmp >> 8) & 0xff;
 		SentinelDataArrayDecrypt[i * 2] = uctmp;
@@ -281,7 +290,7 @@ bool SentinelWrite_3::WriteSentinel()
 			MemCellWrite[ipos] = ((RB_WORD)uctmp << 8) & 0xff00;
 			uctmp = tmpArray[ict2 + 1];
 			MemCellWrite[ipos] |= (RB_WORD)uctmp & 0xff;
-			MemCellWrite[ipos] = (MemCellWrite[ipos] ^ DeveloperID) & 0xffff; // ˆÃ†
+			MemCellWrite[ipos] = (MemCellWrite[ipos] ^ DeveloperID) & 0xffff; // ï¿½Ãï¿½
 			++ipos;
 		}
 
@@ -294,7 +303,7 @@ bool SentinelWrite_3::WriteSentinel()
 			MemCellWrite[ipos] = ((RB_WORD)uctmp << 8) & 0xff00;
 			uctmp = tmpArray[ict2 + 1];
 			MemCellWrite[ipos] |= (RB_WORD)uctmp & 0xff;
-			MemCellWrite[ipos] = (MemCellWrite[ipos] ^ DeveloperID) & 0xffff; // ˆÃ†
+			MemCellWrite[ipos] = (MemCellWrite[ipos] ^ DeveloperID) & 0xffff; // ï¿½Ãï¿½
 			++ipos;
 		}
 	}
@@ -503,7 +512,7 @@ void SentinelWrite_3::on_pbDELETE_clicked()
 			if (true == GetSentinelID())
 			{
 #if 0
-				// Copyright ‚ª“¯‚¶ƒtƒ@ƒCƒ‹‚ªíœ‚É‚Í•K—v(ƒRƒs[ƒ‰ƒCƒg‚ªƒe[ƒuƒ‹‚ÉÝ‚é‚Æ“Ç‚ß‚È‚¢‚Ì‚Åƒtƒ@ƒCƒ‹ƒI[ƒvƒ“Žž‚ÌC³‚ª•K—v)
+				// Copyright ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½É‚Í•Kï¿½v(ï¿½Rï¿½sï¿½[ï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÉÝ‚ï¿½ï¿½Æ“Ç‚ß‚È‚ï¿½ï¿½Ì‚Åƒtï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ÌCï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½v)
 				if (true == ui.lSerialNo->text().isEmpty())
 				{
 					QMessageBox::information(this, "Select Error", tr("Unkuown Sentinel Serial Data\n"));
@@ -546,7 +555,7 @@ void SentinelWrite_3::on_pbDELETE_clicked()
 				}
 #endif
 
-				// TableWidget‚Ìƒf[ƒ^‚ð‘I‘ð‚µ‚Ä‚¢‚é‚©‚ÌŠm”F
+				// TableWidgetï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½ÌŠmï¿½F
 				if (-1 == icr)
 				{
 					QMessageBox::information(this, "Select Error", tr("Delete Data Not Select\n"));
@@ -561,7 +570,7 @@ void SentinelWrite_3::on_pbDELETE_clicked()
 				QMessageBox::information(this, "Select Row", QString::number(icr));
 #endif
 
-				//TableWidget‚Ìƒf[ƒ^‚Ìíœ
+				//TableWidgetï¿½Ìƒfï¿½[ï¿½^ï¿½Ìíœ
 				ui.tableWidget->removeRow(icr);
 
 				if (true == WriteSentinel())

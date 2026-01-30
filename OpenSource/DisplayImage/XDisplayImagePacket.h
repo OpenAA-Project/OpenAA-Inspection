@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XDISPLAYIMAGEPACKET_H)
 #define	XDISPLAYIMAGEPACKET_H
 
@@ -16,7 +34,7 @@
 
 class	AlgorithmLibraryListContainer;
 
-class	GUICmdReqBmp : public GUICmdPacketBase	//‰æ‘œ•\¦—pƒrƒbƒgƒ}ƒbƒv—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqBmp : public GUICmdPacketBase	//ï¿½æ‘œï¿½\ï¿½ï¿½ï¿½pï¿½rï¿½bï¿½gï¿½}ï¿½bï¿½vï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 #pragma	pack(push)
@@ -85,7 +103,7 @@ inline	GUICmdReqBmp::GUIReqBmpStruct::GUIReqBmpStruct()
 	RepaintContinuously	=false;
 }
 
-class	GUICmdSendBmp : public GUICmdPacketBase	//‰æ‘œ•\¦—pƒrƒbƒgƒ}ƒbƒv‘—MƒRƒ}ƒ“ƒh
+class	GUICmdSendBmp : public GUICmdPacketBase	//ï¿½æ‘œï¿½\ï¿½ï¿½ï¿½pï¿½rï¿½bï¿½gï¿½}ï¿½bï¿½vï¿½ï¿½ï¿½Mï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QImage		*IData;
@@ -144,7 +162,7 @@ public:
 
 
 //============================================================================================
-class	GUICmdSyncDrawingMode : public GUICmdPacketBase	//“¯Šú•`‰æƒRƒ}ƒ“ƒh
+class	GUICmdSyncDrawingMode : public GUICmdPacketBase	//ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	DisplayImage::__DrawingMode	DMode;
@@ -160,7 +178,7 @@ public:
 };
 
 //============================================================================================
-class	GUICmdReqPixelColor : public GUICmdPacketBase	//ƒsƒNƒZƒ‹À•W‚ÌFi‹P“xj—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqPixelColor : public GUICmdPacketBase	//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ÌFï¿½iï¿½Pï¿½xï¿½jï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	int		LocalX;
@@ -177,7 +195,7 @@ public:
 };
 
 
-class	GUICmdSendPixelColor : public GUICmdPacketBase	//ƒsƒNƒZƒ‹À•W‚ÌFi‹P“xj‘—MƒRƒ}ƒ“ƒh
+class	GUICmdSendPixelColor : public GUICmdPacketBase	//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ÌFï¿½iï¿½Pï¿½xï¿½jï¿½ï¿½ï¿½Mï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QColor	Col;
@@ -193,7 +211,7 @@ public:
 
 
 //============================================================================================
-class	GUICmdDrawColor : public GUICmdPacketBase	//”CˆÓŒ`ó‚ğ•`‰æiF“h‚èj‚·‚éƒRƒ}ƒ“ƒh
+class	GUICmdDrawColor : public GUICmdPacketBase	//ï¿½Cï¿½ÓŒ`ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½iï¿½Fï¿½hï¿½ï¿½ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QColor					Col;
@@ -211,7 +229,7 @@ public:
 };
 
 //============================================================================================
-class	GUICmdDrawDot : public GUICmdPacketBase	//“_‚ğ•`‰æ‚·‚éƒRƒ}ƒ“ƒh
+class	GUICmdDrawDot : public GUICmdPacketBase	//ï¿½_ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QColor					Col;
@@ -229,7 +247,7 @@ public:
 };
 
 //============================================================================================
-class	CmdDrawImageRectPacket : public GUIDirectMessage	//‹éŒ`•`‰æƒRƒ}ƒ“ƒh
+class	CmdDrawImageRectPacket : public GUIDirectMessage	//ï¿½ï¿½ï¿½`ï¿½`ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	int	Ux1,Uy1,Ux2,Uy2;
@@ -239,7 +257,7 @@ public:
 		:GUIDirectMessage(gbase),Ux1(ux1),Uy1(uy1),Ux2(ux2),Uy2(uy2){}
 };
 
-class	CmdDrawImageActivate : public GUIDirectMessage	//ƒAƒCƒeƒ€‚ğƒAƒNƒeƒBƒu‚É‚µ‚Ä•`‰æ‚³‚¹‚éƒRƒ}ƒ“ƒh
+class	CmdDrawImageActivate : public GUIDirectMessage	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Nï¿½eï¿½Bï¿½uï¿½É‚ï¿½ï¿½Ä•`ï¿½æ‚³ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	int	GlobalPage;
@@ -252,7 +270,7 @@ public:
 };
 //============================================================================================
 
-class	DisplayImageCopyStructureMemoryList : public NPList<DisplayImageCopyStructureMemoryList>	//‰æ‘œƒRƒs[‚·‚é‚½‚ß‚ÌƒNƒŠƒbƒvƒ{[ƒhƒoƒbƒtƒ@ƒŠƒXƒg
+class	DisplayImageCopyStructureMemoryList : public NPList<DisplayImageCopyStructureMemoryList>	//ï¿½æ‘œï¿½Rï¿½sï¿½[ï¿½ï¿½ï¿½é‚½ï¿½ß‚ÌƒNï¿½ï¿½ï¿½bï¿½vï¿½{ï¿½[ï¿½hï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½Xï¿½g
 {
 public:
 	int32	DataBytes;
@@ -266,7 +284,7 @@ public:
 };
 
 
-class	DisplayImageCopyStructure : public NPList<DisplayImageCopyStructure>	//‰æ‘œƒRƒs[‚ÌƒNƒŠƒbƒvƒ{[ƒhƒŠƒXƒgƒRƒ“ƒeƒi
+class	DisplayImageCopyStructure : public NPList<DisplayImageCopyStructure>	//ï¿½æ‘œï¿½Rï¿½sï¿½[ï¿½ÌƒNï¿½ï¿½ï¿½bï¿½vï¿½{ï¿½[ï¿½hï¿½ï¿½ï¿½Xï¿½gï¿½Rï¿½ï¿½ï¿½eï¿½i
 {
 public:
 	int								GlobalPage;
@@ -292,7 +310,7 @@ public:
 				,int movx ,int movy ,double zoomrate);
 };
 
-class	GUICmdCopyRectPacket : public GUICmdPacketBase	//‰æ‘œ‚Ì‹éŒ`ƒRƒs[ƒRƒ}ƒ“ƒh
+class	GUICmdCopyRectPacket : public GUICmdPacketBase	//ï¿½æ‘œï¿½Ì‹ï¿½ï¿½`ï¿½Rï¿½sï¿½[ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	DisplayImage::DisplayType	Source;
@@ -305,7 +323,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdSendCopyRectPacket : public GUICmdPacketBase	//‰æ‘œƒRƒs[‚ÌƒŠƒXƒgƒRƒ“ƒeƒiƒf[ƒ^‘—MƒRƒ}ƒ“ƒh
+class	GUICmdSendCopyRectPacket : public GUICmdPacketBase	//ï¿½æ‘œï¿½Rï¿½sï¿½[ï¿½Ìƒï¿½ï¿½Xï¿½gï¿½Rï¿½ï¿½ï¿½eï¿½iï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Mï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	DisplayImageCopyStructure	ImageClipData;
@@ -318,7 +336,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdReqPasteRectPacket : public GUICmdPacketBase	//‰æ‘œƒRƒs[‚Ì“\‚è•t‚¯—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqPasteRectPacket : public GUICmdPacketBase	//ï¿½æ‘œï¿½Rï¿½sï¿½[ï¿½Ì“\ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	int32		dx,dy;
@@ -333,7 +351,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdReqClippedImage : public GUICmdPacketBase	//”CˆÓŒ`ó‚Å‚Ì‰æ‘œƒRƒs[‚Ì‚½‚ß‚Ì‰æ‘œ—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqClippedImage : public GUICmdPacketBase	//ï¿½Cï¿½ÓŒ`ï¿½ï¿½ï¿½Å‚Ì‰æ‘œï¿½Rï¿½sï¿½[ï¿½Ì‚ï¿½ï¿½ß‚Ì‰æ‘œï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	DisplayImage::DisplayType	Source;
@@ -350,7 +368,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdSendClippedImage : public GUICmdPacketBase	//”CˆÓŒ`ó‚Å‚Ì‰æ‘œƒRƒs[‚Ì‚½‚ß‚Ì‰æ‘œ‘—MƒRƒ}ƒ“ƒh
+class	GUICmdSendClippedImage : public GUICmdPacketBase	//ï¿½Cï¿½ÓŒ`ï¿½ï¿½ï¿½Å‚Ì‰æ‘œï¿½Rï¿½sï¿½[ï¿½Ì‚ï¿½ï¿½ß‚Ì‰æ‘œï¿½ï¿½ï¿½Mï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	NPListPack<DisplayImageCopyStructureMemoryList>	BuffList;
@@ -372,7 +390,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdReqClippedImageCopy : public GUICmdPacketBase	//ƒNƒŠƒbƒvƒ{[ƒh‚É“ü‚ê‚½‰æ‘œ‚ğ“\‚è•t‚¯‚é—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqClippedImageCopy : public GUICmdPacketBase	//ï¿½Nï¿½ï¿½ï¿½bï¿½vï¿½{ï¿½[ï¿½hï¿½É“ï¿½ï¿½ê‚½ï¿½æ‘œï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	int	SourceGlobalPage;
@@ -391,7 +409,7 @@ public:
 
 //============================================================================================
 
-class	GUICmdSelectItems : public GUICmdPacketBase	//ƒAƒCƒeƒ€‘I‘ğ—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdSelectItems : public GUICmdPacketBase	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -409,7 +427,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdSelectAll : public GUICmdPacketBase	//ƒAƒCƒeƒ€‘S‘I‘ğ—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdSelectAll : public GUICmdPacketBase	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Sï¿½Iï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -423,7 +441,7 @@ public:
 
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
-class	GUICmdSelectLocked : public GUICmdPacketBase	//ƒƒbƒN‚³‚ê‚½ƒAƒCƒeƒ€‚ğ‘I‘ğ—v‹‚·‚éƒRƒ}ƒ“ƒh
+class	GUICmdSelectLocked : public GUICmdPacketBase	//ï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ê‚½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -438,7 +456,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdCutItems : public GUICmdPacketBase	//‘I‘ğ‚³‚ê‚½ƒAƒCƒeƒ€Ø‚èæ‚è—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdCutItems : public GUICmdPacketBase	//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ø‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -456,7 +474,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdSeparateItems : public GUICmdPacketBase	//‘I‘ğ‚³‚ê‚½ƒAƒCƒeƒ€Ø‚èæ‚è—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdSeparateItems : public GUICmdPacketBase	//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ø‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -473,7 +491,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdRegistArea : public GUICmdPacketBase	//—Ìˆæ“o˜^—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdRegistArea : public GUICmdPacketBase	//ï¿½Ìˆï¿½ï¿½oï¿½^ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -489,7 +507,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdOperationDelete : public GUICmdPacketBase	//‘I‘ğ‚³‚ê‚½ƒAƒCƒeƒ€‚Ìíœ—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdOperationDelete : public GUICmdPacketBase	//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ìíœï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -505,7 +523,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdOperationLock : public GUICmdPacketBase	//‘I‘ğ‚³‚ê‚½ƒAƒCƒeƒ€‚ÌƒƒbƒN—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdOperationLock : public GUICmdPacketBase	//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ìƒï¿½ï¿½bï¿½Nï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -520,7 +538,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdOperationUnlock : public GUICmdPacketBase	//‘I‘ğ‚³‚ê‚½ƒAƒCƒeƒ€‚ÌƒƒbƒN‰ğœ—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdOperationUnlock : public GUICmdPacketBase	//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ìƒï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -535,7 +553,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdOperationGroup : public GUICmdPacketBase	//ƒOƒ‹[ƒv‰»—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdOperationGroup : public GUICmdPacketBase	//ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -550,7 +568,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdOperationCopy : public GUICmdPacketBase	//ƒAƒCƒeƒ€ƒRƒs[—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdOperationCopy : public GUICmdPacketBase	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Rï¿½sï¿½[ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -567,7 +585,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdOperationPaste : public GUICmdPacketBase	//ƒAƒCƒeƒ€‚Ì“\‚è•t‚¯—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdOperationPaste : public GUICmdPacketBase	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ì“\ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -581,7 +599,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdOperationMoveFromOutside : public GUICmdPacketBase	//ƒAƒCƒeƒ€ˆÚ“®—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdOperationMoveFromOutside : public GUICmdPacketBase	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ú“ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	int		GlobalDx;
@@ -599,7 +617,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdOperationMove : public GUICmdPacketBase	//ƒAƒCƒeƒ€ˆÚ“®—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdOperationMove : public GUICmdPacketBase	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ú“ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	int		GlobalDx;
@@ -617,7 +635,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdReqMovedPage : public GUICmdPacketBase	//ƒAƒCƒeƒ€ˆÚ“®‚Éƒy[ƒW‚ğŒ×‚®‚Æ‚«‚ÌˆÚ“®‚ğÀŒ»‚·‚éˆÚ“®—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqMovedPage : public GUICmdPacketBase	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½Éƒyï¿½[ï¿½Wï¿½ï¿½ï¿½×‚ï¿½ï¿½Æ‚ï¿½ï¿½ÌˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	int		GlobalDx;
@@ -634,7 +652,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdAckMovedPage : public GUICmdPacketBase	//ˆÚ“®—v‹‰“š
+class	GUICmdAckMovedPage : public GUICmdPacketBase	//ï¿½Ú“ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 {
 public:
 	IntList	PageList;
@@ -664,7 +682,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdSendActivateOnItem : public GUICmdPacketBase	//w’è‚µ‚½À•Wã‚ÌƒAƒCƒeƒ€‚ğƒAƒNƒeƒBƒu‚É‚·‚é—v‹ƒRƒ}ƒ“ƒh‚É‘Î‚µ‚ÄƒAƒCƒeƒ€‚Ì‚h‚c‚ğ•Ô‚·ƒRƒ}ƒ“ƒh
+class	GUICmdSendActivateOnItem : public GUICmdPacketBase	//ï¿½wï¿½è‚µï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ÌƒAï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Nï¿½eï¿½Bï¿½uï¿½É‚ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½É‘Î‚ï¿½ï¿½ÄƒAï¿½Cï¿½eï¿½ï¿½ï¿½Ì‚hï¿½cï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString				AlgoRoot;
@@ -680,7 +698,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdActivateOnItemDirect : public GUICmdPacketBase	//w’è‚µ‚½ƒAƒCƒeƒ€‚ğƒAƒNƒeƒBƒu‚É‚·‚é—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdActivateOnItemDirect : public GUICmdPacketBase	//ï¿½wï¿½è‚µï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Nï¿½eï¿½Bï¿½uï¿½É‚ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -696,7 +714,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdReqClearTemporaryItems : public GUICmdPacketBase	//ˆê‘Ş”ğƒAƒCƒeƒ€‚ÌƒNƒŠƒA—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqClearTemporaryItems : public GUICmdPacketBase	//ï¿½êï¿½Ş”ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ÌƒNï¿½ï¿½ï¿½Aï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -710,7 +728,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdReqTemporaryItems : public GUICmdPacketBase	//ƒAƒCƒeƒ€‚Ìˆê‘Ş”ğ—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqTemporaryItems : public GUICmdPacketBase	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ìˆêï¿½Ş”ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 	DisplayImageWithAlgorithm	*Form;
 	QString		AlgoRoot;
@@ -753,7 +771,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdAckTemporaryItems : public GUICmdPacketBase	//ƒAƒCƒeƒ€‚Ìˆê‘Ş”ğ—v‹‚Ö‚Ì‰“šƒRƒ}ƒ“ƒh
+class	GUICmdAckTemporaryItems : public GUICmdPacketBase	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ìˆêï¿½Ş”ï¿½ï¿½vï¿½ï¿½ï¿½Ö‚Ì‰ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 
@@ -766,7 +784,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName){}
 };
 
-class	GUICmdReqItemsBmp : public GUICmdPacketBase		//ƒAƒCƒeƒ€‚Ì•`‰æ‚Ì‚½‚ß‚Ì‰æ‘œ—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqItemsBmp : public GUICmdPacketBase		//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ì•`ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ß‚Ì‰æ‘œï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 	DisplayImageWithAlgorithm	*Form;
 	QString		AlgoRoot;
@@ -811,7 +829,7 @@ public:
 };
 
 
-class	GUICmdSendItemsBmp : public GUICmdPacketBase	//ƒAƒCƒeƒ€‚Ì•`‰æ‚Ì‚½‚ß‚Ì‰æ‘œ—v‹‰“šƒRƒ}ƒ“ƒh
+class	GUICmdSendItemsBmp : public GUICmdPacketBase	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ì•`ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ß‚Ì‰æ‘œï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 	QString		AlgoRoot;
 	QString		AlgoName;
@@ -878,7 +896,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName){}
 };
 
-class	SlaveCommSendTemporaryItems : public DirectCommPacketBase	//ƒXƒŒ[ƒuŠÔ’ÊM‚Ìˆê‘Ş”ğƒAƒCƒeƒ€‘—MƒRƒ}ƒ“ƒh
+class	SlaveCommSendTemporaryItems : public DirectCommPacketBase	//ï¿½Xï¿½ï¿½ï¿½[ï¿½uï¿½Ô’ÊMï¿½Ìˆêï¿½Ş”ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Mï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 	QString		AlgoRoot;
 	QString		AlgoName;
@@ -896,7 +914,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	SlaveCommSendFixTemporaryItems : public DirectCommPacketBase	//ƒXƒŒ[ƒuŠÔ’ÊM‚É‚æ‚éˆê‘Ş”ğƒAƒCƒeƒ€‚ÌŒÅ’è‰»ƒRƒ}ƒ“ƒh
+class	SlaveCommSendFixTemporaryItems : public DirectCommPacketBase	//ï¿½Xï¿½ï¿½ï¿½[ï¿½uï¿½Ô’ÊMï¿½É‚ï¿½ï¿½ï¿½ï¿½êï¿½Ş”ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ÌŒÅ’è‰»ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 	QString		AlgoRoot;
 	QString		AlgoName;
@@ -915,7 +933,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdReqItemIndependentPack : public GUICmdPacketBase	//ItemIndependentPack—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqItemIndependentPack : public GUICmdPacketBase	//ItemIndependentPackï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	int		localX,localY;
@@ -931,7 +949,7 @@ public:
 };
 
 
-class	GUICmdSendIndependentPack : public GUICmdPacketBase	//ItemIndependentPackƒf[ƒ^‘—MƒRƒ}ƒ“ƒh
+class	GUICmdSendIndependentPack : public GUICmdPacketBase	//ItemIndependentPackï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Mï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	AlgorithmItemIndependentPack		IData;
@@ -944,7 +962,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdReqItemIndependentsPack : public GUICmdPacketBase	//ItemIndependentPack—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqItemIndependentsPack : public GUICmdPacketBase	//ItemIndependentPackï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	int		LibType;
@@ -961,7 +979,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdReqSelectCopied : public GUICmdPacketBase	//ƒRƒs[‚³‚ê‚½ƒAƒCƒeƒ€‚Ì‘€ì—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqSelectCopied : public GUICmdPacketBase	//ï¿½Rï¿½sï¿½[ï¿½ï¿½ï¿½ê‚½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	XDateTime	SelectTimeIndex;
@@ -983,7 +1001,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdReqCutByPasted : public GUICmdPacketBase	//ƒRƒs[‚³‚ê‚½ƒAƒCƒeƒ€‚Ì‘€ì—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqCutByPasted : public GUICmdPacketBase	//ï¿½Rï¿½sï¿½[ï¿½ï¿½ï¿½ê‚½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString InstName;
@@ -997,7 +1015,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdExecutePaste : public GUICmdPacketBase	//ƒAƒCƒeƒ€‚Ì“\‚è•t‚¯—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdExecutePaste : public GUICmdPacketBase	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ì“\ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	enum	_Mode{
@@ -1021,7 +1039,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdReqSelectedItemCount : public GUICmdPacketBase	//‘I‘ğ‚³‚ê‚½ƒAƒCƒeƒ€‚ÌŒÂ”—v‹ƒRƒ}ƒ“ƒh
+class	GUICmdReqSelectedItemCount : public GUICmdPacketBase	//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ÌŒÂï¿½ï¿½vï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QString		AlgoRoot;
@@ -1035,7 +1053,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdSendSelectedItemCount : public GUICmdPacketBase	//‘I‘ğ‚³‚ê‚½ƒAƒCƒeƒ€‚ÌŒÂ”‘—MƒRƒ}ƒ“ƒh
+class	GUICmdSendSelectedItemCount : public GUICmdPacketBase	//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ÌŒÂï¿½ï¿½ï¿½ï¿½Mï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	int		SelectedItemCount;
@@ -1879,7 +1897,7 @@ public:
 };
 
 //============================================================================================
-class	GUICmdSetActivateItem : public GUICmdPacketBase	//ƒAƒCƒeƒ€‚ğƒAƒNƒeƒBƒu•\¦‚É‚·‚é
+class	GUICmdSetActivateItem : public GUICmdPacketBase	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Nï¿½eï¿½Bï¿½uï¿½\ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 {
 public:
 	int		Layer;
@@ -1896,7 +1914,7 @@ public:
 };
 
 //============================================================================================
-class	GUICmdClearActivateItem : public GUICmdPacketBase	//ƒAƒCƒeƒ€‚ğƒAƒNƒeƒBƒu•\¦‚ğ‰ğœ
+class	GUICmdClearActivateItem : public GUICmdPacketBase	//ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Nï¿½eï¿½Bï¿½uï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 {
 public:
 	QString		AlgoRoot;

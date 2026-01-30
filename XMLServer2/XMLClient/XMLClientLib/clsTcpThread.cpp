@@ -1,9 +1,21 @@
 /*
- * clsTcpThread.cpp
+ * Copyright (C) 2012
+ * Author : cony
  *
- *  Created on: 2009/10/25
- *      Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #include "clsTcpThread.h"
 
@@ -44,7 +56,7 @@ void clsTcpThread::run() {
 			if (nBufSize < 1) {
 				printf("not ready\n");
 				if (tcpSock->waitForReadyRead(100) == false) {
-					//TODO ƒ^ƒCƒ€ƒAƒEƒgˆ—
+					//TODO ï¿½^ï¿½Cï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½ï¿½
 					if (objTOut.chkTimeOut() == true) {
 						printf("timeout\n");
 						bAbort = true;
@@ -72,7 +84,7 @@ void clsTcpThread::run() {
 						printf("rcv end conn\n");
 						return;
 					}
-					// ‘—Mƒoƒbƒtƒ@ƒoƒCƒg”æ“¾
+					// ï¿½ï¿½ï¿½Mï¿½oï¿½bï¿½tï¿½@ï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½æ“¾
 					flg = pRcvHead[10];
 					pRcvHead[10] = 0x00;
 					int n = atoi((char *) pRcvHead);

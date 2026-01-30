@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef SHOWSUMTIMERFORM_H
 #define SHOWSUMTIMERFORM_H
 
@@ -56,7 +74,7 @@ class ShowSumTimerForm : public GUIFormBase
 public:
 	QString		TitleName;
 
-	int32		TimerControlIONumber;		// ƒVƒXƒeƒ€ƒrƒbƒgƒŒƒWƒXƒ^”Ô†
+	int32		TimerControlIONumber;		// ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½rï¿½bï¿½gï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½Ôï¿½
 	int32		TimerProgressIONumber;
 	int32		TimerFuncEndIONumber;
 
@@ -65,15 +83,15 @@ public:
 	int32		MaxTime_Second;
 	int32		MaxTime_MiliSec;
 
-	bool	isIncreaseProgress;	// ƒvƒƒOƒŒƒXƒo[‚Ìis•ûŒü(0->100 or 100->0)
-	bool	isIncreaseTime;		// ŠÔ•\¦‚ğ’~ÏŠÔ‚É‚·‚é‚©Ac‚èŠÔ‚É‚·‚é‚©
+	bool	isIncreaseProgress;	// ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Xï¿½oï¿½[ï¿½Ìiï¿½sï¿½ï¿½ï¿½ï¿½(0->100 or 100->0)
+	bool	isIncreaseTime;		// ï¿½ï¿½ï¿½Ô•\ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½Ïï¿½ï¿½Ô‚É‚ï¿½ï¿½é‚©ï¿½Aï¿½cï¿½èï¿½Ô‚É‚ï¿½ï¿½é‚©
 	
-	bool	isViewTitleLabel;	// ƒ^ƒCƒgƒ‹ƒ‰ƒxƒ‹‚Ì•\¦
-	bool	isViewResetButton;	// ƒŠƒZƒbƒgƒ{ƒ^ƒ“‚Ì•\¦
-	bool	isViewTimeLabel;	// ŠÔƒ‰ƒxƒ‹‚Ì•\¦
-	bool	isViewProgressBar;	// ƒvƒƒOƒŒƒXƒo[‚Ì•\¦
+	bool	isViewTitleLabel;	// ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Ì•\ï¿½ï¿½
+	bool	isViewResetButton;	// ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½Ì•\ï¿½ï¿½
+	bool	isViewTimeLabel;	// ï¿½ï¿½ï¿½Ôƒï¿½ï¿½xï¿½ï¿½ï¿½Ì•\ï¿½ï¿½
+	bool	isViewProgressBar;	// ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Xï¿½oï¿½[ï¿½Ì•\ï¿½ï¿½
 
-	bool	isSaveToFile;		// ƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚éİ’è
+	bool	isSaveToFile;		// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 
 	QString	ViewStringFormat;
 	int32	UpdateDuration;
@@ -97,9 +115,9 @@ public:
 
 	quint64	sumTimeMSec() const {
 		quint64 sum = 0;
-		sum += m_sumTime.toMiliSecond();	// ¡‚Ü‚Å‚Ì˜a
+		sum += m_sumTime.toMiliSecond();	// ï¿½ï¿½ï¿½Ü‚Å‚Ì˜a
 		//qDebug() << "func sumTime() m_sumTime.toMiliSecond() = " << sum;
-		//sum += m_tline.currentTime();		// Œ»İ‚Ìisó‹µ
+		//sum += m_tline.currentTime();		// ï¿½ï¿½ï¿½İ‚Ìiï¿½sï¿½ï¿½ï¿½ï¿½
 		if(m_timer.isValid()==true){
 			//qDebug() << "func sumTime() m_timer.elapsed() = " << m_timer.elapsed();
 			sum += m_timer.elapsed();
@@ -111,7 +129,7 @@ public:
 
 	void	setSumTime(quint64 msec){
 		bool isRun;
-		if(m_tline.state()==QTimeLine::State::Running){	// “®ì’†‚È‚ç’â~
+		if(m_tline.state()==QTimeLine::State::Running){	// ï¿½ï¿½ï¿½ì’†ï¿½È‚ï¿½ï¿½ï¿½ï¿½~
 			m_tline.stop();
 			isRun = true;
 		}else{
@@ -147,9 +165,9 @@ public:
     explicit ShowSumTimerForm(LayersBase *Base,QWidget *parent = 0);
     ~ShowSumTimerForm();
 
-	SignalOperandInt	*ioTimerEnable;		// 0‚Ì‚Í‰½‚à‚µ‚È‚¢A1‚Ì‚ÍŠÔ‚ğ”‚¦‚éA‚»‚êˆÈŠO‚ÍŠÔ‚ğƒŠƒZƒbƒg‚·‚éB
-	SignalOperandInt	*ioTimerProgress;	// ‰Šú’l0‚©‚çI—¹1000‚Å•\¦‚·‚é
-	SignalOperandBit	*ioTimerFuncEnd;	// ˆ—Š®—¹ƒtƒ‰ƒO(ƒV[ƒPƒ“ƒX‚Å0‚É‰Šú‰»A1‚ÅŠ®—¹)
+	SignalOperandInt	*ioTimerEnable;		// 0ï¿½Ìï¿½ï¿½Í‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½A1ï¿½Ìï¿½ï¿½Íï¿½ï¿½Ô‚ğ”‚ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ÈŠOï¿½Íï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½B
+	SignalOperandInt	*ioTimerProgress;	// ï¿½ï¿½ï¿½ï¿½ï¿½l0ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½1000ï¿½Å•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	SignalOperandBit	*ioTimerFuncEnd;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O(ï¿½Vï¿½[ï¿½Pï¿½ï¿½ï¿½Xï¿½ï¿½0ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½A1ï¿½ÅŠï¿½ï¿½ï¿½)
 
 	QAction *m_showEditTimeAction;
 	QMenu *m_contextMenu;

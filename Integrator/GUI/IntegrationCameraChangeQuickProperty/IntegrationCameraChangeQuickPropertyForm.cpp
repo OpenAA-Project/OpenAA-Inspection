@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "IntegrationCameraChangeQuickPropertyResource.h"
 #include "IntegrationCameraChangeQuickPropertyForm.h"
 #include "ui_IntegrationCameraChangeQuickPropertyForm.h"
@@ -33,13 +51,13 @@ void	IntegrationCameraChangeQuickPropertyForm::ReadyParam(void)
 
     VValue=0;
     if(Attr==CameraQuickProperty_Brighter){
-        ui->label   ->setText(LangSolver.GetString(IntegrationCameraChangeQuickPropertyForm_LS,LID_1)/*"–¾‚é‚³"*/);
+        ui->label   ->setText(LangSolver.GetString(IntegrationCameraChangeQuickPropertyForm_LS,LID_1)/*"ï¿½ï¿½ï¿½é‚³"*/);
     }
     if(Attr==CameraQuickProperty_Faster){
-        ui->label   ->setText(LangSolver.GetString(IntegrationCameraChangeQuickPropertyForm_LS,LID_2)/*"‘¬“x"*/);
+        ui->label   ->setText(LangSolver.GetString(IntegrationCameraChangeQuickPropertyForm_LS,LID_2)/*"ï¿½ï¿½ï¿½x"*/);
     }
     if(Attr==CameraQuickProperty_SideBrighter){
-        ui->label   ->setText(LangSolver.GetString(IntegrationCameraChangeQuickPropertyForm_LS,LID_3)/*"Žü•Ó–¾‚é‚³"*/);  
+        ui->label   ->setText(LangSolver.GetString(IntegrationCameraChangeQuickPropertyForm_LS,LID_3)/*"ï¿½ï¿½ï¿½Ó–ï¿½ï¿½é‚³"*/);  
     }
 
     ui->spinBoxValue->setValue(VValue);

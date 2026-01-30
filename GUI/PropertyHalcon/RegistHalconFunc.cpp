@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "PropertyHalconResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\PropertyHalcon\RegistHalconFunc.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 #include "RegistHalconFunc.h"
 #include "XHalconInspection.h"
 
@@ -18,7 +27,7 @@ RegistHalconFunc::RegistHalconFunc(PropertyHalconForm *parent)
 
 	PClass=parent;
 
-	//ƒtƒH[ƒ€‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ð”z—ñ‚É“ü‚ê‚é
+	//ï¿½tï¿½Hï¿½[ï¿½ï¿½ï¿½ÌƒRï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½ï¿½ï¿½zï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½
 	HLabel[0]	=ui.label_1;
 	HLabel[1]	=ui.label_2;
 	HLabel[2]	=ui.label_3;
@@ -50,7 +59,7 @@ RegistHalconFunc::RegistHalconFunc(PropertyHalconForm *parent)
 	FLabel[8]	=ui.label_9_1;
 	FLabel[9]	=ui.label_10_1;
 
-	//ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Éƒtƒ@ƒ“ƒNƒVƒ‡ƒ“•¶Žš—ñ‚ð“ü‚ê‚é
+	//ï¿½Rï¿½ï¿½ï¿½{ï¿½{ï¿½bï¿½Nï¿½Xï¿½Éƒtï¿½@ï¿½ï¿½ï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	int FuncListCount	=PClass->TempLib->FuncListCount;
 	HalconFuncString	=PClass->TempLib->HalconFuncString;
 	for(int i=0;i<FuncListCount;i++)
@@ -76,7 +85,7 @@ RegistHalconFunc::RegistHalconFunc(PropertyHalconForm *parent)
 	connect(ui.pbOK,	SIGNAL(clicked()),				 this,SLOT(pbOKClicked()));
 	connect(ui.pbCancel,SIGNAL(clicked()),				 this,SLOT(pbCancelClicked()));
 
-	//‰ŠúÝ’è
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½
 	if(PClass->TempSample->FuncName.isEmpty())
 		VisibleSet(true,0);
 	else{

@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\EulerRingL1\XEulerRingL1Library.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "XEulerRingL1Library.h"
@@ -35,11 +44,11 @@ EulerRingL1Library::EulerRingL1Library(int LibType,LayersBase *Base)
     MinBlockDots			=0;
     MaxBlockDots			=10000;
 
-	NoiseSize				=1;			//ŒÇ—§“_íœ
-	NoiseSizePinHole		=1;	//ƒsƒ“ƒz[ƒ‹íœ
+	NoiseSize				=1;			//ï¿½Ç—ï¿½ï¿½_ï¿½íœ
+	NoiseSizePinHole		=1;	//ï¿½sï¿½ï¿½ï¿½zï¿½[ï¿½ï¿½ï¿½íœ
 	SpaceToOutline			=0;		//Plus:Shrink Plus:Expand
     Priority				=0;
-	OutlineGeneration		=1000;	//—ÖŠs‚É¶¬‚·‚éƒhƒbƒg”	1000ˆÈã‚Å’Êí¶¬
+	OutlineGeneration		=1000;	//ï¿½ÖŠsï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½	1000ï¿½Èï¿½ï¿½Å’Êí¶ï¿½ï¿½
 	ExpandedDotToPad		=5;
 
 	StandardHoleDiameter	=10;
@@ -515,5 +524,4 @@ EulerRingL1LibraryContainer::EulerRingL1LibraryContainer(LayersBase *base)
 :AlgorithmLibraryContainer(base)
 {
 }
-
 

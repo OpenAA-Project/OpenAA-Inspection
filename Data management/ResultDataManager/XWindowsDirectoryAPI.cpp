@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XDirectoryAPI.h"
 
 #include <windows.h>
@@ -7,73 +25,73 @@ bool IsEmptyDirectory(const QString &dirPath){
 	const int buffSize = 1024;
 	TCHAR *resBuff;
 
-	// Œ»İƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾
+	// ï¿½ï¿½ï¿½İƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	resBuff = new TCHAR[buffSize];
 	DWORD dwNumb = GetCurrentDirectory(buffSize, resBuff);
-	if(dwNumb==0){// ƒGƒ‰[
+	if(dwNumb==0){// ï¿½Gï¿½ï¿½ï¿½[
 		delete []resBuff;
 		return false;
-	}else if(dwNumb>buffSize){// ƒoƒbƒtƒ@•s‘«ƒGƒ‰[
+	}else if(dwNumb>buffSize){// ï¿½oï¿½bï¿½tï¿½@ï¿½sï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[
 		delete []resBuff;
 		resBuff = new TCHAR[dwNumb];
 		GetCurrentDirectory(dwNumb, resBuff);
 	}
 	
-	// ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğˆÚ“®
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½
 	if(SetCurrentDirectory(dirPath.toStdWString().data())==false){
-		// ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğŒ³‚É–ß‚·
+		// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 		SetCurrentDirectory(resBuff);
 
-		// ƒoƒbƒtƒ@‚Ìíœ
+		// ï¿½oï¿½bï¿½tï¿½@ï¿½Ìíœ
 		delete []resBuff;	
 		return false;
 	}
 
-	// ƒtƒ@ƒCƒ‹‚ª‚ ‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚é
+	// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ğ’²‚×‚ï¿½
 	WIN32_FIND_DATA fd;
 	bool res;
-	HANDLE searchHdl = FindFirstFile(L"?*", &fd);// ‚±‚ê‚Í [.] ‚â [..] ‚àƒ}ƒbƒ`‚·‚é
+	HANDLE searchHdl = FindFirstFile(L"?*", &fd);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ [.] ï¿½ï¿½ [..] ï¿½ï¿½ï¿½}ï¿½bï¿½`ï¿½ï¿½ï¿½ï¿½
 
-	// —LŒø‚Èƒnƒ“ƒhƒ‹‚Ìê‡‚ÍŠeƒtƒ@ƒCƒ‹‚ğŠm”F‚·‚é
+	// ï¿½Lï¿½ï¿½ï¿½Èƒnï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìê‡ï¿½ÍŠeï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½ï¿½
 	if(searchHdl!=INVALID_HANDLE_VALUE){
-		// ƒtƒ@ƒCƒ‹Šm”F
+		// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½mï¿½F
 		QStringList ret;
-		if(wcscmp(fd.cFileName, L".")!=0 && wcscmp(fd.cFileName, L"..")!=0){// [.] ‚â [..]‚Å‚È‚¢ê‡‚Íƒtƒ@ƒCƒ‹‚ ‚è
-			// ƒnƒ“ƒhƒ‹‚ÌƒNƒ[ƒY
+		if(wcscmp(fd.cFileName, L".")!=0 && wcscmp(fd.cFileName, L"..")!=0){// [.] ï¿½ï¿½ [..]ï¿½Å‚È‚ï¿½ï¿½ê‡ï¿½Íƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			// ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ÌƒNï¿½ï¿½ï¿½[ï¿½Y
 			FindClose(searchHdl);
 
-			// ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğŒ³‚É–ß‚·
+			// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 			SetCurrentDirectory(resBuff);
 
-			// ƒoƒbƒtƒ@‚Ìíœ
+			// ï¿½oï¿½bï¿½tï¿½@ï¿½Ìíœ
 			delete []resBuff;
 
 			return false;
 		}
 	
-		// ’€Ÿæ“¾‚µ‚Ä‚¢‚­
+		// ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 		while( FindNextFile(searchHdl, &fd) ){
 			if(wcscmp(fd.cFileName, L".")!=0 && wcscmp(fd.cFileName, L"..")!=0){
-				// ƒnƒ“ƒhƒ‹‚ÌƒNƒ[ƒY
+				// ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ÌƒNï¿½ï¿½ï¿½[ï¿½Y
 				FindClose(searchHdl);
 
-				// ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğŒ³‚É–ß‚·
+				// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 				SetCurrentDirectory(resBuff);
 
-				// ƒoƒbƒtƒ@‚Ìíœ
+				// ï¿½oï¿½bï¿½tï¿½@ï¿½Ìíœ
 				delete []resBuff;
 
 				return false;
 			}
 		}
 		if( GetLastError() == ERROR_NO_MORE_FILES ){
-			// ƒnƒ“ƒhƒ‹‚ÌƒNƒ[ƒY
+			// ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ÌƒNï¿½ï¿½ï¿½[ï¿½Y
 			FindClose(searchHdl);
 
-			// ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğŒ³‚É–ß‚·
+			// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 			SetCurrentDirectory(resBuff);
 
-			// ƒoƒbƒtƒ@‚Ìíœ
+			// ï¿½oï¿½bï¿½tï¿½@ï¿½Ìíœ
 			delete []resBuff;
 			
 			return true;
@@ -82,10 +100,10 @@ bool IsEmptyDirectory(const QString &dirPath){
 	}
 
 
-	// ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğŒ³‚É–ß‚·
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 	SetCurrentDirectory(resBuff);
 
-	// ƒoƒbƒtƒ@‚Ìíœ
+	// ï¿½oï¿½bï¿½tï¿½@ï¿½Ìíœ
 	delete []resBuff;
 
 	return false;
@@ -97,30 +115,30 @@ QStringList GetDirectoryFileList(const QString &dirPath, const QString &wildCard
 	const int buffSize = 1024;
 	TCHAR *resBuff;
 
-	// Œ»İƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾
+	// ï¿½ï¿½ï¿½İƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	resBuff = new TCHAR[buffSize];
 	DWORD dwNumb = GetCurrentDirectory(buffSize, resBuff);
-	if(dwNumb==0){// ƒGƒ‰[
+	if(dwNumb==0){// ï¿½Gï¿½ï¿½ï¿½[
 		delete []resBuff;
 		return QStringList();
-	}else if(dwNumb>buffSize){// ƒoƒbƒtƒ@•s‘«ƒGƒ‰[
+	}else if(dwNumb>buffSize){// ï¿½oï¿½bï¿½tï¿½@ï¿½sï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[
 		delete []resBuff;
 		resBuff = new TCHAR[dwNumb];
 		GetCurrentDirectory(dwNumb, resBuff);
 	}
 
-	// ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğˆÚ“®
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½
 	SetCurrentDirectory(dirPath.toStdWString().data());
 
-	// ƒtƒ@ƒCƒ‹‚ª‚ ‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚é
+	// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ğ’²‚×‚ï¿½
 	WIN32_FIND_DATA fd;
 	bool res;
 	HANDLE searchHdl = FindFirstFile(wildCardFilter.toStdWString().data(), &fd);
 	if(searchHdl==INVALID_HANDLE_VALUE){
-		// ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğŒ³‚É–ß‚·
+		// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 		SetCurrentDirectory(resBuff);
 
-		// ƒoƒbƒtƒ@‚Ìíœ
+		// ï¿½oï¿½bï¿½tï¿½@ï¿½Ìíœ
 		delete []resBuff;
 
 		return QStringList();
@@ -129,20 +147,20 @@ QStringList GetDirectoryFileList(const QString &dirPath, const QString &wildCard
 		ret.append( QString::fromWCharArray(fd.cFileName, dwNumb) );
 	}
 	
-	// ’€Ÿæ“¾‚µ‚Ä‚¢‚­
+	// ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	while( FindNextFile(searchHdl, &fd) ){
 		if(wcscmp(fd.cFileName, L".")!=0 && wcscmp(fd.cFileName, L"..")!=0){
 			ret.append( QString::fromWCharArray(fd.cFileName, dwNumb) );
 		}
 	}
 	
-	// ƒnƒ“ƒhƒ‹‚ÌƒNƒ[ƒY
+	// ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ÌƒNï¿½ï¿½ï¿½[ï¿½Y
 	FindClose(searchHdl);
 	
-	// ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğŒ³‚É–ß‚·
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 	SetCurrentDirectory(resBuff);
 	
-	// ƒoƒbƒtƒ@‚Ìíœ
+	// ï¿½oï¿½bï¿½tï¿½@ï¿½Ìíœ
 	delete []resBuff;
 
 	return ret;

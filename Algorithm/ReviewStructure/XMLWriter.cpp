@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2017
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XMLWriter.h"
 #include "XReviewStructure.h"
 #include "ReviewStructurePacket.h"
@@ -46,12 +64,12 @@ bool XMLWriter::open()
 		if(m_XMLServer==NULL){
 			m_XMLServer = new XMLServerHandle(m_IPAddress, m_Port, this);
 		}else{
-			// ƒZƒbƒg
+			// ï¿½Zï¿½bï¿½g
 			m_XMLServer->Close();
 			m_XMLServer->Set(m_IPAddress, m_Port);
 		}
 
-		// Œ»İ‚Ìİ’è‚ÅƒI[ƒvƒ“o—ˆ‚½‚È‚çI—¹
+		// ï¿½ï¿½ï¿½İ‚Ìİ’ï¿½ï¿½ÅƒIï¿½[ï¿½vï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Iï¿½ï¿½
 		if(m_XMLServer->Open()==true){
 			return true;
 		}
@@ -124,7 +142,7 @@ void XMLWriter::run()
 
 		{
 			QMutexLocker locker( &m_Mutex );
-			if(m_ReqWriteList.isEmpty()==true){// ‰½‚©’Ç‰Á‚³‚ê‚é‚Ü‚Å‘Ò‚Â
+			if(m_ReqWriteList.isEmpty()==true){// ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Å‘Ò‚ï¿½
 				msleep(20);
 				if(m_flash==true){
 					return;
@@ -187,9 +205,9 @@ void XMLWriter::run()
 		msleep(1);
 
 		//m_Mutex.lock();
-		//while(m_ReqWriteList.isEmpty()==false){// ‹ó‚É‚È‚é‚Ü‚ÅŒJ‚è•Ô‚µ
+		//while(m_ReqWriteList.isEmpty()==false){// ï¿½ï¿½ï¿½É‚È‚ï¿½ï¿½Ü‚ÅŒJï¿½ï¿½ï¿½Ô‚ï¿½
 		//	QString retStr;
-		//	ReqXMLWrite writtingItem = m_ReqWriteList.takeFirst();// ‚P‚Âæ“ª‚ğæ‚èo‚·
+		//	ReqXMLWrite writtingItem = m_ReqWriteList.takeFirst();// ï¿½Pï¿½Âæ“ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½
 		//	m_Mutex.unlock();
 
 		//	XMLOperationHandle *xmlOpeHdl = m_XMLServer->OpenXMLOperation(writtingItem.getTableName());
@@ -217,7 +235,7 @@ void XMLWriter::run()
 bool XMLWriter::write(XMLOperationHandle *hdl, const ReqXMLWrite &reqItem)
 {
 	if(hdl==NULL)return false;
-	// Œ»İƒ|ƒCƒ“ƒ^‚ğˆÚ“®‚³‚¹‚é
+	// ï¿½ï¿½ï¿½İƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	QString retStr;
 	hdl->SelectFirst(/**/"<IST/>", QString(/**/"<IST><INSPECT EID=%1 /></IST>").arg(reqItem.getInspectID()), /**/"", retStr);
 	if(retStr==/**/"<BOF/>")return false;
@@ -230,7 +248,7 @@ bool XMLWriter::write(XMLOperationHandle *hdl, const ReqXMLWrite &reqItem)
 	if(retStr==/**/"<BOF/>")return false;
 	hdl->XML_CopyPointerFromChild();
 
-	// NGI‚ğŒŸõ‚µ‚Ä‘‚«‚İ
+	// NGIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for(ReqXMLWrite::ConstIterator item=reqItem.constBegin(); item!=reqItem.constEnd(); item++){
 		QString NGISelStr = QString(/**/"<NGI X=%1 Y=%2 */>").arg(item->x()).arg(item->y());
 		hdl->SelectFirst(/**/"<NGI/>", NGISelStr, /**/"", retStr);

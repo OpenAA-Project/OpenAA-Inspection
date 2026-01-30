@@ -1,17 +1,21 @@
 /*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
- *	xclibvs.h	External	03-Jun-2009
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *	Copyright (C)  1999-2009  EPIX, Inc.  All rights reserved.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *	PIXCI(R) Library: Video State (Format) Definitions
- *
- *	Most end-users will not modify these structures directly,
- *	but either use the default or change and export the
- *	default with SVIP/4MIP/XCIP/XCAP and import the new
- *	structures into the frame grabber library.
- *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 
 #if !defined(__EPIX_XCLIBVS_DEFINED)
@@ -19,11 +23,6 @@
 #include "cext_hps.h"     
 
 
-/*
- * For PIXCI(R) SV2/SV3/SV4/SV5/SV6 imaging boards.
- * Familiarity with the underlying Bt819/Bt829/Bt848/Bt878/Cx2388x
- * chips is implied.
- */
 struct xcsv2format {
     struct  pxddch  ddch;
 

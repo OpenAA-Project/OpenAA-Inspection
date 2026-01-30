@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ShowAlignmentGapResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\ShowAlignmentGap\ShowAlignmentGapForm.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 #include "ShowAlignmentGapForm.h"
 #include "XDLLOnly.h"
@@ -42,7 +51,7 @@ void	ShowAlignmentGapForm::ShowInPlayer(int64 shownInspectionID)
 		if(CmdReq.Send(page ,0,CmdAck)==true){
 			if(CmdAck.FirstX==-1)
 				return;
-			//‘æˆêŒ´“_‚Å‚ÌƒYƒŒ—Ê
+			//ï¿½ï¿½ï¿½êŒ´ï¿½_ï¿½Å‚ÌƒYï¿½ï¿½ï¿½ï¿½
 			QString FirstXY=/**/"(";
 			FirstXY+=QString::number(CmdAck.FirstX);
 			FirstXY+=/**/", ";
@@ -51,7 +60,7 @@ void	ShowAlignmentGapForm::ShowInPlayer(int64 shownInspectionID)
 			ui.FirstXY		->setText(FirstXY);
 			ui.FirstGapX	->setText(QString::number(CmdAck.FirstGapX));
 			ui.FirstGapY	->setText(QString::number(CmdAck.FirstGapY));
-			//‘æ“ñŒ´“_‚Å‚ÌƒYƒŒ—Ê
+			//ï¿½ï¿½ï¿½ñŒ´“_ï¿½Å‚ÌƒYï¿½ï¿½ï¿½ï¿½
 			QString SecondXY=/**/"(";
 			SecondXY+=QString::number(CmdAck.SecondX);
 			SecondXY+=/**/", ";
@@ -60,7 +69,7 @@ void	ShowAlignmentGapForm::ShowInPlayer(int64 shownInspectionID)
 			ui.SecondXY		->setText(SecondXY);
 			ui.SecondGapX	->setText(QString::number(CmdAck.SecondGapX));
 			ui.SecondGapY	->setText(QString::number(CmdAck.SecondGapY));
-			//‘æŽOŒ´“_‚Å‚ÌƒYƒŒ—Ê
+			//ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½_ï¿½Å‚ÌƒYï¿½ï¿½ï¿½ï¿½
 			QString ThirdXY=/**/"(";
 			ThirdXY+=QString::number(CmdAck.ThirdX);
 			ThirdXY+=/**/", ";
@@ -102,7 +111,7 @@ void	GUICmdReqAlignGap::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 		CmdCreateAlignGapPacket	Cmd;
 		ABase->TransmitDirectly(&Cmd);
 
-		//ƒYƒŒ—Ê‚ÌŽæ“¾
+		//ï¿½Yï¿½ï¿½ï¿½Ê‚ÌŽæ“¾
 //		SendBack->FirstPoint=Cmd.FirstPoint;
 //		SendBack->SecondPoint=Cmd.SecondPoint;
 //		SendBack->ThirdPoint=Cmd.ThirdPoint;

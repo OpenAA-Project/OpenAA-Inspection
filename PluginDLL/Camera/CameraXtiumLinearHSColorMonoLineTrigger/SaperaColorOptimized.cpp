@@ -1,7 +1,21 @@
-/* //////////////////////////////////////////////////////////////////////////////////////////////////////////
-   fileid : saperaCtrl.cpp
-  subject : Sapera SDK control functions
-////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -93,7 +107,7 @@ bool saperaCtrlColor::getImageInside(ImageBuffer *Buff[],ImageBuffer *TRBuff[])
 			//{
 			//	#pragma omp for
 				for (int y=0; y< height; y++) {
-					// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+					// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 					int	yR=Clipping(y+dyR,0,height-1);
 					int	yG=Clipping(y+dyG,0,height-1);
 					int	yB=Clipping(y+dyB,0,height-1);
@@ -148,7 +162,7 @@ bool saperaCtrlColor::getImageInside(ImageBuffer *Buff[],ImageBuffer *TRBuff[])
 			//{
 			//	#pragma omp for
 				for (int y=0; y< height; y++) {
-					// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+					// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 					int	yR=Clipping(y+dyR,0,height-1);
 					int	yG=Clipping(y+dyG,0,height-1);
 					int	yB=Clipping(y+dyB,0,height-1);
@@ -228,7 +242,7 @@ bool saperaCtrlColor::getImageInside(ImageBuffer *Buff[],ImageBuffer *TRBuff[])
 			{
 				#pragma omp for
 				for (int y=0; y< height; y++) {
-					// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+					// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 					int	yR=Clipping(y+dyR,0,height-1);
 					int	yG=Clipping(y+dyG,0,height-1);
 					int	yB=Clipping(y+dyB,0,height-1);
@@ -281,7 +295,7 @@ bool saperaCtrlColor::getImageInside(ImageBuffer *Buff[],ImageBuffer *TRBuff[])
 			{
 				#pragma omp for
 				for (int y=0; y< height; y++) {
-					// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+					// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 					int	yR=Clipping(y+dyR,0,height-1);
 					int	yG=Clipping(y+dyG,0,height-1);
 					int	yB=Clipping(y+dyB,0,height-1);
@@ -390,7 +404,7 @@ bool saperaCtrlColor::getImageInsideBasic(ImageBuffer *Buff[],ImageBuffer *TRBuf
 			//{
 			//	#pragma omp for
 				for (int y=0; y< height; y++) {
-					// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+					// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 					int	yR=Clipping(y+dyR,0,height-1);
 					int	yG=Clipping(y+dyG,0,height-1);
 					int	yB=Clipping(y+dyB,0,height-1);
@@ -445,7 +459,7 @@ bool saperaCtrlColor::getImageInsideBasic(ImageBuffer *Buff[],ImageBuffer *TRBuf
 			//{
 			//	#pragma omp for
 				for (int y=0; y< height; y++) {
-					// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+					// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 					int	yR=Clipping(y+dyR,0,height-1);
 					int	yG=Clipping(y+dyG,0,height-1);
 					int	yB=Clipping(y+dyB,0,height-1);
@@ -525,7 +539,7 @@ bool saperaCtrlColor::getImageInsideBasic(ImageBuffer *Buff[],ImageBuffer *TRBuf
 			{
 				#pragma omp for
 				for (int y=0; y< height; y++) {
-					// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+					// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 					int	yR=Clipping(y+dyR,0,height-1);
 					int	yG=Clipping(y+dyG,0,height-1);
 					int	yB=Clipping(y+dyB,0,height-1);
@@ -578,7 +592,7 @@ bool saperaCtrlColor::getImageInsideBasic(ImageBuffer *Buff[],ImageBuffer *TRBuf
 			{
 				#pragma omp for
 				for (int y=0; y< height; y++) {
-					// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+					// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 					int	yR=Clipping(y+dyR,0,height-1);
 					int	yG=Clipping(y+dyG,0,height-1);
 					int	yB=Clipping(y+dyB,0,height-1);
@@ -671,7 +685,7 @@ bool saperaCtrlColor::getPartialImageInside(int Index ,ImageBuffer *Buff[],Image
 			{
 				#pragma omp for
 				for (int i=0; i< YN; i++) {
-					// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+					// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 					int	y=StartLine+i;
 					int	yR=Clipping(y+dyR,0,height-1);
 					int	yG=Clipping(y+dyG,0,height-1);
@@ -747,7 +761,7 @@ bool saperaCtrlColor::getPartialImageInside(int Index ,ImageBuffer *Buff[],Image
 			//{
 			//	#pragma omp for
 				for (int i=0; i< YN; i++) {
-					// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+					// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 					int	y=StartLine+i;
 					int	yR=Clipping(y+dyR,0,height-1);
 					int	yG=Clipping(y+dyG,0,height-1);
@@ -850,7 +864,7 @@ bool saperaCtrlColor::getPartialImageInside(int Index ,ImageBuffer *Buff[],Image
 			if(Parent->DupLineMode==false){
 				if(YN<1024){
 					for (int i=0; i< YN; i++) {
-						// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+						// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 						int	y=StartLine+i;
 						int	yR=Clipping(y+dyR,0,height-1);
 						int	yG=Clipping(y+dyG,0,height-1);
@@ -904,7 +918,7 @@ bool saperaCtrlColor::getPartialImageInside(int Index ,ImageBuffer *Buff[],Image
 					{
 						#pragma omp for
 						for (int i=0; i< YN; i++) {
-							// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+							// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 							int	y=StartLine+i;
 							int	yR=Clipping(y+dyR,0,height-1);
 							int	yG=Clipping(y+dyG,0,height-1);
@@ -960,7 +974,7 @@ bool saperaCtrlColor::getPartialImageInside(int Index ,ImageBuffer *Buff[],Image
 				{
 					#pragma omp for
 					for (int i=0; i< YN; i++) {
-						// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+						// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 						int	y=StartLine+i;
 						int	yR=Clipping(y+y+dyR,0,height-1);
 						int	yG=Clipping(y+y+dyG,0,height-1);
@@ -1042,7 +1056,7 @@ bool saperaCtrlColor::getPartialImageInside(int Index ,ImageBuffer *Buff[],Image
 				{
 					#pragma omp for
 					for (int i=0; i< YN; i++) {
-						// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+						// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 						int	y=StartLine+i;
 						int	yR=Clipping(y+dyR,0,height-1);
 						int	yG=Clipping(y+dyG,0,height-1);
@@ -1101,7 +1115,7 @@ bool saperaCtrlColor::getPartialImageInside(int Index ,ImageBuffer *Buff[],Image
 				{
 					#pragma omp for
 					for (int i=0; i< YN; i++) {
-						// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+						// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 						int	y=StartLine+i;
 						int	yR=Clipping(y+y+dyR,0,height-1);
 						int	yG=Clipping(y+y+dyG,0,height-1);
@@ -1227,7 +1241,7 @@ bool saperaCtrlColor::getPartialImageInsideBasic(int Index ,ImageBuffer *Buff[],
 			{
 				#pragma omp for
 				for (int i=0; i< YN; i++) {
-					// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+					// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 					int	y=StartLine+i;
 					int	yR=Clipping(y+dyR,0,height-1);
 					int	yG=Clipping(y+dyG,0,height-1);
@@ -1303,7 +1317,7 @@ bool saperaCtrlColor::getPartialImageInsideBasic(int Index ,ImageBuffer *Buff[],
 			//{
 			//	#pragma omp for
 				for (int i=0; i< YN; i++) {
-					// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+					// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 					int	y=StartLine+i;
 					int	yR=Clipping(y+dyR,0,height-1);
 					int	yG=Clipping(y+dyG,0,height-1);
@@ -1406,7 +1420,7 @@ bool saperaCtrlColor::getPartialImageInsideBasic(int Index ,ImageBuffer *Buff[],
 			if(Parent->DupLineMode==false){
 				if(YN<1024){
 					for (int i=0; i< YN; i++) {
-						// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+						// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 						int	y=StartLine+i;
 						int	yR=Clipping(y+dyR,0,height-1);
 						int	yG=Clipping(y+dyG,0,height-1);
@@ -1446,7 +1460,7 @@ bool saperaCtrlColor::getPartialImageInsideBasic(int Index ,ImageBuffer *Buff[],
 					{
 						#pragma omp for
 						for (int i=0; i< YN; i++) {
-							// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+							// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 							int	y=StartLine+i;
 							int	yR=Clipping(y+dyR,0,height-1);
 							int	yG=Clipping(y+dyG,0,height-1);
@@ -1488,7 +1502,7 @@ bool saperaCtrlColor::getPartialImageInsideBasic(int Index ,ImageBuffer *Buff[],
 				{
 					#pragma omp for
 					for (int i=0; i< YN; i++) {
-						// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+						// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 						int	y=StartLine+i;
 						int	yR=Clipping(y+y+dyR,0,height-1);
 						int	yG=Clipping(y+y+dyG,0,height-1);
@@ -1556,7 +1570,7 @@ bool saperaCtrlColor::getPartialImageInsideBasic(int Index ,ImageBuffer *Buff[],
 				//{
 				//	#pragma omp for
 					for (int i=0; i< YN; i++) {
-						// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+						// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 						int	y=StartLine+i;
 						int	yR=Clipping(y+dyR,0,height-1);
 						int	yG=Clipping(y+dyG,0,height-1);
@@ -1615,7 +1629,7 @@ bool saperaCtrlColor::getPartialImageInsideBasic(int Index ,ImageBuffer *Buff[],
 				{
 					#pragma omp for
 					for (int i=0; i< YN; i++) {
-						// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+						// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 						int	y=StartLine+i;
 						int	yR=Clipping(y+y+dyR,0,height-1);
 						int	yG=Clipping(y+y+dyG,0,height-1);
@@ -1733,7 +1747,7 @@ bool saperaCtrlColor::getPartialImageInsideShrink2(int Index ,ImageBuffer *Buff[
 	//{
 	//	#pragma omp for
 		for (int i=0; i< YN; i++) {
-			// ruglas64‚ÌRGBƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ð“¾‚é
+			// ruglas64ï¿½ï¿½RGBï¿½oï¿½bï¿½tï¿½@ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ð“¾‚ï¿½
 			int	y=StartLine+i*2;
 			int	yR=Clipping(y+dyR,0,height*2-1);
 			int	yG=Clipping(y+dyG,0,height*2-1);

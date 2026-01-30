@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "DetailSettingForm.h"
 #include "ButtonThreshold2.h"
 #include "XGUIDLL.h"
@@ -70,7 +88,7 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	PixelAlgorithmBasePointer		=NULL;
 	PixelAlgorithmInPageRootPointer	=NULL;
 
-	//PixelLibrarySetting.dat‚ğ“Ç‚İ‚Ş
+	//PixelLibrarySetting.datï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
 	if(LoadPixelLibrarySetting()==true){
 		if(CheckSettingData()==true){
 			if(ExecMultiAlgorithmSupport()==true){
@@ -82,7 +100,7 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 		QMessageBox::warning(NULL,"Warning","Not loaded PixelLibrarySetting file.",QMessageBox::Ok,QMessageBox::Ok);
 	}
 
-	//ƒŒƒCƒAƒEƒg
+	//ï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½g
 	gbDetailSettingPY					=ui.gbDetailSettingP					->y();
 	gbDetailSettingPH					=ui.gbDetailSettingP					->height();
 	gbDetailSettingSY					=ui.gbDetailSettingS					->y();
@@ -114,7 +132,7 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	H									=height();
 	SetLayout();
 
-	//ƒ{ƒ^ƒ“
+	//ï¿½{ï¿½^ï¿½ï¿½
 	QImage DecisionImage(ParentWidget->DecisionImageBmpFile[((ButtonThreshold2 *)GUIBase)->LanguageCode]);
 	BtnDecision=new mtImageToolButton(ui.lbDecision,false);
 	BtnDecision->setImageBmp(DecisionImage);
@@ -135,10 +153,10 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	connect(ui.pbSaveInsParam	,SIGNAL(clicked()),this,SLOT(pbSaveInsParamClicked()));
 	connect(ui.pbLoadInsParam	,SIGNAL(clicked()),this,SLOT(pbLoadInsParamClicked()));
 
-	//“§‰ßˆ—
+	//ï¿½ï¿½ï¿½ßï¿½ï¿½ï¿½
 ///	setWindowOpacity(0.5);
 /*
-	//ƒpƒŒƒbƒg‚ğİ’è‚µautoFillBackground‚ğ—˜—p‚µ‚Ä“§–¾F‚Å“h‚è‚Â‚Ô‚·
+	//ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½İ’è‚µautoFillBackgroundï¿½ğ—˜—pï¿½ï¿½ï¿½Ä“ï¿½ï¿½ï¿½ï¿½Fï¿½Å“hï¿½ï¿½ï¿½Â‚Ô‚ï¿½
 	QPalette palette;
 	palette.setColor(QPalette::Window, QColor(255, 255, 255, 128));
 	setPalette(palette);
@@ -147,7 +165,7 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	//setAttribute
 ///	setAttribute(Qt::WA_TransparentForMouseEvents);
 
-	//‰æ–Ê•\¦•”‚ÌŒ¾Œê‘Î‰
+	//ï¿½ï¿½ï¿½Ê•\ï¿½ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½Î‰ï¿½
 ///	LangSolver.SetUI(this);
 }
 
@@ -265,7 +283,7 @@ void DetailSettingForm::diMinimumNGSizeForHoleValueChanged(int Value)
 
 void DetailSettingForm::pbSaveInsParamClicked()
 {
-	//ŒŸ¸ƒpƒ‰ƒ[ƒ^‚Ì•Û‘¶
+	//ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Ì•Û‘ï¿½
 	QString InsParamFilePath=QFileDialog::getSaveFileName(
 							this,"Please save a Inspection setting parameter file.",/**/"PixelParameter.dat",/**/"Inspection setting parameter file (*.dat)");
 	if(InsParamFilePath.isEmpty()){
@@ -314,7 +332,7 @@ void DetailSettingForm::pbSaveInsParamClicked()
 
 void DetailSettingForm::pbLoadInsParamClicked()
 {
-	//ŒŸ¸ƒpƒ‰ƒ[ƒ^‚Ì“Ç
+	//ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Ì“Çï¿½
 	QString InsParamFilePath=QFileDialog::getOpenFileName(
 							this,"Please choose a Inspection setting parameter file.",/**/"",/**/"Inspection setting parameter file (*.dat)");
 	if(InsParamFilePath.isEmpty()){
@@ -429,7 +447,7 @@ void DetailSettingForm::pbLoadInsParamClicked()
 		}
 		File.close();
 
-		//‰æ–Êİ’è
+		//ï¿½ï¿½ï¿½Êİ’ï¿½
 		ParentWidget->SetImageSlider(InspectionLevel);
 		ui.dsbNGThresholdP					->setValue	(NGThresholdP);
 		ui.dsbNGThresholdS					->setValue	(NGThresholdS);
@@ -464,7 +482,7 @@ void DetailSettingForm::pbLoadInsParamClicked()
 
 void DetailSettingForm::SlotBtnDecisionClicked()
 {
-	//İ’è’l‚ª‰½‚à•Ï‚í‚Á‚Ä‚¢‚È‚¢ê‡‚Í‚»‚Ì‚Ü‚Ü”²‚¯‚é
+	//ï¿½İ’ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Í‚ï¿½ï¿½Ì‚Ü‚Ü”ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(CheckIsEdit()==false){
 		reject();
 		return;
@@ -513,12 +531,12 @@ void DetailSettingForm::SlotBtnDecisionClicked()
 		PLibList->NGSizeBroad				=sbDetailMinimumNGSize[i]		->value();
 		PLibList->IsCalcPixelInterPoration	=chbIsCalcPixelInterPoration[i]	->isChecked();
 
-		//ƒ‰ƒCƒuƒ‰ƒŠ‚Ì’†g‚ğƒf[ƒ^ƒx[ƒX‚É•Û‘¶
-		//ƒ‰ƒCƒuƒ‰ƒŠ‚Ìã‘•Û‘¶ƒR[ƒh‚ª–³‚­‚Ä‚à‰¼‘zŠÖ”‚Åã‘•Û‘¶‚Å‚«‚é
+		//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ì’ï¿½ï¿½gï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½É•Û‘ï¿½
+		//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìã‘ï¿½Û‘ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½zï¿½Öï¿½ï¿½Åã‘ï¿½Û‘ï¿½ï¿½Å‚ï¿½ï¿½ï¿½
 		PixelAlgorithmBasePointer->GetLibraryContainer()->Update(*PLibLevelList[i]);
 	}
 
-	//‚µ‚«‚¢’lÄİ’èˆ—‚ğÀs
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½Äİ’èˆï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
 	CmdReqCalcThresholdPacket	CmdReqCalcThr(GUIBase->GetLayersBase());
 	PixelAlgorithmBasePointer->TransmitDirectly(&CmdReqCalcThr);
 
@@ -608,9 +626,9 @@ bool DetailSettingForm::LoadPixelLibrarySetting()
 	struct PixelLibrarySettingString PLibInStack[10];
 	struct PixelLibrarySettingString *PLib=PLibInStack;
 
-	//PixelLibrarySetting.dat‚Ì“Ç‚İ‚İ
+	//PixelLibrarySetting.datï¿½Ì“Ç‚İï¿½ï¿½ï¿½
 	int	PLibNumb=0;
-///	QString FileName=/**/"./PixelLibrarySetting.dat";	//‰¼
+///	QString FileName=/**/"./PixelLibrarySetting.dat";	//ï¿½ï¿½
 	QString FileName=((ButtonThreshold2 *)GUIBase)->GetPixelLibSettingFileName();
 	QFile	File(FileName);
 	if(File.open(QIODevice::ReadOnly)==false){
@@ -659,7 +677,7 @@ bool DetailSettingForm::CheckSettingData()
 
 bool DetailSettingForm::LoadAlgorithmData()
 {
-	//AlgorithmListName‚ÆPixelLibrary‚Ìæ“¾
+	//AlgorithmListNameï¿½ï¿½PixelLibraryï¿½Ìæ“¾
 	AlgorithmListName.clear();
 	PixelLibraryIDList.clear();
 	PixelLibraryNameList.clear();
@@ -678,12 +696,12 @@ bool DetailSettingForm::LoadAlgorithmData()
 			}
 			PixelAlgorithmBasePointer=GUIBase->GetLayersBase()->GetAlgorithmBase(L->GetDLLRoot(),L->GetDLLName());
 			if(PixelAlgorithmBasePointer==NULL){
-				//AlgorithmBase‚È‚µ
+				//AlgorithmBaseï¿½È‚ï¿½
 				return false;
 			}
 			PixelAlgorithmInPageRootPointer=PixelAlgorithmBasePointer->GetPageData(0);
 			if(PixelAlgorithmInPageRootPointer==NULL){
-				//AlgorithmInPageRoot‚È‚µ
+				//AlgorithmInPageRootï¿½È‚ï¿½
 				return false;
 			}
 		}
@@ -726,7 +744,7 @@ bool DetailSettingForm::CheckPixelLibrarySettingData(const QStringList &myString
 		Msg+="Not found Algorithm Name.\n";
 	}
 	else{
-		//Library‚Ìæ“¾
+		//Libraryï¿½Ìæ“¾
 		CreateLibraryNameList(AlgorithmListName.at(i));
 		for(i=0;i<LibraryIDList.count();i++){
 			if(myStringList.at(iCnt)==LibraryIDList.at(i)){
@@ -783,7 +801,7 @@ bool DetailSettingForm::CreateLibraryNameList(const QString AlgorithmName)
 	return false;
 }
 
-//‚»‚ê‚¼‚ê‚Ì—Ìˆæ‚Åè‡’l‚ğì¬‚·‚é
+//ï¿½ï¿½ï¿½ê‚¼ï¿½ï¿½ï¿½Ì—Ìˆï¿½ï¿½ï¿½è‡’lï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 bool DetailSettingForm::ExecMultiAlgorithmSupport()
 {
 	int PLibNumb=PLibSettingStringList.count();
@@ -800,12 +818,12 @@ bool DetailSettingForm::ExecMultiAlgorithmSupport()
 	return true;
 }
 
-//‚»‚ê‚¼‚ê‚Ì—Ìˆæ‚Åè‡’l‚ğì¬‚·‚é
+//ï¿½ï¿½ï¿½ê‚¼ï¿½ï¿½ï¿½Ì—Ìˆï¿½ï¿½ï¿½è‡’lï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 bool DetailSettingForm::CalcMultiAlgorithmSupport(int PixelLibID,const QString AlgorithmName,int LibID,QString &Msg)
 {
-	//ƒAƒ‹ƒSƒŠƒYƒ€i—Ìˆæj‚Ìw’è‚ª‚È‚¢ê‡A‚Ü‚¾‘I‚Î‚ê‚Ä‚¢‚È‚¢—ÌˆæiResistFlexAreaj‚ğƒZƒbƒg
+	//ï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½iï¿½Ìˆï¿½ï¿½jï¿½Ìwï¿½è‚ªï¿½È‚ï¿½ï¿½ê‡ï¿½Aï¿½Ü‚ï¿½ï¿½Iï¿½Î‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Ìˆï¿½ï¿½iResistFlexAreaï¿½jï¿½ï¿½ï¿½Zï¿½bï¿½g
 	if(AlgorithmName.isEmpty()==true){
-		//ƒsƒNƒZƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ğæ“¾
+		//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 		AlgorithmLibraryList *p=NULL;
 		for(p=PixelAList.GetFirst();p!=NULL;p=p->GetNext()){
 			if(p->GetLibID()==PixelLibID){
@@ -817,13 +835,13 @@ bool DetailSettingForm::CalcMultiAlgorithmSupport(int PixelLibID,const QString A
 			return false;
 		}
 
-		//ƒsƒNƒZƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ğæ“¾
+		//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 ///		PLibList[_Resist]=new PixelInspectionLibrary(PixelAlgorithmBasePointer->GetLibType(),GUIBase->GetLayersBase());
-		//ƒ‰ƒCƒuƒ‰ƒŠ‚Ì¶¬ƒR[ƒh‚ª–³‚­‚Ä‚à‰¼‘zŠÖ”‚Å¶¬‚Å‚«‚é
+		//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½zï¿½Öï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½
 //		PLibList[_Resist]=dynamic_cast<PixelInspectionLibrary *>(PixelAlgorithmBasePointer->GetLibraryContainer()->CreateNew());
 		PLibLevelList[_Resist]=new AlgorithmLibraryLevelContainer(PixelAlgorithmBasePointer->GetLibraryContainer());
 		if(PixelAlgorithmInPageRootPointer->GetLibraryContainer()->GetLibrary(p->GetLibID(),*(PLibLevelList[_Resist]))==false){
-			//ƒsƒNƒZƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ª‚È‚©‚Á‚½‚çHHH
+			//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Hï¿½Hï¿½H
 			Msg="Not load pixel library. ( library ID = " + QString::number(PixelLibID) + " )";
 			return false;
 		}
@@ -835,20 +853,20 @@ bool DetailSettingForm::CalcMultiAlgorithmSupport(int PixelLibID,const QString A
 
 	for(LogicDLL *L=GUIBase->GetLayersBase()->GetLogicDLLBase()->GetFirst();L!=NULL;L=L->GetNext()){
 		if(L->GetDLLName()==AlgorithmName){
-			//ƒ‰ƒCƒuƒ‰ƒŠî•ñ‚ğæ“¾
+			//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 			AlgorithmBase	*AlgorithmBasePointer=GUIBase->GetLayersBase()->GetAlgorithmBase(L->GetDLLRoot(),L->GetDLLName());
 			if(AlgorithmBasePointer==NULL){
-				//AlgorithmBase‚È‚µ
+				//AlgorithmBaseï¿½È‚ï¿½
 				return false;
 			}
 			AlgorithmInPageRoot	*AlgorithmInPageRootPointer=AlgorithmBasePointer->GetPageData(0);
 			if(AlgorithmInPageRootPointer==NULL){
-				//AlgorithmInPageRoot‚È‚µ
+				//AlgorithmInPageRootï¿½È‚ï¿½
 				return false;
 			}
 			AlgorithmInPagePI	*AlgorithmInPagePIPointer=dynamic_cast<AlgorithmInPagePI *>(AlgorithmInPageRootPointer);
 			if(AlgorithmInPagePIPointer==NULL){
-				//AlgorithmInPagePI‚È‚µ
+				//AlgorithmInPagePIï¿½È‚ï¿½
 				return false;
 			}
 
@@ -858,7 +876,7 @@ bool DetailSettingForm::CalcMultiAlgorithmSupport(int PixelLibID,const QString A
 			if(AlgorithmName=="AutoAlignment"){
 				int	AALibNumb=0;
 				for(AlgorithmLibraryList *p=AAlignAList.GetFirst();p!=NULL;p=p->GetNext()){
-					//ƒI[ƒgƒAƒ‰ƒCƒƒ“ƒgƒ‰ƒCƒuƒ‰ƒŠ‚ğæ“¾
+					//ï¿½Iï¿½[ï¿½gï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 					AlgorithmLibraryLevelContainer	AutoAlignLevel(AlgorithmBasePointer->GetLibraryContainer());
 					//AutoAlignmentLibrary *AutoAlignmentLib=dynamic_cast<AutoAlignmentLibrary *>(AlgorithmBasePointer->GetLibraryContainer()->CreateNew());
 					if(AlgorithmBasePointer->GetLibraryContainer()->GetLibrary(p->GetLibID(),AutoAlignLevel)){
@@ -893,7 +911,7 @@ bool DetailSettingForm::CalcMultiAlgorithmSupport(int PixelLibID,const QString A
 				AL->EnumLibrary(L->GetInstance()->GetLibType(),AList);
 				for(AlgorithmLibraryList *pAlgorithmLibraryList=AList.GetFirst();pAlgorithmLibraryList!=NULL;pAlgorithmLibraryList=pAlgorithmLibraryList->GetNext()){
 					if(pAlgorithmLibraryList->GetLibID()==LibID){
-						//ƒsƒNƒZƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ğæ“¾
+						//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 						AlgorithmLibraryList *p=NULL;
 						for(p=PixelAList.GetFirst();p!=NULL;p=p->GetNext()){
 							if(p->GetLibID()==PixelLibID){
@@ -915,13 +933,13 @@ bool DetailSettingForm::CalcMultiAlgorithmSupport(int PixelLibID,const QString A
 							return true;
 						}
 
-						//ƒsƒNƒZƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ğæ“¾
+						//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 ///						PLibList[PType]=new PixelInspectionLibrary(PixelAlgorithmBasePointer->GetLibType(),GUIBase->GetLayersBase());
-						//ƒ‰ƒCƒuƒ‰ƒŠ‚Ì¶¬ƒR[ƒh‚ª–³‚­‚Ä‚à‰¼‘zŠÖ”‚Å¶¬‚Å‚«‚é
+						//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½zï¿½Öï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½
 						PLibLevelList[PType]=new AlgorithmLibraryLevelContainer(PixelAlgorithmBasePointer->GetLibraryContainer());
 						//PLibList[PType]=dynamic_cast<PixelInspectionLibrary *>(PixelAlgorithmBasePointer->GetLibraryContainer()->CreateNew());
 						if(PixelAlgorithmInPageRootPointer->GetLibraryContainer()->GetLibrary(p->GetLibID(),*(PLibLevelList[PType]))==false){
-							//ƒsƒNƒZƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ª‚È‚©‚Á‚½‚çHHH
+							//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Hï¿½Hï¿½H
 							Msg="Not load pixel library. ( library ID = " + QString::number(PixelLibID) + " )";
 							return false;
 						}
@@ -1084,7 +1102,7 @@ void	DetailSettingForm::SetEnabledForHole(bool checked)
 
 bool	DetailSettingForm::CheckIsEdit()
 {
-	//•ÏX‚ª‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
+	//ï¿½ÏXï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
 	for(int i=0;i<PLibNumb;i++){
 		if(PLibLevelList[i]==NULL){
 			continue;
@@ -1115,7 +1133,7 @@ bool	DetailSettingForm::CheckIsEdit()
 	}
 	return false;
 /*
-	//•ÏX‚ª‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
+	//ï¿½ÏXï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
 	if(NGThresholdP!=ui.dsbNGThresholdP->value()){
 		return true;
 	}

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2017
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include <QObject>
@@ -16,7 +34,7 @@ class AbstructProperty : public QObject
 protected:
 	AbstructProperty(QObject *parent=NULL):QObject(parent){};
 
-// Œp³æ‚ÅƒI[ƒo[ƒ‰ƒCƒh•K{
+// ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ÅƒIï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½Cï¿½hï¿½Kï¿½{
 public:
 	virtual void initialize(void)=0;
 
@@ -49,11 +67,11 @@ public:
 
 public:
 	virtual bool fromBuffer(const SectionBuffer &buffer)=0;
-	virtual SectionBuffer toBuffer(void) const =0;// ƒoƒbƒtƒ@¶¬
+	virtual SectionBuffer toBuffer(void) const =0;// ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½
 
-	// ƒI[ƒo[ƒ‰ƒCƒh–³—p
+	// ï¿½Iï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½Cï¿½hï¿½ï¿½ï¿½p
 public:
-	virtual bool fromList(const SectionBufferList &list){// ƒŠƒXƒg‚©‚ç•œŒ³
+	virtual bool fromList(const SectionBufferList &list){// ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ç•œï¿½ï¿½
 			int index = indexOf(list, sectionName());
 		if(index==-1){
 			return false;
@@ -83,7 +101,7 @@ public:
 
 	virtual SectionBufferList toList(void) const { SectionBufferList list; list.append(toBuffer()); return list; };
 public:
-	// ’Êí‚ÍQString.toXXX‚ÅÏ‚Ü‚¹‚é
+	// ï¿½Êï¿½ï¿½ï¿½QString.toXXXï¿½ÅÏ‚Ü‚ï¿½ï¿½ï¿½
 	// QColor
 	static QColor toColor(const QString &val){ return QColor(val); };
 	static QString fromColor(const QColor &color){ return color.name(); };
@@ -114,11 +132,11 @@ public:
 		return -1;
 	};
 
-	// String‘Î‰
+	// Stringï¿½Î‰ï¿½
 	static QString toString(const QString &str)	{	return str;	}
 	static QString fromString(const QString &s)	{	return s;	}
 
-	// ƒŠƒXƒg‘Î‰
+	// ï¿½ï¿½ï¿½Xï¿½gï¿½Î‰ï¿½
 	template<class T>
 	static QList<T> toList(const QString &str);
 
@@ -247,7 +265,7 @@ public:
 
 };
 
-// ƒtƒ@ƒCƒ‹‚Å¶¬‚³‚ê‚½QStringƒyƒA‚Ìƒf[ƒ^‚ğ–Ú“I‚Ìƒf[ƒ^•Û‘¶‘ÎÛ‚Öó‚¯“n‚·‚½‚ß‚ÌƒpƒCƒvƒNƒ‰ƒX
+// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½QStringï¿½yï¿½Aï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ú“Iï¿½Ìƒfï¿½[ï¿½^ï¿½Û‘ï¿½ï¿½ÎÛ‚Öó‚¯“nï¿½ï¿½ï¿½ï¿½ï¿½ß‚Ìƒpï¿½Cï¿½vï¿½Nï¿½ï¿½ï¿½X
 template<class T>
 class PropertyBase : public AbstructProperty
 {
@@ -260,15 +278,15 @@ public:
 public:
 	void initialize(void){};
 
-// ƒeƒ“ƒvƒŒ[ƒg‚ÅƒI[ƒo[ƒ‰ƒCƒh•K{
+// ï¿½eï¿½ï¿½ï¿½vï¿½ï¿½ï¿½[ï¿½gï¿½ÅƒIï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½Cï¿½hï¿½Kï¿½{
 public:
 	virtual QString baseName(void) const =0;
 	virtual QString sectionName(void) const =0;
 	virtual QString filename(void) const =0;
 
 public:
-	virtual bool fromBuffer(const SectionBuffer &buffer)=0;	// ƒoƒbƒtƒ@‚©‚çÄ\’z
-	virtual SectionBuffer toBuffer(void) const =0;			// ƒoƒbƒtƒ@‚ğ¶¬
-	virtual bool fromInstance(T *instance)=0;				// ‘ÎÛƒCƒ“ƒXƒ^ƒ“ƒX‚æ‚èæ“¾
-	virtual bool toInstance(T *instance) const =0;			// ‘ÎÛƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‘‚«‚İ
+	virtual bool fromBuffer(const SectionBuffer &buffer)=0;	// ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Ä\ï¿½z
+	virtual SectionBuffer toBuffer(void) const =0;			// ï¿½oï¿½bï¿½tï¿½@ï¿½ğ¶ï¿½
+	virtual bool fromInstance(T *instance)=0;				// ï¿½ÎÛƒCï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+	virtual bool toInstance(T *instance) const =0;			// ï¿½ÎÛƒCï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Öï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 };

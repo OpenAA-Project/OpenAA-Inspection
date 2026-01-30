@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\HASP\HaspWrite_3\HaspWrite_3\haspwrite_3.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef HASPWRITE_3_H
 #define HASPWRITE_3_H
 
@@ -30,31 +39,31 @@ public:
 private:
 	Ui::HaspWrite_3Class ui;
 	hasp_handle_t   Handle;	//pbFILEOPEN_clicked:HaspLogin
-	QByteArray HaspInfo;	//pbFILEOPEN_clicked:Session()¨GetHaspID()
-	int HaspID;				//pbFILEOPEN_clicked:GetHaspID()¨Encrypt()
-	QString FileName;		//pbFILEOPEN_clicked:FileOpen()¨FileLoad()
-	QByteArray HaspData;	//pbFILEOPEN_clicked:FileLoad()¨Decrypt()
+	QByteArray HaspInfo;	//pbFILEOPEN_clicked:Session()ï¿½ï¿½GetHaspID()
+	int HaspID;				//pbFILEOPEN_clicked:GetHaspID()ï¿½ï¿½Encrypt()
+	QString FileName;		//pbFILEOPEN_clicked:FileOpen()ï¿½ï¿½FileLoad()
+	QByteArray HaspData;	//pbFILEOPEN_clicked:FileLoad()ï¿½ï¿½Decrypt()
 	QByteArray DeHaspData;	//pbFILEOPEN_clicked:Decrypt()
-	QByteArray DeWriteData;	//pbFILEOPEN_clicked:Decrypt()¨Fukugou()
-	QByteArray ReadData;	//pbFILEOPEN_clicked:ReadHasp()¨Decrypt()
-	QByteArray Fuku;		//pbFILEOPEN_clicked:Fukugou()¨WidgetShow()
-	QByteArray EnHaspData;	//on_pbINSERT_clicked:Encrypt()¨WriteHasp()
-	QByteArray DataAngou;	//pbFILEOPEN_clicked:Ango()¨Encrypt()	
+	QByteArray DeWriteData;	//pbFILEOPEN_clicked:Decrypt()ï¿½ï¿½Fukugou()
+	QByteArray ReadData;	//pbFILEOPEN_clicked:ReadHasp()ï¿½ï¿½Decrypt()
+	QByteArray Fuku;		//pbFILEOPEN_clicked:Fukugou()ï¿½ï¿½WidgetShow()
+	QByteArray EnHaspData;	//on_pbINSERT_clicked:Encrypt()ï¿½ï¿½WriteHasp()
+	QByteArray DataAngou;	//pbFILEOPEN_clicked:Ango()ï¿½ï¿½Encrypt()	
 	QByteArray DeHasp;		//pbFILEOPEN_clicked:Decrypt()
 private slots:
 	bool HaspLogin(hasp_handle_t &handle);										//HaspLogint
-	bool Session(hasp_handle_t handle, QByteArray &info);						//HASP“àŒÅ—Lƒf[ƒ^‚Ìæ“¾
-	void GetHaspID(QByteArray haspInfo,int &haspID);							//HASP“àŒÅ—Lƒf[ƒ^‚Ì’†‚©‚çƒVƒŠƒAƒ‹ƒR[ƒh‚Ìæ“¾
-	bool FileOpen(QString &sfile);												//ƒtƒ@ƒCƒ‹–¼‚Ìæ“¾
-	bool FileLoad(QString fileName, QByteArray &haspData);						//ƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^‚Ìo—Í
-	bool Decrypt(hasp_handle_t handle, QByteArray hasp, QByteArray &deCereal);	//ƒf[ƒ^‚Ì•¡‡‰»
-	void Angou(int ID, QByteArray DeData, QByteArray &angou);					//ƒVƒŠƒAƒ‹ˆÃ†‰»
-	bool Encrypt(hasp_handle_t handle,QByteArray DeHaspData,QByteArray &enHaspData);//ƒf[ƒ^‚ÌˆÃ†‰»
-	bool WriteHasp(hasp_handle_t handle,QByteArray writeData);					//HASP‘‚«‚İ
-	bool ReadHasp(hasp_handle_t handle, QByteArray &readData);					//HASP“Ç‚İ‚İ
-	void Fukugou(int ID,QByteArray ReData, QByteArray &fukugou);				//ƒVƒŠƒAƒ‹•¡‡‰»
-	void WidgetRead(QByteArray &widgetData);									//TableWidget‚Ìƒf[ƒ^æ“¾
-	void WidgetShow(QByteArray Hyouji);											//TableWidget‚Ö•\¦
+	bool Session(hasp_handle_t handle, QByteArray &info);						//HASPï¿½ï¿½ï¿½Å—Lï¿½fï¿½[ï¿½^ï¿½Ìæ“¾
+	void GetHaspID(QByteArray haspInfo,int &haspID);							//HASPï¿½ï¿½ï¿½Å—Lï¿½fï¿½[ï¿½^ï¿½Ì’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Ìæ“¾
+	bool FileOpen(QString &sfile);												//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
+	bool FileLoad(QString fileName, QByteArray &haspData);						//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìoï¿½ï¿½
+	bool Decrypt(hasp_handle_t handle, QByteArray hasp, QByteArray &deCereal);	//ï¿½fï¿½[ï¿½^ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½
+	void Angou(int ID, QByteArray DeData, QByteArray &angou);					//ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ãï¿½ï¿½ï¿½
+	bool Encrypt(hasp_handle_t handle,QByteArray DeHaspData,QByteArray &enHaspData);//ï¿½fï¿½[ï¿½^ï¿½ÌˆÃï¿½ï¿½ï¿½
+	bool WriteHasp(hasp_handle_t handle,QByteArray writeData);					//HASPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	bool ReadHasp(hasp_handle_t handle, QByteArray &readData);					//HASPï¿½Ç‚İï¿½ï¿½ï¿½
+	void Fukugou(int ID,QByteArray ReData, QByteArray &fukugou);				//ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	void WidgetRead(QByteArray &widgetData);									//TableWidgetï¿½Ìƒfï¿½[ï¿½^ï¿½æ“¾
+	void WidgetShow(QByteArray Hyouji);											//TableWidgetï¿½Ö•\ï¿½ï¿½
 	void on_pbFILEOPEN_clicked();
 	void on_pbINSERT_clicked();
 	void on_pbDELETE_clicked();

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2014
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef LCD_4DSYSTEM_1_H
 #define LCD_4DSYSTEM_1_H
 
@@ -9,9 +27,9 @@
 
 class   LCD_4DSystem;
 
-// åƒNƒ‰ƒX
-// LCD_4DSystemƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Û—L‚µA©g‚Ìƒƒ“ƒo•Ï”‚ğİ’è‚³‚¹‚é
-// Šeƒpƒ‰ƒ[ƒ^‚ğDLL_~‚Åg—p‚·‚é
+// ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
+// LCD_4DSystemï¿½Nï¿½ï¿½ï¿½Xï¿½ÌƒCï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Û—Lï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½gï¿½Ìƒï¿½ï¿½ï¿½ï¿½oï¿½Ïï¿½ï¿½ï¿½ï¿½İ’è‚³ï¿½ï¿½ï¿½ï¿½
+// ï¿½eï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½DLL_~ï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½
 class ThreadComm : public QThread
 {
 	Q_OBJECT
@@ -67,9 +85,9 @@ public:
 class	QextSerialPort;
 class	TestProgram;
 
-// ƒTƒuƒNƒ‰ƒX
-// ƒ^ƒbƒ`ƒpƒlƒ‹‚Æ‚ÌCOM’ÊM‚ğs‚¤
-// ’ÊM‚Ì‚â‚èæ‚è‚É‚æ‚Á‚ÄåƒNƒ‰ƒX‚Ìƒpƒ‰ƒ[ƒ^‚ğ‡Ÿ•ÏX‚µ‚Ä‚¢‚­
+// ï¿½Tï¿½uï¿½Nï¿½ï¿½ï¿½X
+// ï¿½^ï¿½bï¿½`ï¿½pï¿½lï¿½ï¿½ï¿½Æ‚ï¿½COMï¿½ÊMï¿½ï¿½ï¿½sï¿½ï¿½
+// ï¿½ÊMï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½Ìƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 class   LCD_4DSystem : public QObject
 {
 	Q_OBJECT
@@ -86,28 +104,28 @@ public:
     ~LCD_4DSystem(void);
 
 public:
-	// ‰Šú‰»
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	virtual	bool    Initial(void)				;
 	virtual void	Uninitialize(void)			;
-	// ‰Šú‰»Ï‚İƒtƒ‰ƒO
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï‚İƒtï¿½ï¿½ï¿½O
     virtual	bool    IsInitialed(void){  return Initialed;   }
-	// COM‚©‚ç1•¶šóM –ß‚è’l:char•¶š”’l, ¸”s -1
+	// COMï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½M ï¿½ß‚ï¿½ï¿½l:charï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½l, ï¿½ï¿½ï¿½sï¿½ï¿½ -1
 	virtual	int		GetChar(void)				;
-	// COM‚©‚ç1•¶š‘—M
+	// COMï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½M
 	virtual	void	SendChar(unsigned char d)	;
-	// CPUŠÔæ“¾
+	// CPUï¿½ï¿½ï¿½Ôæ“¾
 	virtual	unsigned int	GetCPUMilisec(void)	;
 
 	bool	isRecieved(void) const { return Recieved; };
 	void	resetRecieved(void){ Recieved = false; };
 
-	// ƒ^ƒbƒ`ƒpƒlƒ‹‚ÖPCB”‚ğ‘—M
+	// ï¿½^ï¿½bï¿½`ï¿½pï¿½lï¿½ï¿½ï¿½ï¿½PCBï¿½ï¿½ï¿½ğ‘—M
 	void	ShowPCBCount(int pcbCount);
-	// ƒ^ƒbƒ`ƒpƒlƒ‹‚Ö–‡”•s–¾‚ğ‘—M
+	// ï¿½^ï¿½bï¿½`ï¿½pï¿½lï¿½ï¿½ï¿½Ö–ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ğ‘—M
 	void	ShowUnknown(void);
-	// ƒ^ƒbƒ`ƒpƒlƒ‹‚Öƒ~ƒ‰[ó‹µ‚ğ‘—M
+	// ï¿½^ï¿½bï¿½`ï¿½pï¿½lï¿½ï¿½ï¿½Öƒ~ï¿½ï¿½ï¿½[ï¿½ó‹µ‚ğ‘—M
 	void	ShowMirrorState(bool state);
-	// COM‚æ‚è•¶š—ñ‚ğæ“¾‚µ‰ğÍAMotion‚Ìƒpƒ‰ƒ[ƒ^‚ğ“K‹X•ÏX‚·‚é
+	// COMï¿½ï¿½ï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½ÍAMotionï¿½Ìƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½Kï¿½Xï¿½ÏXï¿½ï¿½ï¿½ï¿½
 	void	Loop(void);
 	void	SendBooted(void);
 	void	SendEnd(void);

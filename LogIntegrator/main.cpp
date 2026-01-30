@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <QtCore/QCoreApplication>
 #include "LogIntegratorlib.h"
 
@@ -5,13 +23,13 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 
-	QString Path1 = "D:/";	//HDD‚ÌƒpƒX1‘ä–Ú
-	QString Path2 = "";		//HDD‚ÌƒpƒX2‘ä–Ú
-	QString OutPath = "";	//ƒƒO‚Ìo—ÍæƒtƒHƒ‹ƒ_
-	QString SaveDate = "";	//•Û‘¶‚·‚é“úH
-	QString LotNo = "";		//ƒƒbƒg”Ô†
-	QString BaseNo = "";	//Šî”Â”Ô†
-	bool SilentFlg = false;	//H
+	QString Path1 = "D:/";	//HDDï¿½Ìƒpï¿½X1ï¿½ï¿½ï¿½ï¿½
+	QString Path2 = "";		//HDDï¿½Ìƒpï¿½X2ï¿½ï¿½ï¿½ï¿½
+	QString OutPath = "";	//ï¿½ï¿½ï¿½Oï¿½Ìoï¿½Íï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½_
+	QString SaveDate = "";	//ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½H
+	QString LotNo = "";		//ï¿½ï¿½ï¿½bï¿½gï¿½Ôï¿½
+	QString BaseNo = "";	//ï¿½ï¿½ï¿½Â”Ôï¿½
+	bool SilentFlg = false;	//ï¿½H
 
 	for( int i=1; i<argc; i++ ) {
 		if ( *argv[i] == 'P' || *argv[i] == 'p' ) {
@@ -79,4 +97,4 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-//ƒ}ƒbƒ`ƒ“ƒO‚µ‚½‚©‚Ç‚¤‚©‚ğ–ˆ‰ñ•\¦‚·‚é
+//ï¿½}ï¿½bï¿½`ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ğ–ˆ‰ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½

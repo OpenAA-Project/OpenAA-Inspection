@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "GerberFast.h"
 #include "XGerberAperture.h"
 #include "XGerberFast.h"
@@ -50,7 +68,7 @@ void	TriangleArea::Calc(void)
 	XMultiEquSolve	Qx;
 	XMultiEquSolve	Qy;
 
-	Qx.AllocateMatrix(3);	//3ŒÂ‚Ì•Ï”
+	Qx.AllocateMatrix(3);	//3ï¿½Â‚Ì•Ïï¿½
 	Qx.SetMatrixValue(1,1,Cax);
 	Qx.SetMatrixValue(2,1,Cay);
 	Qx.SetMatrixValue(3,1,1.0);
@@ -63,9 +81,9 @@ void	TriangleArea::Calc(void)
 	Qx.SetMatrixValueBn(1,Cax+Dax);
 	Qx.SetMatrixValueBn(2,Cbx+Dbx);
 	Qx.SetMatrixValueBn(3,Ccx+Dcx);
-	Qx.ExecuteGaussianElimination();	//ŒvZŠJn
+	Qx.ExecuteGaussianElimination();	//ï¿½vï¿½Zï¿½Jï¿½n
 
-	Qy.AllocateMatrix(3);	//3ŒÂ‚Ì•Ï”
+	Qy.AllocateMatrix(3);	//3ï¿½Â‚Ì•Ïï¿½
 	Qy.SetMatrixValue(1,1,Cax);
 	Qy.SetMatrixValue(2,1,Cay);
 	Qy.SetMatrixValue(3,1,1.0);
@@ -78,12 +96,12 @@ void	TriangleArea::Calc(void)
 	Qy.SetMatrixValueBn(1,Cay+Day);
 	Qy.SetMatrixValueBn(2,Cby+Dby);
 	Qy.SetMatrixValueBn(3,Ccy+Dcy);
-	Qy.ExecuteGaussianElimination();	//ŒvZŠJn
+	Qy.ExecuteGaussianElimination();	//ï¿½vï¿½Zï¿½Jï¿½n
 
-	m[0]	=Qx.GetAnswer(1);	//“š‚¦
+	m[0]	=Qx.GetAnswer(1);	//ï¿½ï¿½ï¿½ï¿½
 	m[1]	=Qx.GetAnswer(2);
 	m[2]	=Qx.GetAnswer(3);
-	m[3]	=Qy.GetAnswer(1);	//“š‚¦
+	m[3]	=Qy.GetAnswer(1);	//ï¿½ï¿½ï¿½ï¿½
 	m[4]	=Qy.GetAnswer(2);
 	m[5]	=Qy.GetAnswer(3);
 }
@@ -184,7 +202,7 @@ void	TriangleAreaContainer::BuildTriangle(int CadImagePoints[256][4] ,int PointC
 {
 	NPListPack<LineStruct>	Lines;
 
-	//‘S‚Ä‚ğ‚Â‚È‚®ü‚ğ¶¬‚·‚é
+	//ï¿½Sï¿½Ä‚ï¿½ï¿½Â‚È‚ï¿½ï¿½ï¿½ï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½
 	for(int i=0;i<PointCount;i++){
 		for(int j=i+1;j<=PointCount;j++){
 			if(j!=PointCount){
@@ -201,7 +219,7 @@ void	TriangleAreaContainer::BuildTriangle(int CadImagePoints[256][4] ,int PointC
 			*/
 		}
 	}
-	//’[“_ˆÈŠO‚ÅŒğ·‚·‚é‚Qü•ª‚ğ‘I‚ÑA’·‚¢•û‚ğíœ‚·‚é
+	//ï¿½[ï¿½_ï¿½ÈŠOï¿½ÅŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Qï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ÑAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 	NextP:;
 	for(LineStruct *a=Lines.GetFirst();a!=NULL;a=a->GetNext()){
 		for(LineStruct *b=a->GetNext();b!=NULL;b=b->GetNext()){
@@ -389,7 +407,7 @@ void	MultiInterpolationPole3::Calc(void)
 	XMultiEquSolve	Qx;
 	XMultiEquSolve	Qy;
 
-	Qx.AllocateMatrix(3);	//3ŒÂ‚Ì•Ï”
+	Qx.AllocateMatrix(3);	//3ï¿½Â‚Ì•Ïï¿½
 	Qx.SetMatrixValue(1,1,Dim[0]->X);
 	Qx.SetMatrixValue(2,1,Dim[0]->Y);
 	Qx.SetMatrixValue(3,1,1.0);
@@ -402,9 +420,9 @@ void	MultiInterpolationPole3::Calc(void)
 	Qx.SetMatrixValueBn(1,Dim[0]->X+Dim[0]->dX);
 	Qx.SetMatrixValueBn(2,Dim[1]->X+Dim[1]->dX);
 	Qx.SetMatrixValueBn(3,Dim[2]->X+Dim[2]->dX);
-	Qx.ExecuteGaussianElimination();	//ŒvZŠJn
+	Qx.ExecuteGaussianElimination();	//ï¿½vï¿½Zï¿½Jï¿½n
 
-	Qy.AllocateMatrix(3);	//3ŒÂ‚Ì•Ï”
+	Qy.AllocateMatrix(3);	//3ï¿½Â‚Ì•Ïï¿½
 	Qy.SetMatrixValue(1,1,Dim[0]->X);
 	Qy.SetMatrixValue(2,1,Dim[0]->Y);
 	Qy.SetMatrixValue(3,1,1.0);
@@ -417,12 +435,12 @@ void	MultiInterpolationPole3::Calc(void)
 	Qy.SetMatrixValueBn(1,Dim[0]->Y+Dim[0]->dY);
 	Qy.SetMatrixValueBn(2,Dim[1]->Y+Dim[1]->dY);
 	Qy.SetMatrixValueBn(3,Dim[2]->Y+Dim[2]->dY);
-	Qy.ExecuteGaussianElimination();	//ŒvZŠJn
+	Qy.ExecuteGaussianElimination();	//ï¿½vï¿½Zï¿½Jï¿½n
 
-	m[0]	=Qx.GetAnswer(1);	//“š‚¦
+	m[0]	=Qx.GetAnswer(1);	//ï¿½ï¿½ï¿½ï¿½
 	m[1]	=Qx.GetAnswer(2);
 	m[2]	=Qx.GetAnswer(3);
-	m[3]	=Qy.GetAnswer(1);	//“š‚¦
+	m[3]	=Qy.GetAnswer(1);	//ï¿½ï¿½ï¿½ï¿½
 	m[4]	=Qy.GetAnswer(2);
 	m[5]	=Qy.GetAnswer(3);
 }

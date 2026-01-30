@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2018
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "CLHS_PX8CommandCreater.h"
 
 QString CLHS_PX8CommandCreater::setAnalogGain(double gain/* 280 to 530 */)
@@ -66,7 +84,7 @@ QString CLHS_PX8CommandCreater::createFixCommandFromStruct(const CLHS_PX8Setting
 
 	return ret;
 }
-// èÓïÒéÊìæ
+// ÔøΩÔøΩÔøΩÔøΩÔøΩÊìæ
 QString CLHS_PX8CommandCreater::getCurrentCameraState()
 {
 	return makeCommand("sta");

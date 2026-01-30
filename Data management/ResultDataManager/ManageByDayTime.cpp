@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ResultDataManagerResource.h"
 #include "ManageByDayTime.h"
 #include "ui_ManageByDayTime.h"
@@ -25,7 +43,7 @@ ManageByDayTime::ManageByDayTime(LayersBase *Base ,ResultDataManagerParam *Param
 
 	if(XMLServer->Open()==false){
 		QMessageBox::warning(this, /**/"Check:XMLServer"
-								, LangSolver.GetString(ManageByDayTime_LS,LID_1)/*"ƒf[ƒ^ƒx[ƒX‚ÌÚ‘±‚É¸”s‚µ‚Ü‚µ‚½"*/);
+								, LangSolver.GetString(ManageByDayTime_LS,LID_1)/*"ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ÌÚ‘ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½"*/);
 	}
 
 	SQLDatabase=GetLayersBase()->GetDatabaseLoader();
@@ -60,7 +78,7 @@ void ManageByDayTime::on_pushButtonExecuteDelete_clicked()
 {
 	if(ui->dateTimeEditStartDelete->dateTime() > ui->dateTimeEditEndDelete->dateTime()){
 		QMessageBox::warning(this, /**/"Range Error"
-									, LangSolver.GetString(ManageByDayTime_LS,LID_2)/*"ŠJn‚ÍI—¹‚æ‚è‘O‚Éİ’è‚µ‚Ä‚­‚¾‚³‚¢"*/);
+									, LangSolver.GetString(ManageByDayTime_LS,LID_2)/*"ï¿½Jï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ÍIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Éİ’è‚µï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"*/);
 		return;
 	}
 
@@ -73,11 +91,11 @@ void ManageByDayTime::on_pushButtonExecuteDelete_clicked()
 	
 	if(XMLServer->IsConnected(0)==false && XMLServer->Open()==false){
 		QMessageBox::warning(this, /**/"XMLServerError"
-									, LangSolver.GetString(ManageByDayTime_LS,LID_3)/*"ƒf[ƒ^ƒx[ƒX‚ÌÚ‘±‚É¸”s‚µ‚Ü‚µ‚½"*/);
+									, LangSolver.GetString(ManageByDayTime_LS,LID_3)/*"ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ÌÚ‘ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½"*/);
 		return;
 	}
 
-	// ‚·‚×‚Ä‚Ìƒƒbƒg‚©‚çw’èŠÔ‚ÉŠY“–‚·‚éŒŸ¸—š—ğ‚ğ‚·‚×‚Äíœ‚·‚é
+	// ï¿½ï¿½ï¿½×‚Ä‚Ìƒï¿½ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½wï¿½èï¿½Ô‚ÉŠYï¿½ï¿½ï¿½ï¿½ï¿½éŒŸï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×‚Äíœï¿½ï¿½ï¿½ï¿½
 	bool	Ret=XMLServer->EnumTables(/**/"*",EnumResultList);
 	if(Ret==true){
 		ui->progressBarDelete->setRange(0, EnumResultList.count());
@@ -119,25 +137,25 @@ void ManageByDayTime::on_pushButtonExecuteDelete_clicked()
 				int LotAutoCount = ReadLotAutoCount(TableStr, XMLServer);
 				int LotMasterCode = ReadLotMasterCode(TableStr, XMLServer, *GetLayersBase()->GetDataBase());
 
-				// íœw’èŠÔ”ÍˆÍ“à‚É‚ ‚éŒŸ¸—š—ğ‚ğƒŠƒXƒgƒAƒbƒv
+				// ï¿½íœï¿½wï¿½èï¿½Ô”ÍˆÍ“ï¿½ï¿½É‚ï¿½ï¿½éŒŸï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½Aï¿½bï¿½v
 				OutputStr	=QString(/**/"<IST NGJ />");
 				SearchStr	=QString(/**/"<IST DAY>=\"")+sStartTimeStr+QString(/**/"\" DAY<=\"")+sEndTimeStr+QString(/**/"\" />");
 				OrderStr	=QString(/**/"DAY");
 				bool	SelectRet1=OpeHandle->Select(OutputStr,SearchStr,OrderStr,ResultListStr);
-				//if(ResultListStr.isEmpty()){// ‚È‚¯‚ê‚ÎŸ‚Ö
+				//if(ResultListStr.isEmpty()){// ï¿½È‚ï¿½ï¿½ï¿½ï¿½Îï¿½ï¿½ï¿½
 				//	XMLServer->CloseXMLOperation(OpeHandle);
 				//	OpeHandle->Close();
 				//	delete OpeHandle;
 				//	ui->progressBarDelete->setValue(ui->progressBarDelete->value()+1);
 				//	continue;
 				//}
-				// íœ
+				// ï¿½íœ
 				if(SelectRet1==true){
 					QProgressDialog progress(this);
 					progress.setRange(0, ResultListStr.count());
 					progress.setValue(0);
 					progress.setCancelButton(0);
-					progress.setLabelText(LangSolver.GetString(ManageByDayTime_LS,LID_4)/*"NG‰æ‘œƒtƒ@ƒCƒ‹‚ğíœ’†"*/
+					progress.setLabelText(LangSolver.GetString(ManageByDayTime_LS,LID_4)/*"NGï¿½æ‘œï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½"*/
 										+ /**/"\n" + TableStr);
 
 					QString filepath;
@@ -146,7 +164,7 @@ void ManageByDayTime::on_pushButtonExecuteDelete_clicked()
 				}
 
 
-				// ’€Ÿíœ
+				// ï¿½ï¿½ï¿½ï¿½ï¿½íœ
 				QStringList DeleteXMLList;
 				QString DeleteXML;
 				bool	SelectRet2=false;
@@ -161,9 +179,9 @@ void ManageByDayTime::on_pushButtonExecuteDelete_clicked()
 					}while(SelectRet2==true && DeleteXML!=/**/"<BOF/>" && DeleteXML!=/**/"<EOF/>");
 				}
 
-				// XML•¶‚ğíœ(ˆêŠ‡)
+				// XMLï¿½ï¿½ï¿½ï¿½ï¿½íœ(ï¿½êŠ‡)
 				//bool	SelectRet2=OpeHandle->DeleteXML(SearchStr);
-				// íœŒã‚ÉŒŸ¸—š—ğ‚ª‚È‚¢ê‡‚Íƒƒbƒgƒtƒ@ƒCƒ‹‚ğíœ‚·‚é
+				// ï¿½íœï¿½ï¿½ï¿½ÉŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Íƒï¿½ï¿½bï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 				if(SelectRet2==true){
 					QStringList	CountListStr;
 					bool	SelectRet3=OpeHandle->Select(/**/"<COUNT/>",/**/"<IST */>",/**/"",CountListStr);
@@ -226,7 +244,7 @@ void ManageByDayTime::on_pushButtonExecuteDelete_clicked()
 	if(deleteTableList.isEmpty()==false){
 		if(XMLServer->IsConnected(0)==false && XMLServer->Open()==false){
 			QMessageBox::warning(this, /**/"XMLServerError"
-								, LangSolver.GetString(ManageByDayTime_LS,LID_5)/*"ƒƒbƒgƒf[ƒ^íœƒGƒ‰["*/);
+								, LangSolver.GetString(ManageByDayTime_LS,LID_5)/*"ï¿½ï¿½ï¿½bï¿½gï¿½fï¿½[ï¿½^ï¿½íœï¿½Gï¿½ï¿½ï¿½["*/);
 			return;
 		}else{
 			for(int i=0; i<deleteTableList.count(); i++){
@@ -237,6 +255,5 @@ void ManageByDayTime::on_pushButtonExecuteDelete_clicked()
 	}
 
 	QMessageBox::about(this, LangSolver.GetString(ManageByDayTime_LS,LID_6)/*"Delete Operation Complete"*/
-							, LangSolver.GetString(ManageByDayTime_LS,LID_7)/*"íœì‹Æ‚ÍI—¹‚µ‚Ü‚µ‚½"*/);
+							, LangSolver.GetString(ManageByDayTime_LS,LID_7)/*"ï¿½íœï¿½ï¿½ï¿½Æ‚ÍIï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½"*/);
 }
-

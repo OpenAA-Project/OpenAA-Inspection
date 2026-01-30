@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\XResult.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2026
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef XRESULTH
 #define XRESULTH
 
@@ -88,9 +96,9 @@ public:
 	int	mx,my;
 	int	Count;
 	int32		ImportanceLevel;
-	int32		PieceAreaNumber;	//ŒÂ•Ğ”Ô†
-	int32		NGSize;				//NG‚Ì‘å‚«‚³
-	DWORD		result;				//0x10000–¢–‚Å‚n‚j
+	int32		PieceAreaNumber;	//ï¿½Â•Ğ”Ôï¿½
+	int32		NGSize;				//NGï¿½Ì‘å‚«ï¿½ï¿½
+	DWORD		result;				//0x10000ï¿½ï¿½ï¿½ï¿½ï¿½Å‚nï¿½j
 
 	QString				CauseStr;
 	QString				ItemName;
@@ -133,7 +141,7 @@ class	ResultPosList : public NPList<ResultPosList>
 public:
   #pragma	pack(push,1)
 
-	DWORD		result;					//0x10000–¢–‚Å‚n‚j
+	DWORD		result;					//0x10000ï¿½ï¿½ï¿½ï¿½ï¿½Å‚nï¿½j
 	enum _ResultType{
 		 _ResultDWORD	=0
 		,_ResultDouble	=1
@@ -144,7 +152,7 @@ private:
 	union{
 		struct	{
 			DWORD		result1;
-			DWORD		result2;				//Œ‹‰Êƒf[ƒ^
+			DWORD		result2;				//ï¿½ï¿½ï¿½Êƒfï¿½[ï¿½^
 		};
 		struct	{
 			double		resultDouble;
@@ -156,20 +164,20 @@ private:
 	};
 public:
 
-	int32		Px;         //‚m‚f‚Ìƒ}ƒXƒ^[‰æ‘œ‚Å‚ÌŠî€À•W
+	int32		Px;         //ï¿½mï¿½fï¿½Ìƒ}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Å‚ÌŠî€ï¿½ï¿½ï¿½W
     int32		Py;
 
 	short		Rx;
-    short		Ry;			//‚m‚f•”•ª‚ÌƒAƒ‰ƒCƒ“ƒƒ“ƒg•â³‚µ‚½ã‚Å‚Ì’Tõ—Ê
+    short		Ry;			//ï¿½mï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ÌƒAï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½â³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚Ì’Tï¿½ï¿½ï¿½ï¿½
 
 	int32		NGTypeUniqueCode;
-	int32		ImportanceLevel;	//êŠ‚É‚æ‚éd—v“x@‚OFÅd—v@’Êí‚P‚O‚O
-	int32		PieceAreaNumber;	//ŒÂ•Ğ”Ô†
-	int32		NGSize;				//NG‚Ì‘å‚«‚³
+	int32		ImportanceLevel;	//ï¿½êŠï¿½É‚ï¿½ï¿½ï¿½ï¿½dï¿½vï¿½xï¿½@ï¿½Oï¿½Fï¿½Ådï¿½vï¿½@ï¿½Êï¿½ï¿½Pï¿½Oï¿½O
+	int32		PieceAreaNumber;	//ï¿½Â•Ğ”Ôï¿½
+	int32		NGSize;				//NGï¿½Ì‘å‚«ï¿½ï¿½
   #pragma	pack(pop)
 
 	QStringList	AreaNames;
-	FlexArea	NGShape;	//GlobalParam‚É‚æ‚Á‚Ä¶¬‚µ‚È‚¢ê‡‚ª‚ ‚é
+	FlexArea	NGShape;	//GlobalParamï¿½É‚ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	QString		Message;
 	ResultVectorLine	Vector;
 
@@ -268,9 +276,9 @@ class   NGImage final: public NPList<NGImage> , public ServiceForLayers
     int32		PtnByte;
 
 	int32		GlobalPage;
-	int32		Number;		//‚m‚fƒtƒ@ƒCƒ‹æ“ª‚ğ‚O‚Æ‚µ‚½’Ê‚µ”Ô†
-    int32		x1,y1,x2,y2;//ŒŸ¸‰æ‘œã‚Ìƒy[ƒW“àˆÊ’u
-	int32		Mx,My;		//•½‹ÏƒYƒŒ—Ê
+	int32		Number;		//ï¿½mï¿½fï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½æ“ªï¿½ï¿½ï¿½Oï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½Ôï¿½
+    int32		x1,y1,x2,y2;//ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½ï¿½ï¿½Ê’u
+	int32		Mx,My;		//ï¿½ï¿½ï¿½ÏƒYï¿½ï¿½ï¿½ï¿½
 	bool		SuccessCompress;
   #pragma	pack(pop)
 public:
@@ -308,8 +316,8 @@ public:
 	bool	GetXY(int &qx1,int &qy1,int &qx2,int &qy2)		const	{	qx1=x1;	qy1=y1;	qx2=x2;	qy2=y2;	return true;	}
 	int32	GetGlobalPage(void)			const	{	return GlobalPage;	}
 	void	SetGlobalPage(int32 page)			{	GlobalPage=page;	}
-	int32	GetNumber(void)				const	{	return Number;		}		//‚m‚fƒtƒ@ƒCƒ‹æ“ª‚ğ‚O‚Æ‚µ‚½’Ê‚µ”Ô†
-	void	SetNumber(int32 n)					{	Number	=n;			}		//‚m‚fƒtƒ@ƒCƒ‹æ“ª‚ğ‚O‚Æ‚µ‚½’Ê‚µ”Ô†
+	int32	GetNumber(void)				const	{	return Number;		}		//ï¿½mï¿½fï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½æ“ªï¿½ï¿½ï¿½Oï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½Ôï¿½
+	void	SetNumber(int32 n)					{	Number	=n;			}		//ï¿½mï¿½fï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½æ“ªï¿½ï¿½ï¿½Oï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½Ôï¿½
 
 	void	SetMxy(int _mx ,int _my)			{	Mx=_mx;	My=_my;	}
 	int		GetMx(void)					const	{	return Mx;	}
@@ -319,10 +327,10 @@ public:
 class  ResultInItemRoot
 {
   #pragma	pack(push,1)
-	short		Error;					//‚m‚fƒŒƒxƒ‹	|‚PF–¢ŒŸ¸ƒGƒŠƒA	‚OF–¢”»’è	‚PF‚n‚j	‚Q`‚m‚f
+	short		Error;					//ï¿½mï¿½fï¿½ï¿½ï¿½xï¿½ï¿½	ï¿½|ï¿½Pï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A	ï¿½Oï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½Pï¿½Fï¿½nï¿½j	ï¿½Qï¿½`ï¿½mï¿½f
 
 	DWORD		result1;
-	DWORD		result2;				//Œ‹‰Êƒf[ƒ^
+	DWORD		result2;				//ï¿½ï¿½ï¿½Êƒfï¿½[ï¿½^
 
 public:
 
@@ -341,12 +349,12 @@ private:
         } ResultValue;
 
 	int32		ItemID;					//Number;
-    int32		SmallPartsID;			//ŒÂ•ĞID
+    int32		SmallPartsID;			//ï¿½Â•ï¿½ID
 
 	short		ItemSearchedX;			//Hx
-    short		ItemSearchedY;			//Hy	ŒÂ•Ê’Tõ•â³—Ê
+    short		ItemSearchedY;			//Hy	ï¿½Â•Ê’Tï¿½ï¿½ï¿½â³ï¿½ï¿½
 	short		AlignedX;			//Mx
-    short		AlignedY;			//My	ƒAƒ‰ƒCƒ“ƒƒ“ƒg•â³—Ê
+    short		AlignedY;			//My	ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½â³ï¿½ï¿½
 
 	DWORD			AddedDataForRepairByte;
 	DWORD			AddedDataForRepairType;
@@ -357,7 +365,7 @@ private:
 	AddedDataClass	*AddedData;
 	AlgorithmItemRoot	*AlgorithmItemPointer;	//Set by every ExecuteProcessing
   #pragma	pack(pop)
-	ResultPosListContainer	PosList;	//Ú×ˆÊ’uî•ñ
+	ResultPosListContainer	PosList;	//ï¿½Ú×ˆÊ’uï¿½ï¿½ï¿½ï¿½
 	QString			Message;
 	int				ErrorGroupID;
 public:
@@ -436,12 +444,12 @@ public:
 
 	_ResultType	GetResultType(void)	const	{	return ResultType;	}
 
-	short	GetError(void)		const	{	return Error;		}		//‚m‚fƒŒƒxƒ‹	|‚PF–¢ŒŸ¸ƒGƒŠƒA	‚OF–¢”»’è	‚PF‚n‚j	‚Q`‚m‚f
+	short	GetError(void)		const	{	return Error;		}		//ï¿½mï¿½fï¿½ï¿½ï¿½xï¿½ï¿½	ï¿½|ï¿½Pï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A	ï¿½Oï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½Pï¿½Fï¿½nï¿½j	ï¿½Qï¿½`ï¿½mï¿½f
 	void	SetError(short s)			{	Error=s;			}
 	DWORD	GetResult1(void)	const	{	return result1;		}
 	void	SetResult1(DWORD d)			{	result1=d;	ResultType=_ResultDWORD;		}
-	DWORD	GetResult2(void)	const	{	return result2;		}				//Œ‹‰Êƒf[ƒ^
-	void	SetResult2(DWORD d)			{	result2=d;	ResultType=_ResultDWORD;		}				//Œ‹‰Êƒf[ƒ^
+	DWORD	GetResult2(void)	const	{	return result2;		}				//ï¿½ï¿½ï¿½Êƒfï¿½[ï¿½^
+	void	SetResult2(DWORD d)			{	result2=d;	ResultType=_ResultDWORD;		}				//ï¿½ï¿½ï¿½Êƒfï¿½[ï¿½^
 	double	GetResultDouble(void)	const	{	return ResultValue.ResultDouble;	}
 	void	SetResultDouble(double d)		{	ResultValue.ResultDouble=d;		ResultType=_ResultDouble;	}
 
@@ -503,10 +511,10 @@ private:
 		int32	x1,y1,x2,y2;
 		int32	mx,my;
 		int16	Page;
-		DWORD	result;				//0x10000–¢–‚Å‚n‚j
-		int16	ImportanceLevel;	//êŠ‚É‚æ‚éd—v“x@‚OFÅd—v@’Êí‚P‚O‚O
-		int32	PieceAreaNumber;	//ŒÂ•Ğ”Ô†
-		int32	NGSize;				//NG‚Ì‘å‚«‚³
+		DWORD	result;				//0x10000ï¿½ï¿½ï¿½ï¿½ï¿½Å‚nï¿½j
+		int16	ImportanceLevel;	//ï¿½êŠï¿½É‚ï¿½ï¿½ï¿½ï¿½dï¿½vï¿½xï¿½@ï¿½Oï¿½Fï¿½Ådï¿½vï¿½@ï¿½Êï¿½ï¿½Pï¿½Oï¿½O
+		int32	PieceAreaNumber;	//ï¿½Â•Ğ”Ôï¿½
+		int32	NGSize;				//NGï¿½Ì‘å‚«ï¿½ï¿½
 		struct HPLIStruct	RepresentativeItem;
 	}CData;
 
@@ -610,7 +618,7 @@ protected:
 	//DataInLayer					*PDataInLayer;
 
 	AlgorithmInLayerRoot			*AlgoPointer;
-	bool							CalcDone;		//‚±‚ê‚Í‘SPhase‚ÌÅ‰‚Éfalse‚É‚È‚é
+	bool							CalcDone;		//ï¿½ï¿½ï¿½ï¿½ï¿½Í‘SPhaseï¿½ÌÅï¿½ï¿½ï¿½falseï¿½É‚È‚ï¿½
 protected:
 	void	SetDataInLayer(DataInLayer *L)	{	Layer=-1;	}	//PDataInLayer=L;	}	
 public:
@@ -698,7 +706,7 @@ struct	ResultPositionInfomation
 	//DWORD	Result1;
 	//DWORD	Result2;
 	DWORD		result1;
-	DWORD		result2;				//Œ‹‰Êƒf[ƒ^
+	DWORD		result2;				//ï¿½ï¿½ï¿½Êƒfï¿½[ï¿½^
 	_ResultType	ResultType;
     union _ResultValue{
 		double	ResultDouble;
@@ -736,7 +744,7 @@ struct	ResultPositionInfomationVer2
 	//DWORD	Result1;
 	//DWORD	Result2;
 	DWORD		result1;
-	DWORD		result2;				//Œ‹‰Êƒf[ƒ^
+	DWORD		result2;				//ï¿½ï¿½ï¿½Êƒfï¿½[ï¿½^
 	_ResultType	ResultType;
     union _ResultValue{
 		double	ResultDouble;
@@ -770,7 +778,7 @@ struct	ResultPositionInfomationOld2
 	//DWORD	Result1;
 	//DWORD	Result2;
 	DWORD		result1;
-	DWORD		result2;				//Œ‹‰Êƒf[ƒ^
+	DWORD		result2;				//ï¿½ï¿½ï¿½Êƒfï¿½[ï¿½^
 	_ResultType	ResultType;
         union _ResultValue{
 		double	ResultDouble;
@@ -804,7 +812,7 @@ struct	ResultPositionInfomationOld
 	//DWORD	Result1;
 	//DWORD	Result2;
 	DWORD		result1;
-	DWORD		result2;				//Œ‹‰Êƒf[ƒ^
+	DWORD		result2;				//ï¿½ï¿½ï¿½Êƒfï¿½[ï¿½^
         union _ResultValue{
 		double	ResultDouble;
 		int64	ResultQInt;
@@ -833,8 +841,8 @@ protected:
 	DataInPage			*PDataInPage;
 	ResultBasePhase		*PhaseParent;
 	AlgorithmInPageRoot	*AlgoPointer;
-	bool				CalcDone;		//‚±‚ê‚Í‘SPhase‚ÌÅ‰‚Éfalse‚É‚È‚é
-	bool				DoneBindImage;	//‚±‚ê‚Í‘SPhase‚ÌÅ‰‚Éfalse‚É‚È‚é
+	bool				CalcDone;		//ï¿½ï¿½ï¿½ï¿½ï¿½Í‘SPhaseï¿½ÌÅï¿½ï¿½ï¿½falseï¿½É‚È‚ï¿½
+	bool				DoneBindImage;	//ï¿½ï¿½ï¿½ï¿½ï¿½Í‘SPhaseï¿½ÌÅï¿½ï¿½ï¿½falseï¿½É‚È‚ï¿½
 protected:
 	void	SetDataInPage(DataInPage *L)	{	PDataInPage=L;	}
 public:
@@ -1216,7 +1224,7 @@ public:
 	};
 
 private:
-	XDateTime	StartTimeForInspection;	//ŒŸ¸ŠJn
+	XDateTime	StartTimeForInspection;	//ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½ï¿½
 	NPListPack<ResultBaseForAlgorithmRoot>	ResultBaseDim;
 	QString		NGFileName;
 	int32		IndexForNGFileName;
@@ -1230,7 +1238,7 @@ private:
 	int32						ReceivedResultCountsAllocated;
 	bool		TimeOutBreak;
 	bool		MaxErrorBreak;
-	int32		OutputCode;		//U•ªæ	-1:–¢U•ª	1:‚n‚j	2:‚m‚f
+	int32		OutputCode;		//ï¿½Uï¿½ï¿½ï¿½ï¿½	-1:ï¿½ï¿½ï¿½Uï¿½ï¿½	1:ï¿½nï¿½j	2:ï¿½mï¿½f
 	QString		DeliveredInfo;
 	QString		InspectionBarcode;
 	QByteArray	RemarkData;
@@ -1243,7 +1251,7 @@ private:
 
 	CriticalErrorMode	CriticalError;
 	volatile	int		PriorityCounter;
-	bool		AliveTillPush;	//WriteResultThread::PutCurrentToStock‚ÅMoveResult‚ªÀs‚³‚ê‚é‚Ü‚Åtrue
+	bool		AliveTillPush;	//WriteResultThread::PutCurrentToStockï¿½ï¿½MoveResultï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½true
 public:
 	ExecutedTime			ExecTime;
 

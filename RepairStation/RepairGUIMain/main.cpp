@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\InspectionPlayer\InspectionPlayer\main.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 //#define	_SDEBUG
 
@@ -109,10 +118,10 @@ int main(int argc, char *argv[])
 #endif
 	*/
 
-	//// ƒŠƒ~ƒbƒgŠÔ
-	//QDate limitDate = QDate(2013, 2, 1);// ”NŒ“ú‚Åw’èA‚±‚Ì‚É‚È‚é‚Æ‹N“®•s‰Â‚Æ‚È‚é
+	//// ï¿½ï¿½ï¿½~ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
+	//QDate limitDate = QDate(2013, 2, 1);// ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Åwï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ìï¿½ï¿½É‚È‚ï¿½ï¿½Æ‹Nï¿½ï¿½ï¿½sï¿½Â‚Æ‚È‚ï¿½
 
-	//// ƒŠƒ~ƒbƒg’´‰ß”»’è(‚½‚¾‚µAwindows‚Ì‚ğ‚¢‚¶‚Á‚½ê‡‚Í‰ñ”ğ‚³‚ê‚éH)
+	//// ï¿½ï¿½ï¿½~ï¿½bï¿½gï¿½ï¿½ï¿½ß”ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Awindowsï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½H)
 	//QDate date = QDate::currentDate();
 	//if(date>=limitDate){
 	//	QMessageBox::critical(NULL, "Date is over", "This software is active until 2013/02/01.");
@@ -334,18 +343,18 @@ int main(int argc, char *argv[])
 
 	/*
 		QString RetVolumeNameBuffer;
-		int32	VolumeSerialNumber;		// ƒ{ƒŠƒ…[ƒ€‚ÌƒVƒŠƒAƒ‹”Ô†
-		int32	MaximumComponentLength;	// ƒtƒ@ƒCƒ‹–¼‚ÌÅ‘å‚Ì’·‚³
-		int32	FileSystemFlags;			// ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌƒIƒvƒVƒ‡ƒ“
-		QString	FileSystemNameBuffer;		// ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€–¼‚ğŠi”[‚·‚éƒoƒbƒtƒ@
+		int32	VolumeSerialNumber;		// ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌƒVï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ôï¿½
+		int32	MaximumComponentLength;	// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ÌÅ‘ï¿½ï¿½Ì’ï¿½ï¿½ï¿½
+		int32	FileSystemFlags;			// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ÌƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½
+		QString	FileSystemNameBuffer;		// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@
 
 		MtGetVolumeInformation(
-			"e:\\",				// ƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ
-			RetVolumeNameBuffer,     // ƒ{ƒŠƒ…[ƒ€–¼ƒoƒbƒtƒ@
-			VolumeSerialNumber,		// ƒ{ƒŠƒ…[ƒ€‚ÌƒVƒŠƒAƒ‹”Ô†
-			MaximumComponentLength,	// ƒtƒ@ƒCƒ‹–¼‚ÌÅ‘å‚Ì’·‚³
-			FileSystemFlags,			// ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌƒIƒvƒVƒ‡ƒ“
-			FileSystemNameBuffer		// ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€–¼‚ğŠi”[‚·‚éƒoƒbƒtƒ@
+			"e:\\",				// ï¿½ï¿½ï¿½[ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½
+			RetVolumeNameBuffer,     // ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@
+			VolumeSerialNumber,		// ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌƒVï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ôï¿½
+			MaximumComponentLength,	// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ÌÅ‘ï¿½ï¿½Ì’ï¿½ï¿½ï¿½
+			FileSystemFlags,			// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ÌƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½
+			FileSystemNameBuffer		// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@
 		);
 */
 

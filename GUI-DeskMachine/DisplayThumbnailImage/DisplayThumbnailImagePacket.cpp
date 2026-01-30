@@ -1,66 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI-DeskMachine\DisplayThumbnailImage\DisplayThumbnailImagePacket.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "XGeneralFunc.h"
 #include "DisplayThumbnailImagePacket.h"
-/*
-bool	CmdSetNGInformation::Load(QIODevice *f)
-{
-	if(::Load(f,ErrorGroupTableCount)==false)
-		return false;
-	return true;
-}
-bool	CmdSetNGInformation::Save(QIODevice *f)
-{
-	if(::Save(f,ErrorGroupTableCount)==false)
-		return false;
-	for(int Cnt=0;Cnt<ErrorGroupTableCount;Cnt++){
-		ErrorGroup	*p=ErrorGroupTable[Cnt];
-		if(f->write((char *)p,sizeof(p[0]))!=sizeof(p[0]))
-			return false;
-	}
-	if(::Save(f,CenterX)==false)
-		return false;
-	if(::Save(f,CenterY)==false)
-		return false;
-	if(::Save(f,NGWidth)==false)
-		return false;
-	if(::Save(f,NGHeight)==false)
-		return false;
-	return true;
-}
-
-GUICmdSetNGInformation::GUICmdSetNGInformation(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
-:GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
-,State(Base)
-{
-}
-
-bool	GUICmdSetNGInformation::Load(QIODevice *f)
-{
-	if(State.Load(f)==false)
-		return false;
-	return true;
-}
-bool	GUICmdSetNGInformation::Save(QIODevice *f)
-{
-	if(State.Save(f)==false)
-		return false;
-	return true;
-}
-
-void	GUICmdSetNGInformation::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
-{
-	GUIFormBase	*GProp=GetLayersBase()->FindByName("Button" ,"PropertyAutoAlignment" ,"");
-	if(GProp!=NULL){
-		GProp->TransmitDirectly(&State);
-	}
-}
-*/

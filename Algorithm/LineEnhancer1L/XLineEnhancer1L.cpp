@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XLineEnhancer1LResource.h"
 #include "XLineEnhancer1L.h"
 #include "XGeneralFunc.h"
@@ -18,7 +36,7 @@ LineEnhancer1LThreshold::LineEnhancer1LThreshold(LineEnhancer1LItem *parent)
 	StepDot			=1;
 	SelfSearch		=0;
 	StartAngle		=0;
-	EndAngle		=360;	//‚O`‚R‚U‚O‚ÅA”½Œv‰ñ‚è‚ÌŠp“x
+	EndAngle		=360;	//ï¿½Oï¿½`ï¿½Rï¿½Uï¿½Oï¿½ÅAï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ÌŠpï¿½x
 	ExcludeDynamicMask	=false;
 	FixedAngle		=false;
 	SourceLayer		= -1;

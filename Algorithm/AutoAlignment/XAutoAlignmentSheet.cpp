@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XAutoAlignmentSheet.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "AutoAlignmentResource.h"
 #include "XAutoAlignment.h"
@@ -82,7 +91,7 @@ ExeResult	AutoAlignmentSheet::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 	GetLayersBase()->AddMaxProcessing(GetPage(),6);
 	GetLayersBase()->StepProcessing(GetPage());
 
-	//PickupTest‚ÌƒƒWƒbƒN‚ðŠÖ”‚É‚Ü‚Æ‚ß‚é
+	//PickupTestï¿½Ìƒï¿½ï¿½Wï¿½bï¿½Nï¿½ï¿½ï¿½Öï¿½ï¿½É‚Ü‚Æ‚ß‚ï¿½
 	int		TransW;
 	int		NoiseShrink;
 	BYTE	**TmpMap,**TmpMap2;
@@ -136,7 +145,7 @@ ExeResult	AutoAlignmentSheet::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 	}
 
 	MatrixBuffNotAnd(MasterMap,(const BYTE **)TmpMap2,XByte,GetMaxLines());
-	//‚±‚±‚Å—ÖŠs‰»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Å—ÖŠsï¿½ï¿½
 	PureFlexAreaListContainer OutlineFPack;
 	PickupFlexArea(MasterMap ,XByte ,GetDotPerLine(),GetMaxLines() ,OutlineFPack);
 
@@ -151,7 +160,7 @@ ExeResult	AutoAlignmentSheet::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 				XYClassArea	*t1=XY.GetFirst();
 				XYClassArea	*t2=t1->NPList<XYClassArea>::GetNext();
 				int	Cx,Cy;
-				//“à‘¤—ÖŠs‚ð’Šo‚·‚é
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ÖŠsï¿½ð’Šoï¿½ï¿½ï¿½ï¿½
 				if(t1->GetDotCount()>t2->GetDotCount()){
 					XYClass	*a=t2->NPListPack<XYClass>::GetFirst();
 					Cx=a->x;
@@ -162,7 +171,7 @@ ExeResult	AutoAlignmentSheet::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 					Cx=a->x;
 					Cy=a->y;
 				}
-				//ŒŠ‚ÆŽv‚í‚ê‚é“à‘¤—ÖŠs‚ð”rœ‚·‚é
+				//ï¿½ï¿½ï¿½ÆŽvï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖŠsï¿½ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				for(PureFlexAreaList *g=OutlineFPack.GetFirst();g!=NULL;g=g->GetNext()){
 					if(g->IsInclude(Cx,Cy)==true
 					|| g->IsInclude(Cx-1,Cy-1)==true
@@ -406,7 +415,7 @@ ExeResult	AutoAlignmentSheet::ExecuteAlignment(int ExeID ,int ThreadNo,ResultInI
 		fm->CheckAbnormalVector();
 	}
 
-	//ŽüˆÍ‚Æ‹É’[‚ÉˆÙ‚È‚éƒxƒNƒgƒ‹‚ÌPico‚ð•sÌ—p‚É‚·‚é
+	//ï¿½ï¿½ï¿½Í‚Æ‹É’[ï¿½ÉˆÙ‚È‚ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½Picoï¿½ï¿½ï¿½sï¿½Ì—pï¿½É‚ï¿½ï¿½ï¿½
 	int	VectorMergin=pBase->VectorMergin;
 	for(int i=0;i<PicosCount;i++){
 		if(Picos[i]->Adopted==true){
@@ -449,7 +458,7 @@ ExeResult	AutoAlignmentSheet::ExecuteAlignment(int ExeID ,int ThreadNo,ResultInI
 	}
 			
 
-	//•sÌ—pPico‚ðŽüˆÍPico‚ðŽg‚Á‚ÄŒvŽZ‚·‚é
+	//ï¿½sï¿½Ì—pPicoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Picoï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ÄŒvï¿½Zï¿½ï¿½ï¿½ï¿½
 	if(GetParamGlobal()->CalcSingleThread==false){
 		#pragma omp parallel
 		{
@@ -468,7 +477,7 @@ ExeResult	AutoAlignmentSheet::ExecuteAlignment(int ExeID ,int ThreadNo,ResultInI
 			}
 		}
 	}
-	//•sÌ—pPico‚ªŽüˆÍ‚Æ‚QˆÈãˆÙ‚È‚é‚Æ‚«A•â³‚·‚é
+	//ï¿½sï¿½Ì—pPicoï¿½ï¿½ï¿½ï¿½ï¿½Í‚Æ‚Qï¿½Èï¿½ï¿½Ù‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½â³ï¿½ï¿½ï¿½ï¿½
 	if(GetParamGlobal()->CalcSingleThread==false){
 		#pragma omp parallel
 		{
@@ -532,7 +541,7 @@ void	ClusteredPicoDim::CheckAbnormalVector(void)
 
 void	ClusteredPicoDim::CheckAbnormalVector(int KxNumb ,int KyNumb ,int xn ,int yn ,int DivN)
 {
-	//ˆÙí•ûŒü‚ÌˆÚ“®ƒxƒNƒgƒ‹‚ð•sÌ—p‚É‚·‚é
+	//ï¿½Ùï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÚ“ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Ì—pï¿½É‚ï¿½ï¿½ï¿½
 	AutoAlignmentBase	*pBase=(AutoAlignmentBase *)Parent->GetParentBase();
 	int	XCount=DivN;
 	if(xn==KxNumb){
@@ -991,7 +1000,7 @@ void	AutoAlignmentSheet::MakePickupTest(BYTE ***TmpMap,BYTE ***TmpMap2,int &Tran
 	if(PPage->GetReflectionMap(_Reflection_Mask,MaskMap)==true){
 		ConstMapBuffer Map;
 		MaskMap.BindOr(Map);
-		//–c’£‚µ‚½ƒ}ƒXƒN—Ìˆæ‚Åƒ‰ƒxƒŠƒ“ƒOˆ—‚É‚æ‚Á‚Ä—Ìˆæ‰»‚³‚¹‚é
+		//ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½Xï¿½Nï¿½Ìˆï¿½ï¿½Åƒï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½Ä—Ìˆæ‰»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		MatrixBuffCopy(*TmpMap					,XByte,GetMaxLines()
 		             //, (const BYTE **)MaskMap	,XByte,GetMaxLines());
 					 , (const BYTE **)Map.GetBitMap()	,XByte,GetMaxLines());
@@ -1009,7 +1018,7 @@ void	AutoAlignmentSheet::MakePickupTest(BYTE ***TmpMap,BYTE ***TmpMap2,int &Tran
 	}
 	DeleteMatrixBuff(*TmpMap2,GetMaxLines());
 
-	//Žè‚Åì»‚µ‚½“¯‚¶ƒ‰ƒCƒuƒ‰ƒŠ‚Å‘¼‚Ì—Ìˆæ‚ª‚ ‚é‚Æ‚«A‚»‚Ì•”•ª‚ðíœ‚·‚é
+	//ï¿½ï¿½ï¿½Åì»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½Ì—Ìˆæ‚ªï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 	if(CreatedManual==false){
 		for(AlgorithmItemPI	*p=PPage->GetFirstData();p!=NULL;p=p->GetNext()){
 			AutoAlignmentSheet	*aSeet;
@@ -1022,7 +1031,7 @@ void	AutoAlignmentSheet::MakePickupTest(BYTE ***TmpMap,BYTE ***TmpMap2,int &Tran
 	}
 	PPage->CommonMutex.unlock();
 
-	//‘JˆÚ•”•ª‚Å•}TransW‚Ì—Ìˆæ‚ðMasterMap‚ÉŽæ“¾‚·‚é
+	//ï¿½Jï¿½Ú•ï¿½ï¿½ï¿½ï¿½Å•ï¿½ï¿½}TransWï¿½Ì—Ìˆï¿½ï¿½ï¿½MasterMapï¿½ÉŽæ“¾ï¿½ï¿½ï¿½ï¿½
 	DeleteMatrixBuff(MasterMap,GetMaxLines());
 	MasterMap	=MakeMatrixBuff(XByte,GetMaxLines());
 
@@ -1031,7 +1040,7 @@ void	AutoAlignmentSheet::MakePickupTest(BYTE ***TmpMap,BYTE ***TmpMap2,int &Tran
 	PickupMaster(MasterMap);
 /*
 //=================================================
-	//MasterMap‚ð•Û‘¶
+	//MasterMapï¿½ï¿½ï¿½Û‘ï¿½
 	QFile	mfile("F:/Data2/MasterMap.dat");
 	if(mfile.open(QIODevice::WriteOnly)==true){
 		QTextStream mystream(&mfile);
@@ -1071,7 +1080,7 @@ void	AutoAlignmentSheet::MakePickupTest(BYTE ***TmpMap,BYTE ***TmpMap2,int &Tran
 
 	GetLayersBase()->StepProcessing(GetPage());
 
-	//¬‚³‚È‚à‚Ì‚ðíœ‚·‚é
+	//ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 	if(RThr->MinDot>0){
 		PureFlexAreaListContainer FPack;
 		PickupFlexArea(MasterMap ,XByte ,GetDotPerLine(),GetMaxLines() ,FPack);
@@ -1108,7 +1117,7 @@ void	AutoAlignmentSheet::MakePickupTest(BYTE ***TmpMap,BYTE ***TmpMap2,int &Tran
 			,RThr->ExpandForPickup);
 /*
 //=================================================
-	//PickupBmp‚ð•Û‘¶
+	//PickupBmpï¿½ï¿½ï¿½Û‘ï¿½
 	QFile	wfile("F:/Data2/PickupBmp.dat");
 	if(wfile.open(QIODevice::WriteOnly)==true){
 		QTextStream mystream(&wfile);
@@ -1202,9 +1211,9 @@ void	AutoAlignmentSheet::MakePickupTest(BYTE ***TmpMap,BYTE ***TmpMap2,int &Tran
 
 	int	MaxSearchDot=PPage->GetMaxSearchDot()+1;
 	for(PureFlexAreaList *f=MaskFPackSorted.GetFirst();f!=NULL;f=f->GetNext()){
-		//Mask‚Ì—Ìˆæ‚ª‘¼‚ÌPICO—Ìˆæ‚ÉŠ®‘S‚É“à•ï‚³‚ê‚é‚Æ‚«A‚»‚ÌMask—Ìˆæ‚©‚çClusteredPicoDim‚ðì¬‚µ‚È‚¢
-		//‘å‚«‚¢—Ìˆæ‚©‚ç‡”Ô‚É¶¬‚µ‚½ClusteredPicoDim‚Å—Ìˆæ‚ðØ‚èŽæ‚Á‚Ä‚¢‚«AŽc‚Á‚½—Ìˆæ‚ª‚P‚Oƒhƒbƒg
-		//	ˆÈ‰º‚Å‚ ‚ê‚Î¶¬‚µ‚È‚¢
+		//Maskï¿½Ì—Ìˆæ‚ªï¿½ï¿½ï¿½ï¿½PICOï¿½Ìˆï¿½ï¿½ÉŠï¿½ï¿½Sï¿½É“ï¿½ï¿½ï‚³ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Maskï¿½Ìˆæ‚©ï¿½ï¿½ClusteredPicoDimï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½È‚ï¿½
+		//ï¿½å‚«ï¿½ï¿½ï¿½Ìˆæ‚©ï¿½ç‡ï¿½Ô‚Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ClusteredPicoDimï¿½Å—Ìˆï¿½ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Aï¿½cï¿½ï¿½ï¿½ï¿½ï¿½Ìˆæ‚ªï¿½Pï¿½Oï¿½hï¿½bï¿½g
+		//	ï¿½È‰ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Îï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 		FlexArea	TestArea=*f;
 		for(ClusteredPicoDim *a=CPicoDim.GetFirst();a!=NULL;a=a->GetNext()){
 			for(int iy=0;iy<a->PicoDimYNumb;iy++){

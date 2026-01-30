@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef BUTTONTOSHOWTOTALNGMAP_H
 #define BUTTONTOSHOWTOTALNGMAP_H
 
@@ -10,7 +28,7 @@
 #include "ReviewStructureItems.h"
 //#include "StretchImageWidget.h"
 
-// ƒvƒƒpƒeƒBéŒ¾ŠJn
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Jï¿½n
 #include "XReviewPropertyBase.h"
 
 class ButtonToShowTotalNGMap;
@@ -24,16 +42,16 @@ typedef PropertyBase<ButtonToShowTotalNGMap> ButtonToShowTotalNGMapProperty;
 namespace Ui{
 class ButtonToShowTotalNGMapPropertyClass;
 }
-// ƒvƒƒpƒeƒBéŒ¾I—¹
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Iï¿½ï¿½
 
-// ƒ{ƒ^ƒ“‚¾‚¯‚ ‚éGUI
-// ƒpƒPƒbƒg‚É‚æ‚éXV–½—ß‚ª‚ ‚é‚Ü‚ÅXV‚µ‚È‚¢
-// XV–½—ß‚ª”­¶‚·‚é‚Ì‚ÍˆÈ‰º‚Ì’Ê‚è
+// ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½GUI
+// ï¿½pï¿½Pï¿½bï¿½gï¿½É‚ï¿½ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ß‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ÅXï¿½Vï¿½ï¿½ï¿½È‚ï¿½
+// ï¿½Xï¿½Vï¿½ï¿½ï¿½ß‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÍˆÈ‰ï¿½ï¿½Ì’Ê‚ï¿½
 //
 //  ListMasterDataAndLoad
-//    ƒ}ƒXƒ^[ƒf[ƒ^‚ğ“Ç‚İ‚ñ‚¾‚Æ‚«
+//    ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ñ‚¾‚Æ‚ï¿½
 //  SelectLotForReview
-//    ƒƒbƒg‚ğ‘I‘ğ(•ÏX)‚µ‚½‚Æ‚«
+//    ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½Iï¿½ï¿½(ï¿½ÏX)ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 //  
 class BUTTONTOSHOWTOTALNGMAP_EXPORT ButtonToShowTotalNGMap : public GUIFormBase
 {
@@ -45,14 +63,14 @@ public:
 
 	virtual void	Prepare(void)	override;
 public:
-	// XV—v‹‚ğó‚¯æ‚èAm_map‚ğXV‚·‚é
+	// ï¿½Xï¿½Vï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ó‚¯ï¿½ï¿½ï¿½ï¿½Am_mapï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
 	virtual	void TransmitDirectly(GUIDirectMessage *packet)	override;
 
 public:
-	void updateGUI();// ReviewStructure‚©‚çƒf[ƒ^‚ğæ“¾‚µ‚Äm_map‚Ìî•ñ‚ğXV‚·‚é
+	void updateGUI();// ReviewStructureï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½m_mapï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
 
 public slots:
-	// ƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚µ‚½‚Ì“®ì
+	// ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì“ï¿½ï¿½ï¿½
 	void clicked(void);
 	void ResizeAction(void);
 	void updateMapImage();
@@ -61,32 +79,32 @@ protected:
 	virtual	void paintEvent(QPaintEvent *event)	override;
 
 private:
-	QPushButton m_Btn;// m_map‚ğ•\¦‚·‚éƒ{ƒ^ƒ“
-	TotalNGMap m_map;// NGƒ}ƒbƒv(î•ñXV¨•\¦‚·‚é)‰Šúó‘Ô‚Å•\¦‚³‚ê‚Ä‚¢‚È‚¢
+	QPushButton m_Btn;// m_mapï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½
+	TotalNGMap m_map;// NGï¿½}ï¿½bï¿½v(ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Å•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½
 	//Ui::TotalNGMapClass ui;
 	
 /*------------------------------------------------------------------------------------------------*/
-/*----------------------------ƒvƒƒpƒeƒBŠÖ˜A - ŠJn-----------------------------------------------*/
+/*----------------------------ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö˜A - ï¿½Jï¿½n-----------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 	
-// ƒvƒƒpƒeƒB‚ÌƒƒCƒ“ƒoƒbƒtƒ@(GUI‚Ég—p‚·‚éî•ñ‚ÆUi‚©‚ç‚Ì“üo—Í‚Ég—p)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒï¿½ï¿½Cï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@(GUIï¿½Égï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Uiï¿½ï¿½ï¿½ï¿½ï¿½Ì“ï¿½ï¿½oï¿½Í‚Égï¿½p)
 private:
 	ButtonToShowTotalNGMapProperty *m_property;
 
-// ƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO(ŠO•”‚©‚ç(*å‚ÉƒvƒƒpƒeƒBİ’èGUI)‚Ì—v‹‚ÅŒÄ‚Ño‚³‚ê‚é)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½O(ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(*ï¿½ï¿½ï¿½Éƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½GUI)ï¿½Ì—vï¿½ï¿½ï¿½ÅŒÄ‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 private:
 	Ui::ButtonToShowTotalNGMapPropertyClass *m_propertyUi;
 	QDialog *m_propertyDialog;
 
-// ƒvƒƒpƒeƒB‚Ö‚ÌƒAƒNƒZƒX
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½X
 public:
 	inline const ButtonToShowTotalNGMapProperty &getProperty() const { return *m_property; };
 	ButtonToShowTotalNGMapProperty *getPropertyPtr() { return m_property; }
 
-private:// •ÒW‰Â”\‚Í“à•”‚©‚ç‚Ì‚İ
+private:// ï¿½ÒWï¿½Â”\ï¿½Í“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
 	inline ButtonToShowTotalNGMapProperty &getProperty() { return *m_property; };
 
-// ƒvƒƒpƒeƒB‚Ìƒoƒbƒtƒ@‚ÆƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO‚Ö‚ÌƒAƒNƒZƒXŠÖ”
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½Æƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½Öï¿½
 private:
 	void setProperty(ButtonToShowTotalNGMapProperty *property){ m_property = property; };
 	void setPropertyUi(Ui::ButtonToShowTotalNGMapPropertyClass *ui){ m_propertyUi = ui; };
@@ -94,7 +112,7 @@ private:
 	void setPropertyDialog(QDialog *dialog){ m_propertyDialog = dialog; };
 	QDialog *getPropertyDialog(void){ return m_propertyDialog; };
 	
-// ƒvƒƒpƒeƒBƒ_ƒCƒAƒƒO‚ÌƒVƒOƒiƒ‹accepted(),rejected()‚É‘Î‰‚·‚éƒXƒƒbƒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ÌƒVï¿½Oï¿½iï¿½ï¿½accepted(),rejected()ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½g
 private slots:
 	void slot_propertyModified();
 	void slot_propertyRejected();
@@ -102,7 +120,7 @@ private slots:
 private slots:
 	void slot_tbNGColor_clicked();
 
-// ƒvƒƒpƒeƒB‚ÌƒRƒs[‚ÆUiƒtƒ@ƒCƒ‹‚Æ‚Ì˜AŒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½ÌƒRï¿½sï¿½[ï¿½ï¿½Uiï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Æ‚Ì˜Aï¿½g
 public:
 	void setProperty(const ButtonToShowTotalNGMapProperty &property);
 private:
@@ -111,7 +129,7 @@ private:
 	void setPropertyFromUi(ButtonToShowTotalNGMapProperty &property);
 	void setPropertyFromUi();
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Åg—p‚·‚éƒvƒƒpƒeƒB‚Ì‰Šú‰»
+// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 private:
 	void initProperty();
 

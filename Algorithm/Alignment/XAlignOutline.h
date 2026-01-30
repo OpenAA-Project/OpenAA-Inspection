@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XALIGNOUTLINE_H)
 #define	XALIGNOUTLINE_H
 
@@ -9,10 +27,10 @@ class	XAlignment;
 class	VectorOutlineNode : public FlexAreaImage ,public NPList<VectorOutlineNode>
 {
 	double	AddS,AddS2;
-	double	Add2S,Add2S2;	//ŠÔˆø‚¢‚½’l
+	double	Add2S,Add2S2;	//ï¿½Ôˆï¿½ï¿½ï¿½ï¿½ï¿½ï¿½l
 	BYTE	XSep,YSep;
-	float	Vx,Vy;	//ƒ}ƒbƒ`ƒ“ƒO•ûŒü‚Ì’PˆÊƒxƒNƒgƒ‹
-	int32	Px,Py;	//ƒ}ƒbƒ`ƒ“ƒO’PˆÊƒxƒNƒgƒ‹‚ÌŠî“_À•Wi•\¦—pj
+	float	Vx,Vy;	//ï¿½}ï¿½bï¿½`ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Ì’Pï¿½Êƒxï¿½Nï¿½gï¿½ï¿½
+	int32	Px,Py;	//ï¿½}ï¿½bï¿½`ï¿½ï¿½ï¿½Oï¿½Pï¿½Êƒxï¿½Nï¿½gï¿½ï¿½ï¿½ÌŠï¿½ï¿½_ï¿½ï¿½ï¿½Wï¿½iï¿½\ï¿½ï¿½ï¿½pï¿½j
 
 public:
 	double	CurrentVLen;

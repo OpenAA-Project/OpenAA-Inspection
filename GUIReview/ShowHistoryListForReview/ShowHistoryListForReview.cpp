@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ShowHistoryListForReviewResource.h"
 #include "ShowHistoryListForReview.h"
 #include "../XGUIReviewGlobal.h"
@@ -408,7 +426,7 @@ void ShowHistoryListForReview::ShowHistoryList(OrganizedHistoryListPtr orgHistor
 	int NGBoardCount=0;
 	int	HaltBoardCount=0;
 
-	// ‘Sƒf[ƒ^‚ÌƒŠƒXƒg‚ğì¬
+	// ï¿½Sï¿½fï¿½[ï¿½^ï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ì¬
 	for(int i=0; i<orgHistoryListPtr->count(); i++){
 		TableData data;
 		bool isAllChecked = true;
@@ -453,23 +471,23 @@ void ShowHistoryListForReview::ShowHistoryList(OrganizedHistoryListPtr orgHistor
 		}
 	}
 
-	// OKNGŠî”Õ”‚ğ•\¦
+	// OKNGï¿½ï¿½ï¿½Õï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
 	ui.lbOKBoardCount->setText(QString::number(OKBoardCount));
 	ui.lbNGBoardCount->setText(QString::number(NGBoardCount));
 
 	ui.leHistoryCount->setText(QString::number(OKBoardCount+NGBoardCount));
 
-	// s—ñ”‚ğİ’è
+	// ï¿½sï¿½ñ”‚ï¿½ï¿½İ’ï¿½
 	ui.twHistoryList->setColumnCount(twHorizontalHeaderLabels.count());
 	ui.twHistoryList->setHorizontalHeaderLabels(twHorizontalHeaderLabels);
 
-	// Å‰‚ÌƒCƒeƒŒ[ƒ^
+	// ï¿½Åï¿½ï¿½ÌƒCï¿½eï¿½ï¿½ï¿½[ï¿½^
 	OrganizedHistoryList::ConstIterator it=orgHistoryListPtr->constBegin();
 
-	// ƒe[ƒuƒ‹‚ÌŠeƒZƒ‹‚É—v‘f‚ğ”z’u
+	// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÌŠeï¿½Zï¿½ï¿½ï¿½É—vï¿½fï¿½ï¿½ï¿½zï¿½u
 	//for(int i=0; it!=orgHistoryListPtr->constEnd(); it++,i++){
 	
-	// NG‚ÌƒCƒ“ƒfƒbƒNƒXƒŠƒXƒgì¬
+	// NGï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½Xï¿½gï¿½ì¬
 	for(int i=0; i<OrgDataList.count(); i++){
 		if(OrgDataList[i].isOK()==false){
 			NGIndexAtTableRow.append(i);
@@ -546,12 +564,12 @@ void ShowHistoryListForReview::reloadData()
 		currentEID = RCH.historyPrt()->getInspectID();
 	}
 
-	// ƒƒbƒg‚ÌÄ“Ç‚İ‚İ
+	// ï¿½ï¿½ï¿½bï¿½gï¿½ÌÄ“Ç‚İï¿½ï¿½ï¿½
 	CmdUpdateCurrentLotData UCLD(GetLayersBase());
 	
 	RBase->TransmitDirectly(&UCLD);
 
-	// ‰ß‹‚Ìs‚ğİ’è
+	// ï¿½ß‹ï¿½ï¿½Ìsï¿½ï¿½ï¿½İ’ï¿½
 	int eidIndex = twHorizontalHeaderLabels.indexOf(hhlInspectID);
 
 	for(int row=0; row<ui.twHistoryList->rowCount(); row++){
@@ -593,9 +611,9 @@ void ShowHistoryListForReview::relativeCellClicked(int currentRow, int currentCo
 		//}
 		return;
 	}
-	if(ui.cbOKVisible->isChecked()==true && NGIndexAtTableRow.contains(currentRow)==false){// NG‚ÌƒCƒ“ƒfƒbƒNƒX‚ÉŠÜ‚Ü‚ê‚È‚¢iOKƒ{[ƒh‚Ìê‡j
+	if(ui.cbOKVisible->isChecked()==true && NGIndexAtTableRow.contains(currentRow)==false){// NGï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ÉŠÜ‚Ü‚ï¿½ï¿½È‚ï¿½ï¿½iOKï¿½{ï¿½[ï¿½hï¿½Ìê‡ï¿½j
 		repaint();
-		ui.twHistoryList->setCurrentCell(previousRow, previousColumn, QItemSelectionModel::SelectionFlag::ClearAndSelect | QItemSelectionModel::SelectionFlag::Rows);// ‘O‚ÌƒCƒ“ƒfƒbƒNƒX‚ğw’è
+		ui.twHistoryList->setCurrentCell(previousRow, previousColumn, QItemSelectionModel::SelectionFlag::ClearAndSelect | QItemSelectionModel::SelectionFlag::Rows);// ï¿½Oï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½wï¿½ï¿½
 		update();
 		return;
 	}
@@ -677,7 +695,7 @@ void ShowHistoryListForReview::updateGUI()
 {
 	ReviewPIBase *RBase = GetReviewAlgorithm();
 	if(RBase!=NULL){
-		// ƒŠƒXƒg‚ğ•\¦
+		// ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½\ï¿½ï¿½
 		CmdReqOrganizedHistoryList ReqListCmd(GetLayersBase());
 		RBase->TransmitDirectly(&ReqListCmd);
 
@@ -687,7 +705,7 @@ void ShowHistoryListForReview::updateGUI()
 			ShowHistoryList(NULL);
 		}
 
-		// Œ»İ‚ÌƒJƒŒƒ“ƒg—š—ğ‚ğİ’è
+		// ï¿½ï¿½ï¿½İ‚ÌƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 		CmdReqCurrentHistory ReqCurrentHistoryCmd(GetLayersBase());
 		RBase->TransmitDirectly(&ReqCurrentHistoryCmd);
 
@@ -753,4 +771,3 @@ void ShowHistoryListForReview::stateOKViewChanged(int state)
 	}
 	ui.twHistoryList->setCurrentCell(currIndex, 0, QItemSelectionModel::SelectionFlag::ClearAndSelect | QItemSelectionModel::SelectionFlag::Rows);
 }
-

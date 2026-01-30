@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XDotColorMatching.h"
 #include "XGeneralFunc.h"
 #include "ImageControlTools.h"
@@ -342,7 +360,7 @@ double	DotColorMatchingVLine::Calc(ImageBuffer &Target ,ImageBuffer &TRTarget ,i
 	double	AvrS=((double)AddedS)*SDCountD;
 	double	AvrD=((double)AddedD)*SDCountD;
 	double	Hd=AddedDD-SDCount*AvrD*AvrD;
-	double	H =sqrt(Hd/SDCount)/(AvrD+5);		//ƒoƒ^‚Â‚«
+	double	H =sqrt(Hd/SDCount)/(AvrD+5);		//ï¿½oï¿½^ï¿½Â‚ï¿½
 	double	M=(AddedSS-SDCount*AvrS*AvrS)*Hd;	
 	if(M<=0){
 		return 0;
@@ -350,7 +368,7 @@ double	DotColorMatchingVLine::Calc(ImageBuffer &Target ,ImageBuffer &TRTarget ,i
 	M=sqrt(M);
 	double	K=AddedSD-SDCount*AvrS*AvrD;
 	//double	V=sqrt((AddedDD-AvrD*AvrD*SDCount)/SDCount);
-	double	V=sqrt((AddedSS-2.0*AddedSD+AddedDD)/SDCount)/(AvrD+5);	//ƒ}ƒXƒ^[‚Æ‚Ì·ˆÙ
+	double	V=sqrt((AddedSS-2.0*AddedSD+AddedDD)/SDCount)/(AvrD+5);	//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Æ‚Ìï¿½ï¿½ï¿½
 
 	double	BAvr=AddedBackD/((double)DBackCount);
 	double	B=sqrt(AddedBackDD/((double)DBackCount)-BAvr*BAvr)/(BAvr+5);
@@ -800,7 +818,7 @@ double	DotColorMatchingHLine::Calc(ImageBuffer &Target ,int dx,int dy,double Thr
 	M=sqrt(M);
 	double	K=AddedSD-SDCount*AvrS*AvrD;
 	//double	V=sqrt((AddedDD-AvrD*AvrD*SDCount)/SDCount);
-	double	V=sqrt((AddedSS-2.0*AddedSD+AddedDD)/SDCount)/(AvrD+5);	//ƒ}ƒXƒ^[‚Æ‚Ì·ˆÙ
+	double	V=sqrt((AddedSS-2.0*AddedSD+AddedDD)/SDCount)/(AvrD+5);	//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Æ‚Ìï¿½ï¿½ï¿½
 	
 	double	BAvr=AddedBackD/((double)DBackCount);
 	double	B=sqrt(AddedBackDD/((double)DBackCount)-BAvr*BAvr)/(BAvr+5);

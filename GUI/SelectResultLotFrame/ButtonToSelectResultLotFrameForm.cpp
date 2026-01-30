@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ButtonToSelectResultLotFrameForm.h"
 #include "ui_ButtonToSelectResultLotFrameForm.h"
 #include "SelectResultLotFrameDialog.h"
@@ -148,7 +166,7 @@ void ButtonToSelectResultLotFrameForm::SetLotToSystem(int iLotAutoCount
 
 	BroadcastDirectly(_BC_BuildForShow ,GetLayersBase()->GetCurrentInspectIDForDisplay());
 
-	//?!?n???CID?iS102?j?E?a???CID?d?Z?b?g?E?e
+	//?!?n???ï¿½CID?iS102?j?E?a???ï¿½CID?d?Z?b?g?ï¿½E?e
 	if(GetLayersBase()->GetEntryPoint()->GetExecuteInspect()!=NULL){
 		SeqControlParam	*Param=(SeqControlParam *)GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetSeqParam();
 		if(Param!=NULL){

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "XDLLOnly.h"
@@ -7,15 +25,15 @@
 #include "XReviewStructure.h"
 
 //////////////////////////////////
-// ‘¼GUI‚©‚ç‘—M‚³‚ê‚éƒRƒ}ƒ“ƒh
+// ï¿½ï¿½GUIï¿½ï¿½ï¿½ç‘—ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 
-// NGƒŠƒXƒg‚ÌXV—v‹
-// •Û‚µ‚Ä‚ ‚éRefHistory‚©‚çNGî•ñ‚ğæ“¾‚µ‚ÄƒŠƒXƒg‚ğì¬‚µ‚Ä•\¦‚·‚é
-// GUICmdReviewUpdateLocal ‹¤’Ê‚É‚ ‚é
+// NGï¿½ï¿½ï¿½Xï¿½gï¿½ÌXï¿½Vï¿½vï¿½ï¿½
+// ï¿½Ûï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½RefHistoryï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Äƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½Ä•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// GUICmdReviewUpdateLocal ï¿½ï¿½ï¿½Ê‚É‚ï¿½ï¿½ï¿½
 
-// NG‰æ‘œ‚Ì‘I‘ğ—v‹
-// ƒZƒbƒg‚³‚ê‚½x,y‚©‚ç‹ß‚¢NG‰æ‘œ‚ğ‘I‘ğ‚·‚é
-// ‚½‚¾‚µA‚ ‚é’ö“x‚Ü‚Å‹ß‚­‚È‚¢‚Æ–³‹‚³‚ê‚é
+// NGï¿½æ‘œï¿½Ì‘Iï¿½ï¿½ï¿½vï¿½ï¿½
+// ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ê‚½x,yï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½NGï¿½æ‘œï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Ü‚Å‹ß‚ï¿½ï¿½È‚ï¿½ï¿½Æ–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 class GUICmdSelectNearNG : public GUIDirectMessage
 {
 public:
@@ -24,8 +42,8 @@ public:
 	int y;
 
 	// Recieve
-	bool Ret; // ³íI—¹‚È‚çtrue
-	bool Ignored; // w’è‚µ‚½‹ß‚­‚ÌNG‰ÓŠ‚ª–³‚­‚Ä—v‹‚ª–³‹‚³‚ê‚½ê‡true
+	bool Ret; // ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½È‚ï¿½true
+	bool Ignored; // ï¿½wï¿½è‚µï¿½ï¿½ï¿½ß‚ï¿½ï¿½ï¿½NGï¿½Óï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä—vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ê‡true
 public:
 	bool Save(QIODevice *f){ return true; };
 	bool Load(QIODevice *f){ return true; };
@@ -35,36 +53,36 @@ public:
 };
 
 //////////////////////////////////////
-// ‘—‚éƒRƒ}ƒ“ƒh(‘¼GUI‚ÌƒpƒPƒbƒg)
+// ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h(ï¿½ï¿½GUIï¿½Ìƒpï¿½Pï¿½bï¿½g)
 
-// EShowHistoryListForReview
-//   [—š—ğƒŠƒXƒg‚ÌˆÚ“®—v‹]
+// ï¿½EShowHistoryListForReview
+//   [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ÌˆÚ“ï¿½ï¿½vï¿½ï¿½]
 //    GUICmdReqMoveHistoryList
 //
-// ENGImageForReview
-//   [NGImage‚ÌXV—v‹]
+// ï¿½ENGImageForReview
+//   [NGImageï¿½ÌXï¿½Vï¿½vï¿½ï¿½]
 //    GUICmdReqSetNGImage
 //
-// EWholeImageForReview
-//   [Šm”F’†‚ÌNG‰æ‘œî•ñ‚Ì‘—M]
+// ï¿½EWholeImageForReview
+//   [ï¿½mï¿½Fï¿½ï¿½ï¿½ï¿½NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½M]
 //    GUICmdReqSetNGImagePos
 
 
 // //////////////////////////////////////
-// ƒ}ƒXƒ^[ƒXƒŒ[ƒuƒRƒ}ƒ“ƒh
-//  GUI‹¤’Ê€–Ú
-//   [XV] -> NGPosList‚ÌXV
+// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Xï¿½ï¿½ï¿½[ï¿½uï¿½Rï¿½}ï¿½ï¿½ï¿½h
+//  GUIï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½
+//   [ï¿½Xï¿½V] -> NGPosListï¿½ÌXï¿½V
 //   GUICmdReviewUpdate
 // 
 
 /*
-// ‘—M‘¤
+// ï¿½ï¿½ï¿½Mï¿½ï¿½
 class GUIReqXXX : public GUICmdPacketBase
 {
 public:
-	// ‘—M‚·‚éƒf[ƒ^
+	// ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 	int data_req;
-	// óM‚·‚éƒf[ƒ^
+	// ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 	bool Ret;
 public:
 	GUIReqXXX(LayersBase *Base ,QString EmitterRoot,QString EmitterName ,int globalPage=-1);

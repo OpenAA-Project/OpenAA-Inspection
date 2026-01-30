@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\ImageChecker\XImageChecker.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #ifndef XImageChecker_h
 #define XImageChecker_h
@@ -179,10 +188,10 @@ class	ImageCheckerItem : public AlgorithmItemPLI
 {
 public:
 	FlexArea	***DotMatrix;
-	int			MaxXCount;		//Z³ŒvZ‚Ì‚½‚Ñ‚ÉÄŒvZ‚³‚ê‚é
-	int			MaxYCount;		//Z³ŒvZ‚Ì‚½‚Ñ‚ÉÄŒvZ‚³‚ê‚é
-	double		CenterPointForSlideX;	//Å‰‚Éİ’è‚³‚ê‚é
-	double		CenterPointForSlideY;	//Å‰‚Éİ’è‚³‚ê‚é
+	int			MaxXCount;		//ï¿½Zï¿½ï¿½ï¿½vï¿½Zï¿½Ì‚ï¿½ï¿½Ñ‚ÉÄŒvï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int			MaxYCount;		//ï¿½Zï¿½ï¿½ï¿½vï¿½Zï¿½Ì‚ï¿½ï¿½Ñ‚ÉÄŒvï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	double		CenterPointForSlideX;	//ï¿½Åï¿½ï¿½Éİ’è‚³ï¿½ï¿½ï¿½ï¿½
+	double		CenterPointForSlideY;	//ï¿½Åï¿½ï¿½Éİ’è‚³ï¿½ï¿½ï¿½ï¿½
 	double		FFTList[10000];
 	int			FFTListCount;
 	int			MainPosX,MainPosY;
@@ -237,8 +246,8 @@ public:
 	bool	IsMasterMode(void);
 };
 
-//@@‚w•ûŒüi‰¡jƒYƒŒ
-//		ƒŠƒtƒ@ƒŒƒ“ƒXŠî”Âã‚ÌŠî€ˆÊ’u‚Ì‰æ‘œã‚Ì‰¡•ûŒü‚¸‚ê‚Å”»•Ê
+//ï¿½@ï¿½@ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½jï¿½Yï¿½ï¿½
+//		ï¿½ï¿½ï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Âï¿½ï¿½ÌŠî€ï¿½Ê’uï¿½Ì‰æ‘œï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å”ï¿½ï¿½ï¿½
 class	ImageCheckerRegCalcCamX : public ImageCheckerRegCalcBase
 {
 public:
@@ -254,8 +263,8 @@ public:
 	virtual	bool	DeletedItem(AlgorithmItemPLI *Item);
 };
 
-//	‚x•ûŒüi‘OŒãjƒYƒŒ
-//		ƒŠƒtƒ@ƒŒƒ“ƒXŠî”Âã‚ÌŠî€ˆÊ’u‚Ì‰æ‘œã‚Ìc•ûŒü‚¸‚ê‚Å”»•Ê
+//	ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Oï¿½ï¿½ï¿½jï¿½Yï¿½ï¿½
+//		ï¿½ï¿½ï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Âï¿½ï¿½ÌŠî€ï¿½Ê’uï¿½Ì‰æ‘œï¿½ï¿½ï¿½Ìcï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å”ï¿½ï¿½ï¿½
 class	ImageCheckerRegCalcCamY : public ImageCheckerRegCalcBase
 {
 public:
@@ -271,8 +280,8 @@ public:
 	virtual	bool	DeletedItem(AlgorithmItemPLI *Item);
 };
 
-//	‚y•ûŒüiã‰ºjƒYƒŒ
-//		ƒŠƒtƒ@ƒŒƒ“ƒXŠî”Âã‚Ì’†‰›•”•ª‚Ì•W€•Î·‚Å”»•Ê
+//	ï¿½yï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ã‰ºï¿½jï¿½Yï¿½ï¿½
+//		ï¿½ï¿½ï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Âï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•Wï¿½ï¿½ï¿½Îï¿½ï¿½Å”ï¿½ï¿½ï¿½
 class	ImageCheckerRegCalcCamZ : public ImageCheckerRegCalcBase
 {
 public:
@@ -288,8 +297,8 @@ public:
 	virtual	bool	DeletedItem(AlgorithmItemPLI *Item);
 };
 
-//	‰¡ƒ`ƒ‹ƒg
-//		ƒŠƒtƒ@ƒŒƒ“ƒXŠî”Âã‚Ì¶‰E‚Ì•W€•Î·‚Ì·ˆÙ‚Å”»•Ê
+//	ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½g
+//		ï¿½ï¿½ï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Âï¿½ï¿½Ìï¿½ï¿½Eï¿½Ì•Wï¿½ï¿½ï¿½Îï¿½ï¿½Ìï¿½ï¿½Ù‚Å”ï¿½ï¿½ï¿½
 class	ImageCheckerRegCalcCamXTilt : public ImageCheckerRegCalcBase
 {
 public:
@@ -304,8 +313,8 @@ public:
 	virtual	bool	DeletedItem(AlgorithmItemPLI *Item);
 };
 
-//	‘OŒãƒ`ƒ‹ƒg
-//		ƒŠƒtƒ@ƒŒƒ“ƒX‚Ì’†‰›‚Æ¶‰E‚ÌŠî€ˆÊ’u‚Å‚Ì•W€•Î·‚Ì·ˆÙ‚Å”»•Ê
+//	ï¿½Oï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½g
+//		ï¿½ï¿½ï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Ì’ï¿½ï¿½ï¿½ï¿½Æï¿½ï¿½Eï¿½ÌŠî€ï¿½Ê’uï¿½Å‚Ì•Wï¿½ï¿½ï¿½Îï¿½ï¿½Ìï¿½ï¿½Ù‚Å”ï¿½ï¿½ï¿½
 class	ImageCheckerRegCalcCamYTilt : public ImageCheckerRegCalcBase
 {
 public:
@@ -321,8 +330,8 @@ public:
 	virtual	bool	DeletedItem(AlgorithmItemPLI *Item);
 };
 
-//	ƒJƒƒ‰‰ñ“]
-//		ƒŠƒtƒ@ƒŒƒ“ƒXŠî”Âã‚Ì¶‰E‚ÌŠî€ˆÊ’u‚Ìã‰ºƒYƒŒ‚Å”»•Ê
+//	ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
+//		ï¿½ï¿½ï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Âï¿½ï¿½Ìï¿½ï¿½Eï¿½ÌŠî€ï¿½Ê’uï¿½Ìã‰ºï¿½Yï¿½ï¿½ï¿½Å”ï¿½ï¿½ï¿½
 class	ImageCheckerRegCalcCamRot : public ImageCheckerRegCalcBase
 {
 public:
@@ -337,8 +346,8 @@ public:
 	virtual	bool	DeletedItem(AlgorithmItemPLI *Item);
 };
 
-//	•½s“x
-//		‰æ‘œã‚Ìã‰º¶‰E‚Ì‚S‚©Š‚Ì•W€•Î·‚Ì·ˆÙ‚Å”»•Ê
+//	ï¿½ï¿½ï¿½sï¿½x
+//		ï¿½æ‘œï¿½ï¿½ï¿½Ìã‰ºï¿½ï¿½ï¿½Eï¿½Ì‚Sï¿½ï¿½ï¿½ï¿½ï¿½Ì•Wï¿½ï¿½ï¿½Îï¿½ï¿½Ìï¿½ï¿½Ù‚Å”ï¿½ï¿½ï¿½
 class	ImageCheckerRegCalcStageFlat : public ImageCheckerRegCalcBase
 {
 public:
@@ -355,8 +364,8 @@ public:
 	virtual	bool	DeletedItem(AlgorithmItemPLI *Item);
 };
 
-//	‘¬“x
-//		ƒŠƒtƒ@ƒŒƒ“ƒXŠî”Âã‚Ìã‰º‚ÌŠî€ˆÊ’u‚Ì‰æ‘œã‚Ì‹——£‚Å”»•Ê
+//	ï¿½ï¿½ï¿½x
+//		ï¿½ï¿½ï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Âï¿½ï¿½Ìã‰ºï¿½ÌŠî€ï¿½Ê’uï¿½Ì‰æ‘œï¿½ï¿½ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½Å”ï¿½ï¿½ï¿½
 class	ImageCheckerRegCalcStageVerocity : public ImageCheckerRegCalcBase
 {
 public:
@@ -371,8 +380,8 @@ public:
 	virtual	bool	DeletedItem(AlgorithmItemPLI *Item);
 };
 
-//	“™‘¬«
-//		’†‰›•”•ª‚ÌA‰¡•ûŒü•W€•Î·‚ğã‚©‚ç‰º‚Ü‚ÅAŒvZ˜g‚ğƒXƒC[ƒv‚µ‚½Å‘åAÅ¬
+//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Îï¿½ï¿½ï¿½ï¿½ã‚©ï¿½ç‰ºï¿½Ü‚ÅAï¿½vï¿½Zï¿½gï¿½ï¿½ï¿½Xï¿½Cï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½Aï¿½Åï¿½
 class	ImageCheckerRegCalcStageVConst : public ImageCheckerRegCalcBase
 {
 public:
@@ -386,8 +395,8 @@ public:
 	virtual	bool	DeletedItem(AlgorithmItemPLI *Item);
 };
 
-//	‘S‘Ì‚ÌÆ“x
-//		ƒŠƒtƒ@ƒŒƒ“ƒX‘S‘Ì‚Ì•W€‹P“x
+//	ï¿½Sï¿½Ì‚ÌÆ“x
+//		ï¿½ï¿½ï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Sï¿½Ì‚Ì•Wï¿½ï¿½ï¿½Pï¿½x
 class	ImageCheckerRegCalcLightWhole : public ImageCheckerRegCalcBase
 {
 public:
@@ -403,8 +412,8 @@ public:
 	virtual	bool	DeletedItem(AlgorithmItemPLI *Item);
 };
 
-//	¶‰E‚ÌÆ“x
-//		ƒŠƒtƒ@ƒŒƒ“ƒX‚Ì¶‰E‚ÌŠî€ˆÊ’u‚Å‚Ì•W€•Î·‚Ì·ˆÙ‚Å”»•Ê
+//	ï¿½ï¿½ï¿½Eï¿½ÌÆ“x
+//		ï¿½ï¿½ï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Ìï¿½ï¿½Eï¿½ÌŠî€ï¿½Ê’uï¿½Å‚Ì•Wï¿½ï¿½ï¿½Îï¿½ï¿½Ìï¿½ï¿½Ù‚Å”ï¿½ï¿½ï¿½
 class	ImageCheckerRegCalcLightLeftRight : public ImageCheckerRegCalcBase
 {
 public:

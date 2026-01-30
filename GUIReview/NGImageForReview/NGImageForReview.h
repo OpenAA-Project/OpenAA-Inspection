@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef NGIMAGEFORREVIEW_H
 #define NGIMAGEFORREVIEW_H
 
@@ -13,7 +31,7 @@
 #include "ReviewStructureItems.h"
 #include "PieceDisplay.h"
 
-// ƒvƒƒpƒeƒBéŒ¾ŠJn
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Jï¿½n
 #include "XReviewPropertyBase.h"
 
 class NGImageForReview;
@@ -27,32 +45,32 @@ namespace Ui{
 class NGImageForReviewPropertyClass;
 }
 
-// ƒvƒƒpƒeƒBéŒ¾I—¹
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Iï¿½ï¿½
 
 class NGIMAGEFORREVIEW_EXPORT NGImageForReview : public GUIFormBase
 {
 	Q_OBJECT
 
 public:
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‰æ–Ê‚Ì•\¦‚ğ®‚¦‚é
+	// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Å‰ï¿½ï¿½Ê‚Ì•\ï¿½ï¿½ï¿½ğ®‚ï¿½ï¿½ï¿½
 	NGImageForReview(LayersBase *Base,QWidget *parent);
 	~NGImageForReview();
 
 public:
-	// NG‚Æƒ}ƒXƒ^[‰æ‘œ‚ÌXV—v‹‚ğó‚¯æ‚èA‰æ–Ê‚ğXV‚·‚é
+	// NGï¿½Æƒ}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ÌXï¿½Vï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ó‚¯ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ê‚ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
 	virtual	void TransmitDirectly(GUIDirectMessage *packet)	override;
-	void setOrientation(Qt::Orientation orient);// c‚©‰¡•À‚Ñ‚Ìİ’è
+	void setOrientation(Qt::Orientation orient);// ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ‚Ìİ’ï¿½
 	//void setMasterSide(Review::SideType side);
-	void adjustImageSize(void);// NG‰æ‘œƒTƒCƒY‚Æ•\¦ƒGƒŠƒAƒTƒCƒY‚©‚çNG‰æ‘œ‚Æƒ}ƒXƒ^[‰æ‘œ‚Ì‘å‚«‚³‚ğ’²®‚µANG‰æ‘œ‚Ìƒ}ƒXƒ^[‰æ‘œˆÊ’u‚Ìî•ñ‚©‚çƒ}ƒXƒ^[‰æ‘œ‚ÌƒVƒtƒgˆÚ“®‚às‚¤‰æ‘œ‘S”Ê‚Ì’²®“®ì
+	void adjustImageSize(void);// NGï¿½æ‘œï¿½Tï¿½Cï¿½Yï¿½Æ•\ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½NGï¿½æ‘œï¿½Æƒ}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ì‘å‚«ï¿½ï¿½ï¿½ğ’²ï¿½ï¿½ï¿½ï¿½ANGï¿½æ‘œï¿½Ìƒ}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ê’uï¿½Ìï¿½ï¿½ñ‚©‚ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ÌƒVï¿½tï¿½gï¿½Ú“ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½æ‘œï¿½Sï¿½Ê‚Ì’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	void updateGUI(void);
 	virtual	void Prepare(void)	override;
 
 private:
-	// check`
-	// EditGUI‚Å•ÏX‚³‚ê‚½ƒvƒƒpƒeƒB‚É‘Î‚µ‚Ä“®“I‚É•ÏX‚·‚é‚½‚ß‚ÌŠÖ”
-	// ƒvƒƒpƒeƒB‚Ìƒpƒlƒ‹‚Ì”’l‚È‚Ç‚ª•ÏX‚³‚ê‚ÄŒˆ’è‚³‚ê‚½ê‡‚ÉÀs‚³‚ê‚é
-	// ÀÛ‚ÉÀs‚³‚ê‚é‚Ì‚ÍGUIFormBase‚ÌChangedValue()‚ÅPrepare‚ªŒÄ‚Î‚êAˆÈ‰º‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
+	// checkï¿½`
+	// EditGUIï¿½Å•ÏXï¿½ï¿½ï¿½ê‚½ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½É‘Î‚ï¿½ï¿½Ä“ï¿½ï¿½Iï¿½É•ÏXï¿½ï¿½ï¿½é‚½ï¿½ß‚ÌŠÖï¿½
+	// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒpï¿½lï¿½ï¿½ï¿½Ìï¿½ï¿½lï¿½È‚Ç‚ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½ï¿½ÄŒï¿½ï¿½è‚³ï¿½ê‚½ï¿½ê‡ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½Û‚Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½GUIFormBaseï¿½ï¿½ChangedValue()ï¿½ï¿½Prepareï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½Aï¿½È‰ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
 	void checkOrientation();
 
 public:
@@ -61,22 +79,22 @@ public:
 	bool isNGImageView;
 
 private:
-	//Review::SideType	currentMasterSide;	// Œ»İ•\¦’†‚Ì‰æ‘œƒTƒCƒh
+	//Review::SideType	currentMasterSide;	// ï¿½ï¿½ï¿½İ•\ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰æ‘œï¿½Tï¿½Cï¿½h
 	//
-	//MasterImagePiece	*FrontMasterImage;	// ƒ}ƒXƒ^[‰æ‘œŠg‘å}(•\ //
-	//MasterImagePiece	*BackMasterImage;	// ƒ}ƒXƒ^[‰æ‘œŠg‘å}(— 
-	//NGImagePiece		*NGNailImage;			// NG‰æ‘œ
+	//MasterImagePiece	*FrontMasterImage;	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½gï¿½ï¿½ï¿½}(ï¿½\ //
+	//MasterImagePiece	*BackMasterImage;	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½gï¿½ï¿½ï¿½}(ï¿½ï¿½
+	//NGImagePiece		*NGNailImage;			// NGï¿½æ‘œ
 
 	MasterPieceDisplay		MasterPImage;
 	NGNailDisplay			NGNailImage;
 	QLabel					MasterLabel;
 	QLabel					NGNailLabel;
 
-	QGridLayout *mainLayout;// ƒŒƒCƒAƒEƒg
-	QVBoxLayout *vLayout;	// c•À‚Ñ—pƒŒƒCƒAƒEƒg
-	QHBoxLayout *hLayout;	// ‰¡•À‚Ñ—pƒŒƒCƒAƒEƒg
+	QGridLayout *mainLayout;// ï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½g
+	QVBoxLayout *vLayout;	// ï¿½cï¿½ï¿½ï¿½Ñ—pï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½g
+	QHBoxLayout *hLayout;	// ï¿½ï¿½ï¿½ï¿½ï¿½Ñ—pï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½g
 
-	Qt::Orientation			viewType;			// •À‚Ñ•ûŒü
+	Qt::Orientation			viewType;			// ï¿½ï¿½ï¿½Ñ•ï¿½ï¿½ï¿½
 
 	NGNailItemRef NGNailInfo;
 
@@ -84,31 +102,31 @@ private:
 	QColor DefaultMasterLabelWindowColor;
 
 public slots:
-	void	ResizeAction();//ƒEƒBƒ“ƒhƒEƒTƒCƒY•ÏX‚Ì“®ì
+	void	ResizeAction();//ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Tï¿½Cï¿½Yï¿½ÏXï¿½ï¿½ï¿½Ì“ï¿½ï¿½ï¿½
 
 	
 /*------------------------------------------------------------------------------------------------*/
-/*----------------------------ƒvƒƒpƒeƒBŠÖ˜A - ŠJn-----------------------------------------------*/
+/*----------------------------ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö˜A - ï¿½Jï¿½n-----------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 	
-// ƒvƒƒpƒeƒB‚ÌƒƒCƒ“ƒoƒbƒtƒ@(GUI‚Ég—p‚·‚éî•ñ‚ÆUi‚©‚ç‚Ì“üo—Í‚Ég—p)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒï¿½ï¿½Cï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@(GUIï¿½Égï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Uiï¿½ï¿½ï¿½ï¿½ï¿½Ì“ï¿½ï¿½oï¿½Í‚Égï¿½p)
 private:
 	NGImageForReviewProperty *m_property;
 
-// ƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO(ŠO•”‚©‚ç(*å‚ÉƒvƒƒpƒeƒBİ’èGUI)‚Ì—v‹‚ÅŒÄ‚Ño‚³‚ê‚é)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½O(ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(*ï¿½ï¿½ï¿½Éƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½GUI)ï¿½Ì—vï¿½ï¿½ï¿½ÅŒÄ‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 private:
 	Ui::NGImageForReviewPropertyClass *m_propertyUi;
 	QDialog *m_propertyDialog;
 
-// ƒvƒƒpƒeƒB‚Ö‚ÌƒAƒNƒZƒX
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½X
 public:
 	inline const NGImageForReviewProperty &getProperty() const { return *m_property; };
 	NGImageForReviewProperty *getPropertyPtr() { return m_property; }
 
-private:// •ÒW‰Â”\‚Í“à•”‚©‚ç‚Ì‚İ
+private:// ï¿½ÒWï¿½Â”\ï¿½Í“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
 	inline NGImageForReviewProperty &getProperty() { return *m_property; };
 
-// ƒvƒƒpƒeƒB‚Ìƒoƒbƒtƒ@‚ÆƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO‚Ö‚ÌƒAƒNƒZƒXŠÖ”
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½Æƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½Öï¿½
 private:
 	void setProperty(NGImageForReviewProperty *property){ m_property = property; };
 	void setPropertyUi(Ui::NGImageForReviewPropertyClass *ui){ m_propertyUi = ui; };
@@ -116,11 +134,11 @@ private:
 	void setPropertyDialog(QDialog *dialog){ m_propertyDialog = dialog; };
 	QDialog *getPropertyDialog(void){ return m_propertyDialog; };
 	
-// ƒvƒƒpƒeƒBƒ_ƒCƒAƒƒO‚ÌƒVƒOƒiƒ‹accepted()‚É‘Î‰‚·‚éƒXƒƒbƒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ÌƒVï¿½Oï¿½iï¿½ï¿½accepted()ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½g
 private slots:
 	void slot_propertyModified();
 
-// ƒvƒƒpƒeƒB‚ÌƒRƒs[‚ÆUiƒtƒ@ƒCƒ‹‚Æ‚Ì˜AŒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½ÌƒRï¿½sï¿½[ï¿½ï¿½Uiï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Æ‚Ì˜Aï¿½g
 public:
 	void setProperty(const NGImageForReviewProperty &property);
 private:
@@ -129,7 +147,7 @@ private:
 	void setPropertyFromUi(NGImageForReviewProperty &property);
 	void setPropertyFromUi();
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Åg—p‚·‚éƒvƒƒpƒeƒB‚Ì‰Šú‰»
+// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 private:
 	void initProperty();
 
@@ -137,7 +155,7 @@ private:
 	void updateProperty(){ setProperty(getProperty()); };
 	
 /*------------------------------------------------------------------------------------------------*/
-/*----------------------------ƒvƒƒpƒeƒBŠÖ˜A - I—¹-----------------------------------------------*/
+/*----------------------------ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö˜A - ï¿½Iï¿½ï¿½-----------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 };
 

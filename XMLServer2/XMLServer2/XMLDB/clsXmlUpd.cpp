@@ -1,9 +1,21 @@
 /*
- * clsXmlUpd.cpp
+ * Copyright (C) 2021
+ * Author : cony
  *
- *	Created on: 2009/11/20
- *		Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #include "clsXmlUpd.h"
 #include "clsCalcTime.h"
@@ -311,7 +323,7 @@ bool clsXmlUpd::searchXml(int idx) {
 	}
 	clsDbCtrl *dbCtrl = clsDbCtrl::GetInstance();
 	if (dbCtrl->setDbFile(readSql->tbl, db) == false) {
-		// DB’è‹`ŒŸõ
+		// DBï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½
 		clsDbDef *dbDef = dbCtrl->appendDb(mstid, mac, day);
 		if (dbDef == NULL) {
 			return false;
@@ -401,7 +413,7 @@ bool clsXmlUpd::nextXml(const QString &id) {
 	}
 	clsDbCtrl *dbCtrl = clsDbCtrl::GetInstance();
 	if (dbCtrl->setDbFile(mstid, db) == false) {
-		//DB’è‹`ŒŸõ
+		//DBï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½
 		clsDbDef *dbDef = dbCtrl->appendDb(mstid, mac, day);
 		if (dbDef == NULL) {
 			mstid.clear();
@@ -447,7 +459,7 @@ bool clsXmlUpd::allSearchXml(int idx) {
 		return false;
 	}
 
-	// ŒŸõ‘ÎÛ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Îï¿½
 	clsDbCtrl *dbCtrl = clsDbCtrl::GetInstance();
 	QByteArray dbWhr = readSql->selWhr->mkDbMstWhr();
 	qDebug() << "****** dbwhr=["+dbWhr+"]";
@@ -459,7 +471,7 @@ bool clsXmlUpd::allSearchXml(int idx) {
 	}
 	dbWhr.clear();
 
-	// ŒŸõƒ‹[ƒv
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½v
 	clsDbDef *dbDef = dbLst->GetFirst();
 	QByteArray mstid = readSql->tbl.mid(0, readSql->tbl.length() - 4);
 	nResCnt = 0;
@@ -519,7 +531,7 @@ bool clsXmlUpd::allSearchXml(int idx) {
 		qDebug() << "HitCount=[" + QString::number(nResCnt) + "]";
 		db->closeQuery(query);
 		if (idx == 1) {
-			if (nStartRow == 0) { // Å‰‚Ì‚PŒ
+			if (nStartRow == 0) { // ï¿½Åï¿½ï¿½Ì‚Pï¿½ï¿½
 				if (readXml(lstResultId.at(0)) == false) {
 					errMess = "readXml Error:topid=[" + lstResultId.at(0) + "]";
 					db->DisConnect();
@@ -1023,7 +1035,7 @@ bool clsXmlUpd::readXml(QString topid) {
 	if (outwhr != "") {
 		sql += " AND " + outwhr;
 	}
-	//TODO ŒÅ’èƒe[ƒuƒ‹‘Î‰ž
+	//TODO ï¿½Å’ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Î‰ï¿½
 	sql += " AND (NOT tag IN ('NGP','NGI')) ";
 
 	sql += " ORDER BY id";
@@ -1061,7 +1073,7 @@ bool clsXmlUpd::readXml(QString topid) {
 	}
 	mdl->clear();
 
-	//TODO Žb’è
+	//TODO ï¿½bï¿½ï¿½
 	clsParamDef *prm = clsParamDef::GetInstance();
 	qDebug() << "nTagCnt=[" + QString::number(prm->nTagCnt) + "]";
 	for (int i = 0; i < prm->nTagCnt; i++) {

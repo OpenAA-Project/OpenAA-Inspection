@@ -32,9 +32,6 @@
     <ClInclude Include="CameraMVSGigE.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MvCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Open\SystemVersion.cpp">
@@ -43,7 +40,7 @@
     <ClCompile Include="ShowCameraDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MvCamera.cpp">
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\HIKRobot\MVS\MvCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

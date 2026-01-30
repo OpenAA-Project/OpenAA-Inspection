@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\AutoSaveImage\XAutoSaveImage.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include <QFileInfo>
 #include <QDir>
@@ -92,7 +101,7 @@ bool	AutoSaveThread::LoadLayerTarget(QString FileName)
 {
 	/*
 	ImageBuffer *p = &SavedImage;
-	Layer->LoadLayerTarget(&p, FileName);	//‚±‚ÌLoad,Save“ñ‚Â‚ÌŠÖ”‚ÍŒİŠ·«Šm•Û‚Ì‚½‚ß@•s—v‚È‚çÁ‚·
+	Layer->LoadLayerTarget(&p, FileName);	//ï¿½ï¿½ï¿½ï¿½Load,Saveï¿½ï¿½ï¿½Â‚ÌŠÖï¿½ï¿½ÍŒİŠï¿½ï¿½ï¿½ï¿½mï¿½Û‚Ì‚ï¿½ï¿½ß@ï¿½sï¿½vï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½
 	*/
 	return true;
 }
@@ -250,6 +259,5 @@ void AutoSaveThread::run()
 void AutoSaveThread::SlotFinished()
 {
 }
-
 
 

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ButtonToShowTotalNGMapResource.h"
 #include "ButtonToShowTotalNGMap.h"
 #include "../XGUIReviewGlobal.h"
@@ -128,7 +146,7 @@ void ButtonToShowTotalNGMap::updateMapImage()
 	//	CmdReqOrganizedHistoryList NGSend(GetLayersBase());
 	//	RBase->TransmitDirectly(&NGSend);
 	//	if(NGSend.Ret==true){
-	//		m_map.setNGPoints(NGSend.listPtr);// ƒ}ƒbƒv‚ğXV
+	//		m_map.setNGPoints(NGSend.listPtr);// ï¿½}ï¿½bï¿½vï¿½ï¿½ï¿½Xï¿½V
 	//	}else{
 	//		m_map.clearPointList();
 	//	}
@@ -160,11 +178,11 @@ void ButtonToShowTotalNGMap::TransmitDirectly(GUIDirectMessage *packet){
 
 	//GUICmdUpdateCurrentLot *GUICmdUpdateCurrentLotVar = dynamic_cast<GUICmdUpdateCurrentLot *>(packet);
 	//if(GUICmdUpdateCurrentLotVar!=NULL){
-	//	// ƒ}ƒXƒ^[ƒf[ƒ^î•ñæ“¾
+	//	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	//	CmdReqMasterDataInfo minfo(GetLayersBase());
 	//	RBase->TransmitDirectly(&minfo);
 
-	//	// ƒ}ƒXƒ^[ƒf[ƒ^‚Ì•Ğ–Ê—¼–Ê”»’è‚¨‚æ‚Ñ•\¦İ’è
+	//	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ì•Ğ–Ê—ï¿½ï¿½Ê”ï¿½ï¿½è‚¨ï¿½ï¿½ï¿½Ñ•\ï¿½ï¿½ï¿½İ’ï¿½
 	//	Review::OrganizedSideType side = minfo.sideType();
 	//	if(side==Review::OrganizedSideType::None){
 	//		ui.cbSide->setEnabled(false);
@@ -175,12 +193,12 @@ void ButtonToShowTotalNGMap::TransmitDirectly(GUIDirectMessage *packet){
 	//	}
 	//	if(side==Review::OrganizedSideType::FrontOnly){
 	//		ui.cbSide->setHidden(true);
-	//		ui.cbSide->setCurrentIndex(0);	// •\‚Ì‚İ‚Ìê‡‚Í‹­§“I‚É•\‘¤‚Öİ’è
+	//		ui.cbSide->setCurrentIndex(0);	// ï¿½\ï¿½Ì‚İ‚Ìê‡ï¿½Í‹ï¿½ï¿½ï¿½ï¿½Iï¿½É•\ï¿½ï¿½ï¿½Öİ’ï¿½
 	//	}else{
 	//		ui.cbSide->setHidden(false);
 	//	}
 
-	//	// Phase‚ÌŒÂ”‚ğæ“¾AƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Öİ’è
+	//	// Phaseï¿½ÌŒÂï¿½ï¿½ï¿½ï¿½æ“¾ï¿½Aï¿½Rï¿½ï¿½ï¿½{ï¿½{ï¿½bï¿½Nï¿½Xï¿½Öİ’ï¿½
 	//	MasterDataInfo cminfo;
 	//	if(ui.cbSide->currentIndex()==0){
 	//		cminfo = minfo.FrontMasterDataInfo;
@@ -197,14 +215,14 @@ void ButtonToShowTotalNGMap::TransmitDirectly(GUIDirectMessage *packet){
 	//	}
 	//	ui.cbPhase->setCurrentIndex(oldIndex);
 
-	//	// ‘S‘Ì‰æ‘œ‚ğæ“¾
+	//	// ï¿½Sï¿½Ì‰æ‘œï¿½ï¿½ï¿½æ“¾
 	//	CmdReqWholeImage wi(GetLayersBase());
 	//	wi.setReqPhase( ui.cbPhase->currentIndex() );
 	//	wi.setReqSize(ui.gvImageView->viewport()->size() );
 
 	//	RBase->TransmitDirectly( &wi );
 
-	//	// •\¦‰æ‘œ‚ğİ’è
+	//	// ï¿½\ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½İ’ï¿½
 	//	QImage img;
 	//	if(ui.cbSide->currentIndex()==0){
 	//		img = wi.getWholePic(Review::Front);
@@ -228,39 +246,39 @@ void ButtonToShowTotalNGMap::updateGUI()
 {
 	GUIFormBase::update();
 
-	// ReviewStructure‚Ö‚ÌƒAƒNƒZƒXƒ|ƒCƒ“ƒ^æ“¾
+	// ReviewStructureï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½æ“¾
 	ReviewPIBase *RBase = GetReviewAlgorithm();
 	if(RBase!=NULL){
 		m_map.setUpdatesEnabled(false);
 		
-		//// NG‰ÓŠ‚Ìƒf[ƒ^XV
-		//CmdReqOrganizedHistoryList NGSend(GetLayersBase());// —š—ğƒŠƒXƒg‚ÌƒAƒNƒZƒXƒ|ƒCƒ“ƒ^‚ğ—v‹
+		//// NGï¿½Óï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½Xï¿½V
+		//CmdReqOrganizedHistoryList NGSend(GetLayersBase());// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ÌƒAï¿½Nï¿½Zï¿½Xï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½vï¿½ï¿½
 		//RBase->TransmitDirectly(&NGSend);
-		//if(NGSend.Ret==true){// æ“¾¬Œ÷
-		//	m_map.setNGPoints(NGSend.listPtr);// ƒ}ƒbƒv‚ğXV
+		//if(NGSend.Ret==true){// ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
+		//	m_map.setNGPoints(NGSend.listPtr);// ï¿½}ï¿½bï¿½vï¿½ï¿½ï¿½Xï¿½V
 		//}else{
 		//	m_map.clearPointList();
 		//}
 
-		//// ƒ}ƒXƒ^[‰æ‘œî•ñ‚ğæ“¾
+		//// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 		//CmdReqWholeImageInfo reqWholeInfoCmd(GetLayersBase());
 		//RBase->TransmitDirectly(&reqWholeInfoCmd);
 
-		//// ƒ}ƒXƒ^[‰æ‘œ‚ğæ“¾
+		//// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½æ“¾
 		//CmdReqMasterDataInfo reqMasterDataInfoCmd(GetLayersBase());
 		//RBase->TransmitDirectly(&reqMasterDataInfoCmd);
 
 		//CmdReqWholeImage img(GetLayersBase());
 		//QList<QImage> FrontImageList,BackImageList;
 		//for(int phase=0; phase<reqMasterDataInfoCmd.getInfo(Review::Front).PhaseNumb; phase++){
-		//	// ‘S‘Ì‰æ‘œ‚ÌXV
+		//	// ï¿½Sï¿½Ì‰æ‘œï¿½ÌXï¿½V
 		//	img.setReqSize(reqWholeInfoCmd.getWholeOriginalSize(Review::Front, phase));
 		//	img.setReqPhase(phase);
 		//	RBase->TransmitDirectly(&img);
 		//	FrontImageList << img.getWholePic(Review::Front);
 		//}
 		//for(int phase=0; phase<reqMasterDataInfoCmd.getInfo(Review::Back).PhaseNumb; phase++){
-		//	// ‘S‘Ì‰æ‘œ‚ÌXV
+		//	// ï¿½Sï¿½Ì‰æ‘œï¿½ÌXï¿½V
 		//	img.setReqSize(reqWholeInfoCmd.getWholeOriginalSize(Review::Back, phase));
 		//	img.setReqPhase(phase);
 		//	RBase->TransmitDirectly(&img);
@@ -273,7 +291,7 @@ void ButtonToShowTotalNGMap::updateGUI()
 		RBase->TransmitDirectly(&minfo);
 
 		if(minfo.FrontMasterDataInfo.isEmpty()==false){
-			m_Btn.setEnabled( true );// g—p‰Â‚È‚çƒ{ƒ^ƒ“‚ğ—LŒø‰»
+			m_Btn.setEnabled( true );// ï¿½gï¿½pï¿½Â‚È‚ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½
 			m_map.setUpdatesEnabled(true);
 		}else{
 			m_Btn.setEnabled( false );
@@ -302,4 +320,3 @@ void ButtonToShowTotalNGMap::ResizeAction()
 	}
 	m_Btn.resize(width(), height());
 }
-

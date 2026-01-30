@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2014
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef NGIMAGEFORREVIEWPACKET_H_
 #define NGIMAGEFORREVIEWPACKET_H_
 
@@ -8,16 +26,16 @@
 #include "XReviewStructure.h"
 
 //////////////////////////////////
-// ‘¼GUI‚©‚ç‘—M‚³‚ê‚éƒRƒ}ƒ“ƒh
+// ï¿½ï¿½GUIï¿½ï¿½ï¿½ç‘—ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 
-// NG‰æ‘œ‚ÌXV•\¦—v‹
-// NG‰æ‘œ‚ÆŠÜ‚Ü‚ê‚éNG‰ÓŠ‚ÌƒŠƒXƒg‚ªŠÜ‚Ü‚ê‚½ƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒ|ƒCƒ“ƒ^‚©‚çANG‰æ‘œ‚Æƒ}ƒXƒ^[‰æ‘œ‚ğXV‚·‚é
+// NGï¿½æ‘œï¿½ÌXï¿½Vï¿½\ï¿½ï¿½ï¿½vï¿½ï¿½
+// NGï¿½æ‘œï¿½ÆŠÜ‚Ü‚ï¿½ï¿½ï¿½NGï¿½Óï¿½ï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Ü‚Ü‚ê‚½ï¿½Nï¿½ï¿½ï¿½Xï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Ìƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ANGï¿½æ‘œï¿½Æƒ}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
 class GUICmdReqSetNGImage : public GUIDirectMessage
 {
 public:
 	// Send
 	NGNailIndex NGNailPtr;
-	Review::SideType side;// ‘S‘Ì‰æ‘œ”»’f—p
+	Review::SideType side;// ï¿½Sï¿½Ì‰æ‘œï¿½ï¿½ï¿½fï¿½p
 	
 	// Recieve
 	bool Ret;
@@ -33,14 +51,14 @@ public:
 		:GUIDirectMessage(Base){};
 };
 
-// ƒ}ƒXƒ^[‰æ‘œ‚Ìæ“¾—v‹
-// ƒ}ƒXƒ^[ƒf[ƒ^‚ª“Ç‚İ‚Ü‚ê‚½‚Æ‚«‚É‘—M‚³‚ê‚é
-// ‚±‚ÌƒRƒ}ƒ“ƒh‚ª‘—‚ç‚ê‚Ä‚«‚½‚Æ‚«Aside‚Ì‘¤‚Ìƒ}ƒXƒ^[‰æ‘œ‚Ìˆê•”‚ğ—v‹‚·‚é
+// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ìæ“¾ï¿½vï¿½ï¿½
+// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½Ü‚ê‚½ï¿½Æ‚ï¿½ï¿½É‘ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ÌƒRï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Asideï¿½Ì‘ï¿½ï¿½Ìƒ}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ìˆê•”ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //class GUICmdReqSetMasterImage : public GUIDirectMessage
 //{
 //public:
 //	// Send
-//	Review::SideType side;// ‘S‘Ì‰æ‘œ”»’f—p
+//	Review::SideType side;// ï¿½Sï¿½Ì‰æ‘œï¿½ï¿½ï¿½fï¿½p
 //	// Recieve
 //	bool Ret;
 //public:
@@ -52,17 +70,17 @@ public:
 //};
 
 //////////////////////////////////////
-// ‘—‚éƒRƒ}ƒ“ƒh(‘¼GUI‚ÌƒpƒPƒbƒg)
+// ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h(ï¿½ï¿½GUIï¿½Ìƒpï¿½Pï¿½bï¿½g)
 
-// EWholeImageForReview
-//   [Œ»İŠm”F’†‚Ìƒ}ƒXƒ^[‰æ‘œ‚ÌˆÊ’u‚Ìî•ñ‚ğ‘—‚é]
+// ï¿½EWholeImageForReview
+//   [ï¿½ï¿½ï¿½İŠmï¿½Fï¿½ï¿½ï¿½Ìƒ}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ÌˆÊ’uï¿½Ìï¿½ï¿½ï¿½ï¿½ğ‘—‚ï¿½]
 //    GUICmdReqSetCurrentPosOnMaster
 //
 
 //////////////////////////////////////
-// ƒ}ƒXƒ^[ƒXƒŒ[ƒuƒRƒ}ƒ“ƒh
-//  GUI‹¤’Ê€–Ú
-//   ‰½‚à‚µ‚È‚¢(NGImageListForReview‚ÌƒpƒPƒbƒg‘Ò‚¿)
+// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Xï¿½ï¿½ï¿½[ï¿½uï¿½Rï¿½}ï¿½ï¿½ï¿½h
+//  GUIï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½
+//   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½(NGImageListForReviewï¿½Ìƒpï¿½Pï¿½bï¿½gï¿½Ò‚ï¿½)
 // 
 
 #endif

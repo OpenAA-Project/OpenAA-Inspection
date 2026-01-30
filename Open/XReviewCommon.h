@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef XREVIEW_COMMON_H_
 #define XREVIEW_COMMON_H_
 
@@ -79,8 +97,8 @@ enum NearPosType{
 	NextPos
 };
 
-// ƒ\[ƒgƒpƒ‰ƒ[ƒ^
-// HistoryList‚Ìƒ\[ƒg‡w’è
+// ï¿½\ï¿½[ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^
+// HistoryListï¿½Ìƒ\ï¿½[ï¿½gï¿½ï¿½ï¿½wï¿½ï¿½
 enum OrderOfSortHistory{
 	_Order_InspectionIDGreater
 	,_Order_InspectionIDLesser
@@ -94,7 +112,7 @@ enum OrderOfSortHistory{
 	,_Order_NGCount_OnlyBackLesser
 };
 
-// NG‚Ìƒ\[ƒg‡w’è(XYÀ•W)
+// NGï¿½Ìƒ\ï¿½[ï¿½gï¿½ï¿½ï¿½wï¿½ï¿½(XYï¿½ï¿½ï¿½W)
 enum OrderOfSortNG{
 	_Order_YLesser
 	,_Order_YGreater
@@ -107,7 +125,7 @@ enum OrderOfSortNG{
 	,_Order_Area
 };
 
-// Šî”Â‚Ì‘S‘Ì‰æ‘œ‚Ì•\¦‚É‚¨‚¯‚éŠî€ˆÊ’u
+// ï¿½ï¿½ï¿½Â‚Ì‘Sï¿½Ì‰æ‘œï¿½Ì•\ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î€ï¿½Ê’u
 enum OrginPosition
 {
 	_Org_TopLeft
@@ -127,9 +145,9 @@ enum Direction{
 };
 
 enum ListLocate{
-	First,// æ“ª‚Éİ’è
-	End,// ÅŒã”ö‚Éİ’è
-	Manual// “r’†‚Éİ’è
+	First,// ï¿½æ“ªï¿½Éİ’ï¿½
+	End,// ï¿½ÅŒï¿½ï¿½ï¿½ï¿½Éİ’ï¿½
+	Manual// ï¿½rï¿½ï¿½ï¿½Éİ’ï¿½
 };
 
 enum FKey{
@@ -426,26 +444,26 @@ QString toString(Review::SideType side);
 
 bool isArrowKey(int key);
 
-// ƒfƒtƒHƒ‹ƒg‚ÌFƒL[ƒJƒ‰[
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½Fï¿½Lï¿½[ï¿½Jï¿½ï¿½ï¿½[
 QColor getDefaultFKeyColor(Review::FKey key);
 
-// ƒfƒtƒHƒ‹ƒgFƒJƒ‰[ƒŠƒXƒg
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gFï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Xï¿½g
 QList<QColor> getDefaultFKeyColorList();
 
 bool isFKey(Qt::Key key);
 
 Review::FKey convertFKeyQtToReview(Qt::Key key);
 
-// Review::FKey‚ğintŒ^‚É•ÏŠ·‚·‚éBF1==0, F2==1, ... , F12==11, FƒL[‚È‚µ==12, ‚»‚Ì‘¼==-1‚ª•Ô‚é
+// Review::FKeyï¿½ï¿½intï¿½^ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½BF1==0, F2==1, ... , F12==11, Fï¿½Lï¿½[ï¿½È‚ï¿½==12, ï¿½ï¿½ï¿½Ì‘ï¿½==-1ï¿½ï¿½ï¿½Ô‚ï¿½
 int FKeyToInt(Review::FKey key);
 
-// intŒ^‚ğReview::FKey‚Ö•ÏŠ·‚·‚éB”’l0`12‚ªF1`F12,NoFKey‚Ì“¯‡‚Æ‚È‚éB”ÍˆÍ‚©‚çŠO‚ê‚½ê‡‚ÍNoFKey‚ª•Ô‚é
+// intï¿½^ï¿½ï¿½Review::FKeyï¿½Ö•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½l0ï¿½`12ï¿½ï¿½F1ï¿½`F12,NoFKeyï¿½Ì“ï¿½ï¿½ï¿½ï¿½Æ‚È‚ï¿½ï¿½Bï¿½ÍˆÍ‚ï¿½ï¿½ï¿½ï¿½Oï¿½ê‚½ï¿½ê‡ï¿½ï¿½NoFKeyï¿½ï¿½ï¿½Ô‚ï¿½
 Review::FKey IntToFKey(int ref);
 
-// ƒ}ƒXƒ^[ƒR[ƒhAƒ}ƒVƒ“IDAXML‚Ìƒtƒ@ƒCƒ‹–¼‚©‚çXMLƒT[ƒo[‚ÌŒŸõƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğì¬‚·‚é
+// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½Aï¿½}ï¿½Vï¿½ï¿½IDï¿½AXMLï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½Tï¿½[ï¿½oï¿½[ï¿½ÌŒï¿½ï¿½ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½pï¿½Xï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 QString makeLotFileName(int MasterCode, int MachineID, QString FileName);
 
-// XMLƒtƒ@ƒCƒ‹‚É‹Lq‚³‚ê‚Ä‚¢‚é“úƒtƒH[ƒ}ƒbƒg‚ÌQString‚©‚çXDateTimeƒIƒuƒWƒFƒNƒg‚ğÄ\¬‚·‚é
+// XMLï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½É‹Lï¿½qï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ï¿½QStringï¿½ï¿½ï¿½ï¿½XDateTimeï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½Ä\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 XDateTime makeLotISTDateTime(QString format);
 
 Review::SideType ShowMessageFrontOrBack(QWidget *parent=NULL);

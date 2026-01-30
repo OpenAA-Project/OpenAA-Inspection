@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\XmlServer\XmlServer\servermain.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #ifndef SARVERMAIN_H
@@ -43,41 +52,41 @@ public:
 private:
 	Ui::XmlServerClass uii;
 	
-	ServerBase *Base;		//<ServerMain>Class:ServerBase‚ÌŒp³
-	QTcpSocket *socket;		//<ServerMain>ƒ\ƒPƒbƒg’ÊM
+	ServerBase *Base;		//<ServerMain>Class:ServerBaseï¿½ÌŒpï¿½ï¿½
+	QTcpSocket *socket;		//<ServerMain>ï¿½\ï¿½Pï¿½bï¿½gï¿½ÊM
 
-	QList<QByteArray> InList;//<Server_Get>æ“¾ƒf[ƒ^
-	quint16 blockSize;		//<Server_Get>æ“¾ƒf[ƒ^ƒTƒCƒY
-	QList<QByteArray> OutList;//<Server_Send>‘—Mƒf[ƒ^
+	QList<QByteArray> InList;//<Server_Get>ï¿½æ“¾ï¿½fï¿½[ï¿½^
+	quint16 blockSize;		//<Server_Get>ï¿½æ“¾ï¿½fï¿½[ï¿½^ï¿½Tï¿½Cï¿½Y
+	QList<QByteArray> OutList;//<Server_Send>ï¿½ï¿½ï¿½Mï¿½fï¿½[ï¿½^
 	//QList<int> RetNo;
 	//bool TheadRet(int &No, int &Number);
 
 private slots:
 
-	//İ’èŠÔŒo‰ß‚µ‚Ä‚àƒAƒNƒZƒX‚ª‚È‚¯‚ê‚ÎØ’f
+	//ï¿½İ’èï¿½ÔŒoï¿½ß‚ï¿½ï¿½Ä‚ï¿½ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ÎØ’f
 	void TimerWatch();
-	//ƒf[ƒ^æ“¾
+	//ï¿½fï¿½[ï¿½^ï¿½æ“¾
 	void Server_Get();
-	//ƒf[ƒ^‘—M
+	//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½M
 	void Server_Send();
 
-	//Server‰æ–Ê•\¦(ã)
+	//Serverï¿½ï¿½ï¿½Ê•\ï¿½ï¿½(ï¿½ï¿½)
 	void SaveWidgetShow(QString &DB, int &DBNum);
 	void SaveWidgetDelete(int &DBNum);
-	//Server‰æ–Ê•\¦(‰º)
+	//Serverï¿½ï¿½ï¿½Ê•\ï¿½ï¿½(ï¿½ï¿½)
 	void WidgetShow(QString &DB, int &Cilent, int &DBNum);
-	//ƒAƒNƒZƒXŠÔ‚ÌXV
+	//ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½Ô‚ÌXï¿½V
 	void StartClient(int &Client);
-	//ƒAƒNƒZƒXƒNƒ‰ƒCƒAƒ“ƒg‚ÌŠÄ‹
+	//ï¿½Aï¿½Nï¿½Zï¿½Xï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ÌŠÄï¿½
 	void ClientWatch(int &Client);
 	
-	//‰º‰æ–Ê‚ÌXV
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚ÌXï¿½V
 	bool WidgetDelete(int &Cilent);	
-	//’ÊMƒTƒCƒY‚É•ª‚¯‚Ä‘—‚é
+	//ï¿½ÊMï¿½Tï¿½Cï¿½Yï¿½É•ï¿½ï¿½ï¿½ï¿½Ä‘ï¿½ï¿½ï¿½
 	void SelectFirst(char *Buffer, char *Retbuff);
-	//SeletŒJ‚è•Ô‚µˆ—
+	//Seletï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½
 	void Selectsyori(char *Target,char *Buffer, qint64 &ElementID );//(XMLElement *RetAns, char *Target);
 	void TimerClose(QByteArray &CNum);
 };
-	const int Timeout = 5 * 100000; //Ú‘±‘Ò‚¿ŠÔ
+	const int Timeout = 5 * 100000; //ï¿½Ú‘ï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½ï¿½
 #endif // SOCKA_H

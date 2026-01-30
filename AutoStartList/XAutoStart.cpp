@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XAutoStart.h"
 #include "XGeneralFunc.h"
 #include "XForWindows.h"
@@ -397,7 +415,7 @@ void	AutoStartExeList::ResizeAlignment(void)
 
 
 /*
-//›‘¼‚ÌƒvƒƒOƒ‰ƒ€‚ÌƒEƒCƒ“ƒhƒE‚ğ—ñ‹“--------------------------------------------------
+//ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒvï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ÌƒEï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½--------------------------------------------------
 
 #include <stdio.h>
 #include <windows.h>
@@ -405,7 +423,7 @@ void	AutoStartExeList::ResizeAlignment(void)
 BOOL  CALLBACK  EnumWndProc( HWND hWnd, LPARAM lParam )
 {
 	char buff[256]="";
-	GetWindowText( hWnd,buff, sizeof(buff));//ƒEƒBƒ“ƒhƒE–¼‚ğæ“¾
+	GetWindowText( hWnd,buff, sizeof(buff));//ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	printf("%s\n",buff);
 	return true;
 }
@@ -417,7 +435,7 @@ int main(int argc, char* argv[])
 }
 
 
-//›‘¼‚ÌƒvƒƒOƒ‰ƒ€‚ÌƒEƒCƒ“ƒhƒEƒTƒCƒY‚ğ•ÏX-------------------------------------------
+//ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒvï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ÌƒEï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ÏX-------------------------------------------
 
 #include <stdio.h>
 #include <windows.h>
@@ -426,20 +444,20 @@ BOOL  CALLBACK  EnumWndProc( HWND hWnd, LPARAM lParam )
 {
 	char buff[256]="";
 	GetWindowText( hWnd,buff, sizeof(buff));
-	if(strcmp(buff,(char*)lParam)==0){//–¼‘O‚ªˆê’v‚µ‚½‚çA
-		SetWindowPos(hWnd,HWND_TOP,0 ,0 ,100,100,SWP_SHOWWINDOW);//ƒEƒCƒ“ƒhƒE‚ÌˆÊ’u‚ÆƒTƒCƒY‚ğ•ÏX
+	if(strcmp(buff,(char*)lParam)==0){//ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½A
+		SetWindowPos(hWnd,HWND_TOP,0 ,0 ,100,100,SWP_SHOWWINDOW);//ï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½ÌˆÊ’uï¿½ÆƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ÏX
 	}
 	return true;
 }
 
 int main(int argc, char* argv[])
 {
-	LPARAM lParam=(LPARAM)"–³‘è - ƒƒ‚’ ";//ŒŸõ‚·‚éƒEƒBƒ“ƒhƒE‚Ì–¼‘O
+	LPARAM lParam=(LPARAM)"ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ì–ï¿½ï¿½O
 	EnumWindows( EnumWndProc, (LPARAM)lParam);
 	return 0;
 }
 
-//›‘¼‚ÌƒvƒƒOƒ‰ƒ€‚ÌƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é----------------------------------------
+//ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒvï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ÌƒEï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½----------------------------------------
 
 #include <stdio.h>
 #include <string.h>
@@ -453,9 +471,9 @@ struct  cell{
 BOOL  CALLBACK  EnumWndProc( HWND hWnd, LPARAM lParam )
 {
 	char buff[256]="";
-	GetWindowText( hWnd,buff, sizeof(buff));//ƒEƒCƒ“ƒhƒE‚Ì•¶š‚ğæ“¾‚µ‚ÄA
-	if(strcmp(buff,((cell*)lParam)->WindowName)==0){//–¼‘O‚ªˆê’v‚µ‚½‚çA
-		((cell*)lParam)->hWnd = hWnd;//ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğ“n‚·
+	GetWindowText( hWnd,buff, sizeof(buff));//ï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ÄA
+	if(strcmp(buff,((cell*)lParam)->WindowName)==0){//ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½A
+		((cell*)lParam)->hWnd = hWnd;//ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½nï¿½ï¿½
 	}
 	return true;
 }
@@ -464,13 +482,13 @@ int main(int argc, char* argv[])
 {
 	cell c;
 	c.hWnd =NULL;
-	strcpy(c.WindowName,"–³‘è - ƒƒ‚’ ");//ŒŸõ‚·‚éƒEƒBƒ“ƒhƒE‚Ì–¼‘O
+	strcpy(c.WindowName,"ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ì–ï¿½ï¿½O
 
 	EnumWindows( EnumWndProc, (LPARAM)&c);
 
 	if(c.hWnd != NULL){
-		//–Ú“I‚ÌƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ªæ“¾‚Å‚«‚Ü‚µ‚½
-		SetWindowPos(c.hWnd,HWND_TOP,0 ,0 ,100,100,SWP_SHOWWINDOW);//ƒEƒCƒ“ƒhƒE‚ÌƒTƒCƒY‚ğ•ÏX
+		//ï¿½Ú“Iï¿½ÌƒEï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½
+		SetWindowPos(c.hWnd,HWND_TOP,0 ,0 ,100,100,SWP_SHOWWINDOW);//ï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ÏX
 	}
 	return 0;
 }

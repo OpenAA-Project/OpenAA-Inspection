@@ -1,50 +1,23 @@
 /*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
- *	xclibex5.cpp	External	13-Nov-2010
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *	Copyright (C)  1998-2010  EPIX, Inc.  All rights reserved.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *	Example program for the XCLIB 'C' Library.
- *	Example assumes Windows 95/98/ME/NT/2000/XP/Vista/7/XP(x64)/Vista(x64)/7(x64).
- *
- *	Demonstrates XCLIB and/or PXIPL functions for capture and
- *	display from multiple PIXCI(R) imaging boards where
- *	the boards are not identical or each board is operating
- *	at a different resolution or a different camera.
- *	This Windows program must, of course, also make use of
- *	various Windows GDI API functions; however, this is not
- *	intended to serve as a Windows tutorial.
- *
- *	Many parts similar to the XCLIBEX2.CPP example; that
- *	example provides PIXCI SV2, SV3, SV4, SV5, SV5A, SV5B, SV5L, SV6, and SV7
- *	specific controls, and demonstrates more display options including
- *	graphic overlays. It also demonstrates access to numeric
- *	pixel values and use of Events rather than a timer.
- *	It also demonstrates use of multiple boards and cameras
- *	of the same type and operated at the same resolution.
- *	For simplicity this example concentrates on operating
- *	multiple boards at different resolutions and does not illustrate
- *	as many display options nor duplicate the other features
- *	demonstrated in that example. This example also
- *	demonstrates use of the non pxd_ style functions.
- *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 
-/*
- *  INSTRUCTIONS:
- *
- *
- *  1.1) Choose whether we are operating the identical boards
- *  but with different resolutions and/or cameras.
- *  Or whether we are operating different  boards.
- *  The former can be done with one open instance of the library.
- *  and allows performing some actions on all boards with one function call.
- *  The latter requires opening multiple instances of the library,
- *  one for each different type of board.
- *
- *  Only one of these choices should have value 1, the others should be 0.
- */
+
 #if !defined(ONELIB_TWOUNIT) && !defined(TWOLIB_ONEUNIT) && !defined(PXDLIB_ENHANCED) && !defined(PXELIB_ENHANCED)
     #define ONELIB_TWOUNIT	0   // open one instance which controls multiple, identical, boards ..
 				    // .. using structured functions

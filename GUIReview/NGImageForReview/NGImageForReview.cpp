@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "NGImageForReviewResource.h"
 #include "NGImageForReview.h"
 #include "NGImageForReviewPacket.h"
@@ -110,7 +128,7 @@ NGImageForReview::NGImageForReview(LayersBase *Base,QWidget *parent)
 	DefaultMasterLabelWindowColor = MasterLabel.palette().color(QPalette::ColorRole::Window);
 	DefaultNGNailLabelWindowColor = NGNailLabel.palette().color(QPalette::ColorRole::Window);
 
-	// ‰Šúó‘Ô‚Í‰¡•À‚Ñ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Í‰ï¿½ï¿½ï¿½ï¿½ï¿½
 	setOrientation(Qt::Horizontal);
 
 	if(GetEditMode()==true){
@@ -131,7 +149,7 @@ NGImageForReview::NGImageForReview(LayersBase *Base,QWidget *parent)
 
 NGImageForReview::~NGImageForReview()
 {
-	// ƒŒƒCƒAƒEƒg‚¾‚¯íœ‚Å‚Í‘S•”Á‚¦‚Ä‚¢‚é‚©‚í‚©‚ç‚È‚¢‚Ì‚ÅAè“®‚Å‡”Ô‚É‘S•”íœ
+	// ï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½Å‚Í‘Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½í‚©ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚ÅAï¿½è“®ï¿½Åï¿½ï¿½Ô‚É‘Sï¿½ï¿½ï¿½íœ
 	//delete FrontMasterImage;
 	//delete BackMasterImage;
 	//delete NGNailImage;
@@ -164,7 +182,7 @@ void NGImageForReview::Prepare()
 	NGNailImage.setVisible(isNGImageView);
 }
 
-// ‰æ‘œ‚ÌLkEƒ}ƒXƒ^[‰æ‘œ‚ÌŠg‘å—¦’²®
+// ï¿½æ‘œï¿½ÌLï¿½kï¿½Eï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ÌŠgï¿½å—¦ï¿½ï¿½ï¿½ï¿½
 void NGImageForReview::adjustImageSize(void)
 {
 	mainLayout->setGeometry(rect());
@@ -179,10 +197,10 @@ void NGImageForReview::TransmitDirectly(GUIDirectMessage *packet)
 		return;
 	}
 
-	// NG‰æ‘œ‚Ìæ“¾—v‹
+	// NGï¿½æ‘œï¿½Ìæ“¾ï¿½vï¿½ï¿½
 	GUICmdReqSetNGImage *GUICmdReqSetNGImageVar = dynamic_cast<GUICmdReqSetNGImage *>(packet);
 	if(GUICmdReqSetNGImageVar!=NULL){
-		// NG‰æ‘œ‚È‚µ(ƒNƒŠƒA)
+		// NGï¿½æ‘œï¿½È‚ï¿½(ï¿½Nï¿½ï¿½ï¿½A)
 		if(GUICmdReqSetNGImageVar->NGNailPtr==NULL){
 			NGNailImage.setImage(QImage());
 			NGNailImage.setNGPoints(QList<ReviewNGPoint>());
@@ -257,11 +275,11 @@ void NGImageForReview::setOrientation(Qt::Orientation orient)
 		mainLayout->addWidget(&MasterLabel, 0, 0);
 		mainLayout->addWidget(&MasterPImage, 1, 0);
 		if(orient==Qt::Horizontal){
-			// ‰¡•À‚Ñ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			mainLayout->addWidget(&NGNailLabel, 0, 1);
 			mainLayout->addWidget(&NGNailImage, 1, 1);
 		}else{
-			// c•À‚Ñ
+			// ï¿½cï¿½ï¿½ï¿½ï¿½
 			mainLayout->addWidget(&NGNailLabel, 2, 0);
 			mainLayout->addWidget(&NGNailImage, 3, 0);
 		}
@@ -272,20 +290,20 @@ void NGImageForReview::setOrientation(Qt::Orientation orient)
 		viewType = orient;
 		return;
 	}
-	// ”z’u‚ªŒ»İ‚Æˆá‚¤ê‡‚ÉÀs
+	// ï¿½zï¿½uï¿½ï¿½ï¿½ï¿½ï¿½İ‚Æˆá‚¤ï¿½ê‡ï¿½Éï¿½ï¿½s
 	if(viewType!=orient){
-		// ƒŒƒCƒAƒEƒg‚ÉNG‰æ‘œ‚ª‚ ‚éê‡AƒŒƒCƒAƒEƒg‚©‚çœŠO‚·‚é
+		// ï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½gï¿½ï¿½NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½çœï¿½Oï¿½ï¿½ï¿½ï¿½
 		int NGIndex = mainLayout->indexOf(&NGNailImage);
 		if(NGIndex!=-1){// 
 			mainLayout->removeWidget(&NGNailLabel);
 			mainLayout->removeWidget(&NGNailImage);
 		}
 		if(orient==Qt::Horizontal){
-			// ‰¡•À‚Ñ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			mainLayout->addWidget(&NGNailLabel, 0, 1);
 			mainLayout->addWidget(&NGNailImage, 1, 1);
 		}else{
-			// c•À‚Ñ
+			// ï¿½cï¿½ï¿½ï¿½ï¿½
 			mainLayout->addWidget(&NGNailLabel, 2, 0);
 			mainLayout->addWidget(&NGNailImage, 3, 0);
 		}
@@ -307,7 +325,7 @@ void NGImageForReview::updateGUI()
 	QColor NGImageLabelColor = DefaultNGNailLabelWindowColor;
 	QColor MasterImageLabelColor = DefaultMasterLabelWindowColor;
 
-	if(NGNailPtr!=NULL){// Œ»İNG‚ª‚ ‚é
+	if(NGNailPtr!=NULL){// ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if(RoundCurrentNG.Ret==false){
 			NGNailImage.setNGSingColor(Qt::white);
 			NGNailImage.setImage(QImage());
@@ -319,7 +337,7 @@ void NGImageForReview::updateGUI()
 
 			NGImageLabelText = LangSolver.GetString(NGImageForReview_LS,LID_4)/*"NG Image - No Data"*/;
 			MasterImageLabelText = LangSolver.GetString(NGImageForReview_LS,LID_5)/*"Master Piece - No Data"*/;
-		}else{// ’Êíˆ—
+		}else{// ï¿½Êíˆï¿½ï¿½
 			CmdReqWholeImageInfo ReqWInfoCmd(GetLayersBase());
 			RBase->TransmitDirectly( &ReqWInfoCmd );
 
@@ -422,7 +440,7 @@ void NGImageForReview::updateGUI()
 				}
 			}
 		}
-	}else{// Œ»İNG‚ª‚È‚¢
+	}else{// ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½È‚ï¿½
 		NGNailImage.setNGSingColor(Qt::white);
 		NGNailImage.setImage(QImage());
 		NGNailImage.setNGPoints(QList<ReviewNGPoint>());

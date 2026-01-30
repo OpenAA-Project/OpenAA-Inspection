@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XBUSLINEINSPECTION_H)
 #define	XBUSLINEINSPECTION_H
 
@@ -22,10 +40,10 @@ class	BuslineLibrary : public AlgorithmLibrary , public ServiceForLayers
 public:
 	int64	BlockMinArea;
 	int64	BlockMaxArea;
-	int		LimitDot;	//ŒÀŠEƒTƒCƒY
+	int		LimitDot;	//ï¿½ï¿½ï¿½Eï¿½Tï¿½Cï¿½Y
 
-	int		MinWidth;	//Å¬ü•
-	int		MinGap;		//Å¬ŠÔŠu
+	int		MinWidth;	//ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½
+	int		MinGap;		//ï¿½Åï¿½ï¿½ÔŠu
 	int64	MinArea;
 	int64	MaxArea;
 	int		MinSize;
@@ -33,8 +51,8 @@ public:
 	bool	CompareToMaster;
 	bool	AutoBinarize;
 	bool	ReduceNoise;
-	int		BinarizedLength;	//‹ÇŠ‚Q’l‰»—ÌˆæƒTƒCƒY
-	int		ReferredBrightness;	//‚Q’l‰»QÆ‹P“x
+	int		BinarizedLength;	//ï¿½Çï¿½ï¿½Qï¿½lï¿½ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½Cï¿½Y
+	int		ReferredBrightness;	//ï¿½Qï¿½lï¿½ï¿½ï¿½Qï¿½Æ‹Pï¿½x
 	int		SearchDotToMaster;
 	int		WidthToIgnoreEdge;
 	int		OKNickRate;			//0-100% for MinWidth
@@ -75,9 +93,9 @@ public:
 class	BuslineThreshold : public AlgorithmThreshold
 {
 public:
-	int		MinWidth;	//Å¬ü•
-	int		MinGap;		//Å¬ŠÔŠu
-	int		LimitDot;	//ŒÀŠEƒTƒCƒY
+	int		MinWidth;	//ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½
+	int		MinGap;		//ï¿½Åï¿½ï¿½ÔŠu
+	int		LimitDot;	//ï¿½ï¿½ï¿½Eï¿½Tï¿½Cï¿½Y
 	int64	MinArea;
 	int64	MaxArea;
 	int		MinSize;
@@ -85,7 +103,7 @@ public:
 	bool	CompareToMaster;
 	bool	AutoBinarize;
 	bool	ReduceNoise;
-	int		BinarizedLength;	//‹ÇŠ‚Q’l‰»—ÌˆæƒTƒCƒY
+	int		BinarizedLength;	//ï¿½Çï¿½ï¿½Qï¿½lï¿½ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½Cï¿½Y
 	int		ReferredBrightness;
 	int		SearchDotToMaster;
 	int		WidthToIgnoreEdge;
@@ -572,8 +590,8 @@ public:
 	int		ItemID;
 	int		Layer;
 	int32	Dx,Dy;
-	int		MinWidth;	//Å¬ü•
-	int		MinGap;		//Å¬ŠÔŠu
+	int		MinWidth;	//ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½
+	int		MinGap;		//ï¿½Åï¿½ï¿½ÔŠu
 	int64	MinArea;
 	int64	MaxArea;
 	int		MinSize;

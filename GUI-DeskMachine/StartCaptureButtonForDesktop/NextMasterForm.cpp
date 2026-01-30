@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "StartCaptureButtonForDesktopResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\DesktopMachineMenu\NextMasterForm.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 #include "NextMasterForm.h"
 #include "XGeneralFunc.h"
@@ -17,13 +26,13 @@ NextMasterForm::NextMasterForm(QWidget *parent)
 {
 	ui.setupUi(this);
 	SetWidgetCenter(this);
-//	setWindowFlags(Qt::WindowStaysOnTopHint);	//í‚É‘O–Ê‚É•\¦
+//	setWindowFlags(Qt::WindowStaysOnTopHint);	//ï¿½ï¿½ï¿½É‘Oï¿½Ê‚É•\ï¿½ï¿½
 	setWindowFlags(Qt::WindowStaysOnTopHint | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint);
 
 	ui.lbMasterCount		->setVisible(false);
 	ui.lbMasterCountLabel	->setVisible(false);
 
-	//‰æ–Ê•\¦•”‚ÌŒ¾Œê‘Î‰
+	//ï¿½ï¿½ï¿½Ê•\ï¿½ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½Î‰ï¿½
 	LangSolver.SetUI(this);
 }
 
@@ -35,9 +44,9 @@ void NextMasterForm::SetLanguageCode(int LCode)
 {
 	LanguageCode=LCode;
 
-	//ƒtƒHƒ“ƒg‚Ìİ’è
+	//ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìİ’ï¿½
     QFont font1[5];
-	//“ú–{Œê
+	//ï¿½ï¿½ï¿½{ï¿½ï¿½
     font1[0].setPointSize(13);
     font1[0].setBold(true);
     font1[0].setWeight(75);
@@ -45,11 +54,11 @@ void NextMasterForm::SetLanguageCode(int LCode)
     font1[1].setPointSize(13);
     font1[1].setBold(true);
     font1[1].setWeight(75);
-	//ŠÈ‘Ì’†•¶
+	//ï¿½È‘Ì’ï¿½ï¿½ï¿½
     font1[2].setPointSize(13);
     font1[2].setBold(true);
     font1[2].setWeight(75);
-	//”É‘Ì’†•¶
+	//ï¿½É‘Ì’ï¿½ï¿½ï¿½
 	font1[3].setPointSize(13);
     font1[3].setBold(true);
     font1[3].setWeight(75);

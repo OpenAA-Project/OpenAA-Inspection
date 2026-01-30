@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XOutlineInspect.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #define	_USE_MATH_DEFINES
 #include <math.h>
 #include <stdio.h>
@@ -36,24 +45,24 @@ inline  double  AbsCeil(double x)
 OutlineInspectLibrary::OutlineInspectLibrary(int LibType,LayersBase *Base)
 :ServiceForLayers(Base)
 {
-	Code=0;			/*	—ÖŠsƒf[ƒ^‚Ö‚ÌƒCƒ“ƒfƒbƒNƒX	ˆêˆÓ‚Ì’l*/
-	LibName="";		/*	ƒ‰ƒCƒuƒ‰ƒŠ–¼			*/
-	OutlineJanle=-1;	/*	—\”õ	*/
+	Code=0;			/*	ï¿½ÖŠsï¿½fï¿½[ï¿½^ï¿½Ö‚ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X	ï¿½ï¿½ï¿½Ó‚Ì’l*/
+	LibName="";		/*	ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½			*/
+	OutlineJanle=-1;	/*	ï¿½\ï¿½ï¿½	*/
 
-	GenColorBlack=0;		/*	¶¬	’Šo‹P“x‚ÌˆÃ‘¤		*/
-	GenColorWhite=255;		/*	¶¬	’Šo‹P“x‚Ì–¾‘¤		*/
-	GenSizeMin=0;			/*	¶¬	’ŠoƒTƒCƒY‚ÌÅ¬	*/
-	GenSizeMax=1000000;		/*	¶¬	’ŠoƒTƒCƒY‚ÌÅ‘å	*/
-	GenGap=2;				/*	¶¬	¶¬ŠÔŠu		*/
-	GenFat=true;			/*	¶¬	‘¾‚è•ûŒü‚Ö‚Ì’Šo	*/
+	GenColorBlack=0;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½oï¿½Pï¿½xï¿½ÌˆÃ‘ï¿½		*/
+	GenColorWhite=255;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½oï¿½Pï¿½xï¿½Ì–ï¿½ï¿½ï¿½		*/
+	GenSizeMin=0;			/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½oï¿½Tï¿½Cï¿½Yï¿½ÌÅï¿½	*/
+	GenSizeMax=1000000;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½oï¿½Tï¿½Cï¿½Yï¿½ÌÅ‘ï¿½	*/
+	GenGap=2;				/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ÔŠu		*/
+	GenFat=true;			/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö‚Ì’ï¿½ï¿½o	*/
 
-	InsVNumb=4;				/*	ŒŸ¸@‚m‚fƒxƒNƒgƒ‹‰ò”	*/
-	InsSizeBlack	=25;	/*	ŒŸ¸@Œ‡Š×Å¬ƒTƒCƒYˆÃ‘¤	0.1’PˆÊ*/
-	InsSizeWhite	=25;	/*	ŒŸ¸@Œ‡Š×Å¬ƒTƒCƒY–¾‘¤	0.1’PˆÊ*/
-	InsCornerBlack	=40;	/*	ŒŸ¸@Šp•”•ª‚ÌÅ¬ƒTƒCƒYˆÃ‘¤	0.1’PˆÊ*/
-	InsCornerWhite	=40;	/*	ŒŸ¸@Šp•”•ª‚ÌÅ¬ƒTƒCƒY–¾‘¤	0.1’PˆÊ*/
-	InsOKWidthBlack	=100;	/*	ŒŸ¸@••	*/
-	InsOKWidthWhite	=100;	/*	ŒŸ¸@”’•	*/
+	InsVNumb=4;				/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½mï¿½fï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	*/
+	InsSizeBlack	=25;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½×Åï¿½ï¿½Tï¿½Cï¿½Yï¿½Ã‘ï¿½	0.1ï¿½Pï¿½ï¿½*/
+	InsSizeWhite	=25;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½×Åï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½	0.1ï¿½Pï¿½ï¿½*/
+	InsCornerBlack	=40;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Tï¿½Cï¿½Yï¿½Ã‘ï¿½	0.1ï¿½Pï¿½ï¿½*/
+	InsCornerWhite	=40;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½	0.1ï¿½Pï¿½ï¿½*/
+	InsOKWidthBlack	=100;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½	*/
+	InsOKWidthWhite	=100;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½	*/
 	SelfSearch		=3;
 }
 
@@ -61,24 +70,24 @@ AlgorithmLibrary &OutlineInspectLibrary::operator=(const AlgorithmLibrary &src)
 {
 	OutlineInspectLibrary	*s=(OutlineInspectLibrary *)&src;
 	ServiceForLayers::operator=(*s);
-	Code			=s->Code;				/*	—ÖŠsƒf[ƒ^‚Ö‚ÌƒCƒ“ƒfƒbƒNƒX	ˆêˆÓ‚Ì’l*/
-	LibName			=s->LibName;			/*	ƒ‰ƒCƒuƒ‰ƒŠ–¼			*/
-	OutlineJanle	=s->OutlineJanle;		/*	—\”õ	*/
+	Code			=s->Code;				/*	ï¿½ÖŠsï¿½fï¿½[ï¿½^ï¿½Ö‚ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X	ï¿½ï¿½ï¿½Ó‚Ì’l*/
+	LibName			=s->LibName;			/*	ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½			*/
+	OutlineJanle	=s->OutlineJanle;		/*	ï¿½\ï¿½ï¿½	*/
 
-	GenColorBlack	=s->GenColorBlack;		/*	¶¬	’Šo‹P“x‚ÌˆÃ‘¤		*/
-	GenColorWhite	=s->GenColorWhite;		/*	¶¬	’Šo‹P“x‚Ì–¾‘¤		*/
-	GenSizeMin		=s->GenSizeMin;		/*	¶¬	’ŠoƒTƒCƒY‚ÌÅ¬	*/
-	GenSizeMax		=s->GenSizeMax;		/*	¶¬	’ŠoƒTƒCƒY‚ÌÅ‘å	*/
-	GenGap			=s->GenGap;			/*	¶¬	¶¬ŠÔŠu		*/
-	GenFat			=s->GenFat;			/*	¶¬	‘¾‚è•ûŒü‚Ö‚Ì’Šo	*/
+	GenColorBlack	=s->GenColorBlack;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½oï¿½Pï¿½xï¿½ÌˆÃ‘ï¿½		*/
+	GenColorWhite	=s->GenColorWhite;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½oï¿½Pï¿½xï¿½Ì–ï¿½ï¿½ï¿½		*/
+	GenSizeMin		=s->GenSizeMin;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½oï¿½Tï¿½Cï¿½Yï¿½ÌÅï¿½	*/
+	GenSizeMax		=s->GenSizeMax;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½oï¿½Tï¿½Cï¿½Yï¿½ÌÅ‘ï¿½	*/
+	GenGap			=s->GenGap;			/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ÔŠu		*/
+	GenFat			=s->GenFat;			/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö‚Ì’ï¿½ï¿½o	*/
 
-	InsVNumb		=s->InsVNumb;			/*	ŒŸ¸@‚m‚fƒxƒNƒgƒ‹‰ò”	*/
-	InsSizeBlack	=s->InsSizeBlack;		/*	ŒŸ¸@Œ‡Š×Å¬ƒTƒCƒYˆÃ‘¤	*/
-	InsSizeWhite	=s->InsSizeWhite;		/*	ŒŸ¸@Œ‡Š×Å¬ƒTƒCƒY–¾‘¤	*/
-	InsCornerBlack	=s->InsCornerBlack;	/*	ŒŸ¸@Šp•”•ª‚ÌÅ¬ƒTƒCƒYˆÃ‘¤	*/
-	InsCornerWhite	=s->InsCornerWhite;	/*	ŒŸ¸@Šp•”•ª‚ÌÅ¬ƒTƒCƒY–¾‘¤	*/
-	InsOKWidthBlack	=s->InsOKWidthBlack;	/*	ŒŸ¸@••	*/
-	InsOKWidthWhite	=s->InsOKWidthWhite;	/*	ŒŸ¸@”’•	*/
+	InsVNumb		=s->InsVNumb;			/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½mï¿½fï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	*/
+	InsSizeBlack	=s->InsSizeBlack;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½×Åï¿½ï¿½Tï¿½Cï¿½Yï¿½Ã‘ï¿½	*/
+	InsSizeWhite	=s->InsSizeWhite;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½×Åï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½	*/
+	InsCornerBlack	=s->InsCornerBlack;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Tï¿½Cï¿½Yï¿½Ã‘ï¿½	*/
+	InsCornerWhite	=s->InsCornerWhite;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½	*/
+	InsOKWidthBlack	=s->InsOKWidthBlack;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½	*/
+	InsOKWidthWhite	=s->InsOKWidthWhite;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½	*/
 	SelfSearch		=s->SelfSearch;
 	return(*this);
 }
@@ -177,7 +186,7 @@ XOutlineListResult::XOutlineListResult(void)
     Y=0;
     Vx=0;
     Vy=0;
-    ResultBorder=0;   //‹«ŠEˆæ
+    ResultBorder=0;   //ï¿½ï¿½ï¿½Eï¿½ï¿½
 }
 int32	XOutlineListResult::GetByte(void)
 {
@@ -837,7 +846,7 @@ double   XOutlineList::GetOutlineShift(ImageBuffer &Buff ,int mx, int my ,int Se
     if(_mcol==-99999999)
         return(0);
 
-    BYTE    NowCCol=(NowPCol+NowMCol)/2;    //‹«ŠE‹P“x
+    BYTE    NowCCol=(NowPCol+NowMCol)/2;    //ï¿½ï¿½ï¿½Eï¿½Pï¿½x
     return(GetOutlineShift(Buff ,mx, my ,SearchDot ,NowCCol ,NowPCol ,NowMCol
                                                     ,ix ,iy));
 }
@@ -1123,13 +1132,13 @@ void	OutlineThreshold::CopyFrom(const AlgorithmThreshold &src)
 {
     const OutlineThreshold    *s=(const OutlineThreshold *)&src;
 
-	InsVNumb		=s->InsVNumb;			/*	ŒŸ¸@‚m‚fƒxƒNƒgƒ‹‰ò”	*/
-	InsSizeBlack	=s->InsSizeBlack;		/*	ŒŸ¸@Œ‡Š×Å¬ƒTƒCƒYˆÃ‘¤	*/
-	InsSizeWhite	=s->InsSizeWhite;		/*	ŒŸ¸@Œ‡Š×Å¬ƒTƒCƒY–¾‘¤	*/
-	InsCornerBlack	=s->InsCornerBlack;	    /*	ŒŸ¸@Šp•”•ª‚ÌÅ¬ƒTƒCƒYˆÃ‘¤	*/
-	InsCornerWhite	=s->InsCornerWhite;	    /*	ŒŸ¸@Šp•”•ª‚ÌÅ¬ƒTƒCƒY–¾‘¤	*/
-	InsOKWidthBlack	=s->InsOKWidthBlack;	/*	ŒŸ¸@••	*/
-	InsOKWidthWhite	=s->InsOKWidthWhite;	/*	ŒŸ¸@”’•	*/
+	InsVNumb		=s->InsVNumb;			/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½mï¿½fï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	*/
+	InsSizeBlack	=s->InsSizeBlack;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½×Åï¿½ï¿½Tï¿½Cï¿½Yï¿½Ã‘ï¿½	*/
+	InsSizeWhite	=s->InsSizeWhite;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½×Åï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½	*/
+	InsCornerBlack	=s->InsCornerBlack;	    /*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Tï¿½Cï¿½Yï¿½Ã‘ï¿½	*/
+	InsCornerWhite	=s->InsCornerWhite;	    /*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½	*/
+	InsOKWidthBlack	=s->InsOKWidthBlack;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½	*/
+	InsOKWidthWhite	=s->InsOKWidthWhite;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½	*/
 	SelfSearch		=s->SelfSearch;
 }
 bool	OutlineThreshold::IsEqual(const AlgorithmThreshold &src)    const 
@@ -1207,7 +1216,7 @@ OutlineItem::~OutlineItem(void)
 OutlineItem	&OutlineItem::operator=(const AlgorithmItemRoot &src)
 {
 	AlgorithmItemPLI::operator=(src);
-	LibID			=((OutlineItem *)&src)->LibID;			//ƒ‰ƒCƒuƒ‰ƒŠID
+	LibID			=((OutlineItem *)&src)->LibID;			//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ID
 	FLines			=((OutlineItem *)&src)->FLines;
 
 	OListNumb		=((OutlineItem *)&src)->OListNumb;
@@ -1355,7 +1364,7 @@ void    OutlineItem::AdjustOutline(NPListPack<XOutlineStructList>  &OStructList
         }
 
 
-    //“_—ñ“¯m‚ÌÄ\¬
+    //ï¿½_ï¿½ñ“¯mï¿½ÌÄ\ï¿½ï¿½
     int NearestLength=3;
     for(;;){
         bool    NoConnectionFlag=false;
@@ -1450,7 +1459,7 @@ void    OutlineItem::AdjustOutline(NPListPack<XOutlineStructList>  &OStructList
     delete  []LList;
 
 
-    //¬‚³‚È‚à‚Ì‚Æ–³Œø‚ğíœ‚·‚é
+    //ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚Æ–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
     for(XOutlineStructList *m=OStructList.GetFirst();m!=NULL;){
         if(m->d==NULL
         || m->d->m.GetNumber()<OutlineVectorsMin){
@@ -1469,7 +1478,7 @@ XOutlineList  * OutlineItem::MakeOutlineList(NPListPack<XYClass> &B ,int &DListN
                                                         ,int OutlinePrecision
 														,int OutlineSeparation)
 {
-    XOutlineList    *DList=NULL;	            // PAD—ÖŠs
+    XOutlineList    *DList=NULL;	            // PADï¿½ÖŠs
 
     if(abs(B.GetFirst()->x-B.GetLast()->x)<=2
     && abs(B.GetFirst()->y-B.GetLast()->y)<=2){
@@ -1732,7 +1741,7 @@ int OutlineItem::SearchFittable(int mx, int my ,double &dx ,double  &dy)
         dy=0;
         return(0);
         }
-    //“à‘¤‚Ì‹P“x•½‹Ï‚ÆŠO‘¤‚Ì‹P“x•½‹Ï‚Ì·‚ªÅ‘å‚É‚È‚é•”•ª‚ğ’T‚·
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½Ï‚ÆŠOï¿½ï¿½ï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½Ï‚Ìï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½É‚È‚é•”ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½
 
     double  MaxD=0;
     int     MaxK=0;
@@ -1822,7 +1831,7 @@ int OutlineItem::SearchFittable(int mx, int my ,double &dx ,double  &dy)
 bool OutlineItem::KensaOnOutlineDust(double &mx, double &my ,ResultInItemPLI &result)
 {
 	const	OutlineThreshold	*RThr=GetThresholdR();
-    //“à‘¤‚Ì•½‹Ï‹P“x‚ÆŠO‘¤‚Ì•½‹Ï‹P“x‚ğŒvZ‚·‚é
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½Ï‹Pï¿½xï¿½ÆŠOï¿½ï¿½ï¿½Ì•ï¿½ï¿½Ï‹Pï¿½xï¿½ï¿½ï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½
     int cDi=0;
     int cDo=0;
     int     Dn=0;
@@ -2237,7 +2246,7 @@ void	OutlineInLayer::MakeData(OutlineInspectLibrary *Lib ,int NoZone)
 							,GetDotPerLine()-NoZone ,GetMaxLines()-NoZone);
 	}
 
-	    //ƒxƒNƒgƒ‹”‚Ì­‚È‚¢‚à‚Ì‚ğíœ‚·‚é
+	    //ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 	for(OutlineItem *b=(OutlineItem *)GetFirstData();b!=NULL;){
 		if(b->OListNumb<Lib->GenSizeMin){
 			OutlineItem *NextB=static_cast<OutlineItem *>(b->GetNext());
@@ -2257,7 +2266,7 @@ void	OutlineInLayer::MakeData(OutlineInspectLibrary *Lib ,int NoZone)
 }
 
 
-//—ÖŠsƒhƒbƒg‚ğŠÔˆø‚­
+//ï¿½ÖŠsï¿½hï¿½bï¿½gï¿½ï¿½ï¿½Ôˆï¿½ï¿½ï¿½
 void    OutlineInLayer::SupressOutlineDot(NPListPack<XYClass> &B)
 {
     for(XYClass *b=B.GetFirst();b!=NULL;b=b->GetNext()){
@@ -2284,14 +2293,14 @@ static  int IntSortFunc(const void *a, const void *b)
 
 void    OutlineInLayer::AddBlock(ImageBuffer &Buff ,NPListPack<XYClass> &B ,OutlineInspectLibrary &Lib)
 {
-    //•½‹Ï‰»ƒhƒbƒg‚ğƒXƒvƒ‰ƒCƒ“‚É“n‚·
+    //ï¿½ï¿½ï¿½Ï‰ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½É“nï¿½ï¿½
     int             DListNumb;
 	NPListPack<AlgorithmItemPLI>			tData;
 	XOutlineList    *DList   =OutlineItem::MakeOutlineList(B ,DListNumb
 															,((Lib.InsSizeBlack+Lib.InsSizeWhite+9)/20==0)?1:(Lib.InsSizeBlack+Lib.InsSizeWhite+9)/20
 															,(Lib.GenGap==0?1:Lib.GenGap));
 
-    //•ûŒüƒxƒNƒgƒ‹‚ª‚U‚VD‚T“xˆÈãˆÙ‚È‚é‚Æ‚«A•Ê‚ÌƒxƒNƒgƒ‹‚É‚·‚é
+    //ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Uï¿½Vï¿½Dï¿½Tï¿½xï¿½Èï¿½ï¿½Ù‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½Ê‚Ìƒxï¿½Nï¿½gï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 
     for(int TopN=0;;){
         double  s1=DList[TopN].GetSita();
@@ -2346,14 +2355,14 @@ void    OutlineInLayer::AddBlock(ImageBuffer &Buff ,NPListPack<XYClass> &B ,Outl
         }
 
     for(OutlineItem *blk=static_cast<OutlineItem *>(tData.GetFirst());blk!=NULL;blk=static_cast<OutlineItem *>(blk->GetNext())){
-        blk->SetLibID(Lib.Code);				//ƒ‰ƒCƒuƒ‰ƒŠID
-		blk->GetThresholdW()->InsVNumb		=Lib.InsVNumb;			/*	ŒŸ¸@‚m‚fƒxƒNƒgƒ‹‰ò”	*/
-		blk->GetThresholdW()->InsSizeBlack	=Lib.InsSizeBlack;		/*	ŒŸ¸@Œ‡Š×Å¬ƒTƒCƒYˆÃ‘¤	*/
-		blk->GetThresholdW()->InsSizeWhite	=Lib.InsSizeWhite;		/*	ŒŸ¸@Œ‡Š×Å¬ƒTƒCƒY–¾‘¤	*/
-		blk->GetThresholdW()->InsCornerBlack	=Lib.InsCornerBlack;	/*	ŒŸ¸@Šp•”•ª‚ÌÅ¬ƒTƒCƒYˆÃ‘¤	*/
-		blk->GetThresholdW()->InsCornerWhite	=Lib.InsCornerWhite;	/*	ŒŸ¸@Šp•”•ª‚ÌÅ¬ƒTƒCƒY–¾‘¤	*/
-		blk->GetThresholdW()->InsOKWidthBlack=Lib.InsOKWidthBlack;	/*	ŒŸ¸@••	*/
-		blk->GetThresholdW()->InsOKWidthWhite=Lib.InsOKWidthWhite;	/*	ŒŸ¸@”’•	*/
+        blk->SetLibID(Lib.Code);				//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ID
+		blk->GetThresholdW()->InsVNumb		=Lib.InsVNumb;			/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½mï¿½fï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	*/
+		blk->GetThresholdW()->InsSizeBlack	=Lib.InsSizeBlack;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½×Åï¿½ï¿½Tï¿½Cï¿½Yï¿½Ã‘ï¿½	*/
+		blk->GetThresholdW()->InsSizeWhite	=Lib.InsSizeWhite;		/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½×Åï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½	*/
+		blk->GetThresholdW()->InsCornerBlack	=Lib.InsCornerBlack;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Tï¿½Cï¿½Yï¿½Ã‘ï¿½	*/
+		blk->GetThresholdW()->InsCornerWhite	=Lib.InsCornerWhite;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½	*/
+		blk->GetThresholdW()->InsOKWidthBlack=Lib.InsOKWidthBlack;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½	*/
+		blk->GetThresholdW()->InsOKWidthWhite=Lib.InsOKWidthWhite;	/*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½	*/
 		blk->GetThresholdW()->SelfSearch		=Lib.SelfSearch;
 
         int MinY1=99999999;
@@ -2677,5 +2686,4 @@ OutlineInPage::~OutlineInPage(void)
 
 
 //========================================================================================================
-
 

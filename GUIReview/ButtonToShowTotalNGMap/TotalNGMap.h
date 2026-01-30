@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include <QtGui>
@@ -5,7 +23,7 @@
 #include "ui_TotalNGMapForm.h"
 #include "XReviewStructure.h"
 
-// ƒƒbƒg‘S‘Ì‚ÌŠî”Â‚ÉŠÖ‚µ‚ÄNG‚ÌXYÀ•W‚ğƒ}ƒXƒ^[‰æ‘œ‚É•\¦‚µ‚½‚à‚Ì‚ğ•\¦‚·‚é
+// ï¿½ï¿½ï¿½bï¿½gï¿½Sï¿½Ì‚ÌŠï¿½ï¿½Â‚ÉŠÖ‚ï¿½ï¿½ï¿½NGï¿½ï¿½XYï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½É•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 class TotalNGMap : public QDialog
 {
 	Q_OBJECT
@@ -18,7 +36,7 @@ private:
 	typedef QList<QList<int> > _vautMap;
 
 public:
-	// •\¦Œ`®(•W€‚ÍCircle(›))
+	// ï¿½\ï¿½ï¿½ï¿½`ï¿½ï¿½(ï¿½Wï¿½ï¿½ï¿½ï¿½Circle(ï¿½ï¿½))
 	enum NGDrawShapeType {
 		Circle,
 		Fill_Circle,
@@ -58,8 +76,8 @@ public:
 	};
 
 public:
-	void setNGPoints(const OrganizedHistoryListPtr OrgHistoryListPtr);// —š—ğî•ñ‚ğó‚¯æ‚Á‚ÄANGPosList‚ğXV‚·‚é.
-	void setWholeImage(QList<QImage> &FrontPix, QList<QImage> &BackPix);// ‘S‘Ì‰æ‘œ‚ÌXV
+	void setNGPoints(const OrganizedHistoryListPtr OrgHistoryListPtr);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó‚¯ï¿½ï¿½ï¿½ï¿½ÄANGPosListï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½.
+	void setWholeImage(QList<QImage> &FrontPix, QList<QImage> &BackPix);// ï¿½Sï¿½Ì‰æ‘œï¿½ÌXï¿½V
 	bool isShowEnable() const;
 	static bool compair(const QPoint &p1, const QPoint &p2){
 		if(p1.x() < p2.x()){
@@ -73,7 +91,7 @@ public:
 	void uniqQPointList(QList<QPoint> &list);
 
 protected:
-	virtual	void paintEvent ( QPaintEvent * event )	override;// ‰æ‘œ‚Ì•`‰æƒCƒxƒ“ƒgB‚PF‘S‘Ì‰æ‘œ‚Ì•\¦@‚QFNGˆÊ’u‚Ì•\¦
+	virtual	void paintEvent ( QPaintEvent * event )	override;// ï¿½æ‘œï¿½Ì•`ï¿½ï¿½ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Bï¿½Pï¿½Fï¿½Sï¿½Ì‰æ‘œï¿½Ì•\ï¿½ï¿½ï¿½@ï¿½Qï¿½FNGï¿½Ê’uï¿½Ì•\ï¿½ï¿½
 	void drawNGPoints(QPainter &painter, QList<QPoint> &posList, double zoomRate=1.0);
 
 public slots:
@@ -232,24 +250,24 @@ private slots:
 //	}
 
 private:
-	Ui::TotalNGMapClass ui;// ‚±‚Ì’†‚ÌQFrame‚ÌƒCƒ“ƒXƒ^ƒ“ƒXMainCanvas‚É‰º‚ÌQPixmap‚ğ’£‚è•t‚¯‚Ä‰æ‘œ‚ğ•\¦‚µA•Û‚µ‚Ä‚¢‚éNGPosList‚ª‚à‚ÂNGÀ•W‚ğ•`‚«‚ñ‚Å•\¦‚·‚é
+	Ui::TotalNGMapClass ui;// ï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½QFrameï¿½ÌƒCï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½XMainCanvasï¿½É‰ï¿½ï¿½ï¿½QPixmapï¿½ğ’£‚ï¿½ï¿½tï¿½ï¿½ï¿½Ä‰æ‘œï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Ûï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½NGPosListï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
-	QList<QImage> m_FrontImageList;	// •\‚Ì‘S‘Ì‰æ‘œ
-	QList<QImage> m_BackImageList;	// — ‚Ì‘S‘Ì‰æ‘œ
+	QList<QImage> m_FrontImageList;	// ï¿½\ï¿½Ì‘Sï¿½Ì‰æ‘œ
+	QList<QImage> m_BackImageList;	// ï¿½ï¿½ï¿½Ì‘Sï¿½Ì‰æ‘œ
 
 	//QList<StretchImageWidget *> m_FrontImageWidgetList;
 	//QList<StretchImageWidget *> m_BackImageWidgetList;
 
-	QList<QList<QPoint> > m_FrontNGPosList;// NG‚ÌˆÊ’u‚ÌƒŠƒXƒg(‡”Ô‚Í–³ŠÖŒW)
+	QList<QList<QPoint> > m_FrontNGPosList;// NGï¿½ÌˆÊ’uï¿½Ìƒï¿½ï¿½Xï¿½g(ï¿½ï¿½ï¿½Ô‚Í–ï¿½ï¿½ÖŒW)
 	QList<QList<QPoint> > m_BackNGPosList;
 
 	QList<_vautMap> m_FrontVautMapList;
 	QList<_vautMap> m_BackVautMapList;
 	
-	int m_splitX;	// X•ªŠ„”
-	int m_splitY;	// Y•ªŠ„”
-	QColor m_NGDrawColor;		// •\¦‚·‚éNG‚ÌF
-	NGDrawShapeType m_NGDrawShape;	// NG‚Ì•\¦Œ`®
+	int m_splitX;	// Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int m_splitY;	// Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	QColor m_NGDrawColor;		// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ÌF
+	NGDrawShapeType m_NGDrawShape;	// NGï¿½Ì•\ï¿½ï¿½ï¿½`ï¿½ï¿½
 	int m_NGDrawSize;
 	QList<QList<int> > m_vautCountList;
 	bool m_isIgnoreErrorInspect;

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XTypeDef.h"
 #include "PasswordDragFrame.h"
 #include <QDrag>
@@ -9,7 +27,7 @@ PasswordDragFrame::PasswordDragFrame(QWidget *parent)
 	QFrame::setFrameShape(QFrame::Box);
 }
 
-//ƒ}ƒEƒX‚ğ‰Ÿ‚µ‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚é‰¼‘zŠÖ”
+//ï¿½}ï¿½Eï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÉŒÄ‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½é‰¼ï¿½zï¿½Öï¿½
 void PasswordDragFrame::mousePressEvent(QMouseEvent *event)
 {
 	if(event->button() == Qt::LeftButton)
@@ -17,18 +35,18 @@ void PasswordDragFrame::mousePressEvent(QMouseEvent *event)
 	QFrame::mousePressEvent(event);
 }
 
-//ƒhƒ‰ƒbƒOŠJn‚ÉŒÄ‚Ño‚³‚ê‚é‰¼‘zŠÖ”
+//ï¿½hï¿½ï¿½ï¿½bï¿½Oï¿½Jï¿½nï¿½ï¿½ï¿½ÉŒÄ‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½é‰¼ï¿½zï¿½Öï¿½
 void PasswordDragFrame::mouseMoveEvent(QMouseEvent * event)
 {
 	if(event->buttons() & Qt::LeftButton){
 		int distance = (event->pos() - startPos).manhattanLength();
 		if(distance >= QApplication::startDragDistance())
-			startDrag();//ÀÛ‚Ìƒhƒ‰ƒbƒOŠJn
+			startDrag();//ï¿½ï¿½ï¿½Û‚Ìƒhï¿½ï¿½ï¿½bï¿½Oï¿½Jï¿½n
 	}
 	QFrame::mouseMoveEvent(event);
 }
 
-//ƒhƒ‰ƒbƒOŠJn
+//ï¿½hï¿½ï¿½ï¿½bï¿½Oï¿½Jï¿½n
 void PasswordDragFrame::startDrag()
 {
 	QDrag *drag = new QDrag(this);
@@ -52,7 +70,7 @@ QString PasswordDragFrame::PasswordFilePath()
 	return passFileName;
 }
 
-//•`‰æƒCƒxƒ“ƒg
+//ï¿½`ï¿½ï¿½ï¿½Cï¿½xï¿½ï¿½ï¿½g
 void PasswordDragFrame::paintEvent(QPaintEvent* event)
 {
 	QPixmap pix(/**/"images/dragpict.png");

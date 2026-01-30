@@ -1,9 +1,21 @@
 /*
- * clsDbCtrl.h
+ * Copyright (C) 2012
+ * Author : cony
  *
- *  Created on: 2010/03/23
- *      Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #ifndef CLSDBCTRL_H_
 #define CLSDBCTRL_H_
@@ -20,7 +32,7 @@
 #include "clsDb.h"
 
 /**
- * @brief DBƒtƒ@ƒCƒ‹’è‹`
+ * @brief DBï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½`
  */
 class clsDbDef : public NPList<clsDbDef> {
 public:
@@ -44,15 +56,15 @@ public:
 };
 
 /**
- * @brief DBƒ}ƒXƒ^§ŒäƒNƒ‰ƒX
+ * @brief DBï¿½}ï¿½Xï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
  *
- * DBƒtƒ@ƒCƒ‹‘I‘ğ§Œä‚ğs‚¤B
- * –{ƒNƒ‰ƒX‚ÍGetInstance()‚Ì‚İ‚Å¶¬‚³‚ê‚éB
+ * DBï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½ğ§Œï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½B
+ * ï¿½{ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½GetInstance()ï¿½Ì‚İ‚Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
  */
 class clsDbCtrl {
 public:
 	/**
-	 * @brief DBƒ}ƒXƒ^§ŒäƒCƒ“ƒXƒ^ƒ“ƒXì¬
+	 * @brief DBï¿½}ï¿½Xï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ì¬
 	 */
 	static clsDbCtrl *GetInstance() {
 		static clsDbCtrl def;
@@ -60,52 +72,52 @@ public:
 	}
 
 	/**
-	 * @brief XML’Ç‰ÁDB‘I‘ğ
+	 * @brief XMLï¿½Ç‰ï¿½ï¿½ï¿½DBï¿½Iï¿½ï¿½
 	 *
-	 * V‹KXML’Ç‰Á‚ÌDB‘I‘ğ‚ğs‚¤B
-	 * @param const QByteArray &MstId ƒ}ƒXƒ^ID(XML•ª‚Ìƒe[ƒuƒ‹–¼‚ğg—p)
-	 * @param const QByteArray &Mac ‘•’u”Ô†
-	 * @param const QByteArray &Day ŒŸ¸“ú(YYMMDDHHMISSj
+	 * ï¿½Vï¿½KXMLï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½DBï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½B
+	 * @param const QByteArray &MstId ï¿½}ï¿½Xï¿½^ID(XMLï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½p)
+	 * @param const QByteArray &Mac ï¿½ï¿½ï¿½uï¿½Ôï¿½
+	 * @param const QByteArray &Day ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(YYMMDDHHMISSï¿½j
 	 */
 	clsDbDef *addDb(const QByteArray &MstId, const QByteArray &Mac, const QByteArray &Day);
 
 	/**
-	 * @brief ƒ^ƒO’Ç‰ÁDB‘I‘ğ
+	 * @brief ï¿½^ï¿½Oï¿½Ç‰ï¿½DBï¿½Iï¿½ï¿½
 	 *
-	 * Šù‘¶XML‚Éƒ^ƒO’Ç‰Á‚ÌDB‘I‘ğ‚ğs‚¤B
-	 * @param const QByteArray &MstId ƒ}ƒXƒ^ID(XML•ª‚Ìƒe[ƒuƒ‹–¼‚ğg—p)
-	 * @param const QByteArray &Mac ‘•’u”Ô†
-	 * @param const QByteArray &Day ŒŸ¸“ú(YYMMDDHHMISS,‚½‚¾‚µ“ª‚Ì0‚Í‚È‚¢ê‡‚ ‚èj
+	 * ï¿½ï¿½ï¿½ï¿½XMLï¿½Éƒ^ï¿½Oï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½DBï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½B
+	 * @param const QByteArray &MstId ï¿½}ï¿½Xï¿½^ID(XMLï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½p)
+	 * @param const QByteArray &Mac ï¿½ï¿½ï¿½uï¿½Ôï¿½
+	 * @param const QByteArray &Day ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(YYMMDDHHMISS,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½Í‚È‚ï¿½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½j
 	 */
 	clsDbDef *appendDb(const QByteArray &MstId, const QByteArray &Mac, const QByteArray &Day);
 
 	/**
-	 * @brief XMLXVDB‘I‘ğ
+	 * @brief XMLï¿½Xï¿½Vï¿½ï¿½DBï¿½Iï¿½ï¿½
 	 *
-	 * ƒ}ƒXƒ^IDA‘•’u”Ô†AŒŸ¸“ú‚æ‚èDB‚ğ‘I‘ğ‚·‚éB
+	 * ï¿½}ï¿½Xï¿½^IDï¿½Aï¿½ï¿½ï¿½uï¿½Ôï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½DBï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 	 * @param const QByteArray &MstId
-	 * @param const QByteArray &Mac ‘•’u”Ô†
-	 * @param const QByteArray &Day ŒŸ¸“ú(YYMMDDHHMISS,‚½‚¾‚µ“ª‚Ì0‚Í‚È‚¢ê‡‚ ‚èj
+	 * @param const QByteArray &Mac ï¿½ï¿½ï¿½uï¿½Ôï¿½
+	 * @param const QByteArray &Day ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(YYMMDDHHMISS,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½Í‚È‚ï¿½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½j
 	 */
 	clsDbDef *updDb(const QByteArray &MstId, const QByteArray &Mac, const QByteArray &Day);
 
 	clsDbDef *getPceDbDef(const QByteArray &MstId);
 
 	/**
-	 * @brief DB’è‹`ƒŠƒXƒgì¬
-	 * DBƒ}ƒXƒ^‚©‚çğŒ‚É‡‚¤DBƒtƒ@ƒCƒ‹ƒŠƒXƒg‚ğ¶¬‚·‚éB
-	 * @param const QByteArray &dbWhr DBƒ}ƒXƒ^ŒŸõğŒ
-	 * @param clsLog *log ƒƒOƒIƒuƒWƒFƒNƒgƒ|ƒCƒ“ƒ^
+	 * @brief DBï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½Xï¿½gï¿½ì¬
+	 * DBï¿½}ï¿½Xï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½DBï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+	 * @param const QByteArray &dbWhr DBï¿½}ï¿½Xï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param clsLog *log ï¿½ï¿½ï¿½Oï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½|ï¿½Cï¿½ï¿½ï¿½^
 	 */
 	static NPListPack<clsDbDef> *mkDbLst(const QByteArray &dbWhr, clsLog *log);
 
-	/// DB’è‹`ƒŠƒXƒg
+	/// DBï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½Xï¿½g
 	NPListPack<clsDbDef> *lstDbDef;
 
 	/**
-	 * @brief DB’è‹`ƒZƒbƒg
+	 * @brief DBï¿½ï¿½ï¿½`ï¿½Zï¿½bï¿½g
 	 *
-	 * clsDbƒIƒuƒWƒFƒNƒg‚ÉDB’è‹`‚ğƒZƒbƒg‚·‚éB
+	 * clsDbï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½DBï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½B
 	 */
 	void setDbDef(const clsDbDef *dbDef, clsDb *db);
 
@@ -123,7 +135,7 @@ private:
 	clsDb *db;
 
 	/**
-	 * @brief DB’è‹`’Ç‰Á
+	 * @brief DBï¿½ï¿½ï¿½`ï¿½Ç‰ï¿½
 	 *
 	 * @param const clsDbDef *dbDef
 	 */
@@ -134,23 +146,23 @@ private:
 	bool newDbDef(clsDbDef *dbDef);
 
 	/**
-	 * @brief DBƒtƒ@ƒCƒ‹ì¬
+	 * @brief DBï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ì¬
 	 *
-	 * V‹KDBƒtƒ@ƒCƒ‹‚ğì¬‚µAƒe[ƒuƒ‹’è‹`‚ğÀs‚·‚éB
+	 * ï¿½Vï¿½KDBï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½Aï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½B
 	 * @param const clsDbDef *dbDef
 	 */
 	bool makeDbFile(const clsDbDef *dbDef);
 
-	/// ƒƒbƒN
+	/// ï¿½ï¿½ï¿½bï¿½N
 	void lock();
 
-	/// ƒAƒ“ƒƒbƒN
+	/// ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½bï¿½N
 	void unlock();
 
 	/**
-	 * @brief DB“ú•tƒ`ƒFƒbƒN
+	 * @brief DBï¿½ï¿½ï¿½tï¿½`ï¿½Fï¿½bï¿½N
 	 *
-	 * Œ»İ‚Ì“ú•t‚ªÅVDB“ú•t{ChgDbDay‚æ‚è‘å‚«‚¯‚ê‚Îfalse
+	 * ï¿½ï¿½ï¿½İ‚Ì“ï¿½ï¿½tï¿½ï¿½ï¿½ÅVDBï¿½ï¿½ï¿½tï¿½{ChgDbDayï¿½ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½false
 	 * @param const clsDbDef *dbDef
 	 */
 	bool chkDbDate(const clsDbDef *dbDef, const QByteArray &dDay="");

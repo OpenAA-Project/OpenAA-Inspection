@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2015
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "XGUIPacketForDLL.h"
@@ -5,7 +23,7 @@
 
 #include "XReviewCommon.h"
 
-class NGImageForReview;// ‚±‚ÌƒvƒƒpƒeƒB‚ğ•Û—L‚·‚éƒNƒ‰ƒX
+class NGImageForReview;// ï¿½ï¿½ï¿½Ìƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½ï¿½ï¿½Û—Lï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
 
 template<>
 class PropertyBase<NGImageForReview> : public AbstructProperty
@@ -27,7 +45,7 @@ public:
 	void fromInstance(const NGImageForReview *instance);
 	void toInstance(NGImageForReview *instance) const;
 	
-public:// QObject‚Í=‚ğƒTƒ|[ƒg‚µ‚È‚¢
+public:// QObjectï¿½ï¿½=ï¿½ï¿½ï¿½Tï¿½|ï¿½[ï¿½gï¿½ï¿½ï¿½È‚ï¿½
 	PropertyBase<NGImageForReview> &operator=(const PropertyBase<NGImageForReview> &other);
 
 public:
@@ -36,4 +54,4 @@ public:
 	bool	BlankImageOnCopyMaster;
 };
 
-typedef PropertyBase<NGImageForReview> NGImageForReviewProperty;// –¼Ì•ÏX
+typedef PropertyBase<NGImageForReview> NGImageForReviewProperty;// ï¿½ï¿½ï¿½Ì•ÏX

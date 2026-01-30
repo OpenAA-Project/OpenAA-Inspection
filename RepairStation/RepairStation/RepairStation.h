@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\RepairStation\RepairStation\RepairStation.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #ifndef REPAIRSTATION_H
@@ -59,7 +68,7 @@ public:
 	QCheckBox		   *chNotShowHalt;
 	int					NGCountInBoard;
 
-	QList<QPair<QString, QString> > citemList;//ƒAƒ‹ƒSƒŠƒYƒ€•ÊƒGƒ‰[‚ÌŠÛ•\¦‚ÌFİ’è
+	QList<QPair<QString, QString> > citemList;//ï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½ÊƒGï¿½ï¿½ï¿½[ï¿½ÌŠÛ•\ï¿½ï¿½ï¿½ÌFï¿½İ’ï¿½
 
 	virtual bool	Save(QIODevice *file);
 	virtual bool	Load(QIODevice *file);
@@ -103,10 +112,10 @@ private slots:
 	void chEditEnableToggled		(bool toggled);
 	void chNotShowHaltToggled		(bool toggled);
 	void chReverseOrderDisplayToggled(bool toggled);
-	void MasterTreeRowChanged		(QTreeWidgetItem *CIndex);		//ƒ}ƒXƒ^[ƒcƒŠ[‚ÌRowChangedƒCƒxƒ“ƒg
-	void MasterListRowChanged		(const QModelIndex &CIndex);		//ƒ}ƒXƒ^[ƒŠƒXƒg‚ÌRowChangedƒCƒxƒ“ƒg
-	void HistoryListRowChanged		(const QModelIndex &CIndex);		//—š—ğƒŠƒXƒg‚ÌRowChangedƒCƒxƒ“ƒg
-	void NGListRowChanged			(const QModelIndex &CIndex,const QModelIndex &PIndex);		//NGƒŠƒXƒg‚ÌRowChangedƒCƒxƒ“ƒg
+	void MasterTreeRowChanged		(QTreeWidgetItem *CIndex);		//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½cï¿½ï¿½ï¿½[ï¿½ï¿½RowChangedï¿½Cï¿½xï¿½ï¿½ï¿½g
+	void MasterListRowChanged		(const QModelIndex &CIndex);		//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½RowChangedï¿½Cï¿½xï¿½ï¿½ï¿½g
+	void HistoryListRowChanged		(const QModelIndex &CIndex);		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½RowChangedï¿½Cï¿½xï¿½ï¿½ï¿½g
+	void NGListRowChanged			(const QModelIndex &CIndex,const QModelIndex &PIndex);		//NGï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½RowChangedï¿½Cï¿½xï¿½ï¿½ï¿½g
 	void Next						();
 	void Previous					();
 	void SlotKeyLeft				();
@@ -199,7 +208,7 @@ private:
 	char	SlotIsChangedIndex;
 	bool	FlagPreNextDoubleOK;
 	bool	FlagPreNextDoubleNG;
-	//OKƒf[ƒ^‘‚«‚İƒtƒ‰ƒO
+	//OKï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İƒtï¿½ï¿½ï¿½O
 	bool	OKWaitFlag;
 ///////////////////PluginDLL///////////////////
 

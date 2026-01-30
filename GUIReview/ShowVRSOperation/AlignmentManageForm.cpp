@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ShowVRSOperationResource.h"
 #include "AlignmentManageForm.h"
 #include "InputRectInMultiImageDialog.h"
@@ -280,14 +298,14 @@ Review::Rotate AlignmentManageForm::rotateEnum(void) const
 void AlignmentManageForm::rotateImageData(Review::Rotate rotation, const QList<QImage> &imageList, const QList<QPoint> &outlineOffsetList, const QRect &beforeRect,
 		QList<QImage> &rotatedImageList, QList<QPoint> &rotatedOutlineOffsetList, QRect &rotatedBeforeRect, const QList<QSize> &imageSizeList_, QList<QSize> *rotatedImageSizeList)
 {
-	// ‰ñ“]Šp“xæ“¾
+	// ï¿½ï¿½ï¿½]ï¿½pï¿½xï¿½æ“¾
 	const int rot = Review::toIntFromRotate(rotation);
 	
-	// ‰ñ“]ƒ}ƒgƒŠƒNƒXì¬
+	// ï¿½ï¿½ï¿½]ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½ì¬
 	QTransform transform;
 	transform.rotate(rot);
 	
-	// ‰ñ“]‚µ‚½‹éŒ`Œ`ó‚ğì¬
+	// ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ì¬
 	QList<QSize> imageSizeList;
 	if(imageSizeList_.isEmpty()==true || imageSizeList_.count() < imageList.count()){
 		for(int i=0; i<imageList.count(); i++){
@@ -312,13 +330,13 @@ void AlignmentManageForm::rotateImageData(Review::Rotate rotation, const QList<Q
 	}
 	QRect rotatedWholeRect = makeWholeRect(imageSizeList, outlineOffsetList, rotation);
 
-	// ‰ñ“]‚µ‚½‰æ‘œ‚ğì¬
+	// ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½ì¬
 	rotatedImageList.clear();
 	for(int i=0; i<imageList.count(); i++){
 		rotatedImageList << imageList[i].transformed(transform);
 	}
 
-	// ‰ñ“]‚µ‚½ƒAƒEƒgƒ‰ƒCƒ“ƒIƒtƒZƒbƒg‚ğì¬
+	// ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Iï¿½tï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ì¬
 	rotatedOutlineOffsetList.clear();
 	for(int i=0; i<imageList.count(); i++){
 		QPoint oldOutline = outlineOffsetList[i];
@@ -345,7 +363,7 @@ void AlignmentManageForm::rotateImageData(Review::Rotate rotation, const QList<Q
 		}
 	}
 	
-	// ‰ñ“]‚µ‚½Œ»İ‹éŒ`‚ğì¬
+	// ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‹ï¿½ï¿½`ï¿½ï¿½ï¿½ì¬
 	rotatedBeforeRect = Review::rotateRectRaw(beforeRect, rot);
 	rotatedBeforeRect.moveTopLeft( rotatedBeforeRect.topLeft() - rotatedWholeRect.topLeft());
 }
@@ -353,27 +371,27 @@ void AlignmentManageForm::rotateImageData(Review::Rotate rotation, const QList<Q
 void AlignmentManageForm::rotateImageData(Review::Rotate rotation, const QImage &image, const QPoint &outlineOffset, const QRect &beforeRect,
 	QImage &rotatedImage, QPoint rotatedOutlineOffset, QRect &rotatedBeforeRect)
 {
-	// ‰ñ“]Šp“xæ“¾
+	// ï¿½ï¿½ï¿½]ï¿½pï¿½xï¿½æ“¾
 	const int rot = Review::toIntFromRotate(rotation);
 	
-	// ‰ñ“]ƒ}ƒgƒŠƒNƒXì¬
+	// ï¿½ï¿½ï¿½]ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½ì¬
 	QTransform transform;
 	transform.rotate(rot);
 	
-	// ‰ñ“]‚µ‚½‹éŒ`Œ`ó‚ğì¬
+	// ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ì¬
 	QRect rotatedWholeRect = makeWholeRect(image.size(), outlineOffset, rotation);
 
-	// ‰ñ“]‚µ‚½‰æ‘œ‚ğì¬
+	// ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½ì¬
 	rotatedImage = image.transformed(transform);
 
-	// ‰ñ“]‚µ‚½ƒAƒEƒgƒ‰ƒCƒ“ƒIƒtƒZƒbƒg‚ğì¬
+	// ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Iï¿½tï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ì¬
 	//rotatedOutlineOffset = outlineOffset;
 	//QRect imgRect(outlineOffset, image.size());
 	//QRect rotatedImgRect = Review::rotateRectRaw(imgRect, rot);
 	//rotatedOutlineOffset = rotatedImgRect.topLeft();
 	rotatedOutlineOffset = QPoint(0,0);
 	
-	// ‰ñ“]‚µ‚½Œ»İ‹éŒ`‚ğì¬
+	// ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‹ï¿½ï¿½`ï¿½ï¿½ï¿½ì¬
 	rotatedBeforeRect = Review::rotateRectRaw(beforeRect, rot);
 	rotatedBeforeRect.moveTopLeft( rotatedBeforeRect.topLeft() - rotatedWholeRect.topLeft());
 }
@@ -1404,14 +1422,14 @@ QRect AlignmentManageForm::getRect(int page, const QRect &beforeRect)
 	//QImage currentImage = imageList.at(page);
 	//QPoint currentOutline = outlines.at(page);
 
-	//// ‰ñ“]Šp“x
+	//// ï¿½ï¿½ï¿½]ï¿½pï¿½x
 	//int rot = rotate();
 
-	//// ‰ñ“]ƒ}ƒgƒŠƒNƒX
+	//// ï¿½ï¿½ï¿½]ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½X
 	//QTransform transform;
 	//transform.rotate(rot);
 	//
-	//// ‘S‘Ì‰æ‘œƒTƒCƒY
+	//// ï¿½Sï¿½Ì‰æ‘œï¿½Tï¿½Cï¿½Y
 	//QRect wholeRect;
 	//for(int i=0; i<outlineList.count(); i++){
 	//	outlines[i] /= reqMImgList.MasterImageNormalizeZoomRate;
@@ -1423,46 +1441,46 @@ QRect AlignmentManageForm::getRect(int page, const QRect &beforeRect)
 
 	//QRect rotatedWholeRect = makeWholeRect(sizeList, outlineList, rotateEnum());
 
-	//// ‘S‘Ì‰æ‘œ‚Ì‰ñ“]Œã‚ÌƒTƒCƒY
+	//// ï¿½Sï¿½Ì‰æ‘œï¿½Ì‰ï¿½ï¿½]ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Y
 	//QRect rrect = Review::rotateRectRaw(wholeRect, rot);
 
-	//// ‘ÎÛƒy[ƒW‚Ì‰ñ“]‚µ‚½‰æ‘œì¬
+	//// ï¿½ÎÛƒyï¿½[ï¿½Wï¿½Ì‰ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ì¬
 	//QList<QImage> rotatedImageList;
 	//rotatedImageList << imageList[page].transformed(transform);
 
-	//// ‘ÎÛƒy[ƒW‚Ì‰æ‘œ‚ÌƒAƒEƒgƒ‰ƒCƒ“ƒIƒtƒZƒbƒg
+	//// ï¿½ÎÛƒyï¿½[ï¿½Wï¿½Ì‰æ‘œï¿½ÌƒAï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Iï¿½tï¿½Zï¿½bï¿½g
 	//QPoint oldOutline = outlines[page];
 	//QPoint newOutline;
 
-	//// ‰ñ“]‚µ‚½‰æ‘œ‹éŒ`‚ğ•\¦‚µ‚½ê‡‚ÌƒAƒEƒgƒ‰ƒCƒ“ƒIƒtƒZƒbƒg‚Ìæ“¾
+	//// ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÌƒAï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Iï¿½tï¿½Zï¿½bï¿½gï¿½Ìæ“¾
 	//QRect imgRect(oldOutline, imageList[page].size());
 	//QRect rotatedImgRect = Review::rotateRectRaw(imgRect, rot);
 	//newOutline = rotatedImgRect.topLeft() - rrect.topLeft();
 	//QList<QPoint> rotatedOutlineList = Review::toList(newOutline);
 
-	//// ŠÔˆø‚«—Ê‚É‚æ‚é‰ñ“]ŒãƒAƒ‰ƒCƒƒ“ƒg‹éŒ`‚Ì’²®
+	//// ï¿½Ôˆï¿½ï¿½ï¿½ï¿½Ê‚É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½`ï¿½Ì’ï¿½ï¿½ï¿½
 	//for(int i=0; i<rotatedOutlines.count(); i++){
 	//	rotatedOutlineList[i] /= reqMImgList.MasterImageNormalizeZoomRate;
 	//}
 
-	//// Œ»İ‚ÌƒAƒ‰ƒCƒƒ“ƒg‹éŒ`‚Ì‰ñ“]
+	//// ï¿½ï¿½ï¿½İ‚ÌƒAï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½`ï¿½Ì‰ï¿½ï¿½]
 	//QRect rotatedBeforeRect = Review::rotateRectRaw(beforeRect, rot);
 	//rotatedBeforeRect.moveTopLeft( rotatedBeforeRect.topLeft() - rrect.topLeft() );
 	//
-	//// Œ»İ‚ÌƒAƒ‰ƒCƒƒ“ƒg‚ğŠÔˆø‚«—Ê‚ÅƒXƒP[ƒŠƒ“ƒO
+	//// ï¿½ï¿½ï¿½İ‚ÌƒAï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ôˆï¿½ï¿½ï¿½ï¿½Ê‚ÅƒXï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½O
 	//QRect befRectScaled = rotatedBeforeRect;
 	//befRectScaled.moveTopLeft( befRectScaled.topLeft() / reqMImgList.MasterImageNormalizeZoomRate );
 	//befRectScaled.setSize( befRectScaled.size() / reqMImgList.MasterImageNormalizeZoomRate );
 
-	//// ƒCƒ[ƒW‚ÆƒAƒEƒgƒ‰ƒCƒ“ƒIƒtƒZƒbƒg‚ğİ’è
+	//// ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ÆƒAï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Iï¿½tï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½İ’ï¿½
 	//dialog.setImageList(rotatedImageList, rotatedOutlineList);
 	//dialog.setZoomStepLimit(100);
 	//dialog.setResultRect(befRectScaled);
 
-	//// ‰Šú‘S‘Ì•\¦‚ğİ’è
+	//// ï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½Ì•\ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 	//dialog.setFirstExpand(true);
 
-	//// Às
+	//// ï¿½ï¿½ï¿½s
 	//QRect ret, rect;
 	//if(dialog.exec()==QDialog::Accepted){
 	//	rect = dialog.resultRect();

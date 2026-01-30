@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <QRegularExpression>
 #include <QDomElement>
 #include <QRegularExpression>
@@ -146,7 +164,7 @@ ReviewPIBase::ReviewPIBase(LayersBase *Base,EntryPointBase *EPoint)
 
 	setSequenceThread(NULL);
 
-	//// ƒtƒ@ƒCƒ‹“Ç‚İ‚İ or V‹K¶¬
+	//// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½ or ï¿½Vï¿½Kï¿½ï¿½ï¿½ï¿½
 	//QFile file(CommSettingFile);
 	//if(QFile::exists(CommSettingFile)){
 	//	if(file.open(QIODevice::ReadOnly)){
@@ -169,7 +187,7 @@ ReviewPIBase::ReviewPIBase(LayersBase *Base,EntryPointBase *EPoint)
 	m_xmlWriter = new XMLWriter(this);
 	m_xmlWriter->set(getXMLServerIPAddress(), getXMLServerPortNo());
 
-	// ƒT[ƒo[ƒnƒ“ƒhƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX¶¬(&ƒI[ƒvƒ“)
+	// ï¿½Tï¿½[ï¿½oï¿½[ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½(&ï¿½Iï¿½[ï¿½vï¿½ï¿½)
 	m_xmlServerHdl = new XMLServerHandle(getXMLServerIPAddress(), getXMLServerPortNo(), qApp);
 
 	// select
@@ -341,7 +359,7 @@ bool	ReviewPIBase::LoadMaster(Review::SideType side, int PhaseCode ,int MasterCo
 		infoBuff.ThresholdLevelID		= iThresholdLevelID;
 		infoBuff.ThresholdLevelParentID = iThresholdLevelParentID;
 
-		// •ÏX€”õ
+		// ï¿½ÏXï¿½ï¿½ï¿½ï¿½
 		GetLayersBase()->ClearAllAckFlag();
 		
 		QStringList list = GetLayersBase()->GetParamGlobal()->ImageFilePath.split(';', QString::SplitBehavior::SkipEmptyParts);
@@ -392,7 +410,7 @@ bool	ReviewPIBase::LoadMaster(Review::SideType side, int PhaseCode ,int MasterCo
 				}
 			}
 		}
-		// ƒf[ƒ^ƒx[ƒX‚©‚çƒ‰ƒCƒuƒ‰ƒŠƒR[ƒh‚ğˆø‚Á’£‚Á‚Ä‚­‚é
+		// ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½çƒ‰ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	//	InsLibCodeHash.clear();
 	//	QSqlQuery query("select * from inspectlibtype");
 	//	while(query.next()==true){
@@ -422,7 +440,7 @@ bool	ReviewPIBase::LoadMaster(Review::SideType side, int PhaseCode ,int MasterCo
 	//		item.TypeUniqueCode = -1;
 
 	//		if(query.record().contains("LIBTYPE")==true){
-	//			item.LibType = query.record().value("LIBTYPE").toInt();// Basic:BlockInspection‚È‚Ç‚Ì”»’èƒR[ƒh
+	//			item.LibType = query.record().value("LIBTYPE").toInt();// Basic:BlockInspectionï¿½È‚Ç‚Ì”ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½h
 	//		}
 	//		if(query.record().contains("LIBID")==true){
 	//			item.LibID = query.record().value("LIBID").toInt();
@@ -517,7 +535,7 @@ bool	ReviewPIBase::LoadMaster(Review::SideType side, int PhaseCode ,int MasterCo
 			//base->WaitAllAcknowledged(60);
 		}
 
-		// ƒAƒEƒgƒ‰ƒCƒ“ƒIƒtƒZƒbƒg•ÏX
+		// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Iï¿½tï¿½Zï¿½bï¿½gï¿½ÏX
 		OutlineOffsetInBlob outlineBlob(GetLayersBase());
 		ret = GetLayersBase()->GetDatabaseLoader()->G_SQLLoadOutlineOfset(GetLayersBase()->GetDatabase(), iMachineID, &outlineBlob);
 
@@ -623,7 +641,7 @@ QImage	ReviewPIBase::GetMasterWholeImage(Review::SideType side, int phase, int w
 		//}
 
 
-		painter.drawImage( TargetWholeImgDrawOutlines[i].x()*zoomRate, TargetWholeImgDrawOutlines[i].y()*zoomRate,// “\‚è•t‚¯ˆÊ’u
+		painter.drawImage( TargetWholeImgDrawOutlines[i].x()*zoomRate, TargetWholeImgDrawOutlines[i].y()*zoomRate,// ï¿½\ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Ê’u
 			img);
 
 		//(*TargetPageImages)[i].save(QString("ForntWholePage-%1.jpg").arg(i), "JPG");
@@ -654,8 +672,8 @@ QImage	ReviewPIBase::GetMasterWholeImage(Review::SideType side, int phase, int w
 
 QImage ReviewPIBase::GetMasterImagePiece(Review::SideType side, int phase, int page, int x, int y, int width, int height)
 {
-	QList<QImage> TargetPageImages;// phase‚ÌŠeƒy[ƒW‰æ‘œ
-	QList<QPoint> TargetWholeOutlines;// Šeƒy[ƒW‚ÌƒAƒEƒgƒ‰ƒCƒ“î•ñ
+	QList<QImage> TargetPageImages;// phaseï¿½ÌŠeï¿½yï¿½[ï¿½Wï¿½æ‘œ
+	QList<QPoint> TargetWholeOutlines;// ï¿½eï¿½yï¿½[ï¿½Wï¿½ÌƒAï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	MasterDataInfo MInfo = getMasterInfo(side);
 
 	if(getMasterWholePageImageList(side).isEmpty()){
@@ -683,7 +701,7 @@ QImage ReviewPIBase::GetMasterImagePiece(Review::SideType side, int phase, int p
 	//	return QImage();
 	//}
 
-	// –ß‚è‰æ‘œ
+	// ï¿½ß‚ï¿½ï¿½æ‘œ
 	QImage image(width, height, QImage::Format_RGB32);
 
 	QPainter painter;
@@ -693,7 +711,7 @@ QImage ReviewPIBase::GetMasterImagePiece(Review::SideType side, int phase, int p
 
 	QList<QPoint> ShiftOutlines = TargetWholeOutlines;
 	for(int i=0; i<ShiftOutlines.count(); i++){
-		ShiftOutlines[i] -= pieceRect.topLeft();// ’–Úƒy[ƒW‚ğŠî€
+		ShiftOutlines[i] -= pieceRect.topLeft();// ï¿½ï¿½ï¿½Úƒyï¿½[ï¿½Wï¿½ï¿½ï¿½î€
 	}
 	for(int i=0; i<ShiftOutlines.count(); i++){
 		ShiftOutlines[i] /= getMasterImageNormalizeZoomRate();
@@ -717,8 +735,8 @@ QImage ReviewPIBase::GetMasterImagePiece(Review::SideType side, int phase, int p
 
 QImage ReviewPIBase::GetMasterImagePiece(Review::SideType side, int phase, int x, int y, int width, int height)
 {
-	QList<QImage> TargetPageImages;// phase‚ÌŠeƒy[ƒW‰æ‘œ
-	QList<QPoint> TargetWholeOutlines;// Šeƒy[ƒW‚ÌƒAƒEƒgƒ‰ƒCƒ“î•ñ
+	QList<QImage> TargetPageImages;// phaseï¿½ÌŠeï¿½yï¿½[ï¿½Wï¿½æ‘œ
+	QList<QPoint> TargetWholeOutlines;// ï¿½eï¿½yï¿½[ï¿½Wï¿½ÌƒAï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	TargetPageImages = getMasterWholePageImageList(side, phase);
 	TargetWholeOutlines = getMasterWholeImgDrawPoints(side, phase);
@@ -742,7 +760,7 @@ QImage ReviewPIBase::GetMasterImagePiece(Review::SideType side, int phase, int x
 	//	return QImage();
 	//}
 
-	// –ß‚è‰æ‘œ
+	// ï¿½ß‚ï¿½ï¿½æ‘œ
 	QImage image(width/getMasterImageNormalizeZoomRate(), height/getMasterImageNormalizeZoomRate(), QImage::Format_RGB32);
 	image.fill(0);
 
@@ -863,8 +881,8 @@ void ReviewPIBase::updateInsLibSearchHash(Review::SideType side)
 
 	setInsLibSearchHash(side, hash);
 
-	//if(side==Review::Front){// •\‘¤
-	//	// ‘Oó‘Ô‚ÌƒnƒbƒVƒ…‚ğƒNƒŠƒA
+	//if(side==Review::Front){// ï¿½\ï¿½ï¿½
+	//	// ï¿½Oï¿½ï¿½ï¿½Ô‚Ìƒnï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½A
 	//	FrontInsLibSearchHash.clear();
 	//	QList<QString> RalList;
 
@@ -877,7 +895,7 @@ void ReviewPIBase::updateInsLibSearchHash(Review::SideType side)
 	//			}
 	//		}
 	//	}
-	//}else{// — ‘¤
+	//}else{// ï¿½ï¿½ï¿½ï¿½
 	//	BackInsLibSearchHash.clear();
 	//	QList<QString> RalList;
 
@@ -1022,8 +1040,8 @@ void ReviewPIBase::OrganizeHistoryList(void)
 {
 	QList<OrganizedHistoryItem> Temp;
 	
-	//qSort(FrontHistoryList.begin(), FrontHistoryList.end());// ID‡‚Åƒ\[ƒg
-	//qSort(BackHistoryList.begin(), BackHistoryList.end());// ID‡‚Åƒ\[ƒg
+	//qSort(FrontHistoryList.begin(), FrontHistoryList.end());// IDï¿½ï¿½ï¿½Åƒ\ï¿½[ï¿½g
+	//qSort(BackHistoryList.begin(), BackHistoryList.end());// IDï¿½ï¿½ï¿½Åƒ\ï¿½[ï¿½g
 
 	qSort(getHistoryList(Review::Front));
 	qSort(getHistoryList(Review::Back));
@@ -1050,7 +1068,7 @@ void ReviewPIBase::OrganizeHistoryList(void)
 			break;
 		}
 
-		if(itf->InspectID() == itb->InspectID()){ // “¯‚¶
+		if(itf->InspectID() == itb->InspectID()){ // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			OrganizedHistoryItem item;
 			item.setHistoryItem(&itf.i->t(), Review::Front);
 			item.setHistoryItem(&itb.i->t(), Review::Back);
@@ -1197,7 +1215,7 @@ void ReviewPIBase::loadNGImage(int OrgHistroyIndex)
 	//if(HistoryPack[OrgHistroyIndex].hasFront()==true){
 	//	#pragma omp for
 	//	for(int i=0; i<HistoryPack[OrgHistroyIndex].getFront()->NGNails.count(); i++){
-	//		if(HistoryPack[OrgHistroyIndex].getFront()->NGNails[i].isLoaded()==false// “Ç‚İ‚Ü‚ê‚Ä‚¢‚È‚­A‚È‚¨‚©‚Â“Ç‚İ‚İ’†‚Å‚È‚¢ê‡“Ç‚İ‚İ‚ğŠJn
+	//		if(HistoryPack[OrgHistroyIndex].getFront()->NGNails[i].isLoaded()==false// ï¿½Ç‚İï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Aï¿½È‚ï¿½ï¿½ï¿½ï¿½Â“Ç‚İï¿½ï¿½İ’ï¿½ï¿½Å‚È‚ï¿½ï¿½ê‡ï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½Jï¿½n
 	//			&& HistoryPack[OrgHistroyIndex].getFront()->NGNails[i].NGImage->isRunning()==false){
 	//			HistoryPack[OrgHistroyIndex].getFront()->NGNails[i].loadImage();
 	//		}
@@ -1207,7 +1225,7 @@ void ReviewPIBase::loadNGImage(int OrgHistroyIndex)
 	//if(HistoryPack[OrgHistroyIndex].hasBack()==true){
 	//	#pragma omp for
 	//	for(int i=0; i<HistoryPack[OrgHistroyIndex].getBack()->NGNails.count(); i++){
-	//		if(HistoryPack[OrgHistroyIndex].getBack()->NGNails[i].isLoaded()==false// “Ç‚İ‚Ü‚ê‚Ä‚¢‚È‚­A‚È‚¨‚©‚Â“Ç‚İ‚İ’†‚Å‚È‚¢ê‡“Ç‚İ‚İ‚ğŠJn
+	//		if(HistoryPack[OrgHistroyIndex].getBack()->NGNails[i].isLoaded()==false// ï¿½Ç‚İï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Aï¿½È‚ï¿½ï¿½ï¿½ï¿½Â“Ç‚İï¿½ï¿½İ’ï¿½ï¿½Å‚È‚ï¿½ï¿½ê‡ï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½Jï¿½n
 	//			&& HistoryPack[OrgHistroyIndex].getBack()->NGNails[i].NGImage->isRunning()==false){
 	//			HistoryPack[OrgHistroyIndex].getBack()->NGNails[i].loadImage();
 	//		}
@@ -1216,7 +1234,7 @@ void ReviewPIBase::loadNGImage(int OrgHistroyIndex)
 
 //#pragma omp parallel
 	{
-	// ‘O‚Ìíœ
+	// ï¿½Oï¿½Ìíœ
 	//qDebug() << "unload forword";
 		//#pragma omp for
 		for(int t=0; t<OrgHistroyIndex-getProperty().PreLoadNGImageLength; t++){
@@ -1245,7 +1263,7 @@ void ReviewPIBase::loadNGImage(int OrgHistroyIndex)
 				}
 			}
 		}
-	// Œ»İü•Ó‚Ìƒ[ƒh
+	// ï¿½ï¿½ï¿½İï¿½ï¿½Ó‚Ìƒï¿½ï¿½[ï¿½h
 	//qDebug() << "load round current";
 		//#pragma omp for
 		for(int t=OrgHistroyIndex-getProperty().PreLoadNGImageLength; t<OrgHistroyIndex+getProperty().PreLoadNGImageLength; t++){
@@ -1255,7 +1273,7 @@ void ReviewPIBase::loadNGImage(int OrgHistroyIndex)
 				if(nextIt->hasFront()==true){
 					//#pragma omp for
 					//for(int i=0; i<nextIt->getFront()->NGNails.count(); i++){
-					//	if(nextIt->getFront()->NGNails[i].isLoaded()==false// “Ç‚İ‚Ü‚ê‚Ä‚¢‚È‚­A‚È‚¨‚©‚Â“Ç‚İ‚İ’†‚Å‚È‚¢ê‡“Ç‚İ‚İ‚ğŠJn
+					//	if(nextIt->getFront()->NGNails[i].isLoaded()==false// ï¿½Ç‚İï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Aï¿½È‚ï¿½ï¿½ï¿½ï¿½Â“Ç‚İï¿½ï¿½İ’ï¿½ï¿½Å‚È‚ï¿½ï¿½ê‡ï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½Jï¿½n
 					//	&& nextIt->getFront()->NGNails[i].NGImage->isRunning()==false){
 					//		nextIt->getFront()->NGNails[i].loadImage();
 					//	}
@@ -1265,7 +1283,7 @@ void ReviewPIBase::loadNGImage(int OrgHistroyIndex)
 				if(nextIt->hasBack()==true){
 					//#pragma omp for
 					//for(int i=0; i<nextIt->getBack()->NGNails.count(); i++){
-					//	if(nextIt->getBack()->NGNails[i].isLoaded()==false// “Ç‚İ‚Ü‚ê‚Ä‚¢‚È‚­A‚È‚¨‚©‚Â“Ç‚İ‚İ’†‚Å‚È‚¢ê‡“Ç‚İ‚İ‚ğŠJn
+					//	if(nextIt->getBack()->NGNails[i].isLoaded()==false// ï¿½Ç‚İï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Aï¿½È‚ï¿½ï¿½ï¿½ï¿½Â“Ç‚İï¿½ï¿½İ’ï¿½ï¿½Å‚È‚ï¿½ï¿½ê‡ï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½Jï¿½n
 					//		&& nextIt->getBack()->NGNails[i].NGImage->isRunning()==false){
 					//		nextIt->getBack()->NGNails[i].loadImage();
 					//	}
@@ -1274,7 +1292,7 @@ void ReviewPIBase::loadNGImage(int OrgHistroyIndex)
 				}
 			}
 		}
-	// æ‚ÌƒAƒ“ƒ[ƒh
+	// ï¿½ï¿½ï¿½ÌƒAï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h
 	//qDebug() << "unload reword";
 		//#pragma omp for
 		for(int t=OrgHistroyIndex+getProperty().PreLoadNGImageLength; t<getOrganizedHistoryList().count(); t++){
@@ -1338,21 +1356,21 @@ QString ReviewPIBase::convertedSaveNGFileName(Review::SideType side, const Organ
 
 	int srow;
 	if(side==Review::Back){
-		// •\‚ª‚ ‚éê‡
+		// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
 		if(hIt->hasFront()==true){
-			// •\‚Ì”
+			// ï¿½\ï¿½Ìï¿½
 			int frontNGCount = hIt->getFront()->getNGNails().count();
-			// •\‚Ì”ˆÈã‚È‚ç— Šm’è
+			// ï¿½\ï¿½Ìï¿½ï¿½Èï¿½ï¿½È‚ç— ï¿½mï¿½ï¿½
 			if(row>=frontNGCount){
-				srow = row - frontNGCount;// — ‚Ì˜A”Ô
+				srow = row - frontNGCount;// ï¿½ï¿½ï¿½Ì˜Aï¿½ï¿½
 			}else{
-				srow = row;// ‚»‚Ì‚Ü‚Ü
+				srow = row;// ï¿½ï¿½ï¿½Ì‚Ü‚ï¿½
 			}
 		}else{
-			srow = row;// ‚»‚Ì‚Ü‚Ü
+			srow = row;// ï¿½ï¿½ï¿½Ì‚Ü‚ï¿½
 		}
 	}else{
-		srow = row;// ‚»‚Ì‚Ü‚Ü
+		srow = row;// ï¿½ï¿½ï¿½Ì‚Ü‚ï¿½
 	}
 	ret.replace("%N", QString::number(srow+1));
 
@@ -1431,10 +1449,10 @@ LotInfoItem	ReviewPIBase::XML_GetLotInfo(const QString &TableName)
 
 void ReviewPIBase::loadOutlineOffset(Review::SideType side, int MachineID, int MasterCode)
 {
-	// •Û‘¶æ
+	// ï¿½Û‘ï¿½ï¿½ï¿½
 	QList<QList<QPoint> > *TargetOutlines = getMasterWholePageOutlineListPtr(side);
 
-	// ƒf[ƒ^ƒx[ƒX‚©‚çƒAƒEƒgƒ‰ƒCƒ“î•ñ‚ğæ“¾
+	// ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	CmdReqOutlineOffset	RCmd(GetLayersBase());
 	RCmd.MasterCode=MasterCode;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Review" ,/**/"SetOutlineOffset" ,/**/"");
@@ -1442,7 +1460,7 @@ void ReviewPIBase::loadOutlineOffset(Review::SideType side, int MachineID, int M
 		GProp->TransmitDirectly(&RCmd);
 	}
 	if(RCmd.Result==true){
-		// ƒAƒEƒgƒ‰ƒCƒ“î•ñ‚ğŠi”[
+		// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[
 		(*TargetOutlines) = QVector<QList<QPoint> >(RCmd.Data.GetPhaseCount()).toList();
 		for(int phase=0; phase<TargetOutlines->count(); phase++){
 			(*TargetOutlines)[phase] = QVector<QPoint>(RCmd.Data.GetPageCount(phase)).toList();
@@ -1455,7 +1473,7 @@ void ReviewPIBase::loadOutlineOffset(Review::SideType side, int MachineID, int M
 		OutlineOffsetInBlob blob(GetLayersBase());
 		GetLayersBase()->GetDatabaseLoader()->G_SQLLoadOutlineOfset(GetDatabase(), MachineID, &blob);
 	
-		// ƒAƒEƒgƒ‰ƒCƒ“î•ñ‚ğŠi”[
+		// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[
 		(*TargetOutlines) = QVector<QList<QPoint> >(blob.GetPhaseCount()).toList();
 		for(int phase=0; phase<TargetOutlines->count(); phase++){
 			(*TargetOutlines)[phase] = QVector<QPoint>(blob.GetPageCount(phase)).toList();

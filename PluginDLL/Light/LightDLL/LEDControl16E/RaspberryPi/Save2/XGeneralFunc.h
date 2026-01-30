@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\XGeneralFunc.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef XGENERALFUNC_H
 #define XGENERALFUNC_H
 
@@ -75,7 +83,7 @@ bool	Load(QIODevice *f,BYTE &d);
 bool	Load(QIODevice *f,char &d);
 bool	Load(QIODevice *f,bool &d);
 bool	Load(QIODevice *f,bool3 &d);
-bool	Load(QIODevice *f,char *d,int32 &len ,int32 maxbuffsize);		//Save(QIODevice *file,char *d)‚É‘Î‚·‚éLoad
+bool	Load(QIODevice *f,char *d,int32 &len ,int32 maxbuffsize);		//Save(QIODevice *file,char *d)ï¿½É‘Î‚ï¿½ï¿½ï¿½Load
 bool	Load(QIODevice *f,QString &d);
 char	*LoadStringInQString(QIODevice *file);
 char	*LoadString(QIODevice *file);			//Load data which is saved by "Save(QIODevice *f,char *d);"
@@ -94,9 +102,9 @@ bool	Load(QIODevice *f,QVariant &d);
 bool	Load(QIODevice *f,QPoint &d);
 
 QString ForceDirectories( QString path ); 
-    //Delphi‚ÌŠÖ”‚Æ“®ì‚Í“¯‚¶ •Ô’l‚Íˆá‚¤
-    //ˆø”‚ÌƒpƒX‚ğ©“®“I‚Éì‚é
-    //¬Œ÷‚Ì‰Â”Û‚ÉŠÖ‚í‚ç‚¸ì¬‚Å‚«‚½‚Æ‚±‚ë‚Ü‚Å‚ÌƒpƒX‚ğ•Ô‚·
+    //Delphiï¿½ÌŠÖï¿½ï¿½Æ“ï¿½ï¿½ï¿½ï¿½Í“ï¿½ï¿½ï¿½ ï¿½Ô’lï¿½Íˆá‚¤
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒpï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½Éï¿½ï¿½ï¿½
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰Â”Û‚ÉŠÖ‚ï¿½ï¿½ç‚¸ï¿½ì¬ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Ü‚Å‚Ìƒpï¿½Xï¿½ï¿½ï¿½Ô‚ï¿½
 QStringList	FindFiles(const QString &dir ,const QString &FileFilter);
 
 int	QString2Char(const QString &str ,char *buff ,int buffsize);
@@ -167,10 +175,10 @@ public:
 };
 
 int matchscanf(char *buff,char *form,...);
-/*	ƒ}ƒbƒ`ƒ“ƒO‚µ‚È‚ª‚çƒf[ƒ^‚Ì’l‚ğ“¾‚é
+/*	ï¿½}ï¿½bï¿½`ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ì’lï¿½ğ“¾‚ï¿½
 
-	buff ‚É”í’Šo•¶š—ñƒoƒbƒtƒ@‚ğ“ü‚ê‚é
-	form ‚ÌŒ`®
+	buff ï¿½É”í’Šï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	form ï¿½ÌŒ`ï¿½ï¿½
 		%hd	%d	%ld	%c	%lE	%s
 		%hi	%i	%li	%f	%lF
 		%ho	%o	%lo	%e
@@ -181,20 +189,20 @@ int matchscanf(char *buff,char *form,...);
 				%O
 				%U
 				%X
-		ƒXƒy[ƒX EEE ‚PŒÂˆÈã‚ÌƒXƒy[ƒX‚©ƒ^ƒu‚Æƒ}ƒbƒ`ƒ“ƒO‚·‚é
-		ƒ^ƒuEEEEE	‚OŒÂˆÈã‚ÌƒXƒy[ƒX‚©ƒ^ƒu‚Æƒ}ƒbƒ`ƒ“ƒO‚·‚é
-		‚»‚êˆÈŠO‚Ì•¶š	‘å•¶š¬•¶š‚Ì‹æ•Ê‚ğ‚µ‚Ä‚P•¶š‚¸‚Âƒ}ƒbƒ`ƒ“ƒO‚µ‚Äs‚­
+		ï¿½Xï¿½yï¿½[ï¿½X ï¿½Eï¿½Eï¿½E ï¿½Pï¿½ÂˆÈï¿½ï¿½ÌƒXï¿½yï¿½[ï¿½Xï¿½ï¿½ï¿½^ï¿½uï¿½Æƒ}ï¿½bï¿½`ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
+		ï¿½^ï¿½uï¿½Eï¿½Eï¿½Eï¿½Eï¿½E	ï¿½Oï¿½ÂˆÈï¿½ï¿½ÌƒXï¿½yï¿½[ï¿½Xï¿½ï¿½ï¿½^ï¿½uï¿½Æƒ}ï¿½bï¿½`ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
+		ï¿½ï¿½ï¿½ï¿½ï¿½ÈŠOï¿½Ì•ï¿½ï¿½ï¿½	ï¿½å•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½Ê‚ï¿½ï¿½ï¿½ï¿½Ä‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âƒ}ï¿½bï¿½`ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Äsï¿½ï¿½
 
-	ƒŠƒ^[ƒ“
-		³F	³í‚Éƒ}ƒbƒ`ƒ“ƒOI—¹‚µ‚½BŠi”[‚µ‚½”’l‚ÌŒÂ”‚ª•Ô‚é
-		•‰F	ƒ}ƒbƒ`ƒ“ƒO‚ª³í‚És‚í‚ê‚È‚©‚Á‚½B
-			Ši”[‚µ‚½”’l‚ÌŒÂ”‚É[‚P‚ğŠ|‚¯‚½‚à‚Ì [‚P ‚É‚È‚éB
+	ï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½
+		ï¿½ï¿½ï¿½F	ï¿½ï¿½ï¿½ï¿½ï¿½Éƒ}ï¿½bï¿½`ï¿½ï¿½ï¿½Oï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ÌŒÂï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
+		ï¿½ï¿½ï¿½F	ï¿½}ï¿½bï¿½`ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ésï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+			ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ÌŒÂï¿½ï¿½É[ï¿½Pï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½[ï¿½P ï¿½É‚È‚ï¿½ï¿½B
 
-	³íI—¹‚ÌğŒ
-		’Šo‚µ‚½”’l‚ª”’l‚Ì”ÍˆÍ“à‚É‚ ‚é
-		•¶š—ñ‚ªƒ}ƒbƒ`ƒ“ƒO‚·‚é
-		”’l‚ª•K—v‚ÈêŠ‚É”’l‚ª‚ ‚é
-	    ‚±‚ê‚ç‚ÌğŒ‚ª form ‚ÌI‚í‚è‚Ü‚Å–‚½‚³‚ê‚½ê‡A³íI—¹‚Æ‚È‚é
+	ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
+		ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½lï¿½Ì”ÍˆÍ“ï¿½ï¿½É‚ï¿½ï¿½ï¿½
+		ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚ªƒ}ï¿½bï¿½`ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
+		ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Kï¿½vï¿½ÈêŠï¿½Éï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ form ï¿½ÌIï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Å–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½Æ‚È‚ï¿½
 */
 
 #endif

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2014
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "XDLLOnly.h"
@@ -7,24 +25,23 @@
 #include "XReviewStructure.h"
 
 //////////////////////////////////
-// ‘¼GUI‚©‚ç‘—M‚³‚ê‚éƒRƒ}ƒ“ƒh
+// ï¿½ï¿½GUIï¿½ï¿½ï¿½ç‘—ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 
-// XV—v‹
-// óM‚·‚é‚ÆAReviewStructure‚É–â‚¢‡‚í‚¹‚ÄNGImage‚É•t—^‚³‚ê‚Ä‚¢‚éFƒL[î•ñ‚ğæ“¾‚µ
-// FƒL[‚É‘Î‰‚µ‚½NGImage‚ÉŠÜ‚Ü‚ê‚éNG‰ÓŠ‚Ì‡Œv‚ğŒvZ
-// Šî”Â‚²‚Æ‚É‚Ç‚ÌFƒL[‚É‚æ‚é‚à‚Ì‚©‚ğZo
-// c‚ÉŠî”ÂENG”A‰¡‚ÉNGEF1EF2E`EOK‚Æ‚µ‚ÄƒŠƒXƒg‚ğ•\¦‚·‚é
+// ï¿½Xï¿½Vï¿½vï¿½ï¿½
+// ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ÆAReviewStructureï¿½É–â‚¢ï¿½ï¿½ï¿½í‚¹ï¿½ï¿½NGImageï¿½É•tï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Fï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½
+// Fï¿½Lï¿½[ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½NGImageï¿½ÉŠÜ‚Ü‚ï¿½ï¿½ï¿½NGï¿½Óï¿½ï¿½Ìï¿½ï¿½vï¿½ï¿½ï¿½vï¿½Z
+// ï¿½ï¿½ï¿½Â‚ï¿½ï¿½Æ‚É‚Ç‚ï¿½Fï¿½Lï¿½[ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Zï¿½o
+// ï¿½cï¿½ÉŠï¿½ï¿½ÂENGï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½NGï¿½EF1ï¿½EF2ï¿½Eï¿½`ï¿½EOKï¿½Æ‚ï¿½ï¿½Äƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //  GUICmdReviewUpdateLocal
 
 //////////////////////////////////////
-// ‘—‚éƒRƒ}ƒ“ƒh(‘¼GUI‚ÌƒpƒPƒbƒg)
+// ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h(ï¿½ï¿½GUIï¿½Ìƒpï¿½Pï¿½bï¿½g)
 //
 // 
 
 //////////////////////////////////////
-// ƒ}ƒXƒ^[ƒXƒŒ[ƒuƒRƒ}ƒ“ƒh
-//  GUI‹¤’Ê€–Ú
-//   [XV]
+// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Xï¿½ï¿½ï¿½[ï¿½uï¿½Rï¿½}ï¿½ï¿½ï¿½h
+//  GUIï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½
+//   [ï¿½Xï¿½V]
 //   GUICmdReviewUpdateLocal
 // 
-

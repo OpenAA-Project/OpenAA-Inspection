@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <QApplication>
 #include "XMacro.h"
 #include "Messager.h"
@@ -28,7 +46,7 @@ const	char	*LayersBase::GetLanguageSolutionFileName(void)
 	L[FileName]		LogFileName
 	T[Port]			Port Numver
 
-	ƒVƒXƒeƒ€ƒrƒbƒg	P1		‚P‚É‚·‚é‚Æƒ|ƒbƒvƒAƒbƒv‚ð•Â‚¶‚é
+	ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½rï¿½bï¿½g	P1		ï¿½Pï¿½É‚ï¿½ï¿½ï¿½ï¿½Æƒ|ï¿½bï¿½vï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
 
 */
 

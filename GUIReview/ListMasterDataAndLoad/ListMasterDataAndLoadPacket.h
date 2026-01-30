@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "XDLLOnly.h"
@@ -11,28 +29,28 @@
 #include "XGeneralFunc.h"
 
 //////////////////////////////////
-// ‘¼GUI‚©‚ç‘—M‚³‚ê‚éƒRƒ}ƒ“ƒh
-// [GUI‹¤’Ê€–Ú]
-//  *XV -> NGPosList‚ÌXV
+// ï¿½ï¿½GUIï¿½ï¿½ï¿½ç‘—ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
+// [GUIï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½]
+//  *ï¿½Xï¿½V -> NGPosListï¿½ÌXï¿½V
 //   GUICmdReviewUpdateLocal
 
 //////////////////////////////////
-// ‘—M‚·‚éƒRƒ}ƒ“ƒh
+// ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 //  
 // 
 
 //////////////////////////////////////
-// ƒ}ƒXƒ^[ƒXƒŒ[ƒuƒRƒ}ƒ“ƒh
-// [GUI‹¤’Ê€–Ú]
-//  *XV -> NGPosList‚ÌXV
+// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Xï¿½ï¿½ï¿½[ï¿½uï¿½Rï¿½}ï¿½ï¿½ï¿½h
+// [GUIï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½]
+//  *ï¿½Xï¿½V -> NGPosListï¿½ÌXï¿½V
 //   GUICmdReviewUpdate
 // 
 
-// ƒ}ƒXƒ^[‰æ‘œ‚Ì“Ç‚İ‚İ•ÔMƒpƒPƒbƒg
+// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ì“Ç‚İï¿½ï¿½İ•ÔMï¿½pï¿½Pï¿½bï¿½g
 class	GUICmdAckLoadSlaveMaster : public GUICmdPacketBase
 {
 public:
-	bool	Ret;		// Œ‹‰Ê
+	bool	Ret;		// ï¿½ï¿½ï¿½ï¿½
 	int		PhaseCount;
 
 	GUICmdAckLoadSlaveMaster(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1)
@@ -58,13 +76,13 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName){}
 };
 
-// ƒ}ƒXƒ^[‰æ‘œ‚Ì“Ç‚İ‚İ—v‹ƒpƒPƒbƒg
+// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ì“Ç‚İï¿½ï¿½İ—vï¿½ï¿½ï¿½pï¿½Pï¿½bï¿½g
 class	GUICmdReqLoadSlaveMaster : public GUICmdPacketBase
 {
 public:
-	int		MasterCode;	// ƒ}ƒXƒ^[ƒR[ƒh
-	int		MachineID;	// ƒ}ƒVƒ“ID
-	int		PhaseCode;	// ƒtƒF[ƒY”Ô†
+	int		MasterCode;	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½h
+	int		MachineID;	// ï¿½}ï¿½Vï¿½ï¿½ID
+	int		PhaseCode;	// ï¿½tï¿½Fï¿½[ï¿½Yï¿½Ôï¿½
 	GUICmdReqLoadSlaveMaster(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1)
 		:GUICmdPacketBase(Base ,emitterRoot,emitterName ,typeid(this).name(),globalPage){};
 

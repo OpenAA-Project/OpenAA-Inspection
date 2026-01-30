@@ -1,22 +1,25 @@
 /*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
- *	xclibver.h	External	05-Nov-2009
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *	Copyright (C)  1999-2009  EPIX, Inc.  All rights reserved.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *	PIXCI(R) Library: Names, Version ID, etc.
- *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #if !defined(__EPIX_XCLIBVER_DEFINED)
 #define __EPIX_XCLIBVER_DEFINED
 
-/*
- * Library version ID's.
- * (Internal flag: SFUID!)
- *
- * #define XCLIB_IDNVR	   "PIXCI(R) 32 Bit Library V2.10.01 [01.10.04]"
- */
 #if defined(C_GNU64)|defined(C_MSC64)
   #if defined(PIXCI_CLSER)
     #if PIXCI_CLSER==10

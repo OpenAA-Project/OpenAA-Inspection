@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "AddItemDialogResource.h"
 #include "PropertyPieceForReviewResource.h"
 #include "PropertyPieceForReviewForm.h"
@@ -65,7 +83,7 @@ void	PropertyPieceForReviewForm::TransmitDirectly(GUIDirectMessage *packet)
 		}
 		if(ItemCount!=0){
 			QMessageBox::warning (NULL, LangSolver.GetString(PropertyPieceForReviewForm_LS,LID_0)/*"Warning"*/
-								, LangSolver.GetString(PropertyPieceForReviewForm_LS,LID_1)/*"1?A?E?a?I?I?a?d?C?O?E?i?Å ?ÅE?e?Å}?A?I?A?Å·?U?1?n?B?R?s?[?@?\?d?g?p?É ?A?-???3?Åë"*/);
+								, LangSolver.GetString(PropertyPieceForReviewForm_LS,LID_1)/*"1?A?E?a?I?I?a?d?C?O?E?i?ÔøΩÔøΩ?ÔøΩE?e?ÔøΩ}?A?I?A?ÔøΩÔøΩ?U?1?n?B?R?s?[?@?\?d?g?p?ÔøΩÔøΩ?A?-???3?ÔøΩÔøΩ"*/);
 			return;
 		}
 

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 //#include "XAlignmentLargeResource.h"
 #define	_USE_MATH_DEFINES
 #include <math.h>
@@ -533,7 +551,7 @@ double	MakeTransformingRate(struct AlignmentLargeShiftItemListStruct &Pa
 	Qx.SetMatrixValueBn(1,Cax+Pa.Dx);
 	Qx.SetMatrixValueBn(2,Cbx+Pb.Dx);
 	Qx.SetMatrixValueBn(3,Ccx+Pc.Dx);
-	Qx.ExecuteGaussianElimination();	//ŒvŽZŠJŽn
+	Qx.ExecuteGaussianElimination();	//ï¿½vï¿½Zï¿½Jï¿½n
 
 	Qy.AllocateMatrix(3);	//3 parameters
 	Qy.SetMatrixValue(1,1,Cax);
@@ -548,9 +566,9 @@ double	MakeTransformingRate(struct AlignmentLargeShiftItemListStruct &Pa
 	Qy.SetMatrixValueBn(1,Cay+Pa.Dy);
 	Qy.SetMatrixValueBn(2,Cby+Pb.Dy);
 	Qy.SetMatrixValueBn(3,Ccy+Pc.Dy);
-	Qy.ExecuteGaussianElimination();	//ŒvŽZŠJŽn
+	Qy.ExecuteGaussianElimination();	//ï¿½vï¿½Zï¿½Jï¿½n
 
-	double	A	=Qx.GetAnswer(1);	//“š‚¦
+	double	A	=Qx.GetAnswer(1);	//ï¿½ï¿½ï¿½ï¿½
 	double	B	=Qx.GetAnswer(2);
 	double	mx	=Qx.GetAnswer(3);
 	double	C	=Qy.GetAnswer(1);
@@ -2782,7 +2800,7 @@ bool    XAlignmentLargeArea::Save(QIODevice *file)
 
 	if(file->write((const char *)&AreaID,sizeof(AreaID))!=sizeof(AreaID))
 		return(false);
-	int32	D=(int32)Priority;	//Œã•ûŒÝŠ·«‚Ì‚½‚ßint32
+	int32	D=(int32)Priority;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÝŠï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½int32
 	if(file->write((const char *)&D,sizeof(D))!=sizeof(D))
 		return(false);
 	if(Area	.Write(file)==false)
@@ -2877,7 +2895,7 @@ bool	XAlignmentLargeArea::Load(QIODevice *file ,AlignmentLargeInLayer *parent)
 }
 bool    XAlignmentLargeArea::SaveUnique(QIODevice *file)
 {
-	int32	D=(int32)Priority;	//Œã•ûŒÝŠ·«‚Ì‚½‚ßint32
+	int32	D=(int32)Priority;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÝŠï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½int32
 	if(file->write((const char *)&D,sizeof(D))!=sizeof(D))
 		return(false);
 	if(::Save(file,AreaName)==false)

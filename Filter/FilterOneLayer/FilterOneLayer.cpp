@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Filter\FilterOneLayer\FilterOneLayer.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "FilterOneLayer.h"
@@ -249,9 +258,9 @@ bool	FilterOneLayer::ExecuteMedian(ImageBuffer *Buff[],int BufferDimCounts)
 
 bool	FilterOneLayer::ExecuteMulAverage(ImageBuffer *Buff[],int BufferDimCounts)
 {
-	//’†S“_‚Í‘S‘Ì‚Ì‚Q‚T“‚Ì‰Ád
-	//—Ìˆæ‚Ì’†‰›•t‹ß1^2‚Í’Êí
-	//—Ìˆæ‚ÌŠOŠs•t‹ß‚Í’Êí‚Ì‚T‚O“‚Ì‰Ád
+	//ï¿½ï¿½ï¿½Sï¿½_ï¿½Í‘Sï¿½Ì‚Ì‚Qï¿½Tï¿½ï¿½ï¿½Ì‰ï¿½ï¿½d
+	//ï¿½Ìˆï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½1ï¿½^2ï¿½Í’Êï¿½
+	//ï¿½Ìˆï¿½ï¿½ÌŠOï¿½sï¿½tï¿½ß‚Í’Êï¿½ï¿½Ì‚Tï¿½Oï¿½ï¿½ï¿½Ì‰ï¿½ï¿½d
 	int	XLen=GetDotPerLine()-Param;
 	int	YLen=GetMaxLines()-Param;
 	int	Param2=Param/2;

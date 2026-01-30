@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XParamCustomized_h)
 #define	XParamCustomized_h
 
@@ -249,7 +267,7 @@ public:
 	bool	UseBeltSpeed;
 	bool	CommToOldController;
 
-	int		SystemBeltLength;	//‰º—¬ƒJƒƒ‰‰º‚©‚çƒŠƒWƒFƒNƒg‚Ü‚Å‚Ì‹——£
+	int		SystemBeltLength;	//ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½çƒŠï¿½Wï¿½Fï¿½Nï¿½gï¿½Ü‚Å‚Ì‹ï¿½ï¿½ï¿½
 	int		AddedTimeoutMilisec;
 
 	ParamCustomized(LayersBase *base);
@@ -269,11 +287,11 @@ public:
 	IntList	Slave2LibID;	//0:Print pattern	1:Flat
 	IntList	Slave3LibID;	//0:Print pattern	1:Flat
 
-	int32	TriggerTiming1;	//g—p‚µ‚È‚¢
-	int32	TriggerTiming2;	//g—p‚µ‚È‚¢
-	int32	DropTiming	  ;	//g—p‚µ‚È‚¢
-	int32	TriggerTiming3;	//g—p‚µ‚È‚¢
-	int32	TriggerTiming4;	//g—p‚µ‚È‚¢
+	int32	TriggerTiming1;	//ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½
+	int32	TriggerTiming2;	//ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½
+	int32	DropTiming	  ;	//ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½
+	int32	TriggerTiming3;	//ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½
+	int32	TriggerTiming4;	//ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½
 
 	ParamForEachMaster(void);
 

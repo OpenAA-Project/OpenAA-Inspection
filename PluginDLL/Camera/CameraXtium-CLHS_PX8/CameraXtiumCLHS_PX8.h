@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef CAMERAXTIUMCLHS_PX8_H
 #define CAMERAXTIUMCLHS_PX8_H
 
@@ -34,14 +52,14 @@ private:
 // GlobalGrabberState::stG_Grabber -> all LocalGrabbrState::stL_Grabber
 // all LocalGrabbrState::stL_GrabEnd -> GlobalGrabberState::stG_GrabEnd
 enum LocalGrabberState{
-	stL_Idle=0,		// ‘Ò‹@
-	stL_Grabber=1,	// B‘œ‘Ò‹@’†
-	stL_GrabEnd=2	// B‘œI—¹
+	stL_Idle=0,		// ï¿½Ò‹@
+	stL_Grabber=1,	// ï¿½Bï¿½ï¿½ï¿½Ò‹@ï¿½ï¿½
+	stL_GrabEnd=2	// ï¿½Bï¿½ï¿½ï¿½Iï¿½ï¿½
 };
 
 enum GlobalGrabberState{
-	stG_Idle=0,		// ‘Ò‹@
-	stG_Grabber=1	// B‘œ’†
+	stG_Idle=0,		// ï¿½Ò‹@
+	stG_Grabber=1	// ï¿½Bï¿½ï¿½ï¿½ï¿½
 };
 
 class CameraXtiumCLHS_PX8 : public AbstructOriginateClass,public CameraHandle

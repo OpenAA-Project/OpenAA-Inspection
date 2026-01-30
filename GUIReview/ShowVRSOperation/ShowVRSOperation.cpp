@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ShowVRSOperationResource.h"
 #include "ShowVRSOperation.h"
 #include "XGUIReviewGlobal.h"
@@ -157,7 +175,7 @@ void ShowVRSOperation::on_pbVRSSetting_clicked()
 	//const VRSSetting::VRSSideSetting &vrss = setting.getVRSSideSetting();
 	//const VRSSetting::InspectionSideSetting &inss = setting.getInspectionSizeSetting();
 
-	//// ui‚Ìİ’è
+	//// uiï¿½Ìİ’ï¿½
 	//ui.cbRotation->setCurrentIndex(static_cast<int>(vrss.BoardRotation));
 	//ui.sbCameraHeight->setValue(vrss.CameraViewRealSize.height());
 	//ui.sbCameraWidth->setValue(vrss.CameraViewRealSize.width());
@@ -175,7 +193,7 @@ void ShowVRSOperation::on_pbVRSSetting_clicked()
 	//ui.sbMotorZInitDistance->setValue(vrss.ZInitialDistance);
 	//ui.sbVRSResolution->setValue(vrss.Resolution);
 	//if(dialog.exec()==QDialog::Accepted){
-	//	// ui‚Ìİ’è‚ğ”½‰f‚·‚é
+	//	// uiï¿½Ìİ’ï¿½ï¿½ğ”½‰fï¿½ï¿½ï¿½ï¿½
 	//	VRSSetting wsetting = reqVRSSetting.setting;
 	//	wsetting.getVRSSideSetting().BoardRotation = static_cast<Review::Rotate>(ui.cbRotation->currentIndex());
 	//	wsetting.getVRSSideSetting().CameraViewRealSize = QSize(ui.sbCameraWidth->value(), ui.sbCameraHeight->value());

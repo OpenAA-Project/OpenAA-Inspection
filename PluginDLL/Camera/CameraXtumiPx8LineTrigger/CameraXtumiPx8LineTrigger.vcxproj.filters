@@ -47,12 +47,6 @@
     <ClCompile Include="CLHS_PX8CommandCreater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="featureCtrl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RunLen.Cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="saperaCtrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CameraXtumiPx8LineTriggerResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\RunLen.Cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\featureCtrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -76,16 +76,7 @@
     <ClInclude Include="CLHS_PX8CommandManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="featureCtrl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RunLen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="saperaCtrl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="screenformat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CameraXtumiPx8LineTriggerResource.h">

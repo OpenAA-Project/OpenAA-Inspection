@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\EulerRingL1\XEulerRingL1Library.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #if	!defined(XEulerRingL1LIBRARY_H)
@@ -36,11 +45,11 @@ public:
     int32	MinBlockDots;
     int32	MaxBlockDots;
 
-	WORD	NoiseSize;			//ŒÇ—§“_íœ
-	WORD	NoiseSizePinHole;	//ƒsƒ“ƒz[ƒ‹íœ
+	WORD	NoiseSize;			//ï¿½Ç—ï¿½ï¿½_ï¿½íœ
+	WORD	NoiseSizePinHole;	//ï¿½sï¿½ï¿½ï¿½zï¿½[ï¿½ï¿½ï¿½íœ
 	int32	SpaceToOutline;		//Plus:Shrink Plus:Expand
     WORD	Priority;
-	WORD	OutlineGeneration;	//—ÖŠs‚É¶¬‚·‚éƒhƒbƒg”	1000ˆÈã‚Å’Êí¶¬
+	WORD	OutlineGeneration;	//ï¿½ÖŠsï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½	1000ï¿½Èï¿½ï¿½Å’Êí¶ï¿½ï¿½
 	WORD	ExpandedDotToPad;	//Expanded dot from hole to pad
 
 //For inspection
@@ -63,7 +72,7 @@ public:
 	int32		MinHoleDiameter;
 	int32		MaxHoleDiameter;
 	double		MaxShiftHole;
-	int8		ConnectLen;		//‚m‚fÚ‘±‹——£
+	int8		ConnectLen;		//ï¿½mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
 	int32		ExpandForDynamicMask;
 
     WORD		AdjustBlack;	//For ring brightness

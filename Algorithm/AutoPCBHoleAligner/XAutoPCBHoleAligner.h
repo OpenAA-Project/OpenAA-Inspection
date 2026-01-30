@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\AutoPCBHoleAligner\XAutoPCBHoleAligner.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #if	!defined(XAutoPCBHoleAligner_H)
@@ -149,7 +158,7 @@ public:
 		BYTE	Value;
 	};
 private:
-	struct	HoleIndexStruct	HoleTestData[16];	//‚T“_‚ÍŒŠA‚P‚P“_‚Íü•Ó
+	struct	HoleIndexStruct	HoleTestData[16];	//ï¿½Tï¿½_ï¿½ÍŒï¿½ï¿½Aï¿½Pï¿½Pï¿½_ï¿½Íï¿½ï¿½ï¿½
 
 	int		XCount;
 	int		YCount;
@@ -479,7 +488,7 @@ public:
 
 //=========================================================================
 class	CmdReqAutoPCBHoleAlignerEnumLibs: public GUIDirectMessage
-//	StartupExecute=true‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚ÌLibIDƒŠƒXƒgƒRƒ“ƒeƒi‚ğŠO•”‚©‚çŠ“¾‚·‚é
+//	StartupExecute=trueï¿½Ìƒï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½LibIDï¿½ï¿½ï¿½Xï¿½gï¿½Rï¿½ï¿½ï¿½eï¿½iï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½çŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 {
 public:
 	IntList	LibIDList;
@@ -489,7 +498,7 @@ public:
 
 //=========================================================================
 class	CmdReqAutoPCBHoleAlignerExecuteInitialAfterEdit: public GUIDirectMessage
-//	AutoPCBHoleAligner‚ÌExecuteInitialAfterEdit‚ğÀs‚·‚é
+//	AutoPCBHoleAlignerï¿½ï¿½ExecuteInitialAfterEditï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
 {
 public:
 	CmdReqAutoPCBHoleAlignerExecuteInitialAfterEdit(LayersBase *base):GUIDirectMessage(base){}
@@ -498,7 +507,7 @@ public:
 
 //=========================================================================
 class	CmdReqAutoPCBHoleAlignerShowPasteCreateWithShape: public GUIDirectMessage
-//	ƒAƒ‹ƒSƒŠƒYƒ€—Ìˆæ“\‚è•t‚¯‘Î‰
+//	ï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Ìˆï¿½ï¿½\ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Î‰ï¿½
 {
 public:
 	int	LibID;
@@ -509,7 +518,7 @@ public:
 
 //=========================================================================
 class	CmdReqAutoPCBHoleAlignerDeleteIndexFromOtherAlgorithm: public GUIDirectMessage
-//	ƒAƒ‹ƒSƒŠƒYƒ€—Ìˆæíœ‘Î‰
+//	ï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Ìˆï¿½ï¿½íœï¿½Î‰ï¿½
 {
 public:
 	int	LibID;

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XGENERALSTOCKERFORDLL_H)
 #define	XGENERALSTOCKERFORDLL_H
 
@@ -25,33 +43,33 @@ extern	"C"{
 
 DEFFUNCEX	bool			DLL_GetName(QString &str);
 /*
-	‚±‚Ì‚c‚k‚k‚Ì–¼Ì‚ð•Ô‚·
-	str:	•Ô‚·–¼Ì‚ðÝ’è‚·‚é
-	ŒŸ¸ƒVƒXƒeƒ€‚©‚ç‚c‚k‚k‚ðƒI[ƒvƒ“‚µ‚½ŒãA
-		uDLL_Initialv‚ªŒÄ‚Î‚ê‚é’¼‘O‚É‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-	‚±‚ÌExportŠÖ”‚Í•K‚¸•K—v
+	ï¿½ï¿½ï¿½Ì‚cï¿½kï¿½kï¿½Ì–ï¿½ï¿½Ì‚ï¿½ï¿½Ô‚ï¿½
+	str:	ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½Ý’è‚·ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½cï¿½kï¿½kï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½A
+		ï¿½uDLL_Initialï¿½vï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½é’¼ï¿½Oï¿½É‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½Kï¿½v
 */
 DEFFUNCEX	bool			DLL_GetOrganization(QString &str);
 /*
-	‚±‚Ì‚c‚k‚k‚Ì‘gD–¼‚ð•Ô‚·
-	str:	•Ô‚·‘gD–¼‚ðÝ’è‚·‚é
-	ŒŸ¸ƒVƒXƒeƒ€‚©‚ç‚c‚k‚k‚ðƒI[ƒvƒ“‚µ‚½ŒãA
-		uDLL_Initialv‚ªŒÄ‚Î‚ê‚é’¼‘O‚É‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-	‚±‚ÌExportŠÖ”‚Í•K‚¸‚µ‚à•K—v‚È‚¢
+	ï¿½ï¿½ï¿½Ì‚cï¿½kï¿½kï¿½Ì‘gï¿½Dï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
+	str:	ï¿½Ô‚ï¿½ï¿½gï¿½Dï¿½ï¿½ï¿½ï¿½ï¿½Ý’è‚·ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½cï¿½kï¿½kï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½A
+		ï¿½uDLL_Initialï¿½vï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½é’¼ï¿½Oï¿½É‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½È‚ï¿½
 */
 DEFFUNCEX	bool	DLL_CheckCopyright(QString &CopyrightString);
 
 DEFFUNCEX	WORD		DLL_GetDLLType(void);
 /*
-	•K‚¸uDLLGeneralStockerModev‚ð•Ô‚·‚×‚«
-	ŒŸ¸ƒVƒXƒeƒ€‚©‚ç‚c‚k‚k‚ðƒI[ƒvƒ“‚·‚é‚Æ‚«‚É‚±‚Ì’l‚ªƒ`ƒFƒbƒN‚³‚ê‚é
-	‚±‚ÌExportŠÖ”‚Í•K‚¸•K—v
+	ï¿½Kï¿½ï¿½ï¿½uDLLGeneralStockerModeï¿½vï¿½ï¿½ï¿½Ô‚ï¿½ï¿½×‚ï¿½
+	ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½cï¿½kï¿½kï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½É‚ï¿½ï¿½Ì’lï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½Kï¿½v
 */
 DEFFUNCEX	WORD		DLL_GetVersion(void);
 /*
-	‚±‚Ì‚c‚k‚k‚Ìƒo[ƒWƒ‡ƒ“”Ô†‚ð•Ô‚·B
-	‚±‚ê‚ÍƒVƒXƒeƒ€‚Å‚ÍŽg—p‚µ‚Ä‚¢‚È‚¢
-	‚±‚ÌExportŠÖ”‚Í•K‚¸‚µ‚à•K—v‚È‚¢
+	ï¿½ï¿½ï¿½Ì‚cï¿½kï¿½kï¿½Ìƒoï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Ôï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½B
+	ï¿½ï¿½ï¿½ï¿½ï¿½ÍƒVï¿½Xï¿½eï¿½ï¿½ï¿½Å‚ÍŽgï¿½pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½È‚ï¿½
 */
 DEFFUNCEX	const char	*DLL_GetSystemVersion(VersionType vtype);
 
@@ -59,72 +77,72 @@ DEFFUNCEX	void		DLL_AssociateComponent(LayersBase *Base,ComponentListContainer &
 
 DEFFUNCEX	void		DLL_SetLanguage(LanguagePackage &Pkg ,int LanguageCode);
 /*
-	‚c‚k‚k‚ªŒ¾Œê‚É‘Î‰ž‚·‚é•K—v‚ª‚ ‚éŽž‚±‚Ìˆø”‚ðŽg‚Á‚ÄŒ¾Œê‚ðÝ’è‚·‚é
-	DLL_Initialv‚ªŒÄ‚Î‚ê‚½Œã‚Å‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-	‚±‚ÌExportŠÖ”‚Í•K‚¸‚µ‚à•K—v‚È‚¢
+	ï¿½cï¿½kï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½éŽžï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ÄŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý’è‚·ï¿½ï¿½
+	DLL_Initialï¿½vï¿½ï¿½ï¿½Ä‚Î‚ê‚½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½È‚ï¿½
 */
 DEFFUNCEX	GeneralStockerItemBase		*DLL_Initial(LayersBase *base);
 /*
-	‚c‚k‚k‚ð‰Šú‰»‚·‚é
-	“à•”ˆ—‚Í‚c‚k‚k‚É‚æ‚é
-	‚±‚ÌExportŠÖ”‚Í•K‚¸‚µ‚à•K—v‚È‚¢
-	ƒnƒ“ƒhƒ‹‚ð•Ô‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
+	ï¿½cï¿½kï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚cï¿½kï¿½kï¿½É‚ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½È‚ï¿½
+	ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Î‚È‚ï¿½ï¿½È‚ï¿½
 */
 
 DEFFUNCEX	void			DLL_Release(GeneralStockerItemBase *handle);
 /*
-	‚c‚k‚k‚ðI—¹‚·‚é’¼‘O‚ÉŒÄ‚Î‚ê‚é
-	“à•”ˆ—‚Í‚c‚k‚k‚É‚æ‚é
-	‚±‚ÌExportŠÖ”‚Í•K‚¸‚µ‚à•K—v‚È‚¢
+	ï¿½cï¿½kï¿½kï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½é’¼ï¿½Oï¿½ÉŒÄ‚Î‚ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚cï¿½kï¿½kï¿½É‚ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½È‚ï¿½
 */
 
 DEFFUNCEX	void			DLL_ReturnProperty(struct	PropertyGeneralStocker &Prop);
 /*
-	‚c‚k‚k‚ðI—¹‚·‚é’¼‘O‚ÉŒÄ‚Î‚ê‚é
-	“à•”ˆ—‚Í‚c‚k‚k‚É‚æ‚é
-	‚±‚ÌExportŠÖ”‚Í•K‚¸‚µ‚à•K—v‚È‚¢
+	ï¿½cï¿½kï¿½kï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½é’¼ï¿½Oï¿½ÉŒÄ‚Î‚ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚cï¿½kï¿½kï¿½É‚ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½È‚ï¿½
 */
 
 DEFFUNCEX	void			DLL_EnumKeyword(GeneralStockerItemBase *handle ,QStringList &List);
 /*
-	ƒL[ƒ[ƒhƒŠƒXƒg‚ð•Ô‚·
-	‚±‚ÌExportŠÖ”‚Í•K‚¸•K—v
+	ï¿½Lï¿½[ï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Ô‚ï¿½
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½Kï¿½v
 */
 
 DEFFUNCEX	QVariant::Type	DLL_GetType(GeneralStockerItemBase *handle ,QString Keyword);
 /*
-	ƒL[ƒ[ƒh‚ÌŒ^‚ð•Ô‚·	
-	‚±‚ÌExportŠÖ”‚Í•K‚¸•K—v
+	ï¿½Lï¿½[ï¿½ï¿½ï¿½[ï¿½hï¿½ÌŒ^ï¿½ï¿½ï¿½Ô‚ï¿½	
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½Kï¿½v
 */
 DEFFUNCEX	bool			DLL_GetData(GeneralStockerItemBase *handle ,QString Keyword 
 										,QVariantList &ReturnValues,QVariantList &ArgValues);
 /*
-	ƒL[ƒ[ƒh‚É‚Ð‚à•t‚¯‚³‚ê‚½ƒf[ƒ^‚ð•Ô‚·
-	ArgValues‚É•K—v‚ª‚ ‚ê‚Îˆø”‚ð“ü‚ê‚é
-	ReturnValues‚Éƒf[ƒ^‚ð“ü‚ê‚ÄƒŠƒ^[ƒ“‚·‚é
+	ï¿½Lï¿½[ï¿½ï¿½ï¿½[ï¿½hï¿½É‚Ð‚ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ô‚ï¿½
+	ArgValuesï¿½É•Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îˆï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ReturnValuesï¿½Éƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äƒï¿½ï¿½^ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	³í‚ÉI—¹‚µ‚½‚Æ‚«Atrue‚ð•Ô‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
-	‚±‚ÌExportŠÖ”‚Í•K‚¸•K—v
+	ï¿½ï¿½ï¿½ï¿½ï¿½ÉIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Atrueï¿½ï¿½ï¿½Ô‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Î‚È‚ï¿½ï¿½È‚ï¿½
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½Kï¿½v
 */
 
 DEFFUNCEX	bool				DLL_ShowDialog(GeneralStockerItemBase *handle ,QString Keyword, QWidget *parent);
 /*
-	ƒL[ƒ[ƒh‚ÉŠÖ˜A‚·‚éƒ_ƒCƒAƒƒO‚ðŠJ‚­
-	‚±‚ê‚ªŒÄ‚Î‚ê‚é‚Ì‚ÍA“Á’è‚Ìˆ—Œn‚ÉˆË‘¶‚·‚é
-	‚±‚ÌExportŠÖ”‚Í•K‚¸‚µ‚à•K—v‚È‚¢
+	ï¿½Lï¿½[ï¿½ï¿½ï¿½[ï¿½hï¿½ÉŠÖ˜Aï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Jï¿½ï¿½
+	ï¿½ï¿½ï¿½ê‚ªï¿½Ä‚Î‚ï¿½ï¿½ï¿½ï¿½Ì‚ÍAï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½nï¿½ÉˆË‘ï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½È‚ï¿½
 */
 
 DEFFUNCEX	void	DLL_TransmitDirectly(GeneralStockerItemBase *handle ,GUIDirectMessage *packet);
 
 DEFFUNCEX	bool			DLL_Save(QIODevice *f,GeneralStockerItemBase *handle);
 /*
-	Ý’èî•ñ‚ð•Û‘¶‚·‚é
-	‚±‚ÌExportŠÖ”‚Í•K‚¸‚µ‚à•K—v‚È‚¢
+	ï¿½Ý’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½È‚ï¿½
 */
 DEFFUNCEX	bool			DLL_Load(QIODevice *f,GeneralStockerItemBase *handle);
 /*
-	Ý’èî•ñ‚ð“Ç‚Ý‚¾‚µA‚±‚Ì‚c‚k‚k‚ÉÝ’è‚·‚é
-	‚±‚ÌExportŠÖ”‚Í•K‚¸‚µ‚à•K—v‚È‚¢
+	ï¿½Ý’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚Ý‚ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ì‚cï¿½kï¿½kï¿½ÉÝ’è‚·ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½Exportï¿½Öï¿½ï¿½Í•Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½È‚ï¿½
 */
 
 DEFFUNCEX	void	DLL_GetGuiAdditionalDatabase(NPListPack<GuiAdditionalDatabase> &Data);

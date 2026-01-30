@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XThinMetalLibrary_H)
 #define	XThinMetalLibrary_H
 
@@ -16,7 +34,7 @@
 class	ThinMetalLibrary : public AlgorithmLibrary , public ServiceForLayers
 {
 public:
-//¶¬ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 #pragma	pack(push,1)
 	int32					PickupL;
 	int32					PickupH;
@@ -28,22 +46,22 @@ public:
 #pragma	pack(pop)
 
 #pragma	pack(push,1)
-	WORD		NoiseSize;			//ŒÇ—§“_íœ
-	WORD		NoiseSizePinHole;	//ƒsƒ“ƒz[ƒ‹íœ
+	WORD		NoiseSize;			//ï¿½Ç—ï¿½ï¿½_ï¿½íœ
+	WORD		NoiseSizePinHole;	//ï¿½sï¿½ï¿½ï¿½zï¿½[ï¿½ï¿½ï¿½íœ
     short		SpaceToOutline;
     WORD		Priority;
 #pragma	pack(pop)
 
-//ŒŸ¸ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 #pragma	pack(push,1)
-	WORD	BrightWidthL;	//ˆÃ‘¤‹P“x•
-	WORD	BrightWidthH;	//–¾‘¤‹P“x•
-	DWORD	OKDotL;			//ˆÃ‘¤‚n‚jƒhƒbƒg”
-	DWORD	OKDotH;			//–¾‘¤‚n‚jƒhƒbƒg”
-	WORD	OKLengthL;		//ˆÃ‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-	WORD	OKLengthH;		//–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-	DWORD	MaxNGDotL;		//ˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	DWORD	MaxNGDotH;		//–¾‘¤Å‘å‚m‚fƒhƒbƒg”
+	WORD	BrightWidthL;	//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	BrightWidthH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	DWORD	OKDotL;			//ï¿½Ã‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	OKDotH;			//ï¿½ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	OKLengthL;		//ï¿½Ã‘ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+	WORD	OKLengthH;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+	DWORD	MaxNGDotL;		//ï¿½Ã‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	MaxNGDotH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
 	BYTE	ShrinkDot;
 	BYTE	EnlargeDot;
 #pragma	pack(pop)

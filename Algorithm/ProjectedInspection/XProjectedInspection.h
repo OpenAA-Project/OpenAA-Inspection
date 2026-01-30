@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XProjectedInspection_H)
 #define	XProjectedInspection_H
 
@@ -86,12 +104,12 @@ public:
 	double	Angle;
 	bool	ExcludeDynamicMask;
 	int32	TransitWidth;
-	float	OKWidthDiffereceH;	//ˆÃ‘¤@•½‹Ï‹P“x’l‚æ‚è‚±‚Ì‹P“xˆÈ‰º‚ÉˆÃ‚­‚È‚Á‚½‚çNG
-	float	OKWidthDiffereceL;	//–¾‘¤@•½‹Ï‹P“x’l‚æ‚è‚±‚Ì‹P“xˆÈã‚É–¾‚é‚­‚È‚Á‚½‚çNG
-	bool	UseAbsolute;		//‹P“x’l‚ğâ‘Î’l‚ğg‚¤‚©H
+	float	OKWidthDiffereceH;	//ï¿½Ã‘ï¿½ï¿½@ï¿½ï¿½ï¿½Ï‹Pï¿½xï¿½lï¿½ï¿½ï¿½è‚±ï¿½Ì‹Pï¿½xï¿½È‰ï¿½ï¿½ÉˆÃ‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½NG
+	float	OKWidthDiffereceL;	//ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½Ï‹Pï¿½xï¿½lï¿½ï¿½ï¿½è‚±ï¿½Ì‹Pï¿½xï¿½Èï¿½ï¿½É–ï¿½ï¿½é‚­ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½NG
+	bool	UseAbsolute;		//ï¿½Pï¿½xï¿½lï¿½ï¿½ï¿½ï¿½ï¿½Î’lï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½H
 	bool	CircleMode	;
-	int32	EvenLength;			//•½‹Ï’lZo‚Ìƒoƒ“ƒh’·‚³
-	double	PartialSwingAngle;	//U‚èŠp“x(ƒ‰ƒWƒAƒ“j
+	int32	EvenLength;			//ï¿½ï¿½ï¿½Ï’lï¿½Zï¿½oï¿½Ìƒoï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½
+	double	PartialSwingAngle;	//ï¿½Uï¿½ï¿½ï¿½pï¿½x(ï¿½ï¿½ï¿½Wï¿½Aï¿½ï¿½ï¿½j
 
 	ProjectedInspectionThreshold(ProjectedInspectionItem *parent);
 
@@ -303,8 +321,8 @@ public:
 	int32	TransitWidth;
 	int32	OKWidthDiffereceL;
 	int32	OKWidthDiffereceH;
-	bool	UseAbsolute;		//‹P“x’l‚ğâ‘Î’l‚ğg‚¤‚©H
-	int32	EvenLength;			//•½‹Ï’lZo‚Ìƒoƒ“ƒh’·‚³
+	bool	UseAbsolute;		//ï¿½Pï¿½xï¿½lï¿½ï¿½ï¿½ï¿½ï¿½Î’lï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½H
+	int32	EvenLength;			//ï¿½ï¿½ï¿½Ï’lï¿½Zï¿½oï¿½Ìƒoï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½
 	double	PartialSwingAngle;
 
 	ProjectedInspectionThresholdSend(void);

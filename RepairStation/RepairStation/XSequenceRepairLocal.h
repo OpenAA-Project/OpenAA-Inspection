@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\RepairStation\RepairStation\XSequenceRepairLocal.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 //---------------------------------------------------------------------------
@@ -73,14 +82,14 @@ class   SeqControlParam : public QObject,public SeqLocalParam
 
 	volatile int MoterRequire;
 
-	// ƒ‚[ƒ^[ƒXƒe[ƒ^ƒXİ’è
-	// 1‚Ìİ’è‰Â”\‚Æ”»’f‚·‚é
+	// ï¿½ï¿½ï¿½[ï¿½^ï¿½[ï¿½Xï¿½eï¿½[ï¿½^ï¿½Xï¿½İ’ï¿½
+	// 1ï¿½Ìï¿½ï¿½İ’ï¿½ï¿½Â”\ï¿½Æ”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
 	volatile bool XMoterStatus;
 	volatile bool YMoterStatus;
 	volatile bool ZMoterStatus;
 
-	// “Ç‚İ‚İê—p‚Ìƒ~ƒŠ‚ ‚½‚è‚Ìƒpƒ‹ƒX”
-	// ”÷“®‚ÉŠÖ‚µ‚Äg—p‚·‚é
+	// ï¿½Ç‚İï¿½ï¿½İï¿½ï¿½pï¿½Ìƒ~ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ÉŠÖ‚ï¿½ï¿½Ägï¿½pï¿½ï¿½ï¿½ï¿½
 	volatile int XMoterPulsePerMM;
 	volatile int YMoterPulsePerMM;
 	volatile int ZMoterPulsePerMM;

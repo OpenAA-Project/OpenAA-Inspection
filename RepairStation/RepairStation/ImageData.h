@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\RepairStation\RepairStation\ImageData.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #ifndef IMAGEDATA_H
@@ -17,7 +26,7 @@
 #include <QPen>
 
 //********************************************
-//@ƒ}ƒXƒ^[‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 class MasterImg : public MasterImage
 {
@@ -51,11 +60,11 @@ private:
 	public:
 		void add(DrawNG ng){
 			int index = NGPoints.indexOf(ng);
-			// ’Ç‰Á
+			// ï¿½Ç‰ï¿½
 			if(index==-1){
 				NGPoints.append(ng);
 			}
-			// À•W‚Í‡‚¤‚¯‚ÇFˆá‚¢iF‚ÌXVj
+			// ï¿½ï¿½ï¿½Wï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÇFï¿½á‚¢ï¿½iï¿½Fï¿½ÌXï¿½Vï¿½j
 			else if(NGPoints[index].getColor() != ng.getColor()){
 				NGPoints[index].setColor(ng.getColor());
 			}
@@ -154,14 +163,14 @@ public:
 	QPen getDrawPenDragZoomRect(){ return dragZoomPen; };
 
 protected:
-	//Šm”F‚µ‚Ä‚¢‚é‰ÓŠ‚ğlŠp‚­˜g‚ÅˆÍ‚ñ‚Å•\¦‚·‚é(ƒ}ƒEƒXƒNƒŠƒbƒNƒCƒxƒ“ƒg)
+	//ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Óï¿½ï¿½ï¿½ï¿½lï¿½pï¿½ï¿½ï¿½gï¿½ÅˆÍ‚ï¿½ï¿½Å•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½}ï¿½Eï¿½Xï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½Cï¿½xï¿½ï¿½ï¿½g)
 //	virtual	void mtMouseLDown		(QMouseEvent *Ev ,int x ,int y)	override;
 	virtual	void mousePressEvent	(QMouseEvent *Ev)	override;
 	virtual	void mouseMoveEvent		(QMouseEvent *Ev)	override;
 	virtual	void mouseReleaseEvent	(QMouseEvent *Ev)	override;
 	virtual	void paintEvent			(QPaintEvent *Ev)	override;
 
-/*	//‰æ‘œ•`‰æŠÖ”
+/*	//ï¿½æ‘œï¿½`ï¿½ï¿½ï¿½Öï¿½
 	virtual void DrawPaint		(QPainter &Pnt);
 	virtual void DrawNGDot		(QPainter &Pnt,QTableWidget *W,int Index,QList<QList<QPoint> > *pNGPointList,int Type);
 	virtual void DrawPieceRect	(QPainter &Pnt);

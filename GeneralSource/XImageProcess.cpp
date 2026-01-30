@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XImageProcess.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "XTypeDef.h"
 #include "XImageProcess.h"
@@ -20,18 +29,18 @@
 
 
 /*
-	BYTEŒ^•Ï”mXX‚Ì”z’u
+	BYTEï¿½^ï¿½Ïï¿½mXXï¿½Ì”zï¿½u
 
-	¶ã   ‰Eã
+	ï¿½ï¿½ï¿½ï¿½   ï¿½Eï¿½ï¿½
 	m11 m12 m13
 	m21 m22 m23
 	m31 m32 m33
-	¶‰º   ‰E‰º
+	ï¿½ï¿½ï¿½ï¿½   ï¿½Eï¿½ï¿½
 */
 
 void	ProcessEdgeWithBinary(BYTE **bmpdata, BYTE **bitoperation,
                               int xbyte, int XLenDot, int YLenDot,
-                              BYTE DUMMY_BINARY_DATA,	//’[‚ğˆ—‚·‚éÛ‚É8‹ß–T‚ğˆ—‚µ‚æ‚¤‚Æ‚·‚éŠÖ”func‚Éƒ_ƒ~[‚Æ‚µ‚Ä“n‚·‰e‹¿‚ğ—^‚¦‚È‚¢BYTEŒ^•Ï”
+                              BYTE DUMMY_BINARY_DATA,	//ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‚ï¿½8ï¿½ß–Tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Öï¿½funcï¿½Éƒ_ï¿½~ï¿½[ï¿½Æ‚ï¿½ï¿½Ä“nï¿½ï¿½ï¿½eï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½È‚ï¿½BYTEï¿½^ï¿½Ïï¿½
                               void (* func)(BYTE &destm22, BYTE &m11, BYTE &m12, BYTE &m13, BYTE &m21, BYTE &m22, BYTE &m23, BYTE &m31, BYTE &m32, BYTE &m33))
 {
 	BYTE	_m11, _m12, _m13, _m21, _m23, _m31, _m32, _m33;
@@ -40,9 +49,9 @@ void	ProcessEdgeWithBinary(BYTE **bmpdata, BYTE **bitoperation,
 	const int bottom = YLenDot-1;
 	const int left = xbyte-1;
 
-	//Šp‚ğœ‚¢‚½’[‚ğˆ—
+	//ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	//ã’[‚ğˆ—
+	//ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	{
 		BYTE	*p2=  &bmpdata[0][1];
 		BYTE	*p1=  &bitoperation[0][1];
@@ -53,7 +62,7 @@ void	ProcessEdgeWithBinary(BYTE **bmpdata, BYTE **bitoperation,
 			(*func)(*(p2), _m11, _m21, _m31, *(p1-1), *(p1), *(p1+1), *(p1p-1), *(p1p), *(p1p+1));
 		}
 	}
-	//‰º’[‚ğˆ—
+	//ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	{
 		BYTE	*p2=  &bmpdata[bottom][1];
 		BYTE	*p1=  &bitoperation[bottom][1];
@@ -64,7 +73,7 @@ void	ProcessEdgeWithBinary(BYTE **bmpdata, BYTE **bitoperation,
 			(*func)(*(p2), *(p1m-1), *(p1m), *(p1m+1), *(p1-1), *(p1), *(p1+1), _m31, _m32, _m33);
 		}
 	}
-	//¶’[‚ğˆ—
+	//ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	{
 		for(int y=1;y<YLenDot-1;y++){
 			BYTE	*p1=  &bitoperation[y][0];
@@ -76,7 +85,7 @@ void	ProcessEdgeWithBinary(BYTE **bmpdata, BYTE **bitoperation,
 			(*func)(*(p2), _m11, *(p1m), *(p1m+1), _m21, *(p1), *(p1+1), _m31, *(p1p), *(p1p+1));
 		}
 	}
-	//‰E’[‚ğˆ—
+	//ï¿½Eï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	{
 		for(int y=1;y<YLenDot-1;y++){
 			BYTE	*p2=  &bmpdata[y][left];
@@ -89,25 +98,25 @@ void	ProcessEdgeWithBinary(BYTE **bmpdata, BYTE **bitoperation,
 		}
 	}
 
-	//Šp‚ğˆ—
+	//ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	{
 		BYTE	*p1, *p2, *p1p, *p1m;
-		//¶ã
+		//ï¿½ï¿½ï¿½ï¿½
 		p2=  &bmpdata[0][0];
 		p1=  &bitoperation[0][0];
 		p1p= &bitoperation[1][0];
 		(*func)(*(p2), _m11, _m12, _m13, _m21, *(p1), *(p1+1), _m31, *(p1p), _m33);
-		//‰Eã
+		//ï¿½Eï¿½ï¿½
 		p2=  &bmpdata[0][left];
 		p1=  &bitoperation[0][left];
 		p1p= &bitoperation[1][left];
 		(*func)(*(p2), _m11, _m12, _m13, *(p1-1), *(p1), _m23, _m31, *(p1p), _m33);
-		//¶‰º
+		//ï¿½ï¿½ï¿½ï¿½
 		p2=  &bmpdata[bottom][0];
 		p1=  &bitoperation[bottom][0];
 		p1m= &bitoperation[bottom-1][0];
 		(*func)(*(p2), _m11, *(p1m), _m13, _m21, *(p1), *(p1+1), _m31, _m32, _m33);
-		//‰E‰º
+		//ï¿½Eï¿½ï¿½
 		p2=  &bmpdata[bottom][left];
 		p1=  &bitoperation[bottom][left];
 		p1m= &bitoperation[bottom-1][left];
@@ -119,26 +128,26 @@ void	ProcessEdgeWithBinary(BYTE **bmpdata, BYTE **bitoperation,
 
 FatArea Function Specification
 
-	* [ŠT—v] “ñ’l‰»‚³‚ê‚½‰æ‘œƒf[ƒ^‚Ì“ñŸŒ³”z—ñbmpdata‚ğ1ƒhƒbƒg–c’£‚³‚¹‚éB
-	* [Ú×] –c’£‚ÌƒAƒ‹ƒSƒŠƒYƒ€
-	         ‚ ‚éƒrƒbƒg‚É‚Â‚¢‚ÄA8‹ß–T‚É1‚ª1‚ÂˆÈã‚ ‚ê‚Î©g‚ğ1‚ÉA‚»‚Ì‘¼‚Í0‚É‚·‚é
+	* [ï¿½Tï¿½v] ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½Ì“ñŸŒï¿½ï¿½zï¿½ï¿½bmpdataï¿½ï¿½1ï¿½hï¿½bï¿½gï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+	* [ï¿½Úï¿½] ï¿½cï¿½ï¿½ï¿½ÌƒAï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½
+	         ï¿½ï¿½ï¿½ï¿½ï¿½rï¿½bï¿½gï¿½É‚Â‚ï¿½ï¿½ÄA8ï¿½ß–Tï¿½ï¿½1ï¿½ï¿½1ï¿½ÂˆÈã‚ ï¿½ï¿½ï¿½Îï¿½ï¿½gï¿½ï¿½1ï¿½ÉAï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½0ï¿½É‚ï¿½ï¿½ï¿½
 
 ex)
 		100      100
 		000  ->  110
-		000      000		¦’†’i‚Ìƒrƒbƒg‚Ì‚İˆ—
+		000      000		ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Ìƒrï¿½bï¿½gï¿½Ì‚İï¿½ï¿½ï¿½
 
 arguments)
 
-	BYTE **bmpdata     	“ñ’l‰»‚³‚ê‚½‰æ‘œƒf[ƒ^‚Ì“ü‚Á‚½“ñŸŒ³”z—ñA[y][x]‚Ì‡‚ÉŠi”[‚³‚ê‚Ä‚¢‚é
-	                   	‚±‚Ì1ƒoƒCƒg’†ÅãˆÊƒrƒbƒg‚ª‰æ‘œ‚Å‚Ì‰E’[AÅ‰ºˆÊ‚Í¶’[‚É‚ ‚½‚é
-	BYTE **bitoperation	ˆ——p‚Éˆê“I‚ÉŠm•Û‚µ‚½“ñŸŒ³”z—ñ
-	                   	NULL‚à‚µ‚­‚Íxbyte~YLenDot‚Ì‘å‚«‚³‚Ì“ñŸŒ³”z—ñ
+	BYTE **bmpdata     	ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½Ì“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ñŸŒï¿½ï¿½zï¿½ï¿½ï¿½A[y][x]ï¿½Ìï¿½ï¿½ÉŠiï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+	                   	ï¿½ï¿½ï¿½ï¿½1ï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½Åï¿½ï¿½Êƒrï¿½bï¿½gï¿½ï¿½ï¿½æ‘œï¿½Å‚Ì‰Eï¿½[ï¿½Aï¿½Å‰ï¿½ï¿½Ê‚Íï¿½ï¿½[ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½
+	BYTE **bitoperation	ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Éˆêï¿½Iï¿½ÉŠmï¿½Û‚ï¿½ï¿½ï¿½ï¿½ñŸŒï¿½ï¿½zï¿½ï¿½
+	                   	NULLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xbyteï¿½~YLenDotï¿½Ì‘å‚«ï¿½ï¿½ï¿½Ì“ñŸŒï¿½ï¿½zï¿½ï¿½
 	
-	int xbyte          	bmpdata‚Ì(‰æ‘œ‚Ì•+1+7)>>3ABYTEŒ^‚Ì“ñi”‚Ì“ñŸŒ³”z—ñ‚É‚·‚é‚É‚ ‚½‚Á‚Ä•K—v‚È‰¡•
-	int YLenDot        	bmpdata‚Ìc‚Ì’·‚³
+	int xbyte          	bmpdataï¿½ï¿½(ï¿½æ‘œï¿½Ì•ï¿½+1+7)>>3ï¿½ABYTEï¿½^ï¿½Ì“ï¿½ï¿½iï¿½ï¿½ï¿½Ì“ñŸŒï¿½ï¿½zï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä•Kï¿½vï¿½È‰ï¿½ï¿½ï¿½
+	int YLenDot        	bmpdataï¿½Ìcï¿½Ì’ï¿½ï¿½ï¿½
 
-	FlexArea ForceZone	•s–¾
+	FlexArea ForceZone	ï¿½sï¿½ï¿½
 
 */
 
@@ -826,15 +835,15 @@ inline void	DilateBinaryDataInACrossShape(BYTE &destm22, BYTE &m11, BYTE &m12, B
 		return;
 
 	destm22 |=
-	//1-8ƒrƒbƒg–Ú
-	  //ã‰º
+	//1-8ï¿½rï¿½bï¿½gï¿½ï¿½
+	  //ï¿½ã‰º
 	     m12 | m32
-	  //¶‰E
+	  //ï¿½ï¿½ï¿½E
 	    |(m22<<1) | (m22>>1)
-	//1,8ƒrƒbƒg–Ú
-	  //1ƒrƒbƒg–Ú
+	//1,8ï¿½rï¿½bï¿½gï¿½ï¿½
+	  //1ï¿½rï¿½bï¿½gï¿½ï¿½
 	    |(m23<<7)
-	  //8ƒrƒbƒg–Ú
+	  //8ï¿½rï¿½bï¿½gï¿½ï¿½
 	    |(m21>>7);
 }
 
@@ -842,22 +851,22 @@ inline void	DilateBinaryDataInACrossShape(BYTE &destm22, BYTE &m11, BYTE &m12, B
 
 FatAreaInACrossShape Function Specification
 
-	* “ñ’l‰»‚³‚ê‚½‰æ‘œƒf[ƒ^‚Ì“ñŸŒ³”z—ñbmpdata‚ğ1ƒhƒbƒg–c’£‚³‚¹‚é
-	* –c’£‚ÌƒAƒ‹ƒSƒŠƒYƒ€
-	  ‚ ‚éƒrƒbƒg‚É‚Â‚¢‚ÄA4‹ß–T‚É1‚ªˆê‚Â‚Å‚à‚ ‚ê‚Î©g‚ğ1‚ÉA‚»‚Ì‘¼‚Í0‚É‚·‚é
+	* ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½Ì“ñŸŒï¿½ï¿½zï¿½ï¿½bmpdataï¿½ï¿½1ï¿½hï¿½bï¿½gï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	* ï¿½cï¿½ï¿½ï¿½ÌƒAï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½
+	  ï¿½ï¿½ï¿½ï¿½ï¿½rï¿½bï¿½gï¿½É‚Â‚ï¿½ï¿½ÄA4ï¿½ß–Tï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½Â‚Å‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îï¿½ï¿½gï¿½ï¿½1ï¿½ÉAï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½0ï¿½É‚ï¿½ï¿½ï¿½
 
 	ex)
 		000      000
 		100  ->  111		
-		001      001		¦’†’i‚Ìƒrƒbƒg‚Ì‚İˆ—
+		001      001		ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Ìƒrï¿½bï¿½gï¿½Ì‚İï¿½ï¿½ï¿½
 
-	BYTE **bmpdata		“ñ’l‰»‚³‚ê‚½‰æ‘œƒf[ƒ^‚Ì“ü‚Á‚½“ñŸŒ³”z—ñA[y][x]‚Ì‡‚ÉŠi”[‚³‚ê‚Ä‚¢‚é
-						‚±‚Ì1ƒoƒCƒg’†ÅãˆÊƒrƒbƒg‚ª‰æ‘œ‚Å‚Ì‰E’[AÅ‰ºˆÊ‚Í¶’[‚É‚ ‚½‚é
-	BYTE **bitoperation	ˆ——p‚Éˆê“I‚ÉŠm•Û‚µ‚½“ñŸŒ³”z—ñ
-	                    	NULL‚à‚µ‚­‚Íxbyte~YLenDot‚Ì‘å‚«‚³‚Ì“ñŸŒ³”z—ñ
+	BYTE **bmpdata		ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½Ì“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ñŸŒï¿½ï¿½zï¿½ï¿½ï¿½A[y][x]ï¿½Ìï¿½ï¿½ÉŠiï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+						ï¿½ï¿½ï¿½ï¿½1ï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½Åï¿½ï¿½Êƒrï¿½bï¿½gï¿½ï¿½ï¿½æ‘œï¿½Å‚Ì‰Eï¿½[ï¿½Aï¿½Å‰ï¿½ï¿½Ê‚Íï¿½ï¿½[ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½
+	BYTE **bitoperation	ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Éˆêï¿½Iï¿½ÉŠmï¿½Û‚ï¿½ï¿½ï¿½ï¿½ñŸŒï¿½ï¿½zï¿½ï¿½
+	                    	NULLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xbyteï¿½~YLenDotï¿½Ì‘å‚«ï¿½ï¿½ï¿½Ì“ñŸŒï¿½ï¿½zï¿½ï¿½
 	
-	int xbyte		(‰æ‘œ‚Ì•+1+7)>>3ABYTEŒ^‚Ì“ñi”‚Ì“ñŸŒ³”z—ñ‚É‚·‚é‚É‚ ‚½‚Á‚Ä•K—v‚È‰¡•
-	int YLenDot		bmpdata‚Ìc‚Ì’·‚³
+	int xbyte		(ï¿½æ‘œï¿½Ì•ï¿½+1+7)>>3ï¿½ABYTEï¿½^ï¿½Ì“ï¿½ï¿½iï¿½ï¿½ï¿½Ì“ñŸŒï¿½ï¿½zï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä•Kï¿½vï¿½È‰ï¿½ï¿½ï¿½
+	int YLenDot		bmpdataï¿½Ìcï¿½Ì’ï¿½ï¿½ï¿½
 */
 
 void    FatAreaInACrossShape(BYTE **bmpdata
@@ -899,22 +908,22 @@ void    FatAreaInACrossShape(BYTE **bmpdata
 
 ThinAreaInACrossShape Function Specification
 
-	* “ñ’l‰»‚³‚ê‚½‰æ‘œƒf[ƒ^‚Ì“ñŸŒ³”z—ñbmpdata‚ğ1ƒhƒbƒgûk‚³‚¹‚éB
-	* ûk‚ÌƒAƒ‹ƒSƒŠƒYƒ€
-	  ‚ ‚éƒrƒbƒg‚É‚Â‚¢‚ÄA4‹ß–T‚Æ©g‚ª‚·‚×‚Ä1‚Å‚ ‚ê‚Î©g‚ğ1‚ÉA‚»‚êˆÈŠO‚Í0‚É‚·‚é
+	* ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½Ì“ñŸŒï¿½ï¿½zï¿½ï¿½bmpdataï¿½ï¿½1ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+	* ï¿½ï¿½ï¿½kï¿½ÌƒAï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½
+	  ï¿½ï¿½ï¿½ï¿½ï¿½rï¿½bï¿½gï¿½É‚Â‚ï¿½ï¿½ÄA4ï¿½ß–Tï¿½Æï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½×‚ï¿½1ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Îï¿½ï¿½gï¿½ï¿½1ï¿½ÉAï¿½ï¿½ï¿½ï¿½ï¿½ÈŠOï¿½ï¿½0ï¿½É‚ï¿½ï¿½ï¿½
 
 	ex)
 		1100      1100
 		1111  ->  0100		
-		0100      0100		¦’†’i‚Ìƒrƒbƒg‚Ì‚İˆ—
+		0100      0100		ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Ìƒrï¿½bï¿½gï¿½Ì‚İï¿½ï¿½ï¿½
 
-	BYTE **bmpdata		“ñ’l‰»‚³‚ê‚½‰æ‘œƒf[ƒ^‚Ì“ü‚Á‚½“ñŸŒ³”z—ñA[y][x]‚Ì‡‚ÉŠi”[‚³‚ê‚Ä‚¢‚é
-						‚±‚Ì1ƒoƒCƒg’†ÅãˆÊƒrƒbƒg‚ª‰æ‘œ‚Å‚Ì‰E’[AÅ‰ºˆÊ‚Í¶’[‚É‚ ‚½‚é
-	BYTE **bitoperation	ˆ——p‚Éˆê“I‚ÉŠm•Û‚µ‚½“ñŸŒ³”z—ñ
-	                    	NULL‚à‚µ‚­‚Íxbyte~YLenDot‚Ì‘å‚«‚³‚Ì“ñŸŒ³”z—ñ
+	BYTE **bmpdata		ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½Ì“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ñŸŒï¿½ï¿½zï¿½ï¿½ï¿½A[y][x]ï¿½Ìï¿½ï¿½ÉŠiï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+						ï¿½ï¿½ï¿½ï¿½1ï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½Åï¿½ï¿½Êƒrï¿½bï¿½gï¿½ï¿½ï¿½æ‘œï¿½Å‚Ì‰Eï¿½[ï¿½Aï¿½Å‰ï¿½ï¿½Ê‚Íï¿½ï¿½[ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½
+	BYTE **bitoperation	ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Éˆêï¿½Iï¿½ÉŠmï¿½Û‚ï¿½ï¿½ï¿½ï¿½ñŸŒï¿½ï¿½zï¿½ï¿½
+	                    	NULLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xbyteï¿½~YLenDotï¿½Ì‘å‚«ï¿½ï¿½ï¿½Ì“ñŸŒï¿½ï¿½zï¿½ï¿½
 	
-	int xbyte			bmpdata‚Ì(‰æ‘œ‚Ì•+1+7)>>3ABYTEŒ^‚Ì“ñi”‚Ì“ñŸŒ³”z—ñ‚É‚·‚é‚É‚ ‚½‚Á‚Ä•K—v‚È‰¡•
-	int YLenDot		bmpdata‚Ìc‚Ì’·‚³
+	int xbyte			bmpdataï¿½ï¿½(ï¿½æ‘œï¿½Ì•ï¿½+1+7)>>3ï¿½ABYTEï¿½^ï¿½Ì“ï¿½ï¿½iï¿½ï¿½ï¿½Ì“ñŸŒï¿½ï¿½zï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä•Kï¿½vï¿½È‰ï¿½ï¿½ï¿½
+	int YLenDot		bmpdataï¿½Ìcï¿½Ì’ï¿½ï¿½ï¿½
 */
 
 void    ThinAreaInACrossShape(BYTE **bmpdata
@@ -1186,21 +1195,21 @@ class  PickupStructUnlimited : public NPList<PickupStructUnlimited>
 
 /*----------------------------------------------------------------------------*/
 //
-//  1.“ú–{Œê–¼
+//  1.ï¿½ï¿½ï¿½{ï¿½ê–¼
 //
-//  2.ƒpƒ‰ƒƒ^à–¾
+//  2.ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½ï¿½
 //    PData
 //    xbyte
 //    x
 //    y
 //
-//  3.ŠT—v
+//  3.ï¿½Tï¿½v
 //
-//  4.‹@”\à–¾
+//  4.ï¿½@ï¿½\ï¿½ï¿½ï¿½ï¿½
 //
-//  5.–ß‚è’l
+//  5.ï¿½ß‚ï¿½ï¿½l
 //
-//  6.”õl
+//  6.ï¿½ï¿½ï¿½l
 //
 /*----------------------------------------------------------------------------*/
 void  AutoRegPutPick(struct PickupStruct &PData,int xbyte,int x,int y)
@@ -1699,9 +1708,9 @@ void    BitmapClusterSized(BYTE **bmpdata ,int xbyte ,int YLen
 }
 
 int GetBmpMode(int X,int Y,int xlen,int ylen ,uchar **bmpdata ,int xbyte)
-//  ‹éŒ`—Ìˆæ‚Éƒrƒbƒg‚ª‘S‚­‚È‚¢‚Æ‚«‚O
-//  ‹éŒ`—Ìˆæ‚ª‘S‚Äƒrƒbƒg‚Å•¢‚í‚ê‚Ä‚¢‚é‚Æ‚«  ‚Q
-//  ‹éŒ`—Ìˆæ‚Éƒrƒbƒg‚ªUİ‚·‚é‚Æ‚«          ‚P
+//  ï¿½ï¿½ï¿½`ï¿½Ìˆï¿½ï¿½Éƒrï¿½bï¿½gï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½O
+//  ï¿½ï¿½ï¿½`ï¿½Ìˆæ‚ªï¿½Sï¿½Äƒrï¿½bï¿½gï¿½Å•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½  ï¿½Q
+//  ï¿½ï¿½ï¿½`ï¿½Ìˆï¿½ï¿½Éƒrï¿½bï¿½gï¿½ï¿½ï¿½Uï¿½İ‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½          ï¿½P
 
 {
     int b=0;
@@ -1951,7 +1960,7 @@ struct	FatThinAreaStruct
 	int		AddedXByte;
 	BYTE	StartMask;
 	int32	Len;
-	BYTE	EndMask;	//‚O‚ÌA–³‹‚·‚é
+	BYTE	EndMask;	//ï¿½Oï¿½Ìï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 };
 
@@ -2034,7 +2043,7 @@ void	ReductionImage(BYTE **DestBmp ,int DestXLen,int DestYLen
 					  ,BYTE **SrcBmp  ,int SrcXLen ,int SrcYLen
 					  ,int Rate)
 /*
-	Rate•ª‚Ì‚P‚Éƒrƒbƒg‚ğŠÔˆø‚­
+	Rateï¿½ï¿½ï¿½Ì‚Pï¿½Éƒrï¿½bï¿½gï¿½ï¿½ï¿½Ôˆï¿½ï¿½ï¿½
 */
 {
 	#pragma omp parallel              
@@ -2056,4 +2065,3 @@ void	ReductionImage(BYTE **DestBmp ,int DestXLen,int DestYLen
 		}
 	}
 }
-

@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\AutoAlignment\XAutoAlignment.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #if	!defined(XAUTOALIGNMENT_H)
@@ -110,8 +119,8 @@ public:
 	int			PickupExpansion;
 	int			NoiseShrink;
 	int			ExpandForPickup;
-	int			MinDot;			//Še—Ìˆæ‚ÌÅ¬ƒhƒbƒg”
-	int			FringeWidth;	//‘JˆÚƒrƒbƒg‚É‚·‚éü•Ó•
+	int			MinDot;			//ï¿½eï¿½Ìˆï¿½ï¿½ÌÅï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	int			FringeWidth;	//ï¿½Jï¿½Úƒrï¿½bï¿½gï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó•ï¿½
 	double		AdptedMatchingRate;
 	double		CompletelyMatchingRate;
 public:
@@ -176,7 +185,7 @@ class	AutoAlignmentInPico : public NPList<AutoAlignmentInPico>,public AlignmentP
 	int			SelectFirst;
 	int			Xn,Yn;
 	int			CenterX,CenterY;
-	AutoAlignmentInPico	*BasePointer;	//—Dæ“x‚ÌÅ‚à‚‚¢“¯ˆê‰ÓŠ‚ÌPICO‚Ö‚Ìƒ|ƒCƒ“ƒ^
+	AutoAlignmentInPico	*BasePointer;	//ï¿½Dï¿½ï¿½ï¿½xï¿½ÌÅ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óï¿½ï¿½ï¿½PICOï¿½Ö‚Ìƒ|ï¿½Cï¿½ï¿½ï¿½^
 
 	class	CalcedData
 	{
@@ -203,8 +212,8 @@ class	AutoAlignmentInPico : public NPList<AutoAlignmentInPico>,public AlignmentP
 	CalcedData	CalcFirstG,CalcDetailG;
 	CalcedData	CalcFirstB,CalcDetailB;
 
-	FlexArea	OtherArea;	//—Dæ“x‚ª‚Q”Ô–ÚˆÈ~‚Ì‚Æ‚«‚É¶¬‚³‚ê‚éB
-							//©g‚ÌPICO’Tõƒhƒbƒg{’Šo—Ìˆæ‚ğ‘¼‚ÌÅ‘å‚ÌPICO’Tõ”ÍˆÍ•ª–c’£‚³‚¹A©g‚Ì—Ìˆæ‚ğœ‹‚µ‚½ƒGƒŠƒA
+	FlexArea	OtherArea;	//ï¿½Dï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Qï¿½Ô–ÚˆÈ~ï¿½Ì‚Æ‚ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+							//ï¿½ï¿½ï¿½gï¿½ï¿½PICOï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½{ï¿½ï¿½ï¿½oï¿½Ìˆï¿½ï¿½ğ‘¼‚ÌÅ‘ï¿½ï¿½ï¿½PICOï¿½Tï¿½ï¿½ï¿½ÍˆÍ•ï¿½ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½gï¿½Ì—Ìˆï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 	FlexArea	OMasterArea;	//OtherArea-PickupArea
 	FlexArea	OTargetArea;	//OtherArea-PickupAreaTarget
 
@@ -387,9 +396,9 @@ class	ClusteredPicoDim : public NPList<ClusteredPicoDim>
 	friend	class	AutoAlignmentSheet;
 	friend	class	AutoAlignmentInPico;
 
-	//	ƒ}ƒXƒN‚Å—Ìˆæ‰»‚³‚ê‚½‚PƒGƒŠƒA•ª‚Ì‚o‚h‚b‚n—ÌˆæŒQ‚ğ•\‚·
+	//	ï¿½}ï¿½Xï¿½Nï¿½Å—Ìˆæ‰»ï¿½ï¿½ï¿½ê‚½ï¿½Pï¿½Gï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ì‚oï¿½hï¿½bï¿½nï¿½Ìˆï¿½ï¿½Qï¿½ï¿½ï¿½\ï¿½ï¿½
 public:
-	AutoAlignmentInPico	***PicoDim;	//•ÊQÆ
+	AutoAlignmentInPico	***PicoDim;	//ï¿½ÊQï¿½ï¿½
 	int	PicoDimXNumb;
 	int	PicoDimYNumb;
 	int	XByte;
@@ -416,7 +425,7 @@ class	AutoAlignmentSheet : public AlgorithmItemPI
 	int			XByte;
 	QMutex		CalcMutex;
 
-	FlexArea RetFlexArea;	//GetArea(int UniqueAreaType_Code)‚Ìreturn—p
+	FlexArea RetFlexArea;	//GetArea(int UniqueAreaType_Code)ï¿½ï¿½returnï¿½p
 
 	BYTE		**PickupBmp;
 
@@ -494,26 +503,26 @@ public:
 	int		YLen;
 	int		XByte;
 
-	char	**ResultPerPixXFromTarget;		//â‘ÎŒn‚Å‚ÌˆÊ’u‚¸‚ê—Ê
-	char	**ResultPerPixYFromTarget;		//â‘ÎŒn‚Å‚ÌˆÊ’u‚¸‚ê—Ê
-	char	**ResultPerPixXFromMaster;		//â‘ÎŒn‚Å‚ÌˆÊ’u‚¸‚ê—Ê
-	char	**ResultPerPixYFromMaster;		//â‘ÎŒn‚Å‚ÌˆÊ’u‚¸‚ê—Ê
-	char	**ResultRelativeXFromTarget;	//ƒx[ƒXˆÊ’u‚¸‚ê‚É‘Î‚·‚é‘Š‘Î“I‚ÈˆÊ’u‚¸‚ê—Ê
-	char	**ResultRelativeYFromTarget;	//ƒx[ƒXˆÊ’u‚¸‚ê‚É‘Î‚·‚é‘Š‘Î“I‚ÈˆÊ’u‚¸‚ê—Ê
-	char	**ResultRelativeXFromMaster;	//ƒx[ƒXˆÊ’u‚¸‚ê‚É‘Î‚·‚é‘Š‘Î“I‚ÈˆÊ’u‚¸‚ê—Ê
-	char	**ResultRelativeYFromMaster;	//ƒx[ƒXˆÊ’u‚¸‚ê‚É‘Î‚·‚é‘Š‘Î“I‚ÈˆÊ’u‚¸‚ê—Ê
+	char	**ResultPerPixXFromTarget;		//ï¿½ï¿½ï¿½ÎŒnï¿½Å‚ÌˆÊ’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	char	**ResultPerPixYFromTarget;		//ï¿½ï¿½ï¿½ÎŒnï¿½Å‚ÌˆÊ’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	char	**ResultPerPixXFromMaster;		//ï¿½ï¿½ï¿½ÎŒnï¿½Å‚ÌˆÊ’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	char	**ResultPerPixYFromMaster;		//ï¿½ï¿½ï¿½ÎŒnï¿½Å‚ÌˆÊ’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	char	**ResultRelativeXFromTarget;	//ï¿½xï¿½[ï¿½Xï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½É‘Î‚ï¿½ï¿½é‘Šï¿½Î“Iï¿½ÈˆÊ’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	char	**ResultRelativeYFromTarget;	//ï¿½xï¿½[ï¿½Xï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½É‘Î‚ï¿½ï¿½é‘Šï¿½Î“Iï¿½ÈˆÊ’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	char	**ResultRelativeXFromMaster;	//ï¿½xï¿½[ï¿½Xï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½É‘Î‚ï¿½ï¿½é‘Šï¿½Î“Iï¿½ÈˆÊ’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	char	**ResultRelativeYFromMaster;	//ï¿½xï¿½[ï¿½Xï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½É‘Î‚ï¿½ï¿½é‘Šï¿½Î“Iï¿½ÈˆÊ’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 #if	defined(NeedFringeBit)
-	BYTE	**ResultBitTransFromMaster;		//‚Q”Ô–ÚˆÈ~‚Ìü‰‚ÌA‚P
-	BYTE	**ResultBitTransFromTarget;		//‚Q”Ô–ÚˆÈ~‚Ìü‰‚ÌA‚P
-	BYTE	**ResultBitFirstTransFromMaster;		//‚P”Ô–Ú‚Ìü‰‚ÌA‚P
-	BYTE	**ResultBitFirstTransFromTarget;		//‚P”Ô–Ú‚Ìü‰‚ÌA‚P
+	BYTE	**ResultBitTransFromMaster;		//ï¿½Qï¿½Ô–ÚˆÈ~ï¿½Ìï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½Aï¿½P
+	BYTE	**ResultBitTransFromTarget;		//ï¿½Qï¿½Ô–ÚˆÈ~ï¿½Ìï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½Aï¿½P
+	BYTE	**ResultBitFirstTransFromMaster;		//ï¿½Pï¿½Ô–Ú‚Ìï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½Aï¿½P
+	BYTE	**ResultBitFirstTransFromTarget;		//ï¿½Pï¿½Ô–Ú‚Ìï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½Aï¿½P
 #endif
 
-	BYTE	**ResultBitPickupFromMaster;		//‚Q”Ô–ÚˆÈ~‚Ì’Šo—Ìˆæ‚ÌA‚P
-	BYTE	**ResultBitPickupFromTarget;		//‚Q”Ô–ÚˆÈ~‚Ì’Šo—Ìˆæ‚ÌA‚P
-	BYTE	**ResultBitFirstPickupFromMaster;		//‚P”Ô–Ú‚Ì’Šo—Ìˆæ‚ÌA‚P
-	BYTE	**ResultBitFirstPickupFromTarget;		//‚P”Ô–Ú‚Ì’Šo—Ìˆæ‚ÌA‚P
+	BYTE	**ResultBitPickupFromMaster;		//ï¿½Qï¿½Ô–ÚˆÈ~ï¿½Ì’ï¿½ï¿½oï¿½Ìˆï¿½ï¿½Ìï¿½ï¿½Aï¿½P
+	BYTE	**ResultBitPickupFromTarget;		//ï¿½Qï¿½Ô–ÚˆÈ~ï¿½Ì’ï¿½ï¿½oï¿½Ìˆï¿½ï¿½Ìï¿½ï¿½Aï¿½P
+	BYTE	**ResultBitFirstPickupFromMaster;		//ï¿½Pï¿½Ô–Ú‚Ì’ï¿½ï¿½oï¿½Ìˆï¿½ï¿½Ìï¿½ï¿½Aï¿½P
+	BYTE	**ResultBitFirstPickupFromTarget;		//ï¿½Pï¿½Ô–Ú‚Ì’ï¿½ï¿½oï¿½Ìˆï¿½ï¿½Ìï¿½ï¿½Aï¿½P
 
 	AutoAlignmentInPage(AlgorithmBase *parent);
 	~AutoAlignmentInPage(void);
@@ -761,7 +770,7 @@ public:
 
 //=========================================================================
 class	CmdReqAutoAlignmentEnumLibs: public GUIDirectMessage
-//	StartupExecute=true‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚ÌLibIDƒŠƒXƒgƒRƒ“ƒeƒi‚ğŠO•”‚©‚çŠ“¾‚·‚é
+//	StartupExecute=trueï¿½Ìƒï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½LibIDï¿½ï¿½ï¿½Xï¿½gï¿½Rï¿½ï¿½ï¿½eï¿½iï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½çŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 {
 public:
 	IntList	LibIDList;

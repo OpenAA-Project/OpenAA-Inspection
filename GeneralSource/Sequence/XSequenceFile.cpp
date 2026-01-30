@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\Sequence\XSequenceFile.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 //---------------------------------------------------------------------------
@@ -325,7 +334,7 @@ bool    LoadedTimingFile::Read(TFileStream *rfile)
             }
         }
 
-    //ƒCƒ“ƒfƒbƒNƒXƒeƒ“ƒ|ƒ‰ƒŠƒtƒ@ƒCƒ‹‚Ìì¬
+    //ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½eï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìì¬
     SSTimingList    **InPoint[256];
     for(int i=0;i<256;i++){
         InPoint[i]=new SSTimingList *[2048];
@@ -535,7 +544,7 @@ SSTimingList::~SSTimingList(void)
 }
 
 LoadedTimingSlice   *SSTimingList::GetTopSlice(VInt64 &startTime)
-//  startTimeˆÈã‚Ìƒf[ƒ^‚ğ•Ô‚·
+//  startTimeï¿½Èï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ô‚ï¿½
 {
     int k=0;
     VInt64  v;
@@ -565,7 +574,7 @@ int cdecl SSTimingListsortFunc(const void *e1, const void *e2)
     return(0);
 }
 LoadedTimingSlice   *SSTimingList::GetTopSliceLess(VInt64 &startTime)
-//  startTimeˆÈ‰º‚ÌÅ‘å‚Ìƒf[ƒ^‚ğ•Ô‚·
+//  startTimeï¿½È‰ï¿½ï¿½ÌÅ‘ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ô‚ï¿½
 {
     LoadedTimingSlice   Key;
     LoadedTimingSlice   *KeyPoint=&Key;
@@ -579,7 +588,7 @@ LoadedTimingSlice   *SSTimingList::GetTopSliceLess(VInt64 &startTime)
 }
 
 LoadedTimingSlice   *SSTimingList::GetPrevSlice(VInt64 &startTime)
-//  startTimeˆÈ‰º‚Ìƒf[ƒ^‚ğ•Ô‚·
+//  startTimeï¿½È‰ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ô‚ï¿½
 {
     int k=0;
     VInt64  v;
@@ -620,15 +629,15 @@ bool    LoadedTimingFile::Write(TFileStream *wfile ,SeqTimingParameter &param)
     struct  __TimingDataHeader  Header;
 
     Header.DataSize=sizeof(Header)+param.GetDataLength();
-    Header.Clocks=0;         // •ÏX‚³‚ê‚½‚Æ‚«‚ÌCPUƒNƒƒbƒN’l
-    Header.TickCount=0;		// •ÏX‚³‚ê‚½‚Æ‚«‚Ìƒ~ƒŠƒZƒJƒ“ƒh
+    Header.Clocks=0;         // ï¿½ÏXï¿½ï¿½ï¿½ê‚½ï¿½Æ‚ï¿½ï¿½ï¿½CPUï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½l
+    Header.TickCount=0;		// ï¿½ÏXï¿½ï¿½ï¿½ê‚½ï¿½Æ‚ï¿½ï¿½Ìƒ~ï¿½ï¿½ï¿½Zï¿½Jï¿½ï¿½ï¿½h
     Header.SeqCode=0;
-    Header.MLine=0;			// •ÏX‚³‚ê‚½‚Æ‚«‚ÌƒV[ƒPƒ“ƒXs
+    Header.MLine=0;			// ï¿½ÏXï¿½ï¿½ï¿½ê‚½ï¿½Æ‚ï¿½ï¿½ÌƒVï¿½[ï¿½Pï¿½ï¿½ï¿½Xï¿½s
     Header.OType=0;
     Header.ONumber=0;
     Header.Flag=0;
     Header.Cause=0;
-    Header.DType=4;        //ƒf[ƒ^‚Ìí—Ş 1:int , 2:AnsiString , 3:BYTE block
+    Header.DType=4;        //ï¿½fï¿½[ï¿½^ï¿½Ìï¿½ï¿½ï¿½ 1:int , 2:AnsiString , 3:BYTE block
 
     if(wfile->Write(&Header,sizeof(Header))!=sizeof(Header))
             return(false);
@@ -642,15 +651,15 @@ bool    LoadedTimingFile::Write(TFileStream *wfile ,AddedVectorBase *v)
     struct  __TimingDataHeader  Header;
 
     Header.DataSize=sizeof(Header)+v->GetDataLength();
-    Header.Clocks=0;         // •ÏX‚³‚ê‚½‚Æ‚«‚ÌCPUƒNƒƒbƒN’l
-    Header.TickCount=0;		// •ÏX‚³‚ê‚½‚Æ‚«‚Ìƒ~ƒŠƒZƒJƒ“ƒh
+    Header.Clocks=0;         // ï¿½ÏXï¿½ï¿½ï¿½ê‚½ï¿½Æ‚ï¿½ï¿½ï¿½CPUï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½l
+    Header.TickCount=0;		// ï¿½ÏXï¿½ï¿½ï¿½ê‚½ï¿½Æ‚ï¿½ï¿½Ìƒ~ï¿½ï¿½ï¿½Zï¿½Jï¿½ï¿½ï¿½h
     Header.SeqCode=0;
-    Header.MLine=0;			// •ÏX‚³‚ê‚½‚Æ‚«‚ÌƒV[ƒPƒ“ƒXs
+    Header.MLine=0;			// ï¿½ÏXï¿½ï¿½ï¿½ê‚½ï¿½Æ‚ï¿½ï¿½ÌƒVï¿½[ï¿½Pï¿½ï¿½ï¿½Xï¿½s
     Header.OType=0;
     Header.ONumber=v->GetID();
     Header.Flag=0;
     Header.Cause=0;
-    Header.DType=5;        //ƒf[ƒ^‚Ìí—Ş 1:int , 2:AnsiString , 3:BYTE block
+    Header.DType=5;        //ï¿½fï¿½[ï¿½^ï¿½Ìï¿½ï¿½ï¿½ 1:int , 2:AnsiString , 3:BYTE block
 
     if(wfile->Write(&Header,sizeof(Header))!=sizeof(Header))
             return(false);
@@ -1046,5 +1055,4 @@ AnsiString  SSOperandClass::GetName(void)
 {
     return(Name);
 }
-
 

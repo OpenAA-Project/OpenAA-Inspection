@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\RepairStation\RepairStation\main.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "RepairStationResource.h"
 
@@ -72,14 +81,14 @@ int main(int argc, char *argv[])
 	LangSolver.SetLanguage(LanguageCode);
 ///	LangSolver.SetLanguage(1);
 
-	//“ñd‹N“®–hŽ~
+	//ï¿½ï¿½ï¿½dï¿½Nï¿½ï¿½ï¿½hï¿½~
 	if(SingleExecute("RepairStation.exe")==false){
 		QMessageBox::critical(NULL, "Cannot start application","Application has already started.");
 		return(1);
 	}
 
 #ifdef HASP_ENABLE
-	//HASP‚Ìƒ`ƒFƒbƒN
+	//HASPï¿½Ìƒ`ï¿½Fï¿½bï¿½N
 	if(RepairBase::HaspCheck(HASP_KEY)==false){
 		QMessageBox::critical ( NULL, "Hasp Error", "Mismatch Hasp code", QMessageBox::Ok);
 		return 0;
@@ -113,12 +122,12 @@ int main(int argc, char *argv[])
 	//Load "save.dat"
 	createConnection(DefaultSave_DotFileName);
 
-	//ƒƒCƒ“ƒtƒH[ƒ€‚Ìì¬
+	//ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½tï¿½Hï¿½[ï¿½ï¿½ï¿½Ìì¬
 	RepairStation w(DefaultXmlConnect_DotFileName,DefaultRepairSetting_DotFileName);
 
 	w.SetSaveFileName(DefaultSave_DotFileName);
 
-	//RepairSetting.dat‚ÌResolution‚ð”½‰f
+	//RepairSetting.datï¿½ï¿½Resolutionï¿½ð”½‰f
 	int Resolution=0;
 	//int n = w.GetRepairSettingList().count();
 	if(w.GetRepairSettingList().count()>6){
@@ -133,7 +142,7 @@ int main(int argc, char *argv[])
 	EntryPointToFuncGlobal->GetGUIInstancePack()->InitialLayers(Msg);
 
 	ThreadSequence	*Seq=NULL;
-	//Sequence.dat‚ª‚ ‚ê‚Î‘g‚Ýž‚Þ
+	//Sequence.datï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‘gï¿½Ýï¿½ï¿½ï¿½
 	bool ShowSequence=false;
 	if(a.arguments().contains("/NO_SEQUENCE")==false){
 		if(QFile::exists(EntryPointToFuncGlobal->GetParamGlobal()->Sequence_FileName)==true){

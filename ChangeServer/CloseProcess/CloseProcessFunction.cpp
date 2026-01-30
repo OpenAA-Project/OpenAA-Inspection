@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "Windows.h"
 #include <string.h>
 #include <time.h>
@@ -6,18 +24,18 @@
 
 bool	FindProcess(char *ProcessImageName);
 
-// ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğæ“¾‚µƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğI—¹‚³‚¹‚éB
+// ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Aï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
 {
-    // CreateProcess()‚Åæ“¾‚µ‚½PROCESS_INFORMATION\‘¢‘Ì‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾
+    // CreateProcess()ï¿½Åæ“¾ï¿½ï¿½ï¿½ï¿½PROCESS_INFORMATIONï¿½\ï¿½ï¿½ï¿½Ì‚Ìƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½æ“¾
     PROCESS_INFORMATION* pi = (PROCESS_INFORMATION*)lParam;
 
-    // ƒEƒCƒ“ƒhƒE‚ğì¬‚µ‚½ƒvƒƒZƒXID‚ğæ“¾B
+    // ï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Zï¿½XIDï¿½ï¿½ï¿½æ“¾ï¿½B
     DWORD lpdwProcessId = 0;
     ::GetWindowThreadProcessId(hWnd, &lpdwProcessId);
 
-    // CreateProcess‚Å‹N“®‚µ‚½ƒAƒvƒŠ‚ÌƒvƒƒZƒXID‚ÆƒƒCƒ“ƒEƒBƒ“ƒhƒE‚ğ
-    // ì¬‚µ‚½ƒvƒƒZƒXID‚ª“¯‚¶ê‡A‹N“®‚µ‚½ƒAƒvƒŠ‚ğI—¹‚³‚¹‚éB
+    // CreateProcessï¿½Å‹Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½vï¿½ï¿½ï¿½Ìƒvï¿½ï¿½ï¿½Zï¿½XIDï¿½Æƒï¿½ï¿½Cï¿½ï¿½ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½ï¿½
+    // ï¿½ì¬ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Zï¿½XIDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
     if(pi->dwProcessId == lpdwProcessId)
     {
         ::PostMessage(hWnd, WM_CLOSE, 0, 0);
@@ -33,7 +51,7 @@ bool	CloseProcessFunction(char *ProcessImageName ,int MaxWaitForTerminte)
 	int nProc;
 	bool	ClosedMode=false;
 
-	// PIDˆê——‚ğæ“¾
+	// PIDï¿½ê——ï¿½ï¿½ï¿½æ“¾
 	if (!::EnumProcesses(allProc, sizeof(allProc), &cbNeeded)) {
 		return false;
 	}
@@ -46,7 +64,7 @@ bool	CloseProcessFunction(char *ProcessImageName ,int MaxWaitForTerminte)
 			PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_TERMINATE	,
 			false, allProc[i]);
 
-		// ƒvƒƒZƒX–¼‚ğæ“¾
+		// ï¿½vï¿½ï¿½ï¿½Zï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 		if (NULL != hProcess) {
 			HMODULE hMod;
 			DWORD cbNeeded;
@@ -60,7 +78,7 @@ bool	CloseProcessFunction(char *ProcessImageName ,int MaxWaitForTerminte)
 
 					PROCESS_INFORMATION pi;
 					pi.dwProcessId=allProc[i];
-					// ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÌŒÄ‚Ño‚µB
+					// ï¿½Rï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½Öï¿½ï¿½ÌŒÄ‚Ñoï¿½ï¿½ï¿½B
 					EnumWindows(EnumWindowsProc, (LPARAM)&pi);
 					ClosedMode=true;
 				}
@@ -84,7 +102,7 @@ bool	FindProcess(char *ProcessImageName)
 	DWORD cbNeeded;
 	int nProc;
 
-	// PIDˆê——‚ğæ“¾
+	// PIDï¿½ê——ï¿½ï¿½ï¿½æ“¾
 	if (!::EnumProcesses(allProc, sizeof(allProc), &cbNeeded)) {
 		return false;
 	}
@@ -97,7 +115,7 @@ bool	FindProcess(char *ProcessImageName)
 			PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_TERMINATE	,
 			false, allProc[i]);
 
-		// ƒvƒƒZƒX–¼‚ğæ“¾
+		// ï¿½vï¿½ï¿½ï¿½Zï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 		if (NULL != hProcess) {
 			HMODULE hMod;
 			DWORD cbNeeded;

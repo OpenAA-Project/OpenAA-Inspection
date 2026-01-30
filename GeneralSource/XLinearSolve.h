@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XLinearSolve.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 //---------------------------------------------------------------------------
@@ -16,7 +25,7 @@
 //---------------------------------------------------------------------------
 #include "XTypeDef.h"
 
-class   LinearSolveSquare   //Å¬‚QæŒë·‚Ì’¼ü‚ğ‹‚ß‚é
+class   LinearSolveSquare   //ï¿½Åï¿½ï¿½Qï¿½ï¿½ï¿½ë·ï¿½Ì’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 {
     double  Sx2;
     double  Sy2;
@@ -38,7 +47,7 @@ bool    Solve2DLinear(double x1 ,double y1 ,double t1
 /*
     a*x1 + b*y1 =t1
     a*x2 + b*y2 =t2
-    ‚©‚çAa,b‚ğ‹‚ß‚é   */
+    ï¿½ï¿½ï¿½ï¿½ï¿½Aa,bï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½   */
 
 #endif
  

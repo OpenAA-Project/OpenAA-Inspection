@@ -1,16 +1,26 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ShowResultDetailForm.h"
 #include "ui_ShowResultDetailForm.h"
 #include "XGeneralFunc.h"
 #include "XLotInformation.h"
 #include "XCSV.h"
-/*
-* Keyword
-*   %i                  検査番号
-*   %m                  マスター番号
-*   %c                  装置番号
-*   %t[yyMMddhhmmss]    日時  []内は日時フォーマット
-*   %l                  ロット番号
-*/
 extern	const	char	*sRoot;
 extern	const	char	*sName;
 //============================================================================

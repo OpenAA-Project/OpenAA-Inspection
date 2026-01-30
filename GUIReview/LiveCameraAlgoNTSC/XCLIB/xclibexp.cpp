@@ -1,62 +1,23 @@
 /*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
- *	xclibexp.cpp	External	27-Dec-2010
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *	Copyright (C)  1998-2010  EPIX, Inc.  All rights reserved.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *	Example program for the XCLIB 'C' Library.
- *	Example assumes Windows 95/98/ME/NT/2000/XP/Vista/7/XP(x64)/Vista(x64)/7(x64).
- *
- *	Demonstrates XCLIB and/or PXIPL functions for capture,
- *	post processing and display.
- *	This Windows program must, of course, also make use of
- *	various Windows GDI API functions; however, this is not
- *	intended to serve as a Windows tutorial.
- *
- *	Many parts similar to the XCLIBEX2.CPP example; that
- *	example provides PIXCI SV2, SV3, SV4, SV5, SV5A, SV5B, SV5L, SV6, and SV7
- *	specific controls, and demonstrates more display options including
- *	graphic overlays. It also demonstrates access to numeric
- *	pixel values and use of Events rather than a timer.
- *	For simplicity this example concentrates on demonstrating
- *	post capture processing and display,  and does not illustrate
- *	as many display options nor duplicate the other features
- *	demonstrated in that example.
- *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 
-/*
- *  INSTRUCTIONS:
- *
- *  1)	Set 'define' options below according to the intended camera
- *	and video format(s).
- *
- *	For PIXCI(R) SV2, SV3, SV4, SV5, SV5A, SV5B, SV5L, and SV6 imaging boards
- *	common choices are RS-170, NSTC, NTSC/YC, CCIR, PAL, or PAL/YC.
- *	(The SV5A and SV5B do not support NTSC/YC or PAL/YC).
- *	For PIXCI(R) SV7 imaging boards
- *	common choices are RS-170, NSTC, CCIR, or PAL.
- *
- *	For PIXCI(R) A, CL1, CL2, CL3SD, D, D24, D32, D2X, D3X, E1, E1DB, E4, E4DB,
-*	EB1, EB1POCL, EC1, ECB1, ECB1-34, ECB2, EL1, EL1DB, ELS2, SI, SI1, SI2, and SI4
- *	imaging boards, use "default" to select the default format for
- *	the camera for which the PIXCI(R) imaging board is intended.
- *	For non default formats, use XCAP to save the video setup to
- *	a file, and set FORMATFILE_LOAD to the saved file's path name.
- *	For camera's with RS-232 control, note that the saved
- *	video setup only resets the PIXCI(R) imaging board's
- *	settings, but XCLIB does not reset the camera's settings.
- *	For selected Camera Link cameras w. serial controls,
- *	the video setup file may include serial commands which are
- *	automatically sent by XCLIB to the camera.
- *
- *	Alternately, this could be modified to use getenv("PIXCI"),
- *	GetPrivateProfileString(...), RegQueryValueEx(...), or any
- *	other convention chosen by the programmer to allow run time
- *	selection of the video format and resolution.
- *
- */
+
 
 
 #if !defined(FORMAT) && !defined(FORMATFILE_LOAD) && !defined(FORMATFILE_COMP)

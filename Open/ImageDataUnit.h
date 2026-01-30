@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\ImageDataUnit.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef IMAGEDATAUNIT_H
 #define IMAGEDATAUNIT_H
 
@@ -29,7 +37,7 @@ class NGPointBaseList;
 class PieceInfoData;
 
 //********************************************
-//@‰æ‘œƒf[ƒ^Ši”[ƒNƒ‰ƒXƒ†ƒjƒbƒg
+//ï¿½@ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½jï¿½bï¿½g
 //********************************************
 class ImageDataUnit
 {
@@ -39,10 +47,10 @@ public:
 	ImageDataUnit();
 	~ImageDataUnit();
 
-	//“¯ˆê‰æ‘œƒNƒ‰ƒX‚ª•¡”‚Ìê‡‚Ì•\¦®—ñ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½Ì•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	enum	AlignmentType{
-				 mtHorizon		//‰¡‚É•À‚×‚é
-				,mtVertical		//c‚É•À‚×‚é
+				 mtHorizon		//ï¿½ï¿½ï¿½É•ï¿½ï¿½×‚ï¿½
+				,mtVertical		//ï¿½cï¿½É•ï¿½ï¿½×‚ï¿½
 	};
 	AlignmentType	AType;
 
@@ -53,7 +61,7 @@ public:
 	QList<CameraSnapImage *>	CSnapImageList;
 	QList<MasterSnapImage *>	MSnapImageList;
 
-	//‰æ‘œƒf[ƒ^ƒNƒ‰ƒX‚ğƒŠƒXƒg‚ÉŠi”[
+	//ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ÉŠiï¿½[
 //	void	AddImage	(ImageBase			*ImageClass);
 	void	AddImage	(MasterImage		*ImageClass);
 	void	ReplaceImage(int Index,MasterImage *ImageClass);
@@ -63,7 +71,7 @@ public:
 	void	AddImage	(CameraSnapImage	*ImageClass);
 	void	AddImage	(MasterSnapImage	*ImageClass);
 
-	//‰æ‘œ‚Ì•À‚×•û‚Ìİ’è
+	//ï¿½æ‘œï¿½Ì•ï¿½ï¿½×•ï¿½ï¿½Ìİ’ï¿½
 	void	SetAlignment(MasterImage		*ImageClass, AlignmentType type);
 	void	SetAlignment(MasterImagePiece	*ImageClass, AlignmentType type);
 	void	SetAlignment(NGImagePiece		*ImageClass, AlignmentType type);
@@ -77,7 +85,7 @@ private:
 };
 
 //********************************************
-//@‰æ‘œƒNƒ‰ƒXƒx[ƒX
+//ï¿½@ï¿½æ‘œï¿½Nï¿½ï¿½ï¿½Xï¿½xï¿½[ï¿½X
 //********************************************
 class ImageBase
 {
@@ -88,19 +96,19 @@ public:
 //	ImageBase(mtFrameDraw *parent=0);
 	~ImageBase();
 
-	int		CameraNumb;		//ƒJƒƒ‰‘ä”
-	double	MScaled;		//Šg‘å—¦
+	int		CameraNumb;		//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ä”
+	double	MScaled;		//ï¿½gï¿½å—¦
 	double	wMScaled,MScaledX,MScaledY;
 	QMatrix	Matrix;
 	int		UniverseX,UniverseY;
 	double	Scaled;
 
-	int		ImageRotation;	//‰æ‘œ‚Ì‰ñ“]Šp“x
+	int		ImageRotation;	//ï¿½æ‘œï¿½Ì‰ï¿½ï¿½]ï¿½pï¿½x
 
-	//ƒAƒ‹ƒSƒŠƒYƒ€‚ğ’T‚µ‚ÄF‚Ìİ’è‚ğ‚·‚é
+	//ï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ÄFï¿½Ìİ’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	void         AlgColorGet(QString Str, QList<QPair<QString, QString> > citemList, QColor &color);
 
-	//‰æ‘œ‚Ì‰æ–Ê‚Ö‚Ì•\¦İ’èic‰¡”äj
+	//ï¿½æ‘œï¿½Ì‰ï¿½ï¿½Ê‚Ö‚Ì•\ï¿½ï¿½ï¿½İ’ï¿½ï¿½iï¿½cï¿½ï¿½ï¿½ï¿½ï¿½j
 //	void	SetScaled(Qt::AspectRatioMode RMode)	{	RatioMode=RMode;	}
 //	Qt::AspectRatioMode GetScaled()					{	return RatioMode;	}
 	void	SetMAreaSize(int xlen,int ylen);
@@ -109,17 +117,17 @@ public:
 	void	SetMScaledY(double Y);
 //	QMatrix	GetMScaled()							{	return Matrix;		}
 
-	//‰æ‘œ•`‰æŠÖ”
+	//ï¿½æ‘œï¿½`ï¿½ï¿½ï¿½Öï¿½
 	virtual void DrawPaint(QPainter &Pnt)			{};
 
-	//‰æ‘œ‚ğ”CˆÓ‚ÌŠp“x‚É‰ñ“]i0,90,-90,180j
+	//ï¿½æ‘œï¿½ï¿½ï¿½Cï¿½Ó‚ÌŠpï¿½xï¿½É‰ï¿½ï¿½]ï¿½i0,90,-90,180ï¿½j
 	void	SetRotate(int Rotate)					{	ImageRotation=Rotate;	}
 //	QMatrix	GetRotate()								{	return Matrix;		}
 
-	//ƒf[ƒ^À•W(ux,uy)‚ğ‰æ–ÊÀ•W(gx,gy)‚É•ÏŠ·‚·‚é
+	//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 	void	GetUniverseToCanvas(double ux,double uy,int &gx,int &gy);
 
-	//F”ÍˆÍ‚ğ0-255‚Åƒ‹[ƒv‚·‚é‚æ‚¤‚Éİ’è
+	//ï¿½Fï¿½ÍˆÍ‚ï¿½0-255ï¿½Åƒï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½Éİ’ï¿½
 	int		ColorClip(int ColorInt,double dColor,int i);
 
 protected:
@@ -135,7 +143,7 @@ private:
 };
 
 //********************************************
-//@ƒ}ƒXƒ^[‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 //class MasterImage : public ImageDataFD
 class MasterImage : public mtFrameDraw, public ImageBase
@@ -153,10 +161,10 @@ public:
 	int uX,uY,uW,uH;
 
 	int ImgRate,ImgRateCount;
-	int SType;	//•\‚©— ‚©
+	int SType;	//ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-/********** «MasterImgƒNƒ‰ƒXiqƒNƒ‰ƒXj‚Åg—p‚·‚é‚à‚Ì **********/
-	int		IX,IY,IW,IH;	//ƒ}ƒXƒ^[‰æ‘œã‚Å‹éŒ`‘I‘ğ‚µ‚½À•W
+/********** ï¿½ï¿½MasterImgï¿½Nï¿½ï¿½ï¿½Xï¿½iï¿½qï¿½Nï¿½ï¿½ï¿½Xï¿½jï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ **********/
+	int		IX,IY,IW,IH;	//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½Å‹ï¿½ï¿½`ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½W
 	QAction	*FirstMacOrgAct;
 	QAction	*SecondMacOrgAct;
 	QAction	*ThirdMacOrgAct;
@@ -174,9 +182,9 @@ public:
 	int		IX1,IY1,IX2,IY2,IX3,IY3;
 	double	a,b,c,d,e,f;
 	virtual	void AfinConvert(){};
-/********** ªMasterImgƒNƒ‰ƒXiqƒNƒ‰ƒXj‚Åg—p‚·‚é‚à‚Ì **********/
+/********** ï¿½ï¿½MasterImgï¿½Nï¿½ï¿½ï¿½Xï¿½iï¿½qï¿½Nï¿½ï¿½ï¿½Xï¿½jï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ **********/
 
-	//‰æ‘œ•`‰æŠÖ”
+	//ï¿½æ‘œï¿½`ï¿½ï¿½ï¿½Öï¿½
 	void DrawRect(QPainter &Pnt, QRect &rect, QPen &pen);
 	void DrawRect(QRect &rect, QPen &pen);
 	virtual void DrawPaint		(QPainter &Pnt);
@@ -204,23 +212,23 @@ public:
 //	void		 SetNGAreaNameList	(QStringList *List)	{	NGAreaNameList=*List;	}
 //	QStringList	 GetNGAreaNameList	()					{	return NGAreaNameList;	}
 
-	//Šm”F‚µ‚Ä‚¢‚é‰ÓŠ‚ğlŠp‚­˜g‚ÅˆÍ‚ñ‚Å•\¦‚·‚é(ƒ}ƒEƒXƒNƒŠƒbƒNƒCƒxƒ“ƒg)
+	//ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Óï¿½ï¿½ï¿½ï¿½lï¿½pï¿½ï¿½ï¿½gï¿½ÅˆÍ‚ï¿½ï¿½Å•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½}ï¿½Eï¿½Xï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½Cï¿½xï¿½ï¿½ï¿½g)
 	virtual	void mtMouseLDown(QMouseEvent *Ev ,int x ,int y);
 	virtual	void MMouseLDown(int x,int y,int w,int h,bool FlagTrans);
 //	void SetRectArea(int W,int H,double Expand);
 
-	//Šm”F‚µ‚Ä‚¢‚é‰ÓŠ‚ğlŠp‚­˜g‚ÅˆÍ‚ñ‚Å•\¦‚·‚é(ƒ}ƒEƒXƒNƒŠƒbƒNƒCƒxƒ“ƒg)
+	//ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Óï¿½ï¿½ï¿½ï¿½lï¿½pï¿½ï¿½ï¿½gï¿½ÅˆÍ‚ï¿½ï¿½Å•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½}ï¿½Eï¿½Xï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½Cï¿½xï¿½ï¿½ï¿½g)
 //	virtual	void mtMouseRDown(QMouseEvent *Ev ,int x ,int y);
 
-	//ƒf[ƒ^À•W(ux,uy)‚ğ‰æ–ÊÀ•W(gx,gy)‚É•ÏŠ·‚·‚é
+	//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 	void	GetUniverseToCanvas(double ux,double uy,int &gx,int &gy);
 
 	void	SetExpand();
 
-	//‰æ‘œ‚Ì‹P“x•â³
+	//ï¿½æ‘œï¿½Ì‹Pï¿½xï¿½â³
 	void	SetMasterBrightness(int Brightness[]);
 
-	//•ÛÀ•W‚ÌƒNƒŠƒA
+	//ï¿½Ûï¿½ï¿½ï¿½ï¿½Wï¿½ÌƒNï¿½ï¿½ï¿½A
 	void	wRectClear();
 
 public slots:
@@ -246,7 +254,7 @@ private:
 };
 
 //********************************************
-//@ŒÂ•Ğƒ}ƒXƒ^[‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½Â•Ğƒ}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 //class MasterImagePiece : public ImageDataGU
 class MasterImagePiece : public mtGraphicUnit, public ImageBase
@@ -257,14 +265,14 @@ public:
 	MasterImagePiece(QWidget *parent = 0);
 	~MasterImagePiece();
 
-	//‰æ‘œ
+	//ï¿½æ‘œ
 	QImage Image;
 
-	//‰æ‘œ•\¦‚ÌŠg‘å—¦‚Ìİ’è
+	//ï¿½æ‘œï¿½\ï¿½ï¿½ï¿½ÌŠgï¿½å—¦ï¿½Ìİ’ï¿½
 	void SetZoomRate(double Exp);
 	double GetZoomRate()			{	return ExpRate;	}
 
-	//‰æ‘œ•`‰æŠÖ”
+	//ï¿½æ‘œï¿½`ï¿½ï¿½ï¿½Öï¿½
 //	virtual void DrawPaint(QPainter &Pnt,QImage *Img,double MasterScaled);
 //	virtual void DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase);
 	void DrawPaint	(QPainter &Pnt,ImageDataUnit *IDBase,int Side);
@@ -282,7 +290,7 @@ private:
 };
 
 //********************************************
-//@ŒÂ•Ğ‚m‚f‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½Â•Ğ‚mï¿½fï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 //class NGImagePiece : public ImageDataGU
 class NGImagePiece : public mtGraphicUnit, public ImageBase
@@ -305,10 +313,10 @@ public:
 	bool	PieceLineVisible;
 	int		shiftX,shiftY;
 
-	//‰æ‘œ•\¦‚ÌŠg‘å—¦‚Ìİ’èMatrix
+	//ï¿½æ‘œï¿½\ï¿½ï¿½ï¿½ÌŠgï¿½å—¦ï¿½Ìİ’ï¿½Matrix
 	QMatrix matrix;
 
-	//‰æ‘œ•`‰æŠÖ”
+	//ï¿½æ‘œï¿½`ï¿½ï¿½ï¿½Öï¿½
 //	virtual void DrawPaint		(QPainter &Pnt);
 	void DrawPaint		(QPainter &Pnt,ImageDataUnit *IDBase,int Side);
 	virtual void DrawNoPaint	(QPainter &Pnt);
@@ -316,27 +324,27 @@ public:
 	virtual void DrawMPaint		(QPainter &Pnt,ImageDataUnit *IDBase);
 	virtual void DrawPieceLine	(QPainter &Pnt,int Count,PieceInfoData *pPieceInfoDataList,QStringList *AreaNameList,MasterImage *MImage);
 
-	//•â³’l
+	//ï¿½â³ï¿½l
 	void SetCorrectionX		(int x)	{	Dx=x;	}
 	void SetCorrectionY		(int y)	{	Dy=y;	}
 
-	//‰æ‘œ‚Ì‘Ş”ğ
+	//ï¿½æ‘œï¿½Ì‘Ş”ï¿½
 	void SetNGImage			()		{	if(wImage!=NULL)*wImage=*Image;	}
 	void SetNGList(NPListPack<NGPointList> &nglist);
 	
-	//‰æ‘œ‚Ì‹P“x•â³
+	//ï¿½æ‘œï¿½Ì‹Pï¿½xï¿½â³
 	void SetNGBrightness(int Brightness[]);
 
-	//‰æ‘œ•\¦‚ÌŠg‘å—¦‚Ìİ’è
+	//ï¿½æ‘œï¿½\ï¿½ï¿½ï¿½ÌŠgï¿½å—¦ï¿½Ìİ’ï¿½
 	virtual void SetZoomRate(double Exp);
 
 	NGPointBaseList			*GetNGPBaseList()		{	return NGPBaseList;		}
 	void SetNGPBaseList(NGPointBaseList *NGPBList)	{	NGPBaseList=NGPBList;	}
 
-	//NG‰æ‘œ‚ª—L‚é‚©–³‚¢‚©‚Ìİ’è
+	//NGï¿½æ‘œï¿½ï¿½ï¿½Lï¿½é‚©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìİ’ï¿½
 	void SetNGImageExist(bool Exist)	{	NGImageExist=Exist;	}
 
-	//NG‰æ‘œ‚ª–³‚¢ê‡‚ÌŠÛF‚ÌƒZƒbƒg
+	//NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÌŠÛFï¿½ÌƒZï¿½bï¿½g
 	void SetNoNGColor(QColor color)	{	NoNGColor=color;	}
 
 	void AddImage(QImage *image, int posX=0, int posY=0);
@@ -351,11 +359,11 @@ private slots:
 
 private:
 	bool NGImageExist;
-	QColor NoNGColor;	//NG‰æ‘œ‚ª–³‚¢ê‡‚ÌŠÛF
+	QColor NoNGColor;	//NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÌŠÛF
 };
 
 //********************************************
-//@ƒJƒƒ‰‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 //class CameraImage : public ImageDataFD
 class CameraImage : public mtFrameDraw, public ImageBase
@@ -370,10 +378,10 @@ public:
 	~CameraImage();
 	QImage *Image;
 
-	//‰æ‘œ•`‰æŠÖ”
+	//ï¿½æ‘œï¿½`ï¿½ï¿½ï¿½Öï¿½
 	virtual void DrawPaint(QPainter &Pnt);
 
-	//¶ƒNƒŠƒbƒN‚ÅX-Y”÷“®
+	//ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½X-Yï¿½ï¿½ï¿½ï¿½
 	virtual	void mtMouseLDown(QMouseEvent *Ev ,int x ,int y);
 
 protected:
@@ -390,7 +398,7 @@ private:
 };
 
 //********************************************
-//@ƒJƒƒ‰ƒXƒiƒbƒv‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½iï¿½bï¿½vï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 //class CameraImage : public ImageDataFD
 class CameraSnapImage : public mtFrameDraw, public ImageBase
@@ -400,15 +408,15 @@ class CameraSnapImage : public mtFrameDraw, public ImageBase
 public:
 	CameraSnapImage(int ANum);
 	~CameraSnapImage();
-	QImage *Image;			//ƒJƒƒ‰ƒXƒiƒbƒv‰æ‘œ
-	int		AlignmentNum;	//ƒAƒ‰ƒCƒƒ“ƒg”Ô†i‚O`‚Qj
-	int		GX,GY;			//dS‚ÌÀ•W
+	QImage *Image;			//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½iï¿½bï¿½vï¿½æ‘œ
+	int		AlignmentNum;	//ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ôï¿½ï¿½iï¿½Oï¿½`ï¿½Qï¿½j
+	int		GX,GY;			//ï¿½dï¿½Sï¿½Ìï¿½ï¿½W
 	double	AspectRatio;
 
-	//‰æ‘œ•`‰æŠÖ”
+	//ï¿½æ‘œï¿½`ï¿½ï¿½ï¿½Öï¿½
 	virtual void DrawPaint(QPainter &Pnt);
 
-	//lŠp‚­˜g‚ÅˆÍ‚Ş
+	//ï¿½lï¿½pï¿½ï¿½ï¿½gï¿½ÅˆÍ‚ï¿½
 ///	virtual	void mtMouseLDown(QMouseEvent *Ev ,int x ,int y);
 	virtual	void mtMouseRDown(QMouseEvent *Ev ,int x ,int y);
 ///	virtual	void DrawEnd();
@@ -433,7 +441,7 @@ private:
 };
 
 //********************************************
-//@ƒ}ƒXƒ^[ƒXƒiƒbƒv‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Xï¿½iï¿½bï¿½vï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 class MasterSnapImage : public mtFrameDraw, public ImageBase
 {
@@ -442,17 +450,17 @@ class MasterSnapImage : public mtFrameDraw, public ImageBase
 public:
 	MasterSnapImage(int ANum=0,int T=0);
 	~MasterSnapImage();
-	QImage *Image;			//ƒ}ƒXƒ^[ƒXƒiƒbƒv‰æ‘œ
-	int		AlignmentNum;	//ƒAƒ‰ƒCƒƒ“ƒg”Ô†i‚O`‚Qj
-	int		GX,GY;			//dS‚ÌÀ•W
-	int		Wid,Hei;		//‹éŒ`—Ìˆæ‚Ì•‚Æ‚‚³
-	int		Type;			//•\‚©— ‚©i‚O,‚Pj
+	QImage *Image;			//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Xï¿½iï¿½bï¿½vï¿½æ‘œ
+	int		AlignmentNum;	//ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ôï¿½ï¿½iï¿½Oï¿½`ï¿½Qï¿½j
+	int		GX,GY;			//ï¿½dï¿½Sï¿½Ìï¿½ï¿½W
+	int		Wid,Hei;		//ï¿½ï¿½ï¿½`ï¿½Ìˆï¿½ï¿½Ì•ï¿½ï¿½Æï¿½ï¿½ï¿½
+	int		Type;			//ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½O,ï¿½Pï¿½j
 
-	//‰æ‘œ•`‰æŠÖ”
+	//ï¿½æ‘œï¿½`ï¿½ï¿½ï¿½Öï¿½
 //	virtual void DrawPaint(QPainter &Pnt);
 	virtual void DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase);
 
-	//lŠp‚­˜g‚ÅˆÍ‚Ş
+	//ï¿½lï¿½pï¿½ï¿½ï¿½gï¿½ÅˆÍ‚ï¿½
 ///	virtual	void mtMouseLDown(QMouseEvent *Ev ,int x ,int y);
 	virtual	void mtMouseRDown(QMouseEvent *Ev ,int x ,int y);
 ///	virtual	void DrawEnd();
@@ -472,7 +480,7 @@ private:
 };
 
 //********************************************
-//@ƒJƒƒ‰–ˆƒNƒ‰ƒX
+//ï¿½@ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 class ImageInPage
 {
@@ -482,15 +490,15 @@ public:
 	ImageInPage(int X=0,int Y=0);
 	~ImageInPage();
 
-	QImage *Image;		//‰æ‘œ
-	QImage *wImage;		//ƒIƒŠƒWƒiƒ‹‚Ì‘Ş”ğ
-	int OrgOffsetX,OrgOffsetY;		//X-YƒIƒtƒZƒbƒg
+	QImage *Image;		//ï¿½æ‘œ
+	QImage *wImage;		//ï¿½Iï¿½ï¿½ï¿½Wï¿½iï¿½ï¿½ï¿½Ì‘Ş”ï¿½
+	int OrgOffsetX,OrgOffsetY;		//X-Yï¿½Iï¿½tï¿½Zï¿½bï¿½g
 	int OffsetX,OffsetY;
 
-	//‰æ‘œ‚Ì‘Ş”ğ
+	//ï¿½æ‘œï¿½Ì‘Ş”ï¿½
 	void	SetMasterImage()	{	*wImage=*Image;	}
 
-	//‰æ‘œ‚Ì‹P“x•â³
+	//ï¿½æ‘œï¿½Ì‹Pï¿½xï¿½â³
 	void	SetMasterBrightness(int Brightness[]);
 
 protected:

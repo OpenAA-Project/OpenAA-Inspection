@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2016
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XJPEG2000_H)
 #define	XJPEG2000_H
 
@@ -28,31 +46,30 @@ bool	ConvertDataToJpeg2000Dim(struct	ConvertJpeg2000RawStruct InpData[]
 								,struct	ConvertJpeg2000Struct JpegData[]
 								,int DimCount);
 /*
-	•¡”‚Ì‰æ‘œƒf[ƒ^‚ğJPEG2000‚É•ÏŠ·‚·‚é
-	ˆø”
-		InpData	:	“ü—Í‚·‚é‰æ‘œî•ñ”z—ñ‚Ìƒf[ƒ^ƒ|ƒCƒ“ƒ^
-		JpegData:	‚i‚o‚d‚f‚Q‚O‚O‚Oƒf[ƒ^‚ÌŠi”[—Ìˆæ‚Ì”z—ñƒ|ƒCƒ“ƒ^‚ªƒZƒbƒg‚³‚ê‚é
-		DimCount:	”z—ñ”(‰æ‘œ”j
-	–ß’l
-		•ÏŠ·‚É¬Œ÷‚µ‚½ê‡Atrue
+	ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰æ‘œï¿½fï¿½[ï¿½^ï¿½ï¿½JPEG2000ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½
+		InpData	:	ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½|ï¿½Cï¿½ï¿½ï¿½^
+		JpegData:	ï¿½iï¿½oï¿½dï¿½fï¿½Qï¿½Oï¿½Oï¿½Oï¿½fï¿½[ï¿½^ï¿½ÌŠiï¿½[ï¿½Ìˆï¿½ï¿½Ì”zï¿½ï¿½ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		DimCount:	ï¿½zï¿½ï¿½ï¿½ï¿½(ï¿½æ‘œï¿½ï¿½ï¿½j
+	ï¿½ß’l
+		ï¿½ÏŠï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Atrue
 
-	•ÏŠ·Œã‚ÌJPEG2000ƒf[ƒ^ƒTƒCƒY‚ğOutData‚ÌJp2kDataByte‚Éİ’è‚·‚é
+	ï¿½ÏŠï¿½ï¿½ï¿½ï¿½ï¿½JPEG2000ï¿½fï¿½[ï¿½^ï¿½Tï¿½Cï¿½Yï¿½ï¿½OutDataï¿½ï¿½Jp2kDataByteï¿½Éİ’è‚·ï¿½ï¿½
 */
 bool	ConvertDataFromJpeg2000Dim(	 struct	ConvertJpeg2000Struct JpegData[]
 									,struct	ConvertJpeg2000RawStruct RawData[]
 									,int DimCount);
 /*
-	•¡”‚ÌJPEG2000‚©‚çŒ³‰æ‘œƒf[ƒ^‚É•ÏŠ·‚·‚é
-	ˆø”
-		JpegData:	‚i‚o‚d‚f‚Q‚O‚O‚Oƒf[ƒ^‚ÌŠi”[—Ìˆæ‚Ì”z—ñƒ|ƒCƒ“ƒ^‚ªƒZƒbƒg‚³‚ê‚é
-		RawData	:	o—Í‚·‚é‰æ‘œî•ñ”z—ñ‚Ìƒf[ƒ^ƒ|ƒCƒ“ƒ^
-		DimCount:	”z—ñ”(‰æ‘œ”j
-	–ß’l
-		•ÏŠ·‚É¬Œ÷‚µ‚½ê‡Atrue
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JPEG2000ï¿½ï¿½ï¿½çŒ³ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½
+		JpegData:	ï¿½iï¿½oï¿½dï¿½fï¿½Qï¿½Oï¿½Oï¿½Oï¿½fï¿½[ï¿½^ï¿½ÌŠiï¿½[ï¿½Ìˆï¿½ï¿½Ì”zï¿½ï¿½ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		RawData	:	ï¿½oï¿½Í‚ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½|ï¿½Cï¿½ï¿½ï¿½^
+		DimCount:	ï¿½zï¿½ï¿½ï¿½ï¿½(ï¿½æ‘œï¿½ï¿½ï¿½j
+	ï¿½ß’l
+		ï¿½ÏŠï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Atrue
 */
 
 };
 
 #endif
-
 

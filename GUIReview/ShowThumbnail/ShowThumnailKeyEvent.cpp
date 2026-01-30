@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ShowThumbnailResource.h"
 #include "ShowThumbnail.h"
 #include "ReviewStructureItems.h"
@@ -38,10 +56,10 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	if(getCurrentThumbnail()==NULL || getCurrentRow()==-1 || getCurrentColumn()==-1){// ”ñ‘I‘ğó‘Ô‚Ìê‡
+	if(getCurrentThumbnail()==NULL || getCurrentRow()==-1 || getCurrentColumn()==-1){// ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìê‡
 		if(isKeyPressed()==true)return;
 
-		// Œ»İ‚Ìó‘Ô‚ğæ“¾
+		// ï¿½ï¿½ï¿½İ‚Ìï¿½ï¿½Ô‚ï¿½ï¿½æ“¾
 		CmdReqAdjacentCurrentNG AdjNGCmd(GetLayersBase());
 		ReviewPIBase *RBase = GetReviewAlgorithm();
 
@@ -49,8 +67,8 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 			RBase->TransmitDirectly(&AdjNGCmd);
 		}
 
-		if(AdjNGCmd.existCurrentHistory()==false){// —š—ğ‚ª“Ç‚İ‚Ü‚ê‚Ä‚¢‚È‚¢‚Ì‚È‚ç‚Î
-			return;// ’†’f
+		if(AdjNGCmd.existCurrentHistory()==false){// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Ì‚È‚ï¿½ï¿½ï¿½
+			return;// ï¿½ï¿½ï¿½f
 		}
 
 		setKeyPressedState(true);
@@ -64,16 +82,16 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 			if(getMoveMode()==_moveMode::PerPage){
 				moveHistory(Review::Direction::Previous, Review::ListLocate::First);
 			}else{
-				if(getCurrentPage()!=0){// ‚Ü‚¾‘Oƒy[ƒW‚ª‚ ‚é‚Æ‚«
+				if(getCurrentPage()!=0){// ï¿½Ü‚ï¿½ï¿½Oï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 					showPage(getCurrentSide(), getCurrentPage()-1, Review::ListLocate::First);
 				}else if(getCurrentSide()==Review::Back && getThumbnailCount(Review::Front)!=0){
-					setUpdatesEnabled(false);// — ‚Ìê‡‚Å•\‚ª‚ ‚é‚Æ‚«
-					showPage(Review::Front, getPageCount(Review::Front)-1, Review::ListLocate::First);// •\‚ÌÅŒã‚Ìƒy[ƒW‚ÌÅ‰‚ÌƒTƒ€ƒlƒCƒ‹
+					setUpdatesEnabled(false);// ï¿½ï¿½ï¿½Ìê‡ï¿½Å•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
+					showPage(Review::Front, getPageCount(Review::Front)-1, Review::ListLocate::First);// ï¿½\ï¿½ÌÅŒï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½ÌÅï¿½ï¿½ÌƒTï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½
 					//getThumbnailCount(Review::Front) - getThumbnailCount(Review::Front)%getThumbnailCountInPage()
 					setUpdatesEnabled(true);
-				}else{// — ‚Ìê‡‚Å•\‚ª‚È‚¢A‚à‚µ‚­‚Í•\‚ÌÅ‰‚Ìƒy[ƒW‚Ì
+				}else{// ï¿½ï¿½ï¿½Ìê‡ï¿½Å•\ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í•\ï¿½ÌÅï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½Ìï¿½
 					setUpdatesEnabled(false);
-					moveHistory(Review::Direction::Previous, Review::ListLocate::End, NULL);// ‘O‚Ì—š—ğ‚ÌÅŒã‚ÉˆÚ“®
+					moveHistory(Review::Direction::Previous, Review::ListLocate::End, NULL);// ï¿½Oï¿½Ì—ï¿½ï¿½ï¿½ï¿½ÌÅŒï¿½ï¿½ÉˆÚ“ï¿½
 					showPage(getCurrentSide(), getCurrentPage(), Review::ListLocate::First);
 					setUpdatesEnabled(true);
 				}
@@ -87,7 +105,7 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 				}else{
 					setUpdatesEnabled(false);
 					if(getCurrentSide()==Review::Front && getThumbnailList(Review::Back).count()!=0){
-						showPage(Review::Back, Review::First);// — ‚ÌÅ‰‚ÉˆÚ“®‚·‚é
+						showPage(Review::Back, Review::First);// ï¿½ï¿½ï¿½ÌÅï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
 					}else{
 						moveHistory(Review::Direction::Next, Review::ListLocate::First);
 					}
@@ -127,18 +145,18 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	// “ü—ÍƒL[‚ª–îˆóƒL[‚Ìê‡
+	// ï¿½ï¿½ï¿½ÍƒLï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½[ï¿½Ìê‡
 	if(Review::isArrowKey(event->key())==true || event->key()==Qt::Key_2 || event->key()==Qt::Key_4 || event->key()==Qt::Key_6 || event->key()==Qt::Key_8){
 		if(isKeyPressed()==true)return;
 
-		//if(existCurrentThumbnail()==false){// ƒJƒŒƒ“ƒgNG‚ª–³‚¢ê‡‚Í‰½‚à‚µ‚È‚¢
+		//if(existCurrentThumbnail()==false){// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 		//	return;
 		//}
 		//qDebug() << "Current Side : " << (getCurrentSide()==Review::Front ? "Front" : "Back");
 		//qDebug() << "Current Page/Max : " << getCurrentPage() << " / " << getCurrentPageCount();
 		//qDebug() << "Current Row,Column : " << getCurrentRow() << "," << getCurrentColumn();
 
-		// ƒJ[ƒ\ƒ‹ƒL[‚É‚æ‚é•ªŠò
+		// ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½Lï¿½[ï¿½É‚ï¿½ï¿½é•ªï¿½ï¿½
 
 		//CmdReqInsLib ReqInsLibCmd(GetLayersBase());
 		//ReviewPIBase *RBase = GetReviewAlgorithm();
@@ -172,7 +190,7 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 
 
 		switch(event->key()){
-		case Qt::Key_Up:// ªƒL[ [–ß‚è]
+		case Qt::Key_Up:// ï¿½ï¿½ï¿½Lï¿½[ [ï¿½ß‚ï¿½]
 		case Qt::Key_8:
 			if(getMoveMode()==_moveMode::PerThumbnail){
 				if(time.elapsed()<getMoveDelay()){
@@ -198,7 +216,7 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 				time.start();
 			}
 			break;
-		case Qt::Key_Down:// «ƒL[ [i‚İ]
+		case Qt::Key_Down:// ï¿½ï¿½ï¿½Lï¿½[ [ï¿½iï¿½ï¿½]
 		case Qt::Key_2:
 			if(getMoveMode()==_moveMode::PerThumbnail){
 				if(time.elapsed()<getMoveDelay()){
@@ -220,7 +238,7 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 				time.start();
 			}
 			break;
-		case Qt::Key_Right:// ¨ƒL[ [i‚İ]
+		case Qt::Key_Right:// ï¿½ï¿½ï¿½Lï¿½[ [ï¿½iï¿½ï¿½]
 		case Qt::Key_6:
 			if(getMoveMode()==_moveMode::PerThumbnail){
 				if(time.elapsed()<getMoveDelay()){
@@ -244,7 +262,7 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 				inputKeyRightArrow(false);
 			}
 			break;
-		case Qt::Key_Left:// ©ƒL[ [–ß‚è]
+		case Qt::Key_Left:// ï¿½ï¿½ï¿½Lï¿½[ [ï¿½ß‚ï¿½]
 		case Qt::Key_4:
 			if(getMoveMode()==_moveMode::PerThumbnail){
 				if(time.elapsed()<getMoveDelay()){
@@ -275,18 +293,18 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	// FƒL[‘}“üƒCƒxƒ“ƒg
+	// Fï¿½Lï¿½[ï¿½}ï¿½ï¿½ï¿½Cï¿½xï¿½ï¿½ï¿½g
 	if(Review::isFKey((Qt::Key)event->key())==true){
 		if(isKeyPressed()==true)return;
 
 		if(getMoveMode()==_moveMode::PerThumbnail){
-			// event‚Ì“ü—ÍFƒL[‚ÅƒJƒŒƒ“ƒgNG‚ÌXML•ª‚É‘Î‰‚·‚éFƒL[—v‘f‚ğ•t—^A‚à‚µ‚­‚Íã‘‚«‚·‚é
+			// eventï¿½Ì“ï¿½ï¿½ï¿½Fï¿½Lï¿½[ï¿½ÅƒJï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½XMLï¿½ï¿½ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Lï¿½[ï¿½vï¿½fï¿½ï¿½ï¿½tï¿½^ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íã‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			QColor FKeyColor = setFKey(Review::convertFKeyQtToReview((Qt::Key)event->key()));
 			//SetFKeyIndex(getCurrentThumbnail()->getIndexInGlobal() ,Review::convertFKeyQtToReview((Qt::Key)event->key()));
 			getCurrentThumbnail()->setFKey(Review::convertFKeyQtToReview((Qt::Key)event->key()));
-			getCurrentThumbnail()->setFKeyColor(FKeyColor);// ‘Î‰‚·‚éF‚Å”wŒiF‚ğ“h‚è‚Â‚Ô‚µ
+			getCurrentThumbnail()->setFKeyColor(FKeyColor);// ï¿½Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Å”wï¿½iï¿½Fï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½
 			
-			inputKeyRightArrow(true);// Ÿ‚ÌNGNail‚Ö
+			inputKeyRightArrow(true);// ï¿½ï¿½ï¿½ï¿½NGNailï¿½ï¿½
 			
 			GUIFormBase *GBase = GetReviewGUIForm(ReviewGUI::Name::ShowHistoryListForReview);
 			if(GBase!=NULL){
@@ -299,18 +317,18 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	// FƒL[íœƒCƒxƒ“ƒg
+	// Fï¿½Lï¿½[ï¿½íœï¿½Cï¿½xï¿½ï¿½ï¿½g
 	if(event->key()==Qt::Key_Delete){
 		if(isKeyPressed()==true)return;
 
-		QColor afterColor;// íœŒã‚ÌF
-		if(removeFKey(afterColor)==true){// FƒL[—v‘f‚Ìíœ‚ğƒgƒ‰ƒC
+		QColor afterColor;// ï¿½íœï¿½ï¿½ï¿½ÌF
+		if(removeFKey(afterColor)==true){// Fï¿½Lï¿½[ï¿½vï¿½fï¿½Ìíœï¿½ï¿½ï¿½gï¿½ï¿½ï¿½C
 			if(getCurrentThumbnail()!=NULL){
 				getCurrentThumbnail()->setFKeyColor(afterColor);
 			}
 			ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::ListStatisticNG);
 		}else if(getMoveMode()==_moveMode::PerThumbnail){
-			// ¸”s‚ÍƒƒbƒZ[ƒW‚ğo—Í‚µ‚Ä‚È‚É‚à‚µ‚È‚¢
+			// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Íƒï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½ï¿½ï¿½oï¿½Í‚ï¿½ï¿½Ä‚È‚É‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			QMessageBox::warning(this
 								, LangSolver.GetString(ShowThumbnail_LS,LID_11)/*"Remove FKey attribute error"*/
 								, LangSolver.GetString(ShowThumbnail_LS,LID_12)/*"FKey attribute whold be not removed in XML file."*/);
@@ -319,14 +337,14 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	// ƒGƒ“ƒ^[ƒL[AƒŠƒ^[ƒ“ƒL[ƒCƒxƒ“ƒg
+	// ï¿½Gï¿½ï¿½ï¿½^ï¿½[ï¿½Lï¿½[ï¿½Aï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½ï¿½Lï¿½[ï¿½Cï¿½xï¿½ï¿½ï¿½g
 	if(event->key()==Qt::Key_Return || event->key()==Qt::Key_Enter){
 		if(event->modifiers()==Qt::NoModifier){
-			// •Ê‘‹‚ÅƒJƒŒƒ“ƒgThumbnail‚ğ•\¦
+			// ï¿½Ê‘ï¿½ï¿½ÅƒJï¿½ï¿½ï¿½ï¿½ï¿½gThumbnailï¿½ï¿½ï¿½\ï¿½ï¿½
 			if(getMoveMode()==_moveMode::PerThumbnail){
-				if(isKeyPressed()==true)return;// ‰Ÿ‚µ‘±‚¯‘Î‰
-				if(getCurrentThumbnail()==NULL)return;// Œ»İƒTƒ€ƒlƒCƒ‹‚È‚µ
-				if(isEnableExpandThumbnal()==false)return;// Šg‘åƒTƒ€ƒlƒCƒ‹–³Œøƒ‚[ƒh
+				if(isKeyPressed()==true)return;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½
+				if(getCurrentThumbnail()==NULL)return;// ï¿½ï¿½ï¿½İƒTï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½È‚ï¿½
+				if(isEnableExpandThumbnal()==false)return;// ï¿½gï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h
 				if(getExpandThumbnail()!=NULL){
 					if(getMoveMode()==_moveMode::PerThumbnail){
 						expandDialog()->setVisible( !getExpandThumbnailVisible() );
@@ -337,7 +355,7 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 					}
 				}
 			}else{
-				// ƒy[ƒWƒ‚[ƒh‚Ìê‡Aˆê’èŠÔŠu‚ª‹ó‚¢‚Ä‚¢‚é‚È‚ç‚Îƒy[ƒW‚Ì‚·‚×‚Ä‚ğƒ`ƒFƒbƒNÏ‚İ‚É‚Å‚«‚é
+				// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½[ï¿½hï¿½Ìê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ÔŠuï¿½ï¿½ï¿½ó‚¢‚Ä‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Îƒyï¿½[ï¿½Wï¿½Ì‚ï¿½ï¿½×‚Ä‚ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚É‚Å‚ï¿½ï¿½ï¿½
 				ThumbnailPage *currentThumbnailPage = dynamic_cast<ThumbnailPage *>(thumbnailBook()->widget(thumbnailBook()->currentIndex()));
 
 				int nowElapsed = timeForCheckPageAll.elapsed();
@@ -452,8 +470,8 @@ void ShowThumbnail::inputKeyMoveModeChange()
 				}
 				CmdSetNGChecked NGCheckCmd(GetLayersBase());
 				NGCheckCmd.side = getCurrentSide();
-				NGCheckCmd.begin = getCurrentThumbnail()->getIndexInLocal();// Œ»İNGNail
-				NGCheckCmd.length = 1;// ‚»‚ÌNG‚Ì‚İ
+				NGCheckCmd.begin = getCurrentThumbnail()->getIndexInLocal();// ï¿½ï¿½ï¿½ï¿½NGNail
+				NGCheckCmd.length = 1;// ï¿½ï¿½ï¿½ï¿½NGï¿½Ì‚ï¿½
 				RBase->TransmitDirectly(&NGCheckCmd);
 				getCurrentThumbnail()->setChecked(true);
 				
@@ -466,20 +484,20 @@ void ShowThumbnail::inputKeyMoveModeChange()
 }
 
 
-// NG‚ğ–ß‚é
-// Šî–{‚ÍŒ»İƒƒE‚ğ‚P‚Âˆø‚­
-// ‚½‚¾‚µAŒ»İƒƒE‚ª0‚Ìê‡‚Í‚»‚Ìƒy[ƒW‚ÌNG‚ğ‚·‚×‚Äƒ`ƒFƒbƒN‚µ‚Ä‚¢‚éê‡‚Ì‚İƒy[ƒW‚ğ‚P‚Â–ß‚·
-// ‚½‚¾‚µAŒ»İƒy[ƒW‚ª•\‚Ì‚ ‚é— ‚Ì0‚Ì‚Í•\‚ÌÅŒã‚ÌNG‚ÉƒJƒŒƒ“ƒgNG‚ğˆÚ‚·
-// ‚Å‚È‚¯‚ê‚ÎA—š—ğ‚ğ‚P‚Â–ß‚µÅŒã‚ÌNG‚ÖƒJƒŒƒ“ƒgNG‚ğˆÚ“®‚·‚é
-// ˆÈ‘O‚Ì—š—ğ‚ª–³‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
+// NGï¿½ï¿½ï¿½ß‚ï¿½
+// ï¿½ï¿½ï¿½{ï¿½ÍŒï¿½ï¿½İƒï¿½ï¿½Eï¿½ï¿½ï¿½Pï¿½Âˆï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½İƒï¿½ï¿½Eï¿½ï¿½0ï¿½Ìê‡ï¿½Í‚ï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½×‚Äƒ`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ì‚İƒyï¿½[ï¿½Wï¿½ï¿½ï¿½Pï¿½Â–ß‚ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½İƒyï¿½[ï¿½Wï¿½ï¿½ï¿½\ï¿½Ì‚ï¿½ï¿½é— ï¿½ï¿½0ï¿½Ìï¿½ï¿½Í•\ï¿½ÌÅŒï¿½ï¿½ï¿½NGï¿½ÉƒJï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½Ú‚ï¿½
+// ï¿½Å‚È‚ï¿½ï¿½ï¿½ï¿½ÎAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½Â–ß‚ï¿½ï¿½ÅŒï¿½ï¿½ï¿½NGï¿½ÖƒJï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½È‘Oï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 void ShowThumbnail::inputKeyUpArrow()
 {
-	// ƒTƒ€ƒlƒCƒ‹’PˆÊˆÚ“®
+	// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Pï¿½ÊˆÚ“ï¿½
 	if(getMoveMode()==_moveMode::PerThumbnail){
-		if(getCurrentRow()!=0){//ƒJƒŒƒ“ƒgNG‚ªƒy[ƒW‚Ìˆê”Ôã‚Å‚Í‚È‚¢ê‡
-			showPage(Review::Manual, getCurrentThumbnail()->getIndexInGlobal() - getColumnCount());// ‚P‚Âs‚ğã‚°‚é
+		if(getCurrentRow()!=0){//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½yï¿½[ï¿½Wï¿½Ìˆï¿½ï¿½Ôï¿½ï¿½Å‚Í‚È‚ï¿½ï¿½ê‡
+			showPage(Review::Manual, getCurrentThumbnail()->getIndexInGlobal() - getColumnCount());// ï¿½Pï¿½Âsï¿½ï¿½ï¿½ã‚°ï¿½ï¿½
 			//setCurrentNG(getCurrentSide(), getCurrentPage(), getCurrentRow()-1, getCurrentColumn());
-		}else{// ƒJƒŒƒ“ƒgNG‚ÌƒƒE‚ªƒy[ƒW‚Ìˆê”Ôã‚Ìê‡
+		}else{// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½Ìƒï¿½ï¿½Eï¿½ï¿½ï¿½yï¿½[ï¿½Wï¿½Ìˆï¿½ï¿½Ôï¿½ï¿½Ìê‡
 			if(getCurrentPage()==0){
 				//if(isMoveHistoryEnable()==false){
 				//	bool expandVisible = getExpandThumbnailVisible();
@@ -488,11 +506,11 @@ void ShowThumbnail::inputKeyUpArrow()
 				//	return;
 				//}
 
-				if(getCurrentSide()==Review::Front){// •\‘¤‚Ìê‡A—š—ğ‚ğ‚P‚Â–ß‚èAƒJƒŒƒ“ƒgNG‚ğÅŒã‚ÉˆÚ‚·
+				if(getCurrentSide()==Review::Front){// ï¿½\ï¿½ï¿½ï¿½Ìê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½Â–ß‚ï¿½ï¿½Aï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½ÅŒï¿½ï¿½ÉˆÚ‚ï¿½
 
-					return;// –³Œø 20120528
+					return;// ï¿½ï¿½ï¿½ï¿½ 20120528
 
-					// ‘Sƒ`ƒFƒbƒN‚µ‚Ä‚¢‚È‚¢‚Æ‚«‰½‚à‚µ‚È‚¢
+					// ï¿½Sï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 					if(isMoveHistoryEnable()==false){
 						return;
 					}
@@ -509,36 +527,36 @@ void ShowThumbnail::inputKeyUpArrow()
 					
 					bool ok;
 					if(moveHistory(Review::Direction::Previous, Review::ListLocate::End, &ok)==true){
-						// ³íI—¹
+						// ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 						return;
 					}
-					if(ok==true){// Ÿ‚Ì—š—ğ‚ª‚ ‚é‚Ì‚ÉˆÚ“®¸”s
-						// ƒGƒ‰[
+					if(ok==true){// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÉˆÚ“ï¿½ï¿½ï¿½ï¿½s
+						// ï¿½Gï¿½ï¿½ï¿½[
 						ReviewGUI::ReviewGUIAllUpdate(GetLayersBase());
 					}else{
-						// ’ÊíI—¹
+						// ï¿½Êï¿½ï¿½Iï¿½ï¿½
 						return;
 					}
-				}else{// Œã‚ë‘¤‚Ìê‡
-					if(getThumbnailList(Review::Front).count()!=0){// •\‘¤—š—ğ‚ª‚ ‚éê‡
-						showPage(Review::Front, Review::End);// •\‘¤‚ÌÅŒã‚Ìƒy[ƒW‚ÌÅŒã‚Ì—v‘f‚ğ‘I‘ğ‚·‚é
-					}else{// •\‘¤—š—ğ‚ª‚È‚¢ê‡A—š—ğ‚ğ‚P‚Â–ß‚·
-						return;// –ß‚³‚È‚¢
-						// ‘Sƒ`ƒFƒbƒN‚µ‚Ä‚¢‚È‚¢‚Æ‚«‰½‚à‚µ‚È‚¢
+				}else{// ï¿½ï¿½ï¿½ë‘¤ï¿½Ìê‡
+					if(getThumbnailList(Review::Front).count()!=0){// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
+						showPage(Review::Front, Review::End);// ï¿½\ï¿½ï¿½ï¿½ÌÅŒï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½ÌÅŒï¿½ï¿½Ì—vï¿½fï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+					}else{// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½Â–ß‚ï¿½
+						return;// ï¿½ß‚ï¿½ï¿½È‚ï¿½
+						// ï¿½Sï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 						if(isMoveHistoryEnable()==false){
 							return;
 						}
 
 						bool ok;
 						if(moveHistory(Review::Direction::Previous, Review::ListLocate::End, &ok)==true){
-							// ³íI—¹
+							// ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 							return;
 						}
-						if(ok==true){// Ÿ‚Ì—š—ğ‚ª‚ ‚é‚Ì‚ÉˆÚ“®¸”s
-						// ƒGƒ‰[
+						if(ok==true){// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÉˆÚ“ï¿½ï¿½ï¿½ï¿½s
+						// ï¿½Gï¿½ï¿½ï¿½[
 							ReviewGUI::ReviewGUIAllUpdate(GetLayersBase());
 						}else{
-							// ’ÊíI—¹
+							// ï¿½Êï¿½ï¿½Iï¿½ï¿½
 							return;
 						}
 					}
@@ -547,49 +565,49 @@ void ShowThumbnail::inputKeyUpArrow()
 				showPage(Review::Manual, getCurrentThumbnail()->getIndexInGlobal() - getColumnCount());
 			}
 		}
-	}else{// ƒy[ƒW’PˆÊˆÚ“®
+	}else{// ï¿½yï¿½[ï¿½Wï¿½Pï¿½ÊˆÚ“ï¿½
 		if(getCurrentPage()>0){
 			showPage(getCurrentSide(), getCurrentPage()-1, Review::First);
 		}else if(getCurrentPage()==0){
-			if(getCurrentSide()==Review::Front){// •\‘¤‚Ìê‡A—š—ğ‚ğ‚P‚Â–ß‚é
+			if(getCurrentSide()==Review::Front){// ï¿½\ï¿½ï¿½ï¿½Ìê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½Â–ß‚ï¿½
 
-				// ‘Sƒ`ƒFƒbƒN‚µ‚Ä‚¢‚È‚¢‚Æ‚«‰½‚à‚µ‚È‚¢
+				// ï¿½Sï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 				if(isMoveHistoryEnable()==false){
 					return;
 				}
 
 				bool ok;
 				if(moveHistory(Review::Direction::Previous, Review::ListLocate::End, &ok)==true){
-					// ³íI—¹
+					// ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 					return;
 				}
-				if(ok==true){// Ÿ‚Ì—š—ğ‚ª‚ ‚é‚Ì‚ÉˆÚ“®¸”s
-					// ƒGƒ‰[
+				if(ok==true){// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÉˆÚ“ï¿½ï¿½ï¿½ï¿½s
+					// ï¿½Gï¿½ï¿½ï¿½[
 					ReviewGUI::ReviewGUIAllUpdate(GetLayersBase());
 				}else{
-					// ’ÊíI—¹
+					// ï¿½Êï¿½ï¿½Iï¿½ï¿½
 					return;
 				}
-			}else{// Œã‚ë‘¤‚Ìê‡
-				if(getThumbnailList(Review::Front).count()!=0){// •\‘¤—š—ğ‚ª‚ ‚éê‡
-					showPage(Review::Front, Review::End);// •\‘¤‚ÌÅŒã‚Ìƒy[ƒW‚ÌÅŒã‚Ì—v‘f‚ğ‘I‘ğ‚·‚é
-				}else{// •\‘¤—š—ğ‚ª‚È‚¢ê‡A—š—ğ‚ğ‚P‚Â–ß‚·
+			}else{// ï¿½ï¿½ï¿½ë‘¤ï¿½Ìê‡
+				if(getThumbnailList(Review::Front).count()!=0){// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
+					showPage(Review::Front, Review::End);// ï¿½\ï¿½ï¿½ï¿½ÌÅŒï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½ÌÅŒï¿½ï¿½Ì—vï¿½fï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				}else{// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½Â–ß‚ï¿½
 					
-					// ‘Sƒ`ƒFƒbƒN‚µ‚Ä‚¢‚È‚¢‚Æ‚«‰½‚à‚µ‚È‚¢
+					// ï¿½Sï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 					if(isMoveHistoryEnable()==false){
 						return;
 					}
 
 					bool ok;
 					if(moveHistory(Review::Direction::Previous, Review::ListLocate::End, &ok)==true){
-						// ³íI—¹
+						// ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 						return;
 					}
-					if(ok==true){// Ÿ‚Ì—š—ğ‚ª‚ ‚é‚Ì‚ÉˆÚ“®¸”s
-					// ƒGƒ‰[
+					if(ok==true){// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÉˆÚ“ï¿½ï¿½ï¿½ï¿½s
+					// ï¿½Gï¿½ï¿½ï¿½[
 						ReviewGUI::ReviewGUIAllUpdate(GetLayersBase());
 					}else{
-						// ’ÊíI—¹
+						// ï¿½Êï¿½ï¿½Iï¿½ï¿½
 						return;
 					}
 				}
@@ -598,59 +616,59 @@ void ShowThumbnail::inputKeyUpArrow()
 	}
 }
 
-// NG‚ği‚ß‚é
-// Šî–{‚ÍŒ»İƒƒE‚ğ‚P‚Â‘«‚·
-// ‚½‚¾‚µAŒ»İƒƒE‚ªƒy[ƒW‚ÌÅŒã‚Ìê‡‚Íƒy[ƒW‚ğ‚P‚Âi‚ß‚é
-// ‚½‚¾‚µAŒ»İƒy[ƒW‚ª— ‚Ì‚ ‚é•\‚Ì0‚Ì‚Í— ‚ÌÅ‰‚ÌNG‚ÉƒJƒŒƒ“ƒgNG‚ğˆÚ‚·
-// ‚Å‚È‚¯‚ê‚ÎA—š—ğ‚ğ‚P‚Âi‚ß‚ÄÅ‰‚ÌNG‚ÖƒJƒŒƒ“ƒgNG‚ğˆÚ“®‚·‚é
-// Ÿ‚Ì—š—ğ‚ª–³‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
+// NGï¿½ï¿½ï¿½iï¿½ß‚ï¿½
+// ï¿½ï¿½ï¿½{ï¿½ÍŒï¿½ï¿½İƒï¿½ï¿½Eï¿½ï¿½ï¿½Pï¿½Â‘ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½İƒï¿½ï¿½Eï¿½ï¿½ï¿½yï¿½[ï¿½Wï¿½ÌÅŒï¿½ï¿½Ìê‡ï¿½Íƒyï¿½[ï¿½Wï¿½ï¿½ï¿½Pï¿½Âiï¿½ß‚ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½İƒyï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½0ï¿½Ìï¿½ï¿½Í—ï¿½ï¿½ÌÅï¿½ï¿½ï¿½NGï¿½ÉƒJï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½Ú‚ï¿½
+// ï¿½Å‚È‚ï¿½ï¿½ï¿½ï¿½ÎAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½Âiï¿½ß‚ÄÅï¿½ï¿½ï¿½NGï¿½ÖƒJï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 void ShowThumbnail::inputKeyDownArrow(bool Skip)
 {
-	// ƒTƒ€ƒlƒCƒ‹’PˆÊˆÚ“®
+	// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Pï¿½ÊˆÚ“ï¿½
 	if(getMoveMode()==_moveMode::PerThumbnail){
-		if((getCurrentThumbnailList().count() - getCurrentThumbnail()->getIndexInLocal()) <= getColumnCount()){// Œ»İƒTƒ€ƒlƒCƒ‹•\¦‚Ì‰º•”‚ÉŠY“–‚·‚éƒTƒ€ƒlƒCƒ‹‚ª‚È‚¢ÅŒã‚©‚çˆê—ñ•ª‚Ìê‡
+		if((getCurrentThumbnailList().count() - getCurrentThumbnail()->getIndexInLocal()) <= getColumnCount()){// ï¿½ï¿½ï¿½İƒTï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ÉŠYï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ÅŒã‚©ï¿½ï¿½ï¿½ï¿½ï¿½ñ•ª‚Ìê‡
 			if(isCurrentPageAllChecked()==true){
-				if(getCurrentSide()==Review::Front && getThumbnailList(Review::Back).count()!=0){// •\‚Ìê‡‚ÅA— ‚ª‚ ‚éê‡
-					showPage(Review::Back, Review::First);// — ‚ÌÅ‰‚ÉˆÚ“®‚·‚é
-				}else{// Ÿ‚Ì—š—ğ‚ÉˆÚ“®‚·‚é
+				if(getCurrentSide()==Review::Front && getThumbnailList(Review::Back).count()!=0){// ï¿½\ï¿½Ìê‡ï¿½ÅAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
+					showPage(Review::Back, Review::First);// ï¿½ï¿½ï¿½ÌÅï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
+				}else{// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
 					ChooseNextDialog	D;
 					if(D.exec()==(int)true){
-						if(isMoveHistoryEnable()==true){// Œ»İ‚Ì‘S‚Ä‚ÌƒAƒCƒeƒ€‚ªƒ`ƒFƒbƒNÏ‚İ‚Å‚Ì‚İˆÚ“®‰Â”\ //
+						if(isMoveHistoryEnable()==true){// ï¿½ï¿½ï¿½İ‚Ì‘Sï¿½Ä‚ÌƒAï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚Å‚Ì‚İˆÚ“ï¿½ï¿½Â”\ //
 							bool ok;
 							if(moveHistory(Review::Direction::Next, Review::ListLocate::First, &ok)==true){
-								// ³íI—¹
+								// ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 								return;
 							}
-							if(ok==true){// ‚P‚Â‘O‚Ì—š—ğ‚ª‚ ‚é‚Ì‚ÉˆÚ“®¸”s
-					// ƒGƒ‰[
+							if(ok==true){// ï¿½Pï¿½Â‘Oï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÉˆÚ“ï¿½ï¿½ï¿½ï¿½s
+					// ï¿½Gï¿½ï¿½ï¿½[
 								ReviewGUI::ReviewGUIAllUpdate(GetLayersBase());
 							}else{
-								// ’ÊíI—¹
+								// ï¿½Êï¿½ï¿½Iï¿½ï¿½
 								return;
 							}
 						}
 					}
-					return; // –³Œø
+					return; // ï¿½ï¿½ï¿½ï¿½
 				}
 			}
-		}else if(getCurrentRow()!=getRowCount()-1){// “¯‚¶ƒy[ƒW“à‚Å‰º‚ÖˆÚ“®‚Å‚«‚éê‡
+		}else if(getCurrentRow()!=getRowCount()-1){// ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Å‰ï¿½ï¿½ÖˆÚ“ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ê‡
 			showPage(getCurrentSide(), getCurrentPage(), Review::Manual, getCurrentThumbnail()->getRow()+1, getCurrentThumbnail()->getColumn());
-		}else{// ƒy[ƒW‚ğ‚P‚Âã‚°AÅ‰‚Ìs‚ÖˆÚ“®‚·‚é
-			if(isCurrentPageAllChecked()==true){// ‚»‚Ìƒy[ƒW‚ª‘Sƒ`ƒFƒbƒNÏ‚İ‚Å‚ ‚éê‡‚Ì‚İŸ‚Ìƒy[ƒW‚ÖˆÚ“®‚Å‚«‚é
+		}else{// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Pï¿½Âã‚°ï¿½Aï¿½Åï¿½ï¿½Ìsï¿½ÖˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
+			if(isCurrentPageAllChecked()==true){// ï¿½ï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½ï¿½ï¿½Sï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚Å‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ì‚İï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½ÖˆÚ“ï¿½ï¿½Å‚ï¿½ï¿½ï¿½
 				showPage(getCurrentSide(), getCurrentPage()+1, Review::Manual, 0, getCurrentThumbnail()->getColumn());
 			}else{
 				// 
 			}
 		}
-	}else{// ƒy[ƒW’PˆÊˆÚ“®
-		if(isCurrentPageAllChecked()==true){// ‚·‚×‚Äƒ`ƒFƒbƒNÏ‚İ‚Ìê‡‚Ì‚İŸƒy[ƒW‚ÖˆÚ“®‰Â”\ //
+	}else{// ï¿½yï¿½[ï¿½Wï¿½Pï¿½ÊˆÚ“ï¿½
+		if(isCurrentPageAllChecked()==true){// ï¿½ï¿½ï¿½×‚Äƒ`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚Ìê‡ï¿½Ì‚İï¿½ï¿½yï¿½[ï¿½Wï¿½ÖˆÚ“ï¿½ï¿½Â”\ //
 			if(getCurrentPage()!=getCurrentPageLastIndex()){
 					showPage(getCurrentSide(), getCurrentPage()+1, Review::First);
 				if(getCurrentThumbnail()!=NULL){
  					CmdSetNGChecked NGCheckCmd(GetLayersBase());
 					NGCheckCmd.side = getCurrentSide();
 					NGCheckCmd.begin = getGlobalIndex(getCurrentPage(), getCurrentRow(), getCurrentColumn(), getCurrentSide());
-					NGCheckCmd.length = getRowCount() * getColumnCount();	//1;// ‚»‚ÌNG‚Ì‚İ
+					NGCheckCmd.length = getRowCount() * getColumnCount();	//1;// ï¿½ï¿½ï¿½ï¿½NGï¿½Ì‚ï¿½
 					ReviewPIBase *RBase = GetReviewAlgorithm();
 					if(RBase!=NULL){
 						RBase->TransmitDirectly(&NGCheckCmd);
@@ -665,8 +683,8 @@ void ShowThumbnail::inputKeyDownArrow(bool Skip)
 					}
 				}
 			}else if(getCurrentPage()==getCurrentPageLastIndex()){
-				if(getCurrentSide()==Review::Front && getThumbnailList(Review::Back).count()!=0){// •\‚Ìê‡‚ÅA— ‚ª‚ ‚éê‡
-					showPage(Review::Back, Review::First);// — ‚ÌÅ‰‚ÉˆÚ“®‚·‚é
+				if(getCurrentSide()==Review::Front && getThumbnailList(Review::Back).count()!=0){// ï¿½\ï¿½Ìê‡ï¿½ÅAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
+					showPage(Review::Back, Review::First);// ï¿½ï¿½ï¿½ÌÅï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
 					getCurrentThumbnail()->setChecked(true);
 					//for(int row=0;row<getRowCount();row++){
 					//	for(int column=0;column<getColumnCount();column++){
@@ -678,8 +696,8 @@ void ShowThumbnail::inputKeyDownArrow(bool Skip)
 					//}
 				}
 				else if(getCurrentSide()==Review::Front && getThumbnail(Review::Back, getCurrentPage()+1-getThumbnailPageList(Review::Front).count(),0,0)!=NULL
-					&& getThumbnail(Review::Back, getCurrentPage()+1-getThumbnailPageList(Review::Front).count(),0,0)->getNGNailItem().phase==1){// Phase=1‚Ì— ‚ª‚ ‚éê‡
-					showPage(Review::Back, Review::First);// — ‚ÌÅ‰‚ÉˆÚ“®‚·‚é
+					&& getThumbnail(Review::Back, getCurrentPage()+1-getThumbnailPageList(Review::Front).count(),0,0)->getNGNailItem().phase==1){// Phase=1ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
+					showPage(Review::Back, Review::First);// ï¿½ï¿½ï¿½ÌÅï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
 					getCurrentThumbnail()->setChecked(true);
 					//for(int row=0;row<getRowCount();row++){
 					//	for(int column=0;column<getColumnCount();column++){
@@ -689,36 +707,36 @@ void ShowThumbnail::inputKeyDownArrow(bool Skip)
 					//		}
 					//	}
 					//}
-				}else{// Ÿ‚Ì—š—ğ‚ÉˆÚ“®‚·‚é
+				}else{// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
 					ChooseNextDialog	D;
 					if(D.exec()==(int)true){
-						// Ÿ‚Ì—š—ğ‚ÉˆÚ“®‚·‚é
-						if(isMoveHistoryEnable()==true){// Œ»İ‚Ì‘S‚Ä‚ÌƒAƒCƒeƒ€‚ªƒ`ƒFƒbƒNÏ‚İ‚Å‚Ì‚İˆÚ“®‰Â”\ //
+						// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
+						if(isMoveHistoryEnable()==true){// ï¿½ï¿½ï¿½İ‚Ì‘Sï¿½Ä‚ÌƒAï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚Å‚Ì‚İˆÚ“ï¿½ï¿½Â”\ //
 							bool ok;
 							if(moveHistory(Review::Direction::Next, Review::ListLocate::First, &ok)==true){
-								// ³íI—¹
+								// ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 								return;
 							}
-							if(ok==true){// ‚P‚Â‘O‚Ì—š—ğ‚ª‚ ‚é‚Ì‚ÉˆÚ“®¸”s
-								// ƒGƒ‰[
+							if(ok==true){// ï¿½Pï¿½Â‘Oï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÉˆÚ“ï¿½ï¿½ï¿½ï¿½s
+								// ï¿½Gï¿½ï¿½ï¿½[
 								ReviewGUI::ReviewGUIAllUpdate(GetLayersBase());
 							}else{
-								// ’ÊíI—¹
+								// ï¿½Êï¿½ï¿½Iï¿½ï¿½
 								return;
 							}
 						}
 					}
-					return;// ‚µ‚È‚¢
+					return;// ï¿½ï¿½ï¿½È‚ï¿½
 				}
 			}
 		}
 	}
 }
 
-// NG‚ği‚ß‚é
-// Šî–{‚ÍƒJƒŒƒ“ƒgNG‚ğ‚P‚Âi‚ß‚é
-// ‚½‚¾‚µAƒJƒŒƒ“ƒgNG‚ªƒJƒŒƒ“ƒg—š—ğ‚ÌÅŒã‚Ìê‡‚ÍŸ‚Ì—š—ğ‚ÖˆÚ“®‚·‚é
-// Ÿ‚Ì—š—ğ‚ª–³‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
+// NGï¿½ï¿½ï¿½iï¿½ß‚ï¿½
+// ï¿½ï¿½ï¿½{ï¿½ÍƒJï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½Pï¿½Âiï¿½ß‚ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ÌÅŒï¿½ï¿½Ìê‡ï¿½Íï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ÖˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 void ShowThumbnail::inputKeyRightArrow(bool Skip)
 {
 	if(getMoveMode()==_moveMode::PerThumbnail){
@@ -726,29 +744,29 @@ void ShowThumbnail::inputKeyRightArrow(bool Skip)
 		GetAreaNameAndChecked(getCurrentThumbnail()->getIndexInGlobal() ,AreaName);
 		int	CurrentGlobalIndex=getCurrentThumbnail()->getIndexInGlobal();
 NextMore:;
-		if(CurrentGlobalIndex==getCurrentThumbnailLastGlobalIndex()){// Œ»İ‚Ì—š—ğ‚É‚¨‚¯‚éÅŒã‚ÌƒTƒ€ƒlƒCƒ‹‚Ìê‡AŸ‚Ì—š—ğ‚ÖˆÚ“®‚ğ‚İ‚é
+		if(CurrentGlobalIndex==getCurrentThumbnailLastGlobalIndex()){// ï¿½ï¿½ï¿½İ‚Ì—ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅŒï¿½ï¿½ÌƒTï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Ìê‡ï¿½Aï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ÖˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½
 			
-			return;// –³Œø 20120523
+			return;// ï¿½ï¿½ï¿½ï¿½ 20120523
 				
-			// Œ»İ‚Ìƒy[ƒW‚ª‘S‚Äƒ`ƒFƒbƒNÏ‚İ‚©’²¸
+			// ï¿½ï¿½ï¿½İ‚Ìƒyï¿½[ï¿½Wï¿½ï¿½ï¿½Sï¿½Äƒ`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(isMoveHistoryEnable()==true){
 				bool ok;
-				// Ÿ‚Ì—š—ğ‚ÖˆÚ“®
+				// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ÖˆÚ“ï¿½
 				if(moveHistory(Review::Direction::Next, Review::ListLocate::First, &ok)==true){
-					// ³íI—¹
+					// ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 					return;
 				}
 				if(ok==true){
-					// ƒGƒ‰[
+					// ï¿½Gï¿½ï¿½ï¿½[
 					ReviewGUI::ReviewGUIAllUpdate(GetLayersBase());
 				}else{
-					// Ÿ‚Ì—š—ğ–³‚µ(³íI—¹)
-					// ‚È‚É‚à‚µ‚È‚¢
+					// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ğ–³‚ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½)
+					// ï¿½È‚É‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 					return;
 				}
 			}
 		}else{
-			// Ÿ‚Ìƒy[ƒW‚ÖˆÚ“®‚·‚é‚Æ‚«‚ÉAŒ»İ‚Ìƒy[ƒW‚Ì‘S‚Ä‚Éƒ`ƒFƒbƒN‚ª“ü‚Á‚Ä‚¢‚È‚¯‚ê‚ÎˆÚ“®‹Ö~
+			// ï¿½ï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½ÖˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÉAï¿½ï¿½ï¿½İ‚Ìƒyï¿½[ï¿½Wï¿½Ì‘Sï¿½Ä‚Éƒ`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ÎˆÚ“ï¿½ï¿½Ö~
 			if(SkipSamePiece==false){
 				if(getCurrentRow()==getRowCount()-1 && getCurrentColumn()==getColumnCount()-1 && isCurrentPageAllChecked()==false){
 					return;
@@ -776,81 +794,81 @@ NextMore:;
 					}
 				}
 			}
-			// Ÿ‚ÌƒTƒ€ƒlƒCƒ‹‚ğ‘I‘ğ‚·‚é
+			// ï¿½ï¿½ï¿½ÌƒTï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			showPage(Review::Manual, CurrentGlobalIndex);
 		}
-	}else{// ƒy[ƒW’PˆÊˆÚ“®
+	}else{// ï¿½yï¿½[ï¿½Wï¿½Pï¿½ÊˆÚ“ï¿½
 
-		// –³ğŒˆÚ“® 20120528
-		//// ‘Sƒ`ƒFƒbƒN‚µ‚Ä‚¢‚È‚¢‚Æ‚«‰½‚à‚µ‚È‚¢
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ 20120528
+		//// ï¿½Sï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 		//if(isMoveHistoryEnable()==false){
 		//	return;
 		//}
 		bool ok;
 		if(moveHistory(Review::Direction::Next, Review::ListLocate::First, &ok)==true){
-			// ³íI—¹
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 			return;
 		}
-		if(ok==true){// ‚P‚Â‘O‚Ì—š—ğ‚ª‚ ‚é‚Ì‚ÉˆÚ“®¸”s
-			// ƒGƒ‰[
+		if(ok==true){// ï¿½Pï¿½Â‘Oï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÉˆÚ“ï¿½ï¿½ï¿½ï¿½s
+			// ï¿½Gï¿½ï¿½ï¿½[
 			ReviewGUI::ReviewGUIAllUpdate(GetLayersBase());
 		}else{
-			// ’ÊíI—¹
+			// ï¿½Êï¿½ï¿½Iï¿½ï¿½
 			return;
 		}
 	}
 }
 
-// NG‚ğ–ß‚·
-// Šî–{‚ÍƒJƒŒƒ“ƒgNG‚ğ‚P‚Â–ß‚·
-// ‚½‚¾‚µAƒJƒŒƒ“ƒgNG‚ªƒJƒŒƒ“ƒg—š—ğ‚ÌÅ‰‚Ìê‡‚Í‚P‚ÂŒã‚ë‚Ì—š—ğ‚ÖˆÚ“®‚·‚é
-// Œã‚ë‚Ì—š—ğ‚ª–³‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
+// NGï¿½ï¿½ï¿½ß‚ï¿½
+// ï¿½ï¿½ï¿½{ï¿½ÍƒJï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½Pï¿½Â–ß‚ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Ìê‡ï¿½Í‚Pï¿½ÂŒï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ÖˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 void ShowThumbnail::inputKeyLeftArrow()
 {
 	if(getMoveMode()==_moveMode::PerThumbnail){
-		if(getCurrentThumbnail()->getIndexInGlobal()==0){// —š—ğ‚ÌÅ‰‚Ìê‡
+		if(getCurrentThumbnail()->getIndexInGlobal()==0){// ï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½Ìê‡
 
-			return;// –³Œø 20120523
+			return;// ï¿½ï¿½ï¿½ï¿½ 20120523
 
-			// ‘Sƒ`ƒFƒbƒN‚µ‚Ä‚¢‚È‚¢‚Æ‚«‰½‚à‚µ‚È‚¢
+			// ï¿½Sï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			if(isMoveHistoryEnable()==false){
 				return;
 			}
-			// ‘O‚Ì—š—ğ‚ÖˆÚ“®
+			// ï¿½Oï¿½Ì—ï¿½ï¿½ï¿½ï¿½ÖˆÚ“ï¿½
 			bool ok;
 			if(moveHistory(Review::Direction::Previous, Review::ListLocate::End, &ok)==true){
-				// ³íI—¹
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 				return;
 			}
 			if(ok==true){
-				// ƒGƒ‰[
+				// ï¿½Gï¿½ï¿½ï¿½[
 				ReviewGUI::ReviewGUIAllUpdate(GetLayersBase());
 			}else{
-				// Ÿ‚Ì—š—ğ–³‚µ(³íI—¹)
-				// ‚È‚É‚à‚µ‚È‚¢
+				// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ğ–³‚ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½)
+				// ï¿½È‚É‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 				return;
 			}
 		}else{
 			showPage(Review::Manual, getCurrentThumbnail()->getIndexInGlobal()-1);
 		}
-	}else{// ƒy[ƒW’PˆÊˆÚ“®
+	}else{// ï¿½yï¿½[ï¿½Wï¿½Pï¿½ÊˆÚ“ï¿½
 		
-		// –³ğŒˆÚ“® 20120528
-		//// ‘Sƒ`ƒFƒbƒN‚µ‚Ä‚¢‚È‚¢‚Æ‚«‰½‚à‚µ‚È‚¢
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ 20120528
+		//// ï¿½Sï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 		//if(isMoveHistoryEnable()==false){
 		//	return;
 		//}
 
 		bool ok;
 		if(moveHistory(Review::Direction::Previous, Review::ListLocate::First, &ok)==true){
-			// ³íI—¹
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 			return;
 		}
-		if(ok==true){// Ÿ‚Ì—š—ğ‚ª‚ ‚é‚Ì‚ÉˆÚ“®¸”s
-			// ƒGƒ‰[
+		if(ok==true){// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÉˆÚ“ï¿½ï¿½ï¿½ï¿½s
+			// ï¿½Gï¿½ï¿½ï¿½[
 			ReviewGUI::ReviewGUIAllUpdate(GetLayersBase());
 		}else{
-			// ’ÊíI—¹
+			// ï¿½Êï¿½ï¿½Iï¿½ï¿½
 			return;
 		}
 	}
@@ -869,7 +887,7 @@ void ShowThumbnail::inputKeyFunction(Review::FKey key)
 
 void ShowThumbnail::inputKeyDelete()
 {
-	if(getCurrentThumbnail()==NULL){// ƒJƒŒƒ“ƒgNG‚ª–³‚¢ê‡‚Í‰½‚à‚µ‚È‚¢
+	if(getCurrentThumbnail()==NULL){// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 		return;
 	}
 
@@ -962,7 +980,7 @@ bool	ShowThumbnail::GetAreaNameAndChecked(int GlobalIndex ,QString &AreaName)
 			}
 		}
 	}else{
-		int bindex = GlobalIndex - getThumbnailList(Review::Front).count();// — ‚Ì‚İ‚ÅŒ©‚½ƒCƒ“ƒfƒbƒNƒX
+		int bindex = GlobalIndex - getThumbnailList(Review::Front).count();// ï¿½ï¿½ï¿½Ì‚İ‚ÅŒï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X
 		int page = bindex / (getRowCount() * getColumnCount());
 		int row = (bindex % (getRowCount() * getColumnCount())) / getColumnCount();
 		int column = bindex % getColumnCount();

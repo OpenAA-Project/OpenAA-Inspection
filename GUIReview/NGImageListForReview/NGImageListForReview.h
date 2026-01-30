@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef NGIMAGELISTFORREVIEW_H
 #define NGIMAGELISTFORREVIEW_H
 
@@ -12,7 +30,7 @@
 #include "../ControlInfoDialog.h"
 #include "XReviewPropertyBase.h"
 
-// ƒvƒƒpƒeƒBéŒ¾ŠJn
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Jï¿½n
 
 class NGImageListForReview;
 
@@ -25,11 +43,11 @@ namespace Ui{
 class NGImageListForReviewPropertyClass;
 }
 class	SignalOperandInt;
-// ƒvƒƒpƒeƒBéŒ¾I—¹
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Iï¿½ï¿½
 
 ////
-// NG‰æ‘œ’PˆÊ‚Å‚ÌƒŠƒXƒg‚ğ•\¦‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg
-// ƒpƒPƒbƒgóM‚É‚æ‚éXV—v‹‚©‚çReviewStructure‚ÌƒŠƒXƒg‚ğQÆ‚µ‚Ä©g‚ÌƒŠƒXƒg‚ğXV‚·‚é
+// NGï¿½æ‘œï¿½Pï¿½Ê‚Å‚Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½g
+// ï¿½pï¿½Pï¿½bï¿½gï¿½ï¿½ï¿½Mï¿½É‚ï¿½ï¿½ï¿½ï¿½Xï¿½Vï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ReviewStructureï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½Äï¿½ï¿½gï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
 class NGIMAGELISTFORREVIEW_EXPORT NGImageListForReview : public GUIFormBase
 {
 	Q_OBJECT
@@ -55,7 +73,7 @@ public:
 	int32	WaitMilisecToChangeSurface;
 
 public:
-	// XV—v‹ƒpƒPƒbƒg‚ğó‚¯æ‚Á‚½‚çAReviewStructure‚ÉNG‚ÌƒŠƒXƒg‚ğ—v‹‚µA•\¦ƒŠƒXƒg‚ğXV‚·‚é
+	// ï¿½Xï¿½Vï¿½vï¿½ï¿½ï¿½pï¿½Pï¿½bï¿½gï¿½ï¿½ï¿½ó‚¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½AReviewStructureï¿½ï¿½NGï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
 	virtual	void TransmitDirectly(GUIDirectMessage *packet)	override;
 	void updateGUI();
 	void refleshTableRow(int row);
@@ -69,22 +87,22 @@ public:
 	virtual void	Terminated(void)		override;
 
 private:
-	// •\¦‚µ‚Ä‚¢‚éƒŠƒXƒg‚Ì“à—e‚ğXV‚·‚é
+	// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½éƒŠï¿½Xï¿½gï¿½Ì“ï¿½ï¿½eï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
 	void setNGList(const OrganizedHistoryItem &history);
-	// •\¦‚µ‚Ä‚¢‚éƒEƒBƒ“ƒhƒEF‚ğ•ÏX‚·‚é
+	// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Fï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½
 	void setViewColor(const OrganizedHistoryItem &history);
 	void addNGList(const HistoryItem &historyPtr, const InsLibraryHash &InsLibHashPtr=InsLibraryHash(), int InsertRow=0);
 	void updateVerticalHeader(int FrontCount, int BackCount);
-	// FƒL[‚Ì—v‘f‚ğXML‚É‹Lq‚·‚é.–ß‚è’l‚ÍƒL[‚É‘Î‰‚·‚éF
+	// Fï¿½Lï¿½[ï¿½Ì—vï¿½fï¿½ï¿½XMLï¿½É‹Lï¿½qï¿½ï¿½ï¿½ï¿½.ï¿½ß‚ï¿½ï¿½lï¿½ÍƒLï¿½[ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½F
 	QColor setFKey(Review::FKey key);
-	// FƒL[‚Ì—v‘f‚ğíœ‚·‚é
+	// Fï¿½Lï¿½[ï¿½Ì—vï¿½fï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 	bool removeFKey(QColor &afterColor);
 	void fillBackgraundColorOnTableAtRow(int row, QColor color);
 	void setKeyPressedState(bool pressed){ keyPressed = pressed; };
 	bool isKeyPressed() const { return keyPressed; };
 	QColor getResultColor(const QStringList &resultList, const QColor &defaultColor=QColor(Qt::red));
 
-	// Œ»İ‚ÌNG‚ğ‘I‘ğÏ‚İ‚É‚·‚é
+	// ï¿½ï¿½ï¿½İ‚ï¿½NGï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½Ï‚İ‚É‚ï¿½ï¿½ï¿½
 	bool setCheckedCurrentNG();
 	QColor getCurrentNGColor();
 
@@ -110,25 +128,25 @@ private slots:
 	void endKeyWaitTimeLine(int value);
 
 protected:
-	// ƒJ[ƒ\ƒ‹ƒL[‚âAFƒL[AFƒL[‚ÌƒNƒŠƒAƒL[‚ª‰Ÿ‚³‚ê‚½‚Ì“®ì
-	// ƒJ[ƒ\ƒ‹ƒL[‚Ìê‡¶‰E‚Ì“®ì‚ªShowHistoryListForReview‚ÌˆÚ“®ƒRƒ}ƒ“ƒh‘—M‚É‚È‚éB
-	// setFKey() ‚â clearFKey() ‚ªÀs‚³‚ê‚é
-	// ‚Ü‚½ANGImageForReview‚ÆWholeImageForReview‚ÉXV—v‹‚ªs‚í‚ê‚é
+	// ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½Lï¿½[ï¿½ï¿½ï¿½AFï¿½Lï¿½[ï¿½AFï¿½Lï¿½[ï¿½ÌƒNï¿½ï¿½ï¿½Aï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Ì“ï¿½ï¿½ï¿½
+	// ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½Lï¿½[ï¿½Ìê‡ï¿½ï¿½ï¿½Eï¿½Ì“ï¿½ï¿½ì‚ªShowHistoryListForReviewï¿½ÌˆÚ“ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Mï¿½É‚È‚ï¿½ï¿½B
+	// setFKey() ï¿½ï¿½ clearFKey() ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ï¿½Ü‚ï¿½ï¿½ANGImageForReviewï¿½ï¿½WholeImageForReviewï¿½ÉXï¿½Vï¿½vï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	virtual	void keyPressEvent(QKeyEvent *event)			override;
 	virtual	void keyReleaseEvent(QKeyEvent *event)			override;
 	virtual	void contextMenuEvent(QContextMenuEvent *event)	override;
 
 private slots:
-	// UI‚ÌƒŠƒXƒg‚ªƒNƒŠƒbƒN‚³‚ê‚½‚ÌƒXƒƒbƒg
-	// ƒNƒŠƒbƒN‚³‚ê‚½s‚©‚ç‘I‘ğ‚µ‚½NGNailItem‚ğŒˆ’è‚µAReviewStructure‚Ö‘I‘ğó‘Ô‚É‚·‚é‚æ‚¤‚É—v‹‚·‚é
-	// ‚»‚Ì‚ ‚ÆANGImageForReview‚ÆWholeImageForReview‚ÉXV‚ğ—v‹‚·‚é
+	// UIï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ÌƒXï¿½ï¿½ï¿½bï¿½g
+	// ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ê‚½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGNailItemï¿½ï¿½ï¿½ï¿½ï¿½è‚µï¿½AReviewStructureï¿½Ö‘Iï¿½ï¿½ï¿½ï¿½ï¿½Ô‚É‚ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É—vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ÆANGImageForReviewï¿½ï¿½WholeImageForReviewï¿½ÉXï¿½Vï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	void cellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn);
 	//void SlotSetSortOrder();
 	void SlotShowKeyAssignInfoDialog();
 
 private:
-	Ui::NGImageListClass ui;	// •\¦—pUI
-								// •\¦—pQTableWidgetANG”•\¦QLineEdit
+	Ui::NGImageListClass ui;	// ï¿½\ï¿½ï¿½ï¿½pUI
+								// ï¿½\ï¿½ï¿½ï¿½pQTableWidgetï¿½ANGï¿½ï¿½ï¿½\ï¿½ï¿½QLineEdit
 	QStringList mainHHeader;
 	int32 NextListDelay;
 	bool keyPressed;
@@ -155,27 +173,27 @@ private:
 	QTimeLine *keyWaitTimeLine;
 	
 /*------------------------------------------------------------------------------------------------*/
-/*----------------------------ƒvƒƒpƒeƒBŠÖ˜A - ŠJn-----------------------------------------------*/
+/*----------------------------ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö˜A - ï¿½Jï¿½n-----------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 	
-// ƒvƒƒpƒeƒB‚ÌƒƒCƒ“ƒoƒbƒtƒ@(GUI‚Ég—p‚·‚éî•ñ‚ÆUi‚©‚ç‚Ì“üo—Í‚Ég—p)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒï¿½ï¿½Cï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@(GUIï¿½Égï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Uiï¿½ï¿½ï¿½ï¿½ï¿½Ì“ï¿½ï¿½oï¿½Í‚Égï¿½p)
 private:
 	NGImageListForReviewProperty *m_property;
 
-// ƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO(ŠO•”‚©‚ç(*å‚ÉƒvƒƒpƒeƒBİ’èGUI)‚Ì—v‹‚ÅŒÄ‚Ño‚³‚ê‚é)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½O(ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(*ï¿½ï¿½ï¿½Éƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½GUI)ï¿½Ì—vï¿½ï¿½ï¿½ÅŒÄ‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 private:
 	Ui::NGImageListForReviewPropertyClass *m_propertyUi;
 	QDialog *m_propertyDialog;
 
-// ƒvƒƒpƒeƒB‚Ö‚ÌƒAƒNƒZƒX
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½X
 public:
 	inline const NGImageListForReviewProperty &getProperty() const { return *m_property; };
 	NGImageListForReviewProperty *getPropertyPtr() { return m_property; }
 
-private:// •ÒW‰Â”\‚Í“à•”‚©‚ç‚Ì‚İ
+private:// ï¿½ÒWï¿½Â”\ï¿½Í“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
 	inline NGImageListForReviewProperty &getProperty() { return *m_property; };
 
-// ƒvƒƒpƒeƒB‚Ìƒoƒbƒtƒ@‚ÆƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO‚Ö‚ÌƒAƒNƒZƒXŠÖ”
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½Æƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½Öï¿½
 private:
 	void setProperty(NGImageListForReviewProperty *property){ m_property = property; };
 	void setPropertyUi(Ui::NGImageListForReviewPropertyClass *ui){ m_propertyUi = ui; };
@@ -183,11 +201,11 @@ private:
 	void setPropertyDialog(QDialog *dialog){ m_propertyDialog = dialog; };
 	QDialog *getPropertyDialog(void){ return m_propertyDialog; };
 	
-// ƒvƒƒpƒeƒBƒ_ƒCƒAƒƒO‚ÌƒVƒOƒiƒ‹accepted()‚É‘Î‰‚·‚éƒXƒƒbƒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ÌƒVï¿½Oï¿½iï¿½ï¿½accepted()ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½g
 private slots:
 	void slot_propertyModified();
 
-// ƒvƒƒpƒeƒB‚ÌƒRƒs[‚ÆUiƒtƒ@ƒCƒ‹‚Æ‚Ì˜AŒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½ÌƒRï¿½sï¿½[ï¿½ï¿½Uiï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Æ‚Ì˜Aï¿½g
 public:
 	void setProperty(const NGImageListForReviewProperty &property);
 private:
@@ -196,7 +214,7 @@ private:
 	void setPropertyFromUi(NGImageListForReviewProperty &property);
 	void setPropertyFromUi();
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Åg—p‚·‚éƒvƒƒpƒeƒB‚Ì‰Šú‰»
+// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 private:
 	void initProperty();
 
@@ -204,7 +222,7 @@ private:
 	void updateProperty(){ setProperty(getProperty()); };
 	
 /*------------------------------------------------------------------------------------------------*/
-/*----------------------------ƒvƒƒpƒeƒBŠÖ˜A - I—¹-----------------------------------------------*/
+/*----------------------------ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö˜A - ï¿½Iï¿½ï¿½-----------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 };
 

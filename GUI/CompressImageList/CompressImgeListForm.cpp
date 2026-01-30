@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "CompressImageListResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\CompressImageList\CompressImgeListForm.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 #include "CompressImgeListForm.h"
 #include "XGeneralFunc.h"
@@ -157,8 +166,8 @@ void	CompressImgeListForm::BuildForShow(void)
 			PDim[j]->LabelImage.move(100*j,10);
 		}
 	}
-//	ui.tableWidget->resizeColumnToContents(0);	//Ž©“®‚Åcolumn‚ÌƒTƒCƒY‚ðŒˆ‚ß‚Ä‚­‚ê‚é
-//	ui.tableWidget->resizeColumnToContents(1);	//‘¬“x‚ªS”z‚È‚Ì‚ÅƒRƒƒ“ƒgƒAƒEƒg
+//	ui.tableWidget->resizeColumnToContents(0);	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½columnï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ß‚Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½
+//	ui.tableWidget->resizeColumnToContents(1);	//ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Sï¿½zï¿½È‚Ì‚ÅƒRï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Aï¿½Eï¿½g
 //	ui.tableWidget->resizeColumnToContents(2);
 }
 
@@ -300,4 +309,3 @@ GUICmdAckLoad::GUICmdAckLoad(LayersBase *Base ,const QString &EmitterRoot,const 
 :GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
 {
 }
-

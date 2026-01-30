@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "EditDynamicClassifyLibraryResource.h"
 #include "PropertyDynamicClassifyForm.h"
 #include "EditDynamicClassifyLibrary.h"
@@ -323,7 +341,7 @@ void	PropertyDynamicClassifyForm::BuildForShow(void)
 	ShowAreaList();
 	on_ButtonLibSave_clicked();
 
-	//tableWidgetLibList‚ÌList‚ð‘I‘ð‚³‚¹‚é
+	//tableWidgetLibListï¿½ï¿½Listï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ui.tableWidgetLibList->rowCount()>0){
 		ui.tableWidgetLibList->selectRow(0);
 	}
@@ -623,4 +641,3 @@ void PropertyDynamicClassifyForm::on_ButtonLibSave_clicked()
 	ShowLibList();
 	ShowSelectedLibList();
 }
-

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2026
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "XDataInLayer.h"
@@ -16,7 +34,7 @@
 class	FlatInspectionLibrary : public AlgorithmLibrary , public ServiceForLayers
 {
 public:
-//¶¬ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 #pragma	pack(push,1)
 	int32		PickupRL;
 	int32		PickupRH;
@@ -31,16 +49,16 @@ public:
     int32		LimitFlatInspectionSize;
 	int32		OverlappedLength;
 
-	WORD		NoiseSize;			//ŒÇ—§“_íœ
-	WORD		NoiseSizePinHole;	//ƒsƒ“ƒz[ƒ‹íœ
+	WORD		NoiseSize;			//ï¿½Ç—ï¿½ï¿½_ï¿½íœ
+	WORD		NoiseSizePinHole;	//ï¿½sï¿½ï¿½ï¿½zï¿½[ï¿½ï¿½ï¿½íœ
 #pragma	pack(pop)
 
 	struct MLibThreshold
 	{
-		DWORD	OKDot;			//‚n‚jƒhƒbƒg”
-		DWORD	OKLength;		//‚n‚j‹——£
+		DWORD	OKDot;			//ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+		DWORD	OKLength;		//ï¿½nï¿½jï¿½ï¿½ï¿½ï¿½
 
-		short	RThrOffsetL;	//‚µ‚«‚¢’l‚Ö‚Ì’¼Ú‰ÁZ’l	(-100`100)
+		short	RThrOffsetL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½Ö‚Ì’ï¿½ï¿½Ú‰ï¿½ï¿½Zï¿½l	(-100ï¿½`100)
 		short	RThrOffsetH;
 		short	GThrOffsetL;
 		short	GThrOffsetH;
@@ -58,27 +76,27 @@ public:
 	int		DivLenX;
 	int		DivLenY;
 
-	DWORD	MultiSpotDot;	//’P‘½“_
+	DWORD	MultiSpotDot;	//ï¿½Pï¿½ï¿½ï¿½_
 	DWORD	MultiSpotCount;
-	DWORD	MultiSpotDotGathered;	//–§W‘½“_
+	DWORD	MultiSpotDotGathered;	//ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½_
 	DWORD	MultiSpotCountGathered;
 	DWORD	MultiSpotLengthGathered;
 	DWORD	BackGroundOKDot;	
 	DWORD	BackGroundOKLength;
 	bool	UseBackGround;
 
-	WORD	AdjustBlack;		//‹P“x•â³‚Ì‰ºŒÀ•
-    WORD	AdjustWhite;		//‹P“x•â³‚ÌãŒÀ•
-	WORD	AreaSearchX;		//‚w•ûŒü—Ìˆæ’Tõƒhƒbƒg”
-	WORD	AreaSearchY;		//‚x•ûŒü—Ìˆæ’Tõƒhƒbƒg”
-	WORD	SelfSearch;			//©ŒÈ’Tõƒhƒbƒg”
+	WORD	AdjustBlack;		//ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	AdjustWhite;		//ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+	WORD	AreaSearchX;		//ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	AreaSearchY;		//ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	SelfSearch;			//ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
 	bool	EnableInspection;
-	WORD	MaxAreaSearch;	//Å‘å—Ìˆæ’Tõƒhƒbƒg”
-    WORD	MaxSelfSearch;	//Å‘å©ŒÈ’Tõƒhƒbƒg”
-	WORD	ShrinkNGSize;	//NG—Ìˆæk¬ƒTƒCƒY
+	WORD	MaxAreaSearch;	//ï¿½Å‘ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+    WORD	MaxSelfSearch;	//ï¿½Å‘å©ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	ShrinkNGSize;	//NGï¿½Ìˆï¿½ï¿½kï¿½ï¿½ï¿½Tï¿½Cï¿½Y
 
 	bool	RedCheckMode;
-	WORD	RedHighRate;	//G,B‚É”ä‚×‚ÄR‚Ì‹P“x’l‚Ì‘’lŠ„‡(%)
+	WORD	RedHighRate;	//G,Bï¿½É”ï¿½ï¿½×‚ï¿½Rï¿½Ì‹Pï¿½xï¿½lï¿½Ì‘ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½(%)
 	BYTE	RedMinBrightness;
 	BYTE	RedGBMerginRate;
 	BYTE	RedGBMerginOffset;
@@ -86,20 +104,20 @@ public:
 	DWORD	RedOKDot;
 
 	bool	VariationMode;
-	float	VariationRL,VariationRH;	//R-OKƒoƒ‰ƒcƒL•Î·’l
-	float	VariationGL,VariationGH;	//G-OKƒoƒ‰ƒcƒL•Î·’l
-	float	VariationBL,VariationBH;	//B-OKƒoƒ‰ƒcƒL•Î·’l
-	DWORD	VariationAdaptMinSize;		//Å¬“K—p—ÌˆæƒTƒCƒY
-	float	VariationMultiplyMaster;	//ƒ}ƒXƒ^[‰æ‘œAƒoƒ‰ƒcƒL‰æ‘œ‚©‚ç‚Ì•Î·‚µ‚«‚¢’lŒvZ‚ÌŒW”
-	bool	VariationDifMaster;			//ƒ}ƒXƒ^[‰æ‘œ‚Ì·•ª‚ğƒoƒ‰‚Â‚«•Î·‚Åˆ—
-	bool	VariationAndLogic;			//‘¼‚ÌŒŸ¸‚µ‚ÄNG‚É‚È‚Á‚½•”•ª‚¾‚¯‚ğƒoƒ‰‚Â‚«”»’è‚·‚é
-	float	VariationSubMasterVari;		//ƒ}ƒXƒ^[‰æ‘œ‚Ìƒoƒ‰‚Â‚«ŒW”‚ğˆø‚«Z‚·‚éŒW”
+	float	VariationRL,VariationRH;	//R-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
+	float	VariationGL,VariationGH;	//G-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
+	float	VariationBL,VariationBH;	//B-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
+	DWORD	VariationAdaptMinSize;		//ï¿½Åï¿½ï¿½Kï¿½pï¿½Ìˆï¿½ï¿½Tï¿½Cï¿½Y
+	float	VariationMultiplyMaster;	//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Aï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½Ì•Îï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½vï¿½Zï¿½ï¿½ï¿½ÌŒWï¿½ï¿½
+	bool	VariationDifMaster;			//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Â‚ï¿½ï¿½Îï¿½ï¿½Åï¿½ï¿½ï¿½
+	bool	VariationAndLogic;			//ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½É‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½è‚·ï¿½ï¿½
+	float	VariationSubMasterVari;		//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ìƒoï¿½ï¿½ï¿½Â‚ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½
 
 	bool	LineMode;
 	WORD	LineOKMinLength;
 	WORD	LineMaxWidth;
 	WORD	LineMinDensityPercent;
-	WORD	LineMinCluster;		//ü‚ÌÅ¬‰ò–ÊÏ
+	WORD	LineMinCluster;		//ï¿½ï¿½ï¿½ÌÅï¿½ï¿½ï¿½ï¿½Êï¿½
 public:
 
 	FlatInspectionLibrary(int LibType,LayersBase *Base);

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef GUIREVIEWTEMPLATE_H
 #define GUIREVIEWTEMPLATE_H
 
@@ -9,7 +27,7 @@
 
 #include "ReviewStructureItems.h"
 
-// ƒeƒ“ƒvƒŒ[ƒgGUIReview
+// ï¿½eï¿½ï¿½ï¿½vï¿½ï¿½ï¿½[ï¿½gGUIReview
 class GUIREVIEWTEMPLATE_EXPORT GUIReviewTemplate : public GUIFormBase
 {
 	Q_OBJECT
@@ -19,11 +37,11 @@ public:
 	~GUIReviewTemplate();
 
 public:
-	// XV—v‹‚ğó‚¯æ‚èAm_map‚ğXV‚·‚é
+	// ï¿½Xï¿½Vï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ó‚¯ï¿½ï¿½ï¿½ï¿½Am_mapï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
 	virtual	void TransmitDirectly(GUIDirectMessage *packet)	override;
 
 public:
-	void updateGUI();// ReviewStructure‚©‚çƒf[ƒ^‚ğæ“¾‚µ‚Äm_map‚Ìî•ñ‚ğXV‚·‚é
+	void updateGUI();// ReviewStructureï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½m_mapï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
 
 public slots:
 	void ResizeAction(void);

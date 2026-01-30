@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "BrightHistgramFormResource.h"
 #include "PropertyAreaShaderForm.h"
 #include "XAreaShader.h"
@@ -63,7 +81,7 @@ void	GUICmdSendAddManualAreaShader::Receive(int32 localPage, int32 cmd ,QString 
 		Cmd.AdoptRate		=AdoptRate;
 		Cmd.Fixed			=Fixed;
 		Cmd.Average			=Average;
-		Cmd.Sigma			=Sigma;		//ïWèÄïŒç∑
+		Cmd.Sigma			=Sigma;		//ÔøΩWÔøΩÔøΩÔøΩŒçÔøΩ
 		BBase->TransmitDirectly(&Cmd);
 	}
 
@@ -119,10 +137,10 @@ void	GUICmdSendAreaShaderList::MakeAreaShaderList(int localPage ,LayersBase *PBa
 						L->x2=x2;
 						L->y2=y2;
 						L->CellSize	=MItem->GetThresholdR()->CellSize;
-						L->AdoptRate=MItem->GetThresholdR()->AdoptRate;	//çÃópó¶
+						L->AdoptRate=MItem->GetThresholdR()->AdoptRate;	//ÔøΩÃópÔøΩÔøΩ
 						L->Fixed	=MItem->GetThresholdR()->Fixed;
 						L->Average	=MItem->GetThresholdR()->Average;
-						L->Sigma	=MItem->GetThresholdR()->Sigma;		//ïWèÄïŒç∑
+						L->Sigma	=MItem->GetThresholdR()->Sigma;		//ÔøΩWÔøΩÔøΩÔøΩŒçÔøΩ
 
 						AreaShaderInfo.AppendList(L);
 					}

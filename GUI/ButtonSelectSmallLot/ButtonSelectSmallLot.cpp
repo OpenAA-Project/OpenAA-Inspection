@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\ButtonSelectSmallLot\ButtonSelectSmallLot.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ButtonSelectSmallLotResource.h"
 #include "ButtonSelectSmallLot.h"
 #include "XExecuteInspectBase.h"
@@ -304,7 +313,7 @@ void ButtonSelectSmallLot::SetLotToSystem(int iLotAutoCount
 
 	BroadcastDirectly(_BC_BuildForShow ,GetLayersBase()->GetCurrentInspectIDForDisplay());
 
-	//?!?n???CID?iS102?j?E?a???CID?d?Z?b?g?E?e
+	//?!?n???ï¿½CID?iS102?j?E?a???ï¿½CID?d?Z?b?g?ï¿½E?e
 	if(GetLayersBase()->GetEntryPoint()->GetExecuteInspect()!=NULL){
 		SeqControlParam	*Param=(SeqControlParam *)GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetSeqParam();
 		if(Param!=NULL){
@@ -540,4 +549,3 @@ void	GUICmdSelectLot::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 		}
 	}
 }
-

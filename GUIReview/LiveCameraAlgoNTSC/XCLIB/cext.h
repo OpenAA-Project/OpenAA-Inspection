@@ -1,22 +1,25 @@
 /*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
- *	cext.h		External	01-Sep-2006
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *	Copyright (C)  1988-2006  EPIX, Inc.  All rights reserved.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *	GP: Handy C extensions.
- *	And compiler & OS identification.
- *	And mappings for compiler compatibility.
- *	As required w. external visibility; for distributed .h's
- *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #if !defined(__EPIX_CEXT_DEFINED)
 #define __EPIX_CEXT_DEFINED
 
-/*
- * Conserve space, time, and fingers.
- */
 #if defined(__GNUC__)
   #if !defined(OS_LINUX_DD32) && !defined(OS_LINUX_DD64)
     #include <sys/types.h>  // defines uint, ushort, ulong

@@ -1,14 +1,22 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\XGeneralFunc.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 #include<QIODevice>
 #include<QByteArray>
@@ -76,8 +84,8 @@ bool	FuncCall	Load(QIODevice* f, BYTE& d);
 bool	FuncCall	Load(QIODevice* f, char& d);
 bool	FuncCall	Load(QIODevice* f, bool& d);
 bool	FuncCall	Load(QIODevice* f, bool3& d);
-bool	FuncCall	Load(QIODevice* f, char* d, int64& len, int64 maxbuffsize);	//Save(QIODevice *f,char *d,int64 Len)‚É‘Î‚·‚éLoad
-bool	FuncCall	Load(QIODevice* f, char* d, int32& len, int32 maxbuffsize);		//Save(QIODevice *file,char *d)‚É‘Î‚·‚éLoad
+bool	FuncCall	Load(QIODevice* f, char* d, int64& len, int64 maxbuffsize);	//Save(QIODevice *f,char *d,int64 Len)ï¿½É‘Î‚ï¿½ï¿½ï¿½Load
+bool	FuncCall	Load(QIODevice* f, char* d, int32& len, int32 maxbuffsize);		//Save(QIODevice *file,char *d)ï¿½É‘Î‚ï¿½ï¿½ï¿½Load
 bool	FuncCall	Load(QIODevice* f, QString& d);
 char* FuncCall	LoadStringInQString(QIODevice* file);
 char* FuncCall	LoadString(QIODevice* file);			//Load data which is saved by "Save(QIODevice *f,char *d);"
@@ -96,9 +104,9 @@ bool	FuncCall	Load(QIODevice* f, QPointF& d);
 bool	FuncCall	Load(QIODevice* f, QSize& d);
 
 QString FuncCall	ForceDirectories(const QString &path);
-//Delphi‚ÌŠÖ”‚Æ“®ì‚Í“¯‚¶ •Ô’l‚Íˆá‚¤
-//ˆø”‚ÌƒpƒX‚ğ©“®“I‚Éì‚é
-//¬Œ÷‚Ì‰Â”Û‚ÉŠÖ‚í‚ç‚¸ì¬‚Å‚«‚½‚Æ‚±‚ë‚Ü‚Å‚ÌƒpƒX‚ğ•Ô‚·
+//Delphiï¿½ÌŠÖï¿½ï¿½Æ“ï¿½ï¿½ï¿½ï¿½Í“ï¿½ï¿½ï¿½ ï¿½Ô’lï¿½Íˆá‚¤
+//ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒpï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½Éï¿½ï¿½ï¿½
+//ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰Â”Û‚ÉŠÖ‚ï¿½ï¿½ç‚¸ï¿½ì¬ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Ü‚Å‚Ìƒpï¿½Xï¿½ï¿½ï¿½Ô‚ï¿½
 QStringList	FuncCall	FindFiles(const QString& dir, const QString& FileFilter);
 
 QString		FuncCall	GetDynamicFileExt(void);

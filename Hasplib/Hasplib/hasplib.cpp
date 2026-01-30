@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Hasplib\Hasplib\hasplib.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "hasplib.h"
@@ -15,9 +24,9 @@
 #include <QDate>
 #include "swap.h"
 
-Hasplib::Hasplib() //  HASPÉRÅ[ÉhÇÃïœçXÇ‚í«â¡ÇÕà»â∫
+Hasplib::Hasplib() //  HASPÔøΩRÔøΩ[ÔøΩhÔøΩÃïœçXÔøΩÔøΩÔøΩ«âÔøΩÔøΩÕà»âÔøΩ
 	:HaspCodeList(QStringList() << "je8398hw" << "k38fj306" <<"mk923yhd")
-// 	ÉnÉXÉvÇÃéÌóﬁ[SoftNumber]	:	Player[0]     Editor[1]    Repair[2]
+// 	ÔøΩnÔøΩXÔøΩvÔøΩÃéÔøΩÔøΩÔøΩ[SoftNumber]	:	Player[0]     Editor[1]    Repair[2]
 {
 
 }
@@ -62,23 +71,23 @@ bool Hasplib::HaspExecute(QStringList &Ret)
 				if (WORD==0xff){
 					Ret.append("");
 					return false;					
-					hasp_logout(Handle);//loginÅ®logout
+					hasp_logout(Handle);//loginÔøΩÔøΩlogout
 				}
 				if (ReData=="" ){
 					Ret.append("");
 					return false;
-					hasp_logout(Handle);//loginÅ®logout
+					hasp_logout(Handle);//loginÔøΩÔøΩlogout
 				}
 				if(Decrypt(Handle,ReData,DeData)==true){
 					Fukugou(HaspID,DeData,Fuku);
 					Return(Fuku,Ret);
-					hasp_logout(Handle);//loginÅ®logout					
+					hasp_logout(Handle);//loginÔøΩÔøΩlogout					
 					return true;
 				}
 			}
 		}
 	}
-	hasp_logout(Handle);//loginÅ®logout
+	hasp_logout(Handle);//loginÔøΩÔøΩlogout
 	return false;
 }
 hasp_status_t Hasplib::Login(hasp_handle_t &handle){
@@ -99,7 +108,7 @@ bool Hasplib::HaspLogin(hasp_handle_t &handle)
 }
 bool Hasplib::Session(hasp_handle_t handle, QByteArray &info)
 {
-	//HASPå≈óLèÓïÒÇÃéÊìæ
+	//HASPÔøΩ≈óLÔøΩÔøΩÔøΩÔøΩÔøΩÃéÊìæ
 	info.clear();
 	char *HASPinfo;
 	hasp_status_t status;
@@ -114,7 +123,7 @@ bool Hasplib::Session(hasp_handle_t handle, QByteArray &info)
 }
 void Hasplib::GetHaspID(QByteArray haspInfo,int &haspID)
 {
-//HASPÉVÉäÉAÉãÉRÅ[ÉhéÊìæ
+//HASPÔøΩVÔøΩÔøΩÔøΩAÔøΩÔøΩÔøΩRÔøΩ[ÔøΩhÔøΩÊìæ
 	QDomDocument d;
 	d.setContent(QString(haspInfo));
 	QDomElement n = d.firstChildElement();
@@ -130,7 +139,7 @@ void Hasplib::GetHaspID(QByteArray haspInfo,int &haspID)
 									while (!child3.isNull()) {
 										if (child3.tagName()=="haspid"){
 											haspID =child3.text().toInt();
-///											hasp_free((char *)HaspID); //äJï˙
+///											hasp_free((char *)HaspID); //ÔøΩJÔøΩÔøΩ
 											return ;
 										}
 										child3=child3.nextSiblingElement();
@@ -167,28 +176,28 @@ bool Hasplib::ReadHasp(hasp_handle_t handle, QByteArray &readData)
 }
 void Hasplib::Fukugou(int ID,QByteArray ReData, QByteArray &fukugou)
 {
-	//ÉVÉäÉAÉãÉRÅ[ÉhÇÃâ∫3åÖÇégópÇµÇΩï°çáâª
+	//ÔøΩVÔøΩÔøΩÔøΩAÔøΩÔøΩÔøΩRÔøΩ[ÔøΩhÔøΩÃâÔøΩ3ÔøΩÔøΩÔøΩÔøΩÔøΩgÔøΩpÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ
 	fukugou.clear();
 	QStringList List;
 	List.clear();
-	//QByteArrayÅ®QStringList(swapä÷êîÇégÇ§à◊)
+	//QByteArrayÔøΩÔøΩQStringList(swapÔøΩ÷êÔøΩÔøΩÔøΩÔøΩgÔøΩÔøΩÔøΩÔøΩ)
 	for (int iA=0; iA<=47; iA++){
 		List.append(ReData.mid(iA,1));
 	}
-	//à√çÜâªÇ≥ÇÍÇΩéûÇÃç≈å„ÇÃî‘çÜÇÇ∆ÇÈ
+	//ÔøΩ√çÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÍÇΩÔøΩÔøΩÔøΩÃç≈åÔøΩÔøΩÃî‘çÔøΩÔøΩÔøΩÔøΩ∆ÇÔøΩ
 	int iNum=0;
 	for (int iAn=0; iAn<=QByteArray().setNum(ID).mid(6,3).toInt(); iAn++){
 		if (iNum==45){iNum=0;}	
 		iNum++;
 	}
 	iNum=iNum+2;
-	//à√çÜâªÇ≥ÇÍÇΩÇ‡ÇÃÇï°çáâªÇ∑ÇÈ
+	//ÔøΩ√çÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÍÇΩÔøΩÔøΩÔøΩÃÇï°çÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ
 	for (int iFu=0; iFu<=QByteArray().setNum(ID).mid(6,3).toInt(); iFu++){
 		if (iNum==2){iNum=47;}
 		Swap(List,iNum,iNum-3);
 		iNum--;
 	}
-	//QStringListÅ®QByteArrayÇ…ñﬂÇ∑
+	//QStringListÔøΩÔøΩQByteArrayÔøΩ…ñﬂÇÔøΩ
 	for (int iB=0; iB<=47; iB++){
 		QString	s=List.at(iB);
 		fukugou.append(s.toUtf8());
@@ -196,7 +205,7 @@ void Hasplib::Fukugou(int ID,QByteArray ReData, QByteArray &fukugou)
 }
 bool Hasplib::Decrypt(hasp_handle_t handle, QByteArray hasp, QByteArray &deCereal)
 {
-	//ÉfÅ[É^ï°çáâª
+	//ÔøΩfÔøΩ[ÔøΩ^ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ
 	deCereal.clear();
 	hasp_status_t   destatus;
 	hasp.resize(hasp.size());
@@ -224,7 +233,7 @@ void Hasplib::Return(QByteArray InData,QStringList &RetData)
 	QString sHYOUJI4;
 	QString sHYOUJI7;
 	QString sHYOUJI10;
-	//ì˙ïtÇå^ïœä∑Ç≈ñﬂÇ∑
+	//ÔøΩÔøΩÔøΩtÔøΩÔøΩÔøΩ^ÔøΩœäÔøΩÔøΩ≈ñﬂÇÔøΩ
 	unsigned char WORD0=InData[0];
 	unsigned char WORD1=InData[1];
 	unsigned char WORD2=InData[2];
@@ -261,7 +270,7 @@ void Hasplib::Return(QByteArray InData,QStringList &RetData)
 	sHYOUJI10.append(QString().setNum(WORD38).rightJustified(2, '0'));
 	sHYOUJI10.append(QString().setNum(WORD39).rightJustified(2, '0'));
 	
-	//ÉfÅ[É^Ç™ì¸Ç¡ÇƒÇ¢ÇÈèÍçáÇÃÇ›QStringÇ÷à⁄Ç∑
+	//ÔøΩfÔøΩ[ÔøΩ^ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩƒÇÔøΩÔøΩÔøΩÔøΩÍçáÔøΩÃÇÔøΩQStringÔøΩ÷à⁄ÇÔøΩ
 	RetData.clear();
 	if (sHYOUJI1.right(6)!="000000"){
 		RetData.append(sHYOUJI1);

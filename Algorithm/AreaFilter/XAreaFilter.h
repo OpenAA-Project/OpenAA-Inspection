@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\AreaFilter\XAreaFilter.h
-** Author : YYYYYYYYYY
-*******************************************************************************/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #ifndef XAREAFILTER_H
@@ -182,19 +191,19 @@ public:
 class BlockInfo
 {
 public:
-	double	brightnessvariance;	//‹P“x‚Ì•ªU
-	double	brightnessvariance2;	//‹P“x‚Ì•ªU
-	double	DifVar;					//‚S•ªŠ„—Ìˆæ‚Ì•ªU‚Ì·
-	int		lightsidengdotcount;	//‹–—e”ÍˆÍŠO‚Ì–¾‚é‚¢‘¤‚Ìƒhƒbƒg”
-	unsigned int xn;				//”Ô†
+	double	brightnessvariance;	//ï¿½Pï¿½xï¿½Ì•ï¿½ï¿½U
+	double	brightnessvariance2;	//ï¿½Pï¿½xï¿½Ì•ï¿½ï¿½U
+	double	DifVar;					//ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½Ìˆï¿½ï¿½Ì•ï¿½ï¿½Uï¿½Ìï¿½
+	int		lightsidengdotcount;	//ï¿½ï¿½ï¿½eï¿½ÍˆÍŠOï¿½Ì–ï¿½ï¿½é‚¢ï¿½ï¿½ï¿½Ìƒhï¿½bï¿½gï¿½ï¿½
+	unsigned int xn;				//ï¿½Ôï¿½
 	unsigned int yn;
-	unsigned int X1;				//BlockSize‚Ì¶ãÀ•W
+	unsigned int X1;				//BlockSizeï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½W
 	unsigned int Y1;
-	unsigned int X2;				//BlockSize‚Ì¶ãÀ•W
+	unsigned int X2;				//BlockSizeï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½W
 	unsigned int Y2;
 	bool	Effective;
 	bool	isinsidemasking;
-	int		EffectivePixels;	//—LŒø‚ÈƒsƒNƒZƒ‹”
+	int		EffectivePixels;	//ï¿½Lï¿½ï¿½ï¿½Èƒsï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½
 	double	AverageBlockBrightness;
 	double *Avrbuf;
 	double *TmpAvrbuf;

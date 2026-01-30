@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XMEASURECOMMON_H)
 #define	XMEASURECOMMON_H
 
@@ -115,7 +133,7 @@ struct	MeasureHVInfo
 	bool	bHorizontal;
 	bool	bFrom0;
 	bool	bPartnerFrom0;
-							//ê‘PetÇÕÅ@bOnlyInside=true , bHorizontal=false ,bFrom0=false ,bPartnerFrom0=true/false
+							//ÔøΩÔøΩPetÔøΩÕÅ@bOnlyInside=true , bHorizontal=false ,bFrom0=false ,bPartnerFrom0=true/false
 	double	PartnerPos;		//mm
 	int32	RegLineLength;
 	double	CorrectLength;	//mm

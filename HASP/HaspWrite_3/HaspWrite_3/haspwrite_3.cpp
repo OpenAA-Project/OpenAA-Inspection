@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\HASP\HaspWrite_3\HaspWrite_3\haspwrite_3.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "haspwrite_3.h"
 #include "hasp_vcode.h"       /* contains HASP HL DEMOMA vendor code */
 #include "hasplib.h"
@@ -75,7 +84,7 @@ bool HaspWrite_3::HaspLogin(hasp_handle_t &handle)
 }
 bool HaspWrite_3::Session(hasp_handle_t handle, QByteArray &info)
 {
-	//HASPŒÅ—Lî•ñ‚Ìæ“¾
+	//HASPï¿½Å—Lï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
 	info.clear();
 	char *HASPinfo;
 	hasp_status_t status;
@@ -101,7 +110,7 @@ bool HaspWrite_3::Session(hasp_handle_t handle, QByteArray &info)
 
 void HaspWrite_3::GetHaspID(QByteArray haspInfo,int &haspID)
 {
-//HASPƒVƒŠƒAƒ‹ƒR[ƒhæ“¾
+//HASPï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½æ“¾
 	QDomDocument d;
 	d.setContent(QString(haspInfo));
 	QDomElement n = d.firstChildElement();
@@ -117,7 +126,7 @@ void HaspWrite_3::GetHaspID(QByteArray haspInfo,int &haspID)
 									while (!child3.isNull()) {
 										if (child3.tagName()=="haspid"){
 											haspID =child3.text().toInt();
-//											hasp_free((char *)HaspID); //ŠJ•ú
+//											hasp_free((char *)HaspID); //ï¿½Jï¿½ï¿½
 											return ;
 										}
 										child3=child3.nextSiblingElement();
@@ -134,7 +143,7 @@ void HaspWrite_3::GetHaspID(QByteArray haspInfo,int &haspID)
 }
 bool HaspWrite_3::FileOpen(QString &sfile)
 {
-	//File–¼‚Ìæ“¾
+	//Fileï¿½ï¿½ï¿½Ìæ“¾
 	sfile = QFileDialog::getOpenFileName(this,"open","","");							
 	if (sfile.isEmpty()){
 		return false;
@@ -144,7 +153,7 @@ bool HaspWrite_3::FileOpen(QString &sfile)
 }
 bool HaspWrite_3::FileLoad(QString fileName, QByteArray &haspData)
 {
-	//File“àƒf[ƒ^‚Ìæ“¾
+	//Fileï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìæ“¾
     if (!QFile::exists(fileName))
         return false;
     QFile file(fileName);
@@ -157,7 +166,7 @@ bool HaspWrite_3::FileLoad(QString fileName, QByteArray &haspData)
 }
 bool HaspWrite_3::Decrypt(hasp_handle_t handle, QByteArray hasp, QByteArray &deCereal)
 {
-	//ƒf[ƒ^•¡‡‰»
+	//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	deCereal.clear();
 	hasp_status_t   destatus;
 	hasp.resize(48);//hasp.size()
@@ -191,29 +200,29 @@ bool HaspWrite_3::Decrypt(hasp_handle_t handle, QByteArray hasp, QByteArray &deC
 }
 void HaspWrite_3::Angou(int ID, QByteArray DeData, QByteArray &angou)
 {
-	//ƒVƒŠƒAƒ‹ƒR[ƒh‚Ì‰º3Œ…‚ğg—p‚µ‚½ˆÃ†‰»
+	//ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Ì‰ï¿½3ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½Ãï¿½ï¿½ï¿½
 	angou.clear();
 	QStringList List;
 	List.clear();
-	//QByteArray¨QStringList(swapŠÖ”‚ğg‚¤ˆ×)
+	//QByteArrayï¿½ï¿½QStringList(swapï¿½Öï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½)
 	for (int iA=0; iA<=47; iA++){
 		List.append(DeData.mid(iA,1));
 	}
-	//›”Ô‚Æ›”Ô{3”Ô‚ğ“ü‚ê‘Ö‚¦‚é–‚ğƒVƒŠƒAƒ‹”Ô†‚Ì‰º3Œ…•ª‚Ì‰ñ”s‚¤
+	//ï¿½ï¿½ï¿½Ô‚Æï¿½ï¿½Ô{3ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö‚ï¿½ï¿½é–ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ôï¿½ï¿½Ì‰ï¿½3ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ñ”sï¿½ï¿½
 	int iNum=0;
 	for (int iAn=0; iAn<=QByteArray().setNum(ID).mid(6,3).toInt(); iAn++){
 		if (iNum==45){iNum=0;}
 		Swap(List,iNum,iNum+3);
 		iNum++;
 	}
-	//QStringList¨QByteArray‚É–ß‚·
+	//QStringListï¿½ï¿½QByteArrayï¿½É–ß‚ï¿½
 	for (int iB=0; iB<=47; iB++){
 		angou.append(List.at(iB).toUtf8());
 	}
 }
 bool HaspWrite_3::Encrypt(hasp_handle_t handle,QByteArray DeHaspData,QByteArray &enHaspData)
 { 
-	//ƒf[ƒ^ˆÃ†‰»
+	//ï¿½fï¿½[ï¿½^ï¿½Ãï¿½ï¿½ï¿½
 	enHaspData.clear();
 	hasp_status_t   enstatus;
 	DeHaspData.resize(DeHaspData.size());
@@ -250,7 +259,7 @@ bool HaspWrite_3::Encrypt(hasp_handle_t handle,QByteArray DeHaspData,QByteArray 
 }
 bool HaspWrite_3::WriteHasp(hasp_handle_t handle, QByteArray writeData)
 {
-//HASP‚Éƒf[ƒ^‚ğ‘‚«‚Ş
+//HASPï¿½Éƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	hasp_status_t   status=HASP_STATUS_OK;
 	writeData.resize(writeData.size());
 	unsigned char WData[] = {
@@ -317,38 +326,38 @@ bool HaspWrite_3::ReadHasp(hasp_handle_t handle, QByteArray &readData)
 }
 void HaspWrite_3::Fukugou(int ID,QByteArray ReData, QByteArray &fukugou)
 {
-	//ƒVƒŠƒAƒ‹ƒR[ƒh‚Ì‰º3Œ…‚ğg—p‚µ‚½•¡‡‰»
+	//ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Ì‰ï¿½3ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	fukugou.clear();
 	QStringList List;
 	List.clear();
-	//QByteArray¨QStringList(swapŠÖ”‚ğg‚¤ˆ×)
+	//QByteArrayï¿½ï¿½QStringList(swapï¿½Öï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½)
 	for (int iA=0; iA<=47; iA++){
 		List.append(ReData.mid(iA,1));
 	}
-	//ˆÃ†‰»‚³‚ê‚½‚ÌÅŒã‚Ì”Ô†‚ğ‚Æ‚é
+	//ï¿½Ãï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ÌÅŒï¿½ï¿½Ì”Ôï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 	int iNum=0;
 	for (int iAn=0; iAn<=QByteArray().setNum(ID).mid(6,3).toInt(); iAn++){
 		if (iNum==45){iNum=0;}	
 		iNum++;
 	}
 	iNum=iNum+2;
-	//ˆÃ†‰»‚³‚ê‚½‚à‚Ì‚ğ•¡‡‰»‚·‚é
+	//ï¿½Ãï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Ì‚ğ•¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for (int iFu=0; iFu<=QByteArray().setNum(ID).mid(6,3).toInt(); iFu++){
 		if (iNum==2){iNum=47;}
 		Swap(List,iNum,iNum-3);
 		iNum--;
 	}
-	//QStringList¨QByteArray‚É–ß‚·
+	//QStringListï¿½ï¿½QByteArrayï¿½É–ß‚ï¿½
 	for (int iB=0; iB<=47; iB++){
 		fukugou.append(List.at(iB).toUtf8());
 	}
 }
 void HaspWrite_3::WidgetRead(QByteArray &widgetData)
 {
-//TableWidget‚É•\¦‚³‚ê‚Ä‚¢‚é‚à‚Ì‚ğæ“¾‚·‚é
+//TableWidgetï¿½É•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	widgetData.clear();	
 	QByteArray WORD;
-	for (int i=0; i<=ui.tableWidget->rowCount()-1; i++){//‚¢‚Á‚Ï‚¢‚Å‚È‚©‚Á‚½‚çŠù‘¶‚Ìƒf[ƒ^‚ğ‚æ‚ñ‚Ş
+	for (int i=0; i<=ui.tableWidget->rowCount()-1; i++){//ï¿½ï¿½ï¿½ï¿½ï¿½Ï‚ï¿½ï¿½Å‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		WORD=QByteArray().setNum(ui.tableWidget->item(i,0)->text().toInt());
 		unsigned char WORD1 =WORD.mid(0,2).toInt();
 		unsigned char WORD2 =WORD.mid(2,2).toInt();
@@ -371,7 +380,7 @@ void HaspWrite_3::WidgetShow(QByteArray Hyouji)
 	QString sHYOUJI7;
 	QString sHYOUJI10;
 	QTableWidgetItem *item;
-	//“ú•t‚ğŒ^•ÏŠ·‚Å–ß‚·
+	//ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½^ï¿½ÏŠï¿½ï¿½Å–ß‚ï¿½
 	unsigned char WORD0=Hyouji[0];
 	unsigned char WORD1=Hyouji[1];
 	unsigned char WORD2=Hyouji[2];
@@ -408,7 +417,7 @@ void HaspWrite_3::WidgetShow(QByteArray Hyouji)
 	sHYOUJI10.append(QString().setNum(WORD38).rightJustified(2, '0'));
 	sHYOUJI10.append(QString().setNum(WORD39).rightJustified(2, '0'));
 	
-	//ƒf[ƒ^‚ª“ü‚Á‚Ä‚¢‚éê‡‚Ì‚İQStringList‚ÖˆÚ‚·
+	//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ì‚ï¿½QStringListï¿½ÖˆÚ‚ï¿½
 	int Num;
 	Num=-1;
 	if (sHYOUJI1.right(6)!="000000"){
@@ -435,7 +444,7 @@ void HaspWrite_3::WidgetShow(QByteArray Hyouji)
 			}
 		}
 	}
-	//TableWidget‚Ö‚Ì•\¦
+	//TableWidgetï¿½Ö‚Ì•\ï¿½ï¿½
 	int setRow=1;
 	int Row=0;
 	ui.tableWidget->setColumnCount(2);
@@ -455,33 +464,33 @@ void HaspWrite_3::WidgetShow(QByteArray Hyouji)
 void HaspWrite_3::on_pbFILEOPEN_clicked()
 {
 	if (HaspLogin(Handle)==true){										//HASPLogin
-		if (Session(Handle,HaspInfo)==true){							//HASPî•ñæ“¾
-			GetHaspID(HaspInfo,HaspID);									//HASPƒVƒŠƒAƒ‹ƒR[ƒhæ“¾
+		if (Session(Handle,HaspInfo)==true){							//HASPï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+			GetHaspID(HaspInfo,HaspID);									//HASPï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½æ“¾
 			QMessageBox::information(this,tr("The file is opened"),tr("Please open Hasplisencefile"));
-			if (FileOpen(FileName)==false){								//File–¼æ“¾
+			if (FileOpen(FileName)==false){								//Fileï¿½ï¿½ï¿½æ“¾
 				QMessageBox::information(this,"FileOpen Error","Select not file");
 				hasp_logout(Handle);
 				return ;			
-			}else if(FileLoad(FileName,HaspData)==false){				//File“àî•ñæ“¾
+			}else if(FileLoad(FileName,HaspData)==false){				//Fileï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 				hasp_logout(Handle);
 				return;
 			}
-			if (Decrypt(Handle,HaspData,DeHaspData)==true){				//æ“¾î•ñ‚Ì•¡‡‰»
-				if (QString(strchr(DeHaspData, ':')).isEmpty()==true){	//•¡‡‰»‚³‚ê‚½ƒf[ƒ^‚Ìƒ`ƒFƒbƒN
+			if (Decrypt(Handle,HaspData,DeHaspData)==true){				//ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½
+				if (QString(strchr(DeHaspData, ':')).isEmpty()==true){	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½fï¿½[ï¿½^ï¿½Ìƒ`ï¿½Fï¿½bï¿½N
 					QMessageBox::information(this,tr("Open file error"),tr("It doesn't know the file"));
 					hasp_logout(Handle);
 					return ;  
 				}
-				QString sCereal=QString(DeHaspData).split(":").at(1);	//ƒVƒŠƒAƒ‹ƒR[ƒh
-				QString sChasaku=QString(DeHaspData).split(":").at(2);	//’˜ìŒ ƒR[ƒh
-				QString sDay=QString(DeHaspData).split(":").at(3);		//g—pŠúŠÔ	
-				if (HaspID!=sCereal.toInt()){							//ƒtƒ@ƒCƒ‹î•ñ‚ğHASPƒVƒŠƒAƒ‹ƒR[ƒh‚ÌÆ‡
+				QString sCereal=QString(DeHaspData).split(":").at(1);	//ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½h
+				QString sChasaku=QString(DeHaspData).split(":").at(2);	//ï¿½ï¿½ï¿½ìŒ ï¿½Rï¿½[ï¿½h
+				QString sDay=QString(DeHaspData).split(":").at(3);		//ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½	
+				if (HaspID!=sCereal.toInt()){							//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½HASPï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ÌÆï¿½
 					QMessageBox::information(this,tr("Cereal code Error"),tr("The cereal code is not suitable"));
 					hasp_logout(Handle);
 					return ;
 				}
-				if (ReadHasp(Handle, ReadData)==true){					//HASP“àƒf[ƒ^‚Ìæ“¾		
-					unsigned char WORD=ReadData[0];						//HASP“àƒf[ƒ^‚Ìƒ`ƒFƒbƒN
+				if (ReadHasp(Handle, ReadData)==true){					//HASPï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìæ“¾		
+					unsigned char WORD=ReadData[0];						//HASPï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìƒ`ï¿½Fï¿½bï¿½N
 					if (ReadData==""){	
 						ui.lCopyright->setText(sChasaku);		
 						ui.lUsableyears->setText("20"+sDay.mid(0,2)+"/"+sDay.mid(2,2)+"/"+sDay.mid(4,2));
@@ -500,12 +509,12 @@ void HaspWrite_3::on_pbFILEOPEN_clicked()
 						ui.pbINSERT->setEnabled(true);
 						ui.pbDELETE->setEnabled(true);
 						ui.pbEND->setEnabled(true);
-						hasp_logout(Handle);//login¨logout
+						hasp_logout(Handle);//loginï¿½ï¿½logout
 						return;	
 					}else{
-						if (Decrypt(Handle,ReadData,DeWriteData)==true){//HASP“àƒf[ƒ^‚Ì•¡‡‰»
+						if (Decrypt(Handle,ReadData,DeWriteData)==true){//HASPï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½
 							Fukugou(HaspID,DeWriteData,Fuku);
-							WidgetShow(Fuku);							//TableWidget‚Ö•\¦
+							WidgetShow(Fuku);							//TableWidgetï¿½Ö•\ï¿½ï¿½
 						}
 					}
 					ui.lCopyright->setText(sChasaku);		
@@ -519,24 +528,24 @@ void HaspWrite_3::on_pbFILEOPEN_clicked()
 			}
 		}
 	}
-	hasp_logout(Handle);//login¨logout
+	hasp_logout(Handle);//loginï¿½ï¿½logout
 }
 void HaspWrite_3::on_pbINSERT_clicked()
 {
 	if (HaspLogin(Handle)==true){											//HASPLogin
-		if (Session(Handle,HaspInfo)==true){								//HASPî•ñæ“¾
-			GetHaspID(HaspInfo,HaspID);										//HASPƒVƒŠƒAƒ‹ƒR[ƒhæ“¾
-			if (ui.lCerealNo->text().isEmpty()==true){						//‘}“ü‚µ‚½î•ñ‚ª“Ç‚Ü‚ê‚Ä‚¢‚é‚©‚ÌŠm”F
+		if (Session(Handle,HaspInfo)==true){								//HASPï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+			GetHaspID(HaspInfo,HaspID);										//HASPï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½æ“¾
+			if (ui.lCerealNo->text().isEmpty()==true){						//ï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚ª“Çï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½ÌŠmï¿½F
 				hasp_logout(Handle);
 				return ;
 			}
-			if (HaspID!=ui.lCerealNo->text().toInt()){						//ƒtƒ@ƒCƒ‹î•ñ‚ğHASPƒVƒŠƒAƒ‹ƒR[ƒh‚ÌÆ‡
+			if (HaspID!=ui.lCerealNo->text().toInt()){						//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½HASPï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ÌÆï¿½
 				QMessageBox::information(this,tr("Cereal code Error"),tr("The cereal code is not suitable"));
 				hasp_logout(Handle);
 				return ;
 			}
-			if (ui.tableWidget->rowCount()!=0){								//HASP“àî•ñ—L–³‚ÌŠm”F
-				for (int i=0; i<=ui.tableWidget->rowCount()-1; i++){		//HASP‚É‘‚«‚½‚¢î•ñ‚ÆHASP“à‚Ìî•ñ‚ª“¯‚¶‚©”Û‚©
+			if (ui.tableWidget->rowCount()!=0){								//HASPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ÌŠmï¿½F
+				for (int i=0; i<=ui.tableWidget->rowCount()-1; i++){		//HASPï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½HASPï¿½ï¿½ï¿½Ìï¿½ï¿½ñ‚ª“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‚ï¿½
 					if (ui.lCopyright->text()==ui.tableWidget->item(i,1)->text()){
 						QMessageBox::information(this,"Insert Error","It has already broken out");
 						hasp_logout(Handle);
@@ -544,22 +553,22 @@ void HaspWrite_3::on_pbINSERT_clicked()
 					}
 				}
 			}
-			if (ui.tableWidget->rowCount()==4){								//HASP“à‚ª‚¢‚Á‚Ï‚¢‚©‚Ç‚¤‚©
+			if (ui.tableWidget->rowCount()==4){								//HASPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
 				QMessageBox::information(this,tr("HASP data full"),tr("HASP data full"));
 				hasp_logout(Handle);
 				return ;
 			}
-			if (ui.tableWidget->rowCount()!=0){								//HASP“àî•ñ‚Ìæ“¾
+			if (ui.tableWidget->rowCount()!=0){								//HASPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
 				WidgetRead(DeHasp);
 			}
-			QString sCopy=ui.lCopyright->text()+"\n";						//’˜ìŒ ‚Ìæ“¾
+			QString sCopy=ui.lCopyright->text()+"\n";						//ï¿½ï¿½ï¿½ìŒ ï¿½Ìæ“¾
 			QByteArray WORD;
 			QString KIGEN;
 			KIGEN.append(ui.lUsableyears->text().mid(0,4));
 			KIGEN.append(ui.lUsableyears->text().mid(5,2));
 			KIGEN.append(ui.lUsableyears->text().mid(8,2));
-			WORD=QByteArray().setNum(KIGEN.toInt());		//g—pŠúŒÀ‚ğ8•¶š¨4•¶š•\¦
-			unsigned char WORD1 =WORD.mid(0,2).toInt();						//int¨unsigned char:Œ^•ÏŠ·
+			WORD=QByteArray().setNum(KIGEN.toInt());		//ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½8ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½4ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
+			unsigned char WORD1 =WORD.mid(0,2).toInt();						//intï¿½ï¿½unsigned char:ï¿½^ï¿½ÏŠï¿½
 			unsigned char WORD2 =WORD.mid(2,2).toInt();
 			unsigned char WORD3 =WORD.mid(4,2).toInt();
 			unsigned char WORD4 =WORD.mid(6,2).toInt();
@@ -569,55 +578,55 @@ void HaspWrite_3::on_pbINSERT_clicked()
 			DeHasp.append(WORD4);
 			DeHasp.append(sCopy.toUtf8());
 
-			Angou(HaspID,DeHasp,DataAngou);										//ƒf[ƒ^‚ğƒVƒŠƒAƒ‹ƒR[ƒh‚ÅˆÃ†‰»
-			if (Encrypt(Handle,DataAngou,EnHaspData)==true){					//ƒVƒŠƒAƒ‹ƒR[ƒh‚ÅˆÃ†‰»‚µ‚½ƒf[ƒ^‚ÌˆÃ†‰»
-				if (WriteHasp(Handle,EnHaspData)==true){						//HASP‚Ö‘‚«‚İ
-					if (ReadHasp(Handle, ReadData)==true){						//HASP‚©‚ç‚Ì“Ç‚İ‚İ
-						if (Decrypt(Handle, ReadData, DeWriteData)==true){	//HASP“àƒf[ƒ^‚Ì•¡‡‰»
-							Fukugou(HaspID,DeWriteData,Fuku);					//•¡‡‰»‚µ‚½ƒf[ƒ^‚ğƒVƒŠƒAƒ‹ƒR[ƒh‚Å•¡‡‰»
-							WidgetShow(Fuku);									//TableWidget‚Ö•\¦
+			Angou(HaspID,DeHasp,DataAngou);										//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ÅˆÃï¿½ï¿½ï¿½
+			if (Encrypt(Handle,DataAngou,EnHaspData)==true){					//ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ÅˆÃï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ÌˆÃï¿½ï¿½ï¿½
+				if (WriteHasp(Handle,EnHaspData)==true){						//HASPï¿½Öï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+					if (ReadHasp(Handle, ReadData)==true){						//HASPï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
+						if (Decrypt(Handle, ReadData, DeWriteData)==true){	//HASPï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½
+							Fukugou(HaspID,DeWriteData,Fuku);					//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Å•ï¿½ï¿½ï¿½ï¿½ï¿½
+							WidgetShow(Fuku);									//TableWidgetï¿½Ö•\ï¿½ï¿½
 						}
 					}
 				}	
 			}
 		}
 	}
-	hasp_logout(Handle);//login¨logout
+	hasp_logout(Handle);//loginï¿½ï¿½logout
 }
 void HaspWrite_3::on_pbDELETE_clicked()
 {
 	if (HaspLogin(Handle)==true){												//HASPLogin
-		if (Session(Handle,HaspInfo)==true){									//HASPî•ñæ“¾
-			GetHaspID(HaspInfo,HaspID);											//HASPƒVƒŠƒAƒ‹ƒR[ƒhæ“¾
-			if (ui.lCerealNo->text().isEmpty()==true){							//‘}“ü‚µ‚½î•ñ‚ª“Ç‚Ü‚ê‚Ä‚¢‚é‚©‚ÌŠm”F
+		if (Session(Handle,HaspInfo)==true){									//HASPï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+			GetHaspID(HaspInfo,HaspID);											//HASPï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½æ“¾
+			if (ui.lCerealNo->text().isEmpty()==true){							//ï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚ª“Çï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½ÌŠmï¿½F
 				QMessageBox::information(this,"select Error","unkuown HASPceraldata\n");
 				hasp_logout(Handle);
 				return;
 			}
-			if (HaspID!=ui.lCerealNo->text().toInt()){							//ƒtƒ@ƒCƒ‹î•ñ‚ğHASPƒVƒŠƒAƒ‹ƒR[ƒh‚ÌÆ‡
+			if (HaspID!=ui.lCerealNo->text().toInt()){							//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½HASPï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ÌÆï¿½
 				QMessageBox::information(this,"select Error","Error HASPceraldata\n");
 				hasp_logout(Handle);
 				return;
 			}
-			if (ui.tableWidget->currentRow()==-1){								//TableWidget‚Ìƒf[ƒ^‚ğ‘I‘ğ‚µ‚Ä‚¢‚é‚©‚ÌŠm”F
+			if (ui.tableWidget->currentRow()==-1){								//TableWidgetï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½ÌŠmï¿½F
 				QMessageBox::information(this,"select Error","delete data not select\n");
 				hasp_logout(Handle);
 				return;
 			}
-			ui.tableWidget->removeRow(ui.tableWidget->currentRow());			//TableWidget‚Ìƒf[ƒ^‚Ìíœ
-			if (ui.tableWidget->rowCount()==0){									//TableWidget‚Ìƒf[ƒ^‚Ìæ“¾
-				WriteHasp(Handle,"");											//HASP‚Ö‘‚«‚İ
-				ReadHasp(Handle, DeWriteData);									//HASP‚©‚ç‚Ì“Ç‚İ‚İ
-				WidgetShow(DeWriteData);										//TableWidget‚Ö•\¦
+			ui.tableWidget->removeRow(ui.tableWidget->currentRow());			//TableWidgetï¿½Ìƒfï¿½[ï¿½^ï¿½Ìíœ
+			if (ui.tableWidget->rowCount()==0){									//TableWidgetï¿½Ìƒfï¿½[ï¿½^ï¿½Ìæ“¾
+				WriteHasp(Handle,"");											//HASPï¿½Öï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				ReadHasp(Handle, DeWriteData);									//HASPï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
+				WidgetShow(DeWriteData);										//TableWidgetï¿½Ö•\ï¿½ï¿½
 			}else{
-				WidgetRead(DeHasp);												//TableWidget‚É•\¦‚³‚ê‚Ä‚¢‚é‚à‚Ì‚ğæ“¾‚·‚é
-				Angou(HaspID,DeHasp,DataAngou);									//ƒf[ƒ^‚ğƒVƒŠƒAƒ‹ƒR[ƒh‚ÅˆÃ†‰»
-				if (Encrypt(Handle,DataAngou,EnHaspData)==true){				//ƒVƒŠƒAƒ‹ƒR[ƒh‚ÅˆÃ†‰»‚µ‚½ƒf[ƒ^‚ÌˆÃ†‰»
-					if (WriteHasp(Handle,EnHaspData)==true){					//HASP‚Ö‘‚«‚İ
-						if (ReadHasp(Handle, ReadData)==true){					//HASP“àƒf[ƒ^‚Ìæ“¾
-							if (Decrypt(Handle,ReadData, Fuku)==true){			//HASP“àƒf[ƒ^‚Ì•¡‡‰»
-								Fukugou(HaspID,Fuku,DeWriteData);				//•¡‡‰»‚µ‚½ƒf[ƒ^‚ğƒVƒŠƒAƒ‹ƒR[ƒh‚Å•¡‡‰»
-								WidgetShow(DeWriteData);						//TableWidget‚Ö•\¦
+				WidgetRead(DeHasp);												//TableWidgetï¿½É•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
+				Angou(HaspID,DeHasp,DataAngou);									//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ÅˆÃï¿½ï¿½ï¿½
+				if (Encrypt(Handle,DataAngou,EnHaspData)==true){				//ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ÅˆÃï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ÌˆÃï¿½ï¿½ï¿½
+					if (WriteHasp(Handle,EnHaspData)==true){					//HASPï¿½Öï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+						if (ReadHasp(Handle, ReadData)==true){					//HASPï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìæ“¾
+							if (Decrypt(Handle,ReadData, Fuku)==true){			//HASPï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½
+								Fukugou(HaspID,Fuku,DeWriteData);				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Å•ï¿½ï¿½ï¿½ï¿½ï¿½
+								WidgetShow(DeWriteData);						//TableWidgetï¿½Ö•\ï¿½ï¿½
 							}
 						}
 					}
@@ -625,7 +634,7 @@ void HaspWrite_3::on_pbDELETE_clicked()
 			}
 		}
 	}
-	hasp_logout(Handle);//login¨logout
+	hasp_logout(Handle);//loginï¿½ï¿½logout
 }
 
 void HaspWrite_3::on_pbEND_clicked()

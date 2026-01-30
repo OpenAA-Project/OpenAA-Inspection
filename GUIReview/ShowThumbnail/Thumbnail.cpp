@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ShowThumbnailResource.h"
 #include "Thumbnail.h"
 #include "../XGUIReviewGlobal.h"
@@ -48,10 +66,10 @@ Thumbnail *Thumbnail::createDup() const
 void Thumbnail::updateData(void)
 {
 	if(m_NGItem.image().isNull()==false){
-		// NG‰æ‘œ‚Ìİ’è
+		// NGï¿½æ‘œï¿½Ìİ’ï¿½
 		ui.lbNGImage->setPixmap(QPixmap::fromImage(m_NGItem.image()));
 
-		// NG‰ÓŠ‚Ìİ’è
+		// NGï¿½Óï¿½ï¿½Ìİ’ï¿½
 		//QList<QPoint> pList;
 		//for(int i=0; i<m_NGItem.NGPointList.count(); i++){
 		//	pList.append(QPoint(m_NGItem.NGPointList[i].x - m_NGItem.TargetPosX, m_NGItem.NGPointList[i].y - m_NGItem.TargetPosY));
@@ -60,10 +78,10 @@ void Thumbnail::updateData(void)
 		ui.lbNGImage->setTopLeftPoint(QPoint(m_NGItem.TargetPosX, m_NGItem.TargetPosY));
 		ui.lbNGImage->setRound(m_NGSignSize);
 	}else{
-		// NG‰æ‘œ‚Ìİ’è
+		// NGï¿½æ‘œï¿½Ìİ’ï¿½
 		ui.lbNGImage->setPixmap(m_MasterImage);
 
-		// NG‰ÓŠ‚Ìİ’è
+		// NGï¿½Óï¿½ï¿½Ìİ’ï¿½
 		QList<QPoint> pList;
 		
 		QPoint target(m_NGItem.TargetPosX, m_NGItem.TargetPosY);
@@ -131,7 +149,7 @@ void Thumbnail::mousePressEvent(QMouseEvent *event)
 
 void Thumbnail::paintEvent(QPaintEvent *event)
 {
-	// “y‘ä‚Ì€”õ
+	// ï¿½yï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
 	//QPainter painter;
 	//if(m_BackGroundColor!=Qt::white){
 	//	QPen old_pen = painter.pen();
@@ -224,7 +242,7 @@ void Thumbnail::paintEvent(QPaintEvent *event)
 
 	//ui.horizontalLayout->update();
 
-	if(isDummy()==true){// ƒ_ƒ~[(ŒŠ–„‚ß—p‚Ìê‡)
+	if(isDummy()==true){// ï¿½_ï¿½~ï¿½[(ï¿½ï¿½ï¿½ï¿½ï¿½ß—pï¿½Ìê‡)
 		QPixmap pix;// = QPixmap(m_NGItem.NGImageWidth, m_NGItem.NGImageHeight).scaled(ui.lbNGImage->width(), ui.lbNGImage->height(), Qt::KeepAspectRatio);
 		ui.lbNGImage->setPixmap(pix);
 		if(m_viewMasterImage==true){
@@ -246,13 +264,13 @@ void Thumbnail::paintEvent(QPaintEvent *event)
 		return;
 	}
 
-	//if(m_NGItem.NGImage.isNull()==true){// NG‰æ‘œ‚ª–³‚¢ê‡‚Íƒ}ƒXƒ^[‰æ‘œ‚Æ“¯‚¶‰æ‘œ‚ğ•\¦‚·‚é
+	//if(m_NGItem.NGImage.isNull()==true){// NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Íƒ}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Æ“ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//	QPixmap pix;
 	//	if(m_MasterImage.isNull()==false){
 	//		pix = m_MasterImage;//.scaled(ui.lbNGImage->width(), ui.lbNGImage->height(), Qt::KeepAspectRatio);
 	//	}
 	//	if(pix.isNull()==false){
-	//		double zoomRate = pix.width() / (double)m_MasterImage.width();// Šg‘å—¦
+	//		double zoomRate = pix.width() / (double)m_MasterImage.width();// ï¿½gï¿½å—¦
 	//		QPoint target(m_NGItem.TargetPosX, m_NGItem.TargetPosY);
 	//		QPoint master(m_NGItem.MasterPosX, m_NGItem.MasterPosY);
 	//		//int ox = m_NGItem.TargetPosX;// 1
@@ -283,7 +301,7 @@ void Thumbnail::paintEvent(QPaintEvent *event)
 	//	}
 
 	//	if(pix.isNull()==false){
-	//		double zoomRate = pix.width() / (double)m_NGItem.NGImage.width();// Šg‘å—¦
+	//		double zoomRate = pix.width() / (double)m_NGItem.NGImage.width();// ï¿½gï¿½å—¦
 	//		int ox = m_NGItem.TargetPosX;
 	//		int oy = m_NGItem.TargetPosY;
 
@@ -360,7 +378,7 @@ void Thumbnail::SetNailInformation(NGNailItem NGItem)
 
 	if(ViewOffset.CSVUnitMM==false){
 		QString xyStr = QString(/**/"%1,%2").arg(XPos).arg(YPos);
-		Message=QString("Position£º")+xyStr;
+		Message=QString("Positionï¿½ï¿½")+xyStr;
 	}
 	else{
 		XPos=XPos*ViewOffset.CSVMagnificationX+ViewOffset.CSVOffsetX;
@@ -374,7 +392,7 @@ void Thumbnail::SetNailInformation(NGNailItem NGItem)
 		QString xyStr = QString::number(Parent->GetParamGlobal()->TransformPixelToUnit(XPos),'f',Parent->GetParamGlobal()->SmallNumberFigure)
 					   +QString(/**/",")
 					   +QString::number(Parent->GetParamGlobal()->TransformPixelToUnit(YPos),'f',Parent->GetParamGlobal()->SmallNumberFigure);
-		Message=QString("Position£º")+xyStr;
+		Message=QString("Positionï¿½ï¿½")+xyStr;
 	}
 	
 	CmdReqInsLib Send(Parent->GetLayersBase());

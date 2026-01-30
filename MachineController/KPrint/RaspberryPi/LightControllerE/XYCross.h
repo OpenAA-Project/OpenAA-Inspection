@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\XYCross.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #if	 !defined(XYCrossH)
 
@@ -232,7 +240,7 @@ class   XYClassCluster : public NPListPack<XYClassArea>
     void    Rotate(double angle ,int cx ,int cy);
     void    ChangeXY(XYData *outlineOffset ,int MaxPage,int maxlines);
 
-    bool    Validate(void); //–³Œø‚È—Ìˆæ‚ğíœ‚·‚é
+    bool    Validate(void); //ï¿½ï¿½ï¿½ï¿½ï¿½È—Ìˆï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 	void	DrawLines(QPainter &pnt ,double ZoomRate ,int movx ,int movy);
 };
 

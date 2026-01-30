@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\AreaFilter\XAreaFilterItemLineEmphasize.cpp
-** Author : YYYYYYYYYY
-*******************************************************************************/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "XAreaFilter.h"
 #include "XPointer.h"
@@ -232,19 +241,19 @@ ExeResult	AreaFilterItemLineEmphasize::ExecuteInitialAfterEdit(int ExeID ,int Th
 	LBlockVNumb=(YLen-BlockSize)/BlockSize;
 	LBlockNumb = LBlockHNumb*LBlockVNumb;
 
-	//ƒuƒƒbƒNî•ñ •ªU‚Æ‚©“ü‚Á‚Ä‚é
+	//ï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Uï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½
 	if(BlockInfos!=NULL)
 		delete [] BlockInfos;
 	BlockInfos = new BlockInfo[LBlockNumb];
 
-	//‚»‚Ì‘¼
+	//ï¿½ï¿½ï¿½Ì‘ï¿½
 	if(wTargetBuff==NULL){
 		wTargetBuff=new ImageBuffer(1,XLen,YLen);
 	}
 
 	int HalfL=BlockSize>>1;
 	for(int Y=0; Y<LBlockVNumb; Y++){
-		int YLBlockHNumb = Y*LBlockHNumb;	//“ñŸŒ³”z—ñ‚ğˆêŸŒ³”z—ñ‚É‚µ‚½‚±‚Æ‚Å‚ÌæZ‚ğÈ‚­‚½‚ß
+		int YLBlockHNumb = Y*LBlockHNumb;	//ï¿½ñŸŒï¿½ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½êŸï¿½ï¿½ï¿½zï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚Å‚Ìï¿½ï¿½Zï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½
 		for(int X=0;X<LBlockHNumb;X++){
 			BlockInfo *bi = &BlockInfos[YLBlockHNumb+X];
 			bi->xn = X;
@@ -267,17 +276,17 @@ ExeResult	AreaFilterItemLineEmphasize::ExecuteInitialAfterEdit(int ExeID ,int Th
 
 BlockInfo::BlockInfo(void)
 {
-	brightnessvariance=0;	//‹P“x‚Ì•ªU
-	lightsidengdotcount=0;	//‹–—e”ÍˆÍŠO‚Ì–¾‚é‚¢‘¤‚Ìƒhƒbƒg”
-	xn=0;				//”Ô†
+	brightnessvariance=0;	//ï¿½Pï¿½xï¿½Ì•ï¿½ï¿½U
+	lightsidengdotcount=0;	//ï¿½ï¿½ï¿½eï¿½ÍˆÍŠOï¿½Ì–ï¿½ï¿½é‚¢ï¿½ï¿½ï¿½Ìƒhï¿½bï¿½gï¿½ï¿½
+	xn=0;				//ï¿½Ôï¿½
 	yn=0;
-	X1=0;				//BlockSize‚Ì¶ãÀ•W
+	X1=0;				//BlockSizeï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½W
 	Y1=0;
-	X2=0;				//BlockSize‚Ì¶ãÀ•W
+	X2=0;				//BlockSizeï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½W
 	Y2=0;
 	Effective=false;
 	isinsidemasking=true;
-	EffectivePixels=0;	//—LŒø‚ÈƒsƒNƒZƒ‹”
+	EffectivePixels=0;	//ï¿½Lï¿½ï¿½ï¿½Èƒsï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½
 	AverageBlockBrightness=0;
 	TmpAvrbuf			=NULL;
 }
@@ -490,13 +499,13 @@ void	BlockInfo::MakeBrightTable( const BYTE **MaskingMap,int XByte ,int YLen
 	}
 }
 /*
-ƒ°(v-a)^4
-=ƒ°v^4 - ƒ°4v^3*a + ƒ°6v^2*a^2 -ƒ°4v*a^3 +ƒ°a^4
-=ƒ°v^4 - 4a*ƒ°v^3 + 6a^2ƒ°v^2 -4a^3ƒ°v +N*a^4
-=ƒ°v^4 - 4a*ƒ°v^3 + 6a^2ƒ°v^2 -3Na^4
+ï¿½ï¿½(v-a)^4
+=ï¿½ï¿½v^4 - ï¿½ï¿½4v^3*a + ï¿½ï¿½6v^2*a^2 -ï¿½ï¿½4v*a^3 +ï¿½ï¿½a^4
+=ï¿½ï¿½v^4 - 4a*ï¿½ï¿½v^3 + 6a^2ï¿½ï¿½v^2 -4a^3ï¿½ï¿½v +N*a^4
+=ï¿½ï¿½v^4 - 4a*ï¿½ï¿½v^3 + 6a^2ï¿½ï¿½v^2 -3Na^4
 
-ƒ°v= N*a
-ƒ°(v-a)^2 = ƒ°v^2 - N*a^2
+ï¿½ï¿½v= N*a
+ï¿½ï¿½(v-a)^2 = ï¿½ï¿½v^2 - N*a^2
 */
 void	BlockInfo::MakeAvrVar(int PixTable[],double &Avr,double &Var)
 {
@@ -557,7 +566,7 @@ void	BlockInfo::CalcBrightnessDistribution( const BYTE **MaskingMap,int XByte ,i
 	if(Effective!=true)
 		return;
 
-	//1.‹P“x‚Ì•½‹ÏA‹P“x‚Ì•ª•z‚ğŒvZ
+	//1.ï¿½Pï¿½xï¿½Ì•ï¿½ï¿½ÏAï¿½Pï¿½xï¿½Ì•ï¿½ï¿½zï¿½ï¿½ï¿½vï¿½Z
 	//if(X1<=3230 && 3230<X2 && Y1<=2952 && 2952<Y2)
 	//	Dbg++;
 
@@ -670,13 +679,13 @@ void	BlockInfo::CalcBrightnessDistribution( const BYTE **MaskingMap,int XByte ,i
 
 }
 /*
-ƒ°(v-a)^4
-=ƒ°v^4 - ƒ°4v^3*a + ƒ°6v^2*a^2 -ƒ°4v*a^3 +ƒ°a^4
-=ƒ°v^4 - 4a*ƒ°v^3 + 6a^2ƒ°v^2 -4a^3ƒ°v +N*a^4
-=ƒ°v^4 - 4a*ƒ°v^3 + 6a^2ƒ°v^2 -3Na^4
+ï¿½ï¿½(v-a)^4
+=ï¿½ï¿½v^4 - ï¿½ï¿½4v^3*a + ï¿½ï¿½6v^2*a^2 -ï¿½ï¿½4v*a^3 +ï¿½ï¿½a^4
+=ï¿½ï¿½v^4 - 4a*ï¿½ï¿½v^3 + 6a^2ï¿½ï¿½v^2 -4a^3ï¿½ï¿½v +N*a^4
+=ï¿½ï¿½v^4 - 4a*ï¿½ï¿½v^3 + 6a^2ï¿½ï¿½v^2 -3Na^4
 
-ƒ°v= N*a
-ƒ°(v-a)^2 = ƒ°v^2 - N*a^2
+ï¿½ï¿½v= N*a
+ï¿½ï¿½(v-a)^2 = ï¿½ï¿½v^2 - N*a^2
 */
 
 int	DoubleSortFunc(const void *a,const void *b)
@@ -711,7 +720,7 @@ void	BlockInfo::CalcAngle(const BYTE **MaskingMap,int XByte ,int YLen
 		double	DMax=0;
 		double	D;
 		int		MaxTheta=0;
-		//‚Ü‚¸‚ÍŠÔˆø‚«‚È‚ª‚ç‚»‚Ì’†‚ÅÅ—Ç‚ÈŠp“x‚ğŒ©‚Â‚¯‚é
+		//ï¿½Ü‚ï¿½ï¿½ÍŠÔˆï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ç‚»ï¿½Ì’ï¿½ï¿½ÅÅ—Ç‚ÈŠpï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
 		double *CurrentAvrbuf=Avrbuf;
 		double *AvrbufMaxTheta=NULL;
 		
@@ -731,7 +740,7 @@ void	BlockInfo::CalcAngle(const BYTE **MaskingMap,int XByte ,int YLen
 				MaxTheta=Theta;
 			}
 		}
-		//ã‚Å‘I‚ñ‚¾‚à‚Ì‚Ì}(SkipTheta/2+SkipTheta%2)‚Ì’†‚©‚çÅ‚à‚Ó‚³‚í‚µ‚¢Šp“x‚ğŒ©‚Â‚¯‚é
+		//ï¿½ï¿½ï¿½Å‘Iï¿½ñ‚¾‚ï¿½ï¿½Ì‚Ì}(SkipTheta/2+SkipTheta%2)ï¿½Ì’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ó‚ï¿½ï¿½í‚µï¿½ï¿½ï¿½pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
 
 		int	ThetaRange=(SkipTheta+1)/2;
 		for(int s=MaxTheta-ThetaRange;s<=MaxTheta+ThetaRange;s++){
@@ -776,14 +785,14 @@ void	BlockInfo::CalcAngle(const BYTE **MaskingMap,int XByte ,int YLen
 		Avr/=SumbufNum;
 		*/
 
-		//“K‰—Ìˆæ‚Éã‚Å‹‚ß‚½‹P“x‚ğŒ³‰æ‘œ‚É‘«‚µ‡‚í‚¹‚é
+		//ï¿½Kï¿½ï¿½ï¿½Ìˆï¿½ï¿½Éï¿½ï¿½Å‹ï¿½ï¿½ß‚ï¿½ï¿½Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½É‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½í‚¹ï¿½ï¿½
 		double cosThetaMaxTheta = RotatedXY.GetCos(MaxTheta);
 		double sinThetaMaxTheta = RotatedXY.GetSin(MaxTheta);
 		for(int y=Y1;y<Y2;y++){
 			BYTE *Src=SrcBuff.GetY(y);
 			BYTE *Dst=DstBuff.GetY(y);
 			for(int x=X1;x<X2;x++){
-				//‰æ‘œã‚ÌÀ•W(ux,uy)‚©‚ç•ÏŠ·
+				//ï¿½æ‘œï¿½ï¿½ï¿½Ìï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½ÏŠï¿½
 				int kx=(x-CenterX)*cosThetaMaxTheta + (y-CenterY)*sinThetaMaxTheta + HalfSumbufNum;
 				int	s=(AvrbufMaxTheta[kx]-Avr)*EmphasizeRate*0.77;	//0.74;
 				int sum = Src[x]+s;
@@ -802,7 +811,7 @@ void	BlockInfo::CalcAngle(const BYTE **MaskingMap,int XByte ,int YLen
 		int		MaxTheta=0;
 		double *CurrentAvrbuf=Avrbuf;
 		double *AvrbufMaxTheta=NULL;
-		//‚Ü‚¸‚ÍŠÔˆø‚«‚È‚ª‚ç‚»‚Ì’†‚ÅÅ—Ç‚ÈŠp“x‚ğŒ©‚Â‚¯‚é
+		//ï¿½Ü‚ï¿½ï¿½ÍŠÔˆï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ç‚»ï¿½Ì’ï¿½ï¿½ÅÅ—Ç‚ÈŠpï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
 		for(int Theta=0;Theta<180;Theta+=SkipTheta+1){
 			D=calcSumSquares(Theta, CurrentAvrbuf, SumbufNum
 							, CenterX,CenterY
@@ -820,7 +829,7 @@ void	BlockInfo::CalcAngle(const BYTE **MaskingMap,int XByte ,int YLen
 				MaxTheta=Theta;
 			}
 		}
-		//ã‚Å‘I‚ñ‚¾‚à‚Ì‚Ì}(SkipTheta/2+SkipTheta%2)‚Ì’†‚©‚çÅ‚à‚Ó‚³‚í‚µ‚¢Šp“x‚ğŒ©‚Â‚¯‚é
+		//ï¿½ï¿½ï¿½Å‘Iï¿½ñ‚¾‚ï¿½ï¿½Ì‚Ì}(SkipTheta/2+SkipTheta%2)ï¿½Ì’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ó‚ï¿½ï¿½í‚µï¿½ï¿½ï¿½pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
 
 		int	ThetaRange=(SkipTheta+1)/2;
 		for(int s=MaxTheta-ThetaRange;s<=MaxTheta+ThetaRange;s++){
@@ -856,14 +865,14 @@ void	BlockInfo::CalcAngle(const BYTE **MaskingMap,int XByte ,int YLen
 		}
 		Avr/=SumbufNum;
 
-		//“K‰—Ìˆæ‚Éã‚Å‹‚ß‚½‹P“x‚ğŒ³‰æ‘œ‚É‘«‚µ‡‚í‚¹‚é
+		//ï¿½Kï¿½ï¿½ï¿½Ìˆï¿½ï¿½Éï¿½ï¿½Å‹ï¿½ï¿½ß‚ï¿½ï¿½Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½É‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½í‚¹ï¿½ï¿½
 		double cosThetaMaxTheta = RotatedXY.GetCos(MaxTheta);
 		double sinThetaMaxTheta = RotatedXY.GetSin(MaxTheta);
 		for(int y=Y1;y<Y2;y++){
 			BYTE *Src=SrcBuff.GetY(y);
 			BYTE *Dst=DstBuff.GetY(y);
 			for(int x=X1;x<X2;x++){
-				//‰æ‘œã‚ÌÀ•W(ux,uy)‚©‚ç•ÏŠ·
+				//ï¿½æ‘œï¿½ï¿½ï¿½Ìï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½ÏŠï¿½
 				int kx=(x-CenterX)*cosThetaMaxTheta + (y-CenterY)*sinThetaMaxTheta + HalfSumbufNum;
 				int	s=(AvrbufMaxTheta[kx]-Avr)*EmphasizeRate*0.77;	//0.74;
 				int sum = Src[x]+s;
@@ -893,11 +902,11 @@ double BlockInfo::calcSumSquares(int Theta, double *AvrbufTheta, int SumbufNum
 		pdykx=pdyTheta[kx];
 		int	N=0;
 		for(int ky=0;ky<SumbufNum;ky+=SkipKy+1){
-			//‰æ‘œã‚ÌÀ•W(ux,uy)‚É•ÏŠ·
+			//ï¿½æ‘œï¿½ï¿½ï¿½Ìï¿½ï¿½W(ux,uy)ï¿½É•ÏŠï¿½
 			int ux=OffsetX+pdxkx[ky];
 			int uy=OffsetY+pdykx[ky];
 
-			//‰æ‘œ‚Ì‹P“x‚ğæ‚Á‚Ä‘«‚µ‡‚í‚¹
+			//ï¿½æ‘œï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½í‚¹
 			BYTE *pBuff=wTargetBuff->GetY(uy);
 			iSumbuf+=pBuff[ux];
 			N++;
@@ -905,7 +914,7 @@ double BlockInfo::calcSumSquares(int Theta, double *AvrbufTheta, int SumbufNum
 		AvrbufTheta[kx]=((double)iSumbuf)/((double)N);
 	}
 	/*
-	//•½‹Ï’l‚©‚ç‚Ì‚Qæ˜a‚ğ‹‚ß‚é
+	//ï¿½ï¿½ï¿½Ï’lï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Qï¿½ï¿½ï¿½aï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 	double	Avr=0;
 	for(int kx=0;kx<SumbufNum;kx++){
 		Avr+=AvrbufTheta[kx];
@@ -917,20 +926,20 @@ double BlockInfo::calcSumSquares(int Theta, double *AvrbufTheta, int SumbufNum
 	}
 	*/
 
-	//‹É’[‚É–¾‚é‚¢‚à‚ÌAˆÃ‚¢‚à‚Ì‚ğíœ‚·‚é
+	//ï¿½É’[ï¿½É–ï¿½ï¿½é‚¢ï¿½ï¿½ï¿½ÌAï¿½Ã‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 	double	Avr=0;
 	double	Avr2=0;
 	for(int kx=0;kx<SumbufNum;kx++){
 		Avr	+=AvrbufTheta[kx];
 		Avr2+=AvrbufTheta[kx]*AvrbufTheta[kx];
 	}
-	//ƒ°(x-a)^2=ƒ°x^2 - N*a
+	//ï¿½ï¿½(x-a)^2=ï¿½ï¿½x^2 - N*a
 
 	Avr/=SumbufNum;
 	double	s=(Avr2-Avr*Avr*SumbufNum)/SumbufNum;
 	s=sqrt(s);
 
-	//2ƒĞ‚Ì”ÍˆÍ‚ÅƒNƒŠƒbƒv
+	//2ï¿½Ğ‚Ì”ÍˆÍ‚ÅƒNï¿½ï¿½ï¿½bï¿½v
 	double	La=Avr-s;
 	double	Ha=Avr+s;
 	double	tmpAvr=0;
@@ -973,11 +982,11 @@ double BlockInfo::calcSumSquares(int Theta, double *AvrbufTheta, int SumbufNum
 		pdykx=pdyTheta[kx];
 		int	N=0;
 		for(int ky=0;ky<SumbufNum;ky+=SkipKy+1){
-			//‰æ‘œã‚ÌÀ•W(ux,uy)‚É•ÏŠ·
+			//ï¿½æ‘œï¿½ï¿½ï¿½Ìï¿½ï¿½W(ux,uy)ï¿½É•ÏŠï¿½
 			int ux=OffsetX+pdxkx[ky];
 			int uy=OffsetY+pdykx[ky];
 
-			//‰æ‘œ‚Ì‹P“x‚ğæ‚Á‚Ä‘«‚µ‡‚í‚¹
+			//ï¿½æ‘œï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½í‚¹
 			if(MaskingMap!=NULL && DynamicMaskingMap!=NULL){
 				if(((MaskingMap[uy][ux>>3] & (0x80>>(ux&7)))!=0) 
 				&& ((DynamicMaskingMap[uy][ux>>3] & (0x80>>(ux&7)))==0)){
@@ -1009,7 +1018,7 @@ double BlockInfo::calcSumSquares(int Theta, double *AvrbufTheta, int SumbufNum
 			AvrbufTheta[kx]=((double)iSumbuf)/((double)N);
 		}
 	}
-	//•½‹Ï’l‚©‚ç‚Ì‚Qæ˜a‚ğ‹‚ß‚é
+	//ï¿½ï¿½ï¿½Ï’lï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Qï¿½ï¿½ï¿½aï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 	double	Avr=0;
 	int		AvrNumb=0;
 	for(int kx=0;kx<SumbufNum;kx++){
@@ -1036,22 +1045,22 @@ double BlockInfo::calcSumSquares(int Theta, double *AvrbufTheta, int SumbufNum
 ExeResult	AreaFilterItemLineEmphasize::ExecutePreProcessing	(int ExeID ,int ThreadNo,ResultInItemRoot *Res)
 {
 	int		BlockSize		= GetThresholdR()->BlockSize;
-	double	EmphasizeRate	= GetThresholdR()->EmphasizeRate;	//‹­’²“x‡
-	int		SkipTheta		= GetThresholdR()->SkipTheta;	//ŠÔˆø‚­Šp“x
+	double	EmphasizeRate	= GetThresholdR()->EmphasizeRate;	//ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½
+	int		SkipTheta		= GetThresholdR()->SkipTheta;	//ï¿½Ôˆï¿½ï¿½ï¿½ï¿½pï¿½x
 	int		SkipKy			= GetThresholdR()->SkipKy;
 	int		UnifiedLineNumb = GetThresholdR()->UnifiedLineNumb;
-	double	UpperBlocksPercentageByVariance= GetThresholdR()->UpperBlocksPercentageByVariance;	//‹­’²‚·‚éãˆÊ“
+	double	UpperBlocksPercentageByVariance= GetThresholdR()->UpperBlocksPercentageByVariance;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½
 
 	int	ThetaRangeForSearchBestTheta = (SkipTheta/2) + (SkipTheta%2);
 
-	int	L		= BlockSize;	//‚±‚ÌL‚Í‚í‚©‚è‚¸‚ç‚¢‚Ì‚ÅC³‚·‚é
+	int	L		= BlockSize;	//ï¿½ï¿½ï¿½ï¿½Lï¿½Í‚í‚©ï¿½è‚¸ï¿½ç‚¢ï¿½Ì‚ÅCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	int HalfL=L>>1;
 	int NumOfPixels=L*L;
 	int	XLen	=GetDotPerLine();
 	int	XByte	=(XLen+7)/8;
 	int	YLen	=GetMaxLines();
 
-	//ƒ}ƒXƒN‚ğæ“¾
+	//ï¿½}ï¿½Xï¿½Nï¿½ï¿½ï¿½æ“¾
 	ConstMapBuffer MaskMap;
 	AreaFilterLibrary	AfLib(GetLibraryContainer()->GetLibType(),GetLayersBase());
 	GetParent()->GetReflectionMap(_Reflection_Mask,MaskMap,&AfLib);	
@@ -1059,8 +1068,8 @@ ExeResult	AreaFilterItemLineEmphasize::ExecutePreProcessing	(int ExeID ,int Thre
 	BYTE **DynamicMaskingMap=GetDynamicMaskingMap();
 
 
-	//ƒuƒƒbƒN“à‚Ì‘SƒsƒNƒZƒ‹‚ªƒ}ƒXƒN“à‚É‚ ‚é‚©‚Ç‚¤‚©‚Ì”»’è‚¨‚æ‚Ñ
-	//DynamicMaskingPI‚É‚©‚©‚Á‚Ä‚¢‚È‚¢•”•ª‚ÌƒsƒNƒZƒ‹”‚ğŒvZ
+	//ï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½Ì‘Sï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½Xï¿½Nï¿½ï¿½ï¿½É‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½è‚¨ï¿½ï¿½ï¿½ï¿½
+	//DynamicMaskingPIï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒsï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Z
 
 	#pragma omp parallel                             
 	{                                                
@@ -1192,12 +1201,12 @@ void	AreaFilterItemLineEmphasize::DrawResultItem(ResultInItemRoot *Res,QImage &I
 
 		int displayedimgwidth = IData.width();
 		int displayedimgheight = IData.height();
-		//‰æ–ÊÀ•W‚ğ•ÏŠ·: ‰æ–ÊÀ•W=(ÀÛ‚Ì‰æ‘œ‚ÌÀ•W+Mov[XY])*ZoomRate
+		//ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½ï¿½ÏŠï¿½: ï¿½ï¿½ï¿½Êï¿½ï¿½W=(ï¿½ï¿½ï¿½Û‚Ì‰æ‘œï¿½Ìï¿½ï¿½W+Mov[XY])*ZoomRate
 		int StartImgX = MovX<0?-MovX:0;
 		int StartImgY = MovY<0?-MovY:0;
 		int EndImgX = displayedimgwidth/ZoomRate-MovX-1;
 		int EndImgY = displayedimgheight/ZoomRate-MovY-1;
-		//Å‰‚ÌƒuƒƒbƒN‚Í‚Ç‚±‚©
+		//ï¿½Åï¿½ï¿½Ìƒuï¿½ï¿½ï¿½bï¿½Nï¿½Í‚Ç‚ï¿½ï¿½ï¿½
 		int StartBlockX = StartImgX/BlockSize;
 		int StartBlockY = StartImgY/BlockSize;
 		int StartBlockReminderX = StartImgX%BlockSize;
@@ -1237,4 +1246,3 @@ void	AreaFilterItemLineEmphasize::DrawResultItem(ResultInItemRoot *Res,QImage &I
 	}
 */
 }
-

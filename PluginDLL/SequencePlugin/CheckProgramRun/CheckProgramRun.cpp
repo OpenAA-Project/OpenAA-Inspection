@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "CheckProgramRun.h"
 #include "XSeqDLLGlobal.h"
 #include <string.h>
@@ -7,14 +25,11 @@
 #include "XForWindows.h"
 
 
-/*
-    ‰Šú‚Éˆê“xŒÄ‚Î‚ê‚é
-*/
 
 void	DLLSeq_GetDLLVersion(char *buff)
 /*
-    ƒo[ƒWƒ‡ƒ“‚ğ•Ô‚·
-    buff‚Í‚Q‚T‚UƒoƒCƒgˆÈ“à
+    ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
+    buffï¿½Í‚Qï¿½Tï¿½Uï¿½oï¿½Cï¿½gï¿½È“ï¿½
 */
 {
 	strcpy(buff,"Check program to run");
@@ -53,17 +68,17 @@ DEFFUNCEX	const char	*DLL_GetExplain(void)
 
 DEFFUNCEX		void	DLLSeq_Close(void *handle)
 /*
-    I—¹ˆ—
+    ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 
 }
 bool	DLLSeq_CmdStr(void *handle ,QApplication &App ,const QString &cmdstr , const QByteArray &datastr)
 /*
-    –½—ß‚ğ‘—‚é
+    ï¿½ï¿½ï¿½ß‚ğ‘—‚ï¿½
     DLLCmd   dllVar,CommandString,Cxx
-    ‚Å‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-    ‚±‚ÌŠÖ”‚Ì–ß‚è’l‚ªADLLCmd‚ÌŒ‹‰Êƒtƒ‰ƒO‚É”½‰f‚³‚ê‚é
+    ï¿½Å‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½Ì–ß‚ï¿½ï¿½lï¿½ï¿½ï¿½ADLLCmdï¿½ÌŒï¿½ï¿½Êƒtï¿½ï¿½ï¿½Oï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	if(cmdstr=="Check"){
@@ -81,4 +96,3 @@ bool	DLLSeq_CmdStr(void *handle ,QApplication &App ,const QString &cmdstr , cons
 	}
 	return false;
 }
-

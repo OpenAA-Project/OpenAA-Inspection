@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "IntegrationStackNGThumbnailResource.h"
 #include "LargeFlatInspectionForm.h"
 #include "ui_LargeFlatInspectionForm.h"
@@ -127,17 +145,17 @@ LargeFlatInspectionForm::LargeFlatInspectionForm(ThumbnailPanel *p ,QWidget *par
 		//		&& AreaSearch!=NULL && SelfSearch!=NULL
 		//		&& OKDot!=NULL && OKLength!=NULL){
 		//
-		//			QString	s1	=QString("ÔˆÃ‘¤:")+QString::number(RL->Data.toInt())+QString(" –¾‘¤:")+QString::number(RH->Data.toInt())
+		//			QString	s1	=QString("ï¿½ÔˆÃ‘ï¿½:")+QString::number(RL->Data.toInt())+QString(" ï¿½ï¿½ï¿½ï¿½:")+QString::number(RH->Data.toInt())
 		//						+QString(/**/"\n")
-		//						+QString("—ÎˆÃ‘¤:")+QString::number(GL->Data.toInt())+QString(" –¾‘¤:")+QString::number(GH->Data.toInt())
+		//						+QString("ï¿½ÎˆÃ‘ï¿½:")+QString::number(GL->Data.toInt())+QString(" ï¿½ï¿½ï¿½ï¿½:")+QString::number(GH->Data.toInt())
 		//						+QString(/**/"\n")
-		//						+QString("ÂˆÃ‘¤:")+QString::number(BL->Data.toInt())+QString(" –¾‘¤:")+QString::number(BH->Data.toInt());
-		//			QString	s2	=QString("—Ìˆæ’Tõ:")+QString::number(AreaSearch->Data.toInt())
+		//						+QString("ï¿½ÂˆÃ‘ï¿½:")+QString::number(BL->Data.toInt())+QString(" ï¿½ï¿½ï¿½ï¿½:")+QString::number(BH->Data.toInt());
+		//			QString	s2	=QString("ï¿½Ìˆï¿½ï¿½Tï¿½ï¿½:")+QString::number(AreaSearch->Data.toInt())
 		//						+QString(/**/"\n")
-		//						+QString("ƒsƒNƒZƒ‹’Tõ:")+QString::number(SelfSearch->Data.toInt());
-		//			QString	s3	=QString("OKƒhƒbƒg:")+QString::number(OKDot->Data.toInt())
+		//						+QString("ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½Tï¿½ï¿½:")+QString::number(SelfSearch->Data.toInt());
+		//			QString	s3	=QString("OKï¿½hï¿½bï¿½g:")+QString::number(OKDot->Data.toInt())
 		//						+QString(/**/"\n")
-		//						+QString("’·‚³:")+QString::number(OKLength->Data.toInt());
+		//						+QString("ï¿½ï¿½ï¿½ï¿½:")+QString::number(OKLength->Data.toInt());
 		//
 		//			ui->textEditBrightness	->setPlainText(s1);
 		//			ui->textEditSearch		->setPlainText(s2);
@@ -242,4 +260,3 @@ void LargeFlatInspectionForm::on_pushButtonClose_clicked()
 {
 	close();
 }
-

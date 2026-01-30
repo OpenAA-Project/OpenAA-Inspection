@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "StartCaptureButtonForDesktopResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI-DeskMachine\StartCaptureButtonForDesktop\StartCaptureButtonForDesktop.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 #include "StartCaptureButtonForDesktop.h"
 #include "XPushCmdPacket.h"
@@ -106,15 +115,15 @@ DEFFUNCEX	void	DLL_EntryAlgorithm(LayersBase *Base,RootNameListContainer &List)
 StartCaptureButtonForDesktop::StartCaptureButtonForDesktop(LayersBase *Base ,QWidget *parent)
 :GUIFormBase(Base,parent),Button(parent)
 {
-	//Œ¾Œê‘Î‰
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½
 	FileRegistry	*FRegistry=new FileRegistry(/**/"./MachineInfo.dat");
 	int	LanguageCode=FRegistry->LoadRegInt(/**/"Language",0);
 
 	QString ImageBmpFile[5]={
-		/**/":Resources/StartCaptureImageForDesktop.bmp",		//“ú–{Œê
+		/**/":Resources/StartCaptureImageForDesktop.bmp",		//ï¿½ï¿½ï¿½{ï¿½ï¿½
 		/**/":Resources/StartCaptureImageForDesktop-en.bmp",	//English
-		/**/":Resources/StartCaptureImageForDesktop-en.bmp",	//ŠÈ‘Ì’†•¶
-		/**/":Resources/StartCaptureImageForDesktop-en.bmp",	//”É‘Ì’†•¶
+		/**/":Resources/StartCaptureImageForDesktop-en.bmp",	//ï¿½È‘Ì’ï¿½ï¿½ï¿½
+		/**/":Resources/StartCaptureImageForDesktop-en.bmp",	//ï¿½É‘Ì’ï¿½ï¿½ï¿½
 		/**/":Resources/StartCaptureImageForDesktop-en.bmp"		//Korean
 	};
 ///	Button.setImageBmp(QImage(ImageBmpFile[LanguageCode]));	//D-20110322
@@ -164,7 +173,7 @@ void	StartCaptureButtonForDesktop::Prepare(void)
 	Button.setPressedColor(PushedColor);
 	ResizeAction();
 
-	//ƒfƒoƒbƒOƒ‚[ƒh
+	//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½[ï¿½h
 	if(DebugMode==true){
 		DUp.resize(DUp.width(),262);
 		EditLibForm.SetDebug(true);
@@ -204,10 +213,10 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 	}
 	SeqControlParam	*Param=(SeqControlParam *)GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetSeqParam();
 
-	//ƒfƒoƒbƒOƒ‚[ƒh
+	//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½[ï¿½h
 	if(DebugMode==true){
 		if(ExecuteType==_OnMasterScanning2){
-			//ƒ_ƒCƒAƒƒO‚Ì•\¦
+			//ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½Ì•\ï¿½ï¿½
 			if(CurrentMasterCounter==-1){
 				NextMasterFlag=false;
 				DUp.SetNextMasterFlag(NextMasterFlag);
@@ -227,7 +236,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 				Button.DrawNormalColor();
 				BlinkingMode=false;
 			}
-			//EditLibraryForm‚Ì“o˜^F‚Ì“_–Åˆ—
+			//EditLibraryFormï¿½Ì“oï¿½^ï¿½Fï¿½Ì“_ï¿½Åï¿½ï¿½ï¿½
 			if(EditLibFormEnable==true){
 				EditLibForm.Update(BlinkingMode);
 			}
@@ -240,18 +249,18 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 			}
 			else{
 				if(CurrentMasterCounter==-1){
-					//ƒ}ƒXƒ^[‰æ‘œ‚Ì“Ç‚İ‚İ
+					//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ì“Ç‚İï¿½ï¿½ï¿½
 					FormOperator	F((QWidget *)GetLayersBase()->GetMainWidget());
 					F.ButtonPush(/**/"MainForm",/**/"LoadMaster");
 					CurrentMasterCounter=0;
 				}
 				else{
-					//ƒ^[ƒQƒbƒg‰æ‘œ‚Ì“Ç‚İ‚İ
+					//ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½æ‘œï¿½Ì“Ç‚İï¿½ï¿½ï¿½
 					FormOperator	F((QWidget *)GetLayersBase()->GetMainWidget());
 					F.ButtonPush(/**/"MainForm",/**/"LoadTarget");
 				}
 			}
-///			//ExecuteInitialAfterEdit‚ğ”­s
+///			//ExecuteInitialAfterEditï¿½ğ”­s
 ///			if(CurrentMasterCounter==2){
 ///				NPListPack<GUICmdPacketDim>	GUICmdDim;
 ///				GUICmdReqExecuteInitialAfterEdit	*CmdReq[100];
@@ -265,17 +274,17 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 ///				GetLayersBase()->PacketSender(GUICmdDim);
 ///			}
 ///			else{
-				//CurrentMasterCounter‚ÌƒZƒbƒg
+				//CurrentMasterCounterï¿½ÌƒZï¿½bï¿½g
 				GetLayersBase()->GetAnyData()->Set(/**/"CurrentMasterCounter",CurrentMasterCounter);
 ///			}
 
-			////ExecuteScanning‚ğÀs
+			////ExecuteScanningï¿½ï¿½ï¿½ï¿½ï¿½s
 			//if(CurrentMasterCounter==0){
 			//	GetLayersBase()->ExecuteScanning(GetLayersBase()->GetEntryPoint());
 			//}
 
 			if(CurrentMasterCounter>0){
-				//Execute***‚ğÀs
+				//Execute***ï¿½ï¿½ï¿½ï¿½ï¿½s
 				if(CurrentMasterCounter>1){
 					GetLayersBase()->ExecuteStartByInspection	(GetLayersBase()->GetEntryPoint());
 				}
@@ -286,7 +295,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 				GetLayersBase()->ExecutePostScanning		(GetLayersBase()->GetEntryPoint());
 			}
 
-			//CmdGenerateAutoMaskForDesktop‚ğ”­s
+			//CmdGenerateAutoMaskForDesktopï¿½ğ”­s
 			if(CurrentMasterCounter==1){
 				GetLayersBase()->ShowProcessingForm("Generating mask");
 				GetLayersBase()->AddMaxProcessing(0);
@@ -302,7 +311,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 				GetLayersBase()->PacketSender(GUICmdDim2);
 				NextMasterFlag=true;
 /*
-				//ExecuteInitialAfterEdit‚ğ”­s
+				//ExecuteInitialAfterEditï¿½ğ”­s
 				NPListPack<GUICmdPacketDim>	GUICmdDim;
 				GUICmdReqExecuteInitialAfterEdit	*CmdReq[100];
 				GUICmdSendExecuteInitialAfterEdit	*CmdSend[100];
@@ -320,7 +329,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 
 			if(CurrentMasterCounter==1){
 				EditLibForm.Execute();
-				//PropertyDynamicClassifyForm‚ÉTransmitDirectly‚µ‚ÄGenerate‚µ‚Ä‚â‚é
+				//PropertyDynamicClassifyFormï¿½ï¿½TransmitDirectlyï¿½ï¿½ï¿½ï¿½Generateï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 				GUIFormBase	*PropertyDCForm=NULL;
 				PropertyDCForm=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyDynamicClassifyForm" ,/**/"");
 				if(PropertyDCForm!=NULL){
@@ -364,7 +373,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 		Button.DrawNormalColor();
 	}
 	else if(ExecuteType==_OnMasterScanning1){
-		//ƒ_ƒCƒAƒƒO‚Ì•\¦
+		//ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½Ì•\ï¿½ï¿½
 		if(CurrentMasterCounter==-1){
 			NextMasterFlag=true;
 			DUp.SetNextMasterFlag(NextMasterFlag);
@@ -385,11 +394,11 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 			DUp.SetMasterCounter(CurrentMasterCounter-1,true);
 		}
 
-		//EditLibraryForm‚Ì•\¦
+		//EditLibraryFormï¿½Ì•\ï¿½ï¿½
 		if(EditLibFormEnable==false && StartResister==false && CurrentMasterCounter==2 && ReTeachingFlag==false){
 			DUp.hide();
 			EditLibForm.Execute();
-			//PropertyDynamicClassifyForm‚ÉTransmitDirectly‚µ‚ÄGenerate‚µ‚Ä‚â‚é
+			//PropertyDynamicClassifyFormï¿½ï¿½TransmitDirectlyï¿½ï¿½ï¿½ï¿½Generateï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 			GUIFormBase	*PropertyDCForm=NULL;
 			PropertyDCForm=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyDynamicClassifyForm" ,/**/"");
 			if(PropertyDCForm!=NULL){
@@ -425,11 +434,11 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 			Button.DrawNormalColor();
 			BlinkingMode=false;
 		}
-		//EditLibraryForm‚Ì“o˜^F‚Ì“_–Åˆ—
+		//EditLibraryFormï¿½Ì“oï¿½^ï¿½Fï¿½Ì“_ï¿½Åï¿½ï¿½ï¿½
 		if(EditLibFormEnable==true){
 			EditLibForm.Update(BlinkingMode);
 		}
-		//ExecuteInspectState‚Ìæ“¾
+		//ExecuteInspectStateï¿½Ìæ“¾
 		if(GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetState()==ExecuteInspectBase::_EI_OnTransmit){
 			DUp.ui.prgImageReadState->setMaximum(100);
 			DUp.ui.prgImageReadState->setTextVisible(true);
@@ -442,7 +451,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 			}
 		}
 /*
-		//CaptureStartCounter‚Å”»’f‚µ‚Ä‚İ‚é
+		//CaptureStartCounterï¿½Å”ï¿½ï¿½fï¿½ï¿½ï¿½Ä‚İ‚ï¿½
 		if(Param->CaptureStartCounter==2){
 			ReEntrant=false;
 			return;
@@ -455,7 +464,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 				CurrentMasterCounter=0;
 			}
 /*
-			//ExecuteInitialAfterEdit‚ğ”­s
+			//ExecuteInitialAfterEditï¿½ğ”­s
 			if(CurrentMasterCounter==2){
 				NPListPack<GUICmdPacketDim>	GUICmdDim;
 				GUICmdReqExecuteInitialAfterEdit	*CmdReq[100];
@@ -469,17 +478,17 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 				GetLayersBase()->PacketSender(GUICmdDim);
 			}
 */
-			////ExecuteScanning‚ğÀs
+			////ExecuteScanningï¿½ï¿½ï¿½ï¿½ï¿½s
 			//if(CurrentMasterCounter==0){
-			//	//CurrentMasterCounter‚ÌƒZƒbƒg
+			//	//CurrentMasterCounterï¿½ÌƒZï¿½bï¿½g
 			//	GetLayersBase()->GetAnyData()->Set("CurrentMasterCounter",CurrentMasterCounter);
 			//	GetLayersBase()->ExecuteScanning(GetLayersBase()->GetEntryPoint());
 			//}
 
-			//CurrentMasterCounter‚ÌƒZƒbƒg
+			//CurrentMasterCounterï¿½ÌƒZï¿½bï¿½g
 			GetLayersBase()->GetAnyData()->Set(/**/"CurrentMasterCounter",CurrentMasterCounter+1);
 
-			//CmdGenerateAutoMaskForDesktop‚ğ”­s
+			//CmdGenerateAutoMaskForDesktopï¿½ğ”­s
 			if(CurrentMasterCounter==1){
 				GetLayersBase()->ShowProcessingForm("Generating mask");
 				GetLayersBase()->AddMaxProcessing(0);
@@ -494,7 +503,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 				}
 				GetLayersBase()->PacketSender(GUICmdDim2);
 /*
-				//ExecuteInitialAfterEdit‚ğ”­s
+				//ExecuteInitialAfterEditï¿½ğ”­s
 				NPListPack<GUICmdPacketDim>	GUICmdDim;
 				GUICmdReqExecuteInitialAfterEdit	*CmdReq[100];
 				GUICmdSendExecuteInitialAfterEdit	*CmdSend[100];
@@ -510,7 +519,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 				EditLibForm.pushButtonUpdateClicked();
 			}
 
-			//‰½–‡–Ú‚©‚Ì•\¦
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ú‚ï¿½ï¿½Ì•\ï¿½ï¿½
 //			if(CurrentMasterCounter>0){
 //				DUp.SetMasterCounter(CurrentMasterCounter,true);
 //			}
@@ -523,7 +532,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 				SlotClicked(false);
 			}
 
-			//ProgressBar‚ÌXV
+			//ProgressBarï¿½ÌXï¿½V
 			DUp.ui.prgImageReadState->setValue(0);
 			ImageReadStateCounter=0;
 			DUp.ui.prgImageReadState->setTextVisible(false);
@@ -545,27 +554,27 @@ IntList	HDbgSlotList;
 void	StartCaptureButtonForDesktop::SlotClicked (bool checked)
 {
 	if(GetLayersBase()->GetAnyData()->ToInt(/**/"CurrentMasterCounter",-1)==99999999){
-		//Šm”FƒƒbƒZ[ƒW
+		//ï¿½mï¿½Fï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½W
 		QMessageBox MsgBox;
 		QFont font1;
 		font1.setPointSize(12);
 		font1.setBold(true);
 		font1.setWeight(75);
 		MsgBox.setFont	(font1);
-		MsgBox.setText	(LangSolver.GetString(StartCaptureButtonForDesktop_LS,LID_92)/*"Do you want re-teaching?"*/);	//V‚µ‚­ŠwKƒf[ƒ^‚ğ“o˜^‚µ’¼‚µ‚Ü‚·‚©H
-		MsgBox.addButton(LangSolver.GetString(StartCaptureButtonForDesktop_LS,LID_93)/*"Yes"*/		,QMessageBox::AcceptRole);	//‚Í‚¢
-		MsgBox.addButton(LangSolver.GetString(StartCaptureButtonForDesktop_LS,LID_94)/*"Cancel"*/	,QMessageBox::RejectRole);	//ƒLƒƒƒ“ƒZƒ‹
-//		MsgBox.addButton("ƒLƒƒƒ“ƒZƒ‹"	,QMessageBox::DestructiveRole);
+		MsgBox.setText	(LangSolver.GetString(StartCaptureButtonForDesktop_LS,LID_92)/*"Do you want re-teaching?"*/);	//ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½wï¿½Kï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½H
+		MsgBox.addButton(LangSolver.GetString(StartCaptureButtonForDesktop_LS,LID_93)/*"Yes"*/		,QMessageBox::AcceptRole);	//ï¿½Í‚ï¿½
+		MsgBox.addButton(LangSolver.GetString(StartCaptureButtonForDesktop_LS,LID_94)/*"Cancel"*/	,QMessageBox::RejectRole);	//ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½
+//		MsgBox.addButton("ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½"	,QMessageBox::DestructiveRole);
 		MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint);
 		int Ret=MsgBox.exec();
 
-		if(Ret==QMessageBox::AcceptRole){	//‚Í‚¢
-			//ŠwKŠî”Â‚Ì“o˜^‚©‚çÄn“®
+		if(Ret==QMessageBox::AcceptRole){	//ï¿½Í‚ï¿½
+			//ï¿½wï¿½Kï¿½ï¿½ï¿½Â‚Ì“oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Änï¿½ï¿½
 			CurrentMasterCounter=2;
-			//CurrentMasterCounter‚ÌƒZƒbƒg
+			//CurrentMasterCounterï¿½ÌƒZï¿½bï¿½g
 			GetLayersBase()->GetAnyData()->Set(/**/"CurrentMasterCounter",CurrentMasterCounter);
 			ReTeachingFlag		=true;
-			//StatisticImager‚ÌInitialAlloc()‚ğÀs‚·‚é
+			//StatisticImagerï¿½ï¿½InitialAlloc()ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
 			int	globalPage=GetLayersBase()->GetGlobalPageFromLocal(0);
 			GUICmdReqExecuteInitialAlloc	Cmd		(GetLayersBase(),sRoot,sName,globalPage);
 			GUICmdSendExecuteInitialAlloc	AckCmd	(GetLayersBase(),sRoot,sName,globalPage);
@@ -575,7 +584,7 @@ void	StartCaptureButtonForDesktop::SlotClicked (bool checked)
 			}
 			ImageType=/**/"Target";
 		}
-		else if(Ret==QMessageBox::RejectRole){	//ƒLƒƒƒ“ƒZƒ‹
+		else if(Ret==QMessageBox::RejectRole){	//ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½
 			return;
 		}
 	}
@@ -586,7 +595,7 @@ void	StartCaptureButtonForDesktop::SlotClicked (bool checked)
 //		CurrentMasterCounter=0;
 //		ui.labelCurrentCount->setText(QString::number(CurrentMasterCounter));
 
-		//ƒfƒoƒbƒOƒ‚[ƒh
+		//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½[ï¿½h
 		if(DebugMode==true){
 			ExecuteType=_OnMasterScanning2;
 			return;
@@ -651,7 +660,7 @@ void	StartCaptureButtonForDesktop::SlotClicked (bool checked)
 
 void StartCaptureButtonForDesktop::NextMasterFormFinished(int result)
 {
-	//ƒfƒoƒbƒOƒ‚[ƒh
+	//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½[ï¿½h
 	if(DebugMode==true){
 		return;
 	}
@@ -660,7 +669,7 @@ void StartCaptureButtonForDesktop::NextMasterFormFinished(int result)
 	SeqControlParam	*Param=(SeqControlParam *)GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetSeqParam();
 	Param->GeneralInfo0=3;
 
-	//B‘œ‚ÌƒLƒƒƒ“ƒZƒ‹w¦
+	//ï¿½Bï¿½ï¿½ï¿½ÌƒLï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½wï¿½ï¿½
 	GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GoHalt();
 
 	if(result==QDialog::Accepted){
@@ -699,12 +708,12 @@ void StartCaptureButtonForDesktop::NextMasterFormFinished(int result)
 
 void StartCaptureButtonForDesktop::EditLibFormFinished(int result)
 {
-	//ƒfƒoƒbƒOƒ‚[ƒh
+	//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½[ï¿½h
 	if(DebugMode==true){
 		return;
 	}
 
-	//B‘œ‹–‰Â
+	//ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	StartResister=true;
 	ImageType=/**/"Target";
 	SlotClicked(false);

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef NETWORKDRIVEAUTOCONNECT_H
 #define NETWORKDRIVEAUTOCONNECT_H
 
@@ -5,15 +23,15 @@
 //		NetworkDriveAutoConnect header
 //
 //		Version 0.1c
-//			ƒlƒbƒgƒ[ƒNƒhƒ‰ƒCƒu‚Ö‚Ìƒ_ƒ~[ƒAƒNƒZƒX‚É‚æ‚éÚ‘±ˆÛ‹@”\‚ğÀ‘•
+//			ï¿½lï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½Nï¿½hï¿½ï¿½ï¿½Cï¿½uï¿½Ö‚Ìƒ_ï¿½~ï¿½[ï¿½Aï¿½Nï¿½Zï¿½Xï¿½É‚ï¿½ï¿½ï¿½ï¿½Ú‘ï¿½ï¿½Ûï¿½ï¿½@ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //
 //		Version 0.1b
-//			* LanguageSolver‚É‚æ‚é‰pŒê‰»‚É‘Î‰
-//			‰Šú“Ç‚İ‚İIniƒtƒ@ƒCƒ‹–¼‚ğ AutoConnectInfomation.ini ‚É•ÏX
-//			ì¬‚µ‚½Iniƒtƒ@ƒCƒ‹‚Éƒo[ƒWƒ‡ƒ“‚ğ‹Lq‚·‚é‚æ‚¤‚É‚µ‚½
+//			* LanguageSolverï¿½É‚ï¿½ï¿½ï¿½ï¿½pï¿½ê‰»ï¿½É‘Î‰ï¿½
+//			ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½Iniï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ AutoConnectInfomation.ini ï¿½É•ÏX
+//			ï¿½ì¬ï¿½ï¿½ï¿½ï¿½Iniï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Éƒoï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½qï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
 //
 //		Version 0.1a
-//			‰ŠúŠ®¬ƒo[ƒWƒ‡ƒ“
+//			ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
 //
 
 
@@ -45,7 +63,7 @@ private:
 	wchar_t m_LogonPassword[MAX_PATH];
 	DWORD m_retrydelay;
 
-	bool m_IsAutoConnectStarted;// ©“®Ú‘±‚ğŠJn‚µ‚Ä‚¢‚é‚©
+	bool m_IsAutoConnectStarted;// ï¿½ï¿½ï¿½ï¿½ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©
 
 	QTimeLine QTimeAutoConnect;
 
@@ -62,29 +80,29 @@ private:
 public:
 	void setLoopEnable(bool enable);
 
-private:// iniƒtƒ@ƒCƒ‹ŠÖŒW
+private:// iniï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÖŒW
 	wchar_t m_IniVersionReaded[MAX_PATH];
 	wchar_t m_IniVersionLatest[MAX_PATH];
 	wchar_t m_IniFilename[MAX_PATH];
 
 private:
-	// true:ƒRƒ“ƒgƒ[ƒ‹¨•Ï”, false:•Ï”¨ƒRƒ“ƒgƒ[ƒ‹
+	// true:ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½, false:ï¿½Ïï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½
 	int UpdateData(bool flag=true);
 
-	// ƒRƒ“ƒgƒ[ƒ‹‚Ì“à—e‚ğwhcar_tŒ^‚Ì•Ï”‚ÖŠi”[
+	// ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì“ï¿½ï¿½eï¿½ï¿½whcar_tï¿½^ï¿½Ì•Ïï¿½ï¿½ÖŠiï¿½[
 	int GetLocalDriveName(wchar_t* buffer, size_t len);
 	int GetConctFolderPass(wchar_t* buffer, size_t len);
 	int GetLogonUserName(wchar_t* buffer, size_t len);
 	int GetLogonPassword(wchar_t* buffer, size_t len);
 
-	// QLineEdit‚Ö‚Ì‘‚«‚İ‹–‰Â•ÏX
+	// QLineEditï¿½Ö‚Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‹ï¿½ï¿½Â•ÏX
 	void ChangeQLineEditEnable(bool is_able);
 
-	// ‰Šú‰»ƒtƒ@ƒCƒ‹‚Ì•Û‘¶‚Æ“Ç‚İ‚İ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì•Û‘ï¿½ï¿½Æ“Ç‚İï¿½ï¿½ï¿½
 	int WriteIniFile(wchar_t* filename, bool fullpass=false);
 	int ReadIniFile(wchar_t* filename, bool fullpass=false);
 
-	// WNetAddConnection2 ƒGƒ‰[ŠÖŒW
+	// WNetAddConnection2 ï¿½Gï¿½ï¿½ï¿½[ï¿½ÖŒW
 	int GetWNetAddConnection2ErrorString(DWORD errid, QString* buffer);
 	int IsWNetAdded(DWORD errid);
 

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "qextserialport.h"
 #include "XCriticalFunc.h"
 #include "LCD_4DSystem_1.h"
@@ -230,8 +248,8 @@ QByteArray derim(const QByteArray &str){
 
 void	LCD_4DSystem::AnalizeReceivedData(unsigned char *data ,int buffsize)
 {
-	//óMƒf[ƒ^‚ğ•ªÍ‚µAƒXƒ^[ƒgƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Ä‚¢‚ê‚Î@Motion->ModePushedCalcStart=true‚É‚·‚é
-	//óMƒf[ƒ^‚ğ•ªÍ‚µA‚¸“xƒ‚[ƒh‚ª‰Ÿ‚³‚ê‚Ä‚¢‚ê‚Î@Motion->ModePushedDetail=true‚É‚·‚é
+	//ï¿½ï¿½ï¿½Mï¿½fï¿½[ï¿½^ï¿½ğ•ªÍ‚ï¿½ï¿½Aï¿½Xï¿½^ï¿½[ï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Î@Motion->ModePushedCalcStart=trueï¿½É‚ï¿½ï¿½ï¿½
+	//ï¿½ï¿½ï¿½Mï¿½fï¿½[ï¿½^ï¿½ğ•ªÍ‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Î@Motion->ModePushedDetail=trueï¿½É‚ï¿½ï¿½ï¿½
 	if(buffsize<1)return;
 
 	if(data[0]=='D'){
@@ -291,31 +309,31 @@ void	LCD_4DSystem::shutdown()
 	//HANDLE hToken;
 	//TOKEN_PRIVILEGES tokenPriv;
 
-	////ƒAƒNƒZƒXƒg[ƒNƒ“‚ğŠJ‚­
+	////ï¿½Aï¿½Nï¿½Zï¿½Xï¿½gï¿½[ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½
 	//OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken);
 
-	////ƒVƒƒƒbƒgƒ_ƒEƒ“Œ ŒÀ‚ÌLUID‚ğæ“¾‚·‚é
+	////ï¿½Vï¿½ï¿½ï¿½bï¿½gï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½LUIDï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	//LookupPrivilegeValue(NULL, SE_SHUTDOWN_NAME, &(tokenPriv.Privileges[0].Luid));
 	//tokenPriv.PrivilegeCount = 1;
 	//tokenPriv.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
 
-	////ƒVƒƒƒbƒgƒ_ƒEƒ“Œ ŒÀ‚ÌLUID‚ÅAƒVƒƒƒbƒgƒ_ƒEƒ“Œ ŒÀ‚ğ—LŒø‚É‚·‚é
+	////ï¿½Vï¿½ï¿½ï¿½bï¿½gï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½LUIDï¿½ÅAï¿½Vï¿½ï¿½ï¿½bï¿½gï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 	//AdjustTokenPrivileges(hToken, false, &tokenPriv, 0, NULL, NULL);
 
-	////ƒVƒXƒeƒ€‚ğƒVƒƒƒbƒgƒ_ƒEƒ“‚³‚¹‚é
+	////ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½bï¿½gï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//ExitWindowsEx(EWX_SHUTDOWN, 0);
 }
 
 void	LCD_4DSystem::ShowPCBCount(int pcbCount)
 {
-	//pcbCount‚ğŒv”Œ‹‰Ê‚Æ‚µ‚Ä•\¦‚·‚é
+	//pcbCountï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Ê‚Æ‚ï¿½ï¿½Ä•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	sio->flush();
 	sio->write(QString(derim("R%1")).arg(pcbCount).toLocal8Bit().data().data());
 }
 
 void	LCD_4DSystem::ShowMirrorState(bool state)
 {
-	// ƒ~ƒ‰[ó‹µ‚ğ‘—M‚·‚é
+	// ï¿½~ï¿½ï¿½ï¿½[ï¿½ó‹µ‚ğ‘—Mï¿½ï¿½ï¿½ï¿½
 	sio->flush();
 	QByteArray str;
 	if(state==true){
@@ -328,13 +346,13 @@ void	LCD_4DSystem::ShowMirrorState(bool state)
 
 void	LCD_4DSystem::ShowUnknown(void)
 {
-	//Œv”Œ‹‰Ê‚Å•s–¾‚Æ•\¦‚·‚é
+	//ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Ê‚Å•sï¿½ï¿½ï¿½Æ•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	SendChar('U');
 }
 
 void	LCD_4DSystem::SendBooted(void)
 {
-	// ‹N“®Š®—¹‚Ì’ÊM
+	// ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì’ÊM
 	SendChar('B');
 }
 

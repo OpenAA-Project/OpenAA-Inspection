@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\TreeMaster\XTreeMaster.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "XTreeMaster.h"
 #include "XGeneralFunc.h"
@@ -197,7 +206,7 @@ void	TreeMasterInPage::TransmitDirectly(GUIDirectMessage *packet)
 					r->Color.Add(CmdAddItemAreaPacketVar->TreeMasterColor.rgb(),1);
 					d->MatchingArea.AppendList(r);
 					if(d->GetArea().IsNull()==true){
-						d->SetArea(r->Area); // test —v‘f‘I‘ð‚Ì‚½‚ß
+						d->SetArea(r->Area); // test ï¿½vï¿½fï¿½Iï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½
 					}
 					d->GetThresholdW()->ThreColor	=CmdAddItemAreaPacketVar->ThreColor;
 					d->GetThresholdW()->ThreShape	=CmdAddItemAreaPacketVar->ThreShape;
@@ -211,7 +220,7 @@ void	TreeMasterInPage::TransmitDirectly(GUIDirectMessage *packet)
 					r->Set(CmdAddItemAreaPacketVar->Area,*ImageList[1]);
 					d->ShapeList.AppendList(r);
 					if(d->GetArea().IsNull()==true){
-						d->SetArea(CmdAddItemAreaPacketVar->Area); // test —v‘f‘I‘ð‚Ì‚½‚ß
+						d->SetArea(CmdAddItemAreaPacketVar->Area); // test ï¿½vï¿½fï¿½Iï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½
 					}
 					d->GetThresholdW()->ThreColor	=CmdAddItemAreaPacketVar->ThreColor;
 					d->GetThresholdW()->ThreShape	=CmdAddItemAreaPacketVar->ThreShape;
@@ -234,7 +243,7 @@ void	TreeMasterInPage::TransmitDirectly(GUIDirectMessage *packet)
 				r->Area	=CmdAddItemAreaPacketVar->Area;
 				r->Color.Add(CmdAddItemAreaPacketVar->TreeMasterColor.rgb(),1);
 				Item->MatchingArea.AppendList(r);
-				Item->SetArea(r->Area); // test —v‘f‘I‘ð‚Ì‚½‚ß
+				Item->SetArea(r->Area); // test ï¿½vï¿½fï¿½Iï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½
 				Item->GetThresholdW()->ThreColor	=CmdAddItemAreaPacketVar->ThreColor;
 				Item->GetThresholdW()->ThreShape	=CmdAddItemAreaPacketVar->ThreShape;
 			}
@@ -244,7 +253,7 @@ void	TreeMasterInPage::TransmitDirectly(GUIDirectMessage *packet)
 				GetMasterBuffList(ImageList);
 				r->Set(CmdAddItemAreaPacketVar->Area,*ImageList[1]);
 				Item->ShapeList.AppendList(r);
-				Item->SetArea(CmdAddItemAreaPacketVar->Area); // test —v‘f‘I‘ð‚Ì‚½‚ß
+				Item->SetArea(CmdAddItemAreaPacketVar->Area); // test ï¿½vï¿½fï¿½Iï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½
 				Item->GetThresholdW()->ThreColor	=CmdAddItemAreaPacketVar->ThreColor;
 				Item->GetThresholdW()->ThreShape	=CmdAddItemAreaPacketVar->ThreShape;
 				Item->GetThresholdW()->SearchDot	=CmdAddItemAreaPacketVar->SearchDot;

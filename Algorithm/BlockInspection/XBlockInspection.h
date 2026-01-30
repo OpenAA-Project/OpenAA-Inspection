@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XBlockInspection.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #if	!defined(XBOCKINSPECTION_H)
@@ -55,32 +64,32 @@ class	BlockThreshold : public AlgorithmThreshold
 public:
 	struct	_ThreshouldBag5
 	{
-	WORD	NBrightWidthL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-	WORD	NBrightWidthH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-	DWORD	NOKDotL;		//‹·ˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-	DWORD	NOKDotH;		//‹·ˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
-	DWORD	NMaxNGDotL;		//‹·ˆæ‚ÌˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	DWORD	NMaxNGDotH;		//‹·ˆæ‚Ì–¾‘¤Å‘å‚m‚fƒhƒbƒg”
-	WORD	NOKLengthL;		//‹·ˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	WORD	NOKLengthH;		//‹·ˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	WORD	BBrightWidthL;	//Lˆæ‚ÌˆÃ‘¤‹P“x•
-	WORD	BBrightWidthH;	//Lˆæ‚Ì–¾‘¤‹P“x•
-	DWORD	BOKDotL;		//Lˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-	DWORD	BOKDotH;		//Lˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
-	DWORD	BMaxNGDotL;		//Lˆæ‚ÌˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	DWORD	BMaxNGDotH;		//Lˆæ‚Ì–¾‘¤Å‘å‚m‚fƒhƒbƒg”
-	WORD	BOKLengthL;		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	WORD	BOKLengthH;		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
+	WORD	NBrightWidthL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	NBrightWidthH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	DWORD	NOKDotL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NOKDotH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NMaxNGDotL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NMaxNGDotH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	NOKLengthL;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	WORD	NOKLengthH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	WORD	BBrightWidthL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	BBrightWidthH;	//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	DWORD	BOKDotL;		//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BOKDotH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BMaxNGDotL;		//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BMaxNGDotH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	BOKLengthL;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	WORD	BOKLengthH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
 	WORD	DiffBrightWidthL;
 	WORD	DiffBrightWidthH;
 	short	RegularCenterBright;
 
-	WORD	NMinNGCountL;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	NMinNGCountH;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCountL;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCountH;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	int8	NConnectLen;	//‹·ˆæ‚Ì‚m‚fÚ‘±‹——£
-	int8	BConnectLen;	//Lˆæ‚Ì‚m‚fÚ‘±‹——£
+	WORD	NMinNGCountL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	NMinNGCountH;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCountL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCountH;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	int8	NConnectLen;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
+	int8	BConnectLen;	//ï¿½Lï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
 	WORD	ExpandForGenMask;	//Expansion dot for dynamic mask to generate in ExecuteIntialAfterEdit
 
 	struct {
@@ -141,42 +150,42 @@ public:
     int32   CommonMoveID;
     WORD	CommonMoveDot;
 
-	WORD	SpaceToOutline;	//ModeMatchPosition==true‚Ì‚Æ‚«‚µ‚©Žg‚í‚È‚¢
-    WORD	AdjustBlack;    //‹P“x•â³‚Ì‰ºŒÀ•
-    WORD	AdjustWhite;    //‹P“x•â³‚ÌãŒÀ•
-    WORD	SelfSearch;     //Ž©ŒÈ’Tõƒhƒbƒg”
-	WORD	OmitVectorIndex;//’Tõ‹Ö?•ûŒü	0xFFFF‚Ì‚Æ‚«A‹Ö?‚È‚µ
+	WORD	SpaceToOutline;	//ModeMatchPosition==trueï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½È‚ï¿½
+    WORD	AdjustBlack;    //ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	AdjustWhite;    //ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	SelfSearch;     //ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	OmitVectorIndex;//ï¿½Tï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½	0xFFFFï¿½Ì‚Æ‚ï¿½ï¿½Aï¿½ï¿½?ï¿½È‚ï¿½
 	int8	FollowLineLayer;//-1:Save layer
 	}ThreshouldBag;
 
 	struct	_ThreshouldBag4
 	{
-	WORD	NBrightWidthL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-	WORD	NBrightWidthH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-	DWORD	NOKDotL;		//‹·ˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-	DWORD	NOKDotH;		//‹·ˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
-	DWORD	NMaxNGDotL;		//‹·ˆæ‚ÌˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	DWORD	NMaxNGDotH;		//‹·ˆæ‚Ì–¾‘¤Å‘å‚m‚fƒhƒbƒg”
-	WORD	NOKLengthL;		//‹·ˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	WORD	NOKLengthH;		//‹·ˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	WORD	BBrightWidthL;	//Lˆæ‚ÌˆÃ‘¤‹P“x•
-	WORD	BBrightWidthH;	//Lˆæ‚Ì–¾‘¤‹P“x•
-	DWORD	BOKDotL;		//Lˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-	DWORD	BOKDotH;		//Lˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
-	DWORD	BMaxNGDotL;		//Lˆæ‚ÌˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	DWORD	BMaxNGDotH;		//Lˆæ‚Ì–¾‘¤Å‘å‚m‚fƒhƒbƒg”
-	WORD	BOKLengthL;		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	WORD	BOKLengthH;		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
+	WORD	NBrightWidthL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	NBrightWidthH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	DWORD	NOKDotL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NOKDotH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NMaxNGDotL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NMaxNGDotH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	NOKLengthL;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	WORD	NOKLengthH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	WORD	BBrightWidthL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	BBrightWidthH;	//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	DWORD	BOKDotL;		//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BOKDotH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BMaxNGDotL;		//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BMaxNGDotH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	BOKLengthL;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	WORD	BOKLengthH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
 	WORD	DiffBrightWidthL;
 	WORD	DiffBrightWidthH;
 	short	RegularCenterBright;
 
-	WORD	NMinNGCountL;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	NMinNGCountH;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCountL;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCountH;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	int8	NConnectLen;	//‹·ˆæ‚Ì‚m‚fÚ‘±‹——£
-	int8	BConnectLen;	//Lˆæ‚Ì‚m‚fÚ‘±‹——£
+	WORD	NMinNGCountL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	NMinNGCountH;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCountL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCountH;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	int8	NConnectLen;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
+	int8	BConnectLen;	//ï¿½Lï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
 	WORD	ExpandForGenMask;	//Expansion dot for dynamic mask to generate in ExecuteIntialAfterEdit
 
 	struct {
@@ -237,41 +246,41 @@ public:
     int32   CommonMoveID;
     WORD	CommonMoveDot;
 
-	WORD	SpaceToOutline;	//ModeMatchPosition==true‚Ì‚Æ‚«‚µ‚©Žg‚í‚È‚¢
-    WORD	AdjustBlack;    //‹P“x•â³‚Ì‰ºŒÀ•
-    WORD	AdjustWhite;    //‹P“x•â³‚ÌãŒÀ•
-    WORD	SelfSearch;     //Ž©ŒÈ’Tõƒhƒbƒg”
-	WORD	OmitVectorIndex;//’Tõ‹Ö?•ûŒü	0xFFFF‚Ì‚Æ‚«A‹Ö?‚È‚µ
+	WORD	SpaceToOutline;	//ModeMatchPosition==trueï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½È‚ï¿½
+    WORD	AdjustBlack;    //ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	AdjustWhite;    //ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	SelfSearch;     //ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	OmitVectorIndex;//ï¿½Tï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½	0xFFFFï¿½Ì‚Æ‚ï¿½ï¿½Aï¿½ï¿½?ï¿½È‚ï¿½
 	};
 
 	struct	_ThreshouldBag3
 	{
-	WORD	NBrightWidthL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-	WORD	NBrightWidthH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-	DWORD	NOKDotL;		//‹·ˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-	DWORD	NOKDotH;		//‹·ˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
-	DWORD	NMaxNGDotL;		//‹·ˆæ‚ÌˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	DWORD	NMaxNGDotH;		//‹·ˆæ‚Ì–¾‘¤Å‘å‚m‚fƒhƒbƒg”
-	WORD	NOKLengthL;		//‹·ˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	WORD	NOKLengthH;		//‹·ˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	WORD	BBrightWidthL;	//Lˆæ‚ÌˆÃ‘¤‹P“x•
-	WORD	BBrightWidthH;	//Lˆæ‚Ì–¾‘¤‹P“x•
-	DWORD	BOKDotL;		//Lˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-	DWORD	BOKDotH;		//Lˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
-	DWORD	BMaxNGDotL;		//Lˆæ‚ÌˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	DWORD	BMaxNGDotH;		//Lˆæ‚Ì–¾‘¤Å‘å‚m‚fƒhƒbƒg”
-	WORD	BOKLengthL;		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	WORD	BOKLengthH;		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
+	WORD	NBrightWidthL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	NBrightWidthH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	DWORD	NOKDotL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NOKDotH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NMaxNGDotL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NMaxNGDotH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	NOKLengthL;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	WORD	NOKLengthH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	WORD	BBrightWidthL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	BBrightWidthH;	//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	DWORD	BOKDotL;		//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BOKDotH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BMaxNGDotL;		//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BMaxNGDotH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	BOKLengthL;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	WORD	BOKLengthH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
 	WORD	DiffBrightWidthL;
 	WORD	DiffBrightWidthH;
 	short	RegularCenterBright;
 
-	WORD	NMinNGCountL;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	NMinNGCountH;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCountL;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCountH;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	int8	NConnectLen;	//‹·ˆæ‚Ì‚m‚fÚ‘±‹——£
-	int8	BConnectLen;	//Lˆæ‚Ì‚m‚fÚ‘±‹——£
+	WORD	NMinNGCountL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	NMinNGCountH;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCountL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCountH;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	int8	NConnectLen;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
+	int8	BConnectLen;	//ï¿½Lï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	struct {
 		bool	ModeEnabled:1;
@@ -331,40 +340,40 @@ public:
     int32   CommonMoveID;
     WORD	CommonMoveDot;
 
-	WORD	SpaceToOutline;	//ModeMatchPosition==true‚Ì‚Æ‚«‚µ‚©Žg‚í‚È‚¢
-    WORD	AdjustBlack;    //‹P“x•â³‚Ì‰ºŒÀ•
-    WORD	AdjustWhite;    //‹P“x•â³‚ÌãŒÀ•
-    WORD	SelfSearch;     //Ž©ŒÈ’Tõƒhƒbƒg”
-	WORD	OmitVectorIndex;//’Tõ‹Ö?•ûŒü	0xFFFF‚Ì‚Æ‚«A‹Ö?‚È‚µ
+	WORD	SpaceToOutline;	//ModeMatchPosition==trueï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½È‚ï¿½
+    WORD	AdjustBlack;    //ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	AdjustWhite;    //ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	SelfSearch;     //ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	OmitVectorIndex;//ï¿½Tï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½	0xFFFFï¿½Ì‚Æ‚ï¿½ï¿½Aï¿½ï¿½?ï¿½È‚ï¿½
 	};
 
 	struct	_ThreshouldBag2
 	{
-	WORD	NBrightWidthL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-	WORD	NBrightWidthH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-	DWORD	NOKDotL;		//‹·ˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-	DWORD	NOKDotH;		//‹·ˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
-	DWORD	NMaxNGDotL;		//‹·ˆæ‚ÌˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	DWORD	NMaxNGDotH;		//‹·ˆæ‚Ì–¾‘¤Å‘å‚m‚fƒhƒbƒg”
-	WORD	NOKLengthL;		//‹·ˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	WORD	NOKLengthH;		//‹·ˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	WORD	BBrightWidthL;	//Lˆæ‚ÌˆÃ‘¤‹P“x•
-	WORD	BBrightWidthH;	//Lˆæ‚Ì–¾‘¤‹P“x•
-	DWORD	BOKDotL;		//Lˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-	DWORD	BOKDotH;		//Lˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
-	DWORD	BMaxNGDotL;		//Lˆæ‚ÌˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	DWORD	BMaxNGDotH;		//Lˆæ‚Ì–¾‘¤Å‘å‚m‚fƒhƒbƒg”
-	WORD	BOKLengthL;		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	WORD	BOKLengthH;		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
+	WORD	NBrightWidthL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	NBrightWidthH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	DWORD	NOKDotL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NOKDotH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NMaxNGDotL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	NMaxNGDotH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	NOKLengthL;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	WORD	NOKLengthH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	WORD	BBrightWidthL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	BBrightWidthH;	//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	DWORD	BOKDotL;		//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BOKDotH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BMaxNGDotL;		//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	BMaxNGDotH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	BOKLengthL;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	WORD	BOKLengthH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
 	WORD	DiffBrightWidthL;
 	WORD	DiffBrightWidthH;
 
-	WORD	NMinNGCountL;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	NMinNGCountH;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCountL;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCountH;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	int8	NConnectLen;	//‹·ˆæ‚Ì‚m‚fÚ‘±‹——£
-	int8	BConnectLen;	//Lˆæ‚Ì‚m‚fÚ‘±‹——£
+	WORD	NMinNGCountL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	NMinNGCountH;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCountL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCountH;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	int8	NConnectLen;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
+	int8	BConnectLen;	//ï¿½Lï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	struct {
 		bool	ModeEnabled:1;
@@ -419,11 +428,11 @@ public:
     int32   CommonMoveID;
     WORD	CommonMoveDot;
 
-	WORD	SpaceToOutline;	//ModeMatchPosition==true‚Ì‚Æ‚«‚µ‚©Žg‚í‚È‚¢
-    WORD	AdjustBlack;    //‹P“x•â³‚Ì‰ºŒÀ•
-    WORD	AdjustWhite;    //‹P“x•â³‚ÌãŒÀ•
-    WORD	SelfSearch;     //Ž©ŒÈ’Tõƒhƒbƒg”
-	WORD	OmitVectorIndex;//’Tõ‹Ö?•ûŒü	0xFFFF‚Ì‚Æ‚«A‹Ö?‚È‚µ
+	WORD	SpaceToOutline;	//ModeMatchPosition==trueï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½È‚ï¿½
+    WORD	AdjustBlack;    //ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	AdjustWhite;    //ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	SelfSearch;     //ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	OmitVectorIndex;//ï¿½Tï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½	0xFFFFï¿½Ì‚Æ‚ï¿½ï¿½Aï¿½ï¿½?ï¿½È‚ï¿½
 	};
 
 	struct	_CalculatedInfo
@@ -449,32 +458,32 @@ public:
 
 enum ThresholdMember
 {
-	 ID_NBrightWidthL	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-	,ID_NBrightWidthH	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-	,ID_NOKDotL			//‹·ˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-	,ID_NOKDotH			//‹·ˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
-	,ID_NMaxNGDotL		//‹·ˆæ‚ÌˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	,ID_NMaxNGDotH		//‹·ˆæ‚Ì–¾‘¤Å‘å‚m‚fƒhƒbƒg”
-	,ID_NOKLengthL		//‹·ˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	,ID_NOKLengthH		//‹·ˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	,ID_BBrightWidthL	//Lˆæ‚ÌˆÃ‘¤‹P“x•
-	,ID_BBrightWidthH	//Lˆæ‚Ì–¾‘¤‹P“x•
-	,ID_BOKDotL			//Lˆæ‚ÌˆÃ‘¤‚n‚jƒhƒbƒg”
-	,ID_BOKDotH			//Lˆæ‚Ì–¾‘¤‚n‚jƒhƒbƒg”
-	,ID_BMaxNGDotL		//Lˆæ‚ÌˆÃ‘¤Å‘å‚m‚fƒhƒbƒg”
-	,ID_BMaxNGDotH		//Lˆæ‚Ì–¾‘¤Å‘å‚m‚fƒhƒbƒg”
-	,ID_BOKLengthL		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
-	,ID_BOKLengthH		//Lˆæ‚Ì–¾‘¤‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚ÌŽž‚n‚j
+	 ID_NBrightWidthL	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	,ID_NBrightWidthH	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	,ID_NOKDotL			//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	,ID_NOKDotH			//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	,ID_NMaxNGDotL		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	,ID_NMaxNGDotH		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	,ID_NOKLengthL		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	,ID_NOKLengthH		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	,ID_BBrightWidthL	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	,ID_BBrightWidthH	//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	,ID_BOKDotL			//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	,ID_BOKDotH			//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	,ID_BMaxNGDotL		//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	,ID_BMaxNGDotH		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½mï¿½fï¿½hï¿½bï¿½gï¿½ï¿½
+	,ID_BOKLengthL		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
+	,ID_BOKLengthH		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½ÌŽï¿½ï¿½nï¿½j
 	,ID_DiffBrightWidthL
 	,ID_DiffBrightWidthH
 	,ID_RegularCenterBright
 
-	,ID_NMinNGCountL	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	,ID_NMinNGCountH	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	,ID_BMinNGCountL	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	,ID_BMinNGCountH	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	,ID_NConnectLen		//‹·ˆæ‚Ì‚m‚fÚ‘±‹——£
-	,ID_BConnectLen		//Lˆæ‚Ì‚m‚fÚ‘±‹——£
+	,ID_NMinNGCountL	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	,ID_NMinNGCountH	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	,ID_BMinNGCountL	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	,ID_BMinNGCountH	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	,ID_NConnectLen		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
+	,ID_BConnectLen		//ï¿½Lï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
 	,ID_ExpandForGenMask	//Expansion dot for dynamic mask to generate in ExecuteIntialAfterEdit
 
 	,ID_ModeEnabled
@@ -505,11 +514,11 @@ enum ThresholdMember
     ,ID_CommonMoveID
     ,ID_CommonMoveDot
 
-	,ID_SpaceToOutline		//ModeMatchPosition==true‚Ì‚Æ‚«‚µ‚©Žg‚í‚È‚¢
-    ,ID_AdjustBlack			//‹P“x•â³‚Ì‰ºŒÀ•
-    ,ID_AdjustWhite			//‹P“x•â³‚ÌãŒÀ•
-    ,ID_SelfSearch			//Ž©ŒÈ’Tõƒhƒbƒg”
-	,ID_OmitVectorIndex		//’Tõ‹Ö?•ûŒü	0xFFFF‚Ì‚Æ‚«A‹Ö?‚È‚µ
+	,ID_SpaceToOutline		//ModeMatchPosition==trueï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½È‚ï¿½
+    ,ID_AdjustBlack			//ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    ,ID_AdjustWhite			//ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+    ,ID_SelfSearch			//ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	,ID_OmitVectorIndex		//ï¿½Tï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½	0xFFFFï¿½Ì‚Æ‚ï¿½ï¿½Aï¿½ï¿½?ï¿½È‚ï¿½
 	,ID_FollowLineLayer		//-1:Save layer
 };
 
@@ -1307,22 +1316,22 @@ public:
 	int32	Dx,Dy;
 	WORD	CenterBright;
 	WORD	CenterTargetBright;
-	short	NBrightWidthL;		//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-	short	NBrightWidthH;		//‹·ˆæ‚Ì–¾‘¤‹P“x•
-	short	BBrightWidthL;		//Lˆæ‚ÌˆÃ‘¤‹P“x•
-	short	BBrightWidthH;		//Lˆæ‚Ì–¾‘¤‹P“x•
+	short	NBrightWidthL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	short	NBrightWidthH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	short	BBrightWidthL;		//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	short	BBrightWidthH;		//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 
-	short	AbsNBrightWidthL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-	short	AbsNBrightWidthH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-	short	AbsBBrightWidthL;	//Lˆæ‚ÌˆÃ‘¤‹P“x•
-	short	AbsBBrightWidthH;	//Lˆæ‚Ì–¾‘¤‹P“x•
+	short	AbsNBrightWidthL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	short	AbsNBrightWidthH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	short	AbsBBrightWidthL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	short	AbsBBrightWidthH;	//ï¿½Lï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 
-	WORD	NMinNGCountL;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	NMinNGCountH;	//‹·ˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCountL;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCountH;	//Lˆæ‚ÌˆÃ‘¤‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	int8	NConnectLen;	//‹·ˆæ‚Ì‚m‚fÚ‘±‹——£
-	int8	BConnectLen;	//Lˆæ‚Ì‚m‚fÚ‘±‹——£
+	WORD	NMinNGCountL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	NMinNGCountH;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCountL;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCountH;	//ï¿½Lï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	int8	NConnectLen;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
+	int8	BConnectLen;	//ï¿½Lï¿½ï¿½ï¿½Ì‚mï¿½fï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	BlockThresholdSend(void);
 

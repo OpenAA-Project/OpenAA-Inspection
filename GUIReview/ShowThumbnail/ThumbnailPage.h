@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2014
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include <QStackedWidget>
@@ -5,8 +23,8 @@
 
 #include "Thumbnail.h"
 
-// ƒy[ƒWˆê–‡•ª
-// ’Pˆê‚ÌQGridLayout‚ğ‚¿A‘S‘Ì‚É•\¦‚·‚é
+// ï¿½yï¿½[ï¿½Wï¿½ê–‡ï¿½ï¿½
+// ï¿½Pï¿½ï¿½ï¿½ï¿½QGridLayoutï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Sï¿½Ì‚É•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // 
 class ThumbnailPage : public QWidget
 {

@@ -1,9 +1,21 @@
 /*
- * clsTcpSvr.h
+ * Copyright (C) 2012
+ * Author : cony
  *
- *  Created on: 2009/10/25
- *      Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #ifndef CLSTCPSVR_H_
 #define CLSTCPSVR_H_
@@ -20,7 +32,7 @@ class clsTcpThread;
 class clsTcpSvr;
 
 /**
- * @brief ƒ\ƒPƒbƒgƒT[ƒoƒXƒŒƒbƒh’è‹`ƒNƒ‰ƒX
+ * @brief ï¿½\ï¿½Pï¿½bï¿½gï¿½Tï¿½[ï¿½oï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ï¿½ï¿½`ï¿½Nï¿½ï¿½ï¿½X
  */
 class clsTcpSvrPnt : public NPList<clsTcpSvrPnt> {
 public:
@@ -46,7 +58,7 @@ public:
 };
 
 /**
- * @brief ƒ\ƒPƒbƒgƒT[ƒoƒXƒŒƒbƒhƒNƒ‰ƒX
+ * @brief ï¿½\ï¿½Pï¿½bï¿½gï¿½Tï¿½[ï¿½oï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Nï¿½ï¿½ï¿½X
  */
 class clsTcpThread : public QThread {
 	Q_OBJECT
@@ -108,7 +120,7 @@ private:
 };
 
 /**
- * @brief ƒ^ƒCƒ€ƒAƒEƒgƒNƒ‰ƒX
+ * @brief ï¿½^ï¿½Cï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½Nï¿½ï¿½ï¿½X
  */
 class clsTimeOut : public QObject {
 	Q_OBJECT
@@ -128,7 +140,7 @@ private:
 };
 
 /**
- * @brief ƒ\ƒPƒbƒgƒT[ƒoƒNƒ‰ƒX
+ * @brief ï¿½\ï¿½Pï¿½bï¿½gï¿½Tï¿½[ï¿½oï¿½Nï¿½ï¿½ï¿½X
  */
 class clsTcpSvr : public QObject {
 	Q_OBJECT

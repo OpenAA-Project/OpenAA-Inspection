@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\ServiceLib\EditSequence\EditSequence.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "EditSequence.h"
@@ -29,10 +38,10 @@ EditSequence::EditSequence(LayersBase *base,SeqControlParam	*s ,QWidget *parent,
 	GetParamGlobal()->LoadDefault(base->GetUserPath());
 	GetParamComm()->LoadDefault(base->GetUserPath());
 
-	Seq=new ThreadSequence(GetLayersBase(),this);	//ƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+	Seq=new ThreadSequence(GetLayersBase(),this);	//ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½
 	GetLayersBase()->SetSequenceInstance(Seq);
 
-	//ƒVƒXƒeƒ€ƒŒƒWƒXƒ^‚Ì“o˜^
+	//ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½Ì“oï¿½^
 	Seq->SetFunction(s
 					,_XSeqLocalInit
 					,_SetDataSpecialOperand
@@ -46,9 +55,9 @@ EditSequence::EditSequence(LayersBase *base,SeqControlParam	*s ,QWidget *parent,
 
 	QString	ErrorLine;
 	if(Seq->LoadStartSequenceFile(this
-				,GetParamGlobal()->Sequence_FileName	//ƒV[ƒPƒ“ƒXƒXƒNƒŠƒvƒgƒtƒ@ƒCƒ‹–¼
-				,GetParamGlobal()->IODLL_FileName		//PIO|DLLƒtƒ@ƒCƒ‹–¼
-				,GetParamGlobal()->IODefine_FileName	//I/O’è‹`ƒtƒ@ƒCƒ‹–¼
+				,GetParamGlobal()->Sequence_FileName	//ï¿½Vï¿½[ï¿½Pï¿½ï¿½ï¿½Xï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½
+				,GetParamGlobal()->IODLL_FileName		//PIOï¿½|DLLï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½
+				,GetParamGlobal()->IODefine_FileName	//I/Oï¿½ï¿½ï¿½`ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½
 				,GetParamGlobal()->IOSomething
 				,ErrorLine)==false){	
 		QString  msg=QString("Sequence Error:Line ")
@@ -83,5 +92,4 @@ void EditSequence::MessageOutFunc(int N)
 {
 	//::MesssageOutForSequence(N);
 }
-
 

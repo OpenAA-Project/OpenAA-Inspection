@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\RepairStation\RepairStation\ImageData.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "ImageData.h"
@@ -15,7 +24,7 @@
 
 
 //********************************************
-//@ƒ}ƒXƒ^[‰æ‘œŠi”[ƒNƒ‰ƒX
+//ï¿½@ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //********************************************
 MasterImg::MasterImg(QWidget *parent) : MasterImage(parent)
 {
@@ -87,7 +96,7 @@ void MasterImg::mouseReleaseEvent(QMouseEvent *Ev)
 		return;
 	}
 //	if(Ev->x()!=PressX || Ev->y()!=PressY){
-	//‹éŒ`‘I‘ğ‚ÉƒNƒŠƒbƒN‚Ì•‚ğ‚½‚¹‚é
+	//ï¿½ï¿½ï¿½`ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ÉƒNï¿½ï¿½ï¿½bï¿½Nï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(abs(Ev->x()-PressX)>5 || abs(Ev->y()-PressY)>5){
 		MasterImage::mtMouseLDown(Ev,Ev->x(),Ev->y());
 		int uX1,uY1,uX2,uY2;
@@ -108,7 +117,7 @@ void MasterImg::mouseReleaseEvent(QMouseEvent *Ev)
 	}
 	else
 	{
-		//’Pƒ¶ƒNƒŠƒbƒN
+		//ï¿½Pï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½N
 		emit SignalOnMouseLClick(Ev->x(), Ev->y(), this);
 		return;
 	}
@@ -165,7 +174,7 @@ void MasterImg::paintEvent(QPaintEvent *Ev)
 /*
 void MasterImg::DrawPaint(QPainter &MPnt)
 {
-	//‰æ‘œ‚Ì•`‰æ
+	//ï¿½æ‘œï¿½Ì•`ï¿½ï¿½
 	QMatrix matrix;
 	matrix.scale(ZoomRate,ZoomRate);
 	int uW=width()/ZoomRate;
@@ -183,21 +192,21 @@ void MasterImg::DrawPaint(QPainter &MPnt)
 			int uOffsetY=ImageList[Cnt]->OffsetY;
 			int ImageW=ImageList[Cnt]->Image->width();
 			int ImageH=ImageList[Cnt]->Image->height();
-			//‘I‘ğ‹éŒ`‚ª‰æ‘œ’†‚Éû‚Ü‚éê‡
+			//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚ï¿½ï¿½ê‡
 			if(-movx>=uOffsetX && (-movx+uW)<=(uOffsetX+ImageW) && -movy>=uOffsetY && (-movy+uH)<=(uOffsetY+ImageH))
 				MPnt.drawImage(0,0,ImageList[Cnt]->Image->copy(-movx-uOffsetX,-movy-uOffsetY,uW,uH).transformed(matrix));
 			else{
 				int X,Y,W,H;
-				//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì‰E’[‚ğ‚Ü‚½‚®ê‡
+				//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ì‰Eï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 				if(-movx<(uOffsetX+ImageW) && (-movx+uW)>(uOffsetX+ImageW) && (-movy+uH)>=uOffsetY && -movy<(uOffsetY+ImageH))
 					MPnt.drawImage(0,Y=(-movy<uOffsetY) ? (uOffsetY+movy)*ZoomRate : 0,ImageList[Cnt]->Image->copy(-movx-uOffsetX,-movy-uOffsetY+Y,uOffsetX+ImageW+movx,((-movy+uH)>(H=uOffsetY+ImageH)) ? H+movy : uH-Y).transformed(matrix));
-				//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì¶’[‚ğ‚Ü‚½‚®ê‡
+				//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ìï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 				else if(-movx<uOffsetX && (-movx+uW)>uOffsetX && (-movy+uH)>=uOffsetY && -movy<(uOffsetY+ImageH))
 					MPnt.drawImage((uOffsetX+movx)*ZoomRate,Y=(-movy<uOffsetY) ? (uOffsetY+movy)*ZoomRate : 0,ImageList[Cnt]->Image->copy(0,-movy-uOffsetY+Y,-movx+uW-uOffsetX,((-movy+uH)>(H=uOffsetY+ImageH)) ? H+movy : uH-Y).transformed(matrix));
-				//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ì‰º’[‚ğ‚Ü‚½‚®ê‡
+				//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ì‰ï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 				else if(-movy<(uOffsetY+ImageH) && (-movy+uH)>(uOffsetY+ImageH) && (-movx+uW)>=uOffsetX && -movx<(uOffsetX+ImageW))
 					MPnt.drawImage((uOffsetX+movx)*ZoomRate,Y=(-movy<uOffsetY) ? (uOffsetY+movy)*ZoomRate : 0,ImageList[Cnt]->Image->copy(0,-movy-uOffsetY+Y,-movx+uW-uOffsetX,((-movy+uH)>(H=uOffsetY+ImageH)) ? H+movy : uH-Y).transformed(matrix));
-				//‘I‘ğ‹éŒ`‚ª‰æ‘œ‚Ìã’[‚ğ‚Ü‚½‚®ê‡
+				//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½æ‘œï¿½Ìï¿½ï¿½[ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 				else if(-movy<uOffsetY && (-movy+uH)>uOffsetY && (-movx+uW)>=uOffsetX && -movx<(uOffsetX+ImageW))
 					MPnt.drawImage((uOffsetX+movx)*ZoomRate,Y=(-movy<uOffsetY) ? (uOffsetY+movy)*ZoomRate : 0,ImageList[Cnt]->Image->copy(0,-movy-uOffsetY+Y,-movx+uW-uOffsetX,((-movy+uH)>(H=uOffsetY+ImageH)) ? H+movy : uH-Y).transformed(matrix));
 			}
@@ -207,7 +216,7 @@ void MasterImg::DrawPaint(QPainter &MPnt)
 
 void MasterImg::DrawNGDot(QPainter &Pnt,QTableWidget *W,int Index,QList<QList<QPoint> > *pNGPointList,int Type)
 {
-	//ƒ}ƒXƒ^[‘S‘Ì‰æ‘œã‚ÉNGƒ|ƒCƒ“ƒg‚ğ•\¦
+	//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Sï¿½Ì‰æ‘œï¿½ï¿½ï¿½ï¿½NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ï¿½\ï¿½ï¿½
 	for(int Row=0;Row<W->rowCount();Row++){
 		if(W->item(Row,Index)->text().toInt()==Type){
 			for(int RowIndex=0;RowIndex<pNGPointList->at(Row).count();RowIndex++){
@@ -222,7 +231,7 @@ void MasterImg::DrawNGDot(QPainter &Pnt,QTableWidget *W,int Index,QList<QList<QP
 
 void MasterImg::DrawPieceRect(QPainter &Pnt)
 {
-	//•\¦ƒGƒŠƒA‹éŒ`‚Ì•`‰æ
+	//ï¿½\ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½`ï¿½Ì•`ï¿½ï¿½
 	Pnt.setPen(QPen(PieceRectColor,PieceRectWidth,PieceRectStyle));
 	Pnt.drawRect(RectX+gmovx,RectY+gmovy,RectWidth,RectHeight);
 }

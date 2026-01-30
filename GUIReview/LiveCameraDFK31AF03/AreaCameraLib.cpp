@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "LiveCameraDFK31AF03Resource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\AreaCamera\AreaCameraLib\AreaCameraLib.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 
 #include "areacameralib.h"
@@ -109,7 +118,7 @@ bool AreaCameraLib::GetCameraImage()
 	//long width = abs(info.rcWindow.right - info.rcWindow.left);
 	//long height = abs(info.rcWindow.bottom - info.rcWindow.top);
 
-	//if(width/(double)height < m_dWidth/(double)m_dHeight){// ‚‚³‚ª‘å‚«‚¢
+	//if(width/(double)height < m_dWidth/(double)m_dHeight){// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½
 	//	height = (long)(width * m_dHeight / (double)m_dWidth);
 	//}
 	//else{
@@ -129,12 +138,12 @@ void fixAspect(int cur_width, int cur_height, int fmt_width, int fmt_height, int
 {
 	double wh_rate = fmt_width / (double)fmt_height;
 
-	if(cur_width/(double)cur_height < fmt_width/(double)fmt_height){// ƒEƒCƒ“ƒhƒE‚Ì‚‚³‚ª‘å‚«‚¢(’²®Œã‚Ì‘å‚«‚³‚Í•‚ÉˆË‘¶)
+	if(cur_width/(double)cur_height < fmt_width/(double)fmt_height){// ï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‘å‚«ï¿½ï¿½ï¿½Í•ï¿½ï¿½ÉˆË‘ï¿½)
 		fix_width	=	cur_width;
 		fix_height	=	(int)(fmt_height * cur_width / (double)fmt_width);
 	}
 	else{
-		fix_height	=	cur_height;// ‚»‚Ì‚Ü‚Ü
+		fix_height	=	cur_height;// ï¿½ï¿½ï¿½Ì‚Ü‚ï¿½
 		fix_width	=	(int)(fmt_width * cur_height / (double)fmt_height);
 	}
 }
@@ -259,17 +268,17 @@ void AreaCameraLib::Init(QWidget *w,int W,int H)
 	}
 
 	// Adjust the live video to the size of the window.
-	// o—Í’†‚ÌƒfƒtƒHƒ‹ƒgƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ÌƒTƒCƒY
+	// ï¿½oï¿½Í’ï¿½ï¿½Ìƒfï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½rï¿½fï¿½Iï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ÌƒTï¿½Cï¿½Y
 	int fmt_width = m_cGrabber.getAcqSizeMaxX();
 	int fmt_height = m_cGrabber.getAcqSizeMaxY();
 
-	// ƒAƒXƒyƒNƒg•ÛŽŒã‚ÌƒrƒfƒIo—ÍƒEƒCƒ“ƒhƒEƒTƒCƒY
+	// ï¿½Aï¿½Xï¿½yï¿½Nï¿½gï¿½ÛŽï¿½ï¿½ï¿½ï¿½Ìƒrï¿½fï¿½Iï¿½oï¿½ÍƒEï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½Tï¿½Cï¿½Y
 	int fix_width, fix_height;
 
-	// ƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ÌƒAƒXƒyƒNƒg”ä‚É‡‚í‚¹‚½o—Í‰æ‘œƒTƒCƒYŒvŽZ
+	// ï¿½rï¿½fï¿½Iï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ÌƒAï¿½Xï¿½yï¿½Nï¿½gï¿½ï¿½ï¿½Éï¿½ï¿½í‚¹ï¿½ï¿½ï¿½oï¿½Í‰æ‘œï¿½Tï¿½Cï¿½Yï¿½vï¿½Z
 	fixAspect(W, H, fmt_width, fmt_height, fix_width, fix_height);
 
-	// •ÛŽ
+	// ï¿½ÛŽï¿½
 	m_dWidth = fix_width;
 	m_dHeight = fix_height;
 
@@ -308,7 +317,7 @@ bool AreaCameraLib::ShowSettingDialog()
 {
 	if(m_cGrabber.isDevValid())
 	{
-		m_cGrabber.showVCDPropertyPage(m_hWnd, LangSolver.GetString(AreaCameraLib_LS,LID_15)/*"ƒJƒƒ‰Ý’è"*/);
+		m_cGrabber.showVCDPropertyPage(m_hWnd, LangSolver.GetString(AreaCameraLib_LS,LID_15)/*"ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½"*/);
 		m_cGrabber.saveDeviceStateToFile(LangSolver.GetString(AreaCameraLib_LS,LID_16)/*"AreaCamera_DFK31AF03.xml"*//*confFileName.toStdString())*/);
 	}
 	return true;

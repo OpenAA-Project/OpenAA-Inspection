@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : 
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XTypeDef.h"
 #include "XFFT1d.h"
 #define	_USE_MATH_DEFINES
@@ -5,86 +23,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/************************************************************************
-  fft(int n, double xRe[], double xIm[], double yRe[], double yIm[])
- ------------------------------------------------------------------------
-  NOTE : This is copyrighted material, Not public domain. See below.
- ------------------------------------------------------------------------
-  Input/output:
-      int n          transformation length.
-      double xRe[]   real part of input sequence.
-      double xIm[]   imaginary part of input sequence.
-      double yRe[]   real part of output sequence.
-      double yIm[]   imaginary part of output sequence.
- ------------------------------------------------------------------------
-  Function:
-      The procedure performs a fast discrete Fourier transform (FFT) of
-      a complex sequence, x, of an arbitrary length, n. The output, y,
-      is also a complex sequence of length n.
-
-      y[k] = sum(x[m]*exp(-i*2*pi*k*m/n), m=0..(n-1)), k=0,...,(n-1)
-
-      The largest prime factor of n must be less than or equal to the
-      constant maxPrimeFactor defined below.
- ------------------------------------------------------------------------
-  Author:
-      Jens Joergen Nielsen            For non-commercial use only.
-      Bakkehusene 54                  A $100 fee must be paid if used
-      DK-2970 Hoersholm               commercially. Please contact.
-      DENMARK
-
-      E-mail : jjn@get2net.dk   All rights reserved. October 2000.
-      Homepage : http://home.get2net.dk/jjn
- ------------------------------------------------------------------------
-  Implementation notes:
-      The general idea is to factor the length of the DFT, n, into
-      factors that are efficiently handled by the routines.
-
-      A number of short DFT's are implemented with a minimum of
-      arithmetical operations and using (almost) straight line code
-      resulting in very fast execution when the factors of n belong
-      to this set. Especially radix-10 is optimized.
-
-      Prime factors, that are not in the set of short DFT's are handled
-      with direct evaluation of the DFP expression.
-
-      Please report any problems to the author. 
-      Suggestions and improvements are welcomed.
- ------------------------------------------------------------------------
-  Benchmarks:                   
-      The Microsoft Visual C++ compiler was used with the following
-      compile options:
-      /nologo /Gs /G2 /W4 /AH /Ox /D "NDEBUG" /D "_DOS" /FR
-      and the FFTBENCH test executed on a 50MHz 486DX :
-      
-      Length  Time [s]  Accuracy [dB]
-
-         128   0.0054     -314.8   
-         256   0.0116     -309.8
-         512   0.0251     -290.8
-        1024   0.0567     -313.6
-        2048   0.1203     -306.4
-        4096   0.2600     -291.8   
-        8192   0.5800     -305.1   
-         100   0.0040     -278.5   
-         200   0.0099     -280.3
-         500   0.0256     -278.5   
-        1000   0.0540     -278.5   
-        2000   0.1294     -280.6   
-        5000   0.3300     -278.4
-       10000   0.7133     -278.5
- ------------------------------------------------------------------------
-  The following procedures are used :
-      factorize       :  factor the transformation length.
-      transTableSetup :  setup table with sofar-, actual-, and remainRadix.
-      permute         :  permutation allows in-place calculations.
-      twiddleTransf   :  twiddle multiplications and DFT's for one stage.
-      initTrig        :  initialise sine/cosine table.
-      fft_4           :  length 4 DFT, a la Nussbaumer.
-      fft_5           :  length 5 DFT, a la Nussbaumer.
-      fft_10          :  length 10 DFT using prime factor FFT.
-      fft_odd         :  length n DFT, n odd.
-*************************************************************************/
 
 
 static double  c3_1 = -1.5000000000000E+00;  /*  c3_1 = cos(2*pi/3)-1;          */

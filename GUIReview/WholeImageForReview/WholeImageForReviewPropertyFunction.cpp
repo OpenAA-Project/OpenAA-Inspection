@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2017
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "WholeImageForReviewResource.h"
 #include "ui_WholeImageForReviewPropertyForm.h"
 #include "WholeImageForReview.h"
@@ -5,17 +23,17 @@
 
 void WholeImageForReview::setProperty(const WholeImageForReviewProperty &property)
 {
-	//// ‚±‚±‚Éƒpƒ‰ƒ[ƒ^•ÏX‚Ì‘Î‰ž‚ð‹Lq‚·‚é
-	//// c‰¡‚Ì•À‚ÑÝ’è
+	//// ï¿½ï¿½ï¿½ï¿½ï¿½Éƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ÏXï¿½Ì‘Î‰ï¿½ï¿½ï¿½ï¿½Lï¿½qï¿½ï¿½ï¿½ï¿½
+	//// ï¿½cï¿½ï¿½ï¿½Ì•ï¿½ï¿½ÑÝ’ï¿½
 	//setOrientation(property.viewFrontBackOrientation, property.viewPhaseOrientation);
 
-	//// Œ»ÝNGNail‚Ì’†S‚Å\Žš•\Ž¦‚·‚éÝ’è
+	//// ï¿½ï¿½ï¿½ï¿½NGNailï¿½Ì’ï¿½ï¿½Sï¿½Å\ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½
 	//setNGCrossView(property.viewNGNailCross);
 
-	//// NG‰ÓŠ‚ð•\Ž¦‚·‚éÝ’è
+	//// NGï¿½Óï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½
 	//setNGPointView(property.viewNGPoint);
 
-	//// Œ»ÝNGNail‚Ì‚Ý•\Ž¦‚·‚éÝ’è
+	//// ï¿½ï¿½ï¿½ï¿½NGNailï¿½Ì‚Ý•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½
 	//setOnlyCurrentNGNailRectView(property.viewOnlyCurrentNail);
 
 	(*m_property) = property;
@@ -25,7 +43,7 @@ void WholeImageForReview::setProperty(const WholeImageForReviewProperty &propert
 
 void WholeImageForReview::setPropertyToUi(const WholeImageForReviewProperty &property)
 {
-	// ‚±‚±‚Éƒpƒ‰ƒ[ƒ^‚Ì“à—e‚ðUi‚É”½‰f‚³‚¹‚é‹Lq‚ð‘‚­
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Éƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Ì“ï¿½ï¿½eï¿½ï¿½Uiï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½qï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	Ui::WholeImageForReviewPropertyClass *ui = getPropertyUi();
 	bool isHoriaontal = (property.viewFrontBackOrientation==Qt::Horizontal);
 	ui->rbFrontBackHoriaontal->setChecked(isHoriaontal);
@@ -49,7 +67,7 @@ void WholeImageForReview::setPropertyToUi()
 
 void WholeImageForReview::setPropertyFromUi(WholeImageForReviewProperty &property)
 {
-	// ‚±‚±‚ÉUi‚Ì“à—e‚ðƒpƒ‰ƒ[ƒ^‚É”½‰f‚³‚¹‚é‹Lq‚ðs‘‚­
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Uiï¿½Ì“ï¿½ï¿½eï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½qï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
 	Ui::WholeImageForReviewPropertyClass *ui = getPropertyUi();
 	property.viewFrontBackOrientation = (ui->rbFrontBackHoriaontal->isChecked() ? Qt::Horizontal : Qt::Vertical);
 	property.viewPhaseOrientation = (ui->rbPhaseHoriaontal->isChecked() ? Qt::Horizontal : Qt::Vertical);

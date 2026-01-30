@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "XDataInLayer.h"
@@ -23,15 +41,15 @@ class	CheckDataValidationInPage;
 
 /*
 	ExistItemArea
-		w’è—Ìˆæ‚É‘¼‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚ÌƒAƒCƒeƒ€‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©
-			ƒ}ƒXƒN—Ìˆæ‚ÌA%ˆÈã‚Éƒ‰ƒCƒuƒ‰ƒŠB‚ÌƒAƒCƒeƒ€‚ª‘¶İ‚·‚é‚©
-			w’è‚·‚é•”•ª‚Éw’è‚·‚éƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒAƒCƒeƒ€‚ª‘¶İ‚·‚é‚©
+		ï¿½wï¿½ï¿½ï¿½Ìˆï¿½ï¿½É‘ï¿½ï¿½ÌƒAï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½ÌƒAï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
+			ï¿½}ï¿½Xï¿½Nï¿½Ìˆï¿½ï¿½ï¿½A%ï¿½Èï¿½ï¿½Éƒï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½Bï¿½ÌƒAï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‚©
+			ï¿½wï¿½è‚·ï¿½é•”ï¿½ï¿½ï¿½Éwï¿½è‚·ï¿½éƒ‰ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ÌƒAï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‚©
 	ExistItemVector
-		Œv‘ªƒxƒNƒgƒ‹ƒAƒCƒeƒ€‚ªw’è”ÍˆÍ‚É‘¶İ‚·‚é‚©
+		ï¿½vï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½ÍˆÍ‚É‘ï¿½ï¿½İ‚ï¿½ï¿½é‚©
 	CheckMinMax
-		‘¶İ‚·‚é‘¼‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚Ìw’è‚·‚éƒ‰ƒCƒuƒ‰ƒŠ‚ÌA‚µ‚«‚¢’lƒpƒ‰ƒ[ƒ^‚ÌãŒÀA‰ºŒÀ’l‚Ìƒ`ƒƒƒbƒN
+		ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‘¼ï¿½ÌƒAï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Ìwï¿½è‚·ï¿½éƒ‰ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ÌAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Ìï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½lï¿½Ìƒ`ï¿½ï¿½ï¿½bï¿½N
 	ProhibiteItem
-		w’è—Ìˆæ‚É‘¼‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚Ìw’è‚·‚é‚éƒ‰ƒCƒuƒ‰ƒŠ‚ª‘¶İ‚µ‚Ä‚Í‚¢‚¯‚È‚¢
+		ï¿½wï¿½ï¿½ï¿½Ìˆï¿½ï¿½É‘ï¿½ï¿½ÌƒAï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Ìwï¿½è‚·ï¿½ï¿½ï¿½éƒ‰ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½Ä‚Í‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 
 */
 

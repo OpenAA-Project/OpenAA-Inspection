@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\TestLEDLighting\TestLEDLighting\TestLEDLighting.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "TestLEDLighting.h"
@@ -33,7 +42,7 @@ TestLEDLighting::TestLEDLighting(QWidget *parent, Qt::WindowFlags flags)
 {
 	ui.setupUi(this);
 
-	//‰Šú‰»ˆ—
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	Init();
 
 	#if KindOfLight==1
@@ -57,7 +66,7 @@ TestLEDLighting::TestLEDLighting(QWidget *parent, Qt::WindowFlags flags)
 	connect(&tContinue,							SIGNAL(SignalOneOn()),								this,SLOT(pbOneOnClicked()));
 	connect(&tContinue,							SIGNAL(SignalNextOn()),								this,SLOT(pbNextOnClicked()));
 
-	//‰Šú”z’u
+	//ï¿½ï¿½ï¿½ï¿½ï¿½zï¿½u
 	ui.twBar->setCurrentIndex(ui.twBar->model()->index(0,0));
 	ui.twLED->setCurrentIndex(ui.twLED->model()->index(0,0));
 	ui.twBrightness->setCurrentIndex(ui.twBrightness->model()->index(0,0));
@@ -144,7 +153,7 @@ void TestLEDLighting::closeEvent(QCloseEvent *event)
 
 void TestLEDLighting::pbAllOnClicked()
 {
-	//‘S•”“_“”
+	//ï¿½Sï¿½ï¿½ï¿½_ï¿½ï¿½
 	ui.pgbLight->setValue(0);
 	for(int i=0;i<LEDBarNumb;i++){
 		for(int j=0;j<LEDNumbPerLine;j++)
@@ -162,7 +171,7 @@ void TestLEDLighting::pbAllOnClicked()
 
 void TestLEDLighting::pbAllOffClicked()
 {
-	//‘S•”Á“”
+	//ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ui.pgbLight->setValue(0);
 	for(int i=0;i<LEDBarNumb;i++){
 		for(int j=0;j<LEDNumbPerLine;j++)
@@ -252,7 +261,7 @@ void TestLEDLighting::pbCloseClicked()
 
 void TestLEDLighting::pbDetailsClicked()
 {
-	//Ú×‰æ–Ê‚Ì•\Ž¦
+	//ï¿½Ú×‰ï¿½ï¿½Ê‚Ì•\ï¿½ï¿½
 	#if KindOfLight==1
 		LightDLL1	*p=dynamic_cast<LightDLL1 *>(hLighDLLtBase);
 	#elif	KindOfLight==2
@@ -349,7 +358,7 @@ void TestLEDLighting::Init()
 		ui.twBrightness->verticalHeader()->resizeSection(Row,13);
 	}
 
-	//•\Ž¦•”
+	//ï¿½\ï¿½ï¿½ï¿½ï¿½
 	QPalette palette;
 	palette.setColor(QPalette::Base,QColor(Qt::cyan));
 	ui.leBar->setPalette(palette);

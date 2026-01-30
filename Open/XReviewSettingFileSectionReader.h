@@ -1,12 +1,30 @@
+/*
+ * Copyright (C) 2016
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include <QString>
 #include <QPair>
 #include <QList>
 
-// İ’èƒtƒ@ƒCƒ‹‚Ì‘‚«‚İA“Ç‚İ‚İ‚ğs‚¤ƒNƒ‰ƒX
+// ï¿½İ’ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İAï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½sï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
 //
-// İ’èƒtƒ@ƒCƒ‹‚ÍˆÈ‰º‚ÌƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒg‚É]‚¤
+// ï¿½İ’ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÍˆÈ‰ï¿½ï¿½Ìƒeï¿½Lï¿½Xï¿½gï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½É]ï¿½ï¿½
 
 // [section]
 // @name=value
@@ -18,7 +36,7 @@
 // @name5=value5
 // ...
 
-// 1ƒZƒNƒVƒ‡ƒ“‚Ìƒf[ƒ^‚ğ•Û‚·‚éƒoƒbƒtƒ@
+// 1ï¿½Zï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@
 class SectionBuffer
 {
 public:
@@ -50,7 +68,7 @@ private:
 
 typedef QList<SectionBuffer> SectionBufferList;
 
-// ƒtƒ@ƒCƒ‹‚ğ‘SŒŸõ‚µ‚ÄASectionBuffer‚ÌƒŠƒXƒg‚ğì¬‚·‚éƒNƒ‰ƒX
+// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄASectionBufferï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
 class SettingFileReader
 {
 public:

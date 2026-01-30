@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XImageChecker.h"
 #include "XGeneralFunc.h"
 #include "XGUIFormBase.h"
@@ -69,8 +87,8 @@ ImageCheckerItem::ImageCheckerItem(void)
 	MaxXCount=0;
 	MaxYCount=0;
 
-	CenterPointForSlideX=0;	//Å‰‚Éİ’è‚³‚ê‚é
-	CenterPointForSlideY=0;	//Å‰‚Éİ’è‚³‚ê‚é
+	CenterPointForSlideX=0;	//ï¿½Åï¿½ï¿½Éİ’è‚³ï¿½ï¿½ï¿½ï¿½
+	CenterPointForSlideY=0;	//ï¿½Åï¿½ï¿½Éİ’è‚³ï¿½ï¿½ï¿½ï¿½
 	memset(FFTList,0,sizeof(FFTList));
 	FFTListCount=0;
 	MainPosX=MainPosY=0;
@@ -918,7 +936,7 @@ bool	ImageCheckerRegCalcCamZ::Execute(int ShiftX ,int ShiftY)
 		}
 		TextCSV.SaveFromCSVFile("TextCSVZ.csv");
 	
-		//ƒs[ƒN‚ğŒvZ
+		//ï¿½sï¿½[ï¿½Nï¿½ï¿½ï¿½vï¿½Z
 		double	MaxFFTList=0;
 		for(int i=0;i<Item->FFTListCount;i++){
 			if(MaxFFTList<Item->FFTList[i]){
@@ -1983,7 +2001,7 @@ bool	ImageCheckerRegCalcResolution::Execute(int ShiftX ,int ShiftY)
 		return false;
 	}
 	/*
-	//ƒs[ƒN‚ğŒvZ
+	//ï¿½sï¿½[ï¿½Nï¿½ï¿½ï¿½vï¿½Z
 	double	MaxFFTList=0;
 	for(int i=0;i<Item->FFTListCount;i++){
 		if(MaxFFTList<Item->FFTList[i]){

@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\XVector.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XVECTOR_H)
 #define	XVECTOR_H
 
@@ -182,7 +190,7 @@ public:
 class		VectorItemVDouble : public VectorItemBase
 {
 	double	X,Y;
-	double	Vx,Vy;	//–@üƒxƒNƒgƒ‹
+	double	Vx,Vy;	//ï¿½@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½
 public:
 	VectorItemVDouble(void){	X=0.0;	Y=0.0;	Vx=0.0;	Vy=0.0;	}
 	VectorItemVDouble(const VectorItemVDouble &src);
@@ -240,10 +248,10 @@ public:
 };
 
 class	VectorLineArc : public VectorLineBase 
-	//‚R“_‚Å‰~ŒÊ‚ğ•\‚·
-	//Å‰‚Ì“_‚Ín“_
-	//‚Q”Ô–Ú‚Í’†ŠÔ“_i‚¿‚å‚¤‚Ç’†‰›‚Å‚È‚­‚Ä‚à\‚í‚È‚¢j
-	//‚R”Ô–Ú‚Ì“_‚ÍI“_
+	//ï¿½Rï¿½_ï¿½Å‰~ï¿½Ê‚ï¿½ï¿½\ï¿½ï¿½
+	//ï¿½Åï¿½ï¿½Ì“_ï¿½Ínï¿½_
+	//ï¿½Qï¿½Ô–Ú‚Í’ï¿½ï¿½Ô“_ï¿½iï¿½ï¿½ï¿½å‚¤ï¿½Ç’ï¿½ï¿½ï¿½ï¿½Å‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½\ï¿½ï¿½ï¿½È‚ï¿½ï¿½j
+	//ï¿½Rï¿½Ô–Ú‚Ì“_ï¿½ÍIï¿½_
 {
 public:
 	VectorLineArc(void){}
@@ -289,8 +297,8 @@ public:
 };
 
 class	VectorLineEllipse : public VectorLineBase 
-	//‚S“_‚Å‘È‰~‚ğ•\‚·
-	//‚S“_‚Í‚w²•ûŒü‚Ìã’¸“_A‰º’¸“_A‚x²•ûŒü‚Ì‰E’¸“_A¶’¸“_
+	//ï¿½Sï¿½_ï¿½Å‘È‰~ï¿½ï¿½ï¿½\ï¿½ï¿½
+	//ï¿½Sï¿½_ï¿½Í‚wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìã’¸ï¿½_ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½Aï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰Eï¿½ï¿½ï¿½_ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½_
 {
 public:
 	VectorLineEllipse(void){}

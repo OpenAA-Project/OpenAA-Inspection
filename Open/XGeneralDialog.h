@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\XGeneralDialog.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XGENERALDIALOG_H)
 #define	XGENERALDIALOG_H
 
@@ -27,7 +35,7 @@ class	GeneralDialog : public QDialog,public ServiceForLayers
 public:
 	GeneralDialog(LayersBase *Base,QWidget *cli ,QWidget * parent,bool _DeleteCliInClose=true);
 	/*
-	parent‚ğNULL‚É‚·‚é‚ÆAeqŠÖŒW‚ª‚È‚­‚È‚Á‚ÄƒEƒCƒ“ƒhƒE‚ğ’T‚¹‚È‚­‚È‚é‚Ì‚ÅƒfƒtƒHƒ‹ƒgNULL‚ğ”p~
+	parentï¿½ï¿½NULLï¿½É‚ï¿½ï¿½ï¿½ï¿½ÆAï¿½eï¿½qï¿½ÖŒWï¿½ï¿½ï¿½È‚ï¿½ï¿½È‚ï¿½ï¿½ÄƒEï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½È‚ï¿½ï¿½È‚ï¿½ï¿½Ì‚Åƒfï¿½tï¿½Hï¿½ï¿½ï¿½gNULLï¿½ï¿½ï¿½pï¿½~
 	*/
 
 	~GeneralDialog(void);

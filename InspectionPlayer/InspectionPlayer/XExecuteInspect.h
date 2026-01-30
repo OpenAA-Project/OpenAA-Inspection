@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XExecuteInspect.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #ifndef XExecuteInspectH
@@ -73,7 +82,7 @@ public:
 	virtual	int		GetCameraDim(CameraClass *CamDim[])	override;
 	virtual	void	SetCameraDim(CameraClass *CamDim[])	override;
 
-	//‚±‚ê‚ç‚ÍŠO•”‚©‚ç‚Ì‘€ì
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍŠOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½
 	virtual	void	GoInspect(void)					override;
 	virtual	void	GoInspectWithoutCapture(void)	override;
 	virtual	void	GoMasterCaptureOnly(void)		override;
@@ -112,12 +121,12 @@ private:
 
 	bool	CheckCamera(int32 &ErrorCode);
 	int		CaptureGetState(void);
-		//‘S‚Ä‚ÌƒJƒƒ‰‚Ìƒrƒbƒg‚n‚q
-		//	–ß‚è’lF	ƒrƒbƒg‚O	‚PFB‰e€”õ’†
-		//				ƒrƒbƒg‚P	‚PFƒgƒŠƒK[‘Ò‹@’†
-		//				ƒrƒbƒg‚Q	‚PF‚c‚l‚`“]‘—’†
-		//				ƒrƒbƒg‚R	‚PFƒI[ƒo[ƒ‰ƒ“ƒGƒ‰[”­¶
-		//				ƒrƒbƒg‚S	‚PF‚»‚Ì‘¼ƒGƒ‰[”­¶
+		//ï¿½Sï¿½Ä‚ÌƒJï¿½ï¿½ï¿½ï¿½ï¿½Ìƒrï¿½bï¿½gï¿½nï¿½q
+		//	ï¿½ß‚ï¿½ï¿½lï¿½F	ï¿½rï¿½bï¿½gï¿½O	ï¿½Pï¿½Fï¿½Bï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//				ï¿½rï¿½bï¿½gï¿½P	ï¿½Pï¿½Fï¿½gï¿½ï¿½ï¿½Kï¿½[ï¿½Ò‹@ï¿½ï¿½
+		//				ï¿½rï¿½bï¿½gï¿½Q	ï¿½Pï¿½Fï¿½cï¿½lï¿½`ï¿½]ï¿½ï¿½ï¿½ï¿½
+		//				ï¿½rï¿½bï¿½gï¿½R	ï¿½Pï¿½Fï¿½Iï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
+		//				ï¿½rï¿½bï¿½gï¿½S	ï¿½Pï¿½Fï¿½ï¿½ï¿½Ì‘ï¿½ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	bool	CaptureGetMasterImage(int CStrategic,ListPhasePageLayerPack &CapturedList);
 	bool	CaptureGetTargetImage(ListPhasePageLayerPack &CapturedList);
 	void	OccurCamError(int CamStatus);
@@ -216,16 +225,16 @@ public:
 };
 
 /*
-	‰æ‘œ“Ç‚İ‚İ¨ŒŸ¸‚Ì—¬‚ê
+	ï¿½æ‘œï¿½Ç‚İï¿½ï¿½İï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½
 
-	ƒJƒƒ‰B‚è‚İ€”õ
-	ŒŸ¸‰Šú‰»
-	ƒJƒƒ‰B‰eŠJn
+	ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½èï¿½İï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½eï¿½Jï¿½n
 
-	ƒJƒƒ‰B‘œó‘Ôæ“¾
-	ƒJƒƒ‰B‘œŠ®—¹
-	@ŒŸ¸ŠJn
-	ŒŸ¸Œ‹‰Êo—Í
+	ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½Ôæ“¾
+	ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½n
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êoï¿½ï¿½
 
 */
 

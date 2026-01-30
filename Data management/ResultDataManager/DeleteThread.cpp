@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "DeleteThread.h"
 
 #include <QFile>
@@ -18,8 +36,8 @@ DeleteThread::~DeleteThread()
 	while(isFinished()==false){
 		msleep(1);
 	}
-	if(deleteAtFlush()==true && remainFileCount()>0){// c‚èíœƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚é‚Æ‚«
-		// c‚è‚ğÀs
+	if(deleteAtFlush()==true && remainFileCount()>0){// ï¿½cï¿½ï¿½ï¿½íœï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
+		// ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
 		start();
 		msleep(1);
 		if(isRunning()==true){
@@ -37,7 +55,7 @@ DeleteThread::~DeleteThread()
 void DeleteThread::emptyDirRemove()
 {
 	QMutexLocker locker( &m_mutexEmpDir );
-	// ƒfƒBƒŒƒNƒgƒŠ‚Ìƒ`ƒFƒbƒN‚¨‚æ‚Ñíœ
+	// ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½Ìƒ`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ñíœ
 	for(int i=0; i<m_checkDelEmpDirectories.count(); i++){
 		if(IsEmptyDirectory(m_checkDelEmpDirectories[i])==true){
 			RemoveDirectoryApi(m_checkDelEmpDirectories[i]);
@@ -52,27 +70,27 @@ void DeleteThread::run(void)
 	m_stop = false;
 	m_pause = false;
 	while(m_stop==false){
-		// ‘Ò‹@
+		// ï¿½Ò‹@
 		msleep(10);
 
 		QStringList filePath;
-		{// ƒ~ƒ…[ƒeƒbƒNƒX•ÛŒìˆæ‚±‚±‚©‚ç
+		{// ï¿½~ï¿½ï¿½ï¿½[ï¿½eï¿½bï¿½Nï¿½Xï¿½ÛŒï¿½ï¿½æ‚±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			QMutexLocker locker( &m_mutex );
 
 			if(m_pause==true){
 				continue;
 			}
 
-			// ‚P‚Â‚Å‚àƒXƒgƒbƒN‚³‚ê‚Ä‚¢‚é‚©‚ğŠm”F‚·‚é
-			if(m_deleteFilePathes.isEmpty()==true){// ˆê‚Â‚à‚È‚¢ê‡
+			// ï¿½Pï¿½Â‚Å‚ï¿½ï¿½Xï¿½gï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½ï¿½
+			if(m_deleteFilePathes.isEmpty()==true){// ï¿½ï¿½ï¿½Â‚ï¿½ï¿½È‚ï¿½ï¿½ê‡
 				emptyDirRemove();
 				continue;
 			}
 		
-			// ƒXƒgƒbƒN‚ğæ“¾
+			// ï¿½Xï¿½gï¿½bï¿½Nï¿½ï¿½ï¿½æ“¾
 			filePath = m_deleteFilePathes;
 			m_deleteFilePathes.clear();
-		}// ƒ~ƒ…[ƒeƒbƒNƒX•ÛŒìˆæ‚±‚±‚Ü‚Å
+		}// ï¿½~ï¿½ï¿½ï¿½[ï¿½eï¿½bï¿½Nï¿½Xï¿½ÛŒï¿½ï¿½æ‚±ï¿½ï¿½ï¿½Ü‚ï¿½
 
 		//QStringList checkDir;
 
@@ -100,7 +118,7 @@ bool DeleteThread::deleteFile(const QString &filePath)
 		time.start();
 	}
 
-	// íœ
+	// ï¿½íœ
 	if(DeleteFileApi(filePath)==true){
 		QString fileDirectory = QFileInfo(filePath).absolutePath();
 		QDir dir(fileDirectory);
@@ -120,7 +138,7 @@ bool DeleteThread::deleteFile(const QString &filePath)
 
 		if(time.elapsed()>100){
 			time.restart();
-			emit deletedFile(QDir::fromNativeSeparators(filePath));// íœƒVƒOƒiƒ‹‘—M
+			emit deletedFile(QDir::fromNativeSeparators(filePath));// ï¿½íœï¿½Vï¿½Oï¿½iï¿½ï¿½ï¿½ï¿½ï¿½M
 		}
 		return true;
 	}else{

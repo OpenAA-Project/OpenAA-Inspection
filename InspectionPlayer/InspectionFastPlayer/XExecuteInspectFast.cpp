@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XExecuteInspectFast.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "XDateTime.h"
@@ -743,7 +752,7 @@ bool	ExecuteInspectFast::CaptureGetMasterImage(int CStrategic,ListPhasePageLayer
 				}
 			}
 
-			//Žæ‚èž‚Ý‚ð‘‚­‚·‚é‚½‚ß‚Éæ‚ÉGetImage‚¾‚¯‚ðs‚¤
+			//ï¿½ï¿½ï¿½èžï¿½Ý‚ð‘‚ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚Éï¿½ï¿½ï¿½GetImageï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 			//#pragma omp parallel                             
 			//{                                                
 			//	#pragma omp for
@@ -1029,7 +1038,7 @@ bool	ExecuteInspectFast::CaptureGetTargetImage(ListPhasePageLayerPack &CapturedL
 				}
 			}
 	
-			//Žæ‚èž‚Ý‚ð‘‚­‚·‚é‚½‚ß‚Éæ‚ÉGetImage‚¾‚¯‚ðs‚¤
+			//ï¿½ï¿½ï¿½èžï¿½Ý‚ð‘‚ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚Éï¿½ï¿½ï¿½GetImageï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 			//#pragma omp parallel                             
 			//{                                                
 			//	#pragma omp for
@@ -1465,7 +1474,7 @@ IdleTurn:;
 				if(GetEntryPoint()->IsMasterPC()==true){
 					//SetCaptured(Layer->GetCurrentStrategicNumber());
 				}
-				if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+				if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 					//EmitSignalCaptured(Layer->GetCurrentStrategicNumber());
 				}
 
@@ -1490,7 +1499,7 @@ IdleTurn:;
 				}
 
 			
-				if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+				if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 
 					IntList PhaseCodes;
 					Layer->GetCurrentPhaseFromScanPhase(PhaseCodes);
@@ -1618,7 +1627,7 @@ IdleTurn:;
 							Layer->GetLogCreater()->PutLog(__LINE__,"ExecuteProcessingRevived");
 
 
-							//ŒŸ¸Š®—¹Žž
+							//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 							Res->SetStartTimeForInspect(Layer->GetStartInspectTime());
 
 							Layer->ExecutePostProcessing();
@@ -1702,14 +1711,14 @@ IdleTurn:;
 				if(GetEntryPoint()->IsMasterPC()==true){
 					//SetCaptured(Layer->GetCurrentStrategicNumber());
 				}
-				if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+				if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 					//EmitSignalCaptured(Layer->GetCurrentStrategicNumber());
 				}
 				Layer->SetStartInspectTime(XDateTime::currentDateTime());
 
 				CurrentState=_EI_OnCalc;
 			
-				if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+				if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 					IntList PhaseCodes;
 					Layer->GetCurrentPhaseFromScanPhase(PhaseCodes);
 					int	CPhase=PhaseCodes[0];
@@ -1793,7 +1802,7 @@ IdleTurn:;
 							Res->ExecTime.TM_ExecuteProcessingRevived=Cn-C;
 							C=Cn;
 
-							//ŒŸ¸Š®—¹Žž
+							//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 							Res->SetStartTimeForInspect(Layer->GetStartInspectTime());
 
 							Layer->ExecutePostProcessing	();
@@ -1941,7 +1950,7 @@ IdleTurn:;
 				if(GetEntryPoint()->IsMasterPC()==true){
 					//SetCaptured(Layer->GetCurrentStrategicNumber());
 				}
-				if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+				if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 					//EmitSignalCaptured(Layer->GetCurrentStrategicNumber());
 				}
 
@@ -1962,7 +1971,7 @@ IdleTurn:;
 					}
 				}
 			
-				if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+				if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 					IntList PhaseCodes;
 					Layer->GetCurrentPhaseFromScanPhase(PhaseCodes);
 					int	CPhase=PhaseCodes[0];
@@ -2659,7 +2668,7 @@ void	ExecuteInspectFast::FinishInspection(ResultInspection *Res ,int32 CurrentSt
 		EP->StackedCountInAutoMode--;
 		eOutputCounter++;
 
-		//ŒŸ¸Š®—¹Žž
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		if(ParamG->GetMaxScanStrategy()<=1
 		|| (ParamG->BufferedProcessing==false && ParamG->GetMaxScanStrategy()<=(StrategicNumber+1))
@@ -2857,7 +2866,7 @@ void	ExecuteInspectFast::PreFinishInspection(ResultInspection *Res ,int32 Curren
 		EP->StackedCountInAutoMode--;
 		eOutputCounter++;
 
-		//ŒŸ¸Š®—¹Žž
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		if(ParamG->GetMaxScanStrategy()<=1
 		|| (ParamG->BufferedProcessing==false && ParamG->GetMaxScanStrategy()<=(StrategicNumber+1))
@@ -3119,4 +3128,3 @@ void	ExecuteInspectFast::SlotScanningRefresh(int64 InspectionID)
 
 }
 //=================================================================================================
-

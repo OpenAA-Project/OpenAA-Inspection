@@ -1,19 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XAlignment.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
-/*----------------------------------------------------------------------------*/
-//
-//  äTóv
-//
-//  çÏê¨é“
-//
-/*----------------------------------------------------------------------------*/
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XAlignmentResource.h"
 #define	_USE_MATH_DEFINES
 #include <math.h>
@@ -1301,7 +1303,7 @@ bool    XAlignmentArea::Save(QIODevice *file)
 
 	if(file->write((const char *)&AreaID,sizeof(AreaID))!=sizeof(AreaID))
 		return(false);
-	int32	D=(int32)Priority;	//å„ï˚å›ä∑ê´ÇÃÇΩÇﬂint32
+	int32	D=(int32)Priority;	//ÔøΩÔøΩÔøΩÔøΩÔøΩ›äÔøΩÔøΩÔøΩÔøΩÃÇÔøΩÔøΩÔøΩint32
 	if(file->write((const char *)&D,sizeof(D))!=sizeof(D))
 		return(false);
 	if(Area	.Write(file)==false)
@@ -1385,7 +1387,7 @@ bool	XAlignmentArea::Load(QIODevice *file ,AlignmentInLayer *parent)
 }
 bool    XAlignmentArea::SaveUnique(QIODevice *file)
 {
-	int32	D=(int32)Priority;	//å„ï˚å›ä∑ê´ÇÃÇΩÇﬂint32
+	int32	D=(int32)Priority;	//ÔøΩÔøΩÔøΩÔøΩÔøΩ›äÔøΩÔøΩÔøΩÔøΩÃÇÔøΩÔøΩÔøΩint32
 	if(file->write((const char *)&D,sizeof(D))!=sizeof(D))
 		return(false);
 	if(::Save(file,AreaName)==false)
@@ -1410,9 +1412,9 @@ bool    XAlignmentArea::LoadUnique(QIODevice *file)
 
 AlignmentInLayer::AlignmentInLayer(AlgorithmInPageRoot *parent) : AlgorithmInLayerPLI(parent)
 {
-	ResultShiftX=ResultShiftY=0;	//ïΩçsà⁄ìÆó 
-	ResultAngle=0;					//âÒì]ó ÅiÉâÉWÉAÉìÅj
-	ResultExtend=1.0;				//ägëÂó¶
+	ResultShiftX=ResultShiftY=0;	//ÔøΩÔøΩÔøΩsÔøΩ⁄ìÔøΩÔøΩÔøΩ
+	ResultAngle=0;					//ÔøΩÔøΩÔøΩ]ÔøΩ ÅiÔøΩÔøΩÔøΩWÔøΩAÔøΩÔøΩÔøΩj
+	ResultExtend=1.0;				//ÔøΩgÔøΩÂó¶
     MVector		=NULL;
     MVectorXNumb=0;
     MVectorYNumb=0;
@@ -1495,7 +1497,7 @@ void    AlignmentInLayer::InitializeFromImage(ImageBuffer &IBuff)
 	for(XAlignmentArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
 		p->Initial(IBuff);
 	}
-    //ç≈í∑ÇÃÇQå¥ì_ÇëIÇ‘
+    //ÔøΩ≈íÔøΩÔøΩÃÇQÔøΩÔøΩÔøΩ_ÔøΩÔøΩÔøΩIÔøΩÔøΩ
     double  MaxL=0;
     int L1=-1,L2=-1;
 
@@ -1605,9 +1607,9 @@ void    AlignmentInLayer::GetResultVectorXY(int rx ,int ry ,int &kx ,int &ky)
 
 ExeResult	AlignmentInLayer::ExecuteStartByInspection(int ExeID ,ResultInLayerRoot *Res)
 {
-	ResultShiftX=ResultShiftY=0;	//ïΩçsà⁄ìÆó 
-	ResultAngle=0;					//âÒì]ó ÅiÉâÉWÉAÉìÅj
-	ResultExtend=1.0;				//ägëÂó¶
+	ResultShiftX=ResultShiftY=0;	//ÔøΩÔøΩÔøΩsÔøΩ⁄ìÔøΩÔøΩÔøΩ
+	ResultAngle=0;					//ÔøΩÔøΩÔøΩ]ÔøΩ ÅiÔøΩÔøΩÔøΩWÔøΩAÔøΩÔøΩÔøΩj
+	ResultExtend=1.0;				//ÔøΩgÔøΩÂó¶
 
 	for(XAlignmentArea *p=Areas.GetFirst();p!=NULL;p=p->GetNext()){
 		p->ExecuteStartByInspection();
@@ -1989,7 +1991,7 @@ void	AlignmentInLayer::CopyFrom(AlgorithmInPageRoot *DestParent
 		for(XAlignmentPointer *g=a->GPack.GetFirst();g!=NULL;g=g->GetNext()){
 			XAlignmentPointer	*gd=new XAlignmentPointer();
 			gd->Parent=d;
-			gd->Point=g->Point;	//âºÇ…ê›íË
+			gd->Point=g->Point;	//ÔøΩÔøΩÔøΩ…ê›íÔøΩ
 			d->GPack.AppendList(gd);
 		}
 		Areas.AppendList(d);
@@ -2927,5 +2929,4 @@ void	AlignmentBase::TransmitDirectly(GUIDirectMessage *packet)
 		return;
 	}
 }
-
 

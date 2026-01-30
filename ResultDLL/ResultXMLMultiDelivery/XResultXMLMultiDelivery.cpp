@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
@@ -422,7 +440,7 @@ void	ResultXMLMultiDelivery::SlotOutputSlave(int DeliveryNo,QString SearchStr,QS
 bool	ResultXMLMultiDelivery::RemoveResult(int32 MachineID ,const XDateTime &ResultTime,	int64 InspectionID)
 {
 
-//ŒŸõğŒ"<IST DAY="**********" MAC="xx">"
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"<IST DAY="**********" MAC="xx">"
 	QString	SearchStr;
 
 	SearchStr	=QString("<IST DAY=\"")
@@ -721,31 +739,31 @@ void	ResultXMLMultiDelivery::OutputInLibData(LogicDLL *L ,int LibID
 			strcat(BuffStr,sbuff);
 
 			switch(NGItem->NGShape){
-				case LibNGTypeItem::NG_Circle:	//› “h‚è‚Â‚Ô‚³‚È‚¢ŠÛ
+				case LibNGTypeItem::NG_Circle:	//ï¿½ï¿½ ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½
 					strcat(BuffStr," NGSHAPE=\"Circle\"");
 					break;
-				case LibNGTypeItem::NG_FilledCircle	:	//œ “h‚è‚Â‚Ô‚µ‚½ŠÛ
+				case LibNGTypeItem::NG_FilledCircle	:	//ï¿½ï¿½ ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½
 					strcat(BuffStr," NGSHAPE=\"Filled circle\"");
 					break;
-				case LibNGTypeItem::NG_Rectangle	:	//  “h‚è‚Â‚Ô‚³‚È‚¢lŠp
+				case LibNGTypeItem::NG_Rectangle	:	//ï¿½ï¿½ ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½ï¿½È‚ï¿½ï¿½lï¿½p
 					strcat(BuffStr," NGSHAPE=\"Rectangle\"");
 					break;
-				case LibNGTypeItem::NG_FilledRect	:	//¡ “h‚è‚Â‚Ô‚µ‚½lŠp
+				case LibNGTypeItem::NG_FilledRect	:	//ï¿½ï¿½ ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½ï¿½ï¿½ï¿½lï¿½p
 					strcat(BuffStr," NGSHAPE=\"Filled Rectangle\"");
 					break;
-				case LibNGTypeItem::NG_X			:	//‚w ƒoƒbƒeƒ“
+				case LibNGTypeItem::NG_X			:	//ï¿½w ï¿½oï¿½bï¿½eï¿½ï¿½
 					strcat(BuffStr," NGSHAPE=\"X\"");
 					break;
-				case LibNGTypeItem::NG_Star			:	//™
+				case LibNGTypeItem::NG_Star			:	//ï¿½ï¿½
 					strcat(BuffStr," NGSHAPE=\"Star\"");
 					break;
-				case LibNGTypeItem::NG_FilledStar	:	//š
+				case LibNGTypeItem::NG_FilledStar	:	//ï¿½ï¿½
 					strcat(BuffStr," NGSHAPE=\"Filled Star\"");
 					break;
 				case LibNGTypeItem::NG_Cross		:	//?
 					strcat(BuffStr," NGSHAPE=\"Cross\"");
 					break;
-				case LibNGTypeItem::NG_Sharp		:	//ò
+				case LibNGTypeItem::NG_Sharp		:	//ï¿½ï¿½
 					strcat(BuffStr," NGSHAPE=\"Sharp\"");
 					break;
 			}

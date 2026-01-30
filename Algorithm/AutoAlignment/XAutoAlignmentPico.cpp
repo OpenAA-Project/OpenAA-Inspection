@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XAutoAlignmentPico.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "AutoAlignmentResource.h"
 #include "XAutoAlignment.h"
@@ -289,7 +298,7 @@ bool	AutoAlignmentInPico::ExecuteInitialAfterEdit(BYTE **MasterMap ,int MasterXB
 			CalcDetailG.InitialCalc(*GBuff->GetImage() ,TransArea);
 			CalcDetailB.InitialCalc(*BBuff->GetImage() ,TransArea);
 
-			//•ªU‚ªÅ‚à‘å‚«‚¢F‚ğ‘I‘ğ
+			//ï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½Å‚ï¿½ï¿½å‚«ï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½Iï¿½ï¿½
 			double	VR=CalcFirstR.GetMasterVar();
 			double	VG=CalcFirstG.GetMasterVar();
 			double	VB=CalcFirstB.GetMasterVar();
@@ -303,7 +312,7 @@ bool	AutoAlignmentInPico::ExecuteInitialAfterEdit(BYTE **MasterMap ,int MasterXB
 				SelectFirst=2;
 			}
 
-			//ˆê’è—Ê—£‚ê‚½©•ª©g‚Æˆê’v‚·‚é‚Æ‚«–³Œø—Ìˆæ‚É‚·‚é
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ê—ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Æˆï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìˆï¿½ï¿½É‚ï¿½ï¿½ï¿½
 			if(SelectFirst==0){
 				LMasterBuff=RBuff->GetImage();
 				CalcFirst=&CalcFirstR;
@@ -331,7 +340,7 @@ bool	AutoAlignmentInPico::ExecuteInitialAfterEdit(BYTE **MasterMap ,int MasterXB
 			CalcDetailR.InitialCalc(*RBuff->GetImage() ,TransArea);
 
 
-			//ˆê’è—Ê—£‚ê‚½©•ª©g‚Æˆê’v‚·‚é‚Æ‚«–³Œø—Ìˆæ‚É‚·‚é
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ê—ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Æˆï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìˆï¿½ï¿½É‚ï¿½ï¿½ï¿½
 			LMasterBuff=RBuff->GetImage();
 			CalcFirst=&CalcFirstR;
 			CalcDetail=&CalcDetailR;
@@ -1030,7 +1039,7 @@ double	AutoAlignmentInPico::ExecuteAlignmentInside(double Dx, double Dy,double T
 
 void	AutoAlignmentInPico::CalcFromSurround(void)
 {
-	//‹ß–T‚Ì‚Q‚Â‚Ì‚o‚h‚b‚n‚ğ’T‚µ‚ÄŒvZ‚¸‚é
+	//ï¿½ß–Tï¿½Ì‚Qï¿½Â‚Ì‚oï¿½hï¿½bï¿½nï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ÄŒvï¿½Zï¿½ï¿½ï¿½ï¿½
 	
 	ShiftX=0;
 	ShiftY=0;
@@ -1277,7 +1286,7 @@ void	AutoAlignmentInPico::AvoidOverlap(void)
 
 	int	N;
 	N=OMasterArea.GetFLineLen();
-	//Master‰æ‘œã‚Å‚ÍPickupArea—Ìˆæã‚É‚È‚¢À•W‚ª‚¸‚ê‚é‚ÆTargetã‚ÅPickupAreaã‚É‚­‚é‚Æ‚«A•â³‚·‚é
+	//Masterï¿½æ‘œï¿½ï¿½ï¿½Å‚ï¿½PickupAreaï¿½Ìˆï¿½ï¿½ï¿½ï¿½É‚È‚ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Targetï¿½ï¿½ï¿½ï¿½PickupAreaï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½â³ï¿½ï¿½ï¿½ï¿½
 	for(int i=0;i<N;i++){
 		int	MasterY	=OMasterArea.GetFLineAbsY(i);
 		int	X		=OMasterArea.GetFLineLeftX(i);
@@ -1317,7 +1326,7 @@ void	AutoAlignmentInPico::AvoidOverlap(void)
 			}
 		}
 	}
-	//Target‰æ‘œã‚Å‚ÍPickupArea—Ìˆæã‚É‚È‚¢À•W‚ª‚¸‚ê‚ğ–ß‚·‚ÆMasterã‚ÅPickupAreaã‚É‚­‚é‚Æ‚«A•â³‚·‚é
+	//Targetï¿½æ‘œï¿½ï¿½ï¿½Å‚ï¿½PickupAreaï¿½Ìˆï¿½ï¿½ï¿½ï¿½É‚È‚ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½ï¿½ï¿½Masterï¿½ï¿½ï¿½ï¿½PickupAreaï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½â³ï¿½ï¿½ï¿½ï¿½
 	N=OTargetArea.GetFLineLen();
 	for(int i=0;i<N;i++){
 		int	TargetY	=OTargetArea.GetFLineAbsY(i);
@@ -1611,4 +1620,3 @@ void	AutoAlignmentInPico::MakePickupAreaFromPico(BYTE **BMap,int XByte ,int YLen
 {
 	PickupArea.MakeBitData(BMap,XByte*8,YLen);
 }
-

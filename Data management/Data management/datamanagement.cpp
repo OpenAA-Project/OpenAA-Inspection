@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Data management\Data management\datamanagement.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "datamanagementResource.h"
 #include "datamanagement.h"
@@ -375,7 +384,7 @@ MasterUI::MasterUI(Datamanagement *parent) : UIBase(parent){
 	Category	= new MasterCategory(parent);
 	MasterModel = new QSqlQueryModel(parent);
 	MasterJudge = 0;
-//MasterTree•\¦
+//MasterTreeï¿½\ï¿½ï¿½
 	QStringList MTFieldNames;
 	MTFieldNames << /**/"FOLDERNAME" << /**/"REMARK" << /**/"CATEGORYID";
 	ui->trMasterList->setColumnCount(MTFieldNames.count());
@@ -426,7 +435,7 @@ void MasterUI::view(){
 void MasterUI::view(QString &SELECT,QString &ORDER){
 	Master->Select(MasterModel, SELECT, ORDER);
 	ui->MASTERView->clear();
-	while (MasterModel->canFetchMore()){ // 256sˆÈã“Ç‚İ‚Ş‚½‚ß‚É•K—v
+	while (MasterModel->canFetchMore()){ // 256ï¿½sï¿½Èï¿½ï¿½Ç‚İï¿½ï¿½Ş‚ï¿½ï¿½ß‚É•Kï¿½v
 		MasterModel->fetchMore();
 	}
 	int Row=MasterModel->rowCount();
@@ -477,28 +486,28 @@ void MasterUI::resizeHeader(){
 	ui->MASTERView->horizontalHeader()->resizeSection (14,80);//MASTERTYPE
 }
 void MasterUI::showTree(){
-	//RootŠK‘w‚ÌƒtƒHƒ‹ƒ_[•\¦
+	//Rootï¿½Kï¿½wï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½_ï¿½[ï¿½\ï¿½ï¿½
 	disconnect(ui->trMasterList->selectionModel(),SIGNAL(currentChanged(QModelIndex,QModelIndex)),this,SLOT(Tree_rowChanged(QModelIndex)));
 	ui->trMasterList->clear();
 	connect(ui->trMasterList->selectionModel(),SIGNAL(currentChanged(QModelIndex,QModelIndex)),this,SLOT(Tree_rowChanged(QModelIndex)));
-	//TreeWidgetÅ‰‚ÌƒtƒHƒ‹ƒ_[•\¦
+	//TreeWidgetï¿½Åï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½_ï¿½[ï¿½\ï¿½ï¿½
 	QTreeWidgetItem *RootItem=new QTreeWidgetItem();
 	RootItem->setText(0,tr(/**/"Root"));
 	RootItem->setText(1,/**/"");
 	RootItem->setText(2,QString::number(-1));
 	ui->trMasterList->addTopLevelItem(RootItem);
-//ˆÈ‰º‚ÌƒtƒHƒ‹ƒ_[•\¦
+//ï¿½È‰ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½_ï¿½[ï¿½\ï¿½ï¿½
 	QString QueryData=/**/"SELECT FOLDERNAME, REMARK, CATEGORYID FROM MASTERCATEGORY WHERE PARENTID=0 ORDER BY CATEGORYID";
 	addChildTree(QueryData, RootItem);
 }
 void MasterUI::addChildTree(QString &QueryData, QTreeWidgetItem *ParentItem)
 {
-	//Root‰ºŠK‘w‚ÌƒtƒHƒ‹ƒ_[•\¦
+	//Rootï¿½ï¿½ï¿½Kï¿½wï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½_ï¿½[ï¿½\ï¿½ï¿½
 	int Cnt=0;
 	QSqlQuery Query(QueryData);
 	while (Query.next()) {
 		if(Cnt==0)
-			Cnt = Query.numRowsAffected();//Select”
+			Cnt = Query.numRowsAffected();//Selectï¿½ï¿½
 		QTreeWidgetItem *item=new QTreeWidgetItem();
 		QString Parent=Query.value(2).toString();
 		if(Parent.isEmpty()==true)
@@ -692,7 +701,7 @@ void MasterUI::Delete(){
 	return;
 }
 void MasterUI::Backup(){
-//ƒf[ƒ^‚Ìæ“¾
+//ï¿½fï¿½[ï¿½^ï¿½Ìæ“¾
 	QString MASTERCODE=ui->leMASTERCODE->text();
 	if(MASTERCODE.isEmpty()==true){
 		message(QString(/**/"NOSELE"));
@@ -720,12 +729,12 @@ void MasterUI::Backup(){
 	QFile file(FileName);
 	if(file.open(QIODevice::WriteOnly)==false)
 		return;
-//ƒoƒbƒNƒAƒbƒv‚ÌŒãíœ‚·‚é‚©
+//ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ÌŒï¿½ï¿½íœï¿½ï¿½ï¿½é‚©
 	bool Delete=true;
 	if(QMessageBox::information(0, /**/"Delete",LangSolver.GetString(datamanagement_LS,LID_25)/*"Do you want to delete this MasterData after you create the Backupfile?"*/,QMessageBox::Yes,QMessageBox::No)==QMessageBox::No)
 		Delete=false;
 	//parent->Pdialog->show();
-//ƒtƒB[ƒ‹ƒh–¼‚Ìæ“¾
+//ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìæ“¾
 	QString Target=/**/"MASTERDATA";
 	Master->FieldSave(file, Target);
 	Target=/**/"MASTERPAGE";
@@ -734,16 +743,16 @@ void MasterUI::Backup(){
 	Master->FieldSave(file, Target);
 	::Save(&file, MASTERCODE);
 	::Save(&file, CATEGORYID);
-//eŠK‘w‚Ìæ“¾
+//ï¿½eï¿½Kï¿½wï¿½Ìæ“¾
 	Category->ParentSave(file, CATEGORYID);
-//Data‚Ìæ“¾
+//Dataï¿½Ìæ“¾
 	Master	->Save(file, MASTERCODE);
 	Page	->Save(file, MASTERCODE);
 	Category->Save(file, CATEGORYID);
 	//parent->Pdialog->P.progressBar->setValue(50);
 	Image	->Save(file, MASTERCODE);
 	//parent->Pdialog->P.progressBar->setValue(100);
-	parent->saveRelatedMastercode(file,MASTERCODE); //RELATEDMASTERCODE‚Ì’Ç‰Á‚É”º‚¢
+	parent->saveRelatedMastercode(file,MASTERCODE); //RELATEDMASTERCODEï¿½Ì’Ç‰ï¿½ï¿½É”ï¿½ï¿½ï¿½
 	parent->Pdialog->close();
 
 	if(Delete==false)
@@ -774,12 +783,12 @@ void MasterUI::Restore(){
 	QFile file(FileName);
 	if(file.open(QIODevice::ReadOnly)==false)
 		return;
-//BackupƒtƒB[ƒ‹ƒh–¼‚Ìæ“¾
+//Backupï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìæ“¾
 	Master->FieldLoad(file, BMasterList);
 	Master->FieldLoad(file, BPageList);
 	Master->FieldLoad(file, BCategoryList);
 
-//Œ»ó‚Ìƒe[ƒuƒ‹‚ÌƒtƒB[ƒ‹ƒhæ“¾
+//ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½Ìƒtï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½æ“¾
 	QString Target=/**/"MASTERDATA";
 	Master->FieldGet(Target, MasterList);
 	Master->RestoreField(BMasterList, MasterList, Target, Mins);
@@ -796,15 +805,15 @@ void MasterUI::Restore(){
 		return ;
 	MCode=MASTERCODE;
 	QSqlQuery Query(/**/"SELECT MASTERCODE FROM MASTERDATA WHERE MASTERCODE="+ MASTERCODE);
-	if(Query.next()==true){//Šù‚É‘¶İ‚µ‚Ä‚¢‚éê‡
+	if(Query.next()==true){//ï¿½ï¿½ï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡
 		if(QMessageBox::information(0, LangSolver.GetString(datamanagement_LS,LID_26)/*"Data has already existed"*/,LangSolver.GetString(datamanagement_LS,LID_27)/*"Save New:Yes  UpDate:No"*/,QMessageBox::Yes,QMessageBox::No)==QMessageBox::No){
-			//ã‘‚«‚Ìê‡
+			//ï¿½ã‘ï¿½ï¿½ï¿½Ìê‡
 			Image->Delete(MASTERCODE);
 			Master->Delete(MASTERCODE);
 			Page->Delete(MASTERCODE);
 			MCode=MASTERCODE;
 		}else{
-			//MasterCode‚ğV‹K‚ÅŠ„‚è“–‚ÄV‹K•Û‘¶‚Ìê‡
+			//MasterCodeï¿½ï¿½ï¿½Vï¿½Kï¿½ÅŠï¿½ï¿½è“–ï¿½ÄVï¿½Kï¿½Û‘ï¿½ï¿½Ìê‡
 			QSqlQuery MAXQuery(/**/"SELECT MAX(MASTERCODE) FROM MASTERDATA");
 			if (MAXQuery.next())
 				MCode = QString::number(MAXQuery.value(0).toInt()+1);
@@ -816,7 +825,7 @@ void MasterUI::Restore(){
 		// Pdialog->close();
 		return;
 	}
-	//eŠK‘w‚Ìæ“¾
+	//ï¿½eï¿½Kï¿½wï¿½Ìæ“¾
 	Category->ParentLoad(file, BCategoryList, CategoryList, Cins);
 	Master->Load(file, BMasterList, MasterList, Mins, MCode);
 
@@ -828,7 +837,7 @@ void MasterUI::Restore(){
 	ui->MASTERView->clear();
 	ui->MASTERView->setRowCount(0);
 	ui->MASTERView->setColumnCount(0);
-	parent->loadRelatedMastercode(file); //RELATEDMASTERCODE‚Ì’Ç‰Á‚É”º‚¢
+	parent->loadRelatedMastercode(file); //RELATEDMASTERCODEï¿½Ì’Ç‰ï¿½ï¿½É”ï¿½ï¿½ï¿½
 }
 QTreeWidgetItem* MasterUI::CheckTrMasterList(QTreeWidgetItem* item, int col, QString data)
 {
@@ -842,7 +851,7 @@ QTreeWidgetItem* MasterUI::CheckTrMasterList(QTreeWidgetItem* item, int col, QSt
 	return NULL;
 }
 void MasterUI::rowMoved(QModelIndex INDEX, QModelIndex INDEX2){
-	//Tree‘Î•\¦
+	//Treeï¿½Î•\ï¿½ï¿½
 	if (INDEX.row()==-1)
 		return clear();
 ////////
@@ -890,7 +899,7 @@ void MasterUI::Tree_rowChanged(QModelIndex INDEX){
 	ui->dataMASTER_1 ->setVisible(false);
 }
 void MasterUI::on_combMASTERSel_1_currentIndexChanged(int index)
-{//CombBoxŒŸõğŒ•\¦
+{//CombBoxï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
 	ui->leMASTERSel_1	->setVisible(true);
 	ui->dataMASTER_1	->setVisible(false);
 	ui->combMASTERSel_11->setVisible(true);
@@ -1049,7 +1058,7 @@ void MachineUI::Restore(){
 		return;
 	QStringList BMacList;
 	Mac->FieldLoad(file, BMacList);
-	//Œ»ó‚Ìƒe[ƒuƒ‹‚ÌƒtƒB[ƒ‹ƒhæ“¾
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½Ìƒtï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½æ“¾
 	QStringList MacList;
 	QString Target=/**/"MACHINE";
 	Mac->FieldGet(Target, MacList);
@@ -1194,7 +1203,7 @@ void WorkerUI::Restore(){
 		return;
 	QStringList BWorkList;
 	Work->FieldLoad(file, BWorkList);
-	//Œ»ó‚Ìƒe[ƒuƒ‹‚ÌƒtƒB[ƒ‹ƒhæ“¾
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½Ìƒtï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½æ“¾
 	QStringList WorkList;
 	QString Target=/**/"WORKER";
 	Work->FieldGet(Target, WorkList);
@@ -1281,7 +1290,7 @@ void LibUI::Delete(){
 		table=/**/"NOSELE";
 		message(table);
 		return;
-	}else if(LibJudge==1){	//ƒtƒHƒ‹ƒ_‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚é‚È‚ç
+	}else if(LibJudge==1){	//ï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 		table=/**/"FolderDelete";
 		if (message(table)==false)
 			return;
@@ -1292,9 +1301,9 @@ void LibUI::Delete(){
 			QList<QTreeWidgetItem*> items = ui->LibTreeWidget->selectedItems();
 			for(int i=0;i<items.count();i++){
 				QString FolderID = items.at(i)->text(1);
-				Lib->FolderDelete(FolderID);////InspectLib‚ÌLibFolderíœ
-				Folder->Delete(FolderID);//ƒŠƒuƒtƒHƒ‹ƒ_[íœ
-				Folder->ChildDelete(FolderID);//q‹Ÿ‚Ìíœ
+				Lib->FolderDelete(FolderID);////InspectLibï¿½ï¿½LibFolderï¿½íœ
+				Folder->Delete(FolderID);//ï¿½ï¿½ï¿½uï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½[ï¿½íœ
+				Folder->ChildDelete(FolderID);//ï¿½qï¿½ï¿½ï¿½Ìíœ
 			}
 		}
 		showTree();
@@ -1346,12 +1355,12 @@ void LibUI::Backup(){
 
 	if(FolderID!=/**/"-1"){
 		Target=/**/"Parent";
-		Folder->SubSave(Target, file, FolderID);//e‚ÌŠK‘w‚ğ•Û‘¶
+		Folder->SubSave(Target, file, FolderID);//ï¿½eï¿½ÌŠKï¿½wï¿½ï¿½ï¿½Û‘ï¿½
 		Target=/**/"Child";
-		Folder->SubSave(Target, file, FolderID);//q‹Ÿ‚ÌŠK‘w‚ğ•Û‘¶
+		Folder->SubSave(Target, file, FolderID);//ï¿½qï¿½ï¿½ï¿½ÌŠKï¿½wï¿½ï¿½ï¿½Û‘ï¿½
 	}
-	Folder ->Save(file, FolderID);//©•ª©g‚Ì•Û‘¶
-	Lib	   ->Save(file, FolderID);//©•ª©g‚Ì’†g
+	Folder ->Save(file, FolderID);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ì•Û‘ï¿½
+	Lib	   ->Save(file, FolderID);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ì’ï¿½ï¿½g
 	LibType->Save(file);
 }
 void LibUI::Restore(){
@@ -1364,13 +1373,13 @@ void LibUI::Restore(){
 	QString FolderID;
 	if(::Load(&file,FolderID)==false)
 		return;
-	//BackupƒtƒB[ƒ‹ƒh–¼‚Ìæ“¾
+	//Backupï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìæ“¾
 	QStringList BFolder,BLib,BLibType;
 	Lib->FieldLoad(file, BFolder);
 	Lib->FieldLoad(file, BLib);
 	Lib->FieldLoad(file, BLibType);
 
-	//Œ»ó‚Ìƒe[ƒuƒ‹‚ÌƒtƒB[ƒ‹ƒhæ“¾
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½Ìƒtï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½æ“¾
 	QString Target=/**/"LIBFOLDER";
 	QStringList NFolder;
 	QString Fins;
@@ -1388,10 +1397,10 @@ void LibUI::Restore(){
 	Lib->RestoreField(BLibType, NLibType, Target, Tins);
 
 	if(FolderID!=/**/"-1"){
-		Folder->SubLoad(file, BFolder, NFolder, Fins);//e‚ÌŠK‘w‚ÌƒŠƒXƒgƒA
-		Folder->SubLoad(file, BFolder, NFolder, Fins);//q‹ŸŠK‘w‚ÌƒŠƒXƒgƒA
+		Folder->SubLoad(file, BFolder, NFolder, Fins);//ï¿½eï¿½ÌŠKï¿½wï¿½Ìƒï¿½ï¿½Xï¿½gï¿½A
+		Folder->SubLoad(file, BFolder, NFolder, Fins);//ï¿½qï¿½ï¿½ï¿½Kï¿½wï¿½Ìƒï¿½ï¿½Xï¿½gï¿½A
 	}
-	Folder->RootLoad(file, BFolder, NFolder, Fins);//©•ª©g‚ÌƒŠƒXƒgƒA
+	Folder->RootLoad(file, BFolder, NFolder, Fins);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ìƒï¿½ï¿½Xï¿½gï¿½A
 	Lib->Load(file, BLib, NLib, Lins);
 	LibType->Load(file, BLibType, NLibType, Tins);
 
@@ -1408,22 +1417,22 @@ void LibUI::saveRelatedMastercode(QIODevice &file,QString &MasterCode){
 	for (int i=0; i<FolderCount; i++){
 		QString FolderID=RetFolderID.at(i);
 		::Save(&file, FolderID);
-		//ƒtƒB[ƒ‹ƒh–¼‚Ìæ“¾
+		//ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìæ“¾
 		QString Target=/**/"LIBFOLDER";
 		Lib->FieldSave(file, Target);
 		Target=/**/"INSPECTLIB";
 		Lib->FieldSave(file, Target);
 		Target=/**/"INSPECTLIBTYPE";
 		Lib->FieldSave(file, Target);
-		//Data‚Ìæ“¾
+		//Dataï¿½Ìæ“¾
 		if(FolderID!=/**/"-1"){
 			Target=/**/"Parent";
-			Folder->SubSave(Target, file, FolderID);//e‚ÌŠK‘w‚ğ•Û‘¶
+			Folder->SubSave(Target, file, FolderID);//ï¿½eï¿½ÌŠKï¿½wï¿½ï¿½ï¿½Û‘ï¿½
 			Target=/**/"Child";
-			Folder->SubSave(Target, file, FolderID);//q‹Ÿ‚ÌŠK‘w‚ğ•Û‘¶
+			Folder->SubSave(Target, file, FolderID);//ï¿½qï¿½ï¿½ï¿½ÌŠKï¿½wï¿½ï¿½ï¿½Û‘ï¿½
 		}
-		Folder->Save(file, FolderID);//©•ª©g‚Ì•Û‘¶
-		Lib->Save(file, FolderID);//©•ª©g‚Ì’†g
+		Folder->Save(file, FolderID);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ì•Û‘ï¿½
+		Lib->Save(file, FolderID);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ì’ï¿½ï¿½g
 		LibType->Save(file);
 	}
 }
@@ -1436,12 +1445,12 @@ void LibUI::loadRelatedMastercode(QIODevice &file){
 		QString FolderID;
 		if(::Load(&file, FolderID)==false)
 			return;
-		//BackupƒtƒB[ƒ‹ƒh–¼‚Ìæ“¾
+		//Backupï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìæ“¾
 		Lib->FieldLoad(file, BFolder);
 		Lib->FieldLoad(file, BLib);
 		Lib->FieldLoad(file, BLibType);
 
-		//Œ»ó‚Ìƒe[ƒuƒ‹‚ÌƒtƒB[ƒ‹ƒhæ“¾
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½Ìƒtï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½æ“¾
 		QString Fins, Lins, Tins ;
 		QString Target=/**/"LIBFOLDER";
 		Lib->FieldGet(Target, NFolder);
@@ -1452,38 +1461,38 @@ void LibUI::loadRelatedMastercode(QIODevice &file){
 		Target=/**/"INSPECTLIBTYPE";
 		Lib->FieldGet(Target, NLibType);
 		Lib->RestoreField(BLibType, NLibType, Target, Tins);
-	//e‚ÌŠK‘w‚ª‘¶İ‚µ‚È‚¢ê‡Root‚Ì’¼‰º‚É‚Â‚­
+	//ï¿½eï¿½ÌŠKï¿½wï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ï¿½ê‡Rootï¿½Ì’ï¿½ï¿½ï¿½ï¿½É‚Â‚ï¿½
 		if(FolderID!=/**/"-1"){
-			Folder->RootSubLoad(file, BFolder, NFolder, Fins);//e‚ÌŠK‘w‚ÌƒŠƒXƒgƒA
-		//	Folder->SubLoad(file, BFolder, NFolder, Fins);//q‹ŸŠK‘w‚ÌƒŠƒXƒgƒA
+			Folder->RootSubLoad(file, BFolder, NFolder, Fins);//ï¿½eï¿½ÌŠKï¿½wï¿½Ìƒï¿½ï¿½Xï¿½gï¿½A
+		//	Folder->SubLoad(file, BFolder, NFolder, Fins);//ï¿½qï¿½ï¿½ï¿½Kï¿½wï¿½Ìƒï¿½ï¿½Xï¿½gï¿½A
 		}
-		Folder->RootLoad2(file, BFolder, NFolder, Fins);//©•ª©g‚ÌƒŠƒXƒgƒA
+		Folder->RootLoad2(file, BFolder, NFolder, Fins);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ìƒï¿½ï¿½Xï¿½gï¿½A
 		Lib->Load(file, BLib, NLib, Lins);
 		LibType->Load(file, BLibType, NLibType, Tins);
 	}
 }
 void LibUI::showTree(){
-//RootŠK‘w‚ÌƒtƒHƒ‹ƒ_[•\¦
+//Rootï¿½Kï¿½wï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½_ï¿½[ï¿½\ï¿½ï¿½
 	disconnect(ui->LibTreeWidget->selectionModel(),SIGNAL(currentChanged(QModelIndex,QModelIndex)),this,SLOT(rowChanged(QModelIndex)));
 	ui->LibTreeWidget->clear();
 	connect(ui->LibTreeWidget->selectionModel(),SIGNAL(currentChanged(QModelIndex,QModelIndex)),this,SLOT(rowChanged(QModelIndex)));
-//TreeWidgetÅ‰‚ÌƒtƒHƒ‹ƒ_[•\¦
+//TreeWidgetï¿½Åï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½_ï¿½[ï¿½\ï¿½ï¿½
 	QTreeWidgetItem *RootItem;
 	RootItem=new QTreeWidgetItem();
 	RootItem->setText(0,tr(/**/"Root"));
 	RootItem->setText(1,QString::number(-1));
 	ui->LibTreeWidget->addTopLevelItem(RootItem);
-//ˆÈ‰º‚ÌƒtƒHƒ‹ƒ_[•\¦
+//ï¿½È‰ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½_ï¿½[ï¿½\ï¿½ï¿½
 	QString QueryData=/**/"SELECT FOLDERNAME, LIBFOLDERID, LIBPARENTID FROM LIBFOLDER WHERE LIBPARENTID=0 ORDER BY FOLDERNAME";
 	return addChildTree(QueryData, RootItem);
 }
 void LibUI::addChildTree(QString &QueryData, QTreeWidgetItem *ParentItem){
-	//Root‰ºŠK‘w‚ÌƒtƒHƒ‹ƒ_[•\¦
+	//Rootï¿½ï¿½ï¿½Kï¿½wï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½_ï¿½[ï¿½\ï¿½ï¿½
 	int Cnt=0;
 	QSqlQuery SubQuery(QueryData);
 	while (SubQuery.next()) {
 		if(Cnt==0)
-			Cnt = SubQuery.numRowsAffected();//Select”
+			Cnt = SubQuery.numRowsAffected();//Selectï¿½ï¿½
 		QTreeWidgetItem *item=new QTreeWidgetItem();
 		QString Parent=SubQuery.value(1).toString();
 		if(Parent.isEmpty()==true)

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "NGImageListForReviewResource.h"
 #include "NGImageListForReview.h"
 #include "../XGUIReviewCommonPacket.h"
@@ -171,7 +189,7 @@ NGImageListForReview::NGImageListForReview(LayersBase *Base,QWidget *parent)
 
 		controlInfoDialog = new ControlInfoDialog(this);
 		controlInfoDialog->append(/**/"Space", LangSolver.GetString(NGImageListForReview_LS,LID_4)/*"Swap Flag for NG sign view."*/);
-		controlInfoDialog->append(/**/"F1`F12", LangSolver.GetString(NGImageListForReview_LS,LID_5)/*"Set F key type Flag at current NG."*/);
+		controlInfoDialog->append(/**/"F1ï¿½`F12", LangSolver.GetString(NGImageListForReview_LS,LID_5)/*"Set F key type Flag at current NG."*/);
 		controlInfoDialog->append(/**/"Del", LangSolver.GetString(NGImageListForReview_LS,LID_6)/*"Remove F key type Flag at current NG."*/);
 		showControlAction = new QAction(LangSolver.GetString(NGImageListForReview_LS,LID_7)/*"Control Infomation"*/, this);
 		contextMenu->addAction(showControlAction);
@@ -202,7 +220,7 @@ int NGImageListForReview::getNextListDelay()
 		return NextListDelay;
 	}
 
-	int retWaitTime = NextListDelay;// AnyDataInLibrary‚É‚æ‚éƒEƒFƒCƒgƒ^ƒCƒ€İ’è’l‚Ìæ“¾]
+	int retWaitTime = NextListDelay;// AnyDataInLibraryï¿½É‚ï¿½ï¿½ï¿½ï¿½Eï¿½Fï¿½Cï¿½gï¿½^ï¿½Cï¿½ï¿½ï¿½İ’ï¿½ï¿½lï¿½Ìæ“¾]
 
 	ReviewPIBase *RBase = GetReviewAlgorithm();
 	if(RBase!=NULL){
@@ -215,7 +233,7 @@ int NGImageListForReview::getNextListDelay()
 		}else{
 			for(int i=0; i<ReqAdjacentCurrentNGCmd.currentNG()->NGPointList.count(); i++){
 				if(retWaitTime<ReqAdjacentCurrentNGCmd.currentNG()->NGPointList[i].Tag.Wait){
-					retWaitTime = ReqAdjacentCurrentNGCmd.currentNG()->NGPointList[i].Tag.Wait;// Å‘å‘Ò‹@ŠÔ‚Ìİ’è
+					retWaitTime = ReqAdjacentCurrentNGCmd.currentNG()->NGPointList[i].Tag.Wait;// ï¿½Å‘ï¿½ï¿½Ò‹@ï¿½ï¿½ï¿½Ô‚Ìİ’ï¿½
 				}
 			}
 		}
@@ -226,11 +244,11 @@ int NGImageListForReview::getNextListDelay()
 
 int NGImageListForReview::getNextListDelay(const NGNailItem &item) const
 {
-	int retWaitTime = NextListDelay;// AnyDataInLibrary‚É‚æ‚éƒEƒFƒCƒgƒ^ƒCƒ€İ’è’l‚Ìæ“¾
+	int retWaitTime = NextListDelay;// AnyDataInLibraryï¿½É‚ï¿½ï¿½ï¿½ï¿½Eï¿½Fï¿½Cï¿½gï¿½^ï¿½Cï¿½ï¿½ï¿½İ’ï¿½ï¿½lï¿½Ìæ“¾
 
 	for(int i=0; i<item.NGPointList.count(); i++){
 		if(retWaitTime<item.NGPointList[i].Tag.Wait){
-			retWaitTime = item.NGPointList[i].Tag.Wait;// Å‘å‘Ò‹@ŠÔ‚Ìİ’è
+			retWaitTime = item.NGPointList[i].Tag.Wait;// ï¿½Å‘ï¿½ï¿½Ò‹@ï¿½ï¿½ï¿½Ô‚Ìİ’ï¿½
 		}
 	}
 
@@ -397,7 +415,7 @@ void NGImageListForReview::refleshTableRow(int row)
 void NGImageListForReview::setNGList(const OrganizedHistoryItem &history)
 {
 	ui.tblMain->setRowCount(0);
-	if(history.hasFront()==false && history.hasBack()==false){// NG‚È‚Ç‚È‚¢
+	if(history.hasFront()==false && history.hasBack()==false){// NGï¿½È‚Ç‚È‚ï¿½
 		ui.tblMain->setCurrentCell(-1, -1);
 		ui.leNGCount->setText(/**/"0");
 		return;
@@ -411,11 +429,11 @@ void NGImageListForReview::setNGList(const OrganizedHistoryItem &history)
 		return;
 	}
 
-	// ƒ‰ƒCƒuƒ‰ƒŠƒnƒbƒVƒ…ƒe[ƒuƒ‹‚ğæ“¾
+	// ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½nï¿½bï¿½Vï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	CmdReqInsLib Send(GetLayersBase());
 	RBase->TransmitDirectly(&Send);
 
-	// ŒŸ¸ƒ‰ƒCƒuƒ‰ƒŠæ“¾¸”s‚Í•\¦‚µ‚È‚¢
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Í•\ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 	bool noInsLib = !Send.Ret;
 	int NGSum=0;
 	int NGNailSum=0;
@@ -428,17 +446,17 @@ void NGImageListForReview::setNGList(const OrganizedHistoryItem &history)
 		NGNailSum += history.getBack()->getNGNails().count();
 	}
 
-	// ‘SNG”‚ğ•\¦‚Å‚«‚é‚æ‚¤‚És‚ğ’²®
+	// ï¿½SNGï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½Ésï¿½ğ’²ï¿½
 	ui.tblMain->setRowCount(NGNailSum);
 
-	// NG”‚ğ‹Lq
+	// NGï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½q
 	ui.leNGCount->setText(QString::number(NGSum));
 
 	int currentRow=0;
 	FrontCount=0;
 	BackCount=0;
-	if(history.hasFront()==true){// •\‘¤‚Ì—š—ğ‚ ‚è
-		// ‹Lq‚·‚éNGƒŠƒXƒg
+	if(history.hasFront()==true){// ï¿½\ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ï¿½Lï¿½qï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½Xï¿½g
 		addNGList(*history.getFront(), Send.FrontInsLibHash, currentRow);
 		currentRow += history.getFront()->getNGNails().count();
 		FrontCount = history.getFront()->getNGNails().count();
@@ -450,7 +468,7 @@ void NGImageListForReview::setNGList(const OrganizedHistoryItem &history)
 
 	updateVerticalHeader(FrontCount, BackCount);
 
-	// Œ»İNG‚ğ‘I‘ğ‚·‚é
+	// ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ui.tblMain->rowCount()!=0){
 		CmdReqAdjacentCurrentNG CurrentNGState(GetLayersBase());
 		RBase->TransmitDirectly(&CurrentNGState);
@@ -513,7 +531,7 @@ void NGImageListForReview::setViewColor(const OrganizedHistoryItem &history)
 QColor NGImageListForReview::getResultColor(const QStringList &resultList, const QColor &defaultColor)
 {
 	if(resultList.contains(/**/"OK")){
-		return defaultColor;;// ’ÊíF
+		return defaultColor;;// ï¿½Êï¿½ï¿½F
 	}else if(resultList.contains(/**/"TimeOver")){
 		ReviewPIBase *RBase = GetReviewAlgorithm();
 		if(RBase!=NULL){
@@ -521,7 +539,7 @@ QColor NGImageListForReview::getResultColor(const QStringList &resultList, const
 			SendL.Halt=2;
 			RBase->TransmitDirectly(&SendL);
 		}
-		return QColor(Qt::yellow);// ƒ^ƒCƒ€ƒI[ƒo[
+		return QColor(Qt::yellow);// ï¿½^ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[
 	}else if(resultList.contains(/**/"MaxOver")){
 		ReviewPIBase *RBase = GetReviewAlgorithm();
 		if(RBase!=NULL){
@@ -529,7 +547,7 @@ QColor NGImageListForReview::getResultColor(const QStringList &resultList, const
 			SendL.Halt=3;
 			RBase->TransmitDirectly(&SendL);
 		}
-		return QColor(Qt::yellow);// NGŒÂ”‰ß‘½
+		return QColor(Qt::yellow);// NGï¿½Âï¿½ï¿½ß‘ï¿½
 	}else if(resultList.contains(/**/"NG")){
 		ReviewPIBase *RBase = GetReviewAlgorithm();
 		if(RBase!=NULL){
@@ -537,7 +555,7 @@ QColor NGImageListForReview::getResultColor(const QStringList &resultList, const
 			SendL.Halt=1;
 			RBase->TransmitDirectly(&SendL);
 		}
-		return defaultColor;// ’ÊíF
+		return defaultColor;// ï¿½Êï¿½ï¿½F
 	}else{
 		return defaultColor;
 	}
@@ -616,9 +634,9 @@ void NGImageListForReview::addNGList(const HistoryItem &history, const InsLibrar
 	NGNailList NGList = history.getNGNails();
 	hCmdReqForSaveNGList.NGPoints=NGList.count();
 
-	for(int i=0; i<NGList.count(); i++){// NG‰æ‘œŒÂ”‚Ì‘S•”’Ç‰Á
-		NGNailItem NGItem = NGList.at(i);// NG‰æ‘œ’PˆÊî•ñ
-		QTableWidgetItem *item;// ‘}“ü‚·‚éƒe[ƒuƒ‹ƒZƒ‹‚Ìƒoƒbƒtƒ@
+	for(int i=0; i<NGList.count(); i++){// NGï¿½æ‘œï¿½Âï¿½ï¿½Ì‘Sï¿½ï¿½ï¿½Ç‰ï¿½
+		NGNailItem NGItem = NGList.at(i);// NGï¿½æ‘œï¿½Pï¿½Êï¿½ï¿½ï¿½
+		QTableWidgetItem *item;// ï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½Ìƒoï¿½bï¿½tï¿½@
 
 		ForSaveNGPoint	*ForSaveNGPointer=new ForSaveNGPoint(InsertRow+i);
 		ForSaveNGPointer->Top=hCmdReqForSaveNGList.Top;
@@ -626,7 +644,7 @@ void NGImageListForReview::addNGList(const HistoryItem &history, const InsLibrar
 	
 		ForSaveNGPointer->Side	=(history.Side==Review::Front)?1:2;
 
-		// XYî•ñ
+		// XYï¿½ï¿½ï¿½ï¿½
 		if(mainHHeader.contains(hhlNGPoint)==true){
 			//int		XPos=NGItem.TargetPosX + outlineOffset[NGItem.phase][NGItem.page].x();
 			//int		YPos=NGItem.TargetPosY + outlineOffset[NGItem.phase][NGItem.page].y();
@@ -662,7 +680,7 @@ void NGImageListForReview::addNGList(const HistoryItem &history, const InsLibrar
 			ui.tblMain->setItem(InsertRow+i, mainHHeader.indexOf(hhlNGPoint), item);
 		}
 		
-		// INSLIBî•ñ
+		// INSLIBï¿½ï¿½ï¿½ï¿½
 		if(mainHHeader.contains(hhlNGCause)==true){
 			if(InsLibHash.isEmpty()==false){
 				QString LibName = /**/"";
@@ -682,19 +700,19 @@ void NGImageListForReview::addNGList(const HistoryItem &history, const InsLibrar
 			ui.tblMain->setItem(InsertRow+i, mainHHeader.indexOf(hhlNGCause), item);
 		}
 
-		// NG”
+		// NGï¿½ï¿½
 		if(mainHHeader.contains(hhlNGCount)==true){
 			item = new QTableWidgetItem(QString::number(NGItem.NGPointList.count()));
 			ui.tblMain->setItem(InsertRow+i, mainHHeader.indexOf(hhlNGCount), item);
 		}
 
-		// NGŒ´ˆö
+		// NGï¿½ï¿½ï¿½ï¿½
 		if(mainHHeader.contains(hhlLibrary)==true){
 			item = new QTableWidgetItem(NGItem.getLibraryRal());
 			ui.tblMain->setItem(InsertRow+i, mainHHeader.indexOf(hhlLibrary), item);
 		}
 
-		// PCEî•ñ
+		// PCEï¿½ï¿½ï¿½ï¿½
 		if(mainHHeader.contains(hhlNGArea)==true){
 			QStringList NGIPCE;
 			for(int ng=0; ng<NGItem.NGPointList.count(); ng++){
@@ -718,12 +736,12 @@ void NGImageListForReview::addNGList(const HistoryItem &history, const InsLibrar
 		}
 	}
 
-	// F•t‚¯
+	// ï¿½Fï¿½tï¿½ï¿½
 	if(RBase!=NULL){
 		CmdReqFKeyColorList Send(GetLayersBase());
 		RBase->TransmitDirectly(&Send);
 		for(int i=0; i<NGList.count(); i++){
-			NGNailItem NGItem = NGList.at(i);// NG‰æ‘œ’PˆÊî•ñ
+			NGNailItem NGItem = NGList.at(i);// NGï¿½æ‘œï¿½Pï¿½Êï¿½ï¿½ï¿½
 			if(NGItem.isChecked){
 				fillBackgraundColorOnTableAtRow(InsertRow+i, Send.list[Review::FKeyToInt(NGItem.FKey)]);
 			}else{
@@ -740,7 +758,7 @@ void NGImageListForReview::addNGList(const HistoryItem &history, const InsLibrar
 
 void NGImageListForReview::TransmitDirectly(GUIDirectMessage *packet)
 {
-	// XV
+	// ï¿½Xï¿½V
 	GUICmdReviewUpdateLocal *GUICmdReviewUpdateLocalVar = dynamic_cast<GUICmdReviewUpdateLocal *>(packet);
 	if(GUICmdReviewUpdateLocalVar!=NULL){
 		ReviewPIBase *RBase = GetReviewAlgorithm();
@@ -859,7 +877,7 @@ void NGImageListForReview::endKeyWaitTimeLine(int value)
 
 		ui.tblMain->setFocus();
 	}else{
-		// “Á‚É‰½‚à
+		// ï¿½ï¿½ï¿½É‰ï¿½ï¿½ï¿½
 	}
 }
 
@@ -890,10 +908,10 @@ void NGImageListForReview::moveHistory(Review::Direction direction)
 	ReviewPIBase *RBase = GetReviewAlgorithm();
 	if(RBase==NULL)return;
 
-	CmdReqAdjacentCurrentNG	ExistNGCmd(GetLayersBase());		// ƒJƒŒƒ“ƒgNG‚ÌüˆÍ‚ÉŠÖ‚·‚éî•ñæ“¾ƒRƒ}ƒ“ƒh
-	CmdMoveCurrentHistoryToNGBoard	HistoryMoveCmd(GetLayersBase());	// —š—ğˆÚ“®—pƒRƒ}ƒ“ƒh
+	CmdReqAdjacentCurrentNG	ExistNGCmd(GetLayersBase());		// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½Ìï¿½ï¿½Í‚ÉŠÖ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½Rï¿½}ï¿½ï¿½ï¿½h
+	CmdMoveCurrentHistoryToNGBoard	HistoryMoveCmd(GetLayersBase());	// ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½pï¿½Rï¿½}ï¿½ï¿½ï¿½h
 
-	RBase->TransmitDirectly(&ExistNGCmd);// ƒJƒŒƒ“ƒgNG‚Ìü•Óî•ñ‚ğæ“¾
+	RBase->TransmitDirectly(&ExistNGCmd);// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½Ìï¿½ï¿½Óï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 
 	bool isExistHistory;
 	if(direction==Review::Direction::Next){
@@ -905,22 +923,22 @@ void NGImageListForReview::moveHistory(Review::Direction direction)
 	if(ExistNGCmd.Ret==true && isExistHistory==true){
 
 		// will recommand
-		//if(ExistNGCmd.currentHistory->isErrorBoard()==false &&// ’Êí‚ÌŒ‹‰ÊŒÀ’è
-		//	ExistNGCmd.currentHistory->isCheckedAll()==false)return;// ‚·‚×‚Äƒ`ƒFƒbƒNÏ‚İ‚Å‚È‚¢‚Ì‚ÅŸ‚É‚Í‚¢‚¯‚È‚¢
+		//if(ExistNGCmd.currentHistory->isErrorBoard()==false &&// ï¿½Êï¿½ï¿½ÌŒï¿½ï¿½ÊŒï¿½ï¿½ï¿½
+		//	ExistNGCmd.currentHistory->isCheckedAll()==false)return;// ï¿½ï¿½ï¿½×‚Äƒ`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚Å‚È‚ï¿½ï¿½Ì‚Åï¿½ï¿½É‚Í‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 		
-		HistoryMoveCmd.direction = direction;// —š—ğˆÚ“®‚ğŸ‚Ì•ûŒü‚Éİ’è
-		RBase->TransmitDirectly(&HistoryMoveCmd);// —š—ğ‚ğŸ‚ÖˆÚ“®
+		HistoryMoveCmd.direction = direction;// ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Éİ’ï¿½
+		RBase->TransmitDirectly(&HistoryMoveCmd);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖˆÚ“ï¿½
 
 		if(HistoryMoveCmd.Ret==false)return;
 		if(ExistNGCmd.currentHistory()==HistoryMoveCmd.CurrentHistoryPtr)return;
 
-		// NGNailˆÊ’u‚ğæ“ª‚ÖˆÚ“®
+		// NGNailï¿½Ê’uï¿½ï¿½ï¿½æ“ªï¿½ÖˆÚ“ï¿½
 		CmdSetCurrentNGNail SetNGPosCmd(GetLayersBase());
 		SetNGPosCmd.locate = Review::First;
 		RBase->TransmitDirectly(&SetNGPosCmd);
 		
 		if(SetNGPosCmd.Ret==true){
-			setCheckedCurrentNG();// ƒJƒŒƒ“ƒgNG‚ğƒ`ƒFƒbƒNÏ‚İ‚É‚·‚é
+			setCheckedCurrentNG();// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚É‚ï¿½ï¿½ï¿½
 		}
 
 		//updateGUI();
@@ -1034,14 +1052,14 @@ QColor NGImageListForReview::getCurrentNGColor()
 	CmdReqAdjacentCurrentNG AdjacentCurrentNGCmd(GetLayersBase());
 	RBase->TransmitDirectly(&AdjacentCurrentNGCmd);
 
-	QColor ret = QColor(Qt::white);// ƒfƒtƒHƒ‹ƒg‚Í”’
+	QColor ret = QColor(Qt::white);// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Í”ï¿½
 
 	if(AdjacentCurrentNGCmd.currentNG()->isChecked==true){
 		CmdReqFKeyColorList ReqFColorListCmd(GetLayersBase());
 		RBase->TransmitDirectly(&ReqFColorListCmd);
 
 		if(ReqFColorListCmd.Ret==true){
-			ret = ReqFColorListCmd.list[Review::FKeyToInt(AdjacentCurrentNGCmd.currentNG()->FKey)];// FƒL[‚É‰‚¶‚½F(FƒL[–³‚µ‚àŠÜ‚Ş)
+			ret = ReqFColorListCmd.list[Review::FKeyToInt(AdjacentCurrentNGCmd.currentNG()->FKey)];// Fï¿½Lï¿½[ï¿½É‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½F(Fï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½)
 		}
 	}
 

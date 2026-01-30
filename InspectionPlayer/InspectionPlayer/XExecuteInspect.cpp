@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XExecuteInspect.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include <cmath>
 #include "XDateTime.h"
@@ -843,7 +852,7 @@ bool	ExecuteInspect::CaptureGetMasterImage(int CStrategic,ListPhasePageLayerPack
 				}
 			}
 
-			//Žæ‚èž‚Ý‚ð‘‚­‚·‚é‚½‚ß‚Éæ‚ÉGetImage‚¾‚¯‚ðs‚¤
+			//ï¿½ï¿½ï¿½èžï¿½Ý‚ð‘‚ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚Éï¿½ï¿½ï¿½GetImageï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 			//#pragma omp parallel                             
 			//{                                                
 			//	#pragma omp for
@@ -1116,7 +1125,7 @@ bool	ExecuteInspect::CaptureGetTargetImage(ListPhasePageLayerPack &CapturedList)
 				}
 			}
 	
-			//Žæ‚èž‚Ý‚ð‘‚­‚·‚é‚½‚ß‚Éæ‚ÉGetImage‚¾‚¯‚ðs‚¤
+			//ï¿½ï¿½ï¿½èžï¿½Ý‚ð‘‚ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚Éï¿½ï¿½ï¿½GetImageï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 			//#pragma omp parallel                             
 			//{                                                
 			//	#pragma omp for
@@ -1501,12 +1510,12 @@ IdleTurn:;
 				if(GetEntryPoint()->IsMasterPC()==true){
 					SetCaptured(GetLayersBase()->GetCurrentStrategicNumber());
 				}
-				if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+				if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 					EmitSignalCaptured(GetLayersBase()->GetCurrentStrategicNumber());
 				}
 
 				int	CStrategic=GetLayersBase()->GetCurrentStrategicNumber();
-				if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+				if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 					CurrentState=_EI_OnTransmit;
 					TriggeredCapture=false;
 					DWORD	StartCalcTime=GetComputerMiliSec();
@@ -1548,7 +1557,7 @@ IdleTurn:;
 						emit	SignalFinishCaptureOnly(Res,0,CStrategic,(int)_CaptureOnlyTarget);
 					}
 				}
-				else{	//Master‚Ì‚Æ‚«
+				else{	//Masterï¿½Ì‚Æ‚ï¿½
 					//if(CStrategic==0)
 					//	GetLayersBase()->SetCurrentStrategicNumberForSeq(0);
 					if(GetParamGlobal()->GetMaxScanStrategy()<=1){
@@ -1689,7 +1698,7 @@ IdleTurn:;
 				if(GetEntryPoint()->IsMasterPC()==true){
 					SetCaptured(GetLayersBase()->GetCurrentStrategicNumber());
 				}
-				if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+				if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 					EmitSignalCaptured(GetLayersBase()->GetCurrentStrategicNumber());
 				}
 				ResultInspection	*Res=GetLayersBase()->GetCurrentResultForCalc();
@@ -1698,7 +1707,7 @@ IdleTurn:;
 					int	CStrategic=GetLayersBase()->GetCurrentStrategicNumber();
 					Re->ClearReceivedResultCounts();
 				
-					if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+					if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 						DWORD	StartCalcTime=GetComputerMiliSec();
 						if(GetLayersBase()->GetOnTerminating()==true){
 							//CamRelease();
@@ -1733,7 +1742,7 @@ IdleTurn:;
 						else{
 							StrategicListContainer SList;
 							GetParamGlobal()->GetStrategy(CStrategic,SList);
-							//ŒŸ¸Š®—¹Žž
+							//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 							for(StrategicList *s=SList.GetFirst();s!=NULL;s=s->GetNext()){
 								emit	SignalFinishCaptureOnly(Res,s->Page,CStrategic,(int)_CaptureOnlyMaster);
@@ -1758,7 +1767,7 @@ IdleTurn:;
 							}
 						}
 					}
-					else{	//Master‚Ì‚Æ‚«
+					else{	//Masterï¿½Ì‚Æ‚ï¿½
 						//if(CStrategic==0)
 						//	GetLayersBase()->SetCurrentStrategicNumberForSeq(0);
 						if(GetParamGlobal()->GetMaxScanStrategy()<=1){
@@ -1915,7 +1924,7 @@ IdleTurn:;
 				if(GetEntryPoint()->IsMasterPC()==true){
 					SetCaptured(GetLayersBase()->GetCurrentStrategicNumber());
 				}
-				if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+				if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 					EmitSignalCaptured(GetLayersBase()->GetCurrentStrategicNumber());
 				}
 				TrunCaptured++;
@@ -1936,7 +1945,7 @@ IdleTurn:;
 					}
 				}
 			
-				if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+				if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 					GetLayersBase()->GetLogCreater()->PutLog(__LINE__,"XExecuteInspect:Captured");
 
 					SeqParam->InspactionStatus=34;
@@ -2027,7 +2036,7 @@ IdleTurn:;
 							Res->ExecTime.TM_ExecuteProcessingRevived=Cn-C;
 							C=Cn;
 
-							//ŒŸ¸Š®—¹Žž
+							//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 							Res->SetStartTimeForInspect(GetLayersBase()->GetStartInspectTime());
 
 							GetLayersBase()->ExecutePostProcessing	();
@@ -2106,7 +2115,7 @@ IdleTurn:;
 							GetLayersBase()->PushCapturedPageLayer(CurrentCapturedPageLayer);
 							StrategicListContainer SList;
 							GetParamGlobal()->GetStrategy(GetLayersBase()->GetCurrentStrategicNumber(),SList);
-							//ŒŸ¸Š®—¹Žž
+							//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 							Res->SetStartTimeForInspect(GetLayersBase()->GetStartInspectTime());
 	
 							GetLayersBase()->SetCurrentScanPhaseNumber(tCurrentScanPhaseNumber);
@@ -2141,7 +2150,7 @@ IdleTurn:;
 					CurrentState=_EI_IDLE;
 					SetMode(_CaptureNone);
 				}
-				else{	//Master‚Ì‚Æ‚«
+				else{	//Masterï¿½Ì‚Æ‚ï¿½
 					DWORD	StartCalcTime=GetComputerMiliSec();
 					ResultInspection	*Res=GetLayersBase()->GetCurrentResultForCalc();
 					if(Res!=NULL){
@@ -2298,7 +2307,7 @@ IdleTurn:;
 				if(GetEntryPoint()->IsMasterPC()==true){
 					SetCaptured(GetLayersBase()->GetCurrentStrategicNumber());
 				}
-				if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+				if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 					EmitSignalCaptured(GetLayersBase()->GetCurrentStrategicNumber());
 				}
 				ResultInspection	*Res=GetLayersBase()->GetCurrentResultForCalc();
@@ -2306,7 +2315,7 @@ IdleTurn:;
 					DataInExecuter	*Re=GetLayersBase()->GetExecuter(Res);
 					int	CStrategic=GetLayersBase()->GetCurrentStrategicNumber();
 					Re->ClearReceivedResultCounts();
-					if(IsLocalCamera()==true){	//SLAVE‚Ì‚Æ‚«
+					if(IsLocalCamera()==true){	//SLAVEï¿½Ì‚Æ‚ï¿½
 						DWORD	StartCalcTime=GetComputerMiliSec();
 						if(GetLayersBase()->GetOnTerminating()==true){
 							//CamRelease();
@@ -2338,7 +2347,7 @@ IdleTurn:;
 						else{
 							StrategicListContainer SList;
 							GetParamGlobal()->GetStrategy(CStrategic,SList);
-							//ŒŸ¸Š®—¹Žž
+							//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 							for(StrategicList *s=SList.GetFirst();s!=NULL;s=s->GetNext()){
 								emit	SignalFinishCaptureOnly(Res,s->Page,CStrategic,(int)_CaptureContinuously);
@@ -2363,7 +2372,7 @@ IdleTurn:;
 							}
 						}
 					}
-					else{	//Master‚Ì‚Æ‚«
+					else{	//Masterï¿½Ì‚Æ‚ï¿½
 						//if(CStrategic==0)
 						//	GetLayersBase()->SetCurrentStrategicNumberForSeq(0);
 						if(GetParamGlobal()->GetMaxScanStrategy()<=1){
@@ -2566,7 +2575,7 @@ void	CmdInspectionRepliedBase::Receive(int32 localPage, int32 cmd ,QString &Emit
 			EP->StackedCountInAutoMode--;
 			eOutputCounter++;
 
-			//ŒŸ¸Š®—¹Žž
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 			if(L->GetParamGlobal()->GetMaxScanStrategy()<=1
 				//|| (GetParamGlobal()->BufferedProcessing==false && GetParamGlobal()->GetMaxScanStrategy()<=(L->GetCurrentStrategicNumber()+1))
@@ -2629,7 +2638,7 @@ void	CmdInspectionRepliedBase::Receive(int32 localPage, int32 cmd ,QString &Emit
 					Res->SetOutputCode(ResultCode);
 				}
 				
-				if(EP->IsLocalCamera()==false){	//MASTER‚Ì‚Æ‚«
+				if(EP->IsLocalCamera()==false){	//MASTERï¿½Ì‚Æ‚ï¿½
 					GetLayersBase()->ExecutePostProcessing		();
 				}
 				ResultInspection	*eRes=GetLayersBase()->GetCurrentResultForCalc();
@@ -2908,4 +2917,3 @@ void	CmdCaptureBegins::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 		E->SeqParam->CaptureStartCounter=cmd;
 	}
 }
-

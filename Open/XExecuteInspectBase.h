@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\XExecuteInspectBase.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef XExecuteInspectOpenH
 #define XExecuteInspectOpenH
 
@@ -143,7 +151,7 @@ public:
 	virtual	int		GetCameraDim(CameraClass *CamDim[])	{	return 0;	}
 	virtual	void	SetCameraDim(CameraClass *CamDim[])	{}
 
-	//‚±‚ê‚ç‚ÍŠO•”‚©‚ç‚Ì‘€ì
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍŠOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½
 	virtual	void	GoInspect(void)					=0;
 	virtual	void	GoInspectWithoutCapture(void)	=0;
 	virtual	void	GoMasterCaptureOnly(void)		=0;
@@ -251,4 +259,3 @@ public:
 };
 
 #endif
-

@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\PluginDLL\SequencePlugin\mtVRSCommand\mtVRSCommand\mtvrscommand.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "XSeqDLLGlobal.h"
@@ -81,8 +90,8 @@ DEFFUNCEX	const char	*DLL_GetExplain(void)
 }
 void	DLLSeq_GetDLLVersion(char *buff)
 /*
-    ƒo[ƒWƒ‡ƒ“‚ğ•Ô‚·
-    buff‚Í‚Q‚T‚UƒoƒCƒgˆÈ“à
+    ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
+    buffï¿½Í‚Qï¿½Tï¿½Uï¿½oï¿½Cï¿½gï¿½È“ï¿½
 */
 {
 	strcpy(buff,"Serial Command DLL for MEGATRADE VRS");
@@ -95,10 +104,10 @@ DEFFUNCEX		void	*DLLSeq_Initial(LayersBase *Base ,const QString &Param)
 }
 bool	DLLSeq_Cmd(void *handle ,QApplication &App ,const QString &cmdstr)
 /*
-    –½—ß‚ğ‘—‚é
+    ï¿½ï¿½ï¿½ß‚ğ‘—‚ï¿½
     DLLCmd   dllVar,CommandString
-    ‚Å‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-    ‚±‚ÌŠÖ”‚Ì–ß‚è’l‚ªADLLCmd‚ÌŒ‹‰Êƒtƒ‰ƒO‚É”½‰f‚³‚ê‚é
+    ï¿½Å‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½Ì–ß‚ï¿½ï¿½lï¿½ï¿½ï¿½ADLLCmdï¿½ÌŒï¿½ï¿½Êƒtï¿½ï¿½ï¿½Oï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	mtVRSCommand	*LSeq=(mtVRSCommand	*)handle;
@@ -137,12 +146,12 @@ bool	DLLSeq_Cmd(void *handle ,QApplication &App ,const QString &cmdstr)
 
 bool	DLLSeq_CmdStrInt(void *handle ,QApplication &App ,const QString &cmdstr , const QByteArray &datastr ,int *data)
 /*
-    –½—ß‚ğ‘—‚é
-    ƒf[ƒ^‚È‚µ‚Ì‹Lq‚Ì‚Æ‚«‚à‚±‚ÌŠÖ”‚ªƒR[ƒ‹‚³‚ê‚é
+    ï¿½ï¿½ï¿½ß‚ğ‘—‚ï¿½
+    ï¿½fï¿½[ï¿½^ï¿½È‚ï¿½ï¿½Ì‹Lï¿½qï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     DLLCmd   dllVar,CommandString
     DLLCmd   dllVar,CommandString,Cxx
-    ‚Å‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-    ‚±‚ÌŠÖ”‚Ì–ß‚è’l‚ªADLLCmd‚ÌŒ‹‰Êƒtƒ‰ƒO‚É”½‰f‚³‚ê‚é
+    ï¿½Å‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½Ì–ß‚ï¿½ï¿½lï¿½ï¿½ï¿½ADLLCmdï¿½ÌŒï¿½ï¿½Êƒtï¿½ï¿½ï¿½Oï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	mtVRSCommand	*LSeq=(mtVRSCommand	*)handle;
@@ -224,11 +233,11 @@ bool	DLLSeq_CmdStrInt(void *handle ,QApplication &App ,const QString &cmdstr , c
 
 bool	DLLSeq_CmdInt(void *handle ,QApplication &App ,const QString &cmdstr , int *data)
 /*
-    –½—ß‚ğ‘—‚é
+    ï¿½ï¿½ï¿½ß‚ğ‘—‚ï¿½
     DLLCmd   dllVar,CommandString,Wxx
-    ‚Å‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-    ƒf[ƒ^‚ğ•Ô‚·‚Æ‚«A*data‚É’l‚ğŠi”[‚·‚ê‚ÎAuWxxv‚É’l‚ª“ü‚é
-    ‚±‚ÌŠÖ”‚Ì–ß‚è’l‚ªADLLCmd‚ÌŒ‹‰Êƒtƒ‰ƒO‚É”½‰f‚³‚ê‚é
+    ï¿½Å‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+    ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Æ‚ï¿½ï¿½A*dataï¿½É’lï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ÎAï¿½uWxxï¿½vï¿½É’lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½Ì–ß‚ï¿½ï¿½lï¿½ï¿½ï¿½ADLLCmdï¿½ÌŒï¿½ï¿½Êƒtï¿½ï¿½ï¿½Oï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	mtVRSCommand	*LSeq=(mtVRSCommand	*)handle;
@@ -251,16 +260,16 @@ bool	DLLSeq_CmdInt(void *handle ,QApplication &App ,const QString &cmdstr , int 
 		if(!LSeq->ReturnCmd(Data,i,RetData))
 			return false;
 
-		//Status‚ğ•ª—Ş•ª‚¯
+		//Statusï¿½ğ•ª—Ş•ï¿½ï¿½ï¿½
 //        if(RetData[6]=='1' || RetData[11]=='1' || RetData[15]=='1')
 		if(RetData[6]=='1' || RetData[6]=='3' || RetData[11]=='1' || RetData[11]=='3' || RetData[16]=='1' || RetData[16]=='3')
-            *data=1;    //ˆÚ“®’†
+            *data=1;    //ï¿½Ú“ï¿½ï¿½ï¿½
         else if((RetData[4]=='1' || RetData[4]=='2' || RetData[9]=='1' || RetData[9]=='2' || RetData[14]=='1' || RetData[14]=='2') || (RetData[3]=='8' || RetData[8]=='8' || RetData[13]=='8'))
-            *data=-1;	//ƒGƒ‰[”­¶
+            *data=-1;	//ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
         else if(RetData[5]=='1' || RetData[10]=='1' || RetData[15]=='1')
-            *data=2;    //Œ´“_•œ‹A–¢Š®—¹
+            *data=2;    //ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         else
-            *data=0;    //‘Ò‹@’†
+            *data=0;    //ï¿½Ò‹@ï¿½ï¿½
 		return true;
 	}
 	else if(cmdstr=="Open"){
@@ -325,11 +334,11 @@ bool	DLLSeq_CmdInt(void *handle ,QApplication &App ,const QString &cmdstr , int 
 
 bool	DLLSeq_CmdInt2(void *handle ,QApplication &App ,const QString &cmdstr , int *data1 ,int *data2)
 /*
-    –½—ß‚ğ‘—‚é
+    ï¿½ï¿½ï¿½ß‚ğ‘—‚ï¿½
     DLLCmd   dllVar,CommandString,Wxx,Wxx
-    ‚Å‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-    ƒf[ƒ^‚ğ•Ô‚·‚Æ‚«A*data‚É’l‚ğŠi”[‚·‚ê‚ÎAuWxxv‚É’l‚ª“ü‚é
-    ‚±‚ÌŠÖ”‚Ì–ß‚è’l‚ªADLLCmd‚ÌŒ‹‰Êƒtƒ‰ƒO‚É”½‰f‚³‚ê‚é
+    ï¿½Å‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+    ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Æ‚ï¿½ï¿½A*dataï¿½É’lï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ÎAï¿½uWxxï¿½vï¿½É’lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½Ì–ß‚ï¿½ï¿½lï¿½ï¿½ï¿½ADLLCmdï¿½ÌŒï¿½ï¿½Êƒtï¿½ï¿½ï¿½Oï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	mtVRSCommand	*LSeq=(mtVRSCommand	*)handle;
@@ -368,7 +377,7 @@ bool	DLLSeq_CmdInt2(void *handle ,QApplication &App ,const QString &cmdstr , int
 
 void	DLLSeq_Close(void *handle)
 /*
-    I—¹ˆ—
+    ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	mtVRSCommand	*LSeq=(mtVRSCommand	*)handle;
@@ -512,12 +521,12 @@ bool mtVRSCommand::ReturnCmdTry(char *wData)
 
 	while(::GetTickCount()-t<500){
 		if(RetCommand(wData,RetSize)){
-			//BCCŒvZA•]‰¿
+			//BCCï¿½vï¿½Zï¿½Aï¿½]ï¿½ï¿½
 			if(EvaluateBCC(wData,RetSize))
-				//ACK‚Ì‘—M
+				//ACKï¿½Ì‘ï¿½ï¿½M
 				port->write(&ACK,1);
 			else
-				//NAK‚Ì‘—M
+				//NAKï¿½Ì‘ï¿½ï¿½M
 				port->write(&NAK,1);
 			return true;
 		}

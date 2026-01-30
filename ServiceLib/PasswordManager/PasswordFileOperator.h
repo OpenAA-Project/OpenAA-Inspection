@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2015
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include <QString>
@@ -15,43 +33,43 @@ class PasswordFileOperator : public QObject
 public:
 	PasswordFileOperator(QObject *parent=0);
 public:
-	// å‹@”\(ƒZ[ƒuƒ[ƒh)
+	// ï¿½ï¿½ï¿½@ï¿½\(ï¿½Zï¿½[ï¿½uï¿½ï¿½ï¿½[ï¿½h)
 	bool save(QString filename);
 	bool load(QString filename);
 
-	// ƒpƒXƒ[ƒh‚ğ•t‚¯‚éƒIƒuƒWƒFƒNƒg‚Ì’Ç‰Á
+	// ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ì’Ç‰ï¿½
 	void addItem(QString objName);
-	// ƒpƒXƒ[ƒh‚ğ•t‚¯‚éƒIƒuƒWƒFƒNƒg‚Ìíœ
+	// ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ìíœ
 	void delItem(QString objName);
-	// ƒNƒ‰ƒX‚Ì’Ç‰Á
+	// ï¿½Nï¿½ï¿½ï¿½Xï¿½Ì’Ç‰ï¿½
 	void addClass(QString &ClassName, QString &Password, QVector<bool> *vFlags=NULL);
 	bool delClass(int index);
-	// ŠeƒNƒ‰ƒX‚Ìİ’è
-	// –¼‘O
+	// ï¿½eï¿½Nï¿½ï¿½ï¿½Xï¿½Ìİ’ï¿½
+	// ï¿½ï¿½ï¿½O
 	void setClassName(int index, QString &Name);
-	// ƒpƒXƒ[ƒh
+	// ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½h
 	void setPassword(int index, QString &Password);
-	// ŠeƒIƒuƒWƒFƒNƒg‚Ì‰ğ•úƒtƒ‰ƒO
+	// ï¿½eï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ì‰ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
 	void setItemFlag(int nameIndex, int itemIndex, bool flag);
 	
-	// ƒNƒ‰ƒX”æ“¾
+	// ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½æ“¾
 	int getNumClass();
-	// ƒNƒ‰ƒX–¼æ“¾
+	// ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½æ“¾
 	QString getClassName(int index);
-	// ƒNƒ‰ƒX‚ÌƒpƒXƒ[ƒhæ“¾
+	// ï¿½Nï¿½ï¿½ï¿½Xï¿½Ìƒpï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½æ“¾
 	QString getPassword(int index);
-	// ƒAƒCƒeƒ€”æ“¾
+	// ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	int getNumItem();
-	// ƒAƒCƒeƒ€–¼æ“¾
+	// ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	QString getItem(int index);
-	// ƒAƒCƒeƒ€–¼ˆê——æ“¾
+	// ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ê——ï¿½æ“¾
 	QStringList getItems();
-	// w’èƒNƒ‰ƒX‚Ì‰ğœƒtƒ‰ƒOæ“¾
+	// ï¿½wï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½Ì‰ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½æ“¾
 	bool getItemFlag(int nameIndex, int itemIndex);
-	// ƒ`ƒFƒbƒN—p
-	int hasClassName(QString &refName);// –ß‚è’l‚ÍƒCƒ“ƒfƒbƒNƒXA‚½‚¾‚µrefName‚Éˆê’v‚·‚é‚à‚Ì‚ª–³‚¯‚ê‚Î-1‚ª•Ô‚é
-	int hasPassword(QString &refPassword);// ã‹L‚Æ“¯—l
-	int hasItem(QString &refItem);// ã‹L‚Æ“¯—l
+	// ï¿½`ï¿½Fï¿½bï¿½Nï¿½p
+	int hasClassName(QString &refName);// ï¿½ß‚ï¿½ï¿½lï¿½ÍƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½refNameï¿½Éˆï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-1ï¿½ï¿½ï¿½Ô‚ï¿½
+	int hasPassword(QString &refPassword);// ï¿½ï¿½ï¿½Lï¿½Æ“ï¿½ï¿½l
+	int hasItem(QString &refItem);// ï¿½ï¿½ï¿½Lï¿½Æ“ï¿½ï¿½l
 
 	static QString createItemName(QObject *obj);
 public:
@@ -60,7 +78,7 @@ public:
 	public:
 		ClassContainer():m_Name(/**/""), m_Password(/**/""), m_ItemFlags(0){};
 	public:
-		//ƒZƒbƒ^
+		//ï¿½Zï¿½bï¿½^
 		void setName(QString &Name){
 			m_Name = Name;
 		};
@@ -86,22 +104,22 @@ public:
 			m_ItemFlags.push_back(addFlag);
 		}
 		
-		//ƒQƒbƒ^
+		//ï¿½Qï¿½bï¿½^
 		QString getName(){ return m_Name; };
 		QString getPassword(){ return m_Password; };
 		QVector<bool> getItemFlags(){ return m_ItemFlags; };
 		bool getItemFlag(int index){ return m_ItemFlags[index]; };
 
-		//ƒIƒyƒŒ[ƒ^
+		//ï¿½Iï¿½yï¿½ï¿½ï¿½[ï¿½^
 		const bool &operator[](int i){ return m_ItemFlags[i]; };
 		
-		//ƒCƒeƒŒ[ƒ^
+		//ï¿½Cï¿½eï¿½ï¿½ï¿½[ï¿½^
 		QVector<bool>::iterator begin(){ return m_ItemFlags.begin(); };
 		QVector<bool>::iterator end(){ return m_ItemFlags.end(); };
 	private:
-		QString m_Name;			//ƒNƒ‰ƒX–¼
-		QString m_Password;		//‚±‚ÌƒNƒ‰ƒX‚ÌƒpƒXƒ[ƒh
-		QVector<bool> m_ItemFlags;	//‚±‚ÌƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éƒpƒXƒ[ƒhƒtƒ‰ƒO
+		QString m_Name;			//ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½
+		QString m_Password;		//ï¿½ï¿½ï¿½ÌƒNï¿½ï¿½ï¿½Xï¿½Ìƒpï¿½Xï¿½ï¿½ï¿½[ï¿½h
+		QVector<bool> m_ItemFlags;	//ï¿½ï¿½ï¿½ÌƒNï¿½ï¿½ï¿½Xï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½tï¿½ï¿½ï¿½O
 	public:
 		typedef QStringList::iterator iterator;
 	};
@@ -109,6 +127,6 @@ signals:
 	void dataChanged();
 private:
 	int m_version;
-	QStringList m_itemList;//ƒpƒXƒ[ƒh‚ª‚©‚©‚Á‚½ƒIƒuƒWƒFƒNƒg
+	QStringList m_itemList;//ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½g
 	QVector<ClassContainer> m_classes;
 };

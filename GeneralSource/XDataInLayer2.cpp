@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2026
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include <QFile>
 #include <QBitmap>
@@ -4586,7 +4604,7 @@ bool	PageDataInOnePhase::ExecuteFilteringTarget(LayersBase *Base)
 			}
 		}
 	
-		//æ‚è‚İ‚ğ‘‚­‚·‚é‚½‚ß‚Éæ‚ÉGetImage‚¾‚¯‚ğs‚¤
+		//ï¿½ï¿½ï¿½èï¿½İ‚ğ‘‚ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚Éï¿½ï¿½ï¿½GetImageï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 		//#pragma omp parallel                             
 		//{                                                
 		//	#pragma omp for

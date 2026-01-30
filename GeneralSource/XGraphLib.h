@@ -1,33 +1,25 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XGraphLib.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 
 
-/*----------------------------------------------------------------------------*/
-//
-//  ŠT—v
-//
-//  ì¬Ò
-//
-/*----------------------------------------------------------------------------*/
+
 #ifndef XGraphLibH
 #define XGraphLibH
-/*----------------------------------------------------------------------------*/
-//  1.“ú–{Œê–¼
-//
-//  2.ŠT—v
-//
-//  3.‹@”\à–¾
-//
-//  4.”õl
-//
-/*----------------------------------------------------------------------------*/
 #include <QtGui>
 #include "XGrobalData.h"
 #include "XDataInLayer.h"
@@ -35,13 +27,13 @@
 
 
 /*----------------------------------------------------------------------------*/
-//  1.“ú–{Œê–¼
+//  1.ï¿½ï¿½ï¿½{ï¿½ê–¼
 //
-//  2.ŠT—v
+//  2.ï¿½Tï¿½v
 //
-//  3.‹@”\à–¾
+//  3.ï¿½@ï¿½\ï¿½ï¿½ï¿½ï¿½
 //
-//  4.”õl
+//  4.ï¿½ï¿½ï¿½l
 //
 /*----------------------------------------------------------------------------*/
 
@@ -52,8 +44,8 @@ class  MakeBitmapDataInPage
 {
 public:
     ImageBuffer             *BuffLayer;
-    int     Page;   //ƒf[ƒ^ã‚Ìƒy[ƒWi‰¼‘zƒy[ƒW‚àŠÜ‚Şj
-                    //|‚P‚Ì‚Æ‚«Aƒy[ƒW”»’è‚µ‚È‚¢
+    int     Page;   //ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½iï¿½ï¿½ï¿½zï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Ü‚Şj
+                    //ï¿½|ï¿½Pï¿½Ì‚Æ‚ï¿½ï¿½Aï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½è‚µï¿½È‚ï¿½
 	int						OutlineOffsetX;
 	int						OutlineOffsetY;
     int						OffsetX,OffsetY;

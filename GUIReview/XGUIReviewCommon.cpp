@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XGUIReviewCommon.h"
 #include <QStaticText>
 //
@@ -39,7 +57,7 @@
 //		brush.setStyle(Qt::BrushStyle::SolidPattern);
 //		painter->setBrush(brush);
 //		round = 15;
-//		painter->drawText(center.x()-round, center.y()-round, round*2, round*2, Qt::AlignCenter | Qt::TextJustificationForced, /**/"š");
+//		painter->drawText(center.x()-round, center.y()-round, round*2, round*2, Qt::AlignCenter | Qt::TextJustificationForced, /**/"ï¿½ï¿½");
 //		break;
 //	case LibNGTypeItem::NGShapeType::NG_Rectangle:
 //		painter->setBrush(Qt::BrushStyle::NoBrush);
@@ -59,7 +77,7 @@
 //	case LibNGTypeItem::NGShapeType::NG_Star:
 //		painter->setBrush(Qt::BrushStyle::NoBrush);
 //		round = 15;
-//		painter->drawText(center.x()-round, center.y()-round, round*2, round*2, Qt::AlignCenter | Qt::AlignJustify, /**/"™");
+//		painter->drawText(center.x()-round, center.y()-round, round*2, round*2, Qt::AlignCenter | Qt::AlignJustify, /**/"ï¿½ï¿½");
 //		break;
 //	case LibNGTypeItem::NGShapeType::NG_X:
 //		painter->setBrush(Qt::BrushStyle::NoBrush);

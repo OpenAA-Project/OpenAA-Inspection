@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\XmlServer\XmlServer\servermain.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "servermain.h"
@@ -23,10 +32,10 @@ extern bool ENDflag;
 extern	bool	FinalMode;
 QByteArray LoadData;
 
-/* ”äŠrŠÖ” */
+/* ï¿½ï¿½ï¿½rï¿½Öï¿½ */
 int idcmp_asc(const void *, const void *);
 int idcmp_desc(const void *, const void *);
-/* XML‚Ìî•ñ */
+/* XMLï¿½Ìï¿½ï¿½ï¿½ */
 typedef struct xmlsort
 {
 	//char *id;		/* ID */
@@ -43,11 +52,11 @@ ServerMain::ServerMain( QTcpSocket *clientConnection,ServerBase *SBase,Ui::XmlSe
 {
 	timer = new QTimer(this);
 	socket = clientConnection;
-	Base = SBase;//‚±‚Á‚¿‚Åg‚¦‚é‚æ‚¤‚É‚·‚é
+	Base = SBase;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ågï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
 	
-	bool ret1=(connect(socket, SIGNAL(readyRead()), this, SLOT(Server_Get())))?true:false;//ƒNƒ‰ƒCƒAƒ“‘¤‚©‚ç‚Ìƒf[ƒ^‚ÌóM€”õŠ®—¹
-	bool ret2=(connect(socket, SIGNAL(disconnected()),this, SLOT(TimerWatch())))?true:false;//ƒ‰ƒCƒAƒ“ƒg‚©‚ç‚¢‚«‚È‚èØ‚ç‚ê‚½—p
-	bool ret3=(connect(socket, SIGNAL(disconnected()),this, SLOT(deleteLater())))?true:false;//ƒ‰ƒCƒAƒ“ƒg‚©‚ç‚¢‚«‚È‚èØ‚ç‚ê‚½—p
+	bool ret1=(connect(socket, SIGNAL(readyRead()), this, SLOT(Server_Get())))?true:false;//ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½Ìï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	bool ret2=(connect(socket, SIGNAL(disconnected()),this, SLOT(TimerWatch())))?true:false;//ï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ç‚¢ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ø‚ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½p
+	bool ret3=(connect(socket, SIGNAL(disconnected()),this, SLOT(deleteLater())))?true:false;//ï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ç‚¢ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ø‚ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½p
 	bool ret =(connect(timer, SIGNAL(timeout()), this, SLOT(TimerWatch())))?true:false;
 	//B->connect(B,SIGNAL(SignalClose()),&ExeIns,SLOT(Exit()));
 	//bool ret4=connect(,SIGNAL(SignalClose()),this,SLOT(Exit()));
@@ -67,14 +76,14 @@ void ServerMain::Server_Cont(QByteArray &CNum)
 {
 	TimerClose(CNum);
 }
-void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
+void ServerMain::Server_Get() //ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 {
 	QByteArray Test;
 	OutList.clear();
 	QDataStream	in(socket);
 	in.setVersion(QDataStream::Qt_4_3);
 
-    in >> blockSize; //•¶šƒTƒCƒY‚ğæ‚é	
+    in >> blockSize; //ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	
 
 	while (socket->bytesAvailable() < blockSize)
 	{
@@ -86,7 +95,7 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 		}
 	}
 
-	in >> InList;	//ƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚Ìƒf[ƒ^‚ğQList<QByteArray>‚Éæ“¾
+	in >> InList;	//ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½QList<QByteArray>ï¿½Éæ“¾
 
 //	ENDflag=true;
 	char* Target = new char [InList.at(0).length() + 1];
@@ -106,14 +115,14 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 
 	int Client;
 
-	// ƒNƒ‰ƒCƒAƒ“ƒg‚É”Ô†‚ğŠ„‚èU‚é
+	// ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½É”Ôï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Uï¿½ï¿½
 #if 1 // 20091113
 	if ((strcmp(Target,"Start") == 0) || (strcmp(Target,"JyoukenStart") == 0) || (strcmp(Target,"InspectStart") == 0) || (strcmp(Target,"RestoreStart") == 0))
 #else
 	if ((strcmp(Target,"Start") == 0) || (strcmp(Target,"JyoukenStart") == 0) || (strcmp(Target,"InspectStart") == 0))
 #endif
 	{
-		//•Ï”’è‹`
+		//ï¿½Ïï¿½ï¿½ï¿½ï¿½`
 		QTextCodec* code = QTextCodec::codecForName("Shift-JIS");
 		QByteArray DataB = InList.at(1);	
 		QString DB = code->toUnicode(DataB);	
@@ -139,11 +148,11 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 		}
 		else
 		{
-			SaveWidgetShow(DB, DBNum); // ‰æ–Ê(ã)
-			WidgetShow(DB, Client, DBNum); // ‰æ–Ê(‰º)
-			StartClient(Client); // ƒAƒNƒZƒXŠÔ•\¦
+			SaveWidgetShow(DB, DBNum); // ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½)
+			WidgetShow(DB, Client, DBNum); // ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½)
+			StartClient(Client); // ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½Ô•\ï¿½ï¿½
 			OutList.append("Success");
-			OutList.append(QByteArray::number(Client)); // ƒNƒ‰ƒCƒAƒ“ƒg”Ô†
+			OutList.append(QByteArray::number(Client)); // ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Ôï¿½
 		}
 	}
 	else if (strcmp(Target, "LotGetClose") == 0)
@@ -156,7 +165,7 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 	}
 	else
 	{
-		// •Ï”’è‹`
+		// ï¿½Ïï¿½ï¿½ï¿½ï¿½`
 		QByteArray Clie = InList.at(1);
 
 		if (Clie.isEmpty() == true)
@@ -179,7 +188,7 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 
 		if (strcmp(Target, "Create") == 0)
 		{
-			//DBFileì¬
+			//DBFileï¿½ì¬
 			if (Base->Server_Create(InList) == false)
 				Msg="Error";
 
@@ -187,7 +196,7 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 		}
 		else if (strcmp( Target, "LotGet" )==0)
 		{
-			// ƒf[ƒ^‘}“ü
+			// ï¿½fï¿½[ï¿½^ï¿½}ï¿½ï¿½
 //			ENDflag = false;
 			QList<QByteArray> RetLotList;
 
@@ -207,7 +216,7 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 		}
 		else if (strcmp(Target, "Insert") == 0)
 		{
-			//ƒf[ƒ^‘}“ü
+			//ï¿½fï¿½[ï¿½^ï¿½}ï¿½ï¿½
 			if (Base->Server_Insert(InList)==false)
 				Msg="Error";
 
@@ -230,7 +239,7 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 				 (strcmp(Target, "MasterToLot_desc"   ) == 0)
 		        )
 		{
-			//ƒf[ƒ^ŒŸõ
+			//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½
 #if 0
 			/*
 			XMLElement *RetAns=NULL;
@@ -347,18 +356,18 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 					(strcmp(Target, "MasterToLot"   ) == 0)
 				   )
 				{
-					qsort(xmlqsort, DatasSize, datasize, idcmp_asc); // 0,1¥¥¥
+					qsort(xmlqsort, DatasSize, datasize, idcmp_asc); // 0,1ï¿½ï¿½ï¿½
 				}
 				else
 				{
-					qsort(xmlqsort, DatasSize, datasize, idcmp_desc); // ¥¥¥1,0
+					qsort(xmlqsort, DatasSize, datasize, idcmp_desc); // ï¿½ï¿½ï¿½1,0
 				}
 
 				for (uLi = 0; uLi < DatasSize; uLi++)
 				{
 					qint64 EeleID = atol(xmlqsort[uLi].elementid);
 					Selectsyori(Target, xmlqsort[uLi].data, EeleID);
-//					delete [] xmlqsort[uLi].data; // xmlqsort[uLi].data‚Í‚·‚Å‚Éã‚ÌSelectsyoriŠÖ”“à‚Ådelete‚³‚ê‚Ä‚¢‚é
+//					delete [] xmlqsort[uLi].data; // xmlqsort[uLi].dataï¿½Í‚ï¿½ï¿½Å‚Éï¿½ï¿½ï¿½Selectsyoriï¿½Öï¿½ï¿½ï¿½ï¿½ï¿½deleteï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 					delete [] xmlqsort[uLi].elementid;
 					xmlqsort[uLi].elementid=NULL;
 				}
@@ -371,7 +380,7 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 		}
 		else if (strcmp(Target, "Append") == 0)
 		{
-			// ƒf[ƒ^XV
+			// ï¿½fï¿½[ï¿½^ï¿½Xï¿½V
 			if (Base->Server_Append(InList) == false)	
 				Msg = "Error";
 
@@ -379,7 +388,7 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 		}
 		else if (strcmp(Target, "UpApp") == 0)
 		{
-			// ƒf[ƒ^XV
+			// ï¿½fï¿½[ï¿½^ï¿½Xï¿½V
 			if (Base->Server_UpApp(InList) == false) 	
 				Msg = "Error";
 
@@ -387,7 +396,7 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 		}
 		else if ((strcmp(Target, "Delete") == 0) || (strcmp(Target, "TagtoTagDele") == 0) || (strcmp(Target, "TagSelectDele") == 0))
 		{
-			// ƒf[ƒ^íœ
+			// ï¿½fï¿½[ï¿½^ï¿½íœ
 			if (Base->Server_Delete(InList) == false) 
 				Msg = "Error";
 
@@ -395,7 +404,7 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 		}
 		else if (strcmp(Target, "Restore") == 0)
 		{
-			// ƒf[ƒ^íœ
+			// ï¿½fï¿½[ï¿½^ï¿½íœ
 			if (Base->Server_Restore(InList) == false)
 				Msg = "Error";
 
@@ -403,7 +412,7 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 		}
 		else if (strcmp(Target, "Count") == 0)
 		{
-			// ƒf[ƒ^íœ
+			// ï¿½fï¿½[ï¿½^ï¿½íœ
 			int Cnt;
 
 			if (Base->Server_Count(InList, Cnt) == false)
@@ -418,7 +427,7 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 		}
 		else if (strcmp(Target, "TagDel") == 0)
 		{
-			// ƒf[ƒ^íœ
+			// ï¿½fï¿½[ï¿½^ï¿½íœ
 			if (Base->Server_TagDel(InList) == false) 
 				Msg = "TagDel Error";
 		}
@@ -433,7 +442,7 @@ void ServerMain::Server_Get() //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒf[ƒ^‚ª“ü‚Á‚Ä‚­‚é
 		}
 		else if (strcmp(Target, "DBXML") == 0)
 		{
-			// ƒf[ƒ^XV
+			// ï¿½fï¿½[ï¿½^ï¿½Xï¿½V
 			QList<QByteArray> RetList;
 
 			if (Base->Server_DBXML(InList, RetList) == false)	
@@ -651,17 +660,17 @@ void ServerMain::SelectFirst(char* Buffer, char* Max)
 void ServerMain::Server_Send() 
 {
 	QByteArray block;
-    QDataStream out(&block, QIODevice::WriteOnly);//‘‚­€”õ
+    QDataStream out(&block, QIODevice::WriteOnly);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     out.setVersion(QDataStream::Qt_4_3);
-	out << (quint16)0; //0‚ğg—p
-    out <<OutList;//ÀÛ‘—‚é•¶š
-    out.device()->seek(0);//0‚ğ’u‚«Š·‚¦‚é
-	out << (quint16)(block.size() - sizeof(quint16));//“ª‚Ì0ˆø‚¢‚½ÀÛ‚ÌƒTƒCƒY
+	out << (quint16)0; //0ï¿½ï¿½ï¿½gï¿½p
+    out <<OutList;//ï¿½ï¿½ï¿½Û‘ï¿½ï¿½é•¶ï¿½ï¿½
+    out.device()->seek(0);//0ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	out << (quint16)(block.size() - sizeof(quint16));//ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‚ÌƒTï¿½Cï¿½Y
 	socket->readAll();	
-	socket->write(block);//‘—‚é
+	socket->write(block);//ï¿½ï¿½ï¿½ï¿½
 }
 void ServerMain::StartClient(int &Client)
-{//ƒAƒNƒZƒXŠÔ‚ÌXV•\¦
+{//ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½Ô‚ÌXï¿½Vï¿½\ï¿½ï¿½
 	QTableWidgetItem *item;
 	QString Day=(QDateTime::currentDateTime().toString());
 	int iRow=uii.tableWidget->rowCount();	
@@ -679,7 +688,7 @@ void ServerMain::StartClient(int &Client)
 	}	
 }
 void ServerMain::ClientWatch(int &Client)
-{//ƒNƒ‰ƒCƒAƒ“ƒgƒAƒNƒZƒX‚ÌŠÄ‹
+{//ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Aï¿½Nï¿½Zï¿½Xï¿½ÌŠÄï¿½
 	if(iWatchClient[Client]!=0){
 		killTimer(iWatchClient[Client]);
 		iWatchClient[Client]=0;
@@ -687,7 +696,7 @@ void ServerMain::ClientWatch(int &Client)
 	StartClient(Client);
 }
 void ServerMain::TimerWatch()
-{//İ’èŠÔŒo‰ß‚µ‚Ä‚àƒAƒNƒZƒX‚ª‚È‚¯‚ê‚ÎØ’f
+{//ï¿½İ’èï¿½ÔŒoï¿½ß‚ï¿½ï¿½Ä‚ï¿½ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ÎØ’f
 	int AAID=timer->timerId();
 	for(int TimerC=0; TimerC<1000; TimerC++){
 		if(iWatchClient[TimerC]==AAID){
@@ -698,7 +707,7 @@ void ServerMain::TimerWatch()
 	}
 }
 void ServerMain::TimerClose(QByteArray &CNum)
-{//İ’èŠÔŒo‰ß‚µ‚Ä‚àƒAƒNƒZƒX‚ª‚È‚¯‚ê‚ÎØ’f
+{//ï¿½İ’èï¿½ÔŒoï¿½ß‚ï¿½ï¿½Ä‚ï¿½ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ÎØ’f
 	if(CNum.isEmpty()==true)
 		return;
 	bool ok;
@@ -709,11 +718,11 @@ void ServerMain::TimerClose(QByteArray &CNum)
 	WidgetDelete(TimerC);
 	Base->Server_Close(TimerC);
 	iWatchClient[TimerC]=0;
-	socket->disconnectFromHost();//Ø’f
+	socket->disconnectFromHost();//ï¿½Ø’f
 	return;
 }
 void ServerMain::WidgetShow(QString &DB, int &Cilent, int &DBNum)
-{//‰æ–Ê•\¦‰º
+{//ï¿½ï¿½ï¿½Ê•\ï¿½ï¿½ï¿½ï¿½
 	int iRow=uii.tableWidget->rowCount();
 	uii.tableWidget->setRowCount(iRow+1);
 	QTableWidgetItem *CNo = new QTableWidgetItem(QString::number(Cilent));
@@ -726,7 +735,7 @@ void ServerMain::WidgetShow(QString &DB, int &Cilent, int &DBNum)
 	return ;
 }
 void ServerMain::SaveWidgetShow(QString &DB, int &DBNum)
-{//‰æ–Ê•\¦ã
+{//ï¿½ï¿½ï¿½Ê•\ï¿½ï¿½ï¿½ï¿½
 	int Row=uii.SaveWidget->rowCount();	
 	for(int i=0; i<Row; i++){
 		if (uii.SaveWidget->item(i,0)->text()==QString::number(DBNum))
@@ -740,7 +749,7 @@ void ServerMain::SaveWidgetShow(QString &DB, int &DBNum)
 		return;
 }
 void ServerMain::SaveWidgetDelete(int &DBNum)
-{//‰æ–ÊãXV
+{//ï¿½ï¿½ï¿½Êï¿½ï¿½Xï¿½V
 	if(FinalMode==true)
 		return;
 
@@ -764,7 +773,7 @@ void ServerMain::SaveWidgetDelete(int &DBNum)
 		Num++;
 	}
 	uii.SaveWidget->setRowCount(Num);
-	if(DelFlag==true){//ã‰æ–Êíœ‚ª‚ ‚Á‚½
+	if(DelFlag==true){//ï¿½ï¿½ï¿½ï¿½ï¿½Êíœï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		while (1){
 			QString Target="END";
 			if(Base->Server_End(Target, iDBNum, DBName)==true)
@@ -774,12 +783,12 @@ void ServerMain::SaveWidgetDelete(int &DBNum)
 	return;
 }
 bool ServerMain::WidgetDelete(int &iCilent)
-{//‰º‰æ–Ê‚ÌXV
+{//ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚ÌXï¿½V
 	if(FinalMode==true)
 		return true;
 	bool DataBase=false;
 	QStringList List;
-//ƒNƒ‰ƒCƒAƒ“ƒg”Ô†/DataBase”Ô†/DataBase–¼Ì/ƒAƒNƒZƒXŠÔ
+//ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Ôï¿½/DataBaseï¿½Ôï¿½/DataBaseï¿½ï¿½ï¿½ï¿½/ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½ï¿½
 	int iRow=uii.tableWidget->rowCount();
 	QString DBNum;
     QStringList ItemList;

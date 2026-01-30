@@ -1,9 +1,21 @@
 /*
- * clsXMLDB_Front.h
+ * Copyright (C) 2012
+ * Author : cony
  *
- *  Created on: 2009/12/19
- *      Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #ifndef CLSXMLDB_FRONT_H_
 #define CLSXMLDB_FRONT_H_
@@ -16,7 +28,7 @@
 #include "clsDb.h"
 
 /**
- * @brief XML‘€ìƒRƒ}ƒ“ƒhÀsƒtƒƒ“ƒgƒGƒ“ƒhƒNƒ‰ƒX
+ * @brief XMLï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½sï¿½tï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Gï¿½ï¿½ï¿½hï¿½Nï¿½ï¿½ï¿½X
  */
 class clsXMLDB_Front : public QObject {
 	Q_OBJECT
@@ -25,9 +37,9 @@ public:
 	virtual ~clsXMLDB_Front();
 
 	/**
-	 * @brief XMLŒŸõ
+	 * @brief XMLï¿½ï¿½ï¿½ï¿½
 	 *
-	 * w’èSQL‚ÅXML‚ğŒŸõ‚µAƒqƒbƒg‚µ‚½‘SŒ‚ğ•Ô‚·
+	 * ï¿½wï¿½ï¿½SQLï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½qï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 	 * @param const QByteArray &sql
 	 * @param QByteArray &retByte
 	 * @return bool
@@ -35,9 +47,9 @@ public:
 	bool searchAllXml(const QByteArray &sql, QByteArray &retByte);
 
 	/**
-	 * @brief XMLŒŸõ
+	 * @brief XMLï¿½ï¿½ï¿½ï¿½
 	 *
-	 * w’èSQL‚ÅXML‚ğŒŸõ‚µAƒqƒbƒg‚µ‚½s‚©‚ç‚Ps‚ğ•Ô‚·
+	 * ï¿½wï¿½ï¿½SQLï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½qï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½sï¿½ï¿½ï¿½Ô‚ï¿½
 	 * @param const QByteArray &sql
 	 * @param QByteArray &retByte
 	 * @return bool
@@ -45,78 +57,78 @@ public:
 	bool searchFirstXml(const QByteArray &sql, QByteArray &retByte);
 
 	/**
-	 * @brief ŸXMLŒŸõ
+	 * @brief ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½
 	 *
-	 * searchFirstXml()‚ÅŒŸõ‚³‚ê‚½s‚©‚çŸ‚Ìs‚ğ•Ô‚·
+	 * searchFirstXml()ï¿½ÅŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½sï¿½ï¿½ï¿½çŸï¿½Ìsï¿½ï¿½ï¿½Ô‚ï¿½
 	 * @param const QByteArray &sql
-	 * @param const QByteArray &id Ÿ‚Ìs‚Ìtopid
-	 * @param const QByteArray &dbFile Ÿ‚Ìs‚ªŠi”[‚³‚ê‚Ä‚¢‚éDBƒtƒ@ƒCƒ‹–¼
+	 * @param const QByteArray &id ï¿½ï¿½ï¿½Ìsï¿½ï¿½topid
+	 * @param const QByteArray &dbFile ï¿½ï¿½ï¿½Ìsï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½DBï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½
 	 * @param QByteArray &retByte
 	 * @return bool
 	 */
 	bool readXml(const QByteArray &sql, const QByteArray id, const QByteArray &dbFile, QByteArray &retByte);
 
 	/**
-	 * @brief XMLŒŸõ
+	 * @brief XMLï¿½ï¿½ï¿½ï¿½
 	 *
-	 * w’èSQL‚ÅXML‚ğŒŸõ‚µAƒqƒbƒg‚µ‚½‘SŒ‚ğ•Ô‚·
-	 * ƒe[ƒuƒ‹–¼‚ª_all‚Ì‚Æ‚«ƒR[ƒ‹‚³‚ê‚é
+	 * ï¿½wï¿½ï¿½SQLï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½qï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
+	 * ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_allï¿½Ì‚Æ‚ï¿½ï¿½Rï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param QByteArray &retByte
 	 * @return bool
 	 */
 	bool searchAllXmlA(QByteArray &retByte);
 
 	/**
-	 * @brief XMLŒŸõ
+	 * @brief XMLï¿½ï¿½ï¿½ï¿½
 	 *
-	 * w’èSQL‚ÅXML‚ğŒŸõ‚µAƒqƒbƒg‚µ‚½s‚©‚ç‚Ps‚ğ•Ô‚·
+	 * ï¿½wï¿½ï¿½SQLï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½qï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½sï¿½ï¿½ï¿½Ô‚ï¿½
 	 * @param QByteArray &retByte
 	 * @return bool
 	 */
 	bool searchFirstXmlA(QByteArray &retByte);
 
 	/**
-	 * @brief ŸXMLŒŸõ
+	 * @brief ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½
 	 *
-	 * searchFirstXmlA()‚ÅŒŸõ‚³‚ê‚½s‚©‚çŸ‚Ìs‚ğ•Ô‚·
-	 * @param const QByteArray &id Ÿ‚Ìs‚Ìtopid
-	 * @param const QByteArray &dbFile Ÿ‚Ìs‚ªŠi”[‚³‚ê‚Ä‚¢‚éDBƒtƒ@ƒCƒ‹–¼
+	 * searchFirstXmlA()ï¿½ÅŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½sï¿½ï¿½ï¿½çŸï¿½Ìsï¿½ï¿½ï¿½Ô‚ï¿½
+	 * @param const QByteArray &id ï¿½ï¿½ï¿½Ìsï¿½ï¿½topid
+	 * @param const QByteArray &dbFile ï¿½ï¿½ï¿½Ìsï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½DBï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½
 	 * @param QByteArray &retByte
 	 * @return bool
 	 */
 	bool readXmlA(const QByteArray &id, const QByteArray &dbFile, QByteArray &retByte);
 
 	/**
-	 * @brief XML•¶’Ç‰Á
+	 * @brief XMLï¿½ï¿½ï¿½Ç‰ï¿½
 	 *
-	 * w’èSQL‚©‚çXML•¶‚ğ’Ç‰Á‚·‚é
+	 * ï¿½wï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param const QByteArray &sql
 	 * @return bool
 	 */
 	bool addXml(const QByteArray &sql);
 
 	/**
-	 * @brief XML•¶‚Öƒ^ƒO’Ç‰Á
+	 * @brief XMLï¿½ï¿½ï¿½Öƒ^ï¿½Oï¿½Ç‰ï¿½
 	 *
-	 * w’èSQL‚©‚ç“Á’è‚³‚ê‚éXML•¶‚Éƒ^ƒO‚ğ’Ç‰Á‚·‚é
+	 * ï¿½wï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è‚³ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½Éƒ^ï¿½Oï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param const QByteArray &sql
 	 * @return bool
 	 */
 	bool appendXml(const QByteArray &sql);
 
 	/**
-	 * @brief XML•¶ã‘‚«
+	 * @brief XMLï¿½ï¿½ï¿½ã‘ï¿½ï¿½
 	 *
-	 * w’èSQL‚©‚ç“Á’è‚³‚ê‚éXML•¶‚ğã‘‚«‚·‚é
+	 * ï¿½wï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è‚³ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ã‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param const QByteArray &sql
 	 * @return bool
 	 */
 	bool updateXml(const QByteArray &sql);
 
 	/**
-	 * @brief XML•¶ì¬
+	 * @brief XMLï¿½ï¿½ï¿½ì¬
 	 *
-	 * w’èSQL‚©‚ç“Á’è‚³‚ê‚éXML•¶‚ğíœ‚·‚é
+	 * ï¿½wï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è‚³ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 	 * @param const QByteArray &sql
 	 * @return bool
 	 */

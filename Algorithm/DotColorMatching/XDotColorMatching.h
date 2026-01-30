@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XDotColorMatching_H)
 #define	XDotColorMatching_H
 
@@ -47,26 +65,26 @@ class	DotColorMatchingThreshold : public AlgorithmThreshold
 public:
 	struct MThreshold
 	{
-		WORD	OrgBrightWidthRL;	//ˆÃ‘¤‹P“x•
-		WORD	OrgBrightWidthRH;	//–¾‘¤‹P“x•
-		WORD	OrgBrightWidthGL;	//ˆÃ‘¤‹P“x•
-		WORD	OrgBrightWidthGH;	//–¾‘¤‹P“x•
-		WORD	OrgBrightWidthBL;	//ˆÃ‘¤‹P“x•
-		WORD	OrgBrightWidthBH;	//–¾‘¤‹P“x•
-		DWORD	OrgOKDot;			//‚n‚jƒhƒbƒg”
-		DWORD	OrgOKLength;		//‚n‚j‹——£
+		WORD	OrgBrightWidthRL;	//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	OrgBrightWidthRH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	OrgBrightWidthGL;	//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	OrgBrightWidthGH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	OrgBrightWidthBL;	//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	OrgBrightWidthBH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		DWORD	OrgOKDot;			//ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+		DWORD	OrgOKLength;		//ï¿½nï¿½jï¿½ï¿½ï¿½ï¿½
 
-		WORD	BrightWidthRL;	//ˆÃ‘¤‹P“x•
-		WORD	BrightWidthRH;	//–¾‘¤‹P“x•
-		WORD	BrightWidthGL;	//ˆÃ‘¤‹P“x•
-		WORD	BrightWidthGH;	//–¾‘¤‹P“x•
-		WORD	BrightWidthBL;	//ˆÃ‘¤‹P“x•
-		WORD	BrightWidthBH;	//–¾‘¤‹P“x•
+		WORD	BrightWidthRL;	//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	BrightWidthRH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	BrightWidthGL;	//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	BrightWidthGH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	BrightWidthBL;	//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	BrightWidthBH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 
-		DWORD	OKDot;			//‚n‚jƒhƒbƒg”
-		DWORD	OKLength;		//‚n‚j‹——£
+		DWORD	OKDot;			//ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+		DWORD	OKLength;		//ï¿½nï¿½jï¿½ï¿½ï¿½ï¿½
 
-		char	RThrOffsetL;	//‚µ‚«‚¢’l‚Ö‚Ì’¼Ú‰ÁZ’l	(-100`100)
+		char	RThrOffsetL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½Ö‚Ì’ï¿½ï¿½Ú‰ï¿½ï¿½Zï¿½l	(-100ï¿½`100)
 		char	RThrOffsetH;
 		char	GThrOffsetL;
 		char	GThrOffsetH;
@@ -88,37 +106,37 @@ public:
 
 	DWORD	OrgMultiSpotDot;
 	DWORD	OrgMultiSpotCount;
-	DWORD	OrgBackGroundOKDot;			//‚n‚jƒhƒbƒg”
-	DWORD	OrgBackGroundOKLength;		//‚n‚j‹——£
+	DWORD	OrgBackGroundOKDot;			//ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD	OrgBackGroundOKLength;		//ï¿½nï¿½jï¿½ï¿½ï¿½ï¿½
 	bool	OrgUseBackGround;	
 
 	float	VarietySigma;
 
-	DWORD	MultiSpotDot;	//’P‘½“_
+	DWORD	MultiSpotDot;	//ï¿½Pï¿½ï¿½ï¿½_
 	DWORD	MultiSpotCount;
-	DWORD	MultiSpotDotGathered;	//–§W‘½“_
+	DWORD	MultiSpotDotGathered;	//ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½_
 	DWORD	MultiSpotCountGathered;
 	DWORD	MultiSpotLengthGathered;
 	DWORD	BackGroundOKDot;	
 	DWORD	BackGroundOKLength;
 	bool	UseBackGround;
 
-	WORD	AdjustBlack;    //‹P“x•â³‚Ì‰ºŒÀ•
-    WORD	AdjustWhite;    //‹P“x•â³‚ÌãŒÀ•
-	WORD	AdjustContribute;	//•â³‚ÌŠñ—^“x
-	WORD	AreaSearchX;     //‚w•ûŒü—Ìˆæ’Tõƒhƒbƒg”
-	WORD	AreaSearchY;     //‚x•ûŒü—Ìˆæ’Tõƒhƒbƒg”
-	WORD	SelfSearch;     //©ŒÈ’Tõƒhƒbƒg”
+	WORD	AdjustBlack;    //ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	AdjustWhite;    //ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+	WORD	AdjustContribute;	//ï¿½â³ï¿½ÌŠï¿½ï¿½^ï¿½x
+	WORD	AreaSearchX;     //ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	AreaSearchY;     //ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	SelfSearch;     //ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
 	bool	PreciseSearch;
-	bool	Clusterize;		//‰ò”»’è
+	bool	Clusterize;		//ï¿½ò”»’ï¿½
 	bool	SmoothCluster;
 	bool	EnableT2M;
 	bool	EnableM2T;
 	bool	UseMaster2;
 	WORD	ExpandToSubBlock;
 	int		MasterNo;
-	WORD	MaxAreaSearch;	//Å‘å—Ìˆæ’Tõƒhƒbƒg”
-    WORD	MaxSelfSearch;	//Å‘å©ŒÈ’Tõƒhƒbƒg”
+	WORD	MaxAreaSearch;	//ï¿½Å‘ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+    WORD	MaxSelfSearch;	//ï¿½Å‘å©ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
 
 	float	ScratchStartDirection;	//Degree
 	float	ScratchRotationAngle ;	//Degree
@@ -129,17 +147,17 @@ public:
 	WORD	ScratchMaxWidth;
 	bool	ScratchEnable;
 	bool	ScratchUseMaster;
-	float	ScratchVOffset;			//‚±‚ê‚ğ‘å‚«‚­‚·‚é‚ÆŠ®‘S‹Ïˆê‹P“x—ÌˆæŠ´“x‚ª’á‰º‚·‚é
-									//0`
+	float	ScratchVOffset;			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆŠï¿½ï¿½Sï¿½Ïˆï¿½ï¿½Pï¿½xï¿½ÌˆæŠ´ï¿½xï¿½ï¿½ï¿½á‰ºï¿½ï¿½ï¿½ï¿½
+									//0ï¿½`
 
-	char	AddedBrightness;	//-10 ` +10
-	char	AddedOffset;		//-10 ` +10
-	char	AddedShift;			//-10 ` +10
+	char	AddedBrightness;	//-10 ï¿½` +10
+	char	AddedOffset;		//-10 ï¿½` +10
+	char	AddedShift;			//-10 ï¿½` +10
 
 	BYTE	UseOneLayer;	//0xFF=color
 
 	bool	RedCheckMode;
-	WORD	RedHighRate;	//G,B‚É”ä‚×‚ÄR‚Ì‹P“x’l‚Ì‘’lŠ„‡(%)
+	WORD	RedHighRate;	//G,Bï¿½É”ï¿½ï¿½×‚ï¿½Rï¿½Ì‹Pï¿½xï¿½lï¿½Ì‘ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½(%)
 	BYTE	RedMinBrightness;
 	BYTE	RedGBMerginRate;
 	BYTE	RedGBMerginOffset;
@@ -150,42 +168,42 @@ public:
 	bool	HsvFixedColorMode;
 	WORD	HsvH;
 	BYTE	HsvS,HsvV;
-	WORD	HsvPHL,HsvPHH;	//ƒp[ƒZƒ“ƒg’l
+	WORD	HsvPHL,HsvPHH;	//ï¿½pï¿½[ï¿½Zï¿½ï¿½ï¿½gï¿½l
 	BYTE	HsvPSL,HsvPSH;
 	BYTE	HsvPVL,HsvPVH;
-	WORD	HsvDHL,HsvDHH;	//’¼Ú’l
+	WORD	HsvDHL,HsvDHH;	//ï¿½ï¿½ï¿½Ú’l
 	BYTE	HsvDSL,HsvDSH;
 	BYTE	HsvDVL,HsvDVH;
 	DWORD	HsvOKDot;
-	DWORD	HsvOKLength;	//‚n‚j‹——£
+	DWORD	HsvOKLength;	//ï¿½nï¿½jï¿½ï¿½ï¿½ï¿½
 
 	BYTE	MatchBrightnessByLayerH;
 	BYTE	MatchBrightnessByLayerL;
 	IntList	SubtractLibID;
 
 	bool	VariationMode;
-	float	VariationRL,VariationRH;	//R-OKƒoƒ‰ƒcƒL•Î·’l
-	float	VariationGL,VariationGH;	//G-OKƒoƒ‰ƒcƒL•Î·’l
-	float	VariationBL,VariationBH;	//B-OKƒoƒ‰ƒcƒL•Î·’l
-	DWORD	VariationAdaptMinSize;		//Å¬“K—p—ÌˆæƒTƒCƒY
-	float	VariationMultiplyMaster;	//ƒ}ƒXƒ^[‰æ‘œAƒoƒ‰ƒcƒL‰æ‘œ‚©‚ç‚Ì•Î·‚µ‚«‚¢’lŒvZ‚ÌŒW”
-	bool	VariationDifMaster;			//ƒ}ƒXƒ^[‰æ‘œ‚Ì·•ª‚ğƒoƒ‰‚Â‚«•Î·‚Åˆ—
-	bool	VariationAndLogic;			//‘¼‚ÌŒŸ¸‚µ‚ÄNG‚É‚È‚Á‚½•”•ª‚¾‚¯‚ğƒoƒ‰‚Â‚«”»’è‚·‚é
-	float	VariationSubMasterVari;		//ƒ}ƒXƒ^[‰æ‘œ‚Ìƒoƒ‰‚Â‚«ŒW”‚ğˆø‚«Z‚·‚éŒW”
+	float	VariationRL,VariationRH;	//R-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
+	float	VariationGL,VariationGH;	//G-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
+	float	VariationBL,VariationBH;	//B-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
+	DWORD	VariationAdaptMinSize;		//ï¿½Åï¿½ï¿½Kï¿½pï¿½Ìˆï¿½ï¿½Tï¿½Cï¿½Y
+	float	VariationMultiplyMaster;	//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Aï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½Ì•Îï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½vï¿½Zï¿½ï¿½ï¿½ÌŒWï¿½ï¿½
+	bool	VariationDifMaster;			//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Â‚ï¿½ï¿½Îï¿½ï¿½Åï¿½ï¿½ï¿½
+	bool	VariationAndLogic;			//ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½É‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½è‚·ï¿½ï¿½
+	float	VariationSubMasterVari;		//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ìƒoï¿½ï¿½ï¿½Â‚ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½
 
 	bool	PitMode			;
-	WORD	PitBrightWidthRL;	//”÷¬ŒŸo	ˆÃ‘¤‹P“x•
-	WORD	PitBrightWidthRH;	//”÷¬ŒŸo	–¾‘¤‹P“x•
-	WORD	PitBrightWidthGL;	//”÷¬ŒŸo	ˆÃ‘¤‹P“x•
-	WORD	PitBrightWidthGH;	//”÷¬ŒŸo	–¾‘¤‹P“x•
-	WORD	PitBrightWidthBL;	//”÷¬ŒŸo	ˆÃ‘¤‹P“x•
-	WORD	PitBrightWidthBH;	//”÷¬ŒŸo	–¾‘¤‹P“x•
+	WORD	PitBrightWidthRL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o	ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	PitBrightWidthRH;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o	ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	PitBrightWidthGL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o	ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	PitBrightWidthGH;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o	ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	PitBrightWidthBL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o	ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	PitBrightWidthBH;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o	ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 
 	bool	LineMode;
 	WORD	LineOKMinLength;
 	WORD	LineMaxWidth;
 	WORD	LineMinDensityPercent;
-	WORD	LineMinCluster;		//ü‚ÌÅ¬‰ò–ÊÏ
+	WORD	LineMinCluster;		//ï¿½ï¿½ï¿½ÌÅï¿½ï¿½ï¿½ï¿½Êï¿½
 
 	DotColorMatchingThreshold(DotColorMatchingItem *parent);
 
@@ -212,9 +230,9 @@ enum ThresholdMember
 	,ID_BroadBrightWidthGH	=4
 	,ID_BroadBrightWidthBL	=5
 	,ID_BroadBrightWidthBH	=6
-	,ID_BroadOKDot			=7	//‚n‚jƒhƒbƒg”
-	,ID_BroadOKLength		=8	//‚n‚j‹——£
-	,ID_BroadRThrOffsetL	=9	//‚µ‚«‚¢’l‚Ö‚Ì’¼Ú‰ÁZ’l	(-100`100)
+	,ID_BroadOKDot			=7	//ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	,ID_BroadOKLength		=8	//ï¿½nï¿½jï¿½ï¿½ï¿½ï¿½
+	,ID_BroadRThrOffsetL	=9	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½Ö‚Ì’ï¿½ï¿½Ú‰ï¿½ï¿½Zï¿½l	(-100ï¿½`100)
 	,ID_BroadRThrOffsetH	=10
 	,ID_BroadGThrOffsetL	=11
 	,ID_BroadGThrOffsetH	=12
@@ -227,9 +245,9 @@ enum ThresholdMember
 	,ID_NarrowBrightWidthGH	=24
 	,ID_NarrowBrightWidthBL	=25
 	,ID_NarrowBrightWidthBH	=26
-	,ID_NarrowOKDot			=27	//‚n‚jƒhƒbƒg”
-	,ID_NarrowOKLength		=28	//‚n‚j‹——£
-	,ID_NarrowRThrOffsetL	=29	//‚µ‚«‚¢’l‚Ö‚Ì’¼Ú‰ÁZ’l	(-100`100)
+	,ID_NarrowOKDot			=27	//ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	,ID_NarrowOKLength		=28	//ï¿½nï¿½jï¿½ï¿½ï¿½ï¿½
+	,ID_NarrowRThrOffsetL	=29	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½Ö‚Ì’ï¿½ï¿½Ú‰ï¿½ï¿½Zï¿½l	(-100ï¿½`100)
 	,ID_NarrowRThrOffsetH	=30
 	,ID_NarrowGThrOffsetL	=31
 	,ID_NarrowGThrOffsetH	=32
@@ -243,18 +261,18 @@ enum ThresholdMember
 	,ID_MultiSpotDotGathered	=53
 	,ID_MultiSpotCountGathered	=54
 	,ID_MultiSpotLengthGathered	=55
-	,ID_BackGroundOKDot			=56	//‚n‚jƒhƒbƒg”
-	,ID_BackGroundOKLength		=57	//‚n‚j‹——£
+	,ID_BackGroundOKDot			=56	//ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	,ID_BackGroundOKLength		=57	//ï¿½nï¿½jï¿½ï¿½ï¿½ï¿½
 	,ID_UseBackGround			=58
 
-	,ID_AdjustBlack			=61	//‹P“x•â³‚Ì‰ºŒÀ•
-	,ID_AdjustWhite			=62	//‹P“x•â³‚ÌãŒÀ•
+	,ID_AdjustBlack			=61	//ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+	,ID_AdjustWhite			=62	//ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	,ID_AdjustContribute	=63
 	,ID_AreaSearchX			=64
 	,ID_AreaSearchY			=65
-	,ID_SelfSearch			=66	//©ŒÈ’Tõƒhƒbƒg”
+	,ID_SelfSearch			=66	//ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
 	,ID_PreciseSearch		=67
-	,ID_Clusterize			=68	//‰ò”»’è
+	,ID_Clusterize			=68	//ï¿½ò”»’ï¿½
 	,ID_MaxAreaSearch		=69
 	,ID_MaxSelfSearch		=70
 	,ID_SmoothCluster		=71
@@ -273,16 +291,16 @@ enum ThresholdMember
 	,ID_ScratchMaxWidth			=87	
 	,ID_ScratchEnable			=88	
 	,ID_ScratchUseMaster		=89	
-	,ID_ScratchVOffset			=90	//‚±‚ê‚ğ‘å‚«‚­‚·‚é‚ÆŠ®‘S‹Ïˆê‹P“x—ÌˆæŠ´“x‚ª’á‰º‚·‚é
+	,ID_ScratchVOffset			=90	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆŠï¿½ï¿½Sï¿½Ïˆï¿½ï¿½Pï¿½xï¿½ÌˆæŠ´ï¿½xï¿½ï¿½ï¿½á‰ºï¿½ï¿½ï¿½ï¿½
 
-	,ID_AddedBrightness			=91	//-10 ` +10
-	,ID_AddedOffset				=92	//-10 ` +10
-	,ID_AddedShift				=93	//-10 ` +10
+	,ID_AddedBrightness			=91	//-10 ï¿½` +10
+	,ID_AddedOffset				=92	//-10 ï¿½` +10
+	,ID_AddedShift				=93	//-10 ï¿½` +10
 
 	,ID_UseOneLayer				=94	//0xFF=color
 
 	,ID_RedCheckMode		=101
-	,ID_RedHighRate			=102	//G,B‚É”ä‚×‚ÄR‚Ì‹P“x’l‚Ì‘’lŠ„‡(%)
+	,ID_RedHighRate			=102	//G,Bï¿½É”ï¿½ï¿½×‚ï¿½Rï¿½Ì‹Pï¿½xï¿½lï¿½Ì‘ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½(%)
 	,ID_RedMinBrightness	=103
 	,ID_RedGBMerginRate		=104
 	,ID_RedGBMerginOffset	=105
@@ -540,7 +558,7 @@ class	RotationPattern : public FlexAreaCoefXY
 {
 	DotColorMatchingItem	*Parent;
 public:
-	FlexAreaCoefContainer	DivArea;	//‚±‚ÌƒGƒŠƒA“à‚Ì•Ï‰»—Ê‚Ì‘å‚«‚È—Ìˆæ
+	FlexAreaCoefContainer	DivArea;	//ï¿½ï¿½ï¿½ÌƒGï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ì•Ï‰ï¿½ï¿½Ê‚Ì‘å‚«ï¿½È—Ìˆï¿½
 
 	short		FlatAreaWidth;
 	FlexArea	OutlineArea;
@@ -828,7 +846,7 @@ public:
 	virtual	ExeResult	ExecuteStartByInspection(int ExeID ,int ThreadNo,ResultInItemRoot *Res)		override;
 	virtual	ExeResult	ExecuteProcessing		(int ExeID ,int ThreadNo,ResultInItemRoot *Res)		override;
 	virtual	void	RefreshByMap(ReflectionMode Mode,ConstMapBufferListContainer &Map)	override;
-	void	InitializeOnlyByImage(void);	//ƒ}ƒXƒ^[‰æ‘œ‚ğ“ü‚ê‘Ö‚¦‚½‚¾‚¯‚ÌÄŒvZ
+	void	InitializeOnlyByImage(void);	//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌÄŒvï¿½Z
 
 	ExeResult	ExecuteProcessing(ResultInItemRoot *Res 
 								,const	DotColorMatchingThreshold	*Th,const DotColorMatchingThreshold::MThreshold *MTh
@@ -1183,12 +1201,12 @@ public:
 	ImageBuffer	ImageL;
 	ImageBuffer	ImageA;
 	ImageBuffer	ImageB;
-	__TableType	BrightWidthTableFlat[2*MaxThreOffset+1][256][256];	//NoiseBrightness‚ÆMaxThreOffset‚©‚ç¶¬‚³‚ê‚é
-	__TableType	BrightWidthTableComp[2*MaxThreOffset+1][256][256];	//NoiseBrightness‚ÆMaxThreOffset‚©‚ç¶¬‚³‚ê‚é
-	FlexArea	EdgeArea;		//ƒ}ƒXƒN‚©‚ç¶¬‚³‚ê‚é
+	__TableType	BrightWidthTableFlat[2*MaxThreOffset+1][256][256];	//NoiseBrightnessï¿½ï¿½MaxThreOffsetï¿½ï¿½ï¿½ç¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	__TableType	BrightWidthTableComp[2*MaxThreOffset+1][256][256];	//NoiseBrightnessï¿½ï¿½MaxThreOffsetï¿½ï¿½ï¿½ç¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	FlexArea	EdgeArea;		//ï¿½}ï¿½Xï¿½Nï¿½ï¿½ï¿½ç¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	int			RetryCounter;
-	ConstMapBuffer	VarietyMap[3];	//ExecuteInitialAfterEdit‚Å\’z‚³‚ê‚é	MakeAverageImage‚©‚ç¶¬‚³‚ê‚é
-	ConstMapBuffer	EffectiveMap;	//ExecuteInitialAfterEdit‚Å\’z‚³‚ê‚é	Mask‚©‚ç¶¬‚³‚ê‚é
+	ConstMapBuffer	VarietyMap[3];	//ExecuteInitialAfterEditï¿½Å\ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	MakeAverageImageï¿½ï¿½ï¿½ç¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ConstMapBuffer	EffectiveMap;	//ExecuteInitialAfterEditï¿½Å\ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Maskï¿½ï¿½ï¿½ç¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	DotColorMatchingInPage(AlgorithmBase *parent);
 	~DotColorMatchingInPage(void);
@@ -1274,11 +1292,11 @@ public:
 	double		MultiplyParamInOutlineArea;
 	double		MultiplyParamInFoldingArea;
 	int			ExclusiveLayer;
-	int			ScratchForBlack;	//‚±‚Ì‹P“xˆÈ‰º‚Å‚Í”»’è‚µ‚È‚¢
+	int			ScratchForBlack;	//ï¿½ï¿½ï¿½Ì‹Pï¿½xï¿½È‰ï¿½ï¿½Å‚Í”ï¿½ï¿½è‚µï¿½È‚ï¿½
 	int			MinDivAreaLength;
 	int			MinDivAreaPixels;
 	int			MinTotalDivAreaPixels;
-	int			AcceptionRateGray;	//UseMaster2‚Ì‚Ì’†ŠÔF‚Ì–ÊÏŠ„‡ãŒÀ(%)
+	int			AcceptionRateGray;	//UseMaster2ï¿½Ìï¿½ï¿½Ì’ï¿½ï¿½ÔFï¿½Ì–ÊÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(%)
 	bool		UseGlobalMultiSpot;
 	int			MasterNoFor2nd;
 	double		MasterScratchFlatness;
@@ -1390,57 +1408,57 @@ public:
 		int32	Dx,Dy;
 		WORD	CenterBrightR;
 		WORD	CenterTargetBrightR;
-		short	BrightWidthBRL;		//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	BrightWidthBRH;		//‹·ˆæ‚Ì–¾‘¤‹P“x•
-		short	BrightWidthNRL;		//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	BrightWidthNRH;		//‹·ˆæ‚Ì–¾‘¤‹P“x•
+		short	BrightWidthBRL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	BrightWidthBRH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	BrightWidthNRL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	BrightWidthNRH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 
 		WORD	CenterBrightG;
 		WORD	CenterTargetBrightG;
-		short	BrightWidthBGL;		//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	BrightWidthBGH;		//‹·ˆæ‚Ì–¾‘¤‹P“x•
-		short	BrightWidthNGL;		//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	BrightWidthNGH;		//‹·ˆæ‚Ì–¾‘¤‹P“x•
+		short	BrightWidthBGL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	BrightWidthBGH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	BrightWidthNGL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	BrightWidthNGH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 
 		WORD	CenterBrightB;
 		WORD	CenterTargetBrightB;
-		short	BrightWidthBBL;		//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	BrightWidthBBH;		//‹·ˆæ‚Ì–¾‘¤‹P“x•
-		short	BrightWidthNBL;		//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	BrightWidthNBH;		//‹·ˆæ‚Ì–¾‘¤‹P“x•
+		short	BrightWidthBBL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	BrightWidthBBH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	BrightWidthNBL;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	BrightWidthNBH;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 
 		float	TargetSDRL,TargetSDRH;
 		float	TargetSDGL,TargetSDGH;
 		float	TargetSDBL,TargetSDBH;
 
-		short	AbsBrightWidthBRL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	AbsBrightWidthBRH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-		short	AbsBrightWidthBGL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	AbsBrightWidthBGH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-		short	AbsBrightWidthBBL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	AbsBrightWidthBBH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
+		short	AbsBrightWidthBRL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	AbsBrightWidthBRH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	AbsBrightWidthBGL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	AbsBrightWidthBGH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	AbsBrightWidthBBL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	AbsBrightWidthBBH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 
-		short	OrgBrightWidthBRL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	OrgBrightWidthBRH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-		short	OrgBrightWidthBGL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	OrgBrightWidthBGH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-		short	OrgBrightWidthBBL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	OrgBrightWidthBBH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
+		short	OrgBrightWidthBRL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	OrgBrightWidthBRH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	OrgBrightWidthBGL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	OrgBrightWidthBGH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	OrgBrightWidthBBL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	OrgBrightWidthBBH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 		int		OrgOKDotB;
 
-		short	AbsBrightWidthNRL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	AbsBrightWidthNRH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-		short	AbsBrightWidthNGL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	AbsBrightWidthNGH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-		short	AbsBrightWidthNBL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	AbsBrightWidthNBH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
+		short	AbsBrightWidthNRL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	AbsBrightWidthNRH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	AbsBrightWidthNGL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	AbsBrightWidthNGH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	AbsBrightWidthNBL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	AbsBrightWidthNBH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 
-		short	OrgBrightWidthNRL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	OrgBrightWidthNRH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-		short	OrgBrightWidthNGL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	OrgBrightWidthNGH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
-		short	OrgBrightWidthNBL;	//‹·ˆæ‚ÌˆÃ‘¤‹P“x•
-		short	OrgBrightWidthNBH;	//‹·ˆæ‚Ì–¾‘¤‹P“x•
+		short	OrgBrightWidthNRL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	OrgBrightWidthNRH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	OrgBrightWidthNGL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	OrgBrightWidthNGH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	OrgBrightWidthNBL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÃ‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		short	OrgBrightWidthNBH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 		int		OrgOKDotN;
 
 	}ThresholdValues;

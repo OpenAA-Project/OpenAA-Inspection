@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\StatisticBlock\XStatisticBlockLibrary.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "XStatisticBlockLibrary.h"
 #include "XGeneralFunc.h"
@@ -29,7 +38,7 @@ StatisticBlockLibrary::StatisticBlockLibrary(int LibType,LayersBase *Base)
     MinBlockDots=0;
     MaxBlockDots=2000000000;
     LimitBlockSize=400;
-	GenerationMode.Transparent	=false;		//d•¡¶¬‚·‚éƒuƒƒbƒN
+	GenerationMode.Transparent	=false;		//ï¿½dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½bï¿½N
 	GenerationMode.LeftPickup	=false;
 	GenerationMode.OverlappedGen=true;
 	GenerationCategory	=_AutoSetting_PAD;
@@ -39,7 +48,7 @@ StatisticBlockLibrary::StatisticBlockLibrary(int LibType,LayersBase *Base)
     Priority		=0;
 	OverlapDot		=5;
 
-//ŒŸ¸ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 	BrightWidthL	=0;
 	BrightWidthH	=0;
 	OKDotL			=0;
@@ -52,8 +61,8 @@ StatisticBlockLibrary::StatisticBlockLibrary(int LibType,LayersBase *Base)
 	PointMove.ModeWhiteMask				=false;
 	PointMove.ModeBlackMask				=false;
 
-    AdjustBlack		=20;    //‹P“x•â³‚Ì‰ºŒÀ•
-    AdjustWhite		=20;    //‹P“x•â³‚ÌãŒÀ•
+    AdjustBlack		=20;    //ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    AdjustWhite		=20;    //ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 
 	UseMorphology		=false;
 	MorphologyApplyTo	=MAT_Both;
@@ -100,7 +109,7 @@ bool	StatisticBlockLibrary::SaveBlob(QIODevice *f)
 	if(::Save(f,OverlapDot)==false)
 		return false;
 
-//ŒŸ¸ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 
 	if(::Save(f,BrightWidthL)==false)
 		return false;
@@ -173,7 +182,7 @@ bool	StatisticBlockLibrary::LoadBlob(QIODevice *f)
 		if(::Load(f,OverlapDot)==false)
 			return false;
 	}
-//ŒŸ¸ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 
 	if(::Load(f,BrightWidthL)==false)
 		return false;

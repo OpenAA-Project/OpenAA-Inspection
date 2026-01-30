@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\HASP\HaspChosaku_2\HaspChosaku_2\haspchosaku_2.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef HASPCHOSAKU_2_H
 #define HASPCHOSAKU_2_H
 
@@ -28,20 +37,20 @@ public:
     ~HaspChosaku_2();
 private:
     Ui::HaspChosaku_2Class ui;
-	hasp_handle_t Handle;			//pbOK_clicked:HaspLogin()¨Decrypt(),Encrypt()
-	QString FileName;				//pbOK_clicked:FileOpen()¨FileLoad()
-	QByteArray CerealData;			//pbOK_clicked:FileLoad()¨Decrypt()
-	QByteArray DeCereal;			//pbOK_clicked:Decrypt()¨Encrypt()
-	QByteArray HaspData;			//pbOK_clicked:Encrypt()¨SaveData()
-	QString File;					//pbOK_clicked:SaveFile()¨SaveData()
+	hasp_handle_t Handle;			//pbOK_clicked:HaspLogin()ï¿½ï¿½Decrypt(),Encrypt()
+	QString FileName;				//pbOK_clicked:FileOpen()ï¿½ï¿½FileLoad()
+	QByteArray CerealData;			//pbOK_clicked:FileLoad()ï¿½ï¿½Decrypt()
+	QByteArray DeCereal;			//pbOK_clicked:Decrypt()ï¿½ï¿½Encrypt()
+	QByteArray HaspData;			//pbOK_clicked:Encrypt()ï¿½ï¿½SaveData()
+	QString File;					//pbOK_clicked:SaveFile()ï¿½ï¿½SaveData()
 private slots:
 	bool HaspLogin(hasp_handle_t &handle);						//HaspLogint
-	bool FileOpen(QString &sfile);								//ŠJ‚­ƒtƒ@ƒCƒ‹–¼‚Ìæ“¾
-	bool FileLoad(QString fileName, QByteArray &cerealData);	//ƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^‚Ìo—Í
-	bool Decrypt(hasp_handle_t handle, QByteArray cereal, QByteArray &deCereal); //ƒf[ƒ^‚Ì•¡‡‰»
-	bool Encrypt(hasp_handle_t handle, QByteArray cerealcode, QString copyright, QString date, QByteArray &haspData);//ƒf[ƒ^‚ÌˆÃ†‰»
-	bool SaveFile(QString &sfile);								//•Û‘¶‚·‚éƒtƒ@ƒCƒ‹–¼‚Ìæ“¾
-	bool SaveData(QString fileName, QByteArray HaspCode);		//ƒtƒ@ƒCƒ‹‚Éƒf[ƒ^‚Ì•Û‘¶
+	bool FileOpen(QString &sfile);								//ï¿½Jï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
+	bool FileLoad(QString fileName, QByteArray &cerealData);	//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìoï¿½ï¿½
+	bool Decrypt(hasp_handle_t handle, QByteArray cereal, QByteArray &deCereal); //ï¿½fï¿½[ï¿½^ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½
+	bool Encrypt(hasp_handle_t handle, QByteArray cerealcode, QString copyright, QString date, QByteArray &haspData);//ï¿½fï¿½[ï¿½^ï¿½ÌˆÃï¿½ï¿½ï¿½
+	bool SaveFile(QString &sfile);								//ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
+	bool SaveData(QString fileName, QByteArray HaspCode);		//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Éƒfï¿½[ï¿½^ï¿½Ì•Û‘ï¿½
 	void on_pbOK_clicked();
 	void on_pbEND_clicked();
 };

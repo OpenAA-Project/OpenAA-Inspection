@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef LIVECAMERAALGONTSC_H
 #define LIVECAMERAALGONTSC_H
 
@@ -12,7 +30,7 @@
 
 #include "CameraSettingForm.h"
 
-// ƒvƒƒpƒeƒBéŒ¾ŠJn
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Jï¿½n
 #include "XReviewPropertyBase.h"
 
 class LiveCameraAlgoNTSC;
@@ -25,10 +43,10 @@ typedef PropertyBase<LiveCameraAlgoNTSC> LiveCameraAlgoNTSCProperty;
 namespace Ui{
 class LiveCameraAlgoNTSCPropertyClass;
 }
-// ƒvƒƒpƒeƒBéŒ¾I—¹
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½éŒ¾ï¿½Iï¿½ï¿½
 
 
-// •\¦XVƒXƒŒƒbƒh
+// ï¿½\ï¿½ï¿½ï¿½Xï¿½Vï¿½Xï¿½ï¿½ï¿½bï¿½h
 class ThreadView : public QThread
 {
 	Q_OBJECT
@@ -55,11 +73,11 @@ signals:
 	void update();
 };
 
-// •\¦‰æ–Ê
-// ƒJƒƒ‰‰f‘œ‚ğ•\¦‚·‚é
+// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // todo signal
-//  clicked(QPoint)    -> ”÷“®
-//  setParameter(RGB)  -> RGBƒoƒCƒAƒX
+//  clicked(QPoint)    -> ï¿½ï¿½ï¿½ï¿½
+//  setParameter(RGB)  -> RGBï¿½oï¿½Cï¿½Aï¿½X
 class CameraView : public QLabel
 {
 	Q_OBJECT
@@ -110,7 +128,7 @@ private:
 };
 
 
-// GUI–{‘Ì
+// GUIï¿½{ï¿½ï¿½
 class LIVECAMERAALGONTSC_EXPORT LiveCameraAlgoNTSC : public GUIFormBase
 {
 	Q_OBJECT
@@ -121,23 +139,23 @@ public:
 	
 	virtual void	Prepare(void)	override;
 
-	bool	StartLive();//Ä¶
-	bool	StopLive();//’â~
-	bool	SingleShot();//ƒXƒiƒbƒvƒVƒ‡ƒbƒgB‰e
-	bool	Close();//ƒfƒoƒCƒX‚ğƒNƒ[ƒY
-	bool	Open();//ƒfƒoƒCƒX‚ğƒI[ƒvƒ“
-	bool	Init();//‰Šú‰»
+	bool	StartLive();//ï¿½Äï¿½
+	bool	StopLive();//ï¿½ï¿½ï¿½~
+	bool	SingleShot();//ï¿½Xï¿½iï¿½bï¿½vï¿½Vï¿½ï¿½ï¿½bï¿½gï¿½Bï¿½e
+	bool	Close();//ï¿½fï¿½oï¿½Cï¿½Xï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½Y
+	bool	Open();//ï¿½fï¿½oï¿½Cï¿½Xï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½
+	bool	Init();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	void	SetBrightness(int BArray[]);//‹P“xƒAƒŒƒC‚ğİ’è 255
-	void	SetPlusRGB(int Red,int Green,int Blue);//ŠeRGB‚ÌƒoƒCƒAƒX’lİ’è
+	void	SetBrightness(int BArray[]);//ï¿½Pï¿½xï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½İ’ï¿½ 255
+	void	SetPlusRGB(int Red,int Green,int Blue);//ï¿½eRGBï¿½Ìƒoï¿½Cï¿½Aï¿½Xï¿½lï¿½İ’ï¿½
 
-	int		GetWidth()	{	return(640);	}//‰¡•ûŒüƒTƒCƒY
-	int		GetHeight()	{	return(480);	}//c•ûŒüƒTƒCƒY
+	int		GetWidth()	{	return(640);	}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½Cï¿½Y
+	int		GetHeight()	{	return(480);	}//ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½Cï¿½Y
 
 public slots:
-	void	ResizeAction();//ƒEƒBƒ“ƒhƒEƒTƒCƒY•ÏX‚Ì“®ì
+	void	ResizeAction();//ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Tï¿½Cï¿½Yï¿½ÏXï¿½ï¿½ï¿½Ì“ï¿½ï¿½ï¿½
 	void	SettingAction();
-	void	RestartAction();//ƒJƒƒ‰ƒfƒoƒCƒX‚ÌÄƒI[ƒvƒ“
+	void	RestartAction();//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½fï¿½oï¿½Cï¿½Xï¿½ÌÄƒIï¿½[ï¿½vï¿½ï¿½
 	void	SnapAction();
 	bool	Save();
 	bool	Load();
@@ -150,7 +168,7 @@ protected:
 	virtual	void	mousePressEvent(QMouseEvent *)	override;
 
 private:
-	CameraView	m_CameraView;	//ƒJƒƒ‰‰f‘œ•\¦ƒEƒBƒWƒFƒbƒg(GUI‚ÌƒƒCƒ“ƒEƒBƒWƒFƒbƒg)
+	CameraView	m_CameraView;	//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½Eï¿½Bï¿½Wï¿½Fï¿½bï¿½g(GUIï¿½Ìƒï¿½ï¿½Cï¿½ï¿½ï¿½Eï¿½Bï¿½Wï¿½Fï¿½bï¿½g)
 	int m_PlusRed,m_PlusGreen,m_PlusBlue;
 	int m_BrightArray[256];
 	//ThreadView *m_ThreadView;
@@ -161,27 +179,27 @@ private:
 	QAction *m_SnapAction;
 
 /*------------------------------------------------------------------------------------------------*/
-/*----------------------------ƒvƒƒpƒeƒBŠÖ˜A - ŠJn-----------------------------------------------*/
+/*----------------------------ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö˜A - ï¿½Jï¿½n-----------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 	
-// ƒvƒƒpƒeƒB‚ÌƒƒCƒ“ƒoƒbƒtƒ@(GUI‚Ég—p‚·‚éî•ñ‚ÆUi‚©‚ç‚Ì“üo—Í‚Ég—p)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒï¿½ï¿½Cï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@(GUIï¿½Égï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Uiï¿½ï¿½ï¿½ï¿½ï¿½Ì“ï¿½ï¿½oï¿½Í‚Égï¿½p)
 private:
 	LiveCameraAlgoNTSCProperty *m_property;
 
-// ƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO(ŠO•”‚©‚ç(*å‚ÉƒvƒƒpƒeƒBİ’èGUI)‚Ì—v‹‚ÅŒÄ‚Ño‚³‚ê‚é)
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½O(ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(*ï¿½ï¿½ï¿½Éƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½GUI)ï¿½Ì—vï¿½ï¿½ï¿½ÅŒÄ‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 private:
 	Ui::LiveCameraAlgoNTSCPropertyClass *m_propertyUi;
 	QDialog *m_propertyDialog;
 
-// ƒvƒƒpƒeƒB‚Ö‚ÌƒAƒNƒZƒX
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½X
 public:
 	inline const LiveCameraAlgoNTSCProperty &getProperty() const { return *m_property; };
 	LiveCameraAlgoNTSCProperty *getPropertyPtr() { return m_property; }
 
-private:// •ÒW‰Â”\‚Í“à•”‚©‚ç‚Ì‚İ
+private:// ï¿½ÒWï¿½Â”\ï¿½Í“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
 	inline LiveCameraAlgoNTSCProperty &getProperty() { return *m_property; };
 
-// ƒvƒƒpƒeƒB‚Ìƒoƒbƒtƒ@‚ÆƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO‚Ö‚ÌƒAƒNƒZƒXŠÖ”
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½Æƒvï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½Öï¿½
 private:
 	void setProperty(LiveCameraAlgoNTSCProperty *property){ m_property = property; };
 	void setPropertyUi(Ui::LiveCameraAlgoNTSCPropertyClass *ui){ m_propertyUi = ui; };
@@ -189,11 +207,11 @@ private:
 	void setPropertyDialog(QDialog *dialog){ m_propertyDialog = dialog; };
 	QDialog *getPropertyDialog(void){ return m_propertyDialog; };
 	
-// ƒvƒƒpƒeƒBƒ_ƒCƒAƒƒO‚ÌƒVƒOƒiƒ‹accepted()‚É‘Î‰‚·‚éƒXƒƒbƒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ÌƒVï¿½Oï¿½iï¿½ï¿½accepted()ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½g
 private slots:
 	void slot_propertyModified();
 
-// ƒvƒƒpƒeƒB‚ÌƒRƒs[‚ÆUiƒtƒ@ƒCƒ‹‚Æ‚Ì˜AŒg
+// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½ÌƒRï¿½sï¿½[ï¿½ï¿½Uiï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Æ‚Ì˜Aï¿½g
 public:
 	void setProperty(const LiveCameraAlgoNTSCProperty &property);
 private:
@@ -202,7 +220,7 @@ private:
 	void setPropertyFromUi(LiveCameraAlgoNTSCProperty &property);
 	void setPropertyFromUi();
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Åg—p‚·‚éƒvƒƒpƒeƒB‚Ì‰Šú‰»
+// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 private:
 	void initProperty();
 
@@ -210,7 +228,7 @@ private:
 	void updateProperty(){ setProperty(getProperty()); };
 	
 /*------------------------------------------------------------------------------------------------*/
-/*----------------------------ƒvƒƒpƒeƒBŠÖ˜A - I—¹-----------------------------------------------*/
+/*----------------------------ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ö˜A - ï¿½Iï¿½ï¿½-----------------------------------------------*/
 /*------------------------------------------------------------------------------------------------*/
 };
 

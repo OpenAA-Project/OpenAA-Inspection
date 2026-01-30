@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include<CheckBoard.h>
 
 
@@ -17,7 +35,7 @@
 #include <sstream>
 
 
-// setupapi.lib ‚ğƒŠƒ“ƒN‚·‚éw¦iMSVC—pj
+// setupapi.lib ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½iMSVCï¿½pï¿½j
 #pragma comment(lib, "setupapi.lib")
 #pragma comment(lib, "cfgmgr32.lib")
 
@@ -29,26 +47,26 @@ static const GUID GUID_PciDevice = { 0x4340a6c5, 0x93fa, 0x4706, { 0x97, 0x2c, 0
 
 
 
-// PCI Gen‘¬“x‚ğ“Ç‚İ‚â‚·‚¢•¶š—ñ‚É•ÏŠ·‚·‚éƒwƒ‹ƒp[ŠÖ”
+// PCI Genï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Ç‚İ‚â‚·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½pï¿½[ï¿½Öï¿½
 std::wstring GetPciGenSpeedString(UINT32 speedCode) {
     switch (speedCode) {
     case 1: return L"2.5 GT/s (Gen1)";
     case 2: return L"5.0 GT/s (Gen2)";
     case 3: return L"8.0 GT/s (Gen3)";
     case 4: return L"16.0 GT/s (Gen4)";
-    case 5: return L"32.0 GT/s (Gen5)"; // «—ˆ“I‚ÈŠg’£
+    case 5: return L"32.0 GT/s (Gen5)"; // ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ÈŠgï¿½ï¿½
     case 6: return L"64.0 GT/s (Gen6)"; 
     default: return L"Unknown (" + std::to_wstring(speedCode) + L")";
     }
 }
 
-// SetupAPI‚ğg‚Á‚ÄƒfƒoƒCƒXƒvƒƒpƒeƒB‚ğæ“¾‚·‚éƒwƒ‹ƒp[ŠÖ”
+// SetupAPIï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Äƒfï¿½oï¿½Cï¿½Xï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½pï¿½[ï¿½Öï¿½
 template <typename T>
 bool GetDeviceProperty(HDEVINFO hDevInfo, PSP_DEVINFO_DATA pDevInfoData, const DEVPROPKEY* propKey, T& outValue) {
     DEVPROPTYPE propType;
     DWORD requiredSize = 0;
     
-    // ‚Ü‚¸ƒTƒCƒY‚ğæ“¾
+    // ï¿½Ü‚ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½æ“¾
     SetupDiGetDevicePropertyW(hDevInfo, pDevInfoData, propKey, &propType, NULL, 0, &requiredSize, 0);
 
     if (requiredSize == 0) return false;
@@ -58,7 +76,7 @@ bool GetDeviceProperty(HDEVINFO hDevInfo, PSP_DEVINFO_DATA pDevInfoData, const D
         return false;
     }
 
-    // Œ^ƒ`ƒFƒbƒN‚Æ’l‚ÌƒRƒs[
+    // ï¿½^ï¿½`ï¿½Fï¿½bï¿½Nï¿½Æ’lï¿½ÌƒRï¿½sï¿½[
     if (sizeof(T) <= requiredSize) {
         memcpy(&outValue, buffer.data(), sizeof(T));
         return true;
@@ -82,14 +100,14 @@ bool CheckBoard::GetBoardInfo(NPListPack<BoardInfoList> &BoardInfo)
     SP_DEVINFO_DATA deviceInfoData;
     deviceInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
 
-    // ƒfƒoƒCƒX‚ğ—ñ‹“‚·‚éƒ‹[ƒv
+    // ï¿½fï¿½oï¿½Cï¿½Xï¿½ï¿½ï¿½ñ‹“‚ï¿½ï¿½éƒ‹ï¿½[ï¿½v
     for (DWORD i = 0; SetupDiEnumDeviceInfo(hDevInfo, i, &deviceInfoData); i++) {
         DWORD dataT;
-        wchar_t buffer[2048]; // î•ñ‚ğŠi”[‚·‚éƒoƒbƒtƒ@
+        wchar_t buffer[2048]; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@
         DWORD buffersize = sizeof(buffer);
 
-        // 1. ƒfƒoƒCƒX‚Ìà–¾iƒtƒŒƒ“ƒhƒŠ[ƒl[ƒ€j‚ğæ“¾
-        // ‚Ü‚¸‚Í FriendlyName (SPDRP_FRIENDLYNAME) ‚ğ‚İ‚é
+        // 1. ï¿½fï¿½oï¿½Cï¿½Xï¿½Ìï¿½ï¿½ï¿½ï¿½iï¿½tï¿½ï¿½ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½[ï¿½lï¿½[ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½æ“¾
+        // ï¿½Ü‚ï¿½ï¿½ï¿½ FriendlyName (SPDRP_FRIENDLYNAME) ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½
         if (!SetupDiGetDeviceRegistryProperty(
             hDevInfo,
             &deviceInfoData,
@@ -99,7 +117,7 @@ bool CheckBoard::GetBoardInfo(NPListPack<BoardInfoList> &BoardInfo)
             buffersize,
             NULL)) {
             
-            // FriendlyName‚ª‚È‚¢ê‡‚Í DeviceDesc (SPDRP_DEVICEDESC) ‚ğæ“¾
+            // FriendlyNameï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ï¿½ DeviceDesc (SPDRP_DEVICEDESC) ï¿½ï¿½ï¿½æ“¾
             if (!SetupDiGetDeviceRegistryProperty(
                 hDevInfo,
                 &deviceInfoData,
@@ -113,7 +131,7 @@ bool CheckBoard::GetBoardInfo(NPListPack<BoardInfoList> &BoardInfo)
         }
         std::wstring deviceName = buffer;
 
-        // 2. ƒn[ƒhƒEƒFƒAID‚ğæ“¾
+        // 2. ï¿½nï¿½[ï¿½hï¿½Eï¿½Fï¿½AIDï¿½ï¿½ï¿½æ“¾
         std::wstring hardwareID = L"";
         if (SetupDiGetDeviceRegistryProperty(
             hDevInfo,
@@ -123,11 +141,11 @@ bool CheckBoard::GetBoardInfo(NPListPack<BoardInfoList> &BoardInfo)
             (PBYTE)buffer,
             buffersize,
             NULL)) {
-            // ƒn[ƒhƒEƒFƒAID‚Í’Êí•¡”s‚Ì•¶š—ñiMULTI_SZj‚Å‚·‚ªAÅ‰‚Ì1‚Â‚¾‚¯æ“¾‚µ‚Ä•\¦‚µ‚Ü‚·
+            // ï¿½nï¿½[ï¿½hï¿½Eï¿½Fï¿½AIDï¿½Í’Êí•¡ï¿½ï¿½ï¿½sï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iMULTI_SZï¿½jï¿½Å‚ï¿½ï¿½ï¿½ï¿½Aï¿½Åï¿½ï¿½ï¿½1ï¿½Â‚ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ä•\ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
             hardwareID = buffer;
         }
 
-        // ƒŠƒ“ƒN‘¬“x (CurrentLinkSpeed) ‚ğæ“¾
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½x (CurrentLinkSpeed) ï¿½ï¿½ï¿½æ“¾
         UINT32 linkSpeed;
         ULONG size;
 		DEVPROPTYPE propType;
@@ -137,7 +155,7 @@ bool CheckBoard::GetBoardInfo(NPListPack<BoardInfoList> &BoardInfo)
             || propType != DEVPROP_TYPE_UINT32) {
             continue;
         }
-        // ƒŠƒ“ƒN• (CurrentLinkWidth) ‚ğæ“¾
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ (CurrentLinkWidth) ï¿½ï¿½ï¿½æ“¾
         UINT32 linkWidth;
         size = sizeof(linkWidth);
         if (CM_Get_DevNode_PropertyW(deviceInfoData.DevInst, &DEVPKEY_PciDevice_CurrentLinkWidth,

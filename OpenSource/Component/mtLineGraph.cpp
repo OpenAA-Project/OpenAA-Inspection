@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\OpenSource\Component\mtLineGraph.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <QtGui>
 #define	_USE_MATH_DEFINES
 #include <math.h>
@@ -100,7 +108,7 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 	QPainter	Pnt(this);
 	const	double	XMergin=0.05;
 
-	//ƒ\[ƒg•–Ú·‚è‚ÌÅ¬’l^Å‘å’l‚Ìæ“¾
+	//ï¿½\ï¿½[ï¿½gï¿½ï¿½ï¿½Úï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½lï¿½^ï¿½Å‘ï¿½ï¿½lï¿½Ìæ“¾
 	if(!OnSorted){
 		for(int GNumb=0;GNumb<GraphList.count();GNumb++){
 			if(GraphList[GNumb]->isSortXY()==false){
@@ -138,10 +146,10 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 	double	tuMinX=uMinX-dx*XMergin;
 	double	tuMaxX=uMaxX+dx*XMergin;
 
-	//–Ú·‚èƒ‚[ƒh‚É‚æ‚é•\¦İ’è
+	//ï¿½Úï¿½ï¿½èƒ‚ï¿½[ï¿½hï¿½É‚ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½İ’ï¿½
 	if(!OnSTypeFlag){
 		if(STypeX==mtConstant){
-			//XÀ•W–Ú·‚èƒRƒ“ƒXƒ^ƒ“ƒg
+			//Xï¿½ï¿½ï¿½Wï¿½Úï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½g
 			StepMeasureX=1;
 			double wuWidth;
 			if(wuGraphMinX=="NULL"){
@@ -150,7 +158,7 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 			if(wuGraphMaxX=="NULL"){
 				uGraphMaxX=tuMaxX;
 			}
-			uWidth=wuWidth=uGraphMaxX-uGraphMinX;	//ƒf[ƒ^À•W‚ÌX²—Ìˆæ•
+			uWidth=wuWidth=uGraphMaxX-uGraphMinX;	//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½Ìˆæ•
 			if(uWidth<=0.0){
 				int AAA=0;
 			}
@@ -205,7 +213,7 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 		else if(STypeX==mtLog){
 		}
 		if(STypeY==mtConstant){
-			//YÀ•W–Ú·‚è
+			//Yï¿½ï¿½ï¿½Wï¿½Úï¿½ï¿½ï¿½
 			StepMeasureY=1;
 			double wuHeight;
 			if(wuGraphMinY=="NULL"){
@@ -214,7 +222,7 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 			if(wuGraphMaxY=="NULL"){
 				uGraphMaxY=uMaxY;
 			}
-			uHeight=wuHeight=uGraphMaxY-uGraphMinY;		//ƒf[ƒ^À•W‚ÌY²—Ìˆæ•
+			uHeight=wuHeight=uGraphMaxY-uGraphMinY;		//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½Ìˆæ•
 			if(uHeight<=0.0){}
 			else if(uHeight>=20.0 || (uHeight>=10.0 && !(uMaxY==ceil(uMaxY) && uMinY==ceil(uMinY)))){
 				do{
@@ -266,7 +274,7 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 			}
 		}
 		else if(STypeY==mtLog){
-			//YÀ•W–Ú·‚è
+			//Yï¿½ï¿½ï¿½Wï¿½Úï¿½ï¿½ï¿½
 			StepMeasureY=1;
 			double wuHeight;
 			if(wuGraphMinY=="NULL"){
@@ -275,7 +283,7 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 			if(wuGraphMaxY=="NULL"){
 				uGraphMaxY=uMaxY;
 			}
-			double	nH=uGraphMaxY-uGraphMinY;		//ƒf[ƒ^À•W‚ÌY²—Ìˆæ•
+			double	nH=uGraphMaxY-uGraphMinY;		//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½Ìˆæ•
 			if(nH>0.0){
 				uHeight=wuHeight=nH;
 				uLogYDbl=log10(uHeight)+1;
@@ -287,7 +295,7 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 		OnSTypeFlag=true;
 	}
 
-	//‹¤’Ê•\¦•”‚ÌDraw
+	//ï¿½ï¿½ï¿½Ê•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Draw
 //	Pnt.setBrush(QBrush(QColor(Qt::white)));
 	Pnt.setBrush(QBrush(GetBackgroundColor()));
 	Pnt.drawRect(OffsetX,0,width(),height()-OffsetY);
@@ -296,7 +304,7 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 	int gMeasureX;
 	double uMeasureX;
 	if(STypeX==mtConstant){
-		//X²–Ú·‚è
+		//Xï¿½ï¿½ï¿½Úï¿½ï¿½ï¿½
 		int	WLen=uWidth/StepMeasureX;
 		for(int XXX=0;XXX<=WLen;XXX++){
 			if((uMeasureX=(int)((uGraphMinX/StepMeasureX+XXX))*StepMeasureX)<uGraphMinX){
@@ -304,7 +312,7 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 			}
 			if(GraphList.at(0)!=NULL){
 				GraphList[0]->GetUniverseToCanvasX(uMeasureX,gMeasureX);
-				Pnt.drawLine(gMeasureX,height()-OffsetY,gMeasureX,0);	//‹æØ‚è–Ô–Úü
+				Pnt.drawLine(gMeasureX,height()-OffsetY,gMeasureX,0);	//ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½Ô–Úï¿½
 			}
 		}
 	}
@@ -312,14 +320,14 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 		for(int XXX=0;XXX<uLogXDbl;XXX++){
 			if(GraphList.at(0)!=NULL){
 				GraphList[0]->GetUniverseToCanvasLogX(pow(10.0,XXX),gMeasureX);
-				Pnt.drawLine(gMeasureX,height()-OffsetY,gMeasureX,0);	//‹æØ‚è–Ô–Úü
+				Pnt.drawLine(gMeasureX,height()-OffsetY,gMeasureX,0);	//ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½Ô–Úï¿½
 			}
 		}
 	}
 	int gMeasureY;
 	double uMeasureY;
 	if(STypeY==mtConstant){
-		//Y²–Ú·‚è
+		//Yï¿½ï¿½ï¿½Úï¿½ï¿½ï¿½
 		int	HLen=uHeight/StepMeasureY;
 		for(int YYY=0;YYY<=HLen;YYY++){
 			if((uMeasureY=(int)((uGraphMinY/StepMeasureY+YYY))*StepMeasureY)<uGraphMinY){
@@ -327,7 +335,7 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 			}
 			if(GraphList.at(0)!=NULL){
 				GraphList[0]->GetUniverseToCanvasY(uMeasureY,gMeasureY);
-				Pnt.drawLine(OffsetX,gMeasureY,width(),gMeasureY);	//‹æØ‚è–Ô–Úü
+				Pnt.drawLine(OffsetX,gMeasureY,width(),gMeasureY);	//ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½Ô–Úï¿½
 			}
 		}
 	}
@@ -335,18 +343,18 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 		for(int YYY=0;YYY<uLogYDbl;YYY++){
 			if(GraphList.at(0)!=NULL){
 				GraphList[0]->GetUniverseToCanvasLogY(pow(10.0,YYY),gMeasureY);
-				Pnt.drawLine(OffsetX,gMeasureY,width(),gMeasureY);	//‹æØ‚è–Ô–Úü
+				Pnt.drawLine(OffsetX,gMeasureY,width(),gMeasureY);	//ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½Ô–Úï¿½
 			}
 		}
 	}
 	Pnt.setPen(QPen());
 
-	//ŠeƒOƒ‰ƒt‚Ì•`‰æ
+	//ï¿½eï¿½Oï¿½ï¿½ï¿½tï¿½Ì•`ï¿½ï¿½
 	for(int GNumb=0;GNumb<GraphList.count();GNumb++){
 		GraphList[GNumb]->DrawPaint(Pnt);
 	}
 
-	//–Ú·‚è•”ƒyƒCƒ“ƒg
+	//ï¿½Úï¿½ï¿½è•”ï¿½yï¿½Cï¿½ï¿½ï¿½g
 	Pnt.setPen(QPen());
 //	Pnt.setBrush(QBrush(QColor(Qt::lightGray)));
 	Pnt.setBrush(this->palette().dark());
@@ -359,7 +367,7 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 	Pnt.setBrush(QBrush());
 	int	CharY=-OffsetY+((OffsetY-CharacterHeight)>>1);
 	if(STypeX==mtConstant){
-		//X²–Ú·‚è
+		//Xï¿½ï¿½ï¿½Úï¿½ï¿½ï¿½
 		int	WLen=uWidth/StepMeasureX;
 		for(int XXX=0;XXX<=WLen;XXX++){
 			if((uMeasureX=(int)((uGraphMinX/StepMeasureX+XXX))*StepMeasureX)<uGraphMinX){
@@ -368,24 +376,24 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 			if(GraphList.at(0)!=NULL){
 				GraphList[0]->GetUniverseToCanvasX(uMeasureX,gMeasureX);
 				Pnt.drawLine(gMeasureX,height()-OffsetY,gMeasureX,height()-(OffsetY>>1));
-				//Pnt.drawText(0,height()-(OffsetY>>1),gMeasureX-1,OffsetY>>1,Qt::AlignRight,QString().setNum(uMeasureX));	//–Ú·‚è”’l
-				Pnt.drawText(0,height()+CharY,gMeasureX-1,CharacterHeight,Qt::AlignRight,QString().setNum(uMeasureX));	//–Ú·‚è”’l
+				//Pnt.drawText(0,height()-(OffsetY>>1),gMeasureX-1,OffsetY>>1,Qt::AlignRight,QString().setNum(uMeasureX));	//ï¿½Úï¿½ï¿½è”ï¿½l
+				Pnt.drawText(0,height()+CharY,gMeasureX-1,CharacterHeight,Qt::AlignRight,QString().setNum(uMeasureX));	//ï¿½Úï¿½ï¿½è”ï¿½l
 			}
 		}
 	}
 	else if(STypeX==mtLog){
-		Pnt.drawText(0,height()-(OffsetY>>1),OffsetX-1,OffsetY>>1,Qt::AlignRight,QString().setNum(0));	//–Ú·‚è”’l
+		Pnt.drawText(0,height()-(OffsetY>>1),OffsetX-1,OffsetY>>1,Qt::AlignRight,QString().setNum(0));	//ï¿½Úï¿½ï¿½è”ï¿½l
 		for(int XXX=0;XXX<uLogXDbl;XXX++){
 			if(GraphList.at(0)!=NULL){
 				GraphList[0]->GetUniverseToCanvasLogX((uMeasureX=pow(10.0,XXX)),gMeasureX);
 				Pnt.drawLine(gMeasureX,height()-OffsetY,gMeasureX,height()-(OffsetY>>1));
-				//Pnt.drawText(0,height()-(OffsetY>>1),gMeasureX-1,OffsetY>>1,Qt::AlignRight,QString().setNum(uMeasureX));	//–Ú·‚è”’l
-				Pnt.drawText(0,height()+CharY,gMeasureX-1,CharacterHeight,Qt::AlignRight,QString().setNum(uMeasureX));	//–Ú·‚è”’l
+				//Pnt.drawText(0,height()-(OffsetY>>1),gMeasureX-1,OffsetY>>1,Qt::AlignRight,QString().setNum(uMeasureX));	//ï¿½Úï¿½ï¿½è”ï¿½l
+				Pnt.drawText(0,height()+CharY,gMeasureX-1,CharacterHeight,Qt::AlignRight,QString().setNum(uMeasureX));	//ï¿½Úï¿½ï¿½è”ï¿½l
 			}
 		}
 	}
 	if(STypeY==mtConstant){
-		//Y²–Ú·‚è
+		//Yï¿½ï¿½ï¿½Úï¿½ï¿½ï¿½
 		int	LastPosY=height()+CharacterHeight;
 		int	HLen=uHeight/StepMeasureY;
 		for(int YYY=0;YYY<=HLen;YYY++){
@@ -396,21 +404,21 @@ void	mtLineGraph::paintEvent(QPaintEvent *event)
 				GraphList[0]->GetUniverseToCanvasY(uMeasureY,gMeasureY);
 				Pnt.drawLine(OffsetX,gMeasureY,OffsetX>>1,gMeasureY);
 				if(LastPosY-CharacterHeight>=gMeasureY){
-					Pnt.drawText(1,gMeasureY+1,OffsetX,height(),Qt::AlignLeft,QString().setNum(uMeasureY));	//–Ú·‚è”’l
+					Pnt.drawText(1,gMeasureY+1,OffsetX,height(),Qt::AlignLeft,QString().setNum(uMeasureY));	//ï¿½Úï¿½ï¿½è”ï¿½l
 					LastPosY=gMeasureY;
 				}
 			}
 		}
 	}
 	else if(STypeY==mtLog){
-		Pnt.drawText(1,height()-OffsetY+1,OffsetX,height(),Qt::AlignLeft,QString().setNum(0));	//–Ú·‚è”’l
+		Pnt.drawText(1,height()-OffsetY+1,OffsetX,height(),Qt::AlignLeft,QString().setNum(0));	//ï¿½Úï¿½ï¿½è”ï¿½l
 		int	LastPosY=height()+CharacterHeight;
 		for(int YYY=0;YYY<uLogYDbl;YYY++){
 			if(GraphList.at(0)!=NULL){
 				GraphList[0]->GetUniverseToCanvasLogY((uMeasureY=pow(10.0,YYY)),gMeasureY);
 				Pnt.drawLine(OffsetX,gMeasureY,OffsetX>>1,gMeasureY);
 				if(LastPosY-CharacterHeight>=gMeasureY){
-					Pnt.drawText(1,gMeasureY+1,OffsetX,height(),Qt::AlignLeft,QString().setNum(uMeasureY));	//–Ú·‚è”’l
+					Pnt.drawText(1,gMeasureY+1,OffsetX,height(),Qt::AlignLeft,QString().setNum(uMeasureY));	//ï¿½Úï¿½ï¿½è”ï¿½l
 					LastPosY=gMeasureY;
 				}
 			}
@@ -435,7 +443,7 @@ void	mtLineGraph::mouseDoubleClickEvent(QMouseEvent *event)
 	}
 }
 
-//ƒf[ƒ^À•W(ux,uy)‚ğ‰æ–ÊÀ•W(gx,gy)‚É•ÏŠ·‚·‚é
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 void	mtLineGraph::gGetCanvasToUniverse(double gx,double gy,int &ux,int &uy)
 {
 	if(STypeX==mtConstant){
@@ -458,39 +466,39 @@ void	mtLineGraph::gGetCanvasToUniverse(double gx,double gy,int &ux,int &uy)
 	}
 }
 
-//ƒf[ƒ^À•W(ux,uy)‚ğ‰æ–ÊÀ•W(gx,gy)‚É•ÏŠ·‚·‚é
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 void	mtLineGraph::GetCanvasToUniverse(double gx,double gy,int &ux,int &uy)
 {
 	ux=uWidth*(gx-OffsetX)/(width()-OffsetX)+uGraphMinX;
 	uy=uGraphMaxY-(uHeight*gy)/(height()-OffsetY);
 }
 
-//ƒf[ƒ^À•W‚ÌXÀ•W(ux)‚ğ‰æ–ÊÀ•W‚ÌXÀ•W(gx)‚É•ÏŠ·‚·‚é
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(ux)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(gx)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 void	mtLineGraph::GetCanvasToUniverseX(double gx,int &ux)
 {
 	ux=uWidth*(gx-OffsetX)/(width()-OffsetX)+uGraphMinX;
 }
 
-//ƒf[ƒ^À•W‚ÌYÀ•W(uy)‚ğ‰æ–ÊÀ•W‚ÌYÀ•W(gy)‚É•ÏŠ·‚·‚é
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 void	mtLineGraph::GetCanvasToUniverseY(double gy,int &uy)
 {
 	uy=uGraphMaxY-(uHeight*gy)/(height()-OffsetY);
 }
 
-//ƒf[ƒ^À•W(ux,uy)‚ğ‰æ–ÊÀ•W(gx,gy)‚É•ÏŠ·‚·‚éi‘Î”•\¦j
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½W(ux,uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½W(gx,gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½j
 void	mtLineGraph::GetCanvasToUniverseLog(double gx,double gy,int &ux,int &uy)
 {
 	ux=pow(10.0,(uLogXDbl*(gx-OffsetX)/(width()-OffsetX))-1);
 	uy=pow(10.0,(uLogYDbl*(height()-OffsetY-gy)/(height()-OffsetY))-1);
 }
 
-//ƒf[ƒ^À•W‚ÌXÀ•W(ux)‚ğ‰æ–ÊÀ•W‚ÌXÀ•W(gx)‚É•ÏŠ·‚·‚éi‘Î”•\¦j
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(ux)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Xï¿½ï¿½ï¿½W(gx)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½j
 void	mtLineGraph::GetCanvasToUniverseLogX(double gx,int &ux)
 {
 	ux=pow(10.0,(uLogXDbl*(gx-OffsetX)/(width()-OffsetX))-1);
 }
 
-//ƒf[ƒ^À•W‚ÌYÀ•W(uy)‚ğ‰æ–ÊÀ•W‚ÌYÀ•W(gy)‚É•ÏŠ·‚·‚éi‘Î”•\¦j
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(uy)ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½W(gy)ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½j
 void	mtLineGraph::GetCanvasToUniverseLogY(double gy,int &uy)
 {
 	uy=pow(10.0,(uLogYDbl*(height()-OffsetY-gy)/(height()-OffsetY))-1);

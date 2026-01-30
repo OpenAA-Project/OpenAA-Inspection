@@ -1,9 +1,21 @@
 /*
- * clsTcpThread.cpp
+ * Copyright (C) 2012
+ * Author : cony
  *
- *	Created on: 2009/10/25
- *		Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #include "clsTcpSvr.h"
 
@@ -81,7 +93,7 @@ void clsTcpThread::run() {
 					break;
 				}
 				if (tcpSock->waitForReadyRead(100) == false) {
-					//TODO É^ÉCÉÄÉAÉEÉgèàóù
+					//TODO ÔøΩ^ÔøΩCÔøΩÔøΩÔøΩAÔøΩEÔøΩgÔøΩÔøΩÔøΩÔøΩ
 					//if ( tout->chkTimeOut() == true ) {
 					//	bAbort = true;
 					//	break;
@@ -115,7 +127,7 @@ void clsTcpThread::run() {
 
 					if (strncmp((const char *) pRcvHead, "FFFFFFFFFF", 10) == 0) {
 						log->log("connection end",clsLog::CLSLOG_DEBUG);
-						//èIóπèàóù
+						//ÔøΩIÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ
 						nReadStep = 0;
 						nReadSize = 0;
 						nHeadByte = 0;
@@ -124,7 +136,7 @@ void clsTcpThread::run() {
 						tout->timeOutStart(prm->nTimeOut);
 						break;
 					}
-					// ëóêMÉoÉbÉtÉ@ÉoÉCÉgêîéÊìæ
+					// ÔøΩÔøΩÔøΩMÔøΩoÔøΩbÔøΩtÔøΩ@ÔøΩoÔøΩCÔøΩgÔøΩÔøΩÔøΩÊìæ
 					log->startTime();
 					flg = pRcvHead[10];
 					pRcvHead[10] = 0x00;
@@ -166,10 +178,10 @@ void clsTcpThread::run() {
 
 				if (nRcvCnt >= rcvLength) {
 					switch(flg) {
-					case '0' : // í èÌ
+					case '0' : // ÔøΩ èÔøΩ
 						rcvByte = QByteArray((const char *)rcvBuf,nRcvCnt);
 						break;
-					case '1' : // à≥èk
+					case '1' : // ÔøΩÔøΩÔøΩk
 						log->log("******** uncompressed *********",clsLog::CLSLOG_DEBUG);
 						rcvByte = qUncompress((const uchar *)rcvBuf,nRcvCnt);
 						break;
@@ -227,7 +239,7 @@ void clsTcpThread::run() {
 
 bool clsTcpThread::execSvr() {
 	log->log("CMD=["+cmd+"]",clsLog::CLSLOG_DEBUG);
-	if ( chkSvcName("CONN") == true ) { // ê⁄ë±
+	if ( chkSvcName("CONN") == true ) { // ÔøΩ⁄ëÔøΩ
 		log->log("CONN start",clsLog::CLSLOG_DEBUG);
 		QByteArray byte = "CONN  "+QByteArray::number(par->port);
 		nSndLen = byte.size();
@@ -239,7 +251,7 @@ bool clsTcpThread::execSvr() {
 		return true;
 	}
 
-	if ( chkSvcName("STATE") == true ) { // èÛë‘
+	if ( chkSvcName("STATE") == true ) { // ÔøΩÔøΩÔøΩÔøΩ
 		log->log("STATE start",clsLog::CLSLOG_DEBUG);
 		QByteArray byte = "STATE TRUE";
 		nSndLen = byte.size();
@@ -251,7 +263,7 @@ bool clsTcpThread::execSvr() {
 		return true;
 	}
 
-	if ( chkSvcName("CLOSE") == true ) { // êÿíf
+	if ( chkSvcName("CLOSE") == true ) { // ÔøΩÿíf
 		log->log("CLOSE start",clsLog::CLSLOG_DEBUG);
 		QByteArray byte = "CLOSE ";
 		nSndLen = byte.size();
@@ -267,7 +279,7 @@ bool clsTcpThread::execSvr() {
 	bCloseFlg = false;
 
 	//---------------------------------------
-	// åüçıån
+	// ÔøΩÔøΩÔøΩÔøΩÔøΩn
 	//---------------------------------------
 	if ( chkSvcName("SELECT") == true ) {
 		QByteArray sql = rcvByte.mid(7);
@@ -332,7 +344,7 @@ bool clsTcpThread::execSvr() {
 	}
 
 	//---------------------------------------
-	// çXêVån
+	// ÔøΩXÔøΩVÔøΩn
 	//---------------------------------------
 	if ( chkSvcName("INSERT") == true ) {
 		QByteArray sql = rcvByte.mid(7);
@@ -471,7 +483,7 @@ bool clsTcpThread::sndMess(quint64 len, unsigned char *buf) {
 				break;
 			} else {
 				if ( tcpSock->waitForBytesWritten(100) == false ) {
-					//TODO É^ÉCÉÄÉAÉEÉgèàóù
+					//TODO ÔøΩ^ÔøΩCÔøΩÔøΩÔøΩAÔøΩEÔøΩgÔøΩÔøΩÔøΩÔøΩ
 					usleep(10);
 					break;
 				}
@@ -564,4 +576,3 @@ void clsTcpThread::drawMstId(const QByteArray &MstId) {
 	qDebug() << "drawMstId:"+MstId;
 	emit drawMstId(par->port,MstId);
 }
-

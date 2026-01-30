@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XSeqDLLGlobal.h"
 #include "AFVI_CommPLC.h"
 #include "XGeneralFunc.h"
@@ -36,8 +54,8 @@ DEFFUNCEX	const char	*DLL_GetExplain(void)
 
 void	DLLSeq_GetDLLVersion(char *buff)
 /*
-    ƒo[ƒWƒ‡ƒ“‚ğ•Ô‚·
-    buff‚Í‚Q‚T‚UƒoƒCƒgˆÈ“à
+    ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
+    buffï¿½Í‚Qï¿½Tï¿½Uï¿½oï¿½Cï¿½gï¿½È“ï¿½
 */
 {
 	strcpy(buff,"AFVI_CommPLC");
@@ -47,8 +65,8 @@ QString AFVI_CommPLC::CommParam="Address=192.168.1.39;Port=6000;ConnectionTimeou
 
 DEFFUNCEX		void	*DLLSeq_Initial(LayersBase *Base ,const QString &Param)
 /*
-	‰Šú‰»‚·‚é•K—v‚Ì‚ ‚é‚Æ‚«‚É‹Lq‚·‚é
-	Param : Sequence.dat‚É‹Lq‚µ‚½ƒpƒ‰ƒ[ƒ^•¶š—ñ
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½É‹Lï¿½qï¿½ï¿½ï¿½ï¿½
+	Param : Sequence.datï¿½É‹Lï¿½qï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	AFVI_CommPLC	*LSeq=new AFVI_CommPLC();
@@ -58,10 +76,10 @@ DEFFUNCEX		void	*DLLSeq_Initial(LayersBase *Base ,const QString &Param)
 
 DEFFUNCEX		bool	DLLSeq_Cmd(void *handle ,QApplication &App ,const QString &cmdstr)
 /*
-    –½—ß‚ğ‘—‚é
+    ï¿½ï¿½ï¿½ß‚ğ‘—‚ï¿½
     DLLCmd   dllVar,CommandString
-    ‚Å‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-    ‚±‚ÌŠÖ”‚Ì–ß‚è’l‚ªADLLCmd‚ÌŒ‹‰Êƒtƒ‰ƒO‚É”½‰f‚³‚ê‚é
+    ï¿½Å‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½Ì–ß‚ï¿½ï¿½lï¿½ï¿½ï¿½ADLLCmdï¿½ÌŒï¿½ï¿½Êƒtï¿½ï¿½ï¿½Oï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	AFVI_CommPLC	*Seq=(AFVI_CommPLC *)handle;
@@ -81,10 +99,10 @@ DEFFUNCEX		bool	DLLSeq_Cmd(void *handle ,QApplication &App ,const QString &cmdst
 
 bool	DLLSeq_CmdStr(void *handle ,QApplication &App ,const QString &cmdstr , const QByteArray &datastr)
 /*
-    –½—ß‚ğ‘—‚é
+    ï¿½ï¿½ï¿½ß‚ğ‘—‚ï¿½
     DLLCmd   dllVar,CommandString,Cxx
-    ‚Å‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-    ‚±‚ÌŠÖ”‚Ì–ß‚è’l‚ªADLLCmd‚ÌŒ‹‰Êƒtƒ‰ƒO‚É”½‰f‚³‚ê‚é
+    ï¿½Å‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½Ì–ß‚ï¿½ï¿½lï¿½ï¿½ï¿½ADLLCmdï¿½ÌŒï¿½ï¿½Êƒtï¿½ï¿½ï¿½Oï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	AFVI_CommPLC	*Seq=(AFVI_CommPLC *)handle;
@@ -111,11 +129,11 @@ bool	DLLSeq_CmdStr(void *handle ,QApplication &App ,const QString &cmdstr , cons
 
 DEFFUNCEX		bool	DLLSeq_CmdStrInt(void *handle ,QApplication &App ,const QString &cmdstr , const QByteArray &datastr ,int *data)
 /*
-    –½—ß‚ğ‘—‚é
+    ï¿½ï¿½ï¿½ß‚ğ‘—‚ï¿½
     DLLCmd   dllVar,CommandString
     DLLCmd   dllVar,CommandString,Wxx
-    ‚Å‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-    ‚±‚ÌŠÖ”‚Ì–ß‚è’l‚ªADLLCmd‚ÌŒ‹‰Êƒtƒ‰ƒO‚É”½‰f‚³‚ê‚é
+    ï¿½Å‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½Ì–ß‚ï¿½ï¿½lï¿½ï¿½ï¿½ADLLCmdï¿½ÌŒï¿½ï¿½Êƒtï¿½ï¿½ï¿½Oï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	int	Ret;
@@ -158,11 +176,11 @@ DEFFUNCEX		bool	DLLSeq_CmdStrInt(void *handle ,QApplication &App ,const QString 
 }
 DEFFUNCEX		bool	DLLSeq_CmdInt2(void *handle ,QApplication &App ,const QString &cmdstr , int *data1 ,int *data2)
 /*
-    –½—ß‚ğ‘—‚é
+    ï¿½ï¿½ï¿½ß‚ğ‘—‚ï¿½
     DLLCmd   dllVar,CommandString,Wxx,Wxx
-    ‚Å‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-    ƒf[ƒ^‚ğ•Ô‚·‚Æ‚«A*data‚É’l‚ğŠi”[‚·‚ê‚ÎAuWxxv‚É’l‚ª“ü‚é
-    ‚±‚ÌŠÖ”‚Ì–ß‚è’l‚ªADLLCmd‚ÌŒ‹‰Êƒtƒ‰ƒO‚É”½‰f‚³‚ê‚é
+    ï¿½Å‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+    ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Æ‚ï¿½ï¿½A*dataï¿½É’lï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ÎAï¿½uWxxï¿½vï¿½É’lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½Ì–ß‚ï¿½ï¿½lï¿½ï¿½ï¿½ADLLCmdï¿½ÌŒï¿½ï¿½Êƒtï¿½ï¿½ï¿½Oï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	AFVI_CommPLC	*Seq=(AFVI_CommPLC *)handle;
@@ -184,7 +202,7 @@ DEFFUNCEX		bool	DLLSeq_CmdInt2(void *handle ,QApplication &App ,const QString &c
 }
 void	DLLSeq_Close(void *handle)
 /*
-    I—¹ˆ—
+    ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	//AFVI_CommPLC	*Seq=(AFVI_CommPLC *)handle;

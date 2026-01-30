@@ -1,9 +1,21 @@
 /*
- * clsXmlUpd.cpp
+ * Copyright (C) 2012
+ * Author : cony
  *
- *  Created on: 2009/11/20
- *      Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #include "clsXmlUpd.h"
 
@@ -290,7 +302,7 @@ bool clsXmlUpd::readXml(QString topid) {
 	if ( outwhr != "" ) {
 		sql += " AND "+outwhr;
 	}
-	//TODO ŒÅ’èƒe[ƒuƒ‹‘Î‰ž
+	//TODO ï¿½Å’ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Î‰ï¿½
 	//sql += " AND (NOT tag IN ('NGP','NGI')) ";
 
 	//sql += " ORDER BY id";
@@ -324,7 +336,7 @@ bool clsXmlUpd::readXml(QString topid) {
 	}
 	mdl->clear();
 
-	//TODO Žb’è
+	//TODO ï¿½bï¿½ï¿½
 	getChildTagAttr(topid,"NGP",root);
 	getChildTagAttr(topid,"NGI",root);
 	return true;

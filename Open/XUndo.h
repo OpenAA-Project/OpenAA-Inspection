@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XUNDO_H)
 #define	XUNDO_H
 
@@ -9,9 +27,9 @@
 #include "XServiceForLayers.h"
 #include <QMutex>
 /*
-	Undo‚Ì—v‘f‚Í
-		ƒpƒPƒbƒg‚ğ’Ê‚¶‚½‘€ì|ƒAƒ‹ƒSƒŠƒYƒ€‚É‘Î‚·‚é‘€ì
-		GUI‚É‘Î‚·‚é‘€ì
+	Undoï¿½Ì—vï¿½fï¿½ï¿½
+		ï¿½pï¿½Pï¿½bï¿½gï¿½ï¿½ï¿½Ê‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½É‘Î‚ï¿½ï¿½é‘€ï¿½ï¿½
+		GUIï¿½É‘Î‚ï¿½ï¿½é‘€ï¿½ï¿½
 */
 
 class	AlgorithmItemRoot;

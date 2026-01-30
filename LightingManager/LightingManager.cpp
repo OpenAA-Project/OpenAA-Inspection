@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "LightingManagerResource.h"
 #include <QtGui>
 #include <QFileDialog>
@@ -6,55 +24,6 @@
 #include <QMessageBox>
 #include "LightingManager.h"
 #include "XFileRegistry.h"
-/*
-#include <windows.h>
-
-LRESULT CALLBACK WndProc(HWND hW,UINT ms,WPARAM wp,LPARAM lp)
-{
-//	HDC hD;
-//	PAINTSTRUCT ps;
-//	static int width=0,height=0;
-//	static TCHAR strSize[128];
-//	static boolean b_logoff;
-//	int i;
-
-	QFile	mfile("./Test.dat");
-	if(mfile.open(QIODevice::WriteOnly)==true){
-		QTextStream mystream(&mfile);
-		mystream << "Save OK." << endl;
-		mfile.close();
-	}
-
-	switch(ms){
-	case WM_QUERYENDSESSION:
-		QFile	mfile("./Test.dat");
-		if(mfile.open(QIODevice::WriteOnly)==true){
-			QTextStream mystream(&mfile);
-			mystream << "Save OK." << endl;
-			mfile.close();
-		}
-		return false;
-	}
-	return false;
-
-//	case WM_CLOSE:
-//	case WM_DESTROY:
-//		PostQuitMessage(0);
-//		return b_logoff;
-//	case WM_SIZE:
-//		width=LOWORD(lp);
-//		height=HIWORD(lp);
-//		return b_logoff;
-//	case WM_PAINT:
-//		hD=BeginPaint(hW,&ps);
-//		wsprintf(strSize,"width = %d : height= %d",width,height);
-//		TextOut(hD,10,10,strSize,lstrlen(strSize));
-//		EndPaint(hW,&ps);
-//		return b_logoff;
-//	}
-//	return DefWindowProc(hW,ms,wp,lp);
-}
-*/
 
 LanguagePackage	LangPack;
 
@@ -85,7 +54,7 @@ LightingManager::LightingManager(QWidget *parent, Qt::WindowFlags flags)
 	TimerMonitoring.start();
 	connect(&TimerMonitoring,SIGNAL(timeout()),this,SLOT(SlotTimerMonitoring()));
 
-	//?w?i?F???]?p?X?^?C???V?[?g?÷???n
+	//?w?i?F???]?p?X?^?C???V?[?g?ï¿½ï¿½???n
 	Index=0;
 	BlinkStyleSheet[0]=LangSolver.GetString(LightingManager_LS,LID_0)/*"QGroupBox{background-color:yellow;}"*/;
 	BlinkStyleSheet[1]=LangSolver.GetString(LightingManager_LS,LID_1)/*"QGroupBox{background-color:red;}"*/;
@@ -127,22 +96,22 @@ LightingManager::LightingManager(QWidget *parent, Qt::WindowFlags flags)
 					SetWarmMinute(mystream.readLine().toInt());			//?g?@???O
 					break;
 				case 1:
-					SetChangeHour(mystream.readLine().toInt());			//?A???d?E?U?A???O
+					SetChangeHour(mystream.readLine().toInt());			//?A???d?ï¿½E?U?A???O
 					break;
 				case 2:
 					SetTotalSumHour(mystream.readLine().toLongLong());	//?Y?v???O
 					break;
 				case 3:
-					SetIsShowWidget(mystream.readLine().toInt());		//?N?R???E?a?E?d?\?|?E?e
+					SetIsShowWidget(mystream.readLine().toInt());		//?N?R???E?a?E?d?\?|?ï¿½E?e
 					break;
 				case 4:
-					SetIsCloseWidget(mystream.readLine().toInt());		//?g?@?I?1?a?A?a?E?d?A?÷?e
+					SetIsCloseWidget(mystream.readLine().toInt());		//?g?@?I?1?a?A?a?E?d?A?ï¿½ï¿½?e
 					break;
 				case 5:
-					SetIsStartExe(mystream.readLine().toInt());			//?g?@?I?1?a?A?N?R?E?e?\?t?g?d?w?e?E?e
+					SetIsStartExe(mystream.readLine().toInt());			//?g?@?I?1?a?A?N?R?ï¿½E?e?\?t?g?d?w?e?ï¿½E?e
 					break;
 				case 6:
-					SetStartExe(mystream.readLine());					//?g?@?I?1?a?A?N?R?E?e?\?t?g
+					SetStartExe(mystream.readLine());					//?g?@?I?1?a?A?N?R?ï¿½E?e?\?t?g
 					break;
 				}
 			}
@@ -207,7 +176,7 @@ void LightingManager::closeEvent(QCloseEvent *event)
 void LightingManager::pbResetTotalSumHourClicked()
 {
 	int ret=QMessageBox::warning(this,LangSolver.GetString(LightingManager_LS,LID_5)/*"?m?F???b?Z?[?W"*/,
-									LangSolver.GetString(LightingManager_LS,LID_6)/*"?Y?v???O?d???Z?b?g?ƒÊ?U?E?c?H"*/,
+									LangSolver.GetString(LightingManager_LS,LID_6)/*"?Y?v???O?d???Z?b?g?ï¿½ï¿½?U?ï¿½E?c?H"*/,
 									QMessageBox::Yes | QMessageBox::Cancel,
 									QMessageBox::Cancel);
 	if(ret==QMessageBox::Yes){
@@ -242,8 +211,8 @@ void LightingManager::tbStartExeClicked()
 void LightingManager::pbShowMessageClicked()
 {
 	QSystemTrayIcon::MessageIcon icon=QSystemTrayIcon::Warning;
-	trayIcon->showMessage(LangSolver.GetString(LightingManager_LS,LID_10)/*"?A???d?E?U?A???O?E?E?e?U?ƒÊ?U?ƒÊ???I?I"*/,
-						  LangSolver.GetString(LightingManager_LS,LID_11)/*"?Y?v???O?a?A???d?E?U?A???O?d?z?|?U?ƒÊ???B\n?A???d?d?E?ƒÊ?A?o?3?‘?B"*/,
+	trayIcon->showMessage(LangSolver.GetString(LightingManager_LS,LID_10)/*"?A???d?ï¿½E?U?A???O?E?E?e?U?ï¿½ï¿½?U?ï¿½ï¿½???I?I"*/,
+						  LangSolver.GetString(LightingManager_LS,LID_11)/*"?Y?v???O?a?A???d?ï¿½E?U?A???O?d?z?|?U?ï¿½ï¿½???B\n?A???d?d?ï¿½E?ï¿½ï¿½?A?o?3?ï¿½ï¿½?B"*/,
 						  icon,INT_MAX);
 }
 
@@ -289,13 +258,13 @@ void LightingManager::SlotTimerMonitoring()
 		ui.pgbElapsedTime	->setValue(100*ElapsedMinute/WarmMinute);
 	}
 
-	//?A???d?E?U?A???O?E?E?A???c
+	//?A???d?ï¿½E?U?A???O?E?E?A???c
 	if(ChangeHour!=0 && ElapsedHour>=ChangeHour){
-		ui.lbMainMessage->setText(LangSolver.GetString(LightingManager_LS,LID_12)/*"?A???d?E?U?A???O?E?E?e?U?ƒÊ?U?ƒÊ???I?I"*/);
+		ui.lbMainMessage->setText(LangSolver.GetString(LightingManager_LS,LID_12)/*"?A???d?ï¿½E?U?A???O?E?E?e?U?ï¿½ï¿½?U?ï¿½ï¿½???I?I"*/);
 		//???b?Z?[?W
 		QSystemTrayIcon::MessageIcon icon=QSystemTrayIcon::Warning;
-		trayIcon->showMessage(LangSolver.GetString(LightingManager_LS,LID_13)/*"?A???d?E?U?A???O?E?E?e?U?ƒÊ?U?ƒÊ???I?I"*/,
-							  LangSolver.GetString(LightingManager_LS,LID_14)/*"?Y?v???O?a?A???d?E?U?A???O?d?z?|?U?ƒÊ???B\n?A???d?d?E?ƒÊ?A?o?3?‘?B"*/,
+		trayIcon->showMessage(LangSolver.GetString(LightingManager_LS,LID_13)/*"?A???d?ï¿½E?U?A???O?E?E?e?U?ï¿½ï¿½?U?ï¿½ï¿½???I?I"*/,
+							  LangSolver.GetString(LightingManager_LS,LID_14)/*"?Y?v???O?a?A???d?ï¿½E?U?A???O?d?z?|?U?ï¿½ï¿½???B\n?A???d?d?ï¿½E?ï¿½ï¿½?A?o?3?ï¿½ï¿½?B"*/,
 							  icon,INT_MAX);
 		//?w?i
 		Index^=1;
@@ -305,13 +274,13 @@ void LightingManager::SlotTimerMonitoring()
 	else if(WarmMinute!=0){
 		//?g?@???O?E?E?A???c
 		if(ElapsedMinute>=WarmMinute){
-			ui.lbMainMessage->setText(LangSolver.GetString(LightingManager_LS,LID_15)/*"?g?@?^?]?a?R?1?ƒÊ?U?ƒÊ??"*/);
+			ui.lbMainMessage->setText(LangSolver.GetString(LightingManager_LS,LID_15)/*"?g?@?^?]?a?R?1?ï¿½ï¿½?U?ï¿½ï¿½??"*/);
 			if(ElapsedMinute==WarmMinute){
 				if(isHidden()==true){
 					//???b?Z?[?W
 					QSystemTrayIcon::MessageIcon icon=QSystemTrayIcon::Information;
-					trayIcon->showMessage(LangSolver.GetString(LightingManager_LS,LID_16)/*"?g?@?^?]?a?R?1?ƒÊ?U?ƒÊ??"*/,
-										  LangSolver.GetString(LightingManager_LS,LID_17)/*"?g?@?^?]?a?R?1?ƒÊ?U?ƒÊ???B\n???C?d?J?n?ƒÊ?A?o?3?‘?B"*/,
+					trayIcon->showMessage(LangSolver.GetString(LightingManager_LS,LID_16)/*"?g?@?^?]?a?R?1?ï¿½ï¿½?U?ï¿½ï¿½??"*/,
+										  LangSolver.GetString(LightingManager_LS,LID_17)/*"?g?@?^?]?a?R?1?ï¿½ï¿½?U?ï¿½ï¿½???B\n???ï¿½C?d?J?n?ï¿½ï¿½?A?o?3?ï¿½ï¿½?B"*/,
 										  icon,INT_MAX);
 				}
 				else if(IsCloseWidget==true){
@@ -360,7 +329,7 @@ void LightingManager::createTrayIcon()
 
 void LightingManager::SettingUpdate()
 {
-	//?Y?e?€?U?I?\?|?X?V
+	//?Y?e?ï¿½?U?I?\?|?X?V
 	ui.sbWarmMinute		->setValue	(WarmMinute);
 	ui.sbChangeHour		->setValue	(ChangeHour);
 	ui.chkIsShowWidget	->setChecked(IsShowWidget);

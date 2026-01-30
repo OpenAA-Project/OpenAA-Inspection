@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XLEARNINGREGIST_H)
 #define	XLEARNINGREGIST_H
 
@@ -40,7 +58,7 @@ public:
 class	LearningResource
 {
 public:
-    int32	x1,y1,x2,y2;//ŒŸ¸‰æ‘œã‚Ìƒy[ƒW“àˆÊ’u
+    int32	x1,y1,x2,y2;//ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½ï¿½ï¿½Ê’u
 	QImage	Image;
 	int		Cause[2];
 	double	DoubleCause;

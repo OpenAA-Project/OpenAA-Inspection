@@ -1,9 +1,21 @@
 /*
- * clsDbCtrl.cpp
+ * Copyright (C) 2012
+ * Author : cony
  *
- *	Created on: 2010/03/23
- *		Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #include "clsDbCtrl.h"
 #include <QDate>
@@ -26,7 +38,7 @@ clsDbCtrl::~clsDbCtrl() {
 	delete (lstDbDef);
 }
 
-// XML’Ç‰ÁŽžDBƒtƒ@ƒCƒ‹‘I‘ð
+// XMLï¿½Ç‰ï¿½ï¿½ï¿½DBï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½ï¿½
 clsDbDef *clsDbCtrl::addDb(const QByteArray &MstId, const QByteArray &Mac,
 		const QByteArray &Day) {
 	clsDbDef *dbDef = lstDbDef->GetFirst();
@@ -42,7 +54,7 @@ clsDbDef *clsDbCtrl::addDb(const QByteArray &MstId, const QByteArray &Mac,
 			qDebug() << "day=["+dbDef->dDay+"]?["+dDay+"]";
 			if (dbDef->dDay < dDay) {
 				if (chkDbDate(dbDef,dDay) == false) {
-					// DB’Ç‰Á
+					// DBï¿½Ç‰ï¿½
 					lock();
 					dbDef->Mac = dMac;
 					dbDef->dbFile = mkDbFileName(MstId, dMac, dDay);
@@ -68,7 +80,7 @@ clsDbDef *clsDbCtrl::addDb(const QByteArray &MstId, const QByteArray &Mac,
 	}
 
 	if (dbDef == NULL) {
-		// DB’Ç‰Á
+		// DBï¿½Ç‰ï¿½
 		lock();
 		dbDef = new clsDbDef();
 		dbDef->MstId = MstId;
@@ -108,7 +120,7 @@ clsDbDef *clsDbCtrl::appendDb(const QByteArray &MstId, const QByteArray &Mac,
 		dbDef = dbDef->GetNext();
 	}
 	if (dbDef == NULL) {
-		// ƒ}ƒXƒ^DBŒŸõ
+		// ï¿½}ï¿½Xï¿½^DBï¿½ï¿½ï¿½ï¿½
 		dbDef = new clsDbDef();
 		dbDef->MstId = MstId;
 		dbDef->Mac = dMac;
@@ -537,7 +549,7 @@ bool clsDbCtrl::chkDbDate(const clsDbDef *dbDef, const QByteArray &dDay) {
 }
 
 bool clsDbCtrl::makeDbFile(const clsDbDef *dbDef) {
-	//ƒtƒHƒ‹ƒ_ƒ`ƒFƒbƒN
+	//ï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½`ï¿½Fï¿½bï¿½N
 	QDir dir;
 	if ( dbDef->dbFile.mid(0,3) == "pce" ) {
 		if (dir.exists(prm->dbFolder + "/pce") == false) {

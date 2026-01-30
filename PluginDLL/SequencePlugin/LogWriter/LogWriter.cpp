@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\PluginDLL\SequencePlugin\LogWriter\LogWriter.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "LogWriter.h"
@@ -52,8 +61,8 @@ DEFFUNCEX	const char	*DLL_GetExplain(void)
 
 void	DLLSeq_GetDLLVersion(char *buff)
 /*
-    ƒo[ƒWƒ‡ƒ“‚ğ•Ô‚·
-    buff‚Í‚Q‚T‚UƒoƒCƒgˆÈ“à
+    ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
+    buffï¿½Í‚Qï¿½Tï¿½Uï¿½oï¿½Cï¿½gï¿½È“ï¿½
 */
 {
 	strcpy(buff,"Log writer");
@@ -68,10 +77,10 @@ DEFFUNCEX		void	*DLLSeq_Initial(LayersBase *Base ,const QString &Param)
 
 bool	DLLSeq_CmdStr(void *handle ,QApplication &App ,const QString &cmdstr , const QByteArray &datastr)
 /*
-    –½—ß‚ğ‘—‚é
+    ï¿½ï¿½ï¿½ß‚ğ‘—‚ï¿½
     DLLCmd   dllVar,CommandString,Cxx
-    ‚Å‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-    ‚±‚ÌŠÖ”‚Ì–ß‚è’l‚ªADLLCmd‚ÌŒ‹‰Êƒtƒ‰ƒO‚É”½‰f‚³‚ê‚é
+    ï¿½Å‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½Ì–ß‚ï¿½ï¿½lï¿½ï¿½ï¿½ADLLCmdï¿½ÌŒï¿½ï¿½Êƒtï¿½ï¿½ï¿½Oï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	if(cmdstr=="LogOutFileName"){
@@ -88,11 +97,11 @@ bool	DLLSeq_CmdStr(void *handle ,QApplication &App ,const QString &cmdstr , cons
 
 bool	DLLSeq_CmdInt(void *handle ,QApplication &App ,const QString &cmdstr , int *data)
 /*
-    –½—ß‚ğ‘—‚é
+    ï¿½ï¿½ï¿½ß‚ğ‘—‚ï¿½
     DLLCmd   dllVar,CommandString,Wxx
-    ‚Å‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-    ƒf[ƒ^‚ğ•Ô‚·‚Æ‚«A*data‚É’l‚ğŠi”[‚·‚ê‚ÎAuWxxv‚É’l‚ª“ü‚é
-    ‚±‚ÌŠÖ”‚Ì–ß‚è’l‚ªADLLCmd‚ÌŒ‹‰Êƒtƒ‰ƒO‚É”½‰f‚³‚ê‚é
+    ï¿½Å‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+    ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Æ‚ï¿½ï¿½A*dataï¿½É’lï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ÎAï¿½uWxxï¿½vï¿½É’lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½Ì–ß‚ï¿½ï¿½lï¿½ï¿½ï¿½ADLLCmdï¿½ÌŒï¿½ï¿½Êƒtï¿½ï¿½ï¿½Oï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	if(cmdstr=="LogOutOn"){
@@ -120,12 +129,12 @@ bool	DLLSeq_CmdInt(void *handle ,QApplication &App ,const QString &cmdstr , int 
 
 bool	DLLSeq_CmdStrInt(void *handle ,QApplication &App ,const QString &cmdstr , const QByteArray &datastr ,int *data)
 /*
-    –½—ß‚ğ‘—‚é
-    ƒf[ƒ^‚È‚µ‚Ì‹Lq‚Ì‚Æ‚«‚à‚±‚ÌŠÖ”‚ªƒR[ƒ‹‚³‚ê‚é
+    ï¿½ï¿½ï¿½ß‚ğ‘—‚ï¿½
+    ï¿½fï¿½[ï¿½^ï¿½È‚ï¿½ï¿½Ì‹Lï¿½qï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     DLLCmd   dllVar,CommandString
     DLLCmd   dllVar,CommandString,Cxx
-    ‚Å‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
-    ‚±‚ÌŠÖ”‚Ì–ß‚è’l‚ªADLLCmd‚ÌŒ‹‰Êƒtƒ‰ƒO‚É”½‰f‚³‚ê‚é
+    ï¿½Å‚ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½Ì–ß‚ï¿½ï¿½lï¿½ï¿½ï¿½ADLLCmdï¿½ÌŒï¿½ï¿½Êƒtï¿½ï¿½ï¿½Oï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	if(cmdstr=="Print"){
@@ -143,7 +152,7 @@ bool	DLLSeq_CmdStrInt(void *handle ,QApplication &App ,const QString &cmdstr , c
 
 void	DLLSeq_Close(void *handle)
 /*
-    I—¹ˆ—
+    ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	ThreadLogWriter	*ThreadLog=(ThreadLogWriter	*)handle;
@@ -159,4 +168,3 @@ void	DLLSeq_Close(void *handle)
 
 void	DLLSeq_DebugShow(void *handle ,QApplication &App)
 {}
-

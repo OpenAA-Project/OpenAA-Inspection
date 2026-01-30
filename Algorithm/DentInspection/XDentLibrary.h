@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XDentLibrary_h)
 #define	XDentLibrary_h
 
@@ -25,8 +43,8 @@ public:
     int32	MinDentDots;
     int32	MaxDentDots;
     int32	LimitDentSize;
-	WORD	NoiseSize;			//ŒÇ—§“_íœ
-	WORD	NoiseSizePinHole;	//ƒsƒ“ƒz[ƒ‹íœ
+	WORD	NoiseSize;			//ï¿½Ç—ï¿½ï¿½_ï¿½íœ
+	WORD	NoiseSizePinHole;	//ï¿½sï¿½ï¿½ï¿½zï¿½[ï¿½ï¿½ï¿½íœ
     WORD	SpaceToOutline;
 	int32	IgnoreAroundHole;
 

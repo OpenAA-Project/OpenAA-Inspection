@@ -1,9 +1,21 @@
 /*
- * clsLog.h
+ * Copyright (C) 2012
+ * Author : cony
  *
- *  Created on: 2009/11/08
- *      Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #ifndef CLSLOG_H_
 #define CLSLOG_H_
@@ -14,7 +26,7 @@
 #include "clsCalcTime.h"
 
 /**
- * @brief ŒÅ’èƒ^ƒOİ’è
+ * @brief ï¿½Å’ï¿½ï¿½^ï¿½Oï¿½İ’ï¿½
  */
 class clsTagAttrRec {
 public:
@@ -44,9 +56,9 @@ public:
 };
 
 /**
- * @brief ƒVƒXƒeƒ€ƒpƒ‰ƒ[ƒ^ƒNƒ‰ƒX
+ * @brief ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Nï¿½ï¿½ï¿½X
  *
- * XmlServer.ini‚©‚çƒVƒXƒeƒ€ƒpƒ‰ƒ[ƒ^‚ğæ“¾‚·‚é
+ * XmlServer.iniï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
  */
 class clsParamDef : public QObject {
 	Q_OBJECT
@@ -85,7 +97,7 @@ private:
 };
 
 /**
- * @brief ƒƒOƒNƒ‰ƒX
+ * @brief ï¿½ï¿½ï¿½Oï¿½Nï¿½ï¿½ï¿½X
  */
 class clsLog : public QObject {
 	Q_OBJECT

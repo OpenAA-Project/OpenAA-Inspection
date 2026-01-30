@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XStepLineEnhancerL.h"
 #include "XGeneralFunc.h"
 #include "XDisplayBitImage.h"
@@ -322,9 +340,9 @@ void	StepLineEnhancerLItem::AngleDim::Reflect(int mx,int my,FlexArea &area,Image
 
 double	StepLineEnhancerLItem::CalcV(int mx,int my,ImageBuffer &IBuff
 								,BYTE **DynamicMaskMap,int DynamicMaskMapXByte,int DynamicMaskMapYLen)
-//	ƒ°(v-a)^2	=ƒ°v^2 - 2*ƒ°v*a + ƒ°a*a
-//				=ƒ°v^2 - 2*a*ƒ°v + a*a*N
-//			a*N=ƒ°v
+//	ï¿½ï¿½(v-a)^2	=ï¿½ï¿½v^2 - 2*ï¿½ï¿½v*a + ï¿½ï¿½a*a
+//				=ï¿½ï¿½v^2 - 2*a*ï¿½ï¿½v + a*a*N
+//			a*N=ï¿½ï¿½v
 {
 	int n=MatchingArea.GetFLineLen();
 	int	DotC=0;

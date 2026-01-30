@@ -61,7 +61,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SAPERA)\Classes\Basic;..\..\..\InspectionPlayer;..\..\..\GeneralSource\Sequence;..\..\..\OpenSource\Component;..\..\..\Open;$(SAPERA)\Include;$(SAPERA)\Classes\Gui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OpenAAUseLibrary)\Dalsa;$(SAPERA)\Classes\Basic;..\..\..\InspectionPlayer;..\..\..\GeneralSource\Sequence;..\..\..\OpenSource\Component;..\..\..\Open;$(SAPERA)\Include;$(SAPERA)\Classes\Gui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
     </ClCompile>
     <Link>
@@ -98,9 +98,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\featureCtrl.cpp" />
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\RunLen.Cpp" />
     <ClCompile Include="CLHS_PX8CommandCreater.cpp" />
-    <ClCompile Include="featureCtrl.cpp" />
-    <ClCompile Include="RunLen.Cpp" />
     <ClCompile Include="saperaCtrl.cpp" />
     <ClCompile Include="SaperaOptimized.cpp" />
     <ClCompile Include="SettingCameraDialog.cpp" />
@@ -110,10 +110,7 @@
     <ClCompile Include="CameraXtiumSpectral.cpp" />
     <ClInclude Include="CLHS_PX8CommandCreater.h" />
     <ClInclude Include="CLHS_PX8CommandManager.h" />
-    <ClInclude Include="featureCtrl.h" />
-    <ClInclude Include="RunLen.h" />
     <ClInclude Include="saperaCtrl.h" />
-    <ClInclude Include="screenformat.h" />
     <ClInclude Include="settingMan.h" />
     <QtMoc Include="SettingCameraDialog.h" />
   </ItemGroup>

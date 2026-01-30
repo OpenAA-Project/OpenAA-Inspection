@@ -1,37 +1,25 @@
+/*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #ifndef SMART_COM_H_INC_
 #define SMART_COM_H_INC_
 
-/** smart_com is a reference counting auto_ptr implementation on top of a COM object
- * it release <strong>its</strong> reference to the IUnknown interface, when it is destroyed
- *
- * - when smart_com objects are copied the reference count is increased
- *		e.g.
- *		{
- *			smart_com<IUnknown*> a( p );	// refcount == 1
- *			smart_com<IUnknown*> b( a );	// refcount == 2
- *			...
- *			b = 0;							// refcount == 1
- *		}									// refcount == 0
- *
- * - this implementation does increase the reference of passed in pointers
- *		e.g.
- *		{
- *			IUnknown* p = ...;
- *			p->AddRef();					// refcount == 1
- *			smart_com<IUnknown*> s( p );	// refcount == 2
- *			...
- *		}									// refcount == 1
- *
- * - get() doesn't increment the reference counter
- *		=> so you can fill smart_com by a function which takes a pointer on pointer
- *		e.g.
- *		{
- *			smart_com<IUnknown> p;					// refcount == 0
- *			CoCreateInstance( ..., &(p.get()) );	// refcount == 1
- *			...
- *		}											// refcount == 0
- */
 template<class TComObj>
 class smart_com
 {

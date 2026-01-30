@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\RepairStation\RepairStation\clientmainRepair.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "clientmainRepair.h"
@@ -17,14 +26,14 @@
 //bool ConnectFlag=false;
 #include <QTextCodec>
 //QTcpSocket *socket;//Socket
-//QByteArray sClientNo ;		//ƒT[ƒo[‚©‚çŠ„‚èU‚ç‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg”Ô†
+//QByteArray sClientNo ;		//ï¿½Tï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½çŠ„ï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½ê‚½ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Ôï¿½
 ClientMain::ClientMain(const QString &sHost, const QString &sPort)
 {
 	socket=NULL;
 	Host=sHost;
 	Port=sPort;
 	ConnectFlag=false;
-	//bool ret=(connect(socket, SIGNAL(disconnected()), 0, SLOT(Client_Disconnect())))?true:false;//ƒ‰ƒCƒAƒ“ƒg‚©‚ç‚¢‚«‚È‚èØ‚ç‚ê‚½—p
+	//bool ret=(connect(socket, SIGNAL(disconnected()), 0, SLOT(Client_Disconnect())))?true:false;//ï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ç‚¢ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ø‚ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½p
 
 #if 1 // 20100226
 	sClientNo=/**/"";
@@ -46,9 +55,9 @@ bool ClientMain::Client_Connect(QByteArray &sError)
 {
 	if(ConnectFlag==false){
 		socket =new QTcpSocket();
-		socket->connectToHost(Host,Port.toInt(),QIODevice::ReadWrite) ;//ƒT[ƒo[Ú‘±
+		socket->connectToHost(Host,Port.toInt(),QIODevice::ReadWrite) ;//ï¿½Tï¿½[ï¿½oï¿½[ï¿½Ú‘ï¿½
 		if (!socket->waitForConnected(iTimeout)) {
-			sError=QByteArray(socket->errorString().toLocal8Bit().data());//Ú‘±‚Å‚«Client_Start‚È‚¯‚ê‚ÎAƒGƒ‰[“à—e‚ğ•Ô‚·
+			sError=QByteArray(socket->errorString().toLocal8Bit().data());//ï¿½Ú‘ï¿½ï¿½Å‚ï¿½Client_Startï¿½È‚ï¿½ï¿½ï¿½ï¿½ÎAï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½eï¿½ï¿½ï¿½Ô‚ï¿½
 			return false;
 		}
 		bool ret=(connect(socket, SIGNAL(disconnected()), this, SLOT(Client_Disconnect())))?true:false;
@@ -56,7 +65,7 @@ bool ClientMain::Client_Connect(QByteArray &sError)
 	ConnectFlag=true;
 	return true;
 }
-bool ClientMain::Client_Start(const QByteArray &FileName, QByteArray &Msg, int &Client) //"START"‚ğ—v‹‚ğ‘—‚èAƒT[ƒo[Ú‘±‚ÌŠm—§
+bool ClientMain::Client_Start(const QByteArray &FileName, QByteArray &Msg, int &Client) //"START"ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ğ‘—‚ï¿½ï¿½Aï¿½Tï¿½[ï¿½oï¿½[ï¿½Ú‘ï¿½ï¿½ÌŠmï¿½ï¿½
 {
 	sOutlist.append(/**/"JyoukenStart");
 	sOutlist.append(FileName);
@@ -459,16 +468,16 @@ void ClientMain::Client_Send()
 		return;
 	}
 	block.clear();
-	QDataStream out(&block, QIODevice::WriteOnly);		//‘‚­€”õText
+	QDataStream out(&block, QIODevice::WriteOnly);		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Text
 	out.setVersion(QDataStream::Qt_4_3);
-	out << (quint16)0;									//0‚ğg—p
-	out << sOutlist;									//ÀÛ‘—‚é•¶š
-	out.device()->seek(0);								//0‚ğ’u‚«Š·‚¦‚é
-	out << (quint16)(block.size() - sizeof(quint16));	//“ª‚Ì0ˆø‚¢‚½ÀÛ‚ÌƒTƒCƒY					//‘—‚é
+	out << (quint16)0;									//0ï¿½ï¿½ï¿½gï¿½p
+	out << sOutlist;									//ï¿½ï¿½ï¿½Û‘ï¿½ï¿½é•¶ï¿½ï¿½
+	out.device()->seek(0);								//0ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	out << (quint16)(block.size() - sizeof(quint16));	//ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‚ÌƒTï¿½Cï¿½Y					//ï¿½ï¿½ï¿½ï¿½
 	socket->write(block);
 	/*char target[32];
 	strcpy(target, sOutlist.at(0).data());
-	if(strcmp(target,"Close")==0){//‰Šú‰»
+	if(strcmp(target,"Close")==0){//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		//socket->disconnectFromHost();
 		while (socket->bytesAvailable() < (int)sizeof(quint16)) {
 			if (!socket->waitForReadyRead(500))
@@ -633,7 +642,7 @@ bool ClientMain::Client_TagToTagnotNG(const QList<QByteArray> &sQueryXmlList, co
 	sOutlist.append(_sDBName);
 	sOutlist<<sQueryXmlList;
 	Client_Send();
-	while(1){ // ƒT[ƒo‚©‚ç‚Ì•ÔM‚ğ‘Ò‚Â
+	while(1){ // ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Ì•ÔMï¿½ï¿½ï¿½Ò‚ï¿½
 		if (Client_Get(sMsg)==false){
 			return true	;
 		}

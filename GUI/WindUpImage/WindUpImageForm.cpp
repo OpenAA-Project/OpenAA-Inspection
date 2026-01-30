@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "WindUpImageResource.h"
 #include "WindUpImageForm.h"
 #include "ui_WindUpImageForm.h"
@@ -91,20 +109,20 @@ void	GUICmdExecuteWindUp::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 		ImageBuffer	&IBuff=Lp->GetMasterBuff();
 
 		ImageBuffer	Buff(0,Dp->GetDotPerLine(),Dp->GetMaxLines());
-		//Œ³‰æ‘œ‚ğƒoƒbƒtƒ@‚ÖƒRƒs[
+		//ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ÖƒRï¿½sï¿½[
 		Buff=IBuff;
 
-		//‰æ‘œˆÚ“®
+		//ï¿½æ‘œï¿½Ú“ï¿½
 		IBuff.MoveImage(0,ShiftDown);
 		if(ShiftDown>0){
-			//‘S‘Ì‚ğ‰º‚ÉˆÚ“®‚·‚é‚Æ‚«Aã‚Ì‹ó‚«—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·
+			//ï¿½Sï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½Ì‹ó‚«—Ìˆï¿½ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½
 			for(int y=0;y<Dp->GetMaxLines() && y<ShiftDown;y++){
 				BYTE	*d=IBuff.GetY(y);
 				memset(d,Brightness,Dp->GetDotPerLine());
 			}
 		}
 		else{
-			//‘S‘Ì‚ğã‚ÉˆÚ“®‚·‚é‚Æ‚«A‰º‚Ì‹ó‚«—Ìˆæ‚ğ“h‚è‚Â‚Ô‚·
+			//ï¿½Sï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½Ì‹ó‚«—Ìˆï¿½ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½
 			for(int y=Dp->GetMaxLines()+ShiftDown;y<Dp->GetMaxLines();y++){
 				BYTE	*d=IBuff.GetY(y);
 				memset(d,Brightness,Dp->GetDotPerLine());
@@ -114,7 +132,7 @@ void	GUICmdExecuteWindUp::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 			WindUp=Dp->GetMaxLines();
 		}
 		if(ShiftDown>0){
-			//‰æ‘œ‚ğ‰º‚ÉˆÚ“®‚·‚é‚Æ‚«AŠª‚«ã‚°‚Í‰º‚©‚çWindUpƒ‰ƒCƒ“•ª‚ğã‚ÖƒRƒs[
+			//ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ã‚°ï¿½Í‰ï¿½ï¿½ï¿½ï¿½ï¿½WindUpï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖƒRï¿½sï¿½[
 			for(int n=0;n<WindUp;n++){
 				BYTE	*d=IBuff.GetY(n);
 				BYTE	*s=Buff.GetY(Dp->GetMaxLines()-WindUp+n);
@@ -122,7 +140,7 @@ void	GUICmdExecuteWindUp::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 			}
 		}
 		else{
-			//‰æ‘œ‚ğã‚ÉˆÚ“®‚·‚é‚Æ‚«AŠª‚«ã‚°‚Íã‚©‚çWindUpƒ‰ƒCƒ“•ª‚ğ‰º‚ÖƒRƒs[
+			//ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ã‚°ï¿½Íã‚©ï¿½ï¿½WindUpï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖƒRï¿½sï¿½[
 			for(int n=0;n<WindUp;n++){
 				BYTE	*d=IBuff.GetY(Dp->GetMaxLines()-WindUp+n);
 				BYTE	*s=Buff.GetY(n);

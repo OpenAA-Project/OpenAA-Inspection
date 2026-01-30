@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\PIOWatch\PIOWatch\PIOWatch.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include <QHeaderView>
@@ -58,7 +67,7 @@ PIOWatch::PIOWatch(QWidget *parent, Qt::WindowFlags flags)
 	connect(ui.chkEchoBack,		SIGNAL(toggled(bool)),							this,SLOT(chkEchoBackToggled(bool)));
 	connect(ui.chkEchoBack_2,	SIGNAL(toggled(bool)),							this,SLOT(chkEchoBack_2Toggled(bool)));
 
-	//PIOSetting.dat‚Ì“Ç‚İ‚İ
+	//PIOSetting.datï¿½Ì“Ç‚İï¿½ï¿½ï¿½
 	QString strPIODLL;
 	QFile file(/**/"./PIOSetting.dat");
 	if(file.open(QIODevice::ReadOnly)){
@@ -110,11 +119,11 @@ void PIOWatch::closeEvent(QCloseEvent *event)
 
 void PIOWatch::pbReferClicked()
 {
-	//PIODLL‚Ì‘I‘ğ
+	//PIODLLï¿½Ì‘Iï¿½ï¿½
 	QString strPIODLL=QFileDialog::getOpenFileName(
 							this,tr("Please choose a '.dll' or '.so' files."),/**/"","Library (*.dll *.so)");
 
-	//PIOSetting.dat‚Ì‘‚«‚İ
+	//PIOSetting.datï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	QFile file(/**/"./PIOSetting.dat");
 	if(file.open(QIODevice::WriteOnly)){
 		QTextStream myStream(&file);
@@ -153,7 +162,7 @@ void PIOWatch::pbCloseClicked()
 	close();
 }
 
-//I—¹”»’è
+//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 bool PIOWatch::maybeClose()
 {
 	int ret=QMessageBox::information(this, tr("Message"),
@@ -195,11 +204,11 @@ void PIOWatch::chkEchoBackToggled(bool checked)
 		palette.setColor(QPalette::Base,QColor(Qt::cyan));
 		ui.twOUT->setPalette(palette);
 		tPIOReadOut[0].SetStopped(false);
-		tPIOReadOut[0].start();	//OUT‘¤‚ÌReadƒXƒŒƒbƒh‚ÌŠJn
+		tPIOReadOut[0].start();	//OUTï¿½ï¿½ï¿½ï¿½Readï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ÌŠJï¿½n
 		return;
 	}
 	else{
-		tPIOReadOut[0].SetStopped(true);	//OUT‘¤‚ÌReadƒXƒŒƒbƒh‚Ì’â~
+		tPIOReadOut[0].SetStopped(true);	//OUTï¿½ï¿½ï¿½ï¿½Readï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Ì’ï¿½ï¿½~
 //		for(int Row=0;Row<PIOBit;Row++)
 		for(int Row=0;Row<IOOutBitCount[0];Row++){
 			ui.twOUT->item(Row,0)->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
@@ -221,11 +230,11 @@ void PIOWatch::chkEchoBack_2Toggled(bool checked)
 		palette.setColor(QPalette::Base,QColor(Qt::cyan));
 		ui.twOUT_2->setPalette(palette);
 		tPIOReadOut[1].SetStopped(false);
-		tPIOReadOut[1].start();	//OUT‘¤‚ÌReadƒXƒŒƒbƒh‚ÌŠJn
+		tPIOReadOut[1].start();	//OUTï¿½ï¿½ï¿½ï¿½Readï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ÌŠJï¿½n
 		return;
 	}
 	else{
-		tPIOReadOut[1].SetStopped(true);	//OUT‘¤‚ÌReadƒXƒŒƒbƒh‚Ì’â~
+		tPIOReadOut[1].SetStopped(true);	//OUTï¿½ï¿½ï¿½ï¿½Readï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Ì’ï¿½ï¿½~
 //		for(int Row=0;Row<PIOBit;Row++)
 		for(int Row=0;Row<IOOutBitCount[1];Row++){
 			ui.twOUT_2->item(Row,0)->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
@@ -251,7 +260,7 @@ bool PIOWatch::PIODLLInit(QString strDLLName)
 		return false;
 	}
 
-	//‰æ–Êİ’è520
+	//ï¿½ï¿½ï¿½Êİ’ï¿½520
 	int BoardCount=PIO.GetBoardCount();
 
 	if(BoardCount==1){
@@ -363,7 +372,7 @@ bool PIOWatch::PIODLLInit(QString strDLLName)
 		iodef.close();
 		tPIORead[BoardCnt]		.SetStopped(false);
 		tPIOReadOut[BoardCnt]	.SetStopped(false);
-		tPIORead[BoardCnt]		.start();	//IN‘¤‚ÌReadƒXƒŒƒbƒh‚ÌŠJn
+		tPIORead[BoardCnt]		.start();	//INï¿½ï¿½ï¿½ï¿½Readï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ÌŠJï¿½n
 	}
 	connect(twOUT[0],SIGNAL(itemChanged(QTableWidgetItem *)),this,SLOT(twOUTitemChanged(QTableWidgetItem *)));
 	connect(twOUT[1],SIGNAL(itemChanged(QTableWidgetItem *)),this,SLOT(twOUT_2itemChanged(QTableWidgetItem *)));

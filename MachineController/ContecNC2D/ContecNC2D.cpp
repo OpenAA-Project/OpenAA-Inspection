@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ContecNC2D.h"
 #include <QFile>
 #include "Windows.h"
@@ -31,28 +49,28 @@ ContecNC2D::ContecNC2D(QWidget *parent, Qt::WindowFlags flags)
 	long	Ret = SmcWInit( DeviceName , &Id );
 	if(Ret==0){
 		for(int Cnt=1;Cnt<=4;Cnt++){
-			//¡¦E¡¦¡¦E¡¦E¡¦E¡¦¡¦E¡¦¡¦E½Í¡¦E¿½¡¦E¡¦¡¦E¡¦¡¦E½Ì¡¦¡¦ï¿¡¦5 ¡¦E¡¦CW/CCW:High)2¡¦E¡¦¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦¡¦E¡¦¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦
+			//ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Í¡ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿¡ï¿½5 ï¿½ï¿½Eï¿½ï¿½CW/CCW:High)2ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½
 			Ret=SmcWSetPulseType(Id,Cnt,5,0);
 			if(Ret!=0)
 				return ;
 
-			//¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E½Í¡¦M¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦¡¦E½Ä¡¦p¡¦E¡¦E¡¦E¡¦E¡¦ALM,INP,SD,LTC,PCS,CLR¡¦E¡¦¡¦E½Ì¡¦¡¦ï¿¡¦IN1/ALM)
+			//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Í¡ï¿½Mï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ä¡ï¿½pï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ALM,INP,SD,LTC,PCS,CLRï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿¡ï¿½IN1/ALM)
 			Ret=SmcWSetCtrlTypeIn(Id,Cnt,1);
 			if(Ret!=0)
 				return ;
 
-			//¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦¡¦E½Í¡¦M¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E½Ì¡¦¡¦ï¿¡¦LIM,IN1)[0|0|0|0|0|OUT3|OUT2|OUT1|LIM|IN7|IN6|IN5|IN4|IN3|IN2|IN1]¡¦E¡¦¡¦E½Ý¡¦ï¿¡¦E½Í¡¦¡¦F0¡¦E¡¦7FF(Hex)
+			//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Í¡ï¿½Mï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿¡ï¿½LIM,IN1)[0|0|0|0|0|OUT3|OUT2|OUT1|LIM|IN7|IN6|IN5|IN4|IN3|IN2|IN1]ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ý¡ï¿½ï¿¡ï¿½Eï¿½Í¡ï¿½ï¿½ï¿½F0ï¿½ï¿½Eï¿½ï¿½7FF(Hex)
 			short inoutlog = 0x81;
 			Ret=SmcWSetCtrlInOutLog(Id,Cnt,inoutlog);
 			if(Ret!=0)
 				return ;
 
-			//¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦E¡¦¡¦E¡¦¡¦E¡¦¡¦E¡¦E¡¦E½Ì¡¦¡¦ï¿¡¦
+			//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿¡ï¿½
 			Ret=SmcWSetOrgMode(Id,Cnt,1,0,2,0);
 			if(Ret!=0)
 				return ;
 
-			//¡¦E¡¦E¡¦E¡¦E¡¦E½Ý¡¦ï¿¡¦E½Ö¡¦ï¿¡¦E½Ì¡¦ï¿¡¦E¡¦¡¦E¡¦E¡¦E¡¦¡¦E¡¦¡¦E¡¦¡¦E¡¦¡¦E¡¦¡¦E¡¦¡¦E½É¡¦ï¿¡¦E¡¦
+			//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ý¡ï¿½ï¿¡ï¿½Eï¿½Ö¡ï¿½ï¿¡ï¿½Eï¿½Ì¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½É¡ï¿½ï¿¡ï¿½Eï¿½ï¿½
 			Ret=SmcWSetInitParam(Id,Cnt);
 			if(Ret!=0)
 				return ;
@@ -280,13 +298,13 @@ void ContecNC2D::on_pushButtonGoStartPos_clicked()
 		long	CurrentPulseY;
 		Ret=SmcWGetOutPulse(Id,AxisYNum, &CurrentPulseY);
 
-		//¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E½Ô¡¦¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetAccelTime(Id,AxisXNum,Data.AccelRate);
 		if(Ret!=0){
 			ReEntrant=false;
 			return;
 		}
-		//¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E½Ô¡¦¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetDecelTime(Id,AxisXNum,Data.AccelRate);
 		if(Ret!=0){
 			ReEntrant=false;
@@ -297,7 +315,7 @@ void ContecNC2D::on_pushButtonGoStartPos_clicked()
 			ReEntrant=false;
 			return;
 		}
-		//¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E½Ô¡¦¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetDecelTime(Id,AxisYNum,Data.AccelRate);
 		if(Ret!=0){
 			ReEntrant=false;
@@ -315,7 +333,7 @@ void ContecNC2D::on_pushButtonGoStartPos_clicked()
 		}
 
 
-		//¡¦E½Ú¡¦W¡¦E¡¦E¡¦E¡¦¡¦E½Ì¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½Ú¡ï¿½Wï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetTargetSpeed(Id,AxisXNum,Data.StartVelocity);
 		if(Ret!=0){
 			ReEntrant=false;
@@ -328,7 +346,7 @@ void ContecNC2D::on_pushButtonGoStartPos_clicked()
 		}
 		bool	AttrToMoveX=false;
 		if(CurrentPulseX!=-Data.StartPosX){
-			Ret=SmcWSetStopPosition(Id,AxisXNum,0,-Data.StartPosX);	//0:¡¦E¡¦E¡¦E½Î¡¦ï¿¡¦
+			Ret=SmcWSetStopPosition(Id,AxisXNum,0,-Data.StartPosX);	//0:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Î¡ï¿½ï¿¡ï¿½
 			if(Ret!=0){
 				ReEntrant=false;
 				return;
@@ -337,7 +355,7 @@ void ContecNC2D::on_pushButtonGoStartPos_clicked()
 		}
 		bool	AttrToMoveY=false;
 		if(CurrentPulseY!=-(Data.MaxPulseY-Data.StartPosY)){
-			Ret=SmcWSetStopPosition(Id,AxisYNum,0,-(Data.MaxPulseY-Data.StartPosY));	//0:¡¦E¡¦E¡¦E½Î¡¦ï¿¡¦
+			Ret=SmcWSetStopPosition(Id,AxisYNum,0,-(Data.MaxPulseY-Data.StartPosY));	//0:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Î¡ï¿½ï¿¡ï¿½
 			if(Ret!=0){
 				ReEntrant=false;
 				return;
@@ -345,23 +363,23 @@ void ContecNC2D::on_pushButtonGoStartPos_clicked()
 			AttrToMoveY=true;
 		}
 
-		//¡¦E¡¦¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦E¡¦¡¦E¡¦¡¦E½Ì¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿¡ï¿½
 		if(AttrToMoveX==true){
-			Ret=SmcWSetReady(Id,AxisXNum,1,0);	//¡¦E¡¦E¡¦E½Ô¡¦ï¿¡¦E¡¦ 1:PTP¡¦E¡¦E¡¦E¡¦E¡¦0:¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦
+			Ret=SmcWSetReady(Id,AxisXNum,1,0);	//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ 1:PTPï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½0:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½
 			if(Ret!=0){
 				ReEntrant=false;
 				return ;
 			}
 		}
 		if(AttrToMoveY==true){
-			Ret=SmcWSetReady(Id,AxisYNum,1,0);	//¡¦E¡¦E¡¦E½Ô¡¦ï¿¡¦E¡¦ 1:PTP¡¦E¡¦E¡¦E¡¦E¡¦0:¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦
+			Ret=SmcWSetReady(Id,AxisYNum,1,0);	//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ 1:PTPï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½0:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½
 			if(Ret!=0){
 				ReEntrant=false;
 				return ;
 			}
 		}
 
-		//¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦E½Î¡¦¡¦u¡¦E½Ú¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Î¡ï¿½ï¿½ï¿½uï¿½ï¿½Eï¿½Ú¡ï¿½ï¿¡ï¿½
 		if(AttrToMoveX==true){
 			Ret=SmcWMotionStart(Id,AxisXNum);
 			if(Ret!=0){
@@ -383,7 +401,7 @@ void ContecNC2D::on_pushButtonGoStartPos_clicked()
 	}
 	GSleep(200);
 	for(;;){
-		//¡¦E¡¦E¡¦E¡¦¡¦E¡¦¡¦E½Ì¡¦ï¿¡¦E¡¦¡¦E¡¦¡¦E¡¦E¡¦E½Ì¡¦¡¦¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿½ï¿½
 		short valX;
 		long	RetX=SmcWGetMoveStatus(Id,AxisXNum, &valX);
 		short valY;
@@ -420,13 +438,13 @@ void ContecNC2D::on_pushButtonStartScan_clicked()
 		Ret=SmcWGetOutPulse(Id,AxisXNum, &CurrentPulseX);
 		Ret=SmcWGetOutPulse(Id,AxisYNum, &CurrentPulseY);
 
-		//¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E½Ô¡¦¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetAccelTime(Id,AxisXNum,Data.AccelRate);
 		if(Ret!=0){
 			ReEntrant=false;
 			return;
 		}
-		//¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E½Ô¡¦¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetDecelTime(Id,AxisXNum,Data.AccelRate);
 		if(Ret!=0){
 			ReEntrant=false;
@@ -439,7 +457,7 @@ void ContecNC2D::on_pushButtonStartScan_clicked()
 			return;
 		}
 
-		//¡¦E½Ú¡¦W¡¦E¡¦E¡¦E¡¦¡¦E½Ì¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½Ú¡ï¿½Wï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetTargetSpeed(Id,AxisXNum,Data.StartVelocity);
 		if(Ret!=0){
 			ReEntrant=false;
@@ -449,7 +467,7 @@ void ContecNC2D::on_pushButtonStartScan_clicked()
 		if((CurrentScan&1)==0){
 			AbsPos=-(Data.StartPosX+Data.ScanPulse);
 			if(CurrentPulseX!=AbsPos){
-				Ret=SmcWSetStopPosition(Id,AxisXNum,0,AbsPos);	//0:¡¦E¡¦E¡¦E½Î¡¦ï¿¡¦
+				Ret=SmcWSetStopPosition(Id,AxisXNum,0,AbsPos);	//0:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Î¡ï¿½ï¿¡ï¿½
 				if(Ret!=0){
 					ReEntrant=false;
 					return;
@@ -460,7 +478,7 @@ void ContecNC2D::on_pushButtonStartScan_clicked()
 		else{
 			AbsPos=-(Data.StartPosX);
 			if(CurrentPulseX!=AbsPos){
-				Ret=SmcWSetStopPosition(Id,AxisXNum,0,AbsPos);	//0:¡¦E¡¦E¡¦E½Î¡¦ï¿¡¦
+				Ret=SmcWSetStopPosition(Id,AxisXNum,0,AbsPos);	//0:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Î¡ï¿½ï¿¡ï¿½
 				if(Ret!=0){
 					ReEntrant=false;
 					return;
@@ -470,14 +488,14 @@ void ContecNC2D::on_pushButtonStartScan_clicked()
 		}
 		if(AttrToMoveX==true){
 
-			//¡¦E¡¦¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦E¡¦¡¦E¡¦¡¦E½Ì¡¦¡¦ï¿¡¦
-			Ret=SmcWSetReady(Id,AxisXNum,1,0);	//¡¦E¡¦E¡¦E½Ô¡¦ï¿¡¦E¡¦ 1:PTP¡¦E¡¦E¡¦E¡¦E¡¦0:¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦
+			//ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿¡ï¿½
+			Ret=SmcWSetReady(Id,AxisXNum,1,0);	//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ 1:PTPï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½0:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½
 			if(Ret!=0){
 				ReEntrant=false;
 				return ;
 			}
 
-			//¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦E½Î¡¦¡¦u¡¦E½Ú¡¦ï¿¡¦
+			//ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Î¡ï¿½ï¿½ï¿½uï¿½ï¿½Eï¿½Ú¡ï¿½ï¿¡ï¿½
 			Ret=SmcWMotionStart(Id,AxisXNum);
 			if(Ret!=0){
 				ReEntrant=false;
@@ -491,7 +509,7 @@ void ContecNC2D::on_pushButtonStartScan_clicked()
 	ui.spinBoxCurrentScan->setValue(CurrentScan);
 	GSleep(200);
 	for(;;){
-		//¡¦E¡¦E¡¦E¡¦¡¦E¡¦¡¦E½Ì¡¦ï¿¡¦E¡¦¡¦E¡¦¡¦E¡¦E¡¦E½Ì¡¦¡¦¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿½ï¿½
 		short val;
 		Ret=SmcWGetMoveStatus(Id,AxisXNum, &val);
 		if(Ret==0 && val==0){
@@ -505,13 +523,13 @@ void ContecNC2D::on_pushButtonStartScan_clicked()
 
 	Ret=SmcWGetOutPulse(Id,AxisXNum, &CurrentPulseX);
 	if(Ret==0 && CurrentPulseX==AbsPos && CurrentScan<Data.ScanCount){
-		//¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E½Ô¡¦¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetAccelTime(Id,AxisYNum,Data.AccelRate);
 		if(Ret!=0){
 			ReEntrant=false;
 			return;
 		}
-		//¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E½Ô¡¦¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetDecelTime(Id,AxisYNum,Data.AccelRate);
 		if(Ret!=0){
 			ReEntrant=false;
@@ -524,7 +542,7 @@ void ContecNC2D::on_pushButtonStartScan_clicked()
 			return;
 		}
 
-		//¡¦E½Ú¡¦W¡¦E¡¦E¡¦E¡¦¡¦E½Ì¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½Ú¡ï¿½Wï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetTargetSpeed(Id,AxisYNum,Data.StartVelocity);
 		if(Ret!=0){
 			ReEntrant=false;
@@ -533,7 +551,7 @@ void ContecNC2D::on_pushButtonStartScan_clicked()
 
 		bool	AttrToMoveY=false;
 		if(CurrentPulseY!=-(Data.MaxPulseY-(Data.StartPosY+Data.StepPulse*CurrentScan))){
-			Ret=SmcWSetStopPosition(Id,AxisYNum,0,-(Data.MaxPulseY-(Data.StartPosY+Data.StepPulse*CurrentScan)));	//0:¡¦E¡¦E¡¦E½Î¡¦ï¿¡¦
+			Ret=SmcWSetStopPosition(Id,AxisYNum,0,-(Data.MaxPulseY-(Data.StartPosY+Data.StepPulse*CurrentScan)));	//0:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Î¡ï¿½ï¿¡ï¿½
 			if(Ret!=0){
 				ReEntrant=false;
 				return;
@@ -542,14 +560,14 @@ void ContecNC2D::on_pushButtonStartScan_clicked()
 		}
 
 		if(AttrToMoveY==true){
-		//¡¦E¡¦¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦E¡¦¡¦E¡¦¡¦E½Ì¡¦¡¦ï¿¡¦
-			Ret=SmcWSetReady(Id,AxisYNum,1,0);	//¡¦E¡¦E¡¦E½Ô¡¦ï¿¡¦E¡¦ 1:PTP¡¦E¡¦E¡¦E¡¦E¡¦0:¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦
+		//ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿¡ï¿½
+			Ret=SmcWSetReady(Id,AxisYNum,1,0);	//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ 1:PTPï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½0:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½
 			if(Ret!=0){
 				ReEntrant=false;
 				return ;
 			}
 
-			//¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦E½Î¡¦¡¦u¡¦E½Ú¡¦ï¿¡¦
+			//ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Î¡ï¿½ï¿½ï¿½uï¿½ï¿½Eï¿½Ú¡ï¿½ï¿¡ï¿½
 			Ret=SmcWMotionStart(Id,AxisYNum);
 			if(Ret!=0){
 				ReEntrant=false;
@@ -557,7 +575,7 @@ void ContecNC2D::on_pushButtonStartScan_clicked()
 			}
 		}
 		for(;;){
-			//¡¦E¡¦E¡¦E¡¦¡¦E¡¦¡¦E½Ì¡¦ï¿¡¦E¡¦¡¦E¡¦¡¦E¡¦E¡¦E½Ì¡¦¡¦¡¦
+			//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿½ï¿½
 			short val;
 			Ret=SmcWGetMoveStatus(Id,AxisYNum, &val);
 			if(Ret==0 && val==0){
@@ -572,7 +590,7 @@ void ContecNC2D::on_pushButtonStartScan_clicked()
 	else if(Ret==0 && CurrentPulseX==AbsPos && CurrentScan>=Data.ScanCount){
 		on_pushButtonGoStartPos_clicked();
 		for(;;){
-			//¡¦E¡¦E¡¦E¡¦¡¦E¡¦¡¦E½Ì¡¦ï¿¡¦E¡¦¡¦E¡¦¡¦E¡¦E¡¦E½Ì¡¦¡¦¡¦
+			//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿½ï¿½
 			short val;
 			Ret=SmcWGetMoveStatus(Id,AxisYNum, &val);
 			if(Ret==0 && val==0){
@@ -618,13 +636,13 @@ void ContecNC2D::on_pushButtonGoOrigin_clicked()
 	DataFromWindow();
 	long	Ret;
 	try{
-		//¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E½Ô¡¦¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetAccelTime(Id,AxisXNum,Data.AccelRate);
 		if(Ret!=0){
 			ReEntrant=false;
 			return;
 		}
-		//¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E½Ô¡¦¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetDecelTime(Id,AxisXNum,Data.AccelRate);
 		if(Ret!=0){
 			ReEntrant=false;
@@ -635,7 +653,7 @@ void ContecNC2D::on_pushButtonGoOrigin_clicked()
 			ReEntrant=false;
 			return;
 		}
-		//¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E½Ô¡¦¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetDecelTime(Id,AxisYNum,Data.AccelRate);
 		if(Ret!=0){
 			ReEntrant=false;
@@ -653,7 +671,7 @@ void ContecNC2D::on_pushButtonGoOrigin_clicked()
 		}
 
 
-		//¡¦E½Ú¡¦W¡¦E¡¦E¡¦E¡¦¡¦E½Ì¡¦¡¦ï¿¡¦
+		//ï¿½ï¿½Eï¿½Ú¡ï¿½Wï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿¡ï¿½
 		Ret=SmcWSetTargetSpeed(Id,AxisXNum,Data.OriginVelocity);
 		if(Ret!=0){
 			ReEntrant=false;
@@ -667,10 +685,10 @@ void ContecNC2D::on_pushButtonGoOrigin_clicked()
 	}
 	catch(...){}
 	long Ret1,Ret2,Ret3=0,Ret4;
-	Ret1=SmcWSetReady(Id,1,3,0);	// ¡¦E¡¦E¡¦E½Ô¡¦ï¿¡¦E¡¦ 3:¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦0:¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦
-	Ret2=SmcWSetReady(Id,2,3,0);	// ¡¦E¡¦E¡¦E½Ô¡¦ï¿¡¦E¡¦ 3:¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦0:¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦
-	Ret3=SmcWSetReady(Id,3,3,0);	// ¡¦E¡¦E¡¦E½Ô¡¦ï¿¡¦E¡¦ 3:¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦0:¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦
-	Ret4=SmcWSetReady(Id,4,3,0);	// ¡¦E¡¦E¡¦E½Ô¡¦ï¿¡¦E¡¦ 3:¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦¡¦E¡¦E¡¦E¡¦E¡¦0:¡¦E¡¦E¡¦E¡¦E¡¦E¡¦E¡¦
+	Ret1=SmcWSetReady(Id,1,3,0);	// ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ 3:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½0:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½
+	Ret2=SmcWSetReady(Id,2,3,0);	// ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ 3:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½0:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½
+	Ret3=SmcWSetReady(Id,3,3,0);	// ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ 3:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½0:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½
+	Ret4=SmcWSetReady(Id,4,3,0);	// ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ô¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ 3:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½0:ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½
 	if(Ret1!=0 && Ret2!=0 && Ret3!=0 && Ret4!=0){
 		ReEntrant=false;
 		return;
@@ -690,7 +708,7 @@ void ContecNC2D::on_pushButtonGoOrigin_clicked()
 	}
 	GSleep(200);
 	for(;;){
-		//¡¦E¡¦E¡¦E¡¦¡¦E¡¦¡¦E½Ì¡¦ï¿¡¦E¡¦¡¦E¡¦¡¦E¡¦E¡¦E½Ì¡¦¡¦¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½Ì¡ï¿½ï¿¡ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ì¡ï¿½ï¿½ï¿½ï¿½ï¿½
 		short valX;
 		long	RetX=SmcWGetMoveStatus(Id,AxisXNum, &valX);
 		short valY;
@@ -732,7 +750,7 @@ void ContecNC2D::on_toolButtonVacuum_clicked()
 
 void ContecNC2D::on_pushButtonStop_clicked()
 {
-		//¡¦E¡¦E¡¦E¡¦E¡¦E¡¦
+		//ï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½
 	long	Ret;
 	Ret=SmcWSetDecelTime(Id,1,50);
 	Ret=SmcWSetDecelTime(Id,2,50);

@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Proofreader\proofreader.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #ifndef PROOFREADER_H
@@ -72,10 +81,10 @@ private:
 //	int		CntClick,CntDraw;
 	int		StartPointX,StartPointY,EndPointX,EndPointY;
 	int		MaskMaxX,MaskMaxY;
-	QList<double>	dxList;							//ƒ‰ƒxƒŠƒ“ƒO‚ÌXÀ•WƒŠƒXƒg
-	QList<double>	dyList;							//ƒ‰ƒxƒŠƒ“ƒO‚ÌYÀ•WƒŠƒXƒg
-	QList<double>	CoGListX;						//dS‚ÌXÀ•WƒŠƒXƒg
-	QList<double>	CoGListY;						//dS‚ÌYÀ•WƒŠƒXƒg
+	QList<double>	dxList;							//ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Xï¿½g
+	QList<double>	dyList;							//ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Xï¿½g
+	QList<double>	CoGListX;						//ï¿½dï¿½Sï¿½ï¿½Xï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Xï¿½g
+	QList<double>	CoGListY;						//ï¿½dï¿½Sï¿½ï¿½Yï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Xï¿½g
 	QList<double>	dxAverageList;
 	QList<double>	nowAverageList,oldAverageList;
 	QImage	**img;

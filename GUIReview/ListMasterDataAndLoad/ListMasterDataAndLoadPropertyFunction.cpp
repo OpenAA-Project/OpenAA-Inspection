@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2017
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ListMasterDataAndLoadResource.h"
 #include "ui_ListMasterDataAndLoadPropertyForm.h"
 #include "ListMasterDataAndLoad.h"
@@ -7,14 +25,14 @@
 
 void ListMasterDataAndLoad::setProperty(const ListMasterDataAndLoadProperty &property)
 {
-	// ‚±‚±‚Éƒpƒ‰ƒ[ƒ^•ÏX‚Ì‘Î‰‚ğ‹Lq‚·‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Éƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ÏXï¿½Ì‘Î‰ï¿½ï¿½ï¿½ï¿½Lï¿½qï¿½ï¿½ï¿½ï¿½
 	(*m_property) = property;
 	
 }
 
 void ListMasterDataAndLoad::setPropertyToUi(const ListMasterDataAndLoadProperty &property)
 {
-	// ‚±‚±‚Éƒpƒ‰ƒ[ƒ^‚Ì“à—e‚ğUi‚É”½‰f‚³‚¹‚é‹Lq‚ğ‘‚­
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Éƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Ì“ï¿½ï¿½eï¿½ï¿½Uiï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½qï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	Ui::ListMasterDataAndLoadPropertyClass *ui = getPropertyUi();
 }
 
@@ -25,7 +43,7 @@ void ListMasterDataAndLoad::setPropertyToUi()
 
 void ListMasterDataAndLoad::setPropertyFromUi(ListMasterDataAndLoadProperty &property)
 {
-	// ‚±‚±‚ÉUi‚Ì“à—e‚ğƒpƒ‰ƒ[ƒ^‚É”½‰f‚³‚¹‚é‹Lq‚ğs‘‚­
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Uiï¿½Ì“ï¿½ï¿½eï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½qï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
 	Ui::ListMasterDataAndLoadPropertyClass *ui = getPropertyUi();
 }
 

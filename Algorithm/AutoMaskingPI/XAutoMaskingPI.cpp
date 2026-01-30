@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\AutoMaskingPI\XAutoMaskingPI.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "XAutoMaskingPIResource.h"
 #include "XAutoMaskingPI.h"
@@ -211,7 +220,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 
 	MatrixBuffClear(MaskBitmap,0,XByte,YLen);
 
-	//?i?A?3?É ?I?a???I???I?P?x?d?v?Z?ÅE?e
+	//?i?A?3?ÔøΩÔøΩ?I?a???I???I?P?x?d?v?Z?ÔøΩE?e
 	double	AddedCTargetR=0;
 	double	AddedCTargetG=0;
 	double	AddedCTargetB=0;
@@ -252,7 +261,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 	AvrCTarget[1]=AddedCTargetG/(XLen*YLen);
 	AvrCTarget[2]=AddedCTargetB/(XLen*YLen);
 
-	//?ÅE?a?E?a?e?s?N?Z???2?A?I?}?X?N?r?b?g?d?Å˜?Å 
+	//?ÔøΩE?a?E?a?e?s?N?Z???2?A?I?}?X?N?r?b?g?d?ÔøΩÔøΩ?ÔøΩÔøΩ
 	#pragma omp parallel
 	{
 		#pragma omp for
@@ -274,7 +283,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 				for(int L=0;L<LayerCount && L<3;L++){
 					MLen += MLine[L][x]*MLine[L][x];
 					if(TLine[L][x]<=StageShadeColor){
-						//?i?A?3?É ?a???A?X?e?[?W?a?E?C?A?A?ÅE?Å ?e???a?I???I?P?x?d?I?p?ÅE?e
+						//?i?A?3?ÔøΩÔøΩ?a???A?X?e?[?W?a?E?C?A?A?ÔøΩE?ÔøΩÔøΩ?e???a?I???I?P?x?d?I?p?ÔøΩE?e
 						TLen += AvrCTarget[L]*AvrCTarget[L];
 						DLen +=(MLine[L][x]-AvrCTarget[L])*(MLine[L][x]-AvrCTarget[L]);
 					}
@@ -296,7 +305,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 			}
 		}
 	}
-	//?S?O?s?T?d?3?o?G???A?E?ÅE?e
+	//?S?O?s?T?d?3?o?G???A?E?ÔøΩE?e
 	int	Len=max(EnLargeDot,EnSmallDot);
 	Len=max(Len,30);
 	for(int y=0;y<Len;y++){
@@ -338,11 +347,11 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 				,XByte, YLen
 				,EnLargeDot);
 
-	//MinSlitDot?E?a?I?A?O?É ?ÅE?Å ???X???b?g?d?n???3?1?e
+	//MinSlitDot?E?a?I?A?O?ÔøΩÔøΩ?ÔøΩE?ÔøΩÔøΩ???X???b?g?d?n???3?1?e
 	MatrixBuffCopy(TmpMap	 ,XByte, YLen
                  , (const BYTE **)MaskBitmap,XByte, YLen);
 
-		//?Å}?INotAnd?A?X???b?g?A???E?C?A?A?O?É ?ÅE?Å ??Bitmap?d?Å˜?Å 
+		//?ÔøΩ}?INotAnd?A?X???b?g?A???E?C?A?A?O?ÔøΩÔøΩ?ÔøΩE?ÔøΩÔøΩ??Bitmap?d?ÔøΩÔøΩ?ÔøΩÔøΩ
 	MatrixBuffNotAnd(TmpMap,(const BYTE **)TmpMap2,XByte, YLen);
 	
 	PureFlexAreaListContainer FPack;
@@ -365,7 +374,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 
 	MatrixBuffNotAnd(MaskBitmap,(const BYTE **)TmpMap2,XByte, YLen);
 	
-	//?C???I???e?I?d?c?A?ÅP?A?Å‚?e?d?L?o?G???A?E?ÅE?e
+	//?C???I???e?I?d?c?A?ÔøΩP?A?ÔøΩÔøΩ?e?d?L?o?G???A?E?ÔøΩE?e
 	PureFlexAreaListContainer PickedPack;
 	PickupFlexArea(MaskBitmap,XByte ,XLen,YLen ,PickedPack);
 
@@ -389,7 +398,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 			}
 		}
 	}
-	//?Å ?3?E?L?o?}?X?N?d?i??
+	//?ÔøΩÔøΩ?3?E?L?o?}?X?N?d?i??
 	PickedPack.RemoveAll();
 	PickupFlexArea(MaskBitmap,XByte ,XLen,YLen ,PickedPack);
 	MatrixBuffClear(MaskBitmap ,0,XByte ,YLen);
@@ -422,7 +431,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 					,XByte, YLen
 					,EnLargeDot);
 
-		//EnLargeDot?a???ÅP?u?k?3?1??Map?d???e
+		//EnLargeDot?a???ÔøΩP?u?k?3?1??Map?d???e
 		MatrixBuffCopy(TmpMap2,XByte,YLen
 					 , (const BYTE **)MaskBitmap,XByte, YLen);
 
@@ -435,7 +444,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 		MatrixBuffXor(TmpMap2 ,(const BYTE **)MaskBitmap,XByte, YLen);
 //		MatrixBuffXor(MaskBitmap,TmpMap2 ,XByte, YLen);
 
-		//?p?b?h?a?d?w?i?i?X???b?g?j?A?e?F?ÅP?É ?E?Åë?a???E?A?p?b?h???o?F?A?a?r?ÅE?e
+		//?p?b?h?a?d?w?i?i?X???b?g?j?A?e?F?ÔøΩP?ÔøΩÔøΩ?E?ÔøΩÔøΩ?a???E?A?p?b?h???o?F?A?a?r?ÔøΩE?e
 ///		AutoPCBHoleAlignerLibrary *PCBHoleAlignLib=GetFirstAutoPCBHoleAlignerLibrary();
 		AlgorithmLibraryLevelContainer *LLib=GetFirstAutoAlignmentLibrary();
 		AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(LLib->GetLibrary());
@@ -453,7 +462,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 		MatrixBuffXor(MaskBitmap,(const BYTE **)TmpMap2 ,XByte, YLen);
 	}
 
-	//?Å ?3?E?L?o?}?X?N?d?i??
+	//?ÔøΩÔøΩ?3?E?L?o?}?X?N?d?i??
 	PickedPack.RemoveAll();
 	PickupFlexArea(MaskBitmap,XByte ,XLen,YLen ,PickedPack);
 	MatrixBuffClear(MaskBitmap ,0,XByte ,YLen);
@@ -721,7 +730,7 @@ void	AutoMaskingPIInPage::TransmitDirectly(GUIDirectMessage *packet)
 				break;
 			}
 		}
-		//?^?[?Q?b?g?a???d?U?Å˜
+		//?^?[?Q?b?g?a???d?U?ÔøΩÔøΩ
 		if(PBase->NoPCBImagePath.isEmpty()==true){
 			return;
 		}
@@ -1156,11 +1165,11 @@ bool	AutoMaskingPIInPage::PipeInAutoGenerationForLearning (QIODevice *f ,int loc
 		return false;
 	}
 
-	//?i?A?E?É ?a???I?C?Y???Y
+	//?i?A?E?ÔøΩÔøΩ?a???I?C?Y???Y
 	if(LoadTargetImage(PipeInNoPCBImagePath,localX1,localY1,localX2,localY2)==true){
 	}
 	else{
-		//?i?A?E?É ?a???a?C?Y???s?E?c?A???e??
+		//?i?A?E?ÔøΩÔøΩ?a???a?C?Y???s?E?c?A???e??
 	}
 /*
 	int32	N=0;

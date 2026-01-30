@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XREVIEWSTRUCTURE_H)
 #define	XREVIEWSTRUCTURE_H
 
@@ -65,10 +83,10 @@ public:
 };
 */
 
-//‚Pƒy[ƒW“à‚Ì‚m‚fî•ñ
-// ‹@”\ˆê——
+//ï¿½Pï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Ì‚mï¿½fï¿½ï¿½ï¿½ï¿½
+// ï¿½@ï¿½\ï¿½ê——
 /*
- E
+ ï¿½E
 
 */
 class	NGDataInPage
@@ -87,8 +105,8 @@ public:
 	ReviewPIInPage	*Parent;
 
 	int		Page;
-	int		PhaseNumber;					//‚¨‚à‚Ä–Ê‚©— –Ê‚©
-	NGNailList NGList;	//‚Pƒy[ƒW“à‚Ì‚m‚fî•ñƒŠƒXƒgƒRƒ“ƒeƒi@‡”Ô‚Í“K“–
+	int		PhaseNumber;					//ï¿½ï¿½ï¿½ï¿½ï¿½Ä–Ê‚ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½
+	NGNailList NGList;	//ï¿½Pï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Ì‚mï¿½fï¿½ï¿½ï¿½ñƒŠƒXï¿½gï¿½Rï¿½ï¿½ï¿½eï¿½iï¿½@ï¿½ï¿½ï¿½Ô‚Í“Kï¿½ï¿½
 
 	NGDataInPage	&operator=(NGDataInPage &src);
 	bool	LoadAndBuildFromXML(void);
@@ -97,7 +115,7 @@ public:
 class   ReviewPIInPage : public AlgorithmInPagePI
 {
 	NGDataInPage	LastNGHistory;
-	NGDataInPage	CurrentNGHistory;	//¡‰ñ•\¦’†‚Ì‚m‚fî•ñ
+	NGDataInPage	CurrentNGHistory;	//ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚mï¿½fï¿½ï¿½ï¿½ï¿½
 	NGDataInPage	NextNGHistory;
 
 public:
@@ -110,25 +128,25 @@ private:
 	QString getMasterImageName(int MasterCode ,int MachineID ,int PhaseCode, QString path);
 };
 
-// Review‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚ÌƒƒCƒ“ƒNƒ‰ƒX
-// ƒf[ƒ^‚Ì‚Ù‚Æ‚ñ‚Ç‚ğ•Û‚µAXML‚Æ‚Ì’ÊMAƒf[ƒ^‚Ìˆ—AGUI‚©‚ç‚Ìƒf[ƒ^—v‹‚É‰‚¶‚é
-// Šî–{“I‚ÉƒŠƒNƒGƒXƒg‚ğó‚¯‚½GUI‚Æ‚Ì’ÊM‚ÅŠ®Œ‹‚·‚é‚æ‚¤‚É‚·‚é
-// (GUI1¨ReviewPIBase¨GUI2‚Æ‚¢‚¤‚Ì‚Í–³‚­AGUI1¨ReviewPIBase¨GUI1‚ÅI‚í‚éB‚½‚¾‚µAGUI“¯m‚Ì’ÊM‚Í—L‚è)
+// Reviewï¿½ÌƒAï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Ìƒï¿½ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
+// ï¿½fï¿½[ï¿½^ï¿½Ì‚Ù‚Æ‚ï¿½ï¿½Ç‚ï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½AXMLï¿½Æ‚Ì’ÊMï¿½Aï¿½fï¿½[ï¿½^ï¿½Ìï¿½ï¿½ï¿½ï¿½AGUIï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½vï¿½ï¿½ï¿½É‰ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½{ï¿½Iï¿½Éƒï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½ï¿½ï¿½ó‚¯‚ï¿½GUIï¿½Æ‚Ì’ÊMï¿½ÅŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
+// (GUI1ï¿½ï¿½ReviewPIBaseï¿½ï¿½GUI2ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Ì‚Í–ï¿½ï¿½ï¿½ï¿½AGUI1ï¿½ï¿½ReviewPIBaseï¿½ï¿½GUI1ï¿½ÅIï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½AGUIï¿½ï¿½ï¿½mï¿½Ì’ÊMï¿½Í—Lï¿½ï¿½)
 //
-// GUI‚ÍReviewPIBase‚Éƒf[ƒ^‚Ì—v‹‚ğs‚Á‚½ê‡A“K‹Xƒf[ƒ^‚ğƒRƒs[‚µ‚Äg—p‚·‚é‚±‚ÆB
-//  ReviewPIBase‚ª•Û‘¶‚·‚éƒ|ƒCƒ“ƒ^‚ğGUI‚ª•Û‘¶‚µ‚Ä‚¢‚éê‡A
-//  ReviewPIBase‚ª‚»‚Ìƒ|ƒCƒ“ƒ^æ‚ğ–³Œø‚Æ‚µ‚½‚Æ‚«‚Ì‘Î‰‚ª“ï‚µ‚­AƒAƒNƒZƒXƒGƒ‰[‚ğ‹N‚±‚·‰Â”\«‚ª‘å‚«‚¢‚½‚ßB
+// GUIï¿½ï¿½ReviewPIBaseï¿½Éƒfï¿½[ï¿½^ï¿½Ì—vï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½Kï¿½Xï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Rï¿½sï¿½[ï¿½ï¿½ï¿½Ägï¿½pï¿½ï¿½ï¿½é‚±ï¿½ÆB
+//  ReviewPIBaseï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½GUIï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½A
+//  ReviewPIBaseï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½ğ–³Œï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ì‘Î‰ï¿½ï¿½ï¿½ï¿½ï‚µï¿½ï¿½ï¿½Aï¿½Aï¿½Nï¿½Zï¿½Xï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Â”\ï¿½ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½ï¿½ï¿½ßB
 //
 /*
 
-‹@”\‚ÌÀs‚Í‘S‚ÄƒpƒPƒbƒg‚É‚æ‚é—v‹‚ğó‚¯‚ÄŠJn‚³‚ê‚é
-[Às]
-Eƒ}ƒXƒ^[ƒf[ƒ^‚Ì“Ç‚İ‚İ
-Ew’è‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼‚Åw’è‚³‚ê‚½•\— ‚É‘Î‚µ‚Äƒƒbƒg‚Ì“K—pA‚¨‚æ‚Ñ‰ğÍ‚É‚æ‚éƒf[ƒ^Ä\¬
+ï¿½@ï¿½\ï¿½Ìï¿½ï¿½sï¿½Í‘Sï¿½Äƒpï¿½Pï¿½bï¿½gï¿½É‚ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ó‚¯‚ÄŠJï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+[ï¿½ï¿½ï¿½s]
+ï¿½Eï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
+ï¿½Eï¿½wï¿½è‚³ï¿½ê‚½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Åwï¿½è‚³ï¿½ê‚½ï¿½\ï¿½ï¿½ï¿½É‘Î‚ï¿½ï¿½Äƒï¿½ï¿½bï¿½gï¿½Ì“Kï¿½pï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Ñ‰ï¿½ï¿½Í‚É‚ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ä\ï¿½ï¿½
 
-[•ÔM]
-E“Ç‚İ‚Ü‚ê‚½ƒ}ƒXƒ^[ƒf[ƒ^‚É‘Î‰‚·‚éƒƒbƒgˆê——‚ÌƒŠƒXƒg
-E•\— ‚Ì—š—ğƒŠƒXƒg‚Ìƒ|ƒCƒ“ƒ^
+[ï¿½ÔM]
+ï¿½Eï¿½Ç‚İï¿½ï¿½Ü‚ê‚½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½éƒï¿½bï¿½gï¿½ê——ï¿½Ìƒï¿½ï¿½Xï¿½g
+ï¿½Eï¿½\ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½Ìƒ|ï¿½Cï¿½ï¿½ï¿½^
 
 
 */
@@ -136,18 +154,18 @@ private:
 //class ReviewPIBaseProperty
 //{
 //public:
-//	// ƒ\[ƒgw’è
+//	// ï¿½\ï¿½[ï¿½gï¿½wï¿½ï¿½
 //	Review::OrderOfSortNG NGNailListSortOrder;
 //	Review::OrderOfSortHistory HistoryListSortOrder;
 //	
-//	// NG‰æ‘œ•Û‘¶‚ÌƒtƒH[ƒ}ƒbƒg
+//	// NGï¿½æ‘œï¿½Û‘ï¿½ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½g
 //	QString SaveNGImageFileNameFormat;
 //
-//	// NG‰æ‘œ‚Ìæ“Ç‚İ‚İ”‚ğŒˆ’è‚·‚é”’l
-//	// Œ»İ—š—ğ‚©‚ç‚±‚Ì‘OŒã‚¾‚¯æ“Ç‚İ‚İ‚·‚é
+//	// NGï¿½æ‘œï¿½Ìï¿½ï¿½Ç‚İï¿½ï¿½İï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è‚·ï¿½é”ï¿½l
+//	// ï¿½ï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‚±ï¿½Ì‘Oï¿½ã‚¾ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½ï¿½
 //	int		PreLoadNGImageLength;
 //
-//	// XMLƒT[ƒo[‚Ö‚ÌƒAƒNƒZƒX—pƒAƒhƒŒƒX‚Æƒ|[ƒg”Ô†
+//	// XMLï¿½Tï¿½[ï¿½oï¿½[ï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½pï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Æƒ|ï¿½[ï¿½gï¿½Ôï¿½
 //	QString XMLServerIPAddress;
 //	int		XMLServerPortNo;
 //};
@@ -170,9 +188,9 @@ public:
 
 public:
 	bool fromBuffer(const SectionBuffer &buffer);
-	SectionBuffer toBuffer(void) const;// ƒŠƒXƒg‚ÖƒRƒ“ƒo[ƒg
-	bool fromInstance(ReviewPIBase *parent);// ‘ÎÛƒNƒ‰ƒX‚©‚çƒŠƒXƒgì¬
-	bool toInstance(ReviewPIBase *parent) const;// ‘ÎÛƒNƒ‰ƒX‚ÖƒRƒ“ƒo[ƒg
+	SectionBuffer toBuffer(void) const;// ï¿½ï¿½ï¿½Xï¿½gï¿½ÖƒRï¿½ï¿½ï¿½oï¿½[ï¿½g
+	bool fromInstance(ReviewPIBase *parent);// ï¿½ÎÛƒNï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½çƒŠï¿½Xï¿½gï¿½ì¬
+	bool toInstance(ReviewPIBase *parent) const;// ï¿½ÎÛƒNï¿½ï¿½ï¿½Xï¿½ÖƒRï¿½ï¿½ï¿½oï¿½[ï¿½g
 
 public:
 	PropertyBase<ReviewPIBase> &operator=(const PropertyBase<ReviewPIBase> &other){
@@ -181,18 +199,18 @@ public:
 	};
 
 public:
-	// ƒ\[ƒgw’è
+	// ï¿½\ï¿½[ï¿½gï¿½wï¿½ï¿½
 	Review::OrderOfSortNG NGNailListSortOrder;
 	Review::OrderOfSortHistory HistoryListSortOrder;
 	
-	// NG‰æ‘œ•Û‘¶‚ÌƒtƒH[ƒ}ƒbƒg
+	// NGï¿½æ‘œï¿½Û‘ï¿½ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½g
 	QString SaveNGImageFileNameFormat;
 
-	// NG‰æ‘œ‚Ìæ“Ç‚İ‚İ”‚ğŒˆ’è‚·‚é”’l
-	// Œ»İ—š—ğ‚©‚ç‚±‚Ì‘OŒã‚¾‚¯æ“Ç‚İ‚İ‚·‚é
+	// NGï¿½æ‘œï¿½Ìï¿½ï¿½Ç‚İï¿½ï¿½İï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è‚·ï¿½é”ï¿½l
+	// ï¿½ï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‚±ï¿½Ì‘Oï¿½ã‚¾ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½ï¿½
 	int		PreLoadNGImageLength;
 
-	// XMLƒT[ƒo[‚Ö‚ÌƒAƒNƒZƒX—pƒAƒhƒŒƒX‚Æƒ|[ƒg”Ô†
+	// XMLï¿½Tï¿½[ï¿½oï¿½[ï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½pï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Æƒ|ï¿½[ï¿½gï¿½Ôï¿½
 	QString XMLServerIPAddress;
 	int		XMLServerPortNo;
 	QString	NGImagePath;
@@ -237,7 +255,7 @@ public:// manage master image buffer
 	void deleteHistoryNGImageReader(Review::SideType side);
 
 private:// manage at History
-	void OrganizeHistoryList(void);// — •\‚Ì—š—ğƒŠƒXƒg‚©‚çA‚Ü‚Æ‚ß‚½ƒŠƒXƒg‚ğ¶¬‚·‚é (OrganizedHistoryList = (FrontHistoryList + BackHistoryList) ‚Ì‚æ‚¤‚ÈŠ´‚¶)
+	void OrganizeHistoryList(void);// ï¿½ï¿½ï¿½\ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Ü‚Æ‚ß‚ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ (OrganizedHistoryList = (FrontHistoryList + BackHistoryList) ï¿½Ì‚æ‚¤ï¿½ÈŠï¿½ï¿½ï¿½)
 	OrganizedHistoryList::Iterator getOrganizedHistoryIterator(int GlobalIndex);
 	OrganizedHistoryList::Iterator getOrganizedHistoryIteratorBegin();
 	OrganizedHistoryList::Iterator getOrganizedHistoryIteratorEnd();
@@ -254,7 +272,7 @@ private:// for prepare load NGImage
 	void loadNGImage(int OrgHistroyIndex);
 
 private:// function of sort
-	// ƒ\[ƒgÀsŠÖ”
+	// ï¿½\ï¿½[ï¿½gï¿½ï¿½ï¿½sï¿½Öï¿½
 	void sortNGNailList();
 	void sortHistoryList();
 
@@ -282,7 +300,7 @@ private:// function of sort compare
 	static bool CompHistoryNGCountOnlyBackGreater	(const OrganizedHistoryItem &item1, const OrganizedHistoryItem &item2);
 	static bool CompHistoryNGCountOnlyBackLesser	(const OrganizedHistoryItem &item1, const OrganizedHistoryItem &item2);
 
-	QList<int> createNGNailListPhaseBorder(NGNailList &list);// NGNailList‚ÌƒtƒFƒCƒYƒ\[ƒgŒ‹‰Ê‚ğ“ü—Í‚Æ‚µA‹«ŠE‚ğ“¾‚é
+	QList<int> createNGNailListPhaseBorder(NGNailList &list);// NGNailListï¿½Ìƒtï¿½Fï¿½Cï¿½Yï¿½\ï¿½[ï¿½gï¿½ï¿½ï¿½Ê‚ï¿½ï¿½ï¿½ï¿½Í‚Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½Eï¿½ğ“¾‚ï¿½
 
 	//QString	IODLL_FileName;
 	//QString	Sequence_FileName;
@@ -294,14 +312,14 @@ private:// function of sort compare
 	//QString	ImageFilePath;
 
 public:// function to communication with GUI
-	// GUI‚©‚ç‚Ì’ÊM‚ÌóMŠÖ”
+	// GUIï¿½ï¿½ï¿½ï¿½ï¿½Ì’ÊMï¿½Ìï¿½ï¿½Mï¿½Öï¿½
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet)	override;
 
-// TransmitDirectly‚Åg—p‚³‚ê‚éŠeƒRƒ}ƒ“ƒh‚É‰‚¶‚Ä‹@”\‚·‚éŠÖ”
-// packet‚ªNULLA‚à‚µ‚­‚Íˆ—‘ÎÛ‚Å‚Í‚È‚¢ê‡A‰½‚à‚¹‚¸false‚ğ•Ô‚·B
-// packet‚ªˆ—‘ÎÛ‚Ìê‡‚Í•K‚¸true‚ğ•Ô‚·B
+// TransmitDirectlyï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½É‰ï¿½ï¿½ï¿½ï¿½Ä‹@ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½
+// packetï¿½ï¿½NULLï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ÎÛ‚Å‚Í‚È‚ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½falseï¿½ï¿½ï¿½Ô‚ï¿½ï¿½B
+// packetï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎÛ‚Ìê‡ï¿½Í•Kï¿½ï¿½trueï¿½ï¿½ï¿½Ô‚ï¿½ï¿½B
 private:// TransmitDirectly function list
-	// ƒ}ƒXƒ^[ƒf[ƒ^ŠÖŒW
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½ÖŒW
 	bool	ReciveCmdLoadMainMaster(GUIDirectMessage *packet);
 	bool	ReciveCmdLoadSlave(GUIDirectMessage *packet);
 	bool	ReciveCmdServerSelectLotList(GUIDirectMessage *packet);
@@ -321,7 +339,7 @@ private:// TransmitDirectly function list
 	bool	ReciveCmdLoadMasterImage(GUIDirectMessage *packet);
 	bool	ReciveCmdLoadMaster(GUIDirectMessage *packet);
 
-	// NGNailŠÖŒW
+	// NGNailï¿½ÖŒW
 	bool	ReciveCmdReqAdjacentCurrentNG(GUIDirectMessage *packet);
 	bool	ReciveCmdMoveCurrentNGNail(GUIDirectMessage *packet);
 	bool	ReciveCmdSetCurrentNGNail(GUIDirectMessage *packet);
@@ -334,7 +352,7 @@ private:// TransmitDirectly function list
 	//bool	ReciveCmdReqNGShape(GUIDirectMessage *packet);
 	bool	ReciveCmdSaveCurrentNGImage(GUIDirectMessage *packet);
 
-	// —š—ğŠÖŒW
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ÖŒW
 	bool	ReciveCmdReqOrganizedHistoryList(GUIDirectMessage *packet);
 	bool	ReciveCmdSetCurrentHistory(GUIDirectMessage *packet);
 	bool	ReciveCmdReqCurrentHistory(GUIDirectMessage *packet);
@@ -344,7 +362,7 @@ private:// TransmitDirectly function list
 	//bool	ReciveCmdReqCurrentNGPointListWithShape(GUIDirectMessage *packet);
 	bool	ReciveCmdSaveCurrentHistoryNGImages(GUIDirectMessage *packet);
 
-	// XMLŠÖŒW
+	// XMLï¿½ÖŒW
 	bool	ReciveCmdSetFKeyToNGNail(GUIDirectMessage *packet);
 	bool	ReciveCmdClearFKeyToNGNail(GUIDirectMessage *packet);
 	bool	ReciveCmdReqFKeyColorList(GUIDirectMessage *packet);
@@ -358,10 +376,10 @@ private:// TransmitDirectly function list
 	bool	ReciveCmdReqCurrentLotAllList(GUIDirectMessage *packet);
 	bool	ReciveCmdReqCurrentLotInfo(GUIDirectMessage *packet);
 
-	// î•ñŠÖ˜A
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ö˜A
 	bool	ReciveCmdReqSaveFormatMacroList(GUIDirectMessage *packet);
 
-	// VRSŠÖ˜A
+	// VRSï¿½Ö˜A
 	bool	ReciveCmdReqVRSSetting(GUIDirectMessage *packet);
 	bool	ReciveCmdSetVRSSetting(GUIDirectMessage *packet);
 	bool	ReciveCmdReqVRSAlignment(GUIDirectMessage *packet);
@@ -380,39 +398,39 @@ private:// TransmitDirectly function list
 	bool	ReciveCmdMoveVRSToEscape(GUIDirectMessage *packet);;
 	bool	ReciveCmdMoveVRSDirectory(GUIDirectMessage *packet);
 
-	// GUI‹¤’Ê€–Ú
+	// GUIï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½
 	bool	ReciveCommonCmdReqSettingPropertyDialog(GUIDirectMessage *packet);
 	//bool	ReciveCommonCmdMoveVRSWithAlignment(GUIDirectMessage *packet)
 	//bool	ReciveCommonCmdMoveVRSToOrigin(GUIDirectMessage *packet);
 
 private:// load Master data and image
-	// ƒ}ƒXƒ^[‚Ì“Ç‚İ‚İ
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
 	bool	LoadMaster(Review::SideType side, int PhaseCode ,int MasterCode
 		,int32 &iMachineID,int &iPhaseNumb, MasterDataInfo &infoBuff, bool addMode);
 	QImage	GetMasterWholeImage(Review::SideType side, int phase, int width, int height ,double ZoomImageFromFile);
 	QImage	GetMasterImagePiece(Review::SideType side, int phase, int page,  int x, int y, int width, int height);
 	QImage	GetMasterImagePiece(Review::SideType side, int phase,  int x, int y, int width, int height);
 	bool	LoadMasterImage(int skipCount ,int LayerNumb ,QList<QImage> &ImageByPage ,const QString &FileName);
-	// ƒ}ƒXƒ^[ƒR[ƒh‚ÌƒtƒFƒCƒY”‚Ìæ“¾
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½Ìƒtï¿½Fï¿½Cï¿½Yï¿½ï¿½ï¿½Ìæ“¾
 	int		GetPhaseNumb(int masterCode);
 	bool	LoadPageImage(QIODevice &file ,QImage &TargetPageImages,bool &Ret);
 	bool	LoadMasterImage(int skipCount ,int LayerNumb ,QList<QImage> &ImageByPage 
 					,QIODevice &file);
 
 private:// manage with XMLServer
-	// XMLServer‚ÌƒI[ƒvƒ“
+	// XMLServerï¿½ÌƒIï¿½[ï¿½vï¿½ï¿½
 	bool	XML_Open();
 	bool	XML_Open(QString Address, int Port);
-	// XMLServer‚ÌƒNƒ[ƒY
+	// XMLServerï¿½ÌƒNï¿½ï¿½ï¿½[ï¿½Y
 	bool	XML_Close();
-	// XMLServer‚Éƒƒbƒgî•ñ‚Ìæ“¾—v‹
+	// XMLServerï¿½Éƒï¿½ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾ï¿½vï¿½ï¿½
 	bool	XML_GetLot(int MasterCode,int MachineID, QStringList &list);
-	// XMLServer‚Éw’è‚µ‚½ƒƒbƒg‚Ìİ’u
+	// XMLServerï¿½Éwï¿½è‚µï¿½ï¿½ï¿½ï¿½ï¿½bï¿½gï¿½Ìİ’u
 	bool	XML_SetLotToSide(QString lotFile, Review::SideType side);
 	void	XML_ClearLot(Review::SideType side);
-	// XML‚Ì<Count/>‚ğ”’l‰»‚·‚é
+	// XMLï¿½ï¿½<Count/>ï¿½ğ”’lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	int		XML_CountAnalyze(const QString &CountXML);
-	// XML‚©‚çƒƒbƒgî•ñ‚ğæ“¾‚·‚é
+	// XMLï¿½ï¿½ï¿½çƒï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	LotInfoItem	XML_GetLotInfo(const QString &TableName);
 	////
 	//bool	XML_SetCurrentPosToNGI(XMLOperationHandle *operationHandle, int EID, int page, int phase, int Target_X, int Target_Y);
@@ -451,7 +469,7 @@ private:// current side type
 	Review::SideType getSideType(const NGNailItemRef &refItem) const;
 	Review::SideType getCurrentSideType() const;
 
-private:// XML‚©‚ç‚ÌÄ\’zŠÖ˜A
+private:// XMLï¿½ï¿½ï¿½ï¿½ï¿½ÌÄ\ï¿½zï¿½Ö˜A
 	InsLibraryItem::TypeNameTag getInsLibraryItemTypeNameTag(Review::SideType side, QString Ral, int LC, int TC) const;
 	InsLibraryItem getInsLibraryItem(Review::SideType side, QString Ral, int LC) const;
 	InsLibraryList getInsLibraryList(Review::SideType side, QString Ral) const;
@@ -496,12 +514,12 @@ private:// function of PCE Tag in XML
 	PCEList getPCEMatch(Review::SideType side, int MasterID, int page, const QStringList &PCENameList) const;
 
 private:// for rebuild from XML
-	// Še—v‘f‚ª‚PŒŸ¸•ª‚ÌNGƒf[ƒ^‚ÌW‡‚ğ•\‚·
-	HistoryList	m_FrontHistoryList;// •\ //
-	HistoryList	m_BackHistoryList;// — 
+	// ï¿½eï¿½vï¿½fï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½fï¿½[ï¿½^ï¿½ÌWï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
+	HistoryList	m_FrontHistoryList;// ï¿½\ //
+	HistoryList	m_BackHistoryList;// ï¿½ï¿½
 
-	// ShowHistoryListForReview‚Å•\¦‚·‚éƒŠƒXƒg
-	OrganizedHistoryList m_HistoryPack;// “¯‚¶ŒŸ¸ID‚Å‚Ü‚Æ‚ß‚½—š—ğƒŠƒXƒg
+	// ShowHistoryListForReviewï¿½Å•\ï¿½ï¿½ï¿½ï¿½ï¿½éƒŠï¿½Xï¿½g
+	OrganizedHistoryList m_HistoryPack;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½IDï¿½Å‚Ü‚Æ‚ß‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½g
 
 	LotInfoItem m_FrontCurrentLotInfo;
 	LotInfoItem m_BackCurrentLotInfo;
@@ -600,25 +618,25 @@ private:// setting value to save and load
 	ReviewStructureProperty m_property;
 	VRSSetting				m_VRSSetting;
 	VRSAlignment			m_VRSFrontAlignment, m_VRSBackAlignment;
-	//// ƒ\[ƒgw’è
+	//// ï¿½\ï¿½[ï¿½gï¿½wï¿½ï¿½
 	//Review::OrderOfSortNG NGNailListSortOrder;
 	//Review::OrderOfSortHistory HistoryListSortOrder;
 
-	//// FƒL[‚ÌFƒŠƒXƒg
-	////QList<QColor> FKeyColorList;// 13—v‘fŒÅ’è
+	//// Fï¿½Lï¿½[ï¿½ÌFï¿½ï¿½ï¿½Xï¿½g
+	////QList<QColor> FKeyColorList;// 13ï¿½vï¿½fï¿½Å’ï¿½
 	//
-	//// NG‰æ‘œ•Û‘¶‚ÌƒtƒH[ƒ}ƒbƒg
+	//// NGï¿½æ‘œï¿½Û‘ï¿½ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½g
 	//QString SaveNGImageFileNameFormat;
 
-	//// NG‰æ‘œ‚Ìæ“Ç‚İ‚İ”‚ğŒˆ’è‚·‚é”’l
-	//// Œ»İ—š—ğ‚©‚ç‚±‚Ì‘OŒã‚¾‚¯æ“Ç‚İ‚İ‚·‚é
+	//// NGï¿½æ‘œï¿½Ìï¿½ï¿½Ç‚İï¿½ï¿½İï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è‚·ï¿½é”ï¿½l
+	//// ï¿½ï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‚±ï¿½Ì‘Oï¿½ã‚¾ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½ï¿½
 	//int		PreLoadNGImageLength;
 
-	//// XMLƒT[ƒo[‚Ö‚ÌƒAƒNƒZƒX—pƒAƒhƒŒƒX‚Æƒ|[ƒg”Ô†
+	//// XMLï¿½Tï¿½[ï¿½oï¿½[ï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½pï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Æƒ|ï¿½[ï¿½gï¿½Ôï¿½
 	//QString XMLServerIPAddress;
 	//int		XMLServerPortNo;
 
-	//Review::OrginPosition TopSide,BottomSide;// Šî”Â‚Ì‘S‘Ì‰æ‘œ‚Ì•\¦‚É‚¨‚¯‚éŠî€ˆÊ’u
+	//Review::OrginPosition TopSide,BottomSide;// ï¿½ï¿½ï¿½Â‚Ì‘Sï¿½Ì‰æ‘œï¿½Ì•\ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î€ï¿½Ê’u
 
 private:
 	Ui::ReviewStructureClass *m_propertyUi;
@@ -674,7 +692,7 @@ public:// property get and set
 	inline int getMasterImageNormalizeZoomRate() const { return getProperty().SkipMasterImageRate+1;/*qPow(2, getProperty().SkipMasterImageRate);*/ };
 	
 public:
-	// ƒ\[ƒgİ’è
+	// ï¿½\ï¿½[ï¿½gï¿½İ’ï¿½
 	void setNGSortOrder(Review::OrderOfSortNG order){ if(getProperty().NGNailListSortOrder!=order){getProperty().NGNailListSortOrder = order; sortNGNailList(); } };
 	void setHistorySortOrder(Review::OrderOfSortHistory order){ if(getProperty().HistoryListSortOrder!=order){ getProperty().HistoryListSortOrder = order; sortHistoryList(); } };
 	Review::OrderOfSortNG getNGSortOrder() const { return getProperty().NGNailListSortOrder; };
@@ -719,15 +737,15 @@ public:
 	QList<QMatrix> getVRSMatrixFromEachPage(Review::SideType side) const;
 	QMatrix getVRSMatrixFromEachPage(Review::SideType side, int page) const;
 
-public:// SaveNGImageFileNameFormatŠÇ—
+public:// SaveNGImageFileNameFormatï¿½Ç—ï¿½
 	QString convertedSaveNGFileName(Review::SideType side, const OrganizedHistoryList::Iterator &hIt, NGNailList::Iterator ngIt) const;
 
 private:// for XML access
 	// access xml server on another thread
 	XMLWriter *m_xmlWriter;
 
-	// XMLƒT[ƒo[‚Ìƒnƒ“ƒhƒ‹
-	XMLServerHandle *m_xmlServerHdl;// ƒƒbƒgæ“¾ê—p
+	// XMLï¿½Tï¿½[ï¿½oï¿½[ï¿½Ìƒnï¿½ï¿½ï¿½hï¿½ï¿½
+	XMLServerHandle *m_xmlServerHdl;// ï¿½ï¿½ï¿½bï¿½gï¿½æ“¾ï¿½ï¿½ï¿½p
 
 public:
 	inline const XMLWriter *getXMLWriter() const { return m_xmlWriter; };
@@ -738,17 +756,17 @@ private:
 	inline XMLServerHandle *getXMLServerHandle() { return m_xmlServerHdl; };
 
 private:// for current state
-	// ’–Ú—š—ğî•ñ‚Ìü•Ó(ƒCƒeƒŒ[ƒ^)
-	// •À‚Ñ‡‚ÍHistoryListSortOrder‚É]‚¤
-	OrganizedHistoryList::Iterator m_PreviousOrganizedHistory;	// ‘O‚Ì—š—ğ
-	OrganizedHistoryList::Iterator m_CurrentOrganizedHistory;	// Œ»İ‚Ì—š—ğ
-	OrganizedHistoryList::Iterator m_NextOrganizedHistory;	// Ÿ‚Ì—š—ğ
+	// ï¿½ï¿½ï¿½Ú—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½(ï¿½Cï¿½eï¿½ï¿½ï¿½[ï¿½^)
+	// ï¿½ï¿½ï¿½Ñï¿½ï¿½ï¿½HistoryListSortOrderï¿½É]ï¿½ï¿½
+	OrganizedHistoryList::Iterator m_PreviousOrganizedHistory;	// ï¿½Oï¿½Ì—ï¿½ï¿½ï¿½
+	OrganizedHistoryList::Iterator m_CurrentOrganizedHistory;	// ï¿½ï¿½ï¿½İ‚Ì—ï¿½ï¿½ï¿½
+	OrganizedHistoryList::Iterator m_NextOrganizedHistory;	// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½
 
-	// CurrentOrganizedHistory‚ÌNGî•ñ(ƒCƒeƒŒ[ƒ^)
-	// •À‚Ñ‡‚ÍNGNailListSortOrder‚É]‚¤
-	NGNailList::Iterator	m_PreviousNGNail;		// ‘O‚ÌNGNail
-	NGNailList::Iterator	m_CurrentNGNail;	// Œ»İ‚ÌNGNail
-	NGNailList::Iterator	m_NextNGNail;		// Ÿ‚ÌNGNail
+	// CurrentOrganizedHistoryï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½(ï¿½Cï¿½eï¿½ï¿½ï¿½[ï¿½^)
+	// ï¿½ï¿½ï¿½Ñï¿½ï¿½ï¿½NGNailListSortOrderï¿½É]ï¿½ï¿½
+	NGNailList::Iterator	m_PreviousNGNail;		// ï¿½Oï¿½ï¿½NGNail
+	NGNailList::Iterator	m_CurrentNGNail;	// ï¿½ï¿½ï¿½İ‚ï¿½NGNail
+	NGNailList::Iterator	m_NextNGNail;		// ï¿½ï¿½ï¿½ï¿½NGNail
 
 public:
 	OrganizedHistoryList::Iterator getRoundCurrentOrganizedHistoryIterator(Review::NearPosType pos) const {
@@ -892,15 +910,15 @@ public:
 	};
 
 private:// for MasterData
-	// ‹@ŠBî•ñA‚¢‚í‚ä‚é•Ğ–ÊŒŸ¸‹@‚©—¼–ÊŒŸ¸‹@‚©B
-	// •Ğ–Ê‚Ìê‡‚ÍFront‚Ì‚İA—¼–Ê‚Ìê‡‚Í‚»‚ê‚É‰Á‚¦‚ÄBack‚ğg—p‚·‚éB
+	// ï¿½@ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ–ÊŒï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ÊŒï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½B
+	// ï¿½Ğ–Ê‚Ìê‡ï¿½ï¿½Frontï¿½Ì‚İAï¿½ï¿½ï¿½Ê‚Ìê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½É‰ï¿½ï¿½ï¿½ï¿½ï¿½Backï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½B
 	Review::OrganizedSideType m_MachineType;
 
-	// “Ç‚İ‚ñ‚¾ƒ}ƒXƒ^[ƒf[ƒ^‚Ìî•ñ
+	// ï¿½Ç‚İï¿½ï¿½ñ‚¾ƒ}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ìï¿½ï¿½ï¿½
 	MasterDataInfo m_FrontMasterInfo;
 	MasterDataInfo m_BackMasterInfo;
 
-	// ƒAƒEƒgƒ‰ƒCƒ“
+	// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½
 	QList<QList<QPoint> > m_FrontOutline;
 	QList<QList<QPoint> > m_BackOutline;
 
@@ -1028,17 +1046,17 @@ private:
 	void loadOutlineOffset(Review::SideType side, int MachineID, int MasterCode);
 
 private:// for MasterImage
-	// ‘S‘Ì‰æ‘œƒoƒbƒtƒ@
-	// 20120315 ‘å‚«‚·‚¬‚éƒoƒbƒtƒ@‚ğŠm•Û‚µ‚æ‚¤‚Æ‚·‚é‚Æƒƒ‚ƒŠƒGƒ‰[‚Æ‚È‚é‚½‚ßg—p‹Ö~
+	// ï¿½Sï¿½Ì‰æ‘œï¿½oï¿½bï¿½tï¿½@
+	// 20120315 ï¿½å‚«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½mï¿½Û‚ï¿½ï¿½æ‚¤ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Æƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[ï¿½Æ‚È‚é‚½ï¿½ßgï¿½pï¿½Ö~
 	//QImage FrontWholeImage;
 	//QImage BackWholeImage;
 
-	// ‘S‘Ì‰æ‘œƒy[ƒWƒoƒbƒtƒ@
+	// ï¿½Sï¿½Ì‰æ‘œï¿½yï¿½[ï¿½Wï¿½oï¿½bï¿½tï¿½@
 	QList<QList<QImage> > m_FrontMasterWholePageImageList;
 	QList<QList<QImage> > m_BackMasterWholePageImageList;
-	QList<QSize >	m_FrontMasterWholeImageSize;// ‘S‘Ìƒ}ƒXƒ^[‰æ‘œ‚ğ•\¦‚µ‚½‚Æ‚«‚ÌƒTƒCƒY
+	QList<QSize >	m_FrontMasterWholeImageSize;// ï¿½Sï¿½Ìƒ}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÌƒTï¿½Cï¿½Y
 	QList<QSize >	m_BackMasterWholeImageSize;
-	QList<QList<QPoint> > m_FrontMasterWholeImageDrawPoints;// ‘S‘Ì‰æ‘œã‚Åƒy[ƒW‚ğ“\‚è•t‚¯‚éÛ‚ÌˆÊ’u
+	QList<QList<QPoint> > m_FrontMasterWholeImageDrawPoints;// ï¿½Sï¿½Ì‰æ‘œï¿½ï¿½ï¿½Åƒyï¿½[ï¿½Wï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½Û‚ÌˆÊ’u
 	QList<QList<QPoint> > m_BackMasterWholeImageDrawPoints;
 
 private:

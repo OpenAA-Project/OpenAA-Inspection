@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\PropertyAlignment\PropertyAlignmentPacket.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "PropertyAlignmentPacket.h"
 #include "XGeneralFunc.h"
@@ -546,7 +555,7 @@ void	GUICmdReqAlignmentPutPoint::Receive(int32 localPage, int32 cmd ,QString &Em
 	DPacket.AreaID				=AreaID;
 	DPacket.MoveDot				=MoveDot;		
     DPacket.Threshold			=Threshold;
-	DPacket.AlignmentOnOutline	=AlignmentOnOutline;	//—ÖŠs‚ÅˆÊ’u‡‚í‚¹‚·‚é‚Æ‚«true
+	DPacket.AlignmentOnOutline	=AlignmentOnOutline;	//ï¿½ÖŠsï¿½ÅˆÊ’uï¿½ï¿½ï¿½í‚¹ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½true
 	AInL->TransmitDirectly(&DPacket);
 }
 
@@ -613,7 +622,7 @@ void	GUICmdReqAlignmentModifyPoint::Receive(int32 localPage, int32 cmd ,QString 
 	DPacket.ItemID				=ItemID;
 	DPacket.MoveDot				=MoveDot;		
     DPacket.Threshold			=Threshold;
-	DPacket.AlignmentOnOutline	=AlignmentOnOutline;	//—ÖŠs‚ÅˆÊ’u‡‚í‚¹‚·‚é‚Æ‚«true
+	DPacket.AlignmentOnOutline	=AlignmentOnOutline;	//ï¿½ÖŠsï¿½ÅˆÊ’uï¿½ï¿½ï¿½í‚¹ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½true
 	AInL->TransmitDirectly(&DPacket);
 }
 //==============================================================================
@@ -983,4 +992,3 @@ void	GUICmdClickGroupButton::Receive(int32 localPage, int32 cmd ,QString &Emitte
 		L->TransmitDirectly(this);
 	}
 }
-

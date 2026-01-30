@@ -1,9 +1,27 @@
+/*
+ * Copyright (C) 2017
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XReviewStructure.h"
 #include "ReviewStructurePacket.h"
 
 #define ToStr(x) #x
 
-// ‰Šú‰»
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ReviewStructureProperty::PropertyBase(void)
 	:AbstructProperty()
 {
@@ -12,18 +30,18 @@ ReviewStructureProperty::PropertyBase(void)
 
 void ReviewStructureProperty::initialize()
 {
-	// ƒ\[ƒgw’è
+	// ï¿½\ï¿½[ï¿½gï¿½wï¿½ï¿½
 	NGNailListSortOrder = Review::OrderOfSortNG::_Order_YLesser;
 	HistoryListSortOrder = Review::OrderOfSortHistory::_Order_InspectionIDGreater;
 	
-	// NG‰æ‘œ•Û‘¶‚ÌƒtƒH[ƒ}ƒbƒg
+	// NGï¿½æ‘œï¿½Û‘ï¿½ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½g
 	SaveNGImageFileNameFormat = /**/"%m-%M/%l/%i/%S/%n-%N.png";
 
-	// NG‰æ‘œ‚Ìæ“Ç‚İ‚İ”‚ğŒˆ’è‚·‚é”’l
-	// Œ»İ—š—ğ‚©‚ç‚±‚Ì‘OŒã‚¾‚¯æ“Ç‚İ‚İ‚·‚é
+	// NGï¿½æ‘œï¿½Ìï¿½ï¿½Ç‚İï¿½ï¿½İï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è‚·ï¿½é”ï¿½l
+	// ï¿½ï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‚±ï¿½Ì‘Oï¿½ã‚¾ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½ï¿½
 	PreLoadNGImageLength = 4;
 
-	// XMLƒT[ƒo[‚Ö‚ÌƒAƒNƒZƒX—pƒAƒhƒŒƒX‚Æƒ|[ƒg”Ô†
+	// XMLï¿½Tï¿½[ï¿½oï¿½[ï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½pï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Æƒ|ï¿½[ï¿½gï¿½Ôï¿½
 	XMLServerIPAddress	= /**/"localhost";
 	XMLServerPortNo		= 12345;
 	NGImagePath			= /**/"\\\\192.168.0.8\\Data2";
@@ -39,25 +57,25 @@ void ReviewStructureProperty::initialize()
 	CSVMagnificationY	=1.0;
 }
 
-// ƒx[ƒX–¼
+// ï¿½xï¿½[ï¿½Xï¿½ï¿½
 QString ReviewStructureProperty::baseName() const
 {
 	return /**/"ReviewProperty";
 }
 
-// ƒZƒNƒVƒ‡ƒ“–¼
+// ï¿½Zï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 QString ReviewStructureProperty::sectionName() const
 {
 	return /**/"ReviewStructure";
 }
 
-// ’P‘Ì•Û‘¶—pƒtƒ@ƒCƒ‹–¼
+// ï¿½Pï¿½Ì•Û‘ï¿½ï¿½pï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½
 QString ReviewStructureProperty::filename() const
 {
 	return /**/"ReviewStructrue";
 }
 
-// ƒoƒbƒtƒ@‚©‚ç‚Ì•œŒ³
+// ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½
 bool ReviewStructureProperty::fromBuffer(const SectionBuffer &buffer)
 {
 	if(buffer.sectionName()!=sectionName()){
@@ -84,15 +102,15 @@ bool ReviewStructureProperty::fromBuffer(const SectionBuffer &buffer)
 	return true;
 }
 
-// SectionBufferì¬
-SectionBuffer ReviewStructureProperty::toBuffer(void) const// ƒŠƒXƒg‚ÖƒRƒ“ƒo[ƒg
+// SectionBufferï¿½ì¬
+SectionBuffer ReviewStructureProperty::toBuffer(void) const// ï¿½ï¿½ï¿½Xï¿½gï¿½ÖƒRï¿½ï¿½ï¿½oï¿½[ï¿½g
 {
 	SectionBuffer buffer;
 	
-	// ƒZƒNƒVƒ‡ƒ“–¼‹Lq
+	// ï¿½Zï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½q
 	buffer.setSectionName(sectionName());
 
-	// ƒf[ƒ^İ’è
+	// ï¿½fï¿½[ï¿½^ï¿½İ’ï¿½
 	buffer.setValue(ToStr(NGNailListSortOrder), QString::number(static_cast<int>(NGNailListSortOrder)));
 	buffer.setValue(ToStr(HistoryListSortOrder), QString::number(static_cast<int>(HistoryListSortOrder)));
 	buffer.setValue(ToStr(SaveNGImageFileNameFormat), SaveNGImageFileNameFormat);
@@ -113,8 +131,8 @@ SectionBuffer ReviewStructureProperty::toBuffer(void) const// ƒŠƒXƒg‚ÖƒRƒ“ƒo[ƒg
 	return buffer;
 }
 
-// ‘Î‰ƒNƒ‰ƒX‚©‚ç‚Ìƒf[ƒ^ó‚¯æ‚è
-bool ReviewStructureProperty::fromInstance(ReviewPIBase *parent)// ‘ÎÛƒNƒ‰ƒX‚©‚çƒŠƒXƒgì¬
+// ï¿½Î‰ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ó‚¯ï¿½ï¿½ï¿½
+bool ReviewStructureProperty::fromInstance(ReviewPIBase *parent)// ï¿½ÎÛƒNï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½çƒŠï¿½Xï¿½gï¿½ì¬
 {
 	if(parent==NULL)return false;
 
@@ -123,8 +141,8 @@ bool ReviewStructureProperty::fromInstance(ReviewPIBase *parent)// ‘ÎÛƒNƒ‰ƒX‚©‚
 	return true;
 }
 
-// ‘Î‰ƒNƒ‰ƒX‚Ö‚Ìƒf[ƒ^ˆø“n‚µ
-bool ReviewStructureProperty::toInstance(ReviewPIBase *parent) const// ‘ÎÛƒNƒ‰ƒX‚ÖƒRƒ“ƒo[ƒg
+// ï¿½Î‰ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½Ö‚Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½nï¿½ï¿½
+bool ReviewStructureProperty::toInstance(ReviewPIBase *parent) const// ï¿½ÎÛƒNï¿½ï¿½ï¿½Xï¿½ÖƒRï¿½ï¿½ï¿½oï¿½[ï¿½g
 {
 	if(parent==NULL)return false;
 
@@ -132,4 +150,3 @@ bool ReviewStructureProperty::toInstance(ReviewPIBase *parent) const// ‘ÎÛƒNƒ‰ƒ
 
 	return true;
 }
-

@@ -1,14 +1,22 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\OpenSource\Component\mtFrameDraw3D.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 //#include <QMetaType>
 #include <QWidget>
@@ -119,7 +127,7 @@ public:
 
 	void	(*DrawStartEvent)(QWidget *Sender, int &X ,int &Y);
 
-	struct  _ShapeData{		//ç¿ïWånÇÕìôî{Ç…Ç®ÇØÇÈíl
+	struct  _ShapeData{		//ÔøΩÔøΩÔøΩWÔøΩnÔøΩÕìÔøΩÔøΩ{ÔøΩ…ÇÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩl
 	    DrawingMode dtype;
 		union _UUU{
 			struct  _PointData{
@@ -334,4 +342,3 @@ private:
 	void	DrawRingArc(QPainter &Pnt);
 
 };
-

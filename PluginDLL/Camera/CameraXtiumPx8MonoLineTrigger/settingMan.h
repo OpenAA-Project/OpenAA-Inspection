@@ -1,17 +1,35 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include <QString>
 
 class CameraCommand;
 
-// ‘Î‰ƒRƒ}ƒ“ƒh‚Ìˆê——
+// ï¿½Î‰ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Ìˆê——
 enum CLHS_PX8Type{
 	TYPE_Gain,
 	TYPE_DigitalOffset,
-	TYPE_ExposureMode,// ˜IŒõƒ‚[ƒhİ’è
-	TYPE_ExposureTime,// ˜IŒõŠÔİ’è
-	TYPE_UseTestPattern,// ƒeƒXƒgƒpƒ^[ƒ“g—pƒtƒ‰ƒO
-	TYPE_ScanDirection,// ƒXƒLƒƒƒ“•ûŒüİ’è
+	TYPE_ExposureMode,// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½İ’ï¿½
+	TYPE_ExposureTime,// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ôİ’ï¿½
+	TYPE_UseTestPattern,// ï¿½eï¿½Xï¿½gï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½gï¿½pï¿½tï¿½ï¿½ï¿½O
+	TYPE_ScanDirection,// ï¿½Xï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 	TYPE_ENUM_COUNT
 };
 
@@ -42,16 +60,16 @@ public:
 			break;
 
 		case TYPE_ExposureMode:
-			return ExposureMode;// ˜IŒõƒ‚[ƒhİ’è
+			return ExposureMode;// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½İ’ï¿½
 			break;
 		case TYPE_ExposureTime:
-			return ExposureTime;// ˜IŒõŠÔİ’è
+			return ExposureTime;// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ôİ’ï¿½
 			break;
 		case TYPE_UseTestPattern:
-			return ((EnableTestPattern==false) ? 0 : 1);// ƒeƒXƒgƒpƒ^[ƒ“g—pƒtƒ‰ƒO
+			return ((EnableTestPattern==false) ? 0 : 1);// ï¿½eï¿½Xï¿½gï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½gï¿½pï¿½tï¿½ï¿½ï¿½O
 			break;
 		case TYPE_ScanDirection:
-			return ((ScanDirection==true) ? 0 : 1);// ƒXƒLƒƒƒ“•ûŒüİ’è
+			return ((ScanDirection==true) ? 0 : 1);// ï¿½Xï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 			break;
 		default:
 			return INT_MIN;
@@ -80,13 +98,13 @@ public:
 class CLHS_PX8CommandCreater
 {
 public:
-	// RGBƒQƒCƒ“
+	// RGBï¿½Qï¿½Cï¿½ï¿½
 	static QString setGain(double gain/* 280 to 530 */);
 
-	// ƒIƒtƒZƒbƒg
+	// ï¿½Iï¿½tï¿½Zï¿½bï¿½g
 	static QString setDigitalOffset(int offset/* 0 to 12 */);
 
-	// o—Íİ’è
+	// ï¿½oï¿½Íİ’ï¿½
 	static QString initialOnFactory(void);
 	static QString loadFromMemory(void);
 	static QString saveToMemory(void);
@@ -98,7 +116,7 @@ public:
 	static QString createFixCommandFromStruct(const CLHS_PX8Setting &data);// this command is able to use soon after created.
 
 public:
-	// î•ñæ“¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	static QString getCurrentCameraState();
 
 public:

@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "AutoSaveImageViewPanelResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\AutoSaveImageViewPanel\AutoSaveImageViewPanel.cpp
-** Author : YYYYYYYYYY
-*******************************************************************************/
 
 #include "AutoSaveImageViewPanel.h"
 #include "XCrossObj.h"
@@ -216,20 +225,20 @@ void AutoSaveImageViewPanel::DrawAfterImage(QPainter &pnt ,QImage &PntImage)
 	int nWid = (int)(globalX2*zoom);
 	int nHei = (int)(globalY2*zoom);
 
-	// âÊëúäJénà íu
+	// ÔøΩÊëúÔøΩJÔøΩnÔøΩ íu
 	int startX = 0;
 	int startY = 0;
 	//if ( movx > 0 ) startX = movx;
 	//if ( movy > 0 ) startY = movy;
 
-	// âÊëúèIóπà íu
+	// ÔøΩÊëúÔøΩIÔøΩÔøΩÔøΩ íu
 	int endX = nWid + movx;
 	int endY = nHei + movy;
 
 	QPen pen(Qt::SolidLine);
 	pnt.setPen(Qt::yellow);
 
-	// â°ê¸
+	// ÔøΩÔøΩÔøΩÔøΩ
 	int nDiv = (int)(nStartY*zoom)+startY+movy;
 	while( 1 ) {
 		pnt.drawLine(startX+movx,nDiv,endX,nDiv);
@@ -237,7 +246,7 @@ void AutoSaveImageViewPanel::DrawAfterImage(QPainter &pnt ,QImage &PntImage)
 		if ( nDiv > endY ) break;
 	}
 
-	// ècê¸
+	// ÔøΩcÔøΩÔøΩ
 	nDiv = (int)(nStartX*zoom)+startX+movx;
 	while( 1 ) {
 		pnt.drawLine(nDiv,startY+movy,nDiv,endY);

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "WholeImageForReviewResource.h"
 #include "WholeImageForReview.h"
 #include "WholeDisplay.h"
@@ -211,7 +229,7 @@ void WholeImageForReview::Prepare()
 	BackImageList[0]->setInfoString(LangSolver.GetString(WholeImageForReview_LS,LID_1)/*"BackWholeImage"*/);
 	setPropertyToDisplay(BackImageList[0], Review::Front);
 
-	// ƒŒƒCƒAƒEƒgİ’è
+	// ï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½gï¿½İ’ï¿½
 	frontLayout->setContentsMargins(0, 0, 0, 0);
 	frontLayout->setHorizontalSpacing(1);
 	backLayout->setContentsMargins(0, 0, 0, 0);
@@ -219,18 +237,18 @@ void WholeImageForReview::Prepare()
 	mainLayout->setContentsMargins(0, 0, 0, 0);
 	mainLayout->setHorizontalSpacing(1);
 
-	// ƒƒCƒ“ƒŒƒCƒAƒEƒg‚ğ“\‚è•t‚¯
+	// ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½tï¿½ï¿½
 	setLayout(mainLayout);
 
-	// •\— ”z’uƒEƒBƒWƒFƒbƒg¶¬
+	// ï¿½\ï¿½ï¿½ï¿½zï¿½uï¿½Eï¿½Bï¿½Wï¿½Fï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 	FrontWidget = new QWidget;
 	BackWidget = new QWidget;
 
-	// •\— ‚ÌƒtƒFƒCƒYƒŒƒCƒAƒEƒg“\‚è•t‚¯
+	// ï¿½\ï¿½ï¿½ï¿½Ìƒtï¿½Fï¿½Cï¿½Yï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½gï¿½\ï¿½ï¿½ï¿½tï¿½ï¿½
 	FrontWidget->setLayout(frontLayout);
 	BackWidget->setLayout(backLayout);
 
-	// Å‰‚Ì‘S‘Ì‰æ‘œƒEƒBƒWƒFƒbƒg“\‚è•t‚¯
+	// ï¿½Åï¿½ï¿½Ì‘Sï¿½Ì‰æ‘œï¿½Eï¿½Bï¿½Wï¿½Fï¿½bï¿½gï¿½\ï¿½ï¿½ï¿½tï¿½ï¿½
 	frontLayout->addWidget(FrontImageList[0], 0, 0);
 	backLayout->addWidget(BackImageList[0], 0, 0);
 
@@ -238,13 +256,13 @@ void WholeImageForReview::Prepare()
 
 	//FrontImage->getDisplay()->GetVScroll()->setVisible(false);
 	//FrontImage->getDisplay()->GetHScroll()->setVisible(false);
-	FrontImageList[0]->getDisplay()->setWholeImage(QImage());// ‰æ‘œ‚È‚µ
+	FrontImageList[0]->getDisplay()->setWholeImage(QImage());// ï¿½æ‘œï¿½È‚ï¿½
 
 	//BackImage->getDisplay()->GetVScroll()->setVisible(false);
 	//BackImage->getDisplay()->GetHScroll()->setVisible(false);
-	BackImageList[0]->getDisplay()->setWholeImage(QImage());// ‰æ‘œ‚È‚µ
+	BackImageList[0]->getDisplay()->setWholeImage(QImage());// ï¿½æ‘œï¿½È‚ï¿½
 
-	// ‰Šú’lİ’è
+	// ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½İ’ï¿½
 	FrontMasterCode = -1;
 	BackMasterCode = -1;
 	currentIndex = -1;
@@ -280,7 +298,7 @@ void WholeImageForReview::Prepare()
 
 //void WholeImageForReview::checkData()
 //{
-//	// c‰¡‚Ì•À‚Ñİ’è
+//	// ï¿½cï¿½ï¿½ï¿½Ì•ï¿½ï¿½Ñİ’ï¿½
 //	if((reqData.viewFrontBackMode&1)==0){
 //		viewFrontBackMode = Qt::Vertical;
 //	}else{
@@ -295,7 +313,7 @@ void WholeImageForReview::Prepare()
 //
 //	setOrientation();
 //
-//	// Œ»İNGNail‚Ì’†S‚Å\š•\¦‚·‚éİ’è
+//	// ï¿½ï¿½ï¿½ï¿½NGNailï¿½Ì’ï¿½ï¿½Sï¿½Å\ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 //	viewNGNailCross = reqData.viewNGNailCross;
 //
 //	for(int i=0; i<FrontImageList.count(); i++){
@@ -305,7 +323,7 @@ void WholeImageForReview::Prepare()
 //		BackImageList[i]->getDisplay()->setCurrentNGCrossView(viewNGNailCross);
 //	}
 //
-//	// NG‰ÓŠ‚ğ•\¦‚·‚éİ’è
+//	// NGï¿½Óï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 //	viewNGPoint = reqData.viewNGPoint;
 //	
 //	for(int i=0; i<FrontImageList.count(); i++){
@@ -315,7 +333,7 @@ void WholeImageForReview::Prepare()
 //		BackImageList[i]->getDisplay()->setNGPointView(viewNGPoint);
 //	}
 //
-//	// Œ»İNGNail‚Ì‚İ•\¦‚·‚éİ’è
+//	// ï¿½ï¿½ï¿½ï¿½NGNailï¿½Ì‚İ•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 //	viewOnlyCurrentNail = reqData.viewOnlyCurrentNail;
 //
 //	for(int i=0; i<FrontImageList.count(); i++){
@@ -556,7 +574,7 @@ void WholeImageForReview::TransmitDirectly(GUIDirectMessage *packet)
 
 	GUICmdSetNGNailDrawType *NGNailDrawType = dynamic_cast<GUICmdSetNGNailDrawType *>(packet);
 	if(NGNailDrawType!=NULL){
-		// •\‘¤
+		// ï¿½\ï¿½ï¿½
 		if(NGNailDrawType->defaultColorPtr!=NULL){
 			for(int i=0; i<FrontImageList.count(); i++){
 				FrontImageList[i]->getDisplay()->setNGSingDefaultColor(*NGNailDrawType->defaultColorPtr, NGNailDrawType->redraw);
@@ -566,7 +584,7 @@ void WholeImageForReview::TransmitDirectly(GUIDirectMessage *packet)
 			}
 		}
 		
-		// — ‘¤
+		// ï¿½ï¿½ï¿½ï¿½
 		if(NGNailDrawType->currentColorPtr!=NULL){
 			for(int i=0; i<FrontImageList.count(); i++){
 				FrontImageList[i]->getDisplay()->setNGSingCurrentColor(*NGNailDrawType->currentColorPtr, NGNailDrawType->redraw);
@@ -614,7 +632,7 @@ void WholeImageForReview::updateGUI()
 {
 	updateProperty();
 
-	// ŠeƒCƒ[ƒW‚ğ‰Šú‰»
+	// ï¿½eï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for(int i=0; i<FrontImageList.count(); i++){
 		FrontImageList[i]->getDisplay()->removeCurrentIndex();
 		FrontImageList[i]->getDisplay()->clearNGNailPosList();
@@ -628,14 +646,14 @@ void WholeImageForReview::updateGUI()
 		//FrontImageList[i]->getDisplay()->setOutlineOffset(QList<QPoint>());
 	}
 
-	// ReviewStructure‚Ö‚ÌƒAƒNƒZƒXƒ|ƒCƒ“ƒ^
+	// ReviewStructureï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½|ï¿½Cï¿½ï¿½ï¿½^
 	ReviewPIBase *RBase = GetReviewAlgorithm();
 	setUpdatesEnabled(false);
 	if(RBase!=NULL){
-		// ”z’u‚ğ®‚¦
+		// ï¿½zï¿½uï¿½ğ®‚ï¿½
 		setOrientation(getProperty().viewFrontBackOrientation, getProperty().viewPhaseOrientation);
 
-		// ‰æ‘œ‚ğ“Ç‚İ‚İ
+		// ï¿½æ‘œï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
 		loadImage(Review::Front);
 		loadImage(Review::Back);
 
@@ -721,10 +739,10 @@ bool WholeImageForReview::eventFilter(QObject *target, QEvent *event)
 	}
 
 	if(targetFlg==true){
-		if(event->type()==QEvent::MouseButtonPress ||// ƒ}ƒEƒXƒ{ƒ^ƒ“‰Ÿ‰º
-			event->type()==QEvent::MouseMove ||// ƒ}ƒEƒXƒJ[ƒ\ƒ‹ˆÚ“®
-			event->type()==QEvent::MouseButtonRelease ||// ƒ}ƒEƒXƒ{ƒ^ƒ“—£‚µ
-			event->type()==QEvent::MouseButtonDblClick){// ƒ}ƒEƒXƒ{ƒ^ƒ“ƒ_ƒuƒ‹ƒNƒŠƒbƒN
+		if(event->type()==QEvent::MouseButtonPress ||// ï¿½}ï¿½Eï¿½Xï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			event->type()==QEvent::MouseMove ||// ï¿½}ï¿½Eï¿½Xï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½Ú“ï¿½
+			event->type()==QEvent::MouseButtonRelease ||// ï¿½}ï¿½Eï¿½Xï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			event->type()==QEvent::MouseButtonDblClick){// ï¿½}ï¿½Eï¿½Xï¿½{ï¿½^ï¿½ï¿½ï¿½_ï¿½uï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½N
 			return true;
 		}
 	}
@@ -784,11 +802,11 @@ void WholeImageForReview::setOrientation(Qt::Orientation orientationFrontBack, Q
 		return;
 	}
 	
-	// •\— ƒEƒBƒWƒFƒbƒg‚Ìæ‚èŠO‚µ
+	// ï¿½\ï¿½ï¿½ï¿½Eï¿½Bï¿½Wï¿½Fï¿½bï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½
 	mainLayout->removeWidget(FrontWidget);
 	mainLayout->removeWidget(BackWidget);
 
-	// ”ñ•\¦‰»
+	// ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½
 	for(int i=0; i<FrontImageList.count(); i++){
 		FrontImageList[i]->setVisible(false);
 	}
@@ -796,7 +814,7 @@ void WholeImageForReview::setOrientation(Qt::Orientation orientationFrontBack, Q
 		BackImageList[i]->setVisible(false);
 	}
 
-	// ƒtƒFƒCƒYƒEƒBƒWƒFƒbƒg‚Ìæ‚èŠO‚µ
+	// ï¿½tï¿½Fï¿½Cï¿½Yï¿½Eï¿½Bï¿½Wï¿½Fï¿½bï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½
 	while(frontLayout->count()!=0){
 		frontLayout->takeAt(0);
 	}
@@ -804,28 +822,28 @@ void WholeImageForReview::setOrientation(Qt::Orientation orientationFrontBack, Q
 		backLayout->takeAt(0);
 	}
 
-	// ƒtƒFƒCƒYƒEƒBƒWƒFƒbƒg‚ÌÄ”z’u
+	// ï¿½tï¿½Fï¿½Cï¿½Yï¿½Eï¿½Bï¿½Wï¿½Fï¿½bï¿½gï¿½ÌÄ”zï¿½u
 	if(orientationPhase==Qt::Horizontal){
-		// ‘O–ÊÄ”z’u
+		// ï¿½Oï¿½ÊÄ”zï¿½u
 		for(int i=0; i<FrontImageList.count(); i++){
 			frontLayout->addWidget(FrontImageList[i], 0, i);
 		}
-		// Œã–ÊÄ”z’u
+		// ï¿½ï¿½ï¿½ÊÄ”zï¿½u
 		for(int i=0; i<BackImageList.count(); i++){
 			backLayout->addWidget(BackImageList[i], 0, i);
 		}
 	}else{
-		// ‘O–ÊÄ”z’u
+		// ï¿½Oï¿½ÊÄ”zï¿½u
 		for(int i=0; i<FrontImageList.count(); i++){
 			frontLayout->addWidget(FrontImageList[i], i, 0);
 		}
-		// Œã–ÊÄ”z’u
+		// ï¿½ï¿½ï¿½ÊÄ”zï¿½u
 		for(int i=0; i<BackImageList.count(); i++){
 			backLayout->addWidget(BackImageList[i], i, 0);
 		}
 	}
 
-	// •\— ƒEƒBƒWƒFƒbƒgÄ”z’u
+	// ï¿½\ï¿½ï¿½ï¿½Eï¿½Bï¿½Wï¿½Fï¿½bï¿½gï¿½Ä”zï¿½u
 	if(orientationFrontBack==Qt::Horizontal){
 		mainLayout->addWidget(FrontWidget, 0, 0);
 		mainLayout->addWidget(BackWidget, 0, 1);
@@ -887,13 +905,13 @@ bool WholeImageForReview::loadImage(Review::SideType side)
 
 	if(RBase==NULL)return false;
 
-	// “Ç‚İ‚Ü‚ê‚Ä‚¢‚éƒ}ƒXƒ^[ƒf[ƒ^‚Ìî•ñ‚ğæ“¾
+	// ï¿½Ç‚İï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	CmdReqMasterDataInfo ReqMInfoCmd(GetLayersBase());
 	RBase->TransmitDirectly(&ReqMInfoCmd);
 	
 	if(ReqMInfoCmd.Ret==false)return false;
 
-	// ƒ^[ƒQƒbƒg‘I‘ğ
+	// ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½Iï¿½ï¿½
 	QList<WholeDisplay *> *targetList;
 	MasterDataInfo targetInfo;
 	int *targetMasterCode;
@@ -909,43 +927,43 @@ bool WholeImageForReview::loadImage(Review::SideType side)
 		targetMasterCode = &BackMasterCode;
 	}
 
-	// Œ»İ‚Ìƒf[ƒ^‚ğƒNƒŠƒA
+	// ï¿½ï¿½ï¿½İ‚Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½A
 	//qDeleteAll(targetList->begin(), targetList->end());
 	//targetList->clear();
 
-	// Œ»İ‚ÌƒVƒOƒiƒ‹ƒXƒƒbƒgÚ‘±‚ğØ’f
+	// ï¿½ï¿½ï¿½İ‚ÌƒVï¿½Oï¿½iï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½gï¿½Ú‘ï¿½ï¿½ï¿½ï¿½Ø’f
 	for(int i=0; i<targetList->count(); i++){
 		disconnectDisplay(side, i);
 	}
 
-	// ‰æ‘œ‚ğíœ
+	// ï¿½æ‘œï¿½ï¿½ï¿½íœ
 	for(int i=targetInfo.PhaseNumb; i<targetList->count(); i++){
 		(*targetList)[i]->getDisplay()->clearWholeImage();
 	}
 
-	// —]•ª‚Èƒoƒbƒtƒ@‚ğíœ
+	// ï¿½]ï¿½ï¿½ï¿½Èƒoï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½íœ
 	while(targetList->count()>targetInfo.PhaseNumb){
 		delete targetList->takeAt(targetInfo.PhaseNumb);
 	}
 
-	// ƒtƒFƒCƒY”‚¾‚¯ƒoƒbƒtƒ@‚ğì¬
+	// ï¿½tï¿½Fï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ì¬
 	while(targetList->count()<targetInfo.PhaseNumb){
 		WholeDisplay *tmp = new WholeDisplay(GetReviewAlgorithm(),side, targetList->count());
 		tmp->setVisible(false);
 		targetList->append(tmp);
 	}
 	
-	// ƒfƒBƒXƒvƒŒƒC‚Æ‚ÌƒVƒOƒiƒ‹ƒXƒƒbƒgÚ‘±
+	// ï¿½fï¿½Bï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½Æ‚ÌƒVï¿½Oï¿½iï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½gï¿½Ú‘ï¿½
 	for(int i=0; i<targetList->count(); i++){
 		connectDisplay(side, i);
 	}
 
-	// ƒvƒƒpƒeƒBİ’è‚ğ“K—p
+	// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½ï¿½ï¿½Kï¿½p
 	for(int i=0; i<targetList->count(); i++){
 		setPropertyToDisplay((*targetList)[i], side);
 	}
 
-	// ƒ}ƒXƒ^[ƒR[ƒh‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í‰æ‘œ‚ğƒNƒŠƒA‚µ‚ÄI—¹
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½İ’è‚³ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Í‰æ‘œï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ÄIï¿½ï¿½
 	if(targetInfo.MasterCode==-1){
 		*targetMasterCode = -1;
 		for(int i=0; i<targetList->count(); i++){
@@ -959,7 +977,7 @@ bool WholeImageForReview::loadImage(Review::SideType side)
 	}
 
 	//if(side==Review::Front){
-	//	//if(FrontMasterCode==ReqMInfoCmd.FrontMasterDataInfo.MasterCode)return true;// “¯‚¶ƒ}ƒXƒ^[ƒf[ƒ^‚È‚çˆ—‚ğI—¹
+	//	//if(FrontMasterCode==ReqMInfoCmd.FrontMasterDataInfo.MasterCode)return true;// ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½È‚çˆï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 	//	if(ReqMInfoCmd.FrontMasterDataInfo.MasterCode==-1){
 	//		FrontMasterCode = -1;
 	//		for(int i=0; i<FrontImageList.count(); i++){
@@ -980,7 +998,7 @@ bool WholeImageForReview::loadImage(Review::SideType side)
 
 	//	//QMessageBox::about(this, "WH", QString("%1,%2").arg(ReqWholeImage.FrontWholePic.size().width()).arg(ReqWholeImage.FrontWholePic.size().height()));
 	//}else{
-	//	//if(BackMasterCode==ReqMInfoCmd.BackMasterDataInfo.MasterCode)return true;// “¯‚¶ƒ}ƒXƒ^[ƒf[ƒ^‚È‚çˆ—‚ğI—¹
+	//	//if(BackMasterCode==ReqMInfoCmd.BackMasterDataInfo.MasterCode)return true;// ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½È‚çˆï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 	//	if(ReqMInfoCmd.BackMasterDataInfo.MasterCode==-1){
 	//		BackMasterCode = -1;
 	//		BackImage->getDisplay()->setWholeImage(NULL);
@@ -999,7 +1017,7 @@ bool WholeImageForReview::loadImage(Review::SideType side)
 	//	BackImage->setVisible(true);
 	//}
 
-	// Œ»İ‚Ì‰æ‘œ‚ÌÁ‹(‰æ‘œ‚ª–³‚¢ê‡‚Í‰½‚à‚µ‚È‚¢)
+	// ï¿½ï¿½ï¿½İ‚Ì‰æ‘œï¿½Ìï¿½ï¿½ï¿½(ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½)
 	//TargetImage->GetCanvas()->DelImage();
 
 	//BYTE *pR,*pG,*pB;
@@ -1070,7 +1088,7 @@ bool WholeImageForReview::loadImage(Review::SideType side)
 	//	//int MHeight = WholeImage->height();
 	//	//double zoomRate;
 
-	//	//// ƒLƒƒƒ“ƒoƒX‚Ì‘å‚«‚³‚É‡‚í‚¹‚Äƒ}ƒXƒ^[‰æ‘œ‚ÌŠg‘å—¦‚ğ’²®
+	//	//// ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Xï¿½Ì‘å‚«ï¿½ï¿½ï¿½Éï¿½ï¿½í‚¹ï¿½Äƒ}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ÌŠgï¿½å—¦ï¿½ğ’²ï¿½
 	//	//if( (ImageHeight/(double)ImageWidth) < (MHeight/(double)MWidth) ){
 	//	//	zoomRate = ImageHeight / (double)MHeight;
 	//	//}else{
@@ -1235,15 +1253,15 @@ void WholeImageForReview::SlotSetDragRectImage(Review::SideType side, int phase,
 
 	int rotate = display->rotate();
 
-	QRect viewRawRect = display->getCurrentViewRect();// Œ»İ•\¦’†‚Ì‰æ‘œ¶‹éŒ`ƒf[ƒ^(1”{•\¦‚Í(0,0,-1,-1):isEmpty()==true)
-	QSize canvasSize = QSize(display->GetCanvasWidth(), display->GetCanvasHeight());// ƒLƒƒƒ“ƒoƒXƒTƒCƒY
-	QSize stSize;// •\¦‚³‚ê‚Ä‚¢‚é‰æ‘œ‚Ì¶ƒTƒCƒY
+	QRect viewRawRect = display->getCurrentViewRect();// ï¿½ï¿½ï¿½İ•\ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰æ‘œï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½fï¿½[ï¿½^(1ï¿½{ï¿½\ï¿½ï¿½ï¿½ï¿½(0,0,-1,-1):isEmpty()==true)
+	QSize canvasSize = QSize(display->GetCanvasWidth(), display->GetCanvasHeight());// ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Xï¿½Tï¿½Cï¿½Y
+	QSize stSize;// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½æ‘œï¿½Ìï¿½ï¿½Tï¿½Cï¿½Y
 	
 	if(viewRawRect.isEmpty()==true){
-		stSize = display->getWholeImageOrgSize();// 1”{‚Í‚·‚×‚Ä
+		stSize = display->getWholeImageOrgSize();// 1ï¿½{ï¿½Í‚ï¿½ï¿½×‚ï¿½
 	}else{
-		stSize = viewRawRect.size();// Œ»İ•\¦‚µ‚Ä‚¢‚é¶ƒTƒCƒY
-		return;// Œ»İˆê‰ñ‚Ì‚İ; This will be able to few continue.
+		stSize = viewRawRect.size();// ï¿½ï¿½ï¿½İ•\ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é¶ï¿½Tï¿½Cï¿½Y
+		return;// ï¿½ï¿½ï¿½İˆï¿½ï¿½ï¿½ï¿½Ì‚ï¿½; This will be able to few continue.
 	}
 
 	QSize tstSize = stSize;
@@ -1387,6 +1405,5 @@ void WholeImageForReview::setPropertyToDisplay()
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 

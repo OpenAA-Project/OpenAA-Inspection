@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ListStatisticNGResource.h"
 #include <QFileDialog>
 
@@ -94,7 +112,7 @@ ListStatisticNG::ListStatisticNG(LayersBase *Base,QWidget *parent)
 	ui.tblMain->setVerticalHeaderLabels(vHeader);
 	ui.tblMain->setHorizontalHeaderLabels(hHeader);
 
-	ui.tblMain->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);	// c‰¡‚ğƒwƒbƒ_[•”‚ª‹Ï“™‚Ì•‚ÅLk•\¦‚³‚ê‚é
+	ui.tblMain->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);	// ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½wï¿½bï¿½_ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ï“ï¿½ï¿½Ì•ï¿½ï¿½ÅLï¿½kï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ui.tblMain->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
 	connect(this, SIGNAL(SignalResize()), SLOT(ResizeAction()));
@@ -149,22 +167,22 @@ void ListStatisticNG::updateGUI()
 {
 	ReviewPIBase *RBase = GetReviewAlgorithm();
 	if(RBase!=NULL){
-		// ‰Šú‰»
-		int FrontOKBoard = 0;				// OK‚É‘®‚·‚éŠî”Â”
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		int FrontOKBoard = 0;				// OKï¿½É‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âï¿½
 		int BackOKBoard = 0;
 
-		QVector<int> FrontBoardWithFKeyList(13, 0);	// F[i-1]ƒL[‚ÌŠî”Â” + FƒL[‚È‚µ
-		QVector<int> FrontNGWithFKeyList(13, 0);	// F[i-1]ƒL[‚É‘®‚·‚éNG‚Ì‡Œv’l + FƒL[‚È‚µ
-		QVector<int> BackBoardWithFKeyList(13, 0);	// F[i-1]ƒL[‚ÌŠî”Â” + FƒL[‚È‚µ
-		QVector<int> BackNGWithFKeyList(13, 0);		// F[i-1]ƒL[‚É‘®‚·‚éNG‚Ì‡Œv’l + FƒL[‚È‚µ
+		QVector<int> FrontBoardWithFKeyList(13, 0);	// F[i-1]ï¿½Lï¿½[ï¿½ÌŠï¿½ï¿½Âï¿½ + Fï¿½Lï¿½[ï¿½È‚ï¿½
+		QVector<int> FrontNGWithFKeyList(13, 0);	// F[i-1]ï¿½Lï¿½[ï¿½É‘ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½Ìï¿½ï¿½vï¿½l + Fï¿½Lï¿½[ï¿½È‚ï¿½
+		QVector<int> BackBoardWithFKeyList(13, 0);	// F[i-1]ï¿½Lï¿½[ï¿½ÌŠï¿½ï¿½Âï¿½ + Fï¿½Lï¿½[ï¿½È‚ï¿½
+		QVector<int> BackNGWithFKeyList(13, 0);		// F[i-1]ï¿½Lï¿½[ï¿½É‘ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½Ìï¿½ï¿½vï¿½l + Fï¿½Lï¿½[ï¿½È‚ï¿½
 		
-		// Œvã
+		// ï¿½vï¿½ï¿½
 		CmdReqOrganizedHistoryList Send(GetLayersBase());
 		RBase->TransmitDirectly(&Send);
 		if(Send.Ret==true){
-			foreach(OrganizedHistoryItem ohItem, *Send.listPtr){// —š—ğƒ‹[ƒv
+			foreach(OrganizedHistoryItem ohItem, *Send.listPtr){// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½v
 				if(ohItem.hasFront()==true){
-					// •\‘¤‚ÌŠî”Â”‚ğ’Ç‰Á
+					// ï¿½\ï¿½ï¿½ï¿½ÌŠï¿½ï¿½Âï¿½ï¿½ï¿½ï¿½Ç‰ï¿½
 
 					if(ohItem.getFront()->NGCount==0){
 						FrontOKBoard++;
@@ -179,17 +197,17 @@ void ListStatisticNG::updateGUI()
 					}
 
 					//QList<int> OneBoardFKeyList;// 
-					//Review::FKey BoardFKeyType = ohItem.getFront()->getFKeyInfo(OneBoardFKeyList); // Šî”Â‚ªŠ‘®‚·‚éFƒL[ƒ^ƒCƒv(Š‘®‚·‚éNG”‚ªˆê”Ô‘½‚¢FƒL[ƒ^ƒCƒv)
+					//Review::FKey BoardFKeyType = ohItem.getFront()->getFKeyInfo(OneBoardFKeyList); // ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Lï¿½[ï¿½^ï¿½Cï¿½v(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‘ï¿½ï¿½ï¿½Fï¿½Lï¿½[ï¿½^ï¿½Cï¿½v)
 					//if(BoardFKeyType!=Review::NoFKey){
 					//	for(int i=0; i<OneBoardFKeyList.count(); i++){
-					//		FrontNGWithFKeyList[i] += OneBoardFKeyList[i]; // NG”‡Z
+					//		FrontNGWithFKeyList[i] += OneBoardFKeyList[i]; // NGï¿½ï¿½ï¿½ï¿½ï¿½Z
 					//	}
 					//}else{
-					//	FrontOKBoard++;// OKŠî”Â‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
+					//	FrontOKBoard++;// OKï¿½ï¿½ï¿½Â‚ï¿½ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½g
 					//}
 				}
 				if(ohItem.getBack()!=NULL){
-					// — ‘¤‚ÌŠî”Â”‚ğ’Ç‰Á
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠï¿½ï¿½Âï¿½ï¿½ï¿½ï¿½Ç‰ï¿½
 					
 					if(ohItem.getBack()->NGCount==0){
 						BackOKBoard++;
@@ -204,21 +222,21 @@ void ListStatisticNG::updateGUI()
 					}
 
 					//QList<int> OneBoardFKeyList;
-					//Review::FKey BoardFKeyType = ohItem.getBack()->getFKeyInfo(OneBoardFKeyList); // Šî”Â‚ªŠ‘®‚·‚éFƒL[ƒ^ƒCƒv(Š‘®‚·‚éNG”‚ªˆê”Ô‘½‚¢FƒL[ƒ^ƒCƒv)
+					//Review::FKey BoardFKeyType = ohItem.getBack()->getFKeyInfo(OneBoardFKeyList); // ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Lï¿½[ï¿½^ï¿½Cï¿½v(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‘ï¿½ï¿½ï¿½Fï¿½Lï¿½[ï¿½^ï¿½Cï¿½v)
 					//BackBoardWithFKeyList[Review::FKeyToInt(BoardFKeyType)] += 1;
 					//if(BoardFKeyType!=Review::NoFKey){
 					//	for(int i=0; i<OneBoardFKeyList.count(); i++){
-					//		BackNGWithFKeyList[i] += OneBoardFKeyList[i]; // NG”‡Z
+					//		BackNGWithFKeyList[i] += OneBoardFKeyList[i]; // NGï¿½ï¿½ï¿½ï¿½ï¿½Z
 					//	}
 					//}else{
-					//	BackOKBoard++;// OKŠî”Â‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
+					//	BackOKBoard++;// OKï¿½ï¿½ï¿½Â‚ï¿½ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½g
 					//}
 				}
 			}
 		}
 
 		int row=0, column=0;
-		// "Šî”Â •\"
+		// "ï¿½ï¿½ï¿½ï¿½ ï¿½\"
 		for(column=0; column<ui.tblMain->columnCount()-1; column++){
 			ui.tblMain->setItem(row, column, new QTableWidgetItem(QString::number(FrontBoardWithFKeyList[column])));
 		}
@@ -226,7 +244,7 @@ void ListStatisticNG::updateGUI()
 
 		row++;
 
-		// "Šî”Â — "
+		// "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½"
 		for(column=0; column<ui.tblMain->columnCount()-1; column++){
 			ui.tblMain->setItem(row, column, new QTableWidgetItem(QString::number(BackBoardWithFKeyList[column])));
 		}
@@ -234,7 +252,7 @@ void ListStatisticNG::updateGUI()
 
 		row++;
 
-		// "NG” •\"
+		// "NGï¿½ï¿½ ï¿½\"
 		for(column=0; column<ui.tblMain->columnCount()-1; column++){
 			ui.tblMain->setItem(row, column, new QTableWidgetItem(QString::number(FrontNGWithFKeyList[column])));
 		}
@@ -242,7 +260,7 @@ void ListStatisticNG::updateGUI()
 
 		row++;
 
-		// "NG” — "
+		// "NGï¿½ï¿½ ï¿½ï¿½"
 		for(column=0; column<ui.tblMain->columnCount()-1; column++){
 			ui.tblMain->setItem(row, column, new QTableWidgetItem(QString::number(BackNGWithFKeyList[column])));
 		}
@@ -401,24 +419,24 @@ QTableWidget *ListStatisticNG::createDetailTableWidget(QString *errMsg)
 	const OrganizedHistoryListPtr list = reqOrgHistList.listPtr;
 
 	int rowCount = list->count();
-	QStringList hHeader = getFKeyDefinedNames(true);// 12ŒÂ
-	hHeader.push_front(/**/"Inspect ID");// 13ŒÂ
-	hHeader.push_back(/**/"NoFKey");// 14ŒÂ
+	QStringList hHeader = getFKeyDefinedNames(true);// 12ï¿½ï¿½
+	hHeader.push_front(/**/"Inspect ID");// 13ï¿½ï¿½
+	hHeader.push_back(/**/"NoFKey");// 14ï¿½ï¿½
 
 	QTableWidget *table = new QTableWidget;
 	table->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::Stretch);
 	table->horizontalHeader()->setStretchLastSection(true);
-	table->setColumnCount(hHeader.count());// •\‚Ì‚İ‚ÌƒJƒEƒ“ƒg
+	table->setColumnCount(hHeader.count());// ï¿½\ï¿½Ì‚İ‚ÌƒJï¿½Eï¿½ï¿½ï¿½g
 	table->setHorizontalHeaderLabels(hHeader);
 	table->verticalHeader()->setHidden(true);
 	table->setEditTriggers(QAbstractItemView::EditTrigger::NoEditTriggers);
 	table->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
 
 	if(type==Review::OrganizedSideType::FrontOnly){
-		QList<QList<QTableWidgetItem *> > tableItemTable;// ƒe[ƒuƒ‹‚ÌƒAƒCƒeƒ€
+		QList<QList<QTableWidgetItem *> > tableItemTable;// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÌƒAï¿½Cï¿½eï¿½ï¿½
 
 		for(int row=0; row<list->count(); row++){
-			// 1s‚¸‚Â‚ÌƒAƒCƒeƒ€ƒŠƒXƒg¶¬
+			// 1ï¿½sï¿½ï¿½ï¿½Â‚ÌƒAï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½
 			if(list->at(row).hasFront()==true && list->at(row).getFront()->isOK()==false){
 				QList<QTableWidgetItem *> currentRowItemList;
 
@@ -444,10 +462,10 @@ QTableWidget *ListStatisticNG::createDetailTableWidget(QString *errMsg)
 			}
 		}
 	}else if(type==Review::OrganizedSideType::BackOnly){
-		QList<QList<QTableWidgetItem *> > tableItemTable;// ƒe[ƒuƒ‹‚ÌƒAƒCƒeƒ€
+		QList<QList<QTableWidgetItem *> > tableItemTable;// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÌƒAï¿½Cï¿½eï¿½ï¿½
 
 		for(int row=0; row<list->count(); row++){
-			// 1s‚¸‚Â‚ÌƒAƒCƒeƒ€ƒŠƒXƒg¶¬
+			// 1ï¿½sï¿½ï¿½ï¿½Â‚ÌƒAï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½
 			if(list->at(row).hasBack()==true && list->at(row).getBack()->isOK()==false){
 				QList<QTableWidgetItem *> currentRowItemList;
 
@@ -473,12 +491,12 @@ QTableWidget *ListStatisticNG::createDetailTableWidget(QString *errMsg)
 			}
 		}
 	}else if(type==Review::OrganizedSideType::Both){
-		QList<QList<QTableWidgetItem *> > tableItemTable;// ƒe[ƒuƒ‹‚ÌƒAƒCƒeƒ€
+		QList<QList<QTableWidgetItem *> > tableItemTable;// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÌƒAï¿½Cï¿½eï¿½ï¿½
 
 		for(int row=0; row<list->count(); row++){
-			// •\‘¤ŒvZ
+			// ï¿½\ï¿½ï¿½ï¿½vï¿½Z
 
-			// 1s‚¸‚Â‚ÌƒAƒCƒeƒ€ƒŠƒXƒg¶¬
+			// 1ï¿½sï¿½ï¿½ï¿½Â‚ÌƒAï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½
 			if(list->at(row).hasFront()==true && list->at(row).getFront()->isOK()==false){
 				QList<QTableWidgetItem *> currentRowItemList;
 
@@ -495,9 +513,9 @@ QTableWidget *ListStatisticNG::createDetailTableWidget(QString *errMsg)
 				tableItemTable << currentRowItemList;
 			}
 			
-			// — ‘¤ŒvZ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Z
 
-			// 1s‚¸‚Â‚ÌƒAƒCƒeƒ€ƒŠƒXƒg¶¬
+			// 1ï¿½sï¿½ï¿½ï¿½Â‚ÌƒAï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½
 			if(list->at(row).hasBack()==true && list->at(row).getBack()->isOK()==false){
 				QList<QTableWidgetItem *> currentRowItemList;
 

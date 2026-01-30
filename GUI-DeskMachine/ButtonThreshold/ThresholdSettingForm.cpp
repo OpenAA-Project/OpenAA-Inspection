@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2014
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ButtonThresholdResource.h"
 #include "ThresholdSettingForm.h"
 #include "DetailSettingForm.h"
@@ -17,26 +35,26 @@ ThresholdSettingForm::ThresholdSettingForm(QWidget *parent,GUIFormBase *Base,Pix
 	chosenPhase =Phase;
 
 	QString DetailSettingImageBmpFile[5]={
-		/**/":Resources/DetailSettingImage.bmp",	//“ú–{Œê
+		/**/":Resources/DetailSettingImage.bmp",	//ï¿½ï¿½ï¿½{ï¿½ï¿½
 		/**/":Resources/DetailSettingImage-en.bmp",	//English
-		/**/":Resources/DetailSettingImage-en.bmp",	//ŠÈ‘Ì’†•¶
-		/**/":Resources/DetailSettingImage-en.bmp",	//”É‘Ì’†•¶
+		/**/":Resources/DetailSettingImage-en.bmp",	//ï¿½È‘Ì’ï¿½ï¿½ï¿½
+		/**/":Resources/DetailSettingImage-en.bmp",	//ï¿½É‘Ì’ï¿½ï¿½ï¿½
 		/**/":Resources/DetailSettingImage-en.bmp"	//Korean
 	};
 
-	DecisionImageBmpFile[0]=/**/":Resources/DecisionImage.bmp";		//“ú–{Œê
+	DecisionImageBmpFile[0]=/**/":Resources/DecisionImage.bmp";		//ï¿½ï¿½ï¿½{ï¿½ï¿½
 	DecisionImageBmpFile[1]=/**/":Resources/DecisionImage-en.bmp";	//English
-	DecisionImageBmpFile[2]=/**/":Resources/DecisionImage-en.bmp";	//ŠÈ‘Ì’†•¶
-	DecisionImageBmpFile[3]=/**/":Resources/DecisionImage-en.bmp";	//”É‘Ì’†•¶
+	DecisionImageBmpFile[2]=/**/":Resources/DecisionImage-en.bmp";	//ï¿½È‘Ì’ï¿½ï¿½ï¿½
+	DecisionImageBmpFile[3]=/**/":Resources/DecisionImage-en.bmp";	//ï¿½É‘Ì’ï¿½ï¿½ï¿½
 	DecisionImageBmpFile[4]=/**/":Resources/DecisionImage-en.bmp";	//Korean
 
-	CancelImageBmpFile[0]=/**/":Resources/CancelImage.bmp";		//“ú–{Œê
+	CancelImageBmpFile[0]=/**/":Resources/CancelImage.bmp";		//ï¿½ï¿½ï¿½{ï¿½ï¿½
 	CancelImageBmpFile[1]=/**/":Resources/CancelImage-en.bmp";	//English
-	CancelImageBmpFile[2]=/**/":Resources/CancelImage-en.bmp";	//ŠÈ‘Ì’†•¶
-	CancelImageBmpFile[3]=/**/":Resources/CancelImage-en.bmp";	//”É‘Ì’†•¶
+	CancelImageBmpFile[2]=/**/":Resources/CancelImage-en.bmp";	//ï¿½È‘Ì’ï¿½ï¿½ï¿½
+	CancelImageBmpFile[3]=/**/":Resources/CancelImage-en.bmp";	//ï¿½É‘Ì’ï¿½ï¿½ï¿½
 	CancelImageBmpFile[4]=/**/":Resources/CancelImage-en.bmp";	//Korean
 
-	//ƒ{ƒ^ƒ“
+	//ï¿½{ï¿½^ï¿½ï¿½
 	QImage DecisionImage(DecisionImageBmpFile[((ButtonThreshold *)GUIBase)->LanguageCode]);
 	BtnDecision=new mtImageToolButton(ui.lbDecision,false);
 	BtnDecision->setImageBmp(DecisionImage);
@@ -56,7 +74,7 @@ ThresholdSettingForm::ThresholdSettingForm(QWidget *parent,GUIFormBase *Base,Pix
 	BtnCancel->setIconSize(QSize(CancelImage.width(),CancelImage.height()));
 	connect(BtnCancel,SIGNAL(SignalClicked()),this,SLOT(SlotBtnCancelClicked()));
 
-	//ƒXƒ‰ƒCƒ_[
+	//ï¿½Xï¿½ï¿½ï¿½Cï¿½_ï¿½[
 	QImage SliderImage(/**/":Resources/slider.bmp");
 	QImage SliderBackImage(/**/":Resources/slider-back.bmp");
 //	ImageSlider=new mtImageSlider(SliderImage,SliderBackImage,ui.lbSlider);
@@ -114,17 +132,17 @@ void ThresholdSettingForm::SlotBtnDecisionClicked()
 
 void ThresholdSettingForm::SlotBtnDetailSettingClicked()
 {
-	//Ú×‰æ–Ê
+	//ï¿½Ú×‰ï¿½ï¿½ï¿½
 	DetailSettingForm	DetailSetting(this,GUIBase,PixelBase);
 
-	//ŒŸ¸ƒŒƒxƒ‹‚Ì‘Þ”ð
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Ì‘Þ”ï¿½
 	InspectionLevel=ImageSlider->getValue();
 
 	if(DetailSetting.exec()==false){
 ///		return;
 	}
 
-	//‰æ–ÊÝ’è
+	//ï¿½ï¿½ï¿½ÊÝ’ï¿½
 ///	ImageSlider->setValue(InspectionLevel);
 }
 

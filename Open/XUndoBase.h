@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XUNDOBASE_H)
 #define	XUNDOBASE_H
 
@@ -36,7 +54,7 @@ public:
 class UndoAlgorithmItemRoot : public UndoChainObject
 {
 private:
-    typedef void (AlgorithmItemRoot::*FPFUNC)(QIODevice *f);  // ˆ—ŠÖ”‚ÌŒ^
+    typedef void (AlgorithmItemRoot::*FPFUNC)(QIODevice *f);  // ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½ÌŒ^
 
 private:
 	AlgorithmParentFromItem	*Parent;
@@ -54,7 +72,7 @@ public:
 class UndoAlgorithmLayer : public UndoChainObject
 {
 private:
-    typedef void (AlgorithmInLayerRoot::*FPFUNC)(QIODevice *f);  // ˆ—ŠÖ”‚ÌŒ^
+    typedef void (AlgorithmInLayerRoot::*FPFUNC)(QIODevice *f);  // ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½ÌŒ^
 
 private:
 	AlgorithmInLayerRoot	*ThisInst;
@@ -70,7 +88,7 @@ public:
 class UndoAlgorithmPage : public UndoChainObject
 {
 private:
-    typedef void (AlgorithmInPageRoot::*FPFUNC)(QIODevice *f);  // ˆ—ŠÖ”‚ÌŒ^
+    typedef void (AlgorithmInPageRoot::*FPFUNC)(QIODevice *f);  // ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½ÌŒ^
 
 private:
 	AlgorithmInPageRoot	*ThisInst;
@@ -85,7 +103,7 @@ public:
 class UndoDataInLayer : public UndoChainObject
 {
 private:
-    typedef void (DataInLayer::*FPFUNC)(QIODevice *f);  // ˆ—ŠÖ”‚ÌŒ^
+    typedef void (DataInLayer::*FPFUNC)(QIODevice *f);  // ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½ÌŒ^
 
 private:
 	DataInLayer				*ThisInst;
@@ -101,7 +119,7 @@ public:
 class UndoDataInPage : public UndoChainObject
 {
 private:
-    typedef void (DataInPage::*FPFUNC)(QIODevice *f);  // ˆ—ŠÖ”‚ÌŒ^
+    typedef void (DataInPage::*FPFUNC)(QIODevice *f);  // ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½ÌŒ^
 
 private:
 	DataInPage				*ThisInst;
@@ -119,10 +137,10 @@ template <typename t_Undo>
 class UndoElement : public UndoChainObject
 {
 private:
-    typedef void (t_Undo::*FPFUNC)(QIODevice *f);  // ˆ—ŠÖ”‚ÌŒ^
+    typedef void (t_Undo::*FPFUNC)(QIODevice *f);  // ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½ÌŒ^
 
 private:
-    t_Undo* m_pHandleParent;         // ‘€ì‘ÎÛ
+    t_Undo* m_pHandleParent;         // ï¿½ï¿½ï¿½ï¿½ï¿½Îï¿½
 	FPFUNC	m_Undofunc;
 	FPFUNC	m_Redofunc;
 public:

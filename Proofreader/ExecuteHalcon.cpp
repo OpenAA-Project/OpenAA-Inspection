@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Proofreader\ExecuteHalcon.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "HalconCpp.h"
 #include "ExecuteHalcon.h"
 
@@ -62,28 +71,28 @@ void ExecuteHalcon::Hgen_image1(int iDotPerLine,int iMaxLines,unsigned char *ima
   // Open default window 
 	open_window(0,0,246,1000,0,"","",&CPPExpDefaultWindow);
 //  open_window(0,0,-1,-1,0,"","",&CPPExpDefaultWindow);
-//  list_files("D:\\My Documents\\‰c‹Æ“ú@@\\•ª–ì•ÊƒtƒHƒ‹ƒ_\\‚»‚Ì‘¼ŠÖ˜A\\ƒZƒ‰ƒ~ƒbƒNŠÖŒW\\O•Hƒ}ƒeƒŠƒAƒ‹\\0805192", 
+//  list_files("D:\\My Documents\\ï¿½cï¿½Æ“ï¿½ï¿½ï¿½ï¿½@ï¿½@\\ï¿½ï¿½ï¿½ï¿½ï¿½Êƒtï¿½Hï¿½ï¿½ï¿½_\\ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½Ö˜A\\ï¿½Zï¿½ï¿½ï¿½~ï¿½bï¿½Nï¿½ÖŒW\\ï¿½Oï¿½Hï¿½}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½\\0805192", 
 //      "files", &Files);
   set_color(HTuple(CPPExpDefaultWindow),"red");
   set_draw(HTuple(CPPExpDefaultWindow),"margin");
   set_line_width(HTuple(CPPExpDefaultWindow),2);
-  //‘I•Ê‹P“x‰ÁZ’l
+  //ï¿½Iï¿½Ê‹Pï¿½xï¿½ï¿½ï¿½Zï¿½l
   H1 = 5;
-  //‘å‚«‚È•s—Ç–ÊÏè‡’l
+  //ï¿½å‚«ï¿½È•sï¿½Ç–Êï¿½è‡’l
   A1 = 0.001;
   A2 = 40;
-  //‘å‚«‚È•s—Ç‹P“xè‡’l
+  //ï¿½å‚«ï¿½È•sï¿½Ç‹Pï¿½xè‡’l
   B1 = 9;
-  //‘å‚«‚È•s—ÇŒ`óè‡’l
+  //ï¿½å‚«ï¿½È•sï¿½ÇŒ`ï¿½ï¿½è‡’l
   F1 = 1.33;
-  //¬‚³‚È•s—ÇŒ`óè‡’l
+  //ï¿½ï¿½ï¿½ï¿½ï¿½È•sï¿½ÇŒ`ï¿½ï¿½è‡’l
   C1 = 3.4;
-  //¬‚³‚È•s—Ç–ÊÏè‡’l
+  //ï¿½ï¿½ï¿½ï¿½ï¿½È•sï¿½Ç–Êï¿½è‡’l
   D1 = 0.001;
   D2 = 243;
-  //¬‚³‚È•s—Ç‹P“xè‡’l
+  //ï¿½ï¿½ï¿½ï¿½ï¿½È•sï¿½Ç‹Pï¿½xè‡’l
   E1 = 10;
-  //‰æ‘œˆ³k“x‡
+  //ï¿½æ‘œï¿½ï¿½ï¿½kï¿½xï¿½ï¿½
   G1 = 1.5;
 //  for (n=1; n<=488; n+=1)
 //  {
@@ -94,7 +103,7 @@ void ExecuteHalcon::Hgen_image1(int iDotPerLine,int iMaxLines,unsigned char *ima
 //    read_image(&Image, HTuple(Files[n]));
 	gen_image1(&Image,"byte",iDotPerLine,iMaxLines,(long)image);
 
-	//ƒrƒbƒgƒ}ƒbƒv‚É•Û‘¶
+	//ï¿½rï¿½bï¿½gï¿½}ï¿½bï¿½vï¿½É•Û‘ï¿½
 	write_image(Image,"bmp",0,"D:/Data/image.bmp");
 
 	set_part(CPPExpDefaultWindow,0,0,-1,-1);
@@ -107,17 +116,17 @@ void ExecuteHalcon::Hgen_image1(int iDotPerLine,int iMaxLines,unsigned char *ima
     // dev_update_var(...); only in hdevelop
     // dev_update_window(...); only in hdevelop
     //
-    //‰æ‘œˆ³k
+    //ï¿½æ‘œï¿½ï¿½ï¿½k
     zoom_image_size(Image, &ImageZoom, 7400/G1, 30000/G1, "constant");
     copy_image(ImageZoom, &Image);
     //
-    //•½ŠŠ‰»
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     mean_image(Image, &ImageMean, 3, 3);
     //
-    //‰æ‘œ‹­’²
+    //ï¿½æ‘œï¿½ï¿½ï¿½ï¿½
     emphasize(ImageMean, &ImageEmphasize, 3, 3, 1);
     //
-    //”’•”½“]
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
     invert_image(ImageEmphasize, &ImageInvert);
     min_max_gray(ImageInvert, ImageInvert, 1, &Min1, &Max1, &Range1);
     Min1 += H1;
@@ -125,7 +134,7 @@ void ExecuteHalcon::Hgen_image1(int iDotPerLine,int iMaxLines,unsigned char *ima
     threshold(ImageInvert, &Region5, 0, 0.75*Min1);
     difference(Region4, Region5, &RegionDifference);
     //
-    //Region5‚ÌŒŸ¸
+    //Region5ï¿½ÌŒï¿½ï¿½ï¿½
     min_max_gray(Region5, Image, 2, &Min, &Max, &Range);
     //closing_rectangle1 (Region5, RegionClosing, 1, 1)
     closing_circle(Region5, &RegionClosing2, 6);
@@ -133,14 +142,14 @@ void ExecuteHalcon::Hgen_image1(int iDotPerLine,int iMaxLines,unsigned char *ima
     select_shape(ConnectedRegions4, &SelectedRegions1, "anisometry", "and", F1, 60);
     area_center(ConnectedRegions4, &Area, &Row, &Column);
     tuple_max(Area, &MaxArea);
-    //‘å‚«‚È•s—Ç@–ÊÏè‡’l
+    //ï¿½å‚«ï¿½È•sï¿½Ç@ï¿½Êï¿½è‡’l
     select_shape(SelectedRegions1, &SelectedRegions2, "area", "and", A1*MaxArea, 
         999999);
     select_shape(SelectedRegions2, &SelectedRegions3, "area", "and", A2, 99999);
     min_max_gray(SelectedRegions3, Image, 7, &Min2, &Max2, &Range2);
     count_obj(SelectedRegions3, &Number1);
     tuple_sum(Max2, &Sum1);
-    //‘å‚«‚È•s—Ç@‹P“xè‡’l
+    //ï¿½å‚«ï¿½È•sï¿½Ç@ï¿½Pï¿½xè‡’l
     Result1 = B1+(Sum1/Number1);
     if (Number1>1)
     {
@@ -160,26 +169,26 @@ void ExecuteHalcon::Hgen_image1(int iDotPerLine,int iMaxLines,unsigned char *ima
       concat_obj(Defects2, SelectedRegions3, &Defects2);
     }
     //
-    //RegionDifference‚ÌŒŸ¸
+    //RegionDifferenceï¿½ÌŒï¿½ï¿½ï¿½
     closing_circle(RegionDifference, &RegionClosing1, 5.5);
     //closing_rectangle1 (RegionDifference, RegionClosing1, 5, 5)
     min_max_gray(RegionClosing1, Image, 2, &Min3, &Max3, &Range3);
     connection(RegionClosing1, &ConnectedRegions5);
-    //¬‚³‚È•s—Ç@Œ`ó‚É‚æ‚éi‚İ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½È•sï¿½Ç@ï¿½`ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½
     select_shape(ConnectedRegions5, &SelectedRegions4, "anisometry", "and", C1, 60);
     area_center(SelectedRegions4, &Area1, &Row1, &Column1);
     count_obj(SelectedRegions4, &Number);
     if (Number>0)
     {
       tuple_max(Area1, &MaxArea1);
-      //¬‚³‚È•s—Ç@–ÊÏè‡’l
+      //ï¿½ï¿½ï¿½ï¿½ï¿½È•sï¿½Ç@ï¿½Êï¿½è‡’l
       select_shape(SelectedRegions4, &SelectedRegions5, "area", "and", D1*MaxArea1, 
           99999);
       select_shape(SelectedRegions5, &SelectedRegions6, "area", "and", D2, 99999);
       min_max_gray(SelectedRegions6, Image, 7, &Min4, &Max4, &Range4);
       count_obj(SelectedRegions6, &Number2);
       tuple_sum(Max4, &Sum2);
-      //¬‚³‚È•s—Ç@‹P“xè‡’l
+      //ï¿½ï¿½ï¿½ï¿½ï¿½È•sï¿½Ç@ï¿½Pï¿½xè‡’l
       Result2 = (Sum2/Number2)+E1;
       if (Number2>1)
       {
@@ -204,7 +213,7 @@ void ExecuteHalcon::Hgen_image1(int iDotPerLine,int iMaxLines,unsigned char *ima
     // dev_update_var(...); only in hdevelop
     // dev_update_window(...); only in hdevelop
     //
-    //•\¦
+    //ï¿½\ï¿½ï¿½
     disp_obj(Image, HTuple(CPPExpDefaultWindow));
     disp_obj(Defects, HTuple(CPPExpDefaultWindow));
     disp_obj(Defects1, HTuple(CPPExpDefaultWindow));

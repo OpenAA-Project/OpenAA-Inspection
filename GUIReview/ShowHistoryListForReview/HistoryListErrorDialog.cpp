@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2017
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ShowHistoryListForReviewResource.h"
 #include "HistoryListErrorDialog.h"
 #include "ReviewStructureItems.h"
@@ -5,43 +23,43 @@
 void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review::OrganizedSideType oside)
 {
 	if(listPtr!=NULL && listPtr->isEmpty()==false){
-		if(oside==Review::OrganizedSideType::Both){// —¼–Ê‚Ìê‡
-			// ƒGƒ‰[ƒ`ƒFƒbƒN
-			// ŒŸ¸ID‚Ì”ò‚ÑAd•¡‚ğŒŸõ
+		if(oside==Review::OrganizedSideType::Both){// ï¿½ï¿½ï¿½Ê‚Ìê‡
+			// ï¿½Gï¿½ï¿½ï¿½[ï¿½`ï¿½Fï¿½bï¿½N
+			// ï¿½ï¿½ï¿½ï¿½IDï¿½Ì”ï¿½ï¿½ÑAï¿½dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 			QHash<int,bool> FrontMultiIDError;
-			QList<int> FrontNoExistError;// •\‘¤‚Ì‚È‚¢ID
+			QList<int> FrontNoExistError;// ï¿½\ï¿½ï¿½ï¿½Ì‚È‚ï¿½ID
 			QHash<int,bool> BackMultiIDError;
-			QList<int> BackNoExistError;// — ‘¤‚Ì‚È‚¢ID
+			QList<int> BackNoExistError;// ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚È‚ï¿½ID
 			int FrontOKCount=0;
 			int FrontNGCount=0;
 			int BackOKCount=0;
 			int BackNGCount=0;
 
 			for(int i=0; i<listPtr->count(); i++){
-				if(listPtr->at(i).hasFront()==false){// •\ŒŸ¸—š—ğƒ`ƒFƒbƒN
-					FrontNoExistError.append(listPtr->at(i).getInspectID());// ŒŸ¸—š—ğ‚È‚µ
+				if(listPtr->at(i).hasFront()==false){// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
+					FrontNoExistError.append(listPtr->at(i).getInspectID());// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 				}else{
-					if(FrontMultiIDError.contains(listPtr->at(i).getInspectID())==true){// ŒŸ¸ID‚ª•¡”‘¶İ‚µ‚Ä‚¢‚é
+					if(FrontMultiIDError.contains(listPtr->at(i).getInspectID())==true){// ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 						FrontMultiIDError[listPtr->at(i).getInspectID()] = false;
 					}else{
-						FrontMultiIDError.insert(listPtr->at(i).getInspectID(), true);// ’Êí‚ÍID‚²‚Æ‚É‚±‚±‚Éˆê“x‚¾‚¯“ü‚é
+						FrontMultiIDError.insert(listPtr->at(i).getInspectID(), true);// ï¿½Êï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½Æ‚É‚ï¿½ï¿½ï¿½ï¿½Éˆï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					}
-					if(listPtr->at(i).getFront()->isOK()){// OK‚©NG‚©‚Å•ªŠòA‰ÁZ
+					if(listPtr->at(i).getFront()->isOK()){// OKï¿½ï¿½NGï¿½ï¿½ï¿½Å•ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Z
 						FrontOKCount++;
 					}else{
 						FrontNGCount++;
 					}
 				}
-				if(listPtr->at(i).hasBack()==false){// — ŒŸ¸—š—ğƒ`ƒFƒbƒN
-					BackNoExistError.append(listPtr->at(i).getInspectID());// ŒŸ¸—š—ğ‚È‚µ
+				if(listPtr->at(i).hasBack()==false){// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
+					BackNoExistError.append(listPtr->at(i).getInspectID());// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 				}else{
-					if(BackMultiIDError.contains(listPtr->at(i).getInspectID())==true){// ŒŸ¸ID‚ª•¡”‘¶İ‚µ‚Ä‚¢‚é
+					if(BackMultiIDError.contains(listPtr->at(i).getInspectID())==true){// ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 						BackMultiIDError[listPtr->at(i).getInspectID()] = false;
 					}else{
-						BackMultiIDError.insert(listPtr->at(i).getInspectID(), true);// ’Êí‚ÍID‚²‚Æ‚É‚±‚±‚Éˆê“x‚¾‚¯“ü‚é
+						BackMultiIDError.insert(listPtr->at(i).getInspectID(), true);// ï¿½Êï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½Æ‚É‚ï¿½ï¿½ï¿½ï¿½Éˆï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					}
-					if(listPtr->at(i).getBack()->isOK()){// OK‚©NG‚©‚Å•ªŠòA‰ÁZ
+					if(listPtr->at(i).getBack()->isOK()){// OKï¿½ï¿½NGï¿½ï¿½ï¿½Å•ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Z
 						BackOKCount++;
 					}else{
 						BackNGCount++;
@@ -50,19 +68,19 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 			}
 
 			{
-			// ƒGƒ‰[‚¶‚á‚È‚¢‚à‚Ì‚ğæ‚èœ‚­
+			// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½èœï¿½ï¿½
 			QList<int> keys;
-			keys = FrontMultiIDError.keys(true);// ƒGƒ‰[‚¶‚á‚È‚¢
+			keys = FrontMultiIDError.keys(true);// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			for(int i=0; i<keys.count(); i++){
-				FrontMultiIDError.remove(keys[i]);// æ‚èœ‚«
+				FrontMultiIDError.remove(keys[i]);// ï¿½ï¿½ï¿½èœï¿½ï¿½
 			}
-			keys = BackMultiIDError.keys(true);// ƒGƒ‰[‚¶‚á‚È‚¢
+			keys = BackMultiIDError.keys(true);// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			for(int i=0; i<keys.count(); i++){
-				BackMultiIDError.remove(keys[i]);// æ‚èœ‚«
+				BackMultiIDError.remove(keys[i]);// ï¿½ï¿½ï¿½èœï¿½ï¿½
 			}
 			}
 
-			// ŒŸ¸ƒ{[ƒhŒvãŒ‹‰Ê
+			// ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½[ï¿½hï¿½vï¿½ãŒ‹ï¿½ï¿½
 			ui.twBoardCount->setItem(0, 0, new QTableWidgetItem(QString::number(FrontOKCount)));
 			ui.twBoardCount->setItem(1, 0, new QTableWidgetItem(QString::number(FrontNGCount)));
 			ui.twBoardCount->setItem(2, 0, new QTableWidgetItem(QString::number(FrontOKCount+FrontNGCount)));
@@ -70,7 +88,7 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 			ui.twBoardCount->setItem(1, 1, new QTableWidgetItem(QString::number(BackNGCount)));
 			ui.twBoardCount->setItem(2, 1, new QTableWidgetItem(QString::number(BackOKCount+BackNGCount)));
 			
-			// ‰½‚ç‚©‚ÌƒGƒ‰[‚ª‚ ‚Á‚½ê‡
+			// ï¿½ï¿½ï¿½ç‚©ï¿½ÌƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
 			if(/*MultiErrorInspectIDList.isEmpty()==false	|| NoExistErrorInspectIDList.empty()==false ||*/
 				FrontMultiIDError.isEmpty()==false		|| FrontNoExistError.isEmpty()==false ||
 				BackMultiIDError.isEmpty()==false		|| BackNoExistError.isEmpty()==false){
@@ -80,7 +98,7 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 				list << /**/"Front" << /**/"Back";
 				ui.twBoardCount->setHorizontalHeaderLabels(list);
 
-				// ŒŸ¸ƒ{[ƒhŒvãŒ‹‰Ê
+				// ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½[ï¿½hï¿½vï¿½ãŒ‹ï¿½ï¿½
 				ui.twBoardCount->setItem(0, 0, new QTableWidgetItem(QString::number(FrontOKCount)));
 				ui.twBoardCount->setItem(1, 0, new QTableWidgetItem(QString::number(FrontNGCount)));
 				ui.twBoardCount->setItem(2, 0, new QTableWidgetItem(QString::number(FrontOKCount+FrontNGCount)));
@@ -89,15 +107,15 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 				ui.twBoardCount->setItem(2, 1, new QTableWidgetItem(QString::number(BackOKCount+BackNGCount)));
 
 				if(FrontMultiIDError.isEmpty()==false || FrontNoExistError.isEmpty()==false){
-					ui.twFrontError->setRowCount(FrontMultiIDError.count() + FrontNoExistError.count());// s”‚Ì’²®
-					QList<int> keyList = FrontMultiIDError.keys();// ƒL[‚Ìæ“¾
-					qSort(keyList);// ID‚ğ¸‡‚É•À‚×‘Ö‚¦
+					ui.twFrontError->setRowCount(FrontMultiIDError.count() + FrontNoExistError.count());// ï¿½sï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½
+					QList<int> keyList = FrontMultiIDError.keys();// ï¿½Lï¿½[ï¿½Ìæ“¾
+					qSort(keyList);// IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½×‘Ö‚ï¿½
 					int row=0;
 					for(int i=0; i<keyList.count(); i++,row++){
 						ui.twFrontError->setItem(row, 0, new QTableWidgetItem(QString::number(keyList[i])));
 						ui.twFrontError->setItem(row, 1, new QTableWidgetItem(LangSolver.GetString(HistoryListErrorDialog_LS,LID_0)/*"Multi ID"*/));
 					}
-					qSort(FrontNoExistError);// ID‚ğ¸‡‚É•À‚×‘Ö‚¦
+					qSort(FrontNoExistError);// IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½×‘Ö‚ï¿½
 					for(int i=0; i<FrontNoExistError.count(); i++,row++){
 						ui.twFrontError->setItem(row, 0, new QTableWidgetItem(QString::number(FrontNoExistError[i])));
 						ui.twFrontError->setItem(row, 1, new QTableWidgetItem(LangSolver.GetString(HistoryListErrorDialog_LS,LID_1)/*"No ID"*/));
@@ -108,15 +126,15 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 				}
 
 				if(BackMultiIDError.isEmpty()==false || BackNoExistError.isEmpty()==false){
-					ui.twBackError->setRowCount(BackMultiIDError.count() + BackNoExistError.count());// s”‚Ì’²®
-					QList<int> keyList = BackMultiIDError.keys();// ƒL[‚Ìæ“¾
-					qSort(keyList);// ID‚ğ¸‡‚É•À‚×‘Ö‚¦
+					ui.twBackError->setRowCount(BackMultiIDError.count() + BackNoExistError.count());// ï¿½sï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½
+					QList<int> keyList = BackMultiIDError.keys();// ï¿½Lï¿½[ï¿½Ìæ“¾
+					qSort(keyList);// IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½×‘Ö‚ï¿½
 					int row=0;
 					for(int i=0; i<keyList.count(); i++,row++){
 						ui.twBackError->setItem(row, 0, new QTableWidgetItem(QString::number(keyList[i])));
 						ui.twBackError->setItem(row, 1, new QTableWidgetItem(LangSolver.GetString(HistoryListErrorDialog_LS,LID_2)/*"Multi ID"*/));
 					}
-					qSort(BackNoExistError);// ID‚ğ¸‡‚É•À‚×‘Ö‚¦
+					qSort(BackNoExistError);// IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½×‘Ö‚ï¿½
 					for(int i=0; i<BackNoExistError.count(); i++,row++){
 						ui.twBackError->setItem(row, 0, new QTableWidgetItem(QString::number(BackNoExistError[i])));
 						ui.twBackError->setItem(row, 1, new QTableWidgetItem(LangSolver.GetString(HistoryListErrorDialog_LS,LID_3)/*"No ID"*/));
@@ -131,24 +149,24 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 				ui.twFrontError->setVisible(false);
 				ui.twBackError->setVisible(false);
 			}
-		}else if(oside==Review::OrganizedSideType::FrontOnly){// •\‚Ì‚İ
-			// ƒGƒ‰[ƒ`ƒFƒbƒN
-			// ŒŸ¸ID‚Ì”ò‚ÑAd•¡‚ğŒŸõ
+		}else if(oside==Review::OrganizedSideType::FrontOnly){// ï¿½\ï¿½Ì‚ï¿½
+			// ï¿½Gï¿½ï¿½ï¿½[ï¿½`ï¿½Fï¿½bï¿½N
+			// ï¿½ï¿½ï¿½ï¿½IDï¿½Ì”ï¿½ï¿½ÑAï¿½dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			QHash<int,bool> FrontMultiIDError;
-			QList<int> FrontNoExistError;// •\‘¤‚Ì‚È‚¢ID
+			QList<int> FrontNoExistError;// ï¿½\ï¿½ï¿½ï¿½Ì‚È‚ï¿½ID
 			int FrontOKCount=0;
 			int FrontNGCount=0;
 
 			for(int i=0; i<listPtr->count(); i++){
-				if(listPtr->at(i).hasFront()==false){// •\ŒŸ¸—š—ğƒ`ƒFƒbƒN
-					FrontNoExistError.append(listPtr->at(i).getInspectID());// ŒŸ¸—š—ğ‚È‚µ
+				if(listPtr->at(i).hasFront()==false){// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
+					FrontNoExistError.append(listPtr->at(i).getInspectID());// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 				}else{
-					if(FrontMultiIDError.contains(listPtr->at(i).getInspectID())==true){// ŒŸ¸ID‚ª•¡”‘¶İ‚µ‚Ä‚¢‚é
+					if(FrontMultiIDError.contains(listPtr->at(i).getInspectID())==true){// ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 						FrontMultiIDError[listPtr->at(i).getInspectID()] = false;
 					}else{
-						FrontMultiIDError.insert(listPtr->at(i).getInspectID(), true);// ’Êí‚ÍID‚²‚Æ‚É‚±‚±‚Éˆê“x‚¾‚¯“ü‚é
+						FrontMultiIDError.insert(listPtr->at(i).getInspectID(), true);// ï¿½Êï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½Æ‚É‚ï¿½ï¿½ï¿½ï¿½Éˆï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					}
-					if(listPtr->at(i).getFront()->isOK()){// OK‚©NG‚©‚Å•ªŠòA‰ÁZ
+					if(listPtr->at(i).getFront()->isOK()){// OKï¿½ï¿½NGï¿½ï¿½ï¿½Å•ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Z
 						FrontOKCount++;
 					}else{
 						FrontNGCount++;
@@ -157,20 +175,20 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 			}
 
 			{
-			// ƒGƒ‰[‚¶‚á‚È‚¢‚à‚Ì‚ğæ‚èœ‚­
+			// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½èœï¿½ï¿½
 			QList<int> keys;
-			keys = FrontMultiIDError.keys(true);// ƒGƒ‰[‚¶‚á‚È‚¢
+			keys = FrontMultiIDError.keys(true);// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			for(int i=0; i<keys.count(); i++){
-				FrontMultiIDError.remove(keys[i]);// æ‚èœ‚«
+				FrontMultiIDError.remove(keys[i]);// ï¿½ï¿½ï¿½èœï¿½ï¿½
 			}
 			}
 
-			// ŒŸ¸ƒ{[ƒhŒvãŒ‹‰Ê
+			// ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½[ï¿½hï¿½vï¿½ãŒ‹ï¿½ï¿½
 			ui.twBoardCount->setItem(0, 0, new QTableWidgetItem(QString::number(FrontOKCount)));
 			ui.twBoardCount->setItem(1, 0, new QTableWidgetItem(QString::number(FrontNGCount)));
 			ui.twBoardCount->setItem(2, 0, new QTableWidgetItem(QString::number(FrontOKCount+FrontNGCount)));
 			
-			// ‰½‚ç‚©‚ÌƒGƒ‰[‚ª‚ ‚Á‚½ê‡
+			// ï¿½ï¿½ï¿½ç‚©ï¿½ÌƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
 			if(/*MultiErrorInspectIDList.isEmpty()==false	|| NoExistErrorInspectIDList.empty()==false ||*/
 				FrontMultiIDError.isEmpty()==false		|| FrontNoExistError.isEmpty()==false){
 
@@ -179,21 +197,21 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 				list << /**/"Front";
 				ui.twBoardCount->setHorizontalHeaderLabels(list);
 
-				// ŒŸ¸ƒ{[ƒhŒvãŒ‹‰Ê
+				// ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½[ï¿½hï¿½vï¿½ãŒ‹ï¿½ï¿½
 				ui.twBoardCount->setItem(0, 0, new QTableWidgetItem(QString::number(FrontOKCount)));
 				ui.twBoardCount->setItem(1, 0, new QTableWidgetItem(QString::number(FrontNGCount)));
 				ui.twBoardCount->setItem(2, 0, new QTableWidgetItem(QString::number(FrontOKCount+FrontNGCount)));
 
 				if(FrontMultiIDError.isEmpty()==false || FrontNoExistError.isEmpty()==false){
-					ui.twFrontError->setRowCount(FrontMultiIDError.count() + FrontNoExistError.count());// s”‚Ì’²®
-					QList<int> keyList = FrontMultiIDError.keys();// ƒL[‚Ìæ“¾
-					qSort(keyList);// ID‚ğ¸‡‚É•À‚×‘Ö‚¦
+					ui.twFrontError->setRowCount(FrontMultiIDError.count() + FrontNoExistError.count());// ï¿½sï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½
+					QList<int> keyList = FrontMultiIDError.keys();// ï¿½Lï¿½[ï¿½Ìæ“¾
+					qSort(keyList);// IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½×‘Ö‚ï¿½
 					int row=0;
 					for(int i=0; i<keyList.count(); i++,row++){
 						ui.twFrontError->setItem(row, 0, new QTableWidgetItem(QString::number(keyList[i])));
 						ui.twFrontError->setItem(row, 1, new QTableWidgetItem(/**/"Multi ID"));
 					}
-					qSort(FrontNoExistError);// ID‚ğ¸‡‚É•À‚×‘Ö‚¦
+					qSort(FrontNoExistError);// IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½×‘Ö‚ï¿½
 					for(int i=0; i<FrontNoExistError.count(); i++,row++){
 						ui.twFrontError->setItem(row, 0, new QTableWidgetItem(QString::number(FrontNoExistError[i])));
 						ui.twFrontError->setItem(row, 1, new QTableWidgetItem(/**/"No ID"));
@@ -205,7 +223,7 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 
 				ui.twBackError->setVisible(false);
 
-			}else{// — ‚Ì‚İA“Ç‚İ‚İ–³‚µ‚Íİ’è‚È‚µ
+			}else{// ï¿½ï¿½ï¿½Ì‚İAï¿½Ç‚İï¿½ï¿½İ–ï¿½ï¿½ï¿½ï¿½Íİ’ï¿½ï¿½È‚ï¿½
 				ui.twBoardCount->setItem(0, 0, new QTableWidgetItem(QString::number(0)));
 				ui.twBoardCount->setItem(1, 0, new QTableWidgetItem(QString::number(0)));
 				ui.twBoardCount->setItem(2, 0, new QTableWidgetItem(QString::number(0)));

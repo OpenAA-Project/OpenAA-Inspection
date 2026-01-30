@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "TypeDefinition.h"
 #include <QFile>
 #include <QBuffer>
@@ -89,7 +107,7 @@ void TypeDefinition::SlotBinaryMessageReceived(const QByteArray &message)
 	if(Packet.count()>=1){
 		Ack=Packet[0];
 		if(Ack==/**/"NoLic"){
-			//ƒf[ƒ^ƒx[ƒX‚É“o˜^‚³‚ê‚Ä‚¢‚È‚¢
+			//ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½É“oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½
 		}
 		else
 		if(Ack==/**/"OkLic" && Packet.count()>=2){
@@ -98,11 +116,11 @@ void TypeDefinition::SlotBinaryMessageReceived(const QByteArray &message)
 		}
 		else
 		if(Ack==/**/"Break"){
-			//ƒ‰ƒCƒZƒ“ƒXƒf[ƒ^¶¬’†‚ÉƒGƒ‰[
+			//ï¿½ï¿½ï¿½Cï¿½Zï¿½ï¿½ï¿½Xï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉƒGï¿½ï¿½ï¿½[
 		}
 		else
 		if(Ack==/**/"NoMatch"){
-			//ˆÈ‘O“o˜^‚µ‚½ƒ†[ƒU[î•ñ‚ÆˆÙ‚È‚é
+			//ï¿½È‘Oï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½Uï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ÆˆÙ‚È‚ï¿½
 		}
 		else{
 			Ack=/**/"";

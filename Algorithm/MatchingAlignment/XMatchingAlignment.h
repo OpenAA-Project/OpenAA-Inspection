@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XMATCHINGALIGNMENT_H)
 #define	XMATCHINGALIGNMENT_H
 
@@ -28,8 +46,8 @@ class	MatchingAlignmentItem : public AlgorithmItemPLI
 public:
 	double	MatchingResult;
 	int		Dx,Dy;
-	FlexAreaImageListCoeffContainer	MatchingAreas;	//“Á’¥•”•ª‚¾‚¯‚ğŠÜ‚Ş—Ìˆæ
-	FlexAreaImageListCoeff			*TopAreas[3];	//ã‹L—Ìˆæ‚Ì‚¤‚¿A‚RŠpŒ`‚ªÅ‘å‚Ì–ÊÏ‚É‚È‚é‚RŒÂ
+	FlexAreaImageListCoeffContainer	MatchingAreas;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Ş—Ìˆï¿½
+	FlexAreaImageListCoeff			*TopAreas[3];	//ï¿½ï¿½ï¿½Lï¿½Ìˆï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Aï¿½Rï¿½pï¿½`ï¿½ï¿½ï¿½Å‘ï¿½ï¿½Ì–ÊÏ‚É‚È‚ï¿½ï¿½Rï¿½ï¿½
 	FlexAreaImageListCoeff			**AreasList;
 	int								AreasListCount;
 

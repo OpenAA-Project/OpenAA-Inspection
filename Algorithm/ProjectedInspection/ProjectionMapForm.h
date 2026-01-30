@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef PROJECTIONMAPFORM_H
 #define PROJECTIONMAPFORM_H
 
@@ -52,8 +70,8 @@ private:
 	int32	TransitWidth;
 	int32	OKWidthDiffereceL;
 	int32	OKWidthDiffereceH;
-	bool	UseAbsolute;		//‹P“x’l‚ğâ‘Î’l‚ğg‚¤‚©H
-	int32	EvenLength;			//•½‹Ï’lZo‚Ìƒoƒ“ƒh’·‚³
+	bool	UseAbsolute;		//ï¿½Pï¿½xï¿½lï¿½ï¿½ï¿½ï¿½ï¿½Î’lï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½H
+	int32	EvenLength;			//ï¿½ï¿½ï¿½Ï’lï¿½Zï¿½oï¿½Ìƒoï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½
 	double	PartialSwingAngle;
 
 	void	CreateThreshld(void);

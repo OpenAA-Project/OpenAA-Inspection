@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2026
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 //#include "OCRInspectionResource.h"
 #include "XOCRInspection.h"
 #include "swap.h"
@@ -6,7 +24,7 @@
 #include "XDisplayBitImage.h"
 #include <QMessageBox>
 
-// Tesseract‚Ìƒwƒbƒ_[
+// Tesseractï¿½Ìƒwï¿½bï¿½_ï¿½[
 #include <tesseract/baseapi.h>
 #include <leptonica/allheaders.h>
 
@@ -493,23 +511,23 @@ bool	OCRInspectionBase::GetOCR(const QImage &Image ,QString &Result)
 		pImage = (QImage *)&Image;
 	}
 
-    // 3. QImage ‚Ìƒf[ƒ^‚ğ’¼Ú Tesseract ‚É“n‚·
+    // 3. QImage ï¿½Ìƒfï¿½[ï¿½^ï¿½ğ’¼ï¿½ Tesseract ï¿½É“nï¿½ï¿½
     // SetImage(buffer, width, height, bytes_per_pixel, bytes_per_line)
 	if(OcrApi!=NULL){
 		int	XLen=pImage->width();
 		int	YLen=pImage->height();
 		OcrApi->SetImage(
-				pImage->bits(),           // ‰æ‘œƒf[ƒ^‚Ìæ“ªƒ|ƒCƒ“ƒ^
-				XLen,          // •
-				YLen,         // ‚‚³
-				3,                      // 1ƒsƒNƒZƒ‹‚ ‚½‚è‚ÌƒoƒCƒg” (RGB888‚È‚ç3)
-				pImage->bytesPerLine()    // 1s‚ ‚½‚è‚ÌƒoƒCƒg” (ƒXƒgƒ‰ƒCƒh)
+				pImage->bits(),           // ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½Ìæ“ªï¿½|ï¿½Cï¿½ï¿½ï¿½^
+				XLen,          // ï¿½ï¿½
+				YLen,         // ï¿½ï¿½ï¿½ï¿½
+				3,                      // 1ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒoï¿½Cï¿½gï¿½ï¿½ (RGB888ï¿½È‚ï¿½3)
+				pImage->bytesPerLine()    // 1ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒoï¿½Cï¿½gï¿½ï¿½ (ï¿½Xï¿½gï¿½ï¿½ï¿½Cï¿½h)
 			);
 
-		// 4. •¶š”F¯‚ÌÀs
+		// 4. ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½Ìï¿½ï¿½s
 		char* outText = OcrApi->GetUTF8Text();
 		Result = QString::fromUtf8(outText);
-		// 5. Œã•Ğ•t‚¯
+		// 5. ï¿½ï¿½ï¿½Ğ•tï¿½ï¿½
 		delete[] outText;
 		return true;
 	}

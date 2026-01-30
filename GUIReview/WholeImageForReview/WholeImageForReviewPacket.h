@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #ifndef WHOLEIMAGEFORREVIEWPACKET_H
 #define WHOLEIMAGEFORREVIEWPACKET_H
@@ -10,9 +28,9 @@
 #include "XReviewCommon.h"
 
 //////////////////////////////////
-// ‘¼GUI‚©‚ç‘—M‚³‚ê‚éƒRƒ}ƒ“ƒh
+// ï¿½ï¿½GUIï¿½ï¿½ï¿½ç‘—ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 
-// ƒ}ƒXƒ^[‰æ‘œ‚ÌXV—v‹
+// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ÌXï¿½Vï¿½vï¿½ï¿½
 class GUICmdLoadMasterImage : public GUIDirectMessage
 {
 public:
@@ -29,7 +47,7 @@ class GUICmdLockDrawZoom : public GUIDirectMessage
 {
 public:
 	// Send
-	bool doLock;// true‚ÅƒƒbƒN, false‚ÅƒAƒ“ƒƒbƒN
+	bool doLock;// trueï¿½Åƒï¿½ï¿½bï¿½N, falseï¿½ÅƒAï¿½ï¿½ï¿½ï¿½ï¿½bï¿½N
 	// Recieve
 	bool Ret;
 public:
@@ -94,10 +112,10 @@ public:
 };
 
 //////////////////////////////////////
-// ‘—‚éƒRƒ}ƒ“ƒh(‘¼GUI‚ÌƒpƒPƒbƒg)
+// ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h(ï¿½ï¿½GUIï¿½Ìƒpï¿½Pï¿½bï¿½g)
 
-// ENGImageListForReview
-//   [ƒNƒŠƒbƒN‚µ‚½ˆÊ’u‚Ì‹ß‚­‚É‚ ‚éNG‰æ‘œ‚ğ‘I‘ğ‚·‚é‚½‚ß‚ÌƒNƒŠƒbƒNˆÊ’u‚Ì‘—M]
+// ï¿½ENGImageListForReview
+//   [ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½Ì‹ß‚ï¿½ï¿½É‚ï¿½ï¿½ï¿½NGï¿½æ‘œï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚ÌƒNï¿½ï¿½ï¿½bï¿½Nï¿½Ê’uï¿½Ì‘ï¿½ï¿½M]
 //   GUICmdSelectNGWithPosition
 
 

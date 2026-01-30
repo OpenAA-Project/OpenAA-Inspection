@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\StatisticImager\XStatisticPacket.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #if	!defined(XSTATISTICPACKET_H)
@@ -85,39 +94,39 @@ public:
 	CmdAverageImageStatistic(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 
-//ƒpƒbƒN
+//ï¿½pï¿½bï¿½N
 #pragma	pack(push,1)
 typedef	struct	_PixelStatisticInLayer
 {
-	WORD	Added;			//‰ÁZ’l						//‚QƒoƒCƒg
-	DWORD	Added2;			//‚Qæ˜a						//‚SƒoƒCƒg
+	WORD	Added;			//ï¿½ï¿½ï¿½Zï¿½l						//ï¿½Qï¿½oï¿½Cï¿½g
+	DWORD	Added2;			//ï¿½Qï¿½ï¿½ï¿½a						//ï¿½Sï¿½oï¿½Cï¿½g
 
-	BYTE	Lightest;		//ˆê”Ô–¾‚é‚¢‹P“x				//‚PƒoƒCƒg	//A-20090910
-	BYTE	Darkest;		//ˆê”ÔˆÃ‚¢‹P“x					//‚PƒoƒCƒg	//A-20090910
+	BYTE	Lightest;		//ï¿½ï¿½ï¿½Ô–ï¿½ï¿½é‚¢ï¿½Pï¿½x				//ï¿½Pï¿½oï¿½Cï¿½g	//A-20090910
+	BYTE	Darkest;		//ï¿½ï¿½ï¿½ÔˆÃ‚ï¿½ï¿½Pï¿½x					//ï¿½Pï¿½oï¿½Cï¿½g	//A-20090910
 
 //---------------------------------------------------------------------
-//	‡Œv													//‚WƒoƒCƒg
+//	ï¿½ï¿½ï¿½v													//ï¿½Wï¿½oï¿½Cï¿½g
 //
-//	<< ƒJƒ‰[i3ƒŒƒCƒ„[A‰¡ƒhƒbƒgF7296j‚Ìê‡ >>
-//		Šî”ÂÅ‘åƒTƒCƒY	330mm ~ 250mm
-//		•ª‰ğ”\			260mm € 7296	à 35ƒÊm
-//		ƒ‰ƒCƒ“”		330mm € •ª‰ğ”\	à 9260
+//	<< ï¿½Jï¿½ï¿½ï¿½[ï¿½i3ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Aï¿½ï¿½ï¿½hï¿½bï¿½gï¿½F7296ï¿½jï¿½Ìê‡ >>
+//		ï¿½ï¿½ï¿½ÂÅ‘ï¿½ï¿½Tï¿½Cï¿½Y	330mm ï¿½~ 250mm
+//		ï¿½ï¿½ï¿½ï¿½ï¿½\			260mm ï¿½ï¿½ 7296	ï¿½ï¿½ 35ï¿½ï¿½m
+//		ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½		330mm ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½\	ï¿½ï¿½ 9260
 //
-//	—áj10000ƒ‰ƒCƒ“‚Ìê‡
-//		‚WƒoƒCƒg ~ 10000 ~ 7296  583,680,000ƒoƒCƒg  583.68MB
-//		PPPP										~     3iƒŒƒCƒ„[j
+//	ï¿½ï¿½ï¿½j10000ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Ìê‡
+//		ï¿½Wï¿½oï¿½Cï¿½g ï¿½~ 10000 ï¿½~ 7296 ï¿½ï¿½ 583,680,000ï¿½oï¿½Cï¿½g ï¿½ï¿½ 583.68MB
+//		ï¿½Pï¿½Pï¿½Pï¿½P										ï¿½~     3ï¿½iï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½j
 //														--------------
 //														1,751.04MB
 //---------------------------------------------------------------------
 
-	BYTE	Lighter;		//“ñ”Ô–Ú‚É–¾‚é‚¢‹P“x			//‚PƒoƒCƒg	//A-20100208
-	BYTE	Darker;			//“ñ”Ô–Ú‚ÉˆÃ‚¢‹P“x				//‚PƒoƒCƒg	//A-20100208
+	BYTE	Lighter;		//ï¿½ï¿½ï¿½Ô–Ú‚É–ï¿½ï¿½é‚¢ï¿½Pï¿½x			//ï¿½Pï¿½oï¿½Cï¿½g	//A-20100208
+	BYTE	Darker;			//ï¿½ï¿½ï¿½Ô–Ú‚ÉˆÃ‚ï¿½ï¿½Pï¿½x				//ï¿½Pï¿½oï¿½Cï¿½g	//A-20100208
 
 //---------------------------------------------------------------------
-//	‡Œv													//10ƒoƒCƒg
+//	ï¿½ï¿½ï¿½v													//10ï¿½oï¿½Cï¿½g
 //
-//		10ƒoƒCƒg ~ 10000 ~ 7296  729,600,000ƒoƒCƒg  729.60MB
-//		PPPP										~     3iƒŒƒCƒ„[j
+//		10ï¿½oï¿½Cï¿½g ï¿½~ 10000 ï¿½~ 7296 ï¿½ï¿½ 729,600,000ï¿½oï¿½Cï¿½g ï¿½ï¿½ 729.60MB
+//		ï¿½Pï¿½Pï¿½Pï¿½P										ï¿½~     3ï¿½iï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½j
 //														--------------
 //														2,188.80MB
 //---------------------------------------------------------------------

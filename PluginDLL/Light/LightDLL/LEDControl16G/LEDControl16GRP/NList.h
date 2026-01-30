@@ -1,20 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\NList.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
-/*----------------------------------------------------------------------------*/
-//
-//  ŠT—v
-//
-//  ì¬Ò
-//
-/*----------------------------------------------------------------------------*/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(NLIST_DEF)
 #define	NLIST_DEF
 
@@ -24,25 +25,25 @@
 
 template<class T>
 /*----------------------------------------------------------------------------*/
-//  1.“ú–{Œê–¼
+//  1.ï¿½ï¿½ï¿½{ï¿½ê–¼
 //
-//  2.ŠT—v
+//  2.ï¿½Tï¿½v
 //
-//  3.‹@”\à–¾
+//  3.ï¿½@ï¿½\ï¿½ï¿½ï¿½ï¿½
 //
-//  4.”õl
+//  4.ï¿½ï¿½ï¿½l
 //
 /*----------------------------------------------------------------------------*/
 class	NPList
 {
 	/*----------------------------------------------------------------------------*/
-	//  1.“ú–{Œê–¼
+	//  1.ï¿½ï¿½ï¿½{ï¿½ê–¼
 	//
-	//  2.ŠT—v
+	//  2.ï¿½Tï¿½v
 	//
-	//  3.‹@”\à–¾
+	//  3.ï¿½@ï¿½\ï¿½ï¿½ï¿½ï¿½
 	//
-	//  4.”õl
+	//  4.ï¿½ï¿½ï¿½l
 	//
 	/*----------------------------------------------------------------------------*/
 private:
@@ -122,13 +123,13 @@ inline T *NPList<T>::Remove(void)
 
 template<class T>
 /*----------------------------------------------------------------------------*/
-//  1.“ú–{Œê–¼
+//  1.ï¿½ï¿½ï¿½{ï¿½ê–¼
 //
-//  2.ŠT—v
+//  2.ï¿½Tï¿½v
 //
-//  3.‹@”\à–¾
+//  3.ï¿½@ï¿½\ï¿½ï¿½ï¿½ï¿½
 //
-//  4.”õl
+//  4.ï¿½ï¿½ï¿½l
 //
 /*----------------------------------------------------------------------------*/
 class	NPListPack
@@ -271,26 +272,26 @@ private:
 
 
 /*----------------------------------------------------------------------------*/
-//  1.“ú–{Œê–¼
+//  1.ï¿½ï¿½ï¿½{ï¿½ê–¼
 //
-//  2.ŠT—v
+//  2.ï¿½Tï¿½v
 //
-//  3.‹@”\à–¾
+//  3.ï¿½@ï¿½\ï¿½ï¿½ï¿½ï¿½
 //
-//  4.”õl
+//  4.ï¿½ï¿½ï¿½l
 //
 /*----------------------------------------------------------------------------*/
 template<class T>
 class	NList
 {
 	/*----------------------------------------------------------------------------*/
-	//  1.“ú–{Œê–¼
+	//  1.ï¿½ï¿½ï¿½{ï¿½ê–¼
 	//
-	//  2.ŠT—v
+	//  2.ï¿½Tï¿½v
 	//
-	//  3.‹@”\à–¾
+	//  3.ï¿½@ï¿½\ï¿½ï¿½ï¿½ï¿½
 	//
-	//  4.”õl
+	//  4.ï¿½ï¿½ï¿½l
 	//
 	/*----------------------------------------------------------------------------*/
 
@@ -347,13 +348,13 @@ inline T *NList<T>::Insert(T *child)
 
 template<class T>
 /*----------------------------------------------------------------------------*/
-//  1.“ú–{Œê–¼
+//  1.ï¿½ï¿½ï¿½{ï¿½ê–¼
 //
-//  2.ŠT—v
+//  2.ï¿½Tï¿½v
 //
-//  3.‹@”\à–¾
+//  3.ï¿½@ï¿½\ï¿½ï¿½ï¿½ï¿½
 //
-//  4.”õl
+//  4.ï¿½ï¿½ï¿½l
 //
 /*----------------------------------------------------------------------------*/
 class	NListPack

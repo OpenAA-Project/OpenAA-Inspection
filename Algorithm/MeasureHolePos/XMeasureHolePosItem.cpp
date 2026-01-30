@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\MeasureHolePos\XMeasureHolePos.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #define	_USE_MATH_DEFINES
 #include "XCrossObj.h"
@@ -478,7 +487,7 @@ void	MeasureHolePosItemBase::CalcCoefOne(FlexAreaImageListCoeff &EArea, int mx ,
 			for(int dx=-RThr->SearchDot;dx<=RThr->SearchDot;dx++){
 				double	d=fabs(EArea.CalcCoeff(	 mx+dx
 												,my+dy
-												,*ImageListTarget[0]));	//‘ŠŒÝ‘ŠŠÖ‚ÌŒvŽZ
+												,*ImageListTarget[0]));	//ï¿½ï¿½ï¿½Ý‘ï¿½ï¿½Ö‚ÌŒvï¿½Z
 				double	ci=AreaInside	.GetAverage(*ImageListTarget[0],mx+dx,my+dy);
 				double	co=AreaOutside	.GetAverage(*ImageListTarget[0],mx+dx,my+dy);
 				double	M=d*ExpFunc(ci,MasterColorI)*ExpFunc(co,MasterColorO);
@@ -497,7 +506,7 @@ void	MeasureHolePosItemBase::CalcCoefOne(FlexAreaImageListCoeff &EArea, int mx ,
 			for(double dx=-0.9;dx<0.999;dx+=0.1){
 				double	d=fabs(EArea.CalcCoeff(	 mx+MaxDx+dx
 												,my+MaxDy+dy
-												,*ImageListTarget[0]));	//‘ŠŒÝ‘ŠŠÖ‚ÌŒvŽZ
+												,*ImageListTarget[0]));	//ï¿½ï¿½ï¿½Ý‘ï¿½ï¿½Ö‚ÌŒvï¿½Z
 				double	ci=AreaInside	.GetAverage(*ImageListTarget[0],mx+MaxDx+dx,my+MaxDy+dy);
 				double	co=AreaOutside	.GetAverage(*ImageListTarget[0],mx+MaxDx+dx,my+MaxDy+dy);
 				double	M=d*ExpFunc(ci,MasterColorI)*ExpFunc(co,MasterColorO);
@@ -518,7 +527,7 @@ void	MeasureHolePosItemBase::CalcCoefOne(FlexAreaImageListCoeff &EArea, int mx ,
 double	MeasureHolePosItemBase::ExpFunc(double c ,double MasterC)
 {
 	if(MasterC>0.0){
-		double	k=(c-MasterC)/MasterC/0.1;	//10%‚Ì•Ï‰»‚Å‚P
+		double	k=(c-MasterC)/MasterC/0.1;	//10%ï¿½Ì•Ï‰ï¿½ï¿½Å‚P
 		double	p=exp(-(k*k));
 		return p;
 	}
@@ -528,7 +537,7 @@ double	MeasureHolePosItemBase::ExpFunc(double c ,double MasterC)
 double	MeasureHolePosItemBase::GetSemiCoeff(FlexArea &EArea 
 										,ImageBuffer &Src 
 										,double dx ,double dy 
-										,ImageBuffer &Dst)	//‘ŠŒÝ‘ŠŠÖ‚ÌŒvŽZ
+										,ImageBuffer &Dst)	//ï¿½ï¿½ï¿½Ý‘ï¿½ï¿½Ö‚ÌŒvï¿½Z
 {
 	double	SumS=0;
 	double	SumD=0;

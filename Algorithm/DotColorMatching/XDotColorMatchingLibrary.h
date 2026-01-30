@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XDotColorMatchingLIBRARY_H)
 #define	XDotColorMatchingLIBRARY_H
 
@@ -13,7 +31,7 @@
 class	DotColorMatchingLibrary : public AlgorithmLibrary , public ServiceForLayers
 {
 public:
-//¶¬ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 #pragma	pack(push,1)
 	int32		PickupRL;
 	int32		PickupRH;
@@ -21,8 +39,8 @@ public:
 	int32		PickupGH;
 	int32		PickupBL;
 	int32		PickupBH;
-	int32		EvenWidth0;		//•½‹Ï‹P“x’l0‚Å‚Ì’Šo‹Ïˆê”ÍˆÍ
-	int32		EvenWidth255;	//•½‹Ï‹P“x’l255‚Å‚Ì’Šo‹Ïˆê”ÍˆÍ
+	int32		EvenWidth0;		//ï¿½ï¿½ï¿½Ï‹Pï¿½xï¿½l0ï¿½Å‚Ì’ï¿½ï¿½oï¿½Ïˆï¿½ï¿½Íˆï¿½
+	int32		EvenWidth255;	//ï¿½ï¿½ï¿½Ï‹Pï¿½xï¿½l255ï¿½Å‚Ì’ï¿½ï¿½oï¿½Ïˆï¿½ï¿½Íˆï¿½
     int32		MinDotColorMatchingSize;
     int32		MaxDotColorMatchingSize;
     int32		MinDotColorMatchingDots;
@@ -30,40 +48,40 @@ public:
     int32		LimitDotColorMatchingSize;
 	int32		OverlappedLength;
 	int32		GenerateOnEdgeWidth;	//0 or 10000=normal generation
-	int32		OutlineAroundPriorItems;		//æ‚É¶¬‚³‚ê‚½—Ìˆæ‚ÌüˆÍ‚É¶¬‚·‚é—ÖŠs•
-	int32		SearchDotForBrightnessRange;	//¶¬‚ÌOK‹P“x”ÍˆÍ‚ğÌW‚·‚é”ÍˆÍ
-	int32		BindGroupArea;					//•¶š‚È‚Ç‚Ìê‡‚ÌƒOƒ‹[ƒv‰»”ÍˆÍ
+	int32		OutlineAroundPriorItems;		//ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Ìˆï¿½ï¿½Ìï¿½ï¿½Í‚Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖŠsï¿½ï¿½
+	int32		SearchDotForBrightnessRange;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½OKï¿½Pï¿½xï¿½ÍˆÍ‚ï¿½ï¿½ÌWï¿½ï¿½ï¿½ï¿½ï¿½Íˆï¿½
+	int32		BindGroupArea;					//ï¿½ï¿½ï¿½ï¿½ï¿½È‚Ç‚Ìê‡ï¿½ÌƒOï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½Íˆï¿½
 	int32		PriorityToShow;
 
-	WORD		NoiseSize;			//ŒÇ—§“_íœ
-	WORD		NoiseSizePinHole;	//ƒsƒ“ƒz[ƒ‹íœ
+	WORD		NoiseSize;			//ï¿½Ç—ï¿½ï¿½_ï¿½íœ
+	WORD		NoiseSizePinHole;	//ï¿½sï¿½ï¿½ï¿½zï¿½[ï¿½ï¿½ï¿½íœ
     short		SpaceToOutline;
     WORD		Priority;
-	WORD		AreaType;	//0:’PF	1:ƒOƒ‰ƒf[ƒVƒ‡ƒ“	2:•¶š•”•ª	3:–³’n	4:CADüã
+	WORD		AreaType;	//0:ï¿½Pï¿½F	1:ï¿½Oï¿½ï¿½ï¿½fï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½	2:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	3:ï¿½ï¿½ï¿½n	4:CADï¿½ï¿½ï¿½ï¿½
 	bool		EnableOverlap;
 	bool		GenerateOutlineMode;
 	bool		GenerateHalfPitch;
-	double		ThresholdPickupEdge;	//RotationPattern::DivArea‚ğ¶¬‚·‚é‚Æ‚«‚Ì•W€•Î·‚µ‚«‚¢’l
+	double		ThresholdPickupEdge;	//RotationPattern::DivAreaï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ì•Wï¿½ï¿½ï¿½Îï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½l
 	double		ThresholdFlatPattern;
 	bool		UseBackGround;
 	bool		GenerateOnlyLimitedMask;
 #pragma	pack(pop)
 
-//ŒŸ¸ƒf[ƒ^
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 #pragma	pack(push,1)
 	struct MLibThreshold
 	{
-		WORD	BrightWidthRL;	//ˆÃ‘¤‹P“x•
-		WORD	BrightWidthRH;	//–¾‘¤‹P“x•
-		WORD	BrightWidthGL;	//ˆÃ‘¤‹P“x•
-		WORD	BrightWidthGH;	//–¾‘¤‹P“x•
-		WORD	BrightWidthBL;	//ˆÃ‘¤‹P“x•
-		WORD	BrightWidthBH;	//–¾‘¤‹P“x•
+		WORD	BrightWidthRL;	//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	BrightWidthRH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	BrightWidthGL;	//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	BrightWidthGH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	BrightWidthBL;	//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+		WORD	BrightWidthBH;	//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 
-		DWORD	OKDot;			//‚n‚jƒhƒbƒg”
-		DWORD	OKLength;		//‚n‚j‹——£
+		DWORD	OKDot;			//ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+		DWORD	OKLength;		//ï¿½nï¿½jï¿½ï¿½ï¿½ï¿½
 
-		char	RThrOffsetL;	//‚µ‚«‚¢’l‚Ö‚Ì’¼Ú‰ÁZ’l(-100`100)
+		char	RThrOffsetL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½Ö‚Ì’ï¿½ï¿½Ú‰ï¿½ï¿½Zï¿½l(-100ï¿½`100)
 		char	RThrOffsetH;
 		char	GThrOffsetL;
 		char	GThrOffsetH;
@@ -79,26 +97,26 @@ public:
 	float	VarietySigma;
 	DWORD	MultiSpotDot;
 	DWORD	MultiSpotCount;
-	DWORD	MultiSpotDotGathered;	//–§W‘½“_
+	DWORD	MultiSpotDotGathered;	//ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½_
 	DWORD	MultiSpotCountGathered;
 	DWORD	MultiSpotLengthGathered;
 	DWORD	BackGroundOKDot;	
 	DWORD	BackGroundOKLength;		
 
-	WORD	AdjustBlack;		//‹P“x•â³‚Ì‰ºŒÀ•
-    WORD	AdjustWhite;		//‹P“x•â³‚ÌãŒÀ•
-	WORD	AdjustContribute;	//•â³‚ÌŠñ—^“x
-	WORD	AreaSearchX;     //‚w•ûŒü—Ìˆæ’Tõƒhƒbƒg”
-	WORD	AreaSearchY;     //‚x•ûŒü—Ìˆæ’Tõƒhƒbƒg”
-    WORD	SelfSearch;     //©ŒÈ’Tõƒhƒbƒg”
+	WORD	AdjustBlack;		//ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	AdjustWhite;		//ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+	WORD	AdjustContribute;	//ï¿½â³ï¿½ÌŠï¿½ï¿½^ï¿½x
+	WORD	AreaSearchX;     //ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	AreaSearchY;     //ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+    WORD	SelfSearch;     //ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
 	bool	PreciseSearch;
-	bool	Clusterize;		//‰ò”»’è
+	bool	Clusterize;		//ï¿½ò”»’ï¿½
 	bool	EnableT2M;
 	bool	EnableM2T;
 	bool	UseMaster2;
 	WORD	ExpandToSubBlock;
-	WORD	MaxAreaSearch;	//Å‘å—Ìˆæ’Tõƒhƒbƒg”
-    WORD	MaxSelfSearch;	//Å‘å©ŒÈ’Tõƒhƒbƒg”
+	WORD	MaxAreaSearch;	//ï¿½Å‘ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+    WORD	MaxSelfSearch;	//ï¿½Å‘å©ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
 
 	bool	ScratchEnable;
 	float	ScratchStartDirection;
@@ -112,7 +130,7 @@ public:
 	float	ScratchVOffset;
 
 	bool	RedCheckMode;
-	WORD	RedHighRate;	//G,B‚É”ä‚×‚ÄR‚Ì‹P“x’l‚Ì‘’lŠ„‡(%)
+	WORD	RedHighRate;	//G,Bï¿½É”ï¿½ï¿½×‚ï¿½Rï¿½Ì‹Pï¿½xï¿½lï¿½Ì‘ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½(%)
 	BYTE	RedMinBrightness;
 	BYTE	RedGBMerginRate;
 	BYTE	RedGBMerginOffset;
@@ -123,14 +141,14 @@ public:
 	bool	HsvFixedColorMode;
 	WORD	HsvH;
 	BYTE	HsvS,HsvV;
-	WORD	HsvPHL,HsvPHH;	//ƒp[ƒZƒ“ƒg’l
+	WORD	HsvPHL,HsvPHH;	//ï¿½pï¿½[ï¿½Zï¿½ï¿½ï¿½gï¿½l
 	BYTE	HsvPSL,HsvPSH;
 	BYTE	HsvPVL,HsvPVH;
-	WORD	HsvDHL,HsvDHH;	//’¼Ú’l
+	WORD	HsvDHL,HsvDHH;	//ï¿½ï¿½ï¿½Ú’l
 	BYTE	HsvDSL,HsvDSH;
 	BYTE	HsvDVL,HsvDVH;
 	DWORD	HsvOKDot;
-	DWORD	HsvOKLength;	//‚n‚j‹——£
+	DWORD	HsvOKLength;	//ï¿½nï¿½jï¿½ï¿½ï¿½ï¿½
 
 	BYTE	UseOneLayer;
 	BYTE	MatchBrightnessByLayerH;
@@ -138,28 +156,28 @@ public:
 	DWORD	MasterNoOriginCode;
 
 	bool	VariationMode;
-	float	VariationRL,VariationRH;	//R-OKƒoƒ‰ƒcƒL•Î·’l
-	float	VariationGL,VariationGH;	//G-OKƒoƒ‰ƒcƒL•Î·’l
-	float	VariationBL,VariationBH;	//B-OKƒoƒ‰ƒcƒL•Î·’l
-	DWORD	VariationAdaptMinSize;		//Å¬“K—p—ÌˆæƒTƒCƒY
-	float	VariationMultiplyMaster;	//ƒ}ƒXƒ^[‰æ‘œAƒoƒ‰ƒcƒL‰æ‘œ‚©‚ç‚Ì•Î·‚µ‚«‚¢’lŒvZ‚ÌŒW”
-	bool	VariationDifMaster;			//ƒ}ƒXƒ^[‰æ‘œ‚Ì·•ª‚ğƒoƒ‰‚Â‚«•Î·‚Åˆ—
-	bool	VariationAndLogic;			//‘¼‚ÌŒŸ¸‚µ‚ÄNG‚É‚È‚Á‚½•”•ª‚¾‚¯‚ğƒoƒ‰‚Â‚«”»’è‚·‚é
-	float	VariationSubMasterVari;		//ƒ}ƒXƒ^[‰æ‘œ‚Ìƒoƒ‰‚Â‚«ŒW”‚ğˆø‚«Z‚·‚éŒW”
+	float	VariationRL,VariationRH;	//R-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
+	float	VariationGL,VariationGH;	//G-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
+	float	VariationBL,VariationBH;	//B-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
+	DWORD	VariationAdaptMinSize;		//ï¿½Åï¿½ï¿½Kï¿½pï¿½Ìˆï¿½ï¿½Tï¿½Cï¿½Y
+	float	VariationMultiplyMaster;	//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Aï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½Ì•Îï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½vï¿½Zï¿½ï¿½ï¿½ÌŒWï¿½ï¿½
+	bool	VariationDifMaster;			//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Â‚ï¿½ï¿½Îï¿½ï¿½Åï¿½ï¿½ï¿½
+	bool	VariationAndLogic;			//ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½É‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½è‚·ï¿½ï¿½
+	float	VariationSubMasterVari;		//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ìƒoï¿½ï¿½ï¿½Â‚ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½
 
 	bool	PitMode;
-	WORD	PitBrightWidthRL;	//”÷¬ŒŸo	ˆÃ‘¤‹P“x•
-	WORD	PitBrightWidthRH;	//”÷¬ŒŸo	–¾‘¤‹P“x•
-	WORD	PitBrightWidthGL;	//”÷¬ŒŸo	ˆÃ‘¤‹P“x•
-	WORD	PitBrightWidthGH;	//”÷¬ŒŸo	–¾‘¤‹P“x•
-	WORD	PitBrightWidthBL;	//”÷¬ŒŸo	ˆÃ‘¤‹P“x•
-	WORD	PitBrightWidthBH;	//”÷¬ŒŸo	–¾‘¤‹P“x•
+	WORD	PitBrightWidthRL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o	ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	PitBrightWidthRH;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o	ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	PitBrightWidthGL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o	ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	PitBrightWidthGH;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o	ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	PitBrightWidthBL;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o	ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	WORD	PitBrightWidthBH;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o	ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 
 	bool	LineMode;
 	WORD	LineOKMinLength;
 	WORD	LineMaxWidth;
 	WORD	LineMinDensityPercent;
-	WORD	LineMinCluster;		//ü‚ÌÅ¬‰ò–ÊÏ
+	WORD	LineMinCluster;		//ï¿½ï¿½ï¿½ÌÅï¿½ï¿½ï¿½ï¿½Êï¿½
 
 #pragma	pack(pop)
 	IntList	SubtractLibID;

@@ -1,9 +1,21 @@
 /*
- * clsXmlLexBase2.cpp
+ * Copyright (C) 2012
+ * Author : cony
  *
- *  Created on: 2009/11/28
- *      Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #include "clsXmlWhereLex.h"
 
@@ -32,7 +44,7 @@ clsXmlLexBase::~clsXmlLexBase() {
 
 
 bool clsXmlLexBase::getAttr(NPListPack<clsXMLAttrRec> *attrs) {
-	// ‘®«–¼æ“¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	debugPrt("start getAttr");
 	int nTagLen = nextAttrName();
 	if ( nTagLen <= 0 ) return false;
@@ -41,7 +53,7 @@ bool clsXmlLexBase::getAttr(NPListPack<clsXMLAttrRec> *attrs) {
 	if ( nextPt(nTagLen) == false ) return false;
 	debugPrt("after attrname");
 
-	// ‘®«‰‰Zqæ“¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½qï¿½æ“¾
 	nTagLen = nextAttrEq();
 	if ( nTagLen <= 0 ) return false;
 	recAttr->eq = getBufMid(nTagLen);
@@ -50,7 +62,7 @@ bool clsXmlLexBase::getAttr(NPListPack<clsXMLAttrRec> *attrs) {
 		if ( nextPt(1) == false ) return false;
 	}
 
-	// ‘®«’læ“¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½æ“¾
 	if ( *p == '\'' ) {
 		if ( nextPt(nTagLen) == false ) return false;
 	}
@@ -72,7 +84,7 @@ int clsXmlLexBase::nextTagName() {
 	int len = 0;
 	char *pp = p;
 	while( *pp != 0x00 ) {
-		if ( *pp == ' ' || *pp == '>' ) { // ƒ^ƒO–¼I—¹
+		if ( *pp == ' ' || *pp == '>' ) { // ï¿½^ï¿½Oï¿½ï¿½ï¿½Iï¿½ï¿½
 			break;
 		}
 		if ( *pp != '<' ) len ++;
@@ -85,7 +97,7 @@ int clsXmlLexBase::nextAttrName() {
 	int len = 0;
 	char *pp = p;
 	while( *pp != 0x00 ) {
-		if ( *pp == '=' || *pp == '<' || *pp == '>' || *pp == '!' ) { // ‘®«–¼I—¹
+		if ( *pp == '=' || *pp == '<' || *pp == '>' || *pp == '!' ) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 			break;
 		}
 		pp++;
@@ -98,7 +110,7 @@ int clsXmlLexBase::nextAttrNameOut() {
 	int len = 0;
 	char *pp = p;
 	while( *pp != 0x00 ) {
-		if ( *pp == ' ' || *pp == '/' || *pp == '>' ) { // ‘®«–¼I—¹
+		if ( *pp == ' ' || *pp == '/' || *pp == '>' ) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 			break;
 		}
 		pp++;

@@ -1,21 +1,23 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XFlexAreaFast.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2026
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 
 
-/*----------------------------------------------------------------------------*/
-//
-//	äTóv
-//
-//	çÏê¨é“
-//
-/*----------------------------------------------------------------------------*/
+
 #include "XTypeDef.h"
 #include "XFlexArea.h"
 #include "XCrossObj.h"
@@ -277,10 +279,10 @@ int  FlexAreaFast::FindIndex(int AbsY ,int &IndexStart ,int &IndexEnd)
 		}else if(KeyY>MidY){
 			low=mid+1;
 		}else{
-			//å©Ç¬Ç©Ç¡ÇΩ
+			//ÔøΩÔøΩÔøΩ¬ÇÔøΩÔøΩÔøΩÔøΩÔøΩ
 			IndexStart=mid;
 			IndexEnd=mid;
-			//ëOï˚íTçı
+			//ÔøΩOÔøΩÔøΩÔøΩTÔøΩÔøΩ
 			for(int i=mid-1;i>=0;i--){
 				MidY= (FLinesPointer==NULL)?(FLinesDim[i]._GetAbsY()+Info.AddY):(FLinesPointer[i]._GetAbsY()+Info.AddY);
 				if(MidY==KeyY){
@@ -289,7 +291,7 @@ int  FlexAreaFast::FindIndex(int AbsY ,int &IndexStart ,int &IndexEnd)
 					break;
 				}
 			}
-			//å„ï˚íTçı
+			//ÔøΩÔøΩÔøΩÔøΩÔøΩTÔøΩÔøΩ
 			for(int i=mid+1;i<(int)Info.Len;i++){
 				MidY= (FLinesPointer==NULL)?(FLinesDim[i]._GetAbsY()+Info.AddY):(FLinesPointer[i]._GetAbsY()+Info.AddY);
 				if(MidY==KeyY){
@@ -301,7 +303,7 @@ int  FlexAreaFast::FindIndex(int AbsY ,int &IndexStart ,int &IndexEnd)
 			return (IndexEnd - IndexStart + 1);
 		}
 	}
-	//å©Ç¬Ç©ÇÁÇ»Ç©Ç¡ÇΩ
+	//ÔøΩÔøΩÔøΩ¬ÇÔøΩÔøΩÔøΩÔøΩ»ÇÔøΩÔøΩÔøΩÔøΩÔøΩ
 	IndexStart=-1;
 	IndexEnd=-1;
 	return -1;
@@ -724,7 +726,7 @@ static	int   YOnlySortFunc(const void *a ,const void *b)
 
 	return(0);
 }
-int     FlexAreaFast::SearchFirst(int y) const     //ÇôÇÕê‚ëŒíl
+int     FlexAreaFast::SearchFirst(int y) const     //ÔøΩÔøΩÔøΩÕêÔøΩÔøΩŒíl
 {
 	struct FlexLine m;
 	m._SetAbsY((FlexArea *)this,y);
@@ -989,7 +991,7 @@ void    FlexAreaFast::CopyFrom(FlexAreaFast &src ,int dx ,int dy)
 	MoveToNoClip(dx,dy);
 }
 
-void    FlexAreaFast::GetWeightCenter(double &cx, double &cy)  //èdêSÇÃåvéZ
+void    FlexAreaFast::GetWeightCenter(double &cx, double &cy)  //ÔøΩdÔøΩSÔøΩÃåvÔøΩZ
 {
 	cx=0;
 	cy=0;
@@ -3724,7 +3726,7 @@ void    FlexAreaFast::FatAreaN (int TurnN)
 		DeleteMatrixBuff(TmpMap,Height);
 	}
 }
-void    FlexAreaFast::ThinArea1(void)	//1âÊëfé˚èkÇµÇƒêÿÇÍÇÈèÍçáÅAécÇ∑
+void    FlexAreaFast::ThinArea1(void)	//1ÔøΩÔøΩÔøΩfÔøΩÔøΩÔøΩkÔøΩÔøΩÔøΩƒêÿÇÔøΩÔøΩÔøΩÔøΩÍçáÔøΩAÔøΩcÔøΩÔøΩ
 {
 	int	Mx=GetMinX()-8;
 	int	My=GetMinY()-8;

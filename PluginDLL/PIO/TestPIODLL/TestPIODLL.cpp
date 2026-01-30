@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "windows.h"
 #include "AIP_IO.h"
 #include "math.h"
@@ -94,7 +112,7 @@ void  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbu
 	}
 
 
-	//ƒfƒWƒ^ƒ‹ƒtƒBƒ‹ƒ^‚Ìİ’èiPIO_DigitalFilter.datƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İj
+	//ï¿½fï¿½Wï¿½^ï¿½ï¿½ï¿½tï¿½Bï¿½ï¿½ï¿½^ï¿½Ìİ’ï¿½ï¿½iPIO_DigitalFilter.datï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½İj
 	QStringList strList;
 	QFile	mfile("./PIO_DigitalFilter.dat");
 	if(mfile.open(QIODevice::ReadOnly)==true){

@@ -200,7 +200,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;QT_LARGEFILE_SUPPORT;QT_NO_DEBUG;NDEBUG;CAMERAXTUMIPX8LINETRIGGER_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\..\..\InspectionPlayer;..\..\..\GeneralSource\Sequence;$(SAPERA)\Classes\Basic;..\..\..\OpenSource\Component;..\..\..\Open;$(SAPERA)\Include;$(SAPERA)\Classes\Gui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OpenAAUseLibrary)\Dalsa;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\..\..\InspectionPlayer;..\..\..\GeneralSource\Sequence;$(SAPERA)\Classes\Basic;..\..\..\OpenSource\Component;..\..\..\Open;$(SAPERA)\Include;$(SAPERA)\Classes\Gui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -237,13 +237,13 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\featureCtrl.cpp" />
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\RunLen.Cpp" />
     <ClCompile Include="..\..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="camerasetting.cpp" />
     <ClCompile Include="CameraXtumiPx8LineTrigger.cpp" />
     <ClCompile Include="CameraXtumiPx8LineTriggerResource.cpp" />
     <ClCompile Include="CLHS_PX8CommandCreater.cpp" />
-    <ClCompile Include="featureCtrl.cpp" />
-    <ClCompile Include="RunLen.Cpp" />
     <ClCompile Include="saperaCtrl.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
       <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
@@ -263,10 +263,7 @@
     <ClInclude Include="CameraXtumiPx8LineTriggerResource.h" />
     <ClInclude Include="CLHS_PX8CommandCreater.h" />
     <ClInclude Include="CLHS_PX8CommandManager.h" />
-    <ClInclude Include="featureCtrl.h" />
-    <ClInclude Include="RunLen.h" />
     <ClInclude Include="saperaCtrl.h" />
-    <ClInclude Include="screenformat.h" />
     <QtMoc Include="CameraSetting.h">
     </QtMoc>
     <ClInclude Include="CameraXtumiPx8LineTrigger.h" />

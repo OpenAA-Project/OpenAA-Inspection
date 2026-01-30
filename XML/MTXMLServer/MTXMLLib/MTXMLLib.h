@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\XML\MTXMLServer\MTXMLLib\MTXMLLib.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #ifndef MTXMLLIB_H
@@ -92,9 +101,9 @@ public:
 	bool	Delete(void);
 
 	XMLTagAttr	&operator=(XMLTagAttr &src);
-	bool	hCompare(XMLTagAttr &src);	//©•ª‚æ‚è‘Šè‚ª‘å‚«‚¢–”‚Í¬‚³‚¢‚Å”»’f
+	bool	hCompare(XMLTagAttr &src);	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è‘Šï¿½è‚ªï¿½å‚«ï¿½ï¿½ï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å”ï¿½ï¿½f
 	bool	operator==(XMLTagAttr &src);
-	bool	operator>(XMLTagAttr &src);			//•s“™†‚Ìˆ—
+	bool	operator>(XMLTagAttr &src);			//ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
 	bool	operator>=(XMLTagAttr &src);
 	bool	operator<(XMLTagAttr &src);
 	bool	operator<=(XMLTagAttr &src);
@@ -148,7 +157,7 @@ public:
 	NPListPack<XMLElement>	Datas;
 	//QString				StrData;
 	StringStokerItem		*StrData;
-	int			InsertedNumb;	//e‚ÌDatas‚Ì’†‚Ì”Ô†
+	int			InsertedNumb;	//ï¿½eï¿½ï¿½Datasï¿½Ì’ï¿½ï¿½Ì”Ôï¿½
 
 	XMLElement(XMLElement *parent);
 	~XMLElement(void);
@@ -259,9 +268,9 @@ public:
 	bool	Create(void);
 	bool	UpdateToStream(void);
 	bool	LoadFromStream(void);
-	void	XMLGetData(const QByteArray &Info, QString &NGJ);//Deleteˆ—‚Ì’†‚ÅNGJ‚Ìî•ñ‚ğ•Ô‚·
+	void	XMLGetData(const QByteArray &Info, QString &NGJ);//Deleteï¿½ï¿½ï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½NGJï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 	bool	Append(qint64 AppID, char *xmlStr);
-	//bool	Delete(qint64 DelID, QString &Data);//Delete‚·‚éID,NGJ‚ª•Ô‚é
+	//bool	Delete(qint64 DelID, QString &Data);//Deleteï¿½ï¿½ï¿½ï¿½ID,NGJï¿½ï¿½ï¿½Ô‚ï¿½
 	bool	Delete(qint64 DelID, QString &Data);
 
 private:

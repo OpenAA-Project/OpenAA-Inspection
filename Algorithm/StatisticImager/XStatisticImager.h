@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XStatisticImager.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #if	!defined(XSTATISTICIMAGER_H)
@@ -128,7 +137,7 @@ private:
 	double	MasterBrightAvg;
 	double	TargetBrightAvg;
 	int		MaskBmpCnt;
-	BYTE	**MaskBmp;	//ƒ}ƒXƒN—Ìˆæ
+	BYTE	**MaskBmp;	//ï¿½}ï¿½Xï¿½Nï¿½Ìˆï¿½
 	AutoAlignmentInPage	*pAlignPage;	//AutoAlignment
 	AlgorithmBase	*ABase;
 
@@ -145,7 +154,7 @@ private:
 	PureFlexAreaListContainer TargetMaskBitmapFPack;
 	struct	LeastSquaresMethodStruct1	*MLeastSquaresMethodTable;
 	struct	LeastSquaresMethodStruct2	*TLeastSquaresMethodTable;
-	void	GetLeastSquaresMethodM();	//Å¬“ñæ–@‚ğg—p‚µ‚ÄA‹P“x‚Ì‚QŸŒ³•½–Ê‚ğì¬iƒ}ƒXƒ^[‰æ‘œj
+	void	GetLeastSquaresMethodM();	//ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ÄAï¿½Pï¿½xï¿½Ì‚Qï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½ì¬ï¿½iï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½j
 	void	GetLeastSquaresMethodT();
 	void	CalcLeastSquaresMethodT();
 
@@ -174,7 +183,7 @@ public:
 	void	DarkImageStatistic();
 
 private:
-///	bool	GetAverageBrightnessCorrectionM();	//•½‹Ï‹P“x•â³iƒ}ƒXƒ^[‰æ‘œj
+///	bool	GetAverageBrightnessCorrectionM();	//ï¿½ï¿½ï¿½Ï‹Pï¿½xï¿½â³ï¿½iï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½j
 };
 
 class	StatisticImagerBase : public AlgorithmBase

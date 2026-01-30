@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef PIXELHISTOGRAMFORM_H
 #define PIXELHISTOGRAMFORM_H
 
@@ -83,48 +101,48 @@ private:
 
 	AlgorithmItemIndependentPack	*IData;
 	struct	PixelPoleMatrixStruct	*PoleTable;
-	int		localX;							//ѓ}ѓEѓXѓNѓЉѓbѓNЌА•WX
-	int		localY;							//ѓ}ѓEѓXѓNѓЉѓbѓNЌА•WY
-	int		MasterX;						//ѓ}ѓEѓXѓNѓЉѓbѓNЌА•WX‚Й‘О‰ћ‚·‚йѓ}ѓXѓ^Ѓ[ЌА•W
-	int		MasterY;						//ѓ}ѓEѓXѓNѓЉѓbѓNЌА•WY‚Й‘О‰ћ‚·‚йѓ}ѓXѓ^Ѓ[ЌА•W
-	BYTE	MasterBrightness[3];			//ѓ}ѓXѓ^Ѓ[‰ж‘њ‚М‹P“xЃiЊџЌё‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	MasterBrightness2[3];			//ѓ}ѓXѓ^Ѓ[‰ж‘њ‚М‹P“xЃiѓ}ѓXѓ^Ѓ[‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	AverageBrightness[3];			//•Ѕ‹П‰ж‘њ‚М‹P“xЃiЊџЌё‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	AverageBrightness2[3];			//•Ѕ‹П‰ж‘њ‚М‹P“xЃiѓ}ѓXѓ^Ѓ[‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	LightBrightness[3];				//–ѕ‚й‚ў‰ж‘њ‚М‹P“xЃiЊџЌё‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	LightBrightness2[3];			//–ѕ‚й‚ў‰ж‘њ‚М‹P“xЃiѓ}ѓXѓ^Ѓ[‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	DarkBrightness[3];				//€Г‚ў‰ж‘њ‚М‹P“xЃiЊџЌё‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	DarkBrightness2[3];				//€Г‚ў‰ж‘њ‚М‹P“xЃiѓ}ѓXѓ^Ѓ[‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	TargetBrightness[3];			//ЊџЌё‰ж‘њ‚М‹P“x
-	BYTE	PL,PH,SL,SH,RL,RH;				//‚RЋџЊі‹ЙЌА•W‚Е‚Ми‡’l
-	BYTE	PLr,PHr,SLr,SHr,RLr,RHr;		//‚RЋџЊі‹ЙЌА•W‚Е‚Ми‡’lЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	int		InspectionLevel;				//ЊџЌёѓЊѓxѓ‹Ѓi0Ѓ`255Ѓj
-	int		SearchAreaForMakeTable;			//ѓ}ѓXѓ^Ѓ[Ќмђ¬Ћћ‚МЋь€Нѓhѓbѓgђ”
-	int		SearchDotBase;					//ЊџЌёЋћ‚М’TЌхѓhѓbѓgђ”
+	int		localX;							//пїЅ}пїЅEпїЅXпїЅNпїЅпїЅпїЅbпїЅNпїЅпїЅпїЅWX
+	int		localY;							//пїЅ}пїЅEпїЅXпїЅNпїЅпїЅпїЅbпїЅNпїЅпїЅпїЅWY
+	int		MasterX;						//пїЅ}пїЅEпїЅXпїЅNпїЅпїЅпїЅbпїЅNпїЅпїЅпїЅWXпїЅЙ‘О‰пїЅпїЅпїЅпїЅпїЅпїЅ}пїЅXпїЅ^пїЅ[пїЅпїЅпїЅW
+	int		MasterY;						//пїЅ}пїЅEпїЅXпїЅNпїЅпїЅпїЅbпїЅNпїЅпїЅпїЅWYпїЅЙ‘О‰пїЅпїЅпїЅпїЅпїЅпїЅ}пїЅXпїЅ^пїЅ[пїЅпїЅпїЅW
+	BYTE	MasterBrightness[3];			//пїЅ}пїЅXпїЅ^пїЅ[пїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅпїЅпїЅпїЅпїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	MasterBrightness2[3];			//пїЅ}пїЅXпїЅ^пїЅ[пїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅ}пїЅXпїЅ^пїЅ[пїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	AverageBrightness[3];			//пїЅпїЅпїЅП‰ж‘њпїЅМ‹PпїЅxпїЅiпїЅпїЅпїЅпїЅпїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	AverageBrightness2[3];			//пїЅпїЅпїЅП‰ж‘њпїЅМ‹PпїЅxпїЅiпїЅ}пїЅXпїЅ^пїЅ[пїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	LightBrightness[3];				//пїЅпїЅпїЅй‚ўпїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅпїЅпїЅпїЅпїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	LightBrightness2[3];			//пїЅпїЅпїЅй‚ўпїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅ}пїЅXпїЅ^пїЅ[пїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	DarkBrightness[3];				//пїЅГ‚пїЅпїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅпїЅпїЅпїЅпїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	DarkBrightness2[3];				//пїЅГ‚пїЅпїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅ}пїЅXпїЅ^пїЅ[пїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	TargetBrightness[3];			//пїЅпїЅпїЅпїЅпїЅж‘њпїЅМ‹PпїЅx
+	BYTE	PL,PH,SL,SH,RL,RH;				//пїЅRпїЅпїЅпїЅпїЅпїЅЙЌпїЅпїЅWпїЅЕ‚пїЅи‡’l
+	BYTE	PLr,PHr,SLr,SHr,RLr,RHr;		//пїЅRпїЅпїЅпїЅпїЅпїЅЙЌпїЅпїЅWпїЅЕ‚пїЅи‡’lпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	int		InspectionLevel;				//пїЅпїЅпїЅпїЅпїЅпїЅпїЅxпїЅпїЅпїЅi0пїЅ`255пїЅj
+	int		SearchAreaForMakeTable;			//пїЅ}пїЅXпїЅ^пїЅ[пїЅмђ¬пїЅпїЅпїЅМЋпїЅпїЅНѓhпїЅbпїЅgпїЅпїЅ
+	int		SearchDotBase;					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅМ’TпїЅпїЅпїЅhпїЅbпїЅgпїЅпїЅ
 	int		ThresholdRange;					//
-	BYTE	PL1,PH1,SL1,SH1,RL1,RH1;		//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚М‚µ‚«‚ў’l
-	BYTE	PLr1,PHr1,SLr1,SHr1,RLr1,RHr1;	//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚М‚µ‚«‚ў’lЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	BYTE	InsTargetBrightness[3];			//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚М‹P“x
-	int		InsAverageCoordX;				//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚МЌА•WX
-	int		InsAverageCoordY;				//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚МЌА•WY
-	int		InsTargetCoordX;				//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚МЌА•WX
-	int		InsTargetCoordY;				//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚МЌА•WY
-	BYTE	InsTargetBrightness2[3];		//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚М‹P“xЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	int		InsAverageCoordX2;				//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚МЌА•WXЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	int		InsAverageCoordY2;				//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚МЌА•WYЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	int		InsTargetCoordX2;				//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚МЌА•WXЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	int		InsTargetCoordY2;				//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚МЌА•WYЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	uint64	InspectResult;					//ЊџЌёЊ‹‰К‚Мѓtѓ‰ѓO—p
-//	BYTE	**NGBitmap;						//NG‰УЏЉ(ѓsѓNѓZѓ‹)‚Мbitѓ}ѓbѓv
+	BYTE	PL1,PH1,SL1,SH1,RL1,RH1;		//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМ‚пїЅпїЅпїЅпїЅпїЅпїЅl
+	BYTE	PLr1,PHr1,SLr1,SHr1,RLr1,RHr1;	//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМ‚пїЅпїЅпїЅпїЅпїЅпїЅlпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	BYTE	InsTargetBrightness[3];			//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМ‹PпїЅx
+	int		InsAverageCoordX;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМЌпїЅпїЅWX
+	int		InsAverageCoordY;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМЌпїЅпїЅWY
+	int		InsTargetCoordX;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМЌпїЅпїЅWX
+	int		InsTargetCoordY;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМЌпїЅпїЅWY
+	BYTE	InsTargetBrightness2[3];		//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	int		InsAverageCoordX2;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМЌпїЅпїЅWXпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	int		InsAverageCoordY2;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМЌпїЅпїЅWYпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	int		InsTargetCoordX2;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМЌпїЅпїЅWXпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	int		InsTargetCoordY2;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМЌпїЅпїЅWYпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	uint64	InspectResult;					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅК‚МѓtпїЅпїЅпїЅOпїЅp
+//	BYTE	**NGBitmap;						//NGпїЅУЏпїЅ(пїЅsпїЅNпїЅZпїЅпїЅ)пїЅпїЅbitпїЅ}пїЅbпїЅv
 	PureFlexAreaListContainer *FPack;	//
-//	BYTE	**ThresholdDifferencemap;		//NG‰УЏЉ(ѓsѓNѓZѓ‹)‚М•Ѕ‹П‰ж‘њ‚Ж‚М‹P“xЌ·‚Мѓ}ѓbѓv
-	BYTE	ThresholdDifference;			//NG‰УЏЉ(ѓsѓNѓZѓ‹)‚М•Ѕ‹П‰ж‘њ‚Ж‚М‹P“xЌ·
-	int		XLen,YLen;						//‰ж‘њѓTѓCѓY
-	AutoAlignmentInPage	*pAlignPage;		//ѓAѓ‰ѓCѓЃѓ“ѓgѓ|ѓCѓ“ѓ^ЃiAutoAlignmentInPage *Ѓj
-	AutoPCBHoleAlignerInPage	*pHoleAlignPage;	//ЊЉѓAѓ‰ѓCѓЃѓ“ѓgѓ|ѓCѓ“ѓ^ЃiAutoPCBHoleAlignerInPage *Ѓj
-	PixelInsData	**PixData;				//ѓsѓNѓZѓ‹ѓfЃ[ѓ^Ѓiи‡’lЃj
+//	BYTE	**ThresholdDifferencemap;		//NGпїЅУЏпїЅ(пїЅsпїЅNпїЅZпїЅпїЅ)пїЅМ•пїЅпїЅП‰ж‘њпїЅЖ‚М‹PпїЅxпїЅпїЅпїЅМѓ}пїЅbпїЅv
+	BYTE	ThresholdDifference;			//NGпїЅУЏпїЅ(пїЅsпїЅNпїЅZпїЅпїЅ)пїЅМ•пїЅпїЅП‰ж‘њпїЅЖ‚М‹PпїЅxпїЅпїЅ
+	int		XLen,YLen;						//пїЅж‘њпїЅTпїЅCпїЅY
+	AutoAlignmentInPage	*pAlignPage;		//пїЅAпїЅпїЅпїЅCпїЅпїЅпїЅпїЅпїЅgпїЅ|пїЅCпїЅпїЅпїЅ^пїЅiAutoAlignmentInPage *пїЅj
+	AutoPCBHoleAlignerInPage	*pHoleAlignPage;	//пїЅпїЅпїЅAпїЅпїЅпїЅCпїЅпїЅпїЅпїЅпїЅgпїЅ|пїЅCпїЅпїЅпїЅ^пїЅiAutoPCBHoleAlignerInPage *пїЅj
+	PixelInsData	**PixData;				//пїЅsпїЅNпїЅZпїЅпїЅпїЅfпїЅ[пїЅ^пїЅiи‡’lпїЅj
 
-    GLWidget *glWidget;						//OpenGL—p
+    GLWidget *glWidget;						//OpenGLпїЅp
 
 	void	CreateThreshold		(void);
 	void	ShowThreshold		(void);

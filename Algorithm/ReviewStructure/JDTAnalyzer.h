@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include <QCoreApplication>
@@ -76,7 +94,7 @@ private:
 };
 
 /*
-// JDTƒtƒ@ƒCƒ‹‚ğ‰ğÍ‚·‚éƒNƒ‰ƒX
+// JDTï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
 class	JDTFile : public QList<JDTImage>
 {
 public:
@@ -97,7 +115,7 @@ private:
 */
 
 
-// JDTƒtƒ@ƒCƒ‹‚ğ‰ğÍ‚·‚éƒNƒ‰ƒX
+// JDTï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
 class	JDTFile
 {
 	QString TransFileHost;
@@ -114,13 +132,13 @@ public:
 	QList<JDTImage>::const_iterator constEnd() const { return m_NGImages.constEnd(); };
 	bool findImage(int top, int left, JDTImage &jdtDest) const;
 	QString getFilename() const { return m_Filename; };
-	qint16 getVersion(qint32 verRaw) const {// 4ƒoƒCƒg‚Ìƒo[ƒWƒ‡ƒ“’l(‚à‚µ‚­‚ÍLittleEndian‚ÌNG‰æ‘œ”‰ºˆÊ2ƒoƒCƒg)
+	qint16 getVersion(qint32 verRaw) const {// 4ï¿½oï¿½Cï¿½gï¿½Ìƒoï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½l(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½LittleEndianï¿½ï¿½NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½oï¿½Cï¿½g)
 		qint16 ret;
-		if((verRaw & 0x80000000)!=0){// ƒo[ƒWƒ‡ƒ“3ˆÈ~
+		if((verRaw & 0x80000000)!=0){// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½3ï¿½È~
 			qint16 tmp = (verRaw & 0x7fffffff);
 			ret = tmp;
 		}else{
-			ret = 2;// ƒo[ƒWƒ‡ƒ“2ƒnƒCƒuƒŠƒbƒhNG‰æ‘œƒtƒH[ƒ}ƒbƒg(PNG or JPG)
+			ret = 2;// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½2ï¿½nï¿½Cï¿½uï¿½ï¿½ï¿½bï¿½hNGï¿½æ‘œï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½g(PNG or JPG)
 		}
 		if(ret<0){
 			return -1;
@@ -130,7 +148,7 @@ public:
 	QList<JDTImage> getJDTItems() const { return m_NGImages; }; 
 
 private:
-	int checkVer(const QString &filename) const;// Å‰‚Ì2ƒoƒCƒg‚ğæ“¾‚µ‚Äƒo[ƒWƒ‡ƒ“‚ğ”F¯
+	int checkVer(const QString &filename) const;// ï¿½Åï¿½ï¿½ï¿½2ï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Äƒoï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½ï¿½
 	bool analyze(const QString &filename, int version);
 
 	bool analyze_v1(const QString &filename);
@@ -203,7 +221,7 @@ private:
 //		}
 //		QFile file(Filename);
 //		if(file.open(QIODevice::ReadOnly)==true){
-//			// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¬Œ÷
+//			// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //			QDataStream stream(&file);
 //			int ImageNumb;
 //
@@ -212,12 +230,12 @@ private:
 //			stream >> ImageNumb;
 //
 //			if(ImageNumb<=0){
-//				// NG‰æ‘œ–‡”•s–¾
+//				// NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 //				file.close();
 //				return;
 //			}else{
-//				// ‰æ‘œ–‡”³íæ“¾
-//				for(int NGI=0; NGI<ImageNumb; NGI++){// NG‰æ‘œ•ª‚¾‚¯ƒ‹[ƒv
+//				// ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+//				for(int NGI=0; NGI<ImageNumb; NGI++){// NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½v
 //					unsigned char ver[2];
 //					int page;
 //					int staticID;
@@ -227,31 +245,31 @@ private:
 //					stream >> ver[0];
 //					stream >> ver[1];
 //					
-//					// ƒo[ƒWƒ‡ƒ“
+//					// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
 //					int version = ((int)ver[1] << 8) + ver[0];
-//					if(version < 1){// ‰Šúƒo[ƒWƒ‡ƒ“‚Í‚P
+//					if(version < 1){// ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Í‚P
 //						file.close();
 //						return;
 //					}else{
 //						info.setVersion(version);
 //					}
 //					
-//					stream >> page// ƒy[ƒW”Ô†
-//						>> staticID// ’Ê‚µ”Ô†
-//						>> x1// ¶‘¤
-//						>> y1// ã‘¤
-//						>> x2// ‰E‘¤
-//						>> y2// ‰º‘¤
-//						>> ImageByte;// ‰æ‘œ‚ÌƒoƒCƒg”
+//					stream >> page// ï¿½yï¿½[ï¿½Wï¿½Ôï¿½
+//						>> staticID// ï¿½Ê‚ï¿½ï¿½Ôï¿½
+//						>> x1// ï¿½ï¿½ï¿½ï¿½
+//						>> y1// ï¿½ã‘¤
+//						>> x2// ï¿½Eï¿½ï¿½
+//						>> y2// ï¿½ï¿½ï¿½ï¿½
+//						>> ImageByte;// ï¿½æ‘œï¿½Ìƒoï¿½Cï¿½gï¿½ï¿½
 //
-//					//ƒ`ƒFƒbƒN‚Æƒf[ƒ^Ši”[
+//					//ï¿½`ï¿½Fï¿½bï¿½Nï¿½Æƒfï¿½[ï¿½^ï¿½iï¿½[
 //					if(page<0 ||
 //						staticID<0 ||
 //						x1<0 ||
 //						y1<0 ||
 //						x2<0 ||
 //						ImageByte<0){
-//						// ƒf[ƒ^•sˆê’v
+//						// ï¿½fï¿½[ï¿½^ï¿½sï¿½ï¿½ï¿½v
 //						file.close();
 //						return;
 //					}else if(x1==ttop && y1==tleft){
@@ -280,7 +298,7 @@ private:
 //			file.close();
 //			return;
 //		}else{
-//			// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¸”s
+//			// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½s
 //			return;
 //		}
 //	};
@@ -304,7 +322,7 @@ private:
 //		}
 //		QFile file(Filename);
 //		if(file.open(QIODevice::ReadOnly)==true){
-//			// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¬Œ÷
+//			// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //			QDataStream stream(&file);
 //			int ImageNumb;
 //
@@ -313,12 +331,12 @@ private:
 //			stream >> ImageNumb;
 //
 //			if(ImageNumb<=0){
-//				// NG‰æ‘œ–‡”•s–¾
+//				// NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 //				file.close();
 //				return;
 //			}else{
-//				// ‰æ‘œ–‡”³íæ“¾
-//				for(int NGI=0; NGI<ImageNumb; NGI++){// NG‰æ‘œ•ª‚¾‚¯ƒ‹[ƒv
+//				// ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+//				for(int NGI=0; NGI<ImageNumb; NGI++){// NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½v
 //					unsigned char ver[2];
 //					int page;
 //					int staticID;
@@ -328,31 +346,31 @@ private:
 //					stream >> ver[0];
 //					stream >> ver[1];
 //					
-//					// ƒo[ƒWƒ‡ƒ“
+//					// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
 //					int version = ((int)ver[1] << 8) + ver[0];
-//					if(version < 1){// ‰Šúƒo[ƒWƒ‡ƒ“‚Í‚P
+//					if(version < 1){// ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Í‚P
 //						file.close();
 //						return;
 //					}else{
 //						info.setVersion(version);
 //					}
 //					
-//					stream >> page// ƒy[ƒW”Ô†
-//						>> staticID// ’Ê‚µ”Ô†
-//						>> x1// ¶‘¤
-//						>> y1// ã‘¤
-//						>> x2// ‰E‘¤
-//						>> y2// ‰º‘¤
-//						>> ImageByte;// ‰æ‘œ‚ÌƒoƒCƒg”
+//					stream >> page// ï¿½yï¿½[ï¿½Wï¿½Ôï¿½
+//						>> staticID// ï¿½Ê‚ï¿½ï¿½Ôï¿½
+//						>> x1// ï¿½ï¿½ï¿½ï¿½
+//						>> y1// ï¿½ã‘¤
+//						>> x2// ï¿½Eï¿½ï¿½
+//						>> y2// ï¿½ï¿½ï¿½ï¿½
+//						>> ImageByte;// ï¿½æ‘œï¿½Ìƒoï¿½Cï¿½gï¿½ï¿½
 //
-//					//ƒ`ƒFƒbƒN‚Æƒf[ƒ^Ši”[
+//					//ï¿½`ï¿½Fï¿½bï¿½Nï¿½Æƒfï¿½[ï¿½^ï¿½iï¿½[
 //					if(page<0 ||
 //						staticID<0 ||
 //						x1<0 ||
 //						y1<0 ||
 //						x2<0 ||
 //						ImageByte<0){
-//						// ƒf[ƒ^•sˆê’v
+//						// ï¿½fï¿½[ï¿½^ï¿½sï¿½ï¿½ï¿½v
 //						file.close();
 //						return;
 //					}else if(x1==ttop && y1==tleft){
@@ -379,32 +397,32 @@ private:
 //			}
 //			file.close();
 //		}else{
-//			// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¸”s
+//			// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½s
 //			return;
 //		}
 //	}
 //public:
 //	QImage image(){
-//		// ƒ_ƒ~[‰æ‘œ‚ªİ’è‚³‚ê‚Ä‚¢‚ê‚Î•Ô‚·
+//		// ï¿½_ï¿½~ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½İ’è‚³ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Î•Ô‚ï¿½
 //		if(m_dummy.isNull()==false){
 //			return m_dummy;
 //		}
 //
-//		// “Ç‚İ‚İ’†‚Ì‚Æ‚«‚Í‘Ò‚Â
+//		// ï¿½Ç‚İï¿½ï¿½İ’ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½Í‘Ò‚ï¿½
 //		if(isRunning()==true){
 //			while(!isFinished()){
 //				qApp->processEvents(QEventLoop::ProcessEventsFlag::ExcludeUserInputEvents);
 //			}
 //		}
 //
-//		// “Ç‚İ‚ñ‚¾Œ‹‰Ê‚ğŠm”F
+//		// ï¿½Ç‚İï¿½ï¿½ñ‚¾Œï¿½ï¿½Ê‚ï¿½ï¿½mï¿½F
 //		bool isNull;
 //		{
 //			QMutexLocker locker( &m_mutex );
 //			isNull = m_image.isNull();
 //		}
 //
-//		//// ƒXƒŒƒbƒh¶¬¸”s‚Ìê‡‚ÍƒXƒŒƒbƒh‚ğÄ¶¬
+//		//// ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Ìê‡ï¿½ÍƒXï¿½ï¿½ï¿½bï¿½hï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½
 //		//if(isFinished()==false && isNull==true){
 //		//	start();
 //		//	while(!isFinished()){
@@ -412,13 +430,13 @@ private:
 //		//	}
 //		//}
 //
-//		//// ƒXƒŒƒbƒh‚Ì¶¬‚ª¸”s‚µ‚½‚©A“Ç‚İ‚İ¸”s‚µ‚Ä‚¢‚é‚Æ‚«ƒ[ƒJƒ‹ƒXƒŒƒbƒh‚Åæ“¾
+//		//// ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Ç‚İï¿½ï¿½İï¿½ï¿½sï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Åæ“¾
 //		//{
 //		//	QMutexLocker locker( &m_mutex );
 //		//	isNull = m_image.isNull();
 //		//}
 //
-//		// “Ç‚İ‚İ¸”s‚Ì‚Æ‚«‚ÍƒƒCƒ“ƒXƒŒƒbƒh‚Å“Ç‚İ‚İ
+//		// ï¿½Ç‚İï¿½ï¿½İï¿½ï¿½sï¿½Ì‚Æ‚ï¿½ï¿½Íƒï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Å“Ç‚İï¿½ï¿½ï¿½
 //		if(isNull==true){
 //			localLoad();
 //		}
@@ -454,11 +472,11 @@ private:
 #ifndef SP
 #endif
 
-// NG‰æ‘œ‚ğ“Ç‚İ‚ŞƒXƒŒƒbƒh
-// ƒtƒ@ƒCƒ‹‚É‚¨‚¢‚Ä1‘Î1‚ÌƒXƒŒƒbƒh‚ğ¶¬‚·‚é
-// I—¹ğŒ‚È‚Ç‚Í isFinished() ‚âAÀs’†‚©‚Ç‚¤‚©‚Í isRunnning() ‚Å”F¯‚·‚é
-// mutex‚Íg—p‚¹‚¸Aã‹LŠÖ”‚Å•Ûç‚·‚é
-// ƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚Ä‚¢‚éê‡A‚»‚±‚Ü‚Å“’B‚·‚é‚±‚Æ‚É•K—v‚Èpage‚ÍŒŸõ‚É•K—v‚Èî•ñ‚©‚çÈ—ª
+// NGï¿½æ‘œï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ŞƒXï¿½ï¿½ï¿½bï¿½h
+// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½1ï¿½ÌƒXï¿½ï¿½ï¿½bï¿½hï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚Ç‚ï¿½ isFinished() ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ isRunnning() ï¿½Å”Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// mutexï¿½Ígï¿½pï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Lï¿½Öï¿½ï¿½Å•Ûç‚·ï¿½ï¿½
+// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è‚µï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Å“ï¿½ï¿½Bï¿½ï¿½ï¿½é‚±ï¿½Æ‚É•Kï¿½vï¿½ï¿½pageï¿½ÍŒï¿½ï¿½ï¿½ï¿½É•Kï¿½vï¿½Èï¿½ï¿½ñ‚©‚ï¿½ï¿½È—ï¿½
 class NGImageReaderOneFile : public QThread
 {
 	QString NetDrivePath;
@@ -514,7 +532,7 @@ public:
 
 			//QFile file(repFilename);
 			//if(file.open(QIODevice::ReadOnly)==true){
-			//	// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¬Œ÷
+			//	// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			//	QDataStream stream(&file);
 			//	int ImageNumb;
 
@@ -523,12 +541,12 @@ public:
 			//	stream >> ImageNumb;
 
 			//	if(ImageNumb<=0){
-			//		// NG‰æ‘œ–‡”•s–¾
+			//		// NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 			//		file.close();
 			//		continue;
 			//	}else{
-			//		// ‰æ‘œ–‡”³íæ“¾
-			//		for(int NGI=0; NGI<ImageNumb; NGI++){// NG‰æ‘œ•ª‚¾‚¯ƒ‹[ƒv
+			//		// ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+			//		for(int NGI=0; NGI<ImageNumb; NGI++){// NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½v
 			//			unsigned char ver[2];
 			//			int page;
 			//			int staticID;
@@ -538,31 +556,31 @@ public:
 			//			stream >> ver[0];
 			//			stream >> ver[1];
 			//		
-			//			// ƒo[ƒWƒ‡ƒ“
+			//			// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
 			//			int version = ((int)ver[1] << 8) + ver[0];
-			//			if(version < 1){// ‰Šúƒo[ƒWƒ‡ƒ“‚Í‚P
+			//			if(version < 1){// ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Í‚P
 			//				file.close();
 			//				continue;
 			//			}else{
 			//				info.setVersion(version);
 			//			}
 			//		
-			//			stream >> page// ƒy[ƒW”Ô†
-			//				>> staticID// ’Ê‚µ”Ô†
-			//				>> x1// ¶‘¤
-			//				>> y1// ã‘¤
-			//				>> x2// ‰E‘¤
-			//				>> y2// ‰º‘¤
-			//				>> ImageByte;// ‰æ‘œ‚ÌƒoƒCƒg”
+			//			stream >> page// ï¿½yï¿½[ï¿½Wï¿½Ôï¿½
+			//				>> staticID// ï¿½Ê‚ï¿½ï¿½Ôï¿½
+			//				>> x1// ï¿½ï¿½ï¿½ï¿½
+			//				>> y1// ï¿½ã‘¤
+			//				>> x2// ï¿½Eï¿½ï¿½
+			//				>> y2// ï¿½ï¿½ï¿½ï¿½
+			//				>> ImageByte;// ï¿½æ‘œï¿½Ìƒoï¿½Cï¿½gï¿½ï¿½
 
-			//			//ƒ`ƒFƒbƒN‚Æƒf[ƒ^Ši”[
+			//			//ï¿½`ï¿½Fï¿½bï¿½Nï¿½Æƒfï¿½[ï¿½^ï¿½iï¿½[
 			//			if(page<0 ||
 			//				staticID<0 ||
 			//				x1<0 ||
 			//				y1<0 ||
 			//				x2<0 ||
 			//				ImageByte<0){
-			//				// ƒf[ƒ^•sˆê’v
+			//				// ï¿½fï¿½[ï¿½^ï¿½sï¿½ï¿½ï¿½v
 			//				file.close();
 			//				break;
 			//			}else{
@@ -588,7 +606,7 @@ public:
 			//		}
 			//	}
 			//}else{
-			//	// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¸”s
+			//	// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½s
 			//}
 		}
 	}
@@ -604,19 +622,19 @@ public:
 	void setIDXList(const QList<int> &list){ m_IDXList = list; };
 
 	QImage getImage(int left, int top, int phase){
-		// ƒ_ƒ~[‰æ‘œ‚ªİ’è‚³‚ê‚Ä‚¢‚ê‚Î•Ô‚·
+		// ï¿½_ï¿½~ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½İ’è‚³ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Î•Ô‚ï¿½
 		if(m_dummy.isNull()==false){
 			return m_dummy;
 		}
 
-		// “Ç‚İ‚İ’†‚Ì‚Æ‚«‚Í‘Ò‚Â
+		// ï¿½Ç‚İï¿½ï¿½İ’ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½Í‘Ò‚ï¿½
 		if(isRunning()==true){
 			while(!isFinished()){
 				qApp->processEvents(QEventLoop::ProcessEventsFlag::ExcludeUserInputEvents);
 			}
 		}
 
-		// “Ç‚İ‚İ¸”s‚Ì‚Æ‚«‚ÍƒƒCƒ“ƒXƒŒƒbƒh‚Å“Ç‚İ‚İ
+		// ï¿½Ç‚İï¿½ï¿½İï¿½ï¿½sï¿½Ì‚Æ‚ï¿½ï¿½Íƒï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Å“Ç‚İï¿½ï¿½ï¿½
 		if(m_JDTList.isEmpty()==true){
 			localLoad();
 		}

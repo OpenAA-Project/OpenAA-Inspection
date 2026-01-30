@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\ProjectedInspection\XProjectedInspection.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 //#include "ProjectedInspectionFormResource.h"
 #include "XProjectedInspection.h"
 #include "XGeneralFunc.h"
@@ -478,12 +487,12 @@ void	ProjectedInspectionItem::SetRefereneFrom(AlgorithmItemRoot *src,int OffsetX
 double    ProjectedInspectionItem::GetLinePointFoot(double Cx,double Cy ,double px ,double py ,double &X ,double &Y)
 
 
-/*      “_‚©‚ç‰º‚ë‚µ‚½’¼ü‚Ö‚Ì‘«‚ÌÀ•W‚ğ‹‚ß‚é
+/*      ï¿½_ï¿½ï¿½ï¿½ç‰ºï¿½ë‚µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö‚Ì‘ï¿½ï¿½Ìï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 
-	’¼ü	SSin*(x-Cx)-SCos*(y-Cy)=0
-	(px ,py)‚É“_À•W        ‚ğ“ü‚ê‚é
+	ï¿½ï¿½ï¿½ï¿½	SSin*(x-Cx)-SCos*(y-Cy)=0
+	(px ,py)ï¿½É“_ï¿½ï¿½ï¿½W        ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	(X ,Y) ‚É‘«‚ÌÀ•W‚ğ“ü‚ê‚é
+	(X ,Y) ï¿½É‘ï¿½ï¿½Ìï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 {
 	double	t=-(px-Cx)*SSin+(py-Cy)*SCos;
@@ -560,7 +569,7 @@ ExeResult	ProjectedInspectionItem::ExecuteInitialAfterEdit(int ExeID ,int Thread
 		MasterCy=GetArea().GetShape().Shape.bsRing.Cy;
 	}
 	else{
-		GetArea().GetCenter(MasterCx,MasterCy);	//(Cx,Cy)‚ğ’Ê‚éŒX‚«Angle‚Ì’¼ü	SSin*(x-Cx)-SCos*(y-Cy)=0
+		GetArea().GetCenter(MasterCx,MasterCy);	//(Cx,Cy)ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½Xï¿½ï¿½Angleï¿½Ì’ï¿½ï¿½ï¿½	SSin*(x-Cx)-SCos*(y-Cy)=0
 
 		//_CrtCheckMemory();
 

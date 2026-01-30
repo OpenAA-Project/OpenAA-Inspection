@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XGerberAperture.h"
 #include "GerberFast.h"
 #include "XGerberFast.h"
@@ -653,7 +671,7 @@ void	GerberFastInPage::MakeAutoMatchingBox(bool UsageLayer ,int UsageLayerID
 		}
 		MatrixBuffNotAnd(ImagingBmp,(const BYTE **)TmpImage2,XByte ,YLen);
 	}
-	//ƒK[ƒo[‚Ì‘SƒGƒŠƒA”ÍˆÍ‚ğæ“¾
+	//ï¿½Kï¿½[ï¿½oï¿½[ï¿½Ì‘Sï¿½Gï¿½ï¿½ï¿½Aï¿½ÍˆÍ‚ï¿½ï¿½æ“¾
 	int		X1 ,Y1 ,X2 ,Y2;
 	if(GetOccupiedItemXY(X1 ,Y1 ,X2 ,Y2)==true){
 		int	MinX=max(0,X1-100);
@@ -665,7 +683,7 @@ void	GerberFastInPage::MakeAutoMatchingBox(bool UsageLayer ,int UsageLayerID
 		&& CheckOverlapRectRect(MinX, MinY, MaxX, MaxY
 							,0, 0, GetDotPerLine(), GetMaxLines())==true){
 
-			//¬‹éŒ`‚É’Tõƒrƒbƒg—Ìˆæ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©A‚»‚Ì¬‹éŒ`ŒÂ”‚ğ”‚¦‚é
+			//ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½É’Tï¿½ï¿½ï¿½rï¿½bï¿½gï¿½Ìˆæ‚ªï¿½Ü‚Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Aï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½`ï¿½Âï¿½ï¿½ğ”‚ï¿½ï¿½ï¿½
 			ABoxXNum=10;
 			ABoxYNum=10;
 			int	XDot=(MaxX-MinX)/ABoxXNum;
@@ -780,7 +798,7 @@ void	GerberFastInPage::MakeAutoMatchingBox(bool UsageLayer ,int UsageLayerID
 				}
 			}
 			/*
-			//‹É?‚É?ƒb?ƒ“ƒO—Ìˆæ‚Ì–ÊÏ‚Ì¬‚³‚È‚à‚Ì‚ÆA”ñí‚É‘å‚«‚È‚à‚Ì‚ğœŠO‚·‚é
+			//ï¿½ï¿½?ï¿½ï¿½?ï¿½b?ï¿½ï¿½ï¿½Oï¿½Ìˆï¿½ï¿½Ì–ÊÏ‚Ìï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚ÆAï¿½ï¿½ï¿½ï¿½ï¿½É‘å‚«ï¿½È‚ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
 			if(PointDimNumb>20){
 				QSort(PointDim,PointDimNumb,sizeof(AutomatchingBox	*),SortAutomatchingBoxFunc);
 				for(int i=0;i<PointDimNumb/3;i++){
@@ -794,7 +812,7 @@ void	GerberFastInPage::MakeAutoMatchingBox(bool UsageLayer ,int UsageLayerID
 			}
 			*/
 
-			//ƒK?ƒo?ƒf??‚©‚çA‚Q’l‰æ‘œ‚É‚·‚é
+			//ï¿½K?ï¿½o?ï¿½f??ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Qï¿½lï¿½æ‘œï¿½É‚ï¿½ï¿½ï¿½
 			for(int xn=0;xn<ABoxXNum;xn++){
 				for(int yn=0;yn<ABoxYNum;yn++){
 					ABox[yn][xn].ExpandBitImage(SrcImage ,0xFF,XByte,YLen);
@@ -849,7 +867,7 @@ void	GerberFastInPage::ExecuteMatching(void)
 		}
 	}
 
-	//3ŒÂ‹æŠÔ‚Ì•½‹Ï‚ÅA‹É?‚ÉˆÙ‚È‚é‚à‚Ì‚ğœŠO‚·‚é
+	//3ï¿½Â‹ï¿½ï¿½Ô‚Ì•ï¿½ï¿½Ï‚ÅAï¿½ï¿½?ï¿½ÉˆÙ‚È‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
 	for(int xn=1;xn<ABoxXNum-1;xn+=3){
 		for(int yn=1;yn<ABoxYNum-1;yn+=3){
 			double	Dx=0.0;
@@ -879,7 +897,7 @@ void	GerberFastInPage::ExecuteMatching(void)
 		}
 	}
 	/*
-	//Å‘åˆÚ“®‹é?‚ğœŠO
+	//ï¿½Å‘ï¿½ï¿½Ú“ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½ï¿½O
 	double	MaxL=0;
 	int	IndexX=0;
 	int	IndexY=0;
@@ -897,7 +915,7 @@ void	GerberFastInPage::ExecuteMatching(void)
 	}
 	ABox[IndexY][IndexX].Adopted=false;
 
-	//Å¬ˆÚ“®‹é?‚ğœŠO
+	//ï¿½Åï¿½ï¿½Ú“ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½ï¿½O
 	double	MinL=DBL_MAX;
 	IndexX=0;
 	IndexY=0;
@@ -1008,7 +1026,7 @@ void	GerberFastInPage::ExecuteAllocateForOthers(void)
 	QString OwnDLLRoot;
 	QString OwnDLLName;
 	GetParentBase()->GetAlgorithmRootName(OwnDLLRoot ,OwnDLLName);
-	//GerberˆÈŠO‚Ì‚·‚×‚Ä‚Ì—v‘f‚ğˆÚ“®‚³‚¹‚é
+	//Gerberï¿½ÈŠOï¿½Ì‚ï¿½ï¿½×‚Ä‚Ì—vï¿½fï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for(LogicDLL *L=GetLayersBase()->GetLogicDLLBase()->GetFirst();L!=NULL;L=L->GetNext()){
 		if(L->GetDLLRoot()==OwnDLLRoot && L->GetDLLName()==OwnDLLName)
 			continue;
@@ -5958,7 +5976,7 @@ void	GerberFastInPage::MakeRelatedInOtherLayerItems(bool UsageLayer ,int UsageLa
 }
 void	GerberFastInPage::MakeABox(void)
 {
-	//ƒK[ƒo[‚Ì‘SƒGƒŠƒA”ÍˆÍ‚ğæ“¾
+	//ï¿½Kï¿½[ï¿½oï¿½[ï¿½Ì‘Sï¿½Gï¿½ï¿½ï¿½Aï¿½ÍˆÍ‚ï¿½ï¿½æ“¾
 	NPListPack<GerberFastItemPointer>	PointerList[10][10];
 	AutoInterpolation.RemoveAll();
 
@@ -5973,7 +5991,7 @@ void	GerberFastInPage::MakeABox(void)
 		&& CheckOverlapRectRect(MinX, MinY, MaxX, MaxY
 							,0, 0, GetDotPerLine(), GetMaxLines())==true){
 
-			//¬‹éŒ`‚É’Tõƒrƒbƒg—Ìˆæ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©A‚»‚Ì¬‹éŒ`ŒÂ”‚ğ”‚¦‚é
+			//ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½É’Tï¿½ï¿½ï¿½rï¿½bï¿½gï¿½Ìˆæ‚ªï¿½Ü‚Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Aï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½`ï¿½Âï¿½ï¿½ğ”‚ï¿½ï¿½ï¿½
 			ABoxXNum=10;
 			ABoxYNum=10;
 			int	XDot=(MaxX-MinX)/ABoxXNum;
@@ -6588,4 +6606,3 @@ bool	ClusterMatchDetailClass::IsInclude(GerberFastItemBase *b)
 	return CheckOverlapRectRect(X1, Y1, X2, Y2
 							,x1,y1,x2,y2);
 }
-

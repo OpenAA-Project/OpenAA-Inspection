@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XTypeDef.h"
 #include <cmath>
 #include "XPointer.h"
@@ -12,7 +30,7 @@
 #if 0
 // Sample @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-	int	NLoopCount3 = GetArea().GetFLineLen(); // ŒŸØƒGƒŠƒA‰¡‘–¸–{”
+	int	NLoopCount3 = GetArea().GetFLineLen(); // ï¿½ï¿½ï¿½ØƒGï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½ï¿½
 
 	int XLen = GetDotPerLine();
 	int YLen = GetMaxLines();
@@ -21,7 +39,7 @@
 	MatrixBuffClear(BmpMas, 0, XLen, YLen);
 	MatrixBuffClear(BmpTmp, 0, XLen, YLen);
 
-	// Œ³‰æ‘œ‚ğì‹Æƒƒ‚ƒŠ‚ÉƒXƒgƒA
+	// ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½Æƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉƒXï¿½gï¿½A
 	for (int i = 0; i < NLoopCount3; i++)
 	{
 		int y = GetArea().GetFLineAbsY(i);
@@ -46,7 +64,7 @@
 
 	LineSearch(BmpMas, BmpTmp, XLen, YLen, CrackWidth, CrackCenterValue, SearchWidthMin);
 
-	// ì‹Æƒƒ‚ƒŠ‚ğ‹P“x·‰æ‘œ‚ÉƒXƒgƒA
+	// ï¿½ï¿½ï¿½Æƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½ï¿½æ‘œï¿½ÉƒXï¿½gï¿½A
 	for (int i = 0; i < NLoopCount3; i++)
 	{
 		int y = GetArea().GetFLineAbsY(i);
@@ -74,35 +92,35 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// ŠÖ”–¼
-//         LineSearch           : ”’•256ŠK’²‰æ‘œ‚ÅˆÃ‚¢üó‚ğüˆÍ‚Å·•ª‹­’²‚µ‚Ä”’•”½“]
-// ˆø”
-//         BYTE** BmpMas        : Œ³‰æ‘œƒ|ƒCƒ“ƒ^
-//         BYTE** BmpTmp        : ¶¬·•ª‰æ‘œŠi”[ƒ|ƒCƒ“ƒ^
-//         int XLen             : ‰¡•
-//         int YLen             : c•
-//         int CrackWidth       : ‰¼’èüó•
-//         int CrackCenterValue : ˆÃ‚¢üó‚Ì‹P“xãŒÀ’l
-//         int SearchWidthMin   : üó’Tõ‚Å’Zü•ª‚ğØ‚èÌ‚Ä‚éÅ¬’·
+// ï¿½Öï¿½ï¿½ï¿½
+//         LineSearch           : ï¿½ï¿½ï¿½ï¿½256ï¿½Kï¿½ï¿½ï¿½æ‘œï¿½ÅˆÃ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä”ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
+// ï¿½ï¿½ï¿½ï¿½
+//         BYTE** BmpMas        : ï¿½ï¿½ï¿½æ‘œï¿½|ï¿½Cï¿½ï¿½ï¿½^
+//         BYTE** BmpTmp        : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½iï¿½[ï¿½|ï¿½Cï¿½ï¿½ï¿½^
+//         int XLen             : ï¿½ï¿½ï¿½ï¿½
+//         int YLen             : ï¿½cï¿½ï¿½
+//         int CrackWidth       : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//         int CrackCenterValue : ï¿½Ã‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½l
+//         int SearchWidthMin   : ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½Å’Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½Ì‚Ä‚ï¿½ï¿½Åï¿½ï¿½ï¿½
 ////////////////////////////////////////////////////////////////////////////////////////
 void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth, int CrackCenterValue, int SearchWidthMin)
 {
-	// Œ³‰æ‘œ‚Ì‘S‚Ä‚ÌƒsƒNƒZƒ‹‚É‘Î‚µ‚ÄAƒsƒNƒZƒ‹ü‚è‚Ìî•ñ‚©‚çAƒsƒNƒZƒ‹‚ª•‚¢üó‚Ì\¬‚Ì‹­’²ƒf[ƒ^ì¬
+	// ï¿½ï¿½ï¿½æ‘œï¿½Ì‘Sï¿½Ä‚Ìƒsï¿½Nï¿½Zï¿½ï¿½ï¿½É‘Î‚ï¿½ï¿½ÄAï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ñ‚©‚ï¿½ï¿½Aï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì\ï¿½ï¿½ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ì¬
 	#pragma omp parallel
 	{
 		#pragma omp for
 
 		for (int y = 0; y < YLen; y++)
 		{
-			BYTE* dst = BmpTmp[y]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+			BYTE* dst = BmpTmp[y]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
 			int v_pix, v_temp;
 			int up_ct, up_sum, i_tmp, i_cmp, pass_ct;
 			double d_tmp;
 			BYTE* pix_line;
 
-			int v_len = 8; // 8+1+8=17(17*17´Ø±) // ‹P“x·Zo‹éŒ`’è”
-			int w_hibi = CrackWidth; // ‰¼’è‚Ğ‚ÑŠ„‚ê•
+			int v_len = 8; // 8+1+8=17(17*17ï¿½Ø±) // ï¿½Pï¿½xï¿½ï¿½ï¿½Zï¿½oï¿½ï¿½ï¿½`ï¿½è”
+			int w_hibi = CrackWidth; // ï¿½ï¿½ï¿½ï¿½ï¿½Ğ‚ÑŠï¿½ï¿½ê•
 
 			for (int x = 0; x < XLen; x++)
 			{
@@ -117,24 +135,24 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 					up_sum = 0;
 					pass_ct = 0;
 
-					if (CrackCenterValue < v_pix) // 64(‰Šúè‡’l)ˆÈã‚Í‚Ğ‚Ñ‚Æ‚İ‚È‚³‚È‚¢
+					if (CrackCenterValue < v_pix) // 64(ï¿½ï¿½ï¿½ï¿½è‡’l)ï¿½Èï¿½ï¿½Í‚Ğ‚Ñ‚Æ‚İ‚È‚ï¿½ï¿½È‚ï¿½
 						continue;
 
-					// ·‚Ìæ”‚ğZo‚·‚é
+					// ï¿½ï¿½ï¿½Ìæ”ï¿½ï¿½ï¿½Zï¿½oï¿½ï¿½ï¿½ï¿½
 					double ave_rate;
 
 					if (((CrackCenterValue + 1) / 2) > v_pix)
 					{
-						ave_rate = (double)(v_pix + 1); // 0 ~ 31 : x1 ~ x32(‰Šúè‡’l)
+						ave_rate = (double)(v_pix + 1); // 0 ~ 31 : x1 ~ x32(ï¿½ï¿½ï¿½ï¿½è‡’l)
 						ave_rate = sqrt(sqrt(sqrt(sqrt(sqrt(ave_rate)))));
 					}
 					else if (((CrackCenterValue + 1) / 2 - 1) < v_pix)
 					{
-						ave_rate = (double)((CrackCenterValue + 1) - v_pix); // 32 ~ 63 : x32 ~ x1(‰Šúè‡’l)
+						ave_rate = (double)((CrackCenterValue + 1) - v_pix); // 32 ~ 63 : x32 ~ x1(ï¿½ï¿½ï¿½ï¿½è‡’l)
 						ave_rate = sqrt(sqrt(sqrt(sqrt(sqrt(ave_rate)))));
 					}
 
-					// ‹éŒ`“à‚Ì‹P“x·‚ğZo‚µ‚Ä•½‹Ï‚Ì‹P“x·‚ğ‹‚ß‚é
+					// ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½oï¿½ï¿½ï¿½Ä•ï¿½ï¿½Ï‚Ì‹Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 					for (int ky = ((-1) * v_len); ky < (v_len + 1); ky++)
 					{
 						BYTE* src = BmpMas[y + ky];
@@ -143,55 +161,55 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 						{
 							if ((0 == ky) && (0 == kx))
 							{
-								++pass_ct; // ‡Œv‰ÁZœŠO”‰ÁZ
+								++pass_ct; // ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Z
 								continue;
 							}
 
 							i_tmp = (int)(src[x + kx]);
 
-							// üˆÍ‚Ì’Pˆêƒhƒbƒg‚Ì‹P“x‚É‹­’²”{—¦‚ğŠ|‚¯‚½’l‚ª‚Ğ‚ÑŠ„‚ê‹P“x‰¼’èãŒÀ’l‚Ì1.5”{‚ğ’´‚¦‚é‚Æ‚«‚ÍA“–ŠY’Pˆêƒhƒbƒg‹P“x·‚ğ‹‚ß‚È‚¢
+							// ï¿½ï¿½ï¿½Í‚Ì’Pï¿½ï¿½ï¿½hï¿½bï¿½gï¿½Ì‹Pï¿½xï¿½É‹ï¿½ï¿½ï¿½ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ğ‚ÑŠï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½1.5ï¿½{ï¿½ğ’´‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÍAï¿½ï¿½ï¿½Yï¿½Pï¿½ï¿½ï¿½hï¿½bï¿½gï¿½Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß‚È‚ï¿½
 							if (((double)CrackCenterValue + ((double)CrackCenterValue / (double)2)) < ((double)i_tmp * ave_rate))
 							{
-								++pass_ct; // ‡Œv‰ÁZœŠO”‰ÁZ
+								++pass_ct; // ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Z
 								continue;
 							}
 
-							i_cmp = w_hibi / 2; // ­”ØÌ‚Ä
+							i_cmp = w_hibi / 2; // ï¿½ï¿½ï¿½ï¿½ï¿½ØÌ‚ï¿½
 
-							if ((i_cmp >= abs(ky)) && (i_cmp >= abs(kx))) // ‚Ğ‚Ñ‚Ì•‚Í“¯–¾“x‚ğ‰ÁZ‚Å‚«‚é
+							if ((i_cmp >= abs(ky)) && (i_cmp >= abs(kx))) // ï¿½Ğ‚Ñ‚Ì•ï¿½ï¿½Í“ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½Å‚ï¿½ï¿½ï¿½
 							{
 								if (i_tmp >= v_pix)
 								{
-									d_tmp = ((double)i_tmp - (double)v_pix) * ave_rate; // ·‚Ì‹­’²iƒhƒbƒgŠÔj
+									d_tmp = ((double)i_tmp - (double)v_pix) * ave_rate; // ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½iï¿½hï¿½bï¿½gï¿½Ôj
 									i_tmp = (int)d_tmp;
 
-									if (0.5 <= (d_tmp - (double)i_tmp)) // lÌŒÜ“ü
+									if (0.5 <= (d_tmp - (double)i_tmp)) // ï¿½lï¿½ÌŒÜ“ï¿½
 										++i_tmp;
 
-									up_sum += i_tmp; // ‹P“x·‡Œv”‰ÁZ
-									++up_ct; // ‡Œv‰ÁZƒhƒbƒg”‰ÁZ
+									up_sum += i_tmp; // ï¿½Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Z
+									++up_ct; // ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Zï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Z
 								}
 								else
 								{
-									++pass_ct; // ‡Œv‰ÁZœŠO”‰ÁZ
+									++pass_ct; // ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Z
 								}
 							}
 							else
 							{
 								if (i_tmp > v_pix)
 								{
-									d_tmp = ((double)i_tmp - (double)v_pix) * ave_rate; // ·‚Ì‹­’²iƒhƒbƒgŠÔj
+									d_tmp = ((double)i_tmp - (double)v_pix) * ave_rate; // ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½iï¿½hï¿½bï¿½gï¿½Ôj
 									i_tmp = (int)d_tmp;
 
-									if (0.5 <= (d_tmp - (double)i_tmp)) // lÌŒÜ“ü
+									if (0.5 <= (d_tmp - (double)i_tmp)) // ï¿½lï¿½ÌŒÜ“ï¿½
 										++i_tmp;
 
-									up_sum += i_tmp; // ‹P“x·‡Œv”‰ÁZ
-									++up_ct; // ‡Œv‰ÁZƒhƒbƒg”‰ÁZ
+									up_sum += i_tmp; // ï¿½Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Z
+									++up_ct; // ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Zï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Z
 								}
 								else
 								{
-									++pass_ct; // ‡Œv‰ÁZœŠO”‰ÁZ
+									++pass_ct; // ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Z
 								}
 							}
 						}
@@ -199,7 +217,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 
 					v_temp = 0;
 
-					// ‹éŒ`“à‚Ì‰¼’è‚Ğ‚ÑŠ„‚ê‚ÌŠ„‡‚ÌZo
+					// ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½Ğ‚ÑŠï¿½ï¿½ï¿½ï¿½ÌŠï¿½ï¿½ï¿½ï¿½ÌZï¿½o
 					i_tmp = (v_len + 1) * (v_len + 1) - pass_ct; // 289(v_len:8) - pass_ct
 
 					d_tmp = (double)(w_hibi * (v_len + 1)) / (double)i_tmp;
@@ -208,15 +226,15 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 
 					if (0 < up_ct)
 					{
-						if (d_tmp < (double)up_ct) // ‰¼’è‚Ğ‚ÑŠ„‚ê‚ÌŠ„‡‚ÅA‚Ğ‚ÑŠ„‚ê‚ÌüˆÍ‚Æl‚¦‚ç‚ê‚é·‚ğ‹‚ß‚½”‚Ì”äŠr
+						if (d_tmp < (double)up_ct) // ï¿½ï¿½ï¿½ï¿½ï¿½Ğ‚ÑŠï¿½ï¿½ï¿½ï¿½ÌŠï¿½ï¿½ï¿½ï¿½ÅAï¿½Ğ‚ÑŠï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½Í‚Ælï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é·ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½r
 						{
-							v_temp = up_sum / up_ct; // •½‹Ï‚Ì‹P“x·‚ğ‹‚ß‚é
+							v_temp = up_sum / up_ct; // ï¿½ï¿½ï¿½Ï‚Ì‹Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 							d_tmp = (double)up_sum / (double)up_ct;
 
-							if (0.5 <= (d_tmp - (double)v_temp)) // lÌŒÜ“ü
+							if (0.5 <= (d_tmp - (double)v_temp)) // ï¿½lï¿½ÌŒÜ“ï¿½
 								++v_temp;
 
-							v_temp *= v_temp; // ‹­’²
+							v_temp *= v_temp; // ï¿½ï¿½ï¿½ï¿½
 						}
 					}
 
@@ -225,26 +243,26 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 					else if (0 > v_temp)
 						v_temp = 0;
 
-					dst[x] = (BYTE)v_temp; // ‚Ğ‚Ñ‚Ì[‚³‚ğ–¾“x‚Æ‚µ‚ÄA–¾‚é‚¢‚Ù‚Ç[‚¢
+					dst[x] = (BYTE)v_temp; // ï¿½Ğ‚Ñ‚Ì[ï¿½ï¿½ï¿½ğ–¾“xï¿½Æ‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½é‚¢ï¿½Ù‚Ç[ï¿½ï¿½
 				}
 			}
 		}
 	}
 
 
-	// ì‹Æ—ÌˆæŠm•Û‚Ì‚½‚ß‚Oƒrƒbƒg–Ú‚ğ’²®
+	// ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½mï¿½Û‚Ì‚ï¿½ï¿½ß‚Oï¿½rï¿½bï¿½gï¿½Ú‚ğ’²ï¿½
 	#pragma omp parallel
 	{
 		#pragma omp for
 
 		for (int y = 0; y < YLen; y++)
 		{
-			BYTE* dst = BmpTmp[y]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+			BYTE* dst = BmpTmp[y]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
 			for (int x = 0; x < XLen; x++)
 				if (0 < (dst[x] & 0x1))
 				{
-					// 0ƒrƒbƒg–Ú‚ª1‚Ì‚Æ‚«1`7ƒrƒbƒg–Ú‚É‰ÁZ
+					// 0ï¿½rï¿½bï¿½gï¿½Ú‚ï¿½1ï¿½Ì‚Æ‚ï¿½1ï¿½`7ï¿½rï¿½bï¿½gï¿½Ú‚É‰ï¿½ï¿½Z
 					if (254 > dst[x])
 						dst[x] += 1;
 
@@ -254,16 +272,16 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 	}
 
 
-	// ‚Ğ‚Ñ‚Æ‚Íl‚¦‚ç‚ê‚È‚¢“¯–¾“xW‡(3*3)ƒsƒNƒZƒ‹‚ğíœ
+	// ï¿½Ğ‚Ñ‚Æ‚Ílï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Wï¿½ï¿½(3*3)ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½íœ
 	#pragma omp parallel
 	{
 		#pragma omp for
 
 		for (int y = 0; y < YLen; y++)
 		{
-			BYTE* dst = BmpTmp[y]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+			BYTE* dst = BmpTmp[y]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
-			// ’†S‚Ìƒhƒbƒg1ü‚è‚Ì‹P“x·‚ğ”äŠr‚µ‚·‚×‚Ä“¯‚¶‚©ƒJƒEƒ“ƒg‚·‚é
+			// ï¿½ï¿½ï¿½Sï¿½Ìƒhï¿½bï¿½g1ï¿½ï¿½ï¿½ï¿½ï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½×‚Ä“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½
 			for (int x = 0; x < XLen; x++)
 				if ((0 < y) && (y < (YLen - 1)) && (0 < x) && (x < (XLen - 1)))
 					if (0 < (dst[x] & 0xfe))
@@ -279,26 +297,26 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 									++ct;
 						}
 
-						// ‚·‚×‚Ä“¯‚¶‹P“x·‚È‚ç‹••ñœ‹ƒ}[ƒLƒ“ƒO‚ğ‚Â‚¯‚é
+						// ï¿½ï¿½ï¿½×‚Ä“ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½ï¿½È‚ç‹•ï¿½ñœ‹ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
 						if (9 == ct)
 							for (int yy = -1; yy < 2; yy++)
 							{
 								BYTE* dst2 = BmpTmp[y + yy];
 
 								for (int xx = -1; xx < 2; xx++)
-									dst2[x + xx] |= 0x1; // W‡ƒ}[ƒLƒ“ƒO“Y‰Á
+									dst2[x + xx] |= 0x1; // ï¿½Wï¿½ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½Yï¿½ï¿½
 							}
 					}
 		}
 	}
 
 
-	// ‚Ğ‚Ñ‚Æ‚Íl‚¦‚ç‚ê‚È‚¢“¯–¾“x(16>n)W‡(3*3)ƒsƒNƒZƒ‹‚ğíœ
+	// ï¿½Ğ‚Ñ‚Æ‚Ílï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½x(16>n)ï¿½Wï¿½ï¿½(3*3)ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½íœ
 	for (int y = 0; y < YLen; y++)
 	{
-		BYTE* dst = BmpTmp[y]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+		BYTE* dst = BmpTmp[y]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
-		// ’†S‚Ì1ƒhƒbƒgü‚è‚Ì‹P“x·‚ª15–¢–‚Ìƒhƒbƒg‚ğƒJƒEƒ“ƒg‚·‚éA‹••ñœ‹ƒ}[ƒLƒ“ƒO‚àŠÜ‚Ü‚ê‚Ä‚¢‚ê‚ÎƒJƒEƒ“ƒg‚·‚é
+		// ï¿½ï¿½ï¿½Sï¿½ï¿½1ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½ï¿½15ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒhï¿½bï¿½gï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ñœ‹ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ü‚Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ÎƒJï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½
 		for (int x = 0; x < XLen; x++)
 			if ((0 < y) && (y < (YLen - 1)) && (0 < x) && (x < (XLen - 1)))
 				if ((16 > (dst[x] & 0xfe)) || (0 < (dst[x] & 0x1)))
@@ -314,25 +332,25 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 									++ct;
 					}
 
-					// ƒJƒEƒ“ƒg‚ª1ƒhƒbƒgü‚èi9ƒhƒbƒgj‚Æ“¯‚¶‚È‚ç‚È‚ç‹••ñœ‹ƒ}[ƒLƒ“ƒO‚ğ‚Â‚¯‚é
+					// ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½1ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½i9ï¿½hï¿½bï¿½gï¿½jï¿½Æ“ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½È‚ç‹•ï¿½ñœ‹ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
 					if (9 == ct)
 						for (int yy = -1; yy < 2; yy++)
 						{
 							BYTE* dst2 = BmpTmp[y + yy];
 
 							for (int xx = -1; xx < 2; xx++)
-								dst2[x + xx] |= 0x1; // W‡ƒ}[ƒLƒ“ƒO“Y‰Á
+								dst2[x + xx] |= 0x1; // ï¿½Wï¿½ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½Yï¿½ï¿½
 						}
 				}
 	}
 
 
-	// ‚Ğ‚Ñ‚Æ‚Íl‚¦‚ç‚ê‚È‚¢“¯–¾“x(27>n)W‡(3*3)ƒsƒNƒZƒ‹‚ğíœ
+	// ï¿½Ğ‚Ñ‚Æ‚Ílï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½x(27>n)ï¿½Wï¿½ï¿½(3*3)ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½íœ
 	for (int y = 0; y < YLen; y++)
 	{
-		BYTE* dst = BmpTmp[y]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+		BYTE* dst = BmpTmp[y]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
-		// ’†S‚Ì1ƒhƒbƒgü‚è‚Ì‹P“x·‚ª15–¢–‚Ìƒhƒbƒg‚ğƒJƒEƒ“ƒg‚·‚é
+		// ï¿½ï¿½ï¿½Sï¿½ï¿½1ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½ï¿½15ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒhï¿½bï¿½gï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½
 		for (int x = 0; x < XLen; x++)
 			if ((0 < y) && (y < (YLen - 1)) && (0 < x) && (x < (XLen - 1)))
 				if ((0 < (dst[x] & 0xfe)) && (27 > (dst[x] & 0xfe)) && (0 == (dst[x] & 0x1)))
@@ -348,25 +366,25 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 								++ct;
 					}
 
-					// ƒJƒEƒ“ƒg‚ª1ƒhƒbƒgü‚èi9ƒhƒbƒgj‚Æ“¯‚¶‚È‚ç‚È‚ç‹••ñœ‹ƒ}[ƒLƒ“ƒO‚ğ‚Â‚¯‚é
+					// ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½1ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½i9ï¿½hï¿½bï¿½gï¿½jï¿½Æ“ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½È‚ç‹•ï¿½ñœ‹ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
 					if (9 == ct)
 						for (int yy = -1; yy < 2; yy++)
 						{
 							BYTE* dst2 = BmpTmp[y + yy];
 
 							for (int xx = -1; xx < 2; xx++)
-								dst2[x + xx] |= 0x1; // W‡ƒ}[ƒLƒ“ƒO“Y‰Á
+								dst2[x + xx] |= 0x1; // ï¿½Wï¿½ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½Yï¿½ï¿½
 						}
 				}
 	}
 
 
-	// ‚Ğ‚Ñ‚Æ‚Íl‚¦‚ç‚ê‚È‚¢“¯–¾“x(+-16)W‡(5*5)ƒsƒNƒZƒ‹‚ğíœ
+	// ï¿½Ğ‚Ñ‚Æ‚Ílï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½x(+-16)ï¿½Wï¿½ï¿½(5*5)ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½íœ
 	for (int y = 0; y < YLen; y++)
 	{
-		BYTE* dst = BmpTmp[y]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+		BYTE* dst = BmpTmp[y]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
-		// ’†S‚Ì2ƒhƒbƒgü‚è‚Ì‹P“x·‚ª+-16–¢–‚Ìƒhƒbƒg‚ğƒJƒEƒ“ƒg‚·‚é
+		// ï¿½ï¿½ï¿½Sï¿½ï¿½2ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½ï¿½+-16ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒhï¿½bï¿½gï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½
 		int ilen_base = 2;
 
 		for (int x = 0; x < XLen; x++)
@@ -381,31 +399,31 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 							BYTE* dst2 = BmpTmp[y + yy];
 
 							for (int xx = (ilen * -1); xx < (ilen + 1); xx++)
-								if ((ilen == abs(yy)) || (ilen == abs(xx))) // ŠOü‚Ì‚İ
+								if ((ilen == abs(yy)) || (ilen == abs(xx))) // ï¿½Oï¿½ï¿½ï¿½Ì‚ï¿½
 									if ((0 < (dst2[x + xx] & 0xfe)) && (0 == (dst2[x + xx] & 0x1)))
 										if ((((dst[x] & 0xfe) - 17) < (dst2[x + xx] & 0xfe)) && ((dst2[x + xx] & 0xfe) < ((dst[x] & 0xfe) + 17)))
 											++ct;
 						}
 
-					// ƒJƒEƒ“ƒg‚ª2ƒhƒbƒgü‚èi25 - 1ƒhƒbƒgj‚Æ“¯‚¶‚È‚ç‚È‚ç‹••ñœ‹ƒ}[ƒLƒ“ƒO‚ğ‚Â‚¯‚é
+					// ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½2ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½i25 - 1ï¿½hï¿½bï¿½gï¿½jï¿½Æ“ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½È‚ç‹•ï¿½ñœ‹ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
 					if (((ilen_base * 2 + 1) * (ilen_base * 2 + 1) - 1) == ct)
 						for (int yy = (ilen_base * -1); yy < (ilen_base + 1); yy++)
 						{
 							BYTE* dst2 = BmpTmp[y + yy];
 
 							for (int xx = (ilen_base * -1); xx < (ilen_base + 1); xx++)
-								dst2[x + xx] |= 0x1; // W‡ƒ}[ƒLƒ“ƒO“Y‰Á
+								dst2[x + xx] |= 0x1; // ï¿½Wï¿½ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½Yï¿½ï¿½
 						}
 				}
 	}
 
 
-	// ‚Ğ‚Ñ‚Æ‚Íl‚¦‚ç‚ê‚È‚¢“¯–¾“x(+-32)W‡(7*7)ƒsƒNƒZƒ‹‚ğíœ
+	// ï¿½Ğ‚Ñ‚Æ‚Ílï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½x(+-32)ï¿½Wï¿½ï¿½(7*7)ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½íœ
 	for (int y = 0; y < YLen; y++)
 	{
-		BYTE* dst = BmpTmp[y]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+		BYTE* dst = BmpTmp[y]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
-		// ’†S‚Ì3ƒhƒbƒgü‚è‚Ì‹P“x·‚ª+-32–¢–‚Ìƒhƒbƒg‚ğƒJƒEƒ“ƒg‚·‚é
+		// ï¿½ï¿½ï¿½Sï¿½ï¿½3ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½ï¿½+-32ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒhï¿½bï¿½gï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½
 		int ilen_base = 3;
 
 		for (int x = 0; x < XLen; x++)
@@ -420,42 +438,42 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 							BYTE* dst2 = BmpTmp[y + yy];
 
 							for (int xx = (ilen * -1); xx < (ilen + 1); xx++)
-								if ((ilen == abs(yy)) || (ilen == abs(xx))) // ŠOü‚Ì‚İ
+								if ((ilen == abs(yy)) || (ilen == abs(xx))) // ï¿½Oï¿½ï¿½ï¿½Ì‚ï¿½
 									if ((0 < (dst2[x + xx] & 0xfe)) && (0 == (dst2[x + xx] & 0x1)))
 										if ((((dst[x] & 0xfe) - 33) < (dst2[x + xx] & 0xfe)) && ((dst2[x + xx] & 0xfe) < ((dst[x] & 0xfe) + 33)))
 											++ct;
 						}
 
-					// ƒJƒEƒ“ƒg‚ª3ƒhƒbƒgü‚èi49 - 1ƒhƒbƒgj‚Æ“¯‚¶‚È‚ç‚È‚ç‹••ñœ‹ƒ}[ƒLƒ“ƒO‚ğ‚Â‚¯‚é
+					// ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½3ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½i49 - 1ï¿½hï¿½bï¿½gï¿½jï¿½Æ“ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½È‚ç‹•ï¿½ñœ‹ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
 					if (((ilen_base * 2 + 1) * (ilen_base * 2 + 1) - 1) == ct)
 						for (int yy = (ilen_base * -1); yy < (ilen_base + 1); yy++)
 						{
 							BYTE* dst2 = BmpTmp[y + yy];
 
 							for (int xx = (ilen_base * -1); xx < (ilen_base + 1); xx++)
-								dst2[x + xx] |= 0x1; // W‡ƒ}[ƒLƒ“ƒO“Y‰Á
+								dst2[x + xx] |= 0x1; // ï¿½Wï¿½ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½Yï¿½ï¿½
 						}
 				}
 	}
 
 
-	// ‚Ğ‚Ñ‚Æ‚Íl‚¦‚ç‚ê‚È‚¢ƒ}[ƒLƒ“ƒO‚Æ1ü‚è‚ğíœi‹P“x·‰æ‘œ‚ğ‘–¸‚µ‚Äƒ}[ƒLƒ“ƒO‚Ì‚ ‚éƒhƒbƒg‚Ì‹P“x·‚ğ0‚É‚·‚éj
+	// ï¿½Ğ‚Ñ‚Æ‚Ílï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½iï¿½Pï¿½xï¿½ï¿½ï¿½æ‘œï¿½ğ‘–ï¿½ï¿½ï¿½ï¿½Äƒ}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½Ì‚ï¿½ï¿½ï¿½ï¿½hï¿½bï¿½gï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½ï¿½0ï¿½É‚ï¿½ï¿½ï¿½ï¿½j
 	#pragma omp parallel
 	{
 		#pragma omp for
 
 		for (int y = 0; y < YLen; y++)
 		{
-			BYTE* dst = BmpTmp[y]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+			BYTE* dst = BmpTmp[y]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
 			for (int x = 0; x < XLen; x++)
 				if (0 < (dst[x] & 0x1))
-					dst[x] = 0; // ƒ}[ƒLƒ“ƒO‚ğíœ
+					dst[x] = 0; // ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½íœ
 		}
 	}
 
 
-	// ‚Ğ‚Ñ–¾“x·‰æ‘œ‚æ‚èŒ³‰æ‘œ–¾“x‚ğŒ¸Z‚·‚éiŒ³‰æ‘œ‚Ì‹éŒ`“à‚É‚Ğ‚Ñ‚ÌˆÃ‚¢˜A‘±‚ğc‚µ‚Ä‚»‚êˆÈŠO‚ÍŒ¸Z‚·‚éj
+	// ï¿½Ğ‚Ñ–ï¿½ï¿½xï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½èŒ³ï¿½æ‘œï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½æ‘œï¿½Ì‹ï¿½ï¿½`ï¿½ï¿½ï¿½É‚Ğ‚Ñ‚ÌˆÃ‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½cï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ÈŠOï¿½ÍŒï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½j
 	BYTE** BmpTmp2 = MakeMatrixBuff(XLen, YLen);
 	MatrixBuffClear(BmpTmp2, 0, XLen, YLen);
 
@@ -471,7 +489,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 			BYTE* dst = BmpTmp[y];
 			BYTE* dst2 = BmpTmp2[y];
 
-			int v_len = 1; // 1+1+1=3(3*3´Ø±) // ’†SüˆÍ’T¸ƒGƒŠƒA
+			int v_len = 1; // 1+1+1=3(3*3ï¿½Ø±) // ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Í’Tï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 
 			for (int x = 0; x < XLen; x++)
 		        if ((v_len < y) && (y < (YLen - v_len)) && (v_len < x) && (x < (XLen - v_len)))
@@ -481,14 +499,14 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 					s_y = -1 * v_len;
 					s_x = -1 * v_len;
 
-					// ’†S‚ÌüˆÍ‚Ì’T¸‚µ‚Ä‹P“x·0’´‚ÌŒÂ”‚Æ0‰z‚Ì‹P“x·‚ÅÅ¬‹P“x·‚ÆˆÊ’u‚ğ’T‚·
+					// ï¿½ï¿½ï¿½Sï¿½Ìï¿½ï¿½Í‚Ì’Tï¿½ï¿½ï¿½ï¿½ï¿½Ä‹Pï¿½xï¿½ï¿½0ï¿½ï¿½ï¿½ÌŒÂï¿½ï¿½ï¿½0ï¿½zï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½ÅÅï¿½ï¿½Pï¿½xï¿½ï¿½ï¿½ÆˆÊ’uï¿½ï¿½ï¿½Tï¿½ï¿½
 					for (int ky = (-1 * v_len); ky < (1 + v_len); ky++)
 					{
 						src = BmpMas[y + ky];
 
 						for (int kx = (-1 * v_len); kx < (1 + v_len); kx++)
 						{
-							if ((1 == abs(ky)) || (1 == abs(kx))) // ŠOü‚Ì‚İ
+							if ((1 == abs(ky)) || (1 == abs(kx))) // ï¿½Oï¿½ï¿½ï¿½Ì‚ï¿½
 								if (0 < (int)(dst2[x + kx]))
 									++i_mct;
 
@@ -504,7 +522,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 
 					bool boo;
 
-					// ‹éŒ`“à‚Å’†S‚ª‹P“x·‚ªˆê”Ô’á‚¢ê‡ˆÈŠO‚Í·‰æ‘œ‚©‚çŒ³‰æ‘œ‚Ì’l‚ğŒ¸Z‚·‚é
+					// ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½Å’ï¿½ï¿½Sï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô’á‚¢ï¿½ê‡ï¿½ÈŠOï¿½Íï¿½ï¿½æ‘œï¿½ï¿½ï¿½çŒ³ï¿½æ‘œï¿½Ì’lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½
 					if ((0 == s_y) && (0 == s_x) && (v_min == (int)(src[x])))
 					{
 						if (64 > (int)(src[x]))
@@ -514,7 +532,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 					}
 					else
 					{
-						// i_mct ‚Ì’l‚ª¬‚³‚¢‚Ù‚Ç‚Ğ‚ÑŠ„‚ê‚Ì‚æ‚¤‚È‹P“x·W‡‚Ì’†
+						// i_mct ï¿½Ì’lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù‚Ç‚Ğ‚ÑŠï¿½ï¿½ï¿½ï¿½Ì‚æ‚¤ï¿½È‹Pï¿½xï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Ì’ï¿½
 						if ((64 > (int)(src[x])) && (2 > i_mct))
 							boo = false;
 						else
@@ -523,14 +541,14 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 
 					if (true == boo)
 					{
-						v_pix = (int)(dst[x]) - (int)(src[x]); // Œ³‰æ‘œ‚Ì‹P“x’l‚ğ·‚µˆø‚­
+						v_pix = (int)(dst[x]) - (int)(src[x]); // ï¿½ï¿½ï¿½æ‘œï¿½Ì‹Pï¿½xï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 						if (255 < v_pix)
 							v_pix = 255;
 						else if (0 > v_pix)
 							v_pix = 0;
 
-						dst2[x] = (BYTE)v_pix; // ‹P“x·‚ğ‹P“x·‰æ‘œ‚ÉƒXƒgƒA
+						dst2[x] = (BYTE)v_pix; // ï¿½Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½ï¿½æ‘œï¿½ÉƒXï¿½gï¿½A
 					}
 				}
 		}
@@ -556,17 +574,17 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 
 	for (int i_loop = 0; i_loop < 2; i_loop++)
 	{
-		// •‚—V’PˆêƒsƒNƒZƒ‹‚ğíœ
+		// ï¿½ï¿½ï¿½Vï¿½Pï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½íœ
 		#pragma omp parallel
 		{
 			#pragma omp for
 
-			// ‹P“x·‰æ‘œ‚ğ‘–¸
+			// ï¿½Pï¿½xï¿½ï¿½ï¿½æ‘œï¿½ğ‘–ï¿½
 			for (int y = 0; y < YLen; y++)
 			{
-				BYTE* dst = BmpTmp[y]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+				BYTE* dst = BmpTmp[y]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
-				// ’†S‚Ìƒhƒbƒg1ü‚è‚ª‚·‚×‚Ä‹P“x·0‚Ì‚Æ‚«‚Å’†S‚ª‹P“x·0‰z‚Ì‚Æ‚«‹••ñ‚Æ‚µ‚Ä‹P“x·0‚ğİ’è
+				// ï¿½ï¿½ï¿½Sï¿½Ìƒhï¿½bï¿½g1ï¿½ï¿½ï¿½è‚ªï¿½ï¿½ï¿½×‚Ä‹Pï¿½xï¿½ï¿½0ï¿½Ì‚Æ‚ï¿½ï¿½Å’ï¿½ï¿½Sï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½0ï¿½zï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ä‹Pï¿½xï¿½ï¿½0ï¿½ï¿½ï¿½İ’ï¿½
 				for (int x = 0; x < XLen; x++)
 					if ((0 < y) && (y < (YLen - 1)) && (0 < x) && (x < (XLen - 1)))
 						if (0 < (dst[x] & 0xfe))
@@ -578,29 +596,29 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 								BYTE* dst2 = BmpTmp[y + yy];
 
 								for (int xx = -1; xx < 2; xx++)
-									if ((1 == abs(yy)) || (1 == abs(xx))) // ŠOü‚Ì‚İ
+									if ((1 == abs(yy)) || (1 == abs(xx))) // ï¿½Oï¿½ï¿½ï¿½Ì‚ï¿½
 										if (0 == (dst2[x + xx] & 0xfe))
-											++ct; // ‹P“x· 0 ‚Ì‚Æ‚«ƒJƒEƒ“ƒg‰ÁZ
+											++ct; // ï¿½Pï¿½xï¿½ï¿½ 0 ï¿½Ì‚Æ‚ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Z
 							}
 
-							// ƒJƒEƒ“ƒg‚ªŠOü‚·‚×‚Ä(9 - 1)‹P“x·0‚Ì‚Æ‚«‹P“x·0‚ğİ’è
+							// ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½×‚ï¿½(9 - 1)ï¿½Pï¿½xï¿½ï¿½0ï¿½Ì‚Æ‚ï¿½ï¿½Pï¿½xï¿½ï¿½0ï¿½ï¿½ï¿½İ’ï¿½
 							if (8 == ct)
 								dst[x] = 0;
 						}
 			}
 		}
 
-		// •‚—V‚QŒ‹‡ƒsƒNƒZƒ‹‚ğíœ
+		// ï¿½ï¿½ï¿½Vï¿½Qï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½íœ
 		#pragma omp parallel
 		{
 			#pragma omp for
 
-			// ‹P“x·‰æ‘œ‚ğ‘–¸
+			// ï¿½Pï¿½xï¿½ï¿½ï¿½æ‘œï¿½ğ‘–ï¿½
 			for (int y = 0; y < YLen; y++)
 			{
-				BYTE* dst = BmpTmp[y]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+				BYTE* dst = BmpTmp[y]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
-				// ’†S‚æ‚èƒhƒbƒg2ü‚è‚Ì‚È‚©‚Å’†S‚ÆŒ‹‡‚µ‚½ƒhƒbƒg‚ª‚ ‚èA’†S‚ğŠÜ‚ß‚Ä2ƒhƒbƒg‚©”»’è
+				// ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½hï¿½bï¿½g2ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚È‚ï¿½ï¿½Å’ï¿½ï¿½Sï¿½ÆŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Ü‚ß‚ï¿½2ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				int ilen_base = 2;
 
 				for (int x = 0; x < XLen; x++)
@@ -617,89 +635,89 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 								{
 									BYTE* dst2 = BmpTmp[y + yy];
 
-									// ƒhƒbƒg•Êü‰ñ‚Ì‹P“x·0‚ÌƒJƒEƒ“ƒg‚ğ‚·‚é
+									// ï¿½hï¿½bï¿½gï¿½Êï¿½ï¿½ï¿½ï¿½Ì‹Pï¿½xï¿½ï¿½0ï¿½ÌƒJï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 									for (int xx = (ilen * -1); xx < (ilen + 1); xx++)
-										if ((ilen == abs(yy)) || (ilen == abs(xx))) // ŠOü‚Ì‚İ
+										if ((ilen == abs(yy)) || (ilen == abs(xx))) // ï¿½Oï¿½ï¿½ï¿½Ì‚ï¿½
 											if (0 == (dst2[x + xx] & 0xfe))
 												++ct[ilen - 1];
 								}
 
-							// ”»’è
-							if ((((ilen_base * 2 + 1) * 2) + ((ilen_base * 2 + 1 - 2) * 2)) == ct[1]) // ÅŠOüƒsƒNƒZƒ‹‚Æ“¯‚¶”‚©H
-								if (((((ilen_base - 1) * 2 + 1) * 2) + (((ilen_base - 1) * 2 + 1 - 2) * 2)) <= (ct[0] + 1)) // Å“àüƒsƒNƒZƒ‹‚Æ“¯‚¶”–”‚Í1‚Â­‚È‚¢‚©H
-									dst[x] = 0; // ‹P“x·0‚ğİ’è
+							// ï¿½ï¿½ï¿½ï¿½
+							if ((((ilen_base * 2 + 1) * 2) + ((ilen_base * 2 + 1 - 2) * 2)) == ct[1]) // ï¿½ÅŠOï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½Æ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½H
+								if (((((ilen_base - 1) * 2 + 1) * 2) + (((ilen_base - 1) * 2 + 1 - 2) * 2)) <= (ct[0] + 1)) // ï¿½Å“ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½Æ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½Âï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½H
+									dst[x] = 0; // ï¿½Pï¿½xï¿½ï¿½0ï¿½ï¿½ï¿½İ’ï¿½
 						}
 			}
 		}
 	}
 
 
-	// ‹P“x·‰æ‘œ‚Å’Pˆê‚Ìƒhƒbƒg‚Ì˜A‘±‚ğ’T¸‚µ‚ÄAƒhƒbƒg’·‚ğƒJƒEƒ“ƒg‚µA’Z‚¢‚à‚Ì‚Í‹••ñ‚Æ‚µ‚Äœ‹‚µA˜A‘±Œ‹‡ƒsƒNƒZƒ‹‚Ì”²‚«o‚·
+	// ï¿½Pï¿½xï¿½ï¿½ï¿½æ‘œï¿½Å’Pï¿½ï¿½ï¿½Ìƒhï¿½bï¿½gï¿½Ì˜Aï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½ÄAï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Aï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Í‹ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½Ì”ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½
 	BmpTmp2 = MakeMatrixBuff(XLen, YLen);
 
-	// ƒ}[ƒLƒ“ƒO‚Ìíœ
+	// ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½Ìíœ
 	#pragma omp parallel
 	{
 		#pragma omp for
 
 		for (int y = 0; y < YLen; y++)
 		{
-			BYTE* dst = BmpTmp[y]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+			BYTE* dst = BmpTmp[y]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
 			for (int x = 0; x < XLen; x++)
 				if (0 < (dst[x] & 0x1))
-					dst[x] &= 0xfe; // ƒ}[ƒLƒ“ƒO‚ğíœ
+					dst[x] &= 0xfe; // ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½íœ
 		}
 	}
 
 	for (int y = 0; y < YLen; y++)
 	{
-		BYTE* dst = BmpTmp[y]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+		BYTE* dst = BmpTmp[y]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
 		for (int x = 0; x < XLen; x++)
 			if ((0 < (dst[x] & 0xfe)) && (0 == (dst[x] & 0x1)))
 			{
-				int ilen_base = 3; // ‹éŒ`•Šî’è”
+				int ilen_base = 3; // ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½è”
 				int i_tbl_yx[7][7]; // 3+1+3=7
 
 				// 0 1 2
 				// 3 4 5
 				// 6 7 8
-				int i_tbl_sum[9]; // •ûŒü•Ê–¾“x‡Œv”
-				int i_tbl_cnt[9]; // •ûŒü•ÊƒsƒNƒZƒ‹”
+				int i_tbl_sum[9]; // ï¿½ï¿½ï¿½ï¿½ï¿½Ê–ï¿½ï¿½xï¿½ï¿½ï¿½vï¿½ï¿½
+				int i_tbl_cnt[9]; // ï¿½ï¿½ï¿½ï¿½ï¿½Êƒsï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½
 
 				int i_found = 0;
 				int i_xlen, i_ylen, i_xline, i_yline, i_count;
-				i_xlen = 0; // •½–ÊÀ•W•x
-				i_ylen = 0; // •½–ÊÀ•W•y
-				i_xline = 0; // ‹Èü«x
-				i_yline = 0; // ‹Èü«y
-				i_count = 0; // Œ‹‡”
+				i_xlen = 0; // ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½x
+				i_ylen = 0; // ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½y
+				i_xline = 0; // ï¿½Èï¿½ï¿½ï¿½x
+				i_yline = 0; // ï¿½Èï¿½ï¿½ï¿½y
+				i_count = 0; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 				int x_2_base = x;
 				int y_2_base = y;
 				int x_2 = x;
 				int y_2 = y;
-				bool b_done = false; // ŒÂ•Ê˜A‘±Œ‹‡ŒŸõŠ®—¹
+				bool b_done = false; // ï¿½Â•Ê˜Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 				MatrixBuffClear(BmpTmp2, 0, XLen, YLen);
 
-				// 2Ÿ’T¸ƒ‹[ƒvA’T¸ƒhƒbƒg‚ğˆÚ“®‚µ‚Ä˜A‘±‚ğƒJƒEƒ“ƒg‚·‚é
+				// 2ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½Aï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½Ä˜Aï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½
 				while (false == b_done)
 				{
 					bool boo = false;
 
-					// ’TõƒsƒNƒZƒ‹‚ÌXV
+					// ï¿½Tï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ÌXï¿½V
 					BYTE* dst_2 = BmpTmp[y_2];
 					BYTE* dst_3 = BmpTmp2[y_2];
 
 					int x_save = 0;
 					int y_save = 0;
 
-					// üˆÍ‚É˜A‘±‚ğ’T‚·
+					// ï¿½ï¿½ï¿½Í‚É˜Aï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½
 					if (((ilen_base - 1) < y_2) && (y_2 < (YLen - ilen_base)) && ((ilen_base - 1) < x_2) && (x_2 < (XLen - ilen_base)))
 					{
-						// ’T¸ƒhƒbƒg‚ğ’†S‚ÌüˆÍ‚Ìƒhƒbƒg‚Ìƒe[ƒuƒ‹‚ğì‚é
+						// ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ğ’†Sï¿½Ìï¿½ï¿½Í‚Ìƒhï¿½bï¿½gï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 						// Table Clear
 						for (int i_yy = 0; i_yy < 7; i_yy++) // 7:(ilen_base * 2 + 1)
 							for (int i_xx = 0; i_xx < 7; i_xx++) // 7:(ilen_base * 2 + 1)
@@ -715,7 +733,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 								if ((0 < (dst2[x_2 + xx] & 0xfe)) && (0 == (dst2[x_2 + xx] & 0x1)))
 									i_tbl_yx[yy + ilen_base][xx + ilen_base] = dst2[x_2 + xx];
 
-								if ((-2 < yy) && (2 > yy) && (-2 < xx) && (2 > xx)) // Å‚à‹ß‚¢ŠOü‚Ì‚İ
+								if ((-2 < yy) && (2 > yy) && (-2 < xx) && (2 > xx)) // ï¿½Å‚ï¿½ï¿½ß‚ï¿½ï¿½Oï¿½ï¿½ï¿½Ì‚ï¿½
 									if (0 < (abs(yy) + abs(xx)))
 										if ((0 < (dst2[x_2 + xx] & 0xfe)) && (0x1 == (dst2[x_2 + xx] & 0x1)))
 											++i_found;
@@ -729,8 +747,8 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 							i_tbl_cnt[i_xx] = 0;
 						}
 
-						// ’T¸ƒhƒbƒg‚ğ’†S‚É‚µ‚Ä8•ûŒü‚Ì‹æˆæ‚É•ª‚¯A‚»‚ê‚¼‚ê‚Ì‹P“x·‚Ì‡Œv‚Æ‹P“x·0‰z‚ÌƒJƒEƒ“ƒg‚ğ‚·‚é
-						// ¶ãƒGƒŠƒA
+						// ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ğ’†Sï¿½É‚ï¿½ï¿½ï¿½8ï¿½ï¿½ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ê‚¼ï¿½ï¿½ï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½Ìï¿½ï¿½vï¿½Æ‹Pï¿½xï¿½ï¿½0ï¿½zï¿½ÌƒJï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+						// ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 						i_tbl_sum[0] = i_tbl_yx[0][0]
 									 + i_tbl_yx[0][1]
 									 + i_tbl_yx[1][0]
@@ -747,7 +765,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 									 + !(!(i_tbl_yx[2][1]))
 									 + !(!(i_tbl_yx[2][2]));
 
-						// ãƒGƒŠƒA
+						// ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 						i_tbl_sum[1] = i_tbl_yx[0][2]
 									 + i_tbl_yx[0][3]
 									 + i_tbl_yx[0][4]
@@ -764,7 +782,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 									 + !(!(i_tbl_yx[1][4]))
 									 + !(!(i_tbl_yx[2][3]));
 
-						// ‰EãƒGƒŠƒA
+						// ï¿½Eï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 						i_tbl_sum[2] = i_tbl_yx[0][5]
 									 + i_tbl_yx[0][6]
 									 + i_tbl_yx[1][4]
@@ -781,7 +799,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 									 + !(!(i_tbl_yx[2][4]))
 									 + !(!(i_tbl_yx[2][5]));
 
-						// ¶ƒGƒŠƒA
+						// ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 						i_tbl_sum[3] = i_tbl_yx[2][0]
 									 + i_tbl_yx[2][1]
 									 + i_tbl_yx[3][0]
@@ -798,7 +816,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 									 + !(!(i_tbl_yx[4][0]))
 									 + !(!(i_tbl_yx[4][1]));
 
-						// ‰EƒGƒŠƒA
+						// ï¿½Eï¿½Gï¿½ï¿½ï¿½A
 						i_tbl_sum[5] = i_tbl_yx[2][5]
 									 + i_tbl_yx[2][6]
 									 + i_tbl_yx[3][4]
@@ -815,7 +833,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 									 + !(!(i_tbl_yx[4][5]))
 									 + !(!(i_tbl_yx[4][6]));
 
-						// ¶‰ºƒGƒŠƒA
+						// ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 						i_tbl_sum[6] = i_tbl_yx[4][1]
 									 + i_tbl_yx[4][2]
 									 + i_tbl_yx[5][0]
@@ -832,7 +850,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 									 + !(!(i_tbl_yx[6][0]))
 									 + !(!(i_tbl_yx[6][1]));
 
-						// ‰ºƒGƒŠƒA
+						// ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 						i_tbl_sum[7] = i_tbl_yx[4][3]
 									 + i_tbl_yx[5][2]
 									 + i_tbl_yx[5][3]
@@ -849,7 +867,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 									 + !(!(i_tbl_yx[6][3]))
 									 + !(!(i_tbl_yx[6][4]));
 
-						// ‰E‰ºƒGƒŠƒA
+						// ï¿½Eï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 						i_tbl_sum[8] = i_tbl_yx[4][4]
 									 + i_tbl_yx[4][5]
 									 + i_tbl_yx[5][4]
@@ -866,7 +884,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 									 + !(!(i_tbl_yx[6][5]))
 									 + !(!(i_tbl_yx[6][6]));
 
-						// •ûŒüƒe[ƒuƒ‹‚Ì‚Ğ‚ÑŠ„‚ê‚Ì˜A‘±‚µ‚»‚¤‚È•ûŒü‚Ö’T¸ƒhƒbƒg‚ğˆÚ“®‚·‚é
+						// ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Ì‚Ğ‚ÑŠï¿½ï¿½ï¿½ï¿½Ì˜Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È•ï¿½ï¿½ï¿½ï¿½Ö’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½
 						int d_000 = (double)-1, d_111;
 						int i_000 = -1;
 						int i_res = -1;
@@ -876,24 +894,24 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 							{
 								d_111 = (double)i_tbl_sum[i_xx] / (double)i_tbl_cnt[i_xx];
 
-								if (d_111 > d_000) // –¾“x•½‹Ï‚ª‘å‚«‚¢•ûŒü
+								if (d_111 > d_000) // ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Ï‚ï¿½ï¿½å‚«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 								{
 									i_000 = i_tbl_cnt[i_xx];
 									d_000 = d_111;
-									i_res = i_xx; // ’T¸ˆÚ“®•ûŒü‚ ‚è
+									i_res = i_xx; // ï¿½Tï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 								}
-								else if (d_111 == d_000) // •½‹Ï‚Ì–¾“x‚ª“¯‚¶‚Ì‚Æ‚«‚ÍAƒJƒEƒ“ƒg‚ª‘å‚«‚¢•ûŒü
+								else if (d_111 == d_000) // ï¿½ï¿½ï¿½Ï‚Ì–ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½ÍAï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 								{
 									if (i_tbl_cnt[i_xx] > i_000)
 									{
 										i_000 = i_tbl_cnt[i_xx];
 										d_000 = d_111;
-										i_res = i_xx; // ’T¸ˆÚ“®•ûŒü‚ ‚è
+										i_res = i_xx; // ï¿½Tï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 									}
 								}
 							}
 
-						// Œ©‚Â‚¯‚½’T¸ˆÚ“®•ûŒü‚ÅA˜A‘±‚·‚éƒhƒbƒg‚ÉˆÚ“®‚·‚é‚ªAƒhƒbƒg‚ª˜A‘±‚µ‚È‚©‚Á‚½ê‡‚Ì‰I‰ñ•ûŒü‚ğ’T‚·
+						// ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅAï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½é‚ªï¿½Aï¿½hï¿½bï¿½gï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ì‰Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½
 						if (-1 < i_res)
 						{
 							x_save = (i_res % 3) - 1;
@@ -910,12 +928,12 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 
 								for (int i_lp = 0; i_lp < 8; i_lp++)
 								{
-									if ((2 == i_ty) && (2 == i_tx)) // ¶ãƒGƒŠƒA
+									if ((2 == i_ty) && (2 == i_tx)) // ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 									{
 										i_ty = 3;
 										i_tx = 2;
 
-										if (0 < i_tbl_yx[3][2]) // ¶ƒGƒŠƒA
+										if (0 < i_tbl_yx[3][2]) // ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
@@ -924,18 +942,18 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 										i_ty = 2;
 										i_tx = 3;
 
-										if (0 < i_tbl_yx[2][3]) // ãƒGƒŠƒA
+										if (0 < i_tbl_yx[2][3]) // ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
 										}
 									}
-									else if ((2 == i_ty) && (3 == i_tx)) // ãƒGƒŠƒA
+									else if ((2 == i_ty) && (3 == i_tx)) // ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 									{
 										i_ty = 2;
 										i_tx = 2;
 
-										if (0 < i_tbl_yx[2][2]) // ¶ãƒGƒŠƒA
+										if (0 < i_tbl_yx[2][2]) // ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
@@ -944,18 +962,18 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 										i_ty = 2;
 										i_tx = 4;
 
-										if (0 < i_tbl_yx[2][4]) // ‰EãƒGƒŠƒA
+										if (0 < i_tbl_yx[2][4]) // ï¿½Eï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
 										}
 									}
-									else if ((2 == i_ty) && (4 == i_tx)) // ‰EãƒGƒŠƒA
+									else if ((2 == i_ty) && (4 == i_tx)) // ï¿½Eï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 									{
 										i_ty = 2;
 										i_tx = 3;
 
-										if (0 < i_tbl_yx[2][3]) // ãƒGƒŠƒA
+										if (0 < i_tbl_yx[2][3]) // ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
@@ -964,18 +982,18 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 										i_ty = 3;
 										i_tx = 4;
 
-										if (0 < i_tbl_yx[3][4]) // ‰EƒGƒŠƒA
+										if (0 < i_tbl_yx[3][4]) // ï¿½Eï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
 										}
 									}
-									else if ((3 == i_ty) && (2 == i_tx)) // ¶ƒGƒŠƒA
+									else if ((3 == i_ty) && (2 == i_tx)) // ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 									{
 										i_ty = 4;
 										i_tx = 2;
 
-										if (0 < i_tbl_yx[4][2]) // ¶‰ºƒGƒŠƒA
+										if (0 < i_tbl_yx[4][2]) // ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
@@ -984,18 +1002,18 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 										i_ty = 2;
 										i_tx = 2;
 
-										if (0 < i_tbl_yx[2][2]) // ¶ãƒGƒŠƒA
+										if (0 < i_tbl_yx[2][2]) // ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
 										}
 									}
-									else if ((3 == i_ty) && (4 == i_tx)) // ‰EƒGƒŠƒA
+									else if ((3 == i_ty) && (4 == i_tx)) // ï¿½Eï¿½Gï¿½ï¿½ï¿½A
 									{
 										i_ty = 2;
 										i_tx = 4;
 
-										if (0 < i_tbl_yx[2][4]) // ‰EãƒGƒŠƒA
+										if (0 < i_tbl_yx[2][4]) // ï¿½Eï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
@@ -1004,18 +1022,18 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 										i_ty = 4;
 										i_tx = 4;
 
-										if (0 < i_tbl_yx[4][4]) // ‰E‰ºƒGƒŠƒA
+										if (0 < i_tbl_yx[4][4]) // ï¿½Eï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
 										}
 									}
-									else if ((4 == i_ty) && (2 == i_tx)) // ¶‰ºƒGƒŠƒA
+									else if ((4 == i_ty) && (2 == i_tx)) // ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 									{
 										i_ty = 4;
 										i_tx = 3;
 
-										if (0 < i_tbl_yx[4][3]) // ‰ºƒGƒŠƒA
+										if (0 < i_tbl_yx[4][3]) // ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
@@ -1024,18 +1042,18 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 										i_ty = 3;
 										i_tx = 2;
 
-										if (0 < i_tbl_yx[3][2]) // ¶ƒGƒŠƒA
+										if (0 < i_tbl_yx[3][2]) // ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
 										}
 									}
-									else if ((4 == i_ty) && (3 == i_tx)) // ‰ºƒGƒŠƒA
+									else if ((4 == i_ty) && (3 == i_tx)) // ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 									{
 										i_ty = 4;
 										i_tx = 4;
 
-										if (0 < i_tbl_yx[4][4]) // ‰E‰ºƒGƒŠƒA
+										if (0 < i_tbl_yx[4][4]) // ï¿½Eï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
@@ -1044,18 +1062,18 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 										i_ty = 4;
 										i_tx = 2;
 
-										if (0 < i_tbl_yx[4][2]) // ¶‰ºƒGƒŠƒA
+										if (0 < i_tbl_yx[4][2]) // ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
 										}
 									}
-									else if ((4 == i_ty) && (4 == i_tx)) // ‰E‰ºƒGƒŠƒA
+									else if ((4 == i_ty) && (4 == i_tx)) // ï¿½Eï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 									{
 										i_ty = 3;
 										i_tx = 4;
 
-										if (0 < i_tbl_yx[3][4]) // ‰EƒGƒŠƒA
+										if (0 < i_tbl_yx[3][4]) // ï¿½Eï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
@@ -1064,7 +1082,7 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 										i_ty = 4;
 										i_tx = 3;
 
-										if (0 < i_tbl_yx[4][3]) // ‰ºƒGƒŠƒA
+										if (0 < i_tbl_yx[4][3]) // ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A
 										{
 											boo2 = true;
 											break;
@@ -1073,82 +1091,82 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 								}
 							}
 
-							// ’T¸ƒhƒbƒg‚ªˆÚ“®‚Å‚«‚é‚Æ‚«ˆÚ“®‚·‚é
+							// ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½Ú“ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½
 							if (true == boo2)
 							{
 								x_save = i_tx - 1 - 2;
 								y_save = i_ty - 1 - 2;
 
-								// \¬ü•ªƒ}[ƒLƒ“ƒO
-								dst_3[x_2] = dst_2[x_2]; // ‰¼’èƒ}[ƒLƒ“ƒO
+								// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½O
+								dst_3[x_2] = dst_2[x_2]; // ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½O
 								dst_2[x_2] = 0;
 								boo = true;
 							}
 						}
 					}
 
-					// \¬ü•ª‚Ì’·‚³‚Æ•‚ÆÖs‚ğƒJƒEƒ“ƒg‚·‚é
+					// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½Æ•ï¿½ï¿½ÆÖsï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½
 					if (true == boo)
 					{
 						x_2 += x_save;
 						y_2 += y_save;
 
 						if (abs(x_2_base - x_2) > i_xlen)
-							i_xlen = abs(x_2_base - x_2); // •½–ÊÀ•W•x
+							i_xlen = abs(x_2_base - x_2); // ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½x
 
 						if (abs(y_2_base - y_2) > i_ylen)
-							i_ylen = abs(y_2_base - y_2); // •½–ÊÀ•W•y
+							i_ylen = abs(y_2_base - y_2); // ï¿½ï¿½ï¿½Êï¿½ï¿½Wï¿½ï¿½y
 
 						if (0 != x_save)
-							++i_xline; // ‹Èü«x
+							++i_xline; // ï¿½Èï¿½ï¿½ï¿½x
 
 						if (0 != y_save)
-							++i_yline; // ‹Èü«y
+							++i_yline; // ï¿½Èï¿½ï¿½ï¿½y
 
-						++i_count; // Œ‹‡”
+						++i_count; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					}
 
 					if (false == boo)
-						b_done = true; // Ÿ‚Ì’T¸ƒhƒbƒg‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½‚Æ‚«‚É‚Í2Ÿƒ‹[ƒv‚ğI—¹‚·‚é
+						b_done = true; // ï¿½ï¿½ï¿½Ì’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½É‚ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				}
 
-				// ŠJnƒhƒbƒg‚ª‚P‚Â‚Ì‚İ‚Å˜A‘±‚µ‚È‚¢‚Æ‚«Aƒhƒbƒg‚ğ‹P“x·0‚É‚µ‚Äœ‹
+				// ï¿½Jï¿½nï¿½hï¿½bï¿½gï¿½ï¿½ï¿½Pï¿½Â‚Ì‚İ‚Å˜Aï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½hï¿½bï¿½gï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½0ï¿½É‚ï¿½ï¿½Äï¿½ï¿½ï¿½
 				if (1 > i_count)
 				{
 					if (0 == i_found)
 						dst[x_2] = 0;
 
-					continue; // Œ‹‡” 0
+					continue; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0
 				}
 
 				b_done = false;
 
-				// ˜A‘±Œ‹‡‚Ì‚Ğ‚Ñ”»’è
-				// ƒhƒbƒg‚Ì˜A‘±ƒJƒEƒ“ƒg‚ª6–¢–‚Ì‚Æ‚«‚Í‹••ñ‚Æ‚µ‚Äœ‹
+				// ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Ğ‚Ñ”ï¿½ï¿½ï¿½
+				// ï¿½hï¿½bï¿½gï¿½Ì˜Aï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½6ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½Í‹ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Äï¿½ï¿½ï¿½
 //				if (120 <= i_count)
 //				if (60 <= i_count)
 //				if (6 <= i_count)
 
 				if (SearchWidthMin <= i_count)
-					b_done = true; // ˜A‘±ƒJƒEƒ“ƒg‚Å‚Ğ‚ÑŠ„‚ê‚Æ”»’è
+					b_done = true; // ï¿½Aï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½Å‚Ğ‚ÑŠï¿½ï¿½ï¿½ï¿½Æ”ï¿½ï¿½ï¿½
 
-				if (true == b_done) // Œ‹‡ü•ª‚Í‚Ğ‚ÑŠ„‚êH
+				if (true == b_done) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚Ğ‚ÑŠï¿½ï¿½ï¿½ï¿½H
 				{
 					#pragma omp parallel
 					{
 						#pragma omp for
 
-						// ’T¸ƒ}[ƒLƒ“ƒO‚ğ‚Ğ‚ÑŠ„‚êƒ}[ƒLƒ“ƒO‚ÉŠm’è
+						// ï¿½Tï¿½ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ğ‚ÑŠï¿½ï¿½ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½ÉŠmï¿½ï¿½
 						for (int y_t = 0; y_t < YLen; y_t++)
 						{
-							BYTE* dst_t = BmpTmp[y_t]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
-							BYTE* dst_t2 = BmpTmp2[y_t]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+							BYTE* dst_t = BmpTmp[y_t]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
+							BYTE* dst_t2 = BmpTmp2[y_t]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
 							for (int x_t = 0; x_t < XLen; x_t++)
 								if (0 < dst_t2[x_t])
 								{
 									dst_t[x_t] = dst_t2[x_t];
-									dst_t[x_t] |= 0x1; // Šm’èƒ}[ƒLƒ“ƒO
+									dst_t[x_t] |= 0x1; // ï¿½mï¿½ï¿½ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½O
 								}
 						}
 					}
@@ -1158,18 +1176,18 @@ void LineSearch(BYTE** BmpMas, BYTE** BmpTmp, int XLen, int YLen, int CrackWidth
 
 	DeleteMatrixBuff(BmpTmp2, YLen);
 
-	// ƒ}[ƒLƒ“ƒO‚Ìíœ
+	// ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½Ìíœ
 	#pragma omp parallel
 	{
 		#pragma omp for
 
 		for (int y = 0; y < YLen; y++)
 		{
-			BYTE* dst = BmpTmp[y]; // ì‹Æ—Ìˆæ‚Å‚Ì‰¡‘–¸ƒƒ‚ƒŠˆÊ’u
+			BYTE* dst = BmpTmp[y]; // ï¿½ï¿½ï¿½Æ—Ìˆï¿½ï¿½Å‚Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’u
 
 			for (int x = 0; x < XLen; x++)
 				if (0 < (dst[x] & 0x1))
-					dst[x] &= 0xfe; // ƒ}[ƒLƒ“ƒO‚ğíœ
+					dst[x] &= 0xfe; // ï¿½}ï¿½[ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½íœ
 		}
 	}
 }

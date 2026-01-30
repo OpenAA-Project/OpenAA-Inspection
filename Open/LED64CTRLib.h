@@ -1,20 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\LED64CTRLib.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
-/*----------------------------------------------------------------------------*/
-//
-//  ŠT—v
-//
-//  ì¬Ò
-//
-/*----------------------------------------------------------------------------*/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef LED64CTRLibH
 #define LED64CTRLibH
 //---------------------------------------------------------------------------
@@ -41,17 +42,17 @@
 
 #endif
 
-/* b’è
-    ‚PF‹Œ®‚W–{‚k‚d‚cƒo[
-    ‚QF‚RƒÓ‚k‚d‚cƒo[@‹ŒƒRƒ“ƒgƒ[ƒ‰[
-    ‚RF‚RƒÓ‚k‚d‚cƒo[@‹ŒƒRƒ“ƒgƒ[ƒ‰[@Ô—Î‹t“]
-    ‚SF‚RƒÓ‚k‚d‚cƒo[@VƒRƒ“ƒgƒ[ƒ‰[
-    ‚TF‚m‚‚X‚W‚R‚Tƒ{[ƒhŒo—R  ‹Œ®‚W–{‚k‚d‚cƒo[
-    ‚UF‚m‚‚X‚W‚R‚Tƒ{[ƒhŒo—R  ‚RƒÓ‚k‚d‚cƒo[@‹ŒƒRƒ“ƒgƒ[ƒ‰[
-    ‚VF‚m‚‚X‚W‚R‚Tƒ{[ƒhŒo—R  ‚RƒÓ‚k‚d‚cƒo[@‹ŒƒRƒ“ƒgƒ[ƒ‰[@Ô—Î‹t“]
-    ‚WF‚m‚‚X‚W‚R‚Tƒ{[ƒhŒo—R  ‚RƒÓ‚k‚d‚cƒo[@VƒRƒ“ƒgƒ[ƒ‰[
-    ‚XF‚RƒÓ‚k‚d‚cƒo[~‚QƒZƒbƒg@VƒRƒ“ƒgƒ[ƒ‰[
-    ‚P‚OF‚Qƒ|[ƒg‚Ì‹Œ‚k‚d‚cƒRƒ“ƒgƒ[ƒ‰
+/* ï¿½bï¿½ï¿½
+    ï¿½Pï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½{ï¿½kï¿½dï¿½cï¿½oï¿½[
+    ï¿½Qï¿½Fï¿½Rï¿½Ó‚kï¿½dï¿½cï¿½oï¿½[ï¿½@ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[
+    ï¿½Rï¿½Fï¿½Rï¿½Ó‚kï¿½dï¿½cï¿½oï¿½[ï¿½@ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[ï¿½@ï¿½Ô—Î‹tï¿½]
+    ï¿½Sï¿½Fï¿½Rï¿½Ó‚kï¿½dï¿½cï¿½oï¿½[ï¿½@ï¿½Vï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[
+    ï¿½Tï¿½Fï¿½mï¿½ï¿½ï¿½Xï¿½Wï¿½Rï¿½Tï¿½{ï¿½[ï¿½hï¿½oï¿½R  ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½{ï¿½kï¿½dï¿½cï¿½oï¿½[
+    ï¿½Uï¿½Fï¿½mï¿½ï¿½ï¿½Xï¿½Wï¿½Rï¿½Tï¿½{ï¿½[ï¿½hï¿½oï¿½R  ï¿½Rï¿½Ó‚kï¿½dï¿½cï¿½oï¿½[ï¿½@ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[
+    ï¿½Vï¿½Fï¿½mï¿½ï¿½ï¿½Xï¿½Wï¿½Rï¿½Tï¿½{ï¿½[ï¿½hï¿½oï¿½R  ï¿½Rï¿½Ó‚kï¿½dï¿½cï¿½oï¿½[ï¿½@ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[ï¿½@ï¿½Ô—Î‹tï¿½]
+    ï¿½Wï¿½Fï¿½mï¿½ï¿½ï¿½Xï¿½Wï¿½Rï¿½Tï¿½{ï¿½[ï¿½hï¿½oï¿½R  ï¿½Rï¿½Ó‚kï¿½dï¿½cï¿½oï¿½[ï¿½@ï¿½Vï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[
+    ï¿½Xï¿½Fï¿½Rï¿½Ó‚kï¿½dï¿½cï¿½oï¿½[ï¿½~ï¿½Qï¿½Zï¿½bï¿½gï¿½@ï¿½Vï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[
+    ï¿½Pï¿½Oï¿½Fï¿½Qï¿½|ï¿½[ï¿½gï¿½Ì‹ï¿½ï¿½kï¿½dï¿½cï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½
 */
 
 #if KindOfLight==1
@@ -127,13 +128,13 @@
 
 
 /*----------------------------------------------------------------------------*/
-//  1.“ú–{Œê–¼
+//  1.ï¿½ï¿½ï¿½{ï¿½ê–¼
 //
-//  2.ŠT—v
+//  2.ï¿½Tï¿½v
 //
-//  3.‹@”\à–¾
+//  3.ï¿½@ï¿½\ï¿½ï¿½ï¿½ï¿½
 //
-//  4.”õl
+//  4.ï¿½ï¿½ï¿½l
 //
 /*----------------------------------------------------------------------------*/
 class   LED64ctr
@@ -164,18 +165,18 @@ public:
     void    __fastcall OutData(int n,double rate);
 	/*----------------------------------------------------------------------------*/
 	//
-	//  1.“ú–{Œê–¼
+	//  1.ï¿½ï¿½ï¿½{ï¿½ê–¼
 	//
-	//  2.ƒpƒ‰ƒƒ^à–¾
+	//  2.ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½ï¿½
 	//    id
 	//
-	//  3.ŠT—v
+	//  3.ï¿½Tï¿½v
 	//
-	//  4.‹@”\à–¾
+	//  4.ï¿½@ï¿½\ï¿½ï¿½ï¿½ï¿½
 	//
-	//  5.–ß‚è’l
+	//  5.ï¿½ß‚ï¿½ï¿½l
 	//
-	//  6.”õl
+	//  6.ï¿½ï¿½ï¿½l
 	//
 	/*----------------------------------------------------------------------------*/
     void    __fastcall SetDevice(WDC_DEVICE_HANDLE dev){  hWD=dev;  }
@@ -213,4 +214,3 @@ public:
 };
 
 #endif
-

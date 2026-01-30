@@ -66,13 +66,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.\MVS\Development\Includes;..\..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OpenAAUseLibrary)\HIKRobot\MVS;$(OpenAAUseLibrary)\HIKRobot\MVS\Development\Includes;..\..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>.\MVS\Development\Libraries\win64;..\..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OpenAAUseLibrary)\HIKRobot\MVS\Development\Libraries\win64;..\..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ServiceLib.lib;MvCameraControl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -107,13 +107,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MvCamera.cpp" />
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\HIKRobot\MVS\MvCamera.cpp" />
     <ClCompile Include="ShowCameraDialog.cpp" />
     <ClInclude Include="cameramvsgige_global.h" />
     <ClInclude Include="CameraMVSGigE.h" />
     <ClCompile Include="..\..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="CameraMVSGigE.cpp" />
-    <ClInclude Include="MvCamera.h" />
     <QtMoc Include="ShowCameraDialog.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XAutoPCBHoleAligner.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "AutoPCBHoleAlignerResource.h"
 #include "XAutoPCBHoleAligner.h"
@@ -273,7 +282,7 @@ ExeResult	AutoPCBHoleAlignerHole::ExecuteInitialAfterEdit	(int ExeID
 
 	FringeArea.BuildFromRaster(BmpImage,XByte ,YLen,0,0);
 
-	//?????a?d?P?h?b?g?Å~?c?1?e
+	//?????a?d?P?h?b?g?ÔøΩ~?c?1?e
 	FlexArea	ShrinkHole=GetArea();
 	ShrinkHole.MoveToNoClip(-mx,-my);
 	MatrixBuffClear(BmpImage,0,XByte,YLen);
@@ -586,7 +595,7 @@ bool	AutoPCBHoleAlignerInPage::CheckOutside(int CenterX ,int CenterY
 											 ,ImagePointerContainer &MasterImages
 											 ,int MaxSearch ,int ThresholdDiff)
 {
-	//?a?o?Å˜?E?E???e?Åë???a?a?s?T?E?Å˜?Y?ÅE?e?c?2?Å~?e
+	//?a?o?ÔøΩÔøΩ?E?E???e?ÔøΩÔøΩ???a?a?s?T?E?ÔøΩÔøΩ?Y?ÔøΩE?e?c?2?ÔøΩ~?e
 	ImageBuffer	*RBuff=MasterImages[0];
 	ImageBuffer	*GBuff=MasterImages[1];
 	ImageBuffer	*BBuff=MasterImages[2];

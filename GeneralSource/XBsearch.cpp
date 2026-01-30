@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XBsearch.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 //      Finish Debugging
@@ -17,8 +26,8 @@
 #include "XBsearch.h"
 
 void *EqualSearch(const void *key , const void *base , unsigned int numb , int width , int( *sortFunc)(const void *e1, const void *e2))
-//      “¯‚¶—v‘f‚ğ’T‚·
-//      ‚±‚ê‚Í key ‚É“™‚µ‚¢ƒf[ƒ^‚ª•¡”‚ ‚é‚Æ‚«A‚Ç‚Ìƒf[ƒ^‚ªƒŠƒ^[ƒ“‚·‚é‚©‚í‚©‚ç‚È‚¢
+//      ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½fï¿½ï¿½ï¿½Tï¿½ï¿½
+//      ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ key ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½Ç‚Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½í‚©ï¿½ï¿½ï¿½È‚ï¿½
 {
 	char  *basemin;
 	char  *bdata;
@@ -33,10 +42,10 @@ void *EqualSearch(const void *key , const void *base , unsigned int numb , int w
 		if (k == 0){
 			return(bdata);
 		}
-		else if (k < 0){ //ƒL[‚Ì‚Ù‚¤‚ª¬‚³‚¢‚Æ‚«
+		else if (k < 0){ //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 			numb = i;
 		}
-		else  {         //ƒL[‚Ì‚Ù‚¤‚ª‘å‚«‚¢‚Æ‚«
+		else  {         //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½Æ‚ï¿½
 			basemin = bdata + width;
 			numb -= i + 1;
 		}
@@ -45,10 +54,10 @@ void *EqualSearch(const void *key , const void *base , unsigned int numb , int w
 }
 
 void *EqualLeastSearch(const void *key , const void *base ,unsigned int numb , int width , int( *sortFunc)(const void *e1, const void *e2))
-//      Bn-1 < Bn <= key ‚Æ‚È‚é Bn ‚ğ’T‚·
-//      key ‚É“™‚µ‚¢‚à‚Ì‚ª•¡”‚ ‚é‚Æ‚«A‚»‚Ì’†‚ÌÅ‚àbase‚É‹ß‚¢‚à‚Ì‚ª•Ô‚é
-//      key ‚É“™‚µ‚¢ƒf[ƒ^‚Í‘¶İ‚µ‚Ä‚¢‚È‚­‚Ä‚Í‚È‚ç‚È‚¢
-//      ‘¶İ‚µ‚È‚¢‚Æ‚« NULL ‚ª•Ô‚é
+//      Bn-1 < Bn <= key ï¿½Æ‚È‚ï¿½ Bn ï¿½ï¿½ï¿½Tï¿½ï¿½
+//      key ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½Ì’ï¿½ï¿½ÌÅ‚ï¿½baseï¿½É‹ß‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½Ô‚ï¿½
+//      key ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Í‘ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Ä‚Í‚È‚ï¿½ï¿½È‚ï¿½
+//      ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ NULL ï¿½ï¿½ï¿½Ô‚ï¿½
 {
 	char  *basemin;
 	char  *bdata;
@@ -65,10 +74,10 @@ void *EqualLeastSearch(const void *key , const void *base ,unsigned int numb , i
 				i = numb >> 1;
 				bdata = basemin + i * width;
 				k = (*sortFunc)(key, bdata);
-				if (k <= 0){     //ƒL[‚Ì‚Ù‚¤‚ª¬‚³‚¢‚Æ‚«
+				if (k <= 0){     //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 					numb = i;
 				}
-				else  {         //ƒL[‚Ì‚Ù‚¤‚ª‘å‚«‚¢‚Æ‚«
+				else  {         //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½Æ‚ï¿½
 					basemin = bdata + width;
 					numb -= i + 1;
 					}
@@ -82,10 +91,10 @@ void *EqualLeastSearch(const void *key , const void *base ,unsigned int numb , i
 			}
 			return(bdata);
 		}
-		else if (k < 0){ //ƒL[‚Ì‚Ù‚¤‚ª¬‚³‚¢‚Æ‚«
+		else if (k < 0){ //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 			numb = i;
 		}
-		else  {         //ƒL[‚Ì‚Ù‚¤‚ª‘å‚«‚¢‚Æ‚«
+		else  {         //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½Æ‚ï¿½
 			basemin = bdata + width;
 			numb -= i + 1;
 		}
@@ -94,10 +103,10 @@ void *EqualLeastSearch(const void *key , const void *base ,unsigned int numb , i
 }
 
 void *EqualGreatestSearch(const void *key , const void *base ,unsigned  int numb , int width , int( *sortFunc)(const void *e1, const void *e2))
-//      key <= Bn < Bn+1 ‚Æ‚È‚é Bn ‚ğ’T‚·
-//      key ‚É“™‚µ‚¢‚à‚Ì‚ª•¡”‚ ‚é‚Æ‚«A‚»‚Ì’†‚ÌÅ‚àbase‚©‚ç‰“‚¢‚à‚Ì‚ª•Ô‚é
-//      key ‚É“™‚µ‚¢ƒf[ƒ^‚Í‘¶İ‚µ‚Ä‚¢‚È‚­‚Ä‚Í‚È‚ç‚È‚¢
-//      ‘¶İ‚µ‚È‚¢‚Æ‚« NULL ‚ª•Ô‚é
+//      key <= Bn < Bn+1 ï¿½Æ‚È‚ï¿½ Bn ï¿½ï¿½ï¿½Tï¿½ï¿½
+//      key ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½Ì’ï¿½ï¿½ÌÅ‚ï¿½baseï¿½ï¿½ï¿½ç‰“ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½Ô‚ï¿½
+//      key ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Í‘ï¿½ï¿½İ‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Ä‚Í‚È‚ï¿½ï¿½È‚ï¿½
+//      ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ NULL ï¿½ï¿½ï¿½Ô‚ï¿½
 {
 	char  *basemin;
 	char	*bdata;
@@ -114,10 +123,10 @@ void *EqualGreatestSearch(const void *key , const void *base ,unsigned  int numb
 				i = numb >> 1;
 				bdata = basemin + i * width;
 				k = (*sortFunc)(key, bdata);
-				if (k < 0){     //ƒL[‚Ì‚Ù‚¤‚ª¬‚³‚¢‚Æ‚«
+				if (k < 0){     //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 					numb = i;
 				}
-				else  {         //ƒL[‚Ì‚Ù‚¤‚ª‘å‚«‚¢‚Æ‚«
+				else  {         //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½Æ‚ï¿½
 					basemin = bdata + width;
 					numb -= i + 1;
 					}
@@ -131,10 +140,10 @@ void *EqualGreatestSearch(const void *key , const void *base ,unsigned  int numb
 			}
 			return(bdata);
 		}
-		else if (k < 0){ //ƒL[‚Ì‚Ù‚¤‚ª¬‚³‚¢‚Æ‚«
+		else if (k < 0){ //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 			numb = i;
 		}
-		else  {         //ƒL[‚Ì‚Ù‚¤‚ª‘å‚«‚¢‚Æ‚«
+		else  {         //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½Æ‚ï¿½
 			basemin = bdata + width;
 			numb -= i + 1;
 		}
@@ -143,10 +152,10 @@ void *EqualGreatestSearch(const void *key , const void *base ,unsigned  int numb
 }
 
 void *LessSearch(const void *key , const void *base ,unsigned int numb , int width , int( *sortFunc)(const void *e1, const void *e2))
-//      Bn-1 < Bn <= key ‚Æ‚È‚é Bn ‚ğ’T‚·
-//      key ‚É“™‚µ‚¢‚à‚Ì‚ª•¡”‚ ‚é‚Æ‚«A‚»‚Ì’†‚ÌÅ‚àbase‚É‹ß‚¢‚à‚Ì‚ª•Ô‚é
-//      key ‚É“™‚µ‚¢ƒf[ƒ^‚Í‘¶İ‚µ‚È‚­‚Ä‚à‚æ‚¢
-//      ‘¶İ‚µ‚È‚¢‚Æ‚« NULL ‚ª•Ô‚é
+//      Bn-1 < Bn <= key ï¿½Æ‚È‚ï¿½ Bn ï¿½ï¿½ï¿½Tï¿½ï¿½
+//      key ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½Ì’ï¿½ï¿½ÌÅ‚ï¿½baseï¿½É‹ß‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½Ô‚ï¿½
+//      key ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Í‘ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ï¿½Ä‚ï¿½ï¿½æ‚¢
+//      ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ NULL ï¿½ï¿½ï¿½Ô‚ï¿½
 {
 	char  *basemin;
 	char	*bdata;
@@ -164,10 +173,10 @@ void *LessSearch(const void *key , const void *base ,unsigned int numb , int wid
 				i = numb >> 1;
 				bdata = basemin + i * width;
 				k = (*sortFunc)(key, bdata);
-				if (k <= 0){     //ƒL[‚Ì‚Ù‚¤‚ª¬‚³‚¢‚Æ‚«
+				if (k <= 0){     //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 					numb = i;
 				}
-				else  {         //ƒL[‚Ì‚Ù‚¤‚ª‘å‚«‚¢‚Æ‚«
+				else  {         //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½Æ‚ï¿½
 					basemin = bdata + width;
 					numb -= i + 1;
 					}
@@ -181,10 +190,10 @@ void *LessSearch(const void *key , const void *base ,unsigned int numb , int wid
 			}
 			return(bdata);
 		}
-		else if (k < 0){ //ƒL[‚Ì‚Ù‚¤‚ª¬‚³‚¢‚Æ‚«
+		else if (k < 0){ //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 			numb = i;
 		}
-		else  {         //ƒL[‚Ì‚Ù‚¤‚ª‘å‚«‚¢‚Æ‚«
+		else  {         //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½Æ‚ï¿½
 			basemin = bdata + width;
 			numb -= i + 1;
 		}
@@ -204,10 +213,10 @@ void *LessSearch(const void *key , const void *base ,unsigned int numb , int wid
 	return(NULL);
 }
 void *GreaterSearch(const void *key , const void *base , unsigned int numb , int width , int( *sortFunc)(const void *e1, const void *e2))
-//      key <= Bn < Bn+1 ‚Æ‚È‚é Bn ‚ğ’T‚·
-//      key ‚É“™‚µ‚¢‚à‚Ì‚ª•¡”‚ ‚é‚Æ‚«A‚»‚Ì’†‚ÌÅ‚àbase‚©‚ç‰“‚¢‚à‚Ì‚ª•Ô‚é
-//      key ‚É“™‚µ‚¢ƒf[ƒ^‚Í‘¶İ‚µ‚È‚­‚Ä‚à‚æ‚¢
-//      ‘¶İ‚µ‚È‚¢‚Æ‚« NULL ‚ª•Ô‚é
+//      key <= Bn < Bn+1 ï¿½Æ‚È‚ï¿½ Bn ï¿½ï¿½ï¿½Tï¿½ï¿½
+//      key ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½Ì’ï¿½ï¿½ÌÅ‚ï¿½baseï¿½ï¿½ï¿½ç‰“ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½Ô‚ï¿½
+//      key ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Í‘ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ï¿½Ä‚ï¿½ï¿½æ‚¢
+//      ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ NULL ï¿½ï¿½ï¿½Ô‚ï¿½
 {
 	char	*basemin;
 	char	*bdata;
@@ -225,10 +234,10 @@ void *GreaterSearch(const void *key , const void *base , unsigned int numb , int
 				i = numb >> 1;
 				bdata = basemin + i * width;
 				k = (*sortFunc)(key, bdata);
-				if (k < 0){      //ƒL[‚Ì‚Ù‚¤‚ª¬‚³‚¢‚Æ‚«
+				if (k < 0){      //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 					numb = i;
 				}
-				else  {         //ƒL[‚Ì‚Ù‚¤‚ª‘å‚«‚¢‚Æ‚«
+				else  {         //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½Æ‚ï¿½
 					basemin = bdata + width;
 					numb -= i + 1;
 					}
@@ -242,10 +251,10 @@ void *GreaterSearch(const void *key , const void *base , unsigned int numb , int
 			}
 			return(bdata);
 		}
-		else if (k < 0){ //ƒL[‚Ì‚Ù‚¤‚ª¬‚³‚¢‚Æ‚«
+		else if (k < 0){ //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 			numb = i;
 		}
-		else  {         //ƒL[‚Ì‚Ù‚¤‚ª‘å‚«‚¢‚Æ‚«
+		else  {         //ï¿½Lï¿½[ï¿½Ì‚Ù‚ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½Æ‚ï¿½
 			basemin = bdata + width;
 			numb -= i + 1;
 		}
@@ -505,4 +514,3 @@ recurse:
   else
     return;
 }
-

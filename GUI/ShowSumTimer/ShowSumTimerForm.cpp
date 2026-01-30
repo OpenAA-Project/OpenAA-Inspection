@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "EditRemainTimeFormResource.h"
 #include "ShowSumTimerForm.h"
 #include "ui_ShowSumTimerForm.h"
@@ -193,7 +211,7 @@ ShowSumTimerForm::ShowSumTimerForm(LayersBase *Base,QWidget *parent) :
 	TitleFont = ui->lbTitle->font();
 	TimeFont = ui->lbTime->font();
 
-	//m_timer.invalidate(); // isValid()‚Åfalse‚ğ•Ô‚·Bstart()‚ÅisValid()‚Ítrue‚ğ•Ô‚·‚æ‚¤‚É‚È‚éB(‰Šú‰»ƒ`ƒFƒbƒN‚É)
+	//m_timer.invalidate(); // isValid()ï¿½ï¿½falseï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Bstart()ï¿½ï¿½isValid()ï¿½ï¿½trueï¿½ï¿½ï¿½Ô‚ï¿½ï¿½æ‚¤ï¿½É‚È‚ï¿½ï¿½B(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½)
 	m_sumTime.clear();
 	m_timer.invalidate();
 
@@ -362,7 +380,7 @@ void ShowSumTimerForm::updateTimerLabel()
 	if(GetEditMode()==false){
 		LongTime st = sumTime();
 
-		if(isIncreaseTime==false){	// c‚èŠÔ•\¦‚Ìê‡
+		if(isIncreaseTime==false){	// ï¿½cï¿½èï¿½Ô•\ï¿½ï¿½ï¿½Ìê‡
 			LongTime mt(MaxTime_Hour, MaxTime_Minuite, MaxTime_Second, MaxTime_MiliSec);
 
 			st = mt - st;

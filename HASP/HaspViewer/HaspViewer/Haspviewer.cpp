@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "Haspviewer.h"
 #include "hasplib.h"
 #include <QMessageBox>
@@ -85,7 +103,7 @@ void HaspViewer::View(void){
 		showCode(TypeList[i],DateList[i]);
 	}
 	ui.lbEnd->setVisible(true);
-	// Player‚ÌƒnƒXƒv‚ªEditor‚É‚à‘Î‰‚µ‚Ä‚¢‚é‚Ì‚Å
+	// Playerï¿½Ìƒnï¿½Xï¿½vï¿½ï¿½Editorï¿½É‚ï¿½ï¿½Î‰ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
 	if((ui.lbEditorDate->text().isEmpty()==true)&&(ui.lbPlayerDate->text().isEmpty()==false))
 		ui.lbEditorDate->setText(ui.lbPlayerDate->text());
 }
@@ -96,14 +114,14 @@ hasp_status_t HaspViewer::Login(hasp_handle_t &handle){
 void HaspViewer::showCode(const QString &Code,const QString &Date){
 	Hasplib hasplib;
 	int index = hasplib.MatchHaspCode(Code);
-//	HASPƒR[ƒh’Ç‰Á‚É‚ÍˆÈ‰º‚É’Ç‰Á
+//	HASPï¿½Rï¿½[ï¿½hï¿½Ç‰ï¿½ï¿½ï¿½ï¿½É‚ÍˆÈ‰ï¿½ï¿½É’Ç‰ï¿½
 	switch(index){
 		case -1: return;
 		case 0: 
 				ui.lbPlayerNO->setVisible(false);
 				ui.lbPlayerOK->setVisible(true);
 				ui.lbPlayerDate->setText(Date);
-				// Player‚ÌƒnƒXƒv‚ªEditor‚É‚à‘Î‰‚µ‚Ä‚¢‚é‚Ì‚Å
+				// Playerï¿½Ìƒnï¿½Xï¿½vï¿½ï¿½Editorï¿½É‚ï¿½ï¿½Î‰ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
 				ui.lbEditorNO->setVisible(false); 
 				ui.lbEditorOK->setVisible(true);
 				return;
@@ -140,11 +158,11 @@ QString  HaspViewer::GetID(char *C){
 	return str.mid(first,Len);
 }
 //void HaspViewer::Fukugou(QString &str_ID,unsigned char *Data){
-//	//ƒVƒŠƒAƒ‹ƒR[ƒh‚Ì‰º3Œ…‚ğg—p‚µ‚½•œ†
+//	//ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Ì‰ï¿½3ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	int ID = str_ID.right(3).toInt();
-//	//ˆÃ†‰»‚³‚ê‚½‚ÌÅŒã‚Ì”Ô†‚ğ‚Æ‚é
+//	//ï¿½Ãï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ÌÅŒï¿½ï¿½Ì”Ôï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 //	int iNum = ID%45+3;
-//	//ˆÃ†‚ğ•œ†‚·‚é
+//	//ï¿½Ãï¿½ï¿½ğ•œï¿½ï¿½ï¿½ï¿½ï¿½
 //	for (int i=0; i<=ID; i++){
 //		if (iNum==2){iNum=47;}
 //		std::swap(Data[iNum],Data[iNum-3]);
@@ -154,28 +172,28 @@ QString  HaspViewer::GetID(char *C){
 ////////
 void HaspViewer::Fukugou(int ID,QByteArray ReData, QByteArray &fukugou)
 {
-	//ƒVƒŠƒAƒ‹ƒR[ƒh‚Ì‰º3Œ…‚ğg—p‚µ‚½•¡‡‰»
+	//ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Ì‰ï¿½3ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	fukugou.clear();
 	QStringList List;
 	List.clear();
-	//QByteArray¨QStringList(swapŠÖ”‚ğg‚¤ˆ×)
+	//QByteArrayï¿½ï¿½QStringList(swapï¿½Öï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½)
 	for (int iA=0; iA<=47; iA++){
 		List.append(ReData.mid(iA,1));
 	}
-	//ˆÃ†‰»‚³‚ê‚½‚ÌÅŒã‚Ì”Ô†‚ğ‚Æ‚é
+	//ï¿½Ãï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ÌÅŒï¿½ï¿½Ì”Ôï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 	int iNum=0;
 	for (int iAn=0; iAn<=QByteArray().setNum(ID).mid(6,3).toInt(); iAn++){
 		if (iNum==45){iNum=0;}	
 		iNum++;
 	}
 	iNum=iNum+2;
-	//ˆÃ†‰»‚³‚ê‚½‚à‚Ì‚ğ•¡‡‰»‚·‚é
+	//ï¿½Ãï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Ì‚ğ•¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for (int iFu=0; iFu<=QByteArray().setNum(ID).mid(6,3).toInt(); iFu++){
 		if (iNum==2){iNum=47;}
 		Swap(List,iNum,iNum-3);
 		iNum--;
 	}
-	//QStringList¨QByteArray‚É–ß‚·
+	//QStringListï¿½ï¿½QByteArrayï¿½É–ß‚ï¿½
 	for (int iB=0; iB<=47; iB++){
 		fukugou.append(List.at(iB).toUtf8());
 	}

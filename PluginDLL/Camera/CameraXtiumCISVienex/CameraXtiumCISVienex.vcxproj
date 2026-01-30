@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\InspectionPlayer;..\..\..\GeneralSource\Sequence;$(SAPERA)\Classes\Basic;..\..\..\OpenSource\Component;..\..\..\Open;$(SAPERA)\Include;$(SAPERA)\Classes\Gui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\InspectionPlayer;..\..\..\GeneralSource\Sequence;$(SAPERA)\Classes\Basic;..\..\..\OpenSource\Component;..\..\..\Open;$(OpenAAUseLibrary)\Dalsa;$(SAPERA)\Include;$(SAPERA)\Classes\Gui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
@@ -107,9 +107,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\featureCtrl.cpp" />
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\RunLen.Cpp" />
     <ClCompile Include="CL_MX4CommandCreater.cpp" />
-    <ClCompile Include="featureCtrl.cpp" />
-    <ClCompile Include="RunLen.Cpp" />
     <ClCompile Include="saperaCtrl.cpp" />
     <ClCompile Include="SaperaOptimized.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MaxSpeedHighLevel</Optimization>
@@ -122,10 +122,7 @@
     </ClCompile>
     <ClCompile Include="VienexCIS.cpp" />
     <ClInclude Include="CL_MX4CommandCreater.h" />
-    <ClInclude Include="featureCtrl.h" />
-    <ClInclude Include="RunLen.h" />
     <ClInclude Include="saperaCtrl.h" />
-    <ClInclude Include="screenformat.h" />
     <QtMoc Include="VienexCIS.h" />
     <QtMoc Include="CameraSettingDialog.h" />
     <ClInclude Include="cameraxtiumcisvienex_global.h" />

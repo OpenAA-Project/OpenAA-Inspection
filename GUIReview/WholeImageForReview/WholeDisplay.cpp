@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "WholeImageForReviewResource.h"
 #include "WholeDisplay.h"
 #include <QPainter>
@@ -34,9 +52,9 @@ void WholeDisplay_impl::setNGNailPosList(const HistoryItem &history, bool redraw
 	HistoryItem hItem = history;
 
 	for(int i=hItem.getNGNails().count()-1; i>=0; i--){
-		if(hItem.getNGNails()[i].phase!=getPhase()){// ƒtƒFƒCƒY‚ªˆá‚¤ê‡
-			hItem.NGCount -= hItem.getNGNails().at(i).NGPointList.count();// Œ¸Z
-			hItem.getNGNails().removeAt(i);// “Eo
+		if(hItem.getNGNails()[i].phase!=getPhase()){// ï¿½tï¿½Fï¿½Cï¿½Yï¿½ï¿½ï¿½á‚¤ï¿½ê‡
+			hItem.NGCount -= hItem.getNGNails().at(i).NGPointList.count();// ï¿½ï¿½ï¿½Z
+			hItem.getNGNails().removeAt(i);// ï¿½Eï¿½o
 		}
 	}
 
@@ -129,7 +147,7 @@ void WholeDisplay_impl::SlotMouseMove(int x, int y)
 	}
 	return;
 
-	// –¢“®ì
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	HistoryItem hItem = getHistory();
 	if(hItem.getNGNails().isEmpty()==true)return;
 	
@@ -233,7 +251,7 @@ void WholeDisplay_impl::updateImage()
 	}
 	pieceBrush.setStyle(Qt::BrushStyle::SolidPattern);
 
-	// PCE‚Ì•`‰æ
+	// PCEï¿½Ì•`ï¿½ï¿½
 	PCEList pceList = getPCEList();
 	painter.setPen(piecePen);
 	painter.setBrush(pieceBrush);
@@ -279,7 +297,7 @@ void WholeDisplay_impl::updateImage()
 		//	if(polygon.isEmpty()==false){
 		//		int maxx, maxy, minx, miny;
 
-		//		maxx = maxy = minx = miny = polygon.first().x();// ‰Šú‰»
+		//		maxx = maxy = minx = miny = polygon.first().x();// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		//		for(int p=0; p<polygon.count(); p++){
 		//			polygon[p] += offset - getCurrentViewRect().topLeft();
@@ -337,13 +355,13 @@ void WholeDisplay_impl::updateImage()
 		
 		for(int i=0; i<hItem.getNGNails().count(); i++){
 			for(int j=0; j<hItem.getNGNails()[i].NGPointList.count(); j++){
-				// Œ³ƒ}ƒXƒ^[ƒf[ƒ^‚Å‚ÌˆÊ’u
+				// ï¿½ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Å‚ÌˆÊ’u
 				QPoint p = hItem.getNGNails()[i].NGPointList[j].getMasterPos();
 
-				// ƒAƒEƒgƒ‰ƒCƒ“ˆÚ“®
+				// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Ú“ï¿½
 				p += getOutlineOffset(hItem.getNGNails()[i].page);
 
-				// ¶ã‚ÌÀ•W‚ğƒVƒtƒg
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½Wï¿½ï¿½ï¿½Vï¿½tï¿½g
 				p -= getCurrentViewRect().topLeft();
 
 				painter.drawPoint(p*zoom);
@@ -356,7 +374,7 @@ void WholeDisplay_impl::updateImage()
 			QPoint topleft(hItem.getNGNails()[i].MasterPosX, hItem.getNGNails()[i].MasterPosY);
 			topleft += getOutlineOffset(hItem.getNGNails()[i].page);
 			
-			// ¶ã‚ÌÀ•W‚ğƒVƒtƒg
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½Wï¿½ï¿½ï¿½Vï¿½tï¿½g
 			topleft -= getCurrentViewRect().topLeft();
 
 			topleft *= zoom;
@@ -408,7 +426,7 @@ void WholeDisplay_impl::updateImage()
 			NGPOffset /= item.NGPointList.count();
 		}
 		
-		// ¶ã‚ÌÀ•W‚ğƒVƒtƒg
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½Wï¿½ï¿½ï¿½Vï¿½tï¿½g
 		topleft -= getCurrentViewRect().topLeft();
 		topleft -= NGPOffset;
 		
@@ -420,35 +438,35 @@ void WholeDisplay_impl::updateImage()
 		painter.setPen(currentPen);
 		painter.drawRect(rect);
 
-		if(getCurrentNGCrossView()==true){// ƒNƒƒX•\¦‚Ì
+		if(getCurrentNGCrossView()==true){// ï¿½Nï¿½ï¿½ï¿½Xï¿½\ï¿½ï¿½ï¿½Ìï¿½
 			QPen crossPen;
 			crossPen.setColor(QColor(Qt::white));
 			crossPen.setWidth(1);
 			painter.setPen(crossPen);
 
-			// Œ´“_
+			// ï¿½ï¿½ï¿½_
 			QPoint NGPosOrg(item.MasterPosX + item.NGImageWidth/2.0 + getOutlineOffset(item.page).x(),
 				item.MasterPosY + item.NGImageHeight/2.0 + getOutlineOffset(item.page).y());
 			
-			// ’²®Œã
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			QPoint XStart	(0,					(NGPosOrg.y() - getCurrentViewRect().top()) * zoom);
 			QPoint XEnd		(image->width()-1,	(NGPosOrg.y() - getCurrentViewRect().top()) * zoom);
 			QPoint YStart	((NGPosOrg.x() - getCurrentViewRect().left()) * zoom,	0);
 			QPoint YEnd		((NGPosOrg.x() - getCurrentViewRect().left()) * zoom,	image->height()-1);
 
-			//// ƒAƒEƒgƒ‰ƒCƒ“‚É‚æ‚éˆÚ“®
+			//// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½Ú“ï¿½
 			//XStart += topleft;
 			//XEnd += topleft;
 			//YStart += topleft;
 			//YEnd += topleft;
 
-			//// Šg‘å—¦İ’è
+			//// ï¿½gï¿½å—¦ï¿½İ’ï¿½
 			//XStart *= zoomRate;
 			//XEnd *= zoomRate;
 			//YStart *= zoomRate;
 			//YEnd *= zoomRate;
 
-			// •`‰æ
+			// ï¿½`ï¿½ï¿½
 			painter.drawLine(XStart, XEnd);
 			painter.drawLine(YStart, YEnd);
 		}

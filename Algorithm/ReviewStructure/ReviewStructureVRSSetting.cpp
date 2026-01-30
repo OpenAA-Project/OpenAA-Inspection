@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2014
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ReviewStructureVRSSetting.h"
 #include "XReviewPropertyBase.h"
 #include <QDebug>
@@ -372,69 +390,69 @@ void VRSAlignment::setAffinSeedToEachPage(const QList<ThreePointAlignment> &alig
 QMatrix VRSAlignment::createAffin(const QPoint &ins1, const QPoint &ins2, const QPoint ins3,
 								const QPoint &mac1, const QPoint &mac2, const QPoint mac3)
 {
-	/********** ƒAƒtƒBƒ“•ÏŠ·
-	int		MX1,MY1,MX2,MY2,MX3,MY3;	‹@ŠBÀ•W
-	int		IX1,IY1,IX2,IY2,IX3,IY3;	‰æ‘œÀ•W
+	/********** ï¿½Aï¿½tï¿½Bï¿½ï¿½ï¿½ÏŠï¿½
+	int		MX1,MY1,MX2,MY2,MX3,MY3;	ï¿½@ï¿½Bï¿½ï¿½ï¿½W
+	int		IX1,IY1,IX2,IY2,IX3,IY3;	ï¿½æ‘œï¿½ï¿½ï¿½W
 	double	a,b,c,d,e,f;
-	ã‹L•Ï”‚ðŽg—p‚µ‚ÄƒAƒtƒBƒ“•ÏŠ·‚ð‚µ‚ÄA‰æ‘œÀ•W‚ð‹@ŠBÀ•W‚É•ÏŠ·‚·‚é
-	^X_@@^a b c_  ^x_
-	| Y |  | d e f |E| y |	ã‹L•Ï”‚ð‘ã“ü‚µ‚Ä
-	_1^@@_0 0 1^  _1^	MX1 = IX1*a + IY1*b + c EEE(1)
-	s—ñ‚ð‰ð‚¢‚Ä				MY1 = IX1*d + IY1*e + f EEE(2)
-	X = a*x + b*y + c	  Ë	MX2 = IX2*a + IY2*b + c EEE(3)
-	Y = d*x + e*y + f	  Ë	MY2 = IX2*d + IY2*e + f EEE(4)
-								MX3 = IX3*a + IY3*b + c EEE(5)
-								MY3 = IX3*d + IY3*e + f EEE(6)
-	(1)‚Æ(3)‚æ‚èc‚ðÁ‚µ‚Ä
-	(IX1-IX2)*a + (IY1-IY2)*b = MX1-MX2 EEE(7)
-	(3)‚Æ(5)‚æ‚èc‚ðÁ‚µ‚Ä
-	(IX3-IX2)*a + (IY3-IY2)*b = MX3-MX2 EEE(8)
-	(7)‚Æ(8)‚æ‚èb‚ðÁ‚µ‚Ä
-	^IX1-IX2	IX3-IX2_		 MX1-MX2   MX3-MX2
-	|„ª„ª„ª„ª - „ª„ª„ª„ª| * a = „ª„ª„ª„ª - „ª„ª„ª„ª
-	_IY1-IY2	IY3-IY2^		 IY1-IY2   IY3-IY2
-	‚æ‚Á‚Ä
-		^MX1-MX2	MX3-MX2_	^			 (IY1-IY2)*(IY3-IY2)		 _
-	a = |„ª„ª„ª„ª - „ª„ª„ª„ª| * |„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª|
-		_IY1-IY2	IY3-IY2^	_(IX1-IX2)*(IY3-IY2)-(IX3-IX2)*(IY1-IY2)^
-	(7)‚æ‚è
-		  ^IX1-IX2_		MX1-MX2
-	b = - |„ª„ª„ª„ª | *a + „ª„ª„ª„ª
-		  _IY1-IY2^		IY1-IY2
-	(1)‚æ‚è
+	ï¿½ï¿½ï¿½Lï¿½Ïï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ÄƒAï¿½tï¿½Bï¿½ï¿½ï¿½ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄAï¿½æ‘œï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½@ï¿½Bï¿½ï¿½ï¿½Wï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½^Xï¿½_ï¿½@ï¿½@ï¿½^a b cï¿½_  ï¿½^xï¿½_
+	| Y | ï¿½ï¿½ | d e f |ï¿½E| y |	ï¿½ï¿½ï¿½Lï¿½Ïï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½_1ï¿½^ï¿½@ï¿½@ï¿½_0 0 1ï¿½^  ï¿½_1ï¿½^	MX1 = IX1*a + IY1*b + c ï¿½Eï¿½Eï¿½E(1)
+	ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½				MY1 = IX1*d + IY1*e + f ï¿½Eï¿½Eï¿½E(2)
+	X = a*x + b*y + c	  ï¿½ï¿½	MX2 = IX2*a + IY2*b + c ï¿½Eï¿½Eï¿½E(3)
+	Y = d*x + e*y + f	  ï¿½ï¿½	MY2 = IX2*d + IY2*e + f ï¿½Eï¿½Eï¿½E(4)
+								MX3 = IX3*a + IY3*b + c ï¿½Eï¿½Eï¿½E(5)
+								MY3 = IX3*d + IY3*e + f ï¿½Eï¿½Eï¿½E(6)
+	(1)ï¿½ï¿½(3)ï¿½ï¿½ï¿½ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	(IX1-IX2)*a + (IY1-IY2)*b = MX1-MX2 ï¿½Eï¿½Eï¿½E(7)
+	(3)ï¿½ï¿½(5)ï¿½ï¿½ï¿½ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	(IX3-IX2)*a + (IY3-IY2)*b = MX3-MX2 ï¿½Eï¿½Eï¿½E(8)
+	(7)ï¿½ï¿½(8)ï¿½ï¿½ï¿½ï¿½bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½^IX1-IX2	IX3-IX2ï¿½_		 MX1-MX2   MX3-MX2
+	|ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½| * a = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½_IY1-IY2	IY3-IY2ï¿½^		 IY1-IY2   IY3-IY2
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		ï¿½^MX1-MX2	MX3-MX2ï¿½_	ï¿½^			 (IY1-IY2)*(IY3-IY2)		 ï¿½_
+	a = |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½| * |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
+		ï¿½_IY1-IY2	IY3-IY2ï¿½^	ï¿½_(IX1-IX2)*(IY3-IY2)-(IX3-IX2)*(IY1-IY2)ï¿½^
+	(7)ï¿½ï¿½ï¿½ï¿½
+		  ï¿½^IX1-IX2ï¿½_		MX1-MX2
+	b = - |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ | *a + ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		  ï¿½_IY1-IY2ï¿½^		IY1-IY2
+	(1)ï¿½ï¿½ï¿½ï¿½
 	c = MX1 - IX1*a - IY1*b
-	“¯—l‚É
-		^MY1-MY2	MY3-MY2_	^			 (IY1-IY2)*(IY3-IY2)		 _
-	d = |„ª„ª„ª„ª - „ª„ª„ª„ª| * |„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª|
-		_IY1-IY2	IY3-IY2^	_(IX1-IX2)*(IY3-IY2)-(IX3-IX2)*(IY1-IY2)^
-		  ^IX1-IX2_		MY1-MY2
-	e = - |„ª„ª„ª„ª | *d + „ª„ª„ª„ª
-		  _IY1-IY2^		IY1-IY2
+	ï¿½ï¿½ï¿½lï¿½ï¿½
+		ï¿½^MY1-MY2	MY3-MY2ï¿½_	ï¿½^			 (IY1-IY2)*(IY3-IY2)		 ï¿½_
+	d = |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½| * |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
+		ï¿½_IY1-IY2	IY3-IY2ï¿½^	ï¿½_(IX1-IX2)*(IY3-IY2)-(IX3-IX2)*(IY1-IY2)ï¿½^
+		  ï¿½^IX1-IX2ï¿½_		MY1-MY2
+	e = - |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ | *d + ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		  ï¿½_IY1-IY2ï¿½^		IY1-IY2
 	f = MY1 - IX1*d - IY1*e
 
 
-	•â‘«:
-		 ^			 (IY1-IY2)*(IY3-IY2)		  _
-	ƒ¿ = |„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª|
-		 _(IX1-IX2)*(IY3-IY2)-(IX3-IX2)*(IY1-IY2)^
-		   ^IX1-IX2_
-	ƒÀ = - |„ª„ª„ª„ª |
-		   _IY1-IY2^
+	ï¿½â‘«:
+		 ï¿½^			 (IY1-IY2)*(IY3-IY2)		  ï¿½_
+	ï¿½ï¿½ = |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
+		 ï¿½_(IX1-IX2)*(IY3-IY2)-(IX3-IX2)*(IY1-IY2)ï¿½^
+		   ï¿½^IX1-IX2ï¿½_
+	ï¿½ï¿½ = - |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ |
+		   ï¿½_IY1-IY2ï¿½^
 
-	‚Æ‚·‚ê‚ÎA
+	ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ÎA
 
-		 ^MX1-MX2	MX3-MX2_
-	a =  |„ª„ª„ª„ª - „ª„ª„ª„ª| * ƒ¿
-		 _IY1-IY2	IY3-IY2^
+		 ï¿½^MX1-MX2	MX3-MX2ï¿½_
+	a =  |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½| * ï¿½ï¿½
+		 ï¿½_IY1-IY2	IY3-IY2ï¿½^
 				  MX2-MX3
-	b = ƒÀ * a + „ª„ª„ª„ª
+	b = ï¿½ï¿½ * a + ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				  IY2-IY3
 	c = MX1 - IX1*a - IY1*b
-		^MY1-MY2	MY3-MY2_
-	d = |„ª„ª„ª„ª - „ª„ª„ª„ª| * ƒ¿
-		_IY1-IY2	IY3-IY2^
+		ï¿½^MY1-MY2	MY3-MY2ï¿½_
+	d = |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½| * ï¿½ï¿½
+		ï¿½_IY1-IY2	IY3-IY2ï¿½^
 				  MY2-MY3
-	e = ƒÀ * d + „ª„ª„ª„ª
+	e = ï¿½ï¿½ * d + ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		  		  IY2-IY3
 	f = MY1 - IX1*d - IY1*e
 	**********/
@@ -456,12 +474,12 @@ QMatrix VRSAlignment::createAffin(const QPoint &ins1, const QPoint &ins2, const 
 	qreal MY3 = mac3.y();
 
 	/*
-		 ^			 (IY1-IY2)*(IY3-IY2)		  _
-	ƒ¿ = |„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª|
-		 _(IX1-IX2)*(IY3-IY2)-(IX3-IX2)*(IY1-IY2)^
-		   ^IX1-IX2_
-	ƒÀ = - |„ª„ª„ª„ª |
-		   _IY1-IY2^
+		 ï¿½^			 (IY1-IY2)*(IY3-IY2)		  ï¿½_
+	ï¿½ï¿½ = |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
+		 ï¿½_(IX1-IX2)*(IY3-IY2)-(IX3-IX2)*(IY1-IY2)ï¿½^
+		   ï¿½^IX1-IX2ï¿½_
+	ï¿½ï¿½ = - |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ |
+		   ï¿½_IY1-IY2ï¿½^
 	*/
 	//qreal alpha = (IY1-IY2)*(IY3-IY2) / (IX1-IX2)*(IY3-IY2)-(IX3-IX2)*(IY1-IY2);
 	//qreal beta = - (IX1-IX2) / (IY1-IY2);
@@ -470,18 +488,18 @@ QMatrix VRSAlignment::createAffin(const QPoint &ins1, const QPoint &ins2, const 
 	qreal beta = (-1) * (IX2-IX3)/(IY2-IY3);
 
 	/*
-		 ^MX1-MX2	MX3-MX2_
-	a =  |„ª„ª„ª„ª - „ª„ª„ª„ª| * ƒ¿
-		 _IY1-IY2	IY3-IY2^
+		 ï¿½^MX1-MX2	MX3-MX2ï¿½_
+	a =  |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½| * ï¿½ï¿½
+		 ï¿½_IY1-IY2	IY3-IY2ï¿½^
 				 MX1-MX2
-	b = ƒÀ *a + „ª„ª„ª„ª
+	b = ï¿½ï¿½ *a + ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				 IY1-IY2
 	c = -IX1*a - IY1*b + MX1
-		^MY1-MY2	MY3-MY2_
-	d = |„ª„ª„ª„ª - „ª„ª„ª„ª| * ƒ¿
-		_IY1-IY2	IY3-IY2^
+		ï¿½^MY1-MY2	MY3-MY2ï¿½_
+	d = |ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½| * ï¿½ï¿½
+		ï¿½_IY1-IY2	IY3-IY2ï¿½^
 				   MY1-MY2
-	e = - ƒÀ *d + „ª„ª„ª„ª
+	e = - ï¿½ï¿½ *d + ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		  		   IY1-IY2
 	f = -IX1*d - IY1*e + MY1
 	*/

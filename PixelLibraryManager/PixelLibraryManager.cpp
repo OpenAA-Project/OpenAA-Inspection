@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "PixelLibraryManager.h"
 #include "XAlgorithmBase.h"
 #include "XDataInLayer.h"
@@ -96,7 +114,7 @@ void	PixelLibraryManager::twPixelLibraryListDoubleClicked(const QModelIndex &Ind
 
 void	PixelLibraryManager::twPixelLibraryListCurrentCellChanged(int currentRow,int currentColumn,int previousRow,int previousColumn)
 {
-	//’l‚ÌƒZƒbƒg
+	//ï¿½lï¿½ÌƒZï¿½bï¿½g
 	QVariant Value;
 	if(previousColumn==TableColHeader.indexOf(/**/"PixelLibrary")){
 		if(cmbPixelLibraryNameList==NULL){
@@ -110,15 +128,15 @@ void	PixelLibraryManager::twPixelLibraryListCurrentCellChanged(int currentRow,in
 		if(cmbAlgorithmNameList==NULL){
 			return;
 		}
-		//CombBox‚©‚ç‚Ìæ“¾
+		//CombBoxï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
 		Value=cmbAlgorithmNameList->currentText();
 		delete cmbAlgorithmNameList;
 		cmbAlgorithmNameList=NULL;
-		//TableWidget‚©‚ç‚Ìæ“¾
+		//TableWidgetï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
 		QTableWidgetItem *Item;
 		if((Item=ui.twPixelLibraryList->item(previousRow,previousColumn))!=NULL){
 			if(Value!=Item->text()){
-				//Library‚Ì—ñ‚ğƒNƒŠƒA‚·‚é
+				//Libraryï¿½Ì—ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½
 				SetDataToTable(ui.twPixelLibraryList,previousRow,TableColHeader.indexOf(/**/"Library"),/**/"");
 			}
 		}
@@ -170,7 +188,7 @@ void	PixelLibraryManager::cmbUniqueNameListCurrentIndexChanged(int Index)
 
 void	PixelLibraryManager::pbSaveClicked()
 {
-	//İ’è‚Ì•Û‘¶
+	//ï¿½İ’ï¿½ï¿½Ì•Û‘ï¿½
 	QString SettingFilePath=QFileDialog::getSaveFileName(
 							this,"Please save a setting file.",/**/"PixelLibrarySetting.dat","Pixel library setting file (*.dat)");
 	if(SettingFilePath.isEmpty()){
@@ -212,7 +230,7 @@ void	PixelLibraryManager::pbLoadClicked()
 			}
 			int Col;
 			for(Col=0;Col<myStringList.count();Col++){
-				//’l‚Ìƒ`ƒFƒbƒN
+				//ï¿½lï¿½Ìƒ`ï¿½Fï¿½bï¿½N
 				QString Msg;
 				if(CheckLoadData(Row,Col,myStringList,Msg)==false){
 					QMessageBox::StandardButton Btn=QMessageBox::warning(this,"Warning",Msg,QMessageBox::Ok | QMessageBox::Cancel,QMessageBox::Cancel);
@@ -272,7 +290,7 @@ void	PixelLibraryManager::CreateTable()
 	ui.twPixelLibraryList->hideColumn(TableColHeader.indexOf(/**/"LibraryID"));
 	ui.twPixelLibraryList->hideColumn(TableColHeader.indexOf(/**/"UniqueID"));
 
-	//PixelLibrary‚Ìæ“¾
+	//PixelLibraryï¿½Ìæ“¾
 	PixelLibraryIDList.clear();
 	PixelLibraryNameList.clear();
 	for(LogicDLL *L=GetLayersBase()->GetLogicDLLBase()->GetFirst();L!=NULL;L=L->GetNext()){
@@ -293,7 +311,7 @@ void	PixelLibraryManager::CreateTable()
 		}
 	}
 
-	//Algorithm‚Ìæ“¾
+	//Algorithmï¿½Ìæ“¾
 	AlgorithmListName.clear();
 	AlgorithmListName.append(/**/"");
 	for(LogicDLL *L=GetLayersBase()->GetLogicDLLBase()->GetFirst();L!=NULL;L=L->GetNext()){
@@ -409,7 +427,7 @@ void	PixelLibraryManager::CreatePriority()
 	sbPriority=new QSpinBox();
 }
 
-//İ’è“à—e‚ğƒtƒ@ƒCƒ‹‚É•Û‘¶
+//ï¿½İ’ï¿½ï¿½ï¿½ï¿½eï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½É•Û‘ï¿½
 bool	PixelLibraryManager::SaveFile(const QString &FileName)
 {
 	QFile	File(FileName);
@@ -437,7 +455,7 @@ bool	PixelLibraryManager::SaveFile(const QString &FileName)
 	return true;
 }
 
-//ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚ñ‚¾ƒf[ƒ^‚Ì®‡«ƒ`ƒFƒbƒN
+//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ñ‚¾ƒfï¿½[ï¿½^ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
 bool	PixelLibraryManager::CheckLoadData(int Row,int Col,const QStringList &myStringList,QString &Msg)
 {
 	if(Col==TableColHeader.indexOf(/**/"PixelLibraryID")){
@@ -472,7 +490,7 @@ bool	PixelLibraryManager::CheckLoadData(int Row,int Col,const QStringList &myStr
 		Msg="Not found Algorithm Name.";
 	}
 	else if(Col==TableColHeader.indexOf(/**/"LibraryID")){
-		//Library‚Ìæ“¾
+		//Libraryï¿½Ìæ“¾
 		CreateLibraryNameList(Row);
 		//cmbLibraryNameList
 		if(cmbLibraryNameList!=NULL){
@@ -526,7 +544,7 @@ bool	PixelLibraryManager::CheckLoadData(int Row,int Col,const QStringList &myStr
 	return false;
 }
 
-//ƒe[ƒuƒ‹ƒŠƒXƒg‚P€–Ú‚Éƒf[ƒ^‚ğƒZƒbƒg
+//ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½Pï¿½ï¿½ï¿½Ú‚Éƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Zï¿½bï¿½g
 void	PixelLibraryManager::SetDataToTable(QTableWidget *W,int row,int col,QVariant value)
 {
 	if(value.isNull())

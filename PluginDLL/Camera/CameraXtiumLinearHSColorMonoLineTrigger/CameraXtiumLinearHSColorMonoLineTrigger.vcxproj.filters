@@ -35,19 +35,10 @@
     <ClInclude Include="CLHS_PX8CommandManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="featureCtrl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RunLen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="saperaCtrlColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="saperaCtrlMono.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="screenformat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CameraXtiumLinearHSColorMonoLineTrigger.h">
@@ -80,12 +71,6 @@
     <ClCompile Include="CLHS_PX8CommandCreater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="featureCtrl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RunLen.Cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SaperaColorOptimized.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -99,6 +84,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Open\SystemVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\RunLen.Cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\featureCtrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

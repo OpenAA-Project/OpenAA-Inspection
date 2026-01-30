@@ -1,23 +1,21 @@
-/****************************************************************************
-**
-** Copyright (C) 2005-2007 Trolltech ASA. All rights reserved.
-**
-** This file is part of the example classes of the Qt Toolkit.
-**
-** Licensees holding a valid Qt License Agreement may use this file in
-** accordance with the rights, responsibilities and obligations
-** contained therein.  Please consult your licensing agreement or
-** contact sales@trolltech.com if any conditions of this licensing
-** agreement are not clear to you.
-**
-** Further information about Qt licensing is available at:
-** http://www.trolltech.com/products/qt/licensing.html or by
-** contacting info@trolltech.com.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-****************************************************************************/
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
@@ -96,7 +94,7 @@ private:
 	BYTE PL,PH,SL,SH,RL,RH;
 	double Coefficient;
 
-	GLUquadricObj *sphere;	//ÉIÉuÉWÉFÉNÉgÉ|ÉCÉìÉ^ÇèÄîı
+	GLUquadricObj *sphere;	//ÔøΩIÔøΩuÔøΩWÔøΩFÔøΩNÔøΩgÔøΩ|ÔøΩCÔøΩÔøΩÔøΩ^ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ
 
     QPoint lastPos;
     QColor BackgroundColor;

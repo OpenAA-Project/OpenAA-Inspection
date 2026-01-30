@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XPixelInspection.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #ifndef XPIXELINSPECTION_H
@@ -99,7 +108,7 @@ typedef	enum	_ThresholdMode{
 
 #define	MakePoleIndex(r,g,b)	(((r)<<16)+((g)<<8)+(b))
 
-///////////////Ѓ«Џ‰ЉъѓoЃ[ѓWѓ‡ѓ“‚М–јЋcЃ«///////////////
+///////////////пїЅпїЅпїЅпїЅпїЅпїЅпїЅoпїЅ[пїЅWпїЅпїЅпїЅпїЅпїЅМ–пїЅпїЅcпїЅпїЅ///////////////
 class	PixelSampleList : public NPList<PixelSampleList>
 {
 public:
@@ -124,29 +133,29 @@ public:
 	bool	Save(QIODevice *f);
 	bool	Load(QIODevice *f);
 };
-///////////////ЃЄЏ‰ЉъѓoЃ[ѓWѓ‡ѓ“‚М–јЋcЃЄ///////////////
+///////////////пїЅпїЅпїЅпїЅпїЅпїЅпїЅoпїЅ[пїЅWпїЅпїЅпїЅпїЅпїЅМ–пїЅпїЅcпїЅпїЅ///////////////
 
 class	PixelInspectionLibrary : public AlgorithmLibrary , public ServiceForLayers
 {
 public:
-	//‹·€ж
-    bool	DetailSettingNarrow;		//ЊџЌё—LЊшѓ`ѓFѓbѓN
-    int		SearchDotMasterNarrow;		//ѓ}ѓXѓ^Ѓ[ѓfЃ[ѓ^Ќмђ¬Ћћ‚МЋь€Н•пЉ‡ѓhѓbѓg
-    int		SearchDotTargetNarrow;		//ЊџЌёЋћ‚М’TЌхѓhѓbѓg
+	//пїЅпїЅпїЅпїЅ
+    bool	DetailSettingNarrow;		//пїЅпїЅпїЅпїЅпїЅLпїЅпїЅпїЅ`пїЅFпїЅbпїЅN
+    int		SearchDotMasterNarrow;		//пїЅ}пїЅXпїЅ^пїЅ[пїЅfпїЅ[пїЅ^пїЅмђ¬пїЅпїЅпїЅМЋпїЅпїЅН•пЉ‡пїЅhпїЅbпїЅg
+    int		SearchDotTargetNarrow;		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅМ’TпїЅпїЅпїЅhпїЅbпїЅg
     double	RelativeNGThresholdNarrow;	//-1<=RelativeNGThresholdNarrow<=1
     int		AbsoluteNGThresholdNarrow;	// 0<=AbsoluteNGThresholdNarrow<=255
-    int		NGSizeNarrow;				//NGѓTѓCѓY
+    int		NGSizeNarrow;				//NGпїЅTпїЅCпїЅY
 
-	//ЌL€ж
-    bool	DetailSettingBroad;			//ЊџЌё—LЊшѓ`ѓFѓbѓN
-    int		SearchDotMasterBroad;		//ѓ}ѓXѓ^Ѓ[ѓfЃ[ѓ^Ќмђ¬Ћћ‚МЋь€Н•пЉ‡ѓhѓbѓg
-    int		SearchDotTargetBroad;		//ЊџЌёЋћ‚М’TЌхѓhѓbѓg
+	//пїЅLпїЅпїЅ
+    bool	DetailSettingBroad;			//пїЅпїЅпїЅпїЅпїЅLпїЅпїЅпїЅ`пїЅFпїЅbпїЅN
+    int		SearchDotMasterBroad;		//пїЅ}пїЅXпїЅ^пїЅ[пїЅfпїЅ[пїЅ^пїЅмђ¬пїЅпїЅпїЅМЋпїЅпїЅН•пЉ‡пїЅhпїЅbпїЅg
+    int		SearchDotTargetBroad;		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅМ’TпїЅпїЅпїЅhпїЅbпїЅg
     double	RelativeNGThresholdBroad;	//-1<=RelativeNGThresholdBroad<=1
     int		AbsoluteNGThresholdBroad;	// 0<=AbsoluteNGThresholdBroad<=255
-    int		NGSizeBroad;				//NGѓTѓCѓY
+    int		NGSizeBroad;				//NGпїЅTпїЅCпїЅY
 
 	DetailType ThrType;
-	bool	IsCalcPixelInterPoration;	//ѓsѓNѓZѓ‹•вЉФ‹@”\‚р—LЊш‚Й‚·‚й
+	bool	IsCalcPixelInterPoration;	//пїЅsпїЅNпїЅZпїЅпїЅпїЅпїЅпїЅФ‹@пїЅ\пїЅпїЅпїЅLпїЅпїЅпїЅЙ‚пїЅпїЅпїЅ
 
 	PixelInspectionLibrary(int LibType,LayersBase *Base);
 	virtual	~PixelInspectionLibrary(void);
@@ -190,7 +199,7 @@ public:
 class	PixelInspectionThreshold : public AlgorithmThreshold
 {
 public:
-	PixelSampleContainer	SampleLists;	//Џ‰ЉъѓoЃ[ѓWѓ‡ѓ“‚М–јЋc
+	PixelSampleContainer	SampleLists;	//пїЅпїЅпїЅпїЅпїЅoпїЅ[пїЅWпїЅпїЅпїЅпїЅпїЅМ–пїЅпїЅc
 
 	bool	Enable;
 	DetailType		ThrType;
@@ -244,9 +253,9 @@ public:
 	int		XByte;
 	int		XLen;
 	int		YLen;
-	AutoAlignmentInPage			*pAlignPage;		//ѓAѓ‰ѓCѓЃѓ“ѓgѓ|ѓCѓ“ѓ^ЃiAutoAlignmentInPage *Ѓj
-	AutoPCBHoleAlignerInPage	*pHoleAlignPage;	//ЊЉѓAѓ‰ѓCѓЃѓ“ѓgѓ|ѓCѓ“ѓ^ЃiAutoPCBHoleAlignerInPage *Ѓj
-	VCutInspectionInPage		*pVCutPage;			//VѓJѓbѓgѓ|ѓCѓ“ѓ^ЃiVCutInspectionInPage *Ѓj
+	AutoAlignmentInPage			*pAlignPage;		//пїЅAпїЅпїЅпїЅCпїЅпїЅпїЅпїЅпїЅgпїЅ|пїЅCпїЅпїЅпїЅ^пїЅiAutoAlignmentInPage *пїЅj
+	AutoPCBHoleAlignerInPage	*pHoleAlignPage;	//пїЅпїЅпїЅAпїЅпїЅпїЅCпїЅпїЅпїЅпїЅпїЅgпїЅ|пїЅCпїЅпїЅпїЅ^пїЅiAutoPCBHoleAlignerInPage *пїЅj
+	VCutInspectionInPage		*pVCutPage;			//VпїЅJпїЅbпїЅgпїЅ|пїЅCпїЅпїЅпїЅ^пїЅiVCutInspectionInPage *пїЅj
 	PureFlexAreaListContainer *wFPack;
 
 	bool	IsShowOnlyDetail,IsShowOnlyCircle;
@@ -254,7 +263,7 @@ public:
 	PixelInspectionItem(void);
 	~PixelInspectionItem(void);
 	virtual	AlgorithmItemRoot	*Clone(void)	override	{	return new PixelInspectionItem();	}
-	//Target‚МЌА•W‚Й‘О‰ћ‚·‚йMasterЌА•W‚р’T‚·
+	//TargetпїЅМЌпїЅпїЅWпїЅЙ‘О‰пїЅпїЅпїЅпїЅпїЅMasterпїЅпїЅпїЅWпїЅпїЅпїЅTпїЅпїЅ
 	bool	GetMasterCoord				(int TX,int TY,int &MX,int &MY);
 
 	void	GetTargetImageList			(ImageBuffer *Buffer[]);
@@ -307,7 +316,7 @@ public:
 	bool	getExecuteInitialAfterEditFlag(){ return ExecuteInitialAfterEditFlag;}
 	void	setExecuteInitialAfterEditFlag(bool flag){ ExecuteInitialAfterEditFlag = flag;}
 private:
-	bool	NowInspection;	//ЊџЌё’†ѓtѓ‰ѓO
+	bool	NowInspection;	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅtпїЅпїЅпїЅO
 
 	bool	ExecuteInitialAfterEditFlag; // Flag for phase function
 
@@ -331,11 +340,11 @@ private:
 	int		ThrRange;	//256-InspectionLevel
 	double	RadianCoef;
 
-	FlexArea	*AreaArrayList;			//‘ОЏЫAlgorithmItem‚МAreaѓЉѓXѓg‚р•ЫЋќ
+	FlexArea	*AreaArrayList;			//пїЅОЏпїЅAlgorithmItemпїЅпїЅAreaпїЅпїЅпїЅXпїЅgпїЅпїЅпїЅЫЋпїЅ
 	int			AreaArrayCnt;
 	int			UniqueID;
 	AlgorithmInPagePI	*DCAlgorithmInPagePIPointer;
-	FlexArea	*TargetAreaArrayList;	//Target‚МAlgorithmItem‚МAreaѓЉѓXѓg‚р•ЫЋќ
+	FlexArea	*TargetAreaArrayList;	//TargetпїЅпїЅAlgorithmItemпїЅпїЅAreaпїЅпїЅпїЅXпїЅgпїЅпїЅпїЅЫЋпїЅ
 	int			TargetAreaArrayCnt;
 	BYTE		**TargetDCBitmap;
 
@@ -417,7 +426,7 @@ class   PixelInspectionInPage : public AlgorithmInPagePI
 	int		localY;
 
 	bool	IsMultiAlgorithmSupport;
-	QStringList	PLibSettingStringList;	//PixelLibrarySetting.dat‚М•¶Ћљ—с
+	QStringList	PLibSettingStringList;	//PixelLibrarySetting.datпїЅМ•пїЅпїЅпїЅпїЅпїЅ
 
 	QStringList	PixelLibraryIDList;
 	QStringList	PixelLibraryNameList;
@@ -428,12 +437,12 @@ class   PixelInspectionInPage : public AlgorithmInPagePI
 	AlgorithmLibraryListContainer	PixelAList;
 	AlgorithmLibraryListContainer	AAlignAList;
 
-	bool	LoadedFlag;						//ѓ}ѓXѓ^Ѓ[ѓfЃ[ѓ^‚ЄLoad‚і‚к‚Ѕ‚М‚©‚З‚¤‚©
-	bool	InitialMultiAlgorithmSupport;	//MultiAlgorithmSupport‚МinitialЏ€—ќ
+	bool	LoadedFlag;						//пїЅ}пїЅXпїЅ^пїЅ[пїЅfпїЅ[пїЅ^пїЅпїЅLoadпїЅпїЅпїЅк‚ЅпїЅМ‚пїЅпїЅЗ‚пїЅпїЅпїЅ
+	bool	InitialMultiAlgorithmSupport;	//MultiAlgorithmSupportпїЅпїЅinitialпїЅпїЅпїЅпїЅ
 
 	AlgorithmInPagePI	*DCAlgorithmInPagePIPointer;
 	QList<int>	UniqueIDList;
-	FlexArea	**TargetAreaArrayList;	//Target‚МAlgorithmItem‚МAreaѓЉѓXѓg‚р•ЫЋќ
+	FlexArea	**TargetAreaArrayList;	//TargetпїЅпїЅAlgorithmItemпїЅпїЅAreaпїЅпїЅпїЅXпїЅgпїЅпїЅпїЅЫЋпїЅ
 
 	bool	LoadPixelLibrarySetting();
 	bool	CheckSettingData();
@@ -718,7 +727,7 @@ public:
 	void	setMinimumNGSizeForHole		(int _MinimumNGSizeForHole)		{ Param[GetLayersBase()->GetCurrentPhase()].setMinimumNGSizeForHole(_MinimumNGSizeForHole);}
 	void	setIsCalcPixelInterPoration	(bool _IsCalcPixelInterPoration){ Param[GetLayersBase()->GetCurrentPhase()].setIsCalcPixelInterPoration(_IsCalcPixelInterPoration);}
 ////////
-	int32	MasterLoadVer;	//ѓ}ѓXѓ^Ѓ[ѓfЃ[ѓ^‚МѓoЃ[ѓWѓ‡ѓ“€б‚ўLoad‘О‰ћ
+	int32	MasterLoadVer;	//пїЅ}пїЅXпїЅ^пїЅ[пїЅfпїЅ[пїЅ^пїЅМѓoпїЅ[пїЅWпїЅпїЅпїЅпїЅпїЅб‚ўLoadпїЅО‰пїЅ
 	QColor	ResultImportanceColor;
 
 	PixelInspectionBase(LayersBase *Base);
@@ -755,7 +764,7 @@ public:
 	int32	Page;
 	int32	LibID;
 	int32	CenterX,CenterY;
-	int32	Area;	//–КђП
+	int32	Area;	//пїЅКђпїЅ
 
 	PixelInspectionNGDataList(void){}
 	bool	Save(QIODevice *f);
@@ -828,7 +837,7 @@ public:
 	CmdDeletePixelInspectionLibraryPacket(LayersBase *base):GUIDirectMessage(base){}
 };
 
-//‚µ‚«‚ў’lђЭ’и‰ж–К‚ЕЉm’и
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅlпїЅЭ’пїЅпїЅпїЅпїЅК‚ЕЉmпїЅпїЅ
 class	CmdReqCalcThresholdPacket : public GUIDirectMessage
 {
 public:
@@ -856,62 +865,62 @@ public:
 	int		PixelItemID;
 
 	struct	PixelPoleMatrixStruct	*PoleTable;
-	int		localX;							//ѓ}ѓEѓXѓNѓЉѓbѓNЌА•WX
-	int		localY;							//ѓ}ѓEѓXѓNѓЉѓbѓNЌА•WY
-	int		MasterX;						//ѓ}ѓEѓXѓNѓЉѓbѓNЌА•WX‚Й‘О‰ћ‚·‚йѓ}ѓXѓ^Ѓ[ЌА•W
-	int		MasterY;						//ѓ}ѓEѓXѓNѓЉѓbѓNЌА•WY‚Й‘О‰ћ‚·‚йѓ}ѓXѓ^Ѓ[ЌА•W
-	BYTE	MasterBrightness[3];			//ѓ}ѓXѓ^Ѓ[‰ж‘њ‚М‹P“xЃiЊџЌё‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	MasterBrightness2[3];			//ѓ}ѓXѓ^Ѓ[‰ж‘њ‚М‹P“xЃiѓ}ѓXѓ^Ѓ[‰ж‘њ‚©‚з•вђі—pЃj
-//	BYTE	AverageBrightness[3];			//•Ѕ‹П‰ж‘њ‚М‹P“x
-	BYTE	*AverageBrightness[3];			//•Ѕ‹П‰ж‘њ‚М‹P“xЃiЊџЌё‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	*AverageBrightness2[3];			//•Ѕ‹П‰ж‘њ‚М‹P“xЃiѓ}ѓXѓ^Ѓ[‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	LightBrightness[3];				//–ѕ‚й‚ў‰ж‘њ‚М‹P“xЃiЊџЌё‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	LightBrightness2[3];			//–ѕ‚й‚ў‰ж‘њ‚М‹P“xЃiѓ}ѓXѓ^Ѓ[‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	DarkBrightness[3];				//€Г‚ў‰ж‘њ‚М‹P“xЃiЊџЌё‰ж‘њ‚©‚з•вђі—pЃj
-	BYTE	DarkBrightness2[3];				//€Г‚ў‰ж‘њ‚М‹P“xЃiѓ}ѓXѓ^Ѓ[‰ж‘њ‚©‚з•вђі—pЃj
-//	BYTE	*TargetBrightness[3];			//ЊџЌё‰ж‘њ‚М‹P“x
-	ImageBuffer *TargetImageList[3];		//ЊџЌё‰ж‘њ‚М‹P“x
-	BYTE	PL,PH,SL,SH,RL,RH;				//‚RЋџЊі‹ЙЌА•W‚Е‚Ми‡’l
-	BYTE	PLr,PHr,SLr,SHr,RLr,RHr;		//‚RЋџЊі‹ЙЌА•W‚Е‚Ми‡’lЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	int		InspectionLevel;				//ЊџЌёѓЊѓxѓ‹Ѓi0Ѓ`255Ѓj
-	int		SearchAreaForMakeTable;			//ѓ}ѓXѓ^Ѓ[Ќмђ¬Ћћ‚МЋь€Нѓhѓbѓgђ”
-	int		SearchDotBase;					//ЊџЌёЋћ‚М’TЌхѓhѓbѓgђ”
-	bool	CheckPadIns		,CheckSilkIns	,CheckResistIns	,CheckHoleIns;		//ЊџЌё‚рЌs‚¤‚©‚З‚¤‚©‚Мѓtѓ‰ѓO
+	int		localX;							//пїЅ}пїЅEпїЅXпїЅNпїЅпїЅпїЅbпїЅNпїЅпїЅпїЅWX
+	int		localY;							//пїЅ}пїЅEпїЅXпїЅNпїЅпїЅпїЅbпїЅNпїЅпїЅпїЅWY
+	int		MasterX;						//пїЅ}пїЅEпїЅXпїЅNпїЅпїЅпїЅbпїЅNпїЅпїЅпїЅWXпїЅЙ‘О‰пїЅпїЅпїЅпїЅпїЅпїЅ}пїЅXпїЅ^пїЅ[пїЅпїЅпїЅW
+	int		MasterY;						//пїЅ}пїЅEпїЅXпїЅNпїЅпїЅпїЅbпїЅNпїЅпїЅпїЅWYпїЅЙ‘О‰пїЅпїЅпїЅпїЅпїЅпїЅ}пїЅXпїЅ^пїЅ[пїЅпїЅпїЅW
+	BYTE	MasterBrightness[3];			//пїЅ}пїЅXпїЅ^пїЅ[пїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅпїЅпїЅпїЅпїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	MasterBrightness2[3];			//пїЅ}пїЅXпїЅ^пїЅ[пїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅ}пїЅXпїЅ^пїЅ[пїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+//	BYTE	AverageBrightness[3];			//пїЅпїЅпїЅП‰ж‘њпїЅМ‹PпїЅx
+	BYTE	*AverageBrightness[3];			//пїЅпїЅпїЅП‰ж‘њпїЅМ‹PпїЅxпїЅiпїЅпїЅпїЅпїЅпїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	*AverageBrightness2[3];			//пїЅпїЅпїЅП‰ж‘њпїЅМ‹PпїЅxпїЅiпїЅ}пїЅXпїЅ^пїЅ[пїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	LightBrightness[3];				//пїЅпїЅпїЅй‚ўпїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅпїЅпїЅпїЅпїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	LightBrightness2[3];			//пїЅпїЅпїЅй‚ўпїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅ}пїЅXпїЅ^пїЅ[пїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	DarkBrightness[3];				//пїЅГ‚пїЅпїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅпїЅпїЅпїЅпїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+	BYTE	DarkBrightness2[3];				//пїЅГ‚пїЅпїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅ}пїЅXпїЅ^пїЅ[пїЅж‘њпїЅпїЅпїЅпїЅпїЅвђіпїЅpпїЅj
+//	BYTE	*TargetBrightness[3];			//пїЅпїЅпїЅпїЅпїЅж‘њпїЅМ‹PпїЅx
+	ImageBuffer *TargetImageList[3];		//пїЅпїЅпїЅпїЅпїЅж‘њпїЅМ‹PпїЅx
+	BYTE	PL,PH,SL,SH,RL,RH;				//пїЅRпїЅпїЅпїЅпїЅпїЅЙЌпїЅпїЅWпїЅЕ‚пїЅи‡’l
+	BYTE	PLr,PHr,SLr,SHr,RLr,RHr;		//пїЅRпїЅпїЅпїЅпїЅпїЅЙЌпїЅпїЅWпїЅЕ‚пїЅи‡’lпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	int		InspectionLevel;				//пїЅпїЅпїЅпїЅпїЅпїЅпїЅxпїЅпїЅпїЅi0пїЅ`255пїЅj
+	int		SearchAreaForMakeTable;			//пїЅ}пїЅXпїЅ^пїЅ[пїЅмђ¬пїЅпїЅпїЅМЋпїЅпїЅНѓhпїЅbпїЅgпїЅпїЅ
+	int		SearchDotBase;					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅМ’TпїЅпїЅпїЅhпїЅbпїЅgпїЅпїЅ
+	bool	CheckPadIns		,CheckSilkIns	,CheckResistIns	,CheckHoleIns;		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅsпїЅпїЅпїЅпїЅпїЅЗ‚пїЅпїЅпїЅпїЅМѓtпїЅпїЅпїЅO
 	double	NGThresholdP	,NGThresholdS	,NGThresholdR	,NGThresholdH;		//NGThreshold
 	int		MinimumNGSizeP	,MinimumNGSizeS	,MinimumNGSizeR	,MinimumNGSizeH;	//MinimumNGSize
-	bool	DonePadIns;						//ѓpѓbѓh‚МЏЪЌЧЊџЌё‚рЌs‚¤‚©‚З‚¤‚©‚Мѓtѓ‰ѓO
+	bool	DonePadIns;						//пїЅpпїЅbпїЅhпїЅМЏЪЌЧЊпїЅпїЅпїЅпїЅпїЅпїЅsпїЅпїЅпїЅпїЅпїЅЗ‚пїЅпїЅпїЅпїЅМѓtпїЅпїЅпїЅO
 	int		NGThresholdForPad;				//
 	int		MinimumNGSizeForPad;			//
-	bool	DoneSilkIns;					//ѓVѓ‹ѓN‚МЏЪЌЧЊџЌё‚рЌs‚¤‚©‚З‚¤‚©‚Мѓtѓ‰ѓO
+	bool	DoneSilkIns;					//пїЅVпїЅпїЅпїЅNпїЅМЏЪЌЧЊпїЅпїЅпїЅпїЅпїЅпїЅsпїЅпїЅпїЅпїЅпїЅЗ‚пїЅпїЅпїЅпїЅМѓtпїЅпїЅпїЅO
 	int		NGThresholdForSilk;				//
 	int		MinimumNGSizeForSilk;			//
-	bool	DoneResistIns;					//ѓЊѓWѓXѓg‚МЏЪЌЧЊџЌё‚рЌs‚¤‚©‚З‚¤‚©‚Мѓtѓ‰ѓO
+	bool	DoneResistIns;					//пїЅпїЅпїЅWпїЅXпїЅgпїЅМЏЪЌЧЊпїЅпїЅпїЅпїЅпїЅпїЅsпїЅпїЅпїЅпїЅпїЅЗ‚пїЅпїЅпїЅпїЅМѓtпїЅпїЅпїЅO
 	int		NGThresholdForResist;			//
 	int		MinimumNGSizeForResist;			//
-	bool	DoneHoleIns;					//ЊЉ‚МЏЪЌЧЊџЌё‚рЌs‚¤‚©‚З‚¤‚©‚Мѓtѓ‰ѓO
+	bool	DoneHoleIns;					//пїЅпїЅпїЅМЏЪЌЧЊпїЅпїЅпїЅпїЅпїЅпїЅsпїЅпїЅпїЅпїЅпїЅЗ‚пїЅпїЅпїЅпїЅМѓtпїЅпїЅпїЅO
 	int		NGThresholdForHole;				//
 	int		MinimumNGSizeForHole;			//
 	int		BrightnessRange;				//
 	int		ThresholdRange;					//
-	BYTE	PL1,PH1,SL1,SH1,RL1,RH1;		//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚М‚µ‚«‚ў’l
-	BYTE	PLr1,PHr1,SLr1,SHr1,RLr1,RHr1;	//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚М‚µ‚«‚ў’lЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	BYTE	InsTargetBrightness[3];			//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚М‹P“x
-	int		InsAverageCoordX;				//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚МЌА•WX
-	int		InsAverageCoordY;				//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚МЌА•WY
-	int		InsTargetCoordX;				//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚МЌА•WX
-	int		InsTargetCoordY;				//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚МЌА•WY
-	BYTE	InsTargetBrightness2[3];		//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚М‹P“xЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	int		InsAverageCoordX2;				//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚МЌА•WXЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	int		InsAverageCoordY2;				//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚МЌА•WYЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	int		InsTargetCoordX2;				//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚МЌА•WXЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	int		InsTargetCoordY2;				//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚МЌА•WYЃiѓЊѓWѓXѓgЊџЌё—pЃj
-	uint64	InspectResult;					//ЊџЌёЊ‹‰К‚Мѓtѓ‰ѓO—p
+	BYTE	PL1,PH1,SL1,SH1,RL1,RH1;		//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМ‚пїЅпїЅпїЅпїЅпїЅпїЅl
+	BYTE	PLr1,PHr1,SLr1,SHr1,RLr1,RHr1;	//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМ‚пїЅпїЅпїЅпїЅпїЅпїЅlпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	BYTE	InsTargetBrightness[3];			//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМ‹PпїЅx
+	int		InsAverageCoordX;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМЌпїЅпїЅWX
+	int		InsAverageCoordY;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМЌпїЅпїЅWY
+	int		InsTargetCoordX;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМЌпїЅпїЅWX
+	int		InsTargetCoordY;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМЌпїЅпїЅWY
+	BYTE	InsTargetBrightness2[3];		//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМ‹PпїЅxпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	int		InsAverageCoordX2;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМЌпїЅпїЅWXпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	int		InsAverageCoordY2;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМЌпїЅпїЅWYпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	int		InsTargetCoordX2;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМЌпїЅпїЅWXпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	int		InsTargetCoordY2;				//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМЌпїЅпїЅWYпїЅiпїЅпїЅпїЅWпїЅXпїЅgпїЅпїЅпїЅпїЅпїЅpпїЅj
+	uint64	InspectResult;					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅК‚МѓtпїЅпїЅпїЅOпїЅp
 	PureFlexAreaListContainer *FPack;	//
-//	BYTE	**ThresholdDifferencemap;		//NG‰УЏЉ(ѓsѓNѓZѓ‹)‚М•Ѕ‹П‰ж‘њ‚Ж‚М‹P“xЌ·‚Мѓ}ѓbѓv
-	int		XLen,YLen;						//‰ж‘њѓTѓCѓY
-	AutoAlignmentInPage			*pAlignPage;		//ѓAѓ‰ѓCѓЃѓ“ѓgѓ|ѓCѓ“ѓ^ЃiAutoAlignmentInPage *Ѓj
-	AutoPCBHoleAlignerInPage	*pHoleAlignPage;	//ЊЉѓAѓ‰ѓCѓЃѓ“ѓgѓ|ѓCѓ“ѓ^ЃiAutoPCBHoleAlignerInPage *Ѓj
-	PixelInsData	**PixData;				//ѓsѓNѓZѓ‹ѓfЃ[ѓ^Ѓiи‡’lЃj
+//	BYTE	**ThresholdDifferencemap;		//NGпїЅУЏпїЅ(пїЅsпїЅNпїЅZпїЅпїЅ)пїЅМ•пїЅпїЅП‰ж‘њпїЅЖ‚М‹PпїЅxпїЅпїЅпїЅМѓ}пїЅbпїЅv
+	int		XLen,YLen;						//пїЅж‘њпїЅTпїЅCпїЅY
+	AutoAlignmentInPage			*pAlignPage;		//пїЅAпїЅпїЅпїЅCпїЅпїЅпїЅпїЅпїЅgпїЅ|пїЅCпїЅпїЅпїЅ^пїЅiAutoAlignmentInPage *пїЅj
+	AutoPCBHoleAlignerInPage	*pHoleAlignPage;	//пїЅпїЅпїЅAпїЅпїЅпїЅCпїЅпїЅпїЅпїЅпїЅgпїЅ|пїЅCпїЅпїЅпїЅ^пїЅiAutoPCBHoleAlignerInPage *пїЅj
+	PixelInsData	**PixData;				//пїЅsпїЅNпїЅZпїЅпїЅпїЅfпїЅ[пїЅ^пїЅiи‡’lпїЅj
 
 	PixelThresholdSend(void);
 
@@ -929,12 +938,12 @@ class	PixelTryThresholdReq
 public:
 	int32	GlobalPage;
 	int		PixelItemID;
-	int		SearchAreaForMakeTable;	//ѓ}ѓXѓ^Ѓ[Ќмђ¬Ћћ‚МЋь€Нѓhѓbѓgђ”
-	int		SearchDotBase;			//ЊџЌёЋћ‚М’TЌхѓhѓbѓgђ”
+	int		SearchAreaForMakeTable;	//пїЅ}пїЅXпїЅ^пїЅ[пїЅмђ¬пїЅпїЅпїЅМЋпїЅпїЅНѓhпїЅbпїЅgпїЅпїЅ
+	int		SearchDotBase;			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅМ’TпїЅпїЅпїЅhпїЅbпїЅgпїЅпїЅ
 	struct	PixelPoleMatrixStruct	*PoleTable;
-	int		InspectionLevel;		//ЊџЌёѓЊѓxѓ‹Ѓi0Ѓ`255Ѓj
-	int		localX;					//ѓ}ѓEѓXѓNѓЉѓbѓNЌА•WX
-	int		localY;					//ѓ}ѓEѓXѓNѓЉѓbѓNЌА•WY
+	int		InspectionLevel;		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅxпїЅпїЅпїЅi0пїЅ`255пїЅj
+	int		localX;					//пїЅ}пїЅEпїЅXпїЅNпїЅпїЅпїЅbпїЅNпїЅпїЅпїЅWX
+	int		localY;					//пїЅ}пїЅEпїЅXпїЅNпїЅпїЅпїЅbпїЅNпїЅпїЅпїЅWY
 
 	PixelTryThresholdReq(void);
 	bool	Save(QIODevice *f);
@@ -947,22 +956,22 @@ public:
 	int32	GlobalPage;
 	int		PixelItemID;
 	struct	PixelPoleMatrixStruct	*PoleTable;
-	int		localX;						//ѓ}ѓEѓXѓNѓЉѓbѓNЌА•WX
-	int		localY;						//ѓ}ѓEѓXѓNѓЉѓbѓNЌА•WY
+	int		localX;						//пїЅ}пїЅEпїЅXпїЅNпїЅпїЅпїЅbпїЅNпїЅпїЅпїЅWX
+	int		localY;						//пїЅ}пїЅEпїЅXпїЅNпїЅпїЅпїЅbпїЅNпїЅпїЅпїЅWY
 
-	BYTE	*AverageBrightness[3];		//•Ѕ‹П‰ж‘њ‚М‹P“x
-	BYTE	*TargetBrightness[3];		//ЊџЌё‰ж‘њ‚М‹P“x
-	BYTE	*PL,*PH,*SL,*SH,*RL,*RH;	//‚RЋџЊі‹ЙЌА•W‚Е‚Ми‡’l
-	int		InspectionLevel;			//ЊџЌёѓЊѓxѓ‹Ѓi0Ѓ`255Ѓj
-	int		SearchAreaForMakeTable;		//ѓ}ѓXѓ^Ѓ[Ќмђ¬Ћћ‚МЋь€Нѓhѓbѓgђ”
-	int		SearchDotBase;				//ЊџЌёЋћ‚М’TЌхѓhѓbѓgђ”
-	BYTE	PL1,PH1,SL1,SH1,RL1,RH1;	//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚М‚µ‚«‚ў’l
-	BYTE	InsTargetBrightness[3];		//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚М‹P“x
-	int		InsAverageCoordX;			//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚МЌА•WX
-	int		InsAverageCoordY;			//ЊџЌё‚Е‚МЋь€Н•Ѕ‹П‰ж‘њ‚МЌА•WY
-	int		InsTargetCoordX;			//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚МЌА•WX
-	int		InsTargetCoordY;			//ЊџЌё‚Е‚МЋь€НЊџЌё‰ж‘њ‚МЌА•WY
-	uint64	InspectResult;				//ЊџЌёЊ‹‰Кѓtѓ‰ѓO
+	BYTE	*AverageBrightness[3];		//пїЅпїЅпїЅП‰ж‘њпїЅМ‹PпїЅx
+	BYTE	*TargetBrightness[3];		//пїЅпїЅпїЅпїЅпїЅж‘њпїЅМ‹PпїЅx
+	BYTE	*PL,*PH,*SL,*SH,*RL,*RH;	//пїЅRпїЅпїЅпїЅпїЅпїЅЙЌпїЅпїЅWпїЅЕ‚пїЅи‡’l
+	int		InspectionLevel;			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅxпїЅпїЅпїЅi0пїЅ`255пїЅj
+	int		SearchAreaForMakeTable;		//пїЅ}пїЅXпїЅ^пїЅ[пїЅмђ¬пїЅпїЅпїЅМЋпїЅпїЅНѓhпїЅbпїЅgпїЅпїЅ
+	int		SearchDotBase;				//пїЅпїЅпїЅпїЅпїЅпїЅпїЅМ’TпїЅпїЅпїЅhпїЅbпїЅgпїЅпїЅ
+	BYTE	PL1,PH1,SL1,SH1,RL1,RH1;	//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМ‚пїЅпїЅпїЅпїЅпїЅпїЅl
+	BYTE	InsTargetBrightness[3];		//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМ‹PпїЅx
+	int		InsAverageCoordX;			//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМЌпїЅпїЅWX
+	int		InsAverageCoordY;			//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅН•пїЅпїЅП‰ж‘њпїЅМЌпїЅпїЅWY
+	int		InsTargetCoordX;			//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМЌпїЅпїЅWX
+	int		InsTargetCoordY;			//пїЅпїЅпїЅпїЅпїЅЕ‚МЋпїЅпїЅНЊпїЅпїЅпїЅпїЅж‘њпїЅМЌпїЅпїЅWY
+	uint64	InspectResult;				//пїЅпїЅпїЅпїЅпїЅпїЅпїЅКѓtпїЅпїЅпїЅO
 
 	PixelTryThresholdSend(void);
 

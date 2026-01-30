@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef LISTMASTERFORM_H
 #define LISTMASTERFORM_H
 
@@ -12,7 +30,7 @@
 #include "XGUIPacketForDLL.h"
 #include "XReviewCommon.h"
 
-// ƒŠƒXƒg‚ğ•\¦‚·‚éƒƒCƒ“ƒtƒH[ƒ€
+// ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½éƒï¿½Cï¿½ï¿½ï¿½tï¿½Hï¿½[ï¿½ï¿½
 class ListMasterForm : public GUIFormBase
 {
 	Q_OBJECT
@@ -28,8 +46,8 @@ public:
 	virtual	void	Prepare(void)	override;
 
 public:
-	void updateGUI();// ƒŠƒXƒg‚ÌXV
-	void setGUIEnable(bool enable);// —LŒø‰»–³Œø‰»
+	void updateGUI();// ï¿½ï¿½ï¿½Xï¿½gï¿½ÌXï¿½V
+	void setGUIEnable(bool enable);// ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	void setMachineIDFilter(const QList<int> &machineIDFilter){
 		if(MachineIDFilter!=machineIDFilter){
 			MachineIDFilter = machineIDFilter;
@@ -39,32 +57,32 @@ public:
 
 private:
 	Ui::ListMasterFormClass ui;	// UI
-	QStringList	hHeaderView;	// ƒŠƒXƒg‚Ì‰¡•ûŒüƒwƒbƒ_[
-	QStringList hHeaderRaw;		// ƒŠƒXƒg‚Ìc•ûŒüƒwƒbƒ_[
+	QStringList	hHeaderView;	// ï¿½ï¿½ï¿½Xï¿½gï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½bï¿½_ï¿½[
+	QStringList hHeaderRaw;		// ï¿½ï¿½ï¿½Xï¿½gï¿½Ìcï¿½ï¿½ï¿½ï¿½ï¿½wï¿½bï¿½_ï¿½[
 	QList<int> MachineIDFilter;
 
-	// ƒ}ƒXƒ^[ƒf[ƒ^‚Ì“Ç‚İ‚İŠÖ”
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ì“Ç‚İï¿½ï¿½İŠÖï¿½
 	bool	LoadMasterData(int SelectedMasterCode);
 
-	// ƒ}ƒXƒ^[ƒf[ƒ^‚Ìˆê——•\¦
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ìˆê——ï¿½\ï¿½ï¿½
 	void	ShowList();
 
-	// ƒƒbƒg“Ç‚İ‚İ
+	// ï¿½ï¿½ï¿½bï¿½gï¿½Ç‚İï¿½ï¿½ï¿½
 	void	ShowSelectLot(int MasterCode, int MachineID, Review::SideType side);
 	void	ShowSelectLot();
 
-	// ƒ}ƒXƒ^[ƒR[ƒh‚ÌˆÊ’u‚ÉƒJƒŒƒ“ƒgƒZƒ‹‚ğˆÚ“®
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½ÌˆÊ’uï¿½ÉƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½
 	void	MoveCellToMasterCode(int MasterCode);
 
 	class ListMasterLocker;
 private slots:
-	// ƒ}ƒXƒ^[ƒf[ƒ^‚ÌÚ×‚È‘I‘ğ‰æ–Ê‚ğ•\¦‚·‚é
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½ÌÚ×‚È‘Iï¿½ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	void	ShowLoadMasterDataWindow();
-	// ƒŠƒXƒg‚ğƒ_ƒuƒ‹ƒNƒŠƒbƒN‚µ‚½ê‡‚Ìƒ}ƒXƒ^[ƒf[ƒ^“Ç‚İ‚İ“®ì
+	// ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½_ï¿½uï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ìƒ}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ç‚İï¿½ï¿½İ“ï¿½ï¿½ï¿½
 	void	SlotDoubleClicked(const QModelIndex &index);
-	// ‘I‘ğƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚µ‚½‚Æ‚«‚Ì“®ì
+	// ï¿½Iï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ì“ï¿½ï¿½ï¿½
 	void	SlotSelectButtonClicked();
-	// XVƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚µ‚½‚Æ‚«‚Ì“®ì
+	// ï¿½Xï¿½Vï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ì“ï¿½ï¿½ï¿½
 	void	SlotUpdateButtonClicked();
 };
 

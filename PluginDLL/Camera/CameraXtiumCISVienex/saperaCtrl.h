@@ -1,8 +1,22 @@
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
-/* //////////////////////////////////////////////////////////////////////////////////////////////////////////
-   fileid : saperaCtrl.cpp
-  subject : Sapera SDK control functions
-////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 #include "XCameraHandle.h"
 #include "XMainSchemeMemory.h"
@@ -177,8 +191,8 @@ public:
 	SapTransfer		*_Xfer;
 	SapGio			*_Gio; // General IO objects
 	bool _bLinked;
-	int _nStatus;		// ï‘êMóp
-	int _nCtrlStatus;	// êßå‰óp
+	int _nStatus;		// ÔøΩ‘êMÔøΩp
+	int _nCtrlStatus;	// ÔøΩÔøΩÔøΩÔøΩÔøΩp
 	int _nGioDev;
 	int _nStartReserve;
 
@@ -236,5 +250,4 @@ public:
 protected:
 	virtual	void	run();
 };
-
 

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ListMasterDataAndLoadResource.h"
 #include "ListMaster.h"
 #include "XDataInLayer.h"
@@ -80,20 +98,20 @@ ListMasterForm::ListMasterForm(LayersBase *Base ,QWidget *parent)
 
 	ListMasterLocker locker(&ui);
 
-	// ƒe[ƒuƒ‹–¼
+	// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½
 	//MasterTableName = /**/"MASTERDATA";
 
-	// ƒf[ƒ^ƒx[ƒX‚Ì–¼‘O‚Æ•\¦ƒ‰ƒxƒ‹‚Ì‘Î‰
+	// ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Ì–ï¿½ï¿½Oï¿½Æ•\ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Ì‘Î‰ï¿½
 	hHeaderRaw	<< /**/"MASTERCODE" << /**/"MASTERNAME" << /**/"LASTEDITTIME";
 	hHeaderView	<< LangSolver.GetString(ListMaster_LS,LID_0)/*"ID"*/			<< LangSolver.GetString(ListMaster_LS,LID_1)/*"Name"*/		<< LangSolver.GetString(ListMaster_LS,LID_2)/*"LatestEdition"*/;
 
-	// ‘I‘ğƒ‚[ƒh‚Ìİ’è
+	// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½Ìİ’ï¿½
 	ui.tbDataTable->setSelectionMode(QAbstractItemView::SingleSelection);
 	ui.tbDataTable->setSelectionBehavior(QAbstractItemView::SelectRows);
 
 	ui.tbDataTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	
-	// •\¦
+	// ï¿½\ï¿½ï¿½
 	if(GetEditMode()==false){
 		ShowList();
 
@@ -250,12 +268,12 @@ void ListMasterForm::ShowList()
 void ListMasterForm::SlotDoubleClicked(const QModelIndex &index)
 {
 	ListMasterLocker locker(&ui, this);
-	int MasterCode = ui.tbDataTable->item(index.row(), 0)->text().toInt();// ƒ}ƒXƒ^[ƒR[ƒh
+	int MasterCode = ui.tbDataTable->item(index.row(), 0)->text().toInt();// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½h
 
-	// ƒ}ƒXƒ^[ƒf[ƒ^‚Ì“Ç‚İ‚İ
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
 	LoadMasterData(MasterCode);
 
-	// “Ç‚İ‚ñ‚¾ƒ}ƒXƒ^[ƒR[ƒh‚ÖƒJƒŒƒ“ƒgƒZƒ‹‚ğˆÚ“®
+	// ï¿½Ç‚İï¿½ï¿½ñ‚¾ƒ}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½ÖƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½
 	MoveCellToMasterCode(MasterCode);
 
 	GUICmdLoadMasterImage Cmd(GetLayersBase());
@@ -268,7 +286,7 @@ void ListMasterForm::SlotDoubleClicked(const QModelIndex &index)
 void ListMasterForm::ShowSelectLot(int MasterCode, int MachineID, Review::SideType side)
 {
 	ListMasterLocker locker(&ui);
-	// ƒAƒ‹ƒSƒŠƒYƒ€‚Éƒ}ƒXƒ^[ƒR[ƒh‚ÉŠY“–‚·‚éƒƒbƒg‚Ìˆê——‚ğ—v‹
+	// ï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Éƒ}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½ÉŠYï¿½ï¿½ï¿½ï¿½ï¿½éƒï¿½bï¿½gï¿½Ìˆê——ï¿½ï¿½ï¿½vï¿½ï¿½
 	ReviewPIBase *Base = GetReviewAlgorithm();
 	CmdServerSelectLotList Send(GetLayersBase());
 
@@ -282,16 +300,16 @@ void ListMasterForm::ShowSelectLot(int MasterCode, int MachineID, Review::SideTy
 	}
 	if(Send.list.count()==0)return;
 
-	// ƒƒbƒg–¼(ƒtƒ@ƒCƒ‹–¼)‚ğ”²‚«o‚µ
+	// ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½(ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½)ï¿½ğ”²‚ï¿½ï¿½oï¿½ï¿½
 	GUICmdReviewLotList GUISend(GetLayersBase());
 	GUISend.lotList = Send.list;
 
-	// ƒ}ƒXƒ^[ƒR[ƒhAƒ}ƒVƒ“ID‚Æ— •\‚ğƒZƒbƒg
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½Aï¿½}ï¿½Vï¿½ï¿½IDï¿½Æ—ï¿½ï¿½\ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	GUISend.MasterCode = MasterCode;
 	GUISend.MachineID = MachineID;
 	GUISend.side = side;
 
-	// SelectLotForReview‚ÌGUI‚ğŒŸõA‚ ‚ê‚Î‚»‚ê‚Éî•ñ‚ğ‘—MB‚È‚¯‚ê‚ÎGUI‚ÌDLL‚©‚ç’¼Ú‹N“®BDLL‚ª–³‚¯‚ê‚Î‚»‚±‚ÅI—¹B
+	// SelectLotForReviewï¿½ï¿½GUIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Î‚ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ğ‘—Mï¿½Bï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½GUIï¿½ï¿½DLLï¿½ï¿½ï¿½ç’¼ï¿½Ú‹Nï¿½ï¿½ï¿½BDLLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚ï¿½ï¿½ï¿½ï¿½ÅIï¿½ï¿½ï¿½B
 	GUIFormBase *TagGUI = GetLayersBase()->FindByName(ReviewGUI::Name::Root, ReviewGUI::Name::SelectLotForReview, /**/"");
 	if(TagGUI!=NULL){
 		TagGUI->TransmitDirectly(&GUISend);
@@ -316,29 +334,29 @@ void ListMasterForm::ShowSelectLot()
 	CmdReqMasterDataInfo reqMasterInfo(GetLayersBase());
 	RBase->TransmitDirectly(&reqMasterInfo);
 
-	// •\ //
-	// ƒƒbƒg–¼(ƒtƒ@ƒCƒ‹–¼)‚ğ”²‚«o‚µ
+	// ï¿½\ //
+	// ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½(ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½)ï¿½ğ”²‚ï¿½ï¿½oï¿½ï¿½
 	GUICmdReviewLotList GUISend(GetLayersBase());
 	GUISend.lotList = reqLotList.FrontLotList;
 
-	// ƒ}ƒXƒ^[ƒR[ƒhAƒ}ƒVƒ“ID‚Æ— •\‚ğƒZƒbƒg
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½Aï¿½}ï¿½Vï¿½ï¿½IDï¿½Æ—ï¿½ï¿½\ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	GUISend.MasterCode = reqMasterInfo.FrontMasterDataInfo.MasterCode;
 	GUISend.MachineID = reqMasterInfo.FrontMasterDataInfo.MachineID;
 	GUISend.side = Review::Front;
 	
-	// ‘—M
+	// ï¿½ï¿½ï¿½M
 	Base->TransmitDirectly(&GUISend);
 
-	// — 
-	// ƒƒbƒg–¼(ƒtƒ@ƒCƒ‹–¼)‚ğ”²‚«o‚µ
+	// ï¿½ï¿½
+	// ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½(ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½)ï¿½ğ”²‚ï¿½ï¿½oï¿½ï¿½
 	GUISend.lotList = reqLotList.BackLotList;
 
-	// ƒ}ƒXƒ^[ƒR[ƒhAƒ}ƒVƒ“ID‚Æ— •\‚ğƒZƒbƒg
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½Aï¿½}ï¿½Vï¿½ï¿½IDï¿½Æ—ï¿½ï¿½\ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	GUISend.MasterCode = reqMasterInfo.BackMasterDataInfo.MasterCode;
 	GUISend.MachineID = reqMasterInfo.BackMasterDataInfo.MachineID;
 	GUISend.side = Review::Back;
 
-	// ‘—M
+	// ï¿½ï¿½ï¿½M
 	Base->TransmitDirectly(&GUISend);
 
 }
@@ -346,12 +364,12 @@ void ListMasterForm::ShowSelectLot()
 void ListMasterForm::MoveCellToMasterCode(int MasterCode)
 {
 	ListMasterLocker locker(&ui);
-	// ƒŠƒXƒg‚Ì“¯ƒ}ƒXƒ^[ƒR[ƒh‚Ìs‚ğ‘I‘ğ‚·‚é
-	// ƒŠƒXƒg‚Ì‘Ss”‚Æƒ}ƒXƒ^[ƒR[ƒh‚Ì—ñ‚ğæ“¾
+	// ï¿½ï¿½ï¿½Xï¿½gï¿½Ì“ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½Ìsï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½Xï¿½gï¿½Ì‘Sï¿½sï¿½ï¿½ï¿½Æƒ}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½Ì—ï¿½ï¿½ï¿½ï¿½æ“¾
 	int rowMax = ui.tbDataTable->rowCount();
 	int CodeIndex = hHeaderRaw.indexOf(/**/"MASTERCODE");
 
-	// “Ç‚İ‚ñ‚¾ƒ}ƒXƒ^[ƒR[ƒh‚ğŒŸõ‚µ‚Ä‘I‘ğó‘Ô‚É‚·‚é
+	// ï¿½Ç‚İï¿½ï¿½ñ‚¾ƒ}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‘Iï¿½ï¿½ï¿½ï¿½ï¿½Ô‚É‚ï¿½ï¿½ï¿½
 	QList<QTableWidgetItem *> pItems = ui.tbDataTable->findItems(QString::number(MasterCode), Qt::MatchExactly);
 	if(pItems.size()==0)return;
 	ui.tbDataTable->setCurrentItem(pItems.first());
@@ -361,36 +379,36 @@ void ListMasterForm::MoveCellToMasterCode(int MasterCode)
 void ListMasterForm::ShowLoadMasterDataWindow()
 {
 	ListMasterLocker locker(&ui);
-	// ƒ}ƒXƒ^[‘I‘ğƒtƒH[ƒ€•\¦
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Iï¿½ï¿½ï¿½tï¿½Hï¿½[ï¿½ï¿½ï¿½\ï¿½ï¿½
 	LoadMasterDataWindow *form = new LoadMasterDataWindow(GetLayersBase(), sRoot, sName, this);
 	GeneralDialog *D = new GeneralDialog(GetLayersBase(), form, this);
 	
-	// Às
+	// ï¿½ï¿½ï¿½s
 	D->exec();
 
-	// Loadƒ`ƒFƒbƒN
+	// Loadï¿½`ï¿½Fï¿½bï¿½N
 	if(form->isAccepted()==false){
 		delete form;
 		delete D;
 		return;
 	}
 
-	int		MasterCode	= form->SelectedMasterCode;// ƒ}ƒXƒ^[ƒR[ƒh
-	int		MachineID	= form->currentMachineID();// ƒ}ƒVƒ“ID
+	int		MasterCode	= form->SelectedMasterCode;// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½h
+	int		MachineID	= form->currentMachineID();// ï¿½}ï¿½Vï¿½ï¿½ID
 	
 	delete form;
 	delete D;
 
-	//// •\‚©— ‚©‚Ì–â‚¢‚©‚¯
+	//// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì–â‚¢ï¿½ï¿½ï¿½ï¿½
 	//Review::SideType side = Review::ShowMessageFrontOrBack();
 
-	//// ƒtƒFƒCƒYƒR[ƒh(Front:0 or Back:1)
-	//SendData.PhaseCode = 0;// ‚Æ‚è‚ ‚¦‚¸•\ //
+	//// ï¿½tï¿½Fï¿½Cï¿½Yï¿½Rï¿½[ï¿½h(Front:0 or Back:1)
+	//SendData.PhaseCode = 0;// ï¿½Æ‚è‚ ï¿½ï¿½ï¿½ï¿½ï¿½\ //
 
-	// ƒ}ƒXƒ^[ƒf[ƒ^‚Ì“Ç‚İ‚İ
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
 	LoadMasterData(MasterCode);
 
-	// “Ç‚İ‚ñ‚¾ƒ}ƒXƒ^[ƒR[ƒh‚ÖƒJƒŒƒ“ƒgƒZƒ‹‚ğˆÚ“®
+	// ï¿½Ç‚İï¿½ï¿½ñ‚¾ƒ}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½ÖƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½
 	MoveCellToMasterCode(MasterCode);
 
 	ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::WholeImageForReview);

@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\PluginDLL\PIO\Contec64DLL\Contec64DLL\contec64dll.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "windows.h"
@@ -107,7 +116,7 @@ void  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbu
 //		return(false);
 
 /*
-	//ƒrƒbƒg‚Ì‰Šú‰»
+	//ï¿½rï¿½bï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	int IOBit;
 	if(strcmp(PIO_NAME,"IOLIB_PIO16")==0)
 		IOBit=16;
@@ -119,7 +128,7 @@ void  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbu
 	for(int Cnt=0;Cnt<(IOBit>>3);Cnt++)
 		AIP_IO_SetByte(0,Cnt,0);
 */
-	//ƒfƒWƒ^ƒ‹ƒtƒBƒ‹ƒ^‚Ìİ’èiPIO_DigitalFilter.datƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İj
+	//ï¿½fï¿½Wï¿½^ï¿½ï¿½ï¿½tï¿½Bï¿½ï¿½ï¿½^ï¿½Ìİ’ï¿½ï¿½iPIO_DigitalFilter.datï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½İj
 	QStringList strList;
 	QFile	mfile("./PIO_DigitalFilter.dat");
 	if(mfile.open(QIODevice::ReadOnly)==true){

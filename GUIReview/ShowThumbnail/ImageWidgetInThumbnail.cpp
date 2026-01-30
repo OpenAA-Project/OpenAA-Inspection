@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2017
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ShowThumbnailResource.h"
 #include "ImageWidgetInThumbnail.h"
 #include "../XGUIReviewCommon.h"
@@ -22,15 +40,15 @@ void ImageWidgetInThumbnail::paintEvent(QPaintEvent *event)
 
 	QPainter painter;
 
-	// Pix‚ğƒEƒBƒ“ƒhƒEƒTƒCƒY‚ÉƒXƒP[ƒŠƒ“ƒO
+	// Pixï¿½ï¿½ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Tï¿½Cï¿½Yï¿½ÉƒXï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½O
 	QPixmap pix = m_pixmap.scaled(size(), Qt::KeepAspectRatio);
 
 	if(isDrawNGSingEnable()==true){
-		// ƒXƒP[ƒŠƒ“ƒOŒ‹‰Ê‚ÌLk—¦ŒvZ
+		// ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ê‚ÌLï¿½kï¿½ï¿½ï¿½vï¿½Z
 		double zoomRate = pix.height() / (double)m_pixmap.height();
 
-		painter.begin(&pix);// Pix‚É•`‰æŠJn
-		QPen pen(m_color);// w’è‚³‚ê‚Ä‚¢‚éF‚ÅNG‚ğ•`‰æ
+		painter.begin(&pix);// Pixï¿½É•`ï¿½ï¿½ï¿½Jï¿½n
+		QPen pen(m_color);// ï¿½wï¿½è‚³ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Fï¿½ï¿½NGï¿½ï¿½ï¿½`ï¿½ï¿½
 		painter.setPen(pen);
 		for(QList<ReviewNGPoint>::ConstIterator it=m_points.constBegin(); it!=m_points.constEnd(); it++){
 
@@ -58,7 +76,7 @@ void ImageWidgetInThumbnail::paintEvent(QPaintEvent *event)
 		//	break;
 		//case LibNGTypeItem::NGShapeType::NG_FilledStar:
 		//	painter.setBrush(Qt::BrushStyle::SolidPattern);
-		//	painter.drawText(center.x()-NGSingSize, center.y()-NGSingSize, NGSingSize, NGSingSize, Qt::AlignCenter, /**/"š");
+		//	painter.drawText(center.x()-NGSingSize, center.y()-NGSingSize, NGSingSize, NGSingSize, Qt::AlignCenter, /**/"ï¿½ï¿½");
 		//	break;
 		//case LibNGTypeItem::NGShapeType::NG_Rectangle:
 		//	painter.setBrush(Qt::BrushStyle::NoBrush);
@@ -70,7 +88,7 @@ void ImageWidgetInThumbnail::paintEvent(QPaintEvent *event)
 		//	break;
 		//case LibNGTypeItem::NGShapeType::NG_Star:
 		//	painter.setBrush(Qt::BrushStyle::NoBrush);
-		//	painter.drawText(center.x()-NGSingSize, center.y()-NGSingSize, NGSingSize, NGSingSize, Qt::AlignCenter, /**/"™");
+		//	painter.drawText(center.x()-NGSingSize, center.y()-NGSingSize, NGSingSize, NGSingSize, Qt::AlignCenter, /**/"ï¿½ï¿½");
 		//	break;
 		//case LibNGTypeItem::NGShapeType::NG_X:
 		//	painter.setBrush(Qt::BrushStyle::NoBrush);
@@ -84,7 +102,7 @@ void ImageWidgetInThumbnail::paintEvent(QPaintEvent *event)
 		//}
 
 
-		//painter.drawEllipse(QPoint(it->x()*zoomRate, it->y()*zoomRate), m_round, m_round);// ›
+		//painter.drawEllipse(QPoint(it->x()*zoomRate, it->y()*zoomRate), m_round, m_round);// ï¿½ï¿½
 
 		//pen.setColor(Qt::white);
 		//painter.setPen(pen);
@@ -95,14 +113,14 @@ void ImageWidgetInThumbnail::paintEvent(QPaintEvent *event)
 		//qDebug() << "ImageSize:" << pix.size();
 		//qDebug() << "NGPoint:" << QPoint(it->x()*zoomRate, it->y()*zoomRate);
 		}
-		painter.end();// Pix‚É•`‰æI—¹
+		painter.end();// Pixï¿½É•`ï¿½ï¿½ï¿½Iï¿½ï¿½
 	}
 
-	// •`‰æ‚ğ‚¾‚¢‚½‚¢’†S‚É‚È‚é‚æ‚¤‚É•`‰æˆÊ’u‚ğw’è
+	// ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½É‚È‚ï¿½ï¿½æ‚¤ï¿½É•`ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½wï¿½ï¿½
 	int top = (size().height() - pix.height())/2;
 	int left = (size().width() - pix.width())/2;
 
 	painter.begin(this);
-	painter.drawPixmap(left, top, pix);// Pix‚ğ•`‰æ
+	painter.drawPixmap(left, top, pix);// Pixï¿½ï¿½ï¿½`ï¿½ï¿½
 	painter.end();
 }

@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\clientmain.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef RESULTCLIENTMAIN_H
 #define RESULTCLIENTMAIN_H
 
@@ -30,34 +38,34 @@ public:
     ~ClientMain(void);
 
 	bool ConnectFlag;
-	static	QByteArray sClientNo ;		//ƒT[ƒo[‚©‚çŠ„‚èU‚ç‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg”Ô†
+	static	QByteArray sClientNo ;		//ï¿½Tï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½çŠ„ï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½ê‚½ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Ôï¿½
 	//QTcpSocket *socket;//Socket
 
-	//ƒT[ƒoÚ‘±
+	//ï¿½Tï¿½[ï¿½oï¿½Ú‘ï¿½
 	bool Client_Connect(QByteArray &sMsg);	
-	//ƒT[ƒoÚ‘±&ƒNƒ‰ƒCƒAƒ“ƒg”Ô†æ“¾
+	//ï¿½Tï¿½[ï¿½oï¿½Ú‘ï¿½&ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Ôï¿½ï¿½æ“¾
 	bool Client_Start(const QByteArray &FileName, QByteArray &sMsg, int &Client);
-	//ƒŠƒXƒgƒA
+	//ï¿½ï¿½ï¿½Xï¿½gï¿½A
 	bool Client_Restore(const QByteArray &Data, const QByteArray &DATABASE, QByteArray &sMsg);
-	//ŒŸ¸ƒf[ƒ^”
+	//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½
 	bool Client_Count(const QList<QByteArray> &TagList, const QByteArray &sDBName,  int &Count);
-	//XMLƒtƒ@ƒCƒ‹ì¬
+	//XMLï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ì¬
 	bool Client_Create( const QByteArray &sDBName, QByteArray &sMsg );
-	//ƒf[ƒ^‘}“ü
+	//ï¿½fï¿½[ï¿½^ï¿½}ï¿½ï¿½
 	bool Client_Insert( const QList<QByteArray> &sInsertXml, const QByteArray &sDBName, QByteArray &sMsg );
-	//ƒf[ƒ^íœ
+	//ï¿½fï¿½[ï¿½^ï¿½íœ
 	bool Client_Delete(const QList<QByteArray> &DelKey, const QByteArray &sDBName, QByteArray &sMsg);
-	//ˆêŒŒŸõğŒ‚Å‚Ìíœ
+	//ï¿½êŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚Ìíœ
 	bool Client_TagSelectDele		(const QByteArray &sSelData, const QByteArray &DATABASE, const QByteArray &Parent, QByteArray &sMsg);
 	bool Client_TagDel				( const QByteArray &sQueryNo, const QByteArray &sDeleteTag, const QByteArray &sUpdateTag, const QByteArray &sDBName, QByteArray &sMsg);
-	//•¡”ŒŸõğŒ‚Å‚Ìíœ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚Ìíœ
 	bool Client_TagtoTagDel			(const QList<QByteArray> &sQueryXmlList, const QByteArray &sDBName,  QByteArray &sMsg);
-	//ƒf[ƒ^XV
+	//ï¿½fï¿½[ï¿½^ï¿½Xï¿½V
 	bool Client_Update				(const QByteArray &sQueryNo, const QByteArray &sUpXml, const QByteArray &sDBName, QByteArray &sMsg, const QByteArray &ClientNo);
-	//•¡”ŒŸõğŒ‚ÅNG”‚ğ•Ô‚·
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 	bool Client_TagToTagnotNG		(const QList<QByteArray> &sQueryXmlList, const QByteArray &sDBName, QByteArray &sMsg, QList<QByteArray> &selList);	
 	bool Client_TagToTagnotNGDesc	(const QList<QByteArray> &sQueryXmlList, const QByteArray &sDBName, QByteArray &sMsg, QList<QByteArray> &selList);	
-	//ˆêŒŒŸõğŒ‚ÅNG”‚ğ•Ô‚·
+	//ï¿½êŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 	bool Client_TagnotNG			(const QByteArray &sQueryXml, const QByteArray &sDBName, const QByteArray &Parent, QByteArray &sMsg, QList<QByteArray> &selList);
 	bool Client_TagnotNGDesc		(const QByteArray &sQueryXml, const QByteArray &sDBName, const QByteArray &Parent, QByteArray &sMsg, QList<QByteArray> &selList);
 	
@@ -67,18 +75,18 @@ public:
 	bool Client_UpApp				(const QByteArray &sTagsel, const QByteArray &sUpXml, const QByteArray &sDBName, QByteArray &sMsg );
 	bool Client_UP(QString Tagsel, QByteArray sQueryNo, QByteArray sUpXml, QByteArray sDBName, QByteArray  &sMsg );
 
-	bool Client_Select				( const QByteArray &sQueryXml, const QByteArray &sDBName, QByteArray &sMsg, QList<QByteArray> &selList);//ŒŸõ
-	bool Client_SelectDesc			( const QByteArray &sQueryXml, const QByteArray &sDBName, QByteArray &sMsg, QList<QByteArray> &selList);//ŒŸõ
+	bool Client_Select				( const QByteArray &sQueryXml, const QByteArray &sDBName, QByteArray &sMsg, QList<QByteArray> &selList);//ï¿½ï¿½ï¿½ï¿½
+	bool Client_SelectDesc			( const QByteArray &sQueryXml, const QByteArray &sDBName, QByteArray &sMsg, QList<QByteArray> &selList);//ï¿½ï¿½ï¿½ï¿½
 	bool Client_SelectNotNG			( const QByteArray &sQueryXml, const QByteArray &sDBName, QByteArray &sMsg, QList<QByteArray> &selList);
 	bool Client_SelectNotNGDesc		( const QByteArray &sQueryXml, const QByteArray &sDBName, QByteArray &sMsg, QList<QByteArray> &selList);
 	bool Client_TagSelect			( const QByteArray &sQueryXml, const QByteArray &sDBName, const QByteArray &Parent, QByteArray &sMsg, QList<QByteArray> &selList);
 	bool Client_TagSelectDesc		( const QByteArray &sQueryXml, const QByteArray &sDBName, const QByteArray &Parent, QByteArray &sMsg, QList<QByteArray> &selList);
 	bool Client_TagToTagSelectDesc	(const QList<QByteArray> &sQueryXmlList, const QByteArray &sDBName, QByteArray &sMsg, QList<QByteArray> &selList);//TagSelect
 	bool Client_TagToTagSelect		(const QList<QByteArray> &sQueryXmlList, const QByteArray &sDBName, QByteArray &sMsg, QList<QByteArray> &selList);//TagSelect
-	//Master‚Å‘—‚Á‚ÄLot‚ğ•Ô‚·
+	//Masterï¿½Å‘ï¿½ï¿½ï¿½ï¿½ï¿½Lotï¿½ï¿½ï¿½Ô‚ï¿½
 	bool Client_MasterToLot			(const QByteArray &Master, const QByteArray &sDBName, const QByteArray &Parent, QByteArray &sMsg, QList<QByteArray> &List);
 	bool Client_MasterToLotDesc		(const QByteArray &Master,const  QByteArray &sDBName, const QByteArray &Parent, QByteArray &sMsg, QList<QByteArray> &List);	
-	bool Client_Close(QByteArray &sMsg);//ƒT[ƒoØ’f
+	bool Client_Close(QByteArray &sMsg);//ï¿½Tï¿½[ï¿½oï¿½Ø’f
 	bool Client_LotGetClose(QByteArray &Msg);
 
 #if 1 // 20091112
@@ -91,7 +99,7 @@ public:
 	bool Client_LotGet(const QByteArray &Path, const QByteArray &Master, QByteArray &Msg, QList<QByteArray> &RetList);
 
 	bool Client_InspectStart(const QByteArray &FileName, const QByteArray &LotID, QByteArray &LotName, QByteArray &sMsg, int &Client);
-	QByteArray Str;//SelectGet‚Åg—p
+	QByteArray Str;//SelectGetï¿½Ågï¿½p
 	bool Client_FileDelete	(const QByteArray &File, QByteArray &Msg);
 	bool Client_FileGet		(const QByteArray &File, QList<QByteArray> &RetFile, QList<QByteArray> &RetList, QByteArray &Msg);
 	bool Client_FileLoad	(const QByteArray &File, QByteArray &Data, QByteArray &Msg);
@@ -101,17 +109,17 @@ public:
 //signals:
 	//void SignalDisconnect();
 private:
-	bool Client_Get(QByteArray &sError);//ƒf[ƒ^æ“¾
-	void Client_Send();		//ƒf[ƒ^‘—M
-	QByteArray block;		//‘—Mƒf[ƒ^ƒTƒCƒY
-	quint16 blockSize;		//æ“¾ƒf[ƒ^ƒTƒCƒY
-    QString Host;			//ƒzƒXƒg–¼
-	QString Port;			//ƒ|[ƒg–¼
-	QByteArray sDBName;		//XMLDBƒtƒ@ƒCƒ‹–¼
-	QList<QByteArray> sInlist;	//æ“¾ƒf[ƒ^
-	QList<QByteArray> sOutlist;	//‘—Mƒf[ƒ^
+	bool Client_Get(QByteArray &sError);//ï¿½fï¿½[ï¿½^ï¿½æ“¾
+	void Client_Send();		//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½M
+	QByteArray block;		//ï¿½ï¿½ï¿½Mï¿½fï¿½[ï¿½^ï¿½Tï¿½Cï¿½Y
+	quint16 blockSize;		//ï¿½æ“¾ï¿½fï¿½[ï¿½^ï¿½Tï¿½Cï¿½Y
+    QString Host;			//ï¿½zï¿½Xï¿½gï¿½ï¿½
+	QString Port;			//ï¿½|ï¿½[ï¿½gï¿½ï¿½
+	QByteArray sDBName;		//XMLDBï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½
+	QList<QByteArray> sInlist;	//ï¿½æ“¾ï¿½fï¿½[ï¿½^
+	QList<QByteArray> sOutlist;	//ï¿½ï¿½ï¿½Mï¿½fï¿½[ï¿½^
 
 };
-const int iTimeout=5 * 100000 ; //ƒT[ƒo‚©‚ç‚ÌÚ‘±‘Ò‚¿ŠÔ
+const int iTimeout=5 * 100000 ; //ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ÌÚ‘ï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½ï¿½
 
 #endif

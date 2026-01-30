@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2014
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "XDLLOnly.h"
@@ -7,9 +25,9 @@
 #include "XReviewStructure.h"
 
 //////////////////////////////////
-// ‘¼GUI‚©‚ç‘—M‚³‚ê‚éƒRƒ}ƒ“ƒh
+// ï¿½ï¿½GUIï¿½ï¿½ï¿½ç‘—ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 
-// ‘—‚ç‚ê‚½ê‡AReviewStructure‚É–â‚¢‡‚í‚¹‚ÄNG‰æ‘œˆê——‚ğæ“¾‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ê‡ï¿½AReviewStructureï¿½É–â‚¢ï¿½ï¿½ï¿½í‚¹ï¿½ï¿½NGï¿½æ‘œï¿½ê——ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 class GUICmdReqUpdateNGList : public GUIDirectMessage
 {
 public:
@@ -22,12 +40,12 @@ public:
 		:GUIDirectMessage(Base),Ret(false){};
 };
 
-// “Á’è‚ÌNGImage‚ğ‘I‘ğ‚·‚é‚½‚ß‚ÌƒpƒPƒbƒg
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGImageï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚Ìƒpï¿½Pï¿½bï¿½g
 class GUICmdReqSelectNGNailItem : public GUIDirectMessage
 {
 public:
 	// Send
-	NGNailIndex targetNG; // ƒ^[ƒQƒbƒg‚ÌNGImageƒCƒ“ƒXƒ^ƒ“ƒX(‚Ìƒ|ƒCƒ“ƒ^)
+	NGNailIndex targetNG; // ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½ï¿½NGImageï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½X(ï¿½Ìƒ|ï¿½Cï¿½ï¿½ï¿½^)
 
 	// Recieve
 	bool Ret;
@@ -38,9 +56,9 @@ public:
 
 
 //////////////////////////////////////
-// ‘—‚éƒRƒ}ƒ“ƒh(‘¼GUI‚ÌƒpƒPƒbƒg)
+// ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h(ï¿½ï¿½GUIï¿½Ìƒpï¿½Pï¿½bï¿½g)
 //
-// EShowHistoryListForReview
-//   [—š—ğƒŠƒXƒg‚ÌˆÚ“®—v‹]
+// ï¿½EShowHistoryListForReview
+//   [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ÌˆÚ“ï¿½ï¿½vï¿½ï¿½]
 //    GUICmdReqMoveHistoryList
 // 

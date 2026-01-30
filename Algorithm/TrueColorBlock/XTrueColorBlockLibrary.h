@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\TrueColorBlock\XTrueColorBlockLibrary.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #if	!defined(XTRUECOLORBLOCKLIBRARY_H)
@@ -44,8 +53,8 @@ public:
 class	TrueColorBlockLibrary : public AlgorithmLibrary , public ServiceForLayers
 {
 public:
-//¶¬ƒf[ƒ^
-    IntList					SubtractBlock; //œ‹ƒ‰ƒCƒuƒ‰ƒŠ
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
+    IntList					SubtractBlock; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½
 
 	ColorLogic				PickupColor;
     int32					MinBlockSize;
@@ -56,7 +65,7 @@ public:
 	struct    {
 		bool    Transparent:1;
 		bool    LeftPickup:1;
-		bool	OverlappedGen:1;	//d•¡¶¬‚·‚éƒuƒƒbƒN
+		bool	OverlappedGen:1;	//ï¿½dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½bï¿½N
 	}GenerationMode;
 	enum    _GenerationCategory
 	{
@@ -70,29 +79,29 @@ public:
 	    ,_AutoSetting_ANY       =7
 	}GenerationCategory;
 
-	WORD		NoiseSize;			//ŒÇ—§“_íœ
-	WORD		NoiseSizePinHole;	//ƒsƒ“ƒz[ƒ‹íœ
+	WORD		NoiseSize;			//ï¿½Ç—ï¿½ï¿½_ï¿½íœ
+	WORD		NoiseSizePinHole;	//ï¿½sï¿½ï¿½ï¿½zï¿½[ï¿½ï¿½ï¿½íœ
     WORD		SpaceToOutline;
     WORD		Priority;
 
-//ŒŸ¸ƒf[ƒ^
-	//RGBStock	NInsOKSamples;	//‹·ˆæ‚Ì‚n‚jŒŸ¸—á¦
-	//RGBStock	NInsNGSamples;	//‹·ˆæ‚Ì‚m‚fŒŸ¸—á¦
+//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
+	//RGBStock	NInsOKSamples;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚nï¿½jï¿½ï¿½ï¿½ï¿½ï¿½á¦
+	//RGBStock	NInsNGSamples;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚mï¿½fï¿½ï¿½ï¿½ï¿½ï¿½á¦
 	ColorLogic	NInsColor;
-	DWORD		NOKDot;			//‹·ˆæ‚Ì‚n‚jƒhƒbƒg”
-	int32		NMergin;		//‹·ˆæ”»’è‚Ì‹–—e‹P“x—Ê
+	DWORD		NOKDot;			//ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	int32		NMergin;		//ï¿½ï¿½ï¿½æ”»ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½eï¿½Pï¿½xï¿½ï¿½
 
-	//RGBStock	BInsOKSamples;	//Lˆæ‚Ì‚n‚jŒŸ¸—á¦
-	//RGBStock	BInsNGSamples;	//Lˆæ‚Ì‚m‚fŒŸ¸—á¦
+	//RGBStock	BInsOKSamples;	//ï¿½Lï¿½ï¿½ï¿½Ì‚nï¿½jï¿½ï¿½ï¿½ï¿½ï¿½á¦
+	//RGBStock	BInsNGSamples;	//ï¿½Lï¿½ï¿½ï¿½Ì‚mï¿½fï¿½ï¿½ï¿½ï¿½ï¿½á¦
 	ColorLogic	BInsColor;
-	DWORD		BOKDot;			//Lˆæ‚Ì‚n‚jƒhƒbƒg”
-	int32		BMergin;		//‹·ˆæ”»’è‚Ì‹–—e‹P“x—Ê
+	DWORD		BOKDot;			//ï¿½Lï¿½ï¿½ï¿½Ì‚nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	int32		BMergin;		//ï¿½ï¿½ï¿½æ”»ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½eï¿½Pï¿½xï¿½ï¿½
 
-	WORD	NMinNGCount;	//‹·ˆæ‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCount;	//Lˆæ‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
+	WORD	NMinNGCount;	//ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCount;	//ï¿½Lï¿½ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
 
-	WORD	BOKLength;		//Lˆæ‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-	WORD	NOKLength;		//‹·ˆæ‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
+	WORD	BOKLength;		//ï¿½Lï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+	WORD	NOKLength;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
 
 	struct{
 		bool	ModeEnabled:1;
@@ -104,9 +113,9 @@ public:
 		bool	ModeInvertLogic:1;
 	}PointMove;
 
-    WORD	AdjustBlack;    //‹P“x•â³‚Ì‰ºŒÀ•
-    WORD	AdjustWhite;    //‹P“x•â³‚ÌãŒÀ•
-    WORD	SelfSearch;     //©ŒÈ’Tõƒhƒbƒg”
+    WORD	AdjustBlack;    //ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	AdjustWhite;    //ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	SelfSearch;     //ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
     WORD	CommonMoveDot;
 
 public:

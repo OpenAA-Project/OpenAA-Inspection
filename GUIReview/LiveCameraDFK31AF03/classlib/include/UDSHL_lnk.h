@@ -1,22 +1,22 @@
-
-/** This file checks the compiler version and binds to the udshl library and other libraries needed.
- * To use the link feature you must define the UDSHL_LIB_BASEDIR macro.
- * UDSHL_LIB_BASEDIR must contain the relative path to the lib base directory of imaging control.
+/*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
- * For example this define is used by the samples :
-	#define UDSHL_LIB_BASEDIR "..\..\..\ClassLib\"
- * This is automatically expanded to point to the right file for the build.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * You can prevent linking with anything by specifying UDSHL_LIB_NO_LINK.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * This file checks the following defines :
-	_MSC_VER	// compiler version, defined by the compiler
-	_MT			// version of the C runtime, is defined by the compiler when you choose "Multithreaded debug/release DLL"
-	_DLL		// version of the C runtime, is defined by the compiler when you choose "Multithreaded debug/release DLL"
- *
- * You may pass UDSHL_LIB_NO_COMPILER_CHECK to prevent the compiler checks.
- * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+
 
 #ifndef UDSHL_LNK_H_INC_
 #define UDSHL_LNK_H_INC_

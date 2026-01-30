@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ResultDataManager.h"
 #include <QApplication>
 #include "XFileRegistry.h"
@@ -24,22 +42,22 @@ DeleteThread *DelThread = new DeleteThread(NULL);
 
 void delThreadEndFunc()
 {
-	DelThread->pause();// ˆê’U’â~
+	DelThread->pause();// ï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½~
 	QTime waitTime;
 	waitTime.start();
-	QProgressDialog process;// ó‹µ‚ÌƒvƒƒOƒŒƒXƒ_ƒCƒAƒƒO
-	process.setCancelButton(NULL);// ƒLƒƒƒ“ƒZƒ‹ƒ{ƒ^ƒ“‚È‚µ
-	process.setRange(0, DelThread->remainFileCount());// íœ”‚ªÅ‘å’l
-	// ƒ‰ƒxƒ‹XV‚ÌƒXƒƒbƒgÚ‘±
+	QProgressDialog process;// ï¿½ó‹µ‚Ìƒvï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Xï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½O
+	process.setCancelButton(NULL);// ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½È‚ï¿½
+	process.setRange(0, DelThread->remainFileCount());// ï¿½íœï¿½ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½l
+	// ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Xï¿½Vï¿½ÌƒXï¿½ï¿½ï¿½bï¿½gï¿½Ú‘ï¿½
 	QObject::connect(DelThread, SIGNAL(deletedFile(const QString &)), &process, SLOT(setLabelText(const QString &)), Qt::ConnectionType::QueuedConnection);
 
-	QTime time;// XVƒ^ƒCƒ}[
+	QTime time;// ï¿½Xï¿½Vï¿½^ï¿½Cï¿½}ï¿½[
 
-	// ƒXƒ^[ƒg
+	// ï¿½Xï¿½^ï¿½[ï¿½g
 	time.start();
 	DelThread->pause(false);
 	while(DelThread->remainFileCount()!=0){
-		if(time.elapsed()>1000){// ‚P•b‚¸‚Âƒo[‚ğXV
+		if(time.elapsed()>1000){// ï¿½Pï¿½bï¿½ï¿½ï¿½Âƒoï¿½[ï¿½ï¿½ï¿½Xï¿½V
 			process.setValue(process.maximum()-DelThread->remainFileCount());
 			time.restart();
 		}
@@ -47,7 +65,7 @@ void delThreadEndFunc()
 		qApp->processEvents(QEventLoop::ProcessEventsFlag::ExcludeUserInputEvents);
 	}
 
-	delete DelThread;// ƒXƒŒƒbƒhíœ
+	delete DelThread;// ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½íœ
 }
 
 int main(int argc, char *argv[])

@@ -303,7 +303,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;QT_LARGEFILE_SUPPORT;QT_NO_DEBUG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;$(SAPERA)\Classes\Basic;..\..\..\OpenSource\Component;..\..\..\Open;$(SAPERA)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;$(OpenAAUseLibrary)\Dalsa;$(SAPERA)\Classes\Basic;..\..\..\OpenSource\Component;..\..\..\Open;$(SAPERA)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -338,6 +338,8 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\featureCtrl.cpp" />
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\RunLen.Cpp" />
     <ClCompile Include="..\..\..\OpenSource\Component\mtMeter.cpp" />
     <ClCompile Include="..\..\..\OpenSource\Component\mtTBarGraph.cpp" />
     <ClCompile Include="..\..\..\OpenSource\Component\mtWidgetPosition.cpp" />
@@ -345,14 +347,9 @@
     <ClCompile Include="camerasetting.cpp" />
     <ClCompile Include="CameraXtiumCLHS_PX8.cpp" />
     <ClCompile Include="CLHS_PX8CommandCreater.cpp" />
-    <ClCompile Include="featureCtrl.cpp" />
-    <ClCompile Include="RunLen.Cpp" />
     <ClCompile Include="saperaCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="featureCtrl.h" />
-    <ClInclude Include="RunLen.h" />
-    <ClInclude Include="screenformat.h" />
     <QtMoc Include="CameraSetting.h">
     </QtMoc>
     <QtMoc Include="..\..\..\OpenSource\Component\mtTBarGraph.h">

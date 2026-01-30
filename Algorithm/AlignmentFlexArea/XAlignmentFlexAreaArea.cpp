@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 //#include "XAlignmentFlexAreaResource.h"
 #define	_USE_MATH_DEFINES
 #include <math.h>
@@ -402,7 +420,7 @@ bool	XAlignmentFlexAreaArea::ExecuteInitialAfterEdit(ExecuteInitialAfterEditInfo
 	int	AreaMinX=Area.GetMinX();
 	int	AreaMinY=Area.GetMinY();
 
-	//OpenMP‚¾‚Æ‚¤‚Ü‚­‚¢‚©‚È‚¢iŒ‹‰Ê‚ªˆá‚¤j
+	//OpenMPï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½iï¿½ï¿½ï¿½Ê‚ï¿½ï¿½á‚¤ï¿½j
 	#pragma omp parallel
 	{
 		#pragma omp for
@@ -1019,7 +1037,7 @@ bool    XAlignmentFlexAreaArea::Save(QIODevice *file)
 
 	if(::Save(file,AreaID)==false)
 		return(false);
-	int32	D=(int32)Priority;	//Œã•ûŒİŠ·«‚Ì‚½‚ßint32
+	int32	D=(int32)Priority;	//ï¿½ï¿½ï¿½ï¿½ï¿½İŠï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½int32
 	if(::Save(file,D)==false)
 		return(false);
 	if(Area	.Write(file)==false)
@@ -1089,7 +1107,7 @@ bool	XAlignmentFlexAreaArea::Load(QIODevice *file ,AlignmentFlexAreaInPage *pare
 }
 bool    XAlignmentFlexAreaArea::SaveUnique(QIODevice *file)
 {
-	int32	D=(int32)Priority;	//Œã•ûŒİŠ·«‚Ì‚½‚ßint32
+	int32	D=(int32)Priority;	//ï¿½ï¿½ï¿½ï¿½ï¿½İŠï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½int32
 	if(::Save(file,D)==false)
 		return false;
 	if(::Save(file,AreaName)==false)

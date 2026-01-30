@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XDatabaseLoader.h"
 #include "XOutlineOffset.h"
 
@@ -27,201 +45,201 @@ void ReviewPIInPage::TransmitDirectly(GUIDirectMessage *packet)
 
 void ReviewPIBase::TransmitDirectly(GUIDirectMessage *packet)
 {
-	// ƒ}ƒXƒ^[ƒf[ƒ^“Ç‚İ‚İ—v‹
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ç‚İï¿½ï¿½İ—vï¿½ï¿½
 	if(ReciveCmdLoadMainMaster(packet))return;
 
-	// ƒXƒŒ[ƒu“Ç‚İ‚İ—v‹
+	// ï¿½Xï¿½ï¿½ï¿½[ï¿½uï¿½Ç‚İï¿½ï¿½İ—vï¿½ï¿½
 	if(ReciveCmdLoadSlave(packet))return;
 
 	if(ReciveCmdLoadPageImage(packet))return;
 
-	// ƒ}ƒXƒ^[ƒR[ƒh‚©‚çƒƒbƒgˆê——‚ğæ“¾
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½çƒï¿½bï¿½gï¿½ê——ï¿½ï¿½ï¿½æ“¾
 	if(ReciveCmdServerSelectLotList(packet))return;
 
-	// ƒƒbƒg‚ğw’è‚µ‚½ƒtƒ@ƒCƒ‹–¼AƒTƒCƒh‚ÉƒZƒbƒg‚·‚é
+	// ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½wï¿½è‚µï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Tï¿½Cï¿½hï¿½ÉƒZï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdServerSetLot(packet))return;
 
-	// “Ç‚İ‚ñ‚Å‚ ‚éƒ}ƒXƒ^[ƒf[ƒ^‚É‘Î‰‚·‚éƒƒbƒgˆê——‚ğ—v‹‚·‚é
+	// ï¿½Ç‚İï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½éƒï¿½bï¿½gï¿½ê——ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdServerReqCurrentLot(packet))return;
 
-	// ƒƒbƒg‚ÌŒŸ¸ƒŠƒXƒgˆê——‚ğ‘‚«‚İA–ß‚·
+	// ï¿½ï¿½ï¿½bï¿½gï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ê——ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İAï¿½ß‚ï¿½
 	if(ReciveCmdReqOrganizedHistoryList(packet))return;
 
-	// ƒƒbƒg‚ğŒ»İ‚Ìó‘Ô‚ÉXV‚·‚é
+	// ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½İ‚Ìï¿½ï¿½Ô‚ÉXï¿½Vï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdServerUpdateLotList(packet))return;
 
-	// ƒJƒŒƒ“ƒgNG‚ÉFƒL[î•ñ‚ğ•t—^E‚à‚µ‚­‚Íã‘‚«‚·‚é
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½Fï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½^ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íã‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdSetFKeyToNGNail(packet))return;
 
-	// NGNail‚ÌFƒL[î•ñ‚ğFƒL[î•ñ‚È‚µ‚É‚·‚é
+	// NGNailï¿½ï¿½Fï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 	if(ReciveCmdClearFKeyToNGNail(packet))return;
 
-	// ‘S‘Ì‰æ‘œ‚ğ—v‹‚·‚é
+	// ï¿½Sï¿½Ì‰æ‘œï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqWholeImage(packet))return;
 
-	// Œ»İ—š—ğ‚ğİ’è‚·‚é
+	// ï¿½ï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½
 	if(ReciveCmdSetCurrentHistory(packet))return;
 
-	// Œ»İ—š—ğ‚ğ—v‹‚·‚é
+	// ï¿½ï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqCurrentHistory(packet))return;
 
-	// Œ»İƒƒbƒg‚ğƒŠƒ[ƒh‚µ‚ÄŒ»İ—š—ğ‚ğXV‚·‚é
+	// ï¿½ï¿½ï¿½İƒï¿½ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ÄŒï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdUpdateCurrentLotData(packet))return;
 
-	// ƒ‰ƒCƒuƒ‰ƒŠî•ñ‚ğ—v‹‚·‚é
+	// ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqInsLib(packet))return;
 
-	// NGNail‚Ìƒ\[ƒg‡‚ğ•ÏX‚·‚é
+	// NGNailï¿½Ìƒ\ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdSetSortNGOrder(packet))return;
 
-	// NGNail‚Ìƒ\[ƒg‡‚ğæ“¾‚·‚é
+	// NGNailï¿½Ìƒ\ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqSortNGOrder(packet))return;
 
-	// Œ»İNGNail‚Ìü•Óî•ñ‚ğ—v‹‚·‚é
+	// ï¿½ï¿½ï¿½ï¿½NGNailï¿½Ìï¿½ï¿½Óï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqAdjacentCurrentNG(packet))return;
 
-	// Œ»İNGNail‚ğˆÚ“®‚·‚é
+	// ï¿½ï¿½ï¿½ï¿½NGNailï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdMoveCurrentNGNail(packet))return;
 
-	// Œ»İ—š—ğ‚ğˆÚ“®‚·‚é
+	// ï¿½ï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdMoveCurrentHistory(packet))return;
 
-	// Œ»İ—š—ğ‚ğNG‚Ü‚ÅˆÚ“®‚·‚é
+	// ï¿½ï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½Ü‚ÅˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdMoveCurrentHistoryToNGBoard(packet))return;
 
-	// Œ»İNGNail‚ğˆÚ“®‚·‚é
+	// ï¿½ï¿½ï¿½ï¿½NGNailï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdSetCurrentNGNail(packet))return;
 
-	// ‚¨Œ©‚ñ‚Å‚¢‚éƒ}ƒXƒ^[ƒf[ƒ^‚Ìî•ñ‚ğæ“¾‚·‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqMasterDataInfo(packet))return;
 
-	// Œ»İ‚ÌNG‚ğƒ`ƒFƒbƒNÏ‚İ‚É‚·‚é
+	// ï¿½ï¿½ï¿½İ‚ï¿½NGï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚É‚ï¿½ï¿½ï¿½
 	if(ReciveCmdSetCurrentNGChecked(packet))return;
 
-	// Œ»İHistory‚ÌNGNail‚Éƒ`ƒFƒbƒNÏ‚İî•ñ‚ğ•t—^‚·‚é
+	// ï¿½ï¿½ï¿½ï¿½Historyï¿½ï¿½NGNailï¿½Éƒ`ï¿½Fï¿½bï¿½Nï¿½Ï‚İï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½^ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdSetNGChecked(packet))return;
 
-	// FƒL[ƒJƒ‰[ƒŠƒXƒg‚ğ—v‹‚·‚é
+	// Fï¿½Lï¿½[ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqFKeyColorList(packet))return;
 
-	// ReviewStructure‚ª•Û‚·‚éƒ}ƒXƒ^[‰æ‘œ‚ÌƒCƒ[ƒWƒƒ‚ƒŠ‚ÌXV‚ğ‘£‚·
+	// ReviewStructureï¿½ï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ÌƒCï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌXï¿½Vï¿½ğ‘£‚ï¿½
 	if(ReciveCmdUpdateMasterBuff(packet))return;
 
-	// ƒ}ƒXƒ^[‰æ‘œ‚©‚çØ‚è”²‚¢‚½ˆê•”•ª‰æ‘œ‚ğ—v‹‚·‚é
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½Ø‚è”²ï¿½ï¿½ï¿½ï¿½ï¿½ê•”ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqMasterImagePiece(packet))return;
 
-	// ˆê–‡ŠG‚É‚µ‚½ƒ}ƒXƒ^[‰æ‘œ‚©‚ç•”•ª‰æ‘œ‚ÌƒRƒs[‚ğ—v‹‚·‚é
+	// ï¿½ê–‡ï¿½Gï¿½É‚ï¿½ï¿½ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½ç•”ï¿½ï¿½ï¿½æ‘œï¿½ÌƒRï¿½sï¿½[ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqMasterImagePieceOnOneImage(packet))return;
 
-	// w’è‚µ‚½—š—ğ‚Ì‘Sƒ`ƒFƒbƒNó‘Ô‚ğŠm”F‚·‚é
+	// ï¿½wï¿½è‚µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‘Sï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½Ô‚ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqHistoryAllChecked(packet))return;
 
-	// ƒ}ƒXƒ^[‰æ‘œ‚Ìî•ñ‚ğ—v‹‚·‚é
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqWholeImageInfo(packet))return;
 
-	// w’è‚µ‚½NG‚Ì”Ô†‚©‚çŠY“–NG‚Ì•\¦Œ`ó‚ğ•Ô‚·
+	// ï¿½wï¿½è‚µï¿½ï¿½NGï¿½Ì”Ôï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Yï¿½ï¿½NGï¿½Ì•\ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 	//if(ReciveCmdReqNGShape(packet))return;
 
-	// Œ»İ—š—ğ‚ÌNGNailƒŠƒXƒg‚ğNG•\¦Œ`ó•t‚«‚Å•Ô‚·
+	// ï¿½ï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½ï¿½NGNailï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½NGï¿½\ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Å•Ô‚ï¿½
 	//if(ReciveCmdReqCurrentNGPointListWithShape(packet))return;
 
-	// —š—ğ‚Ìƒ\[ƒg‚ğs‚¤
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ\ï¿½[ï¿½gï¿½ï¿½ï¿½sï¿½ï¿½
 	if(ReciveCmdSetSortHistoryOrder(packet))return;
 
-	// —š—ğ‚Ìƒ\[ƒgİ’è‚ğ•Ô‚·
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ\ï¿½[ï¿½gï¿½İ’ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 	if(ReciveCmdReqSortHistoryOrder(packet))return;
 
-	// ƒ}ƒXƒ^[ƒf[ƒ^‚ğƒf[ƒ^ƒx[ƒX‚©‚ç—v‹‚·‚é
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqMasterInfoFromDataBase(packet))return;
 
-	// ƒŒƒCƒ„[‚ÌƒCƒ[ƒWƒƒ‚ƒŠ‚ğŠJ•ú‚·‚é
+	// ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌƒCï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdFreeLayersImageMemory(packet))return;
 
-	// w’èƒTƒCƒh‚Ìƒƒbƒgî•ñ‚ğíœ‚·‚é
+	// ï¿½wï¿½ï¿½ï¿½Tï¿½Cï¿½hï¿½Ìƒï¿½ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdClearSideLot(packet))return;
 
-	// PCE‚ÌƒŠƒXƒg‚ğæ“¾‚·‚é
+	// PCEï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqPCEList(packet))return;
 
-	// NG•Û‘¶‚Ìƒ}ƒNƒƒŠƒXƒg‚ğæ“¾‚·‚é
+	// NGï¿½Û‘ï¿½ï¿½Ìƒ}ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqSaveFormatMacroList(packet))return;
 
-	// ƒvƒƒpƒeƒBİ’èƒ_ƒCƒAƒƒO‚ğ’ñ‹Ÿ‚·‚é
+	// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½İ’ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ñ‹Ÿ‚ï¿½ï¿½ï¿½
 	if(ReciveCommonCmdReqSettingPropertyDialog(packet))return;
 
-	// NG‰æ‘œ‚Ì•Û‘¶(Œ»İNGNail‚Ì‚İ)
+	// NGï¿½æ‘œï¿½Ì•Û‘ï¿½(ï¿½ï¿½ï¿½ï¿½NGNailï¿½Ì‚ï¿½)
 	if(ReciveCmdSaveCurrentNGImage(packet))return;
 
-	// NG‰æ‘œ‚Ì•Û‘¶(Œ»İ—š—ğ‚Ì‚·‚×‚Ä‚ÌNGNail)
+	// NGï¿½æ‘œï¿½Ì•Û‘ï¿½(ï¿½ï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½×‚Ä‚ï¿½NGNail)
 	if(ReciveCmdSaveCurrentHistoryNGImages(packet))return;
 
-	// Œ»İ“Ç‚İ‚ñ‚Å‚¢‚éƒ}ƒXƒ^[ƒf[ƒ^‚É]‚¢Aƒƒbƒg‚Ìî•ñ‚ğXV‚·‚é
+	// ï¿½ï¿½ï¿½İ“Ç‚İï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½É]ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½bï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdUpdateLotInfoList(packet))return;
 
-	// Œ»İ‚Ìƒƒbƒgˆê——‚ğæ“¾‚·‚é
+	// ï¿½ï¿½ï¿½İ‚Ìƒï¿½ï¿½bï¿½gï¿½ê——ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqCurrentLotAllList(packet))return;
 
-	// VRS‚Ìî•ñ‚ğ—v‹‚·‚é
+	// VRSï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqVRSSetting(packet))return;
 
-	// VRS‚Ìî•ñ‚ğİ’è‚·‚é
+	// VRSï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½
 	if(ReciveCmdSetVRSSetting(packet))return;
 
-	// ƒ}ƒXƒ^[‰æ‘œ‚ÌƒŠƒXƒg‚ğ—v‹‚·‚é
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqMasterImageList(packet))return;
 
-	// Œ»İ‚ÌVRS—pƒAƒ‰ƒCƒƒ“ƒgİ’è‚ğ—v‹‚·‚é
+	// ï¿½ï¿½ï¿½İ‚ï¿½VRSï¿½pï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½İ’ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqVRSAlignment(packet))return;
 
-	// VRS—pƒAƒ‰ƒCƒƒ“ƒg‚ğİ’è‚·‚é
+	// VRSï¿½pï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½
 	if(ReciveCmdSetVRSAlignment(packet))return;
 
-	// VRS‚Ìƒ‚[ƒ^[ó‹µ‚ğ—v‹‚·‚é
+	// VRSï¿½Ìƒï¿½ï¿½[ï¿½^ï¿½[ï¿½ó‹µ‚ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqVRSMotorState(packet))return;
 
-	// VRS‚Ìƒ‚[ƒ^[ó‹µ‚ğİ’è‚·‚é
+	// VRSï¿½Ìƒï¿½ï¿½[ï¿½^ï¿½[ï¿½ó‹µ‚ï¿½ï¿½İ’è‚·ï¿½ï¿½
 	if(ReciveCmdSetVRSMotorState(packet))return;
 
-	// ƒJƒƒ‰‚ÌƒAƒ‰ƒCƒƒ“ƒg‚ğæ“¾‚·‚é
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ÌƒAï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqCameraAlignment(packet))return;
 
-	// ƒJƒƒ‰‚ÌƒAƒ‰ƒCƒƒ“ƒg‚ğİ’è‚·‚é
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ÌƒAï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½
 	if(ReciveCmdSetCameraAlignment(packet))return;
 
-	// ƒV[ƒPƒ“ƒX‚Ö‚Ì“ü—Í‚ªs‚í‚ê‚Ä‚¢‚é‚©‚ğæ“¾‚·‚é
+	// ï¿½Vï¿½[ï¿½Pï¿½ï¿½ï¿½Xï¿½Ö‚Ì“ï¿½ï¿½Í‚ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdReqSequenceEnable(packet))return;
 
-	// ƒV[ƒPƒ“ƒX‚Ö‚Ì“ü—Í‚ğİ’è‚·‚é
+	// ï¿½Vï¿½[ï¿½Pï¿½ï¿½ï¿½Xï¿½Ö‚Ì“ï¿½ï¿½Í‚ï¿½ï¿½İ’è‚·ï¿½ï¿½
 	if(ReciveCmdSetSequenceEnable(packet))return;
 
-	// Œ»İNG‚ÌˆÊ’u‚ÖˆÚ“®‚·‚é
+	// ï¿½ï¿½ï¿½ï¿½NGï¿½ÌˆÊ’uï¿½ÖˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdMoveVRSToCurrentNG(packet))return;
 
-	// ”÷“®
+	// ï¿½ï¿½ï¿½ï¿½
 	if(ReciveCmdMoveVRSOnCameraView(packet))return;
 
-	// XYˆÚ“®(ƒAƒ‰ƒCƒƒ“ƒg“K—p)
+	// XYï¿½Ú“ï¿½(ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Kï¿½p)
 	if(ReciveCmdMoveVRSWithAlignment(packet))return;
 
-	// Œ´“_ˆÚ“®
+	// ï¿½ï¿½ï¿½_ï¿½Ú“ï¿½
 	if(ReciveCmdMoveVRSToOrigin(packet))return;
 
-	// ‹Ù‹}‰ñ”ğ’n“_ˆÚ“®
+	// ï¿½Ù‹}ï¿½ï¿½ï¿½ï¿½ï¿½nï¿½_ï¿½Ú“ï¿½
 	if(ReciveCmdMoveVRSToEscape(packet))return;
 
-	// ƒ}ƒXƒ^[‰æ‘œ‚Ìƒ_ƒCƒŒƒNƒgƒ[ƒh
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ìƒ_ï¿½Cï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½[ï¿½h
 	if(ReciveCmdLoadMasterImage(packet))return;
 
-	// ƒ}ƒXƒ^[‚Ìƒ[ƒh
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Ìƒï¿½ï¿½[ï¿½h
 	if(ReciveCmdLoadMaster(packet))return;
 
-	// Œ»İ‚Ì“Ç‚İ‚İƒƒbƒg‚Ì—v‹
+	// ï¿½ï¿½ï¿½İ‚Ì“Ç‚İï¿½ï¿½İƒï¿½ï¿½bï¿½gï¿½Ì—vï¿½ï¿½
 	if(ReciveCmdReqCurrentLotInfo(packet))return;
 	
-	// ’¼Úw’èVRSˆÚ“®
+	// ï¿½ï¿½ï¿½Úwï¿½ï¿½VRSï¿½Ú“ï¿½
 	if(ReciveCmdMoveVRSDirectory(packet))return;
 
-	// ‹¤’ÊVRSˆÚ“®
+	// ï¿½ï¿½ï¿½ï¿½VRSï¿½Ú“ï¿½
 	//if(ReciveCommonCmdMoveVRSWithAlignment(packet))return;
 	//if(ReciveCommonCmdMoveVRSToOrigin(packet))return;
 
@@ -391,7 +409,7 @@ bool ReviewPIBase::ReciveCmdLoadMainMaster(GUIDirectMessage *packet)
 
 	bool addMode = Review::isBack(cmd->side);
 
-	// ƒ}ƒXƒ^[ƒf[ƒ^“Ç‚İ‚İ
+	// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ç‚İï¿½ï¿½ï¿½
 	bool ret = LoadMaster(	cmd->side,
 							cmd->PhaseCode,
 							cmd->MasterCode,
@@ -400,7 +418,7 @@ bool ReviewPIBase::ReciveCmdLoadMainMaster(GUIDirectMessage *packet)
 							MInfo,
 							addMode);
 
-	// Œ‹‰ÊŠi”[E¸”sI—¹
+	// ï¿½ï¿½ï¿½ÊŠiï¿½[ï¿½Eï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Iï¿½ï¿½
 	cmd->Ret = ret;
 	if(ret==false)return true;
 
@@ -416,10 +434,10 @@ bool ReviewPIBase::ReciveCmdLoadMainMaster(GUIDirectMessage *packet)
 	TargetMasterWholeImgDrawPoints = getMasterWholeImgDrawPointsPtr(cmd->side);
 	TargetOutlines = getMasterWholePageOutlineListPtr(cmd->side);
 
-	// î•ñ‚Ì•Û‘¶
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì•Û‘ï¿½
 	*TargetMasterInfo = MInfo;
 
-	// ‰æ‘œƒoƒbƒtƒ@‚ÌŠm•Ûi’†g‚Í‹ój
+	// ï¿½æ‘œï¿½oï¿½bï¿½tï¿½@ï¿½ÌŠmï¿½Ûiï¿½ï¿½ï¿½gï¿½Í‹ï¿½ï¿½j
 	while(TargetImageList->count()<MInfo.PhaseNumb){
 		TargetImageList->append(QVector<QImage>(MInfo.PageNumb).toList());
 	}
@@ -429,12 +447,12 @@ bool ReviewPIBase::ReciveCmdLoadMainMaster(GUIDirectMessage *packet)
 		}
 	}
 
-	// ‘S‘Ì‰æ‘œƒTƒCƒYƒoƒbƒtƒ@‚ÌŠm•Û
+	// ï¿½Sï¿½Ì‰æ‘œï¿½Tï¿½Cï¿½Yï¿½oï¿½bï¿½tï¿½@ï¿½ÌŠmï¿½ï¿½
 	while(TargetWholeImgSize->count()<MInfo.PhaseNumb){
 		TargetWholeImgSize->append(QSize());
 	}
 
-	// ƒAƒEƒgƒ‰ƒCƒ“ƒoƒbƒtƒ@‚ÌŠm•Û
+	// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ÌŠmï¿½ï¿½
 	while(TargetOutlines->count()<MInfo.PhaseNumb){
 		TargetOutlines->append(QList<QPoint>());
 	}
@@ -477,7 +495,7 @@ bool ReviewPIBase::ReciveCmdLoadMainMaster(GUIDirectMessage *packet)
 		}
 	}
 
-	// •`‰æˆÊ’uƒoƒbƒtƒ@‚ÌŠm•Û
+	// ï¿½`ï¿½ï¿½ï¿½Ê’uï¿½oï¿½bï¿½tï¿½@ï¿½ÌŠmï¿½ï¿½
 	while(TargetMasterWholeImgDrawPoints->count()<MInfo.PhaseNumb){
 		TargetMasterWholeImgDrawPoints->append(QList<QPoint>());
 	}
@@ -488,11 +506,11 @@ bool ReviewPIBase::ReciveCmdLoadMainMaster(GUIDirectMessage *packet)
 		}
 	}
 
-	// –ß‚è’l‚ğŠi”[
+	// ï¿½ß‚ï¿½ï¿½lï¿½ï¿½ï¿½iï¿½[
 	cmd->MachineID	=iMachineID;
 	cmd->PhaseCount=iPhaseNumb;
 
-	// ƒ}ƒVƒ“ID‚Æƒ}ƒXƒ^[ƒR[ƒh‚ğİ’è
+	// ï¿½}ï¿½Vï¿½ï¿½IDï¿½Æƒ}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½İ’ï¿½
 	GetLayersBase()->SetMachineID(iMachineID);
 	GetLayersBase()->SetMasterCode(cmd->MasterCode);
 
@@ -529,7 +547,7 @@ bool ReviewPIBase::ReciveCmdLoadPageImage(GUIDirectMessage *packet)
 	CmdLoadPageImage *cmd = dynamic_cast<CmdLoadPageImage *>(packet);
 	if(cmd==NULL)return false;
 	
-	// ƒ^[ƒQƒbƒg‚ÌŠm”F
+	// ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½ÌŠmï¿½F
 	QList<QImage> *TargetPageImages;
 	TargetPageImages = getMasterWholePageImageListPtr(cmd->side, cmd->Phase);
 	//if(cmd->side==Review::Front){
@@ -538,7 +556,7 @@ bool ReviewPIBase::ReciveCmdLoadPageImage(GUIDirectMessage *packet)
 	//	TargetPageImages = &(BackPageImages[cmd->Phase]);
 	//}
 
-	// ƒy[ƒW”‚ğ’²®
+	// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½ğ’²ï¿½
 	while(TargetPageImages->count()<GetPageNumb()){
 		TargetPageImages->append(QList<QImage>());
 	}
@@ -551,7 +569,7 @@ bool ReviewPIBase::ReciveCmdLoadPageImage(GUIDirectMessage *packet)
 	}
 
 	for(int i=0; i<TargetPageImages->count(); i++){
-		// ƒtƒ@ƒCƒ‹–¼‚Ìì¬
+		// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ìì¬
 		QString Sep=/**/"";
 		QChar s = GetParamGlobal()->ImageFilePath[GetParamGlobal()->ImageFilePath.count()-1];
 		if(s.cell()!=/**/'/' && s.cell()!=/**/'\\'){
@@ -630,7 +648,7 @@ bool ReviewPIBase::LoadPageImage(QIODevice &file ,QImage &TargetPageImages,bool 
 		return true;
 	}
 
-	// ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
+	// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
 	int iMaxX,iMaxY,iMemoryType;
 	int iPage;
 	int	Ver;
@@ -736,7 +754,7 @@ bool ReviewPIBase::ReciveCmdServerSelectLotList(GUIDirectMessage *packet)
 	}
 	*/
 	
-	cmd->list = list;// ŒÄ‚Ño‚µŒ³‚Ö‘—‚è•Ô‚µ
+	cmd->list = list;// ï¿½Ä‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½Ö‘ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 
 	cmd->Ret = true;
 
@@ -818,7 +836,7 @@ bool ReviewPIBase::ReciveCmdReqOrganizedHistoryList(GUIDirectMessage *packet)
 	CmdReqOrganizedHistoryList *cmd = dynamic_cast<CmdReqOrganizedHistoryList *>(packet);
 	if(cmd==NULL)return false;
 
-	// –ß‚·‚Ì‚Í‚Ü‚Æ‚ß‚ç‚ê‚½ƒf[ƒ^
+	// ï¿½ß‚ï¿½ï¿½Ì‚Í‚Ü‚Æ‚ß‚ï¿½ï¿½ê‚½ï¿½fï¿½[ï¿½^
 	cmd->listPtr = &getOrganizedHistoryList();
 	cmd->Ret = true;
 
@@ -830,27 +848,27 @@ bool ReviewPIBase::ReciveCmdServerUpdateLotList(GUIDirectMessage *packet)
 	CmdServerUpdateLotList *cmd = dynamic_cast<CmdServerUpdateLotList *>(packet);
 	if(cmd==NULL)return false;
 	
-	// ƒƒbƒg‘I‘ğƒRƒ}ƒ“ƒhƒpƒPƒbƒg
+	// ï¿½ï¿½ï¿½bï¿½gï¿½Iï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½pï¿½Pï¿½bï¿½g
 	CmdServerSelectLotList SelectLotCmd(GetLayersBase());
 
-	// •\‘¤
+	// ï¿½\ï¿½ï¿½
 	SelectLotCmd.MasterCode = getMasterInfo(Review::Front).MasterCode;
 	SelectLotCmd.MachineID = getMasterInfo(Review::Front).MachineID;
 
-	// İ’è
+	// ï¿½İ’ï¿½
 	ReciveCmdServerSelectLotList( &SelectLotCmd );
 
-	// •\‘¤‚Ìî•ñ‚ğŠi”[
+	// ï¿½\ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[
 	cmd->FrontLotList = SelectLotCmd.list;
 	
-	// — ‘¤
+	// ï¿½ï¿½ï¿½ï¿½
 	SelectLotCmd.MasterCode = getMasterInfo(Review::Back).MasterCode;
 	SelectLotCmd.MachineID = getMasterInfo(Review::Back).MachineID;
 
-	// İ’è
+	// ï¿½İ’ï¿½
 	ReciveCmdServerSelectLotList( &SelectLotCmd );
 
-	// — ‘¤‚Ìî•ñ‚ğŠi”[
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[
 	cmd->BackLotList = SelectLotCmd.list;
 
 	return true;
@@ -867,7 +885,7 @@ bool ReviewPIBase::ReciveCmdSetFKeyToNGNail(GUIDirectMessage *packet)
 	if(CurrentBundle.FocusPoint!=NULL){
 		CurrentBundle.FocusPoint->FnKeyNumber=(int)cmd->key;
 	}
-	// “¯‚¶‚È‚ç‰½‚à‚µ‚È‚¢
+	// ï¿½ï¿½ï¿½ï¿½ï¿½È‚ç‰½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 	if(CurrentNG->FKey==cmd->key){
 		cmd->FKeyColor = getFKeyColor(cmd->key);
 		cmd->Ret = true;
@@ -888,7 +906,7 @@ bool ReviewPIBase::ReciveCmdSetFKeyToNGNail(GUIDirectMessage *packet)
 	//	return true;
 	//}
 
-	//// w’è‚µ‚½ƒ|ƒCƒ“ƒg‚ÉFƒL[î•ñ‚ğ•t—^
+	//// ï¿½wï¿½è‚µï¿½ï¿½ï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½Fï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½^
 	//if(xmlOperatorHdl->InsUpdateAttr(QString("FK=%1").arg(Review::FKeyToInt(cmd->key)))==false){
 	//	cmd->Ret = false;
 	//	delete xmlOperatorHdl;
@@ -939,7 +957,7 @@ bool ReviewPIBase::ReciveCmdClearFKeyToNGNail(GUIDirectMessage *packet)
 	//	return false;
 	//}
 
-	//// FKî•ñ‚ğ”jŠü
+	//// FKï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½
 	//if(xmlOperatorHdl->DeleteAttr("FK")==false){
 	//	cmd->Ret = false;
 	//	return true;
@@ -974,8 +992,8 @@ bool ReviewPIBase::ReciveCmdClearFKeyToNGNail(GUIDirectMessage *packet)
 
 	getXMLWriter()->push_back(reqXMLWrite);
 
-	CurrentNGNail->FKey = Review::NoFKey;// FƒL[–³‚µ
-	cmd->CheckedColor = getFKeyColor(Review::NoFKey);// ƒ`ƒFƒbƒNF
+	CurrentNGNail->FKey = Review::NoFKey;// Fï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½
+	cmd->CheckedColor = getFKeyColor(Review::NoFKey);// ï¿½`ï¿½Fï¿½bï¿½Nï¿½F
 
 	cmd->Ret = true;
 	return true;
@@ -1050,11 +1068,11 @@ bool ReviewPIBase::ReciveCmdSetCurrentHistory(GUIDirectMessage *packet)
 			return true;
 		}
 
-		if(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos) != getOrganizedHistoryIterator(cmd->Index)){// Œ»İ‚Æˆá‚¤ê‡‚Ì‚İİ’è
+		if(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos) != getOrganizedHistoryIterator(cmd->Index)){// ï¿½ï¿½ï¿½İ‚Æˆá‚¤ï¿½ê‡ï¿½Ì‚İİ’ï¿½
 
 			setCurrentOrganizedHistory(cmd->Index);
 
-			// Å‰‚ÌNG‚ğİ’è(NG‚Í­‚È‚­‚Æ‚à‚PŒÂ)
+			// ï¿½Åï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½İ’ï¿½(NGï¿½Íï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½Pï¿½ï¿½)
 			setCurrentNGNail(0);
 		}
 	}else if(cmd->InspectID>=0){
@@ -1148,7 +1166,7 @@ bool ReviewPIBase::ReciveCmdSetSortNGOrder(GUIDirectMessage *packet)
 		return true;
 	}
 
-	// ƒJƒŒƒ“ƒg‰æ‘œˆÊ’u‚ğ•Û‘¶
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½æ‘œï¿½Ê’uï¿½ï¿½ï¿½Û‘ï¿½
 	NGNailList::Iterator CurrentNG = getRoundCurrentNGNailIterator(Review::CurrentPos);
 
 	//if(CurrentNGNail!=NGNailList::Iterator()){
@@ -1159,14 +1177,14 @@ bool ReviewPIBase::ReciveCmdSetSortNGOrder(GUIDirectMessage *packet)
 	//	NGIndex = -1;
 	//}
 
-	// ƒ\[ƒgÀs
+	// ï¿½\ï¿½[ï¿½gï¿½ï¿½ï¿½s
 	setNGSortOrder(cmd->order);
 
 	sortNGNailList();
 
 	//saveSetting();
 
-	// —š—ğ‚ª‚ ‚éê‡AŒ³‚ÌƒJƒŒƒ“ƒg‰æ‘œˆÊ’u‚ÉˆÚ“®
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½ÌƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½æ‘œï¿½Ê’uï¿½ÉˆÚ“ï¿½
 	OrganizedHistoryList::Iterator CurrentOrganizedHistory = getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos);
 	if(CurrentOrganizedHistory!=OrganizedHistoryList::Iterator()){
 		for(int i=0; i<CurrentOrganizedHistory->getNGNailCount(); i++){
@@ -1211,7 +1229,7 @@ bool ReviewPIBase::ReciveCmdSetSortHistoryOrder(GUIDirectMessage *packet)
 		return true;
 	}
 
-	// —š—ğƒŠƒXƒg‚ÌƒJƒŒƒ“ƒg‚ğ•Û‘¶
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ÌƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Û‘ï¿½
 	int CurrentHistoryID = -1;
 	int CurrentNGNailIndex = -1;
 	OrganizedHistoryList::Iterator CurrentOrganizedHistory = getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos);
@@ -1234,7 +1252,7 @@ bool ReviewPIBase::ReciveCmdSetSortHistoryOrder(GUIDirectMessage *packet)
 		return true;
 	}
 
-	// —š—ğ‚ª“Ç‚İ‚Ü‚ê‚Ä‚¢‚éê‡ƒJƒŒƒ“ƒg‚ğ–ß‚·
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ß‚ï¿½
 	CmdSetCurrentHistory setHistory(GetLayersBase());
 	setHistory.InspectID = CurrentHistoryID;
 	ReciveCmdSetCurrentHistory( &setHistory );
@@ -1243,7 +1261,7 @@ bool ReviewPIBase::ReciveCmdSetSortHistoryOrder(GUIDirectMessage *packet)
 		return true;
 	}
 	
-	// ‰æ‘œƒŠƒXƒg‚ÌƒJƒŒƒ“ƒg‚ğ–ß‚·
+	// ï¿½æ‘œï¿½ï¿½ï¿½Xï¿½gï¿½ÌƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ß‚ï¿½
 	CmdSetCurrentNGNail setNGNail(GetLayersBase());
 	setNGNail.Index = CurrentNGNailIndex;
 	setNGNail.refType = Review::RefType::Ref_Index;
@@ -1267,7 +1285,7 @@ bool ReviewPIBase::ReciveCmdReqAdjacentCurrentNG(GUIDirectMessage *packet)
 	CmdReqAdjacentCurrentNG *cmd = dynamic_cast<CmdReqAdjacentCurrentNG *>(packet);
 	if(cmd==NULL)return false;
 	
-	// ‘O‚Ì—š—ğ
+	// ï¿½Oï¿½Ì—ï¿½ï¿½ï¿½
 	if(getRoundCurrentOrganizedHistoryIterator(Review::PreviousPos).i==NULL){
 		cmd->setPreviousHistory(NULL);
 		//qDebug() << "Previous InspectID : none";
@@ -1275,7 +1293,7 @@ bool ReviewPIBase::ReciveCmdReqAdjacentCurrentNG(GUIDirectMessage *packet)
 		cmd->setPreviousHistory(&getRoundCurrentOrganizedHistoryIterator(Review::PreviousPos).i->t());
 		//qDebug() << "Previous InspectID : " << cmd->previousHistory->getInspectID();
 	}
-	// Œ»İ‚Ì—š—ğ
+	// ï¿½ï¿½ï¿½İ‚Ì—ï¿½ï¿½ï¿½
 	if(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos).i==NULL){
 		cmd->setCurrentHistory(NULL);
 		//qDebug() << "Current InspectID : none";
@@ -1283,7 +1301,7 @@ bool ReviewPIBase::ReciveCmdReqAdjacentCurrentNG(GUIDirectMessage *packet)
 		cmd->setCurrentHistory(&getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos).i->t());
 		//qDebug() << "Current InspectID : " << cmd->currentHistory->getInspectID();
 	}
-	// Ÿ‚Ì—š—ğ
+	// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½
 	if(getRoundCurrentOrganizedHistoryIterator(Review::NextPos).i==NULL){
 		cmd->setNextHistory(NULL);
 		//qDebug() << "Next InspectID : none";
@@ -1293,13 +1311,13 @@ bool ReviewPIBase::ReciveCmdReqAdjacentCurrentNG(GUIDirectMessage *packet)
 	}
 
 
-	// ‘O‚ÌNGNail
+	// ï¿½Oï¿½ï¿½NGNail
 	if(getRoundCurrentNGNailIterator(Review::PreviousPos).i==NULL){
 		cmd->setPreviousNG(NULL);
 	}else{
 		cmd->setPreviousNG(&getRoundCurrentNGNailIterator(Review::PreviousPos).i->t());
 	}
-	// Œ»İ‚ÌNGNail
+	// ï¿½ï¿½ï¿½İ‚ï¿½NGNail
 	if(getRoundCurrentNGNailIterator(Review::CurrentPos).i==NULL){
 		cmd->setCurrentNG(NULL);
 		cmd->setCurrentNGIndex(-1);
@@ -1307,7 +1325,7 @@ bool ReviewPIBase::ReciveCmdReqAdjacentCurrentNG(GUIDirectMessage *packet)
 		cmd->setCurrentNG(&getRoundCurrentNGNailIterator(Review::CurrentPos).i->t());
 		cmd->setCurrentNGIndex(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos)->indexOf(getRoundCurrentNGNailIterator(Review::CurrentPos)->getNGNailItemRef()));
 	}
-	// Ÿ‚ÌNGNail
+	// ï¿½ï¿½ï¿½ï¿½NGNail
 	if(getRoundCurrentNGNailIterator(Review::NextPos).i==NULL){
 		cmd->setNextNG(NULL);
 	}else{
@@ -1374,7 +1392,7 @@ bool ReviewPIBase::ReciveCmdMoveCurrentHistory(GUIDirectMessage *packet)
 	CmdMoveCurrentHistory *cmd = dynamic_cast<CmdMoveCurrentHistory *>(packet);
 	if(cmd==NULL)return false;
 
-	if(cmd->direction==Review::Next){// Ÿ‚Ö
+	if(cmd->direction==Review::Next){// ï¿½ï¿½ï¿½ï¿½
 		OrganizedHistoryList::Iterator PreviousOrganizedHistory = getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos);
 		OrganizedHistoryList::Iterator CurrentOrganizedHistory = getRoundCurrentOrganizedHistoryIterator(Review::NextPos);
 		OrganizedHistoryList::Iterator NextOrganizedHistory;
@@ -1397,13 +1415,13 @@ bool ReviewPIBase::ReciveCmdMoveCurrentHistory(GUIDirectMessage *packet)
 
 		setRoundCurrentOrganizedHistoryIterator(PreviousOrganizedHistory, CurrentOrganizedHistory, NextOrganizedHistory);
 
-		// NGŒ»İˆÊ’u‚ğÅ‰‚ÖˆÚ“®
+		// NGï¿½ï¿½ï¿½İˆÊ’uï¿½ï¿½ï¿½Åï¿½ï¿½ÖˆÚ“ï¿½
 		CmdSetCurrentNGNail Send(GetLayersBase());
 		Send.refType = Review::RefType::Ref_Index;
 		Send.locate = Review::First;
 		ReciveCmdSetCurrentNGNail(&Send);
 
-	}else if(cmd->direction==Review::Previous){// ‘O‚Ö
+	}else if(cmd->direction==Review::Previous){// ï¿½Oï¿½ï¿½
 		OrganizedHistoryList::Iterator PreviousOrganizedHistory;
 		OrganizedHistoryList::Iterator CurrentOrganizedHistory = getRoundCurrentOrganizedHistoryIterator(Review::PreviousPos);
 		OrganizedHistoryList::Iterator NextOrganizedHistory = getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos);
@@ -1481,13 +1499,13 @@ bool ReviewPIBase::ReciveCmdMoveCurrentHistoryToNGBoard(GUIDirectMessage *packet
 	
 	OrganizedHistoryList::Iterator CurrentHistory = getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos);
 
-	// Œ»İ—š—ğ‚ª–¢İ’è‚Ìê‡‚ÍˆÙíI—¹
+	// ï¿½ï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½ï¿½Ìê‡ï¿½ÍˆÙï¿½ï¿½Iï¿½ï¿½
 	if(CurrentHistory==OrganizedHistoryList::Iterator()){
 		cmd->Ret = false;
 		return true;
 	}
 
-	// Œ»İ‚Ì—š—ğ‚ÌˆÊ’u‚ğ’²‚×‚é
+	// ï¿½ï¿½ï¿½İ‚Ì—ï¿½ï¿½ï¿½ï¿½ÌˆÊ’uï¿½ğ’²‚×‚ï¿½
 	int index = 0;
 	for(OrganizedHistoryList::Iterator it=getOrganizedHistoryIteratorBegin(); it!=getOrganizedHistoryIteratorEnd(); it++,index++){
 		if(it==CurrentHistory){
@@ -1495,25 +1513,25 @@ bool ReviewPIBase::ReciveCmdMoveCurrentHistoryToNGBoard(GUIDirectMessage *packet
 		}
 	}
 
-	// Œ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚ÍˆÙíI—¹
+	// ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍˆÙï¿½ï¿½Iï¿½ï¿½
 	if(index==getOrganizedHistoryList().count()){
 		cmd->Ret = false;
 		return true;
 	}
 
-	// w’è•ûŒüisƒRƒ}ƒ“ƒh
+	// ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½sï¿½Rï¿½}ï¿½ï¿½ï¿½h
 	CmdMoveCurrentHistory Cmd(GetLayersBase());
 	Cmd.direction = cmd->direction;
 	forever{
 		ReciveCmdMoveCurrentHistory(&Cmd);
-		if(Cmd.CurrentHistoryPtr==NULL){// ––’[‚Ü‚Å—ˆ‚½
+		if(Cmd.CurrentHistoryPtr==NULL){// ï¿½ï¿½ï¿½[ï¿½Ü‚Å—ï¿½ï¿½ï¿½
 			CmdSetCurrentHistory ReturnToOrgCmd(GetLayersBase());
 			ReturnToOrgCmd.Index = index;
 			ReciveCmdSetCurrentHistory(&ReturnToOrgCmd);
 			cmd->CurrentHistoryPtr = &(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos).i->t());
 			cmd->Ret = true;
 			return true;
-		}else if(Cmd.CurrentHistoryPtr->isOK()==false){// NGŠî”Õ‚ªŒ©‚Â‚©‚Á‚½
+		}else if(Cmd.CurrentHistoryPtr->isOK()==false){// NGï¿½ï¿½ï¿½Õ‚ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½ï¿½
 			break;
 		}
 	}
@@ -1591,7 +1609,7 @@ bool ReviewPIBase::ReciveCmdSetCurrentNGChecked(GUIDirectMessage *packet)
 	OrganizedHistoryList::Iterator CurrentOrganizedHistory = getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos);
 	NGNailList::Iterator CurrentNGNail = getRoundCurrentNGNailIterator(Review::CurrentPos);
 
-	// ƒJƒŒƒ“ƒgNG‚ª‚È‚¢‚à‚µ‚­‚Íƒ`ƒFƒbƒNÏ‚İ‚È‚ç‰½‚à‚µ‚È‚¢
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íƒ`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚È‚ç‰½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 	if(CurrentNGNail==NGNailList::Iterator() || CurrentNGNail->isChecked==true)return true;
 	
 	QString TableName;
@@ -1620,13 +1638,13 @@ bool ReviewPIBase::ReciveCmdSetNGChecked(GUIDirectMessage *packet)
 
 	OrganizedHistoryList::Iterator CurrentOrganizedHistory = getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos);
 	
-	// Œ»İ—š—ğ‚ª‚È‚¢ê‡
+	// ï¿½ï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡
 	if(CurrentOrganizedHistory.i==NULL){
 		cmd->Ret = false;
 		return true;
 	}
 
-	// •t—^æ‚ª‚ ‚é‚©‚Ç‚¤‚©‚Ìƒ`ƒFƒbƒN
+	// ï¿½tï¿½^ï¿½æ‚ªï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ìƒ`ï¿½Fï¿½bï¿½N
 	if(isFront(cmd->side)==true){
 		if(CurrentOrganizedHistory->hasFront()==false || cmd->begin>=CurrentOrganizedHistory->getFront()->getNGNails().count()){
 			cmd->Ret = false;
@@ -1671,22 +1689,22 @@ bool ReviewPIBase::ReciveCmdSetNGChecked(GUIDirectMessage *packet)
 		return true;
 	}
 
-	if(cmd->length==0){// ’·‚³‚ª0‚Ìê‡‚È‚É‚à‚µ‚È‚¢
+	if(cmd->length==0){// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½Ìê‡ï¿½È‚É‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 		cmd->Ret = true;
 		return true;
-	}else if(cmd->length>0){// ’·‚³‚ª³‚Ìê‡A‚»‚Ì’·‚³‚Ì•ª‚¾‚¯ƒ`ƒFƒbƒN‚ğ•t—^‚·‚é
+	}else if(cmd->length>0){// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½Aï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½tï¿½^ï¿½ï¿½ï¿½ï¿½
 		QString TableName = getCurrentLotInfo(cmd->side).TableName;
 		NGNailListPtr pNGNails;
 
 		if(cmd->side==Review::Front){
-			// Œ»İ‚Ì—š—ğ‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢A•\‚Ì—š—ğ‚ª‚È‚¢A•\‚Ì—š—ğ‚ªNG‚È‚µ‚Ìê‡‚Í¸”s
+			// ï¿½ï¿½ï¿½İ‚Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’è‚³ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Aï¿½\ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Aï¿½\ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½È‚ï¿½ï¿½Ìê‡ï¿½Íï¿½ï¿½s
 			if(CurrentOrganizedHistory==OrganizedHistoryList::Iterator() || CurrentOrganizedHistory->hasFront()==false || CurrentOrganizedHistory->getFront()->getNGNails().isEmpty()==true){
 				cmd->Ret = false;
 				return true;
 			}
 			pNGNails = &(CurrentOrganizedHistory->getFront()->getNGNails());
 		}else{
-			// Œ»İ‚Ì—š—ğ‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢A— ‚Ì—š—ğ‚ª‚È‚¢AŒ»İ—š—ğ‚ªNG‚È‚µ‚Ìê‡‚Í¸”s
+			// ï¿½ï¿½ï¿½İ‚Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’è‚³ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Aï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Aï¿½ï¿½ï¿½İ—ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½È‚ï¿½ï¿½Ìê‡ï¿½Íï¿½ï¿½s
 			if(CurrentOrganizedHistory==OrganizedHistoryList::Iterator() || CurrentOrganizedHistory->hasBack()==false || CurrentOrganizedHistory->getBack()->getNGNails().isEmpty()==true){
 				cmd->Ret = false;
 				return true;
@@ -1694,7 +1712,7 @@ bool ReviewPIBase::ReciveCmdSetNGChecked(GUIDirectMessage *packet)
 			pNGNails = &(CurrentOrganizedHistory->getBack()->getNGNails());
 		}
 		
-		// ––’[•”‚ğ’²¸B––’[ƒCƒ“ƒfƒbƒNƒX‚ª‘ÎÛNGƒŠƒXƒg‚Ì––”ö‚ğ‰ß‚¬‚éê‡‚Í‚»‚ÌNGƒŠƒXƒg‚Ì––’[‚Ü‚Å‚Æ‚·‚é
+		// ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ğ’²ï¿½ï¿½Bï¿½ï¿½ï¿½[ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½Îï¿½NGï¿½ï¿½ï¿½Xï¿½gï¿½Ì–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‚ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½Xï¿½gï¿½Ì–ï¿½ï¿½[ï¿½Ü‚Å‚Æ‚ï¿½ï¿½ï¿½
 		NGNailList::Iterator itend;
 		if(cmd->begin+cmd->length>=pNGNails->count()){
 			itend = pNGNails->end();
@@ -1702,7 +1720,7 @@ bool ReviewPIBase::ReciveCmdSetNGChecked(GUIDirectMessage *packet)
 			itend = pNGNails->begin() + cmd->begin + cmd->length;
 		}
 
-		// ‘‚«‚İ‘ÎÛ‚ğì¬
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‘ÎÛ‚ï¿½ï¿½ì¬
 		ReqXMLWrite reqXMLWrite(CurrentOrganizedHistory->getInspectID(), pNGNails->front().phase, pNGNails->front().page, TableName);
 		for(NGNailList::Iterator it = pNGNails->begin()+cmd->begin; it!=itend; it++){
 			if(it->isChecked==false){
@@ -1711,7 +1729,7 @@ bool ReviewPIBase::ReciveCmdSetNGChecked(GUIDirectMessage *packet)
 			}
 		}
 
-		// ƒXƒŒƒbƒh‚É“Š‚°‚é
+		// ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½
 		getXMLWriter()->push_back(reqXMLWrite);
 	}else{
 		cmd->Ret = false;
@@ -1742,7 +1760,7 @@ bool ReviewPIBase::ReciveCmdSetNGChecked(GUIDirectMessage *packet)
 	//					cmd->Ret = false;
 	//					return true;
 	//				}
-	//				// w’è‚µ‚½ƒ|ƒCƒ“ƒg‚Éƒ`ƒFƒbƒNÏ‚İî•ñ‚ğ•t—^
+	//				// ï¿½wï¿½è‚µï¿½ï¿½ï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½Éƒ`ï¿½Fï¿½bï¿½Nï¿½Ï‚İï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½^
 	//				if(xmlOperatorHdl->InsUpdateAttr("Checked=1")==false){
 	//					delete xmlOperatorHdl;
 	//					cmd->Ret = false;
@@ -1774,7 +1792,7 @@ bool ReviewPIBase::ReciveCmdSetNGChecked(GUIDirectMessage *packet)
 	//					cmd->Ret = false;
 	//					return true;
 	//				}
-	//				// w’è‚µ‚½ƒ|ƒCƒ“ƒg‚Éƒ`ƒFƒbƒNÏ‚İî•ñ‚ğ•t—^
+	//				// ï¿½wï¿½è‚µï¿½ï¿½ï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½Éƒ`ï¿½Fï¿½bï¿½Nï¿½Ï‚İï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½^
 	//				if(xmlOperatorHdl->InsUpdateAttr("Checked=1")==false){
 	//					delete xmlOperatorHdl;
 	//					cmd->Ret = false;
@@ -1855,7 +1873,7 @@ bool ReviewPIBase::ReciveCmdUpdateMasterBuff(GUIDirectMessage *packet)
 	
 	int skipRatio = getProperty().SkipMasterImageRate;// 0~
 	int skipCount = skipRatio+1;
-	if(GetLayerNumb(0)>=3){// ƒJƒ‰[
+	if(GetLayerNumb(0)>=3){// ï¿½Jï¿½ï¿½ï¿½[
 		BYTE *pR,*pG,*pB;
 		for(int page=0; page<GetLayersBase()->GetPageNumb(); page++){
 			int width = GetLayersBase()->GetPhaseData()[cmd->phase]->GetPageData(page)->GetDotPerLine();
@@ -1881,7 +1899,7 @@ bool ReviewPIBase::ReciveCmdUpdateMasterBuff(GUIDirectMessage *packet)
 
 			TargetOutlineList->append(QPoint(GetLayersBase()->GetPageData(page)->GetOutlineOffset()->x,GetLayersBase()->GetPageData(page)->GetOutlineOffset()->y));
 		}
-	}else if(GetLayerNumb(0)==1){// ƒ‚ƒmƒNƒ
+	}else if(GetLayerNumb(0)==1){// ï¿½ï¿½ï¿½mï¿½Nï¿½ï¿½
 		BYTE *pM;
 		for(int page=0; page<GetLayersBase()->GetPageNumb(); page++){
 			int width = GetLayersBase()->GetPhaseData()[cmd->phase]->GetPageData(page)->GetDotPerLine();
@@ -1902,7 +1920,7 @@ bool ReviewPIBase::ReciveCmdUpdateMasterBuff(GUIDirectMessage *packet)
 
 			TargetOutlineList->append(QPoint(GetLayersBase()->GetPageData(page)->GetOutlineOffset()->x,GetLayersBase()->GetPageData(page)->GetOutlineOffset()->y));
 		}
-	}else if(GetLayerNumb(0)==2){// “Áê2F
+	}else if(GetLayerNumb(0)==2){// ï¿½ï¿½ï¿½ï¿½2ï¿½F
 		BYTE *pR,*pG;
 		for(int page=0; page<GetLayersBase()->GetPageNumb(); page++){
 			QImage image(GetLayersBase()->GetPhaseData()[cmd->phase]->GetPageData(page)->GetDotPerLine(), GetLayersBase()->GetPhaseData()[cmd->phase]->GetPageData(page)->GetMaxLines(), QImage::Format_RGB32);
@@ -1916,7 +1934,7 @@ bool ReviewPIBase::ReciveCmdUpdateMasterBuff(GUIDirectMessage *packet)
 				pG=GetPageDataPhase(cmd->phase)->GetPageData(page)->GetDataInLayer(1)->GetMasterBuff().GetY(Y);
 				QRgb *pYLine=(QRgb *)image.scanLine(Y);
 				for(int X=0; X<width; X++,pR++,pG++){
-					*pYLine = qRgb(*pR, *pG, 128);// —vŒŸ“¢128
+					*pYLine = qRgb(*pR, *pG, 128);// ï¿½vï¿½ï¿½ï¿½ï¿½128
 					pYLine++;
 				}
 			}
@@ -2320,21 +2338,21 @@ bool ReviewPIBase::ReciveCmdSaveCurrentNGImage(GUIDirectMessage *packet)
 
 	bool saveSuccess = false;
 
-	// ƒRƒ“ƒo[ƒgŒã‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾
+	// ï¿½Rï¿½ï¿½ï¿½oï¿½[ï¿½gï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½pï¿½Xï¿½ï¿½ï¿½æ“¾
 	QString filename = convertedSaveNGFileName(getCurrentSideType(), getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos), getRoundCurrentNGNailIterator(Review::CurrentPos));
 
-	// ƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éêŠ‚Ìî•ñ‚ğæ“¾
+	// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½êŠï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	QFileInfo info(filename);
 
-	// ƒfƒBƒŒƒNƒgƒŠ‚ª‚È‚¢ê‡‚Í•Û‘¶‚É¸”s‚·‚é‚Ì‚Åì¬‚·‚é
+	// ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Í•Û‘ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Åì¬ï¿½ï¿½ï¿½ï¿½
 	QDir dir;
-	if(dir.mkpath(info.absolutePath())){// ì¬¬Œ÷‚Ì‚İ•Û‘¶
-		// ‰æ‘œ‚Ìì¬
+	if(dir.mkpath(info.absolutePath())){// ï¿½ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚İ•Û‘ï¿½
+		// ï¿½æ‘œï¿½Ìì¬
 
-		// NG‚ÌŒ³‰æ‘œ
+		// NGï¿½ÌŒï¿½ï¿½æ‘œ
 		QImage image = getRoundCurrentNGNailIterator(Review::CurrentPos)->image();
 
-		// —v‹‚É‰‚¶‚ÄNG‚ğ•`‰æ
+		// ï¿½vï¿½ï¿½ï¿½É‰ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½`ï¿½ï¿½
 		if(cmd->drawNGShape==true){
 			QPainter painter(&image);
 			for(ReviewNGPointList::Iterator pIt=getRoundCurrentNGNailIterator(Review::CurrentPos)->NGPointList.begin(); pIt!=getRoundCurrentNGNailIterator(Review::CurrentPos)->NGPointList.end(); pIt++){
@@ -2342,11 +2360,11 @@ bool ReviewPIBase::ReciveCmdSaveCurrentNGImage(GUIDirectMessage *packet)
 			}
 		}
 	
-		// •Û‘¶
+		// ï¿½Û‘ï¿½
 		if(image.save(filename)==false){
-			// ¸”s‚·‚éê‡‚Í‹­§“I‚ÉPNG‰æ‘œŒ`®‚Å•Û‘¶‚³‚¹‚é
+			// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‹ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½PNGï¿½æ‘œï¿½`ï¿½ï¿½ï¿½Å•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(image.save(filename + ".png", "PNG")==false){
-				// ‚»‚ê‚Å‚à¸”s‚·‚éê‡‚ÍƒƒbƒZ[ƒW•t‚«ƒtƒ@ƒCƒ‹‚ğ¶¬‚µ‚ÄI—¹
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Íƒï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½tï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ÄIï¿½ï¿½
 				QFile file(filename + ".txt");
 				if(file.open(QIODevice::WriteOnly)==true){
 					QTextStream stream(&file);
@@ -2407,21 +2425,21 @@ bool ReviewPIBase::ReciveCmdSaveCurrentHistoryNGImages(GUIDirectMessage *packet)
 			}
 			progress.setValue(progress.value()+1);
 
-			// ƒRƒ“ƒo[ƒgŒã‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾
+			// ï¿½Rï¿½ï¿½ï¿½oï¿½[ï¿½gï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½pï¿½Xï¿½ï¿½ï¿½æ“¾
 			QString filename = convertedSaveNGFileName(Review::Front, hIt, it);
 			
-			// ƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éêŠ‚Ìî•ñ‚ğæ“¾
+			// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½êŠï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 			QFileInfo info(filename);
 
-			// ƒfƒBƒŒƒNƒgƒŠ‚ª‚È‚¢ê‡‚Í•Û‘¶‚É¸”s‚·‚é‚Ì‚Åì¬‚·‚é
+			// ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Í•Û‘ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Åì¬ï¿½ï¿½ï¿½ï¿½
 			QDir dir;
-			if(dir.mkpath(info.absolutePath())){// ì¬¬Œ÷‚Ì‚İ•Û‘¶
-				// ‰æ‘œ‚Ìì¬
+			if(dir.mkpath(info.absolutePath())){// ï¿½ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚İ•Û‘ï¿½
+				// ï¿½æ‘œï¿½Ìì¬
 
-				// NG‚ÌŒ³‰æ‘œ
+				// NGï¿½ÌŒï¿½ï¿½æ‘œ
 				QImage image = it->image();
 
-				// —v‹‚É‰‚¶‚ÄNG‚ğ•`‰æ
+				// ï¿½vï¿½ï¿½ï¿½É‰ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½`ï¿½ï¿½
 				if(cmd->drawNGShape==true){
 					QPainter painter(&image);
 					for(ReviewNGPointList::Iterator pIt=it->NGPointList.begin(); pIt!=it->NGPointList.end(); pIt++){
@@ -2429,11 +2447,11 @@ bool ReviewPIBase::ReciveCmdSaveCurrentHistoryNGImages(GUIDirectMessage *packet)
 					}
 				}
 
-				// •Û‘¶
+				// ï¿½Û‘ï¿½
 				if(image.save(filename)==false){
-					// ¸”s‚·‚éê‡‚Í‹­§“I‚ÉPNG‰æ‘œŒ`®‚Å•Û‘¶‚³‚¹‚é
+					// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‹ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½PNGï¿½æ‘œï¿½`ï¿½ï¿½ï¿½Å•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					if(image.save(filename + ".png", "PNG")==false){
-						// ‚»‚ê‚Å‚à¸”s‚·‚éê‡‚ÍƒƒbƒZ[ƒW•t‚«ƒtƒ@ƒCƒ‹‚ğ¶¬‚µ‚ÄI—¹
+						// ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Íƒï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½tï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ÄIï¿½ï¿½
 						QFile file(filename + ".txt");
 						if(file.open(QIODevice::WriteOnly)==true){
 							QTextStream stream(&file);
@@ -2458,21 +2476,21 @@ bool ReviewPIBase::ReciveCmdSaveCurrentHistoryNGImages(GUIDirectMessage *packet)
 			}
 			progress.setValue(progress.value()+1);
 			
-			// ƒRƒ“ƒo[ƒgŒã‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾
+			// ï¿½Rï¿½ï¿½ï¿½oï¿½[ï¿½gï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½pï¿½Xï¿½ï¿½ï¿½æ“¾
 			QString filename = convertedSaveNGFileName(Review::Back, hIt, it);
 			
-			// ƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éêŠ‚Ìî•ñ‚ğæ“¾
+			// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½êŠï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 			QFileInfo info(filename);
 			
-			// ƒfƒBƒŒƒNƒgƒŠ‚ª‚È‚¢ê‡‚Í•Û‘¶‚É¸”s‚·‚é‚Ì‚Åì¬‚·‚é
+			// ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Í•Û‘ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Åì¬ï¿½ï¿½ï¿½ï¿½
 			QDir dir;
-			if(dir.mkpath(info.absolutePath())){// ì¬¬Œ÷‚Ì‚İ•Û‘¶
-				// ‰æ‘œ‚Ìì¬
+			if(dir.mkpath(info.absolutePath())){// ï¿½ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚İ•Û‘ï¿½
+				// ï¿½æ‘œï¿½Ìì¬
 
-				// NG‚ÌŒ³‰æ‘œ
+				// NGï¿½ÌŒï¿½ï¿½æ‘œ
 				QImage image = it->image();
 
-				// —v‹‚É‰‚¶‚ÄNG‚ğ•`‰æ
+				// ï¿½vï¿½ï¿½ï¿½É‰ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½`ï¿½ï¿½
 				if(cmd->drawNGShape==true){
 					QPainter painter(&image);
 					for(ReviewNGPointList::Iterator pIt=it->NGPointList.begin(); pIt!=it->NGPointList.end(); pIt++){
@@ -2480,11 +2498,11 @@ bool ReviewPIBase::ReciveCmdSaveCurrentHistoryNGImages(GUIDirectMessage *packet)
 					}
 				}
 
-				// •Û‘¶
+				// ï¿½Û‘ï¿½
 				if(image.save(filename)==false){
-					// ¸”s‚·‚éê‡‚Í‹­§“I‚ÉPNG‰æ‘œŒ`®‚Å•Û‘¶‚³‚¹‚é
+					// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‹ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½PNGï¿½æ‘œï¿½`ï¿½ï¿½ï¿½Å•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					if(image.save(filename + ".png", "PNG")==false){
-						// ‚»‚ê‚Å‚à¸”s‚·‚éê‡‚ÍƒƒbƒZ[ƒW•t‚«ƒtƒ@ƒCƒ‹‚ğ¶¬‚µ‚ÄI—¹
+						// ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Íƒï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½tï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ÄIï¿½ï¿½
 						QFile file(filename + ".txt");
 						if(file.open(QIODevice::WriteOnly)==true){
 							QTextStream stream(&file);
@@ -2522,7 +2540,7 @@ bool ReviewPIBase::ReciveCmdUpdateLotInfoList(GUIDirectMessage *packet)
 	MasterDataInfo FMData =  getMasterInfo(Review::Front);
 	MasterDataInfo BMData =  getMasterInfo(Review::Back);
 
-	// •\ //
+	// ï¿½\ //
 	side = Review::Front;
 
 	XML_GetLot(FMData.MasterCode, FMData.MachineID, enumList);
@@ -2536,7 +2554,7 @@ bool ReviewPIBase::ReciveCmdUpdateLotInfoList(GUIDirectMessage *packet)
 	setLotInfoAllList(side, list);
 	list.clear();
 
-	// — 
+	// ï¿½ï¿½
 	XML_GetLot(BMData.MasterCode, BMData.MachineID, enumList);
 
 	for(int i=0; i<enumList.count(); i++){
@@ -2844,7 +2862,7 @@ bool ReviewPIBase::ReciveCmdSetCameraAlignment(GUIDirectMessage *packet)
 	cameraViewMotorValSize.setWidth( cameraViewMotorValSize.width() * pulsePerMM_x / 1000.0 );
 	cameraViewMotorValSize.setHeight( cameraViewMotorValSize.height() * pulsePerMM_y / 1000.0 );
 
-	//–{—ˆ’†S‚É—ˆ‚é‚Í‚¸‚Ì‚à‚Ì‚Ì‚¸‚ê‚ğŒvZ
+	//ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½É—ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ì‚ï¿½ï¿½Ì‚Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Z
 	QRectF alignmentVRSRect;
 	alignmentVRSRect.setTopLeft( QPoint(currentCenter.x() - cameraViewMotorValSize.width()/2, currentCenter.y() - cameraViewMotorValSize.height()/2) );
 	alignmentVRSRect.setSize( cameraViewMotorValSize );
@@ -2857,8 +2875,8 @@ bool ReviewPIBase::ReciveCmdSetCameraAlignment(GUIDirectMessage *packet)
 	
 	double	cx=(cmd->rect().left()+cmd->rect().right())/2;
 	double	cy=(cmd->rect().top()+cmd->rect().bottom())/2;
-	int		gshiftX=alignmentVRSRect.width()*cx;	//‰æ–Êã‚Ì‚¸‚êX
-	int		gshiftY=alignmentVRSRect.height()*cy;	//‰æ–Êã‚Ì‚¸‚êY
+	int		gshiftX=alignmentVRSRect.width()*cx;	//ï¿½ï¿½ï¿½Êï¿½ï¿½Ì‚ï¿½ï¿½ï¿½X
+	int		gshiftY=alignmentVRSRect.height()*cy;	//ï¿½ï¿½ï¿½Êï¿½ï¿½Ì‚ï¿½ï¿½ï¿½Y
 	double	ResCamXY=reqVRSSetting.setting.getVRSSideSetting().CameraViewRealSize.width()/
 	*/
 
@@ -3203,10 +3221,10 @@ bool ReviewPIBase::ReciveCmdLoadMasterImage(GUIDirectMessage *packet)
 
 	//	for(int page=0; page<ptr->at(phase).count(); page++){
 	//		
-	//		// •`‰æˆÊ’uƒoƒbƒtƒ@‚ÌŠm•Û
+	//		// ï¿½`ï¿½ï¿½ï¿½Ê’uï¿½oï¿½bï¿½tï¿½@ï¿½ÌŠmï¿½ï¿½
 	//		QList<QPoint> drawPointList = getMasterWholePageOutlineList(cmd->side, phase);
 
-	//		// ‘S‘Ì‰æ‘œƒTƒCƒY‚Ì’²®
+	//		// ï¿½Sï¿½Ì‰æ‘œï¿½Tï¿½Cï¿½Yï¿½Ì’ï¿½ï¿½ï¿½
 	//		QList<QSize> *wholeSizeList = getMasterWholeImageSizePtr(cmd->side);
 	//		*wholeSizeList = QVector<QSize>(drawPointList.count()).toList();
 
@@ -3286,7 +3304,7 @@ bool ReviewPIBase::ReciveCmdLoadMaster(GUIDirectMessage *packet)
 		MasterListDim[0].MasterCode=cmd->MasterCode;
 		type = Review::FrontOnly;
 	}
-	int	Phase=0;// ‰ŠúƒtƒFƒCƒY‚Í0
+	int	Phase=0;// ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Fï¿½Cï¿½Yï¿½ï¿½0
 
 	QList<CmdReqMasterInfoFromDataBase> MInfoList;
 
@@ -3312,7 +3330,7 @@ bool ReviewPIBase::ReciveCmdLoadMaster(GUIDirectMessage *packet)
 	qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
 
 	for(int i=0;i<MasterListDimCount;i++){
-		// ƒ}ƒXƒ^[ƒf[ƒ^ƒ[ƒhƒRƒ}ƒ“ƒh
+		// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½[ï¿½hï¿½Rï¿½}ï¿½ï¿½ï¿½h
 		CmdLoadMainMaster	CmdLoadInMain(GetLayersBase());
 		Review::SideType side;
 		if(MasterListDim[i].MasterCode==cmd->MasterCode){
@@ -3322,7 +3340,7 @@ bool ReviewPIBase::ReciveCmdLoadMaster(GUIDirectMessage *packet)
 		}
 		side = CmdLoadInMain.side;
 
-		//// ƒf[ƒ^ƒx[ƒX‚©‚ç‚Ìƒ}ƒXƒ^[ƒf[ƒ^î•ñ‚Ìæ“¾ƒRƒ}ƒ“ƒh
+		//// ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾ï¿½Rï¿½}ï¿½ï¿½ï¿½h
 		//CmdReqMasterInfoFromDataBase FromDatabaseCmd(GetLayersBase());
 		//FromDatabaseCmd.MasterCode = MasterListDim[i].MasterCode;
 		//RBase->TransmitDirectly(&FromDatabaseCmd);
@@ -3331,12 +3349,12 @@ bool ReviewPIBase::ReciveCmdLoadMaster(GUIDirectMessage *packet)
 
 		CmdReqMasterInfoFromDataBase FromData = MInfoList[i];
 
-		// ƒAƒEƒgƒ‰ƒCƒ“‚Ìæ“¾
+		// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Ìæ“¾
 		loadOutlineOffset(side, FromData.info.MachineID,CmdLoadInMain.MasterCode);
 		
 		QList<Review::MasterImageFileData> imgFileList;
 		for(int phase=0; phase<FromData.info.PhaseNumb; phase++){
-			// ƒ}ƒXƒ^[ƒf[ƒ^‚Ì•Û‘¶
+			// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ì•Û‘ï¿½
 			MasterDataInfo *info = getMasterInfoPtr(side);
 			(*info) = FromData.info;
 
@@ -3347,7 +3365,7 @@ bool ReviewPIBase::ReciveCmdLoadMaster(GUIDirectMessage *packet)
 			//QString showProcessStr = QString("Loading Master Data %1/%2\nphase : 0, page : 0").arg(i+1).arg(MasterListDimCount);
 			//GetLayersBase()->StepProcessing(showProcessStr);
 
-			// ‘Sƒy[ƒW‚Ì“Ç‚İ‚İ–½—ß‚ğì¬‚·‚é
+			// ï¿½Sï¿½yï¿½[ï¿½Wï¿½Ì“Ç‚İï¿½ï¿½İ–ï¿½ï¿½ß‚ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 			for(int page=0; page<FromData.info.PageNumb; page++){
 				Review::MasterImageFileData data;
 				data.phase = phase;
@@ -3404,12 +3422,12 @@ bool ReviewPIBase::ReciveCmdLoadMaster(GUIDirectMessage *packet)
 	//	TargetMasterWholeImgDrawPoints = getMasterWholeImgDrawPointsPtr(side);
 	//	TargetOutlines = getMasterWholePageOutlineListPtr(side);
 
-	//	// ‘S‘Ì‰æ‘œƒTƒCƒYƒoƒbƒtƒ@‚ÌŠm•Û
+	//	// ï¿½Sï¿½Ì‰æ‘œï¿½Tï¿½Cï¿½Yï¿½oï¿½bï¿½tï¿½@ï¿½ÌŠmï¿½ï¿½
 	//	while(TargetWholeImgSize->count()<FromData.info.PhaseNumb){
 	//		TargetWholeImgSize->append(QSize());
 	//	}
 
-	//	// ƒAƒEƒgƒ‰ƒCƒ“ƒoƒbƒtƒ@‚ÌŠm•Û
+	//	// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ÌŠmï¿½ï¿½
 	//	while(TargetOutlines->count()<FromData.info.PhaseNumb){
 	//		TargetOutlines->append(QList<QPoint>());
 	//	}
@@ -3452,7 +3470,7 @@ bool ReviewPIBase::ReciveCmdLoadMaster(GUIDirectMessage *packet)
 	//		}
 	//	}
 
-	//	// •`‰æˆÊ’uƒoƒbƒtƒ@‚ÌŠm•Û
+	//	// ï¿½`ï¿½ï¿½ï¿½Ê’uï¿½oï¿½bï¿½tï¿½@ï¿½ÌŠmï¿½ï¿½
 	//	while(TargetMasterWholeImgDrawPoints->count()<FromData.info.PhaseNumb){
 	//		TargetMasterWholeImgDrawPoints->append(QList<QPoint>());
 	//	}

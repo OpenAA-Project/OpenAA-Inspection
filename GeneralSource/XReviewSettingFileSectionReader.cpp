@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XReviewSettingFileSectionReader.h"
 
 #include <QStringList>
@@ -104,7 +122,7 @@ bool SettingFileReader::save(const QString &filename_, const SectionBufferList &
 	QFileInfo info(filename_);
 	QDir dir;
 
-	// ƒfƒBƒŒƒNƒgƒŠ‚ª‚È‚¯‚ê‚Îì¬‚·‚é
+	// ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Îì¬ï¿½ï¿½ï¿½ï¿½
 	QString fileDirName = info.absolutePath();
 	dir.setPath(fileDirName);
 	if(dir.isReadable()==false){
@@ -154,7 +172,7 @@ bool SettingFileReader::load(const QString &filename_, SectionBufferList &list_)
 				// skip
 			}
 		}
-		// ÅŒã‚ÌƒZƒNƒVƒ‡ƒ“‚ğ•Û‘¶
+		// ï¿½ÅŒï¿½ï¿½ÌƒZï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½
 		if(currentBuff.isValid()==true){
 			list_.append(currentBuff);
 		}

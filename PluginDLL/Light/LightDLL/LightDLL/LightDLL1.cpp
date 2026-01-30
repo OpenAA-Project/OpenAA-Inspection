@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\PluginDLL\Light\LightDLL\LightDLL\LightDLL1.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include<stdio.h>
@@ -439,12 +448,12 @@ void LightDLL1::SetWaitTime(int WaitTime)
 
 bool LightDLL1::LightOn()
 {
-//	//ƒZƒbƒg
+//	//ï¿½Zï¿½bï¿½g
 //	for(int i=0;i<LEDBarNumb;i++){
 //		for(int j=0;j<LEDNumbPerLine;j++)
 //			LEDBright[i/2][j+(i&1)*LEDNumbPerLine]=(short)ui.sbBrightness->value();
 //	}
-	//“_“”
+	//ï¿½_ï¿½ï¿½
 	SetLighting(true);
 //	for(int i=0;i<LEDBARNUMB;i++){
 //		for(int j=0;j<LEDsNumb;j++){
@@ -457,7 +466,7 @@ bool LightDLL1::LightOn()
 
 bool LightDLL1::LightOff()
 {
-	//Á“”
+	//ï¿½ï¿½ï¿½ï¿½
 	SetLighting(false);
 //	for(int i=0;i<LEDBARNUMB;i++){
 //		for(int j=0;j<LEDsNumb;j++){

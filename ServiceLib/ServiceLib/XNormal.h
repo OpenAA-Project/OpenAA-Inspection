@@ -1,36 +1,51 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XNORMAL_H)
 #define	XNORMAL_H
 
 #include "XTypeDef.h"
-/*
-  NormalDistribution : ³‹K•ª•z
-*/
 class NormalDistribution
 {
-  double _mu;  // •½‹Ï
-  double _var; // •ªU
+  double _mu;  // ï¿½ï¿½ï¿½ï¿½
+  double _var; // ï¿½ï¿½ï¿½U
 
 public:
 
   /*
-    ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+    ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
 
-    double mu : •½‹Ï
-    double sigma : •W€•Î·
+    double mu : ï¿½ï¿½ï¿½ï¿½
+    double sigma : ï¿½Wï¿½ï¿½ï¿½Îï¿½
   */
   NormalDistribution( double mu, double sigma );
 
-  // Šm—¦•Ï” a ‚É‚¨‚¯‚éŠm—¦–§“x‚ğ•Ô‚·
+  // ï¿½mï¿½ï¿½ï¿½Ïï¿½ a ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Ô‚ï¿½
   double operator[]( double x ) const;
 
-  // ‹æŠÔ (-‡,a] ‚É‚¨‚¯‚éŠm—¦‚ğ•Ô‚·
+  // ï¿½ï¿½ï¿½ï¿½ (-ï¿½ï¿½,a] ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
   double lower_p( double a ) const;
 
-  // ‹æŠÔ [a,b] ‚É‚¨‚¯‚éŠm—¦‚ğ•Ô‚·
+  // ï¿½ï¿½ï¿½ï¿½ [a,b] ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
   double p( double a, double b ) const;
 
-  double average() const { return( _mu ); }   // •½‹Ï’l
-  double variance() const { return( _var ); } // •ªU
+  double average() const { return( _mu ); }   // ï¿½ï¿½ï¿½Ï’l
+  double variance() const { return( _var ); } // ï¿½ï¿½ï¿½U
 };
 
 double qnorm(double u);

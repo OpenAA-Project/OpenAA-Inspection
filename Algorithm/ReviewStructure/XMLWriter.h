@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include <QThread>
@@ -12,8 +30,8 @@ class XMLServerHandle;
 class XMLOperationHandle;
 class	ReviewPIBase;
 
-// ‘‚«‚Şæ‚ÌNGI‚ğ“Á’è‚·‚é‚½‚ß‚Ì\‘¢‘Ì
-// ‘O’ñğŒ‚Æ‚µ‚ÄANGI‚ª‚ ‚éêŠ‚Ü‚Å‚ÍˆÚ“®Ï‚İ‚Æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Şï¿½ï¿½ï¿½NGIï¿½ï¿½ï¿½ï¿½ï¿½è‚·ï¿½é‚½ï¿½ß‚Ì\ï¿½ï¿½ï¿½ï¿½
+// ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÄANGIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½êŠï¿½Ü‚Å‚ÍˆÚ“ï¿½ï¿½Ï‚İ‚Æ‚ï¿½ï¿½ï¿½
 class stReqXMLWrite
 {
 public:
@@ -43,10 +61,10 @@ public:
 	Review::FKey FKey(void) const { return m_FKey; };
 	int flags() const { return m_flags; };
 private:
-	int m_x;// ƒ^[ƒQƒbƒg‰æ‘œ‚ÌXÀ•W
-	int m_y;// ƒ^[ƒQƒbƒg‰æ‘œ‚ÌYÀ•W
-	bool m_isChecked;// ƒ`ƒFƒbƒNÏ‚İ‚©”Û‚©
-	Review::FKey m_FKey;// FƒL[ƒ^ƒCƒv
+	int m_x;// ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½æ‘œï¿½ï¿½Xï¿½ï¿½ï¿½W
+	int m_y;// ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½æ‘œï¿½ï¿½Yï¿½ï¿½ï¿½W
+	bool m_isChecked;// ï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚ï¿½ï¿½Û‚ï¿½
+	Review::FKey m_FKey;// Fï¿½Lï¿½[ï¿½^ï¿½Cï¿½v
 	int m_flags;
 
 
@@ -64,9 +82,9 @@ public:
 	};
 };
 
-// XML‚Ö‘‚«‚Ş‚P’PˆÊƒOƒ‹[ƒv
-// XMLƒe[ƒuƒ‹–¼A‘‚«‚İæ‚ÌŒŸ¸IDEƒtƒFƒCƒY”Ô†Eƒy[ƒW”Ô†‚ğ•Û‚µ‚Ä‚¢‚é
-// ‚Ü‚½A©g‚ÍƒŠƒXƒg‰»‚³‚ê‚½stReqXMLWrite
+// XMLï¿½Öï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş‚Pï¿½Pï¿½ÊƒOï¿½ï¿½ï¿½[ï¿½v
+// XMLï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İï¿½ï¿½ÌŒï¿½ï¿½ï¿½IDï¿½Eï¿½tï¿½Fï¿½Cï¿½Yï¿½Ôï¿½ï¿½Eï¿½yï¿½[ï¿½Wï¿½Ôï¿½ï¿½ï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+// ï¿½Ü‚ï¿½ï¿½Aï¿½ï¿½ï¿½gï¿½Íƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ê‚½stReqXMLWrite
 class ReqXMLWrite : public QList<stReqXMLWrite>
 {
 public:
@@ -103,10 +121,10 @@ private:
 	QString m_TableName;
 };
 
-// XMLƒtƒ@ƒCƒ‹‚Ö‘‚«‚Ş‚½‚ß‚ÌƒXƒŒƒbƒh
-// ReqXMLWrite‚ğƒŠƒXƒg‰»‚µ‚Ä•Û—L‚µA‚P‚Â‚¸‚Âæ‚èo‚µ‚Äˆê‹C‚É‘‚«‚Ş
-// run()ŠÖ”‚Ístop()‚ªŒÄ‚Î‚ê‚é‚Ü‚Å–³ŒÀƒ‹[ƒv‚·‚é
-// Às’†‚Å‚àReqXMLWrite‚ğ’Ç‰Á‚Å‚«A’Ç‰Á‚³‚ê‚½‡”Ô’Ê‚è‚É‘‚«‚Ü‚ê‚é
+// XMLï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Öï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş‚ï¿½ï¿½ß‚ÌƒXï¿½ï¿½ï¿½bï¿½h
+// ReqXMLWriteï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ä•Û—Lï¿½ï¿½ï¿½Aï¿½Pï¿½Â‚ï¿½ï¿½Âï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Äˆï¿½ï¿½Cï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// run()ï¿½Öï¿½ï¿½ï¿½stop()ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½ï¿½Ü‚Å–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Å‚ï¿½ReqXMLWriteï¿½ï¿½ï¿½Ç‰ï¿½ï¿½Å‚ï¿½ï¿½Aï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Ô’Ê‚ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½
 
 class XMLWriter : public QThread
 {
@@ -154,12 +172,11 @@ private:
 	QMutex m_Mutex;
 	QMutex m_MutexServer;
 	volatile bool m_stop;
-	volatile bool m_flash;// ‚·‚×‚Ä‘‚«‚ñ‚¾‚ç©“®‚Årun‚ğ”²‚¯‚é
+	volatile bool m_flash;// ï¿½ï¿½ï¿½×‚Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚¾‚ç©ï¿½ï¿½ï¿½ï¿½runï¿½ğ”²‚ï¿½ï¿½ï¿½
 
-	QList<ReqXMLWrite> m_ReqWriteList;// ‘‚«‚İƒf[ƒ^ƒŠƒXƒgƒoƒbƒtƒ@
+	QList<ReqXMLWrite> m_ReqWriteList;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Xï¿½gï¿½oï¿½bï¿½tï¿½@
 
 	XMLServerHandle *m_XMLServer;
 	QString m_IPAddress;
 	int m_Port;
 };
-

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XTypeDef.h"
 #include "PasswordFileOperator.h"
 
@@ -57,7 +75,7 @@ bool PasswordFileOperator::load(QString filename)
 	QFile file(info.absoluteFilePath());
 
 	file.open(QIODevice::ReadOnly);
-	if(!file.isOpen())// ƒtƒ@ƒCƒ‹‚ª–³‚¯‚ê‚ÎV‚µ‚­ì‚é
+	if(!file.isOpen())// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎVï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	{
 		save(info.absoluteFilePath());
 		return true;
@@ -66,7 +84,7 @@ bool PasswordFileOperator::load(QString filename)
 	QTextStream stream(&file);
 	QString line;
 
-	// ƒo[ƒWƒ‡ƒ“î•ñæ“¾
+	// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	line = stream.readLine();
 	if(line == "version1.0"){
 		m_version = 10;
@@ -74,11 +92,11 @@ bool PasswordFileOperator::load(QString filename)
 		return false;
 	}
 
-	// ƒpƒXƒ[ƒhİ’èƒIƒuƒWƒFƒNƒg–¼æ“¾
+	// ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½İ’ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½æ“¾
 	line = stream.readLine();
 	if(line!=/**/"")m_itemList = line.split(',');
 
-	// ŠeƒNƒ‰ƒX‚Ì–¼‘OAƒpƒXƒ[ƒhAƒpƒXƒ[ƒh‰ğœ€–Ú‚Ìæ“¾
+	// ï¿½eï¿½Nï¿½ï¿½ï¿½Xï¿½Ì–ï¿½ï¿½Oï¿½Aï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½Aï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú‚Ìæ“¾
 	m_classes.clear();
 	for(int classID=0; stream.atEnd() == 0; classID++){
 		ClassContainer addCont;
@@ -118,7 +136,7 @@ void PasswordFileOperator::addItem(QString objName)
 	qDebug("Exit addItem(QString objName)");
 }
 
-// ƒpƒXƒ[ƒh‚ğ•t‚¯‚éƒIƒuƒWƒFƒNƒg‚Ìíœ
+// ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ìíœ
 void PasswordFileOperator::delItem(QString objName)
 {
 	qDebug("Enter delItem(QString objName)");
@@ -134,7 +152,7 @@ void PasswordFileOperator::delItem(QString objName)
 	qDebug("Exit delItem(QString objName)");
 }
 
-// ƒNƒ‰ƒX‚Ì’Ç‰Á
+// ï¿½Nï¿½ï¿½ï¿½Xï¿½Ì’Ç‰ï¿½
 void PasswordFileOperator::addClass(QString &ClassName, QString &Password, QVector<bool> *vFlags)
 {
 	ClassContainer addClass;
@@ -168,22 +186,22 @@ bool PasswordFileOperator::delClass(int index)
 	return true;
 }
 
-// ŠeƒNƒ‰ƒX‚Ìİ’è
-// –¼‘O
+// ï¿½eï¿½Nï¿½ï¿½ï¿½Xï¿½Ìİ’ï¿½
+// ï¿½ï¿½ï¿½O
 void PasswordFileOperator::setClassName(int index, QString &Name){
 	if(index >= m_classes.size())m_classes.resize(index+1);
 	if(m_classes[index].getName()==Name)return;
 	m_classes[index].setName(Name);
 }
 
-// ƒpƒXƒ[ƒh
+// ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½h
 void PasswordFileOperator::setPassword(int index, QString &Password){
 	if(index >= m_classes.size())m_classes.resize(index+1);
 	if(m_classes[index].getPassword()==Password)return;
 	m_classes[index].setPassword(Password);
 }
 
-// ŠeƒIƒuƒWƒFƒNƒg‚Ì‰ğ•úƒtƒ‰ƒO
+// ï¿½eï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ì‰ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
 void PasswordFileOperator::setItemFlag(int nameIndex, int itemIndex, bool flag){
 	if(nameIndex >= m_classes.size())m_classes.resize(nameIndex+1);
 	m_classes[nameIndex].setItemFlag(itemIndex, flag);
@@ -205,7 +223,7 @@ bool PasswordFileOperator::getItemFlag(int nameIndex, int itemIndex)
 	return m_classes[nameIndex].getItemFlag(itemIndex);
 }
 
-// ƒ`ƒFƒbƒN—p
+// ï¿½`ï¿½Fï¿½bï¿½Nï¿½p
 int PasswordFileOperator::hasClassName(QString &refName){
 	for(int i=0; i<m_classes.size(); i++){
 		if(m_classes[i].getName()==refName)return i;

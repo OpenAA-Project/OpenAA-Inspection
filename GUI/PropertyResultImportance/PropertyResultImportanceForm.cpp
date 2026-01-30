@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "PropertyResultImportanceResource.h"
 #include "PropertyResultImportanceForm.h"
 #include "ui_PropertyResultImportanceForm.h"
@@ -81,7 +99,7 @@ void	PropertyResultImportanceForm::BuildForShow(void)
 	//StyleSheet?A?F?d?\?|
 	SetBackgroundColor(ui->tbImportanceColor,ResultImportanceColor);
 
-	//PixelInspection?E???‹?e
+	//PixelInspection?E???ï¿½ï¿½?e
 	SetResultImportanceColor(ResultImportanceColor);
 }
 void	PropertyResultImportanceForm::ShowInEdit(void)
@@ -265,10 +283,10 @@ void PropertyResultImportanceForm::tbImportanceColorClicked()
 		SetBackgroundColor(ui->tbImportanceColor,C);
 		ResultImportanceColor=C;
 
-		//PixelInspection?E???‹?e
+		//PixelInspection?E???ï¿½ï¿½?e
 		SetResultImportanceColor(C);
 
-		//GUI?p?????[?^?E?U?÷
+		//GUI?p?????[?^?E?U?ï¿½ï¿½
 		GetParamGUI()->SaveDefault(GetLayersBase()->GetUserPath());
 	}
 }
@@ -282,7 +300,7 @@ void PropertyResultImportanceForm::SetBackgroundColor(QToolButton *Button,QColor
 
 void PropertyResultImportanceForm::SetResultImportanceColor(QColor C)
 {
-	//PixelInspection?E???‹?e
+	//PixelInspection?E???ï¿½ï¿½?e
 	AlgorithmBase	*LBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PixelInspection");
 	if(LBase!=NULL){
 		CmdResultImportanceColor CmdPacket(GetLayersBase());

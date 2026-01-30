@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "SentinelHasp.h"
 #include "XHaspDLL.h"
 
@@ -135,28 +153,28 @@ QString  SentinelHasp::GetID(char *C)
 
 void SentinelHasp::Fukugou(int ID,QByteArray ReData, QByteArray &fukugou)
 {
-	//ƒVƒŠƒAƒ‹ƒR[ƒh‚Ì‰º3Œ…‚ğg—p‚µ‚½•¡‡‰»
+	//ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Ì‰ï¿½3ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	fukugou.clear();
 	QStringList List;
 	List.clear();
-	//QByteArray¨QStringList(swapŠÖ”‚ğg‚¤ˆ×)
+	//QByteArrayï¿½ï¿½QStringList(swapï¿½Öï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½)
 	for (int iA=0; iA<=47; iA++){
 		List.append(ReData.mid(iA,1));
 	}
-	//ˆÃ†‰»‚³‚ê‚½‚ÌÅŒã‚Ì”Ô†‚ğ‚Æ‚é
+	//ï¿½Ãï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ÌÅŒï¿½ï¿½Ì”Ôï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 	int iNum=0;
 	for (int iAn=0; iAn<=QByteArray().setNum(ID).mid(6,3).toInt(); iAn++){
 		if (iNum==45){iNum=0;}	
 		iNum++;
 	}
 	iNum=iNum+2;
-	//ˆÃ†‰»‚³‚ê‚½‚à‚Ì‚ğ•¡‡‰»‚·‚é
+	//ï¿½Ãï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Ì‚ğ•¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for (int iFu=0; iFu<=QByteArray().setNum(ID).mid(6,3).toInt(); iFu++){
 		if (iNum==2){iNum=47;}
 		List.swap(iNum,iNum-3);
 		iNum--;
 	}
-	//QStringList¨QByteArray‚É–ß‚·
+	//QStringListï¿½ï¿½QByteArrayï¿½É–ß‚ï¿½
 	for (int iB=0; iB<=47; iB++){
 		fukugou.insert(iB,List.at(iB));
 	}
@@ -247,5 +265,4 @@ bool		_cdecl	DLL_Close(HaspHandleContainer *handle)
 }
 
 //=======================================================================================
-
 

@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XHalconInspection.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "XHalconInspection.h"
@@ -891,7 +900,7 @@ bool	HalconInspectionItem::ExecuteProcessing(int ThreadNo,ResultInItemRoot *Res 
 	int	HalconObj[100];
 	int	HalconTup[100];
 
-	//‰Šú‰»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	#pragma omp parallel                             
 	{                                                
 		#pragma omp for
@@ -932,35 +941,35 @@ bool	HalconInspectionItem::ExecuteProcessing(int ThreadNo,ResultInItemRoot *Res 
 	int		Number3,Number4,Number5,Number6;
 	int		Result;
 
-	//‘I•Ê‹P“x‰ÁZ’l
+	//ï¿½Iï¿½Ê‹Pï¿½xï¿½ï¿½ï¿½Zï¿½l
 	int		H1 = 5;
-	//‘å‚«‚È•s—Ç–ÊÏè‡’l
+	//ï¿½å‚«ï¿½È•sï¿½Ç–Êï¿½è‡’l
 	double	A1 = 0.001;
 	int		A2 = 40;
-	//‘å‚«‚È•s—Ç‹P“xè‡’l
+	//ï¿½å‚«ï¿½È•sï¿½Ç‹Pï¿½xè‡’l
 	int		B1 = 9;
-	//‘å‚«‚È•s—ÇŒ`óè‡’l
+	//ï¿½å‚«ï¿½È•sï¿½ÇŒ`ï¿½ï¿½è‡’l
 	double	F1 = 1.33;
-	//¬‚³‚È•s—ÇŒ`óè‡’l
+	//ï¿½ï¿½ï¿½ï¿½ï¿½È•sï¿½ÇŒ`ï¿½ï¿½è‡’l
 	double	C1 = 3.4;
-	//¬‚³‚È•s—Ç–ÊÏè‡’l
+	//ï¿½ï¿½ï¿½ï¿½ï¿½È•sï¿½Ç–Êï¿½è‡’l
 	double	D1 = 0.001;
 	int		D2 = 243;
-	//¬‚³‚È•s—Ç‹P“xè‡’l
+	//ï¿½ï¿½ï¿½ï¿½ï¿½È•sï¿½Ç‹Pï¿½xè‡’l
 	int		E1 = 10;
-	//‰æ‘œˆ³k“x‡
+	//ï¿½æ‘œï¿½ï¿½ï¿½kï¿½xï¿½ï¿½
 	double	G1 = 1.5;
 
 	//Converet from ImageBuffer to Halcon image data
 	ImageBufferToHalcon	(HalconObj[0],TargetImageList,LNumb);
 
-	//•½ŠŠ‰»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	XHal.Hmean_image	(HalconObj[0],HalconObj[1],3,3);
 
-	//‰æ‘œ‹­’²
+	//ï¿½æ‘œï¿½ï¿½ï¿½ï¿½
 	XHal.Hemphasize		(HalconObj[1],HalconObj[2],3,3,1);
 
-	//”’•”½“]
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
 	XHal.Hinvert_image	(HalconObj[2],HalconObj[3]);
 	XHal.Hmin_max_gray	(HalconObj[3],HalconObj[3],1,Min1,Max1,Range1);
 	Min1 += H1;
@@ -968,21 +977,21 @@ bool	HalconInspectionItem::ExecuteProcessing(int ThreadNo,ResultInItemRoot *Res 
 	XHal.Hthreshold		(HalconObj[3],HalconObj[5],0,0.75*Min1);
 	XHal.Hdifference	(HalconObj[4],HalconObj[5],HalconObj[6]);
 
-	//Region5‚ÌŒŸ¸
+	//Region5ï¿½ÌŒï¿½ï¿½ï¿½
 	XHal.Hmin_max_gray	(HalconObj[5],HalconObj[0],2,Min,Max,Range);
 	XHal.Hclosing_circle(HalconObj[5],HalconObj[6],6);
 	XHal.Hconnection	(HalconObj[6],HalconObj[7]);
 	XHal.Hselect_shape	(HalconObj[7],HalconObj[8],"anisometry","and",F1,60);
 	XHal.Harea_center	(HalconObj[7],HalconTup[0],HalconTup[1],HalconTup[2]);
 	XHal.Htuple_max		(HalconTup[0],MaxArea);
-	//‘å‚«‚È•s—Ç@–ÊÏè‡’l
+	//ï¿½å‚«ï¿½È•sï¿½Ç@ï¿½Êï¿½è‡’l
 	XHal.Hselect_shape	(HalconObj[8],HalconObj[9],"area","and",A1*MaxArea,999999);
 	XHal.Hselect_shape	(HalconObj[9],HalconObj[10],"area","and",A2,99999);
 	XHal.Hmin_max_gray	(HalconObj[10],HalconObj[0],7,HalconTup[3],HalconTup[4],HalconTup[5],true);
 	XHal.Hcount_obj		(HalconObj[10],Number1);
 	if(Number1>1){
 		XHal.Htuple_sum	(HalconTup[4],Sum1);
-		//‘å‚«‚È•s—Ç@‹P“xè‡’l
+		//ï¿½å‚«ï¿½È•sï¿½Ç@ï¿½Pï¿½xè‡’l
 		Result1 = B1+((double)Sum1/Number1);
 		for(int s=1;s<=Number1;s++){
 			XHal.Hselect_obj	(HalconObj[10],HalconObj[11],s);
@@ -994,24 +1003,24 @@ bool	HalconInspectionItem::ExecuteProcessing(int ThreadNo,ResultInItemRoot *Res 
 	else
 		XHal.Hconcat_obj(HalconObj[13],HalconObj[10],HalconObj[13]);
 
-	//RegionDifference‚ÌŒŸ¸
+	//RegionDifferenceï¿½ÌŒï¿½ï¿½ï¿½
 	XHal.Hclosing_circle(HalconObj[6],HalconObj[14],5.5);
 	XHal.Hmin_max_gray	(HalconObj[14],HalconObj[0],2,Min3,Max3,Range3);
 	XHal.Hconnection	(HalconObj[14],HalconObj[15]);
-	//¬‚³‚È•s—Ç@Œ`ó‚É‚æ‚éi‚İ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½È•sï¿½Ç@ï¿½`ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½
 	XHal.Hselect_shape	(HalconObj[15],HalconObj[16],"anisometry","and",C1,60);
 	XHal.Harea_center	(HalconObj[16],HalconTup[6],HalconTup[7],HalconTup[8]);
 	XHal.Hcount_obj		(HalconObj[16],Number);
 	if(Number>0){
 		XHal.Htuple_max	(HalconTup[6],MaxArea1);
-		//¬‚³‚È•s—Ç@–ÊÏè‡’l
+		//ï¿½ï¿½ï¿½ï¿½ï¿½È•sï¿½Ç@ï¿½Êï¿½è‡’l
 		XHal.Hselect_shape	(HalconObj[16],HalconObj[17],"area","and",D1*MaxArea1,99999);
 		XHal.Hselect_shape	(HalconObj[17],HalconObj[18],"area","and",D2,99999);
 		XHal.Hmin_max_gray	(HalconObj[18],HalconObj[0],7,HalconTup[9],HalconTup[10],HalconTup[11],true);
 		XHal.Hcount_obj		(HalconObj[18],Number2);
 		if(Number2>1){
 			XHal.Htuple_sum	(HalconTup[10],Sum2);
-			//¬‚³‚È•s—Ç@‹P“xè‡’l
+			//ï¿½ï¿½ï¿½ï¿½ï¿½È•sï¿½Ç@ï¿½Pï¿½xè‡’l
 			Result2 = ((double)Sum2/Number2)+E1;
 			for (int t=1;t<=Number2;t++){
 				XHal.Hselect_obj	(HalconObj[18],HalconObj[19],t);
@@ -1029,7 +1038,7 @@ bool	HalconInspectionItem::ExecuteProcessing(int ThreadNo,ResultInItemRoot *Res 
 	XHal.Hcount_obj(HalconObj[21],Number6);
 	Result=Number3+Number4+Number5+Number6;
 
-	//NG‰ÓŠ‚Ì’†SÀ•W‚ğ‹‚ß‚é
+	//NGï¿½Óï¿½ï¿½Ì’ï¿½ï¿½Sï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 	if(Number3>1){
 		XHal.Harea_center(HalconObj[12],HalconTup[12],HalconTup[13],HalconTup[14]);
 		for(int i=1;i<=Number3;i++){
@@ -1153,7 +1162,7 @@ void	HalconInspectionItem::ImageBufferToHalcon(ImageBuffer *Buff[])
 
 void	HalconInspectionItem::MakeExecuteProcess(void)
 {
-	//HALCONƒ‰ƒCƒuƒ‰ƒŠ‚ğæ“¾‚µ‚Ä”½‰f
+	//HALCONï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ä”ï¿½ï¿½f
 	int	DefaultLibID=((HalconInspectionBase *)GetParentBase())->DefaultLibraryID;
 	CmdGetHalconInspectionLibraryListPacket	packet;
 	AlgorithmLibraryList *p=NULL;
@@ -1166,9 +1175,9 @@ void	HalconInspectionItem::MakeExecuteProcess(void)
 	if(p!=NULL){
 		HalconInspectionLibrary ALib(GetLibraryContainer()->GetLibType(),GetLayersBase());
 		if(GetLibraryContainer()->GetLibrary(p->GetLibID(),ALib)==true){
-			//•¶š—ñƒŠƒXƒg‚ğ“n‚·
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ñƒŠƒXï¿½gï¿½ï¿½ï¿½nï¿½ï¿½
 			SetStringList(&ALib);
-			//Region,Tuple‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ‹‚ß‚é
+			//Region,Tupleï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 			ArgRegionList.clear();
 			ArgTupleList.clear();
 			for(HalconSampleList *s=ALib.SampleLists.GetFirst();s!=NULL;s=s->GetNext()){

@@ -1,28 +1,27 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\PropertyGerber\XGerberPacket.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "XGerberAperture.h"
 #include "XGUIGerberPacket.h"
 #include "XGeneralFunc.h"
 #include "XGerberFast.h"
 #include "XPropertyGerberFastPacket.h"
-/*
-void	GerberFastBase::GerberLayerList::MakeLayerBitmap(GerberFastBase *GBase
-													 ,GerberFastInPage *GPage
-													 ,BYTE **GerberMap ,int GXByte ,int GYLen)
-{}
-void	GerberCompositeLayer::MakeLayerBitmap(GerberFastBase *GBase
-											,GerberInPage *GPage
-											,BYTE **GerberMap ,int XByte ,int YLen)
-{}
-*/
 
 GUICmdReqApertureList::GUICmdReqApertureList(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
 :GUICmdPacketBase(Base ,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
@@ -459,7 +458,7 @@ void	GUICmdReqGerberCenterize::Receive(int32 localPage, int32 cmd ,QString &Emit
 	Cmd.Area	=Area;
 	Cmd.XYArea	=XYArea;
 	Cmd.Layer	=Layer;
-	Cmd.GlobalPage=localPage;	//‚±‚ê‚ÍOK
+	Cmd.GlobalPage=localPage;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½OK
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	Base->GetPageData(localPage)->TransmitDirectly(&Cmd);
 

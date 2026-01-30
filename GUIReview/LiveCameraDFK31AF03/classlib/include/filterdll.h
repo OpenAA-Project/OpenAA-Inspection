@@ -1,22 +1,27 @@
+/*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #ifndef _FILTERDLL_H_INC_
 #define _FILTERDLL_H_INC_
 
 #include "libbasedefs.h"
 
-/** The factory interface and the according helper functions are defined here.
- *
- *	To export filters from your dll, use the macros defined below:
- *
- *	FILTERDLL_BEGIN_EXPORT()
- *		FILTERDLL_REGISTER_FILTER(CMyFilter1)
- *		FILTERDLL_REGISTER_FILTER(CMyFilter2)
- *		FILTERDLL_REGISTER_FILTER(CMyFilter2)
- *	FILTERDLL_END_EXPORT()
- *
- *	This registration has to be in any of the cpp files of your dll project.
- *	The classes have to be visible for the compiler at this point.
- */
 
 #define FILTER_INTERFACE_VERSION 1
 

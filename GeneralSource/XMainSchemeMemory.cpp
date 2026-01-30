@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XMainSchemeMemory.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2026
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "XTypeDef.h"
 #include"XMainSchemeMemory.h"
@@ -778,7 +787,7 @@ bool    ImageBuffer::LoadPartially(QIODevice *f ,int X1,int Y1 ,int X2 ,int Y2)
 }
 
 
-double	ImageBuffer::GetInterpolatedBrightness(double X,double Y)	//•âŠÔ‚³‚ê‚½‹P“x‚ð“¾‚é
+double	ImageBuffer::GetInterpolatedBrightness(double X,double Y)	//ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ê‚½ï¿½Pï¿½xï¿½ð“¾‚ï¿½
 {
 	int	x=floor(X);
 	int	y=floor(Y);
@@ -947,15 +956,15 @@ void	ImageBuffer::Swap(ImageBuffer &src)
 		int32   TmpAllocX	=AllocX;
 		int32   TmpAllocY	=AllocY;
 
-		bool    TmpNoRelease=NoRelease;      //ƒfƒXƒgƒ‰ƒNƒ^‚Åƒƒ‚ƒŠ[‚ð‰ð•ú‚µ‚È‚¢
-		bool	TmpChanged	=Changed;		//‰æ‘œ‚ª•ÏX‚³‚ê‚½B‚±‚Ìƒf[ƒ^‚Í•Û‘¶‚³‚ê‚È‚¢
-		bool	TmpLoaded	=Loaded;		//‰æ‘œ‚ªƒ[ƒh‚³‚ê‚½B‚±‚Ìƒf[ƒ^‚Í•Û‘¶‚³‚ê‚È‚¢
-								//	‚±‚ê‚ÍAƒXƒgƒŠ[ƒ€‚©‚ç‚Ìƒ[ƒh‚ÌŒãA’ÊM‚Å‚Ì“]‘—Œã‚ÉTrue‚ÉƒZƒbƒg‚³‚ê‚é•K—v‚ª‚ ‚é
+		bool    TmpNoRelease=NoRelease;      //ï¿½fï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Åƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
+		bool	TmpChanged	=Changed;		//ï¿½æ‘œï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ê‚½ï¿½Bï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½Í•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
+		bool	TmpLoaded	=Loaded;		//ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ê‚½ï¿½Bï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½Í•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
+								//	ï¿½ï¿½ï¿½ï¿½ï¿½ÍAï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½[ï¿½hï¿½ÌŒï¿½ï¿½Aï¿½ÊMï¿½Å‚Ì“]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Trueï¿½ÉƒZï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		bool	TmpOriginal	=Original;
 		bool	TmpIndexed	=Indexed;
 
-        int     TmpMaxX		=GetWidth();	//Å‘å‚Ì‚w
-        int     TmpMaxY		=GetHeight();   //Å‘å‚Ì‚x
+        int     TmpMaxX		=GetWidth();	//ï¿½Å‘ï¿½ï¿½Ì‚w
+        int     TmpMaxY		=GetHeight();   //ï¿½Å‘ï¿½ï¿½Ì‚x
 
 		Depended	=src.Depended	;
 		YBuff		=src.YBuff		;
@@ -1006,7 +1015,7 @@ void	ImageBuffer::MoveImage(int dx ,int dy)
 		return;
 	}
 	else if(dx==0 && dy>0){
-		//ˆË‘¶ŠÖŒW‚ª‚ ‚é‚Ì‚ÅOpenMP‰»‚Å‚«‚È‚¢
+		//ï¿½Ë‘ï¿½ï¿½ÖŒWï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½OpenMPï¿½ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½
 		for(int y=YNumb-1;y>=dy;y--){
 			BYTE	*s=GetY(y-dy);
 			BYTE	*d=GetY(y);
@@ -1014,7 +1023,7 @@ void	ImageBuffer::MoveImage(int dx ,int dy)
 		}
 	}
 	else if(dx==0 && dy<0){
-		//ˆË‘¶ŠÖŒW‚ª‚ ‚é‚Ì‚ÅOpenMP‰»‚Å‚«‚È‚¢
+		//ï¿½Ë‘ï¿½ï¿½ÖŒWï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½OpenMPï¿½ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½
 		for(int y=-dy;y<YNumb;y++){
 			BYTE	*s=GetY(y);
 			BYTE	*d=GetY(y+dy);
@@ -1022,7 +1031,7 @@ void	ImageBuffer::MoveImage(int dx ,int dy)
 		}
 	}
 	else if(dx>0 && dy>0){
-		//ˆË‘¶ŠÖŒW‚ª‚ ‚é‚Ì‚ÅOpenMP‰»‚Å‚«‚È‚¢
+		//ï¿½Ë‘ï¿½ï¿½ÖŒWï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½OpenMPï¿½ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½
 		for(int y=YNumb-1;y>=dy;y--){
 			BYTE	*s=GetY(y-dy);
 			BYTE	*d=GetY(y);

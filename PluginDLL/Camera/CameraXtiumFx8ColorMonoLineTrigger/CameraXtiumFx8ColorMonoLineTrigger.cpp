@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 //#include "CameraXtumiPx8LineTriggerResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\PluginDLL\Camera\CameraXtiumFx8ColorMonoLineTrigger\CameraXtiumFx8ColorMonoLineTrigger.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 #include "swap.h"
 //#include <Windows.h>
 #include "XCameraDLL.h"
@@ -788,7 +797,7 @@ bool _cdecl	DLL_SetAutoRepeat(CameraHandle *handle ,bool RepeatON)
 }
 /*
    make
-   ‚¨‚»‚ç‚­‚»‚Ì‚Ü‚Ü
+   ï¿½ï¿½ï¿½ï¿½ï¿½ç‚­ï¿½ï¿½ï¿½Ì‚Ü‚ï¿½
    */
 bool _cdecl	DLL_HaltCapture(CameraHandle *handle)
 //	Halt to capture

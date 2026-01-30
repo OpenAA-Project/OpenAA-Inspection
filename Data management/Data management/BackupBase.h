@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Data management\Data management\BackupBase.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #ifndef BACKUPBASE_H
 #define BACKUPBASE_H
@@ -134,14 +143,14 @@ public:
 		void SubLoad(QIODevice &Device, QStringList &Backup, QStringList &Now, QString &InspectData);
 		void Save(QIODevice &Device, QString &ParentID);
 		void Load(QString &Target, QIODevice &Device, QStringList &Backup, QStringList &Now, QString &InspectData);
-		//MasterData‚Ì“Ç‚İ‚İg—p(Root‚É–ß‚·)
+		//MasterDataï¿½Ì“Ç‚İï¿½ï¿½İï¿½ï¿½gï¿½p(Rootï¿½É–ß‚ï¿½)
 		void RootLoad(QIODevice &Device, QStringList &Backup, QStringList &Now, QString &InsertData);
 		void RootSubLoad(QIODevice &Device, QStringList &Backup, QStringList &Now, QString &InsertData);
 		void RootLoad2(QIODevice &Device, QStringList &Backup, QStringList &Now, QString &InsertData);
-		void ALLDelete();//LibFolder‚Ì‘Síœ
-		void Delete(QString &FolderID);//LibFolder‚Ìíœ
-		void ChildDelete(QString &FolderID);//q‹ŸŠK‘w‚Ìíœ
-		void RetFolderID(QString Mid, QStringList &idList);//RELATEDMASTERCODE‚Ì’Ç‰Á‚É”º‚¢
+		void ALLDelete();//LibFolderï¿½Ì‘Sï¿½íœ
+		void Delete(QString &FolderID);//LibFolderï¿½Ìíœ
+		void ChildDelete(QString &FolderID);//ï¿½qï¿½ï¿½ï¿½Kï¿½wï¿½Ìíœ
+		void RetFolderID(QString Mid, QStringList &idList);//RELATEDMASTERCODEï¿½Ì’Ç‰ï¿½ï¿½É”ï¿½ï¿½ï¿½
 };
 class InspectLib : public BackupBase
 {	
@@ -151,9 +160,9 @@ public:
 		void Select(QSqlQueryModel *model, QString &sSelect, QString &sOrder);
 		void Save(QIODevice &Device, QString &FolderID);	
 		void Load(QIODevice &Device, QStringList &Backup, QStringList &Now, QString &InsertData);	
-		void ALLDelete();//InspectLib‚Ì‘Síœ
-		void FolderDelete(QString &FolderID);//InspectLib‚ÌFolderIDíœ
-		void Delete(QString &TypeName, QString &LibID);//InspectLib‚Ì1Œíœ
+		void ALLDelete();//InspectLibï¿½Ì‘Sï¿½íœ
+		void FolderDelete(QString &FolderID);//InspectLibï¿½ï¿½FolderIDï¿½íœ
+		void Delete(QString &TypeName, QString &LibID);//InspectLibï¿½ï¿½1ï¿½ï¿½ï¿½íœ
 };
 class InspectLibType : public BackupBase
 {	

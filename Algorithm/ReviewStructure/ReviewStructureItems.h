@@ -1,10 +1,28 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//  ReviewPIBase‚Åg—p‚·‚éƒf[ƒ^’è‹`
+//  ReviewPIBaseï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½`
 //
-//  ’Êí‚Å‚ÍˆÈ‰º‚Ì‚æ‚¤‚ÈƒZƒbƒg‚Å’è‹`‚³‚ê‚é
+//  ï¿½Êï¿½ï¿½Å‚ÍˆÈ‰ï¿½ï¿½Ì‚æ‚¤ï¿½ÈƒZï¿½bï¿½gï¿½Å’ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //    class ClassItem{...};
 //    typedef QList<ClassItem>	ClassList;
 //    typedef ClassList			*ClassListPtr;
@@ -28,7 +46,7 @@
 
 class	ReviewPIBase;
 
-// XML‚É‹Lq‚³‚ê‚Ä‚¢‚é<INSLIB ‚©‚çn‚Ü‚éƒ‰ƒCƒuƒ‰ƒŠî•ñ‚æ‚èÄ\¬‚·‚é
+// XMLï¿½É‹Lï¿½qï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½<INSLIB ï¿½ï¿½ï¿½ï¿½ï¿½nï¿½Ü‚éƒ‰ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 class InsLibraryItem
 {
 public:
@@ -71,9 +89,9 @@ public:
 		QString TName;//	TNAME=
 		QColor NGColor;//	NGCOLOR=
 		LibNGTypeItem::NGShapeType NGShape;
-		int NGBlink;//		NGBLINK= [0‚Å–³Œø]
-		int NGPriority;//	NGPRIORITY= [”’l‚ª’á‚¢‚Ù‚Ç—Dæ“x‚ª‚‚¢]
-		int Wait;//			WAIT= [Ÿ‚ÌNG‚ÖˆÚ“®‚·‚é‚Ü‚Å‚Ì‘Ò‹@ŠÔ]
+		int NGBlink;//		NGBLINK= [0ï¿½Å–ï¿½ï¿½ï¿½]
+		int NGPriority;//	NGPRIORITY= [ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½á‚¢ï¿½Ù‚Ç—Dï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
+		int Wait;//			WAIT= [ï¿½ï¿½ï¿½ï¿½NGï¿½ÖˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Å‚Ì‘Ò‹@ï¿½ï¿½ï¿½ï¿½]
 	};
 
 public:
@@ -108,10 +126,10 @@ typedef InsLibraryList			*InsLibraryListPtr;
 typedef InsLibraryItem			*InsLibraryIndex;
 typedef QList<InsLibraryIndex>	InsLibraryIndexList;
 
-// Ral‚ğƒL[‚Æ‚µ‚½ƒ‰ƒCƒuƒ‰ƒŠƒf[ƒ^‚Ö‚ÌƒnƒbƒVƒ…
-// NGî•ñ‚©‚çƒ‰ƒCƒuƒ‰ƒŠƒf[ƒ^‚ÌQÆ‚ğs‚¤‚Ég—p‚·‚é
+// Ralï¿½ï¿½ï¿½Lï¿½[ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ö‚Ìƒnï¿½bï¿½Vï¿½ï¿½
+// NGï¿½ï¿½ï¿½ñ‚©‚çƒ‰ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ÌQï¿½Æ‚ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Égï¿½pï¿½ï¿½ï¿½ï¿½
 //
-// ReviewPIBase‚É•Û‘¶‚³‚ê‚é
+// ReviewPIBaseï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //
 typedef QMultiHash<QString,InsLibraryItem> InsLibraryHash;
 typedef InsLibraryHash	*InsLibraryHashPtr;
@@ -155,7 +173,7 @@ public:
 public:
 	LibNGTypeItemForReview &operator=(const LibNGTypeItemForReview &other){
 		LibType = other.LibType;
-		TypeUniqueCode = other.TypeUniqueCode;	//ƒf[ƒ^ƒx[ƒX“à‚Å—Bˆê‚Ì’l
+		TypeUniqueCode = other.TypeUniqueCode;	//ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½Å—Bï¿½ï¿½ï¿½Ì’l
 		TypeCode = other.TypeCode;
 		NGColor = other.NGColor;
 		Blink = other.Blink;
@@ -248,19 +266,19 @@ public:
 
 public:
 	/*
-	‘®«–¼Ì	AREA
-	ƒf[ƒ^‚Ì‹Lq
-		Œ`ó‹L†	R:‹éŒ`	E:‘È‰~	P:‘½ŠpŒ`  T:‰ñ“]‘È‰~  G:ƒŠƒ“ƒO
-		À•W—ñ		X,Y
-		“Á‹L–€	‘½ŠpŒ`‚Ìê‡‚ÍÀ•W”‚ÍÅ‘å‚P‚O‚O‚Ü‚Å‚Æ‚·‚éB
-					‚P‚O‚O‚ğ’´‚¦‚éê‡‚ÍAŠÔˆø‚©‚ê‚é
-		—á
-			AREA="R10,20,50,60"				(10,20)-(50,60)‚Ì‹éŒ`
-			AREA="E60,-100,120,150"			(60,-100)-(120,150)‚Ì‹éŒ`‚É“àÚ‚·‚é‘È‰~
-			AREA="P0,0,10,10,30,10,30,0"	(0,0)-(10,10)-(30,10)-(30,0)‚ğŒ‹‚Ô‘½ŠpŒ`
-											n“_‚ÆI“_‚ªˆê’v‚µ‚È‚­‚Ä‚à\‚í‚È‚¢
-			AREA="T40,500,20,25,60"			’†SÀ•W‚wA’†SÀ•W‚xA‚w•ûŒü‚Ì”¼ŒaA‚x•ûŒü‚Ì”¼ŒaA‰ñ“]Šp“xi“xj
-			AREA="G10,100,120,250,30,160,70,200"	(10,100)-(120,250)‚ÌŠO‘¤‘È‰~‚Æ(30,160)-(70,200)‚Ì“à‘¤‘È‰~‚ÌŠÔ‚Ì—Ìˆæ
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	AREA
+	ï¿½fï¿½[ï¿½^ï¿½Ì‹Lï¿½q
+		ï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½	R:ï¿½ï¿½ï¿½`	E:ï¿½È‰~	P:ï¿½ï¿½ï¿½pï¿½`  T:ï¿½ï¿½ï¿½]ï¿½È‰~  G:ï¿½ï¿½ï¿½ï¿½ï¿½O
+		ï¿½ï¿½ï¿½Wï¿½ï¿½		X,Y
+		ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½pï¿½`ï¿½Ìê‡ï¿½Íï¿½ï¿½Wï¿½ï¿½ï¿½ÍÅ‘ï¿½ï¿½Pï¿½Oï¿½Oï¿½Ü‚Å‚Æ‚ï¿½ï¿½ï¿½ï¿½B
+					ï¿½Pï¿½Oï¿½Oï¿½ğ’´‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½Ôˆï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		ï¿½ï¿½
+			AREA="R10,20,50,60"				(10,20)-(50,60)ï¿½Ì‹ï¿½ï¿½`
+			AREA="E60,-100,120,150"			(60,-100)-(120,150)ï¿½Ì‹ï¿½ï¿½`ï¿½É“ï¿½ï¿½Ú‚ï¿½ï¿½ï¿½ï¿½È‰~
+			AREA="P0,0,10,10,30,10,30,0"	(0,0)-(10,10)-(30,10)-(30,0)ï¿½ï¿½ï¿½ï¿½ï¿½Ô‘ï¿½ï¿½pï¿½`
+											ï¿½nï¿½_ï¿½ÆIï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½È‚ï¿½ï¿½Ä‚ï¿½ï¿½\ï¿½ï¿½ï¿½È‚ï¿½
+			AREA="T40,500,20,25,60"			ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Wï¿½wï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Wï¿½xï¿½Aï¿½wï¿½ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½aï¿½Aï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½aï¿½Aï¿½ï¿½ï¿½]ï¿½pï¿½xï¿½iï¿½xï¿½j
+			AREA="G10,100,120,250,30,160,70,200"	(10,100)-(120,250)ï¿½ÌŠOï¿½ï¿½ï¿½È‰~ï¿½ï¿½(30,160)-(70,200)ï¿½Ì“ï¿½ï¿½ï¿½ï¿½È‰~ï¿½ÌŠÔ‚Ì—Ìˆï¿½
 	*/
 	QRect rect() const {
 		QRect ret;
@@ -297,7 +315,7 @@ public:
 				ret = QRect(minX, minY, qAbs(maxX - minX), qAbs(maxY - minY));
 			}
 			break;
-		case RotateEllipse:// ‰ñ“]0“x‚Ì‘È‰~‚É‚Â‚¢‚Äc‰¡‚Ì¬‚³‚¢•û‚ÌƒTƒCƒY‚ğ1•Ó‚Æ‚µ‚½³•ûŒ`
+		case RotateEllipse:// ï¿½ï¿½ï¿½]0ï¿½xï¿½Ì‘È‰~ï¿½É‚Â‚ï¿½ï¿½Äcï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½1ï¿½Ó‚Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`
 			{
 				int rwidth = pList[1].x();
 				int rheight = pList[1].y();
@@ -307,7 +325,7 @@ public:
 				ret = QRect(pList[0] - QPoint(rmax,rmax), pList[0] + QPoint(rmax,rmax));
 			}
 			break;
-		case Ring:// ƒŠƒ“ƒO‚Ìã‘¤‚Æ¶‘¤‚Ì–ÊÏ‚ğŠÈˆÕ“I‚É‹éŒ`‚Å’²‚×AL‚¢•û‚Ì‹éŒ`‚ğ‘I‘ğ‚·‚é
+		case Ring:// ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ìã‘¤ï¿½Æï¿½ï¿½ï¿½ï¿½Ì–ÊÏ‚ï¿½ï¿½ÈˆÕ“Iï¿½É‹ï¿½ï¿½`ï¿½Å’ï¿½ï¿½×Aï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½`ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			{
 				QPoint topLeft = pList[0];
 				int twidth = qAbs(pList[0].x() - pList[1].x());
@@ -429,14 +447,14 @@ public:
 			path.addEllipse(areaPointList()[0], areaPointList()[1].x(), areaPointList()[1].y());
 			break;
 		case Ring:
-			// “h‚è‚Â‚Ô‚µğŒ‚ğ}Œ`”ÍˆÍ“à‚Ì‚İ‚Æ‚·‚é
+			// ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½`ï¿½ÍˆÍ“ï¿½ï¿½Ì‚İ‚Æ‚ï¿½ï¿½ï¿½
 			path.setFillRule(Qt::FillRule::OddEvenFill);
 			
-			// ŠO‘¤‰~
+			// ï¿½Oï¿½ï¿½ï¿½~
 			path.addEllipse(QRect(areaPointList()[0].x(), areaPointList()[0].y(),
 				qAbs(areaPointList()[1].x() - areaPointList()[0].x()), qAbs(areaPointList()[1].y() - areaPointList()[0].y())));
 
-			// “à‘¤‰~
+			// ï¿½ï¿½ï¿½ï¿½ï¿½~
 			path.addEllipse(QRect(areaPointList()[2].x(), areaPointList()[2].y(),
 				qAbs(areaPointList()[3].x() - areaPointList()[2].x()), qAbs(areaPointList()[3].y() - areaPointList()[2].y())));
 			break;
@@ -453,7 +471,7 @@ public:
 			return;
 		}
 
-		// Œ»İƒ}ƒgƒŠƒNƒX‚ğæ“¾
+		// ï¿½ï¿½ï¿½İƒ}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½ï¿½ï¿½æ“¾
 		QTransform oldTransform = painter.transform();
 
 		switch(areaType()){
@@ -462,39 +480,39 @@ public:
 		case Polygon:
 		case Ring:
 			{
-				// ƒ}ƒgƒŠƒNƒX‚ğİ’è
+				// ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½ï¿½ï¿½İ’ï¿½
 				painter.setTransform(transform);
 
-				// •`‰æ
+				// ï¿½`ï¿½ï¿½
 				painter.drawPath(painterPath());
 			}
 			break;
 		case RotateEllipse:
 			{
-				QPainterPath path = painterPath();// ’Êí•`‰æƒpƒX
+				QPainterPath path = painterPath();// ï¿½Êï¿½ï¿½`ï¿½ï¿½ï¿½pï¿½X
 
-				QPoint center = areaPointList().first();// ’†S
+				QPoint center = areaPointList().first();// ï¿½ï¿½ï¿½S
 
-				path.translate(-center);// ’†S‚ğŒ´“_‚ÉˆÚ“®‚·‚é
+				path.translate(-center);// ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
 				
-				// ƒ}ƒgƒŠƒNƒX‚ğİ’è
+				// ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½ï¿½ï¿½İ’ï¿½
 				painter.setTransform(transform);
 	
-				painter.translate(center);// •`‰æˆÊ’u‚ğ‘È‰~‚ÌêŠ‚ÉˆÚ“®‚·‚é
-				painter.rotate(rotate());// ‰ñ“]‚ğ—^‚¦‚é
+				painter.translate(center);// ï¿½`ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½È‰~ï¿½ÌêŠï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
+				painter.rotate(rotate());// ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½ï¿½
 	
-				painter.drawPath(path);// •`‰æ
+				painter.drawPath(path);// ï¿½`ï¿½ï¿½
 
-				painter.rotate(-rotate());// ‰ñ“]‚ğ–ß‚·
-				painter.translate(-center);// •`‰æˆÊ’u‚ğ–ß‚·
+				painter.rotate(-rotate());// ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ß‚ï¿½
+				painter.translate(-center);// ï¿½`ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½ß‚ï¿½
 			}
 			break;
 		default:
-			// ‰½‚à‚µ‚È‚¢
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			break;
 		}
 		
-		// ƒ}ƒgƒŠƒNƒX‚ğŒ³‚É–ß‚·
+		// ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 		painter.setTransform(oldTransform);
 	};
 	
@@ -527,7 +545,7 @@ private:
 
 typedef QList<PCEItem>	PCEList;
 
-// NG‚Ì‚PŒÂ‚PŒÂ‚Ìî•ñ : <NGP `/>‚©‚çÄ\¬
+// NGï¿½Ì‚Pï¿½Â‚Pï¿½Â‚Ìï¿½ï¿½ï¿½ : <NGP ï¿½`/>ï¿½ï¿½ï¿½ï¿½ï¿½Ä\ï¿½ï¿½
 class ReviewNGPoint
 {
 public:
@@ -554,27 +572,27 @@ public:
 		PCEItems.clear();
 	};
 public:
-	int32		x,y;				// X,Y ŒŸ¸‰æ‘œãÀ•W
+	int32		x,y;				// X,Y ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½W
 
-	int32		TypeCode;			// TC LibCode‚Åw’è‚³‚ê‚éƒ‰ƒCƒuƒ‰ƒŠ‚ÌNGí—Ş‚ÌƒR[ƒh
-	int32		LibCode;			// LC Ral‚Æ‚¢‚¤–¼‘O‚Ìƒ‰ƒCƒuƒ‰ƒŠí‚ª‚à‚Â‚ÌŒŸ¸ƒ‰ƒCƒuƒ‰ƒŠƒR[ƒh
+	int32		TypeCode;			// TC LibCodeï¿½Åwï¿½è‚³ï¿½ï¿½ï¿½éƒ‰ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½Ş‚ÌƒRï¿½[ï¿½h
+	int32		LibCode;			// LC Ralï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ìƒï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½í‚ªï¿½ï¿½ï¿½Â‚ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½h
 
 	QString		Ral;				// RAL
 
-	short		Error;				//‚m‚fƒŒƒxƒ‹	|‚PF–¢ŒŸ¸ƒGƒŠƒA	‚OF–¢”»’è	‚PF‚n‚j	‚Q`‚m‚f
-	DWORD		result1;			// RS1 Œ‹‰Êƒf[ƒ^
+	short		Error;				//ï¿½mï¿½fï¿½ï¿½ï¿½xï¿½ï¿½	ï¿½|ï¿½Pï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½A	ï¿½Oï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½Pï¿½Fï¿½nï¿½j	ï¿½Qï¿½`ï¿½mï¿½f
+	DWORD		result1;			// RS1 ï¿½ï¿½ï¿½Êƒfï¿½[ï¿½^
 	DWORD		result2;			// RS2
 
 	int32		ItemID;				//Number;
-    int32		SmallPartsID;		//ŒÂ•ĞID
+    int32		SmallPartsID;		//ï¿½Â•ï¿½ID
 
 	short		ItemSearchedX;		//Hx
-    short		ItemSearchedY;		//Hy	ŒÂ•Ê’Tõ•â³—Ê
+    short		ItemSearchedY;		//Hy	ï¿½Â•Ê’Tï¿½ï¿½ï¿½â³ï¿½ï¿½
 	short		AlignedX;			//Mx
-    short		AlignedY;			//My	ƒAƒ‰ƒCƒ“ƒƒ“ƒg•â³—Ê
+    short		AlignedY;			//My	ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½â³ï¿½ï¿½
 
 	int32		Ly;					//LY
-	QString		Ara;				//ARA	ŒÂ•Ğ–¼ÌƒŠƒXƒg(ƒJƒ“ƒ}—L‚è)
+	QString		Ara;				//ARA	ï¿½Â•Ğ–ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½g(ï¿½Jï¿½ï¿½ï¿½}ï¿½Lï¿½ï¿½)
 
 public:
 	QPoint getNGPos() const { return QPoint(x, y); };
@@ -584,7 +602,7 @@ public:
 	InsLibraryItem::TypeNameTag Tag;
 	PCEList						PCEItems;
 
-	QStringList	AraList() const { return Ara.split(','); };			//ARA	ŒÂ•Ğ–¼ÌƒŠƒXƒg(ƒJƒ“ƒ}‹æØ‚è•ªŠ„Œã)
+	QStringList	AraList() const { return Ara.split(','); };			//ARA	ï¿½Â•Ğ–ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½g(ï¿½Jï¿½ï¿½ï¿½}ï¿½ï¿½ï¿½Ø‚è•ªï¿½ï¿½ï¿½ï¿½)
 	bool	operator==(const ReviewNGPoint &src);
 public:
 
@@ -597,15 +615,15 @@ typedef ReviewNGPointList			*ReviewNGPointListPtr;
 typedef ReviewNGPoint				*ReviewNGPointIndex;
 typedef QList<ReviewNGPointIndex>	ReviewNGPointIndexList;
 
-//‚m‚f‰ÓŠ‚Ìî•ñ : NGImageListForReview ‚Å•\¦‚³‚ê‚éƒŠƒXƒg‚Ğ‚Æ‚Â•ª‚Ìƒf[ƒ^
-//XML‚ÌNGƒf[ƒ^‚©‚çÄ\¬‚·‚é : NG‰æ‘œ1–‡’PˆÊ‚Å‚Ì‚Ü‚Æ‚Ü‚è. <NGI `/>‚ÆReviewNGPointA‚¨‚æ‚Ñ<IST NGJ=`>‚©‚çÄ\¬
+//ï¿½mï¿½fï¿½Óï¿½ï¿½Ìï¿½ï¿½ï¿½ : NGImageListForReview ï¿½Å•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½éƒŠï¿½Xï¿½gï¿½Ğ‚Æ‚Â•ï¿½ï¿½Ìƒfï¿½[ï¿½^
+//XMLï¿½ï¿½NGï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Ä\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : NGï¿½æ‘œ1ï¿½ï¿½ï¿½Pï¿½Ê‚Å‚Ì‚Ü‚Æ‚Ü‚ï¿½. <NGI ï¿½`/>ï¿½ï¿½ReviewNGPointï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<IST NGJ=ï¿½`>ï¿½ï¿½ï¿½ï¿½ï¿½Ä\ï¿½ï¿½
 //
-//  ReviewPIBase‚É•Û‘¶‚³‚ê‚é
+//  ReviewPIBaseï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //
 
-// NGNailItem‚Ì”äŠr—pƒNƒ‰ƒX
-// •Û‚µ‚Ä‚¢‚éƒf[ƒ^‚ğ—p‚¢‚Ä“¯‚¶ƒf[ƒ^‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚·‚é‚±‚Æ‚Ég—p‚·‚é
-// Œp³æ‚Å‚à == ‚Íg—p‚Å‚«‚é
+// NGNailItemï¿½Ì”ï¿½ï¿½rï¿½pï¿½Nï¿½ï¿½ï¿½X
+// ï¿½Ûï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½Ä“ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½é‚±ï¿½Æ‚Égï¿½pï¿½ï¿½ï¿½ï¿½
+// ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ == ï¿½Ígï¿½pï¿½Å‚ï¿½ï¿½ï¿½
 
 class HistoryItem;
 
@@ -637,7 +655,7 @@ public:
 public:
 	int		page;
 	int		phase;
-	Review::FKey FKey;// FƒL[î•ñ
+	Review::FKey FKey;// Fï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½
 
 public:
 	int		IDX;
@@ -690,18 +708,18 @@ public:
 	//	NGImage = NULL;
 	//};
 public:
-	//QBitmap	NGImage		// QBitmap‚ÅPNG‚ğˆø‚«o‚·‚Æ‰æ‘œ‚ª—ò‰»‚·‚é‚Ì‚ÅAQImage‚Ö•ÏXBQPixmap‚Å‚à‘ã—p‰Â”\‚Ì‚æ‚¤BÀÛ‚É—˜—p‚·‚é’iŠK‚ÅA—˜—p‚µ‚â‚·‚¢•û‚ÉŒˆ’è‚·‚éB
-	//QImage	NGImage;		// NG‰æ‘œ
+	//QBitmap	NGImage		// QBitmapï¿½ï¿½PNGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Æ‰æ‘œï¿½ï¿½ï¿½ò‰»‚ï¿½ï¿½ï¿½ï¿½Ì‚ÅAQImageï¿½Ö•ÏXï¿½BQPixmapï¿½Å‚ï¿½ï¿½ï¿½ï¿½pï¿½Â”\ï¿½Ì‚æ‚¤ï¿½Bï¿½ï¿½ï¿½Û‚É—ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Kï¿½ÅAï¿½ï¿½ï¿½pï¿½ï¿½ï¿½â‚·ï¿½ï¿½ï¿½ï¿½ï¿½ÉŒï¿½ï¿½è‚·ï¿½ï¿½ï¿½B
+	//QImage	NGImage;		// NGï¿½æ‘œ
 	//NGImageReader *NGImage;
 	int		NGImageWidth;
 	int		NGImageHeight;
-	bool	isChecked;		// Šm”FÏ‚İƒtƒ‰ƒO Šm”Fƒtƒ‰ƒO‚ªtrue‚È‚ç‚ÎFKey‚Í—LŒø
+	bool	isChecked;		// ï¿½mï¿½Fï¿½Ï‚İƒtï¿½ï¿½ï¿½O ï¿½mï¿½Fï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½trueï¿½È‚ï¿½ï¿½ï¿½FKeyï¿½Í—Lï¿½ï¿½
 	//QString NGImageFilename;
 	mutable QImage  Image;
 	QImage	DummyImage;
 
-	ReviewNGPointList	NGPointList; // NG‰æ‘œ‚ÉŠÜ‚Ü‚ê‚éNG‚ÌW‚Ü‚è
-	int InspectID;// Ú‘±æ‚ÌHistoryItem‚Åİ’è‚³‚ê‚é
+	ReviewNGPointList	NGPointList; // NGï¿½æ‘œï¿½ÉŠÜ‚Ü‚ï¿½ï¿½ï¿½NGï¿½ÌWï¿½Ü‚ï¿½
+	int InspectID;// ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½HistoryItemï¿½Åİ’è‚³ï¿½ï¿½ï¿½ï¿½
 
 public:
 	void setNGReader(NGImageReaderOneFile *Reader){ NGReader = Reader; };
@@ -712,11 +730,11 @@ public:
 	QImage image(void) const {
 		QImage ret;
 
-		if(DummyImage.isNull()==false){// ƒ_ƒ~[—Dæ
+		if(DummyImage.isNull()==false){// ï¿½_ï¿½~ï¿½[ï¿½Dï¿½ï¿½
 			ret = DummyImage;
-		}else if(Image.isNull()==false){// ‚·‚Å‚É“Ç‚İ‚İÏ‚İ
+		}else if(Image.isNull()==false){// ï¿½ï¿½ï¿½Å‚É“Ç‚İï¿½ï¿½İÏ‚ï¿½
 			ret = Image;
-		}else{// –¢“Ç‚İ‚İ‚Ìê‡‚Í“Ç‚İ‚İ
+		}else{// ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½İ‚Ìê‡ï¿½Í“Ç‚İï¿½ï¿½ï¿½
 			if(hasNGReader()){
 				if(getNGReader()->isFinished()==false){
 					if(getNGReader()->isRunning()==false){
@@ -812,23 +830,23 @@ typedef NGNailList			*NGNailListPtr;
 typedef NGNailItem			*NGNailIndex;
 typedef QList<NGNailIndex>	NGNailIndexList;
 
-//‚m‚f—š—ğî•ñ : ShowHistoryListForReview‚ÌƒŠƒXƒg1—ñ•ª(XML‚ÌISTƒ^ƒO1ŒÂ•ª)
+//ï¿½mï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : ShowHistoryListForReviewï¿½Ìƒï¿½ï¿½Xï¿½g1ï¿½ï¿½ï¿½ï¿½(XMLï¿½ï¿½ISTï¿½^ï¿½O1ï¿½Â•ï¿½)
 //
-// ReviewPIBase‚É•Û‘¶‚³‚ê‚é
+// ReviewPIBaseï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //
 class HistoryItem
 {
 public:
 	int			InspectedMachine;
 	QString		XMLSearchFormat;
-	XDateTime	InspectedTime;	// ŒŸ¸ŠÔ
-	int			_InspectID;		// ŒŸ¸ID
-	int			NGCount;		// NGŒÂ”
-	QStringList Result;			// Œ‹‰Êî•ñ : 
-								//	TimeOver	ƒ^ƒCƒ€ƒI[ƒo[
-								//	MaxOver		NGŒÂ”ãŒÀƒI[ƒo[
-								//	OK			OK‚ÖU‚è•ª‚¯
-								//	NG			NG‚ÖU‚è•ª‚¯
+	XDateTime	InspectedTime;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int			_InspectID;		// ï¿½ï¿½ï¿½ï¿½ID
+	int			NGCount;		// NGï¿½Âï¿½
+	QStringList Result;			// ï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½ : 
+								//	TimeOver	ï¿½^ï¿½Cï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[
+								//	MaxOver		NGï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[
+								//	OK			OKï¿½ÖUï¿½è•ªï¿½ï¿½
+								//	NG			NGï¿½ÖUï¿½è•ªï¿½ï¿½
 	Review::SideType Side;
 
 public:
@@ -836,7 +854,7 @@ public:
 	int InspectID() const { return _InspectID; };
 
 private:
-	NGNailList	m_NGNails;		// NGî•ñ : NG‰æ‘œ’PˆÊ‚Ì—v‘f‚ğ‚à‚ÂƒRƒ“ƒeƒi
+	NGNailList	m_NGNails;		// NGï¿½ï¿½ï¿½ï¿½ : NGï¿½æ‘œï¿½Pï¿½Ê‚Ì—vï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ÂƒRï¿½ï¿½ï¿½eï¿½i
 	NGImageReaderOneFile *m_NGReader;
 	QString m_Filename;
 	QList<int> m_IDXList;
@@ -887,7 +905,7 @@ public:
 	};
 
 	void loadNGImage(void){
-		if(m_NGReader->isFinished()==false && m_NGReader->isRunning()==false){// I‚í‚Á‚Ä‚È‚­‚ÄÀs‚³‚ê‚Ä‚à‚¢‚È‚¢ê‡‚ÍƒXƒ^[ƒg
+		if(m_NGReader->isFinished()==false && m_NGReader->isRunning()==false){// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Äï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍƒXï¿½^ï¿½[ï¿½g
 			m_NGReader->start();
 		}
 	};
@@ -898,18 +916,18 @@ public:
 			return Review::NoFKey;
 		}
 
-		// “ü‚ê•¨‚Ì‰Šú‰»
+		// ï¿½ï¿½ï¿½ê•¨ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 		perNail	= QVector<int>(13, 0).toList();
 		perNG	= QVector<int>(13, 0).toList();
 
-		// FƒL[î•ñ‚ğŒvã
+		// Fï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½
 		for(NGNailList::ConstIterator item=m_NGNails.constBegin(); item!=m_NGNails.constEnd(); item++){
-			perNail[Review::FKeyToInt(item->FKey)] += 1;// FƒL[‚É‘Î‰‚µ‚½”z—ñ‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
-			perNG[Review::FKeyToInt(item->FKey)] += item->NGPointList.count();// d•¡•ª‚ğŠÜ‚Ş
+			perNail[Review::FKeyToInt(item->FKey)] += 1;// Fï¿½Lï¿½[ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½g
+			perNG[Review::FKeyToInt(item->FKey)] += item->NGPointList.count();// ï¿½dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
 		}
 
-		// Å‘åFƒL[ƒJƒEƒ“ƒg”‚ÌFƒL[‚ğæ“¾
-		// “¯”‚Ìê‡AF[i]‚Ìi‚ª¬‚³‚¢•û‚ª—Dæ“I‚É‘I‚Î‚ê‚é
+		// ï¿½Å‘ï¿½Fï¿½Lï¿½[ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½Fï¿½Lï¿½[ï¿½ï¿½ï¿½æ“¾
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½AF[i]ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Dï¿½ï¿½ï¿½Iï¿½É‘Iï¿½Î‚ï¿½ï¿½ï¿½
 		int maxIndex = 0;
 		int maxCount = perNail[maxIndex];
 		for(int i=1; i<perNail.count()-1; i++){
@@ -918,8 +936,8 @@ public:
 				maxIndex = i;
 			}
 		}
-		// FƒL[‚ª‚P‚Â‚à•t‚¢‚Ä‚¢‚È‚¢ê‡‚ÍFƒL[‚È‚µ
-		// ‚¢‚¸‚ê‚©‚ÌFƒL[‚ª‚P‚Â‚Å‚à•t‚¢‚Ä‚¢‚ê‚ÎA‚»‚ÌFƒL[‘®«‚É‚·‚é
+		// Fï¿½Lï¿½[ï¿½ï¿½ï¿½Pï¿½Â‚ï¿½ï¿½tï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ï¿½Fï¿½Lï¿½[ï¿½È‚ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ê‚©ï¿½ï¿½Fï¿½Lï¿½[ï¿½ï¿½ï¿½Pï¿½Â‚Å‚ï¿½ï¿½tï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ÎAï¿½ï¿½ï¿½ï¿½Fï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 		if(maxCount==0){
 			return Review::NoFKey;
 		}else{
@@ -964,12 +982,12 @@ typedef HistoryList			*HistoryListPtr;
 typedef HistoryItem			*HistoryIndex;
 typedef QList<HistoryIndex>	HistoryIndexList;
 
-// •\— ‚Ì—š—ğ‚ğ‚Ü‚Æ‚ß‚½ƒf[ƒ^
-// “¯ˆêŒŸ¸ƒR[ƒh(XMLƒf[ƒ^‚ÌIST‚Ì—v‘fEID‚Ì’l)‚Ì•\‚Æ— ‚Ì—š—ğî•ñ‚ğ•Û‚·‚é
-// ƒƒbƒg‚ªXV‚³‚ê‚é‚Æ“¯‚ÉXV‚³‚ê‚é
-// •Û‚·‚é—š—ğî•ñ‚Íƒ|ƒCƒ“ƒ^‚ÅAÀ‘Ô‚Í•Ê‚É‚ ‚é
+// ï¿½\ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Æ‚ß‚ï¿½ï¿½fï¿½[ï¿½^
+// ï¿½ï¿½ï¿½êŒŸï¿½ï¿½ï¿½Rï¿½[ï¿½h(XMLï¿½fï¿½[ï¿½^ï¿½ï¿½ISTï¿½Ì—vï¿½fEIDï¿½Ì’l)ï¿½Ì•\ï¿½Æ—ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ“ï¿½ï¿½ï¿½ï¿½ÉXï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½Ûï¿½ï¿½ï¿½ï¿½é—šï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½ÅAï¿½ï¿½ï¿½Ô‚Í•Ê‚É‚ï¿½ï¿½ï¿½
 // 
-// ReviewPIBase‚É•Û‘¶‚³‚ê‚é
+// ReviewPIBaseï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //
 class OrganizedHistoryItem
 {
@@ -1239,9 +1257,9 @@ public:
 private:
 	HistoryIndex FrontItem;
 	HistoryIndex BackItem;
-	QList<NGNailList::Iterator> FrontBackNGNailList;// ƒCƒeƒŒ[ƒ^‚ª•\¨— ‚Ì‡”Ô‚Å•À‚ñ‚Å‚¢‚éƒŠƒXƒg
-	Review::OrganizedSideType Type;// •\— Š‘®
-	Qt::Key FKey;// FƒL[î•ñ
+	QList<NGNailList::Iterator> FrontBackNGNailList;// ï¿½Cï¿½eï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½Ô‚Å•ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½éƒŠï¿½Xï¿½g
+	Review::OrganizedSideType Type;// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	Qt::Key FKey;// Fï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½
 };
 
 typedef QList<OrganizedHistoryItem>		OrganizedHistoryList;
@@ -1249,7 +1267,7 @@ typedef OrganizedHistoryList			*OrganizedHistoryListPtr;
 typedef OrganizedHistoryItem			*OrganizedHistoryIndex;
 typedef QList<OrganizedHistoryIndex>	OrganizedHistoryIndexList;
 
-// JDTƒtƒ@ƒCƒ‹‚Ì‰æ‘œƒf[ƒ^‚Ğ‚Æ‚Â•ª‚Ìî•ñ‚ğ•Û‚·‚éƒNƒ‰ƒX
+// JDTï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì‰æ‘œï¿½fï¿½[ï¿½^ï¿½Ğ‚Æ‚Â•ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
 class JDTItem
 {
 public:
@@ -1293,9 +1311,9 @@ typedef JDTList			*JDTListPtr;
 typedef JDTItem			*JDTIndex;
 typedef QList<JDTIndex>	JDTIndexList;
 
-// •\‚Æ— ‚Ì“Ç‚İ‚ñ‚¾ƒ}ƒXƒ^[ƒf[ƒ^‚Ìƒoƒbƒtƒ@
-// •Ö‹XãƒAƒ‹ƒSƒŠƒYƒ€‚É•Û‘¶‚µ‚Ä‚¨‚­
-// «—ˆ“I‚É•¡”‚Ì•\— \‘¢‚ğg—p‚·‚é‚½‚ß•Û‘¶‚Å‚«‚é‚æ‚¤‚É‚µ‚Ä‚¨‚­
+// ï¿½\ï¿½Æ—ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ñ‚¾ƒ}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½Ìƒoï¿½bï¿½tï¿½@
+// ï¿½Ö‹Xï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½É•ï¿½ï¿½ï¿½ï¿½Ì•\ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½é‚½ï¿½ß•Û‘ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 class MasterDataInfo
 {
 public:

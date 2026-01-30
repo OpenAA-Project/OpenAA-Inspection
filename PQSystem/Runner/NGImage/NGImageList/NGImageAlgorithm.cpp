@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "NGImageAlgorithm.h"
 #include <QSqlDatabase>
 #include <QTemporaryFile>
@@ -491,7 +509,7 @@ bool	ReportDataStructure::SaveEXCEL(LayersBase *base ,const QString &XLSXFileNam
 	Fnt	=XLSXBook->addFont();
 	QString	FontName;
 	switch (base->GetLanguageCode()) {
-	case 0:	FontName = "‚l‚r ‚oƒSƒVƒbƒN";	break;
+	case 0:	FontName = "ï¿½lï¿½r ï¿½oï¿½Sï¿½Vï¿½bï¿½N";	break;
 	case 1:	FontName = "Arial";				break;
 	case 2:	FontName = "SimSun";			break;
 	case 3:	FontName = "MingLiU";			break;

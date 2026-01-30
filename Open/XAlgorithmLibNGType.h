@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\XAlgorithmLibNGType.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XALGORITHMLIBNGTYPE_H)
 #define	XALGORITHMLIBNGTYPE_H
 
@@ -25,21 +33,21 @@ class	AlgorithmItemRoot;
 class	LibNGTypeItem : public NPList<LibNGTypeItem>,public ServiceForLayers
 {
 public:
-	int32	TypeUniqueCode;	//ƒf[ƒ^ƒx[ƒX“à‚Å—Bˆê‚Ì’l
+	int32	TypeUniqueCode;	//ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½Å—Bï¿½ï¿½ï¿½Ì’l
 	int32	TypeCode;
 	QColor	NGColor;
 	bool	Blink;
 	enum	NGShapeType
 	{
-		 NG_Circle		=0	//› “h‚è‚Â‚Ô‚³‚È‚¢ŠÛ
-		,NG_FilledCircle=1	//œ “h‚è‚Â‚Ô‚µ‚½ŠÛ
-		,NG_Rectangle	=2	//  “h‚è‚Â‚Ô‚³‚È‚¢lŠp
-		,NG_FilledRect	=3	//¡ “h‚è‚Â‚Ô‚µ‚½lŠp
-		,NG_X			=4	//‚w ƒoƒbƒeƒ“
-		,NG_Star		=5	//™
-		,NG_FilledStar	=6	//š
-		,NG_Cross		=7	//{
-		,NG_Sharp		=8	//ò
+		 NG_Circle		=0	//ï¿½ï¿½ ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½
+		,NG_FilledCircle=1	//ï¿½ï¿½ ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½
+		,NG_Rectangle	=2	//ï¿½ï¿½ ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½ï¿½È‚ï¿½ï¿½lï¿½p
+		,NG_FilledRect	=3	//ï¿½ï¿½ ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½ï¿½ï¿½ï¿½lï¿½p
+		,NG_X			=4	//ï¿½w ï¿½oï¿½bï¿½eï¿½ï¿½
+		,NG_Star		=5	//ï¿½ï¿½
+		,NG_FilledStar	=6	//ï¿½ï¿½
+		,NG_Cross		=7	//ï¿½{
+		,NG_Sharp		=8	//ï¿½ï¿½
 	}NGShape;
 	int32	Priority;
 	int		NextJumpMilisec;

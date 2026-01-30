@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\HASP\HaspLinApp_4\HaspLinApp_4\hasplinapp_4.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "hasplinapp_4.h"
 #include "hasp_vcode.h"  
 
@@ -31,12 +40,12 @@ void HaspLinApp_4::on_pushButton_clicked()
 				unsigned char WORD=ReData[0];
 				if (WORD==0xff){
 					Ret.append("");
-					hasp_logout(Handle);//login¨logout
+					hasp_logout(Handle);//loginï¿½ï¿½logout
 					return;
 				}
 				if (ReData=="" ){
 					Ret.append("");
-					hasp_logout(Handle);//login¨logout
+					hasp_logout(Handle);//loginï¿½ï¿½logout
 					return;
 				}
 				if(Decrypt(Handle,ReData,DeData)==true){
@@ -46,7 +55,7 @@ void HaspLinApp_4::on_pushButton_clicked()
 			}
 		}
 	}
-	hasp_logout(Handle);//login¨logout
+	hasp_logout(Handle);//loginï¿½ï¿½logout
 }
 
 bool HaspLinApp_4::HaspLogin(hasp_handle_t &handle)
@@ -80,7 +89,7 @@ bool HaspLinApp_4::HaspLogin(hasp_handle_t &handle)
 }
 bool HaspLinApp_4::Session(hasp_handle_t handle, QByteArray &info)
 {
-	//HASPŒÅ—Lî•ñ‚Ìæ“¾
+	//HASPï¿½Å—Lï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
 	info.clear();
 	char *HASPinfo;
 	hasp_status_t status;
@@ -105,7 +114,7 @@ bool HaspLinApp_4::Session(hasp_handle_t handle, QByteArray &info)
 }
 void HaspLinApp_4::GetHaspID(QByteArray haspInfo,int &haspID)
 {
-//HASPƒVƒŠƒAƒ‹ƒR[ƒhæ“¾
+//HASPï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½æ“¾
 	QDomDocument d;
 	d.setContent(QString(haspInfo));
 	QDomElement n = d.firstChildElement();
@@ -121,7 +130,7 @@ void HaspLinApp_4::GetHaspID(QByteArray haspInfo,int &haspID)
 									while (!child3.isNull()) {
 										if (child3.tagName()=="haspid"){
 											haspID =child3.text().toInt();
-											hasp_free((char *)HaspID); //ŠJ•ú
+											hasp_free((char *)HaspID); //ï¿½Jï¿½ï¿½
 											return ;
 										}
 										child3=child3.nextSiblingElement();
@@ -171,35 +180,35 @@ bool HaspLinApp_4::ReadHasp(hasp_handle_t handle, QByteArray &readData)
 }
 void HaspLinApp_4::Fukugou(int ID,QByteArray ReData, QByteArray &fukugou)
 {
-	//ƒVƒŠƒAƒ‹ƒR[ƒh‚Ì‰º3Œ…‚ğg—p‚µ‚½•¡‡‰»
+	//ï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Ì‰ï¿½3ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	fukugou.clear();
 	QStringList List;
 	List.clear();
-	//QByteArray¨QStringList(swapŠÖ”‚ğg‚¤ˆ×)
+	//QByteArrayï¿½ï¿½QStringList(swapï¿½Öï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½)
 	for (int iA=0; iA<=47; iA++){
 		List.append(ReData.mid(iA,1));
 	}
-	//ˆÃ†‰»‚³‚ê‚½‚ÌÅŒã‚Ì”Ô†‚ğ‚Æ‚é
+	//ï¿½Ãï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ÌÅŒï¿½ï¿½Ì”Ôï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 	int iNum=0;
 	for (int iAn=0; iAn<=QByteArray().setNum(ID).mid(6,3).toInt(); iAn++){
 		if (iNum==45){iNum=0;}	
 		iNum++;
 	}
 	iNum=iNum+2;
-	//ˆÃ†‰»‚³‚ê‚½‚à‚Ì‚ğ•¡‡‰»‚·‚é
+	//ï¿½Ãï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Ì‚ğ•¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for (int iFu=0; iFu<=QByteArray().setNum(ID).mid(6,3).toInt(); iFu++){
 		if (iNum==2){iNum=47;}
 		List.swap(iNum,iNum-3);
 		iNum--;
 	}
-	//QStringList¨QByteArray‚É–ß‚·
+	//QStringListï¿½ï¿½QByteArrayï¿½É–ß‚ï¿½
 	for (int iB=0; iB<=47; iB++){
 		fukugou.insert(iB,List.at(iB));
 	}
 }
 bool HaspLinApp_4::Decrypt(hasp_handle_t handle, QByteArray hasp, QByteArray &deCereal)
 {
-	//ƒf[ƒ^•¡‡‰»
+	//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	deCereal.clear();
 	hasp_status_t   destatus;
 	hasp.resize(hasp.size());
@@ -237,7 +246,7 @@ void HaspLinApp_4::Return(QByteArray InData,QStringList &RetData)
 	QString sHYOUJI4;
 	QString sHYOUJI7;
 	QString sHYOUJI10;
-	//“ú•t‚ğŒ^•ÏŠ·‚Å–ß‚·
+	//ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½^ï¿½ÏŠï¿½ï¿½Å–ß‚ï¿½
 	unsigned char WORD0=InData[0];
 	unsigned char WORD1=InData[1];
 	unsigned char WORD2=InData[2];
@@ -274,7 +283,7 @@ void HaspLinApp_4::Return(QByteArray InData,QStringList &RetData)
 	sHYOUJI10.append(QString().setNum(WORD38).rightJustified(2, '0'));
 	sHYOUJI10.append(QString().setNum(WORD39).rightJustified(2, '0'));
 	
-	//ƒf[ƒ^‚ª“ü‚Á‚Ä‚¢‚éê‡‚Ì‚İQString‚ÖˆÚ‚·
+	//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ì‚ï¿½QStringï¿½ÖˆÚ‚ï¿½
 	if (sHYOUJI1.right(6)!="000000"){
 		RetData.append(sHYOUJI1);
 		RetData.append(InData.mid(4,8));

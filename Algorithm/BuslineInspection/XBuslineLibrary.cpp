@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XBuslineInspection.h"
 #include "XGeneralFunc.h"
 #include "XImageProcess.h"
@@ -17,8 +35,8 @@ BuslineLibrary::BuslineLibrary(int LibType,LayersBase *Base)
 	CompareToMaster		=false;
 	AutoBinarize		=false;
 	ReduceNoise			=true;
-	BinarizedLength		=200;	//‹ÇŠ‚Q’l‰»—ÌˆæƒTƒCƒY
-	ReferredBrightness	=100;	//‚Q’l‰»QÆ‹P“x
+	BinarizedLength		=200;	//ï¿½Çï¿½ï¿½Qï¿½lï¿½ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½Cï¿½Y
+	ReferredBrightness	=100;	//ï¿½Qï¿½lï¿½ï¿½ï¿½Qï¿½Æ‹Pï¿½x
 	SearchDotToMaster	=5;
 	WidthToIgnoreEdge	=2;
 	OKNickRate			=50;			//0-100% for MinWidth
@@ -283,7 +301,7 @@ int	BuslineLibrary::MakeThreshold(ImageBuffer &IBuff ,int x1 ,int y1 ,int x2 ,in
 	MakeBrightList(BrList ,IBuff,x1,y1,x2,y2 ,MaskMap);
 	int	C=Ave;
 
-	//‹P“xƒŠƒXƒg‚Å‚ÌAve•t‹ß‚Ì‹É¬ŒÂ”‹P“x‚ğ‹‚ß‚é
+	//ï¿½Pï¿½xï¿½ï¿½ï¿½Xï¿½gï¿½Å‚ï¿½Aveï¿½tï¿½ß‚Ì‹Éï¿½ï¿½Âï¿½ï¿½Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 	for(int k=C-1;k<=0;k--){
 		if(BrList[k]>BrList[k+1]){
 			C=k+1;
@@ -296,7 +314,7 @@ int	BuslineLibrary::MakeThreshold(ImageBuffer &IBuff ,int x1 ,int y1 ,int x2 ,in
 			break;
 		}
 	}
-	//C‚Ì—¼‘¤‚ÅÅ‘åŒÂ”‚Ì‹P“x‚ğ‚»‚ê‚¼‚ê‹‚ß‚é
+	//Cï¿½Ì—ï¿½ï¿½ï¿½ï¿½ÅÅ‘ï¿½ï¿½Âï¿½ï¿½Ì‹Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ê‚¼ï¿½ê‹ï¿½ß‚ï¿½
 	int	MaxD=0;
 	int	MaxBLow=0;
 	for(int k=0;k<=C;k++){

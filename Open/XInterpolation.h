@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XINTERPOLATION_H)
 #define	XINTERPOLATION_H
 
@@ -10,16 +28,16 @@ void	InterpolateEllipse(ImageBuffer &Img , FlexArea &CircleArea
 							,double &Rx,double &Ry
 							,double Precision=0.001);
 /*
-	‘È‰~‚É•âŠÔ‚·‚é
-	‚¨‚æ‚»‚Ì‘È‰~Œ`ó‚ğCircleArea‚É“ü‚ê‚Ä‚¨‚­
+	ï¿½È‰~ï¿½É•ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½æ‚»ï¿½Ì‘È‰~ï¿½`ï¿½ï¿½ï¿½ï¿½CircleAreaï¿½É“ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 */
 
 bool	MakeInterpolatedLine(double x[] ,double y[] ,int N
 							 ,double &A,double &B,double &C);
 /*
-	Å¬‚Qæ–@‚Å
+	ï¿½Åï¿½ï¿½Qï¿½ï¿½ï¿½@ï¿½ï¿½
 	Ax+By+C=0
-	‚ğ‹‚ß‚é
+	ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 */
 
 bool	AnalizeInterpolatedLine(double x[] ,double y[] ,int N

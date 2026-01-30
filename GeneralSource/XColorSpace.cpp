@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XColorSpace.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "XTypeDef.h"
 #include "XColorSpace.h"
@@ -173,19 +182,19 @@ BYTE	ColorSphere::Calc8(BYTE *r ,BYTE *g ,BYTE *b,int Mergin)
 		PUNPCKLQDQ	xmm2,xmm2				//xmm2=rr,rr,rr,rr
 		paddd		xmm4,xmm5				//xmm4=(r0-Cr)*(r0-Cr)+(g0-Cg)*(g0-Cg)+(b0-Cb)*(b0-Cb),(r1-Cr)*(r1-Cr)+(g1-Cg)*(g1-Cg)+(b1-Cb)*(b1-Cb),(r2-Cr)*(r2-Cr)+(g2-Cg)*(g2-Cg)+(b2-Cb)*(b2-Cb),(r3-Cr)*(r3-Cr)+(g3-Cg)*(g3-Cg)+(b3-Cb)*(b3-Cb)
 
-		PCMPGTD		xmm4,xmm2				//’†S‚Æ(r,g,b)ŠÔ‚Ì‹——£‚Ì•û‚ª(Radius+Mergin)‚æ‚è‘å‚«‚¢‚Æ‚«A‚O
+		PCMPGTD		xmm4,xmm2				//ï¿½ï¿½ï¿½Sï¿½ï¿½(r,g,b)ï¿½Ô‚Ì‹ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½(Radius+Mergin)ï¿½ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½O
 											//xmm4=res0,res1,res2,res3(DWORD)
 		PCMPGTD		xmm1,xmm2				//xmm1=res4,res5,res6,res7(DWORD)
 		PACKSSDW	xmm4,xmm1				//xmm4=res0,res1,res2,res3,res4,res5,res6,res7(WORD)
 		PACKSSWB	xmm4,xmm0				//xmm4=res0,res1,res2,res3,res4,res5,res6,res7,0,0,0,0,0,0,0,0(BYTE)
 		/*	SSSE3
-		PSHUFB		xmm4,ShuffleTable		//‡”Ô‚Ì“ü‚ê‘Ö‚¦
+		PSHUFB		xmm4,ShuffleTable		//ï¿½ï¿½ï¿½Ô‚Ì“ï¿½ï¿½ï¿½ï¿½Ö‚ï¿½
 											//xmm4=res7,res6,res5,res4,res3,res2,res1,res0,0,0,0,0,0,0,0,0(BYTE)
-		PMOVMSKB	eax,xmm4				//ŠeƒoƒCƒg‚ÌBit7‚ğæ‚èo‚·
-		not			al						//”½“]‚³‚¹‚é
+		PMOVMSKB	eax,xmm4				//ï¿½eï¿½oï¿½Cï¿½gï¿½ï¿½Bit7ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½
+		not			al						//ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		mov			bRet,al
 		*/
-		PMOVMSKB	eax,xmm4				//ŠeƒoƒCƒg‚ÌBit7‚ğæ‚èo‚·
+		PMOVMSKB	eax,xmm4				//ï¿½eï¿½oï¿½Cï¿½gï¿½ï¿½Bit7ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½
 		shl			al,1
 		rcr			ah,1
 		shl			al,1
@@ -202,7 +211,7 @@ BYTE	ColorSphere::Calc8(BYTE *r ,BYTE *g ,BYTE *b,int Mergin)
 		rcr			ah,1
 		shl			al,1
 		rcr			ah,1
-		not			ah						//”½“]‚³‚¹‚é
+		not			ah						//ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		mov			bRet,ah
 
 		pop			rbx
@@ -2252,11 +2261,11 @@ bool	RelativeThresholdColorBox::operator==(const RelativeThresholdColorBox &src)
 }
 
 void	HSV2RGB(double h,double s ,double v ,int &R ,int &G ,int &B)
-// HSV(HSB)F‹óŠÔ‚©‚çRGBF‹óŠÔ‚Ö•ÏŠ·‚·‚é 
-//  h(hue)       : F‘Š/F‡‚¢   0-360“x‚Ì’l
-//  s(saturation): Ê“x/‘N‚â‚©‚³ 0-255‚Ì’l
-//  v(Value)     : –¾“x/–¾‚é‚³   0-255‚Ì’l 
-//  ¦v ‚Í b(Brightness)‚Æ“¯—l 
+// HSV(HSB)ï¿½Fï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½RGBï¿½Fï¿½ï¿½ï¿½Ô‚Ö•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ 
+//  h(hue)       : ï¿½Fï¿½ï¿½/ï¿½Fï¿½ï¿½ï¿½ï¿½   0-360ï¿½xï¿½Ì’l
+//  s(saturation): ï¿½Ê“x/ï¿½Nï¿½â‚©ï¿½ï¿½ 0-255ï¿½Ì’l
+//  v(Value)     : ï¿½ï¿½ï¿½x/ï¿½ï¿½ï¿½é‚³   0-255ï¿½Ì’l 
+//  ï¿½ï¿½v ï¿½ï¿½ b(Brightness)ï¿½Æ“ï¿½ï¿½l 
 {
    while(h>= 360.0){
      h-=360.0;
@@ -2293,22 +2302,22 @@ void	HSV2RGB(double h,double s ,double v ,int &R ,int &G ,int &B)
 }
 
 void	RGB2HSV(double &h,double &s ,double &v ,int r ,int g ,int b)
- // RGBF‹óŠÔ‚©‚çHSVF‹óŠÔ‚Ö•ÏŠ·‚·‚é 
- //  r(red)  : ÔF 0-255‚Ì’l
- //  g(green): —ÎF 0-255‚Ì’l
- //  b(blue) : ÂF 0-255‚Ì’l 
+ // RGBï¿½Fï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½HSVï¿½Fï¿½ï¿½ï¿½Ô‚Ö•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ 
+ //  r(red)  : ï¿½ÔF 0-255ï¿½Ì’l
+ //  g(green): ï¿½ÎF 0-255ï¿½Ì’l
+ //  b(blue) : ï¿½ÂF 0-255ï¿½Ì’l 
 {
 	int	cmax = max(r, g, b);
 	int cmin = min(r, g, b);
 	v=cmax;
    
 	if (cmax != cmin) {
-		// H(F‘Š)  
+		// H(ï¿½Fï¿½ï¿½)  
 		if (cmax == r)	h=60.0*(g-b)/((double)(cmax-cmin));
 		if (cmax == g)	h=60.0*(b-r)/((double)(cmax-cmin)) + 120.0;
 		if (cmax == b)	h=60.0*(r-g)/((double)(cmax-cmin)) + 240.0;
 		
-		// S(Ê“x)
+		// S(ï¿½Ê“x)
 		s = (cmax - cmin) / ((double)cmax);
 	}
 	else{
@@ -2325,22 +2334,22 @@ void	RGB2HSV(double &h,double &s ,double &v ,int r ,int g ,int b)
 }
 
 void	RGB2HSV(double &h,double &s ,double &v ,double r ,double g ,double b)
- // RGBF‹óŠÔ‚©‚çHSVF‹óŠÔ‚Ö•ÏŠ·‚·‚é 
- //  r(red)  : ÔF 0-255‚Ì’l
- //  g(green): —ÎF 0-255‚Ì’l
- //  b(blue) : ÂF 0-255‚Ì’l 
+ // RGBï¿½Fï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½HSVï¿½Fï¿½ï¿½ï¿½Ô‚Ö•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ 
+ //  r(red)  : ï¿½ÔF 0-255ï¿½Ì’l
+ //  g(green): ï¿½ÎF 0-255ï¿½Ì’l
+ //  b(blue) : ï¿½ÂF 0-255ï¿½Ì’l 
 {
 	double	cmax = max(r, g, b);
 	double cmin = min(r, g, b);
 	v=cmax;
    
 	if (cmax != cmin) {
-		// H(F‘Š)  
+		// H(ï¿½Fï¿½ï¿½)  
 		if (cmax == r)	h=60.0*(g-b)/((cmax-cmin));
 		if (cmax == g)	h=60.0*(b-r)/((cmax-cmin)) + 120.0;
 		if (cmax == b)	h=60.0*(r-g)/((cmax-cmin)) + 240.0;
 		
-		// S(Ê“x)
+		// S(ï¿½Ê“x)
 		s = (cmax - cmin) / (cmax);
 	}
 	else{

@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\RepairBase.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef REPAIRBASE_H
 #define REPAIRBASE_H
 
@@ -30,7 +38,7 @@ class ImageDataUnit;
 class ImageInPage;
 class RepairBase;
 
-//NGÔŠÛƒuƒŠƒ“ƒNƒXƒŒƒbƒh
+//NGï¿½ÔŠÛƒuï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Xï¿½ï¿½ï¿½bï¿½h
 class NGBlinkThread : public QThread
 {
 	Q_OBJECT
@@ -55,7 +63,7 @@ protected:
 private:
 };
 
-//ƒEƒBƒ“ƒhƒEƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒŒƒbƒh
+//ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Oï¿½ï¿½ï¿½fï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½h
 class WindowColorThread : public QThread
 {
 	Q_OBJECT
@@ -83,7 +91,7 @@ private:
 	QColor	RGBColor;
 };
 
-//XMLƒf[ƒ^‘€ì—pƒXƒŒƒbƒh
+//XMLï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Xï¿½ï¿½ï¿½bï¿½h
 class XMLAppendThread : public QThread
 {
 	Q_OBJECT
@@ -112,7 +120,7 @@ protected:
 private:
 };
 
-//ƒGƒ‰[‘—‚èŠÄ‹ƒXƒŒƒbƒh
+//ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½Xï¿½ï¿½ï¿½bï¿½h
 class ErrNextThread : public QThread
 {
 	Q_OBJECT
@@ -132,7 +140,7 @@ private:
 	bool	StopFlag;
 };
 
-//ŒÂ•ĞƒRƒ“ƒ{ƒ{ƒbƒNƒX
+//ï¿½Â•ĞƒRï¿½ï¿½ï¿½{ï¿½{ï¿½bï¿½Nï¿½X
 class PieceListEditor : public QComboBox
 {
 	Q_OBJECT
@@ -153,7 +161,7 @@ private:
 	void populateList();
 };
 
-//NGƒ|ƒCƒ“ƒgƒf[ƒ^Ši”[ƒNƒ‰ƒX
+//NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 class NGPointList : public NPList<NGPointList>
 {
 public:
@@ -165,7 +173,7 @@ public:
 	QString colorAlg;
 };
 
-//NGƒ|ƒCƒ“ƒgƒf[ƒ^BaseŠi”[ƒNƒ‰ƒX
+//NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^Baseï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 class NGPointBaseList : public NPList<NGPointBaseList>
 {
 public:
@@ -176,7 +184,7 @@ public:
 	NPListPack<NGPointList>	NGListForVRS;
 };
 
-//NGPƒ^ƒOƒf[ƒ^Ši”[ƒNƒ‰ƒX
+//NGPï¿½^ï¿½Oï¿½fï¿½[ï¿½^ï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 class NGPTagDataList
 {
 public:
@@ -242,7 +250,7 @@ typedef	struct	_PieceInfoData
 }PieceInfoData;
 */
 
-//ƒŠƒyƒAƒXƒe[ƒVƒ‡ƒ“‚ÌeƒNƒ‰ƒX
+//ï¿½ï¿½ï¿½yï¿½Aï¿½Xï¿½eï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ìeï¿½Nï¿½ï¿½ï¿½X
 //class RepairBase : public QWidget
 class RepairBase
 {
@@ -253,11 +261,11 @@ public:
 	RepairBase();
 	~RepairBase();
 
-	//ƒ}ƒXƒ^[‰æ‘œ— •\”»’f
+	//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½f
 	enum	SideType{
-				 None	=-1		//ƒfƒtƒHƒ‹ƒg‰Šú’l—p
-				,Front	=0		//•\
-				,Back	=1		//— 
+				 None	=-1		//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½lï¿½p
+				,Front	=0		//ï¿½\
+				,Back	=1		//ï¿½ï¿½
 	};
 	SideType	SType;
 
@@ -286,8 +294,8 @@ public:
 //	NPListPack<NGPointBaseList> NoImageNGPList[2];
 	NGPointBaseList *NGPBaseListForVRS;
 	NPListPack<NGPointBaseList>	NGPListForVRS[2];
-	int			PieceInfoDataCount[2];			//ŒÂ•Ğî•ñŒÂ”
-	PieceInfoData *PieceInfoDataList[2];		//ŒÂ•Ğî•ñƒf[ƒ^
+	int			PieceInfoDataCount[2];			//ï¿½Â•Ğï¿½ï¿½ï¿½ï¿½Âï¿½
+	PieceInfoData *PieceInfoDataList[2];		//ï¿½Â•Ğï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
 	int			ClientNo[2];
 	QByteArray	strQNO;
 	QByteArray	strQNO1;
@@ -306,26 +314,26 @@ public:
 	XMLElement		**NGPTagList[2];
 	XMLAppendThread	tXMLAppend;
 
-	int			PNumbForBase;		//ƒJƒƒ‰”‚Ì•Û
+	int			PNumbForBase;		//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•Ûï¿½
 
 	NGBlinkThread		tNGBlink;
 	WindowColorThread	tOKWindow;
 	ImageDataUnit	*IDataUnit;
 	int				Brightness[256];
 
-	//NGŒÂ•ĞƒRƒ“ƒ{ƒ{ƒbƒNƒX
+	//NGï¿½Â•ĞƒRï¿½ï¿½ï¿½{ï¿½{ï¿½bï¿½Nï¿½X
 	PieceListEditor *cbPieceListEditor;
 
 	ErrNextThread	tErrNext;
-	bool			wErrNextBS;			//ƒGƒ‰[‘—‚èƒ{ƒ^ƒ“‚ÌOn^Off•Ûƒ[ƒN
-	bool			wNGBS;				//NGƒ{ƒ^ƒ“‚ÌOn^Off•Ûƒ[ƒN
-	bool			wBackBS;			//–ß‚èƒ{ƒ^ƒ“‚ÌOn^Off•Ûƒ[ƒN
-	bool			wUnloadDone;		//”roƒRƒƒ“ƒg•\¦—v‹M†ƒ[ƒN
-	bool			wMacEmergency;		//ˆÙí”­¶M†ƒ[ƒN
-	bool			wMacEmgRestart;		//ˆÙí”­¶M†i•œ‹Œ‰Âjƒ[ƒN
-	bool			wReviewEnableFlag;	//ƒŒƒrƒ…[ÄŠJƒtƒ‰ƒOƒ[ƒN
-	bool			FirstUpdateFlag;	//‰‰ñUpdate‚Éƒ{ƒ^ƒ“‘€ì‚ğ—LŒø‚É‚³‚¹‚é
-	QList<int>		PrevNGRow;			//’¼‘O‚ÌNGƒŠƒXƒg‚Ìs•Ûƒ[ƒN
+	bool			wErrNextBS;			//ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½Onï¿½^Offï¿½Ûï¿½ï¿½ï¿½ï¿½[ï¿½N
+	bool			wNGBS;				//NGï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½Onï¿½^Offï¿½Ûï¿½ï¿½ï¿½ï¿½[ï¿½N
+	bool			wBackBS;			//ï¿½ß‚ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½Onï¿½^Offï¿½Ûï¿½ï¿½ï¿½ï¿½[ï¿½N
+	bool			wUnloadDone;		//ï¿½rï¿½oï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½gï¿½\ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½N
+	bool			wMacEmergency;		//ï¿½Ùí”­ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½N
+	bool			wMacEmgRestart;		//ï¿½Ùí”­ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½Âjï¿½ï¿½ï¿½[ï¿½N
+	bool			wReviewEnableFlag;	//ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½ÄŠJï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½N
+	bool			FirstUpdateFlag;	//ï¿½ï¿½ï¿½ï¿½Updateï¿½ï¿½ï¿½Éƒ{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½
+	QList<int>		PrevNGRow;			//ï¿½ï¿½ï¿½Oï¿½ï¿½NGï¿½ï¿½ï¿½Xï¿½gï¿½Ìsï¿½Ûï¿½ï¿½ï¿½ï¿½[ï¿½N
 	bool			(*DLL_GetName)					(QString &str);
 	void			(*DLL_SetLogInfo)				(QString *Hinsh,QString *Lot,QString *Jouge,QStringList *HDNameList,QStringList *KohenNameList);
 	void			(*DLL_AppendNGInfo)				(QString *KohenName,int NGNo,int PCNo,int TaiouKohenNumb,QString *X,QString *Y,QString HanteiKekka,QString *RealKohenName);
@@ -468,10 +476,10 @@ public:
 	void			SetBothDataToTable	(QTableWidget *W);
 	void			SetXMLDataToTable	(QTableWidget *W,int Row,int Index,SideType Type,QColor FieldColor);
 	void			SetColorToTable		(QTableWidget *W,int Row,QColor FieldColor);
-	QString			GetString			(const QString		*value,QString FirstStr,QString EndStr,int Index=0);	//•¶š—ñ‚©‚ç–Ú“I‚Ìƒf[ƒ^‚ğØ‚èæ‚é
-	QByteArray		GetString			(const QByteArray	*value,QString FirstStr,QString EndStr,int Index=0);	//•¶š—ñ‚©‚ç–Ú“I‚Ìƒf[ƒ^‚ğØ‚èæ‚é
-	QByteArray		GetString			(const QByteArray	*value,QString FirstStr,int Count=0);					//•¶š—ñ‚©‚ç–Ú“I‚Ìƒf[ƒ^‚ğw’è•¶š”•ªØ‚èæ‚é
-	int				GetStringCount		(const QString *value,QString strData);								//•¶š—ñ‚©‚ç–Ú“I‚Ìƒf[ƒ^‚ª‚¢‚­‚Â‚ ‚é‚©”‚¦‚é
+	QString			GetString			(const QString		*value,QString FirstStr,QString EndStr,int Index=0);	//ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚©‚ï¿½ï¿½Ú“Iï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½ï¿½ï¿½ï¿½
+	QByteArray		GetString			(const QByteArray	*value,QString FirstStr,QString EndStr,int Index=0);	//ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚©‚ï¿½ï¿½Ú“Iï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½ï¿½ï¿½ï¿½
+	QByteArray		GetString			(const QByteArray	*value,QString FirstStr,int Count=0);					//ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚©‚ï¿½ï¿½Ú“Iï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½ï¿½ï¿½ï¿½
+	int				GetStringCount		(const QString *value,QString strData);								//ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚©‚ï¿½ï¿½Ú“Iï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½é‚©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	QString			SearchXMLData		(QList<QByteArray> *XMLDataList,QString SearchStr,int Side);
 	void			SetWorkerID			(QString *WID);
 	QString			GetWorkerID			()							{	return(WorkerID);	}
@@ -532,12 +540,12 @@ public:
 
 	NPListPack<NGPointList> *GetNGPListForVRS(int Side,int ListCount);
 
-	//NG‰æ‘œ‚Ì•Û‘¶
+	//NGï¿½æ‘œï¿½Ì•Û‘ï¿½
 	bool	SaveNGImage(QString InsID);
 	bool	SaveNGImage(int Both,int Page,int Cnt,QString InsID);
 	bool	SaveNGImage(QTableWidget *W,QStringList *HeaderLabels);
 
-	//GeneralSetting“à‚Åg—p
+	//GeneralSettingï¿½ï¿½ï¿½Ågï¿½p
 	QStringList	GetRepairSettingList()					{	return RepairSettingList;	}
 	void		SetRepairSettingList(QStringList List)	{	RepairSettingList=List;		}
 	QString		GetMasterDir()						{	return MasterDir;				}
@@ -589,7 +597,7 @@ public:
 	int			GetPlusBlue()						{	return PlusBlue;				}
 	void		SetPlusBlue(int Value)				{	PlusBlue=Value;					}
 
-	//ƒƒCƒ“‰æ–Ê“à‚Ìİ’è€–Ú
+	//ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ê“ï¿½ï¿½Ìİ’è€ï¿½ï¿½
 	bool		GetReverseOrderDisplay()			{	return bReverseOrderDisplay;	}
 	void		SetReverseOrderDisplay(bool Enable)	{	bReverseOrderDisplay=Enable;	}
 	bool		GetNextCheck()						{	return bNextCheck;				}
@@ -606,13 +614,13 @@ public:
 
 	QString		GetEmptyARA	(int X,int Y);
 
-	//ƒfƒoƒbƒOƒƒOo—Í
+	//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½Oï¿½oï¿½ï¿½
 	bool	OpenDebugLogFile	(QString OutputDir,QString OutputFileName);
 	void	WriteDebugLogFile	(const QString &WriteMsg);
 	QFile		&GetDebugLogFile()			{	return DebugLogFile;		}
 	QTextStream &GetDebugLogFileStream()	{	return DebugLogFileStream;	}
 
-	//”’lƒŠƒXƒg‚Ì’†‚Ì”’l‚ğ‚·‚×‚Äƒrƒbƒg‚É‚µ‚Ä•Ô‚·
+	//ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Xï¿½gï¿½Ì’ï¿½ï¿½Ìï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½×‚Äƒrï¿½bï¿½gï¿½É‚ï¿½ï¿½Ä•Ô‚ï¿½
 	int		GetListNumbers(const QStringList &List);
 
 	mtQTableWidget *GetNGList		()								{	return twNGListInBase;				}
@@ -681,7 +689,7 @@ private:
 	int					RAreaX,RAreaY;
 	int					NGIX1,NGIY1,NGIX2,NGIY2;
 
-	//GeneralSetting“à‚Åg—p
+	//GeneralSettingï¿½ï¿½ï¿½Ågï¿½p
 	QStringList		RepairSettingList;
 	QString			MasterDir;
 	bool			bNGBlink;
@@ -707,7 +715,7 @@ private:
 	int				PlusRed;
 	int				PlusGreen;
 	int				PlusBlue;
-	//ƒƒCƒ“‰æ–Ê“à‚Ìİ’è€–Ú
+	//ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ê“ï¿½ï¿½Ìİ’è€ï¿½ï¿½
 	bool			bReverseOrderDisplay;
 	bool			bNextCheck;
 	bool			bEnterCheck;
@@ -716,9 +724,9 @@ private:
 
 	int				PreINM,CurINM;
 
-	InspectionDataForm InsDataDialog;	//ŒŸ¸ƒf[ƒ^‚ÌSelectŒ‹‰Ê‚ğ•\¦‚·‚éƒ_ƒCƒAƒƒO
+	InspectionDataForm InsDataDialog;	//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½Selectï¿½ï¿½ï¿½Ê‚ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½O
 
-	//NGPƒf[ƒ^”»’f
+	//NGPï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½f
 	enum	NGPCompair{
 				 NotMatch	=-1
 				,Less		=0
@@ -745,7 +753,7 @@ private:
 
 	QStringList			GetPieceNMList	(int X,int Y,int W,int H,int Page,int Type);
 
-	//NG‰æ‘œ•Û‘¶ƒ[ƒN
+	//NGï¿½æ‘œï¿½Û‘ï¿½ï¿½ï¿½ï¿½[ï¿½N
 	int		*vNGI;
 	int		*vSide;
 	QString *vARA;
@@ -753,11 +761,11 @@ private:
 	int		*vIndex;
 	QString *vRealARA;
 
-	//ƒfƒoƒbƒOƒƒOo—Í
+	//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½Oï¿½oï¿½ï¿½
 	QFile	DebugLogFile;
 	QTextStream DebugLogFileStream;
 
-	//qƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX•Û—p
+	//ï¿½qï¿½Nï¿½ï¿½ï¿½Xï¿½ÌƒCï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Ûï¿½ï¿½p
 	mtQTableWidget	*twNGListInBase;
 	QTableWidget	*twHistoryListInBase;
 	QStringList		HFieldNamesInBase;
@@ -768,4 +776,3 @@ private:
 };
 
 #endif // REPAIRBASE_H
-

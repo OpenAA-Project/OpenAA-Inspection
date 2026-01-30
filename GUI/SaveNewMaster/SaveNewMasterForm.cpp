@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "SaveNewMasterResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GUI\SaveNewMaster\SaveNewMasterForm.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 #include <QSqlQuery>
 #include "SaveNewMasterForm.h"
@@ -26,11 +35,11 @@ SaveNewMasterForm::~SaveNewMasterForm()
 
 void SaveNewMasterForm::on_pbSave_clicked()
 {
-	//•Û‘¶ƒ{ƒ^ƒ“ƒNƒŠƒbƒNˆ—
+	//ï¿½Û‘ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½
 	QString MasterName	=ui.leMasterName->text();
 	QString Remarks		=ui.leRemarks->text();
 
-	//ƒvƒƒV[ƒWƒƒ[‚É‚æ‚éƒŒƒR[ƒh‚Ìì¬
+	//ï¿½vï¿½ï¿½ï¿½Vï¿½[ï¿½Wï¿½ï¿½ï¿½[ï¿½É‚ï¿½ï¿½éƒŒï¿½Rï¿½[ï¿½hï¿½Ìì¬
 	QSqlQuery insertQuery(GetLayersBase()->GetDatabase());
 //	insertQuery.prepare("EXECUTE PROCEDURE ProcMasterInsert");
 /*
@@ -41,7 +50,7 @@ void SaveNewMasterForm::on_pbSave_clicked()
 	insertQuery.exec();
 	int MaxID=insertQuery.boundValue(2).toInt();
 */
-	//MASTERCODE‚ÌÅ‘å’l‚ðŽæ“¾
+	//MASTERCODEï¿½ÌÅ‘ï¿½ï¿½lï¿½ï¿½ï¿½æ“¾
 	QSqlQuery query(/**/"SELECT MAX(MASTERCODE) from MASTERDATA" ,GetLayersBase()->GetDatabase());
 	query.next ();
 	int	MasterCode = query.value(0).toInt()+1;

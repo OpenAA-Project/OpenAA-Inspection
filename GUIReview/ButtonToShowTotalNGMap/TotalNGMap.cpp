@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ButtonToShowTotalNGMapResource.h"
 #include "ButtonToShowTotalNGMap.h"
 #include "XReviewStructure.h"
@@ -56,20 +74,20 @@ void TotalNGMap::setNGPoints(const OrganizedHistoryListPtr OrgHistoryListPtr)
 	QList<QImage> FrontImageList, BackImageList;
 	QList<QList<QPoint> > FrontNGPosList, BackNGPosList;
 
-	foreach(OrganizedHistoryItem hitem, *OrgHistoryListPtr){// Še—š—ğî•ñ
+	foreach(OrganizedHistoryItem hitem, *OrgHistoryListPtr){// ï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if(isIgnoreErrorInspect()==true && hitem.isErrorBoard()==true){
 			continue;
 		}
 
 		if(hitem.getFront()!=NULL){
-			for(NGNailList::Iterator item = hitem.getFront()->getNGNails().begin(); item!=hitem.getFront()->getNGNails().end(); item++){// ŠeNG‰æ‘œ’PˆÊî•ñ
+			for(NGNailList::Iterator item = hitem.getFront()->getNGNails().begin(); item!=hitem.getFront()->getNGNails().end(); item++){// ï¿½eNGï¿½æ‘œï¿½Pï¿½Êï¿½ï¿½ï¿½
 				
 				while(FrontNGPosList.count()<=item->phase){
 					FrontNGPosList << QList<QPoint>();
 				}
 
-				for(ReviewNGPointList::Iterator NGitem = item->NGPointList.begin(); NGitem!=item->NGPointList.end(); NGitem++){// ŠeNG’PˆÊ
-					FrontNGPosList[item->phase].append( QPoint( NGitem->x, NGitem->y ) );// NGˆÊ’u‚ğ‚P‚Â’Ç‰Á
+				for(ReviewNGPointList::Iterator NGitem = item->NGPointList.begin(); NGitem!=item->NGPointList.end(); NGitem++){// ï¿½eNGï¿½Pï¿½ï¿½
+					FrontNGPosList[item->phase].append( QPoint( NGitem->x, NGitem->y ) );// NGï¿½Ê’uï¿½ï¿½ï¿½Pï¿½Â’Ç‰ï¿½
 				}
 			}
 			for(int phase=0; phase<FrontNGPosList.count(); phase++){
@@ -77,14 +95,14 @@ void TotalNGMap::setNGPoints(const OrganizedHistoryListPtr OrgHistoryListPtr)
 			}
 		}
 		if(hitem.getBack()!=NULL){
-			for(NGNailList::Iterator item = hitem.getBack()->getNGNails().begin(); item!=hitem.getBack()->getNGNails().end(); item++){// ŠeNG‰æ‘œ’PˆÊî•ñ
+			for(NGNailList::Iterator item = hitem.getBack()->getNGNails().begin(); item!=hitem.getBack()->getNGNails().end(); item++){// ï¿½eNGï¿½æ‘œï¿½Pï¿½Êï¿½ï¿½ï¿½
 				
 				while(BackNGPosList.count()<=item->phase){
 					BackNGPosList << QList<QPoint>();
 				}
 
-				for(ReviewNGPointList::Iterator NGitem = item->NGPointList.begin(); NGitem!=item->NGPointList.end(); NGitem++){// ŠeNG’PˆÊ
-					BackNGPosList[item->phase].append( QPoint( NGitem->x, NGitem->y ) );// NGˆÊ’u‚ğ‚P‚Â’Ç‰Á
+				for(ReviewNGPointList::Iterator NGitem = item->NGPointList.begin(); NGitem!=item->NGPointList.end(); NGitem++){// ï¿½eNGï¿½Pï¿½ï¿½
+					BackNGPosList[item->phase].append( QPoint( NGitem->x, NGitem->y ) );// NGï¿½Ê’uï¿½ï¿½ï¿½Pï¿½Â’Ç‰ï¿½
 				}
 			}
 			for(int phase=0; phase<BackNGPosList.count(); phase++){
@@ -151,7 +169,7 @@ void TotalNGMap::paintEvent(QPaintEvent *event)
 	//		double zoomRate = size.width() / (double)FrontPix.width();
 	//		QPainter painter;
 	//		painter.begin(&FrontView);
-	//		drawNGPoints(painter, getPointList(Review::Front, phase), zoomRate);// NG‰ÓŠ‚Ì‘‚«‚İ
+	//		drawNGPoints(painter, getPointList(Review::Front, phase), zoomRate);// NGï¿½Óï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//		painter.end();
 	//		->setPixmap(FrontView);
 	//	}
@@ -166,62 +184,62 @@ void TotalNGMap::paintEvent(QPaintEvent *event)
 	//		double zoomRate = size.width() / (double)BackPix.width();
 	//		QPainter painter;
 	//		painter.begin(&BackView);
-	//		drawNGPoints(painter, getPointList(Review::Back, phase), zoomRate);// NG‰ÓŠ‚Ì‘‚«‚İ
+	//		drawNGPoints(painter, getPointList(Review::Back, phase), zoomRate);// NGï¿½Óï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//		painter.end();
 	//		ui.BackCanvas->setPixmap(BackView);
 	//	}
 	//}
 	//QPainter painter;
 
-	//// •\‘¤ƒyƒCƒ“ƒg
+	//// ï¿½\ï¿½ï¿½ï¿½yï¿½Cï¿½ï¿½ï¿½g
 
 	//if(FrontPix.isNull()==false){
-	//	// ƒŠƒTƒCƒYŒã‚Ì‘å‚«‚³Šm”F
+	//	// ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½Ì‘å‚«ï¿½ï¿½ï¿½mï¿½F
 	//	QSize frontWholeSize = FrontPix.size();
 	//	QSize frontScaledSize = FrontPix.size();
 	//	frontScaledSize.scale(ui.FrontCanvas->size(), Qt::KeepAspectRatio);
 
-	//	double zoomRate = frontScaledSize.width() / (double)frontWholeSize.width();// Šg‘å—¦
+	//	double zoomRate = frontScaledSize.width() / (double)frontWholeSize.width();// ï¿½gï¿½å—¦
 
-	//	// ƒŠƒTƒCƒY
+	//	// ï¿½ï¿½ï¿½Tï¿½Cï¿½Y
 	//	QPixmap destImg = QPixmap::fromImage(FrontPix.scaled(frontScaledSize, Qt::KeepAspectRatio));
 
-	//	// ƒŠƒTƒCƒYŒã‚ÌNGˆÊ’u
+	//	// ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½NGï¿½Ê’u
 	//	QList<QPoint> FrontScaledNGPointList;
 	//	for(int i=0; i<FrontNGPosList.count(); i++){
 	//		FrontScaledNGPointList.append(FrontNGPosList[i] * zoomRate);
 	//	}
 
 	//	painter.begin(&destImg);
-	//	drawNGPoints(painter, FrontScaledNGPointList);// NG‰ÓŠ‚Ì‘‚«‚İ
+	//	drawNGPoints(painter, FrontScaledNGPointList);// NGï¿½Óï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//	painter.end();
 
-	//	ui.FrontCanvas->setPixmap(destImg);// ‰æ‘œ‚Ì“\‚è•t‚¯
+	//	ui.FrontCanvas->setPixmap(destImg);// ï¿½æ‘œï¿½Ì“\ï¿½ï¿½ï¿½tï¿½ï¿½
 	//}
 
-	//// — ‘¤ƒyƒCƒ“ƒg
-	//// ƒŠƒTƒCƒYŒã‚Ì‘å‚«‚³Šm”F
+	//// ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½Cï¿½ï¿½ï¿½g
+	//// ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½Ì‘å‚«ï¿½ï¿½ï¿½mï¿½F
 	//if(BackPix.isNull()==false){
 	//	QSize backWholeSize = BackPix.size();
 	//	QSize backScaledSize = BackPix.size();
 	//	backScaledSize.scale(ui.BackCanvas->size(), Qt::KeepAspectRatio);
 
-	//	double zoomRate = backScaledSize.width() / backWholeSize.width();// Šg‘å—¦
+	//	double zoomRate = backScaledSize.width() / backWholeSize.width();// ï¿½gï¿½å—¦
 
-	//	// ƒŠƒTƒCƒY
+	//	// ï¿½ï¿½ï¿½Tï¿½Cï¿½Y
 	//	QPixmap destImg = QPixmap::fromImage(BackPix.scaled(backScaledSize, Qt::KeepAspectRatio));
 
-	//	// ƒŠƒTƒCƒYŒã‚ÌNGˆÊ’u
+	//	// ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½NGï¿½Ê’u
 	//	QList<QPoint> BackScaledNGPointList;
 	//	for(int i=0; i<BackNGPosList.count(); i++){
 	//		BackScaledNGPointList.append(BackNGPosList[i] * zoomRate);
 	//	}
 
 	//	painter.begin(&destImg);
-	//	drawNGPoints(painter, BackScaledNGPointList);// NG‰ÓŠ‚Ì‘‚«‚İ
+	//	drawNGPoints(painter, BackScaledNGPointList);// NGï¿½Óï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//	painter.end();
 	//
-	//	ui.BackCanvas->setPixmap(destImg);// ‰æ‘œ‚Ì“\‚è•t‚¯
+	//	ui.BackCanvas->setPixmap(destImg);// ï¿½æ‘œï¿½Ì“\ï¿½ï¿½ï¿½tï¿½ï¿½
 	//}
 }
 
@@ -235,7 +253,7 @@ void TotalNGMap::drawNGPoints(QPainter &painter, QList<QPoint> &posList, double 
 	painter.setPen(pen);
 	
 	Q_FOREACH(QPoint p, posList){
-		painter.drawEllipse(p * zoomRate, NGDrawSize()/2, NGDrawSize()/2);// ‚Æ‚è‚ ‚¦‚¸ŠÛ‚¾‚¯
+		painter.drawEllipse(p * zoomRate, NGDrawSize()/2, NGDrawSize()/2);// ï¿½Æ‚è‚ ï¿½ï¿½ï¿½ï¿½ï¿½Û‚ï¿½ï¿½ï¿½
 	}
 
 	painter.setPen(oldPen);
@@ -364,7 +382,7 @@ void TotalNGMap::updateData()
 		m_BackImageList.clear();
 		m_BackNGPosList.clear();
 
-		// Œ»İ‚Ìƒ}ƒXƒ^[ƒf[ƒ^î•ñ‚ğæ“¾
+		// ï¿½ï¿½ï¿½İ‚Ìƒ}ï¿½Xï¿½^ï¿½[ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 		CmdReqMasterDataInfo minfo(layersBase());
 		reviewPIBase()->TransmitDirectly(&minfo);
 
@@ -389,7 +407,7 @@ void TotalNGMap::updateData()
 			QSize reqBImgSize = winfo.BackWholeOrizinalSize[phase];
 			reqBImgSize.scale(ui.gvImageView->viewport()->size(), Qt::KeepAspectRatio);
 
-			// ‘S‘Ì‰æ‘œ‚ğæ“¾ •\ //
+			// ï¿½Sï¿½Ì‰æ‘œï¿½ï¿½ï¿½æ“¾ ï¿½\ //
 			CmdReqWholeImage wi(m_LBase);
 			wi.setReqSize( reqFImgSize );
 			wi.setReqPhase( phase );
@@ -398,7 +416,7 @@ void TotalNGMap::updateData()
 
 			m_FrontImageList << wi.getWholePic(Review::Front);
 			
-			// ‘S‘Ì‰æ‘œ‚ğæ“¾ — 
+			// ï¿½Sï¿½Ì‰æ‘œï¿½ï¿½ï¿½æ“¾ ï¿½ï¿½
 			wi.setReqSize( reqBImgSize );
 			wi.setReqPhase( phase );
 
@@ -410,7 +428,7 @@ void TotalNGMap::updateData()
 			m_BackNGPosList << QList<QPoint>();
 		}
 
-		// •\¦‚·‚éNGƒ|ƒCƒ“ƒg‚ÌXV
+		// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ÌXï¿½V
 		CmdReqOrganizedHistoryList reqOrgHist(layersBase());
 		reviewPIBase()->TransmitDirectly(&reqOrgHist);
 
@@ -457,11 +475,11 @@ void TotalNGMap::updateVautMapList()
 		CmdReqMasterDataInfo minfo(layersBase());
 		reviewPIBase()->TransmitDirectly(&minfo);
 
-		// ‘S‘Ì‰æ‘œî•ñ‚Ìæ“¾
+		// ï¿½Sï¿½Ì‰æ‘œï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
 		CmdReqWholeImageInfo winfo(layersBase());
 		reviewPIBase()->TransmitDirectly(&winfo);
 
-		// —š—ğî•ñæ“¾
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 		CmdReqOrganizedHistoryList reqOrgHist(layersBase());
 		reviewPIBase()->TransmitDirectly(&reqOrgHist);
 
@@ -470,7 +488,7 @@ void TotalNGMap::updateVautMapList()
 
 		createVautMap(minfo.FrontMasterDataInfo.PhaseNumb, splitX(), splitY());
 
-		// NGƒ|ƒCƒ“ƒg‚©‚ç“Š•[
+		// NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ç“Šï¿½[
 		for(int i=0; i<reqOrgHist.listPtr->count(); i++){
 			const OrganizedHistoryItem &currentHistory = reqOrgHist.listPtr->at(i);
 			if(isIgnoreErrorInspect()==true && currentHistory.isErrorBoard()==true){
@@ -623,7 +641,7 @@ void TotalNGMap::updateImage()
 	int phase = ui.cbPhase->currentIndex();
 	int side = ui.cbSide->currentIndex();
 
-	// Œ»İ‚Ì‘ÎÛ‚Ì‰æ‘œ‚ğ‘I‘ğ
+	// ï¿½ï¿½ï¿½İ‚Ì‘ÎÛ‚Ì‰æ‘œï¿½ï¿½ï¿½Iï¿½ï¿½
 	QImage img;
 	if(side==0){
 		if(phase>=m_FrontImageList.count() || phase>=m_FrontNGPosList.count()){

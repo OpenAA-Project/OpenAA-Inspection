@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ResultDataManagerResource.h"
 #include "ResultDataManager.h"
 #include "ManageByLot.h"
@@ -78,7 +96,7 @@ bool	ResultDataManager::ConnectDatabase(void)
 		if(GetLayersBase()->OpenDatabase(*KDatabase)==false){
 			QMessageBox::critical(NULL
 						, /**/"Database Error"
-						, LangSolver.GetString(ResultDataManager_LS,LID_0)/*"ƒf[ƒ^ƒx[ƒX‚ÌÚ‘±‚É¸”s‚µ‚Ü‚µ‚½"*/
+						, LangSolver.GetString(ResultDataManager_LS,LID_0)/*"ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ÌÚ‘ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½"*/
 						, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
 			return false;
 		}

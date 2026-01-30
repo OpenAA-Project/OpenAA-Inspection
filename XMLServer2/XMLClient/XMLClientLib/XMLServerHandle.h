@@ -1,9 +1,21 @@
 /*
- * XMLServerHandle.h
+ * Copyright (C) 2012
+ * Author : cony
  *
- *  Created on: 2009/12/14
- *      Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #ifndef XMLSERVERHANDLE_H_
 #define XMLSERVERHANDLE_H_
@@ -58,106 +70,106 @@ private:
 };
 
 /**
- * @brief XMLƒT[ƒoÚ‘±
+ * @brief XMLï¿½Tï¿½[ï¿½oï¿½Ú‘ï¿½
  *
- * XMLƒT[ƒo‚Ö‚ÌÚ‘±‚ğ¶¬‚·‚éB
- * @param const QString &IPAddress ƒT[ƒoƒAƒhƒŒƒX
- * @param int port ƒT[ƒoƒ|[ƒg”Ô†
- * @param unsigned long WaitingTime ƒ^ƒCƒ€ƒAƒEƒg’l
- * @return XMLServerHandle * ƒT[ƒoÚ‘±q
+ * XMLï¿½Tï¿½[ï¿½oï¿½Ö‚ÌÚ‘ï¿½ï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+ * @param const QString &IPAddress ï¿½Tï¿½[ï¿½oï¿½Aï¿½hï¿½ï¿½ï¿½X
+ * @param int port ï¿½Tï¿½[ï¿½oï¿½|ï¿½[ï¿½gï¿½Ôï¿½
+ * @param unsigned long WaitingTime ï¿½^ï¿½Cï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½l
+ * @return XMLServerHandle * ï¿½Tï¿½[ï¿½oï¿½Ú‘ï¿½ï¿½q
  */
 XMLServerHandle *XML_Connect(const QString &IPAddress,int port, unsigned long WaitingTime);
 
 /**
- * @brief XMLƒŠ[ƒh
+ * @brief XMLï¿½ï¿½ï¿½[ï¿½h
  *
- * w’èSQL•¶‚©‚çXML‚ğŒŸõ‚µAƒqƒbƒg‚µ‚½XML•¶‚ğ‚·‚×‚ÄQStringList‚ÉŠi”[‚·‚éB
- * @param XMLServerHandle *Handle ƒT[ƒoÚ‘±q
- * @param const QString &SelectStr ŒŸõSQL•¶
- * @param QStringList &RetStringList ŒŸõŒ‹‰ÊƒŠƒXƒg
- * @return bool true:¬Œ÷iŠY“–‚È‚µ‚Ìê‡‚Å‚àtruejAfalseFƒGƒ‰[
+ * ï¿½wï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½qï¿½bï¿½gï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×‚ï¿½QStringListï¿½ÉŠiï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½B
+ * @param XMLServerHandle *Handle ï¿½Tï¿½[ï¿½oï¿½Ú‘ï¿½ï¿½q
+ * @param const QString &SelectStr ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½
+ * @param QStringList &RetStringList ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êƒï¿½ï¿½Xï¿½g
+ * @return bool true:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Yï¿½ï¿½ï¿½È‚ï¿½ï¿½Ìê‡ï¿½Å‚ï¿½trueï¿½jï¿½Afalseï¿½Fï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½
  */
 bool XML_Select(XMLServerHandle *Handle,const QString &SelectStr,QStringList &RetStringList);
 
 /**
- * @brief XMLƒŠ[ƒh(First)
+ * @brief XMLï¿½ï¿½ï¿½[ï¿½h(First)
  *
- * w’èSQL•¶‚©‚çXML‚ğŒŸõ‚µAƒqƒbƒg‚µ‚½XML•¶‚Ì‚¤‚¿Å‰‚Ì‚à‚Ì‚ğQString‚ÉŠi”[‚·‚éB<br>
- * ŠY“–‚È‚µ‚Ìê‡‚ÍRetString‚É‹ó•¶š‚ªƒZƒbƒg‚³‚ê‚éB
- * @param XMLServerHandle *Handle ƒT[ƒoÚ‘±q
- * @param const QString &SelectStr ŒŸõSQL•¶
- * @param QString &RetString ŒŸõŒ‹‰Ê
- * @return bool true:¬Œ÷iŠY“–‚È‚µ‚Ìê‡‚Å‚àtruejAfalseFƒGƒ‰[
+ * ï¿½wï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½qï¿½bï¿½gï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½Ì‚ï¿½ï¿½Ì‚ï¿½QStringï¿½ÉŠiï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½B<br>
+ * ï¿½Yï¿½ï¿½ï¿½È‚ï¿½ï¿½Ìê‡ï¿½ï¿½RetStringï¿½É‹ó•¶ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+ * @param XMLServerHandle *Handle ï¿½Tï¿½[ï¿½oï¿½Ú‘ï¿½ï¿½q
+ * @param const QString &SelectStr ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½
+ * @param QString &RetString ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @return bool true:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Yï¿½ï¿½ï¿½È‚ï¿½ï¿½Ìê‡ï¿½Å‚ï¿½trueï¿½jï¿½Afalseï¿½Fï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½
  */
 bool XML_SelectFirst(XMLServerHandle *Handle,const QString &SelectStr,QString &RetString);
 
 /**
- * @brief XMLƒŠ[ƒh(Next)
+ * @brief XMLï¿½ï¿½ï¿½[ï¿½h(Next)
  *
- * XML_SelectFirst‚©‚çŸ‚ÌXML‚ğŒŸõ‚µAŠY“–‚ª‚ ‚ê‚ÎRetString‚ÉŠi”[‚·‚éB<br>
- * ŠY“–‚È‚µ‚Ìê‡‚ÍRetString‚É‹ó•¶š‚ªƒZƒbƒg‚³‚ê‚éB
- * @param XMLServerHandle *Handle ƒT[ƒoÚ‘±q
- * @param QString &RetString ŒŸõŒ‹‰Ê
- * @return bool true:¬Œ÷iŠY“–‚È‚µ‚Ìê‡‚Å‚àtruejAfalseFƒGƒ‰[
+ * XML_SelectFirstï¿½ï¿½ï¿½çŸï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½RetStringï¿½ÉŠiï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½B<br>
+ * ï¿½Yï¿½ï¿½ï¿½È‚ï¿½ï¿½Ìê‡ï¿½ï¿½RetStringï¿½É‹ó•¶ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+ * @param XMLServerHandle *Handle ï¿½Tï¿½[ï¿½oï¿½Ú‘ï¿½ï¿½q
+ * @param QString &RetString ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @return bool true:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Yï¿½ï¿½ï¿½È‚ï¿½ï¿½Ìê‡ï¿½Å‚ï¿½trueï¿½jï¿½Afalseï¿½Fï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½
  */
 bool XML_SelectNext(XMLServerHandle *Handle, QString &RetString);
 
 /**
- * @brief XML’Ç‰Á
+ * @brief XMLï¿½Ç‰ï¿½
  *
- * w’èSQL•¶‚©‚çXML•¶‚ğV‹Kì¬‚·‚éB
- * @param XMLServerHandle *Handle ƒT[ƒoÚ‘±q
- * @param const QString &InsertedString ŒŸõSQL•¶
- * @return bool true:¬Œ÷AfalseFƒGƒ‰[
+ * ï¿½wï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½Kï¿½ì¬ï¿½ï¿½ï¿½ï¿½ï¿½B
+ * @param XMLServerHandle *Handle ï¿½Tï¿½[ï¿½oï¿½Ú‘ï¿½ï¿½q
+ * @param const QString &InsertedString ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½
+ * @return bool true:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Afalseï¿½Fï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½
  */
 bool XML_Insert(XMLServerHandle *Handle,const QString &InsertedString);
 
 /**
- * @brief XML’Ç‰ÁiAppend)
+ * @brief XMLï¿½Ç‰ï¿½ï¿½iAppend)
  *
- * w’èSQL•¶‚©‚çŠY“–‚·‚éXML•¶‚É‘Î‚µ‚ÄXMLƒ^ƒO‚ğ’Ç‰Á‚·‚éB
- * @param XMLServerHandle *Handle ƒT[ƒoÚ‘±q
- * @param const QString &InsertedString ŒŸõSQL•¶
- * @return bool true:¬Œ÷AfalseFƒGƒ‰[
+ * ï¿½wï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½É‘Î‚ï¿½ï¿½ï¿½XMLï¿½^ï¿½Oï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+ * @param XMLServerHandle *Handle ï¿½Tï¿½[ï¿½oï¿½Ú‘ï¿½ï¿½q
+ * @param const QString &InsertedString ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½
+ * @return bool true:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Afalseï¿½Fï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½
  */
 bool XML_Append(XMLServerHandle *Handle,const QString &InsertedString);
 
 /**
- * @brief XMLXV
+ * @brief XMLï¿½Xï¿½V
  *
- * w’èSQL•¶‚©‚çXML‚ğŒŸõ‚µAŠY“–‚·‚ê‚ÎÅ‰‚ÉŒ©‚Â‚©‚Á‚½XML•¶‘S‘Ì‚ğXV‚·‚éB
- * @param XMLServerHandle *Handle ƒT[ƒoÚ‘±q
- * @param const QString &UpdatedString ŒŸõSQL•¶
- * @return bool true:¬Œ÷iŠY“–‚È‚µ‚Ìê‡‚Å‚àtruejAfalseFƒGƒ‰[
+ * ï¿½wï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎÅï¿½ï¿½ÉŒï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½Sï¿½Ì‚ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½B
+ * @param XMLServerHandle *Handle ï¿½Tï¿½[ï¿½oï¿½Ú‘ï¿½ï¿½q
+ * @param const QString &UpdatedString ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½
+ * @return bool true:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Yï¿½ï¿½ï¿½È‚ï¿½ï¿½Ìê‡ï¿½Å‚ï¿½trueï¿½jï¿½Afalseï¿½Fï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½
  */
 bool XML_Update(XMLServerHandle *Handle,const QString &UpdatedString);
 
 /**
- * @brief XMLíœ
+ * @brief XMLï¿½íœ
  *
- * w’èSQL•¶‚©‚çXML‚ğŒŸõ‚µAŠY“–‚·‚éXML•¶‚ğíœ‚·‚éB
- * @param XMLServerHandle *Handle ƒT[ƒoÚ‘±q
- * @param const QString &DeletedString ŒŸõSQL•¶
- * @return bool true:¬Œ÷iŠY“–‚È‚µ‚Ìê‡‚Å‚àtruejAfalseFƒGƒ‰[
+ * ï¿½wï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½ï¿½B
+ * @param XMLServerHandle *Handle ï¿½Tï¿½[ï¿½oï¿½Ú‘ï¿½ï¿½q
+ * @param const QString &DeletedString ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½
+ * @return bool true:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Yï¿½ï¿½ï¿½È‚ï¿½ï¿½Ìê‡ï¿½Å‚ï¿½trueï¿½jï¿½Afalseï¿½Fï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½
  */
 bool XML_Delete(XMLServerHandle *Handle,const QString &DeletedString);
 
 /**
- * @brief XMLƒT[ƒoØ’f
+ * @brief XMLï¿½Tï¿½[ï¿½oï¿½Ø’f
  *
- * XMLƒT[ƒo‚Ö‚ÌÚ‘±‚ğØ’f‚·‚éB
- * @param XMLServerHandle *Handle ƒT[ƒoÚ‘±q
- * @return bool true:¬Œ÷iŠY“–‚È‚µ‚Ìê‡‚Å‚àtruejAfalseFƒGƒ‰[
+ * XMLï¿½Tï¿½[ï¿½oï¿½Ö‚ÌÚ‘ï¿½ï¿½ï¿½ï¿½Ø’fï¿½ï¿½ï¿½ï¿½ï¿½B
+ * @param XMLServerHandle *Handle ï¿½Tï¿½[ï¿½oï¿½Ú‘ï¿½ï¿½q
+ * @return bool true:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Yï¿½ï¿½ï¿½È‚ï¿½ï¿½Ìê‡ï¿½Å‚ï¿½trueï¿½jï¿½Afalseï¿½Fï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½
  */
 bool XML_Close(XMLServerHandle *Handle);
 
 /**
- * @brief XMLƒT[ƒoó‘Ôæ“¾
+ * @brief XMLï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½Ôæ“¾
  *
- * XMLƒT[ƒo‚Ö‚ÌÚ‘±‚Ìó‘Ô‚ğæ“¾‚·‚éB
- * @param XMLServerHandle *Handle ƒT[ƒoÚ‘±q
- * @param bool &RetOpened true:Ú‘±’†Afalse:–¢Ú‘±
- * @return bool true:¬Œ÷AfalseFƒGƒ‰[
+ * XMLï¿½Tï¿½[ï¿½oï¿½Ö‚ÌÚ‘ï¿½ï¿½Ìï¿½ï¿½Ô‚ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½B
+ * @param XMLServerHandle *Handle ï¿½Tï¿½[ï¿½oï¿½Ú‘ï¿½ï¿½q
+ * @param bool &RetOpened true:ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½Afalse:ï¿½ï¿½ï¿½Ú‘ï¿½
+ * @return bool true:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Afalseï¿½Fï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½
  */
 bool XML_GetState(XMLServerHandle *Handle,bool &RetOpened);
 #endif /* XMLSERVERHANDLE_H_ */

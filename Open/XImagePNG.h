@@ -1,15 +1,21 @@
-/**
- * @file image.h
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
- * Copyright(c) 2015 ‘å‘O—Ç‰î(OHMAE Ryosuke)
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * This software is released under the MIT License.
- * http://opensource.org/licenses/MIT
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * @brief ‰æ‘œ‚ðˆµ‚¤‚½‚ß‚Ì‹¤’Êƒwƒbƒ_
- * @author <a href="mailto:ryo@mm2d.net">‘å‘O—Ç‰î(OHMAE Ryosuke)</a>
- * @date 2015/02/07
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 
 
@@ -21,15 +27,15 @@
 #include "XImagePngDef.h"
 #include "XTypeDef.h"
 
-#define COLOR_TYPE_INDEX 0   /**< ƒCƒ“ƒfƒbƒNƒXƒJƒ‰[•ûŽ® */
-#define COLOR_TYPE_GRAY  1   /**< ƒOƒŒ[ƒXƒP[ƒ‹•ûŽ® */
-#define COLOR_TYPE_RGB   2   /**< RGB•ûŽ® */
-#define COLOR_TYPE_RGBA  3   /**< RGBA•ûŽ® */
+#define COLOR_TYPE_INDEX 0   /**< ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ */
+#define COLOR_TYPE_GRAY  1   /**< ï¿½Oï¿½ï¿½ï¿½[ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+#define COLOR_TYPE_RGB   2   /**< RGBï¿½ï¿½ï¿½ï¿½ */
+#define COLOR_TYPE_RGBA  3   /**< RGBAï¿½ï¿½ï¿½ï¿½ */
 
 /**
- * @brief Fî•ñ
+ * @brief ï¿½Fï¿½ï¿½ï¿½ï¿½
  *
- * RGBA‚ÌFî•ñ‚ð•ÛŽ‚·‚é\‘¢‘Ì
+ * RGBAï¿½ÌFï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÛŽï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½
  */
 
 typedef struct color_t {
@@ -40,36 +46,36 @@ typedef struct color_t {
 } color_t;
 
 /**
- * @brief ‰æ‘fî•ñ
+ * @brief ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
  *
- * ‹¤—p‘Ì‚É‚È‚Á‚Ä‚¨‚èA
- * RGBA’lAƒOƒŒ[ƒXƒP[ƒ‹AƒJƒ‰[ƒCƒ“ƒfƒbƒNƒXA‚Ì‚¢‚¸‚ê‚©‚ð•\Œ»‚·‚éB
- * ’P‘Ì‚Å‚Í‚Ç‚Ì•\Œ»Œ`Ž®‚É‚È‚Á‚Ä‚¢‚é‚©‚ð”»’f‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+ * ï¿½ï¿½ï¿½pï¿½Ì‚É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½A
+ * RGBAï¿½lï¿½Aï¿½Oï¿½ï¿½ï¿½[ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½Aï¿½Jï¿½ï¿½ï¿½[ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Aï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ê‚©ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+ * ï¿½Pï¿½Ì‚Å‚Í‚Ç‚Ì•\ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½ð”»’fï¿½ï¿½ï¿½é‚±ï¿½Æ‚Í‚Å‚ï¿½ï¿½È‚ï¿½ï¿½B
  */
 
 typedef union pixcel_t {
   color_t c; /**< RGBA */
-  uint8_t g; /**< ƒOƒŒ[ƒXƒP[ƒ‹ */
-  uint8_t i; /**< ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX */
+  uint8_t g; /**< ï¿½Oï¿½ï¿½ï¿½[ï¿½Xï¿½Pï¿½[ï¿½ï¿½ */
+  uint8_t i; /**< ï¿½Jï¿½ï¿½ï¿½[ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X */
 } pixcel_t;
 
 /**
- * @brief ‰æ‘œƒf[ƒ^•ÛŽ‚Ì\‘¢‘Ì
+ * @brief ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½ÛŽï¿½ï¿½Ì\ï¿½ï¿½ï¿½ï¿½
  *
- * ‰æ‘œƒf[ƒ^‚Æ‚µ‚Ä•ÛŽ‚·‚é‚½‚ß‚É•K—vÅ¬ŒÀ‚Ìî•ñ‚ðŠi”[‚·‚éB
- * ŠeŽíƒƒ^ƒf[ƒ^‚Ì•ÛŽ‚É‚Â‚¢‚Ä‚Í¡Œã‚Ì‰Û‘èB
+ * ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½Æ‚ï¿½ï¿½Ä•ÛŽï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚É•Kï¿½vï¿½Åï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½B
+ * ï¿½eï¿½íƒï¿½^ï¿½fï¿½[ï¿½^ï¿½Ì•ÛŽï¿½ï¿½É‚Â‚ï¿½ï¿½Ä‚Íï¿½ï¿½ï¿½ï¿½Ì‰Û‘ï¿½ï¿½B
  *
- * ‰æ‘fî•ñ‚É‚Â‚¢‚Ä‚ÍAƒ|ƒCƒ“ƒ^‚Ìƒ|ƒCƒ“ƒ^‚Å•\Œ»‚µ‚Ä‚¨‚è
- * Šes‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ð•ÛŽ‚·‚é”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Æ‚È‚Á‚Ä‚¢‚éB
+ * ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½É‚Â‚ï¿½ï¿½Ä‚ÍAï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½Ìƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½Å•\ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+ * ï¿½eï¿½sï¿½Ö‚Ìƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½ÛŽï¿½ï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½Ö‚Ìƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½Æ‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½B
  */
 
 typedef struct image_t {
-  uint32_t width;       /**< • */
-  uint32_t height;      /**< ‚‚³ */
-  uint16_t color_type;  /**< F•\Œ»‚ÌŽí•Ê */
-  uint16_t palette_num; /**< ƒJƒ‰[ƒpƒŒƒbƒg‚Ì” */
-  color_t *palette;     /**< ƒJƒ‰[ƒpƒŒƒbƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^ */
-  pixcel_t **map;       /**< ‰æ‘œƒf[ƒ^ */
+  uint32_t width;       /**< ï¿½ï¿½ */
+  uint32_t height;      /**< ï¿½ï¿½ï¿½ï¿½ */
+  uint16_t color_type;  /**< ï¿½Fï¿½\ï¿½ï¿½ï¿½ÌŽï¿½ï¿½ï¿½ */
+  uint16_t palette_num; /**< ï¿½Jï¿½ï¿½ï¿½[ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Ìï¿½ */
+  color_t *palette;     /**< ï¿½Jï¿½ï¿½ï¿½[ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Ö‚Ìƒ|ï¿½Cï¿½ï¿½ï¿½^ */
+  pixcel_t **map;       /**< ï¿½æ‘œï¿½fï¿½[ï¿½^ */
 } image_t;
 
 
@@ -93,19 +99,19 @@ image_t *image_gray_to_rgb(image_t *img);
 image_t *image_rgb_to_gray(image_t *img);
 image_t *image_gray_to_binary(image_t *img);
 
-/* PNGŒ`Ž®‚Ì“Ç‚Ý‘‚« */
+/* PNGï¿½`ï¿½ï¿½ï¿½Ì“Ç‚Ýï¿½ï¿½ï¿½ */
 image_t *read_png_file(const char *filename);
 image_t *read_png_stream(FILE *fp);
 result_t write_png_file(const char *filename, image_t *img);
 result_t write_png_stream(FILE *fp, image_t *img);
 
-/* JPGŒ`Ž®‚Ì“Ç‚Ý‘‚« */
+/* JPGï¿½`ï¿½ï¿½ï¿½Ì“Ç‚Ýï¿½ï¿½ï¿½ */
 image_t *read_jpeg_file(const char *filename);
 image_t *read_jpeg_stream(FILE *fp);
 result_t write_jpeg_file(const char *filename, image_t *img);
 result_t write_jpeg_stream(FILE *fp, image_t *img);
 
-/* BMPŒ`Ž®‚Ì“Ç‚Ý‘‚« */
+/* BMPï¿½`ï¿½ï¿½ï¿½Ì“Ç‚Ýï¿½ï¿½ï¿½ */
 image_t *read_bmp_file(const char *filename);
 image_t *read_bmp_stream(FILE *fp);
 result_t write_bmp_file(const char *filename, image_t *img, int compress);
@@ -116,7 +122,7 @@ image_t *read_bmp_simple_stream(FILE *fp);
 result_t write_bmp_simple_file(const char *filename, image_t *img);
 result_t write_bmp_simple_stream(FILE *fp, image_t *img);
 
-/* PNM(PPM/PGM/PBM)Œ`Ž®‚Ì“Ç‚Ý‘‚« */
+/* PNM(PPM/PGM/PBM)ï¿½`ï¿½ï¿½ï¿½Ì“Ç‚Ýï¿½ï¿½ï¿½ */
 image_t *read_pnm_file(const char *filename);
 image_t *read_pnm_stream(FILE *fp);
 result_t write_pnm_file(const char *filename, image_t *img, int type);

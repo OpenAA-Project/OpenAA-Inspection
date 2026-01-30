@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2018
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ListPieceForm.h"
 #include "ui_ListPieceForm.h"
 #include "ReviewStructureItems.h"
@@ -164,7 +182,7 @@ void	ListPieceForm::UpdateList(void)
 	BackList.RemoveAll();
 	if(orgHistoryPtr!=NULL){
 		if(orgHistoryPtr->hasFront()==true && orgHistoryPtr->getFront()->getNGNails().count()>0){
-			// ƒTƒ€ƒlƒCƒ‹ƒAƒCƒeƒ€ì¬
+			// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ì¬
 			HistoryIndex FHistory = orgHistoryPtr->getFront();
 			for(int i=0; i<FHistory->getNGNails().count(); i++){
 				QString	Area=FHistory->getNGNails()[i].getArea();
@@ -175,7 +193,7 @@ void	ListPieceForm::UpdateList(void)
 			}
 		}
 		if(orgHistoryPtr->hasBack()==true && orgHistoryPtr->getBack()->getNGNails().count()>0){
-			// ƒTƒ€ƒlƒCƒ‹ƒAƒCƒeƒ€ì¬
+			// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ì¬
 			HistoryIndex BHistory = orgHistoryPtr->getBack();
 			for(int i=0; i<BHistory->getNGNails().count(); i++){
 				QString	Area=BHistory->getNGNails()[i].getArea();

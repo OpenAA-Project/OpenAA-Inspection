@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "InputRectInMultiImageWidget.h"
 
 #include <QPainter>
@@ -39,7 +57,7 @@ void InputRectInMultiImageWidget::paintEvent(QPaintEvent *event)
 		QSize orgSize(maxWidth, maxHeight);
 		QSize tempSize = orgSize;
 
-		// k¬‚ª•K—v‚È‚Ì‚İ
+		// ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½Èï¿½ï¿½Ì‚ï¿½
 		if(canvasSize.width()<maxWidth && canvasSize.height()<maxHeight){
 			tempSize.scale(canvasSize, Qt::KeepAspectRatio);
 
@@ -401,8 +419,8 @@ void InputRectInMultiImageWidget::paintImage(QPainter &painter, const QPoint &im
 			
 				//#pragma omp for
 				for(int y=0; y<hei; y++){
-					const int sy = int(copyRect.topLeft().y()*owid + y*owid*skipRate);// ƒRƒs[Œ³
-					const int dy = y*wid;// ƒRƒs[æ
+					const int sy = int(copyRect.topLeft().y()*owid + y*owid*skipRate);// ï¿½Rï¿½sï¿½[ï¿½ï¿½
+					const int dy = y*wid;// ï¿½Rï¿½sï¿½[ï¿½ï¿½
 					for(int x=0; x<wid; x++){
 						const int sx = int(copyRect.topLeft().x() + x*skipRate);
 						drgb[dy + x] = rgb[sy + sx];

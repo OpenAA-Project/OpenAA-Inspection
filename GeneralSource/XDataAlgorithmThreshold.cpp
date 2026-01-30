@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XDataAlgorithmThreshold.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include <QFile>
@@ -956,17 +965,17 @@ void	AlgorithmThreshold::SetAutoThresholdByHistogram(int HistID, double Probabil
 	}
 }
 /**
- * •W€³‹K•ª•z‚Ì—İÏ•ª•zŠÖ”‚Ì‹tŠÖ” (Inverse Cumulative Distribution Function)
- * Peter J. Acklam‚É‚æ‚éƒAƒ‹ƒSƒŠƒYƒ€‚ÌÀ‘•
- * * “ü—Í p: Šm—¦ (0 < p < 1)
- * –ß‚è’l: ‚»‚ÌŠm—¦‚É‘Î‰‚·‚éZƒXƒRƒA (•W€•Î·‚¢‚­‚Â•ª‚©)
+ * ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½ï¿½ï¿½zï¿½Ì—İÏ•ï¿½ï¿½zï¿½Öï¿½ï¿½Ì‹tï¿½Öï¿½ (Inverse Cumulative Distribution Function)
+ * Peter J. Acklamï¿½É‚ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
+ * * ï¿½ï¿½ï¿½ï¿½ p: ï¿½mï¿½ï¿½ (0 < p < 1)
+ * ï¿½ß‚ï¿½ï¿½l: ï¿½ï¿½ï¿½ÌŠmï¿½ï¿½ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½Xï¿½Rï¿½A (ï¿½Wï¿½ï¿½ï¿½Îï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â•ï¿½ï¿½ï¿½)
  */
 double std_normal_inverse(double p) {
-    // ”ÍˆÍƒ`ƒFƒbƒN
+    // ï¿½ÍˆÍƒ`ï¿½Fï¿½bï¿½N
     if (p <= 0.0) return -std::numeric_limits<double>::infinity();
     if (p >= 1.0) return std::numeric_limits<double>::infinity();
 
-    // ŒW”’è‹` (Acklam‚ÌƒAƒ‹ƒSƒŠƒYƒ€)
+    // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½` (Acklamï¿½ÌƒAï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½)
     const double a1 = -3.969683028665376e+01;
     const double a2 =  2.209460984245205e+02;
     const double a3 = -2.759285104469687e+02;
@@ -992,25 +1001,25 @@ double std_normal_inverse(double p) {
     const double d3 =  2.445134137142996e+00;
     const double d4 =  3.754408661907416e+00;
 
-    // •ªŠò“_‚Ìè‡’l
+    // ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½è‡’l
     const double p_low = 0.02425;
     const double p_high = 1.0 - p_low;
 
     double z = 0.0;
 
     if (p < p_low) {
-        // ‰º‘¤ (Lower tail)
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (Lower tail)
         double q = std::sqrt(-2.0 * std::log(p));
         z = (((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) /
             ((((d1 * q + d2) * q + d3) * q + d4) * q + 1.0);
     } else if (p <= p_high) {
-        // ’†S—Ìˆæ (Central region)
+        // ï¿½ï¿½ï¿½Sï¿½Ìˆï¿½ (Central region)
         double q = p - 0.5;
         double r = q * q;
         z = (((((a1 * r + a2) * r + a3) * r + a4) * r + a5) * r + a6) * q /
             (((((b1 * r + b2) * r + b3) * r + b4) * r + b5) * r + 1.0);
     } else {
-        // ã‘¤ (Upper tail)
+        // ï¿½ã‘¤ï¿½ï¿½ (Upper tail)
         double q = std::sqrt(-2.0 * std::log(1.0 - p));
         z = -(((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) /
              ((((d1 * q + d2) * q + d3) * q + d4) * q + 1.0);
@@ -1023,10 +1032,10 @@ void	AlgorithmThreshold::GetMinMaxByDistribution(double Average,double StdDev,do
 {
     //double target_probability = 1.0 - probability;
 
-    // •W€³‹K•ª•z‚Å‚Ì Z’l‚ğŒvZ
+    // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½ï¿½ï¿½zï¿½Å‚ï¿½ Zï¿½lï¿½ï¿½ï¿½vï¿½Z
     double z = std_normal_inverse(probability);
 
-    // •W€•Î· s ‚ğŠ|‚¯‚ÄƒXƒP[ƒŠƒ“ƒO
+    // ï¿½Wï¿½ï¿½ï¿½Îï¿½ s ï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ÄƒXï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½O
     double	L=StdDev * z;
 	MinRet=Average-L;
 	MaxRet=Average+L;

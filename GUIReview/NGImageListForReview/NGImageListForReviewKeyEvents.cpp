@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2017
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "NGImageListForReviewResource.h"
 #include "NGImageListForReview.h"
 #include "ReviewStructurePacket.h"
@@ -6,14 +24,14 @@
 #include "../XGUIReviewGlobal.h"
 #include "../NGImageForReview/NGImageForReviewPacket.h"
 
-// ƒL[“ü—Í‰“šŠÖ”
-// ã‰º¶‰EAƒtƒ@ƒ“ƒNƒVƒ‡ƒ“ƒL[AƒfƒŠ[ƒgƒL[‚É‘Î‰
-// [ã‰º¶‰E]
-// ‚»‚ê‚¼‚êuNG‚ğ‚P‚ÂŒã‚ë‚Éi‚ß‚évuNG‚ğ‚P‚Â‘O‚Éi‚ß‚évu—š—ğ‚ğ‚P‚Â–ß‚·vu—š—ğ‚ğ‚P‚Âi‚ß‚év
-// [ã]‚ÍuŒã‚ë‚ÉNG‚ª‚È‚¢ê‡‚Í‚P‚ÂŒã‚ë‚Ì—š—ğ‚ª‚ ‚ê‚ÎˆÚ“®‚·‚éB‚Ü‚½AˆÚ“®æ‚Ì—š—ğ‚ÌÅŒã‚ÉƒJƒŒƒ“ƒg‚ªˆÚ“®‚·‚év
-// [‰º]‚Íu‘O‚ÉNG‚ª‚È‚¢ê‡‚Í‚P‚Â‘O‚Ì—š—ğ‚ª‚ ‚ê‚ÎˆÚ“®‚·‚éB‚Ü‚½AˆÚ“®æ‚Ì—š—ğ‚ÌÅ‰‚ÉƒJƒŒƒ“ƒg‚ªˆÚ“®‚·‚év
-// [¶]‚Íu—š—ğ‚ÌŒã‚ë‚ª‚ ‚éê‡‚ÍˆÚ“®‚·‚éB—š—ğ‚ÌÅ‰‚ÉƒJƒŒƒ“ƒg‚ªˆÚ“®‚·‚év
-// [‰E]‚Íu—š—ğ‚Ì‘O‚ª‚ ‚éê‡‚ÍˆÚ“®‚·‚éB—š—ğ‚ÌÅ‰‚ÉƒJƒŒƒ“ƒg‚ªˆÚ“®‚·‚év
+// ï¿½Lï¿½[ï¿½ï¿½ï¿½Í‰ï¿½ï¿½ï¿½ï¿½Öï¿½
+// ï¿½ã‰ºï¿½ï¿½ï¿½Eï¿½Aï¿½tï¿½@ï¿½ï¿½ï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½[ï¿½Aï¿½fï¿½ï¿½ï¿½[ï¿½gï¿½Lï¿½[ï¿½É‘Î‰ï¿½
+// [ï¿½ã‰ºï¿½ï¿½ï¿½E]
+// ï¿½ï¿½ï¿½ê‚¼ï¿½ï¿½ï¿½uNGï¿½ï¿½ï¿½Pï¿½ÂŒï¿½ï¿½ï¿½ï¿½Éiï¿½ß‚ï¿½ï¿½vï¿½uNGï¿½ï¿½ï¿½Pï¿½Â‘Oï¿½Éiï¿½ß‚ï¿½ï¿½vï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½Â–ß‚ï¿½ï¿½vï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½Âiï¿½ß‚ï¿½ï¿½v
+// [ï¿½ï¿½]ï¿½Íuï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Í‚Pï¿½ÂŒï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½Ü‚ï¿½ï¿½Aï¿½Ú“ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ÌÅŒï¿½ï¿½ÉƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½v
+// [ï¿½ï¿½]ï¿½Íuï¿½Oï¿½ï¿½NGï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Í‚Pï¿½Â‘Oï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½Ü‚ï¿½ï¿½Aï¿½Ú“ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½ÉƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½v
+// [ï¿½ï¿½]ï¿½Íuï¿½ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ë‚ªï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½ÉƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½v
+// [ï¿½E]ï¿½Íuï¿½ï¿½ï¿½ï¿½ï¿½Ì‘Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ÌÅï¿½ï¿½ÉƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½v
 void NGImageListForReview::keyPressEvent(QKeyEvent *event)
 {
 	static	bool	ReEntrant=false;
@@ -46,12 +64,12 @@ void NGImageListForReview::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	// “ü—ÍƒL[‚ª–îˆóƒL[‚Ìê‡
+	// ï¿½ï¿½ï¿½ÍƒLï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½[ï¿½Ìê‡
 	if(Review::isArrowKey(event->key())==true || event->key()==Qt::Key_2 || event->key()==Qt::Key_4 || event->key()==Qt::Key_6 || event->key()==Qt::Key_8){
 		if(reqData.NextListDelay!=0 || reqData.WaitProgressVisible==false){
 			if(isKeyPressed()==true){
 				ReEntrant=false;
-				return;// ‰Ÿ‚µ‘±‚¯–h~
+				return;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hï¿½~
 			}
 		}
 		if(isKeyMoveEnable()==false){
@@ -61,9 +79,9 @@ void NGImageListForReview::keyPressEvent(QKeyEvent *event)
 
 		CmdReqAdjacentCurrentNG Send(GetLayersBase());
 		RBase->TransmitDirectly(&Send);
-		// ƒJ[ƒ\ƒ‹ƒL[‚É‚æ‚é•ªŠò
+		// ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½Lï¿½[ï¿½É‚ï¿½ï¿½é•ªï¿½ï¿½
 		switch(event->key()){
-		case Qt::Key_Up:// ªƒL[
+		case Qt::Key_Up:// ï¿½ï¿½ï¿½Lï¿½[
 		case Qt::Key_8:
 			if(Send.existPreviousNG()==true){
 				if(Send.previousNG()->isChecked==false){
@@ -80,7 +98,7 @@ void NGImageListForReview::keyPressEvent(QKeyEvent *event)
 			}
 			inputKeyUPArrow();
 			break;
-		case Qt::Key_Down:// «ƒL[
+		case Qt::Key_Down:// ï¿½ï¿½ï¿½Lï¿½[
 		case Qt::Key_2:
 			if(Send.existNextNG()==true){
 				if(Send.nextNG()->isChecked==false){
@@ -97,7 +115,7 @@ void NGImageListForReview::keyPressEvent(QKeyEvent *event)
 			}
 			inputKeyDownArrow(false);
 			break;
-		case Qt::Key_Right:// ¨ƒL[
+		case Qt::Key_Right:// ï¿½ï¿½ï¿½Lï¿½[
 		case Qt::Key_6:
 			if(Send.existNextHistory()==true){
 				if(Send.nextHistory()->isCheckedAll()==false){
@@ -110,7 +128,7 @@ void NGImageListForReview::keyPressEvent(QKeyEvent *event)
 				inputKeyRightArrow();
 			}
 			break;
-		case Qt::Key_Left:// ©ƒL[
+		case Qt::Key_Left:// ï¿½ï¿½ï¿½Lï¿½[
 		case Qt::Key_4:
 			if(Send.existPreviousHistory()==true){
 				if(Send.previousHistory()->isCheckedAll()==false){
@@ -130,7 +148,7 @@ void NGImageListForReview::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	// ƒy[ƒWƒAƒbƒvƒ_ƒEƒ“‚É‚æ‚é—š—ğˆÚ“®
+	// ï¿½yï¿½[ï¿½Wï¿½Aï¿½bï¿½vï¿½_ï¿½Eï¿½ï¿½ï¿½É‚ï¿½ï¿½é—šï¿½ï¿½ï¿½Ú“ï¿½
 	if(event->key()==Qt::Key_PageUp || event->key()==Qt::Key_PageDown){
 		if(isKeyPressed()==true){
 			ReEntrant=false;
@@ -152,20 +170,20 @@ void NGImageListForReview::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	// FƒL[‘}“üƒCƒxƒ“ƒg
+	// Fï¿½Lï¿½[ï¿½}ï¿½ï¿½ï¿½Cï¿½xï¿½ï¿½ï¿½g
 	if(Review::isFKey((Qt::Key)event->key())==true){
 		if(isKeyPressed()==true){
 			ReEntrant=false;
-			return;// ‰Ÿ‚µ‘±‚¯–h~
+			return;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hï¿½~
 		}
 		if(isKeyMoveEnable()==false){
 			ReEntrant=false;
 			return;
 		}
 
-		// event‚Ì“ü—ÍFƒL[‚ÅƒJƒŒƒ“ƒgNG‚ÌXML•ª‚É‘Î‰‚·‚éFƒL[—v‘f‚ğ•t—^A‚à‚µ‚­‚Íã‘‚«‚·‚é
+		// eventï¿½Ì“ï¿½ï¿½ï¿½Fï¿½Lï¿½[ï¿½ÅƒJï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½XMLï¿½ï¿½ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Lï¿½[ï¿½vï¿½fï¿½ï¿½ï¿½tï¿½^ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íã‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		QColor FColor = setFKey(Review::convertFKeyQtToReview((Qt::Key)event->key()));
-		fillBackgraundColorOnTableAtRow(ui.tblMain->currentRow(), FColor);// ‘Î‰‚·‚éF‚Å”wŒiF‚ğ“h‚è‚Â‚Ô‚µ
+		fillBackgraundColorOnTableAtRow(ui.tblMain->currentRow(), FColor);// ï¿½Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Å”wï¿½iï¿½Fï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½
 		inputKeyDownArrow(true);
 		ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::ListStatisticNG);
 		setKeyPressedState(true);
@@ -173,24 +191,24 @@ void NGImageListForReview::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	// FƒL[íœƒCƒxƒ“ƒg
+	// Fï¿½Lï¿½[ï¿½íœï¿½Cï¿½xï¿½ï¿½ï¿½g
 	if(event->key()==Qt::Key_Delete){
 		if(isKeyPressed()==true){
 			ReEntrant=false;
-			return;// ‰Ÿ‚µ‘±‚¯–h~
+			return;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hï¿½~
 		}
 		if(isKeyMoveEnable()==false){
 			ReEntrant=false;
 			return;
 		}
 
-		QColor afterColor;// íœŒã‚ÌF
-		if(removeFKey(afterColor)==true){// FƒL[—v‘f‚Ìíœ‚ğƒgƒ‰ƒC
+		QColor afterColor;// ï¿½íœï¿½ï¿½ï¿½ÌF
+		if(removeFKey(afterColor)==true){// Fï¿½Lï¿½[ï¿½vï¿½fï¿½Ìíœï¿½ï¿½ï¿½gï¿½ï¿½ï¿½C
 			fillBackgraundColorOnTableAtRow(ui.tblMain->currentRow(), afterColor);
 			ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::ListStatisticNG);
 			inputKeyDownArrow(false);
 		}else{
-			// ¸”s‚ÍƒƒbƒZ[ƒW‚ğo—Í‚µ‚Ä‚È‚É‚à‚µ‚È‚¢
+			// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Íƒï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½ï¿½ï¿½oï¿½Í‚ï¿½ï¿½Ä‚È‚É‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			QMessageBox::warning(this, LangSolver.GetString(NGImageListForReviewKeyEvents_LS,LID_13)/*"Remove FKey attribute error"*/, LangSolver.GetString(NGImageListForReviewKeyEvents_LS,LID_14)/*"FKey attribute whold be not removed in XML file."*/);
 		}
 		setKeyPressedState(true);
@@ -201,7 +219,7 @@ void NGImageListForReview::keyPressEvent(QKeyEvent *event)
 	if(event->key()==Qt::Key_Space){
 		if(isKeyPressed()==true){
 			ReEntrant=false;
-			return;// ‰Ÿ‚µ‘±‚¯–h~
+			return;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hï¿½~
 		}
 		if(isKeyMoveEnable()==false){
 			ReEntrant=false;
@@ -219,7 +237,7 @@ void NGImageListForReview::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	// InsertƒL[‚É‚æ‚éNG‰æ‘œ•Û‘¶
+	// Insertï¿½Lï¿½[ï¿½É‚ï¿½ï¿½ï¿½NGï¿½æ‘œï¿½Û‘ï¿½
 	if(event->key()==Qt::Key_Insert){
 		if((event->modifiers() & Qt::AltModifier)!=0){
 			CmdSaveCurrentHistoryNGImages saveCurHistoryNGImg(GetLayersBase());
@@ -235,7 +253,7 @@ void NGImageListForReview::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	// ƒGƒ“ƒ^[ƒL[‚É‚æ‚éŸˆÚ“®
+	// ï¿½Gï¿½ï¿½ï¿½^ï¿½[ï¿½Lï¿½[ï¿½É‚ï¿½ï¿½éŸï¿½Ú“ï¿½
 	if(event->key()==Qt::Key_Enter || event->key()==Qt::Key_Return){
 		if((event->modifiers() & Qt::ShiftModifier)==0){
 			inputKeyEnter();
@@ -265,7 +283,7 @@ void NGImageListForReview::keyReleaseEvent(QKeyEvent *event)
 }
 
 
-// NGNail‚ğ–ß‚é
+// NGNailï¿½ï¿½ï¿½ß‚ï¿½
 void NGImageListForReview::inputKeyUPArrow()
 {
 	if(/*ui.tblMain->currentRow()==0 || */ui.tblMain->currentRow()==-1)return;
@@ -274,22 +292,22 @@ void NGImageListForReview::inputKeyUPArrow()
 
 	if(RBase==NULL)return;
 
-	CmdReqAdjacentCurrentNG	ExistNGCmd(GetLayersBase());		// ƒJƒŒƒ“ƒgNG‚ÌüˆÍ‚ÉŠÖ‚·‚éî•ñæ“¾ƒRƒ}ƒ“ƒh
-	CmdMoveCurrentNGNail	NGMoveCmd(GetLayersBase());			// NGˆÚ“®—pƒRƒ}ƒ“ƒh
-	CmdMoveCurrentHistoryToNGBoard	HistoryMoveCmd(GetLayersBase());	// —š—ğˆÚ“®—pƒRƒ}ƒ“ƒh
+	CmdReqAdjacentCurrentNG	ExistNGCmd(GetLayersBase());		// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½Ìï¿½ï¿½Í‚ÉŠÖ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½Rï¿½}ï¿½ï¿½ï¿½h
+	CmdMoveCurrentNGNail	NGMoveCmd(GetLayersBase());			// NGï¿½Ú“ï¿½ï¿½pï¿½Rï¿½}ï¿½ï¿½ï¿½h
+	CmdMoveCurrentHistoryToNGBoard	HistoryMoveCmd(GetLayersBase());	// ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½pï¿½Rï¿½}ï¿½ï¿½ï¿½h
 
 	RBase->TransmitDirectly(&ExistNGCmd);
 
 	if(ExistNGCmd.Ret==true){
-		if(ExistNGCmd.existPreviousNG()==true){// Œã‚ë‚ÌNG‚ª‚ ‚é
-			NGMoveCmd.direction = Review::Previous;// NGˆÚ“®‚ğŒã‚ë‚Éİ’è
-			RBase->TransmitDirectly(&NGMoveCmd);// NG‚ğŒã‚ë‚ÉˆÚ“®
+		if(ExistNGCmd.existPreviousNG()==true){// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			NGMoveCmd.direction = Review::Previous;// NGï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éİ’ï¿½
+			RBase->TransmitDirectly(&NGMoveCmd);// NGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉˆÚ“ï¿½
 
-			setCheckedCurrentNG();// ƒJƒŒƒ“ƒgNG‚ğƒ`ƒFƒbƒNÏ‚İ‚É‚·‚é
+			setCheckedCurrentNG();// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚É‚ï¿½ï¿½ï¿½
 
-			// ƒf[ƒ^•ÏX‚ÉÛ‚µ‚Ä‚ÌXV
+			// ï¿½fï¿½[ï¿½^ï¿½ÏXï¿½ÉÛ‚ï¿½ï¿½Ä‚ÌXï¿½V
 			setCurrentRow(ui.tblMain->currentRow()-1);
-			refleshTableRow(currentRow());// ©•ª‚ÌNGƒŠƒXƒg‚ğXV
+			refleshTableRow(currentRow());// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Xï¿½V
 
 			//GUIFormBase *FBase = GetLayersBase()->FindByName(ReviewGUI::Name::Root, ReviewGUI::Name::WholeImageForReview, "");
 			//if(FBase!=NULL){
@@ -297,21 +315,21 @@ void NGImageListForReview::inputKeyUPArrow()
 			//	FBase->TransmitDirectly(&UpdateNGCmd);
 			//}
 
-			//ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::NGImageForReview);// ƒCƒ[ƒW‰æ‘œXV
+			//ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::NGImageForReview);// ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½æ‘œï¿½Xï¿½V
 
 			return;
-		}else{// Œã‚ë‚ÌNG‚ª–³‚¢‚Ì‚Å—š—ğ‚ğ‚P‚ÂŒã‚ë‚ÉˆÚ“®‚·‚é
+		}else{// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Å—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½ÂŒï¿½ï¿½ï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
 
 			// DAP 20120410 will recommand
 			return;
 
-			if(ExistNGCmd.existPreviousHistory()==true){// Œã‚ë‚Ì—š—ğ‚ª‚ ‚é
-				HistoryMoveCmd.direction = Review::Previous;// —š—ğˆÚ“®‚ğŒã‚ë•ûŒü‚Éİ’è
+			if(ExistNGCmd.existPreviousHistory()==true){// ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				HistoryMoveCmd.direction = Review::Previous;// ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éİ’ï¿½
 				RBase->TransmitDirectly(&HistoryMoveCmd);
 
 				if(ExistNGCmd.currentHistory()==HistoryMoveCmd.CurrentHistoryPtr)return;
 
-				// NGNailˆÊ’u‚ğÅŒã”ö‚ÖˆÚ“®
+				// NGNailï¿½Ê’uï¿½ï¿½ï¿½ÅŒï¿½ï¿½ï¿½ï¿½ÖˆÚ“ï¿½
 				CmdSetCurrentNGNail SetNGPosCmd(GetLayersBase());
 				SetNGPosCmd.locate = Review::End;
 				RBase->TransmitDirectly(&SetNGPosCmd);
@@ -326,7 +344,7 @@ void NGImageListForReview::inputKeyUPArrow()
 				//	GUICmdReqUpdateCurrentNG UpdateCurrentNG(GetLayersBase());
 				//	GBase->TransmitDirectly(&UpdateCurrentNG);
 				//}
-				// —š—ğGUI‚ÌƒAƒbƒvƒf[ƒg
+				// ï¿½ï¿½ï¿½ï¿½GUIï¿½ÌƒAï¿½bï¿½vï¿½fï¿½[ï¿½g
 				//if(ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::ShowHistoryListForReview)==false){
 				//	QMessageBox::warning(this, "Update Error", ReviewGUI::Name::Root + "::" + ReviewGUI::Name::ShowHistoryListForReview + " isn't updated.");
 				//	return;
@@ -340,18 +358,18 @@ void NGImageListForReview::inputKeyUPArrow()
 
 				setCurrentRow(ui.tblMain->rowCount()-1);
 				
-				//refleshTableRow(currentRow());// ©•ª‚ÌNGƒŠƒXƒg‚ğXV
+				//refleshTableRow(currentRow());// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Xï¿½V
 
 				//GUIFormBase *FBase = GetLayersBase()->FindByName(ReviewGUI::Name::Root, ReviewGUI::Name::WholeImageForReview, "");
 				//if(FBase!=NULL){
 				//	GUICmdReqUpdateCurrentNG UpdateNGCmd(GetLayersBase());
 				//	FBase->TransmitDirectly(&UpdateNGCmd);
 				//}
-				//ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::NGImageForReview);// ƒCƒ[ƒW‰æ‘œXV
+				//ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::NGImageForReview);// ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½æ‘œï¿½Xï¿½V
 
 				return;
 			}else{
-				// Œã‚ë‚Ì—š—ğ‚ª–³‚¢‚Ì‚Å‰½‚à‚µ‚È‚¢
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Å‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 				return;
 			}
 		}
@@ -412,7 +430,7 @@ int	NGImageListForReview::GetListCount(void)
 	return N;
 }
 
-// NGNail‚ği‚ß‚é
+// NGNailï¿½ï¿½ï¿½iï¿½ß‚ï¿½
 void NGImageListForReview::inputKeyDownArrow(bool Skip)
 {
 	QString	AreaName;
@@ -425,27 +443,27 @@ void NGImageListForReview::inputKeyDownArrow(bool Skip)
 
 	if(RBase==NULL)return;
 
-	CmdReqAdjacentCurrentNG	ExistNGCmd(GetLayersBase());		// ƒJƒŒƒ“ƒgNG‚ÌüˆÍ‚ÉŠÖ‚·‚éî•ñæ“¾ƒRƒ}ƒ“ƒh
-	CmdMoveCurrentNGNail	NGMoveCmd(GetLayersBase());			// NGˆÚ“®—pƒRƒ}ƒ“ƒh
-	CmdMoveCurrentHistoryToNGBoard	HistoryMoveCmd(GetLayersBase());	// —š—ğˆÚ“®—pƒRƒ}ƒ“ƒh
+	CmdReqAdjacentCurrentNG	ExistNGCmd(GetLayersBase());		// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½Ìï¿½ï¿½Í‚ÉŠÖ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½Rï¿½}ï¿½ï¿½ï¿½h
+	CmdMoveCurrentNGNail	NGMoveCmd(GetLayersBase());			// NGï¿½Ú“ï¿½ï¿½pï¿½Rï¿½}ï¿½ï¿½ï¿½h
+	CmdMoveCurrentHistoryToNGBoard	HistoryMoveCmd(GetLayersBase());	// ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½pï¿½Rï¿½}ï¿½ï¿½ï¿½h
 	
 	RBase->TransmitDirectly(&ExistNGCmd);
 
 	if(ExistNGCmd.Ret==true){
-		if(ExistNGCmd.existNextNG()==true){// Ÿ‚ÌNG‚ª‚ ‚é
-			NGMoveCmd.direction = Review::Next;// NGˆÚ“®‚ğŸ‚Öİ’è
-			RBase->TransmitDirectly(&NGMoveCmd);// NG‚ğŸ‚ÖˆÚ“®
+		if(ExistNGCmd.existNextNG()==true){// ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			NGMoveCmd.direction = Review::Next;// NGï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öİ’ï¿½
+			RBase->TransmitDirectly(&NGMoveCmd);// NGï¿½ï¿½ï¿½ï¿½ï¿½ÖˆÚ“ï¿½
 
-			setCheckedCurrentNG();// ƒJƒŒƒ“ƒgNG‚ğƒ`ƒFƒbƒNÏ‚İ‚É‚·‚é
+			setCheckedCurrentNG();// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚É‚ï¿½ï¿½ï¿½
 
-			// ƒf[ƒ^•ÏX‚ÉÛ‚µ‚Ä‚ÌXV
+			// ï¿½fï¿½[ï¿½^ï¿½ÏXï¿½ÉÛ‚ï¿½ï¿½Ä‚ÌXï¿½V
 			setCurrentRow(ui.tblMain->currentRow()+1);
-			refleshTableRow(currentRow());// ©•ª‚ÌNGƒŠƒXƒg‚ğXV
+			refleshTableRow(currentRow());// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Xï¿½V
 
 			WorkedSpecifiedBroadcaster	OCasterCmd(this);
 			BroadcastSpecifiedDirectly(&OCasterCmd);
 
-			//ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::NGImageForReview);// ƒCƒ[ƒW‰æ‘œXV
+			//ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::NGImageForReview);// ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½æ‘œï¿½Xï¿½V
 
 			//GUIFormBase *FBase = GetLayersBase()->FindByName(ReviewGUI::Name::Root, ReviewGUI::Name::WholeImageForReview, "");
 			//if(FBase!=NULL){
@@ -484,31 +502,31 @@ void NGImageListForReview::inputKeyDownArrow(bool Skip)
 			return;
 
 
-		}else{// ‘O‚ÌNG‚ª–³‚¢‚Ì‚Å—š—ğ‚ğŸ‚ÖˆÚ“®‚·‚é
+		}else{// ï¿½Oï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Å—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½
 
-			if(ExistNGCmd.existNextHistory()==true){// Ÿ‚Ì—š—ğ‚ª‚ ‚é
-				if(ExistNGCmd.currentHistory()->isCheckedAll()==false)return;// ‚·‚×‚Äƒ`ƒFƒbƒNÏ‚İ‚Å‚È‚¢‚Ì‚ÅŸ‚É‚Í‚¢‚¯‚È‚¢
+			if(ExistNGCmd.existNextHistory()==true){// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				if(ExistNGCmd.currentHistory()->isCheckedAll()==false)return;// ï¿½ï¿½ï¿½×‚Äƒ`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚Å‚È‚ï¿½ï¿½Ì‚Åï¿½ï¿½É‚Í‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 
-				// DAP—v‹ (will recommand)
+				// DAPï¿½vï¿½ï¿½ (will recommand)
 				return;
 
-				HistoryMoveCmd.direction = Review::Next;// —š—ğˆÚ“®‚ğŸ‚Ì•ûŒü‚Éİ’è
-				RBase->TransmitDirectly(&HistoryMoveCmd);// —š—ğ‚ğŸ‚ÖˆÚ“®
+				HistoryMoveCmd.direction = Review::Next;// ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Éİ’ï¿½
+				RBase->TransmitDirectly(&HistoryMoveCmd);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖˆÚ“ï¿½
 
 				if(ExistNGCmd.currentHistory()==HistoryMoveCmd.CurrentHistoryPtr)return;
 
-				// NGNailˆÊ’u‚ğæ“ª‚ÖˆÚ“®
+				// NGNailï¿½Ê’uï¿½ï¿½ï¿½æ“ªï¿½ÖˆÚ“ï¿½
 				CmdSetCurrentNGNail SetNGPosCmd(GetLayersBase());
 				SetNGPosCmd.locate = Review::First;
 				RBase->TransmitDirectly(&SetNGPosCmd);
 
-				setCheckedCurrentNG();// ƒJƒŒƒ“ƒgNG‚ğƒ`ƒFƒbƒNÏ‚İ‚É‚·‚é
+				setCheckedCurrentNG();// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gNGï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚É‚ï¿½ï¿½ï¿½
 
 				//setCurrentRow(0);
-				//refleshTableRow(currentRow());// ©•ª‚ÌNGƒŠƒXƒg‚ğXV
+				//refleshTableRow(currentRow());// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Xï¿½V
 				updateGUI();
 
-				// —š—ğGUI‚ÌƒAƒbƒvƒf[ƒg
+				// ï¿½ï¿½ï¿½ï¿½GUIï¿½ÌƒAï¿½bï¿½vï¿½fï¿½[ï¿½g
 				//ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::ShowHistoryListForReview);
 				GUICmdUpdateCurrentHistory Cmd(GetLayersBase());
 				GUIFormBase *Base = GetReviewGUIForm(ReviewGUI::Name::ShowHistoryListForReview);
@@ -521,20 +539,20 @@ void NGImageListForReview::inputKeyDownArrow(bool Skip)
 				//	GUICmdReqUpdateCurrentNG UpdateNGCmd(GetLayersBase());
 				//	FBase->TransmitDirectly(&UpdateNGCmd);
 				//}
-				//ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::NGImageForReview);// ƒCƒ[ƒW‰æ‘œXV
+				//ReviewGUI::UpdateGUI(GetLayersBase(), ReviewGUI::Name::NGImageForReview);// ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½æ‘œï¿½Xï¿½V
 
 				WorkedSpecifiedBroadcaster	OCasterCmd(this);
 				BroadcastSpecifiedDirectly(&OCasterCmd);
 				return;
 			}else{
-				// Œã‚ë‚Ì—š—ğ‚ª–³‚¢‚Ì‚Å‰½‚à‚µ‚È‚¢
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Å‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 				return;
 			}
 		}
 	}
 }
 
-// —š—ğ‚ği‚ß‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ß‚ï¿½
 void NGImageListForReview::inputKeyRightArrow()
 {
 	// check
@@ -600,7 +618,7 @@ void NGImageListForReview::inputKeyRightArrow()
 	moveHistory(Review::Direction::Next);
 }
 
-// —š—ğ‚ğ–ß‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 void NGImageListForReview::inputKeyLeftArrow()
 {
 	if(getProperty().isMoveHistoryOnLeftRightKey==false){
@@ -712,5 +730,4 @@ void NGImageListForReview::inputKeyEnter()
 
 	moveHistory(Review::Direction::Next);
 }
-
 

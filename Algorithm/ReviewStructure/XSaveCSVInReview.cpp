@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XReviewStructure.h"
 #include "ReviewStructurePacket.h"
 
@@ -14,25 +32,25 @@ void	ReviewPIBase::InitialCSVLotList(void)
 	CmdReqMasterDataInfo LoadedMaster(GetLayersBase());
 	TransmitDirectly(&LoadedMaster);
 
-	// •\‘¤
-	// İ’è
+	// ï¿½\ï¿½ï¿½
+	// ï¿½İ’ï¿½
 	//ReciveCmdServerSelectLotList( &SelectLotCmd );
 	//LotInfoList	FrontLotList = getLotInfoAllList(Review::Front);
 	//LotInfoList	BackLotList = getLotInfoAllList(Review::Back);
 	LotInfoItem FrontLot	=getCurrentLotInfo(Review::Front);
 	LotInfoItem BackLot		=getCurrentLotInfo(Review::Back);
 
-	// •\‘¤‚Ìî•ñ‚ğŠi”[
+	// ï¿½\ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[
 	CurrentBundle.MasterIDTop	=getMasterInfo(Review::Front).MasterCode;
 	CurrentBundle.MachineIDTop	=getMasterInfo(Review::Front).MachineID;
 	CurrentBundle.MasterNameTop	=LoadedMaster.FrontMasterDataInfo.MasterName;
 	CurrentBundle.LotTableNameTop	=FrontLot.TableName;
 	CurrentBundle.LotNameTop		=FrontLot.LotName;
 	
-	// — ‘¤
-	// İ’è
+	// ï¿½ï¿½ï¿½ï¿½
+	// ï¿½İ’ï¿½
 
-	// — ‘¤‚Ìî•ñ‚ğŠi”[
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[
 	CurrentBundle.MasterIDBack	=getMasterInfo(Review::Back).MasterCode;
 	CurrentBundle.MachineIDBack	=getMasterInfo(Review::Back).MachineID;
 	CurrentBundle.MasterNameBack=LoadedMaster.BackMasterDataInfo.MasterName;

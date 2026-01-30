@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\TrueColorBlock\XTrueColorBlock.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #if	!defined(XTRUECOLORBLOCK_H)
@@ -42,16 +51,16 @@ public:
 class	TrueColorBlockThreshold : public AlgorithmThreshold
 {
 public:
-	DWORD		NOKDot;			//‹·ˆæ‚Ì‚n‚jƒhƒbƒg”
-	DWORD		BOKDot;			//Lˆæ‚Ì‚n‚jƒhƒbƒg”
+	DWORD		NOKDot;			//ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
+	DWORD		BOKDot;			//ï¿½Lï¿½ï¿½ï¿½Ì‚nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
 
-	WORD		BOKLength;		//Lˆæ‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-	WORD		NOKLength;		//‹·ˆæ‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
+	WORD		BOKLength;		//ï¿½Lï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+	WORD		NOKLength;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
 
-	ColorLogicWithTable	NInsColor;		//‹·ˆæ‚Ì”»’èŒvZ
-	int32				NMergin;		//‹·ˆæ”»’è‚Ì‹–—e‹P“x—Ê
-	ColorLogicWithTable	BInsColor;		//Lˆæ‚Ì”»’èŒvZ
-	int32				BMergin;		//‹·ˆæ”»’è‚Ì‹–—e‹P“x—Ê
+	ColorLogicWithTable	NInsColor;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½ï¿½ï¿½vï¿½Z
+	int32				NMergin;		//ï¿½ï¿½ï¿½æ”»ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½eï¿½Pï¿½xï¿½ï¿½
+	ColorLogicWithTable	BInsColor;		//ï¿½Lï¿½ï¿½ï¿½Ì”ï¿½ï¿½ï¿½ï¿½vï¿½Z
+	int32				BMergin;		//ï¿½ï¿½ï¿½æ”»ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½eï¿½Pï¿½xï¿½ï¿½
 
 	struct{
 		bool	ModeEnabled					:1;
@@ -64,8 +73,8 @@ public:
 		bool	ModeInvertLogic				:1;
 	}PointMove;
 
-	WORD	NMinNGCount;	//‹·ˆæ‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCount;	//Lˆæ‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
+	WORD	NMinNGCount;	//ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCount;	//ï¿½Lï¿½ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
 
 	enum{
 		_FromUnknown	=0
@@ -79,10 +88,10 @@ public:
     int32   CommonMoveID;
     WORD	CommonMoveDot;
 
-    WORD	AdjustBlack;    //‹P“x•â³‚Ì‰ºŒÀ•
-    WORD	AdjustWhite;    //‹P“x•â³‚ÌãŒÀ•
-    WORD	SelfSearch;     //©ŒÈ’Tõƒhƒbƒg”
-	WORD	OmitVectorIndex;//’Tõ‹Ö~•ûŒü	0xFFFF‚Ì‚Æ‚«A‹Ö~‚È‚µ
+    WORD	AdjustBlack;    //ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	AdjustWhite;    //ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+    WORD	SelfSearch;     //ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+	WORD	OmitVectorIndex;//ï¿½Tï¿½ï¿½ï¿½Ö~ï¿½ï¿½ï¿½ï¿½	0xFFFFï¿½Ì‚Æ‚ï¿½ï¿½Aï¿½Ö~ï¿½È‚ï¿½
 
 	TrueColorBlockThreshold(TrueColorBlockItem *parent);
 
@@ -371,10 +380,10 @@ public:
 	ColorLogic	AbsNInsColor;
 	ColorLogic	AbsBInsColor;
 	double	Multiplier;
-	WORD	NMinNGCount;	//‹·ˆæ‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BMinNGCount;	//Lˆæ‚Å‚±‚ÌŒÂ”ˆÈã‚Ì‚m‚fŒÂ”‚ª‚ ‚ê‚Î‚m‚f‚É‚·‚é
-	WORD	BOKLength;		//Lˆæ‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
-	WORD	NOKLength;		//‹·ˆæ‚ÅA‚±‚Ì’·‚³ˆÈ‰º‚Ì‚n‚j
+	WORD	NMinNGCount;	//ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BMinNGCount;	//ï¿½Lï¿½ï¿½ï¿½Å‚ï¿½ï¿½ÌŒÂï¿½ï¿½Èï¿½ï¿½Ì‚mï¿½fï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‚mï¿½fï¿½É‚ï¿½ï¿½ï¿½
+	WORD	BOKLength;		//ï¿½Lï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
+	WORD	NOKLength;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½nï¿½j
 
 
 	TrueColorBlockThresholdSend(void);

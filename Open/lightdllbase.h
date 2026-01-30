@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\lightdllbase.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 //---------------------------------------------------------------------------
 
 #ifndef LightDLLBaseH
@@ -33,28 +41,28 @@ public:
 	virtual bool		LEDSaveDefault()				=0;
 	virtual bool		LEDLoadDefault()				=0;
 
-	virtual void	   *InitialLED()					=0;		//“à•”•ÒW‚ğ‰Šú‰»‚·‚é
-//	virtual void		TransferLED(TProgressBar *PBar)	=0;		//“à•”•Ï”‚ğ‚k‚d‚cƒRƒ“ƒgƒ[ƒ‰‚É“]‘—‚·‚é
-	virtual void		TransferLED()					=0;		//“à•”•Ï”‚ğ‚k‚d‚cƒRƒ“ƒgƒ[ƒ‰‚É“]‘—‚·‚é
-	virtual void		Clear()							=0;		//“à•”•Ï”‚ÌƒNƒŠƒA
+	virtual void	   *InitialLED()					=0;		//ï¿½ï¿½ï¿½ï¿½ï¿½ÒWï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	virtual void		TransferLED(TProgressBar *PBar)	=0;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½ï¿½ï¿½ï¿½kï¿½dï¿½cï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½É“]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	virtual void		TransferLED()					=0;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½ï¿½ï¿½ï¿½kï¿½dï¿½cï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½É“]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	virtual void		Clear()							=0;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½ï¿½ÌƒNï¿½ï¿½ï¿½A
 
 	virtual bool		LEDConditionSave(QIODevice &str)=0;
 	virtual bool		LEDConditionLoad(QIODevice &str)=0;
 
-	virtual bool		GetLighting()					=0;		//o—Í‚d‚‚‚‚‚Œ‚…M†‚Ìó‘Ô‚ğ•Ô‚·
-	virtual void		SetLighting(bool mode)			=0;		//o—Í‚d‚‚‚‚‚Œ‚…M†‚ğmode‚É]‚Á‚Äo—Í‚·‚é
+	virtual bool		GetLighting()					=0;		//ï¿½oï¿½Í‚dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½Ìï¿½ï¿½Ô‚ï¿½ï¿½Ô‚ï¿½
+	virtual void		SetLighting(bool mode)			=0;		//ï¿½oï¿½Í‚dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½modeï¿½É]ï¿½ï¿½ï¿½Äoï¿½Í‚ï¿½ï¿½ï¿½
 
-	virtual bool		IsEnabled()						=0;		//“à•”‚Ì‚k‚d‚c•Ï”‚ª‘S‚Ä‚O‚Ì‚Æ‚«false
+	virtual bool		IsEnabled()						=0;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚kï¿½dï¿½cï¿½Ïï¿½ï¿½ï¿½ï¿½Sï¿½Ä‚Oï¿½Ì‚Æ‚ï¿½false
 
 	virtual int			GetBarCount()					=0;
-	virtual void		SetLEDBarBright(int BarID ,int brightness)	=0;		//‚P—ñ•ª‚ğ“_“”‚³‚¹‚é
+	virtual void		SetLEDBarBright(int BarID ,int brightness)	=0;		//ï¿½Pï¿½ñ•ª‚ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	virtual void		GetNowLEDBarAveragedLevel(int BarLevel[100])=0;
-	virtual int			GetMaxLEDLevel()							=0;		//Å‘å‹P“x’l‚ğ•Ô‚·
-	virtual int			GetMaxBrightness(int BarID , int LEDID)		=0;		//ŒÅ—L‚Ì‚k‚d‚c‹P“x’l‚ğ•Ô‚·
-	virtual int			GetMaxSheetNumb()							=0;		//“à•”‚Å•Û—L‚Å‚«‚éƒV[ƒg”‚ğ•Ô‚·
-	virtual bool		SetDisplaySheet(int sheet)					=0;		//•\¦ƒV[ƒg‚ğİ’è
-			void		SetPowerRateAll(double rate);						//Æ–¾‚Ìo—Í‹­“x‚ğ•ÏX‚·‚é
-	virtual void		SetPowerRate(int BarID,double rate)			=0;		//Æ–¾‚Ìo—Í‹­“x‚ğ•ÏX‚·‚é
+	virtual int			GetMaxLEDLevel()							=0;		//ï¿½Å‘ï¿½ï¿½Pï¿½xï¿½lï¿½ï¿½ï¿½Ô‚ï¿½
+	virtual int			GetMaxBrightness(int BarID , int LEDID)		=0;		//ï¿½Å—Lï¿½Ì‚kï¿½dï¿½cï¿½Pï¿½xï¿½lï¿½ï¿½ï¿½Ô‚ï¿½
+	virtual int			GetMaxSheetNumb()							=0;		//ï¿½ï¿½ï¿½ï¿½ï¿½Å•Û—Lï¿½Å‚ï¿½ï¿½ï¿½ï¿½Vï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
+	virtual bool		SetDisplaySheet(int sheet)					=0;		//ï¿½\ï¿½ï¿½ï¿½Vï¿½[ï¿½gï¿½ï¿½ï¿½İ’ï¿½
+			void		SetPowerRateAll(double rate);						//ï¿½Æ–ï¿½ï¿½Ìoï¿½Í‹ï¿½ï¿½xï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½
+	virtual void		SetPowerRate(int BarID,double rate)			=0;		//ï¿½Æ–ï¿½ï¿½Ìoï¿½Í‹ï¿½ï¿½xï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½
 	virtual double		GetPowerRate(int BarID)						=0;
 	virtual void		ResetPowerRate()							=0;
 	virtual int			GetBarComment(int BarID,char *Buff)			=0;

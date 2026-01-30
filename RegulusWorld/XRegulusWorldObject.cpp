@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XRegulusWorld.h"
 #include "XGeneralFunc.h"
 #include "XRegulusWorldObject.h"
@@ -710,7 +728,7 @@ Vector3D	Vector3D::operator-(const Vector3D &src)	const
 	return Ret;
 }
 Vector3D	Vector3D::operator*(const Vector3D &src)	const
-//Cross productÅ@äOêœ
+//Cross productÔøΩ@ÔøΩOÔøΩÔøΩ
 {
 	Vector3D	Ret;
 	Ret.SetVx(GetVy()*src.GetVz()-GetVz()*src.GetVy());
@@ -775,7 +793,7 @@ Vector3D	&Vector3D::operator*=(float m)
 	return *this;
 }
 Vector3D	&Vector3D::operator*=(const Vector3D &src)
-//Cross productÅ@äOêœ
+//Cross productÔøΩ@ÔøΩOÔøΩÔøΩ
 {
 	Vector3D	Ret;
 	Ret.SetVx(GetVy()*src.GetVz()-GetVz()*src.GetVy());
@@ -1415,11 +1433,11 @@ bool	RWShapeSphere::GetCrossPoint(const PointVector3D &Line ,CrossCluster &Cross
 		//	dx/dj	=-a*cos(i)*sin(j)
 		//	dy/dj	= b*cos(i)*cos(j)
 		//	dz/dj	=0
-		//	äOêœDx	=-b*sin(i)*sin(j)*0-c*cos(i)*b*cos(i)*cos(j)
+		//	ÔøΩOÔøΩÔøΩDx	=-b*sin(i)*sin(j)*0-c*cos(i)*b*cos(i)*cos(j)
 		//			=-b*c*cos(i)^2*cos(j)
-		//	äOêœDy	=c*cos(i)*(-a*cos(i)*sin(j))*-(-a*sin(i)*cos(j))*0
+		//	ÔøΩOÔøΩÔøΩDy	=c*cos(i)*(-a*cos(i)*sin(j))*-(-a*sin(i)*cos(j))*0
 		//			=-a*c*cos(i)^2*sin(j)
-		//	äOêœDz	=-a*sin(i)*cos(j)*b*cos(i)*cos(j) - (-a*cos(i)*sin(j))*(-b*sin(i)*sin(j))
+		//	ÔøΩOÔøΩÔøΩDz	=-a*sin(i)*cos(j)*b*cos(i)*cos(j) - (-a*cos(i)*sin(j))*(-b*sin(i)*sin(j))
 		//			=-a*b*sin(i)*cos(i)*cos(j)^2 - a*b*sin(i)*cos(i)*sin(j)^2
 		//			=-a*b*sin(i)*cos(i)
 		//

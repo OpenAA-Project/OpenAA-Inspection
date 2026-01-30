@@ -1,34 +1,26 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XAlignment.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 
 
-/*----------------------------------------------------------------------------*/
-//
-//  ŠT—v
-//
-//  ì¬Ò
-//
-/*----------------------------------------------------------------------------*/
+
 
 #ifndef XAlignemntH
 #define XAlignemntH
-/*----------------------------------------------------------------------------*/
-//  1.“ú–{Œê–¼
-//
-//  2.ŠT—v
-//
-//  3.‹@”\à–¾
-//
-//  4.”õl
-//
-/*----------------------------------------------------------------------------*/
 #include <QIODevice>
 #include <QPoint>
 #include "XFlexArea.h"
@@ -50,12 +42,12 @@ class	AlignmentThreshold : public AlgorithmThreshold
 {
 public:
 	ImageBuffer	Image;
-	XOutlineList	*OList;		//‰ß‹‚Ìˆâ•¨
-	int32			OListNumb;	//‰ß‹‚Ìˆâ•¨
+	XOutlineList	*OList;		//ï¿½ß‹ï¿½ï¿½Ìˆâ•¨
+	int32			OListNumb;	//ï¿½ß‹ï¿½ï¿½Ìˆâ•¨
 
 	WORD		MoveDot;		
     WORD		Threshold;
-	bool		AlignmentOnOutline;	//—ÖŠs‚ÅˆÊ’u‡‚í‚¹‚·‚é‚Æ‚«true
+	bool		AlignmentOnOutline;	//ï¿½ÖŠsï¿½ÅˆÊ’uï¿½ï¿½ï¿½í‚¹ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½true
 
 	AlignmentThreshold(XAlignment *parent);
 	~AlignmentThreshold(void);
@@ -80,7 +72,7 @@ class   XAlignment : public AlgorithmItemPLI
     double      MasterX;
     double      MasterY;
     double      CalcedX;
-    double      CalcedY;                //’TõŒã‚ÌˆÊ’u
+    double      CalcedY;                //ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÊ’u
 	WORD		AreaID;
 	enum	EnumMatchingType{
 		_MatchingByArera		=1
@@ -190,8 +182,8 @@ class   XAlignmentArea : public NPList<XAlignmentArea>
 		,_Aligned4
 	}ResultPointCounts;
 	AlgorithmLibraryListContainer	LimitedLib;
-    int32				PartsID;			//•”•i”Ô†		–³İ’è -1
-    int32				PartsAllocID;       //•”•i”z’u‚h‚c
+    int32				PartsID;			//ï¿½ï¿½ï¿½iï¿½Ôï¿½		ï¿½ï¿½ï¿½İ’è -1
+    int32				PartsAllocID;       //ï¿½ï¿½ï¿½iï¿½zï¿½uï¿½hï¿½c
 	int32				PartsAreaID;
 	bool				Locked;
 	bool				Selected;
@@ -206,7 +198,7 @@ class   XAlignmentArea : public NPList<XAlignmentArea>
 	}Priority;
  
 //    NPListPack<QPoint			Result[3];
-    double          CalcedParam[6];		//Œ´“_ŒvZ‚Å‚ÌƒAƒtƒBƒ“•ÏŠ·ƒpƒ‰ƒ[ƒ^[
+    double          CalcedParam[6];		//ï¿½ï¿½ï¿½_ï¿½vï¿½Zï¿½Å‚ÌƒAï¿½tï¿½Bï¿½ï¿½ï¿½ÏŠï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½[
 	class	AlignmentResultClass
 	{
 	public:
@@ -286,9 +278,9 @@ class   AlignmentInLayer : public AlgorithmInLayerPLI
     int         MVectorXRes;
     int         MVectorYRes;
 
-	double ResultShiftX,ResultShiftY;	//•½sˆÚ“®—Ê
-	double ResultAngle;					//‰ñ“]—Êiƒ‰ƒWƒAƒ“j
-	double ResultExtend;				//Šg‘å—¦
+	double ResultShiftX,ResultShiftY;	//ï¿½ï¿½ï¿½sï¿½Ú“ï¿½ï¿½ï¿½
+	double ResultAngle;					//ï¿½ï¿½ï¿½]ï¿½Êiï¿½ï¿½ï¿½Wï¿½Aï¿½ï¿½ï¿½j
+	double ResultExtend;				//ï¿½gï¿½å—¦
 
   public:
     double  GCalcA[6];

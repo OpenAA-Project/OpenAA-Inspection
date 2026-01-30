@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2026
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XTypeDef.h"
 #include <cmath>
 #include "XPointer.h"
@@ -37,7 +55,7 @@ bool    MakeHough(BYTE **BmpMap,BYTE **DestMap
 				  ,int FreqDots
 				  ,int XLen,int YLen
 				  ,int HoughResolution)
-//ƒnƒt•ÏŠ·‚ÅA’¼üã‚Ìƒhƒbƒg‚¾‚¯’Šo
+//ï¿½nï¿½tï¿½ÏŠï¿½ï¿½ÅAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒhï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o
 {
 	int	HNumb=XLen*2;
 	int	WNumb=HoughResolution;
@@ -191,7 +209,7 @@ bool    MakeHough(BYTE **BmpMap,BYTE **DestMap
 }
 
 void    NarrowizeLine(BYTE **Bmp ,BYTE **Tmp ,int XLen , int YLen)
-//	×ü‰»
+//	ï¿½×ï¿½ï¿½ï¿½
 {
 	int	XByte	=(XLen+7)/8;
 	MatrixBuffCopy(Tmp					,XByte,YLen
@@ -444,7 +462,7 @@ static	void	PickupLinesInner(struct	PickupLinesStruct &Data,int x,int y
 
 void	PickupLines(BYTE **BmpMap, int XLen , int YLen
 					,TreesContainer &XYCluster)
-//×ü‰»‚³‚ê‚½ƒrƒbƒg‰æ‘œ‚©‚çü‚ğæ‚èo‚·
+//ï¿½×ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½rï¿½bï¿½gï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½
 {
 	struct	PickupLinesStruct	Data;
 	Data.BmpMap=BmpMap;

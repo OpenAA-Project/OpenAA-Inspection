@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ResultDataManagerResource.h"
 #include "XResultDataManager.h"
 #include "XMLClient.h"
@@ -24,12 +42,12 @@ ResultDataManagerParam::ResultDataManagerParam(void)
 	DatabaseFileName=/**/"c:/Data/Regulus64.fdb";
 	WaitMilisec		=20;
 
-	SetParam(&ImageDrive				, /**/"Setting" ,/**/"ImageDrive"		,LangSolver.GetString(XResultDataManager_LS,LID_48)/*"NG‰æ‘œ‚ÌƒtƒHƒ‹ƒ_ƒpƒX(Z:)"*/											,0);
-	SetParam(&XML_IPAddress				, /**/"Setting" ,/**/"XML_IPAddress"	,LangSolver.GetString(XResultDataManager_LS,LID_49)/*"XMLƒT[ƒo[‚ğ‹N“®‚µ‚Ä‚¢‚éPC‚ÌIPƒAƒhƒŒƒX(192.168.0.200)"*/			,0);
-	SetParam(&XML_Port					, /**/"Setting" ,/**/"XML_Port"			,LangSolver.GetString(XResultDataManager_LS,LID_50)/*"XMLƒT[ƒo[‚Ö‚ÌÚ‘±ƒ|[ƒg”Ô†(12345)"*/								,0);
-	SetParam(&DatabaseHost				, /**/"Setting" ,/**/"DatabaseHost"		,LangSolver.GetString(XResultDataManager_LS,LID_51)/*"ƒf[ƒ^ƒx[ƒX‚ÌƒzƒXƒg–¼(IPƒAƒhƒŒƒX‚Ü‚½‚ÍPC–¼)"*/						,0);
-	SetParam(&DatabasePort				, /**/"Setting" ,/**/"DatabasePort"		,LangSolver.GetString(XResultDataManager_LS,LID_52)/*"FireBird‚ÌÚ‘±ƒ|[ƒg”Ô†(3051)"*/									,0);
-	SetParamFileName(&DatabaseFileName	, /**/"Setting" ,/**/"DatabaseFileName"	,LangSolver.GetString(XResultDataManager_LS,LID_53)/*"ƒf[ƒ^ƒx[ƒXƒtƒ@ƒCƒ‹‚Ö‚Ìƒtƒ‹ƒpƒX(C:/Data/Regulus64.fdb)"*/			,0);
+	SetParam(&ImageDrive				, /**/"Setting" ,/**/"ImageDrive"		,LangSolver.GetString(XResultDataManager_LS,LID_48)/*"NGï¿½æ‘œï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½_ï¿½pï¿½X(Z:)"*/											,0);
+	SetParam(&XML_IPAddress				, /**/"Setting" ,/**/"XML_IPAddress"	,LangSolver.GetString(XResultDataManager_LS,LID_49)/*"XMLï¿½Tï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½PCï¿½ï¿½IPï¿½Aï¿½hï¿½ï¿½ï¿½X(192.168.0.200)"*/			,0);
+	SetParam(&XML_Port					, /**/"Setting" ,/**/"XML_Port"			,LangSolver.GetString(XResultDataManager_LS,LID_50)/*"XMLï¿½Tï¿½[ï¿½oï¿½[ï¿½Ö‚ÌÚ‘ï¿½ï¿½|ï¿½[ï¿½gï¿½Ôï¿½(12345)"*/								,0);
+	SetParam(&DatabaseHost				, /**/"Setting" ,/**/"DatabaseHost"		,LangSolver.GetString(XResultDataManager_LS,LID_51)/*"ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Ìƒzï¿½Xï¿½gï¿½ï¿½(IPï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Ü‚ï¿½ï¿½ï¿½PCï¿½ï¿½)"*/						,0);
+	SetParam(&DatabasePort				, /**/"Setting" ,/**/"DatabasePort"		,LangSolver.GetString(XResultDataManager_LS,LID_52)/*"FireBirdï¿½ÌÚ‘ï¿½ï¿½|ï¿½[ï¿½gï¿½Ôï¿½(3051)"*/									,0);
+	SetParamFileName(&DatabaseFileName	, /**/"Setting" ,/**/"DatabaseFileName"	,LangSolver.GetString(XResultDataManager_LS,LID_53)/*"ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ö‚Ìƒtï¿½ï¿½ï¿½pï¿½X(C:/Data/Regulus64.fdb)"*/			,0);
 	SetParam(&WaitMilisec				, /**/"Setting" ,/**/"WaitMilisec"		,LangSolver.GetString(XResultDataManager_LS,LID_54)/*"Wait milisec for access Items"*/									,0);
 }
 
@@ -88,7 +106,7 @@ void DeleteJDT(const QString &ResultStr
 		//	//JdtFile.remove();
 		//}
 
-		//ƒTƒuƒtƒHƒ‹ƒ_“à‚Éƒtƒ@ƒCƒ‹‚ª‚È‚¢‚Æ‚«ƒtƒHƒ‹ƒ_‚²‚Æíœ‚·‚é
+		//ï¿½Tï¿½uï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Éƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Æíœï¿½ï¿½ï¿½ï¿½
 		//QStringList	ZeroSearchFilter;
 		//FileSearchFilter.append("*.jdt");
 
@@ -185,12 +203,12 @@ void DeleteTable(const QString &TableStr
 			}
 		}
 	}
-	//// ŒŸ¸—š—ğ‚ğƒf[ƒ^ƒx[ƒX‚©‚çíœ‚·‚é
+	//// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 	//OutputStr	=QString("<LOTINFO LAT/>");
 	//SearchStr	=QString("<LOTINFO/>");
 	//QString		ResultStr;
 	//int			LotAutoCount=0;
-	//bool	SelectRet1=OpeHandle->SelectFirst(OutputStr,SearchStr,"",ResultStr);// ŒŸ¸ƒƒbƒg‚Ìƒ†ƒj[ƒN”Ô†æ“¾
+	//bool	SelectRet1=OpeHandle->SelectFirst(OutputStr,SearchStr,"",ResultStr);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bï¿½gï¿½Ìƒï¿½ï¿½jï¿½[ï¿½Nï¿½Ôï¿½ï¿½æ“¾
 	//if(SelectRet1==true){
 	//	QString	LotAutoCountStr;
 	//	GetXMLAttrStr (ResultStr,"LAT",LotAutoCountStr);
@@ -200,13 +218,13 @@ void DeleteTable(const QString &TableStr
 	//		SelectRet1=false;
 	//	}
 	//}
-	int LotAutoCount = ReadLotAutoCount(TableStr, XMLServer);// ƒ}ƒXƒ^[ƒR[ƒhŒŸõî•ñ
+	int LotAutoCount = ReadLotAutoCount(TableStr, XMLServer);// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	if(SelectRet2==false){
 		OutputStr	=QString(/**/"<IST><MASTERINFO MASTER/></IST>");
 		SearchStr	=QString(/**/"<IST><MASTERINFO */></IST>");
 		QString ResultStr;
-		SelectRet2=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ƒ}ƒXƒ^[ƒR[ƒhæ“¾1
+		SelectRet2=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½æ“¾1
 		if(SelectRet2==true){
 			QString	MasterCodeStr;
 			GetXMLAttrStr (ResultStr,/**/"MASTER",MasterCodeStr);
@@ -221,7 +239,7 @@ void DeleteTable(const QString &TableStr
 		OutputStr	=QString(/**/"<IST><MASTER MID/></IST>");
 		SearchStr	=QString(/**/"<IST><MASTER */></IST>");
 		QString ResultStr;
-		bool SelectRet2=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ƒ}ƒXƒ^[ƒR[ƒhæ“¾2
+		bool SelectRet2=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½æ“¾2
 		if(SelectRet2==true){
 			QString	MasterCodeStr;
 			GetXMLAttrStr (ResultStr,/**/"MID",MasterCodeStr);
@@ -236,7 +254,7 @@ void DeleteTable(const QString &TableStr
 		OutputStr = /**/"<IST><MNM MID/></IST>";
 		SearchStr = /**/"<IST><MNM */></IST>";
 		QString ResultStr;
-		SelectRet2=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ƒ}ƒXƒ^[–¼Ìæ“¾ -> ƒf[ƒ^ƒx[ƒX‚©‚çƒ}ƒXƒ^[ƒR[ƒhŒŸõEæ“¾
+		SelectRet2=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½ï¿½ï¿½Ìæ“¾ -> ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½æ“¾
 		if(SelectRet2==true){
 			QString	MasterName;
 			GetXMLAttrStr(ResultStr, /**/"MID", MasterName);
@@ -311,12 +329,12 @@ int ReadLotAutoCount(const QString &TableStr, XMLServerHandle *XMLServer)
 		return -1;
 	}
 
-	// ŒŸ¸—š—ğ‚ğƒf[ƒ^ƒx[ƒX‚©‚çíœ‚·‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 	QString OutputStr	=QString(/**/"<LOTINFO LAT/>");
 	QString SearchStr	=QString(/**/"<LOTINFO */>");
 	QString		ResultStr;
 	int			LotAutoCount=-1;
-	bool	SelectRet1=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ŒŸ¸ƒƒbƒg‚Ìƒ†ƒj[ƒN”Ô†æ“¾
+	bool	SelectRet1=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bï¿½gï¿½Ìƒï¿½ï¿½jï¿½[ï¿½Nï¿½Ôï¿½ï¿½æ“¾
 	
 	if(SelectRet1==true){
 		QString	LotAutoCountStr;
@@ -351,7 +369,7 @@ int ReadLotMasterCode(const QString &TableStr, XMLServerHandle *XMLServer)
 	QString ResultStr;
 
 	int MasterCode=0;
-	bool SelectRet1=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ƒ}ƒXƒ^[ƒR[ƒhæ“¾1
+	bool SelectRet1=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½æ“¾1
 	if(SelectRet1==true){
 		QString	MasterCodeStr;
 		GetXMLAttrStr (ResultStr,/**/"MASTER",MasterCodeStr);
@@ -368,7 +386,7 @@ int ReadLotMasterCode(const QString &TableStr, XMLServerHandle *XMLServer)
 	OutputStr	=QString(/**/"<IST><MASTER MID/></IST>");
 	SearchStr	=QString(/**/"<IST><MASTER */></IST>");
 
-	SelectRet1=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ƒ}ƒXƒ^[ƒR[ƒhæ“¾2
+	SelectRet1=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½æ“¾2
 	if(SelectRet1==true){
 		QString	MasterCodeStr;
 		GetXMLAttrStr (ResultStr,/**/"MID",MasterCodeStr);
@@ -390,7 +408,7 @@ int ReadLotMasterCode(const QString &TableStr, XMLServerHandle *XMLServer)
 
 int ReadLotMasterCode(const QString &TableStr, XMLServerHandle *XMLServer, QSqlDatabase &DB)
 {
-	int ret = ReadLotMasterCode(TableStr, XMLServer);// ƒƒbƒg‚Ì‚İ‚Å•ª‚©‚ê‚Î—Ç‚µ
+	int ret = ReadLotMasterCode(TableStr, XMLServer);// ï¿½ï¿½ï¿½bï¿½gï¿½Ì‚İ‚Å•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î—Ç‚ï¿½
 	if(ret!=-1){
 		return ret;
 	}
@@ -408,7 +426,7 @@ int ReadLotMasterCode(const QString &TableStr, XMLServerHandle *XMLServer, QSqlD
 	QString SearchStr = /**/"<IST><MNM */></IST>";
 	QString ResultStr;
 	
-	bool SelectRet1=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ƒ}ƒXƒ^[–¼Ìæ“¾ -> ƒf[ƒ^ƒx[ƒX‚©‚çƒ}ƒXƒ^[ƒR[ƒhŒŸõEæ“¾
+	bool SelectRet1=OpeHandle->SelectFirst(OutputStr,SearchStr,/**/"",ResultStr);// ï¿½}ï¿½Xï¿½^ï¿½[ï¿½ï¿½ï¿½Ìæ“¾ -> ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½Xï¿½^ï¿½[ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½æ“¾
 	if(SelectRet1==true){
 		QString	MasterName;
 		GetXMLAttrStr(ResultStr, /**/"MID", MasterName);

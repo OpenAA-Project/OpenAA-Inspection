@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\MeasureLineMove\XMeasureLineMove.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2024
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XMEASULELINEMOVE_H)
 #define	XMEASULELINEMOVE_H
 
@@ -57,9 +66,9 @@ public:
 #pragma	pack(push,1)
 struct ResultDistanceForExtraData
 {
-	int32	Cx1,Cy1;			//‚P‘¤’[ü‚Ì’†SÀ•W
+	int32	Cx1,Cy1;			//ï¿½Pï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì’ï¿½ï¿½Sï¿½ï¿½ï¿½W
 	int32	Sx1,Sy1;
-	int32	Cx2,Cy2;			//‚Q‘¤’[ü‚Ì’†SÀ•W
+	int32	Cx2,Cy2;			//ï¿½Qï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì’ï¿½ï¿½Sï¿½ï¿½ï¿½W
 	int32	Sx2,Sy2;
 	int32	DistanceX1,DistanceY1;
 	int32	DistanceX2,DistanceY2;
@@ -149,8 +158,8 @@ public:
 	AlignmentPacket2D	*AVector;
 	int			AMx,AMy;
 public:
-	QImage	TResultImage;		//ŒŸ¸‚Ì•”•ª‰æ‘œ
-	QImage	LResultImage;		//ŒŸ¸‚Ìü‰æ‘œ
+	QImage	TResultImage;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½æ‘œ
+	QImage	LResultImage;		//ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½æ‘œ
 
 	int32	TransferInfo;		//-1: No transfer, 0-:TxID
 
@@ -197,7 +206,7 @@ public:
 	double	Y1OnMaster;
 	double	X2OnMaster;
 	double	Y2OnMaster;
-	double	Vx,Vy;		//’PˆÊ–@üƒxƒNƒgƒ‹
+	double	Vx,Vy;		//ï¿½Pï¿½Ê–@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½
 	double	ResultShift;
 	double	OffsetForDark;
 	double	MatchStartPos;
@@ -277,7 +286,7 @@ public:
 	double	X2OnMaster;
 	double	Y2OnMaster;
 	double	Hx,Hy;
-	double	Vx,Vy;		//’PˆÊ–@üƒxƒNƒgƒ‹
+	double	Vx,Vy;		//ï¿½Pï¿½Ê–@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½
 	double	ResultShift;
 
 	MeasureLineMoveRxLineItem(void);
@@ -333,9 +342,9 @@ class	MeasureLineMoveCornerRItem : public MeasureLineMoveItemBase
 	FlexAreaImageListCoeff	AreaWithIdeal1;
 	FlexAreaImageListCoeff	AreaWithIdeal2;
 	FlexAreaImageListCoeff	AreaWithIdeal3;
-	double	Vx1,Vy1;		//’PˆÊ–@üƒxƒNƒgƒ‹
-	double	Vx2,Vy2;		//’PˆÊ–@üƒxƒNƒgƒ‹
-	double	Vx3,Vy3;		//’PˆÊ–@üƒxƒNƒgƒ‹
+	double	Vx1,Vy1;		//ï¿½Pï¿½Ê–@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½
+	double	Vx2,Vy2;		//ï¿½Pï¿½Ê–@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½
+	double	Vx3,Vy3;		//ï¿½Pï¿½Ê–@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½
 	double	Cx1,Cy1;
 	double	Cx2,Cy2;
 	double	Cx3,Cy3;

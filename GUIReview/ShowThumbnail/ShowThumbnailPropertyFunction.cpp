@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2018
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ShowThumbnailResource.h"
 #include "ui_ShowThumbnailPropertyForm.h"
 #include "ShowThumbnail.h"
@@ -5,7 +23,7 @@
 
 void ShowThumbnail::setProperty(const ShowThumbnailProperty &property)
 {
-	// ‚±‚±‚Éƒpƒ‰ƒ[ƒ^•ÏX‚Ì‘Î‰ž‚ð‹Lq‚·‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Éƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ÏXï¿½Ì‘Î‰ï¿½ï¿½ï¿½ï¿½Lï¿½qï¿½ï¿½ï¿½ï¿½
 	
 	setRowCount(property.RowCount);
 	setColumnCount(property.ColumnCount);
@@ -24,7 +42,7 @@ void ShowThumbnail::setProperty(const ShowThumbnailProperty &property)
 
 void ShowThumbnail::setPropertyToUi(const ShowThumbnailProperty &property)
 {
-	// ‚±‚±‚Éƒpƒ‰ƒ[ƒ^‚Ì“à—e‚ðUi‚É”½‰f‚³‚¹‚é‹Lq‚ð‘‚­
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Éƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Ì“ï¿½ï¿½eï¿½ï¿½Uiï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½qï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	Ui::ShowThumbnailPropertyClass *ui = getPropertyUi();
 
 	ui->sbRowCount->setValue( property.RowCount );
@@ -45,7 +63,7 @@ void ShowThumbnail::setPropertyToUi()
 
 void ShowThumbnail::setPropertyFromUi(ShowThumbnailProperty &property)
 {
-	// ‚±‚±‚ÉUi‚Ì“à—e‚ðƒpƒ‰ƒ[ƒ^‚É”½‰f‚³‚¹‚é‹Lq‚ðs‘‚­
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Uiï¿½Ì“ï¿½ï¿½eï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½qï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
 	Ui::ShowThumbnailPropertyClass *ui = getPropertyUi();
 	
 	property.RowCount				= ui->sbRowCount->value();

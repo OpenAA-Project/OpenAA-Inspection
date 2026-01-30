@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2018
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "XGUIReviewGlobal.h"
 #include "XGUIReviewCommonPacket.h"
@@ -51,8 +69,8 @@ const QStringList ReviewGUI::Name::GUINameList()
 	return ret;
 }
 
-// ‘SGUI‚ÌƒNƒŠƒA
-// ƒNƒŠƒA‚·‚é“à—e‚ÍGUIƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚é
+// ï¿½SGUIï¿½ÌƒNï¿½ï¿½ï¿½A
+// ï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½ï¿½GUIï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½É‚ï¿½ï¿½ï¿½
 void ReviewGUI::ReviewGUIAllUpdate(LayersBase *Base, bool showProgressDialog){
 	QMessageBox mbox;
 	if(showProgressDialog==true){

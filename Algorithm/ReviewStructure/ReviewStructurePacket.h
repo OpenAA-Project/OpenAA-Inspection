@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "XDLLOnly.h"
@@ -7,11 +25,11 @@
 #include "XReviewStructure.h"
 
 /////////////////////////////////////////////////////
-// ReviewGUI‚©‚ç‘—M‚µ‚Ä‚­‚éƒpƒPƒbƒg
+// ReviewGUIï¿½ï¿½ï¿½ç‘—ï¿½Mï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½pï¿½Pï¿½bï¿½g
 
 
-// ?ƒX??“Ç‚İ‚İ—v‹
-// ?ƒX??ƒf??‚ğ“Ç‚İ‚Ü‚¹‚é
+// ?ï¿½X??ï¿½Ç‚İï¿½ï¿½İ—vï¿½ï¿½
+// ?ï¿½X??ï¿½f??ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½Ü‚ï¿½ï¿½ï¿½
 class	CmdLoadMainMaster : public GUIDirectMessage
 {
 public:
@@ -30,7 +48,7 @@ public:
 };
 
 
-// ƒXƒŒ?ƒu“Ç‚İ‚İ—v‹
+// ï¿½Xï¿½ï¿½?ï¿½uï¿½Ç‚İï¿½ï¿½İ—vï¿½ï¿½
 class	CmdLoadSlave	 : public GUIDirectMessage
 {
 public:
@@ -55,7 +73,7 @@ public:
 	CmdLoadPageImage(LayersBase *base):GUIDirectMessage(base),MasterCode(-1),MachineID(-1),side(Review::NoSide),Phase(-1),Ret(false){};
 };
 
-// ƒƒbƒgˆê——‚Ìæ“¾
+// ï¿½ï¿½ï¿½bï¿½gï¿½ê——ï¿½Ìæ“¾
 class	CmdServerSelectLotList : public GUIDirectMessage
 {
 public:
@@ -70,14 +88,14 @@ public:
 	CmdServerSelectLotList(LayersBase *base):GUIDirectMessage(base),MasterCode(-1),MachineID(-1),list(),Ret(false){};
 };
 
-// ƒƒbƒg‚ÌƒZƒbƒg
+// ï¿½ï¿½ï¿½bï¿½gï¿½ÌƒZï¿½bï¿½g
 class	CmdServerSetLot : public GUIDirectMessage
 {
 public:
 	// Send
-	QString LotFileName;// xmlƒt?ƒCƒ‹–¼
-	Review::SideType side;// ?— w’è
-	int viewNo;// ŠÂ‹«
+	QString LotFileName;// xmlï¿½t?ï¿½Cï¿½ï¿½ï¿½ï¿½
+	Review::SideType side;// ?ï¿½ï¿½ï¿½wï¿½ï¿½
+	int viewNo;// ï¿½Â‹ï¿½
 public:
 	// Recive
 	bool	Ret;
@@ -98,7 +116,7 @@ public:
 };
 
 
-// ƒƒbƒgˆê——‚Ì—v‹
+// ï¿½ï¿½ï¿½bï¿½gï¿½ê——ï¿½Ì—vï¿½ï¿½
 class	CmdServerReqCurrentLot : public GUIDirectMessage
 {
 public:
@@ -115,7 +133,7 @@ public:
 		:GUIDirectMessage(base),FrontCurrentLotInfo(),BackCurrentLotInfo(),FrontLotList(),BackLotList(),FrontReqServerEnumTableList(),BackReqServerEnumTableList(),Ret(false){};
 };
 
-// ƒƒbƒgƒŠƒXƒg‚ÌƒAƒbƒvƒf?ƒg‚Ææ“¾
+// ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½Xï¿½gï¿½ÌƒAï¿½bï¿½vï¿½f?ï¿½gï¿½Ææ“¾
 class	CmdServerUpdateLotList : public GUIDirectMessage
 {
 public:
@@ -220,8 +238,8 @@ public:
 };
 
 
-// XML‚ÌIST?ƒO‚P‚Â‚É‚Â‚«‚P—v‘f‚Æ‚·‚é—š—ğƒŠƒXƒg‚ğ•Ô‚·
-// ’†g‚ÍIST‚Ö‚Ì?ƒCƒ“?•Ï”‚ª‚ ‚èA
+// XMLï¿½ï¿½IST?ï¿½Oï¿½Pï¿½Â‚É‚Â‚ï¿½ï¿½Pï¿½vï¿½fï¿½Æ‚ï¿½ï¿½é—šï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Ô‚ï¿½
+// ï¿½ï¿½ï¿½gï¿½ï¿½ISTï¿½Ö‚ï¿½?ï¿½Cï¿½ï¿½?ï¿½Ïï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½A
 class	CmdReqOrganizedHistoryList : public GUIDirectMessage
 {
 public:
@@ -233,9 +251,9 @@ public:
 		:GUIDirectMessage(base),listPtr(NULL),Ret(false){};
 };
 
-// NGNailItem‚ÌŠ‘®‚·‚éXML‚ÌNGI‚Ì—v‘f‚Æ‚µ‚ÄFƒL?‚Ìî•ñ‚ğ“Y•t‚·‚é
-// ‚·‚Å‚É•t‚¯‚ç‚ê‚Ä‚¢‚éê‡‚Íã‘‚«‚³‚ê‚é
-// CurrentNG‚É‘Î‰‚·‚éXML?ƒO‚ğ¶¬‚µAXMLƒT?ƒo?‚ÉFƒL?‚ª•t?‚³‚ê‚½XML?•¶‚ÉXV‚³‚ê‚é
+// NGNailItemï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½NGIï¿½Ì—vï¿½fï¿½Æ‚ï¿½ï¿½ï¿½Fï¿½L?ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Yï¿½tï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½Å‚É•tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Íã‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// CurrentNGï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½XML?ï¿½Oï¿½ğ¶ï¿½ï¿½ï¿½ï¿½AXMLï¿½T?ï¿½o?ï¿½ï¿½Fï¿½L?ï¿½ï¿½ï¿½t?ï¿½ï¿½ï¿½ê‚½XML?ï¿½ï¿½ï¿½ÉXï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 class	CmdSetFKeyToNGNail : public GUIDirectMessage
 {
 public:
@@ -249,9 +267,9 @@ public:
 		:GUIDirectMessage(base),key(Review::NoFKey),FKeyColor(),Ret(false){};
 };
 
-// NGNailItem‚ÌŠ‘®‚·‚éXML‚ÌNGI‚ÌFƒL?—v‘f‚ğíœ‚·‚é
-// FƒL?—v‘f‚ª–³‚¢ê‡‚Í‰½‚à‚µ‚È‚¢
-// CurrentNGIndexes‚©‚ç‘I‚Î‚ê‚é
+// NGNailItemï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½NGIï¿½ï¿½Fï¿½L?ï¿½vï¿½fï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
+// Fï¿½L?ï¿½vï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
+// CurrentNGIndexesï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½Î‚ï¿½ï¿½ï¿½
 class	CmdClearFKeyToNGNail : public GUIDirectMessage
 {
 public:
@@ -263,14 +281,14 @@ public:
 		:GUIDirectMessage(base),CheckedColor(),Ret(false){};
 };
 
-// ‘S‘Ì‰æ‘œ‚ğ•Ô‚·
+// ï¿½Sï¿½Ì‰æ‘œï¿½ï¿½ï¿½Ô‚ï¿½
 class	CmdReqWholeImage : public GUIDirectMessage
 {
 	friend class ReviewPIBase;
 private:
 	// Send
-	int m_ReqPhase;// ƒtƒFƒCƒY
-	QSize m_ReqSize;// o—ÍƒTƒCƒY
+	int m_ReqPhase;// ï¿½tï¿½Fï¿½Cï¿½Y
+	QSize m_ReqSize;// ï¿½oï¿½ÍƒTï¿½Cï¿½Y
 	// Recieve
 	QImage m_FrontWholePic;
 	QImage m_BackWholePic;
@@ -366,7 +384,7 @@ public:
 		:GUIDirectMessage(base),FrontWholeOrizinalSize(),BackWholeOrizinalSize(),FrontOutlineOffset(),BackOutlineOffset(),zoomRate(1.0){};
 };
 
-// ‘I‘ğ’†‚Ì—š—ğ‚ğİ’è
+// ï¿½Iï¿½ğ’†‚Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 class	CmdSetCurrentHistory : public GUIDirectMessage
 {
 public:
@@ -383,7 +401,7 @@ public:
 		:GUIDirectMessage(base),Index(-1),InspectID(-1),Ret(false){};
 };
 
-// ‘I‘ğ’†‚Ì—š—ğ‚ğæ“¾
+// ï¿½Iï¿½ğ’†‚Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 class	CmdReqCurrentHistory : public GUIDirectMessage
 {
 private:
@@ -401,7 +419,7 @@ public:
 		:GUIDirectMessage(base),m_OrgHistoryPtr(NULL),m_index(-1),Ret(false){};
 };
 
-// ŒŸ¸ƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒnƒbƒVƒ…‚ğ—v‹‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìƒnï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 class	CmdReqInsLib : public GUIDirectMessage
 {
 public:
@@ -415,7 +433,7 @@ public:
 		:GUIDirectMessage(base),FrontInsLibHash(),BackInsLibHash(),Ret(false){};
 };
 
-// NGNail‚ÌƒŠƒXƒg‚Ì??ƒg‡‚ğw’è‚·‚é
+// NGNailï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½??ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è‚·ï¿½ï¿½
 class	CmdSetSortNGOrder : public GUIDirectMessage
 {
 public:
@@ -436,7 +454,7 @@ public:
 		:GUIDirectMessage(base),order(Review::_Order_YLesser){};
 };
 
-// HistoryList‚Ì??ƒg‡‚ğw’è‚·‚é
+// HistoryListï¿½ï¿½??ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è‚·ï¿½ï¿½
 class	CmdSetSortHistoryOrder : public GUIDirectMessage
 {
 public:
@@ -457,43 +475,43 @@ public:
 		:GUIDirectMessage(base),order(Review::OrderOfSortHistory::_Order_InspectionIDGreater){};
 };
 
-// Œ»İ‚ÌNG‚©‚çŒ©‚ÄA‘OŒã‚ÉNG‚ª‚ ‚é‚©‚Ç‚¤‚©
+// ï¿½ï¿½ï¿½İ‚ï¿½NGï¿½ï¿½ï¿½çŒ©ï¿½ÄAï¿½Oï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
 class	CmdReqAdjacentCurrentNG : public GUIDirectMessage
 {
 private:
 	// Recieve
-	NGNailIndex m_nextNG;		// Ÿ‚ÌNG
+	NGNailIndex m_nextNG;		// ï¿½ï¿½ï¿½ï¿½NG
 	NGNailIndex m_currentNG;
-	NGNailIndex m_previousNG;	// ‘O‚ÌNG
-	OrganizedHistoryIndex m_nextHistory;		// Ÿ‚Ì—š—ğ
+	NGNailIndex m_previousNG;	// ï¿½Oï¿½ï¿½NG
+	OrganizedHistoryIndex m_nextHistory;		// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½
 	OrganizedHistoryIndex m_currentHistory;
-	OrganizedHistoryIndex m_previousHistory;	// Œã‚ë‚Ì—š—ğ
+	OrganizedHistoryIndex m_previousHistory;	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½
 	int		m_currentNGIndex;
 	Review::SideType m_currentSide;
 
 public:
-	bool	existNextNG() const { return (nextNG()!=NULL); };		// Ÿ‚ÌNG‚ª‚ ‚é‚©‚Ç‚¤‚©
-	bool	existCurrentNG() const { return (currentNG()!=NULL); };		// Œ»İ‚ÌNG‚ª‚ ‚é‚©‚Ç‚¤‚©
-	bool	existPreviousNG() const { return (previousNG()!=NULL); };	// Œã‚ë‚ÌNG‚ª‚ ‚é‚©‚Ç‚¤‚©
-	bool	existNextHistory() const { return (nextHistory()!=NULL); };		// Ÿ‚Ì—š—ğ‚ª‚ ‚é‚©‚Ç‚¤‚©
-	bool	existCurrentHistory() const { return (currentHistory()!=NULL); };	// Œ»İ‚Ì—š—ğ‚ª‚ ‚é‚©‚Ç‚¤‚©
-	bool	existPreviousHistory() const { return (previousHistory()!=NULL); };	// Œã‚ë‚Ì—š—ğ‚ª‚ ‚é‚©‚Ç‚¤‚©
+	bool	existNextNG() const { return (nextNG()!=NULL); };		// ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
+	bool	existCurrentNG() const { return (currentNG()!=NULL); };		// ï¿½ï¿½ï¿½İ‚ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
+	bool	existPreviousNG() const { return (previousNG()!=NULL); };	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
+	bool	existNextHistory() const { return (nextHistory()!=NULL); };		// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
+	bool	existCurrentHistory() const { return (currentHistory()!=NULL); };	// ï¿½ï¿½ï¿½İ‚Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
+	bool	existPreviousHistory() const { return (previousHistory()!=NULL); };	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
 
-	const NGNailIndex nextNG() const { return m_nextNG; };		// Ÿ‚ÌNG
+	const NGNailIndex nextNG() const { return m_nextNG; };		// ï¿½ï¿½ï¿½ï¿½NG
 	const NGNailIndex currentNG() const { return m_currentNG; };
-	const NGNailIndex previousNG() const { return m_previousNG; };	// ‘O‚ÌNG
-	const OrganizedHistoryIndex nextHistory() const { return m_nextHistory; };		// Ÿ‚Ì—š—ğ
+	const NGNailIndex previousNG() const { return m_previousNG; };	// ï¿½Oï¿½ï¿½NG
+	const OrganizedHistoryIndex nextHistory() const { return m_nextHistory; };		// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½
 	const OrganizedHistoryIndex currentHistory() const { return m_currentHistory; };
-	const OrganizedHistoryIndex previousHistory() const { return m_previousHistory; };	// Œã‚ë‚Ì—š—ğ
+	const OrganizedHistoryIndex previousHistory() const { return m_previousHistory; };	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½
 	int		currentNGIndex() const { return m_currentNGIndex; };
 	Review::SideType currentSide() const { return m_currentSide; };
 	
-	void setNextNG(const NGNailIndex ng){ m_nextNG = ng; };		// Ÿ‚ÌNG
+	void setNextNG(const NGNailIndex ng){ m_nextNG = ng; };		// ï¿½ï¿½ï¿½ï¿½NG
 	void setCurrentNG(const NGNailIndex ng){ m_currentNG = ng; };
-	void setPreviousNG(const NGNailIndex ng){ m_previousNG = ng; };	// ‘O‚ÌNG
-	void setNextHistory(const OrganizedHistoryIndex history){ m_nextHistory = history; };		// Ÿ‚Ì—š—ğ
+	void setPreviousNG(const NGNailIndex ng){ m_previousNG = ng; };	// ï¿½Oï¿½ï¿½NG
+	void setNextHistory(const OrganizedHistoryIndex history){ m_nextHistory = history; };		// ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½
 	void setCurrentHistory(const OrganizedHistoryIndex history){ m_currentHistory = history; };
-	void setPreviousHistory(const OrganizedHistoryIndex history){ m_previousHistory = history; };	// Œã‚ë‚Ì—š—ğ
+	void setPreviousHistory(const OrganizedHistoryIndex history){ m_previousHistory = history; };	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½
 	void setCurrentNGIndex(int index){ m_currentNGIndex = index; };
 	void setCurrentSide(Review::SideType side){ m_currentSide = side; };
 
@@ -504,13 +522,13 @@ public:
 		,m_currentNGIndex(-1),m_currentSide(Review::NoSide),Ret(false){};
 };
 
-// NG‚ğ‘OŒã‚ÉˆÚ“®‚³‚¹‚éƒR?ƒ“ƒh
+// NGï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½R?ï¿½ï¿½ï¿½h
 class	CmdMoveCurrentNGNail : public GUIDirectMessage
 {
 public:
 	// Send
 	Review::Direction direction;
-	NGNailIndex CurrentNGPtr;// •ÏXŒã‚Ì’–ÚNGNail
+	NGNailIndex CurrentNGPtr;// ï¿½ÏXï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½NGNail
 	int index;
 	// Recieve
 	bool	Ret;
@@ -519,7 +537,7 @@ public:
 		:GUIDirectMessage(base),direction(Review::Next),CurrentNGPtr(NULL),index(-1),Ret(false){};
 };
 
-// —š—ğ‚ğ‘OŒã‚ÉˆÚ“®‚³‚¹‚éƒR?ƒ“ƒh
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½R?ï¿½ï¿½ï¿½h
 class	CmdMoveCurrentHistory : public GUIDirectMessage
 {
 public:
@@ -534,7 +552,7 @@ public:
 		:GUIDirectMessage(base),direction(Review::Next),CurrentHistoryPtr(NULL),Ret(false){};
 };
 
-// —š—ğ‚ğNG‚Ü‚ÅˆÚ“®‚³‚¹‚éƒR?ƒ“ƒh
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NGï¿½Ü‚ÅˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½R?ï¿½ï¿½ï¿½h
 class	CmdMoveCurrentHistoryToNGBoard : public GUIDirectMessage
 {
 public:
@@ -549,7 +567,7 @@ public:
 		:GUIDirectMessage(base),direction(Review::Next),CurrentHistoryPtr(NULL),Ret(false){};
 };
 
-// NG‚ÌˆÊ’u‚ğİ’è‚·‚éƒR?ƒ“ƒh
+// NGï¿½ÌˆÊ’uï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½ï¿½R?ï¿½ï¿½ï¿½h
 class	CmdSetCurrentNGNail : public GUIDirectMessage
 {
 public:
@@ -557,10 +575,10 @@ public:
 	Review::RefType refType;
 
 	// refType==Ref_Index
-	Review::ListLocate locate;	// Front	: æ“ª‚ÉˆÚ“®
-								// End		: ÅŒã”ö‚ÉˆÚ“®
-								// Manual	: Index‚ÉˆÚ“®
-	int Index;// g‚í‚È‚¢ê‡-1(default)
+	Review::ListLocate locate;	// Front	: ï¿½æ“ªï¿½ÉˆÚ“ï¿½
+								// End		: ï¿½ÅŒï¿½ï¿½ï¿½ï¿½ÉˆÚ“ï¿½
+								// Manual	: Indexï¿½ÉˆÚ“ï¿½
+	int Index;// ï¿½gï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡-1(default)
 	// refType==Ref_Instance
 	NGNailItemRef refItem;
 	// Recieve
@@ -570,7 +588,7 @@ public:
 		:GUIDirectMessage(base),refType(Review::Ref_Index),locate(Review::First),Index(-1),refItem(NGNailItemRef()),Ret(false){};
 };
 
-// “Ç‚İ‚ñ‚¾?ƒX??ƒf??‚Ìî•ñ‚ğæ“¾
+// ï¿½Ç‚İï¿½ï¿½ï¿½ï¿½ï¿½?ï¿½X??ï¿½f??ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 class	CmdReqMasterDataInfo : public GUIDirectMessage
 {
 public:
@@ -604,7 +622,7 @@ public:
 		:GUIDirectMessage(base),FrontMasterDataInfo(),BackMasterDataInfo(),Ret(false){};
 };
 
-// Œ»İNGNail‚É?ƒFƒbƒNÏ‚İî•ñ‚ğ•t?‚·‚é
+// ï¿½ï¿½ï¿½ï¿½NGNailï¿½ï¿½?ï¿½Fï¿½bï¿½Nï¿½Ï‚İï¿½ï¿½ï¿½ï¿½ï¿½ï¿½t?ï¿½ï¿½ï¿½ï¿½
 class	CmdSetCurrentNGChecked : public GUIDirectMessage
 {
 public:
@@ -617,13 +635,13 @@ public:
 		:GUIDirectMessage(base),isChecked(true),Ret(false){};
 };
 
-// Œ»İHistory‚ÌNGNail‚É?ƒFƒbƒNÏ‚İî•ñ‚ğ•t?‚·‚é
+// ï¿½ï¿½ï¿½ï¿½Historyï¿½ï¿½NGNailï¿½ï¿½?ï¿½Fï¿½bï¿½Nï¿½Ï‚İï¿½ï¿½ï¿½ï¿½ï¿½ï¿½t?ï¿½ï¿½ï¿½ï¿½
 class	CmdSetNGChecked : public GUIDirectMessage
 {
 public:
-	Review::SideType side;// ?— w’è
-	int begin;// ŠJnIndex
-	int length;// ’·‚³>=0
+	Review::SideType side;// ?ï¿½ï¿½ï¿½wï¿½ï¿½
+	int begin;// ï¿½Jï¿½nIndex
+	int length;// ï¿½ï¿½ï¿½ï¿½>=0
 	// Recieve
 	bool	Ret;
 public:
@@ -631,7 +649,7 @@ public:
 		:GUIDirectMessage(base),side(Review::NoSide),begin(0),length(1),Ret(false){};
 };
 
-// FƒL?‚ÌƒJƒ‰?ƒŠƒXƒg‚ğæ“¾
+// Fï¿½L?ï¿½ÌƒJï¿½ï¿½?ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½æ“¾
 class	CmdReqFKeyColorList : public GUIDirectMessage
 {
 public:
@@ -643,7 +661,7 @@ public:
 		:GUIDirectMessage(base),Ret(false){};
 };
 
-// ?ƒX??‰æ‘œ‚ğXV
+// ?ï¿½X??ï¿½æ‘œï¿½ï¿½ï¿½Xï¿½V
 class	CmdUpdateMasterBuff : public GUIDirectMessage
 {
 public:
@@ -657,7 +675,7 @@ public:
 		:GUIDirectMessage(base),side(Review::NoSide),phase(-1),Ret(false){};
 };
 
-// ?ƒX??‰æ‘œ‚Ìˆê•”‚ğæ“¾
+// ?ï¿½X??ï¿½æ‘œï¿½Ìˆê•”ï¿½ï¿½ï¿½æ“¾
 class	CmdReqMasterImagePiece : public GUIDirectMessage
 {
 public:
@@ -742,7 +760,7 @@ public:
 	CmdReqMasterImagePieceOnOneImage(LayersBase *base)
 		:GUIDirectMessage(base),side(Review::NoSide),phase(-1),MasterX(-1),MasterY(-1),Width(-1),Height(-1),image(),Ret(false){};
 };
-// w’è‚µ‚½—š—ğƒŠƒXƒg‚ÌƒCƒ“ƒfƒbƒNƒXA‚à‚µ‚­‚ÍEID‚Å‚µ‚Ä‚¢‚µ‚½‚P‚Â‚Ì—š—ğ‚É‚Â‚¢‚Ä‚·‚×‚Ä‚ÌNGNail‚ª?ƒFƒbƒNÏ‚İ‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ’²¸‚·‚é
+// ï¿½wï¿½è‚µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½EIDï¿½Å‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½Â‚Ì—ï¿½ï¿½ï¿½ï¿½É‚Â‚ï¿½ï¿½Ä‚ï¿½ï¿½×‚Ä‚ï¿½NGNailï¿½ï¿½?ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚Å‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ğ’²ï¿½ï¿½ï¿½ï¿½ï¿½
 class	CmdReqHistoryAllChecked : public GUIDirectMessage
 {
 public:
@@ -792,7 +810,7 @@ public:
 		:GUIDirectMessage(base){};
 };
 
-// ?ƒX??ƒf??‚Ìî•ñ‚ğæ“¾‚·‚é
+// ?ï¿½X??ï¿½f??ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 class	CmdReqMasterInfoFromDataBase : public GUIDirectMessage
 {
 public:
@@ -806,7 +824,7 @@ public:
 	CmdReqMasterInfoFromDataBase(LayersBase *Base):GUIDirectMessage(Base),MasterCode(-1),info(),Ret(false){};
 };
 
-// ƒŒƒCƒ„?‚Ìƒƒ‚ƒŠ‚ğŠJ•ú‚·‚é
+// ï¿½ï¿½ï¿½Cï¿½ï¿½?ï¿½Ìƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 class	CmdFreeLayersImageMemory : public GUIDirectMessage
 {
 public:

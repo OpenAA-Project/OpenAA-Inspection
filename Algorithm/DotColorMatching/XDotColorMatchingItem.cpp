@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "DotColorMatchingResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Algorithm\DotColorMatchingInspection\XDotColorMatching.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 #include "XDotColorMatching.h"
 #include "XGeneralFunc.h"
 #include "ImageControlTools.h"
@@ -277,19 +286,19 @@ DotColorMatchingThreshold::DotColorMatchingThreshold(DotColorMatchingItem *paren
 
 	MultiSpotDot			=0;
 	MultiSpotCount			=0;
-	MultiSpotDotGathered	=0;	//–§W‘½“_
+	MultiSpotDotGathered	=0;	//ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½_
 	MultiSpotCountGathered	=0;
 	MultiSpotLengthGathered	=99999999;
 	BackGroundOKDot			=0;
 	BackGroundOKLength		=99999999;
 	UseBackGround			=false;
 
-    AdjustBlack		=20;    //‹P“x•â³‚Ì‰ºŒÀ•
-    AdjustWhite		=20;    //‹P“x•â³‚ÌãŒÀ•
-	AdjustContribute=10;	//•â³‚ÌŠñ—^“x
+    AdjustBlack		=20;    //ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    AdjustWhite		=20;    //ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+	AdjustContribute=10;	//ï¿½â³ï¿½ÌŠï¿½ï¿½^ï¿½x
 	AreaSearchX		=20;
 	AreaSearchY		=20;
-    SelfSearch		=4;     //Ž©ŒÈ’Tõƒhƒbƒg”
+    SelfSearch		=4;     //ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
 	PreciseSearch	=false;
 	Clusterize		=false;
 	SmoothCluster	=false;
@@ -297,8 +306,8 @@ DotColorMatchingThreshold::DotColorMatchingThreshold(DotColorMatchingItem *paren
 	EnableM2T		=true;
 	UseMaster2		=false;
 	ExpandToSubBlock=20;
-	MaxAreaSearch	=99;		//Å‘å—Ìˆæ’Tõƒhƒbƒg”
-    MaxSelfSearch	=99;		//Å‘åŽ©ŒÈ’Tõƒhƒbƒg”
+	MaxAreaSearch	=99;		//ï¿½Å‘ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+    MaxSelfSearch	=99;		//ï¿½Å‘åŽ©ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
 
 	MasterNo		=0;
 
@@ -363,9 +372,9 @@ DotColorMatchingThreshold::DotColorMatchingThreshold(DotColorMatchingItem *paren
 	//Set("BOKLengthH"	,&BOKLengthH,1,1000,5);
 
 	VariationMode		=false;
-	VariationRL=0;	VariationRH=255;	//R-OKƒoƒ‰ƒcƒL•Î·’l
-	VariationGL=0;	VariationGH=255;	//G-OKƒoƒ‰ƒcƒL•Î·’l
-	VariationBL=0;	VariationBH=255;	//B-OKƒoƒ‰ƒcƒL•Î·’l
+	VariationRL=0;	VariationRH=255;	//R-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
+	VariationGL=0;	VariationGH=255;	//G-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
+	VariationBL=0;	VariationBH=255;	//B-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
 	VariationAdaptMinSize	=1000;
 	VariationMultiplyMaster	=0.0;
 	VariationDifMaster		=false;
@@ -467,7 +476,7 @@ void	DotColorMatchingThreshold::CopyFrom(const AlgorithmThreshold &src)
 	VarietySigma		=s->VarietySigma;
 	MultiSpotDot		=s->MultiSpotDot	;
 	MultiSpotCount		=s->MultiSpotCount;
-	MultiSpotDotGathered	=s->MultiSpotDotGathered	;	//–§W‘½“_
+	MultiSpotDotGathered	=s->MultiSpotDotGathered	;	//ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½_
 	MultiSpotCountGathered	=s->MultiSpotCountGathered	;
 	MultiSpotLengthGathered	=s->MultiSpotLengthGathered	;
 
@@ -643,7 +652,7 @@ void	DotColorMatchingThreshold::CopyFrom(const AlgorithmThreshold &src,IntList &
 	if(EdittedMemberID.IsInclude(ID_MultiSpotCount	)==true)
 		MultiSpotCount	=s->MultiSpotCount;
 	if(EdittedMemberID.IsInclude(ID_MultiSpotDotGathered		)==true)
-		MultiSpotDotGathered	=s->MultiSpotDotGathered	;	//–§W‘½“_
+		MultiSpotDotGathered	=s->MultiSpotDotGathered	;	//ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½_
 	if(EdittedMemberID.IsInclude(ID_MultiSpotCountGathered		)==true)
 		MultiSpotCountGathered	=s->MultiSpotCountGathered	;
 	if(EdittedMemberID.IsInclude(ID_MultiSpotLengthGathered		)==true)

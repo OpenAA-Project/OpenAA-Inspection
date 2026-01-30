@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\RepairStation\RepairStation\XSequenceRepairLocal.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 //---------------------------------------------------------------------------
@@ -28,17 +37,17 @@ SeqControlParam *SeqControlParamData;
 SeqControlParam::SeqControlParam(LayersBase *Base,QWidget *Form) 
 :SeqLocalParam(Base)
 {
-	// ˆÚ“®ˆÊ’uİ’èƒŒƒWƒXƒ^İ’è
-	// ƒ‚[ƒ^[ˆÚ“®—v‹
+	// ï¿½Ú“ï¿½ï¿½Ê’uï¿½İ’èƒŒï¿½Wï¿½Xï¿½^ï¿½İ’ï¿½
+	// ï¿½ï¿½ï¿½[ï¿½^ï¿½[ï¿½Ú“ï¿½ï¿½vï¿½ï¿½
 	SetSpecialOperand(&MoterRequire		,0		,200	,"Moter Requirest"			,_ReadWrite	);
 
-	// ƒAƒtƒBƒ“•ÏŠ·“™‚È‚Ç‚É‚æ‚è“¾‚ç‚ê‚½Œ‹‰Ê‚ğ‘—M‚·‚é(ŒvZ‚ÍŠO•”‚Ås‚¤)
+	// ï¿½Aï¿½tï¿½Bï¿½ï¿½ï¿½ÏŠï¿½ï¿½ï¿½ï¿½È‚Ç‚É‚ï¿½ï¿½è“¾ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Ê‚ğ‘—Mï¿½ï¿½ï¿½ï¿½(ï¿½vï¿½Zï¿½ÍŠOï¿½ï¿½ï¿½Åsï¿½ï¿½)
 	SetSpecialOperand(&XPosition		,0		,201	,"X Absolute distance"			,_ReadWrite	);
 	SetSpecialOperand(&YPosition		,0		,202	,"Y Absolute distance"			,_ReadWrite	);
 	SetSpecialOperand(&ZPosition		,0		,203	,"Z Absolute distance"			,_ReadWrite	);
 
-	// “Ç‚İ‚İê—p‚Ìƒ~ƒŠ‚ ‚½‚è‚Ìƒpƒ‹ƒX”
-	// ”÷“®‚ÉŠÖ‚µ‚Äg—p‚·‚é
+	// ï¿½Ç‚İï¿½ï¿½İï¿½ï¿½pï¿½Ìƒ~ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ÉŠÖ‚ï¿½ï¿½Ägï¿½pï¿½ï¿½ï¿½ï¿½
 	SetSpecialOperand(&XMoterPulsePerMM	,0		,204	,"X Palus per millimeter"				,_ReadWrite	);
 	SetSpecialOperand(&YMoterPulsePerMM	,0		,205	,"Y Palus per millimeter"				,_ReadWrite	);
 	SetSpecialOperand(&ZMoterPulsePerMM	,0		,206	,"Z Palus per millimeter"				,_ReadWrite	);
@@ -47,8 +56,8 @@ SeqControlParam::SeqControlParam(LayersBase *Base,QWidget *Form)
 	SetSpecialOperand(&MasterID			,0		,209	,"Current Master ID"					,_ReadWrite	);
 	SetSpecialOperand(&LotAutoCount		,0		,210	,"Current Lot AutoCount in Front side"	,_ReadWrite	);
 
-	// ƒ‚[ƒ^[ƒXƒe[ƒ^ƒXİ’è
-	// true‚Ìİ’è‰Â”\‚Æ”»’f
+	// ï¿½ï¿½ï¿½[ï¿½^ï¿½[ï¿½Xï¿½eï¿½[ï¿½^ï¿½Xï¿½İ’ï¿½
+	// trueï¿½Ìï¿½ï¿½İ’ï¿½ï¿½Â”\ï¿½Æ”ï¿½ï¿½f
 	SetSpecialOperand(&XMoterStatus		,false		,100	,"Get X status"					,_ReadWrite	);
 	SetSpecialOperand(&YMoterStatus		,false		,101	,"Get Y status"					,_ReadWrite	);
 	SetSpecialOperand(&ZMoterStatus		,false		,102	,"Get Z status"					,_ReadWrite	);

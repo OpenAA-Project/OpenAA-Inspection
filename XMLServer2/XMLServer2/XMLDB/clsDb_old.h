@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef CLSDB_H
 #define CLSDB_H
 
@@ -13,9 +31,9 @@
 #include "clsLog.h"
 
 /**
- * @brief ƒf[ƒ^ƒx[ƒX‘€ìƒNƒ‰ƒX
+ * @brief ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
  *
- * ƒf[ƒ^ƒx[ƒX‚ÌÚ‘±^Ø’fASQL‚Ì”­s“™‚ğs‚¤B
+ * ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ÌÚ‘ï¿½ï¿½^ï¿½Ø’fï¿½ASQLï¿½Ì”ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½B
  */
 class clsDb: public QObject {
 Q_OBJECT
@@ -24,195 +42,195 @@ public:
 	clsDb(QObject *parent = 0);
 	~clsDb();
 
-	/// ƒf[ƒ^ƒx[ƒX–¼
+	/// ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½
 	QString dbnam;
 
-	/// ƒf[ƒ^ƒx[ƒXƒ^ƒCƒv
+	/// ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½^ï¿½Cï¿½v
 	QString dbtype;
 
-	/// DBƒ†[ƒU
+	/// DBï¿½ï¿½ï¿½[ï¿½U
 	QString dbusr;
 
-	/// DBƒpƒXƒ[ƒh
+	/// DBï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½h
 	QString dbpwd;
 
-	/// DBƒzƒXƒg
+	/// DBï¿½zï¿½Xï¿½g
 	QString dbhost;
 
 	clsLog *log;
 	clsParamDef *prm;
 
 	/**
-	 * @brief ƒRƒlƒNƒVƒ‡ƒ“•¶š—ñİ’è
+	 * @brief ï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 	 */
 	void setConnDef(const QString &def);
 
-	/// Ú‘±ƒpƒ‰ƒ[ƒ^ƒZƒbƒg
+	/// ï¿½Ú‘ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Zï¿½bï¿½g
 	/**
-	 * @brief DBÚ‘±ƒpƒ‰ƒ[ƒ^ƒZƒbƒg
+	 * @brief DBï¿½Ú‘ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Zï¿½bï¿½g
 	 *
-	 * Ú‘±ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-	 * @param QString _dbtyp   ƒf[ƒ^ƒx[ƒXƒ^ƒCƒv
-	 * @param QString _dbhost  ƒf[ƒ^ƒx[ƒXƒT[ƒoƒzƒXƒg–¼
-	 * @param QString _dbnam   ƒf[ƒ^ƒx[ƒX–¼
-	 * @param QString _dbusr   ƒf[ƒ^ƒx[ƒXƒ†[ƒU–¼
-	 * @param QString _dbpwd   ƒf[ƒ^ƒx[ƒXƒpƒXƒ[ƒh
+	 * ï¿½Ú‘ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½ï¿½B
+	 * @param QString _dbtyp   ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½^ï¿½Cï¿½v
+	 * @param QString _dbhost  ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Tï¿½[ï¿½oï¿½zï¿½Xï¿½gï¿½ï¿½
+	 * @param QString _dbnam   ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½
+	 * @param QString _dbusr   ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½
+	 * @param QString _dbpwd   ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½h
 	 */
 	void setPrm(const QString &_dbtyp, const QString &_dbhost, const QString &_dbnam,
 			const QString &_dbusr, const QString &_dbpwd);
 
 	/**
-	 * @brief DBÚ‘±ƒpƒ‰ƒ[ƒ^ƒZƒbƒg
+	 * @brief DBï¿½Ú‘ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Zï¿½bï¿½g
 	 *
-	 * clsParamDef‚©‚çDBÚ‘±ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
+	 * clsParamDefï¿½ï¿½ï¿½ï¿½DBï¿½Ú‘ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½ï¿½B
 	 */
 	void setPrm();
 
 	/**
-	 * @brief DBÚ‘±
+	 * @brief DBï¿½Ú‘ï¿½
 	 *
-	 * w’è‚µ‚½ƒRƒlƒNƒVƒ‡ƒ“–¼‚ÅDB‚ÉÚ‘±‚·‚éB
-	 * Ú‘±æ‚ÍDBÚ‘±ƒpƒ‰ƒ[ƒ^‚Åw’èÏ‚İ‚Å‚ ‚é‚±‚Æ
-	 * @param QString ƒRƒlƒNƒVƒ‡ƒ“–¼
+	 * ï¿½wï¿½è‚µï¿½ï¿½ï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½DBï¿½ÉÚ‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+	 * ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½DBï¿½Ú‘ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Åwï¿½ï¿½ï¿½Ï‚İ‚Å‚ï¿½ï¿½é‚±ï¿½ï¿½
+	 * @param QString ï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @return bool
 	 */
 	bool Connect(QString nam="");
 
 	/**
-	 * @brief DBØ’f
+	 * @brief DBï¿½Ø’f
 	 *
-	 * Ú‘±’†‚ÌDB‚ğØ’f‚·‚éB
+	 * ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½DBï¿½ï¿½ï¿½Ø’fï¿½ï¿½ï¿½ï¿½ï¿½B
 	 * @return bool
 	 */
 	bool DisConnect();
 
 	/**
-	 * @brief XVŒnSQLÀs
+	 * @brief ï¿½Xï¿½Vï¿½nSQLï¿½ï¿½ï¿½s
 	 *
-	 * w’è‚µ‚½XVŒnSQL‚ğÀs‚·‚éB
+	 * ï¿½wï¿½è‚µï¿½ï¿½ï¿½Xï¿½Vï¿½nSQLï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½B
 	 * @param QString sql
 	 * @return void
 	 */
 	bool updExecSql(const QString &sql);
 
 	/**
-	 * @brief MAXIDæ“¾
+	 * @brief MAXIDï¿½æ“¾
 	 *
-	 * w’èƒe[ƒuƒ‹‚ÌMAXID‚ğæ“¾‚·‚é
+	 * ï¿½wï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½MAXIDï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	 * @param QString
 	 * @return QString
 	 */
 	QString maxId(const QString &tbl);
 
-	/// ƒNƒGƒŠ[ƒ‚ƒfƒ‹¶¬
+	/// ï¿½Nï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	/**
-	 * @brief ƒNƒGƒŠ[ƒ‚ƒfƒ‹¶¬
+	 * @brief ï¿½Nï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 *
-	 * w’èSELECT•¶‚©‚çQSqlQueryModel‚ğ¶¬‚·‚éB
+	 * ï¿½wï¿½ï¿½SELECTï¿½ï¿½ï¿½ï¿½ï¿½ï¿½QSqlQueryModelï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 	 * @param QString sql
 	 * @return QSqlQueryModel
 	 */
 	QSqlQueryModel *mkQueryModel(const QString &sql);
 
-	/// ƒŠ[ƒhƒŒƒR[ƒh
+	/// ï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½Rï¿½[ï¿½h
 	QSqlRecord rec;
 
 	/**
-	 * @brief SELECTÀs
+	 * @brief SELECTï¿½ï¿½ï¿½s
 	 *
-	 * w’è‚µ‚½SELECT•¶‚ğÀs‚µAŒ‹‰Ê‚ğrec‚ÉŠi”[‚·‚é
+	 * ï¿½wï¿½è‚µï¿½ï¿½SELECTï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ê‚ï¿½recï¿½ÉŠiï¿½[ï¿½ï¿½ï¿½ï¿½
 	 * @param QString sql
-	 * @return int ŠY“–‚ ‚è:0 ŠY“–‚È‚µ:1 ƒGƒ‰[:-1
+	 * @return int ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:0 ï¿½Yï¿½ï¿½ï¿½È‚ï¿½:1 ï¿½Gï¿½ï¿½ï¿½[:-1
 	 */
 	int readRec(const QString &sql);
 
-	/// ƒGƒ‰[ƒƒbƒZ[ƒW
+	/// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½W
 	QString mess;
 
 	/**
-	 * @brief ƒVƒXƒeƒ€“ú•tæ“¾
+	 * @brief ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ï¿½ï¿½tï¿½æ“¾
 	 *
-	 * ƒVƒXƒeƒ€“ú•t‚ğæ“¾‚µAyyyy-MM-dd‚Å•Ô‹p
-	 * @parab bool “ú•t‚Ì‚İ:true ŠÔ•t‚«:false
+	 * ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ayyyy-MM-ddï¿½Å•Ô‹p
+	 * @parab bool ï¿½ï¿½ï¿½tï¿½Ì‚ï¿½:true ï¿½ï¿½ï¿½Ô•tï¿½ï¿½:false
 	 */
 	QString curDay(bool flgTime = false);
 
 	/**
-	 * @brief ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ŠJn
+	 * @brief ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Uï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½n
 	 * @return bool
 	 */
 	bool beginTran();
 
 	/**
-	 * @brief ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“I—¹
-	 * @return bool ƒRƒ~ƒbƒg:true ƒ[ƒ‹ƒoƒbƒN:false
+	 * @brief ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Uï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
+	 * @return bool ï¿½Rï¿½~ï¿½bï¿½g:true ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½N:false
 	 */
 	bool endTran(bool flg);
 
-	/// ƒGƒ‰[ƒtƒ‰ƒO ƒGƒ‰[:false
+	/// ï¿½Gï¿½ï¿½ï¿½[ï¿½tï¿½ï¿½ï¿½O ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½:false
 	bool errflg;
 
 	/**
-	 * @brief TOPƒm[ƒh’Ç‰Á
+	 * @brief TOPï¿½mï¿½[ï¿½hï¿½Ç‰ï¿½
 	 *
-	 * @param int no ‡”Ôi‚OŒÅ’è)
-	 * @param QString tag ƒ^ƒO–¼
+	 * @param int no ï¿½ï¿½ï¿½Ôiï¿½Oï¿½Å’ï¿½)
+	 * @param QString tag ï¿½^ï¿½Oï¿½ï¿½
 	 * @param QString &parid topid
 	 * @return bool
 	 */
 	bool addTopNode(int no, const QString &tag, QString &parid);
 
 	/**
-	 * @brief TOPƒm[ƒh‘®«’Ç‰Á
+	 * @brief TOPï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½
 	 *
-	 * topid‚Åw’è‚µ‚½ƒm[ƒh‚Ì‘®«‚ğ’Ç‰Á‚·‚é
-	 * @param int no ‡”Ô
+	 * topidï¿½Åwï¿½è‚µï¿½ï¿½ï¿½mï¿½[ï¿½hï¿½Ì‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param int no ï¿½ï¿½ï¿½ï¿½
 	 * @param const QString &topid
-	 * @param const QString &tag ‘®«–¼
-	 * @param const QString &val ‘®«’l
+	 * @param const QString &tag ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param const QString &val ï¿½ï¿½ï¿½ï¿½ï¿½l
 	 * @return bool
 	 */
 	bool addTopAttr(int no, const QString &topid, const QString &tag, const QString &val);
 
 
 	/**
-	 * @brief qƒm[ƒh‘®«’Ç‰Á
+	 * @brief ï¿½qï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½
 	 *
-	 * topid‚Åw’è‚µ‚½ƒm[ƒh‚Ìqƒm[ƒh‚ğ’Ç‰Á‚·‚é
-	 * @param int no ‡”Ô
+	 * topidï¿½Åwï¿½è‚µï¿½ï¿½ï¿½mï¿½[ï¿½hï¿½Ìqï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param int no ï¿½ï¿½ï¿½ï¿½
 	 * @param const QString &topid
-	 * @param const QString &tag ƒ^ƒO–¼
-	 * @param const QString &val ’l
-	 * @param QString &parid topid ’Ç‰Á‚µ‚½qƒm[ƒh‚ÌID
+	 * @param const QString &tag ï¿½^ï¿½Oï¿½ï¿½
+	 * @param const QString &val ï¿½l
+	 * @param QString &parid topid ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½mï¿½[ï¿½hï¿½ï¿½ID
 	 * @return bool
 	 */
 	bool addSecNode(int no, const QString &topid, const QString &tag, const QString &val,
 			QString &parid);
 
 	/**
-	 * @brief qƒm[ƒh‘®«’Ç‰Á
+	 * @brief ï¿½qï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½
 	 *
-	 * nid‚Åw’è‚µ‚½ƒm[ƒh‚Ì‘®«‚ğ’Ç‰Á‚·‚é
-	 * @param int no ‡”Ô
+	 * nidï¿½Åwï¿½è‚µï¿½ï¿½ï¿½mï¿½[ï¿½hï¿½Ì‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param int no ï¿½ï¿½ï¿½ï¿½
 	 * @param const QString &topid
 	 * @param const QString &nid
-	 * @param const QString &tag ‘®«–¼
-	 * @param const QString &val ‘®«’l
+	 * @param const QString &tag ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param const QString &val ï¿½ï¿½ï¿½ï¿½ï¿½l
 	 * @return bool
 	 */
 	bool addSecAttr(int no, const QString &topid, const QString &nid, const QString &tag,
 			const QString &val);
 
 	/**
-	 * @brief ƒ\[ƒg‡æ“¾
+	 * @brief ï¿½\ï¿½[ï¿½gï¿½ï¿½ï¿½æ“¾
 	 *
-	 * w’èƒe[ƒuƒ‹‚Ìƒ\[ƒg‡‚ğæ“¾‚·‚é
-	 * @param const QString &tbl ƒe[ƒuƒ‹–¼
+	 * ï¿½wï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Ìƒ\ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
+	 * @param const QString &tbl ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½
 	 * @param QString topid=""
 	 */
 	int getMaxSrt(const QString &tbl, QString topid = "");
 
-	// INSERTƒvƒŠƒyƒA
+	// INSERTï¿½vï¿½ï¿½ï¿½yï¿½A
 	QSqlQuery *queryTop;
 	QSqlQuery *queryTopAttr;
 	QSqlQuery *querySec;
@@ -221,67 +239,67 @@ public:
 	int nFixInsCnt;
 
 	/**
-	 * @brief INSERTƒvƒŠƒyƒAì¬
+	 * @brief INSERTï¿½vï¿½ï¿½ï¿½yï¿½Aï¿½ì¬
 	 */
 	bool makePrepare();
 
 	/**
-	 * @brief ƒgƒbƒvƒm[ƒhíœ
+	 * @brief ï¿½gï¿½bï¿½vï¿½mï¿½[ï¿½hï¿½íœ
 	 */
 	bool delTop(const QString &whr);
 
 	/**
-	 * @brief qƒm[ƒhíœ
+	 * @brief ï¿½qï¿½mï¿½[ï¿½hï¿½íœ
 	 */
 	bool delSec(const QString &whr);
 
 	/**
-	 * @brief ƒe[ƒuƒ‹–¼ƒZƒbƒg
+	 * @brief ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	 *
-	 * ƒe[ƒuƒ‹–¼‚ğƒZƒbƒg‚·‚éB
-	 * ƒe[ƒuƒ‹‚ªì¬‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Íì¬‚·‚éB
+	 * ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½B
+	 * ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Íì¬ï¿½ï¿½ï¿½ï¿½ï¿½B
 	 */
 	bool setTable(const QString &tbl);
 
 	/**
-	 * @brief ƒ^ƒO–¼•Û‘¶
+	 * @brief ï¿½^ï¿½Oï¿½ï¿½ï¿½Û‘ï¿½
 	 */
 	bool setTag(const QString &tag, int lvl);
 
 	/**
-	 * @brief ƒ^ƒOƒŒƒxƒ‹æ“¾
+	 * @brief ï¿½^ï¿½Oï¿½ï¿½ï¿½xï¿½ï¿½ï¿½æ“¾
 	 */
 	int tagLvl(const QString &tag);
 
 	/**
-	 * @brief ƒV[ƒPƒ“ƒXì¬
+	 * @brief ï¿½Vï¿½[ï¿½Pï¿½ï¿½ï¿½Xï¿½ì¬
 	 *
-	 * w’èƒe[ƒuƒ‹‚ÌƒV[ƒPƒ“ƒX‚ğì¬‚·‚é
+	 * ï¿½wï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÌƒVï¿½[ï¿½Pï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 	 */
 	bool createSequence(const QString &name);
 
 	/**
-	 * @brief ƒf[ƒ^ƒx[ƒXƒtƒ@ƒCƒ‹ì¬
+	 * @brief ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ì¬
 	 */
 	static bool createDb(QString dbusr, QString dbpwd, QString dbpath);
 
 	/**
-	 * @brief ‰Šúƒe[ƒuƒ‹ì¬
+	 * @brief ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ì¬
 	 */
 	bool mkInitTbl();
 
 	/**
-	 * @brief ŒÅ’èƒ^ƒOİ’èæ“¾
+	 * @brief ï¿½Å’ï¿½ï¿½^ï¿½Oï¿½İ’ï¿½ï¿½æ“¾
 	 */
 	clsTagAttrRec *getTagDef(QString tag);
 
 	/**
-	 * @brief ŒÅ’èƒ^ƒO‘®«’Ç‰Á
+	 * @brief ï¿½Å’ï¿½ï¿½^ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½
 	 */
 	bool addFixAttr(const QString &topid, const QString &nid, int idx, const QList<QByteArray> &lstAttr);
 
 	/**
-	 * @brief DBƒ}ƒXƒ^ƒe[ƒuƒ‹ì¬
+	 * @brief DBï¿½}ï¿½Xï¿½^ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ì¬
 	 */
 	bool mkMasterTbl();
 
@@ -290,9 +308,9 @@ public:
 	QString connDef;
 
 	/**
-	 * @brief ƒNƒGƒŠ[ì¬
+	 * @brief ï¿½Nï¿½Gï¿½ï¿½ï¿½[ï¿½ì¬
 	 *
-	 * w’èSQL•¶‚©‚çQSqlQuery‚ğì¬‚·‚é
+	 * ï¿½wï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½QSqlQueryï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 	 * @param const QString sql
 	 * @return QSqlQuery *
 	 */
@@ -300,55 +318,55 @@ public:
 	QSqlQuery *openedQuery;
 
 	/**
-	 * @brief ƒNƒGƒŠ[ƒI[ƒvƒ“
+	 * @brief ï¿½Nï¿½Gï¿½ï¿½ï¿½[ï¿½Iï¿½[ï¿½vï¿½ï¿½
 	 *
-	 * ì¬‚µ‚½ƒNƒGƒŠ[‚ğƒI[ƒvƒ“‚·‚é
+	 * ï¿½ì¬ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param QSqlQuery *
 	 * @return bool
 	 */
 	bool openQuery(QSqlQuery *query=NULL);
 
 	/**
-	 * @brief ŸƒŒƒR[ƒhæ“¾
+	 * @brief ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½æ“¾
 	 *
-	 * ƒI[ƒvƒ“‚µ‚½ƒNƒGƒŠ[‚©‚ç‚Psæ‚èo‚·B
+	 * ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½sï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½B
 	 * @param QSqlQuery *
-	 * @return int ŠY“–‚ ‚è:0 ŠY“–‚È‚µ:1 ƒGƒ‰[:-1
+	 * @return int ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:0 ï¿½Yï¿½ï¿½ï¿½È‚ï¿½:1 ï¿½Gï¿½ï¿½ï¿½[:-1
 	 */
 	int next(QSqlQuery *query=NULL);
 
 	/**
-	 * @brief ƒNƒGƒŠ[ƒNƒ[ƒY
+	 * @brief ï¿½Nï¿½Gï¿½ï¿½ï¿½[ï¿½Nï¿½ï¿½ï¿½[ï¿½Y
 	 *
-	 * ì¬‚µ‚½ƒNƒGƒŠ[‚ğŠJ•ú‚·‚é
+	 * ï¿½ì¬ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param QSqlQuery *
 	 */
 	void closeQuery(QSqlQuery *query=NULL);
 
 	/**
-	 * @brief ’læ“¾
+	 * @brief ï¿½lï¿½æ“¾
 	 *
-	 * æ‚èo‚µ‚½s‚©‚çw’è‚µ‚½’l‚ğæ“¾‚·‚é
-	 * @param const QString &itm ƒJƒ‰ƒ€–¼
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è‚µï¿½ï¿½ï¿½lï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
+	 * @param const QString &itm ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param QSqlQuery *
 	 * @return QByteArray
 	 */
 	QByteArray queryValue(const QString &itm, QSqlQuery *query=NULL);
 
 	/**
-	 * @brief ƒNƒGƒŠ[Às
+	 * @brief ï¿½Nï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½s
 	 *
-	 * ì¬‚µ‚½XVƒNƒGƒŠ[‚ğÀs‚·‚é
+	 * ï¿½ì¬ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Vï¿½Nï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
 	 * @param QSqlQuery *
 	 * @return bool
 	 */
 	bool execQuery(QSqlQuery *query=NULL);
 
-	/// ƒe[ƒuƒ‹ƒwƒbƒ_
+	/// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½wï¿½bï¿½_
 	QString tblHead;
 
 private:
-	/// ƒf[ƒ^ƒx[ƒXƒIƒuƒWƒFƒNƒg
+	/// ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½g
 	QSqlDatabase db;
 
 	QStringList lstTagTop;

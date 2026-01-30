@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2020
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 // EWCLIB [Easy Web Camera LIBrary]
 //           version 2.5
 // Copyright (C) 2018 I.N.  All rights reserved.
@@ -5,24 +23,24 @@
 // OS:Windows XP/Vista/7/8/8.1/10
 // Compiler:Visual C++ 2008, 2010~2017+[qedit.h]
 
-// 2010/04/15 ver.1.9 EWC_GetLastMessage():Unicode/ƒ}ƒ‹ƒ`ƒoƒCƒg‚Ì—¼‘Î‰‰»
-// 2010/05/04         ŠJn
-// 2010/05/06         EWC_Open()/EWC_Close()d—l•ÏXD
-// 2010/05/06         EWC_Run()/EWC_Stop()’Ç‰ÁD
-// 2010/05/08         EWC_CloseAll()’Ç‰ÁD
-// 2010/05/13 ver.2.0 Š®¬
-// 2012/02/28 ver.2.1 ƒƒ‚ƒŠ‰ğ•ú‚Ìƒƒ‚ƒŠƒŠ[ƒN‚ğC³
-// 2014/01            Å‘åƒJƒƒ‰”•ÏX(8->10), @device:sw‚à‘ÎÛ‚Æ‚·‚é
-// 2014/01            •¨—ƒfƒoƒCƒXg—pÏ‚İƒtƒ‰ƒO,EWC_GetFormat()’Ç‰Á
-// 2014/01            EWC_Open():FriendlyNamew’è,ƒfƒtƒHƒ‹ƒg’l’Ç‰Á
-// 2014/01/17 ver.2.2 EWC_Open()‚ÌƒoƒŠƒG[ƒVƒ‡ƒ“’Ç‰Á,EWC_GetDeviceName()’Ç‰Á
-// 2014/01/27         ƒfƒoƒCƒXo—Íƒsƒ“‚ÌƒtƒH[ƒ}ƒbƒgw’è‚Ì‹@”\‚ğ’Ç‰Á
-// 2014/01/27         ƒtƒH[ƒ}ƒbƒgˆê——‚ğæ“¾‚·‚éƒTƒ“ƒvƒ‹‚ÌC³
-// 2014/01/27         EWC_Open()ˆø”’Ç‰Á,ewc_type,ewc_device_type(EWC_DEVICE_TYPE)’Ç‰Á
-// 2014/01/27 ver.2.3 EWC_GetDeviceSubtype(),EWC_GetSubtype(),EWC_GUIDtoTEXT()‚ğ’Ç‰Á
-// 2014/04/08         ewc_s[].count’Ç‰Á,EWC_Pause()’Ç‰Á,EWC_OneShot()’Ç‰Á
-// 2014/04/22 ver.2.4 EWC_SaveProperty(),EWC_LoadProperty(),EWC_SetManual()’Ç‰Á
-// 2018/05/29 ver.2.5 Visual C++ 2017‘Î‰
+// 2010/04/15 ver.1.9 EWC_GetLastMessage():Unicode/ï¿½}ï¿½ï¿½ï¿½`ï¿½oï¿½Cï¿½gï¿½Ì—ï¿½ï¿½Î‰ï¿½ï¿½ï¿½
+// 2010/05/04         ï¿½Jï¿½n
+// 2010/05/06         EWC_Open()/EWC_Close()ï¿½dï¿½lï¿½ÏXï¿½D
+// 2010/05/06         EWC_Run()/EWC_Stop()ï¿½Ç‰ï¿½ï¿½D
+// 2010/05/08         EWC_CloseAll()ï¿½Ç‰ï¿½ï¿½D
+// 2010/05/13 ver.2.0 ï¿½ï¿½ï¿½ï¿½
+// 2012/02/28 ver.2.1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½Nï¿½ï¿½ï¿½Cï¿½ï¿½
+// 2014/01            ï¿½Å‘ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏX(8->10), @device:swï¿½ï¿½ï¿½ÎÛ‚Æ‚ï¿½ï¿½ï¿½
+// 2014/01            ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½oï¿½Cï¿½Xï¿½gï¿½pï¿½Ï‚İƒtï¿½ï¿½ï¿½O,EWC_GetFormat()ï¿½Ç‰ï¿½
+// 2014/01            EWC_Open():FriendlyNameï¿½wï¿½ï¿½,ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½Ç‰ï¿½
+// 2014/01/17 ver.2.2 EWC_Open()ï¿½Ìƒoï¿½ï¿½ï¿½Gï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½,EWC_GetDeviceName()ï¿½Ç‰ï¿½
+// 2014/01/27         ï¿½fï¿½oï¿½Cï¿½Xï¿½oï¿½Íƒsï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½wï¿½ï¿½ï¿½Ì‹@ï¿½\ï¿½ï¿½ï¿½Ç‰ï¿½
+// 2014/01/27         ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ê——ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ÌCï¿½ï¿½
+// 2014/01/27         EWC_Open()ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½,ewc_type,ewc_device_type(EWC_DEVICE_TYPE)ï¿½Ç‰ï¿½
+// 2014/01/27 ver.2.3 EWC_GetDeviceSubtype(),EWC_GetSubtype(),EWC_GUIDtoTEXT()ï¿½ï¿½ï¿½Ç‰ï¿½
+// 2014/04/08         ewc_s[].countï¿½Ç‰ï¿½,EWC_Pause()ï¿½Ç‰ï¿½,EWC_OneShot()ï¿½Ç‰ï¿½
+// 2014/04/22 ver.2.4 EWC_SaveProperty(),EWC_LoadProperty(),EWC_SetManual()ï¿½Ç‰ï¿½
+// 2018/05/29 ver.2.5 Visual C++ 2017ï¿½Î‰ï¿½
 
 #pragma once
 #define EWCLIB_H
@@ -40,7 +58,7 @@
 #include "XCriticalFunc.h"
 #include <QMutex>
 
-//‰æ‘œƒtƒH[ƒ}ƒbƒgio—Í•”•ªj
+//ï¿½æ‘œï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½iï¿½oï¿½Í•ï¿½ï¿½ï¿½ï¿½j
 #ifndef EWC_TYPE
 	#ifdef _CV_H_
 		#define EWC_TYPE MEDIASUBTYPE_RGB24
@@ -52,14 +70,14 @@
 		#endif
 	#endif
 #endif
-//ƒfƒtƒHƒ‹ƒg’l
+//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½l
 GUID ewc_type= EWC_TYPE;
 
-//‰æ‘œƒtƒH[ƒ}ƒbƒgiƒfƒoƒCƒXo—Íƒsƒ“•”•ªj
+//ï¿½æ‘œï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½iï¿½fï¿½oï¿½Cï¿½Xï¿½oï¿½Íƒsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 #ifndef EWC_DEVICE_TYPE
 	#define EWC_DEVICE_TYPE GUID_NULL
 #endif
-//ƒfƒtƒHƒ‹ƒg’l
+//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½l
 GUID ewc_device_type= EWC_DEVICE_TYPE;
 
 #ifndef EWC_WX
@@ -73,7 +91,7 @@ GUID ewc_device_type= EWC_DEVICE_TYPE;
 #ifndef EWC_FPS
 	#define EWC_FPS 30
 #endif
-//ƒfƒtƒHƒ‹ƒg’l
+//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½l
 int ewc_wx= EWC_WX;
 int ewc_wy= EWC_WY;
 double ewc_fps= EWC_FPS;
@@ -86,15 +104,15 @@ double ewc_fps= EWC_FPS;
 #endif
 
 #ifndef EWC_NCAMMAX
-#define EWC_NCAMMAX 10	//ƒJƒƒ‰‚ÌÅ‘å”F¯”v2.2
+#define EWC_NCAMMAX 10	//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ÌÅ‘ï¿½ï¿½Fï¿½ï¿½ï¿½ï¿½v2.2
 #endif
 
-int ewc_cominit= 0;			//COM‰Šú‰»ƒtƒ‰ƒO(1‚È‚çI—¹ˆ—‚ğs‚¤)
-int ewc_ncam= -1;			//ƒJƒƒ‰Ú‘±”
-int ewc_order[EWC_NCAMMAX];	//‰Šú‰»‚µ‚½”Ô†‚Ì‡”Ô
-int ewc_ordercnt= 0;		//ewc_order[]‚Ì‚½‚ß‚ÌƒJƒEƒ“ƒ^
+int ewc_cominit= 0;			//COMï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O(1ï¿½È‚ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½)
+int ewc_ncam= -1;			//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ú‘ï¿½ï¿½ï¿½
+int ewc_order[EWC_NCAMMAX];	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôï¿½ï¿½Ìï¿½ï¿½ï¿½
+int ewc_ordercnt= 0;		//ewc_order[]ï¿½Ì‚ï¿½ï¿½ß‚ÌƒJï¿½Eï¿½ï¿½ï¿½^
 HRESULT ewc_hr;
-int ewc_used[EWC_NCAMMAX];	//•¨—ƒfƒoƒCƒXg—pÏ‚İƒtƒ‰ƒO
+int ewc_used[EWC_NCAMMAX];	//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½oï¿½Cï¿½Xï¿½gï¿½pï¿½Ï‚İƒtï¿½ï¿½ï¿½O
 
 #define EWC_RUN_TIMEOUT		8000
 #define EWC_STOP_TIMEOUT	3000
@@ -109,30 +127,30 @@ int ewc_used[EWC_NCAMMAX];	//•¨—ƒfƒoƒCƒXg—pÏ‚İƒtƒ‰ƒO
 void EWC_Reallocate(int num ,int DotPerLine, int MaxLines);
 void ewc_DeleteMediaType(AM_MEDIA_TYPE *pmt);
 
-//\‘¢‘Ì‚Ì’è‹`
+//ï¿½\ï¿½ï¿½ï¿½Ì‚Ì’ï¿½ï¿½`
 struct ewc_struct{
-	int wx;					//‰æ‘œ‚Ì•
-	int wy;					//‰æ‘œ‚Ì‚‚³
+	int wx;					//ï¿½æ‘œï¿½Ì•ï¿½
+	int wy;					//ï¿½æ‘œï¿½Ìï¿½ï¿½ï¿½
 	int	AllocatedX;
 	int	AllocatedY;
-	double fps;				//ƒtƒŒ[ƒ€ƒŒ[ƒgiˆø”w’è’lj
-	int device;				//•¨—ƒfƒoƒCƒX”Ô†iˆø”w’è’lj
-	int devn;				//Š„‚è“–‚Ä‚ç‚ê‚½•¨—ƒfƒoƒCƒX”Ô†v2.2
-	char *pdname;			//FriendlyName”äŠr—pv2.2
-	char dname[256];		//æ“¾‚µ‚½FriendlyName v2.2
-	GUID mstype;			//o—Í‰æ‘œ‚ÌƒtƒH[ƒ}ƒbƒg
-	char mstype_t[80];		//mstype‚É‘Î‰‚·‚é•¶š—ñv2.3
-	GUID dev_mstype;		//ƒfƒoƒCƒXo—Íƒsƒ“‚ÌƒtƒH[ƒ}ƒbƒgv2.3
-	char dev_mstype_t[80];	//dev_mstype‚É‘Î‰‚·‚é•¶š—ñv2.3
+	double fps;				//ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½iï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½lï¿½j
+	int device;				//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½oï¿½Cï¿½Xï¿½Ôï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½lï¿½j
+	int devn;				//ï¿½ï¿½ï¿½è“–ï¿½Ä‚ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½oï¿½Cï¿½Xï¿½Ôï¿½v2.2
+	char *pdname;			//FriendlyNameï¿½ï¿½ï¿½rï¿½pv2.2
+	char dname[256];		//ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½FriendlyName v2.2
+	GUID mstype;			//ï¿½oï¿½Í‰æ‘œï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½g
+	char mstype_t[80];		//mstypeï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½v2.3
+	GUID dev_mstype;		//ï¿½fï¿½oï¿½Cï¿½Xï¿½oï¿½Íƒsï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½gv2.3
+	char dev_mstype_t[80];	//dev_mstypeï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½v2.3
 	volatile int init;
 	volatile int stop;
 	volatile int errcode;
-	int *pbuf;				//‰æ‘œ‚Ì•Û‘¶æ
-	int *buffer;			//“à•”‚ÅŠm•Û‚µ‚½ƒtƒŒ[ƒ€ƒoƒbƒtƒ@
-	volatile long bufsize;	//“¾‚ç‚ê‚½‰æ‘œƒf[ƒ^‚ÌƒoƒCƒg”
-	volatile double stime;	//ƒTƒ“ƒvƒ‹(s)
-	volatile double ftime;	//ƒtƒŒ[ƒ€üŠú(s)‚ÌÀ‘ª’l
-	volatile int count;		//ƒtƒŒ[ƒ€æ“¾”v2.4
+	int *pbuf;				//ï¿½æ‘œï¿½Ì•Û‘ï¿½ï¿½ï¿½
+	int *buffer;			//ï¿½ï¿½ï¿½ï¿½ï¿½ÅŠmï¿½Û‚ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@
+	volatile long bufsize;	//ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½Ìƒoï¿½Cï¿½gï¿½ï¿½
+	volatile double stime;	//ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(s)
+	volatile double ftime;	//ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(s)ï¿½Ìï¿½ï¿½ï¿½ï¿½l
+	volatile int count;		//ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½v2.4
 	int vflag[EWC_ITEMMAX];
 	IGraphBuilder			*pGraph;
 	IBaseFilter				*pF;
@@ -188,7 +206,7 @@ struct ewc_struct{
 
 ewc_struct ewc_s[EWC_NCAMMAX];
 
-//ƒtƒH[ƒ}ƒbƒgŠi”[‚Ì‚½‚ß‚Ì\‘¢‘Ìv2.3
+//ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½iï¿½[ï¿½Ì‚ï¿½ï¿½ß‚Ì\ï¿½ï¿½ï¿½ï¿½v2.3
 struct ewc_format{
 	int width;
 	int height;
@@ -196,16 +214,16 @@ struct ewc_format{
 	REFERENCE_TIME AvgTimePerFrame;
 	double fps;
 	GUID subtype;
-	char subtype_t[80];	//subtype‚É‘Î‰‚·‚é•¶š—ñv2.3
+	char subtype_t[80];	//subtypeï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½v2.3
 };
 
 
-//ƒR[ƒ‹ƒoƒbƒNŠÖ”
+//ï¿½Rï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½Öï¿½
 class	ewc_SampleGrabberCB;
 ewc_SampleGrabberCB *ewc_pSampleGrabberCB[EWC_NCAMMAX];
 QMutex	ewc_Mutex[EWC_NCAMMAX];
 
-//ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì’è‹`
+//ï¿½Rï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½Öï¿½ï¿½Ì’ï¿½ï¿½`
 class ewc_SampleGrabberCB :public ISampleGrabberCB
 {
 public:
@@ -236,7 +254,7 @@ public:
 	{
 		return S_OK;
 	}
-	//ƒtƒŒ[ƒ€–ˆ‚ÉŒÄ‚Î‚ê‚éŠÖ”
+	//ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ÉŒÄ‚Î‚ï¿½ï¿½ï¿½ï¿½Öï¿½
 	STDMETHODIMP BufferCB(double dblSampleTime, BYTE *pBuffer, long lBufferSize)
 	{
 		if(OnChanging==false && ewc_s[i].wx!=0 && ewc_s[i].wy!=0){
@@ -256,7 +274,7 @@ public:
 				int wy= ewc_s[i].wy;
 				int byte= lBufferSize/wy;
 				/*
-				//‰æ‘œ‚Ìã‰º‚ğ‹t‚É‚µ‚ÄƒRƒs[
+				//ï¿½æ‘œï¿½Ìã‰ºï¿½ï¿½ï¿½tï¿½É‚ï¿½ï¿½ÄƒRï¿½sï¿½[
 				for(int y=0; y<wy; y++){
 					memcpy((unsigned char *)ewc_s[i].pbuf+(wy-1-y)*byte, pBuffer+y*byte,byte);
 				}
@@ -269,7 +287,7 @@ public:
 			}
 			ewc_s[i].ftime= dblSampleTime - ewc_s[i].stime;
 			ewc_s[i].stime= dblSampleTime;
-			ewc_s[i].count++;	//ƒtƒŒ[ƒ€æ“¾”‚ÌXVv2.4
+			ewc_s[i].count++;	//ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ÌXï¿½Vv2.4
 			ewc_s[i].Captured=true;
 		}
 		else{
@@ -277,7 +295,7 @@ public:
 		}
 		return S_OK;
 	}
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^	
+	//ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^	
 	ewc_SampleGrabberCB(int num)
 	{
 		i=num;
@@ -289,7 +307,7 @@ public:
 		LastTimeIndex	=0;
 		CallBackCount=0;
 	}
-	//ƒfƒXƒgƒ‰ƒNƒ^
+	//ï¿½fï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
 	~ewc_SampleGrabberCB()
 	{
 	}
@@ -327,7 +345,7 @@ private:
 #define EWC_IRIS					15
 #define EWC_FOCUS					16
 
-//ƒJƒƒ‰”Ô†‚Ìƒ`ƒFƒbƒN(–ß‚è’lF0‚È‚çƒJƒƒ‰num‚Í—LŒø)
+//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ôï¿½ï¿½Ìƒ`ï¿½Fï¿½bï¿½N(ï¿½ß‚ï¿½ï¿½lï¿½F0ï¿½È‚ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½numï¿½Í—Lï¿½ï¿½)
 int numCheck(int num)
 {
 	if(num<0 || num>=EWC_NCAMMAX) return 1;
@@ -335,21 +353,21 @@ int numCheck(int num)
 	return 0;
 }
 
-//ƒJƒƒ‰‘ä”‚ğ•Ô‚·
+//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ä”ï¿½ï¿½ï¿½Ô‚ï¿½
 int EWC_GetCamera(void)
 {
 	if(ewc_ncam==-1) return 0;
 	return ewc_ncam;
 }
 
-//ƒJƒƒ‰(”Ô†:num)‚ÌƒtƒŒ[ƒ€ƒoƒbƒtƒ@ƒTƒCƒY(’PˆÊ:ƒoƒCƒg)‚ğ•Ô‚·
+//ï¿½Jï¿½ï¿½ï¿½ï¿½(ï¿½Ôï¿½:num)ï¿½Ìƒtï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Y(ï¿½Pï¿½ï¿½:ï¿½oï¿½Cï¿½g)ï¿½ï¿½ï¿½Ô‚ï¿½
 int EWC_GetBufferSize(int num)
 {
 	if(numCheck(num)) return 0;
 	return ewc_s[num].bufsize;
 }
 
-//ƒtƒBƒ‹ƒ^‚Ìƒsƒ“‚ğæ“¾‚·‚é
+//ï¿½tï¿½Bï¿½ï¿½ï¿½^ï¿½Ìƒsï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 IPin *ewc_GetPin(IBaseFilter *pFilter, PIN_DIRECTION PinDir)
 {
 	IEnumPins *pEnum;
@@ -368,7 +386,7 @@ IPin *ewc_GetPin(IBaseFilter *pFilter, PIN_DIRECTION PinDir)
 	return pPin;
 }
 
-//ƒJƒƒ‰(”Ô†:num)‚Ì‰æ‘œæ“¾
+//ï¿½Jï¿½ï¿½ï¿½ï¿½(ï¿½Ôï¿½:num)ï¿½Ì‰æ‘œï¿½æ“¾
 int EWC_GetImage(int num, void *buffer ,long *BuffSize)
 {
 	if(numCheck(num)) return 1;
@@ -383,7 +401,7 @@ int EWC_GetImage(int num, void *buffer ,long *BuffSize)
 	return 0;
 }
 
-//ƒoƒbƒtƒ@ƒAƒhƒŒƒX‚ğ•ÏX
+//ï¿½oï¿½bï¿½tï¿½@ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ÏX
 int EWC_SetBuffer(int num, void *buffer)
 {
 	if(numCheck(num)) return 1;
@@ -391,7 +409,7 @@ int EWC_SetBuffer(int num, void *buffer)
 	return 0;
 }
 
-//Œ»İ‚Ìƒoƒbƒtƒ@ƒAƒhƒŒƒX‚ğæ“¾
+//ï¿½ï¿½ï¿½İ‚Ìƒoï¿½bï¿½tï¿½@ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½æ“¾
 int EWC_GetBuffer(int num, void **buffer)
 {
 	if(numCheck(num)) return 1;
@@ -407,7 +425,7 @@ bool	EWC_IsCaptured(int num)
 	return false;
 }
 
-//İ’è’l‚ğ“Ç‚ñ‚¾‚è‘‚¢‚½‚è‚·‚éŠÖ” v2.4
+//ï¿½İ’ï¿½ï¿½lï¿½ï¿½ï¿½Ç‚ñ‚¾‚è‘ï¿½ï¿½ï¿½ï¿½ï¿½è‚·ï¿½ï¿½ï¿½Öï¿½ v2.4
 int ewc_propfunc(int func, int num, int prop, double *value=NULL, int *mode=NULL)
 {
 	if(numCheck(num)) return 1;
@@ -419,18 +437,18 @@ int ewc_propfunc(int func, int num, int prop, double *value=NULL, int *mode=NULL
 		return 0;
 
 	if(prop<EWC_VPAMPMAX){
-		//IAMVideoProcAmp‚Ìæ“¾ pVPAmp
+		//IAMVideoProcAmpï¿½Ìæ“¾ pVPAmp
 		ewc_s[num].pCap->QueryInterface(IID_IAMVideoProcAmp,(void **)&ewc_s[num].pVPAmp);
 		//IAMVideoProcAmp
-		ewc_hr= ewc_s[num].pVPAmp->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//”ÍˆÍ‚Ìæ“¾
+		ewc_hr= ewc_s[num].pVPAmp->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//ï¿½ÍˆÍ‚Ìæ“¾
 		if(ewc_hr==S_OK){
-			ewc_hr= ewc_s[num].pVPAmp->Get(prop,&Val,&Flags);	//Œ»İ’l‚Ìæ“¾
+			ewc_hr= ewc_s[num].pVPAmp->Get(prop,&Val,&Flags);	//ï¿½ï¿½ï¿½İ’lï¿½Ìæ“¾
 
 			switch(func){
-				case 0:	//‰Šú’l‚É–ß‚·
+				case 0:	//ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½É–ß‚ï¿½
 					ewc_hr= ewc_s[num].pVPAmp->Set(prop,Default,Flags);
 					break;
-				case 1:	//’l‚ğİ’èCè“®ƒ‚[ƒh‚ÖØ‘Ö
+				case 1:	//ï¿½lï¿½ï¿½ï¿½İ’ï¿½ï¿½Cï¿½è“®ï¿½ï¿½ï¿½[ï¿½hï¿½ÖØ‘ï¿½
 					if(Step>0){
 						Val= (long)((*value*(Max-Min)/100.0)+Min);
 						Val= min(max(Val,Min),Max);
@@ -438,14 +456,14 @@ int ewc_propfunc(int func, int num, int prop, double *value=NULL, int *mode=NULL
 						ewc_hr= ewc_s[num].pVPAmp->Set(prop,Val,VideoProcAmp_Flags_Manual);
 					}
 					break;
-				case 2:	//’l‚Ì“Ç‚İo‚µ
+				case 2:	//ï¿½lï¿½Ì“Ç‚İoï¿½ï¿½
 					*value= (Val-Min)*100.0/(double)(Max-Min);
 					if(mode) if(Flags & VideoProcAmp_Flags_Auto) *mode=1; else *mode=0;
 					break;
-				case 3:	//è“®ƒ‚[ƒhØ‘Ö‚Ì‚İ
+				case 3:	//ï¿½è“®ï¿½ï¿½ï¿½[ï¿½hï¿½Ø‘Ö‚Ì‚ï¿½
 					ewc_hr= ewc_s[num].pVPAmp->Set(prop,Val,VideoProcAmp_Flags_Manual);
 					break;
-				case 4:	//©“®ƒ‚[ƒhØ‘Ö‚Ì‚İ
+				case 4:	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½Ø‘Ö‚Ì‚ï¿½
 					ewc_hr= ewc_s[num].pVPAmp->Set(prop,Val,VideoProcAmp_Flags_Auto);
 					break;
 			}
@@ -456,19 +474,19 @@ int ewc_propfunc(int func, int num, int prop, double *value=NULL, int *mode=NULL
 			return 4;
 		}
 	}else{
-		//IAMCameraControl‚Ìæ“¾ pCamCtl
+		//IAMCameraControlï¿½Ìæ“¾ pCamCtl
 		ewc_s[num].pCap->QueryInterface(IID_IAMCameraControl,(void **)&ewc_s[num].pCamCtl);
 		//IAMCameraControl
 		prop -= EWC_VPAMPMAX;
-		ewc_hr= ewc_s[num].pCamCtl->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//”ÍˆÍ‚Ìæ“¾
+		ewc_hr= ewc_s[num].pCamCtl->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//ï¿½ÍˆÍ‚Ìæ“¾
 		if(ewc_hr==S_OK){
-			ewc_hr= ewc_s[num].pCamCtl->Get(prop,&Val,&Flags);	//Œ»İ’l‚Ìæ“¾
+			ewc_hr= ewc_s[num].pCamCtl->Get(prop,&Val,&Flags);	//ï¿½ï¿½ï¿½İ’lï¿½Ìæ“¾
 
 			switch(func){
-				case 0:	//‰Šú’l‚É–ß‚·
+				case 0:	//ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½É–ß‚ï¿½
 					ewc_hr= ewc_s[num].pCamCtl->Set(prop,Default,Flags);
 					break;
-				case 1:	//’l‚ğİ’èCè“®ƒ‚[ƒh‚ÖØ‘Ö
+				case 1:	//ï¿½lï¿½ï¿½ï¿½İ’ï¿½ï¿½Cï¿½è“®ï¿½ï¿½ï¿½[ï¿½hï¿½ÖØ‘ï¿½
 					if(Step>0){
 						Val= (long)((*value*(Max-Min)/100.0)+Min);
 						Val= min(max(Val,Min),Max);
@@ -476,14 +494,14 @@ int ewc_propfunc(int func, int num, int prop, double *value=NULL, int *mode=NULL
 						ewc_hr= ewc_s[num].pCamCtl->Set(prop,Val,CameraControl_Flags_Manual);
 					}
 					break;
-				case 2:	//’l‚Ì“Ç‚İo‚µ
+				case 2:	//ï¿½lï¿½Ì“Ç‚İoï¿½ï¿½
 					*value= (Val-Min)*100.0/(double)(Max-Min);
 					if(mode) if(Flags & CameraControl_Flags_Auto) *mode=1; else *mode=0;
 					break;
-				case 3:	//è“®ƒ‚[ƒhØ‘Ö‚Ì‚İ
+				case 3:	//ï¿½è“®ï¿½ï¿½ï¿½[ï¿½hï¿½Ø‘Ö‚Ì‚ï¿½
 					ewc_hr= ewc_s[num].pCamCtl->Set(prop,Val,CameraControl_Flags_Manual);
 					break;
-				case 4:	//©“®ƒ‚[ƒhØ‘Ö‚Ì‚İ
+				case 4:	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½Ø‘Ö‚Ì‚ï¿½
 					ewc_hr= ewc_s[num].pCamCtl->Set(prop,Val,CameraControl_Flags_Auto);
 					break;
 			}
@@ -505,20 +523,20 @@ int ewc_GetRange(int num, int prop, long &Min, long &Max, long &Step, long &Defa
 	if(ewc_s[num].pCap==NULL)
 		return 3;
 	if(prop<EWC_VPAMPMAX){
-		//IAMVideoProcAmp‚Ìæ“¾ pVPAmp
+		//IAMVideoProcAmpï¿½Ìæ“¾ pVPAmp
 		ewc_s[num].pCap->QueryInterface(IID_IAMVideoProcAmp,(void **)&ewc_s[num].pVPAmp);
 		//IAMVideoProcAmp
-		ewc_hr= ewc_s[num].pVPAmp->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//”ÍˆÍ‚Ìæ“¾
+		ewc_hr= ewc_s[num].pVPAmp->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//ï¿½ÍˆÍ‚Ìæ“¾
 		if(ewc_hr!=S_OK){
 			ewc_release(ewc_s[num].pVPAmp);
 			return 4;
 		}
 	}else{
-		//IAMCameraControl‚Ìæ“¾ pCamCtl
+		//IAMCameraControlï¿½Ìæ“¾ pCamCtl
 		ewc_s[num].pCap->QueryInterface(IID_IAMCameraControl,(void **)&ewc_s[num].pCamCtl);
 		//IAMCameraControl
 		prop -= EWC_VPAMPMAX;
-		ewc_hr= ewc_s[num].pCamCtl->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//”ÍˆÍ‚Ìæ“¾
+		ewc_hr= ewc_s[num].pCamCtl->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//ï¿½ÍˆÍ‚Ìæ“¾
 		if(ewc_hr!=S_OK){
 			ewc_release(ewc_s[num].pCamCtl);
 			return 4;
@@ -537,12 +555,12 @@ long ewc_GetValueDirect(int num, int prop, long &CapsFlags)
 	if(ewc_s[num].pCap==NULL)	return 3;
 
 	if(prop<EWC_VPAMPMAX){
-		//IAMVideoProcAmp‚Ìæ“¾ pVPAmp
+		//IAMVideoProcAmpï¿½Ìæ“¾ pVPAmp
 		ewc_s[num].pCap->QueryInterface(IID_IAMVideoProcAmp,(void **)&ewc_s[num].pVPAmp);
 		//IAMVideoProcAmp
-		ewc_hr= ewc_s[num].pVPAmp->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//”ÍˆÍ‚Ìæ“¾
+		ewc_hr= ewc_s[num].pVPAmp->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//ï¿½ÍˆÍ‚Ìæ“¾
 		if(ewc_hr==S_OK){
-			ewc_hr= ewc_s[num].pVPAmp->Get(prop,&Val,&Flags);	//Œ»İ’l‚Ìæ“¾
+			ewc_hr= ewc_s[num].pVPAmp->Get(prop,&Val,&Flags);	//ï¿½ï¿½ï¿½İ’lï¿½Ìæ“¾
 			ewc_release(ewc_s[num].pVPAmp);
 			if(ewc_hr!=S_OK) return 99999999;
 		}else{
@@ -550,13 +568,13 @@ long ewc_GetValueDirect(int num, int prop, long &CapsFlags)
 			return 99999999;
 		}
 	}else{
-		//IAMCameraControl‚Ìæ“¾ pCamCtl
+		//IAMCameraControlï¿½Ìæ“¾ pCamCtl
 		ewc_s[num].pCap->QueryInterface(IID_IAMCameraControl,(void **)&ewc_s[num].pCamCtl);
 		//IAMCameraControl
 		prop -= EWC_VPAMPMAX;
-		ewc_hr= ewc_s[num].pCamCtl->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//”ÍˆÍ‚Ìæ“¾
+		ewc_hr= ewc_s[num].pCamCtl->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//ï¿½ÍˆÍ‚Ìæ“¾
 		if(ewc_hr==S_OK){
-			ewc_hr= ewc_s[num].pCamCtl->Get(prop,&Val,&Flags);	//Œ»İ’l‚Ìæ“¾
+			ewc_hr= ewc_s[num].pCamCtl->Get(prop,&Val,&Flags);	//ï¿½ï¿½ï¿½İ’lï¿½Ìæ“¾
 			ewc_release(ewc_s[num].pCamCtl);
 			if(ewc_hr!=S_OK) return 99999999;
 		}else{
@@ -577,13 +595,13 @@ int ewc_SetValueDirect(int num, int prop, long Val)
 
 	if(ewc_s[num].pCap!=NULL){
 		if(prop<EWC_VPAMPMAX){
-			//IAMVideoProcAmp‚Ìæ“¾ pVPAmp
+			//IAMVideoProcAmpï¿½Ìæ“¾ pVPAmp
 			ewc_s[num].pCap->QueryInterface(IID_IAMVideoProcAmp,(void **)&ewc_s[num].pVPAmp);
 			//IAMVideoProcAmp
-			ewc_hr= ewc_s[num].pVPAmp->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//”ÍˆÍ‚Ìæ“¾
+			ewc_hr= ewc_s[num].pVPAmp->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//ï¿½ÍˆÍ‚Ìæ“¾
 			if(ewc_hr==S_OK){
 				long tVal;
-				ewc_hr= ewc_s[num].pVPAmp->Get(prop,&tVal,&Flags);	//Œ»İ’l‚Ìæ“¾
+				ewc_hr= ewc_s[num].pVPAmp->Get(prop,&tVal,&Flags);	//ï¿½ï¿½ï¿½İ’lï¿½Ìæ“¾
 				ewc_hr= ewc_s[num].pVPAmp->Set(prop,Val,VideoProcAmp_Flags_Manual);
 				ewc_release(ewc_s[num].pVPAmp);
 				if(ewc_hr!=S_OK) return 5;
@@ -592,14 +610,14 @@ int ewc_SetValueDirect(int num, int prop, long Val)
 				return 4;
 			}
 		}else{
-			//IAMCameraControl‚Ìæ“¾ pCamCtl
+			//IAMCameraControlï¿½Ìæ“¾ pCamCtl
 			ewc_s[num].pCap->QueryInterface(IID_IAMCameraControl,(void **)&ewc_s[num].pCamCtl);
 			//IAMCameraControl
 			prop -= EWC_VPAMPMAX;
-			ewc_hr= ewc_s[num].pCamCtl->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//”ÍˆÍ‚Ìæ“¾
+			ewc_hr= ewc_s[num].pCamCtl->GetRange(prop,&Min,&Max,&Step,&Default,&CapsFlags);	//ï¿½ÍˆÍ‚Ìæ“¾
 			if(ewc_hr==S_OK){
 				long tVal;
-				ewc_hr= ewc_s[num].pCamCtl->Get(prop,&tVal,&Flags);	//Œ»İ’l‚Ìæ“¾
+				ewc_hr= ewc_s[num].pCamCtl->Get(prop,&tVal,&Flags);	//ï¿½ï¿½ï¿½İ’lï¿½Ìæ“¾
 				ewc_hr= ewc_s[num].pCamCtl->Set(prop,Val,CameraControl_Flags_Manual);
 				ewc_release(ewc_s[num].pCamCtl);
 				if(ewc_hr!=S_OK) return 5;
@@ -613,8 +631,8 @@ int ewc_SetValueDirect(int num, int prop, long Val)
 }
 
 
-//İ’è’l‚ğ“Ç‚İo‚·
-//  ƒIƒvƒVƒ‡ƒ“Fmode‚É‚Í0(manual)‚Ü‚½‚Í1(auto)‚ªŠi”[‚³‚ê‚é
+//ï¿½İ’ï¿½ï¿½lï¿½ï¿½ï¿½Ç‚İoï¿½ï¿½
+//  ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Fmodeï¿½É‚ï¿½0(manual)ï¿½Ü‚ï¿½ï¿½ï¿½1(auto)ï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 double EWC_GetValue(int num, int prop, int *mode=NULL)
 {
 	double v;
@@ -624,25 +642,25 @@ double EWC_GetValue(int num, int prop, int *mode=NULL)
 	else return v;
 }
 
-//§Œä‚ğè“®ƒ‚[ƒh‚ÉØ‚è‘Ö‚¦‚é v2.4
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è“®ï¿½ï¿½ï¿½[ï¿½hï¿½ÉØ‚ï¿½ï¿½Ö‚ï¿½ï¿½ï¿½ v2.4
 int EWC_SetManual(int num, int prop)
 {
 	return ewc_propfunc(3, num, prop);
 }
 
-//İ’è’l‚ğ•ÏX‚·‚é(v2.4‚©‚çewc_propfunc()‚ğŒÄ‚Ño‚·Œ`‚É•ÏX)
+//ï¿½İ’ï¿½ï¿½lï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½(v2.4ï¿½ï¿½ï¿½ï¿½ewc_propfunc()ï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½`ï¿½É•ÏX)
 int EWC_SetValue(int num, int prop, double value)
 {
 	return ewc_propfunc(1, num, prop, &value);
 }
 
-//İ’è‚ğ‰Šú’l‚É–ß‚·(v2.4‚©‚çewc_propfunc()‚ğŒÄ‚Ño‚·Œ`‚É•ÏX)
+//ï¿½İ’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½É–ß‚ï¿½(v2.4ï¿½ï¿½ï¿½ï¿½ewc_propfunc()ï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½`ï¿½É•ÏX)
 int EWC_SetDefault(int num, int prop)
 {
 	return ewc_propfunc(0, num, prop);
 }
 
-//§Œä‚ğ©“®ƒ‚[ƒh‚É‚·‚é(v2.4‚©‚çewc_propfunc()‚ğŒÄ‚Ño‚·Œ`‚É•ÏX)
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½É‚ï¿½ï¿½ï¿½(v2.4ï¿½ï¿½ï¿½ï¿½ewc_propfunc()ï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½`ï¿½É•ÏX)
 int EWC_SetAuto(int num, int prop)
 {
 	return ewc_propfunc(4, num, prop);
@@ -650,8 +668,8 @@ int EWC_SetAuto(int num, int prop)
 
 #pragma comment(lib,"Quartz.lib")
 
-//ÅŒã‚ÌƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é
-//s:•¶š—ñŠi”[æ  size:—Ìˆæs‚ÌƒTƒCƒY
+//ï¿½ÅŒï¿½ï¿½ÌƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
+//s:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½  size:ï¿½Ìˆï¿½sï¿½ÌƒTï¿½Cï¿½Y
 void EWC_GetLastMessage(char *s, int size)
 {
 	wchar_t w[MAX_ERROR_TEXT_LEN];
@@ -659,7 +677,7 @@ void EWC_GetLastMessage(char *s, int size)
 	WideCharToMultiByte(CP_ACP,0,w,-1,s,size,NULL,NULL);
 }
 
-//ƒLƒƒƒvƒ`ƒƒ‚Ì’â~
+//ï¿½Lï¿½ï¿½ï¿½vï¿½`ï¿½ï¿½ï¿½Ì’ï¿½ï¿½~
 int EWC_Stop(int num)
 {
 	if(numCheck(num)) return 1;
@@ -677,7 +695,7 @@ int EWC_Stop(int num)
 	return 0;
 }
 
-//ƒLƒƒƒvƒ`ƒƒ‚ÌÄŠJ
+//ï¿½Lï¿½ï¿½ï¿½vï¿½`ï¿½ï¿½ï¿½ÌÄŠJ
 int EWC_Run(int num)
 {
 	if(numCheck(num)) return 1;
@@ -695,7 +713,7 @@ int EWC_Run(int num)
 	return 0;
 }
 
-//ƒLƒƒƒvƒ`ƒƒ‚ÌPause v2.4
+//ï¿½Lï¿½ï¿½ï¿½vï¿½`ï¿½ï¿½ï¿½ï¿½Pause v2.4
 int EWC_Pause(int num)
 {
 	if(numCheck(num)) return 1;
@@ -713,7 +731,7 @@ int EWC_Pause(int num)
 	return 0;
 }
 
-//ƒƒ“ƒVƒ‡ƒbƒg v2.4
+//ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½bï¿½g v2.4
 int EWC_OneShot(int num)
 {
 	if(numCheck(num)) return 1;
@@ -723,14 +741,14 @@ int EWC_OneShot(int num)
 	c1= ewc_s[num].count;
 	EWC_Run(num);
 
-	while((c2= ewc_s[num].count) == c1) Sleep(1);	//‚PƒtƒŒ[ƒ€Ì‚Ä‚é
+	while((c2= ewc_s[num].count) == c1) Sleep(1);	//ï¿½Pï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì‚Ä‚ï¿½
 	while((c3= ewc_s[num].count) == c2) Sleep(1);
 	EWC_Pause(num);
 
 	return 0;
 }
 
-//ƒvƒƒpƒeƒBƒy[ƒW‚ğ•\¦‚³‚¹‚é
+//ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 int EWC_PropertyPage(int num)
 {
 	if(numCheck(num)) return 1;
@@ -773,8 +791,8 @@ int EWC_PropertyPage(int num)
 	return 0;
 }
 
-//V‚µ‚¢‰æ‘œ‚ª“’…‚µ‚½‚©‚Ç‚¤‚©
-//  num:ƒJƒƒ‰”Ô†  t:æ“¾(•b)
+//ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
+//  num:ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ôï¿½  t:ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½(ï¿½b)
 /*
 int EWC_IsCaptured(int num, double *t=NULL)
 {
@@ -790,7 +808,7 @@ int EWC_IsCaptured(int num, double *t=NULL)
 }
 */
 
-//‰æ‘œ•ÏŠ·(32ƒrƒbƒg->24ƒrƒbƒg)
+//ï¿½æ‘œï¿½ÏŠï¿½(32ï¿½rï¿½bï¿½g->24ï¿½rï¿½bï¿½g)
 void EWC_Cnv32to24(unsigned char *dst, unsigned int *src, int pxl)
 {
 	unsigned char R,G,B;
@@ -808,7 +826,7 @@ void EWC_Cnv32to24(unsigned char *dst, unsigned int *src, int pxl)
 	}
 }
 
-//‰æ‘œ•ÏŠ·(24ƒrƒbƒg->32ƒrƒbƒg)
+//ï¿½æ‘œï¿½ÏŠï¿½(24ï¿½rï¿½bï¿½g->32ï¿½rï¿½bï¿½g)
 void EWC_Cnv24to32(unsigned int *dst, unsigned char *src, int pxl)
 {
 	unsigned char R,G,B;
@@ -822,7 +840,7 @@ void EWC_Cnv24to32(unsigned int *dst, unsigned char *src, int pxl)
 	}
 }
 
-//ƒƒfƒBƒAƒTƒuƒ^ƒCƒv‚ÌGUID’l‚É‘Î‰‚µ‚½•¶š—ñ‚ğ“¾‚é v2.3
+//ï¿½ï¿½ï¿½fï¿½Bï¿½Aï¿½Tï¿½uï¿½^ï¿½Cï¿½vï¿½ï¿½GUIDï¿½lï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ğ“¾‚ï¿½ v2.3
 #include <wmsdkidl.h>
 int EWC_GUIDtoTEXT(GUID guid, char *s, int size)
 {
@@ -843,7 +861,7 @@ int EWC_GUIDtoTEXT(GUID guid, char *s, int size)
 	return 0;
 }
 
-//ƒƒ‚ƒŠ‰ğ•ú v2.2
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ v2.2
 void ewc_freememory(int num)
 {
 	if(ewc_s[num].devn!=-1) ewc_used[ewc_s[num].devn]=0;	//v2.2
@@ -901,26 +919,26 @@ bool ewc_EnumCameras(int &CameraCount ,int RetVendorID[] ,int RetProductID[])
 	ewc_struct	ewc;
 	ewc.devn= -1;
 	int t0= 0;
-	int n= 0;		//ƒfƒoƒCƒX”‚ÌƒJƒEƒ“ƒg—p
+	int n= 0;		//ï¿½fï¿½oï¿½Cï¿½Xï¿½ï¿½ï¿½ÌƒJï¿½Eï¿½ï¿½ï¿½gï¿½p
 
 	errcode= 0;
 
-	//ƒtƒBƒ‹ƒ^ƒOƒ‰ƒtƒ}ƒl[ƒWƒƒì¬ pGraph
+	//ï¿½tï¿½Bï¿½ï¿½ï¿½^ï¿½Oï¿½ï¿½ï¿½tï¿½}ï¿½lï¿½[ï¿½Wï¿½ï¿½ï¿½ì¬ pGraph
 	ewc_hr= CoCreateInstance(CLSID_FilterGraph,0,CLSCTX_INPROC_SERVER,IID_IGraphBuilder,(void **)&ewc.pGraph);
 	if(ewc_hr!=S_OK){errcode=(int)ewc_hr; return false;}
 
-	//ƒVƒXƒeƒ€ƒfƒoƒCƒX—ñ‹“q‚Ìì¬
+	//ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½fï¿½oï¿½Cï¿½Xï¿½ñ‹“qï¿½Ìì¬
 	ewc_hr= CoCreateInstance(CLSID_SystemDeviceEnum,0,CLSCTX_INPROC_SERVER,IID_ICreateDevEnum,(void **)&ewc.pDevEnum);
 	if(ewc_hr!=S_OK){errcode=4; return false;}
 
-	//—ñ‹“q‚Ìæ“¾
+	//ï¿½ñ‹“qï¿½Ìæ“¾
 	ewc_hr= ewc.pDevEnum->CreateClassEnumerator(CLSID_VideoInputDeviceCategory,&ewc.pEnum,0);
 	if(ewc_hr!=S_OK){
 		//ESP_Printf("No driver\n");
 		errcode=5; return false;
 	}
 
-	//ƒ‚ƒjƒJ‚Ìæ“¾
+	//ï¿½ï¿½ï¿½jï¿½Jï¿½Ìæ“¾
 	ULONG cFetched;
 	wchar_t SrcName[32];
 	ewc_used[n]=0;
@@ -928,7 +946,7 @@ bool ewc_EnumCameras(int &CameraCount ,int RetVendorID[] ,int RetProductID[])
 	for(int i=0; i<EWC_NCAMMAX; i++){
 		if(ewc.pEnum->Next(1,&ewc.pMoniker,&cFetched)==S_OK){
 		
-			//DisplayName‚Ìæ“¾
+			//DisplayNameï¿½Ìæ“¾
 			LPOLESTR strMonikerName=0;
 			ewc_hr= ewc.pMoniker->GetDisplayName(NULL,NULL,&strMonikerName);
 			if(ewc_hr==S_OK){
@@ -937,14 +955,14 @@ bool ewc_EnumCameras(int &CameraCount ,int RetVendorID[] ,int RetProductID[])
 				//WideCharToMultiByte(CP_ACP,0,strMonikerName,-1,displayname,sizeof(displayname),0,0);
 				//ESP_Printf("displayname(%d):%s\n",i,displayname);
 
-				int cntflag= 0;		//ƒfƒoƒCƒX‚Æ‚µ‚ÄƒJƒEƒ“ƒg‚·‚×‚«‚©
-				if(wcsstr(strMonikerName,L"@device:pnp")!=NULL) cntflag= 1;	//DisplayName‚É'@device:pnp'‚ª‚ ‚é
-				if(wcsstr(strMonikerName,L"@device:sw" )!=NULL) cntflag= 1;	//DisplayName‚É'@device:sw'‚ª‚ ‚é
+				int cntflag= 0;		//ï¿½fï¿½oï¿½Cï¿½Xï¿½Æ‚ï¿½ï¿½ÄƒJï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½×‚ï¿½ï¿½ï¿½
+				if(wcsstr(strMonikerName,L"@device:pnp")!=NULL) cntflag= 1;	//DisplayNameï¿½ï¿½'@device:pnp'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				if(wcsstr(strMonikerName,L"@device:sw" )!=NULL) cntflag= 1;	//DisplayNameï¿½ï¿½'@device:sw'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 				if(cntflag){
-					char devname[256];	//FriendlyNameŠi”[—p
+					char devname[256];	//FriendlyNameï¿½iï¿½[ï¿½p
 
-					//FriendlyName‚Ìæ“¾
+					//FriendlyNameï¿½Ìæ“¾
 					IPropertyBag *pBag= 0;
 					ewc.pMoniker->BindToStorage(0,0,IID_IPropertyBag,(void **)&pBag);
 					VARIANT var;
@@ -992,9 +1010,9 @@ bool ewc_EnumCameras(int &CameraCount ,int RetVendorID[] ,int RetProductID[])
 
 					ewc_release(pBag);
 
-					//ƒIƒuƒWƒFƒNƒg‰Šú‰» pCap
+					//ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ pCap
 					ewc.pMoniker->BindToObject(0,0,IID_IBaseFilter,(void **)&ewc.pCap);
-						//ƒOƒ‰ƒt‚ÉƒtƒBƒ‹ƒ^‚ğ’Ç‰Á
+						//ï¿½Oï¿½ï¿½ï¿½tï¿½Éƒtï¿½Bï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½Ç‰ï¿½
 					swprintf_s(SrcName,32,L"Video Capture %d",i);
 					ewc_hr= ewc.pGraph->AddFilter(ewc.pCap, SrcName);
 					if(ewc_hr!=S_OK){errcode=7; goto fin;}
@@ -1015,36 +1033,36 @@ bool ewc_EnumCameras(int &CameraCount ,int RetVendorID[] ,int RetProductID[])
 
 
 
-//g—pŠJn(EWC_Open()‚©‚çŒÄ‚Î‚ê‚é) v2.3
+//ï¿½gï¿½pï¿½Jï¿½n(EWC_Open()ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½) v2.3
 bool ewc_Open(int num ,int &VendorID ,int &ProductID)
 {
 	int errcode, retryflag, retrytime= EWC_RETRYTIMES;
 	ewc_s[num].devn= -1;
 	int t0= 0;
 	VIDEOINFOHEADER *vh= NULL;
-	int regflag= 0;	//“o˜^‚µ‚½‚©
+	int regflag= 0;	//ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 cont:
-	int n= 0;		//ƒfƒoƒCƒX”‚ÌƒJƒEƒ“ƒg—p
+	int n= 0;		//ï¿½fï¿½oï¿½Cï¿½Xï¿½ï¿½ï¿½ÌƒJï¿½Eï¿½ï¿½ï¿½gï¿½p
 	retryflag= 0;
 	errcode= 0;
 
-	//ƒtƒBƒ‹ƒ^ƒOƒ‰ƒtƒ}ƒl[ƒWƒƒì¬ pGraph
+	//ï¿½tï¿½Bï¿½ï¿½ï¿½^ï¿½Oï¿½ï¿½ï¿½tï¿½}ï¿½lï¿½[ï¿½Wï¿½ï¿½ï¿½ì¬ pGraph
 	ewc_hr= CoCreateInstance(CLSID_FilterGraph,0,CLSCTX_INPROC_SERVER,IID_IGraphBuilder,(void **)&ewc_s[num].pGraph);
 	if(ewc_hr!=S_OK){errcode=(int)ewc_hr; goto fin;}
 
-	//ƒVƒXƒeƒ€ƒfƒoƒCƒX—ñ‹“q‚Ìì¬
+	//ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½fï¿½oï¿½Cï¿½Xï¿½ñ‹“qï¿½Ìì¬
 	ewc_hr= CoCreateInstance(CLSID_SystemDeviceEnum,0,CLSCTX_INPROC_SERVER,IID_ICreateDevEnum,(void **)&ewc_s[num].pDevEnum);
 	if(ewc_hr!=S_OK){errcode=4; goto fin;}
 
-	//—ñ‹“q‚Ìæ“¾
+	//ï¿½ñ‹“qï¿½Ìæ“¾
 	ewc_hr= ewc_s[num].pDevEnum->CreateClassEnumerator(CLSID_VideoInputDeviceCategory,&ewc_s[num].pEnum,0);
 	if(ewc_hr!=S_OK){
 		//ESP_Printf("No driver\n");
 		errcode=5; goto fin;
 	}
 
-	//ƒ‚ƒjƒJ‚Ìæ“¾
+	//ï¿½ï¿½ï¿½jï¿½Jï¿½Ìæ“¾
 	ULONG cFetched;
 	wchar_t SrcName[32];
 	ewc_used[n]=0;
@@ -1056,7 +1074,7 @@ cont:
 				continue;
 			}
 			
-			//DisplayName‚Ìæ“¾
+			//DisplayNameï¿½Ìæ“¾
 			LPOLESTR strMonikerName=0;
 			ewc_hr= ewc_s[num].pMoniker->GetDisplayName(NULL,NULL,&strMonikerName);
 			if(ewc_hr!=S_OK){errcode=6; goto fin;}
@@ -1065,14 +1083,14 @@ cont:
 			//WideCharToMultiByte(CP_ACP,0,strMonikerName,-1,displayname,sizeof(displayname),0,0);
 			//ESP_Printf("displayname(%d):%s\n",i,displayname);
 
-			int cntflag= 0;		//ƒfƒoƒCƒX‚Æ‚µ‚ÄƒJƒEƒ“ƒg‚·‚×‚«‚©
-			if(wcsstr(strMonikerName,L"@device:pnp")!=NULL) cntflag= 1;	//DisplayName‚É'@device:pnp'‚ª‚ ‚é
-			if(wcsstr(strMonikerName,L"@device:sw" )!=NULL) cntflag= 1;	//DisplayName‚É'@device:sw'‚ª‚ ‚é
+			int cntflag= 0;		//ï¿½fï¿½oï¿½Cï¿½Xï¿½Æ‚ï¿½ï¿½ÄƒJï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½×‚ï¿½ï¿½ï¿½
+			if(wcsstr(strMonikerName,L"@device:pnp")!=NULL) cntflag= 1;	//DisplayNameï¿½ï¿½'@device:pnp'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			if(wcsstr(strMonikerName,L"@device:sw" )!=NULL) cntflag= 1;	//DisplayNameï¿½ï¿½'@device:sw'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 			if(cntflag){
-				char devname[256];	//FriendlyNameŠi”[—p
+				char devname[256];	//FriendlyNameï¿½iï¿½[ï¿½p
 
-				//FriendlyName‚Ìæ“¾
+				//FriendlyNameï¿½Ìæ“¾
 				IPropertyBag *pBag= 0;
 				ewc_s[num].pMoniker->BindToStorage(0,0,IID_IPropertyBag,(void **)&pBag);
 				VARIANT var;
@@ -1118,25 +1136,25 @@ cont:
 
 				ewc_release(pBag);
 
-				int match= 0;	//“o˜^ğŒ‚É‡’v‚µ‚½‚©
+				int match= 0;	//ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				if(ewc_s[num].pdname){
-					//ƒfƒCƒoƒX–¼w’è‚Ìê‡
-					if(strstr(devname,ewc_s[num].pdname)) match=1;		//FriendlyNameÆ‡
+					//ï¿½fï¿½Cï¿½oï¿½Xï¿½ï¿½ï¿½wï¿½ï¿½ï¿½Ìê‡
+					if(strstr(devname,ewc_s[num].pdname)) match=1;		//FriendlyNameï¿½Æï¿½
 				}else{
-					//ƒfƒCƒoƒX”Ô†w’è‚Ü‚½‚ÍÈ—ª
+					//ï¿½fï¿½Cï¿½oï¿½Xï¿½Ôï¿½ï¿½wï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ÍÈ—ï¿½ï¿½ï¿½
 					match=1;
 				}
-				//ğŒ‚ª‡‚¦‚Î“o˜^
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î“oï¿½^
 				if(!regflag && !ewc_used[n] && match){
-					//ƒIƒuƒWƒFƒNƒg‰Šú‰» pCap
+					//ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ pCap
 					ewc_s[num].pMoniker->BindToObject(0,0,IID_IBaseFilter,(void **)&ewc_s[num].pCap);
-					//ƒOƒ‰ƒt‚ÉƒtƒBƒ‹ƒ^‚ğ’Ç‰Á
+					//ï¿½Oï¿½ï¿½ï¿½tï¿½Éƒtï¿½Bï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½Ç‰ï¿½
 					swprintf_s(SrcName,32,L"Video Capture %d",num);
 					ewc_hr= ewc_s[num].pGraph->AddFilter(ewc_s[num].pCap, SrcName);
 					if(ewc_hr!=S_OK){errcode=7; goto fin;}
 					regflag++;
 					ewc_s[num].devn= n;
-					strcpy_s(ewc_s[num].dname, sizeof(ewc_s[num].dname), devname);	//FriendlyName•Û‘¶
+					strcpy_s(ewc_s[num].dname, sizeof(ewc_s[num].dname), devname);	//FriendlyNameï¿½Û‘ï¿½
 					ewc_used[n]= 1; 
 				}
 				n++;
@@ -1145,23 +1163,23 @@ cont:
 		}
 	}
 
-	if(ewc_ncam==-1) ewc_ncam= n;	//ƒJƒƒ‰”‚Ì“o˜^
+	if(ewc_ncam==-1) ewc_ncam= n;	//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì“oï¿½^
 
 	ewc_release(ewc_s[num].pEnum);
 	ewc_release(ewc_s[num].pDevEnum);
 
-	if(!ewc_ncam){errcode=8; goto fin;}	//ƒJƒƒ‰‚ª‚È‚¢
-	if(!regflag){errcode=9; goto fin;}	//“o˜^‚·‚é‚à‚Ì‚ª‚È‚©‚Á‚½
+	if(!ewc_ncam){errcode=8; goto fin;}	//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
+	if(!regflag){errcode=9; goto fin;}	//ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	//ESP_Printf("camera=%d\n",ewc_ncam);
 
-	//ƒLƒƒƒvƒ`ƒƒƒrƒ‹ƒ_‚Ìì¬ pBuilder
+	//ï¿½Lï¿½ï¿½ï¿½vï¿½`ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½_ï¿½Ìì¬ pBuilder
 	CoCreateInstance(CLSID_CaptureGraphBuilder2,0,CLSCTX_INPROC_SERVER,
 		IID_ICaptureGraphBuilder2,(void **)&ewc_s[num].pBuilder);
 	ewc_hr= ewc_s[num].pBuilder->SetFiltergraph(ewc_s[num].pGraph);
 	if(ewc_hr!=S_OK){errcode=10; goto fin;}
 	
-	//IAMStreamConfigƒCƒ“ƒ^ƒtƒF[ƒX‚Ìæ“¾
+	//IAMStreamConfigï¿½Cï¿½ï¿½ï¿½^ï¿½tï¿½Fï¿½[ï¿½Xï¿½Ìæ“¾
 	ewc_hr= ewc_s[num].pBuilder->FindInterface(&PIN_CATEGORY_CAPTURE,&MEDIATYPE_Video,
 		ewc_s[num].pCap,IID_IAMStreamConfig,(void**)&ewc_s[num].pConfig);
 	if(ewc_hr!=S_OK){errcode=11; goto fin;}
@@ -1206,23 +1224,23 @@ cont:
 		ewc_wy=fmt[0].height;
 	}
 
-	//‰æ‘œƒTƒCƒYCƒtƒŒ[ƒ€ƒŒ[ƒg‚Ìİ’è
+	//ï¿½æ‘œï¿½Tï¿½Cï¿½Yï¿½Cï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Ìİ’ï¿½
 	ewc_hr= ewc_s[num].pConfig->GetFormat(&ewc_s[num].pmt);
 	vh= (VIDEOINFOHEADER*)ewc_s[num].pmt->pbFormat;
-	//if(ewc_s[num].wx==0) ewc_s[num].wx= (ProductID==ProductID835 && ewc_wx==EWC_WX)?640:ewc_wx;		//ƒfƒtƒHƒ‹ƒg’l‚Ì“K—p
-	//if(ewc_s[num].wy==0) ewc_s[num].wy= (ProductID==ProductID835 && ewc_wy==EWC_WY)?480:ewc_wy;		//ƒfƒtƒHƒ‹ƒg’l‚Ì“K—p
-	if(ewc_s[num].wx==0) ewc_s[num].wx= ewc_wx;		//ƒfƒtƒHƒ‹ƒg’l‚Ì“K—p
-	if(ewc_s[num].wy==0) ewc_s[num].wy= ewc_wy;		//ƒfƒtƒHƒ‹ƒg’l‚Ì“K—p
-	if(ewc_s[num].fps==0) ewc_s[num].fps= ewc_fps;	//ƒfƒtƒHƒ‹ƒg’l‚Ì“K—p
+	//if(ewc_s[num].wx==0) ewc_s[num].wx= (ProductID==ProductID835 && ewc_wx==EWC_WX)?640:ewc_wx;		//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½Ì“Kï¿½p
+	//if(ewc_s[num].wy==0) ewc_s[num].wy= (ProductID==ProductID835 && ewc_wy==EWC_WY)?480:ewc_wy;		//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½Ì“Kï¿½p
+	if(ewc_s[num].wx==0) ewc_s[num].wx= ewc_wx;		//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½Ì“Kï¿½p
+	if(ewc_s[num].wy==0) ewc_s[num].wy= ewc_wy;		//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½Ì“Kï¿½p
+	if(ewc_s[num].fps==0) ewc_s[num].fps= ewc_fps;	//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½Ì“Kï¿½p
 	
-	ewc_wx= ewc_s[num].wx;		//ƒfƒtƒHƒ‹ƒg’l‚ÌXV
-	ewc_wy= ewc_s[num].wy;		//ƒfƒtƒHƒ‹ƒg’l‚ÌXV
-	ewc_fps= ewc_s[num].fps;	//ƒfƒtƒHƒ‹ƒg’l‚ÌXV
+	ewc_wx= ewc_s[num].wx;		//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½ÌXï¿½V
+	ewc_wy= ewc_s[num].wy;		//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½ÌXï¿½V
+	ewc_fps= ewc_s[num].fps;	//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½ÌXï¿½V
 	vh->bmiHeader.biWidth = ewc_s[num].wx;
 	vh->bmiHeader.biHeight= ewc_s[num].wy; 
 	vh->AvgTimePerFrame= (LONGLONG)floor((10000000.0/ewc_s[num].fps+0.5));
 
-	//ƒfƒoƒCƒXo—Íƒsƒ“‚ÌƒtƒH[ƒ}ƒbƒgw’èv2.3
+	//ï¿½fï¿½oï¿½Cï¿½Xï¿½oï¿½Íƒsï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½wï¿½ï¿½v2.3
 	if(ewc_s[num].dev_mstype!=GUID_NULL){
 		ewc_s[num].pmt->subtype= ewc_s[num].dev_mstype;
 	}
@@ -1239,7 +1257,7 @@ cont:
 	}
 	*/
 
-	//ƒtƒH[ƒ}ƒbƒg‚É‘Î‰‚·‚é•¶š—ñ‚Ìİ’èv2.3
+	//ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½Ìİ’ï¿½v2.3
 	EWC_GUIDtoTEXT(ewc_s[num].mstype, ewc_s[num].mstype_t, sizeof(ewc_s[num].mstype_t));
 	EWC_GUIDtoTEXT(ewc_s[num].dev_mstype, ewc_s[num].dev_mstype_t, sizeof(ewc_s[num].dev_mstype_t));
 
@@ -1247,43 +1265,43 @@ cont:
 	if(ewc_hr!=S_OK){errcode=12; goto fin;}
 	ewc_release(ewc_s[num].pConfig);
 
-	//ƒTƒ“ƒvƒ‹ƒOƒ‰ƒo‚Ì¶¬ pF,pGrab
+	//ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½oï¿½Ìï¿½ï¿½ï¿½ pF,pGrab
 	CoCreateInstance(CLSID_SampleGrabber,0,CLSCTX_INPROC_SERVER,IID_IBaseFilter,(LPVOID *)&ewc_s[num].pF);
 	ewc_hr= ewc_s[num].pF->QueryInterface(IID_ISampleGrabber,(void **)&ewc_s[num].pGrab);
 	if(ewc_hr!=S_OK){errcode=13; goto fin;}
 
-	//ƒƒfƒBƒAƒ^ƒCƒv‚Ìİ’è
+	//ï¿½ï¿½ï¿½fï¿½Bï¿½Aï¿½^ï¿½Cï¿½vï¿½Ìİ’ï¿½
 	ZeroMemory(&ewc_s[num].mt,sizeof(AM_MEDIA_TYPE));
 	ewc_s[num].mt.majortype= MEDIATYPE_Video;
 	ewc_s[num].mt.subtype= ewc_s[num].mstype;
-	ewc_type= ewc_s[num].mstype;	//ƒfƒtƒHƒ‹ƒg’l‚ÌXV
+	ewc_type= ewc_s[num].mstype;	//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½ÌXï¿½V
 	ewc_s[num].mt.formattype= FORMAT_VideoInfo;
 	ewc_hr= ewc_s[num].pGrab->SetMediaType(&ewc_s[num].mt);
 	if(ewc_hr!=S_OK){errcode=14; goto fin;}
-	//ƒtƒBƒ‹ƒ^ƒOƒ‰ƒt‚Ö‚Ì’Ç‰Á
+	//ï¿½tï¿½Bï¿½ï¿½ï¿½^ï¿½Oï¿½ï¿½ï¿½tï¿½Ö‚Ì’Ç‰ï¿½
 	wchar_t GrabName[32];
 	swprintf_s(GrabName,32,L"Grabber %d",num);
 	ewc_hr= ewc_s[num].pGraph->AddFilter(ewc_s[num].pF, GrabName);
 	if(ewc_hr!=S_OK){errcode=15; goto fin;}
 
-	//ƒTƒ“ƒvƒ‹ƒOƒ‰ƒo‚ÌÚ‘±
-	// ƒsƒ“‚Ìæ“¾
+	//ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½oï¿½ÌÚ‘ï¿½
+	// ï¿½sï¿½ï¿½ï¿½Ìæ“¾
 	ewc_s[num].pSrcOut= ewc_GetPin(ewc_s[num].pCap,PINDIR_OUTPUT);
 	ewc_s[num].pSGrabIn= ewc_GetPin(ewc_s[num].pF,PINDIR_INPUT);
-	// ƒsƒ“‚ÌÚ‘±
+	// ï¿½sï¿½ï¿½ï¿½ÌÚ‘ï¿½
 	ewc_hr= ewc_s[num].pGraph->Connect(ewc_s[num].pSrcOut, ewc_s[num].pSGrabIn);
 	if(ewc_hr!=S_OK){errcode=16; goto fin;}
 
 	ewc_release(ewc_s[num].pSrcOut);
 	ewc_release(ewc_s[num].pSGrabIn);
 
-	//ƒOƒ‰ƒo‚Ìƒ‚[ƒhİ’è
+	//ï¿½Oï¿½ï¿½ï¿½oï¿½Ìƒï¿½ï¿½[ï¿½hï¿½İ’ï¿½
 	ewc_hr= ewc_s[num].pGrab->SetBufferSamples(FALSE);
 	if(ewc_hr!=S_OK){errcode=17; goto fin;}
 	ewc_hr= ewc_s[num].pGrab->SetOneShot(FALSE);
 	if(ewc_hr!=S_OK){errcode=18; goto fin;}
 
-	//ƒoƒbƒtƒ@‚ÌŠm•ÛCƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì“o˜^ buffer,ewc_pSampleGrabberCB[]
+	//ï¿½oï¿½bï¿½tï¿½@ï¿½ÌŠmï¿½ÛCï¿½Rï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½Öï¿½ï¿½Ì“oï¿½^ buffer,ewc_pSampleGrabberCB[]
 	ewc_s[num].bufsize=0;
 	ewc_s[num].buffer= (int *)new int[ewc_s[num].wx*ewc_s[num].wy];
 	ewc_s[num].AllocatedX=ewc_s[num].wx;
@@ -1292,10 +1310,10 @@ cont:
 	ewc_hr= ewc_s[num].pGrab->SetCallback(ewc_pSampleGrabberCB[num],1);
 	if(ewc_hr!=S_OK){errcode=19; goto fin;}
 
-	//IAMVideoProcAmp‚Ìæ“¾ pVPAmp
+	//IAMVideoProcAmpï¿½Ìæ“¾ pVPAmp
 	ewc_hr= ewc_s[num].pCap->QueryInterface(IID_IAMVideoProcAmp,(void **)&ewc_s[num].pVPAmp);
 	if(ewc_hr!=S_OK){
-		//IAMVideoProcAmp‚ªæ“¾‚Å‚«‚È‚¯‚ê‚ÎCƒTƒ|[ƒg‚µ‚Ä‚È‚¢‚Æ‚İ‚È‚·D
+		//IAMVideoProcAmpï¿½ï¿½ï¿½æ“¾ï¿½Å‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ÎCï¿½Tï¿½|ï¿½[ï¿½gï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Æ‚İ‚È‚ï¿½ï¿½D
 		for(int j=0;j<EWC_VPAMPMAX;j++){
 			//not supported
 			ewc_s[num].vflag[j]= 0;
@@ -1314,10 +1332,10 @@ cont:
 	}
 	ewc_release(ewc_s[num].pVPAmp);
 
-	//IAMCameraControl‚Ìæ“¾ pCamCtl
+	//IAMCameraControlï¿½Ìæ“¾ pCamCtl
 	ewc_hr= ewc_s[num].pCap->QueryInterface(IID_IAMCameraControl,(void **)&ewc_s[num].pCamCtl);
 	if(ewc_hr!=S_OK){
-		//IAMCameraControl‚ªæ“¾‚Å‚«‚È‚¯‚ê‚ÎCƒTƒ|[ƒg‚µ‚Ä‚È‚¢‚Æ‚İ‚È‚·D
+		//IAMCameraControlï¿½ï¿½ï¿½æ“¾ï¿½Å‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ÎCï¿½Tï¿½|ï¿½[ï¿½gï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Æ‚İ‚È‚ï¿½ï¿½D
 		for(int j=0;j<EWC_CAMCTLMAX;j++){
 			//not supported
 			ewc_s[num].vflag[j+EWC_VPAMPMAX]= 0;
@@ -1336,11 +1354,11 @@ cont:
 	}
 	ewc_release(ewc_s[num].pCamCtl);
 
-	//IMediaEvent‚Ìæ“¾ pMediaEvent
+	//IMediaEventï¿½Ìæ“¾ pMediaEvent
 	ewc_hr= ewc_s[num].pGraph->QueryInterface(IID_IMediaEvent,(LPVOID *)&ewc_s[num].pMediaEvent);
 	if(ewc_hr!=S_OK){errcode=20; goto fin;}
 
-	//ƒLƒƒƒvƒ`ƒƒŠJn pMediaControl
+	//ï¿½Lï¿½ï¿½ï¿½vï¿½`ï¿½ï¿½ï¿½Jï¿½n pMediaControl
 	ewc_hr= ewc_s[num].pGraph->QueryInterface(IID_IMediaControl,(void **)&ewc_s[num].pMediaControl);
 	if(ewc_hr!=S_OK){errcode=21; goto fin;}
 	ewc_hr= ewc_s[num].pMediaControl->Run();
@@ -1351,7 +1369,7 @@ cont:
 						goto fin;}
 	ewc_release(ewc_s[num].pMediaControl);
 
-	//‚P‰ñˆÈãƒTƒ“ƒvƒ‹‚³‚ê‚é‚Ü‚Å‘Ò‹@
+	//ï¿½Pï¿½ï¿½ï¿½Èï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Å‘Ò‹@
 	long evCode;
 	ewc_s[num].pMediaEvent->WaitForCompletion(EWC_RUN_TIMEOUT,&evCode);
 	if(ewc_hr!=S_OK){
@@ -1372,7 +1390,7 @@ fin:
 		ewc_release(ewc_s[num].pConfig);
 		ewc_freememory(num);
 
-		//³í‚ÉÚ‘±‚³‚ê‚é‚Ü‚ÅƒŠƒgƒ‰ƒC
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ÉÚ‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Åƒï¿½ï¿½gï¿½ï¿½ï¿½C
 		if(retryflag) if(--retrytime) goto cont;
 	}else{
 		ewc_s[num].init= 1;
@@ -1398,29 +1416,29 @@ void	SetFrameRate(double FPS)
 	obj->QueryInterface(IID_IAMTimelineGroup, (void**)&group);
 	double dTmp;
 	
-	group->SetOutputFPS( FPS ); //Œ»ó‚æ‚­•ª‚©‚Á‚Ä‚È‚¢‚Ì‚Å”’l‚Í“K“–‚Å‚·
+	group->SetOutputFPS( FPS ); //ï¿½ï¿½ï¿½ï¿½ï¿½æ‚­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Ì‚Åï¿½ï¿½lï¿½Í“Kï¿½ï¿½ï¿½Å‚ï¿½
 	tline->AddGroup( obj );
 	
-	///‚Â‚­‚Á‚½‚à‚Ì‚Í1‘Î1‚Ì‘Î‰‚Å‘S‚Ä‰ğ•ú‚ğ‚¨–Y‚ê‚È‚­(DirectX(‚âCOMH)ŠÖ˜A‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ÍReleaseŠÖ”‚Å‰ğ•ú‚Æ‚¢‚¤‚Ì‚ª‘½‚¢‚Å‚·B)///
+	///ï¿½Â‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½1ï¿½ï¿½1ï¿½Ì‘Î‰ï¿½ï¿½Å‘Sï¿½Ä‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½È‚ï¿½(DirectX(ï¿½ï¿½COMï¿½H)ï¿½Ö˜Aï¿½ÌƒCï¿½ï¿½ï¿½^ï¿½[ï¿½tï¿½Fï¿½[ï¿½Xï¿½ï¿½Releaseï¿½Öï¿½ï¿½Å‰ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½B)///
 	obj->Release();
 	tline->Release();
 	group->Release();
 	
 	
-	///CoInitialize‚ğŒÄ‚Ño‚µ‚½‚çA‚¢‚Â‚©‚ÍCoUninitialize‚·‚é‚Ì‚ğ‚¨–Y‚ê‚È‚­///
+	///CoInitializeï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½CoUninitializeï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½È‚ï¿½///
 	CoUninitialize();
 }
 
 
-//EWC_Open()‚ÅÅ‰‚ÉŒÄ‚Î‚ê‚éƒTƒuŠÖ”
+//EWC_Open()ï¿½ÅÅï¿½ï¿½ÉŒÄ‚Î‚ï¿½ï¿½ï¿½ï¿½Tï¿½uï¿½Öï¿½
 void _ewc_open_pre(void)
 {
-	//COM‚Ì‰Šú‰»
+	//COMï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	if(!ewc_cominit && ewc_ncam==-1){
 		ewc_hr= CoInitializeEx(NULL,COINIT_MULTITHREADED);
-		if(ewc_hr==S_OK) ewc_cominit=1;	//¬Œ÷‚µ‚½‚çƒtƒ‰ƒO‚ğ—§‚Ä‚é
+		if(ewc_hr==S_OK) ewc_cominit=1;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ğ—§‚Ä‚ï¿½
 	}
-	//\‘¢‘Ì‚Ì‰Šú‰»
+	//ï¿½\ï¿½ï¿½ï¿½Ì‚Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	/*
 	if(ewc_ncam==-1){
 		for(int i=0; i<EWC_NCAMMAX; i++){
@@ -1430,7 +1448,7 @@ void _ewc_open_pre(void)
 	*/
 }
 
-//g—pŠJn[1]iƒfƒoƒCƒX”Ô†w’èjv2.3
+//ï¿½gï¿½pï¿½Jï¿½n[1]ï¿½iï¿½fï¿½oï¿½Cï¿½Xï¿½Ôï¿½ï¿½wï¿½ï¿½ï¿½jv2.3
 int EWC_Open(int num, int wx=0, int wy=0, double fps=0, int device=-1, GUID mstype=ewc_type, GUID dev_mstype=ewc_device_type)
 {
 	if(num<0 || num>=EWC_NCAMMAX) return 1;
@@ -1454,7 +1472,7 @@ int EWC_Open(int num, int wx=0, int wy=0, double fps=0, int device=-1, GUID msty
 	return ewc_s[num].errcode;
 }
 
-//g—pŠJn[2]iƒfƒoƒCƒX–¼w’èjv2.3
+//ï¿½gï¿½pï¿½Jï¿½n[2]ï¿½iï¿½fï¿½oï¿½Cï¿½Xï¿½ï¿½ï¿½wï¿½ï¿½ï¿½jv2.3
 int EWC_Open(int num, int wx, int wy, double fps, char *devicename, GUID mstype=ewc_type, GUID dev_mstype=ewc_device_type)
 {
 	if(num<0 || num>=EWC_NCAMMAX) return 1;
@@ -1478,7 +1496,7 @@ int EWC_Open(int num, int wx, int wy, double fps, char *devicename, GUID mstype=
 	return ewc_s[num].errcode;
 }
 
-//g—pŠJn[3]iƒfƒoƒCƒX–¼w’èCwx/wy/fpsÈ—ªjv2.2
+//ï¿½gï¿½pï¿½Jï¿½n[3]ï¿½iï¿½fï¿½oï¿½Cï¿½Xï¿½ï¿½ï¿½wï¿½ï¿½ï¿½Cwx/wy/fpsï¿½È—ï¿½ï¿½jv2.2
 int EWC_Open(int num, char *devicename, GUID mstype=ewc_type, GUID dev_mstype=ewc_device_type)
 {
 	if(num<0 || num>=EWC_NCAMMAX) return 1;
@@ -1501,16 +1519,16 @@ int EWC_Open(int num, char *devicename, GUID mstype=ewc_type, GUID dev_mstype=ew
 	return ewc_s[num].errcode;
 }
 
-//I—¹ˆ—
+//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 int EWC_Close(int num)
 {
 	if(numCheck(num)) return 1;
 
-	//ƒLƒƒƒvƒ`ƒƒ’â~
+	//ï¿½Lï¿½ï¿½ï¿½vï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½~
 	int r= EWC_Stop(num);
 	if(r) return 2;
 
-	//ƒƒ‚ƒŠ‰ğ•ú
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ewc_freememory(num);
 	ewc_s[num].init= 0;
 
@@ -1520,7 +1538,7 @@ int EWC_Close(int num)
 		}
 	}
 
-	//‚·‚×‚ÄI—¹‚È‚çCOMI—¹
+	//ï¿½ï¿½ï¿½×‚ÄIï¿½ï¿½ï¿½È‚ï¿½COMï¿½Iï¿½ï¿½
 	int c=0;
 	for(int i=0; i<EWC_NCAMMAX; i++){
 		c += ewc_s[i].init;
@@ -1535,7 +1553,7 @@ int EWC_Close(int num)
 	return 0;
 }
 
-//I—¹ˆ—i‚·‚×‚Äj
+//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½×‚Äj
 int EWC_CloseAll(void)
 {
 	int r=0;
@@ -1627,7 +1645,7 @@ void ewc_DeleteMediaType(AM_MEDIA_TYPE *pmt)
     }
 }
 
-//EWC_GetFormat()‚©‚çŒÄ‚Î‚ê‚é
+//EWC_GetFormat()ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
 int ewc_GetFormat(int device, char *pdname, ewc_format *fmt, int *nmax)
 {
 	IGraphBuilder *pGraph= 0;
@@ -1642,49 +1660,49 @@ int ewc_GetFormat(int device, char *pdname, ewc_format *fmt, int *nmax)
 	int errcode= 0;
 
 	int count= 0, size= 0;
-	int m= 0;	//ÅI“I‚ÈƒtƒH[ƒ}ƒbƒg”
+	int m= 0;	//ï¿½ÅIï¿½Iï¿½Èƒtï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ï¿½
 				
-	int n= 0;		//ƒfƒoƒCƒX”‚ÌƒJƒEƒ“ƒg—p
-	int regflag= 0;	//“o˜^‚µ‚½‚©
+	int n= 0;		//ï¿½fï¿½oï¿½Cï¿½Xï¿½ï¿½ï¿½ÌƒJï¿½Eï¿½ï¿½ï¿½gï¿½p
+	int regflag= 0;	//ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
-	//COM‚Ì‰Šú‰»
+	//COMï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	if(!ewc_cominit){
 		ewc_hr= CoInitializeEx(NULL,COINIT_MULTITHREADED);
-		if(ewc_hr==S_OK) ewc_cominit_gf= 1;	//¬Œ÷‚µ‚½‚çƒtƒ‰ƒO‚ğ—§‚Ä‚é
+		if(ewc_hr==S_OK) ewc_cominit_gf= 1;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ğ—§‚Ä‚ï¿½
 	}
 
-	//ƒtƒBƒ‹ƒ^ƒOƒ‰ƒtƒ}ƒl[ƒWƒƒì¬ pGraph
+	//ï¿½tï¿½Bï¿½ï¿½ï¿½^ï¿½Oï¿½ï¿½ï¿½tï¿½}ï¿½lï¿½[ï¿½Wï¿½ï¿½ï¿½ì¬ pGraph
 	ewc_hr= CoCreateInstance(CLSID_FilterGraph,0,CLSCTX_INPROC_SERVER,IID_IGraphBuilder,(void **)&pGraph);
 	if(ewc_hr!=S_OK){errcode=3; goto fin_gf;}
 
-	//ƒVƒXƒeƒ€ƒfƒoƒCƒX—ñ‹“q‚Ìì¬
+	//ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½fï¿½oï¿½Cï¿½Xï¿½ñ‹“qï¿½Ìì¬
 	ewc_hr= CoCreateInstance(CLSID_SystemDeviceEnum,0,CLSCTX_INPROC_SERVER,IID_ICreateDevEnum,(void **)&pDevEnum);
 	if(ewc_hr!=S_OK){errcode=4; goto fin_gf;}
 
-	//—ñ‹“q‚Ìæ“¾
+	//ï¿½ñ‹“qï¿½Ìæ“¾
 	ewc_hr= pDevEnum->CreateClassEnumerator(CLSID_VideoInputDeviceCategory,&pEnum,0);
 	if(ewc_hr!=S_OK){errcode=5; goto fin_gf;}
 
-	//ƒ‚ƒjƒJ‚Ìæ“¾
+	//ï¿½ï¿½ï¿½jï¿½Jï¿½Ìæ“¾
 	ULONG cFetched;
 	wchar_t SrcName[32];
 
 	for(int i=0; i<EWC_NCAMMAX; i++){
 		if(pEnum->Next(1,&pMoniker,&cFetched)==S_OK){
 			
-			//DisplayName‚Ìæ“¾
+			//DisplayNameï¿½Ìæ“¾
 			LPOLESTR strMonikerName=0;
 			ewc_hr= pMoniker->GetDisplayName(NULL,NULL,&strMonikerName);
 			if(ewc_hr!=S_OK){errcode=6; goto fin_gf;}
 
-			int cntflag=0;		//ƒfƒoƒCƒX‚Æ‚µ‚ÄƒJƒEƒ“ƒg‚·‚×‚«‚©
-			if(wcsstr(strMonikerName,L"@device:pnp")!=NULL) cntflag=1;	//DisplayName‚É'@device:pnp'‚ª‚ ‚é
-			if(wcsstr(strMonikerName,L"@device:sw" )!=NULL) cntflag=1;	//DisplayName‚É'@device:sw'‚ª‚ ‚é
+			int cntflag=0;		//ï¿½fï¿½oï¿½Cï¿½Xï¿½Æ‚ï¿½ï¿½ÄƒJï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½×‚ï¿½ï¿½ï¿½
+			if(wcsstr(strMonikerName,L"@device:pnp")!=NULL) cntflag=1;	//DisplayNameï¿½ï¿½'@device:pnp'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			if(wcsstr(strMonikerName,L"@device:sw" )!=NULL) cntflag=1;	//DisplayNameï¿½ï¿½'@device:sw'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 			if(cntflag){
-				char devname[256];	//FriendlyNameŠi”[—p
+				char devname[256];	//FriendlyNameï¿½iï¿½[ï¿½p
 
-				//FriendlyName‚Ìæ“¾
+				//FriendlyNameï¿½Ìæ“¾
 				IPropertyBag *pBag= 0;
 				pMoniker->BindToStorage(0,0,IID_IPropertyBag,(void **)&pBag);
 				VARIANT var;
@@ -1695,19 +1713,19 @@ int ewc_GetFormat(int device, char *pdname, ewc_format *fmt, int *nmax)
 				VariantClear(&var);
 				ewc_release(pBag);
 
-				int match= 0;	//“o˜^ğŒ‚É‡’v‚µ‚½‚©
+				int match= 0;	//ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				if(pdname){
-					//ƒfƒCƒoƒX–¼w’è‚Ìê‡
-					if(strstr(devname,pdname)) match= 1;		//FriendlyNameÆ‡
+					//ï¿½fï¿½Cï¿½oï¿½Xï¿½ï¿½ï¿½wï¿½ï¿½ï¿½Ìê‡
+					if(strstr(devname,pdname)) match= 1;		//FriendlyNameï¿½Æï¿½
 				}else{
-					//ƒfƒCƒoƒX”Ô†w’è‚Ü‚½‚ÍÈ—ª
+					//ï¿½fï¿½Cï¿½oï¿½Xï¿½Ôï¿½ï¿½wï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ÍÈ—ï¿½ï¿½ï¿½
 					if(n==device) match= 1;
 				}
-				//ğŒ‚ª‡‚¦‚Î“o˜^
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î“oï¿½^
 				if(!regflag && match){
-					//ƒIƒuƒWƒFƒNƒg‰Šú‰» pCap
+					//ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ pCap
 					pMoniker->BindToObject(0,0,IID_IBaseFilter,(void **)&pCap);
-					//ƒOƒ‰ƒt‚ÉƒtƒBƒ‹ƒ^‚ğ’Ç‰Á
+					//ï¿½Oï¿½ï¿½ï¿½tï¿½Éƒtï¿½Bï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½Ç‰ï¿½
 					swprintf_s(SrcName,32,L"Video Capture %d",i);
 					ewc_hr= pGraph->AddFilter(pCap, SrcName);
 					if(ewc_hr!=S_OK){errcode=7; goto fin_gf;}
@@ -1722,24 +1740,24 @@ int ewc_GetFormat(int device, char *pdname, ewc_format *fmt, int *nmax)
 	ewc_release(pEnum);
 	ewc_release(pDevEnum);
 
-	if(!regflag){errcode=9; goto fin_gf;}	//“o˜^‚·‚é‚à‚Ì‚ª‚È‚©‚Á‚½
+	if(!regflag){errcode=9; goto fin_gf;}	//ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	//ƒLƒƒƒvƒ`ƒƒƒrƒ‹ƒ_‚Ìì¬ pBuilder
+	//ï¿½Lï¿½ï¿½ï¿½vï¿½`ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½_ï¿½Ìì¬ pBuilder
 	CoCreateInstance(CLSID_CaptureGraphBuilder2,0,CLSCTX_INPROC_SERVER, IID_ICaptureGraphBuilder2,(void **)&pBuilder);
 	ewc_hr= pBuilder->SetFiltergraph(pGraph);
 	if(ewc_hr!=S_OK){errcode=10; goto fin_gf;}
 	
-	//IAMStreamConfigƒCƒ“ƒ^ƒtƒF[ƒX‚Ìæ“¾
+	//IAMStreamConfigï¿½Cï¿½ï¿½ï¿½^ï¿½tï¿½Fï¿½[ï¿½Xï¿½Ìæ“¾
 	ewc_hr= pBuilder->FindInterface(&PIN_CATEGORY_CAPTURE,&MEDIATYPE_Video, pCap,IID_IAMStreamConfig,(void**)&pConfig);
 	if(ewc_hr!=S_OK){errcode=11; goto fin_gf;}
 
-	//-----”‚Ìæ“¾-----
+	//-----ï¿½ï¿½ï¿½Ìæ“¾-----
 	ewc_hr= pConfig->GetNumberOfCapabilities(&count,&size);
 	if(ewc_hr!=S_OK){errcode=12; goto fin_gf;}
 
 	//ESP_Printf("count=%d\n",count);
 
-	//-----ƒtƒH[ƒ}ƒbƒg‚Ìæ“¾-----
+	//-----ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½Ìæ“¾-----
 	if(size==sizeof(VIDEO_STREAM_CONFIG_CAPS)){
 		for(int i=0; i<count; i++){
 			VIDEO_STREAM_CONFIG_CAPS scc;
@@ -1760,7 +1778,7 @@ int ewc_GetFormat(int device, char *pdname, ewc_format *fmt, int *nmax)
 			} 
 		}
 	}
-	//”‚ÌXV
+	//ï¿½ï¿½ï¿½ÌXï¿½V
 	*nmax= m;
 
 fin_gf:
@@ -1776,7 +1794,7 @@ fin_gf:
 	return errcode;
 }
 
-//‘Î‰ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éiƒfƒoƒCƒX”Ô†jv2.2
+//ï¿½Î‰ï¿½ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½fï¿½oï¿½Cï¿½Xï¿½Ôï¿½ï¿½jv2.2
 int EWC_GetFormat(int devn, ewc_format *fmt, int *nmax)
 {
 	if(devn<0 || devn>=EWC_NCAMMAX) return 1;
@@ -1784,13 +1802,13 @@ int EWC_GetFormat(int devn, ewc_format *fmt, int *nmax)
 	return ewc_GetFormat(devn, 0, fmt, nmax);
 }
 
-//‘Î‰ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éiƒfƒoƒCƒX–¼jv2.2
+//ï¿½Î‰ï¿½ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½fï¿½oï¿½Cï¿½Xï¿½ï¿½ï¿½jv2.2
 int EWC_GetFormat(char *devicename, ewc_format *fmt, int *nmax)
 {
 	return ewc_GetFormat(0, devicename, fmt, nmax);
 }
 
-//g—pŠJn‚³‚ê‚½ƒJƒƒ‰‚ÌƒfƒoƒCƒX–¼‚ğæ“¾ v2.2
+//ï¿½gï¿½pï¿½Jï¿½nï¿½ï¿½ï¿½ê‚½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½oï¿½Cï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ v2.2
 char *EWC_GetDeviceName(int num)
 {
 	if(numCheck(num)) return NULL;
@@ -1798,7 +1816,7 @@ char *EWC_GetDeviceName(int num)
 	return ewc_s[num].dname;
 }
 
-//g—pŠJn‚³‚ê‚½ƒJƒƒ‰‚Ìo—Íƒsƒ“‚ÌƒƒfƒBƒAƒTƒuƒ^ƒCƒv•¶š—ñ‚ğæ“¾ v2.3
+//ï¿½gï¿½pï¿½Jï¿½nï¿½ï¿½ï¿½ê‚½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ìoï¿½Íƒsï¿½ï¿½ï¿½Ìƒï¿½ï¿½fï¿½Bï¿½Aï¿½Tï¿½uï¿½^ï¿½Cï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ v2.3
 char *EWC_GetDeviceSubtype(int num)
 {
 	if(numCheck(num)) return NULL;
@@ -1806,7 +1824,7 @@ char *EWC_GetDeviceSubtype(int num)
 	return ewc_s[num].dev_mstype_t;
 }
 
-//g—pŠJn‚³‚ê‚½ƒJƒƒ‰‚Ìo—Í‰æ‘œ‚ÌƒƒfƒBƒAƒTƒuƒ^ƒCƒv•¶š—ñ‚ğæ“¾ v2.3
+//ï¿½gï¿½pï¿½Jï¿½nï¿½ï¿½ï¿½ê‚½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ìoï¿½Í‰æ‘œï¿½Ìƒï¿½ï¿½fï¿½Bï¿½Aï¿½Tï¿½uï¿½^ï¿½Cï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ v2.3
 char *EWC_GetSubtype(int num)
 {
 	if(numCheck(num)) return NULL;
@@ -1819,7 +1837,7 @@ const char *ewc_propstr[EWC_ITEMMAX]={
 	"PAN","TILT","ROLL","ZOOM","EXPOSURE","IRIS","FOCUS"
 };
 
-//İ’è‚ğƒtƒ@ƒCƒ‹‚Ö•Û‘¶‚·‚é v2.4
+//ï¿½İ’ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ö•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ v2.4
 int EWC_SaveProperty(int num, char *filename=NULL)
 {
 	if(numCheck(num)) return 1;
@@ -1831,7 +1849,7 @@ int EWC_SaveProperty(int num, char *filename=NULL)
 
 	char fname[MAX_PATH];
 	if(!filename){
-		//ƒtƒ@ƒCƒ‹–¼È—ª‚ÍƒfƒoƒCƒX–¼.txt‚ğg‚¤
+		//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½È—ï¿½ï¿½ï¿½ï¿½Íƒfï¿½oï¿½Cï¿½Xï¿½ï¿½.txtï¿½ï¿½ï¿½gï¿½ï¿½
 		strcpy_s(fname,sizeof(fname),EWC_GetDeviceName(num));
 		strcat_s(fname,sizeof(fname),".txt");
 	}else{
@@ -1858,9 +1876,9 @@ int EWC_SaveProperty(int num, char *filename=NULL)
 	return 0;
 }
 
-//•¶š—ñs‚©‚çprop•¶š—ñ‚ğŒŸõ‚µC”Ô†[0-(EWC_ITEMMAX-1)]‚ğ•Ô‚·
-//‚È‚¯‚ê‚Î-1‚ğ•Ô‚·
-//‚Ü‚½CAUTO‚ª‚ ‚ê‚ÎCmode=1‚É‚·‚éD','‚ÍI’[‚É‚·‚éD
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½propï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½Ôï¿½[0-(EWC_ITEMMAX-1)]ï¿½ï¿½ï¿½Ô‚ï¿½
+//ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½-1ï¿½ï¿½ï¿½Ô‚ï¿½
+//ï¿½Ü‚ï¿½ï¿½CAUTOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎCmode=1ï¿½É‚ï¿½ï¿½ï¿½ï¿½D','ï¿½ÍIï¿½[ï¿½É‚ï¿½ï¿½ï¿½ï¿½D
 int find_propstr(char *s, int size, int *mode)
 {
 	for(int i=0;i<EWC_ITEMMAX;i++){
@@ -1881,7 +1899,7 @@ int find_propstr(char *s, int size, int *mode)
 	return -1;
 }
 
-//İ’è‚ğƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚Ş v2.4
+//ï¿½İ’ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½ v2.4
 int EWC_LoadProperty(int num, char *filename=NULL)
 {
 	if(numCheck(num)) return 1;
@@ -1890,7 +1908,7 @@ int EWC_LoadProperty(int num, char *filename=NULL)
 
 	char fname[MAX_PATH];
 	if(!filename){
-		//ƒtƒ@ƒCƒ‹–¼È—ª‚ÍƒfƒoƒCƒX–¼.txt‚ğg‚¤
+		//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½È—ï¿½ï¿½ï¿½ï¿½Íƒfï¿½oï¿½Cï¿½Xï¿½ï¿½.txtï¿½ï¿½ï¿½gï¿½ï¿½
 		strcpy_s(fname,sizeof(fname),EWC_GetDeviceName(num));
 		strcat_s(fname,sizeof(fname),".txt");
 	}else{

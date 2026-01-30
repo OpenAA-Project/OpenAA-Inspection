@@ -46,9 +46,6 @@
     <ClCompile Include="saperaCtrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="camerasetting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,28 +55,19 @@
     <ClCompile Include="..\..\..\OpenSource\Component\mtTBarGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="..\..\..\OpenSource\Component\mtWidgetPosition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\OpenSource\Component\mtMeter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
-    
-    
-    
     <ClCompile Include="..\..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RunLen.Cpp">
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\featureCtrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="featureCtrl.cpp">
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\Dalsa\RunLen.Cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -96,17 +84,7 @@
     <ClInclude Include="saperaCtrl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
     <ClInclude Include="CLHS_PX8CommandCreater.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="screenformat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RunLen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="featureCtrl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

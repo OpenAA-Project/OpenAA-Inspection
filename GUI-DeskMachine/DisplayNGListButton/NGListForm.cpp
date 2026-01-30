@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "DisplayNGListButtonResource.h"
 #include "NGListForm.h"
 #include "ui_NGListForm.h"
@@ -41,7 +59,7 @@ NGListForm::NGListForm(LayersBase *Base ,QWidget *parent)
 	//ParentWidget
 	ParentWidget=GetParentWidget();
 
-	//‰æ–ÊƒŒƒCƒAƒEƒg
+	//ï¿½ï¿½ï¿½Êƒï¿½ï¿½Cï¿½Aï¿½Eï¿½g
     QGridLayout *gridLayout = new QGridLayout(this);
     gridLayout->setObjectName(QString::fromUtf8(/**/"gridLayout"));
     twNGList = new mtQTableWidget(ui->layoutWidget);
@@ -101,7 +119,7 @@ void	NGListForm::ConnectItemSelectionChanged(bool Enable)
 
 void	NGListForm::twNGListKeyDown()
 {
-	//ResultImportance‘Î‰ž
+	//ResultImportanceï¿½Î‰ï¿½
 	if(twNGList->rowCount()==0){
 		twNGList->SetIsSignalKeyDown(false);
 		return;
@@ -121,20 +139,20 @@ void	NGListForm::twNGListKeyDown()
 FoundPreE:;
 	if(e!=NULL){
 		if(e->GetImportanceLevel()<100){
-			//Šm”F‰æ–Ê‚ð•\Ž¦
+			//ï¿½mï¿½Fï¿½ï¿½ï¿½Ê‚ï¿½ï¿½\ï¿½ï¿½
 			QMessageBox MsgBox;
 			QFont font1;
 			font1.setPointSize(12);
 			font1.setBold(true);
 			font1.setWeight(75);
 			MsgBox.setFont	(font1);
-			MsgBox.setText	(LangSolver.GetString(NGListForm_LS,LID_1)/*"Is it really OK?"*/);				//–{“–‚ÉOK‚Å‚·‚©H
-			MsgBox.addButton(LangSolver.GetString(NGListForm_LS,LID_2)/*"Yes"*/,QMessageBox::AcceptRole);	//‚Í‚¢
+			MsgBox.setText	(LangSolver.GetString(NGListForm_LS,LID_1)/*"Is it really OK?"*/);				//ï¿½{ï¿½ï¿½ï¿½ï¿½OKï¿½Å‚ï¿½ï¿½ï¿½ï¿½H
+			MsgBox.addButton(LangSolver.GetString(NGListForm_LS,LID_2)/*"Yes"*/,QMessageBox::AcceptRole);	//ï¿½Í‚ï¿½
 			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint);
 			MsgBox.resize(400,200);
 			MsgBox.move(ParentWidget->x()+(ParentWidget->width()>>1)-(MsgBox.width()>>1),ParentWidget->y()+(ParentWidget->height()>>1)-400);
 			int Ret=MsgBox.exec();
-			if(Ret==QMessageBox::RejectRole){	//ƒLƒƒƒ“ƒZƒ‹
+			if(Ret==QMessageBox::RejectRole){	//ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½
 				twNGList->SetIsSignalKeyDown(false);
 				return;
 			}
@@ -179,7 +197,7 @@ FoundE:;
 			e->GetXY(ex1,ey1,ex2,ey2);
 			DataInPage *pdata=LBase->GetPageData(e->GetPage());
 			if(pdata!=NULL){
-				//NGSize‚É‚æ‚éF•\Ž¦‘Î‰ž
+				//NGSizeï¿½É‚ï¿½ï¿½ï¿½ï¿½Fï¿½\ï¿½ï¿½ï¿½Î‰ï¿½
 				if(pGeneralTabSheet!=NULL){
 					if(e->GetNGSize()<NGSize){
 						CmdExecNormalColor	CmdExNormalColor(LBase);
@@ -198,7 +216,7 @@ FoundE:;
 	twNGList->setFocus();
 	PreviousRow=row;
 
-	//DisplayThumbnailImage‚Öƒf[ƒ^‚ÌŽó‚¯“n‚µ
+	//DisplayThumbnailImageï¿½Öƒfï¿½[ï¿½^ï¿½ÌŽó‚¯“nï¿½ï¿½
 	GUIFormBase	*DTImageForm=LBase->FindByName(/**/"Inspection" ,/**/"DisplayThumbnailImage" ,/**/"");
 	if(DTImageForm!=NULL){
 		CmdSetCurrentRow	CmdSetCurRow(LBase);

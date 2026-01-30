@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "DisplayNGListButtonResource.h"
 #include "DisplayNGListButton.h"
 #include "XGeneralFunc.h"
@@ -111,15 +129,15 @@ DisplayNGListButton::DisplayNGListButton(LayersBase *Base ,QWidget *parent)
 :GUIFormBase(Base,parent),Button(parent,false)
 // ,NGListWindow(Base,parent)
 {
-	//Œ¾Œê‘Î‰
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½
 	FileRegistry	*FRegistry=new FileRegistry(/**/"./MachineInfo.dat");
 	int	LanguageCode=FRegistry->LoadRegInt(/**/"Language",0);
 
 	QString ImageBmpFile[5]={
-		/**/":Resources/DisplayNGListImage.bmp",	//“ú–{Œê
+		/**/":Resources/DisplayNGListImage.bmp",	//ï¿½ï¿½ï¿½{ï¿½ï¿½
 		/**/":Resources/DisplayNGListImage-en.bmp",	//English
-		/**/":Resources/DisplayNGListImage-en.bmp",	//ŠÈ‘Ì’†•¶
-		/**/":Resources/DisplayNGListImage-en.bmp",	//”É‘Ì’†•¶
+		/**/":Resources/DisplayNGListImage-en.bmp",	//ï¿½È‘Ì’ï¿½ï¿½ï¿½
+		/**/":Resources/DisplayNGListImage-en.bmp",	//ï¿½É‘Ì’ï¿½ï¿½ï¿½
 		/**/":Resources/DisplayNGListImage-en.bmp"	//Korean
 	};
 	Button.setImageBmp(QImage(ImageBmpFile[LanguageCode]));
@@ -153,7 +171,7 @@ DisplayNGListButton::DisplayNGListButton(LayersBase *Base ,QWidget *parent)
 	pDisplayTargetImagePanel=NULL;
 	NGImageWidth=NGImageHeight=NGImageBevel=0;
 
-	//ƒL[ƒ{[ƒh“ü—Í
+	//ï¿½Lï¿½[ï¿½{ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½
 	SetKeyGrab(true);
 
 	//Sequence.dat GeneralInfo1 GeneralInfo2
@@ -219,7 +237,7 @@ void	DisplayNGListButton::SlotNGListKeyEnter()
 	if(NGListWindow->GetNGList()->currentRow()==-1){
 		return;
 	}
-	//ƒTƒ€ƒlƒCƒ‹•\¦AŠg‘å‰æ–Ê‚ğo‚·
+	//ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½oï¿½ï¿½
 	GUIFormBase	*DTImageForm=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"DisplayThumbnailImage" ,/**/"");
 	if(DTImageForm!=NULL){
 		CmdShowThumbnailDialog	CmdShowThumDialog(GetLayersBase());
@@ -331,11 +349,11 @@ void	DisplayNGListButton::ShowInPlayer(int64 shownInspectionID)
 	int	LNumb=ErrorGroupData.GetNumber();
 	*/
 
-	NGListWindow->ConnectItemSelectionChanged(false);	//itemSelectionChanged‚ğØ‚é
+	NGListWindow->ConnectItemSelectionChanged(false);	//itemSelectionChangedï¿½ï¿½ï¿½Ø‚ï¿½
 	NGListWindow->GetNGList()->setRowCount(LNumb);
 	//NGListWindow->GetNGList()->setCurrentCell(0,0);
 	NGListWindow->GetNGList()->clearSelection();
-	NGListWindow->ConnectItemSelectionChanged(true);	//itemSelectionChanged‚ğ•œŠˆ
+	NGListWindow->ConnectItemSelectionChanged(true);	//itemSelectionChangedï¿½ğ•œŠï¿½
 	//WidthLineNumber;
 	int	N=0;
 	if(NGListWindow->WidthPageNumber>0){
@@ -359,7 +377,7 @@ void	DisplayNGListButton::ShowInPlayer(int64 shownInspectionID)
 		N++;
 	}
 
-	//NG‰æ‘œƒTƒCƒY
+	//NGï¿½æ‘œï¿½Tï¿½Cï¿½Y
 	ResultDLLBaseRoot	*RBase=GetLayersBase()->GetResultDLLBase()->GetFirst()->GetDLLPoint();
 
 	//ErrorGroupNumber
@@ -438,7 +456,7 @@ void	DisplayNGListButton::ShowInPlayer(int64 shownInspectionID)
 			}
 		}
 
-		//DisplayThumbnailImage‚Öƒf[ƒ^‚Ìó‚¯“n‚µ
+		//DisplayThumbnailImageï¿½Öƒfï¿½[ï¿½^ï¿½Ìó‚¯“nï¿½ï¿½
 		GUIFormBase	*DTImageForm=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"DisplayThumbnailImage" ,/**/"");
 		if(DTImageForm!=NULL){
 			CmdSetNGInformation	CmdSetNGInfo(GetLayersBase());
@@ -477,18 +495,18 @@ void	DisplayNGListButton::ShowInPlayer(int64 shownInspectionID)
 		DisplayHeight	=pDisplayTargetImagePanel->height()-32;
 		DisplayRatio	=(double)DisplayWidth/DisplayHeight;
 	}
-	//NG‰æ‘œƒTƒCƒY
+	//NGï¿½æ‘œï¿½Tï¿½Cï¿½Y
 ///	ResultDLLBaseRoot	*RBase=GetLayersBase()->GetResultDLLBase()->GetFirst()->GetDLLPoint();
 	if(NGImageWidth!=RBase->NGImageWidth || NGImageHeight!=RBase->NGImageHeight || NGImageBevel!=RBase->NGImageBevel){
 		double NGImageRatio=(double)RBase->NGImageWidth/RBase->NGImageHeight;
 		double ZoomRate;
 		if(DisplayRatio>NGImageRatio){
-			//•\¦ƒGƒŠƒA‚Ì•û‚ª‰¡’·
+			//ï¿½\ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ///			ZoomRate=(double)DisplayHeight/RBase->NGImageHeight;
 			ZoomRate=(double)(DisplayHeight-(NGImageBevel<<1))/RBase->NGImageHeight;
 		}
 		else{
-			//•\¦ƒGƒŠƒA‚Ì•û‚ªc’·
+			//ï¿½\ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½Ì•ï¿½ï¿½ï¿½ï¿½cï¿½ï¿½
 ///			ZoomRate=(double)DisplayWidth/RBase->NGImageWidth;
 			ZoomRate=(double)(DisplayWidth-(NGImageBevel<<1))/RBase->NGImageWidth;
 		}
@@ -504,21 +522,21 @@ void	DisplayNGListButton::ShowInPlayer(int64 shownInspectionID)
 	NGListWindow->GetNGList()->SetWaitTime(WaitTime);
 
 	if(LNumb>0){
-		//NGƒŠƒXƒg‚Ìˆês–Ú‚ğ•\¦
+		//NGï¿½ï¿½ï¿½Xï¿½gï¿½Ìˆï¿½ï¿½sï¿½Ú‚ï¿½ï¿½\ï¿½ï¿½
 		NGListWindow->GetNGList()->selectRow(0);
 		NGListWindow->GetNGList()->SetCurrentRowList();
 
-		//Popup‘Î‰
+		//Popupï¿½Î‰ï¿½
 		if(Popup==true){
 			SlotClicked(true);
 		}
 	}
 	else if(AnytimeShow==false && Popup==true){
-		//NGƒŠƒXƒg‰æ–Ê‚ğ•Â‚¶‚é
+		//NGï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Ê‚ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
 		NGListWindow->close();
 	}
 
-	//NGƒŠƒXƒgs‚Ìİ’è
+	//NGï¿½ï¿½ï¿½Xï¿½gï¿½sï¿½Ìİ’ï¿½
 	if(GetLayersBase()==NULL || GetLayersBase()->GetEntryPoint()==NULL || GetLayersBase()->GetEntryPoint()->GetExecuteInspect()==NULL){
 		return;
 	}
@@ -582,11 +600,11 @@ void	DisplayNGListButton::testPhase(int64 shownInspectionID){
 		LNumb+=ErrorGroupData[phase].GetNumber();
 	}
 
-	NGListWindow->ConnectItemSelectionChanged(false);	//itemSelectionChanged‚ğØ‚é
+	NGListWindow->ConnectItemSelectionChanged(false);	//itemSelectionChangedï¿½ï¿½ï¿½Ø‚ï¿½
 	NGListWindow->GetNGList()->setRowCount(LNumb);
 	//NGListWindow->GetNGList()->setCurrentCell(0,0);
 	NGListWindow->GetNGList()->clearSelection();
-	NGListWindow->ConnectItemSelectionChanged(true);	//itemSelectionChanged‚ğ•œŠˆ
+	NGListWindow->ConnectItemSelectionChanged(true);	//itemSelectionChangedï¿½ğ•œŠï¿½
 	//WidthLineNumber;
 	int	Column=0;
 	if(NGListWindow->WidthPageNumber>0){
@@ -615,7 +633,7 @@ void	DisplayNGListButton::testPhase(int64 shownInspectionID){
 		Column++;
 	}
 
-	//NG‰æ‘œƒTƒCƒY
+	//NGï¿½æ‘œï¿½Tï¿½Cï¿½Y
 	ResultDLLBaseRoot	*RBase=GetLayersBase()->GetResultDLLBase()->GetFirst()->GetDLLPoint();
 
 	//ErrorGroupNumber
@@ -703,7 +721,7 @@ void	DisplayNGListButton::testPhase(int64 shownInspectionID){
 				Column++;
 			}
 		}
-		//DisplayThumbnailImage‚Öƒf[ƒ^‚Ìó‚¯“n‚µ
+		//DisplayThumbnailImageï¿½Öƒfï¿½[ï¿½^ï¿½Ìó‚¯“nï¿½ï¿½
 		GUIFormBase	*DTImageForm=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"DisplayThumbnailImage" ,/**/"");
 		if(DTImageForm!=NULL){
 			CmdSetNGInformation	CmdSetNGInfo(GetLayersBase());
@@ -742,16 +760,16 @@ void	DisplayNGListButton::testPhase(int64 shownInspectionID){
 		DisplayHeight	=pDisplayTargetImagePanel->height()-32;
 		DisplayRatio	=(double)DisplayWidth/DisplayHeight;
 	}
-	//NG‰æ‘œƒTƒCƒY
+	//NGï¿½æ‘œï¿½Tï¿½Cï¿½Y
 	if(NGImageWidth!=RBase->NGImageWidth || NGImageHeight!=RBase->NGImageHeight || NGImageBevel!=RBase->NGImageBevel){
 		double NGImageRatio=(double)RBase->NGImageWidth/RBase->NGImageHeight;
 		double ZoomRate;
 		if(DisplayRatio>NGImageRatio){
-			//•\¦ƒGƒŠƒA‚Ì•û‚ª‰¡’·
+			//ï¿½\ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			ZoomRate=(double)(DisplayHeight-(NGImageBevel<<1))/RBase->NGImageHeight;
 		}
 		else{
-			//•\¦ƒGƒŠƒA‚Ì•û‚ªc’·
+			//ï¿½\ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½Ì•ï¿½ï¿½ï¿½ï¿½cï¿½ï¿½
 			ZoomRate=(double)(DisplayWidth-(NGImageBevel<<1))/RBase->NGImageWidth;
 		}
 		NGListWindow->SetZoomRate(ZoomRate);
@@ -766,21 +784,21 @@ void	DisplayNGListButton::testPhase(int64 shownInspectionID){
 	NGListWindow->GetNGList()->SetWaitTime(WaitTime);
 
 	if(LNumb>0){
-		//NGƒŠƒXƒg‚Ìˆês–Ú‚ğ•\¦
+		//NGï¿½ï¿½ï¿½Xï¿½gï¿½Ìˆï¿½ï¿½sï¿½Ú‚ï¿½ï¿½\ï¿½ï¿½
 		NGListWindow->GetNGList()->selectRow(0);
 		NGListWindow->GetNGList()->SetCurrentRowList();
 
-		//Popup‘Î‰
+		//Popupï¿½Î‰ï¿½
 		if(Popup==true){
 			SlotClicked(true);
 		}
 	}
 	else if(AnytimeShow==false && Popup==true){
-		//NGƒŠƒXƒg‰æ–Ê‚ğ•Â‚¶‚é
+		//NGï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Ê‚ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
 		NGListWindow->close();
 	}
 
-	//NGƒŠƒXƒgs‚Ìİ’è
+	//NGï¿½ï¿½ï¿½Xï¿½gï¿½sï¿½Ìİ’ï¿½
 	if(GetLayersBase()==NULL || GetLayersBase()->GetEntryPoint()==NULL || GetLayersBase()->GetEntryPoint()->GetExecuteInspect()==NULL){
 		return;
 	}
@@ -807,14 +825,14 @@ void	DisplayNGListButton::TransmitDirectly(GUIDirectMessage *packet)
 	CmdSetCurrentRow	*CmdSetCurrentRowVer=dynamic_cast<CmdSetCurrentRow *>(packet);
 	if(CmdSetCurrentRowVer!=NULL){
 		int CurrentRow=CmdSetCurrentRowVer->CurrentRow;
-		//NGƒŠƒXƒgˆÚ“®
+		//NGï¿½ï¿½ï¿½Xï¿½gï¿½Ú“ï¿½
 		NGListWindow->GetNGList()->selectRow(CurrentRow);
 		return;
 	}
 /*
 	CmdSetCurrentFocus	*CmdSetCurrentFocusVer=dynamic_cast<CmdSetCurrentFocus *>(packet);
 	if(CmdSetCurrentFocusVer!=NULL){
-		//ƒtƒH[ƒ€‚ÉƒtƒH[ƒJƒX‚ğ‚Á‚Ä‚­‚é
+		//ï¿½tï¿½Hï¿½[ï¿½ï¿½ï¿½Éƒtï¿½Hï¿½[ï¿½Jï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 		NGListWindow->setFocus(Qt::OtherFocusReason);
 		NGListWindow->GetNGList()->setFocus(Qt::OtherFocusReason);
 		return;
@@ -832,7 +850,7 @@ void DisplayNGListButton::keyReleaseEvent ( QKeyEvent * event )
 {
 	if(event->key()==Qt::Key_Delete){
 		if(event->isAutoRepeat()==false){
-			//—š—ğ‚Ìíœ‘Î‰
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ìíœï¿½Î‰ï¿½
 			ExecDeleteListHistory();
 		}
 		event->accept();
@@ -841,7 +859,7 @@ void DisplayNGListButton::keyReleaseEvent ( QKeyEvent * event )
 
 void DisplayNGListButton::wheelEvent(QWheelEvent *event)
 {
-	//ƒTƒ€ƒlƒCƒ‹‚ğƒy[ƒWˆÚ“®‚·‚é
+	//ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½yï¿½[ï¿½Wï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(event->delta()>0){
 		NGListWindow->GetNGList()->ExecKeyPageUp();
 	}
@@ -874,16 +892,16 @@ void DisplayNGListButton::ExecGeneralInfo2()
 		return;
 	}
 	int Ret=-1;
-	if(Param->GeneralInfo2==0){			//Ô•\¦‚ğÁ‚·
+	if(Param->GeneralInfo2==0){			//ï¿½Ô•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Ret=ExecCmdPixelNGDrawMode(false,false);
 	}
-	else if(Param->GeneralInfo2==1){	//ÔŠÛ•\¦‚Ì‚İ
+	else if(Param->GeneralInfo2==1){	//ï¿½ÔŠÛ•\ï¿½ï¿½ï¿½Ì‚ï¿½
 		Ret=ExecCmdPixelNGDrawMode(false,true);
 	}
-	else if(Param->GeneralInfo2==2){	//Ú×•\¦‚Ì‚İ
+	else if(Param->GeneralInfo2==2){	//ï¿½Ú×•\ï¿½ï¿½ï¿½Ì‚ï¿½
 		Ret=ExecCmdPixelNGDrawMode(true,false);
 	}
-	else if(Param->GeneralInfo2==3){	//—¼•û•\¦
+	else if(Param->GeneralInfo2==3){	//ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
 		Ret=ExecCmdPixelNGDrawMode(true,true);
 	}
 	if(Ret!=-1){
@@ -897,16 +915,16 @@ void DisplayNGListButton::ExecGeneralInfo2Reverse()
 		return;
 	}
 	int Ret=-1;
-	if(Param->GeneralInfo2==0){			//Ú×•\¦‚Ì‚İ
+	if(Param->GeneralInfo2==0){			//ï¿½Ú×•\ï¿½ï¿½ï¿½Ì‚ï¿½
 		Ret=ExecCmdPixelNGDrawMode(true,false);
 	}
-	else if(Param->GeneralInfo2==3){	//ÔŠÛ•\¦‚Ì‚İ
+	else if(Param->GeneralInfo2==3){	//ï¿½ÔŠÛ•\ï¿½ï¿½ï¿½Ì‚ï¿½
 		Ret=ExecCmdPixelNGDrawMode(false,true);
 	}
-	else if(Param->GeneralInfo2==2){	//Ô•\¦‚ğÁ‚·
+	else if(Param->GeneralInfo2==2){	//ï¿½Ô•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Ret=ExecCmdPixelNGDrawMode(false,false);
 	}
-	else if(Param->GeneralInfo2==1){	//—¼•û•\¦
+	else if(Param->GeneralInfo2==1){	//ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
 		Ret=ExecCmdPixelNGDrawMode(true,true);
 	}
 	if(Ret!=-1){

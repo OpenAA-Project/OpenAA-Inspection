@@ -1,13 +1,22 @@
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "RepairStationResource.h"
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\RepairBase.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
 
 //#include <QMessageBox>
 #include <QDir>
@@ -23,7 +32,7 @@
 #include <QDomDocument>
 #include "time.h"
 
-//ŒÂ•ĞƒRƒ“ƒ{ƒ{ƒbƒNƒX
+//ï¿½Â•ĞƒRï¿½ï¿½ï¿½{ï¿½{ï¿½bï¿½Nï¿½X
 //PieceListEditor::PieceListEditor(QStringList &List,QWidget *widget)
 //	:QComboBox(widget)
 PieceListEditor::PieceListEditor(QStringList &List)
@@ -69,7 +78,7 @@ void PieceListEditor::populateList()
 {
 }
 
-//NGƒ|ƒCƒ“ƒgƒf[ƒ^Ši”[ƒNƒ‰ƒX
+//NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 NGPointList::NGPointList(int X,int Y, const QString &Str)
 {
 	x=X;
@@ -81,7 +90,7 @@ NGPointList::~NGPointList()
 {
 }
 
-//NGƒ|ƒCƒ“ƒgƒf[ƒ^BaseŠi”[ƒNƒ‰ƒX
+//NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^Baseï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 NGPointBaseList::NGPointBaseList()
 {
 }
@@ -90,7 +99,7 @@ NGPointBaseList::~NGPointBaseList()
 {
 }
 
-//NGPƒ^ƒOƒf[ƒ^Ši”[ƒNƒ‰ƒX
+//NGPï¿½^ï¿½Oï¿½fï¿½[ï¿½^ï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 NGPTagDataList::NGPTagDataList()
 {
 }
@@ -142,7 +151,7 @@ void PieceInfoData::SetPieceData(RepairBase *parent,const QByteArray *PieceData,
 	PieceName	=parent->GetString(PieceData,/**/"PIECENAME=\"#",/**/"\"");
 #endif
 
-	//“¯‚¶ŒÂ•Ğ–¼Ì‚Å‚Ç‚¿‚ç‚à‹éŒ`‚¾‚Á‚½‚çA‚­‚Á•t‚¯‚Ä‚P‚Â‚Ì‹éŒ`‚É‚·‚é
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Â•Ğ–ï¿½ï¿½Ì‚Å‚Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Ä‚Pï¿½Â‚Ì‹ï¿½ï¿½`ï¿½É‚ï¿½ï¿½ï¿½
 	if(DataCount>0 && PieceShape=='R' && NowShape=='R'){
 //		if((NowPage-PiecePageList.last())==1 && AREAList[0].toInt()==0 && PieceCoordinates[0].Y==AREAList[1].toInt() && PieceCoordinates[1].Y==AREAList[3].toInt()){
 //		if((NowPage-PiecePageList.last())==1 && PieceCoordinates[0].Y==AREAList[1].toInt() && PieceCoordinates[1].Y==AREAList[3].toInt()){
@@ -230,7 +239,7 @@ bool PieceInfoData::isInside(int X,int Y,int P)
 {
 	switch(PieceShape){	
 		case 'R':
-		case 'E':	//‘È‰~‚Ìê‡‚Í‚¿‚á‚ñ‚Æ‹‚ß‚é•K—v‚ ‚èib’èj
+		case 'E':	//ï¿½È‰~ï¿½Ìê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‹ï¿½ï¿½ß‚ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½iï¿½bï¿½ï¿½ï¿½j
 		case 'P':
 //			return Polygon.containsPoint(QPoint(X,Y),Qt::OddEvenFill);
 			return GetPolygon(P).containsPoint(QPoint(X,Y),Qt::OddEvenFill);
@@ -243,12 +252,12 @@ int PieceInfoData::GetDistanceFromCenter(int X,int Y,int OffsetX1,int OffsetY1,i
 	if(PieceCoordinates==NULL){
 		return -1;
 	}
-	//Offset‚ğæ“¾
+	//Offsetï¿½ï¿½ï¿½æ“¾
 //	int OffsetX1=IDataUnit->MImageClassList[SType]->ImageList[GetFirstPiecePage()]	->OrgOffsetX;
 //	int OffsetY1=IDataUnit->MImageClassList[SType]->ImageList[GetFirstPiecePage()]	->OrgOffsetY;
 //	int OffsetX2=IDataUnit->MImageClassList[SType]->ImageList[GetLastPiecePage()]	->OrgOffsetX;
 //	int OffsetY2=IDataUnit->MImageClassList[SType]->ImageList[GetLastPiecePage()]	->OrgOffsetY;
-	//PieceCoordinates[0]‚Ì(X,Y)À•W‚ª¶ã‚ÅPieceCoordinates[1]‚Ì(X,Y)À•W‚ª¶‰º
+	//PieceCoordinates[0]ï¿½ï¿½(X,Y)ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½PieceCoordinates[1]ï¿½ï¿½(X,Y)ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	int dX,dY;
 	if(X<=(dX=PieceCoordinates[0].X+OffsetX1)){
 		if(Y<=(dY=PieceCoordinates[0].Y+OffsetY1)){
@@ -286,7 +295,7 @@ int PieceInfoData::GetDistanceFromCenter(int X,int Y,int OffsetX1,int OffsetY1,i
 	return -1;
 }
 
-//XML‚Ìƒf[ƒ^Ši”[ƒNƒ‰ƒX
+//XMLï¿½Ìƒfï¿½[ï¿½^ï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½X
 //RepairBase::RepairBase(QWidget *parent, Qt::WindowFlags flags)
 RepairBase::RepairBase()
 {
@@ -438,7 +447,7 @@ bool RepairBase::XMLConnection(QString strXMLFile,int Side)
 		delete xmlCont[Side];
 	}
 
-	//Wait‚ğ’u‚­
+	//Waitï¿½ï¿½ï¿½uï¿½ï¿½
 	for(time_t t=time(NULL);time(NULL)-t<1;){}
 
 	xmlCont[Side]=new ClientMain(HostName,port);
@@ -447,7 +456,7 @@ bool RepairBase::XMLConnection(QString strXMLFile,int Side)
 		return false;
 	}
 /*
-///////////ƒfƒoƒbƒO—p’¼‘Å‚¿////////////////////////////
+///////////ï¿½fï¿½oï¿½bï¿½Oï¿½pï¿½ï¿½ï¿½Å‚ï¿½////////////////////////////
 	if(Side==Front)
 		XMLFilePath=QByteArray("H:/Data/137-LOTN8.DBXML");
 	else
@@ -610,11 +619,11 @@ bool RepairBase::XMLMasterStart(QString *MasterCode,QString *LotID,int Side)
 ///	strXMLFilePath=XMLFilePath + LangSolver.GetString(RepairBase_LS,LID_509)/*"/"*/ + (*MasterCode) + LangSolver.GetString(RepairBase_LS,LID_510)/*"-LOT"*/ + (*LotID) + LangSolver.GetString(RepairBase_LS,LID_511)/*".DBXML"*/;
 	strXMLFilePath=XMLFilePath + /**/"/" + (*MasterCode) + /**/"-LOT" + (*LotID) + /**/".DBXML";
 
-	//ƒŠƒgƒ‰ƒCˆ—
+	//ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½
 	for(time_t t=time(NULL);time(NULL)-t<10;){
 		if(!xmlCont[Side]->Client_MasterStart(strXMLFilePath.toLocal8Bit().data(),Msg,ClientNo[Side])){
 			if(Msg==LangSolver.GetString(RepairBase_LS,LID_512)/*"Closing"*/){
-				//Wait‚ğ’u‚­
+				//Waitï¿½ï¿½ï¿½uï¿½ï¿½
 				for(time_t t=time(NULL);time(NULL)-t<1;){}
 				continue;
 			}
@@ -657,21 +666,21 @@ bool RepairBase::XMLLotGetClose(int Side)
 
 int RepairBase::CheckXMLDataList(SideType Type,QList<QByteArray> *RetXMLData)
 {
-	//XMLƒf[ƒ^‚ğ·‚µ‘Ö‚¦‚é‘O‚ÉA’¼‹ß‚Ìƒf[ƒ^iISTj‚QŒ‚ğƒ`ƒFƒbƒN‚·‚é
+	//XMLï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö‚ï¿½ï¿½ï¿½ï¿½Oï¿½ÉAï¿½ï¿½ï¿½ß‚Ìƒfï¿½[ï¿½^ï¿½iISTï¿½jï¿½Qï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½
 	int Ret=0;
 	if(Type==Front){
 		if(RetXMLFDataList.count()>0 && RetXMLData->count()>0){
 			PreINM=GetString(&RetXMLFDataList.last(),LangSolver.GetString(RepairBase_LS,LID_518)/*"<INM>"*/,LangSolver.GetString(RepairBase_LS,LID_519)/*"</INM>"*/).toInt();
 			CurINM=GetString(&RetXMLData->last(),LangSolver.GetString(RepairBase_LS,LID_520)/*"<INM>"*/,LangSolver.GetString(RepairBase_LS,LID_521)/*"</INM>"*/).toInt();
-			//INM‚ª“¯‚¶ê‡
+			//INMï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
 			if(PreINM==CurINM){
 				Ret|=0x04;
 			}
-			//INM‚ª”ò‚ñ‚¾ê‡
+			//INMï¿½ï¿½ï¿½ï¿½ï¿½ñ‚¾ê‡
 			else if((PreINM+1)!=CurINM){
 				Ret|=0x08;
 			}
-			//NGPƒ^ƒOˆÈ‰º‚ª“¯‚¶ê‡
+			//NGPï¿½^ï¿½Oï¿½È‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
 			if(GetString(&RetXMLFDataList.last(),LangSolver.GetString(RepairBase_LS,LID_522)/*"<NGP "*/,LangSolver.GetString(RepairBase_LS,LID_523)/*""*/)==GetString(&RetXMLData->last(),LangSolver.GetString(RepairBase_LS,LID_524)/*"<NGP "*/,LangSolver.GetString(RepairBase_LS,LID_525)/*""*/)){
 				Ret|=0x10;
 			}
@@ -681,11 +690,11 @@ int RepairBase::CheckXMLDataList(SideType Type,QList<QByteArray> *RetXMLData)
 		if(RetXMLBDataList.count()>0 && RetXMLData->count()>0){
 			PreINM=GetString(&RetXMLBDataList.last(),LangSolver.GetString(RepairBase_LS,LID_526)/*"<INM>"*/,LangSolver.GetString(RepairBase_LS,LID_527)/*"</INM>"*/).toInt();
 			CurINM=GetString(&RetXMLData->last(),LangSolver.GetString(RepairBase_LS,LID_528)/*"<INM>"*/,LangSolver.GetString(RepairBase_LS,LID_529)/*"</INM>"*/).toInt();
-			//INM‚ª“¯‚¶ê‡
+			//INMï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
 			if(PreINM==CurINM){
 				Ret|=0x04;
 			}
-			//INM‚ª”ò‚ñ‚¾ê‡
+			//INMï¿½ï¿½ï¿½ï¿½ï¿½ñ‚¾ê‡
 			else if((PreINM+1)!=CurINM){
 				Ret|=0x08;
 			}
@@ -699,7 +708,7 @@ int RepairBase::CheckXMLDataList(SideType Type,QList<QByteArray> *RetXMLData)
 
 int RepairBase::CheckXMLData(QByteArray &PreStrXML,const QByteArray &CurStrXML)
 {
-	//XMLƒf[ƒ^‚ğ·‚µ‘Ö‚¦‚é‘O‚ÉA’¼‹ß‚Ìƒf[ƒ^iISTj‚QŒ‚ğƒ`ƒFƒbƒN‚·‚é
+	//XMLï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö‚ï¿½ï¿½ï¿½ï¿½Oï¿½ÉAï¿½ï¿½ï¿½ß‚Ìƒfï¿½[ï¿½^ï¿½iISTï¿½jï¿½Qï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½
 	int Ret=0;
 	if(PreStrXML.isEmpty()==false && CurStrXML.isEmpty()==false){
 		PreINM=GetString(&PreStrXML,LangSolver.GetString(RepairBase_LS,LID_534)/*"<INM>"*/,LangSolver.GetString(RepairBase_LS,LID_535)/*"</INM>"*/).toInt();
@@ -707,15 +716,15 @@ int RepairBase::CheckXMLData(QByteArray &PreStrXML,const QByteArray &CurStrXML)
 		if(PreINM==-1 || CurINM==-1){
 			return Ret;
 		}
-		//INM‚ª“¯‚¶ê‡
+		//INMï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
 		if(PreINM==CurINM){
 			Ret|=0x04;
 		}
-		//INM‚ª”ò‚ñ‚¾ê‡
+		//INMï¿½ï¿½ï¿½ï¿½ï¿½ñ‚¾ê‡
 		else if((PreINM+1)!=CurINM){
 			Ret|=0x08;
 		}
-		//NGPƒ^ƒOˆÈ‰º‚ª“¯‚¶ê‡
+		//NGPï¿½^ï¿½Oï¿½È‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
 		if(PreStrXML.contains(LangSolver.GetString(RepairBase_LS,LID_538)/*"<NGP "*/)==true && CurStrXML.contains(LangSolver.GetString(RepairBase_LS,LID_539)/*"<NGP "*/)==true){
 			if(GetString(&PreStrXML,LangSolver.GetString(RepairBase_LS,LID_540)/*"<NGP "*/,LangSolver.GetString(RepairBase_LS,LID_541)/*""*/)==GetString(&CurStrXML,LangSolver.GetString(RepairBase_LS,LID_542)/*"<NGP "*/,LangSolver.GetString(RepairBase_LS,LID_543)/*""*/)){
 				Ret|=0x10;
@@ -728,7 +737,7 @@ int RepairBase::CheckXMLData(QByteArray &PreStrXML,const QByteArray &CurStrXML)
 //void RepairBase::SetRetXMLDataList(SideType Type,QList<QByteArray> *RetXMLData)
 void RepairBase::SetRetXMLDataList(int Type,QList<QByteArray> *RetXMLData)
 {
-	//EID‚Åƒ\[ƒg
+	//EIDï¿½Åƒ\ï¿½[ï¿½g
 	ComSortXML(RetXMLData->count(),*RetXMLData);
 
 	if(Type==Front){
@@ -771,7 +780,7 @@ QString *RepairBase::GetRetXMLData(SideType Type,int Index)
 		return &RetXMLBDataList[Index];
 }
 */
-//ƒe[ƒuƒ‹ƒŠƒXƒg‚P€–Ú‚Éƒf[ƒ^‚ğƒZƒbƒg
+//ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½Pï¿½ï¿½ï¿½Ú‚Éƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Zï¿½bï¿½g
 void RepairBase::SetDataToTable(QTableWidget *W,int row,int col,QVariant value)
 {
 	if(value.isNull())
@@ -779,7 +788,7 @@ void RepairBase::SetDataToTable(QTableWidget *W,int row,int col,QVariant value)
 	W->model()->setData(W->model()->index(row,col),value);
 }
 
-//ƒe[ƒuƒ‹ƒŠƒXƒg‚P€–Ú‚Éƒf[ƒ^‚Æ”wŒiF‚ğƒZƒbƒg
+//ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½Pï¿½ï¿½ï¿½Ú‚Éƒfï¿½[ï¿½^ï¿½Æ”wï¿½iï¿½Fï¿½ï¿½ï¿½Zï¿½bï¿½g
 void RepairBase::SetDataToTable(QTableWidget *W,int row,int col,QVariant value,QColor Color)
 {
 	if(value.isNull())
@@ -791,10 +800,10 @@ void RepairBase::SetDataToTable(QTableWidget *W,int row,int col,QVariant value,Q
 	W->item(row,col)->setBackgroundColor(Color);
 }
 
-//— •\‚Ì—¼•û‚Ìƒf[ƒ^‚ğ•\¦‚·‚é
+//ï¿½ï¿½ï¿½\ï¿½Ì—ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void RepairBase::SetBothDataToTable(QTableWidget *W)
 {
-	//ˆê’U•\— ‚Ì‡Œvs‚ğŠm•Û‚·‚é
+	//ï¿½ï¿½ï¿½Uï¿½\ï¿½ï¿½ï¿½Ìï¿½ï¿½vï¿½sï¿½ï¿½ï¿½mï¿½Û‚ï¿½ï¿½ï¿½
 	int SumRow;
 	W->clearContents();
 	W->setRowCount(SumRow=(GetRetXMLDataList(Front)->count()+GetRetXMLDataList(Back)->count()));
@@ -808,32 +817,32 @@ void RepairBase::SetBothDataToTable(QTableWidget *W)
 
 	if(NotShowHaltFlag==false){
 		for(Row=0;Row<SumRow;Row++){
-			//•\‘¤‚Æ— ‘¤‚ÅŒŸ¸ID(EID)‚ğ”äŠr
+			//ï¿½\ï¿½ï¿½ï¿½Æ—ï¿½ï¿½ï¿½ï¿½ÅŒï¿½ï¿½ï¿½ID(EID)ï¿½ï¿½ï¿½ï¿½ï¿½r
 			if((FrontCnt<GetRetXMLDataList(Front)->count() && BackCnt==GetRetXMLDataList(Back)->count())){
-				//•\‘¤‚Ìƒf[ƒ^‚ğ•\¦
+				//ï¿½\ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½\ï¿½ï¿½
 				SetXMLDataToTable(W,Row,FrontCnt,Front,twHistoryFrontColor);
 				if((++FrontCnt)==GetRetXMLDataList(Front)->count())
 					break;
 			}
 			else if((FrontCnt==GetRetXMLDataList(Front)->count() && BackCnt<GetRetXMLDataList(Back)->count())){
-				//— ‘¤‚Ìƒf[ƒ^‚ğ•\¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½\ï¿½ï¿½
 				SetXMLDataToTable(W,Row,BackCnt,Back,twHistoryBackColor);
 				if((++BackCnt)==GetRetXMLDataList(Back)->count())
 					break;
 			}
 	///		else if((FrontEID=GetString(&QString(GetRetXMLDataList(Front)->at(FrontCnt)),LangSolver.GetString(RepairBase_LS,LID_546)/*"EID=\"*/LangSolver.GetString(RepairBase_LS,LID_547)/*","*/\LangSolver.GetString(RepairBase_LS,LID_548)/*""*/).toInt())<(BackEID=GetString(&QString(GetRetXMLDataList(Back)->at(BackCnt)),LangSolver.GetString(RepairBase_LS,LID_549)/*"EID=\"*/LangSolver.GetString(RepairBase_LS,LID_550)/*","*/\LangSolver.GetString(RepairBase_LS,LID_551)/*""*/).toInt())){
 			else if((FrontEID=GetString(&QString(GetRetXMLDataList(Front)->at(FrontCnt)),/**/"EID=\"",/**/"\"").toInt())<(BackEID=GetString(&QString(GetRetXMLDataList(Back)->at(BackCnt)),/**/"EID=\"",/**/"\"").toInt())){
-				//•\‘¤‚Ìƒf[ƒ^‚ğ•\¦
+				//ï¿½\ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½\ï¿½ï¿½
 				SetXMLDataToTable(W,Row,FrontCnt,Front,twHistoryFrontColor);
 				FrontCnt++;
 			}
 			else if(FrontEID>BackEID){
-				//— ‘¤‚Ìƒf[ƒ^‚ğ•\¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½\ï¿½ï¿½
 				SetXMLDataToTable(W,Row,BackCnt,Back,twHistoryBackColor);
 				BackCnt++;
 			}
 			else{
-				//—¼–Ê‚Ìƒf[ƒ^‚ğ•\¦
+				//ï¿½ï¿½ï¿½Ê‚Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½\ï¿½ï¿½
 				for(int Col=0;Col<W->columnCount();Col++){
 					QString HeaderLabel=W->horizontalHeaderItem(Col)->text();
 					if(HeaderLabel==LangSolver.GetString(RepairBase_LS,LID_552)/*"Key"*/){
@@ -873,7 +882,7 @@ void RepairBase::SetBothDataToTable(QTableWidget *W)
 		}
 	}
 	else{
-		//HALT‚Í•\¦‚µ‚È‚¢
+		//HALTï¿½Í•\ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 		for(Row=0;Row<SumRow;Row++){
 			//?\???A?????A????CID(EID)?d?a?r
 			if((FrontCnt<GetRetXMLDataList(Front)->count() && BackCnt==GetRetXMLDataList(Back)->count())){
@@ -926,7 +935,7 @@ void RepairBase::SetBothDataToTable(QTableWidget *W)
 					Row--;
 					continue;
 				}
-				//—¼–Ê‚Ìƒf[ƒ^‚ğ•\¦
+				//ï¿½ï¿½ï¿½Ê‚Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½\ï¿½ï¿½
 				for(int Col=0;Col<W->columnCount();Col++){
 					QString HeaderLabel=W->horizontalHeaderItem(Col)->text();
 					if(HeaderLabel==LangSolver.GetString(RepairBase_LS,LID_552)/*"Key"*/){
@@ -968,7 +977,7 @@ void RepairBase::SetBothDataToTable(QTableWidget *W)
 
 void RepairBase::SetXMLDataToTable(QTableWidget *W,int Row,int Index,SideType Type,QColor FieldColor)
 {
-	//XMLƒf[ƒ^‚ğ•\¦
+	//XMLï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½\ï¿½ï¿½
 	QString Str;
 	QString DDD;
 	for(int Col=0;Col<W->columnCount();Col++){
@@ -1033,7 +1042,7 @@ void RepairBase::SetColorToTable(QTableWidget *W,int Row,QColor FieldColor)
 	}
 }
 
-//•¶š—ñ‚©‚ç–Ú“I‚Ìƒf[ƒ^‚ğØ‚èæ‚éiQStringj
+//ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚©‚ï¿½ï¿½Ú“Iï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iQStringï¿½j
 QString RepairBase::GetString(const QString *value,QString FirstStr,QString EndStr,int Index)
 {
 	int FirstIndex,wFirstIndex=0;
@@ -1052,7 +1061,7 @@ QString RepairBase::GetString(const QString *value,QString FirstStr,QString EndS
 	return value->mid(FirstIndex,EndIndex-FirstIndex);
 }
 
-//•¶š—ñ‚©‚ç–Ú“I‚Ìƒf[ƒ^‚ğØ‚èæ‚éiQByteArrayj
+//ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚©‚ï¿½ï¿½Ú“Iï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iQByteArrayï¿½j
 QByteArray RepairBase::GetString(const QByteArray *value,QString FirstStr,QString EndStr,int Index)
 {
 	int FirstIndex,wFirstIndex=0;
@@ -1071,7 +1080,7 @@ QByteArray RepairBase::GetString(const QByteArray *value,QString FirstStr,QStrin
 	return value->mid(FirstIndex,EndIndex-FirstIndex);
 }
 
-//•¶š—ñ‚©‚ç–Ú“I‚Ìƒf[ƒ^‚ğw’è‚³‚ê‚½•¶š”•ªØ‚èæ‚éiQByteArrayj
+//ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚©‚ï¿½ï¿½Ú“Iï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½wï¿½è‚³ï¿½ê‚½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iQByteArrayï¿½j
 QByteArray RepairBase::GetString(const QByteArray *value,QString FirstStr,int Count)
 {
 	int FirstIndex=0;
@@ -1137,7 +1146,7 @@ bool RepairBase::GetNGImage(QTableWidget *W,int Row,int Index,QStringList *Heade
 	}
 
 	if(JDTDataList[iSide]==NULL || iNGI==-1){
-		//NG‰æ‘œ‚ª‚È‚¢ê‡
+		//NGï¿½æ‘œï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡
 //		SetMasterNGParam(Row,IDataUnitInBase->NGImagePieceList[0]->GetCanvasWidth(),IDataUnitInBase->NGImagePieceList[0]->GetCanvasHeight(),ImageX,ImageY,ImageW,ImageH);
 //		SetMasterNGParam(Row,NGShowW,NGShowH,ImageX,ImageY,ImageW,ImageH);
 		SetMasterNGParam(Index,NGShowW,NGShowH,ImageX,ImageY,ImageW,ImageH);
@@ -1162,14 +1171,14 @@ bool RepairBase::GetNGImage(QTableWidget *W,int Row,int Index,QStringList *Heade
 		}
 	}
 	if(iIDX<0 || iIDX>=JDTDataListCountPage[iSide] || iIndex<0 || iIndex>=JDTDataListCountJpg[iSide][iIDX]){
-		//NG‰æ‘œ‚ª‚È‚¢ê‡
+		//NGï¿½æ‘œï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡
 //		SetMasterNGParam(Row,IDataUnitInBase->NGImagePieceList[0]->GetCanvasWidth(),IDataUnitInBase->NGImagePieceList[0]->GetCanvasHeight(),ImageX,ImageY,ImageW,ImageH);
 //		SetMasterNGParam(Row,NGShowW,NGShowH,ImageX,ImageY,ImageW,ImageH);
 		SetMasterNGParam(Index,NGShowW,NGShowH,ImageX,ImageY,ImageW,ImageH);
 		return false;
 	}
 
-	//‰æ‘œƒf[ƒ^i‚i‚o‚d‚fƒf[ƒ^j
+	//ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½iï¿½iï¿½oï¿½dï¿½fï¿½fï¿½[ï¿½^ï¿½j
 	if(JDTDataList[iSide][iIDX]==NULL)
 		return false;
 	if(!Image->loadFromData(JDTDataList[iSide][iIDX][iIndex]))
@@ -1282,11 +1291,11 @@ NGPointBaseList	*RepairBase::SetMasterNGParam(int Index,int Width,int Height,int
 
 bool RepairBase::CheckJDTFile(QString strNGJ,int Side)
 {
-	//ƒlƒbƒgƒ[ƒNƒpƒX‚ÌƒvƒŠƒyƒ“ƒh
+	//ï¿½lï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½Nï¿½pï¿½Xï¿½Ìƒvï¿½ï¿½ï¿½yï¿½ï¿½ï¿½h
 ///	strNGJ.replace(LangSolver.GetString(RepairBase_LS,LID_640)/*"\\"*/,LangSolver.GetString(RepairBase_LS,LID_641)/*"/"*/);
 	strNGJ.replace(/**/"\\",/**/"/");
 
-	//XMLƒfƒBƒŒƒNƒgƒŠ‚ÌƒAƒNƒZƒXŠm”F
+	//XMLï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ÌƒAï¿½Nï¿½Zï¿½Xï¿½mï¿½F
 	QString sNGJ=LangSolver.GetString(RepairBase_LS,LID_642)/*"//"*/ + HostName + LangSolver.GetString(RepairBase_LS,LID_643)/*"/"*/ + XMLFileDir + LangSolver.GetString(RepairBase_LS,LID_644)/*"/"*/;
 
 	if(QDir(sNGJ).exists()==true){
@@ -1296,7 +1305,7 @@ bool RepairBase::CheckJDTFile(QString strNGJ,int Side)
 		strNGJ=XMLFilePath + QDir::separator() + strNGJ;
 	}
 
-	//JDTDataList‚Ìƒƒ‚ƒŠŠÇ—
+	//JDTDataListï¿½Ìƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç—ï¿½
 	int jdtCount=PNumbForBase;
 	if(ImgCnt!=NULL){
 		delete []ImgCnt;
@@ -1326,11 +1335,11 @@ bool RepairBase::CheckJDTFile(QString strNGJ,int Side)
 		ImgCnt[Cnt]=0;
 		if(QFile(strNGJ.replace(LangSolver.GetString(RepairBase_LS,LID_645)/*"*"*/,QString::number(Cnt))).exists()){
 			NGFile.setFileName(strNGJ);
-			//‰æ‘œƒoƒbƒtƒ@‚Ì•Û
-			//NG‰æ‘œ—L‚è‚Ìê‡A‰æ‘œƒtƒ@ƒCƒ‹‚ğƒI[ƒvƒ“‚µ‚ÄA‰æ‘œî•ñ‚Ìæ“¾
+			//ï¿½æ‘œï¿½oï¿½bï¿½tï¿½@ï¿½Ì•Ûï¿½
+			//NGï¿½æ‘œï¿½Lï¿½ï¿½ï¿½Ìê‡ï¿½Aï¿½æ‘œï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ÄAï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
 			if(NGFile.open(QIODevice::ReadOnly)){
 				if(NGFile.fileName().right(4)==LangSolver.GetString(RepairBase_LS,LID_646)/*".jdt"*/){
-					//‰æ‘œî•ñŒÂ”iƒo[ƒWƒ‡ƒ“î•ñ‚Í“Ç‚İ’µ‚Î‚·j
+					//ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½Âï¿½ï¿½iï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í“Ç‚İ’ï¿½ï¿½Î‚ï¿½ï¿½j
 					int ImageCnt;
 					if(GetByte(&NGFile,4,ImageCnt)){
 						ImgCnt[Cnt]	=ImageCnt;
@@ -1342,12 +1351,12 @@ bool RepairBase::CheckJDTFile(QString strNGJ,int Side)
 							for(int i=0;i<ImageCnt;i++){
 								if(!PassByteArray(&NGFile,2))
 									break;
-								//ƒy[ƒW”Ô†‚Ìæ“¾
+								//ï¿½yï¿½[ï¿½Wï¿½Ôï¿½ï¿½Ìæ“¾
 								int iPG;
 								if(!GetByte(&NGFile,4,iPG) || !PassByteArray(&NGFile,20))
 									break;
 								BuffPG[Cnt][i]=iPG;
-								//‰æ‘œƒf[ƒ^‚Ìæ“¾
+								//ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½Ìæ“¾
 								int ImageByte;
 								if(!GetByte(&NGFile,4,ImageByte))
 									break;
@@ -1381,9 +1390,9 @@ bool RepairBase::CheckInsideNGPoint(int X,int Y,int W,int H,int wPG)
 
 void RepairBase::ShowHistoryList(QTableWidget *TableWidget,int MasterCount,QStringList &HeaderLabels,int InsDataDialogFlag)
 {
-	//ŒŸ¸ƒf[ƒ^‚ÌSelectŒ‹‰Ê‚ğ•\¦‚·‚é
+	//ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½Selectï¿½ï¿½ï¿½Ê‚ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(GetShowInsDataMsg()==true){
-		InsDataDialog.setWindowFlags(Qt::WindowStaysOnTopHint);	//í‚É‘O–Ê‚É•\¦
+		InsDataDialog.setWindowFlags(Qt::WindowStaysOnTopHint);	//ï¿½ï¿½ï¿½É‘Oï¿½Ê‚É•\ï¿½ï¿½
 		InsDataDialog.SetDialog(SType,GetRetXMLDataList(Front),GetRetXMLDataList(Back),MasterCount,InsDataDialogFlag);
 		if(MasterCount==1 || InsDataDialogFlag!=0){
 //			InsDataDialog.exec();
@@ -1393,7 +1402,7 @@ void RepairBase::ShowHistoryList(QTableWidget *TableWidget,int MasterCount,QStri
 
 	TableWidget->setUpdatesEnabled(false);
 	if(MasterCount==1){
-		//•\–Ê‚Ì‚İ
+		//ï¿½\ï¿½Ê‚Ì‚ï¿½
 		int XMLDataListCnt;
 		TableWidget->clearContents();
 		TableWidget->setRowCount(XMLDataListCnt=GetRetXMLDataList(SType)->count());
@@ -1425,7 +1434,7 @@ void RepairBase::ShowHistoryList(QTableWidget *TableWidget,int MasterCount,QStri
 		TableWidget->setRowCount(Row);
 	}
 	else{
-		//— •\‘Î‰
+		//ï¿½ï¿½ï¿½\ï¿½Î‰ï¿½
 		for(int i=0;i<MasterCount;i++){
 			SideType	sType;
 			switch(i){
@@ -1451,16 +1460,16 @@ void RepairBase::ShowHistoryList(QTableWidget *TableWidget,int MasterCount,QStri
 	}
 	TableWidget->setUpdatesEnabled(true);
 
-	//ŒÂ•Ğî•ñƒf[ƒ^‚ÌƒZƒbƒg‚Ì‘O‚ÉcbPieceListEditor‚ğdelete
+	//ï¿½Â•Ğï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ÌƒZï¿½bï¿½gï¿½Ì‘Oï¿½ï¿½cbPieceListEditorï¿½ï¿½delete
 	if(cbPieceListEditor!=NULL){
 		delete cbPieceListEditor;
 		cbPieceListEditor=NULL;
 	}
 
-	//ŒÂ•Ğî•ñƒf[ƒ^‚ÌƒZƒbƒg
+	//ï¿½Â•Ğï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ÌƒZï¿½bï¿½g
 	QStringList PieceNameList;
 	if(GetRetPCEDataList(SType)->count()>0){
-		PieceNameList.append(LangSolver.GetString(RepairBase_LS,LID_656)/*""*/);	//ŒÂ•Ğ–¼Ì‚È‚µ‚Ì‚à‚Ì‚ğ—\‚ßŠÜ‚ß‚Ä‚¨‚­
+		PieceNameList.append(LangSolver.GetString(RepairBase_LS,LID_656)/*""*/);	//ï¿½Â•Ğ–ï¿½ï¿½Ì‚È‚ï¿½ï¿½Ì‚ï¿½ï¿½Ì‚ï¿½ï¿½\ï¿½ßŠÜ‚ß‚Ä‚ï¿½ï¿½ï¿½
 	}
 	for(int i=0;i<GetRetPCEDataList(SType)->count();i++){
 ///		QString PieceName=GetString(&GetRetPCEDataList(SType)->at(i),LangSolver.GetString(RepairBase_LS,LID_657)/*"PIECENAME=\"*/#LangSolver.GetString(RepairBase_LS,LID_658)/*","*/\LangSolver.GetString(RepairBase_LS,LID_659)/*""*/);
@@ -1472,10 +1481,10 @@ void RepairBase::ShowHistoryList(QTableWidget *TableWidget,int MasterCount,QStri
 	}
 	SetKohenNameList(SType,&PieceNameList);
 
-	//ƒƒOƒf[ƒ^iƒwƒbƒ_[•”j‚ÌƒZƒbƒg
+	//ï¿½ï¿½ï¿½Oï¿½fï¿½[ï¿½^ï¿½iï¿½wï¿½bï¿½_ï¿½[ï¿½ï¿½ï¿½jï¿½ÌƒZï¿½bï¿½g
 	if(DLL_GetName!=NULL){
 		if(GetRetXMLDataList(SType)->count()>0){
-			//ƒƒbƒg–¼Ì‚ÌƒZƒbƒg
+			//ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½Ì‚ÌƒZï¿½bï¿½g
 			if(GetLotName(SType).isEmpty()){
 				QString LotName;
 				QString StartStr=/**/"<LOT LID=\""
@@ -1483,20 +1492,20 @@ void RepairBase::ShowHistoryList(QTableWidget *TableWidget,int MasterCount,QStri
 									+ /**/"\">";
 				LotName=GetString(&QString(GetRetXMLDataList(SType)->at(0)),StartStr,LangSolver.GetString(RepairBase_LS,LID_664)/*"</LOT>"*/);
 				SetLotName(SType,LotName);
-				//ƒfƒoƒbƒOƒƒOo—Í
+				//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½Oï¿½oï¿½ï¿½
 				WriteDebugLogFile(LangSolver.GetString(RepairBase_LS,LID_665)/*"LOT.No "*/ + GetLotName(SType));
 
-				//Œ»İ‚Ìƒƒbƒg–¼Ì‚ğƒtƒ@ƒCƒ‹‚É•Û‘¶//•sg—p
+				//ï¿½ï¿½ï¿½İ‚Ìƒï¿½ï¿½bï¿½gï¿½ï¿½ï¿½Ì‚ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½É•Û‘ï¿½//ï¿½sï¿½gï¿½p
 				//DLL_SaveLotNameFile(GetLotName(SType));
 
-				//DLL_SetLogInfo("•ií","ƒƒbƒg”Ô†","ã‰º","HD–¼‚ÌƒŠƒXƒg","ŒÂ•Ğ–¼Ì‚ÌƒŠƒXƒg");
+				//DLL_SetLogInfo("ï¿½iï¿½ï¿½","ï¿½ï¿½ï¿½bï¿½gï¿½Ôï¿½","ï¿½ã‰º","HDï¿½ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½g","ï¿½Â•Ğ–ï¿½ï¿½Ì‚Ìƒï¿½ï¿½Xï¿½g");
 				DLL_SetLogInfo(&GetMasterName(SType),&GetLotName(SType),GetMachineRemark(SType),GetHDNameList(SType),GetKohenNameList(SType));
 
-				//—š—ğƒŠƒXƒg‚Ì“à—eiƒ^ƒCƒgƒ‹•”j‚ğƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚é
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½Ì“ï¿½ï¿½eï¿½iï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½
 				DLL_SaveHistoryList(TableWidget,HeaderLabels,true);
 				return;
 			}
-			//DLL_SetLogInfo("•ií","ƒƒbƒg”Ô†","ã‰º","HD–¼‚ÌƒŠƒXƒg","ŒÂ•Ğ–¼Ì‚ÌƒŠƒXƒg");
+			//DLL_SetLogInfo("ï¿½iï¿½ï¿½","ï¿½ï¿½ï¿½bï¿½gï¿½Ôï¿½","ï¿½ã‰º","HDï¿½ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½g","ï¿½Â•Ğ–ï¿½ï¿½Ì‚Ìƒï¿½ï¿½Xï¿½g");
 			DLL_SetLogInfo(&GetMasterName(SType),&GetLotName(SType),GetMachineRemark(SType),GetHDNameList(SType),GetKohenNameList(SType));
 		}
 	}
@@ -1509,13 +1518,13 @@ void RepairBase::xmlMacGet(QByteArray Info, QByteArray &MAC)
 	QDomElement n = d.firstChildElement();
 	while (!n.isNull()) {	
 		if (n.tagName()==LangSolver.GetString(RepairBase_LS,LID_666)/*"IST"*/){
-			MAC=n.attribute(LangSolver.GetString(RepairBase_LS,LID_667)/*"MAC"*/).toLocal8Bit().data();//2:ŒŸ¸‘•’u”Ô†
+			MAC=n.attribute(LangSolver.GetString(RepairBase_LS,LID_667)/*"MAC"*/).toLocal8Bit().data();//2:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½Ôï¿½
 		}
 		return ;
 	}
 }
 
-//ŒÂ•Ğî•ñ•\¦İ’è
+//ï¿½Â•Ğï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½İ’ï¿½
 void RepairBase::SetPieceInfoData(SideType Type)
 {
 	int PCEDataCount=GetRetPCEDataList(Type)->count();
@@ -1558,13 +1567,13 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 //	NGPointList[1].clear();
 	IDXJDT.clear();
 
-	//NGƒŠƒXƒg‚ÌƒNƒŠƒA‚Ì‘O‚ÉcbPieceListEditor‚ğdelete
+	//NGï¿½ï¿½ï¿½Xï¿½gï¿½ÌƒNï¿½ï¿½ï¿½Aï¿½Ì‘Oï¿½ï¿½cbPieceListEditorï¿½ï¿½delete
 	if(cbPieceListEditor!=NULL){
 		delete cbPieceListEditor;
 		cbPieceListEditor=NULL;
 	}
 
-	//VRS—pNGƒŠƒXƒg‚ÌƒNƒŠƒA
+	//VRSï¿½pNGï¿½ï¿½ï¿½Xï¿½gï¿½ÌƒNï¿½ï¿½ï¿½A
 	NGPListForVRS[0].RemoveAll();
 	NGPListForVRS[1].RemoveAll();
 
@@ -1610,7 +1619,7 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 ///	for(BothCnt=0;BothCnt<=BothSide;BothCnt++){
 ///		int RowCnt	=0;
 		RowCnt	=0;
-		QString TagNGI=LangSolver.GetString(RepairBase_LS,LID_671)/*"Init"*/;		//Init:‰Šú’l
+		QString TagNGI=LangSolver.GetString(RepairBase_LS,LID_671)/*"Init"*/;		//Init:ï¿½ï¿½ï¿½ï¿½ï¿½l
 		if(BothCnt==0){
 			if(XMLIndex1==-1){
 				SetListIndex(BothCnt,XMLIndex1);
@@ -1620,7 +1629,7 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 			strXML[BothCnt]=GetRetXMLDataList((SideType)BothCnt)->at(XMLIndex1);
 			SetListIndex(BothCnt,XMLIndex1);
 
-			//ƒfƒoƒbƒOƒƒOo—Í
+			//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½Oï¿½oï¿½ï¿½
 			if(GetOutputXMLData()==true){
 				WriteDebugLogFile(strXML[BothCnt]);
 			}
@@ -1634,7 +1643,7 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 			strXML[BothCnt]=GetRetXMLDataList((SideType)BothCnt)->at(XMLIndex2);
 			SetListIndex(BothCnt,XMLIndex2);
 
-			//ƒfƒoƒbƒOƒƒOo—Í
+			//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½Oï¿½oï¿½ï¿½
 			if(GetOutputXMLData()==true){
 				WriteDebugLogFile(strXML[BothCnt]);
 			}
@@ -1642,20 +1651,20 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 		if(strXML[BothCnt].isEmpty())
 			continue;
 
-		//ID‚ğæ‚èœ‚­
+		//IDï¿½ï¿½ï¿½ï¿½ï¿½èœï¿½ï¿½
 		strXML[BothCnt]=strXML[BothCnt].mid(strXML[BothCnt].indexOf(LangSolver.GetString(RepairBase_LS,LID_672)/*"<IST"*/));
-		//MacID‚Æoffset
+		//MacIDï¿½ï¿½offset
 		MAC=LangSolver.GetString(RepairBase_LS,LID_673)/*""*/;
 		xmlMacGet(strXML[BothCnt], MAC);
 		if(MachineID[BothCnt]!=MAC.toInt()){
-			//OutlineOffset‚Ìæ“¾
+			//OutlineOffsetï¿½Ìæ“¾
 			MachineID[BothCnt]=MAC.toInt();
 			QList<int>	OffsetXList,OffsetYList;
 			if(GetOutlineOffset(MachineID[BothCnt],&OffsetXList,&OffsetYList)==true){
 				for(int i=0; i<Pagenumb && i<OffsetXList.count(); i++){
-					IDataUnit->MImageClassList[SType]->ImageList[i]->OrgOffsetX	=OffsetXList.at(i);	//OutlineOffset‚Ìæ“¾
+					IDataUnit->MImageClassList[SType]->ImageList[i]->OrgOffsetX	=OffsetXList.at(i);	//OutlineOffsetï¿½Ìæ“¾
 					IDataUnit->MImageClassList[SType]->ImageList[i]->OrgOffsetY	=OffsetYList.at(i);
-					IDataUnit->MImageClassList[SType]->ImageList[i]->OffsetX	=(IDataUnit->MImageClassList[SType]->ImageList[i]->OrgOffsetX)>>IDataUnit->MImageClassList[SType]->ImgRate;	//OutlineOffset‚Ìæ“¾
+					IDataUnit->MImageClassList[SType]->ImageList[i]->OffsetX	=(IDataUnit->MImageClassList[SType]->ImageList[i]->OrgOffsetX)>>IDataUnit->MImageClassList[SType]->ImgRate;	//OutlineOffsetï¿½Ìæ“¾
 					IDataUnit->MImageClassList[SType]->ImageList[i]->OffsetY	=(IDataUnit->MImageClassList[SType]->ImageList[i]->OrgOffsetY)>>IDataUnit->MImageClassList[SType]->ImgRate;
 				}
 			}
@@ -1672,7 +1681,7 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 		ISTElement[BothCnt]->Analyze(buff);
 //		delete []buff;
 /*
-		//ƒf[ƒ^‚ÌŠm”F
+		//ï¿½fï¿½[ï¿½^ï¿½ÌŠmï¿½F
 		for(XMLElement *E=ISTElement->GetFirst();E!=NULL;E=E->GetNext()){
 			for(XMLTagAttr *TA=E->StartTag.Attrs.GetFirst();TA!=NULL;TA=TA->GetNext()){
 				QString TAName=TA->AttrName;
@@ -1700,30 +1709,30 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 			return Ret;
 		}
 
-		//NGIƒ^ƒO‚Ì•Û
+		//NGIï¿½^ï¿½Oï¿½Ì•Ûï¿½
 ///		int NGICount=strXML.count("<NGI");
 		NGICount=strXML[BothCnt].count(LangSolver.GetString(RepairBase_LS,LID_678)/*"<NGI"*/);
 		if(NGITagList[BothCnt]!=NULL)
 			delete []NGITagList[BothCnt];
 		NGITagList[BothCnt]=new XMLElement*[NGICount];
 
-		//ARA‚Ìd•¡”
+		//ARAï¿½Ìdï¿½ï¿½ï¿½ï¿½
 		int ARACount=0;
 
-		//.jdtƒtƒ@ƒCƒ‹“à‚Ìƒf[ƒ^‚ğ•Û
+		//.jdtï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ûï¿½
 		XMLElement *E1=NULL;
 ///		int NGICnt=0;
 		NGICnt=0;
 ///		int NGPCount=strXML.count("<NGP");
 		NGPCount=strXML[BothCnt].count(LangSolver.GetString(RepairBase_LS,LID_679)/*"<NGP"*/);
 		if(CheckJDTFile(TagNGJ,BothCnt)){
-			//‰æ‘œƒtƒ@ƒCƒ‹”‚ğ”‚¦‚é
+			//ï¿½æ‘œï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ğ”‚ï¿½ï¿½ï¿½
 //			int SumImgCnt=0;
 			SumImgCnt=0;
 			for(int Cnt=0;Cnt<PNumbForBase;Cnt++){
 				SumImgCnt+=ImgCnt[Cnt];
 			}
-			//NGPƒf[ƒ^‚Ìƒ\[ƒg‘Oˆ—iƒ\[ƒg‚ÍNG‚ÌXÀ•W‚©YÀ•W‚©Ø‚è•Ô‚ê‚é‚æ‚¤‚Éj
+			//NGPï¿½fï¿½[ï¿½^ï¿½Ìƒ\ï¿½[ï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½iï¿½\ï¿½[ï¿½gï¿½ï¿½NGï¿½ï¿½Xï¿½ï¿½ï¿½Wï¿½ï¿½Yï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Ø‚ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½Éj
 			if(NGPTagList[BothCnt]!=NULL)
 				delete []NGPTagList[BothCnt];
 			NGPTagList[BothCnt]=new XMLElement*[NGPCount];
@@ -1737,24 +1746,24 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 			if(SumImgCnt<NGICnt){
 				Ret|=0x20;
 			}
-			//NGPƒRƒ€ƒ\[ƒg
+			//NGPï¿½Rï¿½ï¿½ï¿½\ï¿½[ï¿½g
 			ComSortNGP(NGPCnt,NGPTagList[BothCnt],BothCnt);
-			//NGIƒRƒ€ƒ\[ƒg
+			//NGIï¿½Rï¿½ï¿½ï¿½\ï¿½[ï¿½g
 			ComSortNGI(NGICnt,NGITagList[BothCnt],BothCnt);
 
-			//NGPƒ^ƒOƒf[ƒ^Ši”[ƒNƒ‰ƒX‚Éƒf[ƒ^‚ğ•Û
+			//NGPï¿½^ï¿½Oï¿½fï¿½[ï¿½^ï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½Xï¿½Éƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ûï¿½
 			NGPTagDList[BothCnt]=new NGPTagDataList[NGPCount];
 
-			//oŒ»NGƒ|ƒCƒ“ƒgŠi”[ƒŠƒXƒg
+			//ï¿½oï¿½ï¿½NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½iï¿½[ï¿½ï¿½ï¿½Xï¿½g
 			FindNGCntList[BothCnt]=new bool[NGPCount];
 
-			//‰Šú‰»
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			#pragma omp parallel
 			{
 				#pragma omp for
 				for(int Cnt=0;Cnt<NGPCount;Cnt++){
 ///				for(Cnt=0;Cnt<NGPCount;Cnt++){
-					FindNGCntList[BothCnt][Cnt]=false;	//false‚É‰Šú‰»
+					FindNGCntList[BothCnt][Cnt]=false;	//falseï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½
 
 					for(XMLTagAttr *TA=NGPTagList[BothCnt][Cnt]->StartTag.Attrs.GetFirst();TA!=NULL;TA=TA->GetNext()){
 					    if(strcmp(TA->AttrName->GetString(),LangSolver.GetString(RepairBase_LS,LID_682)/*"X"*/)==0)
@@ -1774,19 +1783,19 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 				}
 			}
 		}
-		//NGƒ|ƒCƒ“ƒgƒf[ƒ^Ši”[ƒNƒ‰ƒX‚Ìì¬
+		//NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½iï¿½[ï¿½Nï¿½ï¿½ï¿½Xï¿½Ìì¬
 		if(NGPList[BothCnt]!=NULL){
 			delete []NGPList[BothCnt];
 		}
 		NGPList[BothCnt]=new NPListPack<NGPointList>[NGICount+ARACount];
 
-		//‰æ‘œ‚È‚µNGƒ|ƒCƒ“ƒgƒf[ƒ^‚Ìíœ
+		//ï¿½æ‘œï¿½È‚ï¿½NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½Ìíœ
 		NGPListForVRS[BothCnt].RemoveAll();
 
 		QString sRAL,sARA;
 		QStringList ARAList;
 
-		//NGƒ`ƒFƒbƒNÏ‚İ‚©‚Ç‚¤‚©‚Ì”»’f<RCH>ƒ^ƒO‚ğŒŸõ
+		//NGï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f<RCH>ï¿½^ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		bool	CheckNG;
 		CheckNG=isCheckedNGPoint(BothCnt);
 
@@ -1811,9 +1820,9 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 				else if(strcmp(TA->AttrName->GetString(),LangSolver.GetString(RepairBase_LS,LID_692)/*"Index"*/)==0)
 					iIndex=TA->iAttrData;
 			}
-			//iIDX‚Ì’l‚ª•s³‚Å‚È‚¢‚©‚Ç‚¤‚©”»’f
+			//iIDXï¿½Ì’lï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Å‚È‚ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½f
 			if(iIDX>=0 && iIDX<PNumbForBase){
-				//iIndex‚Ì’l‚ª•s³‚Å‚È‚¢‚©‚Ç‚¤‚©”»’f
+				//iIndexï¿½Ì’lï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Å‚È‚ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½f
 				if(iIndex>=0 && iIndex<ImgCnt[iIDX]){
 					if(BuffPG[iIDX]==NULL){
 						PG	=iIDX;
@@ -1877,7 +1886,7 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 					continue;
 				}
 
-				//ŒÂ•Ğî•ñ‚Å‚Ì”»•Ê
+				//ï¿½Â•Ğï¿½ï¿½ï¿½ï¿½Å‚Ì”ï¿½ï¿½ï¿½
 				int sARAListCnt=0;
 				if(sARA.isEmpty()==false){
 					if(sARA.contains(',')==true){
@@ -2012,7 +2021,7 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 					if(Y>MaxY)
 						MaxY=Y;
 				}
-///				//NGƒ`ƒFƒbƒNÏ‚İ‚©‚Ç‚¤‚©‚Ì”»’f<RCH>ƒ^ƒO‚ğSELECT
+///				//NGï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f<RCH>ï¿½^ï¿½Oï¿½ï¿½SELECT
 ///				if(CheckNG && !isCheckedNGPoint(PG,X,Y,BothCnt))
 ///					CheckNG=false;
 
@@ -2044,21 +2053,21 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 				Row--;
 			}
 		}
-		//‰æ‘œ‚ ‚è‚ÌŒ”‚Ì•Û
+		//ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½Ì•Ûï¿½
 		if(BothCnt==0){
 			SumFRowCntInImage=RowCnt;
 		}
 		else{
 			SumBRowCntInImage=RowCnt;
 		}
-		//‰æ‘œ‚È‚µ‚Ìê‡‚Ìˆ—
+		//ï¿½æ‘œï¿½È‚ï¿½ï¿½Ìê‡ï¿½Ìï¿½ï¿½ï¿½
 		NextComCnt	=0;
 		for(int BaseCnt=0;BaseCnt<NGPCount;BaseCnt++){
 			if(FindNGCntList[BothCnt][BaseCnt]){
 				continue;
 			}
 
-			//‰æ‘œ‚È‚µƒGƒ‰[ƒtƒ‰ƒO‚ğ—§‚Ä‚é
+			//ï¿½æ‘œï¿½È‚ï¿½ï¿½Gï¿½ï¿½ï¿½[ï¿½tï¿½ï¿½ï¿½Oï¿½ğ—§‚Ä‚ï¿½
 			Ret|=0x20;
 
 //			int BX		=NGPTagDList[BothCnt][BaseCnt].x;
@@ -2102,7 +2111,7 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 				else if(HeaderLabels->at(Col)==LangSolver.GetString(RepairBase_LS,LID_714)/*"wARA"*/)
 					SetDataToTable(TableWidget,SumFRowCnt+RowCnt,Col,sARA);
 			}
-///			//NGƒ`ƒFƒbƒNÏ‚İ‚©‚Ç‚¤‚©‚Ì”»’f<RCH>ƒ^ƒO‚ğSELECT
+///			//NGï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f<RCH>ï¿½^ï¿½Oï¿½ï¿½SELECT
 ///			if(CheckNG && !isCheckedNGPoint(PG,BX,BY,BothCnt)){
 ///				CheckNG=false;
 ///			}
@@ -2131,7 +2140,7 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 				X+=IDataUnitInBase->MImageClassList[BothCnt]->ImageList[wPG]->OrgOffsetX;
 				Y+=IDataUnitInBase->MImageClassList[BothCnt]->ImageList[wPG]->OrgOffsetY;
 
-				//NGƒ|ƒCƒ“ƒg‚ªÅ‰‚Ì“_‚à‚µ‚­‚Í—×Ú‚·‚é“_‚ğŠÜ‚ß‚Ä‚³‚ç‚É•`‰æƒGƒŠƒA“à‚ÉŠÜ‚Ü‚ê‚é‚©‚Ç‚¤‚©‚Ì”»’f
+				//NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Åï¿½ï¿½Ì“_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í—×Ú‚ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Ü‚ß‚Ä‚ï¿½ï¿½ï¿½ï¿½É•`ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ÉŠÜ‚Ü‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f
 				NGPCompair	NGPComp=CompairSortValue(X,Y,wPG,BothCnt);
 				if(NGPComp==Less)
 					continue;
@@ -2148,11 +2157,11 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 					continue;
 				}
 
-				//ŒÂ•Ğî•ñ‚Å‚Ì”»•Ê
+				//ï¿½Â•Ğï¿½ï¿½ï¿½ï¿½Å‚Ì”ï¿½ï¿½ï¿½
 				if(sARA!=wARA)
 					continue;
 
-///				//NGƒ`ƒFƒbƒNÏ‚İ‚©‚Ç‚¤‚©‚Ì”»’f<RCH>ƒ^ƒO‚ğSELECT
+///				//NGï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f<RCH>ï¿½^ï¿½Oï¿½ï¿½SELECT
 ///				if(CheckNG && !isCheckedNGPoint(wPG,X,Y,BothCnt))
 ///					CheckNG=false;
 				if(X<MinX)
@@ -2197,7 +2206,7 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 	TableWidget->setRowCount(SumFRowCnt+SumBRowCnt);
 
 /*		for(int Row=0;FindNGCnt<NGPCount;Row++){
-			//NG‰æ‘œ–³‚µ
+			//NGï¿½æ‘œï¿½ï¿½ï¿½ï¿½
 			bool FirstComming=true;
 			for(int ComCnt=0;ComCnt<NGPCount;ComCnt++){
 				if(FindNGCntList[BothCnt][ComCnt])
@@ -2225,7 +2234,7 @@ int RepairBase::ShowNGList(QTableWidget *TableWidget,int NGCount,int XMLIndex1,i
 						else if(HeaderLabels->at(Col)=="Side")
 							SetDataToTable(TableWidget,SumFRowCnt+RowCnt,Col,BothCnt);
 					}
-					//NGƒ`ƒFƒbƒNÏ‚İ‚©‚Ç‚¤‚©‚Ì”»’f<RCH>ƒ^ƒO‚ğSELECT
+					//NGï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f<RCH>ï¿½^ï¿½Oï¿½ï¿½SELECT
 					if(CheckNG && !isCheckedNGPoint(PG,X,Y,BothCnt))
 						CheckNG=false;
 
@@ -2269,7 +2278,7 @@ void RepairBase::ShowNGListForVRS(QTableWidget *TableWidget,int NGCount,int XMLI
 	TableWidget->setRowCount(NGCount);
 	TableWidget->setColumnCount(HeaderLabels->count());
 
-	//‰Šú‰»ˆ—
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	NGPListForVRS[0].RemoveAll();
 	NGPListForVRS[1].RemoveAll();
 
@@ -2290,7 +2299,7 @@ void RepairBase::ShowNGListForVRS(QTableWidget *TableWidget,int NGCount,int XMLI
 			strXML[BothCnt]=GetRetXMLDataList((SideType)BothCnt)->at(XMLIndex1);
 			SetListIndex(BothCnt,XMLIndex1);
 
-			//ƒfƒoƒbƒOƒƒOo—Í
+			//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½Oï¿½oï¿½ï¿½
 			if(GetOutputXMLData()==true){
 				WriteDebugLogFile(strXML[BothCnt]);
 			}
@@ -2303,7 +2312,7 @@ void RepairBase::ShowNGListForVRS(QTableWidget *TableWidget,int NGCount,int XMLI
 			strXML[BothCnt]=GetRetXMLDataList((SideType)BothCnt)->at(XMLIndex2);
 			SetListIndex(BothCnt,XMLIndex2);
 
-			//ƒfƒoƒbƒOƒƒOo—Í
+			//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½Oï¿½oï¿½ï¿½
 			if(GetOutputXMLData()==true){
 				WriteDebugLogFile(strXML[BothCnt]);
 			}
@@ -2311,21 +2320,21 @@ void RepairBase::ShowNGListForVRS(QTableWidget *TableWidget,int NGCount,int XMLI
 		if(strXML[BothCnt].isEmpty())
 			continue;
 
-		//ID‚ğæ‚èœ‚­
+		//IDï¿½ï¿½ï¿½ï¿½ï¿½èœï¿½ï¿½
 		strXML[BothCnt]=strXML[BothCnt].mid(strXML[BothCnt].indexOf(LangSolver.GetString(RepairBase_LS,LID_715)/*"<IST"*/));
 
-		//MacID‚Æoffset
+		//MacIDï¿½ï¿½offset
 		MAC=LangSolver.GetString(RepairBase_LS,LID_716)/*""*/;
 		xmlMacGet(strXML[BothCnt], MAC);
 		if(MachineID[BothCnt]!=MAC.toInt()){
-			//OutlineOffset‚Ìæ“¾
+			//OutlineOffsetï¿½Ìæ“¾
 			MachineID[BothCnt]=MAC.toInt();
 			QList<int>	OffsetXList,OffsetYList;
 			if(GetOutlineOffset(MachineID[BothCnt],&OffsetXList,&OffsetYList)==true){
 				for(int i=0; i<Pagenumb && i<OffsetXList.count(); i++){
-					IDataUnit->MImageClassList[SType]->ImageList[i]->OrgOffsetX	=OffsetXList.at(i);	//OutlineOffset‚Ìæ“¾
+					IDataUnit->MImageClassList[SType]->ImageList[i]->OrgOffsetX	=OffsetXList.at(i);	//OutlineOffsetï¿½Ìæ“¾
 					IDataUnit->MImageClassList[SType]->ImageList[i]->OrgOffsetY	=OffsetYList.at(i);
-					IDataUnit->MImageClassList[SType]->ImageList[i]->OffsetX	=(IDataUnit->MImageClassList[SType]->ImageList[i]->OrgOffsetX)>>IDataUnit->MImageClassList[SType]->ImgRate;	//OutlineOffset‚Ìæ“¾
+					IDataUnit->MImageClassList[SType]->ImageList[i]->OffsetX	=(IDataUnit->MImageClassList[SType]->ImageList[i]->OrgOffsetX)>>IDataUnit->MImageClassList[SType]->ImgRate;	//OutlineOffsetï¿½Ìæ“¾
 					IDataUnit->MImageClassList[SType]->ImageList[i]->OffsetY	=(IDataUnit->MImageClassList[SType]->ImageList[i]->OrgOffsetY)>>IDataUnit->MImageClassList[SType]->ImgRate;
 				}
 			}
@@ -2348,21 +2357,21 @@ void RepairBase::ShowNGListForVRS(QTableWidget *TableWidget,int NGCount,int XMLI
 			if(strcmp(E->StartTag.TagName->GetString(),LangSolver.GetString(RepairBase_LS,LID_718)/*"NGP"*/)==0)
 				NGPTagList[BothCnt][NGPCnt++]=E;
 		}
-		//NGPƒRƒ€ƒ\[ƒg
+		//NGPï¿½Rï¿½ï¿½ï¿½\ï¿½[ï¿½g
 		ComSortNGP(NGPCnt,NGPTagList[BothCnt],BothCnt);
 
-		//NGPƒ^ƒOƒf[ƒ^Ši”[ƒŠƒXƒg
+		//NGPï¿½^ï¿½Oï¿½fï¿½[ï¿½^ï¿½iï¿½[ï¿½ï¿½ï¿½Xï¿½g
 		NGPTagDList[BothCnt]=new NGPTagDataList[NGPCount];
 
-		//oŒ»NGƒ|ƒCƒ“ƒgŠi”[ƒŠƒXƒg
+		//ï¿½oï¿½ï¿½NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½iï¿½[ï¿½ï¿½ï¿½Xï¿½g
 		FindNGCntList[BothCnt]=new bool[NGPCount];
 
-		//‰Šú‰»
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		#pragma omp parallel
 		{
 			#pragma omp for
 			for(int Cnt=0;Cnt<NGPCount;Cnt++){
-				FindNGCntList[BothCnt][Cnt]=false;	//false‚É‰Šú‰»
+				FindNGCntList[BothCnt][Cnt]=false;	//falseï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½
 
 				for(XMLTagAttr *TA=NGPTagList[BothCnt][Cnt]->StartTag.Attrs.GetFirst();TA!=NULL;TA=TA->GetNext()){
 				    if(strcmp(TA->AttrName->GetString(),LangSolver.GetString(RepairBase_LS,LID_719)/*"X"*/)==0)
@@ -2379,7 +2388,7 @@ void RepairBase::ShowNGListForVRS(QTableWidget *TableWidget,int NGCount,int XMLI
 			}
 		}
 
-		//NGƒ`ƒFƒbƒNÏ‚İ‚©‚Ç‚¤‚©‚Ì”»’f<RCH>ƒ^ƒO‚ğŒŸõ
+		//NGï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f<RCH>ï¿½^ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		bool	CheckNG;
 		CheckNG=isCheckedNGPoint(BothCnt);
 
@@ -2425,7 +2434,7 @@ void RepairBase::ShowNGListForVRS(QTableWidget *TableWidget,int NGCount,int XMLI
 				else if(HeaderLabels->at(Col)==LangSolver.GetString(RepairBase_LS,LID_732)/*"wARA"*/)
 					SetDataToTable(TableWidget,SumFRowCnt+RowCnt,Col,sARA);
 			}
-///			//NGƒ`ƒFƒbƒNÏ‚İ‚©‚Ç‚¤‚©‚Ì”»’f<RCH>ƒ^ƒO‚ğSELECT
+///			//NGï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f<RCH>ï¿½^ï¿½Oï¿½ï¿½SELECT
 ///			if(CheckNG && !isCheckedNGPoint(PG,BX,BY,BothCnt))
 ///				CheckNG=false;
 
@@ -2453,7 +2462,7 @@ void RepairBase::ShowNGListForVRS(QTableWidget *TableWidget,int NGCount,int XMLI
 				X+=IDataUnitInBase->MImageClassList[BothCnt]->ImageList[wPG]->OrgOffsetX;
 				Y+=IDataUnitInBase->MImageClassList[BothCnt]->ImageList[wPG]->OrgOffsetY;
 
-				//NGƒ|ƒCƒ“ƒg‚ªÅ‰‚Ì“_‚à‚µ‚­‚Í—×Ú‚·‚é“_‚ğŠÜ‚ß‚Ä‚³‚ç‚É•`‰æƒGƒŠƒA“à‚ÉŠÜ‚Ü‚ê‚é‚©‚Ç‚¤‚©‚Ì”»’f
+				//NGï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Åï¿½ï¿½Ì“_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í—×Ú‚ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Ü‚ß‚Ä‚ï¿½ï¿½ï¿½ï¿½É•`ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ÉŠÜ‚Ü‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f
 				NGPCompair	NGPComp=CompairSortValue(X,Y,wPG,BothCnt);
 				if(NGPComp==Less)
 					continue;
@@ -2470,7 +2479,7 @@ void RepairBase::ShowNGListForVRS(QTableWidget *TableWidget,int NGCount,int XMLI
 					continue;
 				}
 
-///				//NGƒ`ƒFƒbƒNÏ‚İ‚©‚Ç‚¤‚©‚Ì”»’f<RCH>ƒ^ƒO‚ğSELECT
+///				//NGï¿½`ï¿½Fï¿½bï¿½Nï¿½Ï‚İ‚ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f<RCH>ï¿½^ï¿½Oï¿½ï¿½SELECT
 ///				if(CheckNG && !isCheckedNGPoint(wPG,X,Y,BothCnt))
 ///					CheckNG=false;
 				if(X<MinX)
@@ -2556,7 +2565,7 @@ bool RepairBase::isCheckedNGPoint(int Side)
 
 bool RepairBase::CheckedXML(QString &strAppXML,QString &ErrMsg)
 {
-	//IST“à‚ÉApend
+	//ISTï¿½ï¿½ï¿½ï¿½Apend
 	strAppXML=LangSolver.GetString(RepairBase_LS,LID_734)/*"<RCH></RCH>"*/;
 ///	strAppXML=QString("<RCH WID=\"") + GetWorkerID()
 ///			+ QString("\" PG=\"") + QString::number(PG)
@@ -2592,13 +2601,13 @@ QString RepairBase::CreateFunctionStr(int FKey)
 
 bool RepairBase::DeleteXMLStr(int Side, QString &str)
 {
-	//•\–Êƒf[ƒ^‚©— –Êƒf[ƒ^‚©‚Ì”»’f
+	//ï¿½\ï¿½Êƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Êƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f
 	if(Side==0)
 		strQNO=strQNO1;
 	else
 		strQNO=strQNO2;
 
-	//‘—MƒŠƒXƒg
+	//ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½Xï¿½g
 	QList<QByteArray> list;
 	list.append(str.toLocal8Bit().data());
 
@@ -2616,13 +2625,13 @@ bool RepairBase::DeleteXMLStr(int Side, QString &str)
 //bool RepairBase::CheckedFunction(int KeyNumber,bool FChecked,int DelFKey,QString *strDelTag,QString *strUpTag)
 bool RepairBase::CheckedFunction(int KeyNumber,bool FChecked,int DelFKey,QString *strDelTag,QString *strUpTag,int Side)
 {
-	//•\–Êƒf[ƒ^‚©— –Êƒf[ƒ^‚©‚Ì”»’f
+	//ï¿½\ï¿½Êƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Êƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f
 	if(Side==0)
 		strQNO=strQNO1;
 	else
 		strQNO=strQNO2;
 
-	//ƒtƒ@ƒ“ƒNƒVƒ‡ƒ“ƒL[İ’è‚Ì‘O‹Lq
+	//ï¿½tï¿½@ï¿½ï¿½ï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½[ï¿½İ’ï¿½ï¿½Ì‘Oï¿½Lï¿½q
 	QString wstrTag;
 		wstrTag=QString(/**/"<RFC PG=\"") + QString::number(PG)
 			+ QString(/**/"\" X1=\"") + QString::number(MinX)
@@ -2630,7 +2639,7 @@ bool RepairBase::CheckedFunction(int KeyNumber,bool FChecked,int DelFKey,QString
 			+ QString(/**/"\" X2=\"") + QString::number(MaxX)
 			+ QString(/**/"\" Y2=\"") + QString::number(MaxY)
 			+ QString(/**/"\" FK=\"");
-	//ƒtƒ@ƒ“ƒNƒVƒ‡ƒ“ƒL[ƒf[ƒ^‚ª‚ ‚é‚©‚Ìƒ`ƒFƒbƒN
+	//ï¿½tï¿½@ï¿½ï¿½ï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½[ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ìƒ`ï¿½Fï¿½bï¿½N
 	if(FChecked)
 		*strUpTag=LangSolver.GetString(RepairBase_LS,LID_747)/*""*/;
 	else{
@@ -2733,7 +2742,7 @@ void RepairBase::SetSigmoid(double Volume,int Bright,int BrightArray[])
 	}
 
 	if(Volume==1 || Volume==-1){
-		//Volume‚ª‚P‚Ü‚½‚Í[‚P‚Ì’l‚Ì‚ÍA’¼ü‚ÅƒOƒ‰ƒt‚ğ•\¦
+		//Volumeï¿½ï¿½ï¿½Pï¿½Ü‚ï¿½ï¿½Í[ï¿½Pï¿½Ì’lï¿½Ìï¿½ï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½ÅƒOï¿½ï¿½ï¿½tï¿½ï¿½ï¿½\ï¿½ï¿½
 		for(int i=0;i<=255;i++){
 			BrightArray[i]=i;
 		}
@@ -2741,7 +2750,7 @@ void RepairBase::SetSigmoid(double Volume,int Bright,int BrightArray[])
 	}
 
 	if(Volume>1){
-		//Volume‚ª‚P‚æ‚è‘å‚«‚¢’l‚Ì‚ÍAƒVƒOƒ‚ƒCƒhŠÖ”‚ÅƒOƒ‰ƒt‚ğ•\¦
+		//Volumeï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½lï¿½Ìï¿½ï¿½ÍAï¿½Vï¿½Oï¿½ï¿½ï¿½Cï¿½hï¿½Öï¿½ï¿½ÅƒOï¿½ï¿½ï¿½tï¿½ï¿½ï¿½\ï¿½ï¿½
 		double OffsetY1	=255*(1/(1+pow(Volume,Bright/255.)));
 		double dy1		=OffsetY1/Bright;
 		double OffsetY2	=255*(1/(1+pow(Volume,-(255-Bright)/255.)));
@@ -2756,7 +2765,7 @@ void RepairBase::SetSigmoid(double Volume,int Bright,int BrightArray[])
 		}
 	}
 	else{
-		//Volume‚ª‚P‚æ‚è¬‚³‚¢’l‚Ì‚ÍA‘Î”ŠÖ”‚ÅƒOƒ‰ƒt‚ğ•\¦
+		//Volumeï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½è¬ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½Ìï¿½ï¿½ÍAï¿½Îï¿½ï¿½Öï¿½ï¿½ÅƒOï¿½ï¿½ï¿½tï¿½ï¿½ï¿½\ï¿½ï¿½
 		double Exp=255/log10(256.);
 		for(int i=0;i<=255;i++){
 //			BrightArray[i]=((Exp*(log10((double)(i+1))))-i)*Volume+i;
@@ -2781,7 +2790,7 @@ bool RepairBase::GetOutlineOffset(int MacID,QList<int> *DataX,QList<int> *DataY)
 	MacQuery.addBindValue(MacID);
 	MacQuery.exec();
 	if(MacQuery.next()){
-		//ƒƒOƒf[ƒ^iƒwƒbƒ_[•”j‚Ìˆ×‚Ìî•ñ‚ğæ“¾
+		//ï¿½ï¿½ï¿½Oï¿½fï¿½[ï¿½^ï¿½iï¿½wï¿½bï¿½_ï¿½[ï¿½ï¿½ï¿½jï¿½Ìˆ×‚Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 		if(DLL_GetName!=NULL){
 			if(!MacQuery.value(MacQuery.record().indexOf(LangSolver.GetString(RepairBase_LS,LID_763)/*"REMARK"*/)).isNull())
 				SetMachineRemark(SType,&MacQuery.value(MacQuery.record().indexOf(LangSolver.GetString(RepairBase_LS,LID_764)/*"REMARK"*/)).toString());
@@ -2851,7 +2860,7 @@ bool RepairBase::SaveNGImage(int Both,int Page,int Cnt,QString InsID)
 
 bool RepairBase::SaveNGImage(QTableWidget *W,QStringList *HeaderLabels)
 {
-/*	//NGƒŠƒXƒg‚©‚çNG‰æ‘œ‚ğ•Û‘¶
+/*	//NGï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½NGï¿½æ‘œï¿½ï¿½ï¿½Û‘ï¿½
 	QString strTime=QDateTime::currentDateTime().toString("hhmmss");
 	int RowCnt=W->rowCount();
 	for(int Row=0;Row<RowCnt;Row++){
@@ -2859,7 +2868,7 @@ bool RepairBase::SaveNGImage(QTableWidget *W,QStringList *HeaderLabels)
 		int vSide	=W->item(Row,HeaderLabels->indexOf("Side"))->text().toInt();
 		QString vARA=W->item(Row,HeaderLabels->indexOf("ARA"))->text();
 		if(JDTDataList[vSide]==NULL || vNGI==-1){
-			//NG‰æ‘œ‚ª‚È‚¢ê‡
+			//NGï¿½æ‘œï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡
 			continue;
 		}
 		if(NGITagList[vSide]!=NULL){
@@ -2870,7 +2879,7 @@ bool RepairBase::SaveNGImage(QTableWidget *W,QStringList *HeaderLabels)
 				else if(strcmp(TA->AttrName->GetString(),"Index")==0)
 					vIndex	=TA->iAttrData;
 			}
-			//‰æ‘œƒf[ƒ^iJPEGƒf[ƒ^j
+			//ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½iJPEGï¿½fï¿½[ï¿½^ï¿½j
 			if(JDTDataList[vSide][vIDX]==NULL)
 				continue;
 			if(DLL_SaveNGImage(&JDTDataList[vSide][vIDX][vIndex],&vARA,Row,&strTime)==false)
@@ -2914,7 +2923,7 @@ bool RepairBase::SaveNGImage(QTableWidget *W,QStringList *HeaderLabels)
 		vARA[Row]		=W->item(Row,HeaderLabels->indexOf(LangSolver.GetString(RepairBase_LS,LID_787)/*"wARA"*/))->text();
 		vRealARA[Row]	=W->item(Row,HeaderLabels->indexOf(LangSolver.GetString(RepairBase_LS,LID_788)/*"ARA"*/))->text();
 		if(JDTDataList[vSide[Row]]==NULL || vNGI[Row]==-1){
-			//NG‰æ‘œ‚ª‚È‚¢ê‡
+			//NGï¿½æ‘œï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡
 			continue;
 		}
 		if(NGITagList[vSide[Row]]!=NULL){
@@ -2927,7 +2936,7 @@ bool RepairBase::SaveNGImage(QTableWidget *W,QStringList *HeaderLabels)
 				}
 			}
 			if(vIDX[Row]<0 || vIDX[Row]>=JDTDataListCountPage[iSide] || vIndex[Row]<0 || vIndex[Row]>=JDTDataListCountJpg[vSide[Row]][vIDX[Row]]){
-				//NG‰æ‘œ‚ª‚È‚¢ê‡
+				//NGï¿½æ‘œï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡
 				vIDX[Row]=-1;
 				continue;
 			}
@@ -2939,8 +2948,8 @@ bool RepairBase::SaveNGImage(QTableWidget *W,QStringList *HeaderLabels)
 	return true;
 }
 
-//”’lƒŠƒXƒg‚Ì’†‚Ì”’l‚ğ‚·‚×‚Äƒrƒbƒg‚É‚µ‚Ä•Ô‚·
-//—áF”’lƒŠƒXƒg[2,3,5,6]¨54i=32+16+4+2i110110))
+//ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Xï¿½gï¿½Ì’ï¿½ï¿½Ìï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½×‚Äƒrï¿½bï¿½gï¿½É‚ï¿½ï¿½Ä•Ô‚ï¿½
+//ï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Xï¿½g[2,3,5,6]ï¿½ï¿½54ï¿½i=32+16+4+2ï¿½i110110))
 int RepairBase::GetListNumbers(const QStringList &List)
 {
 	int Ret=0;
@@ -3294,7 +3303,7 @@ QStringList RepairBase::GetPieceNMList(int X,int Y,int W,int H,int Page,int Type
 		if(j==PiecePageList.count()){
 			continue;
 		}
-		//NG‰æ‘œ‚Ìl‹÷‚Å”»’f‚·‚éib’èj
+		//NGï¿½æ‘œï¿½Ìlï¿½ï¿½ï¿½Å”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½iï¿½bï¿½ï¿½ï¿½j
 		if(PieceInfoDataList[Type][i].isInside(X,Y,Page)==true)
 			RetList.append(PieceInfoDataList[Type][i].GetPieceName());
 		else if(PieceInfoDataList[Type][i].isInside(X+W,Y,Page)==true)
@@ -3325,7 +3334,7 @@ QString RepairBase::GetEmptyARA(int X,int Y)
 		if(j==PiecePageList.count()){
 			continue;
 		}
-		//ˆø”‚ÌX,YÀ•W‚©‚çˆê”Ô‹ß‚¢ŒÂ•Ğ‚ğ’²‚×‚é
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½X,Yï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‹ß‚ï¿½ï¿½Â•Ğ‚ğ’²‚×‚ï¿½
 		int Distance=PieceInfoDataList[SType][i].GetDistanceFromCenter(X,Y,IDataUnit->MImageClassList[SType]->ImageList[PieceInfoDataList[SType][i].GetFirstPiecePage()]->OrgOffsetX,IDataUnit->MImageClassList[SType]->ImageList[PieceInfoDataList[SType][i].GetFirstPiecePage()]->OrgOffsetY,IDataUnit->MImageClassList[SType]->ImageList[PieceInfoDataList[SType][i].GetLastPiecePage()]->OrgOffsetX,IDataUnit->MImageClassList[SType]->ImageList[PieceInfoDataList[SType][i].GetLastPiecePage()]->OrgOffsetY);
 		if(Distance==-1){
 			continue;
@@ -3338,24 +3347,24 @@ QString RepairBase::GetEmptyARA(int X,int Y)
 	if(MinimumDistanceInt==-1){
 		return LangSolver.GetString(RepairBase_LS,LID_803)/*""*/;
 	}
-	return PieceInfoDataList[SType][MinimumDistanceInt].GetPieceName() + LangSolver.GetString(RepairBase_LS,LID_804)/*"ŠO"*/;
+	return PieceInfoDataList[SType][MinimumDistanceInt].GetPieceName() + LangSolver.GetString(RepairBase_LS,LID_804)/*"ï¿½O"*/;
 }
 
 bool RepairBase::OpenDebugLogFile(QString OutputDir,QString OutputFileName)
 {
-	//ƒfƒoƒbƒOƒƒOƒtƒ@ƒCƒ‹‚ªOpen‚µ‚Ä‚¢‚éê‡Aclose‚·‚é
+	//ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½Oï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½Openï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Acloseï¿½ï¿½ï¿½ï¿½
 	if(DebugLogFile.isOpen()==true){
 		WriteDebugLogFile(LangSolver.GetString(RepairBase_LS,LID_805)/*"File Close. Next is "*/ + OutputFileName);
 		DebugLogFile.close();
 	}
 
-	//•Û‘¶æ‚Ìİ’è
+	//ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ìİ’ï¿½
 	QString strPath=OutputDir;
 	if(strPath.right(1)!=LangSolver.GetString(RepairBase_LS,LID_806)/*"/"*/){
 		strPath+=LangSolver.GetString(RepairBase_LS,LID_807)/*"/"*/;
 	}
 
-	//•Û‘¶æ‚ÌƒtƒHƒ‹ƒ_‚ª–³‚¯‚ê‚Îì‚é
+	//ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îï¿½ï¿½ï¿½
 	char delim = '/';
 	QStringList dirs = (strPath).split(delim, QString::SkipEmptyParts);
 	QDir dir(dirs[0] + delim);
@@ -3368,7 +3377,7 @@ bool RepairBase::OpenDebugLogFile(QString OutputDir,QString OutputFileName)
 			return false;
 	}
 
-	//•Û‘¶ƒtƒ@ƒCƒ‹–¼‚Ìİ’è
+	//ï¿½Û‘ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ìİ’ï¿½
 	strPath+=OutputFileName + LangSolver.GetString(RepairBase_LS,LID_808)/*".log"*/;
 
 	DebugLogFile.setFileName(strPath);

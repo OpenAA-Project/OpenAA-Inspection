@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2021
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ButtonThresholdResource.h"
 #include "DetailSettingForm.h"
 #include "ButtonThreshold.h"
@@ -26,7 +44,7 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	DefaultLibraryID		=PixelBase->getDefaultLibraryID();
 	BrightnessRange			=PixelBase->getBrightnessRange();
 
-	//‰æ–Ê•\Ž¦
+	//ï¿½ï¿½ï¿½Ê•\ï¿½ï¿½
 	SetNGThresholdP_B			(PixelBase->getNGThresholdP_B());
 	SetNGThresholdP_D			(PixelBase->getNGThresholdP_D());
 	SetNGThresholdS_B			(PixelBase->getNGThresholdS_B());
@@ -57,7 +75,7 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	SetMinimumNGSizeForHole		(PixelBase->getMinimumNGSizeForHole());
 	SetIsCalcPixelInterPoration	(PixelBase->getIsCalcPixelInterPoration());
 
-	//ƒŒƒCƒAƒEƒg
+	//ï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½g
 	gbDetailSettingPY			=ui.gbDetailSettingP		->y();
 	gbDetailSettingPH			=ui.gbDetailSettingP		->height();
 	gbDetailSettingSY			=ui.gbDetailSettingS		->y();
@@ -86,7 +104,7 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	H							=height();
 	SetLayout();
 
-	//ƒ{ƒ^ƒ“
+	//ï¿½{ï¿½^ï¿½ï¿½
 	QImage DecisionImage(ParentWidget->DecisionImageBmpFile[((ButtonThreshold *)GUIBase)->LanguageCode]);
 	BtnDecision=new mtImageToolButton(ui.lbDecision,false);
 	BtnDecision->setImageBmp(DecisionImage);
@@ -162,16 +180,16 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	connect(ui.pbSaveInsParam	,SIGNAL(clicked()),this,SLOT(pbSaveInsParamClicked()));
 	connect(ui.pbLoadInsParam	,SIGNAL(clicked()),this,SLOT(pbLoadInsParamClicked()));
 
-	//‰æ–Ê•\Ž¦iƒVƒOƒiƒ‹‚ª”ò‚Ô‚æ‚¤‚Éconnect‚ÌŒã‚ÉÝ’èj
+	//ï¿½ï¿½ï¿½Ê•\ï¿½ï¿½ï¿½iï¿½Vï¿½Oï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚æ‚¤ï¿½ï¿½connectï¿½ÌŒï¿½ï¿½ÉÝ’ï¿½ï¿½j
 	SetCheckPadIns				(PixelBase->getCheckPadIns());
 	SetCheckSilkIns				(PixelBase->getCheckSilkIns());
 	SetCheckResistIns			(PixelBase->getCheckResistIns());
 	SetCheckHoleIns				(PixelBase->getCheckHoleIns());
 
-	//“§‰ßˆ—
+	//ï¿½ï¿½ï¿½ßï¿½ï¿½ï¿½
 ///	setWindowOpacity(0.5);
 /*
-	//ƒpƒŒƒbƒg‚ðÝ’è‚µautoFillBackground‚ð—˜—p‚µ‚Ä“§–¾F‚Å“h‚è‚Â‚Ô‚·
+	//ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½Ý’è‚µautoFillBackgroundï¿½ð—˜—pï¿½ï¿½ï¿½Ä“ï¿½ï¿½ï¿½ï¿½Fï¿½Å“hï¿½ï¿½ï¿½Â‚Ô‚ï¿½
 	QPalette palette;
 	palette.setColor(QPalette::Window, QColor(255, 255, 255, 128));
 	setPalette(palette);
@@ -180,10 +198,10 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	//setAttribute
 ///	setAttribute(Qt::WA_TransparentForMouseEvents);
 
-	//‰æ–Ê•\Ž¦•”‚ÌŒ¾Œê‘Î‰ž
+	//ï¿½ï¿½ï¿½Ê•\ï¿½ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½Î‰ï¿½
 	LangSolver.SetUI(this);
 /*
-	//ƒXƒ^ƒCƒ‹ƒV[ƒg
+	//ï¿½Xï¿½^ï¿½Cï¿½ï¿½ï¿½Vï¿½[ï¿½g
 //	ui.gbDetailSetting	->setStyleSheet("border-style: dot-dot-dash;font-size: 12pt;");
 	ui.gbDetailSetting	->setStyleSheet(QGroupBox().styleSheet());
 	ui.pbSaveInsParam	->setStyleSheet(QPushButton().styleSheet());
@@ -571,7 +589,7 @@ void DetailSettingForm::pbSaveInsParamClicked()
 		DefaultFileName=((ButtonThreshold *)ParentWidget->GUIBase)->GetLoadParamFilePath();
 	}
 
-	//ŒŸ¸ƒpƒ‰ƒ[ƒ^‚Ì•Û‘¶
+	//ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Ì•Û‘ï¿½
 	QString InsParamFilePath=QFileDialog::getSaveFileName(
 							this,LangSolver.GetString(DetailSettingForm_LS,LID_0)/*"Please save a Inspection setting parameter file."*/,DefaultFileName,/**/"Inspection setting parameter file (*.dat)");
 	if(InsParamFilePath.isEmpty()){
@@ -697,7 +715,7 @@ void DetailSettingForm::pbLoadInsParamClicked()
 				MsgBox.setText	("Found more than one file."
 								+ FilePathText);
 				MsgBox.addButton(/**/"OK",QMessageBox::AcceptRole);
-				MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//í‚É‘O–Ê‚É•\Ž¦
+				MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//ï¿½ï¿½ï¿½É‘Oï¿½Ê‚É•\ï¿½ï¿½
 				MsgBox.exec();
 			}
 			DefaultFilePath=FilePathList.last();
@@ -708,12 +726,12 @@ void DetailSettingForm::pbLoadInsParamClicked()
 //			MsgBox.setFont	(font1[LanguageCode]);
 			MsgBox.setText	("File not found.");
 			MsgBox.addButton(/**/"OK",QMessageBox::AcceptRole);
-			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//í‚É‘O–Ê‚É•\Ž¦
+			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//ï¿½ï¿½ï¿½É‘Oï¿½Ê‚É•\ï¿½ï¿½
 			MsgBox.exec();
 		}
 	}
 
-	//ŒŸ¸ƒpƒ‰ƒ[ƒ^‚Ì“Çž
+	//ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Ì“Çï¿½
 	QString InsParamFilePath=QFileDialog::getOpenFileName(
 							this,LangSolver.GetString(DetailSettingForm_LS,LID_2)/*"Please choose a Inspection setting parameter file."*/,DefaultFilePath,/**/"Inspection setting parameter file (*.dat)");
 	if(InsParamFilePath.isEmpty()){
@@ -728,7 +746,7 @@ void DetailSettingForm::pbLoadInsParamClicked()
 //			MsgBox.setFont	(font1[LanguageCode]);
 			MsgBox.setText	("File is wrong.");
 			MsgBox.addButton(/**/"OK",QMessageBox::AcceptRole);
-			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//í‚É‘O–Ê‚É•\Ž¦
+			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//ï¿½ï¿½ï¿½É‘Oï¿½Ê‚É•\ï¿½ï¿½
 			MsgBox.exec();
 		}
 	}
@@ -775,7 +793,7 @@ void DetailSettingForm::pbLoadInsParamClicked()
 				((ButtonThreshold *)ParentWidget->GUIBase)->wMinimumNGSizeP=Param.toInt();
 				CheckBit|=0x80;
 			}
-			///////////«‹Œƒo[ƒWƒ‡ƒ“è‡’l‘Î‰ž«///////////
+			///////////ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½è‡’lï¿½Î‰ï¿½ï¿½ï¿½///////////
 			else if(ParamName==/**/"NGThreshold2"){
 				((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdR_B=((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdR_D=Param.toDouble();
 				CheckBit|=0x40;
@@ -794,7 +812,7 @@ void DetailSettingForm::pbLoadInsParamClicked()
 				((ButtonThreshold *)ParentWidget->GUIBase)->wMinimumNGSizeH=Param.toInt();
 				CheckBit|=0x800000;
 			}
-			///////////ª‹Œƒo[ƒWƒ‡ƒ“è‡’l‘Î‰žª///////////
+			///////////ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½è‡’lï¿½Î‰ï¿½ï¿½ï¿½///////////
 			else if(ParamName==/**/"DoneResistIns"){
 				((ButtonThreshold *)ParentWidget->GUIBase)->wDoneResistIns=Param.toInt();
 				CheckBit|=0x100;
@@ -915,13 +933,13 @@ void DetailSettingForm::pbLoadInsParamClicked()
 		}
 		File.close();
 
-		//CheckBit‚Ìƒ`ƒFƒbƒN
+		//CheckBitï¿½Ìƒ`ï¿½Fï¿½bï¿½N
 		if((CheckBit&0x01)==0){
 			QMessageBox MsgBox;
 //			MsgBox.setFont	(font1[LanguageCode]);
 			MsgBox.setText	("File is wrong.");
 			MsgBox.addButton(/**/"OK",QMessageBox::AcceptRole);
-			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//í‚É‘O–Ê‚É•\Ž¦
+			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//ï¿½ï¿½ï¿½É‘Oï¿½Ê‚É•\ï¿½ï¿½
 			MsgBox.exec();
 			return;
 		}
@@ -941,25 +959,25 @@ void DetailSettingForm::pbLoadInsParamClicked()
 				((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdForHole_D	=((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdForResist_D;
 				((ButtonThreshold *)ParentWidget->GUIBase)->wMinimumNGSizeForHole	=((ButtonThreshold *)ParentWidget->GUIBase)->wMinimumNGSizeForResist;
 			}
-			//ƒfƒtƒHƒ‹ƒg‚©‚ç•ÏX‚³‚ê‚Ä‚¢‚éê‡‚à‚ ‚é‚Ì‚ÅAƒfƒtƒHƒ‹ƒg‚É‹­§“I‚ÉÝ’è‚·‚é
+			//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅAï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½É‹ï¿½ï¿½ï¿½ï¿½Iï¿½ÉÝ’è‚·ï¿½ï¿½
 			if((CheckBit&0x80000)==0 || (CheckBit&0x1000000)==0){
 				((ButtonThreshold *)ParentWidget->GUIBase)->wCheckPadIns	=true;
 				((ButtonThreshold *)ParentWidget->GUIBase)->wCheckSilkIns	=true;
 				((ButtonThreshold *)ParentWidget->GUIBase)->wCheckResistIns	=true;
 				((ButtonThreshold *)ParentWidget->GUIBase)->wCheckHoleIns	=true;
 				if(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel>10){
-					ParentWidget->SetInspectionLevel(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel);	//ŒŸ¸ƒŒƒxƒ‹‚ÌÝ’è
+					ParentWidget->SetInspectionLevel(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel);	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ÌÝ’ï¿½
 				}
 				else{
-					ParentWidget->SetImageSlider(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel);		//ŒŸ¸ƒŒƒxƒ‹‚ÌÝ’è
+					ParentWidget->SetImageSlider(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel);		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ÌÝ’ï¿½
 				}
 			}
 			else{
-				ParentWidget->SetImageSlider(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel);			//ŒŸ¸ƒŒƒxƒ‹‚ÌÝ’è
+				ParentWidget->SetImageSlider(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel);			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ÌÝ’ï¿½
 			}
 		}
 
-		//‰æ–ÊÝ’è
+		//ï¿½ï¿½ï¿½ÊÝ’ï¿½
 		ui.dsbNGThresholdP_B			->setValue	(((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdP_B);
 		ui.dsbNGThresholdP_D			->setValue	(((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdP_D);
 		ui.dsbNGThresholdS_B			->setValue	(((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdS_B);
@@ -1038,7 +1056,7 @@ void DetailSettingForm::SlotBtnDecisionClicked()
 	PixelBase->setMinimumNGSizeForHole		(ui.sbMinimumNGSizeForHole		->value());
 	PixelBase->setIsCalcPixelInterPoration	(ui.chbIsCalcPixelInterPoration	->isChecked());
 
-	//ƒpƒ‰ƒ[ƒ^‚É•Û‘¶
+	//ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½É•Û‘ï¿½
 	GUIBase->GetLayersBase()->WriteAllSettingFiles();
 
 	//Check

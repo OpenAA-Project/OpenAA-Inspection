@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2012
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef LOGINTEGRATOR_PACK_H
 #define LOGINTEGRATOR_PACK_H
 #include "NList.h"
@@ -36,7 +54,7 @@ public:
 	QString HDName;
 	QString NgNo;
 	QString NgResult;
-	//int nCnt;	//“‡‚µ‚½”AIntegratePropertyŠÖ”‚ÅƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚é
+	//int nCnt;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½AIntegratePropertyï¿½Öï¿½ï¿½ÅƒCï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	clsLogItem *AnotherItem;
 
 	clsLogResultContainer NgLst;

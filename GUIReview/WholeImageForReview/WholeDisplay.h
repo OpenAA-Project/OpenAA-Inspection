@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "mtGraphicUnit.h"
@@ -174,24 +192,24 @@ public:
 	qreal zoomRate(){
 		qreal ret;
 		if(getCurrentViewRect().isEmpty()==true){
-			// ‘S‘Ì‰æ‘œ
+			// ï¿½Sï¿½Ì‰æ‘œ
 			QSize size = getWholeImageOrgSize();
-			QRect rect(QPoint(0,0), size);// ‘S‘Ì‰æ‘œ‚Ì‹éŒ`‰»
-			QRect rrect = Review::rotateRect(rect, rotate());// ‰ñ“]
+			QRect rect(QPoint(0,0), size);// ï¿½Sï¿½Ì‰æ‘œï¿½Ì‹ï¿½ï¿½`ï¿½ï¿½
+			QRect rrect = Review::rotateRect(rect, rotate());// ï¿½ï¿½ï¿½]
 			QSize rsize = rrect.size();
-			rsize.scale(GetCanvas()->size(), Qt::KeepAspectRatio);// ‰ñ“]‚µ‚½ƒTƒCƒY‚ÅƒLƒƒƒ“ƒoƒXƒTƒCƒY‚Ö’²®
+			rsize.scale(GetCanvas()->size(), Qt::KeepAspectRatio);// ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ÅƒLï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Xï¿½Tï¿½Cï¿½Yï¿½Ö’ï¿½ï¿½ï¿½
 			QRect srrect = QRect(QPoint(0,0), rsize);
-			QSize ssrsize = Review::rotateRect(srrect, -rotate()).size();// ‹t‰ñ“]‚µ‚Ä‰ñ“]‚È‚µ‚Ìó‘Ô‚É–ß‚·
+			QSize ssrsize = Review::rotateRect(srrect, -rotate()).size();// ï¿½tï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½Ä‰ï¿½ï¿½]ï¿½È‚ï¿½ï¿½Ìï¿½ï¿½Ô‚É–ß‚ï¿½
 
 			ret = ssrsize.width() / (qreal)getWholeImageOrgSize().width();
 		}else{
 			QSize size = getCurrentViewRect().size();
-			QRect rect(QPoint(0,0), size);// ‘S‘Ì‰æ‘œ‚Ì‹éŒ`‰»
-			QRect rrect = Review::rotateRect(rect, rotate());// ‰ñ“]
+			QRect rect(QPoint(0,0), size);// ï¿½Sï¿½Ì‰æ‘œï¿½Ì‹ï¿½ï¿½`ï¿½ï¿½
+			QRect rrect = Review::rotateRect(rect, rotate());// ï¿½ï¿½ï¿½]
 			QSize rsize = rrect.size();
-			rsize.scale(GetCanvas()->size(), Qt::KeepAspectRatio);// ‰ñ“]‚µ‚½ƒTƒCƒY‚ÅƒLƒƒƒ“ƒoƒXƒTƒCƒY‚Ö’²®
+			rsize.scale(GetCanvas()->size(), Qt::KeepAspectRatio);// ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ÅƒLï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Xï¿½Tï¿½Cï¿½Yï¿½Ö’ï¿½ï¿½ï¿½
 			QRect srrect = QRect(QPoint(0,0), rsize);
-			QSize ssrsize = Review::rotateRect(srrect, -rotate()).size();// ‹t‰ñ“]‚µ‚Ä‰ñ“]‚È‚µ‚Ìó‘Ô‚É–ß‚·
+			QSize ssrsize = Review::rotateRect(srrect, -rotate()).size();// ï¿½tï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½Ä‰ï¿½ï¿½]ï¿½È‚ï¿½ï¿½Ìï¿½ï¿½Ô‚É–ß‚ï¿½
 
 			ret = ssrsize.width() / (qreal)getCurrentViewRect().width();
 		}
@@ -233,26 +251,26 @@ private:
 	bool			m_DragIsActive;
 	QPoint			m_DragTopLeftPos;
 	QPoint			m_DragCurrentMousePos;
-	HistoryItem		m_History;// —š—ğƒf[ƒ^
-	QList<QPoint>	m_OutlineOffset;// ƒAƒEƒgƒ‰ƒCƒ“î•ñ
-	int				m_NGNailSelectIndex;// Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éNGNailƒCƒ“ƒfƒbƒNƒX
-	QColor			m_NGSingDefaultColor;// NG•\¦‚ÌƒfƒtƒHƒ‹ƒgƒJƒ‰[
-	QColor			m_NGSingCurrentColor;// ‘I‘ğNG•\¦‚ÌƒJƒ‰[
-	QImage			m_WholeImage;// ‘S‘Ì‰æ‘œ
-	QImage			m_WholeImageView;// ‘S‘Ì‰æ‘œ‚Ì•\¦•”•ª
-	QSize			m_NGImageSize;// NG‰æ‘œ‚ÌƒTƒCƒY
-	int				m_currentIndex;// Œ»İ‘I‘ğ’†‚ÌNG‚ÌƒCƒ“ƒfƒbƒNƒX
-	bool			m_currentNGRectVisible;// Œ»İ‘I‘ğ’†‚ÌNG‚Ì‹éŒ`•`‰æƒtƒ‰ƒO
-	bool			m_currentNGCrossView;// Œ»İ‘I‘ğ’†‚ÌNG‚ğ’†S‚Æ‚µ‚½\š‚ğ•\¦‚·‚éƒtƒ‰ƒO
-	bool			m_NGPointView;// NG‚ğ“_‚Å•\¦‚·‚éƒtƒ‰ƒO
-	bool			m_currentNGRectOnlyView;// Œ»İ‘I‘ğ’†‚ÌNG‚Ì‚İ‹éŒ`•`‰æƒtƒ‰ƒO
-	QSize			m_WholeImageOrgSize;// Œ³‰æ‘œ‚Ì‘S‘ÌƒTƒCƒY
-	int				m_phase;// ƒtƒFƒCƒY”Ô†
-	Review::SideType m_side;// ƒTƒCƒh
-	QRect			m_currentViewRect;// ‘S‘ÌƒTƒCƒY‚Ì‚¤‚¿AŒ»İ•\¦‚µ‚Ä‚¢‚éƒTƒCƒY
+	HistoryItem		m_History;// ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
+	QList<QPoint>	m_OutlineOffset;// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int				m_NGNailSelectIndex;// ï¿½ï¿½ï¿½İ‘Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½NGNailï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X
+	QColor			m_NGSingDefaultColor;// NGï¿½\ï¿½ï¿½ï¿½Ìƒfï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Jï¿½ï¿½ï¿½[
+	QColor			m_NGSingCurrentColor;// ï¿½Iï¿½ï¿½NGï¿½\ï¿½ï¿½ï¿½ÌƒJï¿½ï¿½ï¿½[
+	QImage			m_WholeImage;// ï¿½Sï¿½Ì‰æ‘œ
+	QImage			m_WholeImageView;// ï¿½Sï¿½Ì‰æ‘œï¿½Ì•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	QSize			m_NGImageSize;// NGï¿½æ‘œï¿½ÌƒTï¿½Cï¿½Y
+	int				m_currentIndex;// ï¿½ï¿½ï¿½İ‘Iï¿½ğ’†‚ï¿½NGï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½X
+	bool			m_currentNGRectVisible;// ï¿½ï¿½ï¿½İ‘Iï¿½ğ’†‚ï¿½NGï¿½Ì‹ï¿½ï¿½`ï¿½`ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
+	bool			m_currentNGCrossView;// ï¿½ï¿½ï¿½İ‘Iï¿½ğ’†‚ï¿½NGï¿½ğ’†Sï¿½Æ‚ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
+	bool			m_NGPointView;// NGï¿½ï¿½ï¿½_ï¿½Å•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
+	bool			m_currentNGRectOnlyView;// ï¿½ï¿½ï¿½İ‘Iï¿½ğ’†‚ï¿½NGï¿½Ì‚İ‹ï¿½ï¿½`ï¿½`ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
+	QSize			m_WholeImageOrgSize;// ï¿½ï¿½ï¿½æ‘œï¿½Ì‘Sï¿½ÌƒTï¿½Cï¿½Y
+	int				m_phase;// ï¿½tï¿½Fï¿½Cï¿½Yï¿½Ôï¿½
+	Review::SideType m_side;// ï¿½Tï¿½Cï¿½h
+	QRect			m_currentViewRect;// ï¿½Sï¿½ÌƒTï¿½Cï¿½Yï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½İ•\ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Tï¿½Cï¿½Y
 	PCEList			m_PCEList;
 	double			m_PCENameViewThreshold;
-	int				m_Rotate;// ‰æ‘œ‚Ì•`‰æ‰ñ“]“x(deg)
+	int				m_Rotate;// ï¿½æ‘œï¿½Ì•`ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½x(deg)
 };
 
 class WholeDisplay : public QWidget
@@ -263,18 +281,18 @@ public:
 	WholeDisplay(ReviewPIBase *p ,Review::SideType side, int phase, QWidget *parent=NULL)
 		:QWidget(parent),m_mainLayout(new QVBoxLayout),m_infoLabel(new QLabel),m_display(new WholeDisplay_impl(p,side, phase, this))
 	{
-		// ©“®ƒŒƒCƒAƒEƒg‚É‚¨‚¯‚éLkİ’è
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½gï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½kï¿½İ’ï¿½
 		m_infoLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 		m_display->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-		// ˜g‚Ì•\¦İ’è
+		// ï¿½gï¿½Ì•\ï¿½ï¿½ï¿½İ’ï¿½
 		m_infoLabel->setFrameShape(QFrame::Shape::Box);
 		m_infoLabel->setFrameShadow(QFrame::Shadow::Plain);
 
-		// •¶š—ñ•\¦ƒAƒ‰ƒCƒƒ“ƒgİ’è
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½İ’ï¿½
 		m_infoLabel->setAlignment(Qt::AlignCenter);
 
-		// ƒŒƒCƒAƒEƒg‚É’Ç‰Á
+		// ï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½gï¿½É’Ç‰ï¿½
 		m_mainLayout->addWidget(m_infoLabel);
 		m_mainLayout->addWidget(m_display);
 		

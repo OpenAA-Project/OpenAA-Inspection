@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XDataBaseReal.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #include "XDateTime.h"
@@ -34,7 +43,7 @@ void __G_XUpdateDatabase(QSqlDatabase &DBase ,QString HostName ,QString UserName
 						,QString TransIP ,int TransPort)
 {
 	LockDB();
-	DBase=QSqlDatabase::addDatabase("QIBASE"); // ƒhƒ‰ƒCƒo–¼‚Í QIBASE
+	DBase=QSqlDatabase::addDatabase("QIBASE"); // ï¿½hï¿½ï¿½ï¿½Cï¿½oï¿½ï¿½ï¿½ï¿½ QIBASE
 
 	//QString	ConStr=QString("Regulus64Connection")+QString::number(ConnectionNumber);
 	//ConnectionNumber++;
@@ -1035,7 +1044,7 @@ bool    __G_XUpdateDatabaseChange(QSqlDatabase &DBase ,QStringList &MismatchList
 			}
 		}
 		LockDB();
-        //Žc‚Á‚Ä‚¢‚éƒeƒ“ƒ|ƒ‰ƒŠƒtƒB[ƒ‹ƒh‚ðíœ
+        //ï¿½cï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½eï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½íœ
 		if(QrField.first()==true){
             do{
 				QString  FldName =QrField.record().value("RDB$FIELD_NAME").toString().simplified();
@@ -1074,7 +1083,7 @@ bool    __G_XUpdateDatabaseChange(QSqlDatabase &DBase ,QStringList &MismatchList
 								bool	tRet2=f->CheckNull(x,&QrField ,MismatchList);
 								LockDB();
                                 if(tRet1==false || tRet2==false){
-                                    //ƒtƒB[ƒ‹ƒh•ÏX
+                                    //ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ÏX
 									QrExe.exec(QString("ALTER TABLE ")
 												+x->Name
                                                 +QString(" ADD ")
@@ -1477,4 +1486,3 @@ bool	__G_LocalDatabaseBasicClassDisconnect(QSqlDatabase &DBase)
 	UnlockDB();
 	return true;
 }
-

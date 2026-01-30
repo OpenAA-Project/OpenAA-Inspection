@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "ResultDataManagerResource.h"
 #include "ManageByLot.h"
 #include "ui_ManageByLot.h"
@@ -309,16 +327,16 @@ ManageByLot::ManageByLot(LayersBase *Base ,ResultDataManagerParam *Param ,QWidge
 
 	if(XMLServer->Open()==false){
 		QMessageBox::warning(this, /**/"Check:XMLServer"
-								, LangSolver.GetString(ManageByLot_LS,LID_8)/*"XMLServer‚ÉÚ‘±‚Å‚«‚È‚¢"*/);
+								, LangSolver.GetString(ManageByLot_LS,LID_8)/*"XMLServerï¿½ÉÚ‘ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½"*/);
 	}
 
 	SQLDatabase=GetLayersBase()->GetDatabaseLoader();
 
 	if(GetLayersBase()->GetDatabase().tables().isEmpty()){
 		QMessageBox::warning(this, /**/"Check:Database"
-						, LangSolver.GetString(ManageByLot_LS,LID_9)/*"ƒf[ƒ^ƒx[ƒXˆÙí"*/
+						, LangSolver.GetString(ManageByLot_LS,LID_9)/*"ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Ùï¿½"*/
 						+ QString(/**/"\n") 
-						+ LangSolver.GetString(ManageByLot_LS,LID_10)/*"ƒe[ƒuƒ‹‚ğŠJ‚¯‚È‚¢"*/);
+						+ LangSolver.GetString(ManageByLot_LS,LID_10)/*"ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½È‚ï¿½"*/);
 	}
 
 	MListView=NULL;
@@ -404,19 +422,19 @@ ManageByLot::ManageByLot(LayersBase *Base ,ResultDataManagerParam *Param ,QWidge
 	ui->tableWidgetLot->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
 	ui->tableWidgetInspection->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
 	
-	hhLotHeaderList << LangSolver.GetString(ManageByLot_LS,LID_11)/*"ƒƒbƒgƒtƒ@ƒCƒ‹–¼"*/
-					<< LangSolver.GetString(ManageByLot_LS,LID_12)/*"ƒƒbƒg–¼"*/ 
-					<< LangSolver.GetString(ManageByLot_LS,LID_13)/*"ŠJnŒŸ¸ŠÔ"*/ 
-					<< LangSolver.GetString(ManageByLot_LS,LID_14)/*"I—¹ŒŸ¸ŠÔ"*/
-					<< LangSolver.GetString(ManageByLot_LS,LID_15)/*"ŒŸ¸”"*/;
+	hhLotHeaderList << LangSolver.GetString(ManageByLot_LS,LID_11)/*"ï¿½ï¿½ï¿½bï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½"*/
+					<< LangSolver.GetString(ManageByLot_LS,LID_12)/*"ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½"*/ 
+					<< LangSolver.GetString(ManageByLot_LS,LID_13)/*"ï¿½Jï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"*/ 
+					<< LangSolver.GetString(ManageByLot_LS,LID_14)/*"ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"*/
+					<< LangSolver.GetString(ManageByLot_LS,LID_15)/*"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"*/;
 	ui->tableWidgetLot->setHorizontalHeaderLabels(hhLotHeaderList);
 
 	on_cbShowInspectFirstEndTime_stateChanged(Qt::CheckState::Unchecked);
 	on_cbShowInspectionCount_stateChanged(Qt::CheckState::Unchecked);
 
-	hhInsHeaderList << LangSolver.GetString(ManageByLot_LS,LID_16)/*"ŒŸ¸”Ô†"*/
-					<< LangSolver.GetString(ManageByLot_LS,LID_17)/*"“ú"*/
-					<< LangSolver.GetString(ManageByLot_LS,LID_18)/*"ŒŸ¸Œ‹‰Ê"*/;
+	hhInsHeaderList << LangSolver.GetString(ManageByLot_LS,LID_16)/*"ï¿½ï¿½ï¿½ï¿½ï¿½Ôï¿½"*/
+					<< LangSolver.GetString(ManageByLot_LS,LID_17)/*"ï¿½ï¿½ï¿½ï¿½"*/
+					<< LangSolver.GetString(ManageByLot_LS,LID_18)/*"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"*/;
 	ui->tableWidgetInspection->setHorizontalHeaderLabels(hhInsHeaderList);
 
 	connect(ui->tableWidgetLot->verticalScrollBar(), SIGNAL(valueChanged(int)), SLOT(SlotResizeHorizontalItemWidth()));
@@ -773,7 +791,7 @@ void ManageByLot::on_pushButtonDeleteLot_clicked()
 	if(deleteTableList.isEmpty()==false){
 		if(XMLServer->IsConnected(0)==false && XMLServer->Open()==false){
 			QMessageBox::warning(this, /**/"XMLServerError"
-										,LangSolver.GetString(ManageByLot_LS,LID_19)/*"ƒƒbƒgƒf[ƒ^‚ğíœ‚Å‚«‚È‚¢"*/);
+										,LangSolver.GetString(ManageByLot_LS,LID_19)/*"ï¿½ï¿½ï¿½bï¿½gï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½íœï¿½Å‚ï¿½ï¿½È‚ï¿½"*/);
 			return;
 		}else{
 			for(int i=0; i<deleteTableList.count(); i++){
@@ -791,7 +809,7 @@ void ManageByLot::on_pushButtonDeleteLot_clicked()
 void ManageByLot::on_pushButtonDeleteAll_clicked()
 {
 	QProgressDialog progress;
-	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_20)/*"•\¦’†‚Ì‘Sƒƒbƒg‚ğíœ’†"*/);
+	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_20)/*"ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Ì‘Sï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½íœï¿½ï¿½"*/);
 	progress.setRange(0, CurrentAllLots.count());
 	progress.setModal(true);
 
@@ -876,7 +894,7 @@ void ManageByLot::on_pushButtonDeleteAll_clicked()
 	if(deleteTableList.isEmpty()==false){
 		if(XMLServer->GetState()==false && XMLServer->Open()==false){
 			QMessageBox::warning(this, /**/"XMLServerError"
-										, LangSolver.GetString(ManageByLot_LS,LID_21)/*"ƒƒbƒgƒf[ƒ^‚ğíœ‚Å‚«‚È‚¢"*/);
+										, LangSolver.GetString(ManageByLot_LS,LID_21)/*"ï¿½ï¿½ï¿½bï¿½gï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½íœï¿½Å‚ï¿½ï¿½È‚ï¿½"*/);
 			return;
 		}else{
 			for(int i=0; i<deleteTableList.count(); i++){
@@ -921,7 +939,7 @@ void ManageByLot::ShowAllInspect(LotInfo *w)
 {
 	if(XMLServer->GetState()==false && XMLServer->Open()==false){
 		QMessageBox::warning(this, /**/"XMLServerError"
-								, LangSolver.GetString(ManageByLot_LS,LID_22)/*"XMLServer‚ÉÚ‘±‚Å‚«‚È‚¢"*/);
+								, LangSolver.GetString(ManageByLot_LS,LID_22)/*"XMLServerï¿½ÉÚ‘ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½"*/);
 		return;
 	}
 
@@ -960,7 +978,7 @@ void ManageByLot::on_pushButtonDeleteLines_clicked()
 	if(Row>=0){
 		if(XMLServer->GetState()==false && XMLServer->Open()==false){
 			QMessageBox::warning(this, /**/"XMLServerError"
-									, LangSolver.GetString(ManageByLot_LS,LID_23)/*"XMLServer‚ÉÚ‘±‚Å‚«‚È‚¢"*/);
+									, LangSolver.GetString(ManageByLot_LS,LID_23)/*"XMLServerï¿½ÉÚ‘ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½"*/);
 			return;
 		}
 
@@ -980,7 +998,7 @@ void ManageByLot::on_pushButtonDeleteLines_clicked()
 			bool isEmptyDXML=false;
 			if(OpeHandle!=NULL){
 				QProgressDialog progress;
-				progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_24)/*"‘I‘ğƒƒbƒg‚Ìíœ’†"*/);
+				progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_24)/*"ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½bï¿½gï¿½Ìíœï¿½ï¿½"*/);
 				progress.setRange(0, SelectedLines.GetCount());
 				progress.setModal(true);
 
@@ -1020,7 +1038,7 @@ void ManageByLot::on_pushButtonDeleteLines_clicked()
 			if(isEmptyDXML==true){
 				if(XMLServer->GetState()==false && XMLServer->Open()==false){
 					QMessageBox::warning(this, /**/"XMLServerError"
-												, LangSolver.GetString(ManageByLot_LS,LID_25)/*"ƒƒbƒgƒf[ƒ^‚ğíœ‚Å‚«‚È‚¢"*/);
+												, LangSolver.GetString(ManageByLot_LS,LID_25)/*"ï¿½ï¿½ï¿½bï¿½gï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½íœï¿½Å‚ï¿½ï¿½È‚ï¿½"*/);
 					clearInspectionTable();
 					return;
 				}else{
@@ -1064,7 +1082,7 @@ void ManageByLot::on_pushButtonBackup_clicked()
 	progress.setAutoClose(false);
 	progress.setAutoReset(false);
 
-	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_26)/*"‘I‘ğƒƒbƒg‚©‚çNG‰æ‘œƒtƒ@ƒCƒ‹‚ÌŒŸõ’†"*/);
+	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_26)/*"ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½NGï¿½æ‘œï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½"*/);
 	progress.setRange(0, SelectedLines.GetCount());
 
 	int count=0;
@@ -1078,7 +1096,7 @@ void ManageByLot::on_pushButtonBackup_clicked()
 		if(w!=NULL){
 			if(XMLServer->IsConnected(0)==false && XMLServer->Open()==false){
 				QMessageBox::warning(this, /**/"XMLServerError"
-										, LangSolver.GetString(ManageByLot_LS,LID_27)/*"XMLServer‚ÉÚ‘±‚Å‚«‚È‚¢"*/);
+										, LangSolver.GetString(ManageByLot_LS,LID_27)/*"XMLServerï¿½ÉÚ‘ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½"*/);
 				return;
 			}
 
@@ -1139,7 +1157,7 @@ void ManageByLot::on_pushButtonBackup_clicked()
 			}
 		}
 	}
-	progress.setCancelButton(0);// E½LE½E½E½E½E½ZE½E½E½{E½^E½E½E½È‚ï¿½
+	progress.setCancelButton(0);// ï¿½Eï¿½Lï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Zï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½{ï¿½Eï¿½^ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½È‚ï¿½
 	progress.layout()->update();
 
 	QFileInfo	FInfo(FileName);
@@ -1162,7 +1180,7 @@ void ManageByLot::on_pushButtonBackup_clicked()
 		return;
 	}
 
-	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_28)/*"ƒƒbƒgƒtƒ@ƒCƒ‹‚ğƒoƒbƒNƒAƒbƒv’†"*/);
+	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_28)/*"ï¿½ï¿½ï¿½bï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½"*/);
 	progress.setRange(0, SelectedLines.GetCount());
 	count=0;
 	for(IntClass *d=SelectedLines.GetFirst();d!=NULL;d=d->GetNext(),count++){
@@ -1172,7 +1190,7 @@ void ManageByLot::on_pushButtonBackup_clicked()
 		if(w!=NULL){
 			if(XMLServer->IsConnected(0)==false && XMLServer->Open()==false){
 				QMessageBox::warning(this, /**/"XMLServerError"
-											, LangSolver.GetString(ManageByLot_LS,LID_29)/*"XMLServer‚ÉÚ‘±‚Å‚«‚È‚¢"*/);
+											, LangSolver.GetString(ManageByLot_LS,LID_29)/*"XMLServerï¿½ÉÚ‘ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½"*/);
 				return;
 			}
 
@@ -1188,7 +1206,7 @@ void ManageByLot::on_pushButtonBackup_clicked()
 		}
 	}
 
-	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_30)/*"NG‰æ‘œƒtƒ@ƒCƒ‹‚ğƒoƒbƒNƒAƒbƒv’†"*/);
+	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_30)/*"NGï¿½æ‘œï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½"*/);
 	progress.setRange(0, JDTCount);
 	
 	for(int i=0;i<JDTCount;i++){
@@ -1207,7 +1225,7 @@ void ManageByLot::on_pushButtonBackup_clicked()
 		}
 	}
 
-	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_31)/*"ƒƒbƒgƒtƒ@ƒCƒ‹‚ÆNG‰æ‘œƒtƒ@ƒCƒ‹‚ğíœ’†"*/);
+	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_31)/*"ï¿½ï¿½ï¿½bï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½NGï¿½æ‘œï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½"*/);
 	progress.setRange(0, SelectedLines.GetCount());
 
 	QStringList modDirectories;
@@ -1241,7 +1259,7 @@ void ManageByLot::on_pushButtonBackup_clicked()
 	if(deleteTableList.isEmpty()==false){
 		if(XMLServer->GetState()==false && XMLServer->Open()==false){
 			QMessageBox::warning(this, /**/"XMLServerError"
-										, LangSolver.GetString(ManageByLot_LS,LID_32)/*"ƒƒbƒgƒf[ƒ^‚ğíœ‚Å‚«‚È‚¢"*/);
+										, LangSolver.GetString(ManageByLot_LS,LID_32)/*"ï¿½ï¿½ï¿½bï¿½gï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½íœï¿½Å‚ï¿½ï¿½È‚ï¿½"*/);
 			return;
 		}else{
 			for(int i=0; i<deleteTableList.count(); i++){
@@ -1263,7 +1281,7 @@ void ManageByLot::on_pushButtonBackup_clicked()
 	clearInspectionTable();
 
 	QMessageBox::information(NULL, /**/"Finish"
-				, LangSolver.GetString(ManageByLot_LS,LID_33)/*"ƒoƒbƒNƒAƒbƒv³íI—¹"*/
+				, LangSolver.GetString(ManageByLot_LS,LID_33)/*"ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½"*/
 				, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
 
 }
@@ -1280,7 +1298,7 @@ void ManageByLot::on_pushButtonRestore_clicked()
 		return;
 	}
 	QString	FileName=QFileDialog::getOpenFileName ( 0
-													, LangSolver.GetString(ManageByLot_LS,LID_34)/*"ƒoƒbƒNƒAƒbƒvƒtƒ@ƒCƒ‹‚Ì‘I‘ğ"*/
+													, LangSolver.GetString(ManageByLot_LS,LID_34)/*"ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì‘Iï¿½ï¿½"*/
 													, QString()
 													,/**/"BackupFile (*.bkp);;all files (*.*)");
 	if(FileName.isEmpty()==true){
@@ -1292,7 +1310,7 @@ void ManageByLot::on_pushButtonRestore_clicked()
 	}
 	QFileInfo RFileInfo(FileName);
 	QProgressDialog progress(this);
-	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_35)/*"ƒŠƒXƒgƒAî•ñ‚Ìæ“¾’†"*/);
+	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_35)/*"ï¿½ï¿½ï¿½Xï¿½gï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾ï¿½ï¿½"*/);
 	progress.setRange(0, 100);
 	progress.setValue(0);
 	progress.setCancelButton(0);
@@ -1320,7 +1338,7 @@ void ManageByLot::on_pushButtonRestore_clicked()
 	progress.setValue(RFile.pos() / (double)fullsize * progress.maximum());
 	qApp->processEvents();
 	
-	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_36)/*"ƒƒbƒgƒtƒ@ƒCƒ‹‚ÌƒŠƒXƒgƒA’†"*/);
+	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_36)/*"ï¿½ï¿½ï¿½bï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½gï¿½Aï¿½ï¿½"*/);
 	for(int i=0;i<LineCount;i++){
 		QString	TableName;
 		if(::Load(&RFile,TableName)==false){
@@ -1338,13 +1356,13 @@ void ManageByLot::on_pushButtonRestore_clicked()
 
 		if(XMLServer->IsConnected(0)==false && XMLServer->Open()==false){
 			QMessageBox::warning(this, /**/"XMLServerError"
-										, LangSolver.GetString(ManageByLot_LS,LID_37)/*"XMLServer‚ÉÚ‘±‚Å‚«‚È‚¢"*/);
+										, LangSolver.GetString(ManageByLot_LS,LID_37)/*"XMLServerï¿½ÉÚ‘ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½"*/);
 			return;
 		}
 
 		if(XMLServer->ReplaceTableAllData(TableName,AllData)==false){
 			QMessageBox Q( /**/"Error in Restore"
-						, LangSolver.GetString(ManageByLot_LS,LID_38)/*"ƒŠƒXƒgƒA’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½"*/
+						, LangSolver.GetString(ManageByLot_LS,LID_38)/*"ï¿½ï¿½ï¿½Xï¿½gï¿½Aï¿½ï¿½ï¿½ÉƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½"*/
 						, QMessageBox::Critical
 						, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
 			Q.exec();
@@ -1353,7 +1371,7 @@ void ManageByLot::on_pushButtonRestore_clicked()
 	}
 
 	
-	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_39)/*"NG‰æ‘œƒtƒ@ƒCƒ‹‚ÌƒŠƒXƒgƒA’†"*/);
+	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_39)/*"NGï¿½æ‘œï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½gï¿½Aï¿½ï¿½"*/);
 	QStringList JDTFileNames;
 	for(int i=0; i<JDTCount; i++){
 		QString filename;
@@ -1387,7 +1405,7 @@ void ManageByLot::on_pushButtonRestore_clicked()
 	ShowLotAll(SelectedMachineID ,SelectedMasterCode);
 
 	QMessageBox::information(NULL, /**/"Finish"
-				, LangSolver.GetString(ManageByLot_LS,LID_40)/*"ƒŠƒXƒgƒA³íI—¹"*/
+				, LangSolver.GetString(ManageByLot_LS,LID_40)/*"ï¿½ï¿½ï¿½Xï¿½gï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½"*/
 				, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
 
 	clearInspectionTable();
@@ -1452,7 +1470,7 @@ void ManageByLot::ShowLotAll(int MachineID ,int MasterCode)
 
 	if(XMLServer->IsConnected(0)==false && XMLServer->Open()==false){
 		QMessageBox::warning(this, /**/"XMLServerError"
-									, LangSolver.GetString(ManageByLot_LS,LID_41)/*"XMLServer‚ÉÚ‘±‚Å‚«‚È‚¢"*/);
+									, LangSolver.GetString(ManageByLot_LS,LID_41)/*"XMLServerï¿½ÉÚ‘ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½"*/);
 		return;
 	}
 
@@ -1564,7 +1582,7 @@ void ManageByLot::ShowLotAll(int MachineID ,int MasterCode)
 					
 					if(LotName.isEmpty()==true){
 						if(OpeHandle->SelectFirst(/**/"<IST><LOT *>*</LOT></IST>", /**/"<IST */>", /**/"",ResultStr)==false || ResultStr.isEmpty()==true || ResultStr==/**/"<BOF/>" || ResultStr==/**/"<EOF/>"){
-							;// E½E½E½bE½gE½E½E½E½E½Í–ï¿½E½E½
+							;// ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½bï¿½Eï¿½gï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Í–ï¿½ï¿½Eï¿½ï¿½Eï¿½
 						}else{
 							do{
 								if(GetXMLAttrStr (ResultStr, /**/"LID", LotName)==true){
@@ -1578,13 +1596,13 @@ void ManageByLot::ShowLotAll(int MachineID ,int MasterCode)
 					if(ui->cbShowInspectFirstEndTime->isChecked()==true){
 						StartTimeValue = EndTimeValue = /**/"can't read";
 						if(OpeHandle->SelectFirst(/**/"<IST><TIM *>*</TIM></IST>", /**/"<IST */>", /**/"EID<INSPECT/>",ResultStr)==false || ResultStr.isEmpty()==true || ResultStr==/**/"<EOF/>" || ResultStr==/**/"<BOF/>"){
-							;// E½E½E½Ôï¿½E½E½E½Í–ï¿½E½E½
+							;// ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ôï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Í–ï¿½ï¿½Eï¿½ï¿½Eï¿½
 						}else{
 							QString timeValue;
 														
 							if(GetXMLValueStr(ResultStr, /**/"TIM", timeValue)==true){
 								first_tim = QDateTime::fromString(timeValue, /**/"yy/MM/dd hh:mm:ss");
-								first_tim.addYears(100);// 20xxE½NE½É‚ï¿½E½E½
+								first_tim.addYears(100);// 20xxï¿½Eï¿½Nï¿½Eï¿½É‚ï¿½ï¿½Eï¿½ï¿½Eï¿½
 								StartTimeValue = first_tim.toString(/**/"yy/MM/dd hh:mm:ss");
 							}
 							//if(GetXMLValueStr(ResultListStr.first(), /**/"TIM", timeValue)==true){
@@ -1597,7 +1615,7 @@ void ManageByLot::ShowLotAll(int MachineID ,int MasterCode)
 							//	GetXMLValueStr(ResultListStr[tim_i],/**/"TIM",EndTimeValue);
 					
 							//	QDateTime timeTIM = QDateTime::fromString(EndTimeValue, /**/"yy/MM/dd hh:mm:ss");
-							//	timeTIM.addYears(100);// 20xxE½NE½É‚ï¿½E½E½
+							//	timeTIM.addYears(100);// 20xxï¿½Eï¿½Nï¿½Eï¿½É‚ï¿½ï¿½Eï¿½ï¿½Eï¿½
 
 							//	if(first_tim.isNull()==true || first_tim.isValid()==false || first_tim>timeTIM){
 							//		first_tim = timeTIM;
@@ -1612,14 +1630,14 @@ void ManageByLot::ShowLotAll(int MachineID ,int MasterCode)
 						}
 
 						if(OpeHandle->SelectLast(/**/"<IST><TIM *>*</TIM></IST>", /**/"<IST */>", /**/"EID<INSPECT/>",ResultStr)==false || ResultStr.isEmpty()==true || ResultStr==/**/"<EOF/>" || ResultStr==/**/"<BOF/>"){
-							;// E½E½E½Ôï¿½E½E½E½Í–ï¿½E½E½
+							;// ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Ôï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Í–ï¿½ï¿½Eï¿½ï¿½Eï¿½
 						}else{
 							QDateTime last_tim;
 							QString timeValue;
 														
 							if(GetXMLValueStr(ResultStr, /**/"TIM", timeValue)==true){
 								last_tim = QDateTime::fromString(timeValue, /**/"yy/MM/dd hh:mm:ss");
-								last_tim.addYears(100);// 20xxE½NE½É‚ï¿½E½E½
+								last_tim.addYears(100);// 20xxï¿½Eï¿½Nï¿½Eï¿½É‚ï¿½ï¿½Eï¿½ï¿½Eï¿½
 								EndTimeValue = last_tim.toString(/**/"yy/MM/dd hh:mm:ss");
 							}
 						}
@@ -1669,7 +1687,7 @@ void ManageByLot::ShowLotAll(int MachineID ,int MasterCode)
 				//	ui->progressBar->setValue(ui->progressBar->value()+1);
 				//	continue;
 				//}
-				//// E½E½E½bE½gE½E½E½AE½E½E½bE½gIDE½E½E½æ“¾
+				//// ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½bï¿½Eï¿½gï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Aï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½bï¿½Eï¿½gIDï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½æ“¾
 				//bool	SelectRet1=OpeHandle->Select(/**/"<IST><LOT *>*</LOT></IST>", /**/"<IST */>", /**/"",ResultListStr);
 				//if(SelectRet1==false || ResultListStr.isEmpty()==true){
 				//	;
@@ -1678,7 +1696,7 @@ void ManageByLot::ShowLotAll(int MachineID ,int MasterCode)
 				//}else{
 				//	;
 				//}
-				//// E½E½E½E½E½EE½ÅIE½E½E½E½E½E½E½E½
+				//// ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Eï¿½Eï¿½ÅIï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½
 				//bool	SelectRet2=OpeHandle->Select(/**/"<IST><TIM *>*</TIM></IST>", /**/"<IST */>", /**/"",ResultListStr);
 				//QDateTime first_tim,last_tim;
 				//StartTimeValue = EndTimeValue = "can't read";
@@ -1690,7 +1708,7 @@ void ManageByLot::ShowLotAll(int MachineID ,int MasterCode)
 				//		GetXMLValueStr(ResultListStr[tim_i],/**/"TIM",EndTimeValue);
 				//	
 				//		QDateTime timeTIM = QDateTime::fromString(EndTimeValue, "yy/MM/dd hh:mm:ss");
-				//		timeTIM.addYears(100);// 20xxE½NE½É‚ï¿½E½E½
+				//		timeTIM.addYears(100);// 20xxï¿½Eï¿½Nï¿½Eï¿½É‚ï¿½ï¿½Eï¿½ï¿½Eï¿½
 
 				//		if(first_tim.isNull()==true || first_tim.isValid()==false || first_tim>timeTIM){
 				//			first_tim = timeTIM;
@@ -1764,7 +1782,7 @@ void ManageByLot::on_pushButtonBackupOnly_clicked()
 	progress.setAutoClose(false);
 	progress.setAutoReset(false);
 
-	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_42)/*"‘I‘ğƒƒbƒg‚©‚çNG‰æ‘œƒtƒ@ƒCƒ‹‚ÌŒŸõ’†"*/);
+	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_42)/*"ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½NGï¿½æ‘œï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½"*/);
 	progress.setRange(0, SelectedLines.GetCount());
 
 	int count=0;
@@ -1778,7 +1796,7 @@ void ManageByLot::on_pushButtonBackupOnly_clicked()
 		if(w!=NULL){
 			if(XMLServer->IsConnected(0)==false && XMLServer->Open()==false){
 				QMessageBox::warning(this, /**/"XMLServerError"
-											, LangSolver.GetString(ManageByLot_LS,LID_43)/*"XMLServer‚ÉÚ‘±‚Å‚«‚È‚¢"*/);
+											, LangSolver.GetString(ManageByLot_LS,LID_43)/*"XMLServerï¿½ÉÚ‘ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½"*/);
 				return;
 			}
 
@@ -1839,7 +1857,7 @@ void ManageByLot::on_pushButtonBackupOnly_clicked()
 			}
 		}
 	}
-	progress.setCancelButton(0);// E½LE½E½E½E½E½ZE½E½E½{E½^E½E½E½È‚ï¿½
+	progress.setCancelButton(0);// ï¿½Eï¿½Lï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½Zï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½{ï¿½Eï¿½^ï¿½Eï¿½ï¿½Eï¿½ï¿½Eï¿½È‚ï¿½
 	progress.layout()->update();
 
 	QFileInfo	FInfo(FileName);
@@ -1862,7 +1880,7 @@ void ManageByLot::on_pushButtonBackupOnly_clicked()
 		return;
 	}
 
-	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_44)/*"ƒƒbƒgƒtƒ@ƒCƒ‹‚ğƒoƒbƒNƒAƒbƒv’†"*/);
+	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_44)/*"ï¿½ï¿½ï¿½bï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½"*/);
 	progress.setRange(0, SelectedLines.GetCount());
 	count=0;
 	for(IntClass *d=SelectedLines.GetFirst();d!=NULL;d=d->GetNext(),count++){
@@ -1872,7 +1890,7 @@ void ManageByLot::on_pushButtonBackupOnly_clicked()
 		if(w!=NULL){
 			if(XMLServer->IsConnected(0)==false && XMLServer->Open()==false){
 				QMessageBox::warning(this, /**/"XMLServerError"
-											, LangSolver.GetString(ManageByLot_LS,LID_45)/*"XMLServer‚ÉÚ‘±‚Å‚«‚È‚¢"*/);
+											, LangSolver.GetString(ManageByLot_LS,LID_45)/*"XMLServerï¿½ÉÚ‘ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½"*/);
 				return;
 			}
 
@@ -1888,7 +1906,7 @@ void ManageByLot::on_pushButtonBackupOnly_clicked()
 		}
 	}
 
-	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_46)/*"NG‰æ‘œƒtƒ@ƒCƒ‹‚ğƒoƒbƒNƒAƒbƒv’†"*/);
+	progress.setLabelText(LangSolver.GetString(ManageByLot_LS,LID_46)/*"NGï¿½æ‘œï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½"*/);
 	progress.setRange(0, JDTCount);
 	
 	for(int i=0;i<JDTCount;i++){
@@ -1921,7 +1939,7 @@ void ManageByLot::on_pushButtonBackupOnly_clicked()
 	clearInspectionTable();
 
 	QMessageBox::information(NULL, /**/"Finish"
-				, LangSolver.GetString(ManageByLot_LS,LID_47)/*"ƒoƒbƒNƒAƒbƒv³íI—¹"*/
+				, LangSolver.GetString(ManageByLot_LS,LID_47)/*"ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½"*/
 				, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
 
 }

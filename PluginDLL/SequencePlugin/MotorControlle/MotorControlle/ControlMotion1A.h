@@ -1,43 +1,52 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\PluginDLL\SequencePlugin\MotorControlle\MotorControlle\ControlMotion1A.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #if !defined(CONTROLMOTION1A_H)
 #define CONTROLMOTION1A_H
 
-//Œ´“_¨B‘œŠ®—¹ˆÊ’u‚Ü‚ÅˆÚ“®
+//ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½Ü‚ÅˆÚ“ï¿½
 #define		MotionStage1Code	90
-//Œ´“_¨ƒvƒ‰ƒXƒŠƒ~ƒbƒg‚Ü‚ÅˆÚ“®
+//ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½~ï¿½bï¿½gï¿½Ü‚ÅˆÚ“ï¿½
 #define		MotionStage2Code	91
-//B‘œŠ®—¹ˆÊ’u¨ƒvƒ‰ƒXƒŠƒ~ƒbƒg‚Ü‚ÅˆÚ“®
+//ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½~ï¿½bï¿½gï¿½Ü‚ÅˆÚ“ï¿½
 #define		MotionStage3Code	92
-//ƒ}ƒCƒiƒXƒŠƒ~ƒbƒg‚Ü‚ÅˆÚ“®
+//ï¿½}ï¿½Cï¿½iï¿½Xï¿½ï¿½ï¿½~ï¿½bï¿½gï¿½Ü‚ÅˆÚ“ï¿½
 #define		MotionStage4Code	93
-//Œ´“_•œ‹AˆÚ“®‚Q(ƒvƒ‰ƒX•ûŒü)
+//ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Aï¿½Ú“ï¿½ï¿½Q(ï¿½vï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½)
 #define		MotionStage5Code	94
-//Œ´“_•œ‹AˆÚ“®@“dŒ¹‚n‚mŒã‚Ì“®ì
+//ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Aï¿½Ú“ï¿½ï¿½@ï¿½dï¿½ï¿½ï¿½nï¿½mï¿½ï¿½ï¿½Ì“ï¿½ï¿½ï¿½
 #define		MotionStage6Code	95
 
 
 struct	MotionStruct
 {
-	unsigned short	TargetCount;	//“™‘¬‹æŠÔ‚Ì‘¬“x‚É‚È‚éƒJƒEƒ“ƒ^[”
-	unsigned short	Direction;		//‰ñ“]•ûŒü@0 or 1
-	unsigned int	StartPulse;		//‰Á‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	unsigned int	MiddlePulse;	//“™‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
-	unsigned int	EndPulse;		//Œ¸‘¬‹æŠÔ‚Ìƒpƒ‹ƒX”
+	unsigned short	TargetCount;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ì‘ï¿½ï¿½xï¿½É‚È‚ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½
+	unsigned short	Direction;		//ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½@0 or 1
+	unsigned int	StartPulse;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	unsigned int	MiddlePulse;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
+	unsigned int	EndPulse;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒpï¿½ï¿½ï¿½Xï¿½ï¿½
 };
 
 struct	MotionAttrStruct{
-	unsigned int		MotionStopPercentage;	//‚±‚Ìƒp[ƒZƒ“ƒe[ƒW‚ÌÃ~“d—¬‚É‚È‚é
-	unsigned int		DropTime;	    //—‰º‘Ò‹@ŠÔ
+	unsigned int		MotionStopPercentage;	//ï¿½ï¿½ï¿½Ìƒpï¿½[ï¿½Zï¿½ï¿½ï¿½eï¿½[ï¿½Wï¿½ÌÃ~ï¿½ï¿½ï¿½dï¿½ï¿½ï¿½É‚È‚ï¿½
+	unsigned int		DropTime;	    //ï¿½ï¿½ï¿½ï¿½ï¿½Ò‹@ï¿½ï¿½ï¿½ï¿½
     MotionAttrStruct(void){ MotionStopPercentage=40;    DropTime=10000;  }
 };
 

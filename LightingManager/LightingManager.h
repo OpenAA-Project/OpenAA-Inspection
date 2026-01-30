@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #ifndef LIGHTINGMANAGER_H
 #define LIGHTINGMANAGER_H
 
@@ -50,22 +68,22 @@ private:
     QMenu			*trayIconMenu;
     QSystemTrayIcon	*trayIcon;
 
-	time_t	StartTime;			//ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‹N“®ŠÔ
-	time_t	TerminationTime;	//ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌI—¹ŠÔ
-	QTimer	TimerMonitoring;	//ŠÄ‹—pƒ^ƒCƒ}[
+	time_t	StartTime;			//ï¿½Aï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ì‹Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	time_t	TerminationTime;	//ï¿½Aï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ÌIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	QTimer	TimerMonitoring;	//ï¿½Äï¿½ï¿½pï¿½^ï¿½Cï¿½}ï¿½[
 
-	int		WarmMinute;			//’g‹@ŠÔ
-	int		ChangeHour;			//Æ–¾ŒğŠ·–ÚˆÀŠÔ
-	time_t	TotalSumHour;		//—İŒvŠÔ
-	bool	IsShowWidget;		//‹N“®‚É‰æ–Ê‚ğ•\¦‚·‚é
-	bool	IsCloseWidget;		//’g‹@I—¹ŒãA‰æ–Ê‚ğ•Â‚¶‚é
-	bool	IsStartExe;			//’g‹@I—¹ŒãA‹N“®‚·‚éƒ\ƒtƒg‚ğw’è‚·‚é
-	QString	StartExe;			//’g‹@I—¹ŒãA‹N“®‚·‚éƒ\ƒtƒg
+	int		WarmMinute;			//ï¿½gï¿½@ï¿½ï¿½ï¿½ï¿½
+	int		ChangeHour;			//ï¿½Æ–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úˆï¿½ï¿½ï¿½ï¿½ï¿½
+	time_t	TotalSumHour;		//ï¿½İŒvï¿½ï¿½ï¿½ï¿½
+	bool	IsShowWidget;		//ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½É‰ï¿½ï¿½Ê‚ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	bool	IsCloseWidget;		//ï¿½gï¿½@ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ê‚ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
+	bool	IsStartExe;			//ï¿½gï¿½@ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½tï¿½gï¿½ï¿½ï¿½wï¿½è‚·ï¿½ï¿½
+	QString	StartExe;			//ï¿½gï¿½@ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½tï¿½g
 
-	bool	IsShutdown;			//ƒVƒƒƒbƒgƒ_ƒEƒ“‚©‚Ç‚¤‚©
-	bool	DoneExit;			//è“®I—¹‚©‚Ç‚¤‚©
-	char	Index;				//”wŒiF”½“]ƒtƒ‰ƒO
-	QString BlinkStyleSheet[2];	//”wŒiF”½“]—pƒXƒ^ƒCƒ‹ƒV[ƒg•¶š—ñ
+	bool	IsShutdown;			//ï¿½Vï¿½ï¿½ï¿½bï¿½gï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
+	bool	DoneExit;			//ï¿½è“®ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
+	char	Index;				//ï¿½wï¿½iï¿½Fï¿½ï¿½ï¿½]ï¿½tï¿½ï¿½ï¿½O
+	QString BlinkStyleSheet[2];	//ï¿½wï¿½iï¿½Fï¿½ï¿½ï¿½]ï¿½pï¿½Xï¿½^ï¿½Cï¿½ï¿½ï¿½Vï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     void createActions();
     void createTrayIcon();

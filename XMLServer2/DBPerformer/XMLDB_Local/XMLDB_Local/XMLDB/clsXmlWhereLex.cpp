@@ -1,9 +1,21 @@
 /*
- * clsXmlWhereLex.cpp
+ * Copyright (C) 2012
+ * Author : cony
  *
- *  Created on: 2009/11/26
- *      Author: cony
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 
 #include "clsXmlWhereLex.h"
 
@@ -25,7 +37,7 @@ void clsXmlWhereLex::mkXMLRec() {
 	}
 	debugPrt("whereLex Start");
 
-	// eƒ^ƒOæ“¾
+	// ï¿½eï¿½^ï¿½Oï¿½æ“¾
 	if ( nextPt(1) == false ) {
 		return;
 	}
@@ -40,7 +52,7 @@ void clsXmlWhereLex::mkXMLRec() {
 	}
 	debugPrt("end Parent Tag");
 	if ( *p == ' ' ) {
-		// e‘®«æ“¾
+		// ï¿½eï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 		if ( nextPt(1) == false ) return;
 		while( *p != 0x00 ) {
 			if ( *p == '>' ) {
@@ -71,7 +83,7 @@ void clsXmlWhereLex::mkXMLRec() {
 		return;
 	}
 	if ( *p != '<' ) {
-		// e’læ“¾
+		// ï¿½eï¿½lï¿½æ“¾
 		debugPrt("start Parent TagValue");
 		nTagLen = nextTagValue();
 		if ( nTagLen <= 0 ) return;
@@ -80,7 +92,7 @@ void clsXmlWhereLex::mkXMLRec() {
 		debugPrt("end Parent TagValue");
 	}
 
-	// qƒ^ƒO‰ğÍ
+	// ï¿½qï¿½^ï¿½Oï¿½ï¿½ï¿½ï¿½
 	if ( *p == 0x00 ) return;
 	if ( *p == '<' && *(p+1) == '/' ) return;
 	debugPrt("start child taglex");
@@ -97,7 +109,7 @@ void clsXmlWhereLex::mkXMLRec() {
 		whrrec.childs->AppendList(recChild);
 		if ( nextPt(nTagLen) == false ) return;
 		if ( *p == ' ' ) {
-			// q‘®«æ“¾
+			// ï¿½qï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 			if ( nextPt(1) == false ) return;
 			while( *p != 0x00 ) {
 				debugPrt("start attr");
@@ -128,7 +140,7 @@ void clsXmlWhereLex::mkXMLRec() {
 				if ( nextPt(1) == false ) return;
 			}
 			debugPrt("start tagvalue");
-			// TODO qƒ^ƒO’l
+			// TODO ï¿½qï¿½^ï¿½Oï¿½l
 			nTagLen = nextTagValue();
 			if ( nTagLen <= 0 ) return;
 			recChild->val = getBufMid(nTagLen);

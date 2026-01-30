@@ -1,9 +1,27 @@
+/*
+ * Copyright (C) 2018
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include <QtXml/QDomElement>
 
-// QString ‚ğˆµ‚¤XML•¶‚Ìƒp[ƒT[‚ÌŠî’êƒNƒ‰ƒX
-// Œp³æ‚Åanalyze‚ğ’è‹`‚µAŠi”[‚·‚éƒf[ƒ^‚É‰‚¶‚Äƒƒ“ƒo•Ï”‚ğ‚½‚¹‚é
+// QString ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½ï¿½Ìƒpï¿½[ï¿½Tï¿½[ï¿½ÌŠï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
+// ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½analyzeï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½Aï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½É‰ï¿½ï¿½ï¿½ï¿½Äƒï¿½ï¿½ï¿½ï¿½oï¿½Ïï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 class StringXMLParser
 {

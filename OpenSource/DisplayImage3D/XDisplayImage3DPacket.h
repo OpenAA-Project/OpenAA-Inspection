@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "XGUIDLL.h"
@@ -36,7 +54,7 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdSendBmp3D : public GUICmdPacketBase	//‰æ‘œ•\¦—pƒrƒbƒgƒ}ƒbƒv‘—MƒRƒ}ƒ“ƒh
+class	GUICmdSendBmp3D : public GUICmdPacketBase	//ï¿½æ‘œï¿½\ï¿½ï¿½ï¿½pï¿½rï¿½bï¿½gï¿½}ï¿½bï¿½vï¿½ï¿½ï¿½Mï¿½Rï¿½}ï¿½ï¿½ï¿½h
 {
 public:
 	QImage		*IData;
@@ -60,4 +78,3 @@ public:
 					 ,bool RedCircleMode
 					 ,int32 ShowFixedPhase);
 };
-

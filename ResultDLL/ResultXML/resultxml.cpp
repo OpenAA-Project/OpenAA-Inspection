@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\ResultDLL\ResultXML\resultxml.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 #define	XGUIDLL_H
@@ -382,7 +391,7 @@ bool	ResultClient::OutputCommon(bool HostOk,ResultInspection &Res)
 		delete []strbuff;
 
 		if(SubMasterDBN!=DBName || ClientMaster==NULL){
-			//File–¼‚ªŒˆ‚Ü‚Á‚½‚çStart‚ğ‚·‚é(Lot‚ª•Ï‚í‚é“x‚ÉÅ‰‚Ì1‰ñStart‚És‚­)
+			//Fileï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½Startï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Lotï¿½ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½xï¿½ÉÅï¿½ï¿½ï¿½1ï¿½ï¿½Startï¿½Ésï¿½ï¿½)
 			QByteArray Target="Master";
 			if(OpenXML(Target, DBN, LotID, LotName,ErrorMessage)==false)
 				return false;
@@ -482,11 +491,11 @@ bool	ResultClient::OutputResult(bool HostOk,int32 MachineID ,const QDateTime &In
 	int ALLlen=0;
 	int iData=1;
 	int Cnt=ResList.count();
-	for(int i=0; i<Cnt; i++){//‘S‘Ì‚Ì’·‚³
+	for(int i=0; i<Cnt; i++){//ï¿½Sï¿½Ì‚Ì’ï¿½ï¿½ï¿½
 		ALLlen=ALLlen + (ResList.at(i).length()*2) + 1;
 	}
 	if(HostOk==true){
-		//File–¼‚ªŒˆ‚Ü‚Á‚½‚çStart‚ğ‚·‚é(Lot‚ª•Ï‚í‚é“x‚ÉÅ‰‚Ì1‰ñStart‚És‚­)
+		//Fileï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½Startï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Lotï¿½ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½xï¿½ÉÅï¿½ï¿½ï¿½1ï¿½ï¿½Startï¿½Ésï¿½ï¿½)
 		QString FileLID;
 		QString FileMID=QString::number(GetLayersBase()->GetMasterCode());
 		if(GetLayersBase()->GetLotID()!=0){
@@ -506,7 +515,7 @@ bool	ResultClient::OutputResult(bool HostOk,int32 MachineID ,const QDateTime &In
 		delete []strbuff;
 
 		if(SubSleaveDBN!=DBName || ClientSleave==NULL){
-			//File–¼‚ªŒˆ‚Ü‚Á‚½‚çStart‚ğ‚·‚é(Lot‚ª•Ï‚í‚é“x‚ÉÅ‰‚Ì1‰ñStart‚És‚­)
+			//Fileï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½Startï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Lotï¿½ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½xï¿½ÉÅï¿½ï¿½ï¿½1ï¿½ï¿½Startï¿½Ésï¿½ï¿½)
 			QByteArray Target="Sleave";
 			LotID=/**/"";
 			LotName=/**/"";
@@ -563,7 +572,7 @@ bool	ResultClient::OutputResult(bool HostOk,int32 MachineID ,const QDateTime &In
 }
 bool	ResultClient::RemoveResult(int32 MachineID ,const QDateTime &ResultTime,	int64 InspectionID)
 {
-//ŒŸõğŒ"<IST DAY="**********" MAC="xx">"
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"<IST DAY="**********" MAC="xx">"
 	char	DAY[32];
 	char	buff[40];
 	int		mac;
@@ -574,7 +583,7 @@ bool	ResultClient::RemoveResult(int32 MachineID ,const QDateTime &ResultTime,	in
 	QByteArray Msg;
 	QByteArray P="0";
 	QList<QByteArray> RetList;
-//ŒŸõ‚ğ‚µƒf[ƒ^‚ğæ“¾@DBName=*:/Data/xxxxx.DBXML
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾ï¿½@DBName=*:/Data/xxxxx.DBXML
 	ClientMain	*Client;
 	if(ClientMaster!=NULL)
 		Client=ClientMaster;
@@ -636,7 +645,7 @@ bool	ResultClient::RemoveResult(int32 MachineID ,const QDateTime &ResultTime,	in
 NextList:;
 		}
 	}
-	//ID‚ğæ‚èo‚·
+	//IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½
 	Client->Client_Delete(DeleteList, DBName.toLocal8Bit().data(), Msg);
 	return true;
 }
@@ -694,7 +703,7 @@ bool	ResultClient::OutputInLotChangedSlave(int LocalPage)
 		delete []strbuff;
 
 		if(SubSleaveDBN!=DBName){
-			//File–¼‚ªŒˆ‚Ü‚Á‚½‚çStart‚ğ‚·‚é(Lot‚ª•Ï‚í‚é“x‚ÉÅ‰‚Ì1‰ñStart‚És‚­)
+			//Fileï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½Startï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Lotï¿½ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½xï¿½ÉÅï¿½ï¿½ï¿½1ï¿½ï¿½Startï¿½Ésï¿½ï¿½)
 			QByteArray Target="Both";
 //			QByteArray Target="Master";
 			LotID=/**/"";
@@ -748,7 +757,7 @@ bool	ResultClient::OutputInLib(int LocalPage)
 	delete []strbuff;
 
 	if(SubSleaveDBN!=DBName){
-		//File–¼‚ªŒˆ‚Ü‚Á‚½‚çStart‚ğ‚·‚é(Lot‚ª•Ï‚í‚é“x‚ÉÅ‰‚Ì1‰ñStart‚És‚­)
+		//Fileï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½Startï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Lotï¿½ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½xï¿½ÉÅï¿½ï¿½ï¿½1ï¿½ï¿½Startï¿½Ésï¿½ï¿½)
 		QByteArray Target="Both";
 //			QByteArray Target="Master";
 		LotID=/**/"";
@@ -953,4 +962,3 @@ DEFFUNCEX	bool		DLL_OutputInLotChangedSlave (EntryPointBase &entryPoint ,int Loc
 	ResultPort->OutputInLotChangedSlave(LocalPage);
 	return true;
 }
-

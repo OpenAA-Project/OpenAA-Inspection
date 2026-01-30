@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\Proofreader\proofreader.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -126,7 +135,7 @@ void Proofreader::pbLoadMasterImage_clicked()
 			Buff[page][Layer]=new ImageBuffer();
 			Buff[page][Layer]->Set(page,1,iDotPerLine,iMaxLines);
 		}
-		//ƒJƒƒ‰Ø‚è‘Ö‚¦ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ì•\¦
+		//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½Ö‚ï¿½ï¿½Rï¿½ï¿½ï¿½{ï¿½{ï¿½bï¿½Nï¿½Xï¿½Ì•\ï¿½ï¿½
 		QString item="Camera-" + QString::number(page);
 		ui.cbCamera->addItem(item);
 	}
@@ -154,7 +163,7 @@ void Proofreader::pbLoadMasterImage_clicked()
 		}
 	}
 
-	//ƒ}ƒXƒ^[‰æ‘œ‚Ì•\¦
+	//ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½Ì•\ï¿½ï¿½
 	if(img!=NULL){
 		for(int page=0;page<wiPageNumb;page++){
 			delete img[page];
@@ -187,7 +196,7 @@ void Proofreader::pbLoadMasterImage_clicked()
 	}
 	guMasterImage->GetCanvas()->SetImage(img[0]);
 
-	//‚Q’l‰»Eƒ‰ƒxƒŠƒ“ƒOˆ——pƒƒ‚ƒŠ‚ÌŠm•Û
+	//ï¿½Qï¿½lï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½ï¿½
 	ThresholdDotArray=new short*[iMaxLines];
 	for(int Y=0;Y<iMaxLines;Y++)
 		ThresholdDotArray[Y]=new short[iDotPerLine];
@@ -199,7 +208,7 @@ void Proofreader::pbLoadMasterImage_clicked()
 
 void Proofreader::pbThreshold_clicked()
 {
-	//‚Q’l‰»
+	//ï¿½Qï¿½lï¿½ï¿½
 	if(StartPointX>EndPointX){
 		int wX=EndPointX;
 		EndPointX=StartPointX;
@@ -249,7 +258,7 @@ void Proofreader::pbThreshold_clicked()
 
 void Proofreader::pbLabelingX_clicked()
 {
-	//ƒ‰ƒxƒŠƒ“ƒOˆ—
+	//ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
 	int iLabel=1;
 	CoGListX.clear();
 	CoGListY.clear();
@@ -262,13 +271,13 @@ void Proofreader::pbLabelingX_clicked()
 	QMessageBox::information(this,tr("Message"),QString().setNum(iLabel-1));
 	dxAverageList.clear();
 
-	//dS‚Ì•½‹Ïiƒhƒbƒg•j‚ğæ‚é
+	//ï¿½dï¿½Sï¿½Ì•ï¿½ï¿½Ïiï¿½hï¿½bï¿½gï¿½ï¿½ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	int wX,wY,wwX,wwY;
 	wX=wwX=CoGListX.at(0);
 	wY=wwY=CoGListY.at(0);
 	for(int XY=0,SumXY=CoGListX.at(0)+CoGListY.at(0);XY<CoGListX.count();XY++){
 		if((CoGListX.at(XY)+CoGListY.at(XY))<SumXY){
-			SumXY=CoGListX.at(XY)+CoGListY.at(XY);		//ˆê”Ô¶ã‚ÌdS‚ğ‹‚ß‚é
+			SumXY=CoGListX.at(XY)+CoGListY.at(XY);		//ï¿½ï¿½ï¿½Ôï¿½ï¿½ï¿½ï¿½Ìdï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 			wX=wwX=CoGListX.at(XY);
 			wY=wwY=CoGListY.at(XY);
 		}
@@ -276,7 +285,7 @@ void Proofreader::pbLabelingX_clicked()
 	double SumX;
 	for(int X=wX,i=0;X<iDotPerLine;X++){
 		if(i>0){
-			if(NextX(wwX,wwY)==false)		//X²(‰¡)•ûŒü‚ÉdS‚ğ’T‚·
+			if(NextX(wwX,wwY)==false)		//Xï¿½ï¿½(ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½Édï¿½Sï¿½ï¿½ï¿½Tï¿½ï¿½
 				break;
 			X=wX=wwX;
 			wY=wwY;
@@ -284,7 +293,7 @@ void Proofreader::pbLabelingX_clicked()
 		SumX=wX;
 		nowAverageList.clear();
 		nowAverageList << X;
-		for(int Y=wY+1;Y<iMaxLines;Y++){			//Y²(c)•ûŒü‚ÉdS‚ğ’T‚·
+		for(int Y=wY+1;Y<iMaxLines;Y++){			//Yï¿½ï¿½(ï¿½c)ï¿½ï¿½ï¿½ï¿½ï¿½Édï¿½Sï¿½ï¿½ï¿½Tï¿½ï¿½
 			if(ThresholdDotArray[Y][X]!=ThresholdDotArray[wY][wX] && ThresholdDotArray[Y][X]>0 && ThresholdDotArray[wY][wX]>0){
 				nowAverageList << CoGListX.at(ThresholdDotArray[Y][X]-1);
 				wX=CoGListX.at(ThresholdDotArray[Y][X]-1);
@@ -314,7 +323,7 @@ void Proofreader::pbLabelingX_clicked()
 
 void Proofreader::pbLabelingY_clicked()
 {
-	//ƒ‰ƒxƒŠƒ“ƒOˆ—
+	//ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
 	int iLabel=1;
 	CoGListX.clear();
 	CoGListY.clear();
@@ -327,13 +336,13 @@ void Proofreader::pbLabelingY_clicked()
 	QMessageBox::information(this,tr("Message"),QString().setNum(iLabel-1));
 	dxAverageList.clear();
 
-	//dS‚Ì•½‹Ïiƒhƒbƒg•j‚ğæ‚é
+	//ï¿½dï¿½Sï¿½Ì•ï¿½ï¿½Ïiï¿½hï¿½bï¿½gï¿½ï¿½ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	int wX,wY,wwX,wwY;
 	wX=wwX=CoGListX.at(0);
 	wY=wwY=CoGListY.at(0);
 	for(int XY=0,SumXY=CoGListX.at(0)+CoGListY.at(0);XY<CoGListX.count();XY++){
 		if((CoGListX.at(XY)+CoGListY.at(XY))<SumXY){
-			SumXY=CoGListX.at(XY)+CoGListY.at(XY);		//ˆê”Ô¶ã‚ÌdS‚ğ‹‚ß‚é
+			SumXY=CoGListX.at(XY)+CoGListY.at(XY);		//ï¿½ï¿½ï¿½Ôï¿½ï¿½ï¿½ï¿½Ìdï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 			wX=wwX=CoGListX.at(XY);
 			wY=wwY=CoGListY.at(XY);
 		}
@@ -341,7 +350,7 @@ void Proofreader::pbLabelingY_clicked()
 	double SumY;
 	for(int Y=wY,i=0;Y<iMaxLines;Y++){
 		if(i>0){
-			if(NextY(wwX,wwY)==false)		//Y²(c)•ûŒü‚ÉdS‚ğ’T‚·
+			if(NextY(wwX,wwY)==false)		//Yï¿½ï¿½(ï¿½c)ï¿½ï¿½ï¿½ï¿½ï¿½Édï¿½Sï¿½ï¿½ï¿½Tï¿½ï¿½
 				break;
 			wX=wwX;
 			Y=wY=wwY;
@@ -349,7 +358,7 @@ void Proofreader::pbLabelingY_clicked()
 		SumY=wY;
 		nowAverageList.clear();
 		nowAverageList << Y;
-		for(int X=wX+1;X<iDotPerLine;X++){			//X²(‰¡)•ûŒü‚ÉdS‚ğ’T‚·
+		for(int X=wX+1;X<iDotPerLine;X++){			//Xï¿½ï¿½(ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½Édï¿½Sï¿½ï¿½ï¿½Tï¿½ï¿½
 			if(ThresholdDotArray[Y][X]!=ThresholdDotArray[wY][wX] && ThresholdDotArray[Y][X]>0 && ThresholdDotArray[wY][wX]>0){
 				nowAverageList << CoGListY.at(ThresholdDotArray[Y][X]-1);
 				wX=CoGListX.at(ThresholdDotArray[Y][X]-1);
@@ -379,7 +388,7 @@ void Proofreader::pbLabelingY_clicked()
 
 void Proofreader::pbSave_clicked()
 {
-	//ƒtƒ@ƒCƒ‹‚ÉÀ•W‚ğ•Û‘¶
+	//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Éï¿½ï¿½Wï¿½ï¿½ï¿½Û‘ï¿½
 	QString MasterDotData=QFileDialog::getSaveFileName(
 							this,tr("Save File"),"","CSV Data (*.csv)");
 	if(MasterDotData=="")
@@ -396,14 +405,14 @@ void Proofreader::pbSave_clicked()
 
 void Proofreader::pbShowGraph_clicked()
 {
-	//•ÊƒEƒBƒ“ƒhƒE‚ÅƒOƒ‰ƒt‚ğ•\¦‚³‚¹‚é
+	//ï¿½ÊƒEï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½ÅƒOï¿½ï¿½ï¿½tï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ProofGraph GraphDialog(dxAverageList,iDotPerLine);
 	GraphDialog.exec();
 }
 
 void Proofreader::pbShowGraphFromCsv_clicked()
 {
-	//•ÊƒEƒBƒ“ƒhƒE‚Å“Ç‚ñ‚¾Csvƒtƒ@ƒCƒ‹‚©‚çƒOƒ‰ƒt‚ğ•\¦‚³‚¹‚é
+	//ï¿½ÊƒEï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Å“Çï¿½ï¿½ï¿½ï¿½ï¿½Csvï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½tï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	QString CsvPath=QFileDialog::getOpenFileName(
 							this,tr("Please choose a '.csv' file."),"","csv file (*.csv)");
 	if(CsvPath.isEmpty())
@@ -429,7 +438,7 @@ void Proofreader::pbShowGraphFromCsv_clicked()
 
 void Proofreader::pbWhiteBalance_clicked()
 {
-	//—Ìˆæ
+	//ï¿½Ìˆï¿½
 	if(StartPointX>EndPointX){
 		int wX=EndPointX;
 		EndPointX=StartPointX;
@@ -445,7 +454,7 @@ void Proofreader::pbWhiteBalance_clicked()
 		EndPointY=iMaxLines;
 	}
 
-	//ƒzƒƒCƒgƒoƒ‰ƒ“ƒX’²®
+	//ï¿½zï¿½ï¿½ï¿½Cï¿½gï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½
 	RDataList.clear();
 	GDataList.clear();
 	BDataList.clear();
@@ -585,7 +594,7 @@ void Proofreader::chkReverseToggled(bool Toggled)
 
 void Proofreader::pbLoadPixHalconClicked()
 {
-	//HALCON‚ÉPIX‚ğ“Ç‚Ü‚¹‚é
+	//HALCONï¿½ï¿½PIXï¿½ï¿½ï¿½Ç‚Ü‚ï¿½ï¿½ï¿½
 	QString MasterImagePath=QFileDialog::getOpenFileName(
 							this,tr("Please choose a '.pix' file."),"","ImageBuffer (*.pix)");
 	if(MasterImagePath.isEmpty())
@@ -656,12 +665,12 @@ void Proofreader::pbLoadPixHalconClicked()
 			}
 		}
 	}
-	//HALCON‚É“n‚·
+	//HALCONï¿½É“nï¿½ï¿½
 //	for(int page=0;page<iPageNumb;page++){
 //		XHalcon.CreateImage(Buff[page],iLayerNumb);
 //	}
 
-/*	//HALCON‚É“n‚·
+/*	//HALCONï¿½É“nï¿½ï¿½
 	unsigned char *image=new unsigned char[iDotPerLine*iMaxLines];
 	for(int page=0;page<iPageNumb;page++){
 		if(iLayerNumb==1){
@@ -707,7 +716,7 @@ int Proofreader::GetThreshold(int X,int Y)
 void Proofreader::SetLabel(int iStartX,int iStartY,int iLabel)
 {
 	double Sumdx=0,Sumdy=0;
-	ThresholdDotArray[iStartY][iStartX]=iLabel;		//‚Ü‚¸ŠJnˆÊ’u‚Éƒ‰ƒxƒ‹‚ğİ’è
+	ThresholdDotArray[iStartY][iStartX]=iLabel;		//ï¿½Ü‚ï¿½ï¿½Jï¿½nï¿½Ê’uï¿½Éƒï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 //	ScanThreshold(iStartX,iStartY,iLabel);
 	dxList << iStartX;
 	dyList << iStartY;
@@ -717,7 +726,7 @@ void Proofreader::SetLabel(int iStartX,int iStartY,int iLabel)
 		Sumdy+=dyList.at(i);
 	}
 
-	//dS‚ğ‹‚ß‚é
+	//ï¿½dï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 	CoGListX << Sumdx/dxList.count();
 	CoGListY << Sumdy/dyList.count();
 
@@ -726,60 +735,60 @@ void Proofreader::SetLabel(int iStartX,int iStartY,int iLabel)
 //	ScanLabel(iStartX,iStartY,iLabel);
 }
 
-//Šî€“_‚Ìü‚è”ª•û‚ğ‘–¸‚µ‚Äƒ‰ƒxƒ‹‚ğ•t—^
+//ï¿½î€ï¿½_ï¿½Ìï¿½ï¿½è”ªï¿½ï¿½ï¿½ğ‘–ï¿½ï¿½ï¿½ï¿½Äƒï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½tï¿½^
 void Proofreader::ScanThreshold(int iStartX,int iStartY,int iLabel)
 {
 	if((iStartX+1)<iDotPerLine){
-		if(ThresholdDotArray[iStartY][iStartX+1]==0){			//Šî€“_‚Ì‰E
+		if(ThresholdDotArray[iStartY][iStartX+1]==0){			//ï¿½î€ï¿½_ï¿½Ì‰E
 			ThresholdDotArray[iStartY][iStartX+1]=iLabel;
 			dxList << iStartX+1;
 			dyList << iStartY;
 		}
 	}
 	if((iStartX+1)<iDotPerLine && (iStartY+1)<iMaxLines){
-		if(ThresholdDotArray[iStartY+1][iStartX+1]==0){			//Šî€“_‚Ì‰E‰º
+		if(ThresholdDotArray[iStartY+1][iStartX+1]==0){			//ï¿½î€ï¿½_ï¿½Ì‰Eï¿½ï¿½
 			ThresholdDotArray[iStartY+1][iStartX+1]=iLabel;
 			dxList << iStartX+1;
 			dyList << iStartY+1;
 		}
 	}
 	if((iStartY+1)<iMaxLines){
-		if(ThresholdDotArray[iStartY+1][iStartX]==0){			//Šî€“_‚Ì‰º
+		if(ThresholdDotArray[iStartY+1][iStartX]==0){			//ï¿½î€ï¿½_ï¿½Ì‰ï¿½
 			ThresholdDotArray[iStartY+1][iStartX]=iLabel;
 			dxList << iStartX;
 			dyList << iStartY+1;
 		}
 	}
 	if((iStartX-1)>=0 && (iStartY+1)<iMaxLines){
-		if(ThresholdDotArray[iStartY+1][iStartX-1]==0){			//Šî€“_‚Ì¶‰º
+		if(ThresholdDotArray[iStartY+1][iStartX-1]==0){			//ï¿½î€ï¿½_ï¿½Ìï¿½ï¿½ï¿½
 			ThresholdDotArray[iStartY+1][iStartX-1]=iLabel;
 			dxList << iStartX-1;
 			dyList << iStartY+1;
 		}
 	}
 	if((iStartX-1)>=0){
-		if(ThresholdDotArray[iStartY][iStartX-1]==0){			//Šî€“_‚Ì¶
+		if(ThresholdDotArray[iStartY][iStartX-1]==0){			//ï¿½î€ï¿½_ï¿½Ìï¿½
 			ThresholdDotArray[iStartY][iStartX-1]=iLabel;
 			dxList << iStartX-1;
 			dyList << iStartY;
 		}
 	}
 	if((iStartX-1)>=0 && (iStartY-1)>=0){
-		if(ThresholdDotArray[iStartY-1][iStartX-1]==0){			//Šî€“_‚Ì¶ã
+		if(ThresholdDotArray[iStartY-1][iStartX-1]==0){			//ï¿½î€ï¿½_ï¿½Ìï¿½ï¿½ï¿½
 			ThresholdDotArray[iStartY-1][iStartX-1]=iLabel;
 			dxList << iStartX-1;
 			dyList << iStartY-1;
 		}
 	}
 	if((iStartY-1)>=0){
-		if(ThresholdDotArray[iStartY-1][iStartX]==0){			//Šî€“_‚Ìã
+		if(ThresholdDotArray[iStartY-1][iStartX]==0){			//ï¿½î€ï¿½_ï¿½Ìï¿½
 			ThresholdDotArray[iStartY-1][iStartX]=iLabel;
 			dxList << iStartX;
 			dyList << iStartY-1;
 		}
 	}
 	if((iStartX+1)<iDotPerLine && (iStartY-1)>=0){
-		if(ThresholdDotArray[iStartY-1][iStartX+1]==0){			//Šî€“_‚Ì‰Eã
+		if(ThresholdDotArray[iStartY-1][iStartX+1]==0){			//ï¿½î€ï¿½_ï¿½Ì‰Eï¿½ï¿½
 			ThresholdDotArray[iStartY-1][iStartX+1]=iLabel;
 			dxList << iStartX+1;
 			dyList << iStartY-1;

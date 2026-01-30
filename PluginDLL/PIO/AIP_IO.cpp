@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\PluginDLL\PIO\AIP_IO.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 //---------------------------------------------------------------------------
@@ -15,30 +24,30 @@
 #include "AIP_IO.h"
 #include <stdio.h>
 //---------------------------------------------------------------------------
-//   ˆÈ‰º‚ÍA‹¤—L RTL DLLiCP3250MT.DLL “™j‚ðŽg‚í‚È‚¢ DLL ‚ðì¬‚·‚é
-//   ê‡‚Ìƒƒ‚ƒŠŠÇ—‚ÉŠÖ‚·‚é’ˆÓ‚Å‚·
+//   ï¿½È‰ï¿½ï¿½ÍAï¿½ï¿½ï¿½L RTL DLLï¿½iCP3250MT.DLL ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½gï¿½ï¿½ï¿½È‚ï¿½ DLL ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
+//   ï¿½ê‡ï¿½Ìƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç—ï¿½ï¿½ÉŠÖ‚ï¿½ï¿½é’ï¿½Ó‚Å‚ï¿½
 //
-//   ƒpƒ‰ƒ[ƒ^‚â–ß‚è’l‚Æ‚µ‚Ä AnsiStringi‹y‚Ñ AnsiString ‚ðŠÜ‚Þ\‘¢‘Ì/
-//   ƒNƒ‰ƒXj‚ðˆµ‚¤ŠÖ”‚ð DLL ‚©‚çƒGƒNƒXƒ|[ƒg‚·‚éê‡A‚»‚Ì DLL ‚ÆADLL
-//   ‚ðŽg‚¤ƒvƒƒWƒFƒNƒg‚Ì—¼•û‚É MEMMGR.LIB ƒ‰ƒCƒuƒ‰ƒŠ‚ð’Ç‰Á‚·‚é•K—v‚ª
-//   ‚ ‚è‚Ü‚·B
+//   ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½ß‚ï¿½ï¿½lï¿½Æ‚ï¿½ï¿½ï¿½ AnsiStringï¿½iï¿½yï¿½ï¿½ AnsiString ï¿½ï¿½ï¿½Ü‚Þ\ï¿½ï¿½ï¿½ï¿½/
+//   ï¿½Nï¿½ï¿½ï¿½Xï¿½jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½ï¿½ DLL ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½Nï¿½Xï¿½|ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ DLL ï¿½ÆADLL
+//   ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Wï¿½Fï¿½Nï¿½gï¿½Ì—ï¿½ï¿½ï¿½ï¿½ï¿½ MEMMGR.LIB ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½
+//   ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 //
-//   DLL ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚½ATObject ‚©‚ç”h¶‚³‚ê‚Ä‚¢‚È‚¢ƒNƒ‰ƒX‚É
-//   ‘Î‚µ‚Ä new ‚Ü‚½‚Í delete ‚ðŽg‚¤ê‡‚É‚à MEMMGR.LIB ‚ð’Ç‰Á‚µ‚È‚¯‚ê
-//   ‚Î‚È‚è‚Ü‚¹‚ñB
+//   DLL ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½Nï¿½Xï¿½|ï¿½[ï¿½gï¿½ï¿½ï¿½ê‚½ï¿½ATObject ï¿½ï¿½ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½
+//   ï¿½Î‚ï¿½ï¿½ï¿½ new ï¿½Ü‚ï¿½ï¿½ï¿½ delete ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ê‡ï¿½É‚ï¿½ MEMMGR.LIB ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½
+//   ï¿½Î‚È‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B
 //
-//   MEMMGR.LIB ‚ð’Ç‰Á‚·‚é‚±‚Æ‚É‚æ‚èADLL ‚Æ DLL ‚ðŽQÆ‚·‚é EXE ‚ª‹¤
-//   ’Ê‚Ìƒƒ‚ƒŠƒ}ƒl[ƒWƒƒ‚ðŽg‚¤‚æ‚¤‚É‚È‚è‚Ü‚·Bƒƒ‚ƒŠƒ}ƒl[ƒWƒƒ‚Í BORLNDMM.DLL
-//   ‚Æ‚µ‚Ä’ñ‹Ÿ‚³‚ê‚Ü‚·BDLL ‚Ü‚½‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ‚Æ‚à‚É”z•z‚µ‚Ä
-//   ‚­‚¾‚³‚¢B
+//   MEMMGR.LIB ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½é‚±ï¿½Æ‚É‚ï¿½ï¿½ï¿½ï¿½ADLL ï¿½ï¿½ DLL ï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½ï¿½ EXE ï¿½ï¿½ï¿½ï¿½
+//   ï¿½Ê‚Ìƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½lï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½æ‚¤ï¿½É‚È‚ï¿½ï¿½Ü‚ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½lï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ BORLNDMM.DLL
+//   ï¿½Æ‚ï¿½ï¿½Ä’ñ‹Ÿ‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½BDLL ï¿½Ü‚ï¿½ï¿½ÍƒAï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Æ‚Æ‚ï¿½ï¿½É”zï¿½zï¿½ï¿½ï¿½ï¿½
+//   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 //
-//   BORLNDMM.DLL ‚ªŽg‚í‚ê‚é‚Ì‚ð”ð‚¯‚é‚É‚ÍAAnsiString Œ^‚Ì‘ã‚í‚è‚É
-//   "char *" ‚Ü‚½‚Í ShortString Œ^‚ðŽg‚Á‚Ä•¶Žš—ñ‚Ì‚â‚èŽæ‚è‚ð‚¨‚±‚È‚Á
-//   ‚Ä‚­‚¾‚³‚¢
+//   BORLNDMM.DLL ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ÍAAnsiString ï¿½^ï¿½Ì‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//   "char *" ï¿½Ü‚ï¿½ï¿½ï¿½ ShortString ï¿½^ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
+//   ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //
-//   ì¬‚·‚é DLL ‚ª‹¤—L RTL DLL ‚ðŽg‚¤ê‡‚É‚ÍARTL ‚Ì•û‚Å MEMMGR.LIB
-//   ‚ðƒ‰ƒCƒuƒ‰ƒŠ‚Æ‚µ‚Ä’Ç‰Á‚·‚é‚½‚ß DLL ƒvƒƒWƒFƒNƒg‚É–¾Ž¦“I‚É’Ç‰Á‚·
-//   ‚é•K—v‚Í‚ ‚è‚Ü‚¹‚ñB
+//   ï¿½ì¬ï¿½ï¿½ï¿½ï¿½ DLL ï¿½ï¿½ï¿½ï¿½ï¿½L RTL DLL ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ê‡ï¿½É‚ÍARTL ï¿½Ì•ï¿½ï¿½ï¿½ MEMMGR.LIB
+//   ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ä’Ç‰ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ï¿½ DLL ï¿½vï¿½ï¿½ï¿½Wï¿½Fï¿½Nï¿½gï¿½É–ï¿½ï¿½ï¿½ï¿½Iï¿½É’Ç‰ï¿½ï¿½ï¿½
+//   ï¿½ï¿½ï¿½Kï¿½vï¿½Í‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B
 //---------------------------------------------------------------------------
 
 #pragma argsused
@@ -76,12 +85,12 @@ int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved
   #define PIOMode 7
 #endif
 //  1:Dummy
-//  2:ADTEK     aPCI-P31A   1–‡\¬
-//  3:ADTEK     aPCI-P31A   2–‡\¬
-//  4:CONTEC    PCI-16/16L  1–‡\¬
-//  5:CONTEC    PCI-32/32L  1–‡\¬
-//  6:CONTEC    PCI-64/64L  1–‡\¬
-//  7:CONTEC    PCI-16/16L(PCI)H  1–‡\¬
+//  2:ADTEK     aPCI-P31A   1ï¿½ï¿½ï¿½\ï¿½ï¿½
+//  3:ADTEK     aPCI-P31A   2ï¿½ï¿½ï¿½\ï¿½ï¿½
+//  4:CONTEC    PCI-16/16L  1ï¿½ï¿½ï¿½\ï¿½ï¿½
+//  5:CONTEC    PCI-32/32L  1ï¿½ï¿½ï¿½\ï¿½ï¿½
+//  6:CONTEC    PCI-64/64L  1ï¿½ï¿½ï¿½\ï¿½ï¿½
+//  7:CONTEC    PCI-16/16L(PCI)H  1ï¿½ï¿½ï¿½\ï¿½ï¿½
 
 
 #if     PIOMode==2 || PIOMode==3
@@ -418,7 +427,6 @@ BOOL  _cdecl _export AIP_IO_Release(void)
         return(TRUE);
   #endif
 }
-
 
 
 

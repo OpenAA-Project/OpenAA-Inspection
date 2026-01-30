@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "BuslineInspectionResource.h"
 #include "XBuslineInspection.h"
 #include "XGeneralFunc.h"
@@ -85,9 +103,9 @@ AreaWithBrightness	*FlexAreaWithBrightnessListContainer::SearchArea(int x ,int y
 BuslineThreshold::BuslineThreshold(BuslineItem *parent)
 	:AlgorithmThreshold(parent)
 {
-	MinWidth			=3;	//Å¬ü•
+	MinWidth			=3;	//ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½
 	MinGap				=3;
-	LimitDot			=200;	//ŒÀŠEƒTƒCƒY
+	LimitDot			=200;	//ï¿½ï¿½ï¿½Eï¿½Tï¿½Cï¿½Y
 	MinArea				=0;
 	MaxArea				=0x7FFFFFFF;
 	MinSize				=0;
@@ -95,7 +113,7 @@ BuslineThreshold::BuslineThreshold(BuslineItem *parent)
 	CompareToMaster		=false;
 	AutoBinarize		=true;
 	ReduceNoise			=true;
-	BinarizedLength		=200;	//‹ÇŠ‚Q’l‰»—ÌˆæƒTƒCƒY
+	BinarizedLength		=200;	//ï¿½Çï¿½ï¿½Qï¿½lï¿½ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½Cï¿½Y
 	ReferredBrightness	=100;
 	SearchDotToMaster	=5;
 	WidthToIgnoreEdge	=2;
@@ -856,8 +874,8 @@ BuslineThresholdSend::BuslineThresholdSend(void)
 	CompareToMaster		=false;
 	AutoBinarize		=false;
 	ReduceNoise			=true;
-	BinarizedLength		=200;	//‹ÇŠ‚Q’l‰»—ÌˆæƒTƒCƒY
-	ReferredBrightness	=100;	//‚Q’l‰»QÆ‹P“x
+	BinarizedLength		=200;	//ï¿½Çï¿½ï¿½Qï¿½lï¿½ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½Cï¿½Y
+	ReferredBrightness	=100;	//ï¿½Qï¿½lï¿½ï¿½ï¿½Qï¿½Æ‹Pï¿½x
 	SearchDotToMaster	=5;
 	WidthToIgnoreEdge	=2;
 	OKNickRate			=50;			//0-100% for MinWidth
@@ -885,8 +903,8 @@ void	BuslineThresholdSend::ConstructList(BuslineThresholdReq *reqPacket,BuslineB
 			if(item!=NULL){
 				BuslineItem	*Item=dynamic_cast<BuslineItem*>(item);
 				const	BuslineThreshold	*RThr=Item->GetThresholdR(Ap->GetLayersBase());
-				MinWidth				=RThr->MinWidth;	//Å¬ü•
-				MinGap					=RThr->MinGap;		//Å¬ŠÔŠu
+				MinWidth				=RThr->MinWidth;	//ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½
+				MinGap					=RThr->MinGap;		//ï¿½Åï¿½ï¿½ÔŠu
 				MinArea					=RThr->MinArea	;
 				MaxArea					=RThr->MaxArea	;
 				MinSize					=RThr->MinSize;

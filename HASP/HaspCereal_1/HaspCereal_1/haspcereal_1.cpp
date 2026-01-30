@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\HASP\HaspCereal_1\HaspCereal_1\haspcereal_1.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "haspcereal_1.h"
 #include "hasp_vcode.h"       /* contains HASP HL DEMOMA vendor code */
 HaspCereal_1::HaspCereal_1(QWidget *parent, Qt::WindowFlags flags)
@@ -84,7 +93,7 @@ void HaspCereal_1::GetHaspID(QByteArray haspInfo,int &haspID)
 	QDomDocument d;
 	d.setContent(QString(haspInfo));
 	QDomElement n = d.firstChildElement();
-	while (!n.isNull()) {	//HASPƒVƒŠƒAƒ‹ƒR[ƒhæ“¾
+	while (!n.isNull()) {	//HASPï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½æ“¾
 			if (n.tagName()=="hasp_info"){
 				QDomElement child = n.firstChildElement();
 					while (!child.isNull()) {
@@ -96,7 +105,7 @@ void HaspCereal_1::GetHaspID(QByteArray haspInfo,int &haspID)
 									while (!child3.isNull()) {
 										if (child3.tagName()=="haspid"){
 											haspID =child3.text().toInt();
-//											hasp_free((char *)HaspID); //ŠJ•ú
+//											hasp_free((char *)HaspID); //ï¿½Jï¿½ï¿½
 											return ;
 										}
 										child3=child3.nextSiblingElement();
@@ -187,12 +196,12 @@ bool HaspCereal_1::SaveData(QString fileName, QByteArray cerealCode)
 void HaspCereal_1::on_pbYES_clicked()
 {
 	if (HaspLogin(handle)==true){
-		if (Session(handle,HaspInfo)==true){//HASPƒVƒŠƒAƒ‹ƒR[ƒhæ“¾
+		if (Session(handle,HaspInfo)==true){//HASPï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½æ“¾
 			GetHaspID(HaspInfo,HaspID);
 			if (Encrypt(handle,HaspID,CerealID)==true){
 				if (SaveFile(File)==true){
 					if (SaveData(File,CerealID)==true){
-						hasp_logout(handle);//login¨logout
+						hasp_logout(handle);//loginï¿½ï¿½logout
 						close();
 					}
 				}

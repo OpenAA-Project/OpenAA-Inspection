@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XAffin.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2023
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 
 //---------------------------------------------------------------------------
@@ -15,13 +24,13 @@
 #define XAffinH
 //---------------------------------------------------------------------------
 bool    GetAffin(int x1,int y1
-                ,int x2,int y2          //ƒ}ƒXƒ^[‰æ‘œã‚ÌƒAƒ‰ƒCƒƒ“ƒgŠî€ˆÊ’u
-                ,double cx, double cy   //‰ñ“]’†S
+                ,int x2,int y2          //ï¿½}ï¿½Xï¿½^ï¿½[ï¿½æ‘œï¿½ï¿½ï¿½ÌƒAï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½î€ï¿½Ê’u
+                ,double cx, double cy   //ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½S
                 ,int X1 ,int Y1
-                ,int X2 ,int Y2     //’Tõ‚µ‚½Œ‹‰Ê‚ÌƒAƒ‰ƒCƒ“ƒƒ“ƒgˆÊ’u
-                ,double &ResultPx,double &ResultPy  //•½sˆÚ“®—Ê
-                ,double &ResultS                    //‰ñ“]—Êiƒ‰ƒWƒAƒ“j
-                ,double &ResultAlpha);              //Šg‘å—¦
+                ,int X2 ,int Y2     //ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚ÌƒAï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ê’u
+                ,double &ResultPx,double &ResultPy  //ï¿½ï¿½ï¿½sï¿½Ú“ï¿½ï¿½ï¿½
+                ,double &ResultS                    //ï¿½ï¿½ï¿½]ï¿½Êiï¿½ï¿½ï¿½Wï¿½Aï¿½ï¿½ï¿½j
+                ,double &ResultAlpha);              //ï¿½gï¿½å—¦
 
 bool	GetAffinDecompose(double m[6] 
 						,double &A ,double &B, double &Tx ,double &Ty ,double &S ,double &R);

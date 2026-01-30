@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 #include "windows.h"
 #include "atlstr.h"
@@ -75,19 +93,19 @@ bool	CameraXtiumBoard::OpenCOM(void)
 	DCB		DCBData;
 	COMMTIMEOUTS	CommTimeouts;
 
-	/* ’ÊMƒ|[ƒg‚ÌŒ»İ‚Ìİ’èæ“¾ */
+	/* ï¿½ÊMï¿½|ï¿½[ï¿½gï¿½ÌŒï¿½ï¿½İ‚Ìİ’ï¿½ï¿½æ“¾ */
 	ret_B = GetCommState( ComHandle, &DCBData );
 	if( !ret_B )
 		return false;
 
-	/* İ’è‚Ì•ÏX */
+	/* ï¿½İ’ï¿½ï¿½Ì•ÏX */
 	DCBData.DCBlength	=sizeof(DCBData);
 	DCBData.BaudRate = 19200;
 	DCBData.ByteSize = 8;
 	DCBData.Parity   = NOPARITY;
 	DCBData.StopBits = ONESTOPBIT;
 
-	DCBData.fOutxCtsFlow= false;      // ˆÈ‰º ƒtƒ[§Œä
+	DCBData.fOutxCtsFlow= false;      // ï¿½È‰ï¿½ ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	DCBData.fOutxDsrFlow= false;
 	DCBData.fDtrControl	= false;
 	DCBData.fOutX		= false;
@@ -98,20 +116,20 @@ bool	CameraXtiumBoard::OpenCOM(void)
 	if(ret_B==false)
 		return false;
 
-	/* ’ÊMƒpƒ‰ƒ[ƒ^‰Šú‰» */
+	/* ï¿½ÊMï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	ret_B = SetupComm( ComHandle
-	                   , 1024    // óMƒoƒbƒtƒ@ƒTƒCƒY
-	                   , 1024 ); // ‘—Mƒoƒbƒtƒ@ƒTƒCƒY
+	                   , 1024    // ï¿½ï¿½ï¿½Mï¿½oï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Y
+	                   , 1024 ); // ï¿½ï¿½ï¿½Mï¿½oï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Y
 	if(ret_B==false)
 		return false;
 
-	/* ’ÊM—pƒoƒbƒtƒ@iƒVƒXƒeƒ€j‚Ì‰Šú‰» */
+	/* ï¿½ÊMï¿½pï¿½oï¿½bï¿½tï¿½@ï¿½iï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½jï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
 	ret_B = PurgeComm( ComHandle, PURGE_TXABORT | PURGE_RXABORT
 	                   | PURGE_TXCLEAR | PURGE_RXCLEAR );
 	if(ret_B==false )
 		return false;
 
-	/* ƒ^ƒCƒ€ƒAƒEƒg‚Ìİ’è */
+	/* ï¿½^ï¿½Cï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½Ìİ’ï¿½ */
 	//CommTimeouts.ReadIntervalTimeout         = 50;
 	//CommTimeouts.ReadTotalTimeoutMultiplier  = 50;
 	//CommTimeouts.ReadTotalTimeoutConstant    = 10;
@@ -239,4 +257,3 @@ bool	CameraXtiumBoard::ReceiveCom(BYTE RData[],int &RDataLen ,int MaxMilisec)
 
 	return true;
 }
-

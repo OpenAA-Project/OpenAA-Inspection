@@ -1,13 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp
-** if any conditions of this licensing agreement are not clear to you.
-** This file is provided as is with no warranty
-**
-** This file is C:\Regulus64v5\Open\XGUIFormBase.h
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2026
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #if	!defined(XGUIFORMBASEH)
 #define	XGUIFORMBASEH
 
@@ -72,9 +80,9 @@ public:
 	}ShowingAttribute;
 	QKeySequence	ShortcutKey;
 	QIcon		MenuIcon;
-	int			MenuNumber;			//ƒƒjƒ…[•\¦‚Ì‡”Ô‚Ì–ÚˆÀBi—Dæ“xj
-	bool		CancelDuplication;	//“¯‚¶€–Ú‚ª‚QŒÂ‚É‚È‚é‚Æ‚«‚QŒÂ–ÚˆÈ‰º‚ğ”jŠü‚·‚é
-									//ƒfƒtƒHƒ‹ƒg‚Å‚Ítrue
+	int			MenuNumber;			//ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½\ï¿½ï¿½ï¿½Ìï¿½ï¿½Ô‚Ì–Úˆï¿½ï¿½Bï¿½iï¿½Dï¿½ï¿½ï¿½xï¿½j
+	bool		CancelDuplication;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú‚ï¿½ï¿½Qï¿½Â‚É‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½Qï¿½Â–ÚˆÈ‰ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+									//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Å‚ï¿½true
 
 	MenuInfoList(void);
 	~MenuInfoList(void);
@@ -255,10 +263,10 @@ template <typename t_ListFunc>
 class ListFuncElement : public ListFuncAbstruct
 {
 private:
-    typedef void (t_ListFunc::*FPFUNC)(ImageBuffer *Buffer[] ,int BufferDimCounts,bool &XReverse ,bool &YReverse);  // ˆ—ŠÖ”‚ÌŒ^
+    typedef void (t_ListFunc::*FPFUNC)(ImageBuffer *Buffer[] ,int BufferDimCounts,bool &XReverse ,bool &YReverse);  // ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½ÌŒ^
 
 private:
-    t_ListFunc* m_pHandleParent;         // ‘€ì‘ÎÛ
+    t_ListFunc* m_pHandleParent;         // ï¿½ï¿½ï¿½ï¿½ï¿½Îï¿½
 	FPFUNC	m_func;
 
 public:
@@ -313,7 +321,7 @@ signals:
 };
 
 /*
-	EditGUI‚Å‚­‚Á‚Â‚¯‚éƒx[ƒX‚É‚È‚é•”•ª‚É‚ÍGUIFormBase‚©‚ç“±o‚µ‚½ƒNƒ‰ƒX‚ğg—p‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
+	EditGUIï¿½Å‚ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½xï¿½[ï¿½Xï¿½É‚È‚é•”ï¿½ï¿½ï¿½É‚ï¿½GUIFormBaseï¿½ï¿½ï¿½ç“±ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Î‚È‚ï¿½ï¿½È‚ï¿½
 */
 
 class	GUIFormBase : public QFrame,public ControlRememberer,public IdentifiedClass
@@ -353,7 +361,7 @@ friend	class	SelectedWindow;
 		bool	CreatedInGUIDLL		:1;
 		bool	IgnoreKeyEvent		:1;
 		bool	EnabledBroadcast	:1;
-		bool	Viewing				:1;		//Tab‚È‚Ç‚É‰B‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Îtrue
+		bool	Viewing				:1;		//Tabï¿½È‚Ç‚É‰Bï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½true
 
 		bool	ReEntryStackedViewPlayer			:1;
 		bool	ReEntryStackedOnTheWayPlayer		:1;
@@ -379,7 +387,7 @@ private:
 	DWORD	LastRunningMilisec;
 	DWORD	LastEdittingMilisec;
 	DWORD	LastScanningMilisec;
-	int32	ClientX1,ClientY1;	//‘Š‘ÎÀ•W
+	int32	ClientX1,ClientY1;	//ï¿½ï¿½ï¿½Îï¿½ï¿½W
 	int32	ClientX2,ClientY2;
 	int32	ReEntrantCount;
 	int32	StackedViewPlayerCount;
@@ -395,11 +403,11 @@ public:
 		,_BC_ShowInEdit		=3
 		,_BC_ShowInScanning	=18
 		,_BC_DoneCalc		=4
-		,_BC_StartPage		=5	//•\¦‚³‚ê‚éTAB“à‚ÌGUI‚É‘Î‚µ‚Ä‚Ì‚İ‘—o‚³‚ê‚é
-		,_BC_LeavePage		=6	//•\¦‚³‚ê‚éTAB“à‚ÌGUI‚É‘Î‚µ‚Ä‚Ì‚İ‘—o‚³‚ê‚é
+		,_BC_StartPage		=5	//ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½TABï¿½ï¿½ï¿½ï¿½GUIï¿½É‘Î‚ï¿½ï¿½Ä‚Ì‚İ‘ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		,_BC_LeavePage		=6	//ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½TABï¿½ï¿½ï¿½ï¿½GUIï¿½É‘Î‚ï¿½ï¿½Ä‚Ì‚İ‘ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		,_BC_WroteResult	=7
 		,_BC_SetViewing		=8
-		,_BC_TabChanged		=9	//‚·‚×‚Ä‚ÌGUI‚É‘—o‚³‚ê‚é
+		,_BC_TabChanged		=9	//ï¿½ï¿½ï¿½×‚Ä‚ï¿½GUIï¿½É‘ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		,_BC_ShowInDelayed	=10
 		,_BC_Terminated		=11
 		,_BC_ReadyParam		=12
@@ -413,8 +421,8 @@ public:
 		,_BC_ReadyTerminate	=23
 	};
 protected:
-	GUIFormBase	*ChainedParent;		//‘½d‚É‹N“®‚µ‚½‚Æ‚«‚Ìe
-	QByteArray	ChainedContent;		//‘½d‚É‹N“®‚µ‚½‚Æ‚«‚Ìƒf[ƒ^
+	GUIFormBase	*ChainedParent;		//ï¿½ï¿½ï¿½dï¿½É‹Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ìe
+	QByteArray	ChainedContent;		//ï¿½ï¿½ï¿½dï¿½É‹Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ìƒfï¿½[ï¿½^
 	GuiDLLItem	*GuiDLLPoint;
 	bool		TopForm;
 	int			OnIdleCounter;
@@ -523,7 +531,7 @@ public:
 	virtual	int	GetChildCount();
 	void	Set		(GUIInitializer	*_GUIInitializerPoint ,GUIInstancePack	*_GUIInstancePackPoint);
 	void	SetParent(GUIInitializer	*_GUIInitializerPoint ,GUIInstancePack	*_GUIInstancePackPoint);
-	virtual	GUIFormBase	*GetChild(int index)	const;					//í‚É“¯‚¶GUIFormBase‚ğæ‚èo‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
+	virtual	GUIFormBase	*GetChild(int index)	const;					//ï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½GUIFormBaseï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Î‚È‚ï¿½ï¿½È‚ï¿½
 
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet);
 	virtual	bool				SaveInPacket(QIODevice *f ,GUIDirectMessage *packet);
@@ -613,7 +621,7 @@ public:
 	void	RegisterExecuteProcessingRevived(void);
 	void	RegisterExecutePostProcessing	(void);
 
-	//‚±‚ê‚ç‚ÍƒCƒ“ƒXƒ^ƒ“ƒX‚Ì“o˜^‚ª•K—v
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍƒCï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Ì“oï¿½^ï¿½ï¿½ï¿½Kï¿½v
 	virtual ExeResult	ExecuteStartByInspection(void)	{	return _ER_true;	}
 	virtual ExeResult	ExecutePreAlignment		(void)	{	return _ER_true;	}
 	virtual ExeResult	ExecuteAlignment		(void)	{	return _ER_true;	}

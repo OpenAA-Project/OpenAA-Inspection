@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2022
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XUSBCameraExecuter.h"
 #include "XGeneralFunc.h"
 #include "XDLLType.h"
@@ -157,7 +175,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				*sR = YClip255(( Y2 + 409 * V + 128) >> 8);
 				*sG = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				*sB = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				*(sR+1) = YClip255(( Y4 + 409 * V + 128) >> 8);
 				*(sG+1) = YClip255(( Y4 - 100 * U - 208 * V + 128) >> 8);
 				*(sB+1) = YClip255(( Y4 + 516 * U + 128) >> 8);
@@ -189,7 +207,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				sR1[YN-y-1] = YClip255(( Y2 + 409 * V + 128) >> 8);
 				sG1[YN-y-1] = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				sB1[YN-y-1] = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				BYTE	*sR2=Buff[0]->GetY(x+1);
 				BYTE	*sG2=Buff[1]->GetY(x+1);
 				BYTE	*sB2=Buff[2]->GetY(x+1);
@@ -220,7 +238,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				*sR = YClip255(( Y2 + 409 * V + 128) >> 8);
 				*sG = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				*sB = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				*(sR-1) = YClip255(( Y4 + 409 * V + 128) >> 8);
 				*(sG-1) = YClip255(( Y4 - 100 * U - 208 * V + 128) >> 8);
 				*(sB-1) = YClip255(( Y4 + 516 * U + 128) >> 8);
@@ -251,7 +269,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				sR1[y] = YClip255(( Y2 + 409 * V + 128) >> 8);
 				sG1[y] = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				sB1[y] = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				BYTE	*sR2=Buff[0]->GetY(MinXLen-x-2);
 				BYTE	*sG2=Buff[1]->GetY(MinXLen-x-2);
 				BYTE	*sB2=Buff[2]->GetY(MinXLen-x-2);
@@ -283,7 +301,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				*sR = YClip255(( Y2 + 409 * V + 128) >> 8);
 				*sG = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				*sB = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				*(sR-1) = YClip255(( Y4 + 409 * V + 128) >> 8);
 				*(sG-1) = YClip255(( Y4 - 100 * U - 208 * V + 128) >> 8);
 				*(sB-1) = YClip255(( Y4 + 516 * U + 128) >> 8);
@@ -314,7 +332,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				sR1[y] = YClip255(( Y2 + 409 * V + 128) >> 8);
 				sG1[y] = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				sB1[y] = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				BYTE	*sR2=Buff[0]->GetY(x+1);
 				BYTE	*sG2=Buff[1]->GetY(x+1);
 				BYTE	*sB2=Buff[2]->GetY(x+1);
@@ -345,7 +363,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				*sR = YClip255(( Y2 + 409 * V + 128) >> 8);
 				*sG = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				*sB = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				*(sR+1) = YClip255(( Y4 + 409 * V + 128) >> 8);
 				*(sG+1) = YClip255(( Y4 - 100 * U - 208 * V + 128) >> 8);
 				*(sB+1) = YClip255(( Y4 + 516 * U + 128) >> 8);
@@ -376,7 +394,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				sR1[YN-1-y] = YClip255(( Y2 + 409 * V + 128) >> 8);
 				sG1[YN-1-y] = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				sB1[YN-1-y] = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				BYTE	*sR2=Buff[0]->GetY(MinXLen-x-2);
 				BYTE	*sG2=Buff[1]->GetY(MinXLen-x-2);
 				BYTE	*sB2=Buff[2]->GetY(MinXLen-x-2);
@@ -408,7 +426,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				*sR = YClip255(( Y2 + 409 * V + 128) >> 8);
 				*sG = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				*sB = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				*(sR+1) = YClip255(( Y4 + 409 * V + 128) >> 8);
 				*(sG+1) = YClip255(( Y4 - 100 * U - 208 * V + 128) >> 8);
 				*(sB+1) = YClip255(( Y4 + 516 * U + 128) >> 8);
@@ -439,7 +457,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				sR1[YN-y-1] = YClip255(( Y2 + 409 * V + 128) >> 8);
 				sG1[YN-y-1] = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				sB1[YN-y-1] = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				BYTE	*sR2=Buff[0]->GetY(MinXLen-2-x);
 				BYTE	*sG2=Buff[1]->GetY(MinXLen-2-x);
 				BYTE	*sB2=Buff[2]->GetY(MinXLen-2-x);
@@ -470,7 +488,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				*sR = YClip255(( Y2 + 409 * V + 128) >> 8);
 				*sG = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				*sB = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				*(sR-1) = YClip255(( Y4 + 409 * V + 128) >> 8);
 				*(sG-1) = YClip255(( Y4 - 100 * U - 208 * V + 128) >> 8);
 				*(sB-1) = YClip255(( Y4 + 516 * U + 128) >> 8);
@@ -501,7 +519,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				sR1[y] = YClip255(( Y2 + 409 * V + 128) >> 8);
 				sG1[y] = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				sB1[y] = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				BYTE	*sR2=Buff[0]->GetY(x+1);
 				BYTE	*sG2=Buff[1]->GetY(x+1);
 				BYTE	*sB2=Buff[2]->GetY(x+1);
@@ -533,7 +551,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				*sR = YClip255(( Y2 + 409 * V + 128) >> 8);
 				*sG = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				*sB = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				*(sR-1) = YClip255(( Y4 + 409 * V + 128) >> 8);
 				*(sG-1) = YClip255(( Y4 - 100 * U - 208 * V + 128) >> 8);
 				*(sB-1) = YClip255(( Y4 + 516 * U + 128) >> 8);
@@ -564,7 +582,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				sR1[y] = YClip255(( Y2 + 409 * V + 128) >> 8);
 				sG1[y] = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				sB1[y] = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				BYTE	*sR2=Buff[0]->GetY(MinXLen-2-x);
 				BYTE	*sG2=Buff[1]->GetY(MinXLen-2-x);
 				BYTE	*sB2=Buff[2]->GetY(MinXLen-2-x);
@@ -595,7 +613,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				*sR = YClip255(( Y2 + 409 * V + 128) >> 8);
 				*sG = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				*sB = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				*(sR+1) = YClip255(( Y4 + 409 * V + 128) >> 8);
 				*(sG+1) = YClip255(( Y4 - 100 * U - 208 * V + 128) >> 8);
 				*(sB+1) = YClip255(( Y4 + 516 * U + 128) >> 8);
@@ -626,7 +644,7 @@ void WMFCamera::TransformImage_YUY2(ImageBuffer *Buff[]
 				sR1[YN-1-y] = YClip255(( Y2 + 409 * V + 128) >> 8);
 				sG1[YN-1-y] = YClip255(( Y2 - 100 * U - 208 * V + 128) >> 8);
 				sB1[YN-1-y] = YClip255(( Y2 + 516 * U + 128) >> 8);
-                // Y4‚É‘Î‚·‚éƒsƒNƒZƒ‹‚ÌRGB
+                // Y4ï¿½É‘Î‚ï¿½ï¿½ï¿½ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½RGB
 				BYTE	*sR2=Buff[0]->GetY(x+1);
 				BYTE	*sG2=Buff[1]->GetY(x+1);
 				BYTE	*sB2=Buff[2]->GetY(x+1);

@@ -1,12 +1,21 @@
-/*******************************************************************************
-** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
-**
-** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
-** if any conditions of this licensing agreement are not clear to you.
-**
-** This file is C:\Regulus64v5\GeneralSource\XDotColorMatchingLibrary.cpp
-** Author : YYYYYYYYYY
-****************************************************************************-**/
+/*
+ * Copyright (C) 2025
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XDotColorMatchingLibrary.h"
 #include "XGeneralFunc.h"
 #include "ImageControlTools.h"
@@ -21,14 +30,14 @@
 
 DotColorMatchingLibrary::MLibThreshold::MLibThreshold(void)
 {
-	BrightWidthRL	=0;		//ˆÃ‘¤‹P“x•
-	BrightWidthRH	=0;		//–¾‘¤‹P“x•
-	BrightWidthGL	=0;		//ˆÃ‘¤‹P“x•
-	BrightWidthGH	=0;		//–¾‘¤‹P“x•
-	BrightWidthBL	=0;		//ˆÃ‘¤‹P“x•
-	BrightWidthBH	=0;		//–¾‘¤‹P“x•
+	BrightWidthRL	=0;		//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	BrightWidthRH	=0;		//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	BrightWidthGL	=0;		//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	BrightWidthGH	=0;		//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
+	BrightWidthBL	=0;		//ï¿½Ã‘ï¿½ï¿½Pï¿½xï¿½ï¿½
+	BrightWidthBH	=0;		//ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½
 	
-	OKDot			=0;		//‚n‚jƒhƒbƒg”
+	OKDot			=0;		//ï¿½nï¿½jï¿½hï¿½bï¿½gï¿½ï¿½
 	OKLength		=99999999;
 
 	RThrOffsetL		=0;
@@ -154,26 +163,26 @@ DotColorMatchingLibrary::DotColorMatchingLibrary(int LibType,LayersBase *Base)
 	VarietySigma	=0;
 	MultiSpotDot	=0;
 	MultiSpotCount	=0;
-	MultiSpotDotGathered	=0;	//–§W‘½“_
+	MultiSpotDotGathered	=0;	//ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½_
 	MultiSpotCountGathered	=0;
 	MultiSpotLengthGathered	=99999999;
 	BackGroundOKDot		=100;	
 	BackGroundOKLength	=100;		
 
-	AdjustBlack		=0;		//‹P“x•â³‚Ì‰ºŒÀ•
-    AdjustWhite		=0;		//‹P“x•â³‚ÌãŒÀ•
+	AdjustBlack		=0;		//ï¿½Pï¿½xï¿½â³ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    AdjustWhite		=0;		//ï¿½Pï¿½xï¿½â³ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	AdjustContribute=10;
 	AreaSearchX		=20;
 	AreaSearchY		=20;
-    SelfSearch		=0;		//©ŒÈ’Tõƒhƒbƒg”
+    SelfSearch		=0;		//ï¿½ï¿½ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
 	PreciseSearch	=false;
 	Clusterize		=false;
 	EnableT2M		=true;
 	EnableM2T		=true;
 	UseMaster2		=false;
 	ExpandToSubBlock=20;
-	MaxAreaSearch	=99;		//Å‘å—Ìˆæ’Tõƒhƒbƒg”
-    MaxSelfSearch	=99;		//Å‘å©ŒÈ’Tõƒhƒbƒg”
+	MaxAreaSearch	=99;		//ï¿½Å‘ï¿½ï¿½Ìˆï¿½ï¿½Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
+    MaxSelfSearch	=99;		//ï¿½Å‘å©ï¿½È’Tï¿½ï¿½ï¿½hï¿½bï¿½gï¿½ï¿½
 
 	ScratchStartDirection	=0.0;
 	ScratchRotationAngle	=0.0;
@@ -220,9 +229,9 @@ DotColorMatchingLibrary::DotColorMatchingLibrary(int LibType,LayersBase *Base)
 	MasterNoOriginCode	=0;
 
 	VariationMode		=false;
-	VariationRL=0;	VariationRH=255;	//R-OKƒoƒ‰ƒcƒL•Î·’l
-	VariationGL=0;	VariationGH=255;	//G-OKƒoƒ‰ƒcƒL•Î·’l
-	VariationBL=0;	VariationBH=255;	//B-OKƒoƒ‰ƒcƒL•Î·’l
+	VariationRL=0;	VariationRH=255;	//R-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
+	VariationGL=0;	VariationGH=255;	//G-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
+	VariationBL=0;	VariationBH=255;	//B-OKï¿½oï¿½ï¿½ï¿½cï¿½Lï¿½Îï¿½ï¿½l
 	VariationAdaptMinSize	=1000;
 	VariationMultiplyMaster	=0.0;
 	VariationDifMaster		=false;
@@ -2023,5 +2032,4 @@ DotColorMatchingLibraryContainer::DotColorMatchingLibraryContainer(LayersBase *b
 DotColorMatchingLibraryContainer::~DotColorMatchingLibraryContainer(void)
 {
 }
-
 
