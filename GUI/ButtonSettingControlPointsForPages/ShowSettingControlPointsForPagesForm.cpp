@@ -27,7 +27,7 @@ static	bool TargetFunctionPaintLast(FunctionServerClass *Obj,GUIFormBase *Target
 
 
 ShowSettingControlPointsForPagesForm::ShowSettingControlPointsForPagesForm(LayersBase *Base 
-                                                                           ,DisplayImage::DisplayType dtype
+                                                                           ,DisplayType dtype
                                                                            ,QWidget *parent) :
     QWidget(parent)
     ,ServiceForLayers(Base)
@@ -51,7 +51,7 @@ ShowSettingControlPointsForPagesForm::ShowSettingControlPointsForPagesForm(Layer
     ImagePanel.ViewWindowStyle.EnableToolArea=false;
     ImagePanel.Prepare();
     connect(&ImagePanel,SIGNAL(SignalMouseLDoubleClick(int,int)),this,SLOT(SlotMouseLDoubleClick(int,int)));
-    ImagePanel.SetModeByOthers(mtFrameDraw::fdPoint,Qt::red);
+    ImagePanel.SetModeByOthers(fdPoint,Qt::red);
     int W=width();
     int H=height();
     ImagePanel.setGeometry(ui->frame->width(),0,W-ui->frame->width(),H);

@@ -949,7 +949,7 @@ void DrawHookControlPanelForm::on_toolButtonNew_clicked()
 		ui->toolButtonSelect->setChecked(false);
 		for(DisplayImagePointer *a=TargetPanels.GetFirst();a!=NULL;a=a->GetNext()){
 			DisplayImage	*TargetPanel=a->GetPanel();
-			TargetPanel->SetModeByOthers(mtFrameDraw::fdNone,TargetPanel->GetDrawColor());
+			TargetPanel->SetModeByOthers(fdNone,TargetPanel->GetDrawColor());
 		}
 	}
 }

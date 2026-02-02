@@ -32,7 +32,7 @@
 #include "swap.h"
 
 
-void    DisplayImage::ToFlexArea( struct mtFrameDraw::_ShapeData &SData
+void    DisplayImage::ToFlexArea( struct _ShapeData &SData
                                 ,FlexArea &resultarea)
 {
     int cx;
@@ -53,7 +53,7 @@ void    DisplayImage::ToFlexArea( struct mtFrameDraw::_ShapeData &SData
 
 	resultarea.Clear();
     switch(SData.dtype){
-        case mtFrameDraw::fdRectangle:
+        case fdRectangle:
             rx1=SData.UData.RectangleData.x1;
             ry1=SData.UData.RectangleData.y1;
             rx2=SData.UData.RectangleData.x2;
@@ -67,7 +67,7 @@ void    DisplayImage::ToFlexArea( struct mtFrameDraw::_ShapeData &SData
             BShape.Kind=BlockShape::_sRectangle;
 			resultarea.SetRectangle(rx1 ,ry1 ,rx2 ,ry2);
             break;
-        case mtFrameDraw::fdRotRectangle:
+        case fdRotRectangle:
             cx=SData.UData.RotRectangleData.cx;
             cy=SData.UData.RotRectangleData.cy;
             rx=SData.UData.RotRectangleData.rx;
@@ -86,8 +86,8 @@ void    DisplayImage::ToFlexArea( struct mtFrameDraw::_ShapeData &SData
 			resultarea.SetRotRectangle((rx1+rx2)/2 ,(ry1+ry2)/2 ,(rx2-rx1)/2 ,(ry2-ry1)/2,SData.UData.RotRectangleData.s);
             BShape.Kind=BlockShape::_sRotRectangle;
             break;
-        case mtFrameDraw::fdCircle:
-        case mtFrameDraw::fdCircle3:
+        case fdCircle:
+        case fdCircle3:
 			//ChangeGxy2Dxy(SData.UData.CircleData.cx-SData.UData.CircleData.r,SData.UData.CircleData.cy-SData.UData.CircleData.r ,rx1,ry1);
 			//ChangeGxy2Dxy(SData.UData.CircleData.cx+SData.UData.CircleData.r,SData.UData.CircleData.cy+SData.UData.CircleData.r ,rx2,ry2);
 			rx1=SData.UData.CircleData.cx-SData.UData.CircleData.r;
@@ -104,8 +104,8 @@ void    DisplayImage::ToFlexArea( struct mtFrameDraw::_ShapeData &SData
             BShape.Kind=BlockShape::_sEllipse;
 			resultarea.SetEllipse(cx,cy,r,r);
             break;
-        case mtFrameDraw::fdEllipse:
-        case mtFrameDraw::fdEllipse4:
+        case fdEllipse:
+        case fdEllipse4:
 			//ChangeGxy2Dxy(SData.UData.EllipseData.cx-SData.UData.EllipseData.rx,SData.UData.EllipseData.cy-SData.UData.EllipseData.ry ,rx1,ry1);
 			//ChangeGxy2Dxy(SData.UData.EllipseData.cx+SData.UData.EllipseData.rx,SData.UData.EllipseData.cy+SData.UData.EllipseData.ry ,rx2,ry2);
 			rx1=SData.UData.EllipseData.cx-SData.UData.EllipseData.rx;
@@ -123,7 +123,7 @@ void    DisplayImage::ToFlexArea( struct mtFrameDraw::_ShapeData &SData
             BShape.Kind=BlockShape::_sEllipse;
 			resultarea.SetEllipse(cx,cy,rx,ry);
             break;
-        case mtFrameDraw::fdRotEllipse:
+        case fdRotEllipse:
 			//ChangeGxy2Dxy(SData.UData.RotEllipseData.cx-SData.UData.RotEllipseData.rx,SData.UData.RotEllipseData.cy-SData.UData.RotEllipseData.ry ,rx1,ry1);
 			//ChangeGxy2Dxy(SData.UData.RotEllipseData.cx+SData.UData.RotEllipseData.rx,SData.UData.RotEllipseData.cy+SData.UData.RotEllipseData.ry ,rx2,ry2);
 			rx1=SData.UData.RotEllipseData.cx-SData.UData.RotEllipseData.rx;
@@ -142,11 +142,11 @@ void    DisplayImage::ToFlexArea( struct mtFrameDraw::_ShapeData &SData
             BShape.Kind=BlockShape::_sEllipse;
 			resultarea.SetRotEllipse(cx,cy,rx,ry,SData.UData.RotEllipseData.s);
             break;
-        case mtFrameDraw::fdFree:
+        case fdFree:
             ColPointToArea(*SData.UData.FreeData.points,resultarea);
             BShape.Kind=BlockShape::_sFree;
             break;
-        case mtFrameDraw::fdPoly:
+        case fdPoly:
             ColPointToArea(*SData.UData.PolyData.points,resultarea);
             BShape.Kind=BlockShape::_sPoly;
 			BShape.Shape.bsPoly.PointCount=SData.UData.PolyData.points->GetCount();
@@ -158,7 +158,7 @@ void    DisplayImage::ToFlexArea( struct mtFrameDraw::_ShapeData &SData
 				i++;
 			}
             break;
-        case mtFrameDraw::fdRing:
+        case fdRing:
 			//ChangeGxy2Dxy(SData.UData.ERingData.cx-SData.UData.ERingData.rx1,SData.UData.ERingData.cy-SData.UData.ERingData.ry1 ,rx1,ry1);
 			//ChangeGxy2Dxy(SData.UData.ERingData.cx+SData.UData.ERingData.rx1,SData.UData.ERingData.cy+SData.UData.ERingData.ry1 ,rx2,ry2);
 			rx1=SData.UData.ERingData.cx-SData.UData.ERingData.rx1;
@@ -186,7 +186,7 @@ void    DisplayImage::ToFlexArea( struct mtFrameDraw::_ShapeData &SData
             BShape.Kind=BlockShape::_sRing;
 			resultarea.SetRing(cx,cy,erx1,ery1,erx2,ery2);
             break;
-		case mtFrameDraw::fdLongCircle:
+		case fdLongCircle:
             cx1=SData.UData.LongCircleData.cx1;
             cy1=SData.UData.LongCircleData.cy1;
             cx2=SData.UData.LongCircleData.cx2;
@@ -200,7 +200,7 @@ void    DisplayImage::ToFlexArea( struct mtFrameDraw::_ShapeData &SData
 			resultarea.SetLongCircle(cx1,cy1,cx2,cy2,r);
             BShape.Kind=BlockShape::_sLongCircle;
             break;
-		case mtFrameDraw::fdChoppedLine:
+		case fdChoppedLine:
             cx1=SData.UData.ChoppedLineData.x1;
             cy1=SData.UData.ChoppedLineData.y1;
             cx2=SData.UData.ChoppedLineData.x2;
@@ -214,8 +214,8 @@ void    DisplayImage::ToFlexArea( struct mtFrameDraw::_ShapeData &SData
 			resultarea.SetLongCircle(cx1,cy1,cx2,cy2,r);
             BShape.Kind=BlockShape::_sLongCircle;
             break;
-		case mtFrameDraw::fdRingArc1:
-		case mtFrameDraw::fdRingArc4:
+		case fdRingArc1:
+		case fdRingArc4:
 			//ChangeGxy2Dxy(SData.UData.ERingData.cx-SData.UData.ERingData.rx1,SData.UData.ERingData.cy-SData.UData.ERingData.ry1 ,rx1,ry1);
 			//ChangeGxy2Dxy(SData.UData.ERingData.cx+SData.UData.ERingData.rx1,SData.UData.ERingData.cy+SData.UData.ERingData.ry1 ,rx2,ry2);
 			rx1=SData.UData.RingArcData.cx-SData.UData.RingArcData.rx1;
@@ -338,13 +338,13 @@ void    DisplayImage::ColPointToArea(NPListPack<ShapePoint> &cdata
 void    DisplayImage::GetPoints(XYClassCluster &XYArea)	const
 {
 	XYClassArea	*A;
-	struct  mtFrameDraw::_ShapeData	&P=*GetRawSDataPoint();
+	struct  _ShapeData	&P=*GetRawSDataPoint();
 	int	cx,cy,rx,ry;
 	int	x1,y1,x,y;
 	double	sins,coss;
 	double	ds,d,m;
     switch(P.dtype){
-        case mtFrameDraw::fdRectangle:
+        case fdRectangle:
 			A=new XYClassArea();
 			A->AppendList(new XYClass(P.UData.RectangleData.x1,P.UData.RectangleData.y1));
 			A->AppendList(new XYClass(P.UData.RectangleData.x2,P.UData.RectangleData.y1));
@@ -353,7 +353,7 @@ void    DisplayImage::GetPoints(XYClassCluster &XYArea)	const
 			A->AppendList(new XYClass(P.UData.RectangleData.x1,P.UData.RectangleData.y1));
 			XYArea.AppendList(A);
 			break;
-        case mtFrameDraw::fdRotRectangle:
+        case fdRotRectangle:
 			coss=cos(P.UData.RotRectangleData.s);
 			sins=sin(P.UData.RotRectangleData.s);
             cx=P.UData.RotRectangleData.cx;
@@ -370,8 +370,8 @@ void    DisplayImage::GetPoints(XYClassCluster &XYArea)	const
 			A->AppendList(new XYClass(cx-x1,cy-y1));
 			XYArea.AppendList(A);
 			break;
-        case mtFrameDraw::fdCircle:
-        case mtFrameDraw::fdCircle3:
+        case fdCircle:
+        case fdCircle3:
 			if(P.UData.CircleData.r<25){
 				m=P.UData.CircleData.r/5.0;
 			}
@@ -387,8 +387,8 @@ void    DisplayImage::GetPoints(XYClassCluster &XYArea)	const
 			}
 			XYArea.AppendList(A);
 			break;
-        case mtFrameDraw::fdEllipse:
-        case mtFrameDraw::fdEllipse4:
+        case fdEllipse:
+        case fdEllipse4:
 			if(hypot(P.UData.EllipseData.rx,P.UData.EllipseData.ry)<25){
 				m=hypot(P.UData.EllipseData.rx,P.UData.EllipseData.ry)/5.0;
 			}
@@ -404,7 +404,7 @@ void    DisplayImage::GetPoints(XYClassCluster &XYArea)	const
 			}
 			XYArea.AppendList(A);
 			break;
-        case mtFrameDraw::fdRotEllipse:
+        case fdRotEllipse:
 			if(hypot(P.UData.RotEllipseData.rx,P.UData.RotEllipseData.ry)<25){
 				m=hypot(P.UData.RotEllipseData.rx,P.UData.RotEllipseData.ry)/5.0;
 			}
@@ -422,25 +422,25 @@ void    DisplayImage::GetPoints(XYClassCluster &XYArea)	const
 			}
 			XYArea.AppendList(A);
 			break;
-		case mtFrameDraw::fdArc:
+		case fdArc:
 			break;
-		case mtFrameDraw::fdArc3:
+		case fdArc3:
 			break;
-		case mtFrameDraw::fdFree:
+		case fdFree:
 			A=new XYClassArea();
 			for(ShapePoint *a=P.UData.FreeData.points->GetFirst();a!=NULL;a=a->GetNext()){
 				A->AppendList(new XYClass(a->x,a->y));
 			}
 			XYArea.AppendList(A);
 			break;
-		case mtFrameDraw::fdPoly:
+		case fdPoly:
 			A=new XYClassArea();
 			for(ShapePoint *a=P.UData.PolyData.points->GetFirst();a!=NULL;a=a->GetNext()){
 				A->AppendList(new XYClass(a->x,a->y));
 			}
 			XYArea.AppendList(A);
 			break;
-		case mtFrameDraw::fdRing:
+		case fdRing:
 			break;
 		default:
 			break;
@@ -449,7 +449,7 @@ void    DisplayImage::GetPoints(XYClassCluster &XYArea)	const
 
 void	DisplayImage::GetPointList(DotListContainer &Dots ,double d)	const
 {
-	struct mtFrameDraw::_ShapeData *SData=GetRawSDataPoint();
+	struct _ShapeData *SData=GetRawSDataPoint();
 	double	r;
     double	cx,rx;
     double	cy,ry;
@@ -458,13 +458,13 @@ void	DisplayImage::GetPointList(DotListContainer &Dots ,double d)	const
 	int	i,N;
 	Dots.RemoveAll();
     switch(SData->dtype){
-        case mtFrameDraw::fdRectangle:
+        case fdRectangle:
 			Dots.AppendList(new DotList(SData->UData.RectangleData.x1 ,SData->UData.RectangleData.y1));
 			Dots.AppendList(new DotList(SData->UData.RectangleData.x2 ,SData->UData.RectangleData.y1));
 			Dots.AppendList(new DotList(SData->UData.RectangleData.x2 ,SData->UData.RectangleData.y2));
 			Dots.AppendList(new DotList(SData->UData.RectangleData.x1 ,SData->UData.RectangleData.y2));
             break;
-        case mtFrameDraw::fdRotRectangle:
+        case fdRotRectangle:
             cx=SData->UData.RotRectangleData.cx;
             cy=-SData->UData.RotRectangleData.cy;
             rx=SData->UData.RotRectangleData.rx;
@@ -477,8 +477,8 @@ void	DisplayImage::GetPointList(DotListContainer &Dots ,double d)	const
 			Dots.AppendList(new DotList(-rx*cos(s)+ry*sin(s)+cx ,-rx*sin(s)-ry*cos(s)+cy));
 			Dots.AppendList(new DotList( rx*cos(s)+ry*sin(s)+cx , rx*sin(s)-ry*cos(s)+cy));
 			break;
-        case mtFrameDraw::fdCircle:
-        case mtFrameDraw::fdCircle3:
+        case fdCircle:
+        case fdCircle3:
 			if(SData->UData.CircleData.r>0.001){
 				N=2.0*M_PI/asin(1.0/SData->UData.CircleData.r);
 				if(N<2){
@@ -490,8 +490,8 @@ void	DisplayImage::GetPointList(DotListContainer &Dots ,double d)	const
 				}
 			}
             break;
-        case mtFrameDraw::fdEllipse:
-        case mtFrameDraw::fdEllipse4:
+        case fdEllipse:
+        case fdEllipse4:
 			r=max(SData->UData.EllipseData.rx ,SData->UData.EllipseData.ry);
 			if(r>=0.001){
 				N=2.0*M_PI/asin(1.0/r);
@@ -504,7 +504,7 @@ void	DisplayImage::GetPointList(DotListContainer &Dots ,double d)	const
 				}
 			}
             break;
-        case mtFrameDraw::fdRotEllipse:
+        case fdRotEllipse:
 			r=max(SData->UData.RotEllipseData.rx ,SData->UData.RotEllipseData.ry);
 			if(r>0.001){
 				N=2.0*M_PI/asin(1.0/r);
@@ -520,33 +520,33 @@ void	DisplayImage::GetPointList(DotListContainer &Dots ,double d)	const
 				}
 			}
 			break;
-        case mtFrameDraw::fdFree:
+        case fdFree:
 			for(c=SData->UData.FreeData.points->GetFirst();c!=NULL;c=c->GetNext()){
 				Dots.AppendList(new DotList(c->x ,c->y));
 			}			
             break;
-        case mtFrameDraw::fdPoly:
+        case fdPoly:
 			for(c=SData->UData.PolyData.points->GetFirst();c!=NULL;c=c->GetNext()){
 				Dots.AppendList(new DotList(c->x ,c->y));
 			}
             break;
-        case mtFrameDraw::fdRing:
+        case fdRing:
             break;
 		default:
 			break;
         }
 }
 
-VectorLineBase	*DisplayImage::ToVectorLine( struct mtFrameDraw::_ShapeData &SData)
+VectorLineBase	*DisplayImage::ToVectorLine( struct _ShapeData &SData)
 {
 	VectorLineBase	*V=NULL;
 	VectorItemDouble	*p1;
 	VectorItemDouble	*p2;
 
     switch(SData.dtype){
-        case mtFrameDraw::fdChoppedLine:
-        case mtFrameDraw::fdHChoppedLine:
-        case mtFrameDraw::fdVChoppedLine:
+        case fdChoppedLine:
+        case fdHChoppedLine:
+        case fdVChoppedLine:
 			V=new VectorLineDouble();
 			p1=new VectorItemDouble( SData.UData.ChoppedLineData.x1
 									,SData.UData.ChoppedLineData.y1);
@@ -555,25 +555,25 @@ VectorLineBase	*DisplayImage::ToVectorLine( struct mtFrameDraw::_ShapeData &SDat
 			V->AppendItemBase(p1);
 			V->AppendItemBase(p2);
 			break;
-		case mtFrameDraw::fdArc:
-		case mtFrameDraw::fdArc3:
+		case fdArc:
+		case fdArc3:
 			V=new VectorLineArc();
 			((VectorLineArc *)V)->SetArc(SData.UData.ArcData.cx, SData.UData.ArcData.cy ,SData.UData.ArcData.r
 										,SData.UData.ArcData.s1 ,SData.UData.ArcData.s2);
 			break;
-		case mtFrameDraw::fdEllipse:
-		case mtFrameDraw::fdEllipse4:
+		case fdEllipse:
+		case fdEllipse4:
 			V=new VectorLineEllipse();
 			((VectorLineEllipse *)V)->SetEllipse(SData.UData.EllipseData.cx, SData.UData.EllipseData.cy
 												,SData.UData.EllipseData.rx, SData.UData.EllipseData.ry);
 			break;
-		case mtFrameDraw::fdCircle:
-		case mtFrameDraw::fdCircle3:
+		case fdCircle:
+		case fdCircle3:
 			V=new VectorLineEllipse();
 			((VectorLineEllipse *)V)->SetEllipse(SData.UData.CircleData.cx, SData.UData.CircleData.cy
 												,SData.UData.CircleData.r, SData.UData.CircleData.r);
 			break;
-		case mtFrameDraw::fdDualArrow:
+		case fdDualArrow:
 			V=new VectorLineDouble();
 			p1=new VectorItemDouble( SData.UData.DualArrowLineData.x1
 									,SData.UData.DualArrowLineData.y1);
@@ -583,7 +583,7 @@ VectorLineBase	*DisplayImage::ToVectorLine( struct mtFrameDraw::_ShapeData &SDat
 			V->AppendItemBase(p2);
 			break;
 
-		case mtFrameDraw::fdSingleArrow:
+		case fdSingleArrow:
 			V=new VectorLineDouble();
 			p1=new VectorItemDouble( SData.UData.SingleArrowLineData.x1
 									,SData.UData.SingleArrowLineData.y1);

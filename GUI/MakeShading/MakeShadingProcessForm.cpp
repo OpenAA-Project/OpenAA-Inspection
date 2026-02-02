@@ -29,7 +29,7 @@ extern  const	char	*sName;
 MakeShadingProcessForm::MakeShadingProcessForm(LayersBase *base,MakeShading *p,QWidget *parent) :
     QWidget(parent),ServiceForLayers(base)
     ,Parent(p)
-    ,ImagePanel(base,sRoot ,sName,DisplayImage::__Target ,this)
+    ,ImagePanel(base,sRoot ,sName,__Target ,this)
     ,ui(new Ui::MakeShadingProcessForm)
 {
     ui->setupUi(this);
@@ -46,7 +46,7 @@ MakeShadingProcessForm::MakeShadingProcessForm(LayersBase *base,MakeShading *p,Q
     ImagePanel.Prepare();
     connect(&ImagePanel,SIGNAL(SignalDrawEndAfterOperation(FlexArea &)),this,SLOT(SlotDrawEndAfterOperation(FlexArea &)));
     connect(&ImagePanel,SIGNAL(SignalDrawFunc(QPainter &,QImage &,const IntList &)),this,SLOT(SlotDrawFunc(QPainter &,QImage &,const IntList &)));
-    ImagePanel.SetModeByOthers(mtFrameDraw::fdRectangle,Qt::red);
+    ImagePanel.SetModeByOthers(fdRectangle,Qt::red);
     int W=width();
     int H=height();
     ImagePanel.setGeometry(0,ui->frame->height(),W,H-ui->frame->height());

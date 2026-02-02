@@ -2029,24 +2029,24 @@ void	DataInLayer::UndoPasteRect(QIODevice *f)
 	if(::Load(f,d)==false){
 		return;
 	}
-	DisplayImage::DisplayType	DType=(DisplayImage::DisplayType)d;
+	DisplayType	DType=(DisplayType)d;
 	ImageBuffer	*DBuff=NULL;
-	if(DType==DisplayImage::__Target){
+	if(DType==__Target){
 		DBuff=&GetTargetBuff();
 	}
-	else if(DType==DisplayImage::__Master){
+	else if(DType==__Master){
 		DBuff=&GetMasterBuff();
 	}
-	else if(DType==DisplayImage::__DelayedView){
+	else if(DType==__DelayedView){
 		DBuff=&GetDelayedViewBuff();
 	}
-	else if(DType==DisplayImage::__RawTarget){
+	else if(DType==__RawTarget){
 		DBuff=&GetRawTargetBuff();
 	}
-	else if(DType==DisplayImage::__CamTarget){
+	else if(DType==__CamTarget){
 		DBuff=&GetCamTargetBuff();
 	}
-	else if(DType==DisplayImage::__TrialTarget){
+	else if(DType==__TrialTarget){
 		DBuff=&GetTrialTargetBuff();
 	}
 	FlexAreaImage	UndoAreaImage;
@@ -3541,29 +3541,29 @@ void	DataInPage::UndoPourImage(QIODevice *f)
 	if(::Load(f,d)==false)	return;
 	int	MasterNo;
 	if(::Load(f,MasterNo)==false)	return;
-	DisplayImage::DisplayType	DType=(DisplayImage::DisplayType)d;
+	DisplayType	DType=(DisplayType)d;
 	FlexAreaColorImage	UndoAreaImage;
 	if(UndoAreaImage.Load(f)==false)	return;
 
 	ImagePointerContainer Images;
-	if((DType&DisplayImage::__Master)!=0){
+	if((DType&__Master)!=0){
 		GetMasterImages(MasterNo,Images);
 	}
-	else if((DType&DisplayImage::__Target)!=0){
+	else if((DType&__Target)!=0){
 		GetTargetImages(Images);
 	}
-	else if((DType&DisplayImage::__TargetTR)!=0){
+	else if((DType&__TargetTR)!=0){
 		GetTargetTRImages(Images);
 	}
-	else if((DType&DisplayImage::__DelayedView)!=0){
+	else if((DType&__DelayedView)!=0){
 		GetDelayedViewImages(Images);
 	}
-	else if((DType&DisplayImage::__BitBuff)!=0){
+	else if((DType&__BitBuff)!=0){
 	}
-	else if((DType&DisplayImage::__RawTarget)!=0){
+	else if((DType&__RawTarget)!=0){
 		GetRawTargetImages(Images);
 	}
-	else if((DType&DisplayImage::__CamTarget)!=0){
+	else if((DType&__CamTarget)!=0){
 		GetCamTargetImages(Images);
 	}
 	UndoAreaImage.Draw(Images);
@@ -3574,29 +3574,29 @@ void	DataInPage::UndoReplaceColorImage(QIODevice *f)
 	if(::Load(f,d)==false)	return;
 	int	MasterNo;
 	if(::Load(f,MasterNo)==false)	return;
-	DisplayImage::DisplayType	DType=(DisplayImage::DisplayType)d;
+	DisplayType	DType=(DisplayType)d;
 	int32	LayerNumb;
 	if(::Load(f,LayerNumb)==false)	return;
 
 	ImagePointerContainer Images;
-	if((DType&DisplayImage::__Master)!=0){
+	if((DType&__Master)!=0){
 		GetMasterImages(MasterNo,Images);
 	}
-	else if((DType&DisplayImage::__Target)!=0){
+	else if((DType&__Target)!=0){
 		GetTargetImages(Images);
 	}
-	else if((DType&DisplayImage::__TargetTR)!=0){
+	else if((DType&__TargetTR)!=0){
 		GetTargetTRImages(Images);
 	}
-	else if((DType&DisplayImage::__DelayedView)!=0){
+	else if((DType&__DelayedView)!=0){
 		GetDelayedViewImages(Images);
 	}
-	else if((DType&DisplayImage::__BitBuff)!=0){
+	else if((DType&__BitBuff)!=0){
 	}
-	else if((DType&DisplayImage::__RawTarget)!=0){
+	else if((DType&__RawTarget)!=0){
 		GetRawTargetImages(Images);
 	}
-	else if((DType&DisplayImage::__CamTarget)!=0){
+	else if((DType&__CamTarget)!=0){
 		GetCamTargetImages(Images);
 	}
 	for(ImagePointerList *p=Images.GetFirst();p!=NULL;p=p->GetNext()){

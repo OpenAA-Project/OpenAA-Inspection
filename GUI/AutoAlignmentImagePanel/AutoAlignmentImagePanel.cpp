@@ -44,7 +44,7 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Target);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Target);
 
 	(*Base)=new GUICmdReqAutoAlignmentInfoOnPoint	(Base,QString(sRoot),QString(sName));
 	(*Base)=new GUICmdSendAutoAlignmentInfoOnPoint(Base,QString(sRoot),QString(sName));
@@ -141,7 +141,7 @@ AlgorithmDrawAttr	*AutoAlignmentImagePanel::CreateDrawAttrPointer(void)
 	A->DrawSheetMode=DrawMode.DrawSheetMode;
 	A->DrawMono		=DrawMode.DrawMono;
 	A->MonoLevel	=DrawMode.MonoLevel;
-	if(GetDisplayType()==DisplayImage::__Master)
+	if(GetDisplayType()==__Master)
 		A->Mastered		=true;
 	else
 		A->Mastered		=false;

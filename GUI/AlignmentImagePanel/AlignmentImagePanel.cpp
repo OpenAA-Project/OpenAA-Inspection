@@ -50,8 +50,8 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
-	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
+	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
 
 	(*Base)=new GUICmdReqAddAlignment		(Base,QString(sRoot),QString(sName));
 	(*Base)=new GUICmdSetAlignmentButton	(Base,QString(sRoot),QString(sName));

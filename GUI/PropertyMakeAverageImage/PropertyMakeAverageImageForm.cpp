@@ -132,7 +132,7 @@ void PropertyMakeAverageImageForm::on_toolButtonDrawDarkImage_clicked()
 		if(F!=NULL){
 			DisplayImageWithAlgorithm	*d=dynamic_cast<DisplayImageWithAlgorithm *>(F);
 			if(d!=NULL){
-				d->ChangeDisplayType(DisplayImage::__NoImage);
+				d->ChangeDisplayType(__NoImage);
 			}
 		}
 	}
@@ -146,7 +146,7 @@ void PropertyMakeAverageImageForm::on_toolButtonDrawLightImage_clicked()
 		if(F!=NULL){
 			DisplayImageWithAlgorithm	*d=dynamic_cast<DisplayImageWithAlgorithm *>(F);
 			if(d!=NULL){
-				d->ChangeDisplayType(DisplayImage::__NoImage);
+				d->ChangeDisplayType(__NoImage);
 			}
 		}
 	}
@@ -160,7 +160,7 @@ void PropertyMakeAverageImageForm::on_toolButtonDrawAverageImage_clicked()
 		if(F!=NULL){
 			DisplayImageWithAlgorithm	*d=dynamic_cast<DisplayImageWithAlgorithm *>(F);
 			if(d!=NULL){
-				d->ChangeDisplayType(DisplayImage::__NoImage);
+				d->ChangeDisplayType(__NoImage);
 			}
 		}
 	}
@@ -174,7 +174,7 @@ void PropertyMakeAverageImageForm::on_toolButtonDrawVariableImage_clicked()
 		if(F!=NULL){
 			DisplayImageWithAlgorithm	*d=dynamic_cast<DisplayImageWithAlgorithm *>(F);
 			if(d!=NULL){
-				d->ChangeDisplayType(DisplayImage::__NoImage);
+				d->ChangeDisplayType(__NoImage);
 			}
 		}
 	}

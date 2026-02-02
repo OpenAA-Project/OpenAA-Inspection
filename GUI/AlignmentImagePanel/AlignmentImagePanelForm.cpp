@@ -308,7 +308,7 @@ void	AlignmentImagePanel::DrawAfterImage(QPainter &pnt ,QImage &PntImage)
 		TProp->TransmitDirectly(&DrawMode);
 		LayerList=DrawMode.LayerList;
 	}
-	if(DrawMode.DType==DisplayImage::__Target || DrawMode.DType==DisplayImage::__DelayedView){
+	if(DrawMode.DType==__Target || DrawMode.DType==__DelayedView){
 		int	globalX1;
 		int	globalY1;
 		int	globalX2;

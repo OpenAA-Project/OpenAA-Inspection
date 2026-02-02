@@ -186,7 +186,7 @@ void PropertyBCRForm::on_pushButtonTest_clicked()
 	RCmd.ItemID=L->ItemID;
 	DisplayImage	*GProp=(DisplayImage *)GetLayersBase()->FindByName(/**/"Inspection" ,/**/"BCRImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		if(GProp->GetDisplayType()==DisplayImage::__Master)
+		if(GProp->GetDisplayType()==__Master)
 			RCmd.Mastered=true;
 		else
 			RCmd.Mastered=false;

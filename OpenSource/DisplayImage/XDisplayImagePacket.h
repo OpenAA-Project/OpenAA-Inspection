@@ -41,7 +41,7 @@ public:
 #pragma	pack(1)
 	struct	GUIReqBmpStruct
 	{
-		DisplayImage::DisplayType	DType;
+		DisplayType	DType;
 		int32	Gx1;
 		int32	Gy1;
 		int32	Gx2;
@@ -69,8 +69,8 @@ public:
 
 	IntList	LayerList;
 
-	GUICmdReqBmp(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,DisplayImage::DisplayType dtype ,int globalPage=-1);
-	GUICmdReqBmp(LayersBase *Base,QString className ,const QString &emitterRoot ,const QString &emitterName,DisplayImage::DisplayType dtype ,int globalPage=-1);
+	GUICmdReqBmp(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,DisplayType dtype ,int globalPage=-1);
+	GUICmdReqBmp(LayersBase *Base,QString className ,const QString &emitterRoot ,const QString &emitterName,DisplayType dtype ,int globalPage=-1);
 
 	virtual	bool	Load(QIODevice *f);
 	virtual	bool	Save(QIODevice *f);
@@ -80,7 +80,7 @@ public:
 
 inline	GUICmdReqBmp::GUIReqBmpStruct::GUIReqBmpStruct()
 {
-	DType	=DisplayImage::__NoImage;
+	DType	=__NoImage;
 	Gx1		=0;
 	Gy1		=0;
 	Gx2		=0;
@@ -123,7 +123,7 @@ public:
 
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName){}	
 
-	bool	MakeImage(DisplayImage::DisplayType dtype 
+	bool	MakeImage(DisplayType dtype 
 					 ,int Gx1,int Gy1 ,int Gx2,int Gy2
 					 ,int Dx1,int Dy1 ,int Dx2,int Dy2
 					 ,int MovX,int MovY, double ZoomRate ,double Yz
@@ -136,7 +136,7 @@ public:
 					 ,int32 TransparentLevelInBitBuff
 					 ,bool ShowNGMarkInTarget
 					 ,bool RepaintContinuously);
-	bool	MakeImageOneLayer( DisplayImage::DisplayType dtype 
+	bool	MakeImageOneLayer( DisplayType dtype 
 							 ,QImage *IData , DataInPage *P ,int Layer , QColor LColor
 							 ,int MasterNo
 							 ,int LGx,int LGy
@@ -144,7 +144,7 @@ public:
 							 ,int DotPerLine ,int MaxLines
 							, double ZoomRate
 							, double Yz);
-	bool	MakeImageMultiLayer( DisplayImage::DisplayType dtype 
+	bool	MakeImageMultiLayer( DisplayType dtype 
 								,IntList &LayerList
 								,QImage *IData , DataInPage *P ,QColor LColor
 								,int MasterNo
@@ -165,7 +165,7 @@ public:
 class	GUICmdSyncDrawingMode : public GUICmdPacketBase	//�����`���R�}���h
 {
 public:
-	DisplayImage::__DrawingMode	DMode;
+	DisplayImage::__DrawingShapeMode	DMode;
 	int		localX,localY;
 	QString	InstName;
 
@@ -183,10 +183,10 @@ class	GUICmdReqPixelColor : public GUICmdPacketBase	//�s�N�Z�����
 public:
 	int		LocalX;
 	int		LocalY;
-	DisplayImage::DisplayType	DType;
+	DisplayType	DType;
 	int		MasterNo;
 
-	GUICmdReqPixelColor(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,DisplayImage::DisplayType dtype,int globalPage=-1);
+	GUICmdReqPixelColor(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,DisplayType dtype,int globalPage=-1);
 
 	virtual	bool	Load(QIODevice *f);
 	virtual	bool	Save(QIODevice *f);
@@ -217,10 +217,10 @@ public:
 	QColor					Col;
 	FlexArea				Area;
 	//mtFrameDraw::_ShapeData	CShape;
-	DisplayImage::DisplayType	DType;
+	DisplayType	DType;
 	int							MasterNo;
 
-	GUICmdDrawColor(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,DisplayImage::DisplayType dtype ,int globalPage=-1);
+	GUICmdDrawColor(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,DisplayType dtype ,int globalPage=-1);
 
 	virtual	bool	Load(QIODevice *f);
 	virtual	bool	Save(QIODevice *f);
@@ -235,10 +235,10 @@ public:
 	QColor					Col;
 	int						LocalX,LocalY;
 	//mtFrameDraw::_ShapeData	CShape;
-	DisplayImage::DisplayType	DType;
+	DisplayType	DType;
 	int							MasterNo;
 
-	GUICmdDrawDot(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,DisplayImage::DisplayType dtype ,int globalPage=-1);
+	GUICmdDrawDot(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,DisplayType dtype ,int globalPage=-1);
 
 	virtual	bool	Load(QIODevice *f);
 	virtual	bool	Save(QIODevice *f);
@@ -288,7 +288,7 @@ class	DisplayImageCopyStructure : public NPList<DisplayImageCopyStructure>	//�
 {
 public:
 	int								GlobalPage;
-	DisplayImage::DisplayType		DType;
+	DisplayType						DType;
 	int								MasterNo;
 	IntList							LayerList;
 	NPListPack<FlexAreaImageList>	ImageWithAreas;
@@ -297,7 +297,7 @@ public:
 	DisplayImageCopyStructure(int _MasterNo){	GlobalPage=-1;	MasterNo=_MasterNo;	}
 	DisplayImageCopyStructure(const DisplayImageCopyStructure &src);
 
-	void	Capture(FlexArea &area ,DataInPage *PageData ,DisplayImage::DisplayType &dtype);
+	void	Capture(FlexArea &area ,DataInPage *PageData ,DisplayType &dtype);
 	DisplayImageCopyStructure	&operator=(const DisplayImageCopyStructure &src);
 
 	bool	Save(QIODevice *f);
@@ -313,7 +313,7 @@ public:
 class	GUICmdCopyRectPacket : public GUICmdPacketBase	//�摜�̋��`�R�s�[�R�}���h
 {
 public:
-	DisplayImage::DisplayType	Source;
+	DisplayType	Source;
 	FlexArea					Area;
 	GUICmdCopyRectPacket(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1);
 
@@ -354,7 +354,7 @@ public:
 class	GUICmdReqClippedImage : public GUICmdPacketBase	//�C�ӌ`���ł̉摜�R�s�[�̂��߂̉摜�v���R�}���h
 {
 public:
-	DisplayImage::DisplayType	Source;
+	DisplayType	Source;
 	FlexArea	RealArea;
 	IntList		LayerList;
 	double		ZoomRate;
@@ -379,7 +379,7 @@ public:
 
 	void	CreateImageData(LayersBase *Base,FlexArea &RealArea
 							,double ZoomRate
-							,DisplayImage::DisplayType DType
+							,DisplayType DType
 							,int MasterNo);
 	void	Draw(QImage &Img ,int GlobalX ,int GlobalY
 				,int movx ,int movy ,double ZoomRate);
@@ -752,8 +752,8 @@ public:
 		int32	GlobalPage;
 		int32	MoveGlobalDx;
 		int32	MoveGlobalDy;
-		DisplayImage::__DrawingMode	Mode;
-		DisplayImage::DisplayType	DType;
+		DisplayImage::__DrawingShapeMode	Mode;
+		DisplayType	DType;
 	}Data;
 #pragma	pack(pop)
 
@@ -808,8 +808,8 @@ public:
 		int32	GlobalPage;
 		int32	MoveGlobalDx;
 		int32	MoveGlobalDy;
-		DisplayImage::__DrawingMode	Mode;
-		DisplayImage::DisplayType	DType;
+		DisplayImage::__DrawingShapeMode	Mode;
+		DisplayType	DType;
 	}Data;
 #pragma	pack(pop)
 
@@ -851,10 +851,10 @@ public:
 					 ,int Dx1,int Dy1 ,int Dx2,int Dy2
 					 ,int MovX,int MovY, double ZoomRate
 					 ,int localPage
-					 ,DisplayImage::__DrawingMode	DMode
+					 ,DisplayImage::__DrawingShapeMode	DMode
 					 ,int MoveGlobalDx ,int MoveGlobalDy
 					 ,DisplayImageWithAlgorithm	*A
-					 ,DisplayImage::DisplayType	DType
+					 ,DisplayType	DType
 					 ,LayersBase &LocalLBase
 					 ,QString &EmitterRoot,QString &EmitterName);
 };
@@ -1601,7 +1601,7 @@ public:
 class	GUICmdRegulateBrightness : public GUICmdPacketBase
 {
 public:
-	DisplayImage::DisplayType	ImageType;
+	DisplayType					ImageType;
 	int							MasterNo;
 	AvrVarListByLayerContainer	AvrDatas;
 	int		BlockSize;
@@ -1618,7 +1618,7 @@ public:
 class	GUICmdGetAvrVar : public GUICmdPacketBase
 {
 public:
-	DisplayImage::DisplayType	ImageType;
+	DisplayType					ImageType;
 	int							MasterNo;
 	IntList		LayerList;
 	int		BlockSize;
@@ -1670,8 +1670,8 @@ public:
 class	GUICmdGetColorSample : public GUICmdPacketBase
 {
 public:
-	DisplayImage::DisplayType	ImageType;
-	int							MasterNo;
+	DisplayType	ImageType;
+	int			MasterNo;
 	FlexArea	Area;
 
 	GUICmdGetColorSample(LayersBase *base ,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1);
@@ -1760,7 +1760,7 @@ public:
 class	CmdPanelGetButton : public GUIDirectMessage
 {
 public:
-	mtFrameDraw::DrawingMode	Mode;
+	DrawingMode	Mode;
 	CmdPanelGetButton(LayersBase *base):GUIDirectMessage(base){}
 	CmdPanelGetButton(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
@@ -1768,7 +1768,7 @@ public:
 class	CmdPanelSetButton : public GUIDirectMessage
 {
 public:
-	mtFrameDraw::DrawingMode	Mode;
+	DrawingMode	Mode;
 	CmdPanelSetButton(LayersBase *base):GUIDirectMessage(base){}
 	CmdPanelSetButton(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
@@ -1785,7 +1785,7 @@ public:
 class	CmdReqImageLayer : public GUIDirectMessage
 {
 public:
-	DisplayImage::DisplayType DType;
+	DisplayType DType;
 	IntList		LayerList;
 
 	CmdReqImageLayer(LayersBase *base ,int LayerNumb);
@@ -1822,7 +1822,7 @@ public:
 inline	CmdReqImageLayer::CmdReqImageLayer(LayersBase *base ,int LayerNumb)
 	:GUIDirectMessage(base)
 {	
-	DType=DisplayImage::__Master;	
+	DType=__Master;	
 	for(int L=0;L<LayerNumb;L++){
 		LayerList.Add(L);
 	}
@@ -1830,7 +1830,7 @@ inline	CmdReqImageLayer::CmdReqImageLayer(LayersBase *base ,int LayerNumb)
 inline	CmdReqImageLayer::CmdReqImageLayer(GUICmdPacketBase *base ,int LayerNumb)
 	:GUIDirectMessage(base)
 {	
-	DType=DisplayImage::__Master;	
+	DType=__Master;	
 	for(int L=0;L<LayerNumb;L++){
 		LayerList.Add(L);
 	}
@@ -1848,7 +1848,7 @@ public:
 class	CmdSetDisplayType : public GUIDirectMessage
 {
 public:
-	DisplayImage::DisplayType DType;
+	DisplayType DType;
 	int		MasterNo;
 
 	CmdSetDisplayType(LayersBase *base):GUIDirectMessage(base){	MasterNo=0;	}
@@ -2034,7 +2034,7 @@ class	GUICmdPourImage : public GUICmdPacketBase	//
 public:
 	int		LocalX;
 	int		LocalY;
-	DisplayImage::DisplayType	DType;
+	DisplayType	DType;
 	int		MasterNo; 
 	int		BrightnessWidth;
 	int		ExpandedDot;
@@ -2053,7 +2053,7 @@ class	GUICmdReplaceColorImage : public GUICmdPacketBase	//
 public:
 	int		LocalX;
 	int		LocalY;
-	DisplayImage::DisplayType	DType;
+	DisplayType	DType;
 	int		MasterNo; 
 	int		BrightnessWidth;
 	int		ExpandedDot;

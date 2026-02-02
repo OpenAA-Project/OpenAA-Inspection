@@ -25,7 +25,6 @@
 #include <stdio.h>
 #include "XDatabase.h"
 #include "XGeneralDialog.h"
-#include "hasplib.h"
 #include "Regulus64Version.h"
 #include "XShowVersion.h"
 #include "XParamGlobal.h"

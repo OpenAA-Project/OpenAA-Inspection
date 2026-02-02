@@ -314,14 +314,14 @@ void	LearningPanelForm::SlotOnPaint(QPainter &pnt)
 void LearningPanelForm::on_toolButtonPointDraw_clicked()
 {
 	if(ui->toolButtonPointDraw->isChecked()==true){
-		ImagePanel.SetMode(mtFrameDraw::fdPoint);
+		ImagePanel.SetMode(fdPoint);
 	}
 }
 
 void LearningPanelForm::on_toolButtonRectangleDraw_clicked()
 {
 	if(ui->toolButtonRectangleDraw->isChecked()==true){
-		ImagePanel.SetMode(mtFrameDraw::fdRectangle);
+		ImagePanel.SetMode(fdRectangle);
 	}
 }
 

@@ -46,7 +46,7 @@ void WhichImageForm::on_radioButtonMaster_toggled(bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->ChangeDisplayType(DisplayImage::__Master);
+				m->ChangeDisplayType(__Master);
 				m->Repaint();
 			}
 		}
@@ -63,7 +63,7 @@ void WhichImageForm::on_radioButtonTarget_toggled(bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->ChangeDisplayType(DisplayImage::__Target);
+				m->ChangeDisplayType(__Target);
 				m->Repaint();
 			}
 		}

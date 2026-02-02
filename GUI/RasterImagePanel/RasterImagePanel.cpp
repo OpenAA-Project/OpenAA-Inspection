@@ -54,8 +54,8 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
-	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
+	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
 
 	(*Base)=new GUICmdRasterDrawMode				(Base,QString(sRoot),QString(sName));
 	(*Base)=new GUICmdMsgRasterSelectAll			(Base,QString(sRoot),QString(sName));
@@ -193,7 +193,7 @@ RasterImagePanel::~RasterImagePanel(void)
 void	RasterImagePanel::Prepare(void)
 {
 	DisplayImageWithAlgorithm::Prepare();
-	SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+	SetModeByOthers(fdRectangle ,Qt::red);
 
 	connect(this,SIGNAL(SignalJustMouseLPress(int,int)),this,SLOT(SlotJustMouseLPress (int ,int )));
 }
@@ -210,7 +210,7 @@ void	RasterImagePanel::ResizeAction()
 
 void	RasterImagePanel::DrawBtnDown()
 {
-	SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+	SetModeByOthers(fdRectangle ,Qt::red);
 }
 
 AlgorithmDrawAttr	*RasterImagePanel::CreateDrawAttrPointer(void)
@@ -476,7 +476,7 @@ void	RasterImagePanel::TransmitDirectly(GUIDirectMessage *packet)
 	CmdRasterSet3PointAlignmentModePacket	*GS3PMode=dynamic_cast<CmdRasterSet3PointAlignmentModePacket *>(packet);
 	if(GS3PMode!=NULL){
 		Set3PointAlignmentMode();
-		SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+		SetModeByOthers(fdRectangle ,Qt::red);
 		return;
 	}
 	CmdRasterChangeOperationModePacket	*CmdRasterChangeOperationModePacketVar=dynamic_cast<CmdRasterChangeOperationModePacket *>(packet);
@@ -501,7 +501,7 @@ void	RasterImagePanel::TransmitDirectly(GUIDirectMessage *packet)
 			ExecuteClickButton(/**/"MoveItemBtn");
 			AllUpImagePanel();
 			//SetDrawingMode(_ItemMoveWait);
-			SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+			SetModeByOthers(fdNone ,Qt::red);
 			SetAlterSomething();
 			GetLayersBase()->SetStatusModes(this,/**/"ItemMove");
 		}

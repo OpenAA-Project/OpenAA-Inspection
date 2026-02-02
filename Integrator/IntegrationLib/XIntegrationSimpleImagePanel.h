@@ -145,7 +145,7 @@ public:
 	int		GetMovy(void)			const	{	return MainCanvas.GetMovy();			}
 	double	GetMaxZoomValue(void)	const	{	return MainCanvas.GetMaxZoomRate();	}
 	double	GetMinZoomValue(void)	const	{	return MainCanvas.GetMinZoomRate();	}
-	void	SetMode(mtFrameDraw::DrawingMode mode);
+	void	SetMode(DrawingMode mode);
 	void	SetMode(Mode d);
 	void	SetMode(void);
 
@@ -192,11 +192,11 @@ protected slots:
 	
 private:
 	virtual	void	SpecifiedDirectly(SpecifiedBroadcaster *v)	override;
-	void    ToFlexArea( struct mtFrameDraw::_ShapeData &SData ,FlexArea &resultarea);
+	void    ToFlexArea( struct _ShapeData &SData ,FlexArea &resultarea);
 	void    ColPointToArea(NPListPack<ShapePoint> &cdata ,FlexArea &resultarea);
 	void    GetPoints(XYClassCluster &XYArea);
 	void	GetPointList(DotListContainer &Dots ,double d);
-	VectorLineBase	*ToVectorLine( struct mtFrameDraw::_ShapeData &SData);
+	VectorLineBase	*ToVectorLine( struct _ShapeData &SData);
 
 signals:
 	void	SignalModeChanged();
@@ -208,7 +208,7 @@ signals:
 	void	SignalChangedItems();
 
 protected:
-	struct mtFrameDraw::_ShapeData *GetRawSDataPoint(void){	return &MainCanvas.GetCanvas()->SData;	}
+	struct _ShapeData *GetRawSDataPoint(void){	return &MainCanvas.GetCanvas()->SData;	}
 
 	virtual	void	PaintFunc(QPainter &Pnt ,double ZoomRate , int movx , int movy){}
 

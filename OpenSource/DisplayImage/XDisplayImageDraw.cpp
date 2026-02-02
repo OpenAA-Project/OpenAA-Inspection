@@ -235,7 +235,7 @@ bool	DisplayImage::DrawImage(QPainter &pnt  ,QImage &PntImage,IntList &LayerList
 				}
 			}
 		}
-		if((DType==DisplayImage::__Target || DType==DisplayImage::__DelayedView)
+		if((DType==__Target || DType==__DelayedView)
 		&& ShowNGMarkInTarget==true){
 			pnt.setCompositionMode(QPainter::CompositionMode_SourceOver);	//CompositionMode_Plus);
 			for(int page=LBase->GetPageNumb()-1;page>=0;page--){
@@ -355,7 +355,7 @@ bool	DisplayImage::DrawImage(QPainter &pnt  ,QImage &PntImage,IntList &LayerList
 			}
 		}
 
-		if((DType==DisplayImage::__Target || DType==DisplayImage::__DelayedView)
+		if((DType==__Target || DType==__DelayedView)
 		&& ShowNGMarkInTarget==true){
 			pnt.setCompositionMode(QPainter::CompositionMode_SourceOver);	//CompositionMode_Plus);
 			for(int page=LBase->GetPageNumb()-1;page>=0;page--){
@@ -558,7 +558,7 @@ bool	DisplayImage::DrawImageOnePage(QPainter &pnt ,QImage &PntImage ,IntList &La
 		::ClearImage(PntImage, 255);
 	}
 	//2024.08.08
-	if((DType==DisplayImage::__Target || DType==DisplayImage::__DelayedView)
+	if((DType==__Target || DType==__DelayedView)
 	&& ShowNGMarkInTarget==true && BmpReceiver[ShowOnePage]->NGData!=NULL){
 		if(BmpReceiver[ShowOnePage]->IsReceived()==true
 		&& Rb->Data.Gx1!=Rb->Data.Gx2
@@ -575,7 +575,7 @@ bool	DisplayImage::DrawImageOnePage(QPainter &pnt ,QImage &PntImage ,IntList &La
 void	DisplayImage::DrawMeasure(QPainter &pnt ,QImage &PntImage)
 {
 	if(MeasureBtn!=NULL && MeasureBtn->isChecked()==true){
-		if(DrawingMode==_MeasureSecond || DrawingMode==_MeasureDone){
+		if(DrawingShapeMode==_MeasureSecond || DrawingShapeMode==_MeasureDone){
 			int	LocalX1;
 			int	LocalY1;
 			int	LocalX2;
@@ -671,49 +671,49 @@ void	DisplayImage::DrawExpandedPaste(QPainter &pnt ,QImage &PntImage)
 		ExpandedPasteCurrent.Draw(this,pnt ,Qt::yellow,GetMovx(),GetMovy(),GetZoomRate(),GetCanvasWidth(),GetCanvasHeight());
 		double	sita=GetSita(ExpandedPasteCurrent.ExpandedPasteFrame[1].X-ExpandedPasteCurrent.ExpandedPasteFrame[0].X
 							,ExpandedPasteCurrent.ExpandedPasteFrame[1].Y-ExpandedPasteCurrent.ExpandedPasteFrame[0].Y);
-		if(DrawingMode==_ExpandedPasteMove){
+		if(DrawingShapeMode==_ExpandedPasteMove){
 			ExpandedPasteCurrent.Draw(this,pnt ,Qt::red,GetMovx(),GetMovy(),GetZoomRate(),GetCanvasWidth(),GetCanvasHeight());
 		}
 		else{
-			if(DrawingMode==_ExpandedPasteZoom01 || DrawingMode==_ExpandedPaste){
+			if(DrawingShapeMode==_ExpandedPasteZoom01 || DrawingShapeMode==_ExpandedPaste){
 				double	X=(ExpandedPasteCurrent.ExpandedPasteFrame[0].X+ExpandedPasteCurrent.ExpandedPasteFrame[1].X)/2;
 				double	Y=(ExpandedPasteCurrent.ExpandedPasteFrame[0].Y+ExpandedPasteCurrent.ExpandedPasteFrame[1].Y)/2;
-				DrawEZooomArrow(pnt ,(DrawingMode!=_ExpandedPaste)?true:false,X,Y,sita);
+				DrawEZooomArrow(pnt ,(DrawingShapeMode!=_ExpandedPaste)?true:false,X,Y,sita);
 			}
-			if(DrawingMode==_ExpandedPasteZoom12 || DrawingMode==_ExpandedPaste){
+			if(DrawingShapeMode==_ExpandedPasteZoom12 || DrawingShapeMode==_ExpandedPaste){
 				double	X=(ExpandedPasteCurrent.ExpandedPasteFrame[1].X+ExpandedPasteCurrent.ExpandedPasteFrame[2].X)/2;
 				double	Y=(ExpandedPasteCurrent.ExpandedPasteFrame[1].Y+ExpandedPasteCurrent.ExpandedPasteFrame[2].Y)/2;
-				DrawEZooomArrow(pnt ,(DrawingMode!=_ExpandedPaste)?true:false,X,Y,sita+M_PI/2.0);
+				DrawEZooomArrow(pnt ,(DrawingShapeMode!=_ExpandedPaste)?true:false,X,Y,sita+M_PI/2.0);
 			}
-			if(DrawingMode==_ExpandedPasteZoom23 || DrawingMode==_ExpandedPaste){
+			if(DrawingShapeMode==_ExpandedPasteZoom23 || DrawingShapeMode==_ExpandedPaste){
 				double	X=(ExpandedPasteCurrent.ExpandedPasteFrame[2].X+ExpandedPasteCurrent.ExpandedPasteFrame[3].X)/2;
 				double	Y=(ExpandedPasteCurrent.ExpandedPasteFrame[2].Y+ExpandedPasteCurrent.ExpandedPasteFrame[3].Y)/2;
-				DrawEZooomArrow(pnt ,(DrawingMode!=_ExpandedPaste)?true:false,X,Y,sita+M_PI);
+				DrawEZooomArrow(pnt ,(DrawingShapeMode!=_ExpandedPaste)?true:false,X,Y,sita+M_PI);
 			}
-			if(DrawingMode==_ExpandedPasteZoom30 || DrawingMode==_ExpandedPaste){
+			if(DrawingShapeMode==_ExpandedPasteZoom30 || DrawingShapeMode==_ExpandedPaste){
 				double	X=(ExpandedPasteCurrent.ExpandedPasteFrame[3].X+ExpandedPasteCurrent.ExpandedPasteFrame[0].X)/2;
 				double	Y=(ExpandedPasteCurrent.ExpandedPasteFrame[3].Y+ExpandedPasteCurrent.ExpandedPasteFrame[0].Y)/2;
-				DrawEZooomArrow(pnt ,(DrawingMode!=_ExpandedPaste)?true:false,X,Y,sita+3.0*M_PI/2.0);
+				DrawEZooomArrow(pnt ,(DrawingShapeMode!=_ExpandedPaste)?true:false,X,Y,sita+3.0*M_PI/2.0);
 			}
-			if(DrawingMode==_ExpandedPasteRotate0 || DrawingMode==_ExpandedPaste){
+			if(DrawingShapeMode==_ExpandedPasteRotate0 || DrawingShapeMode==_ExpandedPaste){
 				double	Cx,Cy;
 				ExpandedPasteCurrent.GetCenter(Cx,Cy);
-				DrawERotateArrow(pnt ,(DrawingMode!=_ExpandedPaste)?true:false,Cx,Cy,ExpandedPasteCurrent.ExpandedPasteFrame[0].X,ExpandedPasteCurrent.ExpandedPasteFrame[0].Y);
+				DrawERotateArrow(pnt ,(DrawingShapeMode!=_ExpandedPaste)?true:false,Cx,Cy,ExpandedPasteCurrent.ExpandedPasteFrame[0].X,ExpandedPasteCurrent.ExpandedPasteFrame[0].Y);
 			}
-			if(DrawingMode==_ExpandedPasteRotate1 || DrawingMode==_ExpandedPaste){
+			if(DrawingShapeMode==_ExpandedPasteRotate1 || DrawingShapeMode==_ExpandedPaste){
 				double	Cx,Cy;
 				ExpandedPasteCurrent.GetCenter(Cx,Cy);
-				DrawERotateArrow(pnt ,(DrawingMode!=_ExpandedPaste)?true:false,Cx,Cy,ExpandedPasteCurrent.ExpandedPasteFrame[1].X,ExpandedPasteCurrent.ExpandedPasteFrame[1].Y);
+				DrawERotateArrow(pnt ,(DrawingShapeMode!=_ExpandedPaste)?true:false,Cx,Cy,ExpandedPasteCurrent.ExpandedPasteFrame[1].X,ExpandedPasteCurrent.ExpandedPasteFrame[1].Y);
 			}
-			if(DrawingMode==_ExpandedPasteRotate2 || DrawingMode==_ExpandedPaste){
+			if(DrawingShapeMode==_ExpandedPasteRotate2 || DrawingShapeMode==_ExpandedPaste){
 				double	Cx,Cy;
 				ExpandedPasteCurrent.GetCenter(Cx,Cy);
-				DrawERotateArrow(pnt ,(DrawingMode!=_ExpandedPaste)?true:false,Cx,Cy,ExpandedPasteCurrent.ExpandedPasteFrame[2].X,ExpandedPasteCurrent.ExpandedPasteFrame[2].Y);
+				DrawERotateArrow(pnt ,(DrawingShapeMode!=_ExpandedPaste)?true:false,Cx,Cy,ExpandedPasteCurrent.ExpandedPasteFrame[2].X,ExpandedPasteCurrent.ExpandedPasteFrame[2].Y);
 			}
-			if(DrawingMode==_ExpandedPasteRotate3 || DrawingMode==_ExpandedPaste){
+			if(DrawingShapeMode==_ExpandedPasteRotate3 || DrawingShapeMode==_ExpandedPaste){
 				double	Cx,Cy;
 				ExpandedPasteCurrent.GetCenter(Cx,Cy);
-				DrawERotateArrow(pnt ,(DrawingMode!=_ExpandedPaste)?true:false,Cx,Cy,ExpandedPasteCurrent.ExpandedPasteFrame[3].X,ExpandedPasteCurrent.ExpandedPasteFrame[3].Y);
+				DrawERotateArrow(pnt ,(DrawingShapeMode!=_ExpandedPaste)?true:false,Cx,Cy,ExpandedPasteCurrent.ExpandedPasteFrame[3].X,ExpandedPasteCurrent.ExpandedPasteFrame[3].Y);
 			}
 		}
 	}

@@ -59,8 +59,8 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
-	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
+	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
 
 	(*Base)=new GUICmdGerberDrawMode				(Base,QString(sRoot),QString(sName));
 	(*Base)=new GUICmdMsgGerberSelectAll			(Base,QString(sRoot),QString(sName));
@@ -209,7 +209,7 @@ GerberFastImagePanel::~GerberFastImagePanel(void)
 void	GerberFastImagePanel::Prepare(void)
 {
 	DisplayImageWithAlgorithm::Prepare();
-	SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+	SetModeByOthers(fdRectangle ,Qt::red);
 }
 void	GerberFastImagePanel::ResizeAction()
 {
@@ -224,7 +224,7 @@ void	GerberFastImagePanel::ResizeAction()
 
 void	GerberFastImagePanel::DrawBtnDown()
 {
-	SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+	SetModeByOthers(fdRectangle ,Qt::red);
 }
 
 AlgorithmDrawAttr	*GerberFastImagePanel::CreateDrawAttrPointer(void)
@@ -292,7 +292,7 @@ void	GerberFastImagePanel::DrawEndAfterOperation(FlexArea &area)
 		}
 		else if(MCmd.Mode==OM_CreateLine){
 			CmdAddGerberLine	GCmd(GetLayersBase());
-			struct mtFrameDraw::_ShapeData *s=GetRawSDataPoint();
+			struct _ShapeData *s=GetRawSDataPoint();
 			GCmd.X1=s->UData.ChoppedLineData.x1;
 			GCmd.Y1=s->UData.ChoppedLineData.y1;
 			GCmd.X2=s->UData.ChoppedLineData.x2;
@@ -440,13 +440,13 @@ void	GerberFastImagePanel::TransmitDirectly(GUIDirectMessage *packet)
 	CmdGerberSet3PointAlignmentModePacket	*GS3PMode=dynamic_cast<CmdGerberSet3PointAlignmentModePacket *>(packet);
 	if(GS3PMode!=NULL){
 		Set3PointAlignmentMode();
-		SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+		SetModeByOthers(fdRectangle ,Qt::red);
 		return;
 	}
 	CmdGerberSetAutoMatchingModePacket	*GSAMMode=dynamic_cast<CmdGerberSetAutoMatchingModePacket *>(packet);
 	if(GSAMMode!=NULL){
 		SetAutoMatchingMode();
-		SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+		SetModeByOthers(fdNone ,Qt::red);
 		return;
 	}
 	CmdGerberChangeOperationModePacket	*CmdGerberChangeOperationModePacketVar=dynamic_cast<CmdGerberChangeOperationModePacket *>(packet);
@@ -469,7 +469,7 @@ void	GerberFastImagePanel::TransmitDirectly(GUIDirectMessage *packet)
 			ExecuteClickButton(/**/"MoveItemBtn");
 			AllUpImagePanel();
 			//SetDrawingMode(_ItemMoveWait);
-			SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+			SetModeByOthers(fdNone ,Qt::red);
 			SetAlterSomething();
 			GetLayersBase()->SetStatusModes(this,/**/"ItemMove");
 		}

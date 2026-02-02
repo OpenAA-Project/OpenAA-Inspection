@@ -47,7 +47,6 @@
 #include "XDataInLayerCommander.h"
 #include "PasswordDropper.h"
 #include "XPassword.h"
-#include "hasplib.h"
 #include "XForWindows.h"
 #include "SingleExecute.h"
 #include "XShowVersion.h"
@@ -66,20 +65,6 @@
 
 int	XDbg;
 
-static	bool HaspCheck(QString strKey)
-{
-	QStringList RetList;
-	Hasplib Hasp;
-	if(Hasp.HaspExecute(RetList)==false)
-		return false;
-	for(int Cnt=0;Cnt<RetList.count();Cnt++){
-		if(RetList.at(Cnt)==strKey){
-			if(QDate::currentDate()<=QDate::fromString(RetList.at(Cnt-1),/**/"yyyyMMdd"))
-				return true;
-		}
-	}
-	return false;
-}
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
 	return /**/"InspectionGeneral.lng";
@@ -499,20 +484,6 @@ int main(int argc, char *argv[])
 		G->GetGUIInstanceRoot()->GetFirstForm()->setWindowTitle(Seq->GetTitle());
 		Seq->start();
 	}
-
-	/*	
-#ifdef HASP_ENABLE
-		if(HaspCheck("je8398hw")==false){
-			Hasplib *hasplib = new Hasplib();
-			if(hasplib->HaspCheck(0)==false){
-				QMessageBox::critical ( NULL, "Hasp Error", "Mismatch Hasp code", QMessageBox::Ok);
-				delete hasplib;
-				return 0;
-			}
-			delete hasplib;
-		}
-#endif
-		*/
 
 	if(WorkerIDEnabled==false){
 		SelectWorkerForm	*DW=new SelectWorkerForm(Layers);

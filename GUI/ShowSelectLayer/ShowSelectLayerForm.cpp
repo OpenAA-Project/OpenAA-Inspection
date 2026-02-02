@@ -167,7 +167,7 @@ bool	GUICmdReqMultiLayerColor::Load(QIODevice *f)
 {
 	int32	d;
 	if(::Load(f,d)==false)	return false;
-	DType=(DisplayImage::DisplayType)d;
+	DType=(DisplayType)d;
 	if(::Load(f,LocalX)==false)	return false;
 	if(::Load(f,LocalY)==false)	return false;
 	return true;
@@ -185,10 +185,10 @@ void	GUICmdReqMultiLayerColor::Receive(int32 localPage, int32 cmd, QString &Emit
 {
 	GUICmdAckMultiLayerColor	*SendBack=GetSendBack(GUICmdAckMultiLayerColor,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	DataInPage	*dp=GetLayersBase()->GetPageData(localPage);
-	if(DType==DisplayImage::__Master)
+	if(DType==__Master)
 		dp->GetMasterPixel(SendBack->Color ,LocalX,LocalY);
 	else
-	if(DType==DisplayImage::__Target)
+	if(DType==__Target)
 		dp->GetTargetPixel(SendBack->Color ,LocalX,LocalY);
 
 	SendBack->Send(this ,GetLayersBase()->GetGlobalPageFromLocal(localPage),0);

@@ -220,7 +220,7 @@ int	DisplayImage::SetPropertyInDLL(struct	PropertyClass Data[] ,WORD	maxDataDim)
 void	DisplayImage::InitialDisplayImageInDLL(GUICmdPacketBasePointerListContainer &GUICmdContainer
 											   ,LayersBase *Base 
 											   ,const QString &sRoot ,const QString &sName 
-											   ,DisplayImage::DisplayType DType)
+											   ,DisplayType DType)
 {
 	GUICmdContainer=new GUICmdReqBmp				(Base,sRoot,sName,DType);
 	GUICmdContainer=new GUICmdSendBmp				(Base,sRoot,sName);

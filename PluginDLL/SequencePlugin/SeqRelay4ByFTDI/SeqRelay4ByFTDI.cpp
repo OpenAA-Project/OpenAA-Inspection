@@ -17,7 +17,7 @@
  */
 
 
-#include <QSound>
+#include <QSoundEffect>
 #include "XSeqDLLGlobal.h"
 #include <string.h>
 #include "SeqRelay4ByFTDI.h"

@@ -51,8 +51,8 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
-	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
+	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
 
 	(*Base)=new GUICmdPickupTestList(Base,QString(sRoot),QString(sName));
 	return true;
@@ -156,7 +156,7 @@ void	OutlineImagePanel::SlotTouchItems(ListPageLayerIDPack *ItemInfo)
 
 void	OutlineImagePanel::SlotMouseLDown(int globalX,int globalY)
 {
-	__DrawingMode	DMode=GetImageDrawingMode();
+	__DrawingShapeMode	DMode=GetImageDrawingMode();
 	DisplayImageWithAlgorithm::SlotMouseLDown(globalX,globalY);
 	if(GetLastHookResult()==false)
 		return;

@@ -153,7 +153,7 @@ GeneralDisplayWholeImage::GeneralDisplayWholeImage(LayersBase *Base ,QWidget *pa
 	FrameColor		=Qt::red;
 	ZoneColor		=Qt::yellow;
 	MainCanvas.setParent(this);
-	MainCanvas.SetMode(mtFrameDraw::fdRectangle);
+	MainCanvas.SetMode(fdRectangle);
 	MainCanvas.SetFrameColor(Qt::red);
 	BmpReceiver			=NULL;
 	BmpRequester		=NULL;
@@ -164,7 +164,7 @@ GeneralDisplayWholeImage::GeneralDisplayWholeImage(LayersBase *Base ,QWidget *pa
 	MasterPixMap		=NULL;
 	RPnt				=NULL;
 	MinUpdateSpanMilisec=100;
-	RelatedPanelPointer	=new GeneralDisplayWholeImageDisplayImage(this,Base,sRoot,sName,DisplayImage::__Master);
+	RelatedPanelPointer	=new GeneralDisplayWholeImageDisplayImage(this,Base,sRoot,sName,__Master);
 
 	MainCanvas.SetFModeRepaintOnMouseMove(false);
 	connect(&MainCanvas,SIGNAL(SignalOnPaint(QPainter &)),this,SLOT(SlotOnPaint(QPainter&)));

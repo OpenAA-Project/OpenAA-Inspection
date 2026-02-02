@@ -112,7 +112,7 @@ void	VirtualPIOServer::SlotStructureChanged()
 	int	Row=0;
 	for(BindedIOBit *a=Server.IOBitsToShow.GetFirst();a!=NULL;a=a->GetNext(),Row++){
 		if(a->BitOut!=NULL)
-			::SetDataToTable(ui.tableWidgetIntegrated,0 ,Row ,a->BitOut->ClientPoint->ClientID + QString(":")+QString::number(a->BitOut->ClientPoint->ClientPortNumber));
+			::SetDataToTable(ui.tableWidgetIntegrated,0 ,Row ,QString::number(a->BitOut->ClientPoint->ClientID) + QString(":")+QString::number(a->BitOut->ClientPoint->ClientPortNumber));
 		else
 			::SetDataToTable(ui.tableWidgetIntegrated,0 ,Row ,QString("No output data"));
 

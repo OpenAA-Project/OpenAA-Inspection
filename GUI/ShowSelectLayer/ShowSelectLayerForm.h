@@ -56,8 +56,8 @@ private:
 class GUICmdReqMultiLayerColor : public GUICmdPacketBase
 {
 public:
-	DisplayImage::DisplayType	DType;
-	int							LocalX,LocalY;
+	DisplayType	DType;
+	int			LocalX,LocalY;
 
 	GUICmdReqMultiLayerColor(LayersBase *Base, const QString &EmitterRoot, const QString &EmitterName, int globalPage=-1);
 

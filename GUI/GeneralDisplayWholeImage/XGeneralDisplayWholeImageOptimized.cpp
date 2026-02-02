@@ -49,7 +49,7 @@ void	GeneralDisplayWholeImage::SlotOnPaint(QPainter &pnt)
 		}
 		double	ZoomRate=GetZoomRate();
 
-		if((m!=NULL && m->GetDisplayType()==DisplayImage::__Master) || (m==NULL && Mastered==true)){
+		if((m!=NULL && m->GetDisplayType()==__Master) || (m==NULL && Mastered==true)){
 			QPixmap	TmpMap(MainCanvas.width(),MainCanvas.height());
 			QPainter	TmpPnt(&TmpMap);
 
@@ -95,7 +95,7 @@ void	GeneralDisplayWholeImage::SlotOnPaint(QPainter &pnt)
 									BmpRequester[page]->ShowFixedPhase=ShowFixedPhase;
 								}
 								else{
-									if(BmpRequester[page]->Mastered==m->GetDisplayType()==DisplayImage::__Master)
+									if(BmpRequester[page]->Mastered==m->GetDisplayType()==__Master)
 										BmpRequester[page]->Mastered=true;
 									else
 										BmpRequester[page]->Mastered=false;
@@ -152,7 +152,7 @@ void	GeneralDisplayWholeImage::SlotOnPaint(QPainter &pnt)
 							Phase=ShowFixedPhase;
 						}
 						else{
-							if(BmpRequester[page]->Mastered==m->GetDisplayType()==DisplayImage::__Master)
+							if(BmpRequester[page]->Mastered==m->GetDisplayType()==__Master)
 								BmpRequester[page]->Mastered=true;
 							else
 								BmpRequester[page]->Mastered=false;
@@ -220,7 +220,7 @@ void	GeneralDisplayWholeImage::SlotOnPaint(QPainter &pnt)
 						Phase=ShowFixedPhase;
 					}
 					else{
-						if(BmpRequester[page]->Mastered==m->GetDisplayType()==DisplayImage::__Master)
+						if(BmpRequester[page]->Mastered==m->GetDisplayType()==__Master)
 							BmpRequester[page]->Mastered=true;
 						else
 							BmpRequester[page]->Mastered=false;
@@ -301,7 +301,7 @@ void	GeneralDisplayWholeImage::SlotOnPaint(QPainter &pnt)
 								BmpRequester[page]->ShowFixedPhase=ShowFixedPhase;
 							}
 							else{
-								if(BmpRequester[page]->Mastered==m->GetDisplayType()==DisplayImage::__Master)
+								if(BmpRequester[page]->Mastered==m->GetDisplayType()==__Master)
 									BmpRequester[page]->Mastered=true;
 								else
 									BmpRequester[page]->Mastered=false;
@@ -361,7 +361,7 @@ void	GeneralDisplayWholeImage::SlotOnPaint(QPainter &pnt)
 							BmpRequester[page]->ShowFixedPhase=ShowFixedPhase;
 						}
 						else{
-							if(BmpRequester[page]->Mastered==m->GetDisplayType()==DisplayImage::__Master)
+							if(BmpRequester[page]->Mastered==m->GetDisplayType()==__Master)
 								BmpRequester[page]->Mastered=true;
 							else
 								BmpRequester[page]->Mastered=false;
@@ -438,7 +438,7 @@ void	GeneralDisplayWholeImage::SlotOnPaint(QPainter &pnt)
 						BmpRequester[page]->ShowFixedPhase=ShowFixedPhase;
 					}
 					else{
-						if(BmpRequester[page]->Mastered==m->GetDisplayType()==DisplayImage::__Master)
+						if(BmpRequester[page]->Mastered==m->GetDisplayType()==__Master)
 							BmpRequester[page]->Mastered=true;
 						else
 							BmpRequester[page]->Mastered=false;

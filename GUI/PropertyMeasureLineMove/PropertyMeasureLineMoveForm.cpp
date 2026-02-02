@@ -937,7 +937,7 @@ void PropertyMeasureLineMoveForm::on_toolButtonModeDistance_clicked()
 	if(GProp!=NULL){
 		DisplayImageWithAlgorithm	*g=dynamic_cast<DisplayImageWithAlgorithm *>(GProp);
 		if(g!=NULL){
-			g->SetModeByOthers(mtFrameDraw::fdDualArrow,Qt::yellow);
+			g->SetModeByOthers(fdDualArrow,Qt::yellow);
 		}
 	}
 }

@@ -895,7 +895,7 @@ public:
 	bool	ExtendMode;
 	bool	SlopeXMode;
 	bool	SlopeYMode;
-	DisplayImage::__DrawingMode	Mode;
+	DisplayImage::__DrawingShapeMode	Mode;
 	int		LastPosX,LastPosY;
 	int		MoveStartPosX,MoveStartPosY;
 	int		RotateCenterXOnData,RotateCenterYOnData;

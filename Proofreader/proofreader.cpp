@@ -37,7 +37,7 @@ Proofreader::Proofreader(QWidget *parent, Qt::WindowFlags flags)
 
 	guMasterImage=new mtGraphicUnit();
 	ui.dwMasterImage->setWidget(guMasterImage);
-	guMasterImage->SetMode(mtFrameDraw::fdNone);
+	guMasterImage->SetMode(fdNone);
 	guMasterImage->SetFrameColor(QColor(Qt::red));
 
 	img=NULL;
@@ -515,9 +515,9 @@ void Proofreader::tbRectangleToggled(bool Toggled)
 	if(ui.tbExpansion->isDown())
 		ui.tbExpansion->setChecked(false);
 	if(Toggled)
-		guMasterImage->SetMode(mtFrameDraw::fdRectangle);
+		guMasterImage->SetMode(fdRectangle);
 	else
-		guMasterImage->SetMode(mtFrameDraw::fdNone);
+		guMasterImage->SetMode(fdNone);
 	ui.tbRectangle->setDown(Toggled);
 }
 

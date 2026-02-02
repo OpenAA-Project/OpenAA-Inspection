@@ -46,7 +46,7 @@ class HookOverlapImageForm : public GUIFormBase,public FunctionServerClass
 	GUICmdSendBmp	**BmpReceiver;
 	GUICmdReqBmp	**BmpRequester;
 	int				AllocedBmp;
-	DisplayImage::DisplayType	DType;
+	DisplayType		DType;
 	volatile	int	SlidebarPosition;
 	bool			Active;
 public:
@@ -76,7 +76,7 @@ public:
 	bool	GetActive(void)		{	return Active;	}
 
 	virtual	void	CalledFromDeridedParent(GUIFormBase *Parent, QEvent * event)	override;
-	void	GetState(DisplayImage::DisplayType &dType ,bool &Checked,int &Value);
+	void	GetState(DisplayType &dType ,bool &Checked,int &Value);
 private:
     Ui::HookOverlapImageForm *ui;
 

@@ -26,6 +26,7 @@
 #include "NList.h"
 #include "mtMeter.h"
 #include "mtFrameDraw.h"
+#include "..\DisplayOpenGL\DisplayOpenGL.h""
 #include "mtWidgetPosition.h"
 #include <QWheelEvent>
 #include <QElapsedTimer>
@@ -67,7 +68,7 @@ signals:
 
 private slots:
 	virtual void	SlotDrawEnd(void)			override;
-	virtual void	SlotDrawing(mtFrameDraw::DrawingMode mode,int stage)	override;
+	virtual void	SlotDrawing(DrawingMode mode,int stage)	override;
 	virtual void	SlotCancelDraw(void)		override;
 	virtual void	SlotOnPaint(QPainter &pnt)	override;
 };
@@ -92,9 +93,9 @@ signals:
 class mtGraphicUnit : public mtWidgetPosition
 {
     Q_OBJECT
-	//Q_PROPERTY(mtFrameDraw::mtDirection  DrawMode READ GetDrawMode WRITE SetDrawMode)
-	Q_ENUMS(mtFrameDraw::DrawingMode)
-	Q_PROPERTY(mtFrameDraw::DrawingMode FrameMode READ GetMode WRITE SetMode)
+	//Q_PROPERTY(mtDirection  DrawMode READ GetDrawMode WRITE SetDrawMode)
+	Q_ENUMS(DrawingMode)
+	Q_PROPERTY(DrawingMode FrameMode READ GetMode WRITE SetMode)
 	Q_PROPERTY(QColor FrameColor READ GetFrameColor WRITE SetFrameColor)
 
 	friend	mtQFrameDrawInGUnit;
@@ -197,9 +198,9 @@ public:
 	void	SetSlider(void);
 	void	SetMeter(void);
 
-	void	SetMode(mtFrameDraw::DrawingMode mode)	{	GetCanvas()->SetMode(mode);		}
-	mtFrameDraw::DrawingMode GetMode(void)	const	{	return(GetCanvas()->GetMode());	}
-	void	SetCursor(mtFrameDraw::DrawingMode mode);
+	void	SetMode(DrawingMode mode)	{	GetCanvas()->SetMode(mode);		}
+	DrawingMode GetMode(void)	const	{	return(GetCanvas()->GetMode());	}
+	void	SetCursor(DrawingMode mode);
 	void	SetFrameColor(const QColor &col){	GetCanvas()->SetFrameColor(col);	}
 	QColor	GetFrameColor(void)	const		{	return(GetCanvas()->GetFrameColor());	}
 	QPoint	GetCursorPos(void)				{	return 	GetCanvas()->GetCursorPos();	}
@@ -207,7 +208,7 @@ public:
 	void	SetMouseCursorPos(int XonG, int YonG);
 	void	ExecuteMouseMove(int XonG, int YonG);
 	Qt::MouseButtons	&GetStateMouseButtons()		{	return StateMouseButtons;		}
-	QString	ToString(mtFrameDraw::DrawingMode mode)	{	return FrDraw->ToString(mode);	}
+	QString	ToString(DrawingMode mode)	{	return FrDraw->ToString(mode);	}
 
 	void	DrawFromOutside(QStringList &data);
 	void	SetCrossLineMode(bool mode ,const QColor &Col=Qt::yellow);
@@ -223,7 +224,7 @@ private:
 	bool	IsInnerFuncMode(void){	return((InsideFunc!=0)?true:false);	}
 
 	void	LaunchSignalDrawEnd(void);
-	void	LaunchSignalDrawing(mtFrameDraw::DrawingMode mode,int stage);
+	void	LaunchSignalDrawing(DrawingMode mode,int stage);
 	void	LaunchSignalCancelDraw(void);
 	void	LaunchSignalOnPaint(QPainter &pnt);
 	void	LaunchSignalScrollDraw(void);
@@ -245,7 +246,7 @@ protected:
 
 signals:
 	void	SignalDrawEnd(void);
-	void	SignalDrawing(mtFrameDraw::DrawingMode mode,int stage);
+	void	SignalDrawing(DrawingMode mode,int stage);
 	void	SignalScrollDraw();
 	void	SignalCancelDraw();
 	void	SignalOnPaint(QPainter &pnt);
@@ -278,7 +279,7 @@ protected:
 
 private slots:
 	void	SlotDrawEnd(void);
-	void	SlotDrawing(mtFrameDraw::DrawingMode mode,int stage);
+	void	SlotDrawing(DrawingMode mode,int stage);
 	void	SlotCancelDraw(void);
 	void	SlotOnPaint(QPainter &pnt);
 	void	SlotMouseMove(int ,int);

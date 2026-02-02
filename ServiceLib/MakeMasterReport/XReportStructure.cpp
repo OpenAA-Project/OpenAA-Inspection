@@ -27,10 +27,8 @@
 #include <stdio.h>
 #include "XDatabase.h"
 #include "XGeneralDialog.h"
-#include "hasplib.h"
 #include "Regulus64Version.h"
 #include "XParamGlobal.h"
-#include "XDatabase.h"
 #include "XAlgorithmBase.h"
 #include "XGeneralFunc.h"
 #include "ShowExecutingDialog.h"
@@ -570,7 +568,8 @@ bool	ReportDataStructure::SaveEXCEL(LayersBase *base ,const QString &XLSXFileNam
 
 	Row++;
 	Row++;
-	XLSXSheet->setRow(Row,256);
+	//XLSXSheet->setRow(Row,256);
+	worksheet_set_row(XLSXSheet,(lxw_row_t)Row,256,NULL);
 	WriteCell(17, 0,"Image");
 	QTemporaryFile	TmpImageFile;
 	TmpImageFile.setAutoRemove(true);
@@ -583,10 +582,11 @@ bool	ReportDataStructure::SaveEXCEL(LayersBase *base ,const QString &XLSXFileNam
 		memset(TmpImageFileBuff,0,sizeof(TmpImageFileBuff));
 		TmpImageFileName.toWCharArray(TmpImageFileBuff);
 
-		int	ImageID=XLSXBook->addPicture(TmpImageFileBuff);
-		XLSXSheet->setPicture2(Row, 1, ImageID, 256, 256);
+		//int	ImageID=XLSXBook->addPicture(TmpImageFileBuff);
+		//XLSXSheet->setPicture2(Row, 1, ImageID, 256, 256);
+		worksheet_insert_image(XLSXSheet,Row, 1,(const char *)TmpImageFileBuff);
 
-		worksheet_insert_image(XLSXSheet,Row, 1,);
+		worksheet_insert_image(XLSXSheet,Row, 1,(const char *)TmpImageFileBuff);
 	}
 	Row++;
 	Row++;
@@ -684,15 +684,19 @@ bool	ReportDataStructure::SaveEXCEL(LayersBase *base ,const QString &XLSXFileNam
 			}
 		}
 	}
-	wchar_t	FileNameStr[256];
-	memset(FileNameStr,0,sizeof(FileNameStr));
-	XLSXFileName.toWCharArray(FileNameStr);
-
-	if(XLSXBook->save(FileNameStr)==false){
-		delete	XLSXBook;
+	//wchar_t	FileNameStr[256];
+	//memset(FileNameStr,0,sizeof(FileNameStr));
+	//XLSXFileName.toWCharArray(FileNameStr);
+	//
+	//if(XLSXBook->save(FileNameStr)==false){
+	//	delete	XLSXBook;
+	//	return false;
+	//}
+	//XLSXBook->release();
+	int result = workbook_close(XLSXBook);
+	if(result!=0){
 		return false;
 	}
-	XLSXBook->release();
 
 	return true;
 }

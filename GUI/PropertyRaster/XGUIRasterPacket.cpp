@@ -1704,7 +1704,7 @@ bool	GUICmdRasterDrawMode::Load(QIODevice *f)
 	BYTE	m;
 	if(::Load(f,m)==false)
 		return false;
-	Mode=(DisplayImage::__DrawingMode)m;
+	Mode=(DisplayImage::__DrawingShapeMode)m;
 
 	if(::Load(f,MoveMode)==false)
 		return false;

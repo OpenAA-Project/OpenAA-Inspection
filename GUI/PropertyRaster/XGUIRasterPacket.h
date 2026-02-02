@@ -986,7 +986,7 @@ public:
 	bool	SlopeXMode;
 	bool	SlopeYMode;
 	bool	ExtendMode;
-	DisplayImage::__DrawingMode	Mode;
+	DisplayImage::__DrawingShapeMode	Mode;
 	int		LastPosX,LastPosY;
 	int		MoveStartPosX,MoveStartPosY;
 	int		LastElementPosX,LastElementPosY;

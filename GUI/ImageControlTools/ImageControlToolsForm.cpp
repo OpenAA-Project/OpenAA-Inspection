@@ -395,28 +395,28 @@ void	ImageControlTools::ReadyParam(void)
 		if(r!=NULL){
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				if(m->GetDisplayType()==DisplayImage::__Master && ShowImageMaster==false){
+				if(m->GetDisplayType()==__Master && ShowImageMaster==false){
 					if(ShowImageTarget==true)
-						m->ChangeDisplayType(DisplayImage::__Target);
+						m->ChangeDisplayType(__Target);
 					else
 					if(ShowImageTargetTR==true)
-						m->ChangeDisplayType(DisplayImage::__TargetTR);
+						m->ChangeDisplayType(__TargetTR);
 				}
 				else
-				if(m->GetDisplayType()==DisplayImage::__Target && ShowImageTarget==false){
+				if(m->GetDisplayType()==__Target && ShowImageTarget==false){
 					if(ShowImageMaster==true)
-						m->ChangeDisplayType(DisplayImage::__Master);
+						m->ChangeDisplayType(__Master);
 					else
 					if(ShowImageTargetTR==true)
-						m->ChangeDisplayType(DisplayImage::__TargetTR);
+						m->ChangeDisplayType(__TargetTR);
 				}
 				else
-				if(m->GetDisplayType()==DisplayImage::__TargetTR && ShowImageTargetTR==false){
+				if(m->GetDisplayType()==__TargetTR && ShowImageTargetTR==false){
 					if(ShowImageMaster==true)
-						m->ChangeDisplayType(DisplayImage::__Master);
+						m->ChangeDisplayType(__Master);
 					else
 					if(ShowImageTarget==true)
-						m->ChangeDisplayType(DisplayImage::__Target);
+						m->ChangeDisplayType(__Target);
 				}
 			}
 		}
@@ -448,20 +448,20 @@ void	ImageControlTools::TransmitDirectly(GUIDirectMessage *packet)
 	if(CL!=NULL){
 		if(ImageMaster!=NULL && ImageMaster->isChecked()==true){
 			if(BitBuffForMasterImage==true && GetParamGlobal()->AllocBitBuffer==true && ImageBitBuff!=NULL && ImageBitBuff->isChecked()==true)
-				CL->DType=DisplayImage::__BitBuff;
+				CL->DType=__BitBuff;
 			else
-				CL->DType=DisplayImage::__Master;
+				CL->DType=__Master;
 		}
 		else if(ImageTarget!=NULL && ImageTarget->isChecked()==true)
-			CL->DType=DisplayImage::__Target;
+			CL->DType=__Target;
 		//else if(ImageGrayLower!=NULL && ImageGrayLower->isChecked()==true)
-		//	CL->DType=DisplayImage::__GrayLower;
+		//	CL->DType=__GrayLower;
 		//else if(ImageGrayUpper!=NULL && ImageGrayUpper->isChecked()==true)
-		//	CL->DType=DisplayImage::__GrayUpper;
+		//	CL->DType=__GrayUpper;
 		else if(ImageBackGround!=NULL && ImageBackGround->isChecked()==true)
-			CL->DType=DisplayImage::__BackGround;
+			CL->DType=__BackGround;
 		else if(ImageTargetTR!=NULL && ImageTargetTR->isChecked()==true)
-			CL->DType=DisplayImage::__TargetTR;
+			CL->DType=__TargetTR;
 		for(int Layer=0;Layer<LNumb;Layer++){
 			CL->LayerList.RemoveAll();
 			for(int L=0;L<LNumb;L++){
@@ -620,14 +620,14 @@ void	ImageControlTools::StartPage(void)
 			continue;
 		DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 		if(m!=NULL){
-			if(m->GetDisplayType()==DisplayImage::__Master){
+			if(m->GetDisplayType()==__Master){
 				if(m->GetCurrentMasterNo()==0){
 					if(ImageMaster!=NULL)
 						ImageMaster->setChecked(true);
 					else{
 						if(ImageTarget!=NULL){
 							CmdSetDisplayType	RCmd(GetLayersBase());
-							RCmd.DType=DisplayImage::__Target;
+							RCmd.DType=__Target;
 							m->TransmitDirectly(&RCmd);
 							ImageTarget->setChecked(true);
 						}
@@ -641,7 +641,7 @@ void	ImageControlTools::StartPage(void)
 						}
 						else{
 							CmdSetDisplayType	RCmd(GetLayersBase());
-							RCmd.DType=DisplayImage::__Target;
+							RCmd.DType=__Target;
 							m->TransmitDirectly(&RCmd);
 							ImageTarget->setChecked(true);
 						}
@@ -652,7 +652,7 @@ void	ImageControlTools::StartPage(void)
 						else{
 							if(ImageTarget!=NULL){
 								CmdSetDisplayType	RCmd(GetLayersBase());
-								RCmd.DType=DisplayImage::__Target;
+								RCmd.DType=__Target;
 								m->TransmitDirectly(&RCmd);
 								ImageTarget->setChecked(true);
 							}
@@ -660,7 +660,7 @@ void	ImageControlTools::StartPage(void)
 					}
 				}
 			}
-			else if(m->GetDisplayType()==DisplayImage::__BitBuff){
+			else if(m->GetDisplayType()==__BitBuff){
 				if(ImageMaster!=NULL)
 					ImageMaster->setChecked(true);
 				else{
@@ -669,37 +669,37 @@ void	ImageControlTools::StartPage(void)
 					}
 				}
 			}
-			else if(m->GetDisplayType()==DisplayImage::__Target){
+			else if(m->GetDisplayType()==__Target){
 				if(ImageTarget!=NULL)
 					ImageTarget->setChecked(true);
 				else{
 					if(ImageMaster!=NULL){
 						CmdSetDisplayType	RCmd(GetLayersBase());
-						RCmd.DType=DisplayImage::__Master;
+						RCmd.DType=__Master;
 						m->TransmitDirectly(&RCmd);
 						ImageMaster->setChecked(true);
 					}
 				}
 			}
-			else if(m->GetDisplayType()==DisplayImage::__BackGround){
+			else if(m->GetDisplayType()==__BackGround){
 				if(ImageBackGround!=NULL)
 					ImageBackGround->setChecked(true);
 				else{
 					if(ImageMaster!=NULL){
 						CmdSetDisplayType	RCmd(GetLayersBase());
-						RCmd.DType=DisplayImage::__Master;
+						RCmd.DType=__Master;
 						m->TransmitDirectly(&RCmd);
 						ImageMaster->setChecked(true);
 					}
 				}
 			}
-			else if(m->GetDisplayType()==DisplayImage::__TargetTR){
+			else if(m->GetDisplayType()==__TargetTR){
 				if(ImageTargetTR!=NULL)
 					ImageTargetTR->setChecked(true);
 				else{
 					if(ImageMaster!=NULL){
 						CmdSetDisplayType	RCmd(GetLayersBase());
-						RCmd.DType=DisplayImage::__Master;
+						RCmd.DType=__Master;
 						m->TransmitDirectly(&RCmd);
 						ImageMaster->setChecked(true);
 					}
@@ -720,12 +720,12 @@ void ImageControlTools::ImageMasterDown (bool checked)
 			if(m!=NULL){
 				if(BitBuffForMasterImage==true && GetParamGlobal()->AllocBitBuffer==true){
 					CmdSetDisplayType	RCmd(GetLayersBase());
-					RCmd.DType=DisplayImage::__BitBuff;
+					RCmd.DType=__BitBuff;
 					m->TransmitDirectly(&RCmd);
 				}
 				else{
 					CmdSetDisplayType	RCmd(GetLayersBase());
-					RCmd.DType=DisplayImage::__Master;
+					RCmd.DType=__Master;
 					m->TransmitDirectly(&RCmd);
 				}
 				m->Repaint();
@@ -764,12 +764,12 @@ void ImageControlTools::ImageMasterNDown (bool checked)
 			if(m!=NULL){
 				if(BitBuffForMasterImage==true && GetParamGlobal()->AllocBitBuffer==true){
 					CmdSetDisplayType	RCmd(GetLayersBase());
-					RCmd.DType=DisplayImage::__BitBuff;
+					RCmd.DType=__BitBuff;
 					m->TransmitDirectly(&RCmd);
 				}
 				else{
 					CmdSetDisplayType	RCmd(GetLayersBase());
-					RCmd.DType=DisplayImage::__Master;
+					RCmd.DType=__Master;
 					RCmd.MasterNo=MasterNo;
 					m->TransmitDirectly(&RCmd);
 				}
@@ -791,7 +791,7 @@ void ImageControlTools::ImageBackGroundDown (bool checked)
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
 				CmdSetDisplayType	RCmd(GetLayersBase());
-				RCmd.DType=DisplayImage::__BackGround;
+				RCmd.DType=__BackGround;
 				m->TransmitDirectly(&RCmd);
 				m->Repaint();
 			}
@@ -810,7 +810,7 @@ void ImageControlTools::ImageTargetDown (bool checked)
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
 				CmdSetDisplayType	RCmd(GetLayersBase());
-				RCmd.DType=DisplayImage::__Target;
+				RCmd.DType=__Target;
 				m->TransmitDirectly(&RCmd);
 				m->Repaint();
 			}
@@ -829,7 +829,7 @@ void ImageControlTools::ImageTargetTRDown (bool checked)
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
 				CmdSetDisplayType	RCmd(GetLayersBase());
-				RCmd.DType=DisplayImage::__TargetTR;
+				RCmd.DType=__TargetTR;
 				m->TransmitDirectly(&RCmd);
 				m->Repaint();
 			}
@@ -848,7 +848,7 @@ void ImageControlTools::ImageGrayLowerDown (bool checked)
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
 				CmdSetDisplayType	RCmd(GetLayersBase());
-				RCmd.DType=DisplayImage::__GrayLower;
+				RCmd.DType=__GrayLower;
 				m->TransmitDirectly(&RCmd);
 				m->Repaint();
 			}
@@ -866,7 +866,7 @@ void ImageControlTools::ImageGrayUpperDown (bool checked)
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
 				CmdSetDisplayType	RCmd(GetLayersBase());
-				RCmd.DType=DisplayImage::__GrayUpper;
+				RCmd.DType=__GrayUpper;
 				m->TransmitDirectly(&RCmd);
 				m->Repaint();
 			}
@@ -885,7 +885,7 @@ void ImageControlTools::ImageBitBuffDown (bool checked)
 			if(m!=NULL){
 				if(BitBuffForMasterImage==true && GetParamGlobal()->AllocBitBuffer==true){
 					CmdSetDisplayType	RCmd(GetLayersBase());
-					RCmd.DType=DisplayImage::__BitBuff;
+					RCmd.DType=__BitBuff;
 					m->TransmitDirectly(&RCmd);
 				}
 				m->Repaint();
@@ -903,12 +903,12 @@ void ImageControlTools::ImageBitBuffDown (bool checked)
 			if(m!=NULL){
 				if(ImageMaster!=NULL && ImageMaster->isChecked()==true){
 					CmdSetDisplayType	RCmd(GetLayersBase());
-					RCmd.DType=DisplayImage::__Master;
+					RCmd.DType=__Master;
 					m->TransmitDirectly(&RCmd);
 				}
 				if(ImageTarget!=NULL && ImageTarget->isChecked()==true){
 					CmdSetDisplayType	RCmd(GetLayersBase());
-					RCmd.DType=DisplayImage::__Target;
+					RCmd.DType=__Target;
 					m->TransmitDirectly(&RCmd);
 				}
 				m->Repaint();

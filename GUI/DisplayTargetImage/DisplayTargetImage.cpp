@@ -57,7 +57,7 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Target);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Target);
 
 	(*Base)=new GUICmdReqItemIndependentPack(Base,QString(sRoot),QString(sName));
 	(*Base)=new GUICmdSendIndependentPack	(Base,QString(sRoot),QString(sName));
@@ -155,7 +155,7 @@ DisplayTargetImage::DisplayTargetImage(LayersBase *Base ,QWidget *parent)
 	TargetImageControlToolsProp	=NULL;
 	MultiItemSelection			=true;
 	MultiItemSelectionBtn		=NULL;
-	MultiItemShapeMode			=mtFrameDraw::fdRectangle;
+	MultiItemShapeMode			=fdRectangle;
 
 	ItemsBmpCounts=GetPageNumb();
 	ItemsBmpReceiver	=new GUICmdSendTargetItemsBmp*[ItemsBmpCounts];
@@ -852,56 +852,56 @@ void	DisplayTargetImage::SlotItemsSelectDrawShape(QMouseEvent * event )
 }
 void	DisplayTargetImage::SlotItemsSelectRectangle()
 {
-	MultiItemShapeMode=mtFrameDraw::fdRectangle;
+	MultiItemShapeMode=fdRectangle;
 	if(MultiItemSelectionBtn!=NULL && MultiItemSelectionBtn->isChecked()==true){
 		MultiItemSelectionBtnDown();
 	}
 }
 void	DisplayTargetImage::SlotItemsSelectEllipseCenter()
 {
-	MultiItemShapeMode=mtFrameDraw::fdEllipse;
+	MultiItemShapeMode=fdEllipse;
 	if(MultiItemSelectionBtn!=NULL && MultiItemSelectionBtn->isChecked()==true){
 		MultiItemSelectionBtnDown();
 	}
 }
 void	DisplayTargetImage::SlotItemsSelectEllipse4Points()
 {
-	MultiItemShapeMode=mtFrameDraw::fdEllipse4;
+	MultiItemShapeMode=fdEllipse4;
 	if(MultiItemSelectionBtn!=NULL && MultiItemSelectionBtn->isChecked()==true){
 		MultiItemSelectionBtnDown();
 	}
 }
 void	DisplayTargetImage::SlotItemsSelectLongCircle()
 {
-	MultiItemShapeMode=mtFrameDraw::fdLongCircle;
+	MultiItemShapeMode=fdLongCircle;
 	if(MultiItemSelectionBtn!=NULL && MultiItemSelectionBtn->isChecked()==true){
 		MultiItemSelectionBtnDown();
 	}
 }
 void	DisplayTargetImage::SlotItemsSelectRotatedRect()
 {
-	MultiItemShapeMode=mtFrameDraw::fdRotRectangle;
+	MultiItemShapeMode=fdRotRectangle;
 	if(MultiItemSelectionBtn!=NULL && MultiItemSelectionBtn->isChecked()==true){
 		MultiItemSelectionBtnDown();
 	}
 }
 void	DisplayTargetImage::SlotItemsSelectRing()
 {
-	MultiItemShapeMode=mtFrameDraw::fdRing;
+	MultiItemShapeMode=fdRing;
 	if(MultiItemSelectionBtn!=NULL && MultiItemSelectionBtn->isChecked()==true){
 		MultiItemSelectionBtnDown();
 	}
 }
 void	DisplayTargetImage::SlotItemsSelectPolygon()
 {
-	MultiItemShapeMode=mtFrameDraw::fdPoly;
+	MultiItemShapeMode=fdPoly;
 	if(MultiItemSelectionBtn!=NULL && MultiItemSelectionBtn->isChecked()==true){
 		MultiItemSelectionBtnDown();
 	}
 }
 void	DisplayTargetImage::SlotItemsSelectFreeHand()
 {
-	MultiItemShapeMode=mtFrameDraw::fdFree;
+	MultiItemShapeMode=fdFree;
 	if(MultiItemSelectionBtn!=NULL && MultiItemSelectionBtn->isChecked()==true){
 		MultiItemSelectionBtnDown();
 	}

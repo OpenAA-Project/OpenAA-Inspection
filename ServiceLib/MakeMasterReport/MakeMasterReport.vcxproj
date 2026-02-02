@@ -229,7 +229,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;QT_LARGEFILE_SUPPORT;QT_NO_DEBUG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\Integrator\IntegrationLib;..\..\ServiceLib\EXCEL\include_cpp;..\..\ServiceLib\CommonGUIDLL;..\..\GUI\ButtonSelectMachine;..\..\GUI\ButtonSelectMachine\GeneratedFiles;..\..\Hasplib\Hasplib;..\..\OpenSource\Component;.\..\..\Open;..\..\GeneralSource;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(LIBXLSXWRITER)\include;..\..\Integrator\IntegrationLib;..\..\ServiceLib\CommonGUIDLL;..\..\GUI\ButtonSelectMachine;..\..\GUI\ButtonSelectMachine\GeneratedFiles;..\..\OpenSource\Component;.\..\..\Open;..\..\GeneralSource;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -246,9 +246,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(LIBXLSXWRITER)\lib;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Component.lib;ServiceLib.lib;CommonGUIDLL.lib;IntegrationLib.lib;ServiceExecutionEditor.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Component.lib;ServiceLib.lib;CommonGUIDLL.lib;IntegrationLib.lib;ServiceExecutionEditor.lib;xlsxwriter.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <StackReserveSize>128000000</StackReserveSize>
       <StackCommitSize>128000000</StackCommitSize>
     </Link>

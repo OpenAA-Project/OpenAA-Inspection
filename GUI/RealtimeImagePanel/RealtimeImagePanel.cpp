@@ -44,7 +44,7 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
 
 	return true;
 }
@@ -165,19 +165,19 @@ void	RealtimeImagePanel::Prepare(void)
 {
 	DisplayImage::Prepare();
 	if(ImageType==/**/"Master"){
-		ChangeDisplayType(DisplayImage::__Master);
+		ChangeDisplayType(__Master);
 	}
 	else if(ImageType==/**/"Target"){
-		ChangeDisplayType(DisplayImage::__Target);
+		ChangeDisplayType(__Target);
 	}
 	else if(ImageType==/**/"DelayedView"){
-		ChangeDisplayType(DisplayImage::__DelayedView);
+		ChangeDisplayType(__DelayedView);
 	}
 	else if(ImageType==/**/"CamTarget"){
-		ChangeDisplayType(DisplayImage::__CamTarget);
+		ChangeDisplayType(__CamTarget);
 	}
 	else if(ImageType==/**/"RawTarget"){
-		ChangeDisplayType(DisplayImage::__RawTarget);
+		ChangeDisplayType(__RawTarget);
 	}
 	else if(ImageType==/**/"SpecialBuffer"){
 		CountCamera=GetParamComm()->GetLocalCameraNumb(0);

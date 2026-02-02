@@ -962,8 +962,8 @@ bool	LayersBase::MakeImageNGCircle(QImage *tNGData ,QPainter *tPntFromNGData
 {
 	RetNGData=false;
 	if(RedCircleMode==true
-	&& (((DisplayImage::DisplayType)dtype)==DisplayImage::__Target
-	 || ((DisplayImage::DisplayType)dtype)==DisplayImage::__DelayedView)
+	&& (((DisplayType)dtype)==__Target
+	 || ((DisplayType)dtype)==__DelayedView)
 	&& ShowNGMarkInTarget==true){
 		ParamGlobal	*ParamG=GetParamGlobal();
 

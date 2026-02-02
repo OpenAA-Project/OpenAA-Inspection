@@ -177,16 +177,16 @@ void	HookOverlapImageForm::Draw	(DisplayImage	*DImage
 	}
 
 	if(ImageType==/**/"MasterImage"){
-		DType=DisplayImage::__Master;
+		DType=__Master;
 	}
 	else if(ImageType==/**/"TargetImage"){
-		DType=DisplayImage::__Target;
+		DType=__Target;
 	}
 	else if(ImageType==/**/"BitImage"){
-		DType=DisplayImage::__BitBuff;
+		DType=__BitBuff;
 	}
 	else if(ImageType==/**/"CameraRawImage"){
-		DType=DisplayImage::__CamTarget;
+		DType=__CamTarget;
 	}
 
 	if(DImage!=NULL){
@@ -772,7 +772,7 @@ void	 HookOverlapImageForm::TransmitDirectly(GUIDirectMessage *packet)
 	}
 }
 
-void	HookOverlapImageForm::GetState(DisplayImage::DisplayType &dType ,bool &Checked,int &Value)
+void	HookOverlapImageForm::GetState(DisplayType &dType ,bool &Checked,int &Value)
 {
 	dType	=DType;
 	Checked	=Active;
@@ -785,7 +785,7 @@ void	HookOverlapImageForm::CalledFromDeridedParent(GUIFormBase *Parent, QEvent *
 	if(src!=NULL){
 		bool	Checked;
 		int		Value;
-		DisplayImage::DisplayType dType;
+		DisplayType dType;
 		src->GetState(dType,Checked,Value);
 		SetTargetPage(src->GetTargetPage());
 		DType	=dType;

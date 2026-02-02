@@ -28,6 +28,9 @@
     <ClInclude Include="mtImageSliderBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="mtFrameDataType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mtButtonWithBalloon.cpp">
@@ -174,6 +177,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="mtFrameDraw3D.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mtFrameDrawBase.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

@@ -47,7 +47,7 @@ class	DisplayTargetImage : public DisplayImage
 	GUICmdReqTargetItemsBmp		**ItemsBmpRequester;
 	StackForAverage				TimeStocker;
 	mtImageToolButtonWithBalloon	*MultiItemSelectionBtn;
-	mtFrameDraw::DrawingMode		MultiItemShapeMode;
+	DrawingMode					MultiItemShapeMode;
 public:
 	int							Mergin;
 	bool						ZoomForEveryInspection;

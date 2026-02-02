@@ -390,7 +390,7 @@ bool	LayersBase::SQLUpdateMasterDataHeader(QBuffer &GeneralBuff ,QBuffer	&Settin
 		BmpReceiver[N]=new GUICmdSendBmpForTopView(this,"ANY","ANY" ,globalPage);
 		BmpRequester[N]=new GUICmdReqBmpForTopView(this,"ANY","ANY",globalPage);
 		if(GetParamGlobal()->AllocateMasterBuff==false){
-			BmpRequester[N]->Data.DType=DisplayImage::__Target;
+			BmpRequester[N]->Data.DType=__Target;
 			BmpRequester[N]->Data.MasterNo	=0;
 		}
 

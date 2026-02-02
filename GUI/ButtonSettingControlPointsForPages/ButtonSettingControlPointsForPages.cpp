@@ -46,8 +46,8 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
-	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
+	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
 
 	(*Base)=new GUICmdReqControlPoints	(Base,sRoot,sName);
 	(*Base)=new GUICmdAckControlPoints	(Base,sRoot,sName);
@@ -140,11 +140,11 @@ void ButtonSettingControlPointsForPages::SlotClicked (bool checked)
 	else{
 		if(Mastered==true){
 			Window=new ShowSettingControlPointsForPagesForm(GetLayersBase()
-														,DisplayImage::__Master);
+														,__Master);
 		}
 		else{
 			Window=new ShowSettingControlPointsForPagesForm(GetLayersBase()
-														,DisplayImage::__Target);
+														,__Target);
 		}
 		Window->show();
 	}

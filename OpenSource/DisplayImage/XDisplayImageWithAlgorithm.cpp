@@ -584,42 +584,42 @@ void	DisplayImageWithAlgorithm::MouseMoveEvent(int globalX ,int globalY)
 	if(Base==NULL){
 		return;
 	}
-	if(DrawingMode==_PasteMovePreStart){
+	if(DrawingShapeMode==_PasteMovePreStart){
 	}
-	else if(DrawingMode==_ItemMoveWait){
+	else if(DrawingShapeMode==_ItemMoveWait){
 	}
-	else if(DrawingMode==_CutByShapePreStart){
+	else if(DrawingShapeMode==_CutByShapePreStart){
 	}
 	else
-	if(DrawingMode==_PasteMove 
-	|| DrawingMode==_ItemMove
-	|| DrawingMode==_RotateMoveAngling 
-	|| DrawingMode==_SlopeXMoveAngling 
-	|| DrawingMode==_SlopeYMoveAngling 
-	|| DrawingMode==_ExtendMoving 
-	|| DrawingMode==_CutByShape){
+	if(DrawingShapeMode==_PasteMove 
+	|| DrawingShapeMode==_ItemMove
+	|| DrawingShapeMode==_RotateMoveAngling 
+	|| DrawingShapeMode==_SlopeXMoveAngling 
+	|| DrawingShapeMode==_SlopeYMoveAngling 
+	|| DrawingShapeMode==_ExtendMoving 
+	|| DrawingShapeMode==_CutByShape){
 		MoveCurrentGlobalX=globalX;
 		MoveCurrentGlobalY=globalY;
-		if(DrawingMode==_ItemMove){
+		if(DrawingShapeMode==_ItemMove){
 			MovingNow(MoveCurrentGlobalX,MoveCurrentGlobalY);
 		}
-		else if(DrawingMode==_RotateMoveAngling){
+		else if(DrawingShapeMode==_RotateMoveAngling){
 			RotateAngling(MoveCurrentGlobalX,MoveCurrentGlobalY);
 		}
-		else if(DrawingMode==_SlopeXMoveAngling){
+		else if(DrawingShapeMode==_SlopeXMoveAngling){
 			SlopeXAngling(MoveCurrentGlobalX,MoveCurrentGlobalY);
 		}
-		else if(DrawingMode==_SlopeYMoveAngling){
+		else if(DrawingShapeMode==_SlopeYMoveAngling){
 			SlopeYAngling(MoveCurrentGlobalX,MoveCurrentGlobalY);
 		}
-		else if(DrawingMode==_ExtendMoving){
+		else if(DrawingShapeMode==_ExtendMoving){
 			ExtendingNow(MoveCurrentGlobalX,MoveCurrentGlobalY);
 		}
 	}
 	else{
 		ExecuteActiveOnItemXY(globalX ,globalY);
 	}
-	if(DrawingMode!=_Normal){
+	if(DrawingShapeMode!=_Normal){
 		MainCanvas->Repaint();
 	}
 }
@@ -717,9 +717,9 @@ void	DisplayImageWithAlgorithm::ExecuteActiveOnItem(int globalPage ,int layer ,i
 	}
 }
 
-DisplayImage::__DrawingMode	DisplayImageWithAlgorithm::GetImageDrawingMode(void)	const
+DisplayImage::__DrawingShapeMode	DisplayImageWithAlgorithm::GetImageDrawingMode(void)	const
 {
-	DisplayImage::__DrawingMode	Ret=DisplayImage::GetImageDrawingMode();
+	__DrawingShapeMode	Ret=DisplayImage::GetImageDrawingMode();
 	if(MoveItemBtn!=NULL && MoveItemBtn->isChecked()==true){
 		return DisplayImage::_ItemMoveWait;
 	}
@@ -869,9 +869,9 @@ void	DisplayImageWithAlgorithm::ButtonExecutePasteInSameAlgorithm(void)
 	//GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Paste in same algorithm");
 
 	if(MainCanvas!=NULL){
-		SetModeByOthers(mtFrameDraw::fdNone,MainCanvas->GetFrameColor());
+		SetModeByOthers(fdNone,MainCanvas->GetFrameColor());
 	}
-	DrawingMode=_PasteMovePreStart;
+	DrawingShapeMode=_PasteMovePreStart;
 	MoveCurrentGlobalX=MoveStartGlobalX=0;
 	MoveCurrentGlobalY=MoveStartGlobalY=0;
 	AllUpToolButton();
@@ -894,7 +894,7 @@ void	DisplayImageWithAlgorithm::ButtonExecutePasteInSameAlgorithmSamePos(void)
 		}
 	}
 	//DrawingMode=_Normal;
-	DrawingMode=SavedDrawingMode;
+	DrawingShapeMode=SavedDrawingShapeMode;
 	if(MainCanvas!=NULL){
 		MainCanvas->Clear();
 	}
@@ -910,9 +910,9 @@ void	DisplayImageWithAlgorithm::ButtonExecutePasteInFixedPos(void)
 	//GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Paste in fexed position");
 
 	if(MainCanvas!=NULL){
-		SetModeByOthers(mtFrameDraw::fdNone,MainCanvas->GetFrameColor());
+		SetModeByOthers(fdNone,MainCanvas->GetFrameColor());
 	}
-	DrawingMode=_PasteCreateShapeStart;
+	DrawingShapeMode=_PasteCreateShapeStart;
 	MoveCurrentGlobalX=MoveStartGlobalX=0;
 	MoveCurrentGlobalY=MoveStartGlobalY=0;
 	AllUpToolButton();
@@ -924,9 +924,9 @@ void	DisplayImageWithAlgorithm::ButtonExecuteCutByShape(void)
 	//GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Cut by shape");
 
 	if(MainCanvas!=NULL){
-		SetModeByOthers(mtFrameDraw::fdNone,MainCanvas->GetFrameColor());
+		SetModeByOthers(fdNone,MainCanvas->GetFrameColor());
 	}
-	DrawingMode=_CutByShapePreStart;
+	DrawingShapeMode=_CutByShapePreStart;
 	MoveCurrentGlobalX=MoveStartGlobalX=0;
 	MoveCurrentGlobalY=MoveStartGlobalY=0;
 	AllUpToolButton();
@@ -950,17 +950,17 @@ void	DisplayImageWithAlgorithm::ButtonExecutePaste(void)
 				ButtonExecutePasteInFixedPos();
 			}
 			else if(PForm->RetMode==3){
-				DrawingMode=_Normal;
+				DrawingShapeMode=_Normal;
 			}
 			else if(PForm->RetMode==5){
 				ButtonExecuteCutByShape();
 			}
 			else if(PForm->RetMode==6){
-				SavedDrawingMode=DrawingMode;
+				SavedDrawingShapeMode=DrawingShapeMode;
 				ButtonExecutePasteInSameAlgorithmSamePos();
 			}
 			else if(PForm->RetMode==16){
-				SavedDrawingMode=DrawingMode;
+				SavedDrawingShapeMode=DrawingShapeMode;
 				ButtonExecutePasteInSameAlgorithmSamePos();
 			}
 			BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
@@ -1216,7 +1216,7 @@ void	DisplayImageWithAlgorithm::DrawInsideExpandedPaste( QPainter &pnt ,double m
 void	DisplayImageWithAlgorithm::DrawNoneBtnBtnDown()
 {
 	if(MainCanvas!=NULL){
-		SetModeByOthers(mtFrameDraw::fdNone,MainCanvas->GetFrameColor());
+		SetModeByOthers(fdNone,MainCanvas->GetFrameColor());
 	}
 	ButtonExecuteDraw();
 	SetAlterSomething();
@@ -1235,9 +1235,9 @@ void	DisplayImageWithAlgorithm::DrawBtnDown()
 				if(v==GetName()){
 					CmdPanelGetButton	RCmd(GetLayersBase());
 					s->TransmitDirectly(&RCmd);
-					if(RCmd.Mode==mtFrameDraw::fdNone){
+					if(RCmd.Mode==fdNone){
 						CmdPanelSetButton	SCmd(GetLayersBase());
-						SCmd.Mode=mtFrameDraw::fdRectangle;
+						SCmd.Mode=fdRectangle;
 						s->TransmitDirectly(&SCmd);
 					}
 				}
@@ -1265,8 +1265,8 @@ void	DisplayImageWithAlgorithm::SelectBtnDown()
 	}
 	ButtonExecuteSelectArea();
 	if(MainCanvas!=NULL){
-		if(MainCanvas->GetMode()==mtFrameDraw::fdNone){
-			SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+		if(MainCanvas->GetMode()==fdNone){
+			SetModeByOthers(fdRectangle ,Qt::red);
 		}
 	}
 	SetAlterSomething();
@@ -1346,9 +1346,9 @@ void	DisplayImageWithAlgorithm::MoveItemBtnDown()
 		}
 		AllUpImagePanel();
 		SetDrawingMode(_ItemMoveWait);
-		SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+		SetModeByOthers(fdNone ,Qt::red);
 		//SetDrawingMode(_ItemMoveWait);
-		SetCursor(mtFrameDraw::fdMove);
+		SetCursor(fdMove);
 		SetAlterSomething();
 		LastMode=Mode_MoveItemBtn;
 		GetLayersBase()->SetStatusModes(this,/**/"ItemMove");
@@ -1591,7 +1591,7 @@ void	DisplayImageWithAlgorithm::PasteBtnDownFromShortcut()
 	QString _AlgoRoot ,_AlgoName;
 	XDateTime	D=SelectPasteForm::GetTopCopiedData(GetLayersBase(),_AlgoRoot ,_AlgoName);
 	if(_AlgoRoot==AlgoRoot && _AlgoName==AlgoName){
-		SavedDrawingMode=DrawingMode;
+		SavedDrawingShapeMode=DrawingShapeMode;
 		SelectPasteForm::LoadPasteSameAlgorithm(GetLayersBase(),this,D);
 		SetAlterSomething();
 		ButtonExecutePasteInSameAlgorithmSamePos();
@@ -1866,11 +1866,11 @@ void	DisplayImageWithAlgorithm::UncoveredBtnDown()
 		if(GetLayersBase()->DeliverMakeUncoveredArea()==false){
 			SetError(Error_Comm , /**/"Send error :UncoveredBtnDown",ErrorCodeList::_Alart);
 		}
-		DrawingMode=_DrawUncoveredArea;
+		DrawingShapeMode=_DrawUncoveredArea;
 		Repaint();
 	}
 	else{
-		DrawingMode=_Normal;
+		DrawingShapeMode=_Normal;
 		Repaint();
 	}
 }
@@ -2009,12 +2009,12 @@ void	DisplayImageWithAlgorithm::ExecuteAfterDrawEnd(void)
 }
 
 
-void	DisplayImageWithAlgorithm::SetPasteMode(int _PastedLayer ,const XDateTime &CopiedID,DisplayImage::__DrawingMode DMode)
+void	DisplayImageWithAlgorithm::SetPasteMode(int _PastedLayer ,const XDateTime &CopiedID,__DrawingShapeMode DMode)
 {
 	ClipboardAlgorithm	*C=GetLayersBase()->SearchClipboard(CopiedID);
 	if(C!=NULL){
 		PastedItems=C;
-		DrawingMode=DMode;
+		DrawingShapeMode=DMode;
 		PastedLayer=_PastedLayer;
 	}
 	else{
@@ -2354,11 +2354,11 @@ void	DisplayImageWithAlgorithm::ExecuteMove(int dx ,int dy)
 				}
 			}
 		}
-		DrawingMode=_Normal;
+		DrawingShapeMode=_Normal;
 		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 			GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
-			Cmd.DMode=DrawingMode;
+			Cmd.DMode=DrawingShapeMode;
 			Cmd.InstName=GetName();
 			if(Cmd.SendOnly(GlobalPage,0)==false){
 				SetError(Error_Comm , /**/"Send error :ExecuteMove",ErrorCodeList::_Alart);
@@ -2396,13 +2396,13 @@ void	DisplayImageWithAlgorithm::ExecuteMouseLDown(int globalX ,int globalY)
 	if(Count!=0){
 		if(IsMoveModeButtonDown()==true
 		&& (SelectBtn==NULL || SelectBtn->isChecked()==false) && (CutItemBtn==NULL || CutItemBtn->isChecked()==false) && (DrawBtn==NULL || DrawBtn->isChecked()==false)){
-			DrawingMode=_ItemMove;		
+			DrawingShapeMode=_ItemMove;		
 			MoveStartGlobalX=globalX;
 			MoveStartGlobalY=globalY;
 			for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 				GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,page);
-				Cmd.DMode=DrawingMode;
+				Cmd.DMode=DrawingShapeMode;
 				Cmd.InstName=GetName();
 				if(Cmd.SendOnly(GlobalPage,0)==false){
 					SetError(Error_Comm , /**/"Send error :ExecuteMouseLDown",ErrorCodeList::_Alart);
@@ -2793,9 +2793,9 @@ void	DisplayImageWithAlgorithm::SeparateItemBtnDown()
 		}
 		AllUpImagePanel();
 		SetDrawingMode(_ReparateItemByShape);
-		SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+		SetModeByOthers(fdRectangle ,Qt::red);
 		//SetDrawingMode(_ItemMoveWait);
-		SetCursor(mtFrameDraw::fdRectangle);
+		SetCursor(fdRectangle);
 		SetAlterSomething();
 		LastMode=Mode_SeparateItemBtn;
 		GetLayersBase()->SetStatusModes(this,/**/"SeparateItem");

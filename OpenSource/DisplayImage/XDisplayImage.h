@@ -43,6 +43,7 @@
 #include "XVector.h"
 #include "XGUIFormBase.h"
 #include "XArrangementFromFile.h"
+#include "mtFrameDataType.h"
 
 class	LayersBase;
 class	GUICmdSendBmp;
@@ -121,7 +122,7 @@ private:
 	DWORD			ClickedMilisec;
 	RGBStock		RGBStockData;
 	bool			FirstDraw;
-	mtFrameDraw::DrawingMode		DrawRectMode;
+	DrawingMode		DrawRectMode;
     int			PourPickupBrightness;
     int			PourExpandedDot;
 protected:
@@ -141,7 +142,7 @@ protected:
 	int32					StartMovx,StartMovy;
 	int32					MoveStartGlobalX ,MoveStartGlobalY;
 	int32					MoveCurrentGlobalX ,MoveCurrentGlobalY;
-	mtFrameDraw::DrawingMode	ModeFromOther;
+	DrawingMode	ModeFromOther;
 	int32					MeasureStartGlobalX		,MeasureStartGlobalY;
 	int32					MeasureCurrentGlobalX	,MeasureCurrentGlobalY;
 	QString					SavedFileName;
@@ -278,7 +279,7 @@ public:
 		,_ScalePositionLeftBottom	=3
 		,_ScalePositionRightBottom	=4
 		};
-	enum	__DrawingMode{
+	enum	__DrawingShapeMode{
 		_Normal					=0
 		,_PasteMovePreStart		=1
 		,_PasteMove				=2
@@ -326,7 +327,7 @@ public:
 		,_ReplaceColor			=44
 		,_ReparateItemByShape	=45
 		,_Other					=100
-	}DrawingMode,SavedDrawingMode;
+	}DrawingShapeMode,SavedDrawingShapeMode;
 
 	struct	_Option{
 		bool	ZoomInButton;
@@ -392,22 +393,7 @@ public:
 	}ViewWindowStyle;
 
 	QStringList	RelatedItems;
-	enum	DisplayType
-	{
-		__NoImage		=0
-		,__Master		=0x0001
-		,__Master2		=0x0080
-		,__Target		=0x0002
-		,__BackGround	=0x0100
-		,__GrayLower	=3
-		,__GrayUpper	=4
-		,__DelayedView	=0x0004
-		,__BitBuff		=0x0008
-		,__RawTarget	=0x0010
-		,__CamTarget	=0x0020
-		,__TargetTR		=0x0040
-		,__TrialTarget	=0x0100
-	}DType;
+	DisplayType	DType;
 	QColor	FrameColor;
 	QString	ImageControlToolsName;
 
@@ -461,18 +447,18 @@ public:
 	void	SetMeterOffset(int OffsetX ,int OffsetY)	{	MainCanvas->SetMeterOffset(OffsetX ,OffsetY);	}
 	void	GetMeterMatrix(int GlobalX ,int GlobalY ,int &MeterX ,int &MeterY)	const;
 
-	virtual	void	SetModeByOthers(mtFrameDraw::DrawingMode mode ,const QColor &lineColor);
+	virtual	void	SetModeByOthers(DrawingMode mode ,const QColor &lineColor);
 	QColor	GetDrawColor(void)					const	{	return MainCanvas->GetFrameColor();	}
-	mtFrameDraw::DrawingMode GetDrawMode(void)	const	{	return(MainCanvas->GetCanvas()->GetMode());	}
+	DrawingMode GetDrawMode(void)	const	{	return(MainCanvas->GetCanvas()->GetMode());	}
 
 	int32	GetTransparentLevelInBitBuff(void)	const	{	return TransparentLevelInBitBuff;	}
 	void	SetTransparentLevelInBitBuff(int n)			{	TransparentLevelInBitBuff=n;		}
 
-	void	SetCursor(mtFrameDraw::DrawingMode mode);
-	void	SetCursor(__DrawingMode mode);
+	void	SetCursor(DrawingMode mode);
+	void	SetCursor(__DrawingShapeMode mode);
 
-	void	ChangeDisplayType(DisplayImage::DisplayType dtype);
-	DisplayImage::DisplayType	GetDisplayType(void)const	{	return DType;	}
+	void	ChangeDisplayType(DisplayType dtype);
+	DisplayType	GetDisplayType(void)const	{	return DType;	}
 	int32	GetCurrentMasterNo(void)				const	{	return CurrentMasterNo;		}
 	void	SetCurrentMasterNo(int masterNo)				{	CurrentMasterNo=masterNo;	}
 	virtual	void	SetDrawPosition(int datax1 ,int datay1 , int datax2 ,int datay2);
@@ -482,8 +468,8 @@ public:
 	virtual	void	Repaint(void)		override;
 	void	GetIdentity(QString &emitterRoot ,QString &emitterName)	const;
 	virtual	void	SetMouseCursorPos(int XonG, int YonG);
-	virtual	void	SetDrawingMode(__DrawingMode mode);
-	virtual	__DrawingMode	GetImageDrawingMode(void)	const	{	return DrawingMode;	}
+	virtual	void	SetDrawingMode(__DrawingShapeMode mode);
+	virtual	__DrawingShapeMode	GetImageDrawingMode(void)	const	{	return DrawingShapeMode;	}
 	bool	PastedItemsDraw(int localPage ,int dx ,int dy ,QImage &pnt, int movx ,int movy ,double ZoomRate ,QColor Col);
 	QColor	GetPickedColor(void)	const	{	return PickedColor;					}
 	RGBStock	&GetRGBStock(void)	const	{	return (RGBStock &)RGBStockData;	}
@@ -517,7 +503,7 @@ public:
 	void	SetLineWidth(double width)			{	MainCanvas->SetLineWidth(width);	}
 	double	GetLineWidth(void)			const	{	return MainCanvas->GetLineWidth();	}
 
-	struct mtFrameDraw::_ShapeData *GetRawSDataPoint(void)	const	{	return &MainCanvas->GetCanvas()->SData;	}
+	struct _ShapeData *GetRawSDataPoint(void)	const	{	return &MainCanvas->GetCanvas()->SData;	}
 	virtual	void	GetPointList(DotListContainer &Dots ,double d=2)	const;
 	void	GetDrawingArea(int &GlobalX1,int &GlobalY1,int &GlobalX2,int &GlobalY2)	const;
 
@@ -603,7 +589,7 @@ public:
 	static	void	InitialDisplayImageInDLL(GUICmdPacketBasePointerListContainer &GUICmdPacketContainer
 											,LayersBase *Base
 											,const QString &sRoot ,const QString &sName 
-											,DisplayImage::DisplayType DType);
+											,DisplayType DType);
 	virtual	bool	DynamicPickupColor(int globalX,int globalY ,QColor &Ret);
 
 	virtual	bool	ExecuteClickButton(const QString &ButtonName);
@@ -793,7 +779,7 @@ protected slots:
 	void	SlotExpandedPasteCancel(void);
 	void	SlotExecuteMatrix(void);
 	void	SlotShiftAll(void);
-	void	SlotDrawing(mtFrameDraw::DrawingMode mode,int stage);
+	void	SlotDrawing(DrawingMode mode,int stage);
 	void	SlotFitZoom();
 private slots:
 	void	SlotJustMouseLPress  (int UniversalDx,int UniversalDy);
@@ -806,11 +792,11 @@ private slots:
 	void	SlotDrawMessage(const QStringList &title ,const QStringList &msg);
 
 public:
-	static	void    ToFlexArea( struct mtFrameDraw::_ShapeData &SData
+	static	void    ToFlexArea( struct _ShapeData &SData
                                 ,FlexArea &resultarea);
 	static	void    ColPointToArea(NPListPack<ShapePoint> &cdata
                                 ,FlexArea &resultarea);
-	static	VectorLineBase	*ToVectorLine( struct mtFrameDraw::_ShapeData &SData);
+	static	VectorLineBase	*ToVectorLine( struct _ShapeData &SData);
 	VectorLineBase	*GetVectorLineBase(void)	{	return ToVectorLine(*GetRawSDataPoint());	}
 protected:
 	void	BroadcastDraw(void);
@@ -834,7 +820,7 @@ public:
 					,int LMovX, int LMovY ,double LZoomRate);
 protected:
 	virtual	void	AllocInnerBuff(void);
-	void	SetModeToImagePanelTools(mtFrameDraw::DrawingMode mode ,const QColor &lineColor);
+	void	SetModeToImagePanelTools(DrawingMode mode ,const QColor &lineColor);
 	virtual	QImage	GetSaveImage(int gx1, int gy1, int gx2 ,int gy2);
 	virtual	bool	SaveImage(int gx1, int gy1, int gx2 ,int gy2 ,int xn ,int yn);
 	virtual	void	ExeRegulateBrightness(FlexArea &TmpArea);
@@ -987,7 +973,7 @@ public:
 	virtual	AlgorithmBase	*GetAlgorithmBase(void)		const;
 	virtual	int				GetLibType(void)			const;
 	virtual	void			GetAlgorithm(QString &_AlgoRoot,QString &_AlgoName)	const	{	_AlgoRoot=AlgoRoot;	_AlgoName=AlgoName;	}
-	void	SetPasteMode(int PastedLayer ,const XDateTime &CopiedID ,DisplayImage::__DrawingMode DMode);
+	void	SetPasteMode(int PastedLayer ,const XDateTime &CopiedID ,DisplayImage::__DrawingShapeMode DMode);
 	void	SetPasteForImage(const QColor &Color,const XDateTime &SelectTimeIndex);
 	void	ExecuteCutItemsByPasted(int dx,int dy);
 
@@ -1008,7 +994,7 @@ public:
 	virtual	void	ExecuteMouseLDownWithShift(int globalX ,int globalY)	override;
 
 	virtual	void	MoveFinish(void)							override;
-	virtual	__DrawingMode	GetImageDrawingMode(void)	const	override;
+	virtual	DisplayImage::__DrawingShapeMode	GetImageDrawingMode(void)	const	override;
 	ButtonPushedButton		GetButtonPushedButton(void)	const;
 	bool	GetEnableOutsideItems(void)					const	{	return EnableOutsideItems;	}
 	virtual	void	ExecuteChangeItemName(const QString &itemname);
@@ -1026,7 +1012,7 @@ public:
 	static	void	InitialDisplayImageWithAlgorithmInDLL(GUICmdPacketBasePointerListContainer &GUICmdPacketContainer
 														,LayersBase *Base
 														,const QString &sRoot ,const QString &sName 
-														,DisplayImage::DisplayType DType);
+														,DisplayType DType);
 	virtual	int		SetPropertyInDLL(struct	PropertyClass Data[] ,WORD	maxDataDim)	override;
 
 	virtual	bool	ExecuteClickButton(const QString &ButtonName)	override;

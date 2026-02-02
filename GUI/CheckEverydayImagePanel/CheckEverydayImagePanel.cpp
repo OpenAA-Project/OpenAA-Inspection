@@ -51,8 +51,8 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
-	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
+	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
 
 	return true;
 }
@@ -122,10 +122,10 @@ CheckEverydayImagePanel::CheckEverydayImagePanel(LayersBase *Base ,QWidget *pare
 void	CheckEverydayImagePanel::Prepare(void)
 {
 	DisplayImageWithAlgorithm::Prepare();
-	SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+	SetModeByOthers(fdRectangle ,Qt::red);
 	if(GetParamGlobal()->AllocateMasterBuff==false
 	&& GetParamGlobal()->AllocateTargetBuff==true){
-		ChangeDisplayType(DisplayImage::__Target);
+		ChangeDisplayType(__Target);
 	}
 }
 
@@ -136,7 +136,7 @@ void	CheckEverydayImagePanel::TransmitDirectly(GUIDirectMessage *packet)
 
 void	CheckEverydayImagePanel::DrawBtnDown()
 {
-	SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+	SetModeByOthers(fdRectangle ,Qt::red);
 }
 
 AlgorithmDrawAttr	*CheckEverydayImagePanel::CreateDrawAttrPointer(void)

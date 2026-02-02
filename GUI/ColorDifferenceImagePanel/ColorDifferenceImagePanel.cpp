@@ -53,8 +53,8 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
-	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
+	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
 
 	return true;
 }
@@ -124,7 +124,7 @@ ColorDifferenceImagePanel::ColorDifferenceImagePanel(LayersBase *Base ,QWidget *
 void	ColorDifferenceImagePanel::Prepare(void)
 {
 	DisplayImageWithAlgorithm::Prepare();
-	SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+	SetModeByOthers(fdRectangle ,Qt::red);
 }
 
 void	ColorDifferenceImagePanel::TransmitDirectly(GUIDirectMessage *packet)
@@ -134,7 +134,7 @@ void	ColorDifferenceImagePanel::TransmitDirectly(GUIDirectMessage *packet)
 
 void	ColorDifferenceImagePanel::DrawBtnDown()
 {
-	SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+	SetModeByOthers(fdRectangle ,Qt::red);
 }
 
 AlgorithmDrawAttr	*ColorDifferenceImagePanel::CreateDrawAttrPointer(void)

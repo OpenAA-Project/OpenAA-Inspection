@@ -1170,7 +1170,7 @@ bool	PropertyAlignmentLargeForm::GetUseBitBuffMode(void)
 	int	LayerNumb=GetLayersBase()->GetMaxLayerNumb();
 	CmdReqImageLayer	RCmd(GetLayersBase(),LayerNumb);
 	ImageControlToolsPointer->TransmitDirectly(&RCmd);
-	if(RCmd.DType==DisplayImage::__BitBuff)
+	if(RCmd.DType==__BitBuff)
 		return true;
 	else
 		return false;

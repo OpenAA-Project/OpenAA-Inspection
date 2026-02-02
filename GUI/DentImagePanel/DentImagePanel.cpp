@@ -48,8 +48,8 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
-	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
+	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
 
 	//new GUICmdReqDentBmp(QString(sRoot),QString(sName));
 	//new GUICmdSendDentBmp(QString(sRoot),QString(sName));
@@ -136,7 +136,7 @@ void	DentImagePanel::SlotTouchItems(ListPageLayerIDPack *ItemInfo)
 
 void	DentImagePanel::SlotMouseLDown(int globalX,int globalY)
 {
-	__DrawingMode	DMode=GetImageDrawingMode();
+	__DrawingShapeMode	DMode=GetImageDrawingMode();
 	DisplayImageWithAlgorithm::SlotMouseLDown(globalX,globalY);
 	if(GetLastHookResult()==false)
 		return;
@@ -176,7 +176,7 @@ AlgorithmDrawAttr	*DentImagePanel::CreateDrawAttrPointer(void)
 								,Base->DentColor5
 								,Base->DentColor6
 								,Base->DentColor7		);
-		p->Master	=GetDisplayType()==DisplayImage::__Master;
+		p->Master	=GetDisplayType()==__Master;
 		GetActiveLayerList(p->LayerList);
 		return p;
 	}

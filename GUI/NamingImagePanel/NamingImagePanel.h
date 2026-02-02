@@ -59,7 +59,7 @@ class	GUICmdReqNamingBmp : public GUICmdPacketBase
 public:
 	struct	GUIReqBmpStruct
 	{
-		DisplayImage::DisplayType	DType;
+		DisplayType	DType;
 		int32	Gx1;
 		int32	Gy1;
 		int32	Gx2;
@@ -99,7 +99,7 @@ public:
 
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 
-	void	MakeImage(DisplayImage::DisplayType dtype
+	void	MakeImage(DisplayType dtype
 					 ,IntList &LayerList
 					 ,int Gx1,int Gy1 ,int Gx2,int Gy2
 					 ,int Dx1,int Dy1 ,int Dx2,int Dy2

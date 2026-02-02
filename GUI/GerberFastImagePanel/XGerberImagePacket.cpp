@@ -36,6 +36,7 @@
 #include "XDisplayImagePacket.h"
 #include "swap.h"
 #include "XGerberImagePacket.h"
+#include "mtFrameDataType.h"
 
 extern	const	char	*sRoot;
 extern	const	char	*sName;
@@ -135,7 +136,7 @@ bool	GUICmdGerberDrawMode::Load(QIODevice *f)
 	BYTE	m;
 	if(::Load(f,m)==false)
 		return false;
-	Mode=(DisplayImage::__DrawingMode)m;
+	Mode=(DisplayImage::__DrawingShapeMode)m;
 
 	if(::Load(f,MoveMode)==false)
 		return false;

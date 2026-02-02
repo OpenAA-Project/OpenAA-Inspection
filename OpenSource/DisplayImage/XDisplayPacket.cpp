@@ -61,7 +61,7 @@ bool	GUICmdSyncDrawingMode::Load(QIODevice *f)
 	if(::Load(f,N)==false){
 		return false;
 	}
-	DMode=(DisplayImage::__DrawingMode)N;
+	DMode=(DisplayImage::__DrawingShapeMode)N;
 	if(::Load(f,InstName)==false){
 		return false;
 	}
@@ -94,7 +94,7 @@ void	GUICmdSyncDrawingMode::Receive(int32 localPage, int32 cmd ,QString &Emitter
 }
 
 //=======================================================================
-GUICmdReqPixelColor::GUICmdReqPixelColor(LayersBase *Base,const QString &EmitterRoot,const QString &EmitterName ,DisplayImage::DisplayType dtype ,int globalPage)
+GUICmdReqPixelColor::GUICmdReqPixelColor(LayersBase *Base,const QString &EmitterRoot,const QString &EmitterName ,DisplayType dtype ,int globalPage)
 :GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
 {
 	DType=dtype;
@@ -144,28 +144,28 @@ void	GUICmdReqPixelColor::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 			&& 0<=LocalY && LocalY<P->GetMaxLines()){
 			if(P->GetLayerNumb()==1){
 				ImageBuffer	*SBuff;
-				if((DType&DisplayImage::__Master)!=0){
+				if((DType&__Master)!=0){
 					SBuff=&P->GetLayerData(0)->GetMasterBuff(MasterNo);
 				}
-				else if((DType&DisplayImage::__BackGround)!=0){
+				else if((DType&__BackGround)!=0){
 					SBuff=&P->GetLayerData(0)->GetBackGroundBuff();
 				}
-				else if((DType&DisplayImage::__Target)!=0){
+				else if((DType&__Target)!=0){
 					SBuff=&P->GetLayerData(0)->GetTargetBuff();
 				}
-				else if((DType&DisplayImage::__TargetTR)!=0){
+				else if((DType&__TargetTR)!=0){
 					SBuff=&P->GetLayerData(0)->GetTargetTRBuff();
 				}
-				else if((DType&DisplayImage::__DelayedView)!=0){
+				else if((DType&__DelayedView)!=0){
 					SBuff=&P->GetLayerData(0)->GetDelayedViewBuff();
 				}
-				else if((DType&DisplayImage::__BitBuff)!=0){
+				else if((DType&__BitBuff)!=0){
 					SBuff=&P->GetLayerData(0)->GetBitBuff();
 				}
-				else if((DType&DisplayImage::__RawTarget)!=0){
+				else if((DType&__RawTarget)!=0){
 					SBuff=&P->GetLayerData(0)->GetRawTargetBuff();
 				}
-				else if((DType&DisplayImage::__CamTarget)!=0){
+				else if((DType&__CamTarget)!=0){
 					SBuff=&P->GetLayerData(0)->GetCamTargetBuff();
 				}
 				else{
@@ -173,7 +173,7 @@ void	GUICmdReqPixelColor::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 				}
 				if(SBuff!=NULL && SBuff->IsNull()==false){
 					if(LocalX<SBuff->GetWidth() && LocalY<SBuff->GetHeight()){
-						if((DType&DisplayImage::__BitBuff)==0){
+						if((DType&__BitBuff)==0){
 							int	c=SBuff->GetY(LocalY)[LocalX];
 							SendBack->Col.setRed  (c);
 							SendBack->Col.setGreen(c);
@@ -197,35 +197,35 @@ void	GUICmdReqPixelColor::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 			else if(P->GetLayerNumb()==2){
 				ImageBuffer	*SBuff0;
 				ImageBuffer	*SBuff1;
-				if((DType&DisplayImage::__Master)!=0){
+				if((DType&__Master)!=0){
 					SBuff0=&P->GetLayerData(0)->GetMasterBuff(MasterNo);
 					SBuff1=&P->GetLayerData(1)->GetMasterBuff(MasterNo);
 				}
-				else if((DType&DisplayImage::__BackGround)!=0){
+				else if((DType&__BackGround)!=0){
 					SBuff0=&P->GetLayerData(0)->GetBackGroundBuff();
 					SBuff1=&P->GetLayerData(1)->GetBackGroundBuff();
 				}
-				else if((DType&DisplayImage::__Target)!=0){
+				else if((DType&__Target)!=0){
 					SBuff0=&P->GetLayerData(0)->GetTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetTargetBuff();
 				}
-				else if((DType&DisplayImage::__TargetTR)!=0){
+				else if((DType&__TargetTR)!=0){
 					SBuff0=&P->GetLayerData(0)->GetTargetTRBuff();
 					SBuff1=&P->GetLayerData(1)->GetTargetTRBuff();
 				}
-				else if((DType&DisplayImage::__DelayedView)!=0){
+				else if((DType&__DelayedView)!=0){
 					SBuff0=&P->GetLayerData(0)->GetDelayedViewBuff();
 					SBuff1=&P->GetLayerData(1)->GetDelayedViewBuff();
 				}
-				else if((DType&DisplayImage::__BitBuff)!=0){
+				else if((DType&__BitBuff)!=0){
 					SBuff0=&P->GetLayerData(0)->GetBitBuff();
 					SBuff1=&P->GetLayerData(1)->GetBitBuff();
 				}
-				else if((DType&DisplayImage::__RawTarget)!=0){
+				else if((DType&__RawTarget)!=0){
 					SBuff0=&P->GetLayerData(0)->GetRawTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetRawTargetBuff();
 				}
-				else if((DType&DisplayImage::__CamTarget)!=0){
+				else if((DType&__CamTarget)!=0){
 					SBuff0=&P->GetLayerData(0)->GetCamTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetCamTargetBuff();
 				}
@@ -236,7 +236,7 @@ void	GUICmdReqPixelColor::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 				if(SBuff0!=NULL && SBuff0->IsNull()==false
 				&& SBuff1!=NULL && SBuff1->IsNull()==false
 				&& LocalX<SBuff0->GetWidth() && LocalY<SBuff0->GetHeight()){
-					if((DType&DisplayImage::__BitBuff)==0){
+					if((DType&__BitBuff)==0){
 						int	c0=SBuff0->GetY(LocalY)[LocalX];
 						int	c1=SBuff1->GetY(LocalY)[LocalX];
 						SendBack->Col.setRed  (c0);
@@ -261,42 +261,42 @@ void	GUICmdReqPixelColor::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 				ImageBuffer	*SBuff0;
 				ImageBuffer	*SBuff1;
 				ImageBuffer	*SBuff2;
-				if((DType&DisplayImage::__Master)!=0){
+				if((DType&__Master)!=0){
 					SBuff0=&P->GetLayerData(0)->GetMasterBuff(MasterNo);
 					SBuff1=&P->GetLayerData(1)->GetMasterBuff(MasterNo);
 					SBuff2=&P->GetLayerData(2)->GetMasterBuff(MasterNo);
 				}
-				else if((DType&DisplayImage::__BackGround)!=0){
+				else if((DType&__BackGround)!=0){
 					SBuff0=&P->GetLayerData(0)->GetBackGroundBuff();
 					SBuff1=&P->GetLayerData(1)->GetBackGroundBuff();
 					SBuff2=&P->GetLayerData(2)->GetBackGroundBuff();
 				}
-				else if((DType&DisplayImage::__Target)!=0){
+				else if((DType&__Target)!=0){
 					SBuff0=&P->GetLayerData(0)->GetTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetTargetBuff();
 					SBuff2=&P->GetLayerData(2)->GetTargetBuff();
 				}
-				else if((DType&DisplayImage::__TargetTR)!=0){
+				else if((DType&__TargetTR)!=0){
 					SBuff0=&P->GetLayerData(0)->GetTargetTRBuff();
 					SBuff1=&P->GetLayerData(1)->GetTargetTRBuff();
 					SBuff2=&P->GetLayerData(2)->GetTargetTRBuff();
 				}
-				else if((DType&DisplayImage::__DelayedView)!=0){
+				else if((DType&__DelayedView)!=0){
 					SBuff0=&P->GetLayerData(0)->GetDelayedViewBuff();
 					SBuff1=&P->GetLayerData(1)->GetDelayedViewBuff();
 					SBuff2=&P->GetLayerData(2)->GetDelayedViewBuff();
 				}
-				else if((DType&DisplayImage::__BitBuff)!=0){
+				else if((DType&__BitBuff)!=0){
 					SBuff0=&P->GetLayerData(0)->GetBitBuff();
 					SBuff1=&P->GetLayerData(1)->GetBitBuff();
 					SBuff2=&P->GetLayerData(2)->GetBitBuff();
 				}
-				else if((DType&DisplayImage::__RawTarget)!=0){
+				else if((DType&__RawTarget)!=0){
 					SBuff0=&P->GetLayerData(0)->GetRawTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetRawTargetBuff();
 					SBuff2=&P->GetLayerData(2)->GetRawTargetBuff();
 				}
-				else if((DType&DisplayImage::__CamTarget)!=0){
+				else if((DType&__CamTarget)!=0){
 					SBuff0=&P->GetLayerData(0)->GetCamTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetCamTargetBuff();
 					SBuff2=&P->GetLayerData(2)->GetCamTargetBuff();
@@ -310,7 +310,7 @@ void	GUICmdReqPixelColor::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 				&& SBuff1!=NULL && SBuff1->IsNull()==false
 				&& SBuff2!=NULL && SBuff2->IsNull()==false
 				&& LocalX<SBuff0->GetWidth() && LocalY<SBuff0->GetHeight()){
-					if((DType&DisplayImage::__BitBuff)==0){
+					if((DType&__BitBuff)==0){
 						int	c0=SBuff0->GetY(LocalY)[LocalX];
 						int	c1=SBuff1->GetY(LocalY)[LocalX];
 						int	c2=SBuff2->GetY(LocalY)[LocalX];
@@ -374,7 +374,7 @@ void	GUICmdSendPixelColor::Receive(int32 localPage, int32 cmd ,QString &EmitterR
 }
 
 //=======================================================================
-GUICmdDrawColor::GUICmdDrawColor(LayersBase *Base,const QString &EmitterRoot,const QString &EmitterName ,DisplayImage::DisplayType dtype ,int globalPage)
+GUICmdDrawColor::GUICmdDrawColor(LayersBase *Base,const QString &EmitterRoot,const QString &EmitterName ,DisplayType dtype ,int globalPage)
 :GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
 {
 	DType=dtype;
@@ -425,25 +425,25 @@ void	GUICmdDrawColor::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 		DataInLayer	*L=P->GetLayerData(layer);
 
 		ImageBuffer	*DBuff=NULL;
-		if((DType&DisplayImage::__Master)!=0){
+		if((DType&__Master)!=0){
 			DBuff=&L->GetMasterBuff(MasterNo);
 		}
-		else if((DType&DisplayImage::__BackGround)!=0){
+		else if((DType&__BackGround)!=0){
 			DBuff=&L->GetBackGroundBuff();
 		}
-		else if((DType&DisplayImage::__Target)!=0){
+		else if((DType&__Target)!=0){
 			DBuff=&L->GetTargetBuff();
 		}
-		else if((DType&DisplayImage::__TargetTR)!=0){
+		else if((DType&__TargetTR)!=0){
 			DBuff=&L->GetTargetTRBuff();
 		}
-		else if((DType&DisplayImage::__DelayedView)!=0){
+		else if((DType&__DelayedView)!=0){
 			DBuff=&L->GetDelayedViewBuff();
 		}
-		else if((DType&DisplayImage::__RawTarget)!=0){
+		else if((DType&__RawTarget)!=0){
 			DBuff=&L->GetRawTargetBuff();
 		}
-		else if((DType&DisplayImage::__CamTarget)!=0){
+		else if((DType&__CamTarget)!=0){
 			DBuff=&L->GetCamTargetBuff();
 		}
 		if(DBuff!=NULL){
@@ -463,7 +463,7 @@ void	GUICmdDrawColor::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 }
 
 //=======================================================================
-GUICmdDrawDot::GUICmdDrawDot(LayersBase *Base,const QString &EmitterRoot,const QString &EmitterName ,DisplayImage::DisplayType dtype ,int globalPage)
+GUICmdDrawDot::GUICmdDrawDot(LayersBase *Base,const QString &EmitterRoot,const QString &EmitterName ,DisplayType dtype ,int globalPage)
 :GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
 {
 	DType=dtype;
@@ -516,31 +516,31 @@ void	GUICmdDrawDot::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QSt
 	int		m=(int)Drgb;
 	for(int layer=min(P->GetLayerNumb(),3)-1;layer>=0;layer--){
 		DataInLayer	*L=P->GetLayerData(layer);
-		if((DType&DisplayImage::__Master)!=0){
+		if((DType&__Master)!=0){
 			L->GetMasterBuff(MasterNo).GetY(LocalY)[LocalX]=m&0xFF;
 			L->GetMasterBuff(MasterNo).SetChanged(true);
 		}
-		else if((DType&DisplayImage::__BackGround)!=0){
+		else if((DType&__BackGround)!=0){
 			L->GetBackGroundBuff().GetY(LocalY)[LocalX]=m&0xFF;
 			L->GetBackGroundBuff().SetChanged(true);
 		}
-		else if((DType&DisplayImage::__Target)!=0){
+		else if((DType&__Target)!=0){
 			L->GetTargetBuff().GetY(LocalY)[LocalX]=m&0xFF;
 			L->GetTargetBuff().SetChanged(true);
 		}
-		else if((DType&DisplayImage::__TargetTR)!=0){
+		else if((DType&__TargetTR)!=0){
 			L->GetTargetTRBuff().GetY(LocalY)[LocalX]=m&0xFF;
 			L->GetTargetTRBuff().SetChanged(true);
 		}
-		else if((DType&DisplayImage::__DelayedView)!=0){
+		else if((DType&__DelayedView)!=0){
 			L->GetDelayedViewBuff().GetY(LocalY)[LocalX]=m&0xFF;
 			L->GetDelayedViewBuff().SetChanged(true);
 		}
-		else if((DType&DisplayImage::__RawTarget)!=0){
+		else if((DType&__RawTarget)!=0){
 			L->GetRawTargetBuff().GetY(LocalY)[LocalX]=m&0xFF;
 			L->GetRawTargetBuff().SetChanged(true);
 		}
-		else if((DType&DisplayImage::__CamTarget)!=0){
+		else if((DType&__CamTarget)!=0){
 			L->GetCamTargetBuff().GetY(LocalY)[LocalX]=m&0xFF;
 			L->GetCamTargetBuff().SetChanged(true);
 		}
@@ -1753,10 +1753,10 @@ void	GUICmdSendItemsBmp::MakeImage(AlgorithmDrawAttr	*ModePoint
 								 ,int Dx1,int Dy1 ,int Dx2,int Dy2
 								 ,int MovX,int MovY, double ZoomRate
 								 ,int localPage
-								 ,DisplayImage::__DrawingMode	DMode
+								 ,DisplayImage::__DrawingShapeMode	DMode
 								 ,int MoveGlobalDx ,int MoveGlobalDy
 								 ,DisplayImageWithAlgorithm	*A
-								 ,DisplayImage::DisplayType	DType
+								 ,DisplayType	DType
 								 ,LayersBase &LocalLBase
 								 ,QString &EmitterRoot,QString &EmitterName)
 {
@@ -2051,32 +2051,32 @@ DisplayImageCopyStructure::DisplayImageCopyStructure(const DisplayImageCopyStruc
 	}
 }
 
-void	DisplayImageCopyStructure::Capture(FlexArea &area ,DataInPage *PageData ,DisplayImage::DisplayType &dtype)
+void	DisplayImageCopyStructure::Capture(FlexArea &area ,DataInPage *PageData ,DisplayType &dtype)
 {
 	LayerList.RemoveAll();
 	ImageWithAreas.RemoveAll();
 	for(int layer=0;layer<PageData->GetLayerNumb();layer++){
 		LayerList.Add(layer);
 		FlexAreaImageList	*v=new FlexAreaImageList();
-		if((dtype&DisplayImage::__Master)!=0){
+		if((dtype&__Master)!=0){
 			v->Set(area,PageData->GetLayerData(layer)->GetMasterBuff(MasterNo));
 		}
-		else if((dtype&DisplayImage::__BackGround)!=0){
+		else if((dtype&__BackGround)!=0){
 			v->Set(area,PageData->GetLayerData(layer)->GetBackGroundBuff());
 		}
-		else if((dtype&DisplayImage::__Target)!=0){
+		else if((dtype&__Target)!=0){
 			v->Set(area,PageData->GetLayerData(layer)->GetTargetBuff());
 		}
-		else if((dtype&DisplayImage::__TargetTR)!=0){
+		else if((dtype&__TargetTR)!=0){
 			v->Set(area,PageData->GetLayerData(layer)->GetTargetTRBuff());
 		}
-		else if((dtype&DisplayImage::__DelayedView)!=0){
+		else if((dtype&__DelayedView)!=0){
 			v->Set(area,PageData->GetLayerData(layer)->GetDelayedViewBuff());
 		}
-		else if((dtype&DisplayImage::__RawTarget)!=0){
+		else if((dtype&__RawTarget)!=0){
 			v->Set(area,PageData->GetLayerData(layer)->GetRawTargetBuff());
 		}
-		else if((dtype&DisplayImage::__CamTarget)!=0){
+		else if((dtype&__CamTarget)!=0){
 			v->Set(area,PageData->GetLayerData(layer)->GetCamTargetBuff());
 		}
 		ImageWithAreas.AppendList(v);
@@ -2270,7 +2270,7 @@ bool	DisplayImageCopyStructure::Load(QIODevice *f)
 	if(::Load(f,N)==false){
 		return false;
 	}
-	DType=(DisplayImage::DisplayType)N;
+	DType=(DisplayType)N;
 	if(::Load(f,MasterNo)==false){
 		return false;
 	}
@@ -2330,7 +2330,7 @@ bool	GUICmdCopyRectPacket::Load(QIODevice *f)
 	if(::Load(f,d)==false){
 		return false;
 	}
-	Source=(DisplayImage::DisplayType)d;
+	Source=(DisplayType)d;
 	if(Area.Load(f)==false){
 		return false;
 	}
@@ -2475,25 +2475,25 @@ void	GUICmdReqPasteRectPacket::Receive(int32 localPage, int32 cmd ,QString &Emit
 			DataInLayer	*Ly=GetLayersBase()->GetPageData(localPage)->GetLayerData(Layer);
 			if(Ly!=NULL){
 				ImageBuffer	*DBuff=NULL;
-				if((a->DType&DisplayImage::__Target)!=0){
+				if((a->DType&__Target)!=0){
 					DBuff=&Ly->GetTargetBuff();
 				}
-				else if((a->DType&DisplayImage::__TargetTR)!=0){
+				else if((a->DType&__TargetTR)!=0){
 					DBuff=&Ly->GetTargetTRBuff();
 				}
-				else if((a->DType&DisplayImage::__Master)!=0){
+				else if((a->DType&__Master)!=0){
 					DBuff=&Ly->GetMasterBuff(MasterNo);
 				}
-				else if((a->DType&DisplayImage::__BackGround)!=0){
+				else if((a->DType&__BackGround)!=0){
 					DBuff=&Ly->GetBackGroundBuff();
 				}
-				else if((a->DType&DisplayImage::__DelayedView)!=0){
+				else if((a->DType&__DelayedView)!=0){
 					DBuff=&Ly->GetDelayedViewBuff();
 				}
-				else if((a->DType&DisplayImage::__RawTarget)!=0){
+				else if((a->DType&__RawTarget)!=0){
 					DBuff=&Ly->GetRawTargetBuff();
 				}
-				else if((a->DType&DisplayImage::__CamTarget)!=0){
+				else if((a->DType&__CamTarget)!=0){
 					DBuff=&Ly->GetCamTargetBuff();
 				}
 				DBuff->SetChanged(true);
@@ -2549,7 +2549,7 @@ bool	GUICmdReqClippedImage::Load(QIODevice *f)
 	if(::Load(f,N)==false){
 		return false;
 	}
-	Source=(DisplayImage::DisplayType)N;
+	Source=(DisplayType)N;
 	if(RealArea.Load(f)==false){
 		return false;
 	}
@@ -2603,7 +2603,7 @@ GUICmdSendClippedImage::GUICmdSendClippedImage(LayersBase *Base,const QString &e
 
 void	GUICmdSendClippedImage::CreateImageData(LayersBase *Base,FlexArea &RealArea
 												,double ZoomRate
-												,DisplayImage::DisplayType DType
+												,DisplayType DType
 												,int MasterNo)
 {
 	BuffList.RemoveAll();
@@ -2616,31 +2616,31 @@ void	GUICmdSendClippedImage::CreateImageData(LayersBase *Base,FlexArea &RealArea
 		ZoomedArea=RealArea;
 		int	Cx,Cy;
 		RealArea.GetCenter(Cx,Cy);
-		if((DType&DisplayImage::__Master)!=0){
+		if((DType&__Master)!=0){
 			D=ZoomedArea.GetZoomPattern(ZoomRate,Cx,Cy
 										,Ly->GetMasterBuff(MasterNo),BuffBytes);
 		}
-		else if((DType&DisplayImage::__BackGround)!=0){
+		else if((DType&__BackGround)!=0){
 			D=ZoomedArea.GetZoomPattern(ZoomRate,Cx,Cy
 										,Ly->GetBackGroundBuff(),BuffBytes);
 		}
-		else if((DType&DisplayImage::__Target)!=0){
+		else if((DType&__Target)!=0){
 			D=ZoomedArea.GetZoomPattern(ZoomRate,Cx,Cy
 										,Ly->GetTargetBuff(),BuffBytes);
 		}
-		else if((DType&DisplayImage::__TargetTR)!=0){
+		else if((DType&__TargetTR)!=0){
 			D=ZoomedArea.GetZoomPattern(ZoomRate,Cx,Cy
 										,Ly->GetTargetTRBuff(),BuffBytes);
 		}
-		else if((DType&DisplayImage::__DelayedView)!=0){
+		else if((DType&__DelayedView)!=0){
 			D=ZoomedArea.GetZoomPattern(ZoomRate,Cx,Cy
 										,Ly->GetDelayedViewBuff(),BuffBytes);
 		}
-		else if((DType&DisplayImage::__RawTarget)!=0){
+		else if((DType&__RawTarget)!=0){
 			D=ZoomedArea.GetZoomPattern(ZoomRate,Cx,Cy
 										,Ly->GetRawTargetBuff(),BuffBytes);
 		}
-		else if((DType&DisplayImage::__CamTarget)!=0){
+		else if((DType&__CamTarget)!=0){
 			D=ZoomedArea.GetZoomPattern(ZoomRate,Cx,Cy
 										,Ly->GetCamTargetBuff(),BuffBytes);
 		}
@@ -5297,7 +5297,7 @@ HistgramListContainer	&HistgramListContainer::operator=(HistgramListContainer &s
 GUICmdRegulateBrightness::GUICmdRegulateBrightness(LayersBase *base ,const QString &emitterRoot ,const QString &emitterName,int globalPage)
 :GUICmdPacketBase(base,emitterRoot,emitterName ,typeid(this).name(),globalPage)
 {
-	ImageType	=DisplayImage::__Master;
+	ImageType	=__Master;
 	MasterNo	=0;
 }
 
@@ -5316,7 +5316,7 @@ bool	GUICmdRegulateBrightness::Load(QIODevice *f)
 	if(::Load(f,N)==false){
 		return false;
 	}
-	ImageType=(DisplayImage::DisplayType)N;
+	ImageType=(DisplayType)N;
 	if(Area.Load(f)==false){
 		return false;
 	}
@@ -5346,37 +5346,37 @@ void	GUICmdRegulateBrightness::Receive(int32 localPage, int32 cmd ,QString &Emit
 {
 	for(AvrVarListByLayer *c=AvrDatas.GetFirst();c!=NULL;c=c->GetNext()){
 		DataInLayer	*L=GetLayersBase()->GetPageData(localPage)->GetLayerData(c->Layer);
-		if((ImageType&DisplayImage::__Master)!=0){
+		if((ImageType&__Master)!=0){
 			Area.RegulateBrightness(L->GetMasterBuff(MasterNo),c->Average,c->Dispersion,BlockSize
 									,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			L->GetMasterBuff(MasterNo).SetChanged(true);
 		}
-		else if((ImageType&DisplayImage::__Target)!=0){
+		else if((ImageType&__Target)!=0){
 			Area.RegulateBrightness(L->GetTargetBuff(),c->Average,c->Dispersion,BlockSize
 									,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			L->GetTargetBuff().SetChanged(true);
 		}
-		else if((ImageType&DisplayImage::__BackGround)!=0){
+		else if((ImageType&__BackGround)!=0){
 			Area.RegulateBrightness(L->GetBackGroundBuff(),c->Average,c->Dispersion,BlockSize
 									,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			L->GetTargetBuff().SetChanged(true);
 		}
-		else if((ImageType&DisplayImage::__TargetTR)!=0){
+		else if((ImageType&__TargetTR)!=0){
 			Area.RegulateBrightness(L->GetTargetTRBuff(),c->Average,c->Dispersion,BlockSize
 									,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			L->GetTargetTRBuff().SetChanged(true);
 		}
-		else if((ImageType&DisplayImage::__DelayedView)!=0){
+		else if((ImageType&__DelayedView)!=0){
 			Area.RegulateBrightness(L->GetDelayedViewBuff(),c->Average,c->Dispersion,BlockSize
 									,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			L->GetDelayedViewBuff().SetChanged(true);
 		}
-		else if((ImageType&DisplayImage::__RawTarget)!=0){
+		else if((ImageType&__RawTarget)!=0){
 			Area.RegulateBrightness(L->GetRawTargetBuff(),c->Average,c->Dispersion,BlockSize
 									,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			L->GetRawTargetBuff().SetChanged(true);
 		}
-		else if((ImageType&DisplayImage::__CamTarget)!=0){
+		else if((ImageType&__CamTarget)!=0){
 			Area.RegulateBrightness(L->GetCamTargetBuff(),c->Average,c->Dispersion,BlockSize
 									,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			L->GetCamTargetBuff().SetChanged(true);
@@ -5389,7 +5389,7 @@ void	GUICmdRegulateBrightness::Receive(int32 localPage, int32 cmd ,QString &Emit
 GUICmdGetAvrVar::GUICmdGetAvrVar(LayersBase *base ,const QString &emitterRoot ,const QString &emitterName,int globalPage)
 :GUICmdPacketBase(base,emitterRoot,emitterName ,typeid(this).name(),globalPage)
 {
-	ImageType	=DisplayImage::__Master;
+	ImageType	=__Master;
 	MasterNo	=0;
 }
 
@@ -5408,7 +5408,7 @@ bool	GUICmdGetAvrVar::Load(QIODevice *f)
 	if(::Load(f,N)==false){
 		return false;
 	}
-	ImageType=(DisplayImage::DisplayType)N;
+	ImageType=(DisplayType)N;
 	if(Area.Load(f)==false){
 		return false;
 	}
@@ -5450,37 +5450,37 @@ void	GUICmdGetAvrVar::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 		DataInLayer	*L=P->GetLayerData(c->GetValue());
 		a->Average=0;
 		a->Dispersion=0;
-		if((ImageType&DisplayImage::__Master)!=0){
+		if((ImageType&__Master)!=0){
 			Area.CalcAvrVar(0,0,L->GetMasterBuff(MasterNo),a->Average ,a->Dispersion
 							,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			Area.MakeBrightList(h->BrightList ,P->GetDotPerLine(),P->GetMaxLines() ,L->GetMasterBuff(MasterNo));
 		}
-		else if((ImageType&DisplayImage::__BackGround)!=0){
+		else if((ImageType&__BackGround)!=0){
 			Area.CalcAvrVar(0,0,L->GetBackGroundBuff(),a->Average ,a->Dispersion
 							,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			Area.MakeBrightList(h->BrightList ,P->GetDotPerLine(),P->GetMaxLines(),L->GetTargetBuff());
 		}
-		else if((ImageType&DisplayImage::__Target)!=0){
+		else if((ImageType&__Target)!=0){
 			Area.CalcAvrVar(0,0,L->GetTargetBuff(),a->Average ,a->Dispersion
 							,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			Area.MakeBrightList(h->BrightList ,P->GetDotPerLine(),P->GetMaxLines(),L->GetTargetBuff());
 		}
-		else if((ImageType&DisplayImage::__TargetTR)!=0){
+		else if((ImageType&__TargetTR)!=0){
 			Area.CalcAvrVar(0,0,L->GetTargetTRBuff(),a->Average ,a->Dispersion
 							,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			Area.MakeBrightList(h->BrightList ,P->GetDotPerLine(),P->GetMaxLines(),L->GetTargetTRBuff());
 		}
-		else if((ImageType&DisplayImage::__DelayedView)!=0){
+		else if((ImageType&__DelayedView)!=0){
 			Area.CalcAvrVar(0,0,L->GetDelayedViewBuff(),a->Average ,a->Dispersion
 							,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			Area.MakeBrightList(h->BrightList ,P->GetDotPerLine(),P->GetMaxLines(),L->GetDelayedViewBuff());
 		}
-		else if((ImageType&DisplayImage::__RawTarget)!=0){
+		else if((ImageType&__RawTarget)!=0){
 			Area.CalcAvrVar(0,0,L->GetRawTargetBuff(),a->Average ,a->Dispersion
 							,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			Area.MakeBrightList(h->BrightList ,P->GetDotPerLine(),P->GetMaxLines(),L->GetRawTargetBuff());
 		}
-		else if((ImageType&DisplayImage::__CamTarget)!=0){
+		else if((ImageType&__CamTarget)!=0){
 			Area.CalcAvrVar(0,0,L->GetCamTargetBuff(),a->Average ,a->Dispersion
 							,GetParamGlobal()->AdoptRateLForAvr,GetParamGlobal()->AdoptRateHForAvr);
 			Area.MakeBrightList(h->BrightList ,P->GetDotPerLine(),P->GetMaxLines(),L->GetCamTargetBuff());
@@ -5572,7 +5572,7 @@ bool	GUICmdGetColorSample::Load(QIODevice *f)
 	if(::Load(f,D)==false){
 		return false;
 	}
-	ImageType=(DisplayImage::DisplayType)D;
+	ImageType=(DisplayType)D;
 	if(Area.Load(f)==false){
 		return false;
 	}
@@ -5603,25 +5603,25 @@ void	GUICmdGetColorSample::Receive(int32 localPage, int32 cmd ,QString &EmitterR
 	DataInPage	*Pg=GetLayersBase()->GetPageData(localPage);
 	if(Pg!=NULL){
 		ImagePointerContainer Images;
-		if((ImageType&DisplayImage::__Master)!=0){
+		if((ImageType&__Master)!=0){
 			Pg->GetMasterImages(MasterNo,Images);
 		}
-		else if((ImageType&DisplayImage::__BackGround)!=0){
+		else if((ImageType&__BackGround)!=0){
 			Pg->GetTargetImages(Images);
 		}
-		else if((ImageType&DisplayImage::__Target)!=0){
+		else if((ImageType&__Target)!=0){
 			Pg->GetTargetImages(Images);
 		}
-		else if((ImageType&DisplayImage::__TargetTR)!=0){
+		else if((ImageType&__TargetTR)!=0){
 			Pg->GetTargetTRImages(Images);
 		}
-		else if((ImageType&DisplayImage::__DelayedView)!=0){
+		else if((ImageType&__DelayedView)!=0){
 			Pg->GetDelayedViewImages(Images);
 		}
-		else if((ImageType&DisplayImage::__RawTarget)!=0){
+		else if((ImageType&__RawTarget)!=0){
 			Pg->GetRawTargetImages(Images);
 		}
-		else if((ImageType&DisplayImage::__CamTarget)!=0){
+		else if((ImageType&__CamTarget)!=0){
 			Pg->GetCamTargetImages(Images);
 		}
 		else{
@@ -6492,7 +6492,7 @@ bool	GUICmdPourImage::Load(QIODevice *f)
 	if(::Load(f,d)==false){
 		return false;
 	}
-	DType=(DisplayImage::DisplayType)d;
+	DType=(DisplayType)d;
 	if(::Load(f,BrightnessWidth)==false){
 		return false;
 	}
@@ -6547,34 +6547,34 @@ void	GUICmdPourImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 			int	c[3];
 			if(P->GetLayerNumb()==1){
 				ImageBuffer	*SBuff;
-				if((DType&DisplayImage::__Master)!=0){
+				if((DType&__Master)!=0){
 					P->GetMasterImages(MasterNo,Images);
 					SBuff=&P->GetLayerData(0)->GetMasterBuff(MasterNo);
 				}
-				else if((DType&DisplayImage::__BackGround)!=0){
+				else if((DType&__BackGround)!=0){
 					P->GetTargetImages(Images);
 					SBuff=&P->GetLayerData(0)->GetBackGroundBuff();
 				}
-				else if((DType&DisplayImage::__Target)!=0){
+				else if((DType&__Target)!=0){
 					P->GetTargetImages(Images);
 					SBuff=&P->GetLayerData(0)->GetTargetBuff();
 				}
-				else if((DType&DisplayImage::__TargetTR)!=0){
+				else if((DType&__TargetTR)!=0){
 					P->GetTargetTRImages(Images);
 					SBuff=&P->GetLayerData(0)->GetTargetTRBuff();
 				}
-				else if((DType&DisplayImage::__DelayedView)!=0){
+				else if((DType&__DelayedView)!=0){
 					P->GetDelayedViewImages(Images);
 					SBuff=&P->GetLayerData(0)->GetDelayedViewBuff();
 				}
-				else if((DType&DisplayImage::__BitBuff)!=0){
+				else if((DType&__BitBuff)!=0){
 					SBuff=&P->GetLayerData(0)->GetBitBuff();
 				}
-				else if((DType&DisplayImage::__RawTarget)!=0){
+				else if((DType&__RawTarget)!=0){
 					P->GetRawTargetImages(Images);
 					SBuff=&P->GetLayerData(0)->GetRawTargetBuff();
 				}
-				else if((DType&DisplayImage::__CamTarget)!=0){
+				else if((DType&__CamTarget)!=0){
 					P->GetCamTargetImages(Images);
 					SBuff=&P->GetLayerData(0)->GetCamTargetBuff();
 				}
@@ -6583,7 +6583,7 @@ void	GUICmdPourImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 				}
 				if(SBuff!=NULL && SBuff->IsNull()==false){
 					if(LocalX<SBuff->GetWidth() && LocalY<SBuff->GetHeight()){
-						if((DType&DisplayImage::__BitBuff)==0){
+						if((DType&__BitBuff)==0){
 							c[0]=SBuff->GetY(LocalY)[LocalX];
 							Color.SetMonoColorRange  (c[0]-BrightnessWidth,c[0]+BrightnessWidth);
 						}
@@ -6593,41 +6593,41 @@ void	GUICmdPourImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 			else if(P->GetLayerNumb()==2){
 				ImageBuffer	*SBuff0;
 				ImageBuffer	*SBuff1;
-				if((DType&DisplayImage::__Master)!=0){
+				if((DType&__Master)!=0){
 					P->GetMasterImages(MasterNo,Images);
 					SBuff0=&P->GetLayerData(0)->GetMasterBuff(MasterNo);
 					SBuff1=&P->GetLayerData(1)->GetMasterBuff(MasterNo);
 				}
-				else if((DType&DisplayImage::__BackGround)!=0){
+				else if((DType&__BackGround)!=0){
 					P->GetTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetBackGroundBuff();
 					SBuff1=&P->GetLayerData(1)->GetBackGroundBuff();
 				}
-				else if((DType&DisplayImage::__Target)!=0){
+				else if((DType&__Target)!=0){
 					P->GetTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetTargetBuff();
 				}
-				else if((DType&DisplayImage::__TargetTR)!=0){
+				else if((DType&__TargetTR)!=0){
 					P->GetTargetTRImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetTargetTRBuff();
 					SBuff1=&P->GetLayerData(1)->GetTargetTRBuff();
 				}
-				else if((DType&DisplayImage::__DelayedView)!=0){
+				else if((DType&__DelayedView)!=0){
 					P->GetDelayedViewImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetDelayedViewBuff();
 					SBuff1=&P->GetLayerData(1)->GetDelayedViewBuff();
 				}
-				else if((DType&DisplayImage::__BitBuff)!=0){
+				else if((DType&__BitBuff)!=0){
 					SBuff0=&P->GetLayerData(0)->GetBitBuff();
 					SBuff1=&P->GetLayerData(1)->GetBitBuff();
 				}
-				else if((DType&DisplayImage::__RawTarget)!=0){
+				else if((DType&__RawTarget)!=0){
 					P->GetRawTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetRawTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetRawTargetBuff();
 				}
-				else if((DType&DisplayImage::__CamTarget)!=0){
+				else if((DType&__CamTarget)!=0){
 					P->GetCamTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetCamTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetCamTargetBuff();
@@ -6639,7 +6639,7 @@ void	GUICmdPourImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 				if(SBuff0!=NULL && SBuff0->IsNull()==false
 				&& SBuff1!=NULL && SBuff1->IsNull()==false
 				&& LocalX<SBuff0->GetWidth() && LocalY<SBuff0->GetHeight()){
-					if((DType&DisplayImage::__BitBuff)==0){
+					if((DType&__BitBuff)==0){
 						c[0]=SBuff0->GetY(LocalY)[LocalX];
 						c[1]=SBuff1->GetY(LocalY)[LocalX];
 						c[2]=c[1];
@@ -6655,48 +6655,48 @@ void	GUICmdPourImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 				ImageBuffer	*SBuff0;
 				ImageBuffer	*SBuff1;
 				ImageBuffer	*SBuff2;
-				if((DType&DisplayImage::__Master)!=0){
+				if((DType&__Master)!=0){
 					P->GetMasterImages(MasterNo,Images);
 					SBuff0=&P->GetLayerData(0)->GetMasterBuff(MasterNo);
 					SBuff1=&P->GetLayerData(1)->GetMasterBuff(MasterNo);
 					SBuff2=&P->GetLayerData(2)->GetMasterBuff(MasterNo);
 				}
-				else if((DType&DisplayImage::__BackGround)!=0){
+				else if((DType&__BackGround)!=0){
 					P->GetTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetBackGroundBuff();
 					SBuff1=&P->GetLayerData(1)->GetBackGroundBuff();
 					SBuff2=&P->GetLayerData(2)->GetBackGroundBuff();
 				}
-				else if((DType&DisplayImage::__Target)!=0){
+				else if((DType&__Target)!=0){
 					P->GetTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetTargetBuff();
 					SBuff2=&P->GetLayerData(2)->GetTargetBuff();
 				}
-				else if((DType&DisplayImage::__TargetTR)!=0){
+				else if((DType&__TargetTR)!=0){
 					P->GetTargetTRImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetTargetTRBuff();
 					SBuff1=&P->GetLayerData(1)->GetTargetTRBuff();
 					SBuff2=&P->GetLayerData(2)->GetTargetTRBuff();
 				}
-				else if((DType&DisplayImage::__DelayedView)!=0){
+				else if((DType&__DelayedView)!=0){
 					P->GetDelayedViewImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetDelayedViewBuff();
 					SBuff1=&P->GetLayerData(1)->GetDelayedViewBuff();
 					SBuff2=&P->GetLayerData(2)->GetDelayedViewBuff();
 				}
-				else if((DType&DisplayImage::__BitBuff)!=0){
+				else if((DType&__BitBuff)!=0){
 					SBuff0=&P->GetLayerData(0)->GetBitBuff();
 					SBuff1=&P->GetLayerData(1)->GetBitBuff();
 					SBuff2=&P->GetLayerData(2)->GetBitBuff();
 				}
-				else if((DType&DisplayImage::__RawTarget)!=0){
+				else if((DType&__RawTarget)!=0){
 					P->GetRawTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetRawTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetRawTargetBuff();
 					SBuff2=&P->GetLayerData(2)->GetRawTargetBuff();
 				}
-				else if((DType&DisplayImage::__CamTarget)!=0){
+				else if((DType&__CamTarget)!=0){
 					P->GetCamTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetCamTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetCamTargetBuff();
@@ -6711,7 +6711,7 @@ void	GUICmdPourImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 				&& SBuff1!=NULL && SBuff1->IsNull()==false
 				&& SBuff2!=NULL && SBuff2->IsNull()==false
 				&& LocalX<SBuff0->GetWidth() && LocalY<SBuff0->GetHeight()){
-					if((DType&DisplayImage::__BitBuff)==0){
+					if((DType&__BitBuff)==0){
 						c[0]=SBuff0->GetY(LocalY)[LocalX];
 						c[1]=SBuff1->GetY(LocalY)[LocalX];
 						c[2]=SBuff2->GetY(LocalY)[LocalX];
@@ -6799,7 +6799,7 @@ bool	GUICmdReplaceColorImage::Load(QIODevice *f)
 	if(::Load(f,d)==false){
 		return false;
 	}
-	DType=(DisplayImage::DisplayType)d;
+	DType=(DisplayType)d;
 	if(::Load(f,BrightnessWidth)==false){
 		return false;
 	}
@@ -6850,34 +6850,34 @@ void	GUICmdReplaceColorImage::Receive(int32 localPage, int32 cmd ,QString &Emitt
 			int	c[3];
 			if(P->GetLayerNumb()==1){
 				ImageBuffer	*SBuff;
-				if((DType&DisplayImage::__Master)!=0){
+				if((DType&__Master)!=0){
 					P->GetMasterImages(MasterNo,Images);
 					SBuff=&P->GetLayerData(0)->GetMasterBuff(MasterNo);
 				}
-				else if((DType&DisplayImage::__BackGround)!=0){
+				else if((DType&__BackGround)!=0){
 					P->GetTargetImages(Images);
 					SBuff=&P->GetLayerData(0)->GetBackGroundBuff();
 				}
-				else if((DType&DisplayImage::__Target)!=0){
+				else if((DType&__Target)!=0){
 					P->GetTargetImages(Images);
 					SBuff=&P->GetLayerData(0)->GetTargetBuff();
 				}
-				else if((DType&DisplayImage::__TargetTR)!=0){
+				else if((DType&__TargetTR)!=0){
 					P->GetTargetTRImages(Images);
 					SBuff=&P->GetLayerData(0)->GetTargetTRBuff();
 				}
-				else if((DType&DisplayImage::__DelayedView)!=0){
+				else if((DType&__DelayedView)!=0){
 					P->GetDelayedViewImages(Images);
 					SBuff=&P->GetLayerData(0)->GetDelayedViewBuff();
 				}
-				else if((DType&DisplayImage::__BitBuff)!=0){
+				else if((DType&__BitBuff)!=0){
 					SBuff=&P->GetLayerData(0)->GetBitBuff();
 				}
-				else if((DType&DisplayImage::__RawTarget)!=0){
+				else if((DType&__RawTarget)!=0){
 					P->GetRawTargetImages(Images);
 					SBuff=&P->GetLayerData(0)->GetRawTargetBuff();
 				}
-				else if((DType&DisplayImage::__CamTarget)!=0){
+				else if((DType&__CamTarget)!=0){
 					P->GetCamTargetImages(Images);
 					SBuff=&P->GetLayerData(0)->GetCamTargetBuff();
 				}
@@ -6886,7 +6886,7 @@ void	GUICmdReplaceColorImage::Receive(int32 localPage, int32 cmd ,QString &Emitt
 				}
 				if(SBuff!=NULL && SBuff->IsNull()==false){
 					if(LocalX<SBuff->GetWidth() && LocalY<SBuff->GetHeight()){
-						if((DType&DisplayImage::__BitBuff)==0){
+						if((DType&__BitBuff)==0){
 							c[0]=SBuff->GetY(LocalY)[LocalX];
 							Color.SetMonoColorRange  (c[0]-BrightnessWidth,c[0]+BrightnessWidth);
 						}
@@ -6896,41 +6896,41 @@ void	GUICmdReplaceColorImage::Receive(int32 localPage, int32 cmd ,QString &Emitt
 			else if(P->GetLayerNumb()==2){
 				ImageBuffer	*SBuff0;
 				ImageBuffer	*SBuff1;
-				if((DType&DisplayImage::__Master)!=0){
+				if((DType&__Master)!=0){
 					P->GetMasterImages(MasterNo,Images);
 					SBuff0=&P->GetLayerData(0)->GetMasterBuff(MasterNo);
 					SBuff1=&P->GetLayerData(1)->GetMasterBuff(MasterNo);
 				}
-				else if((DType&DisplayImage::__Target)!=0){
+				else if((DType&__Target)!=0){
 					P->GetTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetTargetBuff();
 				}
-				else if((DType&DisplayImage::__BackGround)!=0){
+				else if((DType&__BackGround)!=0){
 					P->GetTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetBackGroundBuff();
 					SBuff1=&P->GetLayerData(1)->GetBackGroundBuff();
 				}
-				else if((DType&DisplayImage::__TargetTR)!=0){
+				else if((DType&__TargetTR)!=0){
 					P->GetTargetTRImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetTargetTRBuff();
 					SBuff1=&P->GetLayerData(1)->GetTargetTRBuff();
 				}
-				else if((DType&DisplayImage::__DelayedView)!=0){
+				else if((DType&__DelayedView)!=0){
 					P->GetDelayedViewImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetDelayedViewBuff();
 					SBuff1=&P->GetLayerData(1)->GetDelayedViewBuff();
 				}
-				else if((DType&DisplayImage::__BitBuff)!=0){
+				else if((DType&__BitBuff)!=0){
 					SBuff0=&P->GetLayerData(0)->GetBitBuff();
 					SBuff1=&P->GetLayerData(1)->GetBitBuff();
 				}
-				else if((DType&DisplayImage::__RawTarget)!=0){
+				else if((DType&__RawTarget)!=0){
 					P->GetRawTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetRawTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetRawTargetBuff();
 				}
-				else if((DType&DisplayImage::__CamTarget)!=0){
+				else if((DType&__CamTarget)!=0){
 					P->GetCamTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetCamTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetCamTargetBuff();
@@ -6942,7 +6942,7 @@ void	GUICmdReplaceColorImage::Receive(int32 localPage, int32 cmd ,QString &Emitt
 				if(SBuff0!=NULL && SBuff0->IsNull()==false
 				&& SBuff1!=NULL && SBuff1->IsNull()==false
 				&& LocalX<SBuff0->GetWidth() && LocalY<SBuff0->GetHeight()){
-					if((DType&DisplayImage::__BitBuff)==0){
+					if((DType&__BitBuff)==0){
 						c[0]=SBuff0->GetY(LocalY)[LocalX];
 						c[1]=SBuff1->GetY(LocalY)[LocalX];
 						c[2]=c[1];
@@ -6958,48 +6958,48 @@ void	GUICmdReplaceColorImage::Receive(int32 localPage, int32 cmd ,QString &Emitt
 				ImageBuffer	*SBuff0;
 				ImageBuffer	*SBuff1;
 				ImageBuffer	*SBuff2;
-				if((DType&DisplayImage::__Master)!=0){
+				if((DType&__Master)!=0){
 					P->GetMasterImages(MasterNo,Images);
 					SBuff0=&P->GetLayerData(0)->GetMasterBuff(MasterNo);
 					SBuff1=&P->GetLayerData(1)->GetMasterBuff(MasterNo);
 					SBuff2=&P->GetLayerData(2)->GetMasterBuff(MasterNo);
 				}
-				else if((DType&DisplayImage::__BackGround)!=0){
+				else if((DType&__BackGround)!=0){
 					P->GetTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetBackGroundBuff();
 					SBuff1=&P->GetLayerData(1)->GetBackGroundBuff();
 					SBuff2=&P->GetLayerData(2)->GetBackGroundBuff();
 				}
-				else if((DType&DisplayImage::__Target)!=0){
+				else if((DType&__Target)!=0){
 					P->GetTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetTargetBuff();
 					SBuff2=&P->GetLayerData(2)->GetTargetBuff();
 				}
-				else if((DType&DisplayImage::__TargetTR)!=0){
+				else if((DType&__TargetTR)!=0){
 					P->GetTargetTRImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetTargetTRBuff();
 					SBuff1=&P->GetLayerData(1)->GetTargetTRBuff();
 					SBuff2=&P->GetLayerData(2)->GetTargetTRBuff();
 				}
-				else if((DType&DisplayImage::__DelayedView)!=0){
+				else if((DType&__DelayedView)!=0){
 					P->GetDelayedViewImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetDelayedViewBuff();
 					SBuff1=&P->GetLayerData(1)->GetDelayedViewBuff();
 					SBuff2=&P->GetLayerData(2)->GetDelayedViewBuff();
 				}
-				else if((DType&DisplayImage::__BitBuff)!=0){
+				else if((DType&__BitBuff)!=0){
 					SBuff0=&P->GetLayerData(0)->GetBitBuff();
 					SBuff1=&P->GetLayerData(1)->GetBitBuff();
 					SBuff2=&P->GetLayerData(2)->GetBitBuff();
 				}
-				else if((DType&DisplayImage::__RawTarget)!=0){
+				else if((DType&__RawTarget)!=0){
 					P->GetRawTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetRawTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetRawTargetBuff();
 					SBuff2=&P->GetLayerData(2)->GetRawTargetBuff();
 				}
-				else if((DType&DisplayImage::__CamTarget)!=0){
+				else if((DType&__CamTarget)!=0){
 					P->GetCamTargetImages(Images);
 					SBuff0=&P->GetLayerData(0)->GetCamTargetBuff();
 					SBuff1=&P->GetLayerData(1)->GetCamTargetBuff();
@@ -7014,7 +7014,7 @@ void	GUICmdReplaceColorImage::Receive(int32 localPage, int32 cmd ,QString &Emitt
 				&& SBuff1!=NULL && SBuff1->IsNull()==false
 				&& SBuff2!=NULL && SBuff2->IsNull()==false
 				&& LocalX<SBuff0->GetWidth() && LocalY<SBuff0->GetHeight()){
-					if((DType&DisplayImage::__BitBuff)==0){
+					if((DType&__BitBuff)==0){
 						c[0]=SBuff0->GetY(LocalY)[LocalX];
 						c[1]=SBuff1->GetY(LocalY)[LocalX];
 						c[2]=SBuff2->GetY(LocalY)[LocalX];

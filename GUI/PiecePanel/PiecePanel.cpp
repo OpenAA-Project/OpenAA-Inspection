@@ -72,8 +72,8 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
-	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
+	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
 
 	return true;
 }
@@ -151,7 +151,7 @@ PiecePanel::PiecePanel(LayersBase *Base ,QWidget *parent)
 void	PiecePanel::Prepare(void)
 {
 	DisplayImageWithAlgorithm::Prepare();
-	SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+	SetModeByOthers(fdRectangle ,Qt::red);
 }
 
 void	PiecePanel::TransmitDirectly(GUIDirectMessage *packet)
@@ -159,17 +159,17 @@ void	PiecePanel::TransmitDirectly(GUIDirectMessage *packet)
 	DisplayImage::TransmitDirectly(packet);
 	CmdPieceSetCutPacket	*CmdPieceSetCutPacketVar=dynamic_cast<CmdPieceSetCutPacket *>(packet);
 	if(CmdPieceSetCutPacketVar!=NULL){
-		SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::yellow);
+		SetModeByOthers(fdRectangle ,Qt::yellow);
 	}
 	CmdPieceSetArrangePacket	*CmdPieceSetArrangePacketVar=dynamic_cast<CmdPieceSetArrangePacket *>(packet);
 	if(CmdPieceSetArrangePacketVar!=NULL){
-		SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+		SetModeByOthers(fdRectangle ,Qt::red);
 	}
 }
 
 void	PiecePanel::DrawBtnDown()
 {
-	SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+	SetModeByOthers(fdRectangle ,Qt::red);
 }
 
 AlgorithmDrawAttr	*PiecePanel::CreateDrawAttrPointer(void)

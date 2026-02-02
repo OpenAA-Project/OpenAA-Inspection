@@ -147,7 +147,7 @@ void ReplaceImageControlForm::on_toolButtonIsolateByColor_clicked()
     if(ui->toolButtonIsolateByColor->isChecked()==true){
         DisplayImage *f=GetImagePanel();
         if(f!=NULL){
-            f->SetModeByOthers(mtFrameDraw::fdRectangle,Qt::red);
+            f->SetModeByOthers(fdRectangle,Qt::red);
         }
     }
 }

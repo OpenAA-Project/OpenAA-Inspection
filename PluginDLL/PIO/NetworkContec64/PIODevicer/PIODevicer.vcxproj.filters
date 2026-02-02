@@ -31,14 +31,11 @@
     <ClCompile Include="PIODevicer.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
-    
-    
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CDio.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
-    
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="PIODevicer.h">
@@ -56,8 +53,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PIODevicer.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\..\Driver\Contel-PIO\CDIO.lib" />
   </ItemGroup>
 </Project>

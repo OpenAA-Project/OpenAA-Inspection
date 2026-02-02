@@ -38,8 +38,6 @@
     <ClCompile Include="TestPIODLL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="..\..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,7 +52,6 @@
     <ClInclude Include="testpiodll_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="TestForm.ui">
@@ -63,8 +60,5 @@
     <QtMoc Include="TestForm.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\Driver\Contel-PIO\CDIO.lib" />
   </ItemGroup>
 </Project>

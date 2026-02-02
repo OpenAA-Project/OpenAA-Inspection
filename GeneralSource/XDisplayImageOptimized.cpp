@@ -32,7 +32,7 @@
 
 
 
-bool	GUICmdSendBmp::MakeImage( DisplayImage::DisplayType dtype 
+bool	GUICmdSendBmp::MakeImage( DisplayType dtype 
 								 ,int Gx1,int Gy1 ,int Gx2,int Gy2
 								 ,int Dx1,int Dy1 ,int Dx2,int Dy2
 								 ,int MovX,int MovY, double ZoomRate,double Yz
@@ -162,7 +162,7 @@ bool	GUICmdSendBmp::MakeImage( DisplayImage::DisplayType dtype
 		LayerBuff[1]=P->GetLayerData(1);
 
 		if(GetParamGlobal()->AllocateMasterBuff==true 
-		&& (dtype&(DisplayImage::__BitBuff | DisplayImage::__Master))!=0){
+		&& (dtype&(__BitBuff | __Master))!=0){
 			LayerBuff[0]->AccessMaster.lock();
 			LayerBuff[1]->AccessMaster.lock();
 			SBuff0=LayerBuff[0]->GetMasterBuffPointer(MasterNo);
@@ -171,7 +171,7 @@ bool	GUICmdSendBmp::MakeImage( DisplayImage::DisplayType dtype
 		}
 		else
 		if(GetParamGlobal()->AllocateTargetBuff==true 
-		&& (dtype&(DisplayImage::__BitBuff | DisplayImage::__Target))!=0){
+		&& (dtype&(__BitBuff | __Target))!=0){
 			LayerBuff[0]->AccessTarget.lock();
 			LayerBuff[1]->AccessTarget.lock();
 			SBuff0=LayerBuff[0]->GetDelayedViewBuffPointer();
@@ -180,28 +180,28 @@ bool	GUICmdSendBmp::MakeImage( DisplayImage::DisplayType dtype
 		}
 		else
 		if(GetParamGlobal()->AllocateBackGroundBuff==true 
-		&& (dtype&DisplayImage::__BackGround)!=0){
+		&& (dtype&__BackGround)!=0){
 			SBuff0=P->GetLayerData(0)->GetBackGroundBuffPointer();
 			SBuff1=P->GetLayerData(1)->GetBackGroundBuffPointer();
 		}
 		else
 		if(GetParamGlobal()->AllocateTargetTRBuff==true 
-		&& (dtype&DisplayImage::__TargetTR)!=0){
+		&& (dtype&__TargetTR)!=0){
 			SBuff0=P->GetLayerData(0)->GetTargetTRBuffPointer();
 			SBuff1=P->GetLayerData(1)->GetTargetTRBuffPointer();
 		}
 		else
-		if((dtype&DisplayImage::__DelayedView)!=0){
+		if((dtype&__DelayedView)!=0){
 			SBuff0=P->GetLayerData(0)->GetDelayedViewBuffPointer();
 			SBuff1=P->GetLayerData(1)->GetDelayedViewBuffPointer();
 		}
 		else
-		if((dtype&DisplayImage::__RawTarget)!=0){
+		if((dtype&__RawTarget)!=0){
 			SBuff0=P->GetLayerData(0)->GetRawTargetBuffPointer();
 			SBuff1=P->GetLayerData(1)->GetRawTargetBuffPointer();
 		}
 		else
-		if((dtype&DisplayImage::__CamTarget)!=0){
+		if((dtype&__CamTarget)!=0){
 			SBuff0=P->GetLayerData(0)->GetCamTargetBuffPointer();
 			SBuff1=P->GetLayerData(1)->GetCamTargetBuffPointer();
 		}
@@ -343,7 +343,7 @@ bool	GUICmdSendBmp::MakeImage( DisplayImage::DisplayType dtype
 		LayerBuff[1]=P->GetLayerData(1);
 		LayerBuff[2]=P->GetLayerData(2);
 		if(GetParamGlobal()->AllocateMasterBuff==true 
-		&& (dtype&(DisplayImage::__BitBuff | DisplayImage::__Master))!=0){
+		&& (dtype&(__BitBuff | __Master))!=0){
 			LayerBuff[0]->AccessMaster.lock();
 			LayerBuff[1]->AccessMaster.lock();
 			LayerBuff[2]->AccessMaster.lock();
@@ -354,7 +354,7 @@ bool	GUICmdSendBmp::MakeImage( DisplayImage::DisplayType dtype
 		}
 		else
 		if(GetParamGlobal()->AllocateTargetBuff==true 
-		&& (dtype&(DisplayImage::__BitBuff | DisplayImage::__Target))!=0){
+		&& (dtype&(__BitBuff | __Target))!=0){
 			LayerBuff[0]->AccessTarget.lock();
 			LayerBuff[1]->AccessTarget.lock();
 			LayerBuff[2]->AccessTarget.lock();
@@ -365,20 +365,20 @@ bool	GUICmdSendBmp::MakeImage( DisplayImage::DisplayType dtype
 		}
 		else
 		if(GetParamGlobal()->AllocateBackGroundBuff==true 
-		&& (dtype&(DisplayImage::__BackGround))!=0){
+		&& (dtype&(__BackGround))!=0){
 			SBuff0=LayerBuff[0]->GetBackGroundBuffPointer();
 			SBuff1=LayerBuff[1]->GetBackGroundBuffPointer();
 			SBuff2=LayerBuff[2]->GetBackGroundBuffPointer();
 		}
 		else
 		if(GetParamGlobal()->AllocateTargetTRBuff==true 
-		&& (dtype&DisplayImage::__TargetTR)!=0){
+		&& (dtype&__TargetTR)!=0){
 			SBuff0=P->GetLayerData(0)->GetTargetTRBuffPointer();
 			SBuff1=P->GetLayerData(1)->GetTargetTRBuffPointer();
 			SBuff2=P->GetLayerData(2)->GetTargetTRBuffPointer();
 		}
 		else
-		if((dtype&DisplayImage::__DelayedView)!=0){
+		if((dtype&__DelayedView)!=0){
 			LayerBuff[0]->AccessTarget.lock();
 			LayerBuff[1]->AccessTarget.lock();
 			LayerBuff[2]->AccessTarget.lock();
@@ -388,13 +388,13 @@ bool	GUICmdSendBmp::MakeImage( DisplayImage::DisplayType dtype
 			LockTarget=true;
 		}
 		else
-		if((dtype&DisplayImage::__RawTarget)!=0){
+		if((dtype&__RawTarget)!=0){
 			SBuff0=P->GetLayerData(0)->GetRawTargetBuffPointer();
 			SBuff1=P->GetLayerData(1)->GetRawTargetBuffPointer();
 			SBuff2=P->GetLayerData(2)->GetRawTargetBuffPointer();
 		}
 		else
-		if((dtype&DisplayImage::__CamTarget)!=0){
+		if((dtype&__CamTarget)!=0){
 			SBuff0=P->GetLayerData(0)->GetCamTargetBuffPointer();
 			SBuff1=P->GetLayerData(1)->GetCamTargetBuffPointer();
 			SBuff2=P->GetLayerData(2)->GetCamTargetBuffPointer();
@@ -750,7 +750,7 @@ LLEnd2:;
 			LayerBuff[2]->AccessTarget.unlock();
 		}
 	}
-	if(((dtype&DisplayImage::__BitBuff)!=0)
+	if(((dtype&__BitBuff)!=0)
 	&& GetEntryPoint()->GUIIsEditMode()==false
 	&& GetParamGlobal()->AllocBitBuffer==true){
 		MultiplyImage(*IData, TransparentLevelInBitBuff/256.0);
@@ -1097,7 +1097,7 @@ bool	GUICmdSendBmp::MakeImageBitLayer(QImage *IData , DataInPage *P
 	GetLayersBase()->UnlockChangingDataStructure();
 	return true;
 }
-bool	GUICmdSendBmp::MakeImageOneLayer( DisplayImage::DisplayType dtype 
+bool	GUICmdSendBmp::MakeImageOneLayer( DisplayType dtype 
 										 ,QImage *IData , DataInPage *P ,int Layer , QColor LColor
 										 ,int MasterNo
 										 ,int LGx,int LGy
@@ -1114,38 +1114,38 @@ bool	GUICmdSendBmp::MakeImageOneLayer( DisplayImage::DisplayType dtype
 	DataInLayer	*LayerBuff=P->GetLayerData(Layer);
 
 	if(GetParamGlobal()->AllocateMasterBuff==true 
-	&& (dtype&(DisplayImage::__BitBuff | DisplayImage::__Master))!=0){
+	&& (dtype&(__BitBuff | __Master))!=0){
 		SBuff=LayerBuff->GetMasterBuffPointer(MasterNo);
 		LayerBuff->AccessMaster.lock();
 		LockMaster=true;
 	}
 	else
 	if(GetParamGlobal()->AllocateTargetBuff==true 
-	&& (dtype&(DisplayImage::__BitBuff | DisplayImage::__Target))!=0){
+	&& (dtype&(__BitBuff | __Target))!=0){
 		SBuff=LayerBuff->GetDelayedViewBuffPointer();
 		LayerBuff->AccessTarget.lock();
 		LockTarget=true;
 	}
 	else
 	if(GetParamGlobal()->AllocateBackGroundBuff==true 
-	&& (dtype&(DisplayImage::__BackGround))!=0){
+	&& (dtype&(__BackGround))!=0){
 		SBuff=LayerBuff->GetBackGroundBuffPointer();
 	}
 	else
 	if(GetParamGlobal()->AllocateTargetTRBuff==true 
-	&& (dtype&DisplayImage::__TargetTR)!=0){
+	&& (dtype&__TargetTR)!=0){
 		SBuff=LayerBuff->GetTargetTRBuffPointer();
 	}
 	else
-	if((dtype&DisplayImage::__DelayedView)!=0){
+	if((dtype&__DelayedView)!=0){
 		SBuff=LayerBuff->GetDelayedViewBuffPointer();
 	}
 	else
-	if((dtype&DisplayImage::__RawTarget)!=0){
+	if((dtype&__RawTarget)!=0){
 		SBuff=LayerBuff->GetRawTargetBuffPointer();
 	}
 	else
-	if((dtype&DisplayImage::__CamTarget)!=0){
+	if((dtype&__CamTarget)!=0){
 		SBuff=LayerBuff->GetCamTargetBuffPointer();
 	}
 	else{
@@ -1242,7 +1242,7 @@ bool	GUICmdSendBmp::MakeImageOneLayer( DisplayImage::DisplayType dtype
 	}
 	return true;
 }
-bool	GUICmdSendBmp::MakeImageMultiLayer( DisplayImage::DisplayType dtype 
+bool	GUICmdSendBmp::MakeImageMultiLayer( DisplayType dtype 
 										   ,IntList &LayerList
 										 ,QImage *IData , DataInPage *P ,QColor LColor
 										 ,int MasterNo
@@ -1264,38 +1264,38 @@ bool	GUICmdSendBmp::MakeImageMultiLayer( DisplayImage::DisplayType dtype
 		int	Layer=L->GetValue();
 		LayerBuff[N]=P->GetLayerData(Layer);
 		if(GetParamGlobal()->AllocateMasterBuff==true 
-		&& (dtype&(DisplayImage::__BitBuff | DisplayImage::__Master))!=0){
+		&& (dtype&(__BitBuff | __Master))!=0){
 			SBuff[N]=LayerBuff[N]->GetMasterBuffPointer(MasterNo);
 			LayerBuff[N]->AccessMaster.lock();
 			LockMaster=true;
 		}
 		else
 		if(GetParamGlobal()->AllocateTargetBuff==true 
-		&& (dtype&(DisplayImage::__BitBuff | DisplayImage::__Target))!=0){
+		&& (dtype&(__BitBuff | __Target))!=0){
 			SBuff[N]=LayerBuff[N]->GetDelayedViewBuffPointer();
 			LayerBuff[N]->AccessTarget.lock();
 			LockTarget=true;
 		}
 		else
 		if(GetParamGlobal()->AllocateBackGroundBuff==true 
-		&& (dtype&DisplayImage::__BackGround)!=0){
+		&& (dtype&__BackGround)!=0){
 			SBuff[N]=LayerBuff[N]->GetBackGroundBuffPointer();
 		}
 		else
 		if(GetParamGlobal()->AllocateTargetTRBuff==true 
-		&& (dtype&DisplayImage::__TargetTR)!=0){
+		&& (dtype&__TargetTR)!=0){
 			SBuff[N]=LayerBuff[N]->GetTargetTRBuffPointer();
 		}
 		else
-		if((dtype&DisplayImage::__DelayedView)!=0){
+		if((dtype&__DelayedView)!=0){
 			SBuff[N]=LayerBuff[N]->GetDelayedViewBuffPointer();
 		}
 		else
-		if((dtype&DisplayImage::__RawTarget)!=0){
+		if((dtype&__RawTarget)!=0){
 			SBuff[N]=LayerBuff[N]->GetRawTargetBuffPointer();
 		}
 		else
-		if((dtype&DisplayImage::__CamTarget)!=0){
+		if((dtype&__CamTarget)!=0){
 			SBuff[N]=LayerBuff[N]->GetCamTargetBuffPointer();
 		}
 		else{

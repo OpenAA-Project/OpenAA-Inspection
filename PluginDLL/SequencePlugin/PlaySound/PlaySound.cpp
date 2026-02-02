@@ -17,7 +17,7 @@
  */
 
 
-#include <QSound>
+#include <QSoundEffect>
 #include "XSeqDLLGlobal.h"
 #include <string.h>
 
@@ -71,8 +71,10 @@ bool	DLLSeq_CmdStr(void *handle ,QApplication &App ,const QString &cmdstr , cons
 */
 {
 	if(cmdstr=="Play"){
-		QSound	bells(datastr);
-		bells.play();
+		QSoundEffect effect;
+		effect.setSource(QUrl::fromLocalFile(datastr));
+		effect.setVolume(0.5f); // 音量設定（0.0 〜 1.0）
+		effect.play();
 	}
 	return false;
 }

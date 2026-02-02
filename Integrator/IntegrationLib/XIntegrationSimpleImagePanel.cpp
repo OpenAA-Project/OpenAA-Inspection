@@ -541,7 +541,7 @@ void	IntegrationSimpleImagePanel::SetLineWidth(int w)
 	MainCanvas.SetLineWidth(w);
 }
 
-void	IntegrationSimpleImagePanel::SetMode(mtFrameDraw::DrawingMode mode)
+void	IntegrationSimpleImagePanel::SetMode(DrawingMode mode)
 {
 	MainCanvas.SetMode(mode);
 }
@@ -670,7 +670,7 @@ void	IntegrationSimpleImagePanel::SetMode(IntegrationSimpleImagePanel::Mode d)
 		ModeButton.setIcon(ModeIcon);
 		DeleteButton.setEnabled(false);
 		CurrentMode=Mode_AddItem;
-		SetMode(mtFrameDraw::fdPoly);
+		SetMode(fdPoly);
 	}
 	else
 	if(d==Mode_AddRect){
@@ -681,7 +681,7 @@ void	IntegrationSimpleImagePanel::SetMode(IntegrationSimpleImagePanel::Mode d)
 		ModeButton.setIcon(ModeIcon);
 		DeleteButton.setEnabled(false);
 		CurrentMode=Mode_AddRect;
-		SetMode(mtFrameDraw::fdRectangle);
+		SetMode(fdRectangle);
 	}
 	else
 	if(d==Mode_AddLine){
@@ -692,14 +692,14 @@ void	IntegrationSimpleImagePanel::SetMode(IntegrationSimpleImagePanel::Mode d)
 		ModeButton.setIcon(ModeIcon);
 		DeleteButton.setEnabled(false);
 		CurrentMode=Mode_AddLine;
-		SetMode(mtFrameDraw::fdChoppedLine);
+		SetMode(fdChoppedLine);
 	}
 	else
 	if(d==Mode_Select){
 		QIcon	ModeIcon(QPixmap(/**/":Resources/SelModeN.png").scaled(ModeButton.size(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
 		ModeButton.setIcon(ModeIcon);
 		DeleteButton.setEnabled(true);
-		SetMode(mtFrameDraw::fdPoly);
+		SetMode(fdPoly);
 		CurrentMode=Mode_Select;
 	}
 	else
@@ -707,7 +707,7 @@ void	IntegrationSimpleImagePanel::SetMode(IntegrationSimpleImagePanel::Mode d)
 		QIcon	ModeIcon(QPixmap(/**/":Resources/CutItemN.png").scaled(ModeButton.size(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
 		ModeButton.setIcon(ModeIcon);
 		DeleteButton.setEnabled(true);
-		SetMode(mtFrameDraw::fdPoly);
+		SetMode(fdPoly);
 		CurrentMode=Mode_CutItem;
 	}
 	else
@@ -715,7 +715,7 @@ void	IntegrationSimpleImagePanel::SetMode(IntegrationSimpleImagePanel::Mode d)
 		QIcon	ModeIcon(QPixmap(/**/":Resources/ZoomModeN.png").scaled(ModeButton.size(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
 		ModeButton.setIcon(ModeIcon);
 		DeleteButton.setEnabled(false);
-		SetMode(mtFrameDraw::fdNone);
+		SetMode(fdNone);
 		CurrentMode=Mode_ZoomIn;
 	}
 	else
@@ -723,7 +723,7 @@ void	IntegrationSimpleImagePanel::SetMode(IntegrationSimpleImagePanel::Mode d)
 		QIcon	ModeIcon(QPixmap(/**/":Resources/ZoomOutModeN.png").scaled(ModeButton.size(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
 		ModeButton.setIcon(ModeIcon);
 		DeleteButton.setEnabled(false);
-		SetMode(mtFrameDraw::fdNone);
+		SetMode(fdNone);
 		CurrentMode=Mode_ZoomOut;
 	}
 }
@@ -1229,13 +1229,13 @@ void	IntegrationAlgoSimpleImagePanel::DrawEndAfterOperationSelectArea(FlexArea &
 				}
 			}
 			repaint();
-			SetMode(mtFrameDraw::fdNone);
+			SetMode(fdNone);
 		}
 	}
 	else{
 		if(RCmd.Send(NULL,SlaveNo,0)==true){
 			repaint();
-			SetMode(mtFrameDraw::fdNone);
+			SetMode(fdNone);
 		}
 	}
 }
@@ -1567,10 +1567,10 @@ void	IntegrationAlgoSimpleImagePanel::SlotCanvasMouseLDown(int globalX ,int glob
 void	IntegrationAlgoSimpleImagePanel::SlotCanvasMouseRDown(int globalX ,int globalY)
 {
 	if(CurrentMode==Mode_Select){
-		if(HasSelectedItem()==true || GetCanvas()->GetMode()==mtFrameDraw::fdNone){
+		if(HasSelectedItem()==true || GetCanvas()->GetMode()==fdNone){
 			if(OnMoving==false){
 				ReleaseSelection();
-				SetMode(mtFrameDraw::fdPoly);
+				SetMode(fdPoly);
 				CancelSelectionMode();
 				//OnSelection=false;
 			}

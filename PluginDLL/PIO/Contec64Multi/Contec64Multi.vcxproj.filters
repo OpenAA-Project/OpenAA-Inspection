@@ -40,7 +40,4 @@
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="CDIO.lib" />
-  </ItemGroup>
 </Project>

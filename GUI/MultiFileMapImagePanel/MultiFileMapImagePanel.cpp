@@ -49,7 +49,7 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Target);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Target);
 
 	(*Base)=new GUICmdAckMultiFileMapInfo	(Base,QString(sRoot),QString(sName));
 	(*Base)=new GUICmdReqMultiFileMapInfo(Base,QString(sRoot),QString(sName));

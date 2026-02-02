@@ -48,8 +48,8 @@ class PropertyRasterForm : public GUIFormBase
 {
     Q_OBJECT
 
-	RasterFileLayerLine			*Child[RasterMaxPhaseNumb][MaxRasterLayer];
-	mtFrameDraw::DrawingMode	PanelModeAlignment[RasterMaxPhaseNumb];
+	RasterFileLayerLine		*Child[RasterMaxPhaseNumb][MaxRasterLayer];
+	DrawingMode				PanelModeAlignment[RasterMaxPhaseNumb];
 
 	//int		tTransDot;
 	//int		tDataIsolation;

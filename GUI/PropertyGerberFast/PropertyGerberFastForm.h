@@ -58,7 +58,7 @@ class PropertyGerberFastForm : public GUIFormBase
 	QScrollArea	CompositeArea;
 	QWidget		CompositeAreaInside;
 
-	mtFrameDraw::DrawingMode	PanelModeAlignment;
+	DrawingMode	PanelModeAlignment;
 
 	QScrollArea	AutoMatchFrameArea;
 	QWidget		AutoMatchFrameAreaInside;

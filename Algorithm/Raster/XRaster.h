@@ -612,7 +612,7 @@ public:
 
 	//View for slave
 
-	DisplayImage::__DrawingMode	Mode;
+	DisplayImage::__DrawingShapeMode	Mode;
 	int		LastPosX,LastPosY;
 	int		MoveStartPosX,MoveStartPosY;
 	int		LastElementPosX		,LastElementPosY;

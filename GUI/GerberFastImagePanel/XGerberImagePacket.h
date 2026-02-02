@@ -32,7 +32,7 @@
 #include "XYCross.h"
 #include "XGerberFast.h"
 #include "XServiceForLayers.h"
-
+#include "mtFrameDataType.h"
 
 class	GUICmdGerberDrawMode : public GUICmdPacketBase
 {
@@ -44,7 +44,7 @@ public:
 	bool	ExtendMode;
 	bool	AlignmentMode;
 	bool	AutoMatchingMode;
-	DisplayImage::__DrawingMode	Mode;
+	DisplayImage::__DrawingShapeMode	Mode;
 	int		LastPosX,LastPosY;
 	int		MoveStartPosX,MoveStartPosY;
 	int		RotateCenterXOnData	,RotateCenterYOnData;

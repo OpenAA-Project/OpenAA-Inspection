@@ -47,9 +47,9 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
 
-	(*Base)=new GUICmdReqBmpPix			(Base,QString(sRoot),QString(sName),DisplayImage::__Master);
+	(*Base)=new GUICmdReqBmpPix			(Base,QString(sRoot),QString(sName),__Master);
 	(*Base)=new GUICmdSendBmpPix		(Base,QString(sRoot),QString(sName));
 
 	//new GUICmdReqAlignmentBmp(QString(sRoot),QString(sName));
@@ -188,11 +188,11 @@ void	PixelInspectionImagePanel::StartPage(void)
 }
 
 //=======================================================================
-GUICmdReqBmpPix::GUICmdReqBmpPix(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,DisplayImage::DisplayType dtype ,int globalPage)
+GUICmdReqBmpPix::GUICmdReqBmpPix(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,DisplayType dtype ,int globalPage)
 :GUICmdReqBmp(Base,emitterRoot ,emitterName,dtype ,globalPage)
 {
 }
-GUICmdReqBmpPix::GUICmdReqBmpPix(LayersBase *Base,QString className ,const QString &emitterRoot ,const QString &emitterName,DisplayImage::DisplayType dtype ,int globalPage)
+GUICmdReqBmpPix::GUICmdReqBmpPix(LayersBase *Base,QString className ,const QString &emitterRoot ,const QString &emitterName,DisplayType dtype ,int globalPage)
 :GUICmdReqBmp(Base,typeid(this).name() ,emitterRoot ,emitterName,dtype ,globalPage)
 {
 }
@@ -251,7 +251,7 @@ GUICmdSendBmpPix::GUICmdSendBmpPix(LayersBase *Base,QString className ,const QSt
 }
 
 void	GUICmdSendBmpPix::MakeImage( PanelMode	PanelModeData
-								 ,DisplayImage::DisplayType dtype 
+								 ,DisplayType dtype 
 								 ,int Gx1,int Gy1 ,int Gx2,int Gy2
 								 ,int Dx1,int Dy1 ,int Dx2,int Dy2
 								 ,int MovX,int MovY, double ZoomRate
@@ -330,11 +330,11 @@ void	GUICmdSendBmpPix::MakeImage( PanelMode	PanelModeData
 		ImageBuffer	*SBuff0;
 		ImageBuffer	*SBuff1;
 		switch(dtype){
-			case DisplayImage::__Master:
+			case __Master:
 				SBuff0=&P->GetLayerData(0)->GetMasterBuff();
 				SBuff1=&P->GetLayerData(1)->GetMasterBuff();
 				break;
-			case DisplayImage::__Target:
+			case __Target:
 				SBuff0=&P->GetLayerData(0)->GetTargetBuff();
 				SBuff1=&P->GetLayerData(1)->GetTargetBuff();
 				break;
@@ -389,12 +389,12 @@ void	GUICmdSendBmpPix::MakeImage( PanelMode	PanelModeData
 		ImageBuffer	*SBuff1;
 		ImageBuffer	*SBuff2;
 		switch(dtype){
-			case DisplayImage::__Master:
+			case __Master:
 				SBuff0=&P->GetLayerData(0)->GetMasterBuff();
 				SBuff1=&P->GetLayerData(1)->GetMasterBuff();
 				SBuff2=&P->GetLayerData(2)->GetMasterBuff();
 				break;
-			case DisplayImage::__Target:
+			case __Target:
 				SBuff0=&P->GetLayerData(0)->GetTargetBuff();
 				SBuff1=&P->GetLayerData(1)->GetTargetBuff();
 				SBuff2=&P->GetLayerData(2)->GetTargetBuff();
@@ -450,7 +450,7 @@ void	GUICmdSendBmpPix::MakeImage( PanelMode	PanelModeData
 			}
 		}
 	}
-	if(RedCircleMode==true && dtype==DisplayImage::__Target){
+	if(RedCircleMode==true && dtype==__Target){
 		ResultInspection	*DRes=LocalLBase.GetCurrentResultForDraw();
 		if(DRes!=NULL){
 			for(ResultBaseForAlgorithmRoot *r=DRes->GetResultBaseDimFirst();r!=NULL;r=r->GetNext()){

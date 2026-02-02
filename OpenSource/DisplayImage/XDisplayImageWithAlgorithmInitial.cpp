@@ -113,7 +113,7 @@ void	DisplayImageWithAlgorithm::Initial(const QString &GUIRoot,const QString &GU
 void	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(GUICmdPacketBasePointerListContainer &GUICmdContainer
 																		 ,LayersBase *Base
 																		 ,const QString &sRoot ,const QString &sName 
-																		 ,DisplayImage::DisplayType DType)
+																		 ,DisplayType DType)
 {
 	GUICmdContainer=new GUICmdReqItemIndependentPack		(Base,sRoot,sName);
 	GUICmdContainer=new GUICmdSendIndependentPack			(Base,sRoot,sName);

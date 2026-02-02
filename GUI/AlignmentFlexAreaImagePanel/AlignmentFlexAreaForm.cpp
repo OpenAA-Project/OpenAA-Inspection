@@ -171,7 +171,7 @@ void	AlignmentFlexAreaImagePanel::StartPage(void)
 
 void	AlignmentFlexAreaImagePanel::CanvasSlotOnPaint(QPainter &pnt)
 {
-	if(GetDisplayType()==DisplayImage::__BitBuff){
+	if(GetDisplayType()==__BitBuff){
 		AlgorithmBase	*A=GetAlgorithmBase();
 		AlignmentFlexAreaBase	*Ab=dynamic_cast<AlignmentFlexAreaBase *>(A);
 		if(Ab!=NULL){

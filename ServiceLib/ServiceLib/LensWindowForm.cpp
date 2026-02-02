@@ -40,7 +40,7 @@ LensWindowForm::LensWindowForm(LayersBase *base,QWidget *parent) :
 	AllocedBmp	=0;
 	ZoomRate	=2;
 	TargetPanel=NULL;
-	DType=DisplayImage::__Master;
+	DType=__Master;
 	CurrentGlobalX	=0;
 	CurrentGlobalY	=0;
 	MainGUIFormBase	*f=dynamic_cast<MainGUIFormBase	*>(GetLayersBase()->GetMainWidget());
@@ -102,7 +102,7 @@ void	LensWindowForm::AllocInnerBuff(void)
 	}
 }
 
-void	LensWindowForm::ShowLens(DisplayImage *_TargetPanel ,int GlobalX ,int GlobalY , DisplayImage::DisplayType dtype)
+void	LensWindowForm::ShowLens(DisplayImage *_TargetPanel ,int GlobalX ,int GlobalY , DisplayType dtype)
 {
 	DType=dtype;
 	CurrentGlobalX	=GlobalX;

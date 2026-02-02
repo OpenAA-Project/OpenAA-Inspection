@@ -23,6 +23,7 @@
 #include "ui_XMLExplorer.h"
 #include "XMLClient.h"
 #include "XParamBase.h"	
+#include "XRememberer.h"
 
 class	ExplorerParam : public ParamBase
 {
@@ -38,7 +39,7 @@ protected:
 };
 
 
-class XMLExplorer : public QMainWindow
+class XMLExplorer : public QMainWindow,public ControlRememberer
 {
 	Q_OBJECT
 

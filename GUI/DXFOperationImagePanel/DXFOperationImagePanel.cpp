@@ -53,8 +53,8 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
 
-	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
-	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,DisplayImage::__Master);
+	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
+	DisplayImageWithAlgorithm::InitialDisplayImageWithAlgorithmInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Master);
 
 	/*
 	(*Base)=new GUICmdGerberDrawMode					(Base,QString(sRoot),QString(sName));
@@ -198,7 +198,7 @@ DXFOperationImagePanel::~DXFOperationImagePanel(void)
 void	DXFOperationImagePanel::Prepare(void)
 {
 	DisplayImageWithAlgorithm::Prepare();
-	SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+	SetModeByOthers(fdRectangle ,Qt::red);
 }
 void	DXFOperationImagePanel::ResizeAction()
 {
@@ -213,7 +213,7 @@ void	DXFOperationImagePanel::ResizeAction()
 
 void	DXFOperationImagePanel::DrawBtnDown()
 {
-	SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+	SetModeByOthers(fdRectangle ,Qt::red);
 }
 
 AlgorithmDrawAttr	*DXFOperationImagePanel::CreateDrawAttrPointer(void)
@@ -432,7 +432,7 @@ void	DXFOperationImagePanel::TransmitDirectly(GUIDirectMessage *packet)
 			ExecuteClickButton(/**/"MoveItemBtn");
 			AllUpImagePanel();
 			//SetDrawingMode(_ItemMoveWait);
-			SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+			SetModeByOthers(fdNone ,Qt::red);
 			SetAlterSomething();
 			GetLayersBase()->SetStatusModes(this,/**/"ItemMove");
 		}

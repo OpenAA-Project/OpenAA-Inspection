@@ -26,7 +26,7 @@
 #include <QFile.h>
 #include <QMessageBox>
 #include "hasplib.h"
-
+#include "swap.h"
 
 bool3	SentinelHasp::PermitByDate(const QString &DLLRoot ,const QString &DLLName
 									,qint64 SpanSecFromInstall
@@ -71,7 +71,7 @@ bool3	SentinelHasp::PermitByProgram(const QString &ProgramCode
 	hasp_size_t deDatalen = sizeof(UCData);
 	status = hasp_decrypt(handle,UCData,deDatalen);
 	if(ErrorCheck(status)==false)
-		return;
+		return false3;
 
 	ByteData.clear();
 	for(int i=0;i<48;i++){
@@ -171,12 +171,13 @@ void SentinelHasp::Fukugou(int ID,QByteArray ReData, QByteArray &fukugou)
 	//�Í������ꂽ���̂𕡍�������
 	for (int iFu=0; iFu<=QByteArray().setNum(ID).mid(6,3).toInt(); iFu++){
 		if (iNum==2){iNum=47;}
-		List.swap(iNum,iNum-3);
+		Swap(List,iNum,iNum-3);
 		iNum--;
 	}
 	//QStringList��QByteArray�ɖ߂�
 	for (int iB=0; iB<=47; iB++){
-		fukugou.insert(iB,List.at(iB));
+		QString	s = List.at(iB);
+		fukugou.insert(iB,s.toUtf8());
 	}
 }
 ///////
@@ -200,7 +201,8 @@ void SentinelHasp::setTypeList(unsigned char *Data,QStringList &TypeList)
 {
 	QString str;
 	for(int i=4;i<48 && Data[i]!=0 && Data[i]!=' ';i++){
-		str.append(Data[i]);
+		char	r=(char)Data[i];
+		str.append(r);
 		if(str.size()==8){
 			TypeList.append(str);
 			str.clear();

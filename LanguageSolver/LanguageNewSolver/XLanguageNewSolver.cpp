@@ -31,8 +31,7 @@
 #include "XCSV.h"
 #include "XExcelOperator.h"
 #include "swap.h"
-#include "libxl.h"
-using namespace libxl;
+
 
 static	QTextCodec	*HCodec[MAXLANGUAGECOUNT];
 

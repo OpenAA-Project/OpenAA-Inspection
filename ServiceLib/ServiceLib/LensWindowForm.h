@@ -37,7 +37,7 @@ class LensWindowForm : public QWidget,public ServiceForLayers
 	GUICmdSendBmp	**BmpReceiver;
 	GUICmdReqBmp	**BmpRequester;
 	int				AllocedBmp;
-	DisplayImage::DisplayType	DType;
+	DisplayType		DType;
 	int				CurrentGlobalX,CurrentGlobalY;
 	double			ZoomRate;
 	DisplayImage	*TargetPanel;
@@ -47,7 +47,7 @@ public:
     ~LensWindowForm();
 
 	void	AllocInnerBuff(void);
-	void	ShowLens(DisplayImage *_TargetPanel ,int GlobalX ,int GlobalY , DisplayImage::DisplayType dtype);
+	void	ShowLens(DisplayImage *_TargetPanel ,int GlobalX ,int GlobalY , DisplayType dtype);
 private:
     Ui::LensWindowForm *ui;
 

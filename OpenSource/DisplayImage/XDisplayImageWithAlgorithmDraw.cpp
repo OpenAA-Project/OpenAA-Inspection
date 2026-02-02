@@ -203,7 +203,7 @@ void	DisplayImageWithAlgorithm::DrawItems(DisplayImage *Target,QPainter &pnt ,do
 					TempReq->Data.Dx2	=ItemReq->Data.Dx2	=0;
 					TempReq->Data.Dy2	=ItemReq->Data.Dy2	=0;
 				}
-				TempReq->Data.Mode			=ItemReq->Data.Mode			=DrawingMode;
+				TempReq->Data.Mode			=ItemReq->Data.Mode			=DrawingShapeMode;
 				TempReq->Data.MoveGlobalDx	=ItemReq->Data.MoveGlobalDx	=MoveCurrentGlobalX - MoveStartGlobalX;
 				TempReq->Data.MoveGlobalDy	=ItemReq->Data.MoveGlobalDy	=MoveCurrentGlobalY - MoveStartGlobalY;
 				TempReq->InstName			=ItemReq->InstName			=GetName();
@@ -412,7 +412,7 @@ void	DisplayImageWithAlgorithm::DrawItems(DisplayImage *Target,QPainter &pnt ,do
 				CmdReqTemporaryItems[N]->Data.Dx2	=ItemsBmpRequester[N]->Data.Dx2	=0;
 				CmdReqTemporaryItems[N]->Data.Dy2	=ItemsBmpRequester[N]->Data.Dy2	=0;
 			}
-			CmdReqTemporaryItems[N]->Data.Mode			=ItemsBmpRequester[N]->Data.Mode		=DrawingMode;
+			CmdReqTemporaryItems[N]->Data.Mode			=ItemsBmpRequester[N]->Data.Mode		=DrawingShapeMode;
 			CmdReqTemporaryItems[N]->Data.MoveGlobalDx	=ItemsBmpRequester[N]->Data.MoveGlobalDx=MoveCurrentGlobalX - MoveStartGlobalX;
 			CmdReqTemporaryItems[N]->Data.MoveGlobalDy	=ItemsBmpRequester[N]->Data.MoveGlobalDy=MoveCurrentGlobalY - MoveStartGlobalY;
 			CmdReqTemporaryItems[N]->InstName			=ItemsBmpRequester[N]->InstName			=GetName();
@@ -595,7 +595,7 @@ void	DisplayImageWithAlgorithm::DrawItemsOnePage(DisplayImage *Target,QPainter &
 			CmdReqTemporaryItems[ShowOnePage]->Data.Dx2	=ItemsBmpRequester[ShowOnePage]->Data.Dx2	=0;
 			CmdReqTemporaryItems[ShowOnePage]->Data.Dy2	=ItemsBmpRequester[ShowOnePage]->Data.Dy2	=0;
 		}
-		CmdReqTemporaryItems[ShowOnePage]->Data.Mode			=ItemsBmpRequester[ShowOnePage]->Data.Mode		=DrawingMode;
+		CmdReqTemporaryItems[ShowOnePage]->Data.Mode			=ItemsBmpRequester[ShowOnePage]->Data.Mode		=DrawingShapeMode;
 		CmdReqTemporaryItems[ShowOnePage]->Data.MoveGlobalDx	=ItemsBmpRequester[ShowOnePage]->Data.MoveGlobalDx=MoveCurrentGlobalX - MoveStartGlobalX;
 		CmdReqTemporaryItems[ShowOnePage]->Data.MoveGlobalDy	=ItemsBmpRequester[ShowOnePage]->Data.MoveGlobalDy=MoveCurrentGlobalY - MoveStartGlobalY;
 		CmdReqTemporaryItems[ShowOnePage]->InstName			=ItemsBmpRequester[ShowOnePage]->InstName			=GetName();

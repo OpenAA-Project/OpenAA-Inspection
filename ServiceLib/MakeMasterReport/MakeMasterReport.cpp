@@ -24,10 +24,8 @@
 #include <stdio.h>
 #include "XDatabase.h"
 #include "XGeneralDialog.h"
-#include "hasplib.h"
 #include "Regulus64Version.h"
 #include "XParamGlobal.h"
-#include "XDatabase.h"
 #include "XAlgorithmInterfaceDLL.h"
 #include "XAlgorithmBase.h"
 #include "XGeneralFunc.h"

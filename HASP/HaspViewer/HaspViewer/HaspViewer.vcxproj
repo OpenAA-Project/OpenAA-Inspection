@@ -223,7 +223,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;QT_LARGEFILE_SUPPORT;QT_NO_DEBUG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Open;..\..\..\Hasplib\Hasplib;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.\;..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Open;$(OpenAAUseLibrary)\HASP\Sentinel;..\..\..\Hasplib\Hasplib;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.\;..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -240,9 +240,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>..\;..\..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OpenAAUseLibrary)\HASP\Sentinel;..\;..\..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Hasp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Hasp.lib;hasp_windows_x64_demo.lib;libhasp_windows_x64_demo.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
@@ -275,10 +275,6 @@
   <ItemGroup>
     <QtUic Include="Haspviewer.ui">
     </QtUic>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\Hasplib\Hasplib\hasp_windows_x64_demo.lib" />
-    <Library Include="..\..\..\Hasplib\Hasplib\libhasp_windows_x64_demo.lib" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="Haspviewer.qrc">

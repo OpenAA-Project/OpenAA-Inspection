@@ -243,7 +243,7 @@ void	PropertyRasterForm::TransmitDirectly(GUIDirectMessage *packet)
 	if(CmdRasterGetOperationModePacketVar!=NULL){
 		DisplayImageWithAlgorithm	*Panel=(DisplayImageWithAlgorithm *)GetImagePanel();
 		if(ui->tabWidgetOperation->currentIndex()==1
-		&& Panel->GetDrawMode()==mtFrameDraw::fdNone){
+		&& Panel->GetDrawMode()==fdNone){
 			if(ui->tableWidgetAlignments->currentColumn()==0){
 				CmdRasterGetOperationModePacketVar->Mode=OMRaster_3PointAlignment;
 			}
@@ -350,7 +350,7 @@ void	PropertyRasterForm::TransmitDirectly(GUIDirectMessage *packet)
 	if(CmdRasterDrawEndPickupByColorPacketVar!=NULL){
 		DisplayImageWithAlgorithm	*P=GetImagePanel();
 		if(P!=NULL){
-			P->SetModeByOthers(mtFrameDraw::DrawingMode::fdNone ,Qt::red);
+			P->SetModeByOthers(fdNone ,Qt::red);
 			P->AllUpToolButton();
 			ui->toolButtonPickupByColor			->setChecked(false);
 			ui->toolButtonPickupByColorReference->setChecked(true);
@@ -1206,7 +1206,7 @@ void PropertyRasterForm::on_toolButtonDraw_clicked()
 
 		DisplayImageWithAlgorithm	*P=GetImagePanel();
 		if(P!=NULL){
-			P->SetModeByOthers(mtFrameDraw::DrawingMode::fdRectangle ,Qt::red);
+			P->SetModeByOthers(fdRectangle ,Qt::red);
 			P->AllUpToolButton();
 			P->ExecuteClickButton(/**/"DrawBtn");
 		}
@@ -1582,7 +1582,7 @@ void	PropertyRasterForm::GoNextStepAlignment(void)
 		if(GAlgo!=NULL && GAlgo->CenterizeByArea==false){
 			if(DProp!=NULL){
 				PanelModeAlignment[CurrentPhase]=DProp->GetDrawMode();
-				DProp->SetModeByOthers(mtFrameDraw::fdNone,DProp->GetDrawColor());
+				DProp->SetModeByOthers(fdNone,DProp->GetDrawColor());
 			}
 		}
 	}
@@ -1605,7 +1605,7 @@ void	PropertyRasterForm::GoNextStepForAddAlignment(void)
 		if(GAlgo!=NULL && GAlgo->CenterizeByArea==false){
 			if(DProp!=NULL){
 				PanelModeAlignment[CurrentPhase]=DProp->GetDrawMode();
-				DProp->SetModeByOthers(mtFrameDraw::fdNone,DProp->GetDrawColor());
+				DProp->SetModeByOthers(fdNone,DProp->GetDrawColor());
 			}
 		}
 	}
@@ -1903,7 +1903,7 @@ void PropertyRasterForm::on_tabWidgetOperation_currentChanged(int index)
 
 		RasterImagePanel	*P	=(RasterImagePanel *)GetImagePanel();
 		if(P!=NULL){
-			P->SetModeByOthers(mtFrameDraw::DrawingMode::fdNone ,Qt::red);
+			P->SetModeByOthers(fdNone ,Qt::red);
 			P->AllUpToolButton();
 			P->AlignmentMode=true;
 			P->MoveMode			=false;
@@ -1941,7 +1941,7 @@ void PropertyRasterForm::on_toolButtonPickupByColor_clicked()
 
 	DisplayImageWithAlgorithm	*P=GetImagePanel();
 	if(P!=NULL){
-		P->SetModeByOthers(mtFrameDraw::DrawingMode::fdRectangle ,Qt::red);
+		P->SetModeByOthers(fdRectangle ,Qt::red);
 		P->AllUpToolButton();
 		P->ExecuteClickButton(/**/"DrawBtn");
 	}
@@ -1966,7 +1966,7 @@ void PropertyRasterForm::on_toolButtonPickupByEdge_clicked()
 
 	DisplayImageWithAlgorithm	*P=GetImagePanel();
 	if(P!=NULL){
-		P->SetModeByOthers(mtFrameDraw::DrawingMode::fdNone ,Qt::red);
+		P->SetModeByOthers(fdNone ,Qt::red);
 		P->AllUpToolButton();
 	}
 }
@@ -2011,7 +2011,7 @@ void PropertyRasterForm::on_toolButtonPickColor_clicked()
 
 		DisplayImageWithAlgorithm	*P=GetImagePanel();
 		if(P!=NULL){
-			P->SetModeByOthers(mtFrameDraw::DrawingMode::fdNone ,Qt::red);
+			P->SetModeByOthers(fdNone ,Qt::red);
 			P->AllUpToolButton();
 		}
 	}
@@ -2116,7 +2116,7 @@ void PropertyRasterForm::on_toolButtonPickColorProfile_clicked()
 
 		DisplayImageWithAlgorithm	*P=GetImagePanel();
 		if(P!=NULL){
-			P->SetModeByOthers(mtFrameDraw::DrawingMode::fdPoint ,Qt::red);
+			P->SetModeByOthers(fdPoint ,Qt::red);
 			P->AllUpToolButton();
 		}
 	}
@@ -2152,7 +2152,7 @@ void PropertyRasterForm::on_toolButtonPartial_clicked()
 
 		DisplayImageWithAlgorithm	*P=GetImagePanel();
 		if(P!=NULL){
-			P->SetModeByOthers(mtFrameDraw::DrawingMode::fdLine ,Qt::red);
+			P->SetModeByOthers(fdLine ,Qt::red);
 			P->AllUpToolButton();
 		}
 	}
@@ -2179,7 +2179,7 @@ void PropertyRasterForm::on_toolButtonMask_clicked()
 
 		DisplayImageWithAlgorithm	*P=GetImagePanel();
 		if(P!=NULL){
-			P->SetModeByOthers(mtFrameDraw::DrawingMode::fdRectangle ,Qt::red);
+			P->SetModeByOthers(fdRectangle ,Qt::red);
 			P->PushDrawItemButton();
 		}
 	}

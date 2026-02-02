@@ -34,7 +34,7 @@ CameraChangeQuickPropertyForm::CameraChangeQuickPropertyForm(LayersBase *Base,QW
     ui->setupUi(this);
     LangSolver.SetUI(this);
 
-    SavedDrawingMode=mtFrameDraw::fdNone;
+    SavedDrawingMode=fdNone;
     RegularColor.SetColor(0,0,0);
     TitleName=LangSolver.GetString(CameraChangeQuickPropertyForm_LS,LID_1)/*"明るさ"*/;
     VValue=0;
@@ -176,7 +176,7 @@ void CameraChangeQuickPropertyForm::on_toolButtonTitle_clicked()
     if(Disp!=NULL){
         if(ui->toolButtonTitle->isChecked()==true){
             SavedDrawingMode=Disp->GetDrawMode();
-            Disp->SetModeByOthers(mtFrameDraw::fdRectangle ,Qt::red);
+            Disp->SetModeByOthers(fdRectangle ,Qt::red);
         }
         else{
             Disp->SetModeByOthers(SavedDrawingMode,Qt::red);

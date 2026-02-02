@@ -100,13 +100,13 @@ DisplayImage::DisplayImage(LayersBase *Base,const QString &emitterRoot ,const QS
 	MinInterval						=0;
 	LastTimeToDraw					=0;
 	LastTimeToPaint					=0;
-	DrawRectMode					=mtFrameDraw::fdRectangle;
+	DrawRectMode					=fdRectangle;
 	CurrentMasterNo					=0;
 	WorkingTime						=0;
 	ScaleColor						=Qt::yellow;
 
 	PastedItems						=NULL;
-	DrawingMode						=_Normal;
+	DrawingShapeMode				=_Normal;
 	TopOfAll						=0;
 	DType							=dtype;
 	RedCircleMode					=true;
@@ -141,7 +141,7 @@ DisplayImage::DisplayImage(LayersBase *Base,const QString &emitterRoot ,const QS
 	ViewWindowStyle.EnableZoom		=true;
 	ViewWindowStyle.EnableMove		=true;
 
-	ModeFromOther	=mtFrameDraw::fdNone;
+	ModeFromOther	=fdNone;
 	ModeDrawOutOfView	=true;
 	CmdSendClippedImage		=new GUICmdSendClippedImage(Base,emitterRoot,emitterName);
 
@@ -269,7 +269,7 @@ DisplayImage::~DisplayImage(void)
 	disconnect(this,SLOT(SlotExpandedPasteCancel(void)));
 	disconnect(this,SLOT(SlotExecuteMatrix(void)));
 
-	disconnect(this,SLOT(SlotDrawing(mtFrameDraw::DrawingMode,int)));
+	disconnect(this,SLOT(SlotDrawing(DrawingMode,int)));
 	disconnect(this,SLOT(SlotDrawMessage(const QStringList &,const QStringList &)));
 	disconnect(this,SLOT(SlotCancelDraw()));
 	disconnect(this,SLOT(SlotJustMouseLPress	(int,int)));
@@ -643,7 +643,7 @@ bool	DisplayImage::ShouldDrawBuild(void)
 	return false;
 }
 
-void	DisplayImage::SetModeToImagePanelTools(mtFrameDraw::DrawingMode mode ,const QColor &lineColor)
+void	DisplayImage::SetModeToImagePanelTools(DrawingMode mode ,const QColor &lineColor)
 {
 	GUIFormBase *Ret[100];
 	int N=GetLayersBase()->EnumGUIInst(/**/"Button" ,/**/"ImagePanelTools" ,Ret,100);
@@ -661,7 +661,7 @@ void	DisplayImage::SetModeToImagePanelTools(mtFrameDraw::DrawingMode mode ,const
 		}
 	}
 }
-void	DisplayImage::SetModeByOthers(mtFrameDraw::DrawingMode mode ,const QColor &lineColor)
+void	DisplayImage::SetModeByOthers(DrawingMode mode ,const QColor &lineColor)
 {
 	SetModeToImagePanelTools(mode ,lineColor);
 
@@ -708,7 +708,7 @@ void	DisplayImage::SetModeByOthers(mtFrameDraw::DrawingMode mode ,const QColor &
 	}
 }
 
-void	DisplayImage::ChangeDisplayType(DisplayImage::DisplayType dtype)
+void	DisplayImage::ChangeDisplayType(DisplayType dtype)
 {
 	if(DType!=dtype){
 		DType=dtype;
@@ -734,15 +734,15 @@ void	DisplayImage::ResizeAction()
 void	DisplayImage::NoneButtonDown()
 {
 	if(MainCanvas!=NULL){
-		MainCanvas->SetMode(mtFrameDraw::fdNone);
+		MainCanvas->SetMode(fdNone);
 	}
-	if((DrawingMode==_MeasureFirst)
-	|| (DrawingMode==_MeasureSecond)
-	|| (DrawingMode==_MeasureDone)
-	|| (DrawingMode==_SaveImageOnPoint)
-	|| (DrawingMode==_SaveImageOnRect)
-	|| (DrawingMode==_RegulateBrightness)
-	|| (DrawingMode==_RegistColorLib)){
+	if((DrawingShapeMode==_MeasureFirst)
+	|| (DrawingShapeMode==_MeasureSecond)
+	|| (DrawingShapeMode==_MeasureDone)
+	|| (DrawingShapeMode==_SaveImageOnPoint)
+	|| (DrawingShapeMode==_SaveImageOnRect)
+	|| (DrawingShapeMode==_RegulateBrightness)
+	|| (DrawingShapeMode==_RegistColorLib)){
 		SetDrawingMode(_Normal);
 	}
 	GetLayersBase()->SetStatusModes(this,/**/"ImageNone");
@@ -754,7 +754,7 @@ void	DisplayImage::NoneButtonDown()
 void	DisplayImage::ZoomInButtonDown()
 {
 	if(MainCanvas!=NULL){
-		MainCanvas->SetMode(mtFrameDraw::fdPoint);
+		MainCanvas->SetMode(fdPoint);
 	}
 	AllUpToolButton();
 	SetAlterSomething();
@@ -767,7 +767,7 @@ void	DisplayImage::ZoomRectButtonDown()
 {
 	AllUpToolButton();
 	if(MainCanvas!=NULL){
-		MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		MainCanvas->SetMode(fdRectangle);
 		MainCanvas->SetFrameColor(FrameColor);
 	}
 	SetAlterSomething();
@@ -780,7 +780,7 @@ void	DisplayImage::ZoomRectButtonDown()
 void	DisplayImage::CopyRectButtonDown()
 {
 	if(MainCanvas!=NULL){
-		MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		MainCanvas->SetMode(fdRectangle);
 		MainCanvas->SetFrameColor(FrameColor);
 	}
 	//AllUpToolButton();
@@ -796,7 +796,7 @@ void	DisplayImage::PasteButtonDown()
 	//ClippedImageStructure->LoadDefaultFile();
 	ClippedImageGlobalPosX		=ClippedImageGlobalPosY		= -1;
 	if(MainCanvas!=NULL){
-		MainCanvas->SetMode(mtFrameDraw::fdPoint);
+		MainCanvas->SetMode(fdPoint);
 	}
 	AllUpToolButton();
 	SetAlterSomething();
@@ -810,7 +810,7 @@ void	DisplayImage::MeasureButtonDown(bool checked)
 {
 	if(checked==true){
 		if(MainCanvas!=NULL){
-			MainCanvas->SetMode(mtFrameDraw::fdPoint);
+			MainCanvas->SetMode(fdPoint);
 		}
 		AllUpToolButton();
 		SetAlterSomething();
@@ -863,12 +863,12 @@ void	DisplayImage::ExpandedPasteBtnDown(bool checked)
 
 		FloatingExpandedPasteForm->show();
 		if(MainCanvas!=NULL){
-			MainCanvas->SetMode(mtFrameDraw::fdPoint);
+			MainCanvas->SetMode(fdPoint);
 		}
 		AllUpToolButton();
 		SetAlterSomething();
 		if((ExpandedPasteBtn!=NULL) && (ExpandedPasteBtn->isChecked()==true)){
-			DrawingMode=_ExpandedPaste;
+			DrawingShapeMode=_ExpandedPaste;
 		}
 	}
 	if(MeasureBtn->isChecked()==true){
@@ -878,7 +878,7 @@ void	DisplayImage::ExpandedPasteBtnDown(bool checked)
 void	DisplayImage::PickColorButtonDown()
 {
 	if(MainCanvas!=NULL){
-		MainCanvas->SetMode(mtFrameDraw::fdPoint);
+		MainCanvas->SetMode(fdPoint);
 	}
 	AllUpToolButton();
 	SetAlterSomething();
@@ -893,11 +893,11 @@ void	DisplayImage::DrawRectButtonDown()
 	AllUpToolButton();
 	SetAlterSomething();
 	if(MainCanvas!=NULL){
-		//MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		//MainCanvas->SetMode(fdRectangle);
 		MainCanvas->Clear();
 		MainCanvas->SetMode(DrawRectMode);
 
-		//if((MainCanvas->GetMode()==mtFrameDraw::fdPoint) || (MainCanvas->GetMode()==mtFrameDraw::fdNone)){
+		//if((MainCanvas->GetMode()==fdPoint) || (MainCanvas->GetMode()==fdNone)){
 		//	SetModeToImagePanelTools(DrawRectMode ,FrameColor);
 		//}
 		MainCanvas->SetFrameColor(FrameColor);
@@ -911,7 +911,7 @@ void	DisplayImage::DrawRectButtonDown()
 void	DisplayImage::DrawDotButtonDown()
 {
 	if(MainCanvas!=NULL){
-		MainCanvas->SetMode(mtFrameDraw::fdPoint);
+		MainCanvas->SetMode(fdPoint);
 	}
 	AllUpToolButton();
 	SetAlterSomething();
@@ -1137,7 +1137,7 @@ void	DisplayImage::ExeDrawRect(FlexArea &Area ,int page)
 }
 void	DisplayImage::ExePourImage(int globalX,int globalY)
 {
-	if(DrawRectMode==mtFrameDraw::fdPoint){
+	if(DrawRectMode==fdPoint){
 		int	GlobalPage	=GetLayersBase()->GetGlobalPage(globalX,globalY);
 		if(0<=ShowOnePage && ShowOnePage<GetPageNumb()){
 			GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(ShowOnePage);
@@ -1171,7 +1171,7 @@ void	DisplayImage::ExePourImage(int globalX,int globalY)
 
 void	DisplayImage::ExeReplaceColorImage(int globalX,int globalY)
 {
-	if(DrawRectMode==mtFrameDraw::fdPoint){
+	if(DrawRectMode==fdPoint){
 		int	GlobalPage	=GetLayersBase()->GetGlobalPage(globalX,globalY);
 		if(0<=ShowOnePage && ShowOnePage<GetPageNumb()){
 			GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(ShowOnePage);
@@ -1259,7 +1259,7 @@ void	DisplayImage::CanvasSlotDrawEnd(void)
 			MainCanvas->Clear();
 		}
 		else if((DrawRectBtn!=NULL) && (DrawRectBtn->isChecked()==true)){
-			if(DrawRectMode!=mtFrameDraw::fdPoint){
+			if(DrawRectMode!=fdPoint){
 				FlexArea	Area;
 				PickedColor=PickColorBtn->color();
 				ToFlexArea( *GetRawSDataPoint() ,Area);
@@ -1314,40 +1314,40 @@ void	DisplayImage::CanvasSlotDrawEnd(void)
 			MainCanvas->Clear();
 		}
 		else
-		if((DrawingMode!=_PasteMovePreStart) 
-		&& (DrawingMode!=_PasteMove)
-		&& (DrawingMode!=_PasteCreateShape)
-		&& (DrawingMode!=_PasteForImage)
-		&& (DrawingMode!=_PasteCreateShapeStart)
-		&& (DrawingMode!=_ItemMoveWait)
-		&& (DrawingMode!=_ItemMove)
-		&& (DrawingMode!=_RotateMoveWait)
-		&& (DrawingMode!=_RotateMoveAngleStart)
-		&& (DrawingMode!=_RotateMoveAngling)
-		&& (DrawingMode!=_SlopeXMoveWait)
-		&& (DrawingMode!=_SlopeXMoveAngleStart)
-		&& (DrawingMode!=_SlopeXMoveAngling)
-		&& (DrawingMode!=_SlopeYMoveWait)
-		&& (DrawingMode!=_SlopeYMoveAngleStart)
-		&& (DrawingMode!=_SlopeYMoveAngling)
-		&& (DrawingMode!=_ExtendMoveWait)
-		&& (DrawingMode!=_ExtendMoveStart)
-		&& (DrawingMode!=_ExtendMoving)
-		&& (DrawingMode!=_MeasureFirst)
-		&& (DrawingMode!=_MeasureSecond)
-		&& (DrawingMode!=_MeasureDone)
-		&& (DrawingMode!=_ExpandedPaste)
-		&& (DrawingMode!=_ExpandedPasteMove)
-		&& (DrawingMode!=_ExpandedPasteRotate0)
-		&& (DrawingMode!=_ExpandedPasteRotate1)
-		&& (DrawingMode!=_ExpandedPasteRotate2)
-		&& (DrawingMode!=_ExpandedPasteRotate3)
-		&& (DrawingMode!=_ExpandedPasteZoom01)
-		&& (DrawingMode!=_ExpandedPasteZoom12)
-		&& (DrawingMode!=_ExpandedPasteZoom23)
-		&& (DrawingMode!=_ExpandedPasteZoom30)
-		&& (DrawingMode!=_CutByShape)
-		&& (DrawingMode!=_CutByShapePreStart)){
+		if((DrawingShapeMode!=_PasteMovePreStart) 
+		&& (DrawingShapeMode!=_PasteMove)
+		&& (DrawingShapeMode!=_PasteCreateShape)
+		&& (DrawingShapeMode!=_PasteForImage)
+		&& (DrawingShapeMode!=_PasteCreateShapeStart)
+		&& (DrawingShapeMode!=_ItemMoveWait)
+		&& (DrawingShapeMode!=_ItemMove)
+		&& (DrawingShapeMode!=_RotateMoveWait)
+		&& (DrawingShapeMode!=_RotateMoveAngleStart)
+		&& (DrawingShapeMode!=_RotateMoveAngling)
+		&& (DrawingShapeMode!=_SlopeXMoveWait)
+		&& (DrawingShapeMode!=_SlopeXMoveAngleStart)
+		&& (DrawingShapeMode!=_SlopeXMoveAngling)
+		&& (DrawingShapeMode!=_SlopeYMoveWait)
+		&& (DrawingShapeMode!=_SlopeYMoveAngleStart)
+		&& (DrawingShapeMode!=_SlopeYMoveAngling)
+		&& (DrawingShapeMode!=_ExtendMoveWait)
+		&& (DrawingShapeMode!=_ExtendMoveStart)
+		&& (DrawingShapeMode!=_ExtendMoving)
+		&& (DrawingShapeMode!=_MeasureFirst)
+		&& (DrawingShapeMode!=_MeasureSecond)
+		&& (DrawingShapeMode!=_MeasureDone)
+		&& (DrawingShapeMode!=_ExpandedPaste)
+		&& (DrawingShapeMode!=_ExpandedPasteMove)
+		&& (DrawingShapeMode!=_ExpandedPasteRotate0)
+		&& (DrawingShapeMode!=_ExpandedPasteRotate1)
+		&& (DrawingShapeMode!=_ExpandedPasteRotate2)
+		&& (DrawingShapeMode!=_ExpandedPasteRotate3)
+		&& (DrawingShapeMode!=_ExpandedPasteZoom01)
+		&& (DrawingShapeMode!=_ExpandedPasteZoom12)
+		&& (DrawingShapeMode!=_ExpandedPasteZoom23)
+		&& (DrawingShapeMode!=_ExpandedPasteZoom30)
+		&& (DrawingShapeMode!=_CutByShape)
+		&& (DrawingShapeMode!=_CutByShapePreStart)){
 			FlexArea resultarea;
 			ToFlexArea( *GetRawSDataPoint()
 		                            ,resultarea);
@@ -1443,7 +1443,7 @@ void	DisplayImage::MoveStart(void)
 		MainCanvas->SetMode(ModeFromOther);
 		AllUpImagePanel();
 		SetDrawingMode(_ItemMoveWait);
-		SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+		SetModeByOthers(fdNone ,Qt::red);
 		SetAlterSomething();
 		GetLayersBase()->SetStatusModes(this,/**/"Move");
 	}
@@ -1460,14 +1460,14 @@ void	DisplayImage::MoveFinish(void)
 }
 void	DisplayImage::RotateStart(void)		//Changing mode Only inside
 {
-	//DrawingMode=_RotateMoveWait;
+	//DrawingShapeMode=_RotateMoveWait;
 
 	if(MainCanvas!=NULL){
 		MainCanvas->SetMode(ModeFromOther);
 	}
 	AllUpImagePanel();
 	SetDrawingMode(_RotateMoveWait);
-	SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+	SetModeByOthers(fdNone ,Qt::red);
 	SetAlterSomething();
 	GetLayersBase()->SetStatusModes(this,/**/"Rotate");
 }
@@ -1479,7 +1479,7 @@ void	DisplayImage::SlopeXStart(void)		//Changing mode Only inside
 	}
 	AllUpImagePanel();
 	SetDrawingMode(_SlopeXMoveWait);
-	SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+	SetModeByOthers(fdNone ,Qt::red);
 	SetAlterSomething();
 	GetLayersBase()->SetStatusModes(this,/**/"SlopeX");
 }
@@ -1491,13 +1491,13 @@ void	DisplayImage::SlopeYStart(void)		//Changing mode Only inside
 	}
 	AllUpImagePanel();
 	SetDrawingMode(_SlopeYMoveWait);
-	SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+	SetModeByOthers(fdNone ,Qt::red);
 	SetAlterSomething();
 	GetLayersBase()->SetStatusModes(this,/**/"SlopeY");
 }
 void	DisplayImage::ExtendStart(void)		//Changing mode Only inside
 {
-	DrawingMode=_ExtendMoveWait;
+	DrawingShapeMode=_ExtendMoveWait;
 }
 
 void	DisplayImage::ShowInPlayer(int64 shownInspectionID)
@@ -1656,15 +1656,15 @@ void	DisplayImage::SlotMouseMove(int globalX,int globalY)
 		}
 	}
 	if((ExpandedPasteBtn!=NULL) && (ExpandedPasteBtn->isChecked()==true)){
-		if((DrawingMode==_ExpandedPasteRotate0)
-		|| (DrawingMode==_ExpandedPasteRotate1)
-		|| (DrawingMode==_ExpandedPasteRotate2)
-		|| (DrawingMode==_ExpandedPasteRotate3)
-		|| (DrawingMode==_ExpandedPasteZoom01)
-		|| (DrawingMode==_ExpandedPasteZoom12)
-		|| (DrawingMode==_ExpandedPasteZoom23)
-		|| (DrawingMode==_ExpandedPasteZoom30)
-		|| (DrawingMode==_ExpandedPasteMove)){
+		if((DrawingShapeMode==_ExpandedPasteRotate0)
+		|| (DrawingShapeMode==_ExpandedPasteRotate1)
+		|| (DrawingShapeMode==_ExpandedPasteRotate2)
+		|| (DrawingShapeMode==_ExpandedPasteRotate3)
+		|| (DrawingShapeMode==_ExpandedPasteZoom01)
+		|| (DrawingShapeMode==_ExpandedPasteZoom12)
+		|| (DrawingShapeMode==_ExpandedPasteZoom23)
+		|| (DrawingShapeMode==_ExpandedPasteZoom30)
+		|| (DrawingShapeMode==_ExpandedPasteMove)){
 			SetExpandedPasteFrame(globalX,globalY);
 			ExpandedPasteCurrentGlobalX=globalX;
 			ExpandedPasteCurrentGlobalY=globalY;
@@ -1723,7 +1723,7 @@ void	DisplayImage::SlotMouseMove(int globalX,int globalY)
 		}
 		*/
 		if((MeasureBtn!=NULL) && (MeasureBtn->isChecked()==true)){
-			if(DrawingMode==_MeasureSecond){
+			if(DrawingShapeMode==_MeasureSecond){
 				MeasureCurrentGlobalX	=globalX;
 				MeasureCurrentGlobalY	=globalY;
 				if(MainCanvas!=NULL){
@@ -1866,17 +1866,17 @@ void	DisplayImage::SlotMouseLDown(int globalX,int globalY)
 			ExePasteImage(ClippedImageGlobalPosX-ClippedImageGlobalCx,ClippedImageGlobalPosY-ClippedImageGlobalCy);
 		}
 
-		else if(DrawingMode==_PasteMovePreStart){
+		else if(DrawingShapeMode==_PasteMovePreStart){
 			MoveCurrentGlobalX=MoveStartGlobalX=globalX;
 			MoveCurrentGlobalY=MoveStartGlobalY=globalY;
-			DrawingMode=_PasteMove;
+			DrawingShapeMode=_PasteMove;
 			for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 				int	localX,localY;
 				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 				GetLayersBase()->GetPageData(page)->GetLocalMatrixFromGlobalInMaster(MoveStartGlobalX,MoveStartGlobalY,localX ,localY);
 				GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
 				Cmd.InstName=GetName();
-				Cmd.DMode=DrawingMode;
+				Cmd.DMode=DrawingShapeMode;
 				Cmd.localX=localX;
 				Cmd.localY=localY;
 				if(Cmd.SendOnly(GlobalPage,0)==false){
@@ -1886,17 +1886,17 @@ void	DisplayImage::SlotMouseLDown(int globalX,int globalY)
 			StartMovx=MainCanvas->GetMovx();
 			StartMovy=MainCanvas->GetMovy();
 		}
-		else if(DrawingMode==_CutByShapePreStart){
+		else if(DrawingShapeMode==_CutByShapePreStart){
 			MoveCurrentGlobalX=MoveStartGlobalX=globalX;
 			MoveCurrentGlobalY=MoveStartGlobalY=globalY;
-			DrawingMode=_CutByShape;
+			DrawingShapeMode=_CutByShape;
 			for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 				int	localX,localY;
 				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 				GetLayersBase()->GetPageData(page)->GetLocalMatrixFromGlobalInMaster(MoveStartGlobalX,MoveStartGlobalY,localX ,localY);
 				GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
 				Cmd.InstName=GetName();
-				Cmd.DMode=DrawingMode;
+				Cmd.DMode=DrawingShapeMode;
 				Cmd.localX=localX;
 				Cmd.localY=localY;
 				if(Cmd.SendOnly(GlobalPage,0)==false){
@@ -1906,7 +1906,7 @@ void	DisplayImage::SlotMouseLDown(int globalX,int globalY)
 			StartMovx=MainCanvas->GetMovx();
 			StartMovy=MainCanvas->GetMovy();
 		}
-		else if(DrawingMode==_PasteMove){
+		else if(DrawingShapeMode==_PasteMove){
 			GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Paste in same algorithm");
 			for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
@@ -1918,23 +1918,23 @@ void	DisplayImage::SlotMouseLDown(int globalX,int globalY)
 					SetError(Error_Comm , /**/"Send error :_PasteMove",ErrorCodeList::_Alart);
 				}
 			}
-			DrawingMode=_Normal;
+			DrawingShapeMode=_Normal;
 			MainCanvas->Clear();
 			BroadcastDirectly(_BC_BuildForShow ,GetLayersBase()->GetCurrentInspectIDForDisplay());
 			StartMovx=MainCanvas->GetMovx();
 			StartMovy=MainCanvas->GetMovy();
 		}
-		else if((DrawingMode==_PasteCreateShapeStart) && (PastedItems!=NULL)){
+		else if((DrawingShapeMode==_PasteCreateShapeStart) && (PastedItems!=NULL)){
 			MoveCurrentGlobalX=MoveStartGlobalX=globalX;
 			MoveCurrentGlobalY=MoveStartGlobalY=globalY;
-			DrawingMode=_PasteCreateShape;
+			DrawingShapeMode=_PasteCreateShape;
 			for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 				int	localX,localY;
 				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 				GetLayersBase()->GetPageData(page)->GetLocalMatrixFromGlobalInMaster(MoveStartGlobalX,MoveStartGlobalY,localX ,localY);
 				GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
 				Cmd.InstName=GetName();
-				Cmd.DMode=DrawingMode;
+				Cmd.DMode=DrawingShapeMode;
 				Cmd.localX=localX;
 				Cmd.localY=localY;
 				if(Cmd.SendOnly(GlobalPage,0)==false){
@@ -1942,112 +1942,112 @@ void	DisplayImage::SlotMouseLDown(int globalX,int globalY)
 				}
 			}
 		}
-		else if((DrawingMode==_PasteCreateShape) && (PastedItems!=NULL)){
+		else if((DrawingShapeMode==_PasteCreateShape) && (PastedItems!=NULL)){
 			ExecutePasteShape(/**/"",/**/"");
-			DrawingMode=_Normal;
+			DrawingShapeMode=_Normal;
 			BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
 		}
-		else if(DrawingMode==_PasteForImage){
+		else if(DrawingShapeMode==_PasteForImage){
 			ExecutePasteForImage(/**/"",/**/"");
-			DrawingMode=_Normal;
+			DrawingShapeMode=_Normal;
 			BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
 		}
 		//else if(DrawingMode==_ItemMoveWait || GetImageDrawingMode()==_ItemMoveWait){
-		else if(DrawingMode==_ItemMoveWait){
+		else if(DrawingShapeMode==_ItemMoveWait){
 			if(GetImageDrawingMode()==_ItemMoveWait){
 				MoveCurrentGlobalX=MoveStartGlobalX=globalX;
 				MoveCurrentGlobalY=MoveStartGlobalY=globalY;
-				DrawingMode=_ItemMove;
+				DrawingShapeMode=_ItemMove;
 			}
 		}
-		else if(GetImageDrawingMode()==_ItemMoveWait && DrawingMode==_Normal){
+		else if(GetImageDrawingMode()==_ItemMoveWait && DrawingShapeMode==_Normal){
 			MoveCurrentGlobalX=MoveStartGlobalX=globalX;
 			MoveCurrentGlobalY=MoveStartGlobalY=globalY;
-			DrawingMode=_ItemMove;
+			DrawingShapeMode=_ItemMove;
 		}
-		else if(DrawingMode==_ItemMove){
+		else if(DrawingShapeMode==_ItemMove){
 			ExecuteMove();
 			MoveFinish();
 			Repaint();
-			DrawingMode=_Normal;
+			DrawingShapeMode=_Normal;
 			//SetDrawingMode(_ItemMoveWait);
 		}
-		else if(DrawingMode==_RotateMoveWait){
+		else if(DrawingShapeMode==_RotateMoveWait){
 			RotateFixedCenter(globalX ,globalY);
-			DrawingMode=_RotateMoveAngleStart;
+			DrawingShapeMode=_RotateMoveAngleStart;
 		}
-		else if(DrawingMode==_RotateMoveAngleStart){
+		else if(DrawingShapeMode==_RotateMoveAngleStart){
 			RotateStartAngle(globalX ,globalY);
-			DrawingMode=_RotateMoveAngling;
+			DrawingShapeMode=_RotateMoveAngling;
 		}
-		else if(DrawingMode==_RotateMoveAngling){
+		else if(DrawingShapeMode==_RotateMoveAngling){
 			RotateFinish();
 			Repaint();
-			DrawingMode=_Normal;
+			DrawingShapeMode=_Normal;
 		}
-		else if(DrawingMode==_SlopeXMoveWait){
+		else if(DrawingShapeMode==_SlopeXMoveWait){
 			SlopeXFixedCenter(globalX ,globalY);
-			DrawingMode=_SlopeXMoveAngleStart;
+			DrawingShapeMode=_SlopeXMoveAngleStart;
 		}
-		else if(DrawingMode==_SlopeXMoveAngleStart){
+		else if(DrawingShapeMode==_SlopeXMoveAngleStart){
 			SlopeXStartAngle(globalX ,globalY);
-			DrawingMode=_SlopeXMoveAngling;
+			DrawingShapeMode=_SlopeXMoveAngling;
 		}
-		else if(DrawingMode==_SlopeXMoveAngling){
+		else if(DrawingShapeMode==_SlopeXMoveAngling){
 			SlopeXFinish();
 			Repaint();
-			DrawingMode=_Normal;
+			DrawingShapeMode=_Normal;
 		}
-		else if(DrawingMode==_SlopeYMoveWait){
+		else if(DrawingShapeMode==_SlopeYMoveWait){
 			SlopeYFixedCenter(globalX ,globalY);
-			DrawingMode=_SlopeYMoveAngleStart;
+			DrawingShapeMode=_SlopeYMoveAngleStart;
 		}
-		else if(DrawingMode==_SlopeYMoveAngleStart){
+		else if(DrawingShapeMode==_SlopeYMoveAngleStart){
 			SlopeYStartAngle(globalX ,globalY);
-			DrawingMode=_SlopeYMoveAngling;
+			DrawingShapeMode=_SlopeYMoveAngling;
 		}
-		else if(DrawingMode==_SlopeYMoveAngling){
+		else if(DrawingShapeMode==_SlopeYMoveAngling){
 			SlopeYFinish();
 			Repaint();
-			DrawingMode=_Normal;
+			DrawingShapeMode=_Normal;
 		}
-		else if(DrawingMode==_ExtendMoveWait){
+		else if(DrawingShapeMode==_ExtendMoveWait){
 			ExtendFixedCenter(globalX ,globalY);
-			DrawingMode=_ExtendMoveStart;
+			DrawingShapeMode=_ExtendMoveStart;
 		}
-		else if(DrawingMode==_ExtendMoveStart){
+		else if(DrawingShapeMode==_ExtendMoveStart){
 			ExtendingStart(globalX ,globalY);
-			DrawingMode=_ExtendMoving;
+			DrawingShapeMode=_ExtendMoving;
 		}
-		else if(DrawingMode==_ExtendMoving){
+		else if(DrawingShapeMode==_ExtendMoving){
 			ExtendFinish();
 			Repaint();
-			DrawingMode=_Normal;
+			DrawingShapeMode=_Normal;
 		}
 		else if((PickColorBtn!=NULL) && (PickColorBtn->isChecked()==true)){
 			ExePickupColor(globalX,globalY);
 		}
 		else if((MeasureBtn!=NULL) && (MeasureBtn->isChecked()==true)){
-			if(DrawingMode==_MeasureFirst){
+			if(DrawingShapeMode==_MeasureFirst){
 				MeasureCurrentGlobalX	=MeasureStartGlobalX	=globalX;
 				MeasureCurrentGlobalY	=MeasureStartGlobalY	=globalY;
-				DrawingMode=_MeasureSecond;
+				DrawingShapeMode=_MeasureSecond;
 			}
-			else if(DrawingMode==_MeasureSecond){
+			else if(DrawingShapeMode==_MeasureSecond){
 				MeasureCurrentGlobalX	=globalX;
 				MeasureCurrentGlobalY	=globalY;
-				DrawingMode=_MeasureDone;
+				DrawingShapeMode=_MeasureDone;
 				MainCanvas->Repaint();
 				double	L=hypot(MeasureCurrentGlobalX-MeasureStartGlobalX,MeasureCurrentGlobalY-MeasureStartGlobalY);
 				emit	SignalMeasure(L);
 			}
-			else if(DrawingMode==_MeasureDone){
-				DrawingMode=_MeasureFirst;
+			else if(DrawingShapeMode==_MeasureDone){
+				DrawingShapeMode=_MeasureFirst;
 				MainCanvas->Repaint();
 			}
 		}
 		else if((ExpandedPasteBtn!=NULL) && (ExpandedPasteBtn->isChecked()==true)){
-			if(DrawingMode==_ExpandedPaste){
+			if(DrawingShapeMode==_ExpandedPaste){
 				ExpandedPasteEachStart=ExpandedPasteCurrent;
 				double	Len;
 				double	SepLen=5/GetZoomRate();
@@ -2055,76 +2055,76 @@ void	DisplayImage::SlotMouseLDown(int globalX,int globalY)
 				if(Len<SepLen){
 					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
 					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
-					DrawingMode=_ExpandedPasteRotate0;
+					DrawingShapeMode=_ExpandedPasteRotate0;
 				}
 				Len=hypot(ExpandedPasteCurrent.ExpandedPasteFrame[1].X-globalX,ExpandedPasteCurrent.ExpandedPasteFrame[1].Y-globalY);
 				if(Len<SepLen){
 					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
 					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
-					DrawingMode=_ExpandedPasteRotate1;
+					DrawingShapeMode=_ExpandedPasteRotate1;
 				}
 				Len=hypot(ExpandedPasteCurrent.ExpandedPasteFrame[2].X-globalX,ExpandedPasteCurrent.ExpandedPasteFrame[2].Y-globalY);
 				if(Len<SepLen){
 					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
 					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
-					DrawingMode=_ExpandedPasteRotate2;
+					DrawingShapeMode=_ExpandedPasteRotate2;
 				}
 				Len=hypot(ExpandedPasteCurrent.ExpandedPasteFrame[3].X-globalX,ExpandedPasteCurrent.ExpandedPasteFrame[3].Y-globalY);
 				if(Len<SepLen){
 					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
 					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
-					DrawingMode=_ExpandedPasteRotate3;
+					DrawingShapeMode=_ExpandedPasteRotate3;
 				}
 				Len=hypot((ExpandedPasteCurrent.ExpandedPasteFrame[0].X+ExpandedPasteCurrent.ExpandedPasteFrame[1].X)/2-globalX
 						, (ExpandedPasteCurrent.ExpandedPasteFrame[0].Y+ExpandedPasteCurrent.ExpandedPasteFrame[1].Y)/2-globalY);
 				if(Len<SepLen){
 					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
 					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
-					DrawingMode=_ExpandedPasteZoom01;
+					DrawingShapeMode=_ExpandedPasteZoom01;
 				}
 				Len=hypot((ExpandedPasteCurrent.ExpandedPasteFrame[1].X+ExpandedPasteCurrent.ExpandedPasteFrame[2].X)/2-globalX
 						, (ExpandedPasteCurrent.ExpandedPasteFrame[1].Y+ExpandedPasteCurrent.ExpandedPasteFrame[2].Y)/2-globalY);
 				if(Len<SepLen){
 					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
 					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
-					DrawingMode=_ExpandedPasteZoom12;
+					DrawingShapeMode=_ExpandedPasteZoom12;
 				}
 				Len=hypot((ExpandedPasteCurrent.ExpandedPasteFrame[2].X+ExpandedPasteCurrent.ExpandedPasteFrame[3].X)/2-globalX
 						 ,(ExpandedPasteCurrent.ExpandedPasteFrame[2].Y+ExpandedPasteCurrent.ExpandedPasteFrame[3].Y)/2-globalY);
 				if(Len<SepLen){
 					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
 					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
-					DrawingMode=_ExpandedPasteZoom23;
+					DrawingShapeMode=_ExpandedPasteZoom23;
 				}
 				Len=hypot((ExpandedPasteCurrent.ExpandedPasteFrame[3].X+ExpandedPasteCurrent.ExpandedPasteFrame[0].X)/2-globalX
 						 ,(ExpandedPasteCurrent.ExpandedPasteFrame[3].Y+ExpandedPasteCurrent.ExpandedPasteFrame[0].Y)/2-globalY);
 				if(Len<SepLen){
 					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
 					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
-					DrawingMode=_ExpandedPasteZoom30;
+					DrawingShapeMode=_ExpandedPasteZoom30;
 				}
-				if(DrawingMode==_ExpandedPaste){
+				if(DrawingShapeMode==_ExpandedPaste){
 					ExpandedPasteCurrentGlobalX=ExpandedPasteStartGlobalX=globalX;
 					ExpandedPasteCurrentGlobalY=ExpandedPasteStartGlobalY=globalY;
-					DrawingMode=_ExpandedPasteMove;
+					DrawingShapeMode=_ExpandedPasteMove;
 				}
 				ExpandedPasteOpeCurrent=ExpandedPasteOpe;
 			}
-			else if((DrawingMode==_ExpandedPasteRotate0)
-				 || (DrawingMode==_ExpandedPasteRotate1)
-				 || (DrawingMode==_ExpandedPasteRotate2)
-				 || (DrawingMode==_ExpandedPasteRotate3)
-				 || (DrawingMode==_ExpandedPasteZoom01)
-				 || (DrawingMode==_ExpandedPasteZoom12)
-				 || (DrawingMode==_ExpandedPasteZoom23)
-				 || (DrawingMode==_ExpandedPasteZoom30)
-				 || (DrawingMode==_ExpandedPasteMove)){
+			else if((DrawingShapeMode==_ExpandedPasteRotate0)
+				 || (DrawingShapeMode==_ExpandedPasteRotate1)
+				 || (DrawingShapeMode==_ExpandedPasteRotate2)
+				 || (DrawingShapeMode==_ExpandedPasteRotate3)
+				 || (DrawingShapeMode==_ExpandedPasteZoom01)
+				 || (DrawingShapeMode==_ExpandedPasteZoom12)
+				 || (DrawingShapeMode==_ExpandedPasteZoom23)
+				 || (DrawingShapeMode==_ExpandedPasteZoom30)
+				 || (DrawingShapeMode==_ExpandedPasteMove)){
 				ExpandedPasteOpe=ExpandedPasteOpeCurrent;
 				BuildCurrentExpandedPaste(ExpandedPasteOpe);
-				DrawingMode=_ExpandedPaste;
+				DrawingShapeMode=_ExpandedPaste;
 			}
 		}
-		else if(DrawingMode==_CutByShape){
+		else if(DrawingShapeMode==_CutByShape){
 			for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 				GUICmdReqCutByPasted	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
@@ -2135,7 +2135,7 @@ void	DisplayImage::SlotMouseLDown(int globalX,int globalY)
 					SetError(Error_Comm , /**/"Send error :_CutByShape",ErrorCodeList::_Alart);
 				}
 			}
-			DrawingMode=_Normal;
+			DrawingShapeMode=_Normal;
 			MainCanvas->Clear();
 			BroadcastDirectly(_BC_BuildForShow ,GetLayersBase()->GetCurrentInspectIDForDisplay());
 			StartMovx=MainCanvas->GetMovx();
@@ -2168,7 +2168,7 @@ void	DisplayImage::SlotMouseLDown(int globalX,int globalY)
 				ExeReplaceColorImage(globalX,globalY);
 			}
 		}
-		else if(MainCanvas->GetMode()==mtFrameDraw::fdNone){
+		else if(MainCanvas->GetMode()==fdNone){
 			emit	SignalMouseLDown(globalX ,globalY);
 			ExecuteMouseLDown(globalX ,globalY);
 			//setFocus();
@@ -2336,10 +2336,10 @@ bool	DisplayImage::SaveImage(int gx1, int gy1, int gx2 ,int gy2 ,int xn ,int yn)
 
 void	DisplayImage::SetExpandedPasteFrame(int globalX ,int globalY)
 {
-	if((DrawingMode==_ExpandedPasteRotate0)
-	|| (DrawingMode==_ExpandedPasteRotate1)
-	|| (DrawingMode==_ExpandedPasteRotate2)
-	|| (DrawingMode==_ExpandedPasteRotate3)){
+	if((DrawingShapeMode==_ExpandedPasteRotate0)
+	|| (DrawingShapeMode==_ExpandedPasteRotate1)
+	|| (DrawingShapeMode==_ExpandedPasteRotate2)
+	|| (DrawingShapeMode==_ExpandedPasteRotate3)){
 		double	Cx,Cy;
 		ExpandedPasteCurrent.GetCenter(Cx,Cy);
 		double	s1=GetSita(ExpandedPasteCurrentGlobalX-Cx
@@ -2349,7 +2349,7 @@ void	DisplayImage::SetExpandedPasteFrame(int globalX ,int globalY)
 		ExpandedPasteOpeCurrent.ExpandedPasteRotate+=s;
 		BuildCurrentExpandedPaste(ExpandedPasteOpeCurrent);
 	}
-	if(DrawingMode==_ExpandedPasteZoom01){
+	if(DrawingShapeMode==_ExpandedPasteZoom01){
 		//double	X=(ExpandedPasteCurrent.ExpandedPasteFrame[0].X+ExpandedPasteCurrent.ExpandedPasteFrame[1].X)/2.0;
 		double	Y=(ExpandedPasteCurrent.ExpandedPasteFrame[0].Y+ExpandedPasteCurrent.ExpandedPasteFrame[1].Y)/2.0;
 		//double	Cx=(ExpandedPasteCurrent.ExpandedPasteFrame[2].X+ExpandedPasteCurrent.ExpandedPasteFrame[3].X)/2.0;
@@ -2372,7 +2372,7 @@ void	DisplayImage::SetExpandedPasteFrame(int globalX ,int globalY)
 			}
 		}
 	}
-	if(DrawingMode==_ExpandedPasteZoom12){
+	if(DrawingShapeMode==_ExpandedPasteZoom12){
 		double	X=(ExpandedPasteCurrent.ExpandedPasteFrame[1].X+ExpandedPasteCurrent.ExpandedPasteFrame[2].X)/2.0;
 		double	Y=(ExpandedPasteCurrent.ExpandedPasteFrame[1].Y+ExpandedPasteCurrent.ExpandedPasteFrame[2].Y)/2.0;
 		double	Cx=(ExpandedPasteCurrent.ExpandedPasteFrame[3].X+ExpandedPasteCurrent.ExpandedPasteFrame[0].X)/2.0;
@@ -2395,7 +2395,7 @@ void	DisplayImage::SetExpandedPasteFrame(int globalX ,int globalY)
 			}
 		}
 	}
-	if(DrawingMode==_ExpandedPasteZoom23){
+	if(DrawingShapeMode==_ExpandedPasteZoom23){
 		double	X=(ExpandedPasteCurrent.ExpandedPasteFrame[2].X+ExpandedPasteCurrent.ExpandedPasteFrame[3].X)/2.0;
 		double	Y=(ExpandedPasteCurrent.ExpandedPasteFrame[2].Y+ExpandedPasteCurrent.ExpandedPasteFrame[3].Y)/2.0;
 		double	Cx=(ExpandedPasteCurrent.ExpandedPasteFrame[0].X+ExpandedPasteCurrent.ExpandedPasteFrame[1].X)/2.0;
@@ -2419,7 +2419,7 @@ void	DisplayImage::SetExpandedPasteFrame(int globalX ,int globalY)
 			}
 		}
 	}
-	if(DrawingMode==_ExpandedPasteZoom30){
+	if(DrawingShapeMode==_ExpandedPasteZoom30){
 		double	X=(ExpandedPasteCurrent.ExpandedPasteFrame[3].X+ExpandedPasteCurrent.ExpandedPasteFrame[0].X)/2.0;
 		double	Y=(ExpandedPasteCurrent.ExpandedPasteFrame[3].Y+ExpandedPasteCurrent.ExpandedPasteFrame[0].Y)/2.0;
 		double	Cx=(ExpandedPasteCurrent.ExpandedPasteFrame[1].X+ExpandedPasteCurrent.ExpandedPasteFrame[2].X)/2.0;
@@ -2442,7 +2442,7 @@ void	DisplayImage::SetExpandedPasteFrame(int globalX ,int globalY)
 			}
 		}
 	}
-	if(DrawingMode==_ExpandedPasteMove){
+	if(DrawingShapeMode==_ExpandedPasteMove){
 		ExpandedPasteOpeCurrent.ExpandedPasteMovX+=globalX-ExpandedPasteCurrentGlobalX;
 		ExpandedPasteOpeCurrent.ExpandedPasteMovY+=globalY-ExpandedPasteCurrentGlobalY;
 		BuildCurrentExpandedPaste(ExpandedPasteOpeCurrent);
@@ -2452,7 +2452,7 @@ void	DisplayImage::SetExpandedPasteFrame(int globalX ,int globalY)
 void	DisplayImage::SaveImageOnRectBtnDown(bool)
 {
 	if(MainCanvas!=NULL){
-		MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		MainCanvas->SetMode(fdRectangle);
 		MainCanvas->SetFrameColor(FrameColor);
 	}
 	AllUpToolButton();
@@ -2463,7 +2463,7 @@ void	DisplayImage::SaveImageOnRectBtnDown(bool)
 void	DisplayImage::SaveImageOnPointBtnDown(bool)
 {
 	if(MainCanvas!=NULL){
-		MainCanvas->SetMode(mtFrameDraw::fdPoint);
+		MainCanvas->SetMode(fdPoint);
 		MainCanvas->SetFrameColor(FrameColor);
 	}
 	AllUpToolButton();
@@ -2475,7 +2475,7 @@ void	DisplayImage::SaveImageOnPointBtnDown(bool)
 void	DisplayImage::RegulateBrightnessBtnDown(bool)
 {
 	if(MainCanvas!=NULL){
-		MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		MainCanvas->SetMode(fdRectangle);
 		MainCanvas->SetFrameColor(FrameColor);
 	}
 	AllUpToolButton();
@@ -2487,7 +2487,7 @@ void	DisplayImage::RegulateBrightnessBtnDown(bool)
 void	DisplayImage::RegistColorLibBtnDown(bool)
 {
 	if(MainCanvas!=NULL){
-		MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		MainCanvas->SetMode(fdRectangle);
 		MainCanvas->SetFrameColor(FrameColor);
 	}
 	//AllUpToolButton();
@@ -2555,7 +2555,7 @@ LensWindowForm	*DisplayImage::ShowLensWindow(bool b,const QString &WindowTitle)
 void	DisplayImage::WheelBarrowBtnDown(bool)
 {
 	if(MainCanvas!=NULL){
-		MainCanvas->SetMode(mtFrameDraw::fdRectangle);
+		MainCanvas->SetMode(fdRectangle);
 		MainCanvas->SetFrameColor(FrameColor);
 	}
 	AllUpToolButton();
@@ -2686,74 +2686,74 @@ void	DisplayImage::SlotMouseRDown(int globalX,int globalY)
 			}
 		}
 		else if((MeasureBtn!=NULL) && (MeasureBtn->isChecked()==true)){
-			if(DrawingMode==_MeasureSecond){
-				DrawingMode=_MeasureFirst;
+			if(DrawingShapeMode==_MeasureSecond){
+				DrawingShapeMode=_MeasureFirst;
 			}
-			else if(DrawingMode==_MeasureDone){
-				DrawingMode=_MeasureSecond;
+			else if(DrawingShapeMode==_MeasureDone){
+				DrawingShapeMode=_MeasureSecond;
 				MainCanvas->Repaint();
 			}
 		}
 		else 
-		if((DrawingMode==_PasteMovePreStart)
-		|| (DrawingMode==_PasteMove)
-		|| (DrawingMode==_PasteCreateShape)
-		|| (DrawingMode==_PasteForImage)
-		|| (DrawingMode==_PasteCreateShapeStart)
-		|| (DrawingMode==_ItemMoveWait)
-		|| (DrawingMode==_ItemMove)
-		|| (DrawingMode==_RotateMoveWait)
-		|| (DrawingMode==_RotateMoveAngleStart)
-		|| (DrawingMode==_RotateMoveAngling)
-		|| (DrawingMode==_SlopeXMoveWait)
-		|| (DrawingMode==_SlopeXMoveAngleStart)
-		|| (DrawingMode==_SlopeXMoveAngling)
-		|| (DrawingMode==_SlopeYMoveWait)
-		|| (DrawingMode==_SlopeYMoveAngleStart)
-		|| (DrawingMode==_SlopeYMoveAngling)
-		|| (DrawingMode==_ExtendMoveWait)
-		|| (DrawingMode==_ExtendMoveStart)
-		|| (DrawingMode==_ExtendMoving)){
-			if(DrawingMode==_ItemMove){
+		if((DrawingShapeMode==_PasteMovePreStart)
+		|| (DrawingShapeMode==_PasteMove)
+		|| (DrawingShapeMode==_PasteCreateShape)
+		|| (DrawingShapeMode==_PasteForImage)
+		|| (DrawingShapeMode==_PasteCreateShapeStart)
+		|| (DrawingShapeMode==_ItemMoveWait)
+		|| (DrawingShapeMode==_ItemMove)
+		|| (DrawingShapeMode==_RotateMoveWait)
+		|| (DrawingShapeMode==_RotateMoveAngleStart)
+		|| (DrawingShapeMode==_RotateMoveAngling)
+		|| (DrawingShapeMode==_SlopeXMoveWait)
+		|| (DrawingShapeMode==_SlopeXMoveAngleStart)
+		|| (DrawingShapeMode==_SlopeXMoveAngling)
+		|| (DrawingShapeMode==_SlopeYMoveWait)
+		|| (DrawingShapeMode==_SlopeYMoveAngleStart)
+		|| (DrawingShapeMode==_SlopeYMoveAngling)
+		|| (DrawingShapeMode==_ExtendMoveWait)
+		|| (DrawingShapeMode==_ExtendMoveStart)
+		|| (DrawingShapeMode==_ExtendMoving)){
+			if(DrawingShapeMode==_ItemMove){
 				MoveCancel();
 			}
-			if((DrawingMode==_RotateMoveWait) || (DrawingMode==_RotateMoveAngleStart) || (DrawingMode==_RotateMoveAngling)){
+			if((DrawingShapeMode==_RotateMoveWait) || (DrawingShapeMode==_RotateMoveAngleStart) || (DrawingShapeMode==_RotateMoveAngling)){
 				RotateCancel();
 			}
-			if((DrawingMode==_SlopeXMoveWait) || (DrawingMode==_SlopeXMoveAngleStart) || (DrawingMode==_SlopeXMoveAngling)){
+			if((DrawingShapeMode==_SlopeXMoveWait) || (DrawingShapeMode==_SlopeXMoveAngleStart) || (DrawingShapeMode==_SlopeXMoveAngling)){
 				SlopeXCancel();
 			}
-			if((DrawingMode==_SlopeYMoveWait) || (DrawingMode==_SlopeYMoveAngleStart) || (DrawingMode==_SlopeYMoveAngling)){
+			if((DrawingShapeMode==_SlopeYMoveWait) || (DrawingShapeMode==_SlopeYMoveAngleStart) || (DrawingShapeMode==_SlopeYMoveAngling)){
 				SlopeYCancel();
 			}
-			if((DrawingMode==_ExtendMoveWait) || (DrawingMode==_ExtendMoveStart) || (DrawingMode==_ExtendMoving)){
+			if((DrawingShapeMode==_ExtendMoveWait) || (DrawingShapeMode==_ExtendMoveStart) || (DrawingShapeMode==_ExtendMoving)){
 				ExtendCancel();
 			}
-			if(DrawingMode==_ItemMoveWait){
+			if(DrawingShapeMode==_ItemMoveWait){
 				emit	SignalMouseRDown(globalX,globalY);
 				ExecuteMouseRDown(globalX ,globalY);
 			}
-			DrawingMode=_Normal;
+			DrawingShapeMode=_Normal;
 			for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 				GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
-				Cmd.DMode=DrawingMode;
+				Cmd.DMode=DrawingShapeMode;
 				Cmd.InstName=GetName();
 				if(Cmd.SendOnly(GlobalPage,0)==false){
 					SetError(Error_Comm , /**/"Send error :SlotMouseRDown",ErrorCodeList::_Alart);
 				}
 			}
 		}
-		else if((DrawingMode==_ExpandedPasteMove)
-		     || (DrawingMode==_ExpandedPasteZoom01)
-			 || (DrawingMode==_ExpandedPasteZoom12)
-			 || (DrawingMode==_ExpandedPasteZoom23)
-			 || (DrawingMode==_ExpandedPasteZoom30)
-			 || (DrawingMode==_ExpandedPasteRotate0)
-			 || (DrawingMode==_ExpandedPasteRotate1)
-			 || (DrawingMode==_ExpandedPasteRotate2)
-			 || (DrawingMode==_ExpandedPasteRotate3)){
-				DrawingMode=_ExpandedPaste;
+		else if((DrawingShapeMode==_ExpandedPasteMove)
+		     || (DrawingShapeMode==_ExpandedPasteZoom01)
+			 || (DrawingShapeMode==_ExpandedPasteZoom12)
+			 || (DrawingShapeMode==_ExpandedPasteZoom23)
+			 || (DrawingShapeMode==_ExpandedPasteZoom30)
+			 || (DrawingShapeMode==_ExpandedPasteRotate0)
+			 || (DrawingShapeMode==_ExpandedPasteRotate1)
+			 || (DrawingShapeMode==_ExpandedPasteRotate2)
+			 || (DrawingShapeMode==_ExpandedPasteRotate3)){
+				DrawingShapeMode=_ExpandedPaste;
 				ExpandedPasteCurrent=ExpandedPasteEachStart;
 		}
 		else{
@@ -2783,17 +2783,17 @@ void	DisplayImage::SlotMouseLDoubleClick(int globalX,int globalY)
 		return;
 	}
 
-	if((DrawingMode==_PasteMovePreStart) && (PastedItems!=NULL)){
+	if((DrawingShapeMode==_PasteMovePreStart) && (PastedItems!=NULL)){
 		MoveCurrentGlobalX=MoveStartGlobalX=globalX;
 		MoveCurrentGlobalY=MoveStartGlobalY=globalY;
-		DrawingMode=_PasteMove;
+		DrawingShapeMode=_PasteMove;
 		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 			int	localX,localY;
 			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 			GetLayersBase()->GetPageData(page)->GetLocalMatrixFromGlobalInMaster(MoveStartGlobalX,MoveStartGlobalY,localX ,localY);
 			GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
 			Cmd.InstName=GetName();
-			Cmd.DMode=DrawingMode;
+			Cmd.DMode=DrawingShapeMode;
 			Cmd.localX=localX;
 			Cmd.localY=localY;
 			if(Cmd.SendOnly(GlobalPage,0)==false){
@@ -2810,7 +2810,7 @@ void	DisplayImage::SlotMouseLDoubleClick(int globalX,int globalY)
 		}
 		BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
 	}
-	else if((DrawingMode==_PasteMove) && (PastedItems!=NULL)){
+	else if((DrawingShapeMode==_PasteMove) && (PastedItems!=NULL)){
 		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 			GUICmdExecutePaste	Cmd(GetLayersBase(),GUICmdExecutePaste::_PurePaste,EmitterRoot,EmitterName ,GlobalPage);
@@ -2821,17 +2821,17 @@ void	DisplayImage::SlotMouseLDoubleClick(int globalX,int globalY)
 		}
 		BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
 	}
-	else if((DrawingMode==_PasteCreateShapeStart) && (PastedItems!=NULL)){
+	else if((DrawingShapeMode==_PasteCreateShapeStart) && (PastedItems!=NULL)){
 		MoveCurrentGlobalX=MoveStartGlobalX=globalX;
 		MoveCurrentGlobalY=MoveStartGlobalY=globalY;
-		DrawingMode=_PasteCreateShape;
+		DrawingShapeMode=_PasteCreateShape;
 		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 			int	localX,localY;
 			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 			GetLayersBase()->GetPageData(page)->GetLocalMatrixFromGlobalInMaster(MoveStartGlobalX,MoveStartGlobalY,localX ,localY);
 			GUICmdSyncDrawingMode	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
 			Cmd.InstName=GetName();
-			Cmd.DMode=DrawingMode;
+			Cmd.DMode=DrawingShapeMode;
 			Cmd.localX=localX;
 			Cmd.localY=localY;
 			if(Cmd.SendOnly(GlobalPage,0)==false){
@@ -2841,27 +2841,27 @@ void	DisplayImage::SlotMouseLDoubleClick(int globalX,int globalY)
 		ExecutePasteShape(/**/"",/**/"");
 		BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
 	}
-	else if((DrawingMode==_PasteCreateShape) && (PastedItems!=NULL)){
+	else if((DrawingShapeMode==_PasteCreateShape) && (PastedItems!=NULL)){
 		ExecutePasteShape(/**/"",/**/"");
 		BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
 	}
-	else if(DrawingMode==_PasteForImage){
+	else if(DrawingShapeMode==_PasteForImage){
 		ExecutePasteForImage(/**/"",/**/"");
 		BroadcastDirectly(_BC_BuildForShow,GetLayersBase()->GetCurrentInspectIDForDisplay());
 	}
-	else if(DrawingMode==_ItemMove){
+	else if(DrawingShapeMode==_ItemMove){
 		ExecuteMove();
 		MoveFinish();
 		Repaint();
 	}
-	else if(DrawingMode==_RotateMoveAngling){
+	else if(DrawingShapeMode==_RotateMoveAngling){
 		RotateFinish();
-		DrawingMode=_Normal;
+		DrawingShapeMode=_Normal;
 	}
-	else if(DrawingMode==_ExtendMoving){
+	else if(DrawingShapeMode==_ExtendMoving){
 		ExtendFinish();
 		Repaint();
-		DrawingMode=_Normal;
+		DrawingShapeMode=_Normal;
 	}
 	else{
 		emit	SignalMouseLDoubleClick(globalX,globalY);
@@ -3719,20 +3719,20 @@ void	DisplayImage::SetMouseCursorPos(int XonG, int YonG)
 	}
 }
 
-void	DisplayImage::SetDrawingMode(__DrawingMode mode)
+void	DisplayImage::SetDrawingMode(__DrawingShapeMode mode)
 {
-	DrawingMode=mode;
+	DrawingShapeMode=mode;
 }
 
 	
-void	DisplayImage::SetCursor(mtFrameDraw::DrawingMode mode)
+void	DisplayImage::SetCursor(DrawingMode mode)
 {
 	if(MainCanvas!=NULL){
 		MainCanvas->SetCursor(mode);
 	}
 }
 
-void	DisplayImage::SetCursor(DisplayImage::__DrawingMode mode)
+void	DisplayImage::SetCursor(DisplayImage::__DrawingShapeMode mode)
 {
 	if(mode==_MeasureFirst || mode==_MeasureSecond){
 		setCursor(QCursor(QPixmap(/**/":/Resources/Meassure1.PNG"),0,0));
@@ -3777,7 +3777,7 @@ void	DisplayImage::SlotSelectDrawShape(QMouseEvent * event )
 }
 void	DisplayImage::SlotSelectRectangle()
 {
-	DrawRectMode=mtFrameDraw::fdRectangle;
+	DrawRectMode=fdRectangle;
 	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
 		MainCanvas->Clear();
 		MainCanvas->SetMode(DrawRectMode);
@@ -3787,7 +3787,7 @@ void	DisplayImage::SlotSelectLine()
 {
 	EditLineWidthDialog	D(GetLayersBase());
 	if(D.exec()==true){
-		DrawRectMode=mtFrameDraw::fdChoppedLine;
+		DrawRectMode=fdChoppedLine;
 		if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
 			MainCanvas->Clear();
 			MainCanvas->SetLineWidth(D.LineWidth);
@@ -3797,7 +3797,7 @@ void	DisplayImage::SlotSelectLine()
 }
 void	DisplayImage::SlotSelectEllipseCenter()
 {
-	DrawRectMode=mtFrameDraw::fdEllipse;
+	DrawRectMode=fdEllipse;
 	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
 		MainCanvas->Clear();
 		MainCanvas->SetMode(DrawRectMode);
@@ -3805,7 +3805,7 @@ void	DisplayImage::SlotSelectEllipseCenter()
 }
 void	DisplayImage::SlotSelectEllipse4Points()
 {
-	DrawRectMode=mtFrameDraw::fdEllipse4;
+	DrawRectMode=fdEllipse4;
 	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
 		MainCanvas->Clear();
 		MainCanvas->SetMode(DrawRectMode);
@@ -3813,7 +3813,7 @@ void	DisplayImage::SlotSelectEllipse4Points()
 }
 void	DisplayImage::SlotSelectLongCircle()
 {
-	DrawRectMode=mtFrameDraw::fdLongCircle;
+	DrawRectMode=fdLongCircle;
 	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
 		MainCanvas->Clear();
 		MainCanvas->SetMode(DrawRectMode);
@@ -3821,7 +3821,7 @@ void	DisplayImage::SlotSelectLongCircle()
 }
 void	DisplayImage::SlotSelectRotatedRect()
 {
-	DrawRectMode=mtFrameDraw::fdRotRectangle;
+	DrawRectMode=fdRotRectangle;
 	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
 		MainCanvas->Clear();
 		MainCanvas->SetMode(DrawRectMode);
@@ -3829,7 +3829,7 @@ void	DisplayImage::SlotSelectRotatedRect()
 }
 void	DisplayImage::SlotSelectRing()
 {
-	DrawRectMode=mtFrameDraw::fdRing;
+	DrawRectMode=fdRing;
 	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
 		MainCanvas->Clear();
 		MainCanvas->SetMode(DrawRectMode);
@@ -3837,7 +3837,7 @@ void	DisplayImage::SlotSelectRing()
 }
 void	DisplayImage::SlotSelectPolygon()
 {
-	DrawRectMode=mtFrameDraw::fdPoly;
+	DrawRectMode=fdPoly;
 	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
 		MainCanvas->Clear();
 		MainCanvas->SetMode(DrawRectMode);
@@ -3845,7 +3845,7 @@ void	DisplayImage::SlotSelectPolygon()
 }
 void	DisplayImage::SlotSelectFreeHand()
 {
-	DrawRectMode=mtFrameDraw::fdFree;
+	DrawRectMode=fdFree;
 	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
 		MainCanvas->Clear();
 		MainCanvas->SetMode(DrawRectMode);
@@ -3853,7 +3853,7 @@ void	DisplayImage::SlotSelectFreeHand()
 }
 void	DisplayImage::SlotSelectPour()
 {
-	DrawRectMode=mtFrameDraw::fdPoint;
+	DrawRectMode=fdPoint;
 	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
 		PourImageDialog	D(GetLayersBase());
 		if(D.exec()==true){
@@ -3867,7 +3867,7 @@ void	DisplayImage::SlotSelectPour()
 }
 void	DisplayImage::SlotSelectReplaceColor()
 {
-	DrawRectMode=mtFrameDraw::fdPoint;
+	DrawRectMode=fdPoint;
 	if(DrawRectBtn!=NULL && DrawRectBtn->isChecked()==true){
 		PourImageDialog	D(GetLayersBase());
 		D.setWindowTitle(LangDISolver.GetString(XDisplayImage_LS,LID_214)/*"Replace color"*/);
@@ -4408,7 +4408,7 @@ void	DisplayImage::ExecuteMenu(int ID)
 			break;
 	}
 }
-void	DisplayImage::SlotDrawing(mtFrameDraw::DrawingMode mode,int stage)
+void	DisplayImage::SlotDrawing(DrawingMode mode,int stage)
 {
 	if(MainCanvas!=NULL){
 		QString	Status=MainCanvas->ToString(mode)+QString(/**/" ")+QString::number(stage);

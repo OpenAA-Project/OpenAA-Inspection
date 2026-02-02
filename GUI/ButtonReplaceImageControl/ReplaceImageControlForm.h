@@ -39,7 +39,7 @@ class ReplaceImageControlForm : public QWidget,public ServiceForLayers
 
     ButtonReplaceImageControl   *Parent;
     IntList                     CompPageList;
-    mtFrameDraw::DrawingMode    LastDrawingMode;
+    DrawingMode    LastDrawingMode;
     QColor	LastDrawingColor;
 public:
     explicit ReplaceImageControlForm(LayersBase *base 

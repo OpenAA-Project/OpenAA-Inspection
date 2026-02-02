@@ -690,7 +690,7 @@ void ImagePanelTools::NoneButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdNone, LineColor);
+				m->SetModeByOthers(fdNone, LineColor);
 			}
 		}
 	}
@@ -705,7 +705,7 @@ void ImagePanelTools::RectangleButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdRectangle, LineColor);
+				m->SetModeByOthers(fdRectangle, LineColor);
 			}
 		}
 	}
@@ -720,7 +720,7 @@ void ImagePanelTools::EndlessLineButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdLine, LineColor);
+				m->SetModeByOthers(fdLine, LineColor);
 			}
 		}
 	}
@@ -735,7 +735,7 @@ void ImagePanelTools::LineButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdChoppedLine, LineColor);
+				m->SetModeByOthers(fdChoppedLine, LineColor);
 			}
 		}
 	}
@@ -750,7 +750,7 @@ void ImagePanelTools::HLineButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdHChoppedLine, LineColor);
+				m->SetModeByOthers(fdHChoppedLine, LineColor);
 			}
 		}
 	}
@@ -765,7 +765,7 @@ void ImagePanelTools::VLineButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdVChoppedLine, LineColor);
+				m->SetModeByOthers(fdVChoppedLine, LineColor);
 			}
 		}
 	}
@@ -780,7 +780,7 @@ void ImagePanelTools::HalfLineButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdHalfLine, LineColor);
+				m->SetModeByOthers(fdHalfLine, LineColor);
 			}
 		}
 	}
@@ -795,7 +795,7 @@ void ImagePanelTools::EllipseButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdEllipse, LineColor);
+				m->SetModeByOthers(fdEllipse, LineColor);
 			}
 		}
 	}
@@ -810,7 +810,7 @@ void ImagePanelTools::Ellipse4ButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdEllipse4, LineColor);
+				m->SetModeByOthers(fdEllipse4, LineColor);
 			}
 		}
 	}
@@ -825,7 +825,7 @@ void ImagePanelTools::RotRectangleButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdRotRectangle, LineColor);
+				m->SetModeByOthers(fdRotRectangle, LineColor);
 			}
 		}
 	}
@@ -840,7 +840,7 @@ void ImagePanelTools::RotEllipseButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdRotEllipse, LineColor);
+				m->SetModeByOthers(fdRotEllipse, LineColor);
 			}
 		}
 	}
@@ -856,7 +856,7 @@ void ImagePanelTools::ArcButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdArc, LineColor);
+				m->SetModeByOthers(fdArc, LineColor);
 			}
 		}
 	}
@@ -871,7 +871,7 @@ void ImagePanelTools::Arc3ButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdArc3, LineColor);
+				m->SetModeByOthers(fdArc3, LineColor);
 			}
 		}
 	}
@@ -886,7 +886,7 @@ void ImagePanelTools::CircleButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdCircle, LineColor);
+				m->SetModeByOthers(fdCircle, LineColor);
 			}
 		}
 	}
@@ -901,7 +901,7 @@ void ImagePanelTools::Circle3ButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdCircle3, LineColor);
+				m->SetModeByOthers(fdCircle3, LineColor);
 			}
 		}
 	}
@@ -916,7 +916,7 @@ void ImagePanelTools::LongCircleButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdLongCircle, LineColor);
+				m->SetModeByOthers(fdLongCircle, LineColor);
 			}
 		}
 	}
@@ -931,7 +931,7 @@ void ImagePanelTools::RingButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdRing, LineColor);
+				m->SetModeByOthers(fdRing, LineColor);
 			}
 		}
 	}
@@ -946,7 +946,7 @@ void ImagePanelTools::DotButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdPoint, LineColor);
+				m->SetModeByOthers(fdPoint, LineColor);
 			}
 		}
 	}
@@ -961,7 +961,7 @@ void ImagePanelTools::PolylineButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdPoly, LineColor);
+				m->SetModeByOthers(fdPoly, LineColor);
 			}
 		}
 	}
@@ -976,7 +976,7 @@ void ImagePanelTools::FreelineButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdFree, LineColor);
+				m->SetModeByOthers(fdFree, LineColor);
 			}
 		}
 	}
@@ -991,7 +991,7 @@ void ImagePanelTools::RingArc1ButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdRingArc1, LineColor);
+				m->SetModeByOthers(fdRingArc1, LineColor);
 			}
 		}
 	}
@@ -1006,7 +1006,7 @@ void ImagePanelTools::RingArc4ButtonDown (bool checked)
 				continue;
 			DisplayImage	*m=dynamic_cast<DisplayImage *>(r);
 			if(m!=NULL){
-				m->SetModeByOthers(mtFrameDraw::fdRingArc4, LineColor);
+				m->SetModeByOthers(fdRingArc4, LineColor);
 			}
 		}
 	}
@@ -1493,180 +1493,180 @@ void	ImagePanelTools::TransmitDirectly(GUIDirectMessage *packet)
 	CmdPanelGetButton	*CmdPanelGetButtonVar=dynamic_cast<CmdPanelGetButton *>(packet);
 	if(CmdPanelGetButtonVar!=NULL){
 		if(RectangleButton!=NULL && RectangleButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdRectangle;
+			CmdPanelGetButtonVar->Mode=fdRectangle;
 		else if(EndlessLineButton!=NULL && EndlessLineButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdLine;
+			CmdPanelGetButtonVar->Mode=fdLine;
 		else if(LineButton!=NULL && LineButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdChoppedLine;
+			CmdPanelGetButtonVar->Mode=fdChoppedLine;
 		else if(HLineButton!=NULL && HLineButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdHChoppedLine;
+			CmdPanelGetButtonVar->Mode=fdHChoppedLine;
 		else if(VLineButton!=NULL && VLineButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdVChoppedLine;
+			CmdPanelGetButtonVar->Mode=fdVChoppedLine;
 		else if(HalfLineButton!=NULL && HalfLineButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdHalfLine;
+			CmdPanelGetButtonVar->Mode=fdHalfLine;
 		else if(EllipseButton!=NULL && EllipseButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdEllipse;
+			CmdPanelGetButtonVar->Mode=fdEllipse;
 		else if(Ellipse4Button!=NULL && Ellipse4Button->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdEllipse4;
+			CmdPanelGetButtonVar->Mode=fdEllipse4;
 		else if(RotRectangleButton!=NULL && RotRectangleButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdRotRectangle;
+			CmdPanelGetButtonVar->Mode=fdRotRectangle;
 		else if(RotEllipseButton!=NULL && RotEllipseButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdRotEllipse;
+			CmdPanelGetButtonVar->Mode=fdRotEllipse;
 		else if(ArcButton!=NULL && ArcButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdArc;
+			CmdPanelGetButtonVar->Mode=fdArc;
 		else if(Arc3Button!=NULL && Arc3Button->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdArc3;
+			CmdPanelGetButtonVar->Mode=fdArc3;
 		else if(CircleButton!=NULL && CircleButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdCircle;
+			CmdPanelGetButtonVar->Mode=fdCircle;
 		else if(Circle3Button!=NULL && Circle3Button->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdCircle3;
+			CmdPanelGetButtonVar->Mode=fdCircle3;
 		else if(LongCircleButton!=NULL && LongCircleButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdLongCircle;
+			CmdPanelGetButtonVar->Mode=fdLongCircle;
 		else if(RingButton!=NULL && RingButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdRing;
+			CmdPanelGetButtonVar->Mode=fdRing;
 		else if(DotButton!=NULL && DotButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdPoint;
+			CmdPanelGetButtonVar->Mode=fdPoint;
 		else if(PolylineButton!=NULL && PolylineButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdPoly;
+			CmdPanelGetButtonVar->Mode=fdPoly;
 		else if(FreelineButton!=NULL && FreelineButton->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdFree;
+			CmdPanelGetButtonVar->Mode=fdFree;
 		else if(RingArc1Button!=NULL && RingArc1Button->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdRingArc1;
+			CmdPanelGetButtonVar->Mode=fdRingArc1;
 		else if(RingArc4Button!=NULL && RingArc4Button->isChecked()==true)
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdRingArc4;
+			CmdPanelGetButtonVar->Mode=fdRingArc4;
 		else		
-			CmdPanelGetButtonVar->Mode=mtFrameDraw::fdNone;
+			CmdPanelGetButtonVar->Mode=fdNone;
 	}
 	CmdPanelSetButton	*CmdPanelSetButtonVar=dynamic_cast<CmdPanelSetButton *>(packet);
 	if(CmdPanelSetButtonVar!=NULL){
 		switch(CmdPanelSetButtonVar->Mode){
-			case mtFrameDraw::fdNone:
+			case fdNone:
 				if(NoneButton!=NULL){
 					NoneButton->setChecked(true);
 					NoneButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdRectangle:
+			case fdRectangle:
 				if(RectangleButton!=NULL){
 					RectangleButton->setChecked(true);
 					RectangleButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdLine:
+			case fdLine:
 				if(EndlessLineButton!=NULL){
 					EndlessLineButton->setChecked(true);
 					EndlessLineButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdChoppedLine:
+			case fdChoppedLine:
 				if(LineButton!=NULL){
 					LineButton->setChecked(true);
 					LineButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdHChoppedLine:
+			case fdHChoppedLine:
 				if(HLineButton!=NULL){
 					HLineButton->setChecked(true);
 					HLineButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdVChoppedLine:
+			case fdVChoppedLine:
 				if(VLineButton!=NULL){
 					VLineButton->setChecked(true);
 					VLineButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdHalfLine:
+			case fdHalfLine:
 				if(HalfLineButton!=NULL){
 					HalfLineButton->setChecked(true);
 					HalfLineButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdEllipse:
+			case fdEllipse:
 				if(EllipseButton!=NULL){
 					EllipseButton->setChecked(true);
 					EllipseButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdEllipse4:
+			case fdEllipse4:
 				if(Ellipse4Button!=NULL){
 					Ellipse4Button->setChecked(true);
 					Ellipse4ButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdRotRectangle:
+			case fdRotRectangle:
 				if(RotRectangleButton!=NULL){
 					RotRectangleButton->setChecked(true);
 					RotRectangleButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdRotEllipse:
+			case fdRotEllipse:
 				if(RotEllipseButton!=NULL){
 					RotEllipseButton->setChecked(true);
 					RotEllipseButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdArc:
+			case fdArc:
 				if(ArcButton!=NULL){
 					ArcButton->setChecked(true);
 					ArcButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdArc3:
+			case fdArc3:
 				if(Arc3Button!=NULL){
 					Arc3Button->setChecked(true);
 					Arc3ButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdCircle:
+			case fdCircle:
 				if(CircleButton!=NULL){
 					CircleButton->setChecked(true);
 					CircleButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdCircle3:
+			case fdCircle3:
 				if(Circle3Button!=NULL){
 					Circle3Button->setChecked(true);
 					Circle3ButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdLongCircle:
+			case fdLongCircle:
 				if(LongCircleButton!=NULL){
 					LongCircleButton->setChecked(true);
 					LongCircleButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdRing:
+			case fdRing:
 				if(RingButton!=NULL){
 					RingButton->setChecked(true);
 					RingButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdPoint:
+			case fdPoint:
 				if(DotButton!=NULL){
 					DotButton->setChecked(true);
 					DotButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdPoly:
+			case fdPoly:
 				if(PolylineButton!=NULL){
 					PolylineButton->setChecked(true);
 					PolylineButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdFree:
+			case fdFree:
 				if(FreelineButton!=NULL){
 					FreelineButton->setChecked(true);
 					FreelineButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdRingArc1:
+			case fdRingArc1:
 				if(RingArc1Button!=NULL){
 					RingArc1Button->setChecked(true);
 					RingArc1ButtonDown(true);
 				}
 				break;
-			case mtFrameDraw::fdRingArc4:
+			case fdRingArc4:
 				if(RingArc4Button!=NULL){
 					RingArc4Button->setChecked(true);
 					RingArc4ButtonDown(true);

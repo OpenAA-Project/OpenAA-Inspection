@@ -125,7 +125,7 @@ void	AlignmentLargeImagePanel::StartPage(void)
 
 void	AlignmentLargeImagePanel::CanvasSlotOnPaint(QPainter &pnt)
 {
-	if(GetDisplayType()==DisplayImage::__BitBuff){
+	if(GetDisplayType()==__BitBuff){
 		AlgorithmBase	*A=GetAlgorithmBase();
 		AlignmentLargeBase	*Ab=dynamic_cast<AlignmentLargeBase *>(A);
 		if(Ab!=NULL){

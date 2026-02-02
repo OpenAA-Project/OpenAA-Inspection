@@ -671,7 +671,7 @@ void PropertyResultBinderForm::on_toolButtonAlignmentItem_clicked()
 {
 	DisplayImage	*GProp=(DisplayImage *)GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ResultBinderImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		GProp->SetModeByOthers(mtFrameDraw::fdRectangle,Qt::red);
+		GProp->SetModeByOthers(fdRectangle,Qt::red);
 	}
 }
 
@@ -679,7 +679,7 @@ void PropertyResultBinderForm::on_toolButtonAllItemsInLayer_clicked()
 {
 	DisplayImage	*GProp=(DisplayImage *)GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ResultBinderImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		GProp->SetModeByOthers(mtFrameDraw::fdRectangle,Qt::red);
+		GProp->SetModeByOthers(fdRectangle,Qt::red);
 	}
 }
 
@@ -687,7 +687,7 @@ void PropertyResultBinderForm::on_toolButtonAllItemsInPage_clicked()
 {
 	DisplayImage	*GProp=(DisplayImage *)GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ResultBinderImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		GProp->SetModeByOthers(mtFrameDraw::fdRectangle,Qt::red);
+		GProp->SetModeByOthers(fdRectangle,Qt::red);
 	}
 }
 
@@ -695,7 +695,7 @@ void PropertyResultBinderForm::on_toolButtonOperationOR_clicked()
 {
 	DisplayImage	*GProp=(DisplayImage *)GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ResultBinderImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		GProp->SetModeByOthers(mtFrameDraw::fdRectangle,Qt::red);
+		GProp->SetModeByOthers(fdRectangle,Qt::red);
 	}
 
 }
@@ -704,7 +704,7 @@ void PropertyResultBinderForm::on_toolButtonOperationAND_clicked()
 {
 	DisplayImage	*GProp=(DisplayImage *)GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ResultBinderImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		GProp->SetModeByOthers(mtFrameDraw::fdRectangle,Qt::red);
+		GProp->SetModeByOthers(fdRectangle,Qt::red);
 	}
 }
 
@@ -712,7 +712,7 @@ void PropertyResultBinderForm::on_toolButtonOperationXOR_clicked()
 {
 	DisplayImage	*GProp=(DisplayImage *)GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ResultBinderImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		GProp->SetModeByOthers(mtFrameDraw::fdRectangle,Qt::red);
+		GProp->SetModeByOthers(fdRectangle,Qt::red);
 	}
 }
 
@@ -720,7 +720,7 @@ void PropertyResultBinderForm::on_toolButtonOperationNEG_clicked()
 {
 	DisplayImage	*GProp=(DisplayImage *)GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ResultBinderImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		GProp->SetModeByOthers(mtFrameDraw::fdRectangle,Qt::red);
+		GProp->SetModeByOthers(fdRectangle,Qt::red);
 	}
 }
 
@@ -728,7 +728,7 @@ void PropertyResultBinderForm::on_toolButtonOperationConditional_clicked()
 {
 	DisplayImage	*GProp=(DisplayImage *)GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ResultBinderImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		GProp->SetModeByOthers(mtFrameDraw::fdRectangle,Qt::red);
+		GProp->SetModeByOthers(fdRectangle,Qt::red);
 	}
 }
 
@@ -736,7 +736,7 @@ void PropertyResultBinderForm::on_toolButtonNothing_clicked()
 {
 	DisplayImage	*GProp=(DisplayImage *)GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ResultBinderImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		GProp->SetModeByOthers(mtFrameDraw::fdNone,Qt::red);
+		GProp->SetModeByOthers(fdNone,Qt::red);
 	}
 }
 
@@ -744,7 +744,7 @@ void PropertyResultBinderForm::on_toolButtonLinkArrow_clicked()
 {
 	DisplayImage	*GProp=(DisplayImage *)GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ResultBinderImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		GProp->SetModeByOthers(mtFrameDraw::fdSingleArrow,Qt::red);
+		GProp->SetModeByOthers(fdSingleArrow,Qt::red);
 	}
 }
 

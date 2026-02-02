@@ -24,12 +24,12 @@
 #include <QMessageBox>
 
 XMLExplorer::XMLExplorer(QWidget *parent, Qt::WindowFlags flags)
-	: QMainWindow(parent, flags)
+	: QMainWindow(parent,flags),ControlRememberer(NULL)
 {
 	ui.setupUi(this);
 	Server=NULL;
 
-	ControlRememberer::SetDefaultFileName("XMLExplorerRememberer.dat");
+	ControlRememberer::SetRemembererDefaultFileName("XMLExplorerRememberer.dat");
 
 	ui.lineEditIPAddress				->setText(ControlRememberer::GetString(ui.lineEditIPAddress			,"localhost"));
 	ui.spinBoxPortNumber				->setValue(ControlRememberer::GetInt(ui.spinBoxPortNumber			,12345));

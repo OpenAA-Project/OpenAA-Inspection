@@ -99,10 +99,10 @@ void SelectLearningImageForm::on_pushButtonClose_clicked()
 		DisplayImage	*DImg=dynamic_cast<DisplayImage *>(m);
 		if(DImg!=NULL){
 			DImg->RemoveHook(this);
-			if(DImg->GetDisplayType()==DisplayImage::__Master){
+			if(DImg->GetDisplayType()==__Master){
 				Mastered=true;
 			}
-			if(DImg->GetDisplayType()==DisplayImage::__Target || DImg->GetDisplayType()==DisplayImage::__DelayedView){
+			if(DImg->GetDisplayType()==__Target || DImg->GetDisplayType()==__DelayedView){
 				Mastered=false;
 			}
 		}
@@ -127,10 +127,10 @@ void SelectLearningImageForm::on_listWidget_clicked(const QModelIndex &)
 	if(m!=NULL){
 		DImg=dynamic_cast<DisplayImage *>(m);
 		if(DImg!=NULL){
-			if(DImg->GetDisplayType()==DisplayImage::__Master){
+			if(DImg->GetDisplayType()==__Master){
 				Mastered=true;
 			}
-			if(DImg->GetDisplayType()==DisplayImage::__Target || DImg->GetDisplayType()==DisplayImage::__DelayedView){
+			if(DImg->GetDisplayType()==__Target || DImg->GetDisplayType()==__DelayedView){
 				Mastered=false;
 			}
 		}

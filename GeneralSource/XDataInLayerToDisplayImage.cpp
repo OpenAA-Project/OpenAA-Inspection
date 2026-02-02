@@ -33,7 +33,7 @@
 #include "XDataInLayerToDisplayImage.h"
 
 GUICmdReqBmpForTopView::GUICmdReqBmpForTopView(LayersBase *Base,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
-		:GUICmdReqBmp(Base,typeid(this).name(),EmitterRoot,EmitterName ,DisplayImage::__Master ,globalPage)
+		:GUICmdReqBmp(Base,typeid(this).name(),EmitterRoot,EmitterName ,__Master ,globalPage)
 {
 }
 GUICmdReqBmpForTopView::~GUICmdReqBmpForTopView(void)
@@ -72,7 +72,7 @@ GUICmdSendBmpForTopView::~GUICmdSendBmpForTopView(void)
 
 //====================================================================================
 
-GUICmdReqBmp::GUICmdReqBmp(LayersBase *Base,const QString &EmitterRoot,const QString &EmitterName ,DisplayImage::DisplayType dtype ,int globalPage)
+GUICmdReqBmp::GUICmdReqBmp(LayersBase *Base,const QString &EmitterRoot,const QString &EmitterName ,DisplayType dtype ,int globalPage)
 :GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
 {
 	Data.DType			=dtype;
@@ -82,7 +82,7 @@ GUICmdReqBmp::GUICmdReqBmp(LayersBase *Base,const QString &EmitterRoot,const QSt
 	Data.ShowNGMarkInTarget			=true;
 }
 
-GUICmdReqBmp::GUICmdReqBmp(LayersBase *Base,QString className,const QString &EmitterRoot,const QString &EmitterName ,DisplayImage::DisplayType dtype ,int globalPage)
+GUICmdReqBmp::GUICmdReqBmp(LayersBase *Base,QString className,const QString &EmitterRoot,const QString &EmitterName ,DisplayType dtype ,int globalPage)
 :GUICmdPacketBase(Base,EmitterRoot,EmitterName ,className,globalPage)
 {
 	Data.DType			=dtype;

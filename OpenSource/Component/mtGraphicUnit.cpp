@@ -46,7 +46,7 @@ void	mtQFrameDrawInGUnit::SlotDrawEnd(void)
 {
 	Parent->LaunchSignalDrawEnd();
 }
-void	mtQFrameDrawInGUnit::SlotDrawing(mtFrameDraw::DrawingMode mode,int stage)
+void	mtQFrameDrawInGUnit::SlotDrawing(DrawingMode mode,int stage)
 {
 	Parent->LaunchSignalDrawing(mode,stage);
 }
@@ -63,7 +63,7 @@ void	mtGraphicUnit::LaunchSignalDrawEnd(void)
 {
 	emit	SignalDrawEnd();
 }
-void	mtGraphicUnit::LaunchSignalDrawing(mtFrameDraw::DrawingMode mode,int stage)
+void	mtGraphicUnit::LaunchSignalDrawing(DrawingMode mode,int stage)
 {
 	emit	SignalDrawing(mode,stage);
 }
@@ -222,7 +222,7 @@ mtGraphicUnit::mtGraphicUnit(QWidget *parent
 
 
 	connect(FrDraw,SIGNAL(SignalDrawEnd(void))		,this,SLOT(SlotDrawEnd(void)));
-	connect(FrDraw,SIGNAL(SignalDrawing(mtFrameDraw::DrawingMode,int))		,this,SLOT(SlotDrawing(mtFrameDraw::DrawingMode,int)));
+	connect(FrDraw,SIGNAL(SignalDrawing(DrawingMode,int))		,this,SLOT(SlotDrawing(DrawingMode,int)));
 	connect(FrDraw,SIGNAL(SignalCancelDraw(void))	,this,SLOT(SlotCancelDraw(void)));
 	connect(FrDraw,SIGNAL(SignalOnPaint(QPainter &)),this,SLOT(SlotOnPaint(QPainter &)));
 	connect(FrDraw,SIGNAL(SignalEnter())			,this,SLOT(SlotEnter()));
@@ -279,7 +279,7 @@ mtGraphicUnit::mtGraphicUnit(QWidget *parent
 mtGraphicUnit::~mtGraphicUnit(void)
 {
 	disconnect(this,SLOT(SlotDrawEnd(void)));
-	disconnect(this,SLOT(SlotDrawing(mtFrameDraw::DrawingMode,int)));
+	disconnect(this,SLOT(SlotDrawing(DrawingMode,int)));
 	disconnect(this,SLOT(SlotCancelDraw(void)));
 	disconnect(this,SLOT(SlotOnPaint(QPainter &)));
 	disconnect(this,SLOT(SlotEnter()));
@@ -742,7 +742,7 @@ void	mtGraphicUnit::SetCancelDraw(void)
 		FrDraw->SetCancelDraw();
 	}
 }
-void	mtGraphicUnit::SetCursor(mtFrameDraw::DrawingMode mode)
+void	mtGraphicUnit::SetCursor(DrawingMode mode)
 {
 	FrDraw->SetCursor(mode);
 }
@@ -809,7 +809,7 @@ void	mtGraphicUnit::LaunchSignalMousePressEvent(QMouseEvent *Ev)
 void	mtGraphicUnit::SlotDrawEnd(void)
 {
 }
-void	mtGraphicUnit::SlotDrawing(mtFrameDraw::DrawingMode mode,int stage)
+void	mtGraphicUnit::SlotDrawing(DrawingMode mode,int stage)
 {
 }
 void	mtGraphicUnit::SlotCancelDraw(void)

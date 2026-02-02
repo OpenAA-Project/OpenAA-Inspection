@@ -1032,7 +1032,7 @@ void	PropertyGerberFastForm::GoNextStepAlignment(void)
 		if(GAlgo!=NULL && GAlgo->CenterizeByArea==false){
 			if(DProp!=NULL){
 				PanelModeAlignment=DProp->GetDrawMode();
-				DProp->SetModeByOthers(mtFrameDraw::fdNone,DProp->GetDrawColor());
+				DProp->SetModeByOthers(fdNone,DProp->GetDrawColor());
 			}
 		}
 	}
@@ -1055,7 +1055,7 @@ void	PropertyGerberFastForm::GoNextStepForAddAlignment(void)
 		if(GAlgo!=NULL && GAlgo->CenterizeByArea==false){
 			if(DProp!=NULL){
 				PanelModeAlignment=DProp->GetDrawMode();
-				DProp->SetModeByOthers(mtFrameDraw::fdNone,DProp->GetDrawColor());
+				DProp->SetModeByOthers(fdNone,DProp->GetDrawColor());
 			}
 		}
 	}
@@ -1118,7 +1118,7 @@ void	PropertyGerberFastForm::GoNextStepAMAlignment(void)
 		if(GAlgo!=NULL && GAlgo->CenterizeByArea==false){
 			if(DProp!=NULL){
 				PanelModeAlignment=DProp->GetDrawMode();
-				DProp->SetModeByOthers(mtFrameDraw::fdNone,DProp->GetDrawColor());
+				DProp->SetModeByOthers(fdNone,DProp->GetDrawColor());
 			}
 		}
 	}
@@ -1713,7 +1713,7 @@ void PropertyGerberFastForm::on_tableWidget_clicked(const QModelIndex &index)
 void PropertyGerberFastForm::on_tabWidgetProperty_currentChanged(int index)
 {
 	if(ui->tabWidgetProperty->currentIndex()==1){
-		PanelModeAlignment=mtFrameDraw::fdNone;
+		PanelModeAlignment=fdNone;
 	}
 	GerberFastBase	*GBase=GetGerberFastBase();
 	if(GBase->AutoMatchMethod==0)
@@ -2756,7 +2756,7 @@ void PropertyGerberFastForm::on_toolButtonDraw_clicked()
 
 		DisplayImageWithAlgorithm	*P=(DisplayImageWithAlgorithm *)GetImagePanel();
 		if(P!=NULL){
-			P->SetModeByOthers(mtFrameDraw::DrawingMode::fdNone ,Qt::red);
+			P->SetModeByOthers(DrawingMode::fdNone ,Qt::red);
 			P->AllUpToolButton();
 		}
 	}
@@ -3440,13 +3440,13 @@ void PropertyGerberFastForm::on_toolButtonCreateLine_clicked()
 	DisplayImage	*DProp=(DisplayImage *)GetImagePanel();
 	if(ui->toolButtonShearX->isChecked()==true){
 		if(DProp!=NULL){
-			DProp->SetModeByOthers(mtFrameDraw::fdChoppedLine ,Qt::red);
+			DProp->SetModeByOthers(fdChoppedLine ,Qt::red);
 			//DProp->CreateLineStart();
 		}
 	}
 	else{
 		if(DProp!=NULL){
-			DProp->SetModeByOthers(mtFrameDraw::fdNone ,Qt::red);
+			DProp->SetModeByOthers(fdNone ,Qt::red);
 			//DProp->CreateLineCancel();
 		}
 	}

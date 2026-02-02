@@ -49,7 +49,7 @@ class CameraChangeQuickPropertyForm : public GUIFormBase,public FunctionServerCl
     FloatRGBColor   RegularColor;
     FlexArea        ReferenceArea;
     QImage          ReferenceImage;
-    mtFrameDraw::DrawingMode    SavedDrawingMode;
+    DrawingMode     SavedDrawingMode;
 public:
     QString             TitleName;
     QString             LinkPanelInst;

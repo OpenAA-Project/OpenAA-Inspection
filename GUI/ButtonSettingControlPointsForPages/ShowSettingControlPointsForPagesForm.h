@@ -41,7 +41,7 @@ class ShowSettingControlPointsForPagesForm : public QWidget
     FlexArea        ControlPointArea;
     XYPointContainerWithName	*ControlPointsForPages;
 public:
-    explicit ShowSettingControlPointsForPagesForm(LayersBase *Base ,DisplayImage::DisplayType dtype,QWidget *parent = 0);
+    explicit ShowSettingControlPointsForPagesForm(LayersBase *Base ,DisplayType dtype,QWidget *parent = 0);
     ~ShowSettingControlPointsForPagesForm();
     
 

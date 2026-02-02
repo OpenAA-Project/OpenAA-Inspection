@@ -77,10 +77,10 @@ mtFrameDraw::mtFrameDraw(QWidget *parent)
 	LineWidth				=0.0;
 
 	connect(this,SIGNAL(SignalDrawEnd(void))	,this,SLOT(SlotDrawEnd(void)));
-	connect(this,SIGNAL(SignalDrawing(mtFrameDraw::DrawingMode,int))	,this,SLOT(SlotDrawing(mtFrameDraw::DrawingMode,int)));
+	connect(this,SIGNAL(SignalDrawing(DrawingMode,int))	,this,SLOT(SlotDrawing(DrawingMode,int)));
 	connect(this,SIGNAL(SignalCancelDraw(void))	,this,SLOT(SlotCancelDraw(void)));
 	connect(this,SIGNAL(SignalOnPaint(QPainter &))	,this,SLOT(SlotOnPaint(QPainter &)));
-	qRegisterMetaType<mtFrameDraw::DrawingMode>("mtFrameDraw::DrawingMode");
+	qRegisterMetaType<DrawingMode>("DrawingMode");
 	//grabKeyboard ();
 
 	if(Initialized==false){
@@ -103,7 +103,7 @@ void	mtFrameDraw::SlotDrawEnd(void)
 {
 //	setCursor(QCursor(Qt::ArrowCursor));
 }
-void	mtFrameDraw::SlotDrawing(mtFrameDraw::DrawingMode,int)
+void	mtFrameDraw::SlotDrawing(DrawingMode,int)
 {
 }
 void	mtFrameDraw::SlotCancelDraw(void)
@@ -1285,7 +1285,7 @@ void mtFrameDraw::SetClosedArea(bool Value)
 
 
 //---------------------------------------------------------------------------
-bool	mtFrameDraw::_ShapeData::Save(QIODevice *file)
+bool	_ShapeData::Save(QIODevice *file)
 {
 	int N;
 	switch(dtype){
@@ -1541,7 +1541,7 @@ bool	mtFrameDraw::_ShapeData::Save(QIODevice *file)
 		}
 	return(true);
 }
-bool	mtFrameDraw::_ShapeData::Load(QIODevice *file)
+bool	_ShapeData::Load(QIODevice *file)
 {
 	int N;
 	switch(dtype){
@@ -1820,7 +1820,7 @@ bool	ColPoint::Load(QIODevice *file)
 	return(true);
 }
 
-mtFrameDraw::_ShapeData::~_ShapeData(void)
+_ShapeData::~_ShapeData(void)
 {
 	if(dtype==fdFree){
 		if(UData.FreeData.points!=NULL){
@@ -3659,7 +3659,7 @@ void mtFrameDraw::ChangeMode(DrawingMode newmode)
 	ChangeCursor(newmode ,DrawStage);
 }
 
-void	mtFrameDraw::SetCursor(mtFrameDraw::DrawingMode mode)
+void	mtFrameDraw::SetCursor(DrawingMode mode)
 {
 	ChangeCursor(mode ,0);
 }
