@@ -650,7 +650,7 @@ bool		LayersBase::IsValid(int page ,int layer)	const
 
 const QString	LayersBase::GetUserPath(void)	const
 {
-	QStringList	L=UserPath.split('/');
+	QStringList	L=UserPath.split(QRegularExpression("[/\\\\]"));
 	if(L.count()>=2){
 		if(UserPath.isEmpty()==false){
 			return UserPath;
@@ -688,7 +688,7 @@ const QString	LayersBase::GetUserPath(void)	const
 
 const QString	LayersBase::GetUserPath(const QString &_UserPath)
 {
-	QStringList	L=_UserPath.split('/');
+	QStringList	L=_UserPath.split(QRegularExpression("[/\\\\]"));
 	if(L.count()>=2){
 		if(_UserPath.isEmpty()==false){
 			return _UserPath;
@@ -2412,7 +2412,7 @@ void	LayersBase::BroadcastMachineID(void)
 
 bool	LayersBase::MachineIDExists(void)
 {
-	if(GetDatabaseLoader()){
+	if(GetDatabaseLoader() && IsDatabaseOk()==true){
 		return GetDatabaseLoader()->G_MachineIDExists(GetDatabase() ,GetMachineID());
 	}
 	return false;
@@ -6350,7 +6350,7 @@ int32	LayersBase::GetThresholdParentLevelID(int LevelID)
 		QString LevelName;
 		int		ParentID;
 		QString Remark;
-		if(GetDatabaseLoader()){
+		if(GetDatabaseLoader() && IsDatabaseOk()==true){
 			if(GetDatabaseLoader()->S_LevelFindData(GetDatabase(),LevelID ,LevelValue ,LevelName ,ParentID,Remark)==true){
 				return ParentID;
 			}
@@ -6375,7 +6375,7 @@ int32	LayersBase::GetThresholdLevelValue(int LevelID)
 		QString LevelName;
 		int		ParentID;
 		QString Remark;
-		if(GetDatabaseLoader()){
+		if(GetDatabaseLoader() && IsDatabaseOk()==true){
 			if(GetDatabaseLoader()->S_LevelFindData(GetDatabase(),LevelID ,LevelValue ,LevelName ,ParentID,Remark)==true){
 				return LevelValue;
 			}
@@ -6546,7 +6546,7 @@ int	LayersBase::EnumThresholdLevelIDInFolder(IntList &RetLevelIDs ,int LevelPare
 	if(LevelParentID<0){
 		LevelParentID=ThresholdLevelParentID;
 	}
-	if(GetDatabaseLoader()){
+	if(GetDatabaseLoader() && IsDatabaseOk()==true){
 		return GetDatabaseLoader()->S_EnumLevelID(GetDatabase() ,LevelParentID ,RetLevelIDs);
 	}
 	return 0;

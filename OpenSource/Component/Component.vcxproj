@@ -107,7 +107,6 @@
   <ItemGroup>
     <QtMoc Include="mtFrameDraw3D.h" />
     <ClInclude Include="mtFrameDataType.h" />
-    <QtMoc Include="mtFrameDrawBase.h" />
     <ClInclude Include="mtGraph.h" />
     <ClInclude Include="mtImageButtonBase.h" />
     <ClInclude Include="mtImageSliderBase.h" />

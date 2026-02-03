@@ -75,13 +75,13 @@ EditParameter::EditParameter(LayersBase *base
     WTab = new WEditParameterTab(GetLayersBase()->GetParamGlobal() ,-1,ui->frameGlobalParam);
 
     GlobalParamLoadedFileName=GetLayersBase()->GetParamGlobal()->GetSavedFileName();
-    ui->lineEditGlobalParam->setText(GlobalParamLoadedFileName);
-    QFile	F(GetLayersBase()->GetParamGlobal()->GetSavedFileName());
-    if(F.open(QIODevice::ReadOnly)==true){
-        if(WTab->Load(&F)==true){
+    //ui->lineEditGlobalParam->setText(GlobalParamLoadedFileName);
+    //QFile	F(GetLayersBase()->GetParamGlobal()->GetSavedFileName());
+    //if(F.open(QIODevice::ReadOnly)==true){
+    //    if(WTab->Load(&F)==true){
             WTab->ShowToWindow();
-        }
-    }
+    //    }
+    //}
 	for(ParamClass *p = ParamList.GetFirst();p!=NULL;p = p->GetNext()){
 		GetLayersBase()->GetParamGlobal()->ParamBase::SetValue(p->ParamName,p->ParamValue);
 	}
@@ -260,7 +260,11 @@ void EditParameter::on_UpdateDefaultButton_clicked()
 {
     //QString	FileName=WTab->GetParamBase()->GetSavedFileName();
     //QFile	F(FileName);
-    QFile	F(GlobalParamLoadedFileName);
+    QDir::setCurrent(GetLayersBase()->GetUserPath());
+    QString FileName=GetLayersBase()->GetUserPath()
+                    +QDir::separator()
+                    +GlobalParamLoadedFileName;
+    QFile	F(FileName);
     if(F.open(QIODevice::WriteOnly)==true){
         WTab->LoadFromWindow();
         WStrategy->LoadFromWindow();

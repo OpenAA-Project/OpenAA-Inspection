@@ -26,7 +26,7 @@
 #include "NList.h"
 #include "mtMeter.h"
 #include "mtFrameDraw.h"
-#include "..\DisplayOpenGL\DisplayOpenGL.h""
+//#include "..\DisplayOpenGL\DisplayOpenGL.h""
 #include "mtWidgetPosition.h"
 #include <QWheelEvent>
 #include <QElapsedTimer>

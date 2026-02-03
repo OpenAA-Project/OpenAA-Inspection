@@ -865,7 +865,8 @@ ResultInPagePLI::~ResultInPagePLI(void)
 
 bool	ResultInPagePLI::Initial(ResultBaseForAlgorithmRoot *parent)
 {
-	SetDataInPage(parent->GetLayersBase()->GetPageData(GetPage()));
+	LayersBase	*LBase=parent->GetLayersBase();
+	SetDataInPage(LBase->GetPageData(GetPage()));
 	AlgoPointer=PhaseParent->AlgoPointer->GetPageData(Page);
 
 	int	LayerNumb=GetLayerNumb(GetPage());
@@ -873,14 +874,15 @@ bool	ResultInPagePLI::Initial(ResultBaseForAlgorithmRoot *parent)
 		Release();
 		Parent=parent;
 		for(int layer=0;layer<LayerNumb;layer++){
-			ResultInLayerPLI	*a=new ResultInLayerPLI(GetLayersBase()->GetPageData(GetPage())->GetLayerData(layer)
+			DataInLayer	*Ly=LBase->GetPageData(GetPage())->GetLayerData(layer);
+			ResultInLayerPLI	*a=new ResultInLayerPLI(Ly
 												,this);
 			//a->SetLayer(layer);
 			//a->Initial(parent);
 			LayerData.AppendList(a);
 		}
 	}
-	SetDataInPage(parent->GetLayersBase()->GetPageData(GetPage()));
+	SetDataInPage(LBase->GetPageData(GetPage()));
 	for(int layer=0;layer<LayerNumb;layer++){
 		ResultInLayerPLI	*a=LayerData[layer];
 		a->SetLayer(layer);
