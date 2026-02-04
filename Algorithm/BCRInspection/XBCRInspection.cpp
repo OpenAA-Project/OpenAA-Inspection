@@ -376,6 +376,11 @@ bool	BCRInspectionBase::GetBCR2D( bool BarcodeIsOnlyDigit
     //QImage image=image2.convertedTo(QImage::Format_Mono);
     image = image.convertToFormat(QImage::Format_Grayscale8);
 
+	
+	ZXing::ReaderOptions options;
+	options.setTryHarder(true);
+	options.setFormats(ZXing::BarcodeFormat::QRCode); // フォーマット指定
+
     if (!image.isNull()) {
         auto result = ZXing::ReadBarcode({
             image.bits(), 
@@ -383,7 +388,7 @@ bool	BCRInspectionBase::GetBCR2D( bool BarcodeIsOnlyDigit
             static_cast<int>(image.height()), 
             ZXing::ImageFormat::Lum,
             static_cast<int>(image.bytesPerLine())
-        });
+        },options);
 		Result=QString::fromStdString(result.text());
 		if(BarcodeIsOnlyDigit==true){
 			bool	ok;

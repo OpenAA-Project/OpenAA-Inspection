@@ -25,69 +25,16 @@
 #include <QAbstractButton>
 #include "NList.h"
 #include "mtMeter.h"
-#include "mtFrameDraw.h"
-//#include "..\DisplayOpenGL\DisplayOpenGL.h""
 #include "mtWidgetPosition.h"
 #include <QWheelEvent>
 #include <QElapsedTimer>
+#include "mtFrameDataType.h"
 
 class	mtPushButtonWithBalloon;
 class	mtGraphicUnit;
 class	mtScrollBar;
-
-
-class	mtQFrameDrawInGUnit :public mtFrameDraw
-{
-    Q_OBJECT
-	mtGraphicUnit	*Parent;
-public:
-	int				AreaSizeX;
-	int				AreaSizeY;
-
-public:
-    explicit	mtQFrameDrawInGUnit(mtGraphicUnit *mparent ,QWidget *parent = 0);
-
-protected:
-	virtual	void	mousePressEvent ( QMouseEvent *Ev )			override;
-	virtual	void	mtMousePoint(QMouseEvent *Ev ,int x ,int y ,bool &valid)	override;
-	virtual	void	mtMouseLDown(QMouseEvent *Ev ,int x ,int y)	override;
-	virtual	void	mtMouseRDown(QMouseEvent *Ev ,int x ,int y)	override;
-	virtual	void	mtMouseMove(QMouseEvent *Ev ,int x ,int y)	override;
-	virtual	void	mtMouseLUp(QMouseEvent *Ev ,int x ,int y)	;
-	virtual	void	mtMouseRUp(QMouseEvent *Ev ,int x ,int y)	;
-	virtual	void	ShiftPressed(int gx ,int gy)				;
-	virtual void	wheelEvent ( QWheelEvent * event )			override;
-
-signals:
-	void	SignalMouseMove(int ,int);
-	void	SignalMouseLDown(int ,int);
-	void	SignalMouseLUp(int ,int);
-	void	SignalMouseRDown(int ,int);
-	void	SignalMouseRUp(int ,int);
-	void	SignalWheel(QWheelEvent * e);
-
-private slots:
-	virtual void	SlotDrawEnd(void)			override;
-	virtual void	SlotDrawing(DrawingMode mode,int stage)	override;
-	virtual void	SlotCancelDraw(void)		override;
-	virtual void	SlotOnPaint(QPainter &pnt)	override;
-};
-
-class	mtScrollBar	:public QScrollBar
-{
-    Q_OBJECT
-	mtGraphicUnit	*Parent;
-public:
-	explicit	mtScrollBar(mtGraphicUnit *mparent , Qt::Orientation orientation,QWidget *parent = 0);
-protected:
-	virtual void sliderChange ( SliderChange change )	override;
-	virtual void enterEvent ( QEnterEvent * event )			override;
-	virtual void leaveEvent ( QEvent * event )			override;
-signals:
-	void	SignalEnter();
-	void	SignalLeave();
-
-};
+class	mtQFrameDrawInGUnit;
+class	mtScrollBar;
 
 
 class mtGraphicUnit : public mtWidgetPosition
@@ -176,19 +123,19 @@ public:
 	int		GetLongPushMilisec(void)	const	{	return LongPushMilisec;	}
 	void	SetLongPushMilisec(int n)			{	LongPushMilisec=n;		}
 
-	double	GetZoomRate(void)	const	{ return(FrDraw->GetZoomRate());	}
-	void	SetZoomRate(double ZoomRate){	FrDraw->SetZoomRate(ZoomRate);	}
-	int		GetMovx(void)		const	{ return(FrDraw->GetMovX());	}
-	int		GetMovy(void)		const	{ return(FrDraw->GetMovY());	}
-	void	SetMovXY(int mx ,int my)	{	FrDraw->SetMovXY(mx,my);	}
-	int		GetCanvasWidth(void) const	{ return(FrDraw->width()); }
-	int		GetCanvasHeight(void) const { return(FrDraw->height()); }
-	QSize	GetCanvasSize()		const	{ return FrDraw->size(); };
+	double	GetZoomRate(void)	const	;
+	void	SetZoomRate(double ZoomRate);
+	int		GetMovx(void)		const	;
+	int		GetMovy(void)		const	;
+	void	SetMovXY(int mx ,int my)	;
+	int		GetCanvasWidth(void) const	;
+	int		GetCanvasHeight(void) const ;
+	QSize	GetCanvasSize()		const	;
 	void	SetAreaSize(int xlen ,int ylen);
 	double	GetZoomRateForWhole(void)	const;
 	double	GetZoomRateForFit(void)		const;
-	void	SetLineWidth(double width)	{	FrDraw->SetLineWidth(width);	}
-	double	GetLineWidth(void)	const	{	return FrDraw->GetLineWidth();	}
+	void	SetLineWidth(double width)	;
+	double	GetLineWidth(void)	const	;
 
 	//QAbstractButton		*GetButtonZoomIn(void){	return(ButtonZoomIn);	}
 	//QAbstractButton		*GetButtonRect(void){	return(ButtonRect);		}
@@ -198,17 +145,17 @@ public:
 	void	SetSlider(void);
 	void	SetMeter(void);
 
-	void	SetMode(DrawingMode mode)	{	GetCanvas()->SetMode(mode);		}
-	DrawingMode GetMode(void)	const	{	return(GetCanvas()->GetMode());	}
+	void	SetMode(DrawingMode mode);
+	DrawingMode GetMode(void)	const;
 	void	SetCursor(DrawingMode mode);
-	void	SetFrameColor(const QColor &col){	GetCanvas()->SetFrameColor(col);	}
-	QColor	GetFrameColor(void)	const		{	return(GetCanvas()->GetFrameColor());	}
-	QPoint	GetCursorPos(void)				{	return 	GetCanvas()->GetCursorPos();	}
+	void	SetFrameColor(const QColor &col);
+	QColor	GetFrameColor(void)	const	;
+	QPoint	GetCursorPos(void)			;
 	bool	IsIncludeInCanvas(QPoint &P)const;
 	void	SetMouseCursorPos(int XonG, int YonG);
 	void	ExecuteMouseMove(int XonG, int YonG);
 	Qt::MouseButtons	&GetStateMouseButtons()		{	return StateMouseButtons;		}
-	QString	ToString(DrawingMode mode)	{	return FrDraw->ToString(mode);	}
+	QString	ToString(DrawingMode mode);
 
 	void	DrawFromOutside(QStringList &data);
 	void	SetCrossLineMode(bool mode ,const QColor &Col=Qt::yellow);
@@ -216,10 +163,10 @@ public:
 	void	SetFModeRepaintOnMouseMove(bool b)	;
 	bool	GetFModeRepaintOnMouseMove(void)	;
 
-	void	LockPaintMutex(void)	{	FrDraw->LockPaintMutex();		}
-	void	UnlockPaintMutex(void)	{	FrDraw->UnlockPaintMutex();		}
-	void	SetCancelClicked(bool b){	FrDraw->SetCancelClicked(b);	}
-	bool	GetCancelClicked(void)	const	{	return FrDraw->GetCancelClicked();	}
+	void	LockPaintMutex(void)	;
+	void	UnlockPaintMutex(void)	;
+	void	SetCancelClicked(bool b);
+	bool	GetCancelClicked(void)	const;
 private:
 	bool	IsInnerFuncMode(void){	return((InsideFunc!=0)?true:false);	}
 

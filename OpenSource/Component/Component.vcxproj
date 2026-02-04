@@ -108,6 +108,7 @@
     <QtMoc Include="mtFrameDraw3D.h" />
     <ClInclude Include="mtFrameDataType.h" />
     <ClInclude Include="mtGraph.h" />
+    <QtMoc Include="mtGraphUnitSub.h" />
     <ClInclude Include="mtImageButtonBase.h" />
     <ClInclude Include="mtImageSliderBase.h" />
     <QtMoc Include="WMultiGrid.h" />

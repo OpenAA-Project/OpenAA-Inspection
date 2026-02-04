@@ -179,6 +179,9 @@
     <QtMoc Include="mtFrameDraw3D.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="mtGraphUnitSub.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="mtFrameDraw.qrc">

@@ -24,7 +24,9 @@
 #include "mtGraphicUnit.h"
 #include "swap.h"
 #include "mtPushButtonWithBalloon.h"
-
+#include "mtGraphUnitSub.h"
+//#include "mtFrameDraw.h"
+#include "..\DisplayOpenGL\DisplayOpenGL.h""
 
 mtQFrameDrawInGUnit::mtQFrameDrawInGUnit(mtGraphicUnit *mparent ,QWidget *parent)
 :mtFrameDraw(parent)
@@ -407,6 +409,30 @@ mtQFrameDrawInGUnit	*mtGraphicUnit::GetCanvas(void)	const
 {
 	return(FrDraw);
 }
+
+void	mtGraphicUnit::SetMode(DrawingMode mode)		{	GetCanvas()->SetMode(mode);		}
+DrawingMode mtGraphicUnit::GetMode(void)	const		{	return(GetCanvas()->GetMode());	}
+void	mtGraphicUnit::SetFrameColor(const QColor &col)	{	GetCanvas()->SetFrameColor(col);	}
+QColor	mtGraphicUnit::GetFrameColor(void)	const		{	return(GetCanvas()->GetFrameColor());	}
+QPoint	mtGraphicUnit::GetCursorPos(void)				{	return 	GetCanvas()->GetCursorPos();	}
+QString	mtGraphicUnit::ToString(DrawingMode mode)		{	return FrDraw->ToString(mode);	}
+
+void	mtGraphicUnit::LockPaintMutex(void)				{	FrDraw->LockPaintMutex();		}
+void	mtGraphicUnit::UnlockPaintMutex(void)			{	FrDraw->UnlockPaintMutex();		}
+void	mtGraphicUnit::SetCancelClicked(bool b)			{	FrDraw->SetCancelClicked(b);	}
+bool	mtGraphicUnit::GetCancelClicked(void)	const	{	return FrDraw->GetCancelClicked();	}
+
+double	mtGraphicUnit::GetZoomRate(void)	const	{	return(FrDraw->GetZoomRate());	}
+void	mtGraphicUnit::SetZoomRate(double ZoomRate)	{	FrDraw->SetZoomRate(ZoomRate);	}
+int		mtGraphicUnit::GetMovx(void)		const	{	return(FrDraw->GetMovX());	}
+int		mtGraphicUnit::GetMovy(void)		const	{	return(FrDraw->GetMovY());	}
+void	mtGraphicUnit::SetMovXY(int mx ,int my)		{	FrDraw->SetMovXY(mx,my);	}
+int		mtGraphicUnit::GetCanvasWidth(void) const	{	return(FrDraw->width());		}
+int		mtGraphicUnit::GetCanvasHeight(void) const	{	return(FrDraw->height());		}
+QSize	mtGraphicUnit::GetCanvasSize()		const	{	return FrDraw->size();		};
+void	mtGraphicUnit::SetLineWidth(double width)	{	FrDraw->SetLineWidth(width);	}
+double	mtGraphicUnit::GetLineWidth(void)	const	{	return FrDraw->GetLineWidth();	}
+
 void	mtGraphicUnit::ZoomDraw( int movx, int movy, double ZoomRate)
 {
 	if(ZoomRate<FZoomRateMin){
