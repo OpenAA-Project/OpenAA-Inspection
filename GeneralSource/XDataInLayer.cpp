@@ -83,9 +83,7 @@
 #include "XShareMasterData.h"
 #include "XCSV.h"
 #include "XPrinterManager.h"
-#include "XPointer.h"
 #include "XImageExpand.h"
-#include "LensWindowForm.h"
 #include "XIntegrationComm.h"
 #include "XIntegrationBase.h"
 #include "XIntegrationPacketComm.h"
@@ -729,6 +727,10 @@ void	LayersBase::ResetSize(void)
 	for(int i=0;i<AllocatedPhaseNumb;i++){
 		PageDataPhase[i]->ResetSize();
 	}
+}
+void	LayersBase::EmitSignalChangeXY(void)
+{
+	emit	SignalChangedXY();
 }
 bool	LayersBase::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
 {
@@ -6086,38 +6088,6 @@ void	LayersBase::SetAllModeLoadSaveInPlayer(bool b)
 	}
 }
 
-LensWindowForm	*LayersBase::ShowLensWindow(bool ON ,const QString &WindowTitle)
-{
-	if(ON==true){
-		if(LensWindow==NULL){
-			LensWindow=new LensWindowForm(this);
-		}
-		LensWindow->setWindowTitle(WindowTitle);
-		LensWindow->show();
-	}
-	else{
-		if(LensWindow!=NULL){
-			LensWindow->hide();
-		}
-	}
-	return LensWindow;
-}
-LensWindowForm	*LayersBase::ShowLensWindow(void)
-{
-	if(LensWindow==NULL){
-		LensWindow=new LensWindowForm(this);
-	}
-	LensWindow->show();
-	return LensWindow;
-}
-bool	LayersBase::IsShowingLensWindow(void)
-{
-	if(LensWindow!=NULL && LensWindow->isHidden()==false){
-		return true;
-	}
-	return false;
-}
-
 void	LayersBase::CopyTargetToTransposition(void)
 {
 	if(GetParamGlobal()->CommonTargetBetweenPhases==false){
@@ -6132,13 +6102,6 @@ void	LayersBase::CopyTargetToTransposition(void)
 	}
 }
 
-LensWindowForm	*LayersBase::ShowLens(DisplayImage *_TargetPanel ,int GlobalX ,int GlobalY)
-{
-	if(LensWindow!=NULL){
-		LensWindow->ShowLens(_TargetPanel ,GlobalX ,GlobalY , _TargetPanel->GetDisplayType());
-	}
-	return LensWindow;
-}
 
 void	LayersBase::SetZoneWindow(GUIFormBase *w)
 {

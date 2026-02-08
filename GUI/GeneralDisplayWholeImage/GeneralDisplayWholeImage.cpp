@@ -366,19 +366,38 @@ void	GeneralDisplayWholeImage::SlotChangedMasterImage(int Phase ,int Page ,int L
 	Repaint();
 }
 
+bool	GeneralDisplayWholeImage::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
+{
+	MainCanvas.SetZoomRate(GetZoomRate());
+}
+
 double	GeneralDisplayWholeImage::GetZoomRate(void)
 {
-	int	globalX1;
-	int	globalY1;
-	int	globalX2;
-	int	globalY2;
-	GetLayersBase()->GetArea(globalX1,globalY1 ,globalX2,globalY2);
+	if(ShowOnePage<0 || GetPageNumb()<=ShowOnePage){
+		int	globalX1;
+		int	globalY1;
+		int	globalX2;
+		int	globalY2;
+		GetLayersBase()->GetArea(globalX1,globalY1 ,globalX2,globalY2);
 
-	double	zx=((double)MainCanvas.width())/((double)globalX2);
-	double	zy=((double)MainCanvas.height())/((double)globalY2);
-	double	ZoomRate=(zx>zy)?zy:zx;
-	MainCanvas.SetZoomRate(ZoomRate);
-	return ZoomRate;
+		double	zx=((double)MainCanvas.width())/((double)globalX2);
+		double	zy=((double)MainCanvas.height())/((double)globalY2);
+		double	ZoomRate=(zx>zy)?zy:zx;
+		MainCanvas.SetZoomRate(ZoomRate);
+		return ZoomRate;
+	}
+	else{
+		int	globalX1;
+		int	globalY1;
+		int	globalX2;
+		int	globalY2;
+		GetLayersBase()->GetPageData(ShowOnePage)->GetArea(globalX1,globalY1,globalX2,globalY2);
+		double	zx=((double)MainCanvas.width())/((double)globalX2);
+		double	zy=((double)MainCanvas.height())/((double)globalY2);
+		double	ZoomRate=(zx>zy)?zy:zx;
+		MainCanvas.SetZoomRate(ZoomRate);
+		return ZoomRate;
+	}
 }
 
 void	GeneralDisplayWholeImage::AllocatePacketMap(void)

@@ -56,7 +56,6 @@
 #include "XLogo.h"
 #include "XAnyData.h"
 #include <QMessageBox>
-#include "XDirectComm.h"
 #include "XGeneralStocker.h"
 #include "XServiceForLayers.h"
 #include "XGUI.h"
@@ -67,7 +66,6 @@
 #include "XDateTime.h"
 #include "XShareMasterData.h"
 #include "XPrinterManager.h"
-#include "XPointer.h"
 #include "XIntegrationComm.h"
 #include "XIntegrationPacketComm.h"
 

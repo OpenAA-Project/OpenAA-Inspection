@@ -219,7 +219,7 @@ bool	DisplayImage::DrawImage(QPainter &pnt  ,QImage &PntImage,IntList &LayerList
 		}
 		LockPaintMutex();
 		QBrush	brush(Qt::black);
-		pnt.fillRect (0,0,MainCanvas->GetCanvas()->width(),MainCanvas->GetCanvas()->height(), brush );
+		pnt.fillRect (0,0,MainCanvas->GetCanvasWidth(),MainCanvas->GetCanvasHeight(), brush );
 	
 		for(int page=LBase->GetPageNumb()-1;page>=0;page--){
 			//??`??a????O?I?a??

@@ -208,7 +208,7 @@ signals:
 	void	SignalChangedItems();
 
 protected:
-	struct _ShapeData *GetRawSDataPoint(void){	return &MainCanvas.GetCanvas()->SData;	}
+	struct _ShapeData *GetRawSDataPoint(void){	return MainCanvas.GetRawSDataPoint();	}
 
 	virtual	void	PaintFunc(QPainter &Pnt ,double ZoomRate , int movx , int movy){}
 

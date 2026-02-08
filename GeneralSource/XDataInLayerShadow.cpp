@@ -235,7 +235,6 @@ LayersBase::LayersBase(const LayersBase *_Parent,int shadownumber,bool _StartThr
 	PrinterClassPackData	=NULL;
 	ShrinkingPackContainerInstance	=Parent->ShrinkingPackContainerInstance;
 	ModeInspectionPlayer	=false;
-	LensWindow				=NULL;
 	ZoneWindow				=NULL;
 	CurrentZoneWindowComponent	=NULL;
 	ResultFromAlgorithm		=0;

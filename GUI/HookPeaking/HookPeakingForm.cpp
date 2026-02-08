@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2025
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -26,6 +26,9 @@
 #include "HookPeakingThread.h"
 #include "HookPeakingCommon.h"
 #include "XCriticalFunc.h"
+#include "XEntryPoint.h"
+#include "XDataInLayer.h"
+#include "XExecuteInspectBase.h"
 
 extern	const	char	*sRoot;
 extern	const	char	*sName;
@@ -44,6 +47,9 @@ HookPeakingForm::HookPeakingForm(LayersBase *Base ,QWidget *parent) :
 	MemoryType		=/**/"Target";
 	InitialValue	=50;
 	DrawTurn		=0;
+	Isolation	=4;
+	SensitivityVal = 5;
+	Radius		=2;
 
 	ButtonColor		=new mtPushButtonColored(this);
 	ButtonColor		->setGeometry(ui->toolButtonColor->geometry());
@@ -121,8 +127,9 @@ void	HookPeakingForm::ReadyParam(void)
 			Thread->wait(1000);
 			Thread->deleteLater();
 		}
-		Thread	=new ThreadPeaking(GetLayersBase(),this);
-		Thread->CRadius=&CRadius;
+		Thread	=new ThreadPeaking(GetLayersBase(),Isolation,this);
+		Thread->SetPeakingParam(SensitivityVal,Radius);
+
 		connect(Thread,SIGNAL(SignalShowPeaking()),this,SLOT(SlotShowPeaking()),Qt::QueuedConnection);
 		//Thread->start();
 	}
@@ -141,6 +148,13 @@ void	HookPeakingForm::ReadyParam(void)
 			}
 		}
 	}
+	bool	Ret=false;
+	ExecuteInspectBase	*E=GetLayersBase()->GetEntryPoint()->GetExecuteInspect();
+	if(E!=NULL){
+		Ret=(connect(E,SIGNAL(SignalCaptured(int))	,this,SLOT(SlotCaptured(int))	,Qt::QueuedConnection))?true:false;
+	}
+	Thread->Realloc();
+	Thread->start();
 }
 
 void HookPeakingForm::on_toolButtonMode_clicked()
@@ -158,6 +172,19 @@ void HookPeakingForm::on_toolButtonMode_clicked()
 void HookPeakingForm::on_toolButtonColor_clicked()
 {
 	TargetPanels.Repaint();
+}
+bool	HookPeakingForm::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
+{
+	if(Thread!=NULL){
+		Thread->Realloc();
+	}
+	return	true;
+}
+void	HookPeakingForm::SlotCaptured(int)
+{
+	if(ui->toolButtonMode->isChecked()==true){
+		Thread->SetTmage(GetTargetPage());
+	}
 }
 
 void	HookPeakingForm::TransmitDirectly(GUIDirectMessage *packet)
@@ -214,15 +241,7 @@ void	HookPeakingForm::SlotShowPeaking()
 void	HookPeakingForm::SetCalclating(bool b)
 {
 	if(Thread!=NULL){
-		if(b==true && Thread->isRunning()==false){
-			Thread->start();
-		}
-		else{
-			if(Thread->isRunning()==true){
-				Thread->Terminated=true;
-				Thread->wait(1000);
-			}
-		}
+		Thread->SetStartMode(b);
 	}
 }
 

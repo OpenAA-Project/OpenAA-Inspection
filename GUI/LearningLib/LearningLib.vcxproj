@@ -130,7 +130,7 @@
     <QtInstall>$(DefaultQtVersion)</QtInstall>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <QtModules>core;gui;network;sql;widgets;core5compat</QtModules>
+    <QtModules>core;gui;network;widgets;core5compat;opengl;openglwidgets;sql</QtModules>
     <QtInstall>$(DefaultQtVersion)</QtInstall>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

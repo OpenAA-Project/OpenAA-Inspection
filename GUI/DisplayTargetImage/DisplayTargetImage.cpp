@@ -56,6 +56,7 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 {
 	Q_INIT_RESOURCE(ServiceLib);
 	Q_INIT_RESOURCE(DisplayImage);
+	Q_INIT_RESOURCE(mtFrameDrawOGL);
 
 	DisplayImage::InitialDisplayImageInDLL(Base->GetGUICmdContainer(),Base ,sRoot ,sName ,__Target);
 
@@ -76,6 +77,7 @@ DEFFUNCEX	void	DLL_Close(void)
 	
 	Q_CLEANUP_RESOURCE(ServiceLib);
 	Q_CLEANUP_RESOURCE(DisplayImage);
+	Q_CLEANUP_RESOURCE(mtFrameDrawOGL);
 }
 
 DEFFUNCEX	GUIFormBase	*DLL_CreateInstance(LayersBase *Base,QWidget *parent)

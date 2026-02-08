@@ -297,28 +297,28 @@ void    IntegrationSimpleImagePanel::ColPointToArea(NPListPack<ShapePoint> &cdat
 void    IntegrationSimpleImagePanel::GetPoints(XYClassCluster &XYArea)
 {
 	XYClassArea	*A;
-	struct  _ShapeData	&P=MainCanvas.GetCanvas()->SData;
+	struct  _ShapeData	*P=MainCanvas.GetRawSDataPoint();
 	int	cx,cy,rx,ry;
 	int	x1,y1,x,y;
 	double	sins,coss;
 	double	ds,d,m;
-    switch(P.dtype){
+    switch(P->dtype){
         case fdRectangle:
 			A=new XYClassArea();
-			A->AppendList(new XYClass(P.UData.RectangleData.x1,P.UData.RectangleData.y1));
-			A->AppendList(new XYClass(P.UData.RectangleData.x2,P.UData.RectangleData.y1));
-			A->AppendList(new XYClass(P.UData.RectangleData.x2,P.UData.RectangleData.y2));
-			A->AppendList(new XYClass(P.UData.RectangleData.x1,P.UData.RectangleData.y2));
-			A->AppendList(new XYClass(P.UData.RectangleData.x1,P.UData.RectangleData.y1));
+			A->AppendList(new XYClass(P->UData.RectangleData.x1,P->UData.RectangleData.y1));
+			A->AppendList(new XYClass(P->UData.RectangleData.x2,P->UData.RectangleData.y1));
+			A->AppendList(new XYClass(P->UData.RectangleData.x2,P->UData.RectangleData.y2));
+			A->AppendList(new XYClass(P->UData.RectangleData.x1,P->UData.RectangleData.y2));
+			A->AppendList(new XYClass(P->UData.RectangleData.x1,P->UData.RectangleData.y1));
 			XYArea.AppendList(A);
 			break;
         case fdRotRectangle:
-			coss=cos(P.UData.RotRectangleData.s);
-			sins=sin(P.UData.RotRectangleData.s);
-            cx=P.UData.RotRectangleData.cx;
-            cy=P.UData.RotRectangleData.cy;
-            rx=P.UData.RotRectangleData.rx;
-            ry=P.UData.RotRectangleData.ry;
+			coss=cos(P->UData.RotRectangleData.s);
+			sins=sin(P->UData.RotRectangleData.s);
+            cx=P->UData.RotRectangleData.cx;
+            cy=P->UData.RotRectangleData.cy;
+            rx=P->UData.RotRectangleData.rx;
+            ry=P->UData.RotRectangleData.ry;
 			x1=rx*coss-ry*sins;
 			y1=rx*sins+ry*coss;
 			A=new XYClassArea();
@@ -331,53 +331,53 @@ void    IntegrationSimpleImagePanel::GetPoints(XYClassCluster &XYArea)
 			break;
         case fdCircle:
         case fdCircle3:
-			if(P.UData.CircleData.r<25){
-				m=P.UData.CircleData.r/5.0;
+			if(P->UData.CircleData.r<25){
+				m=P->UData.CircleData.r/5.0;
 			}
 			else{
 				m=5;
 			}
-			ds=asin(m/(double)P.UData.CircleData.r);
+			ds=asin(m/(double)P->UData.CircleData.r);
 			A=new XYClassArea();
 			for(d=0;d<2*M_PI;d+=ds){
-				x=P.UData.CircleData.r*cos(d)+P.UData.CircleData.cx;
-				y=P.UData.CircleData.r*sin(d)+P.UData.CircleData.cy;
+				x=P->UData.CircleData.r*cos(d)+P->UData.CircleData.cx;
+				y=P->UData.CircleData.r*sin(d)+P->UData.CircleData.cy;
 				A->AppendList(new XYClass(x,y));
 			}
 			XYArea.AppendList(A);
 			break;
         case fdEllipse:
         case fdEllipse4:
-			if(hypot(P.UData.EllipseData.rx,P.UData.EllipseData.ry)<25){
-				m=hypot(P.UData.EllipseData.rx,P.UData.EllipseData.ry)/5.0;
+			if(hypot(P->UData.EllipseData.rx,P->UData.EllipseData.ry)<25){
+				m=hypot(P->UData.EllipseData.rx,P->UData.EllipseData.ry)/5.0;
 			}
 			else{
 				m=5;
 			}
-			ds=asin(m/(double)hypot(P.UData.EllipseData.rx,P.UData.EllipseData.ry));
+			ds=asin(m/(double)hypot(P->UData.EllipseData.rx,P->UData.EllipseData.ry));
 			A=new XYClassArea();
 			for(d=0;d<2*M_PI;d+=ds){
-				x=P.UData.EllipseData.rx*cos(d)+P.UData.EllipseData.cx;
-				y=P.UData.EllipseData.ry*sin(d)+P.UData.EllipseData.cy;
+				x=P->UData.EllipseData.rx*cos(d)+P->UData.EllipseData.cx;
+				y=P->UData.EllipseData.ry*sin(d)+P->UData.EllipseData.cy;
 				A->AppendList(new XYClass(x,y));
 			}
 			XYArea.AppendList(A);
 			break;
         case fdRotEllipse:
-			if(hypot(P.UData.RotEllipseData.rx,P.UData.RotEllipseData.ry)<25){
-				m=hypot(P.UData.RotEllipseData.rx,P.UData.RotEllipseData.ry)/5.0;
+			if(hypot(P->UData.RotEllipseData.rx,P->UData.RotEllipseData.ry)<25){
+				m=hypot(P->UData.RotEllipseData.rx,P->UData.RotEllipseData.ry)/5.0;
 			}
 			else{
 				m=5;
 			}
-			ds=asin(m/(double)hypot(P.UData.RotEllipseData.rx,P.UData.RotEllipseData.ry));
+			ds=asin(m/(double)hypot(P->UData.RotEllipseData.rx,P->UData.RotEllipseData.ry));
 			A=new XYClassArea();
 			for(d=0;d<2*M_PI;d+=ds){
-				x=P.UData.RotEllipseData.rx*cos(d);
-				y=P.UData.RotEllipseData.ry*sin(d);
-				x1=x*cos(P.UData.RotEllipseData.s)-y*sin(P.UData.RotEllipseData.s);
-				y1=x*sin(P.UData.RotEllipseData.s)+y*cos(P.UData.RotEllipseData.s);
-				A->AppendList(new XYClass(x1+P.UData.RotEllipseData.cx,y1+P.UData.RotEllipseData.cy));
+				x=P->UData.RotEllipseData.rx*cos(d);
+				y=P->UData.RotEllipseData.ry*sin(d);
+				x1=x*cos(P->UData.RotEllipseData.s)-y*sin(P->UData.RotEllipseData.s);
+				y1=x*sin(P->UData.RotEllipseData.s)+y*cos(P->UData.RotEllipseData.s);
+				A->AppendList(new XYClass(x1+P->UData.RotEllipseData.cx,y1+P->UData.RotEllipseData.cy));
 			}
 			XYArea.AppendList(A);
 			break;
@@ -387,14 +387,14 @@ void    IntegrationSimpleImagePanel::GetPoints(XYClassCluster &XYArea)
 			break;
 		case fdFree:
 			A=new XYClassArea();
-			for(ShapePoint *a=P.UData.FreeData.points->GetFirst();a!=NULL;a=a->GetNext()){
+			for(ShapePoint *a=P->UData.FreeData.points->GetFirst();a!=NULL;a=a->GetNext()){
 				A->AppendList(new XYClass(a->x,a->y));
 			}
 			XYArea.AppendList(A);
 			break;
 		case fdPoly:
 			A=new XYClassArea();
-			for(ShapePoint *a=P.UData.PolyData.points->GetFirst();a!=NULL;a=a->GetNext()){
+			for(ShapePoint *a=P->UData.PolyData.points->GetFirst();a!=NULL;a=a->GetNext()){
 				A->AppendList(new XYClass(a->x,a->y));
 			}
 			XYArea.AppendList(A);

@@ -621,7 +621,6 @@ public:
 	void	RegisterExecuteProcessingRevived(void);
 	void	RegisterExecutePostProcessing	(void);
 
-	//�������̓C���X�^���X�̓o�^���K�v
 	virtual ExeResult	ExecuteStartByInspection(void)	{	return _ER_true;	}
 	virtual ExeResult	ExecutePreAlignment		(void)	{	return _ER_true;	}
 	virtual ExeResult	ExecuteAlignment		(void)	{	return _ER_true;	}

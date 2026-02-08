@@ -88,7 +88,7 @@
     <OutDir>..\..\GUI\</OutDir>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <QtModules>core;gui;multimedia;multimediawidgets;network;sql;widgets;core5compat</QtModules>
+    <QtModules>core;gui;network;widgets;core5compat;opengl;openglwidgets;multimedia;multimediawidgets;sql</QtModules>
     <QtInstall>$(DefaultQtVersion)</QtInstall>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -244,7 +244,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>CommonGUIDLL.lib;ServiceLib.lib;Component.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CommonGUIDLL.lib;ServiceLib.lib;Component.lib;DisplayOpenGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>

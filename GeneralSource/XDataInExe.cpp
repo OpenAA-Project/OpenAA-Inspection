@@ -241,7 +241,6 @@ LayersBase::LayersBase(EntryPointBase *pEntryPoint ,bool _StartThreadWriteMode)
 	PrinterClassPackData			=NULL;
 	ShrinkingPackContainerInstance	=std::make_shared<ShrinkingPackContainer>();
 	ModeInspectionPlayer		=false;
-	LensWindow					=NULL;
 	ZoneWindow					=NULL;
 	CurrentZoneWindowComponent	=NULL;
 	ResultFromAlgorithm			=0;

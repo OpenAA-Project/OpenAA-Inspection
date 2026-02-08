@@ -61,7 +61,7 @@ ReplaceImageControlForm::ReplaceImageControlForm(LayersBase *base
 
     DisplayImage *DispP=GetImagePanel();
     if(f!=NULL){
-        LastDrawingMode =DispP->GetDrawMode();
+        LastDrawingMode =DispP->GetMode();
         LastDrawingColor=DispP->GetDrawColor();
     }
     SetMaskMode();

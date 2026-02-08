@@ -1031,7 +1031,7 @@ void	PropertyGerberFastForm::GoNextStepAlignment(void)
 		ui->tableWidgetAlignments->setCurrentCell(GetInputNumberAlignment(), 1);
 		if(GAlgo!=NULL && GAlgo->CenterizeByArea==false){
 			if(DProp!=NULL){
-				PanelModeAlignment=DProp->GetDrawMode();
+				PanelModeAlignment=DProp->GetMode();
 				DProp->SetModeByOthers(fdNone,DProp->GetDrawColor());
 			}
 		}
@@ -1054,7 +1054,7 @@ void	PropertyGerberFastForm::GoNextStepForAddAlignment(void)
 		ui->tableWidgetAlignments->setCurrentCell(GetInputNumberAlignment(), 1);
 		if(GAlgo!=NULL && GAlgo->CenterizeByArea==false){
 			if(DProp!=NULL){
-				PanelModeAlignment=DProp->GetDrawMode();
+				PanelModeAlignment=DProp->GetMode();
 				DProp->SetModeByOthers(fdNone,DProp->GetDrawColor());
 			}
 		}
@@ -1117,7 +1117,7 @@ void	PropertyGerberFastForm::GoNextStepAMAlignment(void)
 		ui->tableWidgetAMManualPoints->setCurrentCell(GetAMInputNumberAlignment(), 1);
 		if(GAlgo!=NULL && GAlgo->CenterizeByArea==false){
 			if(DProp!=NULL){
-				PanelModeAlignment=DProp->GetDrawMode();
+				PanelModeAlignment=DProp->GetMode();
 				DProp->SetModeByOthers(fdNone,DProp->GetDrawColor());
 			}
 		}

@@ -74,7 +74,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>CommonGUIDLL.lib;ServiceLib.lib;Component.lib;mf.lib;mfplat.lib;mfreadwrite.lib;mfuuid.lib;d3d11.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CommonGUIDLL.lib;ServiceLib.lib;Component.lib;mf.lib;mfplat.lib;mfreadwrite.lib;mfuuid.lib;d3d11.lib;dxgi.lib;DisplayOpenGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">

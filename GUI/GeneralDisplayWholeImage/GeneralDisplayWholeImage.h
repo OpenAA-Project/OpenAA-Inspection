@@ -95,6 +95,7 @@ public:
 	double	GetZoomRate(void);
 	virtual	void	Repaint(void)	override;
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet)	override;
+	virtual	bool	ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)	override;
 
 	virtual	void	SetHookInPaintFirst(FunctionServerClass *Obj	,bool (*Function)(FunctionServerClass *Obj,GUIFormBase *TartgetForm,QPainter &pnt ,QImage &PntImage),bool Highest)	override;
 	virtual	void	SetHookInPaintLast(FunctionServerClass *Obj		,bool (*Function)(FunctionServerClass *Obj,GUIFormBase *TartgetForm,QPainter &pnt ,QImage &PntImage),bool Highest)	override;

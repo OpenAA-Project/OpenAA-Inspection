@@ -981,7 +981,7 @@ void	mtFrameDraw::DrawLongCircle(QPainter &Pnt)
 	}
 }
 
-int	CutLineByAngle(int X1,int X2,int Y
+static	int	CutLineByAngle(int X1,int X2,int Y
 					,int Cx,int Cy ,double s1,double s2 ,double CosS1 ,double SinS1,double CosS2 ,double SinS2
 					,int P[2][4])
 {

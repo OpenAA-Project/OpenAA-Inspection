@@ -111,6 +111,9 @@
     <ClCompile Include="mtFrameDraw3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mtGraphUnitSub.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mtButtonWithBalloon.h">

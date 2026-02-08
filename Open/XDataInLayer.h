@@ -120,7 +120,6 @@ class	QStringListListCSV;
 class	SpecifiedBroadcaster;
 class	PrinterClassPack;
 class	ShrinkingPackContainer;
-class	LensWindowForm;
 class	DisplayImage;
 class	ZoneWindowForEdit;
 class	IntegrationBase;
@@ -1237,7 +1236,6 @@ class   LayersBase : public QObject
 	bool							ForceChangedInspectID;
 	QApplication					*AppPointer;
 	QByteArray						LightDataFromMasterData;	//照明がない場合のデータ保管場所
-	LensWindowForm					*LensWindow;
 	QReadWriteLock					ChangingDataStructure;		//Recursive mutex
 	QMutex							MutexForLoadSave;
 public:
@@ -1452,6 +1450,7 @@ public:
 	bool	Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb);
 	bool	Reallocate(int newPhaseNumb);
 	bool	ReallocateMasterCount(int CountMaster);
+	void	EmitSignalChangeXY(void);
 	bool	InsertPage(int IndexPage);	//Create page before Indexed page
 	bool	RemovePage(int IndexPage);
 	bool	RemovePhase(int RemovedPhaseCode);	//can not remove phase0
@@ -2197,11 +2196,6 @@ public:
 					,int xbyte ,int YLenDot 
 					,FlexArea *ForceZone=NULL
 					,bool EnableThread=true);	//1画素収縮して切れる場合、残す
-
-	LensWindowForm	*ShowLensWindow(bool ON ,const QString &WindowTitle=QString(/**/"Lens"));
-	LensWindowForm	*ShowLensWindow(void);
-	LensWindowForm	*ShowLens(DisplayImage *_TargetPanel ,int GlobalX ,int GlobalY);
-	bool		IsShowingLensWindow(void);
 
 	void	SetZoneWindow(GUIFormBase *w);
 	void	SetMoveZoneWindow(GUIFormBase *w);

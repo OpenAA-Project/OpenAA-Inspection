@@ -82,9 +82,7 @@
 #include "XShareMasterData.h"
 #include "XCSV.h"
 #include "XPrinterManager.h"
-#include "XPointer.h"
 #include "XImageExpand.h"
-#include "LensWindowForm.h"
 #include "XIntegrationComm.h"
 #include "XIntegrationBase.h"
 #include "XIntegrationPacketComm.h"
@@ -254,7 +252,6 @@ LayersBase::LayersBase(const QString& _TypeName, LayersBase* ParentLayer)
 	OperationLoggerData			=NULL;
 	PrinterClassPackData		=NULL;
 	ShrinkingPackContainerInstance=NULL;
-	LensWindow					=NULL;
 	ZoneWindow					=NULL;
 	CurrentZoneWindowComponent	=NULL;
 	ResultFromAlgorithm			=0;
@@ -342,10 +339,6 @@ void    LayersBase::ReleaseBeforeReleasingGUI(void)
 		for (int page = 0; page < GetPageNumb(); page++) {
 			GetPageDataPhase(phase)->GetPageData(page)->ReleaseInside();
 		}
-	}
-	if (LensWindow != NULL) {
-		delete	LensWindow;
-		LensWindow = NULL;
 	}
 
 	if (ParamGUIData != NULL) {

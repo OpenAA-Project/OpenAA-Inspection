@@ -243,7 +243,7 @@ void	PropertyRasterForm::TransmitDirectly(GUIDirectMessage *packet)
 	if(CmdRasterGetOperationModePacketVar!=NULL){
 		DisplayImageWithAlgorithm	*Panel=(DisplayImageWithAlgorithm *)GetImagePanel();
 		if(ui->tabWidgetOperation->currentIndex()==1
-		&& Panel->GetDrawMode()==fdNone){
+		&& Panel->GetMode()==fdNone){
 			if(ui->tableWidgetAlignments->currentColumn()==0){
 				CmdRasterGetOperationModePacketVar->Mode=OMRaster_3PointAlignment;
 			}
@@ -1581,7 +1581,7 @@ void	PropertyRasterForm::GoNextStepAlignment(void)
 		ui->tableWidgetAlignments->setCurrentCell(GetInputNumberAlignment(), 1);
 		if(GAlgo!=NULL && GAlgo->CenterizeByArea==false){
 			if(DProp!=NULL){
-				PanelModeAlignment[CurrentPhase]=DProp->GetDrawMode();
+				PanelModeAlignment[CurrentPhase]=DProp->GetMode();
 				DProp->SetModeByOthers(fdNone,DProp->GetDrawColor());
 			}
 		}
@@ -1604,7 +1604,7 @@ void	PropertyRasterForm::GoNextStepForAddAlignment(void)
 		ui->tableWidgetAlignments->setCurrentCell(GetInputNumberAlignment(), 1);
 		if(GAlgo!=NULL && GAlgo->CenterizeByArea==false){
 			if(DProp!=NULL){
-				PanelModeAlignment[CurrentPhase]=DProp->GetDrawMode();
+				PanelModeAlignment[CurrentPhase]=DProp->GetMode();
 				DProp->SetModeByOthers(fdNone,DProp->GetDrawColor());
 			}
 		}

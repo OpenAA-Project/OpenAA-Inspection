@@ -190,6 +190,9 @@
     <ClCompile Include="EditLineWidthDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LensWindowForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisplayImageResource.h">
@@ -408,6 +411,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="EditLineWidthDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="LensWindowForm.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -1297,6 +1303,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="EditLineWidthDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="LensWindowForm.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

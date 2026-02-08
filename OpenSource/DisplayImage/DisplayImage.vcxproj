@@ -432,6 +432,7 @@
     <ClCompile Include="InputMirror.cpp" />
     <ClCompile Include="InputRotate.cpp" />
     <ClCompile Include="InputSavingFileNameForm.cpp" />
+    <ClCompile Include="LensWindowForm.cpp" />
     <ClCompile Include="MakeOutlineItemDialog.cpp" />
     <ClCompile Include="MirrorImageDialog.cpp" />
     <ClCompile Include="MoveImageForm.cpp" />
@@ -524,6 +525,7 @@
     <QtMoc Include="PourImageDialog.h" />
     <QtMoc Include="MakeOutlineItemDialog.h" />
     <QtMoc Include="EditLineWidthDialog.h" />
+    <QtMoc Include="LensWindowForm.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SelectColorSampleResource.h" />
     <QtMoc Include="SelectImageFormatForm.h">
@@ -570,6 +572,7 @@
     </QtUic>
     <QtUic Include="InputSavingFileNameForm.ui">
     </QtUic>
+    <QtUic Include="LensWindowForm.ui" />
     <QtUic Include="MakeOutlineItemDialog.ui" />
     <QtUic Include="MirrorImageDialog.ui" />
     <QtUic Include="MoveImageForm.ui">

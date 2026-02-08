@@ -175,7 +175,7 @@ void CameraChangeQuickPropertyForm::on_toolButtonTitle_clicked()
     DisplayImage    *Disp=dynamic_cast<DisplayImage *>(f);
     if(Disp!=NULL){
         if(ui->toolButtonTitle->isChecked()==true){
-            SavedDrawingMode=Disp->GetDrawMode();
+            SavedDrawingMode=Disp->GetMode();
             Disp->SetModeByOthers(fdRectangle ,Qt::red);
         }
         else{

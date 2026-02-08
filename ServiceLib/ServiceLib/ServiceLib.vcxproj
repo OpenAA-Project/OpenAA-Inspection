@@ -630,10 +630,6 @@
     <ClCompile Include="EditTextMessages.cpp" />
     <ClCompile Include="GUITurnUpDownForm.cpp" />
     <ClCompile Include="InputPasswordForm.cpp" />
-    <ClCompile Include="LensWindowForm.cpp">
-      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnableFiberSafeOptimizations>
-      <GenerateAlternateCodePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</GenerateAlternateCodePaths>
-    </ClCompile>
     <ClCompile Include="LibFolderForm.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
       <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
@@ -1017,7 +1013,6 @@
     <QtMoc Include="SelectTransferHostDialog.h" />
     <ClInclude Include="..\..\Open\XStatistic.h" />
     <QtMoc Include="SetThresholdLevelForm.h" />
-    <QtMoc Include="LensWindowForm.h" />
     <QtMoc Include="LibFolderForm.h" />
     <QtMoc Include="LibFolderInputForm.h" />
     <QtMoc Include="SelectLibFolderDialog.h" />
@@ -1338,7 +1333,6 @@
     <QtUic Include="EditTextMessages.ui" />
     <QtUic Include="GUITurnUpDownForm.ui" />
     <QtUic Include="InputPasswordForm.ui" />
-    <QtUic Include="LensWindowForm.ui" />
     <QtUic Include="LibFolderForm.ui" />
     <QtUic Include="LibFolderInputForm.ui" />
     <QtUic Include="MessageBoxStringList.ui" />

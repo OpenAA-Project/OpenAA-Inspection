@@ -46,6 +46,7 @@
 #include "mtFrameDataType.h"
 
 class	LayersBase;
+class	LensWindowForm;
 class	GUICmdSendBmp;
 class	GUICmdReqBmp;
 class	ExpandedPasteForm;
@@ -155,6 +156,7 @@ protected:
 	int32					MinInterval;
 	DWORD					LastTimeToDraw;
 	DWORD					LastTimeToPaint;
+	LensWindowForm			*LensWindow;
 
 	//QList<QImage>			TestImage;
 public:
@@ -448,11 +450,17 @@ public:
 	void	GetMeterMatrix(int GlobalX ,int GlobalY ,int &MeterX ,int &MeterY)	const;
 
 	virtual	void	SetModeByOthers(DrawingMode mode ,const QColor &lineColor);
-	QColor	GetDrawColor(void)					const	{	return MainCanvas->GetFrameColor();	}
-	DrawingMode GetDrawMode(void)	const	{	return(MainCanvas->GetCanvas()->GetMode());	}
+	QColor	GetDrawColor(void)	const	{	return MainCanvas->GetFrameColor();	}
+	DrawingMode GetMode(void)	const	{	return(MainCanvas->GetMode());	}
 
 	int32	GetTransparentLevelInBitBuff(void)	const	{	return TransparentLevelInBitBuff;	}
 	void	SetTransparentLevelInBitBuff(int n)			{	TransparentLevelInBitBuff=n;		}
+
+	LensWindowForm	*ShowLensWindow(bool ON ,const QString &WindowTitle=QString(/**/"Lens"));
+	LensWindowForm	*ShowCreateLensWindow(bool ON ,const QString &WindowTitle=QString(/**/"Lens"));
+	LensWindowForm	*ShowLensWindow(void);
+	LensWindowForm	*ShowLens(DisplayImage *_TargetPanel ,int GlobalX ,int GlobalY);
+	bool		IsShowingLensWindow(void);
 
 	void	SetCursor(DrawingMode mode);
 	void	SetCursor(__DrawingShapeMode mode);
@@ -503,7 +511,7 @@ public:
 	void	SetLineWidth(double width)			{	MainCanvas->SetLineWidth(width);	}
 	double	GetLineWidth(void)			const	{	return MainCanvas->GetLineWidth();	}
 
-	struct _ShapeData *GetRawSDataPoint(void)	const	{	return &MainCanvas->GetCanvas()->SData;	}
+	struct _ShapeData *GetRawSDataPoint(void)	const	{	return MainCanvas->GetRawSDataPoint();	}
 	virtual	void	GetPointList(DotListContainer &Dots ,double d=2)	const;
 	void	GetDrawingArea(int &GlobalX1,int &GlobalY1,int &GlobalX2,int &GlobalY2)	const;
 
@@ -642,7 +650,6 @@ public:
 
 	void	SetMaskPaint(int n)	{	CountOfMaskPaint=n;	}
 	void	ExpandedPasteButtonOff(void);
-	LensWindowForm	*ShowLensWindow(bool b ,const QString &WindowTitle=QString(/**/"Lens"));
 
 	bool	SetCrossLineMode(bool b,const QColor &Col=Qt::yellow);
 

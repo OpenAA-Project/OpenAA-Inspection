@@ -412,9 +412,6 @@
     <ClCompile Include="SelectLibraryOneDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LensWindowForm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Integrator\IntegrationLib\XIntegrationComm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1164,9 +1161,6 @@
     <QtMoc Include="..\..\Open\XAlgorithmWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="LensWindowForm.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="LibFolderForm.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1250,9 +1244,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="InputPasswordForm.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="LensWindowForm.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="LibFolderForm.ui">

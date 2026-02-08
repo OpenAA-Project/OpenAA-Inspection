@@ -156,6 +156,7 @@ public:
 	void	ExecuteMouseMove(int XonG, int YonG);
 	Qt::MouseButtons	&GetStateMouseButtons()		{	return StateMouseButtons;		}
 	QString	ToString(DrawingMode mode);
+	struct _ShapeData *GetRawSDataPoint(void)	const;
 
 	void	DrawFromOutside(QStringList &data);
 	void	SetCrossLineMode(bool mode ,const QColor &Col=Qt::yellow);

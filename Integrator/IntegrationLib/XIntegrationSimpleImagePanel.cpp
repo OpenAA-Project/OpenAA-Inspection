@@ -774,7 +774,7 @@ void	IntegrationSimpleImagePanel::SlotDrawEnd(void)
 {
 	if(CurrentMode==Mode_AddItem || CurrentMode==Mode_AddRect || CurrentMode==Mode_AddLine  || CurrentMode==Mode_CutItem || CurrentMode==Mode_Select){
 		FlexArea resultarea;
-		ToFlexArea( MainCanvas.GetCanvas()->SData
+		ToFlexArea( *MainCanvas.GetRawSDataPoint()
                                 ,resultarea);
 		if(MinDrawArea<=resultarea.GetPatternByte()
 		&& MinDrawSize<=resultarea.GetWidth()

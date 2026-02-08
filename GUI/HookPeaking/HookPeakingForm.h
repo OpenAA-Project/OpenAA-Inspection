@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2025
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -66,6 +66,10 @@ public:
 	bool				ModeShowColorButton;
 	QString				MemoryType;
 	int32				InitialValue;
+
+	int32				Isolation;
+	float				SensitivityVal;
+	int32				Radius;		
 	
     explicit HookPeakingForm(LayersBase *Base ,QWidget *parent = 0);
     ~HookPeakingForm();
@@ -73,7 +77,10 @@ public:
 	virtual void	Prepare(void)		override;
 			void	Release(void);
 	virtual void	ReadyParam(void)	override;
-	virtual	void	TransmitDirectly(GUIDirectMessage *packet)override;
+
+	virtual	bool	ReallocXYPixels(int NewDotPerLine ,int NewMaxLines);
+	virtual	void	TransmitDirectly(GUIDirectMessage *packet)	override;
+
 	void	Draw	(QPainter &pnt	,QImage &PntImage
 					,double ZoomRate,int movx ,int movy 
 					,int CanvasWidth , int CanvasHeight);
@@ -83,10 +90,13 @@ public:
 						,int tDrawTurn);
 	virtual	QStringList	GetRelatedForm(void)	override	{	return HookTargetListInst;	}
 	void	SetCalclating(bool b);
+
 private slots:
     void on_toolButtonMode_clicked();
     void on_toolButtonColor_clicked();
 	void	SlotShowPeaking();
+private slots:
+	void	SlotCaptured(int);
 private:
     Ui::HookPeakingForm *ui;
     

@@ -26,6 +26,7 @@
 #include "XGeneralFunc.h"
 #include "XAlgorithmLibrary.h"
 #include "XRememberer.h"
+#include "mtGraphUnitSub.h"
 #include <QMessageBox>
 
 RImagePanelS::RImagePanelS(LearningPanelForm *p,LayersBase *base)

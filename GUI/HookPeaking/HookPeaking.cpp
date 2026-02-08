@@ -78,8 +78,17 @@ DEFFUNCEX	int32	DLL_GetPropertyString(void	*Instance ,struct	PropertyClass Data[
 	Data[4].Type				 =/**/"int32";
 	Data[4].VariableNameWithRoute=/**/"InitialValue";
 	Data[4].Pointer				 =&((HookPeakingForm *)Instance)->InitialValue;
+	Data[5].Type				 =/**/"int32";
+	Data[5].VariableNameWithRoute=/**/"Isolation";
+	Data[5].Pointer				 =&((HookPeakingForm *)Instance)->Isolation;
+	Data[6].Type				 =/**/"float";
+	Data[6].VariableNameWithRoute=/**/"SensitivityVal";
+	Data[6].Pointer				 =&((HookPeakingForm *)Instance)->SensitivityVal;
+	Data[7].Type				 =/**/"int32";
+	Data[7].VariableNameWithRoute=/**/"Radius";
+	Data[7].Pointer				 =&((HookPeakingForm *)Instance)->Radius;
 
-	return(5);
+	return(8);
 }
 
 DEFFUNCEX	QIcon	*DLL_GetIcon(void)

@@ -58,6 +58,7 @@
 #include "SelectMasterNumberDialog.h"
 #include "PourImageDialog.h"
 #include "EditLineWidthDialog.h"
+#include "LensWindowForm.h"
 
 DisplayImage::eDummyClassForStatus::eDummyClassForStatus(LayersBase *_LayersBasePoint,DisplayImage *p ,QWidget *parent)
 :GUIFormBase(_LayersBasePoint,parent),Parent(p)
@@ -104,6 +105,7 @@ DisplayImage::DisplayImage(LayersBase *Base,const QString &emitterRoot ,const QS
 	CurrentMasterNo					=0;
 	WorkingTime						=0;
 	ScaleColor						=Qt::yellow;
+	LensWindow						=NULL;
 
 	PastedItems						=NULL;
 	DrawingShapeMode				=_Normal;
@@ -421,6 +423,10 @@ DisplayImage::~DisplayImage(void)
 		delete	RedoBtn;
 		RedoBtn=NULL;
 	}
+	if(LensWindow!=NULL){
+		delete	LensWindow;
+		LensWindow=NULL;
+	}
 	//delete	ClippedImageStructure;
 	//ClippedImageStructure=NULL;
 	delete	CmdSendClippedImage;
@@ -641,6 +647,46 @@ bool	DisplayImage::ShouldDrawBuild(void)
 		return true;
 	}
 	return false;
+}
+
+LensWindowForm	*DisplayImage::ShowCreateLensWindow(bool ON ,const QString &WindowTitle)
+{
+	if(ON==true){
+		if(LensWindow==NULL){
+			LensWindow=new LensWindowForm(GetLayersBase());
+		}
+		LensWindow->setWindowTitle(WindowTitle);
+		LensWindow->show();
+	}
+	else{
+		if(LensWindow!=NULL){
+			LensWindow->hide();
+		}
+	}
+	return LensWindow;
+}
+LensWindowForm	*DisplayImage::ShowLensWindow(void)
+{
+	if(LensWindow==NULL){
+		LensWindow=new LensWindowForm(GetLayersBase());
+	}
+	LensWindow->show();
+	return LensWindow;
+}
+bool	DisplayImage::IsShowingLensWindow(void)
+{
+	if(LensWindow!=NULL && LensWindow->isHidden()==false){
+		return true;
+	}
+	return false;
+}
+
+LensWindowForm	*DisplayImage::ShowLens(DisplayImage *_TargetPanel ,int GlobalX ,int GlobalY)
+{
+	if(LensWindow!=NULL){
+		LensWindow->ShowLens(_TargetPanel ,GlobalX ,GlobalY , _TargetPanel->GetDisplayType());
+	}
+	return LensWindow;
 }
 
 void	DisplayImage::SetModeToImagePanelTools(DrawingMode mode ,const QColor &lineColor)
@@ -1607,7 +1653,7 @@ void	DisplayImage::SlotMouseMove(int globalX,int globalY)
 		}
 	}
 	if(LensBtn!=NULL && LensBtn->isChecked()==true){
-		GetLayersBase()->ShowLens(this,globalX,globalY);
+		ShowLens(this,globalX,globalY);
 	}
 	if(HookedExecuteMouseMove(globalX,globalY)==false)
 		return;
@@ -2524,10 +2570,10 @@ void	DisplayImage::LensBtnDown(bool b)
 {
 	if(LensBtn!=NULL){
 		if(LensBtn->isChecked()==true){
-			GetLayersBase()->ShowLensWindow(true);
+			ShowCreateLensWindow(true);
 		}
 		else{
-			GetLayersBase()->ShowLensWindow(false);
+			ShowCreateLensWindow(false);
 		}
 		SetAlterSomething();
 		GetLayersBase()->SetStatusModes(this,/**/"Lens");
@@ -2540,11 +2586,11 @@ LensWindowForm	*DisplayImage::ShowLensWindow(bool b,const QString &WindowTitle)
 	if(LensBtn!=NULL){
 		if(b==true){
 			LensBtn->setChecked(true);
-			Ret=GetLayersBase()->ShowLensWindow(true,WindowTitle);
+			Ret=ShowCreateLensWindow(true,WindowTitle);
 		}
 		else{
 			LensBtn->setChecked(false);
-			Ret=GetLayersBase()->ShowLensWindow(false,WindowTitle);
+			Ret=ShowCreateLensWindow(false,WindowTitle);
 		}
 		SetAlterSomething();
 		GetLayersBase()->SetStatusModes(this,/**/"Lens");

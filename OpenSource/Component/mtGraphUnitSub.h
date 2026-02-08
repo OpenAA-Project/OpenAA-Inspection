@@ -6,11 +6,11 @@
 #include "swap.h"
 #include "mtPushButtonWithBalloon.h"
 //#include "mtFrameDraw.h"
-#include "..\DisplayOpenGL\DisplayOpenGL.h""
+#include "..\DisplayOpenGL\DisplayOpenGL.h"
 
 class	mtGraphicUnit;
 
-class	mtQFrameDrawInGUnit :public mtFrameDraw
+class	mtQFrameDrawInGUnit :public mtFrameDrawOGL
 {
     Q_OBJECT
 	mtGraphicUnit	*Parent;

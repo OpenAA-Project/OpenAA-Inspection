@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2025
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -19,51 +19,77 @@
 #pragma once
 
 #include "NListComp.h"
-#include "fftw3.h"
 #include <QThread>
 #include <QMutex>
 #include <QImage>
 #include <QPainter>
 #include "XServiceForLayers.h"
-#include "XMainSchemeMemory.h"
+
 
 class HookPeakingForm;
+class GpuSharpnessContext;
+class ImageBuffer;
+class ImageBufferListContainer;
+class GpuSharpnessContextBase;
+
+const	int	CountOfAverage = 8;
+
+class FlatPeakingImageBuff
+{
+public:
+	BYTE	*InData;
+	BYTE	*OutData;
+	int		Width;	
+	int		Height;
+	int		Page;
+
+	FlatPeakingImageBuff();
+	~FlatPeakingImageBuff();
+
+	void	Allocate(int width,int height,int page);
+};
+
 
 class	ThreadPeaking : public QThread,public ServiceForLayers
 {
     Q_OBJECT
 	friend	class HookPeakingForm;
 
-	int	DotPerLine	;
-	int	MaxLines	;
-	int	ynumb;
-	int	xnumb;
-	fftw_complex *in[5000];
-	fftw_complex *out[5000];
-	fftw_plan	p[5000];
-	ImageBuffer			**PeakBuff;
+	ImageBufferListContainer	*AverageBuff;
+	int		PageCount;
+	int		APointR;
+	int		APointW;
+
+	FlatPeakingImageBuff *FlatBuff;
 	QMutex				PeakMutex;
 	int					AllocatedCount;
 	HookPeakingForm		*Parent;
-	int	Isolation;
-	int	Turn;
+	int					Isolation;
+	bool				StartMode;
+	float				SensitivityVal;
+	int					Radius;			
+	bool				isGLES;
+	GpuSharpnessContextBase		*GpuContext;
 public:
-	int					*CRadius;
 	volatile	bool	Terminated;
 
-	ThreadPeaking(LayersBase *base ,HookPeakingForm *parent);
+	ThreadPeaking(LayersBase *base ,int Isolation ,HookPeakingForm *parent);
 	~ThreadPeaking(void);
 
 	virtual	void	run();
 
+	void	SetPeakingParam(float sensitivityVal,int radius);
+	void	SetStartMode(bool b)	{ StartMode = b; }
+	void	SetTmage(int localPage);
+	void	Realloc(void);
+
 signals:
 	void	SignalShowPeaking();
 private:
-	void	Realloc(void);
 	void	MakePeakData(int localPage);
 	int		GetPage(void);
-	
-	int		MakePeakData(int SIZEX,int SIZEY,fftw_plan p,fftw_complex *in,fftw_complex *out
-						,ImageBuffer &Src, ImageBuffer &Image,int x1,int y1,int x2,int y2);
-	void	CopyToParent(int localPage);
+	void	SetAverage(ImageBuffer *Dst,ImagePointerContainer &Src);
+
+	int		calculateSharpness(ImageBuffer &Image, int X ,int Y ,int width, int height, double sensitivity = 500.0);
+
 };

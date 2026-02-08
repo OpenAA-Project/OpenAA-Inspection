@@ -487,9 +487,9 @@ void	DrawHookControlPanelForm::MouseLClickNew	(DisplayImage *Target ,int GlobalP
 		}
 	}
 	if(ui->toolBox->currentIndex()==2){
-		bool	ShowingLens=GetLayersBase()->IsShowingLensWindow();
+		bool	ShowingLens=Target->IsShowingLensWindow();
 		if(ShowingLens==true){
-			GetLayersBase()->ShowLensWindow(false);
+			Target->ShowLensWindow(false);
 		}
 		QString Text=QInputDialog::getText (NULL
 								, "テキスト入力"
@@ -499,7 +499,7 @@ void	DrawHookControlPanelForm::MouseLClickNew	(DisplayImage *Target ,int GlobalP
 								,nullptr
 								,Qt::WindowCloseButtonHint);
 		if(ShowingLens==true){
-			GetLayersBase()->ShowLensWindow();
+			Target->ShowLensWindow();
 		}
 
 		if(Text.isEmpty()==false){
@@ -662,9 +662,9 @@ void	DrawHookControlPanelForm::MouseLDoubleClickSelect(DisplayImage *Target ,int
 		for(DrawerItemBase *a=DrawerItemDatas.GetFirst();a!=NULL;a=a->GetNext()){
 			DrawItemText	*d=dynamic_cast<DrawItemText *>(a);
 			if(d!=NULL && d->Selected==true){
-				bool	ShowingLens=GetLayersBase()->IsShowingLensWindow();
+				bool	ShowingLens=Target->IsShowingLensWindow();
 				if(ShowingLens==true){
-					GetLayersBase()->ShowLensWindow(false);
+					Target->ShowLensWindow(false);
 				}
 				bool	ok;
 				QString Text=QInputDialog::getText (NULL
@@ -675,7 +675,7 @@ void	DrawHookControlPanelForm::MouseLDoubleClickSelect(DisplayImage *Target ,int
 								,&ok
 								,Qt::WindowCloseButtonHint);
 				if(ShowingLens==true){
-					GetLayersBase()->ShowLensWindow();
+					Target->ShowLensWindow();
 				}
 				if(ok==true){
 					if(Text.isEmpty()==false){

@@ -150,6 +150,7 @@
     <ClCompile Include="mtFrameDraw3D.cpp" />
     <ClCompile Include="mtGraph.cpp" />
     <ClCompile Include="mtGraphicUnit.cpp" />
+    <ClCompile Include="mtGraphUnitSub.cpp" />
     <ClCompile Include="mtImageButton.cpp" />
     <ClCompile Include="mtImageButtonBase.cpp" />
     <ClCompile Include="mtImageButtonColored.cpp" />

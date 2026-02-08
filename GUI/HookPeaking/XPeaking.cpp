@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2025
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -15,6 +15,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+// 必要なライブラリ: GLEW, GLFW
+
 
 #include "HookPeakingForm.h"
 #include "ui_HookPeakingForm.h"
@@ -27,6 +29,8 @@
 #include "XGeneralFunc.h"
 #include "XCriticalFunc.h"
 #include "HookPeakingThread.h"
+#include "XGpuSharpness.h"
+#include "XMainSchemeMemory.h"
 
 void	HookPeakingForm::Draw	(QPainter &pnt	,QImage &PntImage,double ZoomRate,int movx ,int movy ,int CanvasWidth , int CanvasHeight)
 {
@@ -54,7 +58,7 @@ void	HookPeakingForm::Draw	(QPainter &pnt	,QImage &PntImage,double ZoomRate,int 
 	}
 
 	int	page=GetTargetPage();
-	if(Thread->PeakBuff!=NULL){
+	if(Thread->FlatBuff!=NULL){
 		Thread->PeakMutex.lock();
 		if(page<0){
 			for(int p=0;p<GetPageNumb();p++){
@@ -84,9 +88,8 @@ bool	HookPeakingForm::DrawInPage	(QImage &PntImage
 						,int CanvasWidth , int CanvasHeight
 						,int tDrawTurn)
 {
-	ImageBuffer	*IBuff=Thread->PeakBuff[page];
-	if(IBuff==NULL)
-		return true;
+	FlatPeakingImageBuff	&ImageBuff=Thread->FlatBuff[page];
+
 	int	Isolation=Thread->Isolation;
 	QColor	Col=ButtonColor->color();
 	BYTE	Alpha=ui->horizontalSliderTransparentRate->value()*255/100;
@@ -96,81 +99,46 @@ bool	HookPeakingForm::DrawInPage	(QImage &PntImage
 
 	double	Z=1.0/ZoomRate;
 	int		iZ=(int)(Z*65536.0);
-	int	XLen=min(Thread->GetDotPerLine(page),Thread->PeakBuff[page]->GetWidth());
-	int	YLen=min(Thread->GetMaxLines(page)	,Thread->PeakBuff[page]->GetHeight());
+	int	XLen=Thread->FlatBuff[page].Width;
+	int	YLen=Thread->FlatBuff[page].Height;
 	XYData	*XY=GetLayersBase()->GetPageData(page)->GetOutlineOffset();
-	int	DivCanvasHeight=CanvasHeight/4;
+
+	int	DivCanvasHeight	=CanvasHeight/Isolation;
+	int	DivCanvasWidth	=CanvasWidth/Isolation;
+	float	ZF = Z/Isolation;
 	//#pragma omp parallel  num_threads(2)                           
 	//{                                                
 	//	#pragma omp for
-		//for(int y=0;y<CanvasHeight;y++){
-		for(int ky=0;ky<DivCanvasHeight;ky++){
-			int	y=tDrawTurn+ky*4;
-			int	Y=y*Z-movy-XY->y;
+		for(int y=0;y<CanvasHeight;y++){
+			BYTE	*d=PntImage.scanLine(y);
+			int	Y = (y*Z-movy-XY->y)/Isolation;
 			if(0<=Y && Y<YLen){
-				BYTE	*d=PntImage.scanLine(y);
-				BYTE	*s=IBuff->GetY((Y/Isolation)*Isolation);
-				double	m=-movx-XY->x;
-				int	StartX=0;
-				if(m<0){
-					StartX=ceil(-m/Z);
-					memset(d,0,4*StartX);
-					d+=4*StartX;
-					m+=Z*StartX;
-				}
-				int	N=CanvasWidth;
-				if((m+(CanvasWidth-StartX)*Z)>=XLen){
-					N=floor((XLen-m)/Z+StartX);
-				}
-				N=(N/Isolation)*Isolation;
-				int	x;
-				int	im=(int)(m*65536.0);
-
-				if(Isolation<=1){
-					for(x=StartX;x<N;x++,im+=iZ , d+=4){
-						int	X=im>>16;
-						BYTE	Index=s[X];
-
-						//*(d+2)=RTable[*(d+2)][Index];
-						//*(d+1)=GTable[*(d+1)][Index];
-						//*(d+0)=BTable[*(d+0)][Index];
-						int	Kr=(Ra*Index)>>16;
-						int	Kg=(Ga*Index)>>16;
-						int	Kb=(Ba*Index)>>16;
+				BYTE	*s=ImageBuff.OutData+(Y*ImageBuff.Width);
+				float	X = (0*Z-movx-XY->x)/Isolation;
+				for(int x=0;x<CanvasWidth;x++){
+					int	Xi = (int)(X);
+					X+=ZF;
+					if(0<=Xi && Xi<XLen){
+						BYTE	Index=s[Xi];
+						int		Kr=(Ra*Index)>>16;
+						int		Kg=(Ga*Index)>>16;
+						int		Kb=(Ba*Index)>>16;
+						*(d+3)=Alpha;
 						*(d+2)=ClipByte(*(d+2)+Kr);
 						*(d+1)=ClipByte(*(d+1)+Kg);
 						*(d+0)=ClipByte(*(d  )+Kb);
+						d+=4;
 					}
-				}
-				else{
-					int	iZN=iZ*Isolation;
-					for(x=StartX;x<N;im+=iZN ,x+=Isolation){
-						int	X=im>>16;
-						BYTE	Index=s[(X/Isolation)*Isolation];
-
-						int	NN=Isolation;
-						if((NN+x)>N)
-							NN=N-x;
-						for(int h=0;h<NN;h++){
-							//*(d+2)=RTable[*(d+2)][Index];
-							//*(d+1)=GTable[*(d+1)][Index];
-							//*(d+0)=BTable[*(d+0)][Index];
-							int	Kr=(Ra*Index)>>16;
-							int	Kg=(Ga*Index)>>16;
-							int	Kb=(Ba*Index)>>16;
-							*(d+2)=ClipByte(*(d+2)+Kr);
-							*(d+1)=ClipByte(*(d+1)+Kg);
-							*(d+0)=ClipByte(*(d  )+Kb);
-							d+=4;
-						}
+					else{
+						*(d+3)=0;
+						*(d+2)=0;
+						*(d+1)=0;
+						*(d+0)=0;
+						d+=4;
 					}
-				}
-				if(x<CanvasWidth){
-					memset(d,0,(CanvasWidth-x)*4);
 				}
 			}
 			else{
-				BYTE	*d=PntImage.scanLine(y);
 				memset(d,0,CanvasWidth*4);
 			}
 		}
@@ -178,46 +146,97 @@ bool	HookPeakingForm::DrawInPage	(QImage &PntImage
 	return true;
 }
 
-ThreadPeaking::ThreadPeaking(LayersBase *base ,HookPeakingForm *parent) 
-	: QThread(parent),ServiceForLayers(base),Parent(parent)
-{	
-	DotPerLine	=0;
-	MaxLines	=0;
-	ynumb		=0;
-	xnumb		=0;
-	for(int i=0;i<sizeof(in)/sizeof(in[0]);i++){
-		in[i]	=NULL;
-		out[i]	=NULL;
-		p[i]	=NULL;
-	}
-	PeakBuff=NULL;
-	AllocatedCount=NULL;
-	Isolation	=2;
-	Turn		=0;
-
-	Terminated=false;
+FlatPeakingImageBuff::FlatPeakingImageBuff()
+{
+	InData	=NULL;
+	OutData	=NULL;
+	Width	=0;	
+	Height	=0;
+	Page	=0;
 }
+FlatPeakingImageBuff::~FlatPeakingImageBuff()
+{
+	if(InData!=NULL){
+		delete	[]InData;
+	}
+	if(OutData!=NULL){
+		delete	[]OutData;
+	}
+	InData	=NULL;
+	OutData	=NULL;
+	Width	=0;	
+	Height	=0;
+	Page = 0;
+}
+//================================================================
+
+
+ThreadPeaking::ThreadPeaking(LayersBase *base ,int _Isolation ,HookPeakingForm *parent) 
+	: QThread(parent),ServiceForLayers(base),Parent(parent)
+{
+	FlatBuff=NULL;
+	AllocatedCount=0;
+	Isolation	=_Isolation;
+	AverageBuff	=NULL;
+	APointR		=0;
+	APointW		=0;
+	StartMode	=false;
+	SensitivityVal = 5;
+	Radius		=3;
+	PageCount = 0;
+	Terminated=false;
+	GpuContext = GetGpuSharpnessContextInstance();
+}
+
 ThreadPeaking::~ThreadPeaking(void)
 {
-	for(int yn=0;yn<ynumb;yn++){
-		fftw_free(in[yn]);
-		fftw_free(out[yn]);
-		fftw_free(p[yn]);
+	if(FlatBuff!=NULL){
+		delete	[]FlatBuff;
 	}
-	if(PeakBuff!=NULL){
-		for(int page=0;page<AllocatedCount;page++){
-			delete	PeakBuff[page];
-		}
-		delete	[]PeakBuff;
+	if(AverageBuff!=NULL){
+		delete	[]AverageBuff;
 	}
-	PeakBuff=NULL;
+	FlatBuff=NULL;
+
+	delete GpuContext;
+    GpuContext=NULL;
 
 }
+	
+
+
+
+
+void	FlatPeakingImageBuff::Allocate(int width,int height,int page)
+{
+	if(InData!=NULL){
+		delete	[]InData;
+	}
+	if(OutData!=NULL){
+		delete	[]OutData;
+	}
+	Width	=width;
+	Height	=height;
+	Page	=page;
+	InData = new BYTE[Width*Height];
+	OutData = new BYTE[Width*Height];
+}
+
+void	ThreadPeaking::SetPeakingParam(float sensitivityVal,int radius)
+{
+	SensitivityVal	=sensitivityVal;
+	Radius			=radius;
+}
+
+
 void	ThreadPeaking::run()
 {
 	Terminated=false;
+	
+	InitialGPUForShader(isGLES);
+
 	while(Terminated==false){
-		//if(Parent->Calclating==true){
+		if(StartMode==true){
 			GetLayersBase()->LockRChangingDataStructure();
 			Realloc();
 			int	Page=Parent->GetTargetPage();
@@ -232,194 +251,294 @@ void	ThreadPeaking::run()
 			GetLayersBase()->UnlockChangingDataStructure();
 			emit	SignalShowPeaking();
 			msleep(30);
-		//}
-		//else{
-		//	msleep(2000);
-		//}
+		}
+		else{
+			msleep(1000);
+		}
 	}
 }
 void	ThreadPeaking::Realloc(void)
 {
+	if(Parent==NULL){
+		return;
+	}
 	int	Page=Parent->GetTargetPage();
 	if(Page>=GetPageNumb()){
 		return;
 	}
-	DotPerLine			=GetDotPerLine(Page);
-	MaxLines			=GetMaxLines  (Page);
 	int	iAllocatedCount	=GetPageNumb();
 
-	int	iynumb=(MaxLines	-(*CRadius+*CRadius-1)*2)/Isolation;
-	int	ixnumb=(DotPerLine	-(*CRadius+*CRadius-1)*2)/Isolation;
-	if(iynumb!=ynumb || ixnumb!=xnumb){
-		for(int yn=0;yn<ynumb;yn++){
-			fftw_free(in[yn]);
-			fftw_free(out[yn]);
-			fftw_free(p[yn]);
-		}
-
-		xnumb=ixnumb;
-		ynumb=iynumb;
-
-		for(int yn=0;yn<ynumb;yn++){
-			int	y=yn*Isolation+*CRadius;
-			int	x=*CRadius;
-			int	x1=x-*CRadius;
-			int	y1=y-*CRadius;
-			int	x2=x+*CRadius-1;
-			int	y2=y+*CRadius-1;
-			int	SIZEX=x2-x1;
-			int	SIZEY=y2-y1;
-			int	SIZE=SIZEX*SIZEY;
-
-			size_t mem_size = sizeof(fftw_complex) * SIZE;
-			in[yn]  = (fftw_complex*)fftw_malloc( mem_size );
-			out[yn] = (fftw_complex*)fftw_malloc( mem_size );
-
-			p[yn]=fftw_plan_dft_2d( SIZEY, SIZEX, in[yn], out[yn], FFTW_FORWARD, FFTW_ESTIMATE );
-		}
-	}
-	
 	PeakMutex.lock();
-	if(AllocatedCount!=iAllocatedCount
-	|| Page<0 
-	|| DotPerLine!=PeakBuff[Page]->GetWidth()
-	|| MaxLines!=PeakBuff[Page]->GetHeight()){
-		if(PeakBuff!=NULL){
-			for(int page=0;page<AllocatedCount;page++){
-				delete	PeakBuff[page];
-			}
-			delete	[]PeakBuff;
+	if(AllocatedCount!=iAllocatedCount){
+		if(FlatBuff!=NULL){
+			delete	[]FlatBuff;
 		}
-		PeakBuff=NULL;
+		FlatBuff=NULL;
+	}
+
+	if(Page<0 
+	|| FlatBuff==NULL){
 		AllocatedCount=iAllocatedCount;
-		PeakBuff=new ImageBuffer*[AllocatedCount];
-		for(int page=0;page<AllocatedCount;page++){
-			PeakBuff[page]=new ImageBuffer(0,DotPerLine,MaxLines);
-			PeakBuff[page]->Memset(0);
+		FlatBuff=new FlatPeakingImageBuff[AllocatedCount];
+	}
+	if(Page>=0){
+		int	DotPerLine			=GetDotPerLine(Page)/Isolation;
+		int	MaxLines			=GetMaxLines  (Page)/Isolation;
+
+		if((DotPerLine!=FlatBuff[Page].Width
+		|| MaxLines!=FlatBuff[Page].Height)){
+			FlatBuff[Page].Allocate(DotPerLine,MaxLines,Page);
 		}
 	}
 	PeakMutex.unlock();
+
+	if(Page<0){
+		if(PageCount!=GetPageNumb()){
+			if(AverageBuff!=NULL){
+				delete	[]AverageBuff;
+			}
+			PageCount=GetPageNumb();
+			AverageBuff=new ImageBufferListContainer[PageCount];
+			for(int p=0;p<GetPageNumb();p++){
+				int	DotPerLine			=GetDotPerLine(p)/Isolation;
+				int	MaxLines			=GetMaxLines  (p)/Isolation;
+				for(int i=0;i<CountOfAverage;i++){
+					ImageBufferList	*t=new ImageBufferList();
+					t->Set(0,0,DotPerLine,MaxLines);
+					AverageBuff[p].AppendList(t);
+				}
+			}
+		}
+		else{
+			for(int p=0;p<GetPageNumb();p++){
+				int	DotPerLine			=GetDotPerLine(p)/Isolation;
+				int	MaxLines			=GetMaxLines  (p)/Isolation;
+				if(AverageBuff[p].GetWidth()!=DotPerLine
+				|| AverageBuff[p].GetHeight()!=MaxLines){
+					for(int i=0;i<CountOfAverage;i++){
+						ImageBufferList	*t=AverageBuff[p][i];
+						t->Set(0,0,DotPerLine,MaxLines);
+					}
+				}
+			}
+		}
+	}
+	else
+	if(0<=Page && Page<GetPageNumb()){
+		if(PageCount!=1){
+			if(AverageBuff!=NULL){
+				delete	[]AverageBuff;
+			}
+			PageCount=1;
+			AverageBuff=new ImageBufferListContainer[PageCount];
+			int	DotPerLine			=GetDotPerLine(Page)/Isolation;
+			int	MaxLines			=GetMaxLines  (Page)/Isolation;
+			for(int i=0;i<CountOfAverage;i++){
+				ImageBufferList	*t=new ImageBufferList();
+				t->Set(0,0,DotPerLine,MaxLines);
+				AverageBuff[0].AppendList(t);
+			}
+		}
+		else{
+			int	DotPerLine			=GetDotPerLine(Page)/Isolation;
+			int	MaxLines			=GetMaxLines  (Page)/Isolation;
+			if(AverageBuff[0].GetWidth()!=DotPerLine
+			|| AverageBuff[0].GetHeight()!=MaxLines){
+				for(int i=0;i<CountOfAverage;i++){
+					ImageBufferList	*t=AverageBuff[0][i];
+					t->Set(0,0,DotPerLine,MaxLines);
+				}
+			}
+		}
+	}
 }
+
+void	ThreadPeaking::SetTmage(int localPage)
+{
+	ImagePointerContainer	Src;
+
+	int	Page=Parent->GetTargetPage();
+	if(Parent->MemoryType==/**/"Target")
+		GetLayersBase()->GetPageData(localPage)->GetTargetImages(Src);
+	else
+	if(Parent->MemoryType==/**/"Master")
+		GetLayersBase()->GetPageData(localPage)->GetMasterImages(Src);
+	else
+	if(Parent->MemoryType==/**/"CamTarget")
+		GetLayersBase()->GetPageData(localPage)->GetCamTargetImages(Src);
+
+	if(Page<0){
+		if(localPage<PageCount){
+			SetAverage((AverageBuff[localPage])[APointW],Src);
+			APointW++;
+			if(APointW>=CountOfAverage){
+				APointW=0;
+			}
+		}
+	}
+	else if(Page==localPage && PageCount==1){
+		SetAverage((AverageBuff[0])[APointW],Src);
+		APointW++;
+		if(APointW>=CountOfAverage){
+			APointW=0;
+		}
+	}
+}
+
+void	ThreadPeaking::SetAverage(ImageBuffer *Dst,ImagePointerContainer &Src)
+{
+	int	PCount = Src.GetCount();
+	int	DstWidth	= Dst->GetWidth();
+	int	DstHeight	= Dst->GetHeight();
+	int	SrcWidth	= Src.GetWidth();
+	int SrcHeight	= Src.GetHeight();
+
+	if(PCount==3){
+		ImageBuffer *R = Src[0];
+		ImageBuffer *G = Src[1];
+		ImageBuffer *B = Src[2];
+		#pragma omp parallel  num_threads(2)                           
+		{                                                
+			#pragma omp for
+			for(int y=0;y<DstHeight;y++){
+				BYTE	*d=Dst->GetY(y);
+				BYTE	*sr=R->GetY(y*Isolation);
+				BYTE	*sg=G->GetY(y*Isolation);
+				BYTE	*sb=B->GetY(y*Isolation);
+				int	sx=0;
+				for(int x=0;x<DstWidth;x++){
+					int	r=sr[sx];
+					int	g=sg[sx];
+					int	b=sb[sx];
+					int	gray=(r*30+g*59+b*11)/100;
+					d[x]=(BYTE)gray;
+					sx+=Isolation;
+				}
+			}
+		}
+	}
+	if(PCount==1){
+		ImageBuffer *R = Src[0];
+		#pragma omp parallel  num_threads(2)                           
+		{                                                
+			#pragma omp for
+			for(int y=0;y<DstHeight;y++){
+				BYTE	*d=Dst->GetY(y);
+				BYTE	*sr=R->GetY(y*Isolation);
+				int	sx=0;
+				for(int x=0;x<DstWidth;x++){
+					int	r=sr[sx];
+					d[x]=sr[sx];
+					sx+=Isolation;
+				}
+			}
+		}
+	}
+}
+
 
 void	ThreadPeaking::MakePeakData(int localPage)
 {
-	ImageBuffer	*Src=NULL;
-	if(Parent->MemoryType==/**/"Target")
-		Src=GetLayersBase()->GetPageData(localPage)->GetLayerData(0)->GetTargetBuffPointer();
-	else
-	if(Parent->MemoryType==/**/"Master")
-		Src=GetLayersBase()->GetPageData(localPage)->GetLayerData(0)->GetMasterBuffPointer();
-	else
-	if(Parent->MemoryType==/**/"CamTarget")
-		Src=GetLayersBase()->GetPageData(localPage)->GetLayerData(0)->GetCamTargetBuffPointer();
-
-	if(Src==NULL)
-		return;
-
-	Turn++;
-	if(Turn>=4)
-		Turn=0;
-
-	int	N=ynumb/4;
-	//#pragma omp parallel                             
-	//{                                                
-	//	#pragma omp for
-		//for(int yn=Turn;yn<ynumb;yn+=4){
-		for(int k=0;k<N;k++){
-			int	yn=Turn+k*4;
-			int	y=yn*Isolation+*CRadius;
-			int	x=*CRadius;
-			BYTE	*d=PeakBuff[localPage]->GetY(y);
-
-			int	x1=x-*CRadius;
-			int	y1=y-*CRadius;
-			int	x2=x+*CRadius-1;
-			int	y2=y+*CRadius-1;
-			int	SIZEX=x2-x1;
-			int	SIZEY=y2-y1;
-
-			for(int xn=0;xn<xnumb;xn++,x+=Isolation){
-				int	c=MakePeakData(SIZEX,SIZEY,p[yn],in[yn],out[yn],*Src 
-									,*PeakBuff[localPage]
-									,x-*CRadius,y-*CRadius,x+*CRadius-1,y+*CRadius-1);
-				d[x]=c;
+	if(FlatBuff!=NULL){
+		int	Page=Parent->GetTargetPage();
+		int	p=0;
+		if(Page<0){
+			if(localPage<PageCount){
+				p=localPage;
 			}
 		}
-	//}
+		else if(Page==localPage && PageCount==1){
+			p=0;
+		}
+
+		int	DstWidth	= AverageBuff[p].GetWidth();
+		int	DstHeight	= AverageBuff[p].GetHeight();
+		#pragma omp parallel  num_threads(4)                           
+		{                                                
+			#pragma omp for
+			for(int y=0;y<DstHeight;y++){
+				BYTE *dst = FlatBuff[localPage].InData+(y*FlatBuff[localPage].Width);
+				BYTE *src[100];
+				for(int i=0;i<CountOfAverage;i++){
+					src[i] = (AverageBuff[p])[i]->GetY(y);
+				}
+				for(int x = 0;x<DstWidth;x++){
+					int	sum = 0;
+					for(int i=0;i<CountOfAverage;i++){
+						sum += src[i][x];
+					}
+					dst[x] = (BYTE)(sum/CountOfAverage);
+				}
+			}
+		}
+
+		GpuContext->init(FlatBuff[localPage].Width, FlatBuff[localPage].Height, Radius,isGLES);
+		GpuContext->process(FlatBuff[localPage].InData, FlatBuff[localPage].OutData,SensitivityVal);
+
+		//computeSharpness(FlatBuff[localPage].InData
+		//				, FlatBuff[localPage].OutData
+		//				, FlatBuff[localPage].Width
+		//				, FlatBuff[localPage].Height
+		//				, SensitivityVal
+		//				,Radius	
+		//				,isGLES);
+	}
 }
 
-static	int	MaxR=0;
-int	ThreadPeaking::MakePeakData(int SIZEX,int SIZEY,fftw_plan p,fftw_complex *in,fftw_complex *out
-								,ImageBuffer &Src, ImageBuffer &Image,int x1,int y1,int x2,int y2)
+/*
+int ThreadPeaking::calculateSharpness(ImageBuffer &Image, int X ,int Y,int width, int height, double sensitivity)
 {
-	int i,j,idx;
-	// input data creation
-	for( j=0; j<SIZEY; j++ ){
-		int	y=y1+j;
-		BYTE	*s=Src.GetY(y);
-		for( i=0; i<SIZEX; i++ ){
-			int	x=x1+i;
-			idx = SIZEX*j+i; // column-major alignment
-			in[idx][0] = s[x];
-			in[idx][1] = 0;
-		}
-	}
+    if (width < 3 || height < 3) return 0; // 3x3未満はエッジ検出不可
 
-	fftw_execute(p);
+    long long sum = 0;
+    long long sq_sum = 0;
+    int count = 0;
 
-	int	SizeX2=SIZEX/2;
-	int	SizeY2=SIZEY/2;
-	/*
-	double	Total=0;
-	for( j=0; j<SizeY2; j++ ){
-		for( i=0; i<SizeX2; i++ ){
-			idx = SIZEX*j+i; // column-major alignment
-			Total += out[idx][0]*out[idx][0]+out[idx][1]*out[idx][1];
-		}
-	}
-	*/
+    // ラプラシアンフィルタ (4近傍)
+    //    0   1   0
+    //    1  -4   1
+    //    0   1   0
+    //
+    // 画像の端(1px)は隣接画素がないため計算対象外とします
+    // これにより条件分岐(if文)をループ内から排除し高速化します
+    
+    for (int y = 1; y < height - 1; ++y) {
+		BYTE	*s =Image.GetY(Y+y);
+		BYTE	*sp=Image.GetY(Y+y-1);
+		BYTE	*sn=Image.GetY(Y+y+1);
+        // 行の先頭インデックスを事前に計算
 
-	double	HighL=0;
-	int		Numb=0;
-	for( j=2; j<SizeY2-2; j++ ){
-		for( i=2; i<SizeX2-2; i++ ){
-			idx = SIZEX*j+i; // column-major alignment
-			HighL += out[idx][0]*out[idx][0]+out[idx][1]*out[idx][1];
-			Numb++;
-		}
-	}
-	if(Numb==0){
-		for( j=1; j<SizeY2-1; j++ ){
-			for( i=1; i<SizeX2-1; i++ ){
-				idx = SIZEX*j+i; // column-major alignment
-				HighL += out[idx][0]*out[idx][0]+out[idx][1]*out[idx][1];
-				Numb++;
-			}
-		}
-	}
-	if(Numb==0){
-		for( j=0; j<SizeY2; j++ ){
-			for( i=0; i<SizeX2; i++ ){
-				idx = SIZEX*j+i; // column-major alignment
-				HighL += out[idx][0]*out[idx][0]+out[idx][1]*out[idx][1];
-				Numb++;
-			}
-		}
-	}
+        for (int x = 1; x < width - 1; ++x) {
+            // 各画素値の取得
+			int	tX=X+x;
+            int center = s[tX];
+            int up     = sp[tX];
+            int down   = sn[tX];
+            int left   = s[tX-1];
+            int right  = s[tX+1];
 
-	double	R=sqrt(HighL/Numb);
-	if(R>MaxR){
-		MaxR=R;
-	}
+            // ラプラシアン値の計算
+            int laplacian = up + down + left + right - (4 * center);
 
+            // 平均と分散を計算するための累積
+            sum += laplacian;
+            sq_sum += (laplacian * laplacian);
+            count++;
+        }
+    }
 
-	if(R<0)
-		return 0;
-	if(R>=256)
-		return 255;
-	return R;
+    if (count == 0) return 0;
+
+    // 分散(Variance) = E[X^2] - (E[X])^2
+    double mean = static_cast<double>(sum) / count;
+    double variance = (static_cast<double>(sq_sum) / count) - (mean * mean);
+
+    // スコア化 (0-255)
+    double score = (variance / sensitivity) * 255.0;
+
+    // クリッピング
+    if (score > 255.0) return 255;
+    if (score < 0.0) return 0;
+    return static_cast<int>(score);
 }
-void	ThreadPeaking::CopyToParent(int localPage)
-{
-}
-
+*/

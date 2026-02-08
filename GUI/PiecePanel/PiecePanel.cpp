@@ -678,7 +678,6 @@ LayersBase::LayersBase(EntryPointBase *pEntryPoint,bool StartThreadWriteMode)
 	PrinterClassPackData		=NULL;
 	ShrinkingPackContainerInstance	=NULL;
 	ModeInspectionPlayer		=false;
-	LensWindow					=NULL;
 	ZoneWindow					=NULL;
 	CurrentZoneWindowComponent	=NULL;
 	ResultFromAlgorithm			=0;
