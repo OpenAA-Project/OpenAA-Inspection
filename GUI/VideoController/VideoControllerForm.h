@@ -46,6 +46,13 @@ public:
     ~VideoControllerForm();
     virtual void	ReadyParam(void)	override;
 	virtual void	TransmitDirectly(GUIDirectMessage *packet)	override;
+
+signals:
+	void    SignalStartPlay();
+	void	SignalStopPlay();
+	void	SignalRewind();
+	void	SignalForward();
+
 private slots:
     void on_toolButtonBackwardMovie_clicked();
     void on_toolButtonRunMovie_clicked();

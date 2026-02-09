@@ -108,6 +108,7 @@
   <ItemGroup>
     <ClInclude Include="playvideowidget_global.h" />
     <ClInclude Include="XVideoCommon.h" />
+    <QtMoc Include="XVideoWidget.h" />
     <QtMoc Include="PlayVideoWidget.h" />
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />

@@ -385,7 +385,8 @@ GpuSharpnessContext::~GpuSharpnessContext() {
     cleanup();
 }
 
-void GpuSharpnessContext::cleanup() {
+void GpuSharpnessContext::cleanup()
+{
     if (m_inputTex) glDeleteTextures(1, &m_inputTex);
     if (m_outputTex) glDeleteTextures(1, &m_outputTex);
     if (m_fbo) glDeleteFramebuffers(1, &m_fbo);
@@ -520,80 +521,6 @@ GLuint GpuSharpnessContext::createComputeShaderProgram(const std::string& source
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//// -----------------------------------------------------------------------------
-//// ヘルパー: シェーダーコンパイル
-//// -----------------------------------------------------------------------------
-//GLuint createComputeShaderProgram(const std::string& fullSource)
-//{
-//    // 1. シェーダー作成
-//    GLuint shader = glCreateShader(GL_COMPUTE_SHADER);
-//    if (shader == 0) {
-//        printErrorLog("Error: glCreateShader failed. (OpenGL context might be missing?)");
-//        return 0;
-//    }
-//
-//    const char* srcPtr = fullSource.c_str();
-//    glShaderSource(shader, 1, &srcPtr, NULL);
-//    glCompileShader(shader);
-//
-//    // 2. コンパイルエラー確認
-//    GLint success;
-//    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-//    if (!success) {
-//        GLint logLength;
-//        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
-//        std::vector<char> log(logLength);
-//        glGetShaderInfoLog(shader, logLength, NULL, log.data());
-//        
-//        std::string errorMsg = "[Shader Compile Error]\n" + std::string(log.data());
-//        printErrorLog(errorMsg);
-//        
-//        glDeleteShader(shader);
-//        return 0;
-//    }
-//
-//    // 3. プログラム作成とリンク
-//    GLuint program = glCreateProgram();
-//    glAttachShader(program, shader);
-//    glLinkProgram(program);
-//    glDeleteShader(shader); // リンク後はアタッチ済みシェーダーを削除してOK
-//
-//    // 4. リンクエラー確認
-//    glGetProgramiv(program, GL_LINK_STATUS, &success);
-//    if (!success) {
-//        GLint logLength;
-//        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
-//        std::vector<char> log(logLength);
-//        glGetProgramInfoLog(program, logLength, NULL, log.data());
-//        
-//        std::string errorMsg = "[Program Link Error]\n" + std::string(log.data());
-//        printErrorLog(errorMsg);
-//        
-//        glDeleteProgram(program);
-//        return 0;
-//    }
-//
-//    return program;
-//}
-//
 bool  InitialGPUForShader(bool &isGLES)
 {
     if (!glfwInit()) {
@@ -655,105 +582,3 @@ bool  InitialGPUForShader(bool &isGLES)
 
     return true;
 }
-//
-//
-//// -----------------------------------------------------------------------------
-//// シャープネス計算 (FBO使用で互換性確保)
-//// -----------------------------------------------------------------------------
-//void computeSharpness(unsigned char* inputData, unsigned char* outputData, int w, int h ,float sensitivityVal, int Radius,bool isGLES)
-//{
-//    // 1. シェーダーソースの動的構築
-//    std::string versionHeader;
-//    if (isGLES) {
-//        // Raspberry Pi / Mobile
-//        versionHeader = "#version 310 es\n"; 
-//    } else {
-//        // Windows / Linux Desktop (highpマクロで互換性維持)
-//        versionHeader = "#version 430 core\n#define highp\n";
-//    }
-//    GLuint program;
-//    switch(Radius){
-//        case 7:
-//            program = createComputeShaderProgram(versionHeader + computeShaderBody7);
-//            break;
-//        case 6:
-//            program = createComputeShaderProgram(versionHeader + computeShaderBody6);
-//            break;
-//        case 5:
-//            program = createComputeShaderProgram(versionHeader + computeShaderBody5);
-//            break;
-//        case 4:
-//            program = createComputeShaderProgram(versionHeader + computeShaderBody4);
-//            break;
-//        case 3:
-//            program = createComputeShaderProgram(versionHeader + computeShaderBody3);
-//            break;
-//        case 2:
-//            program = createComputeShaderProgram(versionHeader + computeShaderBody2);
-//            break;
-//        default:
-//            printErrorLog("Error: Unsupported Radius value. Supported values are 2 to 7.");
-//            return;
-//	}
-//    if (program == 0){
-//        return;
-//    }
-//    glUseProgram(program);
-//
-//    // 2. テクスチャ設定
-//    GLuint inputTex, outputTex;
-//    glGenTextures(1, &inputTex);
-//    glBindTexture(GL_TEXTURE_2D, inputTex);
-//    // Desktop/ES共通の設定
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//    glTexStorage2D(GL_TEXTURE_2D, 1, GL_R8UI, w, h); // Immutable storage (推奨)
-//    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, w, h, GL_RED_INTEGER, GL_UNSIGNED_BYTE, inputData);
-//
-//    glGenTextures(1, &outputTex);
-//    glBindTexture(GL_TEXTURE_2D, outputTex);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//    glTexStorage2D(GL_TEXTURE_2D, 1, GL_R8UI, w, h);
-//
-//    // イメージユニットへのバインド
-//    glBindImageTexture(0, inputTex, 0, GL_FALSE, 0, GL_READ_ONLY, GL_R8UI);
-//    glBindImageTexture(1, outputTex, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_R8UI);
-//
-//    //glUniform1f(glGetUniformLocation(program, "sensitivity"), 2.0f);
-//
-//    // 2. 変数の場所(Location)を取得する
-//    // "sensitivity" はシェーダーコード内の uniform float sensitivity; と名前を一致させる
-//    GLint loc = glGetUniformLocation(program, "sensitivity");
-//
-//    // 3. 値をセットする (場所が見つかった場合のみ)
-//    if (loc != -1) {
-//        glUniform1f(loc, sensitivityVal);
-//    } else {
-//        // シェーダー内でその変数が使われていない場合(最適化で消された場合)、-1が返ります
-//        std::cerr << "Warning: uniform 'sensitivity' not found in shader." << std::endl;
-//    }
-//
-//    // 3. 実行
-//    glDispatchCompute((w + 15) / 16, (h + 15) / 16, 1);
-//    
-//    // バリア (書き込み完了待ち)
-//    glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
-//
-//    // 4. 読み戻し
-//    // glGetTexImageはESで使えない場合があるため、FBO経由でglReadPixelsを使う (最も互換性が高い)
-//    GLuint fbo;
-//    glGenFramebuffers(1, &fbo);
-//    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-//    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, outputTex, 0);
-//
-//    // 整数フォーマットとして読み取る
-//    glReadPixels(0, 0, w, h, GL_RED_INTEGER, GL_UNSIGNED_BYTE, outputData);
-//
-//    // クリーンアップ
-//    glDeleteFramebuffers(1, &fbo);
-//    glDeleteTextures(1, &inputTex);
-//    glDeleteTextures(1, &outputTex);
-//    glDeleteProgram(program);
-//}
-

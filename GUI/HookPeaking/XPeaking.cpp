@@ -190,6 +190,9 @@ ThreadPeaking::ThreadPeaking(LayersBase *base ,int _Isolation ,HookPeakingForm *
 
 ThreadPeaking::~ThreadPeaking(void)
 {
+	delete GpuContext;
+    GpuContext=NULL;
+
 	if(FlatBuff!=NULL){
 		delete	[]FlatBuff;
 	}
@@ -197,15 +200,7 @@ ThreadPeaking::~ThreadPeaking(void)
 		delete	[]AverageBuff;
 	}
 	FlatBuff=NULL;
-
-	delete GpuContext;
-    GpuContext=NULL;
-
 }
-	
-
-
-
 
 void	FlatPeakingImageBuff::Allocate(int width,int height,int page)
 {
@@ -410,7 +405,7 @@ void	ThreadPeaking::SetAverage(ImageBuffer *Dst,ImagePointerContainer &Src)
 					int	r=sr[sx];
 					int	g=sg[sx];
 					int	b=sb[sx];
-					int	gray=(r*30+g*59+b*11)/100;
+					int	gray=(r*76+g*150+b*28)>>8;
 					d[x]=(BYTE)gray;
 					sx+=Isolation;
 				}
@@ -453,21 +448,106 @@ void	ThreadPeaking::MakePeakData(int localPage)
 
 		int	DstWidth	= AverageBuff[p].GetWidth();
 		int	DstHeight	= AverageBuff[p].GetHeight();
-		#pragma omp parallel  num_threads(4)                           
-		{                                                
-			#pragma omp for
-			for(int y=0;y<DstHeight;y++){
-				BYTE *dst = FlatBuff[localPage].InData+(y*FlatBuff[localPage].Width);
-				BYTE *src[100];
-				for(int i=0;i<CountOfAverage;i++){
-					src[i] = (AverageBuff[p])[i]->GetY(y);
-				}
-				for(int x = 0;x<DstWidth;x++){
-					int	sum = 0;
+		if(CountOfAverage==2){
+			#pragma omp parallel  num_threads(4)                           
+			{                                                
+				#pragma omp for
+				for(int y=0;y<DstHeight;y++){
+					BYTE *dst = FlatBuff[localPage].InData+(y*FlatBuff[localPage].Width);
+					BYTE *src[100];
 					for(int i=0;i<CountOfAverage;i++){
-						sum += src[i][x];
+						src[i] = (AverageBuff[p])[i]->GetY(y);
 					}
-					dst[x] = (BYTE)(sum/CountOfAverage);
+					for(int x = 0;x<DstWidth;x++){
+						int	sum = 0;
+						for(int i=0;i<CountOfAverage;i++){
+							sum += src[i][x];
+						}
+						dst[x] = (BYTE)(sum>>1);
+					}
+				}
+			}
+		}
+		else
+		if(CountOfAverage==4){
+			#pragma omp parallel  num_threads(4)                           
+			{                                                
+				#pragma omp for
+				for(int y=0;y<DstHeight;y++){
+					BYTE *dst = FlatBuff[localPage].InData+(y*FlatBuff[localPage].Width);
+					BYTE *src[100];
+					for(int i=0;i<CountOfAverage;i++){
+						src[i] = (AverageBuff[p])[i]->GetY(y);
+					}
+					for(int x = 0;x<DstWidth;x++){
+						int	sum = 0;
+						for(int i=0;i<CountOfAverage;i++){
+							sum += src[i][x];
+						}
+						dst[x] = (BYTE)(sum>>2);
+					}
+				}
+			}
+		}
+		else
+		if(CountOfAverage==8){
+			#pragma omp parallel  num_threads(4)                           
+			{                                                
+				#pragma omp for
+				for(int y=0;y<DstHeight;y++){
+					BYTE *dst = FlatBuff[localPage].InData+(y*FlatBuff[localPage].Width);
+					BYTE *src[100];
+					for(int i=0;i<CountOfAverage;i++){
+						src[i] = (AverageBuff[p])[i]->GetY(y);
+					}
+					for(int x = 0;x<DstWidth;x++){
+						int	sum = 0;
+						for(int i=0;i<CountOfAverage;i++){
+							sum += src[i][x];
+						}
+						dst[x] = (BYTE)(sum>>3);
+					}
+				}
+			}
+		}
+		else
+		if(CountOfAverage==16){
+			#pragma omp parallel  num_threads(4)                           
+			{                                                
+				#pragma omp for
+				for(int y=0;y<DstHeight;y++){
+					BYTE *dst = FlatBuff[localPage].InData+(y*FlatBuff[localPage].Width);
+					BYTE *src[100];
+					for(int i=0;i<CountOfAverage;i++){
+						src[i] = (AverageBuff[p])[i]->GetY(y);
+					}
+					for(int x = 0;x<DstWidth;x++){
+						int	sum = 0;
+						for(int i=0;i<CountOfAverage;i++){
+							sum += src[i][x];
+						}
+						dst[x] = (BYTE)(sum>>4);
+					}
+				}
+			}
+		}
+		else{
+			#pragma omp parallel  num_threads(4)                           
+			{                                                
+				#pragma omp for
+				for(int y=0;y<DstHeight;y++){
+					BYTE *dst = FlatBuff[localPage].InData+(y*FlatBuff[localPage].Width);
+					BYTE *src[100];
+					for(int i=0;i<CountOfAverage;i++){
+						src[i] = (AverageBuff[p])[i]->GetY(y);
+					}
+					for(int x = 0;x<DstWidth;x++){
+						int	sum = 0;
+						for(int i=0;i<CountOfAverage;i++){
+							sum += src[i][x];
+						}
+						dst[x] = (BYTE)(sum/CountOfAverage);
+					}
 				}
 			}
 		}

@@ -181,7 +181,7 @@ mtGraphicUnit::~mtGraphicUnit(void)
 	delete	MeterLeft;
 	delete	VScroll;
 	delete	HScroll;
-	delete	FrDraw;
+	FrDraw->deleteLater();
 	delete	FitZoomBtn;
 	delete	UpPageBtn;
 	delete	DownPageBtn;

@@ -156,7 +156,6 @@ protected:
 	int32					MinInterval;
 	DWORD					LastTimeToDraw;
 	DWORD					LastTimeToPaint;
-	LensWindowForm			*LensWindow;
 
 	//QList<QImage>			TestImage;
 public:

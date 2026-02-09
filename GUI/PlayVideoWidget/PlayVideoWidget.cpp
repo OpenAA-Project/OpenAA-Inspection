@@ -22,6 +22,7 @@
 #include "XGeneralFunc.h"
 #include "XCriticalFunc.h"
 #include "XVideoCommon.h"
+#include "XVideoWidget.h"
 
 #define SLIDER_RANGE 8
 
@@ -223,6 +224,7 @@ void	PlayVideoWidget::Prepare(void)
     if (!connect(this, SIGNAL(SignalResize()), this, SLOT(ResizeAction()))) {
         Error = 1;
     }
+	connect(glWidget,SIGNAL(SignalBlaybackFinished()),this,SLOT(SlotPlaybackFinished()));
 }
 void	PlayVideoWidget::ReadyParam(void)
 {
@@ -272,6 +274,11 @@ void PlayVideoWidget::dragMoveEvent(QDragMoveEvent* e)
             e->acceptProposedAction();
         }
     }
+}
+
+void PlayVideoWidget::SlotPlaybackFinished()
+{
+	emit SignalBlaybackFinished();
 }
 
 void PlayVideoWidget::playPause()

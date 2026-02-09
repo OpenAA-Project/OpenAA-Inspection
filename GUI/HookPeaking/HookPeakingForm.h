@@ -100,6 +100,8 @@ private slots:
 private:
     Ui::HookPeakingForm *ui;
     
+	void closeEvent ( QCloseEvent * event );
+
 private slots:
 	void	ResizeAction();
     void on_horizontalSliderTransparentRate_valueChanged(int value);

@@ -87,6 +87,7 @@ void VideoControllerForm::on_toolButtonBackwardMovie_clicked()
 		PlayVideoWidgetPointer->TransmitDirectly(&Cmd);
 		ui->horizontalSliderMovie->setValue(0);
 	}
+	emit SignalRewind();
 }
 
 void VideoControllerForm::on_toolButtonRunMovie_clicked()
@@ -95,6 +96,7 @@ void VideoControllerForm::on_toolButtonRunMovie_clicked()
 		CmdVideo_SetPlaybackRate	Cmd(GetLayersBase());
 		Cmd.PlaybackRate = 1.0;
 		PlayVideoWidgetPointer->TransmitDirectly(&Cmd);
+		emit SignalStartPlay();
 	}
 	else {
 		if(ui->toolButtonRunMovie->isChecked()==false){
@@ -102,12 +104,14 @@ void VideoControllerForm::on_toolButtonRunMovie_clicked()
 			if (PlayVideoWidgetPointer != NULL) {
 				PlayVideoWidgetPointer->TransmitDirectly(&Cmd);
 			}
+			emit SignalStopPlay();
 		}
 		else{
 			CmdVideo_Play	Cmd(GetLayersBase());
 			if (PlayVideoWidgetPointer != NULL) {
 				PlayVideoWidgetPointer->TransmitDirectly(&Cmd);
 			}
+			emit SignalStartPlay();
 		}
 		{
 			CmdVideo_GetCurrentTime		Cmd(GetLayersBase());
@@ -121,6 +125,7 @@ void VideoControllerForm::on_toolButtonRunMovie_clicked()
 		}
 	}
 	ui->toolButtonForwardMovie->setChecked(false);
+	
 }
 
 void VideoControllerForm::on_toolButtonForwardMovie_clicked()
@@ -148,6 +153,7 @@ void VideoControllerForm::on_toolButtonForwardMovie_clicked()
 			ui->toolButtonRunMovie->setChecked(true);
 		}
 		//ui->horizontalSliderMovie->setValue(ui->horizontalSliderMovie->maximum());
+		emit SignalForward();
 	}
 }
 

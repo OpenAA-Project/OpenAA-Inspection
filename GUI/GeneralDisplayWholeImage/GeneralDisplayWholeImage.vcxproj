@@ -192,10 +192,10 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <Optimization>MaxSpeedHighLevel</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\Open;.\GeneratedFiles\$(Configuration);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;GENERALDISPLAYWHOLEIMAGE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -206,13 +206,13 @@
       <Parallelization>true</Parallelization>
       <OpenMP>GenerateParallelCode</OpenMP>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
       <GenerateAlternateCodePaths>None</GenerateAlternateCodePaths>
-      <UseProcessorExtensions>None</UseProcessorExtensions>
+      <UseProcessorExtensions>SSE42</UseProcessorExtensions>
       <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Component.lib;DisplayImage.lib;ServiceLib.lib;DisplayOpenGL.lib;%(AdditionalDependencies)</AdditionalDependencies>

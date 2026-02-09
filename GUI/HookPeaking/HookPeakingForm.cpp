@@ -81,6 +81,19 @@ HookPeakingForm::~HookPeakingForm()
 void	HookPeakingForm::ResizeAction()
 {
 }
+void HookPeakingForm::closeEvent ( QCloseEvent * event )
+{
+	if(Thread!=NULL){
+		Thread->Terminated=true;
+		Thread->wait(1000);
+		Thread->deleteLater();
+		//delete	Thread;
+		Thread=NULL;
+	}
+
+	GUIFormBase::closeEvent(event);
+
+}
 static	bool TargetFunctionPaintLast(FunctionServerClass *Obj,GUIFormBase *TargetObj,QPainter &pnt ,QImage &PntImage)
 {
 	DisplayImage	*DImage=dynamic_cast<DisplayImage *>(TargetObj);

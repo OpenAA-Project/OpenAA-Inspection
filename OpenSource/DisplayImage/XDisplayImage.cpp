@@ -105,7 +105,6 @@ DisplayImage::DisplayImage(LayersBase *Base,const QString &emitterRoot ,const QS
 	CurrentMasterNo					=0;
 	WorkingTime						=0;
 	ScaleColor						=Qt::yellow;
-	LensWindow						=NULL;
 
 	PastedItems						=NULL;
 	DrawingShapeMode				=_Normal;
@@ -423,9 +422,11 @@ DisplayImage::~DisplayImage(void)
 		delete	RedoBtn;
 		RedoBtn=NULL;
 	}
-	if(LensWindow!=NULL){
-		delete	LensWindow;
-		LensWindow=NULL;
+	LensWindowForm	*pLensWindow=GetLayersBase()->GetLensWindow();
+	if(pLensWindow!=NULL){
+		delete	pLensWindow;
+		pLensWindow=NULL;
+		GetLayersBase()->SetLensWindow(pLensWindow);
 	}
 	//delete	ClippedImageStructure;
 	//ClippedImageStructure=NULL;
@@ -445,7 +446,7 @@ DisplayImage::~DisplayImage(void)
 	//	PainterInIdle=NULL;
 	//}
 	if(MainCanvas!=NULL){
-		delete	MainCanvas;
+		MainCanvas->deleteLater();
 		MainCanvas=NULL;
 	}
 }
@@ -651,31 +652,36 @@ bool	DisplayImage::ShouldDrawBuild(void)
 
 LensWindowForm	*DisplayImage::ShowCreateLensWindow(bool ON ,const QString &WindowTitle)
 {
+	LensWindowForm	*pLensWindow=GetLayersBase()->GetLensWindow();
 	if(ON==true){
-		if(LensWindow==NULL){
-			LensWindow=new LensWindowForm(GetLayersBase());
+		if(pLensWindow==NULL){
+			pLensWindow=new LensWindowForm(GetLayersBase());
+			GetLayersBase()->SetLensWindow(pLensWindow);
 		}
-		LensWindow->setWindowTitle(WindowTitle);
-		LensWindow->show();
+		pLensWindow->setWindowTitle(WindowTitle);
+		pLensWindow->show();
 	}
 	else{
-		if(LensWindow!=NULL){
-			LensWindow->hide();
+		if(pLensWindow!=NULL){
+			pLensWindow->hide();
 		}
 	}
-	return LensWindow;
+	return pLensWindow;
 }
 LensWindowForm	*DisplayImage::ShowLensWindow(void)
 {
-	if(LensWindow==NULL){
-		LensWindow=new LensWindowForm(GetLayersBase());
+	LensWindowForm	*pLensWindow=GetLayersBase()->GetLensWindow();
+	if(pLensWindow==NULL){
+		pLensWindow=new LensWindowForm(GetLayersBase());
+		GetLayersBase()->SetLensWindow(pLensWindow);
 	}
-	LensWindow->show();
-	return LensWindow;
+	pLensWindow->show();
+	return pLensWindow;
 }
 bool	DisplayImage::IsShowingLensWindow(void)
 {
-	if(LensWindow!=NULL && LensWindow->isHidden()==false){
+	LensWindowForm	*pLensWindow=GetLayersBase()->GetLensWindow();
+	if(pLensWindow!=NULL && pLensWindow->isHidden()==false){
 		return true;
 	}
 	return false;
@@ -683,10 +689,11 @@ bool	DisplayImage::IsShowingLensWindow(void)
 
 LensWindowForm	*DisplayImage::ShowLens(DisplayImage *_TargetPanel ,int GlobalX ,int GlobalY)
 {
-	if(LensWindow!=NULL){
-		LensWindow->ShowLens(_TargetPanel ,GlobalX ,GlobalY , _TargetPanel->GetDisplayType());
+	LensWindowForm	*pLensWindow=GetLayersBase()->GetLensWindow();
+	if(pLensWindow!=NULL){
+		pLensWindow->ShowLens(_TargetPanel ,GlobalX ,GlobalY , _TargetPanel->GetDisplayType());
 	}
-	return LensWindow;
+	return pLensWindow;
 }
 
 void	DisplayImage::SetModeToImagePanelTools(DrawingMode mode ,const QColor &lineColor)

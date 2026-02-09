@@ -34,6 +34,7 @@
 #include <propvarutil.h> // PROPVARIANT操作用
 
 #include "PlayVideoWidget.h"
+#include "XVideoWidget.h"
 #include "XGeneralDialog.h"
 #include "XGeneralFunc.h"
 #include "XCriticalFunc.h"
@@ -57,7 +58,8 @@ MMFVideoWidget::MMFVideoWidget(PlayVideoWidget* player, QWidget *parent)
     connect(&Player, &MFDecoderThread::durationChanged, [&](qint64 totalMs){
         totalDuration = totalMs;
     });
-    connect(&Player, SIGNAL(positionChanged(qint64)), this, SLOT(SlotPositionChanged(qint64)));
+    connect(&Player, SIGNAL(positionChanged(qint64)), this, SLOT(SlotPositionChanged(qint64)),Qt::QueuedConnection);
+    connect(&Player, SIGNAL(playbackFinished()), this, SLOT(SlotBlaybackFinished()),Qt::QueuedConnection);
 }
 
 MMFVideoWidget::~MMFVideoWidget()
@@ -76,6 +78,10 @@ void MMFVideoWidget::SlotPositionChanged(qint64 currentMs)
 {
     CurrentMs=currentMs;
     emit    SignalPositionChanged(currentMs);
+}
+void	MMFVideoWidget::SlotBlaybackFinished()
+{
+    emit	SignalBlaybackFinished();
 }
 
 bool	MMFVideoWidget::IsPlaying()
@@ -177,6 +183,51 @@ void MMFVideoWidget::updateFrame(const uchar* data, int width, int height, int s
 void MMFVideoWidget::setSource(const QString &path)
 {
     Player.setSource(path);
+	totalDuration=GetVideoDuration(path.toStdWString());
+}
+double MMFVideoWidget::GetVideoDuration(const std::wstring& filename)
+{
+    IMFSourceReader* pReader = nullptr;
+    HRESULT hr = S_OK;
+
+    // 1. Source Reader の作成
+    hr = MFCreateSourceReaderFromURL(filename.c_str(), nullptr, &pReader);
+    if (FAILED(hr)) return 0.0;
+
+    // 2. プレゼンテーション属性の取得
+    // Presentation Descriptor の代わりとして Source Reader から取得可能
+    IMFAttributes* pAttributes = nullptr;
+    double durationSec = 0.0;
+
+    // MF_SOURCE_READER_MEDIASOURCE キャラクタリスティックを取得
+    // 注: SourceReader内部のMediaSourceからDurationを取るのが確実です
+    IMFMediaSource* pMediaSource = nullptr;
+    hr = pReader->GetServiceForStream(
+        MF_SOURCE_READER_MEDIASOURCE, 
+        GUID_NULL, 
+        IID_PPV_ARGS(&pMediaSource)
+    );
+
+    if (SUCCEEDED(hr)) {
+        IMFPresentationDescriptor* pPD = nullptr;
+        hr = pMediaSource->CreatePresentationDescriptor(&pPD);
+        if (SUCCEEDED(hr)) {
+            UINT64 durationVal = 0;
+            // MF_PD_DURATION は 100ナノ秒単位 (10^-7 秒)
+            hr = pPD->GetUINT64(MF_PD_DURATION, &durationVal);
+            if (SUCCEEDED(hr)) {
+                durationSec = (double)durationVal / 10000000.0;
+            }
+            pPD->Release();
+        }
+        pMediaSource->Release();
+    } else {
+        // フォールバック: SourceReader自体が持っている属性を試す (稀なケース)
+        // 通常は上記 ServiceForStream で取れるはずです
+    }
+
+    pReader->Release();
+    return durationSec;
 }
 void MMFVideoWidget::initializeGL()
 {
@@ -296,8 +347,9 @@ void	MMFVideoWidget::play()
         Player.stop();
         Player.wait(2000);
     }
-    Player.PreparePlay();
-    Player.start();
+    if(Player.PreparePlay()==true){
+        Player.start();
+    }
 }
 void	MMFVideoWidget::stop()
 {
@@ -350,16 +402,20 @@ void    MFDecoderThread::setPlaybackRate(double rate)
     }
 }
 
-void	MFDecoderThread::PreparePlay()
+bool	MFDecoderThread::PreparePlay()
 {
-    if (m_filePath.isEmpty()) return;
+    if (m_filePath.isEmpty()){
+        return false;
+    }
     m_stop = false;
     m_pause=false;
     m_seekRequest = false; // 初期化
     m_requestedRate = 1.0; // デフォルト1倍速
    
     HRESULT hr = MFStartup(MF_VERSION);
-    if (FAILED(hr)) return;
+    if (FAILED(hr)){
+        return false;
+    }
     
     // D3D11 Init
     pD3D11Device = nullptr;
@@ -391,7 +447,7 @@ void	MFDecoderThread::PreparePlay()
     if (FAILED(hr)) {
         SafeRelease(&pDXGIManager); SafeRelease(&pContext); SafeRelease(&pD3D11Device);
         MFShutdown();
-        return;
+        return false;
     }
     
     // Get Duration
@@ -410,6 +466,7 @@ void	MFDecoderThread::PreparePlay()
     SafeRelease(&pType);
     
     m_playing=true;
+    return true;
 }
 void MFDecoderThread::run()
 {
@@ -488,7 +545,7 @@ void MFDecoderThread::run()
             //m_pause = true;
             
             // シグナルを出してUI側のボタン表記を「Play」に戻すなどの連携も可能
-            // emit playbackFinished(); 
+            emit playbackFinished(); 
             
             break; // ループの先頭に戻る（先頭のポーズ待機ロジックに入ります）
         }

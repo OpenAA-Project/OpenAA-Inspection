@@ -197,7 +197,7 @@
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
       <GenerateAlternateCodePaths>SSE3</GenerateAlternateCodePaths>
       <UseProcessorExtensions>None</UseProcessorExtensions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>

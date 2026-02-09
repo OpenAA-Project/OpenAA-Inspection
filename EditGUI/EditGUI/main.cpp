@@ -95,6 +95,8 @@ int main(int argc, char *argv[])
 	argc++;
 	
 	QCoreApplication::addLibraryPath(CurrentBuff);
+	QString	AddedLibPath = QString(CurrentBuff)+QString("/plugins");
+	QCoreApplication::addLibraryPath(AddedLibPath);
 
 	QApplication a(argc, argv);
 	QString	UserPath;

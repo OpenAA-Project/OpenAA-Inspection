@@ -158,6 +158,7 @@ class	AlgorithmThreshold					;
 class	AlgorithmItemIndex					;
 class	LearningInDBThreshold				;
 class	AlgorithmLibrary					;
+class	LensWindowForm						;
 
 //========================================================================================
 
@@ -1192,6 +1193,8 @@ class   LayersBase : public QObject
 	int				LastCurrentCalcPoint;
 	bool			EnableFilter;
 	bool			EnableProcess;
+	LensWindowForm	*LensWindow=NULL;
+
 
 	XDateTime		StartInspectionTime;
 	XDateTime		EndInspectionTime;
@@ -1435,6 +1438,9 @@ public:
 	void	ClearBufferInfo(void);
 	void	RemoveBufferInfo(int OriginCode);
 	int		ShowSelectMasterNoOriginCodeDialog(int OriginCode=-1);
+
+	LensWindowForm	*GetLensWindow(void)				{	return LensWindow;	}
+	void			SetLensWindow(LensWindowForm *s)	{	LensWindow=s;		}
 
 	virtual	void    CopyAlgorithm	(const LayersBase *parent ,RootNameListContainer &List ,const char *AlgorithmPath,bool LoadAll=false);
 	virtual	bool	CheckResultDLL(void);
