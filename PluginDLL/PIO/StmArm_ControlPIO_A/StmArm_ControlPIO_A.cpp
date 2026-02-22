@@ -64,13 +64,13 @@ int _cdecl  AIP_IO_GetIOBoardNumb(void)
 	return(1);
 }
 
-int _cdecl  AIP_IO_GetIOInBitCount(void *handle ,int boardNumber)
+int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	LayersBase	*Layers=(LayersBase	*)handle;
 	return 5;
 }
 
-int _cdecl  AIP_IO_GetIOOutBitCount(void *handle ,int boardNumber)
+int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	LayersBase	*Layers=(LayersBase	*)handle;
 	return 0;
@@ -81,7 +81,7 @@ bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 	return(true);
 }
 
-void  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+PIODLLBaseClass  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	LayersBase	*Layers=NULL;
 	GUIFormBase	*b=dynamic_cast<GUIFormBase	*>(mainW);

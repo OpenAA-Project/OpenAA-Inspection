@@ -143,6 +143,7 @@ bool	CameraInterface::LoadDLL(const QString &filename ,int32 &ErrorCode)
 		return(false);
 	}
 	DLL_GetCameraDLLInfo=(bool (*)(CameraHandle *handle ,CameraDLLInfo &CamInfo))DllLib.resolve("DLL_GetCameraDLLInfo");
+	DLL_ReqSystemChange	=(bool (*)(CameraHandle *handle ,CameraReqSystemChangeInfo &caminfo))DllLib.resolve("DLL_ReqSystemChange");
 	DLL_ChangeInfo		=(bool (*)(CameraHandle *handle ,CameraReqInfo &caminfo))DllLib.resolve("DLL_ChangeInfo");
 
 	DLL_Close			=(bool (*)(CameraHandle *handle))DllLib.resolve("DLL_Close");
@@ -304,6 +305,7 @@ CameraInterface::CameraInterface(int _CamNo ,LayersBase *base)
 	DLL_GetCameraCount				=NULL;
 	DLL_Initial						=NULL;
 	DLL_GetCameraDLLInfo			=NULL;
+	DLL_ReqSystemChange				=NULL;
 	DLL_Close						=NULL;
 	DLL_ResetToDefault				=NULL;
 	DLL_Load						=NULL;
@@ -387,6 +389,7 @@ CameraInterface::~CameraInterface(void)
 	DLL_GetCameraCount				=NULL;
 	DLL_Initial						=NULL;
 	DLL_GetCameraDLLInfo			=NULL;
+	DLL_ReqSystemChange				=NULL;
 	DLL_Close						=NULL;
 	DLL_Load						=NULL;
 	DLL_Save						=NULL;
@@ -597,6 +600,18 @@ bool	CameraInterface::ChangeInfo(int XLen ,int YLen, int LayerCount ,int PageNum
 			CamInfo.CamMaximumLines				=GetMaxLines(PageNumb);
 			CamInfo.AnyData						=anydata;
 			const bool	ret=DLL_ChangeInfo(Handle,CamInfo);
+			MutexExeCam.unlock();
+			return ret;
+		}
+	}
+	return false;
+}
+
+bool	CameraInterface::ReqSystemChange(CameraReqSystemChangeInfo &caminfo)
+{
+	if(DLL_ReqSystemChange!=NULL){
+		if(MutexExeCam.tryLock()==true){
+			const bool	ret=DLL_ReqSystemChange(Handle ,caminfo);
 			MutexExeCam.unlock();
 			return ret;
 		}
@@ -1007,7 +1022,14 @@ bool	CameraInterface::IsTREffective(void)
 		return true;
 	return false;
 }
-
+bool	CameraInterface::SetTriggerMode(bool b)
+{
+	return Handle->SetTriggerMode(b);
+}
+bool	CameraInterface::GetTriggerMode(void)
+{
+	return Handle->GetTriggerMode();
+}
 bool	CameraInterface::StartCaptureContinuously(ImageBuffer *Buff[],int BufferDimCounts ,CameraScanInfo *Info)
 {
 	if(DLL_StartCaptureContinuously!=NULL){
@@ -1631,6 +1653,12 @@ bool	CameraClass::ChangeInfo(int XLen ,int YLen, int LayerCount ,int PageNumb,Ca
 		return false;
 	return Camera->ChangeInfo(XLen ,YLen, LayerCount ,PageNumb,anydata);
 }
+bool	CameraClass::ReqSystemChange(CameraReqSystemChangeInfo &caminfo)
+{
+	if(Camera==NULL)
+		return false;
+	return Camera->ReqSystemChange(caminfo);
+}
 bool	CameraClass::IsAlive(void)
 {
 	if(Camera==NULL)
@@ -1686,6 +1714,19 @@ bool	CameraClass::GetCurrentInfo(CameraReqInfo &RetInfo)
 		return false;
 	return Camera->GetCurrentInfo(RetInfo);
 }
+bool	CameraClass::SetTriggerMode(bool b)
+{
+	if(Camera==NULL)
+		return false;
+	return Camera->SetTriggerMode(b);
+}
+bool	CameraClass::GetTriggerMode(void)
+{
+	if(Camera==NULL)
+		return false;
+	return Camera->GetTriggerMode();
+}
+
 bool	CameraClass::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
 {
 	if(Camera==NULL)

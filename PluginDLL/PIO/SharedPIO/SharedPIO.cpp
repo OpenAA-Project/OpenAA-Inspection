@@ -61,7 +61,7 @@ int _cdecl  AIP_IO_GetIOBoardNumb(void)
 	return(1);
 }
 
-int _cdecl  AIP_IO_GetIOInBitCount(void *handle ,int boardNumber)
+int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	SharedPIO	*PIO=(SharedPIO *)handle;
 	if(PIO==NULL)
@@ -76,7 +76,7 @@ int _cdecl  AIP_IO_GetIOInBitCount(void *handle ,int boardNumber)
 	return InBitNum;
 }
 
-int _cdecl  AIP_IO_GetIOOutBitCount(void *handle ,int boardNumber)
+int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	SharedPIO	*PIO=(SharedPIO *)handle;
 	if(PIO==NULL)
@@ -96,7 +96,7 @@ bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 	return(true);
 }
 
-void  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+PIODLLBaseClass  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 /*
 	Something	=	PIO name
 */
@@ -113,7 +113,7 @@ void  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbu
 	return(PIO);
 }
 
-BYTE  _cdecl AIP_IO_GetBit(void *handle ,int boardNumber , BYTE bitIndex)
+BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
 {
 	SharedPIO	*PIO=(SharedPIO *)handle;
 	if(PIO==NULL)
@@ -132,7 +132,7 @@ BYTE  _cdecl AIP_IO_GetBit(void *handle ,int boardNumber , BYTE bitIndex)
 	return 0;
 }
 
-BYTE  _cdecl AIP_IO_GetByte(void *handle ,int boardNumber , BYTE byteIndex)
+BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	SharedPIO	*PIO=(SharedPIO *)handle;
 	if(PIO==NULL)
@@ -148,7 +148,7 @@ BYTE  _cdecl AIP_IO_GetByte(void *handle ,int boardNumber , BYTE byteIndex)
 	return 0;
 }
 
-void  _cdecl AIP_IO_SetBit(void *handle ,int boardNumber , BYTE bitIndex ,BYTE data)
+void  _cdecl AIP_IO_SetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex ,BYTE data)
 {
 	SharedPIO	*PIO=(SharedPIO *)handle;
 	if(PIO==NULL)
@@ -165,7 +165,7 @@ void  _cdecl AIP_IO_SetBit(void *handle ,int boardNumber , BYTE bitIndex ,BYTE d
 	}
 }
 
-BYTE  _cdecl AIP_IO_SetByte(void *handle ,int boardNumber , BYTE byteIndex , BYTE data)
+BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data)
 {
 	SharedPIO	*PIO=(SharedPIO *)handle;
 	if(PIO==NULL)
@@ -182,7 +182,7 @@ BYTE  _cdecl AIP_IO_SetByte(void *handle ,int boardNumber , BYTE byteIndex , BYT
 }
 
 
-int  _cdecl AIP_IO_GetOutByte(void *handle ,int boardNumber , BYTE byteIndex)
+int  _cdecl AIP_IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	SharedPIO	*PIO=(SharedPIO *)handle;
 	if(PIO==NULL)
@@ -199,7 +199,7 @@ int  _cdecl AIP_IO_GetOutByte(void *handle ,int boardNumber , BYTE byteIndex)
 
 }
 
-bool  _cdecl AIP_IO_Close(void *handle ,int boardNumber)
+bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
 {
 	SharedPIO	*PIO=(SharedPIO *)handle;
 	if(PIO==NULL)

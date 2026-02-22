@@ -115,14 +115,13 @@ public:
 	virtual	int		GetCameraDim(CameraClass *CamDim[])	override;
 	virtual	void	SetCameraDim(CameraClass *CamDim[])	override;	
 
-	//�������͊O�������̑���
 	virtual	void	GoInspect(void)					override;
 	virtual	void	GoInspectWithoutCapture(void)	override;
 	virtual	void	GoMasterCaptureOnly(void)		override;
 	virtual	void	GoTargetCaptureOnly(void)		override;
 	virtual	void	GoGray(void)					override;
 	virtual	void	CamShowSetting(int CamNo)		override;
-	virtual	bool	LoadCameraSetting(QIODevice *f)					override;
+	virtual	bool	LoadCameraSetting(QIODevice *f)	override;
 	virtual	void	ChangeLot(void)					override;
 	virtual	void	ClearCameraBuffer(void)			override;
 
@@ -154,12 +153,7 @@ private:
 
 	bool	CheckCamera(int32 &ErrorCode);
 	int		CaptureGetState(void);
-		//�S�ẴJ�����̃r�b�g�n�q
-		//	�߂��l�F	�r�b�g�O	�P�F�B�e������
-		//				�r�b�g�P	�P�F�g���K�[�ҋ@��
-		//				�r�b�g�Q	�P�F�c�l�`�]����
-		//				�r�b�g�R	�P�F�I�[�o�[�����G���[����
-		//				�r�b�g�S	�P�F���̑��G���[����
+
 	bool	CaptureGetMasterImage(int CStrategic,ListPhasePageLayerPack &CapturedList);
 	bool	CaptureGetTargetImage(ListPhasePageLayerPack &CapturedList);
 	void	OccurCamError(int CamStatus);

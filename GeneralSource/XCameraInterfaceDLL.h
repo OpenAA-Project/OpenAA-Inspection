@@ -79,6 +79,7 @@ class	CameraInterface :public QObject
 	CameraHandle	*(*DLL_Initial)(int CameraNoInThisCuct ,LayersBase *base, CameraReqInfo &caminfo,const QString &CameraParameter);
 	bool		(*DLL_GetCameraDLLInfo)(CameraHandle *handle ,CameraDLLInfo &CamInfo);
 	bool		(*DLL_ChangeInfo)(CameraHandle *handle ,CameraReqInfo &caminfo);
+	bool		(*DLL_ReqSystemChange)(CameraHandle *handle ,CameraReqSystemChangeInfo &caminfo);
 	bool		(*DLL_Close)(CameraHandle *handle);
 	bool		(*DLL_ResetToDefault)(CameraHandle *handle);
 	bool		(*DLL_Load)(CameraHandle *handle ,QIODevice &str);
@@ -152,6 +153,7 @@ public:
 	void	AfterStartSequence(void);
 
 	bool	ChangeInfo(int XLen ,int YLen, int LayerCount ,int PageNumb,CameraReqInfoAnyData *anydata=NULL);
+	bool	ReqSystemChange(CameraReqSystemChangeInfo &caminfo);
 	bool	GetCurrentInfo(CameraReqInfo &RetInfo);
 	bool	RestoreCamInfo(void);
 	bool	ResetToDefault(void);
@@ -176,6 +178,9 @@ public:
 
 	bool	Load(QIODevice &str);
 	bool	Save(QIODevice &str);
+
+	bool	SetTriggerMode(bool b)	;
+	bool	GetTriggerMode(void)	;
 
 	bool	ShowSetting(QWidget *parent);
 

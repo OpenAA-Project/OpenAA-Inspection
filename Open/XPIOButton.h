@@ -28,6 +28,7 @@
 #include "XTypeDef.h"
 #include "XServiceForLayers.h"
 #include "NList.h"
+#include "XIODLL.h"
 
 class	PIOInterface;
 class	EachPIOClass;
@@ -48,6 +49,12 @@ public:
 
 	PIOInterface	*GetInterface(void)	{	return Interface;	}
 	
+	void	InitialPrepare(void);
+	void	Prepare(void)		;
+	void	AfterPrepare(void)	;
+	void	ReadyParam(void)	;
+	void	AfterStartSequence(void);
+
 	bool	IsPIODLL(void)		const;
 	bool	LoadDLL(const QString &filename,bool OutputErrorMessage);
     bool    Initialize(QWidget *mainW,const QString &IODLLFileName,bool InitialOutput ,const QString &Something);
@@ -78,17 +85,17 @@ public:
 	bool	GetBit(const QString &InBitName ,BYTE &data);
 	bool	GetEchobackBit(const QString &OutBitName ,BYTE &data);
 
-	int		GetIOInBitCount		(void *handle ,int boardNumber);
-	int		GetIOOutBitCount	(void *handle ,int boardNumber);
-	void	*Open				(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something);
-	bool	Close				(void *handle ,int boardNumber);
+	int		GetIOInBitCount		(PIODLLBaseClass *handle ,int boardNumber);
+	int		GetIOOutBitCount	(PIODLLBaseClass *handle ,int boardNumber);
+	PIODLLBaseClass	*Open				(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something);
+	bool	Close			(PIODLLBaseClass *handle ,int boardNumber);
 
-	BYTE	IO_GetBit		(void *handle ,int boardNumber , BYTE bitIndex);
-	BYTE	IO_GetByte		(void *handle ,int boardNumber , BYTE byteIndex);
-	bool	IO_SetBit		(void *handle ,int boardNumber , BYTE bitIndex , BYTE data);
-	bool	IO_SetByte		(void *handle ,int boardNumber , BYTE byteIndex , BYTE data);
-	int		IO_GetOutByte	(void *handle ,int boardNumber , BYTE byteIndex);
-	int		IO_GetOutBit	(void *handle ,int boardNumber , BYTE bitIndex);
+	BYTE	IO_GetBit		(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex);
+	BYTE	IO_GetByte		(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex);
+	bool	IO_SetBit		(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex , BYTE data);
+	bool	IO_SetByte		(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data);
+	int		IO_GetOutByte	(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex);
+	int		IO_GetOutBit	(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex);
 	int     GetEchobackOutBit(int boardNumber , int bitno);
 	BYTE    GetEchobackOutByte(int boardNumber , int portno);
 
@@ -98,7 +105,7 @@ public:
 	void	SetBoardName(int brdNo,const QString &BrdName);
 	void	SetSomething(int brdNo,const QString &Something);
 	QString	GetBoardName(int brdNo)	const;
-	void	LoopOnIdle(void *handle ,int boardNumber);
+	void	LoopOnIdle(PIODLLBaseClass *handle ,int boardNumber);
 	void	LoopOnIdle(void);
 
     bool    ReadDefFile (const QString &FileName,bool DefaultOut=true);
@@ -123,13 +130,18 @@ public slots:
 						,unsigned int MiliSec,int SepTime);
 };
 
-//extern  PIOClass    PIO;
 class	PIOClassPack : public NPListPack<PIOClass>,public ServiceForLayers
 {
 public:
 	PIOClassPack(LayersBase *base):ServiceForLayers(base){}
 
 	int	SearchAddDLL(int32 &ErrorCode,bool OutputErrorMessage=true);
+
+	void	InitialPrepare(void);
+	void	Prepare(void)		;
+	void	AfterPrepare(void)	;
+	void	ReadyParam(void)	;
+	void	AfterStartSequence(void);
 };
 
 //--------------------------------------------------------------

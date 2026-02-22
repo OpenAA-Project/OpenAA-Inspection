@@ -21,8 +21,9 @@
 
 #include "contecbitaccess_global.h"
 #include <QString>
+#include "XIODLL.h"
 
-class	Contecboard
+class	Contecboard :public PIODLLBaseClass
 {
 public:
 	short	Id;

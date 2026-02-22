@@ -23,7 +23,7 @@
 #include <QSharedMemory>
 #include <QMutex>
 #include "XTypeDef.h"
-
+#include "XIODLL.h"
 
 struct	NetworkPIOVirtualPacket
 {
@@ -33,7 +33,7 @@ struct	NetworkPIOVirtualPacket
 };
 
 
-class NetworkPIOVirtual
+class NetworkPIOVirtual : public PIODLLBaseClass
 {
 	QSharedMemory	MemMap;
 	struct	NetworkPIOVirtualPacket	*Pointer;

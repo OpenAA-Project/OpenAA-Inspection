@@ -757,21 +757,20 @@ void	QFileListListView::dropEvent ( QDropEvent * event )
 bool	QFileListListView::event(QEvent *event)
 {
 	if(event->type()==QEvent::ToolTip){
-		QCoreApplication::processEvents();
+		//QCoreApplication::processEvents();
 		QPoint GPos=QCursor::pos();
 		QPoint Pos=mapFromGlobal(GPos);
 		QModelIndex index=indexAt(Pos);
 		QString filenameText = qvariant_cast<QString>(index.data(Qt::EditRole));
 		QWidget	*v=viewport();
 		v->setToolTip(filenameText);
-		//event->accept();
 	}
 	return QListView::event(event);
 }
 
 void	QFileListListView::SlotTimeOut()
 {
-	QCoreApplication::processEvents();
+	//QCoreApplication::processEvents();
 	QPoint GPos=QCursor::pos();
 	QPoint Pos=mapFromGlobal(GPos);
 	QModelIndex index=indexAt(Pos);

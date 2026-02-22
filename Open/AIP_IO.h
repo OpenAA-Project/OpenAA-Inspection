@@ -27,6 +27,7 @@
 #include "XDLLType.h"
 
 class	QWidget;
+class	PIODLLBaseClass;
 
 extern "C"
 {
@@ -43,140 +44,140 @@ IO_DLLFUNC bool		DLL_CheckCopyright(QString &CopyrightString);
 
 IO_DLLFUNC int _cdecl  AIP_IO_GetIOBoardNumb(void);
     /*
-        ����    �o�h�n�{�[�h�̖������Ԃ�
-        ����    �Ȃ�
-        �o��    �o�h�n�{�[�h�������Ԃ�
-        ����    AIP_IO_Initial()���R�[�����ꂽ���ł��̊֐����R�[��������
-                �I�[�v�������Ă��Ȃ����ԂŃR�[��������
+        動作    ＰＩＯボードの枚数を返す
+        入力    なし
+        出力    ＰＩＯボード枚数を返す
+        条件    AIP_IO_Initial()をコールされた後でこの関数がコールされる
+                オープンされていない状態でコールされる
     */
 
-int IO_DLLFUNC _cdecl  AIP_IO_GetIOInBitCount(void *handle ,int boardNumber);
+int IO_DLLFUNC _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber);
     /*
-        ����    �e�o�h�n�{�[�h�̓��̓r�b�g�����Ԃ�
-        ����    �o�h�n�{�[�h�ԍ��i�O�����n�܂鐔�l�j
-        �o��    �e�o�h�n�{�[�h�̓��̓r�b�g�����Ԃ�
-        ����    �I�[�v�������Ă��Ȃ����ԂŃR�[��������
+        動作    各ＰＩＯボードの入力ビット数を返す
+        入力    ＰＩＯボード番号（０から始まる数値）
+        出力    各ＰＩＯボードの入力ビット数を返す
+        条件    オープンされていない状態でコールされる
     */
 
-int IO_DLLFUNC _cdecl  AIP_IO_GetIOOutBitCount(void *handle ,int boardNumber);
+int IO_DLLFUNC _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber);
     /*
-        ����    �e�o�h�n�{�[�h�̏o�̓r�b�g�����Ԃ�
-        ����    �o�h�n�{�[�h�ԍ��i�O�����n�܂鐔�l�j
-        �o��    �e�o�h�n�{�[�h�̏o�̓r�b�g�����Ԃ�
-        ����    �I�[�v�������Ă��Ȃ����ԂŃR�[��������
+        動作    各ＰＩＯボードの出力ビット数を返す
+        入力    ＰＩＯボード番号（０から始まる数値）
+        出力    各ＰＩＯボードの出力ビット数を返す
+        条件    オープンされていない状態でコールされる
     */
 
 bool IO_DLLFUNC _cdecl AIP_IO_Initial(const QStringList &NameList);
     /*
-        ����    �S�̂̂o�h�n�ɑ΂��ď������������s��
-        ����    �Ȃ�
-        �o��    ���������Ƃ�TRUE�A���炩�̖��肪�������Ƃ�FALSE
-        ����    �I�[�v�������Ă��Ȃ����ԂŃR�[��������
-        ���l    �{�[�h���ނɂ����ẮA����������TRUE�������Ԃ����Ƃ��ł���
+        動作    全体のＰＩＯに対して初期化動作を行う
+        入力    なし
+        出力    成功したときTRUE、何らかの問題が生じたときFALSE
+        条件    オープンされていない状態でコールされる
+        備考    ボード種類によっては、何もせずにTRUEだけを返すことができる
     */
 
-void IO_DLLFUNC *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something);
+PIODLLBaseClass IO_DLLFUNC *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something);
     /*
-        ����    �e�o�h�n�{�[�h�ɑ΂��ăI�[�v���������s��
-        ����    mainW		�Ăяo�������̃��C���E�C���h�E
-				boardNumber �o�h�n�{�[�h�ԍ��i�O�����n�܂鐔�l�j
-                name        �{�[�h���̂��i�[�����o�b�t�@�|�C���^
-                maxbuffsize �{�[�h���̂̃o�b�t�@�T�C�Y
-				Something	���`�t�@�C����BRDINFO�ɋL�q���Ă�������
-        �o��    ���������Ƃ�TRUE�A���炩�̖��肪�������Ƃ�FALSE
-                name        �{�[�h���̂��i�[����
-                            ���̃o�C�g����maxbuffsize�����傫���Ƃ��AFALSE���Ԃ����A
-                            maxbuffsize �o�C�g������name�o�b�t�@�Ɋi�[����TRUE���Ԃ�
-        ����    AIP_IO_Initial()���R�[�����ꂽ���ŌĂ΂���
+        動作    各ＰＩＯボードに対してオープン動作を行う
+        入力    mainW		呼び出した側のメインウインドウ
+				boardNumber ＰＩＯボード番号（０から始まる数値）
+                name        ボード名称を格納するバッファポインタ
+                maxbuffsize ボード名称のバッファサイズ
+				Something	定義ファイルのBRDINFOに記述している情報
+        出力    成功したときTRUE、何らかの問題が生じたときFALSE
+                name        ボード名称を格納する
+                            名称バイト数がmaxbuffsizeより大きいとき、FALSEを返さず、
+                            maxbuffsize バイト分だけnameバッファに格納してTRUEを返す
+        条件    AIP_IO_Initial()がコールされた後で呼ばれる
     */
 
-BYTE  IO_DLLFUNC _cdecl AIP_IO_GetBit(void *handle ,int boardNumber , BYTE bitIndex);
+BYTE  IO_DLLFUNC _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex);
     /*
-        ����    �o�h�n�{�[�h�����P�r�b�g�̓��͂��s��
-        ����    boardNumber �o�h�n�{�[�h�ԍ��i�O�����n�܂鐔�l�j
-                bitIndex    �r�b�g�ԍ��i�O�����n�܂鐔�l�j
-        �o��    ���͒l�ɉ����āA�O���P���Ԃ�
-        ����    �X���b�h�Z�[�t�łȂ����΂Ȃ��Ȃ�
-                �I�[�v�������Ă��Ȃ��{�[�h�A���邢�̓N���[�Y�����{�[�h��
-                �΂����A�N�Z�X�͖��������i�Ǝ��G���[�����͕K�v�Ȃ��j
+        動作    ＰＩＯボードから１ビットの入力を行う
+        入力    boardNumber ＰＩＯボード番号（０から始まる数値）
+                bitIndex    ビット番号（０から始まる数値）
+        出力    入力値に応じて、０か１を返す
+        条件    スレッドセーフでなければならない
+                オープンされていないボード、あるいはクローズしたボードに
+                対するアクセスは無視する（独自エラー処理は必要ない）
     */
 
-BYTE  IO_DLLFUNC _cdecl AIP_IO_GetByte(void *handle ,int boardNumber , BYTE byteIndex);
+BYTE  IO_DLLFUNC _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex);
     /*
-        ����    �o�h�n�{�[�h�����P�o�C�g�̓��͂��s��
-        ����    boardNumber �o�h�n�{�[�h�ԍ��i�O�����n�܂鐔�l�j
-                byteIndex    �o�C�g�ԍ��i�O�����n�܂鐔�l�j
-        �o��    ���͒l�ɉ����āA�O�����Q�T�T�܂ł̐��l���Ԃ�
-        ����    �X���b�h�Z�[�t�łȂ����΂Ȃ��Ȃ�
-                �I�[�v�������Ă��Ȃ��{�[�h�A���邢�̓N���[�Y�����{�[�h��
-                �΂����A�N�Z�X�͖��������i�Ǝ��G���[�����͕K�v�Ȃ��j
+        動作    ＰＩＯボードから１バイトの入力を行う
+        入力    boardNumber ＰＩＯボード番号（０から始まる数値）
+                byteIndex    バイト番号（０から始まる数値）
+        出力    入力値に応じて、０から２５５までの数値を返す
+        条件    スレッドセーフでなければならない
+                オープンされていないボード、あるいはクローズしたボードに
+                対するアクセスは無視する（独自エラー処理は必要ない）
     */
 
-void  IO_DLLFUNC _cdecl AIP_IO_SetBit(void *handle ,int boardNumber , BYTE bitIndex ,BYTE data);
+void  IO_DLLFUNC _cdecl AIP_IO_SetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex ,BYTE data);
     /*
-        ����    �o�h�n�{�[�h�����P�r�b�g�̏o�͂��s��
-        ����    boardNumber �o�h�n�{�[�h�ԍ��i�O�����n�܂鐔�l�j
-                bitIndex    �r�b�g�ԍ��i�O�����n�܂鐔�l�j
-				data        �r�b�g�f�[�^
-        �o��    �Ȃ�
-        ����    �X���b�h�Z�[�t�łȂ����΂Ȃ��Ȃ�
-                �I�[�v�������Ă��Ȃ��{�[�h�A���邢�̓N���[�Y�����{�[�h��
-                �΂����A�N�Z�X�͖��������i�Ǝ��G���[�����͕K�v�Ȃ��j
+        動作    ＰＩＯボードから１ビットの出力を行う
+        入力    boardNumber ＰＩＯボード番号（０から始まる数値）
+                bitIndex    ビット番号（０から始まる数値）
+				data        ビットデータ
+        出力    なし
+        条件    スレッドセーフでなければならない
+                オープンされていないボード、あるいはクローズしたボードに
+                対するアクセスは無視する（独自エラー処理は必要ない）
     */
-BYTE  IO_DLLFUNC _cdecl AIP_IO_SetByte(void *handle ,int boardNumber , BYTE byteIndex , BYTE data);
+BYTE  IO_DLLFUNC _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data);
     /*
-        ����    �o�h�n�{�[�h�ւP�o�C�g�̏o�͂��s��
-        ����    boardNumber �o�h�n�{�[�h�ԍ��i�O�����n�܂鐔�l�j
-                byteIndex   �o�C�g�ԍ��i�O�����n�܂鐔�l�j
-                data        �o�C�g�f�[�^
-        �o��    �ݒ肳�ꂽ�l���Ԃ��B
-                ���ۂ̏o�͒l���ǂݏo�����Ƃ��ł����{�[�h�ɑ΂��Ă͓ǂݍ��񂾒l���Ԃ�
-                ���ۂ̏o�͒l���ǂݏo�����Ƃ��ł��Ȃ��{�[�h�ɑ΂��ẮA���͒l�����̂܂ܕԂ�
-        ����    �X���b�h�Z�[�t�łȂ����΂Ȃ��Ȃ�
-                �I�[�v�������Ă��Ȃ��{�[�h�A���邢�̓N���[�Y�����{�[�h��
-                �΂����A�N�Z�X�͖��������i�Ǝ��G���[�����͕K�v�Ȃ��j
-    */
-
-int  IO_DLLFUNC _cdecl AIP_IO_GetOutByte(void *handle ,int boardNumber , BYTE byteIndex);
-    /*
-        ����    �o�h�n�{�[�h�����P�o�C�g�̏o�̓f�[�^�̎擾���s��
-        ����    boardNumber �o�h�n�{�[�h�ԍ��i�O�����n�܂鐔�l�j
-                byteIndex    �o�C�g�ԍ��i�O�����n�܂鐔�l�j
-        �o��    �擾�l�ɉ����āA�O�����Q�T�T�܂ł̐��l���Ԃ�
-                �擾�ł��Ȃ��Ƃ��A�|�P���Ԃ�
-        ����    �X���b�h�Z�[�t�łȂ����΂Ȃ��Ȃ�
-                �I�[�v�������Ă��Ȃ��{�[�h�A���邢�̓N���[�Y�����{�[�h��
-                �΂����A�N�Z�X�͖��������i�Ǝ��G���[�����͕K�v�Ȃ��j
+        動作    ＰＩＯボードへ１バイトの出力を行う
+        入力    boardNumber ＰＩＯボード番号（０から始まる数値）
+                byteIndex   バイト番号（０から始まる数値）
+                data        バイトデータ
+        出力    設定された値を返す。
+                実際の出力値を読み出すことができるボードに対しては読み込んだ値を返す
+                実際の出力値を読み出すことができないボードに対しては、入力値をそのまま返す
+        条件    スレッドセーフでなければならない
+                オープンされていないボード、あるいはクローズしたボードに
+                対するアクセスは無視する（独自エラー処理は必要ない）
     */
 
-int  IO_DLLFUNC _cdecl AIP_IO_GetOutBit(void *handle ,int boardNumber , BYTE bitIndex);
+int  IO_DLLFUNC _cdecl AIP_IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex);
     /*
-        ����    �o�h�n�{�[�h�����P�r�b�g�̏o�̓f�[�^�̎擾���s��
-        ����    boardNumber �o�h�n�{�[�h�ԍ��i�O�����n�܂鐔�l�j
-                bitIndex    �r�b�g�ԍ��i�O�����n�܂鐔�l�j
-        �o��    ���͒l�ɉ����āA�O���P���Ԃ�
-                �擾�ł��Ȃ��Ƃ��A�|�P���Ԃ�
-        ����    �X���b�h�Z�[�t�łȂ����΂Ȃ��Ȃ�
-                �I�[�v�������Ă��Ȃ��{�[�h�A���邢�̓N���[�Y�����{�[�h��
-                �΂����A�N�Z�X�͖��������i�Ǝ��G���[�����͕K�v�Ȃ��j
+        動作    ＰＩＯボードから１バイトの出力データの取得を行う
+        入力    boardNumber ＰＩＯボード番号（０から始まる数値）
+                byteIndex    バイト番号（０から始まる数値）
+        出力    取得値に応じて、０から２５５までの数値を返す
+                取得できないとき、－１を返す
+        条件    スレッドセーフでなければならない
+                オープンされていないボード、あるいはクローズしたボードに
+                対するアクセスは無視する（独自エラー処理は必要ない）
     */
 
-bool  IO_DLLFUNC _cdecl AIP_IO_Close(void *handle ,int boardNumber);
+int  IO_DLLFUNC _cdecl AIP_IO_GetOutBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex);
     /*
-        ����    �e�o�h�n�{�[�h�ɑ΂��ăN���[�Y�������s��
-        ����    boardNumber �o�h�n�{�[�h�ԍ��i�O�����n�܂鐔�l�j
-        �o��    ���������Ƃ�TRUE�A���炩�̖��肪�������Ƃ�FALSE
-        ����    AIP_IO_Release()�̑O�ɌĂ΂���
+        動作    ＰＩＯボードから１ビットの出力データの取得を行う
+        入力    boardNumber ＰＩＯボード番号（０から始まる数値）
+                bitIndex    ビット番号（０から始まる数値）
+        出力    入力値に応じて、０か１を返す
+                取得できないとき、－１を返す
+        条件    スレッドセーフでなければならない
+                オープンされていないボード、あるいはクローズしたボードに
+                対するアクセスは無視する（独自エラー処理は必要ない）
+    */
+
+bool  IO_DLLFUNC _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber);
+    /*
+        動作    各ＰＩＯボードに対してクローズ動作を行う
+        入力    boardNumber ＰＩＯボード番号（０から始まる数値）
+        出力    成功したときTRUE、何らかの問題が生じたときFALSE
+        条件    AIP_IO_Release()の前に呼ばれる
     */
 
 bool  IO_DLLFUNC _cdecl AIP_IO_Release(void);
     /*
-        ����    �S�o�h�n�{�[�h�ɑ΂��ďI���������s��
-        ����    �Ȃ�
-        �o��    ���������Ƃ�TRUE�A���炩�̖��肪�������Ƃ�FALSE
-        ����    �Ō��ɌĂ΂���
+        動作    全ＰＩＯボードに対して終了動作を行う
+        入力    なし
+        出力    成功したときTRUE、何らかの問題が生じたときFALSE
+        条件    最後に呼ばれる
     */
-void  IO_DLLFUNC _cdecl AIP_IO_LoopOnIdle(void *handle ,int boardNumber);
+void  IO_DLLFUNC _cdecl AIP_IO_LoopOnIdle(PIODLLBaseClass *handle ,int boardNumber);
 
 #else
 int		AIP_IO_GetIOBoardNumb(void);

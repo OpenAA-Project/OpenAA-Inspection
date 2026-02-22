@@ -25,12 +25,13 @@
 #include <QToolButton>
 #include <QMutex>
 #include "XTypeDef.h"
+#include "XIODLL.h"
 
 namespace Ui {
     class TestForm;
 }
 
-class TestForm : public QWidget
+class TestForm : public QWidget,public PIODLLBaseClass
 {
     Q_OBJECT
 

@@ -28,8 +28,9 @@
 #include <QWidget>
 #include <QSharedMemory>
 #include <QMutex>
+#include "XIODLL.h"
 
-class	PIOAdapter
+class	PIOAdapter : public PIODLLBaseClass
 {
 	struct	PIOMemoryMap	*MemMap;
 	QSharedMemory		AttachedMem;

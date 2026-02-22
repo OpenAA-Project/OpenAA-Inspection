@@ -43,8 +43,6 @@ class	CameraHandle;
 extern	"C"{
 
 
-
-
 DEFFUNCEX	WORD	DLL_GetDLLType(void);
 //	return	DLL type for CameraDLL
 
@@ -72,6 +70,8 @@ DEFFUNCEX	CameraHandle	*_cdecl	DLL_Initial(int CameraNoInThisComputer ,LayersBas
 //				CamInfo : Set unique several attributes in this function
 
 DEFFUNCEX	bool	_cdecl	DLL_GetCameraDLLInfo(CameraHandle *handle ,CameraDLLInfo &CamInfo);
+
+DEFFUNCEX	bool		_cdecl	DLL_ReqSystemChange(CameraHandle *handle ,CameraReqSystemChangeInfo &caminfo);
 
 DEFFUNCEX	bool		_cdecl	DLL_ChangeInfo(CameraHandle *handle ,CameraReqInfo &caminfo);
 

@@ -21,8 +21,9 @@
 
 #include "relaylcus2_global.h"
 #include <QSerialPort>
+#include "XIODLL.h"
 
-class	RelayLCUS2
+class	RelayLCUS2 : public PIODLLBaseClass
 {
 public:
 	QSerialPort		*port;

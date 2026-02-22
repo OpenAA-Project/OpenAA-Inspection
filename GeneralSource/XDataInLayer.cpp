@@ -734,6 +734,9 @@ void	LayersBase::EmitSignalChangeXY(void)
 }
 bool	LayersBase::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
 {
+	if(NewDotPerLine<=0 || NewMaxLines<=0){
+		return false;
+	}
 	GetLayersBase()->SetPossibleToUpdateDisplay(false);
 
 	if(GetParamGlobal()->MaximumDotPerLine>0 && GetParamGlobal()->MaximumDotPerLine<NewDotPerLine){
@@ -801,6 +804,10 @@ bool	LayersBase::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
 }
 bool	LayersBase::ReallocXYPixelsPage(int Phase ,int Page ,int NewDotPerLine ,int NewMaxLines)
 {
+	if(Phase<0 || GetPhaseNumb()<=Phase || Page<0 || GetPageNumb()<=Page
+	|| NewDotPerLine<=0 || NewMaxLines<=0){
+		return false;
+	}
 	LockWChangingDataStructure();
 	SetOnChanging(true);
 
@@ -4723,7 +4730,7 @@ ShareMasterDestination	*LayersBase::GetDataOfShareMaster(void)	const
 void	LayersBase::ReadBaseSettingFiles(bool Initialized,int BootSmall)
 {
 	if((GetParamComm()->Mastered==true) || (Initialized==true)){
-		QFile	FGeneral(CurrentPath
+		QFile	FGeneral(GetUserPath()
 						+GetSeparator()+GetParamGlobal()->GetSavedFileName());
 		if(FGeneral.open(QIODevice::ReadOnly)==true){
 			GetParamGlobal()->LoadParam(&FGeneral);

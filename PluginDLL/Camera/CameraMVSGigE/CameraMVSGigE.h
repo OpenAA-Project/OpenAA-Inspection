@@ -73,14 +73,29 @@ public:
 	QString		UserName;
 	int			DevNo;
 
+    int         ExposureAuto;
+    int         ExposureMode;
 	float		ExposureTime;
 	float		Gain;
 	float		FrameRate;
 	bool		bSoftWareTriggerCheck;
-    int			TriggerMode;                       // ch:触发模式 | en:Trigger Mode
+    int		    TriggerMode;                       // ch:触发模式 | en:Trigger Mode
     int			TriggerSource;                     // ch:触发源 | en:Trigger Source
+    unsigned int    BinningHMode;
+    unsigned int    BinningVMode;
+    unsigned int    DecimationH ;
+    unsigned int    DecimationV ;
 
-	bool		ContinuousON;
+    bool    ReverseX;
+    bool    ReverseY;
+
+    bool    AOIMode;
+    unsigned int     AOIOffsetX;
+    unsigned int     AOIOffsetY;
+    unsigned int     AOIWidth;
+    unsigned int     AOIHeight;
+
+
 	int			CurrentNumber;
 	CMvCamera	Cam;
 
@@ -91,6 +106,7 @@ public:
     bool    Initial(void);
 
     bool	ChangeInfo(int XLen ,int YLen);
+    bool    ReqSystemChange(CameraReqSystemChangeInfo &caminfo);
     void	CaptureImage(unsigned char * pData, MV_FRAME_OUT_INFO_EX* pFrameInfo);
     bool	IsCaptured(void);
 
@@ -112,13 +128,16 @@ public:
     virtual	bool	Load(QIODevice *f)  override;
 
 	bool	GetIntValue	 (const char* strKey ,int64 &CurrentValue ,int64 &MaxValue ,int64 &MinValue);
+    bool	GetIntValue	 (const char* strKey ,int   &CurrentValue ,int   &MaxValue ,int   &MinValue);
 	bool	GetfloatValue(const char* strKey ,float &CurrentValue ,float &MaxValue ,float &MinValue);
 	bool	GetBoolValue (const char* strKey ,bool &CurrentValue );
+    bool	GetEnumValue (const char* strKey ,int &CurrentValue ,int EnumData[64],int &EnumCount);
+    bool	GetEnumSymblic (const char* strKey ,int EnumValue ,QString &Str);
 
-    int SetTriggerMode();                // ch:设置触发模式 | en:Set Trigger Mode
-    int GetTriggerMode();
+    bool    SetTriggerMode(bool b)  override;   // ch:设置触发模式 | en:Set Trigger Mode
+    bool    GetTriggerMode(void)    override;
     int GetExposureTime();               // ch:设置曝光时间 | en:Set Exposure Time
-    int SetExposureTime(); 
+    int SetExposure(); 
     int GetGain();                       // ch:设置增益 | en:Set Gain
     int SetGain();
     int GetFrameRate();                  // ch:设置帧率 | en:Set Frame Rate
@@ -126,4 +145,13 @@ public:
     int GetTriggerSource();              // ch:设置触发源 | en:Set Trigger Source
     int SetTriggerSource();
     int GetPixelFormat();                // ch:获取像素格式 | en:Get Pixel Format
+
+    bool    SetBinningDecimation(void);
+    bool    SetReverse(void);
+    bool    SetAOI(void);
+
+    bool    GetResolution(int &Width ,int &Height);
+
+    bool    GetLine0(void);
+	bool	SetLine1(bool b);
 };

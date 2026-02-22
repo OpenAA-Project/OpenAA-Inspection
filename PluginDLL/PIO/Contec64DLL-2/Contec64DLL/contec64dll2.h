@@ -23,8 +23,9 @@
 
 #include "contec64dll2_global.h"
 #include <QString>
+#include "XIODLL.h"
 
-class	Contec2boards
+class	Contec2boards:public PIODLLBaseClass
 {
 public:
 	short	Id;

@@ -1,16 +1,24 @@
 #pragma once
 
+#define		PARENTCLASS	mtFrameDraw
+
 #include <QtGui>
 #define	_USE_MATH_DEFINES
 #include <math.h>
+#include <QScrollBar>
 #include "swap.h"
 #include "mtPushButtonWithBalloon.h"
-//#include "mtFrameDraw.h"
+
+#if PARENTCLASS==mtFrameDraw
+#include "mtFrameDraw.h"
+#else
 #include "..\DisplayOpenGL\DisplayOpenGL.h"
+#endif
 
 class	mtGraphicUnit;
 
-class	mtQFrameDrawInGUnit :public mtFrameDrawOGL
+
+class	mtQFrameDrawInGUnit :public PARENTCLASS
 {
     Q_OBJECT
 	mtGraphicUnit	*Parent;

@@ -22,8 +22,9 @@
 #include "relay4byftdi_global.h"
 #include <QString>
 #include "ftd2xx.h"
+#include "XIODLL.h"
 
-class	Relay4ByFTDI
+class	Relay4ByFTDI : public PIODLLBaseClass
 {
 public:
 	FT_HANDLE Handle;

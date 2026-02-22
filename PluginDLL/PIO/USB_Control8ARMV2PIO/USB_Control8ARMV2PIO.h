@@ -20,10 +20,11 @@
 #define USB_CONTROL8ARMV2PIO_H
 
 #include "usb_control8armv2pio_global.h"
+#include "XIODLL.h"
 
 class	LayersBase;
 
-class	PioAccessor
+class	PioAccessor : public PIODLLBaseClass
 {
 public:
 	LayersBase	*Layers;

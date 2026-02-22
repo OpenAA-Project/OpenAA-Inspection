@@ -16,9 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
-
-
 #include "XTypeDef.h"
 #include<QFile>
 #include<QMessageBox>
@@ -376,6 +373,37 @@ void	ThreadSequence::SetFunction( SeqLocalParam *param
 
 	MainSeqControl->SetDataSpecialFloatOperand	=SetDataSpecialFloatOperand;
     MainSeqControl->GetDataSpecialFloatOperand	=GetDataSpecialFloatOperand;
+}
+void	ThreadSequence::InitialPrepare(void)
+{
+	for(PIOClass *p=GetFirstPIO();p!=NULL;p=p->GetNext()){
+		p->InitialPrepare();
+	}
+}
+
+void	ThreadSequence::Prepare(void)		
+{
+	for(PIOClass *p=GetFirstPIO();p!=NULL;p=p->GetNext()){
+		p->Prepare();
+	}
+}
+void	ThreadSequence::AfterPrepare(void)	
+{
+	for(PIOClass *p=GetFirstPIO();p!=NULL;p=p->GetNext()){
+		p->AfterPrepare();
+	}
+}
+void	ThreadSequence::ReadyParam(void)	
+{
+	for(PIOClass *p=GetFirstPIO();p!=NULL;p=p->GetNext()){
+		p->ReadyParam();
+	}
+}
+void	ThreadSequence::AfterStartSequence(void)
+{
+	for(PIOClass *p=GetFirstPIO();p!=NULL;p=p->GetNext()){
+		p->AfterStartSequence();
+	}
 }
 
 bool	ThreadSequence::LoadStartSequenceFile(QWidget *mainW ,const QString &FileName 

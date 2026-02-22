@@ -111,7 +111,7 @@ int _cdecl  AIP_IO_GetIOBoardNumb(void)
 	return(1);
 }
 
-int _cdecl  AIP_IO_GetIOInBitCount(void *handle ,int boardNumber)
+int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	if(strcmp(PIO_NAME,"IOLIB_PIO16")==0)
 		return(16);
@@ -122,7 +122,7 @@ int _cdecl  AIP_IO_GetIOInBitCount(void *handle ,int boardNumber)
 	return 0;
 }
 
-int _cdecl  AIP_IO_GetIOOutBitCount(void *handle ,int boardNumber)
+int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	if(strcmp(PIO_NAME,"IOLIB_PIO16")==0)
 		return(16);
@@ -138,14 +138,14 @@ bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 	return(true);
 }
 
-void  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+PIODLLBaseClass  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	PIOClient	*PIO=new PIOClient(mainW);
 	PIO->Initial(Something);
 	return(PIO);
 }
 
-BYTE  _cdecl AIP_IO_GetBit(void *handle ,int boardNumber , BYTE bitIndex)
+BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
 {
 	PIOClient	*PIO=(PIOClient	*)handle;
 	if(PIO->Inport(bitIndex/8) & (0x01<<(bitIndex%8))!=0)
@@ -153,26 +153,26 @@ BYTE  _cdecl AIP_IO_GetBit(void *handle ,int boardNumber , BYTE bitIndex)
 	return 0;
 }
 
-BYTE  _cdecl AIP_IO_GetByte(void *handle ,int boardNumber , BYTE byteIndex)
+BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	PIOClient	*PIO=(PIOClient	*)handle;
 	return PIO->Inport(byteIndex);
 }
 
-BYTE  _cdecl AIP_IO_SetByte(void *handle ,int boardNumber , BYTE byteIndex , BYTE data)
+BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data)
 {
 	PIOClient	*PIO=(PIOClient	*)handle;
 	PIO->Outport(byteIndex,data);
 	return(data);
 }
 
-int  _cdecl AIP_IO_GetOutByte(void *handle ,int boardNumber , BYTE byteIndex)
+int  _cdecl AIP_IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	PIOClient	*PIO=(PIOClient	*)handle;
 	return PIO->GetOutData(byteIndex);
 }
 
-bool  _cdecl AIP_IO_Close(void *handle ,int boardNumber)
+bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
 {
 	PIOClient	*PIO=(PIOClient	*)handle;
 	delete	PIO;

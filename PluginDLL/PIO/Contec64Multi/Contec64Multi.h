@@ -20,8 +20,9 @@
 #define CONTEC64MULTI_H
 
 #include "contec64multi_global.h"
+#include "XIODLL.h"
 
-class	Contecboard
+class	Contecboard :public PIODLLBaseClass
 {
 public:
 	short	Id;

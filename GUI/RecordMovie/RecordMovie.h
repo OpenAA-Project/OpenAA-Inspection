@@ -66,7 +66,8 @@ class	RecordMovie : public GUIFormBase
 	QSharedMemory		*SharedMemForMovie;
 	QSystemSemaphore	*Semaphore;
 	volatile	bool	Running;
-	double	CurrentFPS;
+	double				CurrentFPS;
+	bool3				Received;
 public:
 	QString	Msg;
 	QColor	CharColor;
@@ -116,6 +117,7 @@ public slots:
 	void SlotClicked (bool checked);
 	void	SlotMemoryOver();
 	void	SlotWriteError();
+	void	SlotReadyRead();
 private slots:
 	void	ResizeAction();
 	void	SlotTargetImageCaptured();
@@ -125,6 +127,8 @@ private:
 	EnumAVFormat	GetAVFormat(void);
 
 	void	SetMovieSize(int Index);
+	bool	GetAckFromExe(qint64 WaitinMilisec=5000);
+
 };
 
 class	CmdStartRecordMovieWithFileName : public GUIDirectMessage

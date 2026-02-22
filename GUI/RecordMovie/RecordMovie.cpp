@@ -147,6 +147,7 @@ RecordMovie::RecordMovie(LayersBase *Base ,QWidget *parent)
 	SharedAllocatedSize=0;
 	Semaphore		=NULL;
 	Running			=false;
+	Received		= none3;
 
 	resize(60,25);
 	connect(&Button,SIGNAL(clicked(bool)), this ,SLOT(SlotClicked(bool)));
@@ -232,6 +233,7 @@ void	RecordMovie::SlotNewConnection()
 	QLocalSocket	*NewSocket=Server.nextPendingConnection();
 	if(NewSocket!=NULL){
 		Socket=NewSocket;
+		connect(Socket,SIGNAL(readyRead()),this,SLOT(SlotReadyRead()));
 	}
 }
 
@@ -451,6 +453,39 @@ bool	RecordMovie::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
 {
 	return true;
 }
+
+void	RecordMovie::SlotReadyRead()
+{
+	while(Socket->bytesAvailable()>=sizeof(struct RecordStruct)){
+		struct RecordStruct	RCmd;
+		Socket->read((char *)&RCmd,sizeof(RCmd));
+		switch(RCmd.Cmd){
+		case RecordStruct::_Ack:
+			Received=true3;
+			break;
+		case RecordStruct::_Nack:
+			Received=false3;
+			break;
+		}
+	}
+}
+
+bool	RecordMovie::GetAckFromExe(qint64 WaitinMilisec)
+{
+	QElapsedTimer timer;
+	timer.start();
+	while(timer.elapsed()<WaitinMilisec){
+		if(Received!=none3){
+			break;
+		}
+		Socket->waitForReadyRead(30);
+	}
+	if(Received==none3){
+		return false;
+	}
+	return true;
+}
+
 bool	RecordMovie::StartRecording(const QString &filename
 						, int width
 						, int height
@@ -469,10 +504,15 @@ bool	RecordMovie::StartRecording(const QString &filename
 			SharedMemForMovie->detach();
 			struct RecordStruct	RCmd;
 			RCmd.Cmd = RecordStruct::_ReqDetach;
+			Received = none3;
 			Socket->write((char *)&RCmd,sizeof(RCmd));
 			Socket->flush();
 			delete	SharedMemForMovie;
 			SharedMemForMovie=NULL;
+
+			if(GetAckFromExe()==false){
+				return false;
+			}
 		}
 		SharedMemForMovie = new QSharedMemory(QString("RecordMovieMem")+QString::number(UsePage));
 		SharedMemForMovie->create(SharedAllocatedSize);
@@ -484,8 +524,13 @@ bool	RecordMovie::StartRecording(const QString &filename
 		RCmd.MovieYSize	= MovieYSize;
 		RCmd.LayerNumb=GetLayerNumb(UsePage);
 		RCmd.FPS = CurrentFPS;	
+		Received = none3;
 		Socket->write((char *)&RCmd,sizeof(RCmd));
 		Socket->flush();
+
+		if(GetAckFromExe()==false){
+			return false;
+		}
 	}
 
 	SharedMemForMovie->lock();
@@ -509,9 +554,13 @@ bool	RecordMovie::StartRecording(const QString &filename
 	RCmd.LayerNumb	=GetLayerNumb(UsePage);
 	RCmd.FPS		= fps;
 	RCmd.Quality	= bitrate;
+	Received = none3;
 	Socket->write((char *)&RCmd,sizeof(RCmd));
 	Socket->flush();
 	
+	if(GetAckFromExe(20000)==false){
+		return false;
+	}
 	QElapsedTimer timer;
     timer.start();
     while(timer.elapsed()<20000){

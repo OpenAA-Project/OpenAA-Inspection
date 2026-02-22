@@ -23,8 +23,9 @@
 #include <QTcpSocket>
 #include <QMutex>
 #include "XTypeDef.h"
+#include "XIODLL.h"
 
-class NetworkPIOClient : public QTcpSocket
+class NetworkPIOClient : public QTcpSocket,public PIODLLBaseClass
 {
 	Q_OBJECT
 

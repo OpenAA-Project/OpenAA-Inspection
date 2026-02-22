@@ -273,7 +273,7 @@ bool	ExecuteInspectFast::LoadDefault(void)
 
 bool	ExecuteInspectFast::Load(QIODevice *file)
 {
-	for(int i=0;i<GetParamComm()->GetLocalCameraNumb(GetParamComm()->ThisComputerID) && i<AllocatedCamNumb;i++){
+	for(int CamNo=0;CamNo<GetParamComm()->GetLocalCameraNumb(GetParamComm()->ThisComputerID) && CamNo<AllocatedCamNumb;CamNo++){
 		int32	Len;
 		if(::Load(file,Len)==false){
 			return(false);
@@ -284,12 +284,14 @@ bool	ExecuteInspectFast::Load(QIODevice *file)
 		}
 		QBuffer	TmpBuff(&AR);
 		TmpBuff.open(QIODevice::ReadOnly);
-		if(Cam[i]->Load(TmpBuff)==false){
+		if(Cam[CamNo]->Load(TmpBuff)==false){
 			return(false);
 		}
 	}
-	return(true);
+	return true;
 }
+
+
 bool	ExecuteInspectFast::LoadDefaultOldVer(void)
 {
 	QString	Str=GetLayersBase()->GetUserPath()+QDir::separator()+GetParamGlobal()->CameraSetting_FileName;

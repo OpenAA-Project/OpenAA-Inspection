@@ -26,12 +26,19 @@
 #include <QStringList>
 #include <QFile>
 #include <QTextStream>
+#include "XIODLL.h"
 
 //static short Id;
 
 //#define	PIO_NAME	"IOLIB_PIO64"
 #define	PIO_NAME	"IOLIB_PIO32"
 //#define	PIO_NAME	"IOLIB_PIO16"
+
+class	PIOHandle :public PIODLLBaseClass
+{
+public:
+	short Id;
+};
 
 
 IO_DLLFUNC WORD	DLL_GetDLLType(void)
@@ -64,7 +71,7 @@ int _cdecl  AIP_IO_GetIOBoardNumb(void)
 	return(1);
 }
 
-int _cdecl  AIP_IO_GetIOInBitCount(void *handle ,int boardNumber)
+int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	if(strcmp(PIO_NAME,"IOLIB_PIO16")==0)
 		return(16);
@@ -75,7 +82,7 @@ int _cdecl  AIP_IO_GetIOInBitCount(void *handle ,int boardNumber)
 	return 0;
 }
 
-int _cdecl  AIP_IO_GetIOOutBitCount(void *handle ,int boardNumber)
+int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	if(strcmp(PIO_NAME,"IOLIB_PIO16")==0)
 		return(16);
@@ -92,43 +99,23 @@ bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 	return(true);
 }
 
-void  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+PIODLLBaseClass  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	long Ret;
 
-	short Id;
+	PIOHandle *Handle = new PIOHandle;
 	char DeviceName[256];
 	char Device[256];
 	for(int i=0;i<256;i++){
 		Ret = DioQueryDeviceName ( i , DeviceName , Device );
 		if(Ret!=DIO_ERR_SUCCESS)
 			return NULL;
-		Ret = DioInit ( DeviceName , &Id );
+		Ret = DioInit ( DeviceName , &Handle->Id );
 		if(Ret != 0)
 			return NULL;
 		break;
 	}
 
-
-
-//	Ret = DioInit ( "DIO000" , &Id );
-//	if(Ret != 0)
-//		return(false);
-
-/*
-	//�r�b�g�̏�����
-	int IOBit;
-	if(strcmp(PIO_NAME,"IOLIB_PIO16")==0)
-		IOBit=16;
-	else if(strcmp(PIO_NAME,"IOLIB_PIO32")==0)
-		IOBit=32;
-	else if(strcmp(PIO_NAME,"IOLIB_PIO64")==0)
-		IOBit=64;
-
-	for(int Cnt=0;Cnt<(IOBit>>3);Cnt++)
-		AIP_IO_SetByte(0,Cnt,0);
-*/
-	//�f�W�^���t�B���^�̐ݒ��iPIO_DigitalFilter.dat�t�@�C���̓ǂݍ��݁j
 	QStringList strList;
 	QFile	mfile("./PIO_DigitalFilter.dat");
 	if(mfile.open(QIODevice::ReadOnly)==true){
@@ -144,57 +131,57 @@ void  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbu
 			bool ok=false;
 			short DigitalFilter=strList[0].toShort(&ok);
 			if(ok==true && (DigitalFilter>=0 && DigitalFilter<=20)){
-				Ret=DioSetDigitalFilter(Id,DigitalFilter);
+				Ret=DioSetDigitalFilter(Handle->Id,DigitalFilter);
 			}
 		}
 	}
-	return((void *)Id);
+	return(Handle);
 }
 
-BYTE  _cdecl AIP_IO_GetBit(void *handle ,int boardNumber , BYTE bitIndex)
+BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
 {
 	long Ret;
 	BYTE InData;
-	short Id=(short)handle;
+	PIOHandle	*Handle=(PIOHandle *)handle;
 
-	Ret = DioInpBit ( Id , bitIndex , &InData );
+	Ret = DioInpBit ( Handle->Id , bitIndex , &InData );
 	return(InData);
 }
 
-BYTE  _cdecl AIP_IO_GetByte(void *handle ,int boardNumber , BYTE byteIndex)
+BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	long Ret;
 	BYTE InData;
-	short Id=(short)handle;
+	PIOHandle	*Handle=(PIOHandle *)handle;
 
-	Ret = DioInpByte ( Id , byteIndex , &InData );
+	Ret = DioInpByte ( Handle->Id , byteIndex , &InData );
 	return(InData);
 }
 
-BYTE  _cdecl AIP_IO_SetByte(void *handle ,int boardNumber , BYTE byteIndex , BYTE data)
+BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data)
 {
 	long Ret;
-	short Id=(short)handle;
+	PIOHandle	*Handle=(PIOHandle *)handle;
 
-	Ret = DioOutByte ( Id , byteIndex , data );
+	Ret = DioOutByte ( Handle->Id , byteIndex , data );
 	return(data);
 }
 
-int  _cdecl AIP_IO_GetOutByte(void *handle ,int boardNumber , BYTE byteIndex)
+int  _cdecl AIP_IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	long Ret;
 	BYTE InData;
-	short Id=(short)handle;
+	PIOHandle	*Handle=(PIOHandle *)handle;
 
-	Ret = DioEchoBackByte ( Id , byteIndex , &InData );
+	Ret = DioEchoBackByte ( Handle->Id , byteIndex , &InData );
 	return(InData);
 }
 
-bool  _cdecl AIP_IO_Close(void *handle ,int boardNumber)
+bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
 {
 	long Ret;
-	short Id=(short)handle;
-	Ret = DioExit ( Id );
+	PIOHandle	*Handle=(PIOHandle *)handle;
+	Ret = DioExit ( Handle->Id );
 	if(Ret != 0){
 		return(false);
 	}

@@ -22,8 +22,9 @@
 #include "pioclient_global.h"
 #include "QTcpSocket"
 #include "XTypeDef.h"
+#include "XIODLL.h"
 
-class PIOClient : public QTcpSocket
+class PIOClient : public QTcpSocket,public PIODLLBaseClass
 {
 	Q_OBJECT
 public:

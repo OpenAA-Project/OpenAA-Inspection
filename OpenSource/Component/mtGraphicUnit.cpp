@@ -25,8 +25,6 @@
 #include "swap.h"
 #include "mtPushButtonWithBalloon.h"
 #include "mtGraphUnitSub.h"
-//#include "mtFrameDraw.h"
-#include "..\DisplayOpenGL\DisplayOpenGL.h"
 
 
 mtGraphicUnit::mtGraphicUnit(QWidget *parent				

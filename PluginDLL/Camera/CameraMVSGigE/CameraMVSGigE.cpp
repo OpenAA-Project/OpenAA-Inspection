@@ -26,6 +26,7 @@
 #include "XExecuteInspectBase.h"
 #include "XEntryPoint.h"
 #include "ShowCameraDialog.h"
+#include "CameraMVSGigECommon.h"
 
 static  void    FuncCameraOutput(unsigned char * pData, MV_FRAME_OUT_INFO_EX* pFrameInfo, void* pUser);
 
@@ -75,6 +76,23 @@ CameraMVSGigE::CameraMVSGigE(int CamNo ,const QString &ParamStr,LayersBase *base
 	TriggerMode				= MV_TRIGGER_MODE_OFF;
 	bSoftWareTriggerCheck	= true;
 	TriggerSource			= MV_TRIGGER_SOURCE_SOFTWARE;
+    ExposureAuto    =MV_EXPOSURE_AUTO_MODE_OFF;
+    ExposureMode    =0;
+    ExposureTime    =10000;
+
+    BinningHMode    =1;
+    BinningVMode    =1;
+    DecimationH     =1;
+    DecimationV     =1;
+
+    ReverseX    =false;
+    ReverseY    =false;
+
+    AOIMode     =false;
+    AOIOffsetX  =0;
+    AOIOffsetY  =0;
+    AOIWidth    =0;
+    AOIHeight   =0;
 
     CamBuffWPoint   =0;
     CamBuffRPoint   =0;
@@ -94,6 +112,7 @@ CameraMVSGigE::~CameraMVSGigE(void)
         CamBuffDim[i]=NULL;
     }
 }
+
 
 bool    CameraMVSGigE::Initial(void)
 {
@@ -164,10 +183,15 @@ bool    CameraMVSGigE::Initial(void)
         return false;
     }
 
-    int TrRet = SetTriggerMode();
-    if (MV_OK != TrRet){
+    bool TrRet = SetTriggerMode((TriggerMode==MV_TRIGGER_MODE_OFF)?false:true);
+    if (TrRet!=true){
         return false;
     }
+    int	TrgSrcRet=SetTriggerSource();
+    if (MV_OK != TrgSrcRet){
+        return false;
+    }
+
     if (m_stDevList.pDeviceInfo[DevNo]->nTLayerType == MV_GIGE_DEVICE){
         unsigned int nPacketSize = 0;
         nRet = Cam.GetOptimalPacketSize(&nPacketSize);
@@ -241,6 +265,47 @@ bool	CameraMVSGigE::ChangeInfo(int _XLen ,int _YLen)
 
     return true;
 }
+
+bool    CameraMVSGigE::ReqSystemChange(CameraReqSystemChangeInfo &caminfo)
+{
+    int     Width ,Height;
+
+    int CurrentValue ,MaxValue ,MinValue;
+    if(GetIntValue	 ("Width",Width ,MaxValue ,MinValue)==false){
+        return false;
+    }
+    if(GetIntValue	 ("Height",Height ,MaxValue ,MinValue)==false){
+        return false;
+    }
+	
+    caminfo.LayerNumber=1;
+	int	Index = UserName.indexOf('(');
+	if(Index>0){
+		QString ModelName = UserName.left(Index).trimmed();
+		if(ModelName.last(1)=="C"){
+            caminfo.LayerNumber=3;
+        }
+    }
+
+	caminfo.XLen = Width;
+	caminfo.YLen = Height;
+
+    return true;
+}
+
+
+bool    CameraMVSGigE::GetLine0(void)
+{
+    return Cam.GetLine0Input();
+}
+
+
+bool	CameraMVSGigE::SetLine1(bool b)
+{
+    return Cam.SetLine1Output(b);
+}
+
+
 bool    CameraMVSGigE::SetLineCount(int _YLen)
 {
     ChangeInfo(XLen ,_YLen);
@@ -249,10 +314,33 @@ bool    CameraMVSGigE::ShowSetting(void)
 {
 	ShowCameraDialog	D(this);
 	if(D.exec()==true){
+        ExposureAuto=D.ExposureAuto;
+        ExposureMode=D.ExposureMode;
         ExposureTime=D.ExposureTime;
         Gain        =D.Gain;
-        SetExposureTime();
+        TriggerMode =D.TriggerMode  ;
+        TriggerSource=D.TriggerSource;
+        BinningHMode=D.BinningHMode ;
+        BinningVMode=D.BinningVMode ;
+        DecimationH =D.DecimationH  ;
+        DecimationV =D.DecimationV  ;
+
+        ReverseX    =D.ReverseX    ;
+        ReverseY    =D.ReverseY    ;
+        
+        AOIMode     =D.AOIMode     ;
+        AOIOffsetX  =D.AOIOffsetX  ;
+        AOIOffsetY  =D.AOIOffsetY  ;
+        AOIWidth    =D.AOIWidth    ;
+        AOIHeight   =D.AOIHeight   ;
+
+        SetTriggerMode((TriggerMode==MV_TRIGGER_MODE_OFF)?false:true);
+        SetTriggerSource();
+        SetExposure();
         SetGain();
+        SetBinningDecimation();
+        SetReverse();
+        SetAOI();
 		return true;
 	}
 	return false;
@@ -364,7 +452,19 @@ void	CameraMVSGigE::GetImage(ImageBuffer *Buff[3] ,int LayerNumb)
 
 void    CameraMVSGigE::TransmitDirectly(GUIDirectMessage *packet)
 {
+	CmdInputHIKRobotCamera *CmdInputHIKRobotCameraVar = dynamic_cast<CmdInputHIKRobotCamera *>(packet);
+    if(CmdInputHIKRobotCameraVar!=NULL){      
+        CmdInputHIKRobotCameraVar->Line0=GetLine0();
+        return;
+	}
+	CmdOutputHIKRobotCamera *CmdOutputHIKRobotCameraVar = dynamic_cast<CmdOutputHIKRobotCamera *>(packet);
+    if(CmdOutputHIKRobotCameraVar!=NULL){
+        SetLine1(CmdOutputHIKRobotCameraVar->Line1);
+        return;
+	}
 }
+
+
 void    CameraMVSGigE::SpecifiedDirectly(SpecifiedBroadcaster *v)
 {
 }
@@ -377,6 +477,21 @@ bool	CameraMVSGigE::Save(QIODevice *f)
     if(::Save(f,bSoftWareTriggerCheck)==false)	return false;
     if(::Save(f,TriggerMode)==false)			return false;
     if(::Save(f,TriggerSource)==false)			return false;
+    if(::Save(f,ExposureAuto)==false)	        return false;
+    if(::Save(f,ExposureMode)==false)	        return false;
+    if(::Save(f,BinningHMode)==false)	        return false;
+    if(::Save(f,BinningVMode)==false)	        return false;
+    if(::Save(f,DecimationH)==false)	        return false;
+    if(::Save(f,DecimationV)==false)	        return false;
+
+    if(::Save(f,ReverseX    )==false)	        return false;
+    if(::Save(f,ReverseY    )==false)	        return false;
+
+    if(::Save(f,AOIMode     )==false)	        return false;
+    if(::Save(f,AOIOffsetX  )==false)	        return false;
+    if(::Save(f,AOIOffsetY  )==false)	        return false;
+    if(::Save(f,AOIWidth    )==false)	        return false;
+    if(::Save(f,AOIHeight   )==false)	        return false;
 
 	return true;
 }
@@ -388,36 +503,75 @@ bool	CameraMVSGigE::Load(QIODevice *f)
     if(::Load(f,bSoftWareTriggerCheck)==false)	return false;
     if(::Load(f,TriggerMode)==false)			return false;
     if(::Load(f,TriggerSource)==false)			return false;
+    if(::Load(f,ExposureAuto)==false)	        return false;
+    if(::Load(f,ExposureMode)==false)	        return false;
+    if(::Load(f,BinningHMode)==false)	        return false;
+    if(::Load(f,BinningVMode)==false)	        return false;
+    if(::Load(f,DecimationH)==false)	        return false;
+    if(::Load(f,DecimationV)==false)	        return false;
 
-    SetTriggerMode();
-    SetExposureTime();
+    if(::Load(f,ReverseX    )==false)	        return false;
+    if(::Load(f,ReverseY    )==false)	        return false;
+
+    if(::Load(f,AOIMode     )==false)	        return false;
+    if(::Load(f,AOIOffsetX  )==false)	        return false;
+    if(::Load(f,AOIOffsetY  )==false)	        return false;
+    if(::Load(f,AOIWidth    )==false)	        return false;
+    if(::Load(f,AOIHeight   )==false)	        return false;
+
+    SetTriggerMode((TriggerMode==MV_TRIGGER_MODE_OFF)?false:true);
+    SetExposure();
     SetGain();
     SetFrameRate();
     SetTriggerSource();
-
+    SetBinningDecimation();
+    SetReverse();
+    SetAOI();
 	return true;
 }
 
 // ch:获取触发模式 | en:Get Trigger Mode
-int CameraMVSGigE::GetTriggerMode()
+bool CameraMVSGigE::GetTriggerMode(void)
 {
     MVCC_ENUMVALUE stEnumValue = {0};
 
     int nRet = Cam.GetEnumValue("TriggerMode", &stEnumValue);
     if (MV_OK != nRet)
     {
-        return nRet;
+        return false;
     }
 
-    TriggerMode = stEnumValue.nCurValue;
-
-    return MV_OK;
+    //TriggerMode = stEnumValue.nCurValue;
+    if((unsigned int)MV_TRIGGER_MODE_ON == stEnumValue.nCurValue)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+	}
 }
 
 // ch:设置触发模式 | en:Set Trigger Mode
-int CameraMVSGigE::SetTriggerMode()
+bool CameraMVSGigE::SetTriggerMode(bool b)
 {
-    return Cam.SetEnumValue("TriggerMode", TriggerMode);
+    TriggerMode=(b==false)?MV_TRIGGER_MODE_OFF:MV_TRIGGER_MODE_ON;
+    if(b==true){
+       if(Cam.SetEnumValue("TriggerMode", (int)MV_TRIGGER_MODE_ON)==MV_OK){
+           return true;
+	   }
+       else{
+           return false;
+	   }
+    }
+    else{
+        if(Cam.SetEnumValue("TriggerMode", (int)MV_TRIGGER_MODE_OFF)==MV_OK){
+           return true;
+	   }
+       else{
+           return false;
+	   }
+    }
 }
 
 // ch:获取曝光时间 | en:Get Exposure Time
@@ -437,9 +591,10 @@ int CameraMVSGigE::GetExposureTime()
 }
 
 // ch:设置曝光时间 | en:Set Exposure Time
-int CameraMVSGigE::SetExposureTime()
+int CameraMVSGigE::SetExposure()
 {
-    Cam.SetEnumValue("ExposureAuto", MV_EXPOSURE_AUTO_MODE_OFF);
+    Cam.SetEnumValue("ExposureAuto", ExposureAuto);
+    Cam.SetEnumValue("ExposureMode", ExposureMode);
 
     return Cam.SetFloatValue("ExposureTime", (float)ExposureTime);
 }
@@ -509,11 +664,16 @@ int CameraMVSGigE::GetTriggerSource()
 
     if ((unsigned int)MV_TRIGGER_SOURCE_SOFTWARE == stEnumValue.nCurValue)
     {
-        bSoftWareTriggerCheck = true;
+        TriggerSource = 0;
     }
-    else
-    {
-        bSoftWareTriggerCheck = false;
+    else if(MV_TRIGGER_SOURCE_LINE0==stEnumValue.nCurValue){
+        TriggerSource = 1;
+    }
+    else if(MV_TRIGGER_SOURCE_LINE2==stEnumValue.nCurValue){
+        TriggerSource = 2;
+    }
+    else{
+        TriggerSource = 0;
     }
 
     return MV_OK;
@@ -523,21 +683,16 @@ int CameraMVSGigE::GetTriggerSource()
 int CameraMVSGigE::SetTriggerSource()
 {
     int nRet = MV_OK;
-    if (bSoftWareTriggerCheck==true)
-    {
-        TriggerSource = MV_TRIGGER_SOURCE_SOFTWARE;
-        nRet = Cam.SetEnumValue("TriggerSource", TriggerSource);
-        if (MV_OK != nRet)
-        {
+    if (TriggerMode==MV_TRIGGER_MODE_ON){
+        nRet = Cam.SetEnumValue("TriggerSource", (int)TriggerSource);
+        if (MV_OK != nRet){
             return nRet;
         }
     }
     else
     {
-        TriggerSource = MV_TRIGGER_SOURCE_LINE0;
-        nRet = Cam.SetEnumValue("TriggerSource", TriggerSource);
-        if (MV_OK != nRet)
-        {
+        nRet = Cam.SetEnumValue("TriggerSource", (int)MV_TRIGGER_SOURCE_SOFTWARE);
+        if (MV_OK != nRet){
             return nRet;
         }
     }
@@ -567,6 +722,19 @@ int CameraMVSGigE::GetPixelFormat()
     strcpy_s(m_chPixelFormat, MV_MAX_SYMBOLIC_LEN, stPixelFormatInfo.chSymbolic);
 
     return MV_OK;
+}
+
+bool	CameraMVSGigE::GetIntValue	 (const char* strKey ,int &CurrentValue ,int   &MaxValue ,int   &MinValue)
+{
+    MVCC_INTVALUE    IntValue;
+    int Ret=Cam.GetIntValue(strKey, &IntValue);
+    if(Ret==MV_OK){
+        CurrentValue=IntValue.nCurValue;
+        MaxValue    =IntValue.nMax;
+        MinValue    =IntValue.nMin;
+        return true;
+    }
+    return false;
 }
 bool	CameraMVSGigE::GetIntValue	 (const char* strKey ,int64 &CurrentValue ,int64 &MaxValue ,int64 &MinValue)
 {
@@ -602,6 +770,172 @@ bool	CameraMVSGigE::GetBoolValue (const char* strKey ,bool &CurrentValue )
     return false;
 }
 
+bool	CameraMVSGigE::GetEnumValue (const char* strKey ,int &CurrentValue ,int EnumData[64],int &EnumCount)
+{
+    MVCC_ENUMVALUE    stParam;
+    int Ret=Cam.GetEnumValue(strKey, &stParam);
+    if(Ret==MV_OK){
+        EnumCount=stParam.nSupportedNum;
+        for(int i=0;i<EnumCount;i++){
+            EnumData[i]=stParam.nSupportValue[i];
+        }
+        CurrentValue=stParam.nCurValue;
+        return true;
+    }
+    return false;
+}
+bool	CameraMVSGigE::GetEnumSymblic (const char* strKey ,int EnumValue ,QString &Str)
+{
+    MVCC_ENUMENTRY	enumParam;
+    memset(&enumParam, 0, sizeof(enumParam));
+    enumParam.nValue=EnumValue;
+    int Ret=Cam.GetEnumEntrySymbolic(strKey, &enumParam);
+    if(Ret==MV_OK){
+        Str=enumParam.chSymbolic;
+        return true;
+    }
+    return false;
+}
+
+
+bool    CameraMVSGigE::SetBinningDecimation(void)
+{
+    bool    IsGrabbing=Cam.IsGrabbing();
+    if(IsGrabbing==true){
+        Cam.StopGrabbing();
+    }
+    int Ret;
+    Ret=Cam.SetIntValue("BinningHorizontal", BinningHMode);
+    if(Ret!=MV_OK){
+        return true;
+    }
+    Ret=Cam.SetIntValue("BinningVertical", BinningVMode);
+    if(Ret!=MV_OK){
+        return true;
+    }
+    Ret=Cam.SetIntValue("DecimationHorizontal", DecimationH);
+    if(Ret!=MV_OK){
+        return true;
+    }
+    Ret=Cam.SetIntValue("DecimationVertical", DecimationV);
+    if(Ret!=MV_OK){
+        return true;
+    }
+    int     Width ,Height;
+    Ret=Cam.GetResolution(Width ,Height);
+    if (MV_OK == Ret){
+        ChangeInfo(Width ,Height);
+    }
+
+    if(IsGrabbing==true){
+        Cam.StartGrabbing();
+    }
+}
+
+    
+bool    CameraMVSGigE::SetReverse(void)
+{
+    int nRet;
+
+    nRet = Cam.SetBoolValue("ReverseX", ReverseX);
+    if (MV_OK != nRet)
+    {
+        return nRet;
+    }
+    nRet = Cam.SetBoolValue("ReverseY", ReverseY);
+    if (MV_OK != nRet)
+    {
+        return nRet;
+    }
+    return true;
+}
+    
+bool    CameraMVSGigE::SetAOI(void)
+{
+    bool    IsGrabbing=Cam.IsGrabbing();
+    if(IsGrabbing==true){
+        Cam.StopGrabbing();
+    }
+    int     Ret;
+    int     Width ,Height;
+    Ret=Cam.GetResolution(Width ,Height);
+    if (MV_OK != Ret){
+        return false;
+    }
+
+    Cam.SetIntValue("OffsetX", 0u);
+    Cam.SetIntValue("OffsetY", 0u);
+
+    if(AOIWidth>0){
+        Ret = Cam.SetIntValue("Width", AOIWidth);
+        if (MV_OK != Ret){
+            return false;
+        }
+    }
+    if(AOIHeight>0){
+        Ret = Cam.SetIntValue("Height", AOIHeight);
+        if (MV_OK != Ret){
+            return false;
+        }
+    }
+
+    if(AOIOffsetX>0){
+        Ret = Cam.SetIntValue("OffsetX", AOIOffsetX);
+        if (MV_OK != Ret){
+            return false;
+        }
+    }
+
+    if(AOIOffsetY>0){
+        Ret = Cam.SetIntValue("OffsetY", AOIOffsetY);
+        if (MV_OK != Ret){
+            return false;
+        }
+    }
+
+    int MaxValue ,MinValue;
+    bool    bRet = GetIntValue("Width", Width,MaxValue ,MinValue);
+    if (bRet==false){
+        return false;
+    }
+    bRet = GetIntValue("Height", Height,MaxValue ,MinValue);
+    if (bRet==false){
+        return false;
+    }
+
+    ChangeInfo(Width ,Height);
+
+	CameraReqSystemChangeInfo caminfo;
+	if(ReqSystemChange(caminfo)==true){
+		if(GetPageNumb()==1){
+			GetLayersBase()->ReallocXYPixels(caminfo.XLen,caminfo.YLen);
+		}
+		else{
+			IntList PageList;
+			GetParamGlobal()->GetPageListFromCameraNo(GetCamNo() ,PageList);
+			for(IntClass *p=PageList.GetFirst();p!=NULL;p=p->GetNext()){
+				int	Page = p->GetValue();
+				for(int phase = 0;phase<GetPhaseNumb();phase++){
+					GetLayersBase()->ReallocXYPixelsPage(phase,Page,caminfo.XLen,caminfo.YLen);
+				}
+			}
+		}
+	}
+
+    if(IsGrabbing==true){
+        Cam.StartGrabbing();
+    }
+    return true;
+}
+
+bool    CameraMVSGigE::GetResolution(int &Width ,int &Height)
+{
+    int Ret=Cam.GetResolution(Width ,Height);
+    if (MV_OK == Ret){
+		return true;
+    }
+	return false;
+}
 
 /* ////////////////////////////////////////////////////////////////////////////////////////////////
  DLL FUNCTIONS
@@ -709,7 +1043,15 @@ DEFFUNCEX	bool	_cdecl	DLL_ChangeInfo(CameraHandle *handle ,CameraReqInfo &caminf
 
 	return true;
 }
+DEFFUNCEX	bool	_cdecl	DLL_ReqSystemChange(CameraHandle *handle ,CameraReqSystemChangeInfo &caminfo)
+{
+	CameraMVSGigE		*Px=(CameraMVSGigE *)handle;
+	if(Px!=NULL){
+		Px->ReqSystemChange(caminfo);
+	}
 
+	return true;
+}
 
 bool _cdecl	DLL_ShowSetting(CameraHandle *handle, QWidget *parent)
 //	This function shows dialog to set camera(handle) information

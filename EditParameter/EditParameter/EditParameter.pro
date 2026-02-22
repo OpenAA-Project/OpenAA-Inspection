@@ -24,13 +24,16 @@ include(EditParameter.pri)
 win32:RC_FILE = EditParameter.rc
 
 FORMS += \
+    ChooseSelectCameraDialog.ui \
     ComponentParameterDialog.ui \
     EditEachPageLocalDialog.ui
 
 HEADERS += \
+    ChooseSelectCameraDialog.h \
     ComponentParameterDialog.h \
     EditEachPageLocalDialog.h
 
 SOURCES += \
+    ChooseSelectCameraDialog.cpp \
     ComponentParameterDialog.cpp \
     EditEachPageLocalDialog.cpp

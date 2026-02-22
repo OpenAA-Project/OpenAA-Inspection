@@ -37,6 +37,8 @@ struct RecordStruct
 		,_EndRecording		= 4
 		,_RestartRecording	= 5
 		,_HaltRecording		= 6
+		,_Ack				= 7
+		,_Nack				= 8
 
 	}Cmd;
 	int		MovieXSize;

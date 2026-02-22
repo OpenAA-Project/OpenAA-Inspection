@@ -220,6 +220,12 @@ public:
 	PIOClass	*FindPIO(const QString &PIOName);
 	PIOClass	*GetFirstPIO(void);
 	void		LoopOnIdle(void);
+
+	void	InitialPrepare(void);
+	void	Prepare(void)		;
+	void	AfterPrepare(void)	;
+	void	ReadyParam(void)	;
+	void	AfterStartSequence(void);
 signals:
     void SignalMessage(int N);
 

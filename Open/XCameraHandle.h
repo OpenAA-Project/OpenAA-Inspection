@@ -58,6 +58,9 @@ public:
 	int		GetMaxLines(void);
 	virtual	bool	IsAlive(void)	{	return true;	}
 
+	virtual	bool	SetTriggerMode(bool b)	{	return true;	}
+	virtual	bool	GetTriggerMode(void)	{	return true;	}
+
 	virtual	bool	ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)					{	return true;	}
 	virtual	bool	Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb)	{	return true;	}
 	virtual	bool	ReallocateMasterCount(int CountMaster)								{	return true;	}

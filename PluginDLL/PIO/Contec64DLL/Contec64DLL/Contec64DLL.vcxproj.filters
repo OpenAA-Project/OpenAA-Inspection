@@ -36,9 +36,6 @@
     <ClInclude Include="..\..\..\..\Open\AIP_IO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CIoLib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="contec64dll.h">
       <Filter>Header Files</Filter>
     </ClInclude>

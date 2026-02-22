@@ -259,7 +259,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Open\AIP_IO.h" />
-    <ClInclude Include="CIoLib.h" />
     <ClInclude Include="contec64dll.h" />
     <ClInclude Include="contec64dll_global.h" />
   </ItemGroup>

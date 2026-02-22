@@ -151,7 +151,6 @@ public:
 	virtual	int		GetCameraDim(CameraClass *CamDim[])	{	return 0;	}
 	virtual	void	SetCameraDim(CameraClass *CamDim[])	{}
 
-	//�������͊O�������̑���
 	virtual	void	GoInspect(void)					=0;
 	virtual	void	GoInspectWithoutCapture(void)	=0;
 	virtual	void	GoMasterCaptureOnly(void)		=0;
@@ -185,7 +184,8 @@ public:
 	void	ImageYDelay(int page,ImageBuffer *Buff[] ,int BuffDimCount);
 
 	virtual	void	SpecifiedDirectly(SpecifiedBroadcaster *v){}
-
+	
+	virtual	bool	FollowToCameraInfo(void);
 	bool	ReallocXYPixels(int NewDotPerLine ,int NewMaxLines);
 	bool	ReallocXYPixelsPage(int Phase ,int Page ,int NewDotPerLine ,int NewMaxLines);
 	bool	InsertPage(int IndexPage);	//Create page before Indexed page

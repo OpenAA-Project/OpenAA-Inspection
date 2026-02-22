@@ -317,6 +317,29 @@ bool	ExecuteInspectBase::RemovePhase(int RemovedPhaseCode)
 	return true;
 }
 
+bool	ExecuteInspectBase::FollowToCameraInfo(void)
+{
+	for(int CamNo=0;CamNo<GetParamComm()->GetLocalCameraNumb(GetParamComm()->ThisComputerID);CamNo++){
+		CameraReqSystemChangeInfo caminfo;
+		CameraClass		*C=GetCamera(CamNo);
+		if(C!=NULL && C->ReqSystemChange(caminfo)==true){
+			if(GetPageNumb()==1){
+				GetLayersBase()->ReallocXYPixels(caminfo.XLen,caminfo.YLen);
+			}
+			else{
+				IntList PageList;
+				GetParamGlobal()->GetPageListFromCameraNo(CamNo ,PageList);
+				for(IntClass *p=PageList.GetFirst();p!=NULL;p=p->GetNext()){
+					int	Page = p->GetValue();
+					for(int phase = 0;phase<GetPhaseNumb();phase++){
+						GetLayersBase()->ReallocXYPixelsPage(phase,Page,caminfo.XLen,caminfo.YLen);
+					}
+				}
+			}
+		}
+	}
+	return true;
+}
 
 bool	ExecuteInspectBase::ReallocXYPixelsPage(int Phase ,int Page ,int NewDotPerLine ,int NewMaxLines)
 {

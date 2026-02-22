@@ -22,8 +22,9 @@
 #include "pioforcameraexecuter_global.h"
 #include<QSharedMemory>
 #include "XTypeDef.h"
+#include "XIODLL.h"
 
-class PIOForCameraExecuter
+class PIOForCameraExecuter : public PIODLLBaseClass
 {
 public:
 	QSharedMemory	MemoryMapIN;

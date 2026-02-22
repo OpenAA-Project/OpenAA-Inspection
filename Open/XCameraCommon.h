@@ -24,6 +24,7 @@
 #include"XGUIPacketForDLL.h"
 
 class	LayersBase;
+class	CameraReqSystemChangeInfo;
 
 enum CameraQuickProperty
 {
@@ -126,7 +127,49 @@ public:
 	int		Page;
 	SpecifiedBroadcasterCalibrateCamera(void){}
 };
-//
+
+//------------------------------------------------------------------
+class	CameraReqSystemChangeInfo
+{
+public:
+	int32	XLen;			//Dot counts of X direction
+	int32	YLen;			//Dot counts of Y direction
+	int32	LayerNumber;	//Layer counts of simultanious caption
+	double	MaxFPS;			//May be no sense
+
+	CameraReqSystemChangeInfo(void);
+
+	CameraReqSystemChangeInfo(const CameraReqSystemChangeInfo &src);
+	CameraReqSystemChangeInfo	&operator=(const CameraReqSystemChangeInfo &src);
+};
+
+	
+inline	CameraReqSystemChangeInfo::CameraReqSystemChangeInfo(void)
+{
+	XLen		=0;		
+	YLen		=0;		
+	LayerNumber	=0;
+	MaxFPS		=0;		
+}
+
+inline	CameraReqSystemChangeInfo::CameraReqSystemChangeInfo(const CameraReqSystemChangeInfo &src)
+{
+	XLen		=src.XLen		;
+	YLen		=src.YLen		;
+	LayerNumber	=src.LayerNumber;
+	MaxFPS		=src.MaxFPS		;
+}
+inline	CameraReqSystemChangeInfo	&CameraReqSystemChangeInfo::operator=(const CameraReqSystemChangeInfo &src)
+{
+	XLen		=src.XLen		;
+	YLen		=src.YLen		;
+	LayerNumber	=src.LayerNumber;
+	MaxFPS		=src.MaxFPS		;
+
+	return *this;
+}
+
+
 //------------------------------------------------------------------
 
 class	CameraDLLInfo

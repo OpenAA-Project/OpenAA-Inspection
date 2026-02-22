@@ -443,7 +443,7 @@
     <QtMoc Include="ShowCOMForm.h" />
     <QtMoc Include="..\..\..\..\Open\ThreadSequence.h">
     </QtMoc>
-    <ClInclude Include="..\..\..\..\PluginDLL\PIO\AIP_IO.h" />
+    <ClInclude Include="..\..\..\..\Open\XIODLL.h" />
     <ClInclude Include="..\..\..\..\Open\NList.h" />
     <QtMoc Include="..\..\OutSequenceInput.h" />
     <QtMoc Include="..\..\OutSequenceMessage.h" />

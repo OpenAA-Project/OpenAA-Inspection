@@ -27,6 +27,7 @@
 #include <QFile>
 #include <QTextStream>
 
+
 int	QString2Char(const QString &str ,char *buff ,int buffsize);
 
 //static short Id[2];
@@ -69,7 +70,7 @@ int _cdecl  AIP_IO_GetIOBoardNumb(void)
 	return 2;
 }
 
-int _cdecl  AIP_IO_GetIOInBitCount(void *handle ,int boardNumber)
+int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	Contec2boards	*PIO=(Contec2boards *)handle;
 	if(PIO==NULL)
@@ -84,7 +85,7 @@ int _cdecl  AIP_IO_GetIOInBitCount(void *handle ,int boardNumber)
 	return(InPortNum*8);
 }
 
-int _cdecl  AIP_IO_GetIOOutBitCount(void *handle ,int boardNumber)
+int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	Contec2boards	*PIO=(Contec2boards *)handle;
 	if(PIO==NULL)
@@ -105,7 +106,7 @@ bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 	return true;
 }
 
-void  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+PIODLLBaseClass  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	long Ret;
 
@@ -124,20 +125,6 @@ void  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbu
 		return NULL;
 	}		
 
-/*
-	//�r�b�g�̏�����
-	int IOBit;
-	if(strcmp(PIO_NAME,"IOLIB_PIO16")==0)
-		IOBit=16;
-	else if(strcmp(PIO_NAME,"IOLIB_PIO32")==0)
-		IOBit=32;
-	else if(strcmp(PIO_NAME,"IOLIB_PIO64")==0)
-		IOBit=64;
-
-	for(int Cnt=0;Cnt<(IOBit>>3);Cnt++)
-		AIP_IO_SetByte(0,Cnt,0);
-*/
-	//�f�W�^���t�B���^�̐ݒ��iPIO_DigitalFilter.dat�t�@�C���̓ǂݍ��݁j
 	QStringList strList;
 	QFile	mfile("./PIO_DigitalFilter.dat");
 	if(mfile.open(QIODevice::ReadOnly)==true){
@@ -160,7 +147,7 @@ void  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbu
 	return PIO;
 }
 
-BYTE  _cdecl AIP_IO_GetBit(void *handle ,int boardNumber , BYTE bitIndex)
+BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
 {
 	long Ret;
 	BYTE InData;
@@ -170,7 +157,7 @@ BYTE  _cdecl AIP_IO_GetBit(void *handle ,int boardNumber , BYTE bitIndex)
 	return InData;
 }
 
-BYTE  _cdecl AIP_IO_GetByte(void *handle ,int boardNumber , BYTE byteIndex)
+BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	long Ret;
 	BYTE InData;
@@ -180,7 +167,7 @@ BYTE  _cdecl AIP_IO_GetByte(void *handle ,int boardNumber , BYTE byteIndex)
 	return InData;
 }
 
-BYTE  _cdecl AIP_IO_SetByte(void *handle ,int boardNumber , BYTE byteIndex , BYTE data)
+BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data)
 {
 	long Ret;
 	Contec2boards	*PIO=(Contec2boards *)handle;
@@ -189,7 +176,7 @@ BYTE  _cdecl AIP_IO_SetByte(void *handle ,int boardNumber , BYTE byteIndex , BYT
 	return data;
 }
 
-int  _cdecl AIP_IO_GetOutByte(void *handle ,int boardNumber , BYTE byteIndex)
+int  _cdecl AIP_IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	long Ret;
 	BYTE InData;
@@ -199,7 +186,7 @@ int  _cdecl AIP_IO_GetOutByte(void *handle ,int boardNumber , BYTE byteIndex)
 	return InData;
 }
 
-bool  _cdecl AIP_IO_Close(void *handle ,int boardNumber)
+bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
 {
 	long Ret;
 	Contec2boards	*PIO=(Contec2boards *)handle;

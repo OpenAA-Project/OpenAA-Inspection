@@ -22,8 +22,9 @@
 #include "sharedpio_global.h"
 #include<QString>
 #include <QSharedMemory>
+#include "XIODLL.h"
 
-class SharedPIO
+class SharedPIO : public PIODLLBaseClass
 {
 public:
 	QSharedMemory	PIOMemory;

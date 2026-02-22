@@ -25,6 +25,10 @@ SettingLightDialog::SettingLightDialog(LightHIKRobotLAN *p,QWidget *parent)
 		LightDim[s] = Parent->LightDim[s];
 	}
 
+	::SetColumnWidthInTable(ui->tableWidget ,0, 15);
+	::SetColumnWidthInTable(ui->tableWidget ,1, 50);
+	::SetColumnWidthInTable(ui->tableWidget ,2, 25);
+
 	ui->tableWidget->setRowCount(ChannelCount);
 	for(int row=0;row<ChannelCount;row++){
 		::SetDataToTableCheckable(ui->tableWidget, 0, row, "", LightDim[row].ONMode);

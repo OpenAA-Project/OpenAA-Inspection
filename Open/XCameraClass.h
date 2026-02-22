@@ -71,6 +71,8 @@ public:
 	void	AfterStartSequence(void);
 
 	bool	ChangeInfo(int XLen ,int YLen, int LayerCount ,int PageNumb,CameraReqInfoAnyData *anydata=NULL);
+	bool	ReqSystemChange(CameraReqSystemChangeInfo &caminfo);
+
 	bool	GetCurrentInfo(CameraReqInfo &RetInfo);
 	bool	RestoreCamInfo(void);
 	bool	ResetToDefault(void);
@@ -96,6 +98,9 @@ public:
 
 	bool	ShowSetting(QWidget *parent);
 	bool	SetQuickProperty(CameraQuickProperty Attr, double RelativeValue);
+
+	bool	SetTriggerMode(bool b);
+	bool	GetTriggerMode(void)  ;
 
 	bool	PrepareCapture(void);
 	bool	StartCapture(void);

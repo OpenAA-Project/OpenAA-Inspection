@@ -33,14 +33,35 @@ class ShowCameraDialog : public QDialog
     Q_OBJECT
 
     CameraMVSUSB   *Parent;
+
+    int         EnumExposureAutoData[64];
+    int         EnumExposureModeData[64];
+    int         EnumTriggerSourceData[64];
+    int         EnumTriggerModeData[64];
+
 public:
 
+    int         ExposureAuto;
+    int         ExposureMode;
 	float		ExposureTime;
 	float		Gain;
 	float		FrameRate;
 	bool		bSoftWareTriggerCheck;
     int			TriggerMode;                       // en:Trigger Mode
     int			TriggerSource;                     // en:Trigger Source
+    int         BinningHMode;
+    int         BinningVMode;
+    int         DecimationH ;
+    int         DecimationV ;
+
+    bool    ReverseX;
+    bool    ReverseY;
+
+    int     AOIMode;
+    int     AOIOffsetX;
+    int     AOIOffsetY;
+    int     AOIWidth;
+    int     AOIHeight;
 
     explicit ShowCameraDialog(CameraMVSUSB *p,QWidget *parent = nullptr);
     ~ShowCameraDialog();
@@ -48,6 +69,8 @@ public:
 private slots:
     void on_pushButtonOK_clicked();
     void on_pushButtonCancel_clicked();
+    void on_spinBoxAOIOffsetX_valueChanged(int arg1);
+    void on_spinBoxAOIOffsetY_valueChanged(int arg1);
 
 private:
     Ui::ShowCameraDialog *ui;

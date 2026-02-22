@@ -89,6 +89,11 @@ void	DisplayImage::CanvasSlotOnPaint(QPainter &pnt)
 		return;
 	}
 	DWORD	t	=::GetComputerMiliSec();
+
+	//if((t-LastTimeToPaint)<33){
+	//	return;
+	//}
+
 	if(GetEditMode()==true){
 		return;
 	}
@@ -152,6 +157,6 @@ void	DisplayImage::CanvasSlotOnPaint(QPainter &pnt)
 
 	LastState=CurrentState;				//??????Y?I?i????O?i????A
 	ReEntrant=false;
-	//DWORD	SpanPaint=t-LastTimeToPaint;
+
 	LastTimeToPaint=t;
 }

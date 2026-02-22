@@ -22,12 +22,13 @@
 #include <QDialog>
 #include "DummyPIO.h"
 #include <QTableWidgetItem>
+#include "XIODLL.h"
 
 namespace Ui {
     class ShowIOForm;
 }
 
-class ShowIOForm : public QDialog
+class ShowIOForm : public QDialog,public PIODLLBaseClass
 {
     Q_OBJECT
 

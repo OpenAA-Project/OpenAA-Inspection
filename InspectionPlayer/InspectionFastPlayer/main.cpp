@@ -676,7 +676,7 @@ int main(int argc, char *argv[])
 					LogoForm.show();
 				}
 			}
-
+			ExeIns->FollowToCameraInfo();
 		}
 	}
 	for(GUIInstancePack *L=G->GUIInstanceRoot.GetFirst();L!=NULL;L=L->GetNext()){
@@ -697,8 +697,17 @@ int main(int argc, char *argv[])
 		G->GetGUIInstanceRoot()->ShowAll(MainForm,Layers,Layers->GetParamGUI(),false);
 	}
 	ExeIns->InitialPrepare();
+	if(Seq!=NULL){
+		Seq->InitialPrepare();
+	}
 	ExeIns->Prepare();
+	if(Seq!=NULL){
+		Seq->Prepare();
+	}
 	ExeIns->AfterPrepare();
+	if(Seq!=NULL){
+		Seq->AfterPrepare();
+	}
 
 	//Layers->InitialArrangementDLL();
 
@@ -870,6 +879,9 @@ int main(int argc, char *argv[])
 	if(G!=NULL && G->GetGUIInstanceRoot()!=NULL && MainForm!=NULL){
 		G->GetGUIInstanceRoot()->ReadyParam(MainForm);
 		ExeIns->ReadyParam();
+		if(Seq!=NULL){
+			Seq->ReadyParam();
+		}
 		MainForm->ReflectSize();
 	}
 	if(EditPasswordMode==true){
@@ -913,6 +925,9 @@ int main(int argc, char *argv[])
 	ExeIns->start();
 	G->AfterStartSequence();
 	ExeIns->AfterStartSequence();
+	if(Seq!=NULL){
+		Seq->AfterStartSequence();
+	}
 	IBase->InitialForLocalHost();
 
 	ComponentListContainer NoComponentList;
