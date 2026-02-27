@@ -751,8 +751,8 @@ void	LearningPlanBase::ExecuteOneValue(void)
 	GetLayersBase()->SetCurrentInspectID(0);
 	GetLayersBase()->SetStartInspectTime(XDateTime::currentDateTime());
 	GetLayersBase()->SetStartInspectionTimeMilisec(GetComputerMiliSec());
-	int	TempStrategy=GetParamGlobal()->GetMaxScanStrategy();
-	GetLayersBase()->GetParamGlobal()->SetMaxScanStrategy(1);
+	int	TempStrategy=GetParamGlobal()->GetMaxStrategyCount();
+	GetLayersBase()->GetParamGlobal()->SetMaxStrategyCount(1);
 
 	XDateTime	NowD=GetLayersBase()->GetStartInspectTime();
 	//GetLayersBase()->SetStartTimeForInspection(NowD);
@@ -766,7 +766,7 @@ void	LearningPlanBase::ExecuteOneValue(void)
 	GetLayersBase()->ExecutePostProcessing		(GetLayersBase()->GetEntryPoint());
 	GetLayersBase()->SetShouldWriteResult(true);
 
-	GetLayersBase()->GetParamGlobal()->SetMaxScanStrategy(TempStrategy);
+	GetLayersBase()->GetParamGlobal()->SetMaxStrategyCount(TempStrategy);
 }
 
 void	LearningPlanBase::ExeLowLevelTotalFirst(void)

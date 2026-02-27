@@ -27,6 +27,8 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QThread>
+#include "XDataInLayer.h"
+#include "XGUIFormBase.h"
 
 IO_DLLFUNC WORD	DLL_GetDLLType(void)
 {
@@ -72,7 +74,7 @@ bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 	return(true);
 }
 
-PIODLLBaseClass  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	long Ret;
 
@@ -81,7 +83,7 @@ PIODLLBaseClass  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name
 	if(Something.isEmpty()==false)
 		COM=Something;
 
-	H->port = new QSerialPort(mainW);
+	H->port = new QSerialPort(Base->GetMainWidget());
 	H->port->setPortName(COM);
 
 	H->port->setBaudRate(9600);

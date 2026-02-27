@@ -29,7 +29,8 @@
 #include "XPointer.h"
 #include "NetworkPIOLib.h"
 #include "XCriticalFunc.h"
-
+#include "XDataInLayer.h"
+#include "XGUIFormBase.h"
 
 NetworkPIOClient::NetworkPIOClient(QObject *parent)
 :QTcpSocket(parent)
@@ -260,9 +261,9 @@ bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 	return(true);
 }
 
-PIODLLBaseClass  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
-	NetworkPIOClient	*PIO=new NetworkPIOClient(mainW);
+	NetworkPIOClient	*PIO=new NetworkPIOClient(Base->GetMainWidget());
 	PIO->Initial(Something);
 	return(PIO);
 }

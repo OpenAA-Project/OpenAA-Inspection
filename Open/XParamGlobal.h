@@ -440,8 +440,8 @@ public:
 	int		GetMaxLinesInCamera(int32 CamNo);
 
 	//----------- Strategy Code in Layer-Page Matrix --------------
-	void	SetMaxScanStrategy(int n){	MaxScanStrategy=n;	}
-	int		GetMaxScanStrategy(void);
+	void	SetMaxStrategyCount(int n){	MaxStrategyCount=n;	}
+	int		GetMaxStrategyCount(void);
 	int		GetStrategyCode(int page ,int layer);
 	void	SetStrategyCode(int page ,int layer ,int strategycode);
 	void	ReallocStrategy(void);
@@ -528,7 +528,7 @@ public:
 	double	TransformUnitToPixelY(int Page,double unit);
 
 private:
-	int32	MaxScanStrategy;
+	int32	MaxStrategyCount;
 	int32	*StrategyDim;
 	int32	StrategyDimAllocNumb;
 	int32	*CalcStrategyDim;

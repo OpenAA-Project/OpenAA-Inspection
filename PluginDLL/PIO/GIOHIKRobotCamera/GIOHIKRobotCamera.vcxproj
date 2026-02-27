@@ -62,7 +62,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutDir>..\..\..\..\PluginDLL\</OutDir>
+    <OutDir>..\..\..\PluginDLL\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -101,14 +101,14 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="giohikrobotcamera_global.h" />
-    <ClInclude Include="GIOHIKRobotCamera.h" />
+    <QtMoc Include="GIOHIKRobotCamera.h" />
     <ClCompile Include="..\..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="GIOHIKRobotCamera.cpp" />
   </ItemGroup>

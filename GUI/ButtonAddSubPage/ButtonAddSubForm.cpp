@@ -48,7 +48,7 @@ void ButtonAddSubForm::on_toolButtonAdd_clicked()
 									,CopyAllAlgorithm ,CopyAllFilters);
 
 		GetParamGlobal()->SetCameraNo(DstPage,0);
-		GetParamGlobal()->SetMaxScanStrategy(GetPageNumb());
+		GetParamGlobal()->SetMaxStrategyCount(GetPageNumb());
 		for(int layer=0;layer<GetLayersBase()->GetMaxLayerNumb();layer++){
 			GetParamGlobal()->SetStrategyCode(DstPage ,layer ,GetPageNumb()-1);
 		}
@@ -87,7 +87,7 @@ void	ButtonAddSubForm::TransmitDirectly(GUIDirectMessage *packet)
 											,CopyAllAlgorithm ,CopyAllFilters);
 			}
 			GetParamGlobal()->SetCameraNo(DstPage,0);
-			GetParamGlobal()->SetMaxScanStrategy(GetPageNumb());
+			GetParamGlobal()->SetMaxStrategyCount(GetPageNumb());
 			for(int layer=0;layer<GetLayersBase()->GetMaxLayerNumb();layer++){
 				GetParamGlobal()->SetStrategyCode(DstPage ,layer ,GetPageNumb()-1);
 			}
@@ -98,7 +98,7 @@ void	ButtonAddSubForm::TransmitDirectly(GUIDirectMessage *packet)
 	if(CmdRemovePageVar!=NULL){
 		if(GetParamComm()->IsMastered()==true && GetParamComm()->GetConnectedPCNumb()==0){
 			GetLayersBase()->RemovePage(CmdRemovePageVar->IndexPage);
-			GetParamGlobal()->SetMaxScanStrategy(GetPageNumb());
+			GetParamGlobal()->SetMaxStrategyCount(GetPageNumb());
 		}
 		return;
 	}

@@ -396,7 +396,7 @@ void	ExecuteInspectFast::SetCaptured(int CStrategic)
 
 	SeqParam->DoneCapture=true;
 
-	if(LBase->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(LBase->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		if(IsLocalCamera()==true){
 			for(int page=0;page<GetPageNumb();page++){
 				SeqParam->Captured(LBase->GetGlobalPageFromLocal(page));
@@ -592,7 +592,7 @@ bool	ExecuteInspectFast::CaptureStart(void)
 
 		StatusCameraHalt=false;
 		SeqParam->CaptureStartCounter++;
-		if(SeqParam->CaptureStartCounter>GetParamGlobal()->GetMaxScanStrategy()){
+		if(SeqParam->CaptureStartCounter>GetParamGlobal()->GetMaxStrategyCount()){
 			SeqParam->CaptureStartCounter=1;
 		}
 
@@ -644,7 +644,7 @@ int		ExecuteInspectFast::CaptureGetState(void)
 		if(StatusCameraHalt==true){
 			GoHalt();
 		}
-		if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+		if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 			if(AllocatedCamNumb>0){
 				for(int i=0;i<AllocatedCamNumb;i++){
 					int	W=Cam[i]->GetStatus();
@@ -682,7 +682,7 @@ bool	ExecuteInspectFast::CaptureGetMasterImage(int CStrategic,ListPhasePageLayer
 	GetLayersBase()->GetCurrentPhaseFromScanPhase(PhaseCodes);
 	int	CPhase=PhaseCodes[0];
 
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		if(IsLocalCamera()==true){
 			for(int page=0;page<GetPageNumb();page++){
 				DataInPage	*P=GetLayersBase()->GetPageDataPhase(CPhase)->GetPageData(page);
@@ -844,7 +844,7 @@ bool	ExecuteInspectFast::CaptureGetTargetImage(ListPhasePageLayerPack &CapturedL
 	LBase->LockTarget();
 
 	CurrentCapturedPageLayer.RemoveAll();
-	if(ParamG->GetMaxScanStrategy()<=1){
+	if(ParamG->GetMaxStrategyCount()<=1){
 		if(IsLocalCamera()==true){
 			int	N=GetPageNumb();
 			if(N==1){
@@ -893,7 +893,7 @@ bool	ExecuteInspectFast::CaptureGetTargetImage(ListPhasePageLayerPack &CapturedL
 				}
 			}
 			else{
-				if(ParamG->GetMaxScanStrategy()==1 && GetPageNumb()<=AllocatedCamNumb) {
+				if(ParamG->GetMaxStrategyCount()==1 && GetPageNumb()<=AllocatedCamNumb) {
 					for(int CamNo=0;CamNo<AllocatedCamNumb;CamNo++){
 						int			BuffNumb=0;
 						ImageBuffer	*Buff[1000];
@@ -1363,6 +1363,7 @@ IdleTurn:;
 
 			MotionMode	CurrentModeN=GetMode();
 			if(CurrentModeN==_CaptureInspect){
+				EmitBeforeScan();
 				Layer->GetLogCreater()->PutLog(__LINE__,"XExecuteInspectFast:Enter");
 
 				SetCurrentTypeOfCapture(ExecuteInspectBase::_Target);
@@ -1414,8 +1415,6 @@ IdleTurn:;
 					SeqParam->ReadyForScan=true;
 				}
 
-
-
 				CurrentState=_EI_OnCapturing;
 				DWORD	StartWaitingPoint=::GetComputerMiliSec();
 				int	CamStatus;
@@ -1451,6 +1450,7 @@ IdleTurn:;
 					}
 				}
 				Layer->SetStartInspectTime(XDateTime::currentDateTime());
+				EmitAfterScan();
 
 				ExecTimeDim[ExecTimeDimCount]=::GetComputerMiliSec()-StartWaitingPoint;
 				ExecTimeDimCount++;
@@ -1489,9 +1489,9 @@ IdleTurn:;
 				if(ParamG->CaptureInBackground==true && Layer->GetOnTerminating()==false){
 					if(ParamG->WaitMilisecAfterScan==0){
 						if(GetAutoRepeat()==_AutoCaptureInspect
-						|| ParamG->GetMaxScanStrategy()>(Layer->GetCurrentStrategicNumberForCalc()+2)
+						|| ParamG->GetMaxStrategyCount()>(Layer->GetCurrentStrategicNumberForCalc()+2)
 						|| (IsLocalCamera()==true && ParamG->UnconditionalCaptureBackground==true)
-						|| (ParamG->GetMaxScanStrategy()<=1 && GetEntryPoint()->IsMasterPC()==false)){
+						|| (ParamG->GetMaxStrategyCount()<=1 && GetEntryPoint()->IsMasterPC()==false)){
 							TriggeredCapture=true;
 							TrunStartStarted2++;
 							CapturePrepare();
@@ -1529,14 +1529,14 @@ IdleTurn:;
 					int	tCurrentScanPhaseNumber=Layer->GetCurrentScanPhaseNumber();
 					int	NextCurrentScanPhaseNumber=Layer->GetCurrentScanPhaseNumber();
 					if(ParamG->AutoIncrementScanPhaseNumber==true){
-						if(ParamG->GetMaxScanStrategy()<=1){
+						if(ParamG->GetMaxStrategyCount()<=1){
 							NextCurrentScanPhaseNumber++;
 							if(NextCurrentScanPhaseNumber>=Layer->GetPhaseNumb()){
 								NextCurrentScanPhaseNumber=0;
 							}
 						}
 						else{
-							if((Layer->GetCurrentStrategicNumber()+1)>=ParamG->GetMaxScanStrategy()){
+							if((Layer->GetCurrentStrategicNumber()+1)>=ParamG->GetMaxStrategyCount()){
 								NextCurrentScanPhaseNumber++;
 								if(NextCurrentScanPhaseNumber>=Layer->GetPhaseNumb()){
 									NextCurrentScanPhaseNumber=0;
@@ -1549,8 +1549,8 @@ IdleTurn:;
 									
 					int	CStrNumber=Layer->GetCurrentStrategicNumber();
 					DWORD	StartCalcTime=GetComputerMiliSec();
-					if(ParamG->GetMaxScanStrategy()<=1 
-					|| ParamG->GetMaxScanStrategy()<=(Layer->GetCurrentStrategicNumberForCalc()+1)){
+					if(ParamG->GetMaxStrategyCount()<=1 
+					|| ParamG->GetMaxStrategyCount()<=(Layer->GetCurrentStrategicNumberForCalc()+1)){
 						Layer->SetLatchedInspectionNumber(Layer->GetInspectionNumber());
 					}
 					GUIInitializer	*Gn=Layer->GetGuiInitializer();
@@ -1563,6 +1563,8 @@ IdleTurn:;
 					if(Layer->IsEnableProcess()==true){
 						ResultInspection	*Res=Layer->GetCurrentResultForCalc();
 						if(Res!=NULL){
+							EmitBeforeCalc();
+
 							Res->SetStartTimeForInspect(Layer->GetStartInspectTime());
 
 							ThreadOutputResultInst.SetStart(Res,GetComputerMiliSec()-TimeInThisPoint);
@@ -1636,6 +1638,8 @@ IdleTurn:;
 							if(Gn!=NULL){
 								Gn->ExecutePostProcessing();
 							}
+							EmitAfterCalc();
+
 							Cn=GetComputerMiliSec();
 							Res->ExecTime.TM_ExecutePostProcessing=Cn-C;
 							Res->ExecTime.TM_TotalProcessMilisec=Cn-ProcessStartTime;
@@ -1674,8 +1678,8 @@ IdleTurn:;
 								}
 							}
 
-							if(ParamG->GetMaxScanStrategy()>1){
-								if(ParamG->GetMaxScanStrategy()>(CStrNumber+1)){
+							if(ParamG->GetMaxStrategyCount()>1){
+								if(ParamG->GetMaxStrategyCount()>(CStrNumber+1)){
 									Layer->IncreaseCurrentStrategicNumber();
 									Layer->SetCurrentStrategicNumberForSeq(CStrNumber+1);
 								}
@@ -1684,6 +1688,8 @@ IdleTurn:;
 									Layer->SetCurrentStrategicNumberForSeq(0);
 								}
 							}
+							EmitCreatedResult();
+
 							Layer->GetLogCreater()->PutLog(__LINE__,"EndLoop");
 						}
 					}
@@ -1737,14 +1743,14 @@ IdleTurn:;
 					int	tCurrentScanPhaseNumber=Layer->GetCurrentScanPhaseNumber();
 					int	NextCurrentScanPhaseNumber=Layer->GetCurrentScanPhaseNumber();
 					if(ParamG->AutoIncrementScanPhaseNumber==true){
-						if(ParamG->GetMaxScanStrategy()<=1){
+						if(ParamG->GetMaxStrategyCount()<=1){
 							NextCurrentScanPhaseNumber++;
 							if(NextCurrentScanPhaseNumber>=Layer->GetPhaseNumb()){
 								NextCurrentScanPhaseNumber=0;
 							}
 						}
 						else{
-							if((Layer->GetCurrentStrategicNumber()+1)>=ParamG->GetMaxScanStrategy()){
+							if((Layer->GetCurrentStrategicNumber()+1)>=ParamG->GetMaxStrategyCount()){
 								NextCurrentScanPhaseNumber++;
 								if(NextCurrentScanPhaseNumber>=Layer->GetPhaseNumb()){
 									NextCurrentScanPhaseNumber=0;
@@ -1759,8 +1765,8 @@ IdleTurn:;
 									
 					int	CStrNumber=Layer->GetCurrentStrategicNumber();
 					DWORD	StartCalcTime=GetComputerMiliSec();
-					if(ParamG->GetMaxScanStrategy()<=1 
-					|| ParamG->GetMaxScanStrategy()<=(Layer->GetCurrentStrategicNumberForCalc()+1)){
+					if(ParamG->GetMaxStrategyCount()<=1 
+					|| ParamG->GetMaxStrategyCount()<=(Layer->GetCurrentStrategicNumberForCalc()+1)){
 						Layer->SetLatchedInspectionNumber(Layer->GetInspectionNumber());
 					}
 					if(GetParamComm()->Mastered==true && GetAutoRepeat()==_AutoCaptureInspect){
@@ -1835,8 +1841,8 @@ IdleTurn:;
 								}
 							}
 
-							if(ParamG->GetMaxScanStrategy()>1){
-								if(ParamG->GetMaxScanStrategy()>(CStrNumber+1)){
+							if(ParamG->GetMaxStrategyCount()>1){
+								if(ParamG->GetMaxStrategyCount()>(CStrNumber+1)){
 									Layer->IncreaseCurrentStrategicNumber();
 									Layer->SetCurrentStrategicNumberForSeq(CStrNumber+1);
 								}
@@ -1962,9 +1968,9 @@ IdleTurn:;
 				if(ParamG->CaptureInBackground==true && Layer->GetOnTerminating()==false){
 					if(ParamG->WaitMilisecAfterScan==0){
 						if(GetAutoRepeat()==_AutoCaptureInspect
-						|| ParamG->GetMaxScanStrategy()>(Layer->GetCurrentStrategicNumberForCalc()+2)
+						|| ParamG->GetMaxStrategyCount()>(Layer->GetCurrentStrategicNumberForCalc()+2)
 						|| (IsLocalCamera()==true && ParamG->UnconditionalCaptureBackground==true)
-						|| (ParamG->GetMaxScanStrategy()<=1 && GetEntryPoint()->IsMasterPC()==false)){
+						|| (ParamG->GetMaxStrategyCount()<=1 && GetEntryPoint()->IsMasterPC()==false)){
 							TriggeredCapture=true;
 							TrunStartStarted2++;
 							CapturePrepare();
@@ -2000,14 +2006,14 @@ IdleTurn:;
 					int	tCurrentScanPhaseNumber=Layer->GetCurrentScanPhaseNumber();
 					int	NextCurrentScanPhaseNumber=Layer->GetCurrentScanPhaseNumber();
 					if(ParamG->AutoIncrementScanPhaseNumber==true){
-						if(ParamG->GetMaxScanStrategy()<=1){
+						if(ParamG->GetMaxStrategyCount()<=1){
 							NextCurrentScanPhaseNumber++;
 							if(NextCurrentScanPhaseNumber>=Layer->GetPhaseNumb()){
 								NextCurrentScanPhaseNumber=0;
 							}
 						}
 						else{
-							if((Layer->GetCurrentStrategicNumber()+1)>=ParamG->GetMaxScanStrategy()){
+							if((Layer->GetCurrentStrategicNumber()+1)>=ParamG->GetMaxStrategyCount()){
 								NextCurrentScanPhaseNumber++;
 								if(NextCurrentScanPhaseNumber>=Layer->GetPhaseNumb()){
 									NextCurrentScanPhaseNumber=0;
@@ -2020,8 +2026,8 @@ IdleTurn:;
 									
 					int	CStrNumber=Layer->GetCurrentStrategicNumber();
 					DWORD	StartCalcTime=GetComputerMiliSec();
-					if(ParamG->GetMaxScanStrategy()<=1 
-					|| ParamG->GetMaxScanStrategy()<=(Layer->GetCurrentStrategicNumberForCalc()+1)){
+					if(ParamG->GetMaxStrategyCount()<=1 
+					|| ParamG->GetMaxStrategyCount()<=(Layer->GetCurrentStrategicNumberForCalc()+1)){
 						Layer->SetLatchedInspectionNumber(Layer->GetInspectionNumber());
 					}
 					if(GetParamComm()->Mastered==true && GetAutoRepeat()==_AutoCaptureInspect){
@@ -2082,8 +2088,8 @@ IdleTurn:;
 							}
 						}
 
-						if(ParamG->GetMaxScanStrategy()>1){
-							if(ParamG->GetMaxScanStrategy()>(CStrNumber+1)){
+						if(ParamG->GetMaxStrategyCount()>1){
+							if(ParamG->GetMaxStrategyCount()>(CStrNumber+1)){
 								Layer->IncreaseCurrentStrategicNumber();
 								Layer->SetCurrentStrategicNumberForSeq(CStrNumber+1);
 							}
@@ -2134,7 +2140,7 @@ void	ExecuteInspectFast::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhas
 		MaxErrorBreak	=Res.GetMaxErrorBreak();
 		ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 		
-		if(LBase->GetCurrentStrategicNumber()>=(ParamG->GetMaxScanStrategy()-1)
+		if(LBase->GetCurrentStrategicNumber()>=(ParamG->GetMaxStrategyCount()-1)
 		&& LBase->GetCurrentPhase()>=(LBase->GetPhaseNumb()-1)){
 			IntList PageList;
 			ParamG->GetStrategyPage(nStrategicNumber,PageList);
@@ -2162,7 +2168,7 @@ void	ExecuteInspectFast::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhas
 			MaxErrorBreak	=Res.GetMaxErrorBreak();
 			ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 			
-			if(ParamG->GetMaxScanStrategy()>1){
+			if(ParamG->GetMaxStrategyCount()>1){
 				IntList PageList;
 				ParamG->GetStrategyPage(nStrategicNumber,PageList);
 				for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2189,7 +2195,7 @@ void	ExecuteInspectFast::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhas
 				MaxErrorBreak	=Res->GetMaxErrorBreak();
 				ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-				if(ParamG->GetMaxScanStrategy()>1){
+				if(ParamG->GetMaxStrategyCount()>1){
 					IntList PageList;
 					ParamG->GetStrategyPage(nStrategicNumber,PageList);
 					for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2219,7 +2225,7 @@ void	ExecuteInspectFast::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhas
 				MaxErrorBreak	=Res.GetMaxErrorBreak();
 				ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-				if(ParamG->GetMaxScanStrategy()>1){
+				if(ParamG->GetMaxStrategyCount()>1){
 					IntList PageList;
 					ParamG->GetStrategyPage(nStrategicNumber,PageList);
 					for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2246,7 +2252,7 @@ void	ExecuteInspectFast::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhas
 					MaxErrorBreak	=Res->GetMaxErrorBreak();
 					ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-					if(ParamG->GetMaxScanStrategy()>1){
+					if(ParamG->GetMaxStrategyCount()>1){
 						IntList PageList;
 						ParamG->GetStrategyPage(nStrategicNumber,PageList);
 						for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2276,7 +2282,7 @@ void	ExecuteInspectFast::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhas
 			MaxErrorBreak	=Res.GetMaxErrorBreak();
 			ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-			if(ParamG->GetMaxScanStrategy()>1){
+			if(ParamG->GetMaxStrategyCount()>1){
 				IntList PageList;
 				ParamG->GetStrategyPage(nStrategicNumber,PageList);
 				for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2303,7 +2309,7 @@ void	ExecuteInspectFast::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhas
 				MaxErrorBreak	=Res->GetMaxErrorBreak();
 				ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-				if(ParamG->GetMaxScanStrategy()>1){
+				if(ParamG->GetMaxStrategyCount()>1){
 					IntList PageList;
 					ParamG->GetStrategyPage(nStrategicNumber,PageList);
 					for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2336,7 +2342,7 @@ void	ExecuteInspectFast::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhas
 				MaxErrorBreak	=Res.GetMaxErrorBreak();
 				ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-				if(ParamG->GetMaxScanStrategy()>1){
+				if(ParamG->GetMaxStrategyCount()>1){
 					IntList PageList;
 					ParamG->GetStrategyPage(nStrategicNumber,PageList);
 					for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2363,7 +2369,7 @@ void	ExecuteInspectFast::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhas
 					MaxErrorBreak	=Res->GetMaxErrorBreak();
 					ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-					if(ParamG->GetMaxScanStrategy()>1){
+					if(ParamG->GetMaxStrategyCount()>1){
 						IntList PageList;
 						ParamG->GetStrategyPage(nStrategicNumber,PageList);
 						for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2405,7 +2411,7 @@ void	ExecuteInspectFast::EmitScanDone(ResultInspection &Res,int tCurrentScanPhas
 			MaxErrorBreak	=Res.GetMaxErrorBreak();
 			ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 			
-			if(ParamG->GetMaxScanStrategy()>1){
+			if(ParamG->GetMaxStrategyCount()>1){
 				IntList PageList;
 				ParamG->GetStrategyPage(nStrategicNumber,PageList);
 				for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2432,7 +2438,7 @@ void	ExecuteInspectFast::EmitScanDone(ResultInspection &Res,int tCurrentScanPhas
 				MaxErrorBreak	=Res->GetMaxErrorBreak();
 				ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-				if(ParamG->GetMaxScanStrategy()>1){
+				if(ParamG->GetMaxStrategyCount()>1){
 					IntList PageList;
 					ParamG->GetStrategyPage(nStrategicNumber,PageList);
 					for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2462,7 +2468,7 @@ void	ExecuteInspectFast::EmitScanDone(ResultInspection &Res,int tCurrentScanPhas
 				MaxErrorBreak	=Res.GetMaxErrorBreak();
 				ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-				if(ParamG->GetMaxScanStrategy()>1){
+				if(ParamG->GetMaxStrategyCount()>1){
 					IntList PageList;
 					ParamG->GetStrategyPage(nStrategicNumber,PageList);
 					for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2489,7 +2495,7 @@ void	ExecuteInspectFast::EmitScanDone(ResultInspection &Res,int tCurrentScanPhas
 					MaxErrorBreak	=Res->GetMaxErrorBreak();
 					ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-					if(ParamG->GetMaxScanStrategy()>1){
+					if(ParamG->GetMaxStrategyCount()>1){
 						IntList PageList;
 						ParamG->GetStrategyPage(nStrategicNumber,PageList);
 						for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2519,7 +2525,7 @@ void	ExecuteInspectFast::EmitScanDone(ResultInspection &Res,int tCurrentScanPhas
 			MaxErrorBreak	=Res.GetMaxErrorBreak();
 			ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-			if(ParamG->GetMaxScanStrategy()>1){
+			if(ParamG->GetMaxStrategyCount()>1){
 				IntList PageList;
 				ParamG->GetStrategyPage(nStrategicNumber,PageList);
 				for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2546,7 +2552,7 @@ void	ExecuteInspectFast::EmitScanDone(ResultInspection &Res,int tCurrentScanPhas
 				MaxErrorBreak	=Res->GetMaxErrorBreak();
 				ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-				if(ParamG->GetMaxScanStrategy()>1){
+				if(ParamG->GetMaxStrategyCount()>1){
 					IntList PageList;
 					ParamG->GetStrategyPage(nStrategicNumber,PageList);
 					for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2577,7 +2583,7 @@ void	ExecuteInspectFast::EmitScanDone(ResultInspection &Res,int tCurrentScanPhas
 				MaxErrorBreak	=Res.GetMaxErrorBreak();
 				ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-				if(ParamG->GetMaxScanStrategy()>1){
+				if(ParamG->GetMaxStrategyCount()>1){
 					IntList PageList;
 					ParamG->GetStrategyPage(nStrategicNumber,PageList);
 					for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2604,7 +2610,7 @@ void	ExecuteInspectFast::EmitScanDone(ResultInspection &Res,int tCurrentScanPhas
 					MaxErrorBreak	=Res->GetMaxErrorBreak();
 					ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-					if(ParamG->GetMaxScanStrategy()>1){
+					if(ParamG->GetMaxStrategyCount()>1){
 						IntList PageList;
 						ParamG->GetStrategyPage(nStrategicNumber,PageList);
 						for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -2664,7 +2670,7 @@ void	ExecuteInspectFast::FinishInspection(ResultInspection *Res ,int32 CurrentSt
 	//if(Re->IsAllFinishedResultReceiving()==true){
 		LastStartTimeForInspection=Res->GetStartTimeForInspection();
 
-		if(ParamG->GetMaxScanStrategy()<=1 && GetPageNumb()==1){
+		if(ParamG->GetMaxStrategyCount()<=1 && GetPageNumb()==1){
 			L->SetLatchedInspectionNumber(L->GetInspectionNumber());
 		}
 		EP->StackedCountInAutoMode--;
@@ -2672,9 +2678,9 @@ void	ExecuteInspectFast::FinishInspection(ResultInspection *Res ,int32 CurrentSt
 
 		//����������
 
-		if(ParamG->GetMaxScanStrategy()<=1
-		|| (ParamG->BufferedProcessing==false && ParamG->GetMaxScanStrategy()<=(StrategicNumber+1))
-		|| (ParamG->GetMaxScanStrategy()>1 && ParamG->BufferedProcessing==true)){
+		if(ParamG->GetMaxStrategyCount()<=1
+		|| (ParamG->BufferedProcessing==false && ParamG->GetMaxStrategyCount()<=(StrategicNumber+1))
+		|| (ParamG->GetMaxStrategyCount()>1 && ParamG->BufferedProcessing==true)){
 
 			EP->SeqParam->InspectionID=L->GetCurrentInspectIDForExecute();
 			EP->SeqParam->NowProcessing	=false;
@@ -2862,7 +2868,7 @@ void	ExecuteInspectFast::PreFinishInspection(ResultInspection *Res ,int32 Curren
 	//if(Re->IsAllFinishedResultReceiving()==true){
 		LastStartTimeForInspection=Res->GetStartTimeForInspection();
 
-		if(ParamG->GetMaxScanStrategy()<=1 && GetPageNumb()==1){
+		if(ParamG->GetMaxStrategyCount()<=1 && GetPageNumb()==1){
 			L->SetLatchedInspectionNumber(L->GetInspectionNumber());
 		}
 		EP->StackedCountInAutoMode--;
@@ -2870,9 +2876,9 @@ void	ExecuteInspectFast::PreFinishInspection(ResultInspection *Res ,int32 Curren
 
 		//����������
 
-		if(ParamG->GetMaxScanStrategy()<=1
-		|| (ParamG->BufferedProcessing==false && ParamG->GetMaxScanStrategy()<=(StrategicNumber+1))
-		|| (ParamG->GetMaxScanStrategy()>1 && ParamG->BufferedProcessing==true)){
+		if(ParamG->GetMaxStrategyCount()<=1
+		|| (ParamG->BufferedProcessing==false && ParamG->GetMaxStrategyCount()<=(StrategicNumber+1))
+		|| (ParamG->GetMaxStrategyCount()>1 && ParamG->BufferedProcessing==true)){
 
 			EP->SeqParam->InspectionID=L->GetCurrentInspectIDForExecute();
 			EP->SeqParam->NowProcessing	=false;
@@ -2995,7 +3001,7 @@ void	ExecuteInspectFast::FinishScanning(ResultInspection *Res ,int32 CurrentStra
 	//if(Re->IsAllFinishedResultReceiving()==true){
 		LastStartTimeForInspection=Res->GetStartTimeForInspection();
 
-		if(GetParamGlobal()->GetMaxScanStrategy()<=1 && GetPageNumb()==1){
+		if(GetParamGlobal()->GetMaxStrategyCount()<=1 && GetPageNumb()==1){
 			L->SetLatchedInspectionNumber(L->GetInspectionNumber());
 		}
 		EP->StackedCountInAutoMode--;
@@ -3003,9 +3009,9 @@ void	ExecuteInspectFast::FinishScanning(ResultInspection *Res ,int32 CurrentStra
 
 		int	ResultCode=GetParamGlobal()->ResultCodeInScanning;
 
-		if(L->GetParamGlobal()->GetMaxScanStrategy()<=1
-		|| (GetParamGlobal()->BufferedProcessing==false && GetParamGlobal()->GetMaxScanStrategy()<=(StrategicNumber+1))
-		|| (L->GetParamGlobal()->GetMaxScanStrategy()>1 && GetParamGlobal()->BufferedProcessing==true)){
+		if(L->GetParamGlobal()->GetMaxStrategyCount()<=1
+		|| (GetParamGlobal()->BufferedProcessing==false && GetParamGlobal()->GetMaxStrategyCount()<=(StrategicNumber+1))
+		|| (L->GetParamGlobal()->GetMaxStrategyCount()>1 && GetParamGlobal()->BufferedProcessing==true)){
 
 			EP->SeqParam->InspectionID=L->GetCurrentInspectIDForExecute();
 			EP->SeqParam->NowProcessing	=false;
@@ -3054,7 +3060,7 @@ void	ExecuteInspectFast::PreFinishScanning(ResultInspection *Res ,int32 CurrentS
 	//if(Re->IsAllFinishedResultReceiving()==true){
 		LastStartTimeForInspection=Res->GetStartTimeForInspection();
 
-		if(GetParamGlobal()->GetMaxScanStrategy()<=1 && GetPageNumb()==1){
+		if(GetParamGlobal()->GetMaxStrategyCount()<=1 && GetPageNumb()==1){
 			L->SetLatchedInspectionNumber(L->GetInspectionNumber());
 		}
 		EP->StackedCountInAutoMode--;
@@ -3062,9 +3068,9 @@ void	ExecuteInspectFast::PreFinishScanning(ResultInspection *Res ,int32 CurrentS
 
 		int	ResultCode=GetParamGlobal()->ResultCodeInScanning;
 
-		if(L->GetParamGlobal()->GetMaxScanStrategy()<=1
-		|| (GetParamGlobal()->BufferedProcessing==false && GetParamGlobal()->GetMaxScanStrategy()<=(StrategicNumber+1))
-		|| (L->GetParamGlobal()->GetMaxScanStrategy()>1 && GetParamGlobal()->BufferedProcessing==true)){
+		if(L->GetParamGlobal()->GetMaxStrategyCount()<=1
+		|| (GetParamGlobal()->BufferedProcessing==false && GetParamGlobal()->GetMaxStrategyCount()<=(StrategicNumber+1))
+		|| (L->GetParamGlobal()->GetMaxStrategyCount()>1 && GetParamGlobal()->BufferedProcessing==true)){
 
 			EP->SeqParam->InspectionID=L->GetCurrentInspectIDForExecute();
 			EP->SeqParam->NowProcessing	=false;

@@ -48,7 +48,7 @@ bool	GUICmdPushedStartCapture::Save(QIODevice *f)
 
 void	GUICmdPushedStartCapture::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	//if(GetParamGlobal()->GetMaxScanStrategy()<=1 || StrategicNumber==0){
+	//if(GetParamGlobal()->GetMaxStrategyCount()<=1 || StrategicNumber==0){
 		if(GetParamComm()->Mastered==false){
 			GetLayersBase()->SetCurrentStrategicNumber		(StrategicNumber);
 			GetLayersBase()->SetCurrentStrategicNumberForSeq(StrategicNumber);

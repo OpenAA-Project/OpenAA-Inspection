@@ -28,7 +28,8 @@
 #include "XServiceForLayers.h"
 #include "MvCamera.h"
 #include "MvCameraControl.h"
-
+#include <QLocalServer>
+#include <QLocalSocket>
 
 class CamBufferStack
 {
@@ -49,6 +50,8 @@ public:
 
 class  CameraMVSGigE :public CameraHandle
 {
+    Q_OBJECT
+
     char                    m_chPixelFormat[1024];
     int                     m_nDeviceCombo;
 
@@ -66,6 +69,9 @@ class  CameraMVSGigE :public CameraHandle
 	BYTE	*RGBBuff;
 	int		XLen,YLen;
 	QMutex	MutexImageSize;
+
+	QLocalServer    LocalServer;
+	QLocalSocket    *LocalSocket;
 
 public:
     int	        Version;
@@ -154,4 +160,8 @@ public:
 
     bool    GetLine0(void);
 	bool	SetLine1(bool b);
+
+private slots:
+	void    SlotNewConnection();
+    void    SlotReadLocalSocket();
 };

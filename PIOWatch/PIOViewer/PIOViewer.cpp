@@ -130,7 +130,7 @@ void PIOViewer::on_pushButtonOpenPIO_clicked()
 	QString	IODefFileName=ui.lineEditIODef->text();
 	OpenedPIO->ReadDefFileOfBoardName(IODefFileName);
 	QString	Something=ui.lineEditParameter->text();
-	OpenedPIO->Initialize(this,/**/"",false,Something);
+	OpenedPIO->Initialize(GetLayersBase(),/**/"",false,Something);
 	OpenedPIO->ReadDefFile(IODefFileName,false);
 
 	ui.comboBoxBoardNumber->clear();
@@ -138,6 +138,11 @@ void PIOViewer::on_pushButtonOpenPIO_clicked()
 	for(int i=0;i<N;i++){
 		ui.comboBoxBoardNumber->addItem(QString::number(i));
 	}
+	PIOPack->InitialPrepare();
+	PIOPack->Prepare()	;		
+	PIOPack->AfterPrepare()		;
+	PIOPack->ReadyParam()		;
+	PIOPack->AfterStartSequence();
 
 	ui.comboBoxPIODLL	->setEnabled(false);
 	ui.lineEditIODef	->setEnabled(false);
@@ -350,7 +355,7 @@ bool	PIOViewer::IsChangedPIO(void)
 	int	OutBitCount	=OpenedPIO->GetPIOBrd(BoardNumber)->GetIOOutBitCount();
 
 	BYTE	tmpLastInByte[64];
-	BYTE	tmpLastOutByte[64];
+	short	tmpLastOutByte[64];		//-1:No echoback
 
 	int		InByteCount=(InBitCount+7)/8;
 	for(int i=0;i<InByteCount;i++){

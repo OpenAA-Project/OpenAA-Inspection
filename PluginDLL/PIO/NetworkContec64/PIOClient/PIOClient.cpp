@@ -26,6 +26,8 @@
 #include <QTextStream>
 #include "PIOClient.h"
 #include "NetworkPIO.h"
+#include "XDataInLayer.h"
+#include "XGUIFormBase.h"
 
 PIOClient::PIOClient(QObject *parent)
 :QTcpSocket(parent)
@@ -138,9 +140,9 @@ bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 	return(true);
 }
 
-PIODLLBaseClass  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
-	PIOClient	*PIO=new PIOClient(mainW);
+	PIOClient	*PIO=new PIOClient(Base->GetMainWidget());
 	PIO->Initial(Something);
 	return(PIO);
 }

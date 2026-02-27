@@ -156,14 +156,14 @@ bool	GUICmdReqExecuteFilterImage::Save(QIODevice *f)
 void	GUICmdReqExecuteFilterImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	if(localPage==0){
-		int	SavedMaxScanStrategy=GetParamGlobal()->GetMaxScanStrategy();
-		GetParamGlobal()->SetMaxScanStrategy(1);
+		int	SavedMaxStrategyCount=GetParamGlobal()->GetMaxStrategyCount();
+		GetParamGlobal()->SetMaxStrategyCount(1);
 		if(Mastered==true){
 			GetLayersBase()->ExecuteFilteringMaster();
 		}
 		else{
 			GetLayersBase()->ExecuteFilteringTarget();
 		}
-		GetParamGlobal()->SetMaxScanStrategy(SavedMaxScanStrategy);
+		GetParamGlobal()->SetMaxStrategyCount(SavedMaxStrategyCount);
 	}
 }

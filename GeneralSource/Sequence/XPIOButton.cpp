@@ -28,29 +28,6 @@
 #include "XErrorMessage.h"
 #include "Regulus64System.h"
 
-/*
-int		(*PIOInterface::AIP_IO_GetIOBoardNumb)(void);
-int		(*PIOInterface::AIP_IO_GetIOInBitCount)(int boardNumber);
-int		(*PIOInterface::AIP_IO_GetIOOutBitCount)(int boardNumber);
-bool	(*PIOInterface::AIP_IO_Initial)(void);
-bool	(*PIOInterface::AIP_IO_Open)(int boardNumber , char *name ,int maxbuffsize);
-BYTE	(*PIOInterface::AIP_IO_GetBit)(int boardNumber , BYTE bitIndex);
-BYTE	(*PIOInterface::AIP_IO_GetByte)(int boardNumber , BYTE byteIndex);
-void	(*PIOInterface::AIP_IO_SetBit)(int boardNumber , BYTE bitIndex ,BYTE data);
-BYTE	(*PIOInterface::AIP_IO_SetByte)(int boardNumber , BYTE byteIndex , BYTE data);
-int		(*PIOInterface::AIP_IO_GetOutByte)(int boardNumber , BYTE byteIndex);
-bool	(*PIOInterface::AIP_IO_Close)(int boardNumber);
-bool	(*PIOInterface::AIP_IO_Release)(void);
-QLibrary 	PIOInterface::DllLib;
-
-int     PIOInterface::PIO_BoardNumb   =0;
-EachPIOClass    *PIOInterface::PIOBrd =NULL;
-volatile    bool    PIOInterface::Changed         =false;
-volatile    bool    PIOInterface::Initialized     =false;
-
-*/
-
-//PIOClass    PIO(false);
 
 
 EachPIOClass::EachPIOClass(void)
@@ -184,7 +161,7 @@ void    EachPIOClass::Initialize(PIOInterface *parent)
 
     if(InData!=NULL)
         delete  []InData;
-    InData=new BYTE[(PIO_INBITNUMB+7)/8];
+    InData=new short[(PIO_INBITNUMB+7)/8];
 
     if(LastOutMilisec!=NULL)
         delete  []LastOutMilisec;
@@ -230,7 +207,7 @@ void    EachPIOClass::Initialize(PIOInterface *parent)
 }
 
 
-bool    EachPIOClass::Open(QWidget *mainW,const QString &Something)
+bool    EachPIOClass::Open(LayersBase *Base,const QString &Something)
 {
     if(Initialized==false)
         Initialize(Parent);
@@ -238,7 +215,7 @@ bool    EachPIOClass::Open(QWidget *mainW,const QString &Something)
     if(Opened==true)
         return(true);
     char    qName[257];
-	Handle=Parent->Open(mainW,BoardNumber , qName ,sizeof(qName)-1,Something);
+	Handle=Parent->Open(Base,BoardNumber , qName ,sizeof(qName)-1,Something);
 	if(Handle==NULL){
 		return(false);
 	}
@@ -561,8 +538,8 @@ EachPIOClass  &  EachPIOClass::operator=(const EachPIOClass &src)
 
 		if(InData!=NULL)
 		    delete  []InData;
-		InData=new BYTE[PIO_INBITNUMB];
-		memcpy((void *)InData,(void *)src.InData,(PIO_INBITNUMB+7)/8);
+		InData=new short[PIO_INBITNUMB];
+		memcpy((void *)InData,(void *)src.InData,sizeof(short)*(PIO_INBITNUMB+7)/8);
 
 		if(LastOutMilisec!=NULL)
 		    delete  []LastOutMilisec;
@@ -732,7 +709,7 @@ void    EachPIOClass::SetBitWithoutLock(int portno ,int bitno  ,BYTE data)
 	}
 }
 
-BYTE    EachPIOClass::GetOutByte(int portno)
+int    EachPIOClass::GetOutByte(int portno)
 {
     if(Initialized==false)
         Initialize(Parent);
@@ -742,7 +719,7 @@ BYTE    EachPIOClass::GetOutByte(int portno)
     if(PIO_INBITNUMB<=portno)
         return(0);
 	IOAccessMutex.lock();
-	BYTE    ret=Parent->IO_GetOutByte(Handle,BoardNumber , portno);
+	int    ret=Parent->IO_GetOutByte(Handle,BoardNumber , portno);
 	InData[portno]=ret;
 	IOAccessMutex.unlock();
 	return(ret);
@@ -762,12 +739,12 @@ int     EachPIOClass::GetOutBit(int bitno)
         return(1);
 }
 
-BYTE    EachPIOClass::GetEchobackOutByte(int portno)
+int    EachPIOClass::GetEchobackOutByte(int portno)
 {
     if(PIO_OUTBITNUMB<=portno)
         return(0);
 	IOAccessMutex.lock();
-	BYTE	ret=Parent->IO_GetOutByte(Handle,BoardNumber,portno);
+	int	ret=Parent->IO_GetOutByte(Handle,BoardNumber,portno);
 	IOAccessMutex.unlock();
 	return ret;
 }
@@ -950,7 +927,7 @@ bool	PIOInterface::LoadDLL(const QString &filename,bool OutputErrorMessage)
 	AIP_IO_GetIOInBitCount		=(int (*)(PIODLLBaseClass *handle ,int boardNumber))DllLib.resolve("AIP_IO_GetIOInBitCount");
 	AIP_IO_GetIOOutBitCount		=(int (*)(PIODLLBaseClass *handle ,int boardNumber))DllLib.resolve("AIP_IO_GetIOOutBitCount");
 	AIP_IO_Initial				=(bool	(*)(const QStringList &NameList))DllLib.resolve("AIP_IO_Initial");
-	AIP_IO_Open					=(PIODLLBaseClass	*(*)(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something))DllLib.resolve("AIP_IO_Open");
+	AIP_IO_Open					=(PIODLLBaseClass	*(*)(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something))DllLib.resolve("AIP_IO_Open");
 	AIP_IO_GetBit				=(BYTE	(*)(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex))DllLib.resolve				("AIP_IO_GetBit");
 	AIP_IO_GetByte				=(BYTE	(*)(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex))DllLib.resolve				("AIP_IO_GetByte");
 	AIP_IO_SetBit				=(void	(*)(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex ,BYTE data))DllLib.resolve	("AIP_IO_SetBit");
@@ -1102,7 +1079,7 @@ EachPIOClass    *PIOInterface::GetPIOBrd(int brdnumb)	const
 	return NULL;
 }
 
-bool    PIOInterface::Initialize(QWidget *mainW,const QString &IODLLFileName,bool InitialOutput,const QString &Something)
+bool    PIOInterface::Initialize(LayersBase *Base,const QString &IODLLFileName,bool InitialOutput,const QString &Something)
 {
     if(Initialized==true)
         return(true);
@@ -1160,7 +1137,7 @@ bool    PIOInterface::Initialize(QWidget *mainW,const QString &IODLLFileName,boo
 				break;
 			}
 		}
-		PIOBrd[i].Open(mainW,TmpSomething);
+		PIOBrd[i].Open(Base,TmpSomething);
 	}
 
 	if(InitialOutput==false){
@@ -1322,7 +1299,7 @@ bool	PIOInterface::GetEchobackBit(const QString &OutBitName,BYTE &data)
 	return false;
 }
 
-BYTE    PIOInterface::GetOutByte(int brdnumb ,int portno)
+int		PIOInterface::GetOutByte(int brdnumb ,int portno)
 {
     if(brdnumb>=0 && brdnumb<PIO_BoardNumb)
         return(PIOBrd[brdnumb].GetOutByte(portno));
@@ -1336,11 +1313,11 @@ int     PIOInterface::GetEchobackOutBit(int brdnumb ,int bitno)
     return(0);
 }
 
-BYTE    PIOInterface::GetEchobackOutByte(int brdnumb ,int portno)
+int    PIOInterface::GetEchobackOutByte(int brdnumb ,int portno)
 {
    if(brdnumb>=0 && brdnumb<PIO_BoardNumb)
         return(PIOBrd[brdnumb].GetEchobackOutByte(portno));
-    return(0);
+    return(-1);
 }
 
 int     PIOInterface::GetOutBit(int brdnumb ,int bitno)
@@ -1537,10 +1514,10 @@ int		PIOInterface::GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 	}
 	return 0;
 }
-PIODLLBaseClass	*PIOInterface::Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize ,const QString &Something)
+PIODLLBaseClass	*PIOInterface::Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize ,const QString &Something)
 {
 	if(AIP_IO_Open!=NULL){
-		PIODLLBaseClass	*Handle=AIP_IO_Open(mainW,boardNumber , name ,maxbuffsize,Something);
+		PIODLLBaseClass	*Handle=AIP_IO_Open(Base,boardNumber , name ,maxbuffsize,Something);
 		if(Handle!=NULL){
 			return Handle;
 		}
@@ -1600,7 +1577,7 @@ int		PIOInterface::IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE
 	if(AIP_IO_GetOutByte!=NULL){
 		return AIP_IO_GetOutByte(handle ,boardNumber ,byteIndex);
 	}
-	return 0;
+	return -1;
 }
 int		PIOInterface::IO_GetOutBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
 {
@@ -1615,7 +1592,7 @@ int		PIOInterface::IO_GetOutBit(PIODLLBaseClass *handle ,int boardNumber , BYTE 
 			return 0;
 		}
 	}
-	return 0;
+	return -1;
 }
 
 
@@ -1698,9 +1675,9 @@ bool	PIOClass::LoadDLL(const QString &filename,bool OutputErrorMessage)
 	return Interface->LoadDLL(filename,OutputErrorMessage);
 }
 
-bool    PIOClass::Initialize(QWidget *mainW,const QString &IODLLFileName,bool InitialOutput ,const QString &Something)
+bool    PIOClass::Initialize(LayersBase *Base,const QString &IODLLFileName,bool InitialOutput ,const QString &Something)
 {
-	if(Interface->Initialize(mainW,IODLLFileName,InitialOutput ,Something)==false){
+	if(Interface->Initialize(Base,IODLLFileName,InitialOutput ,Something)==false){
 		return false;
 	}
 	bool	Ret=true;
@@ -1872,9 +1849,9 @@ int		PIOClass::GetIOOutBitCount	(PIODLLBaseClass *handle ,int boardNumber)
 {
 	return Interface->GetIOOutBitCount(handle,boardNumber);
 }
-PIODLLBaseClass	*PIOClass::Open		(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+PIODLLBaseClass	*PIOClass::Open		(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
-	return Interface->Open(mainW,boardNumber , name ,maxbuffsize,Something);
+	return Interface->Open(Base,boardNumber , name ,maxbuffsize,Something);
 }
 bool	PIOClass::Close				(PIODLLBaseClass *handle ,int boardNumber)
 {
@@ -1909,7 +1886,7 @@ int     PIOClass::GetEchobackOutBit(int boardNumber , int bitno)
 {
 	return Interface->GetEchobackOutBit(boardNumber,bitno);
 }
-BYTE    PIOClass::GetEchobackOutByte(int boardNumber , int portno)
+int    PIOClass::GetEchobackOutByte(int boardNumber , int portno)
 {
 	return Interface->GetEchobackOutByte(boardNumber,portno);
 }

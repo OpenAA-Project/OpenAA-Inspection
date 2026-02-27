@@ -268,10 +268,26 @@
     <ClCompile Include="..\..\GeneralSource\XGUIGlobal.cpp" />
     <ClCompile Include="..\..\Open\XShowVersion.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PIOViewer.cpp" />
+    <ClCompile Include="PIOViewer.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</FunctionLevelLinking>
+    </ClCompile>
     <ClCompile Include="SettingDialog.cpp" />
     <ClCompile Include="ShowSignalForm.cpp" />
-    <ClCompile Include="XPIOSignal.cpp" />
+    <ClCompile Include="XPIOSignal.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
+      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</FunctionLevelLinking>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="PIOViewer.h">

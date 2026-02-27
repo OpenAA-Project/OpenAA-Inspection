@@ -223,7 +223,7 @@ void ShowCameraDialog::on_pushButtonOK_clicked()
 
 
 	ReverseX	=ui->checkBoxReverseX	->isChecked();
-	ReverseX	=ui->checkBoxReverseY	->isChecked();
+	ReverseY	=ui->checkBoxReverseY	->isChecked();
 
 	AOIOffsetX	=ui->spinBoxAOIOffsetX	->value();
 	AOIOffsetY	=ui->spinBoxAOIOffsetY	->value();

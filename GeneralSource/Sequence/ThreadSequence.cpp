@@ -421,7 +421,7 @@ bool	ThreadSequence::LoadStartSequenceFile(QWidget *mainW ,const QString &FileNa
 
 	if(IODLLFileName.isEmpty()==false && MainSeqControl->PIO!=NULL){
 		MainSeqControl->PIO->ReadDefFileOfBoardName(IODefFileName);
-		MainSeqControl->PIO->Initialize(mainW,IODLLFileName,InitialOutput,Something);
+		MainSeqControl->PIO->Initialize(MainSeqControl->GetLayersBase(),IODLLFileName,InitialOutput,Something);
 		MainSeqControl->PIO->ReadDefFile(IODefFileName);
 	}
 

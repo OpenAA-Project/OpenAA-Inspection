@@ -28,6 +28,7 @@
 
 class	QWidget;
 class	PIODLLBaseClass;
+class	LayersBase;
 
 extern "C"
 {
@@ -76,10 +77,10 @@ bool IO_DLLFUNC _cdecl AIP_IO_Initial(const QStringList &NameList);
         備考    ボード種類によっては、何もせずにTRUEだけを返すことができる
     */
 
-PIODLLBaseClass IO_DLLFUNC *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something);
+PIODLLBaseClass IO_DLLFUNC *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something);
     /*
         動作    各ＰＩＯボードに対してオープン動作を行う
-        入力    mainW		呼び出した側のメインウインドウ
+        入力    Base		呼び出した側のBase
 				boardNumber ＰＩＯボード番号（０から始まる数値）
                 name        ボード名称を格納するバッファポインタ
                 maxbuffsize ボード名称のバッファサイズ

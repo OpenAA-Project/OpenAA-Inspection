@@ -754,7 +754,7 @@ ParamGlobal::ParamGlobal(LayersBase *base)
 	SetCategoryLanguage(/**/"Integration"	,LangLibSolver.GetString(XParamGlobal_LS,LID_167)/*"Integration"*/);
 
 
-	MaxScanStrategy	=1;	
+	MaxStrategyCount	=1;	
 	StrategyDim		=NULL;
 	StrategyDimAllocNumb=0;
 
@@ -1008,7 +1008,7 @@ bool	ParamGlobal::SaveStrategy(QIODevice *f ,int EnableCondition)
 {
 	if(EnableCondition==ParamEnableDefault
 	|| EnableCondition==ParamEnableInAll){
-		if(f->write((const char *)&MaxScanStrategy,sizeof(MaxScanStrategy))!=sizeof(MaxScanStrategy)){
+		if(f->write((const char *)&MaxStrategyCount,sizeof(MaxStrategyCount))!=sizeof(MaxStrategyCount)){
 			return(false);
 		}
 		bool	StrategyDimExist;
@@ -1224,7 +1224,7 @@ bool	ParamGlobal::LoadStrategy(QIODevice *f ,int EnableCondition)
 {
 	if(EnableCondition==ParamEnableDefault
 	|| EnableCondition==ParamEnableInAll){
-		if(f->read((char *)&MaxScanStrategy,sizeof(MaxScanStrategy))!=sizeof(MaxScanStrategy)){
+		if(f->read((char *)&MaxStrategyCount,sizeof(MaxStrategyCount))!=sizeof(MaxStrategyCount)){
 			return(false);
 		}
 		bool	StrategyDimExist;
@@ -1312,8 +1312,8 @@ bool	ParamGlobal::LoadStrategy(QIODevice *f ,int EnableCondition)
 		}
 	}
 	else{
-		int32	iMaxScanStrategy;
-		if(f->read((char *)&iMaxScanStrategy,sizeof(iMaxScanStrategy))!=sizeof(iMaxScanStrategy)){
+		int32	iMaxStrategyCount;
+		if(f->read((char *)&iMaxStrategyCount,sizeof(iMaxStrategyCount))!=sizeof(iMaxStrategyCount)){
 			return(false);
 		}
 		bool	StrategyDimExist;
@@ -2015,13 +2015,13 @@ void	ParamGlobal::CopyStrategyFrom(ParamGlobal &src)
 	LoadStrategy(&F);
 	LoadCameraAlloc(&F);
 }
-int		ParamGlobal::GetMaxScanStrategy(void)
+int		ParamGlobal::GetMaxStrategyCount(void)
 {	
 	if(GetLayersBase()->GetShadowLevel()==0){
-		return(MaxScanStrategy);
+		return(MaxStrategyCount);
 	}
 	else{
-		return GetTreeTopLayersBase()->GetParamGlobal()->GetMaxScanStrategy();
+		return GetTreeTopLayersBase()->GetParamGlobal()->GetMaxStrategyCount();
 	}
 }
 void	ParamGlobal::GetStrategy(int strategycode ,StrategicListContainer &SList)
@@ -2805,7 +2805,7 @@ int	ParamComm::GetLocalPageFromGlobal(ParamGlobal &ParamGlobalData ,int globalPa
 		return(-1);
 	}
 
-	if(ParamGlobalData.GetMaxScanStrategy()<=1){
+	if(ParamGlobalData.GetMaxStrategyCount()<=1){
 		for(int j=0;j<p->CameraNumb;j++){
 			int	gcam=p->GetGlobalCameraNo(j);
 			if(globalPage==gcam){
@@ -2822,7 +2822,7 @@ int	ParamComm::GetLocalPageFromGlobal(ParamGlobal &ParamGlobalData ,int globalPa
 	else{
 		for(int j=0;j<p->CameraNumb;j++){
 			int	gcam=p->GetGlobalCameraNo(0);
-			for(int i=0;i<ParamGlobalData.GetMaxScanStrategy();i++){
+			for(int i=0;i<ParamGlobalData.GetMaxStrategyCount();i++){
 				if(globalPage==(gcam+i)){
 					return(i);
 				}
@@ -2844,7 +2844,7 @@ int	ParamComm::GetGlobalPageFromLocal(ParamGlobal &ParamGlobalData ,int localPag
 		return(localPage);
 	}
 
-	if(ParamGlobalData.GetMaxScanStrategy()<=1){
+	if(ParamGlobalData.GetMaxStrategyCount()<=1){
 		ConnectionInfo	*p=GetConnection(0);
 		if(p==NULL){
 			return(-1);
@@ -2870,7 +2870,7 @@ int	ParamComm::GetLocalCameraNumb(int)	//computerID)
 	}
 	else{
 		int	MaxD=0;
-		int	L=GetLayersBase()->GetParamGlobal()->GetMaxScanStrategy();
+		int	L=GetLayersBase()->GetParamGlobal()->GetMaxStrategyCount();
 		if(L>1){
 			for(int s=0;s<L;s++){
 				IntList	PageList;

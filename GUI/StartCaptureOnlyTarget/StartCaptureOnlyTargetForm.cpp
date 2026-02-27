@@ -141,7 +141,7 @@ void	StartCaptureOnlyTarget::SlotToggled (bool checked)
 				}
 			}
 
-			if(GetParamGlobal()->GetMaxScanStrategy()<=1 || (GetLayersBase()->GetCurrentStrategicNumberForSeq()==0)){
+			if(GetParamGlobal()->GetMaxStrategyCount()<=1 || (GetLayersBase()->GetCurrentStrategicNumberForSeq()==0)){
 				GetLayersBase()->SetStartInspectTime(XDateTime::currentDateTime());
 				GetLayersBase()->SetInspectionTimeMilisec(GetComputerMiliSec());
 			}
@@ -385,7 +385,7 @@ bool	GUICmdStartCaptureOnlyTarget::Save(QIODevice *f)
 
 void	GUICmdStartCaptureOnlyTarget::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1 || StrategicNumber==0){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1 || StrategicNumber==0){
 		GetLayersBase()->SetStartInspectTime(StartInspectionTime);
 		GetLayersBase()->SetCurrentInspectID(CurrentInspectID);
 	}

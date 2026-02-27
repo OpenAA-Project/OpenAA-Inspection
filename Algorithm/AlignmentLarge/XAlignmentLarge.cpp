@@ -2861,7 +2861,7 @@ ExeResult	AlignmentLargeInPage::ExecutePreAlignment	(int ExeID ,ResultInPageRoot
 	ExeResult	Ret;
 	//omp_set_nested(0);
 
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		bool	RetryMode;
 		do{
 			RetryMode=false;

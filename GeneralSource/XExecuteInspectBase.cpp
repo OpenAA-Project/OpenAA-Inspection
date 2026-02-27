@@ -45,6 +45,12 @@ ExecuteInspectBase::ExecuteInspectBase(QObject *parent ,EntryPointBase *_EntryPo
 
 	CurrentTypeOfCapture	=_Master;
 	CurrentCaptureSource	=_Target;
+
+	EmitTimingFlag._EmitBeforeScan	= false;
+	EmitTimingFlag._EmitAfterScan	= false;
+	EmitTimingFlag._EmitBeforeCalc	= false;
+	EmitTimingFlag._EmitAfterCalc	= false;
+	EmitTimingFlag._EmitCreatedResult= false;
 }
 
 ExecuteInspectBase::~ExecuteInspectBase(void)
@@ -842,5 +848,38 @@ void	ExecuteInspectBase::EmitSignalMasterImageCaptured(void)
 {
 	if(GetLayersBase()->GetOnTerminating()==false){
 		emit	SignalMasterImageCaptured();
+	}
+}	
+void	ExecuteInspectBase::EmitBeforeScan		(void)
+{
+	if(EmitTimingFlag._EmitBeforeScan==true){
+		emit	SignalBeforeScan();
+	}
+}
+void	ExecuteInspectBase::EmitAfterScan		(void)
+{
+	if(EmitTimingFlag._EmitAfterScan==true){
+		emit	SignalAfterScan();
+	}
+}
+	
+void	ExecuteInspectBase::EmitBeforeCalc		(void)
+{
+	if(EmitTimingFlag._EmitBeforeCalc==true){
+		emit	SignalBeforeCalc();
+	}
+}
+	
+void	ExecuteInspectBase::EmitAfterCalc		(void)
+{
+	if(EmitTimingFlag._EmitAfterCalc==true){
+		emit	SignalAfterCalc();
+	}
+}
+	
+void	ExecuteInspectBase::EmitCreatedResult	(void)
+{
+	if(EmitTimingFlag._EmitCreatedResult==true){
+		emit	SignalCreatedResult();
 	}
 }

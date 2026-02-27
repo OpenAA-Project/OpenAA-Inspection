@@ -73,7 +73,7 @@ bool  IO_DLLFUNC _cdecl AIP_IO_Initial(const QStringList &NameList)
 {
 	return true;
 }
-PIODLLBaseClass  IO_DLLFUNC _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+PIODLLBaseClass  IO_DLLFUNC _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	ShowIOForm	*Panel=new ShowIOForm();
 	Panel->show();

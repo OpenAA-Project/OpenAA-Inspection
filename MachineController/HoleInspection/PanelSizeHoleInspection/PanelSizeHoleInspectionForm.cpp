@@ -233,7 +233,7 @@ void	PanelSizeHoleInspectionForm::BuildForShow(void)
 	ui->label_ScanCount	->setText(QString::number(iScanCount));
 
 	if(ModeIncrementStrategy==true){
-		GetParamGlobal()->SetMaxScanStrategy(iScanCount);
+		GetParamGlobal()->SetMaxStrategyCount(iScanCount);
 		for(int s=0;s<GetPageNumb();s++){
 			int	scanN=s/4;
 			
@@ -453,7 +453,7 @@ void PanelSizeHoleInspectionForm::on_pushButtonSet_clicked()
 		}
 	}
 	if(ModeIncrementStrategy==true){
-		GetParamGlobal()->SetMaxScanStrategy(iScanCount);
+		GetParamGlobal()->SetMaxStrategyCount(iScanCount);
 		for(int s=0;s<GetPageNumb();s++){			
 			int	scanN=s/4;
 			for(int Layer=0;Layer<GetLayerNumb(s);Layer++){

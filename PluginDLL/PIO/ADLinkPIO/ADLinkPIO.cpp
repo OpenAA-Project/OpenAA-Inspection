@@ -82,7 +82,7 @@ bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 	return(true);
 }
 
-PIODLLBaseClass  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	bool	ok;
 	int	num=Something.toInt(&ok);

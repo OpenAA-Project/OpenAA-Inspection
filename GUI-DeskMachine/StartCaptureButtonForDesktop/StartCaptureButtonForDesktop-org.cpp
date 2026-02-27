@@ -610,7 +610,7 @@ void	StartCaptureButtonForDesktop::SlotClicked (bool checked)
 		}
 
 		int	CStrategic=max(GetLayersBase()->GetCurrentStrategicNumber(),GetLayersBase()->GetCurrentStrategicNumberForSeq());
-		if(GetParamGlobal()->GetMaxScanStrategy()<=1 || CStrategic==0){
+		if(GetParamGlobal()->GetMaxStrategyCount()<=1 || CStrategic==0){
 			GetLayersBase()->ExecuteStartByScanOnly(GetLayersBase()->GetEntryPoint());
 		}
 

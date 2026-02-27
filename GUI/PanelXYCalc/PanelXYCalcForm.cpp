@@ -200,7 +200,7 @@ void	PanelXYCalcForm::BuildForShow(void)
 	ui->label_ScanCount	->setText(QString::number(GetPageNumb()));
 
 	if(ModeIncrementStrategy==true){
-		GetParamGlobal()->SetMaxScanStrategy(GetPageNumb());
+		GetParamGlobal()->SetMaxStrategyCount(GetPageNumb());
 		for(int s=0;s<GetPageNumb();s++){
 			for(int Layer=0;Layer<GetLayerNumb(s);Layer++){
 				GetParamGlobal()->SetStrategyCode(s ,Layer ,s);
@@ -353,7 +353,7 @@ void PanelXYCalcForm::on_pushButtonSet_clicked()
 		GetParamGlobal()->MaxLines=iMaxLines;
 	}
 	if(ModeIncrementStrategy==true){
-		GetParamGlobal()->SetMaxScanStrategy(GetPageNumb());
+		GetParamGlobal()->SetMaxStrategyCount(GetPageNumb());
 		for(int s=0;s<GetPageNumb();s++){
 			for(int Layer=0;Layer<GetLayerNumb(s);Layer++){
 				GetParamGlobal()->SetStrategyCode(s ,Layer ,s);
@@ -488,7 +488,7 @@ void	PanelXYCalcForm::SpecifiedDirectly(SpecifiedBroadcaster *v)
 		ui->label_ScanCount	->setText(QString::number(iPageNumb));
 
 		if(ModeIncrementStrategy==true){
-			GetParamGlobal()->SetMaxScanStrategy(GetPageNumb());
+			GetParamGlobal()->SetMaxStrategyCount(GetPageNumb());
 			for(int s=0;s<GetPageNumb();s++){
 				for(int Layer=0;Layer<GetLayerNumb(s);Layer++){
 					GetParamGlobal()->SetStrategyCode(s ,Layer ,s);
@@ -623,7 +623,7 @@ void	PanelXYCalcForm::RxSync(QByteArray &f)
 			GetParamGlobal()->MaxLines=iMaxLines;
 		}
 		if(ModeIncrementStrategy==true){
-			GetParamGlobal()->SetMaxScanStrategy(GetPageNumb());
+			GetParamGlobal()->SetMaxStrategyCount(GetPageNumb());
 			for(int s=0;s<GetPageNumb();s++){
 				for(int Layer=0;Layer<GetLayerNumb(s);Layer++){
 					GetParamGlobal()->SetStrategyCode(s ,Layer ,s);
@@ -713,7 +713,7 @@ void	PanelXYCalcForm::RxSync(QByteArray &f)
 			GetParamGlobal()->PageNumb=iPageNumb;
 		}
 		if(ModeIncrementStrategy==true){
-			GetParamGlobal()->SetMaxScanStrategy(GetPageNumb());
+			GetParamGlobal()->SetMaxStrategyCount(GetPageNumb());
 			for(int s=0;s<GetPageNumb();s++){
 				for(int Layer=0;Layer<GetLayerNumb(s);Layer++){
 					GetParamGlobal()->SetStrategyCode(s ,Layer ,s);
@@ -788,7 +788,7 @@ void	PanelXYCalcForm::RxSync(QByteArray &f)
 		ui->label_LineCount	->setText(QString::number(iMaxLines));
 
 		if(ModeIncrementStrategy==true){
-			GetParamGlobal()->SetMaxScanStrategy(GetPageNumb());
+			GetParamGlobal()->SetMaxStrategyCount(GetPageNumb());
 			for(int s=0;s<GetPageNumb();s++){
 				for(int Layer=0;Layer<GetLayerNumb(s);Layer++){
 					GetParamGlobal()->SetStrategyCode(s ,Layer ,s);
@@ -883,7 +883,7 @@ void	PanelXYCalcForm::OperandChangedX()
 				GetParamGlobal()->PageNumb=iPageNumb;
 			}
 			if(ModeIncrementStrategy==true){
-				GetParamGlobal()->SetMaxScanStrategy(GetPageNumb());
+				GetParamGlobal()->SetMaxStrategyCount(GetPageNumb());
 				for(int s=0;s<GetPageNumb();s++){
 					for(int Layer=0;Layer<GetLayerNumb(s);Layer++){
 						GetParamGlobal()->SetStrategyCode(s ,Layer ,s);
@@ -988,7 +988,7 @@ void	PanelXYCalcForm::OperandChangedY()
 			}
 			int	OldPageNumb=GetPageNumb();
 			if(ModeIncrementStrategy==true){
-				GetParamGlobal()->SetMaxScanStrategy(GetPageNumb());
+				GetParamGlobal()->SetMaxStrategyCount(GetPageNumb());
 				for(int s=0;s<GetPageNumb();s++){
 					for(int Layer=0;Layer<GetLayerNumb(s);Layer++){
 						GetParamGlobal()->SetStrategyCode(s ,Layer ,s);

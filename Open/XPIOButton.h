@@ -57,7 +57,7 @@ public:
 
 	bool	IsPIODLL(void)		const;
 	bool	LoadDLL(const QString &filename,bool OutputErrorMessage);
-    bool    Initialize(QWidget *mainW,const QString &IODLLFileName,bool InitialOutput ,const QString &Something);
+    bool    Initialize(LayersBase *Base,const QString &IODLLFileName,bool InitialOutput ,const QString &Something);
 	void	GetExportFunctions(QStringList &Str);
 	QString	GetFileName(void)	const;
 	QString	GetCopyright(void)	const;
@@ -87,7 +87,7 @@ public:
 
 	int		GetIOInBitCount		(PIODLLBaseClass *handle ,int boardNumber);
 	int		GetIOOutBitCount	(PIODLLBaseClass *handle ,int boardNumber);
-	PIODLLBaseClass	*Open				(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something);
+	PIODLLBaseClass	*Open		(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something);
 	bool	Close			(PIODLLBaseClass *handle ,int boardNumber);
 
 	BYTE	IO_GetBit		(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex);
@@ -97,7 +97,7 @@ public:
 	int		IO_GetOutByte	(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex);
 	int		IO_GetOutBit	(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex);
 	int     GetEchobackOutBit(int boardNumber , int bitno);
-	BYTE    GetEchobackOutByte(int boardNumber , int portno);
+	int		GetEchobackOutByte(int boardNumber , int portno);
 
 	void	LoopIO(void);
 

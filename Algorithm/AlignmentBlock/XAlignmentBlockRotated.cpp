@@ -394,9 +394,7 @@ double	MatchingLineH::Match(bool ModeCalcIncline,ImageBuffer *TBuff,int dx,int d
 		BYTE	*d=&D->GetYWithoutDepended(TargetPosY)[TargetPosX];
 		BYTE	*s=Data;
 		BYTE	W[100];
-		for(int n=0;n<LineLen;n++,d++){
-			W[n]=*d;
-		}
+		memcpy(W,d,LineLen);
 		if(ModeCalcIncline==true){
 			double	pa,pb;
 			if(CalcIncline(pa,pb ,W ,LineLen)==true){

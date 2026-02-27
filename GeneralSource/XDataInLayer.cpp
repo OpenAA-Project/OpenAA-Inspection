@@ -3282,8 +3282,8 @@ ExeResult	LayersBase::ExecuteStartByInspection(bool ProgressStep)
 			ResultDLLBase->ExecuteStartByInspection(CurrentCalcPoint,ExecuterDim[CurrentCalcPoint]->GetResultInspection());
 		}
 		if(ProgressStep==true){
-			if(GetParamGlobal()->GetMaxScanStrategy()<=1
-			|| GetParamGlobal()->GetMaxScanStrategy()<=(GetCurrentStrategicNumber()+1)){
+			if(GetParamGlobal()->GetMaxStrategyCount()<=1
+			|| GetParamGlobal()->GetMaxStrategyCount()<=(GetCurrentStrategicNumber()+1)){
 				if((GetCurrentScanPhaseNumber()+1)>=GetParamGlobal()->GetScanPhaseCount()){
 					CurrentCalcPoint++;
 					if(CurrentCalcPoint>=AllocExecuterDim){
@@ -3306,7 +3306,7 @@ ExeResult	LayersBase::ExecuteStartByInspection(bool ProgressStep)
 
 void	LayersBase::SetCurrentStrategicNumberInExe(int d)
 {	
-	if(d<GetParamGlobal()->GetMaxScanStrategy()){
+	if(d<GetParamGlobal()->GetMaxStrategyCount()){
 		CurrentStrategicNumberInExe=d;
 		for(int i=0;i<GetShadowChildrenCount();i++){
 			GetShadowChildren(i)->GetTreeLayersBase()->SetCurrentStrategicNumberInExe(d);
@@ -4810,7 +4810,7 @@ void	LayersBase::IncreaseCurrentStrategicNumber(void)
 	if(GetShadowLevel()==0){
 		MutexCurrentStrategic.lock();
 		CurrentStrategicNumber++;
-		if(CurrentStrategicNumber>=GetParamGlobal()->GetMaxScanStrategy()){
+		if(CurrentStrategicNumber>=GetParamGlobal()->GetMaxStrategyCount()){
 			CurrentStrategicNumber=0;
 		}
 		if(GetParamGlobal()->BufferedProcessing==true){
@@ -4824,7 +4824,7 @@ void	LayersBase::IncreaseCurrentStrategicNumber(void)
 void	LayersBase::SetCurrentStrategicNumber(int n)
 {
 	if(GetShadowLevel()==0){
-		if((0<=n) && (n<GetParamGlobal()->GetMaxScanStrategy())){
+		if((0<=n) && (n<GetParamGlobal()->GetMaxStrategyCount())){
 			CurrentStrategicNumber=n;
 			if(GetParamGlobal()->BufferedProcessing==true){
 				CurrentStrategicQueue.Add(CurrentStrategicNumber);
@@ -4868,12 +4868,12 @@ void	LayersBase::PopCurrentStrategicNumberForCalc(void)
 		MutexCurrentStrategic.lock();
 		IntClass	*c=CurrentStrategicQueue.GetFirst();
 		if(c==NULL){
-			if((0<=CurrentStrategicNumber) && (CurrentStrategicNumber<GetParamGlobal()->GetMaxScanStrategy())){
+			if((0<=CurrentStrategicNumber) && (CurrentStrategicNumber<GetParamGlobal()->GetMaxStrategyCount())){
 				CurrentStrategicNumberForCalc=CurrentStrategicNumber;
 			}
 		}
 		else{
-			if((0<=c->GetValue()) && (c->GetValue()<GetParamGlobal()->GetMaxScanStrategy())){
+			if((0<=c->GetValue()) && (c->GetValue()<GetParamGlobal()->GetMaxStrategyCount())){
 				CurrentStrategicNumberForCalc=c->GetValue();
 			}
 			CurrentStrategicQueue.RemoveList(c);
@@ -4893,7 +4893,7 @@ void	LayersBase::ForceStrategicNumber(int n)
 {
 	MutexCurrentStrategic.lock();
 	CurrentStrategicQueue.RemoveAll();
-	if((0<=n) && (n<GetParamGlobal()->GetMaxScanStrategy())){
+	if((0<=n) && (n<GetParamGlobal()->GetMaxStrategyCount())){
 		CurrentStrategicNumber			=n;
 		CurrentStrategicNumberForCalc	=n;
 	}
@@ -5260,7 +5260,7 @@ void	LayersBase::BroadcastInspectionNumber(void)
 
 bool	LayersBase::IsDoneCompressed(void)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int page=0;page<GetPageNumb();page++){
 			if(GetPageData(page)->IsDoneCompressed()==false){
 				return false;

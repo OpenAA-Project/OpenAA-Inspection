@@ -18,7 +18,8 @@
 
 #include "XVirtualPIOAdapter.h"
 #include "AIP_IO.h"
-
+#include "XDataInLayer.h"
+#include "XGUIFormBase.h"
 
 //===============================================================================
 
@@ -75,7 +76,7 @@ bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 	return(true);
 }
 
-PIODLLBaseClass  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	QStringList	List=Something.split(QChar(','));
 
@@ -100,7 +101,7 @@ PIODLLBaseClass  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name
 		MemName=List[3];
 	}
 
-	PIOAdapter	*PIO=new PIOAdapter(mainW,IPAddress,PortNumber,MemName);
+	PIOAdapter	*PIO=new PIOAdapter(Base->GetMainWidget(),IPAddress,PortNumber,MemName);
 	PIO->LoadDefFile(DefFileName);
 	return(PIO);
 }

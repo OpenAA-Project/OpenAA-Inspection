@@ -99,7 +99,7 @@ void FormScanStrategy::ShowToWindow(void)
             WMultiGrid::CellData *L=dGrid.GetData(r ,c);
             L->Value	=QVariant(LocalData.GetStrategyCode(r,c));
             L->CType	=WMultiGrid::_CType_SpinBox;
-            L->MaxValue	=max(LocalData.GetMaxScanStrategy()-1,0);
+            L->MaxValue	=max(LocalData.GetMaxStrategyCount()-1,0);
             L->MinValue	=-1;
             L->Alignment=Qt::AlignVCenter | Qt::AlignRight;
         }
@@ -121,7 +121,7 @@ void FormScanStrategy::ShowToWindow(void)
             WMultiGrid::CellData *L=cGrid.GetData(r ,c);
             L->Value	=QVariant(LocalData.GetCalcStrategyCode(r,c));
             L->CType	=WMultiGrid::_CType_SpinBox;
-            L->MaxValue	=max(LocalData.GetMaxScanStrategy()-1,0);
+            L->MaxValue	=max(LocalData.GetMaxStrategyCount()-1,0);
             L->MinValue	=-1;
             L->Alignment=Qt::AlignVCenter | Qt::AlignRight;
         }
@@ -136,7 +136,7 @@ void FormScanStrategy::ShowToWindow(void)
         cGrid.SetLeftHeader(r,LangSolverGUILib.GetString(FormScanStrategy_LS,LID_13)/*"Page "*/+QString::number(r));
     }
 
-    ui->SpinBoxMaxStrategyNumb->setValue(LocalData.GetMaxScanStrategy());
+    ui->SpinBoxMaxStrategyNumb->setValue(LocalData.GetMaxStrategyCount());
 
     LocalData.ReallocCamAllocInPages();
     aGrid.SetRowCount(LocalData.PageNumb);
@@ -181,11 +181,11 @@ void FormScanStrategy::on_CancelButton_clicked()
 
 void FormScanStrategy::on_SpinBoxMaxStrategyNumb_valueChanged(int arg1)
 {
-    LocalData.SetMaxScanStrategy(ui->SpinBoxMaxStrategyNumb->value());
+    LocalData.SetMaxStrategyCount(ui->SpinBoxMaxStrategyNumb->value());
     for(int r=0;r<LocalData.PageNumb;r++){
         for(int c=0;c<LocalData.LayerNumb;c++){
             WMultiGrid::CellData *L=dGrid.GetData(r ,c);
-            L->MaxValue	=max(LocalData.GetMaxScanStrategy()-1,0);
+            L->MaxValue	=max(LocalData.GetMaxStrategyCount()-1,0);
         }
     }
 }

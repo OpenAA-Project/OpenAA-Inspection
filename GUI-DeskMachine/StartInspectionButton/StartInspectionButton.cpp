@@ -171,7 +171,7 @@ void StartInspectionButton::SlotClicked ()
 				Param->StartInspection=true;
 			}
 
-			if(GetParamGlobal()->GetMaxScanStrategy()<=1 || (GetLayersBase()->GetCurrentStrategicNumberForSeq()==0)){
+			if(GetParamGlobal()->GetMaxStrategyCount()<=1 || (GetLayersBase()->GetCurrentStrategicNumberForSeq()==0)){
 				GetLayersBase()->SetStartInspectTime(XDateTime::currentDateTime());
 				GetLayersBase()->SetInspectionTimeMilisec(GetComputerMiliSec());
 			}
@@ -326,7 +326,7 @@ bool	GUICmdStartInspect::Save(QIODevice *f)
 
 void	GUICmdStartInspect::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1 || StrategicNumber==0){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1 || StrategicNumber==0){
 		GetLayersBase()->SetStartInspectTime(StartInspectionTime);
 		GetLayersBase()->SetCurrentInspectID(CurrentInspectID);
 		GetLayersBase()->SetCurrentStrategicNumber		(StrategicNumber);

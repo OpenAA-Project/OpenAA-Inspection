@@ -616,7 +616,7 @@ void	StartCaptureButtonForDesktop::SlotClicked (bool checked)
 		int	CStrategic=max(GetLayersBase()->GetCurrentStrategicNumber(),GetLayersBase()->GetCurrentStrategicNumberForSeq());
 		IntList		SList;
 		GetParamGlobal()->GetStrategyPage (CStrategic ,SList);
-		if(GetParamGlobal()->GetMaxScanStrategy()<=1 || CStrategic==0){
+		if(GetParamGlobal()->GetMaxStrategyCount()<=1 || CStrategic==0){
 			GetLayersBase()->ExecuteStartByScanOnly(GetLayersBase()->GetEntryPoint());
 		}
 

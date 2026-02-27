@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2025
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -1969,7 +1969,7 @@ void	ResultInPagePLI::BindNGAreaListContainer(NGAreaListContainer &List)
 }
 void	ResultInPagePLI::SetResultMarkForLearning(void)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(ResultInLayerPLI *r=LayerData.GetFirst();r!=NULL;r=r->GetNext()){
 			r->SetResultMarkForLearning();
 		}
@@ -3529,16 +3529,10 @@ ExeResult	AlgorithmInLayerPLI::ExecuteInitialAfterEditPrev(int ExeID ,ResultInLa
 					AlgorithmItemPLI	*c=C[i];
 					ExeResult	RR=c->ExecuteInitialAfterEditPrev(ExeID ,0,c->GetCurrentResult(),EInfo);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -3642,16 +3636,10 @@ ExeResult	AlgorithmInLayerPLI::ExecuteInitialAfterEdit	(int ExeID ,ResultInLayer
 					AlgorithmItemPLI	*c=C[i];
 					ExeResult	RR=c->ExecuteInitialAfterEdit(ExeID ,0,c->GetCurrentResult(),EInfo);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -3763,16 +3751,10 @@ ExeResult	AlgorithmInLayerPLI::ExecuteInitialAfterEditPost(int ExeID ,ResultInLa
 					AlgorithmItemPLI	*c=C[i];
 					ExeResult	RR=c->ExecuteInitialAfterEditPost(ExeID ,0,c->GetCurrentResult(),EInfo);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -3851,16 +3833,10 @@ ExeResult	AlgorithmInLayerPLI::ExecuteStartByInspection(int ExeID ,ResultInLayer
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecuteStartByInspection(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -3937,16 +3913,10 @@ ExeResult	AlgorithmInLayerPLI::ExecuteCaptured(int ExeID ,ResultInLayerRoot *R,L
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecuteCaptured(ExeID,CapturedList);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -4018,16 +3988,10 @@ ExeResult	AlgorithmInLayerPLI::ExecutePreAlignment		(int ExeID ,ResultInLayerRoo
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecutePreAlignment(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -4099,16 +4063,10 @@ ExeResult	AlgorithmInLayerPLI::ExecuteAlignment		(int ExeID ,ResultInLayerRoot *
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecuteAlignment(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -4180,16 +4138,10 @@ ExeResult	AlgorithmInLayerPLI::ExecutePreProcessing	(int ExeID ,ResultInLayerRoo
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecutePreProcessing(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -4267,16 +4219,10 @@ ExeResult	AlgorithmInLayerPLI::ExecuteProcessing		(int ExeID ,ResultInLayerRoot 
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecuteProcessing(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -4381,7 +4327,6 @@ ExeResult	AlgorithmInLayerPLI::ExecuteProcessingRevived(int ExeID ,ResultInLayer
 		n++;
 	}
 
-	//�摜���؂��ւ��邽�߁AOpenMP�ɂł��Ȃ�
 	DWORD	StartMilisec=GetLayersBase()->GetStartInspectionTimeMilisec();
 	int		MaxInspectMilisec=GetParamGlobal()->MaxInspectMilisec;
 
@@ -4459,16 +4404,10 @@ ExeResult	AlgorithmInLayerPLI::ExecutePostProcessing	(int ExeID ,ResultInLayerRo
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecutePostProcessing(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -4538,16 +4477,10 @@ ExeResult	AlgorithmInLayerPLI::ExecutePreScanning	(int ExeID ,ResultInLayerRoot 
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecutePreScanning(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -4617,16 +4550,10 @@ ExeResult	AlgorithmInLayerPLI::ExecuteScanning	(int ExeID ,ResultInLayerRoot *R)
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecuteScanning(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -4696,16 +4623,10 @@ ExeResult	AlgorithmInLayerPLI::ExecutePostScanning	(int ExeID ,ResultInLayerRoot
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecutePostScanning(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -7503,7 +7424,7 @@ ExeResult	AlgorithmInPagePLI::FuncExecuteStartByInspection(int ExeID ,ResultInPa
 
 	ResultInPagePLI *R=(ResultInPagePLI *)Res;
 
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		bool	RetryMode;
 		do{
 			RetryMode=false;
@@ -7587,7 +7508,7 @@ ExeResult	AlgorithmInPagePLI::FuncExecuteCaptured	(int ExeID ,ResultInPageRoot *
 
 	ResultInPagePLI *R=(ResultInPagePLI *)Res;
 
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		bool	RetryMode;
 		do{
 			RetryMode=false;
@@ -7658,7 +7579,7 @@ ExeResult	AlgorithmInPagePLI::FuncExecutePreAlignment	(int ExeID ,ResultInPageRo
 
 	ResultInPagePLI *R=(ResultInPagePLI *)Res;
 
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		bool	RetryMode;
 		do{
 			RetryMode=false;
@@ -7726,7 +7647,7 @@ ExeResult	AlgorithmInPagePLI::FuncExecuteAlignment		(int ExeID ,ResultInPageRoot
 
 	ResultInPagePLI *R=(ResultInPagePLI *)Res;
 
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		bool	RetryMode;
 		do{
 			RetryMode=false;
@@ -7800,7 +7721,7 @@ ExeResult	AlgorithmInPagePLI::FuncExecutePreProcessing	(int ExeID ,ResultInPageR
 
 	ResultInPagePLI *R=(ResultInPagePLI *)Res;
 
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		bool	RetryMode;
 		do{
 			RetryMode=false;
@@ -7867,7 +7788,7 @@ ExeResult	AlgorithmInPagePLI::FuncExecuteProcessing		(int ExeID ,ResultInPageRoo
 
 	ResultInPagePLI *R=(ResultInPagePLI *)Res;
 
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		bool	RetryMode;
 		do{
 			RetryMode=false;
@@ -7932,7 +7853,7 @@ ExeResult	AlgorithmInPagePLI::FuncExecuteProcessingRevived(int ExeID ,ResultInPa
 		return Ret;
 	}
 	ResultInPagePLI *R=(ResultInPagePLI *)Res;
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		bool	RetryMode;
 		do{
 			RetryMode=false;
@@ -8000,7 +7921,7 @@ ExeResult	AlgorithmInPagePLI::FuncExecutePostProcessing	(int ExeID ,ResultInPage
 
 	ResultInPagePLI *R=(ResultInPagePLI *)Res;
 
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		bool	RetryMode;
 		do{
 			RetryMode=false;
@@ -8068,7 +7989,7 @@ ExeResult	AlgorithmInPagePLI::FuncExecutePreScanning	(int ExeID ,ResultInPageRoo
 
 	ResultInPagePLI *R=(ResultInPagePLI *)Res;
 
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		bool	RetryMode;
 		do{
 			RetryMode=false;
@@ -8135,7 +8056,7 @@ ExeResult	AlgorithmInPagePLI::FuncExecuteScanning	(int ExeID ,ResultInPageRoot *
 
 	ResultInPagePLI *R=(ResultInPagePLI *)Res;
 
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		bool	RetryMode;
 		do{
 			RetryMode=false;
@@ -8202,7 +8123,7 @@ ExeResult	AlgorithmInPagePLI::FuncExecutePostScanning	(int ExeID ,ResultInPageRo
 
 	ResultInPagePLI *R=(ResultInPagePLI *)Res;
 
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		bool	RetryMode;
 		do{
 			RetryMode=false;

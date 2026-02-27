@@ -111,7 +111,7 @@
     <ClCompile Include="ShowCameraDialog.cpp" />
     <ClInclude Include="CameraMVSGigECommon.h" />
     <ClInclude Include="cameramvsgige_global.h" />
-    <ClInclude Include="CameraMVSGigE.h" />
+    <QtMoc Include="CameraMVSGigE.h" />
     <ClCompile Include="..\..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="CameraMVSGigE.cpp" />
     <QtMoc Include="ShowCameraDialog.h" />

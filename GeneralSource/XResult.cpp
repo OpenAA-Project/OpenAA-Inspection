@@ -2611,7 +2611,7 @@ bool	ResultBasePhase::Load(ResultBaseForAlgorithmRoot *p,QIODevice *file)
 void	ResultBasePhase::BuildNGImages(int ImageW ,int ImageH ,int Bevel ,NPListPack<TmpNGRectClass> *TmpRect,ErrorGroupPack SpecializedGroup[])
 {
 	LayersBase	*LBase=GetLayersBase();
-	if(LBase->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(LBase->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		if(AllocPageNumb<=1){
 			for(int localPage=0;localPage<AllocPageNumb;localPage++){
 				ResultInPageRoot *P=GetPageData(localPage);
@@ -2667,7 +2667,7 @@ void	ResultBasePhase::BuildNGImages(int ImageW ,int ImageH ,int Bevel ,NPListPac
 			}
 		}
 		else if(LBase->GetParamGlobal()->ModePageExecutePostProcessing==-1){
-			if(LBase->GetCurrentStrategicNumberInExe()>=(LBase->GetParamGlobal()->GetMaxScanStrategy()-1)){
+			if(LBase->GetCurrentStrategicNumberInExe()>=(LBase->GetParamGlobal()->GetMaxStrategyCount()-1)){
 				if(AllocPageNumb<=1){
 					for(int localPage=0;localPage<AllocPageNumb;localPage++){
 						ResultInPageRoot *P=GetPageData(localPage);
@@ -2705,7 +2705,7 @@ void	ResultBasePhase::BuildNGImages(int ImageW ,int ImageH ,int Bevel ,NPListPac
 }
 void	ResultBasePhase::BuildNGImages(int ImageW ,int ImageH ,int Bevel ,TmpNGDim TmpRectDim[],ErrorGroupPack SpecializedGroup[])
 {
-	if(GetLayersBase()->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetLayersBase()->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		if(AllocPageNumb<=1){
 			for(int localPage=0;localPage<AllocPageNumb;localPage++){
 				ResultInPageRoot *P=GetPageData(localPage);
@@ -2773,7 +2773,7 @@ void	ResultBasePhase::BuildNGImages(int ImageW ,int ImageH ,int Bevel ,TmpNGDim 
 
 void	ResultBasePhase::InitialInspection(ResultBaseForAlgorithmRoot *p)
 {
-	if(p->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(p->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int L=0;L<AllocPageNumb;L++){
 			PageData[L]->InitialInspection();
 		}
@@ -2839,7 +2839,7 @@ bool	ResultBasePhase::GatherResult(bool3 &OK,bool DependOnPageMode)	const
 	OK=true3;
 
 	if(DependOnPageMode==true){
-		if(Parent->GetParamGlobal()->GetMaxScanStrategy()<=1){
+		if(Parent->GetParamGlobal()->GetMaxStrategyCount()<=1){
 			for(int L=0;L<AllocPageNumb;L++){
 				bool3	tOK;
 				PageData[L]->GatherResult(tOK);
@@ -3060,7 +3060,7 @@ ExeResult	ResultBasePhase::ExecuteStartByInspection(int ExeID ,AlgorithmBase *Ba
 	ExeResult	Ret=_ER_true;
 	AlgorithmInPageInOnePhase	*Ap=Base->GetPageDataPhase(PhaseCode);
 	LayersBase	*LBase=GetLayersBase();
-	if(LBase->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(LBase->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		int	tPageNumb=LBase->GetAllocatedPageNumb();
 		for(int page=0;page<tPageNumb;page++){
 			ResultInPageRoot	*R=GetPageData(page);
@@ -3118,7 +3118,7 @@ ExeResult	ResultBasePhase::ExecuteCaptured		(int ExeID ,AlgorithmBase *Base,List
 	}
 	LayersBase	*LBase=GetLayersBase();
 	ParamGlobal	*PGlobal=LBase->GetParamGlobal();
-	if(PGlobal->GetMaxScanStrategy()<=1){
+	if(PGlobal->GetMaxStrategyCount()<=1){
 		int	PageNumb=LBase->GetAllocatedPageNumb();
 
 		if(PageNumb==1 
@@ -3200,7 +3200,7 @@ ExeResult	ResultBasePhase::ExecutePreAlignment		(int ExeID ,AlgorithmBase *Base)
 	}
 	LayersBase	*LBase=GetLayersBase();
 	ParamGlobal	*PGlobal=LBase->GetParamGlobal();
-	if(PGlobal->GetMaxScanStrategy()<=1){
+	if(PGlobal->GetMaxStrategyCount()<=1){
 		int	PageNumb=LBase->GetAllocatedPageNumb();
 
 		if(PageNumb==1 
@@ -3282,7 +3282,7 @@ ExeResult	ResultBasePhase::ExecuteAlignment		(int ExeID ,AlgorithmBase *Base)
 	}
 	LayersBase	*LBase=GetLayersBase();
 	ParamGlobal	*PGlobal=LBase->GetParamGlobal();
-	if(PGlobal->GetMaxScanStrategy()<=1){
+	if(PGlobal->GetMaxStrategyCount()<=1){
 		for(int page=0;page<LBase->GetAllocatedPageNumb();page++){
 			ResultInPageRoot	*R=GetPageData(page);
 			ExeResult	RR=Ap->GetPageData(page)->ExecuteAlignment(ExeID ,R);
@@ -3339,7 +3339,7 @@ ExeResult	ResultBasePhase::ExecutePreProcessing	(int ExeID ,AlgorithmBase *Base)
 		return _ER_true;
 	}
 	LayersBase	*LBase=GetLayersBase();
-	if(LBase->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(LBase->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int page=0;page<LBase->GetAllocatedPageNumb();page++){
 			ResultInPageRoot	*R=GetPageData(page);
 			ExeResult	RR=Ap->GetPageData(page)->ExecutePreProcessing(ExeID ,R);
@@ -3396,7 +3396,7 @@ ExeResult	ResultBasePhase::ExecuteProcessing		(int ExeID ,AlgorithmBase *Base)
 		return _ER_true;
 	}
 	LayersBase	*LBase=GetLayersBase();
-	if(LBase->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(LBase->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int page=0;page<LBase->GetAllocatedPageNumb();page++){
 			ResultInPageRoot	*R=GetPageData(page);
 			AlgorithmInPageRoot	*ARoot=Ap->GetPageData(page);
@@ -3459,7 +3459,7 @@ ExeResult	ResultBasePhase::ExecuteProcessingRevived(int ExeID ,AlgorithmBase *Ba
 		return _ER_true;
 	}
 	LayersBase	*LBase=GetLayersBase();
-	if(LBase->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(LBase->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int page=0;page<LBase->GetAllocatedPageNumb();page++){
 			ResultInPageRoot	*R=GetPageData(page);
 			ExeResult	RR=Ap->GetPageData(page)->ExecuteProcessingRevived(ExeID ,R);
@@ -3517,7 +3517,7 @@ ExeResult	ResultBasePhase::ExecutePostProcessing	(int ExeID ,AlgorithmBase *Base
 		return _ER_true;
 	}
 	LayersBase	*LBase=GetLayersBase();
-	if(LBase->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(LBase->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int page=0;page<LBase->GetAllocatedPageNumb();page++){
 			ResultInPageRoot	*R=GetPageData(page);
 			ExeResult	RR=Ap->GetPageData(page)->ExecutePostProcessing(ExeID ,R);
@@ -3572,7 +3572,7 @@ ExeResult	ResultBasePhase::ExecutePreScanning	(int ExeID ,AlgorithmBase *Base)
 
 	AlgorithmInPageInOnePhase	*Ap=Base->GetPageDataPhase(PhaseCode);
 	LayersBase	*LBase=GetLayersBase();
-	if(LBase->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(LBase->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int page=0;page<LBase->GetAllocatedPageNumb();page++){
 			ResultInPageRoot	*R=GetPageData(page);
 			ExeResult	RR=Ap->GetPageData(page)->ExecutePreScanning(ExeID ,R);
@@ -3626,7 +3626,7 @@ ExeResult	ResultBasePhase::ExecuteScanning	(int ExeID ,AlgorithmBase *Base)
 	ExeResult	Ret=_ER_true;
 	AlgorithmInPageInOnePhase	*Ap=Base->GetPageDataPhase(PhaseCode);
 	LayersBase	*LBase=GetLayersBase();
-	if(LBase->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(LBase->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int page=0;page<LBase->GetAllocatedPageNumb();page++){
 			ResultInPageRoot	*R=GetPageData(page);
 			ExeResult	RR=Ap->GetPageData(page)->ExecuteScanning(ExeID ,R);
@@ -3681,7 +3681,7 @@ ExeResult	ResultBasePhase::ExecutePostScanning	(int ExeID ,AlgorithmBase *Base)
 
 	AlgorithmInPageInOnePhase	*Ap=Base->GetPageDataPhase(PhaseCode);
 	LayersBase	*LBase=GetLayersBase();
-	if(LBase->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(LBase->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int page=0;page<LBase->GetAllocatedPageNumb();page++){
 			ResultInPageRoot	*R=GetPageData(page);
 			ExeResult	RR=Ap->GetPageData(page)->ExecutePostScanning(ExeID ,R);
@@ -3744,7 +3744,7 @@ int		ResultBasePhase::GetPointerListOfResultPosList(FlexArea &OverlapArea ,Resul
 void	ResultBasePhase::SetCurentCalcDone(bool b)
 {
 	LayersBase	*LBase=GetLayersBase();
-	if(LBase->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(LBase->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int page=0;page<LBase->GetAllocatedPageNumb();page++){
 			ResultInPageRoot	*R=GetPageData(page);
 			R->SetCurentCalcDone(b);
@@ -4092,7 +4092,7 @@ void	ResultBaseForAlgorithmRoot::InitialInspection(void)
 {
 	LayersBase	*LBase=GetLayersBase();
 	ParamGlobal	*PGlobal=GetParamGlobal();
-	if(PGlobal->GetMaxScanStrategy()<=1){
+	if(PGlobal->GetMaxStrategyCount()<=1){
 		if(LBase->GetCurrentScanPhaseNumber()==0){
 			for(int L=0;L<AllocPhaseNumb && L<PGlobal->PhaseNumb;L++){
 				PageDataPhase[L]->InitialInspection(this);
@@ -5530,7 +5530,7 @@ bool	NGImageContainerInPhase::RemovePage(int IndexPage)
 
 void	NGImageContainerInPhase::ClearAll(void)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(NGImageContainerInPage *p=NGImageInPage.GetFirst();p!=NULL;p=p->GetNext()){
 			p->ClearNGImageData();
 			p->ClearErrorGroupData();
@@ -5805,7 +5805,7 @@ bool	NGImageContainerInPhase::SaveOnlyPage(FileThread *f,int page)
 
 void	NGImageContainerInPhase::ClearAllErrorGroup(void)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(NGImageContainerInPage *p=NGImageInPage.GetFirst();p!=NULL;p=p->GetNext()){
 			p->ClearErrorGroupData();
 		}
@@ -6740,7 +6740,7 @@ bool	ResultInspection::BuildNGImages(void)
 	int	ImageH	=ResultDLLBasePointer->NGImageHeight;
 	int	Bevel	=ResultDLLBasePointer->NGImageBevel;
 
-	if(GetLayersBase()->GetCurrentStrategicNumberInExe()==0 || GetLayersBase()->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetLayersBase()->GetCurrentStrategicNumberInExe()==0 || GetLayersBase()->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int localPage=0;localPage<GetPageNumb();localPage++){
 			SpecializedGroup[localPage].RemoveAll();
 		}
@@ -6749,7 +6749,7 @@ bool	ResultInspection::BuildNGImages(void)
 		B->BuildNGImages(ImageW ,ImageH ,Bevel ,TmpRect,SpecializedGroup);
 	}
 
-	if((GetParamGlobal()->GetMaxScanStrategy()-1)<=GetLayersBase()->GetCurrentStrategicNumberInExe()){
+	if((GetParamGlobal()->GetMaxStrategyCount()-1)<=GetLayersBase()->GetCurrentStrategicNumberInExe()){
 		IntList	PhaseList;
 		ParamGlobal	*PGlobal=GetParamGlobal();
 		if(PGlobal->ModePhaseExecuteManageResult==-2){
@@ -7571,7 +7571,7 @@ void	ResultInspection::ClearRemarkData(void)
 void	ResultInspection::ClearTmpRect(int phase)
 {
 	if(0<=phase && phase<AllocatedTmpRect){
-		if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+		if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 			for(int page=0;page<GetPageNumb();page++){
 				TmpRect[phase][page].RemoveAll();
 			}

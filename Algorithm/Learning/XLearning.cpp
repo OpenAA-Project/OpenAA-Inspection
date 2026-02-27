@@ -250,8 +250,8 @@ void	LearningRuleInPage::TryCalc(void)
 	AlgorithmInPagePI::GetLayersBase()->SetStartInspectTime(XDateTime::currentDateTime());
 	AlgorithmInPagePI::GetLayersBase()->SetStartInspectionTimeMilisec(GetComputerMiliSec());
 
-	int	TempStrategy=AlgorithmInPagePI::GetParamGlobal()->GetMaxScanStrategy();
-	AlgorithmInPagePI::GetParamGlobal()->SetMaxScanStrategy(1);
+	int	TempStrategy=AlgorithmInPagePI::GetParamGlobal()->GetMaxStrategyCount();
+	AlgorithmInPagePI::GetParamGlobal()->SetMaxStrategyCount(1);
 
 	AlgorithmInPagePI::GetLayersBase()->StepProcessing(GetPage());
 	//if(IsExecInitialAfterEdit==true)
@@ -270,7 +270,7 @@ void	LearningRuleInPage::TryCalc(void)
 	AlgorithmInPagePI::GetLayersBase()->ExecutePostProcessing		();
 	AlgorithmInPagePI::GetLayersBase()->SetShouldWriteResult(true);
 
-	AlgorithmInPagePI::GetParamGlobal()->SetMaxScanStrategy(TempStrategy);
+	AlgorithmInPagePI::GetParamGlobal()->SetMaxStrategyCount(TempStrategy);
 }
 
 double	LearningRuleInPage::CalcResult(void)

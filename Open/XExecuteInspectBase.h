@@ -114,6 +114,14 @@ private:
 public:
 	NPListPack<LayersBasePointerList>	ShadowLayersBasePointer;
 
+	struct{
+		bool	_EmitBeforeScan		:1;
+		bool	_EmitAfterScan		:1;
+		bool	_EmitBeforeCalc		:1;
+		bool	_EmitAfterCalc		:1;
+		bool	_EmitCreatedResult	:1;
+	}EmitTimingFlag;
+
 public:
 	explicit    ExecuteInspectBase(QObject *parent ,EntryPointBase *_EntryPointBaseData ,SeqLocalParam *_SeqParam);
 	virtual	~ExecuteInspectBase(void);
@@ -228,6 +236,12 @@ public:
 	void	EmitSignalCaptured(int CStrategic);
 	void	EmitSignalTargetImageCaptured(void);
 	void	EmitSignalMasterImageCaptured(void);
+
+	void	EmitBeforeScan		(void);
+	void	EmitAfterScan		(void);
+	void	EmitBeforeCalc		(void);
+	void	EmitAfterCalc		(void);
+	void	EmitCreatedResult	(void);
 protected:
 	QReadWriteLock			MutexStateMode;
 	volatile	ExecuteInspectState		CurrentState;
@@ -237,6 +251,12 @@ signals:
 	void	SignalCaptured(int);
 	void	SignalTargetImageCaptured();
 	void	SignalMasterImageCaptured();
+
+	void	SignalBeforeScan();
+	void	SignalAfterScan();
+	void	SignalBeforeCalc();
+	void	SignalAfterCalc();
+	void	SignalCreatedResult();
 };
 
 class	SpecifiedBroadcasterAutoModeStart : public SpecifiedBroadcaster

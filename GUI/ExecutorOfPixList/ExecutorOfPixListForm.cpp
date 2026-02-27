@@ -560,8 +560,8 @@ void	GUICmdPushed::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QStr
 		GetParamGlobal()->MaxInspectMilisec	=MaxInspectMilisec;
 
 		GetLayersBase()->AddMaxProcessing(localPage,7);
-		int	TempStrategy=GetParamGlobal()->GetMaxScanStrategy();
-		GetParamGlobal()->SetMaxScanStrategy(1);
+		int	TempStrategy=GetParamGlobal()->GetMaxStrategyCount();
+		GetParamGlobal()->SetMaxStrategyCount(1);
 
 		int	CPoint[6];
 		GetLayersBase()->GetCalcPoint(CPoint);
@@ -651,7 +651,7 @@ void	GUICmdPushed::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QStr
 			CurrentResult->ExecTime.TM_ExecutePostProcessing=Cn-C;
 			C=Cn;
 
-			GetParamGlobal()->SetMaxScanStrategy(TempStrategy);
+			GetParamGlobal()->SetMaxStrategyCount(TempStrategy);
 
 			int	NGCount=CurrentResult->GetNGCount();
 			SendBack->Ok		=(NGCount==0)?true:false;

@@ -295,7 +295,7 @@ int		SeqControlParam::GetDataSpecialOperand(int ID)	const
 		case 120:	return GetLayersBase()->GetParamGlobal()->MaxLines;
 		case 121:	return GetLayersBase()->GetParamGlobal()->PageNumb;
 		case 122:	return GetLayersBase()->GetParamGlobal()->LayerNumb;
-		case 123:	return GetLayersBase()->GetParamGlobal()->GetMaxScanStrategy();
+		case 123:	return GetLayersBase()->GetParamGlobal()->GetMaxStrategyCount();
 		case 124:	return GetLayersBase()->GetParamGlobal()->ResolutionXNano;
 		case 125:	return GetLayersBase()->GetParamGlobal()->ResolutionYNano;
 		case 126:	return GetLayersBase()->GetParamGlobal()->GetPhaseNumb();

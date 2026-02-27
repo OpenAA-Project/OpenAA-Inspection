@@ -289,6 +289,9 @@ ExeResult	AlignmentBlockInPage::ExecuteInitialAfterEdit	(int ExeID ,ResultInPage
 }
 ExeResult	AlignmentBlockInPage::ExecuteAlignment		(int ExeID ,ResultInPageRoot *Res)
 {
+	int max_levels = omp_get_max_active_levels();
+	omp_set_max_active_levels(max_levels+1);
+
 	ExeResult	Ret=AlgorithmInPagePITemplate<AlignmentBlockItem,AlignmentBlockBase>::ExecuteAlignment(ExeID ,Res);
 	
 	for(AlignmentBlockItem *item=tGetFirstData();item!=NULL;item=item->tGetNext()){
@@ -296,7 +299,10 @@ ExeResult	AlignmentBlockInPage::ExecuteAlignment		(int ExeID ,ResultInPageRoot *
 			item->CalcByNeighbor();
 		}
 	}
+	
+	omp_set_max_active_levels(max_levels);
 
+	/*
 	double	ZLevel=tGetParentBase()->ZLevel;
 	int	AddedDx=0;
 	int	AddedDy=0;
@@ -356,6 +362,8 @@ ExeResult	AlignmentBlockInPage::ExecuteAlignment		(int ExeID ,ResultInPageRoot *
 		}
 	}
 
+	*/
+	
 	for(AlignmentPacket2DList *p=AlignmentPacket2DContainer.GetFirst();p!=NULL;p=p->GetNext()){
 		p->Rotation	=p->Item->ResultRadian;
 		p->ShiftX	=p->Item->ResultDx;
@@ -814,6 +822,8 @@ void	AlignmentBlockSendTryThreshold::Calc(AlignmentBlockItem *Target,AlignmentBl
 	AlignmentBlockThreshold			*WThr=Target->GetThresholdW();
 	const	AlignmentBlockThreshold	*RThr=Src	->GetThresholdR();
 
+	WThr->CopyFrom(*RThr);
+
 	ExecuteInitialAfterEditInfo DummyEInfo;
 	DummyEInfo.ExecuteInitialAfterEdit_Changed=ExecuteInitialAfterEdit_ChangedAlgorithm;
 	Target->ExecuteInitialAfterEdit(0,0,Result,DummyEInfo);
@@ -827,7 +837,6 @@ void	AlignmentBlockSendTryThreshold::Calc(AlignmentBlockItem *Target,AlignmentBl
 	//Target->SearchType			=Src->SearchType;
 	//Target->MaxCoefItem			=Src->MaxCoefItem;
 
-	WThr->CopyFrom(*RThr);
 
 	Target->ExecuteStartByInspection	(0,0,Result);
 	Target->ExecuteAlignment			(10000,0,Result);

@@ -184,8 +184,8 @@ void	GUICmdPushedAlignment::Receive(int32 localPage, int32 cmd ,QString &Emitter
 		//GetLayersBase()->SetCurrentInspectID(InspectionID);
 
 		GetLayersBase()->AddMaxProcessing(localPage,4);
-		int	TempStrategy=GetParamGlobal()->GetMaxScanStrategy();
-		GetParamGlobal()->SetMaxScanStrategy(1);
+		int	TempStrategy=GetParamGlobal()->GetMaxStrategyCount();
+		GetParamGlobal()->SetMaxStrategyCount(1);
 
 		GetLayersBase()->PushExecuterState();
 		GetLayersBase()->StepProcessing(localPage);
@@ -209,7 +209,7 @@ void	GUICmdPushedAlignment::Receive(int32 localPage, int32 cmd ,QString &Emitter
 		GetLayersBase()->StepProcessing(localPage);
 		GetLayersBase()->ExecuteAlignment			(GetLayersBase()->GetEntryPoint());
 
-		GetParamGlobal()->SetMaxScanStrategy(TempStrategy);
+		GetParamGlobal()->SetMaxStrategyCount(TempStrategy);
 		GetLayersBase()->SendAckToMaster(localPage);
 		GetLayersBase()->PopExecuterState();
 

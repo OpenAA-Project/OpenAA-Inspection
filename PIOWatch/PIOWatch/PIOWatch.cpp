@@ -253,7 +253,7 @@ bool PIOWatch::PIODLLInit(QString strDLLName)
 
 	PIO.ReadDefFileOfBoardName(strIODefFile[0]);
 	PIO.ReadDefFileOfBoardName(strIODefFile[1]);
-	if(!PIO.Initialize(this,strDLLName,false,"")){
+	if(!PIO.Initialize(GetLayersBase(),strDLLName,false,"")){
 		QMessageBox::warning(this,tr("Error"),strDLLName + tr("\nThe error occurred by initial of DLL."));
 		tPIORead[0].SetStopped(true);
 		tPIORead[1].SetStopped(true);

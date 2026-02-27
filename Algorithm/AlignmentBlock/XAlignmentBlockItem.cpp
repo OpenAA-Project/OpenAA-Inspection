@@ -50,11 +50,23 @@ void	AlignmentBlockThreshold::CopyFrom(const AlgorithmThreshold &src)
 {
 	const AlignmentBlockThreshold *s=(const AlignmentBlockThreshold *)&src;
 	SearchDot		=s->SearchDot;
+	MaxDegree	=s->MaxDegree	;
+	LineLength	=s->LineLength	;
+	MinVar		=s->MinVar		;
+	ThreDiv		=s->ThreDiv		;
 }
 bool	AlignmentBlockThreshold::IsEqual(const AlgorithmThreshold &src)	const 
 {
 	const AlignmentBlockThreshold *s=(const AlignmentBlockThreshold *)&src;
 	if(SearchDot		==s->SearchDot)
+		return true;
+	if(MaxDegree		==s->MaxDegree)
+		return true;
+	if(LineLength		==s->LineLength)
+		return true;
+	if(MinVar			==s->MinVar)
+		return true;
+	if(ThreDiv			==s->ThreDiv)
 		return true;
 	return false;
 }
@@ -129,6 +141,7 @@ void	AlignmentBlockThreshold::ToLibrary(AlgorithmLibrary *Dest)
 AlignmentBlockItem::AlignmentBlockItem(void)
 {
 	CurrentRotationPatternNo=0;
+	EffectiveResult=false;
 }
 
 AlignmentBlockItem::~AlignmentBlockItem(void)
@@ -139,6 +152,7 @@ AlignmentBlockItem &AlignmentBlockItem::operator=(const AlgorithmItemRoot &src)
 {
 	AlgorithmItemPI::operator=(src);
 	CopyThreshold(*((AlignmentBlockItem *)&src));
+	EffectiveResult	=((AlignmentBlockItem *)&src)->EffectiveResult;
 	return *this;
 }
 
@@ -268,10 +282,18 @@ void	AlignmentBlockItem::MakeIndependentItems(AlgorithmItemIndependent *AInd,int
 	//AInd->Something=Buff.buffer();
 }
 
+static	int	DbgPage=1;
+static	int	DbgID	=2;
+static	int	DbgCounter=0;
+
+
 ExeResult	AlignmentBlockItem::ExecuteInitialAfterEdit	(int ExeID ,int ThreadNo
 												,ResultInItemRoot *Res
 												,ExecuteInitialAfterEditInfo &EInfo)
 {
+	if(GetPage()==DbgPage && GetID()==DbgID){
+		DbgCounter++;
+	}
 	ExeResult	Ret=AlgorithmItemPI::ExecuteInitialAfterEdit(ExeID ,ThreadNo,Res,EInfo);
 
 	AlignmentBlockBase	*BBase=tGetParentBase();
@@ -302,13 +324,10 @@ RotatedMatchingPattern	*AlignmentBlockItem::GetRotatedPattern(int n)
 	return RotatedContainer[n];
 }
 
-static	int	DbgPage=1;
-static	int	DbgID	=2;
-static	int	DbgCounter=0;
-
 
 ExeResult	AlignmentBlockItem::ExecuteAlignment(int ExeID ,int ThreadNo,ResultInItemRoot *Res)
 {
+	EffectiveResult=false;
 	if(GetPage()==DbgPage && GetID()==DbgID){
 		DbgCounter++;
 	}
@@ -319,22 +338,22 @@ ExeResult	AlignmentBlockItem::ExecuteAlignment(int ExeID ,int ThreadNo,ResultInI
 
 	int	SearchDot=GetThresholdR()->SearchDot;
 	int	CountRotatedContainer=RotatedContainer.GetCount();
-	//if(GetParamGlobal()->CalcSingleThread==false){
-	//	#pragma omp parallel
-	//	{                                                
-	//		#pragma omp for schedule(dynamic)
-	//		for(int i=0;i<CountRotatedContainer;i++){
-	//			RotatedMatchingPattern	*v=RotatedContainer[i];
-	//			v->MatchByLine(BBase->ModeCalcIncline,0,0,TargetImages,SearchDot);
-	//		}
-	//	}
-	//}
-	//else{
+	if(GetParamGlobal()->CalcSingleThread==false){
+		#pragma omp parallel
+		{                                                
+			#pragma omp for
+			for(int i=0;i<CountRotatedContainer;i++){
+				RotatedMatchingPattern	*v=RotatedContainer[i];
+				v->MatchByLine(BBase->ModeCalcIncline,0,0,TargetImages,SearchDot);
+			}
+		}
+	}
+	else{
 		for(int i=0;i<CountRotatedContainer;i++){
 			RotatedMatchingPattern	*v=RotatedContainer[i];
 			v->MatchByLine(BBase->ModeCalcIncline,0,0,TargetImages,SearchDot);
 		}
-	//}
+	}
 
 	int	iN=0;
 	double	MaxResult=0;
@@ -350,6 +369,7 @@ ExeResult	AlignmentBlockItem::ExecuteAlignment(int ExeID ,int ThreadNo,ResultInI
 		ResultRadian=MaxR->Radian;
 		ResultDx	=MaxR->ResultDx;
 		ResultDy	=MaxR->ResultDy;
+		EffectiveResult=true;
 		SetCalcDone(true);
 	}
 	Res->SetAlignedXY(ResultDx,ResultDy);

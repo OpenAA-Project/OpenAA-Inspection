@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2025
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -236,9 +236,8 @@ MakeAverageImageInPage::~MakeAverageImageInPage(void)
 		ALayerImages[i]=NULL;
 	}
 }
-ExeResult	MakeAverageImageInPage::ExecuteInitialAfterEdit	(int ExeID
-															,ResultInPageRoot *Res
-															,ExecuteInitialAfterEditInfo &EInfo)
+
+void	MakeAverageImageInPage::AllocateALayerImages(void)
 {
 	if(AllocatedLayers!=GetLayerNumb()){
 		for(int i=0;i<AllocatedLayers;i++){
@@ -253,6 +252,13 @@ ExeResult	MakeAverageImageInPage::ExecuteInitialAfterEdit	(int ExeID
 	for(int i=0;i<AllocatedLayers;i++){
 		ALayerImages[i]->AllocateMemory();
 	}
+}
+
+ExeResult	MakeAverageImageInPage::ExecuteInitialAfterEdit	(int ExeID
+															,ResultInPageRoot *Res
+															,ExecuteInitialAfterEditInfo &EInfo)
+{
+	AllocateALayerImages();
 	//ResetAverage();
 
 	ConstMapBufferListContainer MaskMap;
@@ -646,7 +652,9 @@ ConstMapBuffer	*MakeAverageImageInPage::CreateReflectionMapForGenerator(Reflecti
 		int	iYLen	=GetMaxLines();
 		ConstMapBuffer	*Dst=new ConstMapBuffer(GetDotPerLine() ,GetMaxLines(),MapBufferBase::_ByteMap);
 		MatrixBuffClear	((BYTE **)Dst->GetBitMap() ,0 ,iXLen,iYLen);
-		ALayerImages[layer]->MakeVariable((BYTE **)Dst->GetBitMap() ,UsageAreaContainer,iXLen,iYLen);
+		if(0<=layer && layer<AllocatedLayers){
+			ALayerImages[layer]->MakeVariable((BYTE **)Dst->GetBitMap() ,UsageAreaContainer,iXLen,iYLen);
+		}
 		return Dst;
 	}
 	return NULL;
@@ -665,7 +673,9 @@ ConstMapBuffer	*MakeAverageImageInPage::CreateReflectionMapForGenerator(Reflecti
 		int	iXLen	=GetDotPerLine();
 		int	iYLen	=GetMaxLines();
 		MatrixBuffClear	((BYTE **)Dst->GetBitMap() ,0 ,iXLen,iYLen);
-		ALayerImages[layer]->MakeVariable((BYTE **)Dst->GetBitMap() ,UsageAreaContainer,iXLen,iYLen);
+		if(0<=layer && layer<AllocatedLayers){
+			ALayerImages[layer]->MakeVariable((BYTE **)Dst->GetBitMap() ,UsageAreaContainer,iXLen,iYLen);
+		}
 		return Dst;
 	}
 	return NULL;
@@ -684,6 +694,7 @@ bool    MakeAverageImageInPage::Save(QIODevice *f)
 		return false;
 	if(::Save(f,AllocatedLayers)==false)
 		return false;
+
 	for(int i=0;i<AllocatedLayers;i++){
 		if(ALayerImages[i]->Save(f)==false)
 			return false;
@@ -860,5 +871,5 @@ void	MakeAverageImageBase::TransmitDirectly(GUIDirectMessage *packet)
 }
 QString	MakeAverageImageBase::GetNameByCurrentLanguage(void)
 {
-	return LangSolver.GetString(XMakeAverageImage_LS,LID_7)/*"蟷ｳ蝮�喧蜃ｦ逅�*/;
+	return LangSolver.GetString(XMakeAverageImage_LS,LID_7)/*"蟷ｳ蝮?喧蜃ｦ逅?*/;
 }

@@ -90,7 +90,7 @@ void	StartCaptureButton::SlotToggled (bool checked)
 		IntList		SList;
 		//GetParamGlobal()->GetStrategy(CStrategic,SList);
 		GetParamGlobal()->GetStrategyPage (CStrategic ,SList);
-		if(GetParamGlobal()->GetMaxScanStrategy()<=1 || CStrategic==0){
+		if(GetParamGlobal()->GetMaxStrategyCount()<=1 || CStrategic==0){
 			GetLayersBase()->ExecuteStartByScanOnly(GetLayersBase()->GetEntryPoint());
 		}
 

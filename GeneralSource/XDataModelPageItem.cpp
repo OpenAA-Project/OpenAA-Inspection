@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2025
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -3276,16 +3276,10 @@ ExeResult	AlgorithmInPagePI::FuncExecuteInitialAfterEditPrev(int ExeID ,ResultIn
 					AlgorithmItemPI	*c=C[i];
 					ExeResult	RR=c->ExecuteInitialAfterEditPrev(ExeID ,0,c->GetCurrentResult(),EInfo);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -3398,16 +3392,10 @@ ExeResult	AlgorithmInPagePI::FuncExecuteInitialAfterEdit(int ExeID ,ResultInPage
 					AlgorithmItemPI	*c=C[i];
 					ExeResult	RR=c->ExecuteInitialAfterEdit(ExeID ,0,c->GetCurrentResult(),EInfo);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -3527,16 +3515,10 @@ ExeResult	AlgorithmInPagePI::FuncExecuteInitialAfterEditPost(int ExeID ,ResultIn
 					AlgorithmItemPI	*c=C[i];
 					ExeResult	RR=c->ExecuteInitialAfterEditPost(ExeID ,0,c->GetCurrentResult(),EInfo);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else if(RR!=_ER_true){
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -3622,16 +3604,10 @@ ExeResult	AlgorithmInPagePI::FuncExecuteStartByInspection(int ExeID ,ResultInPag
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecuteStartByInspection(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else if(RR!=_ER_true){
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -3701,16 +3677,10 @@ ExeResult	AlgorithmInPagePI::FuncExecuteCaptured(int ExeID ,ResultInPageRoot *R,
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecuteCaptured(ExeID,CapturedList);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else if(RR!=_ER_true){
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -3780,16 +3750,10 @@ ExeResult	AlgorithmInPagePI::FuncExecutePreAlignment	(int ExeID ,ResultInPageRoo
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecutePreAlignment(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else if(RR!=_ER_true){
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -3857,16 +3821,10 @@ ExeResult	AlgorithmInPagePI::FuncExecuteAlignment		(int ExeID ,ResultInPageRoot 
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecuteAlignment(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else if(RR!=_ER_true){
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -3934,16 +3892,10 @@ ExeResult	AlgorithmInPagePI::FuncExecutePreProcessing	(int ExeID ,ResultInPageRo
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecutePreProcessing(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else if(RR!=_ER_true){
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -4018,16 +3970,10 @@ ExeResult	AlgorithmInPagePI::FuncExecuteProcessing	(int ExeID ,ResultInPageRoot 
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecuteProcessing(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else if(RR!=_ER_true){
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -4118,7 +4064,6 @@ ExeResult	AlgorithmInPagePI::FuncExecuteProcessingRevived	(int ExeID ,ResultInPa
 		n++;
 	}
 
-	//�摜���؂��ւ��邽�߁AOpenMP�ɂł��Ȃ�
 	DWORD	StartMilisec=GetLayersBase()->GetStartInspectionTimeMilisec();
 	int		MaxInspectMilisec=GetParamGlobal()->MaxInspectMilisec;
 
@@ -4167,16 +4112,10 @@ ExeResult	AlgorithmInPagePI::FuncExecutePostProcessing	(int ExeID ,ResultInPageR
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecutePostProcessing(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
 							RetryMode=true;
-						}
 					}
 					else{
-						#pragma omp critical
-						{
 							Ret=RR;
-						}
 					}
 				}
 			}
@@ -4241,16 +4180,10 @@ ExeResult	AlgorithmInPagePI::FuncExecutePreScanning	(int ExeID ,ResultInPageRoot
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecutePreScanning(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -4315,16 +4248,10 @@ ExeResult	AlgorithmInPagePI::FuncExecuteScanning	(int ExeID ,ResultInPageRoot *R
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecuteScanning(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}
@@ -4389,16 +4316,10 @@ ExeResult	AlgorithmInPagePI::FuncExecutePostScanning	(int ExeID ,ResultInPageRoo
 				for(int i=0;i<ThreadNumb;i++){
 					ExeResult	RR=CalcThreadDim[i].ExecutePostScanning(ExeID);
 					if(RR==_ER_ReqRetryLater){
-						#pragma omp critical
-						{
-							RetryMode=true;
-						}
+						RetryMode=true;
 					}
 					else{
-						#pragma omp critical
-						{
-							Ret=RR;
-						}
+						Ret=RR;
 					}
 				}
 			}

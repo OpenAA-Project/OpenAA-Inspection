@@ -480,7 +480,7 @@ bool	RWExecuteCamera::CaptureGetMasterImage(int CStrategic,ListPhasePageLayerPac
 	GetLayersBase()->GetCurrentPhaseFromScanPhase(PhaseCodes);
 	int	CPhase=PhaseCodes[0];
 
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		if(IsLocalCamera()==true){
 			for(int page=0;page<GetPageNumb();page++){
 				DataInPage	*P=GetLayersBase()->GetPageDataPhase(CPhase)->GetPageData(page);
@@ -630,7 +630,7 @@ bool	RWExecuteCamera::CaptureGetTargetImage(ListPhasePageLayerPack &CapturedList
 	int	CPhase=PhaseCodes[0];
 
 	CurrentCapturedPageLayer.RemoveAll();
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		if(IsLocalCamera()==true){
 			int	N=GetPageNumb();
 			if(N==1){
@@ -672,7 +672,7 @@ bool	RWExecuteCamera::CaptureGetTargetImage(ListPhasePageLayerPack &CapturedList
 				}
 			}
 			else{
-				if(GetParamGlobal()->GetMaxScanStrategy()==1 && GetPageNumb()>AllocatedCamNumb){						
+				if(GetParamGlobal()->GetMaxStrategyCount()==1 && GetPageNumb()>AllocatedCamNumb){						
 					for(int CamNo=0;CamNo<AllocatedCamNumb;CamNo++){
 						int			BuffNumb=0;
 						ImageBuffer	*Buff[1000];
@@ -1192,9 +1192,9 @@ IdleTurn:;
 				if(Layer->GetParamGlobal()->CaptureInBackground==true && Layer->GetOnTerminating()==false){
 					if(GetParamGlobal()->WaitMilisecAfterScan==0){
 						if(GetAutoRepeat()==_AutoCaptureInspect
-						|| GetParamGlobal()->GetMaxScanStrategy()>(Layer->GetCurrentStrategicNumberForCalc()+2)
+						|| GetParamGlobal()->GetMaxStrategyCount()>(Layer->GetCurrentStrategicNumberForCalc()+2)
 						|| (IsLocalCamera()==true && GetParamGlobal()->UnconditionalCaptureBackground==true)
-						|| (GetParamGlobal()->GetMaxScanStrategy()<=1 && GetEntryPoint()->IsMasterPC()==false)){
+						|| (GetParamGlobal()->GetMaxStrategyCount()<=1 && GetEntryPoint()->IsMasterPC()==false)){
 							TriggeredCapture=true;
 							TrunStartStarted2++;
 							CapturePrepare();
@@ -1229,14 +1229,14 @@ IdleTurn:;
 					int	tCurrentScanPhaseNumber=Layer->GetCurrentScanPhaseNumber();
 					int	NextCurrentScanPhaseNumber=Layer->GetCurrentScanPhaseNumber();
 					if(GetParamGlobal()->AutoIncrementScanPhaseNumber==true){
-						if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+						if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 							NextCurrentScanPhaseNumber++;
 							if(NextCurrentScanPhaseNumber>=Layer->GetPhaseNumb()){
 								NextCurrentScanPhaseNumber=0;
 							}
 						}
 						else{
-							if((Layer->GetCurrentStrategicNumber()+1)>=GetParamGlobal()->GetMaxScanStrategy()){
+							if((Layer->GetCurrentStrategicNumber()+1)>=GetParamGlobal()->GetMaxStrategyCount()){
 								NextCurrentScanPhaseNumber++;
 								if(NextCurrentScanPhaseNumber>=Layer->GetPhaseNumb()){
 									NextCurrentScanPhaseNumber=0;
@@ -1248,8 +1248,8 @@ IdleTurn:;
 									
 					int	CStrNumber=Layer->GetCurrentStrategicNumber();
 					DWORD	StartCalcTime=GetComputerMiliSec();
-					if(GetParamGlobal()->GetMaxScanStrategy()<=1 
-					|| GetParamGlobal()->GetMaxScanStrategy()<=(Layer->GetCurrentStrategicNumberForCalc()+1)){
+					if(GetParamGlobal()->GetMaxStrategyCount()<=1 
+					|| GetParamGlobal()->GetMaxStrategyCount()<=(Layer->GetCurrentStrategicNumberForCalc()+1)){
 						Layer->SetLatchedInspectionNumber(Layer->GetInspectionNumber());
 					}
 					if(GetParamComm()->Mastered==true && GetAutoRepeat()==_AutoCaptureInspect){
@@ -1337,8 +1337,8 @@ IdleTurn:;
 							}
 						}
 
-						if(GetParamGlobal()->GetMaxScanStrategy()>1){
-							if(GetParamGlobal()->GetMaxScanStrategy()>(CStrNumber+1)){
+						if(GetParamGlobal()->GetMaxStrategyCount()>1){
+							if(GetParamGlobal()->GetMaxStrategyCount()>(CStrNumber+1)){
 								Layer->IncreaseCurrentStrategicNumber();
 								Layer->SetCurrentStrategicNumberForSeq(CStrNumber+1);
 							}
@@ -1398,14 +1398,14 @@ IdleTurn:;
 					int	tCurrentScanPhaseNumber=Layer->GetCurrentScanPhaseNumber();
 					int	NextCurrentScanPhaseNumber=Layer->GetCurrentScanPhaseNumber();
 					if(GetParamGlobal()->AutoIncrementScanPhaseNumber==true){
-						if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+						if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 							NextCurrentScanPhaseNumber++;
 							if(NextCurrentScanPhaseNumber>=Layer->GetPhaseNumb()){
 								NextCurrentScanPhaseNumber=0;
 							}
 						}
 						else{
-							if((Layer->GetCurrentStrategicNumber()+1)>=GetParamGlobal()->GetMaxScanStrategy()){
+							if((Layer->GetCurrentStrategicNumber()+1)>=GetParamGlobal()->GetMaxStrategyCount()){
 								NextCurrentScanPhaseNumber++;
 								if(NextCurrentScanPhaseNumber>=Layer->GetPhaseNumb()){
 									NextCurrentScanPhaseNumber=0;
@@ -1419,8 +1419,8 @@ IdleTurn:;
 									
 					int	CStrNumber=Layer->GetCurrentStrategicNumber();
 					DWORD	StartCalcTime=GetComputerMiliSec();
-					if(GetParamGlobal()->GetMaxScanStrategy()<=1 
-					|| GetParamGlobal()->GetMaxScanStrategy()<=(Layer->GetCurrentStrategicNumberForCalc()+1)){
+					if(GetParamGlobal()->GetMaxStrategyCount()<=1 
+					|| GetParamGlobal()->GetMaxStrategyCount()<=(Layer->GetCurrentStrategicNumberForCalc()+1)){
 						Layer->SetLatchedInspectionNumber(Layer->GetInspectionNumber());
 					}
 					if(GetParamComm()->Mastered==true && GetAutoRepeat()==_AutoCaptureInspect){
@@ -1491,8 +1491,8 @@ IdleTurn:;
 							}
 						}
 
-						if(GetParamGlobal()->GetMaxScanStrategy()>1){
-							if(GetParamGlobal()->GetMaxScanStrategy()>(CStrNumber+1)){
+						if(GetParamGlobal()->GetMaxStrategyCount()>1){
+							if(GetParamGlobal()->GetMaxStrategyCount()>(CStrNumber+1)){
 								Layer->IncreaseCurrentStrategicNumber();
 								Layer->SetCurrentStrategicNumberForSeq(CStrNumber+1);
 							}
@@ -1535,7 +1535,7 @@ void	RWExecuteCamera::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhaseNu
 		DataInExecuter	*Re=GetLayersBase()->GetExecuter(&Res);
 		ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 		
-		if(GetLayersBase()->GetCurrentStrategicNumber()>=(GetParamGlobal()->GetMaxScanStrategy()-1)
+		if(GetLayersBase()->GetCurrentStrategicNumber()>=(GetParamGlobal()->GetMaxStrategyCount()-1)
 		&& GetLayersBase()->GetCurrentPhase()>=(GetLayersBase()->GetPhaseNumb()-1)){
 			IntList PageList;
 			GetParamGlobal()->GetStrategyPage(nStrategicNumber,PageList);
@@ -1560,7 +1560,7 @@ void	RWExecuteCamera::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhaseNu
 			DataInExecuter	*Re=GetLayersBase()->GetExecuter(&Res);
 			ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 			
-			if(GetParamGlobal()->GetMaxScanStrategy()>1){
+			if(GetParamGlobal()->GetMaxStrategyCount()>1){
 				IntList PageList;
 				GetParamGlobal()->GetStrategyPage(nStrategicNumber,PageList);
 				for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -1584,7 +1584,7 @@ void	RWExecuteCamera::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhaseNu
 				DataInExecuter	*Re=GetLayersBase()->GetExecuter(Res);
 				ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-				if(GetParamGlobal()->GetMaxScanStrategy()>1){
+				if(GetParamGlobal()->GetMaxStrategyCount()>1){
 					IntList PageList;
 					GetParamGlobal()->GetStrategyPage(nStrategicNumber,PageList);
 					for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -1611,7 +1611,7 @@ void	RWExecuteCamera::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhaseNu
 				DataInExecuter	*Re=GetLayersBase()->GetExecuter(&Res);
 				ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-				if(GetParamGlobal()->GetMaxScanStrategy()>1){
+				if(GetParamGlobal()->GetMaxStrategyCount()>1){
 					IntList PageList;
 					GetParamGlobal()->GetStrategyPage(nStrategicNumber,PageList);
 					for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -1635,7 +1635,7 @@ void	RWExecuteCamera::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhaseNu
 					DataInExecuter	*Re=GetLayersBase()->GetExecuter(Res);
 					ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-					if(GetParamGlobal()->GetMaxScanStrategy()>1){
+					if(GetParamGlobal()->GetMaxStrategyCount()>1){
 						IntList PageList;
 						GetParamGlobal()->GetStrategyPage(nStrategicNumber,PageList);
 						for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -1662,7 +1662,7 @@ void	RWExecuteCamera::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhaseNu
 			DataInExecuter	*Re=GetLayersBase()->GetExecuter(&Res);
 			ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-			if(GetParamGlobal()->GetMaxScanStrategy()>1){
+			if(GetParamGlobal()->GetMaxStrategyCount()>1){
 				IntList PageList;
 				GetParamGlobal()->GetStrategyPage(nStrategicNumber,PageList);
 				for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -1686,7 +1686,7 @@ void	RWExecuteCamera::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhaseNu
 				DataInExecuter	*Re=GetLayersBase()->GetExecuter(Res);
 				ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-				if(GetParamGlobal()->GetMaxScanStrategy()>1){
+				if(GetParamGlobal()->GetMaxStrategyCount()>1){
 					IntList PageList;
 					GetParamGlobal()->GetStrategyPage(nStrategicNumber,PageList);
 					for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -1714,7 +1714,7 @@ void	RWExecuteCamera::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhaseNu
 				DataInExecuter	*Re=GetLayersBase()->GetExecuter(&Res);
 				ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-				if(GetParamGlobal()->GetMaxScanStrategy()>1){
+				if(GetParamGlobal()->GetMaxStrategyCount()>1){
 					IntList PageList;
 					GetParamGlobal()->GetStrategyPage(nStrategicNumber,PageList);
 					for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -1738,7 +1738,7 @@ void	RWExecuteCamera::EmitCalcDone(ResultInspection &Res,int tCurrentScanPhaseNu
 					DataInExecuter	*Re=GetLayersBase()->GetExecuter(Res);
 					ExecuteInspectBase	*EPBase=GetEntryPoint()->GetExecuteInspect();
 
-					if(GetParamGlobal()->GetMaxScanStrategy()>1){
+					if(GetParamGlobal()->GetMaxStrategyCount()>1){
 						IntList PageList;
 						GetParamGlobal()->GetStrategyPage(nStrategicNumber,PageList);
 						for(IntClass *s=PageList.GetFirst();s!=NULL;s=s->GetNext()){
@@ -1797,7 +1797,7 @@ void	RWExecuteCamera::FinishInspection(ResultInspection *Res ,int32 CurrentStrat
 	//if(Re->IsAllFinishedResultReceiving()==true){
 		LastStartTimeForInspection=Res->GetStartTimeForInspection();
 
-		if(GetParamGlobal()->GetMaxScanStrategy()<=1 && GetPageNumb()==1){
+		if(GetParamGlobal()->GetMaxStrategyCount()<=1 && GetPageNumb()==1){
 			L->SetLatchedInspectionNumber(GetLayersBase()->GetInspectionNumber());
 		}
 		EP->StackedCountInAutoMode--;
@@ -1805,9 +1805,9 @@ void	RWExecuteCamera::FinishInspection(ResultInspection *Res ,int32 CurrentStrat
 
 		//����������
 
-		if(L->GetParamGlobal()->GetMaxScanStrategy()<=1
-		|| (GetParamGlobal()->BufferedProcessing==false && GetParamGlobal()->GetMaxScanStrategy()<=(StrategicNumber+1))
-		|| (L->GetParamGlobal()->GetMaxScanStrategy()>1 && GetParamGlobal()->BufferedProcessing==true)){
+		if(L->GetParamGlobal()->GetMaxStrategyCount()<=1
+		|| (GetParamGlobal()->BufferedProcessing==false && GetParamGlobal()->GetMaxStrategyCount()<=(StrategicNumber+1))
+		|| (L->GetParamGlobal()->GetMaxStrategyCount()>1 && GetParamGlobal()->BufferedProcessing==true)){
 
 			Cn=::GetComputerMiliSec();
 			MiliSecTable[0]=Cn-C;
@@ -1962,7 +1962,7 @@ void	RWExecuteCamera::PreFinishInspection(ResultInspection *Res ,int32 CurrentSt
 	//if(Re->IsAllFinishedResultReceiving()==true){
 		LastStartTimeForInspection=Res->GetStartTimeForInspection();
 
-		if(GetParamGlobal()->GetMaxScanStrategy()<=1 && GetPageNumb()==1){
+		if(GetParamGlobal()->GetMaxStrategyCount()<=1 && GetPageNumb()==1){
 			L->SetLatchedInspectionNumber(GetLayersBase()->GetInspectionNumber());
 		}
 		EP->StackedCountInAutoMode--;
@@ -1970,9 +1970,9 @@ void	RWExecuteCamera::PreFinishInspection(ResultInspection *Res ,int32 CurrentSt
 
 		//����������
 
-		if(L->GetParamGlobal()->GetMaxScanStrategy()<=1
-		|| (GetParamGlobal()->BufferedProcessing==false && GetParamGlobal()->GetMaxScanStrategy()<=(StrategicNumber+1))
-		|| (L->GetParamGlobal()->GetMaxScanStrategy()>1 && GetParamGlobal()->BufferedProcessing==true)){
+		if(L->GetParamGlobal()->GetMaxStrategyCount()<=1
+		|| (GetParamGlobal()->BufferedProcessing==false && GetParamGlobal()->GetMaxStrategyCount()<=(StrategicNumber+1))
+		|| (L->GetParamGlobal()->GetMaxStrategyCount()>1 && GetParamGlobal()->BufferedProcessing==true)){
 
 			ResultPkNgPacket	ResultPacket(GetLayersBase());
 

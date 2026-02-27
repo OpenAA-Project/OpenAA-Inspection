@@ -1513,7 +1513,7 @@ int		NamingBase::GetMaxGroupID(void)
 ExeResult	NamingBase::ExecuteManageResult		(int ExeID ,ResultInspection *Res)
 {
 	if(BindResultByArea==true){
-		if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+		if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 			for(int page=0;page<GetPageNumb();page++){
 				ExecuteManageResultOnPage(ExeID ,Res  ,page);
 			}

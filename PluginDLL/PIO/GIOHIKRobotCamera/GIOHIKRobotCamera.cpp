@@ -27,6 +27,7 @@
 #include "XEntryPoint.h"
 #include "CameraMVSGigECommon.h"
 #include "XCameraClass.h"
+#include "XGeneralFunc.h"
 
 //static short Id;
 
@@ -34,6 +35,7 @@ GIOHIKRobotCamera::GIOHIKRobotCamera(LayersBase *base)
 	:ServiceForLayers(base)
 {
 	HIKRobotCamera = nullptr;
+	Socket		=NULL;
 	DeviceNo	=0;
 }
 void	GIOHIKRobotCamera::AfterStartSequence(void)
@@ -44,11 +46,89 @@ void	GIOHIKRobotCamera::AfterStartSequence(void)
 			CameraClass *Cam=E->GetCamera(DeviceNo);
 			if(Cam!=nullptr){
 				HIKRobotCamera=Cam;
+				return;
+			}
+		}
+	}
+	Socket = new QLocalSocket(this);
+	connect(Socket,SIGNAL(readyRead()),this,SLOT(SlotReadyRead()));
+	Socket->connectToServer(QString("CameraMVSGigE%1").arg(DeviceNo),QIODevice::ReadWrite);
+}
+
+void    GIOHIKRobotCamera::SlotReadyRead()
+{
+    if(Socket!=NULL){
+        QByteArray Data=Socket->readAll();
+        if(Data.size()>0){
+            QString StrData=QString::fromUtf8(Data);
+			if(StrData=="T"){
+				InLine0=true3;
+			}
+			else if(StrData=="F"){
+				InLine0 = false3;
 			}
 		}
 	}
 }
 
+bool	GIOHIKRobotCamera::GetBitBySocket(void)
+{
+	//InLine0=none3;
+    if(Socket!=NULL){
+		Socket->write("R");
+		Socket->flush();
+		//if(Socket->waitForReadyRead(1000)){
+			if(InLine0==true3){
+				GSleep(20);
+				return true;
+			}
+			else
+			if(InLine0==false3){
+				GSleep(20);
+				return false;
+			}
+		//}
+	}
+	return false;
+}
+
+
+BYTE	GIOHIKRobotCamera::GetByteBySocket(void)
+{
+	//InLine0=none3;
+    if(Socket!=NULL){
+		Socket->write("R");
+		Socket->flush();
+		//if(Socket->waitForReadyRead(1000)){
+			if(InLine0==true3){
+				GSleep(20);
+				return 1;
+			}
+			else
+			if(InLine0==false3){
+				GSleep(20);
+				return 0;
+			}
+		//}
+	}
+	return 0;
+}
+BYTE	GIOHIKRobotCamera::SetByteBySocket(BYTE data)
+{
+	InLine0=none3;
+    if(Socket!=NULL){
+		if(data!=0){
+			Socket->write("ST");
+			Socket->flush();
+		}
+		else{
+			Socket->write("SF");
+			Socket->flush();
+		}
+		GSleep(20);
+	}
+	return data;
+}
 
 IO_DLLFUNC WORD	DLL_GetDLLType(void)
 {
@@ -95,15 +175,11 @@ bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 	return(true);
 }
 
-PIODLLBaseClass  _cdecl *AIP_IO_Open(QWidget *mainW,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	long Ret;
-	GUIFormBase *MainForm = dynamic_cast<GUIFormBase *>(mainW);
-	if(MainForm==NULL){
-		return NULL;
-	}
-	GIOHIKRobotCamera *GIO = new GIOHIKRobotCamera(MainForm->GetLayersBase());
 
+	GIOHIKRobotCamera *GIO = new GIOHIKRobotCamera(Base);
 	GIO->DeviceNo =boardNumber;
 
 	return(GIO);
@@ -113,20 +189,40 @@ BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIn
 {
 	GIOHIKRobotCamera *Handle = dynamic_cast<GIOHIKRobotCamera *>(handle);
 	if(Handle!=NULL){
-		CmdInputHIKRobotCamera	RCmd(Handle->GetLayersBase());
-		Handle->HIKRobotCamera->TransmitDirectly(&RCmd);
-		return RCmd.Line0;
+		if(Handle->HIKRobotCamera!=NULL){
+			CmdInputHIKRobotCamera	RCmd(Handle->GetLayersBase());
+			Handle->LockCommand.lock();
+			Handle->HIKRobotCamera->TransmitDirectly(&RCmd);
+			Handle->LockCommand.unlock();
+			return (RCmd.Line0==true)?1:0;
+		}
+		else{
+			Handle->LockCommand.lock();
+			bool	b=Handle->GetBitBySocket();
+			Handle->LockCommand.unlock();
+			return (b==true)?1:0;
+		}
 	}
-	return false;
+	return 0;
 }
 
 BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	GIOHIKRobotCamera *Handle = dynamic_cast<GIOHIKRobotCamera *>(handle);
 	if(Handle!=NULL){
-		CmdInputHIKRobotCamera	RCmd(Handle->GetLayersBase());
-		Handle->HIKRobotCamera->TransmitDirectly(&RCmd);
-		return (RCmd.Line0==true)?1:0;
+		if(Handle->HIKRobotCamera!=NULL){
+			CmdInputHIKRobotCamera	RCmd(Handle->GetLayersBase());
+			Handle->LockCommand.lock();
+			Handle->HIKRobotCamera->TransmitDirectly(&RCmd);
+			Handle->LockCommand.unlock();
+			return (RCmd.Line0==true)?1:0;
+		}
+		else{
+			Handle->LockCommand.lock();
+			BYTE	d=Handle->GetByteBySocket();
+			Handle->LockCommand.unlock();
+			return d;
+		}
 	}
 	return 0;
 }
@@ -135,12 +231,22 @@ BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byte
 {
 	GIOHIKRobotCamera *Handle = dynamic_cast<GIOHIKRobotCamera *>(handle);
 	if(Handle!=NULL){
-		CmdOutputHIKRobotCamera	RCmd(Handle->GetLayersBase());
-		RCmd.Line1 = (data!=0)?true:false;
-		Handle->HIKRobotCamera->TransmitDirectly(&RCmd);
-		return data;
+		if(Handle->HIKRobotCamera!=NULL){
+			CmdOutputHIKRobotCamera	RCmd(Handle->GetLayersBase());
+			RCmd.Line1 = (data!=0)?true:false;
+			Handle->LockCommand.lock();
+			Handle->HIKRobotCamera->TransmitDirectly(&RCmd);
+			Handle->LockCommand.unlock();
+			return data;
+		}
+		else{
+			Handle->LockCommand.lock();
+			Handle->SetByteBySocket(data);
+			Handle->LockCommand.unlock();
+			return data;
+		}
 	}
-	return data;
+	return 0;
 }
 
 bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)

@@ -36,6 +36,19 @@ int main(int argc, char *argv[])
 {
 	if(CheckExeVersion(argc, argv)==false)
 		return 1;
+	char	TBuff[256];
+	strcpy(TBuff,"-platformpluginpath");
+	argv[argc] = TBuff;
+	argc++;
+
+	char	CurrentBuff[256];
+	strcpy(CurrentBuff,(char *)QDir::currentPath().toStdString().c_str());
+	argv[argc] = CurrentBuff;	
+	argc++;
+	
+	QCoreApplication::addLibraryPath(CurrentBuff);
+	QString	AddedLibPath = QString(CurrentBuff)+QString("/plugins");
+	QCoreApplication::addLibraryPath(AddedLibPath);
 
 	QApplication a(argc, argv);
 	QString		AbsPath;

@@ -103,6 +103,10 @@ CameraMVSGigE::CameraMVSGigE(int CamNo ,const QString &ParamStr,LayersBase *base
     RGBBuff =NULL;
     XLen    =0;
     YLen    =0;
+    LocalSocket=NULL;
+
+	connect(&LocalServer,&QLocalServer::newConnection,this,&CameraMVSGigE::SlotNewConnection);
+	LocalServer.listen(QString("CameraMVSGigE%1").arg(CamNo));
 }
 CameraMVSGigE::~CameraMVSGigE(void)
 {
@@ -214,6 +218,38 @@ bool    CameraMVSGigE::Initial(void)
 
 	return true;
 }
+
+void    CameraMVSGigE::SlotNewConnection()
+{
+    LocalSocket=LocalServer.nextPendingConnection();
+    connect(LocalSocket,&QLocalSocket::readyRead,this,&CameraMVSGigE::SlotReadLocalSocket);
+    connect(LocalSocket,&QLocalSocket::disconnected,LocalSocket,&QLocalSocket::deleteLater);
+}
+
+void    CameraMVSGigE::SlotReadLocalSocket()
+{
+    if(LocalSocket!=NULL){
+        QByteArray Data=LocalSocket->readAll();
+        if(Data.size()>0){
+            QString StrData=QString::fromUtf8(Data);
+            if(StrData=="R"){
+                bool    B=GetLine0();
+                if(B==true)
+                    LocalSocket->write("T");
+                else
+                    LocalSocket->write("F");
+                LocalSocket->flush();
+            }
+            else if(StrData=="ST"){
+                SetLine1(true);
+			}
+            else if(StrData=="SF"){
+                SetLine1(false);
+			}
+        }
+    }
+}
+
 static  void    FuncCameraOutput(unsigned char * pData, MV_FRAME_OUT_INFO_EX* pFrameInfo, void* pUser)
 {
     CameraMVSGigE  *Handle=(CameraMVSGigE *)pUser;
@@ -378,12 +414,20 @@ bool	CameraMVSGigE::StartCaptureContinuously(ImageBuffer *Buff[],int BufferDimCo
 }
 void	CameraMVSGigE::GetImage(ImageBuffer *Buff[3] ,int LayerNumb)
 {
-    //CamBufferStack		*p=CamBuffDim[CamBuffRPoint];
-    CamBufferStack		*p=CamBuffDim[CamBuffRPoint];
-               
-    MV_CC_PIXEL_CONVERT_PARAM_EX stConvertParam = {0};
-       
     MutexImageSize.lock();
+
+    int iCamBuffWPoint=CamBuffWPoint-1;
+    if(iCamBuffWPoint<0){
+        iCamBuffWPoint=MaxCountCamBufferStack-1;
+    }
+    if(CamBuffRPoint!=iCamBuffWPoint){
+        CamBuffRPoint=iCamBuffWPoint;
+        CamBuffStockedCount=0;
+    }
+
+    CamBufferStack		*p=CamBuffDim[CamBuffRPoint];
+
+    MV_CC_PIXEL_CONVERT_PARAM_EX stConvertParam = {0};       
 
     if(LayerNumb==3){
         stConvertParam.nWidth   = p->XLen;                 //ch:图像宽 | en:image width
@@ -800,36 +844,43 @@ bool	CameraMVSGigE::GetEnumSymblic (const char* strKey ,int EnumValue ,QString &
 
 bool    CameraMVSGigE::SetBinningDecimation(void)
 {
+    bool    Ret=true;
     bool    IsGrabbing=Cam.IsGrabbing();
     if(IsGrabbing==true){
         Cam.StopGrabbing();
     }
-    int Ret;
-    Ret=Cam.SetIntValue("BinningHorizontal", BinningHMode);
-    if(Ret!=MV_OK){
-        return true;
+    int nRet;
+    nRet=Cam.SetIntValue("BinningHorizontal", BinningHMode);
+    if(nRet!=MV_OK){
+        Ret=false;
+        goto    EndBinning;
     }
-    Ret=Cam.SetIntValue("BinningVertical", BinningVMode);
-    if(Ret!=MV_OK){
-        return true;
+    nRet=Cam.SetIntValue("BinningVertical", BinningVMode);
+    if(nRet!=MV_OK){
+        Ret=false;
+        goto    EndBinning;
     }
-    Ret=Cam.SetIntValue("DecimationHorizontal", DecimationH);
-    if(Ret!=MV_OK){
-        return true;
+    nRet=Cam.SetIntValue("DecimationHorizontal", DecimationH);
+    if(nRet!=MV_OK){
+        Ret=false;
+        goto    EndBinning;
     }
-    Ret=Cam.SetIntValue("DecimationVertical", DecimationV);
-    if(Ret!=MV_OK){
-        return true;
+    nRet=Cam.SetIntValue("DecimationVertical", DecimationV);
+    if(nRet!=MV_OK){
+        Ret=false;
+        goto    EndBinning;
     }
     int     Width ,Height;
-    Ret=Cam.GetResolution(Width ,Height);
-    if (MV_OK == Ret){
+    nRet=Cam.GetResolution(Width ,Height);
+    if (MV_OK == nRet){
         ChangeInfo(Width ,Height);
     }
+EndBinning:;
 
     if(IsGrabbing==true){
         Cam.StartGrabbing();
     }
+    return Ret;
 }
 
     
@@ -840,12 +891,12 @@ bool    CameraMVSGigE::SetReverse(void)
     nRet = Cam.SetBoolValue("ReverseX", ReverseX);
     if (MV_OK != nRet)
     {
-        return nRet;
+        return false;
     }
     nRet = Cam.SetBoolValue("ReverseY", ReverseY);
     if (MV_OK != nRet)
     {
-        return nRet;
+        return false;
     }
     return true;
 }

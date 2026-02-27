@@ -3183,7 +3183,7 @@ void	DataInPage::SetCalcDone(bool calcdone)
 
 void	DataInPage::CopyTargetImageToRaw(void)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int Layer=0;Layer<GetLayerNumb();Layer++){
 			GetLayerData(Layer)->CopyTargetImageToRaw();
 		}
@@ -3201,7 +3201,7 @@ void	DataInPage::CopyTargetImageToRaw(void)
 }
 void	DataInPage::CopyTargetToTransposition(void)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int Layer=0;Layer<GetLayerNumb();Layer++){
 			GetLayerData(Layer)->CopyTargetToTransposition();
 		}
@@ -3219,7 +3219,7 @@ void	DataInPage::CopyTargetToTransposition(void)
 }
 void	DataInPage::CopyTargetToCameraBuff(void)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int Layer=0;Layer<GetLayerNumb();Layer++){
 			GetLayerData(Layer)->CopyTargetToCameraBuff();
 		}
@@ -3238,7 +3238,7 @@ void	DataInPage::CopyTargetToCameraBuff(void)
 
 void	DataInPage::CopyBitBuffToTransposition(void)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int Layer=0;Layer<GetLayerNumb();Layer++){
 			GetLayerData(Layer)->CopyBitBuffToTransposition();
 		}
@@ -3256,7 +3256,7 @@ void	DataInPage::CopyBitBuffToTransposition(void)
 }
 void	DataInPage::CopyTargetToTrial(void)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int Layer=0;Layer<GetLayerNumb();Layer++){
 			GetLayerData(Layer)->CopyTargetToTrial();
 		}
@@ -4553,7 +4553,7 @@ bool	PageDataInOnePhase::ExecuteFilteringTarget(LayersBase *Base)
 	ImageBuffer *IBuff[100];
 	bool	Ret=true;
 
-	if(Base->GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(Base->GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int page=0;page<GetAllocatedPageNumb();page++){
 			DataInPage	*Dp=GetPageData(page);
 			if(Dp->GetEnableCapture()==true){

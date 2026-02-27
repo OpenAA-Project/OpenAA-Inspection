@@ -29,13 +29,15 @@
     <ClCompile Include="GIOHIKRobotCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClInclude Include="GIOHIKRobotCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="GIOHIKRobotCamera.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

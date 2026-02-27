@@ -224,7 +224,7 @@ ExeResult	DataInExecuter::ExecuteStartByInspection(int ExeID)
 			LBase->GetGeneralStocker()->ExecuteStartByInspectionPrev(ExeID,CurrentResultForCalc);
 		}
 
-		if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+		if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 			if(GetParamGlobal()->ModePhaseExecuteStartByInspection==-1){
 				if(LBase->GetCurrentPhase()==0){
 					CurrentResultForCalc->ResetCalcDone();
@@ -430,7 +430,7 @@ ExeResult	DataInExecuter::ExecutePreAlignment		(int ExeID)
 
 		StartInspectionTimeMilisec=GetComputerMiliSec();
 		if(GetParamGlobal()->AllocRawTargetBuffForNGImage==true){
-			if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+			if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 				if(GetParamGlobal()->ModePhaseExecutePreAlignment==-1){
 					for(int phase=0;phase<GetPhaseNumb();phase++){
 						PageDataInOnePhase	*Ph=LBase->GetPageDataPhase(phase);
@@ -644,7 +644,7 @@ ExeResult	DataInExecuter::ExecuteProcessing		(int ExeID)
 			LBase->GetGeneralStocker()->ExecuteProcessingPrev(ExeID,CurrentResultForCalc);
 		}
 
-		if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+		if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 			PageDataInOnePhase	*Ph=LBase->GetCurrentPageDataPhase();
 			Ph->ExecuteFilterExecuteProcessing();
 			int	iPageNumb=GetPageNumb();
@@ -703,7 +703,7 @@ ExeResult	DataInExecuter::ExecuteProcessingRevived(int ExeID)
 			LBase->GetGeneralStocker()->ExecuteProcessingRevivedPrev(ExeID,CurrentResultForCalc);
 		}
 		int	iPageNumb=GetPageNumb();
-		if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+		if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 			for(int page=0;page<iPageNumb;page++){
 				DataInPage *P=LBase->GetPageData(page);
 				for(int layer=0;layer<GetLayerNumb(page);layer++){
@@ -821,8 +821,8 @@ ExeResult	DataInExecuter::ExecutePostProcessing	(int ExeID)
 		//}
 
 		if(GetParamComm()->Mastered==false){
-			if((GetParamGlobal()->GetMaxScanStrategy()<=1) 
-				|| (GetParamGlobal()->GetMaxScanStrategy()<=(LBase->GetCurrentStrategicNumberInExe()+1))){
+			if((GetParamGlobal()->GetMaxStrategyCount()<=1) 
+				|| (GetParamGlobal()->GetMaxStrategyCount()<=(LBase->GetCurrentStrategicNumberInExe()+1))){
 				if((LBase->GetCurrentScanPhaseNumber()+1)>=GetParamGlobal()->GetScanPhaseCount()){
 					PutCurrentResult();
 				}
@@ -974,7 +974,7 @@ void	DataInExecuter::InitializeState(void)
 
 void	DataInExecuter::ClearReceivedResultCounts(void)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int page=0;page<GetPageNumb();page++){
 			GetReceivedResultCounts()[page].Result= -1;
 			GetReceivedResultCounts()[page].MaxErrorBreak=false;
@@ -1006,7 +1006,7 @@ void	DataInExecuter::ClearReceivedResultCounts(void)
 
 void	DataInExecuter::SetResultReceivedFlag(int Page ,int64 resultCounts,bool TimeOutBreak,bool MaxErrorBreak)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		GetReceivedResultCounts()[Page].Result			=resultCounts;
 		GetReceivedResultCounts()[Page].MaxErrorBreak	=MaxErrorBreak	;
 		GetReceivedResultCounts()[Page].TimeOutBreak	=TimeOutBreak	;
@@ -1058,7 +1058,7 @@ bool	DataInExecuter::IsAllFinishedResultReceiving(void)
 }
 bool	DataInExecuter::IsStrategicFinishedResultReceiving(void)
 {
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int page=0;page<GetPageNumb();page++){
 			if(GetReceivedResultCounts()[page].Result==-1){
 				return false;
@@ -1089,7 +1089,7 @@ bool	DataInExecuter::IsStrategicFinishedResultReceiving(void)
 int32	DataInExecuter::GetCountOfFinishedResultReceiving(void)
 {
 	int32	Count=0;
-	if(GetParamGlobal()->GetMaxScanStrategy()<=1){
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
 		for(int page=0;page<GetPageNumb();page++){
 			if(GetReceivedResultCounts()[page].Result!=-1){
 				Count++;
