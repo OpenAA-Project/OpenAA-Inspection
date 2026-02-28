@@ -11,6 +11,7 @@ SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidge
         ExposureAuto        =Cam->ExposureAuto        ;
         ExposureMode        =Cam->ExposureMode        ;
 	    ExposureTime        =Cam->ExposureTime        ;
+		Gain                =Cam->Gain                ;
 	    GainR               =Cam->GainR               ;
         GainG               =Cam->GainG               ;
         GainB               =Cam->GainB               ;
@@ -27,9 +28,7 @@ SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidge
         ReverseTDIY         =Cam->ReverseTDIY         ;
         AOIMode             =Cam->AOIMode             ;
         AOIOffsetX          =Cam->AOIOffsetX          ;
-        AOIOffsetY          =Cam->AOIOffsetY          ;
         AOIWidth            =Cam->AOIWidth            ;
-        AOIHeight           =Cam->AOIHeight           ;
 
 	ui->lineEditDeviceName->setText(Cam->UserName);
 	ui->lineEditIPAddress->setText(Cam->IPAddress);
@@ -40,25 +39,35 @@ SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidge
 		ui->doubleSpinBoxExposureTime	->setMinimum(MinFloatValue);
 		ui->doubleSpinBoxExposureTime	->setValue	(CurrentFloatValue);
 	}
-	if(Cam->SetEnumValueByString("GainSelector", "Red")==true){
-		if(Cam->GetfloatValue("Gain",CurrentFloatValue ,MaxFloatValue ,MinFloatValue)==true){
-	        ui->doubleSpinBoxGainR	->setMaximum(MaxFloatValue);
-		    ui->doubleSpinBoxGainR	->setMinimum(MinFloatValue);
-			ui->doubleSpinBoxGainR	->setValue	(CurrentFloatValue);
+
+	float	CurrentFloatGainValue ,MaxFloatGainValue ,MinFloatGainValue;
+	if(Cam->GetfloatValue("Gain",CurrentFloatGainValue ,MaxFloatGainValue ,MinFloatGainValue)==true){
+		ui->doubleSpinBoxGain	->setMaximum(MaxFloatGainValue);
+		ui->doubleSpinBoxGain	->setMinimum(MinFloatGainValue);
+		ui->doubleSpinBoxGain	->setValue	(CurrentFloatGainValue);
+	}
+	if(Cam->SetEnumValueByString("BalanceRatioSelector", "Red")==true){
+		int64	CurrentGainValue ,MaxGainValue ,MinGainValue;
+		if(Cam->GetIntValue("BalanceRatio",CurrentGainValue ,MaxGainValue ,MinGainValue)==true){
+	        ui->doubleSpinBoxGainR	->setMaximum(MaxGainValue);
+		    ui->doubleSpinBoxGainR	->setMinimum(MinGainValue);
+			ui->doubleSpinBoxGainR	->setValue	(CurrentGainValue);
 		}
 	}
-	if(Cam->SetEnumValueByString("GainSelector", "Green")==true){
-		if(Cam->GetfloatValue("Gain",CurrentFloatValue ,MaxFloatValue ,MinFloatValue)==true){
-	        ui->doubleSpinBoxGainG	->setMaximum(MaxFloatValue);
-		    ui->doubleSpinBoxGainG	->setMinimum(MinFloatValue);
-			ui->doubleSpinBoxGainG	->setValue	(CurrentFloatValue);
+	if(Cam->SetEnumValueByString("BalanceRatioSelector", "Green")==true){
+		int64	CurrentGainValue ,MaxGainValue ,MinGainValue;
+		if(Cam->GetIntValue("BalanceRatio",CurrentGainValue ,MaxGainValue ,MinGainValue)==true){
+	        ui->doubleSpinBoxGainG	->setMaximum(MaxGainValue);
+		    ui->doubleSpinBoxGainG	->setMinimum(MinGainValue);
+			ui->doubleSpinBoxGainG	->setValue	(CurrentGainValue);
 		}
 	}
-	if(Cam->SetEnumValueByString("GainSelector", "Blue")==true){
-		if(Cam->GetfloatValue("Gain",CurrentFloatValue ,MaxFloatValue ,MinFloatValue)==true){
-	        ui->doubleSpinBoxGainB	->setMaximum(MaxFloatValue);
-		    ui->doubleSpinBoxGainB	->setMinimum(MinFloatValue);
-			ui->doubleSpinBoxGainB	->setValue	(CurrentFloatValue);
+	if(Cam->SetEnumValueByString("BalanceRatioSelector", "Blue")==true){
+		int64	CurrentGainValue ,MaxGainValue ,MinGainValue;
+		if(Cam->GetIntValue("BalanceRatio",CurrentGainValue ,MaxGainValue ,MinGainValue)==true){
+	        ui->doubleSpinBoxGainB	->setMaximum(MaxGainValue);
+		    ui->doubleSpinBoxGainB	->setMinimum(MinGainValue);
+			ui->doubleSpinBoxGainB	->setValue	(CurrentGainValue);
 		}
 	}
 
@@ -158,7 +167,7 @@ SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidge
 		}
 	}
 
-	if(Cam->SetEnumValueByString("TriggerSelector", "FrameStart")==true){
+	if(Cam->SetEnumValueByString("TriggerSelector", "FrameBurstStart")==true){
 		if(Cam->GetEnumValue ("TriggerMode",CurrentIntValue ,EnumFrameTriggerModeData,EnumCount)==true){
 			ui->comboBoxFrameTriggerMode->clear();
 			for(int i=0;i<EnumCount;i++){
@@ -202,21 +211,12 @@ SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidge
 		ui->spinBoxAOIOffsetX	->setMinimum(MinIntValue);
 		ui->spinBoxAOIOffsetX	->setValue	(CurrentOffsetXValue);
 	}
-	if(Cam->GetIntValue("OffsetY",CurrentOffsetYValue ,MaxIntValue ,MinIntValue)==true){
-		ui->spinBoxAOIOffsetY	->setMaximum(Height);
-		ui->spinBoxAOIOffsetY	->setMinimum(MinIntValue);
-		ui->spinBoxAOIOffsetY	->setValue	(CurrentOffsetYValue);
-	}
 	if(Cam->GetIntValue("Width",CurrentIntValue ,MaxIntValue ,MinIntValue)==true){
 		ui->spinBoxAOIWidth		->setMaximum(MaxIntValue);
 		ui->spinBoxAOIWidth		->setMinimum(MinIntValue);
 		ui->spinBoxAOIWidth		->setValue	(CurrentIntValue);
 	}
-	if(Cam->GetIntValue("Height",CurrentIntValue ,MaxIntValue ,MinIntValue)==true){
-		ui->spinBoxAOIHeight	->setMaximum(MaxIntValue);
-		ui->spinBoxAOIHeight	->setMinimum(MinIntValue);
-		ui->spinBoxAOIHeight	->setValue	(CurrentIntValue);
-	}
+
 }
 
 SettingLinearCameraDialog::~SettingLinearCameraDialog()
@@ -227,6 +227,7 @@ SettingLinearCameraDialog::~SettingLinearCameraDialog()
 void SettingLinearCameraDialog::on_pushButtonOK_clicked()
 {
 	ExposureTime	=ui->doubleSpinBoxExposureTime	->value();
+	Gain			=ui->doubleSpinBoxGain		->value();
 	GainR			=ui->doubleSpinBoxGainR		->value();
 	GainG			=ui->doubleSpinBoxGainG		->value();
 	GainB			=ui->doubleSpinBoxGainB		->value();
@@ -237,12 +238,34 @@ void SettingLinearCameraDialog::on_pushButtonOK_clicked()
 	ExposureAuto	=EnumExposureAutoData[IndexExposureAuto];
 
 	int	LineTriggerModeIndex=ui->comboBoxLineTriggerMode->currentIndex();
-	LineTriggerMode		=EnumLineTriggerModeData[LineTriggerModeIndex];
+	int	tLineTriggerMode		=EnumLineTriggerModeData[LineTriggerModeIndex];
+	if(Parent->SetEnumValueByString("TriggerSelector", "LineStart")==true){
+		QString Str;
+		if(Parent->GetEnumSymblic ("TriggerMode" ,tLineTriggerMode ,Str)==true){
+			if(Str=="Off"){
+				LineTriggerMode=false;
+			}
+			else{
+				LineTriggerMode=true;
+			}
+		}
+	}
 	int	LineTriggerSourceIndex=ui->comboBoxLineTriggerSource->currentIndex();
 	LineTriggerSource	= EnumLineTriggerSourceData[LineTriggerSourceIndex];
 
 	int	FrameTriggerModeIndex=ui->comboBoxFrameTriggerMode->currentIndex();
-	FrameTriggerMode		=EnumFrameTriggerModeData[FrameTriggerModeIndex];
+	int	tFrameTriggerMode		=EnumFrameTriggerModeData[FrameTriggerModeIndex];
+	if(Parent->SetEnumValueByString("TriggerSelector", "FrameBurstStart")==true){
+		QString Str;
+		if(Parent->GetEnumSymblic ("TriggerMode" ,tFrameTriggerMode ,Str)==true){
+			if(Str=="Off"){
+				FrameTriggerMode=false;
+			}
+			else{
+				FrameTriggerMode=true;
+			}
+		}
+	}
 	int	FrameTriggerSourceIndex=ui->comboBoxFrameTriggerSource->currentIndex();
 	FrameTriggerSource	= EnumFrameTriggerSourceData[FrameTriggerSourceIndex];
 
@@ -263,9 +286,8 @@ void SettingLinearCameraDialog::on_pushButtonOK_clicked()
 	ReverseTDIY	=ui->checkBoxReverseY	->isChecked();
 
 	AOIOffsetX	=ui->spinBoxAOIOffsetX	->value();
-	AOIOffsetY	=ui->spinBoxAOIOffsetY	->value();
 	AOIWidth	=ui->spinBoxAOIWidth	->value();
-	AOIHeight	=ui->spinBoxAOIHeight	->value();
+
 	done(true);
 }
 

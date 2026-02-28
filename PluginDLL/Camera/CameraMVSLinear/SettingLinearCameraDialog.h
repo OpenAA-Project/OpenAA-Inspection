@@ -26,6 +26,7 @@ public:
     int         ExposureAuto;
     int         ExposureMode;
 	float		ExposureTime;
+    float		Gain;
 	float		GainR;
     float		GainG;
     float		GainB;
@@ -44,9 +45,7 @@ public:
 
     bool    AOIMode;
     unsigned int     AOIOffsetX;
-    unsigned int     AOIOffsetY;
     unsigned int     AOIWidth;
-    unsigned int     AOIHeight;
 
 public:
     explicit SettingLinearCameraDialog(CameraMVSLinear *p,QWidget *parent = nullptr);

@@ -531,7 +531,7 @@ public:
 	virtual	int	GetChildCount();
 	void	Set		(GUIInitializer	*_GUIInitializerPoint ,GUIInstancePack	*_GUIInstancePackPoint);
 	void	SetParent(GUIInitializer	*_GUIInitializerPoint ,GUIInstancePack	*_GUIInstancePackPoint);
-	virtual	GUIFormBase	*GetChild(int index)	const;					//���ɓ���GUIFormBase�������o���Ȃ����΂Ȃ��Ȃ�
+	virtual	GUIFormBase	*GetChild(int index)	const;
 
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet);
 	virtual	bool				SaveInPacket(QIODevice *f ,GUIDirectMessage *packet);

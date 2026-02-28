@@ -36,6 +36,7 @@
 #include<QStackedWidget>
 #include<QListWidget>
 #include<QTableWidget>
+#include<QTableView>
 #include<QTreeWidget>
 #include<QHeaderView>
 #include<QScrollBar>
@@ -1248,6 +1249,37 @@ void	SetColumnWidthInTable(QTableWidget *table ,int column, int Percentage)
 	int	t2=table->autoScrollMargin();
 	W-=2*table->frameWidth()+max(t1,t2)+4+8;
 	table->setColumnWidth(column,W*Percentage/100);
+}
+void	SetColumnWidthInTable(QTableView *table ,int column, int Percentage)
+{
+	table->update();
+	/*
+	int	W=table->width();
+	if(table->verticalHeader()!=NULL){
+		if(table->verticalHeader()->isVisible()==true){
+			int	VW=table->verticalHeader()->width();
+			W -= VW;
+		}
+	}
+	QScrollBar	*VBar=table->verticalScrollBar();
+	if(VBar!=NULL){
+		if(VBar->isVisible()==true && VBar->isHidden()==false){
+			int	VW=table->verticalScrollBar()->width();
+			W-=VW;
+		}
+	}
+	int	t1=(table->model()->columnCount()+1)*table->lineWidth();
+	int	t2=table->autoScrollMargin();
+	W-=2*table->frameWidth()+max(t1,t2)+4+8;
+	table->setColumnWidth(column,W*Percentage/100);
+	*/
+	int totalWidth = table->viewport()->width(); 
+    int colCount = table->model()->columnCount();
+
+	if(column<colCount){
+        int w = static_cast<int>(totalWidth * (Percentage/ 100.0));
+		table->setColumnWidth(column, w);
+    }
 }
 
 char	* FuncCall	ToStr(char Text[] ,int N)

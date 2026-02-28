@@ -20,13 +20,16 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-#include <QGLWidget>
+#include <QOpenGLWidget>
 
-#if QT_VERSION > 0x040800
-#include <GL/GLU.h>
+#ifdef Q_OS_WIN
+#include <windows.h>
+#include <GL/gl.h>
 #endif
 
-class GLWidget : public QGLWidget
+#include <GL/glu.h>
+
+class GLWidget : public QOpenGLWidget
 {
     Q_OBJECT
 
@@ -79,6 +82,7 @@ private:
 	void DrawPoint();
 	void DrawThreshold();
 	void GetRGB(BYTE P,BYTE S,BYTE R,BYTE &Red,BYTE &Green,BYTE &Blue);
+    void renderText3D(double x, double y, double z, const QString &text, const QFont &font, const QColor &color);
 
     GLuint object;
     int xRot;
@@ -94,7 +98,7 @@ private:
 	BYTE PL,PH,SL,SH,RL,RH;
 	double Coefficient;
 
-	GLUquadricObj *sphere;	//�I�u�W�F�N�g�|�C���^������
+	GLUquadricObj *sphere;
 
     QPoint lastPos;
     QColor BackgroundColor;

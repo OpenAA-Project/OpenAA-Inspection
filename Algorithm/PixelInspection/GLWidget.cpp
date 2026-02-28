@@ -44,7 +44,7 @@ inline	void	GetRGBValue(BYTE P,BYTE S,BYTE R,double Coefficient,double &Red,doub
 }
 
 GLWidget::GLWidget(QWidget *parent)
-    : QGLWidget(parent)
+    : QOpenGLWidget(parent)
 {
     object = 0;
     xRot = 0;
@@ -85,7 +85,7 @@ void GLWidget::setXRotation(int angle)
     if (angle != xRot) {
         xRot = angle;
         emit xRotationChanged(angle);
-        updateGL();
+        update();
     }
 }
 
@@ -95,7 +95,7 @@ void GLWidget::setYRotation(int angle)
     if (angle != yRot) {
         yRot = angle;
         emit yRotationChanged(angle);
-        updateGL();
+        update();
     }
 }
 
@@ -105,14 +105,15 @@ void GLWidget::setZRotation(int angle)
     if (angle != zRot) {
         zRot = angle;
         emit zRotationChanged(angle);
-        updateGL();
+        update();
     }
 }
 
 void GLWidget::initializeGL()
 {
-    qglClearColor(BackgroundColor);	//glClearColor �o�b�t�@�������������J���[����
-    object = makeObject();
+    //qglClearColor(BackgroundColor);	//glClearColor �o�b�t�@�������������J���[����
+    glClearColor(BackgroundColor.redF(), BackgroundColor.greenF(), BackgroundColor.blueF(), BackgroundColor.alphaF());
+	object = makeObject();
     glShadeModel(GL_FLAT);			//�t���b�g�V�F�[�f�B���O�̐ݒ��ŁA�����ʂ̖��邳�͈����ɂȂ��܂�
     glEnable(GL_DEPTH_TEST);		//�f�v�X�e�X�g���L���ɂ��܂� ���p�`�ɉe���t�����ɂ́A�e���p�`�̑O���֌W�����肷���K�v������
 //    glEnable(GL_CULL_FACE);			//�Жʕ\�����L���ɂ��܂� �|���S���̂����Ėʂ݂̂��`���A�����`���Ȃ��悤�ɂ���
@@ -142,14 +143,49 @@ void GLWidget::paintGL()
 	//�e�L�X�g�̕\��
 	QFont f=QFont("Helvetica",14);
 	f.setBold(true);
-	qglColor(QColor(255,0,0,200));
-	renderText(-127,128,-127,"Red",f);
-	qglColor(QColor(0,255,0,200));
-	renderText(-127,-127,128,"Green",f);
-	qglColor(QColor(0,0,255,200));
-	renderText(128,128,128,"Blue",f);
-	qglColor(QColor(0,0,0,200));
-	renderText(-127,142,128,"(0,0,0)",f);
+	//glColor4ub(255,0,0,200);
+	renderText3D(-127,128,-127,"Red",f, QColor(255, 0, 0, 200));
+	//glColor4ub(0,255,0,200);
+	renderText3D(-127,-127,128,"Green",f, QColor(0,255, 0, 200));
+	//glColor4ub(0,0,255,200);
+	renderText3D(128,128,128,"Blue",f, QColor(0, 0, 255, 200));
+	//glColor4ub(0,0,0,200);
+	renderText3D(-127,142,128,"(0,0,0)",f, QColor(0, 0, 0, 200));
+}
+
+void GLWidget::GLWidget::renderText3D(double x, double y, double z, const QString &text, const QFont &font, const QColor &color)
+{
+    // 1. 現在のOpenGLの行列とビューポート設定を取得
+    GLdouble modelview[16];
+    GLdouble projection[16];
+    GLint viewport[4];
+    
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+    glGetDoublev(GL_PROJECTION_MATRIX, projection);
+    glGetIntegerv(GL_VIEWPORT, viewport);
+
+    // 2. 3D座標から2Dスクリーン座標への投影（変換）
+    GLdouble winX, winY, winZ;
+    gluProject(x, y, z, 
+               modelview, projection, viewport, 
+               &winX, &winY, &winZ);
+
+    // Y軸を反転（OpenGLは左下が原点、QPainterは左上が原点のため）
+    winY = viewport[3] - winY;
+
+    // 3. 画面上の座標に QPainter でテキストを描画
+    QPainter painter(this);
+    
+    // 文字を滑らかに綺麗に描画するための設定
+    painter.setRenderHint(QPainter::TextAntialiasing);
+    
+    painter.setFont(font);
+    painter.setPen(color);
+    
+    // 取得した2D座標にテキストを描画
+    painter.drawText(winX, winY, text);
+    
+    painter.end();
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -191,7 +227,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
 void GLWidget::wheelEvent(QWheelEvent *event)
 {
-	int	D  = event->delta();
+	int	D  = event->angleDelta().y();
     dx = event->position().x() - lastPos.x();
     dy = event->position().y() - lastPos.y();
 
@@ -199,7 +235,7 @@ void GLWidget::wheelEvent(QWheelEvent *event)
 	//1 �ȏ��ł����΃I�u�W�F�N�g���g�傳���A1 ���菬�������Ώk�������܂�
 	//�܂��A-1 �ɂ����ΐ��Ώ̕ϊ������܂�
 	D > 0 ? Scale += Scale*0.1 : Scale -= Scale*0.1;
-	updateGL();
+	update();
 }
 
 void GLWidget::UpdateObject()
@@ -513,7 +549,7 @@ void GLWidget::DrawAxis()
 	//R-G���iZ-Y�������j
 	for(int Green=0;Green<255;Green++){
 		for(int Red=0;Red<255;Red++){
-			qglColor(QColor(Red,Green,0));
+			glColor4ub(Red,Green,0,255);
 			glVertex3d(-127,128-Green,128-Red);
 			glVertex3d(-127,128-Green,127-Red);
 			glVertex3d(-127,127-Green,127-Red);
@@ -524,7 +560,7 @@ void GLWidget::DrawAxis()
 	//B-G���iX-Y�������j
 	for(int Green=0;Green<255;Green++){
 		for(int Blue=0;Blue<255;Blue++){
-			qglColor(QColor(0,Green,Blue));
+			glColor4ub(0,Green,Blue,255);
 			glVertex3d(Blue-127,128-Green,128);
 			glVertex3d(Blue-127,127-Green,128);
 			glVertex3d(Blue-126,127-Green,128);
@@ -535,7 +571,7 @@ void GLWidget::DrawAxis()
 	//B-R���iX-Z�������j
 	for(int Red=0;Red<255;Red++){
 		for(int Blue=0;Blue<255;Blue++){
-			qglColor(QColor(Red,0,Blue));
+			glColor4ub(Red,0,Blue,255);
 			glVertex3d(Blue-127,128,128-Red);
 			glVertex3d(Blue-126,128,128-Red);
 			glVertex3d(Blue-126,128,127-Red);
@@ -546,7 +582,7 @@ void GLWidget::DrawAxis()
 	//R-G�����iZ-Y���������j
 	for(int Green=0;Green<255;Green++){
 		for(int Red=0;Red<255;Red++){
-			qglColor(QColor(Red,Green,255));
+			glColor4ub(QColor(Red,Green,255));
 			glVertex3d(128,127-Green,128-Red);
 			glVertex3d(128,127-Green,127-Red);
 			glVertex3d(128,128-Green,127-Red);
@@ -557,7 +593,7 @@ void GLWidget::DrawAxis()
 	//B-G�����iX-Y���������j
 	for(int Green=0;Green<255;Green++){
 		for(int Blue=0;Blue<255;Blue++){
-			qglColor(QColor(255,Green,Blue));
+			glColor4ub(QColor(255,Green,Blue));
 			glVertex3d(Blue-126,128-Green,-127);
 			glVertex3d(Blue-126,127-Green,-127);
 			glVertex3d(Blue-127,127-Green,-127);
@@ -568,7 +604,7 @@ void GLWidget::DrawAxis()
 	//B-R�����iX-Z���������j
 	for(int Red=0;Red<255;Red++){
 		for(int Blue=0;Blue<255;Blue++){
-			qglColor(QColor(Red,255,Blue));
+			glColor4ub(QColor(Red,255,Blue));
 			glVertex3d(Blue-127,-127,127-Red);
 			glVertex3d(Blue-126,-127,127-Red);
 			glVertex3d(Blue-126,-127,128-Red);
@@ -584,7 +620,7 @@ void GLWidget::DrawAxis()
 	glBegin(GL_LINES);
 
 	//R���iZ�������j
-	qglColor(QColor(255,0,0));
+	glColor4ub(255,0,0,255);
 	glVertex3i(-127,128,128);
 	glVertex3i(-127,128,-127);
 	glVertex3i(-127,128,-127);
@@ -593,7 +629,7 @@ void GLWidget::DrawAxis()
 	glVertex3i(-122,128,-117);
 
 	//G���iY�������j
-	qglColor(QColor(0,255,0));
+	glColor4ub(0,255,0,255);
 	glVertex3i(-127,128,128);
 	glVertex3i(-127,-127,128);
 	glVertex3i(-127,-127,128);
@@ -602,7 +638,7 @@ void GLWidget::DrawAxis()
 	glVertex3i(-124,-117,133);
 
 	//B���iX�������j
-	qglColor(QColor(0,0,255));
+	glColor4ub(0,0,255,255);
 	glVertex3i(-127,128,128);
 	glVertex3i(128,128,128);
 	glVertex3i(128,128,128);
@@ -611,26 +647,7 @@ void GLWidget::DrawAxis()
 	glVertex3i(118,128,133);
 
     glEnd();
-/*
-	glBegin(GL_LINES);
 
-	//R���iZ�������j
-	glColor3d( 1.0, 0.0, 0.0);
-	glVertex3i( -127.0, 127.0, 127.0);
-	glVertex3i( -127.0, 127.0, -128.0);
-
-	//G���iY�������j
-	glColor3d( 0.0, 1.0, 0.0);
-	glVertex3i( -127.0, 127.0, 127.0);
-	glVertex3i( -127.0, -128.0, 127.0);
-
-	//B���iX�������j
-	glColor3d( 0.0, 0.0, 1.0);
-	glVertex3i( -127.0, 127.0, 127.0);
-	glVertex3i( 128.0, 127.0, 127.0);
-
-    glEnd();
-*/
 }
 
 void GLWidget::DrawPoint()
@@ -638,7 +655,7 @@ void GLWidget::DrawPoint()
 	//�C�ӂ̓_���`��
 	double Red,Green,Blue;
 	GetRGBValue(P,S,R,Coefficient,Red,Green,Blue);
-	qglColor(QColor(Red,Green,Blue));
+	glColor4ub(Red,Green,Blue,255);
 	glTranslated(Blue-127,128-Green,128-Red);
 	sphere = gluNewQuadric();				//�I�u�W�F�N�g�𐶐�
 	gluQuadricDrawStyle(sphere, GLU_FILL);	//�I�u�W�F�N�g�̕`���^�C�v���ݒ��i�ȗ��j
@@ -646,7 +663,7 @@ void GLWidget::DrawPoint()
 	glTranslated(-(Blue-127),-(128-Green),-(128-Red));
 	gluDeleteQuadric(sphere);				//����������
 /*
-	qglColor(QColor(Red,Green,Blue));
+	glColor4ub(QColor(Red,Green,Blue));
 	glTranslated(Blue-127,128-Green,128-Red);
 	sphere = gluNewQuadric();				//�I�u�W�F�N�g�𐶐�
 	gluQuadricDrawStyle(sphere, GLU_FILL);	//�I�u�W�F�N�g�̕`���^�C�v���ݒ��i�ȗ��j
@@ -658,7 +675,7 @@ void GLWidget::DrawPoint()
 //	glLineWidth(10);
 	glBegin(GL_LINES);
 
-	qglColor(QColor(0,0,0));
+	glColor4ub(0,0,0,255);
 	glVertex3i(Blue-127,128-Green,128-Red);
 	glVertex3i(Blue-100,120-Green,120-Red);
 	glVertex3i(Blue-127,128-Green,128-Red);
@@ -678,7 +695,7 @@ void GLWidget::DrawThreshold()
 		for(BYTE S=SL;S<SH;S++){
 			double Red,Green,Blue;
 			GetRGBValue(P,S,RL,Coefficient,Red,Green,Blue);
-			qglColor(QColor(Red,Green,Blue,200));
+			glColor4ub(Red,Green,Blue,200);
 			glVertex3d(Blue-127,128-Green,128-Red);
 			GetRGBValue(P+1,S,RL,Coefficient,Red,Green,Blue);
 			glVertex3d(Blue-127,128-Green,128-Red);
@@ -694,7 +711,7 @@ void GLWidget::DrawThreshold()
 		for(BYTE S=SL;S<SH;S++){
 			double Red,Green,Blue;
 			GetRGBValue(P,S+1,RH,Coefficient,Red,Green,Blue);
-			qglColor(QColor(Red,Green,Blue,200));
+			glColor4ub(Red,Green,Blue,200);
 			glVertex3d(Blue-127,128-Green,128-Red);
 			GetRGBValue(P+1,S+1,RH,Coefficient,Red,Green,Blue);
 			glVertex3d(Blue-127,128-Green,128-Red);
@@ -710,7 +727,7 @@ void GLWidget::DrawThreshold()
 		for(BYTE R=RL;R<RH;R++){
 			double Red,Green,Blue;
 			GetRGBValue(P,SL,R,Coefficient,Red,Green,Blue);
-			qglColor(QColor(Red,Green,Blue,200));
+			glColor4ub(Red,Green,Blue,200);
 			glVertex3d(Blue-127,128-Green,128-Red);
 			GetRGBValue(P,SL,R+1,Coefficient,Red,Green,Blue);
 			glVertex3d(Blue-127,128-Green,128-Red);
@@ -726,7 +743,7 @@ void GLWidget::DrawThreshold()
 		for(BYTE R=RL;R<RH;R++){
 			double Red,Green,Blue;
 			GetRGBValue(P+1,SH,R,Coefficient,Red,Green,Blue);
-			qglColor(QColor(Red,Green,Blue,200));
+			glColor4ub(Red,Green,Blue,200);
 			glVertex3d(Blue-127,128-Green,128-Red);
 			GetRGBValue(P+1,SH,R+1,Coefficient,Red,Green,Blue);
 			glVertex3d(Blue-127,128-Green,128-Red);
@@ -742,7 +759,7 @@ void GLWidget::DrawThreshold()
 		for(BYTE S=SL;S<SH;S++){
 			double Red,Green,Blue;
 			GetRGBValue(PH,S,R,Coefficient,Red,Green,Blue);
-			qglColor(QColor(Red,Green,Blue,200));
+			glColor4ub(Red,Green,Blue,200);
 			glVertex3d(Blue-127,128-Green,128-Red);
 			GetRGBValue(PH,S,R+1,Coefficient,Red,Green,Blue);
 			glVertex3d(Blue-127,128-Green,128-Red);
@@ -758,7 +775,7 @@ void GLWidget::DrawThreshold()
 		for(BYTE S=SL;S<SH;S++){
 			double Red,Green,Blue;
 			GetRGBValue(PL,S+1,R,Coefficient,Red,Green,Blue);
-			qglColor(QColor(Red,Green,Blue,200));
+			glColor4ub(Red,Green,Blue,200);
 			glVertex3d(Blue-127,128-Green,128-Red);
 			GetRGBValue(PL,S+1,R+1,Coefficient,Red,Green,Blue);
 			glVertex3d(Blue-127,128-Green,128-Red);

@@ -23,56 +23,35 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pixelinspection_global.h">
+    <ClInclude Include="cameramvslinear_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <QtMoc Include="PixelInspection.h">
+    <QtMoc Include="CameraMVSLinear.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClCompile Include="PixelInspection.cpp">
+    <ClCompile Include="CameraMVSLinear.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClInclude Include="PixelInspectionResource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="XPixelInspection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="xpixelinspectionpacket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="PixelHistogramForm.ui">
+    <ClCompile Include="..\..\..\Open\SystemVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingLinearCameraDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\HIKRobot\MVS\MvCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="SettingLinearCameraDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="SettingLinearCameraDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="GLWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="PixelHistogramForm.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="GLWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PixelHistogramForm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PixelInspectionResource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XPixelInspection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Open\AlgorithmCommon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Open\SystemVersion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

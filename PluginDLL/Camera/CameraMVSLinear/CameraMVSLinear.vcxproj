@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{63412744-AE16-4003-B927-8876A498E874}</ProjectGuid>
+    <ProjectGuid>{C4271214-DBFA-4DB4-94DB-2BAC54C5A799}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0</WindowsTargetPlatformVersion>
@@ -36,13 +36,13 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.10.2_msvc2022_64</QtInstall>
+    <QtInstall>6.10.1_msvc2022_64</QtInstall>
     <QtModules>core</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>$(DefaultQtVersion)</QtInstall>
-    <QtModules>core;gui;network;widgets;core5compat;opengl;openglwidgets;sql</QtModules>
+    <QtModules>core;gui;network;sql;widgets;core5compat</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -62,24 +62,24 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutDir>..\..\Algorithm\</OutDir>
+    <OutDir>..\..\..\PluginDLL\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\GUI\PropertyResultImportance;..\ResultImportance;C:\OpenAA6M\GUI-DeskMachine\ButtonThreshold2;..\..\GUI\PropertyPixel;..\AutoMaskingPI;..\VCutInspection;..\AutoPCBHoleAligner;..\AutoAlignment;..\StatisticImager;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OpenAAUseLibrary)\HIKRobot\MVS;$(OpenAAUseLibrary)\HIKRobot\MVS\Development\Includes;..\..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Component.lib;ModelPageItem.lib;ServiceLib.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OpenAAUseLibrary)\HIKRobot\MVS\Development\Libraries\win64;..\..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ServiceLib.lib;MvCameraControl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>PIXELINSPECTION_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CAMERAMVSLINEAR_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
@@ -92,7 +92,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>PIXELINSPECTION_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CAMERAMVSLINEAR_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
@@ -107,23 +107,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Open\AlgorithmCommon.cpp" />
-    <ClCompile Include="..\..\Open\SystemVersion.cpp" />
-    <ClCompile Include="PixelInspectionResource.cpp" />
-    <ClCompile Include="XPixelInspection.cpp" />
-    <ClInclude Include="XPixelInspection.h" />
-    <ClInclude Include="xpixelinspectionpacket.h" />
-    <QtMoc Include="GLWidget.h" />
-    <QtMoc Include="PixelHistogramForm.h" />
-    <ClInclude Include="PixelInspectionResource.h" />
-    <ClInclude Include="pixelinspection_global.h" />
-    <QtMoc Include="PixelInspection.h" />
-    <ClCompile Include="GLWidget.cpp" />
-    <ClCompile Include="PixelHistogramForm.cpp" />
-    <ClCompile Include="PixelInspection.cpp" />
+    <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\HIKRobot\MVS\MvCamera.cpp" />
+    <ClCompile Include="SettingLinearCameraDialog.cpp" />
+    <ClInclude Include="cameramvslinear_global.h" />
+    <QtMoc Include="SettingLinearCameraDialog.h" />
+    <QtMoc Include="CameraMVSLinear.h" />
+    <ClCompile Include="..\..\..\Open\SystemVersion.cpp" />
+    <ClCompile Include="CameraMVSLinear.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="PixelHistogramForm.ui" />
+    <QtUic Include="SettingLinearCameraDialog.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -17,11 +17,12 @@
  */
 
 #include "PixelInspectionResource.h"
+#include "GLWidget.h"
 #include "PixelHistogramForm.h"
 #include "XPixelInspection.h"
 #include "XDataInLayerCommander.h"
-#include "GLWidget.h"
 #include "XImageProcess.h"
+#include <QPalette>
 
 extern	const	char	*sPixelInspectionRoot;
 extern	const	char	*sPixelInspectionName;
@@ -540,7 +541,7 @@ void	PixelHistogramForm::Update(int Index)
 
 	//?F?I?Y?e
 	QPalette P;
-	P.setColor(QPalette::Background,QColor(Red,Green,Blue));
+	P.setColor(QPalette::Window,QColor(Red,Green,Blue));
 
 	if(Index==4){
 		QPalette P1;
@@ -596,7 +597,7 @@ void	PixelHistogramForm::Update(int Index)
 			ui.lbPlusPixelInfo_2->setPalette(P1);
 		}
 		//?F?I?Y?e
-		lbAroundInsPalette.setColor(QPalette::Background,QColor(Red,Green,Blue));
+		lbAroundInsPalette.setColor(QPalette::Window,QColor(Red,Green,Blue));
 		return;
 	}
 	else if(Index==6){
@@ -630,7 +631,7 @@ void	PixelHistogramForm::Update(int Index)
 			ui.lbPlusPixelInfo_4	->setPalette(P1);
 		}
 		//?F?I?Y?e
-		lbAroundInsPalette.setColor(QPalette::Background,QColor(Red,Green,Blue));
+		lbAroundInsPalette.setColor(QPalette::Window,QColor(Red,Green,Blue));
 		return;
 	}
 	else if(Index==11){
@@ -811,7 +812,7 @@ void	PixelHistogramForm::UpdateDraw()
 	glWidget->SetRLValue	(Clip255(RL-ThresholdRange));
 	glWidget->SetRHValue	(Clip255(RH+ThresholdRange));
 	glWidget->UpdateObject	();
-    glWidget->updateGL		();
+    glWidget->update		();
 /*
 	//???W?X?g
 	glWidget->SetPValue		(leP[4]->text().toInt());	//leP[11]

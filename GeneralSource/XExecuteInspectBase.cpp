@@ -92,6 +92,12 @@ void	ExecuteInspectBase::InitialPrepare(void)
 	for(int CamNo=0;CamNo<N;CamNo++){
 		CameraClass	*c=GetCamera(CamNo);
 		if(c!=NULL){
+			IntList PageList;
+			GetParamGlobal()->GetPageListFromCameraNo(CamNo ,PageList);
+			for(IntClass *v=PageList.GetFirst();v!=NULL;v=v->GetNext()){
+				int	Page=v->GetValue();
+				c->ReallocXYPixels(GetDotPerLine(Page) ,GetMaxLines(Page));
+			}
 			c->InitialPrepare();
 		}
 	}
@@ -327,6 +333,8 @@ bool	ExecuteInspectBase::FollowToCameraInfo(void)
 {
 	for(int CamNo=0;CamNo<GetParamComm()->GetLocalCameraNumb(GetParamComm()->ThisComputerID);CamNo++){
 		CameraReqSystemChangeInfo caminfo;
+		caminfo.XLen=GetDotPerLine(0);
+		caminfo.YLen=GetMaxLines(0);
 		CameraClass		*C=GetCamera(CamNo);
 		if(C!=NULL && C->ReqSystemChange(caminfo)==true){
 			if(GetPageNumb()==1){

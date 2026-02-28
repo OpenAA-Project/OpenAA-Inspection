@@ -34,6 +34,7 @@
 
 class	QStackedWidget;
 class	QTableWidget;
+class	QTableView;
 class	QTableWidgetItem;
 class	QTreeWidget;
 class	QListWidget;
@@ -164,6 +165,7 @@ int				GetBitCount(BYTE p);
 bool			SetCurrentIndex(QStackedWidget* W, const QString& TabName);
 QStringList		GetDataFromListWidget(QListWidget* W);
 void			SetColumnWidthInTable(QTableWidget *table ,int column, int Percentage);
+void			SetColumnWidthInTable(QTableView *table ,int column, int Percentage);
 
 void	SetEnabledForChildren(QObject *b,bool flag);
 

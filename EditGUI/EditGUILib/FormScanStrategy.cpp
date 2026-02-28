@@ -24,6 +24,7 @@
 #include "XParamGlobal.h"
 #include "XDataInLayer.h"
 #include <swap.h>
+#include "XGeneralFunc.h"
 
 void	StrategyGrid::ChangeValue(int row ,int col,const QVariant &value)
 {
@@ -113,6 +114,11 @@ void FormScanStrategy::ShowToWindow(void)
     for(int r=0;r<LocalData.PageNumb;r++){
         dGrid.SetLeftHeader(r,LangSolverGUILib.GetString(FormScanStrategy_LS,LID_13)/*"Page "*/+QString::number(r));
     }
+   ::SetColumnWidthInTable(&dGrid ,0, 25);
+    int dW=70/LocalData.LayerNumb;
+    for(int c=0;c<LocalData.LayerNumb;c++){
+        ::SetColumnWidthInTable(&dGrid ,c+1, dW);
+    }
 
     cGrid.SetRowCount(LocalData.PageNumb);
     cGrid.SetColumnCount(LocalData.LayerNumb);
@@ -135,6 +141,11 @@ void FormScanStrategy::ShowToWindow(void)
     for(int r=0;r<LocalData.PageNumb;r++){
         cGrid.SetLeftHeader(r,LangSolverGUILib.GetString(FormScanStrategy_LS,LID_13)/*"Page "*/+QString::number(r));
     }
+   ::SetColumnWidthInTable(&cGrid ,0, 25);
+    int cW=70/LocalData.LayerNumb;
+    for(int c=0;c<LocalData.LayerNumb;c++){
+        ::SetColumnWidthInTable(&cGrid ,c+1, cW);
+    }
 
     ui->SpinBoxMaxStrategyNumb->setValue(LocalData.GetMaxStrategyCount());
 
@@ -150,7 +161,7 @@ void FormScanStrategy::ShowToWindow(void)
     }
 
     aGrid.InitialGrid();
-
+    ::SetColumnWidthInTable(&aGrid ,0, 90);
     for(int r=0;r<LocalData.PageNumb;r++){
         aGrid.SetLeftHeader(r,LangSolverGUILib.GetString(FormScanStrategy_LS,LID_15)/*"Page "*/+QString::number(r));
     }
