@@ -27,6 +27,7 @@
 #include "XFileRegistry.h"
 #include "XShowVersion.h"
 #include "datamanagementResource.h"
+#include "XOpenAA.h"
 
 QFile	*DBfile=NULL;
 extern bool quit;
@@ -34,9 +35,20 @@ extern bool quit;
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+	QString	UserPath;
+
+	if(CheckExeVersion(argc, argv)==false)
+		return 1;
+
+ 	for(int i=1;i<argc;i++){
+		if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
+			char	*fp=argv[i]+1;
+			UserPath	=fp;
+		}
+	}
 
 	//LangSolver
-	FileRegistry	*FRegistry		=new FileRegistry(/**/"./MachineInfo.dat");
+	FileRegistry	*FRegistry		=new FileRegistry(::GetUserPath(UserPath)+QDir::separator()+DefaultMachineInfoFileName);
 	int	LanguageCode=FRegistry->LoadRegInt(/**/"Language",0);
 	//delete FRegistry;
 	LanguagePackage *LangPack=new LanguagePackage();

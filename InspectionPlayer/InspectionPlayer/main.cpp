@@ -64,6 +64,7 @@
 #include "Regulus64System.h"
 #include "XGeneralStocker.h"
 #include <omp.h>
+#include "XOpenAA.h"
 
 int	XDbg;
 
@@ -321,16 +322,16 @@ int main(int argc, char *argv[])
 
 	QApplication::setStyle(Style);
 
-	BootupLogoForm	LogoForm(NULL);
+	BootupLogoForm	LogoForm(UserPath,NULL);
 	LogoForm.show();
 	QCoreApplication::processEvents();
 
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
 	EntryPointToFuncGlobal->NoCamDevice=NoCamDevice;
-	Layers->SetCurrentPath(QDir::currentPath());
-	Layers->SetUserPath(UserPath);
+	//Layers->SetCurrentPath(QDir::currentPath());
+	//Layers->SetUserPath(UserPath);
 	GUIInitializer	*G=new GUIInitializer(Layers);
 	Layers->SetGUIInitializer(G);
 
@@ -888,7 +889,7 @@ int main(int argc, char *argv[])
 	}
 
 	if(Seq!=NULL){
-		ClosingForm		CL;
+		ClosingForm		CL(UserPath);
 		CL.setWindowTitle(Seq->GetTitle());
 		CL.show();
 		CL.update();

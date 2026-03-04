@@ -27,6 +27,7 @@
 #include "XDataInExe.h"
 #include "XGUI.h"
 #include <QMessageBox>
+#include "XOpenAA.h"
 
 //#include "itemlistwindow.h"
 
@@ -138,7 +139,7 @@ int main(int argc, char *argv[])
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
 	EntryPointToFuncGlobal->GUISetEditMode(true);
 	
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
 	Layers->SetCurrentPath(QDir::currentPath());
 	Layers->SetUserPath(UserPath);
@@ -148,8 +149,8 @@ int main(int argc, char *argv[])
 	Layers->GetParamGlobal()->LoadDefault(Layers->GetUserPath());
 	Layers->GetParamComm()->LoadDefault(Layers->GetUserPath());
 
-	FileRegistry	FRegistry(/**/"MachineInfo.dat");
-	LanguageCode=FRegistry.LoadRegInt("Language",0);
+	FileRegistry	*FRegistry=Layers->GetFRegistry();
+	LanguageCode=FRegistry->LoadRegInt("Language",0);
 	Layers->SetLanguageCode(LanguageCode);
 
 	Layers->InitialFilterBank();

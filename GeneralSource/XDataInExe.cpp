@@ -94,8 +94,12 @@
 #include "XShadowTree.h"
 #include "XFileThread.h"
 #include "XLevel.h"
+#include "XOpenAA.h"
 
-LayersBase::LayersBase(EntryPointBase *pEntryPoint ,bool _StartThreadWriteMode)
+LayersBase::LayersBase(EntryPointBase *pEntryPoint 
+					,const QString &_UserPath
+					,const QString &_CurrentPath
+					,bool _StartThreadWriteMode)
 :AuthenticationInComponent(this)
 ,ShadowTree(-1,this)
 ,OnTerminating(false)
@@ -129,8 +133,14 @@ LayersBase::LayersBase(EntryPointBase *pEntryPoint ,bool _StartThreadWriteMode)
 	OnChanging				=false;
 	MilisecExecuteFilter	=0;
 	InsideLearningEditor	=false;
-	QString	CurPath			=QDir::currentPath();
-	FRegistry				=new FileRegistry(CurPath+QString("/MachineInfo.dat"));
+	UserPath				=_UserPath;
+	if(_CurrentPath.isEmpty()==true){
+		CurrentPath=QDir::currentPath();
+	}
+	else{
+		CurrentPath			=_CurrentPath;
+	}
+	FRegistry				=new FileRegistry(GetUserPath()+QDir::separator()+DefaultMachineInfoFileName);
 	int	LanguageCode=GetFRegistry()->LoadRegInt("Language",0);
 	LanguagePackageData		=new LanguagePackage();
 	LoadLanguageSolution(GetLanguageSolutionFileName());

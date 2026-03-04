@@ -28,6 +28,7 @@
 #include "XShowVersion.h"
 #include "XParamGlobal.h"
 #include "XDataInLayer.h"
+#include "XOpenAA.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
@@ -42,6 +43,7 @@ int main(int argc, char *argv[])
 	QString	AbsPath;
 	bool	DupOK=true;
 	QString	Msg;
+	QString	UserPath;
 
 	if(CheckExeVersion(argc, argv)==false)
 		return 1;
@@ -70,14 +72,19 @@ int main(int argc, char *argv[])
 			char	*fp=argv[i]+1;
 			GlobalParmaFileName=fp;
 		}
+		else if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
+			char	*fp=argv[i]+1;
+			UserPath	=fp;
+		}
 	}
-	FileRegistry	FRegistry(/**/"MachineInfo.dat");
+
+	FileRegistry	FRegistry(::GetUserPath(UserPath)+QDir::separator()+DefaultMachineInfoFileName);
 	LanguageCode=FRegistry.LoadRegInt("Language",0);
 	//LangLibSolver.SetLanguage(LanguageCode);
 
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
 	EntryPointToFuncGlobal->GUISetEditMode(true);
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
 
 	Layers->SetGUIInitializer(new GUIInitializer(Layers));

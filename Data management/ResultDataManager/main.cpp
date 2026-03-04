@@ -30,7 +30,7 @@
 #include "XShowVersion.h"
 #include "DeleteThread.h"
 #include <QProgressDialog>
-
+#include "XOpenAA.h"
 #include "ResultDataManagerResource.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	EntryPointBase	*e	=MakeEntryPointForGlobal();
-	LayersBase	*Layers	=new LayersBase(e);
+	LayersBase	*Layers	=new LayersBase(e,::GetUserPath(UserPath));
 	e->SetLayersBase(Layers);
 	Layers->SetCurrentPath(QDir::currentPath());
 	Layers->SetUserPath(UserPath);
@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 	GUIInitializer	*G=new GUIInitializer(Layers);
 	Layers->SetGUIInitializer(G);
 
-	FileRegistry	*FRegistry		=new FileRegistry(/**/"./MachineInfo.dat");
+	FileRegistry	*FRegistry		=Layers->GetFRegistry();
 	int	LanguageCode=FRegistry->LoadRegInt("Language",0);
 
 	LanguagePackage	LangPkg;

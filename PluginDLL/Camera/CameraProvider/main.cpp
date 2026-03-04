@@ -34,6 +34,7 @@
 #include "Regulus64Version.h"
 #include "XShowVersion.h"
 #include "XDataInLayer.h"
+#include "XOpenAA.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
@@ -96,7 +97,7 @@ int main(int argc, char *argv[])
 		QCoreApplication::addLibraryPath (QCoreApplication::applicationDirPath());
 
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	Layers->SetCurrentPath(QDir::currentPath());
 	Layers->SetUserPath(UserPath);
 	EntryPointToFuncGlobal->SetLayersBase(Layers);

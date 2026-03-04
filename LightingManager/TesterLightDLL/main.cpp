@@ -25,6 +25,7 @@
 #include <QString>
 #include <QDir>
 #include <QMessageBox>
+#include "XOpenAA.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
@@ -86,9 +87,9 @@ int main(int argc, char *argv[])
 
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
 	EntryPointToFuncGlobal->GUISetEditMode(true);
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
-	Layers->SetCurrentPath(QDir::currentPath());
-	Layers->SetUserPath(UserPath);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
+	//Layers->SetCurrentPath(QDir::currentPath());
+	//Layers->SetUserPath(UserPath);
 
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
 	GUIInitializer	*G=new GUIInitializer(Layers);

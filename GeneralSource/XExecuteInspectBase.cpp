@@ -88,17 +88,19 @@ void	ExecuteInspectBase::SetMode (ExecuteInspectBase::MotionMode b)
 
 void	ExecuteInspectBase::InitialPrepare(void)
 {
-	int	N=GetAllocatedCameraCount();
-	for(int CamNo=0;CamNo<N;CamNo++){
-		CameraClass	*c=GetCamera(CamNo);
-		if(c!=NULL){
-			IntList PageList;
-			GetParamGlobal()->GetPageListFromCameraNo(CamNo ,PageList);
-			for(IntClass *v=PageList.GetFirst();v!=NULL;v=v->GetNext()){
-				int	Page=v->GetValue();
-				c->ReallocXYPixels(GetDotPerLine(Page) ,GetMaxLines(Page));
+	if(GetEntryPoint()->NoCamDevice==false){
+		int	N=GetAllocatedCameraCount();
+		for(int CamNo=0;CamNo<N;CamNo++){
+			CameraClass	*c=GetCamera(CamNo);
+			if(c!=NULL){
+				IntList PageList;
+				GetParamGlobal()->GetPageListFromCameraNo(CamNo ,PageList);
+				for(IntClass *v=PageList.GetFirst();v!=NULL;v=v->GetNext()){
+					int	Page=v->GetValue();
+					c->ReallocXYPixels(GetDotPerLine(Page) ,GetMaxLines(Page));
+				}
+				c->InitialPrepare();
 			}
-			c->InitialPrepare();
 		}
 	}
 }

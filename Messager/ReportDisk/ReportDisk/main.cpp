@@ -19,6 +19,7 @@
 #include <QApplication>
 #include "ReportDisk.h"
 #include "XShowVersion.h"
+#include "XOpenAA.h"
 
 int main(int argc, char *argv[])
 {

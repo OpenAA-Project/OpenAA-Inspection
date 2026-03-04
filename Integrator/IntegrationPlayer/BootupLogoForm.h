@@ -27,7 +27,7 @@ class BootupLogoForm : public QWidget
 	Q_OBJECT
 
 public:
-	BootupLogoForm(QWidget *parent = 0);
+	BootupLogoForm(const QString &UserPath,QWidget *parent = 0);
 	~BootupLogoForm();
 
 private:

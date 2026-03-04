@@ -24,7 +24,7 @@
 #include "XShowVersion.h"
 #include "XDataInExe.h"
 #include "XGUI.h"
-//#include "itemlistwindow.h"
+#include "XOpenAA.h"
 
 
 //ItemListWindow	*MainItem;
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 	}
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
 	EntryPointToFuncGlobal->GUISetEditMode(true);
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
 	Layers->SetCurrentPath(QDir::currentPath());
 	Layers->SetUserPath(UserPath);

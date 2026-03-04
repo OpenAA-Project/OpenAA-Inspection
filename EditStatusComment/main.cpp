@@ -22,6 +22,7 @@
 #include "XGUI.h"
 #include "XShowVersion.h"
 #include "XDataInLayer.h"
+#include "XOpenAA.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
@@ -64,10 +65,10 @@ int main(int argc, char *argv[])
 		QCoreApplication::addLibraryPath (QCoreApplication::applicationDirPath());
 	}
 	EntryPointBase	*e	=MakeEntryPointForGlobal();
-	LayersBase	*Layers	=new LayersBase(e);
+	LayersBase	*Layers	=new LayersBase(e,::GetUserPath(UserPath));
 	e->SetLayersBase(Layers);
-	Layers->SetCurrentPath(QDir::currentPath());
-	Layers->SetUserPath(UserPath);
+	//Layers->SetCurrentPath(QDir::currentPath());
+	//Layers->SetUserPath(UserPath);
 
 	Layers->SetCurrentPath(QDir::currentPath());
 	Layers->GetParamGlobal()->LoadDefault(Layers->GetUserPath());

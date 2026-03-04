@@ -30,7 +30,7 @@ class ClosingForm : public QWidget
     Q_OBJECT
     
 public:
-    explicit ClosingForm(QWidget *parent = 0);
+    explicit ClosingForm(const QString &UserPath,QWidget *parent = 0);
     ~ClosingForm();
     
 private:

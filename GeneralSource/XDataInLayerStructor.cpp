@@ -144,6 +144,8 @@ LayersBase::LayersBase(const QString& _TypeName, LayersBase* ParentLayer)
 	MilisecExecuteFilter= 0;
 	InsideLearningEditor= false;
 	ResultThread 		= NULL;
+	UserPath				=ParentLayer->GetUserPath();
+	CurrentPath				=ParentLayer->GetCurrentPath();
 	FRegistry 			= new FileRegistry(ParentLayer->GetFRegistry()->GetFileName());
 	int	LanguageCode 	= GetFRegistry()->LoadRegInt("Language", 0);
 	LanguagePackageData = new LanguagePackage();

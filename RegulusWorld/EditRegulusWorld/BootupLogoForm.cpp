@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2023
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -19,6 +19,7 @@
 #include "BootupLogoForm.h"
 #include "XGeneralFunc.h"
 #include "XFileRegistry.h"
+#include "XOpenAA.h"
 
 BootupLogoForm::BootupLogoForm(QWidget *parent)
 	: QWidget(parent)
@@ -26,20 +27,20 @@ BootupLogoForm::BootupLogoForm(QWidget *parent)
 	ui.setupUi(this);
 	SetWidgetCenter(this);
 	setWindowFlags(Qt::WindowTitleHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
-	FileRegistry	FRegistry(/**/"MachineInfo.dat");
+	FileRegistry	FRegistry(::GetUserPath(UserPath)+QDir::separator()+DefaultMachineInfoFileName);
 	int	LanguageCode=FRegistry.LoadRegInt(/**/"Language",0);
 	switch(LanguageCode){
 		case 1:
 			ui.label->setText(/**/"On booting...");
 			break;
 		case 2:
-			ui.label->setText(/**/"正在启动...");
+			ui.label->setText(/**/"正在??...");
 			break;
 		case 3:
-			ui.label->setText(/**/"正在啟動...");
+			ui.label->setText(/**/"正在?動...");
 			break;
 		case 4:
-			ui.label->setText(/**/"부팅...");
+			ui.label->setText(/**/"??...");
 			break;
 	}
 }

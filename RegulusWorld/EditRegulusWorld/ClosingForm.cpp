@@ -20,6 +20,7 @@
 #include "XFileRegistry.h"
 #include "ClosingForm.h"
 #include "ui_ClosingForm.h"
+#include "XOpenAA.h"
 
 ClosingForm::ClosingForm(QWidget *parent) :
     QWidget(parent),
@@ -28,7 +29,7 @@ ClosingForm::ClosingForm(QWidget *parent) :
     ui->setupUi(this);
 	SetWidgetCenter(this);
 	setWindowFlags(Qt::WindowTitleHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
-	FileRegistry	FRegistry(/**/"MachineInfo.dat");
+	FileRegistry	FRegistry(::GetUserPath(UserPath)+QDir::separator()+DefaultMachineInfoFileName);
 	int	LanguageCode=FRegistry.LoadRegInt(/**/"Language",0);
 	switch(LanguageCode){
 		case 1:

@@ -27,6 +27,7 @@
 #include <QFileDialog>
 //#include <QTextCodec>
 #include <QMutex>
+#include <QDir>
 #include <QStringList>
 #include "NList.h"
 #include "XErrorCode.h"
@@ -1398,7 +1399,10 @@ protected:
 	LevelFolderContainer			*LevelFolderContainerInst;
 
 public:
-    explicit	LayersBase(EntryPointBase *pEntryPoint ,bool StartThreadWriteMode=true);
+    explicit	LayersBase(EntryPointBase *pEntryPoint 
+							,const QString &_UserPath
+							,const QString &_CurrentPath=QDir::currentPath()
+							,bool StartThreadWriteMode=true);
 	explicit	LayersBase(const QString &TypeName ,LayersBase *ParentLayer);
 	explicit	LayersBase(const LayersBase *Parent,bool StartThreadWriteMode=true);
 	explicit	LayersBase(const LayersBase *Parent,int shadownumber,bool StartThreadWriteMode=true);
@@ -1646,7 +1650,7 @@ public:
 	void			SetStartInspectionTimeMilisec(DWORD	s);
 	DWORD			GetInspectionTimeMilisec(void)		const	{	return InspectionTimeMilisec;		}
 	void			SetInspectionTimeMilisec(DWORD s)			{	InspectionTimeMilisec=s;			}
-	//const QString  &GetCurrentPath(void)				const	{	return CurrentPath;		}
+	const QString  &GetCurrentPath(void)				const	{	return CurrentPath;		}
 	void			SetCurrentPath(const QString &currentPath)	{	CurrentPath=currentPath;	}
 	void			SetUserPath(const QString &userPath)	{	UserPath=userPath;		}
 	const QString	GetUserPath(void)				const;

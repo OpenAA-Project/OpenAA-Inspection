@@ -33,6 +33,7 @@ class  CameraMVSLinear :public CameraHandle
 {
     Q_OBJECT
 
+    QString                 ParamStr;
     char                    m_chPixelFormat[1024];
     int                     m_nDeviceCombo;
 

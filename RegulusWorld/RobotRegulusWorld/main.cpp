@@ -183,7 +183,7 @@ int main(int argc, char *argv[])
 		QCoreApplication::addLibraryPath (QCoreApplication::applicationDirPath());
 
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
 	GUIInitializer	*G=new GUIInitializer(Layers);
 	Layers->SetGUIInitializer(G);
@@ -267,7 +267,7 @@ int main(int argc, char *argv[])
 
 	QApplication::setStyle(Style);
 
-	BootupLogoForm	LogoForm(NULL);
+	BootupLogoForm	LogoForm(UserPath,NULL);
 	LogoForm.show();
 	QCoreApplication::processEvents();
 
@@ -450,7 +450,7 @@ int main(int argc, char *argv[])
 	if(WorkerIDEnabled==false){
 		SelectWorkerForm	*DW=new SelectWorkerForm(Layers);
 		if(EntryPointToFuncGlobal->IsMasterPC()==true){
-			LogoForm.close();
+			LogoForm.close(UserPath);
 			GeneralDialog	DWorker(NULL,DW,Layers->GetMainWidget());
 			Layers->CloseInformed();
 			DWorker.exec();

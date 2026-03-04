@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31112.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37012.4 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PrecisionChecker", "PrecisionChecker", "{4B3D3BBF-D143-4466-8691-B5DAA9986179}"
 EndProject
@@ -18,8 +18,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModelPageLayerItem", "ModelPageLayerItem\ModelPageLayerItem.vcxproj", "{46C90C5A-7D6B-48A8-A70D-4ED2211C829E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MTXMLLib", "..\XML\MTXMLServer\MTXMLLib\MTXMLLib.vcxproj", "{66D7DEB1-8130-41D1-B22B-5BED5E059C34}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sentinellib", "..\Sentinellib\Sentinellib\Sentinellib.vcxproj", "{B618839A-4DDE-4215-B271-BDA5DD2C2224}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SeqLib", "..\GeneralSource\Sequence\SeqLib\SeqLib\SeqLib.vcxproj", "{7D8057BC-ADEE-4223-9662-95D7CEE3C3F0}"
 EndProject
@@ -155,18 +153,6 @@ Global
 		{66D7DEB1-8130-41D1-B22B-5BED5E059C34}.Template|Win32.Build.0 = Template|Win32
 		{66D7DEB1-8130-41D1-B22B-5BED5E059C34}.Template|x64.ActiveCfg = Template|x64
 		{66D7DEB1-8130-41D1-B22B-5BED5E059C34}.Template|x64.Build.0 = Template|x64
-		{B618839A-4DDE-4215-B271-BDA5DD2C2224}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B618839A-4DDE-4215-B271-BDA5DD2C2224}.Debug|Win32.Build.0 = Debug|Win32
-		{B618839A-4DDE-4215-B271-BDA5DD2C2224}.Debug|x64.ActiveCfg = Debug|x64
-		{B618839A-4DDE-4215-B271-BDA5DD2C2224}.Debug|x64.Build.0 = Debug|x64
-		{B618839A-4DDE-4215-B271-BDA5DD2C2224}.Release|Win32.ActiveCfg = Release|Win32
-		{B618839A-4DDE-4215-B271-BDA5DD2C2224}.Release|Win32.Build.0 = Release|Win32
-		{B618839A-4DDE-4215-B271-BDA5DD2C2224}.Release|x64.ActiveCfg = Release|x64
-		{B618839A-4DDE-4215-B271-BDA5DD2C2224}.Release|x64.Build.0 = Release|x64
-		{B618839A-4DDE-4215-B271-BDA5DD2C2224}.Template|Win32.ActiveCfg = Template|Win32
-		{B618839A-4DDE-4215-B271-BDA5DD2C2224}.Template|Win32.Build.0 = Template|Win32
-		{B618839A-4DDE-4215-B271-BDA5DD2C2224}.Template|x64.ActiveCfg = Template|x64
-		{B618839A-4DDE-4215-B271-BDA5DD2C2224}.Template|x64.Build.0 = Template|x64
 		{7D8057BC-ADEE-4223-9662-95D7CEE3C3F0}.Debug|Win32.ActiveCfg = Debug|Win32
 		{7D8057BC-ADEE-4223-9662-95D7CEE3C3F0}.Debug|Win32.Build.0 = Debug|Win32
 		{7D8057BC-ADEE-4223-9662-95D7CEE3C3F0}.Debug|x64.ActiveCfg = Debug|x64
@@ -385,9 +371,9 @@ Global
 		{DCA5DA09-AC94-4F6E-9DED-9B5979564393} = {DCFAD182-254E-4BDB-9E9C-F60F28D48D30}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FBBDCDCC-8229-4739-8297-089151B7BA01}
-		QtVersion = $(DefaultQtVersion)
 		Qt5Version = $(DefaultQtVersion)
+		QtVersion = $(DefaultQtVersion)
+		SolutionGuid = {FBBDCDCC-8229-4739-8297-089151B7BA01}
 	EndGlobalSection
 	GlobalSection(Qt) = preSolution
 		Integration = True

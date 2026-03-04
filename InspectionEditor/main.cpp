@@ -689,7 +689,7 @@ int main(int argc, char *argv[])
 		ret=a->exec();
 	}
 
-	ClosingForm		CL;
+	ClosingForm		CL(UserPath);
 	CL.setWindowTitle(/**/"Editor");
 	CL.show();
 	CL.update();

@@ -563,14 +563,32 @@ bool	CameraMVSGigE::Load(QIODevice *f)
     if(::Load(f,AOIWidth    )==false)	        return false;
     if(::Load(f,AOIHeight   )==false)	        return false;
 
-    SetTriggerMode((TriggerMode==MV_TRIGGER_MODE_OFF)?false:true);
-    SetExposure();
-    SetGain();
-    SetFrameRate();
-    SetTriggerSource();
-    SetBinningDecimation();
-    SetReverse();
-    SetAOI();
+    bool    IsGrabbing=Cam.IsGrabbing();
+    for(int i=0;i<3;i++){
+        if(IsGrabbing==true){
+            Cam.StopGrabbing();
+        }
+        GSleep(20);
+        SetTriggerMode((TriggerMode==MV_TRIGGER_MODE_OFF)?false:true);
+        GSleep(20);
+        SetExposure();
+        GSleep(20);
+        SetGain();
+        GSleep(20);
+        SetFrameRate();
+        GSleep(20);
+        SetTriggerSource();
+        GSleep(20);
+        SetBinningDecimation();
+        GSleep(20);
+        SetReverse();
+        //SetAOI();
+        GSleep(100);
+    }
+    if(IsGrabbing==true){
+        Cam.StartGrabbing();
+    }
+
 	return true;
 }
 

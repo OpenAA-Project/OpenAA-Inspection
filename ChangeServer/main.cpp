@@ -22,6 +22,7 @@
 #include <QDir>
 #include "XFileRegistry.h"
 #include "XShowVersion.h"
+#include "XOpenAA.h"
 
 int main(int argc, char *argv[])
 {
@@ -48,7 +49,7 @@ int main(int argc, char *argv[])
 	else
 		QCoreApplication::addLibraryPath (QDir::currentPath());
 
-	FileRegistry	FRegistry(/**/"MachineInfo.dat");
+	FileRegistry	FRegistry(::GetUserPath(UserPath)+QDir::separator()+DefaultMachineInfoFileName);
 	LanguageCode=FRegistry.LoadRegInt("Language",0);
 	LanguagePackage	LangPack;
 	LangPack.LoadSolutionFromFile("ChangeServer.lng");

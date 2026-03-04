@@ -22,6 +22,7 @@
 #include "XFileRegistry.h"
 #include "XParamIntegrationMaster.h"
 #include "XGUI.h"
+#include "XOpenAA.h"
 
 int	LanguageCode;
 
@@ -61,10 +62,10 @@ int main(int argc, char *argv[])
 	}
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
 	EntryPointToFuncGlobal->GUISetEditMode(true);
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
-	Layers->SetCurrentPath(QDir::currentPath());
-	Layers->SetUserPath(UserPath);
+	//Layers->SetCurrentPath(QDir::currentPath());
+	//Layers->SetUserPath(UserPath);
 	GUIInitializer	*G=new GUIInitializer(Layers);
 	Layers->SetGUIInitializer(G);
 
@@ -73,8 +74,8 @@ int main(int argc, char *argv[])
 	QString	ErrorMsg;
 	DWORD	ErrorCode=0;
 
-	FileRegistry	FRegistry(/**/"MachineInfo.dat");
-	LanguageCode=FRegistry.LoadRegInt("Language",0);
+	FileRegistry	*FRegistry=Layers->GetFRegistry();
+	LanguageCode=FRegistry->LoadRegInt("Language",0);
 	Layers->SetLanguageCode(LanguageCode);
 
 	Layers->InitialFilterBank();

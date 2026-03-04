@@ -26,6 +26,7 @@
 #include "SingleExecute.h"
 #include "XGUI.h"
 #include "XShowVersion.h"
+#include "XOpenAA.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
@@ -45,8 +46,6 @@ const	char	*LayersBase::GetLanguageSolutionFileName(void)
 	QOFF			Not execute sequence
 	L[FileName]		LogFileName
 	T[Port]			Port Numver
-
-	�V�X�e���r�b�g	P1		�P�ɂ����ƃ|�b�v�A�b�v������
 
 */
 
@@ -122,10 +121,10 @@ int main(int argc, char *argv[])
 	}
 
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
-	Layers->SetCurrentPath(QDir::currentPath());
-	Layers->SetUserPath(UserPath);
+	//Layers->SetCurrentPath(QDir::currentPath());
+	//Layers->SetUserPath(UserPath);
 
 	GUIInitializer	*G=new GUIInitializer(Layers);
 	Layers->SetGUIInitializer(G);

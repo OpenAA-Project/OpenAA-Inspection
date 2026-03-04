@@ -65,6 +65,7 @@
 #include "XGeneralStocker.h"
 #include "Regulus64System.h"
 #include <omp.h>
+#include "XOpenAA.h"
 
 int	XDbg;
 
@@ -269,7 +270,7 @@ int main(int argc, char *argv[])
 		QCoreApplication::addLibraryPath (QCoreApplication::applicationDirPath());
 
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
 	GUIInitializer	*G=new GUIInitializer(Layers);
 	Layers->SetGUIInitializer(G);
@@ -389,7 +390,7 @@ int main(int argc, char *argv[])
 
 	QApplication::setStyle(Style);
 
-	BootupLogoForm	LogoForm(NULL);
+	BootupLogoForm	LogoForm(UserPath,NULL);
 	LogoForm.show();
 	QCoreApplication::processEvents();
 
@@ -397,8 +398,8 @@ int main(int argc, char *argv[])
 		Layers->GetParamComm()->SetDefaultFileName(CommParmaFileName);
 	}
 
-	Layers->SetCurrentPath(QDir::currentPath());
-	Layers->SetUserPath(UserPath);
+	//Layers->SetCurrentPath(QDir::currentPath());
+	//Layers->SetUserPath(UserPath);
 	if(Layers->GetParamGlobal()->LoadDefault(Layers->GetUserPath())==false){
 		QMessageBox Q(/**/"Load error"
 					, /**/"Load error of GlobalParam", QMessageBox::Critical
@@ -974,7 +975,7 @@ int main(int argc, char *argv[])
 		ret=a.exec();
 	}
 	if (Seq != NULL) {
-		ClosingForm		CL;
+		ClosingForm		CL(UserPath);
 		CL.setWindowTitle(Seq->GetTitle());
 		CL.show();
 		CL.update();

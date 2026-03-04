@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021
+ * Copyright (C) 2023
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,29 +15,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+#pragma once
 
-#include "XGeneralFunc.h"
-#include "XFileRegistry.h"
-#include "ClosingForm.h"
-#include "ui_ClosingForm.h"
+#include <QStandardPaths>
+#include <QString>
+#include <QDir>
 
-ClosingForm::ClosingForm(const QString &UserPath,QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::ClosingForm)
+#define	DefaultOpenAAPath				/**/"OpenAA"
+#define	DefaultMachineInfoFileName		/**/"MachineInfo.dat"
+
+inline	QString GetUserPath(const QString &userpath)
 {
-    ui->setupUi(this);
-	SetWidgetCenter(this);
-	setWindowFlags(Qt::WindowTitleHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
-	FileRegistry	FRegistry(::GetUserPath(UserPath)+QDir::separator()+DefaultMachineInfoFileName);
-	int	LanguageCode=FRegistry.LoadRegInt(/**/"Language",0);
-	switch(LanguageCode){
-		case 1:
-			ui->label->setText(/**/"On closing...");
-			break;
+	if(userpath.isEmpty()==false){
+		return userpath;
 	}
+
+	QString home = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+	return home+QDir::separator()+QStringLiteral(DefaultOpenAAPath);
 }
 
-ClosingForm::~ClosingForm()
-{
-    delete ui;
-}
+

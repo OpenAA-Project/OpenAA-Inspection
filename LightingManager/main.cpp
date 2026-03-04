@@ -20,6 +20,7 @@
 #include "LightingManager.h"
 #include "XShowVersion.h"
 #include <QMessageBox>
+#include "XOpenAA.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,7 +28,23 @@ int main(int argc, char *argv[])
 		return 1;
 
 	QApplication a(argc, argv);
-	LightingManager w;
+
+	QString	AbsPath;
+	QString	UserPath;
+
+	for(int i=0;i<argc;i++){
+		if(*argv[i]=='A' || *argv[i]=='a'){
+			char	*fp=argv[i]+1;
+			AbsPath	=fp;
+			QDir::setCurrent(AbsPath);
+		}
+		else if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
+			char	*fp=argv[i]+1;
+			UserPath	=fp;
+		}
+	}
+
+	LightingManager w(UserPath);
 
     if (!QSystemTrayIcon::isSystemTrayAvailable()) {
         QMessageBox::critical(0, QObject::tr("Systray"),

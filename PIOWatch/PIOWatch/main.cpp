@@ -22,6 +22,7 @@
 #include "PIOWatch.h"
 #include "XShowVersion.h"
 #include "XDataInLayer.h"
+#include "XOpenAA.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {

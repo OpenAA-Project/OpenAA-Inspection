@@ -27,6 +27,7 @@
 #include "XGUI.h"
 #include "XShowVersion.h"
 #include "XDataInLayer.h"
+#include "XOpenAA.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
@@ -50,6 +51,7 @@ int main(int argc, char *argv[])
 	QCoreApplication::addLibraryPath(CurrentBuff);
 	QString	AddedLibPath = QString(CurrentBuff)+QString("/plugins");
 	QCoreApplication::addLibraryPath(AddedLibPath);
+	QString		UserPath;
 
 	QApplication a(argc, argv);
 	for(int i=0;i<argc;i++){
@@ -58,9 +60,13 @@ int main(int argc, char *argv[])
 			QString	AbsPath(fp);
 			QDir::setCurrent(AbsPath);
 		}
+		else if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
+			char	*fp=argv[i]+1;
+			UserPath	=fp;
+		}
 	}
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
 	GUIInitializer	*G=new GUIInitializer(Layers);
 	Layers->SetGUIInitializer(G);

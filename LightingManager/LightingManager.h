@@ -30,7 +30,7 @@ class LightingManager : public QWidget
 	Q_OBJECT
 
 public:
-	LightingManager(QWidget *parent = 0, Qt::WindowFlags flags = Qt::Widget);
+	LightingManager(const QString &UserPath,QWidget *parent = 0, Qt::WindowFlags flags = Qt::Widget);
 	~LightingManager();
 
 	void SetWarmMinute		(int Value)		{	WarmMinute		=Value;		}
@@ -68,22 +68,22 @@ private:
     QMenu			*trayIconMenu;
     QSystemTrayIcon	*trayIcon;
 
-	time_t	StartTime;			//�A�v���P�[�V�����̋N������
-	time_t	TerminationTime;	//�A�v���P�[�V�����̏I������
-	QTimer	TimerMonitoring;	//�Ď��p�^�C�}�[
+	time_t	StartTime;			
+	time_t	TerminationTime;	
+	QTimer	TimerMonitoring;	
 
-	int		WarmMinute;			//�g�@����
-	int		ChangeHour;			//�Ɩ������ڈ�����
-	time_t	TotalSumHour;		//�݌v����
-	bool	IsShowWidget;		//�N�����ɉ��ʂ��\������
-	bool	IsCloseWidget;		//�g�@�I�����A���ʂ�����
-	bool	IsStartExe;			//�g�@�I�����A�N�������\�t�g���w�肷��
-	QString	StartExe;			//�g�@�I�����A�N�������\�t�g
+	int		WarmMinute;			
+	int		ChangeHour;			
+	time_t	TotalSumHour;		
+	bool	IsShowWidget;		
+	bool	IsCloseWidget;		
+	bool	IsStartExe;			
+	QString	StartExe;			
 
-	bool	IsShutdown;			//�V���b�g�_�E�����ǂ���
-	bool	DoneExit;			//�蓮�I�����ǂ���
-	char	Index;				//�w�i�F���]�t���O
-	QString BlinkStyleSheet[2];	//�w�i�F���]�p�X�^�C���V�[�g������
+	bool	IsShutdown;			
+	bool	DoneExit;			
+	char	Index;				
+	QString BlinkStyleSheet[2];	
 
     void createActions();
     void createTrayIcon();

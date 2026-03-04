@@ -69,9 +69,10 @@ CamBufferStack	&CamBufferStack::operator=(const CamBufferStack &src)
 }
 
 
-CameraMVSLinear::CameraMVSLinear(int CamNo ,const QString &ParamStr,LayersBase *base)
+CameraMVSLinear::CameraMVSLinear(int CamNo ,const QString &_ParamStr,LayersBase *base)
 	:CameraHandle(CamNo,base)
 {
+    ParamStr                    = _ParamStr;
 	LineTriggerMode				= false;
 	LineTriggerSource			= MV_TRIGGER_SOURCE_SOFTWARE;
 	FrameTriggerMode			= false;
@@ -139,12 +140,17 @@ bool    CameraMVSLinear::Initial(void)
 		char strUserName[256] = {0};
 		if (pDeviceInfo->nTLayerType == MV_GIGE_DEVICE)
 		{
-		    int nIp1 = ((m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0xff000000) >> 24);
-		    int nIp2 = ((m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0x00ff0000) >> 16);
-		    int nIp3 = ((m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0x0000ff00) >> 8);
-		    int nIp4 = (m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0x000000ff);
+            uint32_t ip = pDeviceInfo->SpecialInfo.stGigEInfo.nCurrentIp;
+            QString ipStr = QString("%1.%2.%3.%4")
+                            .arg((ip >> 24) & 0xFF)
+                            .arg((ip >> 16) & 0xFF)
+                            .arg((ip >> 8) & 0xFF)
+                            .arg(ip & 0xFF);
 
-		    if (strcmp("", (const char *)(pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName)) != 0)
+            QString modelName = QString::fromUtf8(reinterpret_cast<char*>(pDeviceInfo->SpecialInfo.stGigEInfo.chModelName));
+            QString userDefName = QString::fromUtf8(reinterpret_cast<char*>(pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName));
+
+            if (strcmp("", (const char *)(pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName)) != 0)
 		    {
 				memset(strUserName,0,256);
 				sprintf_s(strUserName, 256, "%s (%s)", pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName,
@@ -158,21 +164,60 @@ bool    CameraMVSLinear::Initial(void)
 		            pDeviceInfo->SpecialInfo.stGigEInfo.chSerialNumber);
 		        UserName=strUserName;
 		    }
-			char strBuff[256];
-		    sprintf_s(strBuff, 256, "%d.%d.%d.%d", nIp1, nIp2, nIp3, nIp4);
-			if(IPAddress.isEmpty()==true){
-				IPAddress=strBuff;
-				DevNo=i;
-				break;
+
+
+            QStringList List=ParamStr.split("=");
+            if(List[0].trimmed()=="IP"){
+                if(ipStr==List[1]){
+                    DevNo=i;
+                    break;
+                }
+            }
+            else if(List[0].trimmed()=="Model"){
+                if(modelName==List[1]){
+                    DevNo=i;
+                    break;
+                }
+            }
+            else if(List[0].trimmed()=="UserDefName"){
+                if(userDefName==List[1]){
+                    DevNo=i;
+                    break;
+                }
 			}
-			else if(IPAddress==IPAddress){
-				DevNo=i;
-				break;
+            else if(List[0].trimmed()==ipStr){
+                DevNo=i;
+                break;
+            }
+            else if(List[0].trimmed()==modelName){
+                DevNo=i;
+                break;
+            }
+            else if(List[0].trimmed()==userDefName){
+                DevNo=i;
+                break;
 			}
+            //DevNo=i;
 		}
 	}
 	if(DevNo<0){
+        for (unsigned int i = 0; i < m_stDevList.nDeviceNum; i++) {
+            MV_CC_DEVICE_INFO* pDeviceInfo = m_stDevList.pDeviceInfo[i];
+            
+            if (pDeviceInfo && pDeviceInfo->nTLayerType == MV_GIGE_DEVICE) {
+                QString modelName = QString::fromUtf8(reinterpret_cast<char*>(pDeviceInfo->SpecialInfo.stGigEInfo.chModelName));
+  
+                if (modelName.startsWith("MV-C")) {
+                DevNo=i;
+                break;
+                }
+            }
+        }
+
 		return false;
+	}
+    if(DevNo<0){
+        return false;
 	}
     GSleep(500);
 
@@ -208,7 +253,6 @@ bool    CameraMVSLinear::Initial(void)
 
 	return true;
 }
-
 
 static  void    FuncCameraOutput(unsigned char * pData, MV_FRAME_OUT_INFO_EX* pFrameInfo, void* pUser)
 {

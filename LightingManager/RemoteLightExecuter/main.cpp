@@ -27,6 +27,7 @@
 #include <QString>
 #include <QDir>
 #include "XFileRegistry.h"
+#include "XOpenAA.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
@@ -90,14 +91,15 @@ int main(int argc, char *argv[])
 	else
 		QCoreApplication::addLibraryPath (QCoreApplication::applicationDirPath());
 
-	FileRegistry	FRegistry(/**/"MachineInfo.dat");
-	int	LanguageCode=FRegistry.LoadRegInt("Language",0);
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
 	EntryPointToFuncGlobal->GUISetEditMode(true);
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
-	Layers->SetCurrentPath(QDir::currentPath());
-	Layers->SetUserPath(UserPath);
+	//Layers->SetCurrentPath(QDir::currentPath());
+	//Layers->SetUserPath(UserPath);
+
+	FileRegistry	*FRegistry=Layers->GetFRegistry();
+	int	LanguageCode=FRegistry->LoadRegInt("Language",0);
 
 	GUIInitializer	*G=new GUIInitializer(Layers);
 	Layers->SetGUIInitializer(G);

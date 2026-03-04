@@ -24,15 +24,15 @@
 #include <QMessageBox>
 #include "LightingManager.h"
 #include "XFileRegistry.h"
+#include "XOpenAA.h"
 
 LanguagePackage	LangPack;
 
 
-LightingManager::LightingManager(QWidget *parent, Qt::WindowFlags flags)
+LightingManager::LightingManager(const QString &UserPath,QWidget *parent, Qt::WindowFlags flags)
 	: QWidget(parent, flags)
 {
-	//???e?I??
-	FileRegistry	*FRegistry		=new FileRegistry(/**/"./MachineInfo.dat");
+	FileRegistry	*FRegistry		=new FileRegistry(::GetUserPath(UserPath)+QDir::separator()+DefaultMachineInfoFileName);
 	int	LanguageCode=FRegistry->LoadRegInt(/**/"Language",0);
 	LangPack.LoadSolutionFromFile(/**/"InspectionGeneral.lng");
 	LangSolver.SetLanguage(LangPack,LanguageCode);
@@ -45,7 +45,6 @@ LightingManager::LightingManager(QWidget *parent, Qt::WindowFlags flags)
 	setWindowFlags(Qt::WindowStaysOnTopHint);	//?i?E?O?E?E?\?|
 //	setWindowFlags(Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint);
 
-	//?N?R???O?I?a??
 	StartTime=time(NULL);
 
 	//Timer?I?Y?e
@@ -93,25 +92,25 @@ LightingManager::LightingManager(QWidget *parent, Qt::WindowFlags flags)
 			for(int Cnt=0;!mystream.atEnd();Cnt++){
 				switch(Cnt){
 				case 0:
-					SetWarmMinute(mystream.readLine().toInt());			//?g?@???O
+					SetWarmMinute(mystream.readLine().toInt());		
 					break;
 				case 1:
-					SetChangeHour(mystream.readLine().toInt());			//?A???d?�E?U?A???O
+					SetChangeHour(mystream.readLine().toInt());		
 					break;
 				case 2:
-					SetTotalSumHour(mystream.readLine().toLongLong());	//?Y?v???O
+					SetTotalSumHour(mystream.readLine().toLongLong());
 					break;
 				case 3:
-					SetIsShowWidget(mystream.readLine().toInt());		//?N?R???E?a?E?d?\?|?�E?e
+					SetIsShowWidget(mystream.readLine().toInt());	
 					break;
 				case 4:
-					SetIsCloseWidget(mystream.readLine().toInt());		//?g?@?I?1?a?A?a?E?d?A?��?e
+					SetIsCloseWidget(mystream.readLine().toInt());	
 					break;
 				case 5:
-					SetIsStartExe(mystream.readLine().toInt());			//?g?@?I?1?a?A?N?R?�E?e?\?t?g?d?w?e?�E?e
+					SetIsStartExe(mystream.readLine().toInt());		
 					break;
 				case 6:
-					SetStartExe(mystream.readLine());					//?g?@?I?1?a?A?N?R?�E?e?\?t?g
+					SetStartExe(mystream.readLine());				
 					break;
 				}
 			}

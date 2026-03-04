@@ -226,9 +226,8 @@
       <AdditionalLibraryDirectories>..\..\Lib\Release;$(VCInstallDir)PlatformSDK\Lib\AMD64;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <StackReserveSize>
-      </StackReserveSize>
-      <StackCommitSize>64000000</StackCommitSize>
+      <StackReserveSize>512000000</StackReserveSize>
+      <StackCommitSize>256000000</StackCommitSize>
       <TargetMachine>MachineX64</TargetMachine>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <HeapReserveSize>

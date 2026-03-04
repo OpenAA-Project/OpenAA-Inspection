@@ -33,7 +33,6 @@
 
 #include "XGUI.h"
 #include "XDataInExe.h"
-#include "XDataInExe.h"
 #include <stdio.h>
 #include <ThreadSequence.h>
 #include "XSequenceRepairLocal.h"
@@ -53,6 +52,7 @@
 #include "XStatusController.h"
 #include "XLogOut.h"
 #include "Regulus64System.h"
+#include "XOpenAA.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
@@ -146,6 +146,7 @@ int main(int argc, char *argv[])
 	QString SequenceFileName;
 	QString CommFileName;
 	bool	EditPasswordMode=false;
+	QString	UserPath;
 
 	QString	GUIFileName=/**/"RepairStation.gui";
 	for(int i=1;i<argc;i++){
@@ -171,6 +172,10 @@ int main(int argc, char *argv[])
 			if(sscanf(fp,/**/"%d",&WorkerID)==1){
 				WorkerIDEnabled=true;
 			}
+		}
+		else if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
+			char	*fp=argv[i]+1;
+			UserPath	=fp;
 		}
 		else if(stricmp(argv[i],/**/"NoCamDevice")==0){
 			NoCamDevice=true;
@@ -230,7 +235,7 @@ int main(int argc, char *argv[])
 	QCoreApplication::processEvents();
 
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
 	EntryPointToFuncGlobal->NoCamDevice=NoCamDevice;
 	GUIInitializer	*G=new GUIInitializer(Layers);
@@ -339,24 +344,6 @@ int main(int argc, char *argv[])
 			return(2);
 	}
 	Layers->LoadLevelFolderContainerFromDB();
-
-
-	/*
-		QString RetVolumeNameBuffer;
-		int32	VolumeSerialNumber;		// �{�����[���̃V���A���ԍ�
-		int32	MaximumComponentLength;	// �t�@�C�����̍ő��̒���
-		int32	FileSystemFlags;			// �t�@�C���V�X�e���̃I�v�V����
-		QString	FileSystemNameBuffer;		// �t�@�C���V�X�e�������i�[�����o�b�t�@
-
-		MtGetVolumeInformation(
-			"e:\\",				// ���[�g�f�B���N�g��
-			RetVolumeNameBuffer,     // �{�����[�����o�b�t�@
-			VolumeSerialNumber,		// �{�����[���̃V���A���ԍ�
-			MaximumComponentLength,	// �t�@�C�����̍ő��̒���
-			FileSystemFlags,			// �t�@�C���V�X�e���̃I�v�V����
-			FileSystemNameBuffer		// �t�@�C���V�X�e�������i�[�����o�b�t�@
-		);
-*/
 
 	Layers->InitialAlgorithmBlob();
 	Layers->InitialAlgorithmLibrary();

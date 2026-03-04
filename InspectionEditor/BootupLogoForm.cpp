@@ -20,14 +20,15 @@
 #include "BootupLogoForm.h"
 #include "XGeneralFunc.h"
 #include "XFileRegistry.h"
+#include "XOpenAA.h"
 
-BootupLogoForm::BootupLogoForm(QWidget *parent)
+BootupLogoForm::BootupLogoForm(const QString &UserPath,QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 	SetWidgetCenter(this);
 	setWindowFlags(Qt::WindowTitleHint | Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint);
-	FileRegistry	FRegistry(/**/"MachineInfo.dat");
+	FileRegistry	FRegistry(::GetUserPath(UserPath)+QDir::separator()+DefaultMachineInfoFileName);
 	int	LanguageCode=FRegistry.LoadRegInt(/**/"Language",0);
 	switch(LanguageCode){
 		case 1:

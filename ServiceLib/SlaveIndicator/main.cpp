@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include "SlaveIndicatorResource.h"
 #include "XShowVersion.h"
-
+#include "XOpenAA.h"
 
 int main(int argc, char *argv[])
 {
@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
 	int	SlaveCount=4;
 	int	LanguageCode=0;
 	QString	AbsPath;
+	QString	UserPath;
 
  	for(int i=1;i<argc;i++){
 		if((*argv[i]=='A' || *argv[i]=='a') && *(argv[i]+1)!=':'){
@@ -46,6 +47,10 @@ int main(int argc, char *argv[])
 		if((*argv[i]=='L' || *argv[i]=='l')){
 			char	*fp=argv[i]+1;
 			sscanf(fp,/**/"%d",&LanguageCode);
+		}
+		else if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
+			char	*fp=argv[i]+1;
+			UserPath	=fp;
 		}
 	}
 	if(AbsPath.isEmpty()==false)

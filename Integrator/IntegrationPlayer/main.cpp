@@ -61,6 +61,7 @@
 #include "NoComponentDialog.h"
 #include "Regulus64System.h"
 #include "XIntegrationComm.h"
+#include "XOpenAA.h"
 #include <omp.h>
 
 int	XDbg;
@@ -193,6 +194,10 @@ int main(int argc, char *argv[])
 		else if(stricmp(argv[i],/**/"-R")==0){
 			RemoveUselessGUI=true;
 		}
+		else if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
+			char	*fp=argv[i]+1;
+			UserPath	=fp;
+		}
 	}
 
 	if(StopForDebug==true){
@@ -219,15 +224,15 @@ int main(int argc, char *argv[])
 	else
 		QCoreApplication::addLibraryPath (QCoreApplication::applicationDirPath());
 
-	BootupLogoForm	LogoForm(NULL);
+	BootupLogoForm	LogoForm(UserPath,NULL);
 	LogoForm.show();
 	QCoreApplication::processEvents();
 
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
-	Layers->SetCurrentPath(QDir::currentPath());
-	Layers->SetUserPath(UserPath);
+	//Layers->SetCurrentPath(QDir::currentPath());
+	//Layers->SetUserPath(UserPath);
 	GUIInitializer	*G=new GUIInitializer(Layers);
 	Layers->SetGUIInitializer(G);
 

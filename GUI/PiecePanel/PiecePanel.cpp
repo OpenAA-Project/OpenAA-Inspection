@@ -52,6 +52,7 @@
 #include "XFileThread.h"
 #include "XLevel.h"
 #include <omp.h>
+#include "XOpenAA.h"
 
 static	const	char	*sRoot=/**/"Inspection";
 static	const	char	*sName=/**/"PiecePanel";
@@ -534,7 +535,10 @@ void	GUICmdSendPieceItemMasterCode::Receive(int32 localPage, int32 cmd ,QString 
 
 
 
-LayersBase::LayersBase(EntryPointBase *pEntryPoint,bool StartThreadWriteMode)
+LayersBase::LayersBase(EntryPointBase *pEntryPoint
+					,const QString &_UserPath
+					,const QString &_CurrentPath
+					,bool StartThreadWriteMode)
 :AuthenticationInComponent(this)
 ,ShadowTree(-1,this)
 ,OnTerminating(false)
@@ -568,8 +572,14 @@ LayersBase::LayersBase(EntryPointBase *pEntryPoint,bool StartThreadWriteMode)
 	OnChanging				=false;
 	MilisecExecuteFilter	=0;
 	InsideLearningEditor	=false;
-	QString	CurPath			=QDir::currentPath();
-	FRegistry				=new FileRegistry(CurPath+QString(/**/"/MachineInfo.dat"));
+	UserPath				=_UserPath;
+	if(_CurrentPath.isEmpty()==true){
+		CurrentPath=QDir::currentPath();
+	}
+	else{
+		CurrentPath			=_CurrentPath;
+	}
+	FRegistry				=new FileRegistry(GetUserPath()+QDir::separator()+DefaultMachineInfoFileName);
 	int	LanguageCode=GetFRegistry()->LoadRegInt(/**/"Language",0);
 	LanguagePackageData		=new LanguagePackage();
 	//LoadLanguageSolution(GetLanguageSolutionFileName());

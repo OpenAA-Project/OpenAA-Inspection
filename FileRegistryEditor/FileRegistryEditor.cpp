@@ -31,6 +31,7 @@
 #include "XDatabaseLoader.h"
 #include "XParamGlobal.h"
 #include "XDataInLayer.h"
+#include "XOpenAA.h"
 
 FileRegistryEditor::FileRegistryEditor(LayersBase *base,QWidget *parent, Qt::WindowFlags flags)
 	: QMainWindow(parent, flags),ServiceForLayers(base)
@@ -38,7 +39,7 @@ FileRegistryEditor::FileRegistryEditor(LayersBase *base,QWidget *parent, Qt::Win
 	ui.setupUi(this);
 
 	PathName=QDir::currentPath();
-	FRegistry=new FileRegistry(/**/"MachineInfo.dat");
+	FRegistry=GetLayersBase()->GetFRegistry();
 	SetWidgetCenter(this);
 	ShowInfo();
 }
@@ -87,7 +88,7 @@ void FileRegistryEditor::on_pushButtonSelectFolder_clicked()
 	if(pathName.isEmpty()==false){
 		delete	FRegistry;
 		PathName=pathName;
-		FRegistry=new FileRegistry(pathName+QString(/**/"/MachineInfo.dat"));
+		FRegistry=new FileRegistry(pathName+QDir::separator()+DefaultMachineInfoFileName);
 		ShowInfo();
 	}
 }

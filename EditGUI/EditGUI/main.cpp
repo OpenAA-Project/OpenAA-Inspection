@@ -32,6 +32,7 @@
 #include "itemlistwindow.h"
 #include "propertylist.h"
 #include "Regulus64System.h"
+#include "XOpenAA.h"
 
 ItemListWindow	*MainItem;
 PropertyList	*MainProperty;
@@ -131,7 +132,7 @@ int main(int argc, char *argv[])
 	EntryPointBase	*E	=new EntryPointForEditGUI();
 	E->GUISetEditMode(true);
 
-	LayersBase	*Layers	=new LayersBase(E);
+	LayersBase	*Layers	=new LayersBase(E,::GetUserPath(UserPath));
 	E->SetLayersBase(Layers);
 	Layers->SetUserPath(UserPath);
 

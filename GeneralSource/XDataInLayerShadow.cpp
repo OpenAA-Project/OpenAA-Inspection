@@ -123,7 +123,8 @@ LayersBase::LayersBase(const LayersBase *_Parent,int shadownumber,bool _StartThr
 	OnChanging				=false;
 	MilisecExecuteFilter	=0;
 	InsideLearningEditor	=false;
-	QString	CurPath			=QDir::currentPath();
+	UserPath				=_Parent->GetUserPath();
+	CurrentPath				=_Parent->GetCurrentPath();
 	FRegistry				=_Parent->FRegistry;
 	int	LanguageCode=((LayersBase *)Parent)->LanguagePackageData->GetLanguageCode();
 	LanguagePackageData		=((LayersBase *)Parent)->GetLanguagePackageDataPointer();

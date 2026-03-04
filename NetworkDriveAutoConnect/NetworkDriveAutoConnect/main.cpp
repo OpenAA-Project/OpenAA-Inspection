@@ -25,6 +25,7 @@
 
 #include "XFileRegistry.h"
 #include "XShowVersion.h"
+#include "XOpenAA.h"
 
 int main(int argc, char *argv[])
 {
@@ -36,6 +37,7 @@ int main(int argc, char *argv[])
 	QString iniFilename = "NetworkDriveAutoConnectInfo.ini";
 	bool loop = false;
 	DWORD loopTime = 600000;
+	QString	UserPath;
 
 	for(int i=1; i<argc; i++){
 		const QString argm = argv[i];
@@ -56,9 +58,13 @@ int main(int argc, char *argv[])
 				loopTime = time;
 			}
 		}
+		if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
+			char	*fp=argv[i]+1;
+			UserPath	=fp;
+		}
 	}
 
-	FileRegistry	*FRegistry		=new FileRegistry("./MachineInfo.dat");
+	FileRegistry	*FRegistry		=new FileRegistry(::GetUserPath(UserPath)+QDir::separator()+DefaultMachineInfoFileName);
 	int	LanguageCode=FRegistry->LoadRegInt("Language",0);
 	LangSolver.SetLanguage(LanguageCode);
 

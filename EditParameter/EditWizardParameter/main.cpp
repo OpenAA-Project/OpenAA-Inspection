@@ -23,6 +23,7 @@
 #include "XFileRegistry.h"
 #include "XShowVersion.h"
 #include "XGUI.h"
+#include "XOpenAA.h"
 
 int	LanguageCode;
 
@@ -54,6 +55,7 @@ int main(int argc, char *argv[])
 
 	QString	AbsPath;
 	QString ParamGlobalFileName;
+	QString	UserPath;
 
 	for(int i=0;i<argc;i++){
 		if(*argv[i]=='A' || *argv[i]=='a'){
@@ -61,9 +63,13 @@ int main(int argc, char *argv[])
 			AbsPath	=fp;
 			QDir::setCurrent(AbsPath);
 		}
-		if(*argv[i]=='S' || *argv[i]=='s'){
+		else if(*argv[i]=='S' || *argv[i]=='s'){
 			char	*fp=argv[i]+1;
 			ParamGlobalFileName	=fp;
+		}
+		else if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
+			char	*fp=argv[i]+1;
+			UserPath	=fp;
 		}
 	}
 
@@ -77,7 +83,7 @@ int main(int argc, char *argv[])
 	}
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
 	EntryPointToFuncGlobal->GUISetEditMode(true);
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
 	Layers->SetGUIInitializer(new GUIInitializer(Layers));
 
@@ -87,8 +93,8 @@ int main(int argc, char *argv[])
 	QString	ErrorMsg;
 	DWORD	ErrorCode=0;
 
-	FileRegistry	FRegistry(/**/"MachineInfo.dat");
-	LanguageCode=FRegistry.LoadRegInt("Language",0);
+	FileRegistry	*FRegistry=Layers->GetFRegistry();
+	LanguageCode=FRegistry->LoadRegInt("Language",0);
 	Layers->SetLanguageCode(LanguageCode);
 
 	Layers->InitialFilterBank();
