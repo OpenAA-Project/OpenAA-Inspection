@@ -107,6 +107,8 @@ CameraMVSGigE::CameraMVSGigE(int CamNo ,const QString &ParamStr,LayersBase *base
 
 	connect(&LocalServer,&QLocalServer::newConnection,this,&CameraMVSGigE::SlotNewConnection);
 	LocalServer.listen(QString("CameraMVSGigE%1").arg(CamNo));
+
+    //Cam.SetLogMode(true);
 }
 CameraMVSGigE::~CameraMVSGigE(void)
 {
@@ -568,22 +570,22 @@ bool	CameraMVSGigE::Load(QIODevice *f)
         if(IsGrabbing==true){
             Cam.StopGrabbing();
         }
-        GSleep(20);
+        //GSleep(20);
         SetTriggerMode((TriggerMode==MV_TRIGGER_MODE_OFF)?false:true);
-        GSleep(20);
+        //GSleep(20);
         SetExposure();
-        GSleep(20);
+        //GSleep(20);
         SetGain();
-        GSleep(20);
+        //GSleep(20);
         SetFrameRate();
-        GSleep(20);
+        //GSleep(20);
         SetTriggerSource();
-        GSleep(20);
+        //GSleep(20);
         SetBinningDecimation();
-        GSleep(20);
+        //GSleep(20);
         SetReverse();
         //SetAOI();
-        GSleep(100);
+        //GSleep(100);
     }
     if(IsGrabbing==true){
         Cam.StartGrabbing();
@@ -710,7 +712,8 @@ int CameraMVSGigE::SetFrameRate()
         return nRet;
     }
 
-    return Cam.SetFloatValue("AcquisitionFrameRate", (float)FrameRate);
+    //nRet = Cam.SetFloatValue("AcquisitionFrameRate", (float)FrameRate);
+    return nRet;
 }
 
 // ch:获取触发源 | en:Get Trigger Source
