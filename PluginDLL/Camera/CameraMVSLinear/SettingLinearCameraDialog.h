@@ -20,6 +20,8 @@ class SettingLinearCameraDialog : public QDialog
     int         EnumLineTriggerModeData[64];
     int         EnumFrameTriggerSourceData[64];
     int         EnumFrameTriggerModeData[64];
+	int		    EnumLineFormatData[6][64];
+    int		    EnumLineModeData[6][64];
 
     CameraMVSLinear   *Parent;
 public:
@@ -34,7 +36,12 @@ public:
     bool		LineTriggerMode;   
     int			LineTriggerSource; 
     bool        FrameTriggerMode;   
-    int			FrameTriggerSource; 
+    int			FrameTriggerSource;
+	int		    Line0Format;
+	int		    Line1Format;
+	int		    Line2Format;
+	int		    Line3Format;
+	int		    Line4Format;
     unsigned int    BinningHMode;
     unsigned int    BinningVMode;
     unsigned int    DecimationH ;

@@ -25,11 +25,11 @@
 #include <stdio.h>
 #include "XDatabase.h"
 #include "XGeneralDialog.h"
-#include "hasplib.h"
 #include "Regulus64Version.h"
 #include "XShowVersion.h"
 #include "DeleteThread.h"
 #include <QProgressDialog>
+#include <QElapsedTimer>
 #include "XOpenAA.h"
 #include "ResultDataManagerResource.h"
 
@@ -42,22 +42,20 @@ DeleteThread *DelThread = new DeleteThread(NULL);
 
 void delThreadEndFunc()
 {
-	DelThread->pause();// ���U���~
-	QTime waitTime;
-	waitTime.start();
-	QProgressDialog process;// �󋵂̃v���O���X�_�C�A���O
-	process.setCancelButton(NULL);// �L�����Z���{�^���Ȃ�
-	process.setRange(0, DelThread->remainFileCount());// �폜�����ő��l
-	// ���x���X�V�̃X���b�g�ڑ�
+	DelThread->pause();
+
+	QProgressDialog process;
+	process.setCancelButton(NULL);
+	process.setRange(0, DelThread->remainFileCount());
+
 	QObject::connect(DelThread, SIGNAL(deletedFile(const QString &)), &process, SLOT(setLabelText(const QString &)), Qt::ConnectionType::QueuedConnection);
 
-	QTime time;// �X�V�^�C�}�[
+	QElapsedTimer time;
 
-	// �X�^�[�g
 	time.start();
 	DelThread->pause(false);
 	while(DelThread->remainFileCount()!=0){
-		if(time.elapsed()>1000){// �P�b���o�[���X�V
+		if(time.elapsed()>5000){
 			process.setValue(process.maximum()-DelThread->remainFileCount());
 			time.restart();
 		}
@@ -65,7 +63,7 @@ void delThreadEndFunc()
 		qApp->processEvents(QEventLoop::ProcessEventsFlag::ExcludeUserInputEvents);
 	}
 
-	delete DelThread;// �X���b�h�폜
+	delete DelThread;
 }
 
 int main(int argc, char *argv[])

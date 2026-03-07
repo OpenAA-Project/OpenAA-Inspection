@@ -28,6 +28,7 @@
 #include <QPixmap>
 #include "connection.h"
 #include "swap.h"
+#include "XIntClass.h"
 
 extern QStringList MPathList;
 extern bool quit;
@@ -140,6 +141,10 @@ bool UIBase::message(const QString &type){
 		return false;
 	}
 	return true;
+}
+
+UIBase::UIBase(const UIBase &rhs){
+	parent = rhs.parent;
 }
 //----------------------------------------------------
 

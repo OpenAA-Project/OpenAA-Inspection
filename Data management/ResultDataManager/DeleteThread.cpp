@@ -21,6 +21,7 @@
 #include <QFile>
 #include <QTime>
 #include <QDir>
+#include <QElapsedTimer>
 
 #include "XDirectoryAPI.h"
 
@@ -113,12 +114,11 @@ void DeleteThread::run(void)
 
 bool DeleteThread::deleteFile(const QString &filePath)
 {
-	static QTime time;
-	if(time.isNull()==true){
+	static QElapsedTimer time;
+	if(time.isValid()==true){
 		time.start();
 	}
 
-	// �폜
 	if(DeleteFileApi(filePath)==true){
 		QString fileDirectory = QFileInfo(filePath).absolutePath();
 		QDir dir(fileDirectory);
@@ -136,9 +136,9 @@ bool DeleteThread::deleteFile(const QString &filePath)
 		}
 		}
 
-		if(time.elapsed()>100){
+		if(time.elapsed()>100*1000){
 			time.restart();
-			emit deletedFile(QDir::fromNativeSeparators(filePath));// �폜�V�O�i�����M
+			emit deletedFile(QDir::fromNativeSeparators(filePath));
 		}
 		return true;
 	}else{

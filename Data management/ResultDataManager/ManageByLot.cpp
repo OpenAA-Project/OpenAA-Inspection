@@ -716,7 +716,7 @@ void ManageByLot::on_pushButtonDeleteLot_clicked()
 						QString NGJFile;
 						if(GetXMLAttrStr (ResultListStr[i],/**/"NGJ",NGJFile)==true){
 							QString	FileName=SParam->ImageDrive + ::GetSeparator()+NGJFile;
-							QStringList	List=SParam->ImageDrive.split(QRegularExpression(/**/"[/\\\\]"),QString::SplitBehavior::SkipEmptyParts);
+							QStringList	List=SParam->ImageDrive.split(QRegularExpression(/**/"[/\\\\]"),Qt::SkipEmptyParts);
 							int	LPoint=0;
 							while(LPoint<List.count()){
 								if((NGJFile.at(0)=='/' || NGJFile.at(0)=='\\') && (NGJFile.at(0)=='/' || NGJFile.at(0)=='\\')){
@@ -834,7 +834,7 @@ void ManageByLot::on_pushButtonDeleteAll_clicked()
 					QString NGJFile;
 					if(GetXMLAttrStr (ResultListStr[i],/**/"NGJ",NGJFile)==true){
 						QString	FileName=SParam->ImageDrive + ::GetSeparator()+NGJFile;
-						QStringList	List=SParam->ImageDrive.split(QRegularExpression(/**/"[/\\\\]"),QString::SplitBehavior::SkipEmptyParts);
+						QStringList	List=SParam->ImageDrive.split(QRegularExpression(/**/"[/\\\\]"),Qt::SkipEmptyParts);
 						int	LPoint=0;
 						while(LPoint<List.count()){
 							if((NGJFile.at(0)==/**/'/' || NGJFile.at(0)==/**/'\\') && (NGJFile.at(0)==/**/'/' || NGJFile.at(0)==/**/'\\')){
@@ -1112,7 +1112,7 @@ void ManageByLot::on_pushButtonBackup_clicked()
 						QString NGJFile;
 						if(GetXMLAttrStr (ResultListStr[i],/**/"NGJ",NGJFile)==true){
 							QString	FileName=SParam->ImageDrive + ::GetSeparator()+NGJFile;
-							QStringList	List=SParam->ImageDrive.split(QRegularExpression(/**/"[/\\\\]"),QString::SplitBehavior::SkipEmptyParts);
+							QStringList	List=SParam->ImageDrive.split(QRegularExpression(/**/"[/\\\\]"),Qt::SkipEmptyParts);
 							int	LPoint=0;
 							while(LPoint<List.count()){
 								if((NGJFile.at(0)=='/' || NGJFile.at(0)=='\\') && (NGJFile.at(0)=='/' || NGJFile.at(0)=='\\')){
@@ -1812,7 +1812,7 @@ void ManageByLot::on_pushButtonBackupOnly_clicked()
 						QString NGJFile;
 						if(GetXMLAttrStr (ResultListStr[i],/**/"NGJ",NGJFile)==true){
 							QString	FileName=SParam->ImageDrive + ::GetSeparator()+NGJFile;
-							QStringList	List=SParam->ImageDrive.split(QRegularExpression(/**/"[/\\\\]"),QString::SplitBehavior::SkipEmptyParts);
+							QStringList	List=SParam->ImageDrive.split(QRegularExpression(/**/"[/\\\\]"),Qt::SkipEmptyParts);
 							int	LPoint=0;
 							while(LPoint<List.count()){
 								if((NGJFile.at(0)=='/' || NGJFile.at(0)=='\\') && (NGJFile.at(0)=='/' || NGJFile.at(0)=='\\')){

@@ -22,9 +22,6 @@
     <ClCompile Include="..\..\Open\XShowVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ServiceLib\ServiceForDBLib\qsql_ibase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="datamanagement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -40,9 +37,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="setting.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\ServiceLib\ServiceForDBLib\qsql_ibase_p.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="datamanagement.h">

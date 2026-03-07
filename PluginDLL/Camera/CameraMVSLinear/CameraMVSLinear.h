@@ -70,6 +70,11 @@ public:
     int			LineTriggerSource; 
     bool        FrameTriggerMode;   
     int			FrameTriggerSource; 
+	int		    Line0Format;
+	int		    Line1Format;
+	int		    Line2Format;
+	int		    Line3Format;
+	int		    Line4Format;
     unsigned int    BinningHMode;
     unsigned int    BinningVMode;
     unsigned int    DecimationH ;
@@ -140,6 +145,9 @@ public:
     int GetFrameRate();                  // ch:设置帧率 | en:Set Frame Rate
     int SetFrameRate();
     int GetPixelFormat();                // ch:获取像素格式 | en:Get Pixel Format
+
+    bool    SetLineFormat(int LineNo,int LineFormat);
+
 
     bool    SetBinningDecimation(void);
     bool    SetReverse(void);

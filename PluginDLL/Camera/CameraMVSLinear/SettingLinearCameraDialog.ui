@@ -26,9 +26,9 @@
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>150</x>
      <y>330</y>
-     <width>151</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -97,7 +97,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>680</y>
+     <y>710</y>
      <width>481</width>
      <height>51</height>
     </rect>
@@ -144,9 +144,9 @@
   <widget class="QComboBox" name="comboBoxLineTriggerSource">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>150</x>
      <y>360</y>
-     <width>151</width>
+     <width>131</width>
      <height>31</height>
     </rect>
    </property>
@@ -169,9 +169,9 @@
   <widget class="QComboBox" name="comboBoxFrameTriggerSource">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>150</x>
      <y>430</y>
-     <width>151</width>
+     <width>131</width>
      <height>31</height>
     </rect>
    </property>
@@ -194,9 +194,9 @@
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>150</x>
      <y>400</y>
-     <width>151</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -208,7 +208,7 @@
    <property name="geometry">
     <rect>
      <x>340</x>
-     <y>520</y>
+     <y>560</y>
      <width>151</width>
      <height>16</height>
     </rect>
@@ -221,7 +221,7 @@
    <property name="geometry">
     <rect>
      <x>340</x>
-     <y>500</y>
+     <y>540</y>
      <width>57</width>
      <height>16</height>
     </rect>
@@ -260,7 +260,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>490</y>
+     <y>530</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -279,7 +279,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>530</y>
+     <y>570</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -298,7 +298,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>530</y>
+     <y>570</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -323,7 +323,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>490</y>
+     <y>530</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -348,7 +348,7 @@
    <property name="geometry">
     <rect>
      <x>270</x>
-     <y>620</y>
+     <y>660</y>
      <width>151</width>
      <height>31</height>
     </rect>
@@ -361,7 +361,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>580</y>
+     <y>620</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -383,7 +383,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>620</y>
+     <y>660</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -405,7 +405,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>580</y>
+     <y>620</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -424,7 +424,7 @@
    <property name="geometry">
     <rect>
      <x>270</x>
-     <y>580</y>
+     <y>620</y>
      <width>151</width>
      <height>31</height>
     </rect>
@@ -531,7 +531,7 @@
     <rect>
      <x>20</x>
      <y>330</y>
-     <width>151</width>
+     <width>121</width>
      <height>21</height>
     </rect>
    </property>
@@ -544,7 +544,7 @@
     <rect>
      <x>20</x>
      <y>400</y>
-     <width>151</width>
+     <width>121</width>
      <height>21</height>
     </rect>
    </property>
@@ -646,6 +646,51 @@
    <property name="decimals">
     <number>5</number>
    </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetIO">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>330</y>
+     <width>201</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>Line0</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Line1</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Line2</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Line3</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Line4</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>I/O</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Format</string>
+    </property>
+   </column>
   </widget>
  </widget>
  <resources/>

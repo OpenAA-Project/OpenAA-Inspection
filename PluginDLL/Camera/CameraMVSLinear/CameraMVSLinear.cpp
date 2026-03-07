@@ -75,9 +75,13 @@ CameraMVSLinear::CameraMVSLinear(int CamNo ,const QString &_ParamStr,LayersBase 
     ParamStr                    = _ParamStr;
 	LineTriggerMode				= false;
 	LineTriggerSource			= MV_TRIGGER_SOURCE_SOFTWARE;
-	FrameTriggerMode			= false;
+    FrameTriggerMode			= false;
 	FrameTriggerSource			= MV_TRIGGER_SOURCE_SOFTWARE;
-
+    Line0Format     =0;
+    Line1Format     =0;
+    Line2Format     =0;
+    Line3Format     =0;
+    Line4Format     =0;
     ExposureAuto    =MV_EXPOSURE_AUTO_MODE_OFF;
     ExposureMode    =0;
     ExposureTime    =10000;
@@ -369,18 +373,23 @@ bool    CameraMVSLinear::ShowSetting(void)
         ExposureMode        =D.ExposureMode        ;
 	    ExposureTime        =D.ExposureTime        ;
         Gain                =D.Gain;
-	    GainR               =D.GainR               ;
-        GainG               =D.GainG               ;
-        GainB               =D.GainB               ;
-	    FrameRate           =D.FrameRate           ;
-        LineTriggerMode     =D.LineTriggerMode     ;   
-        LineTriggerSource   =D.LineTriggerSource   ; 
-        FrameTriggerMode    =D.FrameTriggerMode    ;   
-        FrameTriggerSource  =D.FrameTriggerSource  ; 
-        BinningHMode        =D.BinningHMode        ;
-        BinningVMode        =D.BinningVMode        ;
-        DecimationH         =D.DecimationH         ;
-        DecimationV         =D.DecimationV         ;
+	    GainR               =D.GainR                ;
+        GainG               =D.GainG                ;
+        GainB               =D.GainB                ;
+	    FrameRate           =D.FrameRate            ;
+        LineTriggerMode     =D.LineTriggerMode      ;   
+        LineTriggerSource   =D.LineTriggerSource    ; 
+        FrameTriggerMode    =D.FrameTriggerMode     ;   
+        FrameTriggerSource  =D.FrameTriggerSource   ; 
+        Line0Format         =D.Line0Format;
+        Line1Format         =D.Line1Format;
+        Line2Format         =D.Line2Format;
+        Line3Format         =D.Line3Format;
+        Line4Format         =D.Line4Format;
+        BinningHMode        =D.BinningHMode         ;
+        BinningVMode        =D.BinningVMode         ;
+        DecimationH         =D.DecimationH          ;
+        DecimationV         =D.DecimationV          ;
 
         ReverseX            =D.ReverseX            ;
         ReverseTDIY         =D.ReverseTDIY         ;
@@ -545,6 +554,11 @@ bool	CameraMVSLinear::Save(QIODevice *f)
     if(::Save(f,LineTriggerSource)==false)		return false;
     if(::Save(f,FrameTriggerMode)==false)		return false;
     if(::Save(f,FrameTriggerSource)==false)		return false;
+    if(::Save(f,Line0Format)==false)		    return false;
+    if(::Save(f,Line1Format)==false)		    return false;
+    if(::Save(f,Line2Format)==false)		    return false;
+    if(::Save(f,Line3Format)==false)		    return false;
+    if(::Save(f,Line4Format)==false)		    return false;
     if(::Save(f,ExposureAuto)==false)	        return false;
     if(::Save(f,ExposureMode)==false)	        return false;
     if(::Save(f,BinningHMode)==false)	        return false;
@@ -573,6 +587,11 @@ bool	CameraMVSLinear::Load(QIODevice *f)
     if(::Load(f,LineTriggerSource)==false)		return false;
     if(::Load(f,FrameTriggerMode)==false)		return false;
     if(::Load(f,FrameTriggerSource)==false)		return false;
+    if(::Load(f,Line0Format)==false)		    return false;
+    if(::Load(f,Line1Format)==false)		    return false;
+    if(::Load(f,Line2Format)==false)		    return false;
+    if(::Load(f,Line3Format)==false)		    return false;
+    if(::Load(f,Line4Format)==false)		    return false;
     if(::Load(f,ExposureAuto)==false)	        return false;
     if(::Load(f,ExposureMode)==false)	        return false;
     if(::Load(f,BinningHMode)==false)	        return false;
@@ -587,7 +606,7 @@ bool	CameraMVSLinear::Load(QIODevice *f)
     if(::Load(f,AOIOffsetX  )==false)	        return false;
     if(::Load(f,AOIWidth    )==false)	        return false;
 
-    Cam.SetupLineTriggers (LineTriggerMode  , LineTriggerSource );
+    Cam.SetupLineTriggers (LineTriggerMode  , LineTriggerSource);
     Cam.SetupFrameTriggers(FrameTriggerMode , FrameTriggerSource);
     SetExposure();
     SetRGBGain();
@@ -595,6 +614,13 @@ bool	CameraMVSLinear::Load(QIODevice *f)
     SetBinningDecimation();
     SetReverse();
     SetAOI();
+
+	SetLineFormat(0,Line0Format);
+	SetLineFormat(1,Line1Format);
+	SetLineFormat(2,Line2Format);
+	SetLineFormat(3,Line3Format);
+	SetLineFormat(4,Line4Format);
+
 	return true;
 }
 
@@ -734,6 +760,15 @@ int CameraMVSLinear::GetPixelFormat()
 
     return MV_OK;
 }
+
+bool    CameraMVSLinear::SetLineFormat(int LineNo,int LineFormat)
+{
+    if(Cam.SetLineFormat(LineNo,LineFormat)==false){
+        return false;
+	}
+	return true;
+}
+
 
 bool	CameraMVSLinear::GetIntValue	 (const char* strKey ,int &CurrentValue ,int   &MaxValue ,int   &MinValue)
 {

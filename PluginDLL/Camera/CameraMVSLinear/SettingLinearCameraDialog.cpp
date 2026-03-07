@@ -1,5 +1,6 @@
 #include "SettingLinearCameraDialog.h"
 #include "ui_SettingLinearCameraDialog.h"
+#include "XGeneralFunc.h"
 
 SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidget *parent)
     : QDialog(parent)
@@ -194,6 +195,35 @@ SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidge
 		}
 	}
 
+	for(int LineNo=0;LineNo<=4;LineNo++){
+		QString StrLineSelector = "Line" + QString::number(LineNo);
+		QByteArray LineSelectorArray = StrLineSelector.toLocal8Bit();
+		char	*LineSelector=LineSelectorArray.data();	
+		if(Cam->SetEnumValueByString("LineSelector", LineSelector)==true){
+			if(Cam->GetEnumValue ("LineFormat",CurrentIntValue ,EnumLineFormatData[LineNo],EnumCount)==true){
+				QStringList	List;
+				for(int i=0;i<EnumCount;i++){
+					QString Str;
+					if(Cam->GetEnumSymblic ("LineFormat",EnumLineFormatData[LineNo][i] ,Str)==true){
+						List.append(Str);
+					}
+				}
+				QComboBox	*r=::SetDataToTableComboBox(ui->tableWidgetIO, 1, LineNo, List, CurrentIntValue);
+			}
+			if(Cam->GetEnumValue ("LineMode",CurrentIntValue ,EnumLineModeData[LineNo],EnumCount)==true){
+				QStringList	List;
+				for(int i=0;i<EnumCount;i++){
+					QString Str;
+					if(Cam->GetEnumSymblic ("LineMode",EnumLineModeData[LineNo][i] ,Str)==true){
+						List.append(Str);
+					}
+				}
+				QComboBox	*r=::SetDataToTableComboBox(ui->tableWidgetIO, 0, LineNo, List, CurrentIntValue);
+			}
+		}
+	}
+
+
 	bool	CurrentBoolValue;
 	if(Cam->GetBoolValue("ReverseX",CurrentBoolValue )==true){
 		ui->checkBoxReverseX	->setChecked(CurrentBoolValue);
@@ -268,6 +298,20 @@ void SettingLinearCameraDialog::on_pushButtonOK_clicked()
 	}
 	int	FrameTriggerSourceIndex=ui->comboBoxFrameTriggerSource->currentIndex();
 	FrameTriggerSource	= EnumFrameTriggerSourceData[FrameTriggerSourceIndex];
+
+	for(int LineNo=0;LineNo<=4;LineNo++){
+		int	Index=GetDataToTableComboBoxIndex(ui->tableWidgetIO, 1, LineNo);
+		if(LineNo==0)
+			Line0Format = EnumLineFormatData[LineNo][Index];
+		else if(LineNo==1)
+			Line1Format = EnumLineFormatData[LineNo][Index];
+		else if(LineNo==2)
+			Line2Format = EnumLineFormatData[LineNo][Index];
+		else if(LineNo==3)
+			Line3Format = EnumLineFormatData[LineNo][Index];
+		else if(LineNo==4)
+			Line4Format = EnumLineFormatData[LineNo][Index];
+	}
 
 	int	BinningIndex=ui->comboBoxBinning->currentIndex();
 	QVariant	VBinningData=ui->comboBoxBinning->currentData();

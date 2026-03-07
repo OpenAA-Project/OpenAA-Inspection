@@ -60,7 +60,7 @@ void DeleteJDT(const QString &ResultStr
 	if(GetXMLAttrStr (ResultStr,/**/"NGJ",NGJFile)==true){
 
 		QString	FileName=SParam->ImageDrive + QDir::separator()+NGJFile;
-		QStringList	List=SParam->ImageDrive.split(QRegularExpression(/**/"[/\\\\]"),QString::SplitBehavior::SkipEmptyParts);
+		QStringList	List=SParam->ImageDrive.split(QRegularExpression(/**/"[/\\\\]"),Qt::SkipEmptyParts);
 		int	LPoint=0;
 		while(LPoint<List.count()){
 			if((NGJFile.at(0)=='/' || NGJFile.at(0)=='\\') && (NGJFile.at(0)=='/' || NGJFile.at(0)=='\\')){
@@ -177,15 +177,17 @@ void DeleteTable(const QString &TableStr
 		DeleteJDT(ResultListStr, SParam, filepath);
 	}
 
-	QRegularExpression exp;
 	const QString filt = /**/"(\\d+)-(\\d+)/(.+)";
 	bool SelectRet2 = false;
 
-	exp.setPattern(filt);
-	if(exp.exactMatch(TableStr)==true){
-		MachineID = exp.cap(1).toInt();
-		MasterCode = exp.cap(2).toInt();
-		LotFilename = exp.cap(3);
+	QRegularExpression exp(QRegularExpression::anchoredPattern(filt));
+	//exp.setPattern(filt);
+	//if(exp.exactMatch(TableStr)==true){
+	QRegularExpressionMatch match = exp.match(TableStr);
+	if(match.hasMatch()==true){
+		MachineID = match.captured(1).toInt();
+		MasterCode = match.captured(2).toInt();
+		LotFilename = match.captured(3);
 
 		SelectRet2 = true;
 	}

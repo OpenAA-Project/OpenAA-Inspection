@@ -67,7 +67,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\..\Lib\Release;..\..\Win64Lib\release;..\..\OpenSource\Firebird_2_1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ServiceLib.lib;ib_util.lib;fbclient.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ServiceLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -98,7 +98,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Open\XShowVersion.cpp" />
-    <ClCompile Include="..\..\ServiceLib\ServiceForDBLib\qsql_ibase.cpp" />
     <ClCompile Include="datamanagement.cpp" />
     <ClCompile Include="progressbar.cpp" />
     <ClCompile Include="restorepath.cpp" />
@@ -123,7 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\GeneralSource\connection.h" />
-    <QtMoc Include="..\..\ServiceLib\ServiceForDBLib\qsql_ibase_p.h" />
     <QtMoc Include="datamanagement.h" />
     <ClInclude Include="datamanagementResource.h" />
     <QtMoc Include="setting.h" />

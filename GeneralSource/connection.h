@@ -29,18 +29,18 @@
 #include <QTextStream>
 #include <QSqlDriver>
 //#include <qsql_ibase.h>
-#include "TransDatabaseLib.h"
+//#include "TransDatabaseLib.h"
 #include <QDir>
-#include "qsql_ibase_p.h"
+//#include "qsql_ibase_p.h"
 
 static bool createConnection(QString strPath="")
 {
      QSqlDatabase db;
-	QSqlDriver	*Drv=new QIBaseDriver();
+	//QSqlDriver	*Drv=new QIBaseDriver();
+    //db=QSqlDatabase::addDatabase(Drv);
 	//QSqlDriver	*Drv=new TrSqlDriver();
 
-    db=QSqlDatabase::addDatabase(Drv);
-//	QFile	mfile("/Regulus64v2/save.dat");
+	db=QSqlDatabase::addDatabase("QIBASE");
 
 	QDir::setCurrent(QCoreApplication::applicationDirPath());
 

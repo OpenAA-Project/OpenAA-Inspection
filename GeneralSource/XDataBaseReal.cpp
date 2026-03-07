@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2025
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -43,7 +43,7 @@ void __G_XUpdateDatabase(QSqlDatabase &DBase ,QString HostName ,QString UserName
 						,QString TransIP ,int TransPort)
 {
 	LockDB();
-	DBase=QSqlDatabase::addDatabase("QIBASE"); // �h���C�o���� QIBASE
+	DBase=QSqlDatabase::addDatabase("QIBASE");
 
 	//QString	ConStr=QString("Regulus64Connection")+QString::number(ConnectionNumber);
 	//ConnectionNumber++;
@@ -1044,7 +1044,7 @@ bool    __G_XUpdateDatabaseChange(QSqlDatabase &DBase ,QStringList &MismatchList
 			}
 		}
 		LockDB();
-        //�c���Ă����e���|�����t�B�[���h���폜
+        //?c????????e???|?????t?B?[???h????
 		if(QrField.first()==true){
             do{
 				QString  FldName =QrField.record().value("RDB$FIELD_NAME").toString().simplified();
@@ -1083,7 +1083,7 @@ bool    __G_XUpdateDatabaseChange(QSqlDatabase &DBase ,QStringList &MismatchList
 								bool	tRet2=f->CheckNull(x,&QrField ,MismatchList);
 								LockDB();
                                 if(tRet1==false || tRet2==false){
-                                    //�t�B�[���h�ύX
+                                    //?t?B?[???h??X
 									QrExe.exec(QString("ALTER TABLE ")
 												+x->Name
                                                 +QString(" ADD ")
