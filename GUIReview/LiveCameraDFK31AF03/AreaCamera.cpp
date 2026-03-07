@@ -133,30 +133,6 @@ bool AreaCamera::init()
 	m_thread->setUpdateEnable(true);
 	m_thread->start();
 
-	//// Adjust the live video to the size of the window.
-	//// �o�͒��̃f�t�H���g�r�f�I�t�H�[�}�b�g�̃T�C�Y
-	//int fmt_width = m_cGrabber.getAcqSizeMaxX();
-	//int fmt_height = m_cGrabber.getAcqSizeMaxY();
-
-	//// �A�X�y�N�g�ێ����̃r�f�I�o�̓E�C���h�E�T�C�Y
-	////int fix_width, fix_height;
-
-	//// �r�f�I�t�H�[�}�b�g�̃A�X�y�N�g���ɍ��킹���o�͉摜�T�C�Y�v�Z
-	//QSize canvasSize = size();
-	//QSize formatSize = QSize(m_cGrabber.getAcqSizeMaxX(), m_cGrabber.getAcqSizeMaxY());
-
-	//QSize fix_size = canvasSize;
-	//fix_size.scale(formatSize, Qt::KeepAspectRatio);
-
-	//// �ێ�
-	////m_dWidth = fix_width;
-	////m_dHeight = fix_height;
-	//m_outputImageSize = fix_size;
-
-	//// m_cStaticVideoWindow.GetClientRect( &rect);
-	//m_cGrabber.setDefaultWindowPosition(false);
-	//m_cGrabber.setWindowSize(fix_size.width(), fix_size.height());
-
 	setInitialized(true);
 	return true;
 }
@@ -193,27 +169,17 @@ void AreaCamera::Update()
 
 void AreaCamera::Resize(void)
 {
-	// Adjust the live video to the size of the window.
-	// �o�͒��̃f�t�H���g�r�f�I�t�H�[�}�b�g�̃T�C�Y
 	int fmt_width = m_cGrabber.getAcqSizeMaxX();
 	int fmt_height = m_cGrabber.getAcqSizeMaxY();
 
-	// �A�X�y�N�g�ێ����̃r�f�I�o�̓E�C���h�E�T�C�Y
-	//int fix_width, fix_height;
-
-	// �r�f�I�t�H�[�}�b�g�̃A�X�y�N�g���ɍ��킹���o�͉摜�T�C�Y�v�Z
 	QSize canvasSize = m_paintWidget->size();
 	QSize formatSize = QSize(fmt_width, fmt_height);
 
 	QSize fix_size = formatSize;
 	fix_size.scale(canvasSize, Qt::KeepAspectRatio);
 
-	// �ێ�
-	//m_dWidth = fix_width;
-	//m_dHeight = fix_height;
 	m_outputImageSize = fix_size;
 
-	// m_cStaticVideoWindow.GetClientRect( &rect);
 	m_cGrabber.setDefaultWindowPosition(false);
 	m_cGrabber.setWindowSize(fix_size.width(), fix_size.height());
 }
@@ -222,7 +188,7 @@ void AreaCamera::mousePressEvent(QMouseEvent *event)
 {
 	QLabel::mousePressEvent(event);
 
-	if(pixmap()==NULL || pixmap()->isNull()==true){
+	if(pixmap().isNull()==true){
 		return;
 	}
 
@@ -476,27 +442,17 @@ void AreaCamera::grapWindow(WId id)
 	WINDOWINFO wi;
 	GetWindowInfo(id, &wi);
 	
-	// Adjust the live video to the size of the window.
-	// �o�͒��̃f�t�H���g�r�f�I�t�H�[�}�b�g�̃T�C�Y
 	int fmt_width = m_cGrabber.getAcqSizeMaxX();
 	int fmt_height = m_cGrabber.getAcqSizeMaxY();
 
-	// �A�X�y�N�g�ێ����̃r�f�I�o�̓E�C���h�E�T�C�Y
-	//int fix_width, fix_height;
-
-	// �r�f�I�t�H�[�}�b�g�̃A�X�y�N�g���ɍ��킹���o�͉摜�T�C�Y�v�Z
 	QSize canvasSize = QSize(qAbs(wi.rcWindow.left - wi.rcWindow.right), qAbs(wi.rcWindow.top - wi.rcWindow.bottom));
 	QSize formatSize = QSize(m_cGrabber.getAcqSizeMaxX(), m_cGrabber.getAcqSizeMaxY());
 
 	QSize fix_size = canvasSize;
 	fix_size.scale(formatSize, Qt::KeepAspectRatio);
 
-	// �ێ�
-	//m_dWidth = fix_width;
-	//m_dHeight = fix_height;
 	m_outputImageSize = fix_size;
 
-	// m_cStaticVideoWindow.GetClientRect( &rect);
 	m_cGrabber.setDefaultWindowPosition(false);
 	m_cGrabber.setWindowSize(fix_size.width(), fix_size.height());
 

@@ -21,6 +21,7 @@
 #include "ui_ShowSizePanelSeqForm.h"
 #include "XDataInLayer.h"
 #include "XDLLOnly.h"
+#include "XEntryPoint.h"
 #include "ThreadSequence.h"
 #include "XSequenceLocal.h"
 #include "XExecuteInspectBase.h"
@@ -171,5 +172,5 @@ void ShowSizePanelSeqForm::on_pushButtonChange_clicked()
 	}
 	SizeHeight=d;
 
-	GetParamGUI()->SaveDefault();
+	GetParamGUI()->SaveDefault(GetLayersBase()->GetUserPath());
 }

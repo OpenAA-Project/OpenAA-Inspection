@@ -710,7 +710,7 @@ void InputRectInMultiImageWidget::wheelEvent_ModeDefault(QWheelEvent *event)
 
 void InputRectInMultiImageWidget::wheelEvent_ModeMakeRect(QWheelEvent *event)
 {
-	if(event->delta()>0){
+	if(event->angleDelta().y()>0){
 		m_rectAlpha = qBound(0, m_rectAlpha + 16, 255);
 	}else{
 		m_rectAlpha = qBound(0, m_rectAlpha - 16, 255);
@@ -721,11 +721,11 @@ void InputRectInMultiImageWidget::wheelEvent_ModeMakeRect(QWheelEvent *event)
 void InputRectInMultiImageWidget::wheelEvent_ModeShiftImage(QWheelEvent *event)
 {
 	QPoint tl;
-	if(event->delta()>0){
+	if(event->angleDelta().y()>0){
 		if(zoomStepIn()==true){
 
 			QPoint currentTopLeft	= topLeft();
-			QPoint wheelPoint		= topLeft() + event->pos();
+			QPoint wheelPoint		= topLeft() + event->pixelDelta();
 			qreal expandVal			= stepRate();
 
 			tl = (expandVal - 1)*wheelPoint + topLeft();
@@ -736,7 +736,7 @@ void InputRectInMultiImageWidget::wheelEvent_ModeShiftImage(QWheelEvent *event)
 	}else{
 		if(zoomStepOut()==true){
 			QPoint currentTopLeft	= topLeft();
-			QPoint wheelPoint		= topLeft() + event->pos();
+			QPoint wheelPoint		= topLeft() + event->pixelDelta();
 			qreal expandVal			= stepRate();
 			
 			tl = (1/expandVal - 1)*wheelPoint + topLeft();

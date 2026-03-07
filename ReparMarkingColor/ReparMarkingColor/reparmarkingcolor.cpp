@@ -81,7 +81,7 @@ void	DLL_FormShow(void)
 		palette.setColor(QPalette::Base, QColor(citemList.at(i)));
 		int y=1;
 		QTableWidgetItem *colorItem = new QTableWidgetItem(/**/"");
-		colorItem->setBackgroundColor(palette.color(QPalette::Base));
+		colorItem->setBackground(QBrush(palette.color(QPalette::Base)));
 		cform->ui.tableWidget->setItem(n, y, colorItem);
 	}
 	if(!cform->exec())

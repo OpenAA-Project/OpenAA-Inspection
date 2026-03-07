@@ -220,7 +220,6 @@ WholeImageForReview::~WholeImageForReview()
 
 void WholeImageForReview::Prepare()
 {
-	//checkData();
 	FrontImageList.append(new WholeDisplay(GetReviewAlgorithm(),Review::Front, 0));
 	FrontImageList[0]->setInfoString(LangSolver.GetString(WholeImageForReview_LS,LID_0)/*"FrontWholeImage"*/);
 	setPropertyToDisplay(FrontImageList[0], Review::Front);
@@ -229,7 +228,6 @@ void WholeImageForReview::Prepare()
 	BackImageList[0]->setInfoString(LangSolver.GetString(WholeImageForReview_LS,LID_1)/*"BackWholeImage"*/);
 	setPropertyToDisplay(BackImageList[0], Review::Front);
 
-	// ���C�A�E�g�ݒ�
 	frontLayout->setContentsMargins(0, 0, 0, 0);
 	frontLayout->setHorizontalSpacing(1);
 	backLayout->setContentsMargins(0, 0, 0, 0);
@@ -237,32 +235,20 @@ void WholeImageForReview::Prepare()
 	mainLayout->setContentsMargins(0, 0, 0, 0);
 	mainLayout->setHorizontalSpacing(1);
 
-	// ���C�����C�A�E�g���\���t��
 	setLayout(mainLayout);
 
-	// �\���z�u�E�B�W�F�b�g����
 	FrontWidget = new QWidget;
 	BackWidget = new QWidget;
 
-	// �\���̃t�F�C�Y���C�A�E�g�\���t��
 	FrontWidget->setLayout(frontLayout);
 	BackWidget->setLayout(backLayout);
 
-	// �ŏ��̑S�̉摜�E�B�W�F�b�g�\���t��
 	frontLayout->addWidget(FrontImageList[0], 0, 0);
 	backLayout->addWidget(BackImageList[0], 0, 0);
 
-	//connect(this, SIGNAL(SignalResize()), this, SLOT(ResizeAction()));
+	FrontImageList[0]->getDisplay()->setWholeImage(QImage());
+	BackImageList[0]->getDisplay()->setWholeImage(QImage());
 
-	//FrontImage->getDisplay()->GetVScroll()->setVisible(false);
-	//FrontImage->getDisplay()->GetHScroll()->setVisible(false);
-	FrontImageList[0]->getDisplay()->setWholeImage(QImage());// �摜�Ȃ�
-
-	//BackImage->getDisplay()->GetVScroll()->setVisible(false);
-	//BackImage->getDisplay()->GetHScroll()->setVisible(false);
-	BackImageList[0]->getDisplay()->setWholeImage(QImage());// �摜�Ȃ�
-
-	// �����l�ݒ�
 	FrontMasterCode = -1;
 	BackMasterCode = -1;
 	currentIndex = -1;
@@ -272,11 +258,8 @@ void WholeImageForReview::Prepare()
 
 
 	if(GetEditMode()==false){
-		//FrontImage->getDisplay()->installEventFilter(this);
-		//FrontImage->getDisplay()->GetCanvas()->installEventFilter(this);
-		//BackImage->getDisplay()->installEventFilter(this);
-		//BackImage->getDisplay()->GetCanvas()->installEventFilter(this);
-		QImage Imagef = QImage(FrontImageList.front()->getDisplay()->GetCanvas()->size(), QImage::Format_RGB32);
+		WholeDisplay	*F=FrontImageList.front();
+		QImage Imagef = QImage(F->getDisplay()->GetCanvasSize(), QImage::Format_RGB32);
 		Imagef.fill(palette().window().color().rgb());
 		FrontImageList[0]->getDisplay()->setWholeImage(Imagef);
 		FrontImageList[0]->setVisible(true);

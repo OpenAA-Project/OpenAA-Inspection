@@ -45,7 +45,7 @@ public:
 
 	QPoint getOutlineOffset(int page){
 		QList<QPoint> pList = getOutlineOffsetList();
-		if(Review::isIndexEnable(page, pList)==true){
+		if(Review::isIndexEnableList(page, pList)==true){
 			return pList[page];
 		}else{
 			return QPoint(0,0);
@@ -194,22 +194,22 @@ public:
 		if(getCurrentViewRect().isEmpty()==true){
 			// �S�̉摜
 			QSize size = getWholeImageOrgSize();
-			QRect rect(QPoint(0,0), size);// �S�̉摜�̋��`��
-			QRect rrect = Review::rotateRect(rect, rotate());// ���]
+			QRect rect(QPoint(0,0), size);
+			QRect rrect = Review::rotateRect(rect, rotate());
 			QSize rsize = rrect.size();
-			rsize.scale(GetCanvas()->size(), Qt::KeepAspectRatio);// ���]�����T�C�Y�ŃL�����o�X�T�C�Y�֒���
+			rsize.scale(GetCanvasSize(), Qt::KeepAspectRatio);
 			QRect srrect = QRect(QPoint(0,0), rsize);
-			QSize ssrsize = Review::rotateRect(srrect, -rotate()).size();// �t���]���ĉ��]�Ȃ��̏��Ԃɖ߂�
+			QSize ssrsize = Review::rotateRect(srrect, -rotate()).size();
 
 			ret = ssrsize.width() / (qreal)getWholeImageOrgSize().width();
 		}else{
 			QSize size = getCurrentViewRect().size();
-			QRect rect(QPoint(0,0), size);// �S�̉摜�̋��`��
-			QRect rrect = Review::rotateRect(rect, rotate());// ���]
+			QRect rect(QPoint(0,0), size);
+			QRect rrect = Review::rotateRect(rect, rotate());
 			QSize rsize = rrect.size();
-			rsize.scale(GetCanvas()->size(), Qt::KeepAspectRatio);// ���]�����T�C�Y�ŃL�����o�X�T�C�Y�֒���
+			rsize.scale(GetCanvasSize(), Qt::KeepAspectRatio);
 			QRect srrect = QRect(QPoint(0,0), rsize);
-			QSize ssrsize = Review::rotateRect(srrect, -rotate()).size();// �t���]���ĉ��]�Ȃ��̏��Ԃɖ߂�
+			QSize ssrsize = Review::rotateRect(srrect, -rotate()).size();
 
 			ret = ssrsize.width() / (qreal)getCurrentViewRect().width();
 		}

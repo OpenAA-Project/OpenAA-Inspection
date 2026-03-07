@@ -1133,7 +1133,7 @@ public:
 
 		QList<QList<QImage> > list = getImageList(side);
 		
-		if(Review::isIndexEnable(phase, list)==false){
+		if(Review::isIndexEnableList(phase, list)==false){
 			return QList<QImage>();
 		}
 
@@ -1144,7 +1144,7 @@ public:
 
 		QList<QImage> list = getImageList(side, phase);
 
-		if(Review::isIndexEnable(page, list)==false){
+		if(Review::isIndexEnableList(page, list)==false){
 			return QImage();
 		}
 
@@ -1156,7 +1156,7 @@ public:
 		
 		QList<QList<QPoint> > list = getOutlineOffsetList(side);
 
-		if(Review::isIndexEnable(phase, list)==false){
+		if(Review::isIndexEnableList(phase, list)==false){
 			return QList<QPoint>();
 		}
 
@@ -1167,7 +1167,7 @@ public:
 
 		QList<QPoint> list = getOutlineOffsetList(side, phase);
 
-		if(Review::isIndexEnable(page, list)==false){
+		if(Review::isIndexEnableList(page, list)==false){
 			return QPoint();
 		}
 

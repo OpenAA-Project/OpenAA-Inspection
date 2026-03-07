@@ -212,10 +212,12 @@ void ReviewPIBase::sortNGNailList()
 	for(int i=0; i<getOrganizedHistoryList().count(); i++){
 		OrganizedHistoryList::Iterator it = getOrganizedHistoryIterator(i);
 		if(it->hasFront()==true){
-			qStableSort(it->getFront()->getNGNails().begin(), it->getFront()->getNGNails().end(), CompPhaseGreater);
+			std::stable_sort(it->getFront()->getNGNails().begin()
+							,it->getFront()->getNGNails().end(), CompPhaseGreater);
 		}
 		if(it->hasBack()==true){
-			qStableSort(it->getBack()->getNGNails().begin(), it->getBack()->getNGNails().end(), CompPhaseGreater);
+			std::stable_sort(it->getBack()->getNGNails().begin()
+							,it->getBack()->getNGNails().end(), CompPhaseGreater);
 		}
 	}
 
@@ -264,14 +266,14 @@ void ReviewPIBase::sortNGNailList()
 		if(it->hasFront()==true){
 			QList<int> borderList = createNGNailListPhaseBorder(it->getFront()->getNGNails());
 			for(int i=0; i<borderList.count()-1; i++){
-				qStableSort(it->getFront()->getNGNails().begin() + borderList[i],
+				std::stable_sort(it->getFront()->getNGNails().begin() + borderList[i],
 					it->getFront()->getNGNails().begin() + borderList[i+1], compFunc);
 			}
 		}
 		if(it->hasBack()==true){
 			QList<int> borderList = createNGNailListPhaseBorder(it->getBack()->getNGNails());
 			for(int i=0; i<borderList.count()-1; i++){
-				qStableSort(it->getBack()->getNGNails().begin() + borderList[i],
+				std::stable_sort(it->getBack()->getNGNails().begin() + borderList[i],
 					it->getBack()->getNGNails().begin() + borderList[i+1], compFunc);
 			}
 		}
@@ -454,5 +456,5 @@ void ReviewPIBase::sortHistoryList()
 		break;
 	}
 
-	qStableSort(beginIt, endIt, compFunc);
+	std::stable_sort(beginIt, endIt, compFunc);
 }

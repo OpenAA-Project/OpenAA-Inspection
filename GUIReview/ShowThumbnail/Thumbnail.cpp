@@ -106,7 +106,7 @@ void Thumbnail::updateData(void)
 	//ui.lbMasterImage->update();
 }
 
-void Thumbnail::enterEvent(QEvent *event)
+void Thumbnail::enterEvent(QEnterEvent *event)
 {
 	QWidget::enterEvent(event);
 
@@ -378,7 +378,7 @@ void Thumbnail::SetNailInformation(NGNailItem NGItem)
 
 	if(ViewOffset.CSVUnitMM==false){
 		QString xyStr = QString(/**/"%1,%2").arg(XPos).arg(YPos);
-		Message=QString("Position��")+xyStr;
+		Message=QString("Position ")+xyStr;
 	}
 	else{
 		XPos=XPos*ViewOffset.CSVMagnificationX+ViewOffset.CSVOffsetX;
@@ -389,10 +389,11 @@ void Thumbnail::SetNailInformation(NGNailItem NGItem)
 		if(ViewOffset.CSVReverseY==true){
 			YPos=-YPos;
 		}
-		QString xyStr = QString::number(Parent->GetParamGlobal()->TransformPixelToUnit(XPos),'f',Parent->GetParamGlobal()->SmallNumberFigure)
+		int	Page=0;
+		QString xyStr = QString::number(Parent->GetParamGlobal()->TransformPixelToUnit(Page,XPos),'f',Parent->GetParamGlobal()->SmallNumberFigure)
 					   +QString(/**/",")
-					   +QString::number(Parent->GetParamGlobal()->TransformPixelToUnit(YPos),'f',Parent->GetParamGlobal()->SmallNumberFigure);
-		Message=QString("Position��")+xyStr;
+					   +QString::number(Parent->GetParamGlobal()->TransformPixelToUnit(Page,YPos),'f',Parent->GetParamGlobal()->SmallNumberFigure);
+		Message=QString("Position ")+xyStr;
 	}
 	
 	CmdReqInsLib Send(Parent->GetLayersBase());

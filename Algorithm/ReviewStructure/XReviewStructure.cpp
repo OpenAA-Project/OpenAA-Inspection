@@ -20,6 +20,7 @@
 #include <QDomElement>
 #include <QRegularExpression>
 #include <QRegion>
+#include <QTransform>
 
 #include "XGeneralFunc.h"
 #include "XGUIFormBase.h"
@@ -37,6 +38,7 @@
 #include "XServiceForLayers.h"
 #include "XParamDatabase.h"
 #include "ui_ReviewStructurePropertyForm.h"
+#include <algorithm> // Need in std::sort
 
 extern ReviewSequenceThread *ReviewSequenceThreadGlobal;
 
@@ -82,7 +84,7 @@ bool	ReviewPIInPage::LoadSlave(int MasterCode ,int MachineID ,int PhaseCode)
 {
 	DataInPage	*Dp=GetDataInPage();
 
-	QStringList list = GetLayersBase()->GetParamGlobal()->ImageFilePath.split(';', QString::SplitBehavior::SkipEmptyParts);
+	QStringList list = GetLayersBase()->GetParamGlobal()->ImageFilePath.split(';', Qt::SkipEmptyParts);
 
 	if(list.isEmpty()==true){
 		return false;
@@ -280,17 +282,17 @@ void ReviewPIBase::setXMLServerState(const QString &IPAddress, int portNo, bool 
 	getProperty().XMLServerPortNo = portNo;
 }
 
-QMatrix ReviewPIBase::getVRSMatrixFromWhole(Review::SideType side) const
+QTransform ReviewPIBase::getVRSMatrixFromWhole(Review::SideType side) const
 {
 	return getVRSAlignment(side).getWholeAffinMatrix();
 }
 
-QList<QMatrix> ReviewPIBase::getVRSMatrixFromEachPage(Review::SideType side) const
+QList<QTransform> ReviewPIBase::getVRSMatrixFromEachPage(Review::SideType side) const
 {
 	return getVRSAlignment(side).getEachPageAffinMatrix();
 }
 
-QMatrix ReviewPIBase::getVRSMatrixFromEachPage(Review::SideType side, int page) const
+QTransform ReviewPIBase::getVRSMatrixFromEachPage(Review::SideType side, int page) const
 {
 	return getVRSAlignment(side).getEachPageAffinMatrix(page);
 }
@@ -362,7 +364,7 @@ bool	ReviewPIBase::LoadMaster(Review::SideType side, int PhaseCode ,int MasterCo
 		// �ύX����
 		GetLayersBase()->ClearAllAckFlag();
 		
-		QStringList list = GetLayersBase()->GetParamGlobal()->ImageFilePath.split(';', QString::SplitBehavior::SkipEmptyParts);
+		QStringList list = GetLayersBase()->GetParamGlobal()->ImageFilePath.split(';', Qt::SkipEmptyParts);
 
 		for(int i=0; i<list.count(); i++){
 			QString	GUIContentFileName=GetLayersBase()->CreateGUIContentFileName(MasterCode,iMachineID, list[i]);
@@ -1043,24 +1045,29 @@ void ReviewPIBase::OrganizeHistoryList(void)
 	//qSort(FrontHistoryList.begin(), FrontHistoryList.end());// ID���Ń\�[�g
 	//qSort(BackHistoryList.begin(), BackHistoryList.end());// ID���Ń\�[�g
 
-	qSort(getHistoryList(Review::Front));
-	qSort(getHistoryList(Review::Back));
+	QList<HistoryItem>	Front = getHistoryList(Review::Front);
+	std::sort(Front.begin(), Front.end());
+	QList<HistoryItem>	Back = getHistoryList(Review::Back);
+	std::sort(Back.begin(), Back.end());
 
-	for(QList<HistoryItem>::ConstIterator itf=getHistoryList(Review::Front).constBegin(), itb=getHistoryList(Review::Back).constBegin(); ;){
-		if(itf==getHistoryList(Review::Front).constEnd()){
-			while(itb!=getHistoryList(Review::Back).constEnd()){
+	for(QList<HistoryItem>::const_iterator itf=Front.constBegin()
+	, itb=Back.constBegin(); ;){
+		if(itf==Front.constEnd()){
+			while(itb!=Back.constEnd()){
 				OrganizedHistoryItem item;
-				item.setHistoryItem(&itb.i->t(), Review::Back);
+				HistoryItem	tb = *itb;
+				item.setHistoryItem(&tb, Review::Back);
 				item.setSide(Review::BackOnly);
 				Temp.append(item);
 				itf++;
 				itb++;
 			}
 			break;
-		}else if(itb==getHistoryList(Review::Back).constEnd()){
-			while(itf!=getHistoryList(Review::Front).constEnd()){
+		}else if(itb==Back.constEnd()){
+			while(itf!=Front.constEnd()){
 				OrganizedHistoryItem item;
-				item.setHistoryItem(&itf.i->t(), Review::Front);
+				HistoryItem	tf = *itf;
+				item.setHistoryItem(&tf, Review::Front);
 				item.setSide(Review::FrontOnly);
 				Temp.append(item);
 				itf++;
@@ -1068,23 +1075,27 @@ void ReviewPIBase::OrganizeHistoryList(void)
 			break;
 		}
 
-		if(itf->InspectID() == itb->InspectID()){ // ������
+		if(itf->InspectID() == itb->InspectID()){
 			OrganizedHistoryItem item;
-			item.setHistoryItem(&itf.i->t(), Review::Front);
-			item.setHistoryItem(&itb.i->t(), Review::Back);
+			HistoryItem	tf = *itf;
+			HistoryItem	tb = *itb;
+			item.setHistoryItem(&tf, Review::Front);
+			item.setHistoryItem(&tb, Review::Back);
 			item.setSide(Review::Both);
 			Temp.append(item);
 			itf++;
 			itb++;
 		}else if(itf->InspectID() < itb->InspectID()){
 			OrganizedHistoryItem item;
-			item.setHistoryItem(&itf.i->t(), Review::Front);
+			HistoryItem	tf = *itf;
+			item.setHistoryItem(&tf, Review::Front);
 			item.setSide(Review::FrontOnly);
 			Temp.append(item);
 			itf++;
 		}else{
 			OrganizedHistoryItem item;
-			item.setHistoryItem(&itb.i->t(), Review::Back);
+			HistoryItem	tb = *itb;
+			item.setHistoryItem(&tb, Review::Back);
 			item.setSide(Review::BackOnly);
 			Temp.append(item);
 			itb++;
@@ -1403,12 +1414,14 @@ LotInfoItem	ReviewPIBase::XML_GetLotInfo(const QString &TableName)
 {
 	LotInfoItem ret;
 	QRegularExpression exp(QString("(") + QDir::separator() + "d+)-(" + QDir::separator() + "d+)/.+");
-	if(exp.exactMatch(TableName)==false){
+	QRegularExpressionMatch match = exp.match(TableName);
+	bool isExactMatch = match.hasMatch();
+	if(isExactMatch==false){
 		return ret;
 	}
 
-	int MachineCode = exp.cap(1).toInt();
-	int MasterCode = exp.cap(2).toInt();
+	int MachineCode = match.captured(1).toInt();
+	int MasterCode = match.captured(2).toInt();
 
 	ret.MasterCode = MasterCode;
 	ret.MachineCode = MachineCode;

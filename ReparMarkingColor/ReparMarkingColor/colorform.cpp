@@ -86,7 +86,7 @@ void colorForm::widgetSetColor(QPalette palette, int x)
 {
 	int y=1;
 	QTableWidgetItem *colorItem = new QTableWidgetItem(/**/"");
-	colorItem->setBackgroundColor(palette.color(QPalette::Base));
+	colorItem->setBackground(QBrush(palette.color(QPalette::Base)));
 	ui.tableWidget->setItem(x, y, colorItem);
 }
 void colorForm::closeEvent(QCloseEvent *event)
@@ -104,7 +104,7 @@ void colorForm::closeEvent(QCloseEvent *event)
 	 int row=ui.tableWidget->rowCount();
 	 for (int i=0; i<row; i++){
 		 item= ui.tableWidget->item(i, 0)->text();
-		 color=ui.tableWidget->item(i, 1)->backgroundColor().name();
+		 color=ui.tableWidget->item(i, 1)->background().color().name();
 		 item	=item+QString("\n");
 		 color	=color+QString("\n");
 		 file.write(item.toLocal8Bit());

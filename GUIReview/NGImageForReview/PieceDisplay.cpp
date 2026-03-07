@@ -35,8 +35,7 @@ void PieceDisplay::setImage(QImage image ,int RotateAngle)
 	Image = image;
 	ImageOrg = image;
 	zoomStage = 0;
-	GetCanvas()->movx = 0;
-	GetCanvas()->movy = 0;
+	SetMovXY(0,0);
 	updateImage(RotateAngle);
 }
 
@@ -45,8 +44,7 @@ void	PieceDisplay::Clear(int RotateAngle)
 	Image.fill(0);
 	ImageOrg.fill(0);
 	zoomStage = 0;
-	GetCanvas()->movx = 0;
-	GetCanvas()->movy = 0;
+	SetMovXY(0,0);
 	updateImage(RotateAngle);
 }
 
@@ -59,15 +57,15 @@ void PieceDisplay::SlotWheel(int delta, int x, int y)
 		Image = ImageOrg.scaled(Image.size()*2, Qt::KeepAspectRatio);
 		zoomStage++;
 		updateImage();
-		ZoomDraw(GetCanvas()->movx - (GetCanvas()->movx+x)/2, GetCanvas()->movy - (GetCanvas()->movy+y)/2, pow(2.0, zoomStage));
+		ZoomDraw(GetMovx() - (GetMovx()+x)/2, GetMovy() - (GetMovy()+y)/2, pow(2.0, zoomStage));
 	}else{
 		if(zoomStage<-2)return;
 		Image = ImageOrg.scaled(Image.size()/2, Qt::KeepAspectRatio);
 		zoomStage--;
 		updateImage();
-		ZoomDraw(GetCanvas()->movx + (GetCanvas()->movx+x), GetCanvas()->movy + (GetCanvas()->movy+y), pow(2.0, zoomStage));
+		ZoomDraw(GetMovx() + (GetMovx()+x), GetMovy() + (GetMovy()+y), pow(2.0, zoomStage));
 	}
-	emit SignalImageStateChanged(zoomStage, GetCanvas()->movx, GetCanvas()->movy);
+	emit SignalImageStateChanged(zoomStage, GetMovx(), GetMovy());
 }
 
 void PieceDisplay::SlotSetImageState(int zoomStage, int movx, int movy)
@@ -77,14 +75,14 @@ void PieceDisplay::SlotSetImageState(int zoomStage, int movx, int movy)
 		Image = ImageOrg.scaled(ImageOrg.size()*pow(2.0, zoomStage), Qt::KeepAspectRatio);
 		updateImage();
 	}
-	if(GetCanvas()->movx!=movx || GetCanvas()->movy!=movy){
+	if(GetMovx()!=movx || GetMovy()!=movy){
 		ZoomDraw(movx, movy, pow(2.0, zoomStage));
 	}
 }
 
 void PieceDisplay::SlotShiftedImage()
 {
-	emit SignalImageStateChanged(zoomStage, GetCanvas()->movx, GetCanvas()->movy);
+	emit SignalImageStateChanged(zoomStage, GetMovx(), GetMovy());
 }
 
 void PieceDisplay::SlotMouseRDown(int,int)
@@ -93,17 +91,17 @@ void PieceDisplay::SlotMouseRDown(int,int)
 	Image = ImageOrg;
 	updateImage();
 	ZoomDraw(0, 0, 1.0);
-	emit SignalImageStateChanged(zoomStage, GetCanvas()->movx, GetCanvas()->movy);
+	emit SignalImageStateChanged(zoomStage, GetMovx(), GetMovy());
 }
 
 void PieceDisplay::updateImage(int RotateAngle)
 {
 	if(Image.isNull()){
-		GetCanvas()->SetImage(NULL);
+		SetImage(NULL);
 		return;
 	}
 	QSize size = Image.size();
-	QSize tag_size = GetCanvas()->size();
+	QSize tag_size = GetCanvasSize();
 
 	if(zoomStage<0){
 		for(int i=0; i<-zoomStage; i++){
@@ -118,17 +116,17 @@ void PieceDisplay::updateImage(int RotateAngle)
 
 	QImage *image = new QImage(Image.scaled(size));
 
-	GetCanvas()->SetImage(image);
+	SetImage(image);
 }
 
 void NGNailDisplay::updateImage(int RotateAngle)
 {
 	if(Image.isNull()){
-		GetCanvas()->SetImage(NULL);
+		SetImage(NULL);
 		return;
 	}
 	QSize size = Image.size();
-	QSize tag_size = GetCanvas()->size();
+	QSize tag_size = GetCanvasSize();
 
 	if(zoomStage<0){
 		for(int i=0; i<-zoomStage; i++){
@@ -224,7 +222,7 @@ void NGNailDisplay::updateImage(int RotateAngle)
 
 	}
 
-	GetCanvas()->SetImage(image);
+	SetImage(image);
 }
 
 void NGNailDisplay::setNGPoints(QList<ReviewNGPoint> list)

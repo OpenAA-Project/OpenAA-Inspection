@@ -34,7 +34,7 @@ SettingFocusAreaDialog::SettingFocusAreaDialog(AutofocusWithCameraForm *p,QWidge
 	ImagePanel.resize(ui->frame->width(),ui->frame->height());
 	bool	Ret=(connect(&ImagePanel,SIGNAL(SignalOnPaint(QPainter &)),this,SLOT(SlotOnPaint(QPainter &))))?true:false;
 			Ret=(connect(&ImagePanel,SIGNAL(SignalDrawEnd(void)),this,SLOT(SlotDrawEnd(void))))?true:false;
-	ImagePanel.SetMode(mtFrameDraw::fdRectangle);
+	ImagePanel.SetMode(fdRectangle);
 	ImagePanel.SetFrameColor(Qt::red);
 
 	p->GetLayersBase()->InstallOperationLog(this);
@@ -82,10 +82,10 @@ void	SettingFocusAreaDialog::SlotDrawEnd(void)
 	double	Zx=(double)SampleImage.width()/(double)ImagePanel.width();
 	double	Zy=(double)SampleImage.height()/(double)ImagePanel.height();
 	double	Z=max(Zx,Zy);
-	FocusAreaX1	=ImagePanel.GetCanvas()->SData.UData.RectangleData.x1;
-	FocusAreaY1	=ImagePanel.GetCanvas()->SData.UData.RectangleData.y1;
-	FocusAreaX2	=ImagePanel.GetCanvas()->SData.UData.RectangleData.x2;
-	FocusAreaY2	=ImagePanel.GetCanvas()->SData.UData.RectangleData.y2;
+	FocusAreaX1	=ImagePanel.GetRawSDataPoint()->UData.RectangleData.x1;
+	FocusAreaY1	=ImagePanel.GetRawSDataPoint()->UData.RectangleData.y1;
+	FocusAreaX2	=ImagePanel.GetRawSDataPoint()->UData.RectangleData.x2;
+	FocusAreaY2	=ImagePanel.GetRawSDataPoint()->UData.RectangleData.y2;
 }
 void SettingFocusAreaDialog::on_pushButtonSetDarkLightSetting_clicked()
 {

@@ -76,7 +76,7 @@
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <QtModules>core;sql;network;gui;widgets;serialport</QtModules>
+    <QtModules>core;sql;network;gui;widgets;serialport;core5compat</QtModules>
     <QtInstall>$(DefaultQtVersion)</QtInstall>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -23,7 +23,7 @@
 class ResultLotLoadForm : public QDialog
 {
 public:
-	ResultLotLoadForm(QWidget *parent=NULL, Qt::WindowFlags f=0);
+	ResultLotLoadForm(QWidget *parent=NULL, Qt::WindowFlags f=Qt::WindowFlags());
 
 public:
 	void setValue(quint32 FrontNGCount, quint32 FrontOKCount, quint32 BackNGCount, quint32 BackOKCount, bool isOtherErrorExist=false);

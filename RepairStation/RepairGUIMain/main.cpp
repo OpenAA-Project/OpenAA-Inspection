@@ -41,7 +41,6 @@
 #include "XGeneralDialog.h"
 #include "SelectWorkerForm.h"
 #include "XDataInLayerCommander.h"
-#include "hasplib.h"
 #include "XForWindows.h"
 #include "SingleExecute.h"
 #include "XShowVersion.h"
@@ -61,22 +60,6 @@ const	char	*LayersBase::GetLanguageSolutionFileName(void)
 
 int	XDbg;
 ExecuteInspectForReview	*ExeIns;
-
-
-static	bool HaspCheck(QString strKey)
-{
-	QStringList RetList;
-	Hasplib Hasp;
-	if(Hasp.HaspExecute(RetList)==false)
-		return false;
-	for(int Cnt=0;Cnt<RetList.count();Cnt++){
-		if(RetList.at(Cnt)==strKey){
-			if(QDate::currentDate()<=QDate::fromString(RetList.at(Cnt-1),/**/"yyyyMMdd"))
-				return true;
-		}
-	}
-	return false;
-}
 
 /*
 	Commandline option
@@ -246,7 +229,7 @@ int main(int argc, char *argv[])
 	}
 
 	Layers->SetCurrentPath(QDir::currentPath());
-	if(Layers->GetParamGlobal()->LoadDefault()==false){
+	if(Layers->GetParamGlobal()->LoadDefault(Layers->GetUserPath())==false){
 		QMessageBox Q("Load error"
 					, "Load error of GlobalParam", QMessageBox::Critical
 					, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
@@ -260,7 +243,7 @@ int main(int argc, char *argv[])
 	ParamComm *comm = Layers->GetParamComm();
 	QString filename_old;
 
-	Layers->GetParamComm()->LoadDefault();
+	Layers->GetParamComm()->LoadDefault(Layers->GetUserPath());
 
 	Layers->GetParamGlobal()->AllocateTargetBuff=false;
 	Layers->GetParamGlobal()->AllocateMasterBuff=false;
@@ -425,7 +408,7 @@ int main(int argc, char *argv[])
 		return(-1);
 	}
 	#endif
-	Layers->GetParamGUI()->LoadDefault();
+	Layers->GetParamGUI()->LoadDefault(Layers->GetUserPath());
 
 	G->GetGUIInstanceRoot()->GetFirstForm()->SetName(/**/"ReviewPlayer");
 

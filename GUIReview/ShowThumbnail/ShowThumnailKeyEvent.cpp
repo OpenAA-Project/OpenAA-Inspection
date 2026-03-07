@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <QElapsedTimer>
 #include "ShowThumbnailResource.h"
 #include "ShowThumbnail.h"
 #include "ReviewStructureItems.h"
@@ -40,11 +41,9 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	static QTime time;
-	static QTime timeForCheckPageAll;
-	if(time.isNull()==true){
-		time = QTime::currentTime();
-		timeForCheckPageAll = QTime::currentTime();
+	static QElapsedTimer time;
+	static QElapsedTimer timeForCheckPageAll;
+	if(time.isValid()==false){
 		time.start();
 		timeForCheckPageAll.start();
 	}
@@ -56,10 +55,9 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	if(getCurrentThumbnail()==NULL || getCurrentRow()==-1 || getCurrentColumn()==-1){// ���I�����Ԃ̏ꍇ
+	if(getCurrentThumbnail()==NULL || getCurrentRow()==-1 || getCurrentColumn()==-1){
 		if(isKeyPressed()==true)return;
 
-		// ���݂̏��Ԃ��擾
 		CmdReqAdjacentCurrentNG AdjNGCmd(GetLayersBase());
 		ReviewPIBase *RBase = GetReviewAlgorithm();
 
@@ -67,8 +65,8 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 			RBase->TransmitDirectly(&AdjNGCmd);
 		}
 
-		if(AdjNGCmd.existCurrentHistory()==false){// �������ǂݍ��܂��Ă��Ȃ��̂Ȃ���
-			return;// ���f
+		if(AdjNGCmd.existCurrentHistory()==false){
+			return;
 		}
 
 		setKeyPressedState(true);
@@ -82,16 +80,16 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 			if(getMoveMode()==_moveMode::PerPage){
 				moveHistory(Review::Direction::Previous, Review::ListLocate::First);
 			}else{
-				if(getCurrentPage()!=0){// �܂��O�y�[�W�������Ƃ�
+				if(getCurrentPage()!=0){
 					showPage(getCurrentSide(), getCurrentPage()-1, Review::ListLocate::First);
 				}else if(getCurrentSide()==Review::Back && getThumbnailCount(Review::Front)!=0){
-					setUpdatesEnabled(false);// ���̏ꍇ�ŕ\�������Ƃ�
-					showPage(Review::Front, getPageCount(Review::Front)-1, Review::ListLocate::First);// �\�̍Ō��̃y�[�W�̍ŏ��̃T���l�C��
+					setUpdatesEnabled(false);
+					showPage(Review::Front, getPageCount(Review::Front)-1, Review::ListLocate::First);
 					//getThumbnailCount(Review::Front) - getThumbnailCount(Review::Front)%getThumbnailCountInPage()
 					setUpdatesEnabled(true);
-				}else{// ���̏ꍇ�ŕ\���Ȃ����A�������͕\�̍ŏ��̃y�[�W�̎�
+				}else{
 					setUpdatesEnabled(false);
-					moveHistory(Review::Direction::Previous, Review::ListLocate::End, NULL);// �O�̗����̍Ō��Ɉړ�
+					moveHistory(Review::Direction::Previous, Review::ListLocate::End, NULL);
 					showPage(getCurrentSide(), getCurrentPage(), Review::ListLocate::First);
 					setUpdatesEnabled(true);
 				}
@@ -105,7 +103,7 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 				}else{
 					setUpdatesEnabled(false);
 					if(getCurrentSide()==Review::Front && getThumbnailList(Review::Back).count()!=0){
-						showPage(Review::Back, Review::First);// ���̍ŏ��Ɉړ�����
+						showPage(Review::Back, Review::First);
 					}else{
 						moveHistory(Review::Direction::Next, Review::ListLocate::First);
 					}
@@ -149,48 +147,8 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 	if(Review::isArrowKey(event->key())==true || event->key()==Qt::Key_2 || event->key()==Qt::Key_4 || event->key()==Qt::Key_6 || event->key()==Qt::Key_8){
 		if(isKeyPressed()==true)return;
 
-		//if(existCurrentThumbnail()==false){// �J�����gNG�������ꍇ�͉������Ȃ�
-		//	return;
-		//}
-		//qDebug() << "Current Side : " << (getCurrentSide()==Review::Front ? "Front" : "Back");
-		//qDebug() << "Current Page/Max : " << getCurrentPage() << " / " << getCurrentPageCount();
-		//qDebug() << "Current Row,Column : " << getCurrentRow() << "," << getCurrentColumn();
-
-		// �J�[�\���L�[�ɂ��镪��
-
-		//CmdReqInsLib ReqInsLibCmd(GetLayersBase());
-		//ReviewPIBase *RBase = GetReviewAlgorithm();
-		//if(RBase!=NULL){
-		//	RBase->TransmitDirectly(&ReqInsLibCmd);
-		//	if(ReqInsLibCmd.Ret==true){
-		//		InsLibraryHashPtr InsLibHashPtr;
-		//		if(getCurrentSide()==Review::Front){
-		//			InsLibHashPtr = ReqInsLibCmd.FrontInsLibHashPtr;
-		//		}else{
-		//			InsLibHashPtr = ReqInsLibCmd.BackInsLibHashPtr;
-		//		}
-
-		//		if(InsLibHashPtr!=NULL){
-		//			if(getCurrentThumbnail()!=NULL){
-		//				for(int i=0; i<getCurrentThumbnail()->getNGNailItem().NGPointList.count(); i++){
-		//					if(InsLibHashPtr->contains(getCurrentThumbnail()->getNGNailItem().NGPointList[i].Ral)==true){
-
-		//						if(InsLibHashPtr->values(getCurrentThumbnail()->getNGNailItem().NGPointList[i].Ral)
-		//					}
-		//				}
-		//			}
-
-		//			if(getCurrentSide()==Review::Front){
-		//			
-		//			}
-		//		}
-
-		//	}
-		//}
-
-
 		switch(event->key()){
-		case Qt::Key_Up:// ���L�[ [�߂�]
+		case Qt::Key_Up:
 		case Qt::Key_8:
 			if(getMoveMode()==_moveMode::PerThumbnail){
 				if(time.elapsed()<getMoveDelay()){
@@ -198,7 +156,6 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 						Thumbnail *nextThumbnail = getThumbnail(getCurrentThumbnail()->getIndexInGlobal()-getColumnCount());
 						if(nextThumbnail!=NULL && nextThumbnail->isChecked()==true){
 							inputKeyUpArrow();
-							time = QTime::currentTime();
 							time.start();
 							return;
 						}
@@ -207,16 +164,14 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 					}
 				}else{
 					inputKeyUpArrow();
-					time = QTime::currentTime();
 					time.start();
 				}
 			}else{
 				inputKeyUpArrow();
-				time = QTime::currentTime();
 				time.start();
 			}
 			break;
-		case Qt::Key_Down:// ���L�[ [�i��]
+		case Qt::Key_Down:
 		case Qt::Key_2:
 			if(getMoveMode()==_moveMode::PerThumbnail){
 				if(time.elapsed()<getMoveDelay()){
@@ -224,7 +179,6 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 						Thumbnail *nextThumbnail = getThumbnail(getCurrentThumbnail()->getIndexInGlobal()+getColumnCount());
 						if(nextThumbnail!=NULL && nextThumbnail->isChecked()==true){
 							inputKeyDownArrow(false);
-							time = QTime::currentTime();
 							time.start();
 							return;
 						}
@@ -234,7 +188,6 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 				}
 			}else{
 				inputKeyDownArrow(false);
-				time = QTime::currentTime();
 				time.start();
 			}
 			break;
@@ -246,7 +199,6 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 						Thumbnail *nextThumbnail = getThumbnail(getCurrentThumbnail()->getIndexInGlobal()+1);
 						if(nextThumbnail!=NULL && nextThumbnail->isChecked()==true){
 							inputKeyRightArrow(false);
-							time = QTime::currentTime();
 							time.start();
 							return;
 						}
@@ -255,7 +207,6 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 					}
 				}else{
 					inputKeyRightArrow(false);
-					time = QTime::currentTime();
 					time.start();
 				}
 			}else{
@@ -270,7 +221,6 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 						Thumbnail *nextThumbnail = getThumbnail(getCurrentThumbnail()->getIndexInGlobal()-1);
 						if(nextThumbnail!=NULL && nextThumbnail->isChecked()==true){
 							inputKeyLeftArrow();
-							time = QTime::currentTime();
 							time.start();
 							return;
 						}
@@ -279,7 +229,6 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 					}
 				}else{
 					inputKeyLeftArrow();
-					time = QTime::currentTime();
 					time.start();
 				}
 			}else{
@@ -384,7 +333,6 @@ void ShowThumbnail::keyPressEvent(QKeyEvent *event)
 						}
 
 						//update();
-						timeForCheckPageAll = QTime::currentTime();
 						timeForCheckPageAll.restart();
 					}
 

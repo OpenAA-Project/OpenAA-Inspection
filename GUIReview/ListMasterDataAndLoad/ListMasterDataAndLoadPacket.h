@@ -144,7 +144,7 @@ public:
 					continue;
 				}
 
-				QStringList pathList = GetParamGlobal()->ImageFilePath.split(/**/";", QString::SkipEmptyParts);
+				QStringList pathList = GetParamGlobal()->ImageFilePath.split(/**/";", Qt::SkipEmptyParts);
 				
 				for(int pi=0; pi<pathList.count(); pi++){
 					QString filename = Dp->CreateLogicFileName(MasterCode,p,MachineID,pathList[pi]

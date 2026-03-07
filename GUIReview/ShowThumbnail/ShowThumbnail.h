@@ -34,7 +34,6 @@
 #include "../ControlInfoDialog.h"
 
 #include <QStackedWidget>
-#include <QDesktopWidget>
 #include <QProgressBar>
 #include <QAction>
 #include <QMenu>
@@ -42,7 +41,6 @@
 #include <QTimeLine>
 #include <QLabel>
 
-// �v���p�e�B�錾�J�n
 #include "XReviewPropertyBase.h"
 
 class	ShowThumbnail;
@@ -57,16 +55,6 @@ namespace Ui{
 class ShowThumbnailPropertyClass;
 }
 
-// �v���p�e�B�錾�I��
-
-// �T���l�C���\���R���|�[�l���g�{��
-// NGImageListForReview�Ɏ����đ����邱�Ƃ��O���Ƃ���
-// �������g�p���邱�Ƃɂ���NGImageForReview���K�v�����Ȃ邩�͕s��
-// �@�\�Ƃ��āAShowHistoryListForReview����NG���X�g�̑��M�ɂ����T���l�C���\�����s��
-// �J�[�\���L�[�Œ��ډ摜���ړ����A�N���b�N����NG�摜���I�����Ԃɂ���
-// �I�����ԂɂȂ���NG�摜��NGImageForReview�ɕ\������(���g���摜�����H)���B
-// �T���l�C���y�[�W�̍ŏ��̃y�[�W�̍ŏ��̗񂩂灪�J�[�\���őO�̊��ցA�Ō��̃y�[�W�̉����������Ł��J�[�\���Ŏ��̊���
-// ���{�́��J�[�\���L�[�ŏ���NG�摜���������A�ړ����̓��X�^���ƂȂ��B���J�[�\���͂��̋t�ł����B
 class SHOWTHUMBNAIL_EXPORT ShowThumbnail : public GUIFormBase
 {
 	Q_OBJECT

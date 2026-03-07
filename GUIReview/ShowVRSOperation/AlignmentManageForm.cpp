@@ -203,7 +203,7 @@ void AlignmentManageForm::paintEvent(QPaintEvent *event)
 
 					QString number = QString::number(i+1);
 					int numberHeight = painter.fontMetrics().height();
-					int numberWidth = painter.fontMetrics().width(number);
+					int numberWidth = painter.fontMetrics().horizontalAdvance(number);
 
 					QPoint topCenter( rect.left() + rect.width()/2, rect.top() );
 					QPoint numberTopLeft = topCenter - QPoint( numberWidth / 2, numberHeight );
@@ -617,7 +617,7 @@ void AlignmentManageForm::updateDrawRects()
 	}else{
 		int page = currentPage();
 		VRSAlignment align = reqAlign.getAlignment(side);
-		if(Review::isIndexEnable(page, align.getAffinSeedFromEachPage())==true){
+		if(Review::isIndexEnableList(page, align.getAffinSeedFromEachPage())==true){
 			rects = align.getAffinSeedFromEachPage().at(page).getInsAlignment();
 		}else{
 			Q_ASSERT(/**/"AlignmentManageForm::updateDrawRects() has error!");
@@ -1359,13 +1359,13 @@ QRect AlignmentManageForm::getRect(int page, const QRect &beforeRect)
 	QList<QImage> imageList = reqMImgList.getImageList(side, phase);
 	QList<QPoint> outlineList = reqMImgList.getOutlineOffsetList(side, phase);
 
-	if(Review::isIndexEnable(page, imageList)==false){
+	if(Review::isIndexEnableList(page, imageList)==false){
 		QMessageBox::warning(this
 							, LangSolver.GetString(AlignmentManageForm_LS,LID_11)/*"Master Image Load Error"*/
 							, LangSolver.GetString(AlignmentManageForm_LS,LID_12)/*"Page images is less number than master data has."*/);
 		return QRect();
 	}
-	if(Review::isIndexEnable(page, outlineList)==false){
+	if(Review::isIndexEnableList(page, outlineList)==false){
 		QMessageBox::warning(this
 							, LangSolver.GetString(AlignmentManageForm_LS,LID_13)/*"Master OutlineOffset Load Error"*/
 							, LangSolver.GetString(AlignmentManageForm_LS,LID_14)/*"Master data don't have outline offset data."*/);

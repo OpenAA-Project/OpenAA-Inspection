@@ -159,15 +159,16 @@ bool SettingFileReader::load(const QString &filename_, SectionBufferList &list_)
 		list_.clear();
 		while(stream.atEnd()==false){
 			QString line = stream.readLine();
-
-			if(sectionExp.match(line).hasMatch()==true){
+			QRegularExpressionMatch match = sectionExp.match(line);
+			QRegularExpressionMatch pmatch = pairExp.match(line);
+			if(match.hasMatch()==true){
 				if(currentBuff.isValid()==true){
 					list_.append(currentBuff);
 				}
 				currentBuff.clear();
-				currentBuff.setSectionName(sectionExp.cap(1));
-			}else if(pairExp.match(line).hasMatch()==true){
-				currentBuff.setValue(pairExp.cap(1), pairExp.cap(2));
+				currentBuff.setSectionName(match.captured(1));
+			}else if(pmatch.hasMatch()==true){
+				currentBuff.setValue(pmatch.captured(1), pmatch.captured(2));
 			}else{
 				// skip
 			}

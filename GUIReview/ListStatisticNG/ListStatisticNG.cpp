@@ -347,14 +347,14 @@ void ListStatisticNG::on_pbSaveToFile_clicked()
 		}
 	}
 
-	stream << hHeaderList.join(/**/",") << endl;
+	stream << hHeaderList.join(/**/",") << Qt::endl;
 
 	for(int row=0; row<table->rowCount(); row++){
 		QStringList lineItemList;
 		for(int column=0; column<enableIndexList.count(); column++){
 			lineItemList << table->item(row, enableIndexList[column])->text();
 		}
-		stream << lineItemList.join(/**/",") << endl;
+		stream << lineItemList.join(/**/",") << Qt::endl;
 	}
 }
 

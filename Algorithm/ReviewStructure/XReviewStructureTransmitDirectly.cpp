@@ -561,7 +561,7 @@ bool ReviewPIBase::ReciveCmdLoadPageImage(GUIDirectMessage *packet)
 		TargetPageImages->append(QList<QImage>());
 	}
 
-	QStringList pathList = GetParamGlobal()->ImageFilePath.split(/**/';', QString::SkipEmptyParts);
+	QStringList pathList = GetParamGlobal()->ImageFilePath.split(/**/';', Qt::SkipEmptyParts);
 	
 	if(pathList.isEmpty()){
 		cmd->Ret = false;
@@ -969,7 +969,7 @@ bool ReviewPIBase::ReciveCmdClearFKeyToNGNail(GUIDirectMessage *packet)
 	if(CurrentBundle.FocusPoint!=NULL){
 		CurrentBundle.FocusPoint->FnKeyNumber=0;
 	}
-	if(CurrentOrganizedHistory.i==NULL || CurrentNGNail.i==NULL){
+	if(CurrentOrganizedHistory==NULL || CurrentNGNail==NULL){
 		cmd->Ret = false;
 		return true;
 	}
@@ -1097,10 +1097,10 @@ bool ReviewPIBase::ReciveCmdReqCurrentHistory(GUIDirectMessage *packet)
 
 	cmd->Ret = false;
 	
-	if(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos).i!=NULL){
+	if(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos)!=NULL){
 		OrganizedHistoryList::Iterator CurrentOrganizedHistory = getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos);
 
-		if(CurrentOrganizedHistory.i==NULL){
+		if(CurrentOrganizedHistory==NULL){
 			cmd->setOrganizedHistroyPtr(NULL);
 			cmd->Ret = true;
 			return true;
@@ -1116,7 +1116,7 @@ bool ReviewPIBase::ReciveCmdReqCurrentHistory(GUIDirectMessage *packet)
 		for(OrganizedHistoryList::ConstIterator it=beginIt; it!=endIt; it++,index++){
 			if(CurrentOrganizedHistory==it){
 				cmd->setIndex(index);
-				cmd->setOrganizedHistroyPtr(&CurrentOrganizedHistory.i->t());
+				cmd->setOrganizedHistroyPtr(CurrentOrganizedHistory);
 				cmd->Ret = true;
 			}
 		}
@@ -1286,50 +1286,50 @@ bool ReviewPIBase::ReciveCmdReqAdjacentCurrentNG(GUIDirectMessage *packet)
 	if(cmd==NULL)return false;
 	
 	// �O�̗���
-	if(getRoundCurrentOrganizedHistoryIterator(Review::PreviousPos).i==NULL){
+	if(getRoundCurrentOrganizedHistoryIterator(Review::PreviousPos)==NULL){
 		cmd->setPreviousHistory(NULL);
 		//qDebug() << "Previous InspectID : none";
 	}else{
-		cmd->setPreviousHistory(&getRoundCurrentOrganizedHistoryIterator(Review::PreviousPos).i->t());
+		cmd->setPreviousHistory(getRoundCurrentOrganizedHistoryIterator(Review::PreviousPos));
 		//qDebug() << "Previous InspectID : " << cmd->previousHistory->getInspectID();
 	}
 	// ���݂̗���
-	if(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos).i==NULL){
+	if(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos)==NULL){
 		cmd->setCurrentHistory(NULL);
 		//qDebug() << "Current InspectID : none";
 	}else{
-		cmd->setCurrentHistory(&getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos).i->t());
+		cmd->setCurrentHistory(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos));
 		//qDebug() << "Current InspectID : " << cmd->currentHistory->getInspectID();
 	}
 	// ���̗���
-	if(getRoundCurrentOrganizedHistoryIterator(Review::NextPos).i==NULL){
+	if(getRoundCurrentOrganizedHistoryIterator(Review::NextPos)==NULL){
 		cmd->setNextHistory(NULL);
 		//qDebug() << "Next InspectID : none";
 	}else{
-		cmd->setNextHistory(&getRoundCurrentOrganizedHistoryIterator(Review::NextPos).i->t());
+		cmd->setNextHistory(getRoundCurrentOrganizedHistoryIterator(Review::NextPos));
 		//qDebug() << "Next InspectID : " << cmd->nextHistory->getInspectID();
 	}
 
 
 	// �O��NGNail
-	if(getRoundCurrentNGNailIterator(Review::PreviousPos).i==NULL){
+	if(getRoundCurrentNGNailIterator(Review::PreviousPos)==NULL){
 		cmd->setPreviousNG(NULL);
 	}else{
-		cmd->setPreviousNG(&getRoundCurrentNGNailIterator(Review::PreviousPos).i->t());
+		cmd->setPreviousNG(getRoundCurrentNGNailIterator(Review::PreviousPos));
 	}
 	// ���݂�NGNail
-	if(getRoundCurrentNGNailIterator(Review::CurrentPos).i==NULL){
+	if(getRoundCurrentNGNailIterator(Review::CurrentPos)==NULL){
 		cmd->setCurrentNG(NULL);
 		cmd->setCurrentNGIndex(-1);
 	}else{
-		cmd->setCurrentNG(&getRoundCurrentNGNailIterator(Review::CurrentPos).i->t());
+		cmd->setCurrentNG(getRoundCurrentNGNailIterator(Review::CurrentPos));
 		cmd->setCurrentNGIndex(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos)->indexOf(getRoundCurrentNGNailIterator(Review::CurrentPos)->getNGNailItemRef()));
 	}
 	// ����NGNail
-	if(getRoundCurrentNGNailIterator(Review::NextPos).i==NULL){
+	if(getRoundCurrentNGNailIterator(Review::NextPos)==NULL){
 		cmd->setNextNG(NULL);
 	}else{
-		cmd->setNextNG(&getRoundCurrentNGNailIterator(Review::NextPos).i->t());
+		cmd->setNextNG(getRoundCurrentNGNailIterator(Review::NextPos));
 	}
 	cmd->setCurrentSide(getCurrentSideType());
 	
@@ -1407,8 +1407,8 @@ bool ReviewPIBase::ReciveCmdMoveCurrentHistory(GUIDirectMessage *packet)
 			}
 		}
 		
-		if(CurrentOrganizedHistory.i!=NULL){
-			cmd->CurrentHistoryPtr = &CurrentOrganizedHistory.i->t();
+		if(CurrentOrganizedHistory!=NULL){
+			cmd->CurrentHistoryPtr = CurrentOrganizedHistory;
 		}else{
 			cmd->CurrentHistoryPtr = NULL;
 		}
@@ -1435,8 +1435,8 @@ bool ReviewPIBase::ReciveCmdMoveCurrentHistory(GUIDirectMessage *packet)
 			}
 		}
 		
-		if(CurrentOrganizedHistory.i!=NULL){
-			cmd->CurrentHistoryPtr = &CurrentOrganizedHistory.i->t();
+		if(CurrentOrganizedHistory!=NULL){
+			cmd->CurrentHistoryPtr = CurrentOrganizedHistory;
 		}else{
 			cmd->CurrentHistoryPtr = NULL;
 		}
@@ -1528,7 +1528,7 @@ bool ReviewPIBase::ReciveCmdMoveCurrentHistoryToNGBoard(GUIDirectMessage *packet
 			CmdSetCurrentHistory ReturnToOrgCmd(GetLayersBase());
 			ReturnToOrgCmd.Index = index;
 			ReciveCmdSetCurrentHistory(&ReturnToOrgCmd);
-			cmd->CurrentHistoryPtr = &(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos).i->t());
+			cmd->CurrentHistoryPtr = (getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos));
 			cmd->Ret = true;
 			return true;
 		}else if(Cmd.CurrentHistoryPtr->isOK()==false){// NG���Ղ���������
@@ -1551,7 +1551,7 @@ bool ReviewPIBase::ReciveCmdSetCurrentNGNail(GUIDirectMessage *packet)
 
 	OrganizedHistoryList::Iterator CurrentOrganizedHistory = getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos);
 
-	if(CurrentOrganizedHistory.i==NULL){
+	if(CurrentOrganizedHistory==NULL){
 		cmd->Ret = false;
 		return true;
 	}
@@ -1639,7 +1639,7 @@ bool ReviewPIBase::ReciveCmdSetNGChecked(GUIDirectMessage *packet)
 	OrganizedHistoryList::Iterator CurrentOrganizedHistory = getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos);
 	
 	// ���ݗ������Ȃ��ꍇ
-	if(CurrentOrganizedHistory.i==NULL){
+	if(CurrentOrganizedHistory==NULL){
 		cmd->Ret = false;
 		return true;
 	}
@@ -2368,8 +2368,8 @@ bool ReviewPIBase::ReciveCmdSaveCurrentNGImage(GUIDirectMessage *packet)
 				QFile file(filename + ".txt");
 				if(file.open(QIODevice::WriteOnly)==true){
 					QTextStream stream(&file);
-					stream << "This image is not saved." << endl;
-					stream << "Image file would not exist." << endl;
+					stream << "This image is not saved." << Qt::endl;
+					stream << "Image file would not exist." << Qt::endl;
 				}
 			}else{
 				saveSuccess = true;
@@ -2425,21 +2425,13 @@ bool ReviewPIBase::ReciveCmdSaveCurrentHistoryNGImages(GUIDirectMessage *packet)
 			}
 			progress.setValue(progress.value()+1);
 
-			// �R���o�[�g���̃t�@�C���p�X���擾
 			QString filename = convertedSaveNGFileName(Review::Front, hIt, it);
-			
-			// �t�@�C�����ۑ������ꏊ�̏������擾
 			QFileInfo info(filename);
 
-			// �f�B���N�g�����Ȃ��ꍇ�͕ۑ��Ɏ��s�����̂ō쐬����
 			QDir dir;
-			if(dir.mkpath(info.absolutePath())){// �쐬�������̂ݕۑ�
-				// �摜�̍쐬
-
-				// NG�̌��摜
+			if(dir.mkpath(info.absolutePath())){
 				QImage image = it->image();
 
-				// �v���ɉ�����NG���`��
 				if(cmd->drawNGShape==true){
 					QPainter painter(&image);
 					for(ReviewNGPointList::Iterator pIt=it->NGPointList.begin(); pIt!=it->NGPointList.end(); pIt++){
@@ -2449,14 +2441,12 @@ bool ReviewPIBase::ReciveCmdSaveCurrentHistoryNGImages(GUIDirectMessage *packet)
 
 				// �ۑ�
 				if(image.save(filename)==false){
-					// ���s�����ꍇ�͋����I��PNG�摜�`���ŕۑ�������
 					if(image.save(filename + ".png", "PNG")==false){
-						// �����ł����s�����ꍇ�̓��b�Z�[�W�t���t�@�C���𐶐����ďI��
 						QFile file(filename + ".txt");
 						if(file.open(QIODevice::WriteOnly)==true){
 							QTextStream stream(&file);
-							stream << "This image is not saved." << endl;
-							stream << "Image file would not exist." << endl;
+							stream << "This image is not saved." << Qt::endl;
+							stream << "Image file would not exist." << Qt::endl;
 						}
 					}else{
 						saveSuccessCount++;
@@ -2476,21 +2466,13 @@ bool ReviewPIBase::ReciveCmdSaveCurrentHistoryNGImages(GUIDirectMessage *packet)
 			}
 			progress.setValue(progress.value()+1);
 			
-			// �R���o�[�g���̃t�@�C���p�X���擾
-			QString filename = convertedSaveNGFileName(Review::Back, hIt, it);
-			
-			// �t�@�C�����ۑ������ꏊ�̏������擾
+			QString filename = convertedSaveNGFileName(Review::Back, hIt, it);			
 			QFileInfo info(filename);
-			
-			// �f�B���N�g�����Ȃ��ꍇ�͕ۑ��Ɏ��s�����̂ō쐬����
 			QDir dir;
-			if(dir.mkpath(info.absolutePath())){// �쐬�������̂ݕۑ�
-				// �摜�̍쐬
+			if(dir.mkpath(info.absolutePath())){
 
-				// NG�̌��摜
 				QImage image = it->image();
 
-				// �v���ɉ�����NG���`��
 				if(cmd->drawNGShape==true){
 					QPainter painter(&image);
 					for(ReviewNGPointList::Iterator pIt=it->NGPointList.begin(); pIt!=it->NGPointList.end(); pIt++){
@@ -2498,16 +2480,13 @@ bool ReviewPIBase::ReciveCmdSaveCurrentHistoryNGImages(GUIDirectMessage *packet)
 					}
 				}
 
-				// �ۑ�
 				if(image.save(filename)==false){
-					// ���s�����ꍇ�͋����I��PNG�摜�`���ŕۑ�������
 					if(image.save(filename + ".png", "PNG")==false){
-						// �����ł����s�����ꍇ�̓��b�Z�[�W�t���t�@�C���𐶐����ďI��
 						QFile file(filename + ".txt");
 						if(file.open(QIODevice::WriteOnly)==true){
 							QTextStream stream(&file);
-							stream << "This image is not saved." << endl;
-							stream << "Image file would not exist." << endl;
+							stream << "This image is not saved." << Qt::endl;
+							stream << "Image file would not exist." << Qt::endl;
 						}
 					}else{
 						saveSuccessCount++;

@@ -293,7 +293,8 @@ void CameraView::GetCameraImageFast()
 	pxd_renderStretchDIBits(1, buf, 0, 0, -1, -1, 0,
 		memDC, 0, 0, s.width(), s.height(), 0);
 
-	pix = QPixmap::fromWinHBITMAP(memBmp);
+	//pix = QPixmap::fromWinHBITMAP(memBmp);
+	pix = QPixmap::fromImage(QImage::fromHBITMAP(memBmp));
 
 	m_paintWidget->releaseDC(hDC);
 

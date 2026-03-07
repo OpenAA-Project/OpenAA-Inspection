@@ -27,7 +27,7 @@ class CameraSettingForm : public QDialog
 	Q_OBJECT
 
 public:
-	CameraSettingForm(int deviceID, QWidget *parent=0, Qt::WindowFlags f=0);
+	CameraSettingForm(int deviceID, QWidget *parent=0, Qt::WindowFlags f=Qt::WindowFlags());
 	~CameraSettingForm();
 
 	void setDeviceInfomation(const QString &moduleNo, const QString &serialNo);

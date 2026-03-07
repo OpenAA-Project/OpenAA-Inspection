@@ -36,8 +36,8 @@ void InputRectInConstImageLabel::paintEvent(QPaintEvent *event)
 
 	QPainter painter(this);
 
-	if(pixmap()!=NULL && pixmap()->isNull()==false){
-		painter.drawPixmap(0, 0, *pixmap());
+	if(pixmap().isNull()==false){
+		painter.drawPixmap(0, 0, pixmap());
 	}
 
 	QPen edgePen;

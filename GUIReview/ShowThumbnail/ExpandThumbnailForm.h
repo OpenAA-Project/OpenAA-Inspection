@@ -32,7 +32,7 @@ class ExpandThumbnailDialog : public QDialog
 
 	ShowThumbnail *MainParent;
 public:
-	ExpandThumbnailDialog(ShowThumbnail *MainParent ,QWidget *parent=NULL, Qt::WindowFlags flags=0);
+	ExpandThumbnailDialog(ShowThumbnail *MainParent ,QWidget *parent=NULL, Qt::WindowFlags flags=Qt::WindowFlags());
 
 public:
 	void setThumbnail(Thumbnail *thumbnail);

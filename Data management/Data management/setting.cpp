@@ -64,10 +64,10 @@ Setting::Setting(QWidget *parent) :
 		}
 		DBfile->close();
 	}else{
-		ui->lePath->setText(/**/"D:/Data");
+		ui->lePath->setText(/**/"c:/Data");
 		ui->leHost->setText(/**/"localhost");
 		ui->lePort->setText(/**/"3051");
-		ui->leFile->setText(/**/"D:/Data/Regulus64-2.fdb");
+		ui->leFile->setText(/**/"c:/Data/OpenAA.fdb");
 		ui->leUser->setText(/**/"sysdba");
 		ui->lePassword->setText(/**/"masterkey");
 	}	

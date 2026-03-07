@@ -21,7 +21,7 @@
 
 #include "XDateTime.h"
 #include <QtXml/QDomElement>
-
+#include <QTransform>
 #include "XDataInLayer.h"
 #include "XDataModelPageItem.h"
 #include "XAlgorithmLibrary.h"
@@ -733,9 +733,9 @@ public:
 		return getVRSAlignment(side).getAffinSeedFromEachPage();
 	};
 
-	QMatrix getVRSMatrixFromWhole(Review::SideType side) const;
-	QList<QMatrix> getVRSMatrixFromEachPage(Review::SideType side) const;
-	QMatrix getVRSMatrixFromEachPage(Review::SideType side, int page) const;
+	QTransform getVRSMatrixFromWhole(Review::SideType side) const;
+	QList<QTransform> getVRSMatrixFromEachPage(Review::SideType side) const;
+	QTransform getVRSMatrixFromEachPage(Review::SideType side, int page) const;
 
 public:// SaveNGImageFileNameFormat�Ǘ�
 	QString convertedSaveNGFileName(Review::SideType side, const OrganizedHistoryList::Iterator &hIt, NGNailList::Iterator ngIt) const;
@@ -1181,12 +1181,12 @@ private:
 		int sy = y + p.y();
 
 		if(getVRSAlignment(side).getAlignmentType()==Review::VRSAlingmentWholeImage){
-			QMatrix matrix = getVRSAlignment(side).getWholeAffinMatrix();
+			QTransform matrix = getVRSAlignment(side).getWholeAffinMatrix();
 			
 			convertedX = sx * matrix.m11() + sy * matrix.m12() + matrix.dx() + getVRSSetting().getVRSSideSetting().MotorOffset.x();// mx = ix * a + iy * b + c
 			convertedY = sy * matrix.m21() + sy * matrix.m22() + matrix.dy() + getVRSSetting().getVRSSideSetting().MotorOffset.y();// my = ix * d + iy * e + f
 		}else{
-			QMatrix matrix = getVRSAlignment(side).getEachPageAffinMatrix(page);
+			QTransform matrix = getVRSAlignment(side).getEachPageAffinMatrix(page);
 			
 			convertedX = sx * matrix.m11() + sy * matrix.m12() + matrix.dx() + getVRSSetting().getVRSSideSetting().MotorOffset.x();// mx = ix * a + iy * b + c
 			convertedY = sx * matrix.m21() + sy * matrix.m22() + matrix.dy() + getVRSSetting().getVRSSideSetting().MotorOffset.y();// my = ix * d + iy * e + f
@@ -1207,7 +1207,7 @@ private:
 		int sx = x + p.x();
 		int sy = y + p.y();
 
-		QMatrix matrix = getVRSAlignment(side).getWholeAffinMatrix();
+		QTransform matrix = getVRSAlignment(side).getWholeAffinMatrix();
 
 		convertedX = sx * matrix.m11() + sy * matrix.m12() + matrix.dx() + getVRSSetting().getVRSSideSetting().MotorOffset.x();// mx = ix * a + iy * b + c
 		convertedY = sx * matrix.m21() + sy * matrix.m22() + matrix.dy() + getVRSSetting().getVRSSideSetting().MotorOffset.y();// my = ix * d + iy * e + f
@@ -1234,7 +1234,7 @@ private:
 		int sx = x + p.x();
 		int sy = y + p.y();
 
-		QMatrix matrix = getVRSAlignment(side).getEachPageAffinMatrix(page);
+		QTransform matrix = getVRSAlignment(side).getEachPageAffinMatrix(page);
 		
 		convertedX = sx * matrix.m11() + sy * matrix.m12() + matrix.dx() + getVRSSetting().getVRSSideSetting().MotorOffset.x();// mx = ix * a + iy * b + c
 		convertedY = sx * matrix.m21() + sy * matrix.m22() + matrix.dy() + getVRSSetting().getVRSSideSetting().MotorOffset.y();// my = ix * d + iy * e + f

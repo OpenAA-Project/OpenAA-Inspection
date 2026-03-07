@@ -22,6 +22,7 @@
 #include "ui_XMLServerCommForm.h"
 #include "XDataInLayer.h"
 
+
 void XMLWriter::push_back(ReqXMLWrite item)
 {
 	m_Mutex.lock();
@@ -280,3 +281,9 @@ bool XMLWriter::write(XMLOperationHandle *hdl, const ReqXMLWrite &reqItem)
 
 	return true;
 }
+
+QList<ReqXMLWrite> XMLWriter::getReqXMLList()
+{ 
+	QMutexLocker locker(&m_Mutex);
+	return m_ReqWriteList;
+};

@@ -94,6 +94,7 @@ public:
     ~mtGraphicUnit(void);
 	
 	mtQFrameDrawInGUnit	*GetCanvas(void)	const;
+	QSize	GetCanvasSize();
 	void	SetZoomMinMax(double MinZ ,double MaxZ)	{	FZoomRateMin=MinZ;	FZoomRateMax=MaxZ;	}
 	double	GetMaxZoomRate(void)	const	{	return FZoomRateMax;	}
 	double	GetMinZoomRate(void)	const	{	return FZoomRateMin;	}
@@ -168,6 +169,10 @@ public:
 	void	UnlockPaintMutex(void)	;
 	void	SetCancelClicked(bool b);
 	bool	GetCancelClicked(void)	const;
+
+	void	SetImageShiftDelay(int msec);
+	void	SetImage(QImage *img);
+
 private:
 	bool	IsInnerFuncMode(void){	return((InsideFunc!=0)?true:false);	}
 

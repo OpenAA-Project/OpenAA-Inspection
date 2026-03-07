@@ -35,7 +35,7 @@ protected:
 	virtual	void paintEvent(QPaintEvent *)		override;
 	virtual	void mousePressEvent(QMouseEvent *)	override;
 	virtual	void mouseMoveEvent(QMouseEvent *)	override;
-	virtual	void enterEvent(QEvent *)			override;
+	virtual	void enterEvent(QEnterEvent *)		override;
 	virtual	void leaveEvent(QEvent *)			override;
 	virtual	void resizeEvent(QResizeEvent *)	override;
 	virtual	void moveEvent(QMoveEvent *)		override;

@@ -28,7 +28,6 @@
 
 #include "XReviewCommonPacket.h"
 #include "XGUIReviewCommonPacket.h"
-#include <QDesktopWidget>
 #include <QString>
 #include <QMessageBox>
 
@@ -146,7 +145,8 @@ ReviewSettingFormBase::ReviewSettingFormBase(LayersBase *layer, QWidget *parent)
 
 		// �{�^�����ǉ�
 		list[i].second->setText(list[i].first.GUIName());
-		list[i].second->setMinimumSize( list[i].second->fontMetrics().width(list[i].first.GUIName()) + 30, list[i].second->minimumHeight() );
+		list[i].second->setMinimumSize(  list[i].second->fontMetrics().horizontalAdvance(list[i].first.GUIName()) + 30
+										,list[i].second->minimumHeight() );
 		tWid->widget(tabIndex)->layout()->addWidget( list[i].second );
 
 		connect(list[i].second, SIGNAL(clicked()), list[i].first.dialog(), SLOT(exec()));
@@ -165,9 +165,9 @@ ReviewSettingFormBase::ReviewSettingFormBase(LayersBase *layer, QWidget *parent)
 	QRect r;
 	r.setTopLeft( geometry().topLeft() );
 	r.setSize(s);
-
-	r.setLeft( (qApp->desktop()->width() - s.width()) / 2 );
-	r.setTop( (qApp->desktop()->height() - s.height()) / 2 );
+	QScreen *screen = QGuiApplication::primaryScreen();
+	r.setLeft( (screen->geometry().width() - s.width()) / 2 );
+	r.setTop( (screen->geometry().height() - s.height()) / 2 );
 
 	setGeometry(r);
 }

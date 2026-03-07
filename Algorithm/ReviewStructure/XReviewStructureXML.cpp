@@ -20,23 +20,22 @@
 #include "DXMLParser.h"
 #include "ui_XMLServerCommForm.h"
 #include <QProgressDialog>
+#include <QElapsedTimer>
 #include "XGeneralFunc.h"
 
 class XMLWriter;
 
 bool ReviewPIBase::XML_Open()
 {
-	QTime time;
+	QElapsedTimer time;
 	bool ch;
 	qDebug() << /**/"XML_OpenFuncion_Start";
-	// ���ɃI�[�v���ς݂Ȃ��I��
 	time.restart();
 	if(getXMLServerHandle()->GetState()==true){
 		qDebug() << /**/"XML_Open:EndFirst=" << time.elapsed();
 		return true;
 	}
 
-	// ���݂̐ݒ��ŃI�[�v���o�����Ȃ��I��
 	time.start();
 	ch = getXMLServerHandle()->Open();
 	qDebug() << Q_FUNC_INFO << ":server open = " << time.elapsed();
@@ -216,7 +215,7 @@ RetListDIm	&RetListDIm::operator=(RetListDIm &src)
 
 bool ReviewPIBase::XML_GetLot(int MasterCode,int MachineID, QStringList &list)
 {
-	QTime time;
+	QElapsedTimer time;
 	time.start();
 	XMLOpener opener(this);
 	if(opener.isOpen()==false){
@@ -693,17 +692,17 @@ bool ReviewPIBase::XML_SetLotToSide(QString lotFile, Review::SideType side)
 									//}
 									QHash<int, InsLibraryItem::TypeNameTag> list = ralHash[LibCode];
 
-									QList<int> indexList = list.uniqueKeys();
+									QList<int> indexList = list.keys();
 									InsLibraryItem::TypeNameTag selectedTag;
 									selectedTag.NGPriority = INT_MAX;
 									bool found=false;
 									for(int i=0; i<indexList.count(); i++){
-										QList<InsLibraryItem::TypeNameTag> items = list.values(indexList[i]);
-										for(int itemsIndex=0; itemsIndex<items.count(); itemsIndex++){
-											if(items.at(itemsIndex).NGPriority<selectedTag.NGPriority){
-												selectedTag = items.at(itemsIndex);
-												found = true;
-											}
+										InsLibraryItem::TypeNameTag item = list.value(indexList[i]);
+										    
+										// Qt6のQHashは1キーにつき1つの値なので、内側のループは不要
+										if(item.NGPriority < selectedTag.NGPriority){
+										    selectedTag = item;
+										    found = true;
 										}
 									}
 									if(found==true){
@@ -836,7 +835,7 @@ bool ReviewPIBase::XML_SetLotToSide(QString lotFile, Review::SideType side)
 	}
 	GetLayersBase()->CloseProcessingForm();
 
-	qSort(TagetHistoryList->begin(), TagetHistoryList->end());// ID���Ń\�[�g
+	std::sort(TagetHistoryList->begin(), TagetHistoryList->end());// ID���Ń\�[�g
 	OrganizeHistoryList();
 	sortHistoryList();
 	sortNGNailList();

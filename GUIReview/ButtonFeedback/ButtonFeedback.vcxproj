@@ -88,7 +88,7 @@
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <QtModules>core;gui;network;sql;widgets</QtModules>
+    <QtModules>core;gui;network;widgets;core5compat;sql</QtModules>
     <QtInstall>$(DefaultQtVersion)</QtInstall>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -164,11 +164,11 @@
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;QT_LARGEFILE_SUPPORT;QT_DLL;QT_NO_DEBUG;NDEBUG;BUTTONFEEDBACK_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\Open;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

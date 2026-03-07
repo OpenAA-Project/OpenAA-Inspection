@@ -19,6 +19,7 @@
 #include "ReviewStructureVRSSetting.h"
 #include "XReviewPropertyBase.h"
 #include <QDebug>
+#include <QTransform>
 
 #define ToStr(x) #x
 
@@ -320,7 +321,7 @@ QList<VRSAlignment::ThreePointAlignment> VRSAlignment::getAffinSeedFromEachPage(
 VRSAlignment::ThreePointAlignment VRSAlignment::getAffinSeedFromEachPage(int page) const
 {
 	VRSAlignment::ThreePointAlignment align;
-	if(Review::isIndexEnable(page, m_EachPageAlignPointList)==true){
+	if(Review::isIndexEnableList(page, m_EachPageAlignPointList)==true){
 		align = m_EachPageAlignPointList[page];
 	}
 	return align;
@@ -345,7 +346,7 @@ Review::ThreeValue<QRect> VRSAlignment::getAffinSeedRectFromEachPage(Review::Ali
 {
 	QList<Review::ThreeValue<QRect> > list = getAffinSeedRectFromEachPage(side);
 
-	if(Review::isIndexEnable(page, list)==true){
+	if(Review::isIndexEnableList(page, list)==true){
 		return list[page];
 	}else{
 		return Review::ThreeValue<QRect>();
@@ -370,7 +371,7 @@ bool VRSAlignment::isEachPageAffinMatrixEnable() const
 
 bool VRSAlignment::isEachPageAffinMatrixEnable(int page) const
 {
-	if(Review::isIndexEnable(page, m_EachPageAlignPointList)==true){
+	if(Review::isIndexEnableList(page, m_EachPageAlignPointList)==true){
 		return m_EachPageAlignPointList[page].isEnable();
 	}else{
 		return false;
@@ -387,7 +388,7 @@ void VRSAlignment::setAffinSeedToEachPage(const QList<ThreePointAlignment> &alig
 	m_EachPageAlignPointList = alignPointList;
 }
 
-QMatrix VRSAlignment::createAffin(const QPoint &ins1, const QPoint &ins2, const QPoint ins3,
+QTransform VRSAlignment::createAffin(const QPoint &ins1, const QPoint &ins2, const QPoint ins3,
 								const QPoint &mac1, const QPoint &mac2, const QPoint mac3)
 {
 	/********** �A�t�B���ϊ�
@@ -457,8 +458,6 @@ QMatrix VRSAlignment::createAffin(const QPoint &ins1, const QPoint &ins2, const 
 	f = MY1 - IX1*d - IY1*e
 	**********/
 
-	QMatrix matrix;
-
 	qreal IX1 = ins1.x();
 	qreal IY1 = ins1.y();
 	qreal IX2 = ins2.x();
@@ -519,7 +518,7 @@ QMatrix VRSAlignment::createAffin(const QPoint &ins1, const QPoint &ins2, const 
 	qreal e = (MY2-MY3)/(IY2-IY3) + beta*d;
 	qreal f = MY1 - IX1*d - IY1*e;
 
-	matrix.setMatrix(	a, b,
+	QTransform matrix(	a, b,
 						d, e,
 						c, f);
 
@@ -533,14 +532,14 @@ QMatrix VRSAlignment::createAffin(const QPoint &ins1, const QPoint &ins2, const 
 	return matrix;
 }
 
-QMatrix VRSAlignment::getWholeAffinMatrix() const
+QTransform VRSAlignment::getWholeAffinMatrix() const
 {
-	static QMatrix matrix = QMatrix();
+	static QTransform matrix = QTransform();
 
 	if(isWholeAffinMatrixEnable()==false){
-		return QMatrix( 1, 0,
-						0, 1,
-						0, 0);
+		return QTransform ( 1, 0,
+							0, 1,
+							0, 0);
 	}
 
 	if(m_WholeAlignDataIsChanged==false){
@@ -564,9 +563,9 @@ QMatrix VRSAlignment::getWholeAffinMatrix() const
 	return matrix;
 }
 
-QList<QMatrix> VRSAlignment::getEachPageAffinMatrix() const
+QList<QTransform> VRSAlignment::getEachPageAffinMatrix() const
 {
-	QList<QMatrix> list;
+	QList<QTransform> list;
 
 	for(int i=0; i<m_EachPageAlignPointList.count(); i++){
 		if(m_EachPageAlignPointList[i].isEnable()==true){
@@ -579,7 +578,7 @@ QList<QMatrix> VRSAlignment::getEachPageAffinMatrix() const
 				m_EachPageAlignPointList[i].getAlignmentPoint(Review::AlignmentSide_VRSMachine, Review::Alignment_Third)
 			);
 		}else{
-			list << QMatrix(	1, 0,
+			list << QTransform(	1, 0,
 								0, 1,
 								0, 0);
 		}
@@ -588,7 +587,7 @@ QList<QMatrix> VRSAlignment::getEachPageAffinMatrix() const
 	return list;
 }
 
-QMatrix VRSAlignment::getEachPageAffinMatrix(int page) const
+QTransform VRSAlignment::getEachPageAffinMatrix(int page) const
 {
 	if(m_EachPageAlignPointList[page].isEnable()==true){
 		return createAffin(
@@ -600,9 +599,9 @@ QMatrix VRSAlignment::getEachPageAffinMatrix(int page) const
 				m_EachPageAlignPointList[page].getAlignmentPoint(Review::AlignmentSide_VRSMachine, Review::Alignment_Third)
 			);
 	}else{
-		return QMatrix(	1, 0,
-						0, 1,
-						0, 0);
+		return QTransform(	1, 0,
+							0, 1,
+							0, 0);
 	}
 }
 

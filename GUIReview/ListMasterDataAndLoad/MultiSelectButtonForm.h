@@ -49,7 +49,7 @@ template<typename T>
 class MultiSelectButtonForm : public QDialog
 {
 public:
-	MultiSelectButtonForm(QWidget *parent=NULL, Qt::WindowFlags f=0)
+	MultiSelectButtonForm(QWidget *parent=NULL, Qt::WindowFlags f= Qt::WindowFlags())
 		:QDialog(parent, f)
 	{
 		ui.setupUi(this);

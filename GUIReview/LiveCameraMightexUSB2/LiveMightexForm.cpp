@@ -151,7 +151,7 @@ LiveMightexForm::LiveMightexForm(LayersBase *base ,QWidget *parent) :
 	ViewerPanel.setParent(ui->frame);
 	ViewerPanel.move(0,0);
 	ViewerPanel.resize(ui->frame->width(),ui->frame->height());
-	ViewerPanel.SetMode(mtFrameDraw::fdNone);
+	ViewerPanel.SetMode(fdNone);
 	ViewerPanel.SetFrameColor(Qt::red);
 
 	connect(this, SIGNAL(SignalResize()), SLOT(ResizeAction()));

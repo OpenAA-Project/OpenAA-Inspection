@@ -21,6 +21,7 @@
 #include "ui_PanelOffsetVRSForm.h"
 #include "XDataInLayer.h"
 #include "XDLLOnly.h"
+#include "XEntryPoint.h"
 #include "ThreadSequence.h"
 #include "XSequenceLocal.h"
 #include "XExecuteInspectBase.h"
@@ -176,5 +177,5 @@ void PanelOffsetVRSForm::on_pushButtonSet_clicked()
 	OffsetBackY=d;
 
 
-	GetParamGUI()->SaveDefault();
+	GetParamGUI()->SaveDefault(GetLayersBase()->GetUserPath());
 }

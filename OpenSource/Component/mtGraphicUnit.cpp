@@ -283,7 +283,7 @@ mtQFrameDrawInGUnit	*mtGraphicUnit::GetCanvas(void)	const
 {
 	return(FrDraw);
 }
-
+QSize	mtGraphicUnit::GetCanvasSize()					{	return FrDraw->size(); }
 void	mtGraphicUnit::SetMode(DrawingMode mode)		{	GetCanvas()->SetMode(mode);		}
 DrawingMode mtGraphicUnit::GetMode(void)	const		{	return(GetCanvas()->GetMode());	}
 void	mtGraphicUnit::SetFrameColor(const QColor &col)	{	GetCanvas()->SetFrameColor(col);	}
@@ -307,6 +307,14 @@ QSize	mtGraphicUnit::GetCanvasSize()		const	{	return FrDraw->size();		};
 void	mtGraphicUnit::SetLineWidth(double width)	{	FrDraw->SetLineWidth(width);	}
 double	mtGraphicUnit::GetLineWidth(void)	const	{	return FrDraw->GetLineWidth();	}
 struct _ShapeData *mtGraphicUnit::GetRawSDataPoint(void)	const	{	return &GetCanvas()->SData;	}
+void	mtGraphicUnit::SetImage(QImage *img)
+{
+	GetCanvas()->SetImage(img);
+}
+void	mtGraphicUnit::SetImageShiftDelay(int msec)
+{
+	GetCanvas()->setImageShiftDelay(msec);
+}
 
 void	mtGraphicUnit::ZoomDraw( int movx, int movy, double ZoomRate)
 {

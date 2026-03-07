@@ -20,18 +20,13 @@
 
 #include <QThread>
 #include <QMutex>
-#include <QSemaphore>
-#include <QWaitCondition>
 #include <QList>
-
 #include "XReviewCommon.h"
 
 class XMLServerHandle;
 class XMLOperationHandle;
 class	ReviewPIBase;
 
-// �������ސ���NGI�����肷�邽�߂̍\����
-// �O�������Ƃ��āANGI�������ꏊ�܂ł͈ړ��ς݂Ƃ���
 class stReqXMLWrite
 {
 public:
@@ -49,6 +44,27 @@ public:
 		m_FKey = key;
 		m_flags = flags;
 	};
+	stReqXMLWrite(const stReqXMLWrite &other)
+	{
+		m_x = other.m_x;
+		m_y = other.m_y;
+		m_isChecked = other.m_isChecked;
+		m_FKey = other.m_FKey;
+		m_flags = other.m_flags;
+	};
+
+	bool operator==(const stReqXMLWrite &other) const{
+		if(x()==other.x() &&
+			y()==other.y() &&
+			isChecked()==other.isChecked() &&
+			FKey()==other.FKey() &&
+			flags()==other.flags()){
+			return true;
+		}else{
+			return false;
+		}
+	};
+
 public:
 	void setX(int x){ m_x = x; };
 	void setY(int y){ m_y = y; };
@@ -61,10 +77,10 @@ public:
 	Review::FKey FKey(void) const { return m_FKey; };
 	int flags() const { return m_flags; };
 private:
-	int m_x;// �^�[�Q�b�g�摜��X���W
-	int m_y;// �^�[�Q�b�g�摜��Y���W
-	bool m_isChecked;// �`�F�b�N�ς݂��ۂ�
-	Review::FKey m_FKey;// F�L�[�^�C�v
+	int m_x;
+	int m_y;
+	bool m_isChecked;
+	Review::FKey m_FKey;
 	int m_flags;
 
 
@@ -82,14 +98,35 @@ public:
 	};
 };
 
-// XML�֏������ނP�P�ʃO���[�v
-// XML�e�[�u�����A�������ݐ��̌���ID�E�t�F�C�Y�ԍ��E�y�[�W�ԍ����ێ����Ă���
-// �܂��A���g�̓��X�g�����ꂽstReqXMLWrite
-class ReqXMLWrite : public QList<stReqXMLWrite>
+
+class ReqXMLWrite : public QList<stReqXMLWrite >
 {
 public:
 	ReqXMLWrite(int InspectID=-1, int Phase=-1, int Page=-1, QString TableName=/**/"")
 		:m_InspectID(InspectID),m_Phase(Phase),m_Page(Page),m_TableName(TableName){};
+	ReqXMLWrite(const ReqXMLWrite &other)
+		:m_InspectID(other.m_InspectID),m_Phase(other.m_Phase),m_Page(other.m_Page),m_TableName(other.m_TableName){
+		for(int i=0; i<other.count(); i++){
+			addItem(other[i]);
+		}
+	};
+
+	bool	operator==(const ReqXMLWrite &other) const{
+		if(getInspectID()==other.getInspectID() &&
+			getPhase()==other.getPhase() &&
+			getPage()==other.getPage() &&
+			getTableName()==other.getTableName() &&
+			count()==other.count()){
+			for(int i=0; i<count(); i++){
+				if(!((*this)[i]==other[i])){
+					return false;
+				}
+			}
+			return true;
+		}else{
+			return false;
+		}
+	};
 
 public:
 	void addItem(int x, int y, bool isChecked, Review::FKey fkey, int flags=stReqXMLWrite::WriteAll){
@@ -120,11 +157,6 @@ private:
 	int m_Page;
 	QString m_TableName;
 };
-
-// XML�t�@�C���֏������ނ��߂̃X���b�h
-// ReqXMLWrite�����X�g�����ĕۗL���A�P�������o���Ĉ��C�ɏ�������
-// run()�֐���stop()���Ă΂����܂Ŗ������[�v����
-// ���s���ł�ReqXMLWrite���ǉ��ł��A�ǉ����ꂽ���Ԓʂ��ɏ������܂���
 
 class XMLWriter : public QThread
 {
@@ -162,7 +194,7 @@ public:
 	bool isEmpty(){ QMutexLocker locker(&m_Mutex); return m_ReqWriteList.isEmpty(); };
 	int count(){ QMutexLocker locker(&m_Mutex); return m_ReqWriteList.count(); };
 
-	QList<ReqXMLWrite> getReqXMLList(){ QMutexLocker locker(&m_Mutex); return m_ReqWriteList; };
+	QList<ReqXMLWrite > getReqXMLList();
 
 private:
 	bool isEnable(XMLOperationHandle *xmlOpeHdl);
@@ -172,9 +204,9 @@ private:
 	QMutex m_Mutex;
 	QMutex m_MutexServer;
 	volatile bool m_stop;
-	volatile bool m_flash;// ���ׂď������񂾂玩����run�𔲂���
+	volatile bool m_flash;
 
-	QList<ReqXMLWrite> m_ReqWriteList;// �������݃f�[�^���X�g�o�b�t�@
+	QList<ReqXMLWrite > m_ReqWriteList;
 
 	XMLServerHandle *m_XMLServer;
 	QString m_IPAddress;

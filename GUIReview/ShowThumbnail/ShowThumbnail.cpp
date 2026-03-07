@@ -31,7 +31,8 @@
 #include "ChooseNextDialog.h"
 #include "SWAP.h"
 #include <QColorDialog>
-
+#include <QRandomGenerator>
+#include <QElapsedTimer>
 
 char	*sRoot=/**/"Review";
 char	*sName=/**/"ShowThumbnail";
@@ -423,9 +424,8 @@ void ShowThumbnail::createEditerThumbnail()
 		item.NGImageHeight = 600;
 
 		ReviewNGPoint p;
-		qsrand(time(NULL));
-		p.x = (int)(300*qrand()/(double)RAND_MAX);
-		p.y = (int)(600*qrand()/(double)RAND_MAX);
+		p.x = (int)(300*QRandomGenerator::global()->generateDouble());
+		p.y = (int)(600*QRandomGenerator::global()->generateDouble());
 		p.AlignedX = 0;
 		p.AlignedY = 0;
 		p.Error = 2;
@@ -1781,14 +1781,12 @@ bool ShowThumbnail::moveHistory(Review::Direction direction, Review::ListLocate 
 
 void ShowThumbnail::slotSetCurrentThumbnail(Thumbnail *thumbnail)
 {
-	static QTime time;
-	if(time.isNull()==true){
-		time = QTime::currentTime();
+	static	QElapsedTimer time;
+	if(time.isValid()==false){
 		time.start();
 	}else if(time.elapsed()<getMoveDelay()){
 		return;
 	}else{
-		time = QTime::currentTime();
 		time.start();
 	}
 
@@ -1803,8 +1801,8 @@ void ShowThumbnail::slotSetCurrentThumbnail(Thumbnail *thumbnail)
 		}
 		CmdSetNGChecked NGCheckCmd(GetLayersBase());
 		NGCheckCmd.side = getCurrentSide();
-		NGCheckCmd.begin = getCurrentThumbnail()->getIndexInLocal();// ����NGNail
-		NGCheckCmd.length = 1;// ����NG�̂�
+		NGCheckCmd.begin = getCurrentThumbnail()->getIndexInLocal();
+		NGCheckCmd.length = 1;
 		RBase->TransmitDirectly(&NGCheckCmd);
 		getCurrentThumbnail()->setChecked(true);
 	}

@@ -107,15 +107,15 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 				ui.twBoardCount->setItem(2, 1, new QTableWidgetItem(QString::number(BackOKCount+BackNGCount)));
 
 				if(FrontMultiIDError.isEmpty()==false || FrontNoExistError.isEmpty()==false){
-					ui.twFrontError->setRowCount(FrontMultiIDError.count() + FrontNoExistError.count());// �s���̒���
-					QList<int> keyList = FrontMultiIDError.keys();// �L�[�̎擾
-					qSort(keyList);// ID�������ɕ��בւ�
+					ui.twFrontError->setRowCount(FrontMultiIDError.count() + FrontNoExistError.count());
+					QList<int> keyList = FrontMultiIDError.keys();
+					std::sort(keyList.begin(), keyList.end());
 					int row=0;
 					for(int i=0; i<keyList.count(); i++,row++){
 						ui.twFrontError->setItem(row, 0, new QTableWidgetItem(QString::number(keyList[i])));
 						ui.twFrontError->setItem(row, 1, new QTableWidgetItem(LangSolver.GetString(HistoryListErrorDialog_LS,LID_0)/*"Multi ID"*/));
 					}
-					qSort(FrontNoExistError);// ID�������ɕ��בւ�
+					std::sort(FrontNoExistError.begin(), FrontNoExistError.end());
 					for(int i=0; i<FrontNoExistError.count(); i++,row++){
 						ui.twFrontError->setItem(row, 0, new QTableWidgetItem(QString::number(FrontNoExistError[i])));
 						ui.twFrontError->setItem(row, 1, new QTableWidgetItem(LangSolver.GetString(HistoryListErrorDialog_LS,LID_1)/*"No ID"*/));
@@ -126,15 +126,15 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 				}
 
 				if(BackMultiIDError.isEmpty()==false || BackNoExistError.isEmpty()==false){
-					ui.twBackError->setRowCount(BackMultiIDError.count() + BackNoExistError.count());// �s���̒���
-					QList<int> keyList = BackMultiIDError.keys();// �L�[�̎擾
-					qSort(keyList);// ID�������ɕ��בւ�
+					ui.twBackError->setRowCount(BackMultiIDError.count() + BackNoExistError.count());
+					QList<int> keyList = BackMultiIDError.keys();
+					std::sort(keyList.begin(), keyList.end());
 					int row=0;
 					for(int i=0; i<keyList.count(); i++,row++){
 						ui.twBackError->setItem(row, 0, new QTableWidgetItem(QString::number(keyList[i])));
 						ui.twBackError->setItem(row, 1, new QTableWidgetItem(LangSolver.GetString(HistoryListErrorDialog_LS,LID_2)/*"Multi ID"*/));
 					}
-					qSort(BackNoExistError);// ID�������ɕ��בւ�
+					std::sort(BackNoExistError.begin(), BackNoExistError.end());
 					for(int i=0; i<BackNoExistError.count(); i++,row++){
 						ui.twBackError->setItem(row, 0, new QTableWidgetItem(QString::number(BackNoExistError[i])));
 						ui.twBackError->setItem(row, 1, new QTableWidgetItem(LangSolver.GetString(HistoryListErrorDialog_LS,LID_3)/*"No ID"*/));
@@ -158,15 +158,15 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 			int FrontNGCount=0;
 
 			for(int i=0; i<listPtr->count(); i++){
-				if(listPtr->at(i).hasFront()==false){// �\���������`�F�b�N
-					FrontNoExistError.append(listPtr->at(i).getInspectID());// ���������Ȃ�
+				if(listPtr->at(i).hasFront()==false){
+					FrontNoExistError.append(listPtr->at(i).getInspectID());
 				}else{
-					if(FrontMultiIDError.contains(listPtr->at(i).getInspectID())==true){// ����ID���������݂��Ă���
+					if(FrontMultiIDError.contains(listPtr->at(i).getInspectID())==true){
 						FrontMultiIDError[listPtr->at(i).getInspectID()] = false;
 					}else{
-						FrontMultiIDError.insert(listPtr->at(i).getInspectID(), true);// �ʏ���ID���Ƃɂ����Ɉ��x��������
+						FrontMultiIDError.insert(listPtr->at(i).getInspectID(), true);
 					}
-					if(listPtr->at(i).getFront()->isOK()){// OK��NG���ŕ����A���Z
+					if(listPtr->at(i).getFront()->isOK()){
 						FrontOKCount++;
 					}else{
 						FrontNGCount++;
@@ -175,20 +175,19 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 			}
 
 			{
-			// �G���[�����Ȃ����̂����菜��
+
 			QList<int> keys;
-			keys = FrontMultiIDError.keys(true);// �G���[�����Ȃ�
+			keys = FrontMultiIDError.keys(true);
 			for(int i=0; i<keys.count(); i++){
-				FrontMultiIDError.remove(keys[i]);// ���菜��
+				FrontMultiIDError.remove(keys[i]);
 			}
 			}
 
-			// �����{�[�h�v�㌋��
+
 			ui.twBoardCount->setItem(0, 0, new QTableWidgetItem(QString::number(FrontOKCount)));
 			ui.twBoardCount->setItem(1, 0, new QTableWidgetItem(QString::number(FrontNGCount)));
 			ui.twBoardCount->setItem(2, 0, new QTableWidgetItem(QString::number(FrontOKCount+FrontNGCount)));
 			
-			// ���炩�̃G���[���������ꍇ
 			if(/*MultiErrorInspectIDList.isEmpty()==false	|| NoExistErrorInspectIDList.empty()==false ||*/
 				FrontMultiIDError.isEmpty()==false		|| FrontNoExistError.isEmpty()==false){
 
@@ -197,21 +196,20 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 				list << /**/"Front";
 				ui.twBoardCount->setHorizontalHeaderLabels(list);
 
-				// �����{�[�h�v�㌋��
 				ui.twBoardCount->setItem(0, 0, new QTableWidgetItem(QString::number(FrontOKCount)));
 				ui.twBoardCount->setItem(1, 0, new QTableWidgetItem(QString::number(FrontNGCount)));
 				ui.twBoardCount->setItem(2, 0, new QTableWidgetItem(QString::number(FrontOKCount+FrontNGCount)));
 
 				if(FrontMultiIDError.isEmpty()==false || FrontNoExistError.isEmpty()==false){
-					ui.twFrontError->setRowCount(FrontMultiIDError.count() + FrontNoExistError.count());// �s���̒���
-					QList<int> keyList = FrontMultiIDError.keys();// �L�[�̎擾
-					qSort(keyList);// ID�������ɕ��בւ�
+					ui.twFrontError->setRowCount(FrontMultiIDError.count() + FrontNoExistError.count());
+					QList<int> keyList = FrontMultiIDError.keys();
+					std::sort(keyList.begin(), keyList.end());
 					int row=0;
 					for(int i=0; i<keyList.count(); i++,row++){
 						ui.twFrontError->setItem(row, 0, new QTableWidgetItem(QString::number(keyList[i])));
 						ui.twFrontError->setItem(row, 1, new QTableWidgetItem(/**/"Multi ID"));
 					}
-					qSort(FrontNoExistError);// ID�������ɕ��בւ�
+					std::sort(FrontNoExistError.begin(), FrontNoExistError.end());
 					for(int i=0; i<FrontNoExistError.count(); i++,row++){
 						ui.twFrontError->setItem(row, 0, new QTableWidgetItem(QString::number(FrontNoExistError[i])));
 						ui.twFrontError->setItem(row, 1, new QTableWidgetItem(/**/"No ID"));
@@ -223,7 +221,7 @@ void HistoryListErrorDialog::setHistory(OrganizedHistoryListPtr listPtr, Review:
 
 				ui.twBackError->setVisible(false);
 
-			}else{// ���̂݁A�ǂݍ��ݖ����͐ݒ��Ȃ�
+			}else{
 				ui.twBoardCount->setItem(0, 0, new QTableWidgetItem(QString::number(0)));
 				ui.twBoardCount->setItem(1, 0, new QTableWidgetItem(QString::number(0)));
 				ui.twBoardCount->setItem(2, 0, new QTableWidgetItem(QString::number(0)));

@@ -573,10 +573,10 @@ void NGImageListForReview::updateVerticalHeader(int FrontCount, int BackCount)
 	ui.tblMain->setVerticalHeaderLabels(vHeader);
 	
 	for(int i=0; i<FrontCount; i++){
-		ui.tblMain->verticalHeaderItem(i)->setBackgroundColor(palette().window().color());
+		ui.tblMain->verticalHeaderItem(i)->setBackground(QBrush(palette().window().color()));
 	}
 	for(int i=FrontCount; i<FrontCount+BackCount; i++){
-		ui.tblMain->verticalHeaderItem(i)->setBackgroundColor(Qt::darkGray);
+		ui.tblMain->verticalHeaderItem(i)->setBackground(QBrush(Qt::darkGray));
 	}
 }
 
@@ -634,9 +634,9 @@ void NGImageListForReview::addNGList(const HistoryItem &history, const InsLibrar
 	NGNailList NGList = history.getNGNails();
 	hCmdReqForSaveNGList.NGPoints=NGList.count();
 
-	for(int i=0; i<NGList.count(); i++){// NG�摜���̑S���ǉ�
-		NGNailItem NGItem = NGList.at(i);// NG�摜�P�ʏ���
-		QTableWidgetItem *item;// �}�������e�[�u���Z���̃o�b�t�@
+	for(int i=0; i<NGList.count(); i++){
+		NGNailItem NGItem = NGList.at(i);
+		QTableWidgetItem *item;
 
 		ForSaveNGPoint	*ForSaveNGPointer=new ForSaveNGPoint(InsertRow+i);
 		ForSaveNGPointer->Top=hCmdReqForSaveNGList.Top;
@@ -672,9 +672,10 @@ void NGImageListForReview::addNGList(const HistoryItem &history, const InsLibrar
 				if(ViewOffset.CSVReverseY==true){
 					YPos=-YPos;
 				}
-				QString xyStr = QString::number(GetParamGlobal()->TransformPixelToUnit(XPos),'f',GetParamGlobal()->SmallNumberFigure)
+				int Page=0;;
+				QString xyStr = QString::number(GetParamGlobal()->TransformPixelToUnit(Page,XPos),'f',GetParamGlobal()->SmallNumberFigure)
 							   +QString(/**/",")
-							   +QString::number(GetParamGlobal()->TransformPixelToUnit(YPos),'f',GetParamGlobal()->SmallNumberFigure);
+							   +QString::number(GetParamGlobal()->TransformPixelToUnit(Page,YPos),'f',GetParamGlobal()->SmallNumberFigure);
 				item = new QTableWidgetItem(xyStr);
 			}
 			ui.tblMain->setItem(InsertRow+i, mainHHeader.indexOf(hhlNGPoint), item);
@@ -824,7 +825,7 @@ void NGImageListForReview::fillBackgraundColorOnTableAtRow(int row, QColor color
 	if(row>=0 && ui.tblMain->rowCount()>row && ui.tblMain->columnCount()>0){
 		for(int i=0; i<ui.tblMain->columnCount(); i++){
 			if(ui.tblMain->item(row, i)!=NULL){
-				ui.tblMain->item(row, i)->setBackgroundColor(color);
+				ui.tblMain->item(row, i)->setBackground(QBrush(color));
 			}
 		}
 	}

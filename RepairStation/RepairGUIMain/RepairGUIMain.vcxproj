@@ -122,7 +122,7 @@
     <OutDir>..\..\</OutDir>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <QtModules>core;gui;network;serialport;sql;widgets;xml</QtModules>
+    <QtModules>core;gui;network;serialport;sql;widgets;xml;core5compat</QtModules>
     <QtInstall>$(DefaultQtVersion)</QtInstall>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -362,7 +362,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(VCInstallDir)PlatformSDK\Lib\AMD64;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>comctl32.lib;ws2_32.lib;mpr.lib;version.lib;Psapi.Lib;CommonGUIDLL.lib;Hasp.lib;EditPasswordOnControl.lib;ServiceLib.lib;SeqLib.lib;IntegrationLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;ws2_32.lib;mpr.lib;version.lib;Psapi.Lib;CommonGUIDLL.lib;EditPasswordOnControl.lib;ServiceLib.lib;SeqLib.lib;IntegrationLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <HeapReserveSize>128000000</HeapReserveSize>
       <HeapCommitSize>128000000</HeapCommitSize>

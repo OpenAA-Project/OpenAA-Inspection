@@ -22,7 +22,6 @@
 #include "XMightexControl.h"
 #include "XGeneralFunc.h"
 #include <memory.h>
-#include <QDesktopWidget>
 #include "CameraSettingForm.h"
 #include "XCriticalFunc.h"
 #include "XAutofocusControl.h"
@@ -45,8 +44,8 @@ void ChildCamPanel::mousePressEvent ( QMouseEvent * e )
 {
 	int	XPos	=e->x();
 	int	YPos	=e->y();
-	QDesktopWidget *D=QApplication::desktop();
-	QRect r=D->screenGeometry(0);
+	QScreen *screen = QGuiApplication::primaryScreen();
+	QRect r=screen->availableGeometry();
 	int	Dx=XPos-r.width()/2;
 	int	Dy=YPos-r.height()/2;
 
@@ -81,11 +80,12 @@ ChildPanelForm::ChildPanelForm(LayersBase *base ,LiveMightexForm *p,QWidget *par
 	ViewerPanel.setParent(ui->frame);
 	ViewerPanel.move(0,0);
 	ViewerPanel.resize(ui->frame->width(),ui->frame->height());
-	ViewerPanel.SetMode(mtFrameDraw::fdNone);
+	ViewerPanel.SetMode(fdNone);
 	ViewerPanel.SetFrameColor(Qt::red);
 
-	QDesktopWidget *D=QApplication::desktop();
-	QRect r=D->screenGeometry(0);
+	QScreen *screen = QGuiApplication::primaryScreen();
+	QRect r=screen->availableGeometry();
+
 	setGeometry(r);
 }
 

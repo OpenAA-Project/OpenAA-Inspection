@@ -1412,8 +1412,8 @@ IdleTurn:;
 				}
 				if(GetAutoRepeat()!=_AutoCaptureInspect){
 					SeqParam->InspectionID=Layer->GetCurrentInspectIDForExecute();
-					SeqParam->ReadyForScan=true;
 				}
+				SeqParam->ReadyForScan=true;
 
 				CurrentState=_EI_OnCapturing;
 				DWORD	StartWaitingPoint=::GetComputerMiliSec();

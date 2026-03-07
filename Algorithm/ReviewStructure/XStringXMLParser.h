@@ -36,9 +36,10 @@ public:
 		clear();
 
 		QDomDocument doc;
-		if(doc.setContent(src)==false)
+		QDomDocument::ParseResult result =doc.setContent(src);
+		if(!result){
 			return false;
-
+		}
 		QDomElement elem = doc.documentElement();
 
 		analyze(elem);

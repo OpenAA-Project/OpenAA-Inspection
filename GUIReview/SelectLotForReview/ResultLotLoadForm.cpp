@@ -69,8 +69,8 @@ void ResultLotLoadForm::setValue(quint32 FrontNGCount, quint32 FrontOKCount, qui
 	ui.twResultTable->setItem(2, 1, bSumItem);
 
 	if((FrontNGCount+FrontOKCount)!=(BackNGCount+BackOKCount)){
-		ui.twResultTable->item(2, 0)->setTextColor(QColor(Qt::red));
-		ui.twResultTable->item(2, 1)->setTextColor(QColor(Qt::red));
+		ui.twResultTable->item(2, 0)->setForeground(QBrush(QColor(Qt::red)));
+		ui.twResultTable->item(2, 1)->setForeground(QBrush(QColor(Qt::red)));
 		ui.lbResultText->setText(/**/"Error");
 		QPalette p;
 		p.setColor(QPalette::ColorRole::WindowText, QColor(Qt::red));
@@ -79,15 +79,15 @@ void ResultLotLoadForm::setValue(quint32 FrontNGCount, quint32 FrontOKCount, qui
 	}else{
 		QPalette p;
 		if(isOtherErrorExist==false){
-			ui.twResultTable->item(2, 0)->setTextColor(p.color(QPalette::ColorRole::Text));
-			ui.twResultTable->item(2, 1)->setTextColor(p.color(QPalette::ColorRole::Text));
+			ui.twResultTable->item(2, 0)->setForeground(QBrush(p.color(QPalette::ColorRole::Text)));
+			ui.twResultTable->item(2, 1)->setForeground(QBrush(p.color(QPalette::ColorRole::Text)));
 			ui.lbResultText->setText(/**/"OK");
 			p.setColor(QPalette::ColorRole::WindowText, QColor(Qt::blue));
 			p.setColor(QPalette::ColorRole::Text, QColor(Qt::blue));
 			ui.lbResultText->setPalette(p);
 		}else{
-			ui.twResultTable->item(2, 0)->setTextColor(QColor(Qt::red));
-			ui.twResultTable->item(2, 1)->setTextColor(QColor(Qt::red));
+			ui.twResultTable->item(2, 0)->setForeground(QBrush(QColor(Qt::red)));
+			ui.twResultTable->item(2, 1)->setForeground(QBrush(QColor(Qt::red)));
 			ui.lbResultText->setText(/**/"Error");
 			QPalette p;
 			p.setColor(QPalette::ColorRole::WindowText, QColor(Qt::red));

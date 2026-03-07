@@ -23,7 +23,7 @@
 #include "XDateTime.h"
 #include <QPushButton>
 #include <QMessageBox>
-
+#include <algorithm> // std::stable_sort
 #include "XAlgorithmLibNGType.h"
 
 namespace Review{
@@ -351,12 +351,22 @@ bool isBetween(const T &min, const T &value, const T &max){
 
 template<class T>
 bool isIndexEnableList(int index, const QList<T> &list){
-	return Review::isBetween(0, index, list.count()-1);
+	//return Review::isBetween(0, index, list.count()-1);
+	if(0<=index && index<=list.count()-1){
+		return true;
+	}else{
+		return false;
+	}
 };
 
 template<class T>
 bool isIndexEnableVector(int index, const QVector<T> &vect){
-	return Review::isBetween(0, index, vect.count()-1);
+	//return Review::isBetween(0, index, vect.count()-1);
+	if(0<=index && index<=vect.count()-1){
+		return true;
+	}else{
+		return false;
+	}
 };
 
 template<class T>
@@ -493,7 +503,7 @@ QList<T> sortByPriority(const QList<int> &priorityList, const QList<T> &itemList
 		list << QPair<int, T>(priorityList[i], itemList[i]);
 	}
 
-	qStableSort(list.begin(), list.end(), compPairFirstLesser<int, T>);
+	std::stable_sort(list.begin(), list.end(), compPairFirstLesser<int, T>);
 
 	QList<T> retList;
 	for(int i=0; i<list.count(); i++){

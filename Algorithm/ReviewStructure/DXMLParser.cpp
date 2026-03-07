@@ -146,7 +146,7 @@ void LotXMLInsLibParser::LotXMLInsLibTypeNameParser::analyze(QDomElement &elem){
 		data.TCode = elem.attribute(/**/"TCODE", /**/"-1").toInt();
 		data.TName = elem.attribute(/**/"TNAME", /**/"");
 		if(elem.hasAttribute(/**/"NGCOLOR")){
-			QStringList rgbList = elem.attribute(/**/"NGCOLOR").split(/**/",", QString::SplitBehavior::SkipEmptyParts);
+			QStringList rgbList = elem.attribute(/**/"NGCOLOR").split(/**/",", Qt::SkipEmptyParts);
 			int r = rgbList[0].toInt();
 			int g = rgbList[1].toInt();
 			int b = rgbList[2].toInt();

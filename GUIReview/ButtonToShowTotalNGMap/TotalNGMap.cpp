@@ -22,7 +22,6 @@
 #include "ReviewStructurePacket.h"
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
-#include <QDesktopWidget>
 
 extern char *sRoot;
 extern char *sName;
@@ -116,7 +115,7 @@ void TotalNGMap::uniqQPointList(QList<QPoint> &list)
 {
 	if(list.empty())return;
 
-	qSort(list.begin(), list.end(), compair);
+	std::sort(list.begin(), list.end(), compair);
 
 	QList<QPoint> ulist;
 	QPoint ch = list.front();
@@ -284,17 +283,18 @@ void TotalNGMap::showEvent(QShowEvent *event)
 
 	block = true;
 
-	QDesktopWidget dwid;
+	QScreen *screen = QGuiApplication::primaryScreen();
 
 	qreal fillWid = 0.6;
 	qreal fillHei = 0.8;
 	m_targetPoint = QPoint();
 
-	resize(dwid.size().width()*fillWid, dwid.size().height()*fillHei);
+	resize(screen->geometry().width()*fillWid, screen->geometry().height()*fillHei);
 
 	QRect r = geometry();
 
-	r.moveTopLeft( QPoint(dwid.width()*(1-fillWid)/2.0, dwid.height()*(1-fillHei)/2.0 ) );
+	r.moveTopLeft( QPoint(screen->geometry().width()*(1-fillWid)/2.0
+						, screen->geometry().height()*(1-fillHei)/2.0 ) );
 
 	setGeometry( r );
 
@@ -346,12 +346,17 @@ void TotalNGMap::on_cbSide_currentIndexChanged(int index)
 void TotalNGMap::on_twVautTable_cellClicked(int row, int column)
 {
 	QString str = ui.twVautTable->item(row, 1)->text();
-	QRegularExpression exp(/**/"\\((.+),(.+)\\)-\\((.+),(.+)\\)");
-	exp.setMinimal(true);
+	QString pattern = "\\((.+),(.+)\\)-\\((.+),(.+)\\)";
 
-	if(exp.exactMatch(str)==true){
-		qreal x = (exp.cap(1).toInt() + exp.cap(3).toInt())/2.0;
-		qreal y = (exp.cap(2).toInt() + exp.cap(4).toInt())/2.0;
+	// anchoredPattern で完全一致化し、オプションで最小マッチを有効にする
+	QRegularExpression exp (QRegularExpression::anchoredPattern(pattern),
+							QRegularExpression::InvertedGreedinessOption);
+
+	QRegularExpressionMatch match = exp.match(str);
+
+	if (match.hasMatch()) {
+		qreal x = (match.captured(1).toInt() + match.captured(3).toInt())/2.0;
+		qreal y = (match.captured(2).toInt() + match.captured(4).toInt())/2.0;
 
 		CmdReqWholeImageInfo winfo(layersBase());
 		reviewPIBase()->TransmitDirectly(&winfo);
@@ -576,7 +581,7 @@ void TotalNGMap::updateVautTable()
 			}
 		}
 
-		qSort(list.begin(), list.end(), VautNGListItem::DescendingOrder);
+		std::sort(list.begin(), list.end(), VautNGListItem::DescendingOrder);
 
 		ui.twVautTable->setRowCount(list.count());
 
@@ -603,20 +608,20 @@ void TotalNGMap::updateVautTable()
 		{
 			QFontMetrics h0met(ui.twVautTable->horizontalHeaderItem(0)->font());
 			QFontMetrics h1met(ui.twVautTable->horizontalHeaderItem(1)->font());
-			maxNGCountStringLength = h0met.width(ui.twVautTable->horizontalHeaderItem(0)->text());
-			maxAreaStringLength = h1met.width(ui.twVautTable->horizontalHeaderItem(1)->text());
+			maxNGCountStringLength = h0met.horizontalAdvance(ui.twVautTable->horizontalHeaderItem(0)->text());
+			maxAreaStringLength = h1met.horizontalAdvance(ui.twVautTable->horizontalHeaderItem(1)->text());
 		}
 
 		for(int row=0; row<ui.twVautTable->rowCount(); row++){
 			QString nTxt = ui.twVautTable->item(row, 0)->text();
 			QString aTxt = ui.twVautTable->item(row, 1)->text();
 
-			int nlen = ui.twVautTable->fontMetrics().width(nTxt);
+			int nlen = ui.twVautTable->fontMetrics().horizontalAdvance(nTxt);
 			if(maxNGCountStringLength<nlen){
 				maxNGCountStringLength = nlen;
 			}
 
-			int alen = ui.twVautTable->fontMetrics().width(aTxt);
+			int alen = ui.twVautTable->fontMetrics().horizontalAdvance(aTxt);
 			if(maxAreaStringLength<alen){
 				maxAreaStringLength = alen;
 			}

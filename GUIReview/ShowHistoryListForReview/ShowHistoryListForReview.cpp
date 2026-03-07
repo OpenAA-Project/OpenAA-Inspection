@@ -298,7 +298,7 @@ void ShowHistoryListForReview::TransmitDirectly(GUIDirectMessage *packet)
 						for(int j=0; j<ui.twHistoryList->columnCount(); j++){
 							QTableWidgetItem *item = ui.twHistoryList->item(getTableIndex(Cmd.index()), j);
 							if(item!=NULL){
-								item->setBackgroundColor(Qt::white);
+								item->setBackground(QBrush(Qt::white));
 							}else{
 								QMessageBox::critical(this, LangSolver.GetString(ShowHistoryListForReview_LS,LID_8)/*"Error"*/, LangSolver.GetString(ShowHistoryListForReview_LS,LID_9)/*"Error"*/);
 							}
@@ -313,7 +313,7 @@ void ShowHistoryListForReview::TransmitDirectly(GUIDirectMessage *packet)
 						for(int j=0; j<ui.twHistoryList->columnCount(); j++){
 							QTableWidgetItem *item = ui.twHistoryList->item(getTableIndex(Cmd.index()), j);
 							if(item!=NULL){
-								item->setBackgroundColor(Qt::white);
+								item->setBackground(QBrush(Qt::white));
 							}else{
 								QMessageBox::critical(this, LangSolver.GetString(ShowHistoryListForReview_LS,LID_10)/*"Error"*/, LangSolver.GetString(ShowHistoryListForReview_LS,LID_11)/*"Error"*/);
 							}
@@ -326,7 +326,7 @@ void ShowHistoryListForReview::TransmitDirectly(GUIDirectMessage *packet)
 				int index = getTableIndex(Cmd.index());
 				QTableWidgetItem *item = ui.twHistoryList->item(index, j);
 				if(item!=NULL){
-					item->setBackgroundColor(QColor(170,255,170));
+					item->setBackground(QBrush(QColor(170,255,170)));
 				}else{
 					QMessageBox::critical(this, LangSolver.GetString(ShowHistoryListForReview_LS,LID_12)/*"Error"*/, LangSolver.GetString(ShowHistoryListForReview_LS,LID_13)/*"Error"*/);
 				}
@@ -399,7 +399,7 @@ void ShowHistoryListForReview::setTableRowItem(int row, TableData data ,int &Top
 		if(row<ui.twHistoryList->rowCount()){
 			for(int i=0; i<ui.twHistoryList->columnCount(); i++){
 				if(ui.twHistoryList->item(row, i)!=NULL){
-					ui.twHistoryList->item(row, i)->setBackgroundColor(QColor(170, 255, 170));
+					ui.twHistoryList->item(row, i)->setBackground(QBrush(QColor(170, 255, 170)));
 				}
 			}
 		}
@@ -407,7 +407,7 @@ void ShowHistoryListForReview::setTableRowItem(int row, TableData data ,int &Top
 		if(row<ui.twHistoryList->rowCount()){
 			for(int i=0; i<ui.twHistoryList->columnCount(); i++){
 				if(ui.twHistoryList->item(row, i)!=NULL){
-					ui.twHistoryList->item(row, i)->setBackgroundColor(Qt::white);
+					ui.twHistoryList->item(row, i)->setBackground(QBrush(Qt::white));
 				}
 			}
 		}

@@ -20,7 +20,6 @@
 #include "CameraAlignmentSettingForm.h"
 #include <QDebug>
 #include <QMoveEvent>
-#include <QDesktopWidget>
 
 CameraAlignmentSettingForm::CameraAlignmentSettingForm(AlgorithmBase *Base, int InitMoveDistance, int InitZDistanceStep, bool reverse_x, bool reverse_y, QWidget *parent)
 	:QDialog(parent),m_controlForm(Base, InitMoveDistance, InitZDistanceStep,reverse_x, reverse_y, this)
@@ -69,17 +68,19 @@ void CameraAlignmentSettingForm::showEvent(QShowEvent *event)
 	
 	int topBarHeight = qAbs( geometry().top() - frameGeometry().top() );
 	int frameLineWidth = qAbs( geometry().left() - frameGeometry().left() );
+	
+	QScreen *screen = QGuiApplication::primaryScreen();
 
 	// show window on center
-	if(frameGeometry().width() + m_controlForm.frameGeometry().width() > qApp->desktop()->width()){
+	if(frameGeometry().width() + m_controlForm.frameGeometry().width() > screen->availableGeometry().width()){
 		newGeometory.moveLeft(frameLineWidth);
 	}else{
-		newGeometory.moveLeft( (qApp->desktop()->width() - frameGeometry().width() - m_controlForm.frameGeometry().width() ) / 2 );
+		newGeometory.moveLeft( (screen->availableGeometry().width() - frameGeometry().width() - m_controlForm.frameGeometry().width() ) / 2 );
 	}
-	if(frameGeometry().height() > qApp->desktop()->height()){
+	if(frameGeometry().height() > screen->availableGeometry().height()){
 		newGeometory.moveTop(topBarHeight);
 	}else{
-		newGeometory.moveTop( (qApp->desktop()->height() - frameGeometry().height() ) / 2 );
+		newGeometory.moveTop( (screen->availableGeometry().height() - frameGeometry().height() ) / 2 );
 	}
 
 	newGeometory.setTop( newGeometory.top() + topBarHeight );

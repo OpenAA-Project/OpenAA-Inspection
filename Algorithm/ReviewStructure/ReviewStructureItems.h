@@ -615,15 +615,6 @@ typedef ReviewNGPointList			*ReviewNGPointListPtr;
 typedef ReviewNGPoint				*ReviewNGPointIndex;
 typedef QList<ReviewNGPointIndex>	ReviewNGPointIndexList;
 
-//�m�f�ӏ��̏��� : NGImageListForReview �ŕ\�������郊�X�g�ЂƂ��̃f�[�^
-//XML��NG�f�[�^�����č\������ : NG�摜1���P�ʂł̂܂Ƃ܂�. <NGI �`/>��ReviewNGPoint�A������<IST NGJ=�`>�����č\��
-//
-//  ReviewPIBase�ɕۑ�������
-//
-
-// NGNailItem�̔��r�p�N���X
-// �ێ����Ă����f�[�^���p���ē����f�[�^���ǂ������`�F�b�N���邱�ƂɎg�p����
-// �p�����ł� == �͎g�p�ł���
 
 class HistoryItem;
 
@@ -692,29 +683,12 @@ public:
 		InspectID = -1;
 		//NGImageFilename = /**/"";
 	};
-	//void setReader(NGImageReader *reader){
-	//	deleteReader();
-	//	NGImage = reader;
-	//};
 
-	//void deleteReader(){
-	//	if(NGImage!=NULL){
-	//		if(NGImage->isRunning()){
-	//			NGImage->terminate();
-	//			while(!NGImage->isFinished()){}
-	//		}
-	//		delete NGImage;
-	//	}
-	//	NGImage = NULL;
-	//};
 public:
-	//QBitmap	NGImage		// QBitmap��PNG�������o���Ɖ摜���򉻂����̂ŁAQImage�֕ύX�BQPixmap�ł����p�\�̂悤�B���ۂɗ��p�����i�K�ŁA���p���₷�����Ɍ��肷���B
-	//QImage	NGImage;		// NG�摜
-	//NGImageReader *NGImage;
+
 	int		NGImageWidth;
 	int		NGImageHeight;
-	bool	isChecked;		// �m�F�ς݃t���O �m�F�t���O��true�Ȃ���FKey�͗L��
-	//QString NGImageFilename;
+	bool	isChecked;		
 	mutable QImage  Image;
 	QImage	DummyImage;
 
@@ -730,11 +704,11 @@ public:
 	QImage image(void) const {
 		QImage ret;
 
-		if(DummyImage.isNull()==false){// �_�~�[�D��
+		if(DummyImage.isNull()==false){
 			ret = DummyImage;
-		}else if(Image.isNull()==false){// ���łɓǂݍ��ݍς�
+		}else if(Image.isNull()==false){
 			ret = Image;
-		}else{// ���ǂݍ��݂̏ꍇ�͓ǂݍ���
+		}else{
 			if(hasNGReader()){
 				if(getNGReader()->isFinished()==false){
 					if(getNGReader()->isRunning()==false){
@@ -757,14 +731,6 @@ private:
 public:
 	NGNailItemRef getNGNailItemRef() const {
 		NGNailItemRef ret = *this;
-		//ret.TargetPosX = TargetPosX;
-		//ret.TargetPosY = TargetPosY;
-		//ret.MasterPosX = MasterPosX;
-		//ret.MasterPosY = MasterPosY;
-		//ret.page = page;
-		//ret.phase = phase;
-		//ret.FKey = FKey;
-
 		return ret;
 	};
 	QString getLibraryRal(void) const {
@@ -788,16 +754,7 @@ public:
 			return NGPointList.first().Ara;
 		}
 	}
-	//void	loadImage(){
-	//	if(NGReader!=NULL && NGReader->isRunning()==true){
-	//		while(NGReader->isFinished()==false){
-	//			qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
-	//		}
-	//	}
-	//	if(NGReader!=NULL){
-	//		 Image = NGReader->getImage(getNGNailItemRef().TargetPosX, getNGNailItemRef().TargetPosY);
-	//	}
-	//};
+
 	void	unloadImage(){
 		Image = QImage();
 		//QString filename = /**/"";
@@ -982,13 +939,6 @@ typedef HistoryList			*HistoryListPtr;
 typedef HistoryItem			*HistoryIndex;
 typedef QList<HistoryIndex>	HistoryIndexList;
 
-// �\���̗������܂Ƃ߂��f�[�^
-// ���ꌟ���R�[�h(XML�f�[�^��IST�̗v�fEID�̒l)�̕\�Ɨ��̗����������ێ�����
-// ���b�g���X�V�������Ɠ����ɍX�V������
-// �ێ����闚�������̓|�C���^�ŁA���Ԃ͕ʂɂ���
-// 
-// ReviewPIBase�ɕۑ�������
-//
 class OrganizedHistoryItem
 {
 public:
@@ -1257,9 +1207,9 @@ public:
 private:
 	HistoryIndex FrontItem;
 	HistoryIndex BackItem;
-	QList<NGNailList::Iterator> FrontBackNGNailList;// �C�e���[�^���\�����̏��Ԃŕ����ł��郊�X�g
-	Review::OrganizedSideType Type;// �\������
-	Qt::Key FKey;// F�L�[����
+	QList<NGNailList::Iterator> FrontBackNGNailList;
+	Review::OrganizedSideType Type;
+	Qt::Key FKey;
 };
 
 typedef QList<OrganizedHistoryItem>		OrganizedHistoryList;

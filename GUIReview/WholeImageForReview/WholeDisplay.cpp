@@ -40,7 +40,7 @@ WholeDisplay_impl::WholeDisplay_impl(ReviewPIBase *p,Review::SideType side_, int
 	connect(this, SIGNAL(SignalMouseRDown(int,int)), SLOT(SlotMouseRDown(int,int)));
 	connect(this, SIGNAL(SignalMouseMove(int,int)), SLOT(SlotMouseMove(int,int)));
 	connect(this, SIGNAL(SignalMouseLDown(int,int)), SLOT(SlotMouseLDown(int,int)));
-	GetCanvas()->setImageShiftDelay(INT_MAX);
+	SetImageShiftDelay(INT_MAX);
 	setPCENameViewThreshold(0);
 }
 
@@ -152,7 +152,7 @@ void WholeDisplay_impl::SlotMouseMove(int x, int y)
 	if(hItem.getNGNails().isEmpty()==true)return;
 	
 	QSize size = getWholeImage().size();
-	size.scale(GetCanvas()->size(), Qt::KeepAspectRatio);
+	size.scale(GetCanvasSize(), Qt::KeepAspectRatio);
 	double zoomRate = size.width() / (double)getWholeImage().size().width();
 	
 	for(int i=0; i<hItem.getNGNails().count(); i++){
@@ -495,5 +495,5 @@ void WholeDisplay_impl::updateImage()
 	}
 
 
-	GetCanvas()->SetImage(image);
+	SetImage(image);
 }

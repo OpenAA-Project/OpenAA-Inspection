@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2023
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -21,6 +21,7 @@
 
 #include <QWidget>
 #include <QTableWidget>
+#include <QTransform>
 #include "mtFrameDraw.h"
 #include "mtGraphicUnit.h"
 
@@ -36,21 +37,16 @@ class NGPointList;
 class NGPointBaseList;
 class PieceInfoData;
 
-//********************************************
-//�@�摜�f�[�^�i�[�N���X���j�b�g
-//********************************************
+
 class ImageDataUnit
 {
-//	Q_OBJECT
-
 public:
 	ImageDataUnit();
 	~ImageDataUnit();
 
-	//�����摜�N���X�������̏ꍇ�̕\������
 	enum	AlignmentType{
-				 mtHorizon		//���ɕ��ׂ�
-				,mtVertical		//�c�ɕ��ׂ�
+				 mtHorizon	
+				,mtVertical	
 	};
 	AlignmentType	AType;
 
@@ -61,8 +57,6 @@ public:
 	QList<CameraSnapImage *>	CSnapImageList;
 	QList<MasterSnapImage *>	MSnapImageList;
 
-	//�摜�f�[�^�N���X�����X�g�Ɋi�[
-//	void	AddImage	(ImageBase			*ImageClass);
 	void	AddImage	(MasterImage		*ImageClass);
 	void	ReplaceImage(int Index,MasterImage *ImageClass);
 	void	AddImage	(MasterImagePiece	*ImageClass);
@@ -71,7 +65,7 @@ public:
 	void	AddImage	(CameraSnapImage	*ImageClass);
 	void	AddImage	(MasterSnapImage	*ImageClass);
 
-	//�摜�̕��ו��̐ݒ�
+	//????????????
 	void	SetAlignment(MasterImage		*ImageClass, AlignmentType type);
 	void	SetAlignment(MasterImagePiece	*ImageClass, AlignmentType type);
 	void	SetAlignment(NGImagePiece		*ImageClass, AlignmentType type);
@@ -84,9 +78,6 @@ private slots:
 private:
 };
 
-//********************************************
-//�@�摜�N���X�x�[�X
-//********************************************
 class ImageBase
 {
 //	Q_OBJECT
@@ -96,19 +87,17 @@ public:
 //	ImageBase(mtFrameDraw *parent=0);
 	~ImageBase();
 
-	int		CameraNumb;		//�J�����䐔
-	double	MScaled;		//�g�嗦
+	int		CameraNumb;	
+	double	MScaled;	
 	double	wMScaled,MScaledX,MScaledY;
-	QMatrix	Matrix;
+	QTransform	Matrix;
 	int		UniverseX,UniverseY;
 	double	Scaled;
 
-	int		ImageRotation;	//�摜�̉��]�p�x
+	int		ImageRotation;
 
-	//�A���S���Y�����T���ĐF�̐ݒ�������
 	void         AlgColorGet(QString Str, QList<QPair<QString, QString> > citemList, QColor &color);
 
-	//�摜�̉��ʂւ̕\���ݒ��i�c�����j
 //	void	SetScaled(Qt::AspectRatioMode RMode)	{	RatioMode=RMode;	}
 //	Qt::AspectRatioMode GetScaled()					{	return RatioMode;	}
 	void	SetMAreaSize(int xlen,int ylen);
@@ -117,17 +106,11 @@ public:
 	void	SetMScaledY(double Y);
 //	QMatrix	GetMScaled()							{	return Matrix;		}
 
-	//�摜�`���֐�
 	virtual void DrawPaint(QPainter &Pnt)			{};
-
-	//�摜���C�ӂ̊p�x�ɉ��]�i0,90,-90,180�j
 	void	SetRotate(int Rotate)					{	ImageRotation=Rotate;	}
 //	QMatrix	GetRotate()								{	return Matrix;		}
 
-	//�f�[�^���W(ux,uy)�����ʍ��W(gx,gy)�ɕϊ�����
 	void	GetUniverseToCanvas(double ux,double uy,int &gx,int &gy);
-
-	//�F�͈͂�0-255�Ń��[�v�����悤�ɐݒ�
 	int		ColorClip(int ColorInt,double dColor,int i);
 
 protected:
@@ -142,10 +125,7 @@ private:
 	double wX,wY;
 };
 
-//********************************************
-//�@�}�X�^�[�摜�i�[�N���X
-//********************************************
-//class MasterImage : public ImageDataFD
+
 class MasterImage : public mtFrameDraw, public ImageBase
 {
 	Q_OBJECT
@@ -161,10 +141,9 @@ public:
 	int uX,uY,uW,uH;
 
 	int ImgRate,ImgRateCount;
-	int SType;	//�\������
+	int SType;	//?\??????
 
-/********** ��MasterImg�N���X�i�q�N���X�j�Ŏg�p�������� **********/
-	int		IX,IY,IW,IH;	//�}�X�^�[�摜���ŋ��`�I���������W
+	int		IX,IY,IW,IH;
 	QAction	*FirstMacOrgAct;
 	QAction	*SecondMacOrgAct;
 	QAction	*ThirdMacOrgAct;
@@ -182,9 +161,7 @@ public:
 	int		IX1,IY1,IX2,IY2,IX3,IY3;
 	double	a,b,c,d,e,f;
 	virtual	void AfinConvert(){};
-/********** ��MasterImg�N���X�i�q�N���X�j�Ŏg�p�������� **********/
 
-	//�摜�`���֐�
 	void DrawRect(QPainter &Pnt, QRect &rect, QPen &pen);
 	void DrawRect(QRect &rect, QPen &pen);
 	virtual void DrawPaint		(QPainter &Pnt);
@@ -212,23 +189,13 @@ public:
 //	void		 SetNGAreaNameList	(QStringList *List)	{	NGAreaNameList=*List;	}
 //	QStringList	 GetNGAreaNameList	()					{	return NGAreaNameList;	}
 
-	//�m�F���Ă����ӏ����l�p���g�ň͂��ŕ\������(�}�E�X�N���b�N�C�x���g)
 	virtual	void mtMouseLDown(QMouseEvent *Ev ,int x ,int y);
 	virtual	void MMouseLDown(int x,int y,int w,int h,bool FlagTrans);
-//	void SetRectArea(int W,int H,double Expand);
 
-	//�m�F���Ă����ӏ����l�p���g�ň͂��ŕ\������(�}�E�X�N���b�N�C�x���g)
-//	virtual	void mtMouseRDown(QMouseEvent *Ev ,int x ,int y);
-
-	//�f�[�^���W(ux,uy)�����ʍ��W(gx,gy)�ɕϊ�����
 	void	GetUniverseToCanvas(double ux,double uy,int &gx,int &gy);
 
 	void	SetExpand();
-
-	//�摜�̋P�x�␳
 	void	SetMasterBrightness(int Brightness[]);
-
-	//�ێ����W�̃N���A
 	void	wRectClear();
 
 public slots:
@@ -253,10 +220,7 @@ private:
 //	QStringList	 NGAreaNameList;
 };
 
-//********************************************
-//�@�Ѓ}�X�^�[�摜�i�[�N���X
-//********************************************
-//class MasterImagePiece : public ImageDataGU
+
 class MasterImagePiece : public mtGraphicUnit, public ImageBase
 {
 	Q_OBJECT
@@ -265,14 +229,11 @@ public:
 	MasterImagePiece(QWidget *parent = 0);
 	~MasterImagePiece();
 
-	//�摜
 	QImage Image;
 
-	//�摜�\���̊g�嗦�̐ݒ�
 	void SetZoomRate(double Exp);
 	double GetZoomRate()			{	return ExpRate;	}
 
-	//�摜�`���֐�
 //	virtual void DrawPaint(QPainter &Pnt,QImage *Img,double MasterScaled);
 //	virtual void DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase);
 	void DrawPaint	(QPainter &Pnt,ImageDataUnit *IDBase,int Side);
@@ -289,10 +250,7 @@ private:
 	double ExpRate;
 };
 
-//********************************************
-//�@�Ђm�f�摜�i�[�N���X
-//********************************************
-//class NGImagePiece : public ImageDataGU
+
 class NGImagePiece : public mtGraphicUnit, public ImageBase
 {
 	Q_OBJECT
@@ -313,10 +271,7 @@ public:
 	bool	PieceLineVisible;
 	int		shiftX,shiftY;
 
-	//�摜�\���̊g�嗦�̐ݒ�Matrix
-	QMatrix matrix;
-
-	//�摜�`���֐�
+	QTransform matrix;
 //	virtual void DrawPaint		(QPainter &Pnt);
 	void DrawPaint		(QPainter &Pnt,ImageDataUnit *IDBase,int Side);
 	virtual void DrawNoPaint	(QPainter &Pnt);
@@ -324,27 +279,21 @@ public:
 	virtual void DrawMPaint		(QPainter &Pnt,ImageDataUnit *IDBase);
 	virtual void DrawPieceLine	(QPainter &Pnt,int Count,PieceInfoData *pPieceInfoDataList,QStringList *AreaNameList,MasterImage *MImage);
 
-	//�␳�l
 	void SetCorrectionX		(int x)	{	Dx=x;	}
 	void SetCorrectionY		(int y)	{	Dy=y;	}
 
-	//�摜�̑ޔ�
 	void SetNGImage			()		{	if(wImage!=NULL)*wImage=*Image;	}
 	void SetNGList(NPListPack<NGPointList> &nglist);
-	
-	//�摜�̋P�x�␳
+
 	void SetNGBrightness(int Brightness[]);
 
-	//�摜�\���̊g�嗦�̐ݒ�
 	virtual void SetZoomRate(double Exp);
 
 	NGPointBaseList			*GetNGPBaseList()		{	return NGPBaseList;		}
 	void SetNGPBaseList(NGPointBaseList *NGPBList)	{	NGPBaseList=NGPBList;	}
 
-	//NG�摜���L�邩�������̐ݒ�
 	void SetNGImageExist(bool Exist)	{	NGImageExist=Exist;	}
 
-	//NG�摜�������ꍇ�̊ېF�̃Z�b�g
 	void SetNoNGColor(QColor color)	{	NoNGColor=color;	}
 
 	void AddImage(QImage *image, int posX=0, int posY=0);
@@ -359,12 +308,9 @@ private slots:
 
 private:
 	bool NGImageExist;
-	QColor NoNGColor;	//NG�摜�������ꍇ�̊ېF
+	QColor NoNGColor;
 };
 
-//********************************************
-//�@�J�����摜�i�[�N���X
-//********************************************
 //class CameraImage : public ImageDataFD
 class CameraImage : public mtFrameDraw, public ImageBase
 {
@@ -378,10 +324,7 @@ public:
 	~CameraImage();
 	QImage *Image;
 
-	//�摜�`���֐�
 	virtual void DrawPaint(QPainter &Pnt);
-
-	//���N���b�N��X-Y����
 	virtual	void mtMouseLDown(QMouseEvent *Ev ,int x ,int y);
 
 protected:
@@ -392,15 +335,12 @@ signals:
 private slots:
 
 private:
-	QMatrix	matrix;
+	QTransform	matrix;
 	int		Wid,Hei;
 	double	AspectER;
 };
 
-//********************************************
-//�@�J�����X�i�b�v�摜�i�[�N���X
-//********************************************
-//class CameraImage : public ImageDataFD
+
 class CameraSnapImage : public mtFrameDraw, public ImageBase
 {
 	Q_OBJECT
@@ -408,15 +348,13 @@ class CameraSnapImage : public mtFrameDraw, public ImageBase
 public:
 	CameraSnapImage(int ANum);
 	~CameraSnapImage();
-	QImage *Image;			//�J�����X�i�b�v�摜
-	int		AlignmentNum;	//�A���C�����g�ԍ��i�O�`�Q�j
-	int		GX,GY;			//�d�S�̍��W
+	QImage *Image;		
+	int		AlignmentNum;
+	int		GX,GY;		
 	double	AspectRatio;
 
-	//�摜�`���֐�
 	virtual void DrawPaint(QPainter &Pnt);
 
-	//�l�p���g�ň͂�
 ///	virtual	void mtMouseLDown(QMouseEvent *Ev ,int x ,int y);
 	virtual	void mtMouseRDown(QMouseEvent *Ev ,int x ,int y);
 ///	virtual	void DrawEnd();
@@ -440,9 +378,6 @@ private:
 	void	CalcGravity();
 };
 
-//********************************************
-//�@�}�X�^�[�X�i�b�v�摜�i�[�N���X
-//********************************************
 class MasterSnapImage : public mtFrameDraw, public ImageBase
 {
 	Q_OBJECT
@@ -450,17 +385,15 @@ class MasterSnapImage : public mtFrameDraw, public ImageBase
 public:
 	MasterSnapImage(int ANum=0,int T=0);
 	~MasterSnapImage();
-	QImage *Image;			//�}�X�^�[�X�i�b�v�摜
-	int		AlignmentNum;	//�A���C�����g�ԍ��i�O�`�Q�j
-	int		GX,GY;			//�d�S�̍��W
-	int		Wid,Hei;		//���`�̈��̕��ƍ���
-	int		Type;			//�\�������i�O,�P�j
+	QImage *Image;		
+	int		AlignmentNum;
+	int		GX,GY;		
+	int		Wid,Hei;	
+	int		Type;		
 
-	//�摜�`���֐�
 //	virtual void DrawPaint(QPainter &Pnt);
 	virtual void DrawPaint(QPainter &Pnt,ImageDataUnit *IDBase);
 
-	//�l�p���g�ň͂�
 ///	virtual	void mtMouseLDown(QMouseEvent *Ev ,int x ,int y);
 	virtual	void mtMouseRDown(QMouseEvent *Ev ,int x ,int y);
 ///	virtual	void DrawEnd();
@@ -479,9 +412,6 @@ private:
 	void	CalcGravity	();
 };
 
-//********************************************
-//�@�J�������N���X
-//********************************************
 class ImageInPage
 {
 //	Q_OBJECT
@@ -490,15 +420,12 @@ public:
 	ImageInPage(int X=0,int Y=0);
 	~ImageInPage();
 
-	QImage *Image;		//�摜
-	QImage *wImage;		//�I���W�i���̑ޔ�
-	int OrgOffsetX,OrgOffsetY;		//X-Y�I�t�Z�b�g
+	QImage *Image;	
+	QImage *wImage;	
+	int OrgOffsetX,OrgOffsetY;
 	int OffsetX,OffsetY;
 
-	//�摜�̑ޔ�
 	void	SetMasterImage()	{	*wImage=*Image;	}
-
-	//�摜�̋P�x�␳
 	void	SetMasterBrightness(int Brightness[]);
 
 protected:

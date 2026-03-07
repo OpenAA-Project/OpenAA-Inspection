@@ -81,10 +81,10 @@ private:
 
 	QRect activeRect() const
 	{
-		if(pixmap()==NULL || pixmap()->isNull()==true){
+		if(pixmap().isNull()==true){
 			return rect();
 		}else{
-			return QRect(QPoint(0,0), pixmap()->size());
+			return QRect(QPoint(0,0), pixmap().size());
 		}
 	};
 

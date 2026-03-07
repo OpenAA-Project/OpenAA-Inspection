@@ -91,7 +91,7 @@ void VRSJoyForm::paintEvent(QPaintEvent *event)
 		x /= qPow(2, m_rate);
 
 		QString posStr = QString(/**/"%1,%2").arg(x*maxValue()).arg(y*maxValue());
-		int wid = painter.fontMetrics().width(posStr);
+		int wid = painter.fontMetrics().horizontalAdvance(posStr);
 		int hei = painter.fontMetrics().height();
 
 		QPoint topLeft(pos.x()-wid/2, pos.y()-hei);
@@ -132,7 +132,7 @@ void VRSJoyForm::mouseMoveEvent(QMouseEvent *event)
 	update();
 }
 
-void VRSJoyForm::enterEvent(QEvent *event)
+void VRSJoyForm::enterEvent(QEnterEvent *event)
 {
 	setMouseOnView(true);
 	update();
@@ -165,7 +165,7 @@ void VRSJoyForm::wheelEvent(QWheelEvent *event)
 	if(m_rateSelector.count()<=1){
 		return;
 	}
-	if(event->delta()>0){
+	if(event->angleDelta().y()>0){
 		if(Review::isBetween(1, m_rateSelector.currentIndex(), m_rateSelector.count())==true){
 			m_rateSelector.setCurrentIndex(m_rateSelector.currentIndex()-1);
 		}

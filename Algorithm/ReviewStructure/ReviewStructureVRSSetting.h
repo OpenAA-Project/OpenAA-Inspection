@@ -20,6 +20,7 @@
 
 #include <QPoint>
 #include <QDir>
+#include <QTransform>
 
 #include "XReviewCommon.h"
 #include "XReviewSettingFileSectionReader.h"
@@ -204,9 +205,9 @@ public:
 	bool isEachPageAffinMatrixEnable() const;
 	bool isEachPageAffinMatrixEnable(int page) const;
 		
-	QMatrix getWholeAffinMatrix() const;
-	QList<QMatrix> getEachPageAffinMatrix() const;
-	QMatrix getEachPageAffinMatrix(int page) const;
+	QTransform getWholeAffinMatrix() const;
+	QList<QTransform> getEachPageAffinMatrix() const;
+	QTransform getEachPageAffinMatrix(int page) const;
 
 	void setAlignmentType(Review::VRSAlignmentType type){ m_AlignmentType = type; };
 	Review::VRSAlignmentType getAlignmentType() const{ return m_AlignmentType; };
@@ -229,7 +230,7 @@ public:
 	};
 
 private:
-	static QMatrix createAffin(const QPoint &ins1, const QPoint &ins2, const QPoint ins3,
+	static QTransform createAffin(const QPoint &ins1, const QPoint &ins2, const QPoint ins3,
 							const QPoint &mac1, const QPoint &mac2, const QPoint mac3);
 
 private:

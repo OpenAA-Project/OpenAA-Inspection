@@ -26,7 +26,7 @@
 class ImageWidget : public QWidget
 {
 public:
-	ImageWidget(QWidget *parent=NULL, Qt::WindowFlags f=0)
+	ImageWidget(QWidget *parent=NULL, Qt::WindowFlags f=Qt::WindowFlags())
 		:QWidget(parent, f),m_aspectRatioMode(Qt::IgnoreAspectRatio),m_isExpandMode(false),m_pix(),m_topLeft(0,0){};
 
 protected:
