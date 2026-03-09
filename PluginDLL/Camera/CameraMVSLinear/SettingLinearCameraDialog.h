@@ -32,7 +32,7 @@ public:
 	float		GainR;
     float		GainG;
     float		GainB;
-	float		FrameRate;
+	float		LineRate;
     bool		LineTriggerMode;   
     int			LineTriggerSource; 
     bool        FrameTriggerMode;   

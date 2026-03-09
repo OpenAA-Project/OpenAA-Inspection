@@ -65,7 +65,7 @@ public:
 	float		GainR;
     float		GainG;
     float		GainB;
-	float		FrameRate;
+	float		LineRate;
     bool		LineTriggerMode;   
     int			LineTriggerSource; 
     bool        FrameTriggerMode;   
@@ -142,8 +142,8 @@ public:
     int SetExposure(); 
     bool    GetGain(float &fGainR,float &fGainG,float &fGainB);
     bool    SetRGBGain();
-    int GetFrameRate();                  // ch:设置帧率 | en:Set Frame Rate
-    int SetFrameRate();
+    int GetLineRate();                  // ch:设置帧率 | en:Set Frame Rate
+    int SetLineRate();
     int GetPixelFormat();                // ch:获取像素格式 | en:Get Pixel Format
 
     bool    SetLineFormat(int LineNo,int LineFormat);

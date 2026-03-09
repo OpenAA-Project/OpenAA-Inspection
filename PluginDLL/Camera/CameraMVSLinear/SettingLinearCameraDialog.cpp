@@ -16,11 +16,16 @@ SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidge
 	    GainR               =Cam->GainR               ;
         GainG               =Cam->GainG               ;
         GainB               =Cam->GainB               ;
-	    FrameRate           =Cam->FrameRate           ;
+	    LineRate			=Cam->LineRate           ;
         LineTriggerMode     =Cam->LineTriggerMode     ;   
         LineTriggerSource   =Cam->LineTriggerSource   ; 
         FrameTriggerMode    =Cam->FrameTriggerMode    ;   
         FrameTriggerSource  =Cam->FrameTriggerSource  ; 
+		Line0Format			=Line0Format			;
+		Line1Format			=Line1Format			;
+		Line2Format			=Line2Format			;
+		Line3Format			=Line3Format			;
+		Line4Format			=Line4Format			;
         BinningHMode        =Cam->BinningHMode        ;
         BinningVMode        =Cam->BinningVMode        ;
         DecimationH         =Cam->DecimationH         ;
@@ -33,6 +38,9 @@ SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidge
 
 	ui->lineEditDeviceName->setText(Cam->UserName);
 	ui->lineEditIPAddress->setText(Cam->IPAddress);
+
+	SetColumnWidthInTable(ui->tableWidgetIO ,0, 45);
+	SetColumnWidthInTable(ui->tableWidgetIO ,1, 45);
 
 	float	CurrentFloatValue ,MaxFloatValue ,MinFloatValue;
 	if(Cam->GetfloatValue("ExposureTime",CurrentFloatValue ,MaxFloatValue ,MinFloatValue)==true){
@@ -70,6 +78,13 @@ SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidge
 		    ui->doubleSpinBoxGainB	->setMinimum(MinGainValue);
 			ui->doubleSpinBoxGainB	->setValue	(CurrentGainValue);
 		}
+	}
+
+	int64	CurrentLineRateValue ,MaxLineValue ,MinLineValue;
+	if(Cam->GetIntValue("AcquisitionLineRate",CurrentLineRateValue ,MaxLineValue ,MinLineValue)==true){
+	    ui->spinBoxLineRate	->setMaximum(MaxLineValue);
+	    ui->spinBoxLineRate	->setMinimum(MinLineValue);
+		ui->spinBoxLineRate	->setValue	(CurrentLineRateValue);
 	}
 
 	int CurrentIntValue;
@@ -202,23 +217,31 @@ SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidge
 		if(Cam->SetEnumValueByString("LineSelector", LineSelector)==true){
 			if(Cam->GetEnumValue ("LineFormat",CurrentIntValue ,EnumLineFormatData[LineNo],EnumCount)==true){
 				QStringList	List;
+				int	Index=0;
 				for(int i=0;i<EnumCount;i++){
 					QString Str;
 					if(Cam->GetEnumSymblic ("LineFormat",EnumLineFormatData[LineNo][i] ,Str)==true){
 						List.append(Str);
 					}
+					if(CurrentIntValue==EnumLineFormatData[LineNo][i]){
+						Index=i;
+					}
 				}
-				QComboBox	*r=::SetDataToTableComboBox(ui->tableWidgetIO, 1, LineNo, List, CurrentIntValue);
+				QComboBox	*r=::SetDataToTableComboBox(ui->tableWidgetIO, 1, LineNo, List, Index);
 			}
 			if(Cam->GetEnumValue ("LineMode",CurrentIntValue ,EnumLineModeData[LineNo],EnumCount)==true){
 				QStringList	List;
+				int	Index=0;
 				for(int i=0;i<EnumCount;i++){
 					QString Str;
 					if(Cam->GetEnumSymblic ("LineMode",EnumLineModeData[LineNo][i] ,Str)==true){
 						List.append(Str);
 					}
+					if(CurrentIntValue==EnumLineFormatData[LineNo][i]){
+						Index=i;
+					}
 				}
-				QComboBox	*r=::SetDataToTableComboBox(ui->tableWidgetIO, 0, LineNo, List, CurrentIntValue);
+				QComboBox	*r=::SetDataToTableComboBox(ui->tableWidgetIO, 0, LineNo, List, Index);
 			}
 		}
 	}
@@ -266,6 +289,8 @@ void SettingLinearCameraDialog::on_pushButtonOK_clicked()
 	ExposureMode	=EnumExposureModeData[IndexExposureMode];
 	int	IndexExposureAuto	=ui->comboBoxExposureAuto->currentIndex();
 	ExposureAuto	=EnumExposureAutoData[IndexExposureAuto];
+
+	LineRate		=ui->spinBoxLineRate	->value();
 
 	int	LineTriggerModeIndex=ui->comboBoxLineTriggerMode->currentIndex();
 	int	tLineTriggerMode		=EnumLineTriggerModeData[LineTriggerModeIndex];

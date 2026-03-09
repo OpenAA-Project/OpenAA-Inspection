@@ -111,6 +111,8 @@ CameraMVSLinear::CameraMVSLinear(int CamNo ,const QString &_ParamStr,LayersBase 
     RGBBuff =NULL;
     XLen    =0;
     YLen    =0;
+
+    Cam.SetLogMode(true);
 }
 CameraMVSLinear::~CameraMVSLinear(void)
 {
@@ -364,6 +366,7 @@ bool	CameraMVSLinear::SetLine1(bool b)
 bool    CameraMVSLinear::SetLineCount(int _YLen)
 {
     ChangeInfo(XLen ,_YLen);
+    return true;
 }
 bool    CameraMVSLinear::ShowSetting(void)
 {
@@ -376,7 +379,7 @@ bool    CameraMVSLinear::ShowSetting(void)
 	    GainR               =D.GainR                ;
         GainG               =D.GainG                ;
         GainB               =D.GainB                ;
-	    FrameRate           =D.FrameRate            ;
+	    LineRate            =D.LineRate            ;
         LineTriggerMode     =D.LineTriggerMode      ;   
         LineTriggerSource   =D.LineTriggerSource    ; 
         FrameTriggerMode    =D.FrameTriggerMode     ;   
@@ -402,10 +405,16 @@ bool    CameraMVSLinear::ShowSetting(void)
         Cam.SetupFrameTriggers(FrameTriggerMode , FrameTriggerSource);
         SetExposure();
         SetRGBGain();
-        SetFrameRate();
-        SetBinningDecimation();
+        SetLineRate();
+        //SetBinningDecimation();
         SetReverse();
         SetAOI();
+
+	    SetLineFormat(0,Line0Format);
+	    SetLineFormat(1,Line1Format);
+	    SetLineFormat(2,Line2Format);
+	    SetLineFormat(3,Line3Format);
+	    SetLineFormat(4,Line4Format);
 		return true;
 	}
 	return false;
@@ -413,6 +422,7 @@ bool    CameraMVSLinear::ShowSetting(void)
 
 bool    CameraMVSLinear::PrepareCapture()
 {
+    return true;
 }
 bool    CameraMVSLinear::StartCapture()
 {
@@ -549,7 +559,7 @@ bool	CameraMVSLinear::Save(QIODevice *f)
 	if(::Save(f,GainR)==false)			        return false;
     if(::Save(f,GainG)==false)			        return false;
     if(::Save(f,GainB)==false)			        return false;
-    if(::Save(f,FrameRate)==false)			    return false;
+    if(::Save(f,LineRate)==false)			    return false;
     if(::Save(f,LineTriggerMode)==false)		return false;
     if(::Save(f,LineTriggerSource)==false)		return false;
     if(::Save(f,FrameTriggerMode)==false)		return false;
@@ -582,7 +592,7 @@ bool	CameraMVSLinear::Load(QIODevice *f)
 	if(::Load(f,GainR)==false)			        return false;
     if(::Load(f,GainG)==false)			        return false;
     if(::Load(f,GainB)==false)			        return false;
-    if(::Load(f,FrameRate)==false)			    return false;
+    if(::Load(f,LineRate)==false)			    return false;
     if(::Load(f,LineTriggerMode)==false)		return false;
     if(::Load(f,LineTriggerSource)==false)		return false;
     if(::Load(f,FrameTriggerMode)==false)		return false;
@@ -610,8 +620,8 @@ bool	CameraMVSLinear::Load(QIODevice *f)
     Cam.SetupFrameTriggers(FrameTriggerMode , FrameTriggerSource);
     SetExposure();
     SetRGBGain();
-    SetFrameRate();
-    SetBinningDecimation();
+    SetLineRate();
+    //SetBinningDecimation();
     SetReverse();
     SetAOI();
 
@@ -651,6 +661,7 @@ bool CameraMVSLinear::SetTriggerMode(bool b)
         Cam.SetupLineTriggers (false, LineTriggerSource );
         Cam.SetupFrameTriggers(false, FrameTriggerSource);
     }
+    return true;
 }
 
 // ch:获取曝光时间 | en:Get Exposure Time
@@ -691,18 +702,18 @@ bool CameraMVSLinear::SetRGBGain()
 	if(Cam.SetFloatValue("Gain",Gain)==true){
         return false;
 	}
-	if(Cam.SetEnumValueByString("BalanceRatioSelector", "Red")==true){
-		if(Cam.SetFloatValue("BalanceRatio",GainR)==true){
+	if(Cam.SetEnumValueByString("BalanceRatioSelector", "Red")==MV_OK){
+		if(Cam.SetIntValue("BalanceRatio",(int64)GainR)!=MV_OK){
 	        return false;
 		}
 	}
-	if(Cam.SetEnumValueByString("BalanceRatioSelector", "Green")==true){
-		if(Cam.SetFloatValue("BalanceRatio",GainG)==true){
+	if(Cam.SetEnumValueByString("BalanceRatioSelector", "Green")==MV_OK){
+		if(Cam.SetIntValue("BalanceRatio",(int64)GainG)!=MV_OK){
 	        return false;
 		}
 	}
-	if(Cam.SetEnumValueByString("BalanceRatioSelector", "Blue")==true){
-		if(Cam.SetFloatValue("BalanceRatio",GainB)==true){
+	if(Cam.SetEnumValueByString("BalanceRatioSelector", "Blue")==MV_OK){
+		if(Cam.SetIntValue("BalanceRatio",(int64)GainB)!=MV_OK){
 	        return false;
 		}
 	}
@@ -710,30 +721,25 @@ bool CameraMVSLinear::SetRGBGain()
 }
 
 // ch:获取帧率 | en:Get Frame Rate
-int CameraMVSLinear::GetFrameRate()
+int CameraMVSLinear::GetLineRate()
 {
-    MVCC_FLOATVALUE stFloatValue = {0};
+    MVCC_INTVALUE Value64 ;
 
-    int nRet = Cam.GetFloatValue("ResultingFrameRate", &stFloatValue);
+    int nRet = Cam.GetIntValue("AcquisitionLineRate", &Value64);
     if (MV_OK != nRet)
     {
         return nRet;
     }
-    FrameRate = stFloatValue.fCurValue;
+    LineRate = Value64.nCurValue;
 
     return MV_OK;
 }
 
 // ch:设置帧率 | en:Set Frame Rate
-int CameraMVSLinear::SetFrameRate()
+int CameraMVSLinear::SetLineRate()
 {
-    int nRet = Cam.SetBoolValue("AcquisitionFrameRateEnable", true);
-    if (MV_OK != nRet)
-    {
-        return nRet;
-    }
-
-    return Cam.SetFloatValue("AcquisitionFrameRate", (float)FrameRate);
+    int64 Value64=LineRate ;
+    return Cam.SetIntValue("AcquisitionLineRate", Value64);
 }
 
 
@@ -913,9 +919,7 @@ bool    CameraMVSLinear::SetReverse(void)
     {
         return false;
     }
-    nRet = Cam.SetTDIDirection(ReverseTDIY);
-    if (MV_OK != nRet)
-    {
+    if(Cam.SetTDIDirection(ReverseTDIY)==false){
         return false;
     }
     return true;
@@ -1034,7 +1038,6 @@ CameraHandle *_cdecl	DLL_Initial(int CameraNoInThisComputer ,LayersBase *base,Ca
 //				if proocess fails, return 0
 {
 	static bool first = true;
-	int ret;
 
 	if(CameraNoInThisComputer==0){
 		MV_CC_Initialize();
