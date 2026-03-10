@@ -668,9 +668,13 @@ void	PropertyAlignmentLargeForm::TransmitDirectly(GUIDirectMessage *packet)
 		if(CurrentLayerNo>=0){
 			IntList	Rows;
 			::GetSelectedRows(ui->tableWidgetArea,Rows);
+			int	RowInPage=0;
 			for(AlignmentLargeAreaList *a=AreaList[CurrentLayerNo].GetFirst();a!=NULL;a=a->GetNext()){
-				if(a->GlobalPage==CmdReqAlignmentLargeSelectedAreaIDVar->Page && Rows.IsInclude(a->Number)==true){
-					CmdReqAlignmentLargeSelectedAreaIDVar->AreaIDList.Add(a->AreaID);
+				if(a->GlobalPage==CmdReqAlignmentLargeSelectedAreaIDVar->Page){
+					if(RowInPage==a->Number){
+						CmdReqAlignmentLargeSelectedAreaIDVar->AreaIDList.Add(a->AreaID);
+					}
+					RowInPage++;
 				}
 			}
 		}
