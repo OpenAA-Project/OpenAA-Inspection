@@ -121,7 +121,7 @@ class	CameraInterface :public QObject
 	QString		LibraryFileName;
 	QString		CamFileName;
 	QString		Copyright;
-	int			CamNo;
+	int32		CamNo;
 
 	CameraReqInfo	CamInfo;
 	CameraScanInfo	ScanInfo;
@@ -178,6 +178,9 @@ public:
 
 	bool	Load(QIODevice &str);
 	bool	Save(QIODevice &str);
+
+	void	SetLoadedVersion(int32 ver);
+	int32	GetLoadedVersion(void);
 
 	bool	SetTriggerMode(bool b)	;
 	bool	GetTriggerMode(void)	;

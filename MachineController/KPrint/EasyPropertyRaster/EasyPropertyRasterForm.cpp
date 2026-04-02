@@ -105,6 +105,9 @@ void	EasyPropertyRasterForm::TransmitDirectly(GUIDirectMessage *packet)
 				IntegrationCmdAddRegColorArea	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
 				RCmd.PickupArea=IntegrationCmdReqAddAreaVar->AddedArea;
 				RCmd.LibID	=D.SelectedLibID;
+				RCmd.ExpandColorR	=D.ExpandColorR;
+				RCmd.ExpandColorG	=D.ExpandColorG;
+				RCmd.ExpandColorB	=D.ExpandColorB;
 				RCmd.SendReqAck(NULL,SlaveNo,0);
 				ui->toolButtonRegArea->setChecked(true);
 				ui->toolButtonRegColor->setChecked(false);
@@ -692,8 +695,8 @@ void EasyPropertyRasterForm::on_toolButtonGenerateAlgorithm_clicked()
 	IntegrationCmdGeneraeRasterAlgorithm	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
 	RCmd.SendReqAck(NULL,SlaveNo,0);
 
-	QMessageBox::information(NULL,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_3)/*"髫ｲ�ｽ�ｽ�ｱ"*/
-								,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_4)/*"鬨ｾ蠅難ｽｻ骰具ｽｸ�ｺ髴郁ｲｻ�ｽ讙趣ｽｸ�ｺ�ｽ�ｾ驍ｵ�ｺ陷会ｽｱ隨ｳ�ｽ*/);
+	QMessageBox::information(NULL,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_3)
+								,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_4));
 }
 void	EasyPropertyRasterForm::MakeAllocation(void)
 {
@@ -705,8 +708,8 @@ void EasyPropertyRasterForm::on_tableWidgetAreaList_doubleClicked(const QModelIn
 	int	Row=ui->tableWidgetAreaList->currentRow();
 	if(0<=Row && Row<ElementIDList.GetCount()){
 		PageElementIDClass	*E=ElementIDList[Row];
-		if(QMessageBox::question(NULL,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_5)/*"髯ｷ蜿ｰ�ｼ竏晄ｱ�*/
-							,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_6)/*"驍ｵ�ｺ髦ｮ蜻趣ｽｿ�ｶ�ｽ�ｲ驛｢�ｧ髮区ｨ抵ｽ朱ｬｮ�ｯ�ｽ�､驍ｵ�ｺ�ｽ�ｾ驍ｵ�ｺ陷ｷ�ｶ�ゑｽｰ*/
+		if(QMessageBox::question(NULL,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_5)
+							,LangSolver.GetString(EasyPropertyRasterForm_LS,LID_6)
 							,QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes){
 			IntegrationCmdDeleteRegColor	RCmd(GetLayersBase(),sRoot,sName,SlaveNo);
 			RCmd.Page		=E->Page;

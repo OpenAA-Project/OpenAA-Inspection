@@ -101,6 +101,13 @@ CameraMVSLinear::CameraMVSLinear(int CamNo ,const QString &_ParamStr,LayersBase 
     AOIMode     =false;
     AOIOffsetX  =0;
     AOIWidth    =0;
+	BlackLevelEnable    =false;
+	BlackLevel          =200;
+	ImageCompression    = 0;
+	AcquisitionLineRateEnable = false;
+    GammaEnable =true;
+	Gamma       =0.7;
+    FrameDelay  =0;
 
     CamBuffWPoint   =0;
     CamBuffRPoint   =0;
@@ -283,6 +290,7 @@ void	CameraMVSLinear::CaptureImage(unsigned char * pData, MV_FRAME_OUT_INFO_EX* 
             CamBuffStockedCount=MaxCountCamBufferStack;
         }
         MutexImageSize.unlock();
+        Cam.SetGrabbing(false);
     }
 }
 
@@ -400,6 +408,14 @@ bool    CameraMVSLinear::ShowSetting(void)
         AOIMode             =D.AOIMode             ;
         AOIOffsetX          =D.AOIOffsetX          ;
         AOIWidth            =D.AOIWidth            ;
+        
+        BlackLevelEnable=D.BlackLevelEnable;
+        BlackLevel      =D.BlackLevel      ;
+        ImageCompression=D.ImageCompression;
+        AcquisitionLineRateEnable   =D.AcquisitionLineRateEnable;
+        GammaEnable =D.GammaEnable;
+	    Gamma       =D.Gamma      ;
+        FrameDelay  =D.FrameDelay ;
 
         Cam.SetupLineTriggers (LineTriggerMode  , LineTriggerSource );
         Cam.SetupFrameTriggers(FrameTriggerMode , FrameTriggerSource);
@@ -409,7 +425,10 @@ bool    CameraMVSLinear::ShowSetting(void)
         //SetBinningDecimation();
         SetReverse();
         SetAOI();
-
+        SetBlackLevel();
+        SetImageCompression();
+        SetGamma();
+        SetDelay();
 	    SetLineFormat(0,Line0Format);
 	    SetLineFormat(1,Line1Format);
 	    SetLineFormat(2,Line2Format);
@@ -466,22 +485,111 @@ void	CameraMVSLinear::GetImage(ImageBuffer *Buff[3] ,int LayerNumb)
 
     CamBufferStack		*p=CamBuffDim[CamBuffRPoint];
 
-    MV_CC_PIXEL_CONVERT_PARAM_EX stConvertParam = {0};       
+    if(ImageCompression==0){
+        MV_CC_PIXEL_CONVERT_PARAM_EX stConvertParam = {0};       
 
-    if(LayerNumb==3){
-        stConvertParam.nWidth   = p->XLen;                 //ch:图像宽 | en:image width
-        stConvertParam.nHeight  = p->YLen;               //ch:图像高 | en:image height
-        stConvertParam.pSrcData = p->Data;                         //ch:输入数据缓存 | en:input data buffer
-	    stConvertParam.nSrcDataLen = p->FrameSize;         //ch:输入数据大小 | en:input data size
-        stConvertParam.enSrcPixelType = p->PixelFormat;    //ch:输入像素格式 | en:input pixel format
-        stConvertParam.enDstPixelType = PixelType_Gvsp_RGB8_Packed;                         //ch:输出像素格式 | en:output pixel format
-        stConvertParam.pDstBuffer = RGBBuff;                               //ch:输出数据缓存 | en:output data buffer
-        stConvertParam.nDstBufferSize = XLen*YLen*4;                       //ch:输出缓存大小 | en:output buffer size
+        if(LayerNumb==3){
+            stConvertParam.nWidth   = p->XLen;                 //ch:图像宽 | en:image width
+            stConvertParam.nHeight  = p->YLen;               //ch:图像高 | en:image height
+            stConvertParam.pSrcData = p->Data;                         //ch:输入数据缓存 | en:input data buffer
+	        stConvertParam.nSrcDataLen = p->FrameSize;         //ch:输入数据大小 | en:input data size
+            stConvertParam.enSrcPixelType = p->PixelFormat;    //ch:输入像素格式 | en:input pixel format
+            stConvertParam.enDstPixelType = PixelType_Gvsp_RGB8_Packed;                         //ch:输出像素格式 | en:output pixel format
+            stConvertParam.pDstBuffer = RGBBuff;                               //ch:输出数据缓存 | en:output data buffer
+            stConvertParam.nDstBufferSize = XLen*YLen*4;                       //ch:输出缓存大小 | en:output buffer size
 
-        int Ret=Cam.ConvertPixelType(&stConvertParam);
-        if(Ret==MV_OK){
-            BYTE    *s=RGBBuff;
-            if(LayerNumb>=3){
+            int Ret=Cam.ConvertPixelType(&stConvertParam);
+            if(Ret==MV_OK){
+                BYTE    *s=RGBBuff;
+                for(int y=0;y<YLen;y++){
+                    BYTE    *dR=Buff[0]->GetY(y);
+                    BYTE    *dG=Buff[1]->GetY(y);
+                    BYTE    *dB=Buff[2]->GetY(y);
+                    for(int x=0;x<XLen;x++){
+                        *dR=*(s+0);
+                        *dG=*(s+1);
+                        *dB=*(s+2);
+                        s+=3;
+                        dR++;
+                        dG++;
+                        dB++;
+                    }
+                }
+            }
+        }
+        else if(LayerNumb==1){
+            stConvertParam.nWidth   = p->XLen;                 //ch:图像宽 | en:image width
+            stConvertParam.nHeight  = p->YLen;               //ch:图像高 | en:image height
+            stConvertParam.pSrcData = p->Data;                         //ch:输入数据缓存 | en:input data buffer
+            stConvertParam.nSrcDataLen = p->FrameSize;         //ch:输入数据大小 | en:input data size
+            stConvertParam.enSrcPixelType = p->PixelFormat;    //ch:输入像素格式 | en:input pixel format
+            stConvertParam.enDstPixelType = PixelType_Gvsp_Mono8;                         //ch:输出像素格式 | en:output pixel format
+            stConvertParam.pDstBuffer = RGBBuff;                               //ch:输出数据缓存 | en:output data buffer
+            stConvertParam.nDstBufferSize = XLen*YLen;                       //ch:输出缓存大小 | en:output buffer size
+            int Ret=Cam.ConvertPixelType(&stConvertParam);
+            if(Ret==MV_OK){
+                BYTE    *s=RGBBuff;
+                BYTE    *dR;
+                for(int y=0;y<YLen;y++){
+                    dR=Buff[0]->GetY(y);
+                    for(int x=0;x<XLen;x++){
+                        *dR=*s;
+                        s++;
+                        dR++;
+                    }
+                }
+            }
+	    }
+    }
+    else{
+        if(LayerNumb==3){
+        // HBデコード用のパラメータを設定
+            MV_CC_HB_DECODE_PARAM stDecodeParam = {0};
+            stDecodeParam.pSrcBuf   = p->Data;      // カメラから受信した圧縮データ
+            stDecodeParam.nSrcLen   = p->FrameSize;         // 受信データのサイズ
+            stDecodeParam.nWidth    = p->XLen;             // 画像の幅
+            stDecodeParam.nHeight   = p->YLen;           // 画像の高さ
+            
+            stDecodeParam.pDstBuf = RGBBuff;               // 展開先バッファ
+            stDecodeParam.nDstBufSize = XLen*YLen*4;    // 展開先バッファの最大サイズ
+            stDecodeParam.enDstPixelType = PixelType_Gvsp_RGB8_Packed; // 展開後の希望ピクセルフォーマット
+
+            // HBデコードの実行
+            int Ret = Cam.HB_Decode(&stDecodeParam);
+            if(Ret==MV_OK){
+                BYTE    *s=RGBBuff;
+                for(int y=0;y<YLen;y++){
+                    BYTE    *dR=Buff[0]->GetY(y);
+                    BYTE    *dG=Buff[1]->GetY(y);
+                    BYTE    *dB=Buff[2]->GetY(y);
+                    for(int x=0;x<XLen;x++){
+                        *dR=*(s+0);
+                        *dG=*(s+1);
+                        *dB=*(s+2);
+                        s+=3;
+                        dR++;
+                        dG++;
+                        dB++;
+                    }
+                }
+            }
+        }
+        else if(LayerNumb==1){
+        // HBデコード用のパラメータを設定
+            MV_CC_HB_DECODE_PARAM stDecodeParam = {0};
+            stDecodeParam.pSrcBuf   = p->Data;      // カメラから受信した圧縮データ
+            stDecodeParam.nSrcLen   = p->FrameSize;         // 受信データのサイズ
+            stDecodeParam.nWidth    = p->XLen;             // 画像の幅
+            stDecodeParam.nHeight   = p->YLen;           // 画像の高さ
+            
+            stDecodeParam.pDstBuf = RGBBuff;               // 展開先バッファ
+            stDecodeParam.nDstBufSize = XLen*YLen;    // 展開先バッファの最大サイズ
+            stDecodeParam.enDstPixelType = PixelType_Gvsp_RGB8_Packed; // 展開後の希望ピクセルフォーマット
+
+            // HBデコードの実行
+            int Ret = Cam.HB_Decode(&stDecodeParam);
+            if(Ret==MV_OK){
+                BYTE    *s=RGBBuff;
                 for(int y=0;y<YLen;y++){
                     BYTE    *dR=Buff[0]->GetY(y);
                     BYTE    *dG=Buff[1]->GetY(y);
@@ -499,29 +607,8 @@ void	CameraMVSLinear::GetImage(ImageBuffer *Buff[3] ,int LayerNumb)
             }
         }
     }
-    else if(LayerNumb==1){
-        stConvertParam.nWidth   = p->XLen;                 //ch:图像宽 | en:image width
-        stConvertParam.nHeight  = p->YLen;               //ch:图像高 | en:image height
-        stConvertParam.pSrcData = p->Data;                         //ch:输入数据缓存 | en:input data buffer
-        stConvertParam.nSrcDataLen = p->FrameSize;         //ch:输入数据大小 | en:input data size
-        stConvertParam.enSrcPixelType = p->PixelFormat;    //ch:输入像素格式 | en:input pixel format
-        stConvertParam.enDstPixelType = PixelType_Gvsp_Mono8;                         //ch:输出像素格式 | en:output pixel format
-        stConvertParam.pDstBuffer = RGBBuff;                               //ch:输出数据缓存 | en:output data buffer
-        stConvertParam.nDstBufferSize = XLen*YLen;                       //ch:输出缓存大小 | en:output buffer size
-        int Ret=Cam.ConvertPixelType(&stConvertParam);
-        if(Ret==MV_OK){
-            BYTE    *s=RGBBuff;
-            BYTE    *dR;
-            for(int y=0;y<YLen;y++){
-                dR=Buff[0]->GetY(y);
-                for(int x=0;x<XLen;x++){
-                    *dR=*s;
-                    s++;
-                    dR++;
-                }
-            }
-        }
-	}
+
+
     CamBuffRPoint++;
     if(CamBuffRPoint>=MaxCountCamBufferStack){
         CamBuffRPoint=0;
@@ -583,6 +670,14 @@ bool	CameraMVSLinear::Save(QIODevice *f)
     if(::Save(f,AOIOffsetX  )==false)	        return false;
     if(::Save(f,AOIWidth    )==false)	        return false;
 
+    if(::Save(f,BlackLevelEnable)==false)       return false;
+    if(::Save(f,BlackLevel      )==false)       return false;
+    if(::Save(f,ImageCompression)==false)       return false;
+    if(::Save(f,AcquisitionLineRateEnable   )==false)       return false;
+    if(::Save(f,GammaEnable     )==false)       return false;
+    if(::Save(f,Gamma           )==false)       return false;
+    if(::Save(f,FrameDelay      )==false)       return false;
+
 	return true;
 }
 bool	CameraMVSLinear::Load(QIODevice *f)
@@ -616,6 +711,14 @@ bool	CameraMVSLinear::Load(QIODevice *f)
     if(::Load(f,AOIOffsetX  )==false)	        return false;
     if(::Load(f,AOIWidth    )==false)	        return false;
 
+    if(::Load(f,BlackLevelEnable)==false)       return false;
+    if(::Load(f,BlackLevel      )==false)       return false;
+    if(::Load(f,ImageCompression)==false)       return false;
+    if(::Load(f,AcquisitionLineRateEnable   )==false)       return false;
+    if(::Load(f,GammaEnable     )==false)       return false;
+    if(::Load(f,Gamma           )==false)       return false;
+    if(::Load(f,FrameDelay      )==false)       return false;
+
     Cam.SetupLineTriggers (LineTriggerMode  , LineTriggerSource);
     Cam.SetupFrameTriggers(FrameTriggerMode , FrameTriggerSource);
     SetExposure();
@@ -624,7 +727,10 @@ bool	CameraMVSLinear::Load(QIODevice *f)
     //SetBinningDecimation();
     SetReverse();
     SetAOI();
-
+    SetBlackLevel();
+    SetImageCompression();
+    SetGamma();
+    SetDelay();
 	SetLineFormat(0,Line0Format);
 	SetLineFormat(1,Line1Format);
 	SetLineFormat(2,Line2Format);
@@ -683,10 +789,12 @@ int CameraMVSLinear::GetExposureTime()
 // ch:设置曝光时间 | en:Set Exposure Time
 int CameraMVSLinear::SetExposure()
 {
-    Cam.SetEnumValue("ExposureAuto", ExposureAuto);
-    Cam.SetEnumValue("ExposureMode", ExposureMode);
-
-    return Cam.SetFloatValue("ExposureTime", (float)ExposureTime);
+    int nRet;
+    nRet = Cam.SetEnumValue("ExposureAuto", ExposureAuto);
+    nRet = Cam.SetEnumValue("ExposureMode", ExposureMode);
+    nRet = Cam.SetBoolValue("AcquisitionLineRateEnable",AcquisitionLineRateEnable);
+    nRet = Cam.SetFloatValue("ExposureTime", (float)ExposureTime);
+    return nRet;
 }
 
 // ch:获取增益 | en:Get Gain
@@ -989,7 +1097,51 @@ bool    CameraMVSLinear::SetAOI(void)
     }
     return true;
 }
+bool    CameraMVSLinear::SetBlackLevel(void)
+{
+    int nRet;
+    nRet=Cam.SetBoolValue("BlackLevelEnable",BlackLevelEnable);
+    if (MV_OK != nRet){
+        return false;
+    }
+    if(BlackLevelEnable==true){
+        nRet=Cam.SetIntValue("BlackLevel",(int64)BlackLevel);
+        if (MV_OK != nRet){
+            return false;
+        }
+    }
+    return true;
+}
 
+bool    CameraMVSLinear::SetImageCompression(void)
+{
+    int nRet;
+    nRet=Cam.SetEnumValue("ImageCompressionMode", ImageCompression);
+    if (MV_OK != nRet){
+        return false;
+    }
+	return true;
+}
+bool    CameraMVSLinear::SetGamma(void)
+{
+    int nRet;
+    nRet=Cam.SetBoolValue("GammaEnable", GammaEnable);
+    if (MV_OK != nRet){
+        return false;
+    }
+    if(GammaEnable==true){
+        nRet=Cam.SetFloatValue("Gamma", Gamma);
+        if (MV_OK != nRet){
+            return false;
+        }
+    }
+    return true;
+}
+
+bool    CameraMVSLinear::SetDelay(void)
+{
+    return Cam.SetupFrameTriggersDelay(FrameDelay);
+}
 bool    CameraMVSLinear::GetResolution(int &Width ,int &Height)
 {
     int Ret=Cam.GetResolution(Width ,Height);

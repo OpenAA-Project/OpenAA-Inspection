@@ -1103,7 +1103,7 @@ public:
 class	GUICmdMsgRasterPaste : public GUICmdPacketBase
 {
 public:
-	int index;	//���� PasteRasterForm�ł�currentRow();
+	int index;
 	int	x,y;
 
 	GUICmdMsgRasterPaste(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage=-1);
@@ -1189,6 +1189,9 @@ public:
 	AlgorithmLibraryListContainer	AllocatedStaticLib;
 	AlgorithmLibraryListContainer	AllocatedInsideEdgeLib;
 	AlgorithmLibraryListContainer	AllocatedOutsideEdgeLib;
+    int ExpandColorR;
+    int ExpandColorG;
+    int ExpandColorB;
 
 	GUICmdRasterPickupByColorArea(LayersBase *Base ,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1);
 
@@ -1340,6 +1343,9 @@ class	CmdAddRegColorArea : public GUIDirectMessage
 public:
 	FlexArea	PickupArea;
 	int			LibID;
+    int ExpandColorR;
+    int ExpandColorG;
+    int ExpandColorB;
 
 	CmdAddRegColorArea(LayersBase *base):GUIDirectMessage(base){}
 	CmdAddRegColorArea(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}

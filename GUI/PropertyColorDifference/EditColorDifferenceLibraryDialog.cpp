@@ -164,6 +164,7 @@ void	EditColorDifferenceLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContaine
 	ui->toolButtonItem						->setChecked((d->ItemClass==0)?true:false);
 	ui->toolButtonReference					->setChecked((d->ItemClass==1)?true:false);
 	ui->checkBoxAdaptAlignment				->setChecked(d->AdaptAlignment);
+	ui->doubleSpinBoxThDense				->setValue(d->ThDense);
 }
 
 void	EditColorDifferenceLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
@@ -188,6 +189,7 @@ void	EditColorDifferenceLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLeve
 	d->dSH						=ui->doubleSpinBoxdSH			->value();
 	d->dVL						=ui->doubleSpinBoxdVL			->value();
 	d->dVH						=ui->doubleSpinBoxdVH			->value();
+	d->ThDense					=ui->doubleSpinBoxThDense		->value();
 
 	if(ui->toolButtonItem	->isChecked()==true)
 		d->ItemClass=0;

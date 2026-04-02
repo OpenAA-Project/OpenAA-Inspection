@@ -56,6 +56,7 @@ public:
 	double		dVL;
 	double		dVH;
 	bool		AdaptAlignment;	//Alignment�̉e�����󂯂Č������ƂɃV�t�g
+	double		ThDense;
 
 public:
 

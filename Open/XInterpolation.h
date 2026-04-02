@@ -28,16 +28,13 @@ void	InterpolateEllipse(ImageBuffer &Img , FlexArea &CircleArea
 							,double &Rx,double &Ry
 							,double Precision=0.001);
 /*
-	�ȉ~�ɕ��Ԃ���
-	���悻�̑ȉ~�`����CircleArea�ɓ����Ă���
+	Interpolate ellipse from CircleArea in Img, and return center and radius of the ellipse.
 */
 
 bool	MakeInterpolatedLine(double x[] ,double y[] ,int N
 							 ,double &A,double &B,double &C);
 /*
-	�ŏ��Q���@��
-	Ax+By+C=0
-	�����߂�
+	Make interpolated line from N points (x[i],y[i]) , and return A,B,C of the line equation Ax+By+C=0.
 */
 
 bool	AnalizeInterpolatedLine(double x[] ,double y[] ,int N

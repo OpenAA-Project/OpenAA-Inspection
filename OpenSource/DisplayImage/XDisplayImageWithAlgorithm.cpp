@@ -1182,6 +1182,8 @@ void	DisplayImageWithAlgorithm::DrawInsideExpandedPaste( QPainter &pnt ,double m
 	int	N=SelectedItemLists.GetCount();
 	for(IntClass *C=PageList.GetFirst();C!=NULL;C=C->GetNext()){
 		int	Page=C->GetValue();
+		DataInPage	*Dp=GetLayersBase()->GetPageData(Page);
+		XYData	*xy=Dp->GetOutlineOffset();
 
 		GUICmdReqDrawItemListsForPaste	RCmd(GetLayersBase(),emitterRoot ,emitterName,GetLayersBase()->GetGlobalPageFromLocal(Page));
 		GUICmdSendDrawItemListsForPaste	SCmd(GetLayersBase(),emitterRoot ,emitterName,GetLayersBase()->GetGlobalPageFromLocal(Page));
@@ -1191,8 +1193,8 @@ void	DisplayImageWithAlgorithm::DrawInsideExpandedPaste( QPainter &pnt ,double m
 		RCmd.movx				=movx;
 		RCmd.movy				=movy;
 		RCmd.Width				=ImageWidth;
-		RCmd.SourceCenterX		=SourceCenterX;
-		RCmd.SourceCenterY		=SourceCenterY;
+		RCmd.SourceCenterX		=SourceCenterX-xy->x;
+		RCmd.SourceCenterY		=SourceCenterY-xy->y;
 		RCmd.Height				=ImageHeight;
 		if(N<300){
 			RCmd.SelectedItemLists	=SelectedItemLists;
@@ -1207,6 +1209,8 @@ void	DisplayImageWithAlgorithm::DrawInsideExpandedPaste( QPainter &pnt ,double m
 		if(RCmd.Send(GetLayersBase()->GetGlobalPageFromLocal(Page),0,SCmd)==false){
 			SetError(Error_Comm , /**/"Send error :DrawInsideExpandedPaste",ErrorCodeList::_Alart);
 		}
+
+		//pnt.drawImage(xy->x*ZoomRate,xy->y*ZoomRate, *SCmd.Image);
 		pnt.drawImage(0,0, *SCmd.Image);
 		}
 }

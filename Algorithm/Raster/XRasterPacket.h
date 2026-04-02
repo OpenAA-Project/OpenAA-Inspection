@@ -399,7 +399,7 @@ public:
 class	MsgRasterPaste : public GUIDirectMessage
 {
 public:
-	int index;	//���� PasteRasterForm�ł�currentRow();
+	int index;
 	int	x,y;
 	MsgRasterPaste(LayersBase *base):GUIDirectMessage(base){}
 	MsgRasterPaste(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
@@ -710,6 +710,9 @@ public:
 	AlgorithmLibraryListContainer	AllocatedStaticLib;
 	AlgorithmLibraryListContainer	AllocatedInsideEdgeLib;
 	AlgorithmLibraryListContainer	AllocatedOutsideEdgeLib;
+    int ExpandColorR;
+    int ExpandColorG;
+    int ExpandColorB;
 
 	CmdRasterPickupByColorArea(LayersBase *base):GUIDirectMessage(base)		{}
 	CmdRasterPickupByColorArea(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}

@@ -57,7 +57,7 @@ SelectCameraDialog::SelectCameraDialog(LayersBase *base ,QWidget *parent)
 			CamButtons.addButton(B,Cam);
 		}
 		ScrollBack.resize(ui.scrollArea->width(),32*N);
-		connect(&CamButtons,SIGNAL(buttonClicked(int)),this,SLOT(SlotButtonClicked(int)));
+		connect(&CamButtons,SIGNAL(idClicked(int)),this,SLOT(SlotButtonClicked(int)));
 	}
 	SetWidgetCenter(this);
 	InstallOperationLog(this);
@@ -68,7 +68,7 @@ SelectCameraDialog::~SelectCameraDialog()
 
 }
 
-void SelectCameraDialog::SlotButtonClicked ( int Cam )
+void SelectCameraDialog::SlotButtonClicked(int Cam)
 {
 	CamNo=Cam;
 	done((int)true);

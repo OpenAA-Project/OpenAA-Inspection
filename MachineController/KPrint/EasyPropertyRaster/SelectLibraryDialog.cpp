@@ -55,6 +55,9 @@ SelectLibraryDialog::SelectLibraryDialog(LayersBase *base ,QWidget *parent) :
 	ui->tableWidgetLibList	->setColumnWidth(1,110);
 
 	SelectedLibID=-1;
+	ExpandColorR	=0;
+	ExpandColorG	=0;
+	ExpandColorB	=0;
 }
 
 SelectLibraryDialog::~SelectLibraryDialog()
@@ -109,6 +112,9 @@ void SelectLibraryDialog::on_pushButtonSelect_clicked()
 	AlgorithmLibraryList	*a=LibList.GetItem(r);
 	if(a!=NULL){
 		SelectedLibID=a->GetLibID();
+		ExpandColorR	=ui->spinBoxExpandColorR->value();
+		ExpandColorG	=ui->spinBoxExpandColorG->value();
+		ExpandColorB	=ui->spinBoxExpandColorB->value();
 		done(true);
 	}
 }

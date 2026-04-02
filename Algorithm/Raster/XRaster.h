@@ -470,7 +470,10 @@ public:
 							,int OutsideEdgeWidth
 							,AlgorithmLibraryListContainer &AllocatedStaticLib
 							,AlgorithmLibraryListContainer &AllocatedInsideEdgeLib
-							,AlgorithmLibraryListContainer &AllocatedOutsideEdgeLib);
+							,AlgorithmLibraryListContainer &AllocatedOutsideEdgeLib
+							,int ExpandColorR
+							,int ExpandColorG
+							,int ExpandColorB);
 
 	virtual	void	UpdateElement(int ElementID
 								,int ShrinkDot 

@@ -20,6 +20,7 @@ class SettingLinearCameraDialog : public QDialog
     int         EnumLineTriggerModeData[64];
     int         EnumFrameTriggerSourceData[64];
     int         EnumFrameTriggerModeData[64];
+	int		    EnumImageCompression[64];   
 	int		    EnumLineFormatData[6][64];
     int		    EnumLineModeData[6][64];
 
@@ -53,6 +54,13 @@ public:
     bool    AOIMode;
     unsigned int     AOIOffsetX;
     unsigned int     AOIWidth;
+	bool    BlackLevelEnable;
+	int     BlackLevel      ;
+    int     ImageCompression;
+    bool	AcquisitionLineRateEnable;
+	bool	GammaEnable ;
+	double  Gamma       ;
+    float   FrameDelay  ;
 
 public:
     explicit SettingLinearCameraDialog(CameraMVSLinear *p,QWidget *parent = nullptr);

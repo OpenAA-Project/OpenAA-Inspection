@@ -100,3 +100,91 @@ int     FifoIntPacket::Pop(void)
     CSection.unlock();
     return(-1);
 }
+
+
+FifoBuffer::FifoBuffer(int MaxLen)
+{
+    AllocatedLen=MaxLen;
+    Data=new BYTE[MaxLen];
+    WPoint  =0;
+    RPoint  =0;
+    Len     =0;
+}
+FifoBuffer::~FifoBuffer(void)
+{
+    AllocatedLen=0;
+    delete  []Data;
+    Data=NULL;
+    WPoint  =0;
+    RPoint  =0;
+    Len     =0;
+}
+
+bool    FifoBuffer::Push(BYTE *buff ,int len)
+{
+    if(Len+len>AllocatedLen){
+        return false;
+    }
+    if(WPoint+len>AllocatedLen){
+        int LenBefore=AllocatedLen-WPoint;
+        memcpy(&Data[WPoint],buff,LenBefore);
+        int LenAfter=len-LenBefore;
+        memcpy(Data,&buff[LenBefore],LenAfter);
+        WPoint+=len;
+        WPoint-=AllocatedLen;
+        Len+=len;
+    }
+    else{
+        memcpy(&Data[WPoint],buff,len);
+        WPoint+=len;
+        Len+=len;
+    }
+    return true;
+}
+int    FifoBuffer::Pop(void)
+{
+    if(Len<=0){
+        return -1;
+    }
+    BYTE    Ret=Data[RPoint];
+    RPoint++;
+    if(RPoint>=AllocatedLen){
+        RPoint-=AllocatedLen;
+    }
+    Len--;
+    return Ret;
+}
+int     FifoBuffer::Pop(char *buff ,int maxlen)
+{
+    if(Len<=0){
+        return -1;
+    }
+    int N=Len;
+    if(Len>maxlen){
+        N=maxlen;
+    }
+    if(RPoint+N>AllocatedLen){
+        int NBefore=AllocatedLen-RPoint;
+        memcpy(buff,&Data[RPoint],NBefore);
+        int NAfter=N-NBefore;
+        memcpy(&buff[NBefore],Data,NAfter);
+        Len-=N;
+        RPoint+=N;
+        if(RPoint>=AllocatedLen){
+            RPoint-=AllocatedLen;
+        }
+        return N;
+    }
+    memcpy(buff,&Data[RPoint],N);
+    Len-=N;
+    RPoint+=N;
+    if(RPoint>=AllocatedLen){
+        RPoint-=AllocatedLen;
+    }
+    return N;
+}
+
+int     FifoBuffer::GetSize(void)
+{
+    return Len;
+}

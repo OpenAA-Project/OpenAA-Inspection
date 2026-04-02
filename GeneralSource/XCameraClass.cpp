@@ -540,6 +540,11 @@ bool	CameraInterface::InitialLater(ParamGlobal *param ,const QString &CameraPara
 		//::SendErrorMessage(/**/"Camera , No DLL_Initial is loaded");
 		return false;
 	}
+	if(Handle!=NULL){
+		int		d = GetVersion();
+		Handle->SetDLLVersion(d);
+	}
+
 	if(param->CameraSoftBuffer!=0){
 		CameraSoftBufferType		=param->CameraSoftBufferType;
 		if(CameraSoftBufferType==0){
@@ -863,6 +868,21 @@ bool	CameraInterface::Save(QIODevice &str)
 		return(DLL_Save(Handle,str));
 	}
 	return(false);
+}
+	
+void	CameraInterface::SetLoadedVersion(int32 ver)
+{
+	if(Handle!=NULL){
+		Handle->SetLoadedVersion(ver);
+	}
+}
+
+int32	CameraInterface::GetLoadedVersion(void)
+{
+	if(Handle!=NULL){
+		return Handle->GetLoadedVersion();
+	}
+	return -1;
 }
 
 bool	CameraInterface::ShowSetting(QWidget *parent)
@@ -1775,12 +1795,35 @@ bool	CameraClass::Load(QIODevice &str)
 {
 	if(Camera==NULL)
 		return false;
-	return Camera->Load(str);
+
+	QByteArray	Array=str.peek(4);
+	if(Array.size()!=4){
+		return Camera->Load(str);
+	}
+	else{
+		QBuffer	Buff(&Array);
+		Buff.open(QIODevice::ReadOnly);
+		int32	Ver;
+		DWORD	Header;
+		if(::Load(&Buff,Header)==false)	return false;
+		if(Header!=0x1f27ffac){
+			return Camera->Load(str);
+		}
+		if(::Load(&str,Header	)==false)	return false;
+		if(::Load(&str,Ver		)==false)	return false;
+		Camera->SetLoadedVersion(Ver);
+		return Camera->Load(str);
+	}
 }
 bool	CameraClass::Save(QIODevice &str)
 {
 	if(Camera==NULL)
 		return false;
+
+	int32	Ver=Camera->GetVersion();
+	DWORD	Header=0x1f27ffac;
+	if(::Save(&str,Header)==false)	return false;
+	if(::Save(&str,Ver	)==false)	return false;
 	return Camera->Save(str);
 }
 

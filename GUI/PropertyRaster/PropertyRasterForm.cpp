@@ -401,6 +401,9 @@ void	PropertyRasterForm::TransmitDirectly(GUIDirectMessage *packet)
 					RCmd.AllocatedStaticLib		=D.LimitedLibrariesStatic		;
 					RCmd.AllocatedInsideEdgeLib	=D.LimitedLibrariesInsideEdge	;
 					RCmd.AllocatedOutsideEdgeLib=D.LimitedLibrariesOutsideEdge	;
+					RCmd.ExpandColorR			=0;
+					RCmd.ExpandColorG			=0;
+					RCmd.ExpandColorB			=0;
 					RCmd.Send(NULL,GlobalPage,0);
 				}
 			}
@@ -528,6 +531,10 @@ void	PropertyRasterForm::TransmitDirectly(GUIDirectMessage *packet)
 							RCmd.AllocatedStaticLib		=ALib->AllocatedStaticLib		;
 							RCmd.AllocatedInsideEdgeLib	=ALib->AllocatedInsideEdgeLib	;
 							RCmd.AllocatedOutsideEdgeLib=ALib->AllocatedOutsideEdgeLib	;
+							RCmd.ExpandColorR			=CmdAddRegColorAreaVar->ExpandColorR;
+							RCmd.ExpandColorG			=CmdAddRegColorAreaVar->ExpandColorG;
+							RCmd.ExpandColorB			=CmdAddRegColorAreaVar->ExpandColorB;
+
 							RCmd.Send(NULL,GlobalPage,0);
 						}
 					}

@@ -47,6 +47,7 @@ public:
 	virtual void	ReadyTerminate(void);
 
 	virtual void	Prepare(void)			override;
+	virtual void	ReadyParam(void)		override;
 	virtual	void	RxSync(QByteArray &f)	override;
 private:
 	void	ExecuteToggled( bool checked );

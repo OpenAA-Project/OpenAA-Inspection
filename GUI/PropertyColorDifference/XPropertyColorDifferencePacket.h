@@ -33,6 +33,7 @@ class	CmdColorDifferenceDrawModePacket : public GUIDirectMessage
 public:
 	bool	ModeShowItem;
 	bool	ModeShowRegulation;
+	bool	ModeShowDenseMark;
 	CmdColorDifferenceDrawModePacket(LayersBase *base):GUIDirectMessage(base){}
 	CmdColorDifferenceDrawModePacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
@@ -108,6 +109,7 @@ public:
 	FlexArea	Area;
 	IntList		LayerList;
 	int			LibID;
+	int			ItemClass;	
 
 	GUICmdSendAddManualColorDifference(LayersBase *Base ,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1);
 

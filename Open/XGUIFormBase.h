@@ -266,7 +266,7 @@ private:
     typedef void (t_ListFunc::*FPFUNC)(ImageBuffer *Buffer[] ,int BufferDimCounts,bool &XReverse ,bool &YReverse);  // �����֐��̌^
 
 private:
-    t_ListFunc* m_pHandleParent;         // �����Ώ�
+    t_ListFunc* m_pHandleParent;
 	FPFUNC	m_func;
 
 public:
@@ -320,14 +320,26 @@ signals:
 	void	DoubleClicked(QAbstractButton *obj);
 };
 
-/*
-	EditGUI�ł��������x�[�X�ɂȂ镔���ɂ�GUIFormBase���瓱�o�����N���X���g�p���Ȃ����΂Ȃ��Ȃ�
-*/
+//------------------------------------------------------------------------------------
+
+class IconResizeFilter : public QObject
+{
+	QIcon OriginalIcon;
+public:
+    explicit IconResizeFilter(QObject *parent) : QObject(parent) {}
+	
+	void Execute(void);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+};
+//------------------------------------------------------------------------------------
 
 class	GUIFormBase : public QFrame,public ControlRememberer,public IdentifiedClass
 {
     Q_OBJECT
 friend class	GUIItemInstance;
+friend class	GUIInstancePack;
 friend	class	MouseEater;
 friend	class	EditGUI;
 friend	class	SelectedWindow;
@@ -361,7 +373,7 @@ friend	class	SelectedWindow;
 		bool	CreatedInGUIDLL		:1;
 		bool	IgnoreKeyEvent		:1;
 		bool	EnabledBroadcast	:1;
-		bool	Viewing				:1;		//Tab�ȂǂɉB�����Ă��Ȃ�����true
+		bool	Viewing				:1;	
 
 		bool	ReEntryStackedViewPlayer			:1;
 		bool	ReEntryStackedOnTheWayPlayer		:1;
@@ -403,11 +415,11 @@ public:
 		,_BC_ShowInEdit		=3
 		,_BC_ShowInScanning	=18
 		,_BC_DoneCalc		=4
-		,_BC_StartPage		=5	//�\��������TAB����GUI�ɑ΂��Ă̂ݑ��o������
-		,_BC_LeavePage		=6	//�\��������TAB����GUI�ɑ΂��Ă̂ݑ��o������
+		,_BC_StartPage		=5	//
+		,_BC_LeavePage		=6	//
 		,_BC_WroteResult	=7
 		,_BC_SetViewing		=8
-		,_BC_TabChanged		=9	//���ׂĂ�GUI�ɑ��o������
+		,_BC_TabChanged		=9	//
 		,_BC_ShowInDelayed	=10
 		,_BC_Terminated		=11
 		,_BC_ReadyParam		=12
@@ -421,8 +433,8 @@ public:
 		,_BC_ReadyTerminate	=23
 	};
 protected:
-	GUIFormBase	*ChainedParent;		//���d�ɋN�������Ƃ��̐e
-	QByteArray	ChainedContent;		//���d�ɋN�������Ƃ��̃f�[�^
+	GUIFormBase	*ChainedParent;		//
+	QByteArray	ChainedContent;		//
 	GuiDLLItem	*GuiDLLPoint;
 	bool		TopForm;
 	int			OnIdleCounter;
@@ -471,6 +483,8 @@ public:
 	virtual void	ReadyParam(void){}
 	virtual void	AfterStartSequence(void){}
 	void	ChangedValue(void);
+	void	InstallEvent(void);
+	void	ExecuteEventHandler(void);
 
 	void	SetEditMode(void);
 	bool	GetEditMode(void)	const;
@@ -486,7 +500,11 @@ public:
 	bool	GetKeyGrab(void)	const	{	return KeyGrabMode;	}
 	virtual	void	ReflectAlignment(void);
 	void	ReflectResize(void);
+	virtual	void	ResizeByScale(double ScaleX,double ScaleY);
 	void	ReflectSize(void);
+	virtual	void	ResizeMain(void);
+	virtual	void	GetGUIScale(double &XScale ,double &YScale);
+
 	void	GiveName(QObject *parent);
 	void	SetViewing(bool v)				{	Viewing=v;		}
 	bool	GetViewing(void)	const		{	return Viewing;	}
@@ -742,6 +760,9 @@ private:
 	GUIItemInstance	*InstPoint;
 	KeyPressIgnorer	*FindKeyPressIgnorer(const QString &objname);
 	bool	SelectedItemExists(void);
+
+protected:
+	bool	GetGUIPosition(int &x1 ,int &y1 ,int &x2 ,int &y2);
 protected:
 	virtual	void keyPressEvent ( QKeyEvent * event )			override;
 	virtual	void keyReleaseEvent ( QKeyEvent * event )			override;

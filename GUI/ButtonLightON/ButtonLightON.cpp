@@ -127,8 +127,13 @@ void	ButtonLightON::Prepare(void)
 	Button.setChecked(DefaultPushed);
 	Button.setObjectName(QString(/**/"ButtonLightON"));
 	ResizeAction();
+}
 
-	SlotToggled(DefaultPushed);
+void	ButtonLightON::ReadyParam(void)
+{
+	if(DefaultPushed==true){
+		SlotToggled(DefaultPushed);
+	}
 }
 
 void	ButtonLightON::ResizeAction()

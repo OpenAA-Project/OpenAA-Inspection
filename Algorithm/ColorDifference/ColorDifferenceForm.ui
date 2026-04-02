@@ -19,14 +19,14 @@
      <x>10</x>
      <y>50</y>
      <width>551</width>
-     <height>481</height>
+     <height>471</height>
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::Shape::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
    <widget class="QLabel" name="labelK">
     <property name="geometry">
@@ -46,7 +46,7 @@
      <string>Y</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
    <widget class="QSlider" name="verticalSliderY">
@@ -65,7 +65,7 @@
      <number>128</number>
     </property>
     <property name="orientation">
-     <enum>Qt::Vertical</enum>
+     <enum>Qt::Orientation::Vertical</enum>
     </property>
    </widget>
    <widget class="QFrame" name="frameMapK">
@@ -78,10 +78,10 @@
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
+     <enum>QFrame::Shape::StyledPanel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
+     <enum>QFrame::Shadow::Raised</enum>
     </property>
    </widget>
    <widget class="QFrame" name="frameMap">
@@ -94,10 +94,10 @@
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
+     <enum>QFrame::Shape::StyledPanel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
+     <enum>QFrame::Shadow::Raised</enum>
     </property>
    </widget>
    <widget class="QSpinBox" name="spinBoxK">
@@ -125,7 +125,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>420</y>
+      <y>410</y>
       <width>211</width>
       <height>51</height>
      </rect>
@@ -164,7 +164,7 @@ QToolButton:checked {
     <property name="geometry">
      <rect>
       <x>250</x>
-      <y>420</y>
+      <y>410</y>
       <width>211</width>
       <height>51</height>
      </rect>
@@ -204,7 +204,7 @@ QToolButton:checked {
    <property name="geometry">
     <rect>
      <x>570</x>
-     <y>90</y>
+     <y>80</y>
      <width>71</width>
      <height>201</height>
     </rect>
@@ -228,14 +228,14 @@ QToolButton:checked {
     <string>OK</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QListWidget" name="listWidgetNGBrightness">
    <property name="geometry">
     <rect>
      <x>650</x>
-     <y>90</y>
+     <y>80</y>
      <width>71</width>
      <height>201</height>
     </rect>
@@ -259,14 +259,14 @@ QToolButton:checked {
     <string>NG</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QToolButton" name="toolButtonDelOKColor">
    <property name="geometry">
     <rect>
      <x>570</x>
-     <y>300</y>
+     <y>290</y>
      <width>71</width>
      <height>51</height>
     </rect>
@@ -302,7 +302,7 @@ QToolButton:pressed {
    <property name="geometry">
     <rect>
      <x>650</x>
-     <y>300</y>
+     <y>290</y>
      <width>71</width>
      <height>51</height>
     </rect>
@@ -338,7 +338,7 @@ QToolButton:pressed {
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>540</y>
+     <y>530</y>
      <width>391</width>
      <height>31</height>
     </rect>
@@ -349,23 +349,23 @@ QToolButton:pressed {
     </font>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::Shape::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
    <property name="text">
     <string>採用率 (%)</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QDoubleSpinBox" name="doubleSpinBoxAdoptedRate">
    <property name="geometry">
     <rect>
      <x>450</x>
-     <y>540</y>
+     <y>530</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -460,23 +460,23 @@ QToolButton:pressed {
    <property name="geometry">
     <rect>
      <x>570</x>
-     <y>360</y>
+     <y>350</y>
      <width>451</width>
-     <height>561</height>
+     <height>581</height>
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::Shape::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
    <widget class="QLabel" name="label_50">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>291</width>
+      <width>451</width>
       <height>31</height>
      </rect>
     </property>
@@ -486,16 +486,16 @@ QToolButton:pressed {
      </font>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Panel</enum>
+     <enum>QFrame::Shape::Panel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
     <property name="text">
      <string>判定</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QTableWidget" name="tableWidgetResult">
@@ -508,10 +508,10 @@ QToolButton:pressed {
      </rect>
     </property>
     <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
+     <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
     </property>
     <property name="horizontalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
+     <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
     </property>
     <row>
      <property name="text">
@@ -548,6 +548,11 @@ QToolButton:pressed {
       <string>LAB</string>
      </property>
     </column>
+    <column>
+     <property name="text">
+      <string>濃度</string>
+     </property>
+    </column>
    </widget>
    <widget class="QLabel" name="label_51">
     <property name="geometry">
@@ -564,16 +569,16 @@ QToolButton:pressed {
      </font>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Panel</enum>
+     <enum>QFrame::Shape::Panel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
     <property name="text">
      <string>ΔE</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEditDeltaE">
@@ -609,16 +614,16 @@ QToolButton:pressed {
      </font>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Panel</enum>
+     <enum>QFrame::Shape::Panel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
     <property name="text">
      <string>OK色との距離</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEditLenOK">
@@ -654,16 +659,16 @@ QToolButton:pressed {
      </font>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Panel</enum>
+     <enum>QFrame::Shape::Panel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
     <property name="text">
      <string>NG色との距離</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEditLenNG">
@@ -688,8 +693,8 @@ QToolButton:pressed {
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>350</y>
-      <width>371</width>
+      <y>380</y>
+      <width>381</width>
       <height>141</height>
      </rect>
     </property>
@@ -699,10 +704,10 @@ QToolButton:pressed {
      </font>
     </property>
     <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
+     <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
     </property>
     <property name="horizontalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
+     <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
     </property>
     <attribute name="verticalHeaderMinimumSectionSize">
      <number>36</number>
@@ -745,7 +750,7 @@ QToolButton:pressed {
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>503</y>
+      <y>530</y>
       <width>191</width>
       <height>41</height>
      </rect>
@@ -754,51 +759,51 @@ QToolButton:pressed {
      <string>流動リスト出力</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QLabel" name="label_52">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>660</y>
-     <width>391</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Panel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
-   </property>
-   <property name="text">
-    <string>ΔEしきい値</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBoxTHDeltaE">
-   <property name="geometry">
-    <rect>
-     <x>450</x>
-     <y>660</y>
-     <width>101</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="maximum">
-    <double>100.000000000000000</double>
-   </property>
+   <widget class="QLabel" name="label_63">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>330</y>
+      <width>231</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
+    </property>
+    <property name="text">
+     <string>濃度差</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditDeltaE_2">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>330</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QToolButton" name="toolButtonCurrentColor">
    <property name="geometry">
@@ -849,10 +854,10 @@ QToolButton:pressed {
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+    <enum>QFrame::Shape::StyledPanel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
    <widget class="QLabel" name="label_34">
     <property name="geometry">
@@ -869,16 +874,16 @@ QToolButton:pressed {
      </font>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Panel</enum>
+     <enum>QFrame::Shape::Panel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
+     <enum>QFrame::Shadow::Raised</enum>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;H&lt;/p&gt;&lt;p&gt;S&lt;/p&gt;&lt;p&gt;V&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
     <property name="indent">
      <number>1</number>
@@ -899,16 +904,16 @@ QToolButton:pressed {
      </font>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Panel</enum>
+     <enum>QFrame::Shape::Panel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
     <property name="text">
      <string>Hの許容差異</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="doubleSpinBoxdH">
@@ -962,16 +967,16 @@ QToolButton:pressed {
      </font>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Panel</enum>
+     <enum>QFrame::Shape::Panel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
     <property name="text">
      <string>Sの中心側の許容差異</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="doubleSpinBoxdSH">
@@ -1007,16 +1012,16 @@ QToolButton:pressed {
      </font>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Panel</enum>
+     <enum>QFrame::Shape::Panel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
     <property name="text">
      <string>Sの外側の許容差異</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="doubleSpinBoxdVL">
@@ -1052,16 +1057,16 @@ QToolButton:pressed {
      </font>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Panel</enum>
+     <enum>QFrame::Shape::Panel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
     <property name="text">
      <string>Vの暗側の許容差異</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="doubleSpinBoxdVH">
@@ -1097,16 +1102,16 @@ QToolButton:pressed {
      </font>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Panel</enum>
+     <enum>QFrame::Shape::Panel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
     <property name="text">
      <string>Vの明側の許容差異</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
   </widget>
@@ -1114,7 +1119,7 @@ QToolButton:pressed {
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>620</y>
+     <y>600</y>
      <width>241</width>
      <height>31</height>
     </rect>
@@ -1139,12 +1144,17 @@ QToolButton:pressed {
      <string>流動サンプルでHSV判定</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>濃度差で判定</string>
+    </property>
+   </item>
   </widget>
   <widget class="QLabel" name="label_60">
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>620</y>
+     <y>600</y>
      <width>251</width>
      <height>31</height>
     </rect>
@@ -1155,16 +1165,16 @@ QToolButton:pressed {
     </font>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::Shape::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
    <property name="text">
     <string>判定方法</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="label_61">
@@ -1182,16 +1192,16 @@ QToolButton:pressed {
     </font>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::Shape::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
    <property name="text">
     <string>領域名称</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEditItemName">
@@ -1231,7 +1241,7 @@ QToolButton:pressed {
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>580</y>
+     <y>570</y>
      <width>401</width>
      <height>22</height>
     </rect>
@@ -1273,17 +1283,125 @@ QToolButton:pressed {
     </font>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::Shape::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
    <property name="text">
     <string>位置合わせで移動する</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
    </property>
+  </widget>
+  <widget class="QStackedWidget" name="stackedWidgetThreshold">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>630</y>
+     <width>521</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>2</number>
+   </property>
+   <widget class="QWidget" name="page"/>
+   <widget class="QWidget" name="page_2">
+    <widget class="QDoubleSpinBox" name="doubleSpinBoxTHDeltaE">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>10</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="maximum">
+      <double>100.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_52">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>391</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Shadow::Sunken</enum>
+     </property>
+     <property name="text">
+      <string>ΔEしきい値</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_3">
+    <widget class="QLabel" name="label_64">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>251</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Shadow::Sunken</enum>
+     </property>
+     <property name="text">
+      <string>濃度差しきい値</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="doubleSpinBoxTHDense">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>10</y>
+       <width>121</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="maximum">
+      <double>100.000000000000000</double>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <resources/>

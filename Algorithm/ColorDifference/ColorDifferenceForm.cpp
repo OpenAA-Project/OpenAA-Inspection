@@ -805,3 +805,23 @@ void ColorDifferenceForm::on_pushButtonOutputFlowList_clicked()
 		}
 	}
 }
+void ColorDifferenceForm::on_comboBoxJudgeMethod_currentIndexChanged(int index)
+{
+    int Index=ui->comboBoxJudgeMethod->currentIndex();
+    if(Index==1){
+        ui->stackedWidgetThreshold->setCurrentIndex(1);
+    }
+    else if(Index==3){
+        ui->stackedWidgetThreshold->setCurrentIndex(2);
+    }
+    else{
+        ui->stackedWidgetThreshold->setCurrentIndex(0);
+    }
+}
+
+
+void ColorDifferenceForm::on_pushButtonSetDenseInterpolate_clicked()
+{
+
+}
+

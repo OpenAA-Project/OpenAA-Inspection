@@ -938,7 +938,6 @@ public:
 class FlexAreaFastDim100 : public FlexAreaFastDim
 {
     FlexAreaFast    Dim[100];
-	int			    DimNumb;
 public:
 	FlexAreaFastDim100(void){}
 

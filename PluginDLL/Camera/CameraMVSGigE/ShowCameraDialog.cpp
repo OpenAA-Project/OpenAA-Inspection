@@ -45,6 +45,13 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
     AOIOffsetY				=Cam->AOIOffsetY  ;
     AOIWidth				=Cam->AOIWidth    ;
     AOIHeight				=Cam->AOIHeight   ;
+	BlackLevelEnable		=Cam->BlackLevelEnable;
+	BlackLevel				=Cam->BlackLevel      ;
+	WhiteBalance			=Cam->WhiteBalance;
+	BalanceRatioR               =Cam->BalanceRatioR               ;
+	BalanceRatioG               =Cam->BalanceRatioG               ;
+	BalanceRatioB               =Cam->BalanceRatioB               ;
+	BalanceColorTemperatureMode =Cam->BalanceColorTemperatureMode ;
 
 	ui->lineEditDeviceName->setText(Cam->UserName);
 	ui->lineEditIPAddress->setText(Cam->IPAddress);
@@ -88,6 +95,62 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
 		}
 	}
 
+	if(Cam->Cam.SetEnumValue ("BalanceRatioSelector",(int)0)==MV_OK){
+		int		CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio;
+		if(Cam->GetIntValue("BalanceRatio",CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio)==true){
+			ui->spinBoxBalanceRatioR	->setMaximum(MaxIntBalanceRatio);
+			ui->spinBoxBalanceRatioR	->setMinimum(MinIntBalanceRatio);
+			ui->spinBoxBalanceRatioR	->setValue	(CurrentIntBalanceRatio);
+		}
+	}
+	if(Cam->Cam.SetEnumValue ("BalanceRatioSelector",(int)1)==MV_OK){
+		int		CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio;
+		if(Cam->GetIntValue("BalanceRatio",CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio)==true){
+			ui->spinBoxBalanceRatioG	->setMaximum(MaxIntBalanceRatio);
+			ui->spinBoxBalanceRatioG	->setMinimum(MinIntBalanceRatio);
+			ui->spinBoxBalanceRatioG	->setValue	(CurrentIntBalanceRatio);
+		}
+	}
+	if(Cam->Cam.SetEnumValue ("BalanceRatioSelector",(int)2)==MV_OK){
+		int		CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio;
+		if(Cam->GetIntValue("BalanceRatio",CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio)==true){
+			ui->spinBoxBalanceRatioB	->setMaximum(MaxIntBalanceRatio);
+			ui->spinBoxBalanceRatioB	->setMinimum(MinIntBalanceRatio);
+			ui->spinBoxBalanceRatioB	->setValue	(CurrentIntBalanceRatio);
+		}
+	}
+
+	if(Cam->GetEnumValue ("BalanceColorTemperatureMode",CurrentIntValue ,EnumBalanceColorTemperatureModeData,EnumCount)==true){
+		ui->comboBoxBalanceColorTemperatureMode->clear();
+		for(int i=0;i<EnumCount;i++){
+			QString Str;
+			if(Cam->GetEnumSymblic ("BalanceColorTemperatureMode",EnumBalanceColorTemperatureModeData[i] ,Str)==true){
+				ui->comboBoxBalanceColorTemperatureMode->addItem(Str);
+				if(CurrentIntValue==EnumBalanceColorTemperatureModeData[i]){
+					ui->comboBoxBalanceColorTemperatureMode->setCurrentIndex(i);
+				}
+			}
+		}
+	}
+	if(Cam->GetEnumValue ("BalanceWhiteAuto",CurrentIntValue ,EnumWhiteBalanceData,EnumCount)==true){
+		ui->comboBoxWhiteBalance->clear();
+		for(int i=0;i<EnumCount;i++){
+			QString Str;
+			if(Cam->GetEnumSymblic ("BalanceWhiteAuto",EnumWhiteBalanceData[i] ,Str)==true){
+				ui->comboBoxWhiteBalance->addItem(Str);
+				if(CurrentIntValue==EnumWhiteBalanceData[i]){
+					ui->comboBoxWhiteBalance->setCurrentIndex(i);
+
+					if(CurrentIntValue==0){
+						ui->stackedWidget->setCurrentIndex(0);
+					}
+					else if(CurrentIntValue==1){
+						ui->stackedWidget->setCurrentIndex(1);
+					}
+				}
+			}
+		}
+	}
 	int		CurrentIntValueH ,MaxIntValueH ,MinIntValueH;
 	int		CurrentIntValueV ,MaxIntValueV ,MinIntValueV;
 	bool	RetH=Cam->GetIntValue("BinningHorizontal",CurrentIntValueH ,MaxIntValueH ,MinIntValueH);
@@ -163,6 +226,18 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
 		ui->checkBoxReverseY	->setChecked(CurrentBoolValue);
 	}
 
+	bool	CurrentBlackLevelEnable;
+	if(Cam->GetBoolValue("BlackLevelEnable",CurrentBlackLevelEnable )==true){
+		ui->checkBoxBlackLevelEnable->setChecked(CurrentBlackLevelEnable);
+	}
+
+	int	CurrentBlackLevel,MaxBlackLevel,MinBlackLevel;
+	if(Cam->GetIntValue("BlackLevel",CurrentBlackLevel ,MaxBlackLevel ,MinBlackLevel)==true){
+		ui->spinBoxBlackLevel	->setMaximum(MaxBlackLevel);
+		ui->spinBoxBlackLevel	->setMinimum(MinBlackLevel);
+		ui->spinBoxBlackLevel	->setValue	(CurrentBlackLevel);
+	}
+
 	int	Width ,Height;
 	Parent->GetResolution(Width ,Height);
 	int	MaxIntValue ,MinIntValue;
@@ -222,6 +297,20 @@ void ShowCameraDialog::on_pushButtonOK_clicked()
 	DecimationV 	=DecimationData/1000;
 
 
+	int	WhiteBalanceIndex=ui->comboBoxWhiteBalance->currentIndex();
+	WhiteBalance	=EnumWhiteBalanceData[WhiteBalanceIndex];
+
+	BalanceRatioR	=ui->spinBoxBalanceRatioR	->value();
+	BalanceRatioG	=ui->spinBoxBalanceRatioG	->value();
+	BalanceRatioB	=ui->spinBoxBalanceRatioB	->value();
+
+	int	BalanceColorTemperatureModeIndex=ui->comboBoxBalanceColorTemperatureMode->currentIndex();
+	BalanceColorTemperatureMode	=EnumBalanceColorTemperatureModeData[BalanceColorTemperatureModeIndex];
+
+
+	BlackLevelEnable=ui->checkBoxBlackLevelEnable->isChecked();
+	BlackLevel		=ui->spinBoxBlackLevel		->value	();
+
 	ReverseX	=ui->checkBoxReverseX	->isChecked();
 	ReverseY	=ui->checkBoxReverseY	->isChecked();
 
@@ -260,5 +349,40 @@ void ShowCameraDialog::on_spinBoxAOIOffsetY_valueChanged(int arg1)
 	int	H=Height-tAOIOffsetY;
 	H=H & 0xFFF0;
 	ui->spinBoxAOIHeight->setMaximum(H);
+}
+
+
+void ShowCameraDialog::on_comboBoxWhiteBalance_currentIndexChanged(int index)
+{
+	int	Index=ui->comboBoxWhiteBalance->currentIndex();
+
+
+	int	WhiteBalanceIndex=ui->comboBoxWhiteBalance->currentIndex();
+	WhiteBalance	=EnumWhiteBalanceData[WhiteBalanceIndex];
+    int	nRet = Parent->Cam.SetEnumValue("BalanceWhiteAuto", (int)WhiteBalance);
+    if (MV_OK != nRet){
+        return;
+    }
+	if(Index==0){
+		ui->stackedWidget->setCurrentIndex(0);
+	}
+	else if(Index==2){
+		ui->stackedWidget->setCurrentIndex(1);
+
+		int	CurrentIntValue;
+		int	EnumCount;
+		if(Parent->GetEnumValue ("BalanceColorTemperatureMode",CurrentIntValue ,EnumBalanceColorTemperatureModeData,EnumCount)==true){
+			ui->comboBoxBalanceColorTemperatureMode->clear();
+			for(int i=0;i<EnumCount;i++){
+				QString Str;
+				if(Parent->GetEnumSymblic ("BalanceColorTemperatureMode",EnumBalanceColorTemperatureModeData[i] ,Str)==true){
+					ui->comboBoxBalanceColorTemperatureMode->addItem(Str);
+					if(CurrentIntValue==EnumBalanceColorTemperatureModeData[i]){
+						ui->comboBoxBalanceColorTemperatureMode->setCurrentIndex(i);
+					}
+				}
+			}
+		}
+	}
 }
 

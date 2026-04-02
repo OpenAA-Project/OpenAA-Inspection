@@ -53,6 +53,7 @@ ColorDifferenceLibrary::ColorDifferenceLibrary(int LibType,LayersBase *Base)
 	dVL			=20;
 	dVH			=10;
 	AdaptAlignment	=true;
+	ThDense		=5.0;
 }
 ColorDifferenceLibrary::~ColorDifferenceLibrary(void)
 {
@@ -100,6 +101,8 @@ bool	ColorDifferenceLibrary::SaveBlob(QIODevice *f)
 	if(::Save(f,dVH)==false)
 		return(false);
 	if(::Save(f,AdaptAlignment)==false)
+		return(false);
+	if(::Save(f,ThDense)==false)
 		return(false);
 
 	return true;
@@ -156,6 +159,10 @@ bool	ColorDifferenceLibrary::LoadBlob(QIODevice *f)
 	}
 	if(Ver>=6){
 		if(::Load(f,AdaptAlignment)==false)
+			return(false);
+	}
+	if(Ver>=7){
+		if(::Load(f,ThDense)==false)
 			return(false);
 	}
 	return true;

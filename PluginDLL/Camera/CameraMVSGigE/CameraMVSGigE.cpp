@@ -70,9 +70,10 @@ CamBufferStack	&CamBufferStack::operator=(const CamBufferStack &src)
 }
 
 
-CameraMVSGigE::CameraMVSGigE(int CamNo ,const QString &ParamStr,LayersBase *base)
+CameraMVSGigE::CameraMVSGigE(int CamNo ,const QString &_ParamStr,LayersBase *base)
 	:CameraHandle(CamNo,base)
 {
+    IPAddress               = _ParamStr;
 	TriggerMode				= MV_TRIGGER_MODE_OFF;
 	bSoftWareTriggerCheck	= true;
 	TriggerSource			= MV_TRIGGER_SOURCE_SOFTWARE;
@@ -94,6 +95,15 @@ CameraMVSGigE::CameraMVSGigE(int CamNo ,const QString &ParamStr,LayersBase *base
     AOIWidth    =0;
     AOIHeight   =0;
 
+    BlackLevelEnable    =false;
+    BlackLevel          =200;
+    WhiteBalance        =0;
+ 
+    BalanceRatioR               =0;
+    BalanceRatioG               =0;
+    BalanceRatioB               =0;
+    BalanceColorTemperatureMode =0;
+
     CamBuffWPoint   =0;
     CamBuffRPoint   =0;
     CamBuffStockedCount=0;
@@ -108,7 +118,7 @@ CameraMVSGigE::CameraMVSGigE(int CamNo ,const QString &ParamStr,LayersBase *base
 	connect(&LocalServer,&QLocalServer::newConnection,this,&CameraMVSGigE::SlotNewConnection);
 	LocalServer.listen(QString("CameraMVSGigE%1").arg(CamNo));
 
-    //Cam.SetLogMode(true);
+    Cam.SetLogMode(true);
 }
 CameraMVSGigE::~CameraMVSGigE(void)
 {
@@ -130,6 +140,11 @@ bool    CameraMVSGigE::Initial(void)
 	if (MV_OK != nRet){
 		return false;
 	}
+    bool    ok;
+    int IDNumb=IPAddress.toInt(&ok);
+    if(ok==false){
+        IDNumb=-1;
+    }
 
 	// ch:将值加入到信息列表框中并显示出来 | en:Add value to the information list box and display
 	for (unsigned int i = 0; i < m_stDevList.nDeviceNum; i++){
@@ -168,7 +183,7 @@ bool    CameraMVSGigE::Initial(void)
 				DevNo=i;
 				break;
 			}
-			else if(IPAddress==IPAddress){
+			else if(IPAddress==QString(strBuff)){
 				DevNo=i;
 				break;
 			}
@@ -275,6 +290,7 @@ void	CameraMVSGigE::CaptureImage(unsigned char * pData, MV_FRAME_OUT_INFO_EX* pF
             CamBuffStockedCount=MaxCountCamBufferStack;
         }
         MutexImageSize.unlock();
+        Cam.SetGrabbing(false);
     }
 }
 
@@ -371,14 +387,25 @@ bool    CameraMVSGigE::ShowSetting(void)
         AOIOffsetY  =D.AOIOffsetY  ;
         AOIWidth    =D.AOIWidth    ;
         AOIHeight   =D.AOIHeight   ;
+        WhiteBalance=D.WhiteBalance;
+
+        BlackLevelEnable=D.BlackLevelEnable;
+        BlackLevel      =D.BlackLevel      ;
+
+        BalanceRatioR               =D.BalanceRatioR                ;
+        BalanceRatioG               =D.BalanceRatioG                ;
+        BalanceRatioB               =D.BalanceRatioB                ;
+        BalanceColorTemperatureMode =D.BalanceColorTemperatureMode  ;
 
         SetTriggerMode((TriggerMode==MV_TRIGGER_MODE_OFF)?false:true);
         SetTriggerSource();
         SetExposure();
         SetGain();
-        SetBinningDecimation();
+        //SetBinningDecimation();
         SetReverse();
         SetAOI();
+        SetBlackLevel();
+        SetWhiteBalance();
 		return true;
 	}
 	return false;
@@ -538,6 +565,14 @@ bool	CameraMVSGigE::Save(QIODevice *f)
     if(::Save(f,AOIOffsetY  )==false)	        return false;
     if(::Save(f,AOIWidth    )==false)	        return false;
     if(::Save(f,AOIHeight   )==false)	        return false;
+    if(::Save(f,BlackLevelEnable)==false)       return false;
+    if(::Save(f,BlackLevel      )==false)       return false;
+    if(::Save(f,WhiteBalance)==false)           return false;
+
+    if(::Save(f,BalanceRatioR               )==false)           return false;
+    if(::Save(f,BalanceRatioG               )==false)           return false;
+    if(::Save(f,BalanceRatioB               )==false)           return false;
+    if(::Save(f,BalanceColorTemperatureMode )==false)           return false;
 
 	return true;
 }
@@ -565,13 +600,28 @@ bool	CameraMVSGigE::Load(QIODevice *f)
     if(::Load(f,AOIWidth    )==false)	        return false;
     if(::Load(f,AOIHeight   )==false)	        return false;
 
+    int Ver=GetLoadedVersion();
+    if(Ver>=2){
+        if(::Load(f,BlackLevelEnable)==false)       return false;
+        if(::Load(f,BlackLevel      )==false)       return false;
+    }
+    if(Ver>=3){
+        if(::Load(f,WhiteBalance)==false)       return false;
+    }
+    if(Ver>=4){
+        if(::Load(f,BalanceRatioR               )==false)           return false;
+        if(::Load(f,BalanceRatioG               )==false)           return false;
+        if(::Load(f,BalanceRatioB               )==false)           return false;
+        if(::Load(f,BalanceColorTemperatureMode )==false)           return false;
+    }
+
     bool    IsGrabbing=Cam.IsGrabbing();
-    for(int i=0;i<3;i++){
+    //for(int i=0;i<3;i++){
         if(IsGrabbing==true){
             Cam.StopGrabbing();
         }
-        //GSleep(20);
-        SetTriggerMode((TriggerMode==MV_TRIGGER_MODE_OFF)?false:true);
+        Cam.ClearImageBuffer();
+
         //GSleep(20);
         SetExposure();
         //GSleep(20);
@@ -579,15 +629,33 @@ bool	CameraMVSGigE::Load(QIODevice *f)
         //GSleep(20);
         SetFrameRate();
         //GSleep(20);
-        SetTriggerSource();
-        //GSleep(20);
-        SetBinningDecimation();
+        //SetBinningDecimation();
         //GSleep(20);
         SetReverse();
         //SetAOI();
         //GSleep(100);
-    }
-    if(IsGrabbing==true){
+        SetBlackLevel();
+        SetWhiteBalance();
+
+        if(TriggerMode==MV_TRIGGER_MODE_OFF){
+            SetTriggerSource();
+            SetTriggerMode(false);
+            SetTriggerSource();
+        }
+        else{
+            SetTriggerSource();
+            SetTriggerMode(true);
+            SetTriggerSource();
+        }
+    //}
+    QThread::msleep(500);
+
+    Cam.ClearImageBuffer();
+
+    CamBuffRPoint=CamBuffWPoint;
+    CamBuffStockedCount=0;
+
+    if(IsGrabbing==true){ 
         Cam.StartGrabbing();
     }
 
@@ -921,7 +989,53 @@ bool    CameraMVSGigE::SetReverse(void)
     }
     return true;
 }
-    
+
+int CameraMVSGigE::SetWhiteBalance()
+{
+    int nRet = MV_OK;
+
+    nRet = Cam.SetEnumValue("BalanceWhiteAuto", (int)WhiteBalance);
+    if (MV_OK != nRet){
+        return nRet;
+    }
+
+    if(WhiteBalance==0){
+        nRet = Cam.SetEnumValue("BalanceRatioSelector", (int)0);
+        if (MV_OK != nRet){
+            return nRet;
+        }
+        nRet = Cam.SetIntValue("BalanceRatio", (unsigned int)BalanceRatioR);
+        if (MV_OK != nRet){
+            return nRet;
+        }
+        nRet = Cam.SetEnumValue("BalanceRatioSelector", (int)1);
+        if (MV_OK != nRet){
+            return nRet;
+        }
+        nRet = Cam.SetIntValue("BalanceRatio", (unsigned int)BalanceRatioG);
+        if (MV_OK != nRet){
+            return nRet;
+        }
+        nRet = Cam.SetEnumValue("BalanceRatioSelector", (int)2);
+        if (MV_OK != nRet){
+            return nRet;
+        }
+        nRet = Cam.SetIntValue("BalanceRatio", (unsigned int)BalanceRatioB);
+        if (MV_OK != nRet){
+            return nRet;
+        }
+    }
+    else if(WhiteBalance==1)
+    {
+        nRet = Cam.SetEnumValue("BalanceColorTemperatureMode", (int)BalanceColorTemperatureMode);
+        if (MV_OK != nRet){
+            return nRet;
+        }
+	}
+
+    return nRet;
+}
+  
 bool    CameraMVSGigE::SetAOI(void)
 {
     bool    IsGrabbing=Cam.IsGrabbing();
@@ -1000,6 +1114,22 @@ bool    CameraMVSGigE::SetAOI(void)
     return true;
 }
 
+bool    CameraMVSGigE::SetBlackLevel(void)
+{
+    int nRet;
+    nRet=Cam.SetBoolValue("BlackLevelEnable",BlackLevelEnable);
+    if (MV_OK != nRet){
+        return false;
+    }
+    if(BlackLevelEnable==true){
+        nRet=Cam.SetIntValue("BlackLevel",(int64)BlackLevel);
+        if (MV_OK != nRet){
+            return false;
+        }
+    }
+    return true;
+}
+
 bool    CameraMVSGigE::GetResolution(int &Width ,int &Height)
 {
     int Ret=Cam.GetResolution(Width ,Height);
@@ -1028,7 +1158,7 @@ bool _cdecl	DLL_GetName(QString &str)
 WORD _cdecl	DLL_GetVersion(void)
 //	return Camera DLL version
 {
-	return(1);
+	return(Version_CameraMVSGigE);
 }
 DEFFUNCEX	void	DLL_SetLanguage(LanguagePackage &Pkg ,int LanguageCode)
 {

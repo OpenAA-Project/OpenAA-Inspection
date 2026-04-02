@@ -2537,6 +2537,7 @@ void	DataInPage::LockTarget(void)
 void	DataInPage::UnlockTarget(void)
 {
 	for(int Ly=0;Ly<AllocatedLayerNumb;Ly++){
+		LayerData[Ly]->AccessTarget.tryLock();
 		LayerData[Ly]->AccessTarget.unlock();
 	}
 }
@@ -2549,6 +2550,7 @@ void	DataInPage::LockMaster(void)
 void	DataInPage::UnlockMaster(void)
 {
 	for(int Ly=0;Ly<AllocatedLayerNumb;Ly++){
+		LayerData[Ly]->AccessMaster.tryLock();
 		LayerData[Ly]->AccessMaster.unlock();
 	}
 }
@@ -3797,7 +3799,7 @@ int		PageDataInOnePhase::GetMaxLayerNumb(void)	const
 void	PageDataInOnePhase::LockTarget(void)
 {
 	int32	PageNumb=Parent->GetPageNumb();
-	for(int page=0;page<PageNumb;page++){
+	for(int page=0;page<PageNumb && page<AllocatedPageNumb;page++){
 		DataInPage	*dp=GetPageData(page);
 		dp->LockTarget();
 	}
@@ -3805,7 +3807,7 @@ void	PageDataInOnePhase::LockTarget(void)
 void	PageDataInOnePhase::UnlockTarget(void)
 {
 	int32	PageNumb=Parent->GetPageNumb();
-	for(int page=0;page<PageNumb;page++){
+	for(int page=0;page<PageNumb && page<AllocatedPageNumb;page++){
 		DataInPage	*dp=GetPageData(page);
 		dp->UnlockTarget();
 	}
@@ -3813,7 +3815,7 @@ void	PageDataInOnePhase::UnlockTarget(void)
 void	PageDataInOnePhase::LockMaster(void)
 {
 	int32	PageNumb=Parent->GetPageNumb();
-	for(int page=0;page<PageNumb;page++){
+	for(int page=0;page<PageNumb && page<AllocatedPageNumb;page++){
 		DataInPage	*dp=GetPageData(page);
 		dp->LockMaster();
 	}
@@ -3821,7 +3823,7 @@ void	PageDataInOnePhase::LockMaster(void)
 void	PageDataInOnePhase::UnlockMaster(void)
 {
 	int32	PageNumb=Parent->GetPageNumb();
-	for(int page=0;page<PageNumb;page++){
+	for(int page=0;page<PageNumb && page<AllocatedPageNumb;page++){
 		DataInPage	*dp=GetPageData(page);
 		dp->UnlockMaster();
 	}
@@ -4303,7 +4305,7 @@ bool    PageDataInOnePhase::SaveBrightTable(QIODevice *f)
 	if(::Save(f,PageNumb)==false){
 		return false;
 	}
-	for(int page=0;page<PageNumb;page++){
+	for(int page=0;page<PageNumb && page<AllocatedPageNumb;page++){
 		DataInPage *p=GetPageData(page);
 		if(p->SaveBrightTable(f)==false){
 			return false;
@@ -4341,7 +4343,7 @@ bool    PageDataInOnePhase::SaveAttr(QIODevice *f)
 	if(::Save(f,PageNumb)==false){
 		return false;
 	}
-	for(int page=0;page<PageNumb;page++){
+	for(int page=0;page<PageNumb && page<AllocatedPageNumb;page++){
 		DataInPage *p=GetPageData(page);
 		if(p->SaveAttr(f)==false){
 			return false;
@@ -4360,7 +4362,7 @@ bool    PageDataInOnePhase::LoadAttr(QIODevice *f)
 	if(::Load(f,iPageNumb)==false){
 		return false;
 	}
-	for(int page=0;(page<Parent->GetPageNumb()) && (page<iPageNumb);page++){
+	for(int page=0;(page<Parent->GetPageNumb()) && (page<iPageNumb) && page<AllocatedPageNumb;page++){
 		DataInPage *p=GetPageData(page);
 		if(p->LoadAttr(f)==false){
 			return false;
@@ -4399,7 +4401,7 @@ bool    PageDataInOnePhase::SaveImages(QIODevice *f)
 	if(::Save(f,PageNumb)==false){
 		return false;
 	}
-	for(int page=0;page<PageNumb;page++){
+	for(int page=0;page<PageNumb && page<AllocatedPageNumb;page++){
 		DataInPage *p=GetPageData(page);
 		if(p->Save(f)==false){
 			return false;
@@ -4413,7 +4415,7 @@ bool    PageDataInOnePhase::LoadImages(QIODevice *f)
 	if(::Load(f,iPageNumb)==false){
 		return false;
 	}
-	for(int page=0;(page<Parent->GetPageNumb()) && (page<iPageNumb);page++){
+	for(int page=0;(page<Parent->GetPageNumb()) && (page<iPageNumb) && page<AllocatedPageNumb;page++){
 		DataInPage *p=GetPageData(page);
 		if(p->Load(f)==false){
 			return false;
@@ -4602,7 +4604,6 @@ bool	PageDataInOnePhase::ExecuteFilteringTarget(LayersBase *Base)
 			}
 		}
 	
-		//���荞�݂𑁂����邽�߂ɐ���GetImage�������s��
 		//#pragma omp parallel                             
 		//{                                                
 		//	#pragma omp for
@@ -4734,7 +4735,7 @@ void	PageDataInOnePhase::SwapImageInToBuffer(int ImageDataType)
 bool	PageDataInOnePhase::HasRegulation(void)
 {
 	int32	PageNumb=Parent->GetPageNumb();
-	for(int page=0;page<PageNumb;page++){
+	for(int page=0;page<PageNumb && page<AllocatedPageNumb;page++){
 		DataInPage	*dp=GetPageData(page);
 		if(dp->HasRegulation()==false){
 			return false;
@@ -4747,7 +4748,7 @@ bool    PageDataInOnePhase::SaveRegulation(QIODevice *f)
 	int32	PageNumb=Parent->GetPageNumb();
 	if(::Save(f,PageNumb)==false)
 		return false;
-	for(int page=0;page<PageNumb;page++){
+	for(int page=0;page<PageNumb && page<AllocatedPageNumb;page++){
 		DataInPage	*dp=GetPageData(page);
 		int32	DotPerLine	=dp->GetDotPerLine();
 		int32	MaxLines	=dp->GetMaxLines();
@@ -4769,7 +4770,7 @@ bool    PageDataInOnePhase::LoadRegulation(QIODevice *f)
 	int32	iPageNumb;
 	if(::Load(f,iPageNumb)==false)
 		return false;
-	for(int page=0;page<iPageNumb && page<Parent->GetPageNumb();page++){
+	for(int page=0;page<iPageNumb && page<Parent->GetPageNumb() && page<AllocatedPageNumb;page++){
 		DataInPage	*dp=GetPageData(page);
 		int32	iDotPerLine	;
 		int32	iMaxLines	;
@@ -4794,7 +4795,7 @@ bool    PageDataInOnePhase::SaveControlPointsForPages(QIODevice *f)
 	int32	iPageNumb=Parent->GetPageNumb();
 	if(::Save(f,iPageNumb)==false)
 		return false;
-	for(int page=0;page<iPageNumb;page++){
+	for(int page=0;page<iPageNumb && page<AllocatedPageNumb;page++){
 		if(GetPageData(page)->SaveControlPointsForPages(f)==false){
 			return false;
 		}
@@ -4806,7 +4807,7 @@ bool    PageDataInOnePhase::LoadControlPointsForPages(QIODevice *f)
 	int32	iPageNumb;
 	if(::Load(f,iPageNumb)==false)
 		return false;
-	for(int page=0;page<Parent->GetPageNumb() && page<iPageNumb;page++){
+	for(int page=0;page<Parent->GetPageNumb() && page<iPageNumb && page<AllocatedPageNumb;page++){
 		if(GetPageData(page)->LoadControlPointsForPages(f)==false){
 			return false;
 		}
@@ -4833,7 +4834,7 @@ bool	PageDataInOnePhase::GetXY(int &x1 ,int &y1 ,int &x2 ,int &y2)	const
 	y1=Pg->GetOutlineOffset()->y;
 	x2=Pg->GetOutlineOffset()->x+Pg->GetDotPerLine();
 	y2=Pg->GetOutlineOffset()->y+Pg->GetMaxLines();
-	for(int page=1;page<Parent->GetPageNumb();page++){
+	for(int page=1;page<Parent->GetPageNumb() && page<AllocatedPageNumb;page++){
 		DataInPage	*Pg=GetPageData(page);
 		int	ix1=Pg->GetOutlineOffset()->x;
 		int	iy1=Pg->GetOutlineOffset()->y;
@@ -4848,7 +4849,7 @@ bool	PageDataInOnePhase::GetXY(int &x1 ,int &y1 ,int &x2 ,int &y2)	const
 }
 DataInPage *PageDataInOnePhase::GetPageDataByPoint(int globalX ,int globalY)	const
 {
-	for(int page=0;page<Parent->GetPageNumb();page++){
+	for(int page=0;page<Parent->GetPageNumb() && page<AllocatedPageNumb;page++){
 		DataInPage *P=GetPageData(page);
 		int	x1,y1,x2,y2;
 		P->GetArea(x1 ,y1 ,x2 ,y2);
@@ -4862,7 +4863,7 @@ DataInPage *PageDataInOnePhase::GetPageDataByPoint(int globalX ,int globalY)	con
 QString	PageDataInOnePhase::GetColorString(int gx ,int gy)	const
 {
 	QString	ret;
-	for(int page=0;page<Parent->GetPageNumb();page++){
+	for(int page=0;page<Parent->GetPageNumb() && page<AllocatedPageNumb;page++){
 		DataInPage	*Lp=GetPageData(page);
 		for(int layer=0;layer<Lp->GetLayerNumb();layer++){
 			DataInLayer	*Ly=Lp->GetLayerData(layer);
@@ -4880,7 +4881,7 @@ QString	PageDataInOnePhase::GetColorString(int gx ,int gy)	const
 int		PageDataInOnePhase::GetLocalPageFromArea(FlexArea &Area ,IntList &List)	const
 {
 	int	ret=0;
-	for(int page=0;page<Parent->GetPageNumb();page++){
+	for(int page=0;page<Parent->GetPageNumb() && page<AllocatedPageNumb;page++){
 		DataInPage *P=GetPageData(page);
 		int x1 ,y1 ,x2 ,y2;
 		P->GetArea(x1 ,y1 ,x2 ,y2);
@@ -4896,7 +4897,7 @@ int		PageDataInOnePhase::GetLocalPageFromArea(DisplayImage *p ,FlexArea &Area ,I
 {
 	int	ret=0;
 	if(p->ModeShowOnlyTopTurn==false){
-		for(int page=0;page<Parent->GetPageNumb();page++){
+		for(int page=0;page<Parent->GetPageNumb() && page<AllocatedPageNumb;page++){
 			DataInPage *P=GetPageData(page);
 			int x1 ,y1 ,x2 ,y2;
 			P->GetArea(x1 ,y1 ,x2 ,y2);
@@ -5012,7 +5013,7 @@ bool	PageDataInOnePhase::GetRealMatrixFromGlobal(int globalX ,int globalY
 {
 	int		localX ,localY;
 	int	Page=GetLocalMatrixFromGlobal(globalX ,globalY ,localX ,localY);
-	if(Page<0 || Parent->GetPageNumb()<=Page)
+	if(Page<0 || Parent->GetPageNumb()<=Page || AllocatedPageNumb<=Page)
 		return false;
 	DataInPage	*P=GetPageData(Page);
 	if(P->TransformImageToReal(localX ,localY,realX ,realY)==false){
@@ -5038,7 +5039,7 @@ bool	PageDataInOnePhase::HasRealTransform(int globalX ,int globalY)	const
 {
 	int		localX ,localY;
 	int	Page=GetLocalMatrixFromGlobal(globalX ,globalY ,localX ,localY);
-	if(Page<0 || Parent->GetPageNumb()<=Page)
+	if(Page<0 || Parent->GetPageNumb()<=Page || AllocatedPageNumb<=Page)
 		return false;
 	DataInPage	*P=GetPageData(Page);
 	double realX ,realY;
@@ -5049,7 +5050,7 @@ bool	PageDataInOnePhase::HasRealTransform(int globalX ,int globalY)	const
 }
 void	PageDataInOnePhase::SwitchImageBuff(void)
 {
-	for(int page=0;page<Parent->GetPageNumb();page++){
+	for(int page=0;page<Parent->GetPageNumb() && page<AllocatedPageNumb;page++){
 		GetPageData(page)->SwitchImageBuff();
 	}
 }
@@ -5064,7 +5065,7 @@ int		PageDataInOnePhase::GetMaxLines(int page)		const
 int		PageDataInOnePhase::GetMaxDotPerLine(void)		const
 {
 	int	MaxDotPerLine=0;
-	for(int page=0;page<Parent->GetPageNumb();page++){
+	for(int page=0;page<Parent->GetPageNumb() && page<AllocatedPageNumb;page++){
 		int	d=GetPageData(page)->GetDotPerLine();
 		MaxDotPerLine=max(MaxDotPerLine,d);
 	}
@@ -5073,7 +5074,7 @@ int		PageDataInOnePhase::GetMaxDotPerLine(void)		const
 int		PageDataInOnePhase::GetMaxMaxLines(void)		const
 {
 	int	MaxMaxLines=0;
-	for(int page=0;page<Parent->GetPageNumb();page++){
+	for(int page=0;page<Parent->GetPageNumb() && page<AllocatedPageNumb;page++){
 		int	d=GetPageData(page)->GetMaxLines();
 		MaxMaxLines=max(MaxMaxLines,d);
 	}
@@ -5082,7 +5083,7 @@ int		PageDataInOnePhase::GetMaxMaxLines(void)		const
 
 bool	PageDataInOnePhase::IsCalcDone(void)	const
 {
-	for(int page=0;page<Parent->GetPageNumb();page++){
+	for(int page=0;page<Parent->GetPageNumb() && page<AllocatedPageNumb;page++){
 		if(GetPageData(page)->IsCalcDone()==false){
 			return false;
 		}
@@ -5095,7 +5096,7 @@ void	PageDataInOnePhase::SlotChangedMasterImage(int PageNo,int LayerNo)
 }
 void	PageDataInOnePhase::ClearSystemResult(void)
 {
-	for(int page=0;page<Parent->GetPageNumb();page++){
+	for(int page=0;page<Parent->GetPageNumb() && page<AllocatedPageNumb;page++){
 		GetPageData(page)->ClearSystemResult();
 	}
 }

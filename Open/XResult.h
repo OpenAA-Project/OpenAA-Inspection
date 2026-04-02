@@ -96,9 +96,9 @@ public:
 	int	mx,my;
 	int	Count;
 	int32		ImportanceLevel;
-	int32		PieceAreaNumber;	//�Дԍ�
-	int32		NGSize;				//NG�̑傫��
-	DWORD		result;				//0x10000�����łn�j
+	int32		PieceAreaNumber;
+	int32		NGSize;			
+	DWORD		result;			//Result is OK if value is less than 0x10000
 
 	QString				CauseStr;
 	QString				ItemName;
@@ -141,7 +141,7 @@ class	ResultPosList : public NPList<ResultPosList>
 public:
   #pragma	pack(push,1)
 
-	DWORD		result;					//0x10000�����łn�j
+	DWORD		result;				//Result is OK if value is less than 0x10000
 	enum _ResultType{
 		 _ResultDWORD	=0
 		,_ResultDouble	=1
@@ -152,7 +152,7 @@ private:
 	union{
 		struct	{
 			DWORD		result1;
-			DWORD		result2;				//���ʃf�[�^
+			DWORD		result2;
 		};
 		struct	{
 			double		resultDouble;
@@ -164,20 +164,20 @@ private:
 	};
 public:
 
-	int32		Px;         //�m�f�̃}�X�^�[�摜�ł̊���W
+	int32		Px;         //Position in Msater image
     int32		Py;
 
 	short		Rx;
-    short		Ry;			//�m�f�����̃A���C�������g�␳�������ł̒T����
+    short		Ry;			//Search dot after alignment adjustment in NG
 
 	int32		NGTypeUniqueCode;
-	int32		ImportanceLevel;	//�ꏊ�ɂ����d�v�x�@�O�F�ŏd�v�@�ʏ��P�O�O
-	int32		PieceAreaNumber;	//�Дԍ�
-	int32		NGSize;				//NG�̑傫��
+	int32		ImportanceLevel;	//Inportance level 0:Most , 100:Normal
+	int32		PieceAreaNumber;
+	int32		NGSize;			
   #pragma	pack(pop)
 
 	QStringList	AreaNames;
-	FlexArea	NGShape;	//GlobalParam�ɂ����Đ������Ȃ��ꍇ������
+	FlexArea	NGShape;	//It may not be created by GlobalParam
 	QString		Message;
 	ResultVectorLine	Vector;
 
@@ -276,9 +276,9 @@ class   NGImage final: public NPList<NGImage> , public ServiceForLayers
     int32		PtnByte;
 
 	int32		GlobalPage;
-	int32		Number;		//�m�f�t�@�C���擪���O�Ƃ����ʂ��ԍ�
-    int32		x1,y1,x2,y2;//�����摜���̃y�[�W���ʒu
-	int32		Mx,My;		//���σY����
+	int32		Number;		//Zero-indexed serial number in the NG file
+    int32		x1,y1,x2,y2;//Local position in Target image page
+	int32		Mx,My;		//Average shift
 	bool		SuccessCompress;
   #pragma	pack(pop)
 public:
@@ -316,8 +316,8 @@ public:
 	bool	GetXY(int &qx1,int &qy1,int &qx2,int &qy2)		const	{	qx1=x1;	qy1=y1;	qx2=x2;	qy2=y2;	return true;	}
 	int32	GetGlobalPage(void)			const	{	return GlobalPage;	}
 	void	SetGlobalPage(int32 page)			{	GlobalPage=page;	}
-	int32	GetNumber(void)				const	{	return Number;		}		//�m�f�t�@�C���擪���O�Ƃ����ʂ��ԍ�
-	void	SetNumber(int32 n)					{	Number	=n;			}		//�m�f�t�@�C���擪���O�Ƃ����ʂ��ԍ�
+	int32	GetNumber(void)				const	{	return Number;		}		//Zero-indexed serial number in the NG file
+	void	SetNumber(int32 n)					{	Number	=n;			}		//Zero-indexed serial number in the NG file
 
 	void	SetMxy(int _mx ,int _my)			{	Mx=_mx;	My=_my;	}
 	int		GetMx(void)					const	{	return Mx;	}
@@ -327,10 +327,10 @@ public:
 class  ResultInItemRoot
 {
   #pragma	pack(push,1)
-	short		Error;					//�m�f���x��	�|�P�F�������G���A	�O�F������	�P�F�n�j	�Q�`�m�f
+	short		Error;					//NG Level    -1:Not inspected area		1:OK	2-:NG
 
 	DWORD		result1;
-	DWORD		result2;				//���ʃf�[�^
+	DWORD		result2;				//Result data
 
 public:
 
@@ -349,12 +349,12 @@ private:
         } ResultValue;
 
 	int32		ItemID;					//Number;
-    int32		SmallPartsID;			//��ID
+    int32		SmallPartsID;			//Piece ID
 
 	short		ItemSearchedX;			//Hx
-    short		ItemSearchedY;			//Hy	�ʒT���␳��
+    short		ItemSearchedY;			//Hy	Individual search correction value
 	short		AlignedX;			//Mx
-    short		AlignedY;			//My	�A���C�������g�␳��
+    short		AlignedY;			//My		Alignment correction value
 
 	DWORD			AddedDataForRepairByte;
 	DWORD			AddedDataForRepairType;
@@ -365,7 +365,7 @@ private:
 	AddedDataClass	*AddedData;
 	AlgorithmItemRoot	*AlgorithmItemPointer;	//Set by every ExecuteProcessing
   #pragma	pack(pop)
-	ResultPosListContainer	PosList;	//�ڍ׈ʒu����
+	ResultPosListContainer	PosList;	//Detailed position information
 	QString			Message;
 	int				ErrorGroupID;
 public:
@@ -444,12 +444,12 @@ public:
 
 	_ResultType	GetResultType(void)	const	{	return ResultType;	}
 
-	short	GetError(void)		const	{	return Error;		}		//�m�f���x��	�|�P�F�������G���A	�O�F������	�P�F�n�j	�Q�`�m�f
+	short	GetError(void)		const	{	return Error;		}		//NG Level    -1:Not inspected area		1:OK	2-:NG
 	void	SetError(short s)			{	Error=s;			}
 	DWORD	GetResult1(void)	const	{	return result1;		}
 	void	SetResult1(DWORD d)			{	result1=d;	ResultType=_ResultDWORD;		}
-	DWORD	GetResult2(void)	const	{	return result2;		}				//���ʃf�[�^
-	void	SetResult2(DWORD d)			{	result2=d;	ResultType=_ResultDWORD;		}				//���ʃf�[�^
+	DWORD	GetResult2(void)	const	{	return result2;		}
+	void	SetResult2(DWORD d)			{	result2=d;	ResultType=_ResultDWORD;		}
 	double	GetResultDouble(void)	const	{	return ResultValue.ResultDouble;	}
 	void	SetResultDouble(double d)		{	ResultValue.ResultDouble=d;		ResultType=_ResultDouble;	}
 
@@ -511,10 +511,10 @@ private:
 		int32	x1,y1,x2,y2;
 		int32	mx,my;
 		int16	Page;
-		DWORD	result;				//0x10000�����łn�j
-		int16	ImportanceLevel;	//�ꏊ�ɂ����d�v�x�@�O�F�ŏd�v�@�ʏ��P�O�O
-		int32	PieceAreaNumber;	//�Дԍ�
-		int32	NGSize;				//NG�̑傫��
+		DWORD	result;				//Result is OK if value is less than 0x10000
+		int16	ImportanceLevel;	//Inportance level 0:Most , 100:Normal
+		int32	PieceAreaNumber;	//Piece number
+		int32	NGSize;
 		struct HPLIStruct	RepresentativeItem;
 	}CData;
 
@@ -618,7 +618,7 @@ protected:
 	//DataInLayer					*PDataInLayer;
 
 	AlgorithmInLayerRoot			*AlgoPointer;
-	bool							CalcDone;		//�����͑SPhase�̍ŏ���false�ɂȂ�
+	bool							CalcDone;		//Initializd to false at all Phases
 protected:
 	void	SetDataInLayer(DataInLayer *L)	{	Layer=-1;	}	//PDataInLayer=L;	}	
 public:
@@ -706,7 +706,7 @@ struct	ResultPositionInfomation
 	//DWORD	Result1;
 	//DWORD	Result2;
 	DWORD		result1;
-	DWORD		result2;				//���ʃf�[�^
+	DWORD		result2;
 	_ResultType	ResultType;
     union _ResultValue{
 		double	ResultDouble;
@@ -744,7 +744,7 @@ struct	ResultPositionInfomationVer2
 	//DWORD	Result1;
 	//DWORD	Result2;
 	DWORD		result1;
-	DWORD		result2;				//���ʃf�[�^
+	DWORD		result2;
 	_ResultType	ResultType;
     union _ResultValue{
 		double	ResultDouble;
@@ -778,7 +778,7 @@ struct	ResultPositionInfomationOld2
 	//DWORD	Result1;
 	//DWORD	Result2;
 	DWORD		result1;
-	DWORD		result2;				//���ʃf�[�^
+	DWORD		result2;
 	_ResultType	ResultType;
         union _ResultValue{
 		double	ResultDouble;
@@ -812,7 +812,7 @@ struct	ResultPositionInfomationOld
 	//DWORD	Result1;
 	//DWORD	Result2;
 	DWORD		result1;
-	DWORD		result2;				//���ʃf�[�^
+	DWORD		result2;
         union _ResultValue{
 		double	ResultDouble;
 		int64	ResultQInt;
@@ -841,8 +841,8 @@ protected:
 	DataInPage			*PDataInPage;
 	ResultBasePhase		*PhaseParent;
 	AlgorithmInPageRoot	*AlgoPointer;
-	bool				CalcDone;		//�����͑SPhase�̍ŏ���false�ɂȂ�
-	bool				DoneBindImage;	//�����͑SPhase�̍ŏ���false�ɂȂ�
+	bool				CalcDone;		//Initializd to false at all Phases
+	bool				DoneBindImage;	//Initializd to false at all Phases
 protected:
 	void	SetDataInPage(DataInPage *L)	{	PDataInPage=L;	}
 public:
@@ -1224,7 +1224,7 @@ public:
 	};
 
 private:
-	XDateTime	StartTimeForInspection;	//�����J�n����
+	XDateTime	StartTimeForInspection;	//Beginning time of inspection
 	NPListPack<ResultBaseForAlgorithmRoot>	ResultBaseDim;
 	QString		NGFileName;
 	int32		IndexForNGFileName;
@@ -1238,7 +1238,7 @@ private:
 	int32						ReceivedResultCountsAllocated;
 	bool		TimeOutBreak;
 	bool		MaxErrorBreak;
-	int32		OutputCode;		//�U����	-1:���U��	1:�n�j	2:�m�f
+	int32		OutputCode;		//Sorting destination	-1: Unsorted		1: OK	2: NG
 	QString		DeliveredInfo;
 	QString		InspectionBarcode;
 	QByteArray	RemarkData;
@@ -1251,7 +1251,7 @@ private:
 
 	CriticalErrorMode	CriticalError;
 	volatile	int		PriorityCounter;
-	bool		AliveTillPush;	//WriteResultThread::PutCurrentToStock��MoveResult�����s�������܂�true
+	bool		AliveTillPush;	//True until MoveResult is executed in WriteResultThread::PutCurrentToStock
 public:
 	ExecutedTime			ExecTime;
 
@@ -1377,6 +1377,7 @@ public:
 	QString		GetLotName(void)				const	{	return LotName;		}
 	void		SetLotName(const QString &lotName)		{	LotName=lotName;	}
 
+	void	ReallocateTmpRect(void);
 	void	ClearAllErrorGroup(void);
 	void	ClearTmpRect(int phase);
 	void	ClearResult(int phase);

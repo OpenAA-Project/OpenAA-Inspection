@@ -26,10 +26,11 @@
 #include <QPainter>
 #include <QByteArray>
 
-#define	ColorDifferenceVersion	6
+#define	ColorDifferenceVersion	7
 
 class	ColorDifferenceItem;
 class	ColorDifferenceRegulation;
+class	ColorDifferenceDenseMark;
 class	ColorDifferenceInPage;
 class	ColorDifferenceBase;
 class	ColorDifferenceLibrary;
@@ -43,6 +44,9 @@ class	ColorDifferenceInPage;
 class	ColorDifferenceDrawAttr : public AlgorithmDrawAttr , public ServiceForLayers
 {
 public:
+	bool	ModeShowItem;
+	bool	ModeShowRegulation;
+	bool	ModeShowDenseMark;
 
 	ColorDifferenceDrawAttr(LayersBase *Base):ServiceForLayers(Base){}
 	ColorDifferenceDrawAttr(LayersBase *Base,QColor ncol,QColor scol ,QColor acol);
@@ -86,14 +90,18 @@ inline	bool	ColorDifferenceDrawAttr::Save(QIODevice *f)
 {
 	if(AlgorithmDrawAttr::Save(f)==false)
 		return false;
-
+	if(::Save(f,ModeShowItem)==false)		return false;
+	if(::Save(f,ModeShowRegulation)==false)	return false;
+	if(::Save(f,ModeShowDenseMark)==false)	return false;
 	return true;
 }
 inline	bool	ColorDifferenceDrawAttr::Load(QIODevice *f)
 {
 	if(AlgorithmDrawAttr::Load(f)==false)
 		return false;
-
+	if(::Load(f,ModeShowItem)==false)		return false;
+	if(::Load(f,ModeShowRegulation)==false)	return false;
+	if(::Load(f,ModeShowDenseMark)==false)	return false;
 	return true;
 }
 
@@ -108,6 +116,9 @@ struct ResultColorDifferenceForExtraData
 #pragma	pack(pop)
 
 //========================================================================================
+
+#define	ResultDenseType	2
+
 
 class	ColorDifferenceResultPosList : public ResultPosList
 {
@@ -158,9 +169,11 @@ public:
 	double		dVL;
 	double		dVH;
 	bool		AdaptAlignment;	//Alignment�̉e�����󂯂Č������ƂɃV�t�g
+	double		ThDense;
 
 	ColorDifferenceThreshold(ColorDifferenceItem *parent);
 	ColorDifferenceThreshold(ColorDifferenceRegulation *parent);
+	ColorDifferenceThreshold(ColorDifferenceDenseMark *parent);
 
 	virtual	void	CopyFrom(const AlgorithmThreshold &src)	override;
 	virtual	bool	IsEqual(const AlgorithmThreshold &src)	const override;
@@ -189,6 +202,8 @@ public:
 	ColorDifferenceRegulation	*Reference2;
 	PreciseColor	ReferedCurrentColor;
 	double			ResultDeltaE;
+	double			ResultDense;
+	int				ResultDx,ResultDy;
 
 	int	MasterCx,MasterCy;
 	PreciseColor	FlowCenterColor;
@@ -206,7 +221,7 @@ public:
 		float		ResultDiffG;
 		float		ResultDiffB;
 	};
-
+	double	MasterDense;
 
 	ColorDifferenceItem(void);
 	virtual	AlgorithmItemRoot	*Clone(void)	override	{	return new ColorDifferenceItem();	}
@@ -236,6 +251,8 @@ public:
 										   ,AlgorithmItemRoot *Data,IntList &EdittedMemberID,QByteArray &Something,QByteArray &AckData)	override;
 	virtual	void	UpdateThreshold(int LearningMenuID ,LearningResource &LRes)			override;
 
+	double	CalcDense(bool MasterMode=false);
+
 private:
 	void	CalcFlowCenterColor(void);
 };
@@ -260,6 +277,42 @@ public:
 
 	virtual	AlgorithmItemPI	&operator=(const AlgorithmItemRoot &src)	override;
 	void	CopyThreshold(ColorDifferenceRegulation &src);
+	virtual	void	MoveForAlignment(void)	override;
+
+	virtual	bool    Save(QIODevice *f)					override;
+    virtual	bool    Load(QIODevice *f,LayersBase *LBase)override;
+	virtual	void	Draw(QImage &pnt, int movx ,int movy ,double ZoomRate ,AlgorithmDrawAttr *Attr)	override;
+	virtual	void	DrawResultItem(ResultInItemRoot *Res,QImage &IData ,QPainter &PData ,int MovX ,int MovY ,double ZoomRate,bool OnlyNG)override;
+
+	virtual	ExeResult	ExecuteInitialAfterEdit	(int ExeID ,int ThreadNo,ResultInItemRoot *Res,ExecuteInitialAfterEditInfo &EInfo)	override;
+	virtual	ExeResult	ExecuteProcessing		(int ExeID ,int ThreadNo,ResultInItemRoot *Res)	override;
+
+	virtual	void	SetIndependentItemData(int32 Command,int32 LocalPage,int32 Layer
+										,AlgorithmItemRoot *Data,IntList &EdittedMemberID
+										,QByteArray &Something,QByteArray &AckData)	override;
+private:
+};
+
+class	ColorDifferenceDenseMark : public AlgorithmItemPITemplate<ColorDifferenceInPage,ColorDifferenceBase>
+{
+	AlignmentPacket2D	*AVector;
+	int	MasterCx,MasterCy;
+public:
+	RGBStock	Brightness;
+	PreciseColor	MasterColor;
+	PreciseColor	TargetColor;
+	double			DensePower;
+
+	ColorDifferenceDenseMark(void);
+	virtual	AlgorithmItemRoot	*Clone(void)	override	{	return new ColorDifferenceDenseMark();	}
+	virtual	int32		GetItemClassType(void)		override{		return 2;		}
+
+	const	ColorDifferenceThreshold	*GetThresholdR(LayersBase *base=NULL){	return (const ColorDifferenceThreshold *)GetThresholdBaseReadable(base);	}
+	ColorDifferenceThreshold			*GetThresholdW(LayersBase *base=NULL){	return (ColorDifferenceThreshold *)GetThresholdBaseWritable(base);	}
+	virtual	AlgorithmThreshold	*CreateThresholdInstance(void)	override{	return new ColorDifferenceThreshold(this);	}
+
+	virtual	AlgorithmItemPI	&operator=(const AlgorithmItemRoot &src)	override;
+	void	CopyThreshold(ColorDifferenceDenseMark &src);
 	virtual	void	MoveForAlignment(void)	override;
 
 	virtual	bool    Save(QIODevice *f)					override;
@@ -432,6 +485,7 @@ public:
 	PreciseColor	MasterColor;
 	double		AdoptedRate;	//Percentage
 	double		THDeltaE;
+	double		ThDense;
 
 	ColorDifferenceThresholdSend(void);
 
@@ -465,6 +519,7 @@ public:
 	double	LenOK;
 	double	LenNG;
 	double	DeltaE;
+	double	Dense;
 	PreciseColor	ReferenceColor1	;
 	PreciseColor	ReferenceColor2	;
 	PreciseColor	MasterColor		;
@@ -718,6 +773,7 @@ public:
 	FlexArea	Area;
 	IntList		LayerList;
 	int			LibID;
+	int			ItemClass;	
 	CmdAddByteColorDifferenceItemPacket(LayersBase *base):GUIDirectMessage(base){}
 	CmdAddByteColorDifferenceItemPacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };

@@ -140,6 +140,8 @@ bool	GUICmdSendAddManualColorDifference::Load(QIODevice *f)
 		return false;
 	if(::Load(f,LibID)==false)
 		return false;
+	if(::Load(f,ItemClass)==false)
+		return false;
 	return true;
 }
 bool	GUICmdSendAddManualColorDifference::Save(QIODevice *f)
@@ -154,6 +156,8 @@ bool	GUICmdSendAddManualColorDifference::Save(QIODevice *f)
 	if(LayerList.Save(f)==false)
 		return false;
 	if(::Save(f,LibID)==false)
+		return false;
+	if(::Save(f,ItemClass)==false)
 		return false;
 	return true;
 }
@@ -171,6 +175,7 @@ void	GUICmdSendAddManualColorDifference::Receive(int32 localPage, int32 cmd ,QSt
 			Cmd.Area		=Area;
 			Cmd.LayerList	=LayerList;
 			Cmd.LibID		=LibID;
+			Cmd.ItemClass	=ItemClass;
 			PData->TransmitDirectly(&Cmd);
 		}
 	}

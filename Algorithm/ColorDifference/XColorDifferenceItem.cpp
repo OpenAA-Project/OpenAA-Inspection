@@ -43,6 +43,7 @@ ColorDifferenceThreshold::ColorDifferenceThreshold(ColorDifferenceItem *parent)
 	dVL			=20;
 	dVH			=10;
 	AdaptAlignment	=true;
+	ThDense		=5.0;
 }
 ColorDifferenceThreshold::ColorDifferenceThreshold(ColorDifferenceRegulation *parent)
 :AlgorithmThreshold(parent)
@@ -56,6 +57,21 @@ ColorDifferenceThreshold::ColorDifferenceThreshold(ColorDifferenceRegulation *pa
 	dVL			=20;
 	dVH			=10;
 	AdaptAlignment	=true;
+	ThDense		=5.0;
+}
+ColorDifferenceThreshold::ColorDifferenceThreshold(ColorDifferenceDenseMark *parent)
+:AlgorithmThreshold(parent)
+{
+	AdoptedRate	=75;
+	JudgeMethod	=0;
+	THDeltaE	=10;
+	dH			=5;
+	dSL			=10;
+	dSH			=10;
+	dVL			=20;
+	dVH			=10;
+	AdaptAlignment	=true;
+	ThDense		=5.0;
 }
 bool	ColorDifferenceThreshold::IsEqual(const AlgorithmThreshold &src)	const 
 {
@@ -69,7 +85,8 @@ bool	ColorDifferenceThreshold::IsEqual(const AlgorithmThreshold &src)	const
 	&& dSH			==s->dSH
 	&& dVL			==s->dVL
 	&& dVH			==s->dVH
-	&& AdaptAlignment==s->AdaptAlignment)
+	&& AdaptAlignment==s->AdaptAlignment
+	&& ThDense		==s->ThDense)
 		return true;
 
 	return false;
@@ -86,10 +103,11 @@ void	ColorDifferenceThreshold::CopyFrom(const AlgorithmThreshold &src)
 	dVL			=s->dVL		;
 	dVH			=s->dVH		;
 	AdaptAlignment	=s->AdaptAlignment;
+	ThDense		=s->ThDense	;
 }
 bool	ColorDifferenceThreshold::Save(QIODevice *file)
 {
-	WORD	Ver=3;
+	WORD	Ver=4;
 
 	if(::Save(file,Ver)==false)
 		return(false);
@@ -110,6 +128,8 @@ bool	ColorDifferenceThreshold::Save(QIODevice *file)
 	if(::Save(file,dVH)==false)
 		return(false);
 	if(::Save(file,AdaptAlignment)==false)
+		return(false);
+	if(::Save(file,ThDense)==false)
 		return(false);
 	return(true);
 }
@@ -142,6 +162,10 @@ bool	ColorDifferenceThreshold::Load(QIODevice *file)
 		if(::Load(file,AdaptAlignment)==false)
 			return(false);
 	}
+	if(Ver>=4){
+		if(::Load(file,ThDense)==false)
+			return(false);
+	}
 	return(true);
 }
 void	ColorDifferenceThreshold::FromLibrary(AlgorithmLibrary *src)
@@ -156,6 +180,7 @@ void	ColorDifferenceThreshold::FromLibrary(AlgorithmLibrary *src)
 	dVL			=s->dVL		;
 	dVH			=s->dVH		;
 	AdaptAlignment	=s->AdaptAlignment;
+	ThDense		=s->ThDense	;
 }
 void	ColorDifferenceThreshold::ToLibrary(AlgorithmLibrary *Dest)
 {
@@ -169,6 +194,7 @@ void	ColorDifferenceThreshold::ToLibrary(AlgorithmLibrary *Dest)
 	d->dVL			=dVL		;
 	d->dVH			=dVH		;
 	d->AdaptAlignment	=AdaptAlignment;
+	d->ThDense		=ThDense	;
 }
 
 //-----------------------------------------------------------------
@@ -187,6 +213,9 @@ ColorDifferenceItem::ColorDifferenceItem(void)
 	StatisticData.Vvh	=0;
 	Reference1			=NULL;
 	Reference2			=NULL;
+	ResultDx	=0;
+	ResultDy	=0;
+	MasterDense	=0.0;
 }
 AlgorithmItemPI	&ColorDifferenceItem::operator=(const AlgorithmItemRoot &src)
 {
@@ -207,6 +236,9 @@ AlgorithmItemPI	&ColorDifferenceItem::operator=(const AlgorithmItemRoot &src)
 		ResultDeltaE		=Item->ResultDeltaE;
 		MasterCx			=Item->MasterCx;
 		MasterCy			=Item->MasterCy;
+		ResultDx	=Item->ResultDx;
+		ResultDy	=Item->ResultDy;
+		MasterDense	=Item->MasterDense;
 	}
 
 	return *this;
@@ -221,6 +253,7 @@ void	ColorDifferenceItem::CopyThreshold(ColorDifferenceItem &src)
 	FlowBrightness	=src.FlowBrightness	;
 	MasterCx		=src.MasterCx;
 	MasterCy		=src.MasterCy;
+	MasterDense		=src.MasterDense;
 }
 
 bool    ColorDifferenceItem::Save(QIODevice *f)
@@ -355,6 +388,12 @@ void	ColorDifferenceItem::DrawResultItem(ResultInItemRoot *Res,QImage &IData ,QP
 						+QString::number(ResultDiffG,'f',1)+QString(/**/",")
 						+QString::number(ResultDiffB,'f',1));
 			}
+			else if(RThr->JudgeMethod==3){
+				PData.drawText(kx,ky+16,IData.width()-kx,IData.height()-ky
+						,Qt::AlignLeft | Qt::AlignTop
+						,QString(/**/"Dense=")
+						+QString::number(ResultDense,'f',1));
+			}
 		}
 	}
 }
@@ -447,6 +486,8 @@ ExeResult	ColorDifferenceItem::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 	if(AVector!=NULL){
 		AVector->Set(this);
 	}
+	ResultDx	=0;
+	ResultDy	=0;
 	Reference1	=NULL;
 	Reference2	=NULL;
 	ColorDifferenceInPage	*Pg=(ColorDifferenceInPage *)GetParentInPage();
@@ -498,6 +539,8 @@ ExeResult	ColorDifferenceItem::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 							,RThr->AdoptedRate
 							,MasterColor);
 	}
+	MasterDense=CalcDense(true);
+
 	return Ret;
 }
 
@@ -562,6 +605,8 @@ ExeResult	ColorDifferenceItem::ExecuteProcessing		(int ExeID ,int ThreadNo,Resul
 		mx=V.ShiftX;
 		my=V.ShiftY;
 	}
+	ResultDx	=mx;
+	ResultDy	=my;
 	GetCenter(MasterCx,MasterCy);
 	const	ColorDifferenceThreshold	*RThr=GetThresholdR();
 	if(GetLayerNumb()>=3){
@@ -721,6 +766,19 @@ ExeResult	ColorDifferenceItem::ExecuteProcessing		(int ExeID ,int ThreadNo,Resul
 						Res->AddPosList(RNG);
 						Res->SetError(2);
 					}
+				}
+			}
+			else if(RThr->JudgeMethod==3){
+				ResultDense	=CalcDense();
+				if(fabs(ResultDense-MasterDense)<=RThr->ThDense){
+					Res->SetError(1);
+				}
+				else{
+					ColorDifferenceResultPosList	*RNG=new ColorDifferenceResultPosList(this,MasterCx,MasterCy);
+					RNG->SetResult(ResultDense);
+					RNG->result			=0x10000+ResultDenseType;
+					Res->AddPosList(RNG);
+					Res->SetError(2);
 				}
 			}
 			if(OutputConstantly==true){
@@ -1007,6 +1065,38 @@ void	ColorDifferenceItem::MoveForAlignment(void)
 	MoveTo(mx,my);
 }
 
+double	ColorDifferenceItem::CalcDense(bool MasterMode)
+{
+	const	ColorDifferenceThreshold	*RThr=GetThresholdR();
+	double	V=(100-RThr->AdoptedRate)/2/100.0;
+	if(MasterMode==true){
+		ImagePointerContainer MasterImageList;
+		GetMasterBuffList(MasterImageList);
+		int	N=GetLayerNumb();
+		double	AvrSum=0;
+		for(int layer=0;layer<N;layer++){		
+			ImageBuffer *L=MasterImageList[layer];
+			double	Avr=GetArea().GetAverage(0,0,*L,1.0-V,1.0-V);
+			AvrSum+=Avr*Avr;
+		}
+		AvrSum/=N;
+		return sqrt(AvrSum);
+	}
+	else{
+		ImagePointerContainer TargetImageList;
+		GetTargetBuffList(TargetImageList);
+		int	N=GetLayerNumb();
+		double	AvrSum=0;
+		for(int layer=0;layer<N;layer++){		
+			ImageBuffer *L=TargetImageList[layer];
+			double	Avr=GetArea().GetAverage(ResultDx,ResultDy,*L,1.0-V,1.0-V);
+			AvrSum+=Avr*Avr;
+		}
+		AvrSum/=N;
+		return sqrt(AvrSum);
+	}
+}
+
 //-----------------------------------------------------------------
 ColorDifferenceRegulation::ColorDifferenceRegulation(void)
 {
@@ -1270,6 +1360,273 @@ void	ColorDifferenceRegulation::SetIndependentItemData(int32 Command,int32 Local
 		}
 	}
 }
+
+//-----------------------------------------------------------------
+ColorDifferenceDenseMark::ColorDifferenceDenseMark(void)
+{
+	AVector	=NULL;
+}
+AlgorithmItemPI	&ColorDifferenceDenseMark::operator=(const AlgorithmItemRoot &src)
+{
+	AlgorithmItemPI::operator=(src);
+
+	const	ColorDifferenceDenseMark	*Item=dynamic_cast<const ColorDifferenceDenseMark *>(&src);
+	if(Item!=NULL){
+		Brightness		=Item->Brightness;
+		MasterColor		=Item->MasterColor;
+		TargetColor		=Item->TargetColor;
+		MasterCx		=Item->MasterCx;
+		MasterCy		=Item->MasterCy;
+	}
+
+	return *this;
+}
+
+void	ColorDifferenceDenseMark::CopyThreshold(ColorDifferenceDenseMark &src)
+{
+	Brightness		=src.Brightness;
+	MasterColor		=src.MasterColor;
+	TargetColor		=src.TargetColor;
+	DensePower		=src.DensePower;
+	MasterCx		=src.MasterCx;
+	MasterCy		=src.MasterCy;
+}
+
+bool    ColorDifferenceDenseMark::Save(QIODevice *f)
+{
+	if(AlgorithmItemPI::Save(f)==false)
+		return false;
+
+	WORD	Ver=2;
+
+	if(f->write((const char *)&Ver,sizeof(Ver))!=sizeof(Ver))
+		return(false);
+
+	QString	tItemName=GetItemName();
+	if(::Save(f,tItemName)==false)
+		return false;
+	if(Brightness.Save(f)==false)
+		return false;
+	if(MasterColor.Save(f)==false)
+		return false;
+
+	return true;
+}
+bool    ColorDifferenceDenseMark::Load(QIODevice *f,LayersBase *LBase)
+{
+	if(AlgorithmItemPI::Load(f,LBase)==false)
+		return false;
+
+	WORD	Ver;
+	if(f->read((char *)&Ver,sizeof(Ver))!=sizeof(Ver))
+		return(false);
+	
+	QString	tItemName;
+	if(::Load(f,tItemName)==false)
+		return false;
+	SetItemName(tItemName);
+
+	if(Brightness.Load(f)==false)
+		return false;
+	if(MasterColor.Load(f)==false)
+		return false;
+
+	return true;
+}
+
+void	ColorDifferenceDenseMark::Draw(QImage &pnt, int movx ,int movy ,double ZoomRate ,AlgorithmDrawAttr *Attr)
+{
+	SetVisible(true);
+	QColor	SaveColor=Attr->NormalColor;
+	Attr->NormalColor=QColor(255,0,255);
+	AlgorithmItemPI::DrawAlpha(pnt, movx ,movy ,ZoomRate ,Attr);
+	Attr->NormalColor=SaveColor;
+
+	int	kx=(MasterCx+movx)*ZoomRate;
+	int	ky=(MasterCy+movy)*ZoomRate;
+	if(0<=kx && (kx+120)<pnt.width() && 0<=ky && (ky+40)<pnt.height()){
+		QRect	rect(0,0,pnt.width(),pnt.height());
+		QPainter	PData(&pnt);	
+		PData.drawText(kx,ky,pnt.width()-kx,pnt.height()-ky
+						,Qt::AlignLeft | Qt::AlignTop
+						//,QString("Ly:")+QString::number((int)GetParent()->GetLayer())
+						,QString(/**/"Reference")
+						,&rect);
+	}
+}
+
+void	ColorDifferenceDenseMark::DrawResultItem(ResultInItemRoot *Res,QImage &IData ,QPainter &PData ,int MovX ,int MovY ,double ZoomRate,bool OnlyNG)
+{
+	if(Res==NULL){
+		Res=GetCurrentResult();
+	}
+	if(Res!=NULL){
+		if(Res->IsOk()==false || OnlyNG==false){
+			QColor	c=Qt::red;
+			c.setAlpha(100);
+			GetArea().Draw(Res->GetTotalShiftedX(),Res->GetTotalShiftedY()
+							,&IData ,c.rgba()
+							,ZoomRate ,MovX ,MovY);
+			if(Res->IsOk()==false && ZoomRate>1.0){
+				int	kx=(MasterCx+MovX)*ZoomRate;
+				int	ky=(MasterCy+MovY)*ZoomRate;
+				if(0<=kx && (kx+120)<IData.width() && 0<=ky && (ky+40)<IData.height()){
+					QRect	rect(0,0,IData.width(),IData.height());
+					PData.drawText(kx,ky,IData.width()-kx,IData.height()-ky
+						,Qt::AlignLeft | Qt::AlignTop
+						,QString(/**/"Pg=")+QString::number(GetPage()) +QString(/**/" ")
+						,&rect);
+				}
+			}
+		}
+	}
+}
+
+ExeResult	ColorDifferenceDenseMark::ExecuteInitialAfterEdit	(int ExeID ,int ThreadNo
+																,ResultInItemRoot *Res
+																,ExecuteInitialAfterEditInfo &EInfo)
+{
+	ExeResult	Ret=AlgorithmItemPI::ExecuteInitialAfterEdit	(ExeID ,ThreadNo,Res,EInfo);
+
+	//_CrtCheckMemory();
+	GetCenter(MasterCx,MasterCy);
+	AVector=(AlignmentPacket2D *)GetAlignmentPointer(MasterCx,MasterCy);
+	if(AVector!=NULL){
+		AVector->Set(this);
+	}
+	if(GetLayerNumb()>=3){
+		ImageBuffer *ImageList[3];
+		GetMasterBuffList	(ImageList);
+		const	ColorDifferenceThreshold	*RThr=GetThresholdR();
+		MakeAverageColor(GetArea(),ImageList ,0,0
+							,GetDotPerLine() ,GetMaxLines()
+							,RThr->AdoptedRate
+							,MasterColor);
+	}
+
+	return Ret;
+}
+
+ExeResult	ColorDifferenceDenseMark::ExecuteProcessing		(int ExeID ,int ThreadNo,ResultInItemRoot *Res)
+{
+	int	mx,my;
+	const	ColorDifferenceThreshold	*RThr=GetThresholdR();
+	if(RThr->AdaptAlignment==true){
+		if(AVector!=NULL){
+			mx=AVector->ShiftX;
+			my=AVector->ShiftY;
+		}
+		else{
+			AlignmentPacket2D	V;
+			V.PosXOnTarget=MasterCx;
+			V.PosYOnTarget=MasterCy;
+			V.ShiftX=0;
+			V.ShiftY=0;
+			GetAlignmentForProcessing(V);
+			mx=V.ShiftX;
+			my=V.ShiftY;
+		}
+	}
+	else{
+		mx=0;
+		my=0;
+	}
+	if(GetLayerNumb()>=3){
+		ImageBuffer *ImageList[3];
+		GetTargetBuffList	(ImageList);
+		MakeAverageColor(GetArea(),ImageList ,mx,my
+							,GetDotPerLine() ,GetMaxLines()
+							,RThr->AdoptedRate
+							,TargetColor);
+	}
+
+	FinishCalc();
+	return _ER_true;
+}
+void	ColorDifferenceDenseMark::MoveForAlignment(void)
+{
+	int	mx,my;
+	if(AVector!=NULL){
+		mx=AVector->ShiftX;
+		my=AVector->ShiftY;
+	}
+	else{
+		AlignmentPacket2D	V;
+
+		V.PosXOnTarget=MasterCx;
+		V.PosYOnTarget=MasterCy;
+		V.ShiftX=0;
+		V.ShiftY=0;
+		GetAlignmentForProcessing(V);
+		mx=V.ShiftX;
+		my=V.ShiftY;
+	}
+	MoveTo(mx,my);
+}
+
+void	ColorDifferenceDenseMark::SetIndependentItemData(int32 Command,int32 LocalPage,int32 Layer,AlgorithmItemRoot *Data,IntList &EdittedMemberID,QByteArray &Something,QByteArray &AckData)
+{
+	if(Command==SetIndependentItemDataCommand_OnlyOneColorDifference){
+		if(GetParentInPage()->GetPage()==LocalPage && GetID()==Data->GetID()){
+			ColorDifferenceThreshold	*WThr=GetThresholdW();
+			ColorDifferenceInPage	*Pg=dynamic_cast<ColorDifferenceInPage *>(GetParentInPage());
+			UndoElement<ColorDifferenceInPage>	*UPointer=new UndoElement<ColorDifferenceInPage>(Pg,&ColorDifferenceInPage::UndoSetIndependentItemDataCommand);
+			::Save(UPointer->GetWritePointer(),GetID());
+			Save(UPointer->GetWritePointer());
+			GetLayersBase()->GetUndoStocker().SetElementToNewTopic(UPointer);
+
+			ColorDifferenceDenseMark *src=(ColorDifferenceDenseMark *)Data;
+			SetItemName(src->GetItemName());
+			const	ColorDifferenceThreshold	*RThr=src->GetThresholdR(GetLayersBase());
+			CopyThreshold(*src);
+			WThr->AdoptedRate	=RThr->AdoptedRate;
+			WThr->THDeltaE		=RThr->THDeltaE;
+			WThr->AdaptAlignment=RThr->AdaptAlignment;
+		}
+	}
+	else if(Command==SetIndependentItemDataCommand_AllColorDifference){
+		if(GetLibID()==((ColorDifferenceItem *)Data)->GetLibID()){
+			ColorDifferenceThreshold	*WThr=GetThresholdW();
+			ColorDifferenceInPage	*Pg=dynamic_cast<ColorDifferenceInPage *>(GetParentInPage());
+			UndoElement<ColorDifferenceInPage>	*UPointer=new UndoElement<ColorDifferenceInPage>(Pg,&ColorDifferenceInPage::UndoSetIndependentItemDataCommand);
+			::Save(UPointer->GetWritePointer(),GetID());
+			Save(UPointer->GetWritePointer());
+			GetLayersBase()->GetUndoStocker().SetElementToNewTopic(UPointer);
+
+			ColorDifferenceDenseMark *src=(ColorDifferenceDenseMark *)Data;
+			const	ColorDifferenceThreshold	*RThr=src->GetThresholdR(GetLayersBase());
+			WThr->AdoptedRate	=RThr->AdoptedRate;
+			WThr->THDeltaE		=RThr->THDeltaE;
+			WThr->AdaptAlignment=RThr->AdaptAlignment;
+		}
+	}
+	else if(Command==SetIndependentItemDataCommand_SetThreBrightnessThis){
+		if(GetParentInPage()->GetPage()==LocalPage && GetID()==Data->GetID()){
+			ColorDifferenceInPage	*Pg=dynamic_cast<ColorDifferenceInPage *>(GetParentInPage());
+			UndoElement<ColorDifferenceInPage>	*UPointer=new UndoElement<ColorDifferenceInPage>(Pg,&ColorDifferenceInPage::UndoSetIndependentItemDataCommand);
+			::Save(UPointer->GetWritePointer(),GetID());
+			Save(UPointer->GetWritePointer());
+			GetLayersBase()->GetUndoStocker().SetElementToNewTopic(UPointer);
+
+			//ColorDifferenceRegulation *src=(ColorDifferenceRegulation *)Data;
+			//double	C=GetArea().GetAverage(GetMasterBuff(),0,0);
+		}
+	}
+	else if(Command==SetIndependentItemDataCommand_SetThreBrightnessAll){
+		if(GetLibID()==((ColorDifferenceDenseMark *)Data)->GetLibID()){
+			ColorDifferenceInPage	*Pg=dynamic_cast<ColorDifferenceInPage *>(GetParentInPage());
+			UndoElement<ColorDifferenceInPage>	*UPointer=new UndoElement<ColorDifferenceInPage>(Pg,&ColorDifferenceInPage::UndoSetIndependentItemDataCommand);
+			::Save(UPointer->GetWritePointer(),GetID());
+			Save(UPointer->GetWritePointer());
+			GetLayersBase()->GetUndoStocker().SetElementToNewTopic(UPointer);
+
+			//ColorDifferenceRegulation *src=(ColorDifferenceRegulation *)Data;
+			//double	C=GetArea().GetAverage(GetMasterBuff(),0,0);
+		}
+	}
+}
+
+//=========================================================================================
 
 
 ExeResult	ColorDifferenceItem::ExecutePostProcessing	(int ExeID,int ThreadNo,ResultInItemRoot *Res)

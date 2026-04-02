@@ -118,7 +118,6 @@ DEFFUNCEX	void	DLL_SetLanguage(LanguagePackage &Pkg ,int LanguageCode)
 #define	ButtonHeight	24
 #define	ScrollerHeight	20
 
-
 ShowFileListBrowser::ShowFileListBrowser(LayersBase *Base ,QWidget *parent)
 	:GUIFormBase(Base,parent)
 	,Model(this),View(this)
@@ -139,10 +138,21 @@ ShowFileListBrowser::ShowFileListBrowser(LayersBase *Base ,QWidget *parent)
 	Model.setFilter(QDir::AllDirs | QDir::Files | QDir::Drives | QDir::Dirs | QDir::NoDot | QDir::NoDotDot);
 	ButtonUpper.setParent(this);
 	ButtonUpper.setGeometry(0,0,31,31);
+	ButtonUpper.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	ButtonUpperIcon.addFile(/**/":Resources/icon/20/02.png",QSize(),QIcon::Normal,QIcon::Off);
 	ButtonUpperIcon.addFile(/**/":Resources/icon/20/01.png",QSize(),QIcon::Normal,QIcon::On);
 	ButtonUpper.setIcon(ButtonUpperIcon);
 	ButtonUpper.setCheckable(true);
+	//ButtonUpper.installEventFilter(new IconResizeFilter(&ButtonUpper));
+	//ButtonUpper.setStyleSheet(
+	//    "QToolButton {"
+	//    "    border-image: url(:/Resources/icon/20/02.png);" // Off時の画像
+	//    "    border: none;" // デフォルトのボタン枠線を消す場合
+	//    "}"
+	//    "QToolButton:checked {"
+	//    "    border-image: url(:/Resources/icon/20/01.png);" // On時の画像
+	//    "}"
+	//);
 	connect(&ButtonUpper,SIGNAL(clicked()),this,SLOT(SlotButtonUpperClicked()));
 
 	ViewPort=new QListViewPort(this,NULL);
@@ -191,8 +201,13 @@ void	ShowFileListBrowser::ReadyParam(void)
 
 void	ShowFileListBrowser::ResizeAction()
 {
-	LabelPath.setGeometry(32,0,width()-32,31);
-	View.setGeometry(0,31,width(),height()-31);
+	int	Lx1=ButtonUpper.geometry().right()+5;
+	double	XScale ,YScale;
+	GetGUIScale(XScale ,YScale);
+	LabelPath.setGeometry(Lx1,0,width()-Lx1,31*YScale);
+
+	View.setIconSize (QSize(IconWidth*XScale,IconHeight*YScale));
+	View.setGeometry(0,LabelPath.height(),width(),height()-LabelPath.height());
 }
 
 void	ShowFileListBrowser::Repaint(void)
@@ -420,7 +435,9 @@ ThumbViewDelegate::ThumbViewDelegate(ShowFileListBrowser *p,QObject *parent)
 QSize ThumbViewDelegate::sizeHint(const QStyleOptionViewItem &  option ,
                               const QModelIndex & index) const
 {
-    return QSize(Parent->IconWidth,Parent->IconHeight);
+	double	XScale ,YScale;
+	Parent->GetGUIScale(XScale ,YScale);
+	return QSize(Parent->IconWidth*XScale,Parent->IconHeight*YScale);
 }
 
 void	DivideStr(const QString &Str ,QStringList &TextList ,int DivN)
@@ -459,6 +476,8 @@ void ThumbViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
                            const QModelIndex &index) const
 {
 	if(Parent->Path.isEmpty()==false && Parent->GetLayersBase()->GetEventPriority()==0){
+		double	XScale ,YScale;
+		Parent->GetGUIScale(XScale ,YScale);
 		QString	s1=FormatterPath(Parent->Model.rootPath());
 		QString	s2=FormatterPath(Parent->Path);
 		if(s1!=s2){
@@ -500,7 +519,7 @@ void ThumbViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 			QStringList	TextList;
 			TextList.append(filenameText);
 			int	DivN=1;
-			while(Parent->IconWidth-XMergin*2<TextWidth*ZRate){
+			while(Parent->IconWidth*XScale-XMergin*2<TextWidth*ZRate){
 				DivN++;
 				TextList.clear();
 				DivideStr(filenameText ,TextList ,DivN);
@@ -522,8 +541,8 @@ void ThumbViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 				DivN=1;
 			}
 
-			QSize iconsize = QSize(Parent->IconWidth-XMergin*2
-								  ,Parent->IconHeight-TextHeight*DivN-LineMergin*(DivN-1)-YMergin*2);	//icon.actualSize(option.decorationSize);
+			QSize iconsize = QSize(Parent->IconWidth*XScale-XMergin*2
+								  ,Parent->IconHeight*YScale-TextHeight*DivN-LineMergin*(DivN-1)-YMergin*2);	//icon.actualSize(option.decorationSize);
 			QRect item = option.rect;
 			QRect iconRect(item.left()+4, item.top()+4, iconsize.width(), iconsize.height());
 			QPainterPath iconPath;
@@ -571,12 +590,12 @@ void ThumbViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 				else{
 					if(filenameText==/**/".."){
 						QIcon	icon(/**/":Resources/UpperFolder.png");
-						QSize iconsize = QSize(Parent->IconWidth,Parent->IconHeight);//icon.actualSize(option.decorationSize);
+						QSize iconsize = QSize(Parent->IconWidth*XScale,Parent->IconHeight*YScale);//icon.actualSize(option.decorationSize);
 						painter->drawPixmap(iconRect, icon.pixmap(iconsize.width(),iconsize.height()));
 					}
 					else{
 						QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
-						QSize iconsize = QSize(Parent->IconWidth,Parent->IconHeight);//icon.actualSize(option.decorationSize);
+						QSize iconsize = QSize(Parent->IconWidth*XScale,Parent->IconHeight*YScale);//icon.actualSize(option.decorationSize);
 						painter->drawPixmap(iconRect, icon.pixmap(iconsize.width(),iconsize.height()));
 					}
 				}

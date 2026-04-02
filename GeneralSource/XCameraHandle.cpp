@@ -44,7 +44,10 @@
 //=========================================================================================
 CameraHandle::CameraHandle(int _CamNo ,LayersBase *base)
 	:ServiceForLayers(base),CamNo(_CamNo)
-{}
+{
+	DLLVersion		=-1;
+	LoadedVersion	=-1;
+}
 
 int		CameraHandle::GetDotPerLine(void)
 {

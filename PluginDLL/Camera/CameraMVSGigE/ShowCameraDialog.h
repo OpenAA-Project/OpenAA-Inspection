@@ -38,6 +38,9 @@ class ShowCameraDialog : public QDialog
     int         EnumExposureModeData[64];
     int         EnumTriggerSourceData[64];
     int         EnumTriggerModeData[64];
+    int         EnumWhiteBalanceData[64];
+    int         EnumBalanceRatioSelectorData[64];
+    int         EnumBalanceColorTemperatureModeData[64];
 
 public:
 
@@ -62,6 +65,13 @@ public:
     int     AOIOffsetY;
     int     AOIWidth;
     int     AOIHeight;
+	bool    BlackLevelEnable;
+	int     BlackLevel      ;
+    int     WhiteBalance    ;
+    int     BalanceRatioR               ;
+    int     BalanceRatioG               ;
+    int     BalanceRatioB               ;
+    int     BalanceColorTemperatureMode ;
 
     explicit ShowCameraDialog(CameraMVSGigE *p,QWidget *parent = nullptr);
     ~ShowCameraDialog();
@@ -71,6 +81,8 @@ private slots:
     void on_pushButtonCancel_clicked();
     void on_spinBoxAOIOffsetX_valueChanged(int arg1);
     void on_spinBoxAOIOffsetY_valueChanged(int arg1);
+
+    void on_comboBoxWhiteBalance_currentIndexChanged(int index);
 
 private:
     Ui::ShowCameraDialog *ui;

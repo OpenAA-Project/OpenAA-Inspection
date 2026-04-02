@@ -9,32 +9,39 @@ SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidge
 {
     ui->setupUi(this);
 
-        ExposureAuto        =Cam->ExposureAuto        ;
-        ExposureMode        =Cam->ExposureMode        ;
-	    ExposureTime        =Cam->ExposureTime        ;
-		Gain                =Cam->Gain                ;
-	    GainR               =Cam->GainR               ;
-        GainG               =Cam->GainG               ;
-        GainB               =Cam->GainB               ;
-	    LineRate			=Cam->LineRate           ;
-        LineTriggerMode     =Cam->LineTriggerMode     ;   
-        LineTriggerSource   =Cam->LineTriggerSource   ; 
-        FrameTriggerMode    =Cam->FrameTriggerMode    ;   
-        FrameTriggerSource  =Cam->FrameTriggerSource  ; 
-		Line0Format			=Line0Format			;
-		Line1Format			=Line1Format			;
-		Line2Format			=Line2Format			;
-		Line3Format			=Line3Format			;
-		Line4Format			=Line4Format			;
-        BinningHMode        =Cam->BinningHMode        ;
-        BinningVMode        =Cam->BinningVMode        ;
-        DecimationH         =Cam->DecimationH         ;
-        DecimationV         =Cam->DecimationV         ;
-        ReverseX            =Cam->ReverseX            ;
-        ReverseTDIY         =Cam->ReverseTDIY         ;
-        AOIMode             =Cam->AOIMode             ;
-        AOIOffsetX          =Cam->AOIOffsetX          ;
-        AOIWidth            =Cam->AOIWidth            ;
+    ExposureAuto        =Cam->ExposureAuto        ;
+    ExposureMode        =Cam->ExposureMode        ;
+	ExposureTime        =Cam->ExposureTime        ;
+	Gain                =Cam->Gain                ;
+	GainR               =Cam->GainR               ;
+    GainG               =Cam->GainG               ;
+    GainB               =Cam->GainB               ;
+	LineRate			=Cam->LineRate           ;
+    LineTriggerMode     =Cam->LineTriggerMode     ;   
+    LineTriggerSource   =Cam->LineTriggerSource   ; 
+    FrameTriggerMode    =Cam->FrameTriggerMode    ;   
+    FrameTriggerSource  =Cam->FrameTriggerSource  ; 
+	Line0Format			=Line0Format			;
+	Line1Format			=Line1Format			;
+	Line2Format			=Line2Format			;
+	Line3Format			=Line3Format			;
+	Line4Format			=Line4Format			;
+    BinningHMode        =Cam->BinningHMode        ;
+    BinningVMode        =Cam->BinningVMode        ;
+    DecimationH         =Cam->DecimationH         ;
+    DecimationV         =Cam->DecimationV         ;
+    ReverseX            =Cam->ReverseX            ;
+    ReverseTDIY         =Cam->ReverseTDIY         ;
+    AOIMode             =Cam->AOIMode             ;
+    AOIOffsetX          =Cam->AOIOffsetX          ;
+    AOIWidth            =Cam->AOIWidth            ;
+	BlackLevelEnable		=Cam->BlackLevelEnable;
+	BlackLevel				=Cam->BlackLevel      ;
+	ImageCompression	= Cam->ImageCompression;
+	AcquisitionLineRateEnable = Cam->AcquisitionLineRateEnable;
+	GammaEnable			=Cam->GammaEnable;
+	Gamma				=Cam->Gamma      ;
+    FrameDelay			=Cam->FrameDelay ;
 
 	ui->lineEditDeviceName->setText(Cam->UserName);
 	ui->lineEditIPAddress->setText(Cam->IPAddress);
@@ -245,7 +252,17 @@ SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidge
 			}
 		}
 	}
+	bool	CurrentBlackLevelEnable;
+	if(Cam->GetBoolValue("BlackLevelEnable",CurrentBlackLevelEnable )==true){
+		ui->checkBoxBlackLevelEnable->setChecked(CurrentBlackLevelEnable);
+	}
 
+	int	CurrentBlackLevel,MaxBlackLevel,MinBlackLevel;
+	if(Cam->GetIntValue("BlackLevel",CurrentBlackLevel ,MaxBlackLevel ,MinBlackLevel)==true){
+		ui->spinBoxBlackLevel	->setMaximum(MaxBlackLevel);
+		ui->spinBoxBlackLevel	->setMinimum(MinBlackLevel);
+		ui->spinBoxBlackLevel	->setValue	(CurrentBlackLevel);
+	}
 
 	bool	CurrentBoolValue;
 	if(Cam->GetBoolValue("ReverseX",CurrentBoolValue )==true){
@@ -253,6 +270,40 @@ SettingLinearCameraDialog::SettingLinearCameraDialog(CameraMVSLinear *Cam,QWidge
 	}
 	if(Cam->Cam.GetTDIDirection(CurrentBoolValue )==true){
 		ui->checkBoxReverseY	->setChecked(CurrentBoolValue);
+	}
+	if(Cam->GetBoolValue("AcquisitionLineRateEnable",CurrentBoolValue )==true){
+		ui->checkBoxLineRateEnable	->setChecked(CurrentBoolValue);
+	}
+	if(Cam->GetBoolValue("GammaEnable",CurrentBoolValue )==true){
+		ui->checkBoxGammaEnable	->setChecked(CurrentBoolValue);
+	}
+	float	CurrentGamma,MaxGamma,MinGamma;
+	if(Cam->GetfloatValue("Gamma",CurrentGamma ,MaxGamma ,MinGamma)==true){
+		ui->doubleSpinBoxGamma	->setMaximum(MaxGamma);
+		ui->doubleSpinBoxGamma	->setMinimum(MinGamma);
+		ui->doubleSpinBoxGamma	->setValue	(CurrentGamma);
+	}
+
+	if(Cam->SetEnumValueByString("TriggerSelector", "FrameBurstStart")==true){
+		float	CurrentFrameDelay,MaxFrameDelay,MinFrameDelay;
+		if(Cam->GetfloatValue("TriggerDelay",CurrentFrameDelay ,MaxFrameDelay ,MinFrameDelay)==true){
+			ui->doubleSpinBoxFrameDelay	->setMaximum(MaxFrameDelay);
+			ui->doubleSpinBoxFrameDelay	->setMinimum(MinFrameDelay);
+			ui->doubleSpinBoxFrameDelay	->setValue	(CurrentFrameDelay);
+		}
+	}
+
+	if(Cam->GetEnumValue ("ImageCompressionMode",CurrentIntValue ,EnumImageCompression,EnumCount)==true){
+		ui->comboBoxImageCompression->clear();
+		for(int i=0;i<EnumCount;i++){
+			QString Str;
+			if(Cam->GetEnumSymblic ("ImageCompressionMode",EnumImageCompression[i] ,Str)==true){
+				ui->comboBoxImageCompression->addItem(Str);
+				if(CurrentIntValue==EnumImageCompression[i]){
+					ui->comboBoxImageCompression->setCurrentIndex(i);
+				}
+			}
+		}
 	}
 
 	int	Width ,Height;
@@ -291,6 +342,8 @@ void SettingLinearCameraDialog::on_pushButtonOK_clicked()
 	ExposureAuto	=EnumExposureAutoData[IndexExposureAuto];
 
 	LineRate		=ui->spinBoxLineRate	->value();
+
+	AcquisitionLineRateEnable	=ui->checkBoxLineRateEnable	->isChecked();
 
 	int	LineTriggerModeIndex=ui->comboBoxLineTriggerMode->currentIndex();
 	int	tLineTriggerMode		=EnumLineTriggerModeData[LineTriggerModeIndex];
@@ -349,6 +402,17 @@ void SettingLinearCameraDialog::on_pushButtonOK_clicked()
 	int	DecimationData=VDecimationData.toInt();
 	DecimationH 	=DecimationData%1000;
 	DecimationV 	=DecimationData/1000;
+
+	int	ImageCompressionIndex=ui->comboBoxImageCompression->currentIndex();
+	ImageCompression	=EnumImageCompression[ImageCompressionIndex];
+
+	BlackLevelEnable=ui->checkBoxBlackLevelEnable->isChecked();
+	BlackLevel		=ui->spinBoxBlackLevel		->value	();
+
+	GammaEnable	=ui->checkBoxGammaEnable	->isChecked();
+	Gamma		=ui->doubleSpinBoxGamma		->value();
+
+	FrameDelay	=ui->doubleSpinBoxFrameDelay->value();
 
 
 	ReverseX	=ui->checkBoxReverseX	->isChecked();

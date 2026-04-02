@@ -248,9 +248,11 @@
     <ClCompile Include="XColorDifferenceItem.cpp" />
     <ClCompile Include="XColorDifferenceLibrary.cpp" />
     <ClCompile Include="XColorDifferenceReport.cpp" />
+    <ClCompile Include="XSpline1D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColorDifference.h" />
+    <ClInclude Include="XSpline1D.h" />
     <QtMoc Include="SHowFlowGraphDialog.h">
     </QtMoc>
     <ClInclude Include="ColorDifferenceResource.h" />

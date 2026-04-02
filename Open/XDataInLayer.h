@@ -1241,6 +1241,7 @@ class   LayersBase : public QObject
 	QApplication					*AppPointer;
 	QByteArray						LightDataFromMasterData;	//照明がない場合のデータ保管場所
 	QReadWriteLock					ChangingDataStructure;		//Recursive mutex
+	QReadWriteLock					MutexZonedStructure;
 	QMutex							MutexForLoadSave;
 public:
 	struct	HasChanged
@@ -1475,6 +1476,9 @@ public:
 	void	UnlockMaster(void);
 	bool	IsPossibleToUpdateDisplay(void)	const	{	return PossibleToUpdateDisplay;	}
 	void	SetPossibleToUpdateDisplay(bool b)		{	PossibleToUpdateDisplay=b;		}
+	void	LockZonedStructureR(void)			{	MutexZonedStructure.lockForRead();			}
+	void	LockZonedStructureW(void)			{	MutexZonedStructure.lockForWrite();			}
+	void	UnlockZonedStructure(void)			{	MutexZonedStructure.unlock();			}
 
     bool    OpenDatabase(XUpdateDatabase &dbase);
     bool    CloseDatabase(void);

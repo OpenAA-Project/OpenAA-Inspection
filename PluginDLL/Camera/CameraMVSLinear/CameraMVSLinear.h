@@ -86,7 +86,13 @@ public:
     bool    AOIMode;
     unsigned int     AOIOffsetX;
     unsigned int     AOIWidth;
-
+	bool    BlackLevelEnable;
+	int     BlackLevel      ;
+    int     ImageCompression;
+	bool	AcquisitionLineRateEnable;
+	bool	GammaEnable ;
+	double  Gamma       ;
+    float   FrameDelay  ;
 
 	int			CurrentNumber;
 	CMvCamera	Cam;
@@ -152,6 +158,10 @@ public:
     bool    SetBinningDecimation(void);
     bool    SetReverse(void);
     bool    SetAOI(void);
+    bool    SetBlackLevel(void);
+    bool    SetImageCompression(void);
+    bool    SetGamma(void);
+    bool    SetDelay(void);
 
     bool    GetResolution(int &Width ,int &Height);
 

@@ -1349,7 +1349,10 @@ void	RasterItemAbstract::PickupAddElements(int ElementID
 							,int OutsideEdgeWidth
 							,AlgorithmLibraryListContainer &AllocatedStaticLib
 							,AlgorithmLibraryListContainer &AllocatedInsideEdgeLib
-							,AlgorithmLibraryListContainer &AllocatedOutsideEdgeLib)
+							,AlgorithmLibraryListContainer &AllocatedOutsideEdgeLib
+							,int ExpandColorR
+							,int ExpandColorG
+							,int ExpandColorB)
 {
 	ImageBuffer *ImageList[100];
 	ImageBufferListContainer	BuffList;
@@ -1367,6 +1370,20 @@ void	RasterItemAbstract::PickupAddElements(int ElementID
 									,ImageList[L]->GetWidth() ,ImageList[L]->GetHeight());
 		AbsThresholdL[L]=LColor;
 		AbsThresholdH[L]=HColor;
+		if(L==0){
+			AbsThresholdL[L]-=ExpandColorR;
+			AbsThresholdH[L]+=ExpandColorR;
+		}
+		else
+		if(L==1){
+			AbsThresholdL[L]-=ExpandColorG;
+			AbsThresholdH[L]+=ExpandColorG;
+		}
+		else
+		if(L==2){
+			AbsThresholdL[L]-=ExpandColorB;
+			AbsThresholdH[L]+=ExpandColorB;
+		}
 	}
 
 	int	XByte	=(GetDotPerLine()+7)/8;

@@ -1005,7 +1005,10 @@ void	RasterInPage::TransmitDirectly(GUIDirectMessage *packet)
 							,CmdRasterPickupByColorAreaVar->OutsideEdgeWidth
 							,CmdRasterPickupByColorAreaVar->AllocatedStaticLib
 							,CmdRasterPickupByColorAreaVar->AllocatedInsideEdgeLib
-							,CmdRasterPickupByColorAreaVar->AllocatedOutsideEdgeLib);
+							,CmdRasterPickupByColorAreaVar->AllocatedOutsideEdgeLib
+							,CmdRasterPickupByColorAreaVar->ExpandColorR
+							,CmdRasterPickupByColorAreaVar->ExpandColorG
+							,CmdRasterPickupByColorAreaVar->ExpandColorB);
 			}
 		}
 		return;

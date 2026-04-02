@@ -42,7 +42,7 @@ public:
 private:
 	Ui::SelectCameraDialogClass ui;
 private slots:
-	void SlotButtonClicked ( int id );
+	void SlotButtonClicked (int Cam);
 };
 
 #endif // SELECTCAMERADIALOG_H

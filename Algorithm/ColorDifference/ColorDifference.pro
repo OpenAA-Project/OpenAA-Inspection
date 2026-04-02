@@ -43,3 +43,12 @@ INCLUDEPATH += $$PWD/../../../../Qt5.15.8/5.15.8/gcc_64/include/\QtWidgets
 INCLUDEPATH += $$PWD/../../../../Qt5.15.8/5.15.8/gcc_64/include/
 DEPENDPATH += $$PWD/../../../../Qt5.15.8/5.15.8/gcc_64/include/
 include(ColorDifference.pri)
+
+FORMS += \
+    EditDenseInterpolateDialog.ui
+
+HEADERS += \
+    EditDenseInterpolateDialog.h
+
+SOURCES += \
+    EditDenseInterpolateDialog.cpp

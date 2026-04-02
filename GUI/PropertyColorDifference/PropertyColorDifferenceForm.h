@@ -84,8 +84,8 @@ private slots:
     void on_toolButtonClearFlow_clicked();
     void on_pushButtonSaveFlow_clicked();
     void on_pushButtonLoadFlow_clicked();
-
     void on_pushButtonAutoGenerate_clicked();
+    void on_toolButtonShowDenseMark_clicked();
 
 private:
     Ui::PropertyColorDifferenceForm *ui;

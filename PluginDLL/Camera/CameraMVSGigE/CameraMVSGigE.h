@@ -31,6 +31,8 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 
+#define Version_CameraMVSGigE   4
+
 class CamBufferStack
 {
 public:
@@ -100,7 +102,14 @@ public:
     unsigned int     AOIOffsetY;
     unsigned int     AOIWidth;
     unsigned int     AOIHeight;
+	bool    BlackLevelEnable;
+	int     BlackLevel      ;
+    int     WhiteBalance    ;
 
+    int     BalanceRatioR               ;
+    int     BalanceRatioG               ;
+    int     BalanceRatioB               ;
+    int     BalanceColorTemperatureMode ;
 
 	int			CurrentNumber;
 	CMvCamera	Cam;
@@ -152,9 +161,12 @@ public:
     int SetTriggerSource();
     int GetPixelFormat();                // ch:获取像素格式 | en:Get Pixel Format
 
+    int     SetWhiteBalance();
+
     bool    SetBinningDecimation(void);
     bool    SetReverse(void);
     bool    SetAOI(void);
+    bool    SetBlackLevel(void);
 
     bool    GetResolution(int &Width ,int &Height);
 

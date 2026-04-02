@@ -45,6 +45,7 @@ public:
 	void	ShowComment(bool HTMLMode ,const QString &comment);
 private:
 	Ui::DisplayStatusFormClass ui;
+	virtual	void	ResizeByScale(double ScaleX,double ScaleY)	override;
 private slots:
 	void	SlotShowComment(bool HTMLMode ,const QStringList &comment);
 	void	ResizeAction();

@@ -56,7 +56,22 @@ class   FifoIntPacket
     int     Pop(void);
 };
 
+class FifoBuffer
+{
+    BYTE    *Data;
+    int     WPoint;
+    int     RPoint;
+    int     Len;
+    int     AllocatedLen;
 
+public:
+	FifoBuffer(int MaxLen=4096);
+	virtual ~FifoBuffer(void);
 
+    bool    Push(BYTE *buff ,int len);
+    int     Pop(void);
+    int     Pop(char *buff ,int maxlen);
+    int     GetSize(void);
+};
 
 #endif

@@ -35,6 +35,8 @@ class	CameraHandle : public QObject
 	Q_OBJECT
 
 	int32		CamNo;
+	int			DLLVersion	 ;
+	int32		LoadedVersion;
 
 public:
 	CameraHandle(int _CamNo ,LayersBase *base);
@@ -53,6 +55,11 @@ public:
 
 	int		GetCamNo(void)	{	return CamNo;	}
 	void	SetCamNo(int n)	{	CamNo=n;		}
+
+	int		GetDLLVersion(void)		const	{	return DLLVersion;	}
+	void	SetDLLVersion(int n)			{	DLLVersion=n;		}
+	int32	GetLoadedVersion(void)	const	{	return LoadedVersion;	}
+	void	SetLoadedVersion(int n)			{	LoadedVersion=n;		}
 
 	int		GetDotPerLine(void);
 	int		GetMaxLines(void);

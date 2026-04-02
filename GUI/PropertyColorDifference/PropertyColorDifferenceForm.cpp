@@ -103,6 +103,13 @@ void PropertyColorDifferenceForm::on_toolButtonShowRegulation_clicked()
 {
 
 }
+
+void PropertyColorDifferenceForm::on_toolButtonShowDenseMark_clicked()
+{
+
+}
+
+
 void	PropertyColorDifferenceForm::SetLibFolder(int _LibFolderID ,const QString &LinFolderName)
 {
 	ui->labelLibFolderName->setText(LinFolderName);
@@ -145,6 +152,7 @@ void	PropertyColorDifferenceForm::TransmitDirectly(GUIDirectMessage *packet)
 	if(BDrawModePacket!=NULL){
 		BDrawModePacket->ModeShowItem		=ui->toolButtonShowItem			->isChecked();
 		BDrawModePacket->ModeShowRegulation	=ui->toolButtonShowRegulation	->isChecked();
+		BDrawModePacket->ModeShowDenseMark	=ui->toolButtonShowDenseMark	->isChecked();
 		return;
 	}
 	CmdColorDifferenceDrawEnd	*ColorDifferenceDEnd=dynamic_cast<CmdColorDifferenceDrawEnd *>(packet);
@@ -165,6 +173,14 @@ void	PropertyColorDifferenceForm::TransmitDirectly(GUIDirectMessage *packet)
 					Cmd.Area=A;
 					Cmd.LayerList=ColorDifferenceDEnd->LayerList;
 					Cmd.LibID=LLib->GetLibID();
+					if(ui->toolButtonShowItem->isChecked()==true)
+						Cmd.ItemClass = 0;
+					else
+					if(ui->toolButtonShowRegulation->isChecked()==true)
+						Cmd.ItemClass = 1;
+					else
+					if(ui->toolButtonShowDenseMark->isChecked()==true)
+						Cmd.ItemClass = 2;
 					Cmd.SendOnly(GlobalPage,0);
 				}
 			}

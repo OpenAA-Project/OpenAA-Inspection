@@ -40,6 +40,9 @@ public:
     ~SelectLibraryDialog();
     
 	int	SelectedLibID;
+    int ExpandColorR;
+    int ExpandColorG;
+    int ExpandColorB;
 
 private slots:
     void on_tableWidgetLibList_doubleClicked(const QModelIndex &index);

@@ -47,7 +47,7 @@ class	GUIIntegrationCommPack;
 class	GuiDLLItem;
 class	GuiDLLItemContainer;
 class	GUILanguageContainer;
-
+class	GUIFormBase;
 
 class	StructListPack : public NPListPack<StructList>
 {
@@ -243,6 +243,8 @@ class	GUIInstancePack : public QObject
 						 ,public ServiceForLayers
 {
 	Q_OBJECT
+friend	class	GUIFormBase;
+
 	DelayedViewThread	DThread;
 public:
 	enum	_FormPosition{
@@ -545,7 +547,11 @@ class	MainGUIFormBase : public GUIFormBase
 	CheckSingleExecution	*Execution;
 	QLocalServer			IdentificationServer;
 	NPListPack<SocketForMainGUI>	IdentificationSocket;
-
+	QSize					BaseSize;
+	bool					ScaleFirst;	
+	double					ScaleX;
+	double					ScaleY;
+	bool					ReEntrant;
 public:
 	bool	CloseCompletely;
 	GUIInstancePack::_FormPosition	FormPosition;
@@ -560,7 +566,8 @@ public:
 	bool	CheckDoubleBoot(void);
 	bool	RequirePrebootedSoftwareToTerminate(void);
 	void	StartIdentificationServer(const QString &IdentificationName);
-
+	void	GetGUIScale(double &XScale ,double &YScale);
+	void	SetGUIScale(double  XScale ,double  YScale);
 protected:
 	virtual	void	moveEvent ( QMoveEvent * event )	override;
 	virtual	void	resizeEvent ( QResizeEvent * event )override;
@@ -575,6 +582,13 @@ private slots:
 	void	SlotTerminateFromOther();
 	void	SlotNewConnection ();
 };
+
+inline	void	MainGUIFormBase::SetGUIScale(double  XScale ,double  YScale)
+{
+	ScaleX=XScale;
+	ScaleY=YScale;
+}
+
 
 EntryPointBase	*MakeEntryPointForGlobal(void);
 

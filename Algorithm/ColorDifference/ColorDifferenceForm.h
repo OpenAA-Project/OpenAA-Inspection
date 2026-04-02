@@ -88,6 +88,10 @@ private slots:
     void on_listWidgetNGBrightness_pressed(const QModelIndex &index);
     void on_pushButtonSetItemName_clicked();
     void on_pushButtonOutputFlowList_clicked();
+    void on_comboBoxJudgeMethod_currentIndexChanged(int index);
+
+    void on_pushButtonSetDenseInterpolate_clicked();
+
 private:
     Ui::ColorDifferenceForm *ui;
 

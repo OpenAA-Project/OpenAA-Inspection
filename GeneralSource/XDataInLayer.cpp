@@ -808,6 +808,7 @@ bool	LayersBase::ReallocXYPixelsPage(int Phase ,int Page ,int NewDotPerLine ,int
 	|| NewDotPerLine<=0 || NewMaxLines<=0){
 		return false;
 	}
+	LockZonedStructureW();
 	LockWChangingDataStructure();
 	SetOnChanging(true);
 
@@ -840,23 +841,18 @@ bool	LayersBase::ReallocXYPixelsPage(int Phase ,int Page ,int NewDotPerLine ,int
 			//UnlockChangingDataStructure();
 			if(E->ReallocXYPixelsPage(Phase,Page,NewDotPerLine ,NewMaxLines)==false){
 				UnlockChangingDataStructure();
+				UnlockZonedStructure();
 				return false;
 			}
 			UnlockChangingDataStructure();
+			UnlockZonedStructure();
 			emit	SignalChangedXY();
 			return true;
 		}
 	}
 	SetOnChanging(false);
 	UnlockChangingDataStructure();
-
-	//GUIInstancePack *cg=GetGUIInstancePack();
-	//if(cg!=NULL){
-	//	for(GUIItemInstance *g=cg->NPListPack<GUIItemInstance>::GetFirst();g!=NULL;g=g->GetNext()){
-	//		GUIFormBase	*f=g->GetForm();
-	//		f->ReallocXYPixels(NewDotPerLine ,NewMaxLines);
-	//	}
-	//}
+	UnlockZonedStructure();
 
 	emit	SignalChangedXY();
 	
@@ -879,7 +875,7 @@ bool	LayersBase::Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb
 		emit	SignalChangedPhasePageLayer();
 		return true;
 	}
-
+	LockZonedStructureW();
 	LockWChangingDataStructure();
 
 	SetOnChanging(true);
@@ -959,6 +955,10 @@ bool	LayersBase::Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb
 	}
 	_CurrentInspectID=_LastInspectID=GetParamGlobal()->TopOfID;
 
+	//for(int i=0;i<AllocExecuterDim;i++){
+	//	ExecuterDim[i]->Reallocate();
+	//}
+
 	if((EntryPoint!=NULL) && (EntryPoint->IsMasterPC()==true)){
 		GlobalPageNumb=newPageNumb;
 		if(GlobalOffset!=NULL){
@@ -1008,6 +1008,7 @@ bool	LayersBase::Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb
 		GetLightBase()->Reallocate(newPhaseNumb , newPageNumb ,newLayerNumb);
 	}
 	ReallocateShadow(newPhaseNumb ,newPageNumb ,newLayerNumb);
+	UnlockZonedStructure();
 
 	emit	SignalChangedPhasePageLayer();
 	return true;
@@ -1023,7 +1024,7 @@ bool	LayersBase::Reallocate(int newPhaseNumb)
 		emit	SignalChangedPhasePageLayer();
 		return true;
 	}
-
+	LockZonedStructureW();
 	LockWChangingDataStructure();
 
 	SetOnChanging(true);
@@ -1120,13 +1121,14 @@ bool	LayersBase::Reallocate(int newPhaseNumb)
 	}
 
 	ReallocateShadow(newPhaseNumb);
-
+	UnlockZonedStructure();
 
 	emit	SignalChangedPhasePageLayer();
 	return true;
 }
 bool	LayersBase::InsertPage(int IndexPage)	//Create page before Indexed page
 {
+	LockZonedStructureW();
 	LockWChangingDataStructure();
 
 	SetOnChanging(true);
@@ -1137,7 +1139,6 @@ bool	LayersBase::InsertPage(int IndexPage)	//Create page before Indexed page
 	for(int phase=0;phase<GetPhaseNumb();phase++){
 		GetPageDataPhase(phase)->InsertPage(IndexPage);
 	}
-
 
 	DataInPage	**tDrawPageIndex	=new DataInPage*[sPageNumb+1];
 	int dpage=0;
@@ -1158,6 +1159,9 @@ bool	LayersBase::InsertPage(int IndexPage)	//Create page before Indexed page
 	}
 	DrawPageIndex=tDrawPageIndex;
 
+	//for(int i=0;i<AllocExecuterDim;i++){
+	//	ExecuterDim[i]->Reallocate();
+	//}
 	if((GetEntryPoint()!=NULL) && (GetEntryPoint()->IsMasterPC()==true)){
 		GlobalPageNumb=sPageNumb+1;
 		if(GlobalOffset!=NULL){
@@ -1175,7 +1179,6 @@ bool	LayersBase::InsertPage(int IndexPage)	//Create page before Indexed page
 			SendingData[page]=false;
 		}
 	}
-
 
 	for(LogicDLL *a=GetLogicDLLBase()->GetFirst();a!=NULL;a=a->GetNext()){
 		if(a->GetInstance()!=NULL){
@@ -1209,12 +1212,14 @@ bool	LayersBase::InsertPage(int IndexPage)	//Create page before Indexed page
 		GetLightBase()->InsertPage(IndexPage);
 	}
 	InsertPageShadow(IndexPage);
+	UnlockZonedStructure();
 
 	emit	SignalChangedPhasePageLayer();
 	return true;
 }
 bool	LayersBase::RemovePage(int IndexPage)
 {
+	LockZonedStructureW();
 	LockWChangingDataStructure();
 
 	SetOnChanging(true);
@@ -1241,6 +1246,9 @@ bool	LayersBase::RemovePage(int IndexPage)
 	delete	[]DrawPageIndex;
 	DrawPageIndex=tDrawPageIndex;
 
+	//for(int i=0;i<AllocExecuterDim;i++){
+	//	ExecuterDim[i]->Reallocate();
+	//}
 	if((GetEntryPoint()!=NULL) && (GetEntryPoint()->IsMasterPC()==true)){
 		GlobalPageNumb=sPageNumb-1;
 		if(GlobalOffset!=NULL){
@@ -1291,6 +1299,7 @@ bool	LayersBase::RemovePage(int IndexPage)
 		GetLightBase()->RemovePage(IndexPage);
 	}
 	RemovePageShadow(IndexPage);
+	UnlockZonedStructure();
 
 	emit	SignalChangedPhasePageLayer();
 	return true;
@@ -1304,7 +1313,7 @@ bool	LayersBase::RemovePhase(int RemovedPhaseCode)
 	if(RemovedPhaseCode<0 || GetParamGlobal()->PhaseNumb<=RemovedPhaseCode){
 		return false;
 	}
-
+	LockZonedStructureW();
 	LockWChangingDataStructure();
 
 	SetOnChanging(true);
@@ -1349,6 +1358,7 @@ bool	LayersBase::RemovePhase(int RemovedPhaseCode)
 	}
 	SetOnChanging(false);
 	UnlockChangingDataStructure();
+	UnlockZonedStructure();
 
 	return true;
 }

@@ -1150,7 +1150,7 @@ void	GUICmdReqRasterCenterize::Receive(int32 localPage, int32 cmd ,QString &Emit
 	MsgRasterCenterize	Cmd(this);
 	Cmd.Area	=Area;
 	Cmd.XYArea	=XYArea;
-	Cmd.GlobalPage=localPage;	//������OK
+	Cmd.GlobalPage=localPage;	//This is OK
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	Base->GetPageData(localPage)->TransmitDirectly(&Cmd);
 
@@ -2294,6 +2294,12 @@ bool	GUICmdRasterPickupByColorArea::Load(QIODevice *f)
 		return false;
 	if(AllocatedOutsideEdgeLib.Load(f)==false)
 		return false;
+    if(::Load(f,ExpandColorR)==false)
+		return false;
+    if(::Load(f,ExpandColorG)==false)
+		return false;
+    if(::Load(f,ExpandColorB)==false)
+		return false;
 	return true;
 }
 
@@ -2315,6 +2321,12 @@ bool	GUICmdRasterPickupByColorArea::Save(QIODevice *f)
 		return false;
 	if(AllocatedOutsideEdgeLib.Save(f)==false)
 		return false;
+    if(::Save(f,ExpandColorR)==false)
+		return false;
+    if(::Save(f,ExpandColorG)==false)
+		return false;
+    if(::Save(f,ExpandColorB)==false)
+		return false;
 	return true;
 }
 void	GUICmdRasterPickupByColorArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
@@ -2334,6 +2346,9 @@ void	GUICmdRasterPickupByColorArea::Receive(int32 localPage, int32 cmd ,QString 
 	Cmd.AllocatedStaticLib		=AllocatedStaticLib		;
 	Cmd.AllocatedInsideEdgeLib	=AllocatedInsideEdgeLib	;
 	Cmd.AllocatedOutsideEdgeLib	=AllocatedOutsideEdgeLib;
+	Cmd.ExpandColorR			=ExpandColorR;
+	Cmd.ExpandColorG			=ExpandColorG;
+	Cmd.ExpandColorB			=ExpandColorB;
 	PPage->TransmitDirectly(&Cmd);
 }
 

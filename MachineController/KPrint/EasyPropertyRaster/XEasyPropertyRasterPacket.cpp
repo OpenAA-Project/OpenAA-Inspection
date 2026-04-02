@@ -398,6 +398,12 @@ bool	IntegrationCmdAddRegColorArea::Load(QIODevice *f)
 		return false;
 	if(::Load(f,LibID)==false)
 		return false;
+    if(::Load(f,ExpandColorR)==false)
+		return false;
+    if(::Load(f,ExpandColorG)==false)
+		return false;
+    if(::Load(f,ExpandColorB)==false)
+		return false;
 	return true;
 }
 bool	IntegrationCmdAddRegColorArea::Save(QIODevice *f)
@@ -405,6 +411,12 @@ bool	IntegrationCmdAddRegColorArea::Save(QIODevice *f)
 	if(PickupArea.Save(f)==false)
 		return false;
 	if(::Save(f,LibID)==false)
+		return false;
+    if(::Save(f,ExpandColorR)==false)
+		return false;
+    if(::Save(f,ExpandColorG)==false)
+		return false;
+    if(::Save(f,ExpandColorB)==false)
 		return false;
 	return true;
 }
@@ -416,6 +428,9 @@ void	IntegrationCmdAddRegColorArea::Receive(int32 slaveNo, int cmd ,QString &Emi
 		CmdAddRegColorArea		Cmd(GetLayersBase());
 		Cmd.PickupArea	=PickupArea;
 		Cmd.LibID		=LibID;
+		Cmd.ExpandColorR	=ExpandColorR;
+		Cmd.ExpandColorG	=ExpandColorG;
+		Cmd.ExpandColorB	=ExpandColorB;
 		Form->TransmitDirectly(&Cmd);
 	}
 	SendAck(slaveNo);

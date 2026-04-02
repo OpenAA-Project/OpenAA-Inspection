@@ -6028,6 +6028,7 @@ bool	ResultInspection::Reallocate(int newPhaseNumb , int newPageNumb ,int newLay
 			}
 		}
 	}
+	ReallocateTmpRect();
 	return true;
 }
 bool	ResultInspection::Reallocate(int newPhaseNumb)
@@ -6052,6 +6053,7 @@ bool	ResultInspection::Reallocate(int newPhaseNumb)
 			}
 		}
 	}
+	ReallocateTmpRect();
 	return true;
 }
 bool	ResultInspection::RemovePhase(int RemovedPhaseCode)
@@ -6074,6 +6076,7 @@ bool	ResultInspection::RemovePhase(int RemovedPhaseCode)
 			p->SetPhaseCode(Phase);
 		}
 	}
+	ReallocateTmpRect();
 	return true;
 }
 bool	ResultInspection::InsertPage(int IndexPage)	//Create page before Indexed page
@@ -6086,6 +6089,7 @@ bool	ResultInspection::InsertPage(int IndexPage)	//Create page before Indexed pa
 			ph->InsertPage(IndexPage);
 		}
 	}
+	ReallocateTmpRect();
 	return true;
 }
 bool	ResultInspection::RemovePage(int IndexPage)
@@ -6098,6 +6102,7 @@ bool	ResultInspection::RemovePage(int IndexPage)
 			ph->RemovePage(IndexPage);
 		}
 	}
+	ReallocateTmpRect();
 	return true;
 }
 
@@ -7204,6 +7209,13 @@ ExeResult	ResultInspection::ExecuteInitialAfterEdit	(int ExeID)
 		AllocatedSpecializedGroup=GetPageNumb();
 		SpecializedGroup=new ErrorGroupPack[AllocatedSpecializedGroup];
 	}	
+	ReallocateTmpRect();
+
+	return _ER_true;
+}
+
+void	ResultInspection::ReallocateTmpRect(void)
+{
 	if(TmpRect!=NULL){
 		for(int phase=0;phase<AllocatedTmpRect;phase++){
 			delete	[]TmpRect[phase];
@@ -7215,8 +7227,6 @@ ExeResult	ResultInspection::ExecuteInitialAfterEdit	(int ExeID)
 	for(int phase=0;phase<AllocatedTmpRect;phase++){
 		TmpRect[phase]=new NPListPack<TmpNGRectClass>[GetPageNumb()];
 	}
-
-	return _ER_true;
 }
 
 void	ResultInspection::ExecuteInAllItems(void (*Func)(ResultInItemRoot *Item ,void *Something),void *Something)

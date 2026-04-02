@@ -176,6 +176,7 @@ void	ColorDifferenceThresholdSend::ConstructList(ColorDifferenceThresholdReq *re
 				ReferedCurrentColor	=BItem->ReferedCurrentColor;
 				AdoptedRate			=RThr->AdoptedRate;
 				THDeltaE			=RThr->THDeltaE;
+				ThDense				=RThr->ThDense;
 			}
 
 		}
@@ -204,7 +205,8 @@ bool	ColorDifferenceThresholdSend::Save(QIODevice *f)
 		return false;
 	if(::Save(f,THDeltaE)==false)
 		return false;
-
+	if(::Save(f,ThDense)==false)
+		return false;
 	return true;
 }
 bool	ColorDifferenceThresholdSend::Load(QIODevice *f)
@@ -229,7 +231,8 @@ bool	ColorDifferenceThresholdSend::Load(QIODevice *f)
 		return false;
 	if(::Load(f,THDeltaE)==false)
 		return false;
-
+	if(::Load(f,ThDense)==false)
+		return false;
 	return true;
 }
 ColorDifferenceReqTryThreshold::ColorDifferenceReqTryThreshold(void)
@@ -271,6 +274,7 @@ ColorDifferenceSendTryThreshold::ColorDifferenceSendTryThreshold(void)
 	LenOK			=0;
 	LenNG			=0;
 	DeltaE			=0;
+	Dense			=0;
 }
 ColorDifferenceSendTryThreshold::~ColorDifferenceSendTryThreshold(void)
 {
@@ -294,6 +298,8 @@ bool	ColorDifferenceSendTryThreshold::Save(QIODevice *f)
 	if(::Save(f,LenNG			)==false)
 		return false;
 	if(::Save(f,DeltaE			)==false)
+		return false;
+	if(::Save(f,Dense			)==false)
 		return false;
 	if(ReferenceColor1.Save(f)==false)
 		return false;
@@ -323,6 +329,8 @@ bool	ColorDifferenceSendTryThreshold::Load(QIODevice *f)
 	if(::Load(f,LenNG			)==false)
 		return false;
 	if(::Load(f,DeltaE			)==false)
+		return false;
+	if(::Load(f,Dense			)==false)
 		return false;
 	if(ReferenceColor1.Load(f)==false)
 		return false;
@@ -428,6 +436,12 @@ void	ColorDifferenceSendTryThreshold::Calc(ColorDifferenceItem *Target,ColorDiff
 		}
 	}
 	DeltaE=Result->GetResultDouble();
+	ResultPosListContainer	&C=Result->GetPosList();
+	for(ResultPosList *r=C.GetFirst();r!=NULL;r=r->GetNext()){
+		if((r->result & 0x0f)==ResultDenseType){
+			Dense =r->GetResultDouble();
+		}
+	}
 }
 
 void	ColorDifferenceSendTryThreshold::CalcRegulation(ColorDifferenceRegulation *Target,ColorDifferenceRegulation *Src,ColorDifferenceBase *Base)
@@ -774,6 +788,19 @@ void	ColorDifferenceInPage::TransmitDirectly(GUIDirectMessage *packet)
 				}
 				else if(ALib->ItemClass==1){
 					ColorDifferenceRegulation	*Item=new ColorDifferenceRegulation();
+					Item->CopyThresholdFromLibrary(&LibData);
+					Item->SetArea(AddBItem->Area);
+					Item->SetManualCreated(true);
+					Item->SetLibID(AddBItem->LibID);
+					AppendItem(Item);
+
+					UndoElement<ColorDifferenceInPage>	*UPointer=new UndoElement<ColorDifferenceInPage>(this,&ColorDifferenceInPage::UndoAppendManualItem);
+					::Save(UPointer->GetWritePointer(),Item->GetID());
+					Item->Save(UPointer->GetWritePointer());
+					GetLayersBase()->GetUndoStocker().SetElementToNewTopic(UPointer);
+				}
+				else if(ALib->ItemClass==2){
+					ColorDifferenceDenseMark	*Item=new ColorDifferenceDenseMark();
 					Item->CopyThresholdFromLibrary(&LibData);
 					Item->SetArea(AddBItem->Area);
 					Item->SetManualCreated(true);

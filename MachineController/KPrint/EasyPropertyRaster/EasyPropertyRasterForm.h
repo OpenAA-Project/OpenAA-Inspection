@@ -306,6 +306,9 @@ class	IntegrationCmdAddRegColorArea: public IntegrationCmdPacketBase
 public:
 	FlexArea	PickupArea;
 	int			LibID;
+    int			ExpandColorR;
+    int			ExpandColorG;
+    int			ExpandColorB;
 
 	IntegrationCmdAddRegColorArea(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int SlaveNo=-1);
 

@@ -2992,6 +2992,7 @@ GUIFormBase	*GUIInstancePack::CreateMainForm(LayersBase *LayersBasePointer ,_For
 			f->setWindowFlags(Qt::WindowTitleHint);
 		}
 		v->Handle=f;
+		f->InstPoint=v;
 		f->setGeometry(v->GUIPositionX1,v->GUIPositionY1,v->GUIPositionX2-v->GUIPositionX1+1,v->GUIPositionY2-v->GUIPositionY1+1);
 		f->FormPosition=Pos;
 		switch(Pos){
@@ -4229,6 +4230,12 @@ MainGUIFormBase::MainGUIFormBase(LayersBase	*_LayersBasePoint,QWidget *parent)
 	SetKeyGrab(true);
 	//grabKeyboard();
 	Execution=NULL;
+
+	ScaleFirst = true;
+	BaseSize	=size();
+	ScaleX		=1.0;
+	ScaleY		=1.0;
+	ReEntrant	=false;
 }
 
 void MainGUIFormBase::closeEvent ( QCloseEvent * event )
@@ -4424,7 +4431,7 @@ void	MainGUIFormBase::ReflectAlignment(void)
 			}
 		}
 	}
-
+	
 }
 	
 void	MainGUIFormBase::moveEvent ( QMoveEvent * event )
@@ -4437,11 +4444,36 @@ void	MainGUIFormBase::moveEvent ( QMoveEvent * event )
 
 void	MainGUIFormBase::resizeEvent ( QResizeEvent * event )
 {
-	SetClientX2(0);
-	SetClientY2(0);
-	GUIFormBase::resizeEvent ( event );
-}
+	if(ReEntrant==true)
+		return;
 
+	if(GetLayersBase()!=NULL){
+		if(GetLayersBase()->GetEntryPoint()!=NULL){
+			if(GetLayersBase()->GetEntryPoint()->GUIIsEditMode()==true){
+				GUIFormBase::resizeEvent ( event );
+				return;
+			}
+		}
+	}
+	
+		if (!BaseSize.isValid() || BaseSize.width() == 0 || BaseSize.height() == 0) {
+			ReEntrant=false;
+		    return;
+		}
+
+		// 3. 現在のサイズと基準サイズの比率（スケール）を計算
+		//ScaleX = static_cast<double>(event->size().width()) / BaseSize.width();
+		//ScaleY = static_cast<double>(event->size().height()) / BaseSize.height();
+
+		SetClientX2(0);
+		SetClientY2(0);
+		GUIFormBase::resizeEvent ( event );
+
+		//ResizeByScale(scaleX,scaleY);
+	//}
+
+	ReEntrant=false;
+}
 
 void	MainGUIFormBase::SetSingleExecution(const QString &IdentifiedName)
 {
@@ -4470,7 +4502,11 @@ void	MainGUIFormBase::SlotTerminateFromOther()
 	emit QuitUnconditionally();
 }
 
-
+void	MainGUIFormBase::GetGUIScale(double &XScale ,double &YScale)
+{
+	XScale=ScaleX;
+	YScale=ScaleY;
+}
 
 //=========================================================================================
 

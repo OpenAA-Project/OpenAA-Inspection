@@ -68,6 +68,9 @@
     <ClCompile Include="ColorDifferenceResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="XSpline1D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColorDifference.h">
@@ -83,6 +86,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ColorDifferenceResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XSpline1D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
