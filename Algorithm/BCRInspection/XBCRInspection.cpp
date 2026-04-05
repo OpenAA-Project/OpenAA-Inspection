@@ -367,6 +367,27 @@ bool	BCRInspectionBase::GeneralDataReply(int32 Command,void *data)
 	return false;
 }
 
+static	void	Rgb2Layer(const QImage &Src,QImage &Dst,int Layer)
+{
+	for(int y=0;y<Src.height();y++){
+		const QRgb *s= (const QRgb *)Src.scanLine(y);
+		uchar *d=Dst.scanLine(y);
+		for(int x=0;x<Src.width();x++){
+			if(Layer==0){
+				d[x]=qRed(s[x]);
+			}
+			else
+			if(Layer==1){
+				d[x]=qGreen(s[x]);
+			}
+			else
+			if(Layer==2){
+				d[x] = qBlue(s[x]);
+			}
+		}
+	}
+}
+
 bool	BCRInspectionBase::GetBCR2D( bool BarcodeIsOnlyDigit
 									,const QString &FileName ,QString &Result)
 {
@@ -374,20 +395,22 @@ bool	BCRInspectionBase::GetBCR2D( bool BarcodeIsOnlyDigit
 
     QImage image(FileName); 
     //QImage image=image2.convertedTo(QImage::Format_Mono);
-    image = image.convertToFormat(QImage::Format_Grayscale8);
+    QImage	GImage = image.convertToFormat(QImage::Format_Grayscale8);
 
 	
 	ZXing::ReaderOptions options;
 	options.setTryHarder(true);
-	options.setFormats(ZXing::BarcodeFormat::QRCode); // フォーマット指定
+	options.setFormats(ZXing::BarcodeFormat::QRCode);
+	options.setTryRotate(true);
+	options.setBinarizer(ZXing::Binarizer::LocalAverage);
 
-    if (!image.isNull()) {
+    if (!GImage.isNull()) {
         auto result = ZXing::ReadBarcode({
-            image.bits(), 
-            static_cast<int>(image.width()), 
-            static_cast<int>(image.height()), 
+            GImage.bits(), 
+            static_cast<int>(GImage.width()), 
+            static_cast<int>(GImage.height()), 
             ZXing::ImageFormat::Lum,
-            static_cast<int>(image.bytesPerLine())
+            static_cast<int>(GImage.bytesPerLine())
         },options);
 		Result=QString::fromStdString(result.text());
 		if(BarcodeIsOnlyDigit==true){
@@ -399,7 +422,66 @@ bool	BCRInspectionBase::GetBCR2D( bool BarcodeIsOnlyDigit
 		}
 		Ret=true;
 	}
-
+	if(Result.isEmpty()==true){
+		Rgb2Layer(image,GImage,0);
+		GImage.save(/**/"TmpBCR-R.bmp",/**/"BMP");
+        auto result = ZXing::ReadBarcode({
+            GImage.bits(), 
+            static_cast<int>(GImage.width()), 
+            static_cast<int>(GImage.height()), 
+            ZXing::ImageFormat::Lum,
+            static_cast<int>(GImage.bytesPerLine())
+        },options);
+		Result=QString::fromStdString(result.text());
+		if(BarcodeIsOnlyDigit==true){
+			bool	ok;
+			qlonglong r=Result.toLongLong (&ok);
+			if(ok==false){
+				Result.clear();
+			}
+		}
+		Ret=true;
+	}
+	if(Result.isEmpty()==true){
+		Rgb2Layer(image,GImage,1);
+		GImage.save(/**/"TmpBCR-G.bmp",/**/"BMP");
+        auto result = ZXing::ReadBarcode({
+            GImage.bits(), 
+            static_cast<int>(GImage.width()), 
+            static_cast<int>(GImage.height()), 
+            ZXing::ImageFormat::Lum,
+            static_cast<int>(GImage.bytesPerLine())
+        },options);
+		Result=QString::fromStdString(result.text());
+		if(BarcodeIsOnlyDigit==true){
+			bool	ok;
+			qlonglong r=Result.toLongLong (&ok);
+			if(ok==false){
+				Result.clear();
+			}
+		}
+		Ret=true;
+	}
+	if(Result.isEmpty()==true){
+		Rgb2Layer(image,GImage,2);
+		GImage.save(/**/"TmpBCR-B.bmp",/**/"BMP");
+        auto result = ZXing::ReadBarcode({
+            GImage.bits(), 
+            static_cast<int>(GImage.width()), 
+            static_cast<int>(GImage.height()), 
+            ZXing::ImageFormat::Lum,
+            static_cast<int>(GImage.bytesPerLine())
+        },options);
+		Result=QString::fromStdString(result.text());
+		if(BarcodeIsOnlyDigit==true){
+			bool	ok;
+			qlonglong r=Result.toLongLong (&ok);
+			if(ok==false){
+				Result.clear();
+			}
+		}
+		Ret=true;
+	}
 	return Ret;
 }
 

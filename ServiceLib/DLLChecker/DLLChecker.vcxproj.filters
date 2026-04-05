@@ -119,9 +119,6 @@
     <QtMoc Include="..\..\Open\SingleExecute.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\Open\XSingleExecuteBySocket.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtUic Include="SelectDLLDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -134,5 +131,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DLLChecker.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Open\XSingleExecuteBySocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

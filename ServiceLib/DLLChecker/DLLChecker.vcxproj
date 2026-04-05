@@ -455,10 +455,6 @@
       <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
       <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
     </QtMoc>
-    <QtMoc Include="..\..\Open\XSingleExecuteBySocket.h">
-      <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
-      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
-    </QtMoc>
     <QtMoc Include="ShowSystemVersionDialog.h">
       <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
       <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
@@ -555,6 +551,9 @@
     <None Include="DLLChecker.ico" />
     <QtUic Include="SelectDLLDialog.ui">
     </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Open\XSingleExecuteBySocket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

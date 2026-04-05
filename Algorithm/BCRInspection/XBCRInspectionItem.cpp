@@ -400,7 +400,7 @@ void	BCRInspectionItem::MakeImage(QImage &Img ,double ZoomRate ,int LayerNumb,in
 	int	MinX=GetArea().GetMinX()+mx;
 	int	MinY=GetArea().GetMinY()+my;
 	BCRInspectionBase		*ABase=(BCRInspectionBase *)GetParentBase();
-	if(ABase==NULL){
+	if(ABase==NULL || ABase->AdotpedLayer<0){
 		if(LayerNumb>=3){
 			ImageBuffer *hR=ImageList[0];
 			ImageBuffer *hG=ImageList[1];

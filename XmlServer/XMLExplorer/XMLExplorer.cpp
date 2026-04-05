@@ -23,8 +23,8 @@
 #include "XGeneralFunc.h"
 #include <QMessageBox>
 
-XMLExplorer::XMLExplorer(QWidget *parent, Qt::WindowFlags flags)
-	: QMainWindow(parent,flags),ControlRememberer(NULL)
+XMLExplorer::XMLExplorer(LayersBase *Base ,QWidget *parent, Qt::WindowFlags flags)
+	: QMainWindow(parent,flags),ControlRememberer(Base)
 {
 	ui.setupUi(this);
 	Server=NULL;

@@ -124,6 +124,8 @@ const	char	*LayersBase::GetLanguageSolutionFileName(void)
 	ID:(id name)	Set ID name to control main window
 	-K				No allocation OpenMP stack
 	Style[style]	style=windows, windowsvista, fusion, or macintosh
+	NoCamDevice		No camera device mode
+	NoSequence		No Sequence mode
 	StopForDebug	Stop for Debug at first
 */
 

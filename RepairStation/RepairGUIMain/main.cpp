@@ -76,40 +76,27 @@ ExecuteInspectForReview	*ExeIns;
 	NDM				No database message
 	NOPASSWORD		No Password usage
 	EP				Edit password
-	NDS			No sequence execution
+	NDS				No sequence execution
 */
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-
-#ifdef _SDEBUG
-	LeakCheckerStart();
-#endif
 	if(CheckExeVersion(argc, argv)==false){
 		QMessageBox::critical(NULL, "CheckExeVersion error", "This version is mismatch.");
 		return 1;
 	}
-	/*
-#ifdef HASP_ENABLE
-	if(HaspCheck("je8398hw")==false){
-		if(HaspCheck("k38fj306")==false){	//EditPC
-			QMessageBox::critical ( NULL, "Hasp Error", "Mismatch Hasp code", QMessageBox::Ok);
-			return 0;
-		}
-	}
-#endif
-	*/
+	char	TBuff[256];
+	strcpy(TBuff,"-platformpluginpath");
+	argv[argc] = TBuff;
+	argc++;
 
-	//// ���~�b�g����
-	//QDate limitDate = QDate(2013, 2, 1);// �N�����Ŏw���A���̎��ɂȂ��ƋN���s�ƂȂ�
-
-	//// ���~�b�g���ߔ���(�������Awindows�̎��������������ꍇ�͉����������H)
-	//QDate date = QDate::currentDate();
-	//if(date>=limitDate){
-	//	QMessageBox::critical(NULL, "Date is over", "This software is active until 2013/02/01.");
-	//	return EXIT_SUCCESS;
-	//}
+	char	CurrentBuff[256];
+	strcpy(CurrentBuff,(char *)QDir::currentPath().toStdString().c_str());
+	argv[argc] = CurrentBuff;	
+	argc++;
+	
+	QCoreApplication::addLibraryPath(CurrentBuff);
+    QApplication a(argc, argv);
 
 	bool	LogOutMode=false;
 	char	LogFileName[256]=/**/"C:/LogOut.txt";
@@ -130,6 +117,7 @@ int main(int argc, char *argv[])
 	QString CommFileName;
 	bool	EditPasswordMode=false;
 	QString	UserPath;
+	bool	RemoveUselessGUI=false;
 
 	QString	GUIFileName=/**/"RepairStation.gui";
 	for(int i=1;i<argc;i++){
@@ -193,6 +181,9 @@ int main(int argc, char *argv[])
 			if(*fp=='P' || *fp=='p'){
 				EditPasswordMode=true;
 			}
+		}
+		else if(stricmp(argv[i],/**/"-R")==0){
+			RemoveUselessGUI=true;
 		}
 	}
 
@@ -345,6 +336,9 @@ int main(int argc, char *argv[])
 		if(G->GetGUIInstanceRoot()->LoadInstances(&file,ErrorMsg)==false){
 			QMessageBox::critical ( NULL, /**/"Loading Error", ErrorMsg, QMessageBox::Ok);
 			return(3);
+		}
+		if(RemoveUselessGUI==true){
+			G->RemoveUselessGUI();
 		}
 		RootNameListContainer LackOfAlgorithm;
 		if(Layers->CheckInstalledAlgorithm(AlgorithmRootNameList,LackOfAlgorithm)==false){

@@ -20,6 +20,9 @@
 #include <QApplication>
 #include "XShowVersion.h"
 #include "XDataInLayer.h"
+#include <QMessageBox>
+#include "XOpenAA.h"
+#include "XDataInExe.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
@@ -45,7 +48,43 @@ int main(int argc, char *argv[])
 	QCoreApplication::addLibraryPath(AddedLibPath);
 
 	QApplication a(argc, argv);
-	XMLExplorer w;
+	QString	UserPath;
+	QString	AbsPath;
+	bool	StopForDebug=false;
+
+	for(int i=1;i<argc;i++){
+		if(*argv[i]=='A' || *argv[i]=='a'){
+			char	*fp=argv[i]+1;
+			AbsPath	=fp;
+			QDir::setCurrent(AbsPath);
+		}
+		else if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
+			char	*fp=argv[i]+1;
+			UserPath	=fp;
+		}
+		else if(strnicmp(argv[i],"StopForDebug",12)==0){
+			StopForDebug=true;
+		}
+	}
+	if(StopForDebug==true){
+		QMessageBox::information(NULL,"Stop","Please push OK button to go",QMessageBox::Ok);
+	}
+	if(AbsPath.isEmpty()==false){
+		QCoreApplication::addLibraryPath (AbsPath);
+	}
+	else{
+		QCoreApplication::addLibraryPath (QCoreApplication::applicationDirPath());
+	}
+
+	EntryPointBase	*E	=new EntryPointForGlobal();
+	E->GUISetEditMode(true);
+
+	LayersBase	*Layers	=new LayersBase(E,::GetUserPath(UserPath));
+	E->SetLayersBase(Layers);
+	Layers->SetUserPath(UserPath);
+
+
+	XMLExplorer w(Layers);
 	w.show();
 	return a.exec();
 }

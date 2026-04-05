@@ -41,9 +41,6 @@
     <ClCompile Include="XMLExplorer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\GeneralSource\XFastComm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\GeneralSource\XMLClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Open\XShowVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XGUIGlobal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -67,9 +67,6 @@
     <QtRcc Include="XMLExplorer.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtMoc Include="..\..\Open\XFastComm.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\Open\XMLClient.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -77,6 +74,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtMoc Include="SettingParameterForm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\Open\XSingleExecuteBySocket.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

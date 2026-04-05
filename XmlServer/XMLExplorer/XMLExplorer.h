@@ -24,6 +24,7 @@
 #include "XMLClient.h"
 #include "XParamBase.h"	
 #include "XRememberer.h"
+#include "XServiceForLayers.h"
 
 class	ExplorerParam : public ParamBase
 {
@@ -48,7 +49,7 @@ class XMLExplorer : public QMainWindow,public ControlRememberer
 	ExplorerParam	EParam;
 
 public:
-	XMLExplorer(QWidget *parent = 0, Qt::WindowFlags flags = Qt::Widget);
+	XMLExplorer(LayersBase *Base ,QWidget *parent = 0, Qt::WindowFlags flags = Qt::Widget);
 	~XMLExplorer();
 
 	XMLServerHandle	*GetServer(void)	{	return Server;	}

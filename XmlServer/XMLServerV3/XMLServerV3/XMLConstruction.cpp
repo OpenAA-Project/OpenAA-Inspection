@@ -75,8 +75,9 @@ bool	ValueStruct::ExistValue(void)
 QString	ValueStruct::GetValueString(void)
 {
 	if(IsStr==false){
-		QString	g;
-		g.sprintf("%.0lf",Number);
+		//QString	g;
+		//g.sprintf("%.0lf",Number);
+		QString g = QString::number(Number, 'f', 0);
 		return g;
 	}
 	else{
