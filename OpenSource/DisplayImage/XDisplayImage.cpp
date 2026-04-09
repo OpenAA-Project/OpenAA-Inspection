@@ -3173,9 +3173,9 @@ void	DisplayImage::SlotSwapImage()
 {
 	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
-		GUICmdSwapImage	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
+		GUICmdSwapImageInPanel	Cmd(GetLayersBase(),EmitterRoot,EmitterName ,GlobalPage);
 		if(Cmd.SendOnly(GlobalPage,0)==false){
-			SetError(Error_Comm , /**/"Send error :SlotSwapImage",ErrorCodeList::_Alart);
+			SetError(Error_Comm , /**/"Send error :SlotSwapImageInPanel",ErrorCodeList::_Alart);
 		}
 	}
 	//Repaint();

@@ -357,6 +357,10 @@ void	ExecuteInspectFast::Initial(void)
 			,this,SLOT(SlotRunByEveryInspection(LayersBase *,int64)),Qt::QueuedConnection);
 	connect( this,SIGNAL(SignalOccurError(int))
 			,this,SLOT(SlotOccurError(int))							,Qt::QueuedConnection);
+
+	connect( this,SIGNAL(SignalFinishCaptureOnly(ResultInspection *,int ,int,int))	
+			,this,SLOT(SlotFinishCaptureOnlyFunc(ResultInspection *,int,int,int)),Qt::QueuedConnection);
+
 }
 
 IntList	DbgFinList;
@@ -1362,7 +1366,213 @@ IdleTurn:;
 			Cn=GetComputerMiliSec();
 
 			MotionMode	CurrentModeN=GetMode();
-			if(CurrentModeN==_CaptureInspect){
+
+			if(CurrentModeN==_CaptureOnlyMaster){
+				SetCurrentTypeOfCapture(ExecuteInspectBase::_Master);
+				SetScanInfo(GetLayersBase()->GetCurrentStrategicNumber() ,true);
+
+				SeqParam->InspactionStatus=1;
+				SeqParam->CaptureMode=2;
+				SeqParam->StartScanOnly=true;
+				GetLayersBase()->ExecuteStartByScanOnly();
+				CurrentState=_EI_Prepare;
+				if(TriggeredCapture==false || GetLayersBase()->GetParamGlobal()->CaptureInBackground==false){
+					CapturePrepare();
+					GetLayersBase()->ExecuteFilterBeforeScan();
+				}
+				if(GetEntryPoint()->IsMasterPC()==true){
+					while(SeqParam->PermitCapture==false){
+						msleep(10);
+						if(GetHaltMode()==true){
+							emit	SignalCaptureHalt();
+							ClearHaltMode();
+							ExecuteHalt();
+							CurrentState=_EI_IDLE;
+							SetMode(_CaptureNone);
+							goto	IdleTurn;
+						}
+						if(GetLayersBase()->GetOnTerminating()==true){
+							//CamRelease();
+							return;
+						}
+					}
+				}
+				if(GetParamComm()->Mastered==true){
+					//GetLayersBase()->SetCurrentStrategicNumber(GetLayersBase()->GetCurrentStrategicNumberForSeq());
+				}
+				CurrentState=_EI_StartCamera;
+				if(TriggeredCapture==false || GetLayersBase()->GetParamGlobal()->CaptureInBackground==false){
+					CaptureStart();
+				}
+				SeqParam->InspectionID=GetLayersBase()->GetCurrentInspectIDForExecute();
+				SeqParam->ReadyForScan=true;
+				CurrentState=_EI_OnCapturing;
+				int	CamStatus;
+				while((CamStatus=CaptureGetState())!=0){
+					if(GetHaltMode()==true){
+						emit	SignalCaptureHalt();
+						ClearHaltMode();
+						ExecuteHalt();
+						CurrentState=_EI_IDLE;
+						SetMode(_CaptureNone);
+						goto	IdleTurn;
+					}
+					if((CamStatus & BitCamError)!=0){
+						OccurCamError(CamStatus);
+						emit	SignalCaptureHalt();
+						ClearHaltMode();
+						ExecuteHalt();
+						CurrentState=_EI_IDLE;
+						SetMode(_CaptureNone);
+						goto	IdleTurn;
+					}
+					msleep(ExeSleepTimeMilisec);
+					if(GetLayersBase()->GetOnTerminating()==true){
+						//CamRelease();
+						return;
+					}
+				}
+				if(GetHaltMode()==true){
+					emit	SignalCaptureHalt();
+					ClearHaltMode();
+					ExecuteHalt();
+					CurrentState=_EI_IDLE;
+					SetMode(_CaptureNone);
+					goto	IdleTurn;
+				}
+			
+				if(GetEntryPoint()->IsMasterPC()==true){
+					SetCaptured(GetLayersBase()->GetCurrentStrategicNumber());
+				}
+				if(IsLocalCamera()==true){	//SLAVE�̂Ƃ�
+					EmitSignalCaptured(GetLayersBase()->GetCurrentStrategicNumber());
+				}
+				ResultInspection	*Res=GetLayersBase()->GetCurrentResultForCalc();
+				if(Res!=NULL){
+					DataInExecuter	*Re=GetLayersBase()->GetExecuter(Res);
+					int	CStrategic=GetLayersBase()->GetCurrentStrategicNumber();
+					Re->ClearReceivedResultCounts();
+				
+					if(IsLocalCamera()==true){	//SLAVE�̂Ƃ�
+						DWORD	StartCalcTime=GetComputerMiliSec();
+						if(GetLayersBase()->GetOnTerminating()==true){
+							//CamRelease();
+							return;
+						}
+						TriggeredCapture=false;
+						if(GetLayersBase()->GetParamGlobal()->CaptureInBackground==true){
+							TriggeredCapture=true;
+							CapturePrepare();
+							CaptureStart();
+						}
+						CurrentState=_EI_OnTransmit;
+						if(GetLayersBase()->GetOnTerminating()==true){
+							//CamRelease();
+							return;
+						}
+						SeqParam->InspactionStatus=2;
+						ListPhasePageLayerPack CapturedList;
+						CaptureGetMasterImage(CStrategic,CapturedList);
+						FuncContainerInCaptureOnlyMaster.ExecuteFunc();
+
+						SeqParam->PermitCapture=false;
+						SeqParam->InspactionStatus=3;
+						CurrentState=_EI_IDLE;
+						while(GetComputerMiliSec()-StartCalcTime<GetParamGlobal()->WaitMilisecAfterScan){
+							GSleep(20);
+						}
+
+						if(GetParamGlobal()->GetMaxStrategyCount()<=1){
+							emit	SignalFinishCaptureOnly(Res,0,CStrategic,(int)_CaptureOnlyMaster);
+						}
+						else{
+							StrategicListContainer SList;
+							GetParamGlobal()->GetStrategy(CStrategic,SList);
+
+							for(StrategicList *s=SList.GetFirst();s!=NULL;s=s->GetNext()){
+								emit	SignalFinishCaptureOnly(Res,s->Page,CStrategic,(int)_CaptureOnlyMaster);
+							}
+						}
+						SeqParam->InspectionResult=1;
+						if(GetEntryPoint()->IsMasterPC()==true){
+							if(GetParamGlobal()->GetMaxStrategyCount()>1 
+							&& GetParamGlobal()->GetMaxStrategyCount()>(GetLayersBase()->GetCurrentStrategicNumber()+1)){
+								//GetLayersBase()->SetCurrentStrategicNumber(CStrategic+1);
+								//GoMasterCaptureOnly();
+								//goto	ConditionOut;
+								GetLayersBase()->IncreaseCurrentStrategicNumber();
+								GetLayersBase()->PopCurrentStrategicNumberForCalc();
+								GetLayersBase()->SetCurrentStrategicNumberForSeq(GetLayersBase()->GetCurrentStrategicNumberForCalc());
+								//goto	ConditionOut;
+							}
+							else{
+								GetLayersBase()->IncreaseCurrentStrategicNumber();
+								GetLayersBase()->PopCurrentStrategicNumberForCalc();
+								GetLayersBase()->SetCurrentStrategicNumberForSeq(GetLayersBase()->GetCurrentStrategicNumberForCalc());
+							}
+						}
+					}
+					else{	//Master�̂Ƃ�
+						//if(CStrategic==0)
+						//	GetLayersBase()->SetCurrentStrategicNumberForSeq(0);
+						if(GetParamGlobal()->GetMaxStrategyCount()<=1){
+							while(Re->IsStrategicFinishedResultReceiving()==false){
+								msleep(50);
+								if(GetHaltMode()==true){
+									emit	SignalCaptureHalt();
+									CurrentState=_EI_IDLE;
+									SetMode(_CaptureNone);
+									msleep(500);
+									ClearHaltMode();
+									ExecuteHalt();
+									goto	IdleTurn;
+								}
+								if(GetLayersBase()->GetOnTerminating()==true){
+									//CamRelease();
+									return;
+								}
+							}
+						}
+						else{
+							while(Re->IsStrategicFinishedResultReceiving(CStrategic)==false){
+								msleep(50);
+								if(GetHaltMode()==true){
+									emit	SignalCaptureHalt();
+									CurrentState=_EI_IDLE;
+									SetMode(_CaptureNone);
+									msleep(500);
+									ClearHaltMode();
+									ExecuteHalt();
+									goto	IdleTurn;
+								}
+								if(GetLayersBase()->GetOnTerminating()==true){
+									//CamRelease();
+									return;
+								}
+							}
+						}
+						SeqParam->InspectionResult=1;
+						/*
+						if(GetParamGlobal()->GetMaxStrategyCount()>1){
+							if(GetParamGlobal()->GetMaxStrategyCount()>(CStrategic+1)){
+								GetLayersBase()->SetCurrentStrategicNumber(CStrategic+1);
+							}
+							else{
+								GetLayersBase()->SetCurrentStrategicNumber(0);
+							}
+						}
+						*/
+						if(GetParamGlobal()->GetMaxStrategyCount()>1){
+							GetLayersBase()->IncreaseCurrentStrategicNumber();
+						}
+						GetLayersBase()->PopCurrentStrategicNumberForCalc();
+						GetLayersBase()->SetCurrentStrategicNumberForSeq(GetLayersBase()->GetCurrentStrategicNumberForCalc());
+					}
+				}
+				CurrentState=_EI_IDLE;
+				SetMode(_CaptureNone);
+			}
+			else if(CurrentModeN==_CaptureInspect){
 				EmitBeforeScan();
 				Layer->GetLogCreater()->PutLog(__LINE__,"XExecuteInspectFast:Enter");
 
@@ -2644,6 +2854,38 @@ void	ExecuteInspectFast::ChangeLot(void)
 static	XDateTime	LastStartTimeForInspection;
 static	int			eRepliedCounter=0;
 static	int			eOutputCounter=0;
+
+
+void	ExecuteInspectFast::SlotFinishCaptureOnlyFunc(ResultInspection *Res,int localPage,int CurrentStrategic,int motionMode)
+{
+	if((GetParamGlobal()->DebugLevel & 0x04)!=0){
+		DbgFinList.Add(localPage);
+		DbgStrFinList.Add(CurrentStrategic);
+	}
+
+	MotionMode mode=(MotionMode)motionMode;
+	if(IsLocalCamera()==true){
+		//PacketReplied->Result=CmdInspectionRepliedBase::_OK;
+		//PacketReplied->NGCounts	=0;
+		//PacketReplied->NGImageCount	=0;
+		//PacketReplied->TimeOutBreak	=false;
+		//PacketReplied->MaxErrorBreak=false;
+		//DataInExecuter	*Re=GetLayersBase()->GetExecuter(Res);
+		//PacketReplied->ExecuterID	=Re->GetID();
+		//PacketReplied->StrategicNumber	=CurrentStrategic;
+		//PacketReplied->SendFromSlaveToMaster(
+		//			GetLayersBase()->GetGlobalPageFromLocal(localPage)
+		//			,(int32)mode);
+
+		if(GetParamGlobal()->GetMaxStrategyCount()<=(CurrentStrategic+1)){
+			GetLayersBase()->ClearCurrentStrategicNumberForCalc();
+		}
+		if(GetParamComm()->Mastered==false){
+			GetLayersBase()->GetGuiInitializer()->RefreshByEveryInspection	(GetLayersBase()->GetCurrentInspectIDForDisplay());
+			GetLayersBase()->GetGuiInitializer()->ViewRefreshInPlayer		(GetLayersBase()->GetCurrentInspectIDForDisplay());
+		}
+	}
+}
 
 void	ExecuteInspectFast::FinishInspection(ResultInspection *Res ,int32 CurrentStrategic)
 {

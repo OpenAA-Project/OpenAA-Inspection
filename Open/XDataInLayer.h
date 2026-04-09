@@ -495,6 +495,7 @@ public:
 	bool	SaveImage(QIODevice *f ,int X1 ,int Y1 ,int X2, int Y2);
 	bool	LoadImage(QIODevice *f ,int X1 ,int Y1 ,int X2, int Y2);
 	virtual	void	CopyImage(int sourceImageType ,int destImageType);
+	virtual	void	SwapImage(int ImageType1 ,int ImageType2);
 	bool	CopyFrom(QImage &SrcImg ,bool ToMaster);
 
 	int		GetCountAllMasterBuff(void)		const;
@@ -737,6 +738,7 @@ public:
 	bool	SaveImage(QIODevice *f ,int X1 ,int Y1 ,int X2, int Y2);
 	bool	LoadImage(QIODevice *f ,int X1 ,int Y1 ,int X2, int Y2);
 	void	CopyImage(int sourceImageType ,int destImageType);
+	void	SwapImage(int sourceImageType ,int destImageType);
 
 	bool    SaveControlPointsForPages(QIODevice *f);
 	bool    LoadControlPointsForPages(QIODevice *f);
@@ -1831,6 +1833,7 @@ public:
     virtual	bool    LoadBitmapToTarget(int page ,QIODevice *f);
     virtual	bool    SaveBitmapFromTarget(int page ,QIODevice *f);
 	virtual	bool	CopyImage(int sourceImageType ,int destImageType);
+	virtual	bool	SwapImage(int ImageType1 ,int ImageType2);
 
 	virtual	bool	LoadPIX(QIODevice &RFile ,ImageBuffer ***Buff,int PageCount ,int LayerCount);
 					//	*Buff[Layer][Page]

@@ -719,6 +719,73 @@ void	DataInLayer::CopyImage(int sourceImageType ,int destImageType)
 	}
 }
 
+
+void	DataInLayer::SwapImage(int ImageType1 ,int ImageType2)
+{
+	if(ImageType1==ImageType2){
+		return;
+	}
+
+	ImageBuffer	*Src=NULL;	
+	switch(ImageType1){
+		case ImageBufferMaster:
+			Src= &GetMasterBuff();
+			break;
+		case ImageBufferTarget:
+			Src= &GetTargetBuff();
+			break;
+		case ImageBufferDelayedView:
+			Src= &GetDelayedViewBuff();
+			break;
+		case ImageBufferRawTarget:
+			Src= &GetRawTargetBuff();
+			break;
+		case ImageBufferCamTarget:
+			Src= &GetCamTargetBuff();
+			break;
+		case ImageBufferOther:
+			Src= &GetTargetBuff();
+			break;
+		case ImageBufferBitBuffer:
+			Src= &GetBitBuff();
+			break;
+		case ImageBufferTrialTargetBuffer:
+			Src= &GetTrialTargetBuff();
+			break;
+	}
+	ImageBuffer	*Dst=NULL;	
+	switch(ImageType2){
+		case ImageBufferMaster:
+			Dst= &GetMasterBuff();
+			break;
+		case ImageBufferTarget:
+			Dst= &GetTargetBuff();
+			break;
+		case ImageBufferDelayedView:
+			Dst= &GetDelayedViewBuff();
+			break;
+		case ImageBufferRawTarget:
+			Dst= &GetRawTargetBuff();
+			break;
+		case ImageBufferCamTarget:
+			Dst= &GetCamTargetBuff();
+			break;
+		case ImageBufferOther:
+			Dst= &GetTargetBuff();
+			break;
+		case ImageBufferBitBuffer:
+			Dst= &GetBitBuff();
+			break;
+		case ImageBufferTrialTargetBuffer:
+			Dst= &GetTrialTargetBuff();
+			break;
+	}
+	if((Src!=NULL) && (Dst!=NULL)){
+		Dst->Swap(*Src);
+	}
+}
+
+
 bool    DataInLayer::SaveBrightTable(QIODevice *f)
 {
 	return CData.SaveBrightTable(f);
@@ -2967,6 +3034,12 @@ void	DataInPage::CopyImage(int sourceImageType ,int destImageType)
 {
 	for(int Ly=0;Ly<AllocatedLayerNumb;Ly++){
 		LayerData[Ly]->CopyImage(sourceImageType ,destImageType);
+	}
+}
+void	DataInPage::SwapImage(int sourceImageType ,int destImageType)
+{
+	for(int Ly=0;Ly<AllocatedLayerNumb;Ly++){
+		LayerData[Ly]->SwapImage(sourceImageType ,destImageType);
 	}
 }
 void	DataInPage::GetMasterImages(ImagePointerContainer &Images)	const

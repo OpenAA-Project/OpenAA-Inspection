@@ -232,7 +232,7 @@ void	DisplayImage::InitialDisplayImageInDLL(GUICmdPacketBasePointerListContainer
 	GUICmdContainer=new GUICmdRotateImage			(Base,sRoot,sName);
 	GUICmdContainer=new GUICmdMirrorXYImage			(Base,sRoot,sName);
 	GUICmdContainer=new GUICmdCopyImageInPhases		(Base,sRoot,sName);
-	GUICmdContainer=new GUICmdSwapImage				(Base,sRoot,sName);
+	GUICmdContainer=new GUICmdSwapImageInPanel		(Base,sRoot,sName);
 	GUICmdContainer=new GUICmdNegPosImage			(Base,sRoot,sName);
 	GUICmdContainer=new GUICmdCopyImageToTarget		(Base,sRoot,sName);
 	GUICmdContainer=new GUICmdCopyImageToBackGround	(Base,sRoot,sName);

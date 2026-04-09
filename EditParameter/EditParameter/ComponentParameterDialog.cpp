@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
+#include "EditParameterResource.h"
 #include "ComponentParameterDialog.h"
 #include "ui_ComponentParameterDialog.h"
 #include "WEditParameterTab.h"
@@ -28,6 +28,7 @@ ComponentParameterDialog::ComponentParameterDialog(ParamBase *P,LayersBase *Base
     ,ui(new Ui::ComponentParameterDialog)
 {
     ui->setupUi(this);
+    LangEPSolver.SetUI(this);
 
     int EnableCondition=ParamEnableInTransfer;
     WTabAlgorithm=new WEditParameterTab(Param ,EnableCondition,NULL);

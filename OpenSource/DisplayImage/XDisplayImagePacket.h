@@ -1188,10 +1188,10 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdSwapImage : public GUICmdPacketBase
+class	GUICmdSwapImageInPanel : public GUICmdPacketBase
 {
 public:
-	GUICmdSwapImage(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1);
+	GUICmdSwapImageInPanel(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1);
 
 	virtual	bool	Load(QIODevice *f){	return true;	}
 	virtual	bool	Save(QIODevice *f){	return true;	}

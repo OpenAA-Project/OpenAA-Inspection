@@ -172,12 +172,14 @@ signals:
 	void	SignalInspectionOnTheWay(int64 InspectionID);
 	void	SignalRunByEveryInspection(LayersBase *base,int64 InspectionID);
 	void	SignalScanningRefresh(int64 InspectionID);
+	void	SignalFinishCaptureOnly(ResultInspection *Res,int localPage ,int CurrentStrategic,int motionMode);
 	void	SignalOccurError(int CamStatus);
 private slots:
 	void	SlotCaptureHalt();
 	void	SlotInspectionRefresh(LayersBase *base,int64 InspectionID);
 	void	SlotInspectionOnTheWay(int64 InspectionID);
 	void	SlotRunByEveryInspection(LayersBase *base,int64 InspectionID);
+	void	SlotFinishCaptureOnlyFunc(ResultInspection *Res,int localPage ,int CurrentStrategic,int motionMode);
 	void	SlotScanningRefresh(int64 InspectionID);
 	void	SlotOccurError(int CamStatus);
 public slots:

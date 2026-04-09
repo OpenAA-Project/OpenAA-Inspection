@@ -3952,12 +3952,12 @@ void	GUICmdCopyImageInPhases::Receive(int32 localPage, int32 cmd ,QString &Emitt
 }
 //=======================================================================
 
-GUICmdSwapImage::GUICmdSwapImage(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,int globalPage)
+GUICmdSwapImageInPanel::GUICmdSwapImageInPanel(LayersBase *Base,const QString &emitterRoot ,const QString &emitterName,int globalPage)
 :GUICmdPacketBase(Base,emitterRoot,emitterName ,typeid(this).name(),globalPage)
 {
 }
 
-void	GUICmdSwapImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
+void	GUICmdSwapImageInPanel::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	IntList PhaseList;
 	ActivePhaseList(PhaseList);

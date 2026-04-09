@@ -165,10 +165,20 @@ ExeResult	BCRInspectionItem::ExecuteProcessing		(int ExeID ,int ThreadNo,ResultI
 
 	const	BCRInspectionThreshold	*H=GetThresholdR();
 	if(H->CheckType==0){
-		Calc2D(ImageList);
+		bool	Ret=Calc2D(ImageList);
 		ResultInspection	*R=Res->GetResultInspection();
 		if(R!=NULL){
 			R->SetInspectionBarcode(Result);
+		}
+		if(Ret==true){
+			Res->SetAlignedXY(ResultMx,ResultMy);
+			Res->SetResultMessage(Result);
+			Res->SetError(1);
+		}
+		else{
+			Res->SetAlignedXY(ResultMx,ResultMy);
+			Res->SetResultMessage(/**/"");
+			Res->SetError(2);
 		}
 	}
 	else if(H->CheckType==1){
@@ -298,7 +308,7 @@ bool	BCRInspectionItem::Calc2D(ImagePointerContainer &ImageList)
 		catch(...){}
 		const	BCRInspectionThreshold	*RThr=GetThresholdR();
 		ABase->GetBCR2D(RThr->BarcodeIsOnlyDigit
-						,/**/"TmpBCR.bmp",Result);
+									,/**/"TmpBCR.bmp",Result);
 
 		if(Result.isEmpty()==true && GetLayerNumb()>1){
 			for(int L=0;L<GetLayerNumb();L++){
@@ -316,6 +326,9 @@ bool	BCRInspectionItem::Calc2D(ImagePointerContainer &ImageList)
 				if(Result.isEmpty()==false)
 					break;
 			}
+		}
+		if(Result.isEmpty()==true){
+			return false;
 		}
 	}
 

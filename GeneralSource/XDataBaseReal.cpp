@@ -262,7 +262,7 @@ bool    __G_XUpdateDatabaseCheck(QSqlDatabase &DBase ,QStringList &MismatchList
 						"where RDB$SYSTEM_FLAG=0 "	
 						,DBase);
 
-	QSqlQuery	QrField("select "
+	QString	FieldSelectStr=QString("select "
 						"RDB$RELATION_FIELDS.RDB$FIELD_NAME "
 						",RDB$RELATION_FIELDS.RDB$RELATION_NAME "
 						",RDB$RELATION_FIELDS.RDB$DEFAULT_VALUE "
@@ -278,7 +278,8 @@ bool    __G_XUpdateDatabaseCheck(QSqlDatabase &DBase ,QStringList &MismatchList
 						"where RDB$RELATION_FIELDS.RDB$SYSTEM_FLAG=0 "
 						"and RDB$RELATION_FIELDS.RDB$FIELD_SOURCE=RDB$FIELDS.RDB$FIELD_NAME "
 						"and RDB$TYPES.RDB$TYPE=RDB$FIELDS.RDB$FIELD_TYPE "
-						"and RDB$TYPES.RDB$FIELD_NAME=\'RDB$FIELD_TYPE\'"
+						"and RDB$TYPES.RDB$FIELD_NAME=\'RDB$FIELD_TYPE\'");
+	QSqlQuery	QrField(FieldSelectStr
 						,DBase);
 
 
@@ -1082,28 +1083,13 @@ bool    __G_XUpdateDatabaseChange(QSqlDatabase &DBase ,QStringList &MismatchList
 								bool	tRet1=f->CheckType(x,&QrField ,MismatchList);
 								bool	tRet2=f->CheckNull(x,&QrField ,MismatchList);
 								LockDB();
-                                if(tRet1==false || tRet2==false){
-                                    //?t?B?[???h??X
+                                if(tRet1==false && tRet2==false){
 									QrExe.exec(QString("ALTER TABLE ")
 												+x->Name
                                                 +QString(" ADD ")
                                                 +TmpFieldName
                                                 +QString(" INTEGER DEFAULT 0"));
 
-									/*
-                                    TblExe->TableName=x->Name;
-                                    TblExe->Open();
-                                    int N=0;
-                                    if(TblExe->FindFirst()==true){
-                                        do{
-                                            TblExe->Edit();
-                                            TblExe->FieldByName(TmpFieldName)->Value=N;
-                                            TblExe->Post();
-                                            N++;
-                                            }while(TblExe->FindNext()==true);
-                                        }
-                                    TblExe->Close();
-									*/
 									UnlockDB();
                                     This->SaveField(&QrExe,&QrField,x,f);
 
@@ -1119,7 +1105,6 @@ bool    __G_XUpdateDatabaseChange(QSqlDatabase &DBase ,QStringList &MismatchList
                                               +x->Name
                                               +QString(" ADD ")
                                               +f->GetSQL());
-                                    //Dbs->FlushSchemaCache(TbName);
                                     This->LoadField(&QrField,x,f);
 
 									QrExe.exec(QString("ALTER TABLE ")
@@ -1131,7 +1116,20 @@ bool    __G_XUpdateDatabaseChange(QSqlDatabase &DBase ,QStringList &MismatchList
 														+QString(".")
 														+f->Name+QString(":Field was changed"));
 								}
-                                Found=true;
+								else if(tRet1==true && tRet2==false){
+									if(f->NotNull==true){
+										QString	AddNotNuttStr=QString("ALTER TABLE ")
+															+x->Name
+															+QString(" ALTER COLUMN ")
+															+f->Name
+															+QString(" SET NOT NULL");
+										QrExe.exec(AddNotNuttStr);
+									MismatchList.append(x->Name
+														+QString(".")
+														+f->Name+QString(":Field NotNull was added"));
+									}
+								}
+								Found=true;
                                 goto    PNext;
 							}
 						}

@@ -793,6 +793,39 @@ void	GUICmdCopyImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 }
 
 //====================================================================================
+GUICmdSwapImage::GUICmdSwapImage(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
+:GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
+{
+	ImageType1	=0;
+	ImageType2	=0;
+}
+bool	GUICmdSwapImage::Load(QIODevice *f)
+{
+	if(::Load(f,ImageType1)==false){
+		return false;
+	}
+	if(::Load(f,ImageType2)==false){
+		return false;
+	}
+	return true;
+}
+bool	GUICmdSwapImage::Save(QIODevice *f)
+{
+	if(::Save(f,ImageType1)==false){
+		return false;
+	}
+	if(::Save(f,ImageType2)==false){
+		return false;
+	}
+	return true;
+}
+
+void	GUICmdSwapImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	GetLayersBase()->GetPageData(localPage)->SwapImage(ImageType1 ,ImageType2);
+}
+
+//====================================================================================
 
 GUICmdSendParameters::GUICmdSendParameters(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
 :GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)

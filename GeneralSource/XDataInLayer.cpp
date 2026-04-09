@@ -176,6 +176,7 @@ bool    LayersBase::Initial(QString &Msg,bool NoDatabase)
 	GUICmdContainer=new GUICmdSendAck					(this ,"ANY","ANY",-1);
 	GUICmdContainer=new CmdCameraErrorOccursMsg			(this ,"ANY","ANY",-1);
 	GUICmdContainer=new GUICmdCopyImage					(this,"ANY","ANY",-1);
+	GUICmdContainer=new GUICmdSwapImage					(this,"ANY","ANY",-1);
 	GUICmdContainer=new GUICmdSetForceChangedInspectID	(this,"ANY","ANY",-1);
 	GUICmdContainer=new GUICmdReqMoveForAlignment		(this,"ANY","ANY",-1);
 
@@ -2513,6 +2514,19 @@ bool	LayersBase::CopyImage(int sourceImageType ,int destImageType)
 		GUICmdCopyImage	RCmd(this,"ANY","ANY",page);
 		RCmd.srcImageType=sourceImageType;
 		RCmd.dstImageType=destImageType;
+		if(RCmd.Send(NULL,page,0)==false){
+			return false;
+		}
+	}
+	return true;
+}
+
+bool	LayersBase::SwapImage(int ImageType1 ,int ImageType2)
+{
+	for(int page=0;page<GetPageNumb();page++){
+		GUICmdSwapImage	RCmd(this,"ANY","ANY",page);
+		RCmd.ImageType1=ImageType1;
+		RCmd.ImageType2=ImageType2;
 		if(RCmd.Send(NULL,page,0)==false){
 			return false;
 		}

@@ -217,7 +217,7 @@ void	DisplayImage3DAlgo::InitialDisplayImageInDLL(GUICmdPacketBasePointerListCon
 	//GUICmdContainer=new GUICmdRotateImage			(Base,sRoot,sName);
 	//GUICmdContainer=new GUICmdMirrorXYImage			(Base,sRoot,sName);
 	//GUICmdContainer=new GUICmdCopyImageInPhases		(Base,sRoot,sName);
-	//GUICmdContainer=new GUICmdSwapImage				(Base,sRoot,sName);
+	//GUICmdContainer=new GUICmdSwapImageInPanel		(Base,sRoot,sName);
 	//GUICmdContainer=new GUICmdNegPosImage			(Base,sRoot,sName);
 	//GUICmdContainer=new GUICmdCopyImageToTarget		(Base,sRoot,sName);
 	//GUICmdContainer=new GUICmdCopyImageToMaster		(Base,sRoot,sName);
