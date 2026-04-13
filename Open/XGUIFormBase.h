@@ -500,10 +500,11 @@ public:
 	bool	GetKeyGrab(void)	const	{	return KeyGrabMode;	}
 	virtual	void	ReflectAlignment(void);
 	void	ReflectResize(void);
-	virtual	void	ResizeByScale(double ScaleX,double ScaleY);
+	virtual	void	ResizeByScaleFormBase(double ScaleX,double ScaleY);
 	void	ReflectSize(void);
 	virtual	void	ResizeMain(void);
 	virtual	void	GetGUIScale(double &XScale ,double &YScale);
+	virtual	void	SetAllSizePolicy(QSizePolicy::Policy HorizontalPolicy,QSizePolicy::Policy VerticalPolicy);
 
 	void	GiveName(QObject *parent);
 	void	SetViewing(bool v)				{	Viewing=v;		}

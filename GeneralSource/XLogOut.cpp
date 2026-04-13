@@ -452,6 +452,10 @@ void	OperationLoggerFilter::MakeStringList(QObject *obj, QString &WhereIsObj ,QS
 
 bool OperationLoggerFilter::eventFilter(QObject *obj, QEvent *event)
 {
+	ParamGlobal	*p=GetParamGlobal();
+	if(p!=NULL && p->OutputLogMode==false){
+		return false;
+	}
 	int	type=event->type();
 	if(type==QEvent::Close){
 		obj->removeEventFilter(this);

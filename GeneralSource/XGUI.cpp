@@ -3032,6 +3032,7 @@ void	GUIInstancePack::ShowAll(GUIFormBase	*f
 {
 	GUIItemInstance	*v=NPListPack<GUIItemInstance>::GetFirst();
 	SetupInstance(LayersBasePointer ,v,v->InstanceID ,PBase ,EditMode);
+
 	ShowInstance(v->InstanceID);
 	f->SetEnableBroadcastForAll(true);
 	//f->ReflectAlignment();

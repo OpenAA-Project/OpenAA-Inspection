@@ -568,6 +568,7 @@ public:
 	void	StartIdentificationServer(const QString &IdentificationName);
 	void	GetGUIScale(double &XScale ,double &YScale);
 	void	SetGUIScale(double  XScale ,double  YScale);
+
 protected:
 	virtual	void	moveEvent ( QMoveEvent * event )	override;
 	virtual	void	resizeEvent ( QResizeEvent * event )override;

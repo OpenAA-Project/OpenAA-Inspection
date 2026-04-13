@@ -5837,8 +5837,12 @@ void	LayersBase::SwapImageInToBuffer(int ImageDataType)
 
 void	LayersBase::InstallOperationLog(QObject *window)
 {
-	if(GetOperationLoggerData()!=NULL){
-		GetOperationLoggerData()->Install(window);
+	if(GetParamGlobal()!=NULL){
+		if(GetParamGlobal()->OutputLogMode==true){
+			if(GetOperationLoggerData()!=NULL){
+				GetOperationLoggerData()->Install(window);
+			}
+		}
 	}
 }
 

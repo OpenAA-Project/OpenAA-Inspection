@@ -283,91 +283,52 @@ void IconResizeFilter::Execute(void)
 {
 	QAbstractButton *btn = qobject_cast<QAbstractButton*>(parent());
 	if (btn) {
-          // ボタンの新しいサイズに合わせてアイコンサイズを更新
+		//btn->setStyleSheet("padding: 3px; border: none; background: transparent;");
+
 		if(OriginalIcon.isNull()){
 			OriginalIcon=btn->icon();
 		}
-		QSize newSize = btn->size();
-		btn->setIconSize(newSize);
-		if(OriginalIcon.isNull()==false){
-			QIcon	icon=btn->icon();
-			QPixmap NormalOnMap=OriginalIcon.pixmap(1000, 1000, QIcon::Normal, QIcon::On);
-			if(NormalOnMap.isNull()==false){
-				QPixmap scaledPixmap = NormalOnMap.scaled(
-					newSize, 
-					Qt::IgnoreAspectRatio, 
-					Qt::SmoothTransformation
-				);
-				icon.addPixmap(scaledPixmap,QIcon::Normal,QIcon::On);
-			}
-			QPixmap DisabledOnMap=OriginalIcon.pixmap(1000, 1000, QIcon::Disabled, QIcon::On);
-			if(DisabledOnMap.isNull()==false){
-				QPixmap scaledPixmap = DisabledOnMap.scaled(
-					newSize, 
-					Qt::IgnoreAspectRatio, 
-					Qt::SmoothTransformation
-				);
-				icon.addPixmap(scaledPixmap,QIcon::Disabled,QIcon::On);
-			}
-			QPixmap ActiveOnMap=OriginalIcon.pixmap(1000, 1000, QIcon::Active, QIcon::On);
-			if(ActiveOnMap.isNull()==false){
-				QPixmap scaledPixmap = ActiveOnMap.scaled(
-					newSize, 
-					Qt::IgnoreAspectRatio, 
-					Qt::SmoothTransformation
-				);
-				icon.addPixmap(scaledPixmap,QIcon::Active,QIcon::On);
-			}
-			QPixmap SelectedOnMap=OriginalIcon.pixmap(1000, 1000, QIcon::Selected, QIcon::On);
-			if(SelectedOnMap.isNull()==false){
-				QPixmap scaledPixmap = SelectedOnMap.scaled(
-					newSize, 
-					Qt::IgnoreAspectRatio, 
-					Qt::SmoothTransformation
-				);
-				icon.addPixmap(scaledPixmap,QIcon::Selected,QIcon::On);
-			}
+
+		if (OriginalIcon.isNull()) return;
+
+		const	int BorderWidth=1;
+
+		QSize btnSize = btn->size();
+		QSize newSize = btnSize - QSize(BorderWidth*2, BorderWidth*2);
+		if (newSize.isEmpty()) return;
+
+		QIcon newIcon;
 		
-			QPixmap NormalOffMap=OriginalIcon.pixmap(1000, 1000, QIcon::Normal, QIcon::Off);
-			if(NormalOffMap.isNull()==false){
-				QPixmap scaledPixmap = NormalOffMap.scaled(
-					newSize, 
-					Qt::IgnoreAspectRatio, 
-					Qt::SmoothTransformation
-				);
-				icon.addPixmap(scaledPixmap,QIcon::Normal,QIcon::Off);
-			}
-			QPixmap DisabledOffMap=OriginalIcon.pixmap(1000, 1000, QIcon::Disabled, QIcon::Off);
-			if(DisabledOffMap.isNull()==false){
-				QPixmap scaledPixmap = DisabledOffMap.scaled(
-					newSize, 
-					Qt::IgnoreAspectRatio, 
-					Qt::SmoothTransformation
-				);
-				icon.addPixmap(scaledPixmap,QIcon::Disabled,QIcon::Off);
-			}
-			QPixmap ActiveOffMap=OriginalIcon.pixmap(1000, 1000, QIcon::Active, QIcon::Off);
-			if(ActiveOffMap.isNull()==false){
-				QPixmap scaledPixmap = ActiveOffMap.scaled(
-					newSize, 
-					Qt::IgnoreAspectRatio, 
-					Qt::SmoothTransformation
-				);
-				icon.addPixmap(scaledPixmap,QIcon::Active,QIcon::Off);
-			}
-			QPixmap SelectedOffMap=OriginalIcon.pixmap(1000, 1000, QIcon::Selected, QIcon::Off);
-			if(SelectedOffMap.isNull()==false){
-				QPixmap scaledPixmap = SelectedOffMap.scaled(
-					newSize, 
-					Qt::IgnoreAspectRatio, 
-					Qt::SmoothTransformation
-				);
-				icon.addPixmap(scaledPixmap,QIcon::Selected,QIcon::Off);
-			}
-			btn->setIcon(icon);
-			btn->setIconSize(btn->size());
-			btn->show();
+		const QList<QIcon::Mode> modes = {QIcon::Normal, QIcon::Disabled, QIcon::Active, QIcon::Selected};
+		const QList<QIcon::State> states = {QIcon::On, QIcon::Off};
+
+		for (QIcon::Mode mode : modes) {
+		    for (QIcon::State state : states) {
+		        QSize actualSize = OriginalIcon.actualSize(QSize(2048, 2048), mode, state);
+		        QPixmap pix = OriginalIcon.pixmap(actualSize, mode, state);
+		        
+		        if (!pix.isNull()) {
+		            QPixmap scaledPixmap = pix.scaled(
+		                newSize, 
+		                Qt::IgnoreAspectRatio, 
+		                Qt::SmoothTransformation
+		            );
+
+					QPixmap paddedPixmap(btnSize);
+					paddedPixmap.fill(Qt::transparent); // 背景を完全に透明に
+
+					QPainter painter(&paddedPixmap);
+					painter.drawPixmap(BorderWidth, BorderWidth, scaledPixmap);
+					painter.end(); // 描画終了
+
+					newIcon.addPixmap(paddedPixmap, mode, state);
+		        }
+		    }
 		}
+
+		btn->setIconSize(newSize);
+		btn->setIcon(newIcon);
+
 	}
  }
 //----------------------------------------------------------------------------------------------
@@ -1687,6 +1648,33 @@ void GUIFormBase::resizeEvent ( QResizeEvent * event )
 	}
 	event->accept();
 }
+
+static	void SetAllSizePolicy(QObject *W ,QSizePolicy::Policy HorizontalPolicy,QSizePolicy::Policy VerticalPolicy)
+{
+	QWidget *WidgetVar = dynamic_cast<QWidget *>(W);
+	if(WidgetVar!=NULL){
+		WidgetVar->setSizePolicy(HorizontalPolicy,VerticalPolicy);
+	}
+	const QObjectList &Q=W->children();
+	int	ChildCount=Q.count();
+	for(int i=0;i<Q.count() && i<ChildCount;i++){
+		QObject *C=Q[i];
+		::SetAllSizePolicy(C,HorizontalPolicy,VerticalPolicy);
+	}
+}
+
+void GUIFormBase::SetAllSizePolicy(QSizePolicy::Policy HorizontalPolicy,QSizePolicy::Policy VerticalPolicy)
+{
+	setSizePolicy(HorizontalPolicy,VerticalPolicy);
+
+	const QObjectList &Q=children();
+	int	ChildCount=Q.count();
+	for(int i=0;i<Q.count() && i<ChildCount;i++){
+		QObject *C=Q[i];
+		::SetAllSizePolicy(C,HorizontalPolicy,VerticalPolicy);
+	}
+}
+
 void GUIFormBase::ReflectResize(void)
 {
 	const QObjectList &Q=children();
@@ -1721,17 +1709,10 @@ void GUIFormBase::ReflectResize(void)
 	}
 }
 
-static	void	ResizeByScale(QWidget *W,double ScaleX,double ScaleY)
+static	void	ResizeByScaleFormBase(QWidget *W,double ScaleX,double ScaleY)
 {
 	QRect	R=W->geometry();
 	if(R.isValid()){
-		//int	WNewX=(int)(R.x()*ScaleX);
-		//int	WNewY=(int)(R.y()*ScaleY);
-		//int	WNewW=(int)(R.width()*ScaleX);
-		//int	WNewH=(int)(R.height()*ScaleY);
-		//if(0<WNewW && WNewW<16384 && 0<WNewH && WNewH<16384){
-		//	W->setGeometry(WNewX,WNewY,WNewW,WNewH);
-		//}
 		const QObjectList &Q=W->children();
 		int	ChildCount=Q.count();
 
@@ -1749,7 +1730,7 @@ static	void	ResizeByScale(QWidget *W,double ScaleX,double ScaleY)
 					//fnt.setPointSizeF(fnt.pointSizeF()*min(ScaleX,ScaleY));
 					//C->setFont(fnt);
 				}
-				C->ResizeByScale(ScaleX,ScaleY);
+				C->ResizeByScaleFormBase(ScaleX,ScaleY);
 			}
 			else{
 				QWidget *Wn = dynamic_cast<QWidget *>(Q[i]);
@@ -1760,29 +1741,23 @@ static	void	ResizeByScale(QWidget *W,double ScaleX,double ScaleY)
 					int	cNewW=(int)(Rn.width()*ScaleX);
 					int	cNewH=(int)(Rn.height()*ScaleY);
 					if(0<cNewW && cNewW<16384 && 0<cNewH && cNewH<16384){
-						Wn->setGeometry(cNewX,cNewY,cNewW,cNewH);
-						//QFont	fnt=Wn->font();
-						//fnt.setPointSizeF(fnt.pointSizeF()*min(ScaleX,ScaleY));
-						//Wn->setFont(fnt);
+						QWidget *p = Wn->parentWidget();
+						if(p==NULL
+						|| (dynamic_cast<QTabWidget *>(p)==NULL && dynamic_cast<QStackedWidget *>(p)==NULL)){
+							Wn->setGeometry(cNewX,cNewY,cNewW,cNewH);
+						}
 					}
-					::ResizeByScale(Wn,ScaleX,ScaleY);
+					::ResizeByScaleFormBase(Wn,ScaleX,ScaleY);
 
 				}
 			}
 		}
 	}
 }
-void	GUIFormBase::ResizeByScale(double ScaleX,double ScaleY)
+void	GUIFormBase::ResizeByScaleFormBase(double ScaleX,double ScaleY)
 {
 	QRect	R=geometry();
 	if(R.isValid()){
-		//int	NewX=(int)(R.x()*ScaleX);
-		//int	NewY=(int)(R.y()*ScaleY);
-		//int	NewW=(int)(R.width()*ScaleX);
-		//int	NewH=(int)(R.height()*ScaleY);
-		//if(0<NewW && NewW<16384 && 0<NewH && NewH<16384){
-		//	setGeometry(NewX,NewY,NewW,NewH);
-		//}
 		const QObjectList &Q=children();
 		int	ChildCount=Q.count();
 
@@ -1796,11 +1771,8 @@ void	GUIFormBase::ResizeByScale(double ScaleX,double ScaleY)
 				int	cNewH=(int)(Rn.height()*ScaleY);
 				if(0<cNewW && cNewW<16384 && 0<cNewH && cNewH<16384){
 					C->setGeometry(cNewX,cNewY,cNewW,cNewH);
-					//QFont	fnt=C->font();
-					//fnt.setPointSizeF(fnt.pointSizeF()*min(ScaleX,ScaleY));
-					//C->setFont(fnt);
 				}
-				C->ResizeByScale(ScaleX,ScaleY);
+				C->ResizeByScaleFormBase(ScaleX,ScaleY);
 			}
 			else{
 				QWidget *W = dynamic_cast<QWidget *>(Q[i]);
@@ -1811,12 +1783,13 @@ void	GUIFormBase::ResizeByScale(double ScaleX,double ScaleY)
 					int	cNewW=(int)(Rn.width()*ScaleX);
 					int	cNewH=(int)(Rn.height()*ScaleY);
 					if(0<cNewW && cNewW<16384 && 0<cNewH && cNewH<16384){
-						W->setGeometry(cNewX,cNewY,cNewW,cNewH);
-						//QFont	fnt=W->font();
-						//fnt.setPointSizeF(fnt.pointSizeF()*min(ScaleX,ScaleY));
-						//W->setFont(fnt);
+						QWidget *p = W->parentWidget();
+						if(p==NULL
+						|| (dynamic_cast<QTabWidget *>(p)==NULL && dynamic_cast<QStackedWidget *>(p)==NULL)){
+							W->setGeometry(cNewX,cNewY,cNewW,cNewH);
+						}
 					}
-					::ResizeByScale(W,ScaleX,ScaleY);
+					::ResizeByScaleFormBase(W,ScaleX,ScaleY);
 				}
 			}
 		}
@@ -1852,7 +1825,7 @@ void	GUIFormBase::ResizeMain(void)
 				GTop->SetGUIScale(ScaleX ,ScaleY);
 			}
 			
-			ResizeByScale(ScaleX,ScaleY);
+			ResizeByScaleFormBase(ScaleX,ScaleY);
 			int	x1=geometry().left();
 			int	y1=geometry().top();
 			if(x1<0)

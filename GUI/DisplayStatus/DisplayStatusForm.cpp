@@ -61,11 +61,13 @@ void	DisplayStatusForm::SlotShowComment(bool HTMLMode ,const QStringList &commen
 	}
 }
 
-void	DisplayStatusForm::ResizeByScale(double ScaleX,double ScaleY)
+void	DisplayStatusForm::ResizeByScaleFormBase(double ScaleX,double ScaleY)
 {
-	QFont	fnt=ui.textEditComment->font();
-	fnt.setPointSizeF(fnt.pointSizeF()*ScaleX);
-	ui.textEditComment->setFont(fnt);
+	if(ScaleX>1.0){
+		QFont	fnt=ui.textEditComment->font();
+		fnt.setPointSizeF(fnt.pointSizeF()*ScaleX);
+		ui.textEditComment->setFont(fnt);
+	}
 }
 void	DisplayStatusForm::ResizeAction()
 {
