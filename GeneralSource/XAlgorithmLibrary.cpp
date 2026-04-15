@@ -341,16 +341,19 @@ AlgorithmLibrary::AlgorithmLibrary(AlgorithmLibraryLevelContainer *p)
 	:Parent(p)
 {
 	ThresholdLevelID	=0;
+	ValidInLoad			=true;
 }
 AlgorithmLibrary::AlgorithmLibrary(void)
 	:Parent(NULL)
 {
 	ThresholdLevelID	=0;
+	ValidInLoad			=true;
 }
 AlgorithmLibrary::AlgorithmLibrary(const AlgorithmLibrary &src)
 {
 	Parent			=src.Parent;
 	ThresholdLevelID=src.ThresholdLevelID;
+	ValidInLoad		=src.ValidInLoad;
 	QBuffer	Buff;
 	Buff.open(QIODevice::ReadWrite);
 	if(((AlgorithmLibrary *)&src)->LoadBlob(&Buff)==true){
@@ -502,6 +505,7 @@ bool	AlgorithmLibrary::LoadBlob(QIODevice *f)
 AlgorithmLibrary &AlgorithmLibrary::operator=(const AlgorithmLibrary &src)
 {
 	ThresholdLevelID=src.ThresholdLevelID;
+	ValidInLoad		=src.ValidInLoad;
 	return *this;
 }
 int32		AlgorithmLibrary::GetLibID(void)			const{	return Parent->LibID;		}

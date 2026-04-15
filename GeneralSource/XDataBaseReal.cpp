@@ -1120,7 +1120,7 @@ bool    __G_XUpdateDatabaseChange(QSqlDatabase &DBase ,QStringList &MismatchList
 									if(f->NotNull==true){
 										QString	AddNotNuttStr=QString("ALTER TABLE ")
 															+x->Name
-															+QString(" ALTER COLUMN ")
+															+QString(" ALTER ")
 															+f->Name
 															+QString(" SET NOT NULL");
 										QrExe.exec(AddNotNuttStr);

@@ -162,7 +162,7 @@ class	AlgorithmLibrary : public NPList<AlgorithmLibrary>
 
 	AlgorithmLibraryLevelContainer	*Parent;
 	WORD		ThresholdLevelID;
-
+	bool		ValidInLoad;
 public:
 	explicit	AlgorithmLibrary(AlgorithmLibraryLevelContainer *p);
 	AlgorithmLibrary(const AlgorithmLibrary &src);
@@ -190,6 +190,9 @@ public:
 
 	IntList		&GetAdaptedGenLayers(void);
 	bool		HasGenLayer(int Layer);
+
+	void		SetValidInLoad(bool Valid)	{	ValidInLoad = Valid;	}
+	bool		GetValidInLoad(void) const	{	return ValidInLoad;		}
 
 	int		GetThresholdLevelID(void)	{	return ThresholdLevelID;	}
 	void	SetThresholdLevelID(int ID)	{	ThresholdLevelID=ID;		}

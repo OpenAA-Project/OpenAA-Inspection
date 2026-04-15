@@ -1520,8 +1520,9 @@ bool	__G_Load   (QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 				}
 				if(a!=NULL){
 					if(a->LoadBlob(&Buff)==false){
-						Ret=false;
-						goto	FuncEnd;
+						//Ret=false;
+						//goto	FuncEnd;
+						a->SetValidInLoad(false);
 					}
 					a->SetParent(&Data);
 				}
