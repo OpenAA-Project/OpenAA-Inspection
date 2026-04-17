@@ -73,6 +73,7 @@ void	DisplayImage::Prepare(void)
 		Option.ModeShowScale=_ScalePositionRightBottom;
 	}
 
+
 	int	BtnX=0;
 	ClientTop=0;
 	int	ConnectError=0;	
@@ -1036,6 +1037,7 @@ void	DisplayImage::Prepare(void)
 										,ViewWindowStyle.EnableZoom
 										,ViewWindowStyle.EnableMove);
 
+	MainCanvas->SetOffsetForFit(OffsetXForFit,OffsetYForFit);
 
 	connect(MainCanvas,SIGNAL(SignalDrawing(mtFrameDraw::DrawingMode,int))	,this,SLOT(SlotDrawing(mtFrameDraw::DrawingMode,int)));
 	connect(MainCanvas,SIGNAL(SignalDrawMessage(const QStringList &,const QStringList &))	,this,SLOT(SlotDrawMessage(const QStringList &,const QStringList &)));

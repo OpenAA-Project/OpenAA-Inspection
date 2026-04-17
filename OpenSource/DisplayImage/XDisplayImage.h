@@ -423,6 +423,8 @@ public:
 	bool			ModeToMakeImageInThread;
 	QPainter		*IdlePainter;
 	bool			ShowNGMarkInTarget;
+	int32			OffsetXForFit;
+	int32			OffsetYForFit;	
 
 	NPListPack<DisplayImageCopyStructure>	ClippedImageStructure;
 	int32						ClippedImageGlobalPosX	,ClippedImageGlobalPosY;

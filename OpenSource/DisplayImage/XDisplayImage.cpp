@@ -105,6 +105,8 @@ DisplayImage::DisplayImage(LayersBase *Base,const QString &emitterRoot ,const QS
 	CurrentMasterNo					=0;
 	WorkingTime						=0;
 	ScaleColor						=Qt::yellow;
+	OffsetXForFit					=0;
+	OffsetYForFit					=0;
 
 	PastedItems						=NULL;
 	DrawingShapeMode				=_Normal;

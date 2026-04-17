@@ -155,7 +155,9 @@ bool mtImageSliderBase::calcThresholdBack() {
 		return false;
 	}
 	//int cnt = fAreaList.GetNumber();
-	fAreaList.GetFirst()->MakeOutlineDot(xyArea);
+	if(fAreaList.GetFirst()!=NULL){
+		fAreaList.GetFirst()->MakeOutlineDot(xyArea);
+	}
 	if(tmp!=(BYTE **)tmpBufDim){
 		DeleteMatrixBuff(tmp,bithei);
 	}
@@ -223,7 +225,9 @@ bool mtImageSliderBase::calcThresholdSld() {
 		return false;
 	}
 	//int cnt = fAreaListSld.GetNumber();
-	fAreaListSld.GetFirst()->MakeOutlineDot(xyAreaSld);
+	if(fAreaListSld.GetFirst()!=NULL){
+		fAreaListSld.GetFirst()->MakeOutlineDot(xyAreaSld);
+	}
 	if(tmp!=(BYTE **)tmpBufDim){
 		DeleteMatrixBuff(tmp,bithei);
 	}

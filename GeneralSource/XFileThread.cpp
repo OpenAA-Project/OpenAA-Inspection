@@ -438,7 +438,7 @@ void	FileThreadListContainer::run()
 	//	}
 	//}
 
-	while(Terminated==false){
+	while(Terminated==false && GetLayersBase()->GetOnTerminating()==false){
 		for(FileStatusList *s=FileStatusContainer.GetFirst();s!=NULL;s=s->GetNext()){
 			if(s->Flushed==false && s->Opened==true){
 				s->File->flush();

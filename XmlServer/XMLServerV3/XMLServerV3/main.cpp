@@ -21,6 +21,7 @@
 #include <QApplication>
 #include "XShowVersion.h"
 #include "XDataInLayer.h"
+#include <QMessageBox>
 //#include <chkp.h>
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
@@ -53,6 +54,8 @@ int main(int argc, char *argv[])
 
 	QString	AbsPath;
 	QString	UserPath;
+	bool	StopForDebug=false;
+
  	for(int i=1;i<argc;i++){
 		if((*argv[i]=='A' || *argv[i]=='a') && *(argv[i]+1)!=':'){
 			char	*fp=argv[i]+1;
@@ -63,8 +66,13 @@ int main(int argc, char *argv[])
 			char	*fp=argv[i]+1;
 			UserPath	=fp;
 		}
+		else if(strnicmp(argv[i],"StopForDebug",12)==0){
+			StopForDebug=true;
+		}
 	}
-
+	if(StopForDebug==true){
+		QMessageBox::information(NULL,"Stop","Please push OK button to go",QMessageBox::Ok);
+	}
 	QApplication a(argc, argv);
 	XMLServerV3 w(UserPath);
 	w.show();

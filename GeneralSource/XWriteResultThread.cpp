@@ -745,7 +745,7 @@ SlaveWriteThread::SlaveWriteThread(LayersBase *base)
 
 void SlaveWriteThread::run()
 {
-	while(CmdFinish==false){
+	while(CmdFinish==false && GetLayersBase()->GetOnTerminating()==false){
 		if(GetParamGlobal()!=NULL && GetParamGlobal()->OutputResult==true){
 			WriteLoop();
 			GetLayersBase()->WriteResultSlaveWriteThreadLoop();

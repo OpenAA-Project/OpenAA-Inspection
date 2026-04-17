@@ -174,10 +174,10 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>MaxSpeedHighLevel</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
       <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\Algorithm\AutoPCBHoleAligner;..\..\Algorithm\AutoAlignment;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\Algorithm\StatisticImager;..\..\Algorithm\AutoMaskingPI;..\..\Open;.\GeneratedFiles\$(Configuration);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;AUTOALIGNMENT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -190,9 +190,12 @@
       <Parallelization>true</Parallelization>
       <OpenMP>GenerateParallelCode</OpenMP>
       <GenerateAlternateCodePaths>SSE3</GenerateAlternateCodePaths>
-      <UseProcessorExtensions>AVX</UseProcessorExtensions>
+      <UseProcessorExtensions>AVX2</UseProcessorExtensions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ControlFlowGuard>false</ControlFlowGuard>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Component.lib;ServiceForAlgorithm.lib;ModelPageItem.lib;ServiceLib.lib;%(AdditionalDependencies)</AdditionalDependencies>

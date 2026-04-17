@@ -50,6 +50,8 @@ mtGraphicUnit::mtGraphicUnit(QWidget *parent
 	FHorizontalMerginRate	=0.1;
 	UseLongPush		=false;
 	LongPushMilisec	=1000;
+	OffsetXForFit	=0;
+	OffsetYForFit	=0;
 
 	InsideFunc	=0;
 	if(EnableMeasure==true){
@@ -459,7 +461,11 @@ double	mtGraphicUnit::GetZoomRateForWhole(void)	const
 	}
 	return ZoomRate;
 }
-
+void	mtGraphicUnit::SetOffsetForFit(int OffsetX,int OffsetY)
+{
+	OffsetXForFit	=OffsetX;
+	OffsetYForFit	=OffsetY;
+}
 void	mtGraphicUnit::ZoomDrawWhole(void)
 {
 	int	vW=GetCanvas()->width();
@@ -470,8 +476,8 @@ void	mtGraphicUnit::ZoomDrawWhole(void)
 	int	XSpare=(vW-GW)/2;
 	int	YSpare=(vH-GH)/2;
 
-	ZoomDraw(XSpare/ZoomRate, YSpare/ZoomRate, ZoomRate);
-}
+	ZoomDraw(XSpare/ZoomRate+OffsetXForFit, YSpare/ZoomRate+OffsetYForFit, ZoomRate);
+}							 
 
 double	mtGraphicUnit::GetZoomRateForFit(void)	const
 {

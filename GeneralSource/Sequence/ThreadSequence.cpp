@@ -516,7 +516,7 @@ void ThreadSequence::run()
         AfterActionOnExecute();
         }while(ExecutedBegin==true);
 
-    while(Terminated==false){
+    while(Terminated==false && GetLayersBase()->GetOnTerminating()==false){
         if(MainSeqControl->DoHalt==true){
             while(MainSeqControl->DoHalt==true){
                 msleep(10);

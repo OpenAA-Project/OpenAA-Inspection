@@ -214,8 +214,14 @@ int	DisplayImage::SetPropertyInDLL(struct	PropertyClass Data[] ,WORD	maxDataDim)
 	Data[54].Type				 =/**/"bool";
 	Data[54].VariableNameWithRoute=/**/"FModeRepaintOnMouseMove";
 	Data[54].Pointer				=&FModeRepaintOnMouseMove;
+	Data[55].Type				 =/**/"int32";
+	Data[55].VariableNameWithRoute=/**/"OffsetXForFit";
+	Data[55].Pointer				=&OffsetXForFit;
+	Data[56].Type				 =/**/"int32";
+	Data[56].VariableNameWithRoute=/**/"OffsetYForFit";
+	Data[56].Pointer				=&OffsetYForFit;
 
-	return(55);
+	return(57);
 }
 void	DisplayImage::InitialDisplayImageInDLL(GUICmdPacketBasePointerListContainer &GUICmdContainer
 											   ,LayersBase *Base 

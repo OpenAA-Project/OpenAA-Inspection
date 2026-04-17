@@ -227,12 +227,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <StackReserveSize>512000000</StackReserveSize>
-      <StackCommitSize>256000000</StackCommitSize>
+      <StackCommitSize>384000000</StackCommitSize>
       <TargetMachine>MachineX64</TargetMachine>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <HeapReserveSize>
       </HeapReserveSize>
-      <HeapCommitSize>256000000</HeapCommitSize>
+      <HeapCommitSize>512000000</HeapCommitSize>
       <ForceFileOutput>
       </ForceFileOutput>
     </Link>

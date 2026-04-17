@@ -66,6 +66,7 @@
 #include "Regulus64System.h"
 #include <omp.h>
 #include "XOpenAA.h"
+#include <QMessageBox>
 
 int	XDbg;
 
@@ -827,6 +828,7 @@ int main(int argc, char *argv[])
 //		return(-1);
 //#endif
 		ExecuteInitialAfterEditInfo EInfo;
+		EInfo.CalledInFirst=true;
 		Layers->ExecuteInitialAfterEdit(EInfo);
 	//}
 

@@ -29,7 +29,7 @@
 
 
 const	char	*sStatisticImagerRoot=/**/"Button";
-const	char	*sStatisticImagerName=/**/"PropertyStaticticImager";
+const	char	*sStatisticImagerName=/**/"PropertyStatisticImager";
 //char	*sName=/**/"PropertyStatisticImager";
 
 DEFFUNCEX	bool	DLL_GetName(QString &Root ,QString &Name)

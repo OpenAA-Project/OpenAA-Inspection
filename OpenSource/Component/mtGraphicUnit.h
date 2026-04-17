@@ -82,6 +82,9 @@ private:
 		bool	EnableMove		:1;
 		bool	EnableFitZoom	:1;
 	};
+	int32	OffsetXForFit;
+	int32	OffsetYForFit;	
+
 public:
     explicit	mtGraphicUnit(QWidget *parent = 0
 				,bool	EnableMeasure=true
@@ -106,6 +109,8 @@ public:
 	bool	SetZoom(int XonG, int YonG , double ZoomRate);
 	bool    ZoomRectG(int Gx1 ,int Gy1 ,int Gx2 ,int Gy2);
 	bool    ZoomRectU(int Ux1 ,int Uy1 ,int Ux2 ,int Uy2);
+	void	SetOffsetForFit(int OffsetX,int OffsetY);
+
 	void	DrawAdd(int UOffx, int UOffy);
 	void	SetDrawOffset(int UMovx ,int UMovy);
 	void	SetMeterOffset(int OffsetX ,int OffsetY);

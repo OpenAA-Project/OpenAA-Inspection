@@ -33,7 +33,7 @@
 #include <QDir>
 //#include "qsql_ibase_p.h"
 
-static bool createConnection(QString strPath="")
+static bool createConnection(QString &UserPath,QString strPath)
 {
      QSqlDatabase db;
 	//QSqlDriver	*Drv=new QIBaseDriver();
@@ -42,7 +42,7 @@ static bool createConnection(QString strPath="")
 
 	db=QSqlDatabase::addDatabase("QIBASE");
 
-	QDir::setCurrent(QCoreApplication::applicationDirPath());
+	QDir::setCurrent(UserPath);
 
 	QFile	mfile;
 	if(strPath.isEmpty()==true){

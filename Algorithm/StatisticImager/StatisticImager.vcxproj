@@ -192,7 +192,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
       <BufferSecurityCheck>true</BufferSecurityCheck>
-      <UseProcessorExtensions>AVX2</UseProcessorExtensions>
+      <UseProcessorExtensions>None</UseProcessorExtensions>
       <ControlFlowGuard>false</ControlFlowGuard>
     </ClCompile>
     <Link>

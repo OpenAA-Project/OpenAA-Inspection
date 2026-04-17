@@ -35,7 +35,7 @@ extern bool quit;
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	QString	UserPath;
+	QString	UserPath=QApplication::applicationDirPath();
 
 	if(CheckExeVersion(argc, argv)==false)
 		return 1;
@@ -70,6 +70,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	QDir::setCurrent(UserPath);
 	DBfile = new QFile(settingFilename);
 
 	if(modFilename==false){
@@ -82,7 +83,7 @@ int main(int argc, char *argv[])
 		return 0;
 	while(quit==false){
 		quit=true;
-		createConnection(settingFilename);
+		createConnection(UserPath,settingFilename);
 		Datamanagement w;
 		if(addTitle.isEmpty()==false){
 			w.setWindowTitle( w.windowTitle() + /**/" - " + addTitle );

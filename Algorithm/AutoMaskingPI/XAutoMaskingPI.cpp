@@ -885,6 +885,9 @@ ExeResult	AutoMaskingPIInPage::ExecuteInitialAfterEdit(int ExeID ,ResultInPageRo
 	if(CurrentMasterCounter==1 || CurrentMasterCounter==2 || CurrentMasterCounter==99999999){
 		return _ER_true;
 	}
+	if(EInfo.CalledInFirst==true){
+		return _ER_true;
+	}
 
 	if(AutoMaskMap==NULL){
 		XByte	=(GetDotPerLine()+7)/8;
