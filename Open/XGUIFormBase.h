@@ -561,7 +561,10 @@ public:
 	void	EmitRepaint(void);
 	virtual	void	SetAreaSize(void)	{}
 	void	ActivePhaseList(IntList &PhaseList);
-	
+	virtual	void	SetDrawPosition(int datax1 ,int datay1 , int datax2 ,int datay2){}
+	virtual	void	SetDrawPosition(int datax1 ,int datay1)							{}
+	virtual	void	SetTopPosition(int top)	{}
+
 	void SetTextMessage(void);
 	bool	SaveTextMessageContainerData(QIODevice *f);
 	bool	LoadTextMessageContainerData(QIODevice *f);

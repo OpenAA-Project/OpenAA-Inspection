@@ -470,9 +470,9 @@ public:
 	DisplayType	GetDisplayType(void)const	{	return DType;	}
 	int32	GetCurrentMasterNo(void)				const	{	return CurrentMasterNo;		}
 	void	SetCurrentMasterNo(int masterNo)				{	CurrentMasterNo=masterNo;	}
-	virtual	void	SetDrawPosition(int datax1 ,int datay1 , int datax2 ,int datay2);
-	virtual	void	SetDrawPosition(int datax1 ,int datay1);
-	virtual	void	SetTopPosition(int top);
+	virtual	void	SetDrawPosition(int datax1 ,int datay1 , int datax2 ,int datay2)	override;
+	virtual	void	SetDrawPosition(int datax1 ,int datay1)	override;
+	virtual	void	SetTopPosition(int top)	override;
 	virtual	void	SetAreaSize(void)	override;
 	virtual	void	Repaint(void)		override;
 	void	GetIdentity(QString &emitterRoot ,QString &emitterName)	const;

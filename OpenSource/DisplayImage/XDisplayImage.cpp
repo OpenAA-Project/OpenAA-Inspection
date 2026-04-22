@@ -1025,13 +1025,7 @@ void	DisplayImage::BroadcastDraw(void)
 			QString	str=RelatedItems.value(i);
 			GUIFormBase		*r=GetFormByName(str);
 			if(r!=NULL){
-				DisplayImage	*Img=dynamic_cast<DisplayImage *>(r);
-				if(Img!=NULL){
-					Img->SetDrawPosition(rect.left(),rect.top() , rect.right(),rect.bottom());
-				}
-				else{
-					r->Repaint();
-				}
+				r->SetDrawPosition(rect.left(),rect.top() , rect.right(),rect.bottom());
 			}
 		}
 	}

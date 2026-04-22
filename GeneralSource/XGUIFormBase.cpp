@@ -291,11 +291,12 @@ void IconResizeFilter::Execute(void)
 
 		if (OriginalIcon.isNull()) return;
 
-		const	int BorderWidth=1;
-
 		QSize btnSize = btn->size();
+		int BorderWidth=0;
+		//if(actualSize.width()<btnSize.width() || actualSize.height()<btnSize.height()){
+		//	BorderWidth=0;
+		//}
 		QSize newSize = btnSize - QSize(BorderWidth*2, BorderWidth*2);
-		if (newSize.isEmpty()) return;
 
 		QIcon newIcon;
 		
@@ -306,23 +307,26 @@ void IconResizeFilter::Execute(void)
 		    for (QIcon::State state : states) {
 		        QSize actualSize = OriginalIcon.actualSize(QSize(2048, 2048), mode, state);
 		        QPixmap pix = OriginalIcon.pixmap(actualSize, mode, state);
+
+				if (!newSize.isEmpty()){
 		        
-		        if (!pix.isNull()) {
-		            QPixmap scaledPixmap = pix.scaled(
-		                newSize, 
-		                Qt::IgnoreAspectRatio, 
-		                Qt::SmoothTransformation
-		            );
+					if (!pix.isNull()) {
+					    QPixmap scaledPixmap = pix.scaled(
+					        newSize, 
+					        Qt::IgnoreAspectRatio, 
+					        Qt::SmoothTransformation
+					    );
 
-					QPixmap paddedPixmap(btnSize);
-					paddedPixmap.fill(Qt::transparent); // ”wŒi‚ðŠ®‘S‚É“§–¾‚É
+						QPixmap paddedPixmap(btnSize);
+						paddedPixmap.fill(Qt::transparent); // ”wŒi‚ðŠ®‘S‚É“§–¾‚É
 
-					QPainter painter(&paddedPixmap);
-					painter.drawPixmap(BorderWidth, BorderWidth, scaledPixmap);
-					painter.end(); // •`‰æI—¹
+						QPainter painter(&paddedPixmap);
+						painter.drawPixmap(BorderWidth, BorderWidth, scaledPixmap);
+						painter.end(); // •`‰æI—¹
 
-					newIcon.addPixmap(paddedPixmap, mode, state);
-		        }
+						newIcon.addPixmap(paddedPixmap, mode, state);
+					}
+				}
 		    }
 		}
 
