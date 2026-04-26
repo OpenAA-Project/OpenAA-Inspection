@@ -39,3 +39,15 @@ INCLUDEPATH += $$PWD/../../../../Qt5.15.8/5.15.8/gcc_64/include/
 DEPENDPATH += $$PWD/../../../../Qt5.15.8/5.15.8/gcc_64/include/
 include(ButtonSaveMasterData.pri)
 TRANSLATIONS += buttonsavemasterdata_ja.ts
+
+FORMS += \
+    SelectExecuteDialog.ui \
+    SelectMasterWithSameNameDialog.ui
+
+HEADERS += \
+    SelectExecuteDialog.h \
+    SelectMasterWithSameNameDialog.h
+
+SOURCES += \
+    SelectExecuteDialog.cpp \
+    SelectMasterWithSameNameDialog.cpp

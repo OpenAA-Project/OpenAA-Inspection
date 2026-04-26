@@ -46,9 +46,10 @@ public:
 	SaveMasterDataWindow(LayersBase *Base ,const QString &emitterRoot,const QString &emitterName,QWidget *parent = 0);
 	~SaveMasterDataWindow();
 
-	bool	ExecuteSave		 (QString &iMasterName,QString &tRemark);
-	bool	ExecuteSaveSilent(QString &iMasterName,QString &tRemark,QString &ErrorMessageOfFalse);
-	int		ExecuteSearch(QString &iMasterName);
+	bool	ExecuteSave			(QString &iMasterName,QString &tRemark);
+	bool	ExecuteSaveSilent	(QString &iMasterName,QString &tRemark,QString &ErrorMessageOfFalse);
+	int		ExecuteSearch		(QString &iMasterName);
+	bool	ExecuteUpdate		(QString &tMasterName ,QString &tRemark);
 
 	QString EmitterRoot;
 	QString EmitterName;

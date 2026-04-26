@@ -720,7 +720,7 @@ const QString	LayersBase::GetUserPath(const QString &_UserPath)
 			}
 		}
 	}
-	return QCoreApplication::applicationFilePath();
+	return QCoreApplication::applicationDirPath();
 }
 
 void	LayersBase::ResetSize(void)

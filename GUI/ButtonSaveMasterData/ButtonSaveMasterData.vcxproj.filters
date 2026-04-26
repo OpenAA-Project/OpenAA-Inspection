@@ -42,14 +42,16 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
-    
     <ClCompile Include="generatedfiles\qrc_ButtonSaveMasterData.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="ButtonSaveMasterData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectExecuteDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectMasterWithSameNameDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -66,7 +68,6 @@
     <ClInclude Include="..\..\Open\XGUIPacketForDLL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ButtonSaveNewMasterData.png">
@@ -89,5 +90,19 @@
     <QtRcc Include="ButtonSaveMasterData.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+    <QtMoc Include="SelectExecuteDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SelectMasterWithSameNameDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="SelectExecuteDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SelectMasterWithSameNameDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

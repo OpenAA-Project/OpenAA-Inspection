@@ -32,6 +32,8 @@
 #include <QSqlRecord>
 #include <QMessageBox>
 #include "XSyncGUI.h"
+#include "SelectExecuteDialog.h"
+#include "SelectMasterWithSameNameDialog.h"
 
 extern	const	char	*sRoot;
 extern	const	char	*sName;
@@ -155,10 +157,25 @@ int		SaveMasterDataWindow::ExecuteSearch(QString &iMasterName)
 bool SaveMasterDataWindow::ExecuteSave(QString &iMasterName,QString &iRemark)
 {
 	if(ParentGUI->ModeCheckDupName==true && CheckDupName(iMasterName)==true){
-		QMessageBox::question(NULL,LangSolver.GetString(SaveMasterDataWindow_LS,LID_12)/*"Duplicated"*/
-									,LangSolver.GetString(SaveMasterDataWindow_LS,LID_13)/*"名前が重複しています"*/
-									,QMessageBox::Ok);
-		return false;
+
+		SelectExecuteDialog	D(GetLayersBase());
+		D.exec();
+		if(D.ResultCode==1){
+		}
+		else
+		if(D.ResultCode==2){
+			ExecuteUpdate(iMasterName,iRemark);
+			GetLayersBase()->SetMasterCodeInTree(GetLayersBase()->GetMasterCode());
+			GetLayersBase()->CloseProcessingForm();
+			GetLayersBase()->SetEdited(false);
+			return true;
+		}
+		else{
+			//QMessageBox::question(NULL,LangSolver.GetString(SaveMasterDataWindow_LS,LID_12)/*"Duplicated"*/
+			//							,LangSolver.GetString(SaveMasterDataWindow_LS,LID_13)/*"名前が重複しています"*/
+			//							,QMessageBox::Ok);
+			return false;
+		}
 	}
 
 	int	RelationCode;
@@ -234,6 +251,108 @@ bool SaveMasterDataWindow::ExecuteSave(QString &iMasterName,QString &iRemark)
 	}
 	GetLayersBase()->SetMasterCodeInTree(GetLayersBase()->GetMasterCode());
 	GetLayersBase()->CloseProcessingForm();
+	GetLayersBase()->SetEdited(false);
+	return true;
+}
+
+
+bool SaveMasterDataWindow::ExecuteUpdate(QString &tMasterName ,QString &tRemark)
+{
+	int	MachineID=GetLayersBase()->GetMachineID();
+	IntList		RetMasterCodes;
+	bool	Ret=GetLayersBase()->GetDatabaseLoader()->G_SQLCheckMasterName(GetLayersBase()->GetDatabase()
+							,MachineID
+							,tMasterName
+							,RetMasterCodes);
+	if(RetMasterCodes.GetCount()==0){
+		return false;
+	}
+	int	MasterCode=RetMasterCodes[0];
+
+	if(RetMasterCodes.GetCount()>1){
+		SelectMasterWithSameNameDialog	D(RetMasterCodes ,GetLayersBase());
+		int	Ret=D.exec();
+		if(Ret==true){
+			MasterCode=D.SelectedMasterCode;
+		}
+		else{
+			return false;
+		}
+	}
+		
+	QStringList	ImagePathes=GetParamGlobal()->ImageFilePath.split(QChar(';'));
+	QString		ImagePath;
+	if(ImagePathes.count()==1)
+		ImagePath=ImagePathes[0];
+	else{
+		SelectImagePathDialog	SelectImagePathD(ImagePathes);
+		if(SelectImagePathD.exec()!=(int)true){
+			return false;
+		}
+		ImagePath=SelectImagePathD.SelectedPath;
+	}
+	GetLayersBase()->SetCurrentPhase(0);
+	bool	EditMaltipleMachine=GetLayersBase()->GetFRegistry()->LoadRegBool(/**/"EditMaltipleMachine",0);
+	int	SelectedMachineID=GetLayersBase()->GetMachineID();
+	if(EditMaltipleMachine==true){
+		SelectedMachineID=GetLayersBase()->GetMachineIDFromMaster();
+	}
+
+	GetLayersBase()->SetMasterName(tMasterName);
+	GetLayersBase()->SetRemark(tRemark);
+
+	GetLayersBase()->ClearAllAckFlag();
+	GetLayersBase()->ShowProcessingForm ("Updating master data");
+
+	if(ParentGUI!=NULL){
+		CreateUpdateMasterPreSpecifiedBroadcaster	SData;
+		ParentGUI->BroadcastSpecifiedDirectly(&SData);
+	}
+
+	int		RelationCode=-1;
+	if(SyncCount==true){
+		if(MasterCode>=0){
+			RelationCode=GetLayersBase()->SQLGetRelationCode(MasterCode);
+			if(RelationCode<0){
+				int	ThresholdLevelID=GetLayersBase()->GetThresholdLevelID();
+				RelationCode=GetLayersBase()->SQLCreateNewMasterRelation(/**/""
+																		,tMasterName
+																		,tRemark
+																		,0
+																		,ThresholdLevelID);
+			}
+		}
+
+		QBuffer	Buff;
+		Buff.open(QIODevice::ReadWrite);
+		::Save(&Buff,RelationCode);
+		::Save(&Buff,tMasterName);
+		::Save(&Buff,tRemark);
+		::Save(&Buff,ImagePath);
+		ParentGUI->TxSync(Buff.buffer());
+	}
+	QString ErrorMessageOfFalse;
+	if(MasterCode>=0){
+		bool	UpdateGeneralSetting=true;
+		if(GetLayersBase()->SQLUpdateMasterData(SelectedMachineID,ImagePath,false
+												,ErrorMessageOfFalse
+												,UpdateGeneralSetting)==false){
+			GetLayersBase()->CloseProcessingForm ();
+			QMessageBox::critical(NULL,"Update Error",ErrorMessageOfFalse);
+		}
+		GetLayersBase()->WaitAllAcknowledged(60*10);
+		
+		if(ParentGUI!=NULL){
+			CreateUpdateMasterSpecifiedBroadcaster	SData;
+			ParentGUI->BroadcastSpecifiedDirectly(&SData);
+		}
+		if(SyncCount==true){
+			GetLayersBase()->SQLSetRelationOnMasterData(MasterCode
+														,RelationCode ,GetLayersBase()->GetMachineID());
+		}
+		GetLayersBase()->CloseProcessingForm ();
+		emit	SignalClose();
+	}
 	GetLayersBase()->SetEdited(false);
 	return true;
 }
