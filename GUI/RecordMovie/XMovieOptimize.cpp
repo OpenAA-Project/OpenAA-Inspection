@@ -21,8 +21,6 @@
 #include "XGeneralFunc.h"
 #include "XCriticalFunc.h"
 #include "swap.h"
-//#include <Windows.h>
-//#include <vfw.h>
 #include <QMutex>
 #include <QMessageBox>
 #include "ShowMemoryForm.h"

@@ -661,7 +661,7 @@ public:
 	virtual	void	CopyParentFrom(AlgorithmItemRoot *src,AlgorithmInPageRoot *P, int Layer)				=0;
 	bool	IsEditable(void)	const				{	return Editable;	}
 	virtual	VectorLineBase	*CreateVectorBase(void)	{	return NULL;		}
-	virtual	bool	ReallocXYPixels(int NewDotPerLine ,int NewMaxLines){}
+	virtual	bool	ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)	{	return true;	}
 
 	virtual	AlgorithmItemPropertyBase	*CreateAlgorithmItemProperty(void){	return NULL;	}
 

@@ -22,8 +22,12 @@
 #include "XGeneralFunc.h"
 #include "XCriticalFunc.h"
 #include "swap.h"
+
+#ifdef _MSC_VER
 #include <Windows.h>
 #include <vfw.h>
+#endif
+
 #include <QMutex>
 #include <QMessageBox>
 #include <QDir>

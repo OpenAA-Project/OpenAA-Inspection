@@ -18,7 +18,10 @@
 
 #pragma once
 
+#ifdef _MSC_VER
 #include <Windows.h>
+#endif
+
 #include <vfw.h>
 #include <QMutex>
 #include <QThread>

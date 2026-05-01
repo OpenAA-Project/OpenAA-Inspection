@@ -30,12 +30,13 @@
 #include <QStackedWidget>
 #include <QMessageBox>
 #include <QLineEdit>
+#include <QLabel>
 #include <QApplication>
 #include <QAbstractSpinBox>
 #include <QTabWidget>
 #include <QTabBar>
 #include <QGuiApplication>
-#include "itemlistwindow.h"
+//#include "itemlistwindow.h"
 #include "SelectTabTop.h"
 #include "XDataInLayer.h"
 #include "XCriticalFunc.h"
@@ -57,7 +58,6 @@
 #include "XGeneralStocker.h"
 #include <omp.h>
 
-extern	ItemListWindow	*MainItem;
 
 MenuInfoList::MenuInfoList(void)
 {

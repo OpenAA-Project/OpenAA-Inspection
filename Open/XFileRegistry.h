@@ -64,16 +64,16 @@ private:
 	{
 	public:
 		enum	DataType{
-			_Int			=0
-			,_String		=1
-			,_StringList	=2
-			,_Bool			=3
-			,_Double		=4
-			,_BYTEAlloc		=5
-			,_Image			=6
-			,_Color			=7
-			,_Rect			=8
-			,_DateTime		=9
+			___Int				=0
+			,___String			=1
+			,___StringList		=2
+			,___Bool			=3
+			,___Double			=4
+			,___BYTEAlloc		=5
+			,___Image			=6
+			,___Color			=7
+			,___Rect			=8
+			,___DateTime		=9
 		}DType;
 		union{
 			int32		*DataInt;

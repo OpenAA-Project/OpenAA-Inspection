@@ -101,6 +101,7 @@ enum _ResultType{
 #if	QT_VERSION<0x050000
 #define	hypot(x,y)	_hypot(x,y)
 #endif
+#endif
 
 enum	DirectValueType{
 	 _DT_None			=0
@@ -133,7 +134,6 @@ enum	DirectValueType{
 	,_DT_IntList		=22
 };
 
-#endif
 #include <cmath>
 
 #endif

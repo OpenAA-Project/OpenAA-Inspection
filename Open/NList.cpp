@@ -260,7 +260,7 @@ inline	NPListPack<T> & NPListPack<T>::operator=(const NPListPack<T> &src)
 {
 	RemoveAll();
 	T	*n;
-	for(T *s=s1.GetFirst() ; s!=NULL ; s=s->GetNext()){
+	for(T *s=src.GetFirst() ; s!=NULL ; s=s->GetNext()){
 		n = new T(*s);
 		_AppendLast(n);
 	}

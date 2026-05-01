@@ -25,7 +25,7 @@ FileRegistry::RegistryLeaf::RegistryLeaf(void)
 {
 	DataInt	=NULL;
 	DataLen	=0;
-	DType	=_Int;
+	DType	=___Int;
 }
 FileRegistry::RegistryLeaf::~RegistryLeaf(void)
 {
@@ -35,34 +35,34 @@ FileRegistry::RegistryLeaf::~RegistryLeaf(void)
 void	FileRegistry::RegistryLeaf::DeleteData(void)
 {
 	switch(DType){
-		case _Int:
+		case ___Int:
 			delete	DataInt;
 			break;
-		case _String:
+		case ___String:
 			delete	[]DataString;
 			break;
-		case _StringList:
+		case ___StringList:
 			delete	[]DataStringList;
 			break;
-		case _Bool:
+		case ___Bool:
 			delete	DataBool;
 			break;
-		case _Double:
+		case ___Double:
 			delete	DataDouble;
 			break;
-		case _BYTEAlloc:
+		case ___BYTEAlloc:
 			delete	[]DataAlloc;
 			break;
-		case _Image:
+		case ___Image:
 			delete	[]DataImage;
 			break;
-		case _Color:
+		case ___Color:
 			delete	DataColor;
 			break;
-		case _Rect:
+		case ___Rect:
 			delete	DataRect;
 			break;
-		case _DateTime:
+		case ___DateTime:
 			delete	[]DataDateTime;
 			break;
 	}
@@ -82,52 +82,52 @@ bool	FileRegistry::RegistryLeaf::Save(QIODevice *f)
 		return false;
 	}
 	switch(DType){
-		case _Int:
+		case ___Int:
 			if(::Save(f,(char *)DataInt,DataLen)==false){
 				return false;
 			}
 			break;
-		case _String:
+		case ___String:
 			if(::Save(f,(char *)DataString,DataLen)==false){
 				return false;
 			}
 			break;
-		case _StringList:
+		case ___StringList:
 			if(::Save(f,(char *)DataStringList,DataLen)==false){
 				return false;
 			}
 			break;
-		case _Bool:
+		case ___Bool:
 			if(::Save(f,(char *)DataBool,DataLen)==false){
 				return false;
 			}
 			break;
-		case _Double:
+		case ___Double:
 			if(::Save(f,(char *)DataDouble,DataLen)==false){
 				return false;
 			}
 			break;
-		case _BYTEAlloc:
+		case ___BYTEAlloc:
 			if(::Save(f,(char *)DataAlloc,DataLen)==false){
 				return false;
 			}
 			break;
-		case _Image:
+		case ___Image:
 			if(::Save(f,(char *)DataImage,DataLen)==false){
 				return false;
 			}
 			break;
-		case _Color:
+		case ___Color:
 			if(::Save(f,(char *)DataColor,DataLen)==false){
 				return false;
 			}
 			break;
-		case _Rect:
+		case ___Rect:
 			if(::Save(f,(char *)DataRect,DataLen)==false){
 				return false;
 			}
 			break;
-		case _DateTime:
+		case ___DateTime:
 			if(::Save(f,(char *)DataDateTime,DataLen)==false){
 				return false;
 			}
@@ -151,61 +151,61 @@ bool	FileRegistry::RegistryLeaf::Load(QIODevice *f)
 	DeleteData();
 	int64 Len;
 	switch(DType){
-		case _Int:
+		case ___Int:
 			DataInt=new int32;
 			if(::Load(f,(char *)DataInt,Len,(int64)DataLen)==false){
 				return false;
 			}
 			break;
-		case _String:
+		case ___String:
 			DataString=new BYTE[DataLen];
 			if(::Load(f,(char *)DataString,Len,(int64)DataLen)==false){
 				return false;
 			}
 			break;
-		case _StringList:
+		case ___StringList:
 			DataStringList=new BYTE[DataLen];
 			if(::Load(f,(char *)DataStringList,Len,(int64)DataLen)==false){
 				return false;
 			}
 			break;
-		case _Bool:
+		case ___Bool:
 			DataBool=new bool;
 			if(::Load(f,(char *)DataBool,Len,(int64)DataLen)==false){
 				return false;
 			}
 			break;
-		case _Double:
+		case ___Double:
 			DataDouble=new double;
 			if(::Load(f,(char *)DataDouble,Len,(int64)DataLen)==false){
 				return false;
 			}
 			break;
-		case _BYTEAlloc:
+		case ___BYTEAlloc:
 			DataAlloc=new BYTE[DataLen];
 			if(::Load(f,(char *)DataAlloc,Len,(int64)DataLen)==false){
 				return false;
 			}
 			break;
-		case _Image:
+		case ___Image:
 			DataImage=new BYTE[DataLen];
 			if(::Load(f,(char *)DataImage,Len,(int64)DataLen)==false){
 				return false;
 			}
 			break;
-		case _Color:
+		case ___Color:
 			DataColor=new QRgb;
 			if(::Load(f,(char *)DataColor,Len,(int64)DataLen)==false){
 				return false;
 			}
 			break;
-		case _Rect:
+		case ___Rect:
 			DataRect=new QRect;
 			if(::Load(f,(char *)DataRect,Len,(int64)DataLen)==false){
 				return false;
 			}
 			break;
-		case _DateTime:
+		case ___DateTime:
 			DataDateTime=new BYTE[DataLen];
 			if(::Load(f,(char *)DataDateTime,Len,(int64)DataLen)==false){
 				return false;
@@ -221,7 +221,7 @@ bool	FileRegistry::RegistryLeaf::Set(int data)
 	DataInt=new int32;
 	DataLen=sizeof(int32);
 	*DataInt=data;
-	DType=_Int;
+	DType=___Int;
 	return true;
 }
 bool	FileRegistry::RegistryLeaf::Set(const QString &data)
@@ -233,7 +233,7 @@ bool	FileRegistry::RegistryLeaf::Set(const QString &data)
 	DataLen=Buff.buffer().length();
 	DataString=new BYTE[DataLen];
 	memcpy(DataString,Buff.buffer().data(),DataLen);
-	DType=_String;
+	DType=___String;
 	return true;
 }
 bool	FileRegistry::RegistryLeaf::Set(const QStringList &data)
@@ -245,7 +245,7 @@ bool	FileRegistry::RegistryLeaf::Set(const QStringList &data)
 	DataLen=Buff.buffer().length();
 	DataStringList=new BYTE[DataLen];
 	memcpy(DataStringList,Buff.buffer().data(),DataLen);
-	DType=_StringList;
+	DType=___StringList;
 	return true;
 }
 bool	FileRegistry::RegistryLeaf::Set(bool data)
@@ -254,7 +254,7 @@ bool	FileRegistry::RegistryLeaf::Set(bool data)
 	DataBool=new bool;
 	DataLen=sizeof(bool);
 	*DataBool=data;
-	DType=_Bool;
+	DType=___Bool;
 	return true;
 }
 bool	FileRegistry::RegistryLeaf::Set(double data)
@@ -263,7 +263,7 @@ bool	FileRegistry::RegistryLeaf::Set(double data)
 	DataDouble=new double;
 	DataLen=sizeof(double);
 	*DataDouble=data;
-	DType=_Double;
+	DType=___Double;
 	return true;
 }
 
@@ -273,7 +273,7 @@ bool	FileRegistry::RegistryLeaf::Set(void *data ,int databyte)
 	DataAlloc=new BYTE[databyte];
 	DataLen=databyte;
 	memcpy(DataAlloc,data,DataLen);
-	DType=_BYTEAlloc;
+	DType=___BYTEAlloc;
 	return true;
 }
 
@@ -288,7 +288,7 @@ bool	FileRegistry::RegistryLeaf::Set(const QImage &data)
 	DataImage=new BYTE[Buff.size()];
 	DataLen=Buff.size();
 	memcpy(DataImage,Buff.data().data(),DataLen);
-	DType=_Image;
+	DType=___Image;
 	return true;
 }
 
@@ -298,7 +298,7 @@ bool	FileRegistry::RegistryLeaf::Set(const QColor &data)
 	DataColor=new QRgb;
 	DataLen=sizeof(QRgb);
 	*DataColor=data.rgba();
-	DType=_Color;
+	DType=___Color;
 	return true;
 }
 bool	FileRegistry::RegistryLeaf::Set(const QRect &data)
@@ -307,7 +307,7 @@ bool	FileRegistry::RegistryLeaf::Set(const QRect &data)
 	DataRect=new QRect;
 	DataLen=sizeof(QRect);
 	*DataRect=data;
-	DType=_Rect;
+	DType=___Rect;
 	return true;
 }
 bool	FileRegistry::RegistryLeaf::Set(const XDateTime &data)
@@ -319,20 +319,20 @@ bool	FileRegistry::RegistryLeaf::Set(const XDateTime &data)
 	DataLen=Buff.buffer().length();
 	DataDateTime=new BYTE[DataLen];
 	memcpy(DataDateTime,Buff.buffer().data(),DataLen);
-	DType=_DateTime;
+	DType=___DateTime;
 	return true;
 }
 
 int			FileRegistry::RegistryLeaf::GetInt			(void)
 {
-	if(DType==_Int){
+	if(DType==___Int){
 		return *DataInt;
 	}
 	return 0;
 }
 QString		FileRegistry::RegistryLeaf::GetString		(void)
 {
-	if(DType==_String){
+	if(DType==___String){
 		QBuffer	Buff;
 		Buff.setData((const char *)DataString,DataLen);
 		Buff.open(QIODevice::ReadOnly);
@@ -344,7 +344,7 @@ QString		FileRegistry::RegistryLeaf::GetString		(void)
 }
 QStringList	FileRegistry::RegistryLeaf::GetStringList	(void)
 {
-	if(DType==_StringList){
+	if(DType==___StringList){
 		QBuffer	Buff;
 		Buff.setData((const char *)DataStringList,DataLen);
 		Buff.open(QIODevice::ReadOnly);
@@ -356,21 +356,21 @@ QStringList	FileRegistry::RegistryLeaf::GetStringList	(void)
 }
 bool		FileRegistry::RegistryLeaf::GetBool			(void)
 {
-	if(DType==_Bool){
+	if(DType==___Bool){
 		return *DataBool;
 	}
 	return 0;
 }
 double		FileRegistry::RegistryLeaf::GetDouble		(void)
 {
-	if(DType==_Double){
+	if(DType==___Double){
 		return *DataDouble;
 	}
 	return 0;
 }
 void		*FileRegistry::RegistryLeaf::GetBuffer		(int &databyte)
 {
-	if(DType==_BYTEAlloc){
+	if(DType==___BYTEAlloc){
 		BYTE	*data=new BYTE[DataLen];
 		memcpy(data,DataAlloc,DataLen);
 		databyte	=DataLen;
@@ -381,7 +381,7 @@ void		*FileRegistry::RegistryLeaf::GetBuffer		(int &databyte)
 QImage	FileRegistry::RegistryLeaf::GetImage		(void)
 {
 	QImage	Ret;
-	if(DType==_Image){
+	if(DType==___Image){
 		QByteArray	LArray((char *)DataImage,DataLen);
 		QBuffer	Buff(&LArray);
 		Buff.open(QIODevice::ReadOnly);
@@ -391,7 +391,7 @@ QImage	FileRegistry::RegistryLeaf::GetImage		(void)
 }
 QColor		FileRegistry::RegistryLeaf::GetColor		(void)
 {
-	if(DType==_Color){
+	if(DType==___Color){
 		QRgb	b= *DataColor;
 		return QColor(b);
 	}
@@ -399,7 +399,7 @@ QColor		FileRegistry::RegistryLeaf::GetColor		(void)
 }
 QRect		FileRegistry::RegistryLeaf::GetRect		(void)
 {
-	if(DType==_Rect){
+	if(DType==___Rect){
 		QRect	b= *DataRect;
 		return b;
 	}
@@ -407,7 +407,7 @@ QRect		FileRegistry::RegistryLeaf::GetRect		(void)
 }
 XDateTime	FileRegistry::RegistryLeaf::GetDateTime	(void)
 {
-	if(DType==_DateTime){
+	if(DType==___DateTime){
 		QBuffer	Buff;
 		Buff.setData((const char *)DataDateTime,DataLen);
 		Buff.open(QIODevice::ReadOnly);

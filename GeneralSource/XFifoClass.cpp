@@ -20,6 +20,7 @@
 
 #include "XTypeDef.h"
 #include "XFifoClass.h"
+#include <string.h>
 //---------------------------------------------------------------------------
 
 NFifoIntLeaf::NFifoIntLeaf(void)

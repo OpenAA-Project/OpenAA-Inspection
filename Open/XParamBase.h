@@ -69,8 +69,8 @@ public:
 	virtual ~ParamBase(void);
 
 	void	SetParam(WORD    *Value			,const char *Category ,const char *name ,const char *explain=NULL ,WORD MinData=0						,WORD  MaxData=65535					,int EnableCondition=-1);
-	void	SetParam(int64   *Value			,const char *Category ,const char *name ,const char *explain=NULL ,int64 MinData=-0x7FFFFFFFFFFFFFFFLU	,int64 MaxData=0x7FFFFFFFFFFFFFFFLU ,int EnableCondition=-1);
-	void	SetParam(int32   *Value			,const char *Category ,const char *name ,const char *explain=NULL ,int32 MinData=-0x7FFFFFFFLU			,int32 MaxData=0x7FFFFFFFLU			,int EnableCondition=-1);
+	void	SetParam(int64   *Value			,const char *Category ,const char *name ,const char *explain=NULL ,int64 MinData=-0x7FFFFFFFFFFFFFFFL	,int64 MaxData=0x7FFFFFFFFFFFFFFFLU ,int EnableCondition=-1);
+	void	SetParam(int32   *Value			,const char *Category ,const char *name ,const char *explain=NULL ,int32 MinData=-0x7FFFFFFFL			,int32 MaxData=0x7FFFFFFFLU			,int EnableCondition=-1);
 	void	SetParam(int16   *Value			,const char *Category ,const char *name ,const char *explain=NULL ,int16 MinData=-0x7FFF				,int16 MaxData=0x7FFF			,int EnableCondition=-1);
 	void	SetParam(double  *Value			,const char *Category ,const char *name ,const char *explain=NULL ,double MinData=-99999999				,double MaxData=99999999			,int EnableCondition=-1);
 	void	SetParam(QString *Value			,const char *Category ,const char *name ,const char *explain=NULL ,int EnableCondition=-1);
@@ -83,8 +83,8 @@ public:
 	void	SetParam(QByteArray *Value		,const char *Category ,const char *name ,const char *explain=NULL ,int EnableCondition=-1);
 
 	void	SetParam(WORD* Value			,const char* Category, const char* name, const QString &explain, WORD MinData = 0, WORD MaxData = 65535, int EnableCondition = -1);
-	void	SetParam(int64* Value			,const char* Category, const char* name, const QString &explain, int64 MinData = -0x7FFFFFFFFFFFFFFFLU, int64 MaxData = 0x7FFFFFFFFFFFFFFFLU, int EnableCondition = -1);
-	void	SetParam(int32* Value			,const char* Category, const char* name, const QString &explain, int32 MinData = -0x7FFFFFFFLU, int32 MaxData = 0x7FFFFFFFLU, int EnableCondition = -1);
+	void	SetParam(int64* Value			,const char* Category, const char* name, const QString &explain, int64 MinData = -0x7FFFFFFFFFFFFFFFL, int64 MaxData = 0x7FFFFFFFFFFFFFFFLU, int EnableCondition = -1);
+	void	SetParam(int32* Value			,const char* Category, const char* name, const QString &explain, int32 MinData = -0x7FFFFFFFL, int32 MaxData = 0x7FFFFFFFLU, int EnableCondition = -1);
 	void	SetParam(int16* Value			,const char* Category, const char* name, const QString &explain, int16 MinData = -0x7FFF, int16 MaxData = 0x7FFF, int EnableCondition = -1);
 	void	SetParam(double* Value			,const char* Category, const char* name, const QString &explain, double MinData = -99999999, double MaxData = 99999999, int EnableCondition = -1);
 	void	SetParam(QString* Value			,const char* Category, const char* name, const QString &explain, int EnableCondition = -1);

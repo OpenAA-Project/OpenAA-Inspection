@@ -104,16 +104,16 @@ class	ControlRemembererList : public NPList<ControlRemembererList>
 	void	*Value;
 public:
 	enum _RType{
-		_Int			=1
-		,_QString		=2
-		,_Bool			=3
-		,_Double		=4
-		,_QStringList	=5
-		,_QDateTime		=6
-		,_QByteArray	=7
-		,_QTreeWidget	=9
-		,_IntList		=10
-		,_Form			=20
+		__Int			=1
+		,__QString		=2
+		,__Bool			=3
+		,__Double		=4
+		,__QStringList	=5
+		,__QDateTime	=6
+		,__QByteArray	=7
+		,__QTreeWidget	=9
+		,__IntList		=10
+		,__Form			=20
 	};
 private:
 	_RType	RType;

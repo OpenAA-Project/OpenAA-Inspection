@@ -617,7 +617,7 @@ public:
 	virtual	~DataValueDim(void){}
 
 	const	DataList<U>	*GetFirstList(void)	const{
-		for(int i=0;i<GetAddedCount();i++){
+		for(int i=0;i<this->GetAddedCount();i++){
 			if(Dim[i].Effective==true){
 				return &Dim[i];
 			}
@@ -625,7 +625,7 @@ public:
 		return NULL;
 	}
 	const	DataList<U>	*GetLastList(void)	const{
-		for (int i=GetAddedCount()-1;i>=0;i--) {
+		for (int i=this->GetAddedCount()-1;i>=0;i--) {
 			if(Dim[i].Effective==true){
 				return &Dim[i];
 			}
@@ -633,7 +633,7 @@ public:
 		return NULL;
 	}
 	const	DataList<U>	*GetItemList(int Index)	const{
-		for(int i=0;i<GetAddedCount();i++){
+		for(int i=0;i<this->GetAddedCount();i++){
 			if(Dim[i].Effective==true){
 				if(Index==0){
 					return &Dim[i];
@@ -645,13 +645,13 @@ public:
 	}
 
 	bool	Add(const U &s){
-		int	iAddedCount=GetAddedCount();
+		int	iAddedCount=this->GetAddedCount();
 		if(iAddedCount<MaxDimN){
 			Dim[iAddedCount]=DataList<U>(s);
 			Dim[iAddedCount].DPoint=this;
 			Dim[iAddedCount].Index=iAddedCount;
-			SetAddedCount(iAddedCount+1);
-			SetEffectiveCount(GetEffectiveCount()+1);
+			this->SetAddedCount(iAddedCount+1);
+			this->SetEffectiveCount(this->GetEffectiveCount()+1);
 			return true;
 		}
 		return false;
@@ -659,7 +659,7 @@ public:
 
 	DataList<U>	*GetNextPoint(int index)
 	{
-		for(int i=index;i<GetAddedCount();i++){
+		for(int i=index;i<this->GetAddedCount();i++){
 			if(Dim[i].Effective==true){
 				return &Dim[i];
 			}

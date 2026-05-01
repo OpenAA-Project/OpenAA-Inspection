@@ -18,6 +18,7 @@
 
 #include "XTypeDef.h"
 #include "XStatistic.h"
+#include <string.h>
 
 StackForAverage::StackForAverage(int MaxCount)
 {

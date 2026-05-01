@@ -26,8 +26,6 @@
 #include <iostream>
 #define	_USE_MATH_DEFINES
 #include <math.h>
-#include <new.h>
-#include <process.h>
 #include <QMessageBox>
 
 #define DEFPREC 10e-6
@@ -512,21 +510,6 @@ int     Matrix<R>::operator!=(const Matrix<R>& m)  const   // Not equal to
 }
 
 // Common methods
-//--------------------------------------------------------------------------
-template <class R>
-void    Matrix<R>::Print()                      // Print matrix
-//--------------------------------------------------------------------------
-{
-     int i=0,j=0;
-     for(;i<ysize;i++) {
-          cout << "|\t";
-          for(j=0;j<xsize;j++)
-               cout << pMatrix[i][j] << "\t";
-          cout << "|\n";
-     }
-     cout << "\n";
-}
-
 //--------------------------------------------------------------------------
 template <class R>
 void    Matrix<R>::Set(int y, int x, R num)     // Set an element of matrix

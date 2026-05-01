@@ -16,7 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#ifdef _MSC_VER
 #include <Windows.h>
+#endif
+
 #include <QIODevice>
 #include "XMainSchemeMemory.h"
 

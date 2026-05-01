@@ -78,7 +78,7 @@ bool	ControlRemembererListContainer::GetValue(QWidget *W	,int		&Ret)
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_Int && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__Int && IsEqual(c->GetObjectNameList(),L)==true){
 			Ret=c->GetInt();
 			return true;
 		}
@@ -89,7 +89,7 @@ bool	ControlRemembererListContainer::GetValue(QWidget *W	,double		&Ret)
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_Double && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__Double && IsEqual(c->GetObjectNameList(),L)==true){
 			Ret=c->GetDouble();
 			return true;
 		}
@@ -100,7 +100,7 @@ bool	ControlRemembererListContainer::GetValue(QWidget *W ,QString	&Ret)
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QString && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__QString && IsEqual(c->GetObjectNameList(),L)==true){
 			Ret=c->GetString();
 			return true;
 		}
@@ -111,7 +111,7 @@ bool	ControlRemembererListContainer::GetValue(QWidget *W	,bool		&Ret)
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_Bool && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__Bool && IsEqual(c->GetObjectNameList(),L)==true){
 			Ret=c->GetBool();
 			return true;
 		}
@@ -122,7 +122,7 @@ bool	ControlRemembererListContainer::GetValue(QWidget *W ,QStringList&Ret)
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QStringList && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__QStringList && IsEqual(c->GetObjectNameList(),L)==true){
 			Ret=c->GetStringList();
 			return true;
 		}
@@ -133,7 +133,7 @@ bool	ControlRemembererListContainer::GetValue(QWidget *W ,QDateTime	&Ret)
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QDateTime && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__QDateTime && IsEqual(c->GetObjectNameList(),L)==true){
 			Ret=c->GetDateTime();
 			return true;
 		}
@@ -144,7 +144,7 @@ bool	ControlRemembererListContainer::GetValue(QWidget *W ,IntListContainer &Ret)
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QTreeWidget && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__QTreeWidget && IsEqual(c->GetObjectNameList(),L)==true){
 			Ret=c->GetTreeWidget();
 			return true;
 		}
@@ -156,7 +156,7 @@ bool	ControlRemembererListContainer::GetValue(QWidget *W ,IntListContainer &Ret)
 ControlRemembererList::ControlRemembererList(ControlRememberer *rememberer)
 	:Children(rememberer)
 {
-	RType=_Int;
+	RType=__Int;
 	Value=NULL;
 }
 ControlRemembererList::~ControlRemembererList(void)
@@ -176,63 +176,63 @@ void		ControlRemembererList::SetRecogName(const QString &name)
 
 int		ControlRemembererList::GetInt(void)
 {
-	if(Value!=NULL && RType==_Int){
+	if(Value!=NULL && RType==__Int){
 		return *((int *)Value);
 	}
 	return 0;
 }
 QString	ControlRemembererList::GetString(void)
 {
-	if(Value!=NULL && RType==_QString){
+	if(Value!=NULL && RType==__QString){
 		return *((QString *)Value);
 	}
 	return "";
 }
 QDateTime	ControlRemembererList::GetDateTime(void)
 {
-	if(Value!=NULL && RType==_QDateTime){
+	if(Value!=NULL && RType==__QDateTime){
 		return *((QDateTime *)Value);
 	}
 	return QDateTime();
 }
 bool	ControlRemembererList::GetBool(void)
 {
-	if(Value!=NULL && RType==_Bool){
+	if(Value!=NULL && RType==__Bool){
 		return *((bool *)Value);
 	}
 	return true;
 }
 double	ControlRemembererList::GetDouble(void)
 {
-	if(Value!=NULL && RType==_Double){
+	if(Value!=NULL && RType==__Double){
 		return *((double *)Value);
 	}
 	return true;
 }
 QStringList	ControlRemembererList::GetStringList(void)
 {
-	if(Value!=NULL && RType==_QStringList){
+	if(Value!=NULL && RType==__QStringList){
 		return *((QStringList *)Value);
 	}
 	return QStringList();
 }
 QByteArray	ControlRemembererList::GetByteArray(void)
 {
-	if(Value!=NULL && RType==_QByteArray){
+	if(Value!=NULL && RType==__QByteArray){
 		return *((QByteArray *)Value);
 	}
 	return QByteArray();
 }
 IntListContainer		ControlRemembererList::GetTreeWidget(void)
 {
-	if(Value!=NULL && RType==_QTreeWidget){
+	if(Value!=NULL && RType==__QTreeWidget){
 		return *((IntListContainer *)Value);
 	}
 	return IntListContainer();
 }
 IntList	ControlRemembererList::GetIntList(void)
 {
-	if(Value!=NULL && RType==_IntList){
+	if(Value!=NULL && RType==__IntList){
 		return *((IntList *)Value);
 	}
 	return IntList();
@@ -242,70 +242,70 @@ void	ControlRemembererList::SetValue(int d)
 	ReleaseValue();
 	Value=new int;
 	*((int *)Value)=d;
-	RType=_Int;
+	RType=__Int;
 }
 void	ControlRemembererList::SetValue(const QString &d)
 {
 	ReleaseValue();
 	Value=new QString;
 	*((QString *)Value)=d;
-	RType=_QString;
+	RType=__QString;
 }
 void	ControlRemembererList::SetValue(bool d)
 {
 	ReleaseValue();
 	Value=new bool;
 	*((bool *)Value)=d;
-	RType=_Bool;
+	RType=__Bool;
 }
 void	ControlRemembererList::SetValue(double d)
 {
 	ReleaseValue();
 	Value=new double;
 	*((double *)Value)=d;
-	RType=_Double;
+	RType=__Double;
 }
 void	ControlRemembererList::SetValue(const QStringList &d)
 {
 	ReleaseValue();
 	Value=new QStringList;
 	*((QStringList *)Value)=d;
-	RType=_QStringList;
+	RType=__QStringList;
 }
 void	ControlRemembererList::SetValue(const QDateTime &d)
 {
 	ReleaseValue();
 	Value=new QDateTime;
 	*((QDateTime *)Value)=d;
-	RType=_QDateTime;
+	RType=__QDateTime;
 }
 void	ControlRemembererList::SetValue(const QByteArray &d)
 {
 	ReleaseValue();
 	Value=new QByteArray;
 	*((QByteArray *)Value)=d;
-	RType=_QByteArray;
+	RType=__QByteArray;
 }
 void	ControlRemembererList::SetValue(const IntListContainer &d)
 {
 	ReleaseValue();
 	Value=new IntListContainer;
 	*((IntListContainer *)Value)=d;
-	RType=_QTreeWidget;
+	RType=__QTreeWidget;
 }
 void	ControlRemembererList::SetValue(const IntList &d)
 {
 	ReleaseValue();
 	Value=new IntList;
 	*((IntList *)Value)=d;
-	RType=_IntList;
+	RType=__IntList;
 }
 void	ControlRemembererList::SetFormName(const QString &FormName)
 {
 	ReleaseValue();
 	Value=new QString;
 	*((QString *)Value)=FormName;
-	RType=_Form;
+	RType=__Form;
 }
 
 bool	ControlRemembererList::Save(QIODevice *f)
@@ -321,52 +321,52 @@ bool	ControlRemembererList::Save(QIODevice *f)
 		return false;
 	}
 	switch(RType){
-		case _Int:
+		case __Int:
 			if(Value==NULL){
 				return false;
 			}
 			return ::Save(f,*((int *)Value));
-		case _QString:
+		case __QString:
 			if(Value==NULL){
 				return false;
 			}
 			return ::Save(f,*((QString *)Value));
-		case _Bool:
+		case __Bool:
 			if(Value==NULL){
 				return false;
 			}
 			return ::Save(f,*((bool *)Value));
-		case _Double:
+		case __Double:
 			if(Value==NULL){
 				return false;
 			}
 			return ::Save(f,*((double *)Value));
-		case _QStringList:
+		case __QStringList:
 			if(Value==NULL){
 				return false;
 			}
 			return ::Save(f,*((QStringList *)Value));
-		case _QDateTime:
+		case __QDateTime:
 			if(Value==NULL){
 				return false;
 			}
 			return ::Save(f,*((QDateTime *)Value));
-		case _QByteArray:
+		case __QByteArray:
 			if(Value==NULL){
 				return false;
 			}
 			return ::Save(f,*((QByteArray *)Value));
-		case _QTreeWidget:
+		case __QTreeWidget:
 			if(Value==NULL){
 				return false;
 			}
 			return ((IntListContainer *)Value)->Save(f);
-		case _IntList:
+		case __IntList:
 			if(Value==NULL){
 				return false;
 			}
 			return ((IntList *)Value)->Save(f);
-		case _Form:
+		case __Form:
 			if(Value==NULL){
 				return false;
 			}
@@ -388,52 +388,52 @@ void	ControlRemembererList::ReleaseValue(void)
 
 	if(Value!=NULL){
 		switch(RType){
-			case _Int:
+			case __Int:
 				Vi=(int *)Value;
 				delete	Vi;
 				Value=NULL;
 				break;
-			case _QString:
+			case __QString:
 				Vs=(QString *)Value;
 				delete	Vs;
 				Value=NULL;
 				break;
-			case _Bool:
+			case __Bool:
 				Vb=(bool *)Value;
 				delete	Vb;
 				Value=NULL;
 				break;
-			case _Double:
+			case __Double:
 				Vd=(double *)Value;
 				delete	Vd;
 				Value=NULL;
 				break;
-			case _QStringList:
+			case __QStringList:
 				Vl=(QStringList *)Value;
 				delete	Vl;
 				Value=NULL;
 				break;
-			case _QDateTime:
+			case __QDateTime:
 				Vt=(QDateTime *)Value;
 				delete	Vt;
 				Value=NULL;
 				break;
-			case _QByteArray:
+			case __QByteArray:
 				Va=(QByteArray *)Value;
 				delete	Va;
 				Value=NULL;
 				break;
-			case _QTreeWidget:
+			case __QTreeWidget:
 				Vm=(IntListContainer *)Value;
 				delete	Vm;
 				Value=NULL;
 				break;
-			case _IntList:
+			case __IntList:
 				Vn=(IntList *)Value;
 				delete	Vn;
 				Value=NULL;
 				break;
-			case _Form:
+			case __Form:
 				Vs=(QString *)Value;
 				delete	Vs;
 				Value=NULL;
@@ -458,34 +458,34 @@ bool	ControlRemembererList::Load(QIODevice *f)
 	}
 
 	switch(RType){
-		case _Int:
+		case __Int:
 			Value=new int;
 			return ::Load(f,*((int *)Value));
-		case _QString:
+		case __QString:
 			Value=new QString;
 			return ::Load(f,*((QString *)Value));
-		case _Bool:
+		case __Bool:
 			Value=new bool;
 			return ::Load(f,*((bool *)Value));
-		case _Double:
+		case __Double:
 			Value=new double;
 			return ::Load(f,*((double *)Value));
-		case _QStringList:
+		case __QStringList:
 			Value=new QStringList;
 			return ::Load(f,*((QStringList *)Value));
-		case _QDateTime:
+		case __QDateTime:
 			Value=new QDateTime;
 			return ::Load(f,*((QDateTime *)Value));
-		case _QByteArray:
+		case __QByteArray:
 			Value=new QByteArray;
 			return ::Load(f,*((QByteArray *)Value));
-		case _QTreeWidget:
+		case __QTreeWidget:
 			Value=new IntListContainer();
 			return ((IntListContainer *)Value)->Load(f);
-		case _IntList:
+		case __IntList:
 			Value=new IntList();
 			return ((IntList *)Value)->Load(f);
-		case _Form:
+		case __Form:
 			Value=new QString;
 			return ::Load(f,*((QString *)Value));
 	}
@@ -898,7 +898,7 @@ void	ControlRemembererListContainer::SetValue(QWidget *W ,int d)
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_Int && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__Int && IsEqual(c->GetObjectNameList(),L)==true){
 			c->SetValue(d);
 			return;
 		}
@@ -912,7 +912,7 @@ void	ControlRemembererListContainer::SetValue(QWidget *W ,const QString &d)
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QString && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__QString && IsEqual(c->GetObjectNameList(),L)==true){
 			c->SetValue(d);
 			return;
 		}
@@ -927,7 +927,7 @@ void	ControlRemembererListContainer::SetValue(QWidget *W ,bool d)
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_Bool && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__Bool && IsEqual(c->GetObjectNameList(),L)==true){
 			c->SetValue(d);
 			return;
 		}
@@ -942,7 +942,7 @@ void	ControlRemembererListContainer::SetValue(QWidget *W ,double d)
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_Double && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__Double && IsEqual(c->GetObjectNameList(),L)==true){
 			c->SetValue(d);
 			return;
 		}
@@ -956,7 +956,7 @@ void	ControlRemembererListContainer::SetValue(QWidget *W ,const QStringList &d)
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QStringList && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__QStringList && IsEqual(c->GetObjectNameList(),L)==true){
 			c->SetValue(d);
 			return;
 		}
@@ -970,7 +970,7 @@ void	ControlRemembererListContainer::SetValue(QWidget *W ,const QDateTime &d)
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QDateTime && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__QDateTime && IsEqual(c->GetObjectNameList(),L)==true){
 			c->SetValue(d);
 			return;
 		}
@@ -985,7 +985,7 @@ void	ControlRemembererListContainer::SetValue(QWidget *W ,const IntListContainer
 {
 	QStringList	L=Rememberer->GetObjectNameList(W);
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QTreeWidget && IsEqual(c->GetObjectNameList(),L)==true){
+		if(c->GetRType()==ControlRemembererList::__QTreeWidget && IsEqual(c->GetObjectNameList(),L)==true){
 			c->SetValue(d);
 			return;
 		}
@@ -1228,7 +1228,7 @@ QStringList	ControlRememberer::GetObjectNameList(QObject *W)
 int		ControlRemembererListContainer::GetInt			(const QString &VariableName,int defaultValue)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_Int && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__Int && c->GetRecogName()==VariableName){
 			return c->GetInt();
 		}
 	}
@@ -1237,7 +1237,7 @@ int		ControlRemembererListContainer::GetInt			(const QString &VariableName,int d
 IntList		ControlRemembererListContainer::GetIntList			(const QString &VariableName,const IntList &defaultValue)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_IntList && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__IntList && c->GetRecogName()==VariableName){
 			return c->GetIntList();
 		}
 	}
@@ -1246,7 +1246,7 @@ IntList		ControlRemembererListContainer::GetIntList			(const QString &VariableNa
 double		ControlRemembererListContainer::GetDouble		(const QString &VariableName,double defaultValue)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_Double && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__Double && c->GetRecogName()==VariableName){
 			return c->GetDouble();
 		}
 	}
@@ -1255,7 +1255,7 @@ double		ControlRemembererListContainer::GetDouble		(const QString &VariableName,
 QString		ControlRemembererListContainer::GetString		(const QString &VariableName,const QString &defaultValue)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QString && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__QString && c->GetRecogName()==VariableName){
 			return c->GetString();
 		}
 	}
@@ -1264,7 +1264,7 @@ QString		ControlRemembererListContainer::GetString		(const QString &VariableName
 bool		ControlRemembererListContainer::GetBool			(const QString &VariableName,bool defaultValue)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_Bool && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__Bool && c->GetRecogName()==VariableName){
 			return c->GetBool();
 		}
 	}
@@ -1273,7 +1273,7 @@ bool		ControlRemembererListContainer::GetBool			(const QString &VariableName,boo
 QStringList	ControlRemembererListContainer::GetStringList	(const QString &VariableName,const QStringList &defaultValue)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QStringList && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__QStringList && c->GetRecogName()==VariableName){
 			return c->GetStringList();
 		}
 	}
@@ -1282,7 +1282,7 @@ QStringList	ControlRemembererListContainer::GetStringList	(const QString &Variab
 QDateTime	ControlRemembererListContainer::GetDateTime		(const QString &VariableName,const QDateTime &defaultValue)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QDateTime && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__QDateTime && c->GetRecogName()==VariableName){
 			return c->GetDateTime();
 		}
 	}
@@ -1291,7 +1291,7 @@ QDateTime	ControlRemembererListContainer::GetDateTime		(const QString &VariableN
 QByteArray	ControlRemembererListContainer::GetByteArray	(const QString &VariableName)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QByteArray && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__QByteArray && c->GetRecogName()==VariableName){
 			return c->GetByteArray();
 		}
 	}
@@ -1375,7 +1375,7 @@ QByteArray	ControlRememberer::GetByteArray	(const QString &VariableName)
 void	ControlRemembererListContainer::SetValue(const QString &VariableName,int Value)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_Int && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__Int && c->GetRecogName()==VariableName){
 			c->SetValue(Value);
 			return;
 		}
@@ -1388,7 +1388,7 @@ void	ControlRemembererListContainer::SetValue(const QString &VariableName,int Va
 void	ControlRemembererListContainer::SetValue(const QString &VariableName,const IntList &Value)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_IntList && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__IntList && c->GetRecogName()==VariableName){
 			c->SetValue(Value);
 			return;
 		}
@@ -1401,7 +1401,7 @@ void	ControlRemembererListContainer::SetValue(const QString &VariableName,const 
 void	ControlRemembererListContainer::SetValue(const QString &VariableName,double Value)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_Double && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__Double && c->GetRecogName()==VariableName){
 			c->SetValue(Value);
 			return;
 		}
@@ -1415,7 +1415,7 @@ void	ControlRemembererListContainer::SetValue(const QString &VariableName,double
 void	ControlRemembererListContainer::SetValue(const QString &VariableName,const QString &Value)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QString && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__QString && c->GetRecogName()==VariableName){
 			c->SetValue(Value);
 			return;
 		}
@@ -1428,7 +1428,7 @@ void	ControlRemembererListContainer::SetValue(const QString &VariableName,const 
 void	ControlRemembererListContainer::SetValue(const QString &VariableName,bool Value)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_Bool && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__Bool && c->GetRecogName()==VariableName){
 			c->SetValue(Value);
 			return;
 		}
@@ -1441,7 +1441,7 @@ void	ControlRemembererListContainer::SetValue(const QString &VariableName,bool V
 void	ControlRemembererListContainer::SetValue(const QString &VariableName,const QStringList &Value)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QStringList && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__QStringList && c->GetRecogName()==VariableName){
 			c->SetValue(Value);
 			return;
 		}
@@ -1454,7 +1454,7 @@ void	ControlRemembererListContainer::SetValue(const QString &VariableName,const 
 void	ControlRemembererListContainer::SetValue(const QString &VariableName,const QDateTime &Value)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QDateTime && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__QDateTime && c->GetRecogName()==VariableName){
 			c->SetValue(Value);
 			return;
 		}
@@ -1467,7 +1467,7 @@ void	ControlRemembererListContainer::SetValue(const QString &VariableName,const 
 void	ControlRemembererListContainer::SetValue(const QString &VariableName,const QByteArray &Value)
 {
 	for(ControlRemembererList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->GetRType()==ControlRemembererList::_QByteArray && c->GetRecogName()==VariableName){
+		if(c->GetRType()==ControlRemembererList::__QByteArray && c->GetRecogName()==VariableName){
 			c->SetValue(Value);
 			return;
 		}
@@ -1606,7 +1606,7 @@ void	ControlRememberer::SaveForm(QWidget *Form)
 	ControlRemembererListContainer	Stocker(this);
 	if(LoadList(Stocker)==true){
 		for(ControlRemembererList *c=Stocker.GetFirst();c!=NULL;c=c->GetNext()){
-			if(c->GetRType()==ControlRemembererList::_Form && c->GetRecogName()==FormName){
+			if(c->GetRType()==ControlRemembererList::__Form && c->GetRecogName()==FormName){
 				SaveFormChildren(Form,c);
 				SaveList(Stocker);
 				ReEntrant=false;
@@ -1636,7 +1636,7 @@ void	ControlRememberer::SaveForm(int ID,QWidget *Form)
 	ControlRemembererListContainer	Stocker(this);
 	if(LoadList(Stocker)==true){
 		for(ControlRemembererList *c=Stocker.GetFirst();c!=NULL;c=c->GetNext()){
-			if(c->GetRType()==ControlRemembererList::_Form && c->GetRecogName()==FormName){
+			if(c->GetRType()==ControlRemembererList::__Form && c->GetRecogName()==FormName){
 				SaveFormChildren(Form,c);
 				SaveList(Stocker);
 				ReEntrant=false;
@@ -1680,7 +1680,7 @@ void	ControlRememberer::RestoreForm(QWidget *Form)
 	ControlRemembererListContainer	Stocker(this);
 	if(LoadList(Stocker)==true){
 		for(ControlRemembererList *c=Stocker.GetFirst();c!=NULL;c=c->GetNext()){
-			if(c->GetRType()==ControlRemembererList::_Form && c->GetRecogName()==FormName){
+			if(c->GetRType()==ControlRemembererList::__Form && c->GetRecogName()==FormName){
 				LoadFormChildren(Form,c);
 				ReEntrant=false;
 				return;
@@ -1703,7 +1703,7 @@ void	ControlRememberer::RestoreForm(int ID,QWidget *Form)
 	ControlRemembererListContainer	Stocker(this);
 	if(LoadList(Stocker)==true){
 		for(ControlRemembererList *c=Stocker.GetFirst();c!=NULL;c=c->GetNext()){
-			if(c->GetRType()==ControlRemembererList::_Form && c->GetRecogName()==FormName){
+			if(c->GetRType()==ControlRemembererList::__Form && c->GetRecogName()==FormName){
 				LoadFormChildren(Form,c);
 				ReEntrant=false;
 				return;

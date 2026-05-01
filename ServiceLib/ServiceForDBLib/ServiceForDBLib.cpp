@@ -66,60 +66,65 @@ int	__G_SQLSaveNewMasterData(QSqlDatabase &DB ,LayersBase *Base)
 		if(query.exec()==false){
 			GSleep(3000);
 			if(query.exec()==false){
-				goto	FuncEnd;
+				UnlockDB();
+				return MasterCode;
 			}
 		}
 		if(query.next()==false){
-			goto	FuncEnd;
+			UnlockDB();
+			return MasterCode;
 		}
 		MasterCode = query.value(0).toInt()+1;
 	
 	
 	
-		PAgain:;
-		DB.transaction();
-		bool	InsertOK=false;
-		{
-			for(int i=0;i<10;i++){
-				QSqlQuery queryInsert(DB);
+		for(;;){
+			DB.transaction();
+			bool	InsertOK=false;
+			{
+				for(int i=0;i<10;i++){
+					QSqlQuery queryInsert(DB);
 	
-				queryInsert.prepare("INSERT INTO MASTERDATA(MASTERCODE) "
-								"VALUES(:IN_MASTERCODE);");		
-				queryInsert.bindValue(0	, MasterCode);
-				if(queryInsert.exec()==true){
-					InsertOK=true;
-					break;
+					queryInsert.prepare("INSERT INTO MASTERDATA(MASTERCODE) "
+									"VALUES(:IN_MASTERCODE);");		
+					queryInsert.bindValue(0	, MasterCode);
+					if(queryInsert.exec()==true){
+						InsertOK=true;
+						break;
+					}
+					MasterCode++;
 				}
-				MasterCode++;
 			}
-		}
-		if(InsertOK==false){
-			goto	FuncEnd;
-		}
-		{
-			QSqlQuery queryInsert(DB);
-			queryInsert.prepare("UPDATE MASTERDATA "
-								"SET MACHINEID=:IN_MACHINEID "
-								"WHERE MASTERCODE=:IN_MASTERCODE;");
-			queryInsert.bindValue(0	, Base->GetMachineID());
-			queryInsert.bindValue(1 , MasterCode);
-			if(queryInsert.exec()==false){
-				DB.rollback();
-	
-				goto	FuncEnd;
+			if(InsertOK==false){
+				UnlockDB();
+				return MasterCode;
 			}
 			{
-				QString	S=QString("SELECT * FROM MASTERDATA where MASTERCODE=")+QString::number(MasterCode)
-						 +QString(" and MACHINEID=")+QString::number(Base->GetMachineID());
-				QSqlQuery query2(S,DB);
-				if(query2.next ()==false){
+				QSqlQuery queryInsert(DB);
+				queryInsert.prepare("UPDATE MASTERDATA "
+									"SET MACHINEID=:IN_MACHINEID "
+									"WHERE MASTERCODE=:IN_MASTERCODE;");
+				queryInsert.bindValue(0	, Base->GetMachineID());
+				queryInsert.bindValue(1 , MasterCode);
+				if(queryInsert.exec()==false){
 					DB.rollback();
-					goto PAgain;
+	
+					UnlockDB();
+					return MasterCode;
+				}
+				{
+					QString	S=QString("SELECT * FROM MASTERDATA where MASTERCODE=")+QString::number(MasterCode)
+							 +QString(" and MACHINEID=")+QString::number(Base->GetMachineID());
+					QSqlQuery query2(S,DB);
+					if(query2.next ()==false){
+						DB.rollback();
+						continue;
+					}
 				}
 			}
+			DB.commit();
+			break;
 		}
-		DB.commit();
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -194,9 +199,7 @@ bool	__G_SQLUpdateMasterData(QSqlDatabase &DB ,LayersBase *Base ,ParamGlobal *GP
 		query.bindValue(23	, Base->GetMasterCode());
 		if(query.exec()==false){
 			Ret=false;
-			goto	FuncEnd;
 		}
-FuncEnd:;
 	}
 
 	UnlockDB();
@@ -222,16 +225,14 @@ bool	__G_SQLLoadMasterData(QSqlDatabase &DB ,LayersBase *Base
 	if(Base->IsDatabaseOk()==false){
 		return false;
 	}
-	bool	Ret=true;
+	bool	Ret=false;
 	LockDB();
 	{
 		QString	S=QString("SELECT * FROM MASTERDATA where MASTERCODE=")+QString::number(masterCode);
 		QSqlQuery query(S,DB);
-		if(query.next ()==false){
-			Ret=false;
-			goto	FuncEnd;
-		}
-		{
+		if(query.next ()==true){
+			Ret=true;
+
 			MasterCode		=query.value(query.record().indexOf("MASTERCODE")).toInt();
 			MachineID		=query.value(query.record().indexOf("MACHINEID"	)).toInt();
 			RegTime			=query.value(query.record().indexOf("REGTIME"	)).toDateTime();
@@ -263,7 +264,6 @@ bool	__G_SQLLoadMasterData(QSqlDatabase &DB ,LayersBase *Base
 			ThresholdLevelID		=query.value(query.record().indexOf("THRESHOLDLEVELID")).toInt();
 			ThresholdLevelParentID	=query.value(query.record().indexOf("THRESHOLDLEVELPARENTID")).toInt();
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -291,16 +291,14 @@ bool	__G_SQLLoadMasterData2(QSqlDatabase &DB
 	if(DB.isValid()==false){
 		return false;
 	}
-	bool	Ret=true;
+	bool	Ret=false;
 	LockDB();
 	{
 		QString	S=QString("SELECT * FROM MASTERDATA where MASTERCODE=")+QString::number(masterCode);
 		QSqlQuery query(S,DB);
-		if(query.next ()==false){
-			Ret=false;
-			goto	FuncEnd;
-		}
-		{
+		if(query.next ()==true){
+			Ret=true;
+
 			MachineID				=query.value(query.record().indexOf("MACHINEID"	)).toInt();
 			RegTime					=query.value(query.record().indexOf("REGTIME"	)).toDateTime();
 			MasterName				=query.value(query.record().indexOf("MASTERNAME")).toString();
@@ -319,7 +317,6 @@ bool	__G_SQLLoadMasterData2(QSqlDatabase &DB
 			ThresholdLevelID		=query.value(query.record().indexOf("THRESHOLDLEVELID")).toInt();
 			ThresholdLevelParentID	=query.value(query.record().indexOf("THRESHOLDLEVELPARENTID")).toInt();
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -344,14 +341,12 @@ DEFFUNCEX	bool	__G_SQLCheckMasterName(QSqlDatabase &DB
 				int	iMasterCode		=query.value(query.record().indexOf("MASTERCODE")).toInt();
 				RetMasterCodes.Add(iMasterCode);
 			}while(query.next ()==true);
-			goto	FuncEnd;
 		}
-FuncEnd:;
 	}
 
 	UnlockDB();
 
-	return true;
+	return Ret;
 }
 
 bool	__G_SQLGetMasterInfo(QSqlDatabase &DB ,int masterCode
@@ -369,16 +364,14 @@ bool	__G_SQLGetMasterInfo(QSqlDatabase &DB ,int masterCode
 	if(DB.isValid()==false){
 		return false;
 	}
-	bool	Ret=true;
+	bool	Ret=false;
 	QString	S=QString("SELECT * FROM MASTERDATA where MASTERCODE=")+QString::number(masterCode);
 	LockDB();
 	{
 		QSqlQuery query(S,DB);
-		if(query.next ()==false){
-			Ret=false;
-			goto	FuncEnd;
-		}
-		{
+		if(query.next ()==true){
+			Ret=true;
+
 			MachineID				=query.value(query.record().indexOf("MACHINEID"	)).toInt();
 			RegTime					=query.value(query.record().indexOf("REGTIME"	)).toDateTime();
 			MasterName				=query.value(query.record().indexOf("MASTERNAME")).toString();
@@ -391,7 +384,6 @@ bool	__G_SQLGetMasterInfo(QSqlDatabase &DB ,int masterCode
 			ThresholdLevelID		=query.value(query.record().indexOf("THRESHOLDLEVELID")).toInt();
 			ThresholdLevelParentID	=query.value(query.record().indexOf("THRESHOLDLEVELPARENTID")).toInt();
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -408,15 +400,11 @@ QImage	*__G_SQLLoadMasterTopview(QSqlDatabase &DB ,int masterCode)
 	{
 		QString	S=QString("SELECT TOPVIEW FROM MASTERDATA where MASTERCODE=")+QString::number(masterCode);
 		QSqlQuery query(S,DB);
-		if(query.next ()==false){
-			goto	FuncEnd;
-		}
-		{
+		if(query.next ()==true){
 			QByteArray	Gd	=query.value(query.record().indexOf("TOPVIEW")).toByteArray();
 			D=new QImage();
 			D->loadFromData(Gd);
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 	return D;
@@ -427,20 +415,17 @@ bool	__G_SQLLoadMasterSetting(QSqlDatabase &DB ,int masterCode,QBuffer &SettingB
 	if(DB.isValid()==false){
 		return false;
 	}
-	bool	Ret=true;
+	bool	Ret=false;
 	LockDB();
 	{
 		QString	S=QString("SELECT SETTINGDATA FROM MASTERDATA where MASTERCODE=")+QString::number(masterCode);
 		QSqlQuery query(S,DB);
-		if(query.next ()==false){
-			Ret=false;
-			goto	FuncEnd;
-		}
-		{
+		if(query.next ()==true){
+			Ret=true;
+
 			QByteArray	Sd=query.value(query.record().indexOf("SETTINGDATA")).toByteArray();
 			SettingBuff.setData(Sd);
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 	return Ret;
@@ -451,17 +436,15 @@ bool	__G_SQLLoadWorker(QSqlDatabase &DB ,int workerID ,QString &RetName)
 	if(DB.isValid()==false){
 		return false;
 	}
-	bool	Ret=true;
+	bool	Ret=false;
 	LockDB();
 	{
 	QString	S=QString("SELECT NAME FROM WORKER where WORKERID=")+QString::number(workerID);
 		QSqlQuery query(S,DB);
-		if(query.next ()==false){
-			Ret=false;
-			goto	FuncEnd;
+		if(query.next ()==true){
+			Ret=true;
+			RetName	=query.value(query.record().indexOf("NAME")).toString();
 		}
-		RetName	=query.value(query.record().indexOf("NAME")).toString();
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -490,7 +473,8 @@ bool	__G_SQLSavePage(QSqlDatabase &DB ,DataInPage *PageBase,int32 masterCode
 			queryInsrt.bindValue(1	, globalPage);
 			if(queryInsrt.exec()==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 		}
 		{
@@ -550,7 +534,8 @@ bool	__G_SQLSavePage(QSqlDatabase &DB ,DataInPage *PageBase,int32 masterCode
 					base->SaveOnlyBase(&Buff);
 					if(ap->Save(&Buff)==false){
 						Ret=false;
-						goto	FuncEnd;
+						UnlockDB();
+						return Ret;
 					}
 					queryUpdate.bindValue(N, Buff.buffer());
 				}
@@ -560,11 +545,11 @@ bool	__G_SQLSavePage(QSqlDatabase &DB ,DataInPage *PageBase,int32 masterCode
 				queryUpdate.bindValue(N+1, globalPage);
 				if(queryUpdate.exec()==false){
 					Ret=false;
-					goto	FuncEnd;
+					UnlockDB();
+					return Ret;
 				}
 			}
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 	
@@ -583,15 +568,13 @@ bool	__G_SQLLoadPage(QSqlDatabase &DB ,DataInPage *PageBase,int32 masterCode
 	int	globalPage=CParam->GetGlobalPageFromLocal(*GParam,PageBase->GetPage());
 	QString	S=QString("SELECT * FROM MASTERPAGE where MASTERCODE=")+QString::number(masterCode)
 		+QString(" and PAGECODE=")+QString::number(globalPage);
-	bool	Ret=true;
+	bool	Ret=false;
 	LockDB();
 	{
 		QSqlQuery query(S ,DB);
-		if(query.next ()==false){
-			Ret=false;
-			goto	FuncEnd;
-		}
-		{
+		if(query.next ()==true){
+			Ret=true;
+
 			iVersion		=query.value(query.record().indexOf("VERSION"	)).toInt();
 			QByteArray	Gd=query.value(query.record().indexOf("GENERALDATA")).toByteArray();
 			GeneralBuff.setData(Gd);
@@ -623,7 +606,6 @@ bool	__G_SQLLoadPage(QSqlDatabase &DB ,DataInPage *PageBase,int32 masterCode
 				}
 			}
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -651,7 +633,8 @@ bool	__G_SQLSavePageNoImage(QSqlDatabase &DB ,DataInPage *PageBase,int32 masterC
 			queryInsrt.bindValue(1	, globalPage);
 			if(queryInsrt.exec()==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 		}
 		{
@@ -708,7 +691,8 @@ bool	__G_SQLSavePageNoImage(QSqlDatabase &DB ,DataInPage *PageBase,int32 masterC
 					base->SaveOnlyBase(&Buff);
 					if(ap->Save(&Buff)==false){
 						Ret=false;
-						goto	FuncEnd;
+						UnlockDB();
+						return Ret;
 					}
 					queryUpdate.bindValue(N, Buff.buffer());
 				}
@@ -718,11 +702,11 @@ bool	__G_SQLSavePageNoImage(QSqlDatabase &DB ,DataInPage *PageBase,int32 masterC
 				queryUpdate.bindValue(N+1, globalPage);
 				if(queryUpdate.exec()==false){
 					Ret=false;
-					goto	FuncEnd;
+					UnlockDB();
+					return Ret;
 				}
 			}
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 	
@@ -740,15 +724,13 @@ bool	__G_SQLLoadPageNoImage(QSqlDatabase &DB ,DataInPage *PageBase,int32 masterC
 	int	globalPage=CParam->GetGlobalPageFromLocal(*GParam,PageBase->GetPage());
 	QString	S=QString("SELECT * FROM MASTERPAGE where MASTERCODE=")+QString::number(masterCode)
 		 	+QString(" and PAGECODE=")+QString::number(globalPage);
-	bool	Ret=true;
+	bool	Ret=false;
 	LockDB();
 	{
 		QSqlQuery query(S ,DB);
-		if(query.next ()==false){
-			Ret=false;
-			goto	FuncEnd;
-		}
-		{
+		if(query.next ()==true){
+			Ret=true;
+
 			iVersion	=query.value(query.record().indexOf("VERSION"	)).toInt();
 			QByteArray	Gd=query.value(query.record().indexOf("GENERALDATA")).toByteArray();
 			GeneralBuff.setData(Gd);
@@ -778,7 +760,6 @@ bool	__G_SQLLoadPageNoImage(QSqlDatabase &DB ,DataInPage *PageBase,int32 masterC
 				}
 			}
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -802,9 +783,7 @@ bool	__G_SQLAddMasterFieldData(QSqlDatabase &DB ,int32 masterCode ,const QString
 		queryUpdate.bindValue(1	, masterCode);
 		if(queryUpdate.exec()==false){
 			Ret=false;
-			goto	FuncEnd;
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -828,9 +807,7 @@ bool	__G_SQLAddRelationFieldData(QSqlDatabase &DB ,int32 RelationCode ,const QSt
 		queryUpdate.bindValue(1	, RelationCode);
 		if(queryUpdate.exec()==false){
 			Ret=false;
-			goto	FuncEnd;
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -843,16 +820,14 @@ bool	__G_SQLLoadMasterFieldData(QSqlDatabase &DB ,int32 masterCode ,const QStrin
 	}
 	QString	S=QString("SELECT ")+fieldName
 			 +QString(" FROM MASTERDATA where MASTERCODE=")+QString::number(masterCode);
-	bool	Ret=true;
+	bool	Ret=false;
 	LockDB();
 	{
 		QSqlQuery query(S ,DB);
-		if(query.next ()==false){
-			Ret=false;
-			goto	FuncEnd;
+		if(query.next ()==true){
+			Ret=true;
+			data=query.value(query.record().indexOf(fieldName));
 		}
-		data=query.value(query.record().indexOf(fieldName));
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -866,16 +841,14 @@ bool	__G_SQLLoadRelationFieldData(QSqlDatabase &DB ,int32 RelationCode ,const QS
 	}
 	QString	S=QString("SELECT ")+fieldName
 			 +QString(" FROM MASTERRELATION where RELATIONCODE=")+QString::number(RelationCode);
-	bool	Ret=true;
+	bool	Ret=false;
 	LockDB();
 	{
 		QSqlQuery query(S ,DB);
-		if(query.next ()==false){
-			Ret=false;
-			goto	FuncEnd;
+		if(query.next ()==true){
+			Ret=true;
+			data=query.value(query.record().indexOf(fieldName));
 		}
-		data=query.value(query.record().indexOf(fieldName));
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -889,15 +862,13 @@ bool	__G_SQLSaveOutlineOfset(QSqlDatabase &DB ,int32 MachineID
 		return false;
 	}
 	QString	S=QString("SELECT * FROM MACHINE where MACHINEID=")+QString::number(MachineID);
-	bool	Ret=true;
+	bool	Ret=false;
 	LockDB();
 	{
 		QSqlQuery query(S ,DB);
-		if(query.next ()==false){
-			Ret=false;
-			goto	FuncEnd;
-		}
-		{
+		if(query.next ()==true){
+			Ret=true;
+
 			QSqlQuery queryUpdate(DB);
 			QString	QStr=QString("UPDATE MACHINE SET OUTLINEOFFSET=:IN_DATA")
 					+QString(" WHERE MACHINEID=")+QString::number(MachineID);
@@ -910,10 +881,8 @@ bool	__G_SQLSaveOutlineOfset(QSqlDatabase &DB ,int32 MachineID
 			queryUpdate.bindValue(0	, Buff.buffer());
 			if(queryUpdate.exec()==false){
 				Ret=false;
-				goto	FuncEnd;
 			}
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -926,25 +895,21 @@ bool	__G_SQLLoadOutlineOfset(QSqlDatabase &DB ,int32 MachineID
 		return false;
 	}
 	QString	S=QString("SELECT * FROM MACHINE where MACHINEID=")+QString::number(MachineID);
-	bool	Ret=true;
+	bool	Ret=false;
 	LockDB();
 	{
 		QSqlQuery query(S ,DB);
-		if(query.next ()==false){
-			Ret=false;
-			goto	FuncEnd;
-		}
-		{
+		if(query.next ()==true){
+			Ret=true;
+
 			QVariant	data=query.value(query.record().indexOf("OUTLINEOFFSET"));
 			QByteArray	BArray=data.toByteArray();
 			QBuffer	Buff(&BArray);
 			Buff.open(QIODevice::ReadWrite);
 			if(OutlineOffsetWriter->Load(&Buff)==false){
 				Ret=false;
-				goto	FuncEnd;
 			}
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -965,7 +930,8 @@ bool	__G_CheckAndCreateLibTypeInDatabase(QSqlDatabase &DB ,AlgorithmLibraryConta
 		QSqlQuery query(S ,DB);
 		if(query.next ()==true){
 			Ret=true;
-			goto	FuncEnd;
+			UnlockDB();
+			return Ret;
 		}
 		{
 			QSqlQuery queryInsrt(DB);
@@ -975,10 +941,10 @@ bool	__G_CheckAndCreateLibTypeInDatabase(QSqlDatabase &DB ,AlgorithmLibraryConta
 			queryInsrt.bindValue(1	, QString(Base->GetLibTypeName()));
 			if(queryInsrt.exec()==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -1224,7 +1190,8 @@ bool	__G_SaveNew(QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 			Buff.open(QIODevice::ReadWrite);
 			if(Data.SaveBlob(&Buff)==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 			{
 				QByteArray	AData=Buff.buffer();
@@ -1241,11 +1208,13 @@ bool	__G_SaveNew(QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 			LBuff.open(QIODevice::ReadWrite);
 			if(Data.GetAdaptedPickLayers().Save(&LBuff)==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 			if(Data.GetAdaptedGenLayers().Save(&LBuff)==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 			{
 				QByteArray	AData=LBuff.buffer();
@@ -1263,7 +1232,8 @@ bool	__G_SaveNew(QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 			LBuff.open(QIODevice::ReadWrite);
 			if(::Save(&LBuff,Data.GetLibColor())==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 			{
 				QByteArray	AData=LBuff.buffer();
@@ -1279,18 +1249,19 @@ bool	__G_SaveNew(QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 			LBuff.open(QIODevice::ReadWrite);
 			if(::Save(&LBuff,Data.GetLibComment())==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 			{
 				QByteArray	AData=LBuff.buffer();
 				queryInsrt.bindValue(11	, AData);
 				if(queryInsrt.exec()==false){
 					Ret=false;
-					goto	FuncEnd;
+					UnlockDB();
+					return Ret;
 				}
 			}
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -1320,7 +1291,8 @@ bool	__G_SaveNewWithLibID(QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,Alg
 		Buff.open(QIODevice::ReadWrite);
 		if(Data.SaveBlob(&Buff)==false){
 			Ret=false;
-			goto	FuncEnd;
+			UnlockDB();
+			return Ret;
 		}
 		queryInsrt.bindValue(7	, Buff.buffer());
 //		if(queryInsrt.exec()==false){
@@ -1333,16 +1305,19 @@ bool	__G_SaveNewWithLibID(QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,Alg
 			LBuff.open(QIODevice::ReadWrite);
 			if(Data.GetAdaptedPickLayers().Save(&LBuff)==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 			if(Data.GetAdaptedGenLayers().Save(&LBuff)==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 			queryInsrt.bindValue(8	, LBuff.buffer());
 			if(queryInsrt.exec()==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 		}
 		queryInsrt.bindValue(9	, Data.GetSourceID());
@@ -1352,12 +1327,14 @@ bool	__G_SaveNewWithLibID(QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,Alg
 			LBuff.open(QIODevice::ReadWrite);
 			if(::Save(&LBuff,Data.GetLibColor())==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 			queryInsrt.bindValue(10	, LBuff.buffer());
 			if(queryInsrt.exec()==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 		}
 		{
@@ -1365,15 +1342,16 @@ bool	__G_SaveNewWithLibID(QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,Alg
 			LBuff.open(QIODevice::ReadWrite);
 			if(::Save(&LBuff,Data.GetLibComment())==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 			queryInsrt.bindValue(11	, LBuff.buffer());
 			if(queryInsrt.exec()==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -1415,7 +1393,8 @@ bool	__G_Update (QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 		Buff.open(QIODevice::ReadWrite);
 		if(Data.SaveBlob(&Buff)==false){
 			Ret=false;
-			goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 		}
 		queryUpdate.bindValue(5	, Buff.buffer());
 
@@ -1424,11 +1403,13 @@ bool	__G_Update (QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 			LBuff.open(QIODevice::ReadWrite);
 			if(Data.GetAdaptedPickLayers().Save(&LBuff)==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 			if(Data.GetAdaptedGenLayers().Save(&LBuff)==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 			queryUpdate.bindValue(6	, LBuff.buffer());
 		}
@@ -1440,7 +1421,8 @@ bool	__G_Update (QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 			LBuff.open(QIODevice::ReadWrite);
 			if(::Save(&LBuff,Data.GetLibColor())==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 			queryUpdate.bindValue(8	, LBuff.buffer());
 		}
@@ -1449,7 +1431,8 @@ bool	__G_Update (QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 			LBuff.open(QIODevice::ReadWrite);
 			if(::Save(&LBuff,Data.GetLibComment())==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 			queryUpdate.bindValue(9	, LBuff.buffer());
 		}
@@ -1459,10 +1442,10 @@ bool	__G_Update (QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 			
 			if(queryUpdate.exec()==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -1481,12 +1464,16 @@ bool	__G_Load   (QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 		QSqlQuery *query=new QSqlQuery(S ,DB);
 		if(query->next ()==false){
 			Ret=false;
-			goto	FuncEnd;
+			delete	query;
+			UnlockDB();
+			return Ret;
 		}
 		int	LibID=query->value(query->record().indexOf("LIBID"			)).toInt();
 		if(LibID==0){
 			Ret=false;
-			goto	FuncEnd;
+			delete	query;
+			UnlockDB();
+			return Ret;
 		}
 		{
 			Data.SetLibID		(LibID);
@@ -1504,7 +1491,9 @@ bool	__G_Load   (QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 			if(DataVersion<=0){
 				if(Data.LoadBlob(&Buff)==false){
 					Ret=false;
-					goto	FuncEnd;
+					delete	query;
+					UnlockDB();
+					return Ret;
 				}
 			}
 			else{
@@ -1520,8 +1509,6 @@ bool	__G_Load   (QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 				}
 				if(a!=NULL){
 					if(a->LoadBlob(&Buff)==false){
-						//Ret=false;
-						//goto	FuncEnd;
 						a->SetValidInLoad(false);
 					}
 					a->SetParent(&Data);
@@ -1570,7 +1557,6 @@ bool	__G_Load   (QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,AlgorithmLib
 				}
 			}
 		}
-	FuncEnd:;
 		delete	query;
 	}
 	UnlockDB();
@@ -1591,9 +1577,7 @@ bool	__G_Delete (QSqlDatabase &DB ,AlgorithmLibraryContainer *Base ,int32 LibID)
 		queryDelete.bindValue(1	, LibID);
 		if(queryDelete.exec()==false){
 			Ret=false;
-			goto	FuncEnd;
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 	return Ret;
@@ -1776,7 +1760,6 @@ void	__S_LibCopy(QSqlDatabase &DB ,int sourceFolderID ,int destFolderID ,int Lib
 		return;
 	}
 
-	bool	Ret=true;
 	if(LibType>=0){
 		QString	Sid=QString("SELECT MAX(LIBID) FROM INSPECTLIB where LIBTYPE=")+QString::number(LibType);
 		LockDB();
@@ -1822,11 +1805,11 @@ void	__S_LibCopy(QSqlDatabase &DB ,int sourceFolderID ,int destFolderID ,int Lib
 					queryInsrt.bindValue(8	, AdaptedLayers	);
 					queryInsrt.bindValue(9	, LibID	);			//SourceID=LibID
 					if(queryInsrt.exec()==false){
-						goto	FuncEnd;
+						UnlockDB();
+						return;
 					}
 				}while(query.next()==true);
 			}
-			FuncEnd:;
 		}
 		UnlockDB();
 	}
@@ -1876,11 +1859,11 @@ void	__S_LibCopy(QSqlDatabase &DB ,int sourceFolderID ,int destFolderID ,int Lib
 					queryInsrt.bindValue(8	, AdaptedLayers	);
 					queryInsrt.bindValue(9	, LibID	);			//SourceID=LibID
 					if(queryInsrt.exec()==false){
-						goto	FuncEnd2;
+						UnlockDB();
+						return;
 					}
 				}while(query.next()==true);
 			}
-			FuncEnd2:;
 		}
 		UnlockDB();
 	}
@@ -1894,16 +1877,13 @@ int		__S_GetFirstLibFolderByMasterCode(QSqlDatabase &DB ,int MasterCode ,QString
 	QString	S=QString("SELECT LIBFOLDERID,FOLDERNAME FROM LIBFOLDER where RELATEDMASTERCODE=")
 			 +QString::number(MasterCode)
 			 +QString(" order by LIBFOLDERID;");
-	int		LibFolderID=-1;
 	LockDB();
 	{
 		QSqlQuery query(S ,DB);
 		if(query.next ()==true){
 			int		LibFolderID=query.value(query.record().indexOf("LIBFOLDERID")).toInt();
 			FolderName	=query.value(query.record().indexOf("FOLDERNAME")).toString();
-			goto	FuncEnd;
 		}
-	FuncEnd:;
 	}
 	UnlockDB();
 
@@ -1930,9 +1910,7 @@ DEFFUNCEX	bool	__S_GetLibraryLayers(QSqlDatabase &DB ,int LibType,int LibID ,Int
 			AdaptedPickLayers.Load(&LBuff);
 			AdaptedGenLayers.Load(&LBuff);
 			Ret=true;
-			goto	FuncEnd;
 		}
-	FuncEnd:;
 	}
 	UnlockDB();
 	return Ret;
@@ -2411,7 +2389,7 @@ bool	__S_CheckAndCreateBlobInMasterPageTable(const QSqlDatabase &db ,QString &Bl
 			}
 		}
 		delete	R;
-FuncEnd:;
+
 	}
 	UnlockDB();
 	//delete	R;
@@ -2476,11 +2454,10 @@ int		__G_EnumColorSample		(QSqlDatabase &DB ,int SelectedColorFolder,ColorSample
 				EnumData[L].SetName		(query.value(query.record().indexOf("NAME")).toString());
 				L++;
 				if(L>=MaxNumb){
-					goto	FuncEnd1;
+					break;
 				}
 			}while(query.next()==true);
 		}
-		FuncEnd1:;
 	}
 	else{
 		QString	S=QString("SELECT AUTOCOUNT,NAME FROM COLORSAMPLE WHERE COLORFOLDERID=")+QString::number(SelectedColorFolder);
@@ -2492,11 +2469,10 @@ int		__G_EnumColorSample		(QSqlDatabase &DB ,int SelectedColorFolder,ColorSample
 				EnumData[L].SetName		(query.value(query.record().indexOf("NAME")).toString());
 				L++;
 				if(L>=MaxNumb){
-					goto	FuncEnd2;
+					break;
 				}
 			}while(query.next()==true);
 		}
-		FuncEnd2:;
 	}
 	UnlockDB();
 	return L;
@@ -2526,17 +2502,18 @@ bool	__G_SaveNewColorSample	(QSqlDatabase &DB ,ColorSampleList &Data)
 		Buff.open(QIODevice::ReadWrite);
 		if(Data.SaveData(&Buff)==false){
 			Ret=false;
-			goto	FuncEnd;
+			UnlockDB();
+			return Ret;
 		}
 		{
 			queryInsrt.bindValue(4	, Buff.buffer());
 			queryInsrt.bindValue(5	, Data.GetSelectedColorFolder());
 			if(queryInsrt.exec()==false){
 				Ret=false;
-				goto	FuncEnd;
+				UnlockDB();
+				return Ret;
 			}
 		}
-	FuncEnd:;
 	}
 	UnlockDB();
 	return Ret;
@@ -2567,14 +2544,14 @@ bool	__G_UpdateColorSample	(QSqlDatabase &DB ,ColorSampleList &Data)
 		Buff.open(QIODevice::ReadWrite);
 		if(Data.SaveData(&Buff)==false){
 			ret=false;
-			goto	FuncEnd;
+			UnlockDB();
+			return ret;
 		}
 		{
 			queryUpdate.bindValue(4	, Buff.buffer());
 			queryUpdate.bindValue(5, Data.GetAutoCount());
 			ret=queryUpdate.exec();
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 	return ret;
@@ -2759,7 +2736,6 @@ bool	__G_FindMasterRelation(  QSqlDatabase &DB
 								,const QString &Remark
 								,IntList &RelationCodes)
 {
-	int	N=0;
 	QString	S=QString("SELECT RELATIONCODE FROM MASTERRELATION where RELATIONNAME=\'")
 			+ RelationName
 			+ QString("\' and RELATIONNUMBER=\'")
@@ -2811,7 +2787,7 @@ int		__G_SearchMasterCode(QSqlDatabase &DB ,int RelationCode ,RelationMasterList
 		if(query.next()==true){
 			do{
 				if(N>=MaxListCount){
-					goto	FuncEnd;
+					break;
 				}
 				{
 					MasterListDim[N].MasterCode=query.value(query.record().indexOf("MASTERCODE")).toInt();
@@ -2821,7 +2797,6 @@ int		__G_SearchMasterCode(QSqlDatabase &DB ,int RelationCode ,RelationMasterList
 				N++;
 			}while(query.next()==true);
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 	return N;
@@ -3096,7 +3071,8 @@ DEFFUNCEX	bool	__G_InsertLearningInDB(QSqlDatabase &DB ,LearningInDB &src)
 
 		if(queryInsrt.exec()==false){
 			Ret=false;
-			goto	FuncEnd;
+			UnlockDB();
+			return Ret;
 		}
 		{
 			int	MaxParamID=0;
@@ -3120,13 +3096,13 @@ DEFFUNCEX	bool	__G_InsertLearningInDB(QSqlDatabase &DB ,LearningInDB &src)
 
 				if(queryParamInsrt.exec()==false){
 					Ret=false;
-					goto	FuncEnd;
+					UnlockDB();
+					return Ret;
 				}
 				a->ParamID=MaxParamID;
 				MaxParamID++;
 			}
 		}
-	FuncEnd:;
 	}
 	UnlockDB();
 	return Ret;
@@ -3207,7 +3183,8 @@ DEFFUNCEX	bool	__G_UpdateLearningInDB(QSqlDatabase &DB ,LearningInDB &src)
 
 					if(queryParamInsrt.exec()==false){
 						Ret=false;
-						goto	FuncEnd;
+						UnlockDB();
+						return Ret;
 					}
 					a->ParamID=MaxParamID;
 				}
@@ -3240,12 +3217,12 @@ DEFFUNCEX	bool	__G_UpdateLearningInDB(QSqlDatabase &DB ,LearningInDB &src)
 					int	ret4=queryDelete.exec();
 					if(ret4==false){
 						Ret=false;
-						goto	FuncEnd;
+						UnlockDB();
+						return Ret;
 					}
 				}
 			}
 		}
-	FuncEnd:;
 	}
 
 	UnlockDB();
@@ -3489,21 +3466,18 @@ DEFFUNCEX	bool	__G_GetInspectionLot(QSqlDatabase &DB
 {
 	QString	S=QString("SELECT * FROM INSPECTIONLOT where LOTAUTOCOUNT=")+QString::number(LotAutoCount)
 				+QString(" and MASTERCODE=")+QString::number(MasterCode);
-	bool	Ret=true;
+	bool	Ret=false;
 	LockDB();
 	{
 		QSqlQuery query(S,DB);
-		if(query.next ()==false){
-			Ret=false;
-			goto	FuncEnd;
-		}
-		{
+		if(query.next ()==true){
+			Ret=true;
+
 			LastUpdated	=query.value(query.record().indexOf("LASTUPDATED")).toDateTime();
 			IDName		=query.value(query.record().indexOf("IDNAME"	)).toString();
 			LotName		=query.value(query.record().indexOf("LOTNAME"	)).toString();
 			Remark		=query.value(query.record().indexOf("REMARK"	)).toString();
 		}
-FuncEnd:;
 	}
 	UnlockDB();
 
@@ -3615,21 +3589,18 @@ DEFFUNCEX	bool	__G_LoadCommonDataInLibType		(QSqlDatabase &DB ,int LibType ,Comm
 {
 	QString	S=QString("SELECT * FROM COMMONDATAINLIBTYPE where LIBTYPE=")+QString::number(LibType)
 			+ QString(" and COMMONID=")+QString::number(Data.CommonID);
-	bool	Ret=true;
+	bool	Ret=false;
 	LockDB();
 	{
 		QSqlQuery query(S,DB);
-		if(query.next ()==false){
-			Ret=false;
-			goto	FuncEnd;
-		}
-		{
+		if(query.next ()==true){
+			Ret=true;
+
 			Data.LastUpdated	=query.value(query.record().indexOf("LASTUPDATED")).toDateTime();
 			Data.Name			=query.value(query.record().indexOf("DATANAME"	)).toString();
 			Data.Version		=query.value(query.record().indexOf("DATAVERSION"	)).toInt();
 			Data.Data			=query.value(query.record().indexOf("SPECIFIEDDATA"	)).toByteArray();
 		}
-	FuncEnd:;
 	}
 	UnlockDB();
 
@@ -3802,7 +3773,7 @@ DEFFUNCEX	bool	__S_RemoveLevel(QSqlDatabase &DB ,int LevelID)
 		}
 	}
 	UnlockDB();
-	return true;
+	return Ret;
 
 }
 
@@ -3946,5 +3917,5 @@ DEFFUNCEX	bool	__S_DeleteThresholdStocker(QSqlDatabase &DB ,int LibType ,int32 T
 		}
 	}
 	UnlockDB();
-	return true;
+	return Ret;
 }

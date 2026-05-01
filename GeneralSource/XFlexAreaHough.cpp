@@ -162,65 +162,68 @@ void	PickupLinesByHough(PureFlexAreaListContainer &FPack
 	}
 	QSort(HDim,HDimNumb,sizeof(struct HoughLineLimitless),FuncHDim);
 	for(int k=0;k<HDimNumb;k++){
+		bool	Found=true;
 		for(int i=0;i<k;i++){
 			if(abs(HDim[i].t-HDim[k].t)<=LineArea
 			&& abs(HDim[i].s-HDim[k].s)<=LineArea){
-				goto	NextK;
+				Found=false;
+				break;
 			}
 		}
-		HoughLine	*L=new HoughLine();
-		double	s=HDim[k].s/((double)MapSize)*2*M_PI;
-		double	p=HDim[k].t/YRate+Cy;
-		double	a=cos(s);
-		double	b=sin(s);
-		double	c=-p;
-		//a*x+b*y+c=0
+		if(Found==true){
+			HoughLine	*L=new HoughLine();
+			double	s=HDim[k].s/((double)MapSize)*2*M_PI;
+			double	p=HDim[k].t/YRate+Cy;
+			double	a=cos(s);
+			double	b=sin(s);
+			double	c=-p;
+			//a*x+b*y+c=0
 
-		double	Px,Py;
-		if(fabs(a)>fabs(b)){
-			Px=-c/a;
-			Py=0;
-		}
-		else{
-			Px=0;
-			Py=-c/b;
-		}
-		double	MinT=99999999;
-		double	MaxT=-99999999;
+			double	Px,Py;
+			if(fabs(a)>fabs(b)){
+				Px=-c/a;
+				Py=0;
+			}
+			else{
+				Px=0;
+				Py=-c/b;
+			}
+			double	MinT=99999999;
+			double	MaxT=-99999999;
 
-		for(PureFlexAreaList *f=FPack.GetFirst();f!=NULL;f=f->GetNext()){
-			int	N=f->GetFLineLen();
-			for(int i=0;i<N;i++){
-				int	Y	=f->GetFLineAbsY(i);
-				int	X1	=f->GetFLineLeftX(i);
-				int	Numb=f->GetFLineNumb(i);
-				for(int x=0;x<Numb;x++){
-					double fX ,fY;
-					double	Len=GetLinePointFoot(a,b,c ,X1+x ,Y,fX ,fY);
-					if(Len<=LineArea){
-						double	t=hypot(Px-fX,Py-fY);
-						if(t<MinT){
-							MinT=t;
-							L->X1=X1+x;
-							L->Y1=Y;
+			for(PureFlexAreaList *f=FPack.GetFirst();f!=NULL;f=f->GetNext()){
+				int	N=f->GetFLineLen();
+				for(int i=0;i<N;i++){
+					int	Y	=f->GetFLineAbsY(i);
+					int	X1	=f->GetFLineLeftX(i);
+					int	Numb=f->GetFLineNumb(i);
+					for(int x=0;x<Numb;x++){
+						double fX ,fY;
+						double	Len=GetLinePointFoot(a,b,c ,X1+x ,Y,fX ,fY);
+						if(Len<=LineArea){
+							double	t=hypot(Px-fX,Py-fY);
+							if(t<MinT){
+								MinT=t;
+								L->X1=X1+x;
+								L->Y1=Y;
+							}
+							if(t>MaxT){
+								MaxT=t;
+								L->X2=X1+x;
+								L->Y2=Y;
+							}
+							L->DotCount++;
 						}
-						if(t>MaxT){
-							MaxT=t;
-							L->X2=X1+x;
-							L->Y2=Y;
-						}
-						L->DotCount++;
 					}
 				}
 			}
+			if(L->DotCount>2){
+				PickedLines.AppendList(L);
+			}
+			else{
+				delete	L;
+			}
 		}
-		if(L->DotCount>2){
-			PickedLines.AppendList(L);
-		}
-		else{
-			delete	L;
-		}
-	NextK:;
 	}
 	::DeleteMatrixBuff((BYTE **)HMap,tMapDim,SYLen);
 }
