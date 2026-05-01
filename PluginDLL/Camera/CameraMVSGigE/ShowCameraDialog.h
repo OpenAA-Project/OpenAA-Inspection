@@ -41,7 +41,7 @@ class ShowCameraDialog : public QDialog
     int         EnumWhiteBalanceData[64];
     int         EnumBalanceRatioSelectorData[64];
     int         EnumBalanceColorTemperatureModeData[64];
-
+    int         EnumUserSetSelectorData[64];
 public:
 
     int         ExposureAuto;
@@ -76,16 +76,21 @@ public:
     explicit ShowCameraDialog(CameraMVSGigE *p,QWidget *parent = nullptr);
     ~ShowCameraDialog();
 
+    void	ShowData(void);
+
 private slots:
     void on_pushButtonOK_clicked();
     void on_pushButtonCancel_clicked();
     void on_spinBoxAOIOffsetX_valueChanged(int arg1);
     void on_spinBoxAOIOffsetY_valueChanged(int arg1);
-
     void on_comboBoxWhiteBalance_currentIndexChanged(int index);
+    void on_pushButtonUserSetSave_clicked();
+    void on_pushButtonUserSetLoad_clicked();
 
 private:
     Ui::ShowCameraDialog *ui;
+
+    void GetFromWindow(void);
 };
 
 #endif // SHOWCAMERADIALOG_H

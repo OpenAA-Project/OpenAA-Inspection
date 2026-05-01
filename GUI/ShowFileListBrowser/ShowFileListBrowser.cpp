@@ -32,6 +32,7 @@
 #include <QGuiApplication>
 #include <QMessageBox>
 #include <QApplication>
+#include "swap.h"
 
 const	char	*sRoot=/**/"General";
 const	char	*sName=/**/"ShowFileListBrowser";
@@ -197,6 +198,16 @@ void	ShowFileListBrowser::ReadyParam(void)
 		QModelIndex	Index=Model.setRootPath(Path);
 		View.setRootIndex(Index);
 	}
+}
+
+void	ShowFileListBrowser::ResizeFirst(void)
+{
+	double	ScaleX,ScaleY;
+	GetGUIScale(ScaleX,ScaleY);
+	double	FormScale = max(ScaleX,ScaleY);
+	int	W=ButtonUpper.width();
+	int	H = ButtonUpper.height();
+	ButtonUpper.resize(W*FormScale,H*FormScale);
 }
 
 void	ShowFileListBrowser::ResizeAction()

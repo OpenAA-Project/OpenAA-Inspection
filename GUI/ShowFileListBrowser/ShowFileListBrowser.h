@@ -106,6 +106,7 @@ public:
 	~ShowFileListBrowser();
 
 	virtual void	ReadyParam(void)							override;
+	virtual	void	ResizeFirst(void)							override;
 	virtual void	TransmitDirectly(GUIDirectMessage *packet)	override;
 	virtual	void	Repaint(void)								override;
 signals:

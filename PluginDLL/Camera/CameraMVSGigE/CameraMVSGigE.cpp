@@ -27,6 +27,7 @@
 #include "XEntryPoint.h"
 #include "ShowCameraDialog.h"
 #include "CameraMVSGigECommon.h"
+#include "SelectUserSetDialog.h"
 
 static  void    FuncCameraOutput(unsigned char * pData, MV_FRAME_OUT_INFO_EX* pFrameInfo, void* pUser);
 
@@ -236,6 +237,35 @@ bool    CameraMVSGigE::Initial(void)
 	return true;
 }
 
+bool	CameraMVSGigE::RecoverFromError(void)
+{
+	bool	IsGrabing = Cam.IsGrabbing();
+    if(IsGrabing==true){
+        Cam.StopGrabbing();
+	}
+    Cam.Close();
+    GSleep(500);
+
+    int	Ret=Cam.Open(m_stDevList.pDeviceInfo[DevNo]);
+    if (MV_OK != Ret){
+        return false;
+    }
+    int	QlyRet=Cam.SetBayerCvtQuality(1);
+    if (MV_OK != QlyRet){
+        return false;
+    }
+    int RegRet = Cam.RegisterImageCallBack(FuncCameraOutput, this);
+    if (MV_OK != RegRet){
+        return false;
+    }
+
+    if(IsGrabing==true){
+        Cam.StartGrabbing();
+	}
+
+	return true;
+}
+
 void    CameraMVSGigE::SlotNewConnection()
 {
     LocalSocket=LocalServer.nextPendingConnection();
@@ -368,55 +398,64 @@ bool    CameraMVSGigE::ShowSetting(void)
 {
 	ShowCameraDialog	D(this);
 	if(D.exec()==true){
-        ExposureAuto=D.ExposureAuto;
-        ExposureMode=D.ExposureMode;
-        ExposureTime=D.ExposureTime;
-        Gain        =D.Gain;
-        TriggerMode =D.TriggerMode  ;
-        TriggerSource=D.TriggerSource;
-        BinningHMode=D.BinningHMode ;
-        BinningVMode=D.BinningVMode ;
-        DecimationH =D.DecimationH  ;
-        DecimationV =D.DecimationV  ;
-
-        ReverseX    =D.ReverseX    ;
-        ReverseY    =D.ReverseY    ;
-        
-        AOIMode     =D.AOIMode     ;
-        AOIOffsetX  =D.AOIOffsetX  ;
-        AOIOffsetY  =D.AOIOffsetY  ;
-        AOIWidth    =D.AOIWidth    ;
-        AOIHeight   =D.AOIHeight   ;
-        WhiteBalance=D.WhiteBalance;
-
-        BlackLevelEnable=D.BlackLevelEnable;
-        BlackLevel      =D.BlackLevel      ;
-
-        BalanceRatioR               =D.BalanceRatioR                ;
-        BalanceRatioG               =D.BalanceRatioG                ;
-        BalanceRatioB               =D.BalanceRatioB                ;
-        BalanceColorTemperatureMode =D.BalanceColorTemperatureMode  ;
-
-        SetTriggerMode((TriggerMode==MV_TRIGGER_MODE_OFF)?false:true);
-        SetTriggerSource();
-        SetExposure();
-        SetGain();
-        //SetBinningDecimation();
-        SetReverse();
-        SetAOI();
-        SetBlackLevel();
-        SetWhiteBalance();
+        Set(D);
 		return true;
 	}
 	return false;
 }
+
+bool    CameraMVSGigE::Set(ShowCameraDialog	&D)
+{
+    ExposureAuto    =D.ExposureAuto;
+    ExposureMode    =D.ExposureMode;
+    ExposureTime    =D.ExposureTime;
+    Gain            =D.Gain;
+    TriggerMode     =D.TriggerMode  ;
+    TriggerSource   =D.TriggerSource;
+    BinningHMode    =D.BinningHMode ;
+    BinningVMode    =D.BinningVMode ;
+    DecimationH     =D.DecimationH  ;
+    DecimationV     =D.DecimationV  ;
+    
+    ReverseX        =D.ReverseX    ;
+    ReverseY        =D.ReverseY    ;
+    
+    AOIMode         =D.AOIMode     ;
+    AOIOffsetX      =D.AOIOffsetX  ;
+    AOIOffsetY      =D.AOIOffsetY  ;
+    AOIWidth        =D.AOIWidth    ;
+    AOIHeight       =D.AOIHeight   ;
+    WhiteBalance    =D.WhiteBalance;
+    
+    BlackLevelEnable=D.BlackLevelEnable;
+    BlackLevel      =D.BlackLevel      ;
+    
+    BalanceRatioR               =D.BalanceRatioR                ;
+    BalanceRatioG               =D.BalanceRatioG                ;
+    BalanceRatioB               =D.BalanceRatioB                ;
+    BalanceColorTemperatureMode =D.BalanceColorTemperatureMode  ;
+    
+    SetTriggerMode((TriggerMode==MV_TRIGGER_MODE_OFF)?false:true);
+    SetTriggerSource();
+    SetExposure();
+    SetGain();
+    //SetBinningDecimation();
+    SetReverse();
+    SetAOI();
+    SetBlackLevel();
+    SetWhiteBalance();
+}
+
 
 bool    CameraMVSGigE::PrepareCapture()
 {
 }
 bool    CameraMVSGigE::StartCapture()
 {
-    return Cam.StartGrabbing();
+    if(Cam.StartGrabbing()==0){
+        return true;
+    }
+    return false;
 }
 bool    CameraMVSGigE::SetAutoRepeat(bool b)
 {
@@ -424,7 +463,10 @@ bool    CameraMVSGigE::SetAutoRepeat(bool b)
 }
 bool    CameraMVSGigE::HaltCapture()
 {
-    return true;
+    if(Cam.StopGrabbing()==0){
+        return true;
+    }
+    return false;
 }
 
 bool    CameraMVSGigE::GetStatus(CameraScanInfo *Info)
@@ -533,6 +575,11 @@ void    CameraMVSGigE::TransmitDirectly(GUIDirectMessage *packet)
 	CmdOutputHIKRobotCamera *CmdOutputHIKRobotCameraVar = dynamic_cast<CmdOutputHIKRobotCamera *>(packet);
     if(CmdOutputHIKRobotCameraVar!=NULL){
         SetLine1(CmdOutputHIKRobotCameraVar->Line1);
+        return;
+	}
+	CmdSetUserSelectHIKRobot *CmdSetUserSelectHIKRobotVar = dynamic_cast<CmdSetUserSelectHIKRobot *>(packet);
+    if(CmdSetUserSelectHIKRobotVar!=NULL){
+        SetUserSelect(CmdSetUserSelectHIKRobotVar->SelectNo);
         return;
 	}
 }
@@ -652,14 +699,36 @@ bool	CameraMVSGigE::Load(QIODevice *f)
 
     Cam.ClearImageBuffer();
 
+    MutexImageSize.lock();
     CamBuffRPoint=CamBuffWPoint;
     CamBuffStockedCount=0;
+    MutexImageSize.unlock();
 
     if(IsGrabbing==true){ 
         Cam.StartGrabbing();
     }
 
 	return true;
+}
+
+bool	CameraMVSGigE::ShowInfoNumber(QByteArray &RetInfo)
+{
+	SelectUserSetDialog D(this, RetInfo);
+	if(D.exec()==true){
+        RetInfo=D.RetCamData;
+        return true;
+	}
+	return false;
+}
+bool	CameraMVSGigE::SetInfoNumber(QByteArray &Info)
+{
+    int nInfo=Info.toInt();
+    if(nInfo>=1 && nInfo<=3){
+        if(SetUserSelect(nInfo)==true){
+            return true;
+        }
+    }
+    return false;
 }
 
 // ch:获取触发模式 | en:Get Trigger Mode
@@ -832,6 +901,56 @@ int CameraMVSGigE::SetTriggerSource()
 
     return nRet;
 }
+
+bool	CameraMVSGigE::SetUserSelect(int n)  //n=1:User1 ,n=2:User2 ,n=3:User3
+{
+	bool	IsGrabing = Cam.IsGrabbing();
+    //if(IsGrabing==true){
+        Cam.StopGrabbing();
+	//}
+    //GSleep(200);
+
+	int	nRet = Cam.SetEnumValue("UserSetSelector", (int)n);
+	if (MV_OK != nRet){
+		RecoverFromError();
+        nRet = Cam.SetEnumValue("UserSetSelector", (int)n);
+        if (MV_OK != nRet){
+		    return false;
+        }
+	}
+	nRet = Cam.CommandExecute("UserSetLoad");
+	if (MV_OK != nRet){
+		RecoverFromError();
+	    
+        nRet = Cam.SetEnumValue("UserSetSelector", (int)n);
+	    if (MV_OK != nRet){
+	    	RecoverFromError();
+            nRet = Cam.SetEnumValue("UserSetSelector", (int)n);
+            if (MV_OK != nRet){
+	    	    return false;
+            }
+	    }
+        nRet = Cam.CommandExecute("UserSetLoad");
+        if (MV_OK != nRet){
+		    return false;
+        }
+	}
+    bool    bn=GetTriggerMode();
+    int     Sn=GetTriggerSource();
+
+    GSleep(20);
+    //if(IsGrabing==true){
+        Cam.StartGrabbing();
+
+        MutexImageSize.lock();
+        CamBuffRPoint=CamBuffWPoint;
+        CamBuffStockedCount=0;
+        MutexImageSize.unlock();
+        //}
+
+    return true;
+}
+
 
 // 该接口只展示GetEnumEntrySymbolic接口的使用方法
 int CameraMVSGigE::GetPixelFormat()

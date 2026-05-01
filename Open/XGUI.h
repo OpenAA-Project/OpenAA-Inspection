@@ -292,6 +292,7 @@ public:
 					,bool EditMode=false);
 	void	ReadyParam(GUIFormBase	*f);
 	void	AfterPrepare(void);
+	void	ResizeFirst(GUIFormBase	*f);
 	void	AfterStartSequence(void);
 
 	void	CloseAll(void);
@@ -369,7 +370,7 @@ public:
 };
 
 
-class	GUIInitializer : public ServiceForLayers
+class	GUIInitializer : public QObject ,public ServiceForLayers
 {
 public:
 	GuiDLLItemContainer						*GuiDLLPack;
@@ -377,7 +378,7 @@ public:
 	NPListPack<GUIRootClassified>			RootList;
 	NPListPack<ReplaceNameList>				ReplaceNameListData;
 
-	explicit	GUIInitializer(LayersBase *base);
+	explicit	GUIInitializer(LayersBase *base,QObject *parent=NULL);
 	~GUIInitializer(void);
 
 	void	Release(void);

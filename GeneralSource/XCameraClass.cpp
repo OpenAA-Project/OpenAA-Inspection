@@ -893,6 +893,24 @@ bool	CameraInterface::ShowSetting(QWidget *parent)
 	return(false);
 }
 
+
+bool	CameraInterface::ShowInfoNumber(QByteArray &RetInfo)
+{
+	if(Handle!=NULL){
+		return Handle->ShowInfoNumber(RetInfo);
+	}
+	return(false);
+}
+
+bool	CameraInterface::SetInfoNumber(QByteArray &Info)
+{
+	if(Handle!=NULL){
+		return Handle->SetInfoNumber(Info);
+	}
+	return(false);
+}
+
+
 bool	CameraInterface::PrepareCapture(void)
 {
 	if(DLL_PrepareCapture!=NULL){
@@ -1838,6 +1856,20 @@ bool	CameraClass::SetQuickProperty(CameraQuickProperty Attr, double RelativeValu
 	if(Camera==NULL)
 		return false;
 	return Camera->SetQuickProperty(Attr,RelativeValue);
+}
+	
+bool	CameraClass::ShowInfoNumber(QByteArray &RetInfo)
+{
+	if(Camera==NULL)
+		return false;
+	return Camera->ShowInfoNumber(RetInfo);
+}
+
+bool	CameraClass::SetInfoNumber(QByteArray &Info)
+{
+	if(Camera==NULL)
+		return false;
+	return Camera->SetInfoNumber(Info);
 }
 
 bool	CameraClass::PrepareCapture(void)

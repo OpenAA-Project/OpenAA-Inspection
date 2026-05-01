@@ -3054,6 +3054,11 @@ void	GUIInstancePack::ReadyParam(GUIFormBase	*f)
 	f->BroadcastReadyParam();
 }
 
+void	GUIInstancePack::ResizeFirst(GUIFormBase *f)
+{
+	f->BroadcastResizeFirst();
+}
+
 void	GUIInstancePack::TimeOutForIdle(void)
 {
 	static	bool	ReEntrant=false;

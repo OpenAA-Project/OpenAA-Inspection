@@ -445,7 +445,10 @@ bool    CameraMVSLinear::PrepareCapture()
 }
 bool    CameraMVSLinear::StartCapture()
 {
-    return Cam.StartGrabbing();
+    if(Cam.StartGrabbing()==0){
+        return true;
+	}
+	return false;
 }
 bool    CameraMVSLinear::SetAutoRepeat(bool b)
 {
@@ -719,6 +722,13 @@ bool	CameraMVSLinear::Load(QIODevice *f)
     if(::Load(f,Gamma           )==false)       return false;
     if(::Load(f,FrameDelay      )==false)       return false;
 
+    bool    IsGrabbing=Cam.IsGrabbing();
+    if(IsGrabbing==true){
+        Cam.StopGrabbing();
+    }
+    Cam.ClearImageBuffer();
+
+
     Cam.SetupLineTriggers (LineTriggerMode  , LineTriggerSource);
     Cam.SetupFrameTriggers(FrameTriggerMode , FrameTriggerSource);
     SetExposure();
@@ -736,6 +746,19 @@ bool	CameraMVSLinear::Load(QIODevice *f)
 	SetLineFormat(2,Line2Format);
 	SetLineFormat(3,Line3Format);
 	SetLineFormat(4,Line4Format);
+
+    QThread::msleep(500);
+
+    Cam.ClearImageBuffer();
+
+    MutexImageSize.lock();
+    CamBuffRPoint=CamBuffWPoint;
+    CamBuffStockedCount=0;
+    MutexImageSize.unlock();
+
+    if(IsGrabbing==true){ 
+        Cam.StartGrabbing();
+    }
 
 	return true;
 }

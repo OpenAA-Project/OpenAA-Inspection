@@ -99,6 +99,9 @@ public:
 	bool	ShowSetting(QWidget *parent);
 	bool	SetQuickProperty(CameraQuickProperty Attr, double RelativeValue);
 
+	bool	ShowInfoNumber(QByteArray &RetInfo);
+	bool	SetInfoNumber(QByteArray &Info);
+
 	bool	SetTriggerMode(bool b);
 	bool	GetTriggerMode(void)  ;
 

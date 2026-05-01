@@ -1713,13 +1713,38 @@ void GUIFormBase::ReflectResize(void)
 	}
 }
 
+static	bool	IsChangeableSize(QWidget *W ,double Z)
+{
+	QToolButton *Wt = dynamic_cast<QToolButton *>(W);
+	QPushButton *Wp = dynamic_cast<QPushButton *>(W);
+
+	if(Wt!=NULL){
+		QIcon	IconT	= Wt->icon();
+		if(IconT.isNull()==false && 0.8<=Z && Z<=1.25){
+			return false;
+		}
+	}
+	if(Wp!=NULL){
+		QIcon	IconP	= Wp->icon();
+		if(IconP.isNull()==false && 0.8<=Z && Z<=1.25){
+			return false;
+		}
+	}
+
+	return true;
+}
+
 static	void	ResizeByScaleFormBase(QWidget *W,double ScaleX,double ScaleY)
 {
 	QRect	R=W->geometry();
 	if(R.isValid()){
 		const QObjectList &Q=W->children();
 		int	ChildCount=Q.count();
-
+		double	ZMax = max(ScaleX,ScaleY);
+		double	ZMin = min(ScaleX,ScaleY);
+		if(0.8<=ZMax && ZMax<=1.25){
+			ZMax=1.0;
+		}	
 		for(int i=0;i<Q.count() && i<ChildCount;i++){
 			GUIFormBase	*C=dynamic_cast<GUIFormBase *>(Q[i]);
 			if(C!=NULL){
@@ -1730,9 +1755,11 @@ static	void	ResizeByScaleFormBase(QWidget *W,double ScaleX,double ScaleY)
 				int	cNewH=(int)(Rn.height()*ScaleY);
 				if(0<cNewW && cNewW<16384 && 0<cNewH && cNewH<16384){
 					C->setGeometry(cNewX,cNewY,cNewW,cNewH);
-					//QFont	fnt=C->font();
-					//fnt.setPointSizeF(fnt.pointSizeF()*min(ScaleX,ScaleY));
-					//C->setFont(fnt);
+					//if(Z!=1.0){
+					//	QFont	fnt=C->font();
+					//	fnt.setPointSizeF(ceil(fnt.pointSizeF()*Z));
+					//	C->setFont(fnt);
+					//}
 				}
 				C->ResizeByScaleFormBase(ScaleX,ScaleY);
 			}
@@ -1740,15 +1767,28 @@ static	void	ResizeByScaleFormBase(QWidget *W,double ScaleX,double ScaleY)
 				QWidget *Wn = dynamic_cast<QWidget *>(Q[i]);
 				if(Wn!=NULL){
 					QRect	Rn=Wn->geometry();
+				
 					int	cNewX=(int)(Rn.x()*ScaleX);
 					int	cNewY=(int)(Rn.y()*ScaleY);
-					int	cNewW=(int)(Rn.width()*ScaleX);
-					int	cNewH=(int)(Rn.height()*ScaleY);
-					if(0<cNewW && cNewW<16384 && 0<cNewH && cNewH<16384){
+
+					double	WZ = ScaleX;
+					double	HZ = ScaleY;
+					if(dynamic_cast<QToolButton *>(Wn)!=NULL || dynamic_cast<QPushButton *>(Wn)!=NULL){
+						WZ = HZ = ZMin;
+					}
+					int	cNewW=(int)(Rn.width()*WZ);
+					int	cNewH=(int)(Rn.height()*HZ);
+					if(0<cNewW && cNewW<16384 && 0<cNewH && cNewH<16384
+					&& IsChangeableSize(W,ZMax)==true){
 						QWidget *p = Wn->parentWidget();
 						if(p==NULL
 						|| (dynamic_cast<QTabWidget *>(p)==NULL && dynamic_cast<QStackedWidget *>(p)==NULL)){
 							Wn->setGeometry(cNewX,cNewY,cNewW,cNewH);
+							//if(Z!=1.0){
+							//	QFont	fnt=Wn->font();
+							//	fnt.setPointSizeF(ceil(fnt.pointSizeF()*Z));
+							//	Wn->setFont(fnt);
+							//}
 						}
 					}
 					::ResizeByScaleFormBase(Wn,ScaleX,ScaleY);
@@ -1764,7 +1804,11 @@ void	GUIFormBase::ResizeByScaleFormBase(double ScaleX,double ScaleY)
 	if(R.isValid()){
 		const QObjectList &Q=children();
 		int	ChildCount=Q.count();
-
+		double	ZMax = max(ScaleX,ScaleY);
+		double	ZMin = min(ScaleX,ScaleY);
+		if(0.8<=ZMax && ZMax<=1.25){
+			ZMax=1.0;
+		}
 		for(int i=0;i<Q.count() && i<ChildCount;i++){
 			GUIFormBase	*C=dynamic_cast<GUIFormBase *>(Q[i]);
 			if(C!=NULL){
@@ -1775,28 +1819,85 @@ void	GUIFormBase::ResizeByScaleFormBase(double ScaleX,double ScaleY)
 				int	cNewH=(int)(Rn.height()*ScaleY);
 				if(0<cNewW && cNewW<16384 && 0<cNewH && cNewH<16384){
 					C->setGeometry(cNewX,cNewY,cNewW,cNewH);
+					//if(Z!=1.0){
+					//	QFont	fnt=C->font();
+					//	fnt.setPointSizeF(ceil(fnt.pointSizeF()*Z));
+					//	C->setFont(fnt);
+					//}
 				}
 				C->ResizeByScaleFormBase(ScaleX,ScaleY);
 			}
 			else{
 				QWidget *W = dynamic_cast<QWidget *>(Q[i]);
 				if(W!=NULL){
+
 					QRect	Rn=W->geometry();
 					int	cNewX=(int)(Rn.x()*ScaleX);
 					int	cNewY=(int)(Rn.y()*ScaleY);
-					int	cNewW=(int)(Rn.width()*ScaleX);
-					int	cNewH=(int)(Rn.height()*ScaleY);
-					if(0<cNewW && cNewW<16384 && 0<cNewH && cNewH<16384){
+					double	WZ = ScaleX;
+					double	HZ = ScaleY;
+					if(dynamic_cast<QToolButton *>(W)!=NULL || dynamic_cast<QPushButton *>(W)!=NULL){
+						WZ = HZ = ZMin;
+					}
+					int	cNewW=(int)(Rn.width()*WZ);
+					int	cNewH=(int)(Rn.height()*HZ);
+					if(0<cNewW && cNewW<16384 && 0<cNewH && cNewH<16384
+					&& IsChangeableSize(W,ZMin)==true){
 						QWidget *p = W->parentWidget();
 						if(p==NULL
 						|| (dynamic_cast<QTabWidget *>(p)==NULL && dynamic_cast<QStackedWidget *>(p)==NULL)){
 							W->setGeometry(cNewX,cNewY,cNewW,cNewH);
+							//if(Z!=1.0){
+							//	QFont	fnt=W->font();
+							//	fnt.setPointSizeF(ceil(fnt.pointSizeF()*Z));
+							//	W->setFont(fnt);
+							//}
 						}
 					}
 					::ResizeByScaleFormBase(W,ScaleX,ScaleY);
 				}
 			}
 		}
+	}
+}
+
+void	ResizeByScaleFormBase(QWidget *W,GUIFormBase *Parent,bool ResizeChild)
+{
+	double	ScaleX,ScaleY;
+	Parent->GetGUIScale(ScaleX,ScaleY);
+
+	QRect	Rn=W->geometry();
+	double	Z = max(ScaleX,ScaleY);
+	if(0.8<=Z && Z<=1.25){
+		Z=1.0;
+	}					
+	int	cNewX=(int)(Rn.x()*ScaleX);
+	int	cNewY=(int)(Rn.y()*ScaleY);
+	int	cNewW=(int)(Rn.width()*ScaleX);
+	int	cNewH=(int)(Rn.height()*ScaleY);
+	if(0<cNewW && cNewW<16384 && 0<cNewH && cNewH<16384
+	&& IsChangeableSize(W,Z)==true){
+		QWidget *p = W->parentWidget();
+		if(p==NULL){
+			W->resize(cNewW,cNewH);
+			if(Z!=1.0){
+				QFont	fnt=W->font();
+				fnt.setPointSizeF((fnt.pointSizeF()*ScaleY));
+				W->setFont(fnt);
+			}
+		}
+		else
+		if(dynamic_cast<QTabWidget *>(p)==NULL && dynamic_cast<QStackedWidget *>(p)==NULL){
+			W->setGeometry(cNewX,cNewY,cNewW,cNewH);
+			if(Z!=1.0){
+				QFont	fnt=W->font();
+				fnt.setPointSizeF((fnt.pointSizeF()*ScaleY));
+				W->setFont(fnt);
+			}
+		}
+	}
+	if(ResizeChild==true){
+		ResizeByScaleFormBase(W,ScaleX,ScaleY);
 	}
 }
 
@@ -1820,16 +1921,20 @@ void	GUIFormBase::ResizeMain(void)
 			double	ScaleX = static_cast<double>(Lx) / ((double)W);
 			double	ScaleY = static_cast<double>(Ly) / ((double)H);
 
-			QFont	fnt=font();
-			fnt.setPointSizeF(fnt.pointSizeF()*min(ScaleX,ScaleY));
-			setFont(fnt);
+			double	Z = max(ScaleX,ScaleY);
+			if(Z!=1.0){
+				QFont	fnt=font();
+				fnt.setPointSizeF((fnt.pointSizeF()*ScaleY));
+				setFont(fnt);
+			}
 
 			MainGUIFormBase *GTop = dynamic_cast<MainGUIFormBase *>(this);
 			if(GTop!=NULL){
 				GTop->SetGUIScale(ScaleX ,ScaleY);
 			}
-			
-			ResizeByScaleFormBase(ScaleX,ScaleY);
+			if(Z!=1.0){
+				ResizeByScaleFormBase(ScaleX,ScaleY);
+			}
 			int	x1=geometry().left();
 			int	y1=geometry().top();
 			if(x1<0)
@@ -2225,6 +2330,14 @@ static	GUIFormBase	*_BroadcastDirectly(QObject *b,GUIFormBase::_BroadcastCommand
 					}
 				}
 				break;
+			case GUIFormBase::_BC_ResizeFirst:
+				if(base->IsEnabledBroadcast()==true){
+					base->ResizeFirst();
+					if(base->GetChainedParent()!=NULL){
+						base->GetChainedParent()->BroadcastDirectly(cmd ,shownInspectionID,cmd2);
+					}
+				}
+				break;
 			case GUIFormBase::_BC_StartLot:
 				if(base->IsEnabledBroadcast()==true){
 					base->StartLot();
@@ -2563,6 +2676,10 @@ void	GUIFormBase::BroadcastResizeAction(void)
 void	GUIFormBase::BroadcastReadyParam(void)
 {
 	BroadcastDirectly(GUIFormBase::_BC_ReadyParam,-1);
+}
+void	GUIFormBase::BroadcastResizeFirst(void)
+{
+	BroadcastDirectly(GUIFormBase::_BC_ResizeFirst,-1);
 }
 void	GUIFormBase::BroadcastSetTargetPage(int Page)
 {

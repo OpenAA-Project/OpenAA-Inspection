@@ -108,15 +108,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\HIKRobot\MVS\MvCamera.cpp" />
+    <ClCompile Include="SelectUserSetDialog.cpp" />
     <ClCompile Include="ShowCameraDialog.cpp" />
     <ClInclude Include="CameraMVSGigECommon.h" />
     <ClInclude Include="cameramvsgige_global.h" />
+    <QtMoc Include="SelectUserSetDialog.h" />
     <QtMoc Include="CameraMVSGigE.h" />
     <ClCompile Include="..\..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="CameraMVSGigE.cpp" />
     <QtMoc Include="ShowCameraDialog.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="SelectUserSetDialog.ui" />
     <QtUic Include="ShowCameraDialog.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

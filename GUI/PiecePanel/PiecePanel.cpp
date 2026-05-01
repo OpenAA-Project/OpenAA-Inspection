@@ -428,8 +428,8 @@ void	PiecePanel::StartPage(void)
 }
 
 
-GUIInitializer::GUIInitializer(LayersBase *base)
-:ServiceForLayers(base)
+GUIInitializer::GUIInitializer(LayersBase *base,QObject *parent)
+:QObject(parent),ServiceForLayers(base)
 {
 	CommRootNumb=0;
 	for(int i=0;i<sizeof(CommRoot)/sizeof(CommRoot[0]);i++){

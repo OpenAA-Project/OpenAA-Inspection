@@ -55,14 +55,18 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
 
 	ui->lineEditDeviceName->setText(Cam->UserName);
 	ui->lineEditIPAddress->setText(Cam->IPAddress);
+	ShowData();
+}
 
+void	ShowCameraDialog::ShowData(void)
+{
 	float	CurrentFloatValue ,MaxFloatValue ,MinFloatValue;
-	if(Cam->GetfloatValue("ExposureTime",CurrentFloatValue ,MaxFloatValue ,MinFloatValue)==true){
+	if(Parent->GetfloatValue("ExposureTime",CurrentFloatValue ,MaxFloatValue ,MinFloatValue)==true){
 		ui->doubleSpinBoxExposureTime	->setMaximum(MaxFloatValue);
 		ui->doubleSpinBoxExposureTime	->setMinimum(MinFloatValue);
 		ui->doubleSpinBoxExposureTime	->setValue	(CurrentFloatValue);
 	}
-	if(Cam->GetfloatValue("Gain",CurrentFloatValue ,MaxFloatValue ,MinFloatValue)==true){
+	if(Parent->GetfloatValue("Gain",CurrentFloatValue ,MaxFloatValue ,MinFloatValue)==true){
 		ui->doubleSpinBoxGain	->setMaximum(MaxFloatValue);
 		ui->doubleSpinBoxGain	->setMinimum(MinFloatValue);
 		ui->doubleSpinBoxGain	->setValue	(CurrentFloatValue);
@@ -70,11 +74,11 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
 
 	int CurrentIntValue;
 	int	EnumCount;
-	if(Cam->GetEnumValue ("ExposureAuto",CurrentIntValue ,EnumExposureAutoData,EnumCount)==true){
+	if(Parent->GetEnumValue ("ExposureAuto",CurrentIntValue ,EnumExposureAutoData,EnumCount)==true){
 		ui->comboBoxExposureAuto->clear();
 		for(int i=0;i<EnumCount;i++){
 			QString Str;
-			if(Cam->GetEnumSymblic ("ExposureAuto",EnumExposureAutoData[i] ,Str)==true){
+			if(Parent->GetEnumSymblic ("ExposureAuto",EnumExposureAutoData[i] ,Str)==true){
 				ui->comboBoxExposureAuto->addItem(Str);
 				if(CurrentIntValue==EnumExposureAutoData[i]){
 					ui->comboBoxExposureAuto->setCurrentIndex(i);
@@ -82,11 +86,11 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
 			}
 		}
 	}
-	if(Cam->GetEnumValue ("ExposureMode",CurrentIntValue ,EnumExposureModeData,EnumCount)==true){
+	if(Parent->GetEnumValue ("ExposureMode",CurrentIntValue ,EnumExposureModeData,EnumCount)==true){
 		ui->comboBoxExposureMode->clear();
 		for(int i=0;i<EnumCount;i++){
 			QString Str;
-			if(Cam->GetEnumSymblic ("ExposureMode",EnumExposureModeData[i] ,Str)==true){
+			if(Parent->GetEnumSymblic ("ExposureMode",EnumExposureModeData[i] ,Str)==true){
 				ui->comboBoxExposureMode->addItem(Str);
 				if(CurrentIntValue==EnumExposureModeData[i]){
 					ui->comboBoxExposureMode->setCurrentIndex(i);
@@ -95,36 +99,36 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
 		}
 	}
 
-	if(Cam->Cam.SetEnumValue ("BalanceRatioSelector",(int)0)==MV_OK){
+	if(Parent->Cam.SetEnumValue ("BalanceRatioSelector",(int)0)==MV_OK){
 		int		CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio;
-		if(Cam->GetIntValue("BalanceRatio",CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio)==true){
+		if(Parent->GetIntValue("BalanceRatio",CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio)==true){
 			ui->spinBoxBalanceRatioR	->setMaximum(MaxIntBalanceRatio);
 			ui->spinBoxBalanceRatioR	->setMinimum(MinIntBalanceRatio);
 			ui->spinBoxBalanceRatioR	->setValue	(CurrentIntBalanceRatio);
 		}
 	}
-	if(Cam->Cam.SetEnumValue ("BalanceRatioSelector",(int)1)==MV_OK){
+	if(Parent->Cam.SetEnumValue ("BalanceRatioSelector",(int)1)==MV_OK){
 		int		CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio;
-		if(Cam->GetIntValue("BalanceRatio",CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio)==true){
+		if(Parent->GetIntValue("BalanceRatio",CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio)==true){
 			ui->spinBoxBalanceRatioG	->setMaximum(MaxIntBalanceRatio);
 			ui->spinBoxBalanceRatioG	->setMinimum(MinIntBalanceRatio);
 			ui->spinBoxBalanceRatioG	->setValue	(CurrentIntBalanceRatio);
 		}
 	}
-	if(Cam->Cam.SetEnumValue ("BalanceRatioSelector",(int)2)==MV_OK){
+	if(Parent->Cam.SetEnumValue ("BalanceRatioSelector",(int)2)==MV_OK){
 		int		CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio;
-		if(Cam->GetIntValue("BalanceRatio",CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio)==true){
+		if(Parent->GetIntValue("BalanceRatio",CurrentIntBalanceRatio ,MaxIntBalanceRatio ,MinIntBalanceRatio)==true){
 			ui->spinBoxBalanceRatioB	->setMaximum(MaxIntBalanceRatio);
 			ui->spinBoxBalanceRatioB	->setMinimum(MinIntBalanceRatio);
 			ui->spinBoxBalanceRatioB	->setValue	(CurrentIntBalanceRatio);
 		}
 	}
 
-	if(Cam->GetEnumValue ("BalanceColorTemperatureMode",CurrentIntValue ,EnumBalanceColorTemperatureModeData,EnumCount)==true){
+	if(Parent->GetEnumValue ("BalanceColorTemperatureMode",CurrentIntValue ,EnumBalanceColorTemperatureModeData,EnumCount)==true){
 		ui->comboBoxBalanceColorTemperatureMode->clear();
 		for(int i=0;i<EnumCount;i++){
 			QString Str;
-			if(Cam->GetEnumSymblic ("BalanceColorTemperatureMode",EnumBalanceColorTemperatureModeData[i] ,Str)==true){
+			if(Parent->GetEnumSymblic ("BalanceColorTemperatureMode",EnumBalanceColorTemperatureModeData[i] ,Str)==true){
 				ui->comboBoxBalanceColorTemperatureMode->addItem(Str);
 				if(CurrentIntValue==EnumBalanceColorTemperatureModeData[i]){
 					ui->comboBoxBalanceColorTemperatureMode->setCurrentIndex(i);
@@ -132,11 +136,11 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
 			}
 		}
 	}
-	if(Cam->GetEnumValue ("BalanceWhiteAuto",CurrentIntValue ,EnumWhiteBalanceData,EnumCount)==true){
+	if(Parent->GetEnumValue ("BalanceWhiteAuto",CurrentIntValue ,EnumWhiteBalanceData,EnumCount)==true){
 		ui->comboBoxWhiteBalance->clear();
 		for(int i=0;i<EnumCount;i++){
 			QString Str;
-			if(Cam->GetEnumSymblic ("BalanceWhiteAuto",EnumWhiteBalanceData[i] ,Str)==true){
+			if(Parent->GetEnumSymblic ("BalanceWhiteAuto",EnumWhiteBalanceData[i] ,Str)==true){
 				ui->comboBoxWhiteBalance->addItem(Str);
 				if(CurrentIntValue==EnumWhiteBalanceData[i]){
 					ui->comboBoxWhiteBalance->setCurrentIndex(i);
@@ -153,8 +157,8 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
 	}
 	int		CurrentIntValueH ,MaxIntValueH ,MinIntValueH;
 	int		CurrentIntValueV ,MaxIntValueV ,MinIntValueV;
-	bool	RetH=Cam->GetIntValue("BinningHorizontal",CurrentIntValueH ,MaxIntValueH ,MinIntValueH);
-	bool	RetV=Cam->GetIntValue("BinningVertical"	 ,CurrentIntValueV ,MaxIntValueV ,MinIntValueV);
+	bool	RetH=Parent->GetIntValue("BinningHorizontal",CurrentIntValueH ,MaxIntValueH ,MinIntValueH);
+	bool	RetV=Parent->GetIntValue("BinningVertical"	 ,CurrentIntValueV ,MaxIntValueV ,MinIntValueV);
 	int	BinningIndex=0;
 	if(RetH==true && RetV==true){
 		ui->comboBoxBinning->clear();
@@ -173,8 +177,8 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
 	}
 	ui->comboBoxBinning->setCurrentIndex(BinningIndex);
 
-	RetH=Cam->GetIntValue("DecimationHorizontal",CurrentIntValueH ,MaxIntValueH ,MinIntValueH);
-	RetV=Cam->GetIntValue("DecimationVertical"	,CurrentIntValueV ,MaxIntValueV ,MinIntValueV);
+	RetH=Parent->GetIntValue("DecimationHorizontal",CurrentIntValueH ,MaxIntValueH ,MinIntValueH);
+	RetV=Parent->GetIntValue("DecimationVertical"	,CurrentIntValueV ,MaxIntValueV ,MinIntValueV);
 	int	DecimationIndex=0;
 	if(RetH==true && RetV==true){
 		ui->comboBoxDecimation->clear();
@@ -194,11 +198,11 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
 	ui->comboBoxDecimation->setCurrentIndex(DecimationIndex);
 
 
-	if(Cam->GetEnumValue ("TriggerMode",CurrentIntValue ,EnumTriggerModeData,EnumCount)==true){
+	if(Parent->GetEnumValue ("TriggerMode",CurrentIntValue ,EnumTriggerModeData,EnumCount)==true){
 		ui->comboBoxTriggerMode->clear();
 		for(int i=0;i<EnumCount;i++){
 			QString Str;
-			if(Cam->GetEnumSymblic ("TriggerMode",EnumTriggerModeData[i] ,Str)==true){
+			if(Parent->GetEnumSymblic ("TriggerMode",EnumTriggerModeData[i] ,Str)==true){
 				ui->comboBoxTriggerMode->addItem(Str);
 				if(CurrentIntValue==EnumTriggerModeData[i]){
 					ui->comboBoxTriggerMode->setCurrentIndex(i);
@@ -206,11 +210,11 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
 			}
 		}
 	}
-	if(Cam->GetEnumValue ("TriggerSource",CurrentIntValue ,EnumTriggerSourceData,EnumCount)==true){
+	if(Parent->GetEnumValue ("TriggerSource",CurrentIntValue ,EnumTriggerSourceData,EnumCount)==true){
 		ui->comboBoxTriggerSource->clear();
 		for(int i=0;i<EnumCount;i++){
 			QString Str;
-			if(Cam->GetEnumSymblic ("TriggerSource",EnumTriggerSourceData[i] ,Str)==true){
+			if(Parent->GetEnumSymblic ("TriggerSource",EnumTriggerSourceData[i] ,Str)==true){
 				ui->comboBoxTriggerSource->addItem(Str);
 				if(CurrentIntValue==EnumTriggerSourceData[i]){
 					ui->comboBoxTriggerSource->setCurrentIndex(i);
@@ -219,20 +223,20 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
 		}
 	}
 	bool	CurrentBoolValue;
-	if(Cam->GetBoolValue("ReverseX",CurrentBoolValue )==true){
+	if(Parent->GetBoolValue("ReverseX",CurrentBoolValue )==true){
 		ui->checkBoxReverseX	->setChecked(CurrentBoolValue);
 	}
-	if(Cam->GetBoolValue("ReverseY",CurrentBoolValue )==true){
+	if(Parent->GetBoolValue("ReverseY",CurrentBoolValue )==true){
 		ui->checkBoxReverseY	->setChecked(CurrentBoolValue);
 	}
 
 	bool	CurrentBlackLevelEnable;
-	if(Cam->GetBoolValue("BlackLevelEnable",CurrentBlackLevelEnable )==true){
+	if(Parent->GetBoolValue("BlackLevelEnable",CurrentBlackLevelEnable )==true){
 		ui->checkBoxBlackLevelEnable->setChecked(CurrentBlackLevelEnable);
 	}
 
 	int	CurrentBlackLevel,MaxBlackLevel,MinBlackLevel;
-	if(Cam->GetIntValue("BlackLevel",CurrentBlackLevel ,MaxBlackLevel ,MinBlackLevel)==true){
+	if(Parent->GetIntValue("BlackLevel",CurrentBlackLevel ,MaxBlackLevel ,MinBlackLevel)==true){
 		ui->spinBoxBlackLevel	->setMaximum(MaxBlackLevel);
 		ui->spinBoxBlackLevel	->setMinimum(MinBlackLevel);
 		ui->spinBoxBlackLevel	->setValue	(CurrentBlackLevel);
@@ -242,25 +246,39 @@ ShowCameraDialog::ShowCameraDialog(CameraMVSGigE *Cam,QWidget *parent) :
 	Parent->GetResolution(Width ,Height);
 	int	MaxIntValue ,MinIntValue;
 	int	CurrentOffsetXValue,CurrentOffsetYValue;
-	if(Cam->GetIntValue("OffsetX",CurrentOffsetXValue ,MaxIntValue ,MinIntValue)==true){
+	if(Parent->GetIntValue("OffsetX",CurrentOffsetXValue ,MaxIntValue ,MinIntValue)==true){
 		ui->spinBoxAOIOffsetX	->setMaximum(Width);
 		ui->spinBoxAOIOffsetX	->setMinimum(MinIntValue);
 		ui->spinBoxAOIOffsetX	->setValue	(CurrentOffsetXValue);
 	}
-	if(Cam->GetIntValue("OffsetY",CurrentOffsetYValue ,MaxIntValue ,MinIntValue)==true){
+	if(Parent->GetIntValue("OffsetY",CurrentOffsetYValue ,MaxIntValue ,MinIntValue)==true){
 		ui->spinBoxAOIOffsetY	->setMaximum(Height);
 		ui->spinBoxAOIOffsetY	->setMinimum(MinIntValue);
 		ui->spinBoxAOIOffsetY	->setValue	(CurrentOffsetYValue);
 	}
-	if(Cam->GetIntValue("Width",CurrentIntValue ,MaxIntValue ,MinIntValue)==true){
+	if(Parent->GetIntValue("Width",CurrentIntValue ,MaxIntValue ,MinIntValue)==true){
 		ui->spinBoxAOIWidth		->setMaximum(MaxIntValue);
 		ui->spinBoxAOIWidth		->setMinimum(MinIntValue);
 		ui->spinBoxAOIWidth		->setValue	(CurrentIntValue);
 	}
-	if(Cam->GetIntValue("Height",CurrentIntValue ,MaxIntValue ,MinIntValue)==true){
+	if(Parent->GetIntValue("Height",CurrentIntValue ,MaxIntValue ,MinIntValue)==true){
 		ui->spinBoxAOIHeight	->setMaximum(MaxIntValue);
 		ui->spinBoxAOIHeight	->setMinimum(MinIntValue);
 		ui->spinBoxAOIHeight	->setValue	(CurrentIntValue);
+	}
+
+
+	if(Parent->GetEnumValue ("UserSetSelector",CurrentIntValue ,EnumUserSetSelectorData,EnumCount)==true){
+		ui->comboBoxUserSetSelector->clear();
+		for(int i=0;i<EnumCount;i++){
+			QString Str;
+			if(Parent->GetEnumSymblic ("UserSetSelector",EnumUserSetSelectorData[i] ,Str)==true){
+				ui->comboBoxUserSetSelector->addItem(Str);
+				if(CurrentIntValue==EnumUserSetSelectorData[i]){
+					ui->comboBoxUserSetSelector->setCurrentIndex(i);
+				}
+			}
+		}
 	}
 }
 
@@ -270,6 +288,11 @@ ShowCameraDialog::~ShowCameraDialog()
 }
 
 void ShowCameraDialog::on_pushButtonOK_clicked()
+{
+	GetFromWindow();
+	done(true);
+}
+void ShowCameraDialog::GetFromWindow(void)
 {
 	ExposureTime	=ui->doubleSpinBoxExposureTime	->value();
 	Gain			=ui->doubleSpinBoxGain		->value();
@@ -318,8 +341,6 @@ void ShowCameraDialog::on_pushButtonOK_clicked()
 	AOIOffsetY	=ui->spinBoxAOIOffsetY	->value();
 	AOIWidth	=ui->spinBoxAOIWidth	->value();
 	AOIHeight	=ui->spinBoxAOIHeight	->value();
-
-	done(true);
 }
 
 
@@ -384,5 +405,43 @@ void ShowCameraDialog::on_comboBoxWhiteBalance_currentIndexChanged(int index)
 			}
 		}
 	}
+}
+
+
+void ShowCameraDialog::on_pushButtonUserSetSave_clicked()
+{
+	int	Index=ui->comboBoxUserSetSelector->currentIndex();
+	int	SelectNo=EnumUserSetSelectorData[Index];
+
+	GetFromWindow();
+	Parent->Set(*this);
+
+	int	nRet = Parent->Cam.SetEnumValue("UserSetSelector", (int)SelectNo);
+	if (MV_OK != nRet){
+		return;
+	}
+	nRet = Parent->Cam.CommandExecute("UserSetSave");
+	if (MV_OK != nRet){
+		return;
+	}
+}
+
+
+void ShowCameraDialog::on_pushButtonUserSetLoad_clicked()
+{
+	int	Index=ui->comboBoxUserSetSelector->currentIndex();
+	int	SelectNo=EnumUserSetSelectorData[Index];
+
+	int	nRet = Parent->Cam.SetEnumValue("UserSetSelector", (int)SelectNo);
+	if (MV_OK != nRet){
+		Parent->RecoverFromError();
+		return;
+	}
+	nRet = Parent->Cam.CommandExecute("UserSetLoad");
+	if (MV_OK != nRet){
+		Parent->RecoverFromError();
+		return;
+	}
+	ShowData();
 }
 

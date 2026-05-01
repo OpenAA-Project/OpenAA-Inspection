@@ -28,11 +28,37 @@
 
 StrategicListContainer	&StrategicListContainer::operator=(const StrategicListContainer &src)
 {
-	RemoveAll();
-	for(StrategicList *a=src.GetFirst();a!=NULL;a=a->GetNext()){
-		StrategicList	*b=new StrategicList();
-		*b=*a;
-		AppendList(b);
+	if(GetCount()==src.GetCount()){
+		StrategicList *d=GetFirst();
+		for(StrategicList *s=src.GetFirst();s!=NULL && d!=NULL;s=s->GetNext(),d=d->GetNext()){
+			*d=*s;
+		}
+	}
+	else
+	if(GetCount()<src.GetCount()){
+		StrategicList *d=GetFirst();
+		StrategicList *s=src.GetFirst();
+		for(;s!=NULL && d!=NULL;s=s->GetNext(),d=d->GetNext()){
+			*d=*s;
+		}
+		for(;d!=NULL;d=d->GetNext()){
+			StrategicList	*b=new StrategicList();
+			*b=*s;
+			AppendList(b);
+		}
+	}
+	else
+	if(GetCount()>src.GetCount()){
+		StrategicList *d=GetFirst();
+		for(StrategicList *s=src.GetFirst();s!=NULL && d!=NULL;s=s->GetNext(),d=d->GetNext()){
+			*d=*s;
+		}
+		while(d!=NULL){
+			StrategicList *NextD=d->GetNext();
+			RemoveList(d);
+			delete	d;
+			d=NextD;
+		}
 	}
 	return *this;
 }

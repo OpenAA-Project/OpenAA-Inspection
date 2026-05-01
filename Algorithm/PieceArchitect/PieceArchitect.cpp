@@ -91,8 +91,8 @@ DEFFUNCEX	AddedDataClass	*DLL_LoadAddedResultData (QIODevice *f ,int32 AddedData
 DEFFUNCEX	bool			DLL_SaveAddedResultData  (QIODevice *f ,AddedDataClass *d ,int32 AddedDataType);
 DEFFUNCEX	void			DLL_RemoveAddedResultData(AddedDataClass *d);
 
-GUIInitializer::GUIInitializer(LayersBase *base)
-:ServiceForLayers(base)
+GUIInitializer::GUIInitializer(LayersBase *base,QObject *parent)
+:QObject(parent),ServiceForLayers(base)
 {
 	GuiDLLPack	=NULL;
 	IntegrationComm				=NULL;

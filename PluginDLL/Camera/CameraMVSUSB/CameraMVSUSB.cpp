@@ -303,7 +303,10 @@ bool    CameraMVSUSB::PrepareCapture()
 }
 bool    CameraMVSUSB::StartCapture()
 {
-    return Cam.StartGrabbing();
+    if(Cam.StartGrabbing()==0){
+        return true;
+	}  
+	return false;
 }
 bool    CameraMVSUSB::SetAutoRepeat(bool b)
 {

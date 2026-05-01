@@ -54,6 +54,7 @@
 #include "XLogOut.h"
 #include "XGeneralFunc.h"
 #include "Regulus64System.h"
+#include "XOpenAA.h"
 
 void	MainApplication::QuitProcess()
 {
@@ -336,7 +337,7 @@ int main(int argc, char *argv[])
 	QCoreApplication::processEvents();
 
 	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal);
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
 	EntryPointToFuncGlobal->SetLayersBase(Layers);
 	Layers->SetCurrentPath(QDir::currentPath());
 	Layers->SetUserPath(UserPath);

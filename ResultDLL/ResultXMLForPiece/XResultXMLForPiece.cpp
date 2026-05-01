@@ -121,7 +121,7 @@ bool	ResultXMLForPiece::OutputCommon(ResultInspection &Res
 			strcat(SerchStr, InsID);
 			strcat(SerchStr, "\"/>");
 		//Str6
-		if(GetLayersBase()->GetLot(0)->GetLotID()!=0){
+		if(GetLayersBase()->GetLot(0)->GetLotID().isEmpty()==false){
 			strcat(SerchStr, "<LOT LID=\"");
 			QString StrLID=GetLayersBase()->GetLot(0)->GetLotID();
 			char	*buff1=new char[StrLID.length()*2+1];

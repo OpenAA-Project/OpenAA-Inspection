@@ -64,6 +64,8 @@ class	QAction;
 class	QIODevice;
 class	QSqlDatabase;
 
+void	ResizeByScaleFormBase(QWidget *W,GUIFormBase *Parent ,bool ResizeChild=true);
+
 class	MenuInfoList : public QObject ,public NPList<MenuInfoList>
 {
     Q_OBJECT
@@ -423,6 +425,7 @@ public:
 		,_BC_ShowInDelayed	=10
 		,_BC_Terminated		=11
 		,_BC_ReadyParam		=12
+		,_BC_ResizeFirst	=24
 		,_BC_StartLot		=13
 		,_BC_SetupLibFolder	=14
 		,_BC_ResizeAction	=15
@@ -482,6 +485,7 @@ public:
 	virtual void	AfterPrepare(void){}
 	virtual void	ReadyParam(void){}
 	virtual void	AfterStartSequence(void){}
+	virtual	void	ResizeFirst(void){}
 	void	ChangedValue(void);
 	void	InstallEvent(void);
 	void	ExecuteEventHandler(void);
@@ -628,6 +632,7 @@ public:
 	virtual void	BroadcastReadyTerminate(void);
 	virtual void	BroadcastTerminated(void);
 	virtual void	BroadcastReadyParam(void);
+	virtual void	BroadcastResizeFirst(void);
 	virtual void	BroadcastResizeAction(void);
 	virtual void	BroadcastRefreshCache(void);
 	virtual void	BroadcastRepaintAll(void);

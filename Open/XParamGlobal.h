@@ -33,10 +33,11 @@ const	int		GUICommPort=10300;
 class	CameraAllocationSlave
 {
 public:
-	int	SlavePC;	
+	int	SlavePC;
 
 	CameraAllocationSlave(void){	SlavePC=0;	}
 	CameraAllocationSlave(const CameraAllocationSlave &src){	SlavePC=src.SlavePC;	}
+	virtual	~CameraAllocationSlave(void){}
 };
 
 class	StrategicList : public NPList<StrategicList>
@@ -51,6 +52,7 @@ public:
 		Page	=src.Page;
 		Layer	=src.Layer;
 	}
+	virtual	~StrategicList(void){}
 
 	StrategicList	&operator=(const StrategicList &src)
 	{
@@ -64,6 +66,7 @@ class	StrategicListContainer : public NPListPack<StrategicList>
 {
 public:
 	StrategicListContainer(void){}
+	virtual	~StrategicListContainer(void){}
 
 	StrategicListContainer	&operator=(const StrategicListContainer &src);
 };
@@ -76,6 +79,7 @@ public:
 	int32	YDelay;
 
 	PageDirection(void);
+	virtual	~PageDirection(void){}
 
 	PageDirection	&operator=(const PageDirection &src);
 	bool	Save(QIODevice *f);
@@ -119,6 +123,7 @@ class ShadowParameterContainer : public NPListPackSaveLoad<ShadowParameter>
 {
 public:
 	ShadowParameterContainer(void){}
+	virtual	~ShadowParameterContainer(void){}
 
 	virtual	ShadowParameter	*Create(void)	override;
 	bool	operator==(const ShadowParameterContainer &src)	const;
@@ -141,6 +146,7 @@ public:
 	int32	ResolutionYNano;
 
 	ParamGlobalEachPage(void);
+	virtual	~ParamGlobalEachPage(void){}
 
 	virtual	QString	GetDataText(void)			override{	return(/**/"");	};
 	virtual	QString	GetDefaultFileName(void)	override{	return(/**/"");	}

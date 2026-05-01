@@ -1028,7 +1028,7 @@ int main(int argc, char *argv[])
 
 	//return ret;
 
-	delete	G;
+	G->deleteLater();
 	if(PWForm!=NULL){
 		delete	PWForm;
 	}

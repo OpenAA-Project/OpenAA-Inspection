@@ -111,8 +111,8 @@ GUIFormBase		*GUIMouseLeftDownInEdit(GUIFormBase *Current ,QMouseEvent * Event)
 	return NULL;
 }
 
-GUIInitializer::GUIInitializer(LayersBase *Base)
-	:ServiceForLayers(Base),GuiDLLPack(NULL)
+GUIInitializer::GUIInitializer(LayersBase *Base,QObject *parent)
+	:QObject(parent),ServiceForLayers(Base),GuiDLLPack(NULL)
 {
 	CommRootNumb=0;
 	for(int i=0;i<sizeof(CommRoot)/sizeof(CommRoot[0]);i++){

@@ -149,8 +149,8 @@ PieceClass			*EntryPointForGlobal::SearchAndLoadPiece(int masterCode,QString &Er
 }
 
 
-GUIInitializer::GUIInitializer(LayersBase *base)
-:ServiceForLayers(base)
+GUIInitializer::GUIInitializer(LayersBase *base,QObject *parent)
+:QObject(parent),ServiceForLayers(base)
 {
 	GuiDLLPack	=new GuiDLLItemContainer;
 	CommRootNumb=0;

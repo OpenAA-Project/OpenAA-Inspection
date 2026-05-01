@@ -19,10 +19,13 @@ RCC_DIR += GeneratedFiles
 include(CameraMVSGigE.pri)
 
 FORMS += \
+    SelectUserSetDialog.ui \
     ShowCameraDialog.ui
 
 HEADERS += \
+    SelectUserSetDialog.h \
     ShowCameraDialog.h
 
 SOURCES += \
+    SelectUserSetDialog.cpp \
     ShowCameraDialog.cpp

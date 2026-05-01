@@ -63,3 +63,22 @@ void	CameraHandle::EmitSignalCaptured(void)
 {
 	emit	CameraHandleSignalCaptured();
 }
+
+bool	CameraHandle::ShowInfoNumber(QByteArray &RetInfo)
+{
+	if(ShowSetting(NULL)==true){
+		QBuffer Buffer;
+		Buffer.open(QIODevice::WriteOnly);
+		Save(&Buffer);
+		RetInfo = Buffer.buffer();
+		return true;
+	}
+	return false;
+}
+bool	CameraHandle::SetInfoNumber(QByteArray &Info)
+{
+	QBuffer Buffer;
+	Buffer.setData(Info);
+	Buffer.open(QIODevice::ReadOnly);
+	return Load(&Buffer);
+}

@@ -72,7 +72,7 @@ CameraProvider::CameraProvider(int _CountOfCamera,const QString &CameraDLLFileNa
 		}
 		int	LanguageCode=GetLayersBase()->GetFRegistry()->LoadRegInt("Language",0);
 		Cam[i]->SetLanguageCode(LanguageCode);
-		Handle[i]->OpenForServer(Handle[i]->GetDotPerLine(),Handle[i]->GetMaxLines(),GetLayerNumb());
+		Handle[i]->OpenForServer(Handle[i]->GetDotPerLine(),Handle[i]->GetMaxLines(),GetLayerNumb(0));
 		FirstAccessTime[i]=0;
 	}
 	ui.tableWidget->setRowCount(AllocatedCamNumb);

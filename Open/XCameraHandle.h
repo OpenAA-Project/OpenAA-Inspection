@@ -74,6 +74,10 @@ public:
 	virtual	bool	InsertPage(int IndexPage)	{	return true;	}
 	virtual	bool	RemovePage(int IndexPage)	{	return true;	}
 
+	virtual	bool	ShowSetting(QWidget *parent){	return true;	}
+	virtual	bool	ShowInfoNumber(QByteArray &RetInfo);
+	virtual	bool	SetInfoNumber(QByteArray &Info);
+
 	virtual	void	EmitSignalCaptured(void);
 signals:
 	void	CameraHandleSignalCaptured();

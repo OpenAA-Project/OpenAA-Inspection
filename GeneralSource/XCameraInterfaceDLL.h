@@ -186,6 +186,8 @@ public:
 	bool	GetTriggerMode(void)	;
 
 	bool	ShowSetting(QWidget *parent);
+	bool	ShowInfoNumber(QByteArray &RetInfo);
+	bool	SetInfoNumber(QByteArray &Info);
 
 	bool	PrepareCapture(void);
 	bool	StartCapture(void);

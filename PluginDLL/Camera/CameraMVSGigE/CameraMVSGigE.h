@@ -33,6 +33,9 @@
 
 #define Version_CameraMVSGigE   4
 
+class ShowCameraDialog;
+
+
 class CamBufferStack
 {
 public:
@@ -119,6 +122,7 @@ public:
     ~CameraMVSGigE(void);
 
     bool    Initial(void);
+	bool	RecoverFromError(void);
 
     bool	ChangeInfo(int XLen ,int YLen);
     bool    ReqSystemChange(CameraReqSystemChangeInfo &caminfo);
@@ -138,6 +142,8 @@ public:
 
     void    TransmitDirectly(GUIDirectMessage *packet);
     void    SpecifiedDirectly(SpecifiedBroadcaster *v);
+
+	bool	SetUserSelect(int n);   //n=1:User1 ,n=2:User2 ,n=3:User3
 
     virtual	bool	Save(QIODevice *f)  override;
     virtual	bool	Load(QIODevice *f)  override;
@@ -172,6 +178,11 @@ public:
 
     bool    GetLine0(void);
 	bool	SetLine1(bool b);
+
+    bool    Set(ShowCameraDialog &D);
+
+	virtual	bool	ShowInfoNumber(QByteArray &RetInfo);
+	virtual	bool	SetInfoNumber(QByteArray &Info);
 
 private slots:
 	void    SlotNewConnection();
