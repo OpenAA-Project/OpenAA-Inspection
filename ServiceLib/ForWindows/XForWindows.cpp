@@ -26,23 +26,23 @@
 #include "Windows.h"
 
 bool	_GetVolumeInformation(
-  char *lpRootPathName,           // ルートディレクトリ
-  char *lpVolumeNameBuffer,        // ボリューム名バッファ
+  char *lpRootPathName,				// ルートディレクトリ
+  char *lpVolumeNameBuffer,			// ボリューム名バッファ
   int32 nVolumeNameSize,            // 名前バッファのサイズ
-  int32 &lpVolumeSerialNumber,     // ボリュームのシリアル番号
-  int32 &lpMaximumComponentLength, // ファイル名の最大の長さ
-  int32 &lpFileSystemFlags,        // ファイルシステムのオプション
-  char *lpFileSystemNameBuffer,    // ファイルシステム名を格納するバッファ
-  int32 nFileSystemNameSize       // ファイルシステム名を格納するバッファのサイズ
+  int32 &lpVolumeSerialNumber,		// ボリュームのシリアル番号
+  int32 &lpMaximumComponentLength,	// ファイル名の最大の長さ
+  int32 &lpFileSystemFlags,			// ファイルシステムのオプション
+  char *lpFileSystemNameBuffer,		// ファイルシステム名を格納するバッファ
+  int32 nFileSystemNameSize			// ファイルシステム名を格納するバッファのサイズ
 );
 
 bool	MtGetVolumeInformation(
-  QString RootPathName,           // ルートディレクトリ
-  QString &RetVolumeNameBuffer,        // ボリューム名バッファ
-  int32 &VolumeSerialNumber,     // ボリュームのシリアル番号
-  int32 &MaximumComponentLength, // ファイル名の最大の長さ
-  int32 &FileSystemFlags,        // ファイルシステムのオプション
-  QString &FileSystemNameBuffer    // ファイルシステム名を格納するバッファ
+  QString RootPathName,				// ルートディレクトリ
+  QString &RetVolumeNameBuffer,		// ボリューム名バッファ
+  int32 &VolumeSerialNumber,		// ボリュームのシリアル番号
+  int32 &MaximumComponentLength,	// ファイル名の最大の長さ
+  int32 &FileSystemFlags,			// ファイルシステムのオプション
+  QString &FileSystemNameBuffer		// ファイルシステム名を格納するバッファ
 )
 {
 	char iRootPathName[1000];
@@ -133,7 +133,7 @@ bool	MtShutdownSelfPC( bool BoolForciblyExitsOthers=false, bool BoolReboot=false
 	return true;
 }
 
-void	MtAdjustTime(int hour ,int minute ,int second)
+bool	MtAdjustTime(int hour ,int minute ,int second)
 {
 	SYSTEMTIME	SystemTm;
 
@@ -144,6 +144,7 @@ void	MtAdjustTime(int hour ,int minute ,int second)
 	SystemTm.wSecond=second;
 
 	SetLocalTime(&SystemTm);
+	return true;
 }
 
 int64	MtGetDiskFreeSpace(char *DriveStr)

@@ -24,19 +24,19 @@
 #include <QString>
 
 bool	MtGetVolumeInformation(
-  QString RootPathName,				// ���[�g�f�B���N�g��
-  QString &RetVolumeNameBuffer,     // �{�����[�����o�b�t�@
-  int32 &VolumeSerialNumber,		// �{�����[���̃V���A���ԍ�
-  int32 &MaximumComponentLength,	// �t�@�C�����̍ő��̒���
-  int32 &FileSystemFlags,			// �t�@�C���V�X�e���̃I�v�V����
-  QString &FileSystemNameBuffer		// �t�@�C���V�X�e�������i�[�����o�b�t�@
+  QString RootPathName,				// ルートディレクトリ
+  QString &RetVolumeNameBuffer,     // ボリューム名バッファ
+  int32 &VolumeSerialNumber,		// ボリュームのシリアル番号
+  int32 &MaximumComponentLength,	// ファイル名の最大の長さ
+  int32 &FileSystemFlags,			// ファイルシステムのオプション
+  QString &FileSystemNameBuffer		// ファイルシステム名を格納するバッファ
 );
 
 
-// �d�l��XForWindows.cpp���̃R�����g�ɋL��
+
 bool	MtShutdownSelfPC( bool BoolForciblyExitsOthers, bool BoolReboot );
 
-void	MtAdjustTime(int hour,int minute ,int second);
+bool	MtAdjustTime(int hour,int minute ,int second);
 int64	MtGetDiskFreeSpace(char *DriveStr);
 bool	MtGetComputerName(char CName[],int size);
 bool	MtGetComputerName(QString &CName);

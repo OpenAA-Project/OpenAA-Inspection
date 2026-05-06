@@ -1147,9 +1147,9 @@ public:
 	virtual	void	ExecuteActiveOnItemXY(int globalX ,int globalY);
 	virtual	void	ExecuteActiveOnItem(int globalPage ,int layer ,int itemID);
 private:
-	virtual	bool	Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb);
-	virtual	bool	InsertPage(int IndexPage);	//Create page before Indexed page
-	virtual	bool	RemovePage(int IndexPage);
+	virtual	bool	Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb)	override;
+	virtual	bool	InsertPage(int IndexPage)	override;	//Create page before Indexed page
+	virtual	bool	RemovePage(int IndexPage)	override;
 
 protected:
 	virtual	void	ExecuteMatrix(void)	override;

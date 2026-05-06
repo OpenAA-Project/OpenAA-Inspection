@@ -34,7 +34,6 @@ class AbstructProperty : public QObject
 protected:
 	AbstructProperty(QObject *parent=NULL):QObject(parent){};
 
-// �p�����ŃI�[�o�[���C�h�K�{
 public:
 	virtual void initialize(void)=0;
 
@@ -67,11 +66,11 @@ public:
 
 public:
 	virtual bool fromBuffer(const SectionBuffer &buffer)=0;
-	virtual SectionBuffer toBuffer(void) const =0;// �o�b�t�@����
+	virtual SectionBuffer toBuffer(void) const =0;// バッファ生成
 
-	// �I�[�o�[���C�h���p
+	// オーバーライド用
 public:
-	virtual bool fromList(const SectionBufferList &list){// ���X�g���畜��
+	virtual bool fromList(const SectionBufferList &list){// リストから設定
 			int index = indexOf(list, sectionName());
 		if(index==-1){
 			return false;
@@ -101,7 +100,7 @@ public:
 
 	virtual SectionBufferList toList(void) const { SectionBufferList list; list.append(toBuffer()); return list; };
 public:
-	// �ʏ���QString.toXXX�ōς܂���
+	// 通常のQString.toXXXで変換
 	// QColor
 	static QColor toColor(const QString &val){ return QColor(val); };
 	static QString fromColor(const QColor &color){ return color.name(); };
@@ -132,140 +131,145 @@ public:
 		return -1;
 	};
 
-	// String�Ή�
+	// String対応
 	static QString toString(const QString &str)	{	return str;	}
 	static QString fromString(const QString &s)	{	return s;	}
 
-	// ���X�g�Ή�
+	// リスト対応 (クラス内ではテンプレートの宣言のみ行う)
 	template<class T>
 	static QList<T> toList(const QString &str);
 
 	template<class T>
 	static QString fromList(const QList<T> &list);
-
-	// int
-	template<>
-	static QList<int> toList(const QString &str){
-		QStringList strList = str.split(',');
-		QList<int> retList;
-
-		for(int i=0; i<strList.count(); i++){
-			retList << strList[i].toInt();
-		}
-
-		return retList;
-	};
-
-	template<>
-	static QString fromList<int>(const QList<int> &list){
-		if(list.isEmpty()==true){
-			return QString();
-		}
-
-		QString ret = QString::number(list.first());
-
-		for(int i=1; i<list.count(); i++){
-			ret += "," + QString::number(list[i]);
-		}
-
-		return ret;
-	};
-
-	// QColor
-	template<>
-	static QList<QColor> toList(const QString &str){
-		QStringList strList = str.split(',');
-		QList<QColor> retList;
-
-		for(int i=0; i<strList.count(); i++){
-			retList << toColor(strList[i]);
-		}
-
-		return retList;
-	};
-
-	template<>
-	static QString fromList<QColor>(const QList<QColor> &list){
-		if(list.isEmpty()==true){
-			return QString();
-		}
-
-		QString ret = list.first().name();
-
-		for(int i=1; i<list.count(); i++){
-			ret += "," + fromColor(list[i]);
-		}
-
-		return ret;
-	};
-	
-	// QPoint
-	template<>
-	static QList<QPoint> toList(const QString &str){
-		if(str.isEmpty()==true){
-			return QList<QPoint>();
-		}
-
-		QStringList strList = str.split(";");
-		QList<QPoint> retList;
-
-		for(int i=0; i<strList.count(); i++){
-			retList << toPoint(strList[i]);
-		}
-
-		return retList;
-	};
-
-	template<>
-	static QString fromList<QPoint>(const QList<QPoint> &list){
-		if(list.isEmpty()==true){
-			return QString();
-		}
-
-		QStringList strList;
-
-		for(int i=0; i<list.count(); i++){
-			strList << fromPoint(list[i]);
-		}
-
-		return strList.join(";");
-	};
-
-	// QRect
-	template<>
-	static QList<QRect> toList(const QString &str){
-		if(str.isEmpty()==true){
-			return QList<QRect>();
-		}
-
-		QStringList strList = str.split(";");
-		QList<QRect> retList;
-
-		for(int i=0; i<strList.count(); i++){
-			retList << toRect(strList[i]);
-		}
-
-		return retList;
-	};
-
-	template<>
-	static QString fromList<QRect>(const QList<QRect> &list){
-		if(list.isEmpty()==true){
-			return QString();
-		}
-
-		QStringList strList;
-
-		for(int i=0; i<list.count(); i++){
-			strList << fromRect(list[i]);
-		}
-
-		return strList.join(";");
-	};
-
 };
 
-// �t�@�C���Ő������ꂽQString�y�A�̃f�[�^���ړI�̃f�[�^�ۑ��Ώۂ֎󂯓n�����߂̃p�C�v�N���X
+// ----------------------------------------------------------------------
+// テンプレートの明示的特殊化はクラスの外（名前空間スコープ）で行う
+// ヘッダーで定義するため、多重定義を防ぐ `inline` を付与
+// ----------------------------------------------------------------------
+
+// int
+template<>
+inline QList<int> AbstructProperty::toList<int>(const QString &str){
+	QStringList strList = str.split(',');
+	QList<int> retList;
+
+	for(int i=0; i<strList.count(); i++){
+		retList << strList[i].toInt();
+	}
+
+	return retList;
+}
+
+template<>
+inline QString AbstructProperty::fromList<int>(const QList<int> &list){
+	if(list.isEmpty()==true){
+		return QString();
+	}
+
+	QString ret = QString::number(list.first());
+
+	for(int i=1; i<list.count(); i++){
+		ret += "," + QString::number(list[i]);
+	}
+
+	return ret;
+}
+
+// QColor
+template<>
+inline QList<QColor> AbstructProperty::toList<QColor>(const QString &str){
+	QStringList strList = str.split(',');
+	QList<QColor> retList;
+
+	for(int i=0; i<strList.count(); i++){
+		retList << toColor(strList[i]);
+	}
+
+	return retList;
+}
+
+template<>
+inline QString AbstructProperty::fromList<QColor>(const QList<QColor> &list){
+	if(list.isEmpty()==true){
+		return QString();
+	}
+
+	QString ret = list.first().name();
+
+	for(int i=1; i<list.count(); i++){
+		ret += "," + fromColor(list[i]);
+	}
+
+	return ret;
+}
+
+// QPoint
+template<>
+inline QList<QPoint> AbstructProperty::toList<QPoint>(const QString &str){
+	if(str.isEmpty()==true){
+		return QList<QPoint>();
+	}
+
+	QStringList strList = str.split(";");
+	QList<QPoint> retList;
+
+	for(int i=0; i<strList.count(); i++){
+		retList << toPoint(strList[i]);
+	}
+
+	return retList;
+}
+
+template<>
+inline QString AbstructProperty::fromList<QPoint>(const QList<QPoint> &list){
+	if(list.isEmpty()==true){
+		return QString();
+	}
+
+	QStringList strList;
+
+	for(int i=0; i<list.count(); i++){
+		strList << fromPoint(list[i]);
+	}
+
+	return strList.join(";");
+}
+
+// QRect
+template<>
+inline QList<QRect> AbstructProperty::toList<QRect>(const QString &str){
+	if(str.isEmpty()==true){
+		return QList<QRect>();
+	}
+
+	QStringList strList = str.split(";");
+	QList<QRect> retList;
+
+	for(int i=0; i<strList.count(); i++){
+		retList << toRect(strList[i]);
+	}
+
+	return retList;
+}
+
+template<>
+inline QString AbstructProperty::fromList<QRect>(const QList<QRect> &list){
+	if(list.isEmpty()==true){
+		return QString();
+	}
+
+	QStringList strList;
+
+	for(int i=0; i<list.count(); i++){
+		strList << fromRect(list[i]);
+	}
+
+	return strList.join(";");
+}
+
+
+// ファイルで定義されたQString等、のデータと目的のデータ保持対象を受け渡しするためのベースクラス
 template<class T>
 class PropertyBase : public AbstructProperty
 {
@@ -278,15 +282,15 @@ public:
 public:
 	void initialize(void){};
 
-// �e���v���[�g�ŃI�[�o�[���C�h�K�{
+// 子クラスでオーバーライド必須
 public:
 	virtual QString baseName(void) const =0;
 	virtual QString sectionName(void) const =0;
 	virtual QString filename(void) const =0;
 
 public:
-	virtual bool fromBuffer(const SectionBuffer &buffer)=0;	// �o�b�t�@�����č\�z
-	virtual SectionBuffer toBuffer(void) const =0;			// �o�b�t�@�𐶐�
-	virtual bool fromInstance(T *instance)=0;				// �ΏۃC���X�^���X�����擾
-	virtual bool toInstance(T *instance) const =0;			// �ΏۃC���X�^���X�֏�������
+	virtual bool fromBuffer(const SectionBuffer &buffer)=0;	// バッファから再構築
+	virtual SectionBuffer toBuffer(void) const =0;			// バッファを生成
+	virtual bool fromInstance(T *instance)=0;				// 対象インスタンスから取得
+	virtual bool toInstance(T *instance) const =0;			// 対象インスタンスへ書き込み
 };

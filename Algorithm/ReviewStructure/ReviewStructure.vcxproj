@@ -303,9 +303,9 @@
     </QtMoc>
     <ClInclude Include="..\..\Open\XReviewCommon.h" />
     <ClInclude Include="..\..\Open\XReviewCommonPacket.h" />
+    <ClInclude Include="..\..\Open\XReviewPropertyBase.h" />
     <ClInclude Include="DXMLParser.h" />
     <ClInclude Include="JDTAnalyzer.h" />
-    <ClInclude Include="ProcessEventsThread.h" />
     <ClInclude Include="ReviewSequenceGlobal.h" />
     <QtMoc Include="ReviewSequenceThread.h">
     </QtMoc>

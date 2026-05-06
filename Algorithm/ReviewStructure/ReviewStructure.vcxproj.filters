@@ -57,10 +57,6 @@
     <ClCompile Include="..\..\GeneralSource\XMLClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
-    
     <ClCompile Include="XReviewStructureTransmitDirectly.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -88,17 +84,12 @@
     <ClCompile Include="ReviewStructureProperty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="..\..\GeneralSource\XReviewSettingFileSectionReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
     <ClCompile Include="ReviewSequenceThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="ReviewStructureVRSSetting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -137,8 +128,6 @@
     <ClInclude Include="JDTAnalyzer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    
     <ClInclude Include="..\..\Open\XReviewCommonPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -148,16 +137,10 @@
     <ClInclude Include="ReviewStructureVRSSetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    
-    
-    
-    
-    
-    <ClInclude Include="ProcessEventsThread.h">
+    <ClInclude Include="XSaveCSVInReview.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="XSaveCSVInReview.h">
+    <ClInclude Include="..\..\Open\XReviewPropertyBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -422,8 +422,8 @@
     <ClCompile Include="ChangeCreateBlockForm.cpp" />
     <ClCompile Include="ChangeShiftForm.cpp" />
     <ClCompile Include="HistogramForm.cpp" />
-    <ClCompile Include="NGTypeDialog.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
+    <ClCompile Include="NGTypeDialog.cpp" />
     <ClCompile Include="SetOKDialog.cpp" />
     <ClCompile Include="XBlockAlgoPacket.cpp" />
     <ClCompile Include="XBlockForReport.cpp" />
@@ -436,18 +436,6 @@
     <ClCompile Include="XBlockItem.cpp" />
     <ClCompile Include="XBlockLibrary.cpp" />
     <ClCompile Include="..\..\GeneralSource\XBlockSearchWay.cpp" />
-    <ClCompile Include="generatedfiles\debug\moc_NGTypeDialog.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Template|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="generatedfiles\release\moc_NGTypeDialog.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Template|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="XBlockManualExecuter.cpp" />
     <ClCompile Include="XBlockNGAnalyze.cpp" />
     <ClCompile Include="XBlockOptimized.cpp">
@@ -505,6 +493,7 @@
     <ClInclude Include="blockinspection_global.h" />
     <QtMoc Include="SetOKDialog.h">
     </QtMoc>
+    <QtMoc Include="NGTypeDialog.h" />
     <ClInclude Include="XBlockManualExecuter.h" />
     <ClInclude Include="XLineInBlock.h" />
     <QtMoc Include="ChangeCreateBlockForm.h">
@@ -513,19 +502,12 @@
     </QtMoc>
     <QtMoc Include="HistogramForm.h">
     </QtMoc>
-    <QtMoc Include="NGTypeDialog.h">
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DynamicSource>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DynamicSource>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</DynamicSource>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DynamicSource>
-    </QtMoc>
     <ClInclude Include="..\..\Open\XAlgorithmDLL.h" />
     <ClInclude Include="XBlockAlgoPacket.h" />
     <ClInclude Include="XBlockInspection.h" />
     <ClInclude Include="XBlockLibrary.h" />
     <ClInclude Include="..\..\Open\XDLLOnly.h" />
     <ClInclude Include="..\..\Open\XTypeDef.h" />
-    <ClInclude Include="generatedfiles\ui_NGTypeDialog.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ChangeCreateBlockForm.ui">
@@ -534,14 +516,13 @@
     </QtUic>
     <QtUic Include="HistogramForm.ui">
     </QtUic>
-    <QtUic Include="NGTypeDialog.ui">
-    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="BlockInspection.qrc">
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="NGTypeDialog.ui" />
     <QtUic Include="SetOKDialog.ui">
     </QtUic>
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.37012.4 d17.14
+VisualStudioVersion = 17.14.37012.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PrecisionChecker", "PrecisionChecker", "{4B3D3BBF-D143-4466-8691-B5DAA9986179}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EditGUILib", "..\EditGUI\EditGUILib\EditGUILib.vcxproj", "{95E38321-CE69-46EE-B364-33DC57067570}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EditPasswordOnControl", "EditPasswordOnControl\EditPasswordOnControl.vcxproj", "{1FA377DD-57D9-436E-9D71-07637EC47B46}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hasplib", "..\Hasplib\Hasplib\Hasplib.vcxproj", "{2E664432-ADDA-4120-AB9A-A2FAC12F0681}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModelPageItem", "ModelPageItem\ModelPageItem.vcxproj", "{80D81085-D9BA-4E7F-8880-F14BEF04B7FD}"
 EndProject
@@ -38,10 +36,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IntegrationLib", "..\Integrator\IntegrationLib\IntegrationLib.vcxproj", "{29F732B1-F79A-415D-B066-D0757D196521}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServiceForAlgorithm", "ServiceForAlgorithm\ServiceForAlgorithm.vcxproj", "{1B63A772-A35F-47B1-BAAA-0EFA8F25D415}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HaspLockStartLib", "..\Hasplib\LockStar\HaspLockStartLib\HaspLockStartLib.vcxproj", "{47268E9F-F877-4E8E-B853-90ADC774D940}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TransDatabaseLib", "TransDatabaseLib\TransDatabaseLib.vcxproj", "{A3048255-7BFD-41DE-AE80-AD4CB5744FE4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkDrive", "NetworkDrive\NetworkDrive.vcxproj", "{403A1876-BE96-4BBD-B8D4-0C6FEDC3C52B}"
 EndProject
@@ -105,18 +99,6 @@ Global
 		{1FA377DD-57D9-436E-9D71-07637EC47B46}.Template|Win32.Build.0 = Template|Win32
 		{1FA377DD-57D9-436E-9D71-07637EC47B46}.Template|x64.ActiveCfg = Template|x64
 		{1FA377DD-57D9-436E-9D71-07637EC47B46}.Template|x64.Build.0 = Template|x64
-		{2E664432-ADDA-4120-AB9A-A2FAC12F0681}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2E664432-ADDA-4120-AB9A-A2FAC12F0681}.Debug|Win32.Build.0 = Debug|Win32
-		{2E664432-ADDA-4120-AB9A-A2FAC12F0681}.Debug|x64.ActiveCfg = Debug|x64
-		{2E664432-ADDA-4120-AB9A-A2FAC12F0681}.Debug|x64.Build.0 = Debug|x64
-		{2E664432-ADDA-4120-AB9A-A2FAC12F0681}.Release|Win32.ActiveCfg = Release|Win32
-		{2E664432-ADDA-4120-AB9A-A2FAC12F0681}.Release|Win32.Build.0 = Release|Win32
-		{2E664432-ADDA-4120-AB9A-A2FAC12F0681}.Release|x64.ActiveCfg = Release|x64
-		{2E664432-ADDA-4120-AB9A-A2FAC12F0681}.Release|x64.Build.0 = Release|x64
-		{2E664432-ADDA-4120-AB9A-A2FAC12F0681}.Template|Win32.ActiveCfg = Template|Win32
-		{2E664432-ADDA-4120-AB9A-A2FAC12F0681}.Template|Win32.Build.0 = Template|Win32
-		{2E664432-ADDA-4120-AB9A-A2FAC12F0681}.Template|x64.ActiveCfg = Template|x64
-		{2E664432-ADDA-4120-AB9A-A2FAC12F0681}.Template|x64.Build.0 = Template|x64
 		{80D81085-D9BA-4E7F-8880-F14BEF04B7FD}.Debug|Win32.ActiveCfg = Debug|Win32
 		{80D81085-D9BA-4E7F-8880-F14BEF04B7FD}.Debug|Win32.Build.0 = Debug|Win32
 		{80D81085-D9BA-4E7F-8880-F14BEF04B7FD}.Debug|x64.ActiveCfg = Debug|x64
@@ -256,30 +238,6 @@ Global
 		{1B63A772-A35F-47B1-BAAA-0EFA8F25D415}.Template|Win32.Build.0 = Debug|Win32
 		{1B63A772-A35F-47B1-BAAA-0EFA8F25D415}.Template|x64.ActiveCfg = Debug|x64
 		{1B63A772-A35F-47B1-BAAA-0EFA8F25D415}.Template|x64.Build.0 = Debug|x64
-		{47268E9F-F877-4E8E-B853-90ADC774D940}.Debug|Win32.ActiveCfg = Debug|Win32
-		{47268E9F-F877-4E8E-B853-90ADC774D940}.Debug|Win32.Build.0 = Debug|Win32
-		{47268E9F-F877-4E8E-B853-90ADC774D940}.Debug|x64.ActiveCfg = Debug|x64
-		{47268E9F-F877-4E8E-B853-90ADC774D940}.Debug|x64.Build.0 = Debug|x64
-		{47268E9F-F877-4E8E-B853-90ADC774D940}.Release|Win32.ActiveCfg = Release|Win32
-		{47268E9F-F877-4E8E-B853-90ADC774D940}.Release|Win32.Build.0 = Release|Win32
-		{47268E9F-F877-4E8E-B853-90ADC774D940}.Release|x64.ActiveCfg = Release|x64
-		{47268E9F-F877-4E8E-B853-90ADC774D940}.Release|x64.Build.0 = Release|x64
-		{47268E9F-F877-4E8E-B853-90ADC774D940}.Template|Win32.ActiveCfg = Debug|Win32
-		{47268E9F-F877-4E8E-B853-90ADC774D940}.Template|Win32.Build.0 = Debug|Win32
-		{47268E9F-F877-4E8E-B853-90ADC774D940}.Template|x64.ActiveCfg = Debug|x64
-		{47268E9F-F877-4E8E-B853-90ADC774D940}.Template|x64.Build.0 = Debug|x64
-		{A3048255-7BFD-41DE-AE80-AD4CB5744FE4}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A3048255-7BFD-41DE-AE80-AD4CB5744FE4}.Debug|Win32.Build.0 = Debug|Win32
-		{A3048255-7BFD-41DE-AE80-AD4CB5744FE4}.Debug|x64.ActiveCfg = Debug|x64
-		{A3048255-7BFD-41DE-AE80-AD4CB5744FE4}.Debug|x64.Build.0 = Debug|x64
-		{A3048255-7BFD-41DE-AE80-AD4CB5744FE4}.Release|Win32.ActiveCfg = Release|Win32
-		{A3048255-7BFD-41DE-AE80-AD4CB5744FE4}.Release|Win32.Build.0 = Release|Win32
-		{A3048255-7BFD-41DE-AE80-AD4CB5744FE4}.Release|x64.ActiveCfg = Release|x64
-		{A3048255-7BFD-41DE-AE80-AD4CB5744FE4}.Release|x64.Build.0 = Release|x64
-		{A3048255-7BFD-41DE-AE80-AD4CB5744FE4}.Template|Win32.ActiveCfg = Debug|Win32
-		{A3048255-7BFD-41DE-AE80-AD4CB5744FE4}.Template|Win32.Build.0 = Debug|Win32
-		{A3048255-7BFD-41DE-AE80-AD4CB5744FE4}.Template|x64.ActiveCfg = Debug|x64
-		{A3048255-7BFD-41DE-AE80-AD4CB5744FE4}.Template|x64.Build.0 = Debug|x64
 		{403A1876-BE96-4BBD-B8D4-0C6FEDC3C52B}.Debug|Win32.ActiveCfg = Debug|x64
 		{403A1876-BE96-4BBD-B8D4-0C6FEDC3C52B}.Debug|x64.ActiveCfg = Debug|x64
 		{403A1876-BE96-4BBD-B8D4-0C6FEDC3C52B}.Debug|x64.Build.0 = Debug|x64
@@ -371,9 +329,9 @@ Global
 		{DCA5DA09-AC94-4F6E-9DED-9B5979564393} = {DCFAD182-254E-4BDB-9E9C-F60F28D48D30}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = $(DefaultQtVersion)
-		QtVersion = $(DefaultQtVersion)
 		SolutionGuid = {FBBDCDCC-8229-4739-8297-089151B7BA01}
+		QtVersion = $(DefaultQtVersion)
+		Qt5Version = $(DefaultQtVersion)
 	EndGlobalSection
 	GlobalSection(Qt) = preSolution
 		Integration = True

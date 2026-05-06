@@ -34,26 +34,26 @@ const QString StaticString::InspectionResult::TimeOut = "TimeOut";
 	
 QString makeMasterImageName(int MasterCode, int MachineID, int phase, int page, const QString &path)
 {
-	QString Sep=/**/"";
+	QString Sep="";
 	QString s = path.right(1);
-	if(s!=::GetSeparator() && s!=QString(/**/"\\")){
+	if(s!=::GetSeparator() && s!=QString("\\")){
 		Sep= QDir::separator();
 	}
 	QString	Ret;
 	if(phase==0){
 		Ret =path+Sep
-			+QString(/**/"Image")+QString::number(MasterCode)+QString(/**/"-")
-			+QString(/**/"Page")+QString::number(page)+QString(/**/"-")
-			+QString(/**/"Mac")+QString::number(MachineID)
-			+QString(/**/".img");
+			+QString("Image")+QString::number(MasterCode)+QString("-")
+			+QString("Page")+QString::number(page)+QString("-")
+			+QString("Mac")+QString::number(MachineID)
+			+QString(".img");
 	}
 	else{
 		Ret =path+Sep
-			+QString(/**/"Image")+QString::number(MasterCode)+QString(/**/"-")
-			+QString(/**/"Phase")+QString::number(phase)+QString(/**/"-")
-			+QString(/**/"Page")+QString::number(page)+QString(/**/"-")
-			+QString(/**/"Mac")+QString::number(MachineID)
-			+QString(/**/".img");
+			+QString("Image")+QString::number(MasterCode)+QString("-")
+			+QString("Phase")+QString::number(phase)+QString("-")
+			+QString("Page")+QString::number(page)+QString("-")
+			+QString("Mac")+QString::number(MachineID)
+			+QString(".img");
 	}
 	return Ret;
 }
@@ -542,12 +542,12 @@ Review::FKey IntToFKey(int ref){
 
 // マスターコード、マシンID、XMLのファイル名からXMLサーバーの検索ディレクトリからのファイルパスを作成する
 QString makeLotFileName(int MasterCode, int MachineID, QString FileName){
-	return QString(/**/"%1-%2/%3").arg(MachineID).arg(MasterCode).arg(FileName);
+	return QString("%1-%2/%3").arg(MachineID).arg(MasterCode).arg(FileName);
 }
 
 // XMLファイルに記述されている日時フォーマットのQStringからXDateTimeオブジェクトを再構成する
 XDateTime makeLotISTDateTime(QString format){
-	return XDateTime::fromString(format, /**/"yyMMddhhmmss");
+	return XDateTime::fromString(format, "yyMMddhhmmss");
 }
 
 Review::SideType ShowMessageFrontOrBack(QWidget *parent){
@@ -569,7 +569,7 @@ Review::SideType ShowMessageFrontOrBack(QWidget *parent){
 }
 
 // NG画像保存のマクロリスト
-QList<QPair<QString, QString> > Review::getSaveNGImageFormatMacroList()
+QList<QPair<QString, QString> > getSaveNGImageFormatMacroList()
 {
 	QList<QPair<QString, QString> > macroSimbolInfoPairList;
 	
@@ -586,8 +586,8 @@ QList<QPair<QString, QString> > Review::getSaveNGImageFormatMacroList()
 	return macroSimbolInfoPairList;
 }
 
-QString AlgorithmRoot = /**/"Review";
-QString AlgorithmName = /**/"ReviewStructure";
+QString AlgorithmRoot = "Review";
+QString AlgorithmName = "ReviewStructure";
 
 void DrawNGShapeToPainter(QPainter *painter, QColor color, LibNGTypeItem::NGShapeType shape, QPoint center, int round)
 {
@@ -627,7 +627,7 @@ void DrawNGShapeToPainter(QPainter *painter, QColor color, LibNGTypeItem::NGShap
 		brush.setStyle(Qt::BrushStyle::SolidPattern);
 		painter->setBrush(brush);
 		round = 15;
-		painter->drawText(center.x()-round, center.y()-round, round*2, round*2, Qt::AlignCenter | Qt::TextJustificationForced, /**/"★");
+		painter->drawText(center.x()-round, center.y()-round, round*2, round*2, Qt::AlignCenter | Qt::TextJustificationForced, "★");
 		break;
 	case LibNGTypeItem::NGShapeType::NG_Rectangle:
 		painter->setBrush(Qt::BrushStyle::NoBrush);
@@ -642,12 +642,12 @@ void DrawNGShapeToPainter(QPainter *painter, QColor color, LibNGTypeItem::NGShap
 		painter->drawLine(center.x() - round, center.y() - round + tmp + 1, center.x() + round, center.y() - round + tmp - 1);// -
 		painter->drawLine(center.x() - round, center.y() - round + 2*tmp + 1, center.x() + round, center.y() - round + 2*tmp - 1);// =
 		
-		//painter->drawText(center.x()-round, center.y()-round, round*2, round*2, Qt::AlignCenter | Qt::AlignJustify, /**/"#");
+		//painter->drawText(center.x()-round, center.y()-round, round*2, round*2, Qt::AlignCenter | Qt::AlignJustify, "#");
 		break;
 	case LibNGTypeItem::NGShapeType::NG_Star:
 		painter->setBrush(Qt::BrushStyle::NoBrush);
 		round = 15;
-		painter->drawText(center.x()-round, center.y()-round, round*2, round*2, Qt::AlignCenter | Qt::AlignJustify, /**/"☆");
+		painter->drawText(center.x()-round, center.y()-round, round*2, round*2, Qt::AlignCenter | Qt::AlignJustify, "☆");
 		break;
 	case LibNGTypeItem::NGShapeType::NG_X:
 		painter->setBrush(Qt::BrushStyle::NoBrush);

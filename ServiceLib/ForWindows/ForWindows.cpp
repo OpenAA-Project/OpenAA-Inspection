@@ -17,5 +17,7 @@
  */
 
 #include <cmath>
+#ifdef _MSC_VER
 #include <windows.h>
 #include "ForWindows.h"
+#endif

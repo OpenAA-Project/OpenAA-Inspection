@@ -18,7 +18,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Gerber", "Gerber\Gerber.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ColorBlockInspection", "ColorBlockInspection\ColorBlockInspection.vcxproj", "{330C9B5B-62A0-4473-A38F-61133533B7F9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PixelInspection", "PixelInspection\PixelInspection.vcxproj", "{02E61825-82D2-4D97-BD90-E3B2415CF95E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PixelInspection", "PixelInspection\PixelInspection.vcxproj", "{63412744-AE16-4003-B927-8876A498E874}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PieceArchitect", "PieceArchitect\PieceArchitect.vcxproj", "{6D7FCFD5-5B69-461F-9EB5-975F3AF9EA3B}"
 EndProject
@@ -305,18 +305,18 @@ Global
 		{330C9B5B-62A0-4473-A38F-61133533B7F9}.Template|Win32.Build.0 = Template|Win32
 		{330C9B5B-62A0-4473-A38F-61133533B7F9}.Template|x64.ActiveCfg = Template|x64
 		{330C9B5B-62A0-4473-A38F-61133533B7F9}.Template|x64.Build.0 = Template|x64
-		{02E61825-82D2-4D97-BD90-E3B2415CF95E}.Debug|Win32.ActiveCfg = Debug|Win32
-		{02E61825-82D2-4D97-BD90-E3B2415CF95E}.Debug|Win32.Build.0 = Debug|Win32
-		{02E61825-82D2-4D97-BD90-E3B2415CF95E}.Debug|x64.ActiveCfg = Debug|x64
-		{02E61825-82D2-4D97-BD90-E3B2415CF95E}.Debug|x64.Build.0 = Debug|x64
-		{02E61825-82D2-4D97-BD90-E3B2415CF95E}.Release|Win32.ActiveCfg = Release|Win32
-		{02E61825-82D2-4D97-BD90-E3B2415CF95E}.Release|Win32.Build.0 = Release|Win32
-		{02E61825-82D2-4D97-BD90-E3B2415CF95E}.Release|x64.ActiveCfg = Release|x64
-		{02E61825-82D2-4D97-BD90-E3B2415CF95E}.Release|x64.Build.0 = Release|x64
-		{02E61825-82D2-4D97-BD90-E3B2415CF95E}.Template|Win32.ActiveCfg = Template|Win32
-		{02E61825-82D2-4D97-BD90-E3B2415CF95E}.Template|Win32.Build.0 = Template|Win32
-		{02E61825-82D2-4D97-BD90-E3B2415CF95E}.Template|x64.ActiveCfg = Template|x64
-		{02E61825-82D2-4D97-BD90-E3B2415CF95E}.Template|x64.Build.0 = Template|x64
+		{63412744-AE16-4003-B927-8876A498E874}.Debug|Win32.ActiveCfg = Debug|Win32
+		{63412744-AE16-4003-B927-8876A498E874}.Debug|Win32.Build.0 = Debug|Win32
+		{63412744-AE16-4003-B927-8876A498E874}.Debug|x64.ActiveCfg = Debug|x64
+		{63412744-AE16-4003-B927-8876A498E874}.Debug|x64.Build.0 = Debug|x64
+		{63412744-AE16-4003-B927-8876A498E874}.Release|Win32.ActiveCfg = Release|Win32
+		{63412744-AE16-4003-B927-8876A498E874}.Release|Win32.Build.0 = Release|Win32
+		{63412744-AE16-4003-B927-8876A498E874}.Release|x64.ActiveCfg = Release|x64
+		{63412744-AE16-4003-B927-8876A498E874}.Release|x64.Build.0 = Release|x64
+		{63412744-AE16-4003-B927-8876A498E874}.Template|Win32.ActiveCfg = Template|Win32
+		{63412744-AE16-4003-B927-8876A498E874}.Template|Win32.Build.0 = Template|Win32
+		{63412744-AE16-4003-B927-8876A498E874}.Template|x64.ActiveCfg = Template|x64
+		{63412744-AE16-4003-B927-8876A498E874}.Template|x64.Build.0 = Template|x64
 		{6D7FCFD5-5B69-461F-9EB5-975F3AF9EA3B}.Debug|Win32.ActiveCfg = Debug|Win32
 		{6D7FCFD5-5B69-461F-9EB5-975F3AF9EA3B}.Debug|Win32.Build.0 = Debug|Win32
 		{6D7FCFD5-5B69-461F-9EB5-975F3AF9EA3B}.Debug|x64.ActiveCfg = Debug|x64
@@ -1450,9 +1450,9 @@ Global
 		{318FFD8F-2911-45AE-B31B-D76B019E1503} = {5A557281-C7AC-43B0-B7B4-719693967BFB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		QtVersion = $(DefaultQtVersion)
-		SolutionGuid = {172C4C78-CF47-438A-89DB-99C09BEBB21D}
 		Qt5Version = $(DefaultQtVersion)
+		SolutionGuid = {172C4C78-CF47-438A-89DB-99C09BEBB21D}
+		QtVersion = $(DefaultQtVersion)
 	EndGlobalSection
 	GlobalSection(Qt) = preSolution
 		Integration = True

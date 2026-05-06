@@ -1888,10 +1888,8 @@ void	ParamGlobal::SetPhaseString(int phase ,QString &str)
 void	ParamGlobal::InitializeNetworkDrive(void)
 {
 	if(NetworkDrive1.length()!=0 && NetworkDrivePath1.length()!=0){
-		char	NetworkDriveBuff[100];
-		QString2Char(NetworkDrive1,NetworkDriveBuff,sizeof(NetworkDriveBuff));
 		if(CreateNetworkDrive(false
-							,NetworkDriveBuff[0]-'A'
+							,NetworkDrive1
 							,NetworkDrivePath1
 							,/**/""
 							,/**/"")==true){
@@ -1899,10 +1897,8 @@ void	ParamGlobal::InitializeNetworkDrive(void)
 		}
 	}
 	if(NetworkDrive2.length()!=0 && NetworkDrivePath2.length()!=0){
-		char	NetworkDriveBuff[100];
-		QString2Char(NetworkDrive2,NetworkDriveBuff,sizeof(NetworkDriveBuff));
 		if(CreateNetworkDrive(false
-							,NetworkDriveBuff[0]-'A'
+							,NetworkDrive2
 							,NetworkDrivePath2
 							,/**/""
 							,/**/"")==true){
@@ -1910,10 +1906,8 @@ void	ParamGlobal::InitializeNetworkDrive(void)
 		}
 	}
 	if(NetworkDrive3.length()!=0 && NetworkDrivePath3.length()!=0){
-		char	NetworkDriveBuff[100];
-		QString2Char(NetworkDrive3,NetworkDriveBuff,sizeof(NetworkDriveBuff));
 		if(CreateNetworkDrive(false
-							,NetworkDriveBuff[0]-'A'
+							,NetworkDrive3
 							,NetworkDrivePath3
 							,/**/""
 							,/**/"")==true){
@@ -1921,10 +1915,8 @@ void	ParamGlobal::InitializeNetworkDrive(void)
 		}
 	}
 	if(NetworkDrive4.length()!=0 && NetworkDrivePath4.length()!=0){
-		char	NetworkDriveBuff[100];
-		QString2Char(NetworkDrive4,NetworkDriveBuff,sizeof(NetworkDriveBuff));
 		if(CreateNetworkDrive(false
-							,NetworkDriveBuff[0]-'A'
+							,NetworkDrive4
 							,NetworkDrivePath4
 							,/**/""
 							,/**/"")==true){

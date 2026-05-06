@@ -23,21 +23,6 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{19b0aa03-f801-4947-a930-8527703ed523}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
-    <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{2505c13a-6c14-4e53-87f1-1a825ab0c553}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
-    <Filter Include="Generated Files\Template">
-      <UniqueIdentifier>{3b415be2-b985-4382-8dbe-e84eac47418e}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Open\AlgorithmCommon.cpp">
@@ -61,9 +46,6 @@
     <ClCompile Include="HistogramForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGTypeDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -78,12 +60,6 @@
     </ClCompile>
     <ClCompile Include="..\..\GeneralSource\XBlockSearchWay.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="generatedfiles\debug\moc_NGTypeDialog.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="generatedfiles\release\moc_NGTypeDialog.cpp">
-      <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="XBlockAlgoPacket.cpp">
       <Filter>Source Files</Filter>
@@ -121,6 +97,9 @@
     <ClCompile Include="XCheckOnNGInner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NGTypeDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockInspection.h">
@@ -144,9 +123,6 @@
     <ClInclude Include="..\..\Open\XTypeDef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="generatedfiles\ui_NGTypeDialog.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="XBlockAlgoPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -167,9 +143,6 @@
     <QtMoc Include="HistogramForm.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="NGTypeDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtUic Include="ChangeCreateBlockForm.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -177,9 +150,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="HistogramForm.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="NGTypeDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtRcc Include="BlockInspection.qrc">
@@ -194,5 +164,13 @@
     <QtMoc Include="SetOKDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="NGTypeDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="NGTypeDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#ifdef _MSC_VER
 #include "swap.h"
 #define	_USE_MATH_DEFINES
 #include <math.h>
@@ -327,3 +328,5 @@ bool	SetForegroundOtherWindow(int ProcessID)
 	}
 	return true;
 }
+
+#endif

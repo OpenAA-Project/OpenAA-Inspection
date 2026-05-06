@@ -460,8 +460,6 @@
     <ClInclude Include="..\..\XSeqDLLVar.h" />
     <ClInclude Include="SeqLib.h" />
     <ClInclude Include="seqlib_global.h" />
-    <ClInclude Include="..\..\..\XCriticalFunc.h" />
-    <ClInclude Include="..\..\..\XFifoClass.h" />
     <ClInclude Include="..\..\..\..\Open\XGeneralFunc.h" />
     <ClInclude Include="..\..\XIODefine.h" />
     <ClInclude Include="..\..\..\..\Open\XParamGlobal.h" />

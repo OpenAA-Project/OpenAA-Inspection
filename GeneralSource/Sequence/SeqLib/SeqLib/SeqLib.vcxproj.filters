@@ -123,12 +123,6 @@
     <ClInclude Include="seqlib_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\XCriticalFunc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\XFifoClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\Open\XGeneralFunc.h">
       <Filter>Header Files</Filter>
     </ClInclude>

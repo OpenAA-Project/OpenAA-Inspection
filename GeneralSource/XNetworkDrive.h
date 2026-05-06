@@ -27,12 +27,12 @@
 extern	"C"{
 
 bool	CreateNetworkDrive(bool tInitialConnect 
-						,int DriveCode				//A drive=0 ,B drive=1 ,,, Z drive=25
+						,const QString &DriveNameStr	//Windows:"Z:" ,Linux:"/mnt/xxx"
 						,const QString &tRemoteDiskName
 						,const QString &tPassword
 						,const QString &tUserName);
 
-bool	DisconnectNetworkDrive(int DriveCode);
+bool	DisconnectNetworkDrive(const QString &DriveNameStr);	//Windows:"Z:" ,Linux:"/mnt/xxx"
 
 };
 

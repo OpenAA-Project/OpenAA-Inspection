@@ -19,14 +19,15 @@
 #pragma once
 
 #include <QtXml/QDomElement>
+#include <QString>
 
-// QString ������XML���̃p�[�T�[�̊����N���X
-// �p������analyze�����`���A�i�[�����f�[�^�ɉ����ă����o�ϐ�����������
+// QString などのXML文のパーサーの仮想クラス
+// 派生先でanalyzeを定義し、パースしてデータを内部変数に保存する
 
 class StringXMLParser
 {
 public:
-	StringXMLParser():errMsg(/**/""){};
+	StringXMLParser():errMsg(""){};
 	virtual ~StringXMLParser(){};
 
 public:
@@ -36,7 +37,10 @@ public:
 		clear();
 
 		QDomDocument doc;
-		QDomDocument::ParseResult result =doc.setContent(src);
+		QString errorMsg;
+		int errorLine, errorColumn;
+		
+		bool result = doc.setContent(src, &errorMsg, &errorLine, &errorColumn);
 		if(!result){
 			return false;
 		}

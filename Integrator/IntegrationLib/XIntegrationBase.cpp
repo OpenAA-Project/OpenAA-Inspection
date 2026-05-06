@@ -1045,7 +1045,7 @@ bool	EachMaster::SetCurrentLot(LotList *Lot)
 	for(LotList *L=LotContainer.GetFirst();L!=NULL;L=L->GetNext()){
 		if(L->LotFileName==Lot->LotFileName){
 			CurrentLot=L;
-			return;
+			return true;
 		}
 	}
 	CurrentLot=NULL;
@@ -1715,6 +1715,7 @@ bool	EachMaster::MoveAll(bool Mastered,bool Targeted,int XDir,int YDir)
 			}
 		}
 	}
+	return true;
 }
 
 bool	EachMaster::AddPhase(int _AddedPhaseCount)
@@ -2490,7 +2491,7 @@ bool	EachMaster::AddCurrentLot(LotList *L)
 			}
 			LotContainer.AppendList(a);
 			SetCurrentLot(a);
-			return;
+			return true;
 		}
 	}
 	SetCurrentLot(L);
