@@ -601,7 +601,7 @@ int	OutlineItem::AlgoCalcStruct::CalcDecision(ImageBuffer *MasterImageList
 	int	MinY=min(Area.GetMinY(),TrArea.GetMinY());
 	int	NGDotCount=0;
 	ExecuteStartByInspection();
-	const OutlineThreshold	*RThr=Parent->GetThresholdR(GetLayersBase());
+	const OutlineThreshold	*RThr=Parent->GetThresholdR();
 
 	if(MasterImageList->IsNull()==false && TargetImageList->IsNull()==false){
 		if(RThr->DiffMode==false){
@@ -779,8 +779,8 @@ int	OutlineItem::AlgoCalcStruct::CalcDecision(ImageBuffer *MasterImageList
 						p->GetCenter(Cx,Cy);
 						ResultPosList	*r=new ResultPosList(Cx,Cy ,hx,hy);
 						r->result =0x10000+Mode;
-						r->result1=iSum;
-						r->result2=0;
+						r->SetResult1(iSum);
+						r->SetResult2(0);
 						LibNGTypeInAlgorithm	*LNGType=GetParent()->GetLibNGTypeInAlgorithm();
 						if(LNGType!=NULL){
 							OutlineInspectLibNGTypeItem	*BL=GetParent()->MakeNGType(*p,*LNGType);

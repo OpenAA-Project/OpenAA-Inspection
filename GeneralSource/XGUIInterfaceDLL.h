@@ -103,7 +103,7 @@ public:
 	GUIFormBase	*CreateInstance(LayersBase *Base,QWidget *parent);
 	void	DeleteInstance(GUIFormBase *Instance)	{	if(DLL_DeleteInstance!=NULL)	DLL_DeleteInstance(Instance);	}
 	int32	GetPropertyString(void	*Instance ,struct	PropertyClass Data[] ,WORD maxDataDim)
-											{	return((DLL_GetPropertyString!=NULL)?DLL_GetPropertyString(Instance ,Data ,maxDataDim):NULL);	}
+											{	return((DLL_GetPropertyString!=NULL)?DLL_GetPropertyString(Instance ,Data ,maxDataDim):0);	}
 	QIcon	GetIcon(void);
 	bool	ReceivePacket(int32 cmd ,int32 globalPage ,const char *EmitterRoot ,const char *EmitterName ,const char *ClassName
 						,QBuffer &buff,int32 IDForUndo,ErrorCodeList &ErrorData)

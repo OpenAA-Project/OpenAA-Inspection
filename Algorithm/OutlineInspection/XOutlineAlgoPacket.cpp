@@ -22,8 +22,8 @@
 #include "XDataInLayer.h"
 #include "XAlgorithmBase.h"
 
-extern	char	*sRoot;
-extern	char	*sName;
+extern	const	char	*sRoot;
+extern	const	char	*sName;
 
 
 LibraryEfectivity::LibraryEfectivity(void)

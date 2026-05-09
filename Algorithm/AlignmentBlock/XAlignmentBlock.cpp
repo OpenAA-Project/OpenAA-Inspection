@@ -157,6 +157,11 @@ void	AlignmentBlockInPage::TransmitDirectly(GUIDirectMessage *packet)
 	}
 }
 
+static	int	DbgCounter=0;
+static	int	DbgPage=1;
+static	int	DbgPx	=1920;
+static	int	DbgPy	=250;
+
 void	AlignmentBlockInPage::GenerateItem(AlignmentBlockLibrary *ALib)
 {
 	AlignmentBlockBase	*BBase=tGetParentBase();
@@ -176,95 +181,122 @@ void	AlignmentBlockInPage::GenerateItem(AlignmentBlockLibrary *ALib)
 			ConstMapBuffer Map;
 			MaskMap.BindOr(Map);
 			PickupFlexArea(Map.GetBitMap() ,Map.GetXByte() ,Map.GetXLen(),Map.GetYLen() ,FPack );
-		}
-		if(FPack.GetCount()>0){
-			int	XLen=GetDotPerLine();
-			int	XByte=(XLen+7)/8;
-			int	YLen=GetMaxLines();
-			BYTE	**BmpMap=MakeMatrixBuff(XByte,YLen);
-			MatrixBuffClear	(BmpMap ,0 ,XByte,YLen);
+
+			if(FPack.GetCount()>0){
+				int	XLen=GetDotPerLine();
+				int	XByte=(XLen+7)/8;
+				int	YLen=GetMaxLines();
+				BYTE	**BmpMap=MakeMatrixBuff(XByte,YLen);
+				MatrixBuffClear	(BmpMap ,0 ,XByte,YLen);
 			BYTE	**TmpMap=MakeMatrixBuff(XByte,YLen);
+	
+				for(PureFlexAreaList *f=FPack.GetFirst();f!=NULL;f=f->GetNext()){
+					f->MakeBitData(BmpMap,XLen,YLen);
+				}
+				GetLayersBase()->FatAreaN (BmpMap,TmpMap,XByte,YLen,ALib->NoisePinholeSize);
+				GetLayersBase()->ThinAreaN(BmpMap,TmpMap,XByte,YLen,ALib->NoisePinholeSize);
+				GetLayersBase()->ThinAreaN(BmpMap,TmpMap,XByte,YLen,ALib->NoiseIslandSize);
+				GetLayersBase()->FatAreaN (BmpMap,TmpMap,XByte,YLen,ALib->NoiseIslandSize);
 
-			for(PureFlexAreaList *f=FPack.GetFirst();f!=NULL;f=f->GetNext()){
-				f->MakeBitData(BmpMap,XLen,YLen);
-			}
-			GetLayersBase()->FatAreaN (BmpMap,TmpMap,XByte,YLen,ALib->NoisePinholeSize);
-			GetLayersBase()->ThinAreaN(BmpMap,TmpMap,XByte,YLen,ALib->NoisePinholeSize);
-			GetLayersBase()->ThinAreaN(BmpMap,TmpMap,XByte,YLen,ALib->NoiseIslandSize);
-			GetLayersBase()->FatAreaN (BmpMap,TmpMap,XByte,YLen,ALib->NoiseIslandSize);
-
-			for(int y=0;y<ALib->DeadZone;y++){
-				BYTE	*d=BmpMap[y];
-				for(int x=0;x<XLen;x++){
-					SetBmpBitOnY0(d,x);
-				}
-			}
-			for(int y=0;y<YLen;y++){
-				BYTE	*d=BmpMap[y];
-				for(int x=0;x<ALib->DeadZone;x++){
-					SetBmpBitOnY0(d,x);
-				}
-				for(int x=XLen-ALib->DeadZone;x<XLen;x++){
-					SetBmpBitOnY0(d,x);
-				}
-			}			
-			for(int y=YLen-ALib->DeadZone;y<YLen;y++){
-				BYTE	*d=BmpMap[y];
-				for(int x=0;x<XLen;x++){
-					SetBmpBitOnY0(d,x);
-				}
-			}
-
-			FPack.RemoveAll();
-			PureFlexAreaListContainer ItemAreaPack;
-			PickupFlexArea(BmpMap ,XByte ,XLen,YLen ,FPack);
-
-			DeleteMatrixBuff(BmpMap,YLen);
-			DeleteMatrixBuff(TmpMap,YLen);
-
-			for(PureFlexAreaList *f=FPack.GetFirst();f!=NULL;){
-				PureFlexAreaList *NextF=f->GetNext();
-				FPack.RemoveList(f);
-				int	Len=hypot(f->GetWidth(),f->GetHeight());
-				if(Len<ALib->MinAreaSize || ALib->MaxAreaSize<Len
-				|| f->GetPatternByte()<ALib->MinAreaDots || ALib->MaxAreaDots<f->GetPatternByte()){
-					delete	f;
-					f=NextF;
-					continue;
-				}
-
-				if(ALib->LimitSize<f->GetWidth() || ALib->LimitSize<f->GetHeight()){
-					PureFlexAreaListContainer CpPack;
-					f->ChopRect(CpPack,ALib->LimitSize);
-					ItemAreaPack.AddMove(CpPack);
-				}
-				else{
-					ItemAreaPack.AppendList(f);
-				}
-				f=NextF;
-			}
-			for(PureFlexAreaList *a=ItemAreaPack.GetFirst();a!=NULL;){
-				PureFlexAreaList *NextA=a->GetNext();
-				if(a->GetPatternByte()<ALib->LimitSize*ALib->LimitSize*0.1){
-					for(PureFlexAreaList *b=ItemAreaPack.GetFirst();b!=NULL;b=b->GetNext()){
-						if(b!=a && b->CheckOverlapNeighbor(a)==true){
-							ItemAreaPack.RemoveList(a);
-							*b += *a;
-							break;
-						}
+				for(int y=0;y<ALib->DeadZone;y++){
+					BYTE	*d=BmpMap[y];
+					for(int x=0;x<XLen;x++){
+						SetBmpBitOnY0(d,x);
 					}
 				}
-				a=NextA;
-			}
-			AlignmentBlockBase	*BBase=tGetParentBase();
+				for(int y=0;y<YLen;y++){
+					BYTE	*d=BmpMap[y];
+					for(int x=0;x<ALib->DeadZone;x++){
+						SetBmpBitOnY0(d,x);
+					}
+					for(int x=XLen-ALib->DeadZone;x<XLen;x++){
+						SetBmpBitOnY0(d,x);
+					}
+				}			
+				for(int y=YLen-ALib->DeadZone;y<YLen;y++){
+					BYTE	*d=BmpMap[y];
+					for(int x=0;x<XLen;x++){
+						SetBmpBitOnY0(d,x);
+					}
+				}
+
+				FPack.RemoveAll();
+				PureFlexAreaListContainer ItemAreaPack;
+				PickupFlexArea(BmpMap ,XByte ,XLen,YLen ,FPack);
+
+				DeleteMatrixBuff(BmpMap,YLen);
+				DeleteMatrixBuff(TmpMap,YLen);
+
+				for(PureFlexAreaList *f=FPack.GetFirst();f!=NULL;){
+					PureFlexAreaList *NextF=f->GetNext();
+					FPack.RemoveList(f);
+					int	Len=hypot(f->GetWidth(),f->GetHeight());
+					if(Len<ALib->MinAreaSize || ALib->MaxAreaSize<Len
+					|| f->GetPatternByte()<ALib->MinAreaDots || ALib->MaxAreaDots<f->GetPatternByte()){
+						delete	f;
+						f=NextF;
+						continue;
+					}
+
+					if(ALib->LimitSize<f->GetWidth() || ALib->LimitSize<f->GetHeight()){
+						PureFlexAreaListContainer CpPack;
+						f->ChopRect(CpPack,ALib->LimitSize);
+						ItemAreaPack.AddMove(CpPack);
+					}
+					else{
+						ItemAreaPack.AppendList(f);
+					}
+					f=NextF;
+				}
+				for(PureFlexAreaList *a=ItemAreaPack.GetFirst();a!=NULL;){
+					PureFlexAreaList *NextA=a->GetNext();
+					if(a->GetPatternByte()<ALib->LimitSize*ALib->LimitSize*0.1){
+						for(PureFlexAreaList *b=ItemAreaPack.GetFirst();b!=NULL;b=b->GetNext()){
+							if(b!=a && b->CheckOverlapNeighbor(a)==true){
+								ItemAreaPack.RemoveList(a);
+								*b += *a;
+								break;
+							}
+						}
+					}
+					a=NextA;
+				}
+				AlignmentBlockBase	*BBase=tGetParentBase();
+				ImagePointerContainer	MasterImages;
+				GetMasterBuffList(MasterImages);
+				AlignmentBlockLibrary	*Lib=(AlignmentBlockLibrary *)LLib.GetLibrary();
 			for(PureFlexAreaList *a=ItemAreaPack.GetFirst();a!=NULL;a=a->GetNext()){
 				a->FatAreaN(ALib->ExpandArea);
 				AlignmentBlockItem	*Item=tCreateItem(0);
 				a->FatAreaN(ALib->OverlapDot);
+
+					if(GetPage()==DbgPage
+					&& a->IsInclude(DbgPx,DbgPy)==true){
+						DbgCounter++;
+					}
 				Item->SetArea(*a);
 				Item->SetLibID(ALib->GetLibID());
 				Item->CopyThresholdFromLibrary(&LLib);
 				AppendItem(Item);
+					Item->ExecuteInitialAfterEditInner();
+
+					double	Flatness = Item->GetFlatness(MasterImages,ALib->LaplaceFilterSize);
+					double	D=Item->MatchNeighbor(MasterImages,ALib->NeighborArea);
+
+
+
+					if(ALib->UseRemover==true){
+						if(D>=Lib->NeighborMatchingRate
+						|| D==0.0
+						|| Flatness<Lib->FlatnessLimit
+						|| Item->RotatedContainer.GetCount()<=2){
+						//if(D==0.0
+						//|| Item->RotatedContainer.GetCount()<=2){
+							RemoveItem(Item);
+							delete	Item;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -291,9 +323,11 @@ ExeResult	AlignmentBlockInPage::ExecuteAlignment		(int ExeID ,ResultInPageRoot *
 {
 	int max_levels = omp_get_max_active_levels();
 	omp_set_max_active_levels(max_levels+1);
-
+	int	CurrentNumThread=omp_get_max_threads();
+	AlignmentBlockBase	*BBase=tGetParentBase();
+	omp_set_num_threads(BBase->MaxThreadCount);
 	ExeResult	Ret=AlgorithmInPagePITemplate<AlignmentBlockItem,AlignmentBlockBase>::ExecuteAlignment(ExeID ,Res);
-	
+	omp_set_num_threads(CurrentNumThread);
 	for(AlignmentBlockItem *item=tGetFirstData();item!=NULL;item=item->tGetNext()){
 		if(item->IsCalcDone()==false){
 			item->CalcByNeighbor();
@@ -302,73 +336,78 @@ ExeResult	AlignmentBlockInPage::ExecuteAlignment		(int ExeID ,ResultInPageRoot *
 	
 	omp_set_max_active_levels(max_levels);
 
-	/*
-	double	ZLevel=tGetParentBase()->ZLevel;
-	int	AddedDx=0;
-	int	AddedDy=0;
-	double	AddedDxAA=0;
-	double	AddedDyAA=0;
-
-	for(AlignmentBlockItem *item=tGetFirstData();item!=NULL;item=item->tGetNext()){
-		AddedDx		+=item->ResultDx;
-		AddedDy		+=item->ResultDy;
-		AddedDxAA	+=item->ResultDx*item->ResultDx;
-		AddedDyAA	+=item->ResultDy*item->ResultDy;
-	}
-	int	N=GetItemCount();
-	double	AvrX=((double)AddedDx)/((double)N);
-	double	AvrY=((double)AddedDy)/((double)N);
-
-	double	VmX=(AddedDxAA-N*AvrX*AvrX)/N;
-	double	VmY=(AddedDyAA-N*AvrY*AvrY)/N;
-	double	Sx=sqrt(VmX);
-	double	Sy=sqrt(VmY);
-	double	ZoneX=Sx*ZLevel;
-	double	ZoneY=Sy*ZLevel;
-
-	AddedDx=0;
-	AddedDy=0;
-	AddedDxAA=0;
-	AddedDyAA=0;
-	N=0;
-	int	ZoneXL=AvrX-ZoneX;
-	int	ZoneXH=AvrX+ZoneX;
-	int	ZoneYL=AvrY-ZoneY;
-	int	ZoneYH=AvrY+ZoneY;
-	for(AlignmentBlockItem *item=tGetFirstData();item!=NULL;item=item->tGetNext()){
-		if(ZoneXL<=item->ResultDx && item->ResultDx<ZoneXH
-		&& ZoneYL<=item->ResultDy && item->ResultDy<ZoneYH){
-			AddedDx		+=item->ResultDx;
-			AddedDy		+=item->ResultDy;
-			AddedDxAA	+=item->ResultDx*item->ResultDx;
-			AddedDyAA	+=item->ResultDy*item->ResultDy;
-			N++;
+	//double	ZLevel=tGetParentBase()->ZLevel;
+	//int	AddedDx=0;
+	//int	AddedDy=0;
+	//double	AddedDxAA=0;
+	//double	AddedDyAA=0;
+	//int		EffectiveCount=0;
+	//
+	//for(AlignmentBlockItem *item=tGetFirstData();item!=NULL;item=item->tGetNext()){
+	//	if(item->EffectiveResult==true){
+	//		AddedDx		+=item->ResultDx;
+	//		AddedDy		+=item->ResultDy;
+	//		AddedDxAA	+=item->ResultDx*item->ResultDx;
+	//		AddedDyAA	+=item->ResultDy*item->ResultDy;
+	//		EffectiveCount++;
+	//	}
+	//}
+	//if(EffectiveCount>0){
+	//	double	AvrX=((double)AddedDx)/((double)EffectiveCount);
+	//	double	AvrY=((double)AddedDy)/((double)EffectiveCount);
+	//
+	//	double	VmX=(AddedDxAA-EffectiveCount*AvrX*AvrX)/EffectiveCount;
+	//	double	VmY=(AddedDyAA-EffectiveCount*AvrY*AvrY)/EffectiveCount;
+	//	double	Sx=sqrt(VmX);
+	//	double	Sy=sqrt(VmY);
+	//	double	ZoneX=Sx*ZLevel;
+	//	double	ZoneY=Sy*ZLevel;
+	//
+	//	AddedDx=0;
+	//	AddedDy=0;
+	//	AddedDxAA=0;
+	//	AddedDyAA=0;
+	//	int	N=0;
+	//	int	ZoneXL=AvrX-ZoneX;
+	//	int	ZoneXH=AvrX+ZoneX;
+	//	int	ZoneYL=AvrY-ZoneY;
+	//	int	ZoneYH=AvrY+ZoneY;
+	//	for(AlignmentBlockItem *item=tGetFirstData();item!=NULL;item=item->tGetNext()){
+	//		if(item->EffectiveResult==true){
+	//			if(ZoneXL<=item->ResultDx && item->ResultDx<ZoneXH
+	//			&& ZoneYL<=item->ResultDy && item->ResultDy<ZoneYH){
+	//				AddedDx		+=item->ResultDx;
+	//				AddedDy		+=item->ResultDy;
+	//				AddedDxAA	+=item->ResultDx*item->ResultDx;
+	//				AddedDyAA	+=item->ResultDy*item->ResultDy;
+	//				N++;
+	//			}
+	//		}
+	//	}
+	//	if(N>=4){
+	//		AvrX=((double)AddedDx)/((double)N);
+	//		AvrY=((double)AddedDy)/((double)N);
+	//
+	//		VmX=AddedDxAA-N*AvrX*AvrX;
+	//		VmY=AddedDyAA-N*AvrY*AvrY;
+	//		Sx=sqrt(VmX);
+	//		Sy=sqrt(VmY);
+	//	}
+	//	for(AlignmentBlockItem *item=tGetFirstData();item!=NULL;item=item->tGetNext()){
+	//		if(item->EffectiveResult==false
+	//		|| item->ResultDx<ZoneXL || ZoneXH<item->ResultDx
+	//		|| item->ResultDy<ZoneYL || ZoneYH<item->ResultDy){
+	//			item->ResultDx=AvrX;
+	//			item->ResultDy=AvrY;
+	//		}
+	//	}
+	//
+		for(AlignmentPacket2DList *p=AlignmentPacket2DContainer.GetFirst();p!=NULL;p=p->GetNext()){
+			p->Rotation	=p->Item->ResultRadian;
+			p->ShiftX	=p->Item->ResultDx;
+			p->ShiftY	=p->Item->ResultDy;
 		}
-	}
-	if(N>=4){
-		AvrX=((double)AddedDx)/((double)N);
-		AvrY=((double)AddedDy)/((double)N);
-
-		VmX=AddedDxAA-N*AvrX*AvrX;
-		VmY=AddedDyAA-N*AvrY*AvrY;
-		Sx=sqrt(VmX);
-		Sy=sqrt(VmY);
-	}
-	for(AlignmentBlockItem *item=tGetFirstData();item!=NULL;item=item->tGetNext()){
-		if(item->ResultDx<ZoneXL || ZoneXH<item->ResultDx
-		|| item->ResultDy<ZoneYL || ZoneYH<item->ResultDy){
-			item->ResultDx=AvrX;
-			item->ResultDy=AvrY;
-		}
-	}
-
-	*/
-	
-	for(AlignmentPacket2DList *p=AlignmentPacket2DContainer.GetFirst();p!=NULL;p=p->GetNext()){
-		p->Rotation	=p->Item->ResultRadian;
-		p->ShiftX	=p->Item->ResultDx;
-		p->ShiftY	=p->Item->ResultDy;
-	}
+	//}
 	return Ret;
 }
 
@@ -468,6 +507,7 @@ AlignmentBlockBase::AlignmentBlockBase(LayersBase *Base)
 	ColorActive		=Qt::red;
 	ModeCalcIncline	=false;
 	ZLevel			=3.0;
+	MaxThreadCount	=4;
 
 	SetParam(&ColorArea			, /**/"Color"		,/**/"ColorNormal"		,"Color for Area");
 	SetParam(&ColorSelected		, /**/"Color"		,/**/"ColorSelected"	,"Color for Selected Area");
@@ -475,6 +515,7 @@ AlignmentBlockBase::AlignmentBlockBase(LayersBase *Base)
 	SetParam(&ModeCalcIncline	, /**/"Process"		,/**/"ModeCalcIncline"	,"Mode Calculating Incline");
 
 	SetParam(&ZLevel	, /**/"Process"		,/**/"ZLevel"	,"Magnification for adopted result zone by deviation");
+	SetParam(&MaxThreadCount	, /**/"Process"		,/**/"MaxThreadCount"	,"Maximum Thread Count");
 }
 
 AlgorithmDrawAttr	*AlignmentBlockBase::CreateDrawAttr(void)

@@ -114,7 +114,8 @@ CameraXtiumPx8Repeat::CameraXtiumPx8Repeat(int CamNo ,LayersBase *base ,bool ori
 	GainOffsetTableBR=NULL;
 	CamDotPerLine=-1;
 	LoadFirst	=true;
-	connect(_sapera,SIGNAL(SignalLinkOut()),this,SLOT(SlotLinkOut()),Qt::QueuedConnection);
+	CameraHandle *Handle = _sapera;
+	connect(Handle,SIGNAL(SignalLinkOut()),this,SLOT(SlotLinkOut()),Qt::QueuedConnection);
 }
 
 CameraXtiumPx8Repeat::~CameraXtiumPx8Repeat()

@@ -61,12 +61,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\Algorithm\Counter;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\GUI\ImagePanelTools;..\..\GUI\PropertyCounter;..\..\GUI\ImageControlTools;..\..\Open;.;$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Algorithm\Counter;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\GUI\ImagePanelTools;..\..\GUI\PropertyCounter;..\..\GUI\ImageControlTools;..\..\Open;.</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Component.lib;DisplayImage.lib;ServiceLib.lib;DisplayOpenGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Component.lib;DisplayImage.lib;ServiceLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">

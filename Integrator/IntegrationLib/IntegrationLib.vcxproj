@@ -292,14 +292,13 @@
     </QtMoc>
     <QtMoc Include="SetLineWidthDialog.h" />
     <ClInclude Include="XIntegrationBasePacket.h" />
+    <QtMoc Include="XIntegrationComm.h" />
     <ClInclude Include="XIntegrationPacketComm.h" />
     <QtMoc Include="XIntegrationSimpleImagePanel.h">
     </QtMoc>
     <ClInclude Include="XIntegrationSimpleImagePanelCommon.h" />
     <ClInclude Include="XIntegrationSimpleImagePanelPacket.h" />
     <ClInclude Include="XParamIntegrationMaster.h" />
-    <QtMoc Include="XIntegrationComm.h">
-    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="IntegrationLib.qrc">

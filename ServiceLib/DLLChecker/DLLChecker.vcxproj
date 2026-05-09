@@ -553,7 +553,7 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Open\XSingleExecuteBySocket.h" />
+    <QtMoc Include="..\..\Open\XSingleExecuteBySocket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

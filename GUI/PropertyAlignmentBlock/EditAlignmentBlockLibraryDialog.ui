@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>737</width>
-    <height>614</height>
+    <height>644</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,9 +16,9 @@
   <widget class="QPushButton" name="ButtonLibNew">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>490</y>
-     <width>121</width>
+     <x>260</x>
+     <y>520</y>
+     <width>131</width>
      <height>31</height>
     </rect>
    </property>
@@ -39,8 +39,8 @@
    <property name="geometry">
     <rect>
      <x>550</x>
-     <y>570</y>
-     <width>121</width>
+     <y>600</y>
+     <width>131</width>
      <height>31</height>
     </rect>
    </property>
@@ -91,13 +91,13 @@
     <bool>true</bool>
    </property>
    <property name="dragDropMode">
-    <enum>QAbstractItemView::DragDropMode::DragOnly</enum>
+    <enum>QAbstractItemView::DragOnly</enum>
    </property>
    <property name="selectionMode">
-    <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+    <enum>QAbstractItemView::SingleSelection</enum>
    </property>
    <property name="selectionBehavior">
-    <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+    <enum>QAbstractItemView::SelectRows</enum>
    </property>
    <column>
     <property name="text">
@@ -116,7 +116,7 @@
      <x>210</x>
      <y>50</y>
      <width>521</width>
-     <height>431</height>
+     <height>461</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -136,10 +136,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <widget class="QSpinBox" name="EditMinAreaSize">
       <property name="geometry">
@@ -164,16 +164,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>領域最大サイズ</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QSpinBox" name="EditMaxAreaSize">
@@ -199,16 +199,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>領域最小サイズ</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QSpinBox" name="EditMinAreaDots">
@@ -234,16 +234,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>領域最小面積</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QSpinBox" name="EditMaxAreaDots">
@@ -275,16 +275,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>領域最大面積</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QLabel" name="label_32">
@@ -297,10 +297,10 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
+       <enum>QFrame::Raised</enum>
       </property>
       <property name="text">
        <string>サ
@@ -308,7 +308,7 @@
 ズ</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
       <property name="indent">
        <number>1</number>
@@ -325,10 +325,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <widget class="QSpinBox" name="EditNoisePinholeSize">
       <property name="geometry">
@@ -353,16 +353,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>スポットノイズ除去サイズ</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QSpinBox" name="EditNoiseIslandSize">
@@ -388,16 +388,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>ピンホールノイズ除去サイズ</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QLabel" name="label_63">
@@ -410,16 +410,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
+       <enum>QFrame::Raised</enum>
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;生&lt;/p&gt;&lt;p&gt;成&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
       <property name="indent">
        <number>1</number>
@@ -435,16 +435,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>限界サイズ</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QSpinBox" name="EditLimitSize">
@@ -470,16 +470,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>重複ドット</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QSpinBox" name="EditOverlapDot">
@@ -505,16 +505,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>領域の膨張ドット</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QSpinBox" name="EditExpandArea">
@@ -537,14 +537,14 @@
        <x>10</x>
        <y>290</y>
        <width>501</width>
-       <height>101</height>
+       <height>131</height>
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <widget class="QLabel" name="label_66">
       <property name="geometry">
@@ -552,20 +552,20 @@
         <x>0</x>
         <y>0</y>
         <width>31</width>
-        <height>101</height>
+        <height>131</height>
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
+       <enum>QFrame::Raised</enum>
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;近&lt;/p&gt;&lt;p&gt;傍&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
       <property name="indent">
        <number>1</number>
@@ -581,16 +581,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>近傍探索範囲</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QSpinBox" name="EditNeighborArea">
@@ -616,16 +616,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>近傍探索での最大値（これ以下の近傍マッチングの時採用する）</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QDoubleSpinBox" name="EditNeighborMatchingRate">
@@ -648,29 +648,80 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::Panel</enum>
+       <enum>QFrame::Panel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>平坦輝度の下限（ラプラシアンの最小値）</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="QSpinBox" name="EditFlatnessLimit">
+     <widget class="QDoubleSpinBox" name="EditFlatnessLimit">
       <property name="geometry">
        <rect>
         <x>400</x>
         <y>70</y>
-        <width>81</width>
+        <width>91</width>
         <height>22</height>
        </rect>
       </property>
       <property name="maximum">
-       <number>1000000</number>
+       <double>10000.000000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_70">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>100</y>
+        <width>351</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Panel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="text">
+       <string>ラプラスフィルターサイズ（3-31)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="EditLaplaceFilterSize">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>100</y>
+        <width>81</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>3</number>
+      </property>
+      <property name="maximum">
+       <number>31</number>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBoxUseRemover">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>16</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>
@@ -689,10 +740,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>最大回転角度</string>
@@ -721,10 +772,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>線の長さ</string>
@@ -740,10 +791,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>線の最小バラつき値</string>
@@ -759,10 +810,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>探索範囲</string>
@@ -830,10 +881,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>線の最小傾き値</string>
@@ -844,9 +895,9 @@
   <widget class="QPushButton" name="ButtonLibSaveNew">
    <property name="geometry">
     <rect>
-     <x>410</x>
-     <y>530</y>
-     <width>131</width>
+     <x>400</x>
+     <y>560</y>
+     <width>141</width>
      <height>31</height>
     </rect>
    </property>
@@ -867,8 +918,8 @@
    <property name="geometry">
     <rect>
      <x>550</x>
-     <y>530</y>
-     <width>121</width>
+     <y>560</y>
+     <width>131</width>
      <height>31</height>
     </rect>
    </property>
@@ -888,9 +939,9 @@
   <widget class="QPushButton" name="ButtonLibDelete">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>530</y>
-     <width>121</width>
+     <x>260</x>
+     <y>560</y>
+     <width>131</width>
      <height>31</height>
     </rect>
    </property>
@@ -922,16 +973,16 @@
     </font>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Shape::Panel</enum>
+    <enum>QFrame::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Shadow::Sunken</enum>
+    <enum>QFrame::Sunken</enum>
    </property>
    <property name="text">
     <string>名称</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QFrame" name="frameLibFolder">
@@ -944,10 +995,10 @@
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Shape::StyledPanel</enum>
+    <enum>QFrame::StyledPanel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Shadow::Sunken</enum>
+    <enum>QFrame::Sunken</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="EditLibID">

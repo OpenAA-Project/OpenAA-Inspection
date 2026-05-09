@@ -44,12 +44,18 @@ AlignmentBlockLibrary::AlignmentBlockLibrary(int LibType,LayersBase *Base)
 	NoiseIslandSize =2;
 	DeadZone		=30;
 	ExpandArea		=10;
+	NeighborArea		=100;
+	NeighborMatchingRate=0.6;
+	FlatnessLimit	=6;
+	LaplaceFilterSize	=11;
+	UseRemover			=true;
 
 	SearchDot	=200;
 	MaxDegree	=10;
 	LineLength	=20;
 	MinVar		=5;
 	ThreDiv		=20;
+	DustSize	=10;
 }
 
 bool	AlignmentBlockLibrary::SaveBlob(QIODevice *f)
@@ -80,6 +86,16 @@ bool	AlignmentBlockLibrary::SaveBlob(QIODevice *f)
 		return false;
 	if(::Save(f,ExpandArea)==false)
 		return false;
+	if(::Save(f,NeighborArea)==false)
+		return false;
+	if(::Save(f,NeighborMatchingRate)==false)
+		return false;
+	if(::Save(f,FlatnessLimit)==false)
+		return false;
+	if(::Save(f,LaplaceFilterSize)==false)
+		return false;
+	if(::Save(f,UseRemover)==false)
+		return false;
 
 	if(::Save(f,SearchDot)==false)
 		return false;
@@ -90,6 +106,8 @@ bool	AlignmentBlockLibrary::SaveBlob(QIODevice *f)
 	if(::Save(f,MinVar)==false)
 		return false;
 	if(::Save(f,ThreDiv)==false)
+		return false;
+	if(::Save(f,DustSize)==false)
 		return false;
 	return true;
 }
@@ -122,7 +140,25 @@ bool	AlignmentBlockLibrary::LoadBlob(QIODevice *f)
 			return false;
 	}
 	if(Ver>=3){
-		if(::Save(f,ExpandArea)==false)
+		if(::Load(f,ExpandArea)==false)
+			return false;
+	}
+	if(Ver>=5){
+		if(::Load(f,NeighborArea)==false)
+			return false;
+		if(::Load(f,NeighborMatchingRate)==false)
+			return false;
+	}
+	if(Ver>=5){
+		if(::Load(f,FlatnessLimit)==false)
+			return false;
+	}
+	if(Ver>=5){
+		if(::Load(f,LaplaceFilterSize)==false)
+			return false;
+	}
+	if(Ver>=6){
+		if(::Load(f,UseRemover)==false)
 			return false;
 	}
 
@@ -138,6 +174,11 @@ bool	AlignmentBlockLibrary::LoadBlob(QIODevice *f)
 		if(::Load(f,ThreDiv)==false)
 			return false;
 	}
+	if(Ver>=7){
+		if(::Load(f,DustSize)==false)
+			return false;
+	}
+
 	return true;
 }
 
@@ -156,4 +197,5 @@ AlignmentBlockLibraryContainer::AlignmentBlockLibraryContainer(LayersBase *base)
 :AlgorithmLibraryContainer(base)
 {
 }
+
 

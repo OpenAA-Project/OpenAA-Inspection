@@ -35,8 +35,8 @@
 #include "XOutlineAlgoPacket.h"
 #include "XBitImageProcessor.h"
 
-extern	char	*sRoot;
-extern	char	*sName;
+extern	const	char	*sRoot;
+extern	const	char	*sName;
 
 static	int	DebugX=3494;
 static	int	DebugY=2296;
@@ -294,6 +294,8 @@ void	OutlineInLayer::CreateBlockItem(OutlineInspectLibrary *ALib ,FlexArea *Area
 		if(N<25){
 			continue;
 		}
+		
+		bool finished = false;
 		for(int i=0;i<N;i++){
 			while(GetBmpBit(MaskBitmap,TopK->x+Mx,TopK->y+My)==0 
 			   || GetBmpBit(CutlineBitmap,TopK->x+Mx,TopK->y+My)!=0){
@@ -302,9 +304,15 @@ void	OutlineInLayer::CreateBlockItem(OutlineInspectLibrary *ALib ,FlexArea *Area
 				TopK=DotArea->GetRingNext(TopK);
 				i++;
 				if(i>=N){
-					goto	PEnd;
+					finished = true;
+					break;
 				}
 			}
+			
+			if(finished){
+				break;
+			}
+
 			if(a==NULL){
 				a=new XYClassArea();
 				HAll.AppendList(a);
@@ -331,7 +339,7 @@ void	OutlineInLayer::CreateBlockItem(OutlineInspectLibrary *ALib ,FlexArea *Area
 			TopK=DotArea->GetRingNext(TopK);
 			a->AppendList(c);
 		}
-PEnd:;				
+				
 		for(XYClassArea	*sa=HAll.GetFirst();sa!=NULL;){
 			if(sa->GetDotCount()>2*SelfSearch+4){
 				sa=sa->GetNext();
@@ -364,25 +372,32 @@ void	OutlineInLayer::SetVectorForOnePath(XYClassArea *sa)
 {
 	int	RewindCount=3;
 	for(XYClass	*a=sa->NPListPack<XYClass>::GetFirst();a!=NULL;a=a->GetNext()){
+		bool skip = false;
 		XYClass	*b=a;
 		for(int i=0;i<RewindCount;i++){
 			b=b->GetPrev();
 			if(b==NULL){
-				goto	PNext;
+				skip = true;
+				break;
 			}
 		}
+		if(skip) continue;
+
 		XYClass	*c=a;
 		for(int i=0;i<RewindCount;i++){
 			c=c->GetNext();
 			if(c==NULL){
-				goto	PNext;
+				skip = true;
+				break;
 			}
 		}
+		if(skip) continue;
+
 		XYClassForOutline	*m=(XYClassForOutline *)a;
 		int	hx1=b->x - a->x;
 		int	hy1=b->y - a->y;
 		if(hx1==0 && hy1==0){
-			goto	PNext;
+			continue;
 		}
 		double	h1=hypot(hx1,hy1);
 		m->dx1=hx1/h1;
@@ -391,7 +406,7 @@ void	OutlineInLayer::SetVectorForOnePath(XYClassArea *sa)
 		int	hx2=c->x - a->x;
 		int	hy2=c->y - a->y;
 		if(hx2==0 && hy2==0){
-			goto	PNext;
+			continue;
 		}
 		double	h2=hypot(hx2,hy2);
 		m->dx2=hx2/h2;
@@ -407,7 +422,6 @@ void	OutlineInLayer::SetVectorForOnePath(XYClassArea *sa)
 		double	g1=GetSita(hx1,hy1);
 		double	g2=GetSita(hx2,hy2);
 		m->Rad=DiffSita(g1,g2);
-PNext:;
 	}
 }
 
@@ -871,5 +885,3 @@ void	OutlineInLayer::CalcOneChopped(XYClassArea *Path,FlexArea *Area
 
 	AppendItem(Item);
 }
-
-

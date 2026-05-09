@@ -28,11 +28,6 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="Generated Files\Intel_SSA">
-      <UniqueIdentifier>{21d63822-d871-4ab0-9497-889b982a88fc}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
     <Filter Include="Generated Files\Release">
       <UniqueIdentifier>{a1324c8e-c3c3-45bf-abd8-daef22a6525e}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
@@ -125,16 +120,14 @@
     <QtMoc Include="SelectDLLDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\Open\XSingleExecuteBySocket.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DLLChecker.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DLLChecker.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\Open\XSingleExecuteBySocket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

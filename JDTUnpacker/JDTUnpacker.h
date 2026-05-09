@@ -28,7 +28,7 @@ class JDTUnpacker : public QDialog
 	Q_OBJECT
 
 public:
-	JDTUnpacker(QWidget *parent = 0, Qt::WindowFlags flags = Qt::Widget);
+	JDTUnpacker(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::Widget);
 	~JDTUnpacker();
 
 protected:

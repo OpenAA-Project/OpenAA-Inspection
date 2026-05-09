@@ -76,18 +76,9 @@
     <ClCompile Include="XColorBlockLibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
-    
-    
-    
     <ClCompile Include="XColorBlockAlgoPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="NGTypeDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -97,7 +88,6 @@
     <ClCompile Include="XColorNGAnalyze.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
     <ClCompile Include="..\..\GeneralSource\XDisplaySimPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -118,22 +108,15 @@
     <ClInclude Include="XColorBlockLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\GeneralSource\XColorSpace.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Open\XDLLOnly.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Open\XDLLType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    
-    
     <ClInclude Include="XColorBlockAlgoPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ColorChangeCreateBlockForm.h">

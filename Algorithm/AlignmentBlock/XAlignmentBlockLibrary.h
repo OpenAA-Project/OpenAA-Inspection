@@ -43,7 +43,12 @@ public:
 	int32		NoiseIslandSize ;
 	int32		DeadZone;
 	int32		ExpandArea;
-
+	int32		NeighborArea;
+	double		NeighborMatchingRate;
+	double		FlatnessLimit;
+	int32		LaplaceFilterSize;
+	bool		UseRemover;
+	int			DustSize;
 //For inspection
 	int		SearchDot ;
 	double	MaxDegree ;

@@ -152,14 +152,14 @@ void	MatchingLineV::Draw(QPainter &Pnt,double ZoomRate,int movx,int movy)
 			    ,(PosX+movx)*ZoomRate ,(PosY+LineLen+movy)*ZoomRate);
 }
 
-double	MatchingLineV::GetVar(bool ModeCalcIncline,ImageBuffer &Buff)
+double	MatchingLineV::GetVar(bool ModeCalcIncline,ImageBuffer &Buff ,int dx ,int dy)
 {
 	double	B,BB;
 	B=BB=0.0;
 	if(LineLen!=0){
 		BYTE	W[100];
 		for(int n=0;n<LineLen;n++){
-			W[n]=Buff.GetYWithoutDepended(PosY+n)[PosX];
+			W[n]=Buff.GetYWithoutDepended(PosY+dy+n)[PosX+dx];
 		}
 		if(ModeCalcIncline==true){
 			double	pa,pb;
@@ -313,15 +313,15 @@ void	MatchingLineH::Draw(QPainter &Pnt,double ZoomRate,int movx,int movy)
 	Pnt.drawLine((PosX+movx)*ZoomRate ,(PosY+movy)*ZoomRate
 			    ,(PosX+LineLen+movx)*ZoomRate ,(PosY+movy)*ZoomRate);
 }
-double	MatchingLineH::GetVar(bool ModeCalcIncline,ImageBuffer &Buff)
+double	MatchingLineH::GetVar(bool ModeCalcIncline,ImageBuffer &Buff ,int dx ,int dy)
 {
 	double	B,BB;
 	B=BB=0.0;
 	if(LineLen!=0){
-		BYTE	*s=Buff.GetYWithoutDepended(PosY);
+		BYTE	*s=Buff.GetYWithoutDepended(PosY+dy);
 		BYTE	W[100];
 		for(int n=0;n<LineLen;n++){
-			W[n]=s[PosX+n];
+			W[n]=s[PosX+dx+n];
 		}
 		if(ModeCalcIncline==true){
 			double	pa,pb;
@@ -394,6 +394,9 @@ double	MatchingLineH::Match(bool ModeCalcIncline,ImageBuffer *TBuff,int dx,int d
 		BYTE	*d=&D->GetYWithoutDepended(TargetPosY)[TargetPosX];
 		BYTE	*s=Data;
 		BYTE	W[100];
+		//for(int n=0;n<LineLen;n++,d++){
+		//	W[n]=*d;
+		//}
 		memcpy(W,d,LineLen);
 		if(ModeCalcIncline==true){
 			double	pa,pb;
@@ -467,11 +470,13 @@ public:
 
 
 
-bool	RotatedMatchingPattern::BuildInitial(bool ModeCalcIncline)
+bool	RotatedMatchingPattern::BuildInitial(bool ModeCalcIncline
+											,const BYTE **Map ,int MapXByte ,int MapXLen ,int MapYLen)
 {
 	ImageBuffer *ImageList[100];
 	Parent->GetMasterBuffList(ImageList);
 	int	LineLength	=Parent->GetThresholdR()->LineLength;
+	int	DustSize	=Parent->GetThresholdR()->DustSize;
 	int		DotPerLine	=Parent->GetDotPerLine();
 	int		MaxLines	=Parent->GetMaxLines();
 
@@ -515,7 +520,10 @@ bool	RotatedMatchingPattern::BuildInitial(bool ModeCalcIncline)
 	ImageBufferListContainer DstCont;
 	DstCont.MakeImageBuff(Parent->GetLayerNumb(),0,XLen,YLen);
 	ImagePointerContainer	Dst(DstCont);
-	CopyToBuffer(Dst ,-GetMinX(),-GetMinY());
+	int	ShiftX=-GetMinX();
+	int	ShiftY=-GetMinY();
+	CopyToBuffer(Dst ,ShiftX,ShiftY);
+	int	LineLength2=LineLength/2;
 
 	double	MinVar	=Parent->GetThresholdR()->MinVar;
 	double	ThreDiv	=Parent->GetThresholdR()->ThreDiv;
@@ -544,12 +552,21 @@ bool	RotatedMatchingPattern::BuildInitial(bool ModeCalcIncline)
 						}
 					}
 					if(VMaxVar>=tMinVar && LDiv>=ThreDiv){
-						TmpLineList	*C=new TmpLineList();
-						C->Cx=X;
-						C->Cy=Y;
-						C->Var=VMaxVar;
-						C->Layer=VLayer;
-						TmpLineListContainer.AppendList(C);
+						ImageBuffer	*B=DstCont[VLayer];
+						double	D1=V.GetVar(ModeCalcIncline,*B,-DustSize,0);
+						double	D2=V.GetVar(ModeCalcIncline,*B,+DustSize,0);
+						if(D1>=tMinVar && D2>=tMinVar){
+							if((GetBmpBit(Map,GetMinX()+X,GetMinY()+Y			 )!=0)
+							|| (GetBmpBit(Map,GetMinX()+X,GetMinY()+Y+LineLength2)!=0)
+							|| (GetBmpBit(Map,GetMinX()+X,GetMinY()+Y-LineLength2)!=0) ){
+								TmpLineList	*C=new TmpLineList();
+								C->Cx=X;
+								C->Cy=Y;
+								C->Var=VMaxVar;
+								C->Layer=VLayer;
+								TmpLineListContainer.AppendList(C);
+							}
+						}
 					}
 				}
 			}
@@ -600,12 +617,21 @@ bool	RotatedMatchingPattern::BuildInitial(bool ModeCalcIncline)
 						}
 					}
 					if(VMaxVar>=tMinVar){
-						TmpLineList	*C=new TmpLineList();
-						C->Cx=X;
-						C->Cy=Y;
-						C->Var=VMaxVar;
-						C->Layer=VLayer;
-						TmpLineListContainer.AppendList(C);
+						ImageBuffer	*B=DstCont[VLayer];
+						double	D1=H.GetVar(ModeCalcIncline,*B,0,-DustSize);
+						double	D2=H.GetVar(ModeCalcIncline,*B,0,+DustSize);
+						if(D1>=tMinVar && D2>=tMinVar){
+							if((GetBmpBit(Map,GetMinX()+X			 ,GetMinY()+Y)!=0)
+							|| (GetBmpBit(Map,GetMinX()+X+LineLength2,GetMinY()+Y)!=0)
+							|| (GetBmpBit(Map,GetMinX()+X-LineLength2,GetMinY()+Y)!=0)){
+								TmpLineList	*C=new TmpLineList();
+								C->Cx=X;
+								C->Cy=Y;
+								C->Var=VMaxVar;
+								C->Layer=VLayer;
+								TmpLineListContainer.AppendList(C);
+							}
+						}
 					}
 				}
 			}
@@ -639,7 +665,7 @@ bool	RotatedMatchingPattern::BuildInitial(bool ModeCalcIncline)
 	return true;
 }
 
-void	RotatedMatchingPattern::MatchByLine	(bool ModeCalcIncline,int dx,int dy,ImagePointerContainer &TargetImages,int SearchDot)
+void	RotatedMatchingPattern::MatchByLine	(bool ModeCalcIncline,ImagePointerContainer &TargetImages,int SearchDot ,int OmitSearchDot)
 {
 	if(MLines.GetCount()<=2){
 		ResultDx=0;
@@ -651,22 +677,35 @@ void	RotatedMatchingPattern::MatchByLine	(bool ModeCalcIncline,int dx,int dy,Ima
 	int	Step=2;
 
 	double	MaxD=0;
-	int		MaxDx,MaxDy;
-	for(int dy=-SearchDot;dy<=SearchDot;dy+=Step){
-		for(int dx=-SearchDot;dx<=SearchDot;dx+=Step){
-			double	DValue=1.0;
-			for(MatchingLineBase *s=MLines.GetFirst();s!=NULL;s=s->GetNext()){
-				ImageBuffer	*B=TargetImages[s->Layer];
+	int		MaxDx=0,MaxDy=0;
 
-				double	D=s->Match(ModeCalcIncline,B,dx,dy);
-				if(D<0)
-					D=0;
-				DValue+=D*D;
-			}
-			if(MaxD<DValue){
-				MaxD=DValue;
-				MaxDx=dx;
-				MaxDy=dy;
+	int	LoopCountSearchDot=(2*SearchDot+1)/Step;
+	int	N=MLines.GetCount();
+	if(N>0){
+		for(int dy=-SearchDot;dy<=SearchDot;dy+=Step){
+			for(int dx=-SearchDot;dx<=SearchDot;dx+=Step){
+			//int	N=LoopCountSearchDot*LoopCountSearchDot;
+			//#pragma omp parallel
+			//{                                                
+			//	#pragma omp for
+			//	for(int i=0;i<N;i++){
+			//		int	ix=i/LoopCountSearchDot;
+			//		int	iy=i%LoopCountSearchDot;
+			//
+			//		int	dy=iy*Step+SearchDot;
+			//		int	dx=ix*Step+SearchDot;
+
+				if(abs(dx)>=OmitSearchDot && abs(dy)>=OmitSearchDot){
+					double	DValue=CalcByLine(ModeCalcIncline,dx,dy,TargetImages)/N;
+					//#pragma omp critial
+					//{
+					if(MaxD<DValue){
+						MaxD=DValue;
+						MaxDx=dx;
+						MaxDy=dy;
+					}
+					//}
+				}
 			}
 		}
 	}
@@ -682,6 +721,7 @@ void	RotatedMatchingPattern::MatchByLine	(bool ModeCalcIncline,int dx,int dy,Ima
 					D=0;
 				DValue+=D*D;
 			}
+			DValue/=N;
 			if(MaxD<DValue){
 				MaxD=DValue;
 				ResultDx=MaxDx+dx;
@@ -690,6 +730,94 @@ void	RotatedMatchingPattern::MatchByLine	(bool ModeCalcIncline,int dx,int dy,Ima
 		}
 	}
 	Result=MaxD;
+}
+
+double	RotatedMatchingPattern::CalcByLine	(bool ModeCalcIncline,int dx,int dy,ImagePointerContainer &TargetImages)
+{
+	double	DValue=1.0;
+	for(MatchingLineBase *s=MLines.GetFirst();s!=NULL;s=s->GetNext()){
+		ImageBuffer	*B=TargetImages[s->Layer];
+
+		double	D=s->Match(ModeCalcIncline,B,dx,dy);
+		if(D<0)
+			D=0;
+		DValue+=D*D;
+	}
+	return DValue;
+}
+
+double	RotatedMatchingPattern::GetFlatness(ImageBuffer &Images,int32 LaplaceFilterSize)
+{
+	int		kernelSize=LaplaceFilterSize;
+	double	sigma	=2.0;
+	int halfSize = kernelSize / 2;
+    double	kernel[128][128];
+    double sum = 0.0;
+
+    // 1. LoGカーネルの生成
+    double sigma2 = sigma * sigma;
+    double sigma4 = sigma2 * sigma2;
+    // 定数係数（正規化の過程で比率が保たれればよいため、係数部分は省略や調整も可能ですが厳密に計算します）
+    double coeff = -1.0 / (M_PI * sigma4);
+
+    for (int y = -halfSize; y <= halfSize; y++) {
+        for (int x = -halfSize; x <= halfSize; x++) {
+            double r2 = x * x + y * y;
+            double value = coeff * (1.0 - (r2 / (2.0 * sigma2))) * std::exp(-r2 / (2.0 * sigma2));
+            kernel[y + halfSize][x + halfSize] = value;
+            sum += value;
+        }
+    }
+
+    // カーネルの総和を厳密に0にするための補正（明るさの変動を防ぐ）
+    double mean = sum / (kernelSize * kernelSize);
+    for (int y = 0; y < kernelSize; y++) {
+        for (int x = 0; x < kernelSize; x++) {
+            kernel[y][x] -= mean;
+        }
+    }
+
+
+	int	w = Images.GetWidth();
+	int	h = Images.GetHeight();
+	double	maxAbsVal=0;
+
+	int	N = GetFLineLen();
+
+	for(int i=0;i<N;i++){
+		int	Y	=GetFLineAbsY(i);
+		int	X1	=GetFLineLeftX(i);
+		int	Numb=GetFLineNumb(i);
+		for(int k=0;k<Numb;k++){
+			int	X=X1+k;
+
+			int sum = 0;
+            double pixelSum=0;
+			double absSum;
+            // カーネル内の畳み込み演算
+            for (int ky = -halfSize; ky <= halfSize; ky++) {
+				if(Y+ky<0 || h<=Y+ky){
+					goto NextPixel;
+				}
+				BYTE	*d = Images.GetYWithoutDepended(Y+ky);
+                for (int kx = -halfSize; kx <= halfSize; kx++) {
+					if(X+kx<0 || w<=X+kx){
+						goto NextPixel;
+					}
+
+                    pixelSum += d[X+kx] * kernel[ky + halfSize][kx + halfSize];
+                }
+            }
+            
+            // 「大きさ」を求めるため絶対値を取る
+            absSum = std::abs(pixelSum);
+            if (absSum > maxAbsVal){
+				maxAbsVal = absSum;
+			}
+			NextPixel:;
+		}
+	}
+	return maxAbsVal;
 }
 
 void	RotatedMatchingPattern::Draw(QImage &IData

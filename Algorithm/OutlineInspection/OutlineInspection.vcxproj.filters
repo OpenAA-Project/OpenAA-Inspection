@@ -43,9 +43,6 @@
     <ClCompile Include="..\..\Open\AlgorithmCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MonoOutlineForm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OutlineHistgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -76,28 +73,12 @@
     <ClCompile Include="XOutlineNeedOptimization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="generatedfiles\debug\moc_MonoOutlineForm.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="generatedfiles\release\moc_MonoOutlineForm.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    
-    
-    
-    
     <ClCompile Include="XOutlineAlgoPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XOutlineLibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
-    
-    
-    
     <ClCompile Include="MonoNGTypeDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -110,7 +91,9 @@
     <ClCompile Include="XOutlineNGAnalyze.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
+    <ClCompile Include="MonoOutlineForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OutlineInspection.h">
@@ -122,33 +105,23 @@
     <ClInclude Include="XOutlineInspect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="generatedfiles\ui_MonoOutlineForm.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    
-    
     <ClInclude Include="XOutlineAlgoPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="XOutlineLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    
+    <ClInclude Include="MonoOutlineForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="MonoOutlineForm.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="OutlineHistgram.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="SetColorForm.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtUic Include="MonoOutlineForm.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="OutlineHistgram.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -170,5 +143,10 @@
     <QtRcc Include="OutlineInspection.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="MonoOutlineForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

@@ -400,8 +400,6 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MaxSpeedHighLevel</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MaxSpeedHighLevel</Optimization>
     </ClCompile>
-    <ClCompile Include="generatedfiles\debug\moc_MonoOutlineForm.cpp" />
-    <ClCompile Include="generatedfiles\release\moc_MonoOutlineForm.cpp" />
     <ClCompile Include="XOutlineNGAnalyze.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -409,13 +407,8 @@
     </QtMoc>
     <QtMoc Include="MonoNGTypeDialog.h">
     </QtMoc>
+    <ClInclude Include="MonoOutlineForm.h" />
     <ClInclude Include="XOutlineLibrary.h" />
-    <QtMoc Include="MonoOutlineForm.h">
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DynamicSource>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DynamicSource>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</DynamicSource>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DynamicSource>
-    </QtMoc>
     <QtMoc Include="OutlineHistgram.h">
     </QtMoc>
     <ClInclude Include="OutlineInspection.h" />
@@ -424,11 +417,9 @@
     </QtMoc>
     <ClInclude Include="XOutlineAlgoPacket.h" />
     <ClInclude Include="XOutlineInspect.h" />
-    <ClInclude Include="generatedfiles\ui_MonoOutlineForm.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="MonoOutlineForm.ui">
-    </QtUic>
+    <QtUic Include="MonoOutlineForm.ui" />
     <QtUic Include="OutlineHistgram.ui">
     </QtUic>
     <QtUic Include="SetColorForm.ui">

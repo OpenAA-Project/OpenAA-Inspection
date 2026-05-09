@@ -28,7 +28,7 @@
 #include "XDoubleClass.h"
 #include "XFlexAreaImage.h"
 
-#define	AlignmentBlockVersion	4
+#define	AlignmentBlockVersion	7
 
 class	AlignmentBlockItem;
 class	AlignmentBlockInPage;
@@ -121,6 +121,7 @@ public:
 	int		LineLength	;
 	double	MinVar		;
 	double	ThreDiv		;
+	int		DustSize	;
 
 	AlignmentBlockThreshold(AlignmentBlockItem *parent);
 
@@ -160,7 +161,7 @@ public:
 
 	virtual	double	Match(bool ModeCalcIncline,ImageBuffer *TBuff,int dx,int dy)=0;
 	virtual	void	Draw(QPainter &Pnt,double ZoomRate,int movx,int movy)=0;
-	virtual	double	GetVar(bool ModeCalcIncline,ImageBuffer &Buff)	=0;
+	virtual	double	GetVar(bool ModeCalcIncline,ImageBuffer &Buff ,int dx=0 ,int dy=0)	=0;
 	virtual	double	GetSitaBrightness(ImageBuffer &Buff)	=0;
 
 	bool	CalcIncline(double &pa,double &pb,BYTE *D ,int DLen);		//y=pa*x+pb
@@ -183,7 +184,7 @@ public:
 
 	virtual	double	Match(bool ModeCalcIncline,ImageBuffer *TBuff,int dx,int dy)	override;
 	virtual	void	Draw(QPainter &Pnt,double ZoomRate,int movx,int movy)override;
-	virtual	double	GetVar(bool ModeCalcIncline,ImageBuffer &Buff)	override;
+	virtual	double	GetVar(bool ModeCalcIncline,ImageBuffer &Buff ,int dx=0 ,int dy=0)	override;
 	virtual	double	GetSitaBrightness(ImageBuffer &Buff)			override;
 };
 
@@ -200,7 +201,7 @@ public:
 
 	virtual	double	Match(bool ModeCalcIncline,ImageBuffer *TBuff,int dx,int dy)	override;
 	virtual	void	Draw(QPainter &Pnt,double ZoomRate,int movx,int movy)override;
-	virtual	double	GetVar(bool ModeCalcIncline,ImageBuffer &Buff)	override;
+	virtual	double	GetVar(bool ModeCalcIncline,ImageBuffer &Buff ,int dx=0 ,int dy=0)	override;
 	virtual	double	GetSitaBrightness(ImageBuffer &Buff)			override;
 };
 
@@ -238,18 +239,22 @@ public:
 
 	double							Result;
 	int								ResultDx,ResultDy;
+	bool							Enabled;
 
 	RotatedMatchingPattern(AlignmentBlockItem *p ,double radian);
 	~RotatedMatchingPattern(void);
 
-	bool	BuildInitial(bool ModeCalcIncline);
+	bool	BuildInitial(bool ModeCalcIncline
+						,const BYTE **Map ,int MapXByte ,int MapXLen ,int MapYLen);
 
 	void	Draw(QImage &IData
 				,int MovX ,int MovY ,double ZoomRate);
 	void	DrawLine(QImage &IData ,QColor &LineColor
 				,int MovX ,int MovY ,double ZoomRate);
 
-	void	MatchByLine	(bool ModeCalcIncline,int dx,int dy,ImagePointerContainer &TargetImages,int SearchDot);
+	void	MatchByLine	(bool ModeCalcIncline,ImagePointerContainer &TargetImages,int SearchDot ,int OmitSearchDot=-1);
+	double	CalcByLine	(bool ModeCalcIncline,int dx,int dy,ImagePointerContainer &TargetImages);
+	double	GetFlatness(ImageBuffer &Images,int32 LaplaceFilterSize);
 };
 
 class	AlignmentBlockItem : public AlgorithmItemPITemplate<AlignmentBlockInPage,AlignmentBlockBase>
@@ -258,9 +263,12 @@ public:
 	NPListPack<RotatedMatchingPattern>	RotatedContainer;
 
 	int		CurrentRotationPatternNo;
+	double	Result;
 	double	ResultRadian;
 	int		ResultDx,ResultDy;
-
+	bool	EffectiveResult;
+	double	MaxNeighborMatching;
+	double	LaplacianValue;
 public:
 	AlignmentBlockItem(void);
 	virtual	~AlignmentBlockItem(void);
@@ -290,6 +298,12 @@ public:
 
 	RotatedMatchingPattern	*GetRotatedPattern(int n);
 	void	CalcByNeighbor(void);
+	double	MatchNeighbor(ImagePointerContainer &Images,int32 NeighborArea);
+	double	GetFlatness(ImagePointerContainer &Images,int32 LaplaceFilterSize);
+public:
+	void	ExecuteInitialAfterEditInner(void);
+	void	DrawInside(QPainter &Pnt,int cx ,int cy ,int FontSie ,const QColor &Col);
+	double	GetFlatness(ImageBuffer &Images,int32 LaplaceFilterSize);
 };
 
 //========================================================================================
@@ -335,6 +349,7 @@ public:
 	QColor	ColorActive;
 	bool	ModeCalcIncline;
 	double	ZLevel;
+	int		MaxThreadCount;
 
 	AlignmentBlockBase(LayersBase *Base);
 

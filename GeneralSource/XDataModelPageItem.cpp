@@ -3811,7 +3811,11 @@ ExeResult	AlgorithmInPagePI::FuncExecuteAlignment		(int ExeID ,ResultInPageRoot 
 		}
 		n++;
 	}
-	if(GetParamGlobal()->CalcSingleThread==false && n>=MIN_COUNT_ForTHREAD && ThreadNumb>=MIN_COUNT_ForTHREAD && ModeParallel.ModeParallelExecuteAlignment==true){
+	if(GetParamGlobal()->CalcSingleThread==false
+	&& n>=MIN_COUNT_ForTHREAD
+	&& ThreadNumb>=MIN_COUNT_ForTHREAD
+	&& ModeParallel.ModeParallelExecuteAlignment==true
+	&& omp_get_max_threads()>1){
 		volatile	bool	RetryMode;
 		do{
 			RetryMode=false;
@@ -4064,6 +4068,7 @@ ExeResult	AlgorithmInPagePI::FuncExecuteProcessingRevived	(int ExeID ,ResultInPa
 		n++;
 	}
 
+	//Can not run OpwnMP because of switching ImagePanel
 	DWORD	StartMilisec=GetLayersBase()->GetStartInspectionTimeMilisec();
 	int		MaxInspectMilisec=GetParamGlobal()->MaxInspectMilisec;
 

@@ -567,8 +567,8 @@ public:
 	bool	CheckDoubleBoot(void);
 	bool	RequirePrebootedSoftwareToTerminate(void);
 	void	StartIdentificationServer(const QString &IdentificationName);
-	void	GetGUIScale(double &XScale ,double &YScale);
-	void	SetGUIScale(double  XScale ,double  YScale);
+	virtual	void	GetGUIScale(double &XScale ,double &YScale)	override;
+			void	SetGUIScale(double  XScale ,double  YScale);
 
 protected:
 	virtual	void	moveEvent ( QMoveEvent * event )	override;

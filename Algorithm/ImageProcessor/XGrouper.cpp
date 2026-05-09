@@ -554,7 +554,7 @@ void    FilterBase::Draw(QPainter *canvas ,int movx ,int movy)
             TargetNumb++;
             }
         }
-    if(TargetNumb!=NULL){
+    if(TargetNumb!=0){
         int Lx1=TargetMinX+FilterBoxWidth /2;
         int Ly1=TargetMinY-FliterGapHLine2Box;
         int Lx2=TargetMaxX-FilterBoxWidth /2;

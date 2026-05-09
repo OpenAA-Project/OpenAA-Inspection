@@ -147,6 +147,11 @@ void	EditAlignmentBlockLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer
 	ui->EditNoisePinholeSize	->setValue	(ALib->NoisePinholeSize	);
 	ui->EditNoiseIslandSize		->setValue	(ALib->NoiseIslandSize	);
 	ui->EditExpandArea			->setValue	(ALib->ExpandArea		);
+	ui->EditNeighborArea		->setValue	(ALib->NeighborArea		);
+	ui->EditNeighborMatchingRate->setValue	(ALib->NeighborMatchingRate	);
+	ui->EditFlatnessLimit		->setValue	(ALib->FlatnessLimit	);
+	ui->EditLaplaceFilterSize	->setValue	(ALib->LaplaceFilterSize);
+	ui->checkBoxUseRemover		->setChecked(ALib->UseRemover		);
 
 	ui->spinBoxSearchDot		->setValue	(ALib->SearchDot		);
 	ui->doubleSpinBoxMaxDegree	->setValue	(ALib->MaxDegree		);
@@ -171,6 +176,11 @@ void	EditAlignmentBlockLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevel
 	ALib->NoisePinholeSize	=ui->EditNoisePinholeSize	->value	();
 	ALib->NoiseIslandSize	=ui->EditNoiseIslandSize	->value	();
 	ALib->ExpandArea		=ui->EditExpandArea			->value	();
+	ALib->NeighborArea			=ui->EditNeighborArea		->value	();
+	ALib->NeighborMatchingRate	=ui->EditNeighborMatchingRate->value();
+	ALib->FlatnessLimit			=ui->EditFlatnessLimit		->value	();
+	ALib->LaplaceFilterSize		=ui->EditLaplaceFilterSize	->value	();
+	ALib->UseRemover			=ui->checkBoxUseRemover		->isChecked	();
 
 	ALib->SearchDot			=ui->spinBoxSearchDot		->value	();
 	ALib->MaxDegree			=ui->doubleSpinBoxMaxDegree	->value	();
@@ -287,3 +297,4 @@ void EditAlignmentBlockLibraryDialog::on_pushButtonClose_clicked()
 {
 	close();
 }
+

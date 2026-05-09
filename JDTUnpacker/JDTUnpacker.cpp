@@ -15,8 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-#include "jdtunpacker.h"
+#include "JDTUnpacker.h"
 
 #include "JDTAnalyzer.h"
 #include "XGeneralFunc.h"
@@ -26,7 +25,8 @@
 #include <QMessageBox>
 #include <QEvent>
 #include <QDragEnterEvent>
-#include <QRegularExpression>
+#include <QDropEvent>
+#include <QMimeData> // Qt6で必須
 #include <QUrl>
 
 JDTUnpacker::JDTUnpacker(QWidget *parent, Qt::WindowFlags flags)
@@ -34,8 +34,10 @@ JDTUnpacker::JDTUnpacker(QWidget *parent, Qt::WindowFlags flags)
 {
 	ui.setupUi(this);
 	ui.leJDTFilePath->setDragEnabled(true);
-	connect(ui.pbExec, SIGNAL(clicked()), this, SLOT(slotClickUnpack()));
-	connect(ui.pbOpen, SIGNAL(clicked()), this, SLOT(fileopen()));
+	
+	// Qt6推奨の関数ポインタ形式に変更 (コンパイル時チェックが効くようになります)
+	connect(ui.pbExec, &QPushButton::clicked, this, &JDTUnpacker::slotClickUnpack);
+	connect(ui.pbOpen, &QPushButton::clicked, this, &JDTUnpacker::fileopen);
 }
 
 JDTUnpacker::~JDTUnpacker()
@@ -68,10 +70,7 @@ QString JDTUnpacker::unpack()
 		ui.lbInfo->setText("Unpack was failed.");
 		return "";
 	}
-	
 
-	// appPath/JDT�t�@�C����/
-	// �܂ō���
 	QDir dir(qApp->applicationDirPath());
 	QDir srcDir(tFilePath);
 	QString subDirName = srcDir.dirName();
@@ -82,7 +81,8 @@ QString JDTUnpacker::unpack()
 	QString preOutputPath = dir.path() + QDir::separator();
 
 	int count=0;
-	for(QList<JDTImage>::ConstIterator it=file.constBegin(); it!=file.constEnd(); it++){
+	// Qt6のQListはQVectorベースに変更されましたが、イテレータの使い方は同じです
+	for(QList<JDTImage>::const_iterator it=file.constBegin(); it!=file.constEnd(); it++){
 		QString saveFilePath;
 		saveFilePath = preOutputPath;
 		int	Version=it->version();
@@ -100,7 +100,6 @@ QString JDTUnpacker::unpack()
 			continue;
 			break;
 		}
-
 
 		QString filename = saveFilePath +
 			QString("No%7_(%1,%2)-(%3,%4)_W%5H%6")
@@ -122,8 +121,6 @@ QString JDTUnpacker::unpack()
 		}
 	}
 
-	//QMessageBox::about(this, "Finish", QString("output %1 currentFile(s).").arg(count));
-	
 	ui.lbInfo->setText("Idle");
 
 	return preOutputPath;
@@ -150,47 +147,42 @@ void JDTUnpacker::fileopen()
 
 void JDTUnpacker::dragEnterEvent(QDragEnterEvent *event)
 {
-	QRegularExpression reg("*.jdt");
-	reg.setPatternOptions(QRegularExpression::DefaultWildcardConversion);
-	reg.setCaseSensitivity(Qt::CaseInsensitive);
-	if(reg.indexIn(event->mimeData()->urls().first().toLocalFile())!=-1){
+	// Qt6では廃止されたQRegExpのAPIが混在していたため、シンプルな endsWith に変更
+	if (event->mimeData()->hasUrls() && 
+		event->mimeData()->urls().first().toLocalFile().endsWith(".jdt", Qt::CaseInsensitive)) {
 		ui.lbInfo->setText("Your item is enable drop.");
 		event->setDropAction(Qt::CopyAction);
 		event->accept();
-	}else{
+	} else {
 		ui.lbInfo->setText("Your item is unable drop.");
 	}
 }
 
 void JDTUnpacker::dragMoveEvent(QDragMoveEvent *event)
 {
-	QRegularExpression reg("*.jdt");
-	reg.setPatternSyntax(QRegularExpression::PatternSyntax::Wildcard);
-	reg.setCaseSensitivity(Qt::CaseInsensitive);
-	if(reg.indexIn(event->mimeData()->urls().first().toLocalFile())!=-1){
+	if (event->mimeData()->hasUrls() && 
+		event->mimeData()->urls().first().toLocalFile().endsWith(".jdt", Qt::CaseInsensitive)) {
 		ui.lbInfo->setText("Your item Enable Drop.");
 		event->setDropAction(Qt::CopyAction);
 		event->accept();
-	}else{
+	} else {
 		ui.lbInfo->setText("Your item is unable drop.");
 	}
 }
 
 void JDTUnpacker::dropEvent(QDropEvent *event)
 {
-	QRegularExpression reg("*.jdt");
-	reg.setPatternSyntax(QRegularExpression::PatternSyntax::Wildcard);
-	reg.setCaseSensitivity(Qt::CaseInsensitive);
-	if(reg.indexIn(event->mimeData()->urls().first().toLocalFile())!=-1){
+	if (event->mimeData()->hasUrls() && 
+		event->mimeData()->urls().first().toLocalFile().endsWith(".jdt", Qt::CaseInsensitive)) {
 		int	N=event->mimeData()->urls().count();
 		for(int i=0;i<N;i++){
-			QUrl	U=event->mimeData()->urls().at(i);
+			QUrl U=event->mimeData()->urls().at(i);
 			ui.leJDTFilePath->setText(U.toLocalFile());
 			slotClickUnpack();
 		}
 		event->setDropAction(Qt::CopyAction);
 		event->accept();
-	}else{
+	} else {
 		ui.lbInfo->setText("Idle");
 	}
 }

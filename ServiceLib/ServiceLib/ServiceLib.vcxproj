@@ -609,7 +609,6 @@
       <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
     </ClCompile>
     <ClCompile Include="..\..\GeneralSource\XUndo.cpp" />
-    <ClCompile Include="..\..\Integrator\IntegrationLib\XIntegrationComm.cpp" />
     <ClCompile Include="..\..\Open\XGUILanguage.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
       <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
@@ -908,8 +907,6 @@
     <ClCompile Include="XNormal.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="..\..\Integrator\IntegrationLib\XIntegrationComm.h">
-    </QtMoc>
     <ClInclude Include="..\..\GeneralSource\XAlgorithmInterfaceDLL.h" />
     <ClInclude Include="..\..\GeneralSource\XAuthenticationInside.h" />
     <QtMoc Include="..\..\GeneralSource\XCameraInterfaceDLL.h" />

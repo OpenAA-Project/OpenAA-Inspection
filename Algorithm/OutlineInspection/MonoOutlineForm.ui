@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>MonoOutlineFormClass</class>
- <widget class="QDialog" name="MonoOutlineFormClass" >
-  <property name="geometry" >
+ <widget class="QDialog" name="MonoOutlineFormClass">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,11 +10,11 @@
     <height>875</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>MonoOutlineForm</string>
   </property>
-  <widget class="QLabel" name="label" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label">
+   <property name="geometry">
     <rect>
      <x>0</x>
      <y>20</y>
@@ -21,21 +22,21 @@
      <height>141</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::Panel</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::Panel</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Sunken</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>外側</string>
    </property>
-   <property name="alignment" >
-    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
     <rect>
      <x>0</x>
      <y>170</y>
@@ -43,24 +44,24 @@
      <height>141</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::Panel</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::Panel</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Sunken</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <property name="text" >
-    <string>遷移外側</string>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;遷&lt;/p&gt;&lt;p&gt;移&lt;/p&gt;&lt;p&gt;外&lt;/p&gt;&lt;p&gt;側&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
-   <property name="alignment" >
-    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
    </property>
-   <property name="wordWrap" >
+   <property name="wordWrap">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
     <rect>
      <x>0</x>
      <y>320</y>
@@ -68,24 +69,24 @@
      <height>141</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::Panel</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::Panel</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Sunken</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <property name="text" >
-    <string>遷移内側</string>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;遷&lt;/p&gt;&lt;p&gt;移&lt;/p&gt;&lt;p&gt;内&lt;/p&gt;&lt;p&gt;側&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
-   <property name="alignment" >
-    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
    </property>
-   <property name="wordWrap" >
+   <property name="wordWrap">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_4" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
     <rect>
      <x>0</x>
      <y>470</y>
@@ -93,21 +94,21 @@
      <height>141</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::Panel</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::Panel</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Sunken</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>内側</string>
    </property>
-   <property name="alignment" >
-    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QFrame" name="frame_27" >
-   <property name="geometry" >
+  <widget class="QFrame" name="frame_27">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>660</y>
@@ -115,14 +116,14 @@
      <height>41</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::StyledPanel</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Sunken</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <widget class="QLabel" name="label_90" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_90">
+    <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
@@ -130,25 +131,25 @@
       <height>41</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Raised</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>探
 索</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
-    <property name="indent" >
+    <property name="indent">
      <number>1</number>
     </property>
    </widget>
-   <widget class="QFrame" name="frame_28" >
-    <property name="geometry" >
+   <widget class="QFrame" name="frame_28">
+    <property name="geometry">
      <rect>
       <x>10</x>
       <y>120</y>
@@ -156,14 +157,14 @@
       <height>101</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::StyledPanel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::StyledPanel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <widget class="QLabel" name="label_91" >
-     <property name="geometry" >
+    <widget class="QLabel" name="label_91">
+     <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
@@ -171,26 +172,26 @@
        <height>61</height>
       </rect>
      </property>
-     <property name="frameShape" >
-      <enum>QFrame::Panel</enum>
+     <property name="frameShape">
+      <enum>QFrame::Shape::Panel</enum>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
+     <property name="frameShadow">
+      <enum>QFrame::Shadow::Raised</enum>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>輝
 度</string>
      </property>
-     <property name="alignment" >
-      <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
-     <property name="indent" >
+     <property name="indent">
       <number>1</number>
      </property>
     </widget>
    </widget>
-   <widget class="QSpinBox" name="EditSelfSearch" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditSelfSearch">
+    <property name="geometry">
      <rect>
       <x>240</x>
       <y>10</y>
@@ -199,8 +200,8 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_92" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_92">
+    <property name="geometry">
      <rect>
       <x>30</x>
       <y>10</y>
@@ -208,22 +209,22 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>ブロック単体での探索ドット数</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
   </widget>
-  <widget class="QFrame" name="frame_29" >
-   <property name="geometry" >
+  <widget class="QFrame" name="frame_29">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>700</y>
@@ -231,14 +232,14 @@
      <height>81</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::StyledPanel</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Sunken</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <widget class="QLabel" name="label_93" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_93">
+    <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
@@ -246,27 +247,27 @@
       <height>81</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Raised</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>輝
 度
 補
 正</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
-    <property name="indent" >
+    <property name="indent">
      <number>1</number>
     </property>
    </widget>
-   <widget class="QFrame" name="frame_30" >
-    <property name="geometry" >
+   <widget class="QFrame" name="frame_30">
+    <property name="geometry">
      <rect>
       <x>10</x>
       <y>120</y>
@@ -274,14 +275,14 @@
       <height>101</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::StyledPanel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::StyledPanel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <widget class="QLabel" name="label_94" >
-     <property name="geometry" >
+    <widget class="QLabel" name="label_94">
+     <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
@@ -289,26 +290,26 @@
        <height>61</height>
       </rect>
      </property>
-     <property name="frameShape" >
-      <enum>QFrame::Panel</enum>
+     <property name="frameShape">
+      <enum>QFrame::Shape::Panel</enum>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
+     <property name="frameShadow">
+      <enum>QFrame::Shadow::Raised</enum>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>輝
 度</string>
      </property>
-     <property name="alignment" >
-      <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
-     <property name="indent" >
+     <property name="indent">
       <number>1</number>
      </property>
     </widget>
    </widget>
-   <widget class="QSpinBox" name="EditAdjustLimitLInside" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditAdjustLimitLInside">
+    <property name="geometry">
      <rect>
       <x>180</x>
       <y>30</y>
@@ -317,8 +318,8 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_95" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_95">
+    <property name="geometry">
      <rect>
       <x>30</x>
       <y>30</y>
@@ -326,21 +327,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>最大暗側補正輝度量</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditAdjustLimitHInside" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditAdjustLimitHInside">
+    <property name="geometry">
      <rect>
       <x>180</x>
       <y>50</y>
@@ -349,8 +350,8 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_96" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_96">
+    <property name="geometry">
      <rect>
       <x>30</x>
       <y>50</y>
@@ -358,21 +359,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>最大明側補正輝度量</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBoxAdjustMode" >
-    <property name="geometry" >
+   <widget class="QCheckBox" name="checkBoxAdjustMode">
+    <property name="geometry">
      <rect>
       <x>30</x>
       <y>10</y>
@@ -380,12 +381,12 @@
       <height>18</height>
      </rect>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>輝度補正の実行</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditAdjustLimitHOutside" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditAdjustLimitHOutside">
+    <property name="geometry">
      <rect>
       <x>240</x>
       <y>50</y>
@@ -394,8 +395,8 @@
      </rect>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditAdjustLimitLOutside" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditAdjustLimitLOutside">
+    <property name="geometry">
      <rect>
       <x>240</x>
       <y>30</y>
@@ -404,8 +405,8 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_97" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_97">
+    <property name="geometry">
      <rect>
       <x>240</x>
       <y>10</y>
@@ -413,21 +414,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>外側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_98" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_98">
+    <property name="geometry">
      <rect>
       <x>180</x>
       <y>10</y>
@@ -435,22 +436,22 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>内側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
   </widget>
-  <widget class="QFrame" name="frame_5" >
-   <property name="geometry" >
+  <widget class="QFrame" name="frame_5">
+   <property name="geometry">
     <rect>
      <x>330</x>
      <y>650</y>
@@ -458,14 +459,14 @@
      <height>171</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::StyledPanel</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Sunken</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <widget class="QLabel" name="label_31" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_31">
+    <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
@@ -473,21 +474,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>当該箇所の判定結果</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="labelResultOutsideN" >
-    <property name="geometry" >
+   <widget class="QLabel" name="labelResultOutsideN">
+    <property name="geometry">
      <rect>
       <x>90</x>
       <y>100</y>
@@ -495,21 +496,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>123</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="labelResultInsideB" >
-    <property name="geometry" >
+   <widget class="QLabel" name="labelResultInsideB">
+    <property name="geometry">
      <rect>
       <x>30</x>
       <y>120</y>
@@ -517,21 +518,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>123</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="ButtonCalc" >
-    <property name="geometry" >
+   <widget class="QPushButton" name="ButtonCalc">
+    <property name="geometry">
      <rect>
       <x>20</x>
       <y>30</y>
@@ -539,12 +540,12 @@
       <height>41</height>
      </rect>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>計算</string>
     </property>
    </widget>
-   <widget class="QLabel" name="labelResultOutsideB" >
-    <property name="geometry" >
+   <widget class="QLabel" name="labelResultOutsideB">
+    <property name="geometry">
      <rect>
       <x>30</x>
       <y>100</y>
@@ -552,21 +553,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>123</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="labelResultInsideN" >
-    <property name="geometry" >
+   <widget class="QLabel" name="labelResultInsideN">
+    <property name="geometry">
      <rect>
       <x>90</x>
       <y>120</y>
@@ -574,21 +575,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>123</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_15" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
      <rect>
       <x>30</x>
       <y>80</y>
@@ -596,21 +597,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>広域</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_16" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_16">
+    <property name="geometry">
      <rect>
       <x>90</x>
       <y>80</y>
@@ -618,21 +619,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>狭域</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_17" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_17">
+    <property name="geometry">
      <rect>
       <x>0</x>
       <y>100</y>
@@ -640,21 +641,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>O</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_18" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_18">
+    <property name="geometry">
      <rect>
       <x>0</x>
       <y>120</y>
@@ -662,22 +663,22 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>I</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="ButtonReflectAllBlocks" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="ButtonReflectAllBlocks">
+   <property name="geometry">
     <rect>
      <x>840</x>
      <y>720</y>
@@ -685,12 +686,12 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>同一種類のブロックに反映</string>
    </property>
   </widget>
-  <widget class="QStackedWidget" name="stackedWidgetParts" >
-   <property name="geometry" >
+  <widget class="QStackedWidget" name="stackedWidgetParts">
+   <property name="geometry">
     <rect>
      <x>680</x>
      <y>720</y>
@@ -698,12 +699,12 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="currentIndex" >
+   <property name="currentIndex">
     <number>0</number>
    </property>
-   <widget class="QWidget" name="page" >
-    <widget class="QPushButton" name="ButtonRefrectOnlyBlock" >
-     <property name="geometry" >
+   <widget class="QWidget" name="page">
+    <widget class="QPushButton" name="ButtonRefrectOnlyBlock">
+     <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
@@ -711,14 +712,14 @@
        <height>31</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>このブロックだけに反映</string>
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="page_3" >
-    <widget class="QPushButton" name="ButtonRelrectSaveParts" >
-     <property name="geometry" >
+   <widget class="QWidget" name="page_3">
+    <widget class="QPushButton" name="ButtonRelrectSaveParts">
+     <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
@@ -726,15 +727,15 @@
        <height>31</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>部品保存</string>
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="page_2" />
+   <widget class="QWidget" name="page_2"/>
   </widget>
-  <widget class="QPushButton" name="ButtonLoadFromLibrary" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="ButtonLoadFromLibrary">
+   <property name="geometry">
     <rect>
      <x>840</x>
      <y>750</y>
@@ -742,12 +743,12 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>ライブラリから読み出し</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="ButtonSaveToLibrary" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="ButtonSaveToLibrary">
+   <property name="geometry">
     <rect>
      <x>680</x>
      <y>750</y>
@@ -755,12 +756,12 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>ライブラリに保存</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButtonClose" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="pushButtonClose">
+   <property name="geometry">
     <rect>
      <x>840</x>
      <y>790</y>
@@ -768,12 +769,12 @@
      <height>41</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>閉じる</string>
    </property>
   </widget>
-  <widget class="QFrame" name="frame" >
-   <property name="geometry" >
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
     <rect>
      <x>30</x>
      <y>0</y>
@@ -781,14 +782,14 @@
      <height>621</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::StyledPanel</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Sunken</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <widget class="QCheckBox" name="checkBoxEffectiveBInside" >
-    <property name="geometry" >
+   <widget class="QCheckBox" name="checkBoxEffectiveBInside">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>340</y>
@@ -796,12 +797,12 @@
       <height>18</height>
      </rect>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>結果出力</string>
     </property>
    </widget>
-   <widget class="QFrame" name="frameTrInside" >
-    <property name="geometry" >
+   <widget class="QFrame" name="frameTrInside">
+    <property name="geometry">
      <rect>
       <x>10</x>
       <y>320</y>
@@ -809,15 +810,15 @@
       <height>141</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::NoFrame</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::NoFrame</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Raised</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
     </property>
    </widget>
-   <widget class="QFrame" name="frameOutside" >
-    <property name="geometry" >
+   <widget class="QFrame" name="frameOutside">
+    <property name="geometry">
      <rect>
       <x>10</x>
       <y>20</y>
@@ -825,15 +826,15 @@
       <height>141</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::NoFrame</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::NoFrame</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Raised</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="label_48" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_48">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>50</y>
@@ -841,21 +842,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>OKドット数</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditBInsideOKDot" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditBInsideOKDot">
+    <property name="geometry">
      <rect>
       <x>780</x>
       <y>360</y>
@@ -863,12 +864,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>99999999</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditBOutsideOKDot" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditBOutsideOKDot">
+    <property name="geometry">
      <rect>
       <x>780</x>
       <y>50</y>
@@ -876,12 +877,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>99999999</number>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBoxEffectiveBOutside" >
-    <property name="geometry" >
+   <widget class="QCheckBox" name="checkBoxEffectiveBOutside">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>30</y>
@@ -889,12 +890,12 @@
       <height>18</height>
      </rect>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>結果出力</string>
     </property>
    </widget>
-   <widget class="QFrame" name="frameTrOutside" >
-    <property name="geometry" >
+   <widget class="QFrame" name="frameTrOutside">
+    <property name="geometry">
      <rect>
       <x>10</x>
       <y>170</y>
@@ -902,15 +903,15 @@
       <height>141</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::NoFrame</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::NoFrame</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Raised</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
     </property>
    </widget>
-   <widget class="QFrame" name="frameInside" >
-    <property name="geometry" >
+   <widget class="QFrame" name="frameInside">
+    <property name="geometry">
      <rect>
       <x>10</x>
       <y>470</y>
@@ -918,15 +919,15 @@
       <height>141</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::NoFrame</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::NoFrame</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Raised</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="label_50" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_50">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>360</y>
@@ -934,21 +935,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>OKドット数</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditNInsideOKDot" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditNInsideOKDot">
+    <property name="geometry">
      <rect>
       <x>930</x>
       <y>360</y>
@@ -956,12 +957,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>99999999</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditNOutsideOKDot" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditNOutsideOKDot">
+    <property name="geometry">
      <rect>
       <x>930</x>
       <y>50</y>
@@ -969,12 +970,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>99999999</number>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBoxEffectiveNInside" >
-    <property name="geometry" >
+   <widget class="QCheckBox" name="checkBoxEffectiveNInside">
+    <property name="geometry">
      <rect>
       <x>850</x>
       <y>340</y>
@@ -982,12 +983,12 @@
       <height>18</height>
      </rect>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>結果出力</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBoxEffectiveNOutside" >
-    <property name="geometry" >
+   <widget class="QCheckBox" name="checkBoxEffectiveNOutside">
+    <property name="geometry">
      <rect>
       <x>850</x>
       <y>30</y>
@@ -995,12 +996,12 @@
       <height>18</height>
      </rect>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>結果出力</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_49" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_49">
+    <property name="geometry">
      <rect>
       <x>850</x>
       <y>50</y>
@@ -1008,21 +1009,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>OKドット数</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_51" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_51">
+    <property name="geometry">
      <rect>
       <x>850</x>
       <y>360</y>
@@ -1030,21 +1031,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>OKドット数</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_67" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_67">
+    <property name="geometry">
      <rect>
       <x>770</x>
       <y>90</y>
@@ -1052,21 +1053,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>明側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditBOutsideColorL" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditBOutsideColorL">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>110</y>
@@ -1074,12 +1075,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditBOutsideColorH" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditBOutsideColorH">
+    <property name="geometry">
      <rect>
       <x>770</x>
       <y>110</y>
@@ -1087,12 +1088,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_69" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_69">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>90</y>
@@ -1100,21 +1101,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>暗側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditNOutsideColorH" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditNOutsideColorH">
+    <property name="geometry">
      <rect>
       <x>920</x>
       <y>110</y>
@@ -1122,12 +1123,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditNOutsideColorL" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditNOutsideColorL">
+    <property name="geometry">
      <rect>
       <x>850</x>
       <y>110</y>
@@ -1135,12 +1136,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_70" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_70">
+    <property name="geometry">
      <rect>
       <x>850</x>
       <y>90</y>
@@ -1148,21 +1149,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>暗側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_68" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_68">
+    <property name="geometry">
      <rect>
       <x>920</x>
       <y>90</y>
@@ -1170,21 +1171,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>明側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditBTrOutsideColorH" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditBTrOutsideColorH">
+    <property name="geometry">
      <rect>
       <x>770</x>
       <y>240</y>
@@ -1192,12 +1193,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditBTrOutsideColorL" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditBTrOutsideColorL">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>240</y>
@@ -1205,12 +1206,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_71" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_71">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>220</y>
@@ -1218,21 +1219,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>暗側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_72" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_72">
+    <property name="geometry">
      <rect>
       <x>770</x>
       <y>220</y>
@@ -1240,21 +1241,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>明側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditNTrOutsideColorH" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditNTrOutsideColorH">
+    <property name="geometry">
      <rect>
       <x>920</x>
       <y>240</y>
@@ -1262,12 +1263,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditNTrOutsideColorL" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditNTrOutsideColorL">
+    <property name="geometry">
      <rect>
       <x>850</x>
       <y>240</y>
@@ -1275,12 +1276,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_73" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_73">
+    <property name="geometry">
      <rect>
       <x>850</x>
       <y>220</y>
@@ -1288,21 +1289,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>暗側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_74" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_74">
+    <property name="geometry">
      <rect>
       <x>920</x>
       <y>220</y>
@@ -1310,21 +1311,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>明側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditBTrInsideColorH" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditBTrInsideColorH">
+    <property name="geometry">
      <rect>
       <x>770</x>
       <y>420</y>
@@ -1332,12 +1333,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditBTrInsideColorL" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditBTrInsideColorL">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>420</y>
@@ -1345,12 +1346,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_75" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_75">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>400</y>
@@ -1358,21 +1359,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>暗側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_76" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_76">
+    <property name="geometry">
      <rect>
       <x>770</x>
       <y>400</y>
@@ -1380,21 +1381,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>明側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditNTrInsideColorH" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditNTrInsideColorH">
+    <property name="geometry">
      <rect>
       <x>920</x>
       <y>420</y>
@@ -1402,12 +1403,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditNTrInsideColorL" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditNTrInsideColorL">
+    <property name="geometry">
      <rect>
       <x>850</x>
       <y>420</y>
@@ -1415,12 +1416,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_77" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_77">
+    <property name="geometry">
      <rect>
       <x>850</x>
       <y>400</y>
@@ -1428,21 +1429,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>暗側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_78" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_78">
+    <property name="geometry">
      <rect>
       <x>920</x>
       <y>400</y>
@@ -1450,21 +1451,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>明側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditBInsideColorH" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditBInsideColorH">
+    <property name="geometry">
      <rect>
       <x>770</x>
       <y>530</y>
@@ -1472,12 +1473,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditBInsideColorL" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditBInsideColorL">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>530</y>
@@ -1485,12 +1486,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_79" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_79">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>510</y>
@@ -1498,21 +1499,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>暗側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_80" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_80">
+    <property name="geometry">
      <rect>
       <x>770</x>
       <y>510</y>
@@ -1520,21 +1521,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>明側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditNInsideColorH" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditNInsideColorH">
+    <property name="geometry">
      <rect>
       <x>920</x>
       <y>530</y>
@@ -1542,12 +1543,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditNInsideColorL" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditNInsideColorL">
+    <property name="geometry">
      <rect>
       <x>850</x>
       <y>530</y>
@@ -1555,12 +1556,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_81" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_81">
+    <property name="geometry">
      <rect>
       <x>850</x>
       <y>510</y>
@@ -1568,21 +1569,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>暗側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_82" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_82">
+    <property name="geometry">
      <rect>
       <x>920</x>
       <y>510</y>
@@ -1590,21 +1591,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>明側</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="Line" name="line" >
-    <property name="geometry" >
+   <widget class="Line" name="line">
+    <property name="geometry">
      <rect>
       <x>830</x>
       <y>20</y>
@@ -1612,12 +1613,12 @@
       <height>601</height>
      </rect>
     </property>
-    <property name="orientation" >
-     <enum>Qt::Vertical</enum>
+    <property name="orientation">
+     <enum>Qt::Orientation::Vertical</enum>
     </property>
    </widget>
-   <widget class="Line" name="line_3" >
-    <property name="geometry" >
+   <widget class="Line" name="line_3">
+    <property name="geometry">
      <rect>
       <x>690</x>
       <y>310</y>
@@ -1625,12 +1626,12 @@
       <height>16</height>
      </rect>
     </property>
-    <property name="orientation" >
-     <enum>Qt::Horizontal</enum>
+    <property name="orientation">
+     <enum>Qt::Orientation::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QFrame" name="frame_2" >
-    <property name="geometry" >
+   <widget class="QFrame" name="frame_2">
+    <property name="geometry">
      <rect>
       <x>690</x>
       <y>0</y>
@@ -1638,14 +1639,14 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::StyledPanel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::StyledPanel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Raised</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
     </property>
-    <widget class="QToolButton" name="toolButtonSelectN" >
-     <property name="geometry" >
+    <widget class="QToolButton" name="toolButtonSelectN">
+     <property name="geometry">
       <rect>
        <x>150</x>
        <y>0</y>
@@ -1653,21 +1654,21 @@
        <height>21</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>狭域</string>
      </property>
-     <property name="checkable" >
+     <property name="checkable">
       <bool>true</bool>
      </property>
-     <property name="checked" >
+     <property name="checked">
       <bool>false</bool>
      </property>
-     <property name="autoExclusive" >
+     <property name="autoExclusive">
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButtonSelectB" >
-     <property name="geometry" >
+    <widget class="QToolButton" name="toolButtonSelectB">
+     <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
@@ -1675,22 +1676,22 @@
        <height>21</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>広域</string>
      </property>
-     <property name="checkable" >
+     <property name="checkable">
       <bool>true</bool>
      </property>
-     <property name="checked" >
+     <property name="checked">
       <bool>true</bool>
      </property>
-     <property name="autoExclusive" >
+     <property name="autoExclusive">
       <bool>true</bool>
      </property>
     </widget>
    </widget>
-   <widget class="QSpinBox" name="EditOutsideCenterColorOnMaster" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditOutsideCenterColorOnMaster">
+    <property name="geometry">
      <rect>
       <x>840</x>
       <y>140</y>
@@ -1698,12 +1699,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="palette" >
+    <property name="palette">
      <palette>
       <active>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -1712,9 +1713,9 @@
        </colorrole>
       </active>
       <inactive>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -1723,9 +1724,9 @@
        </colorrole>
       </inactive>
       <disabled>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>212</red>
           <green>208</green>
           <blue>200</blue>
@@ -1735,15 +1736,15 @@
       </disabled>
      </palette>
     </property>
-    <property name="readOnly" >
+    <property name="readOnly">
      <bool>true</bool>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_83" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_83">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>140</y>
@@ -1751,21 +1752,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>中心輝度 Master/Target</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditOutsideCenterColorOnTarget" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditOutsideCenterColorOnTarget">
+    <property name="geometry">
      <rect>
       <x>900</x>
       <y>140</y>
@@ -1773,12 +1774,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="palette" >
+    <property name="palette">
      <palette>
       <active>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -1787,9 +1788,9 @@
        </colorrole>
       </active>
       <inactive>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -1798,9 +1799,9 @@
        </colorrole>
       </inactive>
       <disabled>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>212</red>
           <green>208</green>
           <blue>200</blue>
@@ -1810,15 +1811,15 @@
       </disabled>
      </palette>
     </property>
-    <property name="readOnly" >
+    <property name="readOnly">
      <bool>true</bool>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_84" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_84">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>290</y>
@@ -1826,21 +1827,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>中心輝度 Master/Target</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditOutsideTrCenterColorOnTarget" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditOutsideTrCenterColorOnTarget">
+    <property name="geometry">
      <rect>
       <x>900</x>
       <y>290</y>
@@ -1848,12 +1849,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="palette" >
+    <property name="palette">
      <palette>
       <active>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -1862,9 +1863,9 @@
        </colorrole>
       </active>
       <inactive>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -1873,9 +1874,9 @@
        </colorrole>
       </inactive>
       <disabled>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>212</red>
           <green>208</green>
           <blue>200</blue>
@@ -1885,15 +1886,15 @@
       </disabled>
      </palette>
     </property>
-    <property name="readOnly" >
+    <property name="readOnly">
      <bool>true</bool>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditOutsideTrCenterColorOnMaster" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditOutsideTrCenterColorOnMaster">
+    <property name="geometry">
      <rect>
       <x>840</x>
       <y>290</y>
@@ -1901,12 +1902,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="palette" >
+    <property name="palette">
      <palette>
       <active>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -1915,9 +1916,9 @@
        </colorrole>
       </active>
       <inactive>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -1926,9 +1927,9 @@
        </colorrole>
       </inactive>
       <disabled>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>212</red>
           <green>208</green>
           <blue>200</blue>
@@ -1938,15 +1939,15 @@
       </disabled>
      </palette>
     </property>
-    <property name="readOnly" >
+    <property name="readOnly">
      <bool>true</bool>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_85" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_85">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>450</y>
@@ -1954,21 +1955,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>中心輝度 Master/Target</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditInsideTrCenterColorOnTarget" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditInsideTrCenterColorOnTarget">
+    <property name="geometry">
      <rect>
       <x>900</x>
       <y>450</y>
@@ -1976,12 +1977,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="palette" >
+    <property name="palette">
      <palette>
       <active>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -1990,9 +1991,9 @@
        </colorrole>
       </active>
       <inactive>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -2001,9 +2002,9 @@
        </colorrole>
       </inactive>
       <disabled>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>212</red>
           <green>208</green>
           <blue>200</blue>
@@ -2013,15 +2014,15 @@
       </disabled>
      </palette>
     </property>
-    <property name="readOnly" >
+    <property name="readOnly">
      <bool>true</bool>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditInsideTrCenterColorOnMaster" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditInsideTrCenterColorOnMaster">
+    <property name="geometry">
      <rect>
       <x>840</x>
       <y>450</y>
@@ -2029,12 +2030,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="palette" >
+    <property name="palette">
      <palette>
       <active>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -2043,9 +2044,9 @@
        </colorrole>
       </active>
       <inactive>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -2054,9 +2055,9 @@
        </colorrole>
       </inactive>
       <disabled>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>212</red>
           <green>208</green>
           <blue>200</blue>
@@ -2066,15 +2067,15 @@
       </disabled>
      </palette>
     </property>
-    <property name="readOnly" >
+    <property name="readOnly">
      <bool>true</bool>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_86" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_86">
+    <property name="geometry">
      <rect>
       <x>700</x>
       <y>580</y>
@@ -2082,21 +2083,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>中心輝度 Master/Target</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditInsideCenterColorOnTarget" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditInsideCenterColorOnTarget">
+    <property name="geometry">
      <rect>
       <x>900</x>
       <y>580</y>
@@ -2104,12 +2105,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="palette" >
+    <property name="palette">
      <palette>
       <active>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -2118,9 +2119,9 @@
        </colorrole>
       </active>
       <inactive>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -2129,9 +2130,9 @@
        </colorrole>
       </inactive>
       <disabled>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>212</red>
           <green>208</green>
           <blue>200</blue>
@@ -2141,15 +2142,15 @@
       </disabled>
      </palette>
     </property>
-    <property name="readOnly" >
+    <property name="readOnly">
      <bool>true</bool>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditInsideCenterColorOnMaster" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditInsideCenterColorOnMaster">
+    <property name="geometry">
      <rect>
       <x>840</x>
       <y>580</y>
@@ -2157,12 +2158,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="palette" >
+    <property name="palette">
      <palette>
       <active>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -2171,9 +2172,9 @@
        </colorrole>
       </active>
       <inactive>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>0</red>
           <green>255</green>
           <blue>255</blue>
@@ -2182,9 +2183,9 @@
        </colorrole>
       </inactive>
       <disabled>
-       <colorrole role="Base" >
-        <brush brushstyle="SolidPattern" >
-         <color alpha="255" >
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
           <red>212</red>
           <green>208</green>
           <blue>200</blue>
@@ -2194,16 +2195,16 @@
       </disabled>
      </palette>
     </property>
-    <property name="readOnly" >
+    <property name="readOnly">
      <bool>true</bool>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
   </widget>
-  <widget class="QLabel" name="label_9" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
     <rect>
      <x>680</x>
      <y>640</y>
@@ -2211,21 +2212,21 @@
      <height>20</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::Panel</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::Panel</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Sunken</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>ライブラリＩＤ</string>
    </property>
-   <property name="alignment" >
-    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="EditLibName" >
-   <property name="geometry" >
+  <widget class="QLineEdit" name="EditLibName">
+   <property name="geometry">
     <rect>
      <x>780</x>
      <y>660</y>
@@ -2233,15 +2234,15 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>XXX</string>
    </property>
-   <property name="readOnly" >
+   <property name="readOnly">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="EditLibID" >
-   <property name="geometry" >
+  <widget class="QLineEdit" name="EditLibID">
+   <property name="geometry">
     <rect>
      <x>780</x>
      <y>640</y>
@@ -2249,15 +2250,15 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>12345</string>
    </property>
-   <property name="readOnly" >
+   <property name="readOnly">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_10" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
     <rect>
      <x>680</x>
      <y>660</y>
@@ -2265,21 +2266,21 @@
      <height>20</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::Panel</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::Panel</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Sunken</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>ライブラリ名称</string>
    </property>
-   <property name="alignment" >
-    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_11" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_11">
+   <property name="geometry">
     <rect>
      <x>160</x>
      <y>630</y>
@@ -2287,12 +2288,12 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>検査画像</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_12" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_12">
+   <property name="geometry">
     <rect>
      <x>260</x>
      <y>630</y>
@@ -2300,12 +2301,12 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>広域しきい値</string>
    </property>
   </widget>
-  <widget class="QFrame" name="frameMaster" >
-   <property name="geometry" >
+  <widget class="QFrame" name="frameMaster">
+   <property name="geometry">
     <rect>
      <x>30</x>
      <y>631</y>
@@ -2313,15 +2314,15 @@
      <height>20</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::NoFrame</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::NoFrame</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Plain</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Plain</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="label_13" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_13">
+   <property name="geometry">
     <rect>
      <x>60</x>
      <y>630</y>
@@ -2329,12 +2330,12 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>マスター画像</string>
    </property>
   </widget>
-  <widget class="QFrame" name="frameThresholdB" >
-   <property name="geometry" >
+  <widget class="QFrame" name="frameThresholdB">
+   <property name="geometry">
     <rect>
      <x>240</x>
      <y>630</y>
@@ -2342,15 +2343,15 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::NoFrame</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::NoFrame</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Plain</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Plain</enum>
    </property>
   </widget>
-  <widget class="QFrame" name="frameTarget" >
-   <property name="geometry" >
+  <widget class="QFrame" name="frameTarget">
+   <property name="geometry">
     <rect>
      <x>140</x>
      <y>630</y>
@@ -2358,15 +2359,15 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::NoFrame</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::NoFrame</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Plain</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Plain</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="label_14" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_14">
+   <property name="geometry">
     <rect>
      <x>360</x>
      <y>630</y>
@@ -2374,12 +2375,12 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>狭域しきい値</string>
    </property>
   </widget>
-  <widget class="QFrame" name="frameThresholdN" >
-   <property name="geometry" >
+  <widget class="QFrame" name="frameThresholdN">
+   <property name="geometry">
     <rect>
      <x>340</x>
      <y>630</y>
@@ -2387,15 +2388,15 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::NoFrame</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::NoFrame</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Plain</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Plain</enum>
    </property>
   </widget>
-  <widget class="QFrame" name="frame_6" >
-   <property name="geometry" >
+  <widget class="QFrame" name="frame_6">
+   <property name="geometry">
     <rect>
      <x>490</x>
      <y>640</y>
@@ -2403,14 +2404,14 @@
      <height>151</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::StyledPanel</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Sunken</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <widget class="QLabel" name="label_32" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_32">
+    <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
@@ -2418,21 +2419,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>最適化</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="ButtonOptimizeOnly" >
-    <property name="geometry" >
+   <widget class="QPushButton" name="ButtonOptimizeOnly">
+    <property name="geometry">
      <rect>
       <x>20</x>
       <y>80</y>
@@ -2440,12 +2441,12 @@
       <height>31</height>
      </rect>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>当該ブロックのみ最適化</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="ButtonOptimizeAll" >
-    <property name="geometry" >
+   <widget class="QPushButton" name="ButtonOptimizeAll">
+    <property name="geometry">
      <rect>
       <x>20</x>
       <y>110</y>
@@ -2453,12 +2454,12 @@
       <height>31</height>
      </rect>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>全ブロックの最適化</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_7" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
      <rect>
       <x>10</x>
       <y>30</y>
@@ -2466,21 +2467,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>広域マージン％</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_8" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
      <rect>
       <x>90</x>
       <y>30</y>
@@ -2488,21 +2489,21 @@
       <height>21</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>狭域マージン％</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditBExtendRate" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditBExtendRate">
+    <property name="geometry">
      <rect>
       <x>20</x>
       <y>50</y>
@@ -2510,12 +2511,12 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="EditNExtendRate" >
-    <property name="geometry" >
+   <widget class="QSpinBox" name="EditNExtendRate">
+    <property name="geometry">
      <rect>
       <x>100</x>
       <y>50</y>
@@ -2523,13 +2524,13 @@
       <height>22</height>
      </rect>
     </property>
-    <property name="maximum" >
+    <property name="maximum">
      <number>1000000</number>
     </property>
    </widget>
   </widget>
-  <widget class="QFrame" name="frame_31" >
-   <property name="geometry" >
+  <widget class="QFrame" name="frame_31">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>780</y>
@@ -2537,14 +2538,14 @@
      <height>71</height>
     </rect>
    </property>
-   <property name="frameShape" >
-    <enum>QFrame::StyledPanel</enum>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
    </property>
-   <property name="frameShadow" >
-    <enum>QFrame::Sunken</enum>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <widget class="QLabel" name="label_104" >
-    <property name="geometry" >
+   <widget class="QLabel" name="label_104">
+    <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
@@ -2552,25 +2553,25 @@
       <height>71</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::Panel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Panel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Raised</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>検
 査</string>
     </property>
-    <property name="alignment" >
-     <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
-    <property name="indent" >
+    <property name="indent">
      <number>1</number>
     </property>
    </widget>
-   <widget class="QFrame" name="frame_32" >
-    <property name="geometry" >
+   <widget class="QFrame" name="frame_32">
+    <property name="geometry">
      <rect>
       <x>10</x>
       <y>120</y>
@@ -2578,14 +2579,14 @@
       <height>101</height>
      </rect>
     </property>
-    <property name="frameShape" >
-     <enum>QFrame::StyledPanel</enum>
+    <property name="frameShape">
+     <enum>QFrame::Shape::StyledPanel</enum>
     </property>
-    <property name="frameShadow" >
-     <enum>QFrame::Sunken</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
-    <widget class="QLabel" name="label_105" >
-     <property name="geometry" >
+    <widget class="QLabel" name="label_105">
+     <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
@@ -2593,26 +2594,26 @@
        <height>61</height>
       </rect>
      </property>
-     <property name="frameShape" >
-      <enum>QFrame::Panel</enum>
+     <property name="frameShape">
+      <enum>QFrame::Shape::Panel</enum>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
+     <property name="frameShadow">
+      <enum>QFrame::Shadow::Raised</enum>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>輝
 度</string>
      </property>
-     <property name="alignment" >
-      <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
-     <property name="indent" >
+     <property name="indent">
       <number>1</number>
      </property>
     </widget>
    </widget>
-   <widget class="QCheckBox" name="checkBoxDiffMode" >
-    <property name="geometry" >
+   <widget class="QCheckBox" name="checkBoxDiffMode">
+    <property name="geometry">
      <rect>
       <x>40</x>
       <y>10</y>
@@ -2620,12 +2621,12 @@
       <height>20</height>
      </rect>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>差分検査</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBoxMatchSlideOnMaster" >
-    <property name="geometry" >
+   <widget class="QCheckBox" name="checkBoxMatchSlideOnMaster">
+    <property name="geometry">
      <rect>
       <x>40</x>
       <y>30</y>
@@ -2633,12 +2634,12 @@
       <height>18</height>
      </rect>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>マスター位置でマッチング移動</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBoxAbsMode" >
-    <property name="geometry" >
+   <widget class="QCheckBox" name="checkBoxAbsMode">
+    <property name="geometry">
      <rect>
       <x>40</x>
       <y>50</y>
@@ -2646,13 +2647,13 @@
       <height>18</height>
      </rect>
     </property>
-    <property name="text" >
+    <property name="text">
      <string>絶対輝度</string>
     </property>
    </widget>
   </widget>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
 </ui>

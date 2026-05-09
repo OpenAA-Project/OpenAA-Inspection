@@ -28,8 +28,8 @@
 #include "XDisplayImage.h"
 #include <QMessageBox>
 
-extern	char	*sRoot;
-extern	char	*sName;
+extern	const	char	*sRoot;
+extern	const	char	*sName;
 
 OutlineHistgram::OutlineHistgram(LayersBase *Base,QWidget *parent)
 	: QWidget(parent),ServiceForLayers(Base),PasswordInQWodget(Base,this)

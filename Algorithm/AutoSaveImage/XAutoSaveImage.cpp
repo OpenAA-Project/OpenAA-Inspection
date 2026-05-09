@@ -27,7 +27,7 @@
 #include "XGUIFormBase.h"
 #include "XGUIPacketForDLL.h"
 #include "XGeneralStocker.h"
-#include "PanelSaveImage.h";
+#include "PanelSaveImage.h"
 #include "XForWindows.h"
 #include "XLotInformation.h"
 #include "swap.h"

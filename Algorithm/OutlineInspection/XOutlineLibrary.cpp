@@ -91,7 +91,7 @@ bool	OutlineInspectLibNGTypeItem::Load(QIODevice *f)
 
 bool	OutlineInspectLibNGTypeItem::ShowSetting(void)
 {
-	if(Lib->GetLayersBase()->GetParamGlobal()->GetLayerNumb()==1){
+	if(Lib->GetLayersBase()->GetParamGlobal()->GetLayerNumb(0)==1){
 		MonoNGTypeDialog	D(Lib->GetLayersBase(),this);
 		D.exec();
 		return true;

@@ -88,7 +88,7 @@ LayersBase::LayersBase(EntryPointBase *pEntryPoint
 	OnChanging				=false;
 	MilisecExecuteFilter	=0;
 	InsideLearningEditor	=false;
-	UserPath				=_UserPath();
+	UserPath				=_UserPath;
 	if(_CurrentPath.isEmpty()==true){
 		CurrentPath=QDir::currentPath();
 	}

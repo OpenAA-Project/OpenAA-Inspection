@@ -427,7 +427,6 @@
     <ClInclude Include="XColorBlockAlgoPacket.h" />
     <ClInclude Include="XColorBlockInspection.h" />
     <ClInclude Include="XColorBlockLibrary.h" />
-    <ClInclude Include="..\..\GeneralSource\XColorSpace.h" />
     <ClInclude Include="..\..\Open\XDLLOnly.h" />
     <ClInclude Include="..\..\Open\XDLLType.h" />
   </ItemGroup>

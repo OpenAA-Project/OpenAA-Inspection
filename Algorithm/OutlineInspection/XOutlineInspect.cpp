@@ -37,8 +37,8 @@
 #include <omp.h>
 #include "XOutlineAlgoPacket.h"
 
-extern	char	*sRoot;
-extern	char	*sName;
+extern	const	char	*sRoot;
+extern	const	char	*sName;
 
 OutlineHistogramListReq::OutlineHistogramListReq(void)
 {
@@ -2009,7 +2009,7 @@ void	OutlineBase::TransmitDirectly(GUIDirectMessage *packet)
 	}
 	CmdCreateTempOutlineLibraryPacket	*BCreateLib=dynamic_cast<CmdCreateTempOutlineLibraryPacket *>(packet);
 	if(BCreateLib!=NULL){
-		BCreateLib->Point=new OutlineInspectLibrary(GetLibType(),GetLayersBase());
+		BCreateLib->Point=new AlgorithmLibraryLevelContainer(this);
 		return;
 	}
 	CmdClearOutlineLibraryPacket	*CmdClearOutlineLibraryPacketVar=dynamic_cast<CmdClearOutlineLibraryPacket *>(packet);
@@ -2029,8 +2029,10 @@ void	OutlineBase::TransmitDirectly(GUIDirectMessage *packet)
 		OutlineInspectLibrary	**LibDim=new OutlineInspectLibrary*[BGenerated->LibList.GetCount()];
 		int	N=0;
 		for(IntClass *L=BGenerated->LibList.GetFirst();L!=NULL;L=L->GetNext(),N++){
-			LibDim[N]=new OutlineInspectLibrary(GetLibType(),GetLayersBase());
-			GetLibraryContainer()->GetLibrary(L->GetValue(),*LibDim[N]);
+			AlgorithmLibraryLevelContainer	TmpLib(this);
+			if(GetLibraryContainer()->GetLibrary(L->GetValue(),TmpLib)==true){
+				LibDim[N]=(OutlineInspectLibrary *)TmpLib.GetLibrary();
+			}
 		}
 		for(;;){
 			bool	Changed=false;
@@ -2119,10 +2121,10 @@ void	OutlineBase::TransmitDirectly(GUIDirectMessage *packet)
 	}
 	CmdGetLibName	*PCmdGetLibName=dynamic_cast<CmdGetLibName *>(packet);
 	if(PCmdGetLibName!=NULL){
-		OutlineInspectLibrary	LibData(GetLibType(),GetLayersBase());
 		if(GetLibraryContainer()!=NULL){
-			if(GetLibraryContainer()->GetLibrary(PCmdGetLibName->LibID,LibData)==true){
-				PCmdGetLibName->LibName=LibData.GetLibName();
+			AlgorithmLibraryLevelContainer	TmpLib(this);
+			if(GetLibraryContainer()->GetLibrary(PCmdGetLibName->LibID,TmpLib)==true){
+				PCmdGetLibName->LibName=TmpLib.GetLibName();
 			}
 		}
 		return;

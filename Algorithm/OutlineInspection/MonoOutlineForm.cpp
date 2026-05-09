@@ -25,8 +25,8 @@
 #include "swap.h"
 #include "XOutlineInspect.h"
 
-extern	char	*sRoot;
-extern	char	*sName;
+extern	const	char	*sRoot;
+extern	const	char	*sName;
 
 MonoOutlineForm::MonoOutlineForm(LayersBase *Base,QWidget *parent)
 	: QDialog(parent),ServiceForLayers(Base),TmpThreshold(NULL)

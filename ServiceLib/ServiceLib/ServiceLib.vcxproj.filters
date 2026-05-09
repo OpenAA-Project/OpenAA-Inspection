@@ -412,9 +412,6 @@
     <ClCompile Include="SelectLibraryOneDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Integrator\IntegrationLib\XIntegrationComm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\GeneralSource\XRegulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1074,9 +1071,6 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="..\..\Integrator\IntegrationLib\XIntegrationComm.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\Open\XTransFile.h">
       <Filter>Header Files</Filter>
     </QtMoc>
