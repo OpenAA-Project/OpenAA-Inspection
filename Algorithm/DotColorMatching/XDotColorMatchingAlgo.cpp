@@ -113,12 +113,10 @@ ExeResult	DotColorMatchingItem::ExecuteProcessing	(int ExeID ,int ThreadNo,Resul
 		if(Res->GetError()==2 || Res->GetError()==3){
 			//if(ABase->ModeMatchHighPrecise==true){
 			if(Th->PreciseSearch==true){
-				if(ExecuteProcessingDetail(Res,Th,&Th->Broad)==true){
-					goto	JudgeOK;
-				}
+				ExecuteProcessingDetail(Res,Th,&Th->Broad);
 			}		
 		}
-JudgeOK:
+
 		if(Res->GetError()>=2){
 			if(GetLayersBase()->GetResultFromAlgorithm()==0){
 				GetLayersBase()->SetResultFromAlgorithm(1);
@@ -231,7 +229,7 @@ JudgeOK:
 					double	Q=-TotalMinCoef/Th->ScratchDetectLevelL;
 					Isolation=2;
 					if(Th->ScratchRotationAngle>0 && Q>0.8){
-						for(int div=0;div<4;div++){
+						for(int div=0;div<4 && !ResultNG;div++){
 							if(GetComputerMiliSec()-StartMilisec>=MaxInspectMilisec){
 								break;
 							}
@@ -262,8 +260,7 @@ JudgeOK:
 										MaxNGDifference=fabs(NGDifference);
 										MaxS=RAngleDegree-Th->ScratchStartDirection;
 										ResultNG=true;
-										goto	FoundNG;
-										
+										break;
 									}
 								}
 								else{
@@ -278,13 +275,15 @@ JudgeOK:
 									}
 								}
 							}
+							if(ResultNG){
+								break;
+							}
 							if(TotalMinCoef>=0.0){
 								break;
 							}
 						}
 					}
 				}
-				FoundNG:;
 				double	NGDifference;
 				if(ResultNG==true){
 					double	RAngle=MaxS+Th->ScratchStartDirection;
@@ -420,8 +419,9 @@ JudgeOK:
 							, ResultX, ResultY
 							, 0 ,0);
 		if(Th->PreciseSearch==true && Res->GetError()>=2){
-			for(int zy=-Th->AreaSearchY;zy<=Th->AreaSearchY;zy+=3){
-				for(int zx=-Th->AreaSearchX;zx<=Th->AreaSearchX;zx+=3){
+			bool redFound = false;
+			for(int zy=-Th->AreaSearchY;zy<=Th->AreaSearchY && !redFound;zy+=3){
+				for(int zx=-Th->AreaSearchX;zx<=Th->AreaSearchX && !redFound;zx+=3){
 					Res->ClearPosList();
 					ResetProcessDone();
 					ExecuteProcessingRed(Res
@@ -430,11 +430,10 @@ JudgeOK:
 										, ResultX, ResultY
 										, zx ,zy);
 					if(Res->GetError()==1){
-						goto	EndRed;
+						redFound = true;
 					}
 				}
 			}
-		EndRed:;
 		}
 	}
 	if(Res->GetError()==1 && Th->HsvCheckMode==true){
@@ -446,10 +445,15 @@ JudgeOK:
 		int	MinNGSize=99999999;
 		int	tAreaSearchX=Clipping(Th->AreaSearchX,Th->MaxAreaSearch);
 		int	tAreaSearchY=Clipping(Th->AreaSearchY,Th->MaxAreaSearch);
-		for(int dy=-tAreaSearchY;dy<=tAreaSearchY;dy+=2){
-			for(int dx=-tAreaSearchX;dx<=tAreaSearchX;dx+=2){
+		
+		bool hsvTimeout = false;
+		bool hsvFound = false;
+		
+		for(int dy=-tAreaSearchY;dy<=tAreaSearchY && !hsvTimeout && !hsvFound;dy+=2){
+			for(int dx=-tAreaSearchX;dx<=tAreaSearchX && !hsvTimeout && !hsvFound;dx+=2){
 				if(GetComputerMiliSec()-StartMilisec>=MaxInspectMilisec){
-					goto	EndOfHSVProcess;
+					hsvTimeout = true;
+					break;
 				}
 				
 				int	iRet=ExecuteProcessingHSV(Res
@@ -461,52 +465,57 @@ JudgeOK:
 				if(iRet==1){
 					MinX=dx;
 					MinY=dy;
-					goto	HSVOK;
+					hsvFound = true;
 				}
-				if(MinNGSize>Res->GetResult2()){
+				else if(MinNGSize>Res->GetResult2()){
 					MinNGSize=Res->GetResult2();
 					MinX=dx;
 					MinY=dy;
 				}
 			}
 		}
-		int	MinX2=0,MinY2=0;
-		for(int dy=-1;dy<=1;dy++){
-			for(int dx=-1;dx<=1;dx++){
-				if(GetComputerMiliSec()-StartMilisec>=MaxInspectMilisec){
-					goto	EndOfHSVProcess;
-				}
-				int	iRet=ExecuteProcessingHSV(Res
-								, ImageTargetList
-								, NGSize
-								, MinX+dx ,MinY+dy
-								, ResultX, ResultY
-								,false);
-				if(iRet==1){
-					MinX2=dx;
-					MinY2=dy;
-					MinX+=MinX2;
-					MinY+=MinY2;
-					goto	HSVOK;
-				}
-				if(MinNGSize>Res->GetResult2()){
-					MinNGSize=Res->GetResult2();
-					MinX2=dx;
-					MinY2=dy;
+		if(!hsvTimeout && !hsvFound){
+			int	MinX2=0,MinY2=0;
+			for(int dy=-1;dy<=1 && !hsvTimeout && !hsvFound;dy++){
+				for(int dx=-1;dx<=1 && !hsvTimeout && !hsvFound;dx++){
+					if(GetComputerMiliSec()-StartMilisec>=MaxInspectMilisec){
+						hsvTimeout = true;
+						break;
+					}
+					int	iRet=ExecuteProcessingHSV(Res
+									, ImageTargetList
+									, NGSize
+									, MinX+dx ,MinY+dy
+									, ResultX, ResultY
+									,false);
+					if(iRet==1){
+						MinX2=dx;
+						MinY2=dy;
+						MinX+=MinX2;
+						MinY+=MinY2;
+						hsvFound = true;
+					}
+					else if(MinNGSize>Res->GetResult2()){
+						MinNGSize=Res->GetResult2();
+						MinX2=dx;
+						MinY2=dy;
+					}
 				}
 			}
+			if(!hsvFound){
+				MinX+=MinX2;
+				MinY+=MinY2;
+			}
 		}
-		MinX+=MinX2;
-		MinY+=MinY2;
 
-		HSVOK:;
-		ExecuteProcessingHSV(Res
-						, ImageTargetList
-						, NGSize
-						, MinX,MinY
-						, ResultX, ResultY
-						,true);
-		EndOfHSVProcess:;
+		if (!hsvTimeout) {
+			ExecuteProcessingHSV(Res
+							, ImageTargetList
+							, NGSize
+							, MinX,MinY
+							, ResultX, ResultY
+							,true);
+		}
 	}
 	if((Res->GetError()==1 && Th->VariationMode==true && Th->VariationAndLogic==false)
 	|| (Res->GetError()>=2 && Th->VariationMode==true && Th->VariationAndLogic==true)){
@@ -1634,21 +1643,22 @@ int	DotColorMatchingItem::ExecuteProcessingLoopN(ResultInItemRoot *Res
 				if(NGCount>=MaxNGCountInBlock){
 					break;
 				}
+				bool skipToNext = false;
 				if(p->GetWidth()<=2 || p->GetHeight()<=2){
 					RotationPattern	*R=CurrentMasterPattern;
 					int	x=p->GetFLineLeftX(0)+MapXPoint;
 					int	y=p->GetFLineAbsY(0) +MapYPoint;
-					for(int dy=-2;dy<=2;dy++){
-						for(int dx=-2;dx<=2;dx++){
+					for(int dy=-2;dy<=2 && !skipToNext;dy++){
+						for(int dx=-2;dx<=2 && !skipToNext;dx++){
 							if(dx==0 && dy==0)
 								continue;
 							if(R->IsInclude(x+dx,y+dy)==false){
-								goto	EdgeThinOK;
+								skipToNext = true;
 							}
 						}
 					}
 				}
-				{
+				if(!skipToNext){
 					p->MoveToNoClip(MapXPoint,MapYPoint);
 					int	COKDot		=MTh->OKDot;
 					int	COKLength	=MTh->OKLength;
@@ -1728,7 +1738,6 @@ int	DotColorMatchingItem::ExecuteProcessingLoopN(ResultInItemRoot *Res
 						}
 					}
 				}
-				EdgeThinOK:;
 			}
 			Res->MovePosList(NowList);
 			Res->SetItemSearchedXY(0,0);
@@ -2121,8 +2130,9 @@ bool		DotColorMatchingItem::ExecuteProcessingDetail(ResultInItemRoot *Res
 	}
 	int	MaxMilisecInPage=GetParentBase()->GetMaxMilisecInPage();
 	int	Kn=0;
-	for(int zy=-Th->AreaSearchY;zy<=Th->AreaSearchY;zy+=3){
-		for(int zx=-Th->AreaSearchX;zx<=Th->AreaSearchX;zx+=3){
+	bool detailTimeout = false;
+	for(int zy=-Th->AreaSearchY;zy<=Th->AreaSearchY && !detailTimeout;zy+=3){
+		for(int zx=-Th->AreaSearchX;zx<=Th->AreaSearchX && !detailTimeout;zx+=3){
 
 			Res->ClearPosList();
 			ResetProcessDone();
@@ -2133,6 +2143,9 @@ bool		DotColorMatchingItem::ExecuteProcessingDetail(ResultInItemRoot *Res
 										,Mx+zx ,My+zy
 										,NGLCount,NGHCount);
 			if(Ret==1){
+				if(GList!=GListDim){
+					delete	[]GList;
+				}
 				return true;
 			}
 			GList[Kn].zx=zx;
@@ -2140,19 +2153,12 @@ bool		DotColorMatchingItem::ExecuteProcessingDetail(ResultInItemRoot *Res
 			GList[Kn].NGLCount=NGLCount;
 			GList[Kn].NGHCount=NGHCount;
 			Kn++;
-			if(Ret==1){
-				if(GList!=GListDim){
-					delete	[]GList;
-				}
-				return true;
-			}
 			DWORD	NowMilisec=::GetComputerMiliSec();
 			if((NowMilisec-GetParentInPage()->GetStartTimeMilisec())>MaxMilisecInPage){
-				goto	GoOutFromDetail;
+				detailTimeout = true;
 			}
 		}
 	}
-GoOutFromDetail:;
 
 	QSort(GList,Kn,sizeof(GList[0]),SortGListFunc);
 
@@ -2172,6 +2178,10 @@ GoOutFromDetail:;
 	Res->GetPosList().Move(CurrentPosList);
 	Res->SetAlignedXY(AlignedX,AlignedY);
 	Res->SetItemSearchedXY(ItemSearchedX,ItemSearchedY);
+	
+	if(GList!=GListDim){
+		delete	[]GList;
+	}
 	return false;
 }
 
@@ -2542,15 +2552,16 @@ ExeResult	DotColorMatchingItem::ExecuteProcessingMatchBrightnessByLayerH(ResultI
 			MinPosContainer.Move(Res->GetPosList());
 
 			ResetProcessDone();
-			for(int dy=-ShiftDot;dy<=ShiftDot;dy++){
-				for(int dx=-ShiftDot;dx<=ShiftDot;dx++){
+			bool breakLoops = false;
+			for(int dy=-ShiftDot;dy<=ShiftDot && !breakLoops;dy++){
+				for(int dx=-ShiftDot;dx<=ShiftDot && !breakLoops;dx++){
 					Res->ClearPosList();
 					ResetProcessDone();
 					ExecuteProcessingFixed(Res
 											,Th,MTh
 											,Mx+Lx+dx ,My+Ly+dy);
 					if(Res->IsOk()==true){
-						break;
+						breakLoops = true;
 					}
 					else{
 						int	NGSize=Res->GetTotalNGSize();
@@ -2626,15 +2637,16 @@ ExeResult	DotColorMatchingItem::ExecuteProcessingMatchBrightnessByLayerL(ResultI
 			MinPosContainer.Move(Res->GetPosList());
 
 			ResetProcessDone();
-			for(int dy=-ShiftDot;dy<=ShiftDot;dy++){
-				for(int dx=-ShiftDot;dx<=ShiftDot;dx++){
+			bool breakLoops = false;
+			for(int dy=-ShiftDot;dy<=ShiftDot && !breakLoops;dy++){
+				for(int dx=-ShiftDot;dx<=ShiftDot && !breakLoops;dx++){
 					Res->ClearPosList();
 					ResetProcessDone();
 					ExecuteProcessingFixed(Res 
 											,Th,MTh
 											,Mx+Lx+dx ,My+Ly+dy);
 					if(Res->IsOk()==true){
-						break;
+						breakLoops = true;
 					}
 					else{
 						int	NGSize=Res->GetTotalNGSize();
@@ -2668,17 +2680,17 @@ ExeResult	DotColorMatchingItem::ExecuteProcessingMatchBrightnessByLayerL(ResultI
 int	DotColorMatchingItem::GetResultType(void)
 {
 	if(MasterPattern[0].FlatPattern==true){
-		//�P�F
+		//PF
 		return 0x100;
 	}
 	else
 	if(MasterPattern[0].FlatPattern==false && MasterPattern[0].DivArea.IsEmpty()==true){
-		//�O���f�[�V����
+		//Of[V
 		return 0x200;
 	}
 	else
 	if(MasterPattern[0].FlatPattern==false && MasterPattern[0].DivArea.IsEmpty()==false){
-		//����
+		//
 		return 0x300;
 	}
 	return 0x400;

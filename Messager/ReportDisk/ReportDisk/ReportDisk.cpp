@@ -22,7 +22,7 @@
 #include <QFileDialog>
 #include "XForWindows.h"
 #include "XGeneralFunc.h"
-#include "XDIskInfoCommon.h"
+#include "XDiskInfoCommon.h"
 
 ReportDisk::ReportDisk(QWidget *parent, Qt::WindowFlags flags)
 	: QMainWindow(parent, flags),FRegistry(/**/"ReportDisk.dat"),MClient(this)

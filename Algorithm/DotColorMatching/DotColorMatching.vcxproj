@@ -269,6 +269,14 @@
       <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AVX2</UseProcessorExtensions>
     </ClCompile>
     <ClCompile Include="XDotColorMatchingAlgoMain.cpp" />
+    <ClCompile Include="XDotColorMatchingAlgoMain1.cpp" />
+    <ClCompile Include="XDotColorMatchingAlgoMain2.cpp" />
+    <ClCompile Include="XDotColorMatchingAlgoMain3.cpp" />
+    <ClCompile Include="XDotColorMatchingAlgoMain4.cpp" />
+    <ClCompile Include="XDotColorMatchingAlgoMain5.cpp" />
+    <ClCompile Include="XDotColorMatchingAlgoMain6.cpp" />
+    <ClCompile Include="XDotColorMatchingAlgoMain7.cpp" />
+    <ClCompile Include="XDotColorMatchingAlgoMain8.cpp" />
     <ClCompile Include="XDotColorMatchingAlgoOptimized.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MaxSpeedHighLevel</Optimization>
       <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AnySuitable</InlineFunctionExpansion>

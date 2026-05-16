@@ -34,12 +34,12 @@ class	GUIDirectMessage;
 extern "C"{
 
 #ifdef _MSC_VER
-
-#ifdef _MSC_VER
 #define	DEFFUNCEX		__declspec(dllexport)
 #else
 #define	DEFFUNCEX
+#define _cdecl
 #endif
+
 
 
 
@@ -150,19 +150,6 @@ DEFFUNCEX		void	DLLSeq_Close(void *handle);
 
 DEFFUNCEX		void	DLLSeq_DebugShow(void *handle ,QApplication &App);
 
-#else
-void DLLSeq_GetDLLVersion(char *buff);
-bool DLLSeq_CmdStr(char *cmdstr , char *datastr);
-bool DLLSeq_CmdStrInt(char *cmdstr , char *datastr ,int *data);
-bool DLLSeq_CmdStrRet(char *cmdstr , char *datastr ,char Buff[]);
-bool DLLSeq_CmdStrRetInt(char *cmdstr , char *datastr ,char Buff[] ,int *data);
-bool DLLSeq_CmdInt(char *cmdstr , int *data);
-bool DLLSeq_CmdInt2(char *cmdstr , int *data1 ,int *data2);
-void DLLSeq_Close(void);
-void DLLSeq_DebugShow(void);
-#endif
 };
-
-
 
 #endif

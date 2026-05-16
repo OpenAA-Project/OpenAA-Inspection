@@ -107,6 +107,30 @@
     <ClCompile Include="XDotColorMatchingAlgoOptimized.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="XDotColorMatchingAlgoMain1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XDotColorMatchingAlgoMain2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XDotColorMatchingAlgoMain3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XDotColorMatchingAlgoMain4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XDotColorMatchingAlgoMain5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XDotColorMatchingAlgoMain6.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XDotColorMatchingAlgoMain7.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XDotColorMatchingAlgoMain8.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DotColorMatching.h">

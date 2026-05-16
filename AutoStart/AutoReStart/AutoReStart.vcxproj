@@ -69,6 +69,10 @@
     <ClCompile>
       <OpenMP>GenerateParallelCode</OpenMP>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ServiceLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>

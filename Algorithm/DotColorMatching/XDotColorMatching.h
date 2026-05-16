@@ -53,6 +53,9 @@ class	DotColorMatchingItem;
 
 #define	MaxThreOffset	100
 
+inline	int	ClippingL(int d)	{	return (d<0)?0:d;		}
+inline	int	ClippingH(int d)	{	return (d>=255)?255:d;	}
+
 inline	int	Clipping(WORD d ,WORD LMax)
 {
 	if(d>LMax)

@@ -19,7 +19,7 @@
 #include "DiskManager.h"
 #include "XGeneralFunc.h"
 #include "swap.h"
-#include "XDIskInfoCommon.h"
+#include "XDiskInfoCommon.h"
 #include "SelectFileOperationDialog.h"
 #include <QMessageBox>
 
