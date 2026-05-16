@@ -234,6 +234,7 @@
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <OpenMP>GenerateParallelCode</OpenMP>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

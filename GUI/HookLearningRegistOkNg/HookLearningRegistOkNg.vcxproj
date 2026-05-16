@@ -277,7 +277,6 @@
     <ClInclude Include="HookLearningRegistOkNg.h" />
     <ClInclude Include="hooklearningregistokng_global.h" />
     <ClInclude Include="XHookRegistCommon.h" />
-    <ClInclude Include="ヘッダー.h" />
     <QtMoc Include="RegistLearningSelectLibDialog.h" />
     <QtMoc Include="RegistLearningDialog.h">
     </QtMoc>

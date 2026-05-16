@@ -61,9 +61,6 @@
     <ClInclude Include="hooklearningregistokng_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ヘッダー.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="XHookRegistCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>

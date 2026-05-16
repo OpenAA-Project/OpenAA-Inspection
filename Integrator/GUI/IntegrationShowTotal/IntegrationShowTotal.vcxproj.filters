@@ -67,7 +67,4 @@
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\ServiceLib\EXCEL\lib64\libxl.lib" />
-  </ItemGroup>
 </Project>

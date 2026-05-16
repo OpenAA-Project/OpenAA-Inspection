@@ -25,9 +25,10 @@
 #include <QSqlRecord>
 #include "XGeneralFunc.h"
 #include "XDLLType.h"
+#include <QTemporaryFile>
+#include <QFileDialog>
+#include <QBuffer>
 
-static	const	wchar_t	*ExcelUser	=L"MASATOSHI SASAI";
-static	const	wchar_t* ExcelKey = L"windows-252a28070ccee00f6fbd6d65ady7m2ue";
 
 IntegrationShowTotalForm::IntegrationShowTotalForm(LayersBase *Base ,QWidget *parent) :
 	GUIFormBase(Base,parent),
@@ -183,70 +184,51 @@ void	IntegrationShowTotalForm::SlotDoneLoadResult(InspectionList *n)
 
 void	IntegrationShowTotalForm::WriteCell(int Row, int Col ,const QString &Str)
 {
-	wchar_t	Buff[1000];
-	memset(Buff,0,sizeof(Buff));
-	Str.toWCharArray(Buff);
-
-	XLSXSheet->setCellFormat(Row, Col,Lang);
-	XLSXSheet->writeStr(Row, Col,Buff);
+	// xlsxwriterはUTF-8を使用する
+	worksheet_write_string(XLSXSheet, Row, Col, Str.toUtf8().constData(), Lang);
 }
 
 void	IntegrationShowTotalForm::WriteCellV(int Row, int Col ,const QVariant &Data)
 {
-	XLSXSheet->setCellFormat(Row, Col,Lang);
-
-	wchar_t	Buff[1000];
-	memset(Buff,0,sizeof(Buff));
 	if(Data.type()==QVariant::Bool){
 		if(Data.toBool()==true){
-			XLSXSheet->writeStr(Row, Col,L"true");
+			worksheet_write_boolean(XLSXSheet, Row, Col, 1, Lang);
 		}
 		else{
-			XLSXSheet->writeStr(Row, Col,L"false");
+			worksheet_write_boolean(XLSXSheet, Row, Col, 0, Lang);
 		}
 	}
 	else if(Data.type()==QVariant::Char){
 		QString	s(Data.toChar());
-		s.toWCharArray(Buff);	
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_string(XLSXSheet, Row, Col, s.toUtf8().constData(), Lang);
 	}
 	else if(Data.type()==QVariant::Date){
 		QString	s(Data.toDate().toString());
-		s.toWCharArray(Buff);	
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_string(XLSXSheet, Row, Col, s.toUtf8().constData(), Lang);
 	}
 	else if(Data.type()==QVariant::DateTime){
 		QString	s(Data.toDateTime().toString());
-		s.toWCharArray(Buff);	
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_string(XLSXSheet, Row, Col, s.toUtf8().constData(), Lang);
 	}
 	else if(Data.type()==QVariant::Double){
-		QString	s=QString::number(Data.toDouble(),'f');
-		s.toWCharArray(Buff);
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_number(XLSXSheet, Row, Col, Data.toDouble(), Lang);
 	}
 	else if(Data.type()==QVariant::Int){
-		QString	s=QString::number(Data.toInt());
-		s.toWCharArray(Buff);
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_number(XLSXSheet, Row, Col, Data.toDouble(), Lang);
 	}
 	else if(Data.type()==QVariant::String){
 		QString	s=Data.toString();
-		s.toWCharArray(Buff);
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_string(XLSXSheet, Row, Col, s.toUtf8().constData(), Lang);
 	}
 	else if(Data.type()==QVariant::Time){
 		QString	s(Data.toTime().toString());
-		s.toWCharArray(Buff);	
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_string(XLSXSheet, Row, Col, s.toUtf8().constData(), Lang);
 	}
 	else if(Data.type()==QVariant::UInt){
-		QString	s=QString::number(Data.toUInt());
-		s.toWCharArray(Buff);
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_number(XLSXSheet, Row, Col, Data.toDouble(), Lang);
 	}
 	else{
-		XLSXSheet->writeStr(Row, Col,L"Error");
+		worksheet_write_string(XLSXSheet, Row, Col, "Error", Lang);
 	}
 }
 
@@ -279,12 +261,10 @@ void IntegrationShowTotalForm::on_pushButtonExcelSave_clicked()
 		return;
 	}
 
-	XLSXBook = xlCreateXMLBook();
-	XLSXBook->setKey(ExcelUser, ExcelKey);
-	XLSXSheet=XLSXBook->addSheet(L"Master");
+	XLSXBook = workbook_new(ExcelFileName.toUtf8().constData());
+	XLSXSheet = workbook_add_worksheet(XLSXBook, "Master");
 
-	Lang	=XLSXBook->addFormat();
-	Fnt	=XLSXBook->addFont();
+	Lang = workbook_add_format(XLSXBook);
 	QString	FontName;
 	switch(GetLayersBase()->GetLanguageCode()){
 		case 0:	FontName= /**/"ＭＳ Ｐゴシック";	break;
@@ -293,12 +273,7 @@ void IntegrationShowTotalForm::on_pushButtonExcelSave_clicked()
 		case 3:	FontName= /**/"MingLiU";			break;
 		case 4:	FontName= /**/"Gulim";				break;
 	}
-	wchar_t	WBuff[100];
-	memset(WBuff, 0, sizeof(WBuff));
-	FontName.toWCharArray(WBuff);
-	Fnt->setName(WBuff);
-
-	Lang->setFont(Fnt);
+	format_set_font_name(Lang, FontName.toUtf8().constData());
 
 	WriteCell(0, 0,LangSolver.GetString(IntegrationShowTotalForm_LS,LID_12)/*"作成日時"*/);	
 	WriteCell(0, 1,QDateTime::currentDateTime().toString());
@@ -329,7 +304,7 @@ void IntegrationShowTotalForm::on_pushButtonExcelSave_clicked()
 			WriteCell(Row, 0,LangSolver.GetString(IntegrationShowTotalForm_LS,LID_17)/*"検査ユニット"*/);
 			WriteCell(Row, 1,m->GetMachineName());
 
-			XLSXSheet->setRow(Row,256);
+			worksheet_set_row(XLSXSheet, Row, 256, NULL);
 
 			QTemporaryFile	TmpImageFile;
 			TmpImageFile.setAutoRemove(true);
@@ -339,12 +314,18 @@ void IntegrationShowTotalForm::on_pushButtonExcelSave_clicked()
 				TopView.save(&TmpImageFile,/**/"PNG");
 				TmpImageFile.flush();
 				TmpImageFile.close();
-				wchar_t	TmpImageFileBuff[1000];
-				memset(TmpImageFileBuff,0,sizeof(TmpImageFileBuff));
-				TmpImageFileName.toWCharArray(TmpImageFileBuff);
-
-				int	ImageID=XLSXBook->addPicture(TmpImageFileBuff);
-				XLSXSheet->setPicture2(Row, 2, ImageID, 256, 256);
+				
+				// スケール計算（画像を256x256のセル枠に合わせる）
+				lxw_image_options options;
+				memset(&options, 0, sizeof(lxw_image_options));
+				if (!TopView.isNull() && TopView.width() > 0 && TopView.height() > 0) {
+					options.x_scale = 256.0 / TopView.width();
+					options.y_scale = 256.0 / TopView.height();
+				} else {
+					options.x_scale = 1.0;
+					options.y_scale = 1.0;
+				}
+				worksheet_insert_image_opt(XLSXSheet, Row, 2, TmpImageFileName.toUtf8().constData(), &options);
 			}
 
 			Row++;
@@ -441,16 +422,8 @@ void IntegrationShowTotalForm::on_pushButtonExcelSave_clicked()
 		}
 	}
 
-	wchar_t	FileNameStr[256];
-	memset(FileNameStr,0,sizeof(FileNameStr));
-	ExcelFileName.toWCharArray(FileNameStr);
-
-	if(XLSXBook->save(FileNameStr)==false){
-		delete	XLSXBook;
-		return;
-	}
-	XLSXBook->release();
-
+	workbook_close(XLSXBook);
+	XLSXBook = NULL;
 	return;
 }
 
@@ -566,17 +539,14 @@ int	IntegrationShowTotalForm::SetNGImageToExcel(InspectionList *L, int Printout_
 				QTemporaryFile	TmpImageFile;
 				TmpImageFile.setAutoRemove(true);
 				if(TmpImageFile.open()==true){
-					XLSXSheet->setRow(Row,256);
+					worksheet_set_row(XLSXSheet, Row, 256, NULL);
 					QString	TmpImageFileName=TmpImageFile.fileName();
 					g->GetImage().save(&TmpImageFile,/**/"PNG");
 					TmpImageFile.flush();
 					TmpImageFile.close();
-					wchar_t	TmpImageFileBuff[10000];
-					memset(TmpImageFileBuff,0,sizeof(TmpImageFileBuff));
-					TmpImageFileName.toWCharArray(TmpImageFileBuff);
-
-					int	ImageID=XLSXBook->addPicture(TmpImageFileBuff);
-					XLSXSheet->setPicture2(Row, 2, ImageID, g->GetImage().width(), g->GetImage().height());
+					
+					// 倍率は等倍（1.0）としてオリジナルサイズで貼り付け
+					worksheet_insert_image(XLSXSheet, Row, 2, TmpImageFileName.toUtf8().constData());
 				}
 				for(NGPoint *Rp=Pg->NPListPack<NGPoint>::GetFirst();Rp!=NULL;Rp=Rp->GetNext()){
 					int	TargetCx,TargetCy;

@@ -20,7 +20,8 @@
 #include <QApplication>
 #include <QProcess>
 #include <QThread>
-#include "Windows.h"
+#include "XForWindows.h"
+#include "XGeneralFunc.h"
 
 class	TmpThread : public QThread
 {
@@ -29,31 +30,6 @@ public:
 
 	static	void	TmpGSleep(unsigned int milisec){	msleep(milisec);	}
 };
-
-
-void	GSleep(unsigned int milisec)
-{
-	TmpThread::TmpGSleep(milisec);
-}
-
-
-
-bool KillProcess(DWORD dwProcessId, unsigned int uExitCode)
-{
-     DWORD dwDesiredAccess = PROCESS_TERMINATE;
-     BOOL  bInheritHandle  = false;
-     HANDLE hProcess = OpenProcess(dwDesiredAccess, bInheritHandle, dwProcessId);
-     if (hProcess == NULL)
-         return false;
- 
-     BOOL result = TerminateProcess(hProcess, uExitCode);
- 
-     CloseHandle(hProcess);
- 
-	 if(result==TRUE)
-		 return true;
-     return false;
-}
 
 
 int main(int argc, char *argv[])

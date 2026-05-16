@@ -540,7 +540,14 @@ bool	RecordMovie::StartRecording(const QString &filename
 	SharedMemForMovie->lock();
 	struct RecordHeaderStruct *HeaderPtr = (struct RecordHeaderStruct *)SharedMemForMovie->data();
 	CurrentFileName=filename;
+#ifdef _MSC_VER
+	// Windows (Visual Studio) 用
 	wcsncpy_s(HeaderPtr->FileName,1024,(wchar_t *)CurrentFileName.toStdWString().c_str(),_TRUNCATE);
+#else
+	// Linux / GCC 等用
+	wcsncpy(HeaderPtr->FileName, (wchar_t *)CurrentFileName.toStdWString().c_str(), 1023);
+	HeaderPtr->FileName[1023] = L'\0'; // 終端のNULL文字を保証
+#endif
 	HeaderPtr->MovieXSize	= MovieXSize;
 	HeaderPtr->MovieYSize	= MovieYSize;
 	HeaderPtr->LayerNumb	=GetLayerNumb(UsePage);

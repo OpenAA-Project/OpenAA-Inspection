@@ -26,8 +26,7 @@
 #include "XGUIPacketForDLL.h"
 #include "IntegrationLib.h"
 #include "XIntegrationPacketComm.h"
-#include "libxl.h"
-using namespace libxl;
+
 
 class	IntegrationNGCategorizedListForm;
 

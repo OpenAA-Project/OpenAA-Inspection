@@ -34,6 +34,7 @@
 #include "XMovieCommon.h"
 #include "XProcess.h"
 
+class   AddImageForMovie;
 class	AddImageForMovieThread;
 
 class	RecordMovie : public GUIFormBase

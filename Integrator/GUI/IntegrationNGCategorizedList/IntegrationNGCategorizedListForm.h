@@ -27,8 +27,7 @@
 #include "XIntegrationBase.h"
 #include "XDataInLayer.h"
 #include "IntegrationLib.h"
-#include "libxl.h"
-using namespace libxl;
+#include "xlsxwriter.h"
 
 namespace Ui {
 class IntegrationNGCategorizedListForm;
@@ -54,10 +53,9 @@ private:
     void    MakeList(void);
     QString	GetNGName(NGTypeList *p);
 
-	Book	*XLSXBook;
-	Sheet	*XLSXSheet;
-	Format	*Lang;
-	Font	*Fnt;
+	lxw_workbook	*XLSXBook	= NULL;
+	lxw_worksheet	*XLSXSheet	= NULL;
+	lxw_format		*Lang		= NULL;
 
     void	WriteCell (int Row, int Col ,const QString &Str);
     void	WriteCellV(int Row, int Col ,const QVariant &Data);

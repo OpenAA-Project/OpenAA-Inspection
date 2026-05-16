@@ -22,9 +22,8 @@
 #include "XGeneralFunc.h"
 #include <QStringList>
 #include "XDLLType.h"
-
-static	const	wchar_t	*ExcelUser	=L"MASATOSHI SASAI";
-static	const	wchar_t* ExcelKey = L"windows-252a28070ccee00f6fbd6d65ady7m2ue";
+#include <QFileDialog>
+#include <QDateTime>
 
 IntegrationNGCategorizedListForm::IntegrationNGCategorizedListForm(LayersBase *Base,QWidget *parent) :
     QWidget(parent)
@@ -37,7 +36,6 @@ IntegrationNGCategorizedListForm::IntegrationNGCategorizedListForm(LayersBase *B
 	XLSXBook	=NULL;
 	XLSXSheet	=NULL;
 	Lang		=NULL;
-	Fnt			=NULL;
 
 	if(GetLayersBase()->GetIntegrationBasePointer()!=NULL){
 		int	MachineCount=GetLayersBase()->GetIntegrationBasePointer()->GetIntegrationSlaveCount();
@@ -197,70 +195,50 @@ void IntegrationNGCategorizedListForm::resizeEvent(QResizeEvent *event)
 
 void	IntegrationNGCategorizedListForm::WriteCell(int Row, int Col ,const QString &Str)
 {
-	wchar_t	Buff[1000];
-	memset(Buff,0,sizeof(Buff));
-	Str.toWCharArray(Buff);
-
-	XLSXSheet->setCellFormat(Row, Col,Lang);
-	XLSXSheet->writeStr(Row, Col,Buff);
+	worksheet_write_string(XLSXSheet, Row, Col, Str.toUtf8().constData(), Lang);
 }
 
 void	IntegrationNGCategorizedListForm::WriteCellV(int Row, int Col ,const QVariant &Data)
 {
-	XLSXSheet->setCellFormat(Row, Col,Lang);
-
-	wchar_t	Buff[1000];
-	memset(Buff,0,sizeof(Buff));
 	if(Data.type()==QVariant::Bool){
 		if(Data.toBool()==true){
-			XLSXSheet->writeStr(Row, Col,L"true");
+			worksheet_write_boolean(XLSXSheet, Row, Col, 1, Lang);
 		}
 		else{
-			XLSXSheet->writeStr(Row, Col,L"false");
+			worksheet_write_boolean(XLSXSheet, Row, Col, 0, Lang);
 		}
 	}
 	else if(Data.type()==QVariant::Char){
 		QString	s(Data.toChar());
-		s.toWCharArray(Buff);	
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_string(XLSXSheet, Row, Col, s.toUtf8().constData(), Lang);
 	}
 	else if(Data.type()==QVariant::Date){
 		QString	s(Data.toDate().toString(Qt::TextDate));
-		s.toWCharArray(Buff);	
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_string(XLSXSheet, Row, Col, s.toUtf8().constData(), Lang);
 	}
 	else if(Data.type()==QVariant::DateTime){
 		QString	s(Data.toDateTime().toString(Qt::TextDate));
-		s.toWCharArray(Buff);	
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_string(XLSXSheet, Row, Col, s.toUtf8().constData(), Lang);
 	}
 	else if(Data.type()==QVariant::Double){
-		QString	s=QString::number(Data.toDouble(),'f');
-		s.toWCharArray(Buff);
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_number(XLSXSheet, Row, Col, Data.toDouble(), Lang);
 	}
 	else if(Data.type()==QVariant::Int){
-		QString	s=QString::number(Data.toInt());
-		s.toWCharArray(Buff);
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_number(XLSXSheet, Row, Col, Data.toDouble(), Lang);
 	}
 	else if(Data.type()==QVariant::String){
 		QString	s=Data.toString();
-		s.toWCharArray(Buff);
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_string(XLSXSheet, Row, Col, s.toUtf8().constData(), Lang);
 	}
 	else if(Data.type()==QVariant::Time){
 		QString	s(Data.toTime().toString(Qt::TextDate));
-		s.toWCharArray(Buff);	
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_string(XLSXSheet, Row, Col, s.toUtf8().constData(), Lang);
 	}
 	else if(Data.type()==QVariant::UInt){
-		QString	s=QString::number(Data.toUInt());
-		s.toWCharArray(Buff);
-		XLSXSheet->writeStr(Row, Col,Buff);
+		worksheet_write_number(XLSXSheet, Row, Col, Data.toDouble(), Lang);
 	}
 	else{
-		XLSXSheet->writeStr(Row, Col,L"Error");
+		worksheet_write_string(XLSXSheet, Row, Col, "Error", Lang);
 	}
 }
 
@@ -296,12 +274,10 @@ void IntegrationNGCategorizedListForm::on_pushButtonEXCEL_clicked()
 		return;
 	}
 
-	XLSXBook = xlCreateXMLBook();
-	XLSXBook->setKey(ExcelUser, ExcelKey);
-	XLSXSheet=XLSXBook->addSheet(L"Master");
+	XLSXBook = workbook_new(ExcelFileName.toUtf8().constData());
+	XLSXSheet = workbook_add_worksheet(XLSXBook, "Master");
 
-	Lang	=XLSXBook->addFormat();
-	Fnt	=XLSXBook->addFont();
+	Lang = workbook_add_format(XLSXBook);
 	QString	FontName;
 	switch(GetLayersBase()->GetLanguageCode()){
 		case 0:	FontName= /**/"ＭＳ Ｐゴシック";	break;
@@ -310,12 +286,7 @@ void IntegrationNGCategorizedListForm::on_pushButtonEXCEL_clicked()
 		case 3:	FontName= /**/"MingLiU";			break;
 		case 4:	FontName= /**/"Gulim";				break;
 	}
-	wchar_t	WBuff[100];
-	memset(WBuff, 0, sizeof(WBuff));
-	FontName.toWCharArray(WBuff);
-	Fnt->setName(WBuff);
-
-	Lang->setFont(Fnt);
+	format_set_font_name(Lang, FontName.toUtf8().constData());
 
 	WriteCell(0, 0,LangSolver.GetString(IntegrationNGCategorizedListForm_LS,LID_9)/*"作成日時"*/);
 	WriteCell(0, 1,QDateTime::currentDateTime().toString(Qt::TextDate));
@@ -357,12 +328,19 @@ void IntegrationNGCategorizedListForm::on_pushButtonEXCEL_clicked()
 			}
 		}
 	}
-	//ui->tableWidget->setRowCount(NGContainer.GetCount());
-	//for(NGTypeList *p=NGContainer.GetFirst();p!=NULL;p=p->GetNext(),Row++){
-	//	QString	NGName=GetNGName(p);
-	//	::SetDataToTable(ui->tableWidget,0, Row, NGName);
-	//	for(int i=0;i<MachineCount;i++){
-	//		::SetDataToTable(ui->tableWidget,i+1, Row, QString::number(p->Count[i]));
-	//	}
-	//}
+	
+	// セルへ実際の書き込みを行って出力する処理
+	// 元ソースでコメントアウトされていたため、libxlsxwriter用に復活させています
+	// 不要な場合はコメントアウトしたままでOKです
+	for(NGTypeList *p=NGContainer.GetFirst();p!=NULL;p=p->GetNext(),Row++){
+		QString	NGName=GetNGName(p);
+		WriteCell(Row, 0, NGName);
+		for(int i=0;i<MachineCount;i++){
+			WriteCell(Row, i+1, QString::number(p->Count[i]));
+		}
+	}
+
+	// 最後にファイルを保存してクローズする処理
+	workbook_close(XLSXBook);
+	XLSXBook = NULL;
 }

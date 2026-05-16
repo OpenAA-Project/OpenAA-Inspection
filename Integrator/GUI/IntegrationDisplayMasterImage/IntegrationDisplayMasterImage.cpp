@@ -346,22 +346,24 @@ void	IntegrationDisplayMasterImage::MakeImage(EachMaster *m)
 			Image[phase]=new QImage(width(),height(),QImage::Format_ARGB32);
 		}
 	}
-	if(Image>0){
+	if(Image!=NULL){
 		for(int phase=0;phase<PhaseNumb;phase++){
-			Image[phase]->fill(Qt::black);
-			for(int page=0;page<m->GetPageNumb();page++){
-				double	Zx=width()/((double)m->GetDotPerLine(phase,page));
-				double	Zy=height()/((double)m->GetMaxLines(phase,page));
-				ZoomRate=min(Zx,Zy);
-				XYData	*c=m->GetOutlineOffset(phase, page);
-				ImageBuffer	*IBuff[100];
-				for(int Layer=0;Layer<m->GetLayerNumb(phase,page);Layer++){
-					IBuff[Layer]=m->GetMasterImage(phase,page,Layer);
+			if(Image[phase]!=NULL){
+				Image[phase]->fill(Qt::black);
+				for(int page=0;page<m->GetPageNumb();page++){
+					double	Zx=width()/((double)m->GetDotPerLine(phase,page));
+					double	Zy=height()/((double)m->GetMaxLines(phase,page));
+					ZoomRate=min(Zx,Zy);
+					XYData	*c=m->GetOutlineOffset(phase, page);
+					ImageBuffer	*IBuff[100];
+					for(int Layer=0;Layer<m->GetLayerNumb(phase,page);Layer++){
+						IBuff[Layer]=m->GetMasterImage(phase,page,Layer);
+					}
+					m->DrawImage(Image[phase],*c
+								,phase,page
+								,IBuff
+								,ZoomRate,0,0);
 				}
-				m->DrawImage(Image[phase],*c
-							,phase,page
-							,IBuff
-							,ZoomRate,0,0);
 			}
 		}
 	}

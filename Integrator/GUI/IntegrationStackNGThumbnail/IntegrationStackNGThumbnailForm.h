@@ -41,6 +41,7 @@ class IntegrationStackNGThumbnailForm;
 class LargeWindowForm;
 class LargeMeasureWindowForm;
 class LargeColorDifferenceForm;
+class LargeFlatInspectionForm;
 
 class	ThumbnailPanel : public QWidget ,public NPList<ThumbnailPanel>
 {

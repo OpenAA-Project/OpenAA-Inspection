@@ -212,8 +212,12 @@ int main(int argc, char *argv[])
 		KillDupProcess(FInfo.fileName());
 		//return 100;
 	}
+	
+#ifdef _MSC_VER
+#ifdef __INTEL_COMPILER
 	kmp_set_stacksize_s(64000000);
-
+#endif
+#endif
     IntegrationPlayer w;
 	/*
     w.show();

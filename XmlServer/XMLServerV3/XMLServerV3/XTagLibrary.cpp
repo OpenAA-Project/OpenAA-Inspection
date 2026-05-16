@@ -21,6 +21,11 @@
 #include "XBsearch.h"
 #include "XUnicodeGeneralFunc.h"
 
+#ifndef _MSC_VER
+#include <wchar.h>
+#define _wcsicmp wcscasecmp
+#endif
+
 const	int	AddedCount=100;
 
 StringLibraryList::StringLibraryList(void)

@@ -68,10 +68,6 @@ private:
     Ui::IntegrationShowTotalForm *ui;
 	void	ShowData(void);
 
-	//Book		*XLSXBook;
-	//Sheet		*XLSXSheet;
-	//Format	*Lang;
-	//Font		*Fnt;
 	lxw_workbook	*XLSXBook	=NULL;
 	lxw_worksheet	*XLSXSheet	=NULL;
 	lxw_format		*Lang		=NULL;
