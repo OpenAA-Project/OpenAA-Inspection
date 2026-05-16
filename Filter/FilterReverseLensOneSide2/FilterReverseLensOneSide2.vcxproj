@@ -250,7 +250,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FilterReverseLensOneSide2.h" />
-    <ClInclude Include="filterreverselensoneside_global.h" />
     <QtMoc Include="SettingReverseLensOneside.h">
     </QtMoc>
   </ItemGroup>

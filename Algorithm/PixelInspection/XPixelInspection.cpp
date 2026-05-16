@@ -149,6 +149,16 @@ PixelThresholdSend::PixelThresholdSend(void)
 	PixData					=NULL;
 }
 
+PixelThresholdSend::~PixelThresholdSend(void)
+{
+	for(int i=0;i<3;i++){
+		delete	[]AverageBrightness[i];
+		AverageBrightness[i] = NULL;
+		delete	[]AverageBrightness2[i];
+		AverageBrightness2[i] = NULL;
+	}
+}
+
 void	PixelThresholdSend::ConstructList(PixelThresholdReq *reqPacket,PixelInspectionBase *Base)
 {
 	GlobalPage		=reqPacket->GlobalPage;
@@ -382,6 +392,14 @@ PixelTryThresholdSend::PixelTryThresholdSend(void)
 	InsTargetCoordX			=0;
 	InsTargetCoordY			=0;
 	InspectResult			=0;
+}
+
+PixelTryThresholdSend::~PixelTryThresholdSend(void)
+{
+	for(int i=0;i<3;i++){
+		delete	[]AverageBrightness[i];
+		AverageBrightness[i] = NULL;
+	}
 }
 
 void	PixelTryThresholdSend::ConstructList(PixelTryThresholdReq *reqPacket,PixelInspectionBase *Base)
@@ -3653,47 +3671,61 @@ REINS4_1:;
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
-		ts[0]=TargetImageList[0]->GetY(Y+dy);
-		ts[1]=TargetImageList[1]->GetY(Y+dy);
-		ts[2]=TargetImageList[2]->GetY(Y+dy);
-		for(dx=-Len;dx<Len;dx++){
-			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
+		if(0<=(Y+dy) && (Y+dy)<YLen
+		&& 0<=(X-Len) && (X+Len)<=XLen){
+			ts[0]=TargetImageList[0]->GetY(Y+dy);
+			ts[1]=TargetImageList[1]->GetY(Y+dy);
+			ts[2]=TargetImageList[2]->GetY(Y+dy);
+			for(dx=-Len;dx<Len;dx++){
+				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
 			}
 		}
 		dx=Len;
-		for(;dy<Len;dy++){
-			ts[0]=TargetImageList[0]->GetY(Y+dy);
-			ts[1]=TargetImageList[1]->GetY(Y+dy);
-			ts[2]=TargetImageList[2]->GetY(Y+dy);
-			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
+		if(0<=(X-Len) && (X+Len)<=XLen){
+			for(;dy<Len;dy++){
+				if(0<=(Y+dy) && (Y+dy)<YLen){
+					ts[0]=TargetImageList[0]->GetY(Y+dy);
+					ts[1]=TargetImageList[1]->GetY(Y+dy);
+					ts[2]=TargetImageList[2]->GetY(Y+dy);
+					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
+						return true;
+					}
+				}
 			}
 		}
 		dy=Len;
-		ts[0]=TargetImageList[0]->GetY(Y+dy);
-		ts[1]=TargetImageList[1]->GetY(Y+dy);
-		ts[2]=TargetImageList[2]->GetY(Y+dy);
-		for(;dx>-Len;dx--){
-			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dx=-Len;
-		for(;dy>-Len;dy--){
+		if(0<=(Y+dy) && (Y+dy)<YLen
+		&& 0<=(X-Len) && (X+Len)<=XLen){
 			ts[0]=TargetImageList[0]->GetY(Y+dy);
 			ts[1]=TargetImageList[1]->GetY(Y+dy);
 			ts[2]=TargetImageList[2]->GetY(Y+dy);
-			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
+			for(;dx>-Len;dx--){
+				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+		}
+		dx=-Len;
+		if(0<=(X-Len) && (X+Len)<=XLen){
+			for(;dy>-Len;dy--){
+				if(0<=(Y+dy) && (Y+dy)<YLen){
+					ts[0]=TargetImageList[0]->GetY(Y+dy);
+					ts[1]=TargetImageList[1]->GetY(Y+dy);
+					ts[2]=TargetImageList[2]->GetY(Y+dy);
+					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
+						return true;
+					}
+				}
 			}
 		}
 	}
@@ -3702,59 +3734,71 @@ REINS4_1:;
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
-		ts[0]=TargetImageList[0]->GetY(Y+dy);
-		ts[1]=TargetImageList[1]->GetY(Y+dy);
-		ts[2]=TargetImageList[2]->GetY(Y+dy);
-		for(dx=-Len;dx<Len;dx++){
-			struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			int SS=((Q->S+Q2->S)>>1);
-			int PP=((Q->P+Q2->P)>>1);
-			int RR=((Q->R+Q2->R)>>1);
-			if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
+		if(0<=(Y+dy) && (Y+dy)<YLen
+		&& 0<=(X-Len) && (X+Len)<=XLen){
+			ts[0]=TargetImageList[0]->GetY(Y+dy);
+			ts[1]=TargetImageList[1]->GetY(Y+dy);
+			ts[2]=TargetImageList[2]->GetY(Y+dy);
+			for(dx=-Len;dx<Len;dx++){
+				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				int SS=((Q->S+Q2->S)>>1);
+				int PP=((Q->P+Q2->P)>>1);
+				int RR=((Q->R+Q2->R)>>1);
+				if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
 			}
 		}
 		dx=Len;
-		for(;dy<Len;dy++){
-			ts[0]=TargetImageList[0]->GetY(Y+dy);
-			ts[1]=TargetImageList[1]->GetY(Y+dy);
-			ts[2]=TargetImageList[2]->GetY(Y+dy);
-			struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			int SS=((Q->S+Q2->S)>>1);
-			int PP=((Q->P+Q2->P)>>1);
-			int RR=((Q->R+Q2->R)>>1);
-			if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
+		if(0<=(Y+dy) && (Y+dy)<YLen
+		&& 0<=(X-Len) && (X+Len)<=XLen){
+			for(;dy<Len;dy++){
+				ts[0]=TargetImageList[0]->GetY(Y+dy);
+				ts[1]=TargetImageList[1]->GetY(Y+dy);
+				ts[2]=TargetImageList[2]->GetY(Y+dy);
+				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				int SS=((Q->S+Q2->S)>>1);
+				int PP=((Q->P+Q2->P)>>1);
+				int RR=((Q->R+Q2->R)>>1);
+				if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
 			}
 		}
 		dy=Len;
-		ts[0]=TargetImageList[0]->GetY(Y+dy);
-		ts[1]=TargetImageList[1]->GetY(Y+dy);
-		ts[2]=TargetImageList[2]->GetY(Y+dy);
-		for(;dx>-Len;dx--){
-			struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			int SS=((Q->S+Q2->S)>>1);
-			int PP=((Q->P+Q2->P)>>1);
-			int RR=((Q->R+Q2->R)>>1);
-			if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dx=-Len;
-		for(;dy>-Len;dy--){
+		if(0<=(Y+dy) && (Y+dy)<YLen
+		&& 0<=(X-Len) && (X+Len)<=XLen){
 			ts[0]=TargetImageList[0]->GetY(Y+dy);
 			ts[1]=TargetImageList[1]->GetY(Y+dy);
 			ts[2]=TargetImageList[2]->GetY(Y+dy);
-			struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			int SS=((Q->S+Q2->S)>>1);
-			int PP=((Q->P+Q2->P)>>1);
-			int RR=((Q->R+Q2->R)>>1);
-			if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
+			for(;dx>-Len;dx--){
+				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				int SS=((Q->S+Q2->S)>>1);
+				int PP=((Q->P+Q2->P)>>1);
+				int RR=((Q->R+Q2->R)>>1);
+				if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+		}
+		dx=-Len;
+		if(0<=(Y+dy) && (Y+dy)<YLen
+		&& 0<=(X-Len) && (X+Len)<=XLen){
+			for(;dy>-Len;dy--){
+				ts[0]=TargetImageList[0]->GetY(Y+dy);
+				ts[1]=TargetImageList[1]->GetY(Y+dy);
+				ts[2]=TargetImageList[2]->GetY(Y+dy);
+				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				int SS=((Q->S+Q2->S)>>1);
+				int PP=((Q->P+Q2->P)>>1);
+				int RR=((Q->R+Q2->R)>>1);
+				if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
 			}
 		}
 	}

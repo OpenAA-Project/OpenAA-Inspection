@@ -44,17 +44,12 @@
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="ShowSumTimerForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EditRemainTimeForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="EditRemainTimeFormResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,11 +58,6 @@
     <ClInclude Include="ShowSumTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="setmechanicaloffset_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    
-    
     <ClInclude Include="EditRemainTimeFormResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

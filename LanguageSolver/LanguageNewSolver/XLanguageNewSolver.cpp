@@ -22,7 +22,22 @@
 #include <QFile>
 #include <QFileInfo>
 #include <ctype.h>
+
+#ifdef _WIN32
 #include <mbstring.h>
+#else
+inline	int _ismbblead(unsigned int c)
+{
+    // Shift-JISの先行バイト（1バイト目）の有効範囲
+    // 1. 0x81 ～ 0x9F
+    // 2. 0xE0 ～ 0xFC
+    if ((c >= 0x81 && c <= 0x9F) || (c >= 0xE0 && c <= 0xFC)) {
+        return 1; // 2バイト文字の1バイト目である（真）
+    }
+    return 0; // 1バイト文字（半角）、または2バイト文字の2バイト目である（偽）
+}
+#endif
+
 #include <QTextStream>
 #include <QFileInfo>
 #include <QTextCodec>

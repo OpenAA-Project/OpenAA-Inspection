@@ -1038,6 +1038,9 @@
     <ClInclude Include="..\..\Open\XOpenAA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Open\XHistgramByParamTemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SelctArea.png">

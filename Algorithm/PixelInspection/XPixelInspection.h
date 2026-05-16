@@ -923,7 +923,7 @@ public:
 	PixelInsData	**PixData;				//�s�N�Z���f�[�^�i臒l�j
 
 	PixelThresholdSend(void);
-
+	~PixelThresholdSend(void);
 	void	ConstructList(PixelThresholdReq *reqPacket,PixelInspectionBase *Base);
 
 	bool	Save(QIODevice *f);
@@ -974,6 +974,7 @@ public:
 	uint64	InspectResult;				//�������ʃt���O
 
 	PixelTryThresholdSend(void);
+	~PixelTryThresholdSend(void);
 
 	void	ConstructList(PixelTryThresholdReq *reqPacket,PixelInspectionBase *Base);
 

@@ -302,7 +302,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FilterSmoothing.h" />
-    <ClInclude Include="filtersmoothing_global.h" />
     <QtMoc Include="SettingSmoothingForm.h">
     </QtMoc>
     <ClInclude Include="..\..\Open\XDLLOnly.h" />

@@ -37,6 +37,7 @@ public:
 	QProcess			Process;
 	qint64				PID;
 	qint64				PrID;
+	qint64				mExitCode;
 public:
 	QString	ExeFilePath;
 	QString	Parameter;

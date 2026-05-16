@@ -373,7 +373,6 @@
     <ClInclude Include="GeneralGroupSelfPasswordForm.h" />
     <QtMoc Include="GeneralGroup.h">
     </QtMoc>
-    <ClInclude Include="generalpanel_global.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="GeneralGroupSelfPasswordForm.ui">

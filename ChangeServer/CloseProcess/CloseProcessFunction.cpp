@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#ifdef _MSC_VER
 #include "Windows.h"
 #include <string.h>
 #include <time.h>
@@ -24,22 +25,22 @@
 
 bool	FindProcess(char *ProcessImageName);
 
-// �E�B���h�E�n���h�����擾���A�v���P�[�V�������I���������B
+// ウィンドウハンドルを取得しアプリケーションを終了させる。
 BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
 {
-    // CreateProcess()�Ŏ擾����PROCESS_INFORMATION�\���̂̃|�C���^���擾
+    // CreateProcess()で取得したPROCESS_INFORMATION構造体のポインタを取得
     PROCESS_INFORMATION* pi = (PROCESS_INFORMATION*)lParam;
 
-    // �E�C���h�E���쐬�����v���Z�XID���擾�B
+    // ウインドウを作成したプロセスIDを取得。
     DWORD lpdwProcessId = 0;
     ::GetWindowThreadProcessId(hWnd, &lpdwProcessId);
 
-    // CreateProcess�ŋN�������A�v���̃v���Z�XID�ƃ��C���E�B���h�E��
-    // �쐬�����v���Z�XID�������ꍇ�A�N�������A�v�����I���������B
+    // CreateProcessで起動したアプリのプロセスIDとメインウィンドウを
+    // 作成したプロセスIDが同じ場合、起動したアプリを終了させる。
     if(pi->dwProcessId == lpdwProcessId)
     {
         ::PostMessage(hWnd, WM_CLOSE, 0, 0);
-        return false;
+        return FALSE;
     }
     return TRUE;
 }
@@ -51,7 +52,7 @@ bool	CloseProcessFunction(char *ProcessImageName ,int MaxWaitForTerminte)
 	int nProc;
 	bool	ClosedMode=false;
 
-	// PID�ꗗ���擾
+	// PID一覧を取得
 	if (!::EnumProcesses(allProc, sizeof(allProc), &cbNeeded)) {
 		return false;
 	}
@@ -62,9 +63,9 @@ bool	CloseProcessFunction(char *ProcessImageName ,int MaxWaitForTerminte)
 
 		HANDLE hProcess = ::OpenProcess(
 			PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_TERMINATE	,
-			false, allProc[i]);
+			FALSE, allProc[i]);
 
-		// �v���Z�X�����擾
+		// プロセス名を取得
 		if (NULL != hProcess) {
 			HMODULE hMod;
 			DWORD cbNeeded;
@@ -78,7 +79,7 @@ bool	CloseProcessFunction(char *ProcessImageName ,int MaxWaitForTerminte)
 
 					PROCESS_INFORMATION pi;
 					pi.dwProcessId=allProc[i];
-					// �R�[���o�b�N�֐��̌Ăяo���B
+					// コールバック関数の呼び出し。
 					EnumWindows(EnumWindowsProc, (LPARAM)&pi);
 					ClosedMode=true;
 				}
@@ -102,7 +103,7 @@ bool	FindProcess(char *ProcessImageName)
 	DWORD cbNeeded;
 	int nProc;
 
-	// PID�ꗗ���擾
+	// PID一覧を取得
 	if (!::EnumProcesses(allProc, sizeof(allProc), &cbNeeded)) {
 		return false;
 	}
@@ -113,9 +114,9 @@ bool	FindProcess(char *ProcessImageName)
 
 		HANDLE hProcess = ::OpenProcess(
 			PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_TERMINATE	,
-			false, allProc[i]);
+			FALSE, allProc[i]);
 
-		// �v���Z�X�����擾
+		// プロセス名を取得
 		if (NULL != hProcess) {
 			HMODULE hMod;
 			DWORD cbNeeded;
@@ -133,3 +134,18 @@ bool	FindProcess(char *ProcessImageName)
     }
 	return false;
 }
+
+#else
+
+#include <QString>
+#include <QStringList>
+#include <QProcess>
+
+bool	CloseProcessFunction(char *ProcessImageName ,int MaxWaitForTerminte)
+{
+    // pkill -9 <プロセス名> を実行する
+    // -9 は SIGKILL (強制終了) を意味します
+    QProcess::execute("pkill", QStringList() << "-9" << QString::fromUtf8(ProcessImageName));
+}
+
+#endif

@@ -28,6 +28,7 @@
 #include "XServiceForLayers.h"
 #include "NListComp.h"
 
+
 class	AlgorithmInPageRoot;
 class	LayersBase;
 class	HistgramTypeListInAlgoContainer;
@@ -156,7 +157,7 @@ class	HistgramByParamBase : public NPList<HistgramByParamBase>
 	ValueDimStockerBase	*Base;
 public:
 	HistgramByParamBase(int id ,ValueDimStockerBase *base):ID(id),Base(base){}
-	~HistgramByParamBase(void);
+	virtual ~HistgramByParamBase(void);
 
 	virtual	HistgramByParamBase		*Clone(void)	=0;
 	int	GetTypeCode(void)	{	return	Base->GetTypeCode();	}
@@ -184,6 +185,7 @@ class	HistgramByParamByte : public HistgramByParamBase ,public ValueDimStocker<B
 {
 public:
 	HistgramByParamByte(int id):HistgramByParamBase(id,this){}
+	virtual ~HistgramByParamByte(void){}
 
 	virtual	HistgramByParamBase		*Clone(void)	override	{	return new HistgramByParamByte(GetID());	}
 	virtual	int		GetTypeCode(void)	override{	return 1;		}
@@ -209,6 +211,7 @@ class	HistgramByParamChar : public HistgramByParamBase ,public ValueDimStocker<c
 {
 public:
 	HistgramByParamChar(int id):HistgramByParamBase(id,this){}
+	virtual ~HistgramByParamChar(void){}
 
 	virtual	HistgramByParamBase		*Clone(void)	override	{	return new HistgramByParamChar(GetID());	}
 	virtual	int		GetTypeCode(void)	override{	return 2;		}
@@ -234,6 +237,7 @@ class	HistgramByParamInt : public HistgramByParamBase ,public ValueDimStocker<in
 {
 public:
 	HistgramByParamInt(int id):HistgramByParamBase(id,this){}
+	virtual ~HistgramByParamInt(void){}
 
 	virtual	HistgramByParamBase		*Clone(void)	override	{	return new HistgramByParamInt(GetID());	}
 	virtual	int	GetTypeCode(void)		override{	return 3;		}
@@ -258,6 +262,7 @@ class	HistgramByParamShort : public HistgramByParamBase ,public ValueDimStocker<
 {
 public:
 	HistgramByParamShort(int id):HistgramByParamBase(id,this){}
+	virtual ~HistgramByParamShort(void){}
 
 	virtual	HistgramByParamBase		*Clone(void)	override	{	return new HistgramByParamShort(GetID());	}
 	virtual	int	GetTypeCode(void)		override{	return 4;	}
@@ -283,6 +288,7 @@ class	HistgramByParamDouble : public HistgramByParamBase ,public ValueDimStocker
 {
 public:
 	HistgramByParamDouble(int id):HistgramByParamBase(id,this){}
+	virtual ~HistgramByParamDouble(void){}
 
 	virtual	HistgramByParamBase		*Clone(void)	override	{	return new HistgramByParamDouble(GetID());	}
 	virtual	int	GetTypeCode(void)		override{	return 5;	}
@@ -312,6 +318,7 @@ public:
 		:HistgramByParamBase(id,this),HistgramDimStocker<BYTE>(mindata ,maxdata){}
 	HistgramByBoundaryByte(int id )
 		:HistgramByParamBase(id,this){}
+	virtual ~HistgramByBoundaryByte(void){}
 
 	virtual	HistgramByParamBase		*Clone(void)	override
 			{	BYTE mn ,mx;	
@@ -343,6 +350,7 @@ public:
 		:HistgramByParamBase(id,this),HistgramDimStocker<char>(mindata ,maxdata){}
 	HistgramByBoundaryChar(int id )
 		:HistgramByParamBase(id,this){}
+	virtual ~HistgramByBoundaryChar(void){}
 
 	virtual	HistgramByParamBase		*Clone(void)	override
 			{	char mn ,mx;	
@@ -374,6 +382,7 @@ public:
 		:HistgramByParamBase(id,this),HistgramDimStocker<int>(mindata ,maxdata){}
 	HistgramByBoundaryInt(int id )
 		:HistgramByParamBase(id,this){}
+	virtual ~HistgramByBoundaryInt(void){}
 
 	virtual	HistgramByParamBase		*Clone(void)	override
 			{	int mn ,mx;	
@@ -404,6 +413,7 @@ public:
 		:HistgramByParamBase(id,this),HistgramDimStocker<short>(mindata ,maxdata){}
 	HistgramByBoundaryShort(int id )
 		:HistgramByParamBase(id,this){}
+	virtual ~HistgramByBoundaryShort(void){}
 
 	virtual	HistgramByParamBase		*Clone(void)	override
 			{	short mn ,mx;	
@@ -426,6 +436,7 @@ public:
 		:HistgramByParamBase(id,this),HistgramDimStocker<double>(mindata ,maxdata,step){}
 	HistgramByBoundaryDouble(int id )
 		:HistgramByParamBase(id,this){}
+	virtual ~HistgramByBoundaryDouble(void){}
 
 	virtual	HistgramByParamBase		*Clone(void)	override
 			{	double mn ,mx;	
@@ -450,6 +461,7 @@ class	HistgramInThreshold : public NPListPack<HistgramByParamBase>
 public:
 
 	HistgramInThreshold(AlgorithmItemRoot *item);
+	virtual ~HistgramInThreshold(void){}
 
 	void	Copy(const HistgramInThreshold &src);
 
@@ -580,6 +592,7 @@ public:
 	QString		HistName;
 
 	HistgramTypeListInAlgo(void){	HistID=-1;	}
+	virtual ~HistgramTypeListInAlgo(void){}
 
 	bool	Save(QIODevice *f);
 	bool	Load(QIODevice *f);
@@ -592,6 +605,7 @@ class	HistgramTypeListInAlgoContainer : public NPListPack<HistgramTypeListInAlgo
 {
 public:
 	HistgramTypeListInAlgoContainer(void){}
+	virtual ~HistgramTypeListInAlgoContainer(void){}
 
 	HistgramTypeListInAlgoContainer	&operator=(const HistgramTypeListInAlgoContainer &src);
 
@@ -823,6 +837,6 @@ public:
 
 bool	GetAverageByTable(double Table[] ,int TableCount ,double AdoptedRate ,double &Avr , double &VAdd);
 
-
+#include "XHistgramByParamTemplate.h"
 
 #endif

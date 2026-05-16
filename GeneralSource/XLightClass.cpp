@@ -399,6 +399,14 @@ void	LightClass::TransmitDirectly(GUIDirectMessage *packet)
 		f->TransmitDirectly(packet);
 	}
 }
+
+void	LightClass::SpecifiedDirectly(SpecifiedBroadcaster *v)
+{
+	LightDLLBaseClass	*f=GetHandle();
+	if(f!=NULL){
+		f->SpecifiedDirectly(v);
+	}
+}
 bool	LightClass::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
 {
 	LightDLLBaseClass	*f=GetHandle();
@@ -623,7 +631,13 @@ void	LightAccessList::SetLoadedDone(bool b)			{	return Interface->SetLoadedDone(
 void	LightAccessList::TransmitDirectly(GUIDirectMessage *packet)
 {
 	Interface->TransmitDirectly(packet);
-}	
+}
+
+void	LightAccessList::SpecifiedDirectly(SpecifiedBroadcaster *v)
+{
+	Interface->SpecifiedDirectly(v);
+}
+
 bool	LightAccessList::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
 {
 	return Interface->ReallocXYPixels(NewDotPerLine ,NewMaxLines);
@@ -933,6 +947,12 @@ void	LightClassPack::TransmitDirectly(GUIDirectMessage *packet)
 {
 	for(LightAccessList *a=GetFirst();a!=NULL;a=a->GetNext()){
 		a->TransmitDirectly(packet);
+	}
+}
+void	LightClassPack::SpecifiedDirectly(SpecifiedBroadcaster *v)
+{
+	for(LightAccessList *a=GetFirst();a!=NULL;a=a->GetNext()){
+		a->SpecifiedDirectly(v);
 	}
 }
 

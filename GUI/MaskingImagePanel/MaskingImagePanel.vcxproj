@@ -361,8 +361,6 @@
     </QtMoc>
     <ClInclude Include="MaskingImagePanelResource.h" />
     <ClInclude Include="maskingimagepanel_global.h" />
-    <ClInclude Include="..\..\Open\XMask.h" />
-    <ClInclude Include="..\..\GeneralSource\XMasking.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\MaskingImagePanel.png" />

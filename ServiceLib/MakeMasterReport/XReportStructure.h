@@ -19,7 +19,7 @@
 #if	!defined(XREPORTSTRUCTURE)
 #define	XREPORTSTRUCTURE
 
-#include<QThread.h>
+#include<QThread>
 #include"XDateTime.h"
 #include<QString>
 #include<QImage>

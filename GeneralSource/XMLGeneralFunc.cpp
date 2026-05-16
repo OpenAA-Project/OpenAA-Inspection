@@ -339,10 +339,10 @@ bool SearchXMLText(const QDomElement &elem, const QString &TagName, QString &Ret
 bool	GetXMLAttrStr (const QString &XMLSentense ,const QString &_AttrName ,QString &RetAttrValue)
 {
 	QDomDocument doc;
-	QDomDocument::ParseResult	bRet=doc.setContent(XMLSentense);
-	if(bRet.operator bool()==false){
+	if (!doc.setContent(XMLSentense)) {
 		return false;
 	}
+
 	QDomElement elem = doc.documentElement();
 	if(SearchXMLAttr(elem, "", _AttrName, RetAttrValue)){
 		return true;
@@ -512,7 +512,7 @@ bool	GetXMLAttrInt (const QString &XMLSentense ,const QString &_AttrName ,int &R
 bool	GetXMLValueStr(const QString &XMLSentense ,const QString &_TagName ,QString &RetTagValue)
 {
 	QDomDocument doc;
-	if(doc.setContent(XMLSentense).operator bool()==false){
+	if(!doc.setContent(XMLSentense)){
 		return false;
 	}
 	QDomElement elem = doc.documentElement();

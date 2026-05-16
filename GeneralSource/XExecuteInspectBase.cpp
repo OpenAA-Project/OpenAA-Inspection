@@ -886,7 +886,7 @@ void	ExecuteInspectBase::EmitAfterCalc		(void)
 		emit	SignalAfterCalc();
 	}
 }
-	
+
 void	ExecuteInspectBase::EmitCreatedResult	(void)
 {
 	if(EmitTimingFlag._EmitCreatedResult==true){

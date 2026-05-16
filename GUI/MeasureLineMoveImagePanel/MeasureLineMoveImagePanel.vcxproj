@@ -298,11 +298,11 @@
   <ItemGroup>
     <QtMoc Include="MeasureLineMoveImagePanel.h">
     </QtMoc>
+    <ClInclude Include="..\PropertyMeasureLineMove\XPropertyMeasureLineMovePacket.h" />
     <ClInclude Include="MeasureLineMoveImagePanelResource.h" />
     <ClInclude Include="measurelinemoveimagepanel_global.h" />
     <ClInclude Include="..\..\Open\XDLLOnly.h" />
     <ClInclude Include="..\..\Open\XDLLType.h" />
-    <ClInclude Include="..\PropertyMeasureLineMove\XMeasureLineMovePacket.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\MeasureLineMoveImagePanel.png" />

@@ -44,12 +44,9 @@
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="SetSpetialValueForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
     <ClCompile Include="SetSpetialValueResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,10 +55,6 @@
     <ClInclude Include="SetSpetialValue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="setmechanicaloffset_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    
     <ClInclude Include="SetSpetialValueResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

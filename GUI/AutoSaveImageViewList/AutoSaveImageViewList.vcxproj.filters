@@ -31,9 +31,6 @@
     <ClCompile Include="AutoSaveImageViewListForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FormSelectFolders.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -43,18 +40,10 @@
     <ClCompile Include="..\..\Algorithm\AutoSaveImage\XAutoSaveImagePacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    <ClCompile Include="generatedfiles\debug\moc_FormSelectFolders.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="generatedfiles\release\moc_FormSelectFolders.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="generatedfiles\qrc_AutoSaveImageViewList.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="AutoSaveImageViewListResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FormSelectFolders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,11 +51,10 @@
     <ClInclude Include="AutoSaveImageViewList_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    <ClInclude Include="generatedfiles\ui_FormSelectFolders.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="AutoSaveImageViewListResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FormSelectFolders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -82,17 +70,16 @@
     <QtMoc Include="AutoSaveImageViewListForm.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="FormSelectFolders.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtUic Include="AutoSaveImageViewListForm.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="FormSelectFolders.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtRcc Include="AutoSaveImageViewList.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="FormSelectFolders.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

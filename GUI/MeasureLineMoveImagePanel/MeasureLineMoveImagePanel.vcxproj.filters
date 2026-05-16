@@ -34,8 +34,6 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="generatedfiles\qrc_MeasureLineMoveImagePanel.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -53,10 +51,10 @@
     <ClInclude Include="..\..\Open\XDLLType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\PropertyMeasureLineMove\XMeasureLineMovePacket.h">
+    <ClInclude Include="MeasureLineMoveImagePanelResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MeasureLineMoveImagePanelResource.h">
+    <ClInclude Include="..\PropertyMeasureLineMove\XPropertyMeasureLineMovePacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

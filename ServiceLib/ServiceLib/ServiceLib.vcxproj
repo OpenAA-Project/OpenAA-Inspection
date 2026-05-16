@@ -959,6 +959,7 @@
     <ClInclude Include="..\..\Open\XGUILanguage.h" />
     <ClInclude Include="..\..\Open\XGUIPacketGeneral.h" />
     <ClInclude Include="..\..\Open\XHaspLib.h" />
+    <ClInclude Include="..\..\Open\XHistgramByParamTemplate.h" />
     <ClInclude Include="..\..\Open\XImageExpand.h" />
     <ClInclude Include="..\..\Open\XImagePNG.h" />
     <ClInclude Include="..\..\Open\XImagePngDef.h" />

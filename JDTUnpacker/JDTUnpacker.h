@@ -21,7 +21,7 @@
 
 #include <QDialog>
 #include <QEvent>
-#include "ui_jdtunpacker.h"
+#include "ui_JDTUnpacker.h"
 
 class JDTUnpacker : public QDialog
 {

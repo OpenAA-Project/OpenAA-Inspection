@@ -531,9 +531,11 @@ void PixelHistogramForm::pbCloseClicked()
 
 void	PixelHistogramForm::Update(int Index)
 {
-	int Red		=sbRed[Index]	->value();
-	int Green	=sbGreen[Index]	->value();
-	int Blue	=sbBlue[Index]	->value();
+	if (PoleTable == NULL) return;
+
+	int Red		=(sbRed[Index]	->value())&0xFF;
+	int Green	=(sbGreen[Index]->value())&0xFF;
+	int Blue	=(sbBlue[Index]	->value())&0xFF;
 	struct	PixelPoleMatrixStruct	*PT=&PoleTable[(Red<<16)+(Green<<8)+Blue];
 	leP[Index]->setText(QString::number(PT->P));
 	leS[Index]->setText(QString::number(PT->S));

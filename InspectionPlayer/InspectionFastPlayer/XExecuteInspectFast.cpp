@@ -39,6 +39,7 @@
 //#include "XSequence.h"
 #include "XPIOButton.h"
 #include "XLogOut.h"
+#include "XLightClass.h"
 #include "XResult.h"
 #include "swap.h"
 #include <omp.h>
@@ -445,6 +446,7 @@ void	ExecuteInspectFast::SpecifiedDirectly(SpecifiedBroadcaster *v)
 			}
 		}
 	}
+	GetLayersBase()->GetLightBase()->SpecifiedDirectly(v);
 	CmdReqInspectionRefresh	*CmdReqInspectionRefreshVar=dynamic_cast<CmdReqInspectionRefresh *>(v);
 	if(CmdReqInspectionRefreshVar!=NULL){
 		emit	SignalInspectionRefresh(GetLayersBase(),CmdReqInspectionRefreshVar->InspectionID);
@@ -1368,6 +1370,7 @@ IdleTurn:;
 			MotionMode	CurrentModeN=GetMode();
 
 			if(CurrentModeN==_CaptureOnlyMaster){
+				EmitBeforeScan();
 				SetCurrentTypeOfCapture(ExecuteInspectBase::_Master);
 				SetScanInfo(GetLayersBase()->GetCurrentStrategicNumber() ,true);
 
@@ -1397,6 +1400,7 @@ IdleTurn:;
 						}
 					}
 				}
+				
 				if(GetParamComm()->Mastered==true){
 					//GetLayersBase()->SetCurrentStrategicNumber(GetLayersBase()->GetCurrentStrategicNumberForSeq());
 				}
@@ -1440,6 +1444,7 @@ IdleTurn:;
 					SetMode(_CaptureNone);
 					goto	IdleTurn;
 				}
+				EmitAfterScan();
 			
 				if(GetEntryPoint()->IsMasterPC()==true){
 					SetCaptured(GetLayersBase()->GetCurrentStrategicNumber());
@@ -1447,13 +1452,16 @@ IdleTurn:;
 				if(IsLocalCamera()==true){	//SLAVE�̂Ƃ�
 					EmitSignalCaptured(GetLayersBase()->GetCurrentStrategicNumber());
 				}
+				
 				ResultInspection	*Res=GetLayersBase()->GetCurrentResultForCalc();
 				if(Res!=NULL){
+					
 					DataInExecuter	*Re=GetLayersBase()->GetExecuter(Res);
 					int	CStrategic=GetLayersBase()->GetCurrentStrategicNumber();
 					Re->ClearReceivedResultCounts();
 				
-					if(IsLocalCamera()==true){	//SLAVE�̂Ƃ�
+					if(IsLocalCamera()==true){	//SLAVE
+						EmitBeforeCalc();
 						DWORD	StartCalcTime=GetComputerMiliSec();
 						if(GetLayersBase()->GetOnTerminating()==true){
 							//CamRelease();
@@ -1473,6 +1481,7 @@ IdleTurn:;
 						SeqParam->InspactionStatus=2;
 						ListPhasePageLayerPack CapturedList;
 						CaptureGetMasterImage(CStrategic,CapturedList);
+						EmitSignalMasterImageCaptured();
 						FuncContainerInCaptureOnlyMaster.ExecuteFunc();
 
 						SeqParam->PermitCapture=false;
@@ -1511,6 +1520,7 @@ IdleTurn:;
 								GetLayersBase()->SetCurrentStrategicNumberForSeq(GetLayersBase()->GetCurrentStrategicNumberForCalc());
 							}
 						}
+						EmitAfterCalc();
 					}
 					else{	//Master�̂Ƃ�
 						//if(CStrategic==0)
@@ -1726,11 +1736,14 @@ IdleTurn:;
 					}
 
 					ListPhasePageLayerPack CapturedList;
-					if(GetCurrentCaptureSource()==_Target)
+					if(GetCurrentCaptureSource()==_Target){
 						CaptureGetTargetImage(CapturedList);
+						EmitSignalTargetImageCaptured();
+					}
 					else if(GetCurrentCaptureSource()==_Master){
 						int	CStrategic=Layer->GetCurrentStrategicNumber();
 						CaptureGetMasterImage(CStrategic,CapturedList);
+						EmitSignalMasterImageCaptured();
 					}
 					SeqParam->PermitCapture=false;
 

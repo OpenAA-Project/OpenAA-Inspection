@@ -64,6 +64,7 @@
       <AdditionalIncludeDirectories>..\..\Open;..\..\EditGUI\EditGUI;..\..\EditGUI\EditGUILib;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\GeneralSource;..\..\Integrator\IntegrationLib;..\..\ServiceLib\ServiceLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <OpenMP>GenerateParallelCode</OpenMP>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\..\EditGUI;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

@@ -102,6 +102,7 @@ public:
     ~CameraMVSLinear(void);
 
     bool    Initial(void);
+    void    Release(void);
 
     virtual	bool	ReallocXYPixels(int NewDotPerLine ,int NewMaxLines) override;
     bool	ChangeInfo(int XLen ,int YLen);

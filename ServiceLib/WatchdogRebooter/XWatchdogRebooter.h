@@ -20,7 +20,7 @@
 #define	XWatchdogRebooter_h
 
 #include "NListComp.h"
-#include <QIODevice.h>
+#include <QIODevice>
 #include <QLocalSocket>
 #include "XDateTime.h"
 

@@ -31,6 +31,7 @@
 #include "XDataInExe.h"
 #include "XGeneralFunc.h"
 #include "XExecuteInspectBase.h"
+#include "XHistgramByParam.h"
 #include "ThreadSequence.h"
 
 void	EntryPointForGlobal::LoopOnIdle(void)

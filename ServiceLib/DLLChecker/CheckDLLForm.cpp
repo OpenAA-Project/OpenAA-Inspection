@@ -31,7 +31,7 @@
 #include "XPIOButton.h"
 #include "XLightClass.h"
 #include "XSequence.h"
-#include "testsequencedlldialog.h"
+#include "TestSequenceDLLDialog.h"
 #include "SettingParameterDialog.h"
 #include "XExecuteVisualizer.h"
 #include "XExecuteVisualizerForLib.h"

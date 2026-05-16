@@ -257,7 +257,6 @@
     <ClInclude Include="..\..\Open\XDLLType.h" />
     <ClInclude Include="..\..\Open\XGUIDLL.h" />
     <ClInclude Include="ButtonLoadHistogramDataResource.h" />
-    <ClInclude Include="resource.h" />
     <QtMoc Include="ButtonLoadHistogramData.h">
     </QtMoc>
     <ClInclude Include="buttonloadhistogramdata_global.h" />

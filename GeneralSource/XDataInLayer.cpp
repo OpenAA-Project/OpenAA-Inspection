@@ -4361,6 +4361,7 @@ void	LayersBase::CloseAll(int _ReturnCode)
 	}
 	SetReturnCode(_ReturnCode);
 	OnTerminating=true;
+	GSleep(1000);
 	for(time_t t=time(NULL);time(NULL)-t<3;){
 		QApplication::processEvents();
 	}

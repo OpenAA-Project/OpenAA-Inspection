@@ -1844,6 +1844,12 @@ bool	LogicDLL::InitialAlloc(LayersBase *Base)
 	
 	QString	ParamFileName=GetDefaultFileName();
 	if(ParamFileName.isEmpty()==false){
+		if(GetParamGlobal()->AlgorithmParamPath.isEmpty()==false){
+			ParamFileName=GetParamGlobal()->AlgorithmParamPath+GetSeparator()+ParamFileName;
+		}
+		else{
+			ParamFileName=Base->GetSystemPath()+GetSeparator()+ParamFileName;
+		}
 		QFile	PFile(ParamFileName);
 		if(PFile.open(QIODevice::ReadOnly)==true){
 			if(InstBase!=NULL){

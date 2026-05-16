@@ -23,6 +23,17 @@
 #include "XTypeDef.h"
 #include <QString>
 
+#ifndef SW_HIDE
+#define SW_HIDE             0
+#define SW_NORMAL           1
+#define SW_SHOWMINIMIZED    2
+#define SW_MAXIMIZE         3
+#define SW_SHOW             5
+#define SW_MINIMIZE         6
+#define SW_RESTORE          9
+#endif
+
+
 bool	MtGetVolumeInformation(
   QString RootPathName,				// ルートディレクトリ
   QString &RetVolumeNameBuffer,     // ボリューム名バッファ

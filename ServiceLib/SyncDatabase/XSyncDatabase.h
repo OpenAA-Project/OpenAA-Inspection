@@ -23,7 +23,7 @@
 #include <QIODevice>
 #include <QDateTime>
 #include <QByteArray>
-#include <QSqldatabase>
+#include <QSqlDatabase>
 #include "XServiceForLayers.h"
 #include "XDatabase.h"
 

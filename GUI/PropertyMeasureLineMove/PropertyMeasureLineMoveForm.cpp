@@ -20,6 +20,7 @@
 #include "PropertyMeasureLineMoveForm.h"
 #include "XMeasureLineMove.h"
 #include "XMeasureLineMovePacket.h"
+#include "XPropertyMeasureLineMovePacket.h"
 #include "XCSV.h"
 #include "swap.h"
 #include "EditLibraryDialog.h"

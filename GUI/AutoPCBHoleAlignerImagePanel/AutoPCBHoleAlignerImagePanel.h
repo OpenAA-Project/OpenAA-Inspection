@@ -20,7 +20,7 @@
 #ifndef AutoPCBHoleAlignerIMAGEPANEL_H
 #define AutoPCBHoleAlignerIMAGEPANEL_H
 
-#include "AutoPCBHoleAlignerimagepanel_global.h"
+#include "autopcbholealignerimagepanel_global.h"
 #include "XDisplayImage.h"
 
 #include <QToolButton>

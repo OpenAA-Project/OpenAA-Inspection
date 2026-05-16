@@ -20,7 +20,7 @@
 #include "EditOutlineOffsetDialog.h"
 #include "ui_EditOutlineOffsetDialog.h"
 #include "XGeneralFunc.h"
-#include "XDataINLayer.h"
+#include "XDataInLayer.h"
 
 EditOutlineOffsetDialog::EditOutlineOffsetDialog(LayersBase *Base ,QWidget *parent) :
     QDialog(parent)

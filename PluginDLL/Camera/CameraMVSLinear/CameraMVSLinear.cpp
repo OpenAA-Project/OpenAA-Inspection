@@ -22,6 +22,7 @@
 #include "XDataInLayer.h"
 #include "XCriticalFunc.h"
 #include "XGeneralFunc.h"
+#include "XGUIFormBase.h"
 #include "ThreadSequence.h"
 #include "XExecuteInspectBase.h"
 #include "XEntryPoint.h"
@@ -123,10 +124,17 @@ CameraMVSLinear::CameraMVSLinear(int CamNo ,const QString &_ParamStr,LayersBase 
 }
 CameraMVSLinear::~CameraMVSLinear(void)
 {
-	Cam.Close();
+	Release();
+}
+
+void    CameraMVSLinear::Release(void)
+{
+    Cam.Close();
     for(int i=0;i<MaxCountCamBufferStack;i++){
-        delete  CamBuffDim[i];
-        CamBuffDim[i]=NULL;
+        if(CamBuffDim[i]!=NULL){
+            delete  CamBuffDim[i];
+            CamBuffDim[i]=NULL;
+        }
     }
 }
 
@@ -640,6 +648,12 @@ void    CameraMVSLinear::TransmitDirectly(GUIDirectMessage *packet)
 
 void    CameraMVSLinear::SpecifiedDirectly(SpecifiedBroadcaster *v)
 {
+	CloseApplicationSpecifiedBroadcaster *CloseApplicationSpecifiedBroadcasterVar = dynamic_cast<CloseApplicationSpecifiedBroadcaster *>(v);
+    if(CloseApplicationSpecifiedBroadcasterVar!=NULL){
+        HaltCapture();
+        Release();
+        return;
+	}
 }
 
 bool	CameraMVSLinear::Save(QIODevice *f)

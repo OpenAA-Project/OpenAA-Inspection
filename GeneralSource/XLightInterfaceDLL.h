@@ -110,6 +110,7 @@ public:
 	void	SetLoadedDone(bool b)	{	LoadedDone=b;	}
 
 	void	TransmitDirectly(GUIDirectMessage *packet);
+	void	SpecifiedDirectly(SpecifiedBroadcaster *v);
 	bool	ReallocXYPixels(int NewDotPerLine ,int NewMaxLines);
 	bool	Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb);
 	bool	Reallocate(int newPhaseNumb);

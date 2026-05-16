@@ -246,9 +246,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(LIBXLSXWRITER)\lib;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(LIBXLSXWRITER)\lib;..\..\Lib\Release;$(OPENXLSX)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Component.lib;ServiceLib.lib;CommonGUIDLL.lib;IntegrationLib.lib;ServiceExecutionEditor.lib;xlsxwriter.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Component.lib;ServiceLib.lib;CommonGUIDLL.lib;IntegrationLib.lib;ServiceExecutionEditor.lib;OpenXLSX.lib;xlsxwriter.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <StackReserveSize>128000000</StackReserveSize>
       <StackCommitSize>128000000</StackCommitSize>
     </Link>

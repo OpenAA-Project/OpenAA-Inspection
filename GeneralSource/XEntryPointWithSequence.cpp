@@ -30,6 +30,7 @@
 #include "XGUI.h"
 #include "XDataInExe.h"
 #include "XGeneralFunc.h"
+#include "XHistgramByParam.h"
 #include "XExecuteInspectBase.h"
 #include "ThreadSequence.h"
 

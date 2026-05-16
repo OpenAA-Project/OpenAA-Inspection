@@ -49,22 +49,14 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="GeneralGroupSelfPasswordForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
     <ClCompile Include="GeneralGroupResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="generalpanel_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    
     <ClInclude Include="GeneralGroupSelfPasswordForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -270,7 +270,6 @@
     <ClInclude Include="..\CheckEverydayImagePanel\XCheckEverydayGUIPacket.h" />
     <ClInclude Include="CheckEverydayResultHistory.h" />
     <ClInclude Include="CheckEverydayResultHistoryResource.h" />
-    <ClInclude Include="resource.h" />
     <QtMoc Include="CheckEverydayResultHistoryForm.h">
     </QtMoc>
     <ClInclude Include="checkeverydayresulthistory_global.h" />

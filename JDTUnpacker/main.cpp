@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "jdtunpacker.h"
+#include "JDTUnpacker.h"
 #include <QApplication>
 #include "XShowVersion.h"
 

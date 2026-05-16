@@ -19,7 +19,10 @@
 #include "XAutoStart.h"
 #include "XGeneralFunc.h"
 #include "XForWindows.h"
+#ifdef _MSC_VER
 #include "Windows.h"
+#endif
+
 #include <QApplication>
 #include <QGuiApplication>
 
@@ -99,21 +102,35 @@ bool	AutoStartExecution::StartProgram(void)
 
 void AutoStartExecution::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    if (exitStatus == QProcess::NormalExit) {
+        mExitCode=exitCode;
+    } else {
+        mExitCode=exitCode;
+    }
+    
 }
-
 bool	AutoStartExecution::IsFinished(void)
 {
 	if(PID!=0){
-		QString ProcessName;
-		PROCESS_INFORMATION *pi=(PROCESS_INFORMATION *)PID;
-		if(::GetProcessName(pi->dwProcessId ,ProcessName)==true)
-			return false;
+#ifdef _MSC_VER
+			QString ProcessName;
+			PROCESS_INFORMATION *pi=(PROCESS_INFORMATION *)PID;
+			if(::GetProcessName(pi->dwProcessId ,ProcessName)==true)
+				return false;
+#else
+
+		QString procPath = QString("/proc/%1").arg(PID);
+		QDir procDir(procPath);
+    
+		return procDir.exists();
+#endif
 	}
 	return true;
 }
 
 int		AutoStartExecution::GetExitCode(void)
 {
+#ifdef _MSC_VER
 	PROCESS_INFORMATION *pi=(PROCESS_INFORMATION *)PID;
 	if(pi!=NULL){
 		DWORD lpExitCode;
@@ -121,6 +138,9 @@ int		AutoStartExecution::GetExitCode(void)
 			return lpExitCode;
 	}
 	return 0;
+#else
+		return mExitCode;
+#endif
 }
 
 void	AutoStartExecution::Close(void)
@@ -135,6 +155,7 @@ void	AutoStartExecution::WaitForStarted(void)
 }
 void	AutoStartExecution::ResizeAlignment(QRect &Rect)
 {
+#ifdef _MSC_VER
 	PROCESS_INFORMATION *pi=(PROCESS_INFORMATION *)PID;
 		
 	QRect rect;
@@ -253,7 +274,28 @@ void	AutoStartExecution::ResizeAlignment(QRect &Rect)
 			}
 			break;
 	}
+#else
+    QString output = QString::fromUtf8(Process.readAllStandardOutput()).trimmed();
+    
+    if (output.isEmpty()) {
+        return;
+    }
 
+    // 1つのPIDに対して複数のウィンドウ(非表示のダイアログなど)が存在する場合があるため、最初のIDを取得
+    QStringList windowIds = output.split('\n');
+    QString mainWindowId = windowIds.first(); 
+
+    // 2. 取得したウィンドウIDに対して、移動とリサイズを実行する
+    QProcess modifyProcess;
+    QStringList args;
+    // コマンド: xdotool windowmove <WID> <X> <Y> windowsize <WID> <W> <H>
+    args << "windowmove" << mainWindowId << QString::number(Rect.x()) << QString::number(Rect.y())
+         << "windowsize" << mainWindowId << QString::number(Rect.width()) << QString::number(Rect.height());
+
+    modifyProcess.start("xdotool", args);
+ 
+    modifyProcess.waitForFinished(3000);
+#endif
 }
 
 AutoStartExeList::AutoStartExeList(const AutoStartExeList &src)

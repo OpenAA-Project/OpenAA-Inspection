@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef XMEASURELineMovePACKET_H
-#define XMEASURELineMovePACKET_H
+#ifndef XPropertyMEASURELineMovePACKET_H
+#define XPropertyMEASURELineMovePACKET_H
 
 #include "XGUIDLL.h"
 #include "XDLLOnly.h"

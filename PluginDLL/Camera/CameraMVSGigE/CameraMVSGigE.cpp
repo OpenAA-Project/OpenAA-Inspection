@@ -22,6 +22,7 @@
 #include "XDataInLayer.h"
 #include "XCriticalFunc.h"
 #include "XGeneralFunc.h"
+#include "XGUIFormBase.h"
 #include "ThreadSequence.h"
 #include "XExecuteInspectBase.h"
 #include "XEntryPoint.h"
@@ -130,6 +131,10 @@ CameraMVSGigE::~CameraMVSGigE(void)
     }
 }
 
+void    CameraMVSGigE::Release(void)
+{
+    Cam.Close();
+}
 
 bool    CameraMVSGigE::Initial(void)
 {
@@ -587,6 +592,11 @@ void    CameraMVSGigE::TransmitDirectly(GUIDirectMessage *packet)
 
 void    CameraMVSGigE::SpecifiedDirectly(SpecifiedBroadcaster *v)
 {
+	CloseApplicationSpecifiedBroadcaster *CloseApplicationSpecifiedBroadcasterVar = dynamic_cast<CloseApplicationSpecifiedBroadcaster *>(v);
+    if(CloseApplicationSpecifiedBroadcasterVar!=NULL){
+        HaltCapture();
+        return;
+	}
 }
 
 bool	CameraMVSGigE::Save(QIODevice *f)

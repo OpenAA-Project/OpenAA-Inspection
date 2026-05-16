@@ -17,6 +17,7 @@
  */
 
 #include "XMeasureLineMovePacket.h"
+#include "XPropertyMeasureLineMovePacket.h"
 #include "XMeasureLineMove.h"
 
 

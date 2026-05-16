@@ -115,9 +115,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\GeneralSource\XDLLType.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="..\..\Open\XErrorCode.h">
       <Filter>Header Files</Filter>
     </CustomBuild>

@@ -281,7 +281,6 @@
     <ClInclude Include="ShowSumTimer.h" />
     <QtMoc Include="ShowSumTimerForm.h">
     </QtMoc>
-    <ClInclude Include="setmechanicaloffset_global.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ShowSumTimerForm.ui">

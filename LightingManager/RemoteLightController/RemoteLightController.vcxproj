@@ -240,7 +240,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>..\..\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Component.lib;Psapi.Lib;ServiceLib.lib;ForWindows.lib;comctl32.lib;ws2_32.lib;mpr.lib;version.lib;EditPasswordOnControl.lib;IntegrationLib.lib;ServiceExecutionEditor.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>

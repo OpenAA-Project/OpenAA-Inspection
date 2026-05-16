@@ -49,8 +49,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServiceExecutionPlayer", "S
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServiceExecutionEditorWithSequence", "ServiceExecutionEditorWithSequence\ServiceExecutionEditorWithSequence.vcxproj", "{66D1EF5D-8858-4C6D-A310-ACD520A850C5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ForLinux", "ForLinux\ForLinux.vcxproj", "{819F45CB-E017-4146-8F7F-6B2064F1D5A2}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServiceExecutionShadow", "ServiceExecutionShadow\ServiceExecutionShadow.vcxproj", "{44C0762C-EA47-4947-BF11-4101139CB01C}"
 EndProject
 Global
@@ -300,16 +298,6 @@ Global
 		{66D1EF5D-8858-4C6D-A310-ACD520A850C5}.Template|Win32.Build.0 = Debug|x64
 		{66D1EF5D-8858-4C6D-A310-ACD520A850C5}.Template|x64.ActiveCfg = Debug|x64
 		{66D1EF5D-8858-4C6D-A310-ACD520A850C5}.Template|x64.Build.0 = Debug|x64
-		{819F45CB-E017-4146-8F7F-6B2064F1D5A2}.Debug|Win32.ActiveCfg = Debug|x64
-		{819F45CB-E017-4146-8F7F-6B2064F1D5A2}.Debug|x64.ActiveCfg = Debug|x64
-		{819F45CB-E017-4146-8F7F-6B2064F1D5A2}.Debug|x64.Build.0 = Debug|x64
-		{819F45CB-E017-4146-8F7F-6B2064F1D5A2}.Release|Win32.ActiveCfg = Release|x64
-		{819F45CB-E017-4146-8F7F-6B2064F1D5A2}.Release|x64.ActiveCfg = Release|x64
-		{819F45CB-E017-4146-8F7F-6B2064F1D5A2}.Release|x64.Build.0 = Release|x64
-		{819F45CB-E017-4146-8F7F-6B2064F1D5A2}.Template|Win32.ActiveCfg = Debug|x64
-		{819F45CB-E017-4146-8F7F-6B2064F1D5A2}.Template|Win32.Build.0 = Debug|x64
-		{819F45CB-E017-4146-8F7F-6B2064F1D5A2}.Template|x64.ActiveCfg = Debug|x64
-		{819F45CB-E017-4146-8F7F-6B2064F1D5A2}.Template|x64.Build.0 = Debug|x64
 		{44C0762C-EA47-4947-BF11-4101139CB01C}.Debug|Win32.ActiveCfg = Debug|x64
 		{44C0762C-EA47-4947-BF11-4101139CB01C}.Debug|x64.ActiveCfg = Debug|x64
 		{44C0762C-EA47-4947-BF11-4101139CB01C}.Debug|x64.Build.0 = Debug|x64
@@ -329,9 +317,9 @@ Global
 		{DCA5DA09-AC94-4F6E-9DED-9B5979564393} = {DCFAD182-254E-4BDB-9E9C-F60F28D48D30}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FBBDCDCC-8229-4739-8297-089151B7BA01}
-		QtVersion = $(DefaultQtVersion)
 		Qt5Version = $(DefaultQtVersion)
+		QtVersion = $(DefaultQtVersion)
+		SolutionGuid = {FBBDCDCC-8229-4739-8297-089151B7BA01}
 	EndGlobalSection
 	GlobalSection(Qt) = preSolution
 		Integration = True

@@ -54,19 +54,12 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
-    
     <ClCompile Include="DisplayMasterImageResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="displaymasterimage_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\GeneralSource\XCrossObj.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Open\XDLLOnly.h">
@@ -98,9 +91,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <CustomBuild Include="XCmdPacket.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\..\..\Open\XDataInLayer.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <QtRcc Include="DisplayMasterImage.qrc">

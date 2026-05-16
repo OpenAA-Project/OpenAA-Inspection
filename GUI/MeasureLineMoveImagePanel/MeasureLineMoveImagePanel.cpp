@@ -20,6 +20,7 @@
 
 #include "MeasureLineMoveImagePanel.h"
 #include "XMeasureLineMovePacket.h"
+#include "XPropertyMeasureLineMovePacket.h"
 
 #include "XCrossObj.h"
 #include "XGUI.h"

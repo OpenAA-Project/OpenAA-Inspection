@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "testsequencedlldialog.h"
-#include "ui_testsequencedlldialog.h"
+#include "TestSequenceDLLDialog.h"
+#include "ui_TestSequenceDLLDialog.h"
 #include "XSequence.h"
 
 TestSequenceDLLDialog::TestSequenceDLLDialog(DLLVarOperand *D,QWidget *parent) :

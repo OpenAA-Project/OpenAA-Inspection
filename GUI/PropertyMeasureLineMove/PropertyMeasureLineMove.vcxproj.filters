@@ -52,34 +52,22 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XMeasureLineMovePacket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    
-    
-    
-    
-    
-    
     <ClCompile Include="EditLibraryDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="SelectLibraryDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Algorithm\MeasureLineMove\XMeasureLineMoveCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="EditLineMoveDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PropertyMeasureLineMoveFormResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XPropertyMeasureLineMovePacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -96,14 +84,13 @@
     <ClInclude Include="..\..\Open\XDLLType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="XMeasureLineMovePacket.h">
+    <ClInclude Include="PropertyMeasureLineMoveFormResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    
-    
-    
-    <ClInclude Include="PropertyMeasureLineMoveFormResource.h">
+    <ClInclude Include="XPropertyMeasureLineMovePacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Algorithm\MeasureLineMove\XMeasureLineMovePacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

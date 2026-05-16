@@ -52,6 +52,7 @@ public:
 	virtual	~LightDLLBaseClass(void){}
 
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet){}
+	virtual	void	SpecifiedDirectly(SpecifiedBroadcaster *v){}
 	virtual	void	LoopOnIdle(void){}
 
 	virtual	bool	Save(QIODevice *f)						=0;
@@ -137,6 +138,7 @@ public:
 	void	SetLoadedDone(bool b);
 
 	void	TransmitDirectly(GUIDirectMessage *packet);	
+	void	SpecifiedDirectly(SpecifiedBroadcaster *v);
 	bool	ReallocXYPixels(int NewDotPerLine ,int NewMaxLines);
 	bool	Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb);
 	bool	Reallocate(int newPhaseNumb);
@@ -168,6 +170,7 @@ public:
 	virtual	bool	Save(QIODevice *str);
 
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet);
+	virtual	void	SpecifiedDirectly(SpecifiedBroadcaster *v);
 	bool	ReallocXYPixels(int NewDotPerLine ,int NewMaxLines);
 	bool	Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb);
 	bool	Reallocate(int newPhaseNumb);

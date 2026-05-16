@@ -86,9 +86,6 @@
     <ResourceCompile Include="EditGlobalOnMaster.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\EditGUI\EditGUILib.lib" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\..\..\Users\Downstream\Desktop\EditGlobalonMaster\EditGlobalonMaster.ico" />
   </ItemGroup>
 </Project>

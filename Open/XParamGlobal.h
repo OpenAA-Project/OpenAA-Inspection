@@ -211,6 +211,7 @@ public:
 	QString	ImageFilePath;
 	int		ImageFileCachePort;
 	QString	ArrangementDLLPath;
+	QString	AlgorithmParamPath;
 	int32	MaxHistoryCounts;
 	QString	NetworkDrive1;
 	QString	NetworkDrive2;

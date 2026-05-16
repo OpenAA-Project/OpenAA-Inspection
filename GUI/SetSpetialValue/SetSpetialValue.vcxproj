@@ -278,7 +278,6 @@
     <ClInclude Include="SetSpetialValueResource.h" />
     <QtMoc Include="SetSpetialValueForm.h">
     </QtMoc>
-    <ClInclude Include="setmechanicaloffset_global.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="SetSpetialValueForm.ui">

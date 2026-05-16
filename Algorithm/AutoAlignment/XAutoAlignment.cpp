@@ -909,6 +909,12 @@ void	AutoAlignmentInPage::TransmitDirectly(GUIDirectMessage *packet)
 						break;
 					}
 				}
+				else{
+					delete	LibList[CountLibList];
+				}
+			}
+			else{
+				delete	LibList[CountLibList];
 			}
 		}
 		bool	RetryMode;

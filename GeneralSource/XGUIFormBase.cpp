@@ -292,7 +292,7 @@ void IconResizeFilter::Execute(void)
 		if (OriginalIcon.isNull()) return;
 
 		QSize btnSize = btn->size();
-		int BorderWidth=0;
+		int BorderWidth=2;
 		//if(actualSize.width()<btnSize.width() || actualSize.height()<btnSize.height()){
 		//	BorderWidth=0;
 		//}

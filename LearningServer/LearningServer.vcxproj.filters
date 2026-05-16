@@ -60,12 +60,6 @@
     <ClCompile Include="XServerLayerBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="generatedfiles\debug\moc_LearningSettingDialog.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="generatedfiles\release\moc_LearningSettingDialog.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Open\XShowVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,11 +78,6 @@
     <ClCompile Include="ConfirmForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="generatedfiles\ui_LearningSettingDialog.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LearningServer.h">

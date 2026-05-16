@@ -122,6 +122,7 @@ public:
     ~CameraMVSGigE(void);
 
     bool    Initial(void);
+    void    Release(void);
 	bool	RecoverFromError(void);
 
     bool	ChangeInfo(int XLen ,int YLen);

@@ -44,8 +44,6 @@
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="CheckEverydayResultHistoryForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -55,7 +53,6 @@
     <ClCompile Include="..\..\Algorithm\CheckEveryday\XCheckEverydayCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
     <ClCompile Include="CheckEverydayResultHistoryResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -67,11 +64,7 @@
     <ClInclude Include="checkeverydayresulthistory_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
     <ClInclude Include="..\CheckEverydayImagePanel\XCheckEverydayGUIPacket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CheckEverydayResultHistoryResource.h">

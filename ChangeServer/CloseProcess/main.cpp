@@ -36,23 +36,32 @@ int main(int argc, char *argv[])
 	int	MaxWaitForTerminte=0;
 
 	char ProcessImageName[256];
-	for(int i=0;i<argc;i++){
-		if(stricmp(argv[i],"/?")==0){
-			ShowHelp();
-			break;
-		}
-		else if(stricmp(argv[i],"-?")==0){
-			ShowHelp();
-			break;
-		}
-		else if(strnicmp(argv[i],"-W",2)==0){
-			char	*fp=argv[i]+2;
-			sscanf(fp,"%d",&MaxWaitForTerminte);
-		}
-		else{
-			strcpy(ProcessImageName,argv[i]);
-		}
-	}
+    for(int i=0; i<argc; i++){
+        // C文字列をQtのQStringに変換して扱いやすくする
+        QString arg = QString::fromLocal8Bit(argv[i]);
+
+        // stricmp(argv[i], "/?") のQt版代替
+        if(arg.compare("/?", Qt::CaseInsensitive) == 0){
+            ShowHelp();
+            break;
+        }
+        // stricmp(argv[i], "-?") のQt版代替
+        else if(arg.compare("-?", Qt::CaseInsensitive) == 0){
+            ShowHelp();
+            break;
+        }
+        // strnicmp(argv[i], "-W", 2) のQt版代替（-Wから始まるかどうかの判定）
+        else if(arg.startsWith("-W", Qt::CaseInsensitive)){
+            // "-W"より後ろの文字列を切り出して整数に変換 (sscanfの代わり)
+            MaxWaitForTerminte = arg.mid(2).toInt();
+        }
+        else{
+            // QStringからC言語の配列へコピー
+            QByteArray bytes = arg.toLocal8Bit();
+            strncpy(ProcessImageName, bytes.constData(), sizeof(ProcessImageName) - 1);
+            ProcessImageName[sizeof(ProcessImageName) - 1] = '\0'; // バッファオーバーラン対策
+        }
+    }
 	CloseProcessFunction(ProcessImageName,MaxWaitForTerminte);
 
 

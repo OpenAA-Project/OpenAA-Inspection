@@ -352,9 +352,11 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="PropertyMeasureLineMoveFormResource.cpp" />
     <ClCompile Include="SelectLibraryDialog.cpp" />
-    <ClCompile Include="XMeasureLineMovePacket.cpp" />
+    <ClCompile Include="XPropertyMeasureLineMovePacket.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Algorithm\MeasureLineMove\XMeasureLineMovePacket.h" />
+    <ClInclude Include="XPropertyMeasureLineMovePacket.h" />
     <QtMoc Include="EditLibraryDialog.h">
     </QtMoc>
     <QtMoc Include="EditLineMoveDialog.h">
@@ -368,7 +370,6 @@
     <ClInclude Include="..\..\Open\XDLLType.h" />
     <QtMoc Include="SelectLibraryDialog.h">
     </QtMoc>
-    <ClInclude Include="XMeasureLineMovePacket.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="PropertyMeasureLineMoveForm.ui">

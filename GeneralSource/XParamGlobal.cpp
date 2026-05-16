@@ -346,6 +346,7 @@ ParamGlobal::ParamGlobal(LayersBase *base)
 	FilterDLLPath			=/**/"Filter";
 	FilterDefFile			=/**/"ConfigFilter.dat";
 	CommentFileName			=/**/"CommentDef.dat";
+	AlgorithmParamPath		=/**/"";
 	MinLearningSize			=256;
 	MaxLearningSize			=1000;
 	MakeHistgramData		=true;
@@ -523,6 +524,7 @@ ParamGlobal::ParamGlobal(LayersBase *base)
 	SetParamFileName(&CameraSetting_FileName4,/**/"File"	,/**/"CameraSetting_FileName4"	,LangLibSolver.GetString(XParamGlobal_LS,LID_54)/*"4th Camera-Setting file name"*/					,0);
 	SetParamFileName(&CameraAllocation4		,/**/"PlugIn"	,/**/"CameraAllocation4"			,LangLibSolver.GetString(XParamGlobal_LS,LID_56)/*"4th Camera number(0,1,...)"*/			,0);
 	SetParamFileName(&CameraParameter4		,/**/"PlugIn"	,/**/"CameraParameter4"		,LangLibSolver.GetString(XParamGlobal_LS,LID_77)/*"Camera parameter for Cam4"*/			,0);
+	SetParamFileName(&AlgorithmParamPath	,/**/"File"	,/**/"AlgorithmParamPath"		,"Algorithm parameter path,(Empty is allication path)"				,0);
 	SetParamFileName(&Sequence_FileName		,/**/"File"	,/**/"Sequence_FileName"		,LangLibSolver.GetString(XParamGlobal_LS,LID_208)/*"Sequence control file name"*/				,0);
 	SetParamFileName(&IODefine_FileName		,/**/"File"	,/**/"IODefine_FileName"		,LangLibSolver.GetString(XParamGlobal_LS,LID_211)/*"I/O definition file name"*/					,0);
 	SetParamFileName(&LocalDatabase_FileName,/**/"File" ,/**/"LocalDatabase_FileName"	,LangLibSolver.GetString(XParamGlobal_LS,LID_214)/*"Local database file name with path"*/		,0);
