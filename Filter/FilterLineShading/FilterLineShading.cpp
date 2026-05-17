@@ -248,7 +248,7 @@ bool	FilterLineShading::Release(void)
 bool	FilterLineShading::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
 {
 	if(XLen==NewDotPerLine)
-		return;
+		return true;
 	return FilterClassBase::ReallocXYPixels(NewDotPerLine ,NewMaxLines);
 }
 

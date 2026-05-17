@@ -27,6 +27,14 @@
 #include "XEntryPoint.h"
 #include "ShowCameraDialog.h"
 
+#ifndef _MSC_VER
+#include <stdio.h>
+#include <string.h>
+#define sprintf_s snprintf
+#define strcpy_s(dest, size, src) strncpy(dest, src, size); dest[(size)-1] = '\0'
+#endif
+
+
 static  void    FuncCameraOutput(unsigned char * pData, MV_FRAME_OUT_INFO_EX* pFrameInfo, void* pUser);
 
 
@@ -260,7 +268,7 @@ bool    CameraMVSUSB::ReqSystemChange(CameraReqSystemChangeInfo &caminfo)
 
 bool    CameraMVSUSB::SetLineCount(int _YLen)
 {
-    ChangeInfo(XLen ,_YLen);
+    return ChangeInfo(XLen ,_YLen);
 }
 bool    CameraMVSUSB::ShowSetting(void)
 {
@@ -300,6 +308,7 @@ bool    CameraMVSUSB::ShowSetting(void)
 
 bool    CameraMVSUSB::PrepareCapture()
 {
+    return true;
 }
 bool    CameraMVSUSB::StartCapture()
 {
@@ -773,6 +782,7 @@ bool    CameraMVSUSB::SetBinningDecimation(void)
     if(IsGrabbing==true){
         Cam.StartGrabbing();
     }
+    return true;
 }
 
     

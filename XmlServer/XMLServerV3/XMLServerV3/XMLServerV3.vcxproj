@@ -64,6 +64,7 @@
       <AdditionalIncludeDirectories>..\..\..\OpenSource\Component;..\..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <OpenMP>GenerateParallelCode</OpenMP>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -102,7 +103,7 @@
     <ClCompile Include="..\..\..\GeneralSource\XNamedPipe.cpp" />
     <ClCompile Include="..\..\..\GeneralSource\XUnicodeGeneralFunc.cpp" />
     <ClCompile Include="..\..\..\Open\XShowVersion.cpp" />
-    <ClCompile Include="XTagLibtary.cpp" />
+    <ClCompile Include="XTagLibrary.cpp" />
     <QtRcc Include="XMLServerV3.qrc" />
     <QtUic Include="SettingParamForm.ui" />
     <QtUic Include="ShowTableDialog.ui" />

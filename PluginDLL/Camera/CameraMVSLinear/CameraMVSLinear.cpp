@@ -28,6 +28,13 @@
 #include "XEntryPoint.h"
 #include "SettingLinearCameraDialog.h"
 
+#ifndef _MSC_VER
+#include <stdio.h>
+#include <string.h>
+#define sprintf_s snprintf
+#define strcpy_s(dest, size, src) strncpy(dest, src, size); dest[(size)-1] = '\0'
+#endif
+
 static  void    FuncCameraOutput(unsigned char * pData, MV_FRAME_OUT_INFO_EX* pFrameInfo, void* pUser);
 
 
@@ -848,17 +855,17 @@ bool CameraMVSLinear::SetRGBGain()
         return false;
 	}
 	if(Cam.SetEnumValueByString("BalanceRatioSelector", "Red")==MV_OK){
-		if(Cam.SetIntValue("BalanceRatio",(int64)GainR)!=MV_OK){
+		if(Cam.SetIntValue("BalanceRatio",(int64_t)GainR)!=MV_OK){
 	        return false;
 		}
 	}
 	if(Cam.SetEnumValueByString("BalanceRatioSelector", "Green")==MV_OK){
-		if(Cam.SetIntValue("BalanceRatio",(int64)GainG)!=MV_OK){
+		if(Cam.SetIntValue("BalanceRatio",(int64_t)GainG)!=MV_OK){
 	        return false;
 		}
 	}
 	if(Cam.SetEnumValueByString("BalanceRatioSelector", "Blue")==MV_OK){
-		if(Cam.SetIntValue("BalanceRatio",(int64)GainB)!=MV_OK){
+		if(Cam.SetIntValue("BalanceRatio",(int64_t)GainB)!=MV_OK){
 	        return false;
 		}
 	}
@@ -884,7 +891,7 @@ int CameraMVSLinear::GetLineRate()
 int CameraMVSLinear::SetLineRate()
 {
     int64 Value64=LineRate ;
-    return Cam.SetIntValue("AcquisitionLineRate", Value64);
+    return Cam.SetIntValue("AcquisitionLineRate", (int64_t)Value64);
 }
 
 
@@ -947,7 +954,7 @@ bool	CameraMVSLinear::GetIntValue	 (const char* strKey ,int64 &CurrentValue ,int
 }
 bool	CameraMVSLinear::SetIntValue	 (const char* strKey ,int64 &CurrentValue)
 {
-    int Ret=Cam.SetIntValue(strKey, CurrentValue);
+    int Ret=Cam.SetIntValue(strKey, (int64_t)CurrentValue);
     if(Ret==MV_OK){
         return true;
     }
@@ -1142,7 +1149,7 @@ bool    CameraMVSLinear::SetBlackLevel(void)
         return false;
     }
     if(BlackLevelEnable==true){
-        nRet=Cam.SetIntValue("BlackLevel",(int64)BlackLevel);
+        nRet=Cam.SetIntValue("BlackLevel",(int64_t)BlackLevel);
         if (MV_OK != nRet){
             return false;
         }

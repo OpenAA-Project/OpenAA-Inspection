@@ -21,8 +21,8 @@
 #include "XTypeDef.h"
 #include "XDLLType.h"
 #include "XGeneralFunc.h"
-#include <QDir.h>
-#include <QFile.h>
+#include <QDir>
+#include <QFile>
 
 #include "XLockStarKey.h"
 #include "LockStarDLL.h"

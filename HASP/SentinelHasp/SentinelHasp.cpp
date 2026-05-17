@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2025
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -22,8 +22,8 @@
 #include "XTypeDef.h"
 #include "XDLLType.h"
 #include "XGeneralFunc.h"
-#include <QDir.h>
-#include <QFile.h>
+#include <QDir>
+#include <QFile>
 #include <QMessageBox>
 #include "hasplib.h"
 #include "swap.h"
@@ -153,28 +153,28 @@ QString  SentinelHasp::GetID(char *C)
 
 void SentinelHasp::Fukugou(int ID,QByteArray ReData, QByteArray &fukugou)
 {
-	//�V���A���R�[�h�̉�3�����g�p����������
+	//?V???A???R?[?h???3?????g?p??????????
 	fukugou.clear();
 	QStringList List;
 	List.clear();
-	//QByteArray��QStringList(swap�֐����g����)
+	//QByteArray??QStringList(swap??????g????)
 	for (int iA=0; iA<=47; iA++){
 		List.append(ReData.mid(iA,1));
 	}
-	//�Í������ꂽ���̍Ō��̔ԍ����Ƃ�
+	//?I??????????????????????
 	int iNum=0;
 	for (int iAn=0; iAn<=QByteArray().setNum(ID).mid(6,3).toInt(); iAn++){
 		if (iNum==45){iNum=0;}	
 		iNum++;
 	}
 	iNum=iNum+2;
-	//�Í������ꂽ���̂𕡍�������
+	//?I???????????　???????
 	for (int iFu=0; iFu<=QByteArray().setNum(ID).mid(6,3).toInt(); iFu++){
 		if (iNum==2){iNum=47;}
 		Swap(List,iNum,iNum-3);
 		iNum--;
 	}
-	//QStringList��QByteArray�ɖ߂�
+	//QStringList??QByteArray????
 	for (int iB=0; iB<=47; iB++){
 		QString	s = List.at(iB);
 		fukugou.insert(iB,s.toUtf8());

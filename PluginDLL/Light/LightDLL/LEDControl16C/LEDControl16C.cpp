@@ -23,8 +23,8 @@
 #include "XDataInLayer.h"
 #include "XGeneralFunc.h"
 #include "XLightDLL.h"
-#include <QDir.h>
-#include <QFile.h>
+#include <QDir>
+#include <QFilh>
 #include "LEDControl16CDialog.h"
 
 //=================================================================================================

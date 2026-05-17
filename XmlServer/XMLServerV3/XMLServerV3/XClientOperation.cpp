@@ -25,6 +25,10 @@
 #include "ThreadLogger.h"
 #include <omp.h>
 
+#ifndef _MSC_VER
+#include <wchar.h>
+#define _wcsicmp wcscasecmp
+#endif
 
 //===============================================================
 ClientOperation::ClientOperation(int opeHandleCode,const QString &tableStr ,SClient *parent)
@@ -67,7 +71,7 @@ ClientOperation::~ClientOperation(void)
 		delete	[]SortDim;
 		SortDim=NULL;
 	}
-	CurrentPoint=NULL;
+	CurrentPoint=0;
 	SortDimCount=0;
 
 	if(SelectElement!=NULL){
@@ -87,7 +91,7 @@ ClientOperation::~ClientOperation(void)
 		delete	[]ChildSortDim;
 		ChildSortDim=NULL;
 	}
-	ChildCurrentPoint=NULL;
+	ChildCurrentPoint=0;
 	ChildSortDimCount=0;
 
 	if(ChildSelectElement!=NULL){
@@ -895,7 +899,7 @@ bool	ClientOperation::Insert(const QString &_SelectStr
 	}
 	XMLElement	*InsertedElement=new XMLElement(InsertedParent);
 	wchar_t	*Str;
-	int		StrLen=InsertedStr.count()*2+20;
+	int		StrLen=InsertedStr.length()*2+20;
 	if(MaxXMLCharactersInSentense<=StrLen){
 		Str=new wchar_t[StrLen];
 	}

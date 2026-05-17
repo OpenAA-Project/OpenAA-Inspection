@@ -61,7 +61,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(XPDF)\xpdf;$(XPDF)\splash;$(XPDF)\goo;$(XPDF);$(XPDF)\xpdf-qt;..\..\GUI\PropertyRaster;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(XPDF)\xpdf;$(XPDF)\splash;$(XPDF)\goo;$(XPDF)\build;$(XPDF);$(XPDF)\xpdf-qt;..\..\GUI\PropertyRaster;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <OpenMP>GenerateParallelCode</OpenMP>
       <ControlFlowGuard>false</ControlFlowGuard>

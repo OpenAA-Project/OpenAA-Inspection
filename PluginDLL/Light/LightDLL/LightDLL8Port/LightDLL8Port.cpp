@@ -23,8 +23,8 @@
 #include "LED64CTRLib.h"
 #include "XDataInLayer.h"
 #include "XGeneralFunc.h"
-#include <QDir.h>
-#include <QFile.h>
+#include <QDir>
+#include <QFile>
 
 #if KindOfLight==1
 	#include "LightDLL1Form.h"

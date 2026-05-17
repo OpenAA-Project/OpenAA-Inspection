@@ -23,6 +23,13 @@
 #include "XDateTime.h"
 #include <omp.h>
 
+#ifndef _MSC_VER
+#include <wchar.h>
+#define _wcsicmp wcscasecmp
+#define wcsicmp wcscasecmp
+#define swprintf_s swprintf
+#endif
+
 //==================================================================
 
 ValueStruct::ValueStruct(void)
@@ -323,7 +330,8 @@ int	TagAttr::GetString(wchar_t Buff[] ,int MaxBuffSize)
 			//g.sprintf("%.0lf",Number);
 			//Ret+=QString('\"')+g+QString('\"');
 			wchar_t	mbuff[50];
-			swprintf(mbuff,L"%.0lf",Number);
+			//swprintf(mbuff,L"%.0lf",Number);
+			swprintf_s(mbuff, sizeof(mbuff)/sizeof(wchar_t), L"%.0lf", Number);
 			Len=wcslen(mbuff);
 			RetLen+=Len+2;
 			if(MaxBuffSize<RetLen+1){

@@ -4,8 +4,8 @@
 #include "XDLLType.h"
 #include "XDataInLayer.h"
 #include "XGeneralFunc.h"
-#include <QDir.h>
-#include <QFile.h>
+#include <QDir>
+#include <QFile>
 #include "XCriticalFunc.h"
 #include "LightHIKRobotLAN.h"
 

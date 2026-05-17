@@ -18,6 +18,7 @@
 
 #include<CheckBoard.h>
 
+#ifdef _MSC_VER
 
 #include <windows.h>
 #include <devguid.h>
@@ -35,19 +36,13 @@
 #include <sstream>
 
 
-// setupapi.lib �������N�����w���iMSVC�p�j
 #pragma comment(lib, "setupapi.lib")
 #pragma comment(lib, "cfgmgr32.lib")
 
 static const GUID GUID_PciDevice = { 0x4340a6c5, 0x93fa, 0x4706, { 0x97, 0x2c, 0x7b, 0x64, 0x80, 0x08, 0xa5, 0xa7 } };
 
-// PID (Property ID)
-//static const DEVPROPID PID_PciDevice_CurrentLinkSpeed = 9;
-//static const DEVPROPID PID_PciDevice_CurrentLinkWidth = 10;
 
 
-
-// PCI Gen���x���ǂ݂₷���������ɕϊ������w���p�[�֐�
 std::wstring GetPciGenSpeedString(UINT32 speedCode) {
     switch (speedCode) {
     case 1: return L"2.5 GT/s (Gen1)";
@@ -176,3 +171,10 @@ bool CheckBoard::GetBoardInfo(NPListPack<BoardInfoList> &BoardInfo)
 
 	return true;
 }
+
+#else
+bool CheckBoard::GetBoardInfo(NPListPack<BoardInfoList> &BoardInfo)
+{
+    return false;
+}
+#endif

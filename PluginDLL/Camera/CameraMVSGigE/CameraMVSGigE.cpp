@@ -30,6 +30,13 @@
 #include "CameraMVSGigECommon.h"
 #include "SelectUserSetDialog.h"
 
+#ifndef _MSC_VER
+#include <stdio.h>
+#include <string.h>
+#define sprintf_s snprintf
+#define strcpy_s(dest, size, src) strncpy(dest, src, size); dest[(size)-1] = '\0'
+#endif
+
 static  void    FuncCameraOutput(unsigned char * pData, MV_FRAME_OUT_INFO_EX* pFrameInfo, void* pUser);
 
 
@@ -398,6 +405,7 @@ bool	CameraMVSGigE::SetLine1(bool b)
 bool    CameraMVSGigE::SetLineCount(int _YLen)
 {
     ChangeInfo(XLen ,_YLen);
+    return true;
 }
 bool    CameraMVSGigE::ShowSetting(void)
 {
@@ -449,11 +457,14 @@ bool    CameraMVSGigE::Set(ShowCameraDialog	&D)
     SetAOI();
     SetBlackLevel();
     SetWhiteBalance();
+
+    return true;
 }
 
 
 bool    CameraMVSGigE::PrepareCapture()
 {
+    return true;
 }
 bool    CameraMVSGigE::StartCapture()
 {
@@ -1251,7 +1262,8 @@ bool    CameraMVSGigE::SetBlackLevel(void)
         return false;
     }
     if(BlackLevelEnable==true){
-        nRet=Cam.SetIntValue("BlackLevel",(int64)BlackLevel);
+        //nRet=Cam.SetIntValue("BlackLevel",(int64)BlackLevel);
+        nRet=Cam.SetIntValue("BlackLevel",(int64_t)BlackLevel);
         if (MV_OK != nRet){
             return false;
         }
