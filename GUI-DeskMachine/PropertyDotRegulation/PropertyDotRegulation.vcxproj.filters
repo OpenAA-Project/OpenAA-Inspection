@@ -37,8 +37,6 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="XPropertyDotRegulationPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -53,19 +51,9 @@
     <ClInclude Include="propertydotregulation_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLOnly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XGUIDLL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="XPropertyDotRegulationPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
     <ClInclude Include="PropertyDotRegulationFormResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

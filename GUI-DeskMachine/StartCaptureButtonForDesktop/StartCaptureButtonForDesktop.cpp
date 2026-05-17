@@ -1,22 +1,13 @@
-/*
- * Copyright (C) 2024
- * Author : Masatoshi Sasai ,MEGATRADE corporation
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
-#include "StartCaptureButtonForDesktopResource.h"
+﻿#include "StartCaptureButtonForDesktopResource.h"
+/*******************************************************************************
+** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
+**
+** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
+** if any conditions of this licensing agreement are not clear to you.
+**
+** This file is C:\Regulus64v5\GUI-DeskMachine\StartCaptureButtonForDesktop\StartCaptureButtonForDesktop.cpp
+** Author : YYYYYYYYYY
+****************************************************************************-**/
 
 #include "StartCaptureButtonForDesktop.h"
 #include "XPushCmdPacket.h"
@@ -38,6 +29,7 @@
 #include "XStatisticPacket.h"
 #include <QMessageBox>
 #include "XSyncGUI.h"
+#include "ButtonAutoMode.h"
 
 const	char	*sRoot=/**/"Action";
 const	char	*sName=/**/"StartCaptureButtonForDesktop";
@@ -118,15 +110,14 @@ DEFFUNCEX	void	DLL_EntryAlgorithm(LayersBase *Base,RootNameListContainer &List)
 StartCaptureButtonForDesktop::StartCaptureButtonForDesktop(LayersBase *Base ,QWidget *parent)
 :GUIFormBase(Base,parent),Button(parent)
 {
-	//�����Ή�
-	FileRegistry	*FRegistry=new FileRegistry(/**/"./MachineInfo.dat");
-	int	LanguageCode=FRegistry->LoadRegInt(/**/"Language",0);
+	//言語対応
+	int	LanguageCode=GetLayersBase()->GetLanguageCode();
 
 	QString ImageBmpFile[5]={
-		/**/":Resources/StartCaptureImageForDesktop.bmp",		//���{��
+		/**/":Resources/StartCaptureImageForDesktop.bmp",		//日本語
 		/**/":Resources/StartCaptureImageForDesktop-en.bmp",	//English
-		/**/":Resources/StartCaptureImageForDesktop-en.bmp",	//�ȑ̒���
-		/**/":Resources/StartCaptureImageForDesktop-en.bmp",	//�ɑ̒���
+		/**/":Resources/StartCaptureImageForDesktop-en.bmp",	//簡体中文
+		/**/":Resources/StartCaptureImageForDesktop-en.bmp",	//繁体中文
 		/**/":Resources/StartCaptureImageForDesktop-en.bmp"		//Korean
 	};
 ///	Button.setImageBmp(QImage(ImageBmpFile[LanguageCode]));	//D-20110322
@@ -155,6 +146,8 @@ StartCaptureButtonForDesktop::StartCaptureButtonForDesktop(LayersBase *Base ,QWi
 	EditLibFormEnable=false;
 	StartResister=false;
 	SyncMode=false;
+	Scanned	=false;
+	StopBlinking=false;
 
 	BlickTimer.setInterval(300);
 	BlickTimer.setSingleShot(false);
@@ -177,7 +170,7 @@ void	StartCaptureButtonForDesktop::Prepare(void)
 	Button.setPressedColor(PushedColor);
 	ResizeAction();
 
-	//�f�o�b�O���[�h
+	//デバッグモード
 	if(DebugMode==true){
 		DUp.resize(DUp.width(),262);
 		EditLibForm.SetDebug(true);
@@ -185,6 +178,15 @@ void	StartCaptureButtonForDesktop::Prepare(void)
 	else{
 		DUp.resize(DUp.width(),195);
 		EditLibForm.SetDebug(false);
+	}
+}
+
+void	StartCaptureButtonForDesktop::AfterStartSequence(void)
+{
+	ExecuteInspectBase	*e=GetLayersBase()->GetEntryPoint()->GetExecuteInspect();
+	if(e!=NULL){
+		connect(e,SIGNAL(SignalTargetImageCaptured()), this ,SLOT(SlotImageCaptured()));
+		connect(e,SIGNAL(SignalMasterImageCaptured()), this ,SLOT(SlotImageCaptured()));
 	}
 }
 
@@ -197,6 +199,11 @@ void	StartCaptureButtonForDesktop::BuildForShow(void)
 {
 }
 
+void	StartCaptureButtonForDesktop::SlotImageCaptured()
+{
+	//CurrentMasterCounter++;
+}
+
 void	StartCaptureButtonForDesktop::SlotBlickTimer()
 {
 	static	bool	ReEntrant=false;
@@ -204,6 +211,13 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 
 	if(ReEntrant==true)
 		return;
+	if(StopBlinking==true){
+		return;
+	}
+	if(GetLayersBase()->GetOnTerminating()==true){
+		BlickTimer.stop();
+		return;
+	}
 	ReEntrant=true;
 
 	if(FirstTime==true){
@@ -217,10 +231,10 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 	}
 	SeqControlParam	*Param=(SeqControlParam *)GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetSeqParam();
 
-	//�f�o�b�O���[�h
+	//デバッグモード
 	if(DebugMode==true){
 		if(ExecuteType==_OnMasterScanning2){
-			//�_�C�A���O�̕\��
+			//ダイアログの表示
 			if(CurrentMasterCounter==-1){
 				NextMasterFlag=false;
 				DUp.SetNextMasterFlag(NextMasterFlag);
@@ -240,7 +254,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 				Button.DrawNormalColor();
 				BlinkingMode=false;
 			}
-			//EditLibraryForm�̓o�^�F�̓_�ŏ���
+			//EditLibraryFormの登録色の点滅処理
 			if(EditLibFormEnable==true){
 				EditLibForm.Update(BlinkingMode);
 			}
@@ -253,18 +267,18 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 			}
 			else{
 				if(CurrentMasterCounter==-1){
-					//�}�X�^�[�摜�̓ǂݍ���
+					//マスター画像の読み込み
 					FormOperator	F((QWidget *)GetLayersBase()->GetMainWidget());
 					F.ButtonPush(/**/"MainForm",/**/"LoadMaster");
 					CurrentMasterCounter=0;
 				}
 				else{
-					//�^�[�Q�b�g�摜�̓ǂݍ���
+					//ターゲット画像の読み込み
 					FormOperator	F((QWidget *)GetLayersBase()->GetMainWidget());
 					F.ButtonPush(/**/"MainForm",/**/"LoadTarget");
 				}
 			}
-///			//ExecuteInitialAfterEdit�𔭍s
+///			//ExecuteInitialAfterEditを発行
 ///			if(CurrentMasterCounter==2){
 ///				NPListPack<GUICmdPacketDim>	GUICmdDim;
 ///				GUICmdReqExecuteInitialAfterEdit	*CmdReq[100];
@@ -278,17 +292,17 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 ///				GetLayersBase()->PacketSender(GUICmdDim);
 ///			}
 ///			else{
-				//CurrentMasterCounter�̃Z�b�g
+				//CurrentMasterCounterのセット
 				GetLayersBase()->GetAnyData()->Set(/**/"CurrentMasterCounter",CurrentMasterCounter);
 ///			}
 
-			////ExecuteScanning�����s
+			////ExecuteScanningを実行
 			//if(CurrentMasterCounter==0){
 			//	GetLayersBase()->ExecuteScanning(GetLayersBase()->GetEntryPoint());
 			//}
 
 			if(CurrentMasterCounter>0){
-				//Execute***�����s
+				//Execute***を実行
 				if(CurrentMasterCounter>1){
 					GetLayersBase()->ExecuteStartByInspection	(GetLayersBase()->GetEntryPoint());
 				}
@@ -299,7 +313,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 				GetLayersBase()->ExecutePostScanning		(GetLayersBase()->GetEntryPoint());
 			}
 
-			//CmdGenerateAutoMaskForDesktop�𔭍s
+			//CmdGenerateAutoMaskForDesktopを発行
 			if(CurrentMasterCounter==1){
 				GetLayersBase()->ShowProcessingForm("Generating mask automatically");
 				GetLayersBase()->AddMaxProcessing(0,0);
@@ -315,7 +329,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 				GetLayersBase()->PacketSender(GUICmdDim2);
 				NextMasterFlag=true;
 /*
-				//ExecuteInitialAfterEdit�𔭍s
+				//ExecuteInitialAfterEditを発行
 				NPListPack<GUICmdPacketDim>	GUICmdDim;
 				GUICmdReqExecuteInitialAfterEdit	*CmdReq[100];
 				GUICmdSendExecuteInitialAfterEdit	*CmdSend[100];
@@ -333,7 +347,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 
 			if(CurrentMasterCounter==1){
 				EditLibForm.Execute();
-				//PropertyDynamicClassifyForm��TransmitDirectly����Generate���Ă���
+				//PropertyDynamicClassifyFormにTransmitDirectlyしてGenerateしてやる
 				GUIFormBase	*PropertyDCForm=NULL;
 				PropertyDCForm=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyDynamicClassifyForm" ,/**/"");
 				if(PropertyDCForm!=NULL){
@@ -377,7 +391,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 		Button.DrawNormalColor();
 	}
 	else if(ExecuteType==_OnMasterScanning1){
-		//�_�C�A���O�̕\��
+		//ダイアログの表示
 		if(CurrentMasterCounter==-1){
 			NextMasterFlag=true;
 			DUp.SetNextMasterFlag(NextMasterFlag);
@@ -398,11 +412,15 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 			DUp.SetMasterCounter(CurrentMasterCounter-1,true);
 		}
 
-		//EditLibraryForm�̕\��
+		//EditLibraryFormの表示
 		if(EditLibFormEnable==false && StartResister==false && CurrentMasterCounter==2 && ReTeachingFlag==false){
 			DUp.hide();
+
+			ImageType=/**/"Target";
+			SlotClicked(false);
+
 			EditLibForm.Execute();
-			//PropertyDynamicClassifyForm��TransmitDirectly����Generate���Ă���
+			//PropertyDynamicClassifyFormにTransmitDirectlyしてGenerateしてやる
 			GUIFormBase	*PropertyDCForm=NULL;
 			PropertyDCForm=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyDynamicClassifyForm" ,/**/"");
 			if(PropertyDCForm!=NULL){
@@ -425,7 +443,9 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 			Button.DrawNormalColor();
 			BlinkingMode=false;
 		}
-		if(EditLibFormEnable==true || (Param!=NULL && Param->StartScanOnly==true)){
+		if(EditLibFormEnable==true 
+		|| (Param!=NULL && Param->StartScanOnly==true)
+		|| (Param!=NULL && Param->StartInspection==true)){
 			ExecuteType=_OnMasterScanning2;
 		}
 	}
@@ -438,11 +458,11 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 			Button.DrawNormalColor();
 			BlinkingMode=false;
 		}
-		//EditLibraryForm�̓o�^�F�̓_�ŏ���
+		//EditLibraryFormの登録色の点滅処理
 		if(EditLibFormEnable==true){
 			EditLibForm.Update(BlinkingMode);
 		}
-		//ExecuteInspectState�̎擾
+		//ExecuteInspectStateの取得
 		if(GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetState()==ExecuteInspectBase::_EI_OnTransmit){
 			DUp.ui.prgImageReadState->setMaximum(100);
 			DUp.ui.prgImageReadState->setTextVisible(true);
@@ -455,44 +475,46 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 			}
 		}
 /*
-		//CaptureStartCounter�Ŕ��f���Ă݂�
+		//CaptureStartCounterで判断してみる
 		if(Param->CaptureStartCounter==2){
 			ReEntrant=false;
 			return;
 		}
 */
-		if(EditLibFormEnable==false && (Param!=NULL && Param->StartScanOnly==false)){
+		if(EditLibFormEnable==true
+		&& (Param!=NULL && (Param->StartInspection==false && ImageType==/**/"Target") )){
+			if(CurrentMasterCounter==2){
+				//GetLayersBase()->ShowProcessingForm("Generating mask area");
+				//GetLayersBase()->AddMaxProcessing(0,0);
+				//
+				//NPListPack<GUICmdPacketDim>	GUICmdDim2;
+				//GUICmdReqGenerateAutoMaskForDesktop		*CmdReq2[100];
+				//GUICmdSendGenerateAutoMaskForDesktop	*CmdSend2[100];
+				//for(int page=0;page<GetPageNumb();page++){
+				//	CmdReq2 [page]=new GUICmdReqGenerateAutoMaskForDesktop(GetLayersBase(),sRoot,sName,page);
+				//	CmdSend2[page]=new GUICmdSendGenerateAutoMaskForDesktop(GetLayersBase(),sRoot,sName,page);
+				//	GUICmdDim2.AppendList(new GUICmdPacketDim(CmdReq2[page],CmdSend2[page],page,0));
+				//}
+				//GetLayersBase()->PacketSender(GUICmdDim2);
+		
+				EditLibForm.pushButtonFinishClicked();
+				EditLibFormEnable=false;
+			}
+		}
+
+		if(EditLibFormEnable==false
+		&& (Param!=NULL && ((Param->StartScanOnly==false && ImageType==/**/"Master")
+			             || (Param->StartInspection==false && ImageType==/**/"Target") ))){
 			DUp.ui.prgImageReadState->setValue(100);
 
 			if(CurrentMasterCounter==-1){
 				CurrentMasterCounter=0;
 			}
-/*
-			//ExecuteInitialAfterEdit�𔭍s
-			if(CurrentMasterCounter==2){
-				NPListPack<GUICmdPacketDim>	GUICmdDim;
-				GUICmdReqExecuteInitialAfterEdit	*CmdReq[100];
-				GUICmdSendExecuteInitialAfterEdit	*CmdSend[100];
-				for(int page=0;page<GetPageNumb();page++){
-					CmdReq [page]=new GUICmdReqExecuteInitialAfterEdit (GetLayersBase(),sRoot,sName,page);
-					CmdReq [page]->CurrentMasterCounter=CurrentMasterCounter+1;
-					CmdSend[page]=new GUICmdSendExecuteInitialAfterEdit(GetLayersBase(),sRoot,sName,page);
-					GUICmdDim.AppendList(new GUICmdPacketDim(CmdReq[page],CmdSend[page],page,0));
-				}
-				GetLayersBase()->PacketSender(GUICmdDim);
-			}
-*/
-			////ExecuteScanning�����s
-			//if(CurrentMasterCounter==0){
-			//	//CurrentMasterCounter�̃Z�b�g
-			//	GetLayersBase()->GetAnyData()->Set("CurrentMasterCounter",CurrentMasterCounter);
-			//	GetLayersBase()->ExecuteScanning(GetLayersBase()->GetEntryPoint());
-			//}
 
-			//CurrentMasterCounter�̃Z�b�g
+			//CurrentMasterCounterのセット
 			GetLayersBase()->GetAnyData()->Set(/**/"CurrentMasterCounter",CurrentMasterCounter+1);
 
-			//CmdGenerateAutoMaskForDesktop�𔭍s
+			//CmdGenerateAutoMaskForDesktopを発行
 			if(CurrentMasterCounter==1){
 				GetLayersBase()->ShowProcessingForm("Generating mask area");
 				GetLayersBase()->AddMaxProcessing(0,0);
@@ -506,27 +528,15 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 					GUICmdDim2.AppendList(new GUICmdPacketDim(CmdReq2[page],CmdSend2[page],page,0));
 				}
 				GetLayersBase()->PacketSender(GUICmdDim2);
-/*
-				//ExecuteInitialAfterEdit�𔭍s
-				NPListPack<GUICmdPacketDim>	GUICmdDim;
-				GUICmdReqExecuteInitialAfterEdit	*CmdReq[100];
-				GUICmdSendExecuteInitialAfterEdit	*CmdSend[100];
-				for(int page=0;page<GetPageNumb();page++){
-					CmdReq [page]=new GUICmdReqExecuteInitialAfterEdit (GetLayersBase(),sRoot,sName,page);
-					CmdReq [page]->CurrentMasterCounter=CurrentMasterCounter+1;
-					CmdSend[page]=new GUICmdSendExecuteInitialAfterEdit(GetLayersBase(),sRoot,sName,page);
-					GUICmdDim.AppendList(new GUICmdPacketDim(CmdReq[page],CmdSend[page],page,0));
-				}
-				GetLayersBase()->PacketSender(GUICmdDim);
-				GetLayersBase()->CloseProcessingForm();
-*/
+
 				EditLibForm.pushButtonUpdateClicked();
 			}
 
-			//�����ڂ��̕\��
+			//何枚目かの表示
 //			if(CurrentMasterCounter>0){
 //				DUp.SetMasterCounter(CurrentMasterCounter,true);
 //			}
+			Scanned=true;
 			CurrentMasterCounter++;
 			if(CurrentMasterCounter==2 && ReTeachingFlag==false){
 				ExecuteType=_OnMasterScanning1;
@@ -536,7 +546,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 				SlotClicked(false);
 			}
 
-			//ProgressBar�̍X�V
+			//ProgressBarの更新
 			DUp.ui.prgImageReadState->setValue(0);
 			ImageReadStateCounter=0;
 			DUp.ui.prgImageReadState->setTextVisible(false);
@@ -545,6 +555,7 @@ void	StartCaptureButtonForDesktop::SlotBlickTimer()
 
 //			//GeneralInfo0
 //			Param->GeneralInfo0=0;
+
 		}
 	}
 	else if(ExecuteType==_AfterMasterScanning){
@@ -558,27 +569,27 @@ IntList	HDbgSlotList;
 void	StartCaptureButtonForDesktop::SlotClicked (bool checked)
 {
 	if(GetLayersBase()->GetAnyData()->ToInt(/**/"CurrentMasterCounter",-1)==99999999){
-		//�m�F���b�Z�[�W
+		//確認メッセージ
 		QMessageBox MsgBox;
 		QFont font1;
 		font1.setPointSize(12);
 		font1.setBold(true);
-		font1.setWeight(75);
+		font1.setWeight(QFont::Bold);
 		MsgBox.setFont	(font1);
-		MsgBox.setText	(LangSolver.GetString(StartCaptureButtonForDesktop_LS,LID_92)/*"Do you want re-teaching?"*/);	//�V�����w�K�f�[�^���o�^�������܂����H
-		MsgBox.addButton(LangSolver.GetString(StartCaptureButtonForDesktop_LS,LID_93)/*"Yes"*/		,QMessageBox::AcceptRole);	//�͂�
-		MsgBox.addButton(LangSolver.GetString(StartCaptureButtonForDesktop_LS,LID_94)/*"Cancel"*/	,QMessageBox::RejectRole);	//�L�����Z��
-//		MsgBox.addButton("�L�����Z��"	,QMessageBox::DestructiveRole);
+		MsgBox.setText	("新しく学習データを登録し直しますか？");	//
+		MsgBox.addButton("はい"		,QMessageBox::AcceptRole);	//
+		MsgBox.addButton("Cancel"	,QMessageBox::RejectRole);	//
+//		MsgBox.addButton("キャンセル"	,QMessageBox::DestructiveRole);
 		MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint);
 		int Ret=MsgBox.exec();
 
-		if(Ret==QMessageBox::AcceptRole){	//�͂�
-			//�w�K���̓o�^�����Ďn��
+		if(MsgBox.buttonRole(MsgBox.clickedButton()) == QMessageBox::AcceptRole){	//はい
+			//学習基板の登録から再始動
 			CurrentMasterCounter=2;
-			//CurrentMasterCounter�̃Z�b�g
+			//CurrentMasterCounterのセット
 			GetLayersBase()->GetAnyData()->Set(/**/"CurrentMasterCounter",CurrentMasterCounter);
 			ReTeachingFlag		=true;
-			//StatisticImager��InitialAlloc()�����s����
+			//StatisticImagerのInitialAlloc()を実行する
 			int	globalPage=GetLayersBase()->GetGlobalPageFromLocal(0);
 			GUICmdReqExecuteInitialAlloc	Cmd		(GetLayersBase(),sRoot,sName,globalPage);
 			GUICmdSendExecuteInitialAlloc	AckCmd	(GetLayersBase(),sRoot,sName,globalPage);
@@ -588,31 +599,29 @@ void	StartCaptureButtonForDesktop::SlotClicked (bool checked)
 			}
 			ImageType=/**/"Target";
 		}
-		else if(Ret==QMessageBox::RejectRole){	//�L�����Z��
+		else if(Ret==QMessageBox::RejectRole){	//キャンセル
 			return;
 		}
 	}
 
-//	if(checked==true){	//D-20090910
-//		Button.setColor(PushedColor);
-
-//		CurrentMasterCounter=0;
-//		ui.labelCurrentCount->setText(QString::number(CurrentMasterCounter));
-
-		//�f�o�b�O���[�h
+		//デバッグモード
 		if(DebugMode==true){
 			ExecuteType=_OnMasterScanning2;
 			return;
 		}
 
-		ExecuteType=_OnMasterScanning1;
-
+		//if(ExecuteType==_None){
+			ExecuteType=_OnMasterScanning1;
+			Scanned=false;
+		//}
 		GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->StartAllCamera();
 		SeqControlParam	*Param=(SeqControlParam *)GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetSeqParam();
 		if(checked==true && Param!=NULL){
 			Param->CaptureMode=2;
 		}
 
+		GetLayersBase()->SetCurrentStrategicNumber(0);
+		GetLayersBase()->SetCurrentStrategicNumberForSeq(0);
 		int	CStrategic=max(GetLayersBase()->GetCurrentStrategicNumber(),GetLayersBase()->GetCurrentStrategicNumberForSeq());
 		IntList		SList;
 		GetParamGlobal()->GetStrategyPage (CStrategic ,SList);
@@ -621,31 +630,12 @@ void	StartCaptureButtonForDesktop::SlotClicked (bool checked)
 		}
 
 		if((GetParamGlobal()->DebugLevel & 0x04)!=0){
-			HDbgSlotList.AppendList(new IntClass(CStrategic));
+			HDbgSlotList.Add(CStrategic);
 		}
 
 		GUICmdPushedStartCapture		*Cmd[100];
 		GUICmdRepliedPushStartCapture	*Reply[100];
-/*
-		for(int page=0;page<GetPageNumb();page++){
-			Cmd[page]	=new GUICmdPushedStartCapture(GetLayersBase(),sRoot,sName,page);
-			Cmd[page]->ImageType=ImageType;
-			Cmd[page]->StrategicNumber		=CStrategic;
-			Reply[page]	=new GUICmdRepliedPushStartCapture(GetLayersBase(),sRoot,sName,page);
-		}
-		for(int page=0;page<GetPageNumb();page++){
-			Cmd[page]->Send(page ,0,*Reply[page]);
-		}
-		bool	ReadyAll;
-		do{
-			ReadyAll=true;
-			for(int page=0;page<GetPageNumb();page++){
-				if(Reply[page]->IsReceived()==false){
-					ReadyAll=false;
-				}
-			}
-		}while(ReadyAll==false);
-*/
+
 		int	N=0;
 		for(IntClass *s=SList.GetFirst();s!=NULL;s=s->GetNext(),N++){
 			int page=s->GetValue();
@@ -664,22 +654,27 @@ void	StartCaptureButtonForDesktop::SlotClicked (bool checked)
 				if(Reply[i]->IsReceived()==false){
 					ReadyAll=false;
 				}
+				if(GetLayersBase()->GetOnTerminating()==true){
+					return;
+				}
 			}
 		}while(ReadyAll==false);
 
 		if(Param!=NULL){
 			Param->ReadyForScan=true;
 		}
-
-		for(int page=0;page<GetPageNumb();page++){
-			delete	Cmd[page]	;
-			delete	Reply[page]	;
+		for(int i=0;i<N;i++){
+			delete	Cmd[i]	;
+			Cmd[i]=NULL;
+			delete	Reply[i]	;
+			Reply[i]=NULL;
 		}
 		Button.Cancel();
 
-
-		if(GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetMode()!=ExecuteInspectBase::_CaptureOnlyMaster){
-			GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GoMasterCaptureOnly();
+		if(CurrentMasterCounter<0){
+			if(GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetMode()!=ExecuteInspectBase::_CaptureOnlyMaster){
+				GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GoMasterCaptureOnly();
+			}
 		}
 
 		if(SyncMode==false){
@@ -689,15 +684,12 @@ void	StartCaptureButtonForDesktop::SlotClicked (bool checked)
 				TxSync(Buff.buffer());
 			}
 		}
-//	}						//D-20090910
-//	else{					//D-20090910
-//		ExecuteType=_None;	//D-20090910
-//	}						//D-20090910
+
 }
 
 void StartCaptureButtonForDesktop::NextMasterFormFinished(int result)
 {
-	//�f�o�b�O���[�h
+	//デバッグモード
 	if(DebugMode==true){
 		return;
 	}
@@ -706,10 +698,11 @@ void StartCaptureButtonForDesktop::NextMasterFormFinished(int result)
 	SeqControlParam	*Param=(SeqControlParam *)GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetSeqParam();
 	Param->GeneralInfo0=3;
 
-	//�B���̃L�����Z���w��
+	//撮像のキャンセル指示
 	GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GoHalt();
 
 	if(result==QDialog::Accepted){
+		StopBlinking = true;
 		GetLayersBase()->ShowProcessingForm ("Next master");
 		NPListPack<GUICmdPacketDim>	GUICmdDimFin;
 /*
@@ -733,6 +726,14 @@ void StartCaptureButtonForDesktop::NextMasterFormFinished(int result)
 //		CurrentMasterCounter--;
 //		GetLayersBase()->GetAnyData()->Set("CurrentMasterCounter",CurrentMasterCounter);
 		GetLayersBase()->CloseProcessingForm();
+
+		GUIFormBase *AutoModePointer = GetLayersBase()->FindByName(/**/"Button",/**/"AutoMode",/**/"");
+		if(AutoModePointer!=NULL){
+			CmdSetAutoModeButtonState	RCmd(GetLayersBase());
+			RCmd.Enabled = true;
+			AutoModePointer->TransmitDirectly(&RCmd);
+		}
+		StopBlinking=false;
 	}
 	else{
 		ExecuteType=_AfterMasterScanning;
@@ -745,16 +746,16 @@ void StartCaptureButtonForDesktop::NextMasterFormFinished(int result)
 
 void StartCaptureButtonForDesktop::EditLibFormFinished(int result)
 {
-	//�f�o�b�O���[�h
+	//デバッグモード
 	if(DebugMode==true){
 		return;
 	}
 
-	//�B������
+	//撮像許可
 	StartResister=true;
-	ImageType=/**/"Target";
-	SlotClicked(false);
-
+	//ImageType=/**/"Target";
+	//SlotClicked(false);
+	EditLibFormEnable	=false;
 	DUp.show();
 }
 
@@ -799,19 +800,21 @@ bool StartCaptureButtonForDesktop::OnIdle(void)
 	if(Param->ExecuteScanMaster==true){
 		ClickOn++;
 		if((GetParamGlobal()->DebugLevel & 0x04)!=0){
-			HDbgScanMaster.AppendList(new IntClass(ClickOn));
+			HDbgScanMaster.Add(ClickOn);
 		}
 		Param->ExecuteScanMaster=false;
 	}
 	if(Param->ExecuteInspection==true){
 		ClickOn++;
 		if((GetParamGlobal()->DebugLevel & 0x04)!=0){
-			HDbgScanMaster.AppendList(new IntClass(ClickOn));
+			HDbgScanMaster.Add(ClickOn);
 		}
 		Param->ExecuteInspection=false;
 		IsExecuteInspection		=true;
 	}
-	if(ClickOn!=0 && GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetMode()==ExecuteInspectBase::_EI_IDLE){
+	if(ClickOn!=0 
+	&& GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetMode()==ExecuteInspectBase::_EI_IDLE
+	&& Scanned==true){
 		if(IsExecuteInspection==true){
 			ImageType=/**/"Target";
 			SlotClicked(false);

@@ -28,6 +28,7 @@
 #endif
 
 #include <GL/glu.h>
+#include "XTypeDef.h"
 
 class GLWidget : public QOpenGLWidget
 {

@@ -37,7 +37,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>$(DefaultQtVersion)</QtInstall>
-    <QtModules>core;gui;network;sql;widgets</QtModules>
+    <QtModules>core;gui;network;sql;widgets;core5compat</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -61,10 +61,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\Algorithm\StatisticImager;..\..\GUI\PropertyDynamicClassify;..\..\GUI\PropertyDynamicClassify\GeneratedFiles;..\..\GUI\DynamicClassifyImagePanel;..\..\GUI\DynamicClassifyImagePanel\GeneratedFiles;..\..\Algorithm\DynamicClassify;..\..\Algorithm\AutoMaskingPI;..\..\GUI\AutoMaskingPIImagePanel;..\..\GUI\PropertyAutoMaskingPI\GeneratedFiles;..\..\GUI\PropertyAutoMaskingPI;..\..\GUI\PropertyAutoPCBHoleAligner\GeneratedFiles;..\..\GUI\PropertyAutoPCBHoleAligner;..\..\GUI\PropertyAutoAlignment\GeneratedFiles;..\..\GUI\PropertyAutoAlignment;..\..\GUI\AutoPCBHoleAlignerImagePanel;..\..\GUI\AutoAlignmentImagePanel;..\..\Algorithm\AutoPCBHoleAligner;..\..\Algorithm\AutoAlignment;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\InspectionPlayer;..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ButtonAutoMode;$(OpenAA)\Algorithm\StatisticImager;$(OpenAA)\GUI\PropertyDynamicClassify;$(OpenAA)\GUI\PropertyDynamicClassify\GeneratedFiles;$(OpenAA)\GUI\DynamicClassifyImagePanel;$(OpenAA)\GUI\DynamicClassifyImagePanel\GeneratedFiles;$(OpenAA)\Algorithm\DynamicClassify;$(OpenAA)\Algorithm\AutoMaskingPI;$(OpenAA)\GUI\AutoMaskingPIImagePanel;$(OpenAA)\GUI\PropertyAutoMaskingPI\GeneratedFiles;$(OpenAA)\GUI\PropertyAutoMaskingPI;$(OpenAA)\GUI\PropertyAutoPCBHoleAligner\GeneratedFiles;$(OpenAA)\GUI\PropertyAutoPCBHoleAligner;$(OpenAA)\GUI\PropertyAutoAlignment\GeneratedFiles;$(OpenAA)\GUI\PropertyAutoAlignment;$(OpenAA)\GUI\AutoPCBHoleAlignerImagePanel;$(OpenAA)\GUI\AutoAlignmentImagePanel;$(OpenAA)\Algorithm\AutoPCBHoleAligner;$(OpenAA)\Algorithm\AutoAlignment;$(OpenAA)\OpenSource\Component;$(OpenAA)\OpenSource\DisplayImage;$(OpenAA)\InspectionPlayer;$(OpenAA)\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OpenAA)\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Component.lib;ServiceLib.lib;DisplayImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -97,8 +97,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Algorithm\AutoAlignment\XAutoAlignmentCommon.cpp" />
-    <ClCompile Include="..\..\GUI\PropertyAutoMaskingPI\XPropertyAutoMaskingPIPacket.cpp" />
+    <ClCompile Include="..\..\..\OpenAA6\Algorithm\AutoAlignment\XAutoAlignmentCommon.cpp" />
+    <ClCompile Include="..\..\..\OpenAA6\GUI\PropertyAutoMaskingPI\XPropertyAutoMaskingPIPacket.cpp" />
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="StartCaptureButtonForDesktopResource.cpp" />

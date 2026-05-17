@@ -1,21 +1,12 @@
-/*
- * Copyright (C) 2023
- * Author : Masatoshi Sasai ,MEGATRADE corporation
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
+﻿/*******************************************************************************
+** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
+**
+** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
+** if any conditions of this licensing agreement are not clear to you.
+**
+** This file is C:\Regulus64v5\GUI\SaveImageTargetButton\SaveImageTargetButton.cpp
+** Author : YYYYYYYYYY
+****************************************************************************-**/
 #include "AutoSaveImageTargetButtonResource.h"
 #include "AutoSaveImageTargetButton.h"
 #include <QFileDialog>
@@ -175,7 +166,7 @@ void AutoSaveImageTargetButton::SlotClicked (bool checked)
 				QFont font1;
 				font1.setPointSize(12);
 				font1.setBold(true);
-				font1.setWeight(75);
+				font1.setWeight(QFont::Bold);
 				QMessageBox MsgBox;
 				MsgBox.setFont	(font1);
 				MsgBox.setText	(LangSolver.GetString(AutoSaveImageTargetButton_LS,LID_1)/*"pixファイルの保存ディレクトリを作成できませんでした。"*/);
@@ -191,7 +182,7 @@ void AutoSaveImageTargetButton::SlotClicked (bool checked)
 		QFont font1;
 		font1.setPointSize(12);
 		font1.setBold(true);
-		font1.setWeight(75);
+		font1.setWeight(QFont::Bold);
 		QMessageBox MsgBox;
 		MsgBox.setFont	(font1);
 		MsgBox.setText	(LangSolver.GetString(AutoSaveImageTargetButton_LS,LID_3)/*"pixファイルの保存に失敗しました。"*/);
@@ -213,11 +204,11 @@ bool AutoSaveImageTargetButton::SaveImage(QString FileName)
 		return false;
 	if(::Save(&WFile,(int)GetPageNumb())==false)
 		return false;
-	if(::Save(&WFile,(int)GetLayerNumb())==false)
+	if(::Save(&WFile,(int)GetLayerNumb(0))==false)
 		return false;
-	if(::Save(&WFile,(int)GetDotPerLine())==false)
+	if(::Save(&WFile,(int)GetDotPerLine(0))==false)
 		return false;
-	if(::Save(&WFile,(int)GetMaxLines())==false)
+	if(::Save(&WFile,(int)GetMaxLines(0))==false)
 		return false;
 	if(::Save(&WFile,(int)100)==false)
 		return false;
@@ -226,10 +217,10 @@ bool AutoSaveImageTargetButton::SaveImage(QString FileName)
 	for(int page=0;page<GetPageNumb();page++){
 		GetLayersBase()->AddMaxProcessing(page,1);
 		int	YCount=100;
-		for(int TopY=0;TopY<GetMaxLines();TopY+=YCount){
-			if(TopY+YCount>GetMaxLines())
-				YCount=GetMaxLines()-TopY;
-			for(int Layer=0;Layer<GetLayerNumb();Layer++){
+		for(int TopY=0;TopY<GetMaxLines(page);TopY+=YCount){
+			if(TopY+YCount>GetMaxLines(page))
+				YCount=GetMaxLines(page)-TopY;
+			for(int Layer=0;Layer<GetLayerNumb(page);Layer++){
 				GUICmdReqSaveTargetImage	RCmd(GetLayersBase() ,sRoot,sName,page);
 				RCmd.Layer	=Layer;
 				RCmd.TopY	=TopY;

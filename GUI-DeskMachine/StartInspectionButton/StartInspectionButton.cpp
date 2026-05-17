@@ -1,21 +1,12 @@
-/*
- * Copyright (C) 2024
- * Author : Masatoshi Sasai ,MEGATRADE corporation
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
+/*******************************************************************************
+** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
+**
+** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
+** if any conditions of this licensing agreement are not clear to you.
+**
+** This file is C:\Regulus64v5\GUI\StartInspectionButton\StartInspectionButton.cpp
+** Author : YYYYYYYYYY
+****************************************************************************-**/
 #include "StartInspectionButtonResource.h"
 #include "StartInspectionButton.h"
 
@@ -26,6 +17,7 @@
 #include "swap.h"
 #include "XLotInformation.h"
 #include <QMessageBox>
+#include "XEntryPoint.h"
 
 char	*sRoot=/**/"Inspection";
 char	*sName=/**/"StartInspectionButton";
@@ -152,7 +144,7 @@ void StartInspectionButton::SlotClicked ()
 			if(GetLayersBase()->GetLot(0)->GetLotID()==/**/"-1" || GetLayersBase()->GetLot(0)->GetLotID().isEmpty()==true){
 				if(IsNecessaryLot==true){
 					QMessageBox::warning ( NULL, LangSolver.GetString(StartInspectionButton_LS,LID_1)/*"Warning"*/
-												, LangSolver.GetString(StartInspectionButton_LS,LID_2)/*"ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½Ý’è‚µï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"*/);
+												, LangSolver.GetString(StartInspectionButton_LS,LID_2)/*"ƒƒbƒg‚ðÝ’è‚µ‚Ä‚­‚¾‚³‚¢"*/);
 //					Button.setChecked(false);
 					//Button.Cancel();
 					ReEntrant=false;
@@ -226,7 +218,7 @@ void StartInspectionButton::SlotClicked ()
 			}
 
 			if((GetParamGlobal()->DebugLevel & 0x04)!=0){
-				DbgSlotList.AppendList(new IntClass(CStrategic));
+				DbgSlotList.Add(CStrategic);
 			}
 
 			for(int i=0;i<N;i++){

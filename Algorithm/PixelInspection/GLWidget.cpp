@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2021
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -23,7 +23,7 @@
 #define	_USE_MATH_DEFINES
 #include <math.h>
 #include <omp.h>
-
+#include "XTypeDef.h"
 #include "GLWidget.h"
 
 inline	double	Clip255(double d)
@@ -111,36 +111,36 @@ void GLWidget::setZRotation(int angle)
 
 void GLWidget::initializeGL()
 {
-    //qglClearColor(BackgroundColor);	//glClearColor �o�b�t�@�������������J���[����
+    //qglClearColor(BackgroundColor);	//glClearColor バッファを初期化するカラー情報
     glClearColor(BackgroundColor.redF(), BackgroundColor.greenF(), BackgroundColor.blueF(), BackgroundColor.alphaF());
 	object = makeObject();
-    glShadeModel(GL_FLAT);			//�t���b�g�V�F�[�f�B���O�̐ݒ��ŁA�����ʂ̖��邳�͈����ɂȂ��܂�
-    glEnable(GL_DEPTH_TEST);		//�f�v�X�e�X�g���L���ɂ��܂� ���p�`�ɉe���t�����ɂ́A�e���p�`�̑O���֌W�����肷���K�v������
-//    glEnable(GL_CULL_FACE);			//�Жʕ\�����L���ɂ��܂� �|���S���̂����Ėʂ݂̂��`���A�����`���Ȃ��悤�ɂ���
+    glShadeModel(GL_FLAT);			//フラットシェーディングの設定で、同じ面の明るさは一定になります
+    glEnable(GL_DEPTH_TEST);		//デプステストを有効にします 多角形に影を付けるには、各多角形の前後関係を決定する必要がある
+//    glEnable(GL_CULL_FACE);			//片面表示を有効にします ポリゴンのおもて面のみを描き、裏を描かないようにする
 
-	glDisable(GL_CULL_FACE);		//���ʂ��`��
+	glDisable(GL_CULL_FACE);		//両面を描く
 
-	glEnable(GL_BLEND);				//�u�����h���L����
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //�����̐ݒ�
+	glEnable(GL_BLEND);				//ブレンドを有効化
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //混合の設定
 }
 
 void GLWidget::paintGL()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//�w�肵���o�b�t�@�������̐F�ŏ���
-			//GL_COLOR_BUFFER_BIT �J���[ �o�b�t�@ 
-			//GL_DEPTH_BUFFER_BIT �f�v�X �o�b�t�@ 
-			//GL_ACCUM_BUFFER_BIT �A�L�������[�V���� �o�b�t�@ 
-			//GL_STENCIL_BUFFER_BIT �X�e���V�� �o�b�t�@ 
-    glLoadIdentity();						//���ݑI�������Ă����s���ɒP�ʍs�������[�h����
-    glTranslated(0.0, 0.0, -10.0);			//�ϊ��s���ɕ��s�ړ��̍s�����悶�܂�
-    glRotated(xRot / 16.0, 1.0, 0.0, 0.0);	//�ϊ��s���ɉ��]�̍s�����悶�܂�
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//指定したバッファを特定の色で消去
+			//GL_COLOR_BUFFER_BIT カラー バッファ 
+			//GL_DEPTH_BUFFER_BIT デプス バッファ 
+			//GL_ACCUM_BUFFER_BIT アキュムレーション バッファ 
+			//GL_STENCIL_BUFFER_BIT ステンシル バッファ 
+    glLoadIdentity();						//現在選択されている行列に単位行列をロードする
+    glTranslated(0.0, 0.0, -10.0);			//変換行列に平行移動の行列を乗じます
+    glRotated(xRot / 16.0, 1.0, 0.0, 0.0);	//変換行列に回転の行列を乗じます
     glRotated(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotated(zRot / 16.0, 0.0, 0.0, 1.0);
-//    glTranslated((double)(dx)/side, (double)(dy)/side, 0.0);			//�ϊ��s���ɕ��s�ړ��̍s�����悶�܂�
+//    glTranslated((double)(dx)/side, (double)(dy)/side, 0.0);			//変換行列に平行移動の行列を乗じます
 	glScaled (Scale,Scale,Scale);
-    glCallList(object);						//�ۑ����ꂽ�R�}���h���Ăяo���i���X�g���e���`�悵�܂��j
+    glCallList(object);						//保存されたコマンドを呼び出す（リスト内容を描画します）
 
-	//�e�L�X�g�̕\��
+	//テキストの表示
 	QFont f=QFont("Helvetica",14);
 	f.setBold(true);
 	//glColor4ub(255,0,0,200);
@@ -191,18 +191,18 @@ void GLWidget::GLWidget::renderText3D(double x, double y, double z, const QStrin
 void GLWidget::resizeGL(int width, int height)
 {
     side = qMin(width, height);
-    glViewport((width - side) / 2, (height - side) / 2, side, side);	//�r���[�|�[�g�̐ݒ� ������ width �� height
+    glViewport((width - side) / 2, (height - side) / 2, side, side);	//ビューポートの設定 左下隅 width と height
 
-    glMatrixMode(GL_PROJECTION);	//�s�񉉎Z�Ɋ֌W�����R�}���h�𗘗p����
-				//GL_MODELVIEW ���f���r���[�s�� 
-				//GL_PROJECTION �ˉe�s�� 
-				//GL_TEXTURE �e�N�X�`���s�� 
-    glLoadIdentity();							//���݂̍s�����P�ʍs���ɂ���
-    glOrtho(-0.5, +0.5, +0.5, -0.5, 4.0, 15.0);	//���ˉe�̎��̐ς��쐬����
-    glMatrixMode(GL_MODELVIEW);		//�s�񉉎Z�Ɋ֌W�����R�}���h�𗘗p����
-				//GL_MODELVIEW ���f���r���[�s�� 
-				//GL_PROJECTION �ˉe�s�� 
-				//GL_TEXTURE �e�N�X�`���s�� 
+    glMatrixMode(GL_PROJECTION);	//行列演算に関係するコマンドを利用する
+				//GL_MODELVIEW モデルビュー行列 
+				//GL_PROJECTION 射影行列 
+				//GL_TEXTURE テクスチャ行列 
+    glLoadIdentity();							//現在の行列を単位行列にする
+    glOrtho(-0.5, +0.5, +0.5, -0.5, 4.0, 15.0);	//正射影の視体積を作成する
+    glMatrixMode(GL_MODELVIEW);		//行列演算に関係するコマンドを利用する
+				//GL_MODELVIEW モデルビュー行列 
+				//GL_PROJECTION 射影行列 
+				//GL_TEXTURE テクスチャ行列 
 }
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
@@ -231,24 +231,24 @@ void GLWidget::wheelEvent(QWheelEvent *event)
     dx = event->position().x() - lastPos.x();
     dy = event->position().y() - lastPos.y();
 
-	//x�Ay�Az �ɂ́A���ꂼ���X�P�[�����O�W�����w�肵�܂�
-	//1 �ȏ��ł����΃I�u�W�F�N�g���g�傳���A1 ���菬�������Ώk�������܂�
-	//�܂��A-1 �ɂ����ΐ��Ώ̕ϊ������܂�
+	//x、y、z には、それぞれスケーリング係数を指定します
+	//1 以上であればオブジェクトが拡大され、1 より小さければ縮小されます
+	//また、-1 にすれば線対称変換されます
 	D > 0 ? Scale += Scale*0.1 : Scale -= Scale*0.1;
 	update();
 }
 
 void GLWidget::UpdateObject()
 {
-    glNewList(object, GL_COMPILE);	//glNewList�`glEndList�̊Ԃɕ`���R�}���h���w��
+    glNewList(object, GL_COMPILE);	//glNewList～glEndListの間に描画コマンドを指定
 
-	//���̐����`��
+	//軸の線を描く
 	DrawAxis();
 
-	//�C�ӂ̓_���`��
+	//任意の点を描く
 	DrawPoint();
 
-	//臒l�̗��̂��`��
+	//閾値の立体を描く
 	DrawThreshold();
 
     glEndList();
@@ -256,22 +256,23 @@ void GLWidget::UpdateObject()
 
 GLuint GLWidget::makeObject()
 {
-    GLuint list = glGenLists(1);	//�V�K�Ƀf�B�X�v���C���X�g���m�ۂ���
+    GLuint list = glGenLists(1);	//新規にディスプレイリストを確保する
     object = list;
 	UpdateObject();
 /*
-    glNewList(list, GL_COMPILE);	//glNewList�`glEndList�̊Ԃɕ`���R�}���h���w��
+    glNewList(list, GL_COMPILE);	//glNewList～glEndListの間に描画コマンドを指定
 
-	//���̐����`��
+	//軸の線を描く
 	DrawAxis();
 
-	//�C�ӂ̓_���`��
+	//任意の点を描く
 	DrawPoint();
 
-	//臒l�̗��̂��`��
+	//閾値の立体を描く
 	DrawThreshold();
+*/
 /*
-	//���O���̖� �V�A��
+	//手前側の面 シアン
 	glColor3d( 0.0, 1.0, 1.0);
 	int R11,G11,B11;
 	GetRGB(PL,SL,RL,R11,G11,B11);
@@ -287,7 +288,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d(B13-127,128-G13,128-R13);
 	glVertex3d(B14-127,128-G14,128-R14);
 
-	//�����̖� ��
+	//奥側の面 紫
 	glColor3d(1.0, 0.0, 1.0);
 	int R24,G24,B24;
 	GetRGB(PL,SH,RH,R24,G24,B24);
@@ -303,28 +304,28 @@ GLuint GLWidget::makeObject()
 	glVertex3d(B22-127,128-G22,128-R22);
 	glVertex3d(B21-127,128-G21,128-R21);
 
-	//�E���̖� ��
+	//右側の面 青
 	glColor3d(0.0, 0.0, 1.0);
 	glVertex3d(B22-127,128-G22,128-R22);
 	glVertex3d(B12-127,128-G12,128-R12);
 	glVertex3d(B11-127,128-G11,128-R11);
 	glVertex3d(B21-127,128-G21,128-R21);
 
-	//�����̖� ��
+	//左側の面 黄
 	glColor3d(1.0, 1.0, 0.0);
 	glVertex3d(B24-127,128-G24,128-R24);
 	glVertex3d(B14-127,128-G14,128-R14);
 	glVertex3d(B13-127,128-G13,128-R13);
 	glVertex3d(B23-127,128-G23,128-R23);
 
-	// �㑤�̖� ��
+	//上側の面 赤
 	glColor3d(1.0, 0.0, 0.0);
 	glVertex3d(B12-127,128-G12,128-R12);
 	glVertex3d(B22-127,128-G22,128-R22);
 	glVertex3d(B23-127,128-G23,128-R23);
 	glVertex3d(B13-127,128-G13,128-R13);
 
-	// �����̖� ��
+	// 下側の面 緑
 	glColor3d(0.0, 1.0, 0.0);
 	glVertex3d(B14-127,128-G14,128-R14);
 	glVertex3d(B24-127,128-G24,128-R24);
@@ -332,7 +333,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d(B11-127,128-G11,128-R11);
 */
 /*
-	//���O���̖� �V�A��
+	//手前側の面 シアン
 	glColor3d( 0.0, 1.0, 1.0);
 	int R11,G11,B11;
 	GetRGBValue(PL,SL,RL,Coefficient,R11,G11,B11);
@@ -350,7 +351,7 @@ GLuint GLWidget::makeObject()
 	GetRGBValue(PL,SH,RL,Coefficient,R14,G14,B14);
 	glVertex3d(B14-127,128-G14,128-R14);
 
-	//�����̖� ��
+	//奥側の面 紫
 	glColor3d(1.0, 0.0, 1.0);
 	int R24,G24,B24;
 	GetRGBValue(PL,SH,RH,Coefficient,R24,G24,B24);
@@ -368,36 +369,37 @@ GLuint GLWidget::makeObject()
 	GetRGBValue(PL,SL,RH,Coefficient,R21,G21,B21);
 	glVertex3d(B21-127,128-G21,128-R21);
 
-	//�E���̖� ��
+	//右側の面 青
 	glColor3d(0.0, 0.0, 1.0);
 	glVertex3d(B22-127,128-G22,128-R22);
 	glVertex3d(B12-127,128-G12,128-R12);
 	glVertex3d(B11-127,128-G11,128-R11);
 	glVertex3d(B21-127,128-G21,128-R21);
 
-	//�����̖� ��
+	//左側の面 黄
 	glColor3d(1.0, 1.0, 0.0);
 	glVertex3d(B24-127,128-G24,128-R24);
 	glVertex3d(B14-127,128-G14,128-R14);
 	glVertex3d(B13-127,128-G13,128-R13);
 	glVertex3d(B23-127,128-G23,128-R23);
 
-	// �㑤�̖� ��
+	// 上側の面 赤
 	glColor3d(1.0, 0.0, 0.0);
 	glVertex3d(B12-127,128-G12,128-R12);
 	glVertex3d(B22-127,128-G22,128-R22);
 	glVertex3d(B23-127,128-G23,128-R23);
 	glVertex3d(B13-127,128-G13,128-R13);
 
-	// �����̖� ��
+	// 下側の面 緑
 	glColor3d(0.0, 1.0, 0.0);
 	glVertex3d(B14-127,128-G14,128-R14);
 	glVertex3d(B24-127,128-G24,128-R24);
 	glVertex3d(B21-127,128-G21,128-R21);
 	glVertex3d(B11-127,128-G11,128-R11);
+*/
 /*
 	glBegin(GL_QUADS);
-	// �����̖� ��
+	// 奥側の面 赤
 //	glColor3d(1.0, 0.0, 0.0);
 	glColor4d(1.0, 0.0, 0.0 ,0.5);
 //	glVertex3d( 0.0, -0.2, -0.2);
@@ -410,7 +412,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d( 0.1,  0.1,-0.05);
 	glVertex3d(-0.1,  0.1,-0.05);
 
-	// ���O���̖� ��
+	// 手前側の面 緑
 //	glColor3d(0.0, 1.0, 0.0);
 	glColor4d(0.0, 1.0, 0.0 ,0.5);
 //	glVertex3d( 0.0,  0.0, 0.0);
@@ -423,7 +425,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d( 0.1, -0.1, 0.05);
 	glVertex3d(-0.1, -0.1, 0.05);
 
-	// �E���̖� ��
+	// 右側の面 青
 //	glColor3d(0.0, 0.0, 1.0);
 	glColor4d(0.0, 0.0, 1.0 ,0.5);
 //	glVertex3d( 0.2, -0.2, -0.2);
@@ -436,7 +438,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d( 0.1,  0.1, 0.05);
 	glVertex3d( 0.1,  0.1,-0.05);
 
-	// �����̖� ��
+	// 左側の面 黄
 //	glColor3d(1.0, 1.0, 0.0);
 	glColor4d(1.0, 1.0, 0.0 ,0.5);
 //	glVertex3d( 0.0,  0.0, -0.2);
@@ -449,7 +451,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d(-0.1, -0.1, 0.05);
 	glVertex3d(-0.1, -0.1,-0.05);
 
-	// �㑤�̖� ��
+	// 上側の面 紫
 //	glColor3d(1.0, 0.0, 1.0);
 	glColor4d(1.0, 0.0, 1.0 ,0.5);
 //	glVertex3d( 0.0, -0.2,  0.0);
@@ -462,7 +464,7 @@ GLuint GLWidget::makeObject()
 	glVertex3d( 0.1, -0.1,-0.05);
 	glVertex3d(-0.1, -0.1,-0.05);
 
-	// �����̖� �V�A��
+	// 下側の面 シアン
 //	glColor3d(0.0, 1.0, 1.0);
 	glColor4d(0.0, 1.0, 1.0 ,0.5);
 //	glVertex3d( 0.0, 0.0, -0.2);
@@ -541,12 +543,12 @@ void GLWidget::normalizeAngle(int *angle)
 
 void GLWidget::DrawAxis()
 {
-	glEnable(GL_CULL_FACE);			//�Жʕ\�����L���ɂ��܂� �|���S���̂����Ėʂ݂̂��`���A�����`���Ȃ��悤�ɂ���
+	glEnable(GL_CULL_FACE);			//片面表示を有効にします ポリゴンのおもて面のみを描き、裏を描かないようにする
 
-	//�����ʂ��`��
+	//軸平面を描く
 	glBegin(GL_QUADS);
 
-	//R-G���iZ-Y�������j
+	//R-G軸（Z-Y軸方向）
 	for(int Green=0;Green<255;Green++){
 		for(int Red=0;Red<255;Red++){
 			glColor4ub(Red,Green,0,255);
@@ -557,7 +559,7 @@ void GLWidget::DrawAxis()
 		}
 	}
 
-	//B-G���iX-Y�������j
+	//B-G軸（X-Y軸方向）
 	for(int Green=0;Green<255;Green++){
 		for(int Blue=0;Blue<255;Blue++){
 			glColor4ub(0,Green,Blue,255);
@@ -568,7 +570,7 @@ void GLWidget::DrawAxis()
 		}
 	}
 
-	//B-R���iX-Z�������j
+	//B-R軸（X-Z軸方向）
 	for(int Red=0;Red<255;Red++){
 		for(int Blue=0;Blue<255;Blue++){
 			glColor4ub(Red,0,Blue,255);
@@ -579,7 +581,7 @@ void GLWidget::DrawAxis()
 		}
 	}
 /*
-	//R-G�����iZ-Y���������j
+	//R-G軸奥（Z-Y軸奥方向）
 	for(int Green=0;Green<255;Green++){
 		for(int Red=0;Red<255;Red++){
 			glColor4ub(QColor(Red,Green,255));
@@ -590,7 +592,7 @@ void GLWidget::DrawAxis()
 		}
 	}
 
-	//B-G�����iX-Y���������j
+	//B-G軸奥（X-Y軸奥方向）
 	for(int Green=0;Green<255;Green++){
 		for(int Blue=0;Blue<255;Blue++){
 			glColor4ub(QColor(255,Green,Blue));
@@ -601,7 +603,7 @@ void GLWidget::DrawAxis()
 		}
 	}
 
-	//B-R�����iX-Z���������j
+	//B-R軸奥（X-Z軸奥方向）
 	for(int Red=0;Red<255;Red++){
 		for(int Blue=0;Blue<255;Blue++){
 			glColor4ub(QColor(Red,255,Blue));
@@ -614,12 +616,12 @@ void GLWidget::DrawAxis()
 */
     glEnd();
 
-	glDisable(GL_CULL_FACE);		//���ʂ��`��
+	glDisable(GL_CULL_FACE);		//両面を描く
 
-	//�����`��
+	//軸を描く
 	glBegin(GL_LINES);
 
-	//R���iZ�������j
+	//R軸（Z軸方向）
 	glColor4ub(255,0,0,255);
 	glVertex3i(-127,128,128);
 	glVertex3i(-127,128,-127);
@@ -628,7 +630,7 @@ void GLWidget::DrawAxis()
 	glVertex3i(-127,128,-127);
 	glVertex3i(-122,128,-117);
 
-	//G���iY�������j
+	//G軸（Y軸方向）
 	glColor4ub(0,255,0,255);
 	glVertex3i(-127,128,128);
 	glVertex3i(-127,-127,128);
@@ -637,7 +639,7 @@ void GLWidget::DrawAxis()
 	glVertex3i(-127,-127,128);
 	glVertex3i(-124,-117,133);
 
-	//B���iX�������j
+	//B軸（X軸方向）
 	glColor4ub(0,0,255,255);
 	glVertex3i(-127,128,128);
 	glVertex3i(128,128,128);
@@ -652,26 +654,26 @@ void GLWidget::DrawAxis()
 
 void GLWidget::DrawPoint()
 {
-	//�C�ӂ̓_���`��
+	//任意の点を描く
 	double Red,Green,Blue;
 	GetRGBValue(P,S,R,Coefficient,Red,Green,Blue);
 	glColor4ub(Red,Green,Blue,255);
 	glTranslated(Blue-127,128-Green,128-Red);
-	sphere = gluNewQuadric();				//�I�u�W�F�N�g�𐶐�
-	gluQuadricDrawStyle(sphere, GLU_FILL);	//�I�u�W�F�N�g�̕`���^�C�v���ݒ��i�ȗ��j
-	gluSphere(sphere,3,10,10);				//�~�̕`��
+	sphere = gluNewQuadric();				//オブジェクトを生成
+	gluQuadricDrawStyle(sphere, GLU_FILL);	//オブジェクトの描画タイプを設定（省略可）
+	gluSphere(sphere,3,10,10);				//円の描画
 	glTranslated(-(Blue-127),-(128-Green),-(128-Red));
-	gluDeleteQuadric(sphere);				//����������
+	gluDeleteQuadric(sphere);				//メモリ解放
 /*
 	glColor4ub(QColor(Red,Green,Blue));
 	glTranslated(Blue-127,128-Green,128-Red);
-	sphere = gluNewQuadric();				//�I�u�W�F�N�g�𐶐�
-	gluQuadricDrawStyle(sphere, GLU_FILL);	//�I�u�W�F�N�g�̕`���^�C�v���ݒ��i�ȗ��j
-	gluSphere(sphere,3,10,10);				//�~�̕`��
+	sphere = gluNewQuadric();				//オブジェクトを生成
+	gluQuadricDrawStyle(sphere, GLU_FILL);	//オブジェクトの描画タイプを設定（省略可）
+	gluSphere(sphere,3,10,10);				//円の描画
 	glTranslated(-(Blue-127),-(128-Green),-(128-Red));
-	gluDeleteQuadric(sphere);				//����������
+	gluDeleteQuadric(sphere);				//メモリ解放
 */
-	//�������`��
+	//矢印を描く
 //	glLineWidth(10);
 	glBegin(GL_LINES);
 
@@ -690,7 +692,7 @@ void GLWidget::DrawThreshold()
 {
 	glBegin(GL_QUADS);
 
-	//���O���̖� �V�A��
+	//手前側の面 シアン
 	for(BYTE P=PL;P<PH;P++){
 		for(BYTE S=SL;S<SH;S++){
 			double Red,Green,Blue;
@@ -706,7 +708,7 @@ void GLWidget::DrawThreshold()
 		}
 	}
 
-	//�����̖� ��
+	//奥側の面 紫
 	for(BYTE P=PL;P<PH;P++){
 		for(BYTE S=SL;S<SH;S++){
 			double Red,Green,Blue;
@@ -722,7 +724,7 @@ void GLWidget::DrawThreshold()
 		}
 	}
 
-	//�E���̖� ��
+	//右側の面 青
 	for(BYTE P=PL;P<PH;P++){
 		for(BYTE R=RL;R<RH;R++){
 			double Red,Green,Blue;
@@ -738,7 +740,7 @@ void GLWidget::DrawThreshold()
 		}
 	}
 
-	//�����̖� ��
+	//左側の面 黄
 	for(BYTE P=PL;P<PH;P++){
 		for(BYTE R=RL;R<RH;R++){
 			double Red,Green,Blue;
@@ -754,7 +756,7 @@ void GLWidget::DrawThreshold()
 		}
 	}
 
-	// �㑤�̖� ��
+	// 上側の面 赤
 	for(BYTE R=RL;R<RH;R++){
 		for(BYTE S=SL;S<SH;S++){
 			double Red,Green,Blue;
@@ -770,7 +772,7 @@ void GLWidget::DrawThreshold()
 		}
 	}
 
-	// �����̖� ��
+	// 下側の面 緑
 	for(BYTE R=RL;R<RH;R++){
 		for(BYTE S=SL;S<SH;S++){
 			double Red,Green,Blue;
@@ -797,7 +799,7 @@ void GLWidget::GetRGB(BYTE P,BYTE S,BYTE R,BYTE &Red,BYTE &Green,BYTE &Blue)
 
 	double r=sqrt(3.0*R*R*(1.0-A2)/(B*B+1));
 	double temp,temp1;
-	if(A==1.0){		//S==0�Ɠ��ӁH
+	if(A==1.0){		//S==0と同意？
 		temp=R*sin((P/255.0)*(M_PI/2.0))*(sqrt((double)(255*255+255*255+255*255))/255.0);;
 	}
 	else{

@@ -40,8 +40,6 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="generatedfiles\debug\moc_PropertyZRegulationForm.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -56,20 +54,9 @@
     <ClInclude Include="propertyzregulation_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLOnly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XGUIDLL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="XPropertyZRegulationPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="EditAxisIDForm.h">

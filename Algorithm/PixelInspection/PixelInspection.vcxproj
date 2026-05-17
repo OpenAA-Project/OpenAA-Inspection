@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\GUI\PropertyResultImportance;..\ResultImportance;C:\OpenAA6M\GUI-DeskMachine\ButtonThreshold2;..\..\GUI\PropertyPixel;..\AutoMaskingPI;..\VCutInspection;..\AutoPCBHoleAligner;..\AutoAlignment;..\StatisticImager;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\GUI\PropertyResultImportance;..\ResultImportance;..\..\GUI-DeskMachine\ButtonThreshold2;..\..\GUI\PropertyPixel;..\AutoMaskingPI;..\VCutInspection;..\AutoPCBHoleAligner;..\AutoAlignment;..\StatisticImager;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeedHighLevel</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <InterproceduralOptimization>MultiFile</InterproceduralOptimization>

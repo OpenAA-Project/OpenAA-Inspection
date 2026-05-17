@@ -1,21 +1,3 @@
-/*
- * Copyright (C) 2021
- * Author : Masatoshi Sasai ,MEGATRADE corporation
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 #include "ButtonThresholdResource.h"
 #include "DetailSettingForm.h"
 #include "ButtonThreshold.h"
@@ -44,7 +26,7 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	DefaultLibraryID		=PixelBase->getDefaultLibraryID();
 	BrightnessRange			=PixelBase->getBrightnessRange();
 
-	//ÔøΩÔøΩÔøΩ ï\ÔøΩÔøΩ
+	//âÊñ ï\é¶
 	SetNGThresholdP_B			(PixelBase->getNGThresholdP_B());
 	SetNGThresholdP_D			(PixelBase->getNGThresholdP_D());
 	SetNGThresholdS_B			(PixelBase->getNGThresholdS_B());
@@ -75,7 +57,7 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	SetMinimumNGSizeForHole		(PixelBase->getMinimumNGSizeForHole());
 	SetIsCalcPixelInterPoration	(PixelBase->getIsCalcPixelInterPoration());
 
-	//ÔøΩÔøΩÔøΩCÔøΩAÔøΩEÔøΩg
+	//ÉåÉCÉAÉEÉg
 	gbDetailSettingPY			=ui.gbDetailSettingP		->y();
 	gbDetailSettingPH			=ui.gbDetailSettingP		->height();
 	gbDetailSettingSY			=ui.gbDetailSettingS		->y();
@@ -104,14 +86,15 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	H							=height();
 	SetLayout();
 
-	//ÔøΩ{ÔøΩ^ÔøΩÔøΩ
-	QImage DecisionImage(ParentWidget->DecisionImageBmpFile[((ButtonThreshold *)GUIBase)->LanguageCode]);
+	int LanguageCode=GUIBase->GetLayersBase()->GetLanguageCode();
+	//É{É^Éì
+	QImage DecisionImage(ParentWidget->DecisionImageBmpFile[LanguageCode]);
 	BtnDecision=new mtImageToolButton(ui.lbDecision,false);
 	BtnDecision->setImageBmp(DecisionImage);
 	BtnDecision->setIconSize(QSize(DecisionImage.width(),DecisionImage.height()));
 	connect(BtnDecision,SIGNAL(SignalClicked()),this,SLOT(SlotBtnDecisionClicked()));
 
-	QImage CancelImage(ParentWidget->CancelImageBmpFile[((ButtonThreshold *)GUIBase)->LanguageCode]);
+	QImage CancelImage(ParentWidget->CancelImageBmpFile[LanguageCode]);
 	BtnCancel=new mtImageToolButton(ui.lbCancel,false);
 	BtnCancel->setImageBmp(CancelImage);
 	BtnCancel->setIconSize(QSize(CancelImage.width(),CancelImage.height()));
@@ -180,16 +163,16 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	connect(ui.pbSaveInsParam	,SIGNAL(clicked()),this,SLOT(pbSaveInsParamClicked()));
 	connect(ui.pbLoadInsParam	,SIGNAL(clicked()),this,SLOT(pbLoadInsParamClicked()));
 
-	//ÔøΩÔøΩÔøΩ ï\ÔøΩÔøΩÔøΩiÔøΩVÔøΩOÔøΩiÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ‘ÇÊÇ§ÔøΩÔøΩconnectÔøΩÃåÔøΩÔøΩ…ê›íÔøΩÔøΩj
+	//âÊñ ï\é¶ÅiÉVÉOÉiÉãÇ™îÚÇ‘ÇÊÇ§Ç…connectÇÃå„Ç…ê›íËÅj
 	SetCheckPadIns				(PixelBase->getCheckPadIns());
 	SetCheckSilkIns				(PixelBase->getCheckSilkIns());
 	SetCheckResistIns			(PixelBase->getCheckResistIns());
 	SetCheckHoleIns				(PixelBase->getCheckHoleIns());
 
-	//ÔøΩÔøΩÔøΩﬂèÔøΩÔøΩÔøΩ
+	//ìßâﬂèàóù
 ///	setWindowOpacity(0.5);
 /*
-	//ÔøΩpÔøΩÔøΩÔøΩbÔøΩgÔøΩÔøΩÔøΩ›íËÇµautoFillBackgroundÔøΩóòópÔøΩÔøΩÔøΩƒìÔøΩÔøΩÔøΩÔøΩFÔøΩ≈ìhÔøΩÔøΩÔøΩ¬Ç‘ÇÔøΩ
+	//ÉpÉåÉbÉgÇê›íËÇµautoFillBackgroundÇóòópÇµÇƒìßñæêFÇ≈ìhÇËÇ¬Ç‘Ç∑
 	QPalette palette;
 	palette.setColor(QPalette::Window, QColor(255, 255, 255, 128));
 	setPalette(palette);
@@ -198,10 +181,10 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	//setAttribute
 ///	setAttribute(Qt::WA_TransparentForMouseEvents);
 
-	//ÔøΩÔøΩÔøΩ ï\ÔøΩÔøΩÔøΩÔøΩÔøΩÃåÔøΩÔøΩÔøΩÔøΩŒâÔøΩ
+	//âÊñ ï\é¶ïîÇÃåæåÍëŒâû
 	LangSolver.SetUI(this);
 /*
-	//ÔøΩXÔøΩ^ÔøΩCÔøΩÔøΩÔøΩVÔøΩ[ÔøΩg
+	//ÉXÉ^ÉCÉãÉVÅ[Ég
 //	ui.gbDetailSetting	->setStyleSheet("border-style: dot-dot-dash;font-size: 12pt;");
 	ui.gbDetailSetting	->setStyleSheet(QGroupBox().styleSheet());
 	ui.pbSaveInsParam	->setStyleSheet(QPushButton().styleSheet());
@@ -589,7 +572,7 @@ void DetailSettingForm::pbSaveInsParamClicked()
 		DefaultFileName=((ButtonThreshold *)ParentWidget->GUIBase)->GetLoadParamFilePath();
 	}
 
-	//ÔøΩÔøΩÔøΩÔøΩÔøΩpÔøΩÔøΩÔøΩÔøΩÔøΩ[ÔøΩ^ÔøΩÃï€ëÔøΩ
+	//åüç∏ÉpÉâÉÅÅ[É^ÇÃï€ë∂
 	QString InsParamFilePath=QFileDialog::getSaveFileName(
 							this,LangSolver.GetString(DetailSettingForm_LS,LID_0)/*"Please save a Inspection setting parameter file."*/,DefaultFileName,/**/"Inspection setting parameter file (*.dat)");
 	if(InsParamFilePath.isEmpty()){
@@ -599,46 +582,46 @@ void DetailSettingForm::pbSaveInsParamClicked()
 	if(File.open(QIODevice::WriteOnly)==true){
 		QTextStream mystream(&File);
 
-		mystream << /**/"InspectionLevel         :" << QString::number(ParentWidget					 ->GetInspectionLevel())	<< endl;
-		mystream << /**/"SearchAreaForMakeTable  :" << QString::number(PixelBase					 ->getSearchAreaForMakeTable())	<< endl;
-		mystream << /**/"SearchDotBase           :" << QString::number(PixelBase					 ->getSearchDotBase())		<< endl;
-		mystream << /**/"Colored                 :" << QString::number(PixelBase					 ->getColored())			<< endl;
-		mystream << /**/"DefaultLibraryID        :" << QString::number(PixelBase					 ->getDefaultLibraryID())	<< endl;
-		mystream << /**/"NGThresholdP            :" << QString::number(ui.dsbNGThresholdP_B			 ->value())					<< endl;
-		mystream << /**/"NGThresholdR            :" << QString::number(ui.dsbNGThresholdR_B			 ->value())					<< endl;
-		mystream << /**/"MinimumNGSizeP          :" << QString::number(ui.sbMinimumNGSizeP			 ->value())					<< endl;
-		mystream << /**/"DoneResistIns           :" << QString::number(ui.gbDetailSettingForResist	 ->isChecked())				<< endl;
-		mystream << /**/"NGThresholdForResist    :" << QString::number(ui.sbNGThresholdForResist_B	 ->value())					<< endl;
-		mystream << /**/"MinimumNGSizeForResist  :" << QString::number(ui.sbMinimumNGSizeForResist	 ->value())					<< endl;
-		mystream << /**/"BrightnessRange         :" << QString::number(PixelBase					 ->getBrightnessRange())	<< endl;
-		mystream << /**/"IsCalcPixelInterPoration:" << QString::number(ui.chbIsCalcPixelInterPoration->isChecked())				<< endl;
-		mystream <<	/**/"DonePadIns              :" << QString::number(ui.gbDetailSettingForPad		 ->isChecked())				<< endl;
-		mystream << /**/"NGThresholdForPad       :" << QString::number(ui.sbNGThresholdForPad_B		 ->value())					<< endl;
-		mystream << /**/"MinimumNGSizeForPad     :" << QString::number(ui.sbMinimumNGSizeForPad		 ->value())					<< endl;
-		mystream << /**/"MinimumNGSizeR          :" << QString::number(ui.sbMinimumNGSizeR			 ->value())					<< endl;
-		mystream << /**/"NGThresholdS            :" << QString::number(ui.dsbNGThresholdS_B			 ->value())					<< endl;
-		mystream << /**/"MinimumNGSizeS          :" << QString::number(ui.sbMinimumNGSizeS			 ->value())					<< endl;
-		mystream << /**/"DoneSilkIns             :" << QString::number(ui.gbDetailSettingForSilk	 ->isChecked())				<< endl;
-		mystream << /**/"NGThresholdForSilk      :" << QString::number(ui.sbNGThresholdForSilk_B	 ->value())					<< endl;
-		mystream << /**/"MinimumNGSizeForSilk    :" << QString::number(ui.sbMinimumNGSizeForSilk	 ->value())					<< endl;
-		mystream << /**/"NGThresholdH            :" << QString::number(ui.dsbNGThresholdH_B			 ->value())					<< endl;
-		mystream << /**/"MinimumNGSizeH          :" << QString::number(ui.sbMinimumNGSizeH			 ->value())					<< endl;
-		mystream << /**/"DoneHoleIns             :" << QString::number(ui.gbDetailSettingForHole	 ->isChecked())				<< endl;
-		mystream << /**/"NGThresholdForHole      :" << QString::number(ui.sbNGThresholdForHole_B	 ->value())					<< endl;
-		mystream << /**/"MinimumNGSizeForHole    :" << QString::number(ui.sbMinimumNGSizeForHole	 ->value())					<< endl;
-		mystream << /**/"CheckPadIns             :" << QString::number(ui.chSettingForPad			 ->isChecked())				<< endl;
-		mystream << /**/"CheckSilkIns            :" << QString::number(ui.chSettingForSilk			 ->isChecked())				<< endl;
-		mystream << /**/"CheckResistIns          :" << QString::number(ui.chSettingForResist		 ->isChecked())				<< endl;
-		mystream << /**/"CheckHoleIns            :" << QString::number(ui.chSettingForHole			 ->isChecked())				<< endl;
+		mystream << /**/"InspectionLevel         :" << QString::number(ParentWidget					 ->GetInspectionLevel())	<< Qt::endl;
+		mystream << /**/"SearchAreaForMakeTable  :" << QString::number(PixelBase					 ->getSearchAreaForMakeTable())	<< Qt::endl;
+		mystream << /**/"SearchDotBase           :" << QString::number(PixelBase					 ->getSearchDotBase())		<< Qt::endl;
+		mystream << /**/"Colored                 :" << QString::number(PixelBase					 ->getColored())			<< Qt::endl;
+		mystream << /**/"DefaultLibraryID        :" << QString::number(PixelBase					 ->getDefaultLibraryID())	<< Qt::endl;
+		mystream << /**/"NGThresholdP            :" << QString::number(ui.dsbNGThresholdP_B			 ->value())					<< Qt::endl;
+		mystream << /**/"NGThresholdR            :" << QString::number(ui.dsbNGThresholdR_B			 ->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeP          :" << QString::number(ui.sbMinimumNGSizeP			 ->value())					<< Qt::endl;
+		mystream << /**/"DoneResistIns           :" << QString::number(ui.gbDetailSettingForResist	 ->isChecked())				<< Qt::endl;
+		mystream << /**/"NGThresholdForResist    :" << QString::number(ui.sbNGThresholdForResist_B	 ->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeForResist  :" << QString::number(ui.sbMinimumNGSizeForResist	 ->value())					<< Qt::endl;
+		mystream << /**/"BrightnessRange         :" << QString::number(PixelBase					 ->getBrightnessRange())	<< Qt::endl;
+		mystream << /**/"IsCalcPixelInterPoration:" << QString::number(ui.chbIsCalcPixelInterPoration->isChecked())				<< Qt::endl;
+		mystream <<	/**/"DonePadIns              :" << QString::number(ui.gbDetailSettingForPad		 ->isChecked())				<< Qt::endl;
+		mystream << /**/"NGThresholdForPad       :" << QString::number(ui.sbNGThresholdForPad_B		 ->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeForPad     :" << QString::number(ui.sbMinimumNGSizeForPad		 ->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeR          :" << QString::number(ui.sbMinimumNGSizeR			 ->value())					<< Qt::endl;
+		mystream << /**/"NGThresholdS            :" << QString::number(ui.dsbNGThresholdS_B			 ->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeS          :" << QString::number(ui.sbMinimumNGSizeS			 ->value())					<< Qt::endl;
+		mystream << /**/"DoneSilkIns             :" << QString::number(ui.gbDetailSettingForSilk	 ->isChecked())				<< Qt::endl;
+		mystream << /**/"NGThresholdForSilk      :" << QString::number(ui.sbNGThresholdForSilk_B	 ->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeForSilk    :" << QString::number(ui.sbMinimumNGSizeForSilk	 ->value())					<< Qt::endl;
+		mystream << /**/"NGThresholdH            :" << QString::number(ui.dsbNGThresholdH_B			 ->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeH          :" << QString::number(ui.sbMinimumNGSizeH			 ->value())					<< Qt::endl;
+		mystream << /**/"DoneHoleIns             :" << QString::number(ui.gbDetailSettingForHole	 ->isChecked())				<< Qt::endl;
+		mystream << /**/"NGThresholdForHole      :" << QString::number(ui.sbNGThresholdForHole_B	 ->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeForHole    :" << QString::number(ui.sbMinimumNGSizeForHole	 ->value())					<< Qt::endl;
+		mystream << /**/"CheckPadIns             :" << QString::number(ui.chSettingForPad			 ->isChecked())				<< Qt::endl;
+		mystream << /**/"CheckSilkIns            :" << QString::number(ui.chSettingForSilk			 ->isChecked())				<< Qt::endl;
+		mystream << /**/"CheckResistIns          :" << QString::number(ui.chSettingForResist		 ->isChecked())				<< Qt::endl;
+		mystream << /**/"CheckHoleIns            :" << QString::number(ui.chSettingForHole			 ->isChecked())				<< Qt::endl;
 
-		mystream << /**/"NGThresholdP_D          :" << QString::number(ui.dsbNGThresholdP_D			 ->value())					<< endl;
-		mystream << /**/"NGThresholdForPad_D     :" << QString::number(ui.sbNGThresholdForPad_D		 ->value())					<< endl;
-		mystream << /**/"NGThresholdS_D          :" << QString::number(ui.dsbNGThresholdS_D			 ->value())					<< endl;
-		mystream << /**/"NGThresholdForSilk_D    :" << QString::number(ui.sbNGThresholdForSilk_D	 ->value())					<< endl;
-		mystream << /**/"NGThresholdR_D          :" << QString::number(ui.dsbNGThresholdR_D			 ->value())					<< endl;
-		mystream << /**/"NGThresholdForResist_D  :" << QString::number(ui.sbNGThresholdForResist_D	 ->value())					<< endl;
-		mystream << /**/"NGThresholdH_D          :" << QString::number(ui.dsbNGThresholdH_D			 ->value())					<< endl;
-		mystream << /**/"NGThresholdForHole_D    :" << QString::number(ui.sbNGThresholdForHole_D	 ->value())					<< endl;
+		mystream << /**/"NGThresholdP_D          :" << QString::number(ui.dsbNGThresholdP_D			 ->value())					<< Qt::endl;
+		mystream << /**/"NGThresholdForPad_D     :" << QString::number(ui.sbNGThresholdForPad_D		 ->value())					<< Qt::endl;
+		mystream << /**/"NGThresholdS_D          :" << QString::number(ui.dsbNGThresholdS_D			 ->value())					<< Qt::endl;
+		mystream << /**/"NGThresholdForSilk_D    :" << QString::number(ui.sbNGThresholdForSilk_D	 ->value())					<< Qt::endl;
+		mystream << /**/"NGThresholdR_D          :" << QString::number(ui.dsbNGThresholdR_D			 ->value())					<< Qt::endl;
+		mystream << /**/"NGThresholdForResist_D  :" << QString::number(ui.sbNGThresholdForResist_D	 ->value())					<< Qt::endl;
+		mystream << /**/"NGThresholdH_D          :" << QString::number(ui.dsbNGThresholdH_D			 ->value())					<< Qt::endl;
+		mystream << /**/"NGThresholdForHole_D    :" << QString::number(ui.sbNGThresholdForHole_D	 ->value())					<< Qt::endl;
 
 		((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel			=ParentWidget->GetInspectionLevel();
 		((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdP_B				=ui.dsbNGThresholdP_B->value();
@@ -711,11 +694,10 @@ void DetailSettingForm::pbLoadInsParamClicked()
 					FilePathText+=/**/"\n " + FilePathList.at(i);
 				}
 				QMessageBox MsgBox;
-//				MsgBox.setFont	(font1[LanguageCode]);
 				MsgBox.setText	("Found more than one file."
 								+ FilePathText);
 				MsgBox.addButton(/**/"OK",QMessageBox::AcceptRole);
-				MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//ÔøΩÔøΩÔøΩ…ëOÔøΩ Ç…ï\ÔøΩÔøΩ
+				MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//èÌÇ…ëOñ Ç…ï\é¶
 				MsgBox.exec();
 			}
 			DefaultFilePath=FilePathList.last();
@@ -723,15 +705,14 @@ void DetailSettingForm::pbLoadInsParamClicked()
 		else{
 			//Message
 			QMessageBox MsgBox;
-//			MsgBox.setFont	(font1[LanguageCode]);
 			MsgBox.setText	("File not found.");
 			MsgBox.addButton(/**/"OK",QMessageBox::AcceptRole);
-			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//ÔøΩÔøΩÔøΩ…ëOÔøΩ Ç…ï\ÔøΩÔøΩ
+			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//èÌÇ…ëOñ Ç…ï\é¶
 			MsgBox.exec();
 		}
 	}
 
-	//ÔøΩÔøΩÔøΩÔøΩÔøΩpÔøΩÔøΩÔøΩÔøΩÔøΩ[ÔøΩ^ÔøΩÃì«çÔøΩ
+	//åüç∏ÉpÉâÉÅÅ[É^ÇÃì«çû
 	QString InsParamFilePath=QFileDialog::getOpenFileName(
 							this,LangSolver.GetString(DetailSettingForm_LS,LID_2)/*"Please choose a Inspection setting parameter file."*/,DefaultFilePath,/**/"Inspection setting parameter file (*.dat)");
 	if(InsParamFilePath.isEmpty()){
@@ -746,7 +727,7 @@ void DetailSettingForm::pbLoadInsParamClicked()
 //			MsgBox.setFont	(font1[LanguageCode]);
 			MsgBox.setText	("File is wrong.");
 			MsgBox.addButton(/**/"OK",QMessageBox::AcceptRole);
-			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//ÔøΩÔøΩÔøΩ…ëOÔøΩ Ç…ï\ÔøΩÔøΩ
+			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//èÌÇ…ëOñ Ç…ï\é¶
 			MsgBox.exec();
 		}
 	}
@@ -793,7 +774,7 @@ void DetailSettingForm::pbLoadInsParamClicked()
 				((ButtonThreshold *)ParentWidget->GUIBase)->wMinimumNGSizeP=Param.toInt();
 				CheckBit|=0x80;
 			}
-			///////////ÔøΩÔøΩÔøΩÔøΩÔøΩoÔøΩ[ÔøΩWÔøΩÔøΩÔøΩÔøΩËáílÔøΩŒâÔøΩÔøΩÔøΩ///////////
+			///////////Å´ãåÉoÅ[ÉWÉáÉìËáílëŒâûÅ´///////////
 			else if(ParamName==/**/"NGThreshold2"){
 				((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdR_B=((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdR_D=Param.toDouble();
 				CheckBit|=0x40;
@@ -812,7 +793,7 @@ void DetailSettingForm::pbLoadInsParamClicked()
 				((ButtonThreshold *)ParentWidget->GUIBase)->wMinimumNGSizeH=Param.toInt();
 				CheckBit|=0x800000;
 			}
-			///////////ÔøΩÔøΩÔøΩÔøΩÔøΩoÔøΩ[ÔøΩWÔøΩÔøΩÔøΩÔøΩËáílÔøΩŒâÔøΩÔøΩÔøΩ///////////
+			///////////Å™ãåÉoÅ[ÉWÉáÉìËáílëŒâûÅ™///////////
 			else if(ParamName==/**/"DoneResistIns"){
 				((ButtonThreshold *)ParentWidget->GUIBase)->wDoneResistIns=Param.toInt();
 				CheckBit|=0x100;
@@ -933,13 +914,13 @@ void DetailSettingForm::pbLoadInsParamClicked()
 		}
 		File.close();
 
-		//CheckBitÔøΩÃÉ`ÔøΩFÔøΩbÔøΩN
+		//CheckBitÇÃÉ`ÉFÉbÉN
 		if((CheckBit&0x01)==0){
 			QMessageBox MsgBox;
 //			MsgBox.setFont	(font1[LanguageCode]);
 			MsgBox.setText	("File is wrong.");
 			MsgBox.addButton(/**/"OK",QMessageBox::AcceptRole);
-			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//ÔøΩÔøΩÔøΩ…ëOÔøΩ Ç…ï\ÔøΩÔøΩ
+			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//èÌÇ…ëOñ Ç…ï\é¶
 			MsgBox.exec();
 			return;
 		}
@@ -959,25 +940,25 @@ void DetailSettingForm::pbLoadInsParamClicked()
 				((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdForHole_D	=((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdForResist_D;
 				((ButtonThreshold *)ParentWidget->GUIBase)->wMinimumNGSizeForHole	=((ButtonThreshold *)ParentWidget->GUIBase)->wMinimumNGSizeForResist;
 			}
-			//ÔøΩfÔøΩtÔøΩHÔøΩÔøΩÔøΩgÔøΩÔøΩÔøΩÔøΩÔøΩœçXÔøΩÔøΩÔøΩÔøΩÔøΩƒÇÔøΩÔøΩÔøΩÔøΩÍçáÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÃÇ≈ÅAÔøΩfÔøΩtÔøΩHÔøΩÔøΩÔøΩgÔøΩ…ãÔøΩÔøΩÔøΩÔøΩIÔøΩ…ê›íËÇ∑ÔøΩÔøΩ
+			//ÉfÉtÉHÉãÉgÇ©ÇÁïœçXÇ≥ÇÍÇƒÇ¢ÇÈèÍçáÇ‡Ç†ÇÈÇÃÇ≈ÅAÉfÉtÉHÉãÉgÇ…ã≠êßìIÇ…ê›íËÇ∑ÇÈ
 			if((CheckBit&0x80000)==0 || (CheckBit&0x1000000)==0){
 				((ButtonThreshold *)ParentWidget->GUIBase)->wCheckPadIns	=true;
 				((ButtonThreshold *)ParentWidget->GUIBase)->wCheckSilkIns	=true;
 				((ButtonThreshold *)ParentWidget->GUIBase)->wCheckResistIns	=true;
 				((ButtonThreshold *)ParentWidget->GUIBase)->wCheckHoleIns	=true;
 				if(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel>10){
-					ParentWidget->SetInspectionLevel(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel);	//ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩxÔøΩÔøΩÔøΩÃê›íÔøΩ
+					ParentWidget->SetInspectionLevel(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel);	//åüç∏ÉåÉxÉãÇÃê›íË
 				}
 				else{
-					ParentWidget->SetImageSlider(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel);		//ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩxÔøΩÔøΩÔøΩÃê›íÔøΩ
+					ParentWidget->SetImageSlider(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel);		//åüç∏ÉåÉxÉãÇÃê›íË
 				}
 			}
 			else{
-				ParentWidget->SetImageSlider(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel);			//ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩxÔøΩÔøΩÔøΩÃê›íÔøΩ
+				ParentWidget->SetImageSlider(((ButtonThreshold *)ParentWidget->GUIBase)->wInspectionLevel);			//åüç∏ÉåÉxÉãÇÃê›íË
 			}
 		}
 
-		//ÔøΩÔøΩÔøΩ ê›íÔøΩ
+		//âÊñ ê›íË
 		ui.dsbNGThresholdP_B			->setValue	(((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdP_B);
 		ui.dsbNGThresholdP_D			->setValue	(((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdP_D);
 		ui.dsbNGThresholdS_B			->setValue	(((ButtonThreshold *)ParentWidget->GUIBase)->wNGThresholdS_B);
@@ -1056,7 +1037,7 @@ void DetailSettingForm::SlotBtnDecisionClicked()
 	PixelBase->setMinimumNGSizeForHole		(ui.sbMinimumNGSizeForHole		->value());
 	PixelBase->setIsCalcPixelInterPoration	(ui.chbIsCalcPixelInterPoration	->isChecked());
 
-	//ÔøΩpÔøΩÔøΩÔøΩÔøΩÔøΩ[ÔøΩ^ÔøΩ…ï€ëÔøΩ
+	//ÉpÉâÉÅÅ[É^Ç…ï€ë∂
 	GUIBase->GetLayersBase()->WriteAllSettingFiles();
 
 	//Check

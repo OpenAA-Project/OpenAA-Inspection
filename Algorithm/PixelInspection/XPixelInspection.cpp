@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2025
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -37,7 +37,7 @@
 #include "XCriticalFunc.h"
 #include "XDisplayBitImage.h"
 #include "ButtonThreshold2.h"
-#include "XPixelInspectionPacket.h"
+#include "xpixelinspectionpacket.h"
 #include "XDisplayImage.h"
 #include "XResultImportancePacket.h"
 #include <QMessageBox>
@@ -176,7 +176,7 @@ void	PixelThresholdSend::ConstructList(PixelThresholdReq *reqPacket,PixelInspect
 //				dy=item->GetCurrentResult()->GetTotalShiftedY();
 //			}
 
-			//?}?E?X?N???b?N?��???A?W?d?a??
+			//?}?E?X?N???b?N??????A?W?d?a??
 			PixelInspectionInPage *PInPage=dynamic_cast<PixelInspectionInPage *>(Ap);
 			//int OutlineOffsetX=Ap->GetDataInPage()->GetOutlineOffset()->x;
 			//int OutlineOffsetY=Ap->GetDataInPage()->GetOutlineOffset()->y;
@@ -220,49 +220,49 @@ void	PixelThresholdSend::ConstructList(PixelThresholdReq *reqPacket,PixelInspect
 			MasterX=MasterY=-1;
 			SearchAreaForMakeTable=((PixelInspectionBase *)PItem->GetParentBase())->getSearchAreaForMakeTable();
 
-			//???�C?a???I?a??
+			//????C?a???I?a??
 			PItem->GetTargetImageList(TargetImageList);
 
 			if(DoneResistIns==true){
 //////////////////////////////////////////////////////
-//		???W?X?g?i?p?b?h?A?V???N?E?O?j?I???�C		//
+//		???W?X?g?i?p?b?h?A?V???N?E?O?j?I????C		//
 //////////////////////////////////////////////////////
 
-				//Master?a???c?cTarget?a???O?I?I?�E?A?I???�C
+				//Master?a???c?cTarget?a???O?I?I??E?A?I????C
 				if(PItem->GetMasterCoord		(localX,localY,MasterX,MasterY)==true){
 					PItem->GetMasterBrightness	(MasterX,MasterY,MasterBrightness2,true);
 					PItem->GetAverageBrightness	(MasterX,MasterY,SearchDotBase,AverageBrightness2,true);
 					PItem->GetLightBrightness	(MasterX,MasterY,LightBrightness2,true);
 					PItem->GetDarkBrightness	(MasterX,MasterY,DarkBrightness2,true);
 					PItem->GetThreshold			(MasterX,MasterY,PL,PH,SL,SH,RL,RH,true);
-					//?u?I?I?��?��?��?l?A?I???�C//
+					//?u?I?I??????????l?A?I????C//
 					PItem->GetExecProcessingForResist1(MasterX,MasterY,SearchDotBase,NGThresholdForResist,BrightnessRange,255,PLr1,PHr1,SLr1,SHr1,RLr1,RHr1,InsAverageCoordX2,InsAverageCoordY2,InspectResult,ThresholdRange);
 					if((InspectResult&0x0100000000)==0){
-						//?u?I?I???�C?a???A?I???�C//
+						//?u?I?I????C?a???A?I????C//
 						PItem->GetExecProcessingForResist2(MasterX,MasterY,SearchDotBase,NGThresholdForResist,BrightnessRange,255,InsTargetBrightness2,InsTargetCoordX2,InsTargetCoordY2,InspectResult);
 					}
 				}
 				if(InspectResult==0){
-					//Target?a???c?cMaster?a???O?I?I?�E?A?I???�C
+					//Target?a???c?cMaster?a???O?I?I??E?A?I????C
 					PItem->GetMasterBrightness	(localX,localY,MasterBrightness);
 					PItem->GetAverageBrightness	(localX,localY,SearchDotBase,AverageBrightness);
 					PItem->GetLightBrightness	(localX,localY,LightBrightness);
 					PItem->GetDarkBrightness	(localX,localY,DarkBrightness);
 					PItem->GetThreshold			(localX,localY,PL,PH,SL,SH,RL,RH);
-					//?u?I?I?��?��?��?l?A?I???�C//
+					//?u?I?I??????????l?A?I????C//
 					PItem->GetExecProcessingForResist3(localX,localY,SearchDotBase,NGThresholdForResist,BrightnessRange,InspectionLevel,PLr1,PHr1,SLr1,SHr1,RLr1,RHr1,InsAverageCoordX,InsAverageCoordY,InspectResult,ThresholdRange);
 					if((InspectResult&0x01000000000000)==0){
-						//?u?I?I???�C?a???A?I???�C//
+						//?u?I?I????C?a???A?I????C//
 						PItem->GetExecProcessingForResist4(localX,localY,SearchDotBase,NGThresholdForResist,BrightnessRange,InspectionLevel,InsTargetBrightness2,InsTargetCoordX,InsTargetCoordY,InspectResult);
 					}
 				}
 			}
 
 //////////////////////////////////////////////////////
-//					?E?i?I???�C						//
+//					?E?i?I????C						//
 //////////////////////////////////////////////////////
 
-			//Master?a???c?cTarget?a???O?I?I?�E?A?I???�C
+			//Master?a???c?cTarget?a???O?I?I??E?A?I????C
 			if(MasterX==-1){
 				PItem->GetMasterCoord(localX,localY,MasterX,MasterY);
 			}
@@ -272,24 +272,24 @@ void	PixelThresholdSend::ConstructList(PixelThresholdReq *reqPacket,PixelInspect
 				PItem->GetLightBrightness	(MasterX,MasterY,LightBrightness2,true);
 				PItem->GetDarkBrightness	(MasterX,MasterY,DarkBrightness2,true);
 				PItem->GetThreshold			(MasterX,MasterY,PL,PH,SL,SH,RL,RH,true);
-				//?u?I?I?��?��?��?l?A?I???�C//
+				//?u?I?I??????????l?A?I????C//
 				PItem->GetExecProcessing1(MasterX,MasterY,SearchDotBase,NGThresholdP,BrightnessRange,InspectionLevel,PL1,PH1,SL1,SH1,RL1,RH1,InsAverageCoordX,InsAverageCoordY,InspectResult,ThresholdRange);
 				if((InspectResult&0x01)==0){
-					//?u?I?I???�C?a???A?I???�C//
+					//?u?I?I????C?a???A?I????C//
 					PItem->GetExecProcessing2(MasterX,MasterY,SearchDotBase,NGThresholdP,BrightnessRange,InspectionLevel,InsTargetBrightness,InsTargetCoordX,InsTargetCoordY,InspectResult);
 				}
 			}
 			if((InspectResult&0xFFFF)==0){
-				//Target?a???c?cMaster?a???O?I?I?�E?A?I???�C
+				//Target?a???c?cMaster?a???O?I?I??E?A?I????C
 				PItem->GetMasterBrightness	(localX,localY,MasterBrightness);
 				PItem->GetAverageBrightness	(localX,localY,SearchDotBase,AverageBrightness);
 				PItem->GetLightBrightness	(localX,localY,LightBrightness);
 				PItem->GetDarkBrightness	(localX,localY,DarkBrightness);
 				PItem->GetThreshold			(localX,localY,PL,PH,SL,SH,RL,RH);
-				//?u?I?I?��?��?��?l?A?I???�C//
+				//?u?I?I??????????l?A?I????C//
 				PItem->GetExecProcessing3(localX,localY,SearchDotBase,NGThresholdP,BrightnessRange,InspectionLevel,PL1,PH1,SL1,SH1,RL1,RH1,InsAverageCoordX,InsAverageCoordY,InspectResult,ThresholdRange);
 				if((InspectResult&0x010000)==0){
-					//?u?I?I???�C?a???A?I???�C//
+					//?u?I?I????C?a???A?I????C//
 					PItem->GetExecProcessing4(localX,localY,SearchDotBase,NGThresholdP,BrightnessRange,InspectionLevel,InsTargetBrightness,InsTargetCoordX,InsTargetCoordY,InspectResult);
 				}
 			}
@@ -472,37 +472,8 @@ bool	PixelTryThresholdSend::Load(QIODevice *f)
 	return true;
 }
 
-inline	double	Clip1(double d)
-{
-	if(d>1)
-		return 1;
-	if(d<-1)
-		return -1;
-	return d;
-}
 
-inline	BYTE	Clip255(int d)
-{
-	if(d<0)
-		return 0;
-	if(d>255)
-		return 255;
-	return d;
-}
-
-inline	BYTE	GetAvr(DWORD Added,int n)
-{
-	return Added/n;
-}
-
-inline	BYTE	GetDisorder(DWORD Added,DWORD Added2,int n)
-{
-	double	Avr=Added/(double)n;
-	double	v=(Added2-(double)Avr*(double)Avr*n)/(double)n;
-	return Clip255(sqrt(v));
-}
-
-///////////////?��???u?o?[?W?????I???c?��///////////////
+///////////////??????u?o?[?W?????I???c???///////////////
 bool	PixelSampleList::Save(QIODevice *f)
 {
 	if(::Save(f,Name)==false)
@@ -793,7 +764,7 @@ bool	PixelInspectionThreshold::Save(QIODevice *f)
 
 bool	PixelInspectionThreshold::Load(QIODevice *f)
 {
-	//?}?X?^?[?f?[?^?I?o?[?W?????a?��Load?I??
+	//?}?X?^?[?f?[?^?I?o?[?W?????a???Load?I??
 	AlgorithmBase	*MBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"PixelInspection");
 	if(MBase==NULL){
 		return false;
@@ -1016,7 +987,7 @@ AlgorithmItemPI	&PixelInspectionItem::operator=(const AlgorithmItemRoot &src)
 */
 }
 
-//Target?I?A?W?E?I???�E?eMaster?A?W?d?T?�E
+//Target?I?A?W?E?I????E?eMaster?A?W?d?T??E
 bool	PixelInspectionItem::GetMasterCoord(int TX,int TY,int &MX,int &MY)
 {
 	if(pAlignPage==NULL){
@@ -1024,10 +995,10 @@ bool	PixelInspectionItem::GetMasterCoord(int TX,int TY,int &MX,int &MY)
 		return false;
 	}
 
-	//?T?�E?I?I?d???s?e
+	//?T??E?I?I?d???s?e
 	int SearchRange=((AutoAlignmentBase *)pAlignPage->GetParentBase())->SearchDot;
 
-	//?�P?e?A?W?A?I?��?f
+	//??P?e?A?W?A?I????f
 	int mtX,mtY;
 	mtX=TX;
 	mtY=TY;
@@ -1039,7 +1010,7 @@ bool	PixelInspectionItem::GetMasterCoord(int TX,int TY,int &MX,int &MY)
 		return true;
 	}
 
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 	int	XNumb=GetDotPerLine();
 	int	YNumb=GetMaxLines();
 	for(int Len=1;Len<=SearchRange;Len++){
@@ -1194,7 +1165,7 @@ bool	PixelInspectionItem::GetAverageBrightness(int X,int Y,int SearchDot,BYTE *B
 		return false;
 	}
 
-	//???u?��
+	//???u???
 	if(Brightness[0]!=NULL){
 		for(int i=0;i<3;i++){
 			delete []Brightness[i];
@@ -1416,7 +1387,7 @@ bool	PixelInspectionItem::GetTryThreshold(int X,int Y,int SearchDot,int SearchAr
 		RH[Index]=0;
 		RL[Index]=255;
 		CalcThresholdImageList(mx,my,SearchArea,AverageImageList,PL[Index],PH[Index],SL[Index],SH[Index],RL[Index],RH[Index]);
-		//?u?I?A?I?��?f
+		//?u?I?A?I????f
 		Index++;
 		for(int Len=1;Len<=SearchDot;Len++){
 			int	dx;
@@ -1459,13 +1430,13 @@ bool	PixelInspectionItem::GetTryThreshold(int X,int Y,int SearchDot,int SearchAr
 			}
 		}
 
-		//???e?��?a??
+		//???e????a??
 		Index=0;
 		if(GetLightBuffList(LightImageList)==false){
 			return false;
 		}
 		CalcThresholdImageList(mx,my,SearchArea,LightImageList,PL[Index],PH[Index],SL[Index],SH[Index],RL[Index],RH[Index]);
-		//?u?I?A?I?��?f
+		//?u?I?A?I????f
 		Index++;
 		for(int Len=1;Len<=SearchDot;Len++){
 			int	dx;
@@ -1486,13 +1457,13 @@ bool	PixelInspectionItem::GetTryThreshold(int X,int Y,int SearchDot,int SearchAr
 		//delete
 		DeleteImageList(LightImageList);
 
-		//?A?��?a??
+		//?A????a??
 		Index=0;
 		if(GetDarkBuffList(DarkImageList)==false){
 			return false;
 		}
 		CalcThresholdImageList(mx,my,SearchArea,DarkImageList,PL[Index],PH[Index],SL[Index],SH[Index],RL[Index],RH[Index]);
-		//?u?I?A?I?��?f
+		//?u?I?A?I????f
 		Index++;
 		for(int Len=1;Len<=SearchDot;Len++){
 			int	dx;
@@ -1517,11 +1488,11 @@ bool	PixelInspectionItem::GetTryThreshold(int X,int Y,int SearchDot,int SearchAr
 	return true;
 }
 
-//Master?a???c?cTarget?a???O?I?I?�E?A?I???�C
+//Master?a???c?cTarget?a???O?I?I??E?A?I????C
 bool	PixelInspectionItem::GetExecProcessingForResist1(int X,int Y,int SearchDotBase,int NGThreshold,int BrightnessRange,int InspectionLevel,BYTE &rPL1,BYTE &rPH1,BYTE &rSL1,BYTE &rSH1,BYTE &rRL1,BYTE &rRH1,int &CoordX,int &CoordY,uint64 &InspectResult,int &wThresholdRange)
 {
-	//?u?I?I?��?��?��?l?A?I???�C//
-	PixelInsData &P	=PixData[Y][X];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+	//?u?I?I??????????l?A?I????C//
+	PixelInsData &P	=PixData[Y][X];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 	if(P.StdDisorder==255){
 		return false;
 	}
@@ -1595,7 +1566,7 @@ bool	PixelInspectionItem::GetExecProcessingForResist1(int X,int Y,int SearchDotB
 		return true;
 	}
 
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
@@ -1668,8 +1639,8 @@ bool	PixelInspectionItem::GetExecProcessingForResist1(int X,int Y,int SearchDotB
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
-	PixelInsData	&P1=PixData[Y][X];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+	//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
+	PixelInsData	&P1=PixData[Y][X];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 	PixelInsData	P3;
 	P3.SL=Q->S;
 	P3.PL=Q->P;
@@ -1747,7 +1718,7 @@ bool	PixelInspectionItem::GetExecProcessingForResist1(int X,int Y,int SearchDotB
 		return true;
 	}
 
-	//???�Ce??l?A?I?�E?d?Z?o
+	//????Ce??l?A?I??E?d?Z?o
 	BYTE DiffPSR=0;
 	PixelInsData &Pw=PixData[Y][X];
 	if(Pw.PL-Q->P > 0){
@@ -1780,7 +1751,7 @@ bool	PixelInspectionItem::GetExecProcessingForResist1(int X,int Y,int SearchDotB
 			DiffPSR=wDiffPSR;
 		}
 	}
-	//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
+	//????-?ENG?I??}??}?A?O?e????E?c??P?e
 	if(DiffPSR<BrightnessRange){
 		SetReturnExecProcessing(Pw.PL,Pw.PH,Pw.SL,Pw.SH,Pw.RL,Pw.RH,X,Y,0x1000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
 		return true;
@@ -1790,11 +1761,11 @@ bool	PixelInspectionItem::GetExecProcessingForResist1(int X,int Y,int SearchDotB
 	return true;
 }
 
-//Master?a???c?cTarget?a???O?I?I?�E?A?I???�C
+//Master?a???c?cTarget?a???O?I?I??E?A?I????C
 bool	PixelInspectionItem::GetExecProcessingForResist2(int X,int Y,int SearchDotBase,int NGThreshold,int BrightnessRange,int InspectionLevel,BYTE Brightness[],int &CoordX,int &CoordY,uint64 &InspectResult)
 {
-	//?u?I?I???�C?a???A?I???�C//
-	PixelInsData &P	=PixData[Y][X];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+	//?u?I?I????C?a???A?I????C//
+	PixelInsData &P	=PixData[Y][X];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 	if(P.StdDisorder==255){
 		return false;
 	}
@@ -1870,7 +1841,7 @@ bool	PixelInspectionItem::GetExecProcessingForResist2(int X,int Y,int SearchDotB
 		return true;
 	}
 
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
@@ -1919,7 +1890,7 @@ bool	PixelInspectionItem::GetExecProcessingForResist2(int X,int Y,int SearchDotB
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I???�C?a???d???��?��?A???o????
+	//?i???_?A?u?e?I?_?I????C?a???d?????????A???o????
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
@@ -2085,7 +2056,7 @@ bool	PixelInspectionItem::GetExecProcessingForResist2(int X,int Y,int SearchDotB
 		return true;
 	}
 
-	//???�Ce??l?A?I?�E?d?Z?o
+	//????Ce??l?A?I??E?d?Z?o
 	BYTE DiffPSR=0;
 	if(PL-Q->P > 0){
 		DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
@@ -2117,7 +2088,7 @@ bool	PixelInspectionItem::GetExecProcessingForResist2(int X,int Y,int SearchDotB
 			DiffPSR=wDiffPSR;
 		}
 	}
-	//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
+	//????-?ENG?I??}??}?A?O?e????E?c??P?e
 	if(DiffPSR<BrightnessRange){
 		SetReturnExecProcessing(ts,X,Y,0x100000000000,Brightness,CoordX,CoordY,InspectResult);
 		return true;
@@ -2130,10 +2101,9 @@ bool	PixelInspectionItem::GetExecProcessingForResist2(int X,int Y,int SearchDotB
 	return true;
 }
 
-//Target?a???c?cMaster?a???O?I?I?�E?A?I???�C
 bool	PixelInspectionItem::GetExecProcessingForResist3(int X,int Y,int SearchDotBase,int NGThreshold,int BrightnessRange,int InspectionLevel,BYTE &rPL1,BYTE &rPH1,BYTE &rSL1,BYTE &rSH1,BYTE &rRL1,BYTE &rRH1,int &CoordX,int &CoordY,uint64 &InspectResult,int &wThresholdRange)
 {
-	//?u?I?I?��?��?��?l?A?I???�C//
+	//?u?I?I??????????l?A?I????C//
 	int	mx,my;
 	int tmX,tmY;
 	int mtX,mtY;
@@ -2180,243 +2150,245 @@ bool	PixelInspectionItem::GetExecProcessingForResist3(int X,int Y,int SearchDotB
 		return false;
 	}
 
-REINS3_1_R:;
-	PixelInsData &P=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?^?[?Q?b?g?A?W?c?c?}?X?^?[?A?W?E?a?3
-	if(P.StdDisorder==255){
-		return false;
-	}
+	// goto の代わりに while (true) ループを使用し、やり直しの際は continue を呼ぶ
+	while (true) {
+		PixelInsData &P=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?^?[?Q?b?g?A?W?c?c?}?X?^?[?A?W?E?a?3
+		if(P.StdDisorder==255){
+			return false;
+		}
 
-	wThresholdRange=ThresholdRange+wNGThreshold;
-	int PL,PH,SL,SH,RL,RH;
-	int	wPL=P.PL-wThresholdRange;
-	int	wPH=P.PH+wThresholdRange;
-	int	wSL=P.SL-wThresholdRange;
-	int	wSH=P.SH+wThresholdRange;
-	int	wRL=P.RL-wThresholdRange;
-	int	wRH=P.RH+wThresholdRange;
+		wThresholdRange=ThresholdRange+wNGThreshold;
+		int PL,PH,SL,SH,RL,RH;
+		int	wPL=P.PL-wThresholdRange;
+		int	wPH=P.PH+wThresholdRange;
+		int	wSL=P.SL-wThresholdRange;
+		int	wSH=P.SH+wThresholdRange;
+		int	wRL=P.RL-wThresholdRange;
+		int	wRH=P.RH+wThresholdRange;
 
-	if((mx-SearchDot)<0 || XLen<=(mx+SearchDot)){
-		return false;
-	}
-	if((my-SearchDot)<0 || YLen<=(my+SearchDot)){
-		return false;
-	}
+		if((mx-SearchDot)<0 || XLen<=(mx+SearchDot)){
+			return false;
+		}
+		if((my-SearchDot)<0 || YLen<=(my+SearchDot)){
+			return false;
+		}
 
-	ts[0]=TargetImageList[0]->GetY(Y);
-	ts[1]=TargetImageList[1]->GetY(Y);
-	ts[2]=TargetImageList[2]->GetY(Y);
-	struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X],ts[1][X],ts[2][X])];
-	if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
-		SetReturnExecProcessing(P.PL,P.PH,P.SL,P.SH,P.RL,P.RH,mx,my,0x02000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+		ts[0]=TargetImageList[0]->GetY(Y);
+		ts[1]=TargetImageList[1]->GetY(Y);
+		ts[2]=TargetImageList[2]->GetY(Y);
+		struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X],ts[1][X],ts[2][X])];
+		if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
+			SetReturnExecProcessing(P.PL,P.PH,P.SL,P.SH,P.RL,P.RH,mx,my,0x02000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+			return true;
+		}
+
+		//?u?I?A?I????f
+		for(int Len=1;Len<=SearchDot;Len++){
+			int	dx;
+			int	dy=-Len;
+			for(dx=-Len;dx<Len;dx++){
+				PixelInsData &P1=PixData[my+dy][mx+dx];
+				if(P1.StdDisorder==255){
+					continue;
+				}
+				PL	=P1.PL-ThresholdRange;
+				PH	=P1.PH+ThresholdRange;
+				SL	=P1.SL-ThresholdRange;
+				SH	=P1.SH+ThresholdRange;
+				RL	=P1.RL-ThresholdRange;
+				RH	=P1.RH+ThresholdRange;
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x04000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+			dx=Len;
+			for(;dy<Len;dy++){
+				PixelInsData &P1=PixData[my+dy][mx+dx];
+				if(P1.StdDisorder==255){
+					continue;
+				}
+				PL	=P1.PL-ThresholdRange;
+				PH	=P1.PH+ThresholdRange;
+				SL	=P1.SL-ThresholdRange;
+				SH	=P1.SH+ThresholdRange;
+				RL	=P1.RL-ThresholdRange;
+				RH	=P1.RH+ThresholdRange;
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x04000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+			dy=Len;
+			for(;dx>-Len;dx--){
+				PixelInsData &P1=PixData[my+dy][mx+dx];
+				if(P1.StdDisorder==255){
+					continue;
+				}
+				PL	=P1.PL-ThresholdRange;
+				PH	=P1.PH+ThresholdRange;
+				SL	=P1.SL-ThresholdRange;
+				SH	=P1.SH+ThresholdRange;
+				RL	=P1.RL-ThresholdRange;
+				RH	=P1.RH+ThresholdRange;
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x04000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+			dx=-Len;
+			for(;dy>-Len;dy--){
+				PixelInsData &P1=PixData[my+dy][mx+dx];
+				if(P1.StdDisorder==255){
+					continue;
+				}
+				PL	=P1.PL-ThresholdRange;
+				PH	=P1.PH+ThresholdRange;
+				SL	=P1.SL-ThresholdRange;
+				SH	=P1.SH+ThresholdRange;
+				RL	=P1.RL-ThresholdRange;
+				RH	=P1.RH+ThresholdRange;
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x04000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+		}
+
+		//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
+		PixelInsData	&P1=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?^?[?Q?b?g?A?W?c?c?}?X?^?[?A?W?E?a?3
+		PixelInsData	P3;
+		P3.SL=Q->S;
+		P3.PL=Q->P;
+		P3.RL=Q->R;
+		for(int Len=1;Len<=SearchDot;Len++){
+			int	dx;
+			int	dy=-Len;
+			for(dx=-Len;dx<Len;dx++){
+				PixelInsData	&P2=PixData[my+dy][mx+dx];
+				if(CalcPixelInsData(P1,P2,P3)==true){
+					int	PL3=P3.PL-ThresholdRange;
+					int	PH3=P3.PH+ThresholdRange;
+					int	SL3=P3.SL-ThresholdRange;
+					int	SH3=P3.SH+ThresholdRange;
+					int	RL3=P3.RL-ThresholdRange;
+					int	RH3=P3.RH+ThresholdRange;
+					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+						SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x08000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+						return true;
+					}
+				}
+			}
+			dx=Len;
+			for(;dy<Len;dy++){
+				PixelInsData	&P2=PixData[my+dy][mx+dx];
+				if(CalcPixelInsData(P1,P2,P3)==true){
+					int	PL3=P3.PL-ThresholdRange;
+					int	PH3=P3.PH+ThresholdRange;
+					int	SL3=P3.SL-ThresholdRange;
+					int	SH3=P3.SH+ThresholdRange;
+					int	RL3=P3.RL-ThresholdRange;
+					int	RH3=P3.RH+ThresholdRange;
+					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+						SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x08000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+						return true;
+					}
+				}
+			}
+			dy=Len;
+			for(;dx>-Len;dx--){
+				PixelInsData	&P2=PixData[my+dy][mx+dx];
+				if(CalcPixelInsData(P1,P2,P3)==true){
+					int	PL3=P3.PL-ThresholdRange;
+					int	PH3=P3.PH+ThresholdRange;
+					int	SL3=P3.SL-ThresholdRange;
+					int	SH3=P3.SH+ThresholdRange;
+					int	RL3=P3.RL-ThresholdRange;
+					int	RH3=P3.RH+ThresholdRange;
+					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+						SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x08000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+						return true;
+					}
+				}
+			}
+			dx=-Len;
+			for(;dy>-Len;dy--){
+				PixelInsData	&P2=PixData[my+dy][mx+dx];
+				if(CalcPixelInsData(P1,P2,P3)==true){
+					int	PL3=P3.PL-ThresholdRange;
+					int	PH3=P3.PH+ThresholdRange;
+					int	SL3=P3.SL-ThresholdRange;
+					int	SH3=P3.SH+ThresholdRange;
+					int	RL3=P3.RL-ThresholdRange;
+					int	RH3=P3.RH+ThresholdRange;
+					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+						SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x08000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+						return true;
+					}
+				}
+			}
+		}
+
+		//?V???N?c?C???c
+		if(CheckedSilk==false && pAlignPage->GetBitPickupFromMaster(mx,my)==true){
+			int wX=pAlignPage->GetShiftXFromMaster(mx,my);
+			int wY=pAlignPage->GetShiftYFromMaster(mx,my);
+			mx	=X-wX;
+			my	=Y-wY;
+			if(mx-SearchDot>=0 && XLen>mx+SearchDot && my-SearchDot>=0 && YLen>my+SearchDot){
+				CheckedSilk=true;
+				continue; // goto REINS3_1_R; の代わりに、ループの先頭に戻す
+			}
+		}
+
+		//????Ce??l?A?I??E?d?Z?o
+		BYTE DiffPSR=0;
+		PixelInsData &Pw=PixData[my][mx];
+		if(Pw.PL-Q->P > 0){
+			DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
+		}
+		else if(Q->P-Pw.PH > 0){
+			DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
+		}
+		if(Pw.SL-Q->S > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		else if(Q->S-Pw.SH > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		if(Pw.RL-Q->R > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		else if(Q->R-Pw.RH > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		//????-?ENG?I??}??}?A?O?e????E?c??P?e
+		if(DiffPSR<BrightnessRange){
+			SetReturnExecProcessing(Pw.PL,Pw.PH,Pw.SL,Pw.SH,Pw.RL,Pw.RH,mx,my,0x10000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+			return true;
+		}
+
+		SetReturnExecProcessing(wPL,wPH,wSL,wSH,wRL,wRH,mx,my,0x01000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
 		return true;
-	}
-
-	//?u?I?A?I?��?f
-	for(int Len=1;Len<=SearchDot;Len++){
-		int	dx;
-		int	dy=-Len;
-		for(dx=-Len;dx<Len;dx++){
-			PixelInsData &P1=PixData[my+dy][mx+dx];
-			if(P1.StdDisorder==255){
-				continue;
-			}
-			PL	=P1.PL-ThresholdRange;
-			PH	=P1.PH+ThresholdRange;
-			SL	=P1.SL-ThresholdRange;
-			SH	=P1.SH+ThresholdRange;
-			RL	=P1.RL-ThresholdRange;
-			RH	=P1.RH+ThresholdRange;
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x04000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dx=Len;
-		for(;dy<Len;dy++){
-			PixelInsData &P1=PixData[my+dy][mx+dx];
-			if(P1.StdDisorder==255){
-				continue;
-			}
-			PL	=P1.PL-ThresholdRange;
-			PH	=P1.PH+ThresholdRange;
-			SL	=P1.SL-ThresholdRange;
-			SH	=P1.SH+ThresholdRange;
-			RL	=P1.RL-ThresholdRange;
-			RH	=P1.RH+ThresholdRange;
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x04000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dy=Len;
-		for(;dx>-Len;dx--){
-			PixelInsData &P1=PixData[my+dy][mx+dx];
-			if(P1.StdDisorder==255){
-				continue;
-			}
-			PL	=P1.PL-ThresholdRange;
-			PH	=P1.PH+ThresholdRange;
-			SL	=P1.SL-ThresholdRange;
-			SH	=P1.SH+ThresholdRange;
-			RL	=P1.RL-ThresholdRange;
-			RH	=P1.RH+ThresholdRange;
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x04000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dx=-Len;
-		for(;dy>-Len;dy--){
-			PixelInsData &P1=PixData[my+dy][mx+dx];
-			if(P1.StdDisorder==255){
-				continue;
-			}
-			PL	=P1.PL-ThresholdRange;
-			PH	=P1.PH+ThresholdRange;
-			SL	=P1.SL-ThresholdRange;
-			SH	=P1.SH+ThresholdRange;
-			RL	=P1.RL-ThresholdRange;
-			RH	=P1.RH+ThresholdRange;
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x04000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-	}
-
-	//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
-	PixelInsData	&P1=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?^?[?Q?b?g?A?W?c?c?}?X?^?[?A?W?E?a?3
-	PixelInsData	P3;
-	P3.SL=Q->S;
-	P3.PL=Q->P;
-	P3.RL=Q->R;
-	for(int Len=1;Len<=SearchDot;Len++){
-		int	dx;
-		int	dy=-Len;
-		for(dx=-Len;dx<Len;dx++){
-			PixelInsData	&P2=PixData[my+dy][mx+dx];
-			if(CalcPixelInsData(P1,P2,P3)==true){
-				int	PL3=P3.PL-ThresholdRange;
-				int	PH3=P3.PH+ThresholdRange;
-				int	SL3=P3.SL-ThresholdRange;
-				int	SH3=P3.SH+ThresholdRange;
-				int	RL3=P3.RL-ThresholdRange;
-				int	RH3=P3.RH+ThresholdRange;
-				if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-					SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x08000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-					return true;
-				}
-			}
-		}
-		dx=Len;
-		for(;dy<Len;dy++){
-			PixelInsData	&P2=PixData[my+dy][mx+dx];
-			if(CalcPixelInsData(P1,P2,P3)==true){
-				int	PL3=P3.PL-ThresholdRange;
-				int	PH3=P3.PH+ThresholdRange;
-				int	SL3=P3.SL-ThresholdRange;
-				int	SH3=P3.SH+ThresholdRange;
-				int	RL3=P3.RL-ThresholdRange;
-				int	RH3=P3.RH+ThresholdRange;
-				if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-					SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x08000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-					return true;
-				}
-			}
-		}
-		dy=Len;
-		for(;dx>-Len;dx--){
-			PixelInsData	&P2=PixData[my+dy][mx+dx];
-			if(CalcPixelInsData(P1,P2,P3)==true){
-				int	PL3=P3.PL-ThresholdRange;
-				int	PH3=P3.PH+ThresholdRange;
-				int	SL3=P3.SL-ThresholdRange;
-				int	SH3=P3.SH+ThresholdRange;
-				int	RL3=P3.RL-ThresholdRange;
-				int	RH3=P3.RH+ThresholdRange;
-				if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-					SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x08000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-					return true;
-				}
-			}
-		}
-		dx=-Len;
-		for(;dy>-Len;dy--){
-			PixelInsData	&P2=PixData[my+dy][mx+dx];
-			if(CalcPixelInsData(P1,P2,P3)==true){
-				int	PL3=P3.PL-ThresholdRange;
-				int	PH3=P3.PH+ThresholdRange;
-				int	SL3=P3.SL-ThresholdRange;
-				int	SH3=P3.SH+ThresholdRange;
-				int	RL3=P3.RL-ThresholdRange;
-				int	RH3=P3.RH+ThresholdRange;
-				if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-					SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x08000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-					return true;
-				}
-			}
-		}
-	}
-
-	//?V???N?c?C???c
-	if(CheckedSilk==false && pAlignPage->GetBitPickupFromMaster(mx,my)==true){
-		int wX=pAlignPage->GetShiftXFromMaster(mx,my);
-		int wY=pAlignPage->GetShiftYFromMaster(mx,my);
-		mx	=X-wX;
-		my	=Y-wY;
-		if(mx-SearchDot>=0 && XLen>mx+SearchDot && my-SearchDot>=0 && YLen>my+SearchDot){
-			CheckedSilk=true;
-			goto	REINS3_1_R;
-		}
-	}
-
-	//???�Ce??l?A?I?�E?d?Z?o
-	BYTE DiffPSR=0;
-	PixelInsData &Pw=PixData[my][mx];
-	if(Pw.PL-Q->P > 0){
-		DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-	}
-	else if(Q->P-Pw.PH > 0){
-		DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-	}
-	if(Pw.SL-Q->S > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-			DiffPSR=wDiffPSR;
-		}
-	}
-	else if(Q->S-Pw.SH > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-			DiffPSR=wDiffPSR;
-		}
-	}
-	if(Pw.RL-Q->R > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-			DiffPSR=wDiffPSR;
-		}
-	}
-	else if(Q->R-Pw.RH > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-			DiffPSR=wDiffPSR;
-		}
-	}
-	//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-	if(DiffPSR<BrightnessRange){
-		SetReturnExecProcessing(Pw.PL,Pw.PH,Pw.SL,Pw.SH,Pw.RL,Pw.RH,mx,my,0x10000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-		return true;
-	}
-
-	SetReturnExecProcessing(wPL,wPH,wSL,wSH,wRL,wRH,mx,my,0x01000000000000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-	return true;
+	} // while (true) の終わり
 }
 
-//Target?a???c?cMaster?a???O?I?I?�E?A?I???�C
+//Target?a???c?cMaster?a???O?I?I??E?A?I????C
 bool	PixelInspectionItem::GetExecProcessingForResist4(int X,int Y,int SearchDotBase,int NGThreshold,int BrightnessRange,int InspectionLevel,BYTE Brightness[],int &CoordX,int &CoordY,uint64 &InspectResult)
 {
-	//?u?I?I???�C?a???A?I???�C//
+	//?u?I?I????C?a???A?I????C//
 	int	mx,my;
 	int tmX,tmY;
 	int mtX,mtY;
@@ -2459,217 +2431,220 @@ bool	PixelInspectionItem::GetExecProcessingForResist4(int X,int Y,int SearchDotB
 		return false;
 	}
 
-REINS4_1_R:;
-	PixelInspectionInPage *PData=(PixelInspectionInPage *)GetParentInPage();
-	struct	PixelPoleMatrixStruct	*PoleTable=PData->PoleTable;
+	// goto の代わりに while (true) を使用。やり直す際は continue でループの先頭に戻ります。
+	while (true) {
+		PixelInspectionInPage *PData=(PixelInspectionInPage *)GetParentInPage();
+		struct	PixelPoleMatrixStruct	*PoleTable=PData->PoleTable;
 
-	int ThresholdRange=256-InspectionLevel;
-	PixelInsData	&P=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?^?[?Q?b?g?A?W?c?c?}?X?^?[?A?W?E?a?3
-	if(P.StdDisorder==255){
-		return false;
-	}
-	wThresholdRange=ThresholdRange+wNGThreshold;
-	int	PL	=P.PL-ThresholdRange;
-	int	PH	=P.PH+ThresholdRange;
-	int	SL	=P.SL-ThresholdRange;
-	int	SH	=P.SH+ThresholdRange;
-	int	RL	=P.RL-ThresholdRange;
-	int	RH	=P.RH+ThresholdRange;
-	int	wPL	=P.PL-wThresholdRange;
-	int	wPH	=P.PH+wThresholdRange;
-	int	wSL	=P.SL-wThresholdRange;
-	int	wSH	=P.SH+wThresholdRange;
-	int	wRL	=P.RL-wThresholdRange;
-	int	wRH	=P.RH+wThresholdRange;
+		int ThresholdRange=256-InspectionLevel;
+		PixelInsData	&P=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?^?[?Q?b?g?A?W?c?c?}?X?^?[?A?W?E?a?3
+		if(P.StdDisorder==255){
+			return false;
+		}
+		wThresholdRange=ThresholdRange+wNGThreshold;
+		int	PL	=P.PL-ThresholdRange;
+		int	PH	=P.PH+ThresholdRange;
+		int	SL	=P.SL-ThresholdRange;
+		int	SH	=P.SH+ThresholdRange;
+		int	RL	=P.RL-ThresholdRange;
+		int	RH	=P.RH+ThresholdRange;
+		int	wPL	=P.PL-wThresholdRange;
+		int	wPH	=P.PH+wThresholdRange;
+		int	wSL	=P.SL-wThresholdRange;
+		int	wSH	=P.SH+wThresholdRange;
+		int	wRL	=P.RL-wThresholdRange;
+		int	wRH	=P.RH+wThresholdRange;
 
-	if((mx-SearchDot)<0 || XLen<=(mx+SearchDot)){
-		return false;
-	}
-	if((my-SearchDot)<0 || YLen<=(my+SearchDot)){
-		return false;
-	}
+		if((mx-SearchDot)<0 || XLen<=(mx+SearchDot)){
+			return false;
+		}
+		if((my-SearchDot)<0 || YLen<=(my+SearchDot)){
+			return false;
+		}
 
-	ts[0]=TargetImageList[0]->GetY(Y);
-	ts[1]=TargetImageList[1]->GetY(Y);
-	ts[2]=TargetImageList[2]->GetY(Y);
-	struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X],ts[1][X],ts[2][X])];
-	if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
-		SetReturnExecProcessing(ts,X,Y,0x0200000000000000,Brightness,CoordX,CoordY,InspectResult);
+		ts[0]=TargetImageList[0]->GetY(Y);
+		ts[1]=TargetImageList[1]->GetY(Y);
+		ts[2]=TargetImageList[2]->GetY(Y);
+		struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X],ts[1][X],ts[2][X])];
+		if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
+			SetReturnExecProcessing(ts,X,Y,0x0200000000000000,Brightness,CoordX,CoordY,InspectResult);
+			return true;
+		}
+
+		//?u?I?A?I????f
+		for(int Len=1;Len<=SearchDot;Len++){
+			int	dx;
+			int	dy=-Len;
+			ts[0]=TargetImageList[0]->GetY(Y+dy);
+			ts[1]=TargetImageList[1]->GetY(Y+dy);
+			ts[2]=TargetImageList[2]->GetY(Y+dy);
+			for(dx=-Len;dx<Len;dx++){
+				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x0400000000000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+			dx=Len;
+			for(;dy<Len;dy++){
+				ts[0]=TargetImageList[0]->GetY(Y+dy);
+				ts[1]=TargetImageList[1]->GetY(Y+dy);
+				ts[2]=TargetImageList[2]->GetY(Y+dy);
+				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x0400000000000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+			dy=Len;
+			ts[0]=TargetImageList[0]->GetY(Y+dy);
+			ts[1]=TargetImageList[1]->GetY(Y+dy);
+			ts[2]=TargetImageList[2]->GetY(Y+dy);
+			for(;dx>-Len;dx--){
+				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x0400000000000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+			dx=-Len;
+			for(;dy>-Len;dy--){
+				ts[0]=TargetImageList[0]->GetY(Y+dy);
+				ts[1]=TargetImageList[1]->GetY(Y+dy);
+				ts[2]=TargetImageList[2]->GetY(Y+dy);
+				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x0400000000000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+		}
+
+		//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
+		for(int Len=1;Len<=SearchDot;Len++){
+			int	dx;
+			int	dy=-Len;
+			ts[0]=TargetImageList[0]->GetY(Y+dy);
+			ts[1]=TargetImageList[1]->GetY(Y+dy);
+			ts[2]=TargetImageList[2]->GetY(Y+dy);
+			for(dx=-Len;dx<Len;dx++){
+				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				int SS=((Q->S+Q2->S)>>1);
+				int PP=((Q->P+Q2->P)>>1);
+				int RR=((Q->R+Q2->R)>>1);
+				if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x0800000000000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+			dx=Len;
+			for(;dy<Len;dy++){
+				ts[0]=TargetImageList[0]->GetY(Y+dy);
+				ts[1]=TargetImageList[1]->GetY(Y+dy);
+				ts[2]=TargetImageList[2]->GetY(Y+dy);
+				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				int SS=((Q->S+Q2->S)>>1);
+				int PP=((Q->P+Q2->P)>>1);
+				int RR=((Q->R+Q2->R)>>1);
+				if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x0800000000000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+			dy=Len;
+			ts[0]=TargetImageList[0]->GetY(Y+dy);
+			ts[1]=TargetImageList[1]->GetY(Y+dy);
+			ts[2]=TargetImageList[2]->GetY(Y+dy);
+			for(;dx>-Len;dx--){
+				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				int SS=((Q->S+Q2->S)>>1);
+				int PP=((Q->P+Q2->P)>>1);
+				int RR=((Q->R+Q2->R)>>1);
+				if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x0800000000000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+			dx=-Len;
+			for(;dy>-Len;dy--){
+				ts[0]=TargetImageList[0]->GetY(Y+dy);
+				ts[1]=TargetImageList[1]->GetY(Y+dy);
+				ts[2]=TargetImageList[2]->GetY(Y+dy);
+				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+				int SS=((Q->S+Q2->S)>>1);
+				int PP=((Q->P+Q2->P)>>1);
+				int RR=((Q->R+Q2->R)>>1);
+				if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
+					SetReturnExecProcessing(ts,X+dx,Y+dy,0x0800000000000000,Brightness,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+		}
+
+		//?V???N?c?C???c
+		if(CheckedSilk==false && pAlignPage->GetBitPickupFromMaster(mx,my)==true){
+			int wX=pAlignPage->GetShiftXFromMaster(mx,my);
+			int wY=pAlignPage->GetShiftYFromMaster(mx,my);
+			mx	=X-wX;
+			my	=Y-wY;
+			if(mx-SearchDot>=0 && XLen>mx+SearchDot && my-SearchDot>=0 && YLen>my+SearchDot){
+				CheckedSilk=true;
+				continue; // ここで goto REINS4_1_R; の代わりにループの先頭に戻す
+			}
+		}
+
+		//????Ce??l?A?I??E?d?Z?o
+		BYTE DiffPSR=0;
+		if(PL-Q->P > 0){
+			DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
+		}
+		else if(Q->P-PH > 0){
+			DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
+		}
+		if(SL-Q->S > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		else if(Q->S-SH > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		if(RL-Q->R > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		else if(Q->R-RH > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		//????-?ENG?I??}??}?A?O?e????E?c??P?e
+		if(DiffPSR<BrightnessRange){
+			SetReturnExecProcessing(ts,X,Y,0x1000000000000000,Brightness,CoordX,CoordY,InspectResult);
+			return true;
+		}
+
+		ts[0]=TargetImageList[0]->GetY(Y);
+		ts[1]=TargetImageList[1]->GetY(Y);
+		ts[2]=TargetImageList[2]->GetY(Y);
+		SetReturnExecProcessing(ts,X,Y,0x0100000000000000,Brightness,CoordX,CoordY,InspectResult);
 		return true;
-	}
-
-	//?u?I?A?I?��?f
-	for(int Len=1;Len<=SearchDot;Len++){
-		int	dx;
-		int	dy=-Len;
-		ts[0]=TargetImageList[0]->GetY(Y+dy);
-		ts[1]=TargetImageList[1]->GetY(Y+dy);
-		ts[2]=TargetImageList[2]->GetY(Y+dy);
-		for(dx=-Len;dx<Len;dx++){
-			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x0400000000000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dx=Len;
-		for(;dy<Len;dy++){
-			ts[0]=TargetImageList[0]->GetY(Y+dy);
-			ts[1]=TargetImageList[1]->GetY(Y+dy);
-			ts[2]=TargetImageList[2]->GetY(Y+dy);
-			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x0400000000000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dy=Len;
-		ts[0]=TargetImageList[0]->GetY(Y+dy);
-		ts[1]=TargetImageList[1]->GetY(Y+dy);
-		ts[2]=TargetImageList[2]->GetY(Y+dy);
-		for(;dx>-Len;dx--){
-			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x0400000000000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dx=-Len;
-		for(;dy>-Len;dy--){
-			ts[0]=TargetImageList[0]->GetY(Y+dy);
-			ts[1]=TargetImageList[1]->GetY(Y+dy);
-			ts[2]=TargetImageList[2]->GetY(Y+dy);
-			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x0400000000000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-	}
-
-	//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
-	for(int Len=1;Len<=SearchDot;Len++){
-		int	dx;
-		int	dy=-Len;
-		ts[0]=TargetImageList[0]->GetY(Y+dy);
-		ts[1]=TargetImageList[1]->GetY(Y+dy);
-		ts[2]=TargetImageList[2]->GetY(Y+dy);
-		for(dx=-Len;dx<Len;dx++){
-			struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			int SS=((Q->S+Q2->S)>>1);
-			int PP=((Q->P+Q2->P)>>1);
-			int RR=((Q->R+Q2->R)>>1);
-			if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x0800000000000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dx=Len;
-		for(;dy<Len;dy++){
-			ts[0]=TargetImageList[0]->GetY(Y+dy);
-			ts[1]=TargetImageList[1]->GetY(Y+dy);
-			ts[2]=TargetImageList[2]->GetY(Y+dy);
-			struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			int SS=((Q->S+Q2->S)>>1);
-			int PP=((Q->P+Q2->P)>>1);
-			int RR=((Q->R+Q2->R)>>1);
-			if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x0800000000000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dy=Len;
-		ts[0]=TargetImageList[0]->GetY(Y+dy);
-		ts[1]=TargetImageList[1]->GetY(Y+dy);
-		ts[2]=TargetImageList[2]->GetY(Y+dy);
-		for(;dx>-Len;dx--){
-			struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			int SS=((Q->S+Q2->S)>>1);
-			int PP=((Q->P+Q2->P)>>1);
-			int RR=((Q->R+Q2->R)>>1);
-			if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x0800000000000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dx=-Len;
-		for(;dy>-Len;dy--){
-			ts[0]=TargetImageList[0]->GetY(Y+dy);
-			ts[1]=TargetImageList[1]->GetY(Y+dy);
-			ts[2]=TargetImageList[2]->GetY(Y+dy);
-			struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-			int SS=((Q->S+Q2->S)>>1);
-			int PP=((Q->P+Q2->P)>>1);
-			int RR=((Q->R+Q2->R)>>1);
-			if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
-				SetReturnExecProcessing(ts,X+dx,Y+dy,0x0800000000000000,Brightness,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-	}
-
-	//?V???N?c?C???c
-	if(CheckedSilk==false && pAlignPage->GetBitPickupFromMaster(mx,my)==true){
-		int wX=pAlignPage->GetShiftXFromMaster(mx,my);
-		int wY=pAlignPage->GetShiftYFromMaster(mx,my);
-		mx	=X-wX;
-		my	=Y-wY;
-		if(mx-SearchDot>=0 && XLen>mx+SearchDot && my-SearchDot>=0 && YLen>my+SearchDot){
-			CheckedSilk=true;
-			goto	REINS4_1_R;
-		}
-	}
-
-	//???�Ce??l?A?I?�E?d?Z?o
-	BYTE DiffPSR=0;
-	if(PL-Q->P > 0){
-		DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
-	}
-	else if(Q->P-PH > 0){
-		DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
-	}
-	if(SL-Q->S > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-			DiffPSR=wDiffPSR;
-		}
-	}
-	else if(Q->S-SH > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-			DiffPSR=wDiffPSR;
-		}
-	}
-	if(RL-Q->R > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
-			DiffPSR=wDiffPSR;
-		}
-	}
-	else if(Q->R-RH > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
-			DiffPSR=wDiffPSR;
-		}
-	}
-	//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-	if(DiffPSR<BrightnessRange){
-		SetReturnExecProcessing(ts,X,Y,0x1000000000000000,Brightness,CoordX,CoordY,InspectResult);
-		return true;
-	}
-
-	ts[0]=TargetImageList[0]->GetY(Y);
-	ts[1]=TargetImageList[1]->GetY(Y);
-	ts[2]=TargetImageList[2]->GetY(Y);
-	SetReturnExecProcessing(ts,X,Y,0x0100000000000000,Brightness,CoordX,CoordY,InspectResult);
-	return true;
+	} // while (true) の終わり
 }
 
-//Master?a???c?cTarget?a???O?I?I?�E?A?I???�C
+
+//Master?a???c?cTarget?a???O?I?I??E?A?I????C
 bool	PixelInspectionItem::GetExecProcessing1(int X,int Y,int SearchDotBase,int NGThreshold,int BrightnessRange,int InspectionLevel,BYTE &rPL1,BYTE &rPH1,BYTE &rSL1,BYTE &rSH1,BYTE &rRL1,BYTE &rRH1,int &CoordX,int &CoordY,uint64 &InspectResult,int &wThresholdRange)
 {
-	//?u?I?I?��?��?��?l?A?I???�C//
-	PixelInsData &P	=PixData[Y][X];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+	//?u?I?I??????????l?A?I????C//
+	PixelInsData &P	=PixData[Y][X];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 	if(P.StdDisorder==255){
 		return false;
 	}
@@ -2749,7 +2724,7 @@ bool	PixelInspectionItem::GetExecProcessing1(int X,int Y,int SearchDotBase,int N
 		return true;
 	}
 
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
@@ -2822,8 +2797,8 @@ bool	PixelInspectionItem::GetExecProcessing1(int X,int Y,int SearchDotBase,int N
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
-	PixelInsData	&P1=PixData[Y][X];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+	//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
+	PixelInsData	&P1=PixData[Y][X];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 	PixelInsData	P3;
 	P3.SL=Q->S;
 	P3.PL=Q->P;
@@ -2901,7 +2876,7 @@ bool	PixelInspectionItem::GetExecProcessing1(int X,int Y,int SearchDotBase,int N
 		return true;
 	}
 
-	//???�Ce??l?A?I?�E?d?Z?o
+	//????Ce??l?A?I??E?d?Z?o
 	BYTE DiffPSR=0;
 	PixelInsData &Pw=PixData[Y][X];
 	if(Pw.PL-Q->P > 0){
@@ -2934,7 +2909,7 @@ bool	PixelInspectionItem::GetExecProcessing1(int X,int Y,int SearchDotBase,int N
 			DiffPSR=wDiffPSR;
 		}
 	}
-	//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
+	//????-?ENG?I??}??}?A?O?e????E?c??P?e
 	if(DiffPSR<BrightnessRange){
 		SetReturnExecProcessing(Pw.PL,Pw.PH,Pw.SL,Pw.SH,Pw.RL,Pw.RH,X,Y,0x10,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
 		return true;
@@ -2944,11 +2919,11 @@ bool	PixelInspectionItem::GetExecProcessing1(int X,int Y,int SearchDotBase,int N
 	return true;
 }
 
-//Master?a???c?cTarget?a???O?I?I?�E?A?I???�C
+//Master?a???c?cTarget?a???O?I?I??E?A?I????C
 bool	PixelInspectionItem::GetExecProcessing2(int X,int Y,int SearchDotBase,int NGThreshold,int BrightnessRange,int InspectionLevel,BYTE Brightness[],int &CoordX,int &CoordY,uint64 &InspectResult)
 {
-	//?u?I?I???�C?a???A?I???�C//
-	PixelInsData &P	=PixData[Y][X];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+	//?u?I?I????C?a???A?I????C//
+	PixelInsData &P	=PixData[Y][X];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 	if(P.StdDisorder==255){
 		return false;
 	}
@@ -3028,7 +3003,7 @@ bool	PixelInspectionItem::GetExecProcessing2(int X,int Y,int SearchDotBase,int N
 		return true;
 	}
 
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
@@ -3077,7 +3052,7 @@ bool	PixelInspectionItem::GetExecProcessing2(int X,int Y,int SearchDotBase,int N
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I???�C?a???d???��?��?A???o????
+	//?i???_?A?u?e?I?_?I????C?a???d?????????A???o????
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
@@ -3243,7 +3218,7 @@ bool	PixelInspectionItem::GetExecProcessing2(int X,int Y,int SearchDotBase,int N
 		return true;
 	}
 
-	//???�Ce??l?A?I?�E?d?Z?o
+	//????Ce??l?A?I??E?d?Z?o
 	BYTE DiffPSR=0;
 	if(PL-Q->P > 0){
 		DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
@@ -3275,7 +3250,7 @@ bool	PixelInspectionItem::GetExecProcessing2(int X,int Y,int SearchDotBase,int N
 			DiffPSR=wDiffPSR;
 		}
 	}
-	//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
+	//????-?ENG?I??}??}?A?O?e????E?c??P?e
 	if(DiffPSR<BrightnessRange){
 		SetReturnExecProcessing(ts,X,Y,0x1000,Brightness,CoordX,CoordY,InspectResult);
 		return true;
@@ -3287,11 +3262,10 @@ bool	PixelInspectionItem::GetExecProcessing2(int X,int Y,int SearchDotBase,int N
 	SetReturnExecProcessing(ts,tx,ty,0x0100,Brightness,CoordX,CoordY,InspectResult);
 	return true;
 }
-
-//Target?a???c?cMaster?a???O?I?I?�E?A?I???�C
+//Target?a???c?cMaster?a???O?I?I??E?A?I????C
 bool	PixelInspectionItem::GetExecProcessing3(int X,int Y,int SearchDotBase,int NGThreshold,int BrightnessRange,int InspectionLevel,BYTE &rPL1,BYTE &rPH1,BYTE &rSL1,BYTE &rSH1,BYTE &rRL1,BYTE &rRH1,int &CoordX,int &CoordY,uint64 &InspectResult,int &wThresholdRange)
 {
-	//?u?I?I?��?��?��?l?A?I???�C//
+	//?u?I?I??????????l?A?I????C//
 	int	mx,my;
 	int tmX,tmY;
 	int mtX,mtY;
@@ -3341,248 +3315,250 @@ bool	PixelInspectionItem::GetExecProcessing3(int X,int Y,int SearchDotBase,int N
 		return false;
 	}
 
-REINS3_1:;
-	PixelInsData &P=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?^?[?Q?b?g?A?W?c?c?}?X?^?[?A?W?E?a?3
-	if(P.StdDisorder==255){
-		return false;
-	}
+	// goto REINS3_1; の代わりに while(true) ループを使用し、やり直す場合は continue を実行する
+	while (true) {
+		PixelInsData &P=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?^?[?Q?b?g?A?W?c?c?}?X?^?[?A?W?E?a?3
+		if(P.StdDisorder==255){
+			return false;
+		}
 
-	wThresholdRange=ThresholdRange+wNGThreshold;
-	int	wPL	=P.PL;
-	int	wPH	=P.PH;
-	int	wSL	=P.SL;
-	int	wSH	=P.SH;
-	int	wRL	=P.RL;
-	int	wRH	=P.RH;
-	int	PL	=P.PL-wThresholdRange;
-	int	PH	=P.PH+wThresholdRange;
-	int	SL	=P.SL-wThresholdRange;
-	int	SH	=P.SH+wThresholdRange;
-	int	RL	=P.RL-wThresholdRange;
-	int	RH	=P.RH+wThresholdRange;
+		wThresholdRange=ThresholdRange+wNGThreshold;
+		int	wPL	=P.PL;
+		int	wPH	=P.PH;
+		int	wSL	=P.SL;
+		int	wSH	=P.SH;
+		int	wRL	=P.RL;
+		int	wRH	=P.RH;
+		int	PL	=P.PL-wThresholdRange;
+		int	PH	=P.PH+wThresholdRange;
+		int	SL	=P.SL-wThresholdRange;
+		int	SH	=P.SH+wThresholdRange;
+		int	RL	=P.RL-wThresholdRange;
+		int	RH	=P.RH+wThresholdRange;
 
-	if((mx-SearchDot)<0 || XLen<=(mx+SearchDot)){
-		return false;
-	}
-	if((my-SearchDot)<0 || YLen<=(my+SearchDot)){
-		return false;
-	}
+		if((mx-SearchDot)<0 || XLen<=(mx+SearchDot)){
+			return false;
+		}
+		if((my-SearchDot)<0 || YLen<=(my+SearchDot)){
+			return false;
+		}
 
-	ts[0]=TargetImageList[0]->GetY(Y);
-	ts[1]=TargetImageList[1]->GetY(Y);
-	ts[2]=TargetImageList[2]->GetY(Y);
-	struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X],ts[1][X],ts[2][X])];
-	if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-		SetReturnExecProcessing(P.PL,P.PH,P.SL,P.SH,P.RL,P.RH,mx,my,0x020000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+		ts[0]=TargetImageList[0]->GetY(Y);
+		ts[1]=TargetImageList[1]->GetY(Y);
+		ts[2]=TargetImageList[2]->GetY(Y);
+		struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X],ts[1][X],ts[2][X])];
+		if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+			SetReturnExecProcessing(P.PL,P.PH,P.SL,P.SH,P.RL,P.RH,mx,my,0x020000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+			return true;
+		}
+
+		//?u?I?A?I????f
+		for(int Len=1;Len<=SearchDot;Len++){
+			int	dx;
+			int	dy=-Len;
+			for(dx=-Len;dx<Len;dx++){
+				PixelInsData &P1=PixData[my+dy][mx+dx];
+				if(P1.StdDisorder==255){
+					continue;
+				}
+				PL	=P1.PL-ThresholdRange;
+				PH	=P1.PH+ThresholdRange;
+				SL	=P1.SL-ThresholdRange;
+				SH	=P1.SH+ThresholdRange;
+				RL	=P1.RL-ThresholdRange;
+				RH	=P1.RH+ThresholdRange;
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x040000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+			dx=Len;
+			for(;dy<Len;dy++){
+				PixelInsData &P1=PixData[my+dy][mx+dx];
+				if(P1.StdDisorder==255){
+					continue;
+				}
+				PL	=P1.PL-ThresholdRange;
+				PH	=P1.PH+ThresholdRange;
+				SL	=P1.SL-ThresholdRange;
+				SH	=P1.SH+ThresholdRange;
+				RL	=P1.RL-ThresholdRange;
+				RH	=P1.RH+ThresholdRange;
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x040000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+			dy=Len;
+			for(;dx>-Len;dx--){
+				PixelInsData &P1=PixData[my+dy][mx+dx];
+				if(P1.StdDisorder==255){
+					continue;
+				}
+				PL	=P1.PL-ThresholdRange;
+				PH	=P1.PH+ThresholdRange;
+				SL	=P1.SL-ThresholdRange;
+				SH	=P1.SH+ThresholdRange;
+				RL	=P1.RL-ThresholdRange;
+				RH	=P1.RH+ThresholdRange;
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x040000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+			dx=-Len;
+			for(;dy>-Len;dy--){
+				PixelInsData &P1=PixData[my+dy][mx+dx];
+				if(P1.StdDisorder==255){
+					continue;
+				}
+				PL	=P1.PL-ThresholdRange;
+				PH	=P1.PH+ThresholdRange;
+				SL	=P1.SL-ThresholdRange;
+				SH	=P1.SH+ThresholdRange;
+				RL	=P1.RL-ThresholdRange;
+				RH	=P1.RH+ThresholdRange;
+				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+					SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x040000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+					return true;
+				}
+			}
+		}
+
+		//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
+		PixelInsData	&P1=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?^?[?Q?b?g?A?W?c?c?}?X?^?[?A?W?E?a?3
+		PixelInsData	P3;
+		P3.SL=Q->S;
+		P3.PL=Q->P;
+		P3.RL=Q->R;
+		for(int Len=1;Len<=SearchDot;Len++){
+			int	dx;
+			int	dy=-Len;
+			for(dx=-Len;dx<Len;dx++){
+				PixelInsData	&P2=PixData[my+dy][mx+dx];
+				if(CalcPixelInsData(P1,P2,P3)==true){
+					int	PL3=P3.PL-ThresholdRange;
+					int	PH3=P3.PH+ThresholdRange;
+					int	SL3=P3.SL-ThresholdRange;
+					int	SH3=P3.SH+ThresholdRange;
+					int	RL3=P3.RL-ThresholdRange;
+					int	RH3=P3.RH+ThresholdRange;
+					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+						SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,0x080000,mx+dx,my+dy,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+						return true;
+					}
+				}
+			}
+			dx=Len;
+			for(;dy<Len;dy++){
+				PixelInsData	&P2=PixData[my+dy][mx+dx];
+				if(CalcPixelInsData(P1,P2,P3)==true){
+					int	PL3=P3.PL-ThresholdRange;
+					int	PH3=P3.PH+ThresholdRange;
+					int	SL3=P3.SL-ThresholdRange;
+					int	SH3=P3.SH+ThresholdRange;
+					int	RL3=P3.RL-ThresholdRange;
+					int	RH3=P3.RH+ThresholdRange;
+					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+						SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x080000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+						return true;
+					}
+				}
+			}
+			dy=Len;
+			for(;dx>-Len;dx--){
+				PixelInsData	&P2=PixData[my+dy][mx+dx];
+				if(CalcPixelInsData(P1,P2,P3)==true){
+					int	PL3=P3.PL-ThresholdRange;
+					int	PH3=P3.PH+ThresholdRange;
+					int	SL3=P3.SL-ThresholdRange;
+					int	SH3=P3.SH+ThresholdRange;
+					int	RL3=P3.RL-ThresholdRange;
+					int	RH3=P3.RH+ThresholdRange;
+					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+						SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x080000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+						return true;
+					}
+				}
+			}
+			dx=-Len;
+			for(;dy>-Len;dy--){
+				PixelInsData	&P2=PixData[my+dy][mx+dx];
+				if(CalcPixelInsData(P1,P2,P3)==true){
+					int	PL3=P3.PL-ThresholdRange;
+					int	PH3=P3.PH+ThresholdRange;
+					int	SL3=P3.SL-ThresholdRange;
+					int	SH3=P3.SH+ThresholdRange;
+					int	RL3=P3.RL-ThresholdRange;
+					int	RH3=P3.RH+ThresholdRange;
+					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+						SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x080000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+						return true;
+					}
+				}
+			}
+		}
+
+		//?V???N?c?C???c
+		if(CheckedSilk==false && IsSilk!=pAlignPage->GetBitPickupFromMaster(mx,my)){
+			int wX=pAlignPage->GetShiftXFromMaster(mx,my);
+			int wY=pAlignPage->GetShiftYFromMaster(mx,my);
+			mx	=X-wX;
+			my	=Y-wY;
+			if(mx-SearchDot>=0 && XLen>mx+SearchDot && my-SearchDot>=0 && YLen>my+SearchDot){
+				CheckedSilk=true;
+				continue; // ループの先頭に戻って再評価
+			}
+		}
+
+		//????Ce??l?A?I??E?d?Z?o
+		BYTE DiffPSR=0;
+		PixelInsData &Pw=PixData[my][mx];
+		if(Pw.PL-Q->P > 0){
+			DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
+		}
+		else if(Q->P-Pw.PH > 0){
+			DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
+		}
+		if(Pw.SL-Q->S > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		else if(Q->S-Pw.SH > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		if(Pw.RL-Q->R > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		else if(Q->R-Pw.RH > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		//????-?ENG?I??}??}?A?O?e????E?c??P?e
+		if(DiffPSR<BrightnessRange){
+			SetReturnExecProcessing(Pw.PL,Pw.PH,Pw.SL,Pw.SH,Pw.RL,Pw.RH,mx,my,0x100000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
+			return true;
+		}
+
+		SetReturnExecProcessing(wPL,wPH,wSL,wSH,wRL,wRH,mx,my,0x010000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
 		return true;
-	}
-
-	//?u?I?A?I?��?f
-	for(int Len=1;Len<=SearchDot;Len++){
-		int	dx;
-		int	dy=-Len;
-		for(dx=-Len;dx<Len;dx++){
-			PixelInsData &P1=PixData[my+dy][mx+dx];
-			if(P1.StdDisorder==255){
-				continue;
-			}
-			PL	=P1.PL-ThresholdRange;
-			PH	=P1.PH+ThresholdRange;
-			SL	=P1.SL-ThresholdRange;
-			SH	=P1.SH+ThresholdRange;
-			RL	=P1.RL-ThresholdRange;
-			RH	=P1.RH+ThresholdRange;
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x040000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dx=Len;
-		for(;dy<Len;dy++){
-			PixelInsData &P1=PixData[my+dy][mx+dx];
-			if(P1.StdDisorder==255){
-				continue;
-			}
-			PL	=P1.PL-ThresholdRange;
-			PH	=P1.PH+ThresholdRange;
-			SL	=P1.SL-ThresholdRange;
-			SH	=P1.SH+ThresholdRange;
-			RL	=P1.RL-ThresholdRange;
-			RH	=P1.RH+ThresholdRange;
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x040000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dy=Len;
-		for(;dx>-Len;dx--){
-			PixelInsData &P1=PixData[my+dy][mx+dx];
-			if(P1.StdDisorder==255){
-				continue;
-			}
-			PL	=P1.PL-ThresholdRange;
-			PH	=P1.PH+ThresholdRange;
-			SL	=P1.SL-ThresholdRange;
-			SH	=P1.SH+ThresholdRange;
-			RL	=P1.RL-ThresholdRange;
-			RH	=P1.RH+ThresholdRange;
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x040000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-		dx=-Len;
-		for(;dy>-Len;dy--){
-			PixelInsData &P1=PixData[my+dy][mx+dx];
-			if(P1.StdDisorder==255){
-				continue;
-			}
-			PL	=P1.PL-ThresholdRange;
-			PH	=P1.PH+ThresholdRange;
-			SL	=P1.SL-ThresholdRange;
-			SH	=P1.SH+ThresholdRange;
-			RL	=P1.RL-ThresholdRange;
-			RH	=P1.RH+ThresholdRange;
-			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-				SetReturnExecProcessing(P1.PL,P1.PH,P1.SL,P1.SH,P1.RL,P1.RH,mx+dx,my+dy,0x040000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-				return true;
-			}
-		}
-	}
-
-	//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
-	PixelInsData	&P1=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?^?[?Q?b?g?A?W?c?c?}?X?^?[?A?W?E?a?3
-	PixelInsData	P3;
-	P3.SL=Q->S;
-	P3.PL=Q->P;
-	P3.RL=Q->R;
-	for(int Len=1;Len<=SearchDot;Len++){
-		int	dx;
-		int	dy=-Len;
-		for(dx=-Len;dx<Len;dx++){
-			PixelInsData	&P2=PixData[my+dy][mx+dx];
-			if(CalcPixelInsData(P1,P2,P3)==true){
-				int	PL3=P3.PL-ThresholdRange;
-				int	PH3=P3.PH+ThresholdRange;
-				int	SL3=P3.SL-ThresholdRange;
-				int	SH3=P3.SH+ThresholdRange;
-				int	RL3=P3.RL-ThresholdRange;
-				int	RH3=P3.RH+ThresholdRange;
-				if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-					SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,0x080000,mx+dx,my+dy,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-					return true;
-				}
-			}
-		}
-		dx=Len;
-		for(;dy<Len;dy++){
-			PixelInsData	&P2=PixData[my+dy][mx+dx];
-			if(CalcPixelInsData(P1,P2,P3)==true){
-				int	PL3=P3.PL-ThresholdRange;
-				int	PH3=P3.PH+ThresholdRange;
-				int	SL3=P3.SL-ThresholdRange;
-				int	SH3=P3.SH+ThresholdRange;
-				int	RL3=P3.RL-ThresholdRange;
-				int	RH3=P3.RH+ThresholdRange;
-				if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-					SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x080000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-					return true;
-				}
-			}
-		}
-		dy=Len;
-		for(;dx>-Len;dx--){
-			PixelInsData	&P2=PixData[my+dy][mx+dx];
-			if(CalcPixelInsData(P1,P2,P3)==true){
-				int	PL3=P3.PL-ThresholdRange;
-				int	PH3=P3.PH+ThresholdRange;
-				int	SL3=P3.SL-ThresholdRange;
-				int	SH3=P3.SH+ThresholdRange;
-				int	RL3=P3.RL-ThresholdRange;
-				int	RH3=P3.RH+ThresholdRange;
-				if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-					SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x080000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-					return true;
-				}
-			}
-		}
-		dx=-Len;
-		for(;dy>-Len;dy--){
-			PixelInsData	&P2=PixData[my+dy][mx+dx];
-			if(CalcPixelInsData(P1,P2,P3)==true){
-				int	PL3=P3.PL-ThresholdRange;
-				int	PH3=P3.PH+ThresholdRange;
-				int	SL3=P3.SL-ThresholdRange;
-				int	SH3=P3.SH+ThresholdRange;
-				int	RL3=P3.RL-ThresholdRange;
-				int	RH3=P3.RH+ThresholdRange;
-				if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-					SetReturnExecProcessing(P3.PL,P3.PH,P3.SL,P3.SH,P3.RL,P3.RH,mx+dx,my+dy,0x080000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-					return true;
-				}
-			}
-		}
-	}
-
-	//?V???N?c?C???c
-	if(CheckedSilk==false && IsSilk!=pAlignPage->GetBitPickupFromMaster(mx,my)){
-		int wX=pAlignPage->GetShiftXFromMaster(mx,my);
-		int wY=pAlignPage->GetShiftYFromMaster(mx,my);
-		mx	=X-wX;
-		my	=Y-wY;
-		if(mx-SearchDot>=0 && XLen>mx+SearchDot && my-SearchDot>=0 && YLen>my+SearchDot){
-			CheckedSilk=true;
-			goto	REINS3_1;
-		}
-	}
-
-	//???�Ce??l?A?I?�E?d?Z?o
-	BYTE DiffPSR=0;
-	PixelInsData &Pw=PixData[my][mx];
-	if(Pw.PL-Q->P > 0){
-		DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-	}
-	else if(Q->P-Pw.PH > 0){
-		DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-	}
-	if(Pw.SL-Q->S > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-			DiffPSR=wDiffPSR;
-		}
-	}
-	else if(Q->S-Pw.SH > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-			DiffPSR=wDiffPSR;
-		}
-	}
-	if(Pw.RL-Q->R > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-			DiffPSR=wDiffPSR;
-		}
-	}
-	else if(Q->R-Pw.RH > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-			DiffPSR=wDiffPSR;
-		}
-	}
-	//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-	if(DiffPSR<BrightnessRange){
-		SetReturnExecProcessing(Pw.PL,Pw.PH,Pw.SL,Pw.SH,Pw.RL,Pw.RH,mx,my,0x100000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-		return true;
-	}
-
-	SetReturnExecProcessing(wPL,wPH,wSL,wSH,wRL,wRH,mx,my,0x010000,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
-	return true;
+	} // while(true) の終端
 }
 
-//Target?a???c?cMaster?a???O?I?I?�E?A?I???�C
+//Target?a???c?cMaster?a???O?I?I??E?A?I????C
 bool	PixelInspectionItem::GetExecProcessing4(int X,int Y,int SearchDotBase,int NGThreshold,int BrightnessRange,int InspectionLevel,BYTE Brightness[],int &CoordX,int &CoordY,uint64 &InspectResult)
 {
-	//?u?I?I???�C?a???A?I???�C//
+	//?u?I?I????C?a???A?I????C//
 	int	mx,my;
 	int tmX,tmY;
 	int mtX,mtY;
@@ -3628,69 +3604,56 @@ bool	PixelInspectionItem::GetExecProcessing4(int X,int Y,int SearchDotBase,int N
 		return false;
 	}
 
-REINS4_1:;
-	PixelInspectionInPage *PData=(PixelInspectionInPage *)GetParentInPage();
-	struct	PixelPoleMatrixStruct	*PoleTable=PData->PoleTable;
+	// goto の代わりに while (true) ループを使用し、やり直しの際は continue を呼ぶ
+	while (true) {
+		PixelInspectionInPage *PData=(PixelInspectionInPage *)GetParentInPage();
+		struct	PixelPoleMatrixStruct	*PoleTable=PData->PoleTable;
 
-	int ThresholdRange=256-InspectionLevel;
-	PixelInsData	&P=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?^?[?Q?b?g?A?W?c?c?}?X?^?[?A?W?E?a?3
-	if(P.StdDisorder==255){
-		return false;
-	}
-	wThresholdRange=ThresholdRange+wNGThreshold;
-	int	PL	=P.PL-ThresholdRange;
-	int	PH	=P.PH+ThresholdRange;
-	int	SL	=P.SL-ThresholdRange;
-	int	SH	=P.SH+ThresholdRange;
-	int	RL	=P.RL-ThresholdRange;
-	int	RH	=P.RH+ThresholdRange;
-	int	wPL	=P.PL-wThresholdRange;
-	int	wPH	=P.PH+wThresholdRange;
-	int	wSL	=P.SL-wThresholdRange;
-	int	wSH	=P.SH+wThresholdRange;
-	int	wRL	=P.RL-wThresholdRange;
-	int	wRH	=P.RH+wThresholdRange;
-
-	if((mx-SearchDot)<0 || XLen<=(mx+SearchDot)){
-		return false;
-	}
-	if((my-SearchDot)<0 || YLen<=(my+SearchDot)){
-		return false;
-	}
-
-	ts[0]=TargetImageList[0]->GetY(Y);
-	ts[1]=TargetImageList[1]->GetY(Y);
-	ts[2]=TargetImageList[2]->GetY(Y);
-	struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X],ts[1][X],ts[2][X])];
-	if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
-		SetReturnExecProcessing(ts,X,Y,0x02000000,Brightness,CoordX,CoordY,InspectResult);
-		return true;
-	}
-
-	//?u?I?A?I?��?f
-	for(int Len=1;Len<=SearchDot;Len++){
-		int	dx;
-		int	dy=-Len;
-		if(0<=(Y+dy) && (Y+dy)<YLen
-		&& 0<=(X-Len) && (X+Len)<=XLen){
-			ts[0]=TargetImageList[0]->GetY(Y+dy);
-			ts[1]=TargetImageList[1]->GetY(Y+dy);
-			ts[2]=TargetImageList[2]->GetY(Y+dy);
-			for(dx=-Len;dx<Len;dx++){
-				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
-					return true;
-				}
-			}
+		int ThresholdRange=256-InspectionLevel;
+		PixelInsData	&P=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?^?[?Q?b?g?A?W?c?c?}?X?^?[?A?W?E?a?3
+		if(P.StdDisorder==255){
+			return false;
 		}
-		dx=Len;
-		if(0<=(X-Len) && (X+Len)<=XLen){
-			for(;dy<Len;dy++){
-				if(0<=(Y+dy) && (Y+dy)<YLen){
-					ts[0]=TargetImageList[0]->GetY(Y+dy);
-					ts[1]=TargetImageList[1]->GetY(Y+dy);
-					ts[2]=TargetImageList[2]->GetY(Y+dy);
+		wThresholdRange=ThresholdRange+wNGThreshold;
+		int	PL	=P.PL-ThresholdRange;
+		int	PH	=P.PH+ThresholdRange;
+		int	SL	=P.SL-ThresholdRange;
+		int	SH	=P.SH+ThresholdRange;
+		int	RL	=P.RL-ThresholdRange;
+		int	RH	=P.RH+ThresholdRange;
+		int	wPL	=P.PL-wThresholdRange;
+		int	wPH	=P.PH+wThresholdRange;
+		int	wSL	=P.SL-wThresholdRange;
+		int	wSH	=P.SH+wThresholdRange;
+		int	wRL	=P.RL-wThresholdRange;
+		int	wRH	=P.RH+wThresholdRange;
+
+		if((mx-SearchDot)<0 || XLen<=(mx+SearchDot)){
+			return false;
+		}
+		if((my-SearchDot)<0 || YLen<=(my+SearchDot)){
+			return false;
+		}
+
+		ts[0]=TargetImageList[0]->GetY(Y);
+		ts[1]=TargetImageList[1]->GetY(Y);
+		ts[2]=TargetImageList[2]->GetY(Y);
+		struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X],ts[1][X],ts[2][X])];
+		if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
+			SetReturnExecProcessing(ts,X,Y,0x02000000,Brightness,CoordX,CoordY,InspectResult);
+			return true;
+		}
+
+		//?u?I?A?I????f
+		for(int Len=1;Len<=SearchDot;Len++){
+			int	dx;
+			int	dy=-Len;
+			if(0<=(Y+dy) && (Y+dy)<YLen
+			&& 0<=(X-Len) && (X+Len)<=XLen){
+				ts[0]=TargetImageList[0]->GetY(Y+dy);
+				ts[1]=TargetImageList[1]->GetY(Y+dy);
+				ts[2]=TargetImageList[2]->GetY(Y+dy);
+				for(dx=-Len;dx<Len;dx++){
 					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
 					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
 						SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
@@ -3698,28 +3661,28 @@ REINS4_1:;
 					}
 				}
 			}
-		}
-		dy=Len;
-		if(0<=(Y+dy) && (Y+dy)<YLen
-		&& 0<=(X-Len) && (X+Len)<=XLen){
-			ts[0]=TargetImageList[0]->GetY(Y+dy);
-			ts[1]=TargetImageList[1]->GetY(Y+dy);
-			ts[2]=TargetImageList[2]->GetY(Y+dy);
-			for(;dx>-Len;dx--){
-				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
-					return true;
+			dx=Len;
+			if(0<=(X-Len) && (X+Len)<=XLen){
+				for(;dy<Len;dy++){
+					if(0<=(Y+dy) && (Y+dy)<YLen){
+						ts[0]=TargetImageList[0]->GetY(Y+dy);
+						ts[1]=TargetImageList[1]->GetY(Y+dy);
+						ts[2]=TargetImageList[2]->GetY(Y+dy);
+						struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+						if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+							SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
+							return true;
+						}
+					}
 				}
 			}
-		}
-		dx=-Len;
-		if(0<=(X-Len) && (X+Len)<=XLen){
-			for(;dy>-Len;dy--){
-				if(0<=(Y+dy) && (Y+dy)<YLen){
-					ts[0]=TargetImageList[0]->GetY(Y+dy);
-					ts[1]=TargetImageList[1]->GetY(Y+dy);
-					ts[2]=TargetImageList[2]->GetY(Y+dy);
+			dy=Len;
+			if(0<=(Y+dy) && (Y+dy)<YLen
+			&& 0<=(X-Len) && (X+Len)<=XLen){
+				ts[0]=TargetImageList[0]->GetY(Y+dy);
+				ts[1]=TargetImageList[1]->GetY(Y+dy);
+				ts[2]=TargetImageList[2]->GetY(Y+dy);
+				for(;dx>-Len;dx--){
 					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
 					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
 						SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
@@ -3727,137 +3690,152 @@ REINS4_1:;
 					}
 				}
 			}
-		}
-	}
-
-	//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
-	for(int Len=1;Len<=SearchDot;Len++){
-		int	dx;
-		int	dy=-Len;
-		if(0<=(Y+dy) && (Y+dy)<YLen
-		&& 0<=(X-Len) && (X+Len)<=XLen){
-			ts[0]=TargetImageList[0]->GetY(Y+dy);
-			ts[1]=TargetImageList[1]->GetY(Y+dy);
-			ts[2]=TargetImageList[2]->GetY(Y+dy);
-			for(dx=-Len;dx<Len;dx++){
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-				int SS=((Q->S+Q2->S)>>1);
-				int PP=((Q->P+Q2->P)>>1);
-				int RR=((Q->R+Q2->R)>>1);
-				if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
-					SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
-					return true;
+			dx=-Len;
+			if(0<=(X-Len) && (X+Len)<=XLen){
+				for(;dy>-Len;dy--){
+					if(0<=(Y+dy) && (Y+dy)<YLen){
+						ts[0]=TargetImageList[0]->GetY(Y+dy);
+						ts[1]=TargetImageList[1]->GetY(Y+dy);
+						ts[2]=TargetImageList[2]->GetY(Y+dy);
+						struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+						if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+							SetReturnExecProcessing(ts,X+dx,Y+dy,0x04000000,Brightness,CoordX,CoordY,InspectResult);
+							return true;
+						}
+					}
 				}
 			}
 		}
-		dx=Len;
-		if(0<=(Y+dy) && (Y+dy)<YLen
-		&& 0<=(X-Len) && (X+Len)<=XLen){
-			for(;dy<Len;dy++){
+
+		//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
+		for(int Len=1;Len<=SearchDot;Len++){
+			int	dx;
+			int	dy=-Len;
+			if(0<=(Y+dy) && (Y+dy)<YLen
+			&& 0<=(X-Len) && (X+Len)<=XLen){
 				ts[0]=TargetImageList[0]->GetY(Y+dy);
 				ts[1]=TargetImageList[1]->GetY(Y+dy);
 				ts[2]=TargetImageList[2]->GetY(Y+dy);
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-				int SS=((Q->S+Q2->S)>>1);
-				int PP=((Q->P+Q2->P)>>1);
-				int RR=((Q->R+Q2->R)>>1);
-				if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
-					SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
-					return true;
+				for(dx=-Len;dx<Len;dx++){
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+					int SS=((Q->S+Q2->S)>>1);
+					int PP=((Q->P+Q2->P)>>1);
+					int RR=((Q->R+Q2->R)>>1);
+					if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
+						SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
+						return true;
+					}
 				}
 			}
-		}
-		dy=Len;
-		if(0<=(Y+dy) && (Y+dy)<YLen
-		&& 0<=(X-Len) && (X+Len)<=XLen){
-			ts[0]=TargetImageList[0]->GetY(Y+dy);
-			ts[1]=TargetImageList[1]->GetY(Y+dy);
-			ts[2]=TargetImageList[2]->GetY(Y+dy);
-			for(;dx>-Len;dx--){
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-				int SS=((Q->S+Q2->S)>>1);
-				int PP=((Q->P+Q2->P)>>1);
-				int RR=((Q->R+Q2->R)>>1);
-				if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
-					SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
-					return true;
+			dx=Len;
+			if(0<=(Y+dy) && (Y+dy)<YLen
+			&& 0<=(X-Len) && (X+Len)<=XLen){
+				for(;dy<Len;dy++){
+					ts[0]=TargetImageList[0]->GetY(Y+dy);
+					ts[1]=TargetImageList[1]->GetY(Y+dy);
+					ts[2]=TargetImageList[2]->GetY(Y+dy);
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+					int SS=((Q->S+Q2->S)>>1);
+					int PP=((Q->P+Q2->P)>>1);
+					int RR=((Q->R+Q2->R)>>1);
+					if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
+						SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
+						return true;
+					}
 				}
 			}
-		}
-		dx=-Len;
-		if(0<=(Y+dy) && (Y+dy)<YLen
-		&& 0<=(X-Len) && (X+Len)<=XLen){
-			for(;dy>-Len;dy--){
+			dy=Len;
+			if(0<=(Y+dy) && (Y+dy)<YLen
+			&& 0<=(X-Len) && (X+Len)<=XLen){
 				ts[0]=TargetImageList[0]->GetY(Y+dy);
 				ts[1]=TargetImageList[1]->GetY(Y+dy);
 				ts[2]=TargetImageList[2]->GetY(Y+dy);
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
-				int SS=((Q->S+Q2->S)>>1);
-				int PP=((Q->P+Q2->P)>>1);
-				int RR=((Q->R+Q2->R)>>1);
-				if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
-					SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
-					return true;
+				for(;dx>-Len;dx--){
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+					int SS=((Q->S+Q2->S)>>1);
+					int PP=((Q->P+Q2->P)>>1);
+					int RR=((Q->R+Q2->R)>>1);
+					if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
+						SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
+						return true;
+					}
+				}
+			}
+			dx=-Len;
+			if(0<=(Y+dy) && (Y+dy)<YLen
+			&& 0<=(X-Len) && (X+Len)<=XLen){
+				for(;dy>-Len;dy--){
+					ts[0]=TargetImageList[0]->GetY(Y+dy);
+					ts[1]=TargetImageList[1]->GetY(Y+dy);
+					ts[2]=TargetImageList[2]->GetY(Y+dy);
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][X+dx],ts[1][X+dx],ts[2][X+dx])];
+					int SS=((Q->S+Q2->S)>>1);
+					int PP=((Q->P+Q2->P)>>1);
+					int RR=((Q->R+Q2->R)>>1);
+					if(PL<=PP && PP<=PH && SL<=SS && SS<=SH && RL<=RR && RR<=RH){
+						SetReturnExecProcessing(ts,X+dx,Y+dy,0x08000000,Brightness,CoordX,CoordY,InspectResult);
+						return true;
+					}
 				}
 			}
 		}
-	}
 
-	//?V???N?c?C???c
-	if(CheckedSilk==false && IsSilk!=pAlignPage->GetBitPickupFromMaster(mx,my)){
-		int wX=pAlignPage->GetShiftXFromMaster(mx,my);
-		int wY=pAlignPage->GetShiftYFromMaster(mx,my);
-		mx	=X-wX;
-		my	=Y-wY;
-		if(mx-SearchDot>=0 && XLen>mx+SearchDot && my-SearchDot>=0 && YLen>my+SearchDot){
-			CheckedSilk=true;
-			goto	REINS4_1;
+		//?V???N?c?C???c
+		if(CheckedSilk==false && IsSilk!=pAlignPage->GetBitPickupFromMaster(mx,my)){
+			int wX=pAlignPage->GetShiftXFromMaster(mx,my);
+			int wY=pAlignPage->GetShiftYFromMaster(mx,my);
+			mx	=X-wX;
+			my	=Y-wY;
+			if(mx-SearchDot>=0 && XLen>mx+SearchDot && my-SearchDot>=0 && YLen>my+SearchDot){
+				CheckedSilk=true;
+				continue; // goto REINS4_1; の代わりにループ先頭へ戻る
+			}
 		}
-	}
 
-	//???�Ce??l?A?I?�E?d?Z?o
-	BYTE DiffPSR=0;
-	if(PL-Q->P > 0){
-		DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
-	}
-	else if(Q->P-PH > 0){
-		DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
-	}
-	if(SL-Q->S > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-			DiffPSR=wDiffPSR;
+		//????Ce??l?A?I??E?d?Z?o
+		BYTE DiffPSR=0;
+		if(PL-Q->P > 0){
+			DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
 		}
-	}
-	else if(Q->S-SH > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-			DiffPSR=wDiffPSR;
+		else if(Q->P-PH > 0){
+			DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
 		}
-	}
-	if(RL-Q->R > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
-			DiffPSR=wDiffPSR;
+		if(SL-Q->S > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
 		}
-	}
-	else if(Q->R-RH > 0){
-		BYTE wDiffPSR;
-		if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
-			DiffPSR=wDiffPSR;
+		else if(Q->S-SH > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
 		}
-	}
-	//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-	if(DiffPSR<BrightnessRange){
-		SetReturnExecProcessing(ts,X,Y,0x10000000,Brightness,CoordX,CoordY,InspectResult);
+		if(RL-Q->R > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		else if(Q->R-RH > 0){
+			BYTE wDiffPSR;
+			if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
+				DiffPSR=wDiffPSR;
+			}
+		}
+		//????-?ENG?I??}??}?A?O?e????E?c??P?e
+		if(DiffPSR<BrightnessRange){
+			SetReturnExecProcessing(ts,X,Y,0x10000000,Brightness,CoordX,CoordY,InspectResult);
+			return true;
+		}
+
+		ts[0]=TargetImageList[0]->GetY(Y);
+		ts[1]=TargetImageList[1]->GetY(Y);
+		ts[2]=TargetImageList[2]->GetY(Y);
+		SetReturnExecProcessing(ts,X,Y,0x01000000,Brightness,CoordX,CoordY,InspectResult);
 		return true;
-	}
-
-	ts[0]=TargetImageList[0]->GetY(Y);
-	ts[1]=TargetImageList[1]->GetY(Y);
-	ts[2]=TargetImageList[2]->GetY(Y);
-	SetReturnExecProcessing(ts,X,Y,0x01000000,Brightness,CoordX,CoordY,InspectResult);
-	return true;
+	} // while (true) の終わり
 }
 
 bool	PixelInspectionItem::GetTryExecProcessing1(int X,int Y,int SearchDot,int InspectionLevel,BYTE *pPL,BYTE *pPH,BYTE *pSL,BYTE *pSH,BYTE *pRL,BYTE *pRH,BYTE &rPL1,BYTE &rPH1,BYTE &rSL1,BYTE &rSH1,BYTE &rRL1,BYTE &rRH1,int &CoordX,int &CoordY,uint64 &InspectResult)
@@ -3923,7 +3901,7 @@ bool	PixelInspectionItem::GetTryExecProcessing1(int X,int Y,int SearchDot,int In
 		SetReturnExecProcessing(pPL[Index],pPH[Index],pSL[Index],pSH[Index],pRL[Index],pRH[Index],mx,my,0x02,rPL1,rPH1,rSL1,rSH1,rRL1,rRH1,CoordX,CoordY,InspectResult);
 		return true;
 	}
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 	Index++;
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
@@ -4014,7 +3992,7 @@ bool	PixelInspectionItem::GetTryExecProcessing1(int X,int Y,int SearchDot,int In
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
+	//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
 	Index=1;
 //	P=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?^?[?Q?b?g?A?W?c?c?}?X?^?[?A?W?E?a?3
 	PixelInsData	P3;
@@ -4159,7 +4137,7 @@ bool	PixelInspectionItem::GetTryExecProcessing2(int X,int Y,int SearchDot,int In
 		return true;
 	}
 
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 	Index++;
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
@@ -4210,7 +4188,7 @@ bool	PixelInspectionItem::GetTryExecProcessing2(int X,int Y,int SearchDot,int In
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
+	//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
 	Index=1;
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
@@ -4326,6 +4304,7 @@ void	PixelInspectionItem::Release(void)
 	PixData=NULL;
 }
 
+
 void	PixelInspectionItem::AllocPixDataForResistSilk(void)
 {
 #ifdef Debug
@@ -4347,7 +4326,7 @@ void	PixelInspectionItem::AllocPixDataForResistSilk(void)
 	int	YNumb=GetMaxLines();
 	BYTE	**MaskBmp=GetAutoMaskBitmap();
 
-	//???W?X?g?Ie??l?I?i?[???[?N?i?��
+	//???W?X?g?Ie??l?I?i?[???[?N?i???
 	if(PixDataForResistSilk[0]==NULL){
 #ifdef Debug
 		for(Cnt=0;Cnt<2;Cnt++){
@@ -4364,7 +4343,7 @@ void	PixelInspectionItem::AllocPixDataForResistSilk(void)
 			}
 		}
 	}
-	//???W?X?g?Ie??l?I?i?[???[?N???u?��
+	//???W?X?g?Ie??l?I?i?[???[?N???u???
 #ifdef Debug
 	for(Cnt=0;Cnt<2;Cnt++){
 		for(i=0;i<=(YNumb>>8);i++){
@@ -4390,7 +4369,7 @@ void	PixelInspectionItem::AllocPixDataForResistSilk(void)
 		}
 #endif
 	}
-	//???W?X?g?Ie??l?d?i?��
+	//???W?X?g?Ie??l?d?i???
 	if(pAlignPage!=NULL && MaskBmp!=NULL){
 #ifdef Debug
 		for(Cnt=0;Cnt<2;Cnt++){
@@ -4492,14 +4471,14 @@ void	PixelInspectionItem::DeleteImageList(ImageBuffer *ImageList[])
 }
 
 ///////////////////////////////
-//	?F?A?P?x?I?��?I??
+//	?F?A?P?x?I????I??
 ///////////////////////////////
 ExeResult	PixelInspectionItem::ExecuteScanning(int ExeID ,int ThreadNo,ResultInItemRoot *Res)
 {
 	//?X?L?????n???I?a??
 	int CurrentMasterCnt=GetLayersBase()->GetAnyData()->ToInt(/**/"CurrentMasterCounter",-1);
 
-	//?P?X?L?????U?E?Q?X?L?????U?I?A?}?X?^?[?a???E?i?A?3?��?a???E?I?A?o?I?�E
+	//?P?X?L?????U?E?Q?X?L?????U?I?A?}?X?^?[?a???E?i?A?3????a???E?I?A?o?I??E
 	if(CurrentMasterCnt<2){
 		return _ER_true;
 	}
@@ -4532,7 +4511,7 @@ ExeResult	PixelInspectionItem::ExecuteScanning(int ExeID ,int ThreadNo,ResultInI
 */
 	//?R?X?L?????U?i?}?X?^?[?o?^?P???U?j
 	if(CurrentMasterCnt==2){
-		//AutoAlignment?I?A?N?o?��
+		//AutoAlignment?I?A?N?o???
 		AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoAlignment");
 		if(ABase!=NULL){
 			AlgorithmInPageRoot	*APage=ABase->GetPageData(GetPage());
@@ -4554,14 +4533,14 @@ ExeResult	PixelInspectionItem::ExecuteScanning(int ExeID ,int ThreadNo,ResultInI
 	if(MaskBitmap==NULL){
 		return _ER_true;
 	}
-	//?^?[?Q?b?g?a???d?v?Z?��?A?P?x?a?3
+	//?^?[?Q?b?g?a???d?v?Z????A?P?x?a?3
 	GetTargetBuffList(TargetImageList);
 	GetLeastSquaresMethodT(TargetImageList,MLeastSquaresMethodTable,TLeastSquaresMethodTable);
 
 	return _ER_true;
 }
 
-//?A?��?n?a?@?d?g?p?��?A?A?P?x?I?Q???3???E?d?i?��?i?}?X?^?[?a???j
+//?A????n?a?@?d?g?p????A?A?P?x?I?Q???3???E?d?i????i?}?X?^?[?a???j
 void	PixelInspectionItem::GetLeastSquaresMethodM(ImageBuffer *Buffer[],LeastSquaresMethodStruct *Least[])
 {
 	int MaskBitmapFPackNumb=MaskBitmapFPack.GetCount();
@@ -4609,7 +4588,7 @@ void	PixelInspectionItem::GetLeastSquaresMethodM(ImageBuffer *Buffer[],LeastSqua
 	}
 }
 
-//?A?��?n?a?@?d?g?p?��?A?A?P?x?I?Q???3???E?d?i?��?i?^?[?Q?b?g?a???j
+//?A????n?a?@?d?g?p????A?A?P?x?I?Q???3???E?d?i????i?^?[?Q?b?g?a???j
 void	PixelInspectionItem::GetLeastSquaresMethodT(ImageBuffer *Buffer[],LeastSquaresMethodStruct *LeastM[],LeastSquaresMethodStruct *LeastT[])
 {
 	int MaskBitmapFPackNumb=MaskBitmapFPack.GetCount();
@@ -4665,7 +4644,7 @@ void	PixelInspectionItem::GetLeastSquaresMethodT(ImageBuffer *Buffer[],LeastSqua
 				int y =c->GetFLineAbsY  (j);
 				int MBrightness=LeastM[i][Cnt].a*y+LeastM[i][Cnt].b;
 				int TBrightness=LeastT[i][Cnt].a*y+LeastT[i][Cnt].b;
-				//Target?c?cMaster?O?I?P?x?I?�E?W???d?Z?o
+				//Target?c?cMaster?O?I?P?x?I??E?W???d?Z?o
 				double TMBrightCoef=(double)MBrightness/TBrightness;
 				for(int x=x1;x<x2;x++){
 					int	X,Y;
@@ -4729,7 +4708,7 @@ ExeResult	PixelInspectionItem::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 	XLen=GetDotPerLine();
 	YLen=GetMaxLines();
 
-	//AutoAlignment?I?A?N?o?��
+	//AutoAlignment?I?A?N?o???
 	AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoAlignment");
 	if(ABase!=NULL){
 		AlgorithmInPageRoot	*APage=ABase->GetPageDataPhase(GetLayersBase()->GetCurrentPhase())->GetPageData(GetPage());
@@ -4738,7 +4717,7 @@ ExeResult	PixelInspectionItem::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 		}
 	}
 
-	//AutoPCBHoleAligner?I?A?N?o?��
+	//AutoPCBHoleAligner?I?A?N?o???
 	ABase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoPCBHoleAligner");
 	if(ABase!=NULL){
 		AlgorithmInPageRoot	*APage=ABase->GetPageDataPhase(GetLayersBase()->GetCurrentPhase())->GetPageData(GetPage());
@@ -4747,7 +4726,7 @@ ExeResult	PixelInspectionItem::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 		}
 	}
 
-	//VCutInspection?I?A?N?o?��
+	//VCutInspection?I?A?N?o???
 	ABase=GetLayersBase()->GetAlgorithmBase(/**/"PCB",/**/"VCutInspection");
 	if(ABase!=NULL){
 		AlgorithmInPageRoot	*APage=ABase->GetPageDataPhase(GetLayersBase()->GetCurrentPhase())->GetPageData(GetPage());
@@ -4759,7 +4738,7 @@ ExeResult	PixelInspectionItem::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 	PixelInspectionInPage *PData=(PixelInspectionInPage *)GetParentInPage();
 	PoleTable=PData->PoleTable;
 
-	//?}?X?^?[?f?[?^?dLoad?��?????a?I?e??
+	//?}?X?^?[?f?[?^?dLoad????????a?I?e??
 	if(LoadedFlag==true){
 		LoadedFlag=false;
 		return Ret;
@@ -4803,7 +4782,7 @@ bool	PixelInspectionItem::ManualExecuteInitialAfterEdit(DWORD ExecuteInitialAfte
 	XLen	=GetDotPerLine();
 	YLen	=GetMaxLines();
 
-	//AutoAlignment?I?A?N?o?��
+	//AutoAlignment?I?A?N?o???
 	AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoAlignment");
 	if(ABase!=NULL){
 		AlgorithmInPageRoot	*APage=ABase->GetPageData(GetPage());
@@ -4812,7 +4791,7 @@ bool	PixelInspectionItem::ManualExecuteInitialAfterEdit(DWORD ExecuteInitialAfte
 		}
 	}
 
-	//AutoPCBHoleAligner?I?A?N?o?��
+	//AutoPCBHoleAligner?I?A?N?o???
 	ABase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoPCBHoleAligner");
 	if(ABase!=NULL){
 		AlgorithmInPageRoot	*APage=ABase->GetPageData(GetPage());
@@ -4821,7 +4800,7 @@ bool	PixelInspectionItem::ManualExecuteInitialAfterEdit(DWORD ExecuteInitialAfte
 		}
 	}
 
-	//VCutInspection?I?A?N?o?��
+	//VCutInspection?I?A?N?o???
 	ABase=GetLayersBase()->GetAlgorithmBase(/**/"PCB",/**/"VCutInspection");
 	if(ABase!=NULL){
 		AlgorithmInPageRoot	*APage=ABase->GetPageData(GetPage());
@@ -4833,7 +4812,7 @@ bool	PixelInspectionItem::ManualExecuteInitialAfterEdit(DWORD ExecuteInitialAfte
 	PixelInspectionInPage *PData=(PixelInspectionInPage *)GetParentInPage();
 	PoleTable=PData->PoleTable;
 
-	//?}?X?^?[?f?[?^?dLoad?��?????a?I?e??
+	//?}?X?^?[?f?[?^?dLoad????????a?I?e??
 	if(LoadedFlag==true){
 		LoadedFlag=false;
 		return true;
@@ -4853,7 +4832,7 @@ bool	PixelInspectionItem::ManualExecuteInitialAfterEdit(DWORD ExecuteInitialAfte
 		GetMasterBuffList(AverageImageList);
 	}
 
-	//?!???A???S???Y?�?I??
+	//?!???A???S???Y???I??
 	ManualMakeTableForLight();
 	ManualMakeTableForDark();
 	ManualMakeTable();
@@ -5003,7 +4982,7 @@ bool	PixelInspectionItem::CalcThresholdImageList(int X,int Y,int SearchArea,Imag
 			if(RH<P->R){
 				RH=P->R;
 			}
-//			//?��?I?s?N?Z???E?u(x,y)?I?W?�?I?�E?d???s?e
+//			//????I?s?N?Z???E?u(x,y)?I?W???I??E?d???s?e
 //			BYTE StdDisorder=((double)((ds[0][j]))/((ms[0][j]))+(double)((ds[1][j]))/((ms[1][j]))+(double)((ds[2][j]))/((ms[2][j])))*sqrt((((ms[0][j]))*((ms[0][j]))+((ms[1][j]))*((ms[1][j]))+((ms[2][j]))*((ms[2][j])))/3.0)/3.0;
 //			if(PixD[X].StdDisorder<StdDisorder){
 //				PixD[X].StdDisorder=StdDisorder;
@@ -5112,11 +5091,11 @@ void	PixelInspectionItem::MakeTable(void)
 									if(PixD[x].RH<P->R){
 										PixD[x].RH=P->R;
 									}
-									//???S?s?N?Z???E?u(x,y)?I?W?�?I?�E?d???s?e
+									//???S?s?N?Z???E?u(x,y)?I?W???I??E?d???s?e
 									if(i==0 && j==0){
 //										PixD[x].StdDisorder=((double)((ds[0][j]))/((ms[0][j]))+(double)((ds[1][j]))/((ms[1][j]))+(double)((ds[2][j]))/((ms[2][j])))*sqrt((((ms[0][j]))*((ms[0][j]))+((ms[1][j]))*((ms[1][j]))+((ms[2][j]))*((ms[2][j])))/3.0)/3.0;
 										PixD[x].StdDisorder=(double)(ds[0][j]+ds[1][j]+ds[2][j])/3.0+0.5;
-										//?W?�?I?�E?I?I???I?e?O?��?Ibit?E?p?b?h?c?C???c?I?��?f?d?????1?e
+										//?W???I??E?I?I???I?e?O????Ibit?E?p?b?h?c?C???c?I????f?d?????1?e
 										if(pAlignPage!=NULL){
 											if(pAlignPage->GetBitFirstPickupFromMaster(x,y)==true){
 												PixD[x].StdDisorder|=0x80;
@@ -5133,7 +5112,7 @@ void	PixelInspectionItem::MakeTable(void)
 			DeleteImageList(DisorderImageList);
 		}
 		else{
-			//???I?a???a?3?��?e??
+			//???I?a???a?3????e??
 			GetMasterBuffList(MasterImageList);
 			#pragma omp parallel
 			{
@@ -5170,7 +5149,7 @@ void	PixelInspectionItem::MakeTable(void)
 							if((y-SearchArea)<0 || YNumb<=(y+SearchArea)){
 								continue;
 							}
-							//?��?I?s?N?Z???E?u(x,y)?I?W?�?I?�E?d?O?E?�E?e
+							//????I?s?N?Z???E?u(x,y)?I?W???I??E?d?O?E??E?e
 							PixD[x].StdDisorder=0;
 							for(int i=-SearchArea;i<=SearchArea;i++){
 								BYTE	*ms[3];
@@ -5206,7 +5185,7 @@ void	PixelInspectionItem::MakeTable(void)
 		}
 	}
 
-	//???W?X?g?Ie??l?I?i?[???[?N?i?��
+	//???W?X?g?Ie??l?I?i?[???[?N?i???
 	AllocPixDataForResistSilk();
 }
 
@@ -5892,10 +5871,10 @@ void	PixelInspectionItem::ManualMakeTable()
 										if(PixD[x].RH<P->R){
 											PixD[x].RH=P->R;
 										}
-										//???S?s?N?Z???E?u(x,y)?I?W?�?I?�E?d???s?e
+										//???S?s?N?Z???E?u(x,y)?I?W???I??E?d???s?e
 										if(i==0 && j==0){
 											PixD[x].StdDisorder=(double)(ds[0][j]+ds[1][j]+ds[2][j])/3.0+0.5;
-											//?W?�?I?�E?I?I???I?e?O?��?Ibit?E?p?b?h?c?C???c?I?��?f?d?????1?e
+											//?W???I??E?I?I???I?e?O????Ibit?E?p?b?h?c?C???c?I????f?d?????1?e
 											if(GetThresholdR()->ThrType==_Pad){
 												PixD[x].StdDisorder|=0x80;
 											}
@@ -5921,7 +5900,7 @@ void	PixelInspectionItem::ManualMakeTable()
 			DeleteImageList(DisorderImageList);
 		}
 		else{
-			//???I?a???a?3?��?e??
+			//???I?a???a?3????e??
 			GetMasterBuffList(MasterImageList);
 			if(MaskBmp!=NULL){
 #ifndef Debug
@@ -5960,7 +5939,7 @@ void	PixelInspectionItem::ManualMakeTable()
 								if((y-SearchArea)<0 || YNumb<=(y+SearchArea)){
 									continue;
 								}
-								//?��?I?s?N?Z???E?u(x,y)?I?W?�?I?�E?d?O?E?�E?e
+								//????I?s?N?Z???E?u(x,y)?I?W???I??E?d?O?E??E?e
 								PixD[x].StdDisorder=0;
 #ifdef Debug
 								for(i=-SearchArea;i<=SearchArea;i++){
@@ -5998,7 +5977,7 @@ void	PixelInspectionItem::ManualMakeTable()
 										}
 									}
 								}
-								//?W?�?I?�E?I?I???I?e?O?��?Ibit?E?p?b?h?c?C???c?I?��?f?d?????1?e
+								//?W???I??E?I?I???I?e?O????Ibit?E?p?b?h?c?C???c?I????f?d?????1?e
 								if(GetThresholdR()->ThrType==_Pad){
 									PixD[x].StdDisorder|=0x80;
 								}
@@ -6020,12 +5999,6 @@ void	PixelInspectionItem::ManualMakeTable()
 		}
 	}
 }
-
-struct	PixelLibrarySettingString
-{
-	QString	StringReadLine;
-	uint	Priority;
-};
 
 int	PLibFunc(const void *a ,const void *b)
 {
@@ -6058,12 +6031,12 @@ int	AALibFunc(const void *a ,const void *b)
 //?s?N?Z???a?R
 bool	PixelInspectionItem::CalcPixelInterPoration(int tx,int ty,BYTE PL,BYTE PH,BYTE SL,BYTE SH,BYTE RL,BYTE RH)
 {
-	//?a?o?I?s?N?Z???d?c?A?a?R?F?d?i?��?��?A???�C?�E?e
+	//?a?o?I?s?N?Z???d?c?A?a?R?F?d?i???????A????C??E?e
 	if(ExecPixelInterPoration(tx,ty,tx,ty-1,tx,ty+1,PL,PH,SL,SH,RL,RH)==true){
 		return true;
 	}
 
-	//?��?E?I?s?N?Z???d?c?A?a?R?F?d?i?��?��?A???�C?�E?e
+	//????E?I?s?N?Z???d?c?A?a?R?F?d?i???????A????C??E?e
 	if(ExecPixelInterPoration(tx,ty,tx-1,ty,tx+1,ty,PL,PH,SL,SH,RL,RH)==true){
 		return true;
 	}
@@ -6071,7 +6044,7 @@ bool	PixelInspectionItem::CalcPixelInterPoration(int tx,int ty,BYTE PL,BYTE PH,B
 	return false;
 }
 
-//?Q?_?I?s?N?Z???d?c?A?a?R?F?d?i?��?��?A???�C?�E?e
+//?Q?_?I?s?N?Z???d?c?A?a?R?F?d?i???????A????C??E?e
 bool	PixelInspectionItem::ExecPixelInterPoration(int tx,int ty,int tx1,int ty1,int tx2,int ty2,BYTE PL,BYTE PH,BYTE SL,BYTE SH,BYTE RL,BYTE RH)
 {
 	//(x,y)?A(x1,y1)
@@ -6118,7 +6091,7 @@ ExeResult	PixelInspectionItem::ExecutePreProcessing(int ExeID ,int ThreadNo,Resu
 	XLen	=GetDotPerLine();
 	YLen	=GetMaxLines();
 
-	//?!???A???S???Y?�?I??
+	//?!???A???S???Y???I??
 	if(((PixelInspectionInPage *)GetParentInPage())->IsMultiAlgorithmSupport==true){
 		//ThrRange?d?a??
 		ThresholdMode	ThrMode=GetThresholdR()->ThrMode;
@@ -6131,7 +6104,7 @@ ExeResult	PixelInspectionItem::ExecutePreProcessing(int ExeID ,int ThreadNo,Resu
 		}
 		//DynamicClassify?IAlgorithmInPagePI?|?C???^?d?T?d
 		DCAlgorithmInPagePIPointer=((PixelInspectionInPage *)GetParentInPage())->GetAlgorithmInPagePIPointer();
-		//???�C?a???IDynamicClassify?I?a?|?C???^?d?T?d
+		//????C?a???IDynamicClassify?I?a?|?C???^?d?T?d
 		if(GetThresholdR()->ThrType>=_DCBaseArea){
 			int i=((PixelInspectionInPage *)GetParentInPage())->GetUniqueIDList().indexOf(UniqueID);
 			TargetDCBitmap		=((PixelInspectionInPage *)GetParentInPage())->TargetDCBitmap[i];
@@ -6139,7 +6112,7 @@ ExeResult	PixelInspectionItem::ExecutePreProcessing(int ExeID ,int ThreadNo,Resu
 		}
 	}
 
-	//?^?[?Q?b?g?a???d?v?Z?��?A?P?x?a?3
+	//?^?[?Q?b?g?a???d?v?Z????A?P?x?a?3
 	GetTargetBuffList(TargetImageList);
 	GetLeastSquaresMethodT(TargetImageList,MLeastSquaresMethodTable,TLeastSquaresMethodTable);
 
@@ -6165,7 +6138,6 @@ ExeResult	PixelInspectionItem::ExecutePreProcessing(int ExeID ,int ThreadNo,Resu
 
 	return Ret;
 }
-
 ExeResult	PixelInspectionItem::ExecuteProcessing(int ExeID ,int ThreadNo,ResultInItemRoot *Res)
 {
 	//Enable
@@ -6183,7 +6155,7 @@ ExeResult	PixelInspectionItem::ExecuteProcessing(int ExeID ,int ThreadNo,ResultI
 	DWORD	StartMilisec=GetLayersBase()->GetStartInspectionTimeMilisec();
 	int		MaxInspectMilisec=GetParamGlobal()->MaxInspectMilisec;
 
-	//???�C???t???O
+	//????C???t???O
 	NowInspection=true;
 
 	//TargetImage Buffer
@@ -6191,12 +6163,12 @@ ExeResult	PixelInspectionItem::ExecuteProcessing(int ExeID ,int ThreadNo,ResultI
 
 	RadianCoef=M_PI/510.0;
 
-	//?!???A???S???Y?�?I??
+	//?!???A???S???Y???I??
 	if(((PixelInspectionInPage *)GetParentInPage())->IsMultiAlgorithmSupport==true){
 //////////////////////////////////////////////////////
-//				?!???A???S???Y?�?I??				//
+//				?!???A???S???Y???I??				//
 //////////////////////////////////////////////////////
-		//Page?IPixDataNarrow?a?��?-?IPixDataBroad?dItem?E?R?s?[
+		//Page?IPixDataNarrow?a????-?IPixDataBroad?dItem?E?R?s?[
 		ThresholdMode ThrMode=GetThresholdR()->ThrMode;
 		if(ThrMode==_Narrow){
 			PixData=((PixelInspectionInPage *)GetParentInPage())->PixDataNarrow;
@@ -6208,18 +6180,18 @@ ExeResult	PixelInspectionItem::ExecuteProcessing(int ExeID ,int ThreadNo,ResultI
 			return _ER_true;
 		}
 
-//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I?�E?A?I???�C//
-		//?u?I?I?��?��?��?l?A?I???�C//
+//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I??E?A?I????C//
+		//?u?I?I??????????l?A?I????C//
 		ManualExecuteProcessing1();
 
-		//?u?I?I???�C?a???A?I???�C//
+		//?u?I?I????C?a???A?I????C//
 		ManualExecuteProcessing2();
 
-//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I?�E?A?I???�C//
-		//?u?I?I?��?��?��?l?A?I???�C//
+//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I??E?A?I????C//
+		//?u?I?I??????????l?A?I????C//
 		ManualExecuteProcessing3();
 
-		//?u?I?I???�C?a???A?I???�C//
+		//?u?I?I????C?a???A?I????C//
 		ManualExecuteProcessing4();
 
 		PureFlexAreaListContainer TempFPack;
@@ -6237,7 +6209,7 @@ ExeResult	PixelInspectionItem::ExecuteProcessing(int ExeID ,int ThreadNo,ResultI
 		for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;){
 			int AreaSize=c->GetPatternByte();
 			if(AreaSize<GetThresholdR()->NGSize){
-				//NG?r?b?g?d???A?�E
+				//NG?r?b?g?d???A??E
 				int LineLen	=c->GetFLineLen();
 				for(int i=0;i<LineLen;i++){
 					int x1	=c->GetFLineLeftX(i);
@@ -6264,81 +6236,86 @@ ExeResult	PixelInspectionItem::ExecuteProcessing(int ExeID ,int ThreadNo,ResultI
 		StartTime=clock();
 #endif
 
-		//?�}?I???_?AHALT?`?F?b?N
+		//??}?I???_?AHALT?`?F?b?N
+		bool manualHalt = false;
 		if(SumAreaSize>=Parent->GetParamGlobal()->MaxNGCountsPerCam){
 			Res->GetResultInspection()->SetMaxErrorBreak(true);
-			goto MANUAL_HALT_INS;
+			manualHalt = true;
 		}
-		DWORD	NowTime=GetComputerMiliSec();
-		if(NowTime-StartMilisec>=MaxInspectMilisec){
-			Res->GetResultInspection()->SetTimeOutBreak(true);
-			goto MANUAL_HALT_INS;
+		if(!manualHalt){
+			DWORD	NowTime=GetComputerMiliSec();
+			if(NowTime-StartMilisec>=MaxInspectMilisec){
+				Res->GetResultInspection()->SetTimeOutBreak(true);
+				manualHalt = true;
+			}
 		}
+
+		if(!manualHalt){
 /*
-		//TempNGBitmap?d?N???A
-		MatrixBuffClear(TempNGBitmap,0,XByte,YLen);
+			//TempNGBitmap?d?N???A
+			MatrixBuffClear(TempNGBitmap,0,XByte,YLen);
 
-		//TempNGBitmap?d?A?\?z
-		for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;c=c->GetNext()){
-			c->MakeBitData(TempNGBitmap,XLen,YLen);
-		}
+			//TempNGBitmap?d?A?\?z
+			for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;c=c->GetNext()){
+				c->MakeBitData(TempNGBitmap,XLen,YLen);
+			}
 
-		//NGBitmap?d?\?��
-		MatrixBuffOr(NGBitmap,(const BYTE **)TempNGBitmap,XByte,YLen);
+			//NGBitmap?d?\???
+			MatrixBuffOr(NGBitmap,(const BYTE **)TempNGBitmap,XByte,YLen);
 */
-		//TempFPack?d?N???A
-		TempFPack.RemoveAll();
+			//TempFPack?d?N???A
+			TempFPack.RemoveAll();
 
-		PickupFlexArea(TempNGBitmap,XByte,XLen,YLen,TempFPack);
+			PickupFlexArea(TempNGBitmap,XByte,XLen,YLen,TempFPack);
 
-		int AreaListNumb=TempFPack.GetNumber();
-		PureFlexAreaList **AreaList=new PureFlexAreaList*[AreaListNumb];
-		int i=0;
-		for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;c=c->GetNext(),i++){
-			AreaList[i]=c;
-		}
-
-#ifndef Debug
-		#pragma omp parallel
-		{
-			#pragma omp for
-#endif
-			for(i=0;i<AreaListNumb;i++){
-				ManualExecuteProcessing(AreaList[i]);
+			int AreaListNumb=TempFPack.GetNumber();
+			PureFlexAreaList **AreaList=new PureFlexAreaList*[AreaListNumb];
+			int i=0;
+			for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;c=c->GetNext(),i++){
+				AreaList[i]=c;
 			}
+
 #ifndef Debug
-		}
+			#pragma omp parallel
+			{
+				#pragma omp for
+#endif
+				for(i=0;i<AreaListNumb;i++){
+					ManualExecuteProcessing(AreaList[i]);
+				}
+#ifndef Debug
+			}
 #endif
 
 #ifdef DebugConsole
-		EndTime=clock();
-		printf(/**/"ExecuteProcessing(12)?F%.2f?b\n",(double)(EndTime-StartTime)/CLOCKS_PER_SEC);
-		StartTime=clock();
+			EndTime=clock();
+			printf(/**/"ExecuteProcessing(12)?F%.2f?b\n",(double)(EndTime-StartTime)/CLOCKS_PER_SEC);
+			StartTime=clock();
 #endif
 
-		delete []AreaList;
-		TempFPack.RemoveAll();
-		PickupFlexArea(TempNGBitmap,XByte ,XLen,YLen ,TempFPack);
-		for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;){
-			int AreaSize=c->GetPatternByte();
-			if(AreaSize<GetThresholdR()->NGSize){
-				PureFlexAreaList	*CNext=c->GetNext();
-				TempFPack.RemoveList(c);
-				delete	c;
-				c=CNext;
+			delete []AreaList;
+			TempFPack.RemoveAll();
+			PickupFlexArea(TempNGBitmap,XByte ,XLen,YLen ,TempFPack);
+			for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;){
+				int AreaSize=c->GetPatternByte();
+				if(AreaSize<GetThresholdR()->NGSize){
+					PureFlexAreaList	*CNext=c->GetNext();
+					TempFPack.RemoveList(c);
+					delete	c;
+					c=CNext;
+				}
+				else{
+					c=c->GetNext();
+				}
 			}
-			else{
-				c=c->GetNext();
-			}
-		}
 
 #ifdef DebugConsole
-		EndTime=clock();
-		printf(/**/"ExecuteProcessing(13)?F%.2f?b\n",(double)(EndTime-StartTime)/CLOCKS_PER_SEC);
-		StartTime=clock();
+			EndTime=clock();
+			printf(/**/"ExecuteProcessing(13)?F%.2f?b\n",(double)(EndTime-StartTime)/CLOCKS_PER_SEC);
+			StartTime=clock();
 #endif
+		} // end if(!manualHalt)
 
-MANUAL_HALT_INS:;
 		if(Res->GetAddedData()==NULL){
 			Res->SetAddedData(new ResultClusterOnItem(),ResultPixelOnItemType);
 		}
@@ -6353,7 +6330,7 @@ MANUAL_HALT_INS:;
 			((ResultClusterOnItem *)Res->GetAddedData())->List.AppendList(f);
 			NGNumb++;
 
-			//PosList?d?i?��?��?AAppend?�E?e
+			//PosList?d?i???????AAppend??E?e
 			int	Cx,Cy;
 			f->GetCenter(Cx,Cy);
 			ResultPosList	*r=new ResultPosList(Cx,Cy ,0,0);	//mx+hx ,my+hy);
@@ -6374,7 +6351,7 @@ MANUAL_HALT_INS:;
 		Res->SetAlignedXY(0,0);
 		Res->SetItemSearchedXY(0,0);
 
-		//???�C???t???O?N???A
+		//????C???t???O?N???A
 		NowInspection=false;
 
 #ifdef DebugConsole
@@ -6384,7 +6361,7 @@ MANUAL_HALT_INS:;
 	}
 	else{
 //////////////////////////////////////////////////////
-//				?�}?e?U?A?I???�C???W?b?N				//
+//				??}?e?U?A?I????C???W?b?N				//
 //////////////////////////////////////////////////////
 		AlgorithmBase		*ABase=GetParentBase();
 		PixelInspectionBase	*PBase=(PixelInspectionBase *)ABase;
@@ -6438,39 +6415,81 @@ MANUAL_HALT_INS:;
 		PureFlexAreaListContainer TempFPack;
 
 //////////////////////////////////////////////////////
-//					?U?�~???�C						//
+//					?U??~????C						//
 //////////////////////////////////////////////////////
+		bool detailFailed = false;
+
 		if(DoneResistIns==true){
-			//???W?X?g?i?p?b?h?A?V???N?E?O?j?I???�C
+			//???W?X?g?i?p?b?h?A?V???N?E?O?j?I????C
 			DMode=_Resist;
 			if(ExecuteProcessingForDetail(Res,SearchDotBase,NGThresholdForResist_B,NGThresholdForResist_D,BrightnessRange,DMode,MinimumNGSizeForResist,StartMilisec,MaxInspectMilisec,TempFPack,SumAreaSize)==false){
-				goto HALT_INS_R;
+				detailFailed = true;
 			}
 		}
-		if(DonePadIns==true){
-			//?p?b?h?I?U?�~???�C
+		if(!detailFailed && DonePadIns==true){
+			//?p?b?h?I?U??~????C
 			DMode=_Pad;
 			if(ExecuteProcessingForDetail(Res,SearchDotBase,NGThresholdForPad_B,NGThresholdForPad_D,BrightnessRange,DMode,MinimumNGSizeForPad,StartMilisec,MaxInspectMilisec,TempFPack,SumAreaSize)==false){
-				goto HALT_INS_R;
+				detailFailed = true;
 			}
 		}
-		if(DoneSilkIns==true){
-			//?V???N?I?U?�~???�C
+		if(!detailFailed && DoneSilkIns==true){
+			//?V???N?I?U??~????C
 			DMode=_Silk;
 			if(ExecuteProcessingForDetail(Res,SearchDotBase,NGThresholdForSilk_B,NGThresholdForSilk_D,BrightnessRange,DMode,MinimumNGSizeForSilk,StartMilisec,MaxInspectMilisec,TempFPack,SumAreaSize)==false){
-				goto HALT_INS_R;
+				detailFailed = true;
 			}
 		}
-		if(DoneHoleIns==true){
-			//???I?U?�~???�C
+		if(!detailFailed && DoneHoleIns==true){
+			//???I?U??~????C
 			DMode=_Hole;
 			if(ExecuteProcessingForDetail(Res,SearchDotBase,NGThresholdForHole_B,NGThresholdForHole_D,BrightnessRange,DMode,MinimumNGSizeForHole,StartMilisec,MaxInspectMilisec,TempFPack,SumAreaSize)==false){
-				goto HALT_INS_R;
+				detailFailed = true;
 			}
 		}
 
+		if(detailFailed){
+			PickupFlexArea(NGBitmap,XByte,XLen,YLen,TempFPack);
+			if(Res->GetAddedData()==NULL){
+				Res->SetAddedData(new ResultClusterOnItem(),ResultPixelOnItemType);
+			}
+			else{
+				Res->GetAddedData()->Clear();
+			}
+			int NGNumb=0;
+			PureFlexAreaList *f;
+			while((f=TempFPack.GetFirst())!=NULL){
+				TempFPack.RemoveList(f);
+				f->Regulate();
+				((ResultClusterOnItem *)Res->GetAddedData())->List.AppendList(f);
+				NGNumb++;
+
+				//PosList?d?i???????AAppend??E?e
+				int	Cx,Cy;
+				f->GetCenter(Cx,Cy);
+				ResultPosList	*r=new ResultPosList(Cx,Cy ,0,0);	//mx+hx ,my+hy);
+				r->NGSize=f->GetPatternByte();
+				Res->AddPosList(r);
+			}
+			wFPack=&(((ResultClusterOnItem *)Res->GetAddedData())->List);
+
+			if(NGNumb==0){
+				Res->SetError(1);
+			}
+			else{
+				Res->SetError(2);
+			}
+			Res->SetResult1(NGNumb);
+			Res->SetAlignedXY(0,0);
+			Res->SetItemSearchedXY(0,0);
+
+			//????C???t???O?N???A
+			NowInspection=false;
+			return _ER_true;
+		}
+
 //////////////////////////////////////////////////////
-//					?E?i???�C						//
+//					?E?i????C						//
 //////////////////////////////////////////////////////
 #ifndef Debug
 		#pragma omp parallel
@@ -6478,8 +6497,8 @@ MANUAL_HALT_INS:;
 			#pragma omp for
 #endif
 			for(int y=0;y<YLen;y++){
-				//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I?�E?A?I???�C//
-				//?u?I?I?��?��?��?l?A?I???�C//
+				//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I??E?A?I????C//
+				//?u?I?I??????????l?A?I????C//
 				ExecuteProcessing1(y,ThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange,CheckPadIns,CheckSilkIns,CheckResistIns,CheckHoleIns,IsCalcPixelInterPoration);
 			}
 #ifndef Debug
@@ -6499,8 +6518,8 @@ MANUAL_HALT_INS:;
 		{
 			#pragma omp for
 			for(int y=0;y<YLen;y++){
-				//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I?�E?A?I???�C//
-				//?u?I?I???�C?a???A?I???�C//
+				//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I??E?A?I????C//
+				//?u?I?I????C?a???A?I????C//
 				ExecuteProcessing2(y,ThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange,CheckPadIns,CheckSilkIns,CheckResistIns,CheckHoleIns,IsCalcPixelInterPoration);
 			}
 		}
@@ -6511,15 +6530,15 @@ MANUAL_HALT_INS:;
 		StartTime=clock();
 #endif
 
-		//InsCheckedBitmap?d?\?��
+		//InsCheckedBitmap?d?\???
 		MatrixBuffOr(InsCheckedBitmap,(const BYTE **)TempNGBitmap,XByte,YLen);
 
 		#pragma omp parallel
 		{
 			#pragma omp for
 			for(int y=0;y<YLen;y++){
-				//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I?�E?A?I???�C//
-				//?u?I?I?��?��?��?l?A?I???�C//
+				//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I??E?A?I????C//
+				//?u?I?I??????????l?A?I????C//
 				ExecuteProcessing3(y,ThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange,CheckPadIns,CheckSilkIns,CheckResistIns,CheckHoleIns,IsCalcPixelInterPoration);
 			}
 		}
@@ -6534,8 +6553,8 @@ MANUAL_HALT_INS:;
 		{
 			#pragma omp for
 			for(int y=0;y<YLen;y++){
-				//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I?�E?A?I???�C//
-				//?u?I?I???�C?a???A?I???�C//
+				//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I??E?A?I????C//
+				//?u?I?I????C?a???A?I????C//
 				ExecuteProcessing4(y,ThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange,CheckPadIns,CheckSilkIns,CheckResistIns,CheckHoleIns,IsCalcPixelInterPoration);
 			}
 		}
@@ -6583,13 +6602,13 @@ MANUAL_HALT_INS:;
 						}
 					}
 				}
-				//?��?e
+				//????e
 				if(PadCnt>=MinimumNGSizeP || SilkCnt>=MinimumNGSizeS || ResistCnt>=MinimumNGSizeR || HoleCnt>=MinimumNGSizeH){
 					c=c->GetNext();
 					SumAreaSize+=1;
 					continue;
 				}
-				//NG?r?b?g?d???A?�E
+				//NG?r?b?g?d???A??E
 				for(int i=0;i<LineLen;i++){
 					int x1	=c->GetFLineLeftX(i);
 					int x2	=c->GetFLineRightX(i);
@@ -6615,142 +6634,146 @@ MANUAL_HALT_INS:;
 		StartTime=clock();
 #endif
 
-		//?�}?I???_?AHALT?`?F?b?N
+		//??}?I???_?AHALT?`?F?b?N
+		bool haltIns = false;
 		if(SumAreaSize>=Parent->GetParamGlobal()->MaxNGCountsPerCam){
 			Res->GetResultInspection()->SetMaxErrorBreak(true);
-			goto HALT_INS;
+			haltIns = true;
 		}
-		DWORD	NowTime=GetComputerMiliSec();
-		if(NowTime-StartMilisec>=MaxInspectMilisec){
-			Res->GetResultInspection()->SetTimeOutBreak(true);
-			goto HALT_INS;
-		}
-
-		//NG?O???d?n?i?K?T?o
-///		for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;c=c->GetNext()){
-///			ExecuteProcessing1(c,ThresholdRange,SearchDotBase,NGThreshold,BrightnessRange);
-///		}
-
-		//TempNGBitmap?d?N???A
-		MatrixBuffClear(TempNGBitmap,0,XByte,YLen);
-
-		//TempNGBitmap?d?A?\?z
-		for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;c=c->GetNext()){
-			c->MakeBitData(TempNGBitmap,XLen,YLen);
-		}
-
-#ifdef Debug2
-		//?i???n?d?�C?c?�E?�~?I?j?A?I???�C???W?b?N?d?A?s
-		CalcExecuteProcessing(TempNGBitmap,ThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,MinimumNGSizeP,MinimumNGSizeS,MinimumNGSizeR,MinimumNGSizeH,BrightnessRange);
-#endif
-		//NG???n?I?oNGThresholdForPad_B;NGThresholdP_B
-		double	NGThrP_B,NGThrP_D;
-		double	NGThrS_B,NGThrS_D;
-		double	NGThrR_B,NGThrR_D;
-		double	NGThrH_B,NGThrH_D;
-		NGThrP_B=NGThrP_D=NGThrS_B=NGThrS_D=NGThrR_B=NGThrR_D=NGThrH_B=NGThrH_D=0;
-		if(CheckPadIns==true){
-			NGThrP_B=NGThresholdP_B;
-			NGThrP_D=NGThresholdP_D;
-		}
-		if(CheckSilkIns==true){
-			NGThrS_B=NGThresholdS_B;
-			NGThrS_D=NGThresholdS_D;
-		}
-		if(CheckResistIns==true){
-			NGThrR_B=NGThresholdR_B;
-			NGThrR_D=NGThresholdR_D;
-		}
-		if(CheckHoleIns==true){
-			NGThrH_B=NGThresholdH_B;
-			NGThrH_D=NGThresholdH_D;
-		}
-
-		//NGBitmap?d?\?��
-		MatrixBuffOr(NGBitmap,(const BYTE **)TempNGBitmap,XByte,YLen);
-
-		//TempFPack?d?N???A
-		TempFPack.RemoveAll();
-
-		PickupFlexArea(NGBitmap,XByte,XLen,YLen,TempFPack);
-
-		int AreaListNumb=TempFPack.GetNumber();
-		PureFlexAreaList **AreaList=new PureFlexAreaList*[AreaListNumb];
-		int i=0;
-		for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;c=c->GetNext(),i++){
-			AreaList[i]=c;
-		}
-		#pragma omp parallel
-		{
-			#pragma omp for
-			for(i=0;i<AreaListNumb;i++){
-				ExecuteProcessing(AreaList[i],ThresholdRange,SearchDotBase,NGThrP_B,NGThrP_D,NGThrS_B,NGThrS_D,NGThrR_B,NGThrR_D,NGThrH_B,NGThrH_D,BrightnessRange,NGBitmap);
+		if(!haltIns){
+			DWORD	NowTime=GetComputerMiliSec();
+			if(NowTime-StartMilisec>=MaxInspectMilisec){
+				Res->GetResultInspection()->SetTimeOutBreak(true);
+				haltIns = true;
 			}
 		}
 
-#ifdef DebugConsole
-		EndTime=clock();
-		printf(/**/"ExecuteProcessing(12)?F%.2f?b\n",(double)(EndTime-StartTime)/CLOCKS_PER_SEC);
-		StartTime=clock();
-#endif
+		if(!haltIns){
+			//NG?O???d?n?i?K?T?o
+	///		for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;c=c->GetNext()){
+	///			ExecuteProcessing1(c,ThresholdRange,SearchDotBase,NGThreshold,BrightnessRange);
+	///		}
 
-		delete []AreaList;
-		TempFPack.RemoveAll();
-		PickupFlexArea(NGBitmap,XByte ,XLen,YLen ,TempFPack);
-		for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;){
-			int AreaSize=c->GetPatternByte();
-			if(AreaSize<MinimumNGSizeP || AreaSize<MinimumNGSizeS || AreaSize<MinimumNGSizeR || AreaSize<MinimumNGSizeH){
-				//?p?b?hor?V???Nor???W?X?g
-				int PadCnt		=0;
-				int SilkCnt		=0;
-				int ResistCnt	=0;
-				int HoleCnt		=0;
-				int LineLen	=c->GetFLineLen();
-				for(int i=0;i<LineLen;i++){
-					int x1	=c->GetFLineLeftX(i);
-					int x2	=c->GetFLineRightX(i);
-					int y	=c->GetFLineAbsY(i);
-					for(int x=x1;x<x2;x++){
-						if(pAlignPage->GetBitFirstPickupFromTarget(x,y)==true){
-							PadCnt++;
-						}
-						else if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
-							SilkCnt++;
-						}
-						else{
-							int mx=x+pAlignPage->GetShiftXFromTarget(x,y);
-							int my=y+pAlignPage->GetShiftYFromTarget(x,y);
-							if(pHoleAlignPage->GetBitmapFringe(mx,my)==true){
-								HoleCnt++;
+			//TempNGBitmap?d?N???A
+			MatrixBuffClear(TempNGBitmap,0,XByte,YLen);
+
+			//TempNGBitmap?d?A?\?z
+			for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;c=c->GetNext()){
+				c->MakeBitData(TempNGBitmap,XLen,YLen);
+			}
+
+	#ifdef Debug2
+			//?i???n?d??C?c??E??~?I?j?A?I????C???W?b?N?d?A?s
+			CalcExecuteProcessing(TempNGBitmap,ThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,MinimumNGSizeP,MinimumNGSizeS,MinimumNGSizeR,MinimumNGSizeH,BrightnessRange);
+	#endif
+			//NG???n?I?oNGThresholdForPad_B;NGThresholdP_B
+			double	NGThrP_B,NGThrP_D;
+			double	NGThrS_B,NGThrS_D;
+			double	NGThrR_B,NGThrR_D;
+			double	NGThrH_B,NGThrH_D;
+			NGThrP_B=NGThrP_D=NGThrS_B=NGThrS_D=NGThrR_B=NGThrR_D=NGThrH_B=NGThrH_D=0;
+			if(CheckPadIns==true){
+				NGThrP_B=NGThresholdP_B;
+				NGThrP_D=NGThresholdP_D;
+			}
+			if(CheckSilkIns==true){
+				NGThrS_B=NGThresholdS_B;
+				NGThrS_D=NGThresholdS_D;
+			}
+			if(CheckResistIns==true){
+				NGThrR_B=NGThresholdR_B;
+				NGThrR_D=NGThresholdR_D;
+			}
+			if(CheckHoleIns==true){
+				NGThrH_B=NGThresholdH_B;
+				NGThrH_D=NGThresholdH_D;
+			}
+
+			//NGBitmap?d?\???
+			MatrixBuffOr(NGBitmap,(const BYTE **)TempNGBitmap,XByte,YLen);
+
+			//TempFPack?d?N???A
+			TempFPack.RemoveAll();
+
+			PickupFlexArea(NGBitmap,XByte,XLen,YLen,TempFPack);
+
+			int AreaListNumb=TempFPack.GetNumber();
+			PureFlexAreaList **AreaList=new PureFlexAreaList*[AreaListNumb];
+			int i=0;
+			for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;c=c->GetNext(),i++){
+				AreaList[i]=c;
+			}
+			#pragma omp parallel
+			{
+				#pragma omp for
+				for(i=0;i<AreaListNumb;i++){
+					ExecuteProcessing(AreaList[i],ThresholdRange,SearchDotBase,NGThrP_B,NGThrP_D,NGThrS_B,NGThrS_D,NGThrR_B,NGThrR_D,NGThrH_B,NGThrH_D,BrightnessRange,NGBitmap);
+				}
+			}
+
+	#ifdef DebugConsole
+			EndTime=clock();
+			printf(/**/"ExecuteProcessing(12)?F%.2f?b\n",(double)(EndTime-StartTime)/CLOCKS_PER_SEC);
+			StartTime=clock();
+	#endif
+
+			delete []AreaList;
+			TempFPack.RemoveAll();
+			PickupFlexArea(NGBitmap,XByte ,XLen,YLen ,TempFPack);
+			for(PureFlexAreaList *c=TempFPack.GetFirst();c!=NULL;){
+				int AreaSize=c->GetPatternByte();
+				if(AreaSize<MinimumNGSizeP || AreaSize<MinimumNGSizeS || AreaSize<MinimumNGSizeR || AreaSize<MinimumNGSizeH){
+					//?p?b?hor?V???Nor???W?X?g
+					int PadCnt		=0;
+					int SilkCnt		=0;
+					int ResistCnt	=0;
+					int HoleCnt		=0;
+					int LineLen	=c->GetFLineLen();
+					for(int i=0;i<LineLen;i++){
+						int x1	=c->GetFLineLeftX(i);
+						int x2	=c->GetFLineRightX(i);
+						int y	=c->GetFLineAbsY(i);
+						for(int x=x1;x<x2;x++){
+							if(pAlignPage->GetBitFirstPickupFromTarget(x,y)==true){
+								PadCnt++;
+							}
+							else if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
+								SilkCnt++;
 							}
 							else{
-								ResistCnt++;
+								int mx=x+pAlignPage->GetShiftXFromTarget(x,y);
+								int my=y+pAlignPage->GetShiftYFromTarget(x,y);
+								if(pHoleAlignPage->GetBitmapFringe(mx,my)==true){
+									HoleCnt++;
+								}
+								else{
+									ResistCnt++;
+								}
 							}
 						}
 					}
+					//????e
+					if(PadCnt>=MinimumNGSizeP || SilkCnt>=MinimumNGSizeS || ResistCnt>=MinimumNGSizeR || HoleCnt>=MinimumNGSizeH){
+						c=c->GetNext();
+						continue;
+					}
+					PureFlexAreaList	*CNext=c->GetNext();
+					TempFPack.RemoveList(c);
+					delete	c;
+					c=CNext;
 				}
-				//?��?e
-				if(PadCnt>=MinimumNGSizeP || SilkCnt>=MinimumNGSizeS || ResistCnt>=MinimumNGSizeR || HoleCnt>=MinimumNGSizeH){
+				else{
 					c=c->GetNext();
-					continue;
 				}
-				PureFlexAreaList	*CNext=c->GetNext();
-				TempFPack.RemoveList(c);
-				delete	c;
-				c=CNext;
 			}
-			else{
-				c=c->GetNext();
-			}
-		}
 
-#ifdef DebugConsole
-		EndTime=clock();
-		printf(/**/"ExecuteProcessing(13)?F%.2f?b\n",(double)(EndTime-StartTime)/CLOCKS_PER_SEC);
-		StartTime=clock();
-#endif
+	#ifdef DebugConsole
+			EndTime=clock();
+			printf(/**/"ExecuteProcessing(13)?F%.2f?b\n",(double)(EndTime-StartTime)/CLOCKS_PER_SEC);
+			StartTime=clock();
+	#endif
+		} // end if(!haltIns)
 
-HALT_INS:;
 		if(Res->GetAddedData()==NULL){
 			Res->SetAddedData(new ResultClusterOnItem(),ResultPixelOnItemType);
 		}
@@ -6765,7 +6788,7 @@ HALT_INS:;
 			((ResultClusterOnItem *)Res->GetAddedData())->List.AppendList(f);
 			NGNumb++;
 
-			//PosList?d?i?��?��?AAppend?�E?e
+			//PosList?d?i???????AAppend??E?e
 			int	Cx,Cy;
 			f->GetCenter(Cx,Cy);
 			ResultPosList	*r=new ResultPosList(Cx,Cy ,0,0);	//mx+hx ,my+hy);
@@ -6786,7 +6809,7 @@ HALT_INS:;
 		Res->SetAlignedXY(0,0);
 		Res->SetItemSearchedXY(0,0);
 
-		//???�C???t???O?N???A
+		//????C???t???O?N???A
 		NowInspection=false;
 
 #ifdef DebugConsole
@@ -6795,47 +6818,11 @@ HALT_INS:;
 #endif
 
 		return _ER_true;
-
-HALT_INS_R:;
-		PickupFlexArea(NGBitmap,XByte,XLen,YLen,TempFPack);
-		if(Res->GetAddedData()==NULL){
-			Res->SetAddedData(new ResultClusterOnItem(),ResultPixelOnItemType);
-		}
-		else{
-			Res->GetAddedData()->Clear();
-		}
-		NGNumb=0;
-		while((f=TempFPack.GetFirst())!=NULL){
-			TempFPack.RemoveList(f);
-			f->Regulate();
-			((ResultClusterOnItem *)Res->GetAddedData())->List.AppendList(f);
-			NGNumb++;
-
-			//PosList?d?i?��?��?AAppend?�E?e
-			int	Cx,Cy;
-			f->GetCenter(Cx,Cy);
-			ResultPosList	*r=new ResultPosList(Cx,Cy ,0,0);	//mx+hx ,my+hy);
-			r->NGSize=f->GetPatternByte();
-			Res->AddPosList(r);
-		}
-		wFPack=&(((ResultClusterOnItem *)Res->GetAddedData())->List);
-
-		if(NGNumb==0){
-			Res->SetError(1);
-		}
-		else{
-			Res->SetError(2);
-		}
-		Res->SetResult1(NGNumb);
-		Res->SetAlignedXY(0,0);
-		Res->SetItemSearchedXY(0,0);
-
-		//???�C???t???O?N???A
-		NowInspection=false;
 	}
 
 	return _ER_true;
 }
+
 
 bool	PixelInspectionItem::ManualPixDataForResistSilk()
 {
@@ -6844,7 +6831,7 @@ bool	PixelInspectionItem::ManualPixDataForResistSilk()
 		return true;
 	}
 
-	//Page?c?c?|?C???^?I???d?o?A?��?A?A?-?e
+	//Page?c?c?|?C???^?I???d?o?A????A?A?-?e
 	PixelInsData	**pPixDataForResistSilk;
 	pPixDataForResistSilk=((PixelInspectionInPage *)GetParentInPage())->PixDataForResistSilk[_Resist];
 	PixDataForResistSilk[_Resist]	=pPixDataForResistSilk;
@@ -6864,10 +6851,10 @@ bool	PixelInspectionItem::ManualPixDataForResistSilk()
 			return false;
 		}
 
-		//Page?c?c?|?C???^?I???d?o?A?��?A?A?-?e
+		//Page?c?c?|?C???^?I???d?o?A????A?A?-?e
 		pPixDataForResistSilk=((PixelInspectionInPage *)GetParentInPage())->PixDataForResistSilk[GetThresholdR()->ThrType];
 
-		//???W?X?g?Ie??l?d?i?��
+		//???W?X?g?Ie??l?d?i???
 		if(pAlignPage!=NULL && MaskBmp!=NULL){
 			#pragma omp parallel
 			{
@@ -6939,7 +6926,7 @@ bool	PixelInspectionItem::PipeOutAutoGenerationForLearning(QIODevice *f ,int loc
 bool	PixelInspectionItem::PipeInAutoGenerationForLearning (QIODevice *f ,int localX1, int localY1, int localX2 ,int localY2)
 {
 /*
-	//e??l?I?i?��
+	//e??l?I?i???
 	MakeTable();
 
 	QString	PipeInNoPCBImagePath;
@@ -6947,20 +6934,19 @@ bool	PixelInspectionItem::PipeInAutoGenerationForLearning (QIODevice *f ,int loc
 		return false;
 	}
 
-	//?i?A?E?��?a???I?C?Y???Y
+	//?i?A?E????a???I?C?Y???Y
 	if(LoadTargetImage(PipeInNoPCBImagePath,localX1,localY1,localX2,localY2)==true){
 	}
 	else{
-		//?i?A?E?��?a???a?C?Y???s?E?c?A???e??
+		//?i?A?E????a???a?C?Y???s?E?c?A???e??
 	}
 */
 	return true;
 }
 
-//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I?�E?A?I???�C//
 void	PixelInspectionItem::ExecuteProcessing1(int y,int ThresholdRange,int SearchDotBase,double NGThresholdP_B,double NGThresholdP_D,double NGThresholdS_B,double NGThresholdS_D,double NGThresholdR_B,double NGThresholdR_D,double NGThresholdH_B,double NGThresholdH_D,int BrightnessRange,bool CheckPadIns,bool CheckSilkIns,bool CheckResistIns,bool CheckHoleIns,bool IsCalcPixelInterPoration)
 {
-	//?u?I?I?��?��?��?l?A?I???�C//
+	//?u?I?I??????????l?A?I????C//
 #ifdef Debug
 	int	x;
 	int	tx,ty;
@@ -6982,7 +6968,7 @@ void	PixelInspectionItem::ExecuteProcessing1(int y,int ThresholdRange,int Search
 		if(y==DebugPointY && x==DebugPointX){
 			DebugPoint++;
 		}
-		P				=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+		P				=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 #else
 	for(int x=0;x<XLen;x++){
 		int	tx,ty;
@@ -6995,9 +6981,9 @@ void	PixelInspectionItem::ExecuteProcessing1(int y,int ThresholdRange,int Search
 		int wThresholdRange2_SB	,wThresholdRange2_SD;
 		bool IsPad,IsSilk;
 		BYTE	*ts[3];
-		PixelInsData &P	=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+		PixelInsData &P	=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 #endif
-		if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2?�P?e
+		if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2??P?e
 			continue;
 		}
 		if(pAlignPage==NULL){
@@ -7074,405 +7060,387 @@ void	PixelInspectionItem::ExecuteProcessing1(int y,int ThresholdRange,int Search
 			}
 		}
 
-		if(x-SearchDot<0 || XLen<=x+SearchDot){
-			goto	Matched1;
-		}
-		if(y-SearchDot<0 || YLen<=y+SearchDot){
-			goto	Matched1;
-		}
+		bool skipOuterIter = false;
 
-		//?u?E???�C?I?Y
-		if((InsCheckedBitmap[ty][tx>>3] & (0x80>>(tx&7)))!=0){
-			//OK?A?E?A?A?��?e?e???I?2?�P?e
-			if((TempNGBitmap[ty][tx>>3] & (0x80>>(tx&7)))==0){
-				continue;
+		// ラムダ式による判定ブロック。マッチした場合は true を、そうでない場合は false を返す。
+		// これにより、深いネストからでも安全に抜け出すことができます。
+		bool isMatched = [&]() -> bool {
+			if(x-SearchDot<0 || XLen<=x+SearchDot){
+				return true;
 			}
-			//NG?A?E?A?A?��?e?e???ING?r?b?g?d???A?��?A?A???�C
+			if(y-SearchDot<0 || YLen<=y+SearchDot){
+				return true;
+			}
+
+			//?u?E????C?I?Y
+			if((InsCheckedBitmap[ty][tx>>3] & (0x80>>(tx&7)))!=0){
+				//OK?A?E?A?A????e?e???I?2??P?e
+				if((TempNGBitmap[ty][tx>>3] & (0x80>>(tx&7)))==0){
+					skipOuterIter = true;
+					return true; // ループの次イテレーションにスキップするため、判定を抜ける
+				}
+				//NG?A?E?A?A????e?e???ING?r?b?g?d???A????A?A????C
+				else{
+					TempNGBitmap[ty][tx>>3] &= ~(0x80>>(tx&7));
+				}
+			}
+
+			wThresholdRange=ThresholdRange;
+
+			//??????????l?I?????A???I??
+			if(((P.PL+P.PH)>>1)<=127){
+				wThresholdRange2_PB=wThresholdRange2_B;
+				wThresholdRange2_PD=wThresholdRange2_D;
+			}
 			else{
-				TempNGBitmap[ty][tx>>3] &= ~(0x80>>(tx&7));
+				wThresholdRange2_PB=wThresholdRange2_D;
+				wThresholdRange2_PD=wThresholdRange2_B;
 			}
-		}
-/*		else{
-			//ExecuteProcessingForResist?A?u?ENG?A?E?A?A?��?e?e???I?2?�P?e
-			if((NGBitmap[ty][tx>>3] & (0x80>>(tx&7)))!=0){
-				continue;
+			if(((P.SL+P.SH)>>1)<=127){
+				wThresholdRange2_SB=wThresholdRange2_B;
+				wThresholdRange2_SD=wThresholdRange2_D;
 			}
-		}
-*/
-		wThresholdRange=ThresholdRange;
-
-		//?��?��?��?l?I?????A???I??
-		if(((P.PL+P.PH)>>1)<=127){
-			wThresholdRange2_PB=wThresholdRange2_B;
-			wThresholdRange2_PD=wThresholdRange2_D;
-		}
-		else{
-			wThresholdRange2_PB=wThresholdRange2_D;
-			wThresholdRange2_PD=wThresholdRange2_B;
-		}
-		if(((P.SL+P.SH)>>1)<=127){
-			wThresholdRange2_SB=wThresholdRange2_B;
-			wThresholdRange2_SD=wThresholdRange2_D;
-		}
-		else{
-			wThresholdRange2_SB=wThresholdRange2_D;
-			wThresholdRange2_SD=wThresholdRange2_B;
-		}
-
-#ifdef Debug
-		if(ty==DebugPointY && tx==DebugPointX){
-			DebugPoint++;
-		}
-
-		PL		=P.PL-wThresholdRange2_PD;
-		PH		=P.PH+wThresholdRange2_PB;
-		SL		=P.SL-wThresholdRange2_SD;
-		SH		=P.SH+wThresholdRange2_SB;
-		RL		=P.RL-wThresholdRange;
-		RH		=P.RH+wThresholdRange;
-#else
-		int	PL	=P.PL-wThresholdRange2_PD;
-		int	PH	=P.PH+wThresholdRange2_PB;
-		int	SL	=P.SL-wThresholdRange2_SD;
-		int	SH	=P.SH+wThresholdRange2_SB;
-		int	RL	=P.RL-wThresholdRange;
-		int	RH	=P.RH+wThresholdRange;
-#endif
-		wThresholdRange=ThresholdRange;
-
-		ts[0]=TargetImageList[0]->GetY(ty);
-		ts[1]=TargetImageList[1]->GetY(ty);
-		ts[2]=TargetImageList[2]->GetY(ty);
-
-		struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][tx],ts[1][tx],ts[2][tx])];
-		if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-			goto	Matched1;
-		}
-
-		//?u?I?A?I?��?f
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			for(dx=-Len;dx<Len;dx++){
-#ifdef Debug
-				P1				=PixData[y+dy][x+dx];
-#else
-				PixelInsData &P1=PixData[y+dy][x+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange;
-				RH	=P1.RH+wThresholdRange;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	Matched1;
-				}
+			else{
+				wThresholdRange2_SB=wThresholdRange2_D;
+				wThresholdRange2_SD=wThresholdRange2_B;
 			}
-			dx=Len;
-			for(;dy<Len;dy++){
-#ifdef Debug
-				P1				=PixData[y+dy][x+dx];
-#else
-				PixelInsData &P1=PixData[y+dy][x+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange;
-				RH	=P1.RH+wThresholdRange;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	Matched1;
-				}
-			}
-			dy=Len;
-			for(;dx>-Len;dx--){
-#ifdef Debug
-				P1				=PixData[y+dy][x+dx];
-#else
-				PixelInsData &P1=PixData[y+dy][x+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange;
-				RH	=P1.RH+wThresholdRange;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	Matched1;
-				}
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
-#ifdef Debug
-				P1				=PixData[y+dy][x+dx];
-#else
-				PixelInsData &P1=PixData[y+dy][x+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange;
-				RH	=P1.RH+wThresholdRange;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	Matched1;
-				}
-			}
-		}
 
-		//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
 #ifdef Debug
-		P1				=PixData[y][x];
+			if(ty==DebugPointY && tx==DebugPointX){
+				DebugPoint++;
+			}
+
+			PL		=P.PL-wThresholdRange2_PD;
+			PH		=P.PH+wThresholdRange2_PB;
+			SL		=P.SL-wThresholdRange2_SD;
+			SH		=P.SH+wThresholdRange2_SB;
+			RL		=P.RL-wThresholdRange;
+			RH		=P.RH+wThresholdRange;
 #else
-		PixelInsData &P1=PixData[y][x];
-		PixelInsData P3;
+			int	PL	=P.PL-wThresholdRange2_PD;
+			int	PH	=P.PH+wThresholdRange2_PB;
+			int	SL	=P.SL-wThresholdRange2_SD;
+			int	SH	=P.SH+wThresholdRange2_SB;
+			int	RL	=P.RL-wThresholdRange;
+			int	RH	=P.RH+wThresholdRange;
 #endif
-		P3.SL=Q->S;
-		P3.PL=Q->P;
-		P3.RL=Q->R;
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			for(dx=-Len;dx<Len;dx++){
+			wThresholdRange=ThresholdRange;
+
+			ts[0]=TargetImageList[0]->GetY(ty);
+			ts[1]=TargetImageList[1]->GetY(ty);
+			ts[2]=TargetImageList[2]->GetY(ty);
+
+			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][tx],ts[1][tx],ts[2][tx])];
+			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+				return true;
+			}
+
+			//?u?I?A?I????f
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
+				for(dx=-Len;dx<Len;dx++){
 #ifdef Debug
-				P2=PixData[y+dy][x+dx];
+					P1				=PixData[y+dy][x+dx];
 #else
-				PixelInsData	&P2=PixData[y+dy][x+dx];
+					PixelInsData &P1=PixData[y+dy][x+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange;
-					RH3		=P3.RH+wThresholdRange;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange;
-					int	RH3	=P3.RH+wThresholdRange;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	Matched1;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange;
+					RH	=P1.RH+wThresholdRange;
+
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
-			}
-			dx=Len;
-			for(;dy<Len;dy++){
+				dx=Len;
+				for(;dy<Len;dy++){
 #ifdef Debug
-				P2=PixData[y+dy][x+dx];
+					P1				=PixData[y+dy][x+dx];
 #else
-				PixelInsData	&P2=PixData[y+dy][x+dx];
+					PixelInsData &P1=PixData[y+dy][x+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange;
-					RH3		=P3.RH+wThresholdRange;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange;
-					int	RH3	=P3.RH+wThresholdRange;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	Matched1;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange;
+					RH	=P1.RH+wThresholdRange;
+
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
-			}
-			dy=Len;
-			for(;dx>-Len;dx--){
+				dy=Len;
+				for(;dx>-Len;dx--){
 #ifdef Debug
-				P2=PixData[y+dy][x+dx];
+					P1				=PixData[y+dy][x+dx];
 #else
-				PixelInsData	&P2=PixData[y+dy][x+dx];
+					PixelInsData &P1=PixData[y+dy][x+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange;
-					RH3		=P3.RH+wThresholdRange;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange;
-					int	RH3	=P3.RH+wThresholdRange;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	Matched1;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange;
+					RH	=P1.RH+wThresholdRange;
+
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
+				dx=-Len;
+				for(;dy>-Len;dy--){
 #ifdef Debug
-				P2=PixData[y+dy][x+dx];
+					P1				=PixData[y+dy][x+dx];
 #else
-				PixelInsData	&P2=PixData[y+dy][x+dx];
+					PixelInsData &P1=PixData[y+dy][x+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange;
-					RH3		=P3.RH+wThresholdRange;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange;
-					int	RH3	=P3.RH+wThresholdRange;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	Matched1;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange;
+					RH	=P1.RH+wThresholdRange;
+
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
 			}
-		}
 
-		//Silk -> Silk ? or PAD -> PAD ?
-		if(IsSilk!=pAlignPage->GetBitPickupFromTarget(tx,ty) || IsPad!=pAlignPage->GetBitFirstPickupFromTarget(tx,ty)){
-			//Is Target Point Resist ?
-			if(pAlignPage->GetBitPickupFromTarget(tx,ty)==false && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
-				//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange,wThresholdRange,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
-					goto	Matched1;
+			//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
+#ifdef Debug
+			P1				=PixData[y][x];
+#else
+			PixelInsData &P1=PixData[y][x];
+			PixelInsData P3;
+#endif
+			P3.SL=Q->S;
+			P3.PL=Q->P;
+			P3.RL=Q->R;
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
+				for(dx=-Len;dx<Len;dx++){
+#ifdef Debug
+					P2=PixData[y+dy][x+dx];
+#else
+					PixelInsData	&P2=PixData[y+dy][x+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange;
+						RH3		=P3.RH+wThresholdRange;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange;
+						int	RH3	=P3.RH+wThresholdRange;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
+				}
+				dx=Len;
+				for(;dy<Len;dy++){
+#ifdef Debug
+					P2=PixData[y+dy][x+dx];
+#else
+					PixelInsData	&P2=PixData[y+dy][x+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange;
+						RH3		=P3.RH+wThresholdRange;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange;
+						int	RH3	=P3.RH+wThresholdRange;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
+				}
+				dy=Len;
+				for(;dx>-Len;dx--){
+#ifdef Debug
+					P2=PixData[y+dy][x+dx];
+#else
+					PixelInsData	&P2=PixData[y+dy][x+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange;
+						RH3		=P3.RH+wThresholdRange;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange;
+						int	RH3	=P3.RH+wThresholdRange;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
+				}
+				dx=-Len;
+				for(;dy>-Len;dy--){
+#ifdef Debug
+					P2=PixData[y+dy][x+dx];
+#else
+					PixelInsData	&P2=PixData[y+dy][x+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange;
+						RH3		=P3.RH+wThresholdRange;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange;
+						int	RH3	=P3.RH+wThresholdRange;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
 				}
 			}
-			//Is Target Point Silk ?
-			else if(pAlignPage->GetBitPickupFromTarget(tx,ty)==true && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
-				//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange,wThresholdRange,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
-					goto	Matched1;
+
+			//Silk -> Silk ? or PAD -> PAD ?
+			if(IsSilk!=pAlignPage->GetBitPickupFromTarget(tx,ty) || IsPad!=pAlignPage->GetBitFirstPickupFromTarget(tx,ty)){
+				//Is Target Point Resist ?
+				if(pAlignPage->GetBitPickupFromTarget(tx,ty)==false && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
+					//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange,wThresholdRange,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
+						return true;
+					}
+				}
+				//Is Target Point Silk ?
+				else if(pAlignPage->GetBitPickupFromTarget(tx,ty)==true && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
+					//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange,wThresholdRange,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
+						return true;
+					}
 				}
 			}
+
+			//M??NT?AT??NM?I?A???C?????g?U?R?E?a?a?A???c?AT??NM?I?E?u???i?1?A?I????C?a????A?Y?e
+			if(tmX!=-mtX || tmY!=-mtY){
+				if(ExecuteProcessingFromTarget1(x,y,wThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange)==true){
+					return true;
+				}
+			}
+
+			//????Ce??l?A?I??E?d?Z?o
+			BYTE DiffPSR=0;
+			PixelInsData &Pw=PixData[y][x];
+			if(Pw.PL-Q->P > 0){
+				DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
+			}
+			else if(Q->P-Pw.PH > 0){
+				DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
+			}
+			if(Pw.SL-Q->S > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			else if(Q->S-Pw.SH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			if(Pw.RL-Q->R > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			else if(Q->R-Pw.RH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			//????-?ENG?I??}??}?A?O?e????E?c??P?e
+			if(DiffPSR<BrightnessRange){
+				return true;
+			}
+
+			//?s?N?Z???a?R
+			if(IsCalcPixelInterPoration==true){
+				if(CalcPixelInterPoration(tx,ty,PL,PH,SL,SH,RL,RH)==true){
+					return true;
+				}
+			}
+
+			return false; // どれにもマッチしなかった場合
+		}(); // ラムダ式の即時実行
+
+		// 途中でスキップすべき条件があった場合は、次の x ループへ
+		if(skipOuterIter){
+			continue;
 		}
 
-		//M?�NT?AT?�NM?I?A???C?????g?U?R?E?a?a?A???c?AT?�NM?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-		if(tmX!=-mtX || tmY!=-mtY){
-			if(ExecuteProcessingFromTarget1(x,y,wThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange)==true){
-				goto	Matched1;
-			}
+		// いずれの条件にもマッチしなかった（最後まで通った）場合
+		if(!isMatched){
+			TempNGBitmap[ty][tx>>3] |= (0x80>>(tx&7));
 		}
-
-		//???�Ce??l?A?I?�E?d?Z?o
-		BYTE DiffPSR=0;
-		PixelInsData &Pw=PixData[y][x];
-		if(Pw.PL-Q->P > 0){
-			DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-		}
-		else if(Q->P-Pw.PH > 0){
-			DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-		}
-		if(Pw.SL-Q->S > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		else if(Q->S-Pw.SH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		if(Pw.RL-Q->R > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		else if(Q->R-Pw.RH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-		if(DiffPSR<BrightnessRange){
-			goto	Matched1;
-		}
-
-		//?s?N?Z???a?R
-		if(IsCalcPixelInterPoration==true){
-			if(CalcPixelInterPoration(tx,ty,PL,PH,SL,SH,RL,RH)==true){
-				goto	Matched1;
-			}
-		}
-
-		TempNGBitmap[ty][tx>>3] |= (0x80>>(tx&7));
-
-Matched1:;
+		
+		// マッチした/しなかったに関わらず、skipOuterIter でない限り常に実行
 		InsCheckedBitmap[ty][tx>>3] |= (0x80>>(tx&7));
 	}
 }
 
-//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I?�E?A?I???�C//
 void	PixelInspectionItem::ExecuteProcessing2(int y,int ThresholdRange,int SearchDotBase,double NGThresholdP_B,double NGThresholdP_D,double NGThresholdS_B,double NGThresholdS_D,double NGThresholdR_B,double NGThresholdR_D,double NGThresholdH_B,double NGThresholdH_D,int BrightnessRange,bool CheckPadIns,bool CheckSilkIns,bool CheckResistIns,bool CheckHoleIns,bool IsCalcPixelInterPoration)
 {
-	//?u?I?I???�C?a???A?I???�C//
+	//?u?I?I????C?a???A?I????C//
 #ifdef Debug
 	int	x;
 	int	tx,ty;
@@ -7493,7 +7461,7 @@ void	PixelInspectionItem::ExecuteProcessing2(int y,int ThresholdRange,int Search
 		if(y==DebugPointY && x==DebugPointX){
 			DebugPoint++;
 		}
-		P				=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+		P				=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 #else
 	for(int x=0;x<XLen;x++){
 		int	tx,ty;
@@ -7505,7 +7473,7 @@ void	PixelInspectionItem::ExecuteProcessing2(int y,int ThresholdRange,int Search
 		int wThresholdRange2_PB	,wThresholdRange2_PD;
 		int wThresholdRange2_SB	,wThresholdRange2_SD;
 		bool IsPad,IsSilk;
-		PixelInsData &P	=PixData[y][x];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+		PixelInsData &P	=PixData[y][x];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 #endif
 		if(P.StdDisorder==255){
 			continue;
@@ -7588,19 +7556,19 @@ void	PixelInspectionItem::ExecuteProcessing2(int y,int ThresholdRange,int Search
 			DebugPoint++;
 		}
 #endif
-		//?u?E???�C?I?Y
+		//?u?E????C?I?Y
 		if((InsCheckedBitmap[ty][tx>>3] & (0x80>>(tx&7)))!=0){
-			//OK?A?E?A?A?��?e?e???I?2?�P?e
+			//OK?A?E?A?A????e?e???I?2??P?e
 			if((TempNGBitmap[ty][tx>>3] & (0x80>>(tx&7)))==0){
 				continue;
 			}
-			//NG?A?E?A?A?��?e?e???ING?r?b?g?d???A?��?A?A???�C
+			//NG?A?E?A?A????e?e???ING?r?b?g?d???A????A?A????C
 			else{
 				TempNGBitmap[ty][tx>>3] &= ~(0x80>>(tx&7));
 			}
 		}
 		else{
-			//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???I?2?�P?e
+			//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???I?2??P?e
 			if((TempNGBitmap[ty][tx>>3] & (0x80>>(tx&7)))!=0){
 				continue;
 			}
@@ -7608,7 +7576,7 @@ void	PixelInspectionItem::ExecuteProcessing2(int y,int ThresholdRange,int Search
 
 		wThresholdRange=ThresholdRange;
 
-		//?��?��?��?l?I?????A???I??
+		//??????????l?I?????A???I??
 		if(((P.PL+P.PH)>>1)<=127){
 			wThresholdRange2_PB=wThresholdRange2_B;
 			wThresholdRange2_PD=wThresholdRange2_D;
@@ -7662,294 +7630,303 @@ void	PixelInspectionItem::ExecuteProcessing2(int y,int ThresholdRange,int Search
 #ifndef Debug
 		BYTE	*ts[3];
 #endif
-		ts[0]=TargetImageList[0]->GetY(ty);
-		ts[1]=TargetImageList[1]->GetY(ty);
-		ts[2]=TargetImageList[2]->GetY(ty);
 
-		struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][tx],ts[1][tx],ts[2][tx])];
-		if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
-			goto	Matched2;
-		}
+		// ラムダ式を用いた判定ブロックの導入
+		// 条件に一致 (Matched) した場合は true を返し、処理を抜けます。
+		bool isMatched = [&]() -> bool {
+			ts[0]=TargetImageList[0]->GetY(ty);
+			ts[1]=TargetImageList[1]->GetY(ty);
+			ts[2]=TargetImageList[2]->GetY(ty);
 
-		//?u?I?A?I?��?f
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			ts[0]=TargetImageList[0]->GetY(ty+dy);
-			ts[1]=TargetImageList[1]->GetY(ty+dy);
-			ts[2]=TargetImageList[2]->GetY(ty+dy);
-			for(dx=-Len;dx<Len;dx++){
-				struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-					goto	Matched2;
-				}
+			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][tx],ts[1][tx],ts[2][tx])];
+			if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
+				return true;
 			}
-			dx=Len;
-			for(;dy<Len;dy++){
+
+			//?u?I?A?I????f
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
 				ts[0]=TargetImageList[0]->GetY(ty+dy);
 				ts[1]=TargetImageList[1]->GetY(ty+dy);
 				ts[2]=TargetImageList[2]->GetY(ty+dy);
-				struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-					goto	Matched2;
+				for(dx=-Len;dx<Len;dx++){
+					struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+						return true;
+					}
 				}
-			}
-			dy=Len;
-			ts[0]=TargetImageList[0]->GetY(ty+dy);
-			ts[1]=TargetImageList[1]->GetY(ty+dy);
-			ts[2]=TargetImageList[2]->GetY(ty+dy);
-			for(;dx>-Len;dx--){
-				struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-					goto	Matched2;
+				dx=Len;
+				for(;dy<Len;dy++){
+					ts[0]=TargetImageList[0]->GetY(ty+dy);
+					ts[1]=TargetImageList[1]->GetY(ty+dy);
+					ts[2]=TargetImageList[2]->GetY(ty+dy);
+					struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+						return true;
+					}
 				}
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
+				dy=Len;
 				ts[0]=TargetImageList[0]->GetY(ty+dy);
 				ts[1]=TargetImageList[1]->GetY(ty+dy);
 				ts[2]=TargetImageList[2]->GetY(ty+dy);
-				struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-					goto	Matched2;
+				for(;dx>-Len;dx--){
+					struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+						return true;
+					}
+				}
+				dx=-Len;
+				for(;dy>-Len;dy--){
+					ts[0]=TargetImageList[0]->GetY(ty+dy);
+					ts[1]=TargetImageList[1]->GetY(ty+dy);
+					ts[2]=TargetImageList[2]->GetY(ty+dy);
+					struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+						return true;
+					}
 				}
 			}
-		}
 
-		//?i?�?_?A?u?e?I?_?I???�C?a???d???��?��?A???o????
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			ts[0]=TargetImageList[0]->GetY(ty+dy);
-			ts[1]=TargetImageList[1]->GetY(ty+dy);
-			ts[2]=TargetImageList[2]->GetY(ty+dy);
-			for(dx=-Len;dx<Len;dx++){
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
-					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
-					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
-					}
-				}
-				goto	Matched2;
-			}
-			dx=Len;
-			for(;dy<Len;dy++){
+			//?i???_?A?u?e?I?_?I????C?a???d?????????A???o????
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
 				ts[0]=TargetImageList[0]->GetY(ty+dy);
 				ts[1]=TargetImageList[1]->GetY(ty+dy);
 				ts[2]=TargetImageList[2]->GetY(ty+dy);
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
+				for(dx=-Len;dx<Len;dx++){
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
 					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
 					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
 					}
+					return true;
 				}
-				goto	Matched2;
-			}
-			dy=Len;
-			ts[0]=TargetImageList[0]->GetY(ty+dy);
-			ts[1]=TargetImageList[1]->GetY(ty+dy);
-			ts[2]=TargetImageList[2]->GetY(ty+dy);
-			for(;dx>-Len;dx--){
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
+				dx=Len;
+				for(;dy<Len;dy++){
+					ts[0]=TargetImageList[0]->GetY(ty+dy);
+					ts[1]=TargetImageList[1]->GetY(ty+dy);
+					ts[2]=TargetImageList[2]->GetY(ty+dy);
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
 					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
 					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
 					}
+					return true;
 				}
-				goto	Matched2;
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
+				dy=Len;
 				ts[0]=TargetImageList[0]->GetY(ty+dy);
 				ts[1]=TargetImageList[1]->GetY(ty+dy);
 				ts[2]=TargetImageList[2]->GetY(ty+dy);
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
+				for(;dx>-Len;dx--){
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
+					}
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
+					}
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
+					}
+					return true;
+				}
+				dx=-Len;
+				for(;dy>-Len;dy--){
+					ts[0]=TargetImageList[0]->GetY(ty+dy);
+					ts[1]=TargetImageList[1]->GetY(ty+dy);
+					ts[2]=TargetImageList[2]->GetY(ty+dy);
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
+					}
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
+					}
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
+					}
+					return true;
+				}
+			}
+
+			//Silk -> Silk ? or PAD -> PAD ?
+			if(IsSilk!=pAlignPage->GetBitPickupFromTarget(tx,ty) || IsPad!=pAlignPage->GetBitFirstPickupFromTarget(tx,ty)){
+				//Is Target Point Resist ?
+				if(pAlignPage->GetBitPickupFromTarget(tx,ty)==false && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
+					//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange,wThresholdRange,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
+						return true;
 					}
 				}
-				else{
-					if(Q2->S>SH){
-						continue;
+				//Is Target Point Silk ?
+				else if(pAlignPage->GetBitPickupFromTarget(tx,ty)==true && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
+					//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange2_B,wThresholdRange2_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
+						return true;
 					}
 				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
-					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
-					}
-				}
-				goto	Matched2;
 			}
-		}
 
-		//Silk -> Silk ? or PAD -> PAD ?
-		if(IsSilk!=pAlignPage->GetBitPickupFromTarget(tx,ty) || IsPad!=pAlignPage->GetBitFirstPickupFromTarget(tx,ty)){
-			//Is Target Point Resist ?
-			if(pAlignPage->GetBitPickupFromTarget(tx,ty)==false && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
-				//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange,wThresholdRange,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
-					goto	Matched2;
+			//M??NT?AT??NM?I?A???C?????g?U?R?E?a?a?A???c?AT??NM?I?E?u???i?1?A?I????C?a????A?Y?e
+			if(tmX!=-mtX || tmY!=-mtY){
+				if(ExecuteProcessingFromTarget2(x,y,wThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange)==true){
+					return true;
 				}
 			}
-			//Is Target Point Silk ?
-			else if(pAlignPage->GetBitPickupFromTarget(tx,ty)==true && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
-				//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange2_B,wThresholdRange2_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
-					goto	Matched2;
+
+			//????Ce??l?A?I??E?d?Z?o
+			BYTE DiffPSR=0;
+			if(PL-Q->P > 0){
+				DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
+			}
+			else if(Q->P-PH > 0){
+				DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
+			}
+			if(SL-Q->S > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
 				}
 			}
+			else if(Q->S-SH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			if(RL-Q->R > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			else if(Q->R-RH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			//????-?ENG?I??}??}?A?O?e????E?c??P?e
+			if(DiffPSR<BrightnessRange){
+				return true;
+			}
+
+			//?s?N?Z???a?R
+			if(IsCalcPixelInterPoration==true){
+				if(CalcPixelInterPoration(tx,ty,PL,PH,SL,SH,RL,RH)==true){
+					return true;
+				}
+			}
+
+			return false; // どれにも一致しなかった場合
+		}();
+
+		// 一致しなかった場合のみNGフラグを立てる
+		if(!isMatched){
+			TempNGBitmap[ty][tx>>3] |= (0x80>>(tx&7));
 		}
 
-		//M?�NT?AT?�NM?I?A???C?????g?U?R?E?a?a?A???c?AT?�NM?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-		if(tmX!=-mtX || tmY!=-mtY){
-			if(ExecuteProcessingFromTarget2(x,y,wThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange)==true){
-				goto	Matched2;
-			}
-		}
-
-		//???�Ce??l?A?I?�E?d?Z?o
-		BYTE DiffPSR=0;
-		if(PL-Q->P > 0){
-			DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
-		}
-		else if(Q->P-PH > 0){
-			DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
-		}
-		if(SL-Q->S > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		else if(Q->S-SH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		if(RL-Q->R > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		else if(Q->R-RH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-		if(DiffPSR<BrightnessRange){
-			goto	Matched2;
-		}
-
-		//?s?N?Z???a?R
-		if(IsCalcPixelInterPoration==true){
-			if(CalcPixelInterPoration(tx,ty,PL,PH,SL,SH,RL,RH)==true){
-				goto	Matched2;
-			}
-		}
-
-		TempNGBitmap[ty][tx>>3] |= (0x80>>(tx&7));
-
-Matched2:;
+		// (Matched2 ラベル以降の処理) 常にチェック済みのフラグを立てる
 		InsCheckedBitmap[ty][tx>>3] |= (0x80>>(tx&7));
 	}
 }
 
-//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I?�E?A?I???�C//
 bool	PixelInspectionItem::ExecuteProcessingFromTarget1(int x,int y,int ThresholdRange,int SearchDotBase,double NGThresholdP_B,double NGThresholdP_D,double NGThresholdS_B,double NGThresholdS_D,double NGThresholdR_B,double NGThresholdR_D,double NGThresholdH_B,double NGThresholdH_D,int BrightnessRange)
 {
 	int	tx,ty;
@@ -7961,7 +7938,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromTarget1(int x,int y,int Threshold
 		tx	=x-pAlignPage->GetShiftXFromTarget(x,y);
 		ty	=y-pAlignPage->GetShiftYFromTarget(x,y);
 	}
-	PixelInsData &P	=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+	PixelInsData &P	=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 
 	int wThresholdRange_B=ThresholdRange;
 	int wThresholdRange_D=ThresholdRange;
@@ -8011,7 +7988,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromTarget1(int x,int y,int Threshold
 		return true;
 	}
 
-	//?��?��?��?l?I?????A???I??
+	//??????????l?I?????A???I??
 	if(((P.PL+P.PH)>>1)<=127){
 		wThresholdRange2_PB=wThresholdRange2_B;
 		wThresholdRange2_PD=wThresholdRange2_D;
@@ -8045,7 +8022,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromTarget1(int x,int y,int Threshold
 	if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
 		return true;
 	}
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
@@ -8130,7 +8107,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromTarget1(int x,int y,int Threshold
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
+	//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
 	PixelInsData &P1=PixData[y][x];
 	PixelInsData P3;
 	P3.SL=Q->S;
@@ -8229,7 +8206,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromTarget2(int x,int y,int Threshold
 		tx	=x-pAlignPage->GetShiftXFromTarget(x,y);
 		ty	=y-pAlignPage->GetShiftYFromTarget(x,y);
 	}
-	PixelInsData &P	=PixData[y][x];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+	PixelInsData &P	=PixData[y][x];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 	if(P.StdDisorder==255){
 		return true;
 	}
@@ -8275,7 +8252,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromTarget2(int x,int y,int Threshold
 		return true;
 	}
 
-	//?��?��?��?l?I?????A???I??
+	//??????????l?I?????A???I??
 	if(((P.PL+P.PH)>>1)<=127){
 		wThresholdRange2_PB=wThresholdRange2_B;
 		wThresholdRange2_PD=wThresholdRange2_D;
@@ -8315,7 +8292,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromTarget2(int x,int y,int Threshold
 	if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
 		return true;
 	}
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
@@ -8360,7 +8337,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromTarget2(int x,int y,int Threshold
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I???�C?a???d???��?��?A???o????
+	//?i???_?A?u?e?I?_?I????C?a???d?????????A???o????
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
@@ -8519,10 +8496,9 @@ bool	PixelInspectionItem::ExecuteProcessingFromTarget2(int x,int y,int Threshold
 	return false;
 }
 
-//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I?�E?A?I???�C//
 void	PixelInspectionItem::ExecuteProcessing3(int y,int ThresholdRange,int SearchDotBase,double NGThresholdP_B,double NGThresholdP_D,double NGThresholdS_B,double NGThresholdS_D,double NGThresholdR_B,double NGThresholdR_D,double NGThresholdH_B,double NGThresholdH_D,int BrightnessRange,bool CheckPadIns,bool CheckSilkIns,bool CheckResistIns,bool CheckHoleIns,bool IsCalcPixelInterPoration)
 {
-	//?u?I?I?��?��?��?l?A?I???�C//
+	//?u?I?I??????????l?A?I????C//
 #ifdef Debug
 	int	mx,my;
 	int tmX,tmY;
@@ -8554,7 +8530,7 @@ void	PixelInspectionItem::ExecuteProcessing3(int y,int ThresholdRange,int Search
 		int wThresholdRange2_SB	,wThresholdRange2_SD;
 		bool IsPad,IsSilk;
 #endif
-		//ExecuteProcessing1or2?A?u?E???�C?��?A?��?e?e???I?2?�P?e
+		//ExecuteProcessing1or2?A?u?E????C????A????e?e???I?2??P?e
 		if((InsCheckedBitmap[y][x>>3] & (0x80>>(x&7)))!=0){
 			continue;
 		}
@@ -8585,11 +8561,11 @@ void	PixelInspectionItem::ExecuteProcessing3(int y,int ThresholdRange,int Search
 		if(my==DebugPointY && mx==DebugPointX){
 			DebugPoint++;
 		}
-		P				=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+		P				=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 #else
-		PixelInsData &P	=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+		PixelInsData &P	=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 #endif
-		if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2?�P?e
+		if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2??P?e
 			continue;
 		}
 
@@ -8647,7 +8623,7 @@ void	PixelInspectionItem::ExecuteProcessing3(int y,int ThresholdRange,int Search
 			}
 		}
 
-		//?��?��?��?l?I?????A???I??
+		//??????????l?I?????A???I??
 		if(((P.PL+P.PH)>>1)<=127){
 			wThresholdRange2_PB=wThresholdRange2_B;
 			wThresholdRange2_PD=wThresholdRange2_D;
@@ -8690,337 +8666,315 @@ void	PixelInspectionItem::ExecuteProcessing3(int y,int ThresholdRange,int Search
 #ifndef Debug
 		BYTE	*ts[3];
 #endif
-		ts[0]=TargetImageList[0]->GetY(y);
-		ts[1]=TargetImageList[1]->GetY(y);
-		ts[2]=TargetImageList[2]->GetY(y);
-		struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x],ts[1][x],ts[2][x])];
-		if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-			goto	Matched3;
-		}
 
-		//?u?I?A?I?��?f
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			for(dx=-Len;dx<Len;dx++){
-#ifdef Debug
-				P1				=PixData[my+dy][mx+dx];
-#else
-				PixelInsData &P1=PixData[my+dy][mx+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange_D;
-				RH	=P1.RH+wThresholdRange_B;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	Matched3;
-				}
+		// ラムダ式による判定ブロック
+		// Matched3 への goto の代わりに return true で抜け出す
+		bool isMatched = [&]() -> bool {
+			ts[0]=TargetImageList[0]->GetY(y);
+			ts[1]=TargetImageList[1]->GetY(y);
+			ts[2]=TargetImageList[2]->GetY(y);
+			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x],ts[1][x],ts[2][x])];
+			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+				return true;
 			}
-			dx=Len;
-			for(;dy<Len;dy++){
-#ifdef Debug
-				P1				=PixData[my+dy][mx+dx];
-#else
-				PixelInsData &P1=PixData[my+dy][mx+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange_D;
-				RH	=P1.RH+wThresholdRange_B;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	Matched3;
-				}
-			}
-			dy=Len;
-			for(;dx>-Len;dx--){
-#ifdef Debug
-				P1				=PixData[my+dy][mx+dx];
-#else
-				PixelInsData &P1=PixData[my+dy][mx+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange_D;
-				RH	=P1.RH+wThresholdRange_B;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	Matched3;
-				}
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
-#ifdef Debug
-				P1				=PixData[my+dy][mx+dx];
-#else
-				PixelInsData &P1=PixData[my+dy][mx+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange_D;
-				RH	=P1.RH+wThresholdRange_B;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	Matched3;
-				}
-			}
-		}
 
-		//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
+			//?u?I?A?I????f
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
+				for(dx=-Len;dx<Len;dx++){
 #ifdef Debug
-		P1				=PixData[my][mx];
+					P1				=PixData[my+dy][mx+dx];
 #else
-		PixelInsData &P1=PixData[my][mx];
-		PixelInsData P3;
+					PixelInsData &P1=PixData[my+dy][mx+dx];
 #endif
-		P3.SL=Q->S;
-		P3.PL=Q->P;
-		P3.RL=Q->R;
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			for(dx=-Len;dx<Len;dx++){
-#ifdef Debug
-				P2				=PixData[my+dy][mx+dx];
-#else
-				PixelInsData &P2=PixData[my+dy][mx+dx];
-#endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange_D;
-					RH3		=P3.RH+wThresholdRange_B;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange_D;
-					int	RH3	=P3.RH+wThresholdRange_B;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	Matched3;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange_D;
+					RH	=P1.RH+wThresholdRange_B;
+
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
-			}
-			dx=Len;
-			for(;dy<Len;dy++){
+				dx=Len;
+				for(;dy<Len;dy++){
 #ifdef Debug
-				P2				=PixData[my+dy][mx+dx];
+					P1				=PixData[my+dy][mx+dx];
 #else
-				PixelInsData &P2=PixData[my+dy][mx+dx];
+					PixelInsData &P1=PixData[my+dy][mx+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange_D;
-					RH3		=P3.RH+wThresholdRange_B;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange_D;
-					int	RH3	=P3.RH+wThresholdRange_B;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	Matched3;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange_D;
+					RH	=P1.RH+wThresholdRange_B;
+
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
-			}
-			dy=Len;
-			for(;dx>-Len;dx--){
+				dy=Len;
+				for(;dx>-Len;dx--){
 #ifdef Debug
-				P2				=PixData[my+dy][mx+dx];
+					P1				=PixData[my+dy][mx+dx];
 #else
-				PixelInsData &P2=PixData[my+dy][mx+dx];
+					PixelInsData &P1=PixData[my+dy][mx+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange_D;
-					RH3		=P3.RH+wThresholdRange_B;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange_D;
-					int	RH3	=P3.RH+wThresholdRange_B;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	Matched3;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange_D;
+					RH	=P1.RH+wThresholdRange_B;
+
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
+				dx=-Len;
+				for(;dy>-Len;dy--){
 #ifdef Debug
-				P2				=PixData[my+dy][mx+dx];
+					P1				=PixData[my+dy][mx+dx];
 #else
-				PixelInsData &P2=PixData[my+dy][mx+dx];
+					PixelInsData &P1=PixData[my+dy][mx+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange_D;
-					RH3		=P3.RH+wThresholdRange_B;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange_D;
-					int	RH3	=P3.RH+wThresholdRange_B;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	Matched3;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange_D;
+					RH	=P1.RH+wThresholdRange_B;
+
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
 			}
-		}
 
-		//Silk -> Silk ? or PAD -> PAD ?
-		if(IsSilk!=pAlignPage->GetBitPickupFromMaster(mx,my) || IsPad!=pAlignPage->GetBitFirstPickupFromMaster(mx,my)){
-			//Is Target Point Resist ?
-			if(pAlignPage->GetBitPickupFromTarget(x,y)==false && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
-				//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
-					goto	Matched3;
+			//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
+#ifdef Debug
+			P1				=PixData[my][mx];
+#else
+			PixelInsData &P1=PixData[my][mx];
+			PixelInsData P3;
+#endif
+			P3.SL=Q->S;
+			P3.PL=Q->P;
+			P3.RL=Q->R;
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
+				for(dx=-Len;dx<Len;dx++){
+#ifdef Debug
+					P2				=PixData[my+dy][mx+dx];
+#else
+					PixelInsData &P2=PixData[my+dy][mx+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange_D;
+						RH3		=P3.RH+wThresholdRange_B;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange_D;
+						int	RH3	=P3.RH+wThresholdRange_B;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
+				}
+				dx=Len;
+				for(;dy<Len;dy++){
+#ifdef Debug
+					P2				=PixData[my+dy][mx+dx];
+#else
+					PixelInsData &P2=PixData[my+dy][mx+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange_D;
+						RH3		=P3.RH+wThresholdRange_B;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange_D;
+						int	RH3	=P3.RH+wThresholdRange_B;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
+				}
+				dy=Len;
+				for(;dx>-Len;dx--){
+#ifdef Debug
+					P2				=PixData[my+dy][mx+dx];
+#else
+					PixelInsData &P2=PixData[my+dy][mx+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange_D;
+						RH3		=P3.RH+wThresholdRange_B;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange_D;
+						int	RH3	=P3.RH+wThresholdRange_B;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
+				}
+				dx=-Len;
+				for(;dy>-Len;dy--){
+#ifdef Debug
+					P2				=PixData[my+dy][mx+dx];
+#else
+					PixelInsData &P2=PixData[my+dy][mx+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange_D;
+						RH3		=P3.RH+wThresholdRange_B;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange_D;
+						int	RH3	=P3.RH+wThresholdRange_B;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
 				}
 			}
-			//Is Target Point Silk ?
-			else if(pAlignPage->GetBitPickupFromTarget(x,y)==true && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
-				//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
-					goto	Matched3;
+
+			//Silk -> Silk ? or PAD -> PAD ?
+			if(IsSilk!=pAlignPage->GetBitPickupFromMaster(mx,my) || IsPad!=pAlignPage->GetBitFirstPickupFromMaster(mx,my)){
+				//Is Target Point Resist ?
+				if(pAlignPage->GetBitPickupFromTarget(x,y)==false && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
+					//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
+						return true;
+					}
+				}
+				//Is Target Point Silk ?
+				else if(pAlignPage->GetBitPickupFromTarget(x,y)==true && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
+					//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
+						return true;
+					}
 				}
 			}
-		}
 
-		//T?�NM?AM?�NT?I?A???C?????g?U?R?E?a?a?A???c?AM?�NT?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-		if(tmX!=-mtX || tmY!=-mtY){
-			if(ExecuteProcessingFromMaster1(x,y,ThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange)==true){
-				goto	Matched3;
+			//T??NM?AM??NT?I?A???C?????g?U?R?E?a?a?A???c?AM??NT?I?E?u???i?1?A?I????C?a????A?Y?e
+			if(tmX!=-mtX || tmY!=-mtY){
+				if(ExecuteProcessingFromMaster1(x,y,ThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange)==true){
+					return true;
+				}
 			}
-		}
 
-		//???�Ce??l?A?I?�E?d?Z?o
-		BYTE DiffPSR=0;
-		PixelInsData &Pw=PixData[my][mx];
-		if(Pw.PL-Q->P > 0){
-			DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-		}
-		else if(Q->P-Pw.PH > 0){
-			DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-		}
-		if(Pw.SL-Q->S > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			//????Ce??l?A?I??E?d?Z?o
+			BYTE DiffPSR=0;
+			PixelInsData &Pw=PixData[my][mx];
+			if(Pw.PL-Q->P > 0){
+				DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
 			}
-		}
-		else if(Q->S-Pw.SH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			else if(Q->P-Pw.PH > 0){
+				DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
 			}
-		}
-		if(Pw.RL-Q->R > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			if(Pw.SL-Q->S > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
 			}
-		}
-		else if(Q->R-Pw.RH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			else if(Q->S-Pw.SH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
 			}
-		}
-		//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-		if(DiffPSR<BrightnessRange){
-			goto	Matched3;
-		}
+			if(Pw.RL-Q->R > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			else if(Q->R-Pw.RH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			//????-?ENG?I??}??}?A?O?e????E?c??P?e
+			if(DiffPSR<BrightnessRange){
+				return true;
+			}
 
-		//?s?N?Z???a?R
-		if(IsCalcPixelInterPoration==true){
-			if(CalcPixelInterPoration(x,y,PL,PH,SL,SH,RL,RH)==true){
-				goto	Matched3;
+			//?s?N?Z???a?R
+			if(IsCalcPixelInterPoration==true){
+				if(CalcPixelInterPoration(x,y,PL,PH,SL,SH,RL,RH)==true){
+					return true;
+				}
 			}
+
+			return false; // すべての条件をすり抜けた場合
+		}();
+
+		// 一致しなかった場合のみフラグを立てる
+		if (!isMatched) {
+			TempNGBitmap[y][x>>3] |= (0x80>>(x&7));
 		}
-
-		TempNGBitmap[y][x>>3] |= (0x80>>(x&7));
-
-Matched3:;
 	}
 }
-
-//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I?�E?A?I???�C//
 void	PixelInspectionItem::ExecuteProcessing4(int y,int ThresholdRange,int SearchDotBase,double NGThresholdP_B,double NGThresholdP_D,double NGThresholdS_B,double NGThresholdS_D,double NGThresholdR_B,double NGThresholdR_D,double NGThresholdH_B,double NGThresholdH_D,int BrightnessRange,bool CheckPadIns,bool CheckSilkIns,bool CheckResistIns,bool CheckHoleIns,bool IsCalcPixelInterPoration)
 {
-	//?u?I?I???�C?a???A?I???�C//
+	//?u?I?I????C?a???A?I????C//
 #ifdef Debug
 	int	mx,my;
 	int tmX,tmY;
@@ -9056,11 +9010,11 @@ void	PixelInspectionItem::ExecuteProcessing4(int y,int ThresholdRange,int Search
 		bool IsSilk;
 		DetailType	DPixelMode=_Resist;
 #endif
-		//ExecuteProcessing1?A?u?E???�C?��?A?��?e?e???I?2?�P?e
+		//ExecuteProcessing1?A?u?E????C????A????e?e???I?2??P?e
 		if((InsCheckedBitmap[y][x>>3] & (0x80>>(x&7)))!=0){
 			continue;
 		}
-		//ExecuteProcessing3?A?u?ENG?A?E?A?A?��?e?e???I?2?�P?e
+		//ExecuteProcessing3?A?u?ENG?A?E?A?A????e?e???I?2??P?e
 		if((TempNGBitmap[y][x>>3] & (0x80>>(x&7)))!=0){
 			continue;
 		}
@@ -9090,9 +9044,9 @@ void	PixelInspectionItem::ExecuteProcessing4(int y,int ThresholdRange,int Search
 		if(my==DebugPointY && mx==DebugPointX){
 			DebugPoint++;
 		}
-		P				=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+		P				=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 #else
-		PixelInsData &P	=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+		PixelInsData &P	=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 #endif
 		if(P.StdDisorder==255){
 			continue;
@@ -9156,7 +9110,7 @@ void	PixelInspectionItem::ExecuteProcessing4(int y,int ThresholdRange,int Search
 			}
 		}
 
-		//?��?��?��?l?I?????A???I??
+		//??????????l?I?????A???I??
 		if(((P.PL+P.PH)>>1)<=127){
 			wThresholdRange2_PB=wThresholdRange2_B;
 			wThresholdRange2_PD=wThresholdRange2_D;
@@ -9211,288 +9165,296 @@ void	PixelInspectionItem::ExecuteProcessing4(int y,int ThresholdRange,int Search
 #ifndef Debug
 		BYTE	*ts[3];
 #endif
-		ts[0]=TargetImageList[0]->GetY(y);
-		ts[1]=TargetImageList[1]->GetY(y);
-		ts[2]=TargetImageList[2]->GetY(y);
 
-		struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x],ts[1][x],ts[2][x])];
-		if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
-			goto	Matched4;
-		}
+		// ラムダ式による判定ブロック
+		// Matched4 への goto の代わりに return true で抜け出す
+		bool isMatched = [&]() -> bool {
+			ts[0]=TargetImageList[0]->GetY(y);
+			ts[1]=TargetImageList[1]->GetY(y);
+			ts[2]=TargetImageList[2]->GetY(y);
 
-		//?u?I?A?I?��?f
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			ts[0]=TargetImageList[0]->GetY(y+dy);
-			ts[1]=TargetImageList[1]->GetY(y+dy);
-			ts[2]=TargetImageList[2]->GetY(y+dy);
-			for(dx=-Len;dx<Len;dx++){
-				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	Matched4;
-				}
+			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x],ts[1][x],ts[2][x])];
+			if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
+				return true;
 			}
-			dx=Len;
-			for(;dy<Len;dy++){
+
+			//?u?I?A?I????f
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
 				ts[0]=TargetImageList[0]->GetY(y+dy);
 				ts[1]=TargetImageList[1]->GetY(y+dy);
 				ts[2]=TargetImageList[2]->GetY(y+dy);
-				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	Matched4;
+				for(dx=-Len;dx<Len;dx++){
+					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
+					}
 				}
-			}
-			dy=Len;
-			ts[0]=TargetImageList[0]->GetY(y+dy);
-			ts[1]=TargetImageList[1]->GetY(y+dy);
-			ts[2]=TargetImageList[2]->GetY(y+dy);
-			for(;dx>-Len;dx--){
-				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	Matched4;
+				dx=Len;
+				for(;dy<Len;dy++){
+					ts[0]=TargetImageList[0]->GetY(y+dy);
+					ts[1]=TargetImageList[1]->GetY(y+dy);
+					ts[2]=TargetImageList[2]->GetY(y+dy);
+					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
+					}
 				}
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
+				dy=Len;
 				ts[0]=TargetImageList[0]->GetY(y+dy);
 				ts[1]=TargetImageList[1]->GetY(y+dy);
 				ts[2]=TargetImageList[2]->GetY(y+dy);
-				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	Matched4;
+				for(;dx>-Len;dx--){
+					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
+					}
+				}
+				dx=-Len;
+				for(;dy>-Len;dy--){
+					ts[0]=TargetImageList[0]->GetY(y+dy);
+					ts[1]=TargetImageList[1]->GetY(y+dy);
+					ts[2]=TargetImageList[2]->GetY(y+dy);
+					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
+					}
 				}
 			}
-		}
 
-		//?i?�?_?A?u?e?I?_?I???�C?a???d???��?��?A???o????
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			ts[0]=TargetImageList[0]->GetY(y+dy);
-			ts[1]=TargetImageList[1]->GetY(y+dy);
-			ts[2]=TargetImageList[2]->GetY(y+dy);
-			for(dx=-Len;dx<Len;dx++){
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
-					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
-					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
-					}
-				}
-				goto	Matched4;
-			}
-			dx=Len;
-			for(;dy<Len;dy++){
+			//?i???_?A?u?e?I?_?I????C?a???d?????????A???o????
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
 				ts[0]=TargetImageList[0]->GetY(y+dy);
 				ts[1]=TargetImageList[1]->GetY(y+dy);
 				ts[2]=TargetImageList[2]->GetY(y+dy);
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
+				for(dx=-Len;dx<Len;dx++){
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
 					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
 					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
 					}
+					return true;
 				}
-				goto	Matched4;
-			}
-			dy=Len;
-			ts[0]=TargetImageList[0]->GetY(y+dy);
-			ts[1]=TargetImageList[1]->GetY(y+dy);
-			ts[2]=TargetImageList[2]->GetY(y+dy);
-			for(;dx>-Len;dx--){
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
+				dx=Len;
+				for(;dy<Len;dy++){
+					ts[0]=TargetImageList[0]->GetY(y+dy);
+					ts[1]=TargetImageList[1]->GetY(y+dy);
+					ts[2]=TargetImageList[2]->GetY(y+dy);
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
 					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
 					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
 					}
+					return true;
 				}
-				goto	Matched4;
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
+				dy=Len;
 				ts[0]=TargetImageList[0]->GetY(y+dy);
 				ts[1]=TargetImageList[1]->GetY(y+dy);
 				ts[2]=TargetImageList[2]->GetY(y+dy);
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
+				for(;dx>-Len;dx--){
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
 					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
 					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
 					}
+					return true;
 				}
-				goto	Matched4;
+				dx=-Len;
+				for(;dy>-Len;dy--){
+					ts[0]=TargetImageList[0]->GetY(y+dy);
+					ts[1]=TargetImageList[1]->GetY(y+dy);
+					ts[2]=TargetImageList[2]->GetY(y+dy);
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
+					}
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
+					}
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
+					}
+					return true;
+				}
 			}
-		}
 
-		//Silk -> Silk ? or PAD -> PAD ?
-		if(IsSilk!=pAlignPage->GetBitPickupFromMaster(mx,my) || IsPad!=pAlignPage->GetBitFirstPickupFromMaster(mx,my)){
-			//Is Target Point Resist ?
-			if(pAlignPage->GetBitPickupFromTarget(x,y)==false && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
-				//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange,wThresholdRange,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
-					goto	Matched4;
+			//Silk -> Silk ? or PAD -> PAD ?
+			if(IsSilk!=pAlignPage->GetBitPickupFromMaster(mx,my) || IsPad!=pAlignPage->GetBitFirstPickupFromMaster(mx,my)){
+				//Is Target Point Resist ?
+				if(pAlignPage->GetBitPickupFromTarget(x,y)==false && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
+					//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange,wThresholdRange,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
+						return true;
+					}
+				}
+				//Is Target Point Silk ?
+				else if(pAlignPage->GetBitPickupFromTarget(x,y)==true && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
+					//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange,wThresholdRange,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
+						return true;
+					}
 				}
 			}
-			//Is Target Point Silk ?
-			else if(pAlignPage->GetBitPickupFromTarget(x,y)==true && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
-				//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange,wThresholdRange,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
-					goto	Matched4;
+			//T??NM?AM??NT?I?A???C?????g?U?R?E?a?a?A???c?AM??NT?I?E?u???i?1?A?I????C?a????A?Y?e
+			if(tmX!=-mtX || tmY!=-mtY){
+				if(ExecuteProcessingFromMaster2(x,y,wThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange)==true){
+					return true;
 				}
 			}
-		}
-		//T?�NM?AM?�NT?I?A???C?????g?U?R?E?a?a?A???c?AM?�NT?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-		if(tmX!=-mtX || tmY!=-mtY){
-			if(ExecuteProcessingFromMaster2(x,y,wThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange)==true){
-				goto	Matched4;
-			}
-		}
 
-		//???�Ce??l?A?I?�E?d?Z?o
-		BYTE DiffPSR=0;
-		if(PL-Q->P > 0){
-			DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
-		}
-		else if(Q->P-PH > 0){
-			DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
-		}
-		if(SL-Q->S > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			//????Ce??l?A?I??E?d?Z?o
+			BYTE DiffPSR=0;
+			if(PL-Q->P > 0){
+				DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
 			}
-		}
-		else if(Q->S-SH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			else if(Q->P-PH > 0){
+				DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
 			}
-		}
-		if(RL-Q->R > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			if(SL-Q->S > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
 			}
-		}
-		else if(Q->R-RH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			else if(Q->S-SH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
 			}
-		}
-		//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-		if(DiffPSR<BrightnessRange){
-			goto	Matched4;
-		}
+			if(RL-Q->R > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			else if(Q->R-RH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			//????-?ENG?I??}??}?A?O?e????E?c??P?e
+			if(DiffPSR<BrightnessRange){
+				return true;
+			}
 
-		//?s?N?Z???a?R
-		if(IsCalcPixelInterPoration==true){
-			if(CalcPixelInterPoration(x,y,PL,PH,SL,SH,RL,RH)==true){
-				goto	Matched4;
+			//?s?N?Z???a?R
+			if(IsCalcPixelInterPoration==true){
+				if(CalcPixelInterPoration(x,y,PL,PH,SL,SH,RL,RH)==true){
+					return true;
+				}
 			}
+			
+			return false; // 全ての条件をすり抜けた場合
+		}();
+
+		// 一致しなかった場合のみNGフラグをセット
+		if (!isMatched) {
+			TempNGBitmap[y][x>>3] |= (0x80>>(x&7));
 		}
-
-		TempNGBitmap[y][x>>3] |= (0x80>>(x&7));
-
-Matched4:;
 	}
 }
 
@@ -9520,7 +9482,7 @@ bool	PixelInspectionItem::CalcReInspectionForResistSilk(int mx,int my,int tx,int
 	return false;
 }
 
-//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I?�E?A?I???�C//
+//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I??E?A?I????C//
 bool	PixelInspectionItem::ExecuteProcessingFromMaster1(int x,int y,int ThresholdRange,int SearchDotBase,double NGThresholdP_B,double NGThresholdP_D,double NGThresholdS_B,double NGThresholdS_D,double NGThresholdR_B,double NGThresholdR_D,double NGThresholdH_B,double NGThresholdH_D,int BrightnessRange)
 {
 	bool	IsPad,IsSilk;
@@ -9545,9 +9507,9 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster1(int x,int y,int Threshold
 	if(my<0 || YLen<=my){
 		return true;
 	}
-	PixelInsData &P	=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+	PixelInsData &P	=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 
-	if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2?�P?e
+	if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2??P?e
 		return true;
 	}
 
@@ -9591,7 +9553,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster1(int x,int y,int Threshold
 		IsSilk	=false;
 	}
 
-	//?��?��?��?l?I?????A???I??
+	//??????????l?I?????A???I??
 	if(((P.PL+P.PH)>>1)<=127){
 		wThresholdRange2_PB=wThresholdRange2_B;
 		wThresholdRange2_PD=wThresholdRange2_D;
@@ -9640,7 +9602,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster1(int x,int y,int Threshold
 	if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
 		return true;
 	}
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
@@ -9725,7 +9687,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster1(int x,int y,int Threshold
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
+	//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
 	PixelInsData &P1=PixData[my][mx];
 	PixelInsData P3;
 	P3.SL=Q->S;
@@ -9815,7 +9777,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster1(int x,int y,int Threshold
 		//Is Target Point Resist ?
 ///		if(pAlignPage->GetBitPickupFromTarget(x,y)==false && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
 		if(pAlignPage->GetBitPickupFromTarget(x,y)==false){
-			//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
+			//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
 			if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
 				return true;
 			}
@@ -9823,7 +9785,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster1(int x,int y,int Threshold
 		//Is Target Point Silk ?
 ///		else if(pAlignPage->GetBitPickupFromTarget(x,y)==true && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
 		else if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
-			//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
+			//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
 			if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
 				return true;
 			}
@@ -9851,7 +9813,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster2(int x,int y,int Threshold
 	if(my<0 || YLen<=my){
 		return true;
 	}
-	PixelInsData &P	=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+	PixelInsData &P	=PixData[my][mx];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 	if(P.StdDisorder==255){
 		return true;
 	}
@@ -9896,7 +9858,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster2(int x,int y,int Threshold
 		IsSilk	=false;
 	}
 
-	//?��?��?��?l?I?????A???I??
+	//??????????l?I?????A???I??
 	if(((P.PL+P.PH)>>1)<=127){
 		wThresholdRange2_PB=wThresholdRange2_B;
 		wThresholdRange2_PD=wThresholdRange2_D;
@@ -9951,7 +9913,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster2(int x,int y,int Threshold
 	if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
 		return true;
 	}
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
@@ -9996,7 +9958,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster2(int x,int y,int Threshold
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I???�C?a???d???��?��?A???o????
+	//?i???_?A?u?e?I?_?I????C?a???d?????????A???o????
 	for(int Len=1;Len<=SearchDot;Len++){
 		int	dx;
 		int	dy=-Len;
@@ -10157,7 +10119,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster2(int x,int y,int Threshold
 		//Is Target Point Resist ?
 ///		if(pAlignPage->GetBitPickupFromTarget(x,y)==false && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
 		if(pAlignPage->GetBitPickupFromTarget(x,y)==false){
-			//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
+			//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
 			if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
 				return true;
 			}
@@ -10165,7 +10127,7 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster2(int x,int y,int Threshold
 		//Is Target Point Silk ?
 ///		else if(pAlignPage->GetBitPickupFromTarget(x,y)==true && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
 		else if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
-			//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
+			//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
 			if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
 				return true;
 			}
@@ -10173,11 +10135,1042 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster2(int x,int y,int Threshold
 	}
 	return false;
 }
+void	PixelInspectionItem::ManualExecuteProcessing(PureFlexAreaList *NGBitArea)
+{
+	//NG?a?a???????a?I?I?A????C????E???
+	//??~????a?I?I???n?A???e?e???a??????I?A?A????C??E?e
+	int AreaSize=NGBitArea->GetPatternByte();
+	if(AreaSize>40){
+		int MaxL=max(NGBitArea->GetMaxX()-NGBitArea->GetMinX(),NGBitArea->GetMaxY()-NGBitArea->GetMinY());
+		if(MaxL<((int)(AreaSize>>2))){
+			return;
+		}
+	}
 
+	int LineLen	=NGBitArea->GetFLineLen();
+
+	list<point> point_list;
+
+#ifdef Debug
+	BYTE	*ts[3];
+	int	x,xx,yy;
+	int XRange,YRange;
+	int	mx[8][8],my[8][8];
+	int mmx,mmy;
+	int tmX,tmY;
+	int mtX,mtY;
+	PixelInsData	P,P1,P2,P3;
+	int	PL,wPL,PL3;
+	int	PH,wPH,PH3;
+	int	SL,wSL,SL3;
+	int	SH,wSH,SH3;
+	int	RL,wRL,RL3;
+	int	RH,wRH,RH3;
+	int SearchDot	=0;		//Temporary
+	int wThresholdRange;
+	int wThresholdRange2;
+	bool OutSearch;
+
+	int		Index;
+	int		xi,yi;
+	int		xxi,yyi;
+	//?T?o?Q?h?b?g?a?i25?G???A?j?I????CNG?A???T?d???[?N
+	BYTE	NGCheckedCnt[25];
+	//?????S?~?S?ING?c?cOK?E?E?A???s?N?Z???d?U??
+	BYTE	CanardBitmap[16];
+
+	int i;
+	int x1,x2,y;
+	list<point>::iterator p;
+	for(i=0;i<LineLen;i++){
+		x1	=NGBitArea->GetFLineLeftX(i);
+		x2	=NGBitArea->GetFLineRightX(i);
+		y	=NGBitArea->GetFLineAbsY(i);
+		for(x=x1;x<x2;x++){
+#else
+	for(int i=0;i<LineLen;i++){
+		int x1	=NGBitArea->GetFLineLeftX(i);
+		int x2	=NGBitArea->GetFLineRightX(i);
+		int y	=NGBitArea->GetFLineAbsY(i);
+		for(int x=x1;x<x2;x++){
+			bool OutSearch;
+			list<point>::iterator p;
+#endif
+			//?i???E?u?i?????I?S?~?S?}?X?I????a?s?N?Z???j?c?c?A?`?F?b?N?I?Y?s?N?Z???d?o?I??E
+			for(p=point_list.begin();p!=point_list.end();p++){
+				if(x>=p->x && x<p->x+4 && y>=p->y && y<p->y+4){
+					break;
+				}
+			}
+			if(p!=point_list.end()){
+				continue;
+			}
+			//?i???E?u?i?????I?S?~?S?}?X?I????a?s?N?Z???j?d?o?^
+			point pp={x,y};
+			point_list.push_back(pp);
+
+			if(x-4<0 || XLen<=x+10){
+				continue;
+			}
+			if(y-4<0 || YLen<=y+10){
+				continue;
+			}
+			OutSearch=false;
+
+//////////////?}?X?^?[?a???A?I????C//////////////
+#ifdef Debug
+			if(y==DebugPointY && x==DebugPointX){
+				DebugPoint++;
+			}
+			//???u???
+			Index=0;
+			memset(NGCheckedCnt,0,25);
+			memset(CanardBitmap,0,16);
+
+			//?W?~?W?}?X?I????C
+			XRange=x+6;
+			YRange=y+6;
+			yi=0;
+			for(yy=y-2;yy<YRange;yy++,yi++){
+#else
+			int	mx[8][8],my[8][8];
+			int tmX,tmY;
+			int mtX,mtY;
+			int SearchDot=0;		//Temporary
+			int wThresholdRange;
+			int wThresholdRange2;
+			//???u???
+			int		Index=0;
+			int		xxi=0,yyi=0;
+			//?T?o?Q?h?b?g?a?i25?G???A?j?I????CNG?A???T?d???[?N
+			BYTE	NGCheckedCnt[25]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+			//?????S?~?S?ING?c?cOK?E?E?A???s?N?Z???d?U??
+			BYTE	CanardBitmap[16]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+			//?W?~?W?}?X?I????C
+			int xx,yy;
+			int XRange=x+6;
+			int YRange=y+6;
+			int xi,yi=0;
+			for(yy=y-2;yy<YRange;yy++,yi++){
+				BYTE	*ts[3];
+#endif
+				xi=0;
+				ts[0]=TargetImageList[0]->GetY(yy);
+				ts[1]=TargetImageList[1]->GetY(yy);
+				ts[2]=TargetImageList[2]->GetY(yy);
+				for(xx=x-2;xx<XRange;xx++,xi++){
+					if(pAlignPage==NULL){
+						tmX	=tmY	=0;
+						mtX	=mtY	=0;
+						mx[yi][xi]	=xx;
+						my[yi][xi]	=yy;
+					}
+					else{
+						tmX			=pAlignPage->GetShiftXFromTarget(xx,yy);
+						tmY			=pAlignPage->GetShiftYFromTarget(xx,yy);
+						mtX			=pAlignPage->GetShiftXFromMaster(xx,yy);
+						mtY			=pAlignPage->GetShiftYFromMaster(xx,yy);
+						mx[yi][xi]	=xx+tmX;
+						my[yi][xi]	=yy+tmY;
+					}
+
+					if(mx[yi][xi]-2<0 || XLen<=mx[yi][xi]+2){
+						OutSearch=true;
+						break;
+					}
+					if(my[yi][xi]-2<0 || YLen<=my[yi][xi]+2){
+						OutSearch=true;
+						break;
+					}
+#ifdef Debug
+					if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
+						DebugPoint++;
+					}
+					P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#else
+					PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#endif
+					if(P.StdDisorder==255){		//?}?X?N?O?I?e??
+						//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
+						if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+							NGCheckedCnt[Index]++;
+						}
+						continue;
+					}
+					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
+					if(P.PL<=Q->P && Q->P<=P.PH && P.SL<=Q->S && Q->S<=P.SH && P.RL<=Q->R && Q->R<=P.RH){
+						continue;
+					}
+					NGCheckedCnt[Index]++;
+				}
+			}
+			if(OutSearch==true){
+				continue;
+			}
+
+			// ラムダ式による MANUAL_ALLMATCHED1_1 代替
+			bool isAllMatched1 = [&]() -> bool {
+				if(NGCheckedCnt[Index]==0) return true;
+
+				//?u?I?A?I????f
+				for(int Len=1;Len<=2;Len++){
+					int	dx;
+					int	dy=-Len;
+					for(dx=-Len;dx<Len;dx++){
+						Index++;
+						yi=0;
+
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy);
+							ts[1]=TargetImageList[1]->GetY(yy);
+							ts[2]=TargetImageList[2]->GetY(yy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+								if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
+									continue;
+								}
+								if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
+									continue;
+								}
+#ifdef Debug
+								P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#else
+								PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#endif
+								if(P1.StdDisorder==255){
+									//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
+									if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+								struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
+								if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
+					dx=Len;
+					for(;dy<Len;dy++){
+						Index++;
+						yi=0;
+
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy);
+							ts[1]=TargetImageList[1]->GetY(yy);
+							ts[2]=TargetImageList[2]->GetY(yy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+								if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
+									continue;
+								}
+								if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
+									continue;
+								}
+#ifdef Debug
+								P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#else
+								PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#endif
+								if(P1.StdDisorder==255){
+									//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
+									if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+								struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
+								if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
+					dy=Len;
+					for(;dx>-Len;dx--){
+						Index++;
+						yi=0;
+
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy);
+							ts[1]=TargetImageList[1]->GetY(yy);
+							ts[2]=TargetImageList[2]->GetY(yy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+								if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
+									continue;
+								}
+								if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
+									continue;
+								}
+#ifdef Debug
+								P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#else
+								PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#endif
+								if(P1.StdDisorder==255){
+									//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
+									if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+								struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
+								if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
+					dx=-Len;
+					for(;dy>-Len;dy--){
+						Index++;
+						yi=0;
+
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy);
+							ts[1]=TargetImageList[1]->GetY(yy);
+							ts[2]=TargetImageList[2]->GetY(yy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+								if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
+									continue;
+								}
+								if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
+									continue;
+								}
+#ifdef Debug
+								P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#else
+								PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#endif
+								if(P1.StdDisorder==255){
+									//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
+									if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+								struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
+								if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
+				}
+				return false;
+			}();
+
+			if (isAllMatched1) {
+				int idx=0;
+				for(yy=y;yy<YRange-2;yy++){
+					for(xx=x;xx<XRange-2;xx++,idx++){
+						if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+							CanardBitmap[idx]=1;
+						}
+					}
+				}
+			} else {
+				//NGCheckedCnt[25]?a?A????I?_?d?I?O
+				MinNGCheckedCnt(NGCheckedCnt,xxi,yyi,Index);
+
+				yi=2;
+
+				//?????I?S?~?S?}?X?I?Y????C
+				for(yy=y;yy<YRange-2;yy++,yi++){
+#ifndef Debug
+					BYTE	*ts[3];
+#endif
+					xi=2;
+					ts[0]=TargetImageList[0]->GetY(yy);
+					ts[1]=TargetImageList[1]->GetY(yy);
+					ts[2]=TargetImageList[2]->GetY(yy);
+					for(xx=x;xx<XRange-2;xx++,xi++){
+						//ExecuteProcessing1?A?u?EOK?A?E?A?A????e?e???I?2??P?e
+						if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))==0){
+							continue;
+						}
+
+						if(pAlignPage==NULL){
+							tmX	=tmY	=0;
+							mtX	=mtY	=0;
+						}
+						else{
+							tmX			=pAlignPage->GetShiftXFromTarget(xx,yy);
+							tmY			=pAlignPage->GetShiftYFromTarget(xx,yy);
+							mtX			=pAlignPage->GetShiftXFromMaster(xx,yy);
+							mtY			=pAlignPage->GetShiftYFromMaster(xx,yy);
+						}
+#ifdef Debug
+						mmx		=xx+tmX+xxi;
+						mmy		=yy+tmY+yyi;
+#else
+						int mmx	=xx+tmX+xxi;
+						int mmy	=yy+tmY+yyi;
+#endif
+						if(mmx-SearchDot<0 || XLen<=mmx+SearchDot){
+							continue;
+						}
+						if(mmy-SearchDot<0 || YLen<=mmy+SearchDot){
+							continue;
+						}
+#ifdef Debug
+						if(mmy==DebugPointY && mmx==DebugPointX){
+							DebugPoint++;
+						}
+						P				=PixData[mmy][mmx];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#else
+						PixelInsData &P	=PixData[mmy][mmx];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#endif
+						if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2??P?e
+							continue;
+						}
+
+						// ラムダ式による MANUAL_MATCHED1_1 代替
+						bool isPixelMatched1 = [&]() -> bool {
+							struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
+							if(P.PL<=Q->P && Q->P<=P.PH && P.SL<=Q->S && Q->S<=P.SH && P.RL<=Q->R && Q->R<=P.RH){
+								return true;
+							}
+
+							//?u?I?A?I????f
+//							for(int Len=1;Len<=SearchDot;Len++){
+							for(int Len=1;Len<=0;Len++){
+								int	dx;
+								int	dy=-Len;
+								for(dx=-Len;dx<Len;dx++){
+#ifdef Debug
+									P1				=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData &P1=PixData[mmy+dy][mmx+dx];
+#endif
+									if(P1.StdDisorder==255){
+										continue;
+									}
+									if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
+										return true;
+									}
+								}
+								dx=Len;
+								for(;dy<Len;dy++){
+#ifdef Debug
+									P1				=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData &P1=PixData[mmy+dy][mmx+dx];
+#endif
+									if(P1.StdDisorder==255){
+										continue;
+									}
+									if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
+										return true;
+									}
+								}
+								dy=Len;
+								for(;dx>-Len;dx--){
+#ifdef Debug
+									P1				=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData &P1=PixData[mmy+dy][mmx+dx];
+#endif
+									if(P1.StdDisorder==255){
+										continue;
+									}
+									if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
+										return true;
+									}
+								}
+								dx=-Len;
+								for(;dy>-Len;dy--){
+#ifdef Debug
+									P1				=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData &P1=PixData[mmy+dy][mmx+dx];
+#endif
+									if(P1.StdDisorder==255){
+										continue;
+									}
+									if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
+										return true;
+									}
+								}
+							}
+
+							//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
+#ifdef Debug
+							P1				=PixData[mmy][mmx];
+#else
+							PixelInsData &P1=PixData[mmy][mmx];
+							PixelInsData P3;
+#endif
+							P3.SL=Q->S;
+							P3.PL=Q->P;
+							P3.RL=Q->R;
+//							for(int Len=1;Len<=SearchDot;Len++){
+							for(int Len=1;Len<=0;Len++){
+								int	dx;
+								int	dy=-Len;
+								for(dx=-Len;dx<Len;dx++){
+#ifdef Debug
+									P2					=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
+#endif
+									if(CalcPixelInsData(P1,P2,P3)==true){
+										if(P3.PL<=Q->P && Q->P<=P3.PH && P3.SL<=Q->S && Q->S<=P3.SH && P3.RL<=Q->R && Q->R<=P3.RH){
+											return true;
+										}
+									}
+								}
+								dx=Len;
+								for(;dy<Len;dy++){
+#ifdef Debug
+									P2					=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
+#endif
+									if(CalcPixelInsData(P1,P2,P3)==true){
+										if(P3.PL<=Q->P && Q->P<=P3.PH && P3.SL<=Q->S && Q->S<=P3.SH && P3.RL<=Q->R && Q->R<=P3.RH){
+											return true;
+										}
+									}
+								}
+								dy=Len;
+								for(;dx>-Len;dx--){
+#ifdef Debug
+									P2					=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
+#endif
+									if(CalcPixelInsData(P1,P2,P3)==true){
+										if(P3.PL<=Q->P && Q->P<=P3.PH && P3.SL<=Q->S && Q->S<=P3.SH && P3.RL<=Q->R && Q->R<=P3.RH){
+											return true;
+										}
+									}
+								}
+								dx=-Len;
+								for(;dy>-Len;dy--){
+#ifdef Debug
+									P2					=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
+#endif
+									if(CalcPixelInsData(P1,P2,P3)==true){
+										if(P3.PL<=Q->P && Q->P<=P3.PH && P3.SL<=Q->S && Q->S<=P3.SH && P3.RL<=Q->R && Q->R<=P3.RH){
+											return true;
+										}
+									}
+								}
+							}
+							return false;
+						}();
+
+						if (isPixelMatched1) {
+							//OK?A????f?3?e???s?N?Z??
+							CanardBitmap[((yi-2)<<2)+xi-2]=1;
+						}
+					}
+				}
+			} // else branch end
+
+//////////////????C?a???A?I????C//////////////
+#ifdef Debug
+			if(y==DebugPointY && x==DebugPointX){
+				DebugPoint++;
+			}
+#endif
+			//???u???
+			Index=0;
+
+			// ラムダ式による MANUAL_ALLMATCHED2_1 代替
+			bool isAllMatched2 = [&]() -> bool {
+				if(NGCheckedCnt[Index]==0) return true;
+				memset(NGCheckedCnt+1,0,24);
+
+				//?u?I?A?I????f
+				for(int Len=1;Len<=2;Len++){
+					int	dx;
+					int	dy=-Len;
+					for(dx=-Len;dx<Len;dx++){
+						Index++;
+						yi=0;
+
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy+dy);
+							ts[1]=TargetImageList[1]->GetY(yy+dy);
+							ts[2]=TargetImageList[2]->GetY(yy+dy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+#ifdef Debug
+								if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
+									DebugPoint++;
+								}
+								P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#else
+								PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#endif
+								if(P.StdDisorder==255){
+									//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
+									if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+								struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
+								if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
+					dx=Len;
+					for(;dy<Len;dy++){
+						Index++;
+						yi=0;
+
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy+dy);
+							ts[1]=TargetImageList[1]->GetY(yy+dy);
+							ts[2]=TargetImageList[2]->GetY(yy+dy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+#ifdef Debug
+								if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
+									DebugPoint++;
+								}
+								P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#else
+								PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#endif
+								if(P.StdDisorder==255){
+									//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
+									if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+								struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
+								if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
+					dy=Len;
+					for(;dx>-Len;dx--){
+						Index++;
+						yi=0;
+
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy+dy);
+							ts[1]=TargetImageList[1]->GetY(yy+dy);
+							ts[2]=TargetImageList[2]->GetY(yy+dy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+#ifdef Debug
+								if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
+									DebugPoint++;
+								}
+								P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#else
+								PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#endif
+								if(P.StdDisorder==255){
+									//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
+									if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+								struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
+								if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
+					dx=-Len;
+					for(;dy>-Len;dy--){
+						Index++;
+						yi=0;
+
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy+dy);
+							ts[1]=TargetImageList[1]->GetY(yy+dy);
+							ts[2]=TargetImageList[2]->GetY(yy+dy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+#ifdef Debug
+								if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
+									DebugPoint++;
+								}
+								P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#else
+								PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#endif
+								if(P.StdDisorder==255){
+									//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
+									if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+								struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
+								if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
+				}
+				return false;
+			}();
+
+			if (isAllMatched2) {
+				int idx=0;
+				for(yy=y;yy<YRange-2;yy++){
+					for(xx=x;xx<XRange-2;xx++,idx++){
+						if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+							CanardBitmap[idx]=1;
+						}
+					}
+				}
+			} else {
+				//NGCheckedCnt[25]?a?A????I?_?d?I?O
+				MinNGCheckedCnt(NGCheckedCnt,xxi,yyi,Index);
+
+				yi=2;
+
+				//?????I?S?~?S?}?X?I?Y????C
+				for(yy=y;yy<YRange-2;yy++,yi++){
+#ifndef Debug
+					BYTE	*ts[3];
+#endif
+					if((yy+yyi-SearchDot)<0 || (yy+yyi+SearchDot)>=YLen){
+						continue;
+					}
+					xi=2;
+					ts[0]=TargetImageList[0]->GetY(yy+yyi);
+					ts[1]=TargetImageList[1]->GetY(yy+yyi);
+					ts[2]=TargetImageList[2]->GetY(yy+yyi);
+					for(xx=x;xx<XRange-2;xx++,xi++){
+						//ExecuteProcessing1?A?u?EOK?A?E?A?A????e?e???I?2??P?e
+						if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))==0){
+							continue;
+						}
+						if((xx+xxi-SearchDot)<0 || (xx+xxi+SearchDot)>=XLen){
+							continue;
+						}
+
+						if(pAlignPage==NULL){
+							tmX	=tmY	=0;
+							mtX	=mtY	=0;
+						}
+						else{
+							tmX			=pAlignPage->GetShiftXFromTarget(xx,yy);
+							tmY			=pAlignPage->GetShiftYFromTarget(xx,yy);
+							mtX			=pAlignPage->GetShiftXFromMaster(xx,yy);
+							mtY			=pAlignPage->GetShiftYFromMaster(xx,yy);
+						}
+#ifdef Debug
+						if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
+							DebugPoint++;
+						}
+						P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#else
+						PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#endif
+						if(P.StdDisorder==255){
+							continue;
+						}
+
+						// ラムダ式による MANUAL_MATCHED2_1 代替
+						bool isPixelMatched2 = [&]() -> bool {
+							struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx+xxi],ts[1][xx+xxi],ts[2][xx+xxi])];
+							if(P.PL<=Q->P && Q->P<=P.PH && P.SL<=Q->S && Q->S<=P.SH && P.RL<=Q->R && Q->R<=P.RH){
+								return true;
+							}
+
+							//?u?I?A?I????f
+//							for(int Len=1;Len<=SearchDot;Len++){
+							for(int Len=1;Len<=0;Len++){
+								int	dx;
+								int	dy=-Len;
+								ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+								ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+								ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+								for(dx=-Len;dx<Len;dx++){
+									struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
+										return true;
+									}
+								}
+								dx=Len;
+								for(;dy<Len;dy++){
+									ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+									ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+									ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+									struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
+										return true;
+									}
+								}
+								dy=Len;
+								ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+								ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+								ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+								for(;dx>-Len;dx--){
+									struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
+										return true;
+									}
+								}
+								dx=-Len;
+								for(;dy>-Len;dy--){
+									ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+									ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+									ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+									struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
+										return true;
+									}
+								}
+							}
+
+							//?i???_?A?u?e?I?_?I????C?a???d?????????A???o????
+//							for(int Len=1;Len<=SearchDot;Len++){
+							for(int Len=1;Len<=0;Len++){
+								int	dx;
+								int	dy=-Len;
+								ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+								ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+								ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+								for(dx=-Len;dx<Len;dx++){
+									struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(Q->S<=P.SH){
+										if(Q->S<P.SL && Q2->S<P.SL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->S>P.SH){
+											continue;
+										}
+									}
+									if(Q->P<=P.PH){
+										if(Q->P<P.PL && Q2->P<P.PL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->P>P.PH){
+											continue;
+										}
+									}
+									if(Q->R<=P.RH){
+										if(Q->R<P.RL && Q2->R<P.RL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->R>P.RH){
+											continue;
+										}
+									}
+									return true;
+								}
+								dx=Len;
+								for(;dy<Len;dy++){
+									ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+									ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+									ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+									struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(Q->S<=P.SH){
+										if(Q->S<P.SL && Q2->S<P.SL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->S>P.SH){
+											continue;
+										}
+									}
+									if(Q->P<=P.PH){
+										if(Q->P<P.PL && Q2->P<P.PL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->P>P.PH){
+											continue;
+										}
+									}
+									if(Q->R<=P.RH){
+										if(Q->R<P.RL && Q2->R<P.RL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->R>P.RH){
+											continue;
+										}
+									}
+									return true;
+								}
+								dy=Len;
+								ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+								ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+								ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+								for(;dx>-Len;dx--){
+									struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(Q->S<=P.SH){
+										if(Q->S<P.SL && Q2->S<P.SL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->S>P.SH){
+											continue;
+										}
+									}
+									if(Q->P<=P.PH){
+										if(Q->P<P.PL && Q2->P<P.PL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->P>P.PH){
+											continue;
+										}
+									}
+									if(Q->R<=P.RH){
+										if(Q->R<P.RL && Q2->R<P.RL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->R>P.RH){
+											continue;
+										}
+									}
+									return true;
+								}
+								dx=-Len;
+								for(;dy>-Len;dy--){
+									ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+									ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+									ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+									struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(Q->S<=P.SH){
+										if(Q->S<P.SL && Q2->S<P.SL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->S>P.SH){
+											continue;
+										}
+									}
+									if(Q->P<=P.PH){
+										if(Q->P<P.PL && Q2->P<P.PL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->P>P.PH){
+											continue;
+										}
+									}
+									if(Q->R<=P.RH){
+										if(Q->R<P.RL && Q2->R<P.RL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->R>P.RH){
+											continue;
+										}
+									}
+									return true;
+								}
+							}
+							return false;
+						}();
+
+						if (!isPixelMatched2) {
+							//NG?I?O???I?e???ACanardBitmap?I?r?b?g?d?O?E?N???A
+							CanardBitmap[((yi-2)<<2)+xi-2]=0;
+						}
+					}
+				}
+			} // else branch end
+
+			// CanardBitmap の結果を TempNGBitmap に反映
+			int idx=0;
+			for(yy=y;yy<YRange-2;yy++){
+				for(xx=x;xx<XRange-2;xx++,idx++){
+					if(CanardBitmap[idx]==1){
+						TempNGBitmap[yy][xx>>3] &= ~(0x80>>(xx&7));
+					}
+				}
+			}
+		}
+	}
+}
 void	PixelInspectionItem::ExecuteProcessing(PureFlexAreaList *NGBitArea,int ThresholdRange,int SearchDotBase,double NGThresholdP_B,double NGThresholdP_D,double NGThresholdS_B,double NGThresholdS_D,double NGThresholdR_B,double NGThresholdR_D,double NGThresholdH_B,double NGThresholdH_D,int BrightnessRange,BYTE **DestNGBitmap)
 {
-	//NG?a?a?��?��?a?I?I?A???�C?��?E?��
-	//?�~?��?a?I?I???n?A???e?e???a???��?I?A?A???�C?�E?e
+	//NG?a?a???????a?I?I?A????C????E???
+	//??~????a?I?I???n?A???e?e???a??????I?A?A????C??E?e
 	int AreaSize=NGBitArea->GetPatternByte();
 	if(AreaSize>40){
 		int MaxL=max(NGBitArea->GetMaxX()-NGBitArea->GetMinX(),NGBitArea->GetMaxY()-NGBitArea->GetMinY());
@@ -10219,7 +11212,7 @@ void	PixelInspectionItem::ExecuteProcessing(PureFlexAreaList *NGBitArea,int Thre
 	int		Index;
 	int		xi,yi;
 	int		xxi,yyi;
-	//?T?o?Q?h?b?g?a?i25?G???A?j?I???�CNG?A???T?d???[?N
+	//?T?o?Q?h?b?g?a?i25?G???A?j?I????CNG?A???T?d???[?N
 	BYTE	NGCheckedCnt[25];
 	//?????S?~?S?ING?c?cOK?E?E?A???s?N?Z???d?U??
 	BYTE	CanardBitmap[16];
@@ -10241,7 +11234,7 @@ void	PixelInspectionItem::ExecuteProcessing(PureFlexAreaList *NGBitArea,int Thre
 			bool OutSearch;
 			list<point>::iterator p;
 #endif
-			//?i?�?E?u?i?????I?S?~?S?}?X?I?��?a?s?N?Z???j?c?c?A?`?F?b?N?I?Y?s?N?Z???d?o?I?�E
+			//?i???E?u?i?????I?S?~?S?}?X?I????a?s?N?Z???j?c?c?A?`?F?b?N?I?Y?s?N?Z???d?o?I??E
 			for(p=point_list.begin();p!=point_list.end();p++){
 				if(x>=p->x && x<p->x+4 && y>=p->y && y<p->y+4){
 					break;
@@ -10250,7 +11243,7 @@ void	PixelInspectionItem::ExecuteProcessing(PureFlexAreaList *NGBitArea,int Thre
 			if(p!=point_list.end()){
 				continue;
 			}
-			//?i?�?E?u?i?????I?S?~?S?}?X?I?��?a?s?N?Z???j?d?o?^
+			//?i???E?u?i?????I?S?~?S?}?X?I????a?s?N?Z???j?d?o?^
 			point pp={x,y};
 			point_list.push_back(pp);
 
@@ -10262,17 +11255,17 @@ void	PixelInspectionItem::ExecuteProcessing(PureFlexAreaList *NGBitArea,int Thre
 			}
 			OutSearch=false;
 
-//////////////?}?X?^?[?a???A?I???�C//////////////
+//////////////?}?X?^?[?a???A?I????C//////////////
 #ifdef Debug
 			if(y==DebugPointY && x==DebugPointX){
 				DebugPoint++;
 			}
-			//???u?��
+			//???u???
 			Index=0;
 			memset(NGCheckedCnt,0,25);
 			memset(CanardBitmap,0,16);
 
-			//?W?~?W?}?X?I???�C
+			//?W?~?W?}?X?I????C
 			XRange=x+6;
 			YRange=y+6;
 			yi=0;
@@ -10286,14 +11279,15 @@ void	PixelInspectionItem::ExecuteProcessing(PureFlexAreaList *NGBitArea,int Thre
 			int wThresholdRange2_B	,wThresholdRange2_D;
 			int wThresholdRange2_PB	,wThresholdRange2_PD;
 			int wThresholdRange2_SB	,wThresholdRange2_SD;
-			//???u?��
+			//???u???
 			int		Index=0;
-			//?T?o?Q?h?b?g?a?i25?G???A?j?I???�CNG?A???T?d???[?N
+			int		xxi=0, yyi=0;	// C++スコープ対策としてここで宣言
+			//?T?o?Q?h?b?g?a?i25?G???A?j?I????CNG?A???T?d???[?N
 			BYTE	NGCheckedCnt[25]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 			//?????S?~?S?ING?c?cOK?E?E?A???s?N?Z???d?U??
 			BYTE	CanardBitmap[16]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
-			//?W?~?W?}?X?I???�C
+			//?W?~?W?}?X?I????C
 			int xx,yy;
 			int XRange=x+6;
 			int YRange=y+6;
@@ -10330,20 +11324,16 @@ void	PixelInspectionItem::ExecuteProcessing(PureFlexAreaList *NGBitArea,int Thre
 						break;
 					}
 
-//					//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???I?2?�P?e
-//					if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-//						continue;
-//					}
 #ifdef Debug
 					if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
 						DebugPoint++;
 					}
-					P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+					P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 #else
-					PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+					PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 #endif
 					if(P.StdDisorder==255){		//?}?X?N?O?I?e??
-						//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
+						//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
 						if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
 							NGCheckedCnt[Index]++;
 						}
@@ -10372,7 +11362,7 @@ void	PixelInspectionItem::ExecuteProcessing(PureFlexAreaList *NGBitArea,int Thre
 						wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
 					}
 
-					//?��?��?��?l?I?????A???I??
+					//??????????l?I?????A???I??
 					if(((P.PL+P.PH)>>1)<=127){
 						wThresholdRange2_PB=wThresholdRange2_B;
 						wThresholdRange2_PD=wThresholdRange2_D;
@@ -10409,1283 +11399,1256 @@ void	PixelInspectionItem::ExecuteProcessing(PureFlexAreaList *NGBitArea,int Thre
 			if(OutSearch==true){
 				continue;
 			}
-			if(NGCheckedCnt[Index]==0){
-				goto	ALLMATCHED1_1;
-			}
 
-			//?u?I?A?I?��?f
-			for(int Len=1;Len<=2;Len++){
-				int	dx;
-				int	dy=-Len;
-				for(dx=-Len;dx<Len;dx++){
-					Index++;
-					yi=0;
+			// goto ALLMATCHED1_1; の代替（ラムダ式でカプセル化）
+			bool isAllMatched1 = [&]() -> bool {
+				if(NGCheckedCnt[Index]==0) return true;
 
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
+				//?u?I?A?I????f
+				for(int Len=1;Len<=2;Len++){
+					int	dx;
+					int	dy=-Len;
+					for(dx=-Len;dx<Len;dx++){
+						Index++;
+						yi=0;
+
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
 #ifndef Debug
-						BYTE	*ts[3];
+							BYTE	*ts[3];
 #endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy);
-						ts[1]=TargetImageList[1]->GetY(yy);
-						ts[2]=TargetImageList[2]->GetY(yy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-							if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
-								continue;
-							}
-							if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
-								continue;
-							}
-#ifdef Debug
-							P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#else
-							PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#endif
-							if(P1.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-#ifndef Debug
-							int PL,PH,SL,SH,RL,RH;
-#endif
-							PL		=P1.PL-wThresholdRange2_PD;
-							PH		=P1.PH+wThresholdRange2_PB;
-							SL		=P1.SL-wThresholdRange2_SD;
-							SH		=P1.SH+wThresholdRange2_SB;
-							RL		=P1.RL-wThresholdRange_D;
-							RH		=P1.RH+wThresholdRange_B;
-
-							struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
-							if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	ALLMATCHED1_1;
-					}
-				}
-				dx=Len;
-				for(;dy<Len;dy++){
-					Index++;
-					yi=0;
-
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
-#ifndef Debug
-						BYTE	*ts[3];
-#endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy);
-						ts[1]=TargetImageList[1]->GetY(yy);
-						ts[2]=TargetImageList[2]->GetY(yy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-							if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
-								continue;
-							}
-							if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
-								continue;
-							}
-#ifdef Debug
-							P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#else
-							PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#endif
-							if(P1.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-#ifndef Debug
-							int PL,PH,SL,SH,RL,RH;
-#endif
-							PL		=P1.PL-wThresholdRange2_PD;
-							PH		=P1.PH+wThresholdRange2_PB;
-							SL		=P1.SL-wThresholdRange2_SD;
-							SH		=P1.SH+wThresholdRange2_SB;
-							RL		=P1.RL-wThresholdRange_D;
-							RH		=P1.RH+wThresholdRange_B;
-
-							struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
-							if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	ALLMATCHED1_1;
-					}
-				}
-				dy=Len;
-				for(;dx>-Len;dx--){
-					Index++;
-					yi=0;
-
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
-#ifndef Debug
-						BYTE	*ts[3];
-#endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy);
-						ts[1]=TargetImageList[1]->GetY(yy);
-						ts[2]=TargetImageList[2]->GetY(yy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-							if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
-								continue;
-							}
-							if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
-								continue;
-							}
-#ifdef Debug
-							P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#else
-							PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#endif
-							if(P1.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-#ifndef Debug
-							int PL,PH,SL,SH,RL,RH;
-#endif
-							PL		=P1.PL-wThresholdRange2_PD;
-							PH		=P1.PH+wThresholdRange2_PB;
-							SL		=P1.SL-wThresholdRange2_SD;
-							SH		=P1.SH+wThresholdRange2_SB;
-							RL		=P1.RL-wThresholdRange_D;
-							RH		=P1.RH+wThresholdRange_B;
-
-							struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
-							if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	ALLMATCHED1_1;
-					}
-				}
-				dx=-Len;
-				for(;dy>-Len;dy--){
-					Index++;
-					yi=0;
-
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
-#ifndef Debug
-						BYTE	*ts[3];
-#endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy);
-						ts[1]=TargetImageList[1]->GetY(yy);
-						ts[2]=TargetImageList[2]->GetY(yy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-							if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
-								continue;
-							}
-							if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
-								continue;
-							}
-#ifdef Debug
-							P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#else
-							PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#endif
-							if(P1.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-#ifndef Debug
-							int PL,PH,SL,SH,RL,RH;
-#endif
-							PL		=P1.PL-wThresholdRange2_PD;
-							PH		=P1.PH+wThresholdRange2_PB;
-							SL		=P1.SL-wThresholdRange2_SD;
-							SH		=P1.SH+wThresholdRange2_SB;
-							RL		=P1.RL-wThresholdRange_D;
-							RH		=P1.RH+wThresholdRange_B;
-
-							struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
-							if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	ALLMATCHED1_1;
-					}
-				}
-			}
-
-#ifndef Debug
-			int		xxi,yyi;
-#endif
-			//NGCheckedCnt[25]?a?A?��?I?_?d?I?O
-			MinNGCheckedCnt(NGCheckedCnt,xxi,yyi,Index);
-
-			yi=2;
-
-			//?????I?S?~?S?}?X?I?Y???�C
-			for(yy=y;yy<YRange-2;yy++,yi++){
-#ifndef Debug
-				BYTE	*ts[3];
-#endif
-				xi=2;
-				ts[0]=TargetImageList[0]->GetY(yy);
-				ts[1]=TargetImageList[1]->GetY(yy);
-				ts[2]=TargetImageList[2]->GetY(yy);
-				for(xx=x;xx<XRange-2;xx++,xi++){
-					//ExecuteProcessing1?A?u?EOK?A?E?A?A?��?e?e???I?2?�P?e
-					if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))==0){
-						continue;
-					}
-
-					if(pAlignPage==NULL){
-						tmX	=tmY	=0;
-						mtX	=mtY	=0;
-					}
-					else{
-						tmX			=pAlignPage->GetShiftXFromTarget(xx,yy);
-						tmY			=pAlignPage->GetShiftYFromTarget(xx,yy);
-						mtX			=pAlignPage->GetShiftXFromMaster(xx,yy);
-						mtY			=pAlignPage->GetShiftYFromMaster(xx,yy);
-					}
-#ifdef Debug
-					mmx		=xx+tmX+xxi;
-					mmy		=yy+tmY+yyi;
-#else
-					int mmx	=xx+tmX+xxi;
-					int mmy	=yy+tmY+yyi;
-#endif
-					if(mmx-(SearchDotBase+1)<0 || XLen<=mmx+SearchDotBase+1){
-						continue;
-					}
-					if(mmy-(SearchDotBase+1)<0 || YLen<=mmy+SearchDotBase+1){
-						continue;
-					}
-#ifdef Debug
-					if(mmy==DebugPointY && mmx==DebugPointX){
-						DebugPoint++;
-					}
-					P				=PixData[mmy][mmx];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#else
-					PixelInsData &P	=PixData[mmy][mmx];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#endif
-					if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2?�P?e
-						continue;
-					}
-
-					wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-					if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
-						//?p?b?h?I?e??
-						wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-						wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-						SearchDot	=SearchDotBase;
-					}
-					else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
-						//???W?X?g?E?V???N?I?e??
-						wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-						wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-						SearchDot	=SearchDotBase+1;
-					}
-					else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
-						//???I?e??
-						wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-						wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
-						SearchDot	=SearchDotBase;
-					}
-					else{
-						//???W?X?g?E?V???N?I?e??
-						wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-						wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
-						SearchDot	=SearchDotBase;
-					}
-
-					//?��?��?��?l?I?????A???I??
-					if(((P.PL+P.PH)>>1)<=127){
-						wThresholdRange2_PB=wThresholdRange2_B;
-						wThresholdRange2_PD=wThresholdRange2_D;
-					}
-					else{
-						wThresholdRange2_PB=wThresholdRange2_D;
-						wThresholdRange2_PD=wThresholdRange2_B;
-					}
-					if(((P.SL+P.SH)>>1)<=127){
-						wThresholdRange2_SB=wThresholdRange2_B;
-						wThresholdRange2_SD=wThresholdRange2_D;
-					}
-					else{
-						wThresholdRange2_SB=wThresholdRange2_D;
-						wThresholdRange2_SD=wThresholdRange2_B;
-					}
-#ifndef Debug
-					int PL,PH,SL,SH,RL,RH;
-#endif
-					PL		=P.PL-wThresholdRange2_PD;
-					PH		=P.PH+wThresholdRange2_PB;
-					SL		=P.SL-wThresholdRange2_SD;
-					SH		=P.SH+wThresholdRange2_SB;
-					RL		=P.RL-wThresholdRange_D;
-					RH		=P.RH+wThresholdRange_B;
-
-					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
-					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-						goto	MATCHED1_1;
-					}
-
-					//?u?I?A?I?��?f
-//					for(int Len=1;Len<=SearchDot;Len++){
-					for(int Len=1;Len<=0;Len++){
-						int	dx;
-						int	dy=-Len;
-						for(dx=-Len;dx<Len;dx++){
-#ifdef Debug
-							P1				=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData &P1=PixData[mmy+dy][mmx+dx];
-#endif
-							if(P1.StdDisorder==255){
-								continue;
-							}
-							PL=P1.PL-wThresholdRange2_PD;
-							PH=P1.PH+wThresholdRange2_PB;
-							SL=P1.SL-wThresholdRange2_SD;
-							SH=P1.SH+wThresholdRange2_SB;
-							RL=P1.RL-wThresholdRange_D;
-							RH=P1.RH+wThresholdRange_B;
-/*							if(PL>PH || SL>SH || RL>RH){
-								continue;
-							}
-*/
-							if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-								goto	MATCHED1_1;
-							}
-						}
-						dx=Len;
-						for(;dy<Len;dy++){
-#ifdef Debug
-							P1				=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData &P1=PixData[mmy+dy][mmx+dx];
-#endif
-							if(P1.StdDisorder==255){
-								continue;
-							}
-							PL=P1.PL-wThresholdRange2_PD;
-							PH=P1.PH+wThresholdRange2_PB;
-							SL=P1.SL-wThresholdRange2_SD;
-							SH=P1.SH+wThresholdRange2_SB;
-							RL=P1.RL-wThresholdRange_D;
-							RH=P1.RH+wThresholdRange_B;
-/*							if(PL>PH || SL>SH || RL>RH){
-								continue;
-							}
-*/
-							if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-								goto	MATCHED1_1;
-							}
-						}
-						dy=Len;
-						for(;dx>-Len;dx--){
-#ifdef Debug
-							P1				=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData &P1=PixData[mmy+dy][mmx+dx];
-#endif
-							if(P1.StdDisorder==255){
-								continue;
-							}
-							PL=P1.PL-wThresholdRange2_PD;
-							PH=P1.PH+wThresholdRange2_PB;
-							SL=P1.SL-wThresholdRange2_SD;
-							SH=P1.SH+wThresholdRange2_SB;
-							RL=P1.RL-wThresholdRange_D;
-							RH=P1.RH+wThresholdRange_B;
-/*							if(PL>PH || SL>SH || RL>RH){
-								continue;
-							}
-*/
-							if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-								goto	MATCHED1_1;
-							}
-						}
-						dx=-Len;
-						for(;dy>-Len;dy--){
-#ifdef Debug
-							P1				=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData &P1=PixData[mmy+dy][mmx+dx];
-#endif
-							if(P1.StdDisorder==255){
-								continue;
-							}
-							PL=P1.PL-wThresholdRange2_PD;
-							PH=P1.PH+wThresholdRange2_PB;
-							SL=P1.SL-wThresholdRange2_SD;
-							SH=P1.SH+wThresholdRange2_SB;
-							RL=P1.RL-wThresholdRange_D;
-							RH=P1.RH+wThresholdRange_B;
-/*							if(PL>PH || SL>SH || RL>RH){
-								continue;
-							}
-*/
-							if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-								goto	MATCHED1_1;
-							}
-						}
-					}
-
-					//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
-#ifdef Debug
-					P1				=PixData[mmy][mmx];
-#else
-					PixelInsData &P1=PixData[mmy][mmx];
-					PixelInsData P3;
-#endif
-					P3.SL=Q->S;
-					P3.PL=Q->P;
-					P3.RL=Q->R;
-//					for(int Len=1;Len<=SearchDot;Len++){
-					for(int Len=1;Len<=0;Len++){
-						int	dx;
-						int	dy=-Len;
-						for(dx=-Len;dx<Len;dx++){
-#ifdef Debug
-							P2					=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
-#endif
-							if(CalcPixelInsData(P1,P2,P3)==true){
-#ifndef Debug
-								int PL3,PH3,SL3,SH3,RL3,RH3;
-#endif
-								PL3		=P3.PL-wThresholdRange2_PD;
-								PH3		=P3.PH+wThresholdRange2_PB;
-								SL3		=P3.SL-wThresholdRange2_SD;
-								SH3		=P3.SH+wThresholdRange2_SB;
-								RL3		=P3.RL-wThresholdRange_D;
-								RH3		=P3.RH+wThresholdRange_B;
-
-								if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy);
+							ts[1]=TargetImageList[1]->GetY(yy);
+							ts[2]=TargetImageList[2]->GetY(yy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+								if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
 									continue;
 								}
-								if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-									goto	MATCHED1_1;
-								}
-							}
-						}
-						dx=Len;
-						for(;dy<Len;dy++){
-#ifdef Debug
-							P2					=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
-#endif
-							if(CalcPixelInsData(P1,P2,P3)==true){
-#ifndef Debug
-								int PL3,PH3,SL3,SH3,RL3,RH3;
-#endif
-								PL3		=P3.PL-wThresholdRange2_PD;
-								PH3		=P3.PH+wThresholdRange2_PB;
-								SL3		=P3.SL-wThresholdRange2_SD;
-								SH3		=P3.SH+wThresholdRange2_SB;
-								RL3		=P3.RL-wThresholdRange_D;
-								RH3		=P3.RH+wThresholdRange_B;
-
-								if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+								if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
 									continue;
 								}
-								if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-									goto	MATCHED1_1;
-								}
-							}
-						}
-						dy=Len;
-						for(;dx>-Len;dx--){
 #ifdef Debug
-							P2					=PixData[mmy+dy][mmx+dx];
+								P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
 #else
-							PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
+								PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
 #endif
-							if(CalcPixelInsData(P1,P2,P3)==true){
-#ifndef Debug
-								int PL3,PH3,SL3,SH3,RL3,RH3;
-#endif
-								PL3		=P3.PL-wThresholdRange2_PD;
-								PH3		=P3.PH+wThresholdRange2_PB;
-								SL3		=P3.SL-wThresholdRange2_SD;
-								SH3		=P3.SH+wThresholdRange2_SB;
-								RL3		=P3.RL-wThresholdRange_D;
-								RH3		=P3.RH+wThresholdRange_B;
-
-								if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+								if(P1.StdDisorder==255){
+									//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
+									if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
 									continue;
 								}
-								if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-									goto	MATCHED1_1;
-								}
-							}
-						}
-						dx=-Len;
-						for(;dy>-Len;dy--){
-#ifdef Debug
-							P2					=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
-#endif
-							if(CalcPixelInsData(P1,P2,P3)==true){
 #ifndef Debug
-								int PL3,PH3,SL3,SH3,RL3,RH3;
+								int PL,PH,SL,SH,RL,RH;
 #endif
-								PL3		=P3.PL-wThresholdRange2_PD;
-								PH3		=P3.PH+wThresholdRange2_PB;
-								SL3		=P3.SL-wThresholdRange2_SD;
-								SH3		=P3.SH+wThresholdRange2_SB;
-								RL3		=P3.RL-wThresholdRange_D;
-								RH3		=P3.RH+wThresholdRange_B;
+								PL		=P1.PL-wThresholdRange2_PD;
+								PH		=P1.PH+wThresholdRange2_PB;
+								SL		=P1.SL-wThresholdRange2_SD;
+								SH		=P1.SH+wThresholdRange2_SB;
+								RL		=P1.RL-wThresholdRange_D;
+								RH		=P1.RH+wThresholdRange_B;
 
-							if(PL3>PH3 || SL3>SH3 || RL3>RH3){
-								continue;
+								struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
+								if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+									continue;
 								}
-								if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-									goto	MATCHED1_1;
-								}
+								NGCheckedCnt[Index]++;
 							}
 						}
+						if(NGCheckedCnt[Index]==0) return true;
 					}
+					dx=Len;
+					for(;dy<Len;dy++){
+						Index++;
+						yi=0;
 
-					//T?�NM?AM?�NT?I?A???C?????g?U?R?E?a?a?A???c?AM?�NT?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-					if(tmX!=-mtX || tmY!=-mtY){
-						if(ExecuteProcessingFromMaster1(xx,yy,ThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange)==true){
-							goto	MATCHED1_1;
-						}
-					}
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy);
+							ts[1]=TargetImageList[1]->GetY(yy);
+							ts[2]=TargetImageList[2]->GetY(yy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+								if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
+									continue;
+								}
+								if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
+									continue;
+								}
+#ifdef Debug
+								P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#else
+								PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#endif
+								if(P1.StdDisorder==255){
+									//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
+									if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+#ifndef Debug
+								int PL,PH,SL,SH,RL,RH;
+#endif
+								PL		=P1.PL-wThresholdRange2_PD;
+								PH		=P1.PH+wThresholdRange2_PB;
+								SL		=P1.SL-wThresholdRange2_SD;
+								SH		=P1.SH+wThresholdRange2_SB;
+								RL		=P1.RL-wThresholdRange_D;
+								RH		=P1.RH+wThresholdRange_B;
 
-					//???�Ce??l?A?I?�E?d?Z?o
-					BYTE DiffPSR=0;
-					PixelInsData &Pw=PixData[mmy][mmx];
-					if(Pw.PL-Q->P > 0){
-						DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-					}
-					else if(Q->P-Pw.PH > 0){
-						DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-					}
-					if(Pw.SL-Q->S > 0){
-						BYTE wDiffPSR;
-						if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-							DiffPSR=wDiffPSR;
+								struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
+								if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
 						}
+						if(NGCheckedCnt[Index]==0) return true;
 					}
-					else if(Q->S-Pw.SH > 0){
-						BYTE wDiffPSR;
-						if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-							DiffPSR=wDiffPSR;
-						}
-					}
-					if(Pw.RL-Q->R > 0){
-						BYTE wDiffPSR;
-						if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-							DiffPSR=wDiffPSR;
-						}
-					}
-					else if(Q->R-Pw.RH > 0){
-						BYTE wDiffPSR;
-						if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-							DiffPSR=wDiffPSR;
-						}
-					}
-					//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-					if(DiffPSR<BrightnessRange){
-						goto	MATCHED1_1;
-					}
+					dy=Len;
+					for(;dx>-Len;dx--){
+						Index++;
+						yi=0;
 
-					//?3?XNG?I?O???I?e???A?��?I?U?Ucontinue
-					continue;
-MATCHED1_1:;
-					//OK?A?��?f?3?e???s?N?Z??
-//					DestNGBitmap[yy][xx>>3] &= ~(0x80>>(xx&7));
-					CanardBitmap[((yi-2)<<2)+xi-2]=1;
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy);
+							ts[1]=TargetImageList[1]->GetY(yy);
+							ts[2]=TargetImageList[2]->GetY(yy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+								if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
+									continue;
+								}
+								if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
+									continue;
+								}
+#ifdef Debug
+								P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#else
+								PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#endif
+								if(P1.StdDisorder==255){
+									//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
+									if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+#ifndef Debug
+								int PL,PH,SL,SH,RL,RH;
+#endif
+								PL		=P1.PL-wThresholdRange2_PD;
+								PH		=P1.PH+wThresholdRange2_PB;
+								SL		=P1.SL-wThresholdRange2_SD;
+								SH		=P1.SH+wThresholdRange2_SB;
+								RL		=P1.RL-wThresholdRange_D;
+								RH		=P1.RH+wThresholdRange_B;
+
+								struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
+								if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
+					dx=-Len;
+					for(;dy>-Len;dy--){
+						Index++;
+						yi=0;
+
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy);
+							ts[1]=TargetImageList[1]->GetY(yy);
+							ts[2]=TargetImageList[2]->GetY(yy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+								if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
+									continue;
+								}
+								if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
+									continue;
+								}
+#ifdef Debug
+								P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#else
+								PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
+#endif
+								if(P1.StdDisorder==255){
+									//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???ING?A????A?2??P?e
+									if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+#ifndef Debug
+								int PL,PH,SL,SH,RL,RH;
+#endif
+								PL		=P1.PL-wThresholdRange2_PD;
+								PH		=P1.PH+wThresholdRange2_PB;
+								SL		=P1.SL-wThresholdRange2_SD;
+								SH		=P1.SH+wThresholdRange2_SB;
+								RL		=P1.RL-wThresholdRange_D;
+								RH		=P1.RH+wThresholdRange_B;
+
+								struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
+								if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
 				}
-			}
-			goto NEXT1;
+				return false;
+			}();
 
-ALLMATCHED1_1:;
-//			for(yy=y;yy<YRange-2;yy++){
-//				for(xx=x;xx<XRange-2;xx++){
-//					DestNGBitmap[yy][xx>>3] &= ~(0x80>>(xx&7));
-//				}
-//			}
-			int i=0;
-			for(yy=y;yy<YRange-2;yy++){
-				for(xx=x;xx<XRange-2;xx++,i++){
-					if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-						CanardBitmap[i]=1;
+			if (isAllMatched1) {
+				int idx=0;
+				for(yy=y;yy<YRange-2;yy++){
+					for(xx=x;xx<XRange-2;xx++,idx++){
+						if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+							CanardBitmap[idx]=1;
+						}
 					}
 				}
-			}
+			} else {
+				//NGCheckedCnt[25]?a?A????I?_?d?I?O
+				MinNGCheckedCnt(NGCheckedCnt,xxi,yyi,Index);
 
-//////////////???�C?a???A?I???�C//////////////
-NEXT1:;
+				yi=2;
+
+				//?????I?S?~?S?}?X?I?Y????C
+				for(yy=y;yy<YRange-2;yy++,yi++){
+#ifndef Debug
+					BYTE	*ts[3];
+#endif
+					xi=2;
+					ts[0]=TargetImageList[0]->GetY(yy);
+					ts[1]=TargetImageList[1]->GetY(yy);
+					ts[2]=TargetImageList[2]->GetY(yy);
+					for(xx=x;xx<XRange-2;xx++,xi++){
+						//ExecuteProcessing1?A?u?EOK?A?E?A?A????e?e???I?2??P?e
+						if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))==0){
+							continue;
+						}
+
+						if(pAlignPage==NULL){
+							tmX	=tmY	=0;
+							mtX	=mtY	=0;
+						}
+						else{
+							tmX			=pAlignPage->GetShiftXFromTarget(xx,yy);
+							tmY			=pAlignPage->GetShiftYFromTarget(xx,yy);
+							mtX			=pAlignPage->GetShiftXFromMaster(xx,yy);
+							mtY			=pAlignPage->GetShiftYFromMaster(xx,yy);
+						}
+#ifdef Debug
+						mmx		=xx+tmX+xxi;
+						mmy		=yy+tmY+yyi;
+#else
+						int mmx	=xx+tmX+xxi;
+						int mmy	=yy+tmY+yyi;
+#endif
+						if(mmx-(SearchDotBase+1)<0 || XLen<=mmx+SearchDotBase+1){
+							continue;
+						}
+						if(mmy-(SearchDotBase+1)<0 || YLen<=mmy+SearchDotBase+1){
+							continue;
+						}
+#ifdef Debug
+						if(mmy==DebugPointY && mmx==DebugPointX){
+							DebugPoint++;
+						}
+						P				=PixData[mmy][mmx];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#else
+						PixelInsData &P	=PixData[mmy][mmx];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#endif
+						if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2??P?e
+							continue;
+						}
+
+						wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
+						if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
+							//?p?b?h?I?e??
+							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
+							SearchDot	=SearchDotBase;
+						}
+						else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
+							//???W?X?g?E?V???N?I?e??
+							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+							SearchDot	=SearchDotBase+1;
+						}
+						else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
+							//???I?e??
+							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+							SearchDot	=SearchDotBase;
+						}
+						else{
+							//???W?X?g?E?V???N?I?e??
+							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+							SearchDot	=SearchDotBase;
+						}
+
+						//??????????l?I?????A???I??
+						if(((P.PL+P.PH)>>1)<=127){
+							wThresholdRange2_PB=wThresholdRange2_B;
+							wThresholdRange2_PD=wThresholdRange2_D;
+						}
+						else{
+							wThresholdRange2_PB=wThresholdRange2_D;
+							wThresholdRange2_PD=wThresholdRange2_B;
+						}
+						if(((P.SL+P.SH)>>1)<=127){
+							wThresholdRange2_SB=wThresholdRange2_B;
+							wThresholdRange2_SD=wThresholdRange2_D;
+						}
+						else{
+							wThresholdRange2_SB=wThresholdRange2_D;
+							wThresholdRange2_SD=wThresholdRange2_B;
+						}
+#ifndef Debug
+						int PL,PH,SL,SH,RL,RH;
+#endif
+						PL		=P.PL-wThresholdRange2_PD;
+						PH		=P.PH+wThresholdRange2_PB;
+						SL		=P.SL-wThresholdRange2_SD;
+						SH		=P.SH+wThresholdRange2_SB;
+						RL		=P.RL-wThresholdRange_D;
+						RH		=P.RH+wThresholdRange_B;
+
+						// ラムダ式による MATCHED1_1 代替
+						bool isPixelMatched1 = [&]() -> bool {
+							struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
+							if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+								return true;
+							}
+
+							//?u?I?A?I????f
+							for(int Len=1;Len<=0;Len++){
+								int	dx;
+								int	dy=-Len;
+								for(dx=-Len;dx<Len;dx++){
+#ifdef Debug
+									P1				=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData &P1=PixData[mmy+dy][mmx+dx];
+#endif
+									if(P1.StdDisorder==255){
+										continue;
+									}
+									PL=P1.PL-wThresholdRange2_PD;
+									PH=P1.PH+wThresholdRange2_PB;
+									SL=P1.SL-wThresholdRange2_SD;
+									SH=P1.SH+wThresholdRange2_SB;
+									RL=P1.RL-wThresholdRange_D;
+									RH=P1.RH+wThresholdRange_B;
+									if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+										return true;
+									}
+								}
+								dx=Len;
+								for(;dy<Len;dy++){
+#ifdef Debug
+									P1				=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData &P1=PixData[mmy+dy][mmx+dx];
+#endif
+									if(P1.StdDisorder==255){
+										continue;
+									}
+									PL=P1.PL-wThresholdRange2_PD;
+									PH=P1.PH+wThresholdRange2_PB;
+									SL=P1.SL-wThresholdRange2_SD;
+									SH=P1.SH+wThresholdRange2_SB;
+									RL=P1.RL-wThresholdRange_D;
+									RH=P1.RH+wThresholdRange_B;
+									if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+										return true;
+									}
+								}
+								dy=Len;
+								for(;dx>-Len;dx--){
+#ifdef Debug
+									P1				=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData &P1=PixData[mmy+dy][mmx+dx];
+#endif
+									if(P1.StdDisorder==255){
+										continue;
+									}
+									PL=P1.PL-wThresholdRange2_PD;
+									PH=P1.PH+wThresholdRange2_PB;
+									SL=P1.SL-wThresholdRange2_SD;
+									SH=P1.SH+wThresholdRange2_SB;
+									RL=P1.RL-wThresholdRange_D;
+									RH=P1.RH+wThresholdRange_B;
+									if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+										return true;
+									}
+								}
+								dx=-Len;
+								for(;dy>-Len;dy--){
+#ifdef Debug
+									P1				=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData &P1=PixData[mmy+dy][mmx+dx];
+#endif
+									if(P1.StdDisorder==255){
+										continue;
+									}
+									PL=P1.PL-wThresholdRange2_PD;
+									PH=P1.PH+wThresholdRange2_PB;
+									SL=P1.SL-wThresholdRange2_SD;
+									SH=P1.SH+wThresholdRange2_SB;
+									RL=P1.RL-wThresholdRange_D;
+									RH=P1.RH+wThresholdRange_B;
+									if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+										return true;
+									}
+								}
+							}
+
+							//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
+#ifdef Debug
+							P1				=PixData[mmy][mmx];
+#else
+							PixelInsData &P1=PixData[mmy][mmx];
+							PixelInsData P3;
+#endif
+							P3.SL=Q->S;
+							P3.PL=Q->P;
+							P3.RL=Q->R;
+							for(int Len=1;Len<=0;Len++){
+								int	dx;
+								int	dy=-Len;
+								for(dx=-Len;dx<Len;dx++){
+#ifdef Debug
+									P2					=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
+#endif
+									if(CalcPixelInsData(P1,P2,P3)==true){
+#ifndef Debug
+										int PL3,PH3,SL3,SH3,RL3,RH3;
+#endif
+										PL3		=P3.PL-wThresholdRange2_PD;
+										PH3		=P3.PH+wThresholdRange2_PB;
+										SL3		=P3.SL-wThresholdRange2_SD;
+										SH3		=P3.SH+wThresholdRange2_SB;
+										RL3		=P3.RL-wThresholdRange_D;
+										RH3		=P3.RH+wThresholdRange_B;
+
+										if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+											continue;
+										}
+										if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+											return true;
+										}
+									}
+								}
+								dx=Len;
+								for(;dy<Len;dy++){
+#ifdef Debug
+									P2					=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
+#endif
+									if(CalcPixelInsData(P1,P2,P3)==true){
+#ifndef Debug
+										int PL3,PH3,SL3,SH3,RL3,RH3;
+#endif
+										PL3		=P3.PL-wThresholdRange2_PD;
+										PH3		=P3.PH+wThresholdRange2_PB;
+										SL3		=P3.SL-wThresholdRange2_SD;
+										SH3		=P3.SH+wThresholdRange2_SB;
+										RL3		=P3.RL-wThresholdRange_D;
+										RH3		=P3.RH+wThresholdRange_B;
+
+										if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+											continue;
+										}
+										if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+											return true;
+										}
+									}
+								}
+								dy=Len;
+								for(;dx>-Len;dx--){
+#ifdef Debug
+									P2					=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
+#endif
+									if(CalcPixelInsData(P1,P2,P3)==true){
+#ifndef Debug
+										int PL3,PH3,SL3,SH3,RL3,RH3;
+#endif
+										PL3		=P3.PL-wThresholdRange2_PD;
+										PH3		=P3.PH+wThresholdRange2_PB;
+										SL3		=P3.SL-wThresholdRange2_SD;
+										SH3		=P3.SH+wThresholdRange2_SB;
+										RL3		=P3.RL-wThresholdRange_D;
+										RH3		=P3.RH+wThresholdRange_B;
+
+										if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+											continue;
+										}
+										if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+											return true;
+										}
+									}
+								}
+								dx=-Len;
+								for(;dy>-Len;dy--){
+#ifdef Debug
+									P2					=PixData[mmy+dy][mmx+dx];
+#else
+									PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
+#endif
+									if(CalcPixelInsData(P1,P2,P3)==true){
+#ifndef Debug
+										int PL3,PH3,SL3,SH3,RL3,RH3;
+#endif
+										PL3		=P3.PL-wThresholdRange2_PD;
+										PH3		=P3.PH+wThresholdRange2_PB;
+										SL3		=P3.SL-wThresholdRange2_SD;
+										SH3		=P3.SH+wThresholdRange2_SB;
+										RL3		=P3.RL-wThresholdRange_D;
+										RH3		=P3.RH+wThresholdRange_B;
+
+									if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+										continue;
+										}
+										if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+											return true;
+										}
+									}
+								}
+							}
+
+							//T??NM?AM??NT?I?A???C?????g?U?R?E?a?a?A???c?AM??NT?I?E?u???i?1?A?I????C?a????A?Y?e
+							if(tmX!=-mtX || tmY!=-mtY){
+								if(ExecuteProcessingFromMaster1(xx,yy,ThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange)==true){
+									return true;
+								}
+							}
+
+							//????Ce??l?A?I??E?d?Z?o
+							BYTE DiffPSR=0;
+							PixelInsData &Pw=PixData[mmy][mmx];
+							if(Pw.PL-Q->P > 0){
+								DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
+							}
+							else if(Q->P-Pw.PH > 0){
+								DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
+							}
+							if(Pw.SL-Q->S > 0){
+								BYTE wDiffPSR;
+								if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+									DiffPSR=wDiffPSR;
+								}
+							}
+							else if(Q->S-Pw.SH > 0){
+								BYTE wDiffPSR;
+								if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+									DiffPSR=wDiffPSR;
+								}
+							}
+							if(Pw.RL-Q->R > 0){
+								BYTE wDiffPSR;
+								if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+									DiffPSR=wDiffPSR;
+								}
+							}
+							else if(Q->R-Pw.RH > 0){
+								BYTE wDiffPSR;
+								if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+									DiffPSR=wDiffPSR;
+								}
+							}
+							//????-?ENG?I??}??}?A?O?e????E?c??P?e
+							if(DiffPSR<BrightnessRange){
+								return true;
+							}
+
+							return false;
+						}();
+
+						if (isPixelMatched1) {
+							//OK?A????f?3?e???s?N?Z??
+							CanardBitmap[((yi-2)<<2)+xi-2]=1;
+						}
+					}
+				}
+			} // else branch end
+
+//////////////????C?a???A?I????C//////////////
 #ifdef Debug
 			if(y==DebugPointY && x==DebugPointX){
 				DebugPoint++;
 			}
 #endif
-			//???u?��
+			//???u???
 			Index=0;
 
-			if(NGCheckedCnt[Index]==0){
-				goto	ALLMATCHED2_1;
-			}
-			memset(NGCheckedCnt+1,0,24);
+			// ラムダ式による ALLMATCHED2_1 代替
+			bool isAllMatched2 = [&]() -> bool {
+				if(NGCheckedCnt[Index]==0) return true;
+				memset(NGCheckedCnt+1,0,24);
 
-			//?u?I?A?I?��?f
-			for(int Len=1;Len<=2;Len++){
-				int	dx;
-				int	dy=-Len;
-				for(dx=-Len;dx<Len;dx++){
-					Index++;
-					yi=0;
+				//?u?I?A?I????f
+				for(int Len=1;Len<=2;Len++){
+					int	dx;
+					int	dy=-Len;
+					for(dx=-Len;dx<Len;dx++){
+						Index++;
+						yi=0;
 
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
 #ifndef Debug
-						BYTE	*ts[3];
+							BYTE	*ts[3];
 #endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+dy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy+dy);
+							ts[1]=TargetImageList[1]->GetY(yy+dy);
+							ts[2]=TargetImageList[2]->GetY(yy+dy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
 #ifdef Debug
-							if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
-								DebugPoint++;
-							}
-							P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#else
-							PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#endif
-							if(P.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
+								if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
+									DebugPoint++;
 								}
-								continue;
-							}
-
-							wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-							if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
-								//?p?b?h?I?e??
-								wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-								wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-							}
-							else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
-								//???W?X?g?E?V???N?I?e??
-								wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-								wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-							}
-							else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
-								//???I?e??
-								wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-								wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
-							}
-							else{
-								//???W?X?g?E?V???N?I?e??
-								wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-								wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
-							}
-
-							//?��?��?��?l?I?????A???I??
-							if(((P.PL+P.PH)>>1)<=127){
-								wThresholdRange2_PB=wThresholdRange2_B;
-								wThresholdRange2_PD=wThresholdRange2_D;
-							}
-							else{
-								wThresholdRange2_PB=wThresholdRange2_D;
-								wThresholdRange2_PD=wThresholdRange2_B;
-							}
-							if(((P.SL+P.SH)>>1)<=127){
-								wThresholdRange2_SB=wThresholdRange2_B;
-								wThresholdRange2_SD=wThresholdRange2_D;
-							}
-							else{
-								wThresholdRange2_SB=wThresholdRange2_D;
-								wThresholdRange2_SD=wThresholdRange2_B;
-							}
-#ifndef Debug
-							int PL,PH,SL,SH,RL,RH;
+								P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#else
+								PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 #endif
-							PL		=P.PL-wThresholdRange2_PD;
-							PH		=P.PH+wThresholdRange2_PB;
-							SL		=P.SL-wThresholdRange2_SD;
-							SH		=P.SH+wThresholdRange2_SB;
-							RL		=P.RL-wThresholdRange_D;
-							RH		=P.RH+wThresholdRange_B;
+								if(P.StdDisorder==255){
+									if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
 
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
-							if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-								continue;
+								wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
+								if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
+									//?p?b?h?I?e??
+									wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+									wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
+								}
+								else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
+									//???W?X?g?E?V???N?I?e??
+									wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+									wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+								}
+								else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
+									//???I?e??
+									wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+									wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+								}
+								else{
+									//???W?X?g?E?V???N?I?e??
+									wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+									wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+								}
+
+								//??????????l?I?????A???I??
+								if(((P.PL+P.PH)>>1)<=127){
+									wThresholdRange2_PB=wThresholdRange2_B;
+									wThresholdRange2_PD=wThresholdRange2_D;
+								}
+								else{
+									wThresholdRange2_PB=wThresholdRange2_D;
+									wThresholdRange2_PD=wThresholdRange2_B;
+								}
+								if(((P.SL+P.SH)>>1)<=127){
+									wThresholdRange2_SB=wThresholdRange2_B;
+									wThresholdRange2_SD=wThresholdRange2_D;
+								}
+								else{
+									wThresholdRange2_SB=wThresholdRange2_D;
+									wThresholdRange2_SD=wThresholdRange2_B;
+								}
+#ifndef Debug
+								int PL,PH,SL,SH,RL,RH;
+#endif
+								PL		=P.PL-wThresholdRange2_PD;
+								PH		=P.PH+wThresholdRange2_PB;
+								SL		=P.SL-wThresholdRange2_SD;
+								SH		=P.SH+wThresholdRange2_SB;
+								RL		=P.RL-wThresholdRange_D;
+								RH		=P.RH+wThresholdRange_B;
+
+								struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
+								if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
 							}
-							NGCheckedCnt[Index]++;
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
+					dx=Len;
+					for(;dy<Len;dy++){
+						Index++;
+						yi=0;
+
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy+dy);
+							ts[1]=TargetImageList[1]->GetY(yy+dy);
+							ts[2]=TargetImageList[2]->GetY(yy+dy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+#ifdef Debug
+								if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
+									DebugPoint++;
+								}
+								P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#else
+								PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#endif
+								if(P.StdDisorder==255){
+									if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+#ifndef Debug
+								int PL,PH,SL,SH,RL,RH;
+#endif
+								PL		=P.PL-wThresholdRange2_PD;
+								PH		=P.PH+wThresholdRange2_PB;
+								SL		=P.SL-wThresholdRange2_SD;
+								SH		=P.SH+wThresholdRange2_SB;
+								RL		=P.RL-wThresholdRange_D;
+								RH		=P.RH+wThresholdRange_B;
+
+								struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
+								if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
+					dy=Len;
+					for(;dx>-Len;dx--){
+						Index++;
+						yi=0;
+
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy+dy);
+							ts[1]=TargetImageList[1]->GetY(yy+dy);
+							ts[2]=TargetImageList[2]->GetY(yy+dy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+#ifdef Debug
+								if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
+									DebugPoint++;
+								}
+								P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#else
+								PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#endif
+								if(P.StdDisorder==255){
+									if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+#ifndef Debug
+								int PL,PH,SL,SH,RL,RH;
+#endif
+								PL		=P.PL-wThresholdRange2_PD;
+								PH		=P.PH+wThresholdRange2_PB;
+								SL		=P.SL-wThresholdRange2_SD;
+								SH		=P.SH+wThresholdRange2_SB;
+								RL		=P.RL-wThresholdRange_D;
+								RH		=P.RH+wThresholdRange_B;
+
+								struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
+								if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
+					dx=-Len;
+					for(;dy>-Len;dy--){
+						Index++;
+						yi=0;
+
+						//?W?~?W?}?X?I????C
+						for(yy=y-2;yy<YRange;yy++,yi++){
+#ifndef Debug
+							BYTE	*ts[3];
+#endif
+							xi=0;
+							ts[0]=TargetImageList[0]->GetY(yy+dy);
+							ts[1]=TargetImageList[1]->GetY(yy+dy);
+							ts[2]=TargetImageList[2]->GetY(yy+dy);
+							for(xx=x-2;xx<XRange;xx++,xi++){
+#ifdef Debug
+								if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
+									DebugPoint++;
+								}
+								P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#else
+								PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#endif
+								if(P.StdDisorder==255){
+									if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+										NGCheckedCnt[Index]++;
+									}
+									continue;
+								}
+#ifndef Debug
+								int PL,PH,SL,SH,RL,RH;
+#endif
+								PL		=P.PL-wThresholdRange2_PD;
+								PH		=P.PH+wThresholdRange2_PB;
+								SL		=P.SL-wThresholdRange2_SD;
+								SH		=P.SH+wThresholdRange2_SB;
+								RL		=P.RL-wThresholdRange_D;
+								RH		=P.RH+wThresholdRange_B;
+
+								struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
+								if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+									continue;
+								}
+								NGCheckedCnt[Index]++;
+							}
+						}
+						if(NGCheckedCnt[Index]==0) return true;
+					}
+				}
+				return false;
+			}();
+
+			if (isAllMatched2) {
+				int idx=0;
+				for(yy=y;yy<YRange-2;yy++){
+					for(xx=x;xx<XRange-2;xx++,idx++){
+						if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
+							CanardBitmap[idx]=1;
 						}
 					}
-					if(NGCheckedCnt[Index]==0){
-						goto	ALLMATCHED2_1;
-					}
 				}
-				dx=Len;
-				for(;dy<Len;dy++){
-					Index++;
-					yi=0;
+			} else {
+				//NGCheckedCnt[25]?a?A????I?_?d?I?O
+				MinNGCheckedCnt(NGCheckedCnt,xxi,yyi,Index);
 
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
+				yi=2;
+
+				//?????I?S?~?S?}?X?I?Y????C
+				for(yy=y;yy<YRange-2;yy++,yi++){
 #ifndef Debug
-						BYTE	*ts[3];
+					BYTE	*ts[3];
 #endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+dy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-#ifdef Debug
-							if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
-								DebugPoint++;
-							}
-							P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#else
-							PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#endif
-							if(P.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-#ifndef Debug
-							int PL,PH,SL,SH,RL,RH;
-#endif
-							PL		=P.PL-wThresholdRange2_PD;
-							PH		=P.PH+wThresholdRange2_PB;
-							SL		=P.SL-wThresholdRange2_SD;
-							SH		=P.SH+wThresholdRange2_SB;
-							RL		=P.RL-wThresholdRange_D;
-							RH		=P.RH+wThresholdRange_B;
-
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
-							if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	ALLMATCHED2_1;
-					}
-				}
-				dy=Len;
-				for(;dx>-Len;dx--){
-					Index++;
-					yi=0;
-
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
-#ifndef Debug
-						BYTE	*ts[3];
-#endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+dy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-#ifdef Debug
-							if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
-								DebugPoint++;
-							}
-							P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#else
-							PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#endif
-							if(P.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-#ifndef Debug
-							int PL,PH,SL,SH,RL,RH;
-#endif
-							PL		=P.PL-wThresholdRange2_PD;
-							PH		=P.PH+wThresholdRange2_PB;
-							SL		=P.SL-wThresholdRange2_SD;
-							SH		=P.SH+wThresholdRange2_SB;
-							RL		=P.RL-wThresholdRange_D;
-							RH		=P.RH+wThresholdRange_B;
-
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
-							if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	ALLMATCHED2_1;
-					}
-				}
-				dx=-Len;
-				for(;dy>-Len;dy--){
-					Index++;
-					yi=0;
-
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
-#ifndef Debug
-						BYTE	*ts[3];
-#endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+dy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-#ifdef Debug
-							if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
-								DebugPoint++;
-							}
-							P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#else
-							PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#endif
-							if(P.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-#ifndef Debug
-							int PL,PH,SL,SH,RL,RH;
-#endif
-							PL		=P.PL-wThresholdRange2_PD;
-							PH		=P.PH+wThresholdRange2_PB;
-							SL		=P.SL-wThresholdRange2_SD;
-							SH		=P.SH+wThresholdRange2_SB;
-							RL		=P.RL-wThresholdRange_D;
-							RH		=P.RH+wThresholdRange_B;
-
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
-							if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	ALLMATCHED2_1;
-					}
-				}
-			}
-
-			//NGCheckedCnt[25]?a?A?��?I?_?d?I?O
-			MinNGCheckedCnt(NGCheckedCnt,xxi,yyi,Index);
-
-			yi=2;
-
-			//?????I?S?~?S?}?X?I?Y???�C
-			for(yy=y;yy<YRange-2;yy++,yi++){
-#ifndef Debug
-				BYTE	*ts[3];
-#endif
-				if((yy+yyi-SearchDot)<0 || (yy+yyi+SearchDot)>=YLen){
-					continue;
-				}
-				xi=2;
-				ts[0]=TargetImageList[0]->GetY(yy+yyi);
-				ts[1]=TargetImageList[1]->GetY(yy+yyi);
-				ts[2]=TargetImageList[2]->GetY(yy+yyi);
-				for(xx=x;xx<XRange-2;xx++,xi++){
-					//ExecuteProcessing1?A?u?EOK?A?E?A?A?��?e?e???I?2?�P?e
-					if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))==0){
+					if((yy+yyi-SearchDot)<0 || (yy+yyi+SearchDot)>=YLen){
 						continue;
 					}
-					if((xx+xxi-SearchDot)<0 || (xx+xxi+SearchDot)>=XLen){
-						continue;
-					}
+					xi=2;
+					ts[0]=TargetImageList[0]->GetY(yy+yyi);
+					ts[1]=TargetImageList[1]->GetY(yy+yyi);
+					ts[2]=TargetImageList[2]->GetY(yy+yyi);
+					for(xx=x;xx<XRange-2;xx++,xi++){
+						if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))==0){
+							continue;
+						}
+						if((xx+xxi-SearchDot)<0 || (xx+xxi+SearchDot)>=XLen){
+							continue;
+						}
 
-					if(pAlignPage==NULL){
-						tmX	=tmY	=0;
-						mtX	=mtY	=0;
-					}
-					else{
-						tmX			=pAlignPage->GetShiftXFromTarget(xx,yy);
-						tmY			=pAlignPage->GetShiftYFromTarget(xx,yy);
-						mtX			=pAlignPage->GetShiftXFromMaster(xx,yy);
-						mtY			=pAlignPage->GetShiftYFromMaster(xx,yy);
-					}
+						if(pAlignPage==NULL){
+							tmX	=tmY	=0;
+							mtX	=mtY	=0;
+						}
+						else{
+							tmX			=pAlignPage->GetShiftXFromTarget(xx,yy);
+							tmY			=pAlignPage->GetShiftYFromTarget(xx,yy);
+							mtX			=pAlignPage->GetShiftXFromMaster(xx,yy);
+							mtY			=pAlignPage->GetShiftYFromMaster(xx,yy);
+						}
 #ifdef Debug
-					if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
-						DebugPoint++;
-					}
-					P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+						mmx		=xx+tmX+xxi;
+						mmy		=yy+tmY+yyi;
 #else
-					PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+						int mmx	=xx+tmX+xxi;
+						int mmy	=yy+tmY+yyi;
 #endif
-					if(P.StdDisorder==255){
-						continue;
-					}
+						if(mmx-(SearchDotBase+1)<0 || XLen<=mmx+SearchDotBase+1){
+							continue;
+						}
+						if(mmy-(SearchDotBase+1)<0 || YLen<=mmy+SearchDotBase+1){
+							continue;
+						}
+#ifdef Debug
+						if(mmy==DebugPointY && mmx==DebugPointX){
+							DebugPoint++;
+						}
+						P				=PixData[mmy][mmx];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#else
+						PixelInsData &P	=PixData[mmy][mmx];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+#endif
+						if(P.StdDisorder==255){
+							continue;
+						}
 
-					wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-					if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
-						//?p?b?h?I?e??
-						wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-						wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-						SearchDot	=SearchDotBase;
-					}
-					else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
-						//?V???N?I?e??
-						wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-						wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-						SearchDot	=SearchDotBase+1;
-					}
-					else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
-						//???I?e??
-						wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-						wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
-						SearchDot	=SearchDotBase;
-					}
-					else{
-						//???W?X?g?I?e??
-						wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-						wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
-						SearchDot	=SearchDotBase;
-					}
+						wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
+						if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
+							//?p?b?h?I?e??
+							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
+							SearchDot	=SearchDotBase;
+						}
+						else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
+							//?V???N?I?e??
+							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+							SearchDot	=SearchDotBase+1;
+						}
+						else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
+							//???I?e??
+							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+							SearchDot	=SearchDotBase;
+						}
+						else{
+							//???W?X?g?I?e??
+							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+							SearchDot	=SearchDotBase;
+						}
 
-					//?��?��?��?l?I?????A???I??
-					if(((P.PL+P.PH)>>1)<=127){
-						wThresholdRange2_PB=wThresholdRange2_B;
-						wThresholdRange2_PD=wThresholdRange2_D;
-					}
-					else{
-						wThresholdRange2_PB=wThresholdRange2_D;
-						wThresholdRange2_PD=wThresholdRange2_B;
-					}
-					if(((P.SL+P.SH)>>1)<=127){
-						wThresholdRange2_SB=wThresholdRange2_B;
-						wThresholdRange2_SD=wThresholdRange2_D;
-					}
-					else{
-						wThresholdRange2_SB=wThresholdRange2_D;
-						wThresholdRange2_SD=wThresholdRange2_B;
-					}
+						//??????????l?I?????A???I??
+						if(((P.PL+P.PH)>>1)<=127){
+							wThresholdRange2_PB=wThresholdRange2_B;
+							wThresholdRange2_PD=wThresholdRange2_D;
+						}
+						else{
+							wThresholdRange2_PB=wThresholdRange2_D;
+							wThresholdRange2_PD=wThresholdRange2_B;
+						}
+						if(((P.SL+P.SH)>>1)<=127){
+							wThresholdRange2_SB=wThresholdRange2_B;
+							wThresholdRange2_SD=wThresholdRange2_D;
+						}
+						else{
+							wThresholdRange2_SB=wThresholdRange2_D;
+							wThresholdRange2_SD=wThresholdRange2_B;
+						}
 #ifndef Debug
-					int PL,PH,SL,SH,RL,RH;
-					int wPL,wPH,wSL,wSH,wRL,wRH;
+						int PL,PH,SL,SH,RL,RH;
+						int wPL,wPH,wSL,wSH,wRL,wRH;
 #endif
-					PL	=wPL	=P.PL-wThresholdRange2_PD;
-					PH	=wPH	=P.PH+wThresholdRange2_PB;
-					SL	=wSL	=P.SL-wThresholdRange2_SD;
-					SH	=wSH	=P.SH+wThresholdRange2_SB;
-					RL	=wRL	=P.RL-wThresholdRange_D;
-					RH	=wRH	=P.RH+wThresholdRange_B;
+						PL	=wPL	=P.PL-wThresholdRange2_PD;
+						PH	=wPH	=P.PH+wThresholdRange2_PB;
+						SL	=wSL	=P.SL-wThresholdRange2_SD;
+						SH	=wSH	=P.SH+wThresholdRange2_SB;
+						RL	=wRL	=P.RL-wThresholdRange_D;
+						RH	=wRH	=P.RH+wThresholdRange_B;
 
-					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx+xxi],ts[1][xx+xxi],ts[2][xx+xxi])];
-					if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
-						goto	MATCHED2_1;
-					}
+						// ラムダ式による MATCHED2_1 代替
+						bool isPixelMatched2 = [&]() -> bool {
+							struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx+xxi],ts[1][xx+xxi],ts[2][xx+xxi])];
+							if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
+								return true;
+							}
 
-					//?u?I?A?I?��?f
-//					for(int Len=1;Len<=SearchDot;Len++){
-					for(int Len=1;Len<=0;Len++){
-						int	dx;
-						int	dy=-Len;
-						ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-						for(dx=-Len;dx<Len;dx++){
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-								goto	MATCHED2_1;
+							//?u?I?A?I????f
+							for(int Len=1;Len<=0;Len++){
+								int	dx;
+								int	dy=-Len;
+								ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+								ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+								ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+								for(dx=-Len;dx<Len;dx++){
+									struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+										return true;
+									}
+								}
+								dx=Len;
+								for(;dy<Len;dy++){
+									ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+									ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+									ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+									struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+										return true;
+									}
+								}
+								dy=Len;
+								ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+								ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+								ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+								for(;dx>-Len;dx--){
+									struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+										return true;
+									}
+								}
+								dx=-Len;
+								for(;dy>-Len;dy--){
+									ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+									ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+									ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+									struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+										return true;
+									}
+								}
 							}
-						}
-						dx=Len;
-						for(;dy<Len;dy++){
-							ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-							ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-							ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-								goto	MATCHED2_1;
-							}
-						}
-						dy=Len;
-						ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-						for(;dx>-Len;dx--){
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-								goto	MATCHED2_1;
-							}
-						}
-						dx=-Len;
-						for(;dy>-Len;dy--){
-							ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-							ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-							ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-								goto	MATCHED2_1;
-							}
-						}
-					}
 
-					//?i?�?_?A?u?e?I?_?I???�C?a???d???��?��?A???o????
-//					for(int Len=1;Len<=SearchDot;Len++){
-					for(int Len=1;Len<=0;Len++){
-						int	dx;
-						int	dy=-Len;
-						ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-						for(dx=-Len;dx<Len;dx++){
-							struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(Q->S<=SH){
-								if(Q->S<SL && Q2->S<SL){
-									continue;
+							//?i???_?A?u?e?I?_?I????C?a???d?????????A???o????
+							for(int Len=1;Len<=0;Len++){
+								int	dx;
+								int	dy=-Len;
+								ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+								ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+								ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+								for(dx=-Len;dx<Len;dx++){
+									struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(Q->S<=SH){
+										if(Q->S<SL && Q2->S<SL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->S>SH){
+											continue;
+										}
+									}
+									if(Q->P<=PH){
+										if(Q->P<PL && Q2->P<PL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->P>PH){
+											continue;
+										}
+									}
+									if(Q->R<=RH){
+										if(Q->R<RL && Q2->R<RL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->R>RH){
+											continue;
+										}
+									}
+									return true;
+								}
+								dx=Len;
+								for(;dy<Len;dy++){
+									ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+									ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+									ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+									struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(Q->S<=SH){
+										if(Q->S<SL && Q2->S<SL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->S>SH){
+											continue;
+										}
+									}
+									if(Q->P<=PH){
+										if(Q->P<PL && Q2->P<PL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->P>PH){
+											continue;
+										}
+									}
+									if(Q->R<=RH){
+										if(Q->R<RL && Q2->R<RL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->R>RH){
+											continue;
+										}
+									}
+									return true;
+								}
+								dy=Len;
+								ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+								ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+								ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+								for(;dx>-Len;dx--){
+									struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(Q->S<=SH){
+										if(Q->S<SL && Q2->S<SL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->S>SH){
+											continue;
+										}
+									}
+									if(Q->P<=PH){
+										if(Q->P<PL && Q2->P<PL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->P>PH){
+											continue;
+										}
+									}
+									if(Q->R<=RH){
+										if(Q->R<RL && Q2->R<RL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->R>RH){
+											continue;
+										}
+									}
+									return true;
+								}
+								dx=-Len;
+								for(;dy>-Len;dy--){
+									ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
+									ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
+									ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
+									struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
+									if(Q->S<=SH){
+										if(Q->S<SL && Q2->S<SL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->S>SH){
+											continue;
+										}
+									}
+									if(Q->P<=PH){
+										if(Q->P<PL && Q2->P<PL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->P>PH){
+											continue;
+										}
+									}
+									if(Q->R<=RH){
+										if(Q->R<RL && Q2->R<RL){
+											continue;
+										}
+									}
+									else{
+										if(Q2->R>RH){
+											continue;
+										}
+									}
+									return true;
 								}
 							}
-							else{
-								if(Q2->S>SH){
-									continue;
-								}
-							}
-							if(Q->P<=PH){
-								if(Q->P<PL && Q2->P<PL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->P>PH){
-									continue;
-								}
-							}
-							if(Q->R<=RH){
-								if(Q->R<RL && Q2->R<RL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->R>RH){
-									continue;
-								}
-							}
-							goto	MATCHED2_1;
-						}
-						dx=Len;
-						for(;dy<Len;dy++){
-							ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-							ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-							ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-							struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(Q->S<=SH){
-								if(Q->S<SL && Q2->S<SL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->S>SH){
-									continue;
-								}
-							}
-							if(Q->P<=PH){
-								if(Q->P<PL && Q2->P<PL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->P>PH){
-									continue;
-								}
-							}
-							if(Q->R<=RH){
-								if(Q->R<RL && Q2->R<RL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->R>RH){
-									continue;
-								}
-							}
-							goto	MATCHED2_1;
-						}
-						dy=Len;
-						ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-						for(;dx>-Len;dx--){
-							struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(Q->S<=SH){
-								if(Q->S<SL && Q2->S<SL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->S>SH){
-									continue;
-								}
-							}
-							if(Q->P<=PH){
-								if(Q->P<PL && Q2->P<PL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->P>PH){
-									continue;
-								}
-							}
-							if(Q->R<=RH){
-								if(Q->R<RL && Q2->R<RL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->R>RH){
-									continue;
-								}
-							}
-							goto	MATCHED2_1;
-						}
-						dx=-Len;
-						for(;dy>-Len;dy--){
-							ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-							ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-							ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-							struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(Q->S<=SH){
-								if(Q->S<SL && Q2->S<SL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->S>SH){
-									continue;
-								}
-							}
-							if(Q->P<=PH){
-								if(Q->P<PL && Q2->P<PL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->P>PH){
-									continue;
-								}
-							}
-							if(Q->R<=RH){
-								if(Q->R<RL && Q2->R<RL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->R>RH){
-									continue;
-								}
-							}
-							goto	MATCHED2_1;
-						}
-					}
 
-					//T?�NM?AM?�NT?I?A???C?????g?U?R?E?a?a?A???c?AM?�NT?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-					if(tmX!=-mtX || tmY!=-mtY){
-						if(ExecuteProcessingFromMaster2(xx+xxi,yy+yyi,ThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange)==true){
-							goto	MATCHED2_1;
-						}
-					}
+							//T??NM?AM??NT?I?A???C?????g?U?R?E?a?a?A???c?AM??NT?I?E?u???i?1?A?I????C?a????A?Y?e
+							if(tmX!=-mtX || tmY!=-mtY){
+								if(ExecuteProcessingFromMaster2(xx+xxi,yy+yyi,ThresholdRange,SearchDotBase,NGThresholdP_B,NGThresholdP_D,NGThresholdS_B,NGThresholdS_D,NGThresholdR_B,NGThresholdR_D,NGThresholdH_B,NGThresholdH_D,BrightnessRange)==true){
+									return true;
+								}
+							}
 
-					//???�Ce??l?A?I?�E?d?Z?o
-					BYTE DiffPSR=0;
-					if(PL-Q->P > 0){
-						DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
-					}
-					else if(Q->P-PH > 0){
-						DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
-					}
-					if(SL-Q->S > 0){
-						BYTE wDiffPSR;
-						if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-							DiffPSR=wDiffPSR;
-						}
-					}
-					else if(Q->S-SH > 0){
-						BYTE wDiffPSR;
-						if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-							DiffPSR=wDiffPSR;
-						}
-					}
-					if(RL-Q->R > 0){
-						BYTE wDiffPSR;
-						if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
-							DiffPSR=wDiffPSR;
-						}
-					}
-					else if(Q->R-RH > 0){
-						BYTE wDiffPSR;
-						if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
-							DiffPSR=wDiffPSR;
-						}
-					}
-					//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-					if(DiffPSR<BrightnessRange){
-						goto	MATCHED2_1;
-					}
+							//????Ce??l?A?I??E?d?Z?o
+							BYTE DiffPSR=0;
+							if(PL-Q->P > 0){
+								DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
+							}
+							else if(Q->P-PH > 0){
+								DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
+							}
+							if(SL-Q->S > 0){
+								BYTE wDiffPSR;
+								if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+									DiffPSR=wDiffPSR;
+								}
+							}
+							else if(Q->S-SH > 0){
+								BYTE wDiffPSR;
+								if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+									DiffPSR=wDiffPSR;
+								}
+							}
+							if(RL-Q->R > 0){
+								BYTE wDiffPSR;
+								if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
+									DiffPSR=wDiffPSR;
+								}
+							}
+							else if(Q->R-RH > 0){
+								BYTE wDiffPSR;
+								if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
+									DiffPSR=wDiffPSR;
+								}
+							}
+							//????-?ENG?I??}??}?A?O?e????E?c??P?e
+							if(DiffPSR<BrightnessRange){
+								return true;
+							}
 
-					//NG?I?O???I?e???ACanardBitmap?I?r?b?g?d?O?E?N???A
-					CanardBitmap[((yi-2)<<2)+xi-2]=0;
-					continue;
-MATCHED2_1:;
-					//OK?A?��?f?3?e???s?N?Z???A?A?E???a?��?E?��
-//					if(CanardBitmap[((yi-2)<<2)+xi-2]==1){
-//						CanardBitmap[((yi-2)<<2)+xi-2]=1;
-//					}
+							return false; // マッチしなかった場合
+						}();
+
+						if (!isPixelMatched2) {
+							//NG?I?O???I?e???ACanardBitmap?I?r?b?g?d?O?E?N???A
+							CanardBitmap[((yi-2)<<2)+xi-2]=0;
+						}
+					}
 				}
-			}
-			goto	NEXT2;
+			} // else branch end
 
-ALLMATCHED2_1:;
-			i=0;
+			// CanardBitmap の結果を DestNGBitmap に反映
+			int idx=0;
 			for(yy=y;yy<YRange-2;yy++){
-				for(xx=x;xx<XRange-2;xx++,i++){
-					if((DestNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-						CanardBitmap[i]=1;
-					}
-				}
-			}
-NEXT2:;
-			i=0;
-			for(yy=y;yy<YRange-2;yy++){
-				for(xx=x;xx<XRange-2;xx++,i++){
-					if(CanardBitmap[i]==1){
+				for(xx=x;xx<XRange-2;xx++,idx++){
+					if(CanardBitmap[idx]==1){
 						DestNGBitmap[yy][xx>>3] &= ~(0x80>>(xx&7));
 					}
 				}
@@ -11694,7 +12657,6 @@ NEXT2:;
 	}
 }
 
-//?i???n?d?�C?c?�E?�~?I?j?A?I???�C???W?b?N?d?A?s
 void	PixelInspectionItem::CalcExecuteProcessing(BYTE **DestNGBitmap,int ThresholdRange,int SearchDotBase,double NGThresholdP_B,double NGThresholdP_D,double NGThresholdS_B,double NGThresholdS_D,double NGThresholdR_B,double NGThresholdR_D,double NGThresholdH_B,double NGThresholdH_D,int MinimumNGSizeP,int MinimumNGSizeS,int MinimumNGSizeR,int MinimumNGSizeH,int BrightnessRange)
 {
 	PureFlexAreaListContainer TempFPack;
@@ -11720,11 +12682,11 @@ void	PixelInspectionItem::CalcExecuteProcessing(BYTE **DestNGBitmap,int Threshol
 	delete []AreaList;
 	TempFPack.RemoveAll();
 
-	//NG?T?C?Y?A?U?e?��?E?c?�P?e
+	//NG?T?C?Y?A?U?e????E?c??P?e
 	CheckNGBitmap(DestNGBitmap,MinimumNGSizeP,MinimumNGSizeS,MinimumNGSizeR,MinimumNGSizeH);
 }
 
-//NG?T?C?Y?A?U?e?��?E?c?�P?e
+//NG?T?C?Y?A?U?e????E?c??P?e
 void	PixelInspectionItem::CheckNGBitmap(BYTE **DestNGBitmap,int MinimumNGSizeP,int MinimumNGSizeS,int MinimumNGSizeR,int MinimumNGSizeH)
 {
 	int SumAreaSize=0;
@@ -11762,7 +12724,7 @@ void	PixelInspectionItem::CheckNGBitmap(BYTE **DestNGBitmap,int MinimumNGSizeP,i
 					}
 				}
 			}
-			//?��?e
+			//????e
 			if(PadCnt>=MinimumNGSizeP || SilkCnt>=MinimumNGSizeS || ResistCnt>=MinimumNGSizeR || HoleCnt>=MinimumNGSizeH){
 				c=c->GetNext();
 				SumAreaSize+=1;
@@ -11789,7 +12751,7 @@ void	PixelInspectionItem::CheckNGBitmap(BYTE **DestNGBitmap,int MinimumNGSizeP,i
 }
 
 //////////////////////////////////////////////////////
-//		?U?�~???�C									//
+//		?U??~????C									//
 //////////////////////////////////////////////////////
 bool	PixelInspectionItem::ExecuteProcessingForDetail(ResultInItemRoot *Res,int SearchDotBase,int NGThreshold_B,int NGThreshold_D,int BrightnessRange,DetailType DMode,int MinimumNGSize,DWORD StartMilisec,int MaxInspectMilisec,PureFlexAreaListContainer &TempFPack,int &SumAreaSize)
 {
@@ -11808,8 +12770,8 @@ bool	PixelInspectionItem::ExecuteProcessingForDetail(ResultInItemRoot *Res,int S
 		#pragma omp for
 #endif
 		for(int y=0;y<YLen;y++){
-			//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I?�E?A?I???�C//
-			//?u?I?I?��?��?��?l?A?I???�C//
+			//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I??E?A?I????C//
+			//?u?I?I??????????l?A?I????C//
 			ExecuteProcessingForDetail1(y,SearchDotBase,NGThreshold_B,NGThreshold_D,BrightnessRange,DMode);
 		}
 #ifndef Debug
@@ -11829,8 +12791,8 @@ bool	PixelInspectionItem::ExecuteProcessingForDetail(ResultInItemRoot *Res,int S
 	{
 		#pragma omp for
 		for(int y=0;y<YLen;y++){
-			//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I?�E?A?I???�C//
-			//?u?I?I???�C?a???A?I???�C//
+			//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I??E?A?I????C//
+			//?u?I?I????C?a???A?I????C//
 			ExecuteProcessingForDetail2(y,SearchDotBase,NGThreshold_B,NGThreshold_D,BrightnessRange,DMode);
 		}
 	}
@@ -11841,15 +12803,15 @@ bool	PixelInspectionItem::ExecuteProcessingForDetail(ResultInItemRoot *Res,int S
 	StartTime=clock();
 #endif
 
-	//InsCheckedBitmap?d?\?��
+	//InsCheckedBitmap?d?\???
 	MatrixBuffOr(InsCheckedBitmap,(const BYTE **)TempNGBitmap,XByte,YLen);
 
 	#pragma omp parallel
 	{
 		#pragma omp for
 		for(int y=0;y<YLen;y++){
-			//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I?�E?A?I???�C//
-			//?u?I?I?��?��?��?l?A?I???�C//
+			//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I??E?A?I????C//
+			//?u?I?I??????????l?A?I????C//
 			ExecuteProcessingForDetail3(y,SearchDotBase,NGThreshold_B,NGThreshold_D,BrightnessRange,DMode);
 		}
 	}
@@ -11864,8 +12826,8 @@ bool	PixelInspectionItem::ExecuteProcessingForDetail(ResultInItemRoot *Res,int S
 	{
 		#pragma omp for
 		for(int y=0;y<YLen;y++){
-			//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I?�E?A?I???�C//
-			//?u?I?I???�C?a???A?I???�C//
+			//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I??E?A?I????C//
+			//?u?I?I????C?a???A?I????C//
 			ExecuteProcessingForDetail4(y,SearchDotBase,NGThreshold_B,NGThreshold_D,BrightnessRange,DMode);
 		}
 	}
@@ -11876,7 +12838,7 @@ bool	PixelInspectionItem::ExecuteProcessingForDetail(ResultInItemRoot *Res,int S
 	StartTime=clock();
 #endif
 
-	//NG?I?a?��?3?A?O?e?��?E?c?�P?e
+	//NG?I?a????3?A?O?e????E?c??P?e
 	PickupFlexArea(TempNGBitmap,XByte,XLen,YLen,TempFPack);
 
 #ifdef DebugConsole
@@ -11913,7 +12875,7 @@ bool	PixelInspectionItem::ExecuteProcessingForDetail(ResultInItemRoot *Res,int S
 		c->MakeBitData(TempNGBitmap,XLen,YLen);
 	}
 
-	//NGBitmap?d?\?��
+	//NGBitmap?d?\???
 	MatrixBuffOr(NGBitmap,(const BYTE **)TempNGBitmap,XByte,YLen);
 
 	//TempNGBitmap?d?N???A
@@ -11925,7 +12887,7 @@ bool	PixelInspectionItem::ExecuteProcessingForDetail(ResultInItemRoot *Res,int S
 	//TempFPack?d?N???A
 	TempFPack.RemoveAll();
 
-	//?�}?I???_?AHALT?`?F?b?N
+	//??}?I???_?AHALT?`?F?b?N
 	if(SumAreaSize>=Parent->GetParamGlobal()->MaxNGCountsPerCam){
 		Res->GetResultInspection()->SetMaxErrorBreak(true);
 		return false;
@@ -11943,15 +12905,14 @@ bool	PixelInspectionItem::ExecuteProcessingForDetail(ResultInItemRoot *Res,int S
 
 	return true;
 }
-
 //==============================================//
-//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I?�E?A?I???�C//
-//?u?I?I?��?��?��?l?A?I???�C						//
-//???W?X?g?i?p?b?h?A?V???N?E?O?j?I???�C			//
+//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I??E?A?I????C//
+//?u?I?I??????????l?A?I????C						//
+//???W?X?g?i?p?b?h?A?V???N?E?O?j?I????C			//
 //==============================================//
 void	PixelInspectionItem::ExecuteProcessingForDetail1(int y,int SearchDotBase,int NGThreshold_B,int NGThreshold_D,int BrightnessRange,DetailType DMode)
 {
-	//?u?I?I?��?��?��?l?A?I???�C//
+	//?u?I?I??????????l?A?I????C//
 #ifdef Debug
 	int	x;
 	int	tx,ty;
@@ -11976,7 +12937,7 @@ void	PixelInspectionItem::ExecuteProcessingForDetail1(int y,int SearchDotBase,in
 		if(y==DebugPointY && x==DebugPointX){
 			DebugPoint++;
 		}
-		P				=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+		P				=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 #else
 	for(int x=0;x<XLen;x++){
 		int	tx,ty;
@@ -11988,9 +12949,9 @@ void	PixelInspectionItem::ExecuteProcessingForDetail1(int y,int SearchDotBase,in
 		int wThresholdRange2_PB	,wThresholdRange2_PD;
 		int wThresholdRange2_SB	,wThresholdRange2_SD;
 		BYTE	*ts[3];
-		PixelInsData &P	=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+		PixelInsData &P	=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 #endif
-		if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2?�P?e
+		if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2??P?e
 			continue;
 		}
 
@@ -12024,7 +12985,7 @@ void	PixelInspectionItem::ExecuteProcessingForDetail1(int y,int SearchDotBase,in
 					//?p?b?h?E?O
 					continue;
 				}
-				else if((P.StdDisorder & 0x80)!=0){		//bit?I?e?O?��?a'1'?I?e???IPad?a??
+				else if((P.StdDisorder & 0x80)!=0){		//bit?I?e?O????a'1'?I?e???IPad?a??
 					SearchDot		=SearchDotBase;
 				}
 				else{
@@ -12062,396 +13023,372 @@ void	PixelInspectionItem::ExecuteProcessingForDetail1(int y,int SearchDotBase,in
 		if(ty<0 || YLen<=ty){
 			continue;
 		}
-		if(x-SearchDot<0 || XLen<=x+SearchDot){
-			goto	MatchedForDetail1;
-		}
-		if(y-SearchDot<0 || YLen<=y+SearchDot){
-			goto	MatchedForDetail1;
-		}
 
-		//?u?E???�C?I?Y
+		//?u?E????C?I?Y
 		if((InsCheckedBitmap[ty][tx>>3] & (0x80>>(tx&7)))!=0){
-			//OK?A?E?A?A?��?e?e???I?2?�P?e
+			//OK?A?E?A?A????e?e???I?2??P?e
 			if((TempNGBitmap[ty][tx>>3] & (0x80>>(tx&7)))==0){
 				continue;
 			}
-			//NG?A?E?A?A?��?e?e???ING?r?b?g?d???A?��?A?A???�C
+			//NG?A?E?A?A????e?e???ING?r?b?g?d???A????A?A????C
 			else{
 				TempNGBitmap[ty][tx>>3] &= ~(0x80>>(tx&7));
 			}
 		}
 
-		wThresholdRange_B=NGThreshold_B;
-		wThresholdRange_D=NGThreshold_D;
-///		wThresholdRange2=wThresholdRange-((((P.RL+P.RH)>>1)-128)>>3);
-		wThresholdRange2_B=(wThresholdRange_B<<7)/((P.RL+P.RH)>>1);
-		wThresholdRange2_D=(wThresholdRange_D<<7)/((P.RL+P.RH)>>1);
-
-		//?��?��?��?l?I?????A???I??
-		if(((P.PL+P.PH)>>1)<=127){
-			wThresholdRange2_PB=wThresholdRange2_B;
-			wThresholdRange2_PD=wThresholdRange2_D;
-		}
-		else{
-			wThresholdRange2_PB=wThresholdRange2_D;
-			wThresholdRange2_PD=wThresholdRange2_B;
-		}
-		if(((P.SL+P.SH)>>1)<=127){
-			wThresholdRange2_SB=wThresholdRange2_B;
-			wThresholdRange2_SD=wThresholdRange2_D;
-		}
-		else{
-			wThresholdRange2_SB=wThresholdRange2_D;
-			wThresholdRange2_SD=wThresholdRange2_B;
-		}
-
-#ifdef Debug
-		if(ty==DebugPointY && tx==DebugPointX){
-			DebugPoint++;
-		}
-		PL		=P.PL-wThresholdRange2_PD;
-		PH		=P.PH+wThresholdRange2_PB;
-		SL		=P.SL-wThresholdRange2_SD;
-		SH		=P.SH+wThresholdRange2_SB;
-		RL		=P.RL-wThresholdRange_D;
-		RH		=P.RH+wThresholdRange_B;
-#else
-		int	PL	=P.PL-wThresholdRange2_PD;
-		int	PH	=P.PH+wThresholdRange2_PB;
-		int	SL	=P.SL-wThresholdRange2_SD;
-		int	SH	=P.SH+wThresholdRange2_SB;
-		int	RL	=P.RL-wThresholdRange_D;
-		int	RH	=P.RH+wThresholdRange_B;
-#endif
-		ts[0]=TargetImageList[0]->GetY(ty);
-		ts[1]=TargetImageList[1]->GetY(ty);
-		ts[2]=TargetImageList[2]->GetY(ty);
-
-		struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][tx],ts[1][tx],ts[2][tx])];
-		if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-			goto	MatchedForDetail1;
-		}
-		//?u?I?A?I?��?f
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			for(dx=-Len;dx<Len;dx++){
-#ifdef Debug
-				P1				=PixData[y+dy][x+dx];
-#else
-				PixelInsData &P1=PixData[y+dy][x+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange_D;
-				RH	=P1.RH+wThresholdRange_B;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	MatchedForDetail1;
-				}
+		// ラムダ式による判定ブロック（goto MatchedForDetail1 の代替）
+		bool isMatched = [&]() -> bool {
+			if(x-SearchDot<0 || XLen<=x+SearchDot){
+				return true;
 			}
-			dx=Len;
-			for(;dy<Len;dy++){
-#ifdef Debug
-				P1				=PixData[y+dy][x+dx];
-#else
-				PixelInsData &P1=PixData[y+dy][x+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange_D;
-				RH	=P1.RH+wThresholdRange_B;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	MatchedForDetail1;
-				}
+			if(y-SearchDot<0 || YLen<=y+SearchDot){
+				return true;
 			}
-			dy=Len;
-			for(;dx>-Len;dx--){
-#ifdef Debug
-				P1				=PixData[y+dy][x+dx];
-#else
-				PixelInsData &P1=PixData[y+dy][x+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange_D;
-				RH	=P1.RH+wThresholdRange_B;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	MatchedForDetail1;
-				}
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
-#ifdef Debug
-				P1				=PixData[y+dy][x+dx];
-#else
-				PixelInsData &P1=PixData[y+dy][x+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange_D;
-				RH	=P1.RH+wThresholdRange_B;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	MatchedForDetail1;
-				}
-			}
-		}
 
-		//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
+			wThresholdRange_B=NGThreshold_B;
+			wThresholdRange_D=NGThreshold_D;
+	///		wThresholdRange2=wThresholdRange-((((P.RL+P.RH)>>1)-128)>>3);
+			wThresholdRange2_B=(wThresholdRange_B<<7)/((P.RL+P.RH)>>1);
+			wThresholdRange2_D=(wThresholdRange_D<<7)/((P.RL+P.RH)>>1);
+
+			//??????????l?I?????A???I??
+			if(((P.PL+P.PH)>>1)<=127){
+				wThresholdRange2_PB=wThresholdRange2_B;
+				wThresholdRange2_PD=wThresholdRange2_D;
+			}
+			else{
+				wThresholdRange2_PB=wThresholdRange2_D;
+				wThresholdRange2_PD=wThresholdRange2_B;
+			}
+			if(((P.SL+P.SH)>>1)<=127){
+				wThresholdRange2_SB=wThresholdRange2_B;
+				wThresholdRange2_SD=wThresholdRange2_D;
+			}
+			else{
+				wThresholdRange2_SB=wThresholdRange2_D;
+				wThresholdRange2_SD=wThresholdRange2_B;
+			}
+
 #ifdef Debug
-		P1				=PixData[y][x];
+			if(ty==DebugPointY && tx==DebugPointX){
+				DebugPoint++;
+			}
+			PL		=P.PL-wThresholdRange2_PD;
+			PH		=P.PH+wThresholdRange2_PB;
+			SL		=P.SL-wThresholdRange2_SD;
+			SH		=P.SH+wThresholdRange2_SB;
+			RL		=P.RL-wThresholdRange_D;
+			RH		=P.RH+wThresholdRange_B;
 #else
-		PixelInsData &P1=PixData[y][x];
-		PixelInsData P3;
+			int	PL	=P.PL-wThresholdRange2_PD;
+			int	PH	=P.PH+wThresholdRange2_PB;
+			int	SL	=P.SL-wThresholdRange2_SD;
+			int	SH	=P.SH+wThresholdRange2_SB;
+			int	RL	=P.RL-wThresholdRange_D;
+			int	RH	=P.RH+wThresholdRange_B;
 #endif
-		P3.SL=Q->S;
-		P3.PL=Q->P;
-		P3.RL=Q->R;
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			for(dx=-Len;dx<Len;dx++){
+			ts[0]=TargetImageList[0]->GetY(ty);
+			ts[1]=TargetImageList[1]->GetY(ty);
+			ts[2]=TargetImageList[2]->GetY(ty);
+
+			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][tx],ts[1][tx],ts[2][tx])];
+			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+				return true;
+			}
+			//?u?I?A?I????f
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
+				for(dx=-Len;dx<Len;dx++){
 #ifdef Debug
-				P2=PixData[y+dy][x+dx];
+					P1				=PixData[y+dy][x+dx];
 #else
-				PixelInsData	&P2=PixData[y+dy][x+dx];
+					PixelInsData &P1=PixData[y+dy][x+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange_D;
-					RH3		=P3.RH+wThresholdRange_B;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange_D;
-					int	RH3	=P3.RH+wThresholdRange_B;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	MatchedForDetail1;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange_D;
+					RH	=P1.RH+wThresholdRange_B;
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
-			}
-			dx=Len;
-			for(;dy<Len;dy++){
+				dx=Len;
+				for(;dy<Len;dy++){
 #ifdef Debug
-				P2=PixData[y+dy][x+dx];
+					P1				=PixData[y+dy][x+dx];
 #else
-				PixelInsData	&P2=PixData[y+dy][x+dx];
+					PixelInsData &P1=PixData[y+dy][x+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange_D;
-					RH3		=P3.RH+wThresholdRange_B;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange_D;
-					int	RH3	=P3.RH+wThresholdRange_B;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	MatchedForDetail1;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange_D;
+					RH	=P1.RH+wThresholdRange_B;
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
-			}
-			dy=Len;
-			for(;dx>-Len;dx--){
+				dy=Len;
+				for(;dx>-Len;dx--){
 #ifdef Debug
-				P2=PixData[y+dy][x+dx];
+					P1				=PixData[y+dy][x+dx];
 #else
-				PixelInsData	&P2=PixData[y+dy][x+dx];
+					PixelInsData &P1=PixData[y+dy][x+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange_D;
-					RH3		=P3.RH+wThresholdRange_B;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange_D;
-					int	RH3	=P3.RH+wThresholdRange_B;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	MatchedForDetail1;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange_D;
+					RH	=P1.RH+wThresholdRange_B;
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
+				dx=-Len;
+				for(;dy>-Len;dy--){
 #ifdef Debug
-				P2=PixData[y+dy][x+dx];
+					P1				=PixData[y+dy][x+dx];
 #else
-				PixelInsData	&P2=PixData[y+dy][x+dx];
+					PixelInsData &P1=PixData[y+dy][x+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange_D;
-					RH3		=P3.RH+wThresholdRange_B;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange_D;
-					int	RH3	=P3.RH+wThresholdRange_B;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	MatchedForDetail1;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange_D;
+					RH	=P1.RH+wThresholdRange_B;
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
 			}
-		}
 
-		//Silk -> Silk ? or PAD -> PAD ?
-		if(DMode==_Resist){
-			if(pAlignPage->GetBitPickupFromTarget(tx,ty)==true && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
-				//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
-					goto	MatchedForDetail1;
+			//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
+#ifdef Debug
+			P1				=PixData[y][x];
+#else
+			PixelInsData &P1=PixData[y][x];
+			PixelInsData P3;
+#endif
+			P3.SL=Q->S;
+			P3.PL=Q->P;
+			P3.RL=Q->R;
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
+				for(dx=-Len;dx<Len;dx++){
+#ifdef Debug
+					P2=PixData[y+dy][x+dx];
+#else
+					PixelInsData	&P2=PixData[y+dy][x+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange_D;
+						RH3		=P3.RH+wThresholdRange_B;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange_D;
+						int	RH3	=P3.RH+wThresholdRange_B;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
+				}
+				dx=Len;
+				for(;dy<Len;dy++){
+#ifdef Debug
+					P2=PixData[y+dy][x+dx];
+#else
+					PixelInsData	&P2=PixData[y+dy][x+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange_D;
+						RH3		=P3.RH+wThresholdRange_B;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange_D;
+						int	RH3	=P3.RH+wThresholdRange_B;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
+				}
+				dy=Len;
+				for(;dx>-Len;dx--){
+#ifdef Debug
+					P2=PixData[y+dy][x+dx];
+#else
+					PixelInsData	&P2=PixData[y+dy][x+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange_D;
+						RH3		=P3.RH+wThresholdRange_B;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange_D;
+						int	RH3	=P3.RH+wThresholdRange_B;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
+				}
+				dx=-Len;
+				for(;dy>-Len;dy--){
+#ifdef Debug
+					P2=PixData[y+dy][x+dx];
+#else
+					PixelInsData	&P2=PixData[y+dy][x+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange_D;
+						RH3		=P3.RH+wThresholdRange_B;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange_D;
+						int	RH3	=P3.RH+wThresholdRange_B;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
 				}
 			}
-		}
-		else if(DMode==_Silk){
-			if(pAlignPage->GetBitPickupFromTarget(tx,ty)==false && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
-				//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
-					goto	MatchedForDetail1;
+
+			//Silk -> Silk ? or PAD -> PAD ?
+			if(DMode==_Resist){
+				if(pAlignPage->GetBitPickupFromTarget(tx,ty)==true && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
+					//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
+						return true;
+					}
 				}
 			}
+			else if(DMode==_Silk){
+				if(pAlignPage->GetBitPickupFromTarget(tx,ty)==false && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
+					//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
+						return true;
+					}
+				}
+			}
+
+			//T??NM?AM??NT?I?A???C?????g?U?R?E?a?a?A???c?AM??NT?I?E?u???i?1?A?I????C?a????A?Y?e
+			if(tmX!=-mtX || tmY!=-mtY){
+				if(ExecuteProcessingFromTarget1(x,y,1,SearchDotBase,0,0,0,0,0,0,0,0,BrightnessRange)==true){
+					return true;
+				}
+			}
+
+			//????Ce??l?A?I??E?d?Z?o
+			BYTE DiffPSR=0;
+			PixelInsData &Pw=PixData[y][x];
+			if(Pw.PL-Q->P > 0){
+				DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
+			}
+			else if(Q->P-Pw.PH > 0){
+				DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
+			}
+			if(Pw.SL-Q->S > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			else if(Q->S-Pw.SH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			if(Pw.RL-Q->R > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			else if(Q->R-Pw.RH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			//????-?ENG?I??}??}?A?O?e????E?c??P?e
+			if(DiffPSR<BrightnessRange){
+				return true;
+			}
+
+			return false; // すべての条件をすり抜けた場合のみ false を返す
+		}();
+
+		// ラムダ式の結果が false だった場合のみ、NGフラグをセット
+		if (!isMatched) {
+			TempNGBitmap[ty][tx>>3] |= (0x80>>(tx&7));
 		}
 
-		//T?�NM?AM?�NT?I?A???C?????g?U?R?E?a?a?A???c?AM?�NT?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-		if(tmX!=-mtX || tmY!=-mtY){
-			if(ExecuteProcessingFromTarget1(x,y,1,SearchDotBase,0,0,0,0,0,0,0,0,BrightnessRange)==true){
-				goto	MatchedForDetail1;
-			}
-		}
-
-		//???�Ce??l?A?I?�E?d?Z?o
-		BYTE DiffPSR=0;
-		PixelInsData &Pw=PixData[y][x];
-		if(Pw.PL-Q->P > 0){
-			DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-		}
-		else if(Q->P-Pw.PH > 0){
-			DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-		}
-		if(Pw.SL-Q->S > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		else if(Q->S-Pw.SH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		if(Pw.RL-Q->R > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		else if(Q->R-Pw.RH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-		if(DiffPSR<BrightnessRange){
-			goto	MatchedForDetail1;
-		}
-
-		TempNGBitmap[ty][tx>>3] |= (0x80>>(tx&7));
-
-MatchedForDetail1:;
+		// (旧: MatchedForDetail1 のラベル以降の処理) 条件を満たした/満たさないに関わらず必ず実行する
 		InsCheckedBitmap[ty][tx>>3] |= (0x80>>(tx&7));
 	}
 }
-
 //==============================================//
-//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I?�E?A?I???�C//
-//?u?I?I???�C?a???A?I???�C						//
-//???W?X?g?i?p?b?h?A?V???N?E?O?j?I???�C			//
+//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I??E?A?I????C//
+//?u?I?I????C?a???A?I????C						//
+//???W?X?g?i?p?b?h?A?V???N?E?O?j?I????C			//
 //==============================================//
 void	PixelInspectionItem::ExecuteProcessingForDetail2(int y,int SearchDotBase,int NGThreshold_B,int NGThreshold_D,int BrightnessRange,DetailType DMode)
 {
-	//?u?I?I???�C?a???A?I???�C//
+	//?u?I?I????C?a???A?I????C//
 #ifdef Debug
 	int	x;
 	int	tx,ty;
@@ -12471,7 +13408,7 @@ void	PixelInspectionItem::ExecuteProcessingForDetail2(int y,int SearchDotBase,in
 		if(y==DebugPointY && x==DebugPointX){
 			DebugPoint++;
 		}
-		P				=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+		P				=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 #else
 	for(int x=0;x<XLen;x++){
 		int	tx,ty;
@@ -12482,7 +13419,7 @@ void	PixelInspectionItem::ExecuteProcessingForDetail2(int y,int SearchDotBase,in
 		int wThresholdRange2_B	,wThresholdRange2_D;
 		int wThresholdRange2_PB	,wThresholdRange2_PD;
 		int wThresholdRange2_SB	,wThresholdRange2_SD;
-		PixelInsData &P	=PixData[y][x];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
+		PixelInsData &P	=PixData[y][x];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
 #endif
 		if(P.StdDisorder==255){
 			continue;
@@ -12517,7 +13454,7 @@ void	PixelInspectionItem::ExecuteProcessingForDetail2(int y,int SearchDotBase,in
 					//?p?b?h?E?O
 					continue;
 				}
-				else if((P.StdDisorder & 0x80)!=0){		//bit?I?e?O?��?a'1'?I?e???IPad?a??
+				else if((P.StdDisorder & 0x80)!=0){		//bit?I?e?O????a'1'?I?e???IPad?a??
 					SearchDot		=SearchDotBase;
 				}
 				else{
@@ -12556,19 +13493,19 @@ void	PixelInspectionItem::ExecuteProcessingForDetail2(int y,int SearchDotBase,in
 			continue;
 		}
 
-		//?u?E???�C?I?Y
+		//?u?E????C?I?Y
 		if((InsCheckedBitmap[ty][tx>>3] & (0x80>>(tx&7)))!=0){
-			//OK?A?E?A?A?��?e?e???I?2?�P?e
+			//OK?A?E?A?A????e?e???I?2??P?e
 			if((TempNGBitmap[ty][tx>>3] & (0x80>>(tx&7)))==0){
 				continue;
 			}
-			//NG?A?E?A?A?��?e?e???ING?r?b?g?d???A?��?A?A???�C
+			//NG?A?E?A?A????e?e???ING?r?b?g?d???A????A?A????C
 			else{
 				TempNGBitmap[ty][tx>>3] &= ~(0x80>>(tx&7));
 			}
 		}
 		else{
-			//ExecuteProcessingForDetail1?A?u?ENG?A?E?A?A?��?e?e???I?2?�P?e
+			//ExecuteProcessingForDetail1?A?u?ENG?A?E?A?A????e?e???I?2??P?e
 			if((TempNGBitmap[ty][tx>>3] & (0x80>>(tx&7)))!=0){
 				continue;
 			}
@@ -12580,7 +13517,7 @@ void	PixelInspectionItem::ExecuteProcessingForDetail2(int y,int SearchDotBase,in
 		wThresholdRange2_B=(wThresholdRange_B<<7)/((P.RL+P.RH)>>1);
 		wThresholdRange2_D=(wThresholdRange_D<<7)/((P.RL+P.RH)>>1);
 
-		//?��?��?��?l?I?????A???I??
+		//??????????l?I?????A???I??
 		if(((P.PL+P.PH)>>1)<=127){
 			wThresholdRange2_PB=wThresholdRange2_B;
 			wThresholdRange2_PD=wThresholdRange2_D;
@@ -12631,293 +13568,302 @@ void	PixelInspectionItem::ExecuteProcessingForDetail2(int y,int SearchDotBase,in
 #ifndef Debug
 		BYTE	*ts[3];
 #endif
-		ts[0]=TargetImageList[0]->GetY(ty);
-		ts[1]=TargetImageList[1]->GetY(ty);
-		ts[2]=TargetImageList[2]->GetY(ty);
+		// ラムダ式による判定ブロック
+		// goto MatchedForDetail2 の代わりに return true で抜け出す
+		bool isMatched = [&]() -> bool {
+			ts[0]=TargetImageList[0]->GetY(ty);
+			ts[1]=TargetImageList[1]->GetY(ty);
+			ts[2]=TargetImageList[2]->GetY(ty);
 
-		struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][tx],ts[1][tx],ts[2][tx])];
-		if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
-			goto	MatchedForDetail2;
-		}
-		//?u?I?A?I?��?f
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			ts[0]=TargetImageList[0]->GetY(ty+dy);
-			ts[1]=TargetImageList[1]->GetY(ty+dy);
-			ts[2]=TargetImageList[2]->GetY(ty+dy);
-			for(dx=-Len;dx<Len;dx++){
-				struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-					goto	MatchedForDetail2;
-				}
+			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][tx],ts[1][tx],ts[2][tx])];
+			if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
+				return true;
 			}
-			dx=Len;
-			for(;dy<Len;dy++){
+			//?u?I?A?I????f
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
 				ts[0]=TargetImageList[0]->GetY(ty+dy);
 				ts[1]=TargetImageList[1]->GetY(ty+dy);
 				ts[2]=TargetImageList[2]->GetY(ty+dy);
-				struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-					goto	MatchedForDetail2;
+				for(dx=-Len;dx<Len;dx++){
+					struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+						return true;
+					}
 				}
-			}
-			dy=Len;
-			ts[0]=TargetImageList[0]->GetY(ty+dy);
-			ts[1]=TargetImageList[1]->GetY(ty+dy);
-			ts[2]=TargetImageList[2]->GetY(ty+dy);
-			for(;dx>-Len;dx--){
-				struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-					goto	MatchedForDetail2;
+				dx=Len;
+				for(;dy<Len;dy++){
+					ts[0]=TargetImageList[0]->GetY(ty+dy);
+					ts[1]=TargetImageList[1]->GetY(ty+dy);
+					ts[2]=TargetImageList[2]->GetY(ty+dy);
+					struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+						return true;
+					}
 				}
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
+				dy=Len;
 				ts[0]=TargetImageList[0]->GetY(ty+dy);
 				ts[1]=TargetImageList[1]->GetY(ty+dy);
 				ts[2]=TargetImageList[2]->GetY(ty+dy);
-				struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
-					goto	MatchedForDetail2;
+				for(;dx>-Len;dx--){
+					struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+						return true;
+					}
+				}
+				dx=-Len;
+				for(;dy>-Len;dy--){
+					ts[0]=TargetImageList[0]->GetY(ty+dy);
+					ts[1]=TargetImageList[1]->GetY(ty+dy);
+					ts[2]=TargetImageList[2]->GetY(ty+dy);
+					struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(PL<=Q1->P && Q1->P<=PH && SL<=Q1->S && Q1->S<=SH && RL<=Q1->R && Q1->R<=RH){
+						return true;
+					}
 				}
 			}
-		}
 
-		//?i?�?_?A?u?e?I?_?I???�C?a???d???��?��?A???o????
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			ts[0]=TargetImageList[0]->GetY(ty+dy);
-			ts[1]=TargetImageList[1]->GetY(ty+dy);
-			ts[2]=TargetImageList[2]->GetY(ty+dy);
-			for(dx=-Len;dx<Len;dx++){
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
-					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
-					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
-					}
-				}
-				goto	MatchedForDetail2;
-			}
-			dx=Len;
-			for(;dy<Len;dy++){
+			//?i???_?A?u?e?I?_?I????C?a???d?????????A???o????
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
 				ts[0]=TargetImageList[0]->GetY(ty+dy);
 				ts[1]=TargetImageList[1]->GetY(ty+dy);
 				ts[2]=TargetImageList[2]->GetY(ty+dy);
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
+				for(dx=-Len;dx<Len;dx++){
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
 					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
 					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
 					}
+					return true;
 				}
-				goto	MatchedForDetail2;
-			}
-			dy=Len;
-			ts[0]=TargetImageList[0]->GetY(ty+dy);
-			ts[1]=TargetImageList[1]->GetY(ty+dy);
-			ts[2]=TargetImageList[2]->GetY(ty+dy);
-			for(;dx>-Len;dx--){
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
+				dx=Len;
+				for(;dy<Len;dy++){
+					ts[0]=TargetImageList[0]->GetY(ty+dy);
+					ts[1]=TargetImageList[1]->GetY(ty+dy);
+					ts[2]=TargetImageList[2]->GetY(ty+dy);
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
 					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
 					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
 					}
+					return true;
 				}
-				goto	MatchedForDetail2;
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
+				dy=Len;
 				ts[0]=TargetImageList[0]->GetY(ty+dy);
 				ts[1]=TargetImageList[1]->GetY(ty+dy);
 				ts[2]=TargetImageList[2]->GetY(ty+dy);
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
+				for(;dx>-Len;dx--){
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
 					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
 					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
 					}
+					return true;
 				}
-				goto	MatchedForDetail2;
+				dx=-Len;
+				for(;dy>-Len;dy--){
+					ts[0]=TargetImageList[0]->GetY(ty+dy);
+					ts[1]=TargetImageList[1]->GetY(ty+dy);
+					ts[2]=TargetImageList[2]->GetY(ty+dy);
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][tx+dx],ts[1][tx+dx],ts[2][tx+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
+					}
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
+					}
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
+					}
+					return true;
+				}
 			}
+
+			//Silk -> Silk ? or PAD -> PAD ?
+			if(DMode==_Resist){
+				if(pAlignPage->GetBitPickupFromTarget(tx,ty)==true && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
+					//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
+						return true;
+					}
+				}
+			}
+			else if(DMode==_Silk){
+				if(pAlignPage->GetBitPickupFromTarget(tx,ty)==false && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
+					//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
+						return true;
+					}
+				}
+			}
+
+			//T??NM?AM??NT?I?A???C?????g?U?R?E?a?a?A???c?AM??NT?I?E?u???i?1?A?I????C?a????A?Y?e
+			if(tmX!=-mtX || tmY!=-mtY){
+				if(ExecuteProcessingFromTarget2(x,y,1,SearchDotBase,0,0,0,0,0,0,0,0,BrightnessRange)==true){
+					return true;
+				}
+			}
+
+			//????Ce??l?A?I??E?d?Z?o
+			BYTE DiffPSR=0;
+			if(PL-Q->P > 0){
+				DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
+			}
+			else if(Q->P-PH > 0){
+				DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
+			}
+			if(SL-Q->S > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			else if(Q->S-SH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			if(RL-Q->R > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			else if(Q->R-RH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			//????-?ENG?I??}??}?A?O?e????E?c??P?e
+			if(DiffPSR<BrightnessRange){
+				return true;
+			}
+
+			return false; // すべての条件をすり抜けた場合のみ false
+		}();
+
+		// ラムダ式が false (マッチしなかった) だった場合のみ、NGフラグをセット
+		if (!isMatched) {
+			TempNGBitmap[ty][tx>>3] |= (0x80>>(tx&7));
 		}
 
-		//Silk -> Silk ? or PAD -> PAD ?
-		if(DMode==_Resist){
-			if(pAlignPage->GetBitPickupFromTarget(tx,ty)==true && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
-				//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
-					goto	MatchedForDetail2;
-				}
-			}
-		}
-		else if(DMode==_Silk){
-			if(pAlignPage->GetBitPickupFromTarget(tx,ty)==false && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
-				//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(x,y,tx,ty,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
-					goto	MatchedForDetail2;
-				}
-			}
-		}
-
-		//T?�NM?AM?�NT?I?A???C?????g?U?R?E?a?a?A???c?AM?�NT?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-		if(tmX!=-mtX || tmY!=-mtY){
-			if(ExecuteProcessingFromTarget2(x,y,1,SearchDotBase,0,0,0,0,0,0,0,0,BrightnessRange)==true){
-				goto	MatchedForDetail2;
-			}
-		}
-
-		//???�Ce??l?A?I?�E?d?Z?o
-		BYTE DiffPSR=0;
-		if(PL-Q->P > 0){
-			DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
-		}
-		else if(Q->P-PH > 0){
-			DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
-		}
-		if(SL-Q->S > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		else if(Q->S-SH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		if(RL-Q->R > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		else if(Q->R-RH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
-			}
-		}
-		//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-		if(DiffPSR<BrightnessRange){
-			goto	MatchedForDetail2;
-		}
-
-		TempNGBitmap[ty][tx>>3] |= (0x80>>(tx&7));
-
-MatchedForDetail2:;
+		// 旧: MatchedForDetail2 ラベル以降の処理 (条件に関わらず常に実行)
 		InsCheckedBitmap[ty][tx>>3] |= (0x80>>(tx&7));
 	}
 }
 
 //==============================================//
-//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I?�E?A?I???�C//
-//?u?I?I?��?��?��?l?A?I???�C						//
-//???W?X?g?i?p?b?h?A?V???N?E?O?j?I???�C			//
+//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I??E?A?I????C//
+//?u?I?I??????????l?A?I????C						//
+//???W?X?g?i?p?b?h?A?V???N?E?O?j?I????C			//
 //==============================================//
 void	PixelInspectionItem::ExecuteProcessingForDetail3(int y,int SearchDotBase,int NGThreshold_B,int NGThreshold_D,int BrightnessRange,DetailType DMode)
 {
-	//?u?I?I?��?��?��?l?A?I???�C//
+	//?u?I?I??????????l?A?I????C//
 #ifdef Debug
 	int	mx,my;
 	int tmX,tmY;
@@ -12951,7 +13897,7 @@ void	PixelInspectionItem::ExecuteProcessingForDetail3(int y,int SearchDotBase,in
 		int wThresholdRange2_PB	,wThresholdRange2_PD;
 		int wThresholdRange2_SB	,wThresholdRange2_SD;
 #endif
-		//ExecuteProcessingForDetail1or2?A?u?E???�C?��?A?��?e?e???I?2?�P?e
+		//ExecuteProcessingForDetail1or2?A?u?E????C????A????e?e???I?2??P?e
 		if((InsCheckedBitmap[y][x>>3] & (0x80>>(x&7)))!=0){
 			continue;
 		}
@@ -13007,11 +13953,11 @@ void	PixelInspectionItem::ExecuteProcessingForDetail3(int y,int SearchDotBase,in
 		if(my==DebugPointY && mx==DebugPointX){
 			DebugPoint++;
 		}
-		P				=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+		P				=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 #else
-		PixelInsData &P	=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+		PixelInsData &P	=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 #endif
-		if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2?�P?e
+		if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2??P?e
 			continue;
 		}
 
@@ -13026,7 +13972,7 @@ void	PixelInspectionItem::ExecuteProcessingForDetail3(int y,int SearchDotBase,in
 				//?p?b?h?E?O
 				continue;
 			}
-			else if((P.StdDisorder & 0x80)==0){		//bit?I?e?O?��?a'1'?I?e???IPad?a??
+			else if((P.StdDisorder & 0x80)==0){		//bit?I?e?O????a'1'?I?e???IPad?a??
 				continue;
 			}
 		}
@@ -13043,7 +13989,7 @@ void	PixelInspectionItem::ExecuteProcessingForDetail3(int y,int SearchDotBase,in
 		wThresholdRange2_B=(wThresholdRange_B<<7)/((P.RL+P.RH)>>1);
 		wThresholdRange2_D=(wThresholdRange_D<<7)/((P.RL+P.RH)>>1);
 
-		//?��?��?��?l?I?????A???I??
+		//??????????l?I?????A???I??
 		if(((P.PL+P.PH)>>1)<=127){
 			wThresholdRange2_PB=wThresholdRange2_B;
 			wThresholdRange2_PD=wThresholdRange2_D;
@@ -13086,333 +14032,309 @@ void	PixelInspectionItem::ExecuteProcessingForDetail3(int y,int SearchDotBase,in
 #ifndef Debug
 		BYTE	*ts[3];
 #endif
-		ts[0]=TargetImageList[0]->GetY(y);
-		ts[1]=TargetImageList[1]->GetY(y);
-		ts[2]=TargetImageList[2]->GetY(y);
-		struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x],ts[1][x],ts[2][x])];
-		if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-			goto	MatchedForDetail3;
-		}
-		//?u?I?A?I?��?f
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			for(dx=-Len;dx<Len;dx++){
-#ifdef Debug
-				P1				=PixData[my+dy][mx+dx];
-#else
-				PixelInsData &P1=PixData[my+dy][mx+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange_D;
-				RH	=P1.RH+wThresholdRange_B;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	MatchedForDetail3;
-				}
-			}
-			dx=Len;
-			for(;dy<Len;dy++){
-#ifdef Debug
-				P1				=PixData[my+dy][mx+dx];
-#else
-				PixelInsData &P1=PixData[my+dy][mx+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange_D;
-				RH	=P1.RH+wThresholdRange_B;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	MatchedForDetail3;
-				}
-			}
-			dy=Len;
-			for(;dx>-Len;dx--){
-#ifdef Debug
-				P1				=PixData[my+dy][mx+dx];
-#else
-				PixelInsData &P1=PixData[my+dy][mx+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange_D;
-				RH	=P1.RH+wThresholdRange_B;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	MatchedForDetail3;
-				}
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
-#ifdef Debug
-				P1				=PixData[my+dy][mx+dx];
-#else
-				PixelInsData &P1=PixData[my+dy][mx+dx];
-#endif
-				if(P1.StdDisorder==255){
-					continue;
-				}
-				PL	=P1.PL-wThresholdRange2_PD;
-				PH	=P1.PH+wThresholdRange2_PB;
-				SL	=P1.SL-wThresholdRange2_SD;
-				SH	=P1.SH+wThresholdRange2_SB;
-				RL	=P1.RL-wThresholdRange_D;
-				RH	=P1.RH+wThresholdRange_B;
-/*				if(PL>PH || SL>SH || RL>RH){
-					continue;
-				}
-*/
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	MatchedForDetail3;
-				}
-			}
-		}
 
-		//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
+		// ラムダ式による判定ブロック（goto MatchedForDetail3 の代わり）
+		// マッチした場合は true を返して抜け出します
+		bool isMatched = [&]() -> bool {
+			ts[0]=TargetImageList[0]->GetY(y);
+			ts[1]=TargetImageList[1]->GetY(y);
+			ts[2]=TargetImageList[2]->GetY(y);
+			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x],ts[1][x],ts[2][x])];
+			if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+				return true;
+			}
+			//?u?I?A?I????f
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
+				for(dx=-Len;dx<Len;dx++){
 #ifdef Debug
-		P1				=PixData[my][mx];
+					P1				=PixData[my+dy][mx+dx];
 #else
-		PixelInsData &P1=PixData[my][mx];
-		PixelInsData P3;
+					PixelInsData &P1=PixData[my+dy][mx+dx];
 #endif
-		P3.SL=Q->S;
-		P3.PL=Q->P;
-		P3.RL=Q->R;
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			for(dx=-Len;dx<Len;dx++){
-#ifdef Debug
-				P2				=PixData[my+dy][mx+dx];
-#else
-				PixelInsData &P2=PixData[my+dy][mx+dx];
-#endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange_D;
-					RH3		=P3.RH+wThresholdRange_B;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange_D;
-					int	RH3	=P3.RH+wThresholdRange_B;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	MatchedForDetail3;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange_D;
+					RH	=P1.RH+wThresholdRange_B;
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
-			}
-			dx=Len;
-			for(;dy<Len;dy++){
+				dx=Len;
+				for(;dy<Len;dy++){
 #ifdef Debug
-				P2				=PixData[my+dy][mx+dx];
+					P1				=PixData[my+dy][mx+dx];
 #else
-				PixelInsData &P2=PixData[my+dy][mx+dx];
+					PixelInsData &P1=PixData[my+dy][mx+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange_D;
-					RH3		=P3.RH+wThresholdRange_B;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange_D;
-					int	RH3	=P3.RH+wThresholdRange_B;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	MatchedForDetail3;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange_D;
+					RH	=P1.RH+wThresholdRange_B;
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
-			}
-			dy=Len;
-			for(;dx>-Len;dx--){
+				dy=Len;
+				for(;dx>-Len;dx--){
 #ifdef Debug
-				P2				=PixData[my+dy][mx+dx];
+					P1				=PixData[my+dy][mx+dx];
 #else
-				PixelInsData &P2=PixData[my+dy][mx+dx];
+					PixelInsData &P1=PixData[my+dy][mx+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange_D;
-					RH3		=P3.RH+wThresholdRange_B;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange_D;
-					int	RH3	=P3.RH+wThresholdRange_B;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	MatchedForDetail3;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange_D;
+					RH	=P1.RH+wThresholdRange_B;
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
+				dx=-Len;
+				for(;dy>-Len;dy--){
 #ifdef Debug
-				P2				=PixData[my+dy][mx+dx];
+					P1				=PixData[my+dy][mx+dx];
 #else
-				PixelInsData &P2=PixData[my+dy][mx+dx];
+					PixelInsData &P1=PixData[my+dy][mx+dx];
 #endif
-				if(CalcPixelInsData(P1,P2,P3)==true){
-#ifdef Debug
-					PL3		=P3.PL-wThresholdRange2_PD;
-					PH3		=P3.PH+wThresholdRange2_PB;
-					SL3		=P3.SL-wThresholdRange2_SD;
-					SH3		=P3.SH+wThresholdRange2_SB;
-					RL3		=P3.RL-wThresholdRange_D;
-					RH3		=P3.RH+wThresholdRange_B;
-#else
-					int	PL3	=P3.PL-wThresholdRange2_PD;
-					int	PH3	=P3.PH+wThresholdRange2_PB;
-					int	SL3	=P3.SL-wThresholdRange2_SD;
-					int	SH3	=P3.SH+wThresholdRange2_SB;
-					int	RL3	=P3.RL-wThresholdRange_D;
-					int	RH3	=P3.RH+wThresholdRange_B;
-#endif
-/*					if(PL3>PH3 || SL3>SH3 || RL3>RH3){
+					if(P1.StdDisorder==255){
 						continue;
 					}
-*/
-					if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
-						goto	MatchedForDetail3;
+					PL	=P1.PL-wThresholdRange2_PD;
+					PH	=P1.PH+wThresholdRange2_PB;
+					SL	=P1.SL-wThresholdRange2_SD;
+					SH	=P1.SH+wThresholdRange2_SB;
+					RL	=P1.RL-wThresholdRange_D;
+					RH	=P1.RH+wThresholdRange_B;
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
 					}
 				}
 			}
-		}
 
-		//Silk -> Silk ? or PAD -> PAD ?
-		if(DMode==_Resist){
-			if(pAlignPage->GetBitPickupFromMaster(mx,my)==true && pAlignPage->GetBitFirstPickupFromMaster(mx,my)==false){
-				//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
-					goto	MatchedForDetail3;
+			//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
+#ifdef Debug
+			P1				=PixData[my][mx];
+#else
+			PixelInsData &P1=PixData[my][mx];
+			PixelInsData P3;
+#endif
+			P3.SL=Q->S;
+			P3.PL=Q->P;
+			P3.RL=Q->R;
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
+				for(dx=-Len;dx<Len;dx++){
+#ifdef Debug
+					P2				=PixData[my+dy][mx+dx];
+#else
+					PixelInsData &P2=PixData[my+dy][mx+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange_D;
+						RH3		=P3.RH+wThresholdRange_B;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange_D;
+						int	RH3	=P3.RH+wThresholdRange_B;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
+				}
+				dx=Len;
+				for(;dy<Len;dy++){
+#ifdef Debug
+					P2				=PixData[my+dy][mx+dx];
+#else
+					PixelInsData &P2=PixData[my+dy][mx+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange_D;
+						RH3		=P3.RH+wThresholdRange_B;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange_D;
+						int	RH3	=P3.RH+wThresholdRange_B;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
+				}
+				dy=Len;
+				for(;dx>-Len;dx--){
+#ifdef Debug
+					P2				=PixData[my+dy][mx+dx];
+#else
+					PixelInsData &P2=PixData[my+dy][mx+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange_D;
+						RH3		=P3.RH+wThresholdRange_B;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange_D;
+						int	RH3	=P3.RH+wThresholdRange_B;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
+				}
+				dx=-Len;
+				for(;dy>-Len;dy--){
+#ifdef Debug
+					P2				=PixData[my+dy][mx+dx];
+#else
+					PixelInsData &P2=PixData[my+dy][mx+dx];
+#endif
+					if(CalcPixelInsData(P1,P2,P3)==true){
+#ifdef Debug
+						PL3		=P3.PL-wThresholdRange2_PD;
+						PH3		=P3.PH+wThresholdRange2_PB;
+						SL3		=P3.SL-wThresholdRange2_SD;
+						SH3		=P3.SH+wThresholdRange2_SB;
+						RL3		=P3.RL-wThresholdRange_D;
+						RH3		=P3.RH+wThresholdRange_B;
+#else
+						int	PL3	=P3.PL-wThresholdRange2_PD;
+						int	PH3	=P3.PH+wThresholdRange2_PB;
+						int	SL3	=P3.SL-wThresholdRange2_SD;
+						int	SH3	=P3.SH+wThresholdRange2_SB;
+						int	RL3	=P3.RL-wThresholdRange_D;
+						int	RH3	=P3.RH+wThresholdRange_B;
+#endif
+						if(PL3<=Q->P && Q->P<=PH3 && SL3<=Q->S && Q->S<=SH3 && RL3<=Q->R && Q->R<=RH3){
+							return true;
+						}
+					}
 				}
 			}
-		}
-		else if(DMode==_Silk){
-			if(pAlignPage->GetBitPickupFromMaster(mx,my)==false && pAlignPage->GetBitFirstPickupFromMaster(mx,my)==false){
-				//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
-					goto	MatchedForDetail3;
+
+			//Silk -> Silk ? or PAD -> PAD ?
+			if(DMode==_Resist){
+				if(pAlignPage->GetBitPickupFromMaster(mx,my)==true && pAlignPage->GetBitFirstPickupFromMaster(mx,my)==false){
+					//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
+						return true;
+					}
 				}
 			}
-		}
+			else if(DMode==_Silk){
+				if(pAlignPage->GetBitPickupFromMaster(mx,my)==false && pAlignPage->GetBitFirstPickupFromMaster(mx,my)==false){
+					//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
+						return true;
+					}
+				}
+			}
 
-		//T?�NM?AM?�NT?I?A???C?????g?U?R?E?a?a?A???c?AM?�NT?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-		if(tmX!=-mtX || tmY!=-mtY){
-			if(ExecuteProcessingFromMaster1(x,y,1,SearchDotBase,0,0,0,0,0,0,0,0,BrightnessRange)==true){
-				goto	MatchedForDetail3;
+			//T??NM?AM??NT?I?A???C?????g?U?R?E?a?a?A???c?AM??NT?I?E?u???i?1?A?I????C?a????A?Y?e
+			if(tmX!=-mtX || tmY!=-mtY){
+				if(ExecuteProcessingFromMaster1(x,y,1,SearchDotBase,0,0,0,0,0,0,0,0,BrightnessRange)==true){
+					return true;
+				}
 			}
-		}
 
-		//???�Ce??l?A?I?�E?d?Z?o
-		BYTE DiffPSR=0;
-		PixelInsData &Pw=PixData[my][mx];
-		if(Pw.PL-Q->P > 0){
-			DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-		}
-		else if(Q->P-Pw.PH > 0){
-			DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
-		}
-		if(Pw.SL-Q->S > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			//????Ce??l?A?I??E?d?Z?o
+			BYTE DiffPSR=0;
+			PixelInsData &Pw=PixData[my][mx];
+			if(Pw.PL-Q->P > 0){
+				DiffPSR=sin((Pw.PL-Q->P+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
 			}
-		}
-		else if(Q->S-Pw.SH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			else if(Q->P-Pw.PH > 0){
+				DiffPSR=sin((Q->P-Pw.PH+((Pw.PH-Pw.PL)>>1))*RadianCoef)*Q->R;
 			}
-		}
-		if(Pw.RL-Q->R > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			if(Pw.SL-Q->S > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((Pw.SL-Q->S+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
 			}
-		}
-		else if(Q->R-Pw.RH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			else if(Q->S-Pw.SH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((Q->S-Pw.SH+((Pw.SH-Pw.SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
 			}
-		}
-		//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-		if(DiffPSR<BrightnessRange){
-			goto	MatchedForDetail3;
-		}
+			if(Pw.RL-Q->R > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=Pw.RL-Q->R+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			else if(Q->R-Pw.RH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=Q->R-Pw.RH+((Pw.RH-Pw.RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			//????-?ENG?I??}??}?A?O?e????E?c??P?e
+			if(DiffPSR<BrightnessRange){
+				return true;
+			}
+			
+			return false; // すべての条件をすり抜けた場合のみ false
+		}(); // ラムダ式の即時実行
 
-		TempNGBitmap[y][x>>3] |= (0x80>>(x&7));
-
-MatchedForDetail3:;
+		// マッチしなかった場合のみNGフラグをセット
+		if (!isMatched) {
+			TempNGBitmap[y][x>>3] |= (0x80>>(x&7));
+		}
 	}
 }
 
 //==============================================//
-//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I?�E?A?I???�C//
-//?u?I?I???�C?a???A?I???�C						//
-//???W?X?g?i?p?b?h?A?V???N?E?O?j?I???�C			//
+//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I??E?A?I????C//
+//?u?I?I????C?a???A?I????C						//
+//???W?X?g?i?p?b?h?A?V???N?E?O?j?I????C			//
 //==============================================//
 void	PixelInspectionItem::ExecuteProcessingForDetail4(int y,int SearchDotBase,int NGThreshold_B,int NGThreshold_D,int BrightnessRange,DetailType DMode)
 {
-	//?u?I?I???�C?a???A?I???�C//
+	//?u?I?I????C?a???A?I????C//
 #ifdef Debug
 	int	mx,my;
 	int tmX,tmY;
@@ -13442,11 +14364,11 @@ void	PixelInspectionItem::ExecuteProcessingForDetail4(int y,int SearchDotBase,in
 		int wThresholdRange2_PB	,wThresholdRange2_PD;
 		int wThresholdRange2_SB	,wThresholdRange2_SD;
 #endif
-		//ExecuteProcessingForDetail1or2?A?u?E???�C?��?A?��?e?e???I?2?�P?e
+		//ExecuteProcessingForDetail1or2?A?u?E????C????A????e?e???I?2??P?e
 		if((InsCheckedBitmap[y][x>>3] & (0x80>>(x&7)))!=0){
 			continue;
 		}
-		//ExecuteProcessingForDetail3?A?u?ENG?A?E?A?A?��?e?e???I?2?�P?e
+		//ExecuteProcessingForDetail3?A?u?ENG?A?E?A?A????e?e???I?2??P?e
 		if((TempNGBitmap[y][x>>3] & (0x80>>(x&7)))!=0){
 			continue;
 		}
@@ -13502,9 +14424,9 @@ void	PixelInspectionItem::ExecuteProcessingForDetail4(int y,int SearchDotBase,in
 		if(my==DebugPointY && mx==DebugPointX){
 			DebugPoint++;
 		}
-		P				=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+		P				=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 #else
-		PixelInsData &P	=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+		PixelInsData &P	=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 #endif
 		if(P.StdDisorder==255){
 			continue;
@@ -13521,7 +14443,7 @@ void	PixelInspectionItem::ExecuteProcessingForDetail4(int y,int SearchDotBase,in
 				//?p?b?h?E?O
 				continue;
 			}
-			else if((P.StdDisorder & 0x80)==0){		//bit?I?e?O?��?a'1'?I?e???IPad?a??
+			else if((P.StdDisorder & 0x80)==0){		//bit?I?e?O????a'1'?I?e???IPad?a??
 				continue;
 			}
 		}
@@ -13538,7 +14460,7 @@ void	PixelInspectionItem::ExecuteProcessingForDetail4(int y,int SearchDotBase,in
 		wThresholdRange2_B=(wThresholdRange_B<<7)/((P.RL+P.RH)>>1);
 		wThresholdRange2_D=(wThresholdRange_D<<7)/((P.RL+P.RH)>>1);
 
-		//?��?��?��?l?I?????A???I??
+		//??????????l?I?????A???I??
 		if(((P.PL+P.PH)>>1)<=127){
 			wThresholdRange2_PB=wThresholdRange2_B;
 			wThresholdRange2_PD=wThresholdRange2_D;
@@ -13593,285 +14515,293 @@ void	PixelInspectionItem::ExecuteProcessingForDetail4(int y,int SearchDotBase,in
 #ifndef Debug
 		BYTE	*ts[3];
 #endif
-		ts[0]=TargetImageList[0]->GetY(y);
-		ts[1]=TargetImageList[1]->GetY(y);
-		ts[2]=TargetImageList[2]->GetY(y);
+		
+		// ラムダ式による判定ブロック
+		// MatchedForDetail4 への goto の代わりに return true で抜け出す
+		bool isMatched = [&]() -> bool {
+			ts[0]=TargetImageList[0]->GetY(y);
+			ts[1]=TargetImageList[1]->GetY(y);
+			ts[2]=TargetImageList[2]->GetY(y);
 
-		struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x],ts[1][x],ts[2][x])];
-		if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
-			goto	MatchedForDetail4;
-		}
-		//?u?I?A?I?��?f
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			ts[0]=TargetImageList[0]->GetY(y+dy);
-			ts[1]=TargetImageList[1]->GetY(y+dy);
-			ts[2]=TargetImageList[2]->GetY(y+dy);
-			for(dx=-Len;dx<Len;dx++){
-				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	MatchedForDetail4;
-				}
+			struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x],ts[1][x],ts[2][x])];
+			if(wPL<=Q->P && Q->P<=wPH && wSL<=Q->S && Q->S<=wSH && wRL<=Q->R && Q->R<=wRH){
+				return true;
 			}
-			dx=Len;
-			for(;dy<Len;dy++){
+			//?u?I?A?I????f
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
 				ts[0]=TargetImageList[0]->GetY(y+dy);
 				ts[1]=TargetImageList[1]->GetY(y+dy);
 				ts[2]=TargetImageList[2]->GetY(y+dy);
-				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	MatchedForDetail4;
+				for(dx=-Len;dx<Len;dx++){
+					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
+					}
 				}
-			}
-			dy=Len;
-			ts[0]=TargetImageList[0]->GetY(y+dy);
-			ts[1]=TargetImageList[1]->GetY(y+dy);
-			ts[2]=TargetImageList[2]->GetY(y+dy);
-			for(;dx>-Len;dx--){
-				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	MatchedForDetail4;
+				dx=Len;
+				for(;dy<Len;dy++){
+					ts[0]=TargetImageList[0]->GetY(y+dy);
+					ts[1]=TargetImageList[1]->GetY(y+dy);
+					ts[2]=TargetImageList[2]->GetY(y+dy);
+					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
+					}
 				}
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
+				dy=Len;
 				ts[0]=TargetImageList[0]->GetY(y+dy);
 				ts[1]=TargetImageList[1]->GetY(y+dy);
 				ts[2]=TargetImageList[2]->GetY(y+dy);
-				struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
-					goto	MatchedForDetail4;
+				for(;dx>-Len;dx--){
+					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
+					}
+				}
+				dx=-Len;
+				for(;dy>-Len;dy--){
+					ts[0]=TargetImageList[0]->GetY(y+dy);
+					ts[1]=TargetImageList[1]->GetY(y+dy);
+					ts[2]=TargetImageList[2]->GetY(y+dy);
+					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(PL<=Q->P && Q->P<=PH && SL<=Q->S && Q->S<=SH && RL<=Q->R && Q->R<=RH){
+						return true;
+					}
 				}
 			}
-		}
 
-		//?i?�?_?A?u?e?I?_?I???�C?a???d???��?��?A???o????
-		for(int Len=1;Len<=SearchDot;Len++){
-			int	dx;
-			int	dy=-Len;
-			ts[0]=TargetImageList[0]->GetY(y+dy);
-			ts[1]=TargetImageList[1]->GetY(y+dy);
-			ts[2]=TargetImageList[2]->GetY(y+dy);
-			for(dx=-Len;dx<Len;dx++){
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
-					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
-					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
-					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
-					}
-				}
-				goto	MatchedForDetail4;
-			}
-			dx=Len;
-			for(;dy<Len;dy++){
+			//?i???_?A?u?e?I?_?I????C?a???d?????????A???o????
+			for(int Len=1;Len<=SearchDot;Len++){
+				int	dx;
+				int	dy=-Len;
 				ts[0]=TargetImageList[0]->GetY(y+dy);
 				ts[1]=TargetImageList[1]->GetY(y+dy);
 				ts[2]=TargetImageList[2]->GetY(y+dy);
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
+				for(dx=-Len;dx<Len;dx++){
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
 					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
 					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
 					}
+					return true;
 				}
-				goto	MatchedForDetail4;
-			}
-			dy=Len;
-			ts[0]=TargetImageList[0]->GetY(y+dy);
-			ts[1]=TargetImageList[1]->GetY(y+dy);
-			ts[2]=TargetImageList[2]->GetY(y+dy);
-			for(;dx>-Len;dx--){
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
+				dx=Len;
+				for(;dy<Len;dy++){
+					ts[0]=TargetImageList[0]->GetY(y+dy);
+					ts[1]=TargetImageList[1]->GetY(y+dy);
+					ts[2]=TargetImageList[2]->GetY(y+dy);
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
 					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
 					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
 					}
+					return true;
 				}
-				goto	MatchedForDetail4;
-			}
-			dx=-Len;
-			for(;dy>-Len;dy--){
+				dy=Len;
 				ts[0]=TargetImageList[0]->GetY(y+dy);
 				ts[1]=TargetImageList[1]->GetY(y+dy);
 				ts[2]=TargetImageList[2]->GetY(y+dy);
-				struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
-				if(Q->S<=SH){
-					if(Q->S<SL && Q2->S<SL){
-						continue;
+				for(;dx>-Len;dx--){
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->S>SH){
-						continue;
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
 					}
-				}
-				if(Q->P<=PH){
-					if(Q->P<PL && Q2->P<PL){
-						continue;
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->P>PH){
-						continue;
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
 					}
-				}
-				if(Q->R<=RH){
-					if(Q->R<RL && Q2->R<RL){
-						continue;
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
 					}
-				}
-				else{
-					if(Q2->R>RH){
-						continue;
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
 					}
+					return true;
 				}
-				goto	MatchedForDetail4;
+				dx=-Len;
+				for(;dy>-Len;dy--){
+					ts[0]=TargetImageList[0]->GetY(y+dy);
+					ts[1]=TargetImageList[1]->GetY(y+dy);
+					ts[2]=TargetImageList[2]->GetY(y+dy);
+					struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][x+dx],ts[1][x+dx],ts[2][x+dx])];
+					if(Q->S<=SH){
+						if(Q->S<SL && Q2->S<SL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->S>SH){
+							continue;
+						}
+					}
+					if(Q->P<=PH){
+						if(Q->P<PL && Q2->P<PL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->P>PH){
+							continue;
+						}
+					}
+					if(Q->R<=RH){
+						if(Q->R<RL && Q2->R<RL){
+							continue;
+						}
+					}
+					else{
+						if(Q2->R>RH){
+							continue;
+						}
+					}
+					return true;
+				}
 			}
-		}
 
-		//Silk -> Silk ? or PAD -> PAD ?
-		if(DMode==_Resist){
-			if(pAlignPage->GetBitPickupFromMaster(mx,my)==true && pAlignPage->GetBitFirstPickupFromMaster(mx,my)==false){
-				//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
-					goto	MatchedForDetail4;
+			//Silk -> Silk ? or PAD -> PAD ?
+			if(DMode==_Resist){
+				if(pAlignPage->GetBitPickupFromMaster(mx,my)==true && pAlignPage->GetBitFirstPickupFromMaster(mx,my)==false){
+					//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Silk)==true){
+						return true;
+					}
 				}
 			}
-		}
-		else if(DMode==_Silk){
-			if(pAlignPage->GetBitPickupFromMaster(mx,my)==false && pAlignPage->GetBitFirstPickupFromMaster(mx,my)==false){
-				//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
-				if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
-					goto	MatchedForDetail4;
+			else if(DMode==_Silk){
+				if(pAlignPage->GetBitPickupFromMaster(mx,my)==false && pAlignPage->GetBitFirstPickupFromMaster(mx,my)==false){
+					//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
+					if(CalcReInspectionForResistSilk(mx,my,x,y,wThresholdRange_B,wThresholdRange_D,wThresholdRange2_B,wThresholdRange2_D,_Resist)==true){
+						return true;
+					}
 				}
 			}
-		}
 
-		//T?�NM?AM?�NT?I?A???C?????g?U?R?E?a?a?A???c?AM?�NT?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-		if(tmX!=-mtX || tmY!=-mtY){
-			if(ExecuteProcessingFromMaster2(x,y,1,SearchDotBase,0,0,0,0,0,0,0,0,BrightnessRange)==true){
-				goto	MatchedForDetail4;
+			//T??NM?AM??NT?I?A???C?????g?U?R?E?a?a?A???c?AM??NT?I?E?u???i?1?A?I????C?a????A?Y?e
+			if(tmX!=-mtX || tmY!=-mtY){
+				if(ExecuteProcessingFromMaster2(x,y,1,SearchDotBase,0,0,0,0,0,0,0,0,BrightnessRange)==true){
+					return true;
+				}
 			}
-		}
 
-		//???�Ce??l?A?I?�E?d?Z?o
-		BYTE DiffPSR=0;
-		if(PL-Q->P > 0){
-			DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
-		}
-		else if(Q->P-PH > 0){
-			DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
-		}
-		if(SL-Q->S > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			//????Ce??l?A?I??E?d?Z?o
+			BYTE DiffPSR=0;
+			if(PL-Q->P > 0){
+				DiffPSR=sin((PL-Q->P+((PH-PL)>>1))*RadianCoef)*Q->R;
 			}
-		}
-		else if(Q->S-SH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			else if(Q->P-PH > 0){
+				DiffPSR=sin((Q->P-PH+((PH-PL)>>1))*RadianCoef)*Q->R;
 			}
-		}
-		if(RL-Q->R > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			if(SL-Q->S > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((SL-Q->S+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
 			}
-		}
-		else if(Q->R-RH > 0){
-			BYTE wDiffPSR;
-			if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
-				DiffPSR=wDiffPSR;
+			else if(Q->S-SH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=sin((Q->S-SH+((SH-SL)>>1))*RadianCoef)*Q->R) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
 			}
+			if(RL-Q->R > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=RL-Q->R+((RH-RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			else if(Q->R-RH > 0){
+				BYTE wDiffPSR;
+				if((wDiffPSR=Q->R-RH+((RH-RL)>>1)) > DiffPSR){
+					DiffPSR=wDiffPSR;
+				}
+			}
+			//????-?ENG?I??}??}?A?O?e????E?c??P?e
+			if(DiffPSR<BrightnessRange){
+				return true;
+			}
+			
+			return false; // 全ての条件をすり抜けた場合のみ false を返す
+		}(); // ラムダ式の即時実行
+		
+		// マッチしなかった場合のみ、NGフラグをセット
+		if (!isMatched) {
+			TempNGBitmap[y][x>>3] |= (0x80>>(x&7));
 		}
-		//?��?-?ENG?I?�}?�}?A?O?e?��?E?c?�P?e
-		if(DiffPSR<BrightnessRange){
-			goto	MatchedForDetail4;
-		}
-
-		TempNGBitmap[y][x>>3] |= (0x80>>(x&7));
-
-MatchedForDetail4:;
 	}
 }
 
-//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I?�E?A?I???�C//
+//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I??E?A?I????C//
 void	PixelInspectionItem::ManualExecuteProcessing1()
 {
 	//Enable
@@ -13879,7 +14809,7 @@ void	PixelInspectionItem::ManualExecuteProcessing1()
 		return;
 	}
 
-	//?u?I?I?��?��?��?l?A?I???�C//
+	//?u?I?I??????????l?A?I????C//
 #ifdef Debug
 	int		x,y;
 	int		x1,x2;
@@ -13946,76 +14876,87 @@ void	PixelInspectionItem::ManualExecuteProcessing1()
 						if(tx<0 || XLen<=tx || ty<0 || YLen<=ty){
 							continue;
 						}
-						if(ManualExecuteProcessingDetail1(x,y,tx,ty,Ret)==true){
-							goto	ManualMatched1;
-						}
 
-						//Silk -> Silk ? or PAD -> PAD ?
-						if(pAlignPage->GetBitFirstPickupFromMaster(x,y)!=pAlignPage->GetBitPickupFromTarget(tx,ty) || pAlignPage->GetBitFirstPickupFromMaster(x,y)!=pAlignPage->GetBitFirstPickupFromTarget(tx,ty)){
-							//Is Target Point Resist ?
-							//DetailType ThrType=GetThresholdR()->ThrType;
-							//if(ThrType==_Resist){
-							if(pAlignPage->GetBitPickupFromTarget(tx,ty)==false && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
-								//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
+						// ラムダ式による判定ブロック
+						// goto ManualMatched1 の代わりに return true で抜け出す
+						bool isMatched = [&]() -> bool {
+							if(ManualExecuteProcessingDetail1(x,y,tx,ty,Ret)==true){
+								return true;
+							}
+
+							//Silk -> Silk ? or PAD -> PAD ?
+							if(pAlignPage->GetBitFirstPickupFromMaster(x,y)!=pAlignPage->GetBitPickupFromTarget(tx,ty) || pAlignPage->GetBitFirstPickupFromMaster(x,y)!=pAlignPage->GetBitFirstPickupFromTarget(tx,ty)){
+								//Is Target Point Resist ?
+								//DetailType ThrType=GetThresholdR()->ThrType;
+								//if(ThrType==_Resist){
+								if(pAlignPage->GetBitPickupFromTarget(tx,ty)==false && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
+									//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
 #ifdef Debug
-//								wThresholdRange2	=(GetThresholdR()->AbsoluteNGThreshold<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
-								wThresholdRange2	=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
+//									wThresholdRange2	=(GetThresholdR()->AbsoluteNGThreshold<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
+									wThresholdRange2	=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
 #else
-//								int wThresholdRange2=(GetThresholdR()->AbsoluteNGThreshold<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
-								int wThresholdRange2=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
+//									int wThresholdRange2=(GetThresholdR()->AbsoluteNGThreshold<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
+									int wThresholdRange2=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
 #endif
-//								wThresholdRange2+=abs(GetThresholdR()->AbsoluteNGThreshold-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
-								wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
-//								if(CalcReInspectionForResistSilk(x,y,tx,ty,GetThresholdR()->AbsoluteNGThreshold,wThresholdRange2,_Resist)==true){
-								if(CalcReInspectionForResistSilk(x,y,tx,ty,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Resist)==true){
-									goto	ManualMatched1;
+//									wThresholdRange2+=abs(GetThresholdR()->AbsoluteNGThreshold-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
+									wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
+//									if(CalcReInspectionForResistSilk(x,y,tx,ty,GetThresholdR()->AbsoluteNGThreshold,wThresholdRange2,_Resist)==true){
+									if(CalcReInspectionForResistSilk(x,y,tx,ty,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Resist)==true){
+										return true;
+									}
 								}
-							}
-							//Is Target Point Silk ?
-							//else if(ThrType==_Silk){
-							else if(pAlignPage->GetBitPickupFromTarget(tx,ty)==true && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
-								//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
+								//Is Target Point Silk ?
+								//else if(ThrType==_Silk){
+								else if(pAlignPage->GetBitPickupFromTarget(tx,ty)==true && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
+									//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
 #ifdef Debug
-								wThresholdRange2	=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
+									wThresholdRange2	=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
 #else
-								int wThresholdRange2=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
+									int wThresholdRange2=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
 #endif
-								wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
-								if(CalcReInspectionForResistSilk(x,y,tx,ty,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Silk)==true){
-									goto	ManualMatched1;
+									wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
+									if(CalcReInspectionForResistSilk(x,y,tx,ty,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Silk)==true){
+										return true;
+									}
 								}
 							}
-						}
 
-						//M?�NT?AT?�NM?I?A???C?????g?U?R?E?a?a?A???c?AT?�NM?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-						if(tmX!=-mtX || tmY!=-mtY){
-							if(pAlignPage==NULL){
-								tx	=x;
-								ty	=y;
-							}
-							else{
-								tx	=x-pAlignPage->GetShiftXFromTarget(x,y);
-								ty	=y-pAlignPage->GetShiftYFromTarget(x,y);
-							}
-							if(tx>=0 || XLen>tx || ty>=0 || YLen>ty){
-								if(ManualExecuteProcessingDetail1(x,y,tx,ty,Ret)==true){
-									goto	ManualMatched1;
+							//M??NT?AT??NM?I?A???C?????g?U?R?E?a?a?A???c?AT??NM?I?E?u???i?1?A?I????C?a????A?Y?e
+							if(tmX!=-mtX || tmY!=-mtY){
+								if(pAlignPage==NULL){
+									tx	=x;
+									ty	=y;
+								}
+								else{
+									tx	=x-pAlignPage->GetShiftXFromTarget(x,y);
+									ty	=y-pAlignPage->GetShiftYFromTarget(x,y);
+								}
+								if(tx>=0 || XLen>tx || ty>=0 || YLen>ty){
+									if(ManualExecuteProcessingDetail1(x,y,tx,ty,Ret)==true){
+										return true;
+									}
 								}
 							}
+							//????Ce??l?A?I??E?d?Z?o
+							PixelInsData &P=PixData[y][x];
+
+							////?s?N?Z???a?R
+							//if(IsCalcPixelInterPoration==true){
+							//	if(CalcPixelInterPoration(tx,ty,P.PL,P.PH,P.SL,P.SH,P.RL,P.RH)==true){
+							//		Ret=0x01;
+							//		return true;
+							//	}
+							//}
+
+							return false; // すべての条件をすり抜けた場合のみ false を返す
+						}();
+
+						// ラムダ式の結果が false（マッチしなかった）だった場合のみ NG フラグを立てる
+						if (!isMatched) {
+							TempNGBitmap[ty][tx>>3] |= (0x80>>(tx&7));
 						}
-						//???�Ce??l?A?I?�E?d?Z?o
-						PixelInsData &P=PixData[y][x];
 
-						////?s?N?Z???a?R
-						//if(IsCalcPixelInterPoration==true){
-						//	if(CalcPixelInterPoration(tx,ty,P.PL,P.PH,P.SL,P.SH,P.RL,P.RH)==true){
-						//		Ret=0x01;
-						//		goto	ManualMatched1;
-						//	}
-						//}
-
-						TempNGBitmap[ty][tx>>3] |= (0x80>>(tx&7));
-ManualMatched1:;
+						// 以降は元の ManualMatched1 ラベル直下の処理と同等
 						if((Ret&0x01)!=0){
 							continue;
 						}
@@ -14035,10 +14976,10 @@ ManualMatched1:;
 
 bool	PixelInspectionItem::ManualExecuteProcessingDetail1(int x,int y,int tx,int ty,BYTE &Ret)
 {
-	//DynamicClassify?d?c?A?��?f
+	//DynamicClassify?d?c?A????f
 	if(GetThresholdR()->ThrType<_DCBaseArea){
 		//Master?ADynamicClassify?I?a?A?I?E?-?ATarget?ADynamicClassify?I?a?E?E?A???e??
-//		if(DCAlgorithmInPagePIPointer->GetItem(tx,ty)!=NULL){	//?�}?e?a?x?��?H
+//		if(DCAlgorithmInPagePIPointer->GetItem(tx,ty)!=NULL){	//??}?e?a?x????H
 		int UniqueIDListCnt=((PixelInspectionInPage *)GetParentInPage())->GetUniqueIDList().count();
 		for(int i=0;i<UniqueIDListCnt;i++){
 			if((((PixelInspectionInPage *)GetParentInPage())->TargetDCBitmap[i][ty][tx>>3] & (0x80>>(tx&7)))!=0){
@@ -14067,8 +15008,8 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail1(int x,int y,int tx,int 
 
 	BYTE	*ts[3];
 
-	PixelInsData	&P=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
-	if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2?�P?e
+	PixelInsData	&P=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
+	if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2??P?e
 		Ret=0x01;
 		return true;
 	}
@@ -14083,14 +15024,14 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail1(int x,int y,int tx,int 
 	}
 #endif
 
-	//?u?E???�C?I?Y
+	//?u?E????C?I?Y
 	if((InsCheckedBitmap[ty][tx>>3] & (0x80>>(tx&7)))!=0){
-		//OK?A?E?A?A?��?e?e???I?2?�P?e
+		//OK?A?E?A?A????e?e???I?2??P?e
 		if((TempNGBitmap[ty][tx>>3] & (0x80>>(tx&7)))==0){
 			Ret=0x01;
 			return true;
 		}
-		//NG?A?E?A?A?��?e?e???ING?r?b?g?d???A?��?A?A???�C
+		//NG?A?E?A?A????e?e???ING?r?b?g?d???A????A?A????C
 		else{
 			TempNGBitmap[ty][tx>>3] &= ~(0x80>>(tx&7));
 		}
@@ -14105,7 +15046,7 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail1(int x,int y,int tx,int 
 		return true;
 	}
 
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 #ifdef Debug
 	for(Len=1;Len<=SearchDot;Len++){
 		dy=-Len;
@@ -14171,7 +15112,7 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail1(int x,int y,int tx,int 
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
+	//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
 #ifdef Debug
 	P1				=PixData[y][x];
 #else
@@ -14244,7 +15185,7 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail1(int x,int y,int tx,int 
 	return false;
 }
 
-//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I?�E?A?I???�C//
+//?}?X?^?[?a???c?c?^?[?Q?b?g?a???O?I?I??E?A?I????C//
 void	PixelInspectionItem::ManualExecuteProcessing2()
 {
 	//Enable
@@ -14252,7 +15193,7 @@ void	PixelInspectionItem::ManualExecuteProcessing2()
 		return;
 	}
 
-	//?u?I?I???�C?a???A?I???�C//
+	//?u?I?I????C?a???A?I????C//
 #ifdef Debug
 	int		x,y;
 	int		x1,x2;
@@ -14319,69 +15260,79 @@ void	PixelInspectionItem::ManualExecuteProcessing2()
 						if(tx<0 || XLen<=tx || ty<0 || YLen<=ty){
 							continue;
 						}
-						if(ManualExecuteProcessingDetail2(x,y,tx,ty,Ret)==true){
-							goto	ManualMatched2;
-						}
 
-						//Silk -> Silk ? or PAD -> PAD ?
-						if(pAlignPage->GetBitFirstPickupFromMaster(x,y)!=pAlignPage->GetBitPickupFromTarget(tx,ty) || pAlignPage->GetBitFirstPickupFromMaster(x,y)!=pAlignPage->GetBitFirstPickupFromTarget(tx,ty)){
-							//Is Target Point Resist ?
-							if(pAlignPage->GetBitPickupFromTarget(tx,ty)==false && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
-								//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
+						// ラムダ式による判定ブロック
+						// goto ManualMatched2 の代わりに return true で抜け出す
+						bool isMatched = [&]() -> bool {
+							if(ManualExecuteProcessingDetail2(x,y,tx,ty,Ret)==true){
+								return true;
+							}
+
+							//Silk -> Silk ? or PAD -> PAD ?
+							if(pAlignPage->GetBitFirstPickupFromMaster(x,y)!=pAlignPage->GetBitPickupFromTarget(tx,ty) || pAlignPage->GetBitFirstPickupFromMaster(x,y)!=pAlignPage->GetBitFirstPickupFromTarget(tx,ty)){
+								//Is Target Point Resist ?
+								if(pAlignPage->GetBitPickupFromTarget(tx,ty)==false && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
+									//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
 #ifdef Debug
-								wThresholdRange2	=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
+									wThresholdRange2	=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
 #else
-								int wThresholdRange2=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
+									int wThresholdRange2=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
 #endif
-								wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
-								if(CalcReInspectionForResistSilk(x,y,tx,ty,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Resist)==true){
-									goto	ManualMatched2;
+									wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
+									if(CalcReInspectionForResistSilk(x,y,tx,ty,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Resist)==true){
+										return true;
+									}
 								}
-							}
-							else if(pAlignPage->GetBitPickupFromTarget(tx,ty)==true && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
-								//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
+								else if(pAlignPage->GetBitPickupFromTarget(tx,ty)==true && pAlignPage->GetBitFirstPickupFromTarget(tx,ty)==false){
+									//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
 #ifdef Debug
-								wThresholdRange2	=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
+									wThresholdRange2	=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
 #else
-								int wThresholdRange2=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
+									int wThresholdRange2=(ThrRange<<7)/((PixData[y][x].RL+PixData[y][x].RH)>>1);
 #endif
-								wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
-								if(CalcReInspectionForResistSilk(x,y,tx,ty,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Silk)==true){
-									goto	ManualMatched2;
+									wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
+									if(CalcReInspectionForResistSilk(x,y,tx,ty,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Silk)==true){
+										return true;
+									}
 								}
 							}
-						}
 
-						//M?�NT?AT?�NM?I?A???C?????g?U?R?E?a?a?A???c?AT?�NM?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-						if(tmX!=-mtX || tmY!=-mtY){
-							if(pAlignPage==NULL){
-								tx	=x;
-								ty	=y;
-							}
-							else{
-								tx	=x-pAlignPage->GetShiftXFromTarget(x,y);
-								ty	=y-pAlignPage->GetShiftYFromTarget(x,y);
-							}
-							if(tx>=0 || XLen>tx || ty>=0 || YLen>ty){
-								if(ManualExecuteProcessingDetail2(x,y,tx,ty,Ret)==true){
-									goto	ManualMatched2;
+							//M??NT?AT??NM?I?A???C?????g?U?R?E?a?a?A???c?AT??NM?I?E?u???i?1?A?I????C?a????A?Y?e
+							if(tmX!=-mtX || tmY!=-mtY){
+								if(pAlignPage==NULL){
+									tx	=x;
+									ty	=y;
+								}
+								else{
+									tx	=x-pAlignPage->GetShiftXFromTarget(x,y);
+									ty	=y-pAlignPage->GetShiftYFromTarget(x,y);
+								}
+								if(tx>=0 || XLen>tx || ty>=0 || YLen>ty){
+									if(ManualExecuteProcessingDetail2(x,y,tx,ty,Ret)==true){
+										return true;
+									}
 								}
 							}
+
+							//????Ce??l?A?I??E?d?Z?o
+							PixelInsData &P=PixData[y][x];
+
+							////?s?N?Z???a?R
+							//if(IsCalcPixelInterPoration==true){
+							//	if(CalcPixelInterPoration(tx,ty,P.PL,P.PH,P.SL,P.SH,P.RL,P.RH)==true){
+							//		return true;
+							//	}
+							//}
+
+							return false; // すべての条件をすり抜けた場合のみ false を返す
+						}();
+
+						// ラムダ式の結果が false（マッチしなかった）だった場合のみ NG フラグを立てる
+						if (!isMatched) {
+							TempNGBitmap[ty][tx>>3] |= (0x80>>(tx&7));
 						}
 
-						//???�Ce??l?A?I?�E?d?Z?o
-						PixelInsData &P=PixData[y][x];
-
-						////?s?N?Z???a?R
-						//if(IsCalcPixelInterPoration==true){
-						//	if(CalcPixelInterPoration(tx,ty,P.PL,P.PH,P.SL,P.SH,P.RL,P.RH)==true){
-						//		goto	ManualMatched2;
-						//	}
-						//}
-
-						TempNGBitmap[ty][tx>>3] |= (0x80>>(tx&7));
-
-ManualMatched2:;
+						// 以降は元の ManualMatched2 ラベル直下の処理と同等
 						if((Ret&0x01)!=0){
 							continue;
 						}
@@ -14399,10 +15350,10 @@ ManualMatched2:;
 
 bool	PixelInspectionItem::ManualExecuteProcessingDetail2(int x,int y,int tx,int ty,BYTE &Ret)
 {
-	//DynamicClassify?d?c?A?��?f
+	//DynamicClassify?d?c?A????f
 	if(GetThresholdR()->ThrType<_DCBaseArea){
 		//Master?ADynamicClassify?I?a?A?I?E?-?ATarget?ADynamicClassify?I?a?E?E?A???e??
-//		if(DCAlgorithmInPagePIPointer->GetItem(tx,ty)!=NULL){	//?�}?e?a?x?��?H
+//		if(DCAlgorithmInPagePIPointer->GetItem(tx,ty)!=NULL){	//??}?e?a?x????H
 		int UniqueIDListCnt=((PixelInspectionInPage *)GetParentInPage())->GetUniqueIDList().count();
 		for(int i=0;i<UniqueIDListCnt;i++){
 			if((((PixelInspectionInPage *)GetParentInPage())->TargetDCBitmap[i][ty][tx>>3] & (0x80>>(tx&7)))!=0){
@@ -14431,8 +15382,8 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail2(int x,int y,int tx,int 
 
 	BYTE	*ts[3];
 
-	PixelInsData	&P=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n?�E
-	if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2?�P?e
+	PixelInsData	&P=PixData[y][x];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?O?I?A?W?d?n??E
+	if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2??P?e
 		Ret=0x01;
 		return true;
 	}
@@ -14443,20 +15394,20 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail2(int x,int y,int tx,int 
 	}
 #endif
 
-	//?u?E???�C?I?Y
+	//?u?E????C?I?Y
 	if((InsCheckedBitmap[ty][tx>>3] & (0x80>>(tx&7)))!=0){
-		//OK?A?E?A?A?��?e?e???I?2?�P?e
+		//OK?A?E?A?A????e?e???I?2??P?e
 		if((TempNGBitmap[ty][tx>>3] & (0x80>>(tx&7)))==0){
 			Ret=0x01;
 			return true;
 		}
-		//NG?A?E?A?A?��?e?e???ING?r?b?g?d???A?��?A?A???�C
+		//NG?A?E?A?A????e?e???ING?r?b?g?d???A????A?A????C
 		else{
 			TempNGBitmap[ty][tx>>3] &= ~(0x80>>(tx&7));
 		}
 	}
 	else{
-		//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???I?2?�P?e
+		//ExecuteProcessing1?A?u?ENG?A?E?A?A????e?e???I?2??P?e
 		if((TempNGBitmap[ty][tx>>3] & (0x80>>(tx&7)))!=0){
 			Ret=0x01;
 			return true;
@@ -14472,7 +15423,7 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail2(int x,int y,int tx,int 
 		return true;
 	}
 
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 #ifdef Debug
 	for(Len=1;Len<=SearchDot;Len++){
 		dy=-Len;
@@ -14522,7 +15473,7 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail2(int x,int y,int tx,int 
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
+	//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
 #ifdef Debug
 	for(Len=1;Len<=SearchDot;Len++){
 		dy=-Len;
@@ -14686,14 +15637,14 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail2(int x,int y,int tx,int 
 	return false;
 }
 
-//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I?�E?A?I???�C//
+//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I??E?A?I????C//
 void	PixelInspectionItem::ManualExecuteProcessing3()
 {
 	if(GetThresholdR()->ThrType<_DCBaseArea){
 		return;
 	}
 
-	//?u?I?I?��?��?��?l?A?I???�C//
+	//?u?I?I??????????l?A?I????C//
 #ifdef Debug
 	int		i;
 	int		LineLen,iLen;
@@ -14781,74 +15732,82 @@ void	PixelInspectionItem::ManualExecuteProcessing3()
 						}
 					}
 
-					//ManualExecuteProcessing2?A?u?E???�C?��?A?��?e?e???I?2?�P?e
+					//ManualExecuteProcessing2?A?u?E????C????A????e?e???I?2??P?e
 					if((InsCheckedBitmap[y][x>>3] & (0x80>>(x&7)))!=0){
 						continue;
 					}
 
-					//?^?[?Q?b?g?A?W?c?c?}?X?^?[?a???d?c?A?A?I?a?O???A???c?2?�P?e
+					//?^?[?Q?b?g?A?W?c?c?}?X?^?[?a???d?c?A?A?I?a?O???A???c?2??P?e
 					if(AreaArrayList[i].IsInclude(mx,my)==false){
 						continue;
 					}
 
-					if(ManualExecuteProcessingDetail3(mx,my,x,y,Ret)==true){
-						goto	ManualMatched3;
-					}
-
-					//Silk -> Silk ? or PAD -> PAD ?
-					if(pAlignPage->GetBitFirstPickupFromMaster(mx,my)!=pAlignPage->GetBitPickupFromTarget(x,y) || pAlignPage->GetBitFirstPickupFromMaster(mx,my)!=pAlignPage->GetBitFirstPickupFromTarget(x,y)){
-						//Is Target Point Resist ?
-						if(pAlignPage->GetBitPickupFromTarget(x,y)==false && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
-							//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
-#ifdef Debug
-							wThresholdRange2	=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
-#else
-							int wThresholdRange2=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
-#endif
-							wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
-							if(CalcReInspectionForResistSilk(mx,my,x,y,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Resist)==true){
-								goto	ManualMatched3;
-							}
-						}
-						//Is Target Point Silk ?
-						else if(pAlignPage->GetBitPickupFromTarget(x,y)==true && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
-							//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
-#ifdef Debug
-							wThresholdRange2	=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
-#else
-							int wThresholdRange2=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
-#endif
-							wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
-							if(CalcReInspectionForResistSilk(mx,my,x,y,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Silk)==true){
-								goto	ManualMatched3;
-							}
-						}
-					}
-
-					//T?�NM?AM?�NT?I?A???C?????g?U?R?E?a?a?A???c?AM?�NT?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-					if(tmX!=-mtX || tmY!=-mtY){
-						if(pAlignPage==NULL){
-							mx	=x;
-							my	=y;
-						}
-						else{
-							mx	=x-pAlignPage->GetShiftXFromMaster(x,y);
-							my	=y-pAlignPage->GetShiftYFromMaster(x,y);
-						}
+					// ラムダ式による判定ブロック
+					// goto ManualMatched3 の代わりに return true で抜け出す
+					bool isMatched = [&]() -> bool {
 						if(ManualExecuteProcessingDetail3(mx,my,x,y,Ret)==true){
-							goto	ManualMatched3;
+							return true;
 						}
+
+						//Silk -> Silk ? or PAD -> PAD ?
+						if(pAlignPage->GetBitFirstPickupFromMaster(mx,my)!=pAlignPage->GetBitPickupFromTarget(x,y) || pAlignPage->GetBitFirstPickupFromMaster(mx,my)!=pAlignPage->GetBitFirstPickupFromTarget(x,y)){
+							//Is Target Point Resist ?
+							if(pAlignPage->GetBitPickupFromTarget(x,y)==false && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
+								//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
+#ifdef Debug
+								wThresholdRange2	=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
+#else
+								int wThresholdRange2=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
+#endif
+								wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
+								if(CalcReInspectionForResistSilk(mx,my,x,y,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Resist)==true){
+									return true;
+								}
+							}
+							//Is Target Point Silk ?
+							else if(pAlignPage->GetBitPickupFromTarget(x,y)==true && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
+								//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
+#ifdef Debug
+								wThresholdRange2	=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
+#else
+								int wThresholdRange2=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
+#endif
+								wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
+								if(CalcReInspectionForResistSilk(mx,my,x,y,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Silk)==true){
+									return true;
+								}
+							}
+						}
+
+						//T??NM?AM??NT?I?A???C?????g?U?R?E?a?a?A???c?AM??NT?I?E?u???i?1?A?I????C?a????A?Y?e
+						if(tmX!=-mtX || tmY!=-mtY){
+							if(pAlignPage==NULL){
+								mx	=x;
+								my	=y;
+							}
+							else{
+								mx	=x-pAlignPage->GetShiftXFromMaster(x,y);
+								my	=y-pAlignPage->GetShiftYFromMaster(x,y);
+							}
+							if(ManualExecuteProcessingDetail3(mx,my,x,y,Ret)==true){
+								return true;
+							}
+						}
+
+						////?s?N?Z???a?R
+						//if(IsCalcPixelInterPoration==true){
+						//	if(CalcPixelInterPoration(x,y,PL,PH,SL,SH,RL,RH)==true){
+						//		return true;
+						//	}
+						//}
+						
+						return false; // すべての条件をすり抜けた場合のみ false を返す
+					}();
+
+					// ラムダ式の結果が false（マッチしなかった）だった場合のみ NG フラグを立てる
+					if (!isMatched) {
+						TempNGBitmap[y][x>>3] |= (0x80>>(x&7));
 					}
-
-					////?s?N?Z???a?R
-					//if(IsCalcPixelInterPoration==true){
-					//	if(CalcPixelInterPoration(x,y,PL,PH,SL,SH,RL,RH)==true){
-					//		goto	Matched3;
-					//	}
-					//}
-
-					TempNGBitmap[y][x>>3] |= (0x80>>(x&7));
-ManualMatched3:;
 				}
 			}
 		}
@@ -14876,8 +15835,8 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail3(int mx,int my,int x,int
 		return true;
 	}
 
-	PixelInsData	&P=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-	if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2?�P?e
+	PixelInsData	&P=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
+	if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2??P?e
 		Ret=0x01;
 		return true;
 	}
@@ -14890,7 +15849,7 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail3(int mx,int my,int x,int
 		return true;
 	}
 
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 #ifdef Debug
 	for(Len=1;Len<=SearchDot;Len++){
 		dy=-Len;
@@ -14956,7 +15915,7 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail3(int mx,int my,int x,int
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
+	//?i???_?A?u?e?I?_?I??????????l?d?????????A???o????
 #ifdef Debug
 	P1				=PixData[my][mx];
 #else
@@ -15029,14 +15988,14 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail3(int mx,int my,int x,int
 	return false;
 }
 
-//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I?�E?A?I???�C//
+//?^?[?Q?b?g?a???c?c?}?X?^?[?a???O?I?I??E?A?I????C//
 void	PixelInspectionItem::ManualExecuteProcessing4()
 {
 	if(GetThresholdR()->ThrType<_DCBaseArea){
 		return;
 	}
 
-	//?u?I?I???�C?a???A?I???�C//
+	//?u?I?I????C?a???A?I????C//
 #ifdef Debug
 	int		i;
 	int		LineLen,iLen;
@@ -15125,77 +16084,85 @@ void	PixelInspectionItem::ManualExecuteProcessing4()
 						}
 					}
 
-					//ExecuteProcessing1?A?u?E???�C?��?A?��?e?e???I?2?�P?e
+					//ExecuteProcessing1?A?u?E????C????A????e?e???I?2??P?e
 					if((InsCheckedBitmap[y][x>>3] & (0x80>>(x&7)))!=0){
 						continue;
 					}
-					//ExecuteProcessing3?A?u?ENG?A?E?A?A?��?e?e???I?2?�P?e
+					//ExecuteProcessing3?A?u?ENG?A?E?A?A????e?e???I?2??P?e
 					if((TempNGBitmap[y][x>>3] & (0x80>>(x&7)))!=0){
 						continue;
 					}
 
-					//?^?[?Q?b?g?A?W?c?c?}?X?^?[?a???d?c?A?A?I?a?O???A???c?2?�P?e
+					//?^?[?Q?b?g?A?W?c?c?}?X?^?[?a???d?c?A?A?I?a?O???A???c?2??P?e
 					if(AreaArrayList[i].IsInclude(mx,my)==false){
 						continue;
 					}
 
-					if(ManualExecuteProcessingDetail4(mx,my,x,y,Ret)==true){
-						goto	ManualMatched4;
-					}
-
-					//Silk -> Silk ? or PAD -> PAD ?
-					if(pAlignPage->GetBitFirstPickupFromMaster(mx,my)!=pAlignPage->GetBitPickupFromTarget(x,y) || pAlignPage->GetBitFirstPickupFromMaster(mx,my)!=pAlignPage->GetBitFirstPickupFromTarget(x,y)){
-						//Is Target Point Resist ?
-						if(pAlignPage->GetBitPickupFromTarget(x,y)==false && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
-							//?o?^???E?i?��?��?????W?X?g?Ie??l?d?g?A?A?A???�C
-#ifdef Debug
-							wThresholdRange2	=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
-#else
-							int wThresholdRange2=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
-#endif
-							wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
-							if(CalcReInspectionForResistSilk(mx,my,x,y,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Resist)==true){
-								goto	ManualMatched4;
-							}
-						}
-						//Is Target Point Silk ?
-						else if(pAlignPage->GetBitPickupFromTarget(x,y)==true && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
-							//?o?^???E?i?��?��???V???N?Ie??l?d?g?A?A?A???�C
-#ifdef Debug
-							wThresholdRange2	=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
-#else
-							int wThresholdRange2=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
-#endif
-							wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
-							if(CalcReInspectionForResistSilk(mx,my,x,y,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Silk)==true){
-								goto	ManualMatched4;
-							}
-						}
-					}
-					//T?�NM?AM?�NT?I?A???C?????g?U?R?E?a?a?A???c?AM?�NT?I?E?u???i?1?A?I???�C?a?��?A?Y?e
-					if(tmX!=-mtX || tmY!=-mtY){
-						if(pAlignPage==NULL){
-							mx	=x;
-							my	=y;
-						}
-						else{
-							mx	=x-pAlignPage->GetShiftXFromMaster(x,y);
-							my	=y-pAlignPage->GetShiftYFromMaster(x,y);
-						}
+					// ラムダ式による判定ブロック
+					// goto ManualMatched4 の代わりに return true で抜け出す
+					bool isMatched = [&]() -> bool {
 						if(ManualExecuteProcessingDetail4(mx,my,x,y,Ret)==true){
-							goto	ManualMatched4;
+							return true;
 						}
+
+						//Silk -> Silk ? or PAD -> PAD ?
+						if(pAlignPage->GetBitFirstPickupFromMaster(mx,my)!=pAlignPage->GetBitPickupFromTarget(x,y) || pAlignPage->GetBitFirstPickupFromMaster(mx,my)!=pAlignPage->GetBitFirstPickupFromTarget(x,y)){
+							//Is Target Point Resist ?
+							if(pAlignPage->GetBitPickupFromTarget(x,y)==false && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
+								//?o?^???E?i???????????W?X?g?Ie??l?d?g?A?A?A????C
+#ifdef Debug
+								wThresholdRange2	=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
+#else
+								int wThresholdRange2=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
+#endif
+								wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
+								if(CalcReInspectionForResistSilk(mx,my,x,y,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Resist)==true){
+									return true;
+								}
+							}
+							//Is Target Point Silk ?
+							else if(pAlignPage->GetBitPickupFromTarget(x,y)==true && pAlignPage->GetBitFirstPickupFromTarget(x,y)==false){
+								//?o?^???E?i?????????V???N?Ie??l?d?g?A?A?A????C
+#ifdef Debug
+								wThresholdRange2	=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
+#else
+								int wThresholdRange2=(ThrRange<<7)/((PixData[my][mx].RL+PixData[my][mx].RH)>>1);
+#endif
+								wThresholdRange2+=abs(ThrRange-wThresholdRange2)*GetThresholdR()->RelativeNGThreshold;
+								if(CalcReInspectionForResistSilk(mx,my,x,y,ThrRange,ThrRange,wThresholdRange2,wThresholdRange2,_Silk)==true){
+									return true;
+								}
+							}
+						}
+						//T??NM?AM??NT?I?A???C?????g?U?R?E?a?a?A???c?AM??NT?I?E?u???i?1?A?I????C?a????A?Y?e
+						if(tmX!=-mtX || tmY!=-mtY){
+							if(pAlignPage==NULL){
+								mx	=x;
+								my	=y;
+							}
+							else{
+								mx	=x-pAlignPage->GetShiftXFromMaster(x,y);
+								my	=y-pAlignPage->GetShiftYFromMaster(x,y);
+							}
+							if(ManualExecuteProcessingDetail4(mx,my,x,y,Ret)==true){
+								return true;
+							}
+						}
+
+						////?s?N?Z???a?R
+						//if(IsCalcPixelInterPoration==true){
+						//	if(CalcPixelInterPoration(x,y,PL,PH,SL,SH,RL,RH)==true){
+						//		return true;
+						//	}
+						//}
+
+						return false; // すべての条件をすり抜けた場合のみ false を返す
+					}();
+
+					// ラムダ式の結果が false（マッチしなかった）だった場合のみ NG フラグを立てる
+					if (!isMatched) {
+						TempNGBitmap[y][x>>3] |= (0x80>>(x&7));
 					}
-
-					////?s?N?Z???a?R
-					//if(IsCalcPixelInterPoration==true){
-					//	if(CalcPixelInterPoration(x,y,PL,PH,SL,SH,RL,RH)==true){
-					//		goto	Matched4;
-					//	}
-					//}
-
-					TempNGBitmap[y][x>>3] |= (0x80>>(x&7));
-ManualMatched4:;
 				}
 			}
 		}
@@ -15216,7 +16183,7 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail4(int mx,int my,int x,int
 	int		dx,dy;
 #endif
 
-	PixelInsData &P	=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
+	PixelInsData &P	=PixData[my][mx];		//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n??E
 	if(P.StdDisorder==255){
 		Ret=0x01;
 		return true;
@@ -15240,7 +16207,7 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail4(int mx,int my,int x,int
 		return true;
 	}
 
-	//?u?I?A?I?��?f
+	//?u?I?A?I????f
 #ifdef Debug
 	for(Len=1;Len<=SearchDot;Len++){
 		dy=-Len;
@@ -15290,7 +16257,7 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail4(int mx,int my,int x,int
 		}
 	}
 
-	//?i?�?_?A?u?e?I?_?I???�C?a???d???��?��?A???o????
+	//?i???_?A?u?e?I?_?I????C?a???d?????????A???o????
 #ifdef Debug
 	for(Len=1;Len<=SearchDot;Len++){
 		dy=-Len;
@@ -15454,1049 +16421,6 @@ bool	PixelInspectionItem::ManualExecuteProcessingDetail4(int mx,int my,int x,int
 	return false;
 }
 
-void	PixelInspectionItem::ManualExecuteProcessing(PureFlexAreaList *NGBitArea)
-{
-	//NG?a?a?��?��?a?I?I?A???�C?��?E?��
-	//?�~?��?a?I?I???n?A???e?e???a???��?I?A?A???�C?�E?e
-	int AreaSize=NGBitArea->GetPatternByte();
-	if(AreaSize>40){
-		int MaxL=max(NGBitArea->GetMaxX()-NGBitArea->GetMinX(),NGBitArea->GetMaxY()-NGBitArea->GetMinY());
-		if(MaxL<((int)(AreaSize>>2))){
-			return;
-		}
-	}
-
-	int LineLen	=NGBitArea->GetFLineLen();
-
-	list<point> point_list;
-
-#ifdef Debug
-	BYTE	*ts[3];
-	int	x,xx,yy;
-	int XRange,YRange;
-	int	mx[8][8],my[8][8];
-	int mmx,mmy;
-	int tmX,tmY;
-	int mtX,mtY;
-	PixelInsData	P,P1,P2,P3;
-	int	PL,wPL,PL3;
-	int	PH,wPH,PH3;
-	int	SL,wSL,SL3;
-	int	SH,wSH,SH3;
-	int	RL,wRL,RL3;
-	int	RH,wRH,RH3;
-	int SearchDot	=0;		//Temporary
-	int wThresholdRange;
-	int wThresholdRange2;
-	bool OutSearch;
-
-	int		Index;
-	int		xi,yi;
-	int		xxi,yyi;
-	//?T?o?Q?h?b?g?a?i25?G???A?j?I???�CNG?A???T?d???[?N
-	BYTE	NGCheckedCnt[25];
-	//?????S?~?S?ING?c?cOK?E?E?A???s?N?Z???d?U??
-	BYTE	CanardBitmap[16];
-
-	int i;
-	int x1,x2,y;
-	list<point>::iterator p;
-	for(i=0;i<LineLen;i++){
-		x1	=NGBitArea->GetFLineLeftX(i);
-		x2	=NGBitArea->GetFLineRightX(i);
-		y	=NGBitArea->GetFLineAbsY(i);
-		for(x=x1;x<x2;x++){
-#else
-	for(int i=0;i<LineLen;i++){
-		int x1	=NGBitArea->GetFLineLeftX(i);
-		int x2	=NGBitArea->GetFLineRightX(i);
-		int y	=NGBitArea->GetFLineAbsY(i);
-		for(int x=x1;x<x2;x++){
-			bool OutSearch;
-			list<point>::iterator p;
-#endif
-			//?i?�?E?u?i?????I?S?~?S?}?X?I?��?a?s?N?Z???j?c?c?A?`?F?b?N?I?Y?s?N?Z???d?o?I?�E
-			for(p=point_list.begin();p!=point_list.end();p++){
-				if(x>=p->x && x<p->x+4 && y>=p->y && y<p->y+4){
-					break;
-				}
-			}
-			if(p!=point_list.end()){
-				continue;
-			}
-			//?i?�?E?u?i?????I?S?~?S?}?X?I?��?a?s?N?Z???j?d?o?^
-			point pp={x,y};
-			point_list.push_back(pp);
-
-			if(x-4<0 || XLen<=x+10){
-				continue;
-			}
-			if(y-4<0 || YLen<=y+10){
-				continue;
-			}
-			OutSearch=false;
-
-//////////////?}?X?^?[?a???A?I???�C//////////////
-#ifdef Debug
-			if(y==DebugPointY && x==DebugPointX){
-				DebugPoint++;
-			}
-			//???u?��
-			Index=0;
-			memset(NGCheckedCnt,0,25);
-			memset(CanardBitmap,0,16);
-
-			//?W?~?W?}?X?I???�C
-			XRange=x+6;
-			YRange=y+6;
-			yi=0;
-			for(yy=y-2;yy<YRange;yy++,yi++){
-#else
-			int	mx[8][8],my[8][8];
-			int tmX,tmY;
-			int mtX,mtY;
-			int SearchDot=0;		//Temporary
-			int wThresholdRange;
-			int wThresholdRange2;
-			//???u?��
-			int		Index=0;
-			//?T?o?Q?h?b?g?a?i25?G???A?j?I???�CNG?A???T?d???[?N
-			BYTE	NGCheckedCnt[25]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-			//?????S?~?S?ING?c?cOK?E?E?A???s?N?Z???d?U??
-			BYTE	CanardBitmap[16]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-
-			//?W?~?W?}?X?I???�C
-			int xx,yy;
-			int XRange=x+6;
-			int YRange=y+6;
-			int xi,yi=0;
-			for(yy=y-2;yy<YRange;yy++,yi++){
-				BYTE	*ts[3];
-#endif
-				xi=0;
-				ts[0]=TargetImageList[0]->GetY(yy);
-				ts[1]=TargetImageList[1]->GetY(yy);
-				ts[2]=TargetImageList[2]->GetY(yy);
-				for(xx=x-2;xx<XRange;xx++,xi++){
-					if(pAlignPage==NULL){
-						tmX	=tmY	=0;
-						mtX	=mtY	=0;
-						mx[yi][xi]	=xx;
-						my[yi][xi]	=yy;
-					}
-					else{
-						tmX			=pAlignPage->GetShiftXFromTarget(xx,yy);
-						tmY			=pAlignPage->GetShiftYFromTarget(xx,yy);
-						mtX			=pAlignPage->GetShiftXFromMaster(xx,yy);
-						mtY			=pAlignPage->GetShiftYFromMaster(xx,yy);
-						mx[yi][xi]	=xx+tmX;
-						my[yi][xi]	=yy+tmY;
-					}
-
-					if(mx[yi][xi]-2<0 || XLen<=mx[yi][xi]+2){
-						OutSearch=true;
-						break;
-					}
-					if(my[yi][xi]-2<0 || YLen<=my[yi][xi]+2){
-						OutSearch=true;
-						break;
-					}
-#ifdef Debug
-					if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
-						DebugPoint++;
-					}
-					P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#else
-					PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#endif
-					if(P.StdDisorder==255){		//?}?X?N?O?I?e??
-						//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-						if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-							NGCheckedCnt[Index]++;
-						}
-						continue;
-					}
-					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
-					if(P.PL<=Q->P && Q->P<=P.PH && P.SL<=Q->S && Q->S<=P.SH && P.RL<=Q->R && Q->R<=P.RH){
-						continue;
-					}
-					NGCheckedCnt[Index]++;
-				}
-			}
-			if(OutSearch==true){
-				continue;
-			}
-			if(NGCheckedCnt[Index]==0){
-				goto	MANUAL_ALLMATCHED1_1;
-			}
-
-			//?u?I?A?I?��?f
-			for(int Len=1;Len<=2;Len++){
-				int	dx;
-				int	dy=-Len;
-				for(dx=-Len;dx<Len;dx++){
-					Index++;
-					yi=0;
-
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
-#ifndef Debug
-						BYTE	*ts[3];
-#endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy);
-						ts[1]=TargetImageList[1]->GetY(yy);
-						ts[2]=TargetImageList[2]->GetY(yy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-							if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
-								continue;
-							}
-							if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
-								continue;
-							}
-#ifdef Debug
-							P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#else
-							PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#endif
-							if(P1.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-							struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
-							if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	MANUAL_ALLMATCHED1_1;
-					}
-				}
-				dx=Len;
-				for(;dy<Len;dy++){
-					Index++;
-					yi=0;
-
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
-#ifndef Debug
-						BYTE	*ts[3];
-#endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy);
-						ts[1]=TargetImageList[1]->GetY(yy);
-						ts[2]=TargetImageList[2]->GetY(yy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-							if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
-								continue;
-							}
-							if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
-								continue;
-							}
-#ifdef Debug
-							P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#else
-							PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#endif
-							if(P1.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-							struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
-							if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	MANUAL_ALLMATCHED1_1;
-					}
-				}
-				dy=Len;
-				for(;dx>-Len;dx--){
-					Index++;
-					yi=0;
-
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
-#ifndef Debug
-						BYTE	*ts[3];
-#endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy);
-						ts[1]=TargetImageList[1]->GetY(yy);
-						ts[2]=TargetImageList[2]->GetY(yy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-							if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
-								continue;
-							}
-							if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
-								continue;
-							}
-#ifdef Debug
-							P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#else
-							PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#endif
-							if(P1.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-							struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
-							if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	MANUAL_ALLMATCHED1_1;
-					}
-				}
-				dx=-Len;
-				for(;dy>-Len;dy--){
-					Index++;
-					yi=0;
-
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
-#ifndef Debug
-						BYTE	*ts[3];
-#endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy);
-						ts[1]=TargetImageList[1]->GetY(yy);
-						ts[2]=TargetImageList[2]->GetY(yy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-							if(mx[yi][xi]+dx<0 || XLen<=mx[yi][xi]+dx){
-								continue;
-							}
-							if(my[yi][xi]+dy<0 || YLen<=my[yi][xi]+dy){
-								continue;
-							}
-#ifdef Debug
-							P1				=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#else
-							PixelInsData &P1=PixData[my[yi][xi]+dy][mx[yi][xi]+dx];
-#endif
-							if(P1.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-							struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
-							if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	MANUAL_ALLMATCHED1_1;
-					}
-				}
-			}
-
-#ifndef Debug
-			int		xxi,yyi;
-#endif
-			//NGCheckedCnt[25]?a?A?��?I?_?d?I?O
-			MinNGCheckedCnt(NGCheckedCnt,xxi,yyi,Index);
-
-			yi=2;
-
-			//?????I?S?~?S?}?X?I?Y???�C
-			for(yy=y;yy<YRange-2;yy++,yi++){
-#ifndef Debug
-				BYTE	*ts[3];
-#endif
-				xi=2;
-				ts[0]=TargetImageList[0]->GetY(yy);
-				ts[1]=TargetImageList[1]->GetY(yy);
-				ts[2]=TargetImageList[2]->GetY(yy);
-				for(xx=x;xx<XRange-2;xx++,xi++){
-					//ExecuteProcessing1?A?u?EOK?A?E?A?A?��?e?e???I?2?�P?e
-					if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))==0){
-						continue;
-					}
-
-					if(pAlignPage==NULL){
-						tmX	=tmY	=0;
-						mtX	=mtY	=0;
-					}
-					else{
-						tmX			=pAlignPage->GetShiftXFromTarget(xx,yy);
-						tmY			=pAlignPage->GetShiftYFromTarget(xx,yy);
-						mtX			=pAlignPage->GetShiftXFromMaster(xx,yy);
-						mtY			=pAlignPage->GetShiftYFromMaster(xx,yy);
-					}
-#ifdef Debug
-					mmx		=xx+tmX+xxi;
-					mmy		=yy+tmY+yyi;
-#else
-					int mmx	=xx+tmX+xxi;
-					int mmy	=yy+tmY+yyi;
-#endif
-					if(mmx-SearchDot<0 || XLen<=mmx+SearchDot){
-						continue;
-					}
-					if(mmy-SearchDot<0 || YLen<=mmy+SearchDot){
-						continue;
-					}
-#ifdef Debug
-					if(mmy==DebugPointY && mmx==DebugPointX){
-						DebugPoint++;
-					}
-					P				=PixData[mmy][mmx];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#else
-					PixelInsData &P	=PixData[mmy][mmx];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#endif
-					if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2?�P?e
-						continue;
-					}
-
-					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx],ts[1][xx],ts[2][xx])];
-					if(P.PL<=Q->P && Q->P<=P.PH && P.SL<=Q->S && Q->S<=P.SH && P.RL<=Q->R && Q->R<=P.RH){
-						goto	MANUAL_MATCHED1_1;
-					}
-
-					//?u?I?A?I?��?f
-//					for(int Len=1;Len<=SearchDot;Len++){
-					for(int Len=1;Len<=0;Len++){
-						int	dx;
-						int	dy=-Len;
-						for(dx=-Len;dx<Len;dx++){
-#ifdef Debug
-							P1				=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData &P1=PixData[mmy+dy][mmx+dx];
-#endif
-							if(P1.StdDisorder==255){
-								continue;
-							}
-							if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
-								goto	MANUAL_MATCHED1_1;
-							}
-						}
-						dx=Len;
-						for(;dy<Len;dy++){
-#ifdef Debug
-							P1				=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData &P1=PixData[mmy+dy][mmx+dx];
-#endif
-							if(P1.StdDisorder==255){
-								continue;
-							}
-							if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
-								goto	MANUAL_MATCHED1_1;
-							}
-						}
-						dy=Len;
-						for(;dx>-Len;dx--){
-#ifdef Debug
-							P1				=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData &P1=PixData[mmy+dy][mmx+dx];
-#endif
-							if(P1.StdDisorder==255){
-								continue;
-							}
-							if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
-								goto	MANUAL_MATCHED1_1;
-							}
-						}
-						dx=-Len;
-						for(;dy>-Len;dy--){
-#ifdef Debug
-							P1				=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData &P1=PixData[mmy+dy][mmx+dx];
-#endif
-							if(P1.StdDisorder==255){
-								continue;
-							}
-							if(P1.PL<=Q->P && Q->P<=P1.PH && P1.SL<=Q->S && Q->S<=P1.SH && P1.RL<=Q->R && Q->R<=P1.RH){
-								goto	MANUAL_MATCHED1_1;
-							}
-						}
-					}
-
-					//?i?�?_?A?u?e?I?_?I?��?��?��?l?d???��?��?A???o????
-#ifdef Debug
-					P1				=PixData[mmy][mmx];
-#else
-					PixelInsData &P1=PixData[mmy][mmx];
-					PixelInsData P3;
-#endif
-					P3.SL=Q->S;
-					P3.PL=Q->P;
-					P3.RL=Q->R;
-//					for(int Len=1;Len<=SearchDot;Len++){
-					for(int Len=1;Len<=0;Len++){
-						int	dx;
-						int	dy=-Len;
-						for(dx=-Len;dx<Len;dx++){
-#ifdef Debug
-							P2					=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
-#endif
-							if(CalcPixelInsData(P1,P2,P3)==true){
-								if(P3.PL<=Q->P && Q->P<=P3.PH && P3.SL<=Q->S && Q->S<=P3.SH && P3.RL<=Q->R && Q->R<=P3.RH){
-									goto	MANUAL_MATCHED1_1;
-								}
-							}
-						}
-						dx=Len;
-						for(;dy<Len;dy++){
-#ifdef Debug
-							P2					=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
-#endif
-							if(CalcPixelInsData(P1,P2,P3)==true){
-								if(P3.PL<=Q->P && Q->P<=P3.PH && P3.SL<=Q->S && Q->S<=P3.SH && P3.RL<=Q->R && Q->R<=P3.RH){
-									goto	MANUAL_MATCHED1_1;
-								}
-							}
-						}
-						dy=Len;
-						for(;dx>-Len;dx--){
-#ifdef Debug
-							P2					=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
-#endif
-							if(CalcPixelInsData(P1,P2,P3)==true){
-								if(P3.PL<=Q->P && Q->P<=P3.PH && P3.SL<=Q->S && Q->S<=P3.SH && P3.RL<=Q->R && Q->R<=P3.RH){
-									goto	MANUAL_MATCHED1_1;
-								}
-							}
-						}
-						dx=-Len;
-						for(;dy>-Len;dy--){
-#ifdef Debug
-							P2					=PixData[mmy+dy][mmx+dx];
-#else
-							PixelInsData	&P2	=PixData[mmy+dy][mmx+dx];
-#endif
-							if(CalcPixelInsData(P1,P2,P3)==true){
-								if(P3.PL<=Q->P && Q->P<=P3.PH && P3.SL<=Q->S && Q->S<=P3.SH && P3.RL<=Q->R && Q->R<=P3.RH){
-									goto	MANUAL_MATCHED1_1;
-								}
-							}
-						}
-					}
-
-					//?3?XNG?I?O???I?e???A?��?I?U?Ucontinue
-					continue;
-MANUAL_MATCHED1_1:;
-					//OK?A?��?f?3?e???s?N?Z??
-//					TempNGBitmap[yy][xx>>3] &= ~(0x80>>(xx&7));
-					CanardBitmap[((yi-2)<<2)+xi-2]=1;
-				}
-			}
-			goto MANUAL_NEXT1;
-
-MANUAL_ALLMATCHED1_1:;
-			int i=0;
-			for(yy=y;yy<YRange-2;yy++){
-				for(xx=x;xx<XRange-2;xx++,i++){
-					if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-						CanardBitmap[i]=1;
-					}
-				}
-			}
-
-//////////////???�C?a???A?I???�C//////////////
-MANUAL_NEXT1:;
-#ifdef Debug
-			if(y==DebugPointY && x==DebugPointX){
-				DebugPoint++;
-			}
-#endif
-			//???u?��
-			Index=0;
-
-			if(NGCheckedCnt[Index]==0){
-				goto	MANUAL_ALLMATCHED2_1;
-			}
-			memset(NGCheckedCnt+1,0,24);
-
-			//?u?I?A?I?��?f
-			for(int Len=1;Len<=2;Len++){
-				int	dx;
-				int	dy=-Len;
-				for(dx=-Len;dx<Len;dx++){
-					Index++;
-					yi=0;
-
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
-#ifndef Debug
-						BYTE	*ts[3];
-#endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+dy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-#ifdef Debug
-							if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
-								DebugPoint++;
-							}
-							P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#else
-							PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#endif
-							if(P.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
-							if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	MANUAL_ALLMATCHED2_1;
-					}
-				}
-				dx=Len;
-				for(;dy<Len;dy++){
-					Index++;
-					yi=0;
-
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
-#ifndef Debug
-						BYTE	*ts[3];
-#endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+dy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-#ifdef Debug
-							if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
-								DebugPoint++;
-							}
-							P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#else
-							PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#endif
-							if(P.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
-							if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	MANUAL_ALLMATCHED2_1;
-					}
-				}
-				dy=Len;
-				for(;dx>-Len;dx--){
-					Index++;
-					yi=0;
-
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
-#ifndef Debug
-						BYTE	*ts[3];
-#endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+dy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-#ifdef Debug
-							if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
-								DebugPoint++;
-							}
-							P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#else
-							PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#endif
-							if(P.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
-							if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	MANUAL_ALLMATCHED2_1;
-					}
-				}
-				dx=-Len;
-				for(;dy>-Len;dy--){
-					Index++;
-					yi=0;
-
-					//?W?~?W?}?X?I???�C
-					for(yy=y-2;yy<YRange;yy++,yi++){
-#ifndef Debug
-						BYTE	*ts[3];
-#endif
-						xi=0;
-						ts[0]=TargetImageList[0]->GetY(yy+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+dy);
-						for(xx=x-2;xx<XRange;xx++,xi++){
-#ifdef Debug
-							if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
-								DebugPoint++;
-							}
-							P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#else
-							PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#endif
-							if(P.StdDisorder==255){
-								//ExecuteProcessing1?A?u?ENG?A?E?A?A?��?e?e???ING?A?��?A?2?�P?e
-								if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-									NGCheckedCnt[Index]++;
-								}
-								continue;
-							}
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+dx],ts[1][xx+dx],ts[2][xx+dx])];
-							if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
-								continue;
-							}
-							NGCheckedCnt[Index]++;
-						}
-					}
-					if(NGCheckedCnt[Index]==0){
-						goto	MANUAL_ALLMATCHED2_1;
-					}
-				}
-			}
-
-			//NGCheckedCnt[25]?a?A?��?I?_?d?I?O
-			MinNGCheckedCnt(NGCheckedCnt,xxi,yyi,Index);
-
-			yi=2;
-
-			//?????I?S?~?S?}?X?I?Y???�C
-			for(yy=y;yy<YRange-2;yy++,yi++){
-#ifndef Debug
-				BYTE	*ts[3];
-#endif
-				if((yy+yyi-SearchDot)<0 || (yy+yyi+SearchDot)>=YLen){
-					continue;
-				}
-				xi=2;
-				ts[0]=TargetImageList[0]->GetY(yy+yyi);
-				ts[1]=TargetImageList[1]->GetY(yy+yyi);
-				ts[2]=TargetImageList[2]->GetY(yy+yyi);
-				for(xx=x;xx<XRange-2;xx++,xi++){
-					//ExecuteProcessing1?A?u?EOK?A?E?A?A?��?e?e???I?2?�P?e
-					if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))==0){
-						continue;
-					}
-					if((xx+xxi-SearchDot)<0 || (xx+xxi+SearchDot)>=XLen){
-						continue;
-					}
-
-					if(pAlignPage==NULL){
-						tmX	=tmY	=0;
-						mtX	=mtY	=0;
-					}
-					else{
-						tmX			=pAlignPage->GetShiftXFromTarget(xx,yy);
-						tmY			=pAlignPage->GetShiftYFromTarget(xx,yy);
-						mtX			=pAlignPage->GetShiftXFromMaster(xx,yy);
-						mtY			=pAlignPage->GetShiftYFromMaster(xx,yy);
-					}
-#ifdef Debug
-					if(my[yi][xi]==DebugPointY && mx[yi][xi]==DebugPointX){
-						DebugPoint++;
-					}
-					P				=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#else
-					PixelInsData &P	=PixData[my[yi][xi]][mx[yi][xi]];	//?}?X?^?[?A?I?a?r?E?I?A?a?3?a?I?A?W?d?n?�E
-#endif
-					if(P.StdDisorder==255){
-						continue;
-					}
-
-					struct	PixelPoleMatrixStruct	*Q=&PoleTable[MakePoleIndex(ts[0][xx+xxi],ts[1][xx+xxi],ts[2][xx+xxi])];
-					if(P.PL<=Q->P && Q->P<=P.PH && P.SL<=Q->S && Q->S<=P.SH && P.RL<=Q->R && Q->R<=P.RH){
-						goto	MANUAL_MATCHED2_1;
-					}
-
-					//?u?I?A?I?��?f
-//					for(int Len=1;Len<=SearchDot;Len++){
-					for(int Len=1;Len<=0;Len++){
-						int	dx;
-						int	dy=-Len;
-						ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-						for(dx=-Len;dx<Len;dx++){
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
-								goto	MANUAL_MATCHED2_1;
-							}
-						}
-						dx=Len;
-						for(;dy<Len;dy++){
-							ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-							ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-							ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
-								goto	MANUAL_MATCHED2_1;
-							}
-						}
-						dy=Len;
-						ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-						for(;dx>-Len;dx--){
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
-								goto	MANUAL_MATCHED2_1;
-							}
-						}
-						dx=-Len;
-						for(;dy>-Len;dy--){
-							ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-							ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-							ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-							struct	PixelPoleMatrixStruct	*Q1=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(P.PL<=Q1->P && Q1->P<=P.PH && P.SL<=Q1->S && Q1->S<=P.SH && P.RL<=Q1->R && Q1->R<=P.RH){
-								goto	MANUAL_MATCHED2_1;
-							}
-						}
-					}
-
-					//?i?�?_?A?u?e?I?_?I???�C?a???d???��?��?A???o????
-//					for(int Len=1;Len<=SearchDot;Len++){
-					for(int Len=1;Len<=0;Len++){
-						int	dx;
-						int	dy=-Len;
-						ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-						for(dx=-Len;dx<Len;dx++){
-							struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(Q->S<=P.SH){
-								if(Q->S<P.SL && Q2->S<P.SL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->S>P.SH){
-									continue;
-								}
-							}
-							if(Q->P<=P.PH){
-								if(Q->P<P.PL && Q2->P<P.PL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->P>P.PH){
-									continue;
-								}
-							}
-							if(Q->R<=P.RH){
-								if(Q->R<P.RL && Q2->R<P.RL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->R>P.RH){
-									continue;
-								}
-							}
-							goto	MANUAL_MATCHED2_1;
-						}
-						dx=Len;
-						for(;dy<Len;dy++){
-							ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-							ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-							ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-							struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(Q->S<=P.SH){
-								if(Q->S<P.SL && Q2->S<P.SL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->S>P.SH){
-									continue;
-								}
-							}
-							if(Q->P<=P.PH){
-								if(Q->P<P.PL && Q2->P<P.PL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->P>P.PH){
-									continue;
-								}
-							}
-							if(Q->R<=P.RH){
-								if(Q->R<P.RL && Q2->R<P.RL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->R>P.RH){
-									continue;
-								}
-							}
-							goto	MANUAL_MATCHED2_1;
-						}
-						dy=Len;
-						ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-						ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-						ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-						for(;dx>-Len;dx--){
-							struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(Q->S<=P.SH){
-								if(Q->S<P.SL && Q2->S<P.SL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->S>P.SH){
-									continue;
-								}
-							}
-							if(Q->P<=P.PH){
-								if(Q->P<P.PL && Q2->P<P.PL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->P>P.PH){
-									continue;
-								}
-							}
-							if(Q->R<=P.RH){
-								if(Q->R<P.RL && Q2->R<P.RL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->R>P.RH){
-									continue;
-								}
-							}
-							goto	MANUAL_MATCHED2_1;
-						}
-						dx=-Len;
-						for(;dy>-Len;dy--){
-							ts[0]=TargetImageList[0]->GetY(yy+yyi+dy);
-							ts[1]=TargetImageList[1]->GetY(yy+yyi+dy);
-							ts[2]=TargetImageList[2]->GetY(yy+yyi+dy);
-							struct	PixelPoleMatrixStruct	*Q2=&PoleTable[MakePoleIndex(ts[0][xx+xxi+dx],ts[1][xx+xxi+dx],ts[2][xx+xxi+dx])];
-							if(Q->S<=P.SH){
-								if(Q->S<P.SL && Q2->S<P.SL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->S>P.SH){
-									continue;
-								}
-							}
-							if(Q->P<=P.PH){
-								if(Q->P<P.PL && Q2->P<P.PL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->P>P.PH){
-									continue;
-								}
-							}
-							if(Q->R<=P.RH){
-								if(Q->R<P.RL && Q2->R<P.RL){
-									continue;
-								}
-							}
-							else{
-								if(Q2->R>P.RH){
-									continue;
-								}
-							}
-							goto	MANUAL_MATCHED2_1;
-						}
-					}
-
-					//NG?I?O???I?e???ACanardBitmap?I?r?b?g?d?O?E?N???A
-					CanardBitmap[((yi-2)<<2)+xi-2]=0;
-					continue;
-MANUAL_MATCHED2_1:;
-					//OK?A?��?f?3?e???s?N?Z???A?A?E???a?��?E?��
-//					if(CanardBitmap[((yi-2)<<2)+xi-2]==1){
-//						CanardBitmap[((yi-2)<<2)+xi-2]=1;
-//					}
-				}
-			}
-			goto	MANUAL_NEXT2;
-
-MANUAL_ALLMATCHED2_1:;
-			i=0;
-			for(yy=y;yy<YRange-2;yy++){
-				for(xx=x;xx<XRange-2;xx++,i++){
-					if((TempNGBitmap[yy][xx>>3] & (0x80>>(xx&7)))!=0){
-						CanardBitmap[i]=1;
-					}
-				}
-			}
-MANUAL_NEXT2:;
-			i=0;
-			for(yy=y;yy<YRange-2;yy++){
-				for(xx=x;xx<XRange-2;xx++,i++){
-					if(CanardBitmap[i]==1){
-						TempNGBitmap[yy][xx>>3] &= ~(0x80>>(xx&7));
-					}
-				}
-			}
-		}
-	}
-}
 
 void	PixelInspectionItem::MinNGCheckedCnt(BYTE *NGCheckedCount,int &x,int &y,int &MinIndex)
 {
@@ -16550,9 +16474,10 @@ void	PixelInspectionItem::MinNGCheckedCnt(BYTE *NGCheckedCount,int &x,int &y,int
 	x=y=0;
 }
 
+
 bool	PixelInspectionItem::CalcPixelInsData(PixelInsData P,PixelInsData P2,PixelInsData &P3)
 {
-	//NG?I?e???A?�~?e?????F?I???O?F?A?a?��?f?�E?e
+	//NG?I?e???A??~?e?????F?I???O?F?A?a????f??E?e
 	//  _ _   _
 	// (C-D)?EA = 0  ?c  ?
 	//  _ _   _
@@ -16571,13 +16496,13 @@ bool	PixelInspectionItem::CalcPixelInsData(PixelInsData P,PixelInsData P2,PixelI
 	//          _ 2  _  _         _  _     _  _
 	// ?E ?E ( |B| - A?EB ) t s + A?EB s = B?EC
 	//
-	// ???R?E?��?e???e???e?Its?I?W???d?c?�P?e
+	// ???R?E????e???e???e?Its?I?W???d?c??P?e
 	//   _  _    _ 2     _ 2  _  _          _ 2   _ 2  _  _        _  _    _ 2  _  _
 	// ( A?EB - |A| ) ( |B| - A?EB ) t s + |A| ( |B| - A?EB ) s  = A?EC ( |B| - A?EB )
 	//   _  _    _ 2     _ 2  _  _         _  _   _  _    _ 2      _  _   _  _    _ 2
 	// ( A?EB - |A| ) ( |B| - A?EB ) t s + A?EB ( A?EB - |A| ) s = B?EC ( A?EB - |A| )
 	//
-	// ???R?d?o?��?A?Ats?I?�?d?A?��?As???�P?I?R?E?�E?e
+	// ???R?d?o????A?Ats?I???d?A????As????P?I?R?E??E?e
 	//    _ 2   _ 2  _  _     _  _   _  _    _ 2        _  _    _ 2  _  _     _  _   _  _    _ 2
 	// [ |A| ( |B| - A?EB ) - A?EB ( A?EB - |A| ) ] s = A?EC ( |B| - A?EB ) - B?EC ( A?EB - |A| )
 	//    _ 2 _ 2    _  _  2      _  _    _ 2  _  _     _  _   _  _    _ 2
@@ -16599,7 +16524,7 @@ bool	PixelInspectionItem::CalcPixelInsData(PixelInsData P,PixelInsData P2,PixelI
 	// ?E ?E        _  _    _ 2
 	//            ( A?EB - |A| ) s
 	//        _
-	// ?_D?c?cE?E???u?d?o?e?��???_?dF?A?�E?e?A?A
+	// ?_D?c?cE?E???u?d?o?e??????_?dF?A??E?e?A?A
 	// _     _
 	// F = u E
 	//
@@ -16621,9 +16546,9 @@ bool	PixelInspectionItem::CalcPixelInsData(PixelInsData P,PixelInsData P2,PixelI
 	// ?E ?E             _   _      _   _
 	//               t ( B - A )?E( B - A )
 	//
-	// u ?a???U?e?I?A?_F?I?A?W?a?a?c?e?I?A?A?��?I?_?d???S?E?A?}??A?E?}??I?E?}??A?a?c?C???c?d?��?f?�E?e
+	// u ?a???U?e?I?A?_F?I?A?W?a?a?c?e?I?A?A????I?_?d???S?E?A?}??A?E?}??I?E?}??A?a?c?C???c?d????f??E?e
 	//
-	// ?_A (?A1 , ?I1 , ?A1) ?A?�E?e?A?A
+	// ?_A (?A1 , ?I1 , ?A1) ?A??E?e?A?A
 	//
 	//         SL(A) + SH(A)              SH(A) - SL(A)
 	// ?A1 = ?\?\?\?\?\?\?\?\   ??A1 = ?\?\?\?\?\?\?\?\
@@ -16637,7 +16562,7 @@ bool	PixelInspectionItem::CalcPixelInsData(PixelInsData P,PixelInsData P2,PixelI
 	// ?A1 = ?\?\?\?\?\?\?\?\   ??A1 = ?\?\?\?\?\?\?\?\
 	//               2        ,                 2
 	//
-	// ?_B (?A2 , ?I2 , ?A2) ?A?�E?e?A?A
+	// ?_B (?A2 , ?I2 , ?A2) ?A??E?e?A?A
 	//
 	//         SL(B) + SH(B)              SH(B) - SL(B)
 	// ?A2 = ?\?\?\?\?\?\?\?\   ??A2 = ?\?\?\?\?\?\?\?\
@@ -16651,13 +16576,13 @@ bool	PixelInspectionItem::CalcPixelInsData(PixelInsData P,PixelInsData P2,PixelI
 	// ?A2 = ?\?\?\?\?\?\?\?\   ??A2 = ?\?\?\?\?\?\?\?\
 	//               2        ,                 2
 	//
-	// ?E?I?A?A?_D?c?c?i?�P?l?E?_C?c?c?j?I???u?A???e?_F?A?I?��?e???e?I?l (??A3 , ??I3 , ??A3) ?I?A
+	// ?E?I?A?A?_D?c?c?i??P?l?E?_C?c?c?j?I???u?A???e?_F?A?I????e???e?I?l (??A3 , ??I3 , ??A3) ?I?A
 	//
 	// ??A3 = ??A1 ( 1 - t u ) + ??A2 t u
 	// ??I3 = ??I1 ( 1 - t u ) + ??I2 t u
 	// ??A3 = ??A1 ( 1 - t u ) + ??A2 t u
 	//
-	// ?a?A?A?A?_C?A?_F?A?I???��?d???s?A?A?a?L?}??A3,?}??I3,?}??A3?a?E???e?c?C???c?d?2?�~?e
+	// ?a?A?A?A?_C?A?_F?A?I??????d???s?A?A?a?L?}??A3,?}??I3,?}??A3?a?E???e?c?C???c?d?2??~?e
 
 	//        _  _    _ 2  _  _     _  _   _  _    _ 2
 	//        A?EC ( |B| - A?EB ) - B?EC ( A?EB - |A| )
@@ -16666,7 +16591,7 @@ bool	PixelInspectionItem::CalcPixelInsData(PixelInsData P,PixelInsData P2,PixelI
 	//                  |A| |B| - ( A?EB )
 	// ?a?e?A
 	//  _ 2       _ 2      _  _       _  _       _  _
-	// |A| = A2, |B| = B2, A?EB = AB, A?EC = AC, B?EC = BC ?A?�E?e?A?A
+	// |A| = A2, |B| = B2, A?EB = AB, A?EC = AC, B?EC = BC ?A??E?e?A?A
 
 	int	AS=(P.SL+P.SH)>>1;
 	int	AP=(P.PL+P.PH)>>1;
@@ -16675,30 +16600,29 @@ bool	PixelInspectionItem::CalcPixelInsData(PixelInsData P,PixelInsData P2,PixelI
 	int	BP=(P2.PL+P2.PH)>>1;
 	int	BR=(P2.RL+P2.RH)>>1;
 
-	// ?_A?iP?j?A?_B?iP1?j?d???n???u?a?E?A?_C?c?c???u?d?o?e?1?e?e???A?��?I?_?A?Ie??l?iP3?j?d???s?e
-	// ?u?aAB?O?_C?c?c?o?e?��?????u?A?I?d?_?d?_D?A?�E?e?A?A
+	// ?_A?iP?j?A?_B?iP1?j?d???n???u?a?E?A?_C?c?c???u?d?o?e?1?e?e???A????I?_?A?Ie??l?iP3?j?d???s?e
+	// ?u?aAB?O?_C?c?c?o?e????????u?A?I?d?_?d?_D?A??E?e?A?A
 	// D = r * AB
-	// ?�}?I r ?d???s?e?E?I?A
-	// ?u?aAB?x?N?g???d?3?K?��?��?i?P?E?x?N?g???j?A?��?e?A?u?aAC?x?N?g???A?I?a?I?d?a?A?A?A?u?aAB?x?N?g???I?�E?3?A???e?A???U?e?U?�E
+	// ??}?I r ?d???s?e?E?I?A
+	// ?u?aAB?x?N?g???d?3?K???????i?P?E?x?N?g???j?A????e?A?u?aAC?x?N?g???A?I?a?I?d?a?A?A?A?u?aAB?x?N?g???I??E?3?A???e?A???U?e?U??E
 	//
-	// ?u?aAB?x?N?g?? = AB*, |AB| = absAB ?A?�E?e?A?A
+	// ?u?aAB?x?N?g?? = AB*, |AB| = absAB ?A??E?e?A?A
 
 	int ABS=BS-AS;
 	int ABP=BP-AP;
 	int ABR=BR-AR;
 	double absAB=sqrt((double)(ABS*ABS+ABP*ABP+ABR*ABR));
 	if(absAB==0){
-//		goto NEXT;
 		return false;
 	}
 
-	// ?u?aAB?x?N?g???I?P?E?x?N?g?? = iAB* ?A?�E?e?A?A
+	// ?u?aAB?x?N?g???I?P?E?x?N?g?? = iAB* ?A??E?e?A?A
 
 	double iABS=ABS/absAB;
 	double iABP=ABP/absAB;
 	double iABR=ABR/absAB;
 
-	// ?u?aAC?x?N?g?? = AC*, ?u?aAB?x?N?g???I?P?E?x?N?g???A?u?aAC?x?N?g???I?a?I = ABAC ?A?�E?e?A?A
+	// ?u?aAC?x?N?g?? = AC*, ?u?aAB?x?N?g???I?P?E?x?N?g???A?u?aAC?x?N?g???I?a?I = ABAC ?A??E?e?A?A
 
 	int ACS=P3.SL-AS;
 	int ACP=P3.PL-AP;
@@ -16811,6 +16735,7 @@ NEXT:
 */
 }
 
+
 bool	PixelInspectionItem::CalcPixelInsData(int i,BYTE *PL,BYTE *PH,BYTE *SL,BYTE *SH,BYTE *RL,BYTE *RH,PixelInsData &P3)
 {
 	int	AS=(SL[0]+SH[0])>>1;
@@ -16820,13 +16745,13 @@ bool	PixelInspectionItem::CalcPixelInsData(int i,BYTE *PL,BYTE *PH,BYTE *SL,BYTE
 	int	BP=(PL[i]+PH[i])>>1;
 	int	BR=(RL[i]+RH[i])>>1;
 
-	// ?_A?iP?j?A?_B?iP1?j?d???n???u?a?E?A?_C?c?c???u?d?o?e?1?e?e???A?��?I?_?A?Ie??l?iP3?j?d???s?e
-	// ?u?aAB?O?_C?c?c?o?e?��?????u?A?I?d?_?d?_D?A?�E?e?A?A
+	// ?_A?iP?j?A?_B?iP1?j?d???n???u?a?E?A?_C?c?c???u?d?o?e?1?e?e???A????I?_?A?Ie??l?iP3?j?d???s?e
+	// ?u?aAB?O?_C?c?c?o?e????????u?A?I?d?_?d?_D?A??E?e?A?A
 	// D = r * AB
-	// ?�}?I r ?d???s?e?E?I?A
-	// ?u?aAB?x?N?g???d?3?K?��?��?i?P?E?x?N?g???j?A?��?e?A?u?aAC?x?N?g???A?I?a?I?d?a?A?A?A?u?aAB?x?N?g???I?�E?3?A???e?A???U?e?U?�E
+	// ??}?I r ?d???s?e?E?I?A
+	// ?u?aAB?x?N?g???d?3?K???????i?P?E?x?N?g???j?A????e?A?u?aAC?x?N?g???A?I?a?I?d?a?A?A?A?u?aAB?x?N?g???I??E?3?A???e?A???U?e?U??E
 	//
-	// ?u?aAB?x?N?g?? = AB*, |AB| = absAB ?A?�E?e?A?A
+	// ?u?aAB?x?N?g?? = AB*, |AB| = absAB ?A??E?e?A?A
 
 	int ABS=BS-AS;
 	int ABP=BP-AP;
@@ -16836,13 +16761,13 @@ bool	PixelInspectionItem::CalcPixelInsData(int i,BYTE *PL,BYTE *PH,BYTE *SL,BYTE
 		return false;
 	}
 
-	// ?u?aAB?x?N?g???I?P?E?x?N?g?? = iAB* ?A?�E?e?A?A
+	// ?u?aAB?x?N?g???I?P?E?x?N?g?? = iAB* ?A??E?e?A?A
 
 	double iABS=ABS/absAB;
 	double iABP=ABP/absAB;
 	double iABR=ABR/absAB;
 
-	// ?u?aAC?x?N?g?? = AC*, ?u?aAB?x?N?g???I?P?E?x?N?g???A?u?aAC?x?N?g???I?a?I = ABAC ?A?�E?e?A?A
+	// ?u?aAC?x?N?g?? = AC*, ?u?aAB?x?N?g???I?P?E?x?N?g???A?u?aAC?x?N?g???I?a?I = ABAC ?A??E?e?A?A
 
 	int ACS=P3.SL-AS;
 	int ACP=P3.PL-AP;
@@ -16988,7 +16913,7 @@ void	PixelInspectionItem::DrawResult    (ResultInItemRoot *Res,QImage &IData ,QP
 		CircleWidth=GetParamGlobal()->ResultNGCircleWidth;
 	}
 	try{
-		//???�C???I???I?`?a?��?E?��
+		//????C???I???I?`?a????E???
 		if(NowInspection==true){
 			return;
 		}
@@ -17002,7 +16927,7 @@ void	PixelInspectionItem::DrawResult    (ResultInItemRoot *Res,QImage &IData ,QP
 				return;
 			}
 
-			//?U?�~?\?|
+			//?U??~?\?|
 			if(IsShowOnlyDetail==true){
 				int		NGSize		=((PixelInspectionBase *)GetParentBase())->getNGSize();
 				QColor	NGSizeColor	=((PixelInspectionBase *)GetParentBase())->getNGSizeColor();
@@ -17077,11 +17002,11 @@ void	PixelInspectionItem::DrawResult    (ResultInItemRoot *Res,QImage &IData ,QP
 		}
 	}
 	catch(...){
-		//???c?c?I?G???[?i?A?h???X?a?????j?a?-?��
-		//?X???[?�E?e
+		//???c?c?I?G???[?i?A?h???X?a?????j?a?-???
+		//?X???[??E?e
 /*		qApp->beep();
 		QMessageBox MsgBox;
-		MsgBox.setText	(QString::fromLocal8Bit("???c?c?I?G???[?i?A?h???X?a?????j?a?-?��?I"));
+		MsgBox.setText	(QString::fromLocal8Bit("???c?c?I?G???[?i?A?h???X?a?????j?a?-????I"));
 		MsgBox.addButton(QString::fromLocal8Bit("OK")	,QMessageBox::AcceptRole);
 		MsgBox.exec();
 */
@@ -17186,7 +17111,7 @@ bool    PixelInspectionInPage::Load(QIODevice *f)
 		return false;
 	}
 
-	//?}?X?^?[?f?[?^?I?o?[?W?????a?��Load?I??
+	//?}?X?^?[?f?[?^?I?o?[?W?????a???Load?I??
 	int32 MasterLoadVer=((PixelInspectionBase *)GetParentBase())->MasterLoadVer;
 	if(MasterLoadVer==0){
 		//???u?o?[?W????
@@ -17262,7 +17187,7 @@ ExeResult	PixelInspectionInPage::ExecuteInitialAfterEdit(int ExeID
 	}
 
 	if(IsMultiAlgorithmSupport==true){
-		//Item?Ee??l?d?Y?e?�E?e
+		//Item?Ee??l?d?Y?e??E?e
 		CreateItemThreshold();
 	}
 	else{
@@ -17274,9 +17199,9 @@ ExeResult	PixelInspectionInPage::ExecuteInitialAfterEdit(int ExeID
 
 ExeResult	PixelInspectionInPage::ExecutePreProcessing(int ExeID ,ResultInPageRoot *Res)
 {
-	//?!???A???S???Y?�?I??
+	//?!???A???S???Y???I??
 	if(IsMultiAlgorithmSupport==true){
-		//???�C?O?E???�C?a???IDynamicClassify?I?a?d?a???��?AItem?E?Z?b?g?�E?e
+		//????C?O?E????C?a???IDynamicClassify?I?a?d?a??????AItem?E?Z?b?g??E?e
 		ManualCreateTargetDCBitmap();
 	}
 	//Item?IExecutePreProcessing?d?A?s
@@ -17463,7 +17388,7 @@ bool	PixelInspectionInPage::CreateLibraryNameList(const QString AlgorithmName)
 	return false;
 }
 
-//?��?e???e?I?I?a?Ae??l?d?i?��?�E?e
+//????e???e?I?I?a?Ae??l?d?i?????E?e
 bool	PixelInspectionInPage::ExecMultiAlgorithmSupport()
 {
 	int PLibNumb=PLibSettingStringList.count();
@@ -17482,7 +17407,7 @@ bool	PixelInspectionInPage::ExecMultiAlgorithmSupport()
 	return true;
 }
 
-//e??l?d?A?i?��?�E?e
+//e??l?d?A?i?????E?e
 bool	PixelInspectionInPage::ReExecMultiAlgorithmSupport()
 {
 	int ItemCount=GetItemCount();
@@ -17502,7 +17427,7 @@ bool	PixelInspectionInPage::ReExecMultiAlgorithmSupport()
 	return true;
 }
 
-//?��?e???e?I?I?a?Ae??l?d?i?��?�E?e
+//????e???e?I?I?a?Ae??l?d?i?????E?e
 bool	PixelInspectionInPage::CalcMultiAlgorithmSupport(int PixelLibID,const QString AlgorithmName,int LibID,int UniqueID,QString &Msg)
 {
 #ifdef Debug
@@ -17510,7 +17435,7 @@ bool	PixelInspectionInPage::CalcMultiAlgorithmSupport(int PixelLibID,const QStri
 	AlgorithmLibraryList *p;
 #endif
 
-	//?A???S???Y?�?i?I?a?j?I?w?e?a?E?��?e???A?U???I?I?e?A?��?E?��?I?a?d?Z?b?g
+	//?A???S???Y???i?I?a?j?I?w?e?a?E????e???A?U???I?I?e?A????E????I?a?d?Z?b?g
 	if(AlgorithmName.isEmpty()==true){
 		//?s?N?Z?????C?u?????d?a??
 		//PixelInspectionLibrary PLib(GetParentBase()->GetLibType(),GetLayersBase());
@@ -17561,17 +17486,17 @@ bool	PixelInspectionInPage::CalcMultiAlgorithmSupport(int PixelLibID,const QStri
 			//???C?u?????i?n?d?a??
 			AlgorithmBase	*AlgorithmBasePointer=GetLayersBase()->GetAlgorithmBase(L->GetDLLRoot(),L->GetDLLName());
 			if(AlgorithmBasePointer==NULL){
-				//AlgorithmBase?E?��
+				//AlgorithmBase?E???
 				return false;
 			}
 			AlgorithmInPageRoot	*AlgorithmInPageRootPointer=AlgorithmBasePointer->GetPageData(GetPage());
 			if(AlgorithmInPageRootPointer==NULL){
-				//AlgorithmInPageRoot?E?��
+				//AlgorithmInPageRoot?E???
 				return false;
 			}
 			AlgorithmInPagePI	*AlgorithmInPagePIPointer=dynamic_cast<AlgorithmInPagePI *>(AlgorithmInPageRootPointer);
 			if(AlgorithmInPagePIPointer==NULL){
-				//AlgorithmInPagePI?E?��
+				//AlgorithmInPagePI?E???
 				return false;
 			}
 
@@ -17611,7 +17536,7 @@ bool	PixelInspectionInPage::CalcMultiAlgorithmSupport(int PixelLibID,const QStri
 
 			int ItemCount=AlgorithmInPagePIPointer->GetItemCount();
 			AlgorithmItemPI **AlgorithmItemPIList=new AlgorithmItemPI*[ItemCount];
-			//???u?��
+			//???u???
 			#pragma omp parallel
 			{
 				#pragma omp for
@@ -17734,14 +17659,14 @@ bool	PixelInspectionInPage::CalcMultiAlgorithmSupport(int PixelLibID,const QStri
 /*
 	AlgorithmInLayerRoot *AlgorithmInLayerRootPointer=AlgorithmInPageRootPointer->GetLayerData(0);
 	if(AlgorithmInLayerRootPointer==NULL){
-		//?A???S???Y?�?E?��
+		//?A???S???Y???E???
 		return false;
 	}
 	AlgorithmInLayerRootPointer-
 
 	AlgorithmItemRoot *AlgorithmItemRootPointer=Pg->GetItemData(0,LibID);
 	if(AlgorithmItemRootPointer==NULL){
-		//?A???S???Y?�?E?��
+		//?A???S???Y???E???
 		return false;
 	}
 	FlexArea AlgorithmItemArea=AlgorithmItemRootPointer->GetArea();
@@ -17792,7 +17717,7 @@ void	PixelInspectionInPage::DeletePixelItem()
 
 void	PixelInspectionInPage::CreateItemThreshold()
 {
-	//?D?a?x???EItem?Ee??l?d?Y?e?�E?e
+	//?D?a?x???EItem?Ee??l?d?Y?e??E?e
 	int ItemCount=GetItemCount();
 
 	GetLayersBase()->AddMaxProcessing(GetPage(),ItemCount<<1);
@@ -17897,7 +17822,7 @@ void	PixelInspectionInPage::AllocPixDataForResistSilk(void)
 	int	XNumb=GetDotPerLine();
 	int	YNumb=GetMaxLines();
 
-	//???W?X?g?Ie??l?I?i?[???[?N?i?��
+	//???W?X?g?Ie??l?I?i?[???[?N?i???
 	if(PixDataForResistSilk[0]==NULL){
 		for(int Cnt=0;Cnt<2;Cnt++){
 			PixDataForResistSilk[Cnt]=new PixelInsData*[(YNumb>>8)+1];
@@ -17906,7 +17831,7 @@ void	PixelInspectionInPage::AllocPixDataForResistSilk(void)
 			}
 		}
 	}
-	//???W?X?g?Ie??l?I?i?[???[?N???u?��
+	//???W?X?g?Ie??l?I?i?[???[?N???u???
 	for(int Cnt=0;Cnt<2;Cnt++){
 		#pragma omp parallel
 		{
@@ -18059,6 +17984,7 @@ bool	PixelInspectionInPage::PipeInAutoGenerationForLearning (QIODevice *f ,int l
 */
 	return true;
 }
+
 
 PixelInspectionParam::PixelInspectionParam(void){
 	ColorNormal				=Qt::darkGreen;
@@ -18250,18 +18176,18 @@ bool	PixelInspectionBase::LoadOnlyBase(QIODevice *f)
 		return false;
 	}
 
-	//?}?X?^?[?f?[?^?I?o?[?W?????a?��Load?I??
+	//?}?X?^?[?f?[?^?I?o?[?W?????a???Load?I??
 	//qint64 Pos=f->pos();
 	//if(::Load(f,MasterLoadVer)==true){
 	//	if(MasterLoadVer==0){
 	//		//???u?o?[?W????
 	//		//int32	N=Conditions.GetNumber();?ILoad?I???c
-	//		//?��?I?U?U???a?��?E?��
+	//		//????I?U?U???a????E???
 	//	}
 	//	else if(MasterLoadVer==2){
-	//		//?��?i?K?I?o?[?W?????i2012.02.28?j
-	//		//Ver:2?I?AAlgorithmInPagePI::Save?A?t?�P?c?e?eVer
-	//		f->seek(Pos);	//?|?C???^?d?s?�E
+	//		//????i?K?I?o?[?W?????i2012.02.28?j
+	//		//Ver:2?I?AAlgorithmInPagePI::Save?A?t??P?c?e?eVer
+	//		f->seek(Pos);	//?|?C???^?d?s??E
 	//	}
 	//}
 
@@ -18282,7 +18208,7 @@ ExeResult	PixelInspectionBase::ExecuteInitialAfterEdit(int ExeID
 		}
 	}
 	GetLayersBase()->TF_SetCurrentScanPhaseNumber(0);
-	// phase function : ?S?A?I?t?F?C?Y?I?A?C?e?�?AExecuteInitialAfterEdit?I?i?A???e???I?S?A?I?A?C?e?�?Iflag?dfalse?E?�E?e
+	// phase function : ?S?A?I?t?F?C?Y?I?A?C?e???AExecuteInitialAfterEdit?I?i?A???e???I?S?A?I?A?C?e???Iflag?dfalse?E??E?e
 	for(int phase=0;phase<GetPhaseNumb();phase++){
 		for(int page=0;page<GetPageNumb();page++){
 			PixelInspectionInPage* Page = (PixelInspectionInPage*)GetPageDataPhase(phase)->GetPageData(page);
@@ -18323,7 +18249,7 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 			else if(CmdPixelNGDrawModeVar->GeneralInfo2==3){
 				//?3??
 				if(getIsAllowNothing()==true){
-					//?O?\?|?d?A?�E
+					//?O?\?|?d?A??E
 					CmdPixelNGDrawModeVar->ShowOnlyDetail=false;
 					CmdPixelNGDrawModeVar->ShowOnlyCircle=false;
 					CmdPixelNGDrawModeVar->Ret=1;
@@ -18335,7 +18261,7 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 					CmdPixelNGDrawModeVar->Ret=2;
 				}
 				else if(getIsShowOnlyDetail()==true){
-					//?U?�~?\?|?I?Y
+					//?U??~?\?|?I?Y
 					CmdPixelNGDrawModeVar->ShowOnlyDetail=true;
 					CmdPixelNGDrawModeVar->ShowOnlyCircle=false;
 					CmdPixelNGDrawModeVar->Ret=3;
@@ -18344,7 +18270,7 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 			else if(CmdPixelNGDrawModeVar->GeneralInfo2==1){
 				//?t??
 				if(getIsShowOnlyDetail()==true){
-					//?U?�~?\?|?I?Y
+					//?U??~?\?|?I?Y
 					CmdPixelNGDrawModeVar->ShowOnlyDetail=true;
 					CmdPixelNGDrawModeVar->ShowOnlyCircle=false;
 					CmdPixelNGDrawModeVar->Ret=3;
@@ -18356,17 +18282,17 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 					CmdPixelNGDrawModeVar->Ret=2;
 				}
 				else if(getIsAllowNothing()==true){
-					//?O?\?|?d?A?�E
+					//?O?\?|?d?A??E
 					CmdPixelNGDrawModeVar->ShowOnlyDetail=false;
 					CmdPixelNGDrawModeVar->ShowOnlyCircle=false;
 					CmdPixelNGDrawModeVar->Ret=1;
 				}
 			}
 		}
-		//?U?�~?\?|?I?Y
+		//?U??~?\?|?I?Y
 		else if(CmdPixelNGDrawModeVar->ShowOnlyDetail==true){
 			if(getIsShowOnlyDetail()==true){
-				//?U?�~?\?|?I?Y
+				//?U??~?\?|?I?Y
 				CmdPixelNGDrawModeVar->Ret=3;
 			}
 			else if(CmdPixelNGDrawModeVar->GeneralInfo2==2){
@@ -18378,7 +18304,7 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 					CmdPixelNGDrawModeVar->Ret=0;
 				}
 				else if(getIsAllowNothing()==true){
-					//?O?\?|?d?A?�E
+					//?O?\?|?d?A??E
 					CmdPixelNGDrawModeVar->ShowOnlyDetail=false;
 					CmdPixelNGDrawModeVar->ShowOnlyCircle=false;
 					CmdPixelNGDrawModeVar->Ret=1;
@@ -18399,7 +18325,7 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 					CmdPixelNGDrawModeVar->Ret=2;
 				}
 				else if(getIsAllowNothing()==true){
-					//?O?\?|?d?A?�E
+					//?O?\?|?d?A??E
 					CmdPixelNGDrawModeVar->ShowOnlyDetail=false;
 					CmdPixelNGDrawModeVar->ShowOnlyCircle=false;
 					CmdPixelNGDrawModeVar->Ret=1;
@@ -18420,7 +18346,7 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 			else if(CmdPixelNGDrawModeVar->GeneralInfo2==1){
 				//?3??
 				if(getIsShowOnlyDetail()==true){
-					//?U?�~?\?|?I?Y
+					//?U??~?\?|?I?Y
 					CmdPixelNGDrawModeVar->ShowOnlyDetail=true;
 					CmdPixelNGDrawModeVar->ShowOnlyCircle=false;
 					CmdPixelNGDrawModeVar->Ret=3;
@@ -18432,7 +18358,7 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 					CmdPixelNGDrawModeVar->Ret=0;
 				}
 				else if(getIsAllowNothing()==true){
-					//?O?\?|?d?A?�E
+					//?O?\?|?d?A??E
 					CmdPixelNGDrawModeVar->ShowOnlyDetail=false;
 					CmdPixelNGDrawModeVar->ShowOnlyCircle=false;
 					CmdPixelNGDrawModeVar->Ret=1;
@@ -18441,7 +18367,7 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 			else if(CmdPixelNGDrawModeVar->GeneralInfo2==3){
 				//?t??
 				if(getIsAllowNothing()==true){
-					//?O?\?|?d?A?�E
+					//?O?\?|?d?A??E
 					CmdPixelNGDrawModeVar->ShowOnlyDetail=false;
 					CmdPixelNGDrawModeVar->ShowOnlyCircle=false;
 					CmdPixelNGDrawModeVar->Ret=1;
@@ -18453,7 +18379,7 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 					CmdPixelNGDrawModeVar->Ret=0;
 				}
 				else if(getIsShowOnlyDetail()==true){
-					//?U?�~?\?|?I?Y
+					//?U??~?\?|?I?Y
 					CmdPixelNGDrawModeVar->ShowOnlyDetail=true;
 					CmdPixelNGDrawModeVar->ShowOnlyCircle=false;
 					CmdPixelNGDrawModeVar->Ret=3;
@@ -18462,7 +18388,7 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 		}
 		else{
 			if(getIsAllowNothing()==true){
-				//?O?\?|?d?A?�E
+				//?O?\?|?d?A??E
 				CmdPixelNGDrawModeVar->Ret=1;
 			}
 			else if(CmdPixelNGDrawModeVar->GeneralInfo2==0){
@@ -18474,7 +18400,7 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 					CmdPixelNGDrawModeVar->Ret=2;
 				}
 				else if(getIsShowOnlyDetail()==true){
-					//?U?�~?\?|?I?Y
+					//?U??~?\?|?I?Y
 					CmdPixelNGDrawModeVar->ShowOnlyDetail=true;
 					CmdPixelNGDrawModeVar->ShowOnlyCircle=false;
 					CmdPixelNGDrawModeVar->Ret=3;
@@ -18495,7 +18421,7 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 					CmdPixelNGDrawModeVar->Ret=0;
 				}
 				else if(getIsShowOnlyDetail()==true){
-					//?U?�~?\?|?I?Y
+					//?U??~?\?|?I?Y
 					CmdPixelNGDrawModeVar->ShowOnlyDetail=true;
 					CmdPixelNGDrawModeVar->ShowOnlyCircle=false;
 					CmdPixelNGDrawModeVar->Ret=3;
@@ -18592,14 +18518,14 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 			if(((PixelInspectionInPage *)GetPageData(page))->GetIsMultiAlgorithmSupport()==true){
 				//?A?Y?e
 				((PixelInspectionInPage *)GetPageData(page))->ReExecMultiAlgorithmSupport();
-				//Item?Ee??l?d?Y?e?�E?e
+				//Item?Ee??l?d?Y?e??E?e
 				((PixelInspectionInPage *)GetPageData(page))->CreateItemThreshold();
 /*
 				//?S?A?IItem?dDelete
 				((PixelInspectionInPage *)GetPageData(page))->DeletePixelItem();
 				//?A?Y?e
 				((PixelInspectionInPage *)GetPageData(page))->ExecMultiAlgorithmSupport();
-				//Item?Ee??l?d?Y?e?�E?e
+				//Item?Ee??l?d?Y?e??E?e
 				((PixelInspectionInPage *)GetPageData(page))->CreateItemThreshold();
 */
 			}
@@ -18874,3 +18800,6 @@ bool	PixelInspectionBase::PipeInAutoGenerationForLearning (QIODevice *f ,int Loc
 	}
 	return true;
 }
+
+
+

@@ -1,21 +1,3 @@
-/*
- * Copyright (C) 2022
- * Author : Masatoshi Sasai ,MEGATRADE corporation
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 #include "DisplayThumbnailImageResource.h"
 #include "DisplayThumbnailImage.h"
 #include "XGeneralFunc.h"
@@ -144,7 +126,7 @@ DisplayThumbnailImage::~DisplayThumbnailImage(void)
 }
 
 //////////////////////////
-//ï¿½fï¿½oï¿½bï¿½O
+//ƒfƒoƒbƒO
 int	DebugWWWW;
 int	DebugHHHH;
 //////////////////////////
@@ -182,7 +164,7 @@ void	DisplayThumbnailImage::Prepare(void)
 	wColumnCount=ColumnCount;
 	wRowCount	=RowCount;
 
-	//DisplayNGListButtonï¿½Öƒfï¿½[ï¿½^ï¿½Ìó‚¯“nï¿½ï¿½
+	//DisplayNGListButton‚Öƒf[ƒ^‚Ìó‚¯“n‚µ
 	GUIFormBase	*DNGListButtonForm=GetLayersBase()->FindByName(/**/"Button" ,/**/"DisplayNGListButton" ,/**/"");
 	if(DNGListButtonForm!=NULL){
 		CmdSetThumbnailInformation	CmdSetThumbnailInfo(GetLayersBase());
@@ -192,7 +174,7 @@ void	DisplayThumbnailImage::Prepare(void)
 }
 
 /////////////////////////////////////
-//ï¿½fï¿½oï¿½bï¿½Oï¿½mï¿½F
+//ƒfƒoƒbƒOŠm”F
 //static int DebugX[4]={460	,6515	,4982	,5226};
 //static int DebugY[4]={6225	,6266	,6418	,6625};
 //static int DebugX;
@@ -222,7 +204,7 @@ void	DisplayThumbnailImage::TransmitDirectly(GUIDirectMessage *packet)
 /*
 		double	ZoomRate;
 		if(ErrorGroupTableCount>0){
-			//ï¿½gï¿½å—¦
+			//Šg‘å—¦
 			DebugWWWW=ThumForm[0][0]->TargetCanvas.width();
 			DebugHHHH=ThumForm[0][0]->TargetCanvas.height();
 			double	zx=((double)ThumForm[0][0]->TargetCanvas.width())/((double)CmdSetNGInformationVer->NGWidth);
@@ -230,7 +212,7 @@ void	DisplayThumbnailImage::TransmitDirectly(GUIDirectMessage *packet)
 			ZoomRate=(zx>zy)?zy:zx;
 		}
 */
-		//ErrorGroupTableï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½ï¿½
+		//ErrorGroupTable‚Ìƒf[ƒ^‚ğ•Û‚·‚é
 		if(ErrorGroupTable!=NULL){
 			delete []ErrorGroupTable;
 		}
@@ -241,7 +223,7 @@ void	DisplayThumbnailImage::TransmitDirectly(GUIDirectMessage *packet)
 		if(wColumnCount!=ColumnCount || wRowCount!=RowCount){
 			Prepare();
 		}
-		//ThumFormï¿½ï¿½NGï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Wï¿½ÆŠgï¿½å—¦ï¿½ï¿½ï¿½Zï¿½bï¿½g
+		//ThumForm‚ÉNG’†SÀ•W‚ÆŠg‘å—¦‚ğƒZƒbƒg
 ///		SetThumFormData(0,ZoomRate);
 		SetThumFormData(0);
 		return;
@@ -252,14 +234,14 @@ void	DisplayThumbnailImage::TransmitDirectly(GUIDirectMessage *packet)
 		if(wColumnCount!=ColumnCount || wRowCount!=RowCount){
 			Prepare();
 		}
-		//ThumFormï¿½ï¿½NGï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Zï¿½bï¿½g
+		//ThumForm‚ÉNG’†SÀ•W‚ğƒZƒbƒg
 		SetThumFormData(CurrentRow-(CurrentRow%(RowCount*ColumnCount)),CurrentRow);
 		return;
 	}
 	CmdShowThumbnailDialog	*CmdShowThumbnailDialogVer=dynamic_cast<CmdShowThumbnailDialog*>(packet);
 	if(CmdShowThumbnailDialogVer!=NULL){
 		int CurrentRow=CmdShowThumbnailDialogVer->CurrentRow;
-		//ThumFormï¿½É“nï¿½ï¿½
+		//ThumForm‚É“n‚·
 		if(NGTopToBottom==false){
 			ThumForm[(CurrentRow%(RowCount*ColumnCount))/ColumnCount][(CurrentRow%(RowCount*ColumnCount))%ColumnCount]->ExecMousePressEvent();
 		}
@@ -281,7 +263,7 @@ void	DisplayThumbnailImage::keyPressEvent(QKeyEvent *event)
 
 void	DisplayThumbnailImage::wheelEvent(QWheelEvent *event)
 {
-	//ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½yï¿½[ï¿½Wï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ƒTƒ€ƒlƒCƒ‹‚ğƒy[ƒWˆÚ“®‚·‚é
 	GUIFormBase	*DNGListButtonForm=LBase->FindByName(/**/"Button" ,/**/"DisplayNGListButton" ,/**/"");
 	if(DNGListButtonForm!=NULL){
 		QCoreApplication::sendEvent(DNGListButtonForm,event);
@@ -295,26 +277,26 @@ void	DisplayThumbnailImage::SetThumFormData(int FirstIndex,int CurrentRow)
 		for(int Row=0;Row<RowCount;Row++){
 			for(int Column=0;Column<ColumnCount;Column++){
 				if((Row*ColumnCount+Column)<ErrorGroupTableCount-FirstIndex){
-					//NGï¿½ï¿½ï¿½W
+					//NGÀ•W
 					ErrorGroup *e=ErrorGroupTable[FirstIndex+Row*ColumnCount+Column];
 					int	ex1,ey1,ex2,ey2;
 					e->GetXY(ex1,ey1,ex2,ey2);
 					ThumForm[Row][Column]->SetCenterXY((ex1+ex2)>>1,(ey1+ey2)>>1);
 /*
-					//ï¿½gï¿½å—¦
+					//Šg‘å—¦
 					if((int)ZoomR!=0){
 						ThumForm[Row][Column]->SetZoomRate(ZoomR);
 					}
 */
 				}
 				else{
-					//ï¿½\ï¿½ï¿½ï¿½È‚ï¿½ï¿½iï¿½fï¿½[ï¿½^ï¿½È‚ï¿½ï¿½j
+					//•\¦‚È‚µiƒf[ƒ^‚È‚µj
 					ThumForm[Row][Column]->SetCenterXY(-1,-1);
 				}
 				//CurrentRow
 				ThumForm[Row][Column]->SetCurrentRow(FirstIndex+Row*ColumnCount+Column);
 
-				//ï¿½\ï¿½ï¿½ï¿½gï¿½Î‰ï¿½
+				//•\¦˜g‘Î‰
 				if((Row*ColumnCount+Column)==(CurrentRow%(RowCount*ColumnCount))){
 					ThumForm[Row][Column]->SetFrameColor(true);
 				}
@@ -328,26 +310,26 @@ void	DisplayThumbnailImage::SetThumFormData(int FirstIndex,int CurrentRow)
 		for(int Column=0;Column<ColumnCount;Column++){
 			for(int Row=0;Row<RowCount;Row++){
 				if((Column*RowCount+Row)<ErrorGroupTableCount-FirstIndex){
-					//NGï¿½ï¿½ï¿½W
+					//NGÀ•W
 					ErrorGroup *e=ErrorGroupTable[FirstIndex+Column*RowCount+Row];
 					int	ex1,ey1,ex2,ey2;
 					e->GetXY(ex1,ey1,ex2,ey2);
 					ThumForm[Row][Column]->SetCenterXY((ex1+ex2)>>1,(ey1+ey2)>>1);
 /*
-					//ï¿½gï¿½å—¦
+					//Šg‘å—¦
 					if((int)ZoomR!=0){
 						ThumForm[Row][Column]->SetZoomRate(ZoomR);
 					}
 */
 				}
 				else{
-					//ï¿½\ï¿½ï¿½ï¿½È‚ï¿½ï¿½iï¿½fï¿½[ï¿½^ï¿½È‚ï¿½ï¿½j
+					//•\¦‚È‚µiƒf[ƒ^‚È‚µj
 					ThumForm[Row][Column]->SetCenterXY(-1,-1);
 				}
 				//CurrentRow
 				ThumForm[Row][Column]->SetCurrentRow(FirstIndex+Column*RowCount+Row);
 
-				//ï¿½\ï¿½ï¿½ï¿½gï¿½Î‰ï¿½
+				//•\¦˜g‘Î‰
 				if((Column*RowCount+Row)==(CurrentRow%(RowCount*ColumnCount))){
 					ThumForm[Row][Column]->SetFrameColor(true);
 				}

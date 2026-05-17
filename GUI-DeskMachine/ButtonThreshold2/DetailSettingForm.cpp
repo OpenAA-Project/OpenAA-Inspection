@@ -1,21 +1,3 @@
-/*
- * Copyright (C) 2022
- * Author : Masatoshi Sasai ,MEGATRADE corporation
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 #include "DetailSettingForm.h"
 #include "ButtonThreshold2.h"
 #include "XGUIDLL.h"
@@ -88,7 +70,7 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	PixelAlgorithmBasePointer		=NULL;
 	PixelAlgorithmInPageRootPointer	=NULL;
 
-	//PixelLibrarySetting.datï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
+	//PixelLibrarySetting.dat‚ğ“Ç‚İ‚Ş
 	if(LoadPixelLibrarySetting()==true){
 		if(CheckSettingData()==true){
 			if(ExecMultiAlgorithmSupport()==true){
@@ -100,7 +82,7 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 		QMessageBox::warning(NULL,"Warning","Not loaded PixelLibrarySetting file.",QMessageBox::Ok,QMessageBox::Ok);
 	}
 
-	//ï¿½ï¿½ï¿½Cï¿½Aï¿½Eï¿½g
+	//ƒŒƒCƒAƒEƒg
 	gbDetailSettingPY					=ui.gbDetailSettingP					->y();
 	gbDetailSettingPH					=ui.gbDetailSettingP					->height();
 	gbDetailSettingSY					=ui.gbDetailSettingS					->y();
@@ -132,7 +114,7 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	H									=height();
 	SetLayout();
 
-	//ï¿½{ï¿½^ï¿½ï¿½
+	//ƒ{ƒ^ƒ“
 	QImage DecisionImage(ParentWidget->DecisionImageBmpFile[((ButtonThreshold2 *)GUIBase)->LanguageCode]);
 	BtnDecision=new mtImageToolButton(ui.lbDecision,false);
 	BtnDecision->setImageBmp(DecisionImage);
@@ -153,10 +135,10 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	connect(ui.pbSaveInsParam	,SIGNAL(clicked()),this,SLOT(pbSaveInsParamClicked()));
 	connect(ui.pbLoadInsParam	,SIGNAL(clicked()),this,SLOT(pbLoadInsParamClicked()));
 
-	//ï¿½ï¿½ï¿½ßï¿½ï¿½ï¿½
+	//“§‰ßˆ—
 ///	setWindowOpacity(0.5);
 /*
-	//ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½İ’è‚µautoFillBackgroundï¿½ğ—˜—pï¿½ï¿½ï¿½Ä“ï¿½ï¿½ï¿½ï¿½Fï¿½Å“hï¿½ï¿½ï¿½Â‚Ô‚ï¿½
+	//ƒpƒŒƒbƒg‚ğİ’è‚µautoFillBackground‚ğ—˜—p‚µ‚Ä“§–¾F‚Å“h‚è‚Â‚Ô‚·
 	QPalette palette;
 	palette.setColor(QPalette::Window, QColor(255, 255, 255, 128));
 	setPalette(palette);
@@ -165,7 +147,7 @@ DetailSettingForm::DetailSettingForm(QWidget *parent,GUIFormBase *Base,PixelInsp
 	//setAttribute
 ///	setAttribute(Qt::WA_TransparentForMouseEvents);
 
-	//ï¿½ï¿½ï¿½Ê•\ï¿½ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½Î‰ï¿½
+	//‰æ–Ê•\¦•”‚ÌŒ¾Œê‘Î‰
 ///	LangSolver.SetUI(this);
 }
 
@@ -283,7 +265,7 @@ void DetailSettingForm::diMinimumNGSizeForHoleValueChanged(int Value)
 
 void DetailSettingForm::pbSaveInsParamClicked()
 {
-	//ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Ì•Û‘ï¿½
+	//ŒŸ¸ƒpƒ‰ƒ[ƒ^‚Ì•Û‘¶
 	QString InsParamFilePath=QFileDialog::getSaveFileName(
 							this,"Please save a Inspection setting parameter file.",/**/"PixelParameter.dat",/**/"Inspection setting parameter file (*.dat)");
 	if(InsParamFilePath.isEmpty()){
@@ -293,38 +275,38 @@ void DetailSettingForm::pbSaveInsParamClicked()
 	if(File.open(QIODevice::WriteOnly)==true){
 		QTextStream mystream(&File);
 
-		mystream << /**/"InspectionLevel               :" << QString::number(ParentWidget							->GetInspectionLevel())		<< endl;
-		mystream << /**/"Colored                       :" << QString::number(PixelBase								->getColored())					<< endl;
-		mystream << /**/"DefaultLibraryID              :" << QString::number(PixelBase								->getDefaultLibraryID())			<< endl;
-		mystream << /**/"BrightnessRange               :" << QString::number(PixelBase								->getBrightnessRange())			<< endl;
-		mystream << /**/"CheckPadIns                   :" << QString::number(ui.chSettingForPad						->isChecked())				<< endl;
-		mystream << /**/"NGThresholdP                  :" << QString::number(ui.dsbNGThresholdP						->value())					<< endl;
-		mystream << /**/"MinimumNGSizeP                :" << QString::number(ui.sbMinimumNGSizeP					->value())					<< endl;
-		mystream <<	/**/"DonePadIns                    :" << QString::number(ui.gbDetailSettingForPad				->isChecked())				<< endl;
-		mystream << /**/"NGThresholdForPad             :" << QString::number(ui.sbNGThresholdForPad					->value())					<< endl;
-		mystream << /**/"MinimumNGSizeForPad           :" << QString::number(ui.sbMinimumNGSizeForPad				->value())					<< endl;
-		mystream << /**/"IsCalcPixelInterPorationPad   :" << QString::number(ui.chbIsCalcPixelInterPorationPad		->isChecked())				<< endl;
-		mystream << /**/"CheckSilkIns                  :" << QString::number(ui.chSettingForSilk					->isChecked())				<< endl;
-		mystream << /**/"NGThresholdS                  :" << QString::number(ui.dsbNGThresholdS						->value())					<< endl;
-		mystream << /**/"MinimumNGSizeS                :" << QString::number(ui.sbMinimumNGSizeS					->value())					<< endl;
-		mystream << /**/"DoneSilkIns                   :" << QString::number(ui.gbDetailSettingForSilk				->isChecked())				<< endl;
-		mystream << /**/"NGThresholdForSilk            :" << QString::number(ui.sbNGThresholdForSilk				->value())					<< endl;
-		mystream << /**/"MinimumNGSizeForSilk          :" << QString::number(ui.sbMinimumNGSizeForSilk				->value())					<< endl;
-		mystream << /**/"IsCalcPixelInterPorationSilk  :" << QString::number(ui.chbIsCalcPixelInterPorationSilk		->isChecked())				<< endl;
-		mystream << /**/"CheckResistIns                :" << QString::number(ui.chSettingForResist					->isChecked())				<< endl;
-		mystream << /**/"NGThresholdR                  :" << QString::number(ui.dsbNGThresholdR						->value())					<< endl;
-		mystream << /**/"MinimumNGSizeR                :" << QString::number(ui.sbMinimumNGSizeR					->value())					<< endl;
-		mystream << /**/"DoneResistIns                 :" << QString::number(ui.gbDetailSettingForResist			->isChecked())				<< endl;
-		mystream << /**/"NGThresholdForResist          :" << QString::number(ui.sbNGThresholdForResist				->value())					<< endl;
-		mystream << /**/"MinimumNGSizeForResist        :" << QString::number(ui.sbMinimumNGSizeForResist			->value())					<< endl;
-		mystream << /**/"IsCalcPixelInterPorationResist:" << QString::number(ui.chbIsCalcPixelInterPorationResist	->isChecked())				<< endl;
-		mystream << /**/"CheckHoleIns                  :" << QString::number(ui.chSettingForHole					->isChecked())				<< endl;
-		mystream << /**/"NGThresholdH                  :" << QString::number(ui.dsbNGThresholdH						->value())					<< endl;
-		mystream << /**/"MinimumNGSizeH                :" << QString::number(ui.sbMinimumNGSizeH					->value())					<< endl;
-		mystream << /**/"DoneHoleIns                   :" << QString::number(ui.gbDetailSettingForHole				->isChecked())				<< endl;
-		mystream << /**/"NGThresholdForHole            :" << QString::number(ui.sbNGThresholdForHole				->value())					<< endl;
-		mystream << /**/"MinimumNGSizeForHole          :" << QString::number(ui.sbMinimumNGSizeForHole				->value())					<< endl;
-		mystream << /**/"IsCalcPixelInterPorationHole  :" << QString::number(ui.chbIsCalcPixelInterPorationHole		->isChecked())				<< endl;
+		mystream << /**/"InspectionLevel               :" << QString::number(ParentWidget							->GetInspectionLevel())		<< Qt::endl;
+		mystream << /**/"Colored                       :" << QString::number(PixelBase								->getColored())				<< Qt::endl;
+		mystream << /**/"DefaultLibraryID              :" << QString::number(PixelBase								->getDefaultLibraryID())	<< Qt::endl;
+		mystream << /**/"BrightnessRange               :" << QString::number(PixelBase								->getBrightnessRange())		<< Qt::endl;
+		mystream << /**/"CheckPadIns                   :" << QString::number(ui.chSettingForPad						->isChecked())				<< Qt::endl;
+		mystream << /**/"NGThresholdP                  :" << QString::number(ui.dsbNGThresholdP						->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeP                :" << QString::number(ui.sbMinimumNGSizeP					->value())					<< Qt::endl;
+		mystream <<	/**/"DonePadIns                    :" << QString::number(ui.gbDetailSettingForPad				->isChecked())				<< Qt::endl;
+		mystream << /**/"NGThresholdForPad             :" << QString::number(ui.sbNGThresholdForPad					->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeForPad           :" << QString::number(ui.sbMinimumNGSizeForPad				->value())					<< Qt::endl;
+		mystream << /**/"IsCalcPixelInterPorationPad   :" << QString::number(ui.chbIsCalcPixelInterPorationPad		->isChecked())				<< Qt::endl;
+		mystream << /**/"CheckSilkIns                  :" << QString::number(ui.chSettingForSilk					->isChecked())				<< Qt::endl;
+		mystream << /**/"NGThresholdS                  :" << QString::number(ui.dsbNGThresholdS						->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeS                :" << QString::number(ui.sbMinimumNGSizeS					->value())					<< Qt::endl;
+		mystream << /**/"DoneSilkIns                   :" << QString::number(ui.gbDetailSettingForSilk				->isChecked())				<< Qt::endl;
+		mystream << /**/"NGThresholdForSilk            :" << QString::number(ui.sbNGThresholdForSilk				->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeForSilk          :" << QString::number(ui.sbMinimumNGSizeForSilk				->value())					<< Qt::endl;
+		mystream << /**/"IsCalcPixelInterPorationSilk  :" << QString::number(ui.chbIsCalcPixelInterPorationSilk		->isChecked())				<< Qt::endl;
+		mystream << /**/"CheckResistIns                :" << QString::number(ui.chSettingForResist					->isChecked())				<< Qt::endl;
+		mystream << /**/"NGThresholdR                  :" << QString::number(ui.dsbNGThresholdR						->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeR                :" << QString::number(ui.sbMinimumNGSizeR					->value())					<< Qt::endl;
+		mystream << /**/"DoneResistIns                 :" << QString::number(ui.gbDetailSettingForResist			->isChecked())				<< Qt::endl;
+		mystream << /**/"NGThresholdForResist          :" << QString::number(ui.sbNGThresholdForResist				->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeForResist        :" << QString::number(ui.sbMinimumNGSizeForResist			->value())					<< Qt::endl;
+		mystream << /**/"IsCalcPixelInterPorationResist:" << QString::number(ui.chbIsCalcPixelInterPorationResist	->isChecked())				<< Qt::endl;
+		mystream << /**/"CheckHoleIns                  :" << QString::number(ui.chSettingForHole					->isChecked())				<< Qt::endl;
+		mystream << /**/"NGThresholdH                  :" << QString::number(ui.dsbNGThresholdH						->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeH                :" << QString::number(ui.sbMinimumNGSizeH					->value())					<< Qt::endl;
+		mystream << /**/"DoneHoleIns                   :" << QString::number(ui.gbDetailSettingForHole				->isChecked())				<< Qt::endl;
+		mystream << /**/"NGThresholdForHole            :" << QString::number(ui.sbNGThresholdForHole				->value())					<< Qt::endl;
+		mystream << /**/"MinimumNGSizeForHole          :" << QString::number(ui.sbMinimumNGSizeForHole				->value())					<< Qt::endl;
+		mystream << /**/"IsCalcPixelInterPorationHole  :" << QString::number(ui.chbIsCalcPixelInterPorationHole		->isChecked())				<< Qt::endl;
 
 		File.close();
 	}
@@ -332,7 +314,7 @@ void DetailSettingForm::pbSaveInsParamClicked()
 
 void DetailSettingForm::pbLoadInsParamClicked()
 {
-	//ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Ì“Çï¿½
+	//ŒŸ¸ƒpƒ‰ƒ[ƒ^‚Ì“Ç
 	QString InsParamFilePath=QFileDialog::getOpenFileName(
 							this,"Please choose a Inspection setting parameter file.",/**/"",/**/"Inspection setting parameter file (*.dat)");
 	if(InsParamFilePath.isEmpty()){
@@ -447,7 +429,7 @@ void DetailSettingForm::pbLoadInsParamClicked()
 		}
 		File.close();
 
-		//ï¿½ï¿½ï¿½Êİ’ï¿½
+		//‰æ–Êİ’è
 		ParentWidget->SetImageSlider(InspectionLevel);
 		ui.dsbNGThresholdP					->setValue	(NGThresholdP);
 		ui.dsbNGThresholdS					->setValue	(NGThresholdS);
@@ -482,7 +464,7 @@ void DetailSettingForm::pbLoadInsParamClicked()
 
 void DetailSettingForm::SlotBtnDecisionClicked()
 {
-	//ï¿½İ’ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Í‚ï¿½ï¿½Ì‚Ü‚Ü”ï¿½ï¿½ï¿½ï¿½ï¿½
+	//İ’è’l‚ª‰½‚à•Ï‚í‚Á‚Ä‚¢‚È‚¢ê‡‚Í‚»‚Ì‚Ü‚Ü”²‚¯‚é
 	if(CheckIsEdit()==false){
 		reject();
 		return;
@@ -531,12 +513,12 @@ void DetailSettingForm::SlotBtnDecisionClicked()
 		PLibList->NGSizeBroad				=sbDetailMinimumNGSize[i]		->value();
 		PLibList->IsCalcPixelInterPoration	=chbIsCalcPixelInterPoration[i]	->isChecked();
 
-		//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ì’ï¿½ï¿½gï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½É•Û‘ï¿½
-		//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìã‘ï¿½Û‘ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½zï¿½Öï¿½ï¿½Åã‘ï¿½Û‘ï¿½ï¿½Å‚ï¿½ï¿½ï¿½
+		//ƒ‰ƒCƒuƒ‰ƒŠ‚Ì’†g‚ğƒf[ƒ^ƒx[ƒX‚É•Û‘¶
+		//ƒ‰ƒCƒuƒ‰ƒŠ‚Ìã‘•Û‘¶ƒR[ƒh‚ª–³‚­‚Ä‚à‰¼‘zŠÖ”‚Åã‘•Û‘¶‚Å‚«‚é
 		PixelAlgorithmBasePointer->GetLibraryContainer()->Update(*PLibLevelList[i]);
 	}
 
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½Äİ’èˆï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
+	//‚µ‚«‚¢’lÄİ’èˆ—‚ğÀs
 	CmdReqCalcThresholdPacket	CmdReqCalcThr(GUIBase->GetLayersBase());
 	PixelAlgorithmBasePointer->TransmitDirectly(&CmdReqCalcThr);
 
@@ -626,9 +608,9 @@ bool DetailSettingForm::LoadPixelLibrarySetting()
 	struct PixelLibrarySettingString PLibInStack[10];
 	struct PixelLibrarySettingString *PLib=PLibInStack;
 
-	//PixelLibrarySetting.datï¿½Ì“Ç‚İï¿½ï¿½ï¿½
+	//PixelLibrarySetting.dat‚Ì“Ç‚İ‚İ
 	int	PLibNumb=0;
-///	QString FileName=/**/"./PixelLibrarySetting.dat";	//ï¿½ï¿½
+///	QString FileName=/**/"./PixelLibrarySetting.dat";	//‰¼
 	QString FileName=((ButtonThreshold2 *)GUIBase)->GetPixelLibSettingFileName();
 	QFile	File(FileName);
 	if(File.open(QIODevice::ReadOnly)==false){
@@ -677,7 +659,7 @@ bool DetailSettingForm::CheckSettingData()
 
 bool DetailSettingForm::LoadAlgorithmData()
 {
-	//AlgorithmListNameï¿½ï¿½PixelLibraryï¿½Ìæ“¾
+	//AlgorithmListName‚ÆPixelLibrary‚Ìæ“¾
 	AlgorithmListName.clear();
 	PixelLibraryIDList.clear();
 	PixelLibraryNameList.clear();
@@ -696,12 +678,12 @@ bool DetailSettingForm::LoadAlgorithmData()
 			}
 			PixelAlgorithmBasePointer=GUIBase->GetLayersBase()->GetAlgorithmBase(L->GetDLLRoot(),L->GetDLLName());
 			if(PixelAlgorithmBasePointer==NULL){
-				//AlgorithmBaseï¿½È‚ï¿½
+				//AlgorithmBase‚È‚µ
 				return false;
 			}
 			PixelAlgorithmInPageRootPointer=PixelAlgorithmBasePointer->GetPageData(0);
 			if(PixelAlgorithmInPageRootPointer==NULL){
-				//AlgorithmInPageRootï¿½È‚ï¿½
+				//AlgorithmInPageRoot‚È‚µ
 				return false;
 			}
 		}
@@ -744,7 +726,7 @@ bool DetailSettingForm::CheckPixelLibrarySettingData(const QStringList &myString
 		Msg+="Not found Algorithm Name.\n";
 	}
 	else{
-		//Libraryï¿½Ìæ“¾
+		//Library‚Ìæ“¾
 		CreateLibraryNameList(AlgorithmListName.at(i));
 		for(i=0;i<LibraryIDList.count();i++){
 			if(myStringList.at(iCnt)==LibraryIDList.at(i)){
@@ -801,7 +783,7 @@ bool DetailSettingForm::CreateLibraryNameList(const QString AlgorithmName)
 	return false;
 }
 
-//ï¿½ï¿½ï¿½ê‚¼ï¿½ï¿½ï¿½Ì—Ìˆï¿½ï¿½ï¿½è‡’lï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
+//‚»‚ê‚¼‚ê‚Ì—Ìˆæ‚Åè‡’l‚ğì¬‚·‚é
 bool DetailSettingForm::ExecMultiAlgorithmSupport()
 {
 	int PLibNumb=PLibSettingStringList.count();
@@ -818,12 +800,12 @@ bool DetailSettingForm::ExecMultiAlgorithmSupport()
 	return true;
 }
 
-//ï¿½ï¿½ï¿½ê‚¼ï¿½ï¿½ï¿½Ì—Ìˆï¿½ï¿½ï¿½è‡’lï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
+//‚»‚ê‚¼‚ê‚Ì—Ìˆæ‚Åè‡’l‚ğì¬‚·‚é
 bool DetailSettingForm::CalcMultiAlgorithmSupport(int PixelLibID,const QString AlgorithmName,int LibID,QString &Msg)
 {
-	//ï¿½Aï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½iï¿½Ìˆï¿½ï¿½jï¿½Ìwï¿½è‚ªï¿½È‚ï¿½ï¿½ê‡ï¿½Aï¿½Ü‚ï¿½ï¿½Iï¿½Î‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Ìˆï¿½ï¿½iResistFlexAreaï¿½jï¿½ï¿½ï¿½Zï¿½bï¿½g
+	//ƒAƒ‹ƒSƒŠƒYƒ€i—Ìˆæj‚Ìw’è‚ª‚È‚¢ê‡A‚Ü‚¾‘I‚Î‚ê‚Ä‚¢‚È‚¢—ÌˆæiResistFlexAreaj‚ğƒZƒbƒg
 	if(AlgorithmName.isEmpty()==true){
-		//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+		//ƒsƒNƒZƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ğæ“¾
 		AlgorithmLibraryList *p=NULL;
 		for(p=PixelAList.GetFirst();p!=NULL;p=p->GetNext()){
 			if(p->GetLibID()==PixelLibID){
@@ -835,13 +817,13 @@ bool DetailSettingForm::CalcMultiAlgorithmSupport(int PixelLibID,const QString A
 			return false;
 		}
 
-		//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+		//ƒsƒNƒZƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ğæ“¾
 ///		PLibList[_Resist]=new PixelInspectionLibrary(PixelAlgorithmBasePointer->GetLibType(),GUIBase->GetLayersBase());
-		//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½zï¿½Öï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½
+		//ƒ‰ƒCƒuƒ‰ƒŠ‚Ì¶¬ƒR[ƒh‚ª–³‚­‚Ä‚à‰¼‘zŠÖ”‚Å¶¬‚Å‚«‚é
 //		PLibList[_Resist]=dynamic_cast<PixelInspectionLibrary *>(PixelAlgorithmBasePointer->GetLibraryContainer()->CreateNew());
 		PLibLevelList[_Resist]=new AlgorithmLibraryLevelContainer(PixelAlgorithmBasePointer->GetLibraryContainer());
 		if(PixelAlgorithmInPageRootPointer->GetLibraryContainer()->GetLibrary(p->GetLibID(),*(PLibLevelList[_Resist]))==false){
-			//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Hï¿½Hï¿½H
+			//ƒsƒNƒZƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ª‚È‚©‚Á‚½‚çHHH
 			Msg="Not load pixel library. ( library ID = " + QString::number(PixelLibID) + " )";
 			return false;
 		}
@@ -853,20 +835,20 @@ bool DetailSettingForm::CalcMultiAlgorithmSupport(int PixelLibID,const QString A
 
 	for(LogicDLL *L=GUIBase->GetLayersBase()->GetLogicDLLBase()->GetFirst();L!=NULL;L=L->GetNext()){
 		if(L->GetDLLName()==AlgorithmName){
-			//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+			//ƒ‰ƒCƒuƒ‰ƒŠî•ñ‚ğæ“¾
 			AlgorithmBase	*AlgorithmBasePointer=GUIBase->GetLayersBase()->GetAlgorithmBase(L->GetDLLRoot(),L->GetDLLName());
 			if(AlgorithmBasePointer==NULL){
-				//AlgorithmBaseï¿½È‚ï¿½
+				//AlgorithmBase‚È‚µ
 				return false;
 			}
 			AlgorithmInPageRoot	*AlgorithmInPageRootPointer=AlgorithmBasePointer->GetPageData(0);
 			if(AlgorithmInPageRootPointer==NULL){
-				//AlgorithmInPageRootï¿½È‚ï¿½
+				//AlgorithmInPageRoot‚È‚µ
 				return false;
 			}
 			AlgorithmInPagePI	*AlgorithmInPagePIPointer=dynamic_cast<AlgorithmInPagePI *>(AlgorithmInPageRootPointer);
 			if(AlgorithmInPagePIPointer==NULL){
-				//AlgorithmInPagePIï¿½È‚ï¿½
+				//AlgorithmInPagePI‚È‚µ
 				return false;
 			}
 
@@ -876,7 +858,7 @@ bool DetailSettingForm::CalcMultiAlgorithmSupport(int PixelLibID,const QString A
 			if(AlgorithmName=="AutoAlignment"){
 				int	AALibNumb=0;
 				for(AlgorithmLibraryList *p=AAlignAList.GetFirst();p!=NULL;p=p->GetNext()){
-					//ï¿½Iï¿½[ï¿½gï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+					//ƒI[ƒgƒAƒ‰ƒCƒƒ“ƒgƒ‰ƒCƒuƒ‰ƒŠ‚ğæ“¾
 					AlgorithmLibraryLevelContainer	AutoAlignLevel(AlgorithmBasePointer->GetLibraryContainer());
 					//AutoAlignmentLibrary *AutoAlignmentLib=dynamic_cast<AutoAlignmentLibrary *>(AlgorithmBasePointer->GetLibraryContainer()->CreateNew());
 					if(AlgorithmBasePointer->GetLibraryContainer()->GetLibrary(p->GetLibID(),AutoAlignLevel)){
@@ -911,7 +893,7 @@ bool DetailSettingForm::CalcMultiAlgorithmSupport(int PixelLibID,const QString A
 				AL->EnumLibrary(L->GetInstance()->GetLibType(),AList);
 				for(AlgorithmLibraryList *pAlgorithmLibraryList=AList.GetFirst();pAlgorithmLibraryList!=NULL;pAlgorithmLibraryList=pAlgorithmLibraryList->GetNext()){
 					if(pAlgorithmLibraryList->GetLibID()==LibID){
-						//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+						//ƒsƒNƒZƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ğæ“¾
 						AlgorithmLibraryList *p=NULL;
 						for(p=PixelAList.GetFirst();p!=NULL;p=p->GetNext()){
 							if(p->GetLibID()==PixelLibID){
@@ -933,13 +915,13 @@ bool DetailSettingForm::CalcMultiAlgorithmSupport(int PixelLibID,const QString A
 							return true;
 						}
 
-						//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+						//ƒsƒNƒZƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ğæ“¾
 ///						PLibList[PType]=new PixelInspectionLibrary(PixelAlgorithmBasePointer->GetLibType(),GUIBase->GetLayersBase());
-						//ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½zï¿½Öï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½
+						//ƒ‰ƒCƒuƒ‰ƒŠ‚Ì¶¬ƒR[ƒh‚ª–³‚­‚Ä‚à‰¼‘zŠÖ”‚Å¶¬‚Å‚«‚é
 						PLibLevelList[PType]=new AlgorithmLibraryLevelContainer(PixelAlgorithmBasePointer->GetLibraryContainer());
 						//PLibList[PType]=dynamic_cast<PixelInspectionLibrary *>(PixelAlgorithmBasePointer->GetLibraryContainer()->CreateNew());
 						if(PixelAlgorithmInPageRootPointer->GetLibraryContainer()->GetLibrary(p->GetLibID(),*(PLibLevelList[PType]))==false){
-							//ï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Hï¿½Hï¿½H
+							//ƒsƒNƒZƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ª‚È‚©‚Á‚½‚çHHH
 							Msg="Not load pixel library. ( library ID = " + QString::number(PixelLibID) + " )";
 							return false;
 						}
@@ -1102,7 +1084,7 @@ void	DetailSettingForm::SetEnabledForHole(bool checked)
 
 bool	DetailSettingForm::CheckIsEdit()
 {
-	//ï¿½ÏXï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
+	//•ÏX‚ª‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
 	for(int i=0;i<PLibNumb;i++){
 		if(PLibLevelList[i]==NULL){
 			continue;
@@ -1133,7 +1115,7 @@ bool	DetailSettingForm::CheckIsEdit()
 	}
 	return false;
 /*
-	//ï¿½ÏXï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
+	//•ÏX‚ª‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
 	if(NGThresholdP!=ui.dsbNGThresholdP->value()){
 		return true;
 	}

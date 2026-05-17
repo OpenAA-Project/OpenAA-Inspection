@@ -40,8 +40,6 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="generatedfiles\qrc_ShowMasterNames.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -53,13 +51,6 @@
     <ClInclude Include="showmasternames_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLOnly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ShowMasterNames.png">

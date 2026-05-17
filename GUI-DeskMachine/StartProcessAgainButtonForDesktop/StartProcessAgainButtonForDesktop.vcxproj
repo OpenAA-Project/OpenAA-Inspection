@@ -88,7 +88,7 @@
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <QtModules>core;gui;network;sql;widgets</QtModules>
+    <QtModules>core;gui;network;sql;widgets;core5compat</QtModules>
     <QtInstall>$(DefaultQtVersion)</QtInstall>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -184,7 +184,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;QT_LARGEFILE_SUPPORT;QT_NO_DEBUG;NDEBUG;STARTPROCESSAGAINBUTTONFORDESKTOP_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\Open;..\..\GUI\StartProcessAgainButton;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OpenAA)\Open;$(OpenAA)\GUI\StartProcessAgainButton;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -194,7 +194,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OpenAA)\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <AdditionalDependencies>ServiceLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -206,7 +206,7 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\GUI\StartProcessAgainButton\StartProcessAgainButtonResource.cpp" />
+    <ClCompile Include="..\..\..\OpenAA6\GUI\StartProcessAgainButton\StartProcessAgainButtonResource.cpp" />
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="StartProcessAgainButtonForDesktop.cpp" />
@@ -214,10 +214,6 @@
   <ItemGroup>
     <QtMoc Include="StartProcessAgainButtonForDesktop.h">
     </QtMoc>
-    <ClInclude Include="..\..\GUI\StartProcessAgainButton\StartProcessAgainButtonResource.h" />
-    <ClInclude Include="..\..\Open\XDLLOnly.h" />
-    <ClInclude Include="..\..\Open\XDLLType.h" />
-    <ClInclude Include="..\..\Open\XGUIDLL.h" />
     <ClInclude Include="startprocessagainbuttonfordesktop_global.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

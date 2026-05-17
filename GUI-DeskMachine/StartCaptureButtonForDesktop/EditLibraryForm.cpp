@@ -1,22 +1,4 @@
-/*
- * Copyright (C) 2023
- * Author : Masatoshi Sasai ,MEGATRADE corporation
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
-#include "StartCaptureButtonForDesktopResource.h"
+﻿#include "StartCaptureButtonForDesktopResource.h"
 #include "XDisplayImage.h"
 #include "AutoAlignmentImagePanel.h"
 #include "AutoPCBHoleAlignerImagePanel.h"
@@ -98,6 +80,19 @@ void	GUICmdAckColorLogic::MakeData(ImagePointerContainer &Images,FlexArea &Area)
 void	GUICmdAckColorLogic::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 }
+
+static	void SetButtonColor(QToolButton *Button,const QColor &Color)
+{
+	QColor DarkColor = Color.darker(150);
+
+	QString styleSheet = QString(
+		"QToolButton { background-color: %1; border: 1px solid gray; border-radius: 4px; padding: 4px; }"
+		"QToolButton:pressed { background-color: %2; }"
+		).arg(Color.name(), DarkColor.name());
+
+	Button->setStyleSheet(styleSheet);
+}
+
 
 //=======================================================================
 EditLibraryForm::EditLibraryForm(int Numb,QWidget *parent)
@@ -224,45 +219,45 @@ void EditLibraryForm::SetLibNumb(int Numb,bool EnableDynamicClassify)
 	//日本語
     font1[0].setPointSize(12);
     font1[0].setBold(true);
-    font1[0].setWeight(75);
+    font1[0].setWeight(QFont::Bold);
 	//English
     font1[1].setPointSize(9);
     font1[1].setBold(true);
-    font1[1].setWeight(75);
+    font1[1].setWeight(QFont::Bold);
 	//簡体中文
     font1[2].setPointSize(9);
     font1[2].setBold(true);
-    font1[2].setWeight(75);
+    font1[2].setWeight(QFont::Bold);
 	//繁体中文
 	font1[3].setPointSize(9);
     font1[3].setBold(true);
-    font1[3].setWeight(75);
+    font1[3].setWeight(QFont::Bold);
 	//Korean
     font1[4].setPointSize(9);
     font1[4].setBold(true);
-    font1[4].setWeight(75);
+    font1[4].setWeight(QFont::Bold);
 
     QFont font2[5];
 	//日本語
     font2[0].setPointSize(16);
     font2[0].setBold(true);
-    font2[0].setWeight(75);
+    font2[0].setWeight(QFont::Bold);
 	//English
     font2[1].setPointSize(9);
     font2[1].setBold(true);
-    font2[1].setWeight(75);
+    font2[1].setWeight(QFont::Bold);
 	//簡体中文
     font2[2].setPointSize(9);
     font2[2].setBold(true);
-    font2[2].setWeight(75);
+    font2[2].setWeight(QFont::Bold);
 	//繁体中文
 	font2[3].setPointSize(9);
     font2[3].setBold(true);
-    font2[3].setWeight(75);
+    font2[3].setWeight(QFont::Bold);
 	//Korean
     font2[4].setPointSize(9);
     font2[4].setBold(true);
-    font2[4].setWeight(75);
+    font2[4].setWeight(QFont::Bold);
 
     QFont tbColorFont;
     tbColorFont.setPointSize(10);
@@ -332,7 +327,7 @@ void EditLibraryForm::SetLibNumb(int Numb,bool EnableDynamicClassify)
 		lbLibName[i]		=new QLabel(fmLibContainer[i]);
 		lbLibName[i]		->setGeometry(QRect(120, 10, 81, 21));
 		lbLibName[i]		->setFont(font1[LanguageCode]);
-		lbLibName[i]		->setText(LangSolver.GetString(EditLibraryForm_LS,LID_95)/*"ライブラリ名"*/);
+		lbLibName[i]		->setText("ライブラリ名");
 		leLibName[i]		=new QLineEdit(fmLibContainer[i]);
 		leLibName[i]		->setGeometry(QRect(210, 10, 131, 21));
 		leLibName[i]		->setReadOnly(true);
@@ -368,26 +363,26 @@ void EditLibraryForm::SetLibNumb(int Numb,bool EnableDynamicClassify)
 		tbAddColor[i]		->setGeometry(QRect(120, 50, 111, 51));
 		tbAddColor[i]		->setCheckable(true);
 		tbAddColor[i]		->setFont(font2[LanguageCode]);
-		tbAddColor[i]		->setText(LangSolver.GetString(EditLibraryForm_LS,LID_96)/*"色追加"*/);
+		tbAddColor[i]		->setText("色追加");
 		tbAddColor[i]		->setStyleSheet(/**/":checked { background-color: red }");
 		connect(tbAddColor[i],SIGNAL(clicked(bool)),this,SLOT(tbAddColorClicked(bool)));
 		tbClearColor[i]		=new QToolButton(fmLibContainer[i]);
 		tbClearColor[i]		->setGeometry(QRect(250, 50, 87, 51));
 		tbClearColor[i]		->setCheckable(true);
 		tbClearColor[i]		->setFont(font2[LanguageCode]);
-		tbClearColor[i]		->setText(LangSolver.GetString(EditLibraryForm_LS,LID_97)/*"色クリア"*/);
+		tbClearColor[i]		->setText("色クリア");
 		connect(tbClearColor[i],SIGNAL(clicked(bool)),this,SLOT(tbClearColorClicked(bool)));
 		lbNoiseShrink[i]	=new QLabel(fmLibContainer[i]);
 		lbNoiseShrink[i]	->setGeometry(QRect(345, 40, 112, 21));
 		lbNoiseShrink[i]	->setFont(font1[LanguageCode]);
-		lbNoiseShrink[i]	->setText(LangSolver.GetString(EditLibraryForm_LS,LID_98)/*"ノイズ除去ドット"*/);
+		lbNoiseShrink[i]	->setText("ノイズ除去ドット");
 		sbNoiseShrink[i]	=new QSpinBox(fmLibContainer[i]);
 		sbNoiseShrink[i]	->setGeometry(QRect(460, 35, 61, 31));
 		sbNoiseShrink[i]	->setFont(font1[LanguageCode]);
 		lbExpandForPickup[i]=new QLabel(fmLibContainer[i]);
 		lbExpandForPickup[i]->setGeometry(QRect(345, 75, 112, 21));
 		lbExpandForPickup[i]->setFont(font1[LanguageCode]);
-		lbExpandForPickup[i]->setText(LangSolver.GetString(EditLibraryForm_LS,LID_99)/*"膨張ドット"*/);
+		lbExpandForPickup[i]->setText("膨張ドット");
 		sbExpandForPickup[i]=new QSpinBox(fmLibContainer[i]);
 		sbExpandForPickup[i]->setGeometry(QRect(460, 70, 61, 31));
 		sbExpandForPickup[i]->setFont(font1[LanguageCode]);
@@ -455,7 +450,7 @@ bool EditLibraryForm::ShowMasterImage(void){
 		if(TargetImage==NULL)
 			return false;
 		DisplayImage	*TargetImagePanel=dynamic_cast<DisplayImage *>(TargetImage);
-		TargetImagePanel->ChangeDisplayType(DisplayImage::__Master);
+		TargetImagePanel->ChangeDisplayType(__Master);
 	}
 	return true;
 }
@@ -504,12 +499,12 @@ void EditLibraryForm::Execute()
 		DynamicClassifyBasePointer->TransmitDirectly(&CmdDClassifyEnum);
 	}
 
-	SetLibNumb(CmdAlignEnum.LibIDList.GetNumber()+CmdPCBHoleAlignEnum.LibIDList.GetNumber(),FlgDynamicClassify);
+	SetLibNumb(CmdAlignEnum.LibIDList.GetCount()+CmdPCBHoleAlignEnum.LibIDList.GetCount(),FlgDynamicClassify);
 
-	SetAutoAlignmentLibNumb		(CmdAlignEnum.LibIDList.GetNumber(),AutoAlignmentBasePointer);
-	SetAutoPCBHoleAlignerLibNumb(CmdPCBHoleAlignEnum.LibIDList.GetNumber(),AutoPCBHoleAlignerBasePointer);
+	SetAutoAlignmentLibNumb		(CmdAlignEnum.LibIDList.GetCount(),AutoAlignmentBasePointer);
+	SetAutoPCBHoleAlignerLibNumb(CmdPCBHoleAlignEnum.LibIDList.GetCount(),AutoPCBHoleAlignerBasePointer);
 	if(DynamicClassifyBasePointer!=NULL){
-		SetDynamicClassifyLibNumb	(CmdDClassifyEnum.LibIDList.GetNumber(),DynamicClassifyBasePointer);
+		SetDynamicClassifyLibNumb	(CmdDClassifyEnum.LibIDList.GetCount(),DynamicClassifyBasePointer);
 	}
 
 	iCLogic				=new int[LibNumb];
@@ -551,7 +546,7 @@ void EditLibraryForm::Execute()
 			pDClassifyLib->PickupColor.ClearBase();
 			//PADのライブラリの色情報を取得する→DynamicClassifyのライブラリに適用する→DynamicClassifyのGenerateをこの処理の後に行うようにする
 			AutoAlignmentLibrary		*pAlignLib=(AutoAlignmentLibrary *)AlignLevelLib[0]->GetLibrary();
-			if(CmdAlignEnum.LibIDList.GetNumber()>0 && AlignLevelLib[0]!=NULL){
+			if(CmdAlignEnum.LibIDList.GetCount()>0 && AlignLevelLib[0]!=NULL){
 				for(ColorLogic *c=pAlignLib->PickupColor.GetFirst();c!=NULL;c=c->GetNext()){
 					pDClassifyLib->PickupColor.Add(*c);
 				}
@@ -623,16 +618,18 @@ void EditLibraryForm::ExecuteDrawEnd(FlexArea &Area)
 				//確認メッセージ
 				QMessageBox MsgBox;
 				MsgBox.setFont	(font1[LanguageCode]);
-				MsgBox.setText	(LangSolver.GetString(EditLibraryForm_LS,LID_100)/*"色情報の表示枠には表示しきれませんが、\n正常に色情報は取得されています。"*/);
-				MsgBox.addButton(LangSolver.GetString(EditLibraryForm_LS,LID_101)/*"閉じる"*/	,QMessageBox::AcceptRole);
+				MsgBox.setText	("色情報の表示枠には表示しきれませんが、\n正常に色情報は取得されています。");
+				MsgBox.addButton("閉じる"	,QMessageBox::AcceptRole);
 				MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//常に前面に表示
 				MsgBox.exec();
 			}
 			else{
-				P.setColor(QPalette::Button,QColor(((ColorSphere *)pCLogic->GetFirstBase())->GetCenter()));
+				QColor	Col=QColor(((ColorSphere *)pCLogic->GetFirstBase())->GetCenter());
+				P.setColor(QPalette::Button,Col);
 				if(i>=AutoAlignmentLibNumb){
 					P.setColor(QPalette::WindowText,QColor(Qt::white));
 				}
+				SetButtonColor(tbColor[iCLogic[i]][i],Col);
 				tbColor[iCLogic[i]][i]->setPalette(P);
 				tbColor[iCLogic[i]][i]->setText(QString::number(iCLogic[i]+1));
 			}
@@ -657,14 +654,19 @@ void EditLibraryForm::Update(bool Enable)
 					if(Enable==true){
 						ColorSphere *pCSphere=(ColorSphere *)c->GetFirstBase();
 						QPalette P;
-						P.setColor(QPalette::Button,QColor(pCSphere->GetCenter()));
+						QColor	Col=QColor(pCSphere->GetCenter());
+						P.setColor(QPalette::Button,Col);
 						if(i>=AutoAlignmentLibNumb){
 							P.setColor(QPalette::WindowText,QColor(Qt::white));
 						}
+						SetButtonColor(tbColor[iNumb][i],Col);
 						tbColor[iNumb][i]->setPalette(P);
 					}
 					else{
-						tbColor[iNumb][i]->setPalette(ui.pushButtonFinish->palette());
+						//SetButtonColor(tbColor[iNumb][i],Col);
+						QColor	Col=ui.pushButtonFinish->palette().color(QPalette::Button);
+						SetButtonColor(tbColor[iNumb][i],Col);
+						//tbColor[iNumb][i]->setPalette(ui.pushButtonFinish->palette());
 					}
 				}
 			}
@@ -680,7 +682,7 @@ void EditLibraryForm::ExecClose()
 	if(TargetImage==NULL)
 		return;
 	DisplayImage	*TargetImagePanel=dynamic_cast<DisplayImage *>(TargetImage);
-	TargetImagePanel->SetModeByOthers(mtFrameDraw::fdNone,QColor(Qt::red));
+	TargetImagePanel->SetModeByOthers(fdNone,QColor(Qt::red));
 
 	//描画完了のフックを解除
 	for(int i=0;i<LibNumb;i++){
@@ -720,7 +722,7 @@ void EditLibraryForm::ExecClose()
 	}
 
 	//TargetImagePanelにの表示を検査画像に直す
-	TargetImagePanel->ChangeDisplayType(DisplayImage::__Target);
+	TargetImagePanel->ChangeDisplayType(__Target);
 	}
 	DeleteFormComponent();
 }
@@ -748,7 +750,7 @@ void EditLibraryForm::rbSelectRectangleToggled(bool checked)
 		}
 		DisplayImage	*TargetImagePanel=dynamic_cast<DisplayImage *>(TargetImage);
 		//矩形描画に設定
-		TargetImagePanel->SetModeByOthers(mtFrameDraw::fdRectangle,QColor(Qt::red));
+		TargetImagePanel->SetModeByOthers(fdRectangle,QColor(Qt::red));
 	}
 }
 
@@ -762,7 +764,7 @@ void EditLibraryForm::rbSelectPolygonToggled(bool checked)
 		}
 		DisplayImage	*TargetImagePanel=dynamic_cast<DisplayImage *>(TargetImage);
 		//多角形描画に設定
-		TargetImagePanel->SetModeByOthers(mtFrameDraw::fdPoly,QColor(Qt::red));
+		TargetImagePanel->SetModeByOthers(fdPoly,QColor(Qt::red));
 	}
 }
 
@@ -795,7 +797,7 @@ void EditLibraryForm::tbAddColorClicked(bool checked)
 		if(ActiveButtonIndex==i){
 			if(checked==false){
 				//矩形描画を解除
-				TargetImagePanel->SetModeByOthers(mtFrameDraw::fdNone,QColor(Qt::red));
+				TargetImagePanel->SetModeByOthers(fdNone,QColor(Qt::red));
 				//ボタンが押し上げられた
 				if(i<AutoAlignmentLibNumb || i==LibNumb){
 					//AutoAlignmentImagePanelからの描画フックを解除
@@ -895,11 +897,11 @@ void EditLibraryForm::tbAddColorClicked(bool checked)
 			if(tbAddColor[i]->isChecked()==true){
 				if(ui.rbSelectRectangle->isChecked()==true){
 					//矩形描画に設定
-					TargetImagePanel->SetModeByOthers(mtFrameDraw::fdRectangle,QColor(Qt::red));
+					TargetImagePanel->SetModeByOthers(fdRectangle,QColor(Qt::red));
 				}
 				else{
 					//多角形描画に設定
-					TargetImagePanel->SetModeByOthers(mtFrameDraw::fdPoly,QColor(Qt::red));
+					TargetImagePanel->SetModeByOthers(fdPoly,QColor(Qt::red));
 				}
 				//ボタンが押し下げられた
 				if(i<AutoAlignmentLibNumb){
@@ -946,7 +948,7 @@ void EditLibraryForm::tbAddColorClicked(bool checked)
 			if(NNN==0){
 				if(tbOutlineI[MMM]->isChecked()==true){		//Outline-Iボタン
 					//矩形描画を解除
-					TargetImagePanel->SetModeByOthers(mtFrameDraw::fdNone,QColor(Qt::red));
+					TargetImagePanel->SetModeByOthers(fdNone,QColor(Qt::red));
 					//ボタンが押し下げられた
 					//PropertyDynamicClassifyの画面操作
 					GUIFormBase	*PropertyDClassify=pLayersBase->FindByName(/**/"Button" ,/**/"PropertyDynamicClassifyForm" ,/**/"");
@@ -971,7 +973,7 @@ void EditLibraryForm::tbAddColorClicked(bool checked)
 			else if(NNN==1){
 				if(tbOutlineT[MMM]->isChecked()==true){		//Outline-Tボタン
 					//矩形描画を解除
-					TargetImagePanel->SetModeByOthers(mtFrameDraw::fdNone,QColor(Qt::red));
+					TargetImagePanel->SetModeByOthers(fdNone,QColor(Qt::red));
 					//ボタンが押し下げられた
 					//PropertyDynamicClassifyの画面操作
 					GUIFormBase	*PropertyDClassify=pLayersBase->FindByName(/**/"Button" ,/**/"PropertyDynamicClassifyForm" ,/**/"");
@@ -996,7 +998,7 @@ void EditLibraryForm::tbAddColorClicked(bool checked)
 			else if(NNN==2){
 				if(tbOutlineO[MMM]->isChecked()==true){		//Outline-Oボタン
 					//矩形描画を解除
-					TargetImagePanel->SetModeByOthers(mtFrameDraw::fdNone,QColor(Qt::red));
+					TargetImagePanel->SetModeByOthers(fdNone,QColor(Qt::red));
 					//ボタンが押し下げられた
 					//PropertyDynamicClassifyの画面操作
 					GUIFormBase	*PropertyDClassify=pLayersBase->FindByName(/**/"Button" ,/**/"PropertyDynamicClassifyForm" ,/**/"");
@@ -1023,7 +1025,7 @@ void EditLibraryForm::tbAddColorClicked(bool checked)
 	//マスク領域表示ボタン
 	if(ui.tbShowMaskArea->isChecked()==true){
 		//矩形描画を解除
-		TargetImagePanel->SetModeByOthers(mtFrameDraw::fdNone,QColor(Qt::red));
+		TargetImagePanel->SetModeByOthers(fdNone,QColor(Qt::red));
 		//ボタンが押し下げられた
 		//PropertyAutoAlignmentFormの画面操作
 		GUIFormBase	*PropertyAAlign=pLayersBase->FindByName(/**/"Button" ,/**/"PropertyAutoAlignment" ,/**/"");
@@ -1047,11 +1049,11 @@ void EditLibraryForm::tbAddColorClicked(bool checked)
 	else if(ui.tbEffectiveMask->isChecked()==true || ui.tbIneffectiveMask->isChecked()==true){
 		if(ui.rbSelectRectangle->isChecked()==true){
 			//矩形描画に設定
-			TargetImagePanel->SetModeByOthers(mtFrameDraw::fdRectangle,QColor(Qt::red));
+			TargetImagePanel->SetModeByOthers(fdRectangle,QColor(Qt::red));
 		}
 		else{
 			//多角形描画に設定
-			TargetImagePanel->SetModeByOthers(mtFrameDraw::fdPoly,QColor(Qt::red));
+			TargetImagePanel->SetModeByOthers(fdPoly,QColor(Qt::red));
 		}
 		//ボタンが押し下げられた
 		//PropertyAutoMaskingPIFormの画面操作
@@ -1089,15 +1091,14 @@ void EditLibraryForm::tbColorClicked(bool checked)
 					//確認メッセージ
 					QMessageBox MsgBox;
 					MsgBox.setFont	(font1[LanguageCode]);
-					MsgBox.setText	(LangSolver.GetString(EditLibraryForm_LS,LID_6)/*"選択した色情報をクリアしますか？"*/);
-					MsgBox.addButton(LangSolver.GetString(EditLibraryForm_LS,LID_7)/*"はい"*/	,QMessageBox::AcceptRole);
-					MsgBox.addButton(LangSolver.GetString(EditLibraryForm_LS,LID_8)/*"キャンセル"*/		,QMessageBox::RejectRole);
+					MsgBox.setText	("選択した色情報をクリアしますか？");
+					MsgBox.addButton("はい"	,QMessageBox::AcceptRole);
+					MsgBox.addButton("キャンセル"		,QMessageBox::RejectRole);
 					MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint);
-					int Ret=MsgBox.exec();
-
+					MsgBox.exec();
+					QMessageBox::ButtonRole role = MsgBox.buttonRole(MsgBox.clickedButton());
 					//色クリア
-					if(Ret==QMessageBox::AcceptRole){
-						QPalette P;
+					if(role==QMessageBox::AcceptRole){
 						ColorLogic *CLogic;
 						if(i<AutoAlignmentLibNumb){
 							AutoAlignmentLibrary	*pAlignLib=(AutoAlignmentLibrary *)AlignLevelLib[i]->GetLibrary();
@@ -1106,24 +1107,30 @@ void EditLibraryForm::tbColorClicked(bool checked)
 						else{
 							AutoPCBHoleAlignerLibrary	*pPCBHoleAlignLib=(AutoPCBHoleAlignerLibrary *)PCBHoleLevelLib[i-AutoAlignmentLibNumb]->GetLibrary();
 							CLogic=&(pPCBHoleAlignLib->PickupHoleColor);
-							P.setColor(QPalette::WindowText,QColor(Qt::white));
+							//P.setColor(QPalette::WindowText,QColor(Qt::white));
 						}
 						for(int k=j;k<CLogic->GetBaseCount() && k<9;k++){
 							ColorSphere *c;
 							if((c=(ColorSphere *)CLogic->GetBase(k+1))!=NULL){
 								QPalette P;
-								P.setColor(QPalette::Button,QColor(c->GetCenter()));
+								QColor	Col=QColor(c->GetCenter());
+								P.setColor(QPalette::Button,Col);
+								SetButtonColor(tbColor[k][i],Col);
 								tbColor[k][i]->setPalette(P);
 							}
 							else{
 								if(iPickupAddColor[i]==0){
-									tbColor[k][i]->setPalette(ui.pushButtonFinish->palette());
+									QColor	Col=ui.pushButtonFinish->palette().color(QPalette::Button);
+									SetButtonColor(tbColor[k][i],Col);
+									//tbColor[k][i]->setPalette(ui.pushButtonFinish->palette());
 									tbColor[k][i]->setText(/**/"");
 								}
 								else{
 									int Index;
 									if((Index=CLogic->GetBaseCount()+iPickupAddColor[i]-1)<9){
-										tbColor[Index][i]->setPalette(ui.pushButtonFinish->palette());
+										QColor	Col=ui.pushButtonFinish->palette().color(QPalette::Button);
+										SetButtonColor(tbColor[Index][i],Col);
+										//tbColor[Index][i]->setPalette(ui.pushButtonFinish->palette());
 										tbColor[Index][i]->setText(/**/"");
 									}
 								}
@@ -1145,7 +1152,9 @@ void EditLibraryForm::tbColorClicked(bool checked)
 									}
 								}
 								if((Index=CLogic->GetBaseCount()+iPickupAddColor[i]-1)<9){
-									tbColor[Index][i]->setPalette(ui.pushButtonFinish->palette());
+									QColor	Col=ui.pushButtonFinish->palette().color(QPalette::Button);
+									SetButtonColor(tbColor[Index][i],Col);
+									//tbColor[Index][i]->setPalette(ui.pushButtonFinish->palette());
 									tbColor[Index][i]->setText(/**/"");
 								}
 								iPickupAddColor[i]--;
@@ -1170,14 +1179,14 @@ void EditLibraryForm::tbGerberClicked(bool checked)
 				//確認メッセージ
 				QMessageBox MsgBox;
 				MsgBox.setFont	(font1[LanguageCode]);
-				MsgBox.setText	(LangSolver.GetString(EditLibraryForm_LS,LID_9)/*"このガーバー領域を削除しますか？"*/);
-				MsgBox.addButton(LangSolver.GetString(EditLibraryForm_LS,LID_10)/*"はい"*/	,QMessageBox::AcceptRole);
-				MsgBox.addButton(LangSolver.GetString(EditLibraryForm_LS,LID_11)/*"キャンセル"*/	,QMessageBox::RejectRole);
+				MsgBox.setText	("このガーバー領域を削除しますか？");
+				MsgBox.addButton("はい"	,QMessageBox::AcceptRole);
+				MsgBox.addButton("キャンセル"	,QMessageBox::RejectRole);
 				MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint);
-				int Ret=MsgBox.exec();
-
+				MsgBox.exec();
+				QMessageBox::ButtonRole role = MsgBox.buttonRole(MsgBox.clickedButton());
 				//削除
-				if(Ret==QMessageBox::AcceptRole){
+				if(role==QMessageBox::AcceptRole){
 					//AlgorithmBaseポインタを取得
 					if(i<AutoAlignmentLibNumb){
 						AlgorithmBase	*BasePointer=pLayersBase->GetAlgorithmBase(/**/"Basic",/**/"AutoAlignment");
@@ -1208,16 +1217,16 @@ void EditLibraryForm::tbClearColorClicked(bool checked)
 			//確認メッセージ
 			QMessageBox MsgBox;
 			MsgBox.setFont	(font1[LanguageCode]);
-			MsgBox.setText	(LangSolver.GetString(EditLibraryForm_LS,LID_102)/*"登録されている色情報をクリアします。"*/);
-			MsgBox.addButton(LangSolver.GetString(EditLibraryForm_LS,LID_103)/*"末尾の色をクリア"*/	,QMessageBox::AcceptRole);
-			MsgBox.addButton(LangSolver.GetString(EditLibraryForm_LS,LID_104)/*"全ての色をクリア"*/	,QMessageBox::RejectRole);
-			MsgBox.addButton(LangSolver.GetString(EditLibraryForm_LS,LID_105)/*"キャンセル"*/		,QMessageBox::DestructiveRole);
+			MsgBox.setText	("登録されている色情報をクリアします。");
+			MsgBox.addButton("末尾の色をクリア"	,QMessageBox::AcceptRole);
+			MsgBox.addButton("全ての色をクリア"	,QMessageBox::RejectRole);
+			MsgBox.addButton("キャンセル"		,QMessageBox::DestructiveRole);
 //			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint);	//常に前面に表示
 			MsgBox.setWindowFlags(Qt::WindowStaysOnTopHint | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint);
-			int Ret=MsgBox.exec();
-
+			MsgBox.exec();
+			QMessageBox::ButtonRole role = MsgBox.buttonRole(MsgBox.clickedButton());
 			//色クリア
-			if(Ret==QMessageBox::AcceptRole){	//末尾の色をクリア
+			if(role==QMessageBox::AcceptRole){	//末尾の色をクリア
 				ColorLogic *CLogic;
 				if(i<AutoAlignmentLibNumb){
 					AutoAlignmentLibrary	*pAlignLib=(AutoAlignmentLibrary *)AlignLevelLib[i]->GetLibrary();
@@ -1230,7 +1239,9 @@ void EditLibraryForm::tbClearColorClicked(bool checked)
 				int Numb=iCLogic[i]-1;
 				if(Numb>=0){
 					if(Numb<9){
-						tbColor[Numb][i]->setPalette(ui.pushButtonFinish->palette());
+						QColor	Col=ui.pushButtonFinish->palette().color(QPalette::Button);
+						SetButtonColor(tbColor[Numb][i],Col);
+						//tbColor[Numb][i]->setPalette(ui.pushButtonFinish->palette());
 						tbColor[Numb][i]->setText(/**/"");
 					}
 					if(iPickupAddColor[i]>0){
@@ -1251,7 +1262,7 @@ void EditLibraryForm::tbClearColorClicked(bool checked)
 					iCLogic[i]--;
 				}
 			}
-			else if(Ret==QMessageBox::RejectRole){	//全ての色をクリア
+			else if(role==QMessageBox::RejectRole){	//全ての色をクリア
 				ColorLogic *CLogic;
 				if(i<AutoAlignmentLibNumb){
 					AutoAlignmentLibrary	*pAlignLib=(AutoAlignmentLibrary *)AlignLevelLib[i]->GetLibrary();
@@ -1262,7 +1273,9 @@ void EditLibraryForm::tbClearColorClicked(bool checked)
 					CLogic=&(pPCBHoleAlignLib->PickupHoleColor);
 				}
 				for(int Numb=0;Numb<iCLogic[i] && Numb<9;Numb++){
-					tbColor[Numb][i]->setPalette(ui.pushButtonFinish->palette());
+					QColor	Col=ui.pushButtonFinish->palette().color(QPalette::Button);
+					SetButtonColor(tbColor[Numb][i],Col);
+					//tbColor[Numb][i]->setPalette(ui.pushButtonFinish->palette());
 					tbColor[Numb][i]->setText(/**/"");
 				}
 				AddCLogicList[i].RemoveAll();
@@ -1337,7 +1350,9 @@ void EditLibraryForm::pushButtonUpdateClicked()
 				//画面表示の設定
 				if(j<9){
 					QPalette P;
-					P.setColor(QPalette::Button,QColor(((ColorSphere *)c->GetFirstBase())->GetCenter()));
+					QColor	Col=QColor(((ColorSphere *)c->GetFirstBase())->GetCenter());
+					P.setColor(QPalette::Button,Col);
+					SetButtonColor(tbColor[j][i],Col);
 					tbColor[j][i]->setPalette(P);
 				}
 				pAlignLib->PickupColor.Add(*c);
@@ -1380,10 +1395,12 @@ void EditLibraryForm::pushButtonUpdateClicked()
 				//画面表示の設定
 				if(j<9){
 					QPalette P;
-					P.setColor(QPalette::Button,QColor(((ColorSphere *)c->GetFirstBase())->GetCenter()));
+					QColor	Col=QColor(((ColorSphere *)c->GetFirstBase())->GetCenter());
+					P.setColor(QPalette::Button,Col);
 					if(i>=AutoAlignmentLibNumb){
 						P.setColor(QPalette::WindowText,QColor(Qt::white));
 					}
+					SetButtonColor(tbColor[j][i],Col);
 					tbColor[j][i]->setPalette(P);
 				}
 				pPCBHoleAlignLib->PickupHoleColor.Add(*c);
@@ -1632,11 +1649,14 @@ void EditLibraryForm::SetDynamicClassifyLibNumb(int Numb,AlgorithmBase	*ABase)
 
 void EditLibraryForm::ShowLibrary(int i,AutoAlignmentLibrary *Lib,AlgorithmBase	*AlgorithmBasePointer)
 {
-	leLibName[i]		->setText	(Lib->GetLibName());
+	QString	LibName=Lib->GetLibName();
+	leLibName[i]		->setText	(LibName);
 	QPalette P;
 	int Numb=0;
 	for(ColorSphere *pPickupColor=(ColorSphere *)Lib->PickupColor.GetFirstBase();pPickupColor!=NULL && Numb<9;pPickupColor=(ColorSphere *)pPickupColor->GetNext()){
-		P.setColor(QPalette::Button,QColor(pPickupColor->GetCenter()));
+		QColor	Col=QColor(pPickupColor->GetCenter());
+		P.setColor(QPalette::Button,Col);
+		SetButtonColor(tbColor[Numb][i],Col);
 		tbColor[Numb][i]->setPalette(P);
 		tbColor[Numb][i]->setText(QString::number(Numb+1));
 		Numb++;
@@ -1653,12 +1673,15 @@ void EditLibraryForm::ShowLibrary(int i,AutoAlignmentLibrary *Lib,AlgorithmBase	
 
 void EditLibraryForm::ShowLibrary(int i,AutoPCBHoleAlignerLibrary *Lib,AlgorithmBase	*AlgorithmBasePointer)
 {
-	leLibName[AutoAlignmentLibNumb+i]			->setText	(Lib->GetLibName());
+	QString	LibName=Lib->GetLibName();
+	leLibName[AutoAlignmentLibNumb+i]			->setText	(LibName);
 	QPalette P;
 	P.setColor(QPalette::WindowText,QColor(Qt::white));
 	int Numb=0;
 	for(ColorSphere *pPickupHoleColor=(ColorSphere *)Lib->PickupHoleColor.GetFirstBase();pPickupHoleColor!=NULL && Numb<9;pPickupHoleColor=(ColorSphere *)pPickupHoleColor->GetNext()){
-		P.setColor(QPalette::Button,QColor(pPickupHoleColor->GetCenter()));
+		QColor	Col=QColor(pPickupHoleColor->GetCenter());
+		P.setColor(QPalette::Button,Col);
+		SetButtonColor(tbColor[Numb][AutoAlignmentLibNumb+i],Col);
 		tbColor[Numb][AutoAlignmentLibNumb+i]	->setPalette(P);
 		tbColor[Numb][AutoAlignmentLibNumb+i]	->setText(QString::number(Numb+1));
 		Numb++;

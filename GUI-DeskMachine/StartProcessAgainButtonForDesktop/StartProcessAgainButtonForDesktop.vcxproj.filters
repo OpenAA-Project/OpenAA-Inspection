@@ -38,32 +38,18 @@
     <ClCompile Include="StartProcessAgainButtonForDesktop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\GUI\StartProcessAgainButton\StartProcessAgainButtonResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\OpenAA6\GUI\StartProcessAgainButton\StartProcessAgainButtonResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="startprocessagainbuttonfordesktop_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GUI\StartProcessAgainButton\StartProcessAgainButtonResource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLOnly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XGUIDLL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

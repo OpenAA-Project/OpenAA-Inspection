@@ -47,8 +47,6 @@
     <ClCompile Include="ShowThresholdFileNameForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShowThresholdFileName.h">
@@ -57,13 +55,6 @@
     <ClInclude Include="showthresholdfilename_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLOnly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    
     <ClInclude Include="ShowThresholdFileNamePacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -1,21 +1,3 @@
-/*
- * Copyright (C) 2022
- * Author : Masatoshi Sasai ,MEGATRADE corporation
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 #include "ButtonThreshold2.h"
 #include "XGeneralFunc.h"
 //#include "XGeneralDialog.h"
@@ -86,15 +68,14 @@ DEFFUNCEX	QIcon	*DLL_GetIcon(void)
 ButtonThreshold2::ButtonThreshold2(LayersBase *Base ,QWidget *parent)
 :GUIFormBase(Base,parent),Button(parent,false)
 {
-	//ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½
-	FileRegistry	*FRegistry=new FileRegistry(/**/"./MachineInfo.dat");
-	LanguageCode=FRegistry->LoadRegInt(/**/"Language",0);
+	//Œ¾Œê‘Î‰ž
+	int	LanguageCode=GetLayersBase()->GetLanguageCode();
 
 	QString ImageBmpFile[5]={
-		/**/":Resources/ThresholdImage.bmp",	//ï¿½ï¿½ï¿½{ï¿½ï¿½
+		/**/":Resources/ThresholdImage.bmp",	//“ú–{Œê
 		/**/":Resources/ThresholdImage-en.bmp",	//English
-		/**/":Resources/ThresholdImage-en.bmp",	//ï¿½È‘Ì’ï¿½ï¿½ï¿½
-		/**/":Resources/ThresholdImage-en.bmp",	//ï¿½É‘Ì’ï¿½ï¿½ï¿½
+		/**/":Resources/ThresholdImage-en.bmp",	//ŠÈ‘Ì’†•¶
+		/**/":Resources/ThresholdImage-en.bmp",	//”É‘Ì’†•¶
 		/**/":Resources/ThresholdImage-en.bmp"	//Korean
 	};
 	Button.setImageBmp(QImage(ImageBmpFile[LanguageCode]));
@@ -105,7 +86,7 @@ ButtonThreshold2::ButtonThreshold2(LayersBase *Base ,QWidget *parent)
 	connect(&Button,SIGNAL(SignalClicked()),this,SLOT(SlotClicked()));
 	connect(this,	SIGNAL(SignalResize()),	this,SLOT(ResizeAction()));
 
-	//PixelLibrarySetting.datï¿½ÌŽwï¿½ï¿½
+	//PixelLibrarySetting.dat‚ÌŽw’è
 	PixelLibSettingFileName=/**/"";
 	GetParamGUI()->SetParam(&PixelLibSettingFileName, /**/"ButtonThreshold2",/**/"PixelLibSettingFileName","Pixel Library Setting File Name");
 }
@@ -241,10 +222,10 @@ void ButtonThreshold2::SlotClicked()
 		PBase->setInspectionLevel(255);
 	}
 
-	//ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½É•Û‘ï¿½
+	//ƒpƒ‰ƒ[ƒ^‚É•Û‘¶
 	GetLayersBase()->WriteAllSettingFiles();
 
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ÄÝ’èˆï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
+	//‚µ‚«‚¢’lÄÝ’èˆ—‚ðŽÀs
 	CmdReqCalcThresholdPacket	CmdReqCalcThr(GetLayersBase());
 	PBase->TransmitDirectly(&CmdReqCalcThr);
 }

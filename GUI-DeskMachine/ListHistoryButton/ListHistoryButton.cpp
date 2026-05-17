@@ -1,21 +1,12 @@
-/*
- * Copyright (C) 2023
- * Author : Masatoshi Sasai ,MEGATRADE corporation
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
+/*******************************************************************************
+** Copyright (C) 2005-2008 MEGATRADE corp. All rights reserved.
+**
+** Please consult your licensing agreement or contact customer@mega-trade.co.jp 
+** if any conditions of this licensing agreement are not clear to you.
+**
+** This file is C:\Regulus64v5\GUI-DeskMachine\ListHistoryButton\ListHistoryButton.cpp
+** Author : YYYYYYYYYY
+****************************************************************************-**/
 
 #include "ListHistoryButton.h"
 #include "ListHistoryButtonForm.h"
@@ -120,7 +111,7 @@ ListHistoryButton::ListHistoryButton(LayersBase *Base ,QWidget *parent)
 	connect(&Button	,SIGNAL(clicked(bool))	,this,SLOT(SlotClicked(bool)));
 	connect(this	,SIGNAL(SignalResize())	,this,SLOT(ResizeAction()));
 
-	//ï¿½Lï¿½[ï¿½ï¿½ï¿½Íï¿½ï¿½t
+	//ƒL[“ü—Íó•t
 	SetKeyGrab(true);
 
 	ListHistoryForm=new ListHistoryButtonForm(Base,this);
@@ -208,7 +199,7 @@ void	ListHistoryButton::ShowInPlayer(int64 shownInspectionID)
 	ListHistoryForm->GetLabelNG() ->setText(QString::number(GetLayersBase()->GetResultHistryData()->GetCount(2)));
 	ListHistoryForm->GetLabelSUM()->setText(QString::number(GetLayersBase()->GetResultHistryData()->GetAllCount()));
 
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½bï¿½vï¿½Aï¿½bï¿½vï¿½\ï¿½ï¿½ï¿½Î‰ï¿½
+	//ŒŸ¸Œãƒ|ƒbƒvƒAƒbƒv•\¦‘Î‰
 	if(Popup==true){
 		SlotClicked(true);
 	}
@@ -219,13 +210,13 @@ void ListHistoryButton::TransmitDirectly(GUIDirectMessage *packet)
 	CmdListHistoryButtonKeyFunc	*CmdListHistoryButtonKeyFuncVar=dynamic_cast<CmdListHistoryButtonKeyFunc *>(packet);
 	if(CmdListHistoryButtonKeyFuncVar!=NULL){
 		if(CmdListHistoryButtonKeyFuncVar->KeyDeletePressRepeat==true){
-			//ï¿½ï¿½ï¿½ï¿½Formï¿½Ì•\ï¿½ï¿½ï¿½Î‰ï¿½
+			//—š—ğForm‚Ì•\¦‘Î‰
 			if(ListHistoryForm->isHidden()==true){
 				SlotClicked(true);
 			}
 		}
 		else if(CmdListHistoryButtonKeyFuncVar->KeyDeleteRelease==true){
-			//ï¿½ï¿½ï¿½ï¿½ï¿½Ìíœï¿½Î‰ï¿½
+			//—š—ğ‚Ìíœ‘Î‰
 			if(ListHistoryForm->GetTableWidgetHistory()->rowCount()>0){
 				ListHistoryForm->GetTableWidgetHistory()->selectRow(0);
 				ListHistoryForm->tableWidgetHistoryDoubleClicked(ListHistoryForm->GetTableWidgetHistory()->currentIndex());
@@ -238,7 +229,7 @@ void ListHistoryButton::keyPressEvent ( QKeyEvent * event )
 {
 	if(event->key()==Qt::Key_Delete){
 		if(event->isAutoRepeat()==true){
-			//ï¿½ï¿½ï¿½ï¿½Formï¿½Ì•\ï¿½ï¿½ï¿½Î‰ï¿½
+			//—š—ğForm‚Ì•\¦‘Î‰
 			if(ListHistoryForm->isHidden()==true){
 				SlotClicked(true);
 			}
@@ -251,7 +242,7 @@ void ListHistoryButton::keyReleaseEvent ( QKeyEvent * event )
 {
 	if(event->key()==Qt::Key_Delete){
 		if(event->isAutoRepeat()==false){
-			//ï¿½ï¿½ï¿½ï¿½ï¿½Ìíœï¿½Î‰ï¿½
+			//—š—ğ‚Ìíœ‘Î‰
 			if(ListHistoryForm->GetTableWidgetHistory()->rowCount()>0){
 				ListHistoryForm->GetTableWidgetHistory()->selectRow(0);
 				ListHistoryForm->tableWidgetHistoryDoubleClicked(ListHistoryForm->GetTableWidgetHistory()->currentIndex());

@@ -20,6 +20,7 @@
 #if	!defined(XPIXELINSPECTIONPACKET_H)
 #define	XPIXELINSPECTIONPACKET_H
 
+#include "XTypeDef.h"
 #include "XDataInLayer.h"
 #include "swap.h"
 

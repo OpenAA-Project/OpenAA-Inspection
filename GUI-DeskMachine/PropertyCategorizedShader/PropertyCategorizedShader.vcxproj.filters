@@ -40,8 +40,6 @@
     <ClCompile Include="XPropertyCategorizedShaderPackeet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PropertyCategorizedShader.h">
@@ -50,19 +48,9 @@
     <ClInclude Include="propertycategorizedshader_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLOnly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XGUIDLL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="XPropertyCategorizedShaderPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="PropertyCategorizedShaderForm.h">

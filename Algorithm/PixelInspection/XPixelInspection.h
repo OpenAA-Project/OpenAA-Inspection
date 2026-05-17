@@ -26,11 +26,11 @@
 #include <list>
 using namespace std;
 
+#include "XTypeDef.h"
 #include "XFlexArea.h"
 #include "XMainSchemeMemory.h"
 #include "XDataInLayer.h"
 #include "XColorSpace.h"
-#include "XTypeDef.h"
 #include "XAlgorithmLibrary.h"
 #include "XDataModelPageItem.h"
 #include "XServiceForLayers.h"
@@ -107,6 +107,7 @@ typedef	enum	_ThresholdMode{
 }ThresholdMode;
 
 #define	MakePoleIndex(r,g,b)	(((r)<<16)+((g)<<8)+(b))
+
 
 ///////////////�������o�[�W�����̖��c��///////////////
 class	PixelSampleList : public NPList<PixelSampleList>
@@ -980,6 +981,45 @@ public:
 
 	bool	Save(QIODevice *f);
 	bool	Load(QIODevice *f);
+};
+
+
+//============================================================================================================================
+
+inline	double	Clip1(double d)
+{
+	if(d>1)
+		return 1;
+	if(d<-1)
+		return -1;
+	return d;
+}
+
+inline	BYTE	Clip255(int d)
+{
+	if(d<0)
+		return 0;
+	if(d>255)
+		return 255;
+	return d;
+}
+
+inline	BYTE	GetAvr(DWORD Added,int n)
+{
+	return Added/n;
+}
+
+inline	BYTE	GetDisorder(DWORD Added,DWORD Added2,int n)
+{
+	double	Avr=Added/(double)n;
+	double	v=(Added2-(double)Avr*(double)Avr*n)/(double)n;
+	return Clip255(sqrt(v));
+}
+
+struct	PixelLibrarySettingString
+{
+	QString	StringReadLine;
+	uint	Priority;
 };
 
 #endif

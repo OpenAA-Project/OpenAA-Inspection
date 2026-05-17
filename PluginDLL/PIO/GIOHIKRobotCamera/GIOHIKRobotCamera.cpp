@@ -130,25 +130,25 @@ BYTE	GIOHIKRobotCamera::SetByteBySocket(BYTE data)
 	return data;
 }
 
-IO_DLLFUNC WORD	DLL_GetDLLType(void)
+DEFFUNCEX WORD	DLL_GetDLLType(void)
 {
 	return(DLLPIOMode);
 }
 
-IO_DLLFUNC bool	DLL_GetName(QString &str)
+DEFFUNCEX bool	DLL_GetName(QString &str)
 {
 	str="GIOHIKRobotCamera";
 	return true;
 }
-IO_DLLFUNC const char	*DLL_GetExplain(void)
+DEFFUNCEX const char	*DLL_GetExplain(void)
 {
 	return "GIO by HIKRobot camera";
 }
-IO_DLLFUNC WORD	DLL_GetVersion(void)
+DEFFUNCEX WORD	DLL_GetVersion(void)
 {
 	return 1;
 }
-IO_DLLFUNC bool	DLL_CheckCopyright(QString &CopyrightString)
+DEFFUNCEX bool	DLL_CheckCopyright(QString &CopyrightString)
 {
 	CopyrightString="MEGATRADE (C) 2026";
 	return true;
@@ -177,8 +177,6 @@ bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 
 PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
-	long Ret;
-
 	GIOHIKRobotCamera *GIO = new GIOHIKRobotCamera(Base);
 	GIO->DeviceNo =boardNumber;
 

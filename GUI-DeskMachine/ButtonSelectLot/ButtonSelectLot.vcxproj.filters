@@ -34,8 +34,6 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="generatedfiles\qrc_ButtonSelectLot.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -45,12 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buttonselectlot_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLOnly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

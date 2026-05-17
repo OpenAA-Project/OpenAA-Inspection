@@ -1,21 +1,3 @@
-/*
- * Copyright (C) 2022
- * Author : Masatoshi Sasai ,MEGATRADE corporation
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 #include "PopupGeneralDisplayWholeImage.h"
 #include "XGUIFormBase.h"
 #include "XDisplayImage.h"
@@ -153,7 +135,7 @@ PopupGeneralDisplayWholeImage::PopupGeneralDisplayWholeImage(LayersBase *Base ,Q
 	PopupForm=new GeneralDisplayWholeImageForm(Base,this);
 //	PopupForm.setParent(this);
 //	MainCanvas.setParent(&PopupForm);
-	MainCanvas.SetMode(mtFrameDraw::fdRectangle);
+	MainCanvas.SetMode(fdRectangle);
 	MainCanvas.SetFrameColor(Qt::red);
 	connect(&MainCanvas,SIGNAL(SignalOnPaint(QPainter &)),this,SLOT(SlotOnPaint(QPainter&)));
 	connect(&MainCanvas,SIGNAL(SignalDrawEnd(void)),this,SLOT(SlotDrawEnd(void)));
@@ -178,18 +160,22 @@ PopupGeneralDisplayWholeImage::PopupGeneralDisplayWholeImage(LayersBase *Base ,Q
 	//Layout
 	QGridLayout *gridLayout=new QGridLayout(PopupForm);;
 	gridLayout->setSpacing	(6);
-	gridLayout->setMargin	(0);
+	//gridLayout->setMargin	(0);
 	gridLayout->addWidget	(&MainCanvas,0,0,1,1);
 }
 
 PopupGeneralDisplayWholeImage::~PopupGeneralDisplayWholeImage()
 {
+	if(PopupForm!=NULL){
+		PopupForm->deleteLater();
+		PopupForm=NULL;
+	}
 }
 
 void	PopupGeneralDisplayWholeImage::Prepare(void)
 {
 	MainCanvas.SetFrameColor(FrameColor);
-	MainCanvas.ZoomRate=GetZoomRate();
+	MainCanvas.SetZoomRate(GetZoomRate());
 ///	TM.start();
 
 	Button.setText		(Msg);
@@ -205,7 +191,7 @@ void	PopupGeneralDisplayWholeImage::Prepare(void)
 ///		PopupForm->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::WindowTitleHint);
 	}
 	else{
-///		PopupForm->setWindowFlags(Qt::WindowStaysOnTopHint);	//ï¿½ï¿½ï¿½É‘Oï¿½Ê‚É•\ï¿½ï¿½
+///		PopupForm->setWindowFlags(Qt::WindowStaysOnTopHint);	//í‚É‘O–Ê‚É•\Ž¦
 	}
 
 	ResizeAction();
@@ -218,19 +204,24 @@ void	PopupGeneralDisplayWholeImage::ResizeAction()
 
 void	PopupGeneralDisplayWholeImage::SlotTimeout()
 {
+	if(GetLayersBase()->GetOnTerminating()==true){
+		TM.stop();
+		return;
+	}
 	if(ShowNG==true && BlinkNG==true){
 		BlinkOn=!BlinkOn;
 		MainCanvas.repaint();
 	}
 }
-
-void	PopupGeneralDisplayWholeImage::ReceiveFromRelated(int32 cmd ,void *data)
+void	PopupGeneralDisplayWholeImage::SetDrawPosition(int datax1 ,int datay1 , int datax2 ,int datay2)
 {
-	if(cmd==CmdDerivePosition){
-		RealPos=*(QRect *)data;
-		MainCanvas.repaint();
-	}
+	RealPos.setTop	 (datay1);
+	RealPos.setLeft	 (datax1);
+	RealPos.setRight (datax2);
+	RealPos.setBottom(datay2);
+	MainCanvas.repaint();
 }
+
 
 void	PopupGeneralDisplayWholeImage::SlotClicked (bool checked)
 {

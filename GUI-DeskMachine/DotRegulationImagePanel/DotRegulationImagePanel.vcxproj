@@ -129,7 +129,7 @@
     <QtInstall>$(DefaultQtVersion)</QtInstall>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <QtModules>core;gui;network;sql;widgets</QtModules>
+    <QtModules>core;gui;network;sql;widgets;core5compat</QtModules>
     <QtInstall>$(DefaultQtVersion)</QtInstall>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -179,7 +179,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\PropertyDotRegulation;..\PropertyDotRegulation\GeneratedFiles;..\..\OpenSource\DisplayImage;..\..\OpenSource\Component;.\..\..\Algorithm\DotRegulation;.\..\..\Open;.\GeneratedFiles\$(Configuration);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\PropertyDotRegulation;..\PropertyDotRegulation\GeneratedFiles;$(OpenAA)\OpenSource\DisplayImage;$(OpenAA)\OpenSource\Component;$(OpenAA)\Algorithm\DotRegulation;$(OpenAA)\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;DOTREGULATIONIMAGEPANEL_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -190,7 +190,7 @@
     <Link>
       <AdditionalDependencies>Component.lib;DisplayImage.lib;ServiceLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OpenAA)\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
@@ -279,9 +279,6 @@
     <QtMoc Include="DotRegulationImagePanel.h">
     </QtMoc>
     <ClInclude Include="dotregulationimagepanel_global.h" />
-    <ClInclude Include="..\..\Open\XDLLOnly.h" />
-    <ClInclude Include="..\..\Open\XDLLType.h" />
-    <ClInclude Include="..\..\Open\XGUIDLL.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

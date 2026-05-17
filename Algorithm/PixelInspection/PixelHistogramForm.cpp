@@ -29,14 +29,7 @@ extern	const	char	*sPixelInspectionName;
 
 //#define Debug
 
-inline	BYTE	Clip255(int i)
-{
-	if(i>255)
-		return 255;
-	if(i<0)
-		return 0;
-	return (BYTE)i;
-}
+
 
 PixelHistogramForm::PixelHistogramForm(LayersBase *Base,QWidget *parent)
 	: QWidget(parent),ServiceForLayers(Base)

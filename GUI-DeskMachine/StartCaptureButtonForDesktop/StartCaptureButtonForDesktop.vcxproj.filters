@@ -71,10 +71,10 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Algorithm\AutoAlignment\XAutoAlignmentCommon.cpp">
+    <ClCompile Include="..\..\..\OpenAA6\GUI\PropertyAutoMaskingPI\XPropertyAutoMaskingPIPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\GUI\PropertyAutoMaskingPI\XPropertyAutoMaskingPIPacket.cpp">
+    <ClCompile Include="..\..\..\OpenAA6\Algorithm\AutoAlignment\XAutoAlignmentCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

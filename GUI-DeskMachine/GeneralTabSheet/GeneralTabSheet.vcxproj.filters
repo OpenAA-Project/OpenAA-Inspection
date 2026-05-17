@@ -37,27 +37,18 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="generatedfiles\release\moc_PasswordForm.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="generatedfiles\debug\moc_PasswordForm.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    
     <ClCompile Include="GeneralTabSheetResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="generaltabsheet_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLOnly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="generatedfiles\ui_PasswordForm.h">

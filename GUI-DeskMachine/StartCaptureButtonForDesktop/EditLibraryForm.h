@@ -1,21 +1,3 @@
-/*
- * Copyright (C) 2022
- * Author : Masatoshi Sasai ,MEGATRADE corporation
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 #ifndef EDITLIBRARYFORM_H
 #define EDITLIBRARYFORM_H
 
@@ -81,16 +63,12 @@ public:
 
 public slots:
 	void	pushButtonUpdateClicked			();
+	void	pushButtonFinishClicked			();
 
 private slots:
 	void	rbSelectRectangleToggled		(bool checked);
 	void	rbSelectPolygonToggled			(bool checked);
 	void	verticalScrollBarValueChanged	(int Value);
-//////// test
-	/*void	tbShowMaskArea_clicked			(bool checked);
-	void	tbEffectiveMask_clicked			(bool checked);
-	void	tbIneffectiveMask_clicked		(bool checked);*/
-////////
 	void	tbAddColorClicked				(bool checked);
 	void	tbColorClicked					(bool checked);
 	void	tbGerberClicked					(bool checked);
@@ -98,7 +76,6 @@ private slots:
 	void	sbNoiseShrinkValueChanged		(int Value);
 	void	sbExpandForPickupValueChanged	(int Value);
 	void	pushButtonStartNextClicked		();
-	void	pushButtonFinishClicked			();
 
 private:
 	LayersBase	*pLayersBase;
@@ -127,7 +104,7 @@ private:
 	NPListPack<ColorLogic>	*AddCLogicList;
 	int			*tbGerberCount;
 
-	int		LibNumb;			//ÔøΩÔøΩÔøΩCÔøΩuÔøΩÔøΩÔøΩÔøΩÔøΩÃå¬êÔøΩ
+	int		LibNumb;			//ÉâÉCÉuÉâÉäÇÃå¬êî
 	int		ActiveButtonIndex;
 	int		AutoAlignmentLibNumb;
 	int		AutoPCBHoleAlignerLibNumb;

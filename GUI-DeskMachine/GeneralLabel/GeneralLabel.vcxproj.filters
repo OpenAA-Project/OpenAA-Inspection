@@ -37,17 +37,9 @@
     <ClCompile Include="generatedfiles\debug\moc_GeneralLabel.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    
-    
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="generallabel_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Open\XDLLOnly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Open\XDLLType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

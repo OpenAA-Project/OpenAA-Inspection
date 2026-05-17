@@ -34,19 +34,8 @@
     <ClCompile Include="ZRegulationImagePanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Open\XDLLOnly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XDLLType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Open\XGUIDLL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="zregulationimagepanel_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
