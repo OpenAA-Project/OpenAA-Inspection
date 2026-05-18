@@ -186,6 +186,39 @@ public:
 	virtual	void	MakeReportedTopics(ReportedTopicContainer &RetContainer)	const	override;
 };
 
+//========================================================================================
+
+class	ManualAdjustmentList: public NPListSaveLoad<ManualAdjustmentList>
+{
+public:
+	XDateTime	RegisteredTime;
+	double		ImageValue;
+	double		ManualValue;
+
+	ManualAdjustmentList(void);
+	ManualAdjustmentList(const ManualAdjustmentList &src);
+	
+	ManualAdjustmentList &operator=(const ManualAdjustmentList &src);
+
+	virtual	bool	Save(QIODevice *f)	override;
+	virtual	bool	Load(QIODevice *f)	override;
+};
+
+class  ManualAdjustmentListContainer: public NPListPackSaveLoad<ManualAdjustmentList>
+{
+	public:
+	ManualAdjustmentListContainer(void){}
+	ManualAdjustmentListContainer(const ManualAdjustmentListContainer &src);
+	virtual	ManualAdjustmentList	*Create(void)	override{	return new ManualAdjustmentList();	}
+	virtual	ManualAdjustmentListContainer	&operator=(const ManualAdjustmentListContainer &src);
+};
+
+
+
+
+//========================================================================================
+
+
 class	ColorDifferenceItem : public AlgorithmItemPITemplate<ColorDifferenceInPage,ColorDifferenceBase>
 {
 public:
@@ -223,6 +256,9 @@ public:
 	};
 	double	MasterDense;
 
+	ManualAdjustmentListContainer	ManualDeltaEList;
+	ManualAdjustmentListContainer	ManualDenseList ;
+
 	ColorDifferenceItem(void);
 	virtual	AlgorithmItemRoot	*Clone(void)	override	{	return new ColorDifferenceItem();	}
 	virtual	int32		GetItemClassType(void)	override	{		return 0;		}
@@ -252,6 +288,9 @@ public:
 	virtual	void	UpdateThreshold(int LearningMenuID ,LearningResource &LRes)			override;
 
 	double	CalcDense(bool MasterMode=false);
+
+	void	AddManualDeltaE(double ManualDeltaE);
+	void	AddManualDense(double ManualDense);
 
 private:
 	void	CalcFlowCenterColor(void);
@@ -925,4 +964,100 @@ public:
 	CmdAutoGenerate(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 
+//===================================================================================
+
+class	ColorDifferenceResultInfo : public NPListSaveLoad<ColorDifferenceResultInfo>
+{
+public:
+	int		ItemID;
+	QString	ItemName;
+	int		Page;
+	double	ResultDeltaE;
+	double	ResultDense;
+
+	ColorDifferenceResultInfo(void){}
+
+	virtual	bool	Load(QIODevice *f);
+	virtual	bool	Save(QIODevice *f);
+};
+
+class	ColorDifferenceResultInfoContainer : public NPListPackSaveLoad<ColorDifferenceResultInfo>
+{
+public:
+	ColorDifferenceResultInfoContainer(void){}
+	virtual	ColorDifferenceResultInfo	*Create(void);
+	void	SetPage(int page);
+};
+
+
+inline	bool	ColorDifferenceResultInfo::Load(QIODevice *f)
+{
+	if(::Load(f,ItemID)==false)
+		return false;
+	if(::Load(f,ItemName)==false)
+		return false;
+	if(::Load(f,Page)==false)
+		return false;
+	if(::Load(f,ResultDeltaE)==false)
+		return false;
+	if(::Load(f,ResultDense)==false)
+		return false;
+
+	return true;
+}
+inline	bool	ColorDifferenceResultInfo::Save(QIODevice *f)
+{
+	if(::Save(f,ItemID)==false)
+		return false;
+	if(::Save(f,ItemName)==false)
+		return false;
+	if(::Save(f,Page)==false)
+		return false;
+	if(::Save(f,ResultDeltaE)==false)
+		return false;
+	if(::Save(f,ResultDense)==false)
+		return false;
+
+	return true;
+}
+
+inline	ColorDifferenceResultInfo	*ColorDifferenceResultInfoContainer::Create(void)
+{
+	return new ColorDifferenceResultInfo();
+}
+
+inline	void	ColorDifferenceResultInfoContainer::SetPage(int page)
+{
+	for(ColorDifferenceResultInfo *a=GetFirst();a!=NULL;a=a->GetNext()){
+		a->Page=page;
+	}
+}
+
+class	CmdReqColorDifferenceResult : public GUIDirectMessage
+{
+public:
+	ColorDifferenceResultInfoContainer	Results;
+
+	CmdReqColorDifferenceResult(LayersBase *base):GUIDirectMessage(base){}
+	CmdReqColorDifferenceResult(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
+
+class	CmdSetColorDifferenceManualDeltaE : public GUIDirectMessage
+{
+public:
+	int		ItemID;
+	double	DeltaE;
+
+	CmdSetColorDifferenceManualDeltaE(LayersBase *base):GUIDirectMessage(base){}
+	CmdSetColorDifferenceManualDeltaE(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
+class	CmdSetColorDifferenceManualDense: public GUIDirectMessage
+{
+public:
+	int		ItemID;
+	double	Dense;
+
+	CmdSetColorDifferenceManualDense(LayersBase *base):GUIDirectMessage(base){}
+	CmdSetColorDifferenceManualDense(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
 #endif

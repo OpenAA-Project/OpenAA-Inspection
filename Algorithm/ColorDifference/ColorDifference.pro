@@ -45,10 +45,10 @@ DEPENDPATH += $$PWD/../../../../Qt5.15.8/5.15.8/gcc_64/include/
 include(ColorDifference.pri)
 
 FORMS += \
-    EditDenseInterpolateDialog.ui
+    EditManualInterpolateDialog.ui
 
 HEADERS += \
-    EditDenseInterpolateDialog.h
+    EditManualInterpolateDialog.h
 
 SOURCES += \
-    EditDenseInterpolateDialog.cpp
+    EditManualInterpolateDialog.cpp

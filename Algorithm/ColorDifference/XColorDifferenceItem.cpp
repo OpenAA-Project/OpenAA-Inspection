@@ -197,6 +197,65 @@ void	ColorDifferenceThreshold::ToLibrary(AlgorithmLibrary *Dest)
 	d->ThDense		=ThDense	;
 }
 
+ManualAdjustmentList::ManualAdjustmentList(void)
+{
+	ImageValue = 0;
+	ManualValue = 0;
+}
+ManualAdjustmentList::ManualAdjustmentList(const ManualAdjustmentList &src)
+{
+	*this=src;
+}
+	
+ManualAdjustmentList &ManualAdjustmentList::operator=(const ManualAdjustmentList &src)
+{
+	if(this!=&src){
+		RegisteredTime = src.RegisteredTime;
+		ImageValue = src.ImageValue;
+		ManualValue = src.ManualValue;
+	}
+	return *this;
+}
+
+
+bool	ManualAdjustmentList::Save(QIODevice *f)
+{
+	if(::Save(f,RegisteredTime)==false)
+		return(false);
+	if(::Save(f,ImageValue)==false)
+		return(false);
+	if(::Save(f,ManualValue)==false)
+		return(false);
+	return(true);
+}
+bool	ManualAdjustmentList::Load(QIODevice *f)
+{
+	if(::Load(f,RegisteredTime)==false)
+		return(false);
+	if(::Load(f,ImageValue)==false)
+		return(false);
+	if(::Load(f,ManualValue)==false)
+		return(false);
+	return(true);
+}
+
+ManualAdjustmentListContainer::ManualAdjustmentListContainer(const ManualAdjustmentListContainer &src)
+{
+	*this=src;
+}
+ManualAdjustmentListContainer	&ManualAdjustmentListContainer::operator=(const ManualAdjustmentListContainer &src)
+{
+	if(this!=&src){
+		RemoveAll();
+		for(int i=0;i<src.GetCount();i++){
+			ManualAdjustmentList	*Item=new ManualAdjustmentList();
+			*Item=*src.GetItem(i);
+			AppendList(Item);
+		}
+	}
+	return *this;
+}
+
 //-----------------------------------------------------------------
 ColorDifferenceItem::ColorDifferenceItem(void)
 {
@@ -236,9 +295,11 @@ AlgorithmItemPI	&ColorDifferenceItem::operator=(const AlgorithmItemRoot &src)
 		ResultDeltaE		=Item->ResultDeltaE;
 		MasterCx			=Item->MasterCx;
 		MasterCy			=Item->MasterCy;
-		ResultDx	=Item->ResultDx;
-		ResultDy	=Item->ResultDy;
-		MasterDense	=Item->MasterDense;
+		ResultDx			=Item->ResultDx;
+		ResultDy			=Item->ResultDy;
+		MasterDense			=Item->MasterDense;
+		ManualDeltaEList	=Item->ManualDeltaEList	;
+		ManualDenseList 	=Item->ManualDenseList	;
 	}
 
 	return *this;
@@ -261,7 +322,7 @@ bool    ColorDifferenceItem::Save(QIODevice *f)
 	if(AlgorithmItemPI::Save(f)==false)
 		return false;
 
-	WORD	Ver=3;
+	WORD	Ver=4;
 
 	if(f->write((const char *)&Ver,sizeof(Ver))!=sizeof(Ver))
 		return(false);
@@ -282,6 +343,11 @@ bool    ColorDifferenceItem::Save(QIODevice *f)
 		return false;
 	if(f->write((const char *)&StatisticData,sizeof(StatisticData))!=sizeof(StatisticData))
 		return(false);
+
+	if(ManualDeltaEList.Save(f)==false)
+		return false;
+	if(ManualDenseList.Save(f)==false)
+		return false;
 
 	return true;
 }
@@ -315,6 +381,12 @@ bool    ColorDifferenceItem::Load(QIODevice *f,LayersBase *LBase)
 			return false;
 		if(f->read((char *)&StatisticData,sizeof(StatisticData))!=sizeof(StatisticData))
 			return(false);
+	}
+	if(Ver>=3){
+		if(ManualDeltaEList.Load(f)==false)
+			return false;
+		if(ManualDenseList.Load(f)==false)
+			return false;
 	}
 	return true;
 }
@@ -1657,4 +1729,21 @@ void	ColorDifferenceItem::UpdateThreshold(int LearningMenuID ,LearningResource &
 			WThr->THDeltaE=d;
 		}
 	}
+}
+
+void	ColorDifferenceItem::AddManualDeltaE(double ManualDeltaE)
+{
+	ManualAdjustmentList *WList = new ManualAdjustmentList;
+	WList->RegisteredTime = QDateTime::currentDateTime();
+	WList->ImageValue = ResultDeltaE;
+	WList->ManualValue = ManualDeltaE;
+	ManualDeltaEList.AppendList(WList);
+}
+void	ColorDifferenceItem::AddManualDense(double ManualDense)
+{
+	ManualAdjustmentList *WList = new ManualAdjustmentList;
+	WList->RegisteredTime = QDateTime::currentDateTime();
+	WList->ImageValue = ResultDense;
+	WList->ManualValue = ManualDense;
+	ManualDenseList.AppendList(WList);
 }

@@ -71,6 +71,9 @@
     <ClCompile Include="XSpline1D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EditManualInterpolateDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColorDifference.h">
@@ -91,6 +94,9 @@
     <ClInclude Include="XSpline1D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EditManualInterpolateDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ColorDifferenceForm.ui">
@@ -105,5 +111,8 @@
     <QtMoc Include="SHowFlowGraphDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtUic Include="EditManualInterpolateDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

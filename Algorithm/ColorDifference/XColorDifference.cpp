@@ -916,6 +916,39 @@ void	ColorDifferenceInPage::TransmitDirectly(GUIDirectMessage *packet)
 		}
 		return;
 	}
+	CmdReqColorDifferenceResult *CmdReqColorDifferenceResultVar = dynamic_cast<CmdReqColorDifferenceResult *>(packet);
+	if(CmdReqColorDifferenceResultVar!=NULL){
+		for(AlgorithmItemPI	*L=GetFirstData();L!=NULL;L=L->GetNext()){
+			ColorDifferenceItem	*Item=dynamic_cast<ColorDifferenceItem *>(L);
+			if(Item!=NULL){
+				ColorDifferenceResultInfo *W = new ColorDifferenceResultInfo();
+				W->ItemID = Item->GetID();
+				W->ItemName = Item->GetItemName();
+				W->ResultDeltaE = Item->ResultDeltaE;
+				W->ResultDense	= Item->ResultDense;
+				CmdReqColorDifferenceResultVar->Results.AppendList(W);
+			}
+		}
+		return;
+	}
+	CmdSetColorDifferenceManualDeltaE *CmdSetColorDifferenceManualDeltaEVar = dynamic_cast<CmdSetColorDifferenceManualDeltaE *>(packet);
+	if(CmdSetColorDifferenceManualDeltaEVar!=NULL){
+		AlgorithmItemRoot	*L=SearchIDItem(CmdSetColorDifferenceManualDeltaEVar->ItemID);
+		ColorDifferenceItem	*Item=dynamic_cast<ColorDifferenceItem *>(L);
+		if(Item!=NULL){
+			Item->AddManualDeltaE(CmdSetColorDifferenceManualDeltaEVar->DeltaE);
+		}
+		return;
+	}
+	CmdSetColorDifferenceManualDense *CmdSetColorDifferenceManualDenseVar = dynamic_cast<CmdSetColorDifferenceManualDense *>(packet);
+	if(CmdSetColorDifferenceManualDenseVar!=NULL){
+		AlgorithmItemRoot	*L=SearchIDItem(CmdSetColorDifferenceManualDenseVar->ItemID);
+		ColorDifferenceItem	*Item=dynamic_cast<ColorDifferenceItem *>(L);
+		if(Item!=NULL){
+			Item->AddManualDense(CmdSetColorDifferenceManualDenseVar->Dense);
+		}
+		return;
+	}
 }
 
 class BlockPieceList : public NPList<BlockPieceList> ,public FlexArea

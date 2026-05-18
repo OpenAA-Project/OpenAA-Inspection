@@ -243,6 +243,7 @@
     <ClCompile Include="ColorDifferenceForm.cpp" />
     <ClCompile Include="ColorDifferenceResource.cpp" />
     <ClCompile Include="ColorDifferenceResult.cpp" />
+    <ClCompile Include="EditManualInterpolateDialog.cpp" />
     <ClCompile Include="SHowFlowGraphDialog.cpp" />
     <ClCompile Include="XColorDifference.cpp" />
     <ClCompile Include="XColorDifferenceItem.cpp" />
@@ -252,6 +253,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColorDifference.h" />
+    <ClInclude Include="EditManualInterpolateDialog.h" />
     <ClInclude Include="XSpline1D.h" />
     <QtMoc Include="SHowFlowGraphDialog.h">
     </QtMoc>
@@ -267,6 +269,7 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="EditManualInterpolateDialog.ui" />
     <QtUic Include="SHowFlowGraphDialog.ui">
     </QtUic>
   </ItemGroup>

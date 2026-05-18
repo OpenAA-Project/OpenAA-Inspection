@@ -1403,6 +1403,19 @@ QToolButton:pressed {
     </widget>
    </widget>
   </widget>
+  <widget class="QPushButton" name="pushButtonManualAdjust">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>880</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>手動補正</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

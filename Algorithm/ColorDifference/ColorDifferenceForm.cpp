@@ -27,6 +27,7 @@
 #include "XColorSpace.h"
 #include "SHowFlowGraphDialog.h"
 #include "XGeneralFunc.h"
+#include "EditManualInterpolateDialog.h"
 
 extern	const	char	*sRoot;
 extern	const	char	*sName;
@@ -821,6 +822,12 @@ void ColorDifferenceForm::on_comboBoxJudgeMethod_currentIndexChanged(int index)
 
 
 void ColorDifferenceForm::on_pushButtonSetDenseInterpolate_clicked()
+{
+
+}
+
+
+void ColorDifferenceForm::on_pushButtonManualAdjust_clicked()
 {
 
 }
