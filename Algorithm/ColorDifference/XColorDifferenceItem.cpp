@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2024
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -28,6 +28,7 @@
 #include "XDisplayBitImage.h"
 #include "XLearningRegist.h"
 #include "swap.h"
+#include "XSpline1D.h"
 
 //=====================================================================================
 
@@ -37,6 +38,7 @@ ColorDifferenceThreshold::ColorDifferenceThreshold(ColorDifferenceItem *parent)
 	AdoptedRate	=75;
 	JudgeMethod	=0;
 	THDeltaE	=10;
+	ThDense		=10;
 	dH			=5;
 	dSL			=10;
 	dSH			=10;
@@ -51,6 +53,7 @@ ColorDifferenceThreshold::ColorDifferenceThreshold(ColorDifferenceRegulation *pa
 	AdoptedRate	=75;
 	JudgeMethod	=0;
 	THDeltaE	=10;
+	ThDense		=10;
 	dH			=5;
 	dSL			=10;
 	dSH			=10;
@@ -65,6 +68,7 @@ ColorDifferenceThreshold::ColorDifferenceThreshold(ColorDifferenceDenseMark *par
 	AdoptedRate	=75;
 	JudgeMethod	=0;
 	THDeltaE	=10;
+	ThDense		=10;
 	dH			=5;
 	dSL			=10;
 	dSH			=10;
@@ -80,6 +84,7 @@ bool	ColorDifferenceThreshold::IsEqual(const AlgorithmThreshold &src)	const
 	if(AdoptedRate	==s->AdoptedRate
 	&& JudgeMethod	==s->JudgeMethod
 	&& THDeltaE		==s->THDeltaE
+	&& ThDense		==s->ThDense
 	&& dH			==s->dH
 	&& dSL			==s->dSL
 	&& dSH			==s->dSH
@@ -97,6 +102,7 @@ void	ColorDifferenceThreshold::CopyFrom(const AlgorithmThreshold &src)
 	AdoptedRate	=s->AdoptedRate;
 	JudgeMethod	=s->JudgeMethod;
 	THDeltaE	=s->THDeltaE;
+	ThDense		=s->ThDense	;
 	dH			=s->dH		;
 	dSL			=s->dSL		;
 	dSH			=s->dSH		;
@@ -107,7 +113,7 @@ void	ColorDifferenceThreshold::CopyFrom(const AlgorithmThreshold &src)
 }
 bool	ColorDifferenceThreshold::Save(QIODevice *file)
 {
-	WORD	Ver=4;
+	WORD	Ver=5;
 
 	if(::Save(file,Ver)==false)
 		return(false);
@@ -116,6 +122,8 @@ bool	ColorDifferenceThreshold::Save(QIODevice *file)
 	if(::Save(file,JudgeMethod)==false)
 		return(false);
 	if(::Save(file,THDeltaE)==false)
+		return(false);
+	if(::Save(file,ThDense)==false)
 		return(false);
 	if(::Save(file,dH)==false)
 		return(false);
@@ -146,6 +154,10 @@ bool	ColorDifferenceThreshold::Load(QIODevice *file)
 	}
 	if(::Load(file,THDeltaE)==false)
 		return(false);
+	if(Ver>=5){
+		if(::Load(file,ThDense)==false)
+			return(false);
+	}
 	if(Ver>=2){
 		if(::Load(file,dH)==false)
 			return(false);
@@ -174,6 +186,7 @@ void	ColorDifferenceThreshold::FromLibrary(AlgorithmLibrary *src)
 	AdoptedRate	=s->AdoptedRate;
 	JudgeMethod	=s->JudgeMethod;
 	THDeltaE	=s->THDeltaE;
+	ThDense		= s->ThDense;
 	dH			=s->dH		;
 	dSL			=s->dSL		;
 	dSH			=s->dSH		;
@@ -188,7 +201,8 @@ void	ColorDifferenceThreshold::ToLibrary(AlgorithmLibrary *Dest)
 	d->AdoptedRate	=AdoptedRate;
 	d->JudgeMethod	=JudgeMethod;
 	d->THDeltaE		=THDeltaE	;
-	d->dH			=dH		;
+	d->ThDense		=ThDense	;
+	d->dH			=dH			;
 	d->dSL			=dSL		;
 	d->dSH			=dSH		;
 	d->dVL			=dVL		;
@@ -254,6 +268,27 @@ ManualAdjustmentListContainer	&ManualAdjustmentListContainer::operator=(const Ma
 		}
 	}
 	return *this;
+}
+
+double	ManualAdjustmentListContainer::GetInterpolation(double tValue,bool &ok)
+{
+	if(GetCount()==0){
+		ok=false;
+		return 0;
+	}
+	if(GetCount()==1){
+		ok=true;
+		return GetItem(0)->ManualValue;
+	}
+	std::vector<double>	x;
+	std::vector<double>	y;
+	for(ManualAdjustmentList *r=GetFirst();r!=NULL;r=r->GetNext()){
+		x.push_back(r->ImageValue);
+		y.push_back(r->ManualValue);
+	}
+	CubicSpline1D	SplineData(x,y);
+	ok=true;
+	return SplineData.interpolate(tValue);
 }
 
 //-----------------------------------------------------------------
@@ -382,7 +417,7 @@ bool    ColorDifferenceItem::Load(QIODevice *f,LayersBase *LBase)
 		if(f->read((char *)&StatisticData,sizeof(StatisticData))!=sizeof(StatisticData))
 			return(false);
 	}
-	if(Ver>=3){
+	if(Ver>=4){
 		if(ManualDeltaEList.Load(f)==false)
 			return false;
 		if(ManualDenseList.Load(f)==false)
@@ -465,9 +500,26 @@ void	ColorDifferenceItem::DrawResultItem(ResultInItemRoot *Res,QImage &IData ,QP
 						,Qt::AlignLeft | Qt::AlignTop
 						,QString(/**/"Dense=")
 						+QString::number(ResultDense,'f',1));
+				bool	ok = false;
+				double	D=GetInterpolationDense(ResultDense,ok);
+				if(ok==true){
+					PData.drawText(kx,ky+32,IData.width()-kx,IData.height()-ky
+						,Qt::AlignLeft | Qt::AlignTop
+						,QString("補正値:")
+						+QString::number(D,'f',1));
+				}
 			}
 		}
 	}
+}
+
+double	ColorDifferenceItem::GetInterpolationDeltaE(double tValue,bool &ok)
+{
+	return ManualDeltaEList.GetInterpolation(tValue,ok);
+}
+double	ColorDifferenceItem::GetInterpolationDense(double tValue,bool &ok)
+{
+	return ManualDenseList.GetInterpolation(tValue,ok);
 }
 
 UFloatShort	MakeAverage(int BTable[],int AbandonDot)
@@ -953,6 +1005,7 @@ void	ColorDifferenceItem::SetIndependentItemData(int32 Command,int32 LocalPage,i
 				const	ColorDifferenceThreshold	*RThr=src->GetThresholdR(GetLayersBase());
 				GetThresholdW()->AdoptedRate	=RThr->AdoptedRate	;
 				GetThresholdW()->THDeltaE		=RThr->THDeltaE		;
+				GetThresholdW()->ThDense		=RThr->ThDense		;
 				GetThresholdW()->JudgeMethod	=RThr->JudgeMethod	;
 				GetThresholdW()->dH				=RThr->dH			;	
 				GetThresholdW()->dSL			=RThr->dSL			;
@@ -975,6 +1028,7 @@ void	ColorDifferenceItem::SetIndependentItemData(int32 Command,int32 LocalPage,i
 				const	ColorDifferenceThreshold	*RThr=src->GetThresholdR(GetLayersBase());
 				GetThresholdW()->AdoptedRate	=RThr->AdoptedRate	;
 				GetThresholdW()->THDeltaE		=RThr->THDeltaE		;
+				GetThresholdW()->ThDense		=RThr->ThDense		;
 				GetThresholdW()->JudgeMethod	=RThr->JudgeMethod	;
 				GetThresholdW()->dH				=RThr->dH			;	
 				GetThresholdW()->dSL			=RThr->dSL			;
@@ -1022,6 +1076,22 @@ void	ColorDifferenceItem::SetIndependentItemData(int32 Command,int32 LocalPage,i
 				GetLayersBase()->GetUndoStocker().SetElementToNewTopic(UPointer);
 
 				SetItemName(src->GetItemName());
+			}
+		}
+	}
+	else if(Command==SetIndependentItemDataCommand_ColorDifferenceManual){
+		ColorDifferenceItem *src=dynamic_cast<ColorDifferenceItem *>(Data);
+		if(src!=NULL){
+			if(GetParentInPage()->GetPage()==LocalPage && GetID()==Data->GetID()){
+				ColorDifferenceInPage	*Pg=dynamic_cast<ColorDifferenceInPage *>(GetParentInPage());
+				UndoElement<ColorDifferenceInPage>	*UPointer=new UndoElement<ColorDifferenceInPage>(Pg,&ColorDifferenceInPage::UndoSetIndependentItemDataCommand);
+				::Save(UPointer->GetWritePointer(),GetID());
+				Save(UPointer->GetWritePointer());
+				GetLayersBase()->GetUndoStocker().SetElementToNewTopic(UPointer);
+
+				SetItemName(src->GetItemName());
+				ManualDeltaEList=src->ManualDeltaEList;
+				ManualDenseList =src->ManualDenseList ;
 			}
 		}
 	}
@@ -1388,6 +1458,7 @@ void	ColorDifferenceRegulation::SetIndependentItemData(int32 Command,int32 Local
 			CopyThreshold(*src);
 			WThr->AdoptedRate	=RThr->AdoptedRate;
 			WThr->THDeltaE		=RThr->THDeltaE;
+			WThr->ThDense		= RThr->ThDense;
 			WThr->AdaptAlignment=RThr->AdaptAlignment;
 		}
 	}
@@ -1404,6 +1475,7 @@ void	ColorDifferenceRegulation::SetIndependentItemData(int32 Command,int32 Local
 			const	ColorDifferenceThreshold	*RThr=src->GetThresholdR(GetLayersBase());
 			WThr->AdoptedRate	=RThr->AdoptedRate;
 			WThr->THDeltaE		=RThr->THDeltaE;
+			WThr->ThDense		= RThr->ThDense;
 			WThr->AdaptAlignment=RThr->AdaptAlignment;
 		}
 	}
@@ -1653,6 +1725,7 @@ void	ColorDifferenceDenseMark::SetIndependentItemData(int32 Command,int32 LocalP
 			CopyThreshold(*src);
 			WThr->AdoptedRate	=RThr->AdoptedRate;
 			WThr->THDeltaE		=RThr->THDeltaE;
+			WThr->ThDense		=RThr->ThDense;
 			WThr->AdaptAlignment=RThr->AdaptAlignment;
 		}
 	}
@@ -1669,6 +1742,7 @@ void	ColorDifferenceDenseMark::SetIndependentItemData(int32 Command,int32 LocalP
 			const	ColorDifferenceThreshold	*RThr=src->GetThresholdR(GetLayersBase());
 			WThr->AdoptedRate	=RThr->AdoptedRate;
 			WThr->THDeltaE		=RThr->THDeltaE;
+			WThr->ThDense		=RThr->ThDense;
 			WThr->AdaptAlignment=RThr->AdaptAlignment;
 		}
 	}
@@ -1709,6 +1783,8 @@ ExeResult	ColorDifferenceItem::ExecutePostProcessing	(int ExeID,int ThreadNo,Res
 	ColorDifferenceThreshold	*WThr=GetThresholdW();
 	RData.ThresholdDeltaE	=WThr->THDeltaE;
 	RData.ResultDeltaE		=ResultDeltaE;
+	RData.ThresholdDense	=WThr->ThDense;
+	RData.ResultDense		=ResultDense;
 
 	QBuffer	Buff;
 	Buff.open(QIODevice::ReadWrite);
@@ -1727,6 +1803,13 @@ void	ColorDifferenceItem::UpdateThreshold(int LearningMenuID ,LearningResource &
 		double	d=LRes.DoubleCause;
 		if(WThr->THDeltaE<d){
 			WThr->THDeltaE=d;
+		}
+	}
+	if(LearningMenuID==LearningMenu_ColorDifference_OK_ByDense){
+		ColorDifferenceThreshold	*WThr=GetThresholdW();
+		double	d=LRes.DoubleCause;
+		if(WThr->ThDense<d){
+			WThr->ThDense=d;
 		}
 	}
 }

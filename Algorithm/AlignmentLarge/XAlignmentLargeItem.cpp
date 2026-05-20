@@ -5380,9 +5380,9 @@ bool	XAlignmentLarge::MakeMatchingPoints(ImageBuffer &Master)
 		Ln+=BrList[i];
 		Ld+=BrList[i]*i;
 	}
-	int	LAvr=Ld/Ln;
 	if(Ln==0)
 		return false;
+	int	LAvr=Ld/Ln;
 	int	LevelL1=(ThresholdColor+LAvr)/2;
 	int	LevelL2=ThresholdColor-1;
 

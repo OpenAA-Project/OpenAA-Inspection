@@ -112,6 +112,8 @@ struct ResultColorDifferenceForExtraData
 {
 	double	ThresholdDeltaE;
 	double	ResultDeltaE;
+	double	ThresholdDense;
+	double	ResultDense;
 };
 #pragma	pack(pop)
 
@@ -162,7 +164,7 @@ class	ColorDifferenceThreshold : public AlgorithmThreshold
 public:
 	double		AdoptedRate;	//Percentage
 	double		THDeltaE;
-	int32		JudgeMethod;	//0:OK/NG	1:DeltaE	2:FlowSample/HSV threshold
+	int32		JudgeMethod;	//0:OK/NG	1:DeltaE	2:FlowSample/HSV threshold	3:Dense
 	double		dH;
 	double		dSL;
 	double		dSH;
@@ -211,6 +213,8 @@ class  ManualAdjustmentListContainer: public NPListPackSaveLoad<ManualAdjustment
 	ManualAdjustmentListContainer(const ManualAdjustmentListContainer &src);
 	virtual	ManualAdjustmentList	*Create(void)	override{	return new ManualAdjustmentList();	}
 	virtual	ManualAdjustmentListContainer	&operator=(const ManualAdjustmentListContainer &src);
+
+	double	GetInterpolation(double tValue,bool &ok);
 };
 
 
@@ -294,6 +298,8 @@ public:
 
 private:
 	void	CalcFlowCenterColor(void);
+	double	GetInterpolationDeltaE(double tValue,bool &ok);
+	double	GetInterpolationDense(double tValue,bool &ok);
 };
 
 
@@ -393,6 +399,7 @@ private:
 };
 
 #define	LearningMenu_ColorDifference_OK_ByDeltaE	1
+#define	LearningMenu_ColorDifference_OK_ByDense		2
 
 class	ColorDifferenceBase : public AlgorithmBase
 {
@@ -431,6 +438,7 @@ public:
 #define	SetIndependentItemDataCommand_SetThreBrightnessThis		5
 #define	SetIndependentItemDataCommand_SetThreBrightnessAll		6
 #define	SetIndependentItemNameDataCommand_All					10
+#define	SetIndependentItemDataCommand_ColorDifferenceManual		11
 
 #define	ColorDifferenceReqTryThresholdCommand			7
 #define	ColorDifferenceSendTryThresholdCommand			8

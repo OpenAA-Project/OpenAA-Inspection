@@ -72,7 +72,7 @@
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(HIKRobotMVS)\Libraries\win64;$(HIKRobotMVS)\lib\64;..\..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(HIKRobotMVS)\Libraries\win64;$(HIKRobotMVS)\lib\64;$(HIKRobotMVS)/lib/aarch64;..\..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ServiceLib.lib;MvCameraControl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

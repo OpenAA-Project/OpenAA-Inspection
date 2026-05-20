@@ -1116,7 +1116,7 @@ bool ReviewPIBase::ReciveCmdReqCurrentHistory(GUIDirectMessage *packet)
 		for(OrganizedHistoryList::ConstIterator it=beginIt; it!=endIt; it++,index++){
 			if(CurrentOrganizedHistory==it){
 				cmd->setIndex(index);
-				cmd->setOrganizedHistroyPtr(CurrentOrganizedHistory);
+				cmd->setOrganizedHistroyPtr(&(*CurrentOrganizedHistory));
 				cmd->Ret = true;
 			}
 		}
@@ -1290,7 +1290,7 @@ bool ReviewPIBase::ReciveCmdReqAdjacentCurrentNG(GUIDirectMessage *packet)
 		cmd->setPreviousHistory(NULL);
 		//qDebug() << "Previous InspectID : none";
 	}else{
-		cmd->setPreviousHistory(getRoundCurrentOrganizedHistoryIterator(Review::PreviousPos));
+		cmd->setPreviousHistory(&(*getRoundCurrentOrganizedHistoryIterator(Review::PreviousPos)));
 		//qDebug() << "Previous InspectID : " << cmd->previousHistory->getInspectID();
 	}
 	// ���݂̗���
@@ -1298,7 +1298,7 @@ bool ReviewPIBase::ReciveCmdReqAdjacentCurrentNG(GUIDirectMessage *packet)
 		cmd->setCurrentHistory(NULL);
 		//qDebug() << "Current InspectID : none";
 	}else{
-		cmd->setCurrentHistory(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos));
+		cmd->setCurrentHistory(&(*getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos)));
 		//qDebug() << "Current InspectID : " << cmd->currentHistory->getInspectID();
 	}
 	// ���̗���
@@ -1306,7 +1306,7 @@ bool ReviewPIBase::ReciveCmdReqAdjacentCurrentNG(GUIDirectMessage *packet)
 		cmd->setNextHistory(NULL);
 		//qDebug() << "Next InspectID : none";
 	}else{
-		cmd->setNextHistory(getRoundCurrentOrganizedHistoryIterator(Review::NextPos));
+		cmd->setNextHistory(&(*getRoundCurrentOrganizedHistoryIterator(Review::NextPos)));
 		//qDebug() << "Next InspectID : " << cmd->nextHistory->getInspectID();
 	}
 
@@ -1315,21 +1315,21 @@ bool ReviewPIBase::ReciveCmdReqAdjacentCurrentNG(GUIDirectMessage *packet)
 	if(getRoundCurrentNGNailIterator(Review::PreviousPos)==NULL){
 		cmd->setPreviousNG(NULL);
 	}else{
-		cmd->setPreviousNG(getRoundCurrentNGNailIterator(Review::PreviousPos));
+		cmd->setPreviousNG(&(*getRoundCurrentNGNailIterator(Review::PreviousPos)));
 	}
 	// ���݂�NGNail
 	if(getRoundCurrentNGNailIterator(Review::CurrentPos)==NULL){
 		cmd->setCurrentNG(NULL);
 		cmd->setCurrentNGIndex(-1);
 	}else{
-		cmd->setCurrentNG(getRoundCurrentNGNailIterator(Review::CurrentPos));
+		cmd->setCurrentNG(&(*getRoundCurrentNGNailIterator(Review::CurrentPos)));
 		cmd->setCurrentNGIndex(getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos)->indexOf(getRoundCurrentNGNailIterator(Review::CurrentPos)->getNGNailItemRef()));
 	}
 	// ����NGNail
 	if(getRoundCurrentNGNailIterator(Review::NextPos)==NULL){
 		cmd->setNextNG(NULL);
 	}else{
-		cmd->setNextNG(getRoundCurrentNGNailIterator(Review::NextPos));
+		cmd->setNextNG(&(*getRoundCurrentNGNailIterator(Review::NextPos)));
 	}
 	cmd->setCurrentSide(getCurrentSideType());
 	
@@ -1408,7 +1408,7 @@ bool ReviewPIBase::ReciveCmdMoveCurrentHistory(GUIDirectMessage *packet)
 		}
 		
 		if(CurrentOrganizedHistory!=NULL){
-			cmd->CurrentHistoryPtr = CurrentOrganizedHistory;
+			cmd->CurrentHistoryPtr = &(*CurrentOrganizedHistory);
 		}else{
 			cmd->CurrentHistoryPtr = NULL;
 		}
@@ -1436,7 +1436,7 @@ bool ReviewPIBase::ReciveCmdMoveCurrentHistory(GUIDirectMessage *packet)
 		}
 		
 		if(CurrentOrganizedHistory!=NULL){
-			cmd->CurrentHistoryPtr = CurrentOrganizedHistory;
+			cmd->CurrentHistoryPtr = &(*CurrentOrganizedHistory);
 		}else{
 			cmd->CurrentHistoryPtr = NULL;
 		}
@@ -1528,7 +1528,7 @@ bool ReviewPIBase::ReciveCmdMoveCurrentHistoryToNGBoard(GUIDirectMessage *packet
 			CmdSetCurrentHistory ReturnToOrgCmd(GetLayersBase());
 			ReturnToOrgCmd.Index = index;
 			ReciveCmdSetCurrentHistory(&ReturnToOrgCmd);
-			cmd->CurrentHistoryPtr = (getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos));
+			cmd->CurrentHistoryPtr = &(*getRoundCurrentOrganizedHistoryIterator(Review::CurrentPos));
 			cmd->Ret = true;
 			return true;
 		}else if(Cmd.CurrentHistoryPtr->isOK()==false){// NG���Ղ���������

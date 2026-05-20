@@ -786,7 +786,7 @@ QToolButton:pressed {
      <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEditDeltaE_2">
+   <widget class="QLineEdit" name="lineEditDense">
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -1305,7 +1305,7 @@ QToolButton:pressed {
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page"/>
    <widget class="QWidget" name="page_2">

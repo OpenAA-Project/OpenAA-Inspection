@@ -642,6 +642,10 @@ void	ExecuteInspectFast::SlotCaptureHalt()
 		GetLayersBase()->ClearCurrentStrategicNumberForCalc();
 		SeqParam->CaptureStartCounter=0;
 	}
+		
+	for(int i=0;i<AllocatedCamNumb;i++){
+		Cam[i]->HaltCapture();
+	}
 }
 
 int		ExecuteInspectFast::CaptureGetState(void)

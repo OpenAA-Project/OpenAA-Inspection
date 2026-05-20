@@ -6,7 +6,7 @@
 #include "XGUIDLL.h"
 #include "XDLLOnly.h"
 #include "XGUIPacketForDLL.h"
-#include "XColorDifference.h""
+#include "XColorDifference.h"
 
 namespace Ui {
 class ShowColorDifferenceResultListForm;

@@ -739,4 +739,16 @@ inline	void AddUnique(QStringList &list, const QString &item)
 }
 
 
+#if !defined(_MSC_VER)
+#include <cstdint>
+inline uint32_t _rotr(uint32_t value, int shift) {
+    // シフト量が32以上、またはマイナスになるケースを安全に処理
+    shift &= 31;
+    if (shift == 0) return value;
+    
+    // 右シフトと、はみ出た分を左から持ってくる処理（ビット回転）
+    return (value >> shift) | (value << (32 - shift));
+}
+#endif
+
 #endif

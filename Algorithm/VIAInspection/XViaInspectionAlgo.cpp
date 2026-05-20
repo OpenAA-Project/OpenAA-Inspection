@@ -28,9 +28,15 @@
 #include "swap.h"
 #include <omp.h>
 
+#if defined(__x86_64__) || defined(_M_X64) || defined(__i386__) || defined(_M_IX86)
 #if defined(linux)
-#include <x86intrin.h>
+    #include <x86intrin.h>
 #endif // defined(linux)
+#elif defined(__ARM_NEON) || defined(__aarch64__)
+    #include "sse2neon.h"
+#else
+    #warning "No SIMD support detected"
+#endif
 
 const	int	MaxResultNGPointInVIA	=1000;
 const	int	MaxReEntrantCount		=30000;

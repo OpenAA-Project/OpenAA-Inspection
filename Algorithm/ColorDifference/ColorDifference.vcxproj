@@ -253,7 +253,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColorDifference.h" />
-    <ClInclude Include="EditManualInterpolateDialog.h" />
+    <QtMoc Include="EditManualInterpolateDialog.h" />
     <ClInclude Include="XSpline1D.h" />
     <QtMoc Include="SHowFlowGraphDialog.h">
     </QtMoc>

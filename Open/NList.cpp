@@ -279,7 +279,7 @@ inline	NPListPack<T> & NPListPack<T>::operator+=(const NPListPack<T> &s1)
 }
 
 template<class T>
-inline	NPListPack<T> & NPListPack<T>::operator<=(const NPListPack<T> &s1)
+inline	NPListPack<T> & NPListPack<T>::operator<=(NPListPack<T> &s1)
 {
     RemoveAll();
     Base=s1.Base;

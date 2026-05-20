@@ -26,7 +26,14 @@
 #include <stdlib.h>
 #include "swap.h"
 #include <omp.h>
-#include "immintrin.h"
+
+#if defined(__x86_64__) || defined(_M_X64) || defined(__i386__) || defined(_M_IX86)
+    #include <immintrin.h>
+#elif defined(__ARM_NEON) || defined(__aarch64__)
+    #include "sse2neon.h" // x86の組み込み関数をNEONにマッピング
+#else
+    #warning "No SIMD support detected"
+#endif
 
 static	BYTE	ShuffleRev[16]	={7,255,6,255,5,255,4,255,3,255,2,255,1,255,0,255};
 static	BYTE	ShufflePack[16]	={1,3,5,7,9,11,13,15,255,255,255,255,255,255,255,255};

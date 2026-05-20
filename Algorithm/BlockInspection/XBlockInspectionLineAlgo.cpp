@@ -27,7 +27,14 @@
 #include <stdlib.h>
 #include "swap.h"
 #include <omp.h>
-#include "immintrin.h"
+
+#if defined(__x86_64__) || defined(_M_X64) || defined(__i386__) || defined(_M_IX86)
+    #include <immintrin.h>
+#elif defined(__ARM_NEON) || defined(__aarch64__)
+    #include "sse2neon.h" // x86の組み込み関数をNEONにマッピング
+#else
+    #warning "No SIMD support detected"
+#endif
 
 static	int	ShiftDimFunc(const void *a,const void *b)
 {

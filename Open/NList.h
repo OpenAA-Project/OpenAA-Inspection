@@ -221,7 +221,7 @@ public:
 
 	NPListPack<T> & operator=(const NPListPack<T> &src);
 	NPListPack<T> & operator+=(const NPListPack<T> &s1);
-	NPListPack<T> & operator<=(const NPListPack<T> &s1);
+	NPListPack<T> & operator<=(NPListPack<T> &s1);
 
 	void	Sort(void);		//Use Compare function
 	void	Sort(int (*SortFunc)(const void *,const void *));

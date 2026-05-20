@@ -176,6 +176,7 @@ void	ColorDifferenceForm::ShowThreshold(void)
 					const	ColorDifferenceThreshold	*RThr=BData->GetThresholdR(GetLayersBase());
 					ui->doubleSpinBoxAdoptedRate->setValue(RThr->AdoptedRate	);
 					ui->doubleSpinBoxTHDeltaE	->setValue(RThr->THDeltaE		);
+					ui->doubleSpinBoxTHDense	->setValue(RThr->ThDense		);
 					ui->comboBoxJudgeMethod			->setCurrentIndex(RThr->JudgeMethod);
 					ui->checkBoxOutputConstantly	->setChecked(BData->OutputConstantly);
 					ui->doubleSpinBoxdH				->setValue(RThr->dH);
@@ -502,6 +503,7 @@ void	ColorDifferenceForm::GetDataFromWindow(void)
 					ColorDifferenceThreshold	*Thr=BData->GetThresholdW(GetLayersBase());
 					Thr->AdoptedRate	=ui->doubleSpinBoxAdoptedRate->value();
 					Thr->THDeltaE		=ui->doubleSpinBoxTHDeltaE	->value();
+					Thr->ThDense		=ui->doubleSpinBoxTHDense	->value();
 					BData->OutputConstantly				=ui->checkBoxOutputConstantly	->isChecked();
 					Thr->JudgeMethod	=ui->comboBoxJudgeMethod		->currentIndex();
 					Thr->dH				=ui->doubleSpinBoxdH			->value();
@@ -519,8 +521,9 @@ void	ColorDifferenceForm::GetDataFromWindow(void)
 					ColorDifferenceThreshold	*Thr=BData->GetThresholdW(GetLayersBase());
 					//Thr->AdoptedRate	=ui->doubleSpinBoxAdoptedRate->value();
 					//Thr->THDeltaE		=ui->doubleSpinBoxTHDeltaE	->value();
+					//Thr->ThDense		=ui->doubleSpinBoxTHDense	->value();
 					//Thr->JudgeMethod	=ui->comboBoxJudgeMethod		->currentIndex();
-					//Thr->dH				=ui->doubleSpinBoxdH			->value();
+					//Thr->dH			=ui->doubleSpinBoxdH			->value();
 					//Thr->dSL			=ui->doubleSpinBoxdSL			->value();
 					//Thr->dSH			=ui->doubleSpinBoxdSH			->value();
 					//Thr->dVL			=ui->doubleSpinBoxdVL			->value();
@@ -636,6 +639,7 @@ void	ColorDifferenceForm::Calc(void)
 					ui->lineEditLenOK	->setText(QString::number(R->LenOK ,'f',3));
 					ui->lineEditLenNG	->setText(QString::number(R->LenNG ,'f',3));
 					ui->lineEditDeltaE	->setText(QString::number(R->DeltaE,'f',3));
+					ui->lineEditDense	->setText(QString::number(R->Dense ,'f',3));
 					::SetDataToTable(ui->tableWidgetResult,0,0,ConvertColorToStr(R->ReferenceColor1));
 					::SetDataToTable(ui->tableWidgetResult,0,1,ConvertColorToStr(R->ReferenceColor2));
 					::SetDataToTable(ui->tableWidgetResult,0,2,ConvertColorToStr(R->MasterColor));
@@ -696,6 +700,7 @@ void	ColorDifferenceForm::Calc(void)
 				ColorDifferenceThreshold	*Thr=BData->GetThresholdW(GetLayersBase());
 				Thr->AdoptedRate	=ui->doubleSpinBoxAdoptedRate	->value();
 				Thr->THDeltaE		=ui->doubleSpinBoxTHDeltaE		->value();
+				Thr->ThDense		=ui->doubleSpinBoxTHDense		->value();
 				Thr->JudgeMethod	=ui->comboBoxJudgeMethod		->currentIndex();
 				Thr->dH				=ui->doubleSpinBoxdH			->value();
 				Thr->dSL			=ui->doubleSpinBoxdSL			->value();
@@ -714,6 +719,7 @@ void	ColorDifferenceForm::Calc(void)
 					ui->lineEditLenOK	->setText(QString::number(R->LenOK ,'f',3));
 					ui->lineEditLenNG	->setText(QString::number(R->LenNG ,'f',3));
 					ui->lineEditDeltaE	->setText(QString::number(R->DeltaE,'f',3));
+					ui->lineEditDense	->setText(QString::number(R->Dense ,'f',3));
 					::SetDataToTable(ui->tableWidgetResult,0,0,ConvertColorToStr(R->ReferenceColor1));
 					::SetDataToTable(ui->tableWidgetResult,0,1,ConvertColorToStr(R->ReferenceColor2));
 					::SetDataToTable(ui->tableWidgetResult,0,2,ConvertColorToStr(R->MasterColor));
@@ -829,6 +835,34 @@ void ColorDifferenceForm::on_pushButtonSetDenseInterpolate_clicked()
 
 void ColorDifferenceForm::on_pushButtonManualAdjust_clicked()
 {
+	for(AlgorithmItemIndependent	*D=IData->Items.GetFirst();D!=NULL;D=D->GetNext()){
+		AlgorithmItemRoot	*DA=D->Data;
+		if(DA==NULL)
+			continue;
+		{
+			ColorDifferenceItem	*nBData=dynamic_cast<ColorDifferenceItem *>(DA);
+			if(nBData!=NULL){
+				EditManualInterpolateDialog	D(nBData,GetLayersBase());
+				D.exec();
 
+				GetLayersBase()->ClearAllAckFlag();
+				GetLayersBase()->ShowProcessingForm(LangSolver.GetString(ColorDifferenceForm_LS,LID_9)/*"Reflecting ALL blocks\' threshold"*/);
+
+				GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Reflect all blocks threshold");
+				//GetDataFromWindow();
+				GUICmdSendAlgorithmItemIndependentPack	Packet(IData->Base,QString(/**/"ANY"),QString(/**/"ANY"),-1,true);
+				Packet.Command=SetIndependentItemDataCommand_ColorDifferenceManual;
+				Packet.IData=*IData;
+				for(int page=0;page<GetPageNumb();page++){
+					Packet.Send(NULL,page,0);
+				}
+
+				GetLayersBase()->WaitAllAcknowledged(60*10);
+				GetLayersBase()->CloseProcessingForm();
+
+				return;
+			}
+		}
+	}
 }
 
