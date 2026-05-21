@@ -199,11 +199,14 @@ DatabaseLoader::DatabaseLoader(LayersBase *base)
 
 bool	DatabaseLoader::DatabaseInitialLoad(const QString &PathAndFileName)
 {
+	QString	ErrorStr;
 	GetLayersBase()->TestLoadDLL(PathAndFileName);
 
 	DllLib.setFileName(PathAndFileName);
-	if(DllLib.load()==false)
+	if(DllLib.load()==false){
+		ErrorStr=DllLib.errorString();
 		return(false);
+	}
 
 	G_LockDB						=(void (*)(void))DllLib.resolve("__G_LockDB");
 	G_UnlockDB						=(void (*)(void))DllLib.resolve("__G_UnlockDB");

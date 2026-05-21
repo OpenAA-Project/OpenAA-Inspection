@@ -503,6 +503,7 @@
     <ClCompile Include="..\..\GeneralSource\XLevel.cpp" />
     <ClCompile Include="..\..\GeneralSource\XLineMatching.cpp" />
     <ClCompile Include="..\..\GeneralSource\XLotInformation.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XMainGUIFormBase.cpp" />
     <ClCompile Include="..\..\GeneralSource\XManualExecuter.cpp" />
     <ClCompile Include="..\..\GeneralSource\XMapBuffer.cpp" />
     <ClCompile Include="..\..\GeneralSource\XMasterData.cpp">

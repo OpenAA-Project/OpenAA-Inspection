@@ -123,7 +123,11 @@ bool    LayersBase::InitialDatabaseLoader(QString &Msg,bool NoDatabase)
 	if(NoDatabase==false){
 		if(!GetDatabaseLoader()){
 			DBLoader=std::make_shared<DatabaseLoader>(this);
+#ifdef _MSC_VER
 			if(DatabaseInitialLoad("ServiceForDBLib")==false){
+#else
+			if(DatabaseInitialLoad("libServiceForDBLib.so")==false){
+#endif								
 				Msg="ServiceForDBLib.dll does not exist.";
 				return false;
 			}
@@ -2174,7 +2178,9 @@ bool	LayersBase::IsValidDatabase(void)
 bool	LayersBase::DatabaseInitialLoad(const QString &PathAndFileName)
 {
 	if(DBLoader!=NULL){
-		return DBLoader->DatabaseInitialLoad(PathAndFileName);
+		QDir::setCurrent(CurrentPath);
+		QString	PathFile = CurrentPath+::GetSeparator()+PathAndFileName;
+		return DBLoader->DatabaseInitialLoad(PathFile);
 	}
 	return false;
 }
