@@ -88,6 +88,7 @@
 #include "XShadowTree.h"
 #include "XFileThread.h"
 #include "XLevel.h"
+#include "XMainGUIFormBase.h"
 #include "XOpenAA.h"
 
 LayersBase::LayersBase(EntryPointBase *pEntryPoint

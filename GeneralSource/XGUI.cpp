@@ -28,9 +28,9 @@
 #include <QBuffer>
 #include "XParamGlobal.h"
 #include "XDataInLayer.h"
-#include "XDataInExe.h"
 #include "XDatabase.h"
 #include "XFastComm.h"
+#include "XGUIInExe.h"
 #include "XCameraClass.h"
 #include "XIntegrationBase.h"
 #include "XIntegrationComm.h"
@@ -40,6 +40,7 @@
 #include <QGuiApplication>
 #include "Regulus64System.h"
 #include "XGeneralStocker.h"
+#include "XMainGUIFormBase.h"
 
 EntryPointBase	*MakeEntryPointForGlobal(void)
 {

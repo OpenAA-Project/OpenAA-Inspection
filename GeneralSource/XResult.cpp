@@ -43,12 +43,15 @@ void	ResultVectorLine::Add(ResultVectorItem *t)
 }
 ResultVectorItem &ResultVectorItem::operator=(const ResultVectorItem &src)
 {
+	if (this == &src) return *this;
+
 	TreePointList::operator=(*((TreePointList *)&src));
 	return *this;
 }
 
 ResultVectorLine	&ResultVectorLine::operator=(const TreeLine &src)
 {
+	if (this == &src) return *this;
 	TreeLine::operator=(src);
 	return *this;
 }
@@ -72,6 +75,8 @@ TmpNGRectClass::TmpNGRectClass(void)
 
 TmpNGRectClass   &TmpNGRectClass::operator=(const TmpNGRectClass &src)
 {
+	if (this == &src) return *this;
+
 	result	=src.result;
     x1		=src.x1;
 	y1		=src.y1;
@@ -354,6 +359,8 @@ void    ResultPosList::Move(int dx ,int dy)
 }
 ResultPosList	&ResultPosList::operator=(const ResultPosList &src)
 {
+	if (this == &src) return *this;
+
 	result		=src.result;
 	ResultType	=src.ResultType;
 	result1		=src.result1;
@@ -557,6 +564,8 @@ void	ResultPosList::SetResult(double result)
 
 ResultPosListContainer	&ResultPosListContainer::operator=(const ResultPosListContainer &src)
 {
+	if (this == &src) return *this;
+
 	RemoveAll();
 	for(ResultPosList *L=src.GetFirst();L!=NULL;L=L->GetNext()){
 		ResultPosList	*D=new ResultPosList();
@@ -596,6 +605,8 @@ bool	NGAreaList::Save(QIODevice *f)
 }
 NGAreaList	&NGAreaList::operator=(const NGAreaList &src)
 {
+	if (this == &src) return *this;
+
 	AreaName=src.AreaName;
 	NGCount	=src.NGCount;
 	return *this;
@@ -640,6 +651,8 @@ bool	NGAreaListContainer::Save(QIODevice *f)
 
 NGAreaListContainer	&NGAreaListContainer::operator=(const NGAreaListContainer &src)
 {
+	if (this == &src) return *this;
+
 	RemoveAll();
 	return operator+=(src);
 }
@@ -874,6 +887,7 @@ bool    ResultInItemRoot::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		ResultPosList *r=CreateResultPosList();
 		if(r->Load(f)==false){
+			delete r;
 			return(false);
 		}
 		PosList.AppendList(r);
@@ -1015,6 +1029,8 @@ void	ResultInItemRoot::ClearResult(void)
 
 ResultInItemRoot  &ResultInItemRoot::operator=(const ResultInItemRoot &src)
 {
+	if (this == &src) return *this;
+
 	Error		=src.Error;
 	ResultType	=src.ResultType;
 	result1		=src.result1;
@@ -1783,6 +1799,8 @@ int     NGImage::GetByte(void)	const
 }
 NGImage &NGImage::operator=(const NGImage &src)
 {	
+	if (this == &src) return *this;
+
 	if(PtnByte==src.PtnByte){
 		if(PtnByte!=0){
 			memcpy(CompressedPtn,src.CompressedPtn,PtnByte);
@@ -2068,6 +2086,8 @@ void	ErrorGroup::SetSentCompressor(bool b)
 
 ErrorGroup  &ErrorGroup::operator=(const ErrorGroup &src)
 {
+	if (this == &src) return *this;
+
 	CData	=src.CData;
 	Name	=src.Name;
 	Cause	=src.Cause;
@@ -2148,6 +2168,8 @@ void	ErrorGroup::SetName(const QString &name)
 
 ErrorGroupPack  &ErrorGroupPack::operator=(const ErrorGroupPack &src)
 {
+	if (this == &src) return *this;
+
 	RemoveAll();
 	operator+=(src);
 	return *this;
@@ -7154,6 +7176,8 @@ ExecutedTime::ExecutedTime(const ExecutedTime &src)
 
 ExecutedTime	&ExecutedTime::operator=(const ExecutedTime &src)
 {
+	if (this == &src) return *this;
+
 	TM_ExecuteCaptured			=src.TM_ExecuteCaptured			;
 	TM_ExecutePreAlignment		=src.TM_ExecutePreAlignment		;
 	TM_ExecuteAlignment			=src.TM_ExecuteAlignment		;
@@ -7869,6 +7893,8 @@ bool	ResultHistry::Load(QIODevice *f)
 }
 ResultHistry	&ResultHistry::operator=(const ResultHistry &src)
 {
+	if (this == &src) return *this;
+
 	MasterCode		=src.MasterCode;
 	ClusterID		=src.ClusterID;
 	Result			=src.Result;
@@ -7904,6 +7930,8 @@ bool	ResultCounterList::Load(QIODevice *f)
 }
 ResultCounterList	&ResultCounterList::operator=(const ResultCounterList &src)
 {
+	if (this == &src) return *this;
+
 	Result	=src.Result;
 	Count	=src.Count;
 	return *this;
@@ -8009,9 +8037,9 @@ void	ResultHistryContainer::SetWritten(const XDateTime &ResTime ,int64 inspectio
 
 bool	ResultHistryContainer::RemoveResult(const XDateTime &ResTime)
 {
+	lock.lockForWrite();
 	for(ResultHistry *a=GetFirst();a!=NULL;a=a->GetNext()){
 		if(a->ResultTime==ResTime){
-			lock.lockForWrite();
 			RemoveList(a);
 			for(ResultCounterList *C=ResultCounter.GetFirst();C!=NULL;C=C->GetNext()){
 				if(C->Result==a->Result){
@@ -8028,12 +8056,13 @@ bool	ResultHistryContainer::RemoveResult(const XDateTime &ResTime)
 			return true;
 		}
 	}
+	lock.unlock();
 	return false;
 }
 
 ResultHistry *ResultHistryContainer::SetWritten(const XDateTime &ResTime)
 {
-	lock.lockForRead();
+	lock.lockForWrite();
 	for(ResultHistry *L=GetFirst();L!=NULL;L=L->GetNext()){
 		if(L->ResultTime==ResTime){
 			L->Written=true;
@@ -8123,6 +8152,8 @@ bool	ResultHistryContainer::Load(QIODevice *f)
 
 ResultHistryContainer	&ResultHistryContainer::operator=(const ResultHistryContainer &src)
 {
+	if (this == &src) return *this;
+
 	lock.lockForWrite();
 	RemoveAll();
 	for(ResultHistry *c=GetFirst();c!=NULL;c=c->GetNext()){
@@ -8158,6 +8189,8 @@ ResultPkNgPacket::ResultPkNgPacket(GUICmdPacketBase *base)
 
 ResultPkNgPacket	&ResultPkNgPacket::operator=(const ResultPkNgPacket &src)
 {
+	if (this == &src) return *this;
+
 	Ok		=src.Ok		 ;
 	TimeOver=src.TimeOver;
 	MaxError=src.MaxError;

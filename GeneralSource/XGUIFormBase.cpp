@@ -56,6 +56,7 @@
 #include "XShadowTree.h"
 #include "XGUILanguage.h"
 #include "XGeneralStocker.h"
+#include "XMainGUIFormBase.h"
 #include <omp.h>
 
 

@@ -970,6 +970,7 @@
     <ClInclude Include="..\..\Open\XLevel.h" />
     <ClInclude Include="..\..\Open\XLineMatching.h" />
     <ClInclude Include="..\..\Open\XMacro.h" />
+    <QtMoc Include="..\..\Open\XMainGUIFormBase.h" />
     <ClInclude Include="..\..\Open\XManualExecuter.h" />
     <ClInclude Include="..\..\Open\XMapBuffer.h" />
     <ClInclude Include="..\..\Open\XMasterData.h" />

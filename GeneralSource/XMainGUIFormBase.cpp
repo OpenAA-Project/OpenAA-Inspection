@@ -10,7 +10,7 @@
 #include <QScreen>
 #include <QGuiApplication>
 #include "Regulus64System.h"
-
+#include "XMainGUIFormBase.h"
 
 
 MainGUIFormBase::MainGUIFormBase(LayersBase	*_LayersBasePoint,QWidget *parent)
