@@ -43,7 +43,8 @@ LensWindowForm::LensWindowForm(LayersBase *base,QWidget *parent) :
 	DType=__Master;
 	CurrentGlobalX	=0;
 	CurrentGlobalY	=0;
-	MainGUIFormBase	*f=dynamic_cast<MainGUIFormBase	*>(GetLayersBase()->GetMainWidget());
+	//MainGUIFormBase	*f=dynamic_cast<MainGUIFormBase	*>(GetLayersBase()->GetMainWidget());
+	GUIFormBase *f = dynamic_cast<GUIFormBase *>(GetLayersBase()->GetMainWidget());
 	if(f!=NULL){
 		connect(f,SIGNAL(SignalCloseEvent()),this,SLOT(SlotCloseEvent()));
 	}
