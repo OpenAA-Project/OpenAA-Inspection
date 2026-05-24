@@ -81,9 +81,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\SelectLibraryInMask.lib" />
-  </ItemGroup>
-  <ItemGroup>
     <QtMoc Include="MaskingImagePanel.h">
       <Filter>Header Files</Filter>
     </QtMoc>

@@ -455,14 +455,17 @@ DisplayImage::~DisplayImage(void)
 bool	DisplayImage::Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb)
 {
 	AllocInnerBuff();
+	return true;
 }
 bool	DisplayImage::InsertPage(int IndexPage)	//Create page before Indexed page
 {
 	AllocInnerBuff();
+	return true;
 }
 bool	DisplayImage::RemovePage(int IndexPage)
 {
 	AllocInnerBuff();
+	return true;
 }
 void	DisplayImage::CreatedInEditMode(GUIFormBase *PutTop)
 {

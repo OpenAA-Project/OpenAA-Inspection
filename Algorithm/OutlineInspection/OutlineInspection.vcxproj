@@ -407,7 +407,7 @@
     </QtMoc>
     <QtMoc Include="MonoNGTypeDialog.h">
     </QtMoc>
-    <ClInclude Include="MonoOutlineForm.h" />
+    <QtMoc Include="MonoOutlineForm.h" />
     <ClInclude Include="XOutlineLibrary.h" />
     <QtMoc Include="OutlineHistgram.h">
     </QtMoc>

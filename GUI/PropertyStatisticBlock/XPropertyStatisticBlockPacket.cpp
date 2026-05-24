@@ -271,7 +271,7 @@ bool	GUICmdSendAddManualStatisticBlock::Save(QIODevice *f)
 
 void	GUICmdSendAddManualStatisticBlock::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	StatisticBlockBase *BBase=(StatisticBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"StatisticBlock");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"StatisticBlock");
 	if(BBase!=NULL){
 		CmdAddByteStatisticBlockItemPacket	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -312,7 +312,7 @@ bool	GUICmdSendModifySelectedStatisticBlock::Save(QIODevice *f)
 
 void	GUICmdSendModifySelectedStatisticBlock::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	StatisticBlockBase *BBase=(StatisticBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"StatisticBlock");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"StatisticBlock");
 	if(BBase!=NULL){
 		CmdModifySelectedStatisticBlockFromByteArray	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -356,11 +356,11 @@ GUICmdSendSelectedStatisticBlockItemAttr::GUICmdSendSelectedStatisticBlockItemAt
 }
 void	GUICmdSendSelectedStatisticBlockItemAttr::Make(int localPage ,LayersBase *Base ,IntList &LayerList)
 {
-	StatisticBlockBase *BBase=(StatisticBlockBase *)Base->GetAlgorithmBase(/**/"Basic",/**/"StatisticBlock");
+	AlgorithmBase *BBase=Base->GetAlgorithmBase(/**/"Basic",/**/"StatisticBlock");
 	if(BBase!=NULL){
-		StatisticBlockInPage	*PData=dynamic_cast<StatisticBlockInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		for(IntClass *L=LayerList.GetFirst();L!=NULL;L=L->GetNext()){
-			StatisticBlockInLayer	*LData=dynamic_cast<StatisticBlockInLayer *>(PData->GetLayerData(L->GetValue()));
+			AlgorithmInLayerRoot	*LData=PData->GetLayerData(L->GetValue());
 			if(LData!=NULL){
 				CmdGetOneSelectedItem	Cmd(this);
 				LData->TransmitDirectly(&Cmd);
@@ -451,7 +451,7 @@ void	GUICmdSendStatisticBlockInfoList::Receive(int32 localPage, int32 cmd ,QStri
 
 void	GUICmdSendStatisticBlockInfoList::Make(int localPage)
 {
-	StatisticBlockBase	*BBase=(StatisticBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"StatisticBlock");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"StatisticBlock");
 	if(BBase!=NULL){
 		CmdStatisticBlockInfoListPacket	Cmd(this);
 		Cmd.LocalPage=localPage;
@@ -483,7 +483,7 @@ bool	GUICmdReqStatisticBlockFromList::Save(QIODevice *f)
 void	GUICmdReqStatisticBlockFromList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckStatisticBlockFromList	*SendBack=GetSendBack(GUICmdAckStatisticBlockFromList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	StatisticBlockBase	*BBase=(StatisticBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"StatisticBlock");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"StatisticBlock");
 	if(BBase!=NULL){
 		int	N=0;
 		for(ListLayerAndID *a=CurrentItem.GetFirst();a!=NULL;a=a->GetNext()){
@@ -527,7 +527,7 @@ bool	GUICmdAckStatisticBlockFromList::Load(QIODevice *f)
 	int32	N;
 	if(::Load(f,N)==false)
 		return false;
-	StatisticBlockBase	*BBase=(StatisticBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"StatisticBlock");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"StatisticBlock");
 	for(int i=0;i<N;i++){
 		CmdCreateStatisticBlockItem	Cmd(GetLayersBase());
 		BBase->TransmitDirectly(&Cmd);

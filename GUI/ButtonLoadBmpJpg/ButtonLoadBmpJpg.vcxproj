@@ -200,7 +200,7 @@
     <Link>
       <AdditionalDependencies>ServiceLib.lib;Component.lib;LibJpeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\Lib\Release;..\..\..\OpenAA-OtherLibrary\JPEG\jpeg-9d\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\Lib\Release;$(OpenAAUseLibrary)\JPEG\jpeg-9d\x64\Release;$(OpenAAUseLibrary)\JPEG\JPEG/jpeg-9d/.libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>

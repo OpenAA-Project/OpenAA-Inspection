@@ -26,6 +26,7 @@
 #include <QColorDialog>
 #include "XGUI.h"
 #include "XDrawHookControlPanelCommon.h"
+#include "XMainGUIFormBase.h"
 
 extern  const	char	*sRoot;
 extern  const	char	*sName;

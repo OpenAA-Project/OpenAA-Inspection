@@ -286,6 +286,7 @@
     <QtMoc Include="SelectSettingDialog.h">
     </QtMoc>
     <QtMoc Include="..\..\..\Open\XGUI.h" />
+    <QtMoc Include="..\..\..\Open\XMainGUIFormBase.h" />
     <ClInclude Include="XCameraProviderCommon.h" />
     <QtMoc Include="..\..\..\Open\XSingleExecuteBySocket.h">
     </QtMoc>

@@ -297,19 +297,15 @@ void	GUICmdSendStatisticBlockInfo::MakeData(int localPage, int localX, int local
 	AlgorithmBase	*AL=LocalLBase.GetAlgorithmBase(/**/"Basic" ,/**/"StatisticBlock");
 	if(AL==NULL)
 		return;
-	StatisticBlockBase	*BL=dynamic_cast<StatisticBlockBase *>(AL);
-	if(BL==NULL)
-		return;
 	LocalX=localX;
 	LocalY=localY;
 
-	StatisticBlockInPage	*P=(StatisticBlockInPage *)BL->GetPageData(localPage);
+	AlgorithmInPageRoot	*P=AL->GetPageData(localPage);
 	for(int L=0;L<P->GetLayerNumb();L++){
-		AlgorithmInLayerPLI	*AinL=P->GetLayerDataPLI(L);
-		AlgorithmItemPLI	*Item=AinL->GetItem(localX,localY);
+		AlgorithmInLayerRoot	*AinL=P->GetLayerData(L);
+		AlgorithmItemRoot	*Item=AinL->GetItem(localX,localY);
 		if(Item!=NULL){
-			StatisticBlockItem	*BItem=(StatisticBlockItem *)Item;
-			LibIDList.Add(BItem->GetLibID());
+			LibIDList.Add(Item->GetLibID());
 			LayerList.Add(L);
 		}
 	}

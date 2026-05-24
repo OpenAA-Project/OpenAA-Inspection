@@ -19,12 +19,14 @@
 #include "PropertyAutoAlignmentFormResource.h"
 #include "EditLibraryMono.h"
 #include "XAutoAlignment.h"
+#include "XAutoAlignmentLibrary.h"
 #include "XDataInLayerCommander.h"
 #include "XDisplayImage.h"
 #include "XGeneralDialog.h"
 #include "XGUIFormBase.h"
 #include <QMessageBox>
-#include "XGeneralDialog.h"
+#include "XAutoAlignmentPacket.h"
+#include "XPropertyAutoAlignmentPacket.h"
 
 EditLibraryMono::EditLibraryMono(LayersBase *Base,QWidget *parent)
 	: QDialog(parent),ServiceForLayers(Base)
@@ -33,7 +35,7 @@ EditLibraryMono::EditLibraryMono(LayersBase *Base,QWidget *parent)
 	LangSolver.SetUI(this);
 
 	LibFolderID =-1;
-	AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+	AlgorithmBase	*BBase=GetAutoAlignmentBase();
 	LibType=-1;
 	if(BBase!=NULL)	
 		LibType=BBase->GetLibType();
@@ -66,7 +68,7 @@ void	EditLibraryMono::SlotSelectLibFolder(int libFolderID ,QString FolderName)
 {
 	LibFolderID=libFolderID;
 	ui.tableWidgetLibList->setRowCount(0);
-	AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+	AlgorithmBase	*BBase=GetAutoAlignmentBase();
 	if(BBase!=NULL){
 		CmdGetAutoAlignmentLibraryListPacket	Packet(GetLayersBase());
 		Packet.LibFolderID=LibFolderID;
@@ -110,7 +112,7 @@ void EditLibraryMono::on_tableWidgetLibList_clicked(const QModelIndex &Index)
 
 		CmdLoadAutoAlignmentLibraryPacket	Packet(GetLayersBase());
 		Packet.Point=TempLib;
-		AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+		AlgorithmBase	*BBase=GetAutoAlignmentBase();
 		if(BBase!=NULL){
 			BBase->TransmitDirectly(&Packet);
 			if(Packet.Success==true){
@@ -133,7 +135,7 @@ void EditLibraryMono::on_ButtonLibNew_clicked()
 	TempLib->Reset();
 	CmdClearAutoAlignmentLibraryPacket	Packet(GetLayersBase());
 	Packet.Point=TempLib;
-	AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+	AlgorithmBase	*BBase=GetAutoAlignmentBase();
 	if(BBase!=NULL){
 		BBase->TransmitDirectly(&Packet);
 	}
@@ -155,7 +157,7 @@ void EditLibraryMono::on_ButtonLibDelete_clicked()
 	if(ret==QMessageBox::Yes){
 		CmdDeleteAutoAlignmentLibraryPacket 	Packet(GetLayersBase());
 		Packet.Point=TempLib;
-		AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+		AlgorithmBase	*BBase=GetAutoAlignmentBase();
 		if(BBase!=NULL){
 			BBase->TransmitDirectly(&Packet);
 			on_ButtonLibNew_clicked();
@@ -181,7 +183,7 @@ void EditLibraryMono::on_ButtonLibSaveNew_clicked()
 	TempLib->SetLibFolderID(LibFolderID);
 	CmdInsertAutoAlignmentLibraryPacket	Packet(GetLayersBase());
 	Packet.Point=TempLib;
-	AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+	AlgorithmBase	*BBase=GetAutoAlignmentBase();
 	if(BBase!=NULL){
 		BBase->TransmitDirectly(&Packet);		
 		ShowLibrary(*TempLib);
@@ -209,7 +211,7 @@ void EditLibraryMono::on_ButtonLibSave_clicked()
 
 		CmdInsertAutoAlignmentLibraryPacket	Packet(GetLayersBase());
 		Packet.Point=TempLib;
-		AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+		AlgorithmBase	*BBase=GetAutoAlignmentBase();
 		if(BBase!=NULL){
 			BBase->TransmitDirectly(&Packet);
 			ShowLibrary(*TempLib);
@@ -220,7 +222,7 @@ void EditLibraryMono::on_ButtonLibSave_clicked()
 	else{
 		CmdUpdateAutoAlignmentLibraryPacket	Packet(GetLayersBase());
 		Packet.Point=TempLib;
-		AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+		AlgorithmBase	*BBase=GetAutoAlignmentBase();
 		if(BBase!=NULL){
 			BBase->TransmitDirectly(&Packet);
 		}
@@ -241,7 +243,7 @@ void	EditLibraryMono::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(data.GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(data.GetLibrary());
 	int	L,H;
 	ALib->PickupColor.GetMonoColorRange(L,H);
 	ui.EditPickupH				->setValue(H);
@@ -263,7 +265,7 @@ void	EditLibraryMono::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(data.GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(data.GetLibrary());
 	int	H=ui.EditPickupH	->value();
 	int	L=ui.EditPickupL	->value();
 	ALib->PickupColor.SetMonoColorRange(L,H);

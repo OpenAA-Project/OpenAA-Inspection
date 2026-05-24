@@ -25,8 +25,8 @@
 #include "SingleExecute.h"
 #include "XGUI.h"
 #include "XShowVersion.h"
-#include "XDataInLayer.h"
 #include "XOpenAA.h"
+#include "XMainGUIFormBase.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {

@@ -64,7 +64,7 @@ void	GUICmdAddNamingArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	Cmd.AreaName=AreaName;
 	Cmd.Row		=Row;
 	Cmd.Column	=Column;
-	NamingInPage	*M=dynamic_cast<NamingInPage *>(PData);
+	NamingInPage	*M=static_cast<NamingInPage *>(PData);
 	if(M!=NULL)
 		M->TransmitDirectly(&Cmd);
 
@@ -159,7 +159,7 @@ void	GUICmdSendSelectedNamingItems::MakeSelectedNamingList(int localPage)
 
 	ReqBuildItemPointerNaming	RCmd(GetLayersBase());
 	RCmd.Stocker=&Stocker;
-	NamingInPage	*PData=dynamic_cast<NamingInPage *>(NamingBase->GetPageData(localPage));
+	NamingInPage	*PData=static_cast<NamingInPage *>(NamingBase->GetPageData(localPage));
 	if(PData!=NULL){
 		PData->TransmitDirectly(&RCmd);
 	}
@@ -194,7 +194,7 @@ void	GUICmdSetSelectedNamingItems::Receive(int32 localPage, int32 cmd ,QString &
 	if(NamingBase==NULL)
 		return;
 
-	NamingInPage	*PData=dynamic_cast<NamingInPage *>(NamingBase->GetPageData(localPage));
+	NamingInPage	*PData=static_cast<NamingInPage *>(NamingBase->GetPageData(localPage));
 	if(PData!=NULL){
 		ReqSetItemPointerNaming	RCmd(this);
 		RCmd.Stocker=&Stocker;
@@ -342,10 +342,10 @@ void	GUICmdSendNamingList::MakeNamingList(int localPage ,LayersBase *PBase)
 		return;
 	NamingInfo.RemoveAll();
 
-	NamingInPage	*PData=dynamic_cast<NamingInPage *>(NamingBase->GetPageData(localPage));
+	NamingInPage	*PData=static_cast<NamingInPage *>(NamingBase->GetPageData(localPage));
 	if(PData!=NULL){
 		for(AlgorithmItemPI *item=PData->GetFirstData();item!=NULL;item=item->GetNext()){
-			NamingItem	*MItem=dynamic_cast<NamingItem *>(item);
+			NamingItem	*MItem=static_cast<NamingItem *>(item);
 			if(MItem!=NULL){
 				NamingListForPacket	*L=new NamingListForPacket();
 				L->Page=PBase->GetGlobalPageFromLocal(localPage);
@@ -419,10 +419,10 @@ void	GUICmdReqSetGroup::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 	//ReqMaxGroupID	ReqIDMessage(GetLayersBase());
 	//NamingBase->TransmitDirectly(&ReqIDMessage);
 
-	NamingInPage	*PData=dynamic_cast<NamingInPage *>(NamingBase->GetPageData(localPage));
+	NamingInPage	*PData=static_cast<NamingInPage *>(NamingBase->GetPageData(localPage));
 	if(PData!=NULL){
 		for(AlgorithmItemPI *item=PData->GetFirstData();item!=NULL;item=item->GetNext()){
-			NamingItem	*MItem=dynamic_cast<NamingItem *>(item);
+			NamingItem	*MItem=static_cast<NamingItem *>(item);
 			if(MItem!=NULL){
 				if(MItem->GetSelected()==true){
 					MItem->GroupID=GroupID;
@@ -467,10 +467,10 @@ void	GUICmdReqClearGroup::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	//ReqMaxGroupID	ReqIDMessage(GetLayersBase());
 	//NamingBase->TransmitDirectly(&ReqIDMessage);
 
-	NamingInPage	*PData=dynamic_cast<NamingInPage *>(NamingBase->GetPageData(localPage));
+	NamingInPage	*PData=static_cast<NamingInPage *>(NamingBase->GetPageData(localPage));
 	if(PData!=NULL){
 		for(AlgorithmItemPI *item=PData->GetFirstData();item!=NULL;item=item->GetNext()){
-			NamingItem	*MItem=dynamic_cast<NamingItem *>(item);
+			NamingItem	*MItem=static_cast<NamingItem *>(item);
 			if(MItem!=NULL){
 				if(MItem->GroupID==GroupID){
 					MItem->GroupID=-1;
@@ -544,7 +544,7 @@ void	GUICmdReqGenerateIndex::Receive(int32 localPage, int32 cmd ,QString &Emitte
 	if(NamingBase==NULL)
 		return;
 
-	NamingInPage	*PData=dynamic_cast<NamingInPage *>(NamingBase->GetPageData(localPage));
+	NamingInPage	*PData=static_cast<NamingInPage *>(NamingBase->GetPageData(localPage));
 	if(PData!=NULL){
 		ReqGenerateIndex	SGCmd(GetLayersBase());
 		PData->TransmitDirectly(&SGCmd);

@@ -21,6 +21,7 @@
 #include "EditLibraryAutoAlignment.h"
 #include "XGeneralFunc.h"
 #include "XAutoAlignmentPacket.h"
+#include "XPropertyAutoAlignmentPacket.h"
 
 extern	const	char	*sRoot;
 extern	const	char	*sName;
@@ -47,11 +48,13 @@ bool	GUICmdCreateAutoAlignmentSheet::Save(QIODevice *f)
 
 void	GUICmdCreateAutoAlignmentSheet::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	AutoAlignmentBase *PBase=(AutoAlignmentBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoAlignment");
-	CmdCreateAutoAlignmentSheetPacket	Cmd(this);
-	Cmd.SelectedLibList=SelectedLibList;
-	Cmd.LocalPage	=localPage;
-	PBase->TransmitDirectly(&Cmd);
+	AlgorithmBase *PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoAlignment");
+	if(PBase!=NULL){
+		CmdCreateAutoAlignmentSheetPacket	Cmd(this);
+		Cmd.SelectedLibList=SelectedLibList;
+		Cmd.LocalPage	=localPage;
+		PBase->TransmitDirectly(&Cmd);
+	}
 }
 
 
@@ -87,13 +90,14 @@ bool	GUICmdSendAutoAlignmentInfo::Save(QIODevice *f)
 }
 void	GUICmdSendAutoAlignmentInfo::MakeData(int localPage)
 {
-	AutoAlignmentBase *PBase=(AutoAlignmentBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoAlignment");
-	CmdGetSheetLevel	Cmd(this);
-	Cmd.LocalPage	=localPage;
-	PBase->TransmitDirectly(&Cmd);
-	SheetLevels=Cmd.SheetLevels;
+	AlgorithmBase *PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoAlignment");
+	if(PBase!=NULL){
+		CmdGetSheetLevel	Cmd(this);
+		Cmd.LocalPage	=localPage;
+		PBase->TransmitDirectly(&Cmd);
+		SheetLevels=Cmd.SheetLevels;
+	}
 }
-
 //=============================================================================================================
 
 GUICmdReqAutoAlignmentSheet::GUICmdReqAutoAlignmentSheet(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
@@ -131,12 +135,15 @@ bool	GUICmdSendAutoAlignmentSheet::Save(QIODevice *f)
 void	GUICmdSendAutoAlignmentSheet::MakeData(int localPage)
 {
 	AlgorithmBase		*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoAlignment");
-	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
-	CmdGetAutoAlignmentSheetPacket	Cmd(this);
-	Cmd.Point=&AASheetInfoData;
-	PPage->TransmitDirectly(&Cmd);
-}
-
+	if(PBase!=NULL){
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
+		if(PPage!=NULL){
+			CmdGetAutoAlignmentSheetPacket	Cmd(this);
+			Cmd.Point=&AASheetInfoData;
+			PPage->TransmitDirectly(&Cmd);
+		}
+	}
+}	
 //=============================================================================================================
 
 GUICmdSetAutoAlignmentLibColor::GUICmdSetAutoAlignmentLibColor(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
@@ -169,11 +176,15 @@ bool	GUICmdSetAutoAlignmentLibColor::Save(QIODevice *f)
 void	GUICmdSetAutoAlignmentLibColor::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	AlgorithmBase		*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoAlignment");
-	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
-	CmdSetAutoAlignmentLibColor	Cmd(this);
-	Cmd.LocalArea	=LocalArea;
-	Cmd.LibID		=LibID;
-	PPage->TransmitDirectly(&Cmd);
+	if(PBase!=NULL){
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
+		if(PPage!=NULL){
+			CmdSetAutoAlignmentLibColor	Cmd(this);
+			Cmd.LocalArea	=LocalArea;
+			Cmd.LibID		=LibID;
+			PPage->TransmitDirectly(&Cmd);
+		}
+	}
 }
 
 //=============================================================================================================
@@ -236,11 +247,15 @@ bool	GUICmdAddAutoAlignmentSheet::Save(QIODevice *f)
 void	GUICmdAddAutoAlignmentSheet::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	AlgorithmBase		*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoAlignment");
-	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
-	CmdAddAutoAlignmentSheet	Cmd(this);
-	Cmd.LocalArea	=LocalArea;
-	Cmd.LibID		=LibID;
-	PPage->TransmitDirectly(&Cmd);
+	if(PBase!=NULL){
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
+		if(PPage!=NULL){
+			CmdAddAutoAlignmentSheet	Cmd(this);
+			Cmd.LocalArea	=LocalArea;
+			Cmd.LibID		=LibID;
+			PPage->TransmitDirectly(&Cmd);
+		}
+	}
 }
 
 //=============================================================================================================

@@ -24,6 +24,4 @@
 #include "XResult.h"
 
 
-
-
-#endif;
+#endif

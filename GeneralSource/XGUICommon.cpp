@@ -27,7 +27,7 @@
 #include "XParamGlobal.h"
 #include "XDataInLayer.h"
 #include "XDataInExe.h"
-#include "XDisplayImage.h"
+//#include "XDisplayImage.h"
 
 QString	GUIItemInstance::GetDLLRoot(void)
 {
@@ -126,14 +126,14 @@ void	GUIInstancePack::SetAreaSizeInImagePanel(bool DrawWholeMode)
 	for(GUIItemInstance *v=NPListPack<GUIItemInstance>::GetFirst();v!=NULL;v=v->GetNext()){
 		GUIFormBase	*f=v->GetForm();
 		f->SetAreaSize();
-		DisplayImage	*Disp=dynamic_cast<DisplayImage *>(f);
-		if(Disp!=NULL){
+		//DisplayImage	*Disp=dynamic_cast<DisplayImage *>(f);
+		//if(Disp!=NULL){
 			if(DrawWholeMode==true){
 				QStringList Args;
 				bool 		ExeReturn;
-				Disp->ExecuteMacro(/**/"ZoomWhole", Args, ExeReturn);
+				f->ExecuteMacro(/**/"ZoomWhole", Args, ExeReturn);
 			}
-		}
+		//}
 	}
 }
 

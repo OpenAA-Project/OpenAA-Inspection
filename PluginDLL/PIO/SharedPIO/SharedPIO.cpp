@@ -32,25 +32,25 @@ SharedPIO::~SharedPIO()
 }
 //====================================================
 
-IO_DLLFUNC WORD	DLL_GetDLLType(void)
+DEFFUNCEX WORD	DLL_GetDLLType(void)
 {
 	return(DLLPIOMode);
 }
 
-IO_DLLFUNC bool	DLL_GetName(QString &str)
+DEFFUNCEX bool	DLL_GetName(QString &str)
 {
 	str="SharedPIO";
 	return true;
 }
-IO_DLLFUNC const char	*DLL_GetExplain(void)
+DEFFUNCEX const char	*DLL_GetExplain(void)
 {
 	return "Shared PIO";
 }
-IO_DLLFUNC WORD	DLL_GetVersion(void)
+DEFFUNCEX WORD	DLL_GetVersion(void)
 {
 	return 1;
 }
-IO_DLLFUNC bool	DLL_CheckCopyright(QString &CopyrightString)
+DEFFUNCEX bool	DLL_CheckCopyright(QString &CopyrightString)
 {
 	CopyrightString="MEGATRADE (C) 2020";
 	return true;

@@ -184,6 +184,7 @@
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <ControlFlowGuard>false</ControlFlowGuard>
+      <OpenMP>GenerateParallelCode</OpenMP>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Component.lib;ModelPageLayerItem.lib;ServiceLib.lib;%(AdditionalDependencies)</AdditionalDependencies>

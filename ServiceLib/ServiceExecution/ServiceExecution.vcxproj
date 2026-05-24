@@ -103,6 +103,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\GeneralSource\XDataInLayerShadow.cpp" />
     <ClCompile Include="..\..\GeneralSource\XGUIDummy.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XMainGUIFormBase.cpp" />
     <ClCompile Include="ServiceExecution.cpp" />
     <QtMoc Include="..\..\Open\XDirectComm.h" />
     <QtMoc Include="..\..\Open\XFastComm.h" />
@@ -119,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\GeneralSource\XDataInExe.h" />
+    <QtMoc Include="..\..\Open\XMainGUIFormBase.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

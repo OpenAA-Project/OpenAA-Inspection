@@ -254,6 +254,15 @@ bool	ImageProcessorPanel::DrawImage(QPainter &pnt ,QImage &PntImage ,IntList &La
 	return false;
 }
 
+void	ImageProcessorPanel::TransmitDirectly(GUIDirectMessage *packet)
+{
+	ImageReqGrouperImageItem *ImageReqGrouperImageItemVar = dynamic_cast<ImageReqGrouperImageItem *>(packet);
+	if(ImageReqGrouperImageItemVar!=NULL){
+		ImageReqGrouperImageItemVar->GItem=CurrentItem;
+		return;
+	}
+}
+
 QImage	ImageProcessorPanel::GetSaveImage(int gx1, int gy1, int gx2 ,int gy2)
 {
 	int	W=gx2-gx1;

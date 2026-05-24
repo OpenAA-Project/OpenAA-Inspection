@@ -186,6 +186,7 @@
       <GenerateAlternateCodePaths>None</GenerateAlternateCodePaths>
       <UseProcessorExtensions>None</UseProcessorExtensions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OpenMP>GenerateParallelCode</OpenMP>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Component.lib;ServiceForAlgorithm.lib;ModelPageItem.lib;ServiceLib.lib;%(AdditionalDependencies)</AdditionalDependencies>

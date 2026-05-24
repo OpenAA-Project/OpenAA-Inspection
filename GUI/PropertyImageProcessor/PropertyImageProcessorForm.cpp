@@ -364,7 +364,7 @@ void	PropertyImageProcessorForm::ClickSelectItem(FilterBase *Item)
 	}
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ImageProcessorPanel" ,/**/"");
 	if(GProp!=NULL){
-		ImageProcessorPanel	*Panel=dynamic_cast<ImageProcessorPanel *>(GProp);
+		ImageProcessorPanel	*Panel=static_cast<ImageProcessorPanel *>(GProp);
 		if(Panel!=NULL){
 			Panel->CurrentItem=Item;
 			Panel->Repaint();
@@ -394,7 +394,7 @@ ImageProcessBase	*PropertyImageProcessorForm::GetAlgorithmBase(void)
 {
 	AlgorithmBase	*Ab=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ImageProcess");
 	if(Ab!=NULL){
-		ImageProcessBase	*L=dynamic_cast<ImageProcessBase *>(Ab);
+		ImageProcessBase	*L=static_cast<ImageProcessBase *>(Ab);
 		return L;
 	}
 	return NULL;
@@ -435,7 +435,7 @@ void	PropertyImageProcessorForm::SlotDeleteItem()
 
 		GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ImageProcessorPanel" ,/**/"");
 		if(GProp!=NULL){
-			ImageProcessorPanel	*Panel=dynamic_cast<ImageProcessorPanel *>(GProp);
+			ImageProcessorPanel	*Panel=static_cast<ImageProcessorPanel *>(GProp);
 			if(Panel!=NULL){
 				Panel->CurrentItem=NULL;
 			}

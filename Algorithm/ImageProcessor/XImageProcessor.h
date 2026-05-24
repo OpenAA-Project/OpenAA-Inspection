@@ -337,6 +337,14 @@ public:
 	ImageProcessorDelAllProgram(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 
+class	ImageReqGrouperImageItem: public GUIDirectMessage
+{
+public:
+	GrouperImageItem	*GItem;
+	ImageReqGrouperImageItem(LayersBase *base):GUIDirectMessage(base){}
+	ImageReqGrouperImageItem(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
+
 //===================================================================================
 
 #endif

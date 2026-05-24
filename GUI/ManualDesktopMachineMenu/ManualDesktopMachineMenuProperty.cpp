@@ -25,6 +25,7 @@
 #include "XGeneralFunc.h"
 #include "XAnyData.h"
 #include "XPixelInspection.h"
+#include "XEntryPoint.h"
 
 extern	const	char	*sRoot;
 extern	const	char	*sName;

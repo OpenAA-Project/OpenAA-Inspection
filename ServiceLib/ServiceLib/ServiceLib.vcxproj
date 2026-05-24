@@ -485,6 +485,7 @@
       <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
       <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
     </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XGUIFormBase.cpp" />
     <ClCompile Include="..\..\GeneralSource\XGUIPacketGeneral.cpp" />
     <ClCompile Include="..\..\GeneralSource\XImagePNG.cpp" />
     <ClCompile Include="..\..\GeneralSource\XImageProcess.cpp" />
@@ -785,18 +786,6 @@
     </ClCompile>
     <ClCompile Include="..\..\GeneralSource\XGeneralStocker.cpp" />
     <ClCompile Include="..\..\GeneralSource\XGUICommon.cpp" />
-    <ClCompile Include="..\..\GeneralSource\XGUIFormBase.cpp">
-      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnableFiberSafeOptimizations>
-      <GenerateAlternateCodePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</GenerateAlternateCodePaths>
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
-      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
-      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
-      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
-      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
-      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
-      <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</FunctionLevelLinking>
-      <UseProcessorExtensions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">None</UseProcessorExtensions>
-    </ClCompile>
     <ClCompile Include="..\..\GeneralSource\XGUIPacketForDLL.cpp" />
     <ClCompile Include="..\..\GeneralSource\XHistgramByParam.cpp">
       <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnableFiberSafeOptimizations>
@@ -970,7 +959,6 @@
     <ClInclude Include="..\..\Open\XLevel.h" />
     <ClInclude Include="..\..\Open\XLineMatching.h" />
     <ClInclude Include="..\..\Open\XMacro.h" />
-    <QtMoc Include="..\..\Open\XMainGUIFormBase.h" />
     <ClInclude Include="..\..\Open\XManualExecuter.h" />
     <ClInclude Include="..\..\Open\XMapBuffer.h" />
     <ClInclude Include="..\..\Open\XMasterData.h" />

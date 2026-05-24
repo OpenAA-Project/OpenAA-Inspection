@@ -122,7 +122,7 @@ void	EditStatisticBlockLibrary::ShowLibrary(AlgorithmLibraryLevelContainer &data
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	StatisticBlockLibrary	*ALib=dynamic_cast<StatisticBlockLibrary *>(data.GetLibrary());
+	StatisticBlockLibrary	*ALib=static_cast<StatisticBlockLibrary *>(data.GetLibrary());
 	ui.EditPickupL			->setValue(ALib->PickupL);
 	ui.EditPickupH			->setValue(ALib->PickupH);
 	ui.EditMinBlockSize		->setValue(ALib->MinBlockSize);
@@ -164,7 +164,7 @@ void	EditStatisticBlockLibrary::ShowLibrary(AlgorithmLibraryLevelContainer &data
 
 void	EditStatisticBlockLibrary::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	StatisticBlockLibrary	*ALib=dynamic_cast<StatisticBlockLibrary *>(data.GetLibrary());
+	StatisticBlockLibrary	*ALib=static_cast<StatisticBlockLibrary *>(data.GetLibrary());
 	data.SetLibName(ui.EditLibName	->text());
 	ALib->PickupL		=ui.EditPickupL			->value();
 	ALib->PickupH		=ui.EditPickupH			->value();

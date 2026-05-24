@@ -56,7 +56,6 @@
 #include "XShadowTree.h"
 #include "XGUILanguage.h"
 #include "XGeneralStocker.h"
-#include "XMainGUIFormBase.h"
 #include <omp.h>
 
 
@@ -1929,9 +1928,8 @@ void	GUIFormBase::ResizeMain(void)
 				setFont(fnt);
 			}
 
-			MainGUIFormBase *GTop = dynamic_cast<MainGUIFormBase *>(this);
-			if(GTop!=NULL){
-				GTop->SetGUIScale(ScaleX ,ScaleY);
+			if(IsTopForm()==true){
+				SetGUIScale(ScaleX ,ScaleY);
 			}
 			if(Z!=1.0){
 				ResizeByScaleFormBase(ScaleX,ScaleY);
@@ -1948,10 +1946,14 @@ void	GUIFormBase::ResizeMain(void)
 
 void	GUIFormBase::GetGUIScale(double &XScale ,double &YScale)
 {
-	MainGUIFormBase	*f=dynamic_cast<MainGUIFormBase *>(GetTopParent());
-	if(f!=NULL){
+	GUIFormBase	*f=GetTopParent();
+	if(f->IsTopForm()==true){
 		f->GetGUIScale(XScale ,YScale);
 	}
+}
+
+void	GUIFormBase::SetGUIScale(double  XScale ,double  YScale)
+{
 }
 
 

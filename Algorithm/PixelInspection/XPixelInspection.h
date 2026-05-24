@@ -35,11 +35,15 @@ using namespace std;
 #include "XDataModelPageItem.h"
 #include "XServiceForLayers.h"
 #include "XStatisticPacket.h"
-#include "XAutoAlignment.h"
-#include "XAutoPCBHoleAligner.h"
-#include "XVCutInspection.h"
+//#include "XAutoAlignment.h"
+//#include "XAutoPCBHoleAligner.h"
+//#include "XVCutInspection.h"
 
 class	PixelInspectionItem;
+class	AutoAlignmentInPage;
+class	AutoPCBHoleAlignerInPage;
+class	VCutInspectionInPage;
+
 #define	PixelInspectionLibType		11
 
 #define	ResultPixelOnItemType		6

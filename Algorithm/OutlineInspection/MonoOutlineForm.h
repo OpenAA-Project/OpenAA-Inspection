@@ -23,13 +23,14 @@
 #include "ui_MonoOutlineForm.h"
 #include "XServiceForLayers.h"
 #include "XAlgorithmLibrary.h"
-#include "XDataAlgorithm.h"
-#include "XOutlineInspect.h"
+//#include "XDataAlgorithm.h"
 #include "mtLineGraph.h"
 #include "mtGraph.h"
 
 class	OutlineBase;
 class	mtColorFrame;
+class	OutlineThreshold;
+class	AlgorithmItemIndependentPack;
 
 class MonoOutlineForm : public QDialog ,public ServiceForLayers
 {
@@ -77,7 +78,7 @@ private:
 
 	OutlineBase	*GetOutlineBase(void);
 	AlgorithmLibraryListContainer	LibIDList;
-	OutlineThreshold	TmpThreshold;
+	OutlineThreshold	*TmpThreshold;
 
 	mtColorFrame	*MasterPanel;
 	mtColorFrame	*TargetPanel;

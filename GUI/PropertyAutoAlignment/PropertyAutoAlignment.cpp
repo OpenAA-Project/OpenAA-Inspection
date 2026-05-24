@@ -21,6 +21,7 @@
 #include "PropertyAutoAlignmentForm.h"
 #include "XGUIDLL.h"
 #include "XAutoAlignmentPacket.h"
+#include "XPropertyAutoAlignmentPacket.h"
 #include "XMacroFunction.h"
 
 static	bool	MacroClearLibList(GUIFormBase *Instance ,QStringList &Args);

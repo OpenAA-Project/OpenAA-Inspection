@@ -421,14 +421,7 @@
       <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
       <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
     </ClCompile>
-    <ClCompile Include="LearningSettingDialog.cpp">
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
-      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
-      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</IntrinsicFunctions>
-      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Neither</FavorSizeOrSpeed>
-      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
-      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
-    </ClCompile>
+    <ClCompile Include="LearningSettingDialog.cpp" />
     <ClCompile Include="main.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
       <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</InlineFunctionExpansion>
@@ -470,16 +463,6 @@
       <QtMocDir>.\GeneratedFiles\$(Configuration)</QtMocDir>
       <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
     </QtMoc>
-    <QtMoc Include="LearningSettingDialog.h">
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DynamicSource>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DynamicSource>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Intel_SSA|Win32'">false</DynamicSource>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Intel_SSA|x64'">false</DynamicSource>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</DynamicSource>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DynamicSource>
-      <QtMocDir>.\GeneratedFiles\$(Configuration)</QtMocDir>
-      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
-    </QtMoc>
     <QtMoc Include="..\Open\SingleExecute.h">
       <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
       <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
@@ -500,8 +483,6 @@
     <QtUic Include="ConfirmForm.ui" />
     <QtUic Include="EditLineDialog.ui" />
     <QtUic Include="LearningServer.ui">
-    </QtUic>
-    <QtUic Include="LearningSettingDialog.ui">
     </QtUic>
     <CustomBuild Include="LearningServer.qrc">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -541,12 +522,16 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Outputs)</Outputs>
     </CustomBuild>
+    <QtUic Include="LearningSettingDialog.ui" />
   </ItemGroup>
   <ItemGroup>
     <None Include="E:\v3Exeアイコン\LearningServer\LearningServer.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LearningServer.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="LearningSettingDialog.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

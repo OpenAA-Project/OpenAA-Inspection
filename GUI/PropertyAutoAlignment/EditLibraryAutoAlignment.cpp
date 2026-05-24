@@ -19,12 +19,14 @@
 #include "PropertyAutoAlignmentFormResource.h"
 #include "EditLibraryAutoAlignment.h"
 #include "XAutoAlignment.h"
+#include "XAutoAlignmentLibrary.h"
 #include "XDataInLayerCommander.h"
 #include "XDisplayImage.h"
 #include "XGeneralDialog.h"
 #include "XGUIFormBase.h"
 #include <QMessageBox>
-#include "XGeneralDialog.h"
+#include "XAutoAlignmentPacket.h"
+#include "XPropertyAutoAlignmentPacket.h"
 
 extern	const	char	*sRoot;
 extern	const	char	*sName;
@@ -36,7 +38,7 @@ EditLibraryAutoAlignment::EditLibraryAutoAlignment(LayersBase *Base,QWidget *par
 	LangSolver.SetUI(this);
 
 	LibFolderID =-1;
-	AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+	AlgorithmBase	*BBase=GetAutoAlignmentBase();
 	LibType=-1;
 	if(BBase!=NULL)	
 		LibType=BBase->GetLibType();
@@ -65,7 +67,7 @@ EditLibraryAutoAlignment::EditLibraryAutoAlignment(LayersBase *Base,QWidget *par
 	RGBPanel.Fit(ui.frameShowColorSmples);
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"AutoAlignmentImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		DisplayImage	*Display=dynamic_cast<DisplayImage *>(GProp);
+		DisplayImage	*Display=static_cast<DisplayImage *>(GProp);
 		if(Display!=NULL){
 			PickupColor=Display->GetPickedColor();
 			PickupColorFrame.setParent(ui.framePickupColor);
@@ -97,7 +99,7 @@ void	EditLibraryAutoAlignment::SlotSelectLibFolder(int libFolderID ,QString Fold
 {
 	LibFolderID=libFolderID;
 	ui.tableWidgetLibList->setRowCount(0);
-	AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+	AlgorithmBase	*BBase=GetAutoAlignmentBase();
 	if(BBase!=NULL){
 		CmdGetAutoAlignmentLibraryListPacket	Packet(GetLayersBase());
 		Packet.LibFolderID=LibFolderID;
@@ -135,13 +137,13 @@ void	EditLibraryAutoAlignment::Initial(AlgorithmBase *InstBase)
 void	EditLibraryAutoAlignment::SlotAddEliminated(void)
 {
 	ShowThresholdList();
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 }
 void	EditLibraryAutoAlignment::SlotDelEliminated(void)
 {
 	ShowThresholdList();
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 }
 void EditLibraryAutoAlignment::ShowThresholdList(void)
@@ -167,7 +169,7 @@ void	EditLibraryAutoAlignment::SlotColorSampleSelectOne()
 	ColorThre.Cube=*ColorSamples.CData.GetColorLogic();
 	ColorThre.InitializedDoneCube();
 	ColorThre.Repaint();
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 }
 
@@ -178,7 +180,7 @@ void EditLibraryAutoAlignment::on_ButtonLibNew_clicked()
 	TempLib->Reset();
 	CmdClearAutoAlignmentLibraryPacket	Packet(GetLayersBase());
 	Packet.Point=TempLib;
-	AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+	AlgorithmBase	*BBase=GetAutoAlignmentBase();
 	if(BBase!=NULL){
 		BBase->TransmitDirectly(&Packet);
 	}
@@ -200,7 +202,7 @@ void EditLibraryAutoAlignment::on_ButtonLibDelete_clicked()
 	if(ret==QMessageBox::Yes){
 		CmdDeleteAutoAlignmentLibraryPacket 	Packet(GetLayersBase());
 		Packet.Point=TempLib;
-		AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+		AlgorithmBase	*BBase=GetAutoAlignmentBase();
 		if(BBase!=NULL){
 			BBase->TransmitDirectly(&Packet);
 			on_ButtonLibNew_clicked();
@@ -226,7 +228,7 @@ void EditLibraryAutoAlignment::on_ButtonLibSaveNew_clicked()
 	TempLib->SetLibFolderID(LibFolderID);
 	CmdInsertAutoAlignmentLibraryPacket	Packet(GetLayersBase());
 	Packet.Point=TempLib;
-	AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+	AlgorithmBase	*BBase=GetAutoAlignmentBase();
 	if(BBase!=NULL){
 		BBase->TransmitDirectly(&Packet);		
 		ShowLibrary(*TempLib);
@@ -254,7 +256,7 @@ void EditLibraryAutoAlignment::on_ButtonLibSave_clicked()
 
 		CmdInsertAutoAlignmentLibraryPacket	Packet(GetLayersBase());
 		Packet.Point=TempLib;
-		AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+		AlgorithmBase	*BBase=GetAutoAlignmentBase();
 		if(BBase!=NULL){
 			BBase->TransmitDirectly(&Packet);
 			ShowLibrary(*TempLib);
@@ -265,7 +267,7 @@ void EditLibraryAutoAlignment::on_ButtonLibSave_clicked()
 	else{
 		CmdUpdateAutoAlignmentLibraryPacket	Packet(GetLayersBase());
 		Packet.Point=TempLib;
-		AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+		AlgorithmBase	*BBase=GetAutoAlignmentBase();
 		if(BBase!=NULL){
 			BBase->TransmitDirectly(&Packet);
 		}
@@ -282,7 +284,7 @@ void EditLibraryAutoAlignment::on_pushButtonAddPickupColor_clicked()
 {
 	ColorThre.Cube.Add(PickupColor.rgb(),ui.spinBoxMerginAddPickupColor->value());
 	ColorThre.Repaint();
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -291,7 +293,7 @@ void EditLibraryAutoAlignment::on_pushButtonSubPickupColor_clicked()
 {
 	ColorThre.Cube.Eliminame(PickupColor.rgb(),ui.spinBoxMerginSubPickupColor->value());
 	ColorThre.Repaint();
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -305,12 +307,12 @@ void EditLibraryAutoAlignment::on_tableWidgetLibList_clicked(const QModelIndex &
 
 		CmdLoadAutoAlignmentLibraryPacket	Packet(GetLayersBase());
 		Packet.Point=TempLib;
-		AutoAlignmentBase	*BBase=GetAutoAlignmentBase();
+		AlgorithmBase	*BBase=GetAutoAlignmentBase();
 		if(BBase!=NULL){
 			BBase->TransmitDirectly(&Packet);
 			if(Packet.Success==true){
 				ShowLibrary(*TempLib);
-				AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
+				AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
 				ColorThre.Cube=ALib->PickupColor;
 				ColorThre.Repaint();
 				ShowThresholdList();
@@ -332,7 +334,7 @@ void	EditLibraryAutoAlignment::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(data.GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(data.GetLibrary());
 	ui.EditExpandForPickup		->setValue	(ALib->ExpandForPickup);
 	ui.EditPicoShift			->setValue	(ALib->PicoShift);
 	ui.checkBoxStartupExecute	->setChecked(ALib->StartupExecute);
@@ -349,7 +351,7 @@ void	EditLibraryAutoAlignment::GetLibraryFromWindow(AlgorithmLibraryLevelContain
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(data.GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(data.GetLibrary());
 	ALib->ExpandForPickup		=ui.EditExpandForPickup		->value();
 	ALib->PicoShift				=ui.EditPicoShift			->value();
 	ALib->StartupExecute		=ui.checkBoxStartupExecute	->isChecked();
@@ -366,7 +368,7 @@ void EditLibraryAutoAlignment::on_pushButtonAddColor_clicked()
 {
 	ColorThre.Cube.Add(*ColorSamples.CData.GetColorLogic());
 	ColorThre.Repaint();
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -375,7 +377,7 @@ void EditLibraryAutoAlignment::on_pushButtonEliminateColor_clicked()
 {
 	ColorThre.Cube.Eliminate(*ColorSamples.CData.GetColorLogic());
 	ColorThre.Repaint();
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -384,7 +386,7 @@ void EditLibraryAutoAlignment::on_pushButtonAddAllColor_clicked()
 {
 	ColorThre.Cube.Add(qRgb(128,128,128),222);
 	ColorThre.Repaint();
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 	
@@ -397,7 +399,7 @@ void EditLibraryAutoAlignment::on_pushButtonAddColorArea_clicked()
 	ColorThre.Cube.Add(*Sample.GetColorLogic(),0);
 
 	ColorThre.Repaint();
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -409,7 +411,7 @@ void EditLibraryAutoAlignment::on_pushButtonEliminateColorArea_clicked()
 	ColorThre.Cube.Eliminate(*Sample.GetColorLogic(),0);
 
 	ColorThre.Repaint();
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
+	AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -424,7 +426,7 @@ void EditLibraryAutoAlignment::on_listWidgetBaseColor_doubleClicked(QModelIndex)
 		ColorThre.Cube.RemoveBase(c);
 		delete	c;
 		if(TempLib!=NULL){
-			AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
+			AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
 			ALib->PickupColor=ColorThre.Cube;
 		}
 	}
@@ -442,7 +444,7 @@ void EditLibraryAutoAlignment::on_listWidgetEliminatedColor_doubleClicked(QModel
 		ColorThre.Cube.RemoveEliminated(c);
 		delete	c;
 		if(TempLib!=NULL){
-			AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
+			AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(TempLib->GetLibrary());
 			ALib->PickupColor=ColorThre.Cube;
 		}
 	}

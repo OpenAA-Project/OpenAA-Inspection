@@ -25,6 +25,8 @@
 #include "XGUI.h"
 #include "XPropertyPixelInspectionPacket.h"
 #include "XPixelInspection.h"
+#include "XAutoAlignmentPacket.h"
+#include "XAutoAlignmentLibrary.h"
 #include "XGeneralFunc.h"
 #include <QMessageBox>
 #include <QHeaderView>

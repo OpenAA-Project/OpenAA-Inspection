@@ -34,8 +34,6 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="generatedfiles\qrc_MaskingImagePanelPI.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -58,9 +56,6 @@
     <None Include="Resources\MaskingImagePanelPI.png">
       <Filter>Resource Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\SelectLibraryInMask.lib" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MaskingImagePanelPI.h">

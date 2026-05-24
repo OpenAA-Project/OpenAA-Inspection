@@ -40,9 +40,6 @@
     <ClCompile Include="XPropertyMaskingPIPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="PropertyMaskingPIResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,7 +54,6 @@
     <ClInclude Include="XPropertyMaskingPIPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
     <ClInclude Include="PropertyMaskingPIResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -66,9 +62,6 @@
     <None Include="Resources\PropertyMaskingPI.png">
       <Filter>Resource Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\SelectLibraryInMask.lib" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="PropertyMaskingPIForm.h">

@@ -60,9 +60,7 @@ void	GUICmdAddMaskingPIArea::Receive(int32 localPage, int32 cmd ,QString &Emitte
 	Cmd.Area=MaskArea;
 	Cmd.Effective=Effective;
 	Cmd.LimitedLib=LimitedLib;
-	MaskingPIInPage	*M=dynamic_cast<MaskingPIInPage *>(PData);
-	if(M!=NULL)
-		M->TransmitDirectly(&Cmd);
+	PData->TransmitDirectly(&Cmd);
 }
 
 GUICmdChangeMaskingPIAttr::GUICmdChangeMaskingPIAttr(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
@@ -105,7 +103,7 @@ void	GUICmdChangeMaskingPIAttr::Receive(int32 localPage, int32 cmd ,QString &Emi
 	AlgorithmItemPI		*Item=dynamic_cast<AlgorithmItemPI *>(PData->SearchIDItem(ItemID));
 	if(Item==NULL)
 		return;
-	MaskingPIItem	*M=dynamic_cast<MaskingPIItem *>(Item);
+	MaskingPIItem	*M=static_cast<MaskingPIItem *>(Item);
 	if(M==NULL)
 		return;
 
@@ -258,7 +256,7 @@ void	GUICmdSendMaskPIList::MakeMaskList(bool EffectiveMode,bool IneffectiveMode,
 	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(MaskingPIBase->GetPageData(localPage));
 	if(PData!=NULL){
 		for(AlgorithmItemPI *item=PData->GetFirstData();item!=NULL;item=item->GetNext()){
-			MaskingPIItem	*MItem=dynamic_cast<MaskingPIItem *>(item);
+			MaskingPIItem	*MItem=static_cast<MaskingPIItem *>(item);
 			if(MItem!=NULL && ((EffectiveMode==true && MItem->GetThresholdR()->Effective==true) || (IneffectiveMode==true && MItem->GetThresholdR()->Effective==false))){
 				MaskingPIListForPacket	*L=new MaskingPIListForPacket();
 				L->Page=PBase->GetGlobalPageFromLocal(localPage);

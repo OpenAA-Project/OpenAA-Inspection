@@ -24,8 +24,10 @@
 #include "XGUIDLL.h"
 #include "XDLLOnly.h"
 #include "XGUIPacketForDLL.h"
-#include "WEditParameterTab.h"
 #include "XServiceForLayers.h"
+
+class WEditParameterTab;
+class ParamBase;
 
 class LearningSettingDialog : public QDialog,public ServiceForLayers
 {

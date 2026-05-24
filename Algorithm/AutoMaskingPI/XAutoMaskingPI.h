@@ -23,7 +23,7 @@
 
 #include "XDataInLayer.h"
 #include "XDataModelPageItem.h"
-#include "XAlgorithmLibrary.h"
+
 #include "XDirectComm.h"
 #include "XColorSpace.h"
 
@@ -33,9 +33,10 @@
 #include "XFlexAreaImage.h"
 #include "XGeneralFunc.h"
 #include "XAutoPCBHoleAligner.h"
-#include "XAutoAlignment.h"
+#include "XAutoAlignmentPacket.h"
 
 class	AutoMaskingPIItem;
+class	AutoAlignmentLibrary;
 #define	DefLibTypeAutoMaskingPI			14
 
 class	AutoMaskingPIDrawAttr : public AlgorithmDrawAttr

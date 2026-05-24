@@ -70,6 +70,7 @@
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
+      <OpenMP>GenerateParallelCode</OpenMP>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(HIKRobotMVS)\Libraries\win64;$(HIKRobotMVS)\lib\64;$(HIKRobotMVS)/lib/aarch64;..\..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

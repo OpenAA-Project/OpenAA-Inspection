@@ -20,6 +20,7 @@
 #include "GLWidget.h"
 #include "PixelHistogramForm.h"
 #include "XPixelInspection.h"
+#include "XAutoAlignment.h"
 #include "XDataInLayerCommander.h"
 #include "XImageProcess.h"
 #include <QPalette>

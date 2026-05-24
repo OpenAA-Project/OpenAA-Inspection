@@ -83,25 +83,25 @@ BYTE	PIOClient::Inport(int port)
 
 //PIOClient	*PIO;
 
-IO_DLLFUNC WORD	DLL_GetDLLType(void)
+DEFFUNCEX WORD	DLL_GetDLLType(void)
 {
 	return(DLLPIOMode);
 }
 
-IO_DLLFUNC bool	DLL_GetName(QString &str)
+DEFFUNCEX bool	DLL_GetName(QString &str)
 {
 	str="PIOClient";
 	return true;
 }
-IO_DLLFUNC const char	*DLL_GetExplain(void)
+DEFFUNCEX const char	*DLL_GetExplain(void)
 {
 	return "PIO Client for network PIO";
 }
-IO_DLLFUNC WORD	DLL_GetVersion(void)
+DEFFUNCEX WORD	DLL_GetVersion(void)
 {
 	return 1;
 }
-IO_DLLFUNC bool	DLL_CheckCopyright(QString &CopyrightString)
+DEFFUNCEX bool	DLL_CheckCopyright(QString &CopyrightString)
 {
 	CopyrightString="MEGATRADE (C) 2011";
 	return true;

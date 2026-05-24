@@ -295,13 +295,10 @@ void	GUICmdSendTrueColorBlockInfo::MakeData(int localPage, int localX, int local
 	AlgorithmBase	*AL=LocalLBase.GetAlgorithmBase(/**/"Basic" ,/**/"TrueColorBlock");
 	if(AL==NULL)
 		return;
-	TrueColorBlockBase	*BL=dynamic_cast<TrueColorBlockBase *>(AL);
-	if(BL==NULL)
-		return;
 	LocalX=localX;
 	LocalY=localY;
 
-	TrueColorBlockInPage	*CP=(TrueColorBlockInPage *)BL->GetPageData(localPage);
+	AlgorithmInPageRoot	*CP=AL->GetPageData(localPage);
 	if(CP==NULL)
 		return;
 
@@ -309,10 +306,9 @@ void	GUICmdSendTrueColorBlockInfo::MakeData(int localPage, int localX, int local
 	RCmd.LocalX=localX;
 	RCmd.LocalY=localY;
 	CP->TransmitDirectly(&RCmd);
-	AlgorithmItemPI	*Item=RCmd.TrueColorBlock;
+	AlgorithmItemRoot	*Item=RCmd.TrueColorBlock;
 	if(Item!=NULL){
-		TrueColorBlockItem	*BItem=(TrueColorBlockItem *)Item;
-		LibIDList.Add(BItem->GetLibID());
+		LibIDList.Add(Item->GetLibID());
 	}
 }
 

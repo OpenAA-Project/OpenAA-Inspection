@@ -20,6 +20,7 @@
 #include <QApplication>
 #include <QFileInfo>
 #include "SingleExecute.h"
+#include "XMainGUIFormBase.h"
 
 int main(int argc, char *argv[])
 {

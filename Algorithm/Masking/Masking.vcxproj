@@ -214,9 +214,9 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>ModelPageLayerItem.lib;ServiceLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ModelPageLayerItem.lib;ServiceLib.lib;SelectLibraryInMask.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\GUI;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
@@ -309,9 +309,6 @@
     <ClInclude Include="XMasking.h" />
     <ClInclude Include="XMaskingLibrary.h" />
     <ClInclude Include="XMaskingResource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\GUI\SelectLibraryInMask.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

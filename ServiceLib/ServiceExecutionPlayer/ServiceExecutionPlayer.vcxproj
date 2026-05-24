@@ -109,6 +109,7 @@
     <QtMoc Include="..\..\Open\XGUI.h" />
     <QtMoc Include="..\..\Open\XGUIInExe.h" />
     <QtMoc Include="..\..\Open\XSingleExecuteBySocket.h" />
+    <QtMoc Include="..\..\Open\XMainGUIFormBase.h" />
     <ClInclude Include="serviceexecutionplayer_global.h" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +129,7 @@
     </ClCompile>
     <ClCompile Include="..\..\GeneralSource\XGUIGlobal.cpp" />
     <ClCompile Include="..\..\GeneralSource\XGUIPlayer.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XMainGUIFormBase.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

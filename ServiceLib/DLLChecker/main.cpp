@@ -32,6 +32,7 @@
 #include "SelectDLLDialog.h"
 #include <QMessageBox>
 #include "Regulus64System.h"
+#include "XMainGUIFormBase.h"
 #include "XOpenAA.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)

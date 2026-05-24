@@ -54,7 +54,6 @@
 #include "XIntClass.h"
 #include "XLightClass.h"
 #include "ErrorMessageDialog.h"
-#include "XPassword.h"
 #include "XStatusController.h"
 #include "IntegrationLib.h"
 #include "XIntegrationBase.h"
@@ -65,6 +64,7 @@
 #include "XGeneralStocker.h"
 #include "Regulus64System.h"
 #include <omp.h>
+#include "XMainGUIFormBase.h"
 #include "XOpenAA.h"
 #include <QMessageBox>
 

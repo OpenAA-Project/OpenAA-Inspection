@@ -62,7 +62,4 @@
       <Filter>Resource Files</Filter>
     </QtRcc>
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\EditGUI\EditGUILib.lib" />
-  </ItemGroup>
 </Project>

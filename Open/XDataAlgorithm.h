@@ -1178,7 +1178,8 @@ public:
 	int				GetLoadedVersion(void);
 	virtual	AlgorithmItemRoot	*GetItemRoot(int n)=0;
 	virtual	AlgorithmItemRoot	*FindItem(const AlgorithmItemIndex &Index)	const=0;
-
+	virtual	AlgorithmItemRoot	*GetItem(int localX ,int localY)			const=0;
+	
 	virtual	AlgorithmInPageInOnePhase	*GetAlgorithmInPageInOnePhase(void)	const=0;
 	virtual	AlgorithmInPageRoot			*GetParentInPage(void)	const		=0;
 

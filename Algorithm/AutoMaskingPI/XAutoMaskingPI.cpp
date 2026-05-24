@@ -34,6 +34,7 @@
 #include "XAutoMaskingPIPacket.h"
 #include "XAnyData.h"
 #include "XMaskingFromGeneral.h"
+#include "XAutoAlignmentLibrary.h"
 
 AutoMaskingPILibrary::AutoMaskingPILibrary(int LibType,LayersBase *Base)
 :ServiceForLayers(Base)
@@ -447,7 +448,7 @@ void	AutoMaskingPILibrary::MakeMask(ImageBuffer *MasterBuff[]
 		//?p?b?h?a?d?w?i?i?X???b?g?j?A?e?F?�P?��?E?��?a???E?A?p?b?h???o?F?A?a?r?�E?e
 ///		AutoPCBHoleAlignerLibrary *PCBHoleAlignLib=GetFirstAutoPCBHoleAlignerLibrary();
 		AlgorithmLibraryLevelContainer *LLib=GetFirstAutoAlignmentLibrary();
-		AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(LLib->GetLibrary());
+		AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(LLib->GetLibrary());
 
 		PickedPack.RemoveAll();
 		PickupFlexArea(TmpMap2,XByte ,XLen,YLen ,PickedPack);
@@ -708,7 +709,7 @@ void	AutoMaskingPIInPage::TransmitDirectly(GUIDirectMessage *packet)
 		if(CmdGenerateAutoMaskingPILibraryPacketVar->LibID>=0){
 			AlgorithmLibraryLevelContainer	Lib(PBase);
 			if(Container->GetLibrary(CmdGenerateAutoMaskingPILibraryPacketVar->LibID ,Lib)==true){
-				AutoMaskingPILibrary	*ALib=dynamic_cast<AutoMaskingPILibrary *>(Lib.GetLibrary());
+				AutoMaskingPILibrary	*ALib=static_cast<AutoMaskingPILibrary *>(Lib.GetLibrary());
 				ALib->MakeMask(MasterImageList
 							,TargetImageList
 							,GetLayerNumb()
@@ -720,7 +721,7 @@ void	AutoMaskingPIInPage::TransmitDirectly(GUIDirectMessage *packet)
 			for(AlgorithmLibraryList *a=PBase->AdoptedLib.GetFirst();a!=NULL;a=a->GetNext()){
 				AlgorithmLibraryLevelContainer	Lib(PBase);
 				if(Container->GetLibrary(a->GetLibID() ,Lib)==true){
-					AutoMaskingPILibrary	*ALib=dynamic_cast<AutoMaskingPILibrary *>(Lib.GetLibrary());
+					AutoMaskingPILibrary	*ALib=static_cast<AutoMaskingPILibrary *>(Lib.GetLibrary());
 					ALib->MakeMask(MasterImageList
 								,TargetImageList
 								,GetLayerNumb()
@@ -919,7 +920,7 @@ ExeResult	AutoMaskingPIInPage::ExecuteInitialAfterEdit(int ExeID ,ResultInPageRo
 	for(AlgorithmLibraryList *a=PBase->AdoptedLib.GetFirst();a!=NULL;a=a->GetNext()){	
 		AlgorithmLibraryLevelContainer	Lib(Container);
 		if(GetParentBase()->GetLibraryContainer()->GetLibrary(a->GetLibID() ,Lib)==true){
-			AutoMaskingPILibrary	*ALib=dynamic_cast<AutoMaskingPILibrary *>(Lib.GetLibrary());
+			AutoMaskingPILibrary	*ALib=static_cast<AutoMaskingPILibrary *>(Lib.GetLibrary());
 			ALib->MakeMask(MasterImageList
 							,TargetImageList
 							,GetLayerNumb()
@@ -1513,7 +1514,7 @@ void	AutoMaskingPIBase::SetAdopted(void)
 	for(AlgorithmLibraryList *a=TmpLibContainer.GetFirst();a!=NULL;a=a->GetNext()){			
 		AlgorithmLibraryLevelContainer	SrcLib(Container);
 		if(Container->GetLibrary(a->GetLibID() ,SrcLib)==true){
-			AutoMaskingPILibrary	*ALib=dynamic_cast<AutoMaskingPILibrary *>(SrcLib.GetLibrary());
+			AutoMaskingPILibrary	*ALib=static_cast<AutoMaskingPILibrary *>(SrcLib.GetLibrary());
 			if(ALib->DefaultMask==true){
 				AdoptedLib.Add(Container->GetLibType(),SrcLib);
 			}

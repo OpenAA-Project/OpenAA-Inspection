@@ -17,7 +17,6 @@
  */
 
 #include "SelectLibraryInMaskResource.h"
-
 #include "SelectLibraryInMaskForm.h"
 #include "XDLLOnly.h"
 #include "XParamDatabase.h"

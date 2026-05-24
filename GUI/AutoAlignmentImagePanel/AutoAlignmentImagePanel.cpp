@@ -24,6 +24,7 @@
 #include "XGeneralFunc.h"
 #include "ImagePanelTools.h"
 #include "XAutoAlignmentPacket.h"
+#include "XPropertyAutoAlignmentPacket.h"
 
 static	const	char	*sRoot=/**/"Inspection";
 static	const	char	*sName=/**/"AutoAlignmentImagePanel";

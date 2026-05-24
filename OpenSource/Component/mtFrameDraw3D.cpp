@@ -71,7 +71,7 @@ mtFrameDraw3D::mtFrameDraw3D(QWidget *parent)
 	//grabKeyboard ();
 
 	if(Initialized==false){
-		Q_INIT_RESOURCE(mtFrameDraw3D);
+		//Q_INIT_RESOURCE(mtFrameDraw3D);
 		Initialized=true;
 	}
 }

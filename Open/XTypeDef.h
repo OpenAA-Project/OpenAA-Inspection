@@ -53,6 +53,7 @@ typedef	unsigned short		WORD;
 
 #define	MaxCountOfPhase		100
 
+
 enum	bool3
 {
 	 true3

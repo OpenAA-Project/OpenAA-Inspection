@@ -1,2 +1,2 @@
 #include "SelectLibraryInMaskResource.h"
-LangSolverNew	LangSolver("SelectLibraryInMask");
+LangSolverNew	LLangSolver("SelectLibraryInMask");

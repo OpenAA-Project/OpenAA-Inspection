@@ -25,6 +25,7 @@
 #include "CloseMessageForm.h"
 #include "XGUI.h"
 #include "XSyncGUI.h"
+#include "XMainGUIFormBase.h"
 
 const	char	*sRoot=/**/"Button";
 const	char	*sName=/**/"ButtonExit";
@@ -118,11 +119,12 @@ void	ButtonExit::Prepare(void)
 	ResizeAction();
 	QWidget	*p=parentWidget();
 	while(p!=NULL){
-		MainGUIFormBase *m=dynamic_cast<MainGUIFormBase *>(p);
-		if(m!=NULL){
-			m->CloseCompletely=false;
-			connect(m, SIGNAL(QuitFromMenu()), this, SLOT(QuitProcess()));
-			connect(m, SIGNAL(QuitUnconditionally()), this, SLOT(SlotQuitUnconditionally()));
+		GUIFormBase *m=dynamic_cast<GUIFormBase *>(p);
+		if(m!=NULL && m->IsTopForm()==true){
+			MainGUIFormBase *MainM = static_cast<MainGUIFormBase *>(m);
+			MainM->CloseCompletely=false;
+			connect(MainM, SIGNAL(QuitFromMenu()), this, SLOT(QuitProcess()));
+			connect(MainM, SIGNAL(QuitUnconditionally()), this, SLOT(SlotQuitUnconditionally()));
 			break;
 		}
 		p=p->parentWidget();

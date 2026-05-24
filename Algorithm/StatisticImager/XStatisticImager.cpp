@@ -30,6 +30,9 @@
 #include "XAutoMaskingPI.h"
 #include "XMaskingFromGeneral.h"
 #include "XImageProcess.h"
+#include "XAutoAlignmentPacket.h"
+#include "XAutoAlignment.h"
+#include "XAutoAlignmentLibrary.h"
 
 #define OldShaderEnabled
 
@@ -1015,7 +1018,7 @@ ExeResult	StatisticImagerInLayer::ExecutePreScanning(int ExeID ,ResultInLayerRoo
 		if(ABase!=NULL){
 			AlgorithmInPageRoot	*APage=ABase->GetPageData(GetPage());
 			if(APage!=NULL){
-				pAlignPage=dynamic_cast<AutoAlignmentInPage *>(APage);
+				pAlignPage=static_cast<AutoAlignmentInPage *>(APage);
 			}
 		}
 	}
@@ -1471,7 +1474,7 @@ ExeResult	StatisticImagerInLayer::ExecuteInitialAfterEdit(int ExeID
 			if(ABase!=NULL){
 				AlgorithmInPageRoot	*APage=ABase->GetPageData(GetPage());
 				if(APage!=NULL){
-					pAlignPage=dynamic_cast<AutoAlignmentInPage *>(APage);
+					pAlignPage=static_cast<AutoAlignmentInPage *>(APage);
 				}
 			}
 		}

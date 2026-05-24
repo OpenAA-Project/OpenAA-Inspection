@@ -29,11 +29,12 @@ extern	const	char	*sRoot;
 extern	const	char	*sName;
 
 MonoOutlineForm::MonoOutlineForm(LayersBase *Base,QWidget *parent)
-	: QDialog(parent),ServiceForLayers(Base),TmpThreshold(NULL)
+	: QDialog(parent),ServiceForLayers(Base)
 {
 	ui.setupUi(this);
 	LangSolver.SetUI(this);
 	EditReEntrant=false;
+	TmpThreshold=new OutlineThreshold(NULL);
 
 	YMax=0;
 	LGraphInside	.setParent(ui.frameInside);
@@ -193,7 +194,8 @@ MonoOutlineForm::MonoOutlineForm(LayersBase *Base,QWidget *parent)
 
 MonoOutlineForm::~MonoOutlineForm()
 {
-
+	delete	TmpThreshold;
+	TmpThreshold=NULL;
 }
 
 void	MonoOutlineForm::Initial(AlgorithmBase *InstBase ,AlgorithmItemIndependentPack &Data)
@@ -228,42 +230,42 @@ void	MonoOutlineForm::CreateThreshld(void)
 		PacketReq.Send(D->GlobalPage,0,PacketSend);
 
 		OutlineThresholdSend	*ThrePoint=(OutlineThresholdSend *)PacketSend.GetData();
-		TmpThreshold.InsideNOKColor		=ThrePoint->InsideNOKColor;
-		TmpThreshold.InsideNTrOKColor	=ThrePoint->InsideNTrOKColor;
-		TmpThreshold.InsideNOKDot		=ThrePoint->InsideNOKDot;
-		TmpThreshold.InsideNMergin		=ThrePoint->InsideNMergin;
-		TmpThreshold.OutsideNOKColor	=ThrePoint->OutsideNOKColor;
-		TmpThreshold.OutsideNTrOKColor	=ThrePoint->OutsideNTrOKColor;
-		TmpThreshold.OutsideNOKDot		=ThrePoint->OutsideNOKDot;
-		TmpThreshold.OutsideNMergin		=ThrePoint->OutsideNMergin;
+		TmpThreshold->InsideNOKColor		=ThrePoint->InsideNOKColor;
+		TmpThreshold->InsideNTrOKColor	=ThrePoint->InsideNTrOKColor;
+		TmpThreshold->InsideNOKDot		=ThrePoint->InsideNOKDot;
+		TmpThreshold->InsideNMergin		=ThrePoint->InsideNMergin;
+		TmpThreshold->OutsideNOKColor	=ThrePoint->OutsideNOKColor;
+		TmpThreshold->OutsideNTrOKColor	=ThrePoint->OutsideNTrOKColor;
+		TmpThreshold->OutsideNOKDot		=ThrePoint->OutsideNOKDot;
+		TmpThreshold->OutsideNMergin		=ThrePoint->OutsideNMergin;
 
-		TmpThreshold.InsideBOKColor		=ThrePoint->InsideBOKColor;
-		TmpThreshold.InsideBTrOKColor	=ThrePoint->InsideBTrOKColor;
-		TmpThreshold.InsideBOKDot		=ThrePoint->InsideBOKDot;
-		TmpThreshold.InsideBMergin		=ThrePoint->InsideBMergin;
-		TmpThreshold.OutsideBOKColor	=ThrePoint->OutsideBOKColor;
-		TmpThreshold.OutsideBTrOKColor	=ThrePoint->OutsideBTrOKColor;
-		TmpThreshold.OutsideBOKDot		=ThrePoint->OutsideBOKDot;
-		TmpThreshold.OutsideBMergin		=ThrePoint->OutsideBMergin;
+		TmpThreshold->InsideBOKColor		=ThrePoint->InsideBOKColor;
+		TmpThreshold->InsideBTrOKColor	=ThrePoint->InsideBTrOKColor;
+		TmpThreshold->InsideBOKDot		=ThrePoint->InsideBOKDot;
+		TmpThreshold->InsideBMergin		=ThrePoint->InsideBMergin;
+		TmpThreshold->OutsideBOKColor	=ThrePoint->OutsideBOKColor;
+		TmpThreshold->OutsideBTrOKColor	=ThrePoint->OutsideBTrOKColor;
+		TmpThreshold->OutsideBOKDot		=ThrePoint->OutsideBOKDot;
+		TmpThreshold->OutsideBMergin		=ThrePoint->OutsideBMergin;
 
-		TmpThreshold.EffectiveNInside	=ThrePoint->EffectiveNInside;
-		TmpThreshold.EffectiveNOutside	=ThrePoint->EffectiveNOutside;
-		TmpThreshold.EffectiveBInside	=ThrePoint->EffectiveBInside;
-		TmpThreshold.EffectiveBOutside	=ThrePoint->EffectiveBOutside;
+		TmpThreshold->EffectiveNInside	=ThrePoint->EffectiveNInside;
+		TmpThreshold->EffectiveNOutside	=ThrePoint->EffectiveNOutside;
+		TmpThreshold->EffectiveBInside	=ThrePoint->EffectiveBInside;
+		TmpThreshold->EffectiveBOutside	=ThrePoint->EffectiveBOutside;
 
-		TmpThreshold.SelfSearch			=ThrePoint->SelfSearch;
-		TmpThreshold.AdjustMode			=ThrePoint->AdjustMode;
-		TmpThreshold.AdjustLimitLInside	=ThrePoint->AdjustLimitLInside;
-		TmpThreshold.AdjustLimitHInside	=ThrePoint->AdjustLimitHInside;
-		TmpThreshold.AdjustLimitLOutside=ThrePoint->AdjustLimitLOutside;
-		TmpThreshold.AdjustLimitHOutside=ThrePoint->AdjustLimitHOutside;
+		TmpThreshold->SelfSearch			=ThrePoint->SelfSearch;
+		TmpThreshold->AdjustMode			=ThrePoint->AdjustMode;
+		TmpThreshold->AdjustLimitLInside	=ThrePoint->AdjustLimitLInside;
+		TmpThreshold->AdjustLimitHInside	=ThrePoint->AdjustLimitHInside;
+		TmpThreshold->AdjustLimitLOutside=ThrePoint->AdjustLimitLOutside;
+		TmpThreshold->AdjustLimitHOutside=ThrePoint->AdjustLimitHOutside;
 
-		TmpThreshold.MatchSlideOnMaster	=ThrePoint->MatchSlideOnMaster;
-		TmpThreshold.DiffMode			=ThrePoint->DiffMode;
-		TmpThreshold.AbsMode			=ThrePoint->AbsMode;
+		TmpThreshold->MatchSlideOnMaster	=ThrePoint->MatchSlideOnMaster;
+		TmpThreshold->DiffMode			=ThrePoint->DiffMode;
+		TmpThreshold->AbsMode			=ThrePoint->AbsMode;
 
 		OutlineThreshold	*Thr=BData->GetThresholdW(GetLayersBase());
-		Thr->CopyFrom(TmpThreshold);
+		Thr->CopyFrom(*TmpThreshold);
 		break;
 	}
 	ShowLibrary();

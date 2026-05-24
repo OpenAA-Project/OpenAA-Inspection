@@ -208,9 +208,9 @@
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Component.lib;ServiceLib.lib;ServiceForAlgorithm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Component.lib;ServiceLib.lib;ServiceForAlgorithm.lib;SelectLibraryInMask.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\GUI;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
@@ -407,9 +407,6 @@
     <QtUic Include="SelectByBindedLimitedDialog.ui" />
     <QtUic Include="SelectMaskingLibraryForm.ui">
     </QtUic>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\SelectLibraryInMask.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

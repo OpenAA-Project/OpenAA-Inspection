@@ -17,6 +17,7 @@
  */
 
 #include "LearningSettingDialog.h"
+#include "WEditParameterTab.h"
 #include "XDataInLayer.h"
 
 LearningSettingDialog::LearningSettingDialog(LayersBase *_Base,ParamBase *base,QWidget *parent)

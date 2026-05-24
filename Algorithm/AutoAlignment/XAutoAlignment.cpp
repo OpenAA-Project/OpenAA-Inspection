@@ -32,7 +32,8 @@
 #include "math.h"
 #include "XMaskingFromGeneral.h"
 #include "XAutoAlignmentCommon.h"
-
+#include "XAutoAlignmentPacket.h"
+#include "XAutoAlignmentLibrary.h"
 
 static	bool	IsBit(BYTE **MBmp,int x1 ,int y1 ,int x2 ,int y2)
 {

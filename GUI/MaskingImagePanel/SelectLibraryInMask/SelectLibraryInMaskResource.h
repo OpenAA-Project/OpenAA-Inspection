@@ -1,5 +1,5 @@
 #if !defined(LSHEADER_H)
 #define LSHEADER_H
 #include "XLanguageClass.h"
-extern	LangSolverNew	LangSolver;
+extern	LangSolverNew	LLangSolver;
 #endif

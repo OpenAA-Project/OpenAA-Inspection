@@ -81,5 +81,11 @@
     <ClInclude Include="..\..\Open\XDLLType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="XAutoAlignmentPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XAutoAlignmentLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

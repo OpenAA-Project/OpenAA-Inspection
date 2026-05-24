@@ -22,6 +22,7 @@
 #include "AutoAlignment.h"
 #include "XAlgorithmDLL.h"
 #include "XAutoAlignment.h"
+#include "XAutoAlignmentLibrary.h"
 
 DEFFUNCEX	bool		DLL_GetOrganization(QString &str)
 {

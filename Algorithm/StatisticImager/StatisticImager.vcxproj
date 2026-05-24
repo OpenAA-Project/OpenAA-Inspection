@@ -264,6 +264,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Open\AlgorithmCommon.cpp" />
+    <ClCompile Include="..\AutoAlignment\XAutoAlignmentCommon.cpp" />
     <ClCompile Include="StatisticImager.cpp" />
     <ClCompile Include="StatisticImagerResource.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />

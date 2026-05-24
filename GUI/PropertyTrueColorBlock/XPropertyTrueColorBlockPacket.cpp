@@ -385,7 +385,7 @@ void	GUICmdSendSelectedTrueColorBlockItemAttr::Make(int localPage ,LayersBase *B
 {
 	TrueColorBlockBase *BBase=(TrueColorBlockBase *)Base->GetAlgorithmBase(/**/"Basic",/**/"TrueColorBlock");
 	if(BBase!=NULL){
-		TrueColorBlockInPage	*PData=dynamic_cast<TrueColorBlockInPage *>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		CmdGetOneSelectedItem	Cmd(this);
 		PData->TransmitDirectly(&Cmd);
 		if(Cmd.ExistSelected==true){
@@ -472,7 +472,7 @@ void	GUICmdSendTrueColorBlockInfoList::Receive(int32 localPage, int32 cmd ,QStri
 
 void	GUICmdSendTrueColorBlockInfoList::Make(int localPage)
 {
-	TrueColorBlockBase	*BBase=(TrueColorBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"TrueColorBlock");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"TrueColorBlock");
 	CmdTrueColorBlockInfoListPacket	Cmd(this);
 	Cmd.LocalPage=localPage;
 	Cmd.TrueColorBlockInfos=&TrueColorBlockInfos;
@@ -502,7 +502,7 @@ bool	GUICmdReqTrueColorBlockFromList::Save(QIODevice *f)
 void	GUICmdReqTrueColorBlockFromList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckTrueColorBlockFromList	*SendBack=GetSendBack(GUICmdAckTrueColorBlockFromList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	TrueColorBlockBase	*BBase=(TrueColorBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"TrueColorBlock");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"TrueColorBlock");
 	if(BBase!=NULL){
 		int	N=0;
 		for(ListLayerAndID *a=CurrentItem.GetFirst();a!=NULL;a=a->GetNext()){
@@ -546,7 +546,7 @@ bool	GUICmdAckTrueColorBlockFromList::Load(QIODevice *f)
 	int32	N;
 	if(::Load(f,N)==false)
 		return false;
-	TrueColorBlockBase	*BBase=(TrueColorBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"TrueColorBlock");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"TrueColorBlock");
 	for(int i=0;i<N;i++){
 		CmdCreateTrueColorBlockItem	Cmd(GetLayersBase());
 		BBase->TransmitDirectly(&Cmd);

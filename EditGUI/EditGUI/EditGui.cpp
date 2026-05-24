@@ -43,6 +43,7 @@
 #include "XGeneralFunc.h"
 #include "MakeLanguageDialog.h"
 #include "EditOrderDialog.h"
+#include "XMainGUIFormBase.h"
 
 static	bool	EditMode=true;
 

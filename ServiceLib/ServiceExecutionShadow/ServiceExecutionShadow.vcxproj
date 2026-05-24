@@ -102,12 +102,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\GeneralSource\XGUIGlobal.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XMainGUIFormBase.cpp" />
     <QtMoc Include="..\..\Open\XDirectComm.h" />
     <QtMoc Include="..\..\Open\XFastComm.h" />
     <QtMoc Include="..\..\Open\XGUI.h" />
     <QtMoc Include="..\..\Open\XGUIInExe.h" />
     <ClInclude Include="..\..\GeneralSource\XDataInExe.h" />
     <QtMoc Include="..\..\Open\XSingleExecuteBySocket.h" />
+    <QtMoc Include="..\..\Open\XMainGUIFormBase.h" />
     <ClInclude Include="serviceexecutionshadow_global.h" />
     <ClCompile Include="..\..\GeneralSource\SingleExecute.cpp" />
     <ClCompile Include="..\..\GeneralSource\XDataInExeWithoutTable.cpp" />

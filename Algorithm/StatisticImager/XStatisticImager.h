@@ -30,10 +30,11 @@
 #include "XDirectComm.h"
 #include "XStatisticPacket.h"
 #undef		DefinedModel
-#include "XAutoAlignment.h"
-///#include "XDynamicClassify.h"
+//#include "XAutoAlignment.h"
+//#include "XDynamicClassify.h"
 
 class	StatisticImagerItem;
+class	AutoAlignmentInPage;
 #define	LeastStatisticBuffCount	3
 
 class	StatisticImagerDrawAttr : public AlgorithmDrawAttr

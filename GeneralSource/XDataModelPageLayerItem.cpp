@@ -3261,7 +3261,7 @@ void	AlgorithmInLayerPLI::DrawResultItem(ResultInLayerRoot *R,QImage &IData ,QPa
 		}
 	}
 }
-AlgorithmItemPLI	*AlgorithmInLayerPLI::GetItem(int localX ,int localY)
+AlgorithmItemRoot	*AlgorithmInLayerPLI::GetItem(int localX ,int localY)	const
 {
 	for(AlgorithmItemPLI *c=Data.GetFirst();c!=NULL;c=c->GetNext()){
 		if(c->IsInclude(localX ,localY)==true){

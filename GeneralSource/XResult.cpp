@@ -7691,17 +7691,17 @@ QString	ResultDLLBaseRoot::CreateNGFileNameForCommon(ResultInspection *Res)
 				+nowTm.toString (/**/"mmss")
 				+QString(/**/"-*.jdt");
 	QString	LStr;
-	if(PathNGImage.right(1)==QString(/**/"\\") || PathNGImage.right(1)==::GetSeparator()){
+	if(PathNGImage.length()>=2 && (PathNGImage.right(1)==QString(/**/"\\") || PathNGImage.right(1)==::GetSeparator())){
 		LStr=PathNGImage+ret;
 	}
 	else{
 		LStr=PathNGImage+GetSeparator()+ret;
 	}
 
-	if(LStr[1]==QChar(':') && (LStr[2]==QChar('\\') || LStr[2]==QChar('/'))){
+	if(LStr.length()>=3 && (LStr[1]==QChar(':') && (LStr[2]==QChar('\\') || LStr[2]==QChar('/')))){
 		LStr=LStr.right(LStr.length()-3);
 	}
-	else if(LStr[1]==QChar(':')){
+	else if(LStr.length()>=2 && LStr[1]==QChar(':')){
 		LStr=LStr.right(LStr.length()-2);
 	}
 	return TransformPathName(LStr);
@@ -7717,7 +7717,7 @@ QString	ResultDLLBaseRoot::CreateNGFileNameForSlaveWithDrive(int localPage ,Resu
 				+QString::number(Res->GetLayersBase()->GetGlobalPageFromLocal(localPage))
 				+QString(/**/".jdt");
 	QString	LStr;
-	if(PathNGImage.right(1)==QString(/**/"\\") || PathNGImage.right(1)==::GetSeparator()){
+	if(PathNGImage.length()>=2 && (PathNGImage.right(1)==QString(/**/"\\") || PathNGImage.right(1)==::GetSeparator())){
 		LStr=PathNGImage+ret;
 	}
 	else{
@@ -7740,7 +7740,7 @@ QString	ResultDLLBaseRoot::CreateNGFileNameForSlaveMilisecWithDrive(int localPag
 				+QString::number(Res->GetLayersBase()->GetGlobalPageFromLocal(localPage))
 				+QString(/**/".jdt");
 	QString	LStr;
-	if(PathNGImage.right(1)==QString(/**/"\\") || PathNGImage.right(1)==::GetSeparator()){
+	if(PathNGImage.length()>=2 && (PathNGImage.right(1)==QString(/**/"\\") || PathNGImage.right(1)==::GetSeparator())){
 		LStr=PathNGImage+ret;
 	}
 	else{

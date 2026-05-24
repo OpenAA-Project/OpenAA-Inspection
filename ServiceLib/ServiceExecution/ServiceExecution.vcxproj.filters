@@ -40,6 +40,9 @@
     <ClCompile Include="..\..\GeneralSource\XDataInLayerShadow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XMainGUIFormBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\Open\XDirectComm.h">
@@ -52,6 +55,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\Open\XGUI.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\Open\XMainGUIFormBase.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

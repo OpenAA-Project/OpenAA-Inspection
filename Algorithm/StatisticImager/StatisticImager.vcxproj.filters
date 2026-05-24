@@ -40,6 +40,9 @@
     <ClCompile Include="XStatisticImager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\AutoAlignment\XAutoAlignmentCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StatisticImager.h">

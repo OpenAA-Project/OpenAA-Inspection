@@ -46,6 +46,8 @@ public:
 
 	GrouperImageItem	*CurrentItem;
 
+	virtual	void	TransmitDirectly(GUIDirectMessage *packet)	override;
+
 	virtual	bool	DynamicPickupColor(int globalX,int globalY ,QColor &Ret)	override;
 	virtual	bool	DrawImage(QPainter &pnt ,QImage &PntImage ,IntList &LayerList)	override;
 	virtual	QImage	GetSaveImage(int gx1, int gy1, int gx2 ,int gy2)	override;

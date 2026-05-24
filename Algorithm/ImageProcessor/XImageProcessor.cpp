@@ -19,8 +19,8 @@
 
 
 #include "XImageProcessor.h"
-#include "ImageProcessorPanel.h"
 #include "XFlexArea.h"
+#include "XGUIFormBase.h"
 #include "XFlexAreaImage.h"
 #include "XDataInLayer.h"
 #include "XAnyData.h"
@@ -107,9 +107,11 @@ void	ImageProcessItem::Draw(QImage &pnt, int movx ,int movy ,double ZoomRate ,Al
 void	ImageProcessInPage::RegistArea(FlexArea &localArea,const IntList &LayerList)
 {
 	GUIFormBase	*DProp=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"ImageProcessorPanel" ,/**/"");
-	ImageProcessorPanel	*GPanel=dynamic_cast<ImageProcessorPanel *>(DProp);
-	if(GPanel!=NULL){
-		if(GPanel->CurrentItem!=NULL){
+	if(DProp!=NULL){
+		ImageReqGrouperImageItem	RCmd(GetLayersBase());
+		RCmd.GItem=NULL;
+		DProp->TransmitDirectly(&RCmd);
+		if(RCmd.GItem!=NULL){
 			int64	NByte=localArea.GetPatternByte();
 			BYTE	*D=new BYTE[NByte];
 			int	n=0;
@@ -118,7 +120,7 @@ void	ImageProcessInPage::RegistArea(FlexArea &localArea,const IntList &LayerList
 		        int tx =localArea.GetFLineLeftX(i);
 				int tn =localArea.GetFLineNumb(i);
 				for(int x=0;x<tn;x++){
-					D[n]=GPanel->CurrentItem->GetXY(tx+x,y)->GetR();
+					D[n]=RCmd.GItem->GetXY(tx+x,y)->GetR();
 					n++;
 				}
 			}

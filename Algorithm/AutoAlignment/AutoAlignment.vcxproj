@@ -288,6 +288,8 @@
     <ClInclude Include="XAutoAlignmentCommon.h" />
     <ClInclude Include="..\..\Open\XDLLOnly.h" />
     <ClInclude Include="..\..\Open\XDLLType.h" />
+    <ClInclude Include="XAutoAlignmentLibrary.h" />
+    <ClInclude Include="XAutoAlignmentPacket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

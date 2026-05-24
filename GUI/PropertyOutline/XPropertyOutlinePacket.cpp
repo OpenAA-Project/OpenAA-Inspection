@@ -365,7 +365,7 @@ void	GUICmdSendSelectedOutlineItemAttr::Make(int localPage ,LayersBase *Base)
 {
 	OutlineBase *BBase=(OutlineBase *)Base->GetAlgorithmBase(/**/"Basic",/**/"OutlineInspection");
 	if(BBase!=NULL){
-		OutlineInPage	*PData=dynamic_cast<OutlineInPage *>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		CmdGetOneSelectedItem	Cmd(this);
 		PData->TransmitDirectly(&Cmd);
 		if(Cmd.ExistSelected==true){

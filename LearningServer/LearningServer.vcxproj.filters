@@ -48,9 +48,6 @@
     <ClCompile Include="LearningServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LearningSettingDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -78,18 +75,15 @@
     <ClCompile Include="ConfirmForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LearningSettingDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LearningServer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="LearningSettingDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtUic Include="LearningServer.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="LearningSettingDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <CustomBuild Include="LearningServer.qrc">
@@ -116,6 +110,9 @@
     <QtMoc Include="ConfirmForm.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="LearningSettingDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LearningServer.rc" />
@@ -128,6 +125,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="ConfirmForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="LearningSettingDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

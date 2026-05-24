@@ -22,6 +22,7 @@
 #include "XDatabaseLoader.h"
 #include "XDisplayImagePacket.h"
 #include "XAutoAlignmentPacket.h"
+#include "XPropertyAutoAlignmentPacket.h"
 #include "EditLibraryMono.h"
 #include "XGeneralDialog.h"
 
@@ -619,14 +620,6 @@ void PropertyAutoAlignmentForm::ButtonPickupTestClicked()
 
 	GetLayersBase()->ShowProcessingForm(LangSolver.GetString(PropertyAutoAlignmentForm_LS,LID_0)/*"Pickup Test"*/);
 
-	//IntList LayerList;
-	//GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"BlockImagePanel" ,/**/"");
-	//if(GProp!=NULL){
-	//	DisplayImage	*di=dynamic_cast<DisplayImage *>(GProp);
-	//	if(di!=NULL){
-	//		di->GetActiveLayerList(LayerList);
-	//	}
-	//}
 	for(int phase=0;phase<GetPhaseNumb();phase++){
 		for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);

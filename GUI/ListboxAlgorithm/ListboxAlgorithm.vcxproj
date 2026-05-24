@@ -199,6 +199,7 @@
       <DebugInformationFormat>
       </DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OpenMP>GenerateParallelCode</OpenMP>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Component.lib;DisplayImage.lib;ServiceLib.lib;%(AdditionalDependencies)</AdditionalDependencies>

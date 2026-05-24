@@ -104,11 +104,13 @@
     <ClCompile Include="..\..\GeneralSource\SingleExecute.cpp" />
     <ClCompile Include="..\..\GeneralSource\XEntryPointWithoutSequence.cpp" />
     <ClCompile Include="..\..\GeneralSource\XGUIEditor.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XMainGUIFormBase.cpp" />
     <ClInclude Include="..\..\GeneralSource\XDataInExe.h" />
     <QtMoc Include="..\..\Open\XDirectComm.h" />
     <QtMoc Include="..\..\Open\XFastComm.h" />
     <QtMoc Include="..\..\Open\XGUI.h" />
     <QtMoc Include="..\..\Open\XGUIInExe.h" />
+    <QtMoc Include="..\..\Open\XMainGUIFormBase.h" />
     <ClInclude Include="serviceexecutioneditor_global.h" />
     <ClCompile Include="..\..\GeneralSource\XDataInExeWithoutTable.cpp" />
     <ClCompile Include="..\..\GeneralSource\XDirectComm.cpp" />

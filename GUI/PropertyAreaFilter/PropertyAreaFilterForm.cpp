@@ -276,7 +276,7 @@ void	PropertyAreaFilterForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 	ui.EditLibID	->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	AreaFilterLibrary	*ALib=dynamic_cast<AreaFilterLibrary *>(data.GetLibrary());
+	AreaFilterLibrary	*ALib=static_cast<AreaFilterLibrary *>(data.GetLibrary());
 	if(ALib->FilterType==AreaFilterLibrary::_PatternInverted){
 		ui.radioButtonTypePatternInverted->setChecked(true);
 	}
@@ -321,7 +321,7 @@ void	PropertyAreaFilterForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	AreaFilterLibrary	*ALib=dynamic_cast<AreaFilterLibrary *>(data.GetLibrary());
+	AreaFilterLibrary	*ALib=static_cast<AreaFilterLibrary *>(data.GetLibrary());
 	if(ui.radioButtonTypePatternInverted->isChecked()==true)
 		ALib->FilterType=AreaFilterLibrary::_PatternInverted;
 	else if(ui.radioButtonTypeVerticalEmphasize->isChecked()==true)

@@ -190,9 +190,6 @@
     <ClCompile Include="..\..\GeneralSource\XGUICommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\GeneralSource\XGUIFormBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\GeneralSource\XGUIPacketForDLL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -611,6 +608,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\GeneralSource\XMainGUIFormBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GeneralSource\XGUIFormBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1225,9 +1225,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\Open\XProcess.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\Open\XMainGUIFormBase.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

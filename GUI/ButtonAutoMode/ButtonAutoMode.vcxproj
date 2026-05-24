@@ -202,6 +202,7 @@
       <Parallelization>true</Parallelization>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OpenMP>GenerateParallelCode</OpenMP>
     </ClCompile>
     <Link>
       <AdditionalDependencies>ServiceLib.lib;Component.lib;SeqLib.lib;%(AdditionalDependencies)</AdditionalDependencies>

@@ -49,7 +49,7 @@
     <ClCompile Include="..\..\Algorithm\AutoAlignment\XAutoAlignmentCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XAutoAlignmentPacket.cpp">
+    <ClCompile Include="XPropertyAutoAlignmentPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,13 +63,13 @@
     <ClInclude Include="..\..\Algorithm\AutoAlignment\XAutoAlignmentCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="XAutoAlignmentPacket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Open\XDLLType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Open\XGUIDLL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XPropertyAutoAlignmentPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

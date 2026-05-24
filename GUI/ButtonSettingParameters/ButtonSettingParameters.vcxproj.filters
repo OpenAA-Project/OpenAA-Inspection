@@ -101,9 +101,6 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\EditGUI\EditGUILib.lib" />
-  </ItemGroup>
-  <ItemGroup>
     <QtUic Include="EditEachPageLocalDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>

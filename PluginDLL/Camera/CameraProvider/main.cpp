@@ -25,16 +25,15 @@
 #include"XParamGlobal.h"
 #include "XFileRegistry.h"
 #include <QSqlDatabase>
-#include <QApplication>
 #include "XGUI.h"
 #include "XDataInExe.h"
 #include <stdio.h>
 #include "XDatabase.h"
 #include "XGeneralDialog.h"
 #include "Regulus64Version.h"
-#include "XShowVersion.h"
 #include "XDataInLayer.h"
 #include "XOpenAA.h"
+#include "XMainGUIFormBase.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {

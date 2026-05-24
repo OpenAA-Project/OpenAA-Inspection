@@ -32,6 +32,7 @@
 #include "itemlistwindow.h"
 #include "propertylist.h"
 #include "Regulus64System.h"
+#include "XMainGUIFormBase.h"
 #include "XOpenAA.h"
 
 ItemListWindow	*MainItem;

@@ -505,9 +505,11 @@ public:
 	virtual	void	ReflectAlignment(void);
 	void	ReflectResize(void);
 	virtual	void	ResizeByScaleFormBase(double ScaleX,double ScaleY);
+	bool	IsTopForm(void)	const		{ return TopForm; }
 	void	ReflectSize(void);
 	virtual	void	ResizeMain(void);
 	virtual	void	GetGUIScale(double &XScale ,double &YScale);
+	virtual	void	SetGUIScale(double  XScale ,double  YScale);
 	virtual	void	SetAllSizePolicy(QSizePolicy::Policy HorizontalPolicy,QSizePolicy::Policy VerticalPolicy);
 
 	void	GiveName(QObject *parent);

@@ -226,7 +226,7 @@ void	PropertyStatisticBlockForm::TransmitDirectly(GUIDirectMessage *packet)
 	if(BlockDEnd!=NULL){
 		if(ui.toolButtonLibrary->isChecked()==true){
 			if(TempLib->GetLibID()>=0){
-				StatisticBlockLibrary	*ALib=dynamic_cast<StatisticBlockLibrary *>(TempLib->GetLibrary());
+				StatisticBlockLibrary	*ALib=static_cast<StatisticBlockLibrary *>(TempLib->GetLibrary());
 				StatisticBrightHistogramForm	D(BlockDEnd->Area,BlockDEnd->ImagePanelPoint
 												  ,ALib->PickupL,ALib->PickupH,this);
 				D.Reflect(ALib->PickupL,ALib->PickupH);
@@ -372,7 +372,7 @@ void	PropertyStatisticBlockForm::ShowSelectedLibList(void)
 		CmdCreateTempStatisticBlockLibraryPacket	Packet(GetLayersBase());
 		BBase->TransmitDirectly(&Packet);
 		AlgorithmLibraryLevelContainer	*SLib=Packet.Point;
-		StatisticBlockLibrary	*ALib=dynamic_cast<StatisticBlockLibrary *>(SLib->GetLibrary());
+		StatisticBlockLibrary	*ALib=static_cast<StatisticBlockLibrary *>(SLib->GetLibrary());
 		int	row=0;
 		for(AlgorithmLibraryList *a=SelectedLibList.GetFirst();a!=NULL;a=a->GetNext(),row++){
 			DDim[row].a=a;
@@ -425,7 +425,7 @@ void	PropertyStatisticBlockForm::ShowLibrary(AlgorithmLibraryLevelContainer &dat
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	StatisticBlockLibrary	*ALib=dynamic_cast<StatisticBlockLibrary *>(data.GetLibrary());
+	StatisticBlockLibrary	*ALib=static_cast<StatisticBlockLibrary *>(data.GetLibrary());
 	ui.EditSpaceToOutline	->setValue(ALib->SpaceToOutline);
 	ui.EditNoiseSize		->setValue(ALib->NoiseSize);
 	ui.EditPriority			->setValue(ALib->Priority);
@@ -435,7 +435,7 @@ void	PropertyStatisticBlockForm::GetLibraryFromWindow(AlgorithmLibraryLevelConta
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	StatisticBlockLibrary	*ALib=dynamic_cast<StatisticBlockLibrary *>(data.GetLibrary());
+	StatisticBlockLibrary	*ALib=static_cast<StatisticBlockLibrary *>(data.GetLibrary());
 	ALib->SpaceToOutline	=ui.EditSpaceToOutline	->value();
 	ALib->NoiseSize		=ui.EditNoiseSize		->value();
 	ALib->Priority		=ui.EditPriority		->value();
@@ -574,7 +574,7 @@ GUIFormBase	*PropertyStatisticBlockForm::GetImageControlToolsPointer(void)
 	QString	ImageName=ImagePanel->GetName();
 
 	for(int i=0;i<N;i++){
-		ImageControlTools	*ImageControlToolsPointer=dynamic_cast<ImageControlTools *>(RetGUI[i]);
+		ImageControlTools	*ImageControlToolsPointer=static_cast<ImageControlTools *>(RetGUI[i]);
 		if(ImageControlToolsPointer!=NULL){
 			if(ImageControlToolsPointer->RelatedPanels.contains(ImageName)==true){
 				return ImageControlToolsPointer;

@@ -53,7 +53,6 @@
 #include "XShowVersion.h"
 #include "XLightClass.h"
 #include "ErrorMessageDialog.h"
-#include "XPassword.h"
 #include "XStatusController.h"
 #include "IntegrationLib.h"
 #include "XIntegrationBase.h"
@@ -63,6 +62,7 @@
 #include "NoComponentDialog.h"
 #include "Regulus64System.h"
 #include "XGeneralStocker.h"
+#include "XMainGUIFormBase.h"
 #include <omp.h>
 #include "XOpenAA.h"
 

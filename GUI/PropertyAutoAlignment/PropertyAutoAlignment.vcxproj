@@ -327,16 +327,16 @@
     <ClCompile Include="PropertyAutoAlignmentFormResource.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="..\..\Algorithm\AutoAlignment\XAutoAlignmentCommon.cpp" />
-    <ClCompile Include="XAutoAlignmentPacket.cpp" />
+    <ClCompile Include="XPropertyAutoAlignmentPacket.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="XPropertyAutoAlignmentPacket.h" />
     <QtMoc Include="EditLibraryAutoAlignment.h" />
     <QtMoc Include="EditLibraryMono.h" />
     <ClInclude Include="PropertyAutoAlignment.h" />
     <QtMoc Include="PropertyAutoAlignmentForm.h" />
     <ClInclude Include="propertyautoalignment_global.h" />
     <ClInclude Include="..\..\Algorithm\AutoAlignment\XAutoAlignmentCommon.h" />
-    <ClInclude Include="XAutoAlignmentPacket.h" />
     <ClInclude Include="..\..\Open\XDLLType.h" />
     <ClInclude Include="..\..\Open\XGUIDLL.h" />
   </ItemGroup>

@@ -420,7 +420,7 @@ public:
 	virtual	void		RemoveAllDatasWithoutManual(void)						override;
 	virtual	int64		GetMaxItemID(void)		const	override;
 
-	virtual	AlgorithmItemPLI	*GetItem(int localX ,int localY);
+	virtual	AlgorithmItemRoot	*GetItem(int localX ,int localY)	const;
 	virtual	AlgorithmItemRoot	*GetItemRoot(int number)	override	{	return Data.GetItem(number);	}
 	virtual	void				RemoveAllDatas(void)	override;
 	virtual	AlgorithmItemPLI	*GetFirstData(void)		const		{	return(Data.GetFirst());	}
