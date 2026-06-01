@@ -331,7 +331,7 @@ void EditLibraryDialog::on_pushButtonClose_clicked()
 
 void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	AlignmentFlexAreaLibrary	*ALib=dynamic_cast<AlignmentFlexAreaLibrary *>(data.GetLibrary());
+	AlignmentFlexAreaLibrary	*ALib=static_cast<AlignmentFlexAreaLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -404,7 +404,7 @@ void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 
 void	EditLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	AlignmentFlexAreaLibrary	*d=dynamic_cast<AlignmentFlexAreaLibrary *>(data.GetLibrary());
+	AlignmentFlexAreaLibrary	*d=static_cast<AlignmentFlexAreaLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->PickupL			=ui->EditPickupL			->value();

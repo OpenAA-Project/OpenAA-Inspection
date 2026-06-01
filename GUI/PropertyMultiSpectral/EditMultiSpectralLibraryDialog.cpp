@@ -247,7 +247,7 @@ void EditMultiSpectralLibraryDialog::on_pushButton_clicked()
 
 void	EditMultiSpectralLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	MultiSpectralLibrary	*d=dynamic_cast<MultiSpectralLibrary *>(data.GetLibrary());
+	MultiSpectralLibrary	*d=static_cast<MultiSpectralLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -261,7 +261,7 @@ void	EditMultiSpectralLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer 
 
 void	EditMultiSpectralLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	MultiSpectralLibrary	*d=dynamic_cast<MultiSpectralLibrary *>(data.GetLibrary());
+	MultiSpectralLibrary	*d=static_cast<MultiSpectralLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->SearchDot		=ui->spinBoxSearchDot				->value();

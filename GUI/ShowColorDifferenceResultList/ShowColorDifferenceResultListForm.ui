@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>441</width>
-    <height>414</height>
+    <height>351</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,19 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>50</y>
+     <y>0</y>
      <width>441</width>
      <height>351</height>
     </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
    </property>
    <column>
     <property name="text">
@@ -44,7 +53,7 @@
    </column>
    <column>
     <property name="text">
-     <string>測定ΔE</string>
+     <string>ΔE補正値</string>
     </property>
    </column>
    <column>
@@ -54,7 +63,7 @@
    </column>
    <column>
     <property name="text">
-     <string>測定濃度</string>
+     <string>濃度補正値</string>
     </property>
    </column>
   </widget>
@@ -73,19 +82,6 @@
    <property name="frameShadow">
     <enum>QFrame::Shadow::Raised</enum>
    </property>
-   <widget class="QPushButton" name="pushButtonAddMeasure">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>7</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>測定値の追加</string>
-    </property>
-   </widget>
   </widget>
  </widget>
  <customwidgets>

@@ -17,7 +17,6 @@
  */
 
 #include "PropertyARArrangeResource.h"
-
 #include "XPropertyARArrangePacket.h"
 #include "XGeneralFunc.h"
 #include "XARArrange.h"
@@ -59,90 +58,6 @@ bool	GUICmdSendARLearningList::Save(QIODevice *f)
 
 //==============================================================================
 
-ARItemList::ARItemList(ARArrangeItem *p)
-{
-	ItemID		=p->GetID();
-	CreatedTime	=p->GetIndex()->GetCreatedTime();
-	Result		=p->GetARResult();
-	p->GetArea().GetCenter(Position);
-}
-
-bool	ARItemList::Save(QIODevice *f)
-{
-	if(::Save(f,ItemID)==false)
-		return false;
-	if(::Save(f,CreatedTime)==false)
-		return false;
-	BYTE	d=(BYTE)Result;
-	if(::Save(f,d)==false)
-		return false;
-	if(Position.Save(f)==false)
-		return false;
-	return true;
-}
-bool	ARItemList::Load(QIODevice *f)
-{
-	if(::Load(f,ItemID)==false)
-		return false;
-	if(::Load(f,CreatedTime)==false)
-		return false;
-	BYTE	d;
-	if(::Load(f,d)==false)
-		return false;
-	Result=(ARArrangeItem::ARResult)d;
-	if(Position.Load(f)==false)
-		return false;
-	return true;
-}
-ARItemList	&ARItemList::operator=(ARItemList &src)
-{
-	ItemID		=src.ItemID;
-	CreatedTime	=src.CreatedTime;
-	Result		=src.Result;
-	Position	=src.Position;
-	return *this;
-}
-
-
-bool	ARItemListContainer::Save(QIODevice *f)
-{
-	int32	N=GetCount();
-	if(::Save(f,N)==false)
-		return false;
-	for(ARItemList *a=GetFirst();a!=NULL;a=a->GetNext()){
-		if(a->Save(f)==false)
-			return false;
-	}
-	return true;
-}
-
-bool	ARItemListContainer::Load(QIODevice *f)
-{
-	int32	N;
-	if(::Load(f,N)==false)
-		return false;
-	RemoveAll();
-	for(int i=0;i<N;i++){
-		ARItemList *a=new ARItemList();
-		if(a->Load(f)==false)
-			return false;
-		AppendList(a);
-	}
-	return true;
-}
-
-ARItemListContainer	&ARItemListContainer::operator+=(ARItemListContainer &src)
-{
-	for(ARItemList *a=src.GetFirst();a!=NULL;a=a->GetNext()){
-		ARItemList *b=new ARItemList();
-		*b=*a;
-		AppendList(b);
-	}
-	return *this;
-}
-
-
-
 GUICmdReqARArrangeList::GUICmdReqARArrangeList(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
 :GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
 {
@@ -167,18 +82,12 @@ void	GUICmdReqARArrangeList::Receive(int32 localPage, int32 cmd ,QString &Emitte
 
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"ARArrange");
 	if(AlignBase!=NULL){
-		ARArrangeInPage	*PData=dynamic_cast<ARArrangeInPage	*>(AlignBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=AlignBase->GetPageData(localPage);
 		if(PData!=NULL){
-			for(AlgorithmItemPI	*a=PData->GetFirstData();a!=NULL;a=a->GetNext()){
-				ARArrangeItem	*p=dynamic_cast<ARArrangeItem *>(a);
-				if(p!=NULL){
-					if(p->GetIndex()!=NULL){
-						if(p->GetIndex()->GetCreatedTime()==CreatedTime){
-							SendBack->ItemContainer.AppendList(new ARItemList(p));
-						}
-					}
-				}
-			}
+			CmdMakeARArrangeList	Cmd(GetLayersBase());
+			Cmd.CreatedTime = CreatedTime;
+			Cmd.ItemContainer=&SendBack->ItemContainer;
+			PData->TransmitDirectly(&Cmd);
 		}
 	}
 
@@ -233,7 +142,7 @@ void	GUICmdReqAddARArrange::Receive(int32 localPage, int32 cmd ,QString &Emitter
 {
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"ARArrange");
 	if(AlignBase!=NULL){
-		ARArrangeInPage	*PData=dynamic_cast<ARArrangeInPage	*>(AlignBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=AlignBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdReqAddARArrange	Cmd(this);
 			Cmd.Area=Area;

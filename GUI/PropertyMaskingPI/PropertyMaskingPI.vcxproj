@@ -312,6 +312,7 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Algorithm\MaskingPI\XMaskPICommon.cpp" />
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp" />
     <ClCompile Include="PropertyMaskingPI.cpp" />
     <ClCompile Include="PropertyMaskingPIForm.cpp" />

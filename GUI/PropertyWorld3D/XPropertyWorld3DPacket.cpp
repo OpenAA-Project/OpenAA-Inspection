@@ -37,9 +37,9 @@ bool	GUICmdLoadStepFile::Save(QIODevice *f)
 
 void	GUICmdLoadStepFile::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	World3DBase *BBase=(World3DBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"World3D");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"World3D");
 	if(BBase!=NULL){
-		World3DInPage	*PData=dynamic_cast<World3DInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdLoadStepFile	Cmd(this);
 			Cmd.FArray		=FArray;

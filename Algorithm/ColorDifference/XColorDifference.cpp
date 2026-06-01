@@ -275,6 +275,8 @@ ColorDifferenceSendTryThreshold::ColorDifferenceSendTryThreshold(void)
 	LenNG			=0;
 	DeltaE			=0;
 	Dense			=0;
+	ResultDeltaEOK	=none3;
+	ResultDenseOK	=none3;
 }
 ColorDifferenceSendTryThreshold::~ColorDifferenceSendTryThreshold(void)
 {
@@ -300,6 +302,10 @@ bool	ColorDifferenceSendTryThreshold::Save(QIODevice *f)
 	if(::Save(f,DeltaE			)==false)
 		return false;
 	if(::Save(f,Dense			)==false)
+		return false;
+	if(::Save(f,ResultDeltaEOK	)==false)
+		return false;
+	if(::Save(f,ResultDenseOK	)==false)
 		return false;
 	if(ReferenceColor1.Save(f)==false)
 		return false;
@@ -331,6 +337,10 @@ bool	ColorDifferenceSendTryThreshold::Load(QIODevice *f)
 	if(::Load(f,DeltaE			)==false)
 		return false;
 	if(::Load(f,Dense			)==false)
+		return false;
+	if(::Load(f,ResultDeltaEOK	)==false)
+		return false;
+	if(::Load(f,ResultDenseOK	)==false)
 		return false;
 	if(ReferenceColor1.Load(f)==false)
 		return false;
@@ -409,6 +419,8 @@ void	ColorDifferenceSendTryThreshold::Calc(ColorDifferenceItem *Target,ColorDiff
 	}
 	MasterColor	=Target->MasterColor;
 	TargetColor	=Target->TargetColor;
+	ResultDeltaEOK	= Target->ResultDeltaEOK;
+	ResultDenseOK	= Target->ResultDenseOK;
 
 	StatisticData.MasterH	=Target->StatisticData.HAvr;
 	StatisticData.MasterS	=Target->StatisticData.SAvr;
@@ -926,6 +938,13 @@ void	ColorDifferenceInPage::TransmitDirectly(GUIDirectMessage *packet)
 				W->ItemName = Item->GetItemName();
 				W->ResultDeltaE = Item->ResultDeltaE;
 				W->ResultDense	= Item->ResultDense;
+				bool ok;
+				W->ResultManualDeltaE = Item->GetInterpolationDeltaE(Item->ResultDeltaE,ok);
+				W->ResultDeltaEOK = Item->ResultDeltaEOK;
+
+				W->ResultManualDense = Item->GetInterpolationDense(Item->ResultDense,ok);
+				W->ResultDenseOK = Item->ResultDenseOK;
+
 				CmdReqColorDifferenceResultVar->Results.AppendList(W);
 			}
 		}

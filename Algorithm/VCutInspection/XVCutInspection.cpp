@@ -725,6 +725,22 @@ void	VCutInspectionInPage::TransmitDirectly(GUIDirectMessage *packet)
 		MakeResultVCutMapPacket->BmpMap=VCutMapBuffer.GetBitMap();
 		return;
 	}
+	CmdMakeVCutInspectionList *MakeVCutInspectionListPacket = dynamic_cast<CmdMakeVCutInspectionList *>(packet);
+	if(MakeVCutInspectionListPacket!=NULL){
+		for(AlgorithmItemPI *item=GetFirstData();item!=NULL;item=item->GetNext()){
+			VCutInspectionItem	*MItem=dynamic_cast<VCutInspectionItem *>(item);
+			if(MItem!=NULL){
+				VCutInspectionList	*L=new VCutInspectionList();
+				L->Page=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+				MItem->GetVector()->GetXY(L->x1,L->y1,L->x2,L->y2);
+				L->ThresholdLength	=MItem->GetThresholdR()->ThresholdLength;
+				L->ThresholdLevel	=MItem->GetThresholdR()->ThresholdLevel;
+				L->ThresholdShift	=MItem->GetThresholdR()->ThresholdShift;
+				MakeVCutInspectionListPacket->VCutInfo->AppendList(L);				
+			}
+		}
+		return;
+	}
 }
 ExeResult	VCutInspectionInPage::ExecuteInitialAfterEdit	(int ExeID 
 															,ResultInPageRoot *Res

@@ -356,9 +356,6 @@ void	PiecePropertyForm::TransmitDirectly(GUIDirectMessage *packet)
 		AlgorithmBase	*Ab=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"PieceArrange");
 		if(Ab==NULL)
 			return;
-		PieceArrangeBase	*MBase=dynamic_cast<PieceArrangeBase *>(Ab);
-		if(MBase==NULL)
-			return;		
 		int	SelectedMasterCode=GetSelectedMasterCode();
 		if(SelectedMasterCode>=0){
 			if(ui.toolButtonStartMatrixArrange->isChecked()==false){
@@ -443,7 +440,7 @@ void PiecePropertyForm::on_tablePieceArrange_doubleClicked(QModelIndex)
 	PieceGridList	*Piece=GetPieceGridListFromRow(row);
 	if(Piece==NULL)
 		return;
-	PieceArrangeBase	*MBase=dynamic_cast<PieceArrangeBase *>(Ab);
+	PieceArrangeBase	*MBase=static_cast<PieceArrangeBase *>(Ab);
 	if(MBase==NULL)
 		return;
 	/*
@@ -650,7 +647,7 @@ void PiecePropertyForm::on_tableViewMList_doubleClicked(const QModelIndex &index
 		AlgorithmBase	*Ab=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"PieceArrange");
 		if(Ab==NULL)
 			return;
-		PieceArrangeBase	*MBase=dynamic_cast<PieceArrangeBase *>(Ab);
+		PieceArrangeBase	*MBase=static_cast<PieceArrangeBase *>(Ab);
 		if(MBase==NULL)
 			return;
 		QString	GUIFileName=MBase->PieceGUIFile;

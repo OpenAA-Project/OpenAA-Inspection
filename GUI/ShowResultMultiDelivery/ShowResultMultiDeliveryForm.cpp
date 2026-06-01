@@ -107,7 +107,7 @@ void	ShowResultMultiDeliveryForm::Prepare(void)
 	if(RDLL!=NULL){
 		ResultDLL	*R=RDLL->GetResultDLL(/**/"Result",/**/"ResultXMLMultiDelivery");
 		if(R!=NULL){
-			ResultDelivery=dynamic_cast<ResultXMLMultiDelivery *>(R->GetDLLPoint());
+			ResultDelivery=static_cast<ResultXMLMultiDelivery *>(R->GetDLLPoint());
 		}
 	}
 
@@ -332,7 +332,7 @@ bool	ShowResultMultiDeliveryForm::ChangeLotAction(int DeliveryNo)
 	if(RDLL!=NULL){
 		ResultDLL	*R=RDLL->GetResultDLL(/**/"Result",/**/"ResultXMLMultiDelivery");
 		if(R!=NULL){
-			RL=dynamic_cast<ResultXMLMultiDelivery *>(R->GetDLLPoint());
+			RL=static_cast<ResultXMLMultiDelivery *>(R->GetDLLPoint());
 		}
 	}
 	if(RL==NULL){

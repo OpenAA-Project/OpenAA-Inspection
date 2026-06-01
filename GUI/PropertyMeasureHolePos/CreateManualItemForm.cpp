@@ -110,7 +110,7 @@ void CreateManualItemForm::on_tableWidgetLibList_clicked(const QModelIndex &Inde
 			ui.EditLibID			->setText(QString::number(TempLib->GetLibID()));
 			ui.EditLibName			->setText(a->GetLibName());
 
-			MeasureHolePosLibrary	*ALib=dynamic_cast<MeasureHolePosLibrary *>(TempLib->GetLibrary());
+			MeasureHolePosLibrary	*ALib=static_cast<MeasureHolePosLibrary *>(TempLib->GetLibrary());
 			ui.doubleSpinBoxDiaPrecision	->setValue(ALib->DiaPrecision);
 			ui.doubleSpinBoxPosPrecision	->setValue(ALib->PosPrecision);
 			ui.spinBoxNoiseSize				->setValue(ALib->NoiseSize);

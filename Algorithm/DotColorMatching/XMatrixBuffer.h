@@ -71,7 +71,7 @@ inline	BYTE	BMatrix::GetConstantBrightness(int y)	//-1: Not constant brightness
 	if(YPoint!=NULL && YPoint[y].ConstantBrightness==true){
 		return YPoint[y].ConstantColor;
 	}
-	return NULL;
+	return 0;
 }
 inline	int		BMatrix::GetWidth(void)
 {

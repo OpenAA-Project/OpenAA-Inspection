@@ -140,6 +140,7 @@ bool	AlgorithmInPage3DPI::GetColorForDraw(QImage &Img
 			}
 		}
 	}
+	return true;
 }
 
 QColor	AlgorithmInPage3DPI::MakeColor(const Reflection3D &R,const Surface3D &RetSurface)

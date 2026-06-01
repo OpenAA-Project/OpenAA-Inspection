@@ -297,7 +297,7 @@ bool	ResultFrameDLL::OutputResult(ResultInspectionForStockPointerContainer &Shad
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"FrameDef");
 	if(PBase==NULL)
 		return false;
-	FrameDefInPage	*PPage=dynamic_cast<FrameDefInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage==NULL)
 		return false;
 

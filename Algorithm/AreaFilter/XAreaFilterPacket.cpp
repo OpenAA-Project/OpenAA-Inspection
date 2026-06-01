@@ -101,19 +101,13 @@ void	GUICmdSendAreaFilterList::MakeAreaFilterList(int localPage)
 		return;
 	ItemListInfo.RemoveAll();
 
-	AlgorithmInPagePLI	*PData=dynamic_cast<AlgorithmInPagePLI	*>(AreaFilterBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=AreaFilterBase->GetPageData(localPage);
 	if(PData!=NULL){
 		for(int Layer=0;Layer<GetLayerNumb(localPage);Layer++){
-			AlgorithmInLayerPLI *L=PData->GetLayerDataPLI(Layer);
-			for(AlgorithmItemPLI *Item=L->GetFirstData();Item!=NULL;Item=Item->GetNext()){
-				AreaFilterListForPacket	*r=new AreaFilterListForPacket();
-				r->Data.Page=GetLayersBase()->GetGlobalPageFromLocal(localPage);
-				r->Data.Layer	=Layer;
-				r->Data.ItemID	=Item->GetID();
-				r->Data.LibID	=Item->GetLibID();
-				Item->GetXY(r->Data.x1,r->Data.y1,r->Data.x2,r->Data.y2);
-				ItemListInfo.AppendList(r);
-			}
+			AlgorithmInLayerRoot *L=PData->GetLayerData(Layer);
+			CmdSetAreaFilterList	Cmd(GetLayersBase());
+			Cmd.ItemListInfo=&ItemListInfo;
+			L->TransmitDirectly(&Cmd);
 		}
 	}
 }

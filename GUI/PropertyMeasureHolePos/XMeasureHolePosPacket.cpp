@@ -224,14 +224,11 @@ void	GUICmdReqItemThreshold::Receive(int32 localPage, int32 cmd ,QString &Emitte
 		return;
 	AlgorithmItemRoot	*a=PData->SearchIDItem(ItemID);
 	if(a!=NULL){
-		MeasureHolePosItemBase	*ai=dynamic_cast<MeasureHolePosItemBase *>(a);
-		if(ai!=NULL){
-			SendBack->ItemName=ai->GetItemName();
-			CmdCreateThresholdPacket	PCmd(GetLayersBase());
-			BBase->TransmitDirectly(&PCmd);
-			SendBack->Thre	=PCmd.Thre;
-			SendBack->Thre->CopyFrom(*ai->GetThresholdW());
-		}
+		SendBack->ItemName=a->GetItemName();
+		CmdCreateThresholdPacket	PCmd(GetLayersBase());
+		BBase->TransmitDirectly(&PCmd);
+		SendBack->Thre	=PCmd.Thre;
+		SendBack->Thre->CopyFrom(*a->GetThresholdBaseWritable());
 	}
 	SendBack->Send(this ,GetLayersBase()->GetGlobalPageFromLocal(localPage),0);
 	CloseSendBack(SendBack);
@@ -333,11 +330,8 @@ void	GUICmdSetItemThreshold::Receive(int32 localPage, int32 cmd ,QString &Emitte
 		return;
 	AlgorithmItemRoot	*a=PData->SearchIDItem(ItemID);
 	if(a!=NULL){
-		MeasureHolePosItemBase	*ai=dynamic_cast<MeasureHolePosItemBase *>(a);
-		if(ai!=NULL){
-			ai->SetItemName(ItemName);
-			ai->GetThresholdW()->CopyFrom(*Thre);
-		}
+		a->SetItemName(ItemName);
+		a->GetThresholdBaseWritable()->CopyFrom(*Thre);
 	}
 }
 

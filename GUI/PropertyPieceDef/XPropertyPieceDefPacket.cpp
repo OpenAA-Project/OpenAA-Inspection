@@ -45,7 +45,7 @@ void	GUICmdAddPieceAreaManual::Receive(int32 localPage, int32 cmd ,QString &Emit
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PieceDef");
 	if(PBase==NULL)
 		return;
-	PieceDefInPage	*PPage=dynamic_cast<PieceDefInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAlgoCreatePieceDefManual	Da(GetLayersBase());
 		Da.Area=Area;
@@ -66,7 +66,7 @@ void	GUICmdReqSeed::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QSt
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PieceDef");
 	if(PBase==NULL)
 		return;
-	PieceDefInPage	*PPage=dynamic_cast<PieceDefInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAlgoReqSeed	Da(GetLayersBase());
 		Da.Seed			=&SendBack->Seed;
@@ -134,7 +134,7 @@ void	GUICmdSweepSeed::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PieceDef");
 	if(PBase==NULL)
 		return;
-	PieceDefInPage	*PPage=dynamic_cast<PieceDefInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAlgoSweepSeed	Da(GetLayersBase());
 		Da.Seed=&Seed;
@@ -159,7 +159,7 @@ void	GUICmdReqDefList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PieceDef");
 	if(PBase==NULL)
 		return;
-	PieceDefInPage	*PPage=dynamic_cast<PieceDefInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAlgoReqDList	Da(GetLayersBase());
 		PPage->TransmitDirectly(&Da);
@@ -231,7 +231,7 @@ void	GUICmdCopyItemFromOrg::Receive(int32 localPage, int32 cmd ,QString &Emitter
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PieceDef");
 	if(PBase==NULL)
 		return;
-	PieceDefInPage	*PPage=dynamic_cast<PieceDefInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAlgoCopyItemFromOrg	Da(GetLayersBase());
 		Da.OrgGlobalPage=OrgGlobalPage;
@@ -257,7 +257,7 @@ void	GUICmdReqSeedData::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PieceDef");
 	if(PBase==NULL)
 		return;
-	PieceDefInPage	*PPage=dynamic_cast<PieceDefInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAlgoReqSeedData	Da(GetLayersBase());
 		Da.SeedData		=&SendBack->SeedData;
@@ -315,7 +315,7 @@ void	GUICmdMatchItems::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PieceDef");
 	if(PBase==NULL)
 		return;
-	PieceDefInPage	*PPage=dynamic_cast<PieceDefInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAlgoMatchItems	Da(GetLayersBase());
 		PPage->TransmitDirectly(&Da);

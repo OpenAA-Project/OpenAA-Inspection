@@ -48,5 +48,62 @@ public:
 	void	MoveTo(int dx ,int dy);
 };
 
+class	TreeMasterResultList : public NPListSaveLoad<TreeMasterResultList>
+{
+public:
+	int		Page;
+	int		ItemID;
+	QString	CatName;
+	int		MasterCode;
+	double	ResultE;
+
+	TreeMasterResultList(void){}
+
+	virtual	bool	Load(QIODevice *f);
+	virtual	bool	Save(QIODevice *f);
+	TreeMasterResultList	&operator=(TreeMasterResultList &src);
+};
+
+class	TreeMasterResultListForPacketPack: public NPListPackSaveLoad<TreeMasterResultList>
+{
+public:
+	TreeMasterResultListForPacketPack(void){}
+
+	TreeMasterResultList	*FindByItemID(int TMItemID);
+	virtual	TreeMasterResultList	*Create(void)	{	return new TreeMasterResultList();	}
+};
+
+
+class	TreeMasterList : public NPList<TreeMasterList>
+{
+public:
+	int		Page;
+	int		x1,y1,x2,y2;
+	int		ItemID;
+	QString	CatName;
+	int		MasterCode;
+	QString MasterName;
+	bool	AlertMask;
+
+	TreeMasterList(void){}
+
+	bool	Load(QIODevice *f);
+	bool	Save(QIODevice *f);
+	TreeMasterList	&operator=(TreeMasterList &src);
+};
+
+class	TreeMasterListForPacketPack: public NPListPack<TreeMasterList>
+{
+public:
+	TreeMasterListForPacketPack(void){}
+
+	TreeMasterList	*FindByItemID(int TMItemID);
+	TreeMasterList *FindByMasterCode(int MasterCode);
+	void decreaseID(int BaseID);
+	TreeMasterListForPacketPack	&operator+=(TreeMasterListForPacketPack &src);
+	bool	Load(QIODevice *f);
+	bool	Save(QIODevice *f);
+};
+
 
 #endif

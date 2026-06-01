@@ -97,10 +97,10 @@ void	GUICmdChangeMaskingPIAttr::Receive(int32 localPage, int32 cmd ,QString &Emi
 	AlgorithmBase	*L=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MaskingPI");
 	if(L==NULL)
 		return;
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(L->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=L->GetPageData(localPage);
 	if(PData==NULL)
 		return;
-	AlgorithmItemPI		*Item=dynamic_cast<AlgorithmItemPI *>(PData->SearchIDItem(ItemID));
+	AlgorithmItemRoot	*Item=PData->SearchIDItem(ItemID);
 	if(Item==NULL)
 		return;
 	MaskingPIItem	*M=static_cast<MaskingPIItem *>(Item);
@@ -109,101 +109,6 @@ void	GUICmdChangeMaskingPIAttr::Receive(int32 localPage, int32 cmd ,QString &Emi
 
 	M->GetThresholdW()->Effective=Effective;
 	M->GetThresholdW()->SelAreaID=LimitedLib;
-}
-
-bool	MaskingPIListForPacket::Save(QIODevice *f)
-{
-	if(::Save(f,ItemID)==false)
-		return false;
-	if(::Save(f,Page)==false)
-		return false;
-	if(::Save(f,x1)==false)
-		return false;
-	if(::Save(f,y1)==false)
-		return false;
-	if(::Save(f,x2)==false)
-		return false;
-	if(::Save(f,y2)==false)
-		return false;
-	if(::Save(f,Effective)==false)
-		return false;
-	if(LimitedLib.Save(f)==false)
-		return false;
-	return true;
-}
-bool	MaskingPIListForPacket::Load(QIODevice *f)
-{
-	if(::Load(f,ItemID)==false)
-		return false;
-	if(::Load(f,Page)==false)
-		return false;
-	if(::Load(f,x1)==false)
-		return false;
-	if(::Load(f,y1)==false)
-		return false;
-	if(::Load(f,x2)==false)
-		return false;
-	if(::Load(f,y2)==false)
-		return false;
-	if(::Load(f,Effective)==false)
-		return false;
-	if(LimitedLib.Load(f)==false)
-		return false;
-	return true;
-}
-MaskingPIListForPacket	&MaskingPIListForPacket::operator=(MaskingPIListForPacket &src)
-{
-	ItemID	=src.ItemID;
-	Page	=src.Page;
-	x1		=src.x1;
-	y1		=src.y1;
-	x2		=src.x2;
-	y2		=src.y2;
-	Effective	=src.Effective;
-	LimitedLib	=src.LimitedLib;
-	return *this;
-}
-
-
-bool	MaskingPIListForPacketPack::Save(QIODevice *f)
-{
-	int32	N=GetNumber();
-	if(::Save(f,N)==false)
-		return false;
-	for(MaskingPIListForPacket *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->Save(f)==false)
-			return false;
-	}
-	return true;
-}
-bool	MaskingPIListForPacketPack::Load(QIODevice *f)
-{
-	int32	N;
-	if(::Load(f,N)==false)
-		return false;
-	RemoveAll();
-	for(int i=0;i<N;i++){
-		MaskingPIListForPacket	*c=new MaskingPIListForPacket();
-		if(c->Load(f)==false)
-			return false;
-	}
-	return true;
-}
-
-MaskingPIListForPacketPack	&MaskingPIListForPacketPack::operator=(MaskingPIListForPacketPack &src)
-{
-	RemoveAll();
-	operator+=(src);
-	return *this;
-}
-MaskingPIListForPacketPack	&MaskingPIListForPacketPack::operator+=(MaskingPIListForPacketPack &src)
-{
-	for(MaskingPIListForPacket *c=src.GetFirst();c!=NULL;c=c->GetNext()){
-		MaskingPIListForPacket *d=new MaskingPIListForPacket();
-		*d=*c;
-		AppendList(d);
-	}
-	return *this;
 }
 
 //==============================================================================================
@@ -247,31 +152,18 @@ GUICmdSendMaskPIList::GUICmdSendMaskPIList(LayersBase *Base ,const QString &Emit
 
 void	GUICmdSendMaskPIList::MakeMaskList(bool EffectiveMode,bool IneffectiveMode,int localPage ,LayersBase *PBase)
 {
-	//int	LocalPage=GetLayersBase()->GetLocalPageFromGlobal(GetGlobalPage());
 	AlgorithmBase	*MaskingPIBase=PBase->GetAlgorithmBase(/**/"Basic" ,/**/"MaskingPI");
 	if(MaskingPIBase==NULL)
 		return;
 	MaskInfo.RemoveAll();
 
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(MaskingPIBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=MaskingPIBase->GetPageData(localPage);
 	if(PData!=NULL){
-		for(AlgorithmItemPI *item=PData->GetFirstData();item!=NULL;item=item->GetNext()){
-			MaskingPIItem	*MItem=static_cast<MaskingPIItem *>(item);
-			if(MItem!=NULL && ((EffectiveMode==true && MItem->GetThresholdR()->Effective==true) || (IneffectiveMode==true && MItem->GetThresholdR()->Effective==false))){
-				MaskingPIListForPacket	*L=new MaskingPIListForPacket();
-				L->Page=PBase->GetGlobalPageFromLocal(localPage);
-				L->Effective=MItem->GetThresholdR()->Effective;
-				int x1 ,y1 ,x2 ,y2;
-				MItem->GetXY(x1 ,y1 ,x2 ,y2);
-				L->ItemID=MItem->GetID();
-				L->x1=x1;
-				L->y1=y1;
-				L->x2=x2;
-				L->y2=y2;
-				L->LimitedLib=*((AlgorithmLibraryListContainer *)&MItem->GetThresholdR()->SelAreaID);
-				MaskInfo.AppendList(L);				
-			}
-		}
+		CmdMakeMaskPIList	Cmd(GetLayersBase());
+		Cmd.EffectiveMode = EffectiveMode;
+		Cmd.IneffectiveMode = IneffectiveMode;
+		Cmd.MaskInfo = &MaskInfo;
+		PData->TransmitDirectly(&Cmd);
 	}
 }
 bool	GUICmdSendMaskPIList::Load(QIODevice *f)
@@ -338,7 +230,7 @@ void	GUICmdGenerateMaskPIInSameColor::Receive(int32 localPage, int32 cmd ,QStrin
 	AlgorithmBase	*MaskingBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MaskingPI");
 	if(MaskingBase==NULL)
 		return;
-	AlgorithmInPagePI	*MaskPIPage=dynamic_cast<AlgorithmInPagePI *>(MaskingBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*MaskPIPage=MaskingBase->GetPageData(localPage);
 	if(MaskPIPage==NULL)
 		return;
 
@@ -379,7 +271,7 @@ void	GUICmdReqRemoveMaskPI::Receive(int32 localPage, int32 cmd ,QString &Emitter
 	if (MaskingBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ah=MaskingBase->GetPageDataPhase(Phase);
 		if(Ah!=NULL){
-			AlgorithmInPagePI	*MaskPage = dynamic_cast<AlgorithmInPagePI*>(Ah->GetPageData(localPage));
+			AlgorithmInPageRoot	*MaskPage = Ah->GetPageData(localPage);
 			if(MaskPage!=NULL) {
 				CmdRemoveMaskPIItem	Cmd(GetLayersBase());
 				Cmd.ItemID=ItemID;

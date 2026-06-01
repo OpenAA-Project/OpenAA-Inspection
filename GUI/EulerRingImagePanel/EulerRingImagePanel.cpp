@@ -290,18 +290,15 @@ void	GUICmdSendEulerRingInfo::MakeData(int localPage, int localX, int localY ,La
 	AlgorithmBase	*AL=LocalLBase.GetAlgorithmBase(/**/"Basic" ,/**/"EulerRing");
 	if(AL==NULL)
 		return;
-	EulerRingBase	*BL=dynamic_cast<EulerRingBase *>(AL);
-	if(BL==NULL)
-		return;
+
 	LocalX=localX;
 	LocalY=localY;
 
-	EulerRingInPage	*P=(EulerRingInPage *)BL->GetPageData(localPage);
+	AlgorithmInPageRoot	*P=AL->GetPageData(localPage);
 
-	AlgorithmItemPI	*Item=P->GetItem(localX,localY);
+	AlgorithmItemRoot	*Item=P->GetItem(localX,localY);
 	if(Item!=NULL){
-		EulerRingItem	*BItem=(EulerRingItem *)Item;
-		LibIDList.Add(BItem->GetLibID());
+		LibIDList.Add(Item->GetLibID());
 	}
 }
 

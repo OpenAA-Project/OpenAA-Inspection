@@ -173,7 +173,7 @@ void	AlignmentFlexAreaImagePanel::CanvasSlotOnPaint(QPainter &pnt)
 {
 	if(GetDisplayType()==__BitBuff){
 		AlgorithmBase	*A=GetAlgorithmBase();
-		AlignmentFlexAreaBase	*Ab=dynamic_cast<AlignmentFlexAreaBase *>(A);
+		AlignmentFlexAreaBase	*Ab=static_cast<AlignmentFlexAreaBase *>(A);
 		if(Ab!=NULL){
 			SetTransparentLevelInBitBuff(Ab->TransparentLevelInBitBuff);
 		}
@@ -330,7 +330,7 @@ void	GUICmdReqAlignmentFlexAreaResultInfo::Receive(int32 localPage, int32 cmd ,Q
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	CmdReqXYResult	RCmd(GetLayersBase());
@@ -419,7 +419,7 @@ void	GUICmdReqAlignmentPointInfo::Receive(int32 localPage, int32 cmd ,QString &E
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	CmdReqAlignmentFlexAreaItem	RCmd(GetLayersBase());
@@ -524,7 +524,7 @@ void	GUICmdReqSetAlignmentPointInfo::Receive(int32 localPage, int32 cmd ,QString
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	CmdSetAlignmentFlexAreaItem	RCmd(GetLayersBase());

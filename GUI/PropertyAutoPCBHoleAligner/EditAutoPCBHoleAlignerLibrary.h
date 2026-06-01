@@ -93,7 +93,7 @@ private:
     mtColorFrame	PickupColorFrame;
 
     void ShowThresholdList(void);
-    AutoPCBHoleAlignerBase* GetAutoPCBHoleAlignerBase(void);
+    AlgorithmBase* GetAutoPCBHoleAlignerBase(void);
     AlgorithmLibraryListContainer	LibList;
 };
 

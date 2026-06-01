@@ -66,9 +66,8 @@ void	GUICmdAddMaskingArea::Receive(int32 localPage, int32 cmd, QString& EmitterR
 	Cmd.LayerList = LayerList;
 	Cmd.Effective = Effective;
 	Cmd.LimitedLib = LimitedLib;
-	MaskingInPage* M = dynamic_cast<MaskingInPage*>(PData);
-	if (M != NULL)
-		M->TransmitDirectly(&Cmd);
+
+	PData->TransmitDirectly(&Cmd);
 
 	SendAck(localPage);
 }
@@ -166,89 +165,23 @@ void	GUICmdChangeMaskingAttr::Receive(int32 localPage, int32 cmd, QString& Emitt
 	AlgorithmBase* L = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (L == NULL)
 		return;
-	AlgorithmInPagePLI* PData = dynamic_cast<AlgorithmInPagePLI*>(L->GetPageData(localPage));
+	AlgorithmInPageRoot* PData = L->GetPageData(localPage);
 	if (PData == NULL)
 		return;
-	AlgorithmInLayerPLI* LData = dynamic_cast<AlgorithmInLayerPLI*>(PData->GetLayerData(Layer));
+	AlgorithmInLayerRoot* LData = PData->GetLayerData(Layer);
 	if (LData == NULL)
 		return;
-	AlgorithmItemPLI* Item = dynamic_cast<AlgorithmItemPLI*>(LData->SearchIDItem(ItemID));
+	AlgorithmItemRoot* Item = LData->SearchIDItem(ItemID);
 	if (Item == NULL)
 		return;
-	MaskingItem* M = dynamic_cast<MaskingItem*>(Item);
-	if (M == NULL)
+	if(Item->GetItemClassType()!=0)
 		return;
 
+	MaskingItem* M = static_cast<MaskingItem*>(Item);
 	M->GetThresholdW()->Effective = Effective;
 	M->GetThresholdW()->SelAreaID = LimitedLib;
 
 	SendAck(localPage);
-}
-
-bool	MaskingListForPacket::Save(QIODevice* f)
-{
-	if (f->write((const char*)&Data, sizeof(Data)) != sizeof(Data))
-		return false;
-	if (LimitedLib.Save(f) == false)
-		return false;
-	return true;
-}
-bool	MaskingListForPacket::Load(QIODevice* f)
-{
-	if (f->read((char*)&Data, sizeof(Data)) != sizeof(Data))
-		return false;
-	if (LimitedLib.Load(f) == false)
-		return false;
-	return true;
-}
-MaskingListForPacket& MaskingListForPacket::operator=(MaskingListForPacket& src)
-{
-	Data = src.Data;
-	LimitedLib = src.LimitedLib;
-	return *this;
-}
-
-
-bool	MaskingListForPacketPack::Save(QIODevice* f)
-{
-	int32	N = GetNumber();
-	if (::Save(f, N) == false)
-		return false;
-	for (MaskingListForPacket* c = GetFirst(); c != NULL; c = c->GetNext()) {
-		if (c->Save(f) == false)
-			return false;
-	}
-	return true;
-}
-bool	MaskingListForPacketPack::Load(QIODevice* f)
-{
-	int32	N;
-	if (::Load(f, N) == false)
-		return false;
-	RemoveAll();
-	for (int i = 0; i < N; i++) {
-		MaskingListForPacket* c = new MaskingListForPacket();
-		if (c->Load(f) == false)
-			return false;
-		AppendList(c);
-	}
-	return true;
-}
-
-MaskingListForPacketPack& MaskingListForPacketPack::operator=(MaskingListForPacketPack& src)
-{
-	RemoveAll();
-	operator+=(src);
-	return *this;
-}
-MaskingListForPacketPack& MaskingListForPacketPack::operator+=(MaskingListForPacketPack& src)
-{
-	for (MaskingListForPacket* c = src.GetFirst(); c != NULL; c = c->GetNext()) {
-		MaskingListForPacket* d = new MaskingListForPacket();
-		*d = *c;
-		AppendList(d);
-	}
-	return *this;
 }
 
 //==============================================================================================
@@ -309,7 +242,7 @@ void	GUICmdSendMaskList::MakeMaskList(bool EffectiveMode, bool IneffectiveMode
 		return;
 	MaskInfo.RemoveAll();
 
-	AlgorithmInPagePLI* PData = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+	AlgorithmInPageRoot* PData = MaskingBase->GetPageData(localPage);
 	if (PData != NULL) {
 		if (MaskingBase->GetLayerNumb(localPage) == 1) {
 			MakeMaskListLayer1(MaskingBase
@@ -331,47 +264,17 @@ void	GUICmdSendMaskList::MakeMaskListLayer1(AlgorithmBase* MaskingBase
 				, bool EffectiveLimitedMode, bool IneffectiveLimitedMode
 				, int localPage, LayersBase * PBase)
 {
-	AlgorithmInPagePLI* PData = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+	AlgorithmInPageRoot* PData = MaskingBase->GetPageData(localPage);
 	for (int layer = 0; layer < MaskingBase->GetLayerNumb(localPage); layer++) {
 		AlgorithmInLayerRoot* PLayer = PData->GetLayerData(layer);
-		MaskingInLayer* MaskingLayer = dynamic_cast<MaskingInLayer*>(PLayer);
-		if (MaskingLayer != NULL) {
-			int	ItemCount = MaskingLayer->GetItemCount();
-			AlgorithmItemPLI** ItemDim = new AlgorithmItemPLI * [ItemCount];
-			int	k = 0;
-			for (AlgorithmItemPLI* item = MaskingLayer->GetFirstData(); item != NULL; item = item->GetNext()) {
-				ItemDim[k] = item;
-				k++;
-			}
-			#pragma omp parallel for
-			for (int j = 0; j < ItemCount; j++) {
-				MaskingItem* MItem = dynamic_cast<MaskingItem*>(ItemDim[j]);
-				if (MItem != NULL
-					&& ((EffectiveMode == true && MItem->GetThresholdR()->Effective == true && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == false)
-						|| (IneffectiveMode == true && MItem->GetThresholdR()->Effective == false && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == false)
-						|| (EffectiveLimitedMode == true && MItem->GetThresholdR()->Effective == true && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == true)
-						|| (IneffectiveLimitedMode == true && MItem->GetThresholdR()->Effective == false && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == true))) {
-					MaskingListForPacket* L = new MaskingListForPacket();
-					L->Data.Page = PBase->GetGlobalPageFromLocal(localPage);
-					L->Data.Layer = layer;
-					L->Data.Effective = MItem->GetThresholdR()->Effective;
-					int x1, y1, x2, y2;
-					MItem->GetXY(x1, y1, x2, y2);
-					L->Data.ItemID = MItem->GetID();
-					L->Data.x1 = x1;
-					L->Data.y1 = y1;
-					L->Data.x2 = x2;
-					L->Data.y2 = y2;
-					L->LimitedLib = *((AlgorithmLibraryListContainer*)&MItem->GetThresholdR()->SelAreaID);
 
-					#pragma omp critical
-					{
-						MaskInfo.AppendList(L);
-					}
-				}
-			}
-			delete[]ItemDim;
-		}
+		CmdMakeMaskInfo	Cmd(GetLayersBase());
+		Cmd.IneffectiveMode			=IneffectiveMode		;
+		Cmd.EffectiveMode			=EffectiveMode			;
+		Cmd.IneffectiveLimitedMode	=IneffectiveLimitedMode	;
+		Cmd.EffectiveLimitedMode	=EffectiveLimitedMode	;
+		Cmd.MaskInfo = &MaskInfo;
+		PLayer->TransmitDirectly(&Cmd);
 	}
 }
 
@@ -380,45 +283,55 @@ void	GUICmdSendMaskList::MakeMaskListLayers(AlgorithmBase* MaskingBase
 				, bool EffectiveLimitedMode, bool IneffectiveLimitedMode
 				, int localPage, LayersBase* PBase)
 {
-	AlgorithmInPagePLI* PData = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+	AlgorithmInPageRoot* PData = MaskingBase->GetPageData(localPage);
 	int	LayerCount = MaskingBase->GetLayerNumb(localPage);
 	#pragma omp parallel for
 	for (int layer = 0; layer < LayerCount; layer++) {
 		MaskingListForPacketPack	iMaskInfo;
 		AlgorithmInLayerRoot* PLayer = PData->GetLayerData(layer);
-		MaskingInLayer* MaskingLayer = dynamic_cast<MaskingInLayer*>(PLayer);
-		if (MaskingLayer != NULL) {
-			int	ItemCount = MaskingLayer->GetItemCount();
-			AlgorithmItemPLI** ItemDim = new AlgorithmItemPLI * [ItemCount];
-			int	k = 0;
-			for (AlgorithmItemPLI* item = MaskingLayer->GetFirstData(); item != NULL; item = item->GetNext()) {
-				ItemDim[k] = item;
-				k++;
-			}
-			for (int j = 0; j < ItemCount; j++) {
-				MaskingItem* MItem = dynamic_cast<MaskingItem*>(ItemDim[j]);
-				if (MItem != NULL
-					&& ((EffectiveMode == true && MItem->GetThresholdR()->Effective == true && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == false)
-						|| (IneffectiveMode == true && MItem->GetThresholdR()->Effective == false && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == false)
-						|| (EffectiveLimitedMode == true && MItem->GetThresholdR()->Effective == true && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == true)
-						|| (IneffectiveLimitedMode == true && MItem->GetThresholdR()->Effective == false && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == true))) {
-					MaskingListForPacket* L = new MaskingListForPacket();
-					L->Data.Page = PBase->GetGlobalPageFromLocal(localPage);
-					L->Data.Layer = layer;
-					L->Data.Effective = MItem->GetThresholdR()->Effective;
-					int x1, y1, x2, y2;
-					MItem->GetXY(x1, y1, x2, y2);
-					L->Data.ItemID = MItem->GetID();
-					L->Data.x1 = x1;
-					L->Data.y1 = y1;
-					L->Data.x2 = x2;
-					L->Data.y2 = y2;
-					L->LimitedLib = *((AlgorithmLibraryListContainer*)&MItem->GetThresholdR()->SelAreaID);
-					iMaskInfo.AppendList(L);
-				}
-			}
-			delete[]ItemDim;
-		}
+
+		CmdMakeMaskInfo	Cmd(GetLayersBase());
+		Cmd.IneffectiveMode			=IneffectiveMode		;
+		Cmd.EffectiveMode			=EffectiveMode			;
+		Cmd.IneffectiveLimitedMode	=IneffectiveLimitedMode	;
+		Cmd.EffectiveLimitedMode	=EffectiveLimitedMode	;
+		Cmd.MaskInfo = &iMaskInfo;
+		PLayer->TransmitDirectly(&Cmd);
+
+		//
+		//MaskingInLayer* MaskingLayer = dynamic_cast<MaskingInLayer*>(PLayer);
+		//if (MaskingLayer != NULL) {
+		//	int	ItemCount = MaskingLayer->GetItemCount();
+		//	AlgorithmItemPLI** ItemDim = new AlgorithmItemPLI * [ItemCount];
+		//	int	k = 0;
+		//	for (AlgorithmItemPLI* item = MaskingLayer->GetFirstData(); item != NULL; item = item->GetNext()) {
+		//		ItemDim[k] = item;
+		//		k++;
+		//	}
+		//	for (int j = 0; j < ItemCount; j++) {
+		//		MaskingItem* MItem = dynamic_cast<MaskingItem*>(ItemDim[j]);
+		//		if (MItem != NULL
+		//			&& ((EffectiveMode == true			&& MItem->GetThresholdR()->Effective == true  && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == false)
+		//			 || (IneffectiveMode == true		&& MItem->GetThresholdR()->Effective == false && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == false)
+		//			 || (EffectiveLimitedMode == true	&& MItem->GetThresholdR()->Effective == true  && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == true)
+		//			 || (IneffectiveLimitedMode == true && MItem->GetThresholdR()->Effective == false && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == true))) {
+		//			MaskingListForPacket* L = new MaskingListForPacket();
+		//			L->Data.Page = PBase->GetGlobalPageFromLocal(localPage);
+		//			L->Data.Layer = layer;
+		//			L->Data.Effective = MItem->GetThresholdR()->Effective;
+		//			int x1, y1, x2, y2;
+		//			MItem->GetXY(x1, y1, x2, y2);
+		//			L->Data.ItemID = MItem->GetID();
+		//			L->Data.x1 = x1;
+		//			L->Data.y1 = y1;
+		//			L->Data.x2 = x2;
+		//			L->Data.y2 = y2;
+		//			L->LimitedLib = *((AlgorithmLibraryListContainer*)&MItem->GetThresholdR()->SelAreaID);
+		//			iMaskInfo.AppendList(L);
+		//		}
+		//	}
+		//	delete[]ItemDim;
+		//}
 		#pragma omp critical
 		{
 			MaskInfo += iMaskInfo;
@@ -509,7 +422,7 @@ void	GUICmdGenerateMaskInSameColor::Receive(int32 localPage, int32 cmd, QString&
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase == NULL)
 		return;
-	AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+	AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 	if (MaskPage == NULL)
 		return;
 
@@ -676,7 +589,7 @@ void	GUICmdPourOnMouseLDown::Receive(int32 localPage, int32 cmd, QString& Emitte
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase == NULL)
 		return;
-	AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+	AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 	if (MaskPage == NULL)
 		return;
 	CmdPourAreaPacket	Cmd(this);
@@ -799,7 +712,7 @@ void	GUICmdPickupArea::Receive(int32 localPage, int32 cmd, QString& EmitterRoot,
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase == NULL)
 		return;
-	AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+	AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 	if (MaskPage == NULL)
 		return;
 	CmdPickupAreaPacket	Cmd(this);
@@ -847,7 +760,7 @@ void	GUICmdExpandMask::Receive(int32 localPage, int32 cmd, QString& EmitterRoot,
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase == NULL)
 		return;
-	AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+	AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 	if (MaskPage == NULL)
 		return;
 
@@ -868,7 +781,7 @@ void	GUICmdReplaceInclusiveMask::Receive(int32 localPage, int32 cmd, QString& Em
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase == NULL)
 		return;
-	AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+	AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 	if (MaskPage == NULL)
 		return;
 
@@ -891,7 +804,7 @@ void	GUICmdReqLimitedLibMask::Receive(int32 localPage, int32 cmd, QString& Emitt
 
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase != NULL) {
-		AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+		AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 		if (MaskPage != NULL) {
 			CmdReqLimitedLibMask	Cmd(GetLayersBase());
 			MaskPage->TransmitDirectly(&Cmd);
@@ -945,7 +858,7 @@ void	GUICmdMaskingMakeBackGround::Receive(int32 localPage, int32 cmd ,QString &E
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase == NULL)
 		return;
-	AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+	AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 	if (MaskPage == NULL)
 		return;
 
@@ -968,7 +881,7 @@ void	GUICmdClearMakeBackGround::Receive(int32 localPage, int32 cmd ,QString &Emi
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase == NULL)
 		return;
-	AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+	AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 	if (MaskPage == NULL)
 		return;
 
@@ -979,154 +892,7 @@ void	GUICmdClearMakeBackGround::Receive(int32 localPage, int32 cmd ,QString &Emi
 }
 
 //==============================================================================================
-MaskingBindedList::BindedInPage::BindedInLayer::BindedInLayer(const MaskingBindedList::BindedInPage::BindedInLayer &src)
-	:Parent(src.Parent)
-{
-	Layer	=src.Layer;
-	ItemIDs	=src.ItemIDs;
-}
 
-bool	MaskingBindedList::BindedInPage::BindedInLayer::Save(QIODevice *f)
-{
-	if(::Save(f,Layer)==false)
-		return false;
-	if(ItemIDs.Save(f)==false)
-		return false;
-	return true;
-}
-bool	MaskingBindedList::BindedInPage::BindedInLayer::Load(QIODevice *f)
-{
-	if(::Load(f,Layer)==false)
-		return false;
-	if(ItemIDs.Load(f)==false)
-		return false;
-	return true;
-}
-MaskingBindedList::BindedInPage::BindedInLayer &MaskingBindedList::BindedInPage::BindedInLayer::operator=(const MaskingBindedList::BindedInPage::BindedInLayer &src)
-{
-	Layer	=src.Layer;
-	ItemIDs	=src.ItemIDs;
-	return *this;
-}
-
-void	MaskingBindedList::BindedInPage::BindedInLayerContainer::Merge(BindedInLayerContainer &Src)
-{
-	for(BindedInLayer *s=Src.GetFirst();s!=NULL;s=s->GetNext()){
-		BindedInLayer *d=FindByLayer(s->Layer);
-		if(d!=NULL){
-			d->ItemIDs.Merge(s->ItemIDs);
-		}
-		else{
-			BindedInLayer	*m=new BindedInLayer(Parent);
-			*m=*s;
-			AppendList(m);
-		}
-	}
-}
-MaskingBindedList::BindedInPage::BindedInLayerContainer &MaskingBindedList::BindedInPage::BindedInLayerContainer::operator=(const MaskingBindedList::BindedInPage::BindedInLayerContainer &src)
-{
-	RemoveAll();
-	for(BindedInLayer *s=src.GetFirst();s!=NULL;s=s->GetNext()){
-		BindedInLayer	*m=new BindedInLayer(Parent);
-		*m=*s;
-		AppendList(m);
-	}
-	return *this;
-}
-
-MaskingBindedList::BindedInPage::BindedInLayer	*MaskingBindedList::BindedInPage::BindedInLayerContainer::FindByLayer(int layer)
-{
-	for(BindedInLayer *s=GetFirst();s!=NULL;s=s->GetNext()){
-		if(s->Layer==layer){
-			return s;
-		}
-	}
-	return NULL;
-}
-
-MaskingBindedList::BindedInPage::BindedInPage(const MaskingBindedList::BindedInPage &src)
-	:BindedInLayerContainerInst(this),Parent(src.Parent)
-{
-	Page=src.Page;
-	BindedInLayerContainerInst=src.BindedInLayerContainerInst;
-}
-bool	MaskingBindedList::BindedInPage::Save(QIODevice *f)
-{
-	if(::Save(f,Page)==false)
-		return false;
-	if(BindedInLayerContainerInst.Save(f)==false)
-		return false;
-	return true;
-}
-
-bool	MaskingBindedList::BindedInPage::Load(QIODevice *f)
-{
-	if(::Load(f,Page)==false)
-		return false;
-	if(BindedInLayerContainerInst.Load(f)==false)
-		return false;
-	return true;
-}
-
-MaskingBindedList::BindedInPage &MaskingBindedList::BindedInPage::operator=(const MaskingBindedList::BindedInPage &src)
-{
-	Page=src.Page;
-	BindedInLayerContainerInst=src.BindedInLayerContainerInst;
-	return *this;
-}
-
-void	MaskingBindedList::BindedInPageContainer::Merge(BindedInPageContainer &Src)
-{
-	for(BindedInPage *s=Src.GetFirst();s!=NULL;s=s->GetNext()){
-		bool	Found=false;
-		for(BindedInPage *d=GetFirst();d!=NULL;d=d->GetNext()){
-			if(s->Page==d->Page){
-				d->BindedInLayerContainerInst.Merge(s->BindedInLayerContainerInst);
-				Found=true;
-				break;
-			}
-		}
-		if(Found==false){
-			BindedInPage	*m=new BindedInPage(Parent);
-			*m=*s;
-			AppendList(m);
-		}
-	}
-}
-MaskingBindedList::BindedInPageContainer &MaskingBindedList::BindedInPageContainer::operator=(const MaskingBindedList::BindedInPageContainer &src)
-{
-	RemoveAll();
-	for(BindedInPage *s=src.GetFirst();s!=NULL;s=s->GetNext()){
-		BindedInPage	*m=new BindedInPage(Parent);
-		*m=*s;
-		AppendList(m);
-	}
-	return *this;
-}
-
-bool	MaskingBindedList::Save(QIODevice *f)
-{
-	if(BindedInPageContainerInst.Save(f)==false)
-		return false;
-	if(LimitedLib.Save(f)==false)
-		return false;
-	return true;
-}
-
-bool	MaskingBindedList::Load(QIODevice *f)
-{
-	if(BindedInPageContainerInst.Load(f)==false)
-		return false;
-	if(LimitedLib.Load(f)==false)
-		return false;
-	return true;
-}
-MaskingBindedList &MaskingBindedList::operator=(const MaskingBindedList &src)
-{
-	BindedInPageContainerInst=src.BindedInPageContainerInst;
-	LimitedLib=src.LimitedLib;
-	return *this;
-}
 
 GUICmdReqBindedLimitedLibMask::GUICmdReqBindedLimitedLibMask(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
 :GUICmdPacketBase(Base, EmitterRoot, EmitterName, typeid(this).name(), globalPage)
@@ -1138,52 +904,15 @@ void	GUICmdReqBindedLimitedLibMask::Receive(int32 localPage, int32 cmd ,QString 
 
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase != NULL) {
-		AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+		AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 		if (MaskPage != NULL) {
 			for(int layer=0;layer<GetLayerNumb(localPage);layer++){
-				AlgorithmInLayerPLI *AL=MaskPage->GetLayerDataPLI(layer);
+				AlgorithmInLayerRoot *AL=MaskPage->GetLayerData(layer);
 				if(AL!=NULL){
-					for(AlgorithmItemPLI *AItem=AL->GetFirstData();AItem!=NULL;AItem=AItem->GetNext()){
-						MaskingItem	*MItem=dynamic_cast<MaskingItem *>(AItem);
-						if(MItem!=NULL){
+					CmdMaskingBindedList	Cmd(GetLayersBase());
+					AL->TransmitDirectly(&Cmd);
 
-							CmdReqLimitedLibMaskInItem	Cmd(GetLayersBase());
-							Cmd.ItemID=MItem->GetID();
-							AL->TransmitDirectly(&Cmd);
-							bool	Found=false;
-							for(MaskingBindedList *b=SendBack->InstList.GetFirst();b!=NULL;b=b->GetNext()){
-								if(b->LimitedLib==*Cmd.SelAreaID){
-									MaskingBindedList::BindedInPage	*Bp=b->BindedInPageContainerInst.GetFirst();
-									MaskingBindedList::BindedInPage::BindedInLayer *e=Bp->BindedInLayerContainerInst.FindByLayer(layer);
-									if(e!=NULL){
-										e->ItemIDs.Add(MItem->GetID());
-									}
-									else{
-										MaskingBindedList::BindedInPage::BindedInLayer *E=new MaskingBindedList::BindedInPage::BindedInLayer(Bp);
-										E->Layer=layer;
-										E->ItemIDs.Add(MItem->GetID());
-										Bp->BindedInLayerContainerInst.AppendList(E);
-									}
-									Found=true;
-									break;
-								}
-							}
-							if(Found==false){
-								MaskingBindedList	*B=new MaskingBindedList();
-								B->LimitedLib=*Cmd.SelAreaID;
-								MaskingBindedList::BindedInPage	*Bp=new MaskingBindedList::BindedInPage(B);
-								Bp->Page=0;
-								B->BindedInPageContainerInst.AppendList(Bp);
-
-								MaskingBindedList::BindedInPage::BindedInLayer *E=new MaskingBindedList::BindedInPage::BindedInLayer(Bp);
-								E->Layer=layer;
-								E->ItemIDs.Add(MItem->GetID());
-								Bp->BindedInLayerContainerInst.AppendList(E);
-
-								SendBack->InstList.AppendList(B);
-							}
-						}
-					}
+					SendBack->InstList.AddMove(Cmd.InstList);
 				}
 			}
 		}
@@ -1232,12 +961,12 @@ void	GUICmdSetBindedLimitedLibMask::Receive(int32 localPage, int32 cmd ,QString 
 {
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase != NULL) {
-		AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+		AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 		if (MaskPage != NULL) {
 			for(MaskingBindedList *b=InstList.GetFirst();b!=NULL;b=b->GetNext()){
 				MaskingBindedList::BindedInPage	*Bp=b->BindedInPageContainerInst.GetFirst();
 				for(MaskingBindedList::BindedInPage::BindedInLayer *BL=Bp->BindedInLayerContainerInst.GetFirst();BL!=NULL;BL=BL->GetNext()){
-					AlgorithmInLayerPLI *AL=MaskPage->GetLayerDataPLI(BL->Layer);
+					AlgorithmInLayerRoot *AL=MaskPage->GetLayerData(BL->Layer);
 					if(AL!=NULL){
 						for(IntClass *c=BL->ItemIDs.GetFirst();c!=NULL;c=c->GetNext()){
 							CmdSetLimitedLibMaskInItem	Cmd(GetLayersBase());
@@ -1278,9 +1007,9 @@ void	GUICmdSelectBindedLimitedLibMask::Receive(int32 localPage, int32 cmd ,QStri
 {
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase != NULL) {
-		AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+		AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 		if (MaskPage != NULL) {
-			AlgorithmInLayerPLI *AL=MaskPage->GetLayerDataPLI(Layer);
+			AlgorithmInLayerRoot *AL=MaskPage->GetLayerData(Layer);
 			for(IntClass *c=ItemIDs.GetFirst();c!=NULL;c=c->GetNext()){
 				AlgorithmItemRoot	*Item=AL->SearchIDItem(c->GetValue());
 				Item->SetSelected(true);
@@ -1299,7 +1028,7 @@ void	GUICmdReqMaskCount::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase!=NULL){
-		AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+		AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 		if (MaskPage!=NULL) {
 			CmdReqUsedLimitedMaskCount	RCmd(GetLayersBase());
 			MaskPage->TransmitDirectly(&RCmd);
@@ -1356,7 +1085,7 @@ void	GUICmdGenerateMaskOnSelectedItemsEdge::Receive(int32 localPage, int32 cmd ,
 {
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase!=NULL){
-		AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+		AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 		if (MaskPage!=NULL) {
 			CmdGenerateMaskOnSelectedItemsEdge	RCmd(GetLayersBase());
 			RCmd.Effective	=Effective	;
@@ -1399,7 +1128,7 @@ void	GUICmdGeneratePatternEdgeOnSelected::Receive(int32 localPage, int32 cmd ,QS
 {
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase!=NULL){
-		AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+		AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 		if (MaskPage!=NULL) {
 			CmdGeneratePatternEdgeOnSelected	RCmd(GetLayersBase());
 			RCmd.Effective	=Effective	;
@@ -1437,12 +1166,13 @@ void	GUICmdReflectSelection::Receive(int32 localPage, int32 cmd ,QString &Emitte
 {
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase!=NULL){
-		AlgorithmInPagePLI	*MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*MaskPage = MaskingBase->GetPageData(localPage);
 		if (MaskPage!=NULL) {
-			AlgorithmInLayerPLI *Lp=(AlgorithmInLayerPLI *)MaskPage->GetLayerData(Layer);
+			AlgorithmInLayerRoot *Lp=MaskPage->GetLayerData(Layer);
 			if(Lp!=NULL){
-				Lp->ReleaseAllSelectedItem();
-				Lp->SelectItems(Items);
+				CmdReflectSelection	Cmd(GetLayersBase());
+				Cmd.Items=Items;
+				Lp->TransmitDirectly(&Cmd);
 			}
 		}
 	}
@@ -1476,9 +1206,9 @@ void	GUICmdReqRemoveMask::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	if (MaskingBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ah=MaskingBase->GetPageDataPhase(Phase);
 		if(Ah!=NULL){
-			AlgorithmInPagePLI	*MaskPage = dynamic_cast<AlgorithmInPagePLI*>(Ah->GetPageData(localPage));
+			AlgorithmInPageRoot	*MaskPage = Ah->GetPageData(localPage);
 			if(MaskPage!=NULL) {
-				AlgorithmInLayerPLI *Lp=(AlgorithmInLayerPLI *)MaskPage->GetLayerData(Layer);
+				AlgorithmInLayerRoot*Lp=MaskPage->GetLayerData(Layer);
 				if(Lp!=NULL){
 					CmdRemoveMaskItem	Cmd(GetLayersBase());
 					Cmd.ItemID=ItemID;
@@ -1514,7 +1244,7 @@ void	GUICmdSetItemSelection::Receive(int32 localPage, int32 cmd ,QString &Emitte
 {
 	AlgorithmBase* MaskingBase = GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if (MaskingBase!=NULL){
-		AlgorithmInPagePLI* MaskPage = dynamic_cast<AlgorithmInPagePLI*>(MaskingBase->GetPageData(localPage));
+		AlgorithmInPageRoot* MaskPage = MaskingBase->GetPageData(localPage);
 		if (MaskPage!=NULL) {
 			CmdSetItemSelection	RCmd(GetLayersBase());
 			RCmd.Effective	=Effective	;

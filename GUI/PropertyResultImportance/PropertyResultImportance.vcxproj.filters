@@ -44,10 +44,6 @@
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
-    
     <ClCompile Include="editimportanceform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,7 +56,9 @@
     <ClCompile Include="PropertyResultImportanceResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
+    <ClCompile Include="..\..\Algorithm\ResultImportance\XResultImportanceCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PropertyResultImportance.h">
@@ -69,8 +67,6 @@
     <ClInclude Include="propertyresultimportance_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    
     <ClInclude Include="XResultImportancePacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>

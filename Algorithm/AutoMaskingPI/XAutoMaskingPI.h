@@ -469,6 +469,50 @@ public:
 	CmdDeleteAutoMaskingPILibraryPacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 
+
+
+//=================================================================================
+
+class	AutoMaskingPIListForPacket : public NPList<AutoMaskingPIListForPacket>
+{
+public:
+	int		ItemID;
+	int		Page;
+	int		x1,y1,x2,y2;
+	bool	Effective;
+	AlgorithmLibraryListContainer	LimitedLib;
+	
+	AutoMaskingPIListForPacket(void){}
+
+	virtual	bool	Save(QIODevice *f);
+	virtual	bool	Load(QIODevice *f);
+
+	AutoMaskingPIListForPacket	&operator=(AutoMaskingPIListForPacket &src);
+};
+
+class	AutoMaskingPIListForPacketPack : public NPListPack<AutoMaskingPIListForPacket>
+{
+public:
+	AutoMaskingPIListForPacketPack(void){}
+
+	virtual	bool	Save(QIODevice *f);
+	virtual	bool	Load(QIODevice *f);
+
+	AutoMaskingPIListForPacketPack	&operator= (AutoMaskingPIListForPacketPack &src);
+	AutoMaskingPIListForPacketPack	&operator+=(AutoMaskingPIListForPacketPack &src);
+};
+
+class	CmdSendAutoMaskPIList : public GUIDirectMessage
+{
+public:
+	bool	IneffectiveMode;
+	bool	EffectiveMode;
+	AutoMaskingPIListForPacketPack	*MaskInfo;
+
+	CmdSendAutoMaskPIList(LayersBase *base):GUIDirectMessage(base){}
+	CmdSendAutoMaskPIList(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
+
 class	GUICmdReqSaveTargetImageForAutoMaskingPI : public GUICmdPacketBase
 {
 public:

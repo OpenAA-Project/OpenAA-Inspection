@@ -37,7 +37,7 @@ AddEditItemDialog::~AddEditItemDialog()
 
 void AddEditItemDialog::Initial(AlgorithmLibrary *Lib)
 {
-    AlignmentBlockLibrary   *ALib=dynamic_cast<AlignmentBlockLibrary *>(Lib);
+    AlignmentBlockLibrary   *ALib=static_cast<AlignmentBlockLibrary *>(Lib);
     if(ALib!=NULL){
         ui->spinBoxSearchDot		->setValue(ALib->SearchDot	);
         ui->doubleSpinBoxMaxDegree	->setValue(ALib->MaxDegree	);

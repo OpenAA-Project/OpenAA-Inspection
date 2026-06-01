@@ -44,16 +44,16 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="TreeMasterShowResultForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\PropertyTreeMaster\XTreeMasterPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
     <ClCompile Include="TreeMasterShowResultListResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Algorithm\TreeMaster\XTreeMasterCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -64,7 +64,6 @@
     <ClInclude Include="treemastershowresultlist_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
     <ClInclude Include="TreeMasterShowResultListResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -363,7 +363,7 @@ void	GUICmdReqAlignmentFlexAreaPutArea::Receive(int32 localPage, int32 cmd ,QStr
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=AlignBase->GetPageData(localPage);
 	if(PData!=NULL){
 		AddAlignmentFlexAreaAreaPacket	RCmd(GetLayersBase());
 		RCmd.Area			=Area	;
@@ -427,7 +427,7 @@ void	GUICmdReqModifyAlignmentFlexAreaAreaInfo::Receive(int32 localPage, int32 cm
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=AlignBase->GetPageData(localPage);
 	if(PData!=NULL){
 		ModifyAlignmentFlexAreaAreaPacket	RCmd(GetLayersBase());
 		RCmd.AreaID				=AreaID;
@@ -475,24 +475,22 @@ void	GUICmdSendAlignmentFlexAreaAreaList::MakeAreaList(int localPage,LayersBase 
 	if(AlignBase==NULL)
 		return;
 	Area.RemoveAll();
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=AlignBase->GetPageData(localPage);
 	if(PData!=NULL){
-		AlignmentFlexAreaInPage	*Ap=dynamic_cast<AlignmentFlexAreaInPage *>(PData);
-		if(Ap!=NULL){
-			int	N=0;
-			for(XAlignmentFlexAreaArea *a=Ap->Areas.GetFirst();a!=NULL;a=a->GetNext(),N++){
-				AlignmentFlexAreaAreaList	*L=new AlignmentFlexAreaAreaList();
-				L->Number			=N;
-				L->AreaID			=a->AreaID;
-				L->AreaName			=a->AreaName;
-				L->GlobalPage		=PBase->GetGlobalPageFromLocal(localPage);
-				L->XSize			=a->Area.GetWidth();
-				L->YSize			=a->Area.GetHeight();
-				L->LimitedLib		=a->LimitedLib;
-				L->LibToCreateItems	=a->LibToCreateItems;
-				L->Priority			=a->Priority;
-				Area.AppendList(L);
-			}
+		AlignmentFlexAreaInPage	*Ap=static_cast<AlignmentFlexAreaInPage *>(PData);
+		int	N=0;
+		for(XAlignmentFlexAreaArea *a=Ap->Areas.GetFirst();a!=NULL;a=a->GetNext(),N++){
+			AlignmentFlexAreaAreaList	*L=new AlignmentFlexAreaAreaList();
+			L->Number			=N;
+			L->AreaID			=a->AreaID;
+			L->AreaName			=a->AreaName;
+			L->GlobalPage		=PBase->GetGlobalPageFromLocal(localPage);
+			L->XSize			=a->Area.GetWidth();
+			L->YSize			=a->Area.GetHeight();
+			L->LimitedLib		=a->LimitedLib;
+			L->LibToCreateItems	=a->LibToCreateItems;
+			L->Priority			=a->Priority;
+			Area.AppendList(L);
 		}
 	}
 }
@@ -549,17 +547,15 @@ void	GUICmdSendWholeMatchList::MakeWholeMatchList(int localPage,LayersBase *PBas
 	if(AlignBase==NULL)
 		return;
 	WholeMatchInfo.RemoveAll();
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=AlignBase->GetPageData(localPage);
 	if(PData!=NULL){
-		AlignmentFlexAreaInPage	*Ap=dynamic_cast<AlignmentFlexAreaInPage *>(PData);
-		if(Ap!=NULL){
-			for(int	N=0;N<Ap->WholeMatchData.SImageNumb;N++){
-				AlignmentWholeMatchList	*L=new AlignmentWholeMatchList();
-				L->ID			=N;
-				L->GlobalPage		=PBase->GetGlobalPageFromLocal(localPage);
-				L->Division			=Ap->WholeMatchData.SImageInfo[N]->Division;
-				WholeMatchInfo.AppendList(L);
-			}
+		AlignmentFlexAreaInPage	*Ap=static_cast<AlignmentFlexAreaInPage *>(PData);
+		for(int	N=0;N<Ap->WholeMatchData.SImageNumb;N++){
+			AlignmentWholeMatchList	*L=new AlignmentWholeMatchList();
+			L->ID			=N;
+			L->GlobalPage		=PBase->GetGlobalPageFromLocal(localPage);
+			L->Division			=Ap->WholeMatchData.SImageInfo[N]->Division;
+			WholeMatchInfo.AppendList(L);
 		}
 	}
 }
@@ -614,7 +610,7 @@ void	GUICmdSendAddManualAlignmentFlexArea::Receive(int32 localPage, int32 cmd ,Q
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -656,7 +652,7 @@ void	GUICmdPickupTestList::Receive(int32 localPage, int32 cmd ,QString &EmitterR
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
@@ -696,7 +692,7 @@ void	GUICmdGenerateAlignmentFlexAreas::Receive(int32 localPage, int32 cmd ,QStri
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
@@ -736,7 +732,7 @@ void	GUICmdGenerateAlignmentFlexAreaFromMask::Receive(int32 localPage, int32 cmd
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
@@ -770,7 +766,7 @@ void	GUICmdDeleteArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
@@ -793,7 +789,7 @@ void	GUICmdTestClear::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
@@ -828,7 +824,7 @@ void	GUICmdReqAlignmentFlexAreaPointList::Receive(int32 localPage, int32 cmd ,QS
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	CmdReqAlignmentFlexAreaInfoListPack	RCmd(GetLayersBase());
@@ -958,7 +954,7 @@ void	GUICmdReqAlignmentFlexAreaItemPack::Receive(int32 localPage, int32 cmd ,QSt
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	CmdReqAlignmentFlexAreaItemtPack	RCmd(GetLayersBase());
@@ -1151,7 +1147,7 @@ void	GUICmdCreateAreaInMaskingArea::Receive(int32 localPage, int32 cmd ,QString 
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentFlexArea");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	CmdCreateAreaInMaskingArea	RCmd(GetLayersBase());

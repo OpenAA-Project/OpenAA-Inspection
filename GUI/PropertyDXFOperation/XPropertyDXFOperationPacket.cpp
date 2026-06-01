@@ -54,11 +54,10 @@ bool	GUICmdLoadDXF::Save(QIODevice *f)
 
 void	GUICmdLoadDXF::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	DXFOperationBase	*PBase=(DXFOperationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
+	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
 	if(PBase==NULL)
 		return;
-	DXFOperationInPage	*PPage;
-	PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdLoadDXF	Da(GetLayersBase());
 		Da.FileName		=FileName;
@@ -112,7 +111,7 @@ void	GUICmdMove::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QStrin
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdDXFMove	Cmd(GetLayersBase());
 		Cmd.XDir=XDir;
@@ -165,7 +164,7 @@ void	GUICmdRotate::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QStr
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdDXFRotate	Cmd(GetLayersBase());
 		Cmd.Angle=Angle;
@@ -223,7 +222,7 @@ void	GUICmdZoom::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QStrin
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdDXFZoom	Cmd(GetLayersBase());
 		Cmd.XZoomDir=XZoomDir;
@@ -282,7 +281,7 @@ void	GUICmdShear::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QStri
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdDXFShear	Cmd(GetLayersBase());
 		Cmd.XMode=XMode;
@@ -336,7 +335,7 @@ void	GUICmdMirror::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QStr
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdDXFMirror	Cmd(GetLayersBase());
 		Cmd.XMode=XMode;
@@ -397,7 +396,7 @@ void	GUICmdCenterize::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdDXFCenterize	Cmd(GetLayersBase());
 		Cmd.MovX=MovX;
@@ -455,7 +454,7 @@ void	GUICmdCenterizeOnly::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdDXFCenterizeOnly	Cmd(GetLayersBase());
 		Cmd.MovX=MovX;
@@ -482,7 +481,7 @@ void	GUICmdReqDXFArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
 	if(PBase==NULL)
 		return;
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqDXFArea	Da(GetLayersBase());
 		PPage->TransmitDirectly(&Da);
@@ -543,7 +542,7 @@ void	GUICmdReqDXFLayerInfo::Receive(int32 localPage, int32 cmd ,QString &Emitter
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
 	if(PBase==NULL)
 		return;
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	DXFOperationInPage	*PPage=static_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
 	if(PPage!=NULL){
 		SendBack->DXFLayerList=PPage->DXFLayerList;
 	}
@@ -594,7 +593,7 @@ void	GUICmdSetLineWidth::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
 	if(PBase==NULL)
 		return;
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdSetLineWidth	Da(GetLayersBase());
 		Da.LineWidth=LineWidth;
@@ -747,7 +746,7 @@ bool	GUICmdDXFDrawMode::Load(QIODevice *f)
 void	GUICmdDXFDrawMode::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
-	DXFOperationInPage	*GPage	=(DXFOperationInPage *)Base->GetPageData(localPage);
+	DXFOperationInPage	*GPage	=static_cast<DXFOperationInPage *>(Base->GetPageData(localPage));
 
 	GPage->MoveMode				=MoveMode;
 	GPage->RotateMode			=RotateMode;
@@ -808,7 +807,7 @@ bool	GUICmdMakeAlgo::Save(QIODevice *f)
 void	GUICmdMakeAlgo::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdMakeAlgo	Da(GetLayersBase());
 		Da.LibType	=LibType;
@@ -843,7 +842,7 @@ bool	GUICmdMakeAlgoFillArea::Save(QIODevice *f)
 void	GUICmdMakeAlgoFillArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdMakeAlgoFillArea	Da(GetLayersBase());
 		Da.LibType	=LibType;
@@ -885,7 +884,7 @@ bool	GUICmdMakeAlgoByColor::Save(QIODevice *f)
 void	GUICmdMakeAlgoByColor::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdMakeAlgoByColor	Da(GetLayersBase());
 		Da.ColorCode=ColorCode;
@@ -906,7 +905,7 @@ GUICmdMatchAutomatic::GUICmdMatchAutomatic(LayersBase *Base ,const QString &Emit
 void	GUICmdMatchAutomatic::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdMatchAutomatic	Da(GetLayersBase());
 		PPage->TransmitDirectly(&Da);
@@ -954,7 +953,7 @@ bool	GUICmdSelectInColor::Save(QIODevice *f)
 void	GUICmdSelectInColor::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdSelectInColor	Da(GetLayersBase());
 		Da.PickupRL=PickupRL;
@@ -984,7 +983,7 @@ void	GUICmdReqColorFromDXF::Receive(int32 localPage, int32 cmd ,QString &Emitter
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
 	if(PBase==NULL)
 		return;
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqColorFromDXF	Cmd(GetLayersBase());
 		PPage->TransmitDirectly(&Cmd);
@@ -1086,7 +1085,7 @@ void	GUICmdDXFDraw::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QSt
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
 	if(PBase==NULL)
 		return;
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdMakeDXFPaint	Cmd(GetLayersBase());
 		Cmd.LocalX=LocalX;
@@ -1118,7 +1117,7 @@ void	GUICmdSelectFileNo::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
 	if(PBase==NULL)
 		return;
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdSelectFileNo	Cmd(GetLayersBase());
 		Cmd.FileNo=FileNo;
@@ -1148,7 +1147,7 @@ void	GUICmdReqAllocationLibByColor::Receive(int32 localPage, int cmd ,QString &E
 {
 	GUICmdAckAllocationLibByColor	*SendBack=GetSendBack(GUICmdAckAllocationLibByColor,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
-	DXFOperationBase *BBase=(DXFOperationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DXFOperation");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DXFOperation");
 	if(BBase!=NULL){
 		CmdReqAllocationLibByColor	Cmd(GetLayersBase());
 		Cmd.ThresholdLevelID=LevelID;
@@ -1203,7 +1202,7 @@ bool	GUICmdSetAllocationLibByColor::Save(QIODevice *f)
 
 void	GUICmdSetAllocationLibByColor::Receive(int32 localPage, int cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	DXFOperationBase *BBase=(DXFOperationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DXFOperation");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DXFOperation");
 	if(BBase!=NULL){
 		CmdSetAllocationLibByColor	Cmd(GetLayersBase());
 		Cmd.ThresholdLevelID=LevelID;
@@ -1239,7 +1238,7 @@ void	GUICmdMakeEffectiveMask::Receive(int32 localPage, int cmd ,QString &Emitter
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
 	if(PBase==NULL)
 		return;
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdMakeEffectiveMask	Cmd(GetLayersBase());
 		Cmd.ShrinkDot=ShrinkDot;
@@ -1255,7 +1254,7 @@ void	GUICmdSendEffectiveMask::Receive(int32 localPage, int cmd ,QString &Emitter
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
 	if(PBase==NULL)
 		return;
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdSendEffectiveMask	Cmd(GetLayersBase());
 		PPage->TransmitDirectly(&Cmd);
@@ -1284,7 +1283,7 @@ void	GUICmdSetDXFWithSelfTransform::Receive(int32 localPage, int cmd ,QString &E
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
 	if(PBase==NULL)
 		return;
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdSetDXFWithSelfTransform	Cmd(GetLayersBase());
 		Cmd.DXFData=DXFData;
@@ -1307,7 +1306,7 @@ void	GUICmdReqDXFTransformInfo::Receive(int32 localPage, int32 cmd ,QString &Emi
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
 	if(PBase==NULL)
 		return;
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqDXFTransformInfo	Cmd(GetLayersBase());
 		PPage->TransmitDirectly(&Cmd);
@@ -1351,7 +1350,7 @@ void	GUICmdSetDXFTransformInfo::Receive(int32 localPage, int32 cmd ,QString &Emi
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DXFOperation");
 	if(PBase==NULL)
 		return;
-	DXFOperationInPage	*PPage=dynamic_cast<DXFOperationInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdSetDXFTransformInfo	Cmd(GetLayersBase());
 		Cmd.TransformData=TransformData;

@@ -262,7 +262,7 @@ void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	ProjectedInspectionLibrary	*ALib=dynamic_cast<ProjectedInspectionLibrary *>(data.GetLibrary());
+	ProjectedInspectionLibrary	*ALib=static_cast<ProjectedInspectionLibrary *>(data.GetLibrary());
 	ui->EditPickupL				->setValue(ALib->PickupL);
 	ui->EditPickupH				->setValue(ALib->PickupH);
 	ui->EditMinBlockSize		->setValue(ALib->MinBlockSize);
@@ -326,7 +326,7 @@ void	EditLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &dat
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	ProjectedInspectionLibrary	*ALib=dynamic_cast<ProjectedInspectionLibrary *>(data.GetLibrary());
+	ProjectedInspectionLibrary	*ALib=static_cast<ProjectedInspectionLibrary *>(data.GetLibrary());
 	ALib->PickupL			=ui->EditPickupL			->value();
 	ALib->PickupH			=ui->EditPickupH			->value();
 	ALib->MinBlockSize		=ui->EditMinBlockSize		->value();

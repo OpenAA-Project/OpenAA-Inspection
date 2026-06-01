@@ -334,7 +334,7 @@ void	EditMaskLibraryDialog::ShowTableSelect(void)
 
 void	EditMaskLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	MaskingLibrary	*d=dynamic_cast<MaskingLibrary *>(data.GetLibrary());
+	MaskingLibrary	*d=static_cast<MaskingLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->spinBoxLibID->setValue(0);
 	else
@@ -358,7 +358,7 @@ void	EditMaskLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 
 void	EditMaskLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	MaskingLibrary	*d=dynamic_cast<MaskingLibrary *>(data.GetLibrary());
+	MaskingLibrary	*d=static_cast<MaskingLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->lineEditLibName	->text());
 
 	if(ui->radioButtonEffective	->isChecked()==true)

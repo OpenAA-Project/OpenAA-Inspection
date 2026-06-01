@@ -42,7 +42,7 @@ PropertyEulerRingForm::PropertyEulerRingForm(LayersBase *Base ,QWidget *parent)
 	//LangSolver.SetUI(this);
 
 	LibFolderID =-1;
-	EulerRingBase	*BBase=GetEulerRingBase();
+	AlgorithmBase	*BBase=GetEulerRingBase();
 	LibType=-1;
 	if(BBase!=NULL)	
 		LibType=BBase->GetLibType();
@@ -103,9 +103,9 @@ PropertyEulerRingForm::~PropertyEulerRingForm()
 		delete	TempLib;
 }
 
-EulerRingBase	*PropertyEulerRingForm::GetEulerRingBase(void)
+AlgorithmBase	*PropertyEulerRingForm::GetEulerRingBase(void)
 {
-	return (EulerRingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"EulerRing");
+	return GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"EulerRing");
 }
 
 void	PropertyEulerRingForm::ShowTab(void)
@@ -128,7 +128,7 @@ void	PropertyEulerRingForm::TabBarBlockOnMouseChanged(int index)
 {
 	if(index>=0 && BInfo[index].EulerRingInfoOnMouse!=NULL){
 		ui.EditLibIDInBlock		->setText(QString::number(BInfo[index].EulerRingInfoOnMouse->GetLibID()));
-		EulerRingBase	*BBase=GetEulerRingBase();
+		AlgorithmBase	*BBase=GetEulerRingBase();
 		CmdGetLibName	Cmd(GetLayersBase());
 		Cmd.LibID	=BInfo[index].EulerRingInfoOnMouse->GetLibID();
 		BBase->TransmitDirectly(&Cmd);
@@ -155,7 +155,7 @@ void	PropertyEulerRingForm::TabBarBlockOnMouseChanged(int index)
 void	PropertyEulerRingForm::ShowLibList(void)
 {
 	ui.tableWidgetLibList->setRowCount(0);
-	EulerRingBase	*BBase=GetEulerRingBase();
+	AlgorithmBase	*BBase=GetEulerRingBase();
 	if(BBase!=NULL){
 		CmdGetEulerRingLibraryListPacket	Packet(GetLayersBase());
 		Packet.LibFolderID=LibFolderID;
@@ -202,7 +202,7 @@ void	PropertyEulerRingForm::BuildForShow(void)
 
 void	PropertyEulerRingForm::TransmitDirectly(GUIDirectMessage *packet)
 {
-	EulerRingBase	*BBase=GetEulerRingBase();
+	AlgorithmBase	*BBase=GetEulerRingBase();
 	CmdEulerRingDrawModePacket	*BDrawModePacket=dynamic_cast<CmdEulerRingDrawModePacket *>(packet);
 	if(BDrawModePacket!=NULL){
 		if(ui.toolButtonLibrary->isChecked()==true)
@@ -227,7 +227,7 @@ void	PropertyEulerRingForm::TransmitDirectly(GUIDirectMessage *packet)
 									,&PickupSamples
 									,this);
 				if(D.exec()==(int)true){
-					EulerRingLibrary	*ALib=dynamic_cast<EulerRingLibrary *>(TempLib->GetLibrary());
+					EulerRingLibrary	*ALib=static_cast<EulerRingLibrary *>(TempLib->GetLibrary());
 					if(ui.toolButtonHole->isChecked()==true){
 						ColorGeneratorH.Cube=D.ColorPanel.Cube;
 						ColorGeneratorH.InitializedDoneCube();
@@ -289,7 +289,7 @@ void	PropertyEulerRingForm::TransmitDirectly(GUIDirectMessage *packet)
 					Items.AppendList(new ListLayerAndID(0,a->ID));
 				}
 			}
-			if(Items.GetNumber()!=NULL){
+			if(Items.GetNumber()!=0){
 				GUICmdReqEulerRingFromList	ReqCmd(GetLayersBase(),sRoot,sName,page);
 				GUICmdAckEulerRingFromList	AckCmd(GetLayersBase(),sRoot,sName,page);
 				ReqCmd.CurrentItem=Items;
@@ -358,7 +358,7 @@ void	PropertyEulerRingForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	EulerRingLibrary	*ALib=dynamic_cast<EulerRingLibrary *>(data.GetLibrary());
+	EulerRingLibrary	*ALib=static_cast<EulerRingLibrary *>(data.GetLibrary());
 	ColorGeneratorH.Cube=ALib->HoleColor;
 	ColorGeneratorH.InitializedDoneCube();
 	ColorGeneratorH.Repaint();
@@ -376,7 +376,7 @@ void	PropertyEulerRingForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 void	PropertyEulerRingForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
 	data.SetLibName(ui.EditLibName	->text());
-	EulerRingLibrary	*ALib=dynamic_cast<EulerRingLibrary *>(data.GetLibrary());
+	EulerRingLibrary	*ALib=static_cast<EulerRingLibrary *>(data.GetLibrary());
 
 	ALib->NoiseSize			=ui.EditNoiseSize		->value();
 	ALib->InspectionColor	=ColorInspection.Cube;
@@ -402,7 +402,7 @@ void PropertyEulerRingForm::on_toolButtonCreateBlock_clicked()
 
 void PropertyEulerRingForm::on_pushButtonEditLibFolder_clicked()
 {
-	EulerRingBase	*BBase=GetEulerRingBase();
+	AlgorithmBase	*BBase=GetEulerRingBase();
 	int		RetSelectedLibFolderID;
 	QString RetSelectedFolderName;
 	if(ExeSelectLibFolderDialog(BBase->GetLibType(),GetLayersBase(),this
@@ -428,7 +428,7 @@ void PropertyEulerRingForm::on_tableWidgetLibList_clicked(const QModelIndex &Ind
 		TempLib->SetLibID(a->GetLibID());
 		CmdLoadEulerRingLibraryPacket	Packet(GetLayersBase());
 		Packet.Point=TempLib;
-		EulerRingBase	*BBase=GetEulerRingBase();
+		AlgorithmBase	*BBase=GetEulerRingBase();
 		if(BBase!=NULL){
 			BBase->TransmitDirectly(&Packet);
 			if(Packet.Success==true){
@@ -460,7 +460,7 @@ void	PropertyEulerRingForm::ShowSelectedLibList(void)
 {
 	struct	AlgorithmLibraryListClass	DDim[100];
 
-	EulerRingBase	*BBase=GetEulerRingBase();
+	AlgorithmBase	*BBase=GetEulerRingBase();
 	if(BBase!=NULL){
 		CmdCreateTempEulerRingLibraryPacket	Packet(GetLayersBase());
 		BBase->TransmitDirectly(&Packet);
@@ -549,7 +549,7 @@ void PropertyEulerRingForm::on_tableWidgetGeneratedLibList_clicked(const QModelI
 
 		CmdLoadEulerRingLibraryPacket	Packet(GetLayersBase());
 		Packet.Point=TempLib;
-		EulerRingBase	*BBase=GetEulerRingBase();
+		AlgorithmBase	*BBase=GetEulerRingBase();
 		if(BBase!=NULL){
 			BBase->TransmitDirectly(&Packet);
 			if(Packet.Success==true){
@@ -629,7 +629,7 @@ void PropertyEulerRingForm::on_ButtonLibSave_clicked()
 	}
 	CmdUpdateEulerRingLibraryPacket	Packet(GetLayersBase());
 	Packet.Point=TempLib;
-	EulerRingBase	*BBase=GetEulerRingBase();
+	AlgorithmBase	*BBase=GetEulerRingBase();
 	if(BBase!=NULL){
 		BBase->TransmitDirectly(&Packet);
 	}
@@ -654,7 +654,7 @@ void PropertyEulerRingForm::on_pushButtonGColor_clicked()
 		ColorGeneratorH.InitializedDoneCube();
 		ColorGeneratorH.Repaint();
 		if(TempLib!=NULL){
-			EulerRingLibrary	*ALib=dynamic_cast<EulerRingLibrary *>(TempLib->GetLibrary());
+			EulerRingLibrary	*ALib=static_cast<EulerRingLibrary *>(TempLib->GetLibrary());
 			ALib->HoleColor=D.ColorPanel.Cube;
 		}
 	}
@@ -693,7 +693,7 @@ void PropertyEulerRingForm::ShowBlockInfoList(void)
 		k->SetLibID(a->GetLibID());
 		LibIDList.AppendList(k);
 	}
-	EulerRingBase	*BBase=GetEulerRingBase();
+	AlgorithmBase	*BBase=GetEulerRingBase();
 	GetLayersBase()->GetDatabaseLoader()->G_GetLibraryNames(*GetLayersBase()->GetDataBase(),BBase->GetLibraryContainer(),LibIDList);
 	int	row=0;
 	for(EulerRingInfoList *a=EulerRingInfos.GetFirst();a!=NULL;a=a->GetNext(),row++){
@@ -738,7 +738,7 @@ void PropertyEulerRingForm::ShowBlockInfoList(void)
 
 void PropertyEulerRingForm::on_tableWidgetBlockInfo_clicked(const QModelIndex &)
 {
-	EulerRingBase	*BBase=GetEulerRingBase();
+	AlgorithmBase	*BBase=GetEulerRingBase();
 
 	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
 		GUICmdReleaseSelectImagePanel	Cmd(GetLayersBase(),sRoot,sName ,page);
@@ -780,7 +780,7 @@ void PropertyEulerRingForm::on_pushButtonCColor_clicked()
 		ColorGeneratorC.InitializedDoneCube();
 		ColorGeneratorC.Repaint();
 		if(TempLib!=NULL){
-			EulerRingLibrary	*ALib=dynamic_cast<EulerRingLibrary *>(TempLib->GetLibrary());
+			EulerRingLibrary	*ALib=static_cast<EulerRingLibrary *>(TempLib->GetLibrary());
 			ALib->CupperColor=D.ColorPanel.Cube;
 		}
 	}

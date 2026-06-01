@@ -166,9 +166,7 @@ void	CounterImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=GetAlgorithmBase();
 	if(Ab==NULL)
 		return;
-	CounterBase	*MBase=dynamic_cast<CounterBase *>(Ab);
-	if(MBase==NULL)
-		return;
+
 	GUIFormBase	*GProp=LBase->FindByName(/**/"Button" ,/**/"PropertyCounter" ,/**/"");
 	CmdCounterDrawEnd	Da(LBase);
 	if(GProp!=NULL){

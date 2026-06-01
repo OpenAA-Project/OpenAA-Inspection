@@ -227,6 +227,7 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Algorithm\DotColorMatching\XDotColorMatchingCommon.cpp" />
     <ClCompile Include="..\..\GeneralSource\XDisplaySimPanel.cpp" />
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />

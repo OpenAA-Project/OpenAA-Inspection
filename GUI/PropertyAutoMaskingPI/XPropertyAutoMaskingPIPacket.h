@@ -65,37 +65,6 @@ public:
 	CmdAutoMaskingPIDrawModePacket(LayersBase *base):GUIDirectMessage(base){}
 };
 
-//=================================================================================
-
-class	AutoMaskingPIListForPacket : public NPList<AutoMaskingPIListForPacket>
-{
-public:
-	int		ItemID;
-	int		Page;
-	int		x1,y1,x2,y2;
-	bool	Effective;
-	AlgorithmLibraryListContainer	LimitedLib;
-	
-	AutoMaskingPIListForPacket(void){}
-
-	virtual	bool	Save(QIODevice *f);
-	virtual	bool	Load(QIODevice *f);
-
-	AutoMaskingPIListForPacket	&operator=(AutoMaskingPIListForPacket &src);
-};
-
-class	AutoMaskingPIListForPacketPack : public NPListPack<AutoMaskingPIListForPacket>
-{
-public:
-	AutoMaskingPIListForPacketPack(void){}
-
-	virtual	bool	Save(QIODevice *f);
-	virtual	bool	Load(QIODevice *f);
-
-	AutoMaskingPIListForPacketPack	&operator= (AutoMaskingPIListForPacketPack &src);
-	AutoMaskingPIListForPacketPack	&operator+=(AutoMaskingPIListForPacketPack &src);
-};
-
 //===========================================================================
 
 class	GUICmdReqAutoMaskPIList : public GUICmdPacketBase

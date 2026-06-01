@@ -1158,7 +1158,7 @@ GUIFormBase	*PropertyAlignmentLargeForm::GetImageControlToolsPointer(void)
 	QString	ImageName=ImagePanel->GetName();
 
 	for(int i=0;i<N;i++){
-		ImageControlTools	*p=dynamic_cast<ImageControlTools *>(RetGUI[i]);
+		ImageControlTools	*p=static_cast<ImageControlTools *>(RetGUI[i]);
 		if(p!=NULL){
 			if(p->RelatedPanels.contains(ImageName)==true){
 				return p;

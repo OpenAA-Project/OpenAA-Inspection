@@ -61,10 +61,7 @@ void	GUICmdAddPiece::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QS
 	AlgorithmBase	*L=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PieceArrange");
 	if(L==NULL)
 		return;
-	PieceArrangeBase	*MBase=dynamic_cast<PieceArrangeBase *>(L);
-	if(MBase==NULL)
-		return;
-	PieceArrangeInPage	*MPage=(PieceArrangeInPage *)MBase->GetPageData(localPage);
+	AlgorithmInPageRoot	*MPage=L->GetPageData(localPage);
 
 	CmdCreateOnePiece	Da(this);
 	Da.Area=Area;
@@ -97,14 +94,11 @@ void	GUICmdExecuteAlignmentPiece::Receive(int32 localPage, int32 cmd ,QString &E
 	AlgorithmBase	*L=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PieceArrange");
 	if(L==NULL)
 		return;
-	PieceArrangeBase	*MBase=dynamic_cast<PieceArrangeBase *>(L);
-	if(MBase==NULL)
-		return;
 
 	CmdExecuteAlignmentPiece	Da(this);
 	Da.LocalPage=localPage;
 	Da.SearchDot=SearchDot;
-	MBase->TransmitDirectly(&Da);
+	L->TransmitDirectly(&Da);
 
 	SendAck(localPage);
 }
@@ -186,10 +180,8 @@ void	GUICmdReqPieceGrid::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 	AlgorithmBase	*L=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PieceArrange");
 	if(L==NULL)
 		return;
-	PieceArrangeBase	*MBase=dynamic_cast<PieceArrangeBase *>(L);
-	if(MBase==NULL)
-		return;
-	PieceArrangeInPage	*MPage=(PieceArrangeInPage *)MBase->GetPageData(localPage);
+
+	AlgorithmInPageRoot	*MPage=L->GetPageData(localPage);
 
 	CmdReqPieceGrid	Da(this);
 	Da.PieceGridInfo=&SendBack->PieceGridInfo;
@@ -243,10 +235,7 @@ void	GUICmdReqSelectPiece::Receive(int32 localPage, int32 cmd ,QString &EmitterR
 	AlgorithmBase	*L=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PieceArrange");
 	if(L==NULL)
 		return;
-	PieceArrangeBase	*MBase=dynamic_cast<PieceArrangeBase *>(L);
-	if(MBase==NULL)
-		return;
-	PieceArrangeInPage	*MPage=(PieceArrangeInPage *)MBase->GetPageData(localPage);
+	AlgorithmInPageRoot	*MPage=L->GetPageData(localPage);
 
 	CmdReqSelectPiece	Da(this);
 	Da.PieceID=PieceID;

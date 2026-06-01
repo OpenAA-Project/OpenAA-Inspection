@@ -509,7 +509,92 @@ public:
 	GetSelectedAlignmentAreaPacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 
-	
+//===========================================================================
 
+class	AlignmentPointList : public NPList<AlignmentPointList>
+{
+public:
+	int		ID;
+	int		GroupNumber;
+	int		Layer;
+	int		AreaID;
+	int		ItemID;
+	int		Page;
+	int		Cx,Cy;
+	int		XSize;
+	int		YSize;
+	bool	AlignmentOnOutline;
+	int		SearchDot;
+	int		Threshold;
+	
+	AlignmentPointList(void){}
+
+	virtual	bool	Load(QIODevice *f);
+	virtual	bool	Save(QIODevice *f);
+
+	AlignmentPointList	&operator=(AlignmentPointList &src);
+};
+
+class	AlignmentPointListPack : public NPListPack<AlignmentPointList>
+{
+public:
+	AlignmentPointListPack(void){}
+
+	virtual	bool	Load(QIODevice *f);
+	virtual	bool	Save(QIODevice *f);
+
+	AlignmentPointListPack	&operator=(AlignmentPointListPack &src);
+	AlignmentPointListPack	&operator+=(AlignmentPointListPack &src);
+};
+class	AlignmentAreaList : public NPList<AlignmentAreaList>
+{
+public:
+	int		Number;
+	int		AreaID;
+	QString	AreaName;
+	int		Layer;
+	int		GlobalPage;
+	int		XSize;
+	int		YSize;
+	
+	AlignmentAreaList(void){}
+
+	virtual	bool	Load(QIODevice *f);
+	virtual	bool	Save(QIODevice *f);
+
+	AlignmentAreaList	&operator=(AlignmentAreaList &src);
+};
+
+class	AlignmentAreaListPack : public NPListPack<AlignmentAreaList>
+{
+public:
+	AlignmentAreaListPack(void){}
+
+	virtual	bool	Load(QIODevice *f);
+	virtual	bool	Save(QIODevice *f);
+
+	AlignmentAreaListPack	&operator=(AlignmentAreaListPack &src);
+	AlignmentAreaListPack	&operator+=(AlignmentAreaListPack &src);
+};
+
+
+class	CmdSetAlignmentAreaList : public GUIDirectMessage
+{
+public:
+	AlignmentAreaListPack	*Area;
+
+	CmdSetAlignmentAreaList(LayersBase *base):GUIDirectMessage(base){}
+	CmdSetAlignmentAreaList(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
+
+class	CmdSetAlignmentPointList : public GUIDirectMessage
+{	
+public:
+	int		Number;
+	AlignmentPointListPack	*Points;
+
+	CmdSetAlignmentPointList(LayersBase *base):GUIDirectMessage(base){}
+	CmdSetAlignmentPointList(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
 
 #endif

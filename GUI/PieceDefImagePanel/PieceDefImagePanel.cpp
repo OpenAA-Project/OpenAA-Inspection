@@ -167,9 +167,6 @@ void	PieceDefImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"PieceDef");
 	if(Ab==NULL)
 		return;
-	PieceDefBase	*MBase=dynamic_cast<PieceDefBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyPieceDef" ,/**/"");
 	CmdCreatePieceDefManualPacket	Da(GetLayersBase());
 	if(GProp!=NULL){

@@ -112,7 +112,7 @@ void CreateManualMeasureHoleForm::on_tableWidgetLibList_clicked(const QModelInde
 			ui.EditLibID			->setText(QString::number(TempLib->GetLibID()));
 			ui.EditLibName			->setText(a->GetLibName());
 
-			MeasureHoleLibrary	*ALib=dynamic_cast<MeasureHoleLibrary *>(TempLib->GetLibrary());
+			MeasureHoleLibrary	*ALib=static_cast<MeasureHoleLibrary *>(TempLib->GetLibrary());
 			ui.EditMinDiameter		->setValue(ALib->MinDiameter);
 			ui.EditMaxDiameter		->setValue(ALib->MaxDiameter);
 			ui.EditNoiseSize		->setValue(ALib->NoiseSize);

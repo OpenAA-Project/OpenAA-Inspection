@@ -164,7 +164,7 @@ class	ColorDifferenceThreshold : public AlgorithmThreshold
 public:
 	double		AdoptedRate;	//Percentage
 	double		THDeltaE;
-	int32		JudgeMethod;	//0:OK/NG	1:DeltaE	2:FlowSample/HSV threshold	3:Dense
+	int32		JudgeMethod;	//0:OK/NG	1:DeltaE	2:FlowSample/HSV threshold	3:Dense	4:DeltaE and Dense
 	double		dH;
 	double		dSL;
 	double		dSH;
@@ -240,6 +240,8 @@ public:
 	PreciseColor	ReferedCurrentColor;
 	double			ResultDeltaE;
 	double			ResultDense;
+	bool3			ResultDeltaEOK;	
+	bool3			ResultDenseOK ;
 	int				ResultDx,ResultDy;
 
 	int	MasterCx,MasterCy;
@@ -298,6 +300,7 @@ public:
 
 private:
 	void	CalcFlowCenterColor(void);
+public:
 	double	GetInterpolationDeltaE(double tValue,bool &ok);
 	double	GetInterpolationDense(double tValue,bool &ok);
 };
@@ -567,6 +570,9 @@ public:
 	double	LenNG;
 	double	DeltaE;
 	double	Dense;
+	bool3			ResultDeltaEOK;	
+	bool3			ResultDenseOK ;
+
 	PreciseColor	ReferenceColor1	;
 	PreciseColor	ReferenceColor2	;
 	PreciseColor	MasterColor		;
@@ -982,6 +988,10 @@ public:
 	int		Page;
 	double	ResultDeltaE;
 	double	ResultDense;
+	double	ResultManualDeltaE;
+	double	ResultManualDense ;
+	bool3	ResultDeltaEOK;	
+	bool3	ResultDenseOK ;
 
 	ColorDifferenceResultInfo(void){}
 
@@ -1010,7 +1020,14 @@ inline	bool	ColorDifferenceResultInfo::Load(QIODevice *f)
 		return false;
 	if(::Load(f,ResultDense)==false)
 		return false;
-
+	if(::Load(f,ResultManualDeltaE)==false)
+		return false;
+	if(::Load(f,ResultManualDense)==false)
+		return false;
+	if(::Load(f,ResultDeltaEOK)==false)
+		return false;
+	if(::Load(f,ResultDenseOK)==false)
+		return false;
 	return true;
 }
 inline	bool	ColorDifferenceResultInfo::Save(QIODevice *f)
@@ -1025,7 +1042,14 @@ inline	bool	ColorDifferenceResultInfo::Save(QIODevice *f)
 		return false;
 	if(::Save(f,ResultDense)==false)
 		return false;
-
+	if(::Save(f,ResultManualDeltaE)==false)
+		return false;
+	if(::Save(f,ResultManualDense)==false)
+		return false;
+	if(::Save(f,ResultDeltaEOK)==false)
+		return false;
+	if(::Save(f,ResultDenseOK)==false)
+		return false;
 	return true;
 }
 

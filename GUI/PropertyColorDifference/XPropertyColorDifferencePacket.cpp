@@ -166,9 +166,9 @@ void	GUICmdSendAddManualColorDifference::Receive(int32 localPage, int32 cmd ,QSt
 {
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	ColorDifferenceBase *BBase=(ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(BBase!=NULL){
-		ColorDifferenceInPage	*PData=dynamic_cast<ColorDifferenceInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdAddByteColorDifferenceItemPacket	Cmd(this);
 			Cmd.Buff		=BItem;
@@ -211,7 +211,7 @@ bool	GUICmdSendModifySelectedColorDifference::Save(QIODevice *f)
 
 void	GUICmdSendModifySelectedColorDifference::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ColorDifferenceBase *BBase=(ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(BBase!=NULL){
 		CmdModifySelectedColorDifferenceFromByteArray	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -251,9 +251,9 @@ GUICmdSendSelectedColorDifferenceItemAttr::GUICmdSendSelectedColorDifferenceItem
 }
 void	GUICmdSendSelectedColorDifferenceItemAttr::Make(int localPage ,LayersBase *Base)
 {
-	ColorDifferenceBase *BBase=(ColorDifferenceBase *)Base->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+	AlgorithmBase *BBase=Base->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(BBase!=NULL){
-		ColorDifferenceInPage	*PData=dynamic_cast<ColorDifferenceInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdGetOneSelectedItem	Cmd(this);
 			PData->TransmitDirectly(&Cmd);
@@ -368,7 +368,7 @@ bool	GUICmdReqColorDifferenceFromList::Save(QIODevice *f)
 void	GUICmdReqColorDifferenceFromList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckColorDifferenceFromList	*SendBack=GetSendBack(GUICmdAckColorDifferenceFromList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	ColorDifferenceBase	*BBase=(ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(BBase!=NULL){
 		int	N=0;
 		for(ListLayerAndID *a=CurrentItem.GetFirst();a!=NULL;a=a->GetNext()){
@@ -412,7 +412,7 @@ bool	GUICmdAckColorDifferenceFromList::Load(QIODevice *f)
 	int32	N;
 	if(::Load(f,N)==false)
 		return false;
-	ColorDifferenceBase	*BBase=(ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	for(int i=0;i<N;i++){
 		CmdCreateColorDifferenceItem	Cmd(GetLayersBase());
 		BBase->TransmitDirectly(&Cmd);
@@ -493,9 +493,9 @@ GUICmdReqItemListForPageContainer::GUICmdReqItemListForPageContainer(LayersBase 
 void	GUICmdReqItemListForPageContainer::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckItemListForPageContainer	*SendBack=GetSendBack(GUICmdAckItemListForPageContainer,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	ColorDifferenceBase	*BBase=(ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(BBase!=NULL){
-		ColorDifferenceInPage	*BPage=(ColorDifferenceInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
 			CmdItemListForPageContainer	Cmd(GetLayersBase());
 			Cmd.Container=&SendBack->ItemListForPageData;
@@ -532,9 +532,9 @@ GUICmdAddColorDifferenceOK::GUICmdAddColorDifferenceOK(LayersBase *Base ,const Q
 
 void	GUICmdAddColorDifferenceOK::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ColorDifferenceBase	*BBase=(ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(BBase!=NULL){
-		ColorDifferenceInPage	*BPage=(ColorDifferenceInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
 			CmdAddColorDifferenceOK	Cmd(GetLayersBase());
 			BPage->TransmitDirectly(&Cmd);
@@ -549,9 +549,9 @@ GUICmdAddColorDifferenceNG::GUICmdAddColorDifferenceNG(LayersBase *Base ,const Q
 
 void	GUICmdAddColorDifferenceNG::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ColorDifferenceBase	*BBase=(ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(BBase!=NULL){
-		ColorDifferenceInPage	*BPage=(ColorDifferenceInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
 			CmdAddColorDifferenceNG	Cmd(GetLayersBase());
 			BPage->TransmitDirectly(&Cmd);
@@ -569,7 +569,7 @@ void	GUICmdRegistInFlowON::Receive(int32 localPage, int cmd ,QString &EmitterRoo
 {
 	AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(ABase!=NULL){
-		ColorDifferenceInPage	*BPage=(ColorDifferenceInPage *)ABase->GetPageData(localPage);
+		ColorDifferenceInPage	*BPage=static_cast<ColorDifferenceInPage *>(ABase->GetPageData(localPage));
 		if(BPage!=NULL){
 			BPage->RegistInFlowMode=true;
 		}
@@ -584,7 +584,7 @@ void	GUICmdRegistInFlowOFF::Receive(int32 localPage, int cmd ,QString &EmitterRo
 {
 	AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(ABase!=NULL){
-		ColorDifferenceInPage	*BPage=(ColorDifferenceInPage *)ABase->GetPageData(localPage);
+		ColorDifferenceInPage	*BPage=static_cast<ColorDifferenceInPage *>(ABase->GetPageData(localPage));
 		if(BPage!=NULL){
 			BPage->RegistInFlowMode=false;
 		}
@@ -620,7 +620,7 @@ void	GUICmdSetStatisticThreshold::Receive(int32 localPage, int32 cmd ,QString &E
 {
 	AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(ABase!=NULL){
-		ColorDifferenceInPage	*BPage=(ColorDifferenceInPage *)ABase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=ABase->GetPageData(localPage);
 		if(BPage!=NULL){
 			CmdSetStatisticThreshold	Cmd(GetLayersBase());
 			Cmd.SigmaH	=SigmaH;
@@ -639,7 +639,7 @@ void	GUICmdClearFlowStack::Receive(int32 localPage, int cmd ,QString &EmitterRoo
 {
 	AlgorithmBase	*ABase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(ABase!=NULL){
-		ColorDifferenceInPage	*BPage=(ColorDifferenceInPage *)ABase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=ABase->GetPageData(localPage);
 		if(BPage!=NULL){
 			CmdClearFlowStack	Cmd(GetLayersBase());
 			BPage->TransmitDirectly(&Cmd);
@@ -657,9 +657,9 @@ GUICmdReqFlowData::GUICmdReqFlowData(LayersBase *Base ,const QString &EmitterRoo
 void	GUICmdReqFlowData::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckFlowData	*SendBack=GetSendBack(GUICmdAckFlowData,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	ColorDifferenceBase	*BBase=(ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(BBase!=NULL){
-		ColorDifferenceInPage	*BPage=(ColorDifferenceInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
 			CmdReqFlowData	Cmd(GetLayersBase());
 			BPage->TransmitDirectly(&Cmd);
@@ -705,9 +705,9 @@ bool	GUICmdSendFlowData::Save(QIODevice *f)
 }
 void	GUICmdSendFlowData::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ColorDifferenceBase	*BBase=(ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(BBase!=NULL){
-		ColorDifferenceInPage	*BPage=(ColorDifferenceInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
 			CmdSendFlowData	Cmd(GetLayersBase());
 			Cmd.Data=Data;
@@ -735,9 +735,9 @@ bool	GUICmdAutoGenerate::Save(QIODevice *f)
 
 void	GUICmdAutoGenerate::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ColorDifferenceBase	*BBase=(ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+	AlgorithmBase	*BBase=(ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(BBase!=NULL){
-		ColorDifferenceInPage	*BPage=(ColorDifferenceInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
 			CmdAutoGenerate	Cmd(GetLayersBase());
 			Cmd.SelectedLibList=SelectedLibList;

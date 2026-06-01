@@ -101,7 +101,7 @@ void InputAlignmentPointForm::on_ButtonDefault_clicked()
 	AlgorithmBase	*L=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(L==NULL)
 		return;
-	AlignmentLargeBase	*A=dynamic_cast<AlignmentLargeBase *>(L);
+	AlignmentLargeBase	*A=static_cast<AlignmentLargeBase *>(L);
 	if(A==NULL)
 		return;
 	ui.EditMoveDot	->setValue(A->DefaultMoveDot);

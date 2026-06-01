@@ -636,7 +636,7 @@ void	PropertyLinePatternForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	LinePatternLibrary	*ALib=dynamic_cast<LinePatternLibrary *>(data.GetLibrary());
+	LinePatternLibrary	*ALib=static_cast<LinePatternLibrary *>(data.GetLibrary());
 	ui->EditLineWidthInPattern	->setValue(ALib->LineWidthInPattern);
 	ui->EditLineWidthOutside	->setValue(ALib->LineWidthOutside);
 	ui->EditLimitLength			->setValue(ALib->LimitLength);
@@ -646,7 +646,7 @@ void	PropertyLinePatternForm::GetLibraryFromWindow(AlgorithmLibraryLevelContaine
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	LinePatternLibrary	*ALib=dynamic_cast<LinePatternLibrary *>(data.GetLibrary());
+	LinePatternLibrary	*ALib=static_cast<LinePatternLibrary *>(data.GetLibrary());
 	ALib->LineWidthInPattern=ui->EditLineWidthInPattern	->value();
 	ALib->LineWidthOutside	=ui->EditLineWidthOutside	->value();
 	ALib->LimitLength		=ui->EditLimitLength		->value();

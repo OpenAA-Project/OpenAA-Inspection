@@ -5673,7 +5673,7 @@ void	AlgorithmInLayerPLI::CopyFrom(AlgorithmInPageRoot *DestParent
 				AppendItem(NewItemList[k]);
 			}
 		}
-		if(N!=NULL){
+		if(N!=0){
 			Changed=true;
 			CalcDone=false;
 		}

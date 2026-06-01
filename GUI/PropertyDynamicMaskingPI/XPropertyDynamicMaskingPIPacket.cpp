@@ -195,8 +195,8 @@ void	GUICmdAddDynamicMaskingPIArea::Receive(int32 localPage, int32 cmd ,QString 
 	AlgorithmBase	*L=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DynamicMaskingPI");
 	if(L==NULL)
 		return;
-	AlgorithmInPageRoot		*PData=L->GetPageData(localPage);
-	if(PData==NULL)
+	AlgorithmInPageRoot		*Pg=L->GetPageData(localPage);
+	if(Pg==NULL)
 		return;
 	AddDynamicMaskingPIAreaPacket	Cmd(this);
 	Cmd.MaskArea	=MaskArea;
@@ -234,9 +234,7 @@ void	GUICmdAddDynamicMaskingPIArea::Receive(int32 localPage, int32 cmd ,QString 
 	Cmd.ParentItemID=ParentItemID;
 	Cmd.AdaptedPickupLayers	=AdaptedPickupLayers;
 
-	DynamicMaskingPIInPage	*M=dynamic_cast<DynamicMaskingPIInPage *>(PData);
-	if(M!=NULL)
-		M->TransmitDirectly(&Cmd);
+	Pg->TransmitDirectly(&Cmd);
 
 	SendAck(localPage);
 }
@@ -409,8 +407,8 @@ void	GUICmdModDynamicMaskingPIArea::Receive(int32 localPage, int32 cmd ,QString 
 	AlgorithmBase	*L=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"DynamicMaskingPI");
 	if(L==NULL)
 		return;
-	AlgorithmInPageRoot		*PData=L->GetPageData(localPage);
-	if(PData==NULL)
+	AlgorithmInPageRoot		*Pg=L->GetPageData(localPage);
+	if(Pg==NULL)
 		return;
 	ModDynamicMaskingPIAreaPacket	Cmd(this);
 	Cmd.ID	=ID;
@@ -447,9 +445,7 @@ void	GUICmdModDynamicMaskingPIArea::Receive(int32 localPage, int32 cmd ,QString 
 	Cmd.Layer		=Layer;
 	Cmd.AdaptedPickupLayers	=AdaptedPickupLayers;
 
-	DynamicMaskingPIInPage	*M=dynamic_cast<DynamicMaskingPIInPage *>(PData);
-	if(M!=NULL)
-		M->TransmitDirectly(&Cmd);
+	Pg->TransmitDirectly(&Cmd);
 
 	SendAck(localPage);
 }

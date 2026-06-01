@@ -158,9 +158,6 @@ void	PalletizeImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"Palletize");
 	if(Ab==NULL)
 		return;
-	PalletizeBase	*MBase=dynamic_cast<PalletizeBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyPalletize" ,/**/"");
 	CmdPalletizeDrawEnd	Da(GetLayersBase());
 	if(GProp!=NULL){

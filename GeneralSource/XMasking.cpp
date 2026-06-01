@@ -1366,7 +1366,99 @@ void	MaskingInLayer::TransmitDirectly(GUIDirectMessage *packet)
 			}
 		}
 		return;
-	}	
+	}
+	CmdMakeMaskInfo *CmdMakeMaskInfoVar = dynamic_cast<CmdMakeMaskInfo *>(packet);
+	if (CmdMakeMaskInfoVar != NULL) {
+		int	ItemCount = GetItemCount();
+		AlgorithmItemPLI** ItemDim = new AlgorithmItemPLI * [ItemCount];
+		int	k = 0;
+		for (AlgorithmItemPLI* item = GetFirstData(); item != NULL; item = item->GetNext()) {
+			ItemDim[k] = item;
+			k++;
+		}
+		#pragma omp parallel for
+		for (int j = 0; j < ItemCount; j++) {
+			MaskingItem* MItem = dynamic_cast<MaskingItem*>(ItemDim[j]);
+			if (MItem != NULL
+				&& ((CmdMakeMaskInfoVar->EffectiveMode == true			&& MItem->GetThresholdR()->Effective == true  && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == false)
+				 || (CmdMakeMaskInfoVar->IneffectiveMode == true		&& MItem->GetThresholdR()->Effective == false && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == false)
+				 || (CmdMakeMaskInfoVar->EffectiveLimitedMode == true	&& MItem->GetThresholdR()->Effective == true  && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == true)
+				 || (CmdMakeMaskInfoVar->IneffectiveLimitedMode == true && MItem->GetThresholdR()->Effective == false && ((MaskingThreshold*)MItem->GetThresholdR())->IsLimited() == true))) {
+				MaskingListForPacket* L = new MaskingListForPacket();
+				L->Data.Page = GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+				L->Data.Layer = GetLayer();
+				L->Data.Effective = MItem->GetThresholdR()->Effective;
+				int x1, y1, x2, y2;
+				MItem->GetXY(x1, y1, x2, y2);
+				L->Data.ItemID = MItem->GetID();
+				L->Data.x1 = x1;
+				L->Data.y1 = y1;
+				L->Data.x2 = x2;
+				L->Data.y2 = y2;
+				L->LimitedLib = *((AlgorithmLibraryListContainer*)&MItem->GetThresholdR()->SelAreaID);
+
+				#pragma omp critical
+				{
+					CmdMakeMaskInfoVar->MaskInfo->AppendList(L);
+				}
+			}
+		}
+		delete[]ItemDim;
+		return;
+	}
+	CmdMaskingBindedList *CmdMaskingBindedListVar = dynamic_cast<CmdMaskingBindedList *>(packet);
+	if (CmdMaskingBindedListVar != NULL) {
+
+		for(AlgorithmItemPLI *AItem=GetFirstData();AItem!=NULL;AItem=AItem->GetNext()){
+			MaskingItem	*MItem=dynamic_cast<MaskingItem *>(AItem);
+			if(MItem!=NULL){
+
+				CmdReqLimitedLibMaskInItem	Cmd(GetLayersBase());
+				Cmd.ItemID=MItem->GetID();
+				TransmitDirectly(&Cmd);
+
+				bool	Found=false;
+				for(MaskingBindedList *b=CmdMaskingBindedListVar->InstList.GetFirst();b!=NULL;b=b->GetNext()){
+					if(b->LimitedLib==*Cmd.SelAreaID){
+						MaskingBindedList::BindedInPage	*Bp=b->BindedInPageContainerInst.GetFirst();
+						MaskingBindedList::BindedInPage::BindedInLayer *e=Bp->BindedInLayerContainerInst.FindByLayer(GetLayer());
+						if(e!=NULL){
+							e->ItemIDs.Add(MItem->GetID());
+						}
+						else{
+							MaskingBindedList::BindedInPage::BindedInLayer *E=new MaskingBindedList::BindedInPage::BindedInLayer(Bp);
+							E->Layer=GetLayer();
+							E->ItemIDs.Add(MItem->GetID());
+							Bp->BindedInLayerContainerInst.AppendList(E);
+						}
+						Found=true;
+						break;
+					}
+				}
+				if(Found==false){
+					MaskingBindedList	*B=new MaskingBindedList();
+					B->LimitedLib=*Cmd.SelAreaID;
+					MaskingBindedList::BindedInPage	*Bp=new MaskingBindedList::BindedInPage(B);
+					Bp->Page=0;
+					B->BindedInPageContainerInst.AppendList(Bp);
+
+					MaskingBindedList::BindedInPage::BindedInLayer *E=new MaskingBindedList::BindedInPage::BindedInLayer(Bp);
+					E->Layer=GetLayer();
+					E->ItemIDs.Add(MItem->GetID());
+					Bp->BindedInLayerContainerInst.AppendList(E);
+
+					CmdMaskingBindedListVar->InstList.AppendList(B);
+				}
+			}
+		}
+		return;
+	}
+	CmdReflectSelection *CmdReflectSelectionVar = dynamic_cast<CmdReflectSelection *>(packet);
+	if (CmdReflectSelectionVar != NULL) {
+		ReleaseAllSelectedItem();
+		SelectItems(CmdReflectSelectionVar->Items);
+		return;
+	}
 }
 
 void	MaskingInLayer::AddMaskItems(PureFlexAreaListContainer &Areas

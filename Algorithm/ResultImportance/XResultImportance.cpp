@@ -160,6 +160,43 @@ void	ResultImportanceInPage::TransmitDirectly(GUIDirectMessage *packet)
 		Item->SetArea(CmdAddResultImportanceItemPacketVar->Area);
 		Item->ImportanceLevel	=CmdAddResultImportanceItemPacketVar->ImportanceLevel;
 		AppendItem(Item);
+		return;
+	}
+	CmdMakeResultImportanceList *CmdMakeResultImportanceListVar = dynamic_cast<CmdMakeResultImportanceList *>(packet);
+	if (CmdMakeResultImportanceListVar != NULL) {
+		for(AlgorithmItemPI *item=GetFirstData();item!=NULL;item=item->GetNext()){
+			ResultImportanceItem	*MItem=dynamic_cast<ResultImportanceItem *>(item);
+			if(MItem!=NULL){
+				ResultImportanceList	*L=new ResultImportanceList();
+				L->Page=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+				int x1 ,y1 ,x2 ,y2;
+				MItem->GetXY(x1 ,y1 ,x2 ,y2);
+				L->x1=x1;
+				L->y1=y1;
+				L->x2=x2;
+				L->y2=y2;
+				L->ImportanceLevel	=MItem->ImportanceLevel;
+				L->ItemID			=item->GetID();
+
+				CmdMakeResultImportanceListVar->ResultImportanceInfo->AppendList(L);				
+			}
+		}
+		return;
+	}
+	CmdSelectResultImportance *CmdSelectResultImportanceVar = dynamic_cast<CmdSelectResultImportance *>(packet);
+	if (CmdSelectResultImportanceVar != NULL) {
+		for(AlgorithmItemPI *item=GetFirstData();item!=NULL;item=item->GetNext()){
+			ResultImportanceItem	*MItem=dynamic_cast<ResultImportanceItem *>(item);
+			if(MItem!=NULL){
+				if(CmdSelectResultImportanceVar->ImportanceLevels->IsInclude(MItem->ImportanceLevel)==true){
+					MItem->SetSelected(true);
+				}
+				else{
+					MItem->SetSelected(false);
+				}
+			}
+		}
+		return;
 	}
 }
 

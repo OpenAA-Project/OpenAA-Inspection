@@ -13,8 +13,10 @@ class EditManualInterpolateDialog : public QDialog,public ServiceForLayers
     Q_OBJECT
 
     AlgorithmItemRoot *Item;
+	int     ResultType; //1:DeltaE ,2:Density
+
 public:
-    explicit EditManualInterpolateDialog(AlgorithmItemRoot *item ,LayersBase *Base,QWidget *parent = nullptr);
+    explicit EditManualInterpolateDialog(int ResultType,AlgorithmItemRoot *item ,LayersBase *Base,QWidget *parent = nullptr);
     ~EditManualInterpolateDialog();
 
 private slots:

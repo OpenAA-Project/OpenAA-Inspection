@@ -295,6 +295,7 @@
     <ClCompile Include="Masking.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="..\..\GeneralSource\XMasking.cpp" />
+    <ClCompile Include="XMaskingCommon.cpp" />
     <ClCompile Include="XMaskingForReport.cpp" />
     <ClCompile Include="XMaskingLibrary.cpp" />
     <ClCompile Include="XMaskingResource.cpp" />

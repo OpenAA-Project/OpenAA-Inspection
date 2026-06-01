@@ -70,7 +70,7 @@ void	GUICmdAddAreaManual::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PartialImaging");
 	if(PBase==NULL)
 		return;
-	PartialImagingInPage	*PPage=dynamic_cast<PartialImagingInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAddAreaPartialImaging	Da(GetLayersBase());
 		Da.Area			=Area;
@@ -135,7 +135,7 @@ void	GUICmdEditAreaManual::Receive(int32 localPage, int32 cmd ,QString &EmitterR
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PartialImaging");
 	if(PBase==NULL)
 		return;
-	PartialImagingInPage	*PPage=dynamic_cast<PartialImagingInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdEditAreaPartialImaging	Da(GetLayersBase());
 		Da.ItemID			=ItemID;
@@ -176,7 +176,7 @@ void	GUICmdDeleteAreaManual::Receive(int32 localPage, int32 cmd ,QString &Emitte
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PartialImaging");
 	if(PBase==NULL)
 		return;
-	PartialImagingInPage	*PPage=dynamic_cast<PartialImagingInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdDeletePartialImaging	Da(GetLayersBase());
 		Da.ItemID			=ItemID;
@@ -214,7 +214,7 @@ void	GUICmdReqItemInfo::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PartialImaging");
 	if(PBase==NULL)
 		return;
-	PartialImagingInPage	*PPage=dynamic_cast<PartialImagingInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqItemInfo	Da(GetLayersBase());
 		Da.ItemID	=ItemID;
@@ -256,7 +256,7 @@ void	GUICmdReqPartialImagingInfoList::Receive(int32 localPage, int32 cmd ,QStrin
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"PartialImaging");
 	if(PBase==NULL)
 		return;
-	PartialImagingInPage	*PPage=dynamic_cast<PartialImagingInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqEnumInfo	Da(GetLayersBase());
 		PPage->TransmitDirectly(&Da);

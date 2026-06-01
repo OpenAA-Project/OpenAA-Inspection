@@ -145,9 +145,6 @@ void	ColorCorrectorImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"ColorCorrector");
 	if(Ab==NULL)
 		return;
-	ColorCorrectorBase	*MBase=dynamic_cast<ColorCorrectorBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyColorCorrector" ,/**/"");
 	CmdColorCorrectorDrawEnd	Da(GetLayersBase());
 	if(GProp!=NULL){

@@ -143,7 +143,7 @@ void	SelectLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	BuslineLibrary	*ALib=dynamic_cast<BuslineLibrary *>(data.GetLibrary());
+	BuslineLibrary	*ALib=static_cast<BuslineLibrary *>(data.GetLibrary());
 	ui->EditMinWidth				->setValue(ALib->MinWidth);
 	ui->EditMinGap					->setValue(ALib->MinGap);
 	ui->lineEditMinArea				->setText(QString::number(ALib->MinArea));

@@ -38,7 +38,7 @@ EditAutoPCBHoleAlignerLibrary::EditAutoPCBHoleAlignerLibrary(LayersBase* Base, Q
     ui->setupUi(this);
 
 	LibFolderID = -1;
-	AutoPCBHoleAlignerBase* BBase = GetAutoPCBHoleAlignerBase();
+	AlgorithmBase* BBase = GetAutoPCBHoleAlignerBase();
 	LibType = -1;
 	if (BBase != NULL)
 		LibType = BBase->GetLibType();
@@ -90,16 +90,16 @@ EditAutoPCBHoleAlignerLibrary::~EditAutoPCBHoleAlignerLibrary()
     delete ui;
 }
 
-AutoPCBHoleAlignerBase* EditAutoPCBHoleAlignerLibrary::GetAutoPCBHoleAlignerBase(void)
+AlgorithmBase* EditAutoPCBHoleAlignerLibrary::GetAutoPCBHoleAlignerBase(void)
 {
-	return (AutoPCBHoleAlignerBase*)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoPCBHoleAligner");
+	return GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoPCBHoleAligner");
 }
 
 void	EditAutoPCBHoleAlignerLibrary::SlotSelectLibFolder(int libFolderID, QString FolderName)
 {
 	LibFolderID = libFolderID;
 	ui->tableWidgetLibList->setRowCount(0);
-	AutoPCBHoleAlignerBase* BBase = GetAutoPCBHoleAlignerBase();
+	AlgorithmBase* BBase = GetAutoPCBHoleAlignerBase();
 	if (BBase != NULL) {
 		CmdGetAutoPCBHoleAlignerLibraryListPacket	Packet(GetLayersBase());
 		Packet.LibFolderID = LibFolderID;
@@ -137,13 +137,13 @@ void	EditAutoPCBHoleAlignerLibrary::Initial(AlgorithmBase* InstBase)
 void	EditAutoPCBHoleAlignerLibrary::SlotAddEliminated(void)
 {
 	ShowThresholdList();
-	AutoPCBHoleAlignerLibrary	*ALib=dynamic_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
+	AutoPCBHoleAlignerLibrary	*ALib=static_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupHoleColor = ColorThre.Cube;
 }
 void	EditAutoPCBHoleAlignerLibrary::SlotDelEliminated(void)
 {
 	ShowThresholdList();
-	AutoPCBHoleAlignerLibrary	*ALib=dynamic_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
+	AutoPCBHoleAlignerLibrary	*ALib=static_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupHoleColor = ColorThre.Cube;
 }
 void EditAutoPCBHoleAlignerLibrary::ShowThresholdList(void)
@@ -169,7 +169,7 @@ void	EditAutoPCBHoleAlignerLibrary::SlotColorSampleSelectOne()
 	ColorThre.Cube = *ColorSamples.CData.GetColorLogic();
 	ColorThre.InitializedDoneCube();
 	ColorThre.Repaint();
-	AutoPCBHoleAlignerLibrary	*ALib=dynamic_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
+	AutoPCBHoleAlignerLibrary	*ALib=static_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupHoleColor = ColorThre.Cube;
 }
 
@@ -180,7 +180,7 @@ void EditAutoPCBHoleAlignerLibrary::on_ButtonLibNew_clicked()
 	TempLib->Reset();
 	CmdClearAutoPCBHoleAlignerLibraryPacket	Packet(GetLayersBase());
 	Packet.Point = TempLib;
-	AutoPCBHoleAlignerBase* BBase = GetAutoPCBHoleAlignerBase();
+	AlgorithmBase *BBase = GetAutoPCBHoleAlignerBase();
 	if (BBase != NULL) {
 		BBase->TransmitDirectly(&Packet);
 	}
@@ -202,7 +202,7 @@ void EditAutoPCBHoleAlignerLibrary::on_ButtonLibDelete_clicked()
 	if (ret == QMessageBox::Yes) {
 		CmdDeleteAutoPCBHoleAlignerLibraryPacket 	Packet(GetLayersBase());
 		Packet.Point = TempLib;
-		AutoPCBHoleAlignerBase* BBase = GetAutoPCBHoleAlignerBase();
+		AlgorithmBase* BBase = GetAutoPCBHoleAlignerBase();
 		if (BBase != NULL) {
 			BBase->TransmitDirectly(&Packet);
 			on_ButtonLibNew_clicked();
@@ -228,7 +228,7 @@ void EditAutoPCBHoleAlignerLibrary::on_ButtonLibSaveNew_clicked()
 	TempLib->SetLibFolderID(LibFolderID);
 	CmdInsertAutoPCBHoleAlignerLibraryPacket	Packet(GetLayersBase());
 	Packet.Point = TempLib;
-	AutoPCBHoleAlignerBase* BBase = GetAutoPCBHoleAlignerBase();
+	AlgorithmBase* BBase = GetAutoPCBHoleAlignerBase();
 	if (BBase != NULL) {
 		BBase->TransmitDirectly(&Packet);
 		ShowLibrary(*TempLib);
@@ -256,7 +256,7 @@ void EditAutoPCBHoleAlignerLibrary::on_ButtonLibSave_clicked()
 
 		CmdInsertAutoPCBHoleAlignerLibraryPacket	Packet(GetLayersBase());
 		Packet.Point = TempLib;
-		AutoPCBHoleAlignerBase* BBase = GetAutoPCBHoleAlignerBase();
+		AlgorithmBase* BBase = GetAutoPCBHoleAlignerBase();
 		if (BBase != NULL) {
 			BBase->TransmitDirectly(&Packet);
 			ShowLibrary(*TempLib);
@@ -267,7 +267,7 @@ void EditAutoPCBHoleAlignerLibrary::on_ButtonLibSave_clicked()
 	else {
 		CmdUpdateAutoPCBHoleAlignerLibraryPacket	Packet(GetLayersBase());
 		Packet.Point = TempLib;
-		AutoPCBHoleAlignerBase* BBase = GetAutoPCBHoleAlignerBase();
+		AlgorithmBase* BBase = GetAutoPCBHoleAlignerBase();
 		if (BBase != NULL) {
 			BBase->TransmitDirectly(&Packet);
 		}
@@ -284,7 +284,7 @@ void EditAutoPCBHoleAlignerLibrary::on_pushButtonAddPickupColor_clicked()
 {
 	ColorThre.Cube.Add(PickupColor.rgb(), ui->spinBoxMerginAddPickupColor->value());
 	ColorThre.Repaint();
-	AutoPCBHoleAlignerLibrary	*ALib=dynamic_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
+	AutoPCBHoleAlignerLibrary	*ALib=static_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupHoleColor = ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -293,7 +293,7 @@ void EditAutoPCBHoleAlignerLibrary::on_pushButtonSubPickupColor_clicked()
 {
 	ColorThre.Cube.Eliminame(PickupColor.rgb(), ui->spinBoxMerginSubPickupColor->value());
 	ColorThre.Repaint();
-	AutoPCBHoleAlignerLibrary	*ALib=dynamic_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
+	AutoPCBHoleAlignerLibrary	*ALib=static_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupHoleColor = ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -306,7 +306,7 @@ void	EditAutoPCBHoleAlignerLibrary::ShowLibrary(AlgorithmLibraryLevelContainer& 
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName->setText(data.GetLibName());
 
-	AutoPCBHoleAlignerLibrary	*ALib=dynamic_cast<AutoPCBHoleAlignerLibrary *>(data.GetLibrary());
+	AutoPCBHoleAlignerLibrary	*ALib=static_cast<AutoPCBHoleAlignerLibrary *>(data.GetLibrary());
 	ui->EditExpandForPickup		->setValue	(ALib->ExpandForPickup);
 	ui->checkBoxStartupExecute	->setChecked(ALib->StartupExecute);
 	ui->EditMinDiameter			->setValue	(ALib->MinDiameter);
@@ -321,7 +321,7 @@ void	EditAutoPCBHoleAlignerLibrary::GetLibraryFromWindow(AlgorithmLibraryLevelCo
 {
 	data.SetLibName(ui->EditLibName->text());
 
-	AutoPCBHoleAlignerLibrary	*ALib=dynamic_cast<AutoPCBHoleAlignerLibrary *>(data.GetLibrary());
+	AutoPCBHoleAlignerLibrary	*ALib=static_cast<AutoPCBHoleAlignerLibrary *>(data.GetLibrary());
 	ALib->ExpandForPickup	= ui->EditExpandForPickup	->value();
 	ALib->StartupExecute	= ui->checkBoxStartupExecute->isChecked();
 	ALib->MinDiameter		= ui->EditMinDiameter		->value();
@@ -336,7 +336,7 @@ void EditAutoPCBHoleAlignerLibrary::on_pushButtonAddColor_clicked()
 {
 	ColorThre.Cube.Add(*ColorSamples.CData.GetColorLogic());
 	ColorThre.Repaint();
-	AutoPCBHoleAlignerLibrary	*ALib=dynamic_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
+	AutoPCBHoleAlignerLibrary	*ALib=static_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupHoleColor = ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -345,7 +345,7 @@ void EditAutoPCBHoleAlignerLibrary::on_pushButtonEliminateColor_clicked()
 {
 	ColorThre.Cube.Eliminate(*ColorSamples.CData.GetColorLogic());
 	ColorThre.Repaint();
-	AutoPCBHoleAlignerLibrary	*ALib=dynamic_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
+	AutoPCBHoleAlignerLibrary	*ALib=static_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupHoleColor = ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -354,7 +354,7 @@ void EditAutoPCBHoleAlignerLibrary::on_pushButtonAddAllColor_clicked()
 {
 	ColorThre.Cube.Add(qRgb(128, 128, 128), 222);
 	ColorThre.Repaint();
-	AutoPCBHoleAlignerLibrary	*ALib=dynamic_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
+	AutoPCBHoleAlignerLibrary	*ALib=static_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupHoleColor = ColorThre.Cube;
 	ShowThresholdList();
 
@@ -367,7 +367,7 @@ void EditAutoPCBHoleAlignerLibrary::on_pushButtonAddColorArea_clicked()
 	ColorThre.Cube.Add(*Sample.GetColorLogic(), 0);
 
 	ColorThre.Repaint();
-	AutoPCBHoleAlignerLibrary	*ALib=dynamic_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
+	AutoPCBHoleAlignerLibrary	*ALib=static_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupHoleColor = ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -379,7 +379,7 @@ void EditAutoPCBHoleAlignerLibrary::on_pushButtonEliminateColorArea_clicked()
 	ColorThre.Cube.Eliminate(*Sample.GetColorLogic(), 0);
 
 	ColorThre.Repaint();
-	AutoPCBHoleAlignerLibrary	*ALib=dynamic_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
+	AutoPCBHoleAlignerLibrary	*ALib=static_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupHoleColor = ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -421,12 +421,12 @@ void EditAutoPCBHoleAlignerLibrary::on_tableWidgetLibList_clicked(const QModelIn
 
 		CmdLoadAutoPCBHoleAlignerLibraryPacket	Packet(GetLayersBase());
 		Packet.Point = TempLib;
-		AutoPCBHoleAlignerBase* BBase = GetAutoPCBHoleAlignerBase();
+		AlgorithmBase* BBase = GetAutoPCBHoleAlignerBase();
 		if (BBase != NULL) {
 			BBase->TransmitDirectly(&Packet);
 			if (Packet.Success == true) {
 				ShowLibrary(*TempLib);
-				AutoPCBHoleAlignerLibrary	*ALib=dynamic_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
+				AutoPCBHoleAlignerLibrary	*ALib=static_cast<AutoPCBHoleAlignerLibrary *>(TempLib->GetLibrary());
 				ColorThre.Cube = ALib->PickupHoleColor;
 				ColorThre.Repaint();
 				ShowThresholdList();

@@ -406,7 +406,7 @@ void	PropertyColorBlockForm::TransmitDirectly(GUIDirectMessage *packet)
 	if(BlockDEnd!=NULL){
 		if(ui.toolButtonLibrary->isChecked()==true){
 			//GlobalPickupArea+=BlockDEnd->Area;
-			ColorBlockLibrary	*ALib=dynamic_cast<ColorBlockLibrary *>(TempLib->GetLibrary());
+			ColorBlockLibrary	*ALib=static_cast<ColorBlockLibrary *>(TempLib->GetLibrary());
 			ColorBrightHistogramForm	D(BlockDEnd->Area,BlockDEnd->ImagePanelPoint
 											,ALib->PickupRL,ALib->PickupRH
 											,ALib->PickupGL,ALib->PickupGH
@@ -597,7 +597,7 @@ void	PropertyColorBlockForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	ColorBlockLibrary	*ALib=dynamic_cast<ColorBlockLibrary *>(data.GetLibrary());
+	ColorBlockLibrary	*ALib=static_cast<ColorBlockLibrary *>(data.GetLibrary());
 	ui.EditMinBlockSize		->setValue(ALib->MinBlockSize);
 	ui.EditMaxBlockSize		->setValue(ALib->MaxBlockSize);
 	ui.EditMinBlockDots		->setValue(ALib->MinBlockDots);
@@ -613,7 +613,7 @@ void	PropertyColorBlockForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	ColorBlockLibrary	*ALib=dynamic_cast<ColorBlockLibrary *>(data.GetLibrary());
+	ColorBlockLibrary	*ALib=static_cast<ColorBlockLibrary *>(data.GetLibrary());
 	ALib->MinBlockSize		=ui.EditMinBlockSize	->value();
 	ALib->MaxBlockSize		=ui.EditMaxBlockSize	->value();
 	ALib->MinBlockDots		=ui.EditMinBlockDots	->value();
@@ -706,11 +706,9 @@ GUIFormBase	*PropertyColorBlockForm::GetImageControlToolsPointer(void)
 	QString	ImageName=ImagePanel->GetName();
 
 	for(int i=0;i<N;i++){
-		ImageControlTools	*ImageControlToolsPointer=dynamic_cast<ImageControlTools *>(RetGUI[i]);
-		if(ImageControlToolsPointer!=NULL){
-			if(ImageControlToolsPointer->RelatedPanels.contains(ImageName)==true){
-				return ImageControlToolsPointer;
-			}
+		ImageControlTools	*ImageControlToolsPointer=static_cast<ImageControlTools *>(RetGUI[i]);
+		if(ImageControlToolsPointer->RelatedPanels.contains(ImageName)==true){
+			return ImageControlToolsPointer;
 		}
 	}
 	return NULL;
@@ -787,7 +785,7 @@ void	PropertyColorBlockForm::ShowSelectedLibList(void)
 		CmdCreateTempColorBlockLibraryPacket	Packet(GetLayersBase());
 		BBase->TransmitDirectly(&Packet);
 		AlgorithmLibraryLevelContainer	*SLib=Packet.Point;
-		ColorBlockLibrary	*ALib=dynamic_cast<ColorBlockLibrary *>(SLib->GetLibrary());
+		ColorBlockLibrary	*ALib=static_cast<ColorBlockLibrary *>(SLib->GetLibrary());
 		int	row=0;
 		for(AlgorithmLibraryList *a=SelectedLibList.GetFirst();a!=NULL;a=a->GetNext(),row++){
 			DDim[row].a=a;

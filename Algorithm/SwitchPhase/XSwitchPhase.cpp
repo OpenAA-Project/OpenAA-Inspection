@@ -141,6 +141,69 @@ void	SwitchPhaseInPage::TransmitDirectly(GUIDirectMessage *packet)
 		}
 		return;
 	}
+	CmdReUseMark *CmdReUseMarkVar = dynamic_cast<CmdReUseMark *>(packet);
+	if (CmdReUseMarkVar != NULL) {
+		AlgorithmBase *ABase=GetParentBase();
+		LayersBase	*LBase=GetLayersBase();
+		for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
+			SwitchPhaseItem	*Item=dynamic_cast<SwitchPhaseItem *>(a);
+			const	SwitchPhaseThreshold	*RThr=Item->GetThresholdR();
+			int32	SearchDotForPhase	=RThr->SearchDot;
+			FlexArea	Area=Item->GetArea();
+
+			int	Page=GetPage();
+			int	SourcePhase=0;
+
+			for(int phase=1;phase<GetPhaseNumb();phase++){
+				AlgorithmInPageInOnePhase	*APhase=ABase->GetPageDataPhase(phase);
+				AlgorithmInPageRoot	*Ap=APhase->GetPageData(Page);
+				
+				AddSwitchPhaseAreaPacket	Cmd(LBase);
+				Cmd.Area=Area;
+				Cmd.SearchDot=SearchDotForPhase		;
+
+				PageDataInOnePhase	*Src=LBase->GetPageDataPhase(phase);
+				PageDataInOnePhase	*Dst=LBase->GetPageDataPhase(SourcePhase);
+				DataInPage	*Sp=Src->GetPageData(Page);
+				DataInPage	*Dp=Dst->GetPageData(Page);
+				for(int Layer=0;Layer<GetLayerNumb();Layer++){
+					DataInLayer	*SL=Sp->GetLayerData(Layer);
+					DataInLayer	*DL=Dp->GetLayerData(Layer);
+					DL->GetTargetBuff()=SL->GetMasterBuff();
+				}
+				LBase->SetCurrentPhase(SourcePhase);
+				int	LastCurrentCalcPoint=LBase->GetCurrentCalcPoint();
+				LBase->SetProcessDone(false);
+				LBase->SetCurrentCalcPoint(LastCurrentCalcPoint);
+				LBase->ExecuteStartByInspection	(false);
+
+				int	Index=GetLayersBase()->GetIndexInCurrentStateExecuter(DataInExecuter::FinExecuteStartByInspection);
+				LBase->SetProcessDone(false);
+				LBase->SetCurrentStateInExecuter(Index ,DataInExecuter::FinExecuteStartByInspection);
+				LBase->ExecutePreAlignment		(false);
+
+				LBase->SetProcessDone(false);
+				LBase->SetCurrentStateInExecuter(Index ,DataInExecuter::FinExecutePreAlignment);
+				LBase->ExecuteAlignment			(false);
+
+				int	Cx,Cy;
+				Area.GetCenter(Cx,Cy);
+
+				AlignmentPacket2D	V;
+				V.PosXOnTarget=Cx;
+				V.PosYOnTarget=Cy;
+				V.ShiftX=0;
+				V.ShiftY=0;
+
+				if(Ap!=NULL){
+					Ap->GetAlignmentForProcessing(V);
+					Cmd.Area.MoveToNoClip(V.ShiftX,V.ShiftY);
+					Ap->TransmitDirectly(&Cmd);
+				}
+			}
+		}
+		return;
+	}
 }
 
 bool	SwitchPhaseInPage::AppendItem(AlgorithmItemRoot *item)

@@ -150,9 +150,6 @@ void	ResultBinderImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"ResultBinder");
 	if(Ab==NULL)
 		return;
-	ResultBinderBase	*MBase=dynamic_cast<ResultBinderBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyResultBinder" ,/**/"");
 	CmdCreateResultBinderManualPacket	Da(GetLayersBase());
 	if(GProp!=NULL){

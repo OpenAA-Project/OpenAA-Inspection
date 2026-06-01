@@ -299,7 +299,7 @@ bool	GUICmdSendAddManualEulerRing::Save(QIODevice *f)
 
 void	GUICmdSendAddManualEulerRing::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	EulerRingBase *BBase=(EulerRingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"EulerRing");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"EulerRing");
 	if(BBase!=NULL){
 		CmdAddByteEulerRingItemPacket	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -334,7 +334,7 @@ bool	GUICmdSendModifySelectedEulerRing::Save(QIODevice *f)
 
 void	GUICmdSendModifySelectedEulerRing::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	EulerRingBase *BBase=(EulerRingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"EulerRing");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"EulerRing");
 	if(BBase!=NULL){
 		CmdModifySelectedEulerRingFromByteArray	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -372,9 +372,9 @@ GUICmdSendSelectedEulerRingItemAttr::GUICmdSendSelectedEulerRingItemAttr(LayersB
 }
 void	GUICmdSendSelectedEulerRingItemAttr::Make(int localPage ,LayersBase *Base)
 {
-	EulerRingBase *BBase=(EulerRingBase *)Base->GetAlgorithmBase(/**/"Basic",/**/"EulerRing");
+	AlgorithmBase *BBase=Base->GetAlgorithmBase(/**/"Basic",/**/"EulerRing");
 	if(BBase!=NULL){
-		EulerRingInPage	*PData=dynamic_cast<EulerRingInPage *>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		CmdGetOneSelectedItem	Cmd(this);
 		PData->TransmitDirectly(&Cmd);
 		if(Cmd.ExistSelected==true){
@@ -461,7 +461,7 @@ void	GUICmdSendEulerRingInfoList::Receive(int32 localPage, int32 cmd ,QString &E
 
 void	GUICmdSendEulerRingInfoList::Make(int localPage)
 {
-	EulerRingBase	*BBase=(EulerRingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"EulerRing");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"EulerRing");
 	CmdEulerRingInfoListPacket	Cmd(this);
 	Cmd.LocalPage=localPage;
 	Cmd.EulerRingInfos=&EulerRingInfos;
@@ -491,7 +491,7 @@ bool	GUICmdReqEulerRingFromList::Save(QIODevice *f)
 void	GUICmdReqEulerRingFromList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckEulerRingFromList	*SendBack=GetSendBack(GUICmdAckEulerRingFromList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	EulerRingBase	*BBase=(EulerRingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"EulerRing");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"EulerRing");
 	if(BBase!=NULL){
 		int	N=0;
 		for(ListLayerAndID *a=CurrentItem.GetFirst();a!=NULL;a=a->GetNext()){

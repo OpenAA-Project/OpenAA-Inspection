@@ -259,6 +259,7 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="..\..\GeneralSource\XMaskingPI.cpp" />
     <ClCompile Include="XMaskingPIResource.cpp" />
+    <ClCompile Include="XMaskPICommon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MaskingPI.h" />

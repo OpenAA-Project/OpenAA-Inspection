@@ -136,7 +136,7 @@ void CreateManualThinMetalForm::on_tableWidgetLibList_clicked(const QModelIndex 
 		Ab->TransmitDirectly(&Packet);
 
 		if(Packet.Success==true){
-			ThinMetalLibrary	*ALib=dynamic_cast<ThinMetalLibrary *>(LLib->GetLibrary());
+			ThinMetalLibrary	*ALib=static_cast<ThinMetalLibrary *>(LLib->GetLibrary());
 			ThinMetalLibID				=LLib->GetLibID();
 			ui->EditLibID			->setText(QString::number(LLib->GetLibID()));
 			ui->EditLibName			->setText(a->GetLibName());

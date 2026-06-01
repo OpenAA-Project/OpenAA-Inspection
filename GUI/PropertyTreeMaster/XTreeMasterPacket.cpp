@@ -291,134 +291,6 @@ void GUICmdSelectItem::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 	PData->TransmitDirectly(&Cmd);
 }
 
-//==========================================================================================
-
-bool	TreeMasterList::Load(QIODevice *f)
-{
-	if(::Load(f,Page)==false)
-		return false;
-	if(::Load(f,x1)==false)
-		return false;
-	if(::Load(f,y1)==false)
-		return false;
-	if(::Load(f,x2)==false)
-		return false;
-	if(::Load(f,y2)==false)
-		return false;
-	if(::Load(f,ItemID)==false)
-		return false;
-	if(::Load(f,CatName)==false)
-		return false;
-	if(::Load(f,MasterCode)==false)
-		return false;
-	if(::Load(f,MasterName)==false)
-		return false;
-	if(::Load(f,AlertMask)==false)
-		return false;
-	return true;
-}
-
-bool	TreeMasterList::Save(QIODevice *f)
-{
-	if(::Save(f,Page)==false)
-		return false;
-	if(::Save(f,x1)==false)
-		return false;
-	if(::Save(f,y1)==false)
-		return false;
-	if(::Save(f,x2)==false)
-		return false;
-	if(::Save(f,y2)==false)
-		return false;
-	if(::Save(f,ItemID)==false)
-		return false;
-	if(::Save(f,CatName)==false)
-		return false;
-	if(::Save(f,MasterCode)==false)
-		return false;
-	if(::Save(f,MasterName)==false)
-		return false;
-	if(::Save(f,AlertMask)==false)
-		return false;
-	return true;
-}
-
-TreeMasterList	&TreeMasterList::operator=(TreeMasterList &src)
-{
-	QBuffer	Buff;
-	Buff.open(QIODevice::ReadWrite);
-	src.Save(&Buff);
-	Buff.seek(0);
-	Load(&Buff);
-	return *this;
-}
-
-TreeMasterList	*TreeMasterListForPacketPack::FindByItemID(int TMItemID)
-{
-	for(TreeMasterList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->ItemID==TMItemID){
-			return (c);
-		}
-	}
-	return NULL;
-}
-
-TreeMasterList	*TreeMasterListForPacketPack::FindByMasterCode(int MasterCode)
-{
-	for(TreeMasterList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->MasterCode==MasterCode){
-			return (c);
-		}
-	}
-	return NULL;
-}
-
-void TreeMasterListForPacketPack::decreaseID(int BaseID){
-	for(TreeMasterList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->ItemID>BaseID){
-			c->ItemID--;
-		}
-	}
-}
-
-TreeMasterListForPacketPack	&TreeMasterListForPacketPack::operator+=(TreeMasterListForPacketPack &src)
-{
-	for(TreeMasterList *c=src.GetFirst();c!=NULL;c=c->GetNext()){
-		TreeMasterList *d=new TreeMasterList();
-		QBuffer	Buff;
-		Buff.open(QIODevice::ReadWrite);
-		c->Save(&Buff);
-		Buff.seek(0);
-		d->Load(&Buff);
-		AppendList(d);
-	}
-	return *this;
-}
-bool	TreeMasterListForPacketPack::Load(QIODevice *f)
-{
-	int32	N;
-	if(::Load(f,N)==false)
-		return false;
-	RemoveAll();
-	for(int i=0;i<N;i++){
-		TreeMasterList *c=new TreeMasterList();
-		if(c->Load(f)==false)
-			return false;
-		AppendList(c);
-	}
-	return true;
-}
-bool	TreeMasterListForPacketPack::Save(QIODevice *f)
-{
-	int32	N=GetCount();
-	if(::Save(f,N)==false)
-		return false;
-	for(TreeMasterList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->Save(f)==false)
-			return false;
-	}
-	return true;
-}
 
 //===========================================================================
 
@@ -540,86 +412,16 @@ void	GUICmdSendTreeMasterList::MakeTreeMasterList(int localPage ,LayersBase *PBa
 		return;
 	TreeMasterInfo.RemoveAll();
 
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(ABase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=ABase->GetPageData(localPage);
 	if(PData!=NULL){
-		for(AlgorithmItemPI *item=PData->GetFirstData();item!=NULL;item=item->GetNext()){
-			TreeMasterItem	*MItem=dynamic_cast<TreeMasterItem *>(item);
-			if(MItem!=NULL){
-				TreeMasterList	*L=new TreeMasterList();
-				L->Page=PBase->GetGlobalPageFromLocal(localPage);
-				int x1 ,y1 ,x2 ,y2;
-				MItem->GetXY(x1 ,y1 ,x2 ,y2);
-				L->x1=x1;
-				L->y1=y1;
-				L->x2=x2;
-				L->y2=y2;
-				L->CatName		= MItem->CatName;
-				L->MasterCode	= MItem->MasterCode;
-				L->ItemID			= MItem->TMItemID;
-				L->MasterName	= MItem->MasterName;
-				L->AlertMask	= MItem->AlertMark;
-
-				TreeMasterInfo.AppendList(L);				
-			}
-		}
+		CmdMakeTreeMasterList	Cmd(GetLayersBase());
+		Cmd.TreeMasterInfo = &TreeMasterInfo;
+		PData->TransmitDirectly(&Cmd);
 	}
 }
 void	GUICmdSendTreeMasterList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {}
 
-//========================================================================================
-
-TreeMasterResultList	&TreeMasterResultList::operator=(TreeMasterResultList &src)
-{
-	QBuffer	Buff;
-	Buff.open(QIODevice::ReadWrite);
-	if(src.Save(&Buff)==false){
-		return *this;
-	}
-	Buff.seek(0);
-	Load(&Buff);
-	return *this;
-}
-
-bool	TreeMasterResultList::Load(QIODevice *f)
-{
-	if(::Load(f,Page)==false)
-		return false;
-	if(::Load(f,ItemID)==false)
-		return false;
-	if(::Load(f,CatName)==false)
-		return false;
-	if(::Load(f,MasterCode)==false)
-		return false;
-	if(::Load(f,ResultE)==false)
-		return false;
-	return true;
-}
-
-bool	TreeMasterResultList::Save(QIODevice *f)
-{
-	if(::Save(f,Page)==false)
-		return false;
-	if(::Save(f,ItemID)==false)
-		return false;
-	if(::Save(f,CatName)==false)
-		return false;
-	if(::Save(f,MasterCode)==false)
-		return false;
-	if(::Save(f,ResultE)==false)
-		return false;
-	return true;
-}
-
-TreeMasterResultList	*TreeMasterResultListForPacketPack::FindByItemID(int TMItemID)
-{
-	for(TreeMasterResultList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->ItemID==TMItemID){
-			return (c);
-		}
-	}
-	return NULL;
-}
 
 //========================================================================================
 

@@ -265,9 +265,6 @@ void	RasterImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"Raster");
 	if(Ab==NULL)
 		return;
-	RasterBase	*MBase=dynamic_cast<RasterBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyRaster" ,/**/"");
 	if(GProp!=NULL){
 		CmdRasterGetOperationModePacket	MCmd(GetLayersBase());
@@ -543,106 +540,104 @@ bool	RasterImagePanel::IsMoveModeButtonDown(void)	const
 }
 void	RasterImagePanel::ExecuteMouseLDown(int globalX ,int globalY)
 {
-	RasterBase	*GAlgo=dynamic_cast<RasterBase *>(GetAlgorithmBase());
 	CmdRasterGetOperationModePacket	Cmd(GetLayersBase());
 	GUIFormBase	*DProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyRaster" ,/**/"");
 	if(DProp==NULL)
 		return;
 
 	DProp->TransmitDirectly(&Cmd);
-	if(GAlgo!=NULL){
-		if(Cmd.Mode==OMRaster_Move)
-			DisplayImageWithAlgorithm::ExecuteMouseLDown(globalX ,globalY);
-		
-		else if(Cmd.Mode==OMRaster_3PointAlignment){
-			CmdRasterLMouseDownIn3PAPacket	LCmd(GetLayersBase());
-			LCmd.GlobalX=globalX;
-			LCmd.GlobalY=globalY;
-			LCmd.Source=this;
-			DProp->TransmitDirectly(&LCmd);
-		}
-		else if(Cmd.Mode==OMRaster_PickColor){
-			CmdRasterLMouseDownPickColor	LCmd(GetLayersBase());
-			LCmd.GlobalX=globalX;
-			LCmd.GlobalY=globalY;
-			LCmd.Source=this;
-			DProp->TransmitDirectly(&LCmd);
-		}
-		else if(Cmd.Mode==OMRaster_Paint){
-			CmdRasterGetShowingState	StateCmd(GetLayersBase());
-			GUIFormBase	*DProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyRaster" ,/**/"");
-			if(DProp==NULL)
-				return;
-
-			DProp->TransmitDirectly(&StateCmd);	
-			GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Draw Raster");
-
-			IntList PageList;
-			GetLayersBase()->GetGlobalPage(globalX ,globalY,PageList);
-			for(IntClass *c=PageList.GetFirst();c!=NULL;c=c->GetNext()){
-				int	GlobalPage=c->GetValue();
-				GUICmdRasterDraw	SCmd(GetLayersBase(),sRoot,sName,GlobalPage);
-				SCmd.GlobalX=globalX;
-				SCmd.GlobalY=globalY;
-				SCmd.ButtonsToShowLayer		=StateCmd.ButtonsToShowLayer;
-				SCmd.ButtonsToOperateLayer	=StateCmd.ButtonsToOperateLayer;
-
-				BoolList	ButtonsToShowLayer;
-				BoolList	ButtonsToOperateLayer;
-
-				SCmd.Send(NULL,GlobalPage,0);
-			}
-			Repaint();
-		}
-		else if(Cmd.Mode==OMRaster_PickupByEdge){
-			CmdRasterLMouseDownPickupByEdge	LCmd(GetLayersBase());
-			LCmd.GlobalX=globalX;
-			LCmd.GlobalY=globalY;
-			LCmd.Source=this;
-			DProp->TransmitDirectly(&LCmd);
-		}
-		else if(Cmd.Mode==OMRaster_MoveElement){
-			if(FirstElementClick==false){
-				MoveElementStart(globalX ,globalY);
-				FirstElementClick=true;
-			}
-			else if(FirstElementClick==true){
-				GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyRaster" ,/**/"");
-				if(GProp!=NULL){
-					CmdRasterGetDrawAttr	Da(GetLayersBase());
-					GProp->TransmitDirectly(&Da);
-					for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
-						int	globalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
-						GUICmdMoveElement	hCmd(GetLayersBase(),EmitterRoot ,EmitterName,globalPage);
-						hCmd.MovX=-(MoveStartElementPosX-LastElementPosX);
-						hCmd.MovY=-(MoveStartElementPosY-LastElementPosY);
-						hCmd.ElementID=Da.CurrentElementID;
-						hCmd.Send(NULL,globalPage,0);
-					}
-				}
-				LastElementPosX=MoveStartElementPosX;
-				LastElementPosY=MoveStartElementPosY;
-				FirstElementClick=false;
-			}
-		}
-	}
-	else{
+	if(Cmd.Mode==OMRaster_Move)
 		DisplayImageWithAlgorithm::ExecuteMouseLDown(globalX ,globalY);
-		if(GetLastHookResult()==false)
-			return;
+	
+	else if(Cmd.Mode==OMRaster_3PointAlignment){
+		CmdRasterLMouseDownIn3PAPacket	LCmd(GetLayersBase());
+		LCmd.GlobalX=globalX;
+		LCmd.GlobalY=globalY;
+		LCmd.Source=this;
+		DProp->TransmitDirectly(&LCmd);
 	}
+	else if(Cmd.Mode==OMRaster_PickColor){
+		CmdRasterLMouseDownPickColor	LCmd(GetLayersBase());
+		LCmd.GlobalX=globalX;
+		LCmd.GlobalY=globalY;
+		LCmd.Source=this;
+		DProp->TransmitDirectly(&LCmd);
+	}
+	else if(Cmd.Mode==OMRaster_Paint){
+		CmdRasterGetShowingState	StateCmd(GetLayersBase());
+		GUIFormBase	*DProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyRaster" ,/**/"");
+		if(DProp==NULL)
+			return;
+
+		DProp->TransmitDirectly(&StateCmd);	
+		GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Draw Raster");
+
+		IntList PageList;
+		GetLayersBase()->GetGlobalPage(globalX ,globalY,PageList);
+		for(IntClass *c=PageList.GetFirst();c!=NULL;c=c->GetNext()){
+			int	GlobalPage=c->GetValue();
+			GUICmdRasterDraw	SCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+			SCmd.GlobalX=globalX;
+			SCmd.GlobalY=globalY;
+			SCmd.ButtonsToShowLayer		=StateCmd.ButtonsToShowLayer;
+			SCmd.ButtonsToOperateLayer	=StateCmd.ButtonsToOperateLayer;
+
+			BoolList	ButtonsToShowLayer;
+			BoolList	ButtonsToOperateLayer;
+
+			SCmd.Send(NULL,GlobalPage,0);
+		}
+		Repaint();
+	}
+	else if(Cmd.Mode==OMRaster_PickupByEdge){
+		CmdRasterLMouseDownPickupByEdge	LCmd(GetLayersBase());
+		LCmd.GlobalX=globalX;
+		LCmd.GlobalY=globalY;
+		LCmd.Source=this;
+		DProp->TransmitDirectly(&LCmd);
+	}
+	else if(Cmd.Mode==OMRaster_MoveElement){
+		if(FirstElementClick==false){
+			MoveElementStart(globalX ,globalY);
+			FirstElementClick=true;
+		}
+		else if(FirstElementClick==true){
+			GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyRaster" ,/**/"");
+			if(GProp!=NULL){
+				CmdRasterGetDrawAttr	Da(GetLayersBase());
+				GProp->TransmitDirectly(&Da);
+				for(int page=0;page<GetLayersBase()->GetPageNumb();page++){
+					int	globalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+					GUICmdMoveElement	hCmd(GetLayersBase(),EmitterRoot ,EmitterName,globalPage);
+					hCmd.MovX=-(MoveStartElementPosX-LastElementPosX);
+					hCmd.MovY=-(MoveStartElementPosY-LastElementPosY);
+					hCmd.ElementID=Da.CurrentElementID;
+					hCmd.Send(NULL,globalPage,0);
+				}
+			}
+			LastElementPosX=MoveStartElementPosX;
+			LastElementPosY=MoveStartElementPosY;
+			FirstElementClick=false;
+		}
+	}
+	
+	//else{
+	//	DisplayImageWithAlgorithm::ExecuteMouseLDown(globalX ,globalY);
+	//	if(GetLastHookResult()==false)
+	//		return;
+	//}
 }
 
 void	RasterImagePanel::ExecuteMouseLDoubleClick(int globalX ,int globalY)
 {
-	RasterBase	*GAlgo=dynamic_cast<RasterBase *>(GetAlgorithmBase());
+	//RasterBase	*GAlgo=dynamic_cast<RasterBase *>(GetAlgorithmBase());
 	CmdRasterGetOperationModePacket	Cmd(GetLayersBase());
 	GUIFormBase	*DProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyRaster" ,/**/"");
 	if(DProp==NULL)
 		return;
 
 	DProp->TransmitDirectly(&Cmd);
-	if(GAlgo!=NULL){
+	//if(GAlgo!=NULL){
 		if(Cmd.Mode==OMRaster_PickupByColorReference){
 			CmdRasterLMouseDownPickupByColorPacket	LCmd(GetLayersBase());
 			LCmd.GlobalX=globalX;
@@ -657,29 +652,29 @@ void	RasterImagePanel::ExecuteMouseLDoubleClick(int globalX ,int globalY)
 			LCmd.Source=this;
 			DProp->TransmitDirectly(&LCmd);
 		}
-	}
-	else{
-		DisplayImageWithAlgorithm::ExecuteMouseLDown(globalX ,globalY);
-		if(GetLastHookResult()==false)
-			return;
-	}
+	//}
+	//else{
+	//	DisplayImageWithAlgorithm::ExecuteMouseLDown(globalX ,globalY);
+	//	if(GetLastHookResult()==false)
+	//		return;
+	//}
 }
 void	RasterImagePanel::ExecuteMouseLDownWithShift(int globalX ,int globalY)
 {
-	RasterBase	*GAlgo=dynamic_cast<RasterBase *>(GetAlgorithmBase());
+	//RasterBase	*GAlgo=dynamic_cast<RasterBase *>(GetAlgorithmBase());
 	CmdRasterGetOperationModePacket	Cmd(GetLayersBase());
 	GUIFormBase	*DProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyRaster" ,/**/"");
 	if(DProp==NULL)
 		return;
 
 	DProp->TransmitDirectly(&Cmd);
-	if(GAlgo!=NULL){
+	//if(GAlgo!=NULL){
 		CmdRasterLMouseDownIn3PAPacket	LCmd(GetLayersBase());
 		LCmd.GlobalX=globalX;
 		LCmd.GlobalY=globalY;
 		LCmd.Source=this;
 		DProp->TransmitDirectly(&LCmd);
-	}
+	//}
 }
 void	RasterImagePanel::ExeSelectItems(FlexArea &Area)
 {

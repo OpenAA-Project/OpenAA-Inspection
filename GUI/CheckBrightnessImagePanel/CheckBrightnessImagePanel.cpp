@@ -157,9 +157,6 @@ void	CheckBrightnessImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"CheckBrightness");
 	if(Ab==NULL)
 		return;
-	CheckBrightnessBase	*MBase=dynamic_cast<CheckBrightnessBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyCheckBrightness" ,/**/"");
 	CmdCreateCheckBrightnessManualPacket	Da(GetLayersBase());
 	if(GProp!=NULL){

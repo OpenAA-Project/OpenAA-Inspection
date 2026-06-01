@@ -358,7 +358,7 @@ void	PropertyBlockForm::TransmitDirectly(GUIDirectMessage *packet)
 		if(ui.toolButtonLibrary->isChecked()==true){
 			if(TempLib->GetLibID()>=0){
 				//GlobalPickupArea+=BlockDEnd->Area;
-				BlockLibrary	*ALib=dynamic_cast<BlockLibrary *>(TempLib->GetLibrary());
+				BlockLibrary	*ALib=static_cast<BlockLibrary *>(TempLib->GetLibrary());
 				BrightHistogramForm	D(BlockDEnd->Area,BlockDEnd->ImagePanelPoint
 									  ,ALib->PickupL,ALib->PickupH,this);
 				D.Reflect(ALib->PickupL,ALib->PickupH);
@@ -538,7 +538,7 @@ void	PropertyBlockForm::TransmitDirectly(GUIDirectMessage *packet)
 
 			AlgorithmLibraryLevelContainer	*BLib=LPacket.Point;
 			if(UpdateBlockLibraryVar->SpaceToOutline>=0){
-				BlockLibrary	*ALib=dynamic_cast<BlockLibrary *>(BLib->GetLibrary());
+				BlockLibrary	*ALib=static_cast<BlockLibrary *>(BLib->GetLibrary());
 				ALib->SpaceToOutline	=UpdateBlockLibraryVar->SpaceToOutline;
 			}
 			CmdUpdateBlockLibraryPacket	UPacket(GetLayersBase());
@@ -626,7 +626,7 @@ void	PropertyBlockForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	BlockLibrary	*ALib=dynamic_cast<BlockLibrary *>(data.GetLibrary());
+	BlockLibrary	*ALib=static_cast<BlockLibrary *>(data.GetLibrary());
 	ui.EditMinBlockSize		->setValue(ALib->MinBlockSize);
 	ui.EditMaxBlockSize		->setValue(ALib->MaxBlockSize);
 	ui.EditMinBlockDots		->setValue(ALib->MinBlockDots);
@@ -644,7 +644,7 @@ void	PropertyBlockForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &dat
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	BlockLibrary	*ALib=dynamic_cast<BlockLibrary *>(data.GetLibrary());
+	BlockLibrary	*ALib=static_cast<BlockLibrary *>(data.GetLibrary());
 	ALib->MinBlockSize		=ui.EditMinBlockSize	->value();
 	ALib->MaxBlockSize		=ui.EditMaxBlockSize	->value();
 	ALib->MinBlockDots		=ui.EditMinBlockDots	->value();
@@ -795,7 +795,7 @@ void	PropertyBlockForm::ShowSelectedLibList(void)
 		CmdCreateTempBlockLibraryPacket	Packet(GetLayersBase());
 		BBase->TransmitDirectly(&Packet);
 		AlgorithmLibraryLevelContainer	*SLib=Packet.Point;
-		BlockLibrary	*ALib=dynamic_cast<BlockLibrary *>(SLib->GetLibrary());
+		BlockLibrary	*ALib=static_cast<BlockLibrary *>(SLib->GetLibrary());
 		int	row=0;
 		for(AlgorithmLibraryList *a=SelectedLibList.GetFirst();a!=NULL;a=a->GetNext(),row++){
 			DDim[row].a=a;
@@ -1267,7 +1267,7 @@ bool	PropertyBlockForm::CommandSetOutlineInLib(int LibID,int OutlineDot)
 		CmdLoadBlockLibraryPacket	Packet(GetLayersBase());
 		Packet.Point=Lib;
 		BBase->TransmitDirectly(&Packet);
-		BlockLibrary	*ALib=dynamic_cast<BlockLibrary *>(Lib->GetLibrary());
+		BlockLibrary	*ALib=static_cast<BlockLibrary *>(Lib->GetLibrary());
 		ALib->SpaceToOutline=OutlineDot;
 
 		CmdUpdateBlockLibraryPacket	UPacket(GetLayersBase());

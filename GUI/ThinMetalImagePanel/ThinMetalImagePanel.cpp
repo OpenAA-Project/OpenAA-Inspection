@@ -171,9 +171,7 @@ void	ThinMetalImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
 	if(Ab==NULL)
 		return;
-	ThinMetalBase	*MBase=dynamic_cast<ThinMetalBase *>(Ab);
-	if(MBase==NULL)
-		return;
+
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyThinMetal" ,/**/"");
 	if(GProp!=NULL){
 		CmdThinMetalDrawEnd	Da(GetLayersBase());
@@ -196,7 +194,7 @@ void	ThinMetalImagePanel::DrawEndAfterOperation(FlexArea &area)
 				int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 
 				CmdCreateTempThinMetalItemPacket	ItemPacket(GetLayersBase());
-				MBase->TransmitDirectly(&ItemPacket);
+				Ab->TransmitDirectly(&ItemPacket);
 
 				CmdCreateTempThinMetalLibraryPacket	LibPacket(GetLayersBase());
 				Ab->TransmitDirectly(&LibPacket);
@@ -205,13 +203,12 @@ void	ThinMetalImagePanel::DrawEndAfterOperation(FlexArea &area)
 				TempLib->SetLibID(DefaultLibID);
 				CmdLoadThinMetalLibraryPacket	Packet(GetLayersBase());
 				Packet.Point=TempLib;
-				AlgorithmBase	*Ab=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
-				MBase->TransmitDirectly(&Packet);
+				Ab->TransmitDirectly(&Packet);
 				
 				CmdCreateByteArrayFromThinMetalItemPacket	BCmd(GetLayersBase());
 				BCmd.Point=(ThinMetalItem *)ItemPacket.Point;
 
-				ThinMetalLibrary	*ALib=dynamic_cast<ThinMetalLibrary *>(TempLib->GetLibrary());
+				ThinMetalLibrary	*ALib=static_cast<ThinMetalLibrary *>(TempLib->GetLibrary());
 				BCmd.Point	->SetLibID(TempLib->GetLibID());
 				BCmd.Point	->GetThresholdW()->BrightWidthL	=ALib->BrightWidthL	;
 				BCmd.Point	->GetThresholdW()->BrightWidthH	=ALib->BrightWidthH	;
@@ -225,7 +222,7 @@ void	ThinMetalImagePanel::DrawEndAfterOperation(FlexArea &area)
 				BCmd.Point	->GetThresholdW()->ShrinkDot	=ALib->ShrinkDot		;
 				BCmd.Point	->GetThresholdW()->EnlargeDot	=ALib->EnlargeDot	;
 
-				MBase->TransmitDirectly(&BCmd);
+				Ab->TransmitDirectly(&BCmd);
 
 				GUICmdSendAddManualThinMetal	Cmd(GetLayersBase(),sRoot,sName,GlobalPage);
 				Cmd.Area=A;

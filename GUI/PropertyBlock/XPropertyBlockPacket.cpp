@@ -427,11 +427,11 @@ GUICmdSendSelectedBlockItemAttr::GUICmdSendSelectedBlockItemAttr(LayersBase *Bas
 }
 void	GUICmdSendSelectedBlockItemAttr::Make(int localPage ,LayersBase *Base ,IntList &LayerList)
 {
-	BlockBase *BBase=(BlockBase *)Base->GetAlgorithmBase(/**/"Basic",/**/"BlockInspection");
+	AlgorithmBase *BBase=Base->GetAlgorithmBase(/**/"Basic",/**/"BlockInspection");
 	if(BBase!=NULL){
-		BlockInPage	*PData=dynamic_cast<BlockInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		for(IntClass *L=LayerList.GetFirst();L!=NULL;L=L->GetNext()){
-			BlockInLayer	*LData=dynamic_cast<BlockInLayer *>(PData->GetLayerData(L->GetValue()));
+			AlgorithmInLayerRoot	*LData=PData->GetLayerData(L->GetValue());
 			if(LData!=NULL){
 				CmdGetOneSelectedItem	Cmd(this);
 				LData->TransmitDirectly(&Cmd);

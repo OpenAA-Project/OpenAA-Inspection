@@ -65,9 +65,9 @@ void	GUICmdSendAddManualColorCorrector::Receive(int32 localPage, int32 cmd ,QStr
 {
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	ColorCorrectorBase *BBase=(ColorCorrectorBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorCorrector");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorCorrector");
 	if(BBase!=NULL){
-		ColorCorrectorInPage	*PData=dynamic_cast<ColorCorrectorInPage *>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdAddByteColorCorrectorItemPacket	Cmd(GetLayersBase());
 			Cmd.Buff		=BItem;
@@ -79,37 +79,6 @@ void	GUICmdSendAddManualColorCorrector::Receive(int32 localPage, int32 cmd ,QStr
 	SendAck(localPage);
 }
 
-//=============================================================================
-bool	ColorCorrectorGridList::Save(QIODevice *f)
-{
-	if(::Save(f,Page	)==false)	return false;
-	if(::Save(f,ItemID	)==false)	return false;
-	if(::Save(f,x1)==false)
-		return false;
-	if(::Save(f,y1)==false)
-		return false;
-	if(::Save(f,x2)==false)
-		return false;
-	if(::Save(f,y2)==false)
-		return false;
-
-	return true;
-}
-bool	ColorCorrectorGridList::Load(QIODevice *f)
-{
-	if(::Load(f,Page	)==false)	return false;
-	if(::Load(f,ItemID	)==false)	return false;
-	if(::Load(f,x1)==false)
-		return false;
-	if(::Load(f,y1)==false)
-		return false;
-	if(::Load(f,x2)==false)
-		return false;
-	if(::Load(f,y2)==false)
-		return false;
-
-	return true;
-}
 
 
 
@@ -137,23 +106,16 @@ void	GUICmdReqGridList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 {
 	GUICmdAckGridList	*SendBack=GetSendBack(GUICmdAckGridList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	
-	ColorCorrectorBase *BBase=(ColorCorrectorBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorCorrector");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorCorrector");
 	if(BBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=BBase->GetPageDataPhase(Phase);
 		if(Ph!=NULL){
-			ColorCorrectorInPage	*PData=dynamic_cast<ColorCorrectorInPage *>(Ph->GetPageData(localPage));
+			AlgorithmInPageRoot	*PData=Ph->GetPageData(localPage);
 			if(PData!=NULL){
-				for(AlgorithmItemPI *a=PData->GetFirstData();a!=NULL;a=a->GetNext()){
-					if(a->GetItemClassType()==VType){
-						ColorCorrectorGridList	*L=new ColorCorrectorGridList();
-						L->Page=GetLayersBase()->GetGlobalPageFromLocal(localPage);
-						L->ItemID=a->GetID();
-						const	AlgorithmThreshold	*r=a->GetThresholdBaseReadable(GetLayersBase());
-						const ColorCorrectorThresholdBase	*RThr=dynamic_cast<const ColorCorrectorThresholdBase *>(r);
-						a->GetXY(L->x1,L->y1,L->x2,L->y2);
-						SendBack->ListData.AppendList(L);
-					}
-				}
+				CmdReqGridList	Cmd(GetLayersBase());
+				Cmd.VType = VType;
+				Cmd.ListData = &SendBack->ListData;
+				PData->TransmitDirectly(&Cmd);
 			}
 		}
 	}
@@ -203,14 +165,14 @@ void	GUICmdReqColorCorrectorItemData::Receive(int32 localPage, int32 cmd ,QStrin
 {
 	GUICmdAckColorCorrectorItemData	*SendBack=GetSendBack(GUICmdAckColorCorrectorItemData,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	
-	ColorCorrectorBase *BBase=(ColorCorrectorBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorCorrector");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorCorrector");
 	if(BBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=BBase->GetPageDataPhase(Phase);
 		if(Ph!=NULL){
-			ColorCorrectorInPage	*PData=dynamic_cast<ColorCorrectorInPage *>(Ph->GetPageData(localPage));
+			AlgorithmInPageRoot	*PData=Ph->GetPageData(localPage);
 			if(PData!=NULL){
 				AlgorithmItemRoot *a=PData->SearchIDItem(ItemID);
-				ColorCorrectorThresholdBase	*RThr=dynamic_cast<ColorCorrectorThresholdBase *>(a->GetThresholdBaseWritable(GetLayersBase()));
+				ColorCorrectorThresholdBase	*RThr=static_cast<ColorCorrectorThresholdBase *>(a->GetThresholdBaseWritable(GetLayersBase()));
 				QBuffer	Buff;
 				Buff.open(QIODevice::ReadWrite);
 				RThr->Save(&Buff);
@@ -265,14 +227,14 @@ bool	GUICmdSetColorCorrectorItemData::Save(QIODevice *f)
 }
 void	GUICmdSetColorCorrectorItemData::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ColorCorrectorBase *BBase=(ColorCorrectorBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorCorrector");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorCorrector");
 	if(BBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=BBase->GetPageDataPhase(Phase);
 		if(Ph!=NULL){
-			ColorCorrectorInPage	*PData=dynamic_cast<ColorCorrectorInPage *>(Ph->GetPageData(localPage));
+			AlgorithmInPageRoot	*PData=Ph->GetPageData(localPage);
 			if(PData!=NULL){
 				AlgorithmItemRoot *a=PData->SearchIDItem(ItemID);
-				ColorCorrectorThresholdBase	*WThr=dynamic_cast<ColorCorrectorThresholdBase *>(a->GetThresholdBaseWritable(GetLayersBase()));
+				ColorCorrectorThresholdBase	*WThr=static_cast<ColorCorrectorThresholdBase *>(a->GetThresholdBaseWritable(GetLayersBase()));
 				QBuffer	Buff(&BItem);
 				Buff.open(QIODevice::ReadWrite);
 				WThr->Load(&Buff);
@@ -301,14 +263,17 @@ bool	GUICmdDeleteColorCorrectorItem::Save(QIODevice *f)
 
 void	GUICmdDeleteColorCorrectorItem::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ColorCorrectorBase *BBase=(ColorCorrectorBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorCorrector");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorCorrector");
 	if(BBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=BBase->GetPageDataPhase(Phase);
 		if(Ph!=NULL){
-			ColorCorrectorInPage	*PData=dynamic_cast<ColorCorrectorInPage *>(Ph->GetPageData(localPage));
+			AlgorithmInPageRoot	*PData=Ph->GetPageData(localPage);
 			if(PData!=NULL){
 				AlgorithmItemRoot *a=PData->SearchIDItem(ItemID);
-				PData->RemoveItem(a);
+				//PData->RemoveItem(a);
+				AlgorithmItemPointerListContainer	AList;
+				AList.Add(a);
+				PData->RemoveItems(AList);
 			}
 		}
 	}

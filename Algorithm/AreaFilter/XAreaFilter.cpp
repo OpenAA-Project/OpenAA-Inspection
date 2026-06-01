@@ -348,6 +348,20 @@ void	AreaFilterInLayer::TransmitDirectly(GUIDirectMessage *packet)
 			Item->CopyThresholdFromLibrary(&Lib);
 			AppendItem(Item);
 		}
+		return;
+	}
+	CmdSetAreaFilterList *CmdSetAreaFilterListVar = dynamic_cast<CmdSetAreaFilterList *>(packet);
+	if(CmdSetAreaFilterListVar!=NULL){
+		for(AlgorithmItemPLI *Item=GetFirstData();Item!=NULL;Item=Item->GetNext()){
+			AreaFilterListForPacket	*r=new AreaFilterListForPacket();
+			r->Data.Page=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+			r->Data.Layer	=GetLayer();
+			r->Data.ItemID	=Item->GetID();
+			r->Data.LibID	=Item->GetLibID();
+			Item->GetXY(r->Data.x1,r->Data.y1,r->Data.x2,r->Data.y2);
+			CmdSetAreaFilterListVar->ItemListInfo->AppendList(r);
+		}
+		return;
 	}
 }
 

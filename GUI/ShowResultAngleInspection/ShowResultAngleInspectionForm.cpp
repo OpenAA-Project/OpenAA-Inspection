@@ -76,20 +76,11 @@ void	GUICmdReqShowResultAngleInspection::Receive(int32 localPage, int32 cmd ,QSt
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AngleInspection");
 	SendBack->Result=none3;
 	if(Base!=NULL){
-		AngleInspectionInPage	*PPage=dynamic_cast<AngleInspectionInPage *>(Base->GetPageData(localPage));
-		AngleInspectionItem	*Item=(AngleInspectionItem *)PPage->GetFirstData();
-		if(Item!=NULL){
-			ResultInItemRoot	*R=Item->GetCurrentResult();
-			if(R!=NULL){
-				SendBack->ResultAngle	=R->GetResultDouble();
-				if(R->GetError()==0)
-					SendBack->Result=none3;
-				if(R->GetError()==1)
-					SendBack->Result=true3;
-				if(R->GetError()==2)
-					SendBack->Result=false3;
-			}
-		}
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
+		CmdGetShowResultAngleInspection	Cmd(GetLayersBase());
+		PPage->TransmitDirectly(&Cmd);
+		SendBack->ResultAngle = Cmd.ResultAngle;
+		SendBack->Result = Cmd.Result;
 	}
 	SendBack->Send(this ,GetLayersBase()->GetGlobalPageFromLocal(localPage),0);
 	CloseSendBack(SendBack);

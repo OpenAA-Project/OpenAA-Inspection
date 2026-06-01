@@ -292,3 +292,32 @@ public:
 
 	CmdSaveThreshold(LayersBase *Base):GUIDirectMessage(Base){}
 };
+
+class ColorCorrectorGridList : public NPListSaveLoad<ColorCorrectorGridList>
+{
+public:
+	int		Phase	;
+	int		Page	;
+	int		ItemID	;
+	int32	x1,y1,x2,y2;
+
+	ColorCorrectorGridList(void){}
+
+	virtual	bool	Save(QIODevice *f)	override;
+	virtual	bool	Load(QIODevice *f)	override;
+};
+class ColorCorrectorGridListContainer : public NPListPackSaveLoad<ColorCorrectorGridList>
+{
+public:
+	ColorCorrectorGridListContainer(void){}
+	virtual	ColorCorrectorGridList	*Create(void)	{	return new ColorCorrectorGridList();	}
+};
+
+class	CmdReqGridList : public GUIDirectMessage
+{
+public:
+	ColorCorrectorType	VType;
+	ColorCorrectorGridListContainer	*ListData;
+
+	CmdReqGridList(LayersBase *Base):GUIDirectMessage(Base){}
+};

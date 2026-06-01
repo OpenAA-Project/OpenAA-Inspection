@@ -240,7 +240,7 @@ void	PropertyThinMetalForm::TransmitDirectly(GUIDirectMessage *packet)
 	if(ThinMetalDEnd!=NULL){
 		if(ui->toolButtonLibrary->isChecked()==true){
 			if(LLib->GetLibID()>=0){
-				ThinMetalLibrary	*ALib=dynamic_cast<ThinMetalLibrary *>(LLib->GetLibrary());
+				ThinMetalLibrary	*ALib=static_cast<ThinMetalLibrary *>(LLib->GetLibrary());
 				if(ALib!=NULL){
 					//GlobalPickupArea+=ThinMetalDEnd->Area;
 					BrightHistogramForm	D(ThinMetalDEnd->Area
@@ -427,7 +427,7 @@ bool	PropertyThinMetalForm::LoadContent(QIODevice *f)
 
 void	PropertyThinMetalForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	ThinMetalLibrary	*d=dynamic_cast<ThinMetalLibrary *>(data.GetLibrary());
+	ThinMetalLibrary	*d=static_cast<ThinMetalLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -449,7 +449,7 @@ void	PropertyThinMetalForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 
 void	PropertyThinMetalForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	ThinMetalLibrary	*d=dynamic_cast<ThinMetalLibrary *>(data.GetLibrary());
+	ThinMetalLibrary	*d=static_cast<ThinMetalLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->MinSize	=ui->EditMinSize	->value();
@@ -637,7 +637,7 @@ void	PropertyThinMetalForm::ShowSelectedLibList(void)
 			CmdLoadThinMetalLibraryPacket	Packet(GetLayersBase());
 			Packet.Point=SLib;
 			BBase->TransmitDirectly(&Packet);
-			ThinMetalLibrary	*ALib=dynamic_cast<ThinMetalLibrary *>(SLib->GetLibrary());
+			ThinMetalLibrary	*ALib=static_cast<ThinMetalLibrary *>(SLib->GetLibrary());
 			DDim[row].Priority=ALib->Priority;
 		}
 		for(;;){

@@ -112,7 +112,7 @@ void	GUICmdAddAreaManual::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"ResultBinder");
 	if(PBase==NULL)
 		return;
-	ResultBinderInPage	*PPage=dynamic_cast<ResultBinderInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		AddRulePacket	Da(GetLayersBase());
 		Da.ResultBinderItemID	=ResultBinderItemID;
@@ -234,7 +234,7 @@ void	GUICmdChangeAreaManual::Receive(int32 localPage, int32 cmd ,QString &Emitte
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"ResultBinder");
 	if(PBase==NULL)
 		return;
-	ResultBinderInPage	*PPage=dynamic_cast<ResultBinderInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdChangeRulePacket	Da(GetLayersBase());
 		Da.ResultBinderItemID	=ResultBinderItemID;
@@ -378,7 +378,7 @@ void	GUICmdReqResultBinderItemAdd::Receive(int32 localPage, int32 cmd ,QString &
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"ResultBinder");
 	if(PBase==NULL)
 		return;
-	ResultBinderInPage	*PPage=dynamic_cast<ResultBinderInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqResultBinderItemAdd	Cmd(GetLayersBase());
 		Cmd.ResultBinderItemName	=ItemName;
@@ -438,7 +438,7 @@ void	GUICmdReqResultBinderItemInfo::Receive(int32 localPage, int32 cmd ,QString 
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"ResultBinder");
 	if(PBase==NULL)
 		return;
-	ResultBinderInPage	*PPage=dynamic_cast<ResultBinderInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqResultBinderItemInfo	Cmd(GetLayersBase());
 		Cmd.ItemID	=ItemID;
@@ -495,7 +495,7 @@ void	GUICmdReqResultBinderItemMod::Receive(int32 localPage, int32 cmd ,QString &
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"ResultBinder");
 	if(PBase==NULL)
 		return;
-	ResultBinderInPage	*PPage=dynamic_cast<ResultBinderInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqResultBinderItemMod	Cmd(GetLayersBase());
 		Cmd.ItemID		=ItemID;
@@ -516,7 +516,7 @@ void	GUICmdReqResultBinderItemEnum::Receive(int32 localPage, int32 cmd ,QString 
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"ResultBinder");
 	if(PBase==NULL)
 		return;
-	ResultBinderInPage	*PPage=dynamic_cast<ResultBinderInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqResultBinderItemEnum	Cmd(GetLayersBase());
 		Cmd.Items	=&SendBack->Items;
@@ -572,15 +572,13 @@ void	GUICmdReqResultBinderItemDel::Receive(int32 localPage, int32 cmd ,QString &
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"ResultBinder");
 	if(PBase==NULL)
 		return;
-	ResultBinderInPage	*PPage=dynamic_cast<ResultBinderInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqResultBinderItemDel	Cmd(GetLayersBase());
 		Cmd.ResultBinderItemID	=ItemID;
 		PPage->TransmitDirectly(&Cmd);
 	}
-
 }
-
 
 //=========================================================================================================
 
@@ -626,7 +624,7 @@ void	GUICmdReqRuleOnXY::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"ResultBinder");
 	if(PBase==NULL)
 		return;
-	ResultBinderInPage	*PPage=dynamic_cast<ResultBinderInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqRuleOnXY	Cmd(GetLayersBase());
 		Cmd.ZoomRate=ZoomRate;
@@ -781,7 +779,7 @@ void	GUICmdReqAddConnection::Receive(int32 localPage, int32 cmd ,QString &Emitte
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"ResultBinder");
 	if(PBase==NULL)
 		return;
-	ResultBinderInPage	*PPage=dynamic_cast<ResultBinderInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqAddConnection	Cmd(GetLayersBase());
 		Cmd.ParentRuleID=ParentRuleID;
@@ -835,7 +833,7 @@ void	GUICmdReqClosedConnectionOnXY::Receive(int32 localPage, int32 cmd ,QString 
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"ResultBinder");
 	if(PBase==NULL)
 		return;
-	ResultBinderInPage	*PPage=dynamic_cast<ResultBinderInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAckClosedConnectionOnXY	Cmd(GetLayersBase());
 		Cmd.ZoomRate=ZoomRate;
@@ -918,7 +916,7 @@ void	GUICmdDelConnection::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"ResultBinder");
 	if(PBase==NULL)
 		return;
-	ResultBinderInPage	*PPage=dynamic_cast<ResultBinderInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdDelConnection	Cmd(GetLayersBase());
 		Cmd.ParentRuleID=ParentRuleID;

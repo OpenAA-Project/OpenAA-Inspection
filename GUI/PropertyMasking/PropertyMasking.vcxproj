@@ -208,7 +208,7 @@
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Component.lib;ServiceLib.lib;ServiceForAlgorithm.lib;SelectLibraryInMask.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Component.lib;ServiceLib.lib;DisplayImage.lib;ServiceForAlgorithm.lib;SelectLibraryInMask.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>..\..\GUI;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -358,6 +358,7 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Algorithm\Masking\XMaskingCommon.cpp" />
     <ClCompile Include="EditMaskLibraryDialog.cpp" />
     <ClCompile Include="GenerateMaskFromSameBrightnessForm.cpp" />
     <ClCompile Include="GenerateMaskFromSameColorForm.cpp" />

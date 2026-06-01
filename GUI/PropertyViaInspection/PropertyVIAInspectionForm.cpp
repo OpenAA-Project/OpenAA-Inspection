@@ -257,7 +257,7 @@ void	PropertyVIAInspectionForm::TransmitDirectly(GUIDirectMessage *packet)
 		if(ui->toolButtonLibrary->isChecked()==true){
 			if(TempLib->GetLibID()>=0){
 				//GlobalPickupArea+=VIADEnd->Area;
-				VIALibrary	*ALib=dynamic_cast<VIALibrary *>(TempLib->GetLibrary());
+				VIALibrary	*ALib=static_cast<VIALibrary *>(TempLib->GetLibrary());
 				BrightHistogramForm	D(VIADEnd->Area,VIADEnd->ImagePanelPoint
 									  ,ALib->PickupL,ALib->PickupH,this);
 				D.Reflect(ALib->PickupL,ALib->PickupH);
@@ -444,7 +444,7 @@ void	PropertyVIAInspectionForm::ShowLibrary(AlgorithmLibraryLevelContainer &data
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	VIALibrary	*ALib=dynamic_cast<VIALibrary *>(data.GetLibrary());
+	VIALibrary	*ALib=static_cast<VIALibrary *>(data.GetLibrary());
 	ui->EditMinVIASize		->setValue(ALib->MinVIASize);
 	ui->EditMaxVIASize		->setValue(ALib->MaxVIASize);
 	ui->EditMinVIADots		->setValue(ALib->MinVIADots);
@@ -460,7 +460,7 @@ void	PropertyVIAInspectionForm::GetLibraryFromWindow(AlgorithmLibraryLevelContai
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	VIALibrary	*ALib=dynamic_cast<VIALibrary *>(data.GetLibrary());
+	VIALibrary	*ALib=static_cast<VIALibrary *>(data.GetLibrary());
 	ALib->MinVIASize		=ui->EditMinVIASize	->value();
 	ALib->MaxVIASize		=ui->EditMaxVIASize	->value();
 	ALib->MinVIADots		=ui->EditMinVIADots	->value();
@@ -637,7 +637,7 @@ void	PropertyVIAInspectionForm::ShowSelectedLibList(void)
 		CmdCreateTempVIALibraryPacket	Packet(GetLayersBase());
 		BBase->TransmitDirectly(&Packet);
 		AlgorithmLibraryLevelContainer	*SLib=Packet.Point;
-		VIALibrary	*ALib=dynamic_cast<VIALibrary *>(SLib->GetLibrary());
+		VIALibrary	*ALib=static_cast<VIALibrary *>(SLib->GetLibrary());
 		int	row=0;
 		for(AlgorithmLibraryList *a=SelectedLibList.GetFirst();a!=NULL;a=a->GetNext(),row++){
 			DDim[row].a=a;

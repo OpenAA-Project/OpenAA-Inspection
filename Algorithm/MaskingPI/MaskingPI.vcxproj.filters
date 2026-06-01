@@ -40,6 +40,9 @@
     <ClCompile Include="XMaskingPIResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="XMaskPICommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MaskingPI.h">

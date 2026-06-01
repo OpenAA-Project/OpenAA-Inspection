@@ -147,7 +147,7 @@ void	OutlineEditLibraryForm::ShowLibrary(AlgorithmLibraryLevelContainer& data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName->setText(data.GetLibName());
 
-	OutlineInspectLibrary	*ALib=dynamic_cast<OutlineInspectLibrary *>(data.GetLibrary());
+	OutlineInspectLibrary	*ALib=static_cast<OutlineInspectLibrary *>(data.GetLibrary());
 	ui->EditTransDot		->setValue(ALib->TransDot);
 	ui->EditInsideWidth		->setValue(ALib->InsideWidth);
 	ui->EditOutsideWidth	->setValue(ALib->OutsideWidth);
@@ -272,7 +272,7 @@ void	OutlineEditLibraryForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer
 {
 	data.SetLibName(ui->EditLibName->text());
 
-	OutlineInspectLibrary	*ALib=dynamic_cast<OutlineInspectLibrary *>(data.GetLibrary());
+	OutlineInspectLibrary	*ALib=static_cast<OutlineInspectLibrary *>(data.GetLibrary());
 	ALib->TransDot		= ui->EditTransDot->value();
 	ALib->InsideWidth	= ui->EditInsideWidth->value();
 	ALib->OutsideWidth	= ui->EditOutsideWidth->value();

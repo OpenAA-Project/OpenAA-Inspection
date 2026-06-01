@@ -241,7 +241,7 @@ void	GUICmdSetAverageToMaster::Receive(int32 localPage, int32 cmd ,QString &Emit
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MakeAverageImage");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	CmdSetAverageToMaster	RCmd(GetLayersBase());
@@ -262,7 +262,7 @@ void	GUICmdReqAverageCount::Receive(int32 localPage, int32 cmd ,QString &Emitter
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MakeAverageImage");
 	if(AlignBase==NULL)
 		return;
-	MakeAverageImageInPage	*AP=dynamic_cast<MakeAverageImageInPage *>(AlignBase->GetPageData(localPage));
+	MakeAverageImageInPage	*AP=static_cast<MakeAverageImageInPage *>(AlignBase->GetPageData(localPage));
 	if(AP==NULL)
 		return;
 	if(AP->AllocatedLayers!=0){
@@ -314,9 +314,9 @@ void	GUICmdSendAddMakeAverageImageUsageAreaItem::Receive(int32 localPage, int32 
 {
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	MakeAverageImageBase *BBase=(MakeAverageImageBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"MakeAverageImage");
+	AlgorithmBase *BBase=(MakeAverageImageBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"MakeAverageImage");
 	if(BBase != NULL) {
-		MakeAverageImageInPage *PData=dynamic_cast<MakeAverageImageInPage *>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot *PData=BBase->GetPageData(localPage);
 		if(PData != NULL) {
 			CmdAddAverageArea	Cmd(this);
 			Cmd.Area=LocalArea;
@@ -337,7 +337,7 @@ void	GUICmdResetAverage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MakeAverageImage");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	CmdResetAverage	RCmd(GetLayersBase());

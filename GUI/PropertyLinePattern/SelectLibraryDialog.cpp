@@ -141,7 +141,7 @@ void	SelectLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	LinePatternLibrary	*ALib=dynamic_cast<LinePatternLibrary *>(data.GetLibrary());
+	LinePatternLibrary	*ALib=static_cast<LinePatternLibrary *>(data.GetLibrary());
 	ui->EditBrightWidthIL	->setValue(ALib->BrightWidthIL);
 	ui->EditBrightWidthIH	->setValue(ALib->BrightWidthIH);
 	ui->EditBrightWidthOL	->setValue(ALib->BrightWidthOL);

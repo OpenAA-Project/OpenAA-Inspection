@@ -768,7 +768,7 @@ void PropertyMeasureLineMoveForm::on_tableWidgetLibList_clicked(const QModelInde
 }
 void	PropertyMeasureLineMoveForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	MeasureLineMoveLibrary	*d=dynamic_cast<MeasureLineMoveLibrary *>(data.GetLibrary());
+	MeasureLineMoveLibrary	*d=static_cast<MeasureLineMoveLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui.EditLibID->setText(/**/"");
 	else
@@ -783,7 +783,7 @@ void	PropertyMeasureLineMoveForm::ShowLibrary(AlgorithmLibraryLevelContainer &da
 
 void	PropertyMeasureLineMoveForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	MeasureLineMoveLibrary	*d=dynamic_cast<MeasureLineMoveLibrary *>(data.GetLibrary());
+	MeasureLineMoveLibrary	*d=static_cast<MeasureLineMoveLibrary *>(data.GetLibrary());
 	data.SetLibName(ui.EditLibName	->text());
 
 	d->SearchDot	=ui.EditSearchDot			->value();

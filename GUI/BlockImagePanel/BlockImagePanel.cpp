@@ -344,19 +344,15 @@ void	GUICmdSendBlockInfo::MakeData(int localPage, int localX, int localY ,Layers
 	AlgorithmBase	*AL=LocalLBase.GetAlgorithmBase(/**/"Basic" ,/**/"BlockInspection");
 	if(AL==NULL)
 		return;
-	BlockBase	*BL=dynamic_cast<BlockBase *>(AL);
-	if(BL==NULL)
-		return;
 	LocalX=localX;
 	LocalY=localY;
 
-	BlockInPage	*P=(BlockInPage *)BL->GetPageData(localPage);
+	AlgorithmInPageRoot	*P=AL->GetPageData(localPage);
 	for(int L=0;L<P->GetLayerNumb();L++){
-		AlgorithmInLayerPLI	*AinL=P->GetLayerDataPLI(L);
-		AlgorithmItemPLI	*Item=AinL->GetItem(localX,localY);
+		AlgorithmInLayerRoot	*AinL=P->GetLayerData(L);
+		AlgorithmItemRoot	*Item=AinL->GetItem(localX,localY);
 		if(Item!=NULL){
-			BlockItem	*BItem=(BlockItem *)Item;
-			LibIDList.Add(BItem->GetLibID());
+			LibIDList.Add(Item->GetLibID());
 			LayerList.Add(L);
 		}
 	}

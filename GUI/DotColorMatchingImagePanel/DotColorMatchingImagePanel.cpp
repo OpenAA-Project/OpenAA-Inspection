@@ -348,13 +348,10 @@ void	GUICmdSendDotColorMatchingInfo::MakeData(int localPage, int localX, int loc
 	AlgorithmBase	*AL=LocalLBase.GetAlgorithmBase(/**/"Basic" ,/**/"DotColorMatching");
 	if(AL==NULL)
 		return;
-	DotColorMatchingBase	*BL=dynamic_cast<DotColorMatchingBase *>(AL);
-	if(BL==NULL)
-		return;
 	LocalX=localX;
 	LocalY=localY;
 
-	DotColorMatchingInPage	*P=(DotColorMatchingInPage *)BL->GetPageData(localPage);
+	AlgorithmInPageRoot	*P=AL->GetPageData(localPage);
 	CmdDotColorMatchingGetItemInfo	Cmd(GetLayersBase());
 	Cmd.LocalX=LocalX;
 	Cmd.LocalY=LocalY;

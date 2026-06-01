@@ -38,6 +38,9 @@
     <ClInclude Include="XAlignmentBlockLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="XAlignmentBlockCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Open\AlgorithmCommon.cpp">
@@ -62,6 +65,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XAlignmentBlockLibrary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XAlignmentBlockCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

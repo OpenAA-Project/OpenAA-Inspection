@@ -33,7 +33,12 @@ void	ColorDifferenceLibrary::MakeReportedTopics(ReportedTopicContainer &RetConta
 		RetContainer.Add("THDeltaE"	,/**/"1:DeltaE");
 	else if(JudgeMethod==2)
 		RetContainer.Add("THDeltaE"	,/**/"2:FlowSample/HSV threshold");
-
+	else if(JudgeMethod==3)
+		RetContainer.Add("THDenth"	,/**/"3:Denth");
+	else if(JudgeMethod==4){
+		RetContainer.Add("THDeltaE"	,/**/"4:DeltaE");
+		RetContainer.Add("THDenth"	,/**/"4:Denth");
+	}
 	RetContainer.Add("dH"		,dH);
 	RetContainer.Add("dSL"		,dSL);
 	RetContainer.Add("dSH"		,dSH);
@@ -51,7 +56,12 @@ void	ColorDifferenceThreshold::MakeReportedTopics(ReportedTopicContainer &RetCon
 		RetContainer.Add("THDeltaE"	,/**/"1:DeltaE");
 	else if(JudgeMethod==2)
 		RetContainer.Add("THDeltaE"	,/**/"2:FlowSample/HSV threshold");
-
+	else if(JudgeMethod==3)
+		RetContainer.Add("THDenth"	,/**/"3:Denth");
+	else if(JudgeMethod==4){
+		RetContainer.Add("THDeltaE"	,/**/"4:DeltaE");
+		RetContainer.Add("THDenth"	,/**/"4:Denth");
+	}
 	RetContainer.Add("dH"		,dH);
 	RetContainer.Add("dSL"		,dSL);
 	RetContainer.Add("dSH"		,dSH);

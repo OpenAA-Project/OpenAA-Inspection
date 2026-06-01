@@ -118,39 +118,6 @@ public:
 	CmdMaskingDrawModePacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 
-//=================================================================================
-
-class	MaskingListForPacket : public NPList<MaskingListForPacket>
-{
-public:
-	struct{
-		int		ItemID;
-		int		Layer;
-		int		Page;
-		int		x1,y1,x2,y2;
-		bool	Effective;
-	}Data;
-	AlgorithmLibraryListContainer	LimitedLib;
-	
-	MaskingListForPacket(void){}
-
-	bool	Save(QIODevice *f);
-	bool	Load(QIODevice *f);
-
-	MaskingListForPacket	&operator=(MaskingListForPacket &src);
-};
-
-class	MaskingListForPacketPack : public NPListPack<MaskingListForPacket>
-{
-public:
-	MaskingListForPacketPack(void){}
-
-	bool	Save(QIODevice *f);
-	bool	Load(QIODevice *f);
-
-	MaskingListForPacketPack	&operator=(MaskingListForPacketPack &src);
-	MaskingListForPacketPack	&operator+=(MaskingListForPacketPack &src);
-};
 
 //===========================================================================
 
@@ -378,81 +345,6 @@ public:
 };
 
 //===========================================================================
-
-class	MaskingBindedList : public NPListSaveLoad<MaskingBindedList>
-{
-public:
-	class BindedInPage : public NPListSaveLoad<BindedInPage>
-	{
-	public:
-		int	Page;
-
-		class BindedInLayer : public NPListSaveLoad<BindedInLayer>
-		{
-		public:
-			MaskingBindedList::BindedInPage	*Parent;
-			int		Layer;
-			IntList	ItemIDs;
-
-			BindedInLayer(MaskingBindedList::BindedInPage *p):Parent(p){}
-			BindedInLayer(const BindedInLayer &src);
-
-			virtual	bool	Save(QIODevice *f)	override;
-			virtual	bool	Load(QIODevice *f)	override;
-
-			BindedInLayer &operator=(const BindedInLayer &src);
-		};
-		class BindedInLayerContainer : public NPListPackSaveLoad<BindedInLayer>
-		{
-		public:
-			MaskingBindedList::BindedInPage	*Parent;
-
-			BindedInLayerContainer(MaskingBindedList::BindedInPage	*p):Parent(p){}
-
-			virtual	BindedInLayer	*Create(void)	{	return new BindedInLayer(Parent);	}
-			void	Merge(BindedInLayerContainer &s);
-			BindedInLayerContainer &operator=(const BindedInLayerContainer &src);
-			MaskingBindedList::BindedInPage::BindedInLayer	*FindByLayer(int layer);
-		};
-		BindedInLayerContainer	BindedInLayerContainerInst;
-		MaskingBindedList		*Parent;
-
-		BindedInPage(MaskingBindedList *p):BindedInLayerContainerInst(this),Parent(p){}
-		BindedInPage(const BindedInPage &src);
-
-		virtual	bool	Save(QIODevice *f)	override;
-		virtual	bool	Load(QIODevice *f)	override;
-		BindedInPage &operator=(const BindedInPage &src);
-	};
-	class BindedInPageContainer : public NPListPackSaveLoad<BindedInPage>
-	{
-	public:
-		MaskingBindedList	*Parent;
-
-		BindedInPageContainer(MaskingBindedList *p):Parent(p){}
-		virtual	BindedInPage	*Create(void)	{	return new BindedInPage(Parent);	}
-		BindedInPageContainer &operator=(const BindedInPageContainer &src);
-		void	Merge(BindedInPageContainer &s);
-	};
-	BindedInPageContainer			BindedInPageContainerInst;
-	AlgorithmLibraryListContainer	LimitedLib;
-	
-	MaskingBindedList(void):BindedInPageContainerInst(this){}
-
-	virtual	bool	Save(QIODevice *f)	override;
-	virtual	bool	Load(QIODevice *f)	override;
-
-	MaskingBindedList &operator=(const MaskingBindedList &src);
-};
-
-class	MaskingBindedListContainer : public NPListPackSaveLoad<MaskingBindedList>
-{
-public:
-	MaskingBindedListContainer(void){}
-	virtual	MaskingBindedList	*Create(void)	{	return new MaskingBindedList();	}
-};
-
-
 
 class	GUICmdReqBindedLimitedLibMask : public GUICmdPacketBase
 {

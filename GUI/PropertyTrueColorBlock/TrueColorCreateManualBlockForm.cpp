@@ -112,7 +112,7 @@ void TrueColorCreateManualBlockForm::on_tableWidgetLibList_clicked(const QModelI
 		Ab->TransmitDirectly(&Packet);
 		if(Packet.Success==true){
 			BlockLibID					=TempLib->GetLibID();
-			TrueColorBlockLibrary	*ALib=dynamic_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
+			TrueColorBlockLibrary	*ALib=static_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
 
 			ui.EditLibID				->setText(QString::number(ALib->GetLibID()));
 			ui.EditLibName				->setText(a->GetLibName());

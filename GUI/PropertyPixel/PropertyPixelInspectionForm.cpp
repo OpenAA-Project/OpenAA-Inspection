@@ -108,14 +108,12 @@ void	PropertyPixelInspectionForm::BuildForShow(void)
 	AlgorithmBase	*AutoAlignmentBasePointer=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoAlignment");
 	if(AutoAlignmentBasePointer==NULL)
 		return;
-	//?A???a??
 	CmdReqAutoAlignmentEnumLibs	CmdEnum(GetLayersBase());
 	AutoAlignmentBasePointer->TransmitDirectly(&CmdEnum);
 
-	//???C?u?????I?��?��?R?[?h?a?3?-?A?a???z?O???A?��?��?A?��?e
-	AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(AutoAlignmentBasePointer->GetLibraryContainer()->CreateNew());
-	if(ALib==NULL)
-		return;
+	//AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(AutoAlignmentBasePointer->GetLibraryContainer()->CreateNew());
+	//if(ALib==NULL)
+	//	return;
 
 	AlgorithmLibraryContainer	*Container=AutoAlignmentBasePointer->GetLibraryContainer();
 	AlgorithmLibraryLevelContainer	AutoAlignmentLib(Container);
@@ -126,13 +124,12 @@ void	PropertyPixelInspectionForm::BuildForShow(void)
 
 	AutoAlignmentBasePointer->GetLibraryContainer()->Update(AutoAlignmentLib);
 	
-	//?A?a?Ecreate?��???a?I?I???|?I?E?i???�E?e
-	delete	ALib;
+	//delete	ALib;
 }
 
 PixelInspectionBase	*PropertyPixelInspectionForm::GetPixelInspectionBase(void)
 {
-	PixelInspectionBase	*ABase=dynamic_cast<PixelInspectionBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"PixelInspection"));
+	PixelInspectionBase	*ABase=static_cast<PixelInspectionBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"PixelInspection"));
 	return ABase;
 }
 
@@ -146,7 +143,7 @@ void	PropertyPixelInspectionForm::ShowLibrary(AlgorithmLibraryLevelContainer &da
 	}
 	ui.EditLibName	->setText(data.GetLibName());
 
-	PixelInspectionLibrary	*ALib=dynamic_cast<PixelInspectionLibrary *>(data.GetLibrary());
+	PixelInspectionLibrary	*ALib=static_cast<PixelInspectionLibrary *>(data.GetLibrary());
     ui.chbDetailSettingNarrow		->setChecked(ALib->DetailSettingNarrow);
     ui.sbSearchDotMasterNarrow		->setValue	(ALib->SearchDotMasterNarrow);
     ui.sbSearchDotTargetNarrow		->setValue	(ALib->SearchDotTargetNarrow);
@@ -168,7 +165,7 @@ void	PropertyPixelInspectionForm::GetLibraryFromWindow(AlgorithmLibraryLevelCont
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	PixelInspectionLibrary	*ALib=dynamic_cast<PixelInspectionLibrary *>(data.GetLibrary());
+	PixelInspectionLibrary	*ALib=static_cast<PixelInspectionLibrary *>(data.GetLibrary());
 	ALib->DetailSettingNarrow		=ui.chbDetailSettingNarrow		->isChecked();
 	ALib->SearchDotMasterNarrow		=ui.sbSearchDotMasterNarrow		->value();
 	ALib->SearchDotTargetNarrow		=ui.sbSearchDotTargetNarrow		->value();
@@ -218,7 +215,7 @@ void	PropertyPixelInspectionForm::TransmitDirectly(GUIDirectMessage *packet)
 		if(Page>=0){
 			PixelInspectionBase	*ABase=GetPixelInspectionBase();
 			if(ABase!=NULL){
-				PixelInspectionInPage	*P=dynamic_cast<PixelInspectionInPage *>(ABase->GetPageData(Page));
+				AlgorithmInPageRoot	*P=ABase->GetPageData(Page);
 				if(P!=NULL){
 					CmdGetPixelGenerateDataFromArea	RCmd(GetLayersBase());
 					RCmd.LocalArea=CmdPixelPickupAreaVar->Area;
@@ -321,7 +318,7 @@ void PropertyPixelInspectionForm::pbSaveNewClicked()
 	TempLib->SetLibFolderID(LibFolderID);
 	CmdInsertPixelInspectionLibraryPacket	Packet(GetLayersBase());
 	Packet.Point=TempLib;
-	PixelInspectionBase	*BBase=GetPixelInspectionBase();
+	AlgorithmBase	*BBase=GetPixelInspectionBase();
 	if(BBase!=NULL){
 		BBase->TransmitDirectly(&Packet);
 ///		ShowLibrary(*TempLib);

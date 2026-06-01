@@ -80,7 +80,7 @@ void	PropertyAreaShaderForm::TransmitDirectly(GUIDirectMessage *packet)
 		if(ui.tabWidget->currentIndex()==0){
 			if(TempLib->GetLibID()>=0){
 				//GlobalPickupArea+=BlockDEnd->Area;
-				AreaShaderLibrary	*ALib=dynamic_cast<AreaShaderLibrary *>(TempLib->GetLibrary());
+				AreaShaderLibrary	*ALib=static_cast<AreaShaderLibrary *>(TempLib->GetLibrary());
 				BrightHistgramForm	D(AreaShaderDEnd->Area,AreaShaderDEnd->ImagePanelPoint
 										,ALib->PickupColorL,ALib->PickupColorH,this);
 				D.Reflect(ALib->PickupColorL,ALib->PickupColorH);
@@ -363,7 +363,7 @@ void PropertyAreaShaderForm::SetLayersFromLib(IntList &LayerList)
 {
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"AreaShaderImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		DisplayImage	*di=dynamic_cast<DisplayImage *>(GProp);
+		DisplayImage	*di=static_cast<DisplayImage *>(GProp);
 		if(di!=NULL){
 			di->SetActiveLayerList(LayerList);
 		}
@@ -456,7 +456,7 @@ void PropertyAreaShaderForm::on_ButtonPickupTest_clicked()
 	IntList LayerList;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"AreaShaderImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		DisplayImage	*di=dynamic_cast<DisplayImage *>(GProp);
+		DisplayImage	*di=static_cast<DisplayImage *>(GProp);
 		if(di!=NULL){
 			di->GetActiveLayerList(LayerList);
 		}
@@ -493,7 +493,7 @@ void PropertyAreaShaderForm::on_ButtonGenerateLibs_clicked()
 	IntList LayerList;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"AreaShaderImagePanel" ,/**/"");
 	if(GProp!=NULL){
-		DisplayImage	*di=dynamic_cast<DisplayImage *>(GProp);
+		DisplayImage	*di=static_cast<DisplayImage *>(GProp);
 		if(di!=NULL){
 			di->GetActiveLayerList(LayerList);
 		}
@@ -547,7 +547,7 @@ void	PropertyAreaShaderForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	AreaShaderLibrary	*ALib=dynamic_cast<AreaShaderLibrary *>(data.GetLibrary());
+	AreaShaderLibrary	*ALib=static_cast<AreaShaderLibrary *>(data.GetLibrary());
 	ui.EditMinDot		->setValue(ALib->MinDot);
 	ui.EditMaxDot		->setValue(ALib->MaxDot);
 	ui.EditMinSize		->setValue(ALib->MinSize);
@@ -560,7 +560,7 @@ void	PropertyAreaShaderForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	AreaShaderLibrary	*ALib=dynamic_cast<AreaShaderLibrary *>(data.GetLibrary());
+	AreaShaderLibrary	*ALib=static_cast<AreaShaderLibrary *>(data.GetLibrary());
 	ALib->MinDot		=ui.EditMinDot		->value();
 	ALib->MaxDot		=ui.EditMaxDot		->value();
 	ALib->MinSize		=ui.EditMinSize		->value();

@@ -32,6 +32,7 @@
 #include <omp.h>
 #include <QTextStream>
 #include "XAutoAlignment.h"
+#include "XAutoAlignmentLibrary.h"
 #include "XAutoPCBHoleAligner.h"
 #include "XVCutInspection.h"
 #include "XCriticalFunc.h"
@@ -7007,57 +7008,66 @@ void	PixelInspectionItem::ExecuteProcessing1(int y,int ThresholdRange,int Search
 		if(ty<0 || YLen<=ty){
 			continue;
 		}
-
-		wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-		if(pAlignPage->GetBitFirstPickupFromMaster(x,y)==true){
-			//?p?b?h?I?e??
-			if(CheckPadIns==false){
-				continue;
-			}
-			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-			SearchDot	=SearchDotBase;
-			IsPad		=true;
-			IsSilk		=false;
-			if(pAlignPage->GetBitPickupFromMaster(x,y)==true){
-				//?V???N?A?a???e?e??
-				IsSilk	=true;
-			}
-		}
-		else if(pAlignPage->GetBitPickupFromMaster(x,y)==true){
-			//?V???N?I?e??
-			if(CheckSilkIns==false){
-				continue;
-			}
-			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-			SearchDot	=SearchDotBase+1;
-			IsPad		=false;
-			IsSilk		=true;
-		}
-		else{
-			if(pHoleAlignPage->GetBitmapFringe(x,y)==true){
-				//???I?e??
-				if(CheckHoleIns==false){
+		int	LH=(P.RL+P.RH)>>1;
+		if(LH>0){
+			wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/LH;
+		
+			if(pAlignPage->GetBitFirstPickupFromMaster(x,y)==true){
+				//?p?b?h?I?e??
+				if(CheckPadIns==false){
 					continue;
 				}
-				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
 				SearchDot	=SearchDotBase;
-				IsPad		=false;
+				IsPad		=true;
 				IsSilk		=false;
+				if(pAlignPage->GetBitPickupFromMaster(x,y)==true){
+					//?V???N?A?a???e?e??
+					IsSilk	=true;
+				}
+			}
+			else if(pAlignPage->GetBitPickupFromMaster(x,y)==true){
+				//?V???N?I?e??
+				if(CheckSilkIns==false){
+					continue;
+				}
+				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+				SearchDot	=SearchDotBase+1;
+				IsPad		=false;
+				IsSilk		=true;
 			}
 			else{
-				//???W?X?g?I?e??
-				if(CheckResistIns==false){
-					continue;
+				if(pHoleAlignPage->GetBitmapFringe(x,y)==true){
+					//???I?e??
+					if(CheckHoleIns==false){
+						continue;
+					}
+					wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+					wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+					SearchDot	=SearchDotBase;
+					IsPad		=false;
+					IsSilk		=false;
 				}
-				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
-				SearchDot	=SearchDotBase;
-				IsPad		=false;
-				IsSilk		=false;
+				else{
+					//???W?X?g?I?e??
+					if(CheckResistIns==false){
+						continue;
+					}
+					wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+					wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+					SearchDot	=SearchDotBase;
+					IsPad		=false;
+					IsSilk		=false;
+				}
 			}
+		}		
+		else{
+			wThresholdRange2_B=wThresholdRange2_D=BrightnessRange;
+			SearchDot	=SearchDotBase+1;
+			IsPad		=false;
+			IsSilk		=false;
 		}
 
 		bool skipOuterIter = false;
@@ -7492,57 +7502,65 @@ void	PixelInspectionItem::ExecuteProcessing2(int y,int ThresholdRange,int Search
 			tx	=x+mtX;
 			ty	=y+mtY;
 		}
-
-		wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-		if(pAlignPage->GetBitFirstPickupFromMaster(x,y)==true){
-			//?p?b?h?I?e??
-			if(CheckPadIns==false){
-				continue;
-			}
-			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-			SearchDot	=SearchDotBase;
-			IsPad		=true;
-			IsSilk		=false;
-			if(pAlignPage->GetBitPickupFromMaster(x,y)==true){
-				//?V???N?A?a???e?e??
-				IsSilk	=true;
-			}
-		}
-		else if(pAlignPage->GetBitPickupFromMaster(x,y)==true){
-			//?V???N?I?e??
-			if(CheckSilkIns==false){
-				continue;
-			}
-			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-			SearchDot	=SearchDotBase+1;
-			IsPad		=false;
-			IsSilk		=true;
-		}
-		else{
-			if(pHoleAlignPage->GetBitmapFringe(x,y)==true){
-				//???I?e??
-				if(CheckHoleIns==false){
+		int	LH=(P.RL+P.RH)>>1;
+		if(LH>0){
+			wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/LH;
+			if(pAlignPage->GetBitFirstPickupFromMaster(x,y)==true){
+				//?p?b?h?I?e??
+				if(CheckPadIns==false){
 					continue;
 				}
-				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
 				SearchDot	=SearchDotBase;
-				IsPad		=false;
+				IsPad		=true;
 				IsSilk		=false;
+				if(pAlignPage->GetBitPickupFromMaster(x,y)==true){
+					//?V???N?A?a???e?e??
+					IsSilk	=true;
+				}
+			}
+			else if(pAlignPage->GetBitPickupFromMaster(x,y)==true){
+				//?V???N?I?e??
+				if(CheckSilkIns==false){
+					continue;
+				}
+				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+				SearchDot	=SearchDotBase+1;
+				IsPad		=false;
+				IsSilk		=true;
 			}
 			else{
-				//???W?X?g?I?e??
-				if(CheckResistIns==false){
-					continue;
+				if(pHoleAlignPage->GetBitmapFringe(x,y)==true){
+					//???I?e??
+					if(CheckHoleIns==false){
+						continue;
+					}
+					wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+					wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+					SearchDot	=SearchDotBase;
+					IsPad		=false;
+					IsSilk		=false;
 				}
-				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
-				SearchDot	=SearchDotBase;
-				IsPad		=false;
-				IsSilk		=false;
+				else{
+					//???W?X?g?I?e??
+					if(CheckResistIns==false){
+						continue;
+					}
+					wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+					wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+					SearchDot	=SearchDotBase;
+					IsPad		=false;
+					IsSilk		=false;
+				}
 			}
+		}	
+		else{
+			wThresholdRange2_B=wThresholdRange2_D=BrightnessRange;
+			SearchDot	=SearchDotBase+1;
+			IsPad		=false;
+			IsSilk		=false;
 		}
 		if(tx-SearchDot<0 || XLen<=tx+SearchDot){
 			continue;
@@ -7955,30 +7973,37 @@ bool	PixelInspectionItem::ExecuteProcessingFromTarget1(int x,int y,int Threshold
 	int wThresholdRange2_SB	,wThresholdRange2_SD;
 
 	int wThresholdRange2_B,wThresholdRange2_D;
-	wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-	if(pAlignPage->GetBitFirstPickupFromMaster(x,y)==true){
-		//?p?b?h?I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-		SearchDot	=SearchDotBase;
-	}
-	else if(pAlignPage->GetBitPickupFromMaster(x,y)==true){
-		//?V???N?I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-		SearchDot	=SearchDotBase+1;
-	}
-	else if(pHoleAlignPage->GetBitmapFringe(x,y)==true){
-		//???I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
-		SearchDot	=SearchDotBase;
+	int	LH=(P.RL+P.RH)>>1;
+	if(LH>0){
+		wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/LH;
+		if(pAlignPage->GetBitFirstPickupFromMaster(x,y)==true){
+			//?p?b?h?I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
+			SearchDot	=SearchDotBase;
+		}
+		else if(pAlignPage->GetBitPickupFromMaster(x,y)==true){
+			//?V???N?I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+			SearchDot	=SearchDotBase+1;
+		}
+		else if(pHoleAlignPage->GetBitmapFringe(x,y)==true){
+			//???I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+			SearchDot	=SearchDotBase;
+		}
+		else{
+			//???W?X?g?I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+			SearchDot	=SearchDotBase;
+		}
 	}
 	else{
-		//???W?X?g?I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
-		SearchDot	=SearchDotBase;
+		wThresholdRange2_B=wThresholdRange2_D=BrightnessRange;
+		SearchDot	=SearchDotBase+1;
 	}
 
 	if(x-SearchDot<0 || XLen<=x+SearchDot){
@@ -8219,30 +8244,37 @@ bool	PixelInspectionItem::ExecuteProcessingFromTarget2(int x,int y,int Threshold
 	int wThresholdRange2_SB	,wThresholdRange2_SD;
 
 	int wThresholdRange2_B,wThresholdRange2_D;
-	wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-	if(pAlignPage->GetBitFirstPickupFromMaster(x,y)==true){
-		//?p?b?h?I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-		SearchDot	=SearchDotBase;
-	}
-	else if(pAlignPage->GetBitPickupFromMaster(x,y)==true){
-		//?V???N?I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-		SearchDot	=SearchDotBase+1;
-	}
-	else if(pHoleAlignPage->GetBitmapFringe(x,y)==true){
-		//???I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
-		SearchDot	=SearchDotBase;
+	int	LH=(P.RL+P.RH)>>1;
+	if(LH>0){
+		wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/LH;
+		if(pAlignPage->GetBitFirstPickupFromMaster(x,y)==true){
+			//?p?b?h?I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
+			SearchDot	=SearchDotBase;
+		}
+		else if(pAlignPage->GetBitPickupFromMaster(x,y)==true){
+			//?V???N?I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+			SearchDot	=SearchDotBase+1;
+		}
+		else if(pHoleAlignPage->GetBitmapFringe(x,y)==true){
+			//???I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+			SearchDot	=SearchDotBase;
+		}
+		else{
+			//???W?X?g?I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+			SearchDot	=SearchDotBase;
+		}
 	}
 	else{
-		//???W?X?g?I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
-		SearchDot	=SearchDotBase;
+		wThresholdRange2_B=wThresholdRange2_D=BrightnessRange;
+		SearchDot	=SearchDotBase+1;
 	}
 
 	if(tx-SearchDot<0 || XLen<=tx+SearchDot){
@@ -8571,56 +8603,65 @@ void	PixelInspectionItem::ExecuteProcessing3(int y,int ThresholdRange,int Search
 
 		wThresholdRange_B=wThresholdRange_D=ThresholdRange;
 
-		wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-		if(pAlignPage->GetBitFirstPickupFromTarget(x,y)==true){
-			//?p?b?h?I?e??
-			if(CheckPadIns==false){
-				continue;
-			}
-			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-			SearchDot	=SearchDotBase;
-			IsPad		=true;
-			IsSilk		=false;
-			if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
-				//?V???N?A?a???e?e??
-				IsSilk	=true;
-			}
-		}
-		else if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
-			//?V???N?I?e??
-			if(CheckSilkIns==false){
-				continue;
-			}
-			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-			SearchDot	=SearchDotBase+1;
-			IsPad		=false;
-			IsSilk		=true;
-		}
-		else{
-			if(pHoleAlignPage->GetBitmapFringe(mx,my)==true){
-				//???I?e??
-				if(CheckHoleIns==false){
+		int	LH=(P.RL+P.RH)>>1;
+		if(LH>0){
+			wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/LH;
+			if(pAlignPage->GetBitFirstPickupFromTarget(x,y)==true){
+				//?p?b?h?I?e??
+				if(CheckPadIns==false){
 					continue;
 				}
-				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
 				SearchDot	=SearchDotBase;
-				IsPad		=false;
+				IsPad		=true;
 				IsSilk		=false;
+				if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
+					//?V???N?A?a???e?e??
+					IsSilk	=true;
+				}
+			}
+			else if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
+				//?V???N?I?e??
+				if(CheckSilkIns==false){
+					continue;
+				}
+				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+				SearchDot	=SearchDotBase+1;
+				IsPad		=false;
+				IsSilk		=true;
 			}
 			else{
-				//???W?X?g?I?e??
-				if(CheckResistIns==false){
-					continue;
+				if(pHoleAlignPage->GetBitmapFringe(mx,my)==true){
+					//???I?e??
+					if(CheckHoleIns==false){
+						continue;
+					}
+					wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+					wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+					SearchDot	=SearchDotBase;
+					IsPad		=false;
+					IsSilk		=false;
 				}
-				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
-				SearchDot	=SearchDotBase;
-				IsPad		=false;
-				IsSilk		=false;
+				else{
+					//???W?X?g?I?e??
+					if(CheckResistIns==false){
+						continue;
+					}
+					wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+					wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+					SearchDot	=SearchDotBase;
+					IsPad		=false;
+					IsSilk		=false;
+				}
 			}
+		}
+		else{
+			wThresholdRange2_B=wThresholdRange2_D=BrightnessRange;
+			SearchDot	=SearchDotBase+1;
+			IsPad		=false;
+			IsSilk		=false;
 		}
 
 		//??????????l?I?????A???I??
@@ -9053,61 +9094,70 @@ void	PixelInspectionItem::ExecuteProcessing4(int y,int ThresholdRange,int Search
 		}
 
 		wThresholdRange=ThresholdRange;
-
-		wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-		if(pAlignPage->GetBitFirstPickupFromTarget(x,y)==true){
-			//?p?b?h?I?e??
-			if(CheckPadIns==false){
-				continue;
-			}
-			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-			SearchDot	=SearchDotBase;
-			IsPad		=true;
-			IsSilk		=false;
-			DPixelMode	=_Pad;
-			if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
-				//?V???N?A?a???e?e??
-				IsSilk	=true;
-			}
-		}
-		else if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
-			//?V???N?I?e??
-			if(CheckSilkIns==false){
-				continue;
-			}
-			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-			SearchDot	=SearchDotBase+1;
-			IsPad		=false;
-			IsSilk		=true;
-			DPixelMode	=_Silk;
-		}
-		else{
-			if(pHoleAlignPage->GetBitmapFringe(mx,my)==true){
-				//???I?e??
-				if(CheckHoleIns==false){
+		int	LH=(P.RL+P.RH)>>1;
+		if(LH>0){
+			wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/LH;
+			if(pAlignPage->GetBitFirstPickupFromTarget(x,y)==true){
+				//?p?b?h?I?e??
+				if(CheckPadIns==false){
 					continue;
 				}
-				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
 				SearchDot	=SearchDotBase;
-				IsPad		=false;
+				IsPad		=true;
 				IsSilk		=false;
-				DPixelMode	=_Hole;
+				DPixelMode	=_Pad;
+				if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
+					//?V???N?A?a???e?e??
+					IsSilk	=true;
+				}
+			}
+			else if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
+				//?V???N?I?e??
+				if(CheckSilkIns==false){
+					continue;
+				}
+				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+				SearchDot	=SearchDotBase+1;
+				IsPad		=false;
+				IsSilk		=true;
+				DPixelMode	=_Silk;
 			}
 			else{
-				//???W?X?g?I?e??
-				if(CheckResistIns==false){
-					continue;
+				if(pHoleAlignPage->GetBitmapFringe(mx,my)==true){
+					//???I?e??
+					if(CheckHoleIns==false){
+						continue;
+					}
+					wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+					wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+					SearchDot	=SearchDotBase;
+					IsPad		=false;
+					IsSilk		=false;
+					DPixelMode	=_Hole;
 				}
-				wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-				wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
-				SearchDot	=SearchDotBase;
-				IsPad		=false;
-				IsSilk		=false;
-				DPixelMode	=_Resist;
+				else{
+					//???W?X?g?I?e??
+					if(CheckResistIns==false){
+						continue;
+					}
+					wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+					wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+					SearchDot	=SearchDotBase;
+					IsPad		=false;
+					IsSilk		=false;
+					DPixelMode	=_Resist;
+				}
 			}
+		}
+		else{
+			wThresholdRange2_B = wThresholdRange2_D = BrightnessRange;
+			SearchDot = SearchDotBase + 1;
+			IsPad = false;
+			IsSilk = false;
+			DPixelMode = _Resist;
 		}
 
 		//??????????l?I?????A???I??
@@ -9520,37 +9570,45 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster1(int x,int y,int Threshold
 	int wThresholdRange2_SB,wThresholdRange2_SD;
 
 	int wThresholdRange2_B,wThresholdRange2_D;
-	wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-	if(pAlignPage->GetBitFirstPickupFromTarget(x,y)==true){
-		//?p?b?h?I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-		IsPad	=true;
-		IsSilk	=false;
-		if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
+	int	LH=(P.RL+P.RH)>>1;
+	if(LH>0){
+		wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/LH;
+		if(pAlignPage->GetBitFirstPickupFromTarget(x,y)==true){
+			//?p?b?h?I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
+			IsPad	=true;
+			IsSilk	=false;
+			if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
+				IsSilk	=true;
+			}
+		}
+		else if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
+			//?V???N?I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+			IsPad	=false;
 			IsSilk	=true;
 		}
-	}
-	else if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
-		//?V???N?I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-		IsPad	=false;
-		IsSilk	=true;
-	}
-	else if(pHoleAlignPage->GetBitmapFringe(mx,my)==true){
-		//???I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
-		IsPad	=false;
-		IsSilk	=false;
+		else if(pHoleAlignPage->GetBitmapFringe(mx,my)==true){
+			//???I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+			IsPad	=false;
+			IsSilk	=false;
+		}
+		else{
+			//???W?X?g?I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+			IsPad	=false;
+			IsSilk	=false;
+		}
 	}
 	else{
-		//???W?X?g?I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
-		IsPad	=false;
-		IsSilk	=false;
+		wThresholdRange2_B = wThresholdRange2_D = BrightnessRange;
+		IsPad = false;
+		IsSilk = false;
 	}
 
 	//??????????l?I?????A???I??
@@ -9825,37 +9883,45 @@ bool	PixelInspectionItem::ExecuteProcessingFromMaster2(int x,int y,int Threshold
 	int wThresholdRange2_SB,wThresholdRange2_SD;
 
 	int wThresholdRange2_B,wThresholdRange2_D;
-	wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-	if(pAlignPage->GetBitFirstPickupFromTarget(x,y)==true){
-		//?p?b?h?I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-		IsPad	=true;
-		IsSilk	=false;
-		if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
+	int	LH=(P.RL+P.RH)>>1;
+	if(LH>0){
+		wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/LH;
+		if(pAlignPage->GetBitFirstPickupFromTarget(x,y)==true){
+			//?p?b?h?I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
+			IsPad	=true;
+			IsSilk	=false;
+			if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
+				IsSilk	=true;
+			}
+		}
+		else if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
+			//?V???N?I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+			IsPad	=false;
 			IsSilk	=true;
 		}
-	}
-	else if(pAlignPage->GetBitPickupFromTarget(x,y)==true){
-		//?V???N?I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-		IsPad	=false;
-		IsSilk	=true;
-	}
-	else if(pHoleAlignPage->GetBitmapFringe(mx,my)==true){
-		//???I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
-		IsPad	=false;
-		IsSilk	=false;
+		else if(pHoleAlignPage->GetBitmapFringe(mx,my)==true){
+			//???I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+			IsPad	=false;
+			IsSilk	=false;
+		}
+		else{
+			//???W?X?g?I?e??
+			wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+			wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+			IsPad	=false;
+			IsSilk	=false;
+		}
 	}
 	else{
-		//???W?X?g?I?e??
-		wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-		wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
-		IsPad	=false;
-		IsSilk	=false;
+		wThresholdRange2_B = wThresholdRange2_D = BrightnessRange;
+		IsPad = false;
+		IsSilk = false;
 	}
 
 	//??????????l?I?????A???I??
@@ -11339,27 +11405,32 @@ void	PixelInspectionItem::ExecuteProcessing(PureFlexAreaList *NGBitArea,int Thre
 						}
 						continue;
 					}
-
-					wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-					if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
-						//?p?b?h?I?e??
-						wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-						wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-					}
-					else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
-						//???W?X?g?E?V???N?I?e??
-						wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-						wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-					}
-					else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
-						//???I?e??
-						wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-						wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+					int	LH=(P.RL+P.RH)>>1;
+					if(LH>0){
+						wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/LH;
+						if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
+							//?p?b?h?I?e??
+							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
+						}
+						else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
+							//???W?X?g?E?V???N?I?e??
+							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+						}
+						else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
+							//???I?e??
+							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+						}
+						else{
+							//???W?X?g?E?V???N?I?e??
+							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+						}
 					}
 					else{
-						//???W?X?g?E?V???N?I?e??
-						wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-						wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+						wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=BrightnessRange;
 					}
 
 					//??????????l?I?????A???I??
@@ -11683,30 +11754,36 @@ void	PixelInspectionItem::ExecuteProcessing(PureFlexAreaList *NGBitArea,int Thre
 						if(P.StdDisorder==255){		//?}?X?N?O?I?e???I?2??P?e
 							continue;
 						}
-
-						wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-						if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
-							//?p?b?h?I?e??
-							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-							SearchDot	=SearchDotBase;
-						}
-						else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
-							//???W?X?g?E?V???N?I?e??
-							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-							SearchDot	=SearchDotBase+1;
-						}
-						else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
-							//???I?e??
-							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
-							SearchDot	=SearchDotBase;
+						int	LH=(P.RL+P.RH)>>1;
+						if(LH>0){
+							wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/LH;
+							if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
+								//?p?b?h?I?e??
+								wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+								wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
+								SearchDot	=SearchDotBase;
+							}
+							else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
+								//???W?X?g?E?V???N?I?e??
+								wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+								wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+								SearchDot	=SearchDotBase+1;
+							}
+							else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
+								//???I?e??
+								wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+								wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+								SearchDot	=SearchDotBase;
+							}
+							else{
+								//???W?X?g?E?V???N?I?e??
+								wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+								wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+								SearchDot	=SearchDotBase;
+							}
 						}
 						else{
-							//???W?X?g?E?V???N?I?e??
-							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+							wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=BrightnessRange;
 							SearchDot	=SearchDotBase;
 						}
 
@@ -12049,27 +12126,32 @@ void	PixelInspectionItem::ExecuteProcessing(PureFlexAreaList *NGBitArea,int Thre
 									}
 									continue;
 								}
-
-								wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-								if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
-									//?p?b?h?I?e??
-									wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-									wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-								}
-								else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
-									//???W?X?g?E?V???N?I?e??
-									wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-									wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-								}
-								else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
-									//???I?e??
-									wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-									wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+								int	LH=(P.RL+P.RH)>>1;
+								if(LH>0){
+									wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/LH;
+									if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
+										//?p?b?h?I?e??
+										wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+										wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
+									}
+									else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
+										//???W?X?g?E?V???N?I?e??
+										wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+										wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+									}
+									else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
+										//???I?e??
+										wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+										wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+									}
+									else{
+										//???W?X?g?E?V???N?I?e??
+										wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+										wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+									}
 								}
 								else{
-									//???W?X?g?E?V???N?I?e??
-									wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-									wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+									wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=BrightnessRange;
 								}
 
 								//??????????l?I?????A???I??
@@ -12325,31 +12407,37 @@ void	PixelInspectionItem::ExecuteProcessing(PureFlexAreaList *NGBitArea,int Thre
 						if(P.StdDisorder==255){
 							continue;
 						}
-
-						wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/((P.RL+P.RH)>>1);
-						if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
-							//?p?b?h?I?e??
-							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
-							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
-							SearchDot	=SearchDotBase;
-						}
-						else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
-							//?V???N?I?e??
-							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
-							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
-							SearchDot	=SearchDotBase+1;
-						}
-						else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
-							//???I?e??
-							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
-							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
-							SearchDot	=SearchDotBase;
+						int	LH=(P.RL+P.RH)>>1;
+						if(LH>0){
+							wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=(ThresholdRange<<7)/LH;
+							if(pAlignPage->GetBitFirstPickupFromTarget(xx,yy)==true){
+								//?p?b?h?I?e??
+								wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdP_B;
+								wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdP_D;
+								SearchDot	=SearchDotBase;
+							}
+							else if(pAlignPage->GetBitPickupFromTarget(xx,yy)==true){
+								//?V???N?I?e??
+								wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdS_B;
+								wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdS_D;
+								SearchDot	=SearchDotBase+1;
+							}
+							else if(pHoleAlignPage->GetBitmapFringe(xx,yy)==true){
+								//???I?e??
+								wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdH_B;
+								wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdH_D;
+								SearchDot	=SearchDotBase;
+							}
+							else{
+								//???W?X?g?I?e??
+								wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
+								wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
+								SearchDot	=SearchDotBase;
+							}
 						}
 						else{
-							//???W?X?g?I?e??
-							wThresholdRange2_B+=abs(ThresholdRange-wThresholdRange2_B)*NGThresholdR_B;
-							wThresholdRange2_D+=abs(ThresholdRange-wThresholdRange2_D)*NGThresholdR_D;
-							SearchDot	=SearchDotBase;
+							wThresholdRange_B=wThresholdRange_D=wThresholdRange2_B=wThresholdRange2_D=BrightnessRange;
+							SearchDot	=SearchDotBase+1;
 						}
 
 						//??????????l?I?????A???I??
@@ -13048,9 +13136,11 @@ void	PixelInspectionItem::ExecuteProcessingForDetail1(int y,int SearchDotBase,in
 			wThresholdRange_B=NGThreshold_B;
 			wThresholdRange_D=NGThreshold_D;
 	///		wThresholdRange2=wThresholdRange-((((P.RL+P.RH)>>1)-128)>>3);
-			wThresholdRange2_B=(wThresholdRange_B<<7)/((P.RL+P.RH)>>1);
-			wThresholdRange2_D=(wThresholdRange_D<<7)/((P.RL+P.RH)>>1);
-
+			int	LH=(P.RL+P.RH)>>1;
+			if(LH>0){
+				wThresholdRange2_B=(wThresholdRange_B<<7)/LH;
+				wThresholdRange2_D=(wThresholdRange_D<<7)/LH;
+			}
 			//??????????l?I?????A???I??
 			if(((P.PL+P.PH)>>1)<=127){
 				wThresholdRange2_PB=wThresholdRange2_B;
@@ -13514,8 +13604,12 @@ void	PixelInspectionItem::ExecuteProcessingForDetail2(int y,int SearchDotBase,in
 		wThresholdRange_B=NGThreshold_B;
 		wThresholdRange_D=NGThreshold_D;
 ///		wThresholdRange2=wThresholdRange-((((P.RL+P.RH)>>1)-128)>>3);
-		wThresholdRange2_B=(wThresholdRange_B<<7)/((P.RL+P.RH)>>1);
-		wThresholdRange2_D=(wThresholdRange_D<<7)/((P.RL+P.RH)>>1);
+		int	LH = (P.RL+P.RH)>>1;
+		if(LH>0){
+			wThresholdRange2_B=(wThresholdRange_B<<7)/LH;
+			wThresholdRange2_D=(wThresholdRange_D<<7)/LH;
+		}
+
 
 		//??????????l?I?????A???I??
 		if(((P.PL+P.PH)>>1)<=127){
@@ -13986,8 +14080,11 @@ void	PixelInspectionItem::ExecuteProcessingForDetail3(int y,int SearchDotBase,in
 		wThresholdRange_B=NGThreshold_B;
 		wThresholdRange_D=NGThreshold_D;
 ///		wThresholdRange2=wThresholdRange-((((P.RL+P.RH)>>1)-128)>>3);
-		wThresholdRange2_B=(wThresholdRange_B<<7)/((P.RL+P.RH)>>1);
-		wThresholdRange2_D=(wThresholdRange_D<<7)/((P.RL+P.RH)>>1);
+		int	LH=(P.RL+P.RH)>>1;
+		if(LH>0){
+			wThresholdRange2_B=(wThresholdRange_B<<7)/LH;
+			wThresholdRange2_D=(wThresholdRange_D<<7)/LH;
+		}
 
 		//??????????l?I?????A???I??
 		if(((P.PL+P.PH)>>1)<=127){
@@ -14457,8 +14554,11 @@ void	PixelInspectionItem::ExecuteProcessingForDetail4(int y,int SearchDotBase,in
 		wThresholdRange_B=NGThreshold_B;
 		wThresholdRange_D=NGThreshold_D;
 ///		wThresholdRange2=wThresholdRange-((((P.RL+P.RH)>>1)-128)>>3);
-		wThresholdRange2_B=(wThresholdRange_B<<7)/((P.RL+P.RH)>>1);
-		wThresholdRange2_D=(wThresholdRange_D<<7)/((P.RL+P.RH)>>1);
+		int	LH=(P.RL+P.RH)>>1;
+		if(LH>0){
+			wThresholdRange2_B=(wThresholdRange_B<<7)/LH;
+			wThresholdRange2_D=(wThresholdRange_D<<7)/LH;
+		}
 
 		//??????????l?I?????A???I??
 		if(((P.PL+P.PH)>>1)<=127){

@@ -35,7 +35,7 @@
     <ClInclude Include="PropertyAlignmentBlockPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="XAlignmentBlockCommon.h">
+    <ClInclude Include="..\..\Algorithm\AlignmentBlock\XAlignmentBlockCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -58,7 +58,7 @@
     <ClCompile Include="EditAlignmentBlockLibraryDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XAlignmentBlockCommon.cpp">
+    <ClCompile Include="..\..\Algorithm\AlignmentBlock\XAlignmentBlockCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

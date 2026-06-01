@@ -91,6 +91,21 @@ void	ColorCorrectorInPage::TransmitDirectly(GUIDirectMessage *packet)
 	//	}
 	//	return;
 	//}
+	CmdReqGridList *CmdReqGridListVar = dynamic_cast<CmdReqGridList *>(packet);
+	if (CmdReqGridListVar != NULL) {
+		for(AlgorithmItemPI *a=GetFirstData();a!=NULL;a=a->GetNext()){
+			if(a->GetItemClassType()==CmdReqGridListVar->VType){
+				ColorCorrectorGridList	*L=new ColorCorrectorGridList();
+				L->Page=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+				L->ItemID=a->GetID();
+				const	AlgorithmThreshold	*r=a->GetThresholdBaseReadable(GetLayersBase());
+				const ColorCorrectorThresholdBase	*RThr=dynamic_cast<const ColorCorrectorThresholdBase *>(r);
+				a->GetXY(L->x1,L->y1,L->x2,L->y2);
+				CmdReqGridListVar->ListData->AppendList(L);
+			}
+		}		
+		return;
+	}
 }
 
 

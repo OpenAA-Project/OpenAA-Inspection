@@ -77,26 +77,6 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class ColorCorrectorGridList : public NPListSaveLoad<ColorCorrectorGridList>
-{
-public:
-	int		Phase	;
-	int		Page	;
-	int		ItemID	;
-	int32	x1,y1,x2,y2;
-
-	ColorCorrectorGridList(void){}
-
-	virtual	bool	Save(QIODevice *f)	override;
-	virtual	bool	Load(QIODevice *f)	override;
-};
-class ColorCorrectorGridListContainer : public NPListPackSaveLoad<ColorCorrectorGridList>
-{
-public:
-	ColorCorrectorGridListContainer(void){}
-	virtual	ColorCorrectorGridList	*Create(void)	{	return new ColorCorrectorGridList();	}
-};
-
 class	GUICmdReqGridList : public GUICmdPacketBase
 {
 public:

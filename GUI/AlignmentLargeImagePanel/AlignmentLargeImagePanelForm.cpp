@@ -127,7 +127,7 @@ void	AlignmentLargeImagePanel::CanvasSlotOnPaint(QPainter &pnt)
 {
 	if(GetDisplayType()==__BitBuff){
 		AlgorithmBase	*A=GetAlgorithmBase();
-		AlignmentLargeBase	*Ab=dynamic_cast<AlignmentLargeBase *>(A);
+		AlignmentLargeBase	*Ab=static_cast<AlignmentLargeBase *>(A);
 		if(Ab!=NULL){
 			SetTransparentLevelInBitBuff(Ab->TransparentLevelInBitBuff);
 		}

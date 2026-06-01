@@ -130,7 +130,7 @@ void CreateManualEulerRingL1Dialog::on_tableWidgetLibList_clicked(const QModelIn
 			ui->EditLibID				->setText(QString::number(TempLib->GetLibID()));
 			ui->EditLibName				->setText(a->GetLibName());
 
-			EulerRingL1Library	*ALib=dynamic_cast<EulerRingL1Library *>(TempLib->GetLibrary());
+			EulerRingL1Library	*ALib=static_cast<EulerRingL1Library *>(TempLib->GetLibrary());
 			ui->ButtonOK->setEnabled(true);
 			if(BItem!=NULL){
 				BItem->SetLibID(TempLib->GetLibID());

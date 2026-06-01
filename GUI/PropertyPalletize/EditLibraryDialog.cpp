@@ -137,7 +137,7 @@ void EditLibraryDialog::on_tableWidgetLibList_itemClicked(QTableWidgetItem *item
 
 void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	PalletizeLibrary	*d=dynamic_cast<PalletizeLibrary *>(data.GetLibrary());
+	PalletizeLibrary	*d=static_cast<PalletizeLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -157,7 +157,7 @@ void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 
 void	EditLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	PalletizeLibrary	*d=dynamic_cast<PalletizeLibrary *>(data.GetLibrary());
+	PalletizeLibrary	*d=static_cast<PalletizeLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->AngleRange		=ui->doubleSpinBoxAngleRange	->value();

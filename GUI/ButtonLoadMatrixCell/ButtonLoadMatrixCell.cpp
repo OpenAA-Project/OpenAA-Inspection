@@ -186,7 +186,7 @@ bool	ButtonLoadMatrixCell::LoadMatrixCell(QString LFileName)
 	GUIFormBase *Ret[100];
 	int	N=GetLayersBase()->EnumGUIInst(/**/"Review",/**/"MatrixCellList",Ret ,100);
 	if(N>0){
-		MatrixCellListForm	*M=dynamic_cast<MatrixCellListForm *>(Ret[0]);
+		GUIFormBase	*M=Ret[0];
 		if(M!=NULL){
 			CmdLoadMatrixCellFile	RCmd(GetLayersBase());
 			RCmd.FL=&F;
@@ -225,7 +225,7 @@ bool	ButtonLoadMatrixCell::LoadMatrixCell(QString LFileName)
 	}
 	
 	if(N>0){
-		MatrixCellListForm	*M=dynamic_cast<MatrixCellListForm *>(Ret[0]);
+		GUIFormBase	*M=Ret[0];
 		if(M!=NULL){
 			CmdCreateMatrixCell	RCmd(GetLayersBase());
 			M->TransmitDirectly(&RCmd);

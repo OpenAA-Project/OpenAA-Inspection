@@ -262,6 +262,7 @@
     <ClCompile Include="AutoMaskingPI.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="XAutoMaskingPI.cpp" />
+    <ClCompile Include="XAutoMaskingPICommon.cpp" />
     <ClCompile Include="XAutoMaskingPIResource.cpp" />
     <ClCompile Include="..\..\GeneralSource\XExpandShrink.cpp" />
   </ItemGroup>

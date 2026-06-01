@@ -45,9 +45,9 @@ void	GUICmdSendAddMultiSpectralUsageAreaItem::Receive(int32 localPage, int32 cmd
 {
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	MultiSpectralBase *BBase=(MultiSpectralBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"MultiSpectral");
+	AlgorithmBase *BBase=(MultiSpectralBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"MultiSpectral");
 	if(BBase != NULL) {
-		MultiSpectralInPage *PData=dynamic_cast<MultiSpectralInPage *>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot *PData=BBase->GetPageData(localPage);
 		if(PData != NULL) {
 			AddMultiSpectralAreaPacket	Cmd(this);
 			Cmd.Area	=LocalArea;

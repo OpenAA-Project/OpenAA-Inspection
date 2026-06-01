@@ -221,6 +221,8 @@ public:
 	explicit	AlgorithmItemPI(FlexArea *area);	//Use area memory
 	virtual	~AlgorithmItemPI(void){}
 
+	virtual	AlgorithmItemRoot *GetNextItem(void)	override{ return NPList<AlgorithmItemPI>::GetNext(); }
+
 	virtual	void	SetItemID(void)	override;
 	virtual	AlgorithmItemPI	&operator=(const AlgorithmItemRoot &src)	override;
 
@@ -360,6 +362,8 @@ public:
 	explicit	AlgorithmInPagePI(AlgorithmBase *parent);
 	virtual	~AlgorithmInPagePI(void);
 
+	virtual	AlgorithmItemRoot *GetFirstItem(void)	const	override	{ return Data.GetFirst(); }
+
 	virtual	ModelType	GetModel(void)	override	{	return	Model_PI;	}
 	virtual	void		Initial(AlgorithmInPageInOnePhase *phaseParent,LayersBase *Base)	override;
 	virtual	void		InitializeToStart(void)			override;
@@ -390,7 +394,7 @@ public:
 	virtual	void				LoopforAllItems(void (*ItemFunc)(AlgorithmItemRoot *Item ,void *_Something),void *Something)	override;
 	virtual	AlgorithmItemRoot	*FindItem(const AlgorithmItemIndex &Index)	const	override;
 
-	AlgorithmItemPI		*GetItem(int localX ,int localY)	const;
+	AlgorithmItemRoot	*GetItem(int localX ,int localY)	const	override;
 	AlgorithmItemPI		*GetItemRoot(int number)	const	override	{	return Data.GetItem(number);	}
 	virtual	void	FastSearchIDItemStart(void)				override;
 	virtual	AlgorithmItemRoot	*SearchIDItem(int itemID)					const	override;

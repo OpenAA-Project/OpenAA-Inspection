@@ -242,7 +242,7 @@ void	EditLibraryForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	MeasureHolePosLibrary	*ALib=dynamic_cast<MeasureHolePosLibrary *>(data.GetLibrary());
+	MeasureHolePosLibrary	*ALib=static_cast<MeasureHolePosLibrary *>(data.GetLibrary());
 	if(GetLayerNumb(0)>=3){
 		HoleColor.Cube=ALib->HoleColor;
 		HoleColor.InitializedDoneCube();
@@ -267,7 +267,7 @@ void	EditLibraryForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	MeasureHolePosLibrary	*ALib=dynamic_cast<MeasureHolePosLibrary *>(data.GetLibrary());
+	MeasureHolePosLibrary	*ALib=static_cast<MeasureHolePosLibrary *>(data.GetLibrary());
 	ALib->DiaPrecision	=ui.doubleSpinBoxDiaPrecision	->value();
 	ALib->PosPrecision	=ui.doubleSpinBoxPosPrecision	->value();
 	ALib->NoiseSize		=ui.spinBoxNoiseSize	->value();

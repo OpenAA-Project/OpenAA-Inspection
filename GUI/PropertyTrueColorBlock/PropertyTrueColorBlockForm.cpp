@@ -265,7 +265,7 @@ void	PropertyTrueColorBlockForm::TransmitDirectly(GUIDirectMessage *packet)
 				ColorGenerator.Cube=D.ColorPanel.Cube;
 				ColorGenerator.InitializedDoneCube();
 				ColorGenerator.Repaint();
-				TrueColorBlockLibrary	*ALib=dynamic_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
+				TrueColorBlockLibrary	*ALib=static_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
 				ALib->PickupColor	=D.ColorPanel.Cube;
 			}
 		}
@@ -395,7 +395,7 @@ void	PropertyTrueColorBlockForm::ShowLibrary(AlgorithmLibraryLevelContainer &dat
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	TrueColorBlockLibrary	*ALib=dynamic_cast<TrueColorBlockLibrary *>(data.GetLibrary());
+	TrueColorBlockLibrary	*ALib=static_cast<TrueColorBlockLibrary *>(data.GetLibrary());
 	ColorGenerator.Cube=ALib->PickupColor;
 	ColorGenerator.InitializedDoneCube();
 	ColorGenerator.Repaint();
@@ -427,7 +427,7 @@ void	PropertyTrueColorBlockForm::GetLibraryFromWindow(AlgorithmLibraryLevelConta
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	TrueColorBlockLibrary	*ALib=dynamic_cast<TrueColorBlockLibrary *>(data.GetLibrary());
+	TrueColorBlockLibrary	*ALib=static_cast<TrueColorBlockLibrary *>(data.GetLibrary());
 	ALib->MinBlockSize		=ui.EditMinBlockSize	->value();
 	ALib->MaxBlockSize		=ui.EditMaxBlockSize	->value();
 	ALib->MinBlockDots		=ui.EditMinBlockDots	->value();
@@ -590,7 +590,7 @@ void	PropertyTrueColorBlockForm::ShowSelectedLibList(void)
 		CmdCreateTempTrueColorBlockLibraryPacket	Packet(GetLayersBase());
 		BBase->TransmitDirectly(&Packet);
 		AlgorithmLibraryLevelContainer	*SLib=Packet.Point;
-		TrueColorBlockLibrary	*ALib=dynamic_cast<TrueColorBlockLibrary *>(SLib->GetLibrary());
+		TrueColorBlockLibrary	*ALib=static_cast<TrueColorBlockLibrary *>(SLib->GetLibrary());
 		int	row=0;
 		for(AlgorithmLibraryList *a=SelectedLibList.GetFirst();a!=NULL;a=a->GetNext(),row++){
 			DDim[row].a=a;
@@ -696,7 +696,7 @@ void PropertyTrueColorBlockForm::on_pushButtonGColor_clicked()
 		ColorGenerator.InitializedDoneCube();
 		ColorGenerator.Repaint();
 		if(TempLib!=NULL){
-			TrueColorBlockLibrary	*ALib=dynamic_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
+			TrueColorBlockLibrary	*ALib=static_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
 			ALib->PickupColor=D.ColorPanel.Cube;
 		}
 	}

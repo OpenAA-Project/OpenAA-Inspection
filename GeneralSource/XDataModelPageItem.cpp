@@ -2981,7 +2981,7 @@ void	AlgorithmInPagePI::DrawResultItem(ResultInPageRoot *R,QImage &IData ,QPaint
 }
 
 
-AlgorithmItemPI	*AlgorithmInPagePI::GetItem(int localX ,int localY)	const
+AlgorithmItemRoot	*AlgorithmInPagePI::GetItem(int localX ,int localY)	const
 {
 	for(AlgorithmItemPI *c=Data.GetFirst();c!=NULL;c=c->GetNext()){
 		if(c->IsInclude(localX ,localY)==true){
@@ -5608,7 +5608,7 @@ void	AlgorithmInPagePI::CopyFrom(AlgorithmBase *DestParent
 				AppendItem(NewItemList[k]);
 			}
 		}
-		if(N!=NULL){
+		if(N!=0){
 			Changed=true;
 			CalcDone=false;
 		}

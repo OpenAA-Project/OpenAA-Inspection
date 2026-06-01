@@ -207,6 +207,7 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Algorithm\DotColorMatching\XDotColorMatchingCommon.cpp" />
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="..\PropertyDotColorMatching\XPropertyDotColorMatchingPacket.cpp" />

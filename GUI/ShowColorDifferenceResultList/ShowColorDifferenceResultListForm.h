@@ -27,7 +27,6 @@ public:
     virtual void	ShowInPlayer(int64 shownInspectionID=-1)	override;
 
 private slots:
-    void on_pushButtonAddMeasure_clicked();
 	void	ResizeAction();
 private:
     Ui::ShowColorDifferenceResultListForm *ui;
@@ -35,11 +34,11 @@ private:
 
 
 
-class	GUICmdReqColorDifferenceResult: public GUICmdPacketBase
+class	GUICmdReqShowColorDifferenceResult: public GUICmdPacketBase
 {
 public:
 
-	GUICmdReqColorDifferenceResult(LayersBase *Base ,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1);
+	GUICmdReqShowColorDifferenceResult(LayersBase *Base ,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1);
 
 	virtual	bool	Load(QIODevice *f)	{	return true;	}
 	virtual	bool	Save(QIODevice *f)	{	return true;	}
@@ -47,48 +46,17 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
-class	GUICmdAckColorDifferenceResult: public GUICmdPacketBase
+class	GUICmdAckShowColorDifferenceResult: public GUICmdPacketBase
 {
 public:
 	ColorDifferenceResultInfoContainer	Results;
 
-	GUICmdAckColorDifferenceResult(LayersBase *Base ,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1);
+	GUICmdAckShowColorDifferenceResult(LayersBase *Base ,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1);
 
 	virtual	bool	Load(QIODevice *f);
 	virtual	bool	Save(QIODevice *f);
 
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName){}	
 };
-
-
-class	GUICmdSetColorDifferenceManualDeltaE: public GUICmdPacketBase
-{
-public:
-	int		ItemID;
-	double	DeltaE;
-
-	GUICmdSetColorDifferenceManualDeltaE(LayersBase *Base ,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1);
-
-	virtual	bool	Load(QIODevice *f);
-	virtual	bool	Save(QIODevice *f);
-
-	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
-};
-
-
-class	GUICmdSetColorDifferenceManualDense: public GUICmdPacketBase
-{
-public:
-	int		ItemID;
-	double	Dense;
-
-	GUICmdSetColorDifferenceManualDense(LayersBase *Base ,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1);
-
-	virtual	bool	Load(QIODevice *f);
-	virtual	bool	Save(QIODevice *f);
-
-	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
-};
-
 
 #endif // SHOWCOLORDIFFERENCERESULTLISTFORM_H

@@ -43,6 +43,9 @@
     <ClCompile Include="PropertyMaskingPIResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Algorithm\MaskingPI\XMaskPICommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PropertyMaskingPI.h">

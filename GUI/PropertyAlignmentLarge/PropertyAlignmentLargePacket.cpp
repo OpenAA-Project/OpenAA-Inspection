@@ -174,11 +174,11 @@ void	GUICmdSendAlignmentLargeAreaList::MakeAreaList(int localPage,int CurrentLay
 	if(AlignBase==NULL)
 		return;
 	Area.RemoveAll();
-	AlgorithmInPagePLI	*PData=dynamic_cast<AlgorithmInPagePLI	*>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=AlignBase->GetPageData(localPage);
 	if(PData!=NULL){
 		AlgorithmInLayerRoot *PLayer=PData->GetLayerData(CurrentLayer);
-		AlignmentLargeInLayer *AlignLayer=dynamic_cast<AlignmentLargeInLayer *>(PLayer);
-		if(AlignLayer!=NULL){
+		if(PLayer!=NULL){
+			AlignmentLargeInLayer *AlignLayer=static_cast<AlignmentLargeInLayer *>(PLayer);
 			int	N=0;
 			for(XAlignmentLargeArea *a=AlignLayer->Areas.GetFirst();a!=NULL;a=a->GetNext(),N++){
 				AlignmentLargeAreaList	*L=new AlignmentLargeAreaList();
@@ -261,11 +261,11 @@ void	GUICmdSendAlignmentLargePointList::MakePointList(LayersBase *PBase ,int Lay
 	if(AlignBase==NULL)
 		return;
 	Points.RemoveAll();
-	AlgorithmInPagePLI	*PData=dynamic_cast<AlgorithmInPagePLI	*>(AlignBase->GetPageData(LocalPage));
+	AlgorithmInPageRoot	*PData=AlignBase->GetPageData(LocalPage);
 	if(PData!=NULL){
 		AlgorithmInLayerRoot *PLayer=PData->GetLayerData(Layer);
-		AlignmentLargeInLayer *AlignLayer=dynamic_cast<AlignmentLargeInLayer *>(PLayer);
-		if(AlignLayer!=NULL){
+		if(PLayer!=NULL){
+			AlignmentLargeInLayer *AlignLayer=static_cast<AlignmentLargeInLayer *>(PLayer);	
 			int	N=0;
 			for(XAlignmentLargeArea *a=AlignLayer->Areas.GetFirst();a!=NULL;a=a->GetNext(),N++){
 				if(N==Number){
@@ -371,14 +371,11 @@ void	GUICmdReqAlignmentLargePutArea::Receive(int32 localPage, int32 cmd ,QString
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
-	AlgorithmInLayerPLI	*AL=dynamic_cast<AlgorithmInLayerPLI *>(AP->GetLayerData(Layer));
+	AlgorithmInLayerRoot	*AL=AP->GetLayerData(Layer);
 	if(AL==NULL)
-		return;
-	AlignmentLargeInLayer	*AInL=dynamic_cast<AlignmentLargeInLayer *>(AL);
-	if(AInL==NULL)
 		return;
 
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
@@ -387,7 +384,7 @@ void	GUICmdReqAlignmentLargePutArea::Receive(int32 localPage, int32 cmd ,QString
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"ImageControlTools" ,/**/"AlignmentLargeTools");
 	if(GProp!=NULL){
 		GProp->TransmitDirectly(&DrawMode);
-		}
+	}
 	AddAlignmentLargeAreaPacket	DPacket(this);
 	DPacket.Area		=Area;
 	DPacket.AreaName	=AreaName;
@@ -396,7 +393,7 @@ void	GUICmdReqAlignmentLargePutArea::Receive(int32 localPage, int32 cmd ,QString
 	DPacket.LimitedLib	=LimitedLib;
 	DPacket.Page		=localPage;
 	DPacket.Priority	=Priority;
-	AInL->TransmitDirectly(&DPacket);
+	AL->TransmitDirectly(&DPacket);
 
 	GUIFormBase *Ret[10];
 	int N=GetLayersBase()->EnumGUIInst(EmitterRoot,EmitterName,Ret,10);
@@ -449,7 +446,7 @@ void	GUICmdReqDelAlignmentArea::Receive(int32 localPage, int32 cmd ,QString &Emi
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	CmdReqDelAlignmentAreaByName	Cmd(GetLayersBase());
@@ -547,14 +544,11 @@ void	GUICmdReqAlignmentLargePutPoint::Receive(int32 localPage, int32 cmd ,QStrin
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
-	AlgorithmInLayerPLI	*AL=dynamic_cast<AlgorithmInLayerPLI *>(AP->GetLayerData(Layer));
+	AlgorithmInLayerRoot	*AL=AP->GetLayerData(Layer);
 	if(AL==NULL)
-		return;
-	AlignmentLargeInLayer	*AInL=dynamic_cast<AlignmentLargeInLayer*>(AL);
-	if(AInL==NULL)
 		return;
 
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
@@ -575,7 +569,7 @@ void	GUICmdReqAlignmentLargePutPoint::Receive(int32 localPage, int32 cmd ,QStrin
 	DPacket.CharacterMode		=CharacterMode;
 	DPacket.UseLayer		=UseLayer	;
 	DPacket.ThresholdColor	=ThresholdColor;
-	AInL->TransmitDirectly(&DPacket);
+	AL->TransmitDirectly(&DPacket);
 }
 
 //==============================================================================
@@ -661,15 +655,13 @@ void	GUICmdReqAlignmentLargeModifyPoint::Receive(int32 localPage, int32 cmd ,QSt
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
-	AlgorithmInLayerPLI	*AL=dynamic_cast<AlgorithmInLayerPLI *>(AP->GetLayerData(Layer));
+	AlgorithmInLayerRoot	*AL=AP->GetLayerData(Layer);
 	if(AL==NULL)
 		return;
-	AlignmentLargeInLayer	*AInL=dynamic_cast<AlignmentLargeInLayer*>(AL);
-	if(AInL==NULL)
-		return;
+
 	ModifyAlignmentLargePointPacket	DPacket(this);
 	DPacket.AreaID			=AreaID;
 	DPacket.ItemID			=ItemID;
@@ -685,7 +677,7 @@ void	GUICmdReqAlignmentLargeModifyPoint::Receive(int32 localPage, int32 cmd ,QSt
 	DPacket.UseLayer		=UseLayer		;
 	DPacket.ThresholdColor	=ThresholdColor	;
 
-	AInL->TransmitDirectly(&DPacket);
+	AL->TransmitDirectly(&DPacket);
 }
 
 GUICmdReqAlignmentLargeRemovePoint::GUICmdReqAlignmentLargeRemovePoint(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
@@ -725,19 +717,17 @@ void	GUICmdReqAlignmentLargeRemovePoint::Receive(int32 localPage, int32 cmd ,QSt
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
-	AlgorithmInLayerPLI	*AL=dynamic_cast<AlgorithmInLayerPLI *>(AP->GetLayerData(Layer));
+	AlgorithmInLayerRoot	*AL=AP->GetLayerData(Layer);
 	if(AL==NULL)
 		return;
-	AlignmentLargeInLayer	*AInL=dynamic_cast<AlignmentLargeInLayer*>(AL);
-	if(AInL==NULL)
-		return;
+
 	RemoveAlignmentLargePointPacket	DPacket(this);
 	DPacket.AreaID			=AreaID;
 	DPacket.ItemID			=ItemID;
-	AInL->TransmitDirectly(&DPacket);
+	AL->TransmitDirectly(&DPacket);
 }
 //===================================================================================================
 
@@ -751,7 +741,7 @@ void	GUICmdReqAlignmentLargeMakeGroup::Receive(int32 localPage, int32 cmd ,QStri
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -772,7 +762,7 @@ void	GUICmdReqAlignmentLargeRemoveGroup::Receive(int32 localPage, int32 cmd ,QSt
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -823,13 +813,13 @@ void	GUICmdSendAlignmentLargeAreaInfo::Make(int localPage,int layer,int areaID,L
 	AlgorithmBase	*AlignBase=Base->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
-	AlgorithmInLayerPLI	*AL=dynamic_cast<AlgorithmInLayerPLI *>(AP->GetLayerData(layer));
+	AlgorithmInLayerRoot	*AL=AP->GetLayerData(layer);
 	if(AL==NULL)
 		return;
-	AlignmentLargeInLayer	*AInL=dynamic_cast<AlignmentLargeInLayer*>(AL);
+	AlignmentLargeInLayer	*AInL=static_cast<AlignmentLargeInLayer*>(AL);
 	if(AInL==NULL)
 		return;
 	for(XAlignmentLargeArea *a=AInL->Areas.GetFirst();a!=NULL;a=a->GetNext()){
@@ -938,13 +928,13 @@ void	GUICmdReqModifyAlignmentLargeAreaInfo::Receive(int32 localPage, int32 cmd ,
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
-	AlgorithmInLayerPLI	*AL=dynamic_cast<AlgorithmInLayerPLI *>(AP->GetLayerData(Layer));
+	AlgorithmInLayerRoot	*AL=AP->GetLayerData(Layer);
 	if(AL==NULL)
 		return;
-	AlignmentLargeInLayer	*AInL=dynamic_cast<AlignmentLargeInLayer*>(AL);
+	AlignmentLargeInLayer	*AInL=static_cast<AlignmentLargeInLayer*>(AL);
 	if(AInL==NULL)
 		return;
 	if(DeleteMode==false){
@@ -1035,7 +1025,7 @@ void	GUICmdClickAreaButton::Receive(int32 localPage, int32 cmd ,QString &Emitter
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlignmentLargeInPage	*AP=dynamic_cast<AlignmentLargeInPage *>(AlignBase->GetPageData(localPage));
+	AlignmentLargeInPage	*AP=static_cast<AlignmentLargeInPage *>(AlignBase->GetPageData(localPage));
 	if(AP==NULL)
 		return;
 	AP->ShowingMode=AlignmentLargeInPage::ShowingMode_AlignmentArea;
@@ -1072,7 +1062,7 @@ void	GUICmdClickPointButton::Receive(int32 localPage, int32 cmd ,QString &Emitte
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlignmentLargeInPage	*AP=dynamic_cast<AlignmentLargeInPage *>(AlignBase->GetPageData(localPage));
+	AlignmentLargeInPage	*AP=static_cast<AlignmentLargeInPage *>(AlignBase->GetPageData(localPage));
 	if(AP==NULL)
 		return;
 	AP->ShowingMode=AlignmentLargeInPage::ShowingMode_AlignmentItem;
@@ -1120,7 +1110,7 @@ void	GUICmdClearAllAreas::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -1150,7 +1140,7 @@ void	GUICmdClearAllPoints::Receive(int32 localPage, int32 cmd ,QString &EmitterR
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -1187,7 +1177,7 @@ void	GUICmdCreateAreaInMask::Receive(int32 localPage, int32 cmd ,QString &Emitte
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -1262,7 +1252,7 @@ void	GUICmdAutoCreatePoint::Receive(int32 localPage, int32 cmd ,QString &Emitter
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -1380,7 +1370,7 @@ void	GUICmdSetAlignmentData::Receive(int32 localPage, int32 cmd ,QString &Emitte
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -1401,7 +1391,7 @@ void	GUICmdDeleteAreaExceptGlobal::Receive(int32 localPage, int32 cmd ,QString &
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -1421,7 +1411,7 @@ void	GUICmdDeleteItemsExceptGlobal::Receive(int32 localPage, int32 cmd ,QString 
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -1451,7 +1441,7 @@ void	GUICmdGenerateAuto::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentLarge");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 

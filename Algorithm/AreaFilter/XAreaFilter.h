@@ -679,5 +679,41 @@ public:
 	CmdAddAreaFilterItemPacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 
+//=================================================================================
+
+class	AreaFilterListForPacket : public NPListSaveLoad<AreaFilterListForPacket>
+{
+public:
+	struct{
+		int		ItemID;
+		int		LibID;
+		int		Layer;
+		int		Page;
+		int		x1,y1,x2,y2;
+	}Data;
+	
+	AreaFilterListForPacket(void){}
+
+	virtual	bool	Save(QIODevice *f);
+	virtual	bool	Load(QIODevice *f);
+};
+
+class	AreaFilterListForPacketPack : public NPListPackSaveLoad<AreaFilterListForPacket>
+{
+public:
+	AreaFilterListForPacketPack(void){}
+
+	virtual	AreaFilterListForPacket	*Create(void)	{	return new AreaFilterListForPacket();	}
+};
+
+class	CmdSetAreaFilterList : public GUIDirectMessage
+{
+public:
+	AreaFilterListForPacketPack	*ItemListInfo;
+
+	AlgorithmLibraryLevelContainer	*Point;
+	CmdSetAreaFilterList(LayersBase *base):GUIDirectMessage(base){}
+	CmdSetAreaFilterList(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
 
 #endif

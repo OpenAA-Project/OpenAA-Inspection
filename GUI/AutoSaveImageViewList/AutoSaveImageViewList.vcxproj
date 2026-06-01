@@ -330,7 +330,7 @@
     <ClCompile Include="FormSelectFolders.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FormSelectFolders.h" />
+    <QtMoc Include="FormSelectFolders.h" />
     <CustomBuild Include="AutoSaveImageViewList.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </Message>

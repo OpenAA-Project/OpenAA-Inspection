@@ -116,7 +116,7 @@ void SelectAlignmentLargeDialog::on_tableWidgetLibList_clicked(const QModelIndex
 		Ab->TransmitDirectly(&Packet);
 
 		if(Packet.Success==true){
-			AlignmentLargeLibrary	*ALib=dynamic_cast<AlignmentLargeLibrary *>(TempLib->GetLibrary());
+			AlignmentLargeLibrary	*ALib=static_cast<AlignmentLargeLibrary *>(TempLib->GetLibrary());
 			AlignmentLargeLibID		=TempLib->GetLibID();
 			ui->EditLibID			->setText(QString::number(TempLib->GetLibID()));
 			ui->EditLibName			->setText(a->GetLibName());

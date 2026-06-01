@@ -218,7 +218,7 @@ void	PropertyMeasureHoleForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	MeasureHoleLibrary	*ALib=dynamic_cast<MeasureHoleLibrary *>(data.GetLibrary());
+	MeasureHoleLibrary	*ALib=static_cast<MeasureHoleLibrary *>(data.GetLibrary());
 	if(GetLayerNumb(0)>=3){
 		ColorGenerator.Cube=ALib->CupperColor;
 		ColorGenerator.InitializedDoneCube();
@@ -241,7 +241,7 @@ void	PropertyMeasureHoleForm::GetLibraryFromWindow(AlgorithmLibraryLevelContaine
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	MeasureHoleLibrary	*ALib=dynamic_cast<MeasureHoleLibrary *>(data.GetLibrary());
+	MeasureHoleLibrary	*ALib=static_cast<MeasureHoleLibrary *>(data.GetLibrary());
 	ALib->MinDiameter	=ui.EditMinDiameter	->value();
 	ALib->MaxDiameter	=ui.EditMaxDiameter	->value();
 	ALib->NoiseSize		=ui.EditNoiseSize	->value();

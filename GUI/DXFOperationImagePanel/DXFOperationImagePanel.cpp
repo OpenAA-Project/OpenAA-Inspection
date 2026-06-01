@@ -245,9 +245,7 @@ void	DXFOperationImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"DXFOperation");
 	if(Ab==NULL)
 		return;
-	DXFOperationBase	*MBase=dynamic_cast<DXFOperationBase *>(Ab);
-	if(MBase==NULL)
-		return;
+
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyDXFOperation" ,/**/"");
 	if(GProp!=NULL){
 		/*
@@ -477,14 +475,14 @@ bool	DXFOperationImagePanel::IsMoveModeButtonDown(void)	const
 }
 void	DXFOperationImagePanel::ExecuteMouseLDown(int globalX ,int globalY)
 {
-	DXFOperationBase	*GAlgo=dynamic_cast<DXFOperationBase *>(GetAlgorithmBase());
+	//DXFOperationBase	*GAlgo=dynamic_cast<DXFOperationBase *>(GetAlgorithmBase());
 	CmdDXFGetOperationModePacket	Cmd(GetLayersBase());
 	GUIFormBase	*DProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyDXFOperation" ,/**/"");
 	if(DProp==NULL)
 		return;
 	
 	DProp->TransmitDirectly(&Cmd);
-	if(GAlgo!=NULL){
+	//if(GAlgo!=NULL){
 		if(Cmd.Mode==OM_Move){
 			DisplayImageWithAlgorithm::ExecuteMouseLDown(globalX ,globalY);
 		}
@@ -495,12 +493,12 @@ void	DXFOperationImagePanel::ExecuteMouseLDown(int globalX ,int globalY)
 			PaintCmd.GlobalY=globalY;
 			DProp->TransmitDirectly(&PaintCmd);
 		}
-	}
-	else{
-		DisplayImageWithAlgorithm::ExecuteMouseLDown(globalX ,globalY);
-		if(GetLastHookResult()==false)
-			return;
-	}
+	//}
+	//else{
+	//	DisplayImageWithAlgorithm::ExecuteMouseLDown(globalX ,globalY);
+	//	if(GetLastHookResult()==false)
+	//		return;
+	//}
 }
 void	DXFOperationImagePanel::ExecuteMouseLDownWithShift(int globalX ,int globalY)
 {

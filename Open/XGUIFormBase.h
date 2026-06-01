@@ -391,6 +391,7 @@ friend	class	SelectedWindow;
 	QMutex	SyncCommandMutex;
 	NPListPack<SyncCommandList>			SyncCommandListContainer;
 protected:
+	QString	ClassName;
 	GUIInitializer	*GUIInitializerPoint;
 	GUIInstancePack	*GUIInstancePackPoint;
 	GUIFormPointerContainer				ShouldCloseWindow;
@@ -465,6 +466,8 @@ public:
 	void	SetAlignment(const QString &s)		{	Alignment=s;				}
 	GuiDLLItem	*GetGuiDLLPoint(void)	const	{	return GuiDLLPoint;			}
 	void	SetGuiDLLPoint(GuiDLLItem *s)		{	GuiDLLPoint=s;				}
+	QString	GetClassName(void)	const			{	return ClassName;			}
+	bool	DoesIncludeInClassName(const QString &s)	const;
 
 	int32	GetFormBaseID(void)			const	{	return FormBaseID;			}
 	void	_SetFormBaseID(int32 id)			{	FormBaseID=id;				}

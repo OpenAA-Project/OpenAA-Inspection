@@ -272,6 +272,25 @@ void	AlignmentProjectionInPage::TransmitDirectly(GUIDirectMessage *packet)
 		SelectArea(SelectAlignmentPointsVar->Area,false);
 		return;
 	}
+	CmdMakeAlignmentProjectionPointListPack *CmdMakeAlignmentProjectionPointListPackVar = dynamic_cast<CmdMakeAlignmentProjectionPointListPack *>(packet);
+	if(CmdMakeAlignmentProjectionPointListPackVar!=NULL){
+		for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
+			AlignmentProjectionPointList	*L=new AlignmentProjectionPointList();
+			AlignmentProjectionItem	*Item=dynamic_cast<AlignmentProjectionItem *>(a);
+			if(Item!=NULL){
+				L->ItemID	=Item->GetID();
+				L->Phase	=GetPhaseCode();
+				L->Page		=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+				Item->GetCenter(L->Cx,L->Cy);
+				L->XSize	=Item->GetArea().GetWidth();
+				L->YSize	=Item->GetArea().GetHeight();
+				L->PeakCount=Item->GetThresholdR()->PeakCount;
+				CmdMakeAlignmentProjectionPointListPackVar->List->AppendList(L);
+			}
+		}
+		return;
+	}
+
 }
 bool	AlignmentProjectionInPage::PipeGeneration(GeneralPipeInfo &Info)
 {

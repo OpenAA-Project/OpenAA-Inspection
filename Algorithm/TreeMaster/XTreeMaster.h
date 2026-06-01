@@ -305,4 +305,18 @@ public:
 	CmdReqTotalResult(LayersBase *base):GUIDirectMessage(base){}
 };
 
+class	CmdMakeTreeMasterList : public GUIDirectMessage
+{
+public:
+	TreeMasterListForPacketPack	*TreeMasterInfo;
+	CmdMakeTreeMasterList(LayersBase *base):GUIDirectMessage(base){}
+};
+
+class	CmdMakeTreeMasterResultList : public GUIDirectMessage
+{
+public:
+	TreeMasterResultListForPacketPack	*TreeMasterInfo;
+	CmdMakeTreeMasterResultList(LayersBase *base):GUIDirectMessage(base){}
+};
+
 #endif

@@ -500,45 +500,12 @@ public:
 };
 
 //================================================================================================
-class BlockListInfo : public NPListSaveLoad<BlockListInfo>
-{
-public:
-	struct BlockListStruct
-	{
-		int	Page;
-		int	ItemID;
-		int	LibID;
-		int	x1,y1,x2,y2;
-		int	AreaSearchX;
-		int	AreaSearchY;
-		int	SelfSearch;
-		int	OKDotB;
-		int	OKDotN;
-	}BlockListData;
-
-	BlockListInfo(void){}
-
-	virtual	bool	Save(QIODevice *f)	override;
-	virtual	bool	Load(QIODevice *f)	override;
-
-	BlockListInfo	&operator=(const BlockListInfo &src);
-private:
-
-};
-class BlockListInfoContainer : public NPListPackSaveLoad<BlockListInfo>
-{
-public:
-	virtual	BlockListInfo	*Create(void)	{	return new BlockListInfo();	}
-
-	BlockListInfoContainer	&operator= (const BlockListInfoContainer &src);
-	BlockListInfoContainer	&operator+=(const BlockListInfoContainer &src);
-};
-
-
 
 class	GUICmdReqBlockListInfo : public GUICmdPacketBase
 {
 public:
+	BlockListInfoContainer	*BlockListInfoContainerData;
+
 	GUICmdReqBlockListInfo(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage=-1);
 
 	virtual	bool	Load(QIODevice *f){	return true;	}
@@ -605,6 +572,10 @@ public:
 	int	ItemID;	//-1: All items with LibID
 	int	LibID;
 
+    int     MasterNoOriginCode;
+    AlgorithmLibraryListContainer	SubLibIDs;
+	int		ExpandToSubBlock;
+
 	GUICmdReqItemsByLibID(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage=-1);
 
 	virtual	bool	Load(QIODevice *f);
@@ -649,6 +620,7 @@ public:
 class	GUICmdReqSelectedItemLib : public GUICmdPacketBase
 {
 public:
+	IntList	*SelectedItemLibID;
 
 	GUICmdReqSelectedItemLib(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage=-1);
 

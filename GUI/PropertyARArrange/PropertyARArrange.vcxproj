@@ -317,6 +317,7 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Algorithm\ARArrange\XARArrangeCommon.cpp" />
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp" />
     <ClCompile Include="PropertyARArrange.cpp" />
     <ClCompile Include="PropertyARArrangeForm.cpp" />

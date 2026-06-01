@@ -318,6 +318,50 @@ void	TreeMasterInPage::TransmitDirectly(GUIDirectMessage *packet)
 		}
 		return;
 	}
+	CmdMakeTreeMasterList *CmdMakeTreeMasterListVar = dynamic_cast<CmdMakeTreeMasterList *>(packet);
+	if(CmdMakeTreeMasterListVar!=NULL){
+		for(AlgorithmItemPI *item=GetFirstData();item!=NULL;item=item->GetNext()){
+			TreeMasterItem	*MItem=dynamic_cast<TreeMasterItem *>(item);
+			if(MItem!=NULL){
+				TreeMasterList	*L=new TreeMasterList();
+				L->Page=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+				int x1 ,y1 ,x2 ,y2;
+				MItem->GetXY(x1 ,y1 ,x2 ,y2);
+				L->x1=x1;
+				L->y1=y1;
+				L->x2=x2;
+				L->y2=y2;
+				L->CatName		= MItem->CatName;
+				L->MasterCode	= MItem->MasterCode;
+				L->ItemID			= MItem->TMItemID;
+				L->MasterName	= MItem->MasterName;
+				L->AlertMask	= MItem->AlertMark;
+
+				CmdMakeTreeMasterListVar->TreeMasterInfo->AppendList(L);				
+			}
+		}
+		return;
+	}
+	CmdMakeTreeMasterResultList *CmdMakeTreeMasterResultListVar = dynamic_cast<CmdMakeTreeMasterResultList *>(packet);
+	if(CmdMakeTreeMasterResultListVar!=NULL){
+		for(AlgorithmItemPI *item=GetFirstData();item!=NULL;item=item->GetNext()){
+			TreeMasterItem	*MItem=dynamic_cast<TreeMasterItem *>(item);
+			if(MItem!=NULL){
+				TreeMasterResultList	*L=new TreeMasterResultList();
+				L->Page=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+				int x1 ,y1 ,x2 ,y2;
+				MItem->GetXY(x1 ,y1 ,x2 ,y2);
+				L->CatName		=MItem->CatName;
+				L->MasterCode	=MItem->MasterCode;
+				L->ItemID		=MItem->TMItemID;
+				L->ResultE		=MItem->ResultE;
+
+				CmdMakeTreeMasterResultListVar->TreeMasterInfo->AppendList(L);				
+			}
+		}
+	
+		return;
+	}
 }
 
 

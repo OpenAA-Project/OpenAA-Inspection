@@ -311,7 +311,6 @@ bool AutoSaveImageViewListForm::mkFileList(QStringList &PathList
 		}
 		*/
 		ItmLst.AppendList(rec);
-NextP:;
 	}
 
 	ItmLst.sort();

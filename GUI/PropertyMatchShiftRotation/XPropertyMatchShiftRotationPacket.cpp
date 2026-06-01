@@ -259,7 +259,7 @@ void	GUICmdReqMatchShiftRotationPutArea::Receive(int32 localPage, int32 cmd ,QSt
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MatchShiftRotation");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=AlignBase->GetPageData(localPage);
 	if(PData!=NULL){
 		AddMatchShiftRotationAreaPacket	RCmd(GetLayersBase());
 		RCmd.Area			=Area	;
@@ -313,7 +313,7 @@ void	GUICmdReqModifyMatchShiftRotationAreaInfo::Receive(int32 localPage, int32 c
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MatchShiftRotation");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=AlignBase->GetPageData(localPage);
 	if(PData!=NULL){
 		ModifyMatchShiftRotationAreaPacket	RCmd(GetLayersBase());
 		RCmd.AreaID			=AreaID;
@@ -359,21 +359,19 @@ void	GUICmdSendMatchShiftRotationAreaList::MakeAreaList(int localPage,LayersBase
 	if(AlignBase==NULL)
 		return;
 	Area.RemoveAll();
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=AlignBase->GetPageData(localPage);
 	if(PData!=NULL){
-		MatchShiftRotationInPage	*Ap=dynamic_cast<MatchShiftRotationInPage *>(PData);
-		if(Ap!=NULL){
-			int	N=0;
-			for(XMatchShiftRotationArea *a=Ap->Areas.GetFirst();a!=NULL;a=a->GetNext(),N++){
-				MatchShiftRotationAreaList	*L=new MatchShiftRotationAreaList();
-				L->Number			=N;
-				L->AreaID			=a->AreaID;
-				L->AreaName			=a->AreaName;
-				L->GlobalPage		=PBase->GetGlobalPageFromLocal(localPage);
-				L->XSize			=a->Area.GetWidth();
-				L->YSize			=a->Area.GetHeight();
-				Area.AppendList(L);
-			}
+		MatchShiftRotationInPage	*Ap=static_cast<MatchShiftRotationInPage *>(PData);
+		int	N=0;
+		for(XMatchShiftRotationArea *a=Ap->Areas.GetFirst();a!=NULL;a=a->GetNext(),N++){
+			MatchShiftRotationAreaList	*L=new MatchShiftRotationAreaList();
+			L->Number			=N;
+			L->AreaID			=a->AreaID;
+			L->AreaName			=a->AreaName;
+			L->GlobalPage		=PBase->GetGlobalPageFromLocal(localPage);
+			L->XSize			=a->Area.GetWidth();
+			L->YSize			=a->Area.GetHeight();
+			Area.AppendList(L);
 		}
 	}
 }
@@ -432,7 +430,7 @@ void	GUICmdSendAddManualMatchShiftRotation::Receive(int32 localPage, int32 cmd ,
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MatchShiftRotation");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -482,7 +480,7 @@ void	GUICmdUpdateManualMatchShiftRotation::Receive(int32 localPage, int32 cmd ,Q
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MatchShiftRotation");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -524,7 +522,7 @@ void	GUICmdDeleteManualMatchShiftRotation::Receive(int32 localPage, int32 cmd ,Q
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MatchShiftRotation");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -564,7 +562,7 @@ void	GUICmdGenerateMatchShiftRotations::Receive(int32 localPage, int32 cmd ,QStr
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MatchShiftRotation");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
@@ -600,7 +598,7 @@ void	GUICmdGenerateMatchShiftRotationFromMask::Receive(int32 localPage, int32 cm
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MatchShiftRotation");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
@@ -634,7 +632,7 @@ void	GUICmdDeleteArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MatchShiftRotation");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
@@ -672,7 +670,7 @@ void	GUICmdReqMatchShiftRotationPointList::Receive(int32 localPage, int32 cmd ,Q
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MatchShiftRotation");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	CmdReqMatchShiftRotationInfoListPack	RCmd(GetLayersBase());
@@ -792,7 +790,7 @@ void	GUICmdReqMatchShiftRotationItemPack::Receive(int32 localPage, int32 cmd ,QS
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MatchShiftRotation");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	CmdReqMatchShiftRotationItemPack	RCmd(GetLayersBase());
@@ -852,7 +850,7 @@ void	GUICmdReqMatchShiftItemImages::Receive(int32 localPage, int32 cmd ,QString 
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MatchShiftRotation");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 	CmdReqMatchShiftRotationItemImages	RCmd(GetLayersBase());

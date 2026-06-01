@@ -142,7 +142,7 @@ void CreateManualDotColorMatchingDialog::on_tableWidgetLibList_clicked(const QMo
 		Packet.Point=LLib;
 		LLib->SetLibID(a->GetLibID());
 		Ab->TransmitDirectly(&Packet);
-		DotColorMatchingLibrary	*TempLib	=dynamic_cast<DotColorMatchingLibrary *>(LLib->GetLibrary());
+		DotColorMatchingLibrary	*TempLib	=static_cast<DotColorMatchingLibrary *>(LLib->GetLibrary());
 
 		if(Packet.Success==true){
 			DotColorMatchingLibID	=TempLib->GetLibID();

@@ -137,7 +137,7 @@ void EditLibraryDialog::on_tableWidgetLibList_itemSelectionChanged()
 
 void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	RasterInspectionLibrary	*d=dynamic_cast<RasterInspectionLibrary *>(data.GetLibrary());
+	RasterInspectionLibrary	*d=static_cast<RasterInspectionLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -157,7 +157,7 @@ void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 
 void	EditLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	RasterInspectionLibrary	*d=dynamic_cast<RasterInspectionLibrary *>(data.GetLibrary());
+	RasterInspectionLibrary	*d=static_cast<RasterInspectionLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->GenColorDistance	=ui->spinBoxGenColorDistance	->value();

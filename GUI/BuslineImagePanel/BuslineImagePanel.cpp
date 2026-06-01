@@ -123,7 +123,7 @@ void	BuslineImagePanel::TransmitDirectly(GUIDirectMessage *packet)
 
 AlgorithmDrawAttr	*BuslineImagePanel::CreateDrawAttrPointer(void)
 {
-	BuslineBase	*a=dynamic_cast<BuslineBase *>(GetAlgorithmBase());
+	BuslineBase	*a=static_cast<BuslineBase *>(GetAlgorithmBase());
 	if(a!=NULL){
 		BuslineDrawAttr	*c=new BuslineDrawAttr(a->ColorMask		,a->TransparentLevel
 											,  a->ColorSelected	,a->TransparentLevel

@@ -135,7 +135,7 @@ void EditTrueColorLibrary::on_pushButtonNColor_clicked()
 		ColorNarrow.Cube=D.ColorPanel.Cube;
 		ColorNarrow.InitializedDoneCube();
 		ColorNarrow.Repaint();
-		TrueColorBlockLibrary	*ALib=dynamic_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
+		TrueColorBlockLibrary	*ALib=static_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
 		ALib->NInsColor	=D.ColorPanel.Cube;
 	}
 }
@@ -153,7 +153,7 @@ void EditTrueColorLibrary::on_pushButtonBColor_clicked()
 		ColorBroad.InitializedDoneCube();
 		ColorBroad.Repaint();
 		if(TempLib!=NULL){
-			TrueColorBlockLibrary	*ALib=dynamic_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
+			TrueColorBlockLibrary	*ALib=static_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
 			ALib->BInsColor	=D.ColorPanel.Cube;
 		}
 	}
@@ -166,7 +166,7 @@ void	EditTrueColorLibrary::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	TrueColorBlockLibrary	*ALib=dynamic_cast<TrueColorBlockLibrary *>(data.GetLibrary());
+	TrueColorBlockLibrary	*ALib=static_cast<TrueColorBlockLibrary *>(data.GetLibrary());
 	ShowSubtractList(*ALib);
 
 	ColorGenerator.Cube=ALib->PickupColor;
@@ -221,7 +221,7 @@ void	EditTrueColorLibrary::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	TrueColorBlockLibrary	*ALib=dynamic_cast<TrueColorBlockLibrary *>(data.GetLibrary());
+	TrueColorBlockLibrary	*ALib=static_cast<TrueColorBlockLibrary *>(data.GetLibrary());
 	ALib->PickupColor		=ColorGenerator.Cube;
 	ALib->MinBlockSize		=ui.EditMinBlockSize	->value();
 	ALib->MaxBlockSize		=ui.EditMaxBlockSize	->value();
@@ -404,7 +404,7 @@ void EditTrueColorLibrary::on_ButtonDelSubtractLib_3_clicked()
 	if(RIndex.isValid()==false)
 		return;
 	int	R=RIndex.row();
-	TrueColorBlockLibrary	*ALib=dynamic_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
+	TrueColorBlockLibrary	*ALib=static_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
 	IntClass *c=ALib->SubtractBlock.GetItem(R);
 	if(c!=NULL){
 		ALib->SubtractBlock.RemoveList(c);
@@ -461,7 +461,7 @@ void EditTrueColorLibrary::on_pushButtonGColor_clicked()
 		ColorGenerator.InitializedDoneCube();
 		ColorGenerator.Repaint();
 		if(TempLib!=NULL){
-			TrueColorBlockLibrary	*ALib=dynamic_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
+			TrueColorBlockLibrary	*ALib=static_cast<TrueColorBlockLibrary *>(TempLib->GetLibrary());
 			ALib->PickupColor=D.ColorPanel.Cube;
 		}
 	}

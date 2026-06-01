@@ -58,13 +58,13 @@ void	GUICmdLoadGerber::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 	GerberFastBase	*PBase=(GerberFastBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase==NULL)
 		return;
-	GerberFastInPage	*PPage;
+	AlgorithmInPageRoot	*PPage;
 	if(PBase->ModeDeliverAllPhasesInLoadGerber==true){
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(0);
-		PPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+		PPage=Ah->GetPageData(localPage);
 	}
 	else{
-		PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		PPage=PBase->GetPageData(localPage);
 	}
 	if(PPage!=NULL){
 		CmdLoadGerber	Da(GetLayersBase());
@@ -109,13 +109,13 @@ void	GUICmdDeliverGerberToOtherPhases::Receive(int32 localPage, int32 cmd ,QStri
 		return;
 	if(PBase->ModeDeliverAllPhasesInLoadGerber==true){
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(0);
-		GerberFastInPage	*SrcPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*SrcPage=Ah->GetPageData(localPage);
 		for(int phase=1;phase<GetPhaseNumb();phase++){
 			AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-			GerberFastInPage	*DestPPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+			AlgorithmInPageRoot	*DestPPage=Ah->GetPageData(localPage);
 		
 			CmdCopyPageAllFrom	Da(GetLayersBase());
-			Da.SourcePage	=SrcPage;
+			Da.SourcePage	=(GerberFastInPage *)SrcPage;
 
 			DestPPage->TransmitDirectly(&Da);
 		}
@@ -164,7 +164,7 @@ void	GUICmdReqGerberArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase==NULL)
 		return;
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqGerberArea	Da(GetLayersBase());
 		PPage->TransmitDirectly(&Da);
@@ -251,7 +251,7 @@ void	GUICmdRegulateGerberArea::Receive(int32 localPage, int32 cmd ,QString &Emit
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase==NULL)
 		return;
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdRegulateGerberArea	Da(GetLayersBase());
 		Da.MinX	=MinX;
@@ -292,7 +292,7 @@ void	GUICmdClearGerber::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 		for(int phase=0;phase<GetPhaseNumb();phase++){
 			AlgorithmInPageInOnePhase	*H=PBase->GetPageDataPhase(phase);
 			if(H!=NULL){
-				GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(H->GetPageData(localPage));
+				AlgorithmInPageRoot	*PPage=H->GetPageData(localPage);
 				if(PPage!=NULL){
 					CmdClearGerber	Cmd(GetLayersBase());
 					PPage->TransmitDirectly(&Cmd);
@@ -301,7 +301,7 @@ void	GUICmdClearGerber::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 		}
 	}
 	else{
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdClearGerber	Cmd(GetLayersBase());
 			PPage->TransmitDirectly(&Cmd);
@@ -361,7 +361,7 @@ void	GUICmdMove::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QStrin
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdMove	Cmd(GetLayersBase());
 			Cmd.XDir=XDir;
@@ -424,7 +424,7 @@ void	GUICmdRotate::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QStr
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdRotate	Cmd(GetLayersBase());
 			Cmd.Angle=Angle;
@@ -492,7 +492,7 @@ void	GUICmdZoom::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QStrin
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdZoom	Cmd(GetLayersBase());
 			Cmd.XZoomDir=XZoomDir;
@@ -561,7 +561,7 @@ void	GUICmdShear::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QStri
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdShear	Cmd(GetLayersBase());
 			Cmd.XMode=XMode;
@@ -625,7 +625,7 @@ void	GUICmdMirror::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QStr
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdMirror	Cmd(GetLayersBase());
 			Cmd.XMode=XMode;
@@ -696,7 +696,7 @@ void	GUICmdCenterize::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdCenterize	Cmd(GetLayersBase());
 			Cmd.MovX=MovX;
@@ -764,7 +764,7 @@ void	GUICmdCenterizeOnly::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdCenterizeOnly	Cmd(GetLayersBase());
 			Cmd.MovX=MovX;
@@ -829,7 +829,7 @@ void	GUICmdMatchingRoughly::Receive(int32 localPage, int32 cmd ,QString &Emitter
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdMatchingRoughly	Cmd(GetLayersBase());
 		Cmd.OperateCompositeIDList	=OperateCompositeIDList;
@@ -878,7 +878,7 @@ void	GUICmdMatchingRoughlyReqShrinked::Receive(int32 localPage, int32 cmd ,QStri
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase==NULL)
 		return;
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqGerberShrinked	Cmd(GetLayersBase());
 		Cmd.ButtonsToOperateLayer		=ButtonsToOperateLayer;
@@ -975,7 +975,7 @@ void	GUICmdMakeAutoMatch::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdMakeAutoMatch	Cmd(GetLayersBase());
 		Cmd.UsageLayer					=UsageLayer;
@@ -1001,7 +1001,7 @@ void	GUICmdClearAutoMatch::Receive(int32 localPage, int32 cmd ,QString &EmitterR
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase==NULL)
 		return;
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdClearAutoMatch	Cmd(GetLayersBase());
 		PPage->TransmitDirectly(&Cmd);
@@ -1058,7 +1058,7 @@ void	GUICmdExecAutoMatch::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	if(PBase==NULL)
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdExecAutoMatch	Cmd(GetLayersBase());
 		Cmd.UsageLayer					=UsageLayer;
@@ -1173,7 +1173,7 @@ void	SlaveCommReqItemsOutside::Receive(int32 localPage, int32 cmd ,QString &Emit
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase==NULL)
 		return;
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	CmdReqGeneralPipeInfo	PipeInfoCmd(GetLayersBase());
 	if(PPage!=NULL){
 		PPage->TransmitDirectly(&PipeInfoCmd);
@@ -1237,7 +1237,7 @@ void	GUICmdReflectOtherAlgorithm::Receive(int32 localPage, int32 cmd ,QString &E
 	if(PBase==NULL)
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReflectOtherAlgorithm	Cmd(GetLayersBase());
 		PPage->TransmitDirectly(&Cmd);
@@ -1318,7 +1318,7 @@ void	GUICmdRemoveAutoMatchingPoint::Receive(int32 localPage, int32 cmd ,QString 
 	if(PBase==NULL)
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdRemoveAutoMatchPoint	Cmd(GetLayersBase());
 		Cmd.LocalX=LocalX;
@@ -1339,7 +1339,7 @@ void	GUICmdAllocateAutoMatching::Receive(int32 localPage, int32 cmd ,QString &Em
 	if(PBase==NULL)
 		return;
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAllocateAutoMatching	Cmd(GetLayersBase());
 		PPage->TransmitDirectly(&Cmd);
@@ -1359,7 +1359,7 @@ void	GUICmdReqAlgoGenMap::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase==NULL)
 		return;
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqAlgoGenMap	Da(GetLayersBase());
 		Da.Pointer	=&SendBack->Data;
@@ -1410,7 +1410,7 @@ void	GUICmdSetAlgoGenMap::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase==NULL)
 		return;
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdSetAlgoGenMap	Da(GetLayersBase());
 		Da.Pointer	=&Data;
@@ -1442,7 +1442,7 @@ void	GUICmdReqApertureInfo::Receive(int32 localPage, int32 cmd ,QString &Emitter
 	GUICmdAckApertureInfo	*SendBack=GetSendBack(GUICmdAckApertureInfo,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdReqGerberAperture	Da(GetLayersBase());
 			Da.GerberLayer	=GerberLayer;
@@ -1503,7 +1503,7 @@ void	GUICmdChangeApertureInfo::Receive(int32 localPage, int32 cmd ,QString &Emit
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdChangeGerberAperture	Da(GetLayersBase());
 			Da.GerberLayer	=GerberLayer;
@@ -1543,7 +1543,7 @@ void	GUICmdReqFlushMatrix::Receive(int32 localPage, int32 cmd ,QString &EmitterR
 	GUICmdAckFlushMatrix	*SendBack=GetSendBack(GUICmdAckFlushMatrix,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdFlushMatrix	Da(GetLayersBase());
 			Da.ButtonsToShowLayer		=ButtonsToShowLayer;
@@ -1640,7 +1640,7 @@ void	GUICmdSetDrawAttr::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 	}
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdSetDrawAttr	WCmd(GetLayersBase());
 			WCmd.ShownFileID		=ShownFileID;
@@ -1665,7 +1665,7 @@ void	GUICmdReqMatchAutoLikeManual::Receive(int32 localPage, int32 cmd ,QString &
 	GUICmdAckMatchAutoLikeManual	*SendBack=GetSendBack(GUICmdAckMatchAutoLikeManual,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdReqMatchAutoLikeManual	Da(GetLayersBase());
 			PPage->TransmitDirectly(&Da);
@@ -1717,7 +1717,7 @@ void	GUICmdSendMatchAutoLikeManual::Receive(int32 localPage, int32 cmd ,QString 
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdLoadMatchAutoLikeManual	Cmd(GetLayersBase());
 			Cmd.MatchAutoLikeManualData	=MatchAutoLikeManualData;
@@ -1757,7 +1757,7 @@ void	GUICmdAddMatchAutoLikeManualPoint::Receive(int32 localPage, int32 cmd ,QStr
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdAddMatchAutoLikeManualPoint	Cmd(GetLayersBase());
 			Cmd.PointType	=PointType;
@@ -1800,7 +1800,7 @@ void	GUICmdAddMatchingAlignmentPoint::Receive(int32 localPage, int32 cmd ,QStrin
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdAddMatchAutoLikeManualAlignment	Cmd(GetLayersBase());
 			Cmd.PointType	=PointType;
@@ -1840,7 +1840,7 @@ void	GUICmdGenerateOutline::Receive(int32 localPage, int32 cmd ,QString &Emitter
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdGenerateOutline	Cmd(GetLayersBase());
 			Cmd.ButtonsToOperateLayer		=ButtonsToOperateLayer;
@@ -1881,7 +1881,7 @@ void	GUICmdCreateEchingFactor::Receive(int32 localPage, int32 cmd ,QString &Emit
 		for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 			int phase=v->GetValue();
 			AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-			GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+			AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 			if(PPage!=NULL){
 				CmdCreateEchingFactor	Cmd(GetLayersBase());
 				Cmd.CornerR	=CornerR;
@@ -1908,7 +1908,7 @@ void	GUICmdClearOutline::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 		for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 			int phase=v->GetValue();
 			AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-			GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+			AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 			if(PPage!=NULL){
 				CmdClearOutline	Cmd(GetLayersBase());
 				PPage->TransmitDirectly(&Cmd);
@@ -1951,7 +1951,7 @@ void	GUICmdDrawAllSelected::Receive(int32 localPage, int32 cmd ,QString &Emitter
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=Ab->GetPageDataPhase(phase);
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdDrawAllSelected	Cmd(GetLayersBase());
 			Cmd.ButtonsToOperateLayer	=ButtonsToOperateLayer;
@@ -1989,7 +1989,7 @@ void	GUICmdSelectLine::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdSelectLine	Cmd(GetLayersBase());
 			Cmd.LineNo		=LineNo;
@@ -2025,7 +2025,7 @@ void	GUICmdRemoveLine::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdRemoveLine	Cmd(GetLayersBase());
 			Cmd.LineNo		=LineNo;
@@ -2061,7 +2061,7 @@ void	GUICmdSwapNext::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QS
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdSwapNext	Cmd(GetLayersBase());
 			Cmd.LineNo		=LineNo;
@@ -2103,7 +2103,7 @@ void	GUICmdDuplicateLine::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 		for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 			int phase=v->GetValue();
 			AlgorithmInPageInOnePhase	*Ah=Ab->GetPageDataPhase(phase);
-			GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(Ah->GetPageData(localPage));
+			AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 			if(PPage!=NULL){
 				CmdDuplicateLine	Cmd(GetLayersBase());
 				Cmd.LineNo		=LineNo;
@@ -2166,7 +2166,7 @@ void	GUICmdAddEmptyLayer::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	GUICmdAckAddEmptyLayer	*SendBack=GetSendBack(GUICmdAckAddEmptyLayer,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdAddEmptyLayer	Cmd(GetLayersBase());
 			Cmd.LineNo		=LineNo;
@@ -2246,7 +2246,7 @@ void	GUICmdAddGerberLine::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdAddGerberLineA	Cmd(GetLayersBase());
 			Cmd.FileLayerNo	=FileLayerNo;
@@ -2290,7 +2290,7 @@ void	GUICmdGenerateCenterize::Receive(int32 localPage, int32 cmd ,QString &Emitt
 
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdGenerateCenterize	Cmd(GetLayersBase());
 			Cmd.MaxWidth	=MaxWidth;
@@ -2362,7 +2362,7 @@ void	GUICmdGenerateBlockFrom::Receive(int32 localPage, int32 cmd ,QString &Emitt
 
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			GenerateBlocksFrom	Cmd(GetLayersBase());
 			Cmd.LayerOrComposite	=LayerOrComposite	;
@@ -2410,7 +2410,7 @@ void	GUICmdMakeClusterItem::Receive(int32 localPage, int32 cmd ,QString &Emitter
 
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase!=NULL){
-		GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdMakeClusterItem	RCmd(GetLayersBase());
 			RCmd.ButtonsToOperateLayer		=ButtonsToOperateLayer;

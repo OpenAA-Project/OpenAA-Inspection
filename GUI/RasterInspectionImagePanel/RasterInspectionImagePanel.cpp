@@ -165,9 +165,6 @@ void	RasterInspectionImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"RasterInspection");
 	if(Ab==NULL)
 		return;
-	RasterInspectionBase	*MBase=dynamic_cast<RasterInspectionBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyRasterInspection" ,/**/"");
 	CmdRasterInspectionDrawEnd	Da(GetLayersBase());
 	if(GProp!=NULL){

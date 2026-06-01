@@ -46,39 +46,6 @@ public:
 
 //===========================================================================
 
-class	AlignmentProjectionPointList : public NPList<AlignmentProjectionPointList>
-{
-public:
-	int		ItemID;
-	int		Phase;
-	int		Page;
-	int		Cx,Cy;
-	int		XSize;
-	int		YSize;
-	int		PeakCount;
-	
-	AlignmentProjectionPointList(void){}
-
-	virtual	bool	Load(QIODevice *f);
-	virtual	bool	Save(QIODevice *f);
-
-	AlignmentProjectionPointList	&operator=(AlignmentProjectionPointList &src);
-};
-
-class	AlignmentProjectionPointListPack : public NPListPack<AlignmentProjectionPointList>
-{
-public:
-	AlignmentProjectionPointListPack(void){}
-
-	virtual	bool	Load(QIODevice *f);
-	virtual	bool	Save(QIODevice *f);
-
-	AlignmentProjectionPointListPack	&operator=(AlignmentProjectionPointListPack &src);
-	AlignmentProjectionPointListPack	&operator+=(AlignmentProjectionPointListPack &src);
-};
-
-//===========================================================================
-
 class	GUICmdReqAlignmentProjectionPoint : public GUICmdPacketBase
 {
 public:

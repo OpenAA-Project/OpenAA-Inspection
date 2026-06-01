@@ -399,7 +399,7 @@ void	PropertyEulerRingL1Form::TransmitDirectly(GUIDirectMessage *packet)
 		if(ui->toolButtonLibrary->isChecked()==true){
 			if(TempLib->GetLibID()>=0){
 				//GlobalPickupArea+=BlockDEnd->Area;
-				EulerRingL1Library	*ALib=dynamic_cast<EulerRingL1Library *>(TempLib->GetLibrary());
+				EulerRingL1Library	*ALib=static_cast<EulerRingL1Library *>(TempLib->GetLibrary());
 				EulerRingL1PickupDialog	D(BlockDEnd->Area,BlockDEnd->ImagePanelPoint
 										  ,ALib->PickupL,ALib->PickupH,this);
 				D.Reflect(ALib->PickupL,ALib->PickupH);
@@ -675,7 +675,7 @@ void	PropertyEulerRingL1Form::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	EulerRingL1Library	*ALib=dynamic_cast<EulerRingL1Library *>(data.GetLibrary());
+	EulerRingL1Library	*ALib=static_cast<EulerRingL1Library *>(data.GetLibrary());
 	ui->EditMinBlockDots		->setValue(ALib->MinBlockDots);
 	ui->EditMaxBlockDots		->setValue(ALib->MaxBlockDots);
 	ui->EditMinBlockSize		->setValue(ALib->MinBlockSize);
@@ -693,7 +693,7 @@ void	PropertyEulerRingL1Form::GetLibraryFromWindow(AlgorithmLibraryLevelContaine
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	EulerRingL1Library	*ALib=dynamic_cast<EulerRingL1Library *>(data.GetLibrary());
+	EulerRingL1Library	*ALib=static_cast<EulerRingL1Library *>(data.GetLibrary());
 	ALib->MinBlockDots		=ui->EditMinBlockDots		->value();
 	ALib->MaxBlockDots		=ui->EditMaxBlockDots		->value();
 	ALib->MinBlockSize		=ui->EditMinBlockSize		->value();

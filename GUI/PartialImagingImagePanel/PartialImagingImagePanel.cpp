@@ -139,19 +139,17 @@ AlgorithmDrawAttr	*PartialImagingImagePanel::CreateDrawAttrPointer(void)
 {	
 	AlgorithmBase	*Ab=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"PartialImaging");
 	if(Ab!=NULL){
-		PartialImagingBase	*MBase=dynamic_cast<PartialImagingBase *>(Ab);
-		if(MBase!=NULL){
-			PartialImagingBase	*M=(PartialImagingBase *)Ab;
-			PartialImagingDrawAttr	*mattr=new PartialImagingDrawAttr(MBase);
+		PartialImagingBase	*MBase=static_cast<PartialImagingBase *>(Ab);
+		PartialImagingBase	*M=(PartialImagingBase *)Ab;
+		PartialImagingDrawAttr	*mattr=new PartialImagingDrawAttr(MBase);
 
-			//GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyPartialImaging" ,/**/"");
-			//CmdGetDrawAttr	Da(GetLayersBase());
-			//if(GProp!=NULL){
-			//	GProp->TransmitDirectly(&Da);
-			//}
+		//GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyPartialImaging" ,/**/"");
+		//CmdGetDrawAttr	Da(GetLayersBase());
+		//if(GProp!=NULL){
+		//	GProp->TransmitDirectly(&Da);
+		//}
 		
-			return mattr;
-		}
+		return mattr;
 	}
 	return new PartialImagingDrawAttr();
 }
@@ -161,9 +159,6 @@ void	PartialImagingImagePanel::DrawEndAfterOperation(FlexArea &area)
 	LayersBase	*LBase=GetLayersBase();
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"PartialImaging");
 	if(Ab==NULL)
-		return;
-	PartialImagingBase	*MBase=dynamic_cast<PartialImagingBase *>(Ab);
-	if(MBase==NULL)
 		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyPartialImaging" ,/**/"");
 	CmdAddAreaManualInPanel	Da(GetLayersBase());

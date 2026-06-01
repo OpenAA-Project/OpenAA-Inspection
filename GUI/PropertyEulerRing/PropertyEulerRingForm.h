@@ -54,7 +54,7 @@ private:
 	AlgorithmLibraryListContainer	LibList;
 	AlgorithmLibraryListContainer	SelectedLibList;
 	int		LibFolderID;
-	EulerRingBase	*GetEulerRingBase(void);
+	AlgorithmBase	*GetEulerRingBase(void);
 	QTabBar	TabBarBlockOnMouse;
 
 	ShowRGBSpace	ColorGeneratorH;

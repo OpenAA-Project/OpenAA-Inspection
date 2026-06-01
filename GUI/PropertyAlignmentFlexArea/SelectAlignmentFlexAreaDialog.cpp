@@ -102,7 +102,7 @@ void SelectAlignmentFlexAreaDialog::on_tableWidgetLibList_clicked(const QModelIn
 		Ab->TransmitDirectly(&Packet);
 
 		if(Packet.Success==true){
-			AlignmentFlexAreaLibrary	*ALib=dynamic_cast<AlignmentFlexAreaLibrary *>(TempLib->GetLibrary());
+			AlignmentFlexAreaLibrary	*ALib=static_cast<AlignmentFlexAreaLibrary *>(TempLib->GetLibrary());
 			AlignmentFlexAreaLibID		=TempLib->GetLibID();
 			ui->EditLibID				->setText(QString::number(TempLib->GetLibID()));
 			ui->EditLibName				->setText(a->GetLibName());

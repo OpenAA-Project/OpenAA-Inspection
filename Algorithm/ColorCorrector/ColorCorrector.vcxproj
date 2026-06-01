@@ -108,8 +108,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="XColorCollectorItem.cpp" />
     <ClCompile Include="XColorCorrector.cpp" />
+    <ClCompile Include="XColorCorrectorCommon.cpp" />
+    <ClCompile Include="XColorCorrectorItem.cpp" />
     <ClInclude Include="colorcorrector_global.h" />
     <ClInclude Include="XColorCorrector.h" />
     <ClInclude Include="ColorCorrector.h" />

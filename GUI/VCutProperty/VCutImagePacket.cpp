@@ -21,86 +21,6 @@
 #include "XGeneralFunc.h"
 #include<QBuffer>
 
-bool	VCutInspectionList::Load(QIODevice *f)
-{
-	if(::Load(f,Page)==false)
-		return false;
-	if(::Load(f,x1)==false)
-		return false;
-	if(::Load(f,y1)==false)
-		return false;
-	if(::Load(f,x2)==false)
-		return false;
-	if(::Load(f,y2)==false)
-		return false;
-	if(::Load(f,ThresholdShift)==false)
-		return false;
-	if(::Load(f,ThresholdLevel)==false)
-		return false;
-	if(::Load(f,ThresholdLength)==false)
-		return false;
-	return true;
-}
-
-bool	VCutInspectionList::Save(QIODevice *f)
-{
-	if(::Save(f,Page)==false)
-		return false;
-	if(::Save(f,x1)==false)
-		return false;
-	if(::Save(f,y1)==false)
-		return false;
-	if(::Save(f,x2)==false)
-		return false;
-	if(::Save(f,y2)==false)
-		return false;
-	if(::Save(f,ThresholdShift)==false)
-		return false;
-	if(::Save(f,ThresholdLevel)==false)
-		return false;
-	if(::Save(f,ThresholdLength)==false)
-		return false;
-	return true;
-}
-
-VCutInspectionListForPacketPack	&VCutInspectionListForPacketPack::operator+=(VCutInspectionListForPacketPack &src)
-{
-	for(VCutInspectionList *c=src.GetFirst();c!=NULL;c=c->GetNext()){
-		VCutInspectionList *d=new VCutInspectionList();
-		QBuffer	Buff;
-		Buff.open(QIODevice::ReadWrite);
-		c->Save(&Buff);
-		Buff.seek(0);
-		d->Load(&Buff);
-		AppendList(d);
-	}
-	return *this;
-}
-bool	VCutInspectionListForPacketPack::Load(QIODevice *f)
-{
-	int32	N;
-	if(::Load(f,N)==false)
-		return false;
-	RemoveAll();
-	for(int i=0;i<N;i++){
-		VCutInspectionList *c=new VCutInspectionList();
-		if(c->Load(f)==false)
-			return false;
-		AppendList(c);
-	}
-	return true;
-}
-bool	VCutInspectionListForPacketPack::Save(QIODevice *f)
-{
-	int32	N=GetCount();
-	if(::Save(f,N)==false)
-		return false;
-	for(VCutInspectionList *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->Save(f)==false)
-			return false;
-	}
-	return true;
-}
 
 //===========================================================================
 
@@ -170,9 +90,7 @@ void	GUICmdAddVCutInspectionArea::Receive(int32 localPage, int32 cmd ,QString &E
 	Cmd.ThresholdLength	=ThresholdLength;
 	Cmd.LibID			=LibID;
 
-	VCutInspectionInPage	*M=dynamic_cast<VCutInspectionInPage *>(PData);
-	if(M!=NULL)
-		M->TransmitDirectly(&Cmd);
+	PData->TransmitDirectly(&Cmd);
 }
 
 //===========================================================================
@@ -214,20 +132,11 @@ void	GUICmdSendVCutInspectionList::MakeVCutList(int localPage ,LayersBase *PBase
 	if(ABase==NULL)
 		return;
 	VCutInfo.RemoveAll();
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(ABase->GetPageDataPhase(GetLayersBase()->GetCurrentPhase())->GetPageData(LocalPage));
+	AlgorithmInPageRoot	*PData=ABase->GetPageDataPhase(GetLayersBase()->GetCurrentPhase())->GetPageData(LocalPage);
 	if(PData!=NULL){
-		for(AlgorithmItemPI *item=PData->GetFirstData();item!=NULL;item=item->GetNext()){
-			VCutInspectionItem	*MItem=dynamic_cast<VCutInspectionItem *>(item);
-			if(MItem!=NULL){
-				VCutInspectionList	*L=new VCutInspectionList();
-				L->Page=PBase->GetGlobalPageFromLocal(localPage);
-				MItem->GetVector()->GetXY(L->x1,L->y1,L->x2,L->y2);
-				L->ThresholdLength	=MItem->GetThresholdR()->ThresholdLength;
-				L->ThresholdLevel	=MItem->GetThresholdR()->ThresholdLevel;
-				L->ThresholdShift	=MItem->GetThresholdR()->ThresholdShift;
-				VCutInfo.AppendList(L);				
-			}
-		}
+		CmdMakeVCutInspectionList	Cmd(GetLayersBase());
+		Cmd.VCutInfo = &VCutInfo;
+		PData->TransmitDirectly(&Cmd);
 	}
 }
 void	GUICmdSendVCutInspectionList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)

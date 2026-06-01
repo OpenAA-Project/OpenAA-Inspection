@@ -25,7 +25,6 @@
 //#include "XGUI.h"
 
 
-
 GUICmdSendAddManualFlatInspection::GUICmdSendAddManualFlatInspection(LayersBase *Base ,const QString &emitterRoot ,const QString &emitterName,int globalPage)
 :GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
 {
@@ -52,9 +51,9 @@ bool	GUICmdSendAddManualFlatInspection::Save(QIODevice *f)
 
 void	GUICmdSendAddManualFlatInspection::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	FlatInspectionBase *BBase=(FlatInspectionBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"FlatInspection");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"FlatInspection");
 	if(BBase!=NULL){
-		FlatInspectionInPage	*Ap=(FlatInspectionInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*Ap=BBase->GetPageData(localPage);
 		CmdSendAddManualFlatInspection	Cmd(GetLayersBase());
 		Cmd.FIType=FIType;
 		Cmd.Area=Area;

@@ -121,7 +121,7 @@ void SelectItemDialog::on_tableWidgetLibList_clicked(const QModelIndex &Index)
 		Ab->TransmitDirectly(&Packet);
 
 		if(Packet.Success==true){
-			MatchShiftRotationLibrary	*ALib=dynamic_cast<MatchShiftRotationLibrary *>(TempLib->GetLibrary());
+			MatchShiftRotationLibrary	*ALib=static_cast<MatchShiftRotationLibrary *>(TempLib->GetLibrary());
 			MatchShiftRotationLibID		=TempLib->GetLibID();
 			ui->EditLibID				->setText(QString::number(TempLib->GetLibID()));
 			ui->EditLibName				->setText(a->GetLibName());

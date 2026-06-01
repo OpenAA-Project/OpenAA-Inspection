@@ -236,7 +236,7 @@ void	BMatrix::Copy(BYTE **Buff ,int xlen ,int ylen ,int Threshold)
 		}
 		Alloc();
 		for(int y=0;y<YLen;y++){
-			if(IsConstantColor(y)==NULL){
+			if(IsConstantColor(y)==false){
 				memcpy(GetY(y),Buff[y],XLen);
 			}
 		}

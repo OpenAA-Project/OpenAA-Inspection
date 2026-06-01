@@ -24,101 +24,6 @@
 //#include "XGUI.h"
 #include "XDisplayImagePacket.h"
 
-//==============================================================================
-bool	AlignmentProjectionPointList::Load(QIODevice *f)
-{
-	if(::Load(f,ItemID)==false)
-		return false;
-	if(::Load(f,Phase)==false)
-		return false;
-	if(::Load(f,Page)==false)
-		return false;
-	if(::Load(f,Cx)==false)
-		return false;
-	if(::Load(f,Cy)==false)
-		return false;
-	if(::Load(f,XSize)==false)
-		return false;
-	if(::Load(f,YSize)==false)
-		return false;
-	if(::Load(f,PeakCount)==false)
-		return false;
-	return true;
-}
-bool	AlignmentProjectionPointList::Save(QIODevice *f)
-{
-	if(::Save(f,ItemID)==false)
-		return false;
-	if(::Save(f,Phase)==false)
-		return false;
-	if(::Save(f,Page)==false)
-		return false;
-	if(::Save(f,Cx)==false)
-		return false;
-	if(::Save(f,Cy)==false)
-		return false;
-	if(::Save(f,XSize)==false)
-		return false;
-	if(::Save(f,YSize)==false)
-		return false;
-	if(::Save(f,PeakCount)==false)
-		return false;
-	return true;
-}
-
-AlignmentProjectionPointList	&AlignmentProjectionPointList::operator=(AlignmentProjectionPointList &src)
-{
-	ItemID		=src.ItemID;
-	Phase		=src.Phase;
-	Page		=src.Page;
-	Cx			=src.Cx;
-	Cy			=src.Cy;
-	XSize		=src.XSize;
-	YSize		=src.YSize;
-	PeakCount	=src.PeakCount;
-	return *this;
-}
-
-bool	AlignmentProjectionPointListPack::Load(QIODevice *f)
-{
-	RemoveAll();
-	int	N;
-	if(::Load(f,N)==false)
-		return false;
-	for(int i=0;i<N;i++){
-		AlignmentProjectionPointList *p=new AlignmentProjectionPointList();
-		if(p->Load(f)==false)
-			return false;
-		AppendList(p);
-	}
-	return true;
-}
-bool	AlignmentProjectionPointListPack::Save(QIODevice *f)
-{
-	int	N=GetNumber();
-	if(::Save(f,N)==false)
-		return false;
-	for(AlignmentProjectionPointList *p=GetFirst();p!=NULL;p=p->GetNext()){
-		if(p->Save(f)==false)
-			return false;
-	}
-	return true;
-}
-
-AlignmentProjectionPointListPack	&AlignmentProjectionPointListPack::operator=(AlignmentProjectionPointListPack &src)
-{
-	RemoveAll();
-	return operator+=(src);
-}
-AlignmentProjectionPointListPack	&AlignmentProjectionPointListPack::operator+=(AlignmentProjectionPointListPack &src)
-{
-	for(AlignmentProjectionPointList *p=src.GetFirst();p!=NULL;p=p->GetNext()){
-		AlignmentProjectionPointList *q=new AlignmentProjectionPointList();
-		*q=*p;
-		AppendList(q);
-	}
-	return *this;
-}
 
 //==============================================================================
 GUICmdReqAlignmentProjectionPoint::GUICmdReqAlignmentProjectionPoint(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
@@ -150,7 +55,7 @@ void	GUICmdReqAlignmentProjectionPoint::Receive(int32 localPage, int32 cmd ,QStr
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentProjection");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -236,27 +141,15 @@ void	GUICmdReqAlignmentProjectionPointListPack::Receive(int32 localPage, int32 c
 	GUICmdSendAlignmentProjectionPointListPack	*SendBack=GetSendBack(GUICmdSendAlignmentProjectionPointListPack,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentProjection");
-	if(AlignBase==NULL)
-		return;
-	AlgorithmInPageInOnePhase	*Ph=AlignBase->GetPageDataPhase(Phase);
-	if(Ph==NULL)
-		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(Ph->GetPageData(localPage));
-	if(AP==NULL)
-		return;
-
-	for(AlgorithmItemPI	*a=AP->GetFirstData();a!=NULL;a=a->GetNext()){
-		AlignmentProjectionPointList	*L=new AlignmentProjectionPointList();
-		AlignmentProjectionItem	*Item=dynamic_cast<AlignmentProjectionItem *>(a);
-		if(Item!=NULL){
-			L->ItemID	=Item->GetID();
-			L->Phase	=Phase;
-			L->Page		=GetLayersBase()->GetGlobalPageFromLocal(localPage);
-			Item->GetCenter(L->Cx,L->Cy);
-			L->XSize	=Item->GetArea().GetWidth();
-			L->YSize	=Item->GetArea().GetHeight();
-			L->PeakCount=Item->GetThresholdR()->PeakCount;
-			SendBack->List.AppendList(L);
+	if(AlignBase!=NULL){
+		AlgorithmInPageInOnePhase	*Ph=AlignBase->GetPageDataPhase(Phase);
+		if(Ph!=NULL){
+			AlgorithmInPageRoot	*AP=Ph->GetPageData(localPage);
+			if(AP!=NULL){
+				CmdMakeAlignmentProjectionPointListPack	Cmd(GetLayersBase());
+				Cmd.List = &SendBack->List;
+				AP->TransmitDirectly(&Cmd);
+			}
 		}
 	}
 	
@@ -332,7 +225,7 @@ void	GUICmdReqAlignmentProjectionPutPoint::Receive(int32 localPage, int32 cmd ,Q
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentProjection");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 
@@ -401,7 +294,7 @@ void	GUICmdReqAlignmentProjectionModifyPoint::Receive(int32 localPage, int32 cmd
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AlignmentProjection");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*AP=dynamic_cast<AlgorithmInPagePI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
 

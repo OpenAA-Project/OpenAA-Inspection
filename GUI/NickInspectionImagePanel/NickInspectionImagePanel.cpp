@@ -125,7 +125,7 @@ void	NickInspectionImagePanel::TransmitDirectly(GUIDirectMessage *packet)
 
 AlgorithmDrawAttr	*NickInspectionImagePanel::CreateDrawAttrPointer(void)
 {
-	NickInspectionBase	*a=dynamic_cast<NickInspectionBase *>(GetAlgorithmBase());
+	NickInspectionBase	*a=static_cast<NickInspectionBase *>(GetAlgorithmBase());
 	if(a!=NULL){
 		NickInspectionDrawAttr	*c=new NickInspectionDrawAttr(a->ColorMask		,a->TransparentLevel
 											,  a->ColorSelected	,a->TransparentLevel

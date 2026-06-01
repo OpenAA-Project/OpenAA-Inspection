@@ -638,8 +638,53 @@ void	ColorDifferenceForm::Calc(void)
 
 					ui->lineEditLenOK	->setText(QString::number(R->LenOK ,'f',3));
 					ui->lineEditLenNG	->setText(QString::number(R->LenNG ,'f',3));
-					ui->lineEditDeltaE	->setText(QString::number(R->DeltaE,'f',3));
-					ui->lineEditDense	->setText(QString::number(R->Dense ,'f',3));
+					if(Thr->JudgeMethod==1){
+						ui->lineEditDeltaE	->setText(QString::number(R->DeltaE,'f',3));
+						ui->lineEditDense	->setText(/**/"");
+					}
+					else if(Thr->JudgeMethod==3){
+						ui->lineEditDeltaE	->setText(/**/"");
+						ui->lineEditDense	->setText(QString::number(R->Dense ,'f',3));
+					}
+					else if(Thr->JudgeMethod==4){
+						ui->lineEditDeltaE	->setText(QString::number(R->DeltaE,'f',3));
+						ui->lineEditDense	->setText(QString::number(R->Dense ,'f',3));
+					}
+					else{
+						ui->lineEditDeltaE	->setText(/**/"");
+						ui->lineEditDense	->setText(/**/"");
+					}
+					if(R->ResultDeltaEOK==true3){
+						QPalette	Q=ui->lineEditDeltaE->palette();
+						Q.setColor(QPalette::Base,Qt::white);
+						ui->lineEditDeltaE->setPalette(Q);
+					}
+					else if(R->ResultDeltaEOK==false3){
+						QPalette	Q=ui->lineEditDeltaE->palette();
+						Q.setColor(QPalette::Base,Qt::red);
+						ui->lineEditDeltaE->setPalette(Q);
+					}
+					else{
+						QPalette	Q=ui->lineEditDeltaE->palette();
+						Q.setColor(QPalette::Base,Qt::darkGray);
+						ui->lineEditDeltaE->setPalette(Q);
+					}
+					if(R->ResultDenseOK==true3){
+						QPalette	Q=ui->lineEditDense->palette();
+						Q.setColor(QPalette::Base,Qt::white);
+						ui->lineEditDense->setPalette(Q);
+					}
+					else if(R->ResultDenseOK==false3){
+						QPalette	Q=ui->lineEditDense->palette();
+						Q.setColor(QPalette::Base,Qt::red);
+						ui->lineEditDense->setPalette(Q);
+					}
+					else{
+						QPalette	Q=ui->lineEditDense->palette();
+						Q.setColor(QPalette::Base,Qt::darkGray);
+						ui->lineEditDense->setPalette(Q);
+					}
+
 					::SetDataToTable(ui->tableWidgetResult,0,0,ConvertColorToStr(R->ReferenceColor1));
 					::SetDataToTable(ui->tableWidgetResult,0,1,ConvertColorToStr(R->ReferenceColor2));
 					::SetDataToTable(ui->tableWidgetResult,0,2,ConvertColorToStr(R->MasterColor));
@@ -814,16 +859,16 @@ void ColorDifferenceForm::on_pushButtonOutputFlowList_clicked()
 }
 void ColorDifferenceForm::on_comboBoxJudgeMethod_currentIndexChanged(int index)
 {
-    int Index=ui->comboBoxJudgeMethod->currentIndex();
-    if(Index==1){
-        ui->stackedWidgetThreshold->setCurrentIndex(1);
-    }
-    else if(Index==3){
-        ui->stackedWidgetThreshold->setCurrentIndex(2);
-    }
-    else{
-        ui->stackedWidgetThreshold->setCurrentIndex(0);
-    }
+    //int Index=ui->comboBoxJudgeMethod->currentIndex();
+    //if(Index==1){
+    //    ui->stackedWidgetThreshold->setCurrentIndex(1);
+    //}
+    //else if(Index==3){
+    //    ui->stackedWidgetThreshold->setCurrentIndex(2);
+    //}
+    //else{
+    //    ui->stackedWidgetThreshold->setCurrentIndex(0);
+    //}
 }
 
 
@@ -842,7 +887,41 @@ void ColorDifferenceForm::on_pushButtonManualAdjust_clicked()
 		{
 			ColorDifferenceItem	*nBData=dynamic_cast<ColorDifferenceItem *>(DA);
 			if(nBData!=NULL){
-				EditManualInterpolateDialog	D(nBData,GetLayersBase());
+				EditManualInterpolateDialog	D(2,nBData,GetLayersBase());
+				D.exec();
+
+				GetLayersBase()->ClearAllAckFlag();
+				GetLayersBase()->ShowProcessingForm(LangSolver.GetString(ColorDifferenceForm_LS,LID_9)/*"Reflecting ALL blocks\' threshold"*/);
+
+				GetLayersBase()->GetUndoStocker().SetNewTopic(/**/"Reflect all blocks threshold");
+				//GetDataFromWindow();
+				GUICmdSendAlgorithmItemIndependentPack	Packet(IData->Base,QString(/**/"ANY"),QString(/**/"ANY"),-1,true);
+				Packet.Command=SetIndependentItemDataCommand_ColorDifferenceManual;
+				Packet.IData=*IData;
+				for(int page=0;page<GetPageNumb();page++){
+					Packet.Send(NULL,page,0);
+				}
+
+				GetLayersBase()->WaitAllAcknowledged(60*10);
+				GetLayersBase()->CloseProcessingForm();
+
+				return;
+			}
+		}
+	}
+}
+
+
+void ColorDifferenceForm::on_pushButtonManualAdjustDeltaE_clicked()
+{
+	for(AlgorithmItemIndependent	*D=IData->Items.GetFirst();D!=NULL;D=D->GetNext()){
+		AlgorithmItemRoot	*DA=D->Data;
+		if(DA==NULL)
+			continue;
+		{
+			ColorDifferenceItem	*nBData=dynamic_cast<ColorDifferenceItem *>(DA);
+			if(nBData!=NULL){
+				EditManualInterpolateDialog	D(1,nBData,GetLayersBase());
 				D.exec();
 
 				GetLayersBase()->ClearAllAckFlag();

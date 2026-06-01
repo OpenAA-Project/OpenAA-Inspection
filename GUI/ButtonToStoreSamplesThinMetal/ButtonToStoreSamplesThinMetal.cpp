@@ -230,7 +230,7 @@ void	GUICmdStoreSamplesThinMetal::Receive(int32 localPage, int32 cmd ,QString &E
 	if(PBase==NULL)
 		return;
 
-	ThinMetalInPage	*PPage=dynamic_cast<ThinMetalInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqStoreThinMetal	RCmd(GetLayersBase());
 		RCmd.Judgement		=Judgement;
@@ -253,7 +253,7 @@ void	GUICmdStoreSamplesThinMetalStart::Receive(int32 localPage, int32 cmd ,QStri
 	if(PBase==NULL)
 		return;
 
-	ThinMetalInPage	*PPage=dynamic_cast<ThinMetalInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqStoreThinMetalStart	RCmd(GetLayersBase());
 		PPage->TransmitDirectly(&RCmd);
@@ -272,7 +272,7 @@ void	GUICmdStoreSamplesThinMetalEnd::Receive(int32 localPage, int32 cmd ,QString
 	if(PBase==NULL)
 		return;
 
-	ThinMetalInPage	*PPage=dynamic_cast<ThinMetalInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqStoreThinMetalEnd	RCmd(GetLayersBase());
 		PPage->TransmitDirectly(&RCmd);

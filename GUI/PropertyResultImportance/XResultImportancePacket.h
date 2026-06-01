@@ -56,30 +56,6 @@ public:
 };
 
 //===========================================================================
-class	ResultImportanceList : public NPList<ResultImportanceList>
-{
-public:
-	int		Page;
-	int		x1,y1,x2,y2;
-	int		ImportanceLevel;
-	int		ItemID;
-
-	ResultImportanceList(void){}
-
-	bool	Load(QIODevice *f);
-	bool	Save(QIODevice *f);
-};
-
-class	ResultImportanceListForPacketPack: public NPListPack<ResultImportanceList>
-{
-public:
-	ResultImportanceListForPacketPack(void){}
-
-	ResultImportanceListForPacketPack	&operator+=(ResultImportanceListForPacketPack &src);
-	bool	Load(QIODevice *f);
-	bool	Save(QIODevice *f);
-};
-
 
 class	GUICmdReqResultImportanceList : public GUICmdPacketBase
 {

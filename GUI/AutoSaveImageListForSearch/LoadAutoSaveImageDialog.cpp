@@ -32,10 +32,9 @@ LoadAutoSaveImageDialog::LoadAutoSaveImageDialog(LayersBase *base ,QWidget *pare
 
 	AlgorithmBase	*Algo=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoSaveImage");
 	if(Algo!=NULL){
-		AutoSaveImageBase	*ABase=dynamic_cast<AutoSaveImageBase *>(Algo);
 		ui->comboBoxSelectDrive->clear();
 		CmdGetRootPathList	Cmd(GetLayersBase());
-		ABase->TransmitDirectly(&Cmd);
+		Algo->TransmitDirectly(&Cmd);
 		for(int i=0;i<Cmd.RootPaths.count();i++){
 			ui->comboBoxSelectDrive->addItem(Cmd.RootPaths[i]);
 		}
@@ -74,10 +73,9 @@ void LoadAutoSaveImageDialog::on_pushButtonStartSearch_clicked()
 	QDateTime	TimeTo;
 	AlgorithmBase	*Algo=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AutoSaveImage");
 	if(Algo!=NULL){
-		AutoSaveImageBase	*ABase=dynamic_cast<AutoSaveImageBase *>(Algo);
 		if(ui->checkBoxAllDrives->isChecked()==true){
 			CmdGetRootPathList	Cmd(GetLayersBase());
-			ABase->TransmitDirectly(&Cmd);
+			Algo->TransmitDirectly(&Cmd);
 			RootPaths=Cmd.RootPaths;
 		}
 		else{
@@ -90,7 +88,7 @@ void LoadAutoSaveImageDialog::on_pushButtonStartSearch_clicked()
 		RCmd.RootPaths	=RootPaths;
 		RCmd.TimeFrom	=TimeFrom;
 		RCmd.TimeTo		=TimeTo;
-		ABase->TransmitDirectly(&RCmd);
+		Algo->TransmitDirectly(&RCmd);
 		FoundFile	=RCmd.RetFile;
 		int	Row=0;
 		ui->tableWidgetFound->setRowCount(RCmd.RetFile.GetCount());

@@ -45,9 +45,9 @@ bool	GUICmdReqItemImage::Save(QIODevice *f)
 void	GUICmdReqItemImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckItemImage	*SendBack=GetSendBack(GUICmdAckItemImage,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
 	if(BBase!=NULL){
-		CounterInPage	*PData=dynamic_cast<CounterInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL && PData->GetItemCount()){
 			CmdReqItemImage	Cmd(GetLayersBase());
 			Cmd.Width				=Width;
@@ -131,9 +131,9 @@ bool	GUICmdAddAreaManual::Save(QIODevice *f)
 
 void	GUICmdAddAreaManual::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
 	if(BBase!=NULL){
-		CounterInPage	*PData=dynamic_cast<CounterInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdAddAreaManual	Cmd(GetLayersBase());
 			Cmd.Area	=LocalArea;
@@ -166,9 +166,9 @@ bool	GUICmdAddMaskForCounter::Save(QIODevice *f)
 
 void	GUICmdAddMaskForCounter::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	MaskingBase *MBase=(MaskingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
+	AlgorithmBase *MBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if(MBase!=NULL){
-		MaskingInPage	*PData=dynamic_cast<MaskingInPage	*>(MBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=MBase->GetPageData(localPage);
 		if(PData!=NULL){
 			AddMaskingAreaPacket	Cmd(GetLayersBase());
 			Cmd.Area	=LocalArea;
@@ -179,9 +179,9 @@ void	GUICmdAddMaskForCounter::Receive(int32 localPage, int32 cmd ,QString &Emitt
 			PData->TransmitDirectly(&Cmd);
 		}
 	}
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
 	if(BBase!=NULL){
-		CounterInPage	*PData=dynamic_cast<CounterInPage	*>(BBase->GetPageData(localPage));
+		CounterInPage	*PData=static_cast<CounterInPage *>(BBase->GetPageData(localPage));
 		if(PData!=NULL){
 			PData->ChangedMask=true;
 		}
@@ -198,9 +198,9 @@ GUICmdRemoveMask::GUICmdRemoveMask(LayersBase *Base ,const QString &EmitterRoot,
 
 void	GUICmdRemoveMask::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	MaskingBase *MBase=(MaskingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
+	AlgorithmBase *MBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if(MBase!=NULL){
-		MaskingInPage	*PData=dynamic_cast<MaskingInPage	*>(MBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=MBase->GetPageData(localPage);
 		if(PData!=NULL){
 			DelMaskingPacket	Cmd(GetLayersBase());
 			for(int Layer=0;Layer<GetLayerNumb(localPage);Layer++){
@@ -210,9 +210,9 @@ void	GUICmdRemoveMask::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 			PData->TransmitDirectly(&Cmd);
 		}
 	}
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
 	if(BBase!=NULL){
-		CounterInPage	*PData=dynamic_cast<CounterInPage *>(BBase->GetPageData(localPage));
+		CounterInPage	*PData=static_cast<CounterInPage *>(BBase->GetPageData(localPage));
 		if(PData!=NULL){
 			PData->ChangedMask=true;
 		}
@@ -241,9 +241,9 @@ bool	GUICmdRegisterBackGround::Save(QIODevice *f)
 void	GUICmdRegisterBackGround::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	{
-		MaskingBase *BBase=(MaskingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
+		AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 		if(BBase!=NULL){
-			MaskingInPage	*PData=dynamic_cast<MaskingInPage *>(BBase->GetPageData(localPage));
+			AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 			if(PData!=NULL){
 				CmdMaskingMakeBackGround	RCmd(GetLayersBase());
 				RCmd.MasterMode=false;
@@ -252,9 +252,9 @@ void	GUICmdRegisterBackGround::Receive(int32 localPage, int32 cmd ,QString &Emit
 		}
 	}
 	{
-		CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+		AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
 		if(BBase!=NULL){
-			CounterInPage	*PData=dynamic_cast<CounterInPage	*>(BBase->GetPageData(localPage));
+			AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 			if(PData!=NULL){
 				CmdSetBackGround	Cmd(GetLayersBase());
 				Cmd.SetBackGround=SetBackGround;
@@ -274,9 +274,9 @@ GUICmdReqResultCounter::GUICmdReqResultCounter(LayersBase *Base ,const QString &
 void	GUICmdReqResultCounter::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckResultCounter	*SendBack=GetSendBack(GUICmdAckResultCounter,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
 	if(BBase!=NULL){
-		CounterInPage	*PData=dynamic_cast<CounterInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdReqResultCount	RCmd(GetLayersBase());
 			PData->TransmitDirectly(&RCmd);
@@ -319,9 +319,9 @@ GUICmdReqAdoptedRate::GUICmdReqAdoptedRate(LayersBase *Base ,const QString &Emit
 void	GUICmdReqAdoptedRate::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckAdoptedRate	*SendBack=GetSendBack(GUICmdAckAdoptedRate,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
 	if(BBase!=NULL){
-		CounterInPage	*PData=dynamic_cast<CounterInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdReqAdoptedRate	RCmd(GetLayersBase());
 			PData->TransmitDirectly(&RCmd);
@@ -368,9 +368,9 @@ bool	GUICmdSendAdoptedRate::Save(QIODevice *f)
 }
 void	GUICmdSendAdoptedRate::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
 	if(BBase!=NULL){
-		CounterInPage	*PData=dynamic_cast<CounterInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdSetAdoptedRate	RCmd(GetLayersBase());
 			RCmd.AdoptedRate	=AdoptedRate;
@@ -390,7 +390,7 @@ GUICmdReqAdoptPixelsRate::GUICmdReqAdoptPixelsRate(LayersBase *Base ,const QStri
 void	GUICmdReqAdoptPixelsRate::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckAdoptPixelsRate	*SendBack=GetSendBack(GUICmdAckAdoptPixelsRate,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	CounterBase *BBase=static_cast<CounterBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter"));
 	if(BBase!=NULL){
 		SendBack->AdoptPixelsRate=BBase->AdoptPixelsRate;
 	}
@@ -434,12 +434,11 @@ bool	GUICmdSendAdoptPixelsRate::Save(QIODevice *f)
 }
 void	GUICmdSendAdoptPixelsRate::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	CounterBase *BBase=static_cast<CounterBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter"));
 	if(BBase!=NULL){
 		BBase->AdoptPixelsRate=AdoptPixelsRate;
 	}
 }
-
 
 //=====================================================================================
 
@@ -451,7 +450,7 @@ GUICmdReqFocusLevel::GUICmdReqFocusLevel(LayersBase *Base ,const QString &Emitte
 void	GUICmdReqFocusLevel::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckFocusLevel	*SendBack=GetSendBack(GUICmdAckFocusLevel,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	CounterBase *BBase=static_cast<CounterBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter"));
 	if(BBase!=NULL){
 		SendBack->FocusLevel=BBase->FocusLevel;
 	}
@@ -495,10 +494,10 @@ bool	GUICmdSendFocusLevel::Save(QIODevice *f)
 }
 void	GUICmdSendFocusLevel::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	CounterBase *BBase=dynamic_cast<CounterBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter"));
 	if(BBase!=NULL){
 		BBase->FocusLevel=FocusLevel;
-		CounterInPage	*PData=dynamic_cast<CounterInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdSetFocusLevel	RCmd(GetLayersBase());
 			PData->TransmitDirectly(&RCmd);
@@ -525,7 +524,7 @@ bool	GUICmdSendOutsideCalc::Save(QIODevice *f)
 }
 void	GUICmdSendOutsideCalc::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	CounterBase *BBase=static_cast<CounterBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter"));
 	if(BBase!=NULL){
 		BBase->OutsideCalc=OutsideCalc;
 	}
@@ -539,9 +538,9 @@ GUICmdReqItemArea::GUICmdReqItemArea(LayersBase *Base ,const QString &EmitterRoo
 void	GUICmdReqItemArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckItemArea	*SendBack=GetSendBack(GUICmdAckItemArea,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
 	if(BBase!=NULL){
-		CounterInPage	*PData=dynamic_cast<CounterInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdReqItemArea	RCmd(GetLayersBase());
 			RCmd.Areas	=&SendBack->Areas;
@@ -590,9 +589,9 @@ bool	GUICmdSetFilterMode::Save(QIODevice *f)
 
 void	GUICmdSetFilterMode::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	CounterBase *BBase=(CounterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter");
 	if(BBase!=NULL){
-		CounterInPage	*PData=dynamic_cast<CounterInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdSetFilterMode	Cmd(GetLayersBase());
 			Cmd.FilterON	=FilterON;
@@ -611,9 +610,9 @@ GUICmdReqMaskCount::GUICmdReqMaskCount(LayersBase *Base ,const QString &EmitterR
 void	GUICmdReqMaskCount::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckMaskCount	*SendBack=GetSendBack(GUICmdAckMaskCount,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	MaskingBase *BBase=(MaskingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Masking");
 	if(BBase!=NULL){
-		MaskingInPage	*PData=dynamic_cast<MaskingInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdReqMaskCount	RCmd(GetLayersBase());
 			PData->TransmitDirectly(&RCmd);

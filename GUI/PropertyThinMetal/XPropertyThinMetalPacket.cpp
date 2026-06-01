@@ -307,7 +307,7 @@ void	GUICmdSendAddManualThinMetal::Receive(int32 localPage, int32 cmd ,QString &
 {
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	ThinMetalBase *BBase=(ThinMetalBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
 	if(BBase!=NULL){
 		CmdAddByteThinMetalItemPacket	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -348,7 +348,7 @@ bool	GUICmdSendModifySelectedThinMetal::Save(QIODevice *f)
 
 void	GUICmdSendModifySelectedThinMetal::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ThinMetalBase *BBase=(ThinMetalBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
 	if(BBase!=NULL){
 		CmdModifySelectedThinMetalFromByteArray	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -392,11 +392,11 @@ GUICmdSendSelectedThinMetalItemAttr::GUICmdSendSelectedThinMetalItemAttr(LayersB
 }
 void	GUICmdSendSelectedThinMetalItemAttr::Make(int localPage ,LayersBase *Base ,IntList &LayerList)
 {
-	ThinMetalBase *BBase=(ThinMetalBase *)Base->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
+	AlgorithmBase *BBase=Base->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
 	if(BBase!=NULL){
-		ThinMetalInPage	*PData=dynamic_cast<ThinMetalInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		for(IntClass *L=LayerList.GetFirst();L!=NULL;L=L->GetNext()){
-			ThinMetalInLayer	*LData=dynamic_cast<ThinMetalInLayer *>(PData->GetLayerData(L->GetValue()));
+			AlgorithmInLayerRoot	*LData=PData->GetLayerData(L->GetValue());
 			if(LData!=NULL){
 				CmdGetOneSelectedItem	Cmd(this);
 				LData->TransmitDirectly(&Cmd);
@@ -650,10 +650,10 @@ void	GUICmdReqThinMetalSampleList::Receive(int32 localPage, int32 cmd ,QString &
 {
 	GUICmdSendThinMetalSampleList	*SendBack=GetSendBack(GUICmdSendThinMetalSampleList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
-	ThinMetalBase *BBase=(ThinMetalBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
 	if(BBase!=NULL){
-		ThinMetalInPage	*PData=dynamic_cast<ThinMetalInPage	*>(BBase->GetPageData(localPage));
-		ThinMetalInLayer	*LData=dynamic_cast<ThinMetalInLayer *>(PData->GetLayerData(Layer));
+		AlgorithmInPageRoot		*PData=BBase->GetPageData(localPage);
+		AlgorithmInLayerRoot	*LData=PData->GetLayerData(Layer);
 		if(LData!=NULL){
 			CmdReqSampleList	Cmd(this);
 			Cmd.ItemID	=ItemID;
@@ -717,10 +717,10 @@ void	GUICmdReqThinMetalSampleDetail::Receive(int32 localPage, int32 cmd ,QString
 {
 	GUICmdSendThinMetalSampleDetail	*SendBack=GetSendBack(GUICmdSendThinMetalSampleDetail,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
-	ThinMetalBase *BBase=(ThinMetalBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
 	if(BBase!=NULL){
-		ThinMetalInPage	*PData=dynamic_cast<ThinMetalInPage	*>(BBase->GetPageData(localPage));
-		ThinMetalInLayer	*LData=dynamic_cast<ThinMetalInLayer *>(PData->GetLayerData(Layer));
+		AlgorithmInPageRoot		*PData=BBase->GetPageData(localPage);
+		AlgorithmInLayerRoot	*LData=PData->GetLayerData(Layer);
 		if(LData!=NULL){
 			CmdReqSampleDetail	Cmd(this);
 			Cmd.ItemID	=ItemID;
@@ -784,10 +784,10 @@ bool	GUICmdReqThinMetalDeleteSamples::Save(QIODevice *f)
 
 void	GUICmdReqThinMetalDeleteSamples::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ThinMetalBase *BBase=(ThinMetalBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
+	AlgorithmBase *BBase=(ThinMetalBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ThinMetal");
 	if(BBase!=NULL){
-		ThinMetalInPage	*PData=dynamic_cast<ThinMetalInPage	*>(BBase->GetPageData(localPage));
-		ThinMetalInLayer	*LData=dynamic_cast<ThinMetalInLayer *>(PData->GetLayerData(Layer));
+		AlgorithmInPageRoot		*PData=BBase->GetPageData(localPage);
+		AlgorithmInLayerRoot	*LData=PData->GetLayerData(Layer);
 		if(LData!=NULL){
 			CmdReqDeleteSample	Cmd(this);
 			Cmd.ItemID	=ItemID;

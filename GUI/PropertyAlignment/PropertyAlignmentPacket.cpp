@@ -24,217 +24,6 @@
 #include "XGUI.h"
 #include "XDisplayImagePacket.h"
 
-bool	AlignmentAreaList::Load(QIODevice *f)
-{
-	if(::Load(f,Number)==false)
-		return false;
-	if(::Load(f,AreaID)==false)
-		return false;
-	if(::Load(f,AreaName)==false)
-		return false;
-	if(::Load(f,Layer)==false)
-		return false;
-	if(::Load(f,GlobalPage)==false)
-		return false;
-	if(::Load(f,XSize)==false)
-		return false;
-	if(::Load(f,YSize)==false)
-		return false;
-	return true;
-}
-bool	AlignmentAreaList::Save(QIODevice *f)
-{
-	if(::Save(f,Number)==false)
-		return false;
-	if(::Save(f,AreaID)==false)
-		return false;
-	if(::Save(f,AreaName)==false)
-		return false;
-	if(::Save(f,Layer)==false)
-		return false;
-	if(::Save(f,GlobalPage)==false)
-		return false;
-	if(::Save(f,XSize)==false)
-		return false;
-	if(::Save(f,YSize)==false)
-		return false;
-	return true;
-}
-
-AlignmentAreaList	&AlignmentAreaList::operator=(AlignmentAreaList &src)
-{
-	Number		=src.Number;
-	AreaID		=src.AreaID;
-	AreaName	=src.AreaName;
-	Layer		=src.Layer;
-	GlobalPage	=src.GlobalPage;
-	XSize		=src.XSize;
-	YSize		=src.YSize;
-	return *this;
-}
-
-bool	AlignmentAreaListPack::Load(QIODevice *f)
-{
-	RemoveAll();
-	int	N;
-	if(::Load(f,N)==false)
-		return false;
-	for(int i=0;i<N;i++){
-		AlignmentAreaList *p=new AlignmentAreaList();
-		if(p->Load(f)==false)
-			return false;
-		AppendList(p);
-	}
-	return true;
-}
-bool	AlignmentAreaListPack::Save(QIODevice *f)
-{
-	int	N=GetNumber();
-	if(::Save(f,N)==false)
-		return false;
-	for(AlignmentAreaList *p=GetFirst();p!=NULL;p=p->GetNext()){
-		if(p->Save(f)==false)
-			return false;
-	}
-	return true;
-}
-
-AlignmentAreaListPack	&AlignmentAreaListPack::operator=(AlignmentAreaListPack &src)
-{
-	RemoveAll();
-	return operator+=(src);
-}
-AlignmentAreaListPack	&AlignmentAreaListPack::operator+=(AlignmentAreaListPack &src)
-{
-	for(AlignmentAreaList *p=src.GetFirst();p!=NULL;p=p->GetNext()){
-		AlignmentAreaList *q=new AlignmentAreaList();
-		*q=*p;
-		AppendList(q);
-	}
-	return *this;
-}
-
-
-//==============================================================================
-bool	AlignmentPointList::Load(QIODevice *f)
-{
-	if(::Load(f,ID)==false)
-		return false;
-	if(::Load(f,AreaID)==false)
-		return false;
-	if(::Load(f,ItemID)==false)
-		return false;
-	if(::Load(f,GroupNumber)==false)
-		return false;
-	if(::Load(f,Layer)==false)
-		return false;
-	if(::Load(f,Page)==false)
-		return false;
-	if(::Load(f,Cx)==false)
-		return false;
-	if(::Load(f,Cy)==false)
-		return false;
-	if(::Load(f,XSize)==false)
-		return false;
-	if(::Load(f,YSize)==false)
-		return false;
-	if(::Load(f,AlignmentOnOutline)==false)
-		return false;
-	if(::Load(f,SearchDot)==false)
-		return false;
-	if(::Load(f,Threshold)==false)
-		return false;
-	return true;
-}
-bool	AlignmentPointList::Save(QIODevice *f)
-{
-	if(::Save(f,ID)==false)
-		return false;
-	if(::Save(f,AreaID)==false)
-		return false;
-	if(::Save(f,ItemID)==false)
-		return false;
-	if(::Save(f,GroupNumber)==false)
-		return false;
-	if(::Save(f,Layer)==false)
-		return false;
-	if(::Save(f,Page)==false)
-		return false;
-	if(::Save(f,Cx)==false)
-		return false;
-	if(::Save(f,Cy)==false)
-		return false;
-	if(::Save(f,XSize)==false)
-		return false;
-	if(::Save(f,YSize)==false)
-		return false;
-	if(::Save(f,AlignmentOnOutline)==false)
-		return false;
-	if(::Save(f,SearchDot)==false)
-		return false;
-	if(::Save(f,Threshold)==false)
-		return false;
-	return true;
-}
-
-AlignmentPointList	&AlignmentPointList::operator=(AlignmentPointList &src)
-{
-	ID			=src.ID;
-	AreaID		=src.AreaID;
-	ItemID		=src.ItemID;
-	GroupNumber	=src.GroupNumber;
-	Layer		=src.Layer;
-	Page		=src.Page;
-	Cx			=src.Cx;
-	Cy			=src.Cy;
-	XSize		=src.XSize;
-	YSize		=src.YSize;
-	AlignmentOnOutline	=src.AlignmentOnOutline;
-	SearchDot	=src.SearchDot;
-	Threshold	=src.Threshold;
-	return *this;
-}
-
-bool	AlignmentPointListPack::Load(QIODevice *f)
-{
-	RemoveAll();
-	int	N;
-	if(::Load(f,N)==false)
-		return false;
-	for(int i=0;i<N;i++){
-		AlignmentPointList *p=new AlignmentPointList();
-		if(p->Load(f)==false)
-			return false;
-		AppendList(p);
-	}
-	return true;
-}
-bool	AlignmentPointListPack::Save(QIODevice *f)
-{
-	int	N=GetNumber();
-	if(::Save(f,N)==false)
-		return false;
-	for(AlignmentPointList *p=GetFirst();p!=NULL;p=p->GetNext()){
-		if(p->Save(f)==false)
-			return false;
-	}
-	return true;
-}
-
-AlignmentPointListPack	&AlignmentPointListPack::operator=(AlignmentPointListPack &src)
-{
-	RemoveAll();
-	return operator+=(src);
-}
-AlignmentPointListPack	&AlignmentPointListPack::operator+=(AlignmentPointListPack &src)
-{
-	for(AlignmentPointList *p=src.GetFirst();p!=NULL;p=p->GetNext()){
-		AlignmentPointList *q=new AlignmentPointList();
-		*q=*p;
-		AppendList(q);
-	}
-	return *this;
-}
 
 //==============================================================================================
 
@@ -272,25 +61,14 @@ void	GUICmdSendAlignmentAreaList::MakeAreaList(int localPage,LayersBase *PBase)
 	if(AlignBase==NULL)
 		return;
 	Area.RemoveAll();
-	AlgorithmInPagePLI	*PData=dynamic_cast<AlgorithmInPagePLI	*>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=AlignBase->GetPageData(localPage);
 	if(PData!=NULL){
 		for(int layer=0;layer<AlignBase->GetLayerNumb(localPage);layer++){
 			AlgorithmInLayerRoot *PLayer=PData->GetLayerData(layer);
-			AlignmentInLayer *AlignLayer=dynamic_cast<AlignmentInLayer *>(PLayer);
-			if(AlignLayer!=NULL){
-				int	N=0;
-				for(XAlignmentArea *a=AlignLayer->Areas.GetFirst();a!=NULL;a=a->GetNext(),N++){
-					AlignmentAreaList	*L=new AlignmentAreaList();
-					L->Number		=N;
-					L->AreaID		=a->AreaID;
-					L->AreaName		=a->AreaName;
-					L->Layer		=layer;
-					L->GlobalPage	=PBase->GetGlobalPageFromLocal(localPage);
-					L->XSize		=a->Area.GetWidth();
-					L->YSize		=a->Area.GetHeight();
-					Area.AppendList(L);
-				}
-			}
+
+			CmdSetAlignmentAreaList	Cmd(GetLayersBase());
+			Cmd.Area = &Area;
+			PLayer->TransmitDirectly(&Cmd);
 		}
 	}
 }
@@ -358,35 +136,14 @@ void	GUICmdSendAlignmentPointList::MakePointList(LayersBase *PBase ,int Layer ,i
 	if(AlignBase==NULL)
 		return;
 	Points.RemoveAll();
-	AlgorithmInPagePLI	*PData=dynamic_cast<AlgorithmInPagePLI	*>(AlignBase->GetPageData(LocalPage));
+	AlgorithmInPageRoot	*PData=AlignBase->GetPageData(LocalPage);
 	if(PData!=NULL){
 		AlgorithmInLayerRoot *PLayer=PData->GetLayerData(Layer);
-		AlignmentInLayer *AlignLayer=dynamic_cast<AlignmentInLayer *>(PLayer);
-		if(AlignLayer!=NULL){
-			int	N=0;
-			for(XAlignmentArea *a=AlignLayer->Areas.GetFirst();a!=NULL;a=a->GetNext(),N++){
-				if(N==Number){
-					int	K=0;
-					for(XAlignmentPointer *p=a->GPack.GetFirst();p!=NULL;p=p->GetNext(),K++){
-						AlignmentPointList	*L=new AlignmentPointList();
-						L->ID	=K;
-						L->AreaID	=a->AreaID;
-						L->ItemID	=p->Point->GetID();
-						L->GroupNumber	=p->Point->GroupNumber;
-						L->Layer	=Layer;
-						L->Page		=GetGlobalPage();
-						p->Point->GetCenter(L->Cx,L->Cy);
-						L->XSize	=p->Point->GetArea().GetWidth();
-						L->YSize	=p->Point->GetArea().GetHeight();
-						L->SearchDot=p->Point->GetThresholdR()->MoveDot;
-						L->AlignmentOnOutline	=p->Point->GetAlignmentOnOutline();
-						L->Threshold	=p->Point->GetThresholdR()->Threshold;
-						Points.AppendList(L);
-						//return;
-					}
-				}
-			}
-		}
+
+		CmdSetAlignmentPointList	Cmd(GetLayersBase());
+		Cmd.Number = Number;
+		Cmd.Points = &Points;
+		PLayer->TransmitDirectly(&Cmd);
 	}
 }
 bool	GUICmdSendAlignmentPointList::Load(QIODevice *f)
@@ -454,15 +211,13 @@ void	GUICmdReqAlignmentPutArea::Receive(int32 localPage, int32 cmd ,QString &Emi
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Alignment");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
-	AlgorithmInLayerPLI	*AL=dynamic_cast<AlgorithmInLayerPLI *>(AP->GetLayerData(Layer));
+	AlgorithmInLayerRoot *AL=AP->GetLayerData(Layer);
 	if(AL==NULL)
 		return;
-	AlignmentInLayer	*AInL=dynamic_cast<AlignmentInLayer *>(AL);
-	if(AInL==NULL)
-		return;
+	AlignmentInLayer	*AInL=static_cast<AlignmentInLayer *>(AL);
 
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
@@ -538,14 +293,11 @@ void	GUICmdReqAlignmentPutPoint::Receive(int32 localPage, int32 cmd ,QString &Em
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Alignment");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
-	AlgorithmInLayerPLI	*AL=dynamic_cast<AlgorithmInLayerPLI *>(AP->GetLayerData(Layer));
+	AlgorithmInLayerRoot *AL=AP->GetLayerData(Layer);
 	if(AL==NULL)
-		return;
-	AlignmentInLayer	*AInL=dynamic_cast<AlignmentInLayer*>(AL);
-	if(AInL==NULL)
 		return;
 
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
@@ -555,8 +307,8 @@ void	GUICmdReqAlignmentPutPoint::Receive(int32 localPage, int32 cmd ,QString &Em
 	DPacket.AreaID				=AreaID;
 	DPacket.MoveDot				=MoveDot;		
     DPacket.Threshold			=Threshold;
-	DPacket.AlignmentOnOutline	=AlignmentOnOutline;	//�֊s�ňʒu���킹�����Ƃ�true
-	AInL->TransmitDirectly(&DPacket);
+	DPacket.AlignmentOnOutline	=AlignmentOnOutline;
+	AL->TransmitDirectly(&DPacket);
 }
 
 //==============================================================================
@@ -608,22 +360,20 @@ void	GUICmdReqAlignmentModifyPoint::Receive(int32 localPage, int32 cmd ,QString 
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Alignment");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
-	AlgorithmInLayerPLI	*AL=dynamic_cast<AlgorithmInLayerPLI *>(AP->GetLayerData(Layer));
+	AlgorithmInLayerRoot *AL=AP->GetLayerData(Layer);
 	if(AL==NULL)
 		return;
-	AlignmentInLayer	*AInL=dynamic_cast<AlignmentInLayer*>(AL);
-	if(AInL==NULL)
-		return;
+
 	ModifyAlignmentPointPacket	DPacket(this);
 	DPacket.AreaID				=AreaID;
 	DPacket.ItemID				=ItemID;
 	DPacket.MoveDot				=MoveDot;		
     DPacket.Threshold			=Threshold;
 	DPacket.AlignmentOnOutline	=AlignmentOnOutline;	//�֊s�ňʒu���킹�����Ƃ�true
-	AInL->TransmitDirectly(&DPacket);
+	AL->TransmitDirectly(&DPacket);
 }
 //==============================================================================
 
@@ -666,20 +416,18 @@ void	GUICmdReqAlignmentPutGroup::Receive(int32 localPage, int32 cmd ,QString &Em
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Alignment");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
-	AlgorithmInLayerPLI	*AL=dynamic_cast<AlgorithmInLayerPLI *>(AP->GetLayerData(Layer));
+	AlgorithmInLayerRoot *AL=AP->GetLayerData(Layer);
 	if(AL==NULL)
 		return;
-	AlignmentInLayer	*AInL=dynamic_cast<AlignmentInLayer*>(AL);
-	if(AInL==NULL)
-		return;
+
 	AddAlignmentGroupPacket	DPacket(this);
 	DPacket.Area				=GroupArea;
 	DPacket.AreaID				=AreaID;
 	DPacket.GroupNumber			=GroupNumber;
-	AInL->TransmitDirectly(&DPacket);
+	AL->TransmitDirectly(&DPacket);
 }
 
 //==============================================================================
@@ -726,13 +474,13 @@ void	GUICmdSendAlignmentAreaInfo::Make(int localPage,int layer,int areaID,Layers
 	AlgorithmBase	*AlignBase=Base->GetAlgorithmBase(/**/"Basic" ,/**/"Alignment");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
-	AlgorithmInLayerPLI	*AL=dynamic_cast<AlgorithmInLayerPLI *>(AP->GetLayerData(layer));
+	AlgorithmInLayerRoot *AL=AP->GetLayerData(layer);
 	if(AL==NULL)
 		return;
-	AlignmentInLayer	*AInL=dynamic_cast<AlignmentInLayer*>(AL);
+	AlignmentInLayer	*AInL=static_cast<AlignmentInLayer*>(AL);
 	if(AInL==NULL)
 		return;
 	for(XAlignmentArea *a=AInL->Areas.GetFirst();a!=NULL;a=a->GetNext()){
@@ -837,13 +585,13 @@ void	GUICmdReqModifyAlignmentAreaInfo::Receive(int32 localPage, int32 cmd ,QStri
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Alignment");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePLI	*AP=dynamic_cast<AlgorithmInPagePLI *>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*AP=AlignBase->GetPageData(localPage);
 	if(AP==NULL)
 		return;
-	AlgorithmInLayerPLI	*AL=dynamic_cast<AlgorithmInLayerPLI *>(AP->GetLayerData(Layer));
+	AlgorithmInLayerRoot	*AL=AP->GetLayerData(Layer);
 	if(AL==NULL)
 		return;
-	AlignmentInLayer	*AInL=dynamic_cast<AlignmentInLayer*>(AL);
+	AlignmentInLayer	*AInL=static_cast<AlignmentInLayer*>(AL);
 	if(AInL==NULL)
 		return;
 	if(DeleteMode==false){

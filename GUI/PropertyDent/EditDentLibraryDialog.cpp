@@ -257,7 +257,7 @@ void EditDentLibraryDialog::on_tableWidgetLibList_clicked(const QModelIndex &Ind
 
 void	EditDentLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	DentLibrary	*d=dynamic_cast<DentLibrary *>(data.GetLibrary());
+	DentLibrary	*d=static_cast<DentLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -310,7 +310,7 @@ void	EditDentLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 
 void	EditDentLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	DentLibrary	*d=dynamic_cast<DentLibrary *>(data.GetLibrary());
+	DentLibrary	*d=static_cast<DentLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->PickupRL			=ui->EditPickupRL			->value();

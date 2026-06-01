@@ -260,7 +260,7 @@ void EditAlignmentLargeLibraryDialog::on_pushButtonClose_clicked()
 
 void	EditAlignmentLargeLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	AlignmentLargeLibrary	*d=dynamic_cast<AlignmentLargeLibrary *>(data.GetLibrary());
+	AlignmentLargeLibrary	*d=static_cast<AlignmentLargeLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -333,7 +333,7 @@ void	EditAlignmentLargeLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer
 
 void	EditAlignmentLargeLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	AlignmentLargeLibrary	*d=dynamic_cast<AlignmentLargeLibrary *>(data.GetLibrary());
+	AlignmentLargeLibrary	*d=static_cast<AlignmentLargeLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->GenerateArea	=ui->checkBoxGenerateArea	->isChecked();

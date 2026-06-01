@@ -258,7 +258,7 @@ void	EditProcess3DLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &dat
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	Process3DLibrary	*ALib=dynamic_cast<Process3DLibrary *>(data.GetLibrary());
+	Process3DLibrary	*ALib=static_cast<Process3DLibrary *>(data.GetLibrary());
 	ui->doubleSpinBoxBaseCycleDot		->setValue(ALib->BaseCycleDot);
 	ui->doubleSpinBoxHeightPerShift		->setValue(ALib->HeightPerShift);
 	ui->spinBoxVFilterLength			->setValue(ALib->VFilterLength);
@@ -293,7 +293,7 @@ void	EditProcess3DLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelConta
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	Process3DLibrary	*ALib=dynamic_cast<Process3DLibrary *>(data.GetLibrary());
+	Process3DLibrary	*ALib=static_cast<Process3DLibrary *>(data.GetLibrary());
 	ALib->BaseCycleDot	=ui->doubleSpinBoxBaseCycleDot		->value();
 	ALib->HeightPerShift=ui->doubleSpinBoxHeightPerShift	->value();
 	ALib->VFilterLength	=ui->spinBoxVFilterLength			->value();

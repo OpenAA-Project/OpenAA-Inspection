@@ -817,6 +817,11 @@
         <string>濃度差で判定</string>
        </property>
       </item>
+      <item>
+       <property name="text">
+        <string>ΔEと濃度差の両方で判定</string>
+       </property>
+      </item>
      </widget>
      <widget class="QLabel" name="label_58">
       <property name="geometry">

@@ -49,9 +49,9 @@ void	GUICmdSendAddManualPalletize::Receive(int32 localPage, int32 cmd ,QString &
 {
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	PalletizeBase *BBase=(PalletizeBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Palletize");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Palletize");
 	if(BBase!=NULL){
-		PalletizeInPage	*PData=dynamic_cast<PalletizeInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdAddPalletizeItemPacket	Cmd(this);
 			Cmd.Area		=Area;

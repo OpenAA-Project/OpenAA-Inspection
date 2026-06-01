@@ -713,154 +713,153 @@ void	GUIReqLayerValueCount::Receive(int32 localPage, int32 cmd ,QString &Emitter
 	
 	AlgorithmBase	*Ab=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"BlockInspection");
 	if(Ab!=NULL){
-		AlgorithmInPagePLI		*Pg=(AlgorithmInPagePLI	*)Ab->GetPageData(localPage);
+		AlgorithmInPageRoot		*Pg=Ab->GetPageData(localPage);
 		for(int Layer=0;Layer<GetLayerNumb(localPage);Layer++){
-			AlgorithmInLayerPLI *PL=(AlgorithmInLayerPLI *)Pg->GetLayerData(Layer);
-			for(AlgorithmItemPLI	*L=PL->GetFirstData();L!=NULL;L=L->GetNext()){
+			AlgorithmInLayerRoot *PL=Pg->GetLayerData(Layer);
+
+			for(AlgorithmItemRoot	*L=PL->GetFirstItem();L!=NULL;L=L->GetNextItem()){
 				if(L->GetLibID()!=LibID)
 					continue;
-				BlockItem	*B=dynamic_cast<BlockItem *>(L);
-				if(B!=NULL){
-					switch(ReqType){
-						case ShowBlockListForm::BroadDark_BrightnessWidth:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.BBrightWidthL);
-							break;
-						case ShowBlockListForm::BroadDark_NGSize:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.BOKDotL);
-							break;
-						case ShowBlockListForm::BroadDark_NGLength:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.BOKLengthL);
-							break;
-						case ShowBlockListForm::BroadDark_MaxSize:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.BMaxNGDotL);
-							break;
-						case ShowBlockListForm::BroadDark_ClusterCount:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.BMinNGCountL);
-							break;
-						case ShowBlockListForm::BroadDark_Connection:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.BConnectLen);
-							break;
+				const	BlockThreshold *RThr = static_cast<const BlockThreshold *>(L->GetThresholdBaseReadable());
+				switch(ReqType){
+					case ShowBlockListForm::BroadDark_BrightnessWidth:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.BBrightWidthL);
+						break;
+					case ShowBlockListForm::BroadDark_NGSize:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.BOKDotL);
+						break;
+					case ShowBlockListForm::BroadDark_NGLength:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.BOKLengthL);
+						break;
+					case ShowBlockListForm::BroadDark_MaxSize:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.BMaxNGDotL);
+						break;
+					case ShowBlockListForm::BroadDark_ClusterCount:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.BMinNGCountL);
+						break;
+					case ShowBlockListForm::BroadDark_Connection:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.BConnectLen);
+						break;
 
-						case ShowBlockListForm::BroadLight_BrightnessWidth:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.BBrightWidthH);
-							break;
-						case ShowBlockListForm::BroadLight_NGSize:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.BOKDotH);
-							break;
-						case ShowBlockListForm::BroadLight_NGLength:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.BOKLengthH);
-							break;
-						case ShowBlockListForm::BroadLight_MaxSize:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.BMaxNGDotH);
-							break;
-						case ShowBlockListForm::BroadLight_ClusterCount:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.BMinNGCountH);
-							break;
-						case ShowBlockListForm::BroadLight_Connection:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.BConnectLen);
-							break;
+					case ShowBlockListForm::BroadLight_BrightnessWidth:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.BBrightWidthH);
+						break;
+					case ShowBlockListForm::BroadLight_NGSize:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.BOKDotH);
+						break;
+					case ShowBlockListForm::BroadLight_NGLength:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.BOKLengthH);
+						break;
+					case ShowBlockListForm::BroadLight_MaxSize:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.BMaxNGDotH);
+						break;
+					case ShowBlockListForm::BroadLight_ClusterCount:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.BMinNGCountH);
+						break;
+					case ShowBlockListForm::BroadLight_Connection:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.BConnectLen);
+						break;
 
-						case ShowBlockListForm::NarrowDark_BrightnessWidth:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.NBrightWidthL);
-							break;
-						case ShowBlockListForm::NarrowDark_NGSize:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.NOKDotL);
-							break;
-						case ShowBlockListForm::NarrowDark_NGLength:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.NOKLengthL);
-							break;
-						case ShowBlockListForm::NarrowDark_MaxSize	:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.NMaxNGDotL);
-							break;
-						case ShowBlockListForm::NarrowDark_ClusterCount:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.NMinNGCountL);
-							break;
-						case ShowBlockListForm::NarrowDark_Connection:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.NConnectLen);
-							break;
+					case ShowBlockListForm::NarrowDark_BrightnessWidth:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.NBrightWidthL);
+						break;
+					case ShowBlockListForm::NarrowDark_NGSize:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.NOKDotL);
+						break;
+					case ShowBlockListForm::NarrowDark_NGLength:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.NOKLengthL);
+						break;
+					case ShowBlockListForm::NarrowDark_MaxSize	:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.NMaxNGDotL);
+						break;
+					case ShowBlockListForm::NarrowDark_ClusterCount:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.NMinNGCountL);
+						break;
+					case ShowBlockListForm::NarrowDark_Connection:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.NConnectLen);
+						break;
 
-						case ShowBlockListForm::NarrowLight_BrightnessWidth:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.NBrightWidthH);
-							break;
-						case ShowBlockListForm::NarrowLight_NGSize	:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.NOKDotH);
-							break;
-						case ShowBlockListForm::NarrowLight_NGLength:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.NOKLengthH);
-							break;
-						case ShowBlockListForm::NarrowLight_MaxSize:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.NMaxNGDotH);
-							break;
-						case ShowBlockListForm::NarrowLight_ClusterCount:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.NMinNGCountH);
-							break;
-						case ShowBlockListForm::NarrowLight_Connection:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.NConnectLen);
-							break;
+					case ShowBlockListForm::NarrowLight_BrightnessWidth:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.NBrightWidthH);
+						break;
+					case ShowBlockListForm::NarrowLight_NGSize	:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.NOKDotH);
+						break;
+					case ShowBlockListForm::NarrowLight_NGLength:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.NOKLengthH);
+						break;
+					case ShowBlockListForm::NarrowLight_MaxSize:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.NMaxNGDotH);
+						break;
+					case ShowBlockListForm::NarrowLight_ClusterCount:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.NMinNGCountH);
+						break;
+					case ShowBlockListForm::NarrowLight_Connection:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.NConnectLen);
+						break;
 
-						case ShowBlockListForm::BrightAdjustment_Enable:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeAdjustable);
-							break;
-						case ShowBlockListForm::BrightAdjustment_DarkSide:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.AdjustBlack);
-							break;
-						case ShowBlockListForm::BrightAdjustment_LightSide:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.AdjustWhite);
-							break;
+					case ShowBlockListForm::BrightAdjustment_Enable:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeAdjustable);
+						break;
+					case ShowBlockListForm::BrightAdjustment_DarkSide:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.AdjustBlack);
+						break;
+					case ShowBlockListForm::BrightAdjustment_LightSide:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.AdjustWhite);
+						break;
 
-						case ShowBlockListForm::Attribute_InspectionEffective:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeEnabled);
-							break;
-						case ShowBlockListForm::Attribute_AbsoluteBrightness:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeAbsoluteBright);
-							break;
-						case ShowBlockListForm::Attribute_Clusterize:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeNGCluster);
-							break;
-						case ShowBlockListForm::Attribute_Differential	:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeDiffer);
-							break;
-						case ShowBlockListForm::Attribute_FollowOutline:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeMatchPosition);
-							break;
-						case ShowBlockListForm::Attribute_OnlyMaxNGSize:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeAdoptBiggest);
-							break;
-						case ShowBlockListForm::Attribute_NoOutput:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeOnlyMatching);
-							break;
-						case ShowBlockListForm::Attribute_WhiteMask:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeWhiteMask);
-							break;
-						case ShowBlockListForm::Attribute_BlackMask:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeBlackMask);
-							break;
-						case ShowBlockListForm::Attribute_PickupFromParts:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeCenterBrightFromParts);
-							break;
-						case ShowBlockListForm::Attribute_ReverseLogic:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeInvertLogic);
-							break;
-						case ShowBlockListForm::Attribute_DetailSearch:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeSearchDetail);
-							break;
-						case ShowBlockListForm::Attribute_DynamicMask:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeDynamicMask);
-							break;
-						case ShowBlockListForm::Attribute_UseMasterImage:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeUseMasterImage);
-							break;
+					case ShowBlockListForm::Attribute_InspectionEffective:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeEnabled);
+						break;
+					case ShowBlockListForm::Attribute_AbsoluteBrightness:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeAbsoluteBright);
+						break;
+					case ShowBlockListForm::Attribute_Clusterize:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeNGCluster);
+						break;
+					case ShowBlockListForm::Attribute_Differential	:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeDiffer);
+						break;
+					case ShowBlockListForm::Attribute_FollowOutline:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeMatchPosition);
+						break;
+					case ShowBlockListForm::Attribute_OnlyMaxNGSize:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeAdoptBiggest);
+						break;
+					case ShowBlockListForm::Attribute_NoOutput:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeOnlyMatching);
+						break;
+					case ShowBlockListForm::Attribute_WhiteMask:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeWhiteMask);
+						break;
+					case ShowBlockListForm::Attribute_BlackMask:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeBlackMask);
+						break;
+					case ShowBlockListForm::Attribute_PickupFromParts:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeCenterBrightFromParts);
+						break;
+					case ShowBlockListForm::Attribute_ReverseLogic:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeInvertLogic);
+						break;
+					case ShowBlockListForm::Attribute_DetailSearch:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeSearchDetail);
+						break;
+					case ShowBlockListForm::Attribute_DynamicMask:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeDynamicMask);
+						break;
+					case ShowBlockListForm::Attribute_UseMasterImage:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeUseMasterImage);
+						break;
 
-						case ShowBlockListForm::Search_EnableWholeSearch:
-							SendBack->ItemCounts.Add(Layer,(bool)B->GetThresholdR()->ThreshouldBag.PointMove.ModeCommonMovable);
-							break;
-						case ShowBlockListForm::Search_SelfSearchDot:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.SelfSearch);
-							break;
-						case ShowBlockListForm::Search_WholeSearchDot:
-							SendBack->ItemCounts.Add(Layer,(int)B->GetThresholdR()->ThreshouldBag.CommonMoveDot);
-							break;
-					}
+					case ShowBlockListForm::Search_EnableWholeSearch:
+						SendBack->ItemCounts.Add(Layer,(bool)RThr->ThreshouldBag.PointMove.ModeCommonMovable);
+						break;
+					case ShowBlockListForm::Search_SelfSearchDot:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.SelfSearch);
+						break;
+					case ShowBlockListForm::Search_WholeSearchDot:
+						SendBack->ItemCounts.Add(Layer,(int)RThr->ThreshouldBag.CommonMoveDot);
+						break;
 				}
 			}
 		}
@@ -914,30 +913,34 @@ void	GUIReqStatisticByLib::Receive(int32 localPage, int32 cmd ,QString &EmitterR
 	
 	AlgorithmBase	*Ab=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"BlockInspection");
 	if(Ab!=NULL){
-		AlgorithmInPagePLI		*Pg=(AlgorithmInPagePLI	*)Ab->GetPageData(localPage);
+		AlgorithmInPageRoot		*Pg=Ab->GetPageData(localPage);
 		for(int Layer=0;Layer<GetLayerNumb(localPage);Layer++){
-			AlgorithmInLayerPLI *PL=(AlgorithmInLayerPLI *)Pg->GetLayerData(Layer);
-			for(AlgorithmItemPLI	*L=PL->GetFirstData();L!=NULL;L=L->GetNext()){
+			AlgorithmInLayerRoot *PL=Pg->GetLayerData(Layer);
+
+			for(AlgorithmItemRoot	*L=PL->GetFirstItem();L!=NULL;L=L->GetNextItem()){
 				if(L->GetLibID()!=LibID)
 					continue;
-				BlockItem	*B=dynamic_cast<BlockItem *>(L);
-				if(B!=NULL){
-					int	BTable[256];
-					memset(BTable,0,sizeof(BTable));
-					B->GetArea().MakeBrightList(BTable ,Pg->GetDotPerLine(), Pg->GetMaxLines() ,B->GetTargetBuff(),B->ShiftX,B->ShiftY);
-					for(int i=0;i<256;i++){
-						SendBack->HistTable[i]+=BTable[i];
-					}
-					SendBack->BrightWidthBL	=B->GetThresholdR()->ThreshouldBag.BBrightWidthL;
-					SendBack->BrightWidthBH	=B->GetThresholdR()->ThreshouldBag.BBrightWidthH;
-					SendBack->BrightWidthNL	=B->GetThresholdR()->ThreshouldBag.NBrightWidthL;
-					SendBack->BrightWidthNH	=B->GetThresholdR()->ThreshouldBag.NBrightWidthH;
-					SendBack->NGSizeBL		=B->GetThresholdR()->ThreshouldBag.BOKDotL;
-					SendBack->NGSizeBH		=B->GetThresholdR()->ThreshouldBag.BOKDotH;
-					SendBack->NGSizeNL		=B->GetThresholdR()->ThreshouldBag.NOKDotL;
-					SendBack->NGSizeNH		=B->GetThresholdR()->ThreshouldBag.NOKDotH;
-					SendBack->SearchDot		=B->GetThresholdR()->ThreshouldBag.SelfSearch;
+				const	BlockThreshold *RThr = static_cast<const BlockThreshold *>(L->GetThresholdBaseReadable());
+				BlockItem	*B=static_cast<BlockItem *>(L);
+				int	BTable[256];
+				memset(BTable,0,sizeof(BTable));
+				L->GetArea().MakeBrightList(BTable 
+											, Pg->GetDotPerLine()
+											, Pg->GetMaxLines() 
+											, B->GetTargetBuff()
+											, B->ShiftX,B->ShiftY);
+				for(int i=0;i<256;i++){
+					SendBack->HistTable[i]+=BTable[i];
 				}
+				SendBack->BrightWidthBL	=RThr->ThreshouldBag.BBrightWidthL;
+				SendBack->BrightWidthBH	=RThr->ThreshouldBag.BBrightWidthH;
+				SendBack->BrightWidthNL	=RThr->ThreshouldBag.NBrightWidthL;
+				SendBack->BrightWidthNH	=RThr->ThreshouldBag.NBrightWidthH;
+				SendBack->NGSizeBL		=RThr->ThreshouldBag.BOKDotL;
+				SendBack->NGSizeBH		=RThr->ThreshouldBag.BOKDotH;
+				SendBack->NGSizeNL		=RThr->ThreshouldBag.NOKDotL;
+				SendBack->NGSizeNH		=RThr->ThreshouldBag.NOKDotH;
+				SendBack->SearchDot		=RThr->ThreshouldBag.SelfSearch;
 			}
 		}
 	}
@@ -1058,24 +1061,24 @@ void	GUISetStatisticByLib::Receive(int32 localPage, int32 cmd ,QString &EmitterR
 {
 	AlgorithmBase	*Ab=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"BlockInspection");
 	if(Ab!=NULL){
-		AlgorithmInPagePLI		*Pg=(AlgorithmInPagePLI	*)Ab->GetPageData(localPage);
+		AlgorithmInPageRoot		*Pg=Ab->GetPageData(localPage);
 		for(int Layer=0;Layer<GetLayerNumb(localPage);Layer++){
-			AlgorithmInLayerPLI *PL=(AlgorithmInLayerPLI *)Pg->GetLayerData(Layer);
-			for(AlgorithmItemPLI	*L=PL->GetFirstData();L!=NULL;L=L->GetNext()){
+			AlgorithmInLayerRoot *PL=Pg->GetLayerData(Layer);
+
+			for(AlgorithmItemRoot	*L=PL->GetFirstItem();L!=NULL;L=L->GetNextItem()){
 				if(L->GetLibID()!=LibID)
 					continue;
-				BlockItem	*B=dynamic_cast<BlockItem *>(L);
-				if(B!=NULL){
-					B->GetThresholdW()->ThreshouldBag.BBrightWidthL	=BrightWidthBL	;
-					B->GetThresholdW()->ThreshouldBag.BBrightWidthH	=BrightWidthBH	;
-					B->GetThresholdW()->ThreshouldBag.NBrightWidthL	=BrightWidthNL	;
-					B->GetThresholdW()->ThreshouldBag.NBrightWidthH	=BrightWidthNH	;
-					B->GetThresholdW()->ThreshouldBag.BOKDotL		=NGSizeBL		;
-					B->GetThresholdW()->ThreshouldBag.BOKDotH		=NGSizeBH		;
-					B->GetThresholdW()->ThreshouldBag.NOKDotL		=NGSizeNL		;
-					B->GetThresholdW()->ThreshouldBag.NOKDotH		=NGSizeNH		;
-					B->GetThresholdW()->ThreshouldBag.SelfSearch	=SearchDot		;
-				}
+				
+				BlockThreshold *WThr = static_cast<BlockThreshold *>(L->GetThresholdBaseWritable());
+				WThr->ThreshouldBag.BBrightWidthL	=BrightWidthBL	;
+				WThr->ThreshouldBag.BBrightWidthH	=BrightWidthBH	;
+				WThr->ThreshouldBag.NBrightWidthL	=BrightWidthNL	;
+				WThr->ThreshouldBag.NBrightWidthH	=BrightWidthNH	;
+				WThr->ThreshouldBag.BOKDotL		=NGSizeBL		;
+				WThr->ThreshouldBag.BOKDotH		=NGSizeBH		;
+				WThr->ThreshouldBag.NOKDotL		=NGSizeNL		;
+				WThr->ThreshouldBag.NOKDotH		=NGSizeNH		;
+				WThr->ThreshouldBag.SelfSearch	=SearchDot		;
 			}
 		}
 	}

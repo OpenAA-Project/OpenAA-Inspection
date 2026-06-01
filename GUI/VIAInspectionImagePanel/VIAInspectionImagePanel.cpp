@@ -162,9 +162,6 @@ void	VIAInspectionImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"VIAInspection");
 	if(Ab==NULL)
 		return;
-	VIABase	*MBase=dynamic_cast<VIABase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyVIAInspection" ,/**/"");
 	if(GProp!=NULL){
 		CmdVIADrawEnd	Da(GetLayersBase());

@@ -2769,10 +2769,9 @@ void	DotColorMatchingInPage::TransmitDirectly(GUIDirectMessage *packet)
 	CmdDotColorMatchingGetItemInfo	*CmdDotColorMatchingGetItemInfoVar=dynamic_cast<CmdDotColorMatchingGetItemInfo *>(packet);
 	if(CmdDotColorMatchingGetItemInfoVar!=NULL){
 		for(int L=0;L<GetLayerNumb();L++){
-			AlgorithmItemPI	*Item=GetItem(CmdDotColorMatchingGetItemInfoVar->LocalX,CmdDotColorMatchingGetItemInfoVar->LocalY);
+			AlgorithmItemRoot	*Item=GetItem(CmdDotColorMatchingGetItemInfoVar->LocalX,CmdDotColorMatchingGetItemInfoVar->LocalY);
 			if(Item!=NULL){
-				DotColorMatchingItem	*BItem=(DotColorMatchingItem *)Item;
-				CmdDotColorMatchingGetItemInfoVar->LibIDList.Add(BItem->GetLibID());
+				CmdDotColorMatchingGetItemInfoVar->LibIDList.Add(Item->GetLibID());
 				CmdDotColorMatchingGetItemInfoVar->LayerList.Add(L);
 			}
 		}
@@ -2807,6 +2806,129 @@ void	DotColorMatchingInPage::TransmitDirectly(GUIDirectMessage *packet)
 				delete	a;
 			}
 			a=NextA;
+		}
+		return;
+	}
+	CmdSelectByLibOutline *CmdSelectByLibOutlineVar = dynamic_cast<CmdSelectByLibOutline *>(packet);
+	if (CmdSelectByLibOutlineVar != NULL) {
+		for(AlgorithmItemPI *a=GetFirstData();a!=NULL;a=a->GetNext()){
+			DotColorMatchingItem	*Item=dynamic_cast<DotColorMatchingItem *>(a);
+			if(Item!=NULL){
+				SelectLibList	*f=CmdSelectByLibOutlineVar->SelectedList.Find(DefLibTypeDotColorMatchingInspect ,Item->GetLibID());
+				if(f!=NULL && Item->OutlineBlock==CmdSelectByLibOutlineVar->OutlineMode){
+					Item->SetSelected(true);
+				}
+				else{
+					Item->SetSelected(false);
+				}
+			}
+		}
+		return;
+	}
+	CmdSetItemsByLibID *CmdSetItemsByLibIDVar = dynamic_cast<CmdSetItemsByLibID *>(packet);
+	if (CmdSetItemsByLibIDVar != NULL) {
+		if(CmdSetItemsByLibIDVar->ItemID<0){
+			for(AlgorithmItemPI *a=GetFirstData();a!=NULL;a=a->GetNext()){
+				DotColorMatchingItem	*Item=dynamic_cast<DotColorMatchingItem *>(a);
+				if(Item!=NULL && Item->GetLibID()==CmdSetItemsByLibIDVar->LibID){
+					if(CmdSetItemsByLibIDVar->AvailableMasterNo==true){
+						int	MasterNo=GetLayersBase()->FindBufferInfo(CmdSetItemsByLibIDVar->MasterNoOriginCode);
+						Item->GetThresholdW()->MasterNo=MasterNo;
+						Item->SetMasterNo(MasterNo);
+					}
+					if(CmdSetItemsByLibIDVar->AvailableSubBlock==true){
+						IntList	SubtractLibID;
+						for(AlgorithmLibraryList *a=CmdSetItemsByLibIDVar->SubBlockList.GetFirst();a!=NULL;a=a->GetNext()){
+							SubtractLibID.Add(a->GetLibID());
+						}
+						Item->GetThresholdW()->SubtractLibID	=SubtractLibID;
+					}
+					Item->GetThresholdW()->ExpandToSubBlock	=CmdSetItemsByLibIDVar->ExpandToSubBlock;
+				}
+			}
+		}
+		else{
+			DotColorMatchingItem	*Item=(DotColorMatchingItem *)SearchIDItem(CmdSetItemsByLibIDVar->ItemID);
+			if(Item!=NULL){
+				if(CmdSetItemsByLibIDVar->AvailableMasterNo==true){
+					int	MasterNo=GetLayersBase()->FindBufferInfo(CmdSetItemsByLibIDVar->MasterNoOriginCode);
+					Item->GetThresholdW()->MasterNo=MasterNo;
+					Item->SetMasterNo(MasterNo);
+				}
+				if(CmdSetItemsByLibIDVar->AvailableSubBlock==true){
+					IntList	SubtractLibID;
+					for(AlgorithmLibraryList *a=CmdSetItemsByLibIDVar->SubBlockList.GetFirst();a!=NULL;a=a->GetNext()){
+						SubtractLibID.Add(a->GetLibID());
+					}
+					Item->GetThresholdW()->SubtractLibID	=SubtractLibID;
+				}
+				Item->GetThresholdW()->ExpandToSubBlock	=CmdSetItemsByLibIDVar->ExpandToSubBlock;
+			}
+		}
+		return;
+	}
+	CmdReqItemsByLibID *CmdReqItemsByLibIDVar = dynamic_cast<CmdReqItemsByLibID *>(packet);
+	if (CmdReqItemsByLibIDVar != NULL) {
+		if(CmdReqItemsByLibIDVar->ItemID<0){
+			for(AlgorithmItemPI *a=GetFirstData();a!=NULL;a=a->GetNext()){
+				DotColorMatchingItem	*Item=dynamic_cast<DotColorMatchingItem *>(a);
+				if(Item!=NULL && Item->GetLibID()==CmdReqItemsByLibIDVar->LibID){
+					BufferInfoList	*B=GetLayersBase()->GetBufferInfo(Item->GetMasterNo());
+					if(B!=NULL){
+							CmdReqItemsByLibIDVar->MasterNoOriginCode=B->OriginCode;
+					}
+					for(SubtractItem *d=Item->GetSubBlock().GetFirst();d!=NULL;d=d->GetNext()){
+						CmdReqItemsByLibIDVar->SubLibIDs.Merge(GetLayersBase()
+									,DefLibTypeDotColorMatchingInspect
+									,d->LibID);
+					}
+					CmdReqItemsByLibIDVar->ExpandToSubBlock=Item->GetThresholdR()->ExpandToSubBlock;
+				}
+			}
+		}
+		else{
+			DotColorMatchingItem	*Item=dynamic_cast<DotColorMatchingItem *>(SearchIDItem(CmdReqItemsByLibIDVar->ItemID));
+			if(Item!=NULL){
+				BufferInfoList	*B=GetLayersBase()->GetBufferInfo(Item->GetMasterNo());
+				if(B!=NULL){
+						CmdReqItemsByLibIDVar->MasterNoOriginCode=B->OriginCode;
+				}
+				for(SubtractItem *d=Item->GetSubBlock().GetFirst();d!=NULL;d=d->GetNext()){
+					CmdReqItemsByLibIDVar->SubLibIDs.Merge(GetLayersBase()
+								,DefLibTypeDotColorMatchingInspect
+								,d->LibID);
+				}
+				CmdReqItemsByLibIDVar->ExpandToSubBlock=Item->GetThresholdR()->ExpandToSubBlock;
+			}
+		}
+		return;
+	}
+	CmdReqBlockListInfo *CmdReqBlockListInfoVar = dynamic_cast<CmdReqBlockListInfo *>(packet);
+	if (CmdReqBlockListInfoVar != NULL) {
+		for(AlgorithmItemPI *a=GetFirstData();a!=NULL;a=a->GetNext()){
+			BlockListInfo	*t=new BlockListInfo();
+			t->BlockListData.Page=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+			t->BlockListData.ItemID	=a->GetID();
+			t->BlockListData.LibID	=a->GetLibID();
+			a->GetXY(t->BlockListData.x1,t->BlockListData.y1
+					,t->BlockListData.x2,t->BlockListData.y2);
+			const DotColorMatchingThreshold	*RThr=(const DotColorMatchingThreshold	*)a->GetThresholdBaseReadable();
+			t->BlockListData.AreaSearchX=RThr->AreaSearchX;
+			t->BlockListData.AreaSearchY=RThr->AreaSearchY;
+			t->BlockListData.SelfSearch	=RThr->SelfSearch;
+			t->BlockListData.OKDotB		=RThr->Broad.OKDot;
+			t->BlockListData.OKDotN		=RThr->Narrow.OKDot;
+			CmdReqBlockListInfoVar->BlockListInfoContainerData->AppendList(t);
+		}
+		return;
+	}
+	CmdReqSelectedItemLib *CmdReqSelectedItemLibVar = dynamic_cast<CmdReqSelectedItemLib *>(packet);
+	if (CmdReqSelectedItemLibVar != NULL) {
+		for(AlgorithmItemPI *a=GetFirstData();a!=NULL;a=a->GetNext()){
+			DotColorMatchingItem	*Item=dynamic_cast<DotColorMatchingItem *>(a);
+			if(Item!=NULL && Item->GetSelected()==true){
+				CmdReqSelectedItemLibVar->SelectedItemLibID->Merge(Item->GetLibID());
+			}
 		}
 		return;
 	}

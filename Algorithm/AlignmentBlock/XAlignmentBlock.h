@@ -525,3 +525,14 @@ public:
 	CmdAutoGenerateAlignmentBlock(LayersBase *base):GUIDirectMessage(base){}
 	CmdAutoGenerateAlignmentBlock(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
+
+class	AlignmentBlockItemListContainer;
+
+class	CmdMakeAlignmentBlockItemList: public GUIDirectMessage
+{
+public:
+	AlignmentBlockItemListContainer	*Items;
+
+	CmdMakeAlignmentBlockItemList(LayersBase *base):GUIDirectMessage(base){}
+	CmdMakeAlignmentBlockItemList(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};

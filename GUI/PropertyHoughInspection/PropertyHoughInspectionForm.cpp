@@ -356,7 +356,7 @@ void	PropertyHoughInspectionForm::ShowLibrary(AlgorithmLibraryLevelContainer &da
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	HoughLibrary	*ALib=dynamic_cast<HoughLibrary *>(data.GetLibrary());
+	HoughLibrary	*ALib=static_cast<HoughLibrary *>(data.GetLibrary());
 	ui->EditZoneWidth				->setValue	(ALib->ZoneWidth);
 	ui->EditMaxIsolation			->setValue	(ALib->MaxIsolation);
 	ui->EditBinarizedLength			->setValue	(ALib->BinarizedLength);
@@ -375,7 +375,7 @@ void	PropertyHoughInspectionForm::GetLibraryFromWindow(AlgorithmLibraryLevelCont
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	HoughLibrary	*ALib=dynamic_cast<HoughLibrary *>(data.GetLibrary());
+	HoughLibrary	*ALib=static_cast<HoughLibrary *>(data.GetLibrary());
 	ALib->ZoneWidth			=ui->EditZoneWidth		->value();
 	ALib->MaxIsolation		=ui->EditMaxIsolation	->value();
 	ALib->BinarizedLength	=ui->EditBinarizedLength->value();

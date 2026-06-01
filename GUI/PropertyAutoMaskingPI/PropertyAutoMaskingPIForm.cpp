@@ -341,7 +341,7 @@ void	PropertyAutoMaskingPIForm::ShowLibrary(AlgorithmLibraryLevelContainer &data
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	AutoMaskingPILibrary	*ALib=dynamic_cast<AutoMaskingPILibrary *>(data.GetLibrary());
+	AutoMaskingPILibrary	*ALib=static_cast<AutoMaskingPILibrary *>(data.GetLibrary());
 	ui.EditColDiffRate		->setValue(ALib->ColDiffRate);
 	ui.EditNoizeSize		->setValue(ALib->NoiseSize);
 	ui.EditEnLargeDot		->setValue(ALib->EnLargeDot);
@@ -363,7 +363,7 @@ void	PropertyAutoMaskingPIForm::GetLibraryFromWindow(AlgorithmLibraryLevelContai
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	AutoMaskingPILibrary	*ALib=dynamic_cast<AutoMaskingPILibrary *>(data.GetLibrary());
+	AutoMaskingPILibrary	*ALib=static_cast<AutoMaskingPILibrary *>(data.GetLibrary());
 	ALib->ColDiffRate	=ui.EditColDiffRate		->value();
 	ALib->NoiseSize		=ui.EditNoizeSize		->value();
 	ALib->EnLargeDot	=ui.EditEnLargeDot		->value();

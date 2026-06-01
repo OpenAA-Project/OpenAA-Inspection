@@ -317,9 +317,6 @@ void	GUICmdSendDentInfo::MakeData(int localPage, int localX, int localY ,LayersB
 	AlgorithmBase	*AL=LocalLBase.GetAlgorithmBase(/**/"Basic" ,/**/"DentInspection");
 	if(AL==NULL)
 		return;
-	DentBase	*BL=dynamic_cast<DentBase *>(AL);
-	if(BL==NULL)
-		return;
 	LocalX=localX;
 	LocalY=localY;
 	/*

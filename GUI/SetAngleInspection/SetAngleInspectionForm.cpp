@@ -85,7 +85,7 @@ void	GUICmdSetAngleInspection::Receive(int32 localPage, int32 cmd ,QString &Emit
 {
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AngleInspection");
 	if(Base!=NULL){
-		AngleInspectionInPage	*PPage=dynamic_cast<AngleInspectionInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdSetAngleInspection	Cmd(GetLayersBase());
 		Cmd.OKAngleL		=OKAngleL;
 		Cmd.OKAngleH		=OKAngleH;
@@ -103,13 +103,11 @@ void	GUICmdReqAngleInspection::Receive(int32 localPage, int32 cmd ,QString &Emit
 	GUICmdAckAngleInspection	*SendBack=GetSendBack(GUICmdAckAngleInspection,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AngleInspection");
 	if(Base!=NULL){
-		AngleInspectionInPage	*PPage=dynamic_cast<AngleInspectionInPage *>(Base->GetPageData(localPage));
-		AngleInspectionItem	*Item=(AngleInspectionItem *)PPage->GetFirstData();
-		if(Item!=NULL){
-			const	AngleInspectionThreshold	*RThr=Item->GetThresholdR();
-			SendBack->OKAngleL=RThr->OKAngleL;
-			SendBack->OKAngleH=RThr->OKAngleH;
-		}
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
+		CmdGetAngleInspection	Cmd(GetLayersBase());
+		PPage->TransmitDirectly(&Cmd);
+		SendBack->OKAngleL=Cmd.OKAngleL;
+		SendBack->OKAngleH=Cmd.OKAngleH;
 	}
 	SendBack->Send(this ,GetLayersBase()->GetGlobalPageFromLocal(localPage),0);
 	CloseSendBack(SendBack);

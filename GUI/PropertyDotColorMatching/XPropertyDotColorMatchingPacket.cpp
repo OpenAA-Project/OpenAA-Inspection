@@ -340,7 +340,7 @@ void	GUICmdSendAddManualDotColorMatching::Receive(int32 localPage, int32 cmd ,QS
 {
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	DotColorMatchingBase *BBase=(DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	if(BBase!=NULL){
 		CmdAddByteDotColorMatchingItemPacket	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -381,7 +381,7 @@ bool	GUICmdSendModifySelectedDotColorMatching::Save(QIODevice *f)
 
 void	GUICmdSendModifySelectedDotColorMatching::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	DotColorMatchingBase *BBase=(DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	if(BBase!=NULL){
 		CmdModifySelectedDotColorMatchingFromByteArray	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -421,9 +421,9 @@ GUICmdSendSelectedDotColorMatchingItemAttr::GUICmdSendSelectedDotColorMatchingIt
 }
 void	GUICmdSendSelectedDotColorMatchingItemAttr::Make(int localPage ,LayersBase *Base)
 {
-	DotColorMatchingBase *BBase=(DotColorMatchingBase *)Base->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	AlgorithmBase *BBase=Base->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	if(BBase!=NULL){
-		DotColorMatchingInPage	*PData=dynamic_cast<DotColorMatchingInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdGetOneSelectedItem	Cmd(this);
 			PData->TransmitDirectly(&Cmd);
@@ -538,7 +538,8 @@ bool	GUICmdReqDotColorMatchingFromList::Save(QIODevice *f)
 void	GUICmdReqDotColorMatchingFromList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckDotColorMatchingFromList	*SendBack=GetSendBack(GUICmdAckDotColorMatchingFromList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	DotColorMatchingBase	*BBase=(DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	if(BBase!=NULL){
 		int	N=0;
 		for(ListLayerAndID *a=CurrentItem.GetFirst();a!=NULL;a=a->GetNext()){
@@ -582,7 +583,7 @@ bool	GUICmdAckDotColorMatchingFromList::Load(QIODevice *f)
 	int32	N;
 	if(::Load(f,N)==false)
 		return false;
-	DotColorMatchingBase	*BBase=(DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	for(int i=0;i<N;i++){
 		CmdCreateDotColorMatchingItem	Cmd(GetLayersBase());
 		BBase->TransmitDirectly(&Cmd);
@@ -663,9 +664,10 @@ GUICmdReqItemListForPageContainer::GUICmdReqItemListForPageContainer(LayersBase 
 void	GUICmdReqItemListForPageContainer::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckItemListForPageContainer	*SendBack=GetSendBack(GUICmdAckItemListForPageContainer,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	DotColorMatchingBase	*BBase=(DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	if(BBase!=NULL){
-		DotColorMatchingInPage	*BPage=(DotColorMatchingInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
 			CmdItemListForPageContainer	Cmd(GetLayersBase());
 			Cmd.Container=&SendBack->ItemListForPageData;
@@ -695,38 +697,7 @@ bool	GUICmdAckItemListForPageContainer::Save(QIODevice *f)
 }
 
 //=============================================================================================
-BlockListInfo	&BlockListInfo::operator=(const BlockListInfo &src)
-{
-	BlockListData=src.BlockListData;
-	return *this;
-}
 
-bool	BlockListInfo::Save(QIODevice *f)
-{
-	if(f->write((const char *)&BlockListData,sizeof(BlockListData))!=sizeof(BlockListData))
-		return false;
-	return true;
-}
-bool	BlockListInfo::Load(QIODevice *f)
-{
-	if(f->read((char *)&BlockListData,sizeof(BlockListData))!=sizeof(BlockListData))
-		return false;
-	return true;
-}
-BlockListInfoContainer	&BlockListInfoContainer::operator= (const BlockListInfoContainer &src)
-{
-	RemoveAll();
-	return operator+=(src);
-}
-BlockListInfoContainer	&BlockListInfoContainer::operator+=(const BlockListInfoContainer &src)
-{
-	for(BlockListInfo *s=src.GetFirst();s!=NULL;s=s->GetNext()){
-		BlockListInfo *d=new BlockListInfo();
-		*d=*s;
-		AppendList(d);
-	}
-	return *this;
-}
 GUICmdReqBlockListInfo::GUICmdReqBlockListInfo(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
 :GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
 {
@@ -734,25 +705,14 @@ GUICmdReqBlockListInfo::GUICmdReqBlockListInfo(LayersBase *Base ,const QString &
 void	GUICmdReqBlockListInfo::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckBlockListInfo	*SendBack=GetSendBack(GUICmdAckBlockListInfo,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	DotColorMatchingBase	*BBase=(DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	if(BBase!=NULL){
-		DotColorMatchingInPage	*BPage=(DotColorMatchingInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
-			for(AlgorithmItemPI *a=BPage->GetFirstData();a!=NULL;a=a->GetNext()){
-				BlockListInfo	*t=new BlockListInfo();
-				t->BlockListData.Page=GetLayersBase()->GetGlobalPageFromLocal(localPage);
-				t->BlockListData.ItemID	=a->GetID();
-				t->BlockListData.LibID	=a->GetLibID();
-				a->GetXY(t->BlockListData.x1,t->BlockListData.y1
-						,t->BlockListData.x2,t->BlockListData.y2);
-				const DotColorMatchingThreshold	*RThr=(const DotColorMatchingThreshold	*)a->GetThresholdBaseReadable();
-				t->BlockListData.AreaSearchX=RThr->AreaSearchX;
-				t->BlockListData.AreaSearchY=RThr->AreaSearchY;
-				t->BlockListData.SelfSearch	=RThr->SelfSearch;
-				t->BlockListData.OKDotB		=RThr->Broad.OKDot;
-				t->BlockListData.OKDotN		=RThr->Narrow.OKDot;
-				SendBack->BlockListInfoContainerData.AppendList(t);
-			}
+			CmdReqBlockListInfo	Cmd(GetLayersBase());
+			Cmd.BlockListInfoContainerData=&SendBack->BlockListInfoContainerData;
+			BPage->TransmitDirectly(&Cmd);
 		}
 	}
 	SendBack->Send(this ,GetLayersBase()->GetGlobalPageFromLocal(localPage),0);
@@ -797,22 +757,13 @@ bool	GUICmdSelectByLibOutline::Save(QIODevice *f)
 
 void	GUICmdSelectByLibOutline::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	DotColorMatchingBase	*BBase=(DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	if(BBase!=NULL){
-		DotColorMatchingInPage	*BPage=(DotColorMatchingInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
-			for(AlgorithmItemPI *a=BPage->GetFirstData();a!=NULL;a=a->GetNext()){
-				DotColorMatchingItem	*Item=dynamic_cast<DotColorMatchingItem *>(a);
-				if(Item!=NULL){
-					SelectLibList	*f=SelectedList.Find(DefLibTypeDotColorMatchingInspect ,Item->GetLibID());
-					if(f!=NULL && Item->OutlineBlock==OutlineMode){
-						Item->SetSelected(true);
-					}
-					else{
-						Item->SetSelected(false);
-					}
-				}
-			}
+			CmdSelectByLibOutline	Cmd(GetLayersBase());
+			Cmd.OutlineMode = OutlineMode;
+			BPage->TransmitDirectly(&Cmd);
 		}
 	}
 	SendAck(localPage);
@@ -851,48 +802,20 @@ bool	GUICmdSetItemsByLibID::Save(QIODevice *f)
 
 void	GUICmdSetItemsByLibID::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	DotColorMatchingBase	*BBase=(DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	if(BBase!=NULL){
-		DotColorMatchingInPage	*BPage=(DotColorMatchingInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
-			if(ItemID<0){
-				for(AlgorithmItemPI *a=BPage->GetFirstData();a!=NULL;a=a->GetNext()){
-					DotColorMatchingItem	*Item=dynamic_cast<DotColorMatchingItem *>(a);
-					if(Item!=NULL && Item->GetLibID()==LibID){
-						if(AvailableMasterNo==true){
-							int	MasterNo=GetLayersBase()->FindBufferInfo(MasterNoOriginCode);
-							Item->GetThresholdW()->MasterNo=MasterNo;
-							Item->SetMasterNo(MasterNo);
-						}
-						if(AvailableSubBlock==true){
-							IntList	SubtractLibID;
-							for(AlgorithmLibraryList *a=SubBlockList.GetFirst();a!=NULL;a=a->GetNext()){
-								SubtractLibID.Add(a->GetLibID());
-							}
-							Item->GetThresholdW()->SubtractLibID	=SubtractLibID;
-						}
-						Item->GetThresholdW()->ExpandToSubBlock	=ExpandToSubBlock;
-					}
-				}
-			}
-			else{
-				DotColorMatchingItem	*Item=(DotColorMatchingItem *)BPage->SearchIDItem(ItemID);
-				if(Item!=NULL){
-					if(AvailableMasterNo==true){
-						int	MasterNo=GetLayersBase()->FindBufferInfo(MasterNoOriginCode);
-						Item->GetThresholdW()->MasterNo=MasterNo;
-						Item->SetMasterNo(MasterNo);
-					}
-					if(AvailableSubBlock==true){
-						IntList	SubtractLibID;
-						for(AlgorithmLibraryList *a=SubBlockList.GetFirst();a!=NULL;a=a->GetNext()){
-							SubtractLibID.Add(a->GetLibID());
-						}
-						Item->GetThresholdW()->SubtractLibID	=SubtractLibID;
-					}
-					Item->GetThresholdW()->ExpandToSubBlock	=ExpandToSubBlock;
-				}
-			}
+			CmdSetItemsByLibID	Cmd(GetLayersBase());
+			Cmd.ItemID = ItemID;
+			Cmd.LibID = LibID;
+			Cmd.AvailableMasterNo = AvailableMasterNo;
+			Cmd.MasterNoOriginCode = MasterNoOriginCode;
+			Cmd.AvailableSubBlock = AvailableSubBlock;
+			Cmd.SubBlockList = SubBlockList;
+			Cmd.ExpandToSubBlock = ExpandToSubBlock;
+
+			BPage->TransmitDirectly(&Cmd);
 		}
 	}
 }
@@ -920,24 +843,21 @@ bool	GUICmdReqItemsByLibID::Save(QIODevice *f)
 void	GUICmdReqItemsByLibID::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckItemsByLibID	*SendBack=GetSendBack(GUICmdAckItemsByLibID,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	DotColorMatchingBase	*BBase=(DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	if(BBase!=NULL){
-		DotColorMatchingInPage	*BPage=(DotColorMatchingInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
-			if(ItemID<0){
-				for(AlgorithmItemPI *a=BPage->GetFirstData();a!=NULL;a=a->GetNext()){
-					DotColorMatchingItem	*Item=dynamic_cast<DotColorMatchingItem *>(a);
-					if(Item!=NULL && Item->GetLibID()==LibID){
-						SendBack->SetData(Item);
-					}
-				}
-			}
-			else{
-				DotColorMatchingItem	*Item=dynamic_cast<DotColorMatchingItem *>(BPage->SearchIDItem(ItemID));
-				if(Item!=NULL){
-					SendBack->SetData(Item);
-				}
-			}
+			CmdReqItemsByLibID	Cmd(GetLayersBase());
+			Cmd.Page = Page;
+			Cmd.ItemID = ItemID;
+			Cmd.LibID = LibID;
+
+			BPage->TransmitDirectly(&Cmd);
+
+			SendBack->MasterNoOriginCode	= Cmd.MasterNoOriginCode;
+			SendBack->SubLibIDs				= Cmd.SubLibIDs;
+			SendBack->ExpandToSubBlock		= Cmd.ExpandToSubBlock;
 		}
 	}
 	SendBack->Send(this ,GetLayersBase()->GetGlobalPageFromLocal(localPage),0);
@@ -994,9 +914,9 @@ bool	GUICmdSetSpecialData::Save(QIODevice *f)
 }
 void	GUICmdSetSpecialData::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	DotColorMatchingBase	*BBase=(DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	if(BBase!=NULL){
-		DotColorMatchingInPage	*BPage=(DotColorMatchingInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
 			CmdSetSpecialData	DPacket(this);
 			DPacket.SpecialData	=SpecialData;
@@ -1029,9 +949,9 @@ bool	GUICmdAddDotColorMatching::Save(QIODevice *f)
 
 void	GUICmdAddDotColorMatching::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	DotColorMatchingBase	*BBase=(DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	if(BBase!=NULL){
-		DotColorMatchingInPage	*BPage=(DotColorMatchingInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
 			CmdAddDotColorMatching	DPacket(this);
 			DPacket.LibID	=LibID;
@@ -1063,9 +983,9 @@ bool	GUICmdDeleteDotColorMatchingByName::Save(QIODevice *f)
 
 void	GUICmdDeleteDotColorMatchingByName::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	DotColorMatchingBase	*BBase=(DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	if(BBase!=NULL){
-		DotColorMatchingInPage	*BPage=(DotColorMatchingInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
 			CmdDeleteDotColorMatchingByName	DPacket(this);
 			DPacket.ItemName=ItemName;
@@ -1085,16 +1005,14 @@ GUICmdReqSelectedItemLib::GUICmdReqSelectedItemLib(LayersBase *Base ,const QStri
 void	GUICmdReqSelectedItemLib::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckSelectedItemLib	*SendBack=GetSendBack(GUICmdAckSelectedItemLib,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	DotColorMatchingBase	*BBase=(DotColorMatchingBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
+	
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DotColorMatching");
 	if(BBase!=NULL){
-		DotColorMatchingInPage	*BPage=(DotColorMatchingInPage *)BBase->GetPageData(localPage);
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
 		if(BPage!=NULL){
-			for(AlgorithmItemPI *a=BPage->GetFirstData();a!=NULL;a=a->GetNext()){
-				DotColorMatchingItem	*Item=dynamic_cast<DotColorMatchingItem *>(a);
-				if(Item!=NULL && Item->GetSelected()==true){
-					SendBack->SelectedItemLibID.Merge(Item->GetLibID());
-				}
-			}
+			CmdReqSelectedItemLib	Cmd(GetLayersBase());
+			Cmd.SelectedItemLibID = &SendBack->SelectedItemLibID;
+			BPage->TransmitDirectly(&Cmd);
 		}
 	}
 	SendBack->Send(this ,GetLayersBase()->GetGlobalPageFromLocal(localPage),0);

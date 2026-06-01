@@ -264,7 +264,7 @@ void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	BuslineLibrary	*ALib=dynamic_cast<BuslineLibrary *>(data.GetLibrary());
+	BuslineLibrary	*ALib=static_cast<BuslineLibrary *>(data.GetLibrary());
 	ui->lineEditBlockMinArea		->setText(QString::number(ALib->BlockMinArea));
 	ui->lineEditBlockMaxArea		->setText(QString::number(ALib->BlockMaxArea));
 	ui->EditMinWidth				->setValue(ALib->MinWidth);
@@ -330,7 +330,7 @@ void	EditLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &dat
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	BuslineLibrary	*ALib=dynamic_cast<BuslineLibrary *>(data.GetLibrary());
+	BuslineLibrary	*ALib=static_cast<BuslineLibrary *>(data.GetLibrary());
 	ALib->BlockMinArea				=ui->lineEditBlockMinArea->text().toLongLong();
 	ALib->BlockMaxArea				=ui->lineEditBlockMaxArea->text().toLongLong();
 	ALib->MinWidth					=ui->EditMinWidth			->value();

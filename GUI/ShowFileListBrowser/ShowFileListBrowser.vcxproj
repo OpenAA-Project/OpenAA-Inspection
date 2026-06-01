@@ -227,7 +227,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\..\..\..\OpenAA-OtherLibrary\JPEG\jpeg-9d\x64\Release;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\Lib\Release;$(OpenAAUseLibrary)\JPEG\jpeg-9d\x64\Release;$(OpenAAUseLibrary)\JPEG\JPEG/jpeg-9d/.libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>ServiceLib.lib;Component.lib;LibJpeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>

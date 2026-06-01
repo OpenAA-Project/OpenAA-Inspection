@@ -76,9 +76,7 @@ void	GUICmdAddSpotReducerArea::Receive(int32 localPage, int32 cmd ,QString &Emit
 	Cmd.ReductionLevel	=ReductionLevel;
 	Cmd.SpotArea		=SpotArea;
 	Cmd.SpotCount		=SpotCount;
-	SpotReducerInPage	*M=dynamic_cast<SpotReducerInPage *>(PData);
-	if(M!=NULL)
-		M->TransmitDirectly(&Cmd);
+	PData->TransmitDirectly(&Cmd);
 	
 	SendAck(localPage);
 }

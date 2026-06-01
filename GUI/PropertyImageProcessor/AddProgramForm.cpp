@@ -17,7 +17,6 @@
  */
 
 #include "AddProgramFormResource.h"
-
 #include "AddProgramForm.h"
 
 AddProgramForm::AddProgramForm(LayersBase *base, QWidget *parent)

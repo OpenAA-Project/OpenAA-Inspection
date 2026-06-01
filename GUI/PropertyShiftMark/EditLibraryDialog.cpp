@@ -251,7 +251,7 @@ void EditLibraryDialog::on_pushButtonClose_clicked()
 
 void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	ShiftMarkLibrary	*d=dynamic_cast<ShiftMarkLibrary *>(data.GetLibrary());
+	ShiftMarkLibrary	*d=static_cast<ShiftMarkLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -269,7 +269,7 @@ void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 
 void	EditLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	ShiftMarkLibrary	*d=dynamic_cast<ShiftMarkLibrary *>(data.GetLibrary());
+	ShiftMarkLibrary	*d=static_cast<ShiftMarkLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->SearchDotEdge			=ui->EditSearchDotEdge		->value();

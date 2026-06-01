@@ -16,8 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef XAREAFILTERPACKET_H
 #define XAREAFILTERPACKET_H
 
@@ -26,6 +24,7 @@
 #include "XDataModelPageLayerItem.h"
 #include "XAlgorithmLibrary.h"
 #include "NListComp.h"
+#include "XAreaFilter.h"
 
 class	AreaFilterItem;
 class	GUICmdSendAddManualAreaFilter : public GUICmdPacketBase
@@ -41,33 +40,6 @@ public:
 	virtual	bool	Save(QIODevice *f);
 
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
-};
-
-//=================================================================================
-
-class	AreaFilterListForPacket : public NPListSaveLoad<AreaFilterListForPacket>
-{
-public:
-	struct{
-		int		ItemID;
-		int		LibID;
-		int		Layer;
-		int		Page;
-		int		x1,y1,x2,y2;
-	}Data;
-	
-	AreaFilterListForPacket(void){}
-
-	virtual	bool	Save(QIODevice *f);
-	virtual	bool	Load(QIODevice *f);
-};
-
-class	AreaFilterListForPacketPack : public NPListPackSaveLoad<AreaFilterListForPacket>
-{
-public:
-	AreaFilterListForPacketPack(void){}
-
-	virtual	AreaFilterListForPacket	*Create(void)	{	return new AreaFilterListForPacket();	}
 };
 
 //===========================================================================

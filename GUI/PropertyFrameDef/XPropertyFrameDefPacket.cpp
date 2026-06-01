@@ -57,7 +57,7 @@ void	GUICmdAddFrameAreaManual::Receive(int32 localPage, int32 cmd ,QString &Emit
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"FrameDef");
 	if(PBase==NULL)
 		return;
-	FrameDefInPage	*PPage=dynamic_cast<FrameDefInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAlgoCreateFrameDefManual	Da(GetLayersBase());
 		Da.Area			=Area;
@@ -82,7 +82,7 @@ void	GUICmdReqFrameContainer::Receive(int32 localPage, int32 cmd ,QString &Emitt
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"FrameDef");
 	if(PBase==NULL)
 		return;
-	FrameDefInPage	*PPage=dynamic_cast<FrameDefInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAckFrameContainer	Da(GetLayersBase());
 		Da.ItemContainer	=&SendBack->ItemContainer;
@@ -137,7 +137,7 @@ void	GUICmdReqMaxFrameNumber::Receive(int32 localPage, int32 cmd ,QString &Emitt
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"FrameDef");
 	if(PBase==NULL)
 		return;
-	FrameDefInPage	*PPage=dynamic_cast<FrameDefInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAckMaxFrameNumber	Da(GetLayersBase());
 		Da.GroupNumber	=GroupNumber;
@@ -211,7 +211,7 @@ void	GUICmdSetItemNumber::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"FrameDef");
 	if(PBase==NULL)
 		return;
-	FrameDefInPage	*PPage=dynamic_cast<FrameDefInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdSetItemNumber	Da(GetLayersBase());
 		Da.ItemID		=ItemID;

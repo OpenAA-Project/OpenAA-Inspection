@@ -43,6 +43,9 @@
     <ClCompile Include="..\..\GeneralSource\XExpandShrink.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="XAutoMaskingPICommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AutoMaskingPI.h">

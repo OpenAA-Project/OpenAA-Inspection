@@ -239,7 +239,7 @@ void	EditLibraryMono::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(data.GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(data.GetLibrary());
 	int	L,H;
 	ALib->PickupColor.GetMonoColorRange(L,H);
 	ui.EditPickupH			->setValue(H);
@@ -263,7 +263,7 @@ void	EditLibraryMono::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(data.GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(data.GetLibrary());
 	int	H=ui.EditPickupH	->value();
 	int	L=ui.EditPickupL	->value();
 	ALib->PickupColor.SetMonoColorRange(L,H);

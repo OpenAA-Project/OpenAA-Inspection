@@ -144,7 +144,7 @@ void	SelectLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	HoughLibrary	*ALib=dynamic_cast<HoughLibrary *>(data.GetLibrary());
+	HoughLibrary	*ALib=static_cast<HoughLibrary *>(data.GetLibrary());
 	ui->EditZoneWidth				->setValue	(ALib->ZoneWidth);
 	ui->EditMaxIsolation			->setValue	(ALib->MaxIsolation);
 	ui->EditBinarizedLength			->setValue	(ALib->BinarizedLength);

@@ -866,7 +866,7 @@ void	GUICmdMakeImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase==NULL)
 		return;
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		PPage->TransmitDirectly(this);
 	}
@@ -916,7 +916,7 @@ void	GUICmdMakeBitImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase==NULL)
 		return;
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		PPage->TransmitDirectly(this);
 	}
@@ -949,7 +949,7 @@ void	GUICmdMakeAlgo::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QS
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"GerberFast");
 	if(PBase==NULL)
 		return;
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		PPage->TransmitDirectly(this);
 	}
@@ -970,7 +970,7 @@ void	GUICmdReqSaveConstruct::Receive(int32 localPage, int32 cmd ,QString &Emitte
 	if(PBase==NULL)
 		return;
 	MsgSaveConstruct	Cmd(GetLayersBase());
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		PPage->TransmitDirectly(&Cmd);
 	}
@@ -1026,7 +1026,7 @@ void	GUICmdReqLoadConstruct::Receive(int32 localPage, int32 cmd ,QString &Emitte
 		return;
 	MsgLoadConstruct	Cmd(GetLayersBase());
 	Cmd.Data=Data;
-	GerberFastInPage	*PPage=dynamic_cast<GerberFastInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		PPage->TransmitDirectly(&Cmd);
 	}

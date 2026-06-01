@@ -17,7 +17,6 @@
  */
 
 #include "AddProgramFormResource.h"
-
 #include "SelectArrowForm.h"
 
 SelectArrowForm::SelectArrowForm(LayersBase *base, QWidget *parent)

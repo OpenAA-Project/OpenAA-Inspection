@@ -75,7 +75,4 @@
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\EditGUI\EditGUILib.lib" />
-  </ItemGroup>
 </Project>

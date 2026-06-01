@@ -126,7 +126,7 @@ void	EditDynamicClassifyLibrary::ShowLibrary(AlgorithmLibraryLevelContainer &dat
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	DynamicClassifyLibrary	*ALib=dynamic_cast<DynamicClassifyLibrary *>(data.GetLibrary());
+	DynamicClassifyLibrary	*ALib=static_cast<DynamicClassifyLibrary *>(data.GetLibrary());
 	PickupColor.Cube=ALib->PickupColor;
 	PickupColor.InitializedDoneCube();
 	PickupColor.Repaint();
@@ -155,7 +155,7 @@ void	EditDynamicClassifyLibrary::ShowLibrary(AlgorithmLibraryLevelContainer &dat
 void	EditDynamicClassifyLibrary::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
 	data.SetLibName(ui.EditLibName	->text());
-	DynamicClassifyLibrary	*ALib=dynamic_cast<DynamicClassifyLibrary *>(data.GetLibrary());
+	DynamicClassifyLibrary	*ALib=static_cast<DynamicClassifyLibrary *>(data.GetLibrary());
 
 	ALib->PickupColor	=PickupColor.Cube;
 

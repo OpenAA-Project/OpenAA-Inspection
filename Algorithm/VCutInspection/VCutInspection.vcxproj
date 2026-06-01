@@ -337,6 +337,7 @@
     <ClCompile Include="VCutInspectionResource.cpp" />
     <ClCompile Include="XVCutCalc.cpp" />
     <ClCompile Include="XVCutInspection.cpp" />
+    <ClCompile Include="XVCutInspectionCommon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="xvcutinspectionpacket.h" />

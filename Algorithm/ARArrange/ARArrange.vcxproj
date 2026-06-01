@@ -240,6 +240,7 @@
     <ClCompile Include="ARArrange.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="XARArrange.cpp" />
+    <ClCompile Include="XARArrangeCommon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ARArrange.h" />

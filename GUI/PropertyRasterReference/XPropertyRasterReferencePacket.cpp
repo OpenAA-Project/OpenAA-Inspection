@@ -53,7 +53,7 @@ void	GUICmdMakeRasterReferenceItem::Receive(int32 localPage, int32 cmd ,QString 
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(PBase==NULL)
 		return;
-	RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage==NULL)
 		return;
 	CmdMakeRasterReferenceItem	Cmd(this);

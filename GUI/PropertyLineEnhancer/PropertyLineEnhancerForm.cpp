@@ -513,7 +513,7 @@ void	PropertyLineEnhancerForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(data.GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(data.GetLibrary());
 	ui.EditMinDot			->setValue(ALib->MinDot);
 	ui.EditMaxDot			->setValue(ALib->MaxDot);
 	ui.EditMinSize			->setValue(ALib->MinSize);
@@ -529,7 +529,7 @@ void	PropertyLineEnhancerForm::GetLibraryFromWindow(AlgorithmLibraryLevelContain
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(data.GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(data.GetLibrary());
 	ALib->MinDot			=ui.EditMinDot			->value();
 	ALib->MaxDot			=ui.EditMaxDot			->value();
 	ALib->MinSize			=ui.EditMinSize			->value();

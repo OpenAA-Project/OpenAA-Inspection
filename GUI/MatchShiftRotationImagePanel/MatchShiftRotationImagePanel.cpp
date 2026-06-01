@@ -166,9 +166,6 @@ void	MatchShiftRotationImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"MatchShiftRotation");
 	if(Ab==NULL)
 		return;
-	MatchShiftRotationBase	*MBase=dynamic_cast<MatchShiftRotationBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyMatchShiftRotationForm" ,/**/"");
 	CmdMatchShiftRotationDrawEnd	Da(GetLayersBase());
 	if(GProp!=NULL){

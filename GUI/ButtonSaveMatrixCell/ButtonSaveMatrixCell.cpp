@@ -177,7 +177,7 @@ bool	ButtonSaveMatrixCell::SaveMatrixCell(QString LFileName)
 	GUIFormBase *Ret[100];
 	int	N=GetLayersBase()->EnumGUIInst(/**/"Review",/**/"MatrixCellList",Ret ,100);
 	if(N>0){
-		MatrixCellListForm	*M=dynamic_cast<MatrixCellListForm *>(Ret[0]);
+		GUIFormBase	*M=Ret[0];
 		if(M!=NULL){
 			CmdSaveMatrixCellFile	RCmd(GetLayersBase());
 			RCmd.FL=&F;

@@ -209,7 +209,7 @@ bool ButtonSelectMultiDelivery::SetLotToSystem(IntList &iFirstLotAutoCount
 	if(RDLL!=NULL){
 		ResultDLL	*R=RDLL->GetResultDLL(/**/"Result",/**/"ResultXMLMultiDelivery");
 		if(R!=NULL){
-			RL=dynamic_cast<ResultXMLMultiDelivery *>(R->GetDLLPoint());
+			RL=static_cast<ResultXMLMultiDelivery *>(R->GetDLLPoint());
 		}
 	}
 	if(RL==NULL){
@@ -418,7 +418,7 @@ void	GUICmdSelectLot::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 		if(RDLL!=NULL){
 			ResultDLL	*R=RDLL->GetResultDLL(/**/"Result",/**/"ResultXMLMultiDelivery");
 			if(R!=NULL){
-				RL=dynamic_cast<ResultXMLMultiDelivery *>(R->GetDLLPoint());
+				RL=static_cast<ResultXMLMultiDelivery *>(R->GetDLLPoint());
 			}
 		}
 		if(RL!=NULL && GetLayersBase()->GetEntryPoint()->IsMasterPC()==false){

@@ -16,7 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 #include "XPropertyDentPacket.h"
 #include "XDentInspection.h"
 #include "XGeneralFunc.h"
@@ -254,7 +253,7 @@ bool	GUICmdSendAddManualDent::Save(QIODevice *f)
 
 void	GUICmdSendAddManualDent::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	DentBase *BBase=(DentBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DentInspection");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DentInspection");
 	if(BBase!=NULL){
 		CmdAddDentItemPacket	Cmd(this);
 		Cmd.Area		=Area;
@@ -277,7 +276,7 @@ void	GUICmdReqDentInfoList::Receive(int32 localPage, int32 cmd ,QString &Emitter
 {
 	GUICmdSendDentInfoList	*SendBack=GetSendBack(GUICmdSendDentInfoList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
-	DentBase *BBase=(DentBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DentInspection");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DentInspection");
 	if(BBase!=NULL){
 		CmdDentInfoListPacket	Cmd(this);
 		Cmd.DentInfos	=&SendBack->DentInfos;
@@ -343,9 +342,9 @@ bool	GUICmdDentGenerate::Save(QIODevice *f)
 
 void	GUICmdDentGenerate::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	DentBase *BBase=(DentBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DentInspection");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"DentInspection");
 	if(BBase!=NULL){
-		DentInPage	*PData=dynamic_cast<DentInPage *>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		CmdDentGenerate	Cmd(GetLayersBase());
 		Cmd.ItemLibIDs	=ItemLibIDs;
 		PData->TransmitDirectly(&Cmd);

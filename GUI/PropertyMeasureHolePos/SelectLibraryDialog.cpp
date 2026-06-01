@@ -141,7 +141,7 @@ void	SelectLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	MeasureHolePosLibrary	*ALib=dynamic_cast<MeasureHolePosLibrary *>(data.GetLibrary());
+	MeasureHolePosLibrary	*ALib=static_cast<MeasureHolePosLibrary *>(data.GetLibrary());
 	ui->doubleSpinBoxDiaPrecision	->setValue(ALib->DiaPrecision);
 	ui->doubleSpinBoxPosPrecision	->setValue(ALib->PosPrecision);
 	ui->spinBoxNoiseSize			->setValue(ALib->NoiseSize);

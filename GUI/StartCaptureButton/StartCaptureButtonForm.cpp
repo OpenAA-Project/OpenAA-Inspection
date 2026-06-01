@@ -212,7 +212,7 @@ bool StartCaptureButton::OnIdle(void)
 		Param->ExecuteScanMaster=false;
 	}
 	if(ClickOn!=0 
-	&& (GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetMode()==ExecuteInspectBase::_EI_IDLE)){
+	&& (GetLayersBase()->GetEntryPoint()->GetExecuteInspect()->GetState()==ExecuteInspectBase::_EI_IDLE)){
 		SlotToggled (true);
 		ClickOn--;
 	}

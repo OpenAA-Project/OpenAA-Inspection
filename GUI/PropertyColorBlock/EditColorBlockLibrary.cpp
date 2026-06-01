@@ -249,7 +249,7 @@ void EditColorBlockLibrary::on_ButtonAddSubtractLib_3_clicked()
 	ColorSelectBlockLibraryForm	D(GetLayersBase(),this);
 	if(D.exec()==QDialog::Accepted){
 		int	LibID=D.SelectedLibID;
-		ColorBlockLibrary	*ALib=dynamic_cast<ColorBlockLibrary *>(TempLib->GetLibrary());
+		ColorBlockLibrary	*ALib=static_cast<ColorBlockLibrary *>(TempLib->GetLibrary());
 		if(ALib->SubtractBlock.IsInclude(LibID)==true)
 			return;
 		ALib->SubtractBlock.Add(LibID);
@@ -263,7 +263,7 @@ void EditColorBlockLibrary::on_ButtonDelSubtractLib_3_clicked()
 	if(RIndex.isValid()==false)
 		return;
 	int	R=RIndex.row();
-	ColorBlockLibrary	*ALib=dynamic_cast<ColorBlockLibrary *>(TempLib->GetLibrary());
+	ColorBlockLibrary	*ALib=static_cast<ColorBlockLibrary *>(TempLib->GetLibrary());
 	IntClass *c=ALib->SubtractBlock.GetItem(R);
 	if(c!=NULL){
 		ALib->SubtractBlock.RemoveList(c);
@@ -314,7 +314,7 @@ void	EditColorBlockLibrary::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	ColorBlockLibrary	*ALib=dynamic_cast<ColorBlockLibrary *>(data.GetLibrary());
+	ColorBlockLibrary	*ALib=static_cast<ColorBlockLibrary *>(data.GetLibrary());
 	ShowSubtractList(*ALib);
 
 	ui.EditPickupRL			->setValue(ALib->PickupRL);
@@ -415,7 +415,7 @@ void	EditColorBlockLibrary::GetLibraryFromWindow(AlgorithmLibraryLevelContainer 
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	ColorBlockLibrary	*ALib=dynamic_cast<ColorBlockLibrary *>(data.GetLibrary());
+	ColorBlockLibrary	*ALib=static_cast<ColorBlockLibrary *>(data.GetLibrary());
 	ALib->PickupRL		=ui.EditPickupRL		->value();
 	ALib->PickupRH		=ui.EditPickupRH		->value();
 	ALib->PickupGL		=ui.EditPickupGL		->value();

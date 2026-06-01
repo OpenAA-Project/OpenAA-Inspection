@@ -175,6 +175,20 @@ void	ARArrangeInPage::TransmitDirectly(GUIDirectMessage *packet)
 		}
 		return;
 	}
+	CmdMakeARArrangeList *CmdMakeARArrangeListVar = dynamic_cast<CmdMakeARArrangeList *>(packet);
+	if(CmdMakeARArrangeListVar!=NULL){
+		for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
+			ARArrangeItem	*p=dynamic_cast<ARArrangeItem *>(a);
+			if(p!=NULL){
+				if(p->GetIndex()!=NULL){
+					if(p->GetIndex()->GetCreatedTime()==CmdMakeARArrangeListVar->CreatedTime){
+						CmdMakeARArrangeListVar->ItemContainer->AppendList(new ARItemList(p));
+					}
+				}
+			}
+		}
+		return;
+	}
 }
 
 AlgorithmItemRoot		*ARArrangeInPage::CreateItem(int ItemClassType)

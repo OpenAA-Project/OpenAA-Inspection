@@ -107,6 +107,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Algorithm\ColorCorrector\XColorCorrectorCommon.cpp" />
     <ClCompile Include="EditItemDialog.cpp" />
     <ClCompile Include="PropertyColorCorrectorForm.cpp" />
     <ClCompile Include="XPropertyColorCorrectorPacket.cpp" />

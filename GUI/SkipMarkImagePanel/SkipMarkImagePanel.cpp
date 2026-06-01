@@ -157,9 +157,7 @@ void	SkipMarkImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"SkipMark");
 	if(Ab==NULL)
 		return;
-	SkipMarkBase	*MBase=dynamic_cast<SkipMarkBase *>(Ab);
-	if(MBase==NULL)
-		return;
+
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertySkipMark" ,/**/"");
 	CmdCreateSkipMarkManualPacket	Da(GetLayersBase());
 	if(GProp!=NULL){

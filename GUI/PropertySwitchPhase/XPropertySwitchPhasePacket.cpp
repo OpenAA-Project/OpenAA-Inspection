@@ -158,7 +158,7 @@ void	GUICmdReqPhaseItemList::Receive(int32 localPage, int32 cmd ,QString &Emitte
 {
 	GUICmdAckPhaseItemList	*SendBack=GetSendBack(GUICmdAckPhaseItemList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
-	SwitchPhaseBase *BBase=(SwitchPhaseBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
 	if(BBase!=NULL){
 		CmdPhaseItemList	Cmd(this);
 		BBase->GetPageData(localPage)->TransmitDirectly(&Cmd);
@@ -206,7 +206,7 @@ void	GUICmdReqItemInfoList::Receive(int32 localPage, int32 cmd ,QString &Emitter
 {
 	GUICmdAckItemInfoList	*SendBack=GetSendBack(GUICmdAckItemInfoList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
-	SwitchPhaseBase *BBase=(SwitchPhaseBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
 	if(BBase!=NULL){
 		CmdItemInfoList	Cmd(this);
 		Cmd.Phase=Phase;
@@ -345,7 +345,7 @@ void	GUICmdCopyTargetToMaster::Receive(int32 localPage, int32 cmd ,QString &Emit
 		}
 		CmdAdjustItemPosition	Cmd(GetLayersBase());
 		Cmd.TargetPhase=DestPhase;
-		SwitchPhaseBase *BBase=(SwitchPhaseBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
+		AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
 		if(BBase!=NULL){
 			BBase->TransmitDirectly(&Cmd);
 		}
@@ -363,7 +363,7 @@ void	GUICmdReqMatchingResult::Receive(int32 localPage, int32 cmd ,QString &Emitt
 	GUICmdAckMatchingResult	*SendBack=GetSendBack(GUICmdAckMatchingResult,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
 	CmdGatherItemResult	Cmd(GetLayersBase());
-	SwitchPhaseBase *BBase=(SwitchPhaseBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
 	if(BBase!=NULL){
 		BBase->TransmitDirectly(&Cmd);
 	}
@@ -398,7 +398,7 @@ void	GUICmdReqEnableExecuteMatch::Receive(int32 localPage, int32 cmd ,QString &E
 	GUICmdAckEnableExecuteMatch	*SendBack=GetSendBack(GUICmdAckEnableExecuteMatch,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
 	if(localPage==0){
-		SwitchPhaseBase *BBase=(SwitchPhaseBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
+		AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
 		if(BBase!=NULL){
 			for(int phase=0;phase<GetPhaseNumb();phase++){
 				AlgorithmInPageInOnePhase	*Ph=BBase->GetPageDataPhase(phase);
@@ -448,7 +448,7 @@ bool	GUICmdSendEnableExecuteMatch::Save(QIODevice *f)
 void	GUICmdSendEnableExecuteMatch::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	if(localPage==0){
-		SwitchPhaseBase *BBase=(SwitchPhaseBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
+		AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
 		if(BBase!=NULL){
 			for(int phase=0;phase<GetPhaseNumb();phase++){
 				AlgorithmInPageInOnePhase	*Ph=BBase->GetPageDataPhase(phase);
@@ -471,7 +471,7 @@ void	GUICmdMakeAutoGeneration::Receive(int32 localPage, int32 cmd ,QString &Emit
 {
 	if(localPage==0){
 		CmdAutoGeneration	Cmd(GetLayersBase());
-		SwitchPhaseBase *BBase=(SwitchPhaseBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
+		AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
 		if(BBase!=NULL){
 			Cmd.LocalPage=localPage;
 			BBase->TransmitDirectly(&Cmd);
@@ -489,7 +489,7 @@ void	GUICmdDeleteAllItemInAllPhases::Receive(int32 localPage, int32 cmd ,QString
 {
 	if(localPage==0){
 		CmdDeleteAllItemInAllPhases	Cmd(GetLayersBase());
-		SwitchPhaseBase *BBase=(SwitchPhaseBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
+		AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
 		if(BBase!=NULL){
 			Cmd.LocalPage=localPage;
 			BBase->TransmitDirectly(&Cmd);
@@ -506,68 +506,13 @@ GUICmdReUseMark::GUICmdReUseMark(LayersBase *Base ,const QString &EmitterRoot,co
 void	GUICmdReUseMark::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	LayersBase	*LBase=GetLayersBase();
-	SwitchPhaseBase *ABase=(SwitchPhaseBase *)LBase->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
+	AlgorithmBase *ABase=LBase->GetAlgorithmBase(/**/"Basic",/**/"SwitchPhase");
 	if(ABase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=ABase->GetPageDataPhase(0);
 		if(Ph!=NULL){
-			SwitchPhaseInPage	*ApSource=dynamic_cast<SwitchPhaseInPage *>(Ph->GetPageData(localPage));
-			for(AlgorithmItemPI	*a=ApSource->GetFirstData();a!=NULL;a=a->GetNext()){
-				SwitchPhaseItem	*Item=dynamic_cast<SwitchPhaseItem *>(a);
-				const	SwitchPhaseThreshold	*RThr=Item->GetThresholdR();
-				int32	SearchDotForPhase	=RThr->SearchDot;
-				FlexArea	Area=Item->GetArea();
-
-				int	Page=localPage;
-				int	SourcePhase=0;
-
-				for(int phase=1;phase<GetPhaseNumb();phase++){
-					AlgorithmInPageInOnePhase	*APhase=ABase->GetPageDataPhase(phase);
-					AlgorithmInPageRoot	*Ap=APhase->GetPageData(Page);
-					
-					AddSwitchPhaseAreaPacket	Cmd(LBase);
-					Cmd.Area=Area;
-					Cmd.SearchDot=SearchDotForPhase		;
-
-					PageDataInOnePhase	*Src=LBase->GetPageDataPhase(phase);
-					PageDataInOnePhase	*Dst=LBase->GetPageDataPhase(SourcePhase);
-					DataInPage	*Sp=Src->GetPageData(Page);
-					DataInPage	*Dp=Dst->GetPageData(Page);
-					for(int Layer=0;Layer<GetLayerNumb(Page);Layer++){
-						DataInLayer	*SL=Sp->GetLayerData(Layer);
-						DataInLayer	*DL=Dp->GetLayerData(Layer);
-						DL->GetTargetBuff()=SL->GetMasterBuff();
-					}
-					LBase->SetCurrentPhase(SourcePhase);
-					int	LastCurrentCalcPoint=LBase->GetCurrentCalcPoint();
-					LBase->SetProcessDone(false);
-					LBase->SetCurrentCalcPoint(LastCurrentCalcPoint);
-					LBase->ExecuteStartByInspection	(false);
-
-					int	Index=GetLayersBase()->GetIndexInCurrentStateExecuter(DataInExecuter::FinExecuteStartByInspection);
-					LBase->SetProcessDone(false);
-					LBase->SetCurrentStateInExecuter(Index ,DataInExecuter::FinExecuteStartByInspection);
-					LBase->ExecutePreAlignment		(false);
-
-					LBase->SetProcessDone(false);
-					LBase->SetCurrentStateInExecuter(Index ,DataInExecuter::FinExecutePreAlignment);
-					LBase->ExecuteAlignment			(false);
-
-					int	Cx,Cy;
-					Area.GetCenter(Cx,Cy);
-
-					AlignmentPacket2D	V;
-					V.PosXOnTarget=Cx;
-					V.PosYOnTarget=Cy;
-					V.ShiftX=0;
-					V.ShiftY=0;
-
-					if(Ap!=NULL){
-						Ap->GetAlignmentForProcessing(V);
-						Cmd.Area.MoveToNoClip(V.ShiftX,V.ShiftY);
-						Ap->TransmitDirectly(&Cmd);
-					}
-				}
-			}
+			AlgorithmInPageRoot	*ApSource=Ph->GetPageData(localPage);
+			CmdReUseMark	Cmd(LBase);
+			ApSource->TransmitDirectly(&Cmd);
 		}
 	}
 }

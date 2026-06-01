@@ -147,7 +147,7 @@ void	MultiFileMapInPage::TransmitDirectly(GUIDirectMessage *packet)
 			int localX ,localY;
 			if(GetLayersBase()->GetLocalMatrixFromGlobal(CmdReqMultiFileMapInfoVar->GlobalX ,CmdReqMultiFileMapInfoVar->GlobalY
 													,localX ,localY)>=0){
-				AlgorithmItemPI		*a=GetItem(localX ,localY);
+				AlgorithmItemRoot		*a=GetItem(localX ,localY);
 				if(a!=NULL){
 					MultiFileMapItem	*Item=dynamic_cast<MultiFileMapItem *>(a);
 					if(Item!=NULL){

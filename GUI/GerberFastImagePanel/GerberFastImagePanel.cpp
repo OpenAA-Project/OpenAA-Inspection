@@ -267,9 +267,6 @@ void	GerberFastImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"GerberFast");
 	if(Ab==NULL)
 		return;
-	GerberFastBase	*MBase=dynamic_cast<GerberFastBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyGerberFast" ,/**/"");
 	if(GProp!=NULL){
 		CmdGerberGetOperationModePacket	MCmd(GetLayersBase());
@@ -514,14 +511,14 @@ bool	GerberFastImagePanel::IsMoveModeButtonDown(void)	const
 }
 void	GerberFastImagePanel::ExecuteMouseLDown(int globalX ,int globalY)
 {
-	GerberFastBase	*GAlgo=dynamic_cast<GerberFastBase *>(GetAlgorithmBase());
+	//GerberFastBase	*GAlgo=dynamic_cast<GerberFastBase *>(GetAlgorithmBase());
 	CmdGerberGetOperationModePacket	Cmd(GetLayersBase());
 	GUIFormBase	*DProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyGerberFast" ,/**/"");
 	if(DProp==NULL)
 		return;
 
 	DProp->TransmitDirectly(&Cmd);
-	if(GAlgo!=NULL){
+	//if(GAlgo!=NULL){
 		if(Cmd.Mode==OM_Move)
 			DisplayImageWithAlgorithm::ExecuteMouseLDown(globalX ,globalY);
 		
@@ -565,29 +562,29 @@ void	GerberFastImagePanel::ExecuteMouseLDown(int globalX ,int globalY)
 			}
 			Repaint();
 		}
-	}
-	else{
-		DisplayImageWithAlgorithm::ExecuteMouseLDown(globalX ,globalY);
-		if(GetLastHookResult()==false)
-			return;
-	}
+	//}
+	//else{
+	//	DisplayImageWithAlgorithm::ExecuteMouseLDown(globalX ,globalY);
+	//	if(GetLastHookResult()==false)
+	//		return;
+	//}
 }
 void	GerberFastImagePanel::ExecuteMouseLDownWithShift(int globalX ,int globalY)
 {
-	GerberFastBase	*GAlgo=dynamic_cast<GerberFastBase *>(GetAlgorithmBase());
+	//GerberFastBase	*GAlgo=dynamic_cast<GerberFastBase *>(GetAlgorithmBase());
 	CmdGerberGetOperationModePacket	Cmd(GetLayersBase());
 	GUIFormBase	*DProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyGerberFast" ,/**/"");
 	if(DProp==NULL)
 		return;
 
 	DProp->TransmitDirectly(&Cmd);
-	if(GAlgo!=NULL){
+	//if(GAlgo!=NULL){
 		CmdGerberLMouseDownIn3PAPacket	LCmd(GetLayersBase());
 		LCmd.GlobalX=globalX;
 		LCmd.GlobalY=globalY;
 		LCmd.Source=this;
 		DProp->TransmitDirectly(&LCmd);
-	}
+	//}
 }
 void	GerberFastImagePanel::ExeSelectItems(FlexArea &Area)
 {

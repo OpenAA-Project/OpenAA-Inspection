@@ -185,8 +185,8 @@ void	PropertySkipMarkForm::AddDestination()
 	SkipMarkInfo *L=GridList.GetItem(R);
 	if(L==NULL)
 		return;
-	DisplayImage	*GProp=dynamic_cast<DisplayImage *>(GetLayersBase()->FindByName(/**/"Inspection" ,/**/"SkipMarkImagePanel" ,/**/""));
-	if(GProp!=NULL){
+	//DisplayImage	*GProp=dynamic_cast<DisplayImage *>(GetLayersBase()->FindByName(/**/"Inspection" ,/**/"SkipMarkImagePanel" ,/**/""));
+	//if(GProp!=NULL){
 		IntList LayerList;
 		int	GlobalPage=L->GlobalPage;
 			
@@ -216,7 +216,7 @@ void	PropertySkipMarkForm::AddDestination()
 			}
 		}
 		ShowItemGrid();
-	}
+	//}
 }
 
 void	PropertySkipMarkForm::AddSource()

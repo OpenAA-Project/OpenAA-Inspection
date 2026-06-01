@@ -30,3 +30,99 @@ bool	AlignmentProjectionDrawAttr::Load(QIODevice *f)
 {
 	return true;
 }
+
+//==============================================================================
+bool	AlignmentProjectionPointList::Load(QIODevice *f)
+{
+	if(::Load(f,ItemID)==false)
+		return false;
+	if(::Load(f,Phase)==false)
+		return false;
+	if(::Load(f,Page)==false)
+		return false;
+	if(::Load(f,Cx)==false)
+		return false;
+	if(::Load(f,Cy)==false)
+		return false;
+	if(::Load(f,XSize)==false)
+		return false;
+	if(::Load(f,YSize)==false)
+		return false;
+	if(::Load(f,PeakCount)==false)
+		return false;
+	return true;
+}
+bool	AlignmentProjectionPointList::Save(QIODevice *f)
+{
+	if(::Save(f,ItemID)==false)
+		return false;
+	if(::Save(f,Phase)==false)
+		return false;
+	if(::Save(f,Page)==false)
+		return false;
+	if(::Save(f,Cx)==false)
+		return false;
+	if(::Save(f,Cy)==false)
+		return false;
+	if(::Save(f,XSize)==false)
+		return false;
+	if(::Save(f,YSize)==false)
+		return false;
+	if(::Save(f,PeakCount)==false)
+		return false;
+	return true;
+}
+
+AlignmentProjectionPointList	&AlignmentProjectionPointList::operator=(AlignmentProjectionPointList &src)
+{
+	ItemID		=src.ItemID;
+	Phase		=src.Phase;
+	Page		=src.Page;
+	Cx			=src.Cx;
+	Cy			=src.Cy;
+	XSize		=src.XSize;
+	YSize		=src.YSize;
+	PeakCount	=src.PeakCount;
+	return *this;
+}
+
+bool	AlignmentProjectionPointListPack::Load(QIODevice *f)
+{
+	RemoveAll();
+	int	N;
+	if(::Load(f,N)==false)
+		return false;
+	for(int i=0;i<N;i++){
+		AlignmentProjectionPointList *p=new AlignmentProjectionPointList();
+		if(p->Load(f)==false)
+			return false;
+		AppendList(p);
+	}
+	return true;
+}
+bool	AlignmentProjectionPointListPack::Save(QIODevice *f)
+{
+	int	N=GetNumber();
+	if(::Save(f,N)==false)
+		return false;
+	for(AlignmentProjectionPointList *p=GetFirst();p!=NULL;p=p->GetNext()){
+		if(p->Save(f)==false)
+			return false;
+	}
+	return true;
+}
+
+AlignmentProjectionPointListPack	&AlignmentProjectionPointListPack::operator=(AlignmentProjectionPointListPack &src)
+{
+	RemoveAll();
+	return operator+=(src);
+}
+AlignmentProjectionPointListPack	&AlignmentProjectionPointListPack::operator+=(AlignmentProjectionPointListPack &src)
+{
+	for(AlignmentProjectionPointList *p=src.GetFirst();p!=NULL;p=p->GetNext()){
+		AlignmentProjectionPointList *q=new AlignmentProjectionPointList();
+		*q=*p;
+		AppendList(q);
+	}
+	return *this;
+}

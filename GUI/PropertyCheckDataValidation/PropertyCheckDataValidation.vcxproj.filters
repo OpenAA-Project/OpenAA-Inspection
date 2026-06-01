@@ -67,6 +67,9 @@
     <ClCompile Include="ShowNGMessageForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Algorithm\CheckDataValidation\XCheckDalidationCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="PropertyCheckDataValidationForm.ui">

@@ -280,7 +280,7 @@ void	VCutImagePropertyForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	VCutInspectionLibrary	*ALib=dynamic_cast<VCutInspectionLibrary *>(data.GetLibrary());
+	VCutInspectionLibrary	*ALib=static_cast<VCutInspectionLibrary *>(data.GetLibrary());
 	ui.EditThresholdShift		->setValue(ALib->ThresholdShift);
 	ui.EditThresholdLevel		->setValue(ALib->ThresholdLevel);
 	ui.EditThresholdLength		->setValue(ALib->ThresholdLength);
@@ -290,7 +290,7 @@ void	VCutImagePropertyForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer 
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	VCutInspectionLibrary	*ALib=dynamic_cast<VCutInspectionLibrary *>(data.GetLibrary());
+	VCutInspectionLibrary	*ALib=static_cast<VCutInspectionLibrary *>(data.GetLibrary());
 	ALib->ThresholdShift	=ui.EditThresholdShift	->value();
 	ALib->ThresholdLevel	=ui.EditThresholdLevel	->value();
 	ALib->ThresholdLength=ui.EditThresholdLength	->value();

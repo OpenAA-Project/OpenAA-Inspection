@@ -332,6 +332,30 @@ void	MaskingPIInPage::TransmitDirectly(GUIDirectMessage *packet)
 		}
 		return;
 	}
+	CmdMakeMaskPIList *MakeMaskPIListVar = dynamic_cast<CmdMakeMaskPIList *>(packet);
+	if(MakeMaskPIListVar!=NULL){
+		for(AlgorithmItemPI *item=GetFirstData();item!=NULL;item=item->GetNext()){
+			MaskingPIItem	*MItem=static_cast<MaskingPIItem *>(item);
+			if(MItem!=NULL && ((MakeMaskPIListVar->EffectiveMode==true 
+								&& MItem->GetThresholdR()->Effective==true)
+							|| (MakeMaskPIListVar->IneffectiveMode==true
+								&& MItem->GetThresholdR()->Effective==false))){
+				MaskingPIListForPacket	*L=new MaskingPIListForPacket();
+				L->Page=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+				L->Effective=MItem->GetThresholdR()->Effective;
+				int x1 ,y1 ,x2 ,y2;
+				MItem->GetXY(x1 ,y1 ,x2 ,y2);
+				L->ItemID=MItem->GetID();
+				L->x1=x1;
+				L->y1=y1;
+				L->x2=x2;
+				L->y2=y2;
+				L->LimitedLib=*((AlgorithmLibraryListContainer *)&MItem->GetThresholdR()->SelAreaID);
+				MakeMaskPIListVar->MaskInfo->AppendList(L);				
+			}
+		}
+		return;
+	}
 }
 ConstMapBuffer	*MaskingPIInPage::CreateReflectionMapForGenerator(ReflectionMode Mode ,int layer ,AlgorithmLibrary *LibData ,void *Anything)
 {

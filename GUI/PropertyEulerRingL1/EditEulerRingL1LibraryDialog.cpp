@@ -285,7 +285,7 @@ void	EditEulerRingL1LibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &d
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	EulerRingL1Library	*ALib=dynamic_cast<EulerRingL1Library *>(data.GetLibrary());
+	EulerRingL1Library	*ALib=static_cast<EulerRingL1Library *>(data.GetLibrary());
 	ui->EditPickupH					->setValue(ALib->PickupH);
 	ui->EditPickupL					->setValue(ALib->PickupL);
 
@@ -366,7 +366,7 @@ void	EditEulerRingL1LibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelCon
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	EulerRingL1Library	*ALib=dynamic_cast<EulerRingL1Library *>(data.GetLibrary());
+	EulerRingL1Library	*ALib=static_cast<EulerRingL1Library *>(data.GetLibrary());
 	ALib->PickupH					=ui->EditPickupH				->value();
 	ALib->PickupL					=ui->EditPickupL				->value();
 

@@ -243,7 +243,7 @@ void EditLibraryDialog::on_tableWidgetLibList_clicked(const QModelIndex &index)
 
 void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	ThinMetalLibrary	*d=dynamic_cast<ThinMetalLibrary *>(data.GetLibrary());
+	ThinMetalLibrary	*d=static_cast<ThinMetalLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -314,7 +314,7 @@ void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 
 void	EditLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	ThinMetalLibrary	*d=dynamic_cast<ThinMetalLibrary *>(data.GetLibrary());
+	ThinMetalLibrary	*d=static_cast<ThinMetalLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->PickupL			=ui->EditPickupL		->value();

@@ -1872,6 +1872,39 @@ public:
 };
 
 //=======================================================
+class BlockListInfo : public NPListSaveLoad<BlockListInfo>
+{
+public:
+	struct BlockListStruct
+	{
+		int	Page;
+		int	ItemID;
+		int	LibID;
+		int	x1,y1,x2,y2;
+		int	AreaSearchX;
+		int	AreaSearchY;
+		int	SelfSearch;
+		int	OKDotB;
+		int	OKDotN;
+	}BlockListData;
+
+	BlockListInfo(void){}
+
+	virtual	bool	Save(QIODevice *f)	override;
+	virtual	bool	Load(QIODevice *f)	override;
+
+	BlockListInfo	&operator=(const BlockListInfo &src);
+private:
+
+};
+class BlockListInfoContainer : public NPListPackSaveLoad<BlockListInfo>
+{
+public:
+	virtual	BlockListInfo	*Create(void)	{	return new BlockListInfo();	}
+
+	BlockListInfoContainer	&operator= (const BlockListInfoContainer &src);
+	BlockListInfoContainer	&operator+=(const BlockListInfoContainer &src);
+};
 
 class	CmdSetSpecialData : public GUIDirectMessage
 {
@@ -1902,4 +1935,61 @@ public:
 	CmdDeleteDotColorMatchingByName(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 
+class	CmdSelectByLibOutline : public GUIDirectMessage
+{
+public:
+	bool	OutlineMode;
+	SelectLibListContainer	SelectedList;
+	CmdSelectByLibOutline(LayersBase *base):GUIDirectMessage(base){}
+	CmdSelectByLibOutline(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
+
+class	CmdSetItemsByLibID : public GUIDirectMessage
+{
+public:
+	int		ItemID;		//-1: All Item with LibID
+	int		LibID;
+    bool    AvailableMasterNo;
+    int     MasterNoOriginCode;
+
+    bool    AvailableSubBlock;
+    AlgorithmLibraryListContainer	SubBlockList;
+	int		ExpandToSubBlock;
+
+	CmdSetItemsByLibID(LayersBase *base):GUIDirectMessage(base){}
+	CmdSetItemsByLibID(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}	
+};
+
+class	CmdReqItemsByLibID : public GUIDirectMessage
+{
+public:
+	int	Page;
+	int	ItemID;	//-1: All items with LibID
+	int	LibID;
+
+    int     MasterNoOriginCode;
+    AlgorithmLibraryListContainer	SubLibIDs;
+	int		ExpandToSubBlock;
+
+	CmdReqItemsByLibID(LayersBase *base):GUIDirectMessage(base){}
+	CmdReqItemsByLibID(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}		
+};
+
+class	CmdReqBlockListInfo : public GUIDirectMessage
+{
+public:
+	BlockListInfoContainer	*BlockListInfoContainerData;
+
+	CmdReqBlockListInfo(LayersBase *base):GUIDirectMessage(base){}
+	CmdReqBlockListInfo(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}	
+};
+
+class	CmdReqSelectedItemLib : public GUIDirectMessage
+{
+public:
+	IntList	*SelectedItemLibID;
+
+	CmdReqSelectedItemLib(LayersBase *base):GUIDirectMessage(base){}
+	CmdReqSelectedItemLib(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}	
+};
 #endif

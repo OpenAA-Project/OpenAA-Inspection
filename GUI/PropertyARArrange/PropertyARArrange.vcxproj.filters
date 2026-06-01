@@ -40,10 +40,10 @@
     <ClCompile Include="XPropertyARArrangePacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="PropertyARArrangeResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Algorithm\ARArrange\XARArrangeCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -57,7 +57,6 @@
     <ClInclude Include="XPropertyARArrangePacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
     <ClInclude Include="PropertyARArrangeResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -54,9 +54,6 @@
     <ClInclude Include="AutoSaveImageViewListResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FormSelectFolders.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AutoSaveImageViewList.png">
@@ -81,5 +78,10 @@
     <QtUic Include="FormSelectFolders.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="FormSelectFolders.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

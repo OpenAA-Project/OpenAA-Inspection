@@ -240,7 +240,7 @@ void EditLibraryDialog::on_pushButton_clicked()
 
 void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	MeasureLineMoveLibrary	*d=dynamic_cast<MeasureLineMoveLibrary *>(data.GetLibrary());
+	MeasureLineMoveLibrary	*d=static_cast<MeasureLineMoveLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -262,7 +262,7 @@ void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 
 void	EditLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	MeasureLineMoveLibrary	*d=dynamic_cast<MeasureLineMoveLibrary *>(data.GetLibrary());
+	MeasureLineMoveLibrary	*d=static_cast<MeasureLineMoveLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->SearchDot			=ui->EditSearchDot					->value();

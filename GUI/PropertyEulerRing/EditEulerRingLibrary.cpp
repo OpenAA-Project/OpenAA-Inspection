@@ -33,7 +33,7 @@ EditEulerRingLibrary::EditEulerRingLibrary(LayersBase *base ,QWidget *parent)
 	//LangSolver.SetUI(this);
 
 	LibFolderID =-1;
-	EulerRingBase	*BBase=GetEulerRingBase();
+	AlgorithmBase	*BBase=GetEulerRingBase();
 	LibType=-1;
 	if(BBase!=NULL)	
 		LibType=BBase->GetLibType();
@@ -117,7 +117,7 @@ void	EditEulerRingLibrary::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	EulerRingLibrary	*ALib=dynamic_cast<EulerRingLibrary *>(data.GetLibrary());
+	EulerRingLibrary	*ALib=static_cast<EulerRingLibrary *>(data.GetLibrary());
 	ColorGeneratorH.Cube=ALib->HoleColor;
 	ColorGeneratorH.InitializedDoneCube();
 	ColorGeneratorH.Repaint();
@@ -147,7 +147,7 @@ void	EditEulerRingLibrary::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	EulerRingLibrary	*ALib=dynamic_cast<EulerRingLibrary *>(data.GetLibrary());
+	EulerRingLibrary	*ALib=static_cast<EulerRingLibrary *>(data.GetLibrary());
 	ALib->HoleColor			=ColorGeneratorH.Cube;
 	ALib->CupperColor		=ColorGeneratorC.Cube;
 	ALib->MinBlockSize		=ui.EditMinBlockSize	->value();
@@ -211,7 +211,7 @@ void EditEulerRingLibrary::on_pushButtonGColor_clicked()
 		ColorGeneratorH.InitializedDoneCube();
 		ColorGeneratorH.Repaint();
 		if(TempLib!=NULL){
-			EulerRingLibrary	*ALib=dynamic_cast<EulerRingLibrary *>(TempLib->GetLibrary());
+			EulerRingLibrary	*ALib=static_cast<EulerRingLibrary *>(TempLib->GetLibrary());
 			ALib->HoleColor=D.ColorPanel.Cube;
 		}
 	}
@@ -322,7 +322,7 @@ void EditEulerRingLibrary::on_pushButtonNColor_clicked()
 		ColorInspection.Cube=D.ColorPanel.Cube;
 		ColorInspection.InitializedDoneCube();
 		ColorInspection.Repaint();
-		EulerRingLibrary	*ALib=dynamic_cast<EulerRingLibrary *>(TempLib->GetLibrary());
+		EulerRingLibrary	*ALib=static_cast<EulerRingLibrary *>(TempLib->GetLibrary());
 		ALib->InspectionColor	=D.ColorPanel.Cube;
 	}
 }
@@ -339,7 +339,7 @@ void EditEulerRingLibrary::on_pushButtonCColor_clicked()
 		ColorGeneratorC.InitializedDoneCube();
 		ColorGeneratorC.Repaint();
 		if(TempLib!=NULL){
-			EulerRingLibrary	*ALib=dynamic_cast<EulerRingLibrary *>(TempLib->GetLibrary());
+			EulerRingLibrary	*ALib=static_cast<EulerRingLibrary *>(TempLib->GetLibrary());
 			ALib->CupperColor=D.ColorPanel.Cube;
 		}
 	}

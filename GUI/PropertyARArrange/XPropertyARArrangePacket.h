@@ -27,35 +27,6 @@
 #include "XARArrange.h"
 #include "XDateTime.h"
 
-//===========================================================================
-
-class	ARItemList : public NPList<ARItemList>
-{
-public:
-	int64						ItemID;
-	XDateTime					CreatedTime;
-	ARArrangeItem::ARResult		Result;
-	DualIntClass				Position;
-
-	ARItemList(void){}
-	ARItemList(ARArrangeItem *p);
-
-	bool	Save(QIODevice *f);
-	bool	Load(QIODevice *f);
-	
-	ARItemList	&operator=(ARItemList &src);
-};
-
-class	ARItemListContainer : public NPListPack<ARItemList>
-{
-public:
-	ARItemListContainer(void){}
-
-	bool	Save(QIODevice *f);
-	bool	Load(QIODevice *f);
-
-	ARItemListContainer	&operator+=(ARItemListContainer &src);
-};
 
 //===========================================================================
 

@@ -280,7 +280,7 @@ void EditHoleWallInspectionDialog::on_pushButtonClose_clicked()
 
 void	EditHoleWallInspectionDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	HoleWallLibrary	*d=dynamic_cast<HoleWallLibrary *>(data.GetLibrary());
+	HoleWallLibrary	*d=static_cast<HoleWallLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -343,7 +343,7 @@ void	EditHoleWallInspectionDialog::ShowLibrary(AlgorithmLibraryLevelContainer &d
 
 void	EditHoleWallInspectionDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	HoleWallLibrary	*d=dynamic_cast<HoleWallLibrary *>(data.GetLibrary());
+	HoleWallLibrary	*d=static_cast<HoleWallLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->PickupH			=ui->EditPickupH			->value();

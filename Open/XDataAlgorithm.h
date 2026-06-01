@@ -606,6 +606,7 @@ public:
 	virtual	void	SetParentVirtual(AlgorithmParentFromItem *parent)	=0;
 
 	virtual	AlgorithmItemRoot	*Clone(void)	=0;
+	virtual	AlgorithmItemRoot	*GetNextItem(void)	=0;
 
 	virtual	bool		Save(QIODevice *f);
 	virtual	bool		Load(QIODevice *f,LayersBase *LBase);
@@ -927,6 +928,8 @@ class	AlgorithmDummyItem : public AlgorithmItemRoot
 public:
 	AlgorithmDummyItem(void){}
 
+	virtual	AlgorithmItemRoot *GetNextItem(void)	override{ return NULL; }
+
 	virtual	AlgorithmItemRoot	*Clone(void)	override	{	return new AlgorithmDummyItem();	}
 	virtual	AlgorithmThreshold	*CreateThresholdInstance(void)	override	{	return new AlgorithmThresholdDummy(this);	}
 	virtual	void	CopyParentFrom(AlgorithmItemRoot *src,AlgorithmInPageRoot *P, int Layer)	override{}
@@ -1011,6 +1014,7 @@ public:
 	virtual	AlgorithmItemRoot	*SearchItemByName(const QString &ItemName)	const	=0;
 	virtual	void		FastSearchIDItemStart(void)								=0;
 	AlgorithmItemRoot	*FastSearchIDItem(int itemID)					const;
+	virtual	AlgorithmItemRoot	*GetFirstItem(void)						const	=0;
 	virtual	AlgorithmItemRoot	*CreateItem(int ItemClassType)					=0;
 	virtual	bool				AppendItem(AlgorithmItemRoot *item)				=0;
 	virtual	bool				AppendItem(int Layer ,AlgorithmItemRoot *item)	=0;
@@ -1675,6 +1679,7 @@ public:
 
 	virtual	int		GetSelectedItemCount(void)			=0;
 	virtual	int		GetItemCount(void)					=0;
+	virtual	AlgorithmItemRoot	*GetItem(int localX ,int localY)	const	{	return NULL;	}
 	virtual	void	ReleaseAllSelectedItem(void)		=0;
 	virtual	void	ExecuteCopy(ClipboardAlgorithm &Pack,const IntList &LayerList)	=0;
 	virtual	void	ExecuteMove(int GlobalDx,int GlobalDy,bool AllItems=false)		=0;

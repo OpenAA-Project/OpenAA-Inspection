@@ -1861,6 +1861,48 @@ void	AlignmentInLayer::TransmitDirectly(GUIDirectMessage *packet)
 		}
 		return;
 	}
+	CmdSetAlignmentAreaList *CmdSetAlignmentAreaListVar = dynamic_cast<CmdSetAlignmentAreaList *>(packet);
+	if (CmdSetAlignmentAreaListVar != NULL) {
+		int	N=0;
+		for(XAlignmentArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext(),N++){
+			AlignmentAreaList	*L=new AlignmentAreaList();
+			L->Number		=N;
+			L->AreaID		=a->AreaID;
+			L->AreaName		=a->AreaName;
+			L->Layer		=GetLayer();
+			L->GlobalPage	=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+			L->XSize		=a->Area.GetWidth();
+			L->YSize		=a->Area.GetHeight();
+			CmdSetAlignmentAreaListVar->Area->AppendList(L);
+		}
+		return;
+	}
+	CmdSetAlignmentPointList *CmdSetAlignmentPointListVar = dynamic_cast<CmdSetAlignmentPointList *>(packet);
+	if (CmdSetAlignmentPointListVar != NULL) {
+		int	N=0;
+		for(XAlignmentArea *a=Areas.GetFirst();a!=NULL;a=a->GetNext(),N++){
+			if(N==CmdSetAlignmentPointListVar->Number){
+				int	K=0;
+				for(XAlignmentPointer *p=a->GPack.GetFirst();p!=NULL;p=p->GetNext(),K++){
+					AlignmentPointList	*L=new AlignmentPointList();
+					L->ID	=K;
+					L->AreaID	=a->AreaID;
+					L->ItemID	=p->Point->GetID();
+					L->GroupNumber	=p->Point->GroupNumber;
+					L->Layer	=GetLayer();
+					L->Page		=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+					p->Point->GetCenter(L->Cx,L->Cy);
+					L->XSize	=p->Point->GetArea().GetWidth();
+					L->YSize	=p->Point->GetArea().GetHeight();
+					L->SearchDot=p->Point->GetThresholdR()->MoveDot;
+					L->AlignmentOnOutline	=p->Point->GetAlignmentOnOutline();
+					L->Threshold	=p->Point->GetThresholdR()->Threshold;
+					CmdSetAlignmentPointListVar->Points->AppendList(L);
+				}
+			}
+		}
+		return;
+	}
 }
 
 bool	AlignmentInLayer::AppendItem(AlgorithmItemRoot *item)

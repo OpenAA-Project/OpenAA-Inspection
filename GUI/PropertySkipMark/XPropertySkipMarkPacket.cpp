@@ -34,7 +34,7 @@ void	GUICmdReqGridList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"SkipMark");
 	if(PBase==NULL)
 		return;
-	SkipMarkInPage	*PPage=dynamic_cast<SkipMarkInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqSkipMarkInfo	Da(GetLayersBase());
 		Da.Info			=&SendBack->GridList;
@@ -108,7 +108,7 @@ void	GUICmdAddAreaManual::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"SkipMark");
 	if(PBase==NULL)
 		return;
-	SkipMarkInPage	*PPage=dynamic_cast<SkipMarkInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdAddAreaManual	Da(GetLayersBase());
 		Da.ItemName				=ItemName;
@@ -156,7 +156,7 @@ void	GUICmdReqItemInfo::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"SkipMark");
 	if(PBase==NULL)
 		return;
-	SkipMarkInPage	*PPage=dynamic_cast<SkipMarkInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqItemInfo	Da(GetLayersBase());
 		Da.ItemID	=ItemID;
@@ -259,7 +259,7 @@ void	GUICmdSetItemInfo::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"SkipMark");
 	if(PBase==NULL)
 		return;
-	SkipMarkInPage	*PPage=dynamic_cast<SkipMarkInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdUpdateManual	Da(GetLayersBase());
 		Da.ItemID		=ItemID;
@@ -413,7 +413,7 @@ void	GUICmdReqSource::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"SkipMark");
 	if(PBase==NULL)
 		return;
-	SkipMarkInPage	*PPage=dynamic_cast<SkipMarkInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqSource	Cmd(GetLayersBase());
 		Cmd.Layer	=Layer;
@@ -575,7 +575,7 @@ void	GUICmdModifySourceItems::Receive(int32 localPage, int32 cmd ,QString &Emitt
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"SkipMark");
 	if(PBase==NULL)
 		return;
-	SkipMarkInPage	*PPage=dynamic_cast<SkipMarkInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdModifySource	Cmd(GetLayersBase());
 		Cmd.Layer	=Layer;

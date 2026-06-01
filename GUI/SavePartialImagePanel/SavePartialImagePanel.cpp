@@ -153,9 +153,6 @@ void	SavePartialImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"SavePartialImage");
 	if(Ab==NULL)
 		return;
-	SavePartialImageBase	*MBase=dynamic_cast<SavePartialImageBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertySavePartialImage" ,/**/"");
 	CmdCreateSavePartialImageManualPacket	Da(GetLayersBase());
 	if(GProp!=NULL){

@@ -193,6 +193,33 @@ void	AngleInspectionInPage::TransmitDirectly(GUIDirectMessage *packet)
 		}
 		return;
 	}
+	CmdGetAngleInspection *CmdGetAngleInspectionVar = dynamic_cast<CmdGetAngleInspection *>(packet);
+	if (CmdGetAngleInspectionVar != NULL) {
+		AngleInspectionItem *Item = tGetFirstData();
+		if (Item != NULL) {
+			const AngleInspectionThreshold *RThr = Item->GetThresholdR();
+			CmdGetAngleInspectionVar->OKAngleL = RThr->OKAngleL;
+			CmdGetAngleInspectionVar->OKAngleH = RThr->OKAngleH;
+		}
+		return;
+	}
+	CmdGetShowResultAngleInspection *CmdGetShowResultAngleInspectionVar = dynamic_cast<CmdGetShowResultAngleInspection *>(packet);
+	if (CmdGetShowResultAngleInspectionVar != NULL) {
+		AngleInspectionItem	*Item=(AngleInspectionItem *)GetFirstData();
+		if(Item!=NULL){
+			ResultInItemRoot	*R=Item->GetCurrentResult();
+			if(R!=NULL){
+				CmdGetShowResultAngleInspectionVar->ResultAngle	=R->GetResultDouble();
+				if(R->GetError()==0)
+					CmdGetShowResultAngleInspectionVar->Result=none3;
+				if(R->GetError()==1)
+					CmdGetShowResultAngleInspectionVar->Result=true3;
+				if(R->GetError()==2)
+					CmdGetShowResultAngleInspectionVar->Result=false3;
+			}
+		}
+		return;
+	}
 }
 
 //===========================================

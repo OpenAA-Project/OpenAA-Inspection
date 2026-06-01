@@ -107,15 +107,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Algorithm\AlignmentBlock\XAlignmentBlockCommon.cpp" />
     <ClCompile Include="AddEditItemDialog.cpp" />
     <ClCompile Include="EditAlignmentBlockLibraryDialog.cpp" />
     <ClCompile Include="PropertyAlignmentBlockForm.cpp" />
     <ClCompile Include="PropertyAlignmentBlockPacket.cpp" />
-    <ClCompile Include="XAlignmentBlockCommon.cpp" />
-    <ClInclude Include="XAlignmentBlockCommon.h" />
     <QtMoc Include="PropertyAlignmentBlockForm.h" />
     <QtMoc Include="AddEditItemDialog.h" />
     <QtMoc Include="EditAlignmentBlockLibraryDialog.h" />
+    <ClInclude Include="..\..\Algorithm\AlignmentBlock\XAlignmentBlockCommon.h" />
     <ClInclude Include="PropertyAlignmentBlockPacket.h" />
     <ClInclude Include="propertyalignmentblock_global.h" />
     <QtMoc Include="PropertyAlignmentBlock.h" />

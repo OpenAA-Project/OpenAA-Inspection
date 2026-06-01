@@ -264,6 +264,7 @@
     <ClCompile Include="Alignment.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="XAlignment.cpp" />
+    <ClCompile Include="XAlignmentCommon.cpp" />
     <ClCompile Include="XAlignmentForReport.cpp" />
     <ClCompile Include="XAlignmentItem.cpp" />
     <ClCompile Include="XAlignmentResource.cpp" />

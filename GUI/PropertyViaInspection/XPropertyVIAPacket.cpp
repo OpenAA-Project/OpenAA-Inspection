@@ -334,7 +334,7 @@ void	GUICmdSendAddManualVIA::Receive(int32 localPage, int32 cmd ,QString &Emitte
 {
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	VIABase *BBase=(VIABase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"VIAInspection");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"VIAInspection");
 	if(BBase!=NULL){
 		CmdAddByteVIAItemPacket	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -375,7 +375,7 @@ bool	GUICmdSendModifySelectedVIA::Save(QIODevice *f)
 
 void	GUICmdSendModifySelectedVIA::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	VIABase *BBase=(VIABase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"VIAInspection");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"VIAInspection");
 	if(BBase!=NULL){
 		CmdModifySelectedVIAFromByteArray	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -419,11 +419,11 @@ GUICmdSendSelectedVIAItemAttr::GUICmdSendSelectedVIAItemAttr(LayersBase *Base ,c
 }
 void	GUICmdSendSelectedVIAItemAttr::Make(int localPage ,LayersBase *Base ,IntList &LayerList)
 {
-	VIABase *BBase=(VIABase *)Base->GetAlgorithmBase(/**/"Basic",/**/"VIAInspection");
+	AlgorithmBase *BBase=Base->GetAlgorithmBase(/**/"Basic",/**/"VIAInspection");
 	if(BBase!=NULL){
-		VIAInPage	*PData=dynamic_cast<VIAInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		for(IntClass *L=LayerList.GetFirst();L!=NULL;L=L->GetNext()){
-			VIAInLayer	*LData=dynamic_cast<VIAInLayer *>(PData->GetLayerData(L->GetValue()));
+			AlgorithmInLayerRoot	*LData=PData->GetLayerData(L->GetValue());
 			if(LData!=NULL){
 				CmdGetOneSelectedItem	Cmd(this);
 				LData->TransmitDirectly(&Cmd);
@@ -514,7 +514,7 @@ void	GUICmdSendVIAInfoList::Receive(int32 localPage, int32 cmd ,QString &Emitter
 
 void	GUICmdSendVIAInfoList::Make(int localPage)
 {
-	VIABase	*BBase=(VIABase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"VIAInspection");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"VIAInspection");
 	if(BBase!=NULL){
 		CmdVIAInfoListPacket	Cmd(this);
 		Cmd.LocalPage=localPage;
@@ -546,7 +546,7 @@ bool	GUICmdReqVIAFromList::Save(QIODevice *f)
 void	GUICmdReqVIAFromList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckVIAFromList	*SendBack=GetSendBack(GUICmdAckVIAFromList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	VIABase	*BBase=(VIABase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"VIAInspection");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"VIAInspection");
 	if(BBase!=NULL){
 		int	N=0;
 		for(ListLayerAndID *a=CurrentItem.GetFirst();a!=NULL;a=a->GetNext()){
@@ -590,7 +590,7 @@ bool	GUICmdAckVIAFromList::Load(QIODevice *f)
 	int32	N;
 	if(::Load(f,N)==false)
 		return false;
-	VIABase	*BBase=(VIABase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"VIAInspection");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"VIAInspection");
 	for(int i=0;i<N;i++){
 		CmdCreateVIAItem	Cmd(GetLayersBase());
 		BBase->TransmitDirectly(&Cmd);

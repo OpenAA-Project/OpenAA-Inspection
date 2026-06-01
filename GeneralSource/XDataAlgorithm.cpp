@@ -521,6 +521,8 @@ class	DummyItem	:public AlgorithmItemRoot
 public:
 	DummyItem(void){}
 
+	virtual	AlgorithmItemRoot	*GetNextItem(void)	override{ return NULL; }
+
 	virtual	AlgorithmThreshold	*CreateThresholdInstance(void)	override{	return NULL;	}
 	virtual	void	CopyParentFrom(AlgorithmItemRoot *src,AlgorithmInPageRoot *P, int Layer)	override{}
 	virtual	AlgorithmItemRoot	*Clone(void)	override	{	return new DummyItem();	}

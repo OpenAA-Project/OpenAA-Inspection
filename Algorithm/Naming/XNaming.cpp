@@ -1710,9 +1710,9 @@ bool	NamingBase::Name2LocalPos(QString Name ,int &Page ,int &XLocalPos, int &YLo
 }
 bool	NamingBase::LocalPos2Name(int Page ,int XLocalPos, int YLocalPos ,QString &Name)
 {
-	AlgorithmItemPI	*f=((NamingInPage *)GetPageData(Page))->GetItem(XLocalPos,YLocalPos);
+	AlgorithmItemRoot	*f=GetPageData(Page)->GetItem(XLocalPos,YLocalPos);
 	if(f!=NULL){
-		NamingItem	*N=(NamingItem *)f;
+		NamingItem	*N=static_cast<NamingItem *>(f);
 		Name=N->GetItemName();
 		return true;
 	}

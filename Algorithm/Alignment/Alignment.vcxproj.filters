@@ -58,6 +58,9 @@
     <ClCompile Include="XAlignmentForReport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="XAlignmentCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="alignment_global.h">

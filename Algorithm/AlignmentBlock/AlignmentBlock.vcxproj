@@ -117,10 +117,12 @@
   <ItemGroup>
     <ClCompile Include="AdjustAlignmentBlockForm.cpp" />
     <ClCompile Include="XAlignmentBlock.cpp" />
+    <ClCompile Include="XAlignmentBlockCommon.cpp" />
     <ClCompile Include="XAlignmentBlockForReport.cpp" />
     <ClCompile Include="XAlignmentBlockItem.cpp" />
     <ClCompile Include="XAlignmentBlockLibrary.cpp" />
     <ClCompile Include="XAlignmentBlockRotated.cpp" />
+    <ClInclude Include="XAlignmentBlockCommon.h" />
     <ClInclude Include="XAlignmentBlockLibrary.h" />
     <QtMoc Include="AdjustAlignmentBlockForm.h" />
     <ClInclude Include="alignmentblock_global.h" />

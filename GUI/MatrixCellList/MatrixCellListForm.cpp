@@ -263,8 +263,10 @@ bool MatrixCellFunctionLater(FunctionServerClass *Obj,GUIFormBase *TargetObj,QPa
 
 bool WholeImageFunctionLater(FunctionServerClass *Obj,GUIFormBase *TargetObj,QPainter &pnt ,QImage &PntImage)
 {
-	GeneralDisplayWholeImage	*DImage=dynamic_cast<GeneralDisplayWholeImage *>(TargetObj);
-	if(DImage!=NULL){
+	if(TargetObj->DoesIncludeInClassName(/**/"GeneralDisplayWholeImage")==true){
+		GeneralDisplayWholeImage	*DImage=static_cast<GeneralDisplayWholeImage *>(TargetObj);
+	//GeneralDisplayWholeImage	*DImage=dynamic_cast<GeneralDisplayWholeImage *>(TargetObj);
+	//if(DImage!=NULL){
 		MatrixCellListForm	*Form=dynamic_cast<MatrixCellListForm *>(Obj);
 		if(Form!=NULL){
 			CmdGetZoomRate	CmdGetZoomRateData(TargetObj->GetLayersBase());
@@ -453,9 +455,12 @@ void	MatrixCellListForm::BuildForShow(void)
 	if(WholeImageInstName.isEmpty()==false){
 		GUIFormBase	*W=GetLayersBase()->FindByName(WholeImageInstName);
 		if(W!=NULL){
-			GeneralDisplayWholeImage	*DImg=dynamic_cast<GeneralDisplayWholeImage *>(W);
-			if(DImg!=NULL){
-				DImg->SetHookInPaintLast(this,WholeImageFunctionLater,false);
+			if(W->DoesIncludeInClassName(/**/"GeneralDisplayWholeImage")==true){
+				GeneralDisplayWholeImage	*DImg=static_cast<GeneralDisplayWholeImage *>(W);
+				//GeneralDisplayWholeImage	*DImg=dynamic_cast<GeneralDisplayWholeImage *>(W);
+				if(DImg!=NULL){
+					DImg->SetHookInPaintLast(this,WholeImageFunctionLater,false);
+				}
 			}
 		}
 	}

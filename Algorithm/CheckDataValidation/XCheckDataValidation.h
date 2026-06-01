@@ -418,3 +418,35 @@ public:
 
 	CmdSaveThreshold(LayersBase *Base):GUIDirectMessage(Base){}
 };
+
+//-----------------------------------------------------------------------------
+
+class CheckDataValidationGridList : public NPListSaveLoad<CheckDataValidationGridList>
+{
+public:
+	int		Page	;
+	int		ItemID	;
+	int		LibType	;
+	int		LibID	;
+	int32	x1,y1,x2,y2;
+
+	CheckDataValidationGridList(void){}
+
+	virtual	bool	Save(QIODevice *f)	override;
+	virtual	bool	Load(QIODevice *f)	override;
+};
+class CheckDataValidationGridListContainer : public NPListPackSaveLoad<CheckDataValidationGridList>
+{
+public:
+	CheckDataValidationGridListContainer(void){}
+	virtual	CheckDataValidationGridList	*Create(void)	{	return new CheckDataValidationGridList();	}
+};
+
+class	CmdReqGridList : public GUIDirectMessage
+{
+public:
+	CheckDataValidationType	VType;
+	CheckDataValidationGridListContainer	*ListData;
+
+	CmdReqGridList(LayersBase *Base):GUIDirectMessage(Base){}
+};

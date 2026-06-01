@@ -157,9 +157,6 @@ void	CheckEverydayImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"CheckEveryday");
 	if(Ab==NULL)
 		return;
-	CheckEverydayBase	*MBase=dynamic_cast<CheckEverydayBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyCheckEveryday" ,/**/"");
 	if(GProp!=NULL){
 		CmdCheckEverydayDrawEnd	Da(GetLayersBase());

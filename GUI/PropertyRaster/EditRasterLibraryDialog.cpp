@@ -290,7 +290,7 @@ void EditRasterLibraryDialog::on_pushButtonClose_clicked()
 
 void	EditRasterLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	RasterLibrary	*d=dynamic_cast<RasterLibrary *>(data.GetLibrary());
+	RasterLibrary	*d=static_cast<RasterLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -312,7 +312,7 @@ void	EditRasterLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 
 void	EditRasterLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	RasterLibrary	*d=dynamic_cast<RasterLibrary *>(data.GetLibrary());
+	RasterLibrary	*d=static_cast<RasterLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->MaxShrinkDot		=ui->EditMaxShrinkDot		->value();

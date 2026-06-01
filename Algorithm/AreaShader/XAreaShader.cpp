@@ -471,6 +471,35 @@ void	AreaShaderInLayer::TransmitDirectly(GUIDirectMessage *packet)
 					,CmdCreateAreaShaderPacketVar->SelectedLibList);
 		return;
 	}
+	CmdMakeAreaShaderListForPacketPack *CmdMakeAreaShaderListForPacketPackVar = dynamic_cast<CmdMakeAreaShaderListForPacketPack *>(packet);
+	if(CmdMakeAreaShaderListForPacketPackVar!=NULL){
+		AreaShaderListForPacketPack *P=CmdMakeAreaShaderListForPacketPackVar->Area;
+		LayersBase *PBase=GetLayersBase();
+		int	localPage = GetPage();
+		for(AlgorithmItemPLI *L=GetFirstData();L!=NULL;L=L->GetNext()){
+			AreaShaderItem *MItem=dynamic_cast<AreaShaderItem *>(L);
+			if(MItem!=NULL){
+				AreaShaderListForPacket	*L=new AreaShaderListForPacket();
+				L->Page=PBase->GetGlobalPageFromLocal(localPage);
+				L->Layer=GetLayer();
+				int x1 ,y1 ,x2 ,y2;
+				MItem->GetXY(x1 ,y1 ,x2 ,y2);
+				L->ItemID=MItem->GetID();
+				L->x1=x1;
+				L->y1=y1;
+				L->x2=x2;
+				L->y2=y2;
+				L->CellSize	=MItem->GetThresholdR()->CellSize;
+				L->AdoptRate=MItem->GetThresholdR()->AdoptRate;	//
+				L->Fixed	=MItem->GetThresholdR()->Fixed;
+				L->Average	=MItem->GetThresholdR()->Average;
+				L->Sigma	=MItem->GetThresholdR()->Sigma;		//
+
+				P->AppendList(L);
+			}
+		}
+		return;
+	}
 }
 
 struct	ExecuteItemDim

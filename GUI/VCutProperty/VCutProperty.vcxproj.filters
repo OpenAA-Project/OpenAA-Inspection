@@ -43,12 +43,10 @@
     <ClCompile Include="VCutProperty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
-    
-    
     <ClCompile Include="VCutPropertyResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Algorithm\VCutInspection\XVCutInspectionCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,8 +69,6 @@
     <ClInclude Include="..\..\Open\XGUIDLL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    
     <ClInclude Include="VCutPropertyResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

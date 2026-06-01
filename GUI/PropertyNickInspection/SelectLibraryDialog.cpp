@@ -147,7 +147,7 @@ void	SelectLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	NickInspectionLibrary	*ALib=dynamic_cast<NickInspectionLibrary *>(data.GetLibrary());
+	NickInspectionLibrary	*ALib=static_cast<NickInspectionLibrary *>(data.GetLibrary());
 	ui->spinBoxLimitSize			->setValue	(ALib->LimitSize	);
 	ui->spinBoxNGPercentage			->setValue	(ALib->NGPercentage);
 	ui->spinBoxRefBrightness		->setValue	(ALib->RefBrightness);

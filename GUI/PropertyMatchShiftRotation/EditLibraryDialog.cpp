@@ -272,7 +272,7 @@ void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	MatchShiftRotationLibrary	*ALib=dynamic_cast<MatchShiftRotationLibrary *>(data.GetLibrary());
+	MatchShiftRotationLibrary	*ALib=static_cast<MatchShiftRotationLibrary *>(data.GetLibrary());
 	ui->EditPickupH					->setValue(ALib->PickupH);
 	ui->EditPickupL					->setValue(ALib->PickupL);
 
@@ -331,7 +331,7 @@ void	EditLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &dat
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	MatchShiftRotationLibrary	*ALib=dynamic_cast<MatchShiftRotationLibrary *>(data.GetLibrary());
+	MatchShiftRotationLibrary	*ALib=static_cast<MatchShiftRotationLibrary *>(data.GetLibrary());
 	ALib->PickupH			=ui->EditPickupH				->value();
 	ALib->PickupL			=ui->EditPickupL				->value();
 

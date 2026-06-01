@@ -486,7 +486,7 @@ void	PropertyAlignmentFlexAreaForm::TransmitDirectly(GUIDirectMessage *packet)
 		}
 		else if(ui->toolButtonAlignmrntFlexAreaArea->isChecked()==false){
 			if(LLib->GetLibID()>=0){
-				AlignmentFlexAreaLibrary	*ALib=dynamic_cast<AlignmentFlexAreaLibrary *>(LLib->GetLibrary());
+				AlignmentFlexAreaLibrary	*ALib=static_cast<AlignmentFlexAreaLibrary *>(LLib->GetLibrary());
 				//GlobalPickupArea+=AlignmentFlexAreaDEnd->Area;
 				BrightHistogramForm	D(AlignmentFlexAreaDEnd->Area
 										,AlignmentFlexAreaDEnd->ImagePanelPoint
@@ -662,7 +662,7 @@ bool	PropertyAlignmentFlexAreaForm::LoadContent(QIODevice *f)
 
 void	PropertyAlignmentFlexAreaForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	AlignmentFlexAreaLibrary	*ALib=dynamic_cast<AlignmentFlexAreaLibrary *>(data.GetLibrary());
+	AlignmentFlexAreaLibrary	*ALib=static_cast<AlignmentFlexAreaLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -680,7 +680,7 @@ void	PropertyAlignmentFlexAreaForm::ShowLibrary(AlgorithmLibraryLevelContainer &
 
 void	PropertyAlignmentFlexAreaForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	AlignmentFlexAreaLibrary	*ALib=dynamic_cast<AlignmentFlexAreaLibrary *>(data.GetLibrary());
+	AlignmentFlexAreaLibrary	*ALib=static_cast<AlignmentFlexAreaLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	ALib->MinAreaSize	=ui->EditMinAreaSize	->value();

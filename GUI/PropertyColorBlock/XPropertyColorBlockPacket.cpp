@@ -403,7 +403,7 @@ void	GUICmdSendSelectedColorBlockItemAttr::Make(int localPage ,LayersBase *Base 
 {
 	ColorBlockBase *BBase=(ColorBlockBase *)Base->GetAlgorithmBase(/**/"Basic",/**/"ColorBlockInspection");
 	if(BBase!=NULL){
-		ColorBlockInPage	*PData=dynamic_cast<ColorBlockInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdGetOneSelectedItem	Cmd(this);
 			PData->TransmitDirectly(&Cmd);

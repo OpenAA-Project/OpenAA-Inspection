@@ -117,35 +117,13 @@ void	GUICmdSendAreaShaderList::MakeAreaShaderList(int localPage ,LayersBase *PBa
 		return;
 	AreaShaderInfo.RemoveAll();
 
-	AlgorithmInPagePLI	*PData=dynamic_cast<AlgorithmInPagePLI	*>(ABase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=ABase->GetPageData(localPage);
 	if(PData!=NULL){
 		for(int layer=0;layer<ABase->GetLayerNumb(localPage);layer++){
 			AlgorithmInLayerRoot *PLayer=PData->GetLayerData(layer);
-			AreaShaderInLayer *AreaShaderLayer=dynamic_cast<AreaShaderInLayer *>(PLayer);
-			if(AreaShaderLayer!=NULL){
-				for(AlgorithmItemPLI *item=AreaShaderLayer->GetFirstData();item!=NULL;item=item->GetNext()){
-					AreaShaderItem	*MItem=dynamic_cast<AreaShaderItem *>(item);
-					if(MItem!=NULL){
-						AreaShaderListForPacket	*L=new AreaShaderListForPacket();
-						L->Page=PBase->GetGlobalPageFromLocal(localPage);
-						L->Layer=layer;
-						int x1 ,y1 ,x2 ,y2;
-						MItem->GetXY(x1 ,y1 ,x2 ,y2);
-						L->ItemID=MItem->GetID();
-						L->x1=x1;
-						L->y1=y1;
-						L->x2=x2;
-						L->y2=y2;
-						L->CellSize	=MItem->GetThresholdR()->CellSize;
-						L->AdoptRate=MItem->GetThresholdR()->AdoptRate;	//�̗p��
-						L->Fixed	=MItem->GetThresholdR()->Fixed;
-						L->Average	=MItem->GetThresholdR()->Average;
-						L->Sigma	=MItem->GetThresholdR()->Sigma;		//�W���΍�
-
-						AreaShaderInfo.AppendList(L);
-					}
-				}
-			}
+			CmdMakeAreaShaderListForPacketPack	Cmd(this);
+			Cmd.Area = &AreaShaderInfo;
+			PLayer->TransmitDirectly(&Cmd);
 		}
 	}
 }

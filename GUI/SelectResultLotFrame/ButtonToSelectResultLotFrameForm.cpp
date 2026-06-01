@@ -299,7 +299,7 @@ void	GUICmdReqGroupList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"FrameDef");
 	if(PBase==NULL)
 		return;
-	FrameDefInPage	*PPage=dynamic_cast<FrameDefInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqGroupList	Da(GetLayersBase());
 		PPage->TransmitDirectly(&Da);

@@ -248,7 +248,7 @@ void EditBlockLibrary::on_ButtonAddSubtractLib_clicked()
 	SelectBlockLibraryForm	D(GetLayersBase(),this);
 	if(D.exec()==QDialog::Accepted){
 		int	LibID=D.SelectedLibID;
-		BlockLibrary	*ALib=dynamic_cast<BlockLibrary *>(TempLib->GetLibrary());
+		BlockLibrary	*ALib=static_cast<BlockLibrary *>(TempLib->GetLibrary());
 		if(ALib->SubtractBlock.IsInclude(LibID)==true)
 			return;
 		ALib->SubtractBlock.Add(LibID);
@@ -262,7 +262,7 @@ void EditBlockLibrary::on_ButtonDelSubtractLib_clicked()
 	if(RIndex.isValid()==false)
 		return;
 	int	R=RIndex.row();
-	BlockLibrary	*ALib=dynamic_cast<BlockLibrary *>(TempLib->GetLibrary());
+	BlockLibrary	*ALib=static_cast<BlockLibrary *>(TempLib->GetLibrary());
 	IntClass *c=ALib->SubtractBlock.GetItem(R);
 	if(c!=NULL){
 		ALib->SubtractBlock.RemoveList(c);
@@ -314,7 +314,7 @@ void	EditBlockLibrary::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	BlockLibrary	*ALib=dynamic_cast<BlockLibrary *>(data.GetLibrary());
+	BlockLibrary	*ALib=static_cast<BlockLibrary *>(data.GetLibrary());
 	ShowSubtractList(*ALib);
 
 	ui.EditPickupL			->setValue(ALib->PickupL);
@@ -455,7 +455,7 @@ void	EditBlockLibrary::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	BlockLibrary	*ALib=dynamic_cast<BlockLibrary *>(data.GetLibrary());
+	BlockLibrary	*ALib=static_cast<BlockLibrary *>(data.GetLibrary());
 	ALib->PickupL			=ui.EditPickupL			->value();
 	ALib->PickupH			=ui.EditPickupH			->value();
 	ALib->MinBlockSize		=ui.EditMinBlockSize	->value();

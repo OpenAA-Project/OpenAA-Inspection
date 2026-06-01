@@ -92,6 +92,8 @@ private slots:
     void	on_pushButtonSetDenseInterpolate_clicked();
     void	on_pushButtonManualAdjust_clicked();
 
+    void on_pushButtonManualAdjustDeltaE_clicked();
+
 private:
     Ui::ColorDifferenceForm *ui;
 

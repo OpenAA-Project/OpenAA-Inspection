@@ -59,13 +59,14 @@ CheckDataValidationBase	*PropertyCheckDataValidationForm::GetCheckDataValidation
 
 void	PropertyCheckDataValidationForm::ReadyParam(void)
 {
-	CheckDataValidationBase	*ABase=GetCheckDataValidationBase();
+	AlgorithmBase	*ABase=GetCheckDataValidationBase();
 	if(ABase!=NULL){
 		for(int phase=0;phase<GetPhaseNumb();phase++){
 			AlgorithmInPageInOnePhase	*Ah=ABase->GetPageDataPhase(phase);
 			for(int page=0;page<GetPageNumb();page++){
-				CheckDataValidationInPage	*Ap=dynamic_cast<CheckDataValidationInPage *>(Ah->GetPageData(page));
-				connect(Ap,SIGNAL(SignalNGOccurs(int,int)),this,SLOT(SlotShowNGMessage(int,int)),Qt::QueuedConnection);
+				AlgorithmInPageRoot	*Ap=Ah->GetPageData(page);
+				CheckDataValidationInPage *Pp = static_cast<CheckDataValidationInPage *>(Ap);
+				connect(Pp,SIGNAL(SignalNGOccurs(int,int)),this,SLOT(SlotShowNGMessage(int,int)),Qt::QueuedConnection);
 			}
 		}
 	}
@@ -227,7 +228,7 @@ void    PropertyCheckDataValidationForm::SlotShowNGMessage(int phase ,int page)
 		if(ABase!=NULL){
 			AlgorithmInPageInOnePhase	*Ah=ABase->GetPageDataPhase(phase);
 			if(Ah!=NULL){
-				CheckDataValidationInPage	*Ap=dynamic_cast<CheckDataValidationInPage *>(Ah->GetPageData(page));
+				CheckDataValidationInPage	*Ap=static_cast<CheckDataValidationInPage *>(Ah->GetPageData(page));
 				if(Ap!=NULL){
 					NGMessageWindow->show();
 					NGMessageWindow->SetMessage(Ap->NGMessage);

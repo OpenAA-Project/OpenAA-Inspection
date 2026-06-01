@@ -252,7 +252,7 @@ void	EditVIALibrary::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	VIALibrary	*ALib=dynamic_cast<VIALibrary *>(data.GetLibrary());
+	VIALibrary	*ALib=static_cast<VIALibrary *>(data.GetLibrary());
 	ui->EditPickupL			->setValue(ALib->PickupL);
 	ui->EditPickupH			->setValue(ALib->PickupH);
 	ui->EditMinVIASize		->setValue(ALib->MinVIASize);
@@ -319,7 +319,7 @@ void	EditVIALibrary::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	VIALibrary	*ALib=dynamic_cast<VIALibrary *>(data.GetLibrary());
+	VIALibrary	*ALib=static_cast<VIALibrary *>(data.GetLibrary());
 	ALib->PickupL			=ui->EditPickupL		->value();
 	ALib->PickupH			=ui->EditPickupH		->value();
 	ALib->MinVIASize		=ui->EditMinVIASize		->value();

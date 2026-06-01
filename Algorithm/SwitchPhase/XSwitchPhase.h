@@ -453,4 +453,12 @@ public:
 	CmdDeleteAllItemInAllPhases(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 
+class	CmdReUseMark: public GUIDirectMessage
+{
+public:
+
+	CmdReUseMark(LayersBase *base):GUIDirectMessage(base){}
+	CmdReUseMark(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
+
 #endif

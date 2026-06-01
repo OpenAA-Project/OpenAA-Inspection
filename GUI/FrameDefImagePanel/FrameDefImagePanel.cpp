@@ -164,9 +164,7 @@ void	FrameDefImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"FrameDef");
 	if(Ab==NULL)
 		return;
-	FrameDefBase	*MBase=dynamic_cast<FrameDefBase *>(Ab);
-	if(MBase==NULL)
-		return;
+
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyFrameDef" ,/**/"");
 	CmdCreateFrameDefManualPacket	Da(GetLayersBase());
 	if(GProp!=NULL){

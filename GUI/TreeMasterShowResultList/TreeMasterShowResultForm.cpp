@@ -178,22 +178,10 @@ void	GUICmdSendTreeMasterResultList::MakeTreeMasterResultList(int localPage ,Lay
 		return;
 	TreeMasterInfo.RemoveAll();
 
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(ABase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=ABase->GetPageData(localPage);
 	if(PData!=NULL){
-		for(AlgorithmItemPI *item=PData->GetFirstData();item!=NULL;item=item->GetNext()){
-			TreeMasterItem	*MItem=dynamic_cast<TreeMasterItem *>(item);
-			if(MItem!=NULL){
-				TreeMasterResultList	*L=new TreeMasterResultList();
-				L->Page=PBase->GetGlobalPageFromLocal(localPage);
-				int x1 ,y1 ,x2 ,y2;
-				MItem->GetXY(x1 ,y1 ,x2 ,y2);
-				L->CatName		=MItem->CatName;
-				L->MasterCode	=MItem->MasterCode;
-				L->ItemID		=MItem->TMItemID;
-				L->ResultE		=MItem->ResultE;
-
-				TreeMasterInfo.AppendList(L);				
-			}
-		}
+		CmdMakeTreeMasterResultList	Cmd(GetLayersBase());
+		Cmd.TreeMasterInfo = &TreeMasterInfo;
+		PData->TransmitDirectly(&Cmd);
 	}
 }

@@ -258,6 +258,7 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Algorithm\TreeMaster\XTreeMasterCommon.cpp" />
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="..\PropertyTreeMaster\XTreeMasterPacket.cpp" />

@@ -157,9 +157,6 @@ void	AlignmentBlockImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"AlignmentBlock");
 	if(Ab==NULL)
 		return;
-	AlignmentBlockBase	*MBase=dynamic_cast<AlignmentBlockBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyAlignmentBlock" ,/**/"");
 	//CmdAlignmentBlockDrawEnd	Da(GetLayersBase());
 	//if(GProp!=NULL){

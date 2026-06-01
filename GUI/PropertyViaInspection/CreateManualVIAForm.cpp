@@ -137,7 +137,7 @@ void CreateManualVIAForm::on_tableWidgetLibList_clicked(const QModelIndex &Index
 		if(Packet.Success==true){
 			VIALibID				=TempLib->GetLibID();
 	
-			VIALibrary	*ALib=dynamic_cast<VIALibrary *>(TempLib->GetLibrary());
+			VIALibrary	*ALib=static_cast<VIALibrary *>(TempLib->GetLibrary());
 			ui->EditLibID			->setText(QString::number(ALib->GetLibID()));
 			ui->EditLibName			->setText(a->GetLibName());
 

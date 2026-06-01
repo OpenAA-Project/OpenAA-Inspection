@@ -46,7 +46,10 @@
     <ClCompile Include="XColorCorrector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XColorCollectorItem.cpp">
+    <ClCompile Include="XColorCorrectorItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XColorCorrectorCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

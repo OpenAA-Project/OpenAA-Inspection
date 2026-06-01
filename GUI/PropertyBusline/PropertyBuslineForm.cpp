@@ -356,7 +356,7 @@ void	PropertyBuslineForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	BuslineLibrary	*ALib=dynamic_cast<BuslineLibrary *>(data.GetLibrary());
+	BuslineLibrary	*ALib=static_cast<BuslineLibrary *>(data.GetLibrary());
 	ui->EditMinWidth			->setValue(ALib->MinWidth);
 	ui->EditMinGap				->setValue(ALib->MinGap);
 	ui->lineEditMinArea			->setText(QString::number(ALib->MinArea));
@@ -375,7 +375,7 @@ void	PropertyBuslineForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &d
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	BuslineLibrary	*ALib=dynamic_cast<BuslineLibrary *>(data.GetLibrary());
+	BuslineLibrary	*ALib=static_cast<BuslineLibrary *>(data.GetLibrary());
 	ALib->MinWidth				=ui->EditMinWidth			->value();
 	ALib->MinGap				=ui->EditMinGap				->value();
 	ALib->MinArea				=ui->lineEditMinArea		->text().toLongLong();

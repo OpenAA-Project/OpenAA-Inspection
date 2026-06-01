@@ -52,6 +52,9 @@
     <ClCompile Include="EditItemDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Algorithm\ColorCorrector\XColorCorrectorCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="PropertyColorCorrectorForm.ui">

@@ -2,12 +2,13 @@
 #include "ui_EditManualInterpolateDialog.h"
 #include<QInputDialog>
 
-EditManualInterpolateDialog::EditManualInterpolateDialog(AlgorithmItemRoot *item ,LayersBase *Base,QWidget *parent)
+EditManualInterpolateDialog::EditManualInterpolateDialog(int _ResultType,AlgorithmItemRoot *item ,LayersBase *Base,QWidget *parent)
     : QDialog(parent)
 	,ServiceForLayers(Base)
     ,ui(new Ui::EditManualInterpolateDialog)
 {
     ui->setupUi(this);
+    ResultType=_ResultType;
     Item=item;
     ShowList();
 }
@@ -21,7 +22,7 @@ void	EditManualInterpolateDialog::ShowList(void)
 {
     ColorDifferenceItem *E=dynamic_cast<ColorDifferenceItem *>(Item);
     if(E!=NULL){
-        if(E->GetThresholdR()->JudgeMethod==1){
+        if(ResultType==1){
             int N=E->ManualDeltaEList.GetCount();
             ui->tableWidget->setRowCount(N);
             for(int row=0;row<N;row++){
@@ -32,7 +33,7 @@ void	EditManualInterpolateDialog::ShowList(void)
             }
         }
         else
-        if(E->GetThresholdR()->JudgeMethod==3){
+        if(ResultType==2){
             int N=E->ManualDenseList.GetCount();
             ui->tableWidget->setRowCount(N);
             for(int row=0;row<N;row++){
@@ -50,7 +51,7 @@ void EditManualInterpolateDialog::on_pushButtonDeleteLine_clicked()
     int Row=ui->tableWidget->currentRow();
     ColorDifferenceItem *E=dynamic_cast<ColorDifferenceItem *>(Item);
     if(E!=NULL){
-        if(E->GetThresholdR()->JudgeMethod==1){
+        if(ResultType==1){
             ManualAdjustmentList    *R=E->ManualDeltaEList.GetItem(Row);
             if(R!=NULL){
                 E->ManualDeltaEList.RemoveList(R);
@@ -58,7 +59,7 @@ void EditManualInterpolateDialog::on_pushButtonDeleteLine_clicked()
             }
         }
         else
-        if(E->GetThresholdR()->JudgeMethod==3){
+        if(ResultType==2){
             ManualAdjustmentList    *R=E->ManualDenseList.GetItem(Row);
             if(R!=NULL){
                 E->ManualDenseList.RemoveList(R);
@@ -85,11 +86,11 @@ void EditManualInterpolateDialog::on_pushButtonAdd_clicked()
 	if(ok==true){
         ColorDifferenceItem *E=dynamic_cast<ColorDifferenceItem *>(Item);
         if(E!=NULL){
-            if(E->GetThresholdR()->JudgeMethod==1){
+            if(ResultType==1){
                 E->AddManualDeltaE(d);
             }
             else
-            if(E->GetThresholdR()->JudgeMethod==3){
+            if(ResultType==2){
                 E->AddManualDense(d);
             }
             ShowList();

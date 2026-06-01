@@ -134,7 +134,7 @@ void SelectLibraryDialog::on_tableWidgetLibList_clicked(const QModelIndex &Index
 
 void	SelectLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	MeasureLineMoveLibrary	*d=dynamic_cast<MeasureLineMoveLibrary *>(data.GetLibrary());
+	MeasureLineMoveLibrary	*d=static_cast<MeasureLineMoveLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else

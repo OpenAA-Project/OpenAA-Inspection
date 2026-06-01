@@ -49,9 +49,9 @@ void	GUICmdSendAddManualRasterInspection::Receive(int32 localPage, int32 cmd ,QS
 {
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	RasterInspectionBase *BBase=(RasterInspectionBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RasterInspection");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RasterInspection");
 	if(BBase!=NULL){
-		RasterInspectionInPage	*PData=dynamic_cast<RasterInspectionInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdAddRasterInspectionItemPacket	Cmd(this);
 			Cmd.Area		=Area;
@@ -83,9 +83,9 @@ void	GUICmdReqReferencePDFData::Receive(int32 localPage, int32 cmd ,QString &Emi
 {
 	GUICmdAckReferencePDFData	*SendBack=GetSendBack(GUICmdAckReferencePDFData,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	
-	RasterBase *RBBase=(RasterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Raster");
+	AlgorithmBase *RBBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Raster");
 	if(RBBase!=NULL){
-		RasterInPage	*PData=dynamic_cast<RasterInPage	*>(RBBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=RBBase->GetPageData(localPage);
 		if(PData!=NULL){
 			int	MinX=Area.GetMinX();
 			int	MinY=Area.GetMinY();
@@ -151,7 +151,7 @@ bool	GUICmdSendReferencePDFData::Save(QIODevice *f)
 }
 void	GUICmdSendReferencePDFData::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	RasterInspectionBase *BBase=(RasterInspectionBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RasterInspection");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RasterInspection");
 	if(BBase!=NULL){
 		CmdRasterAddReferencePDF	Cmd(GetLayersBase());
 		Cmd.RData=Data;
@@ -179,9 +179,9 @@ bool	GUICmdGenerateRasterInspection::Save(QIODevice *f)
 
 void	GUICmdGenerateRasterInspection::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	RasterInspectionBase *BBase=(RasterInspectionBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RasterInspection");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RasterInspection");
 	if(BBase!=NULL){
-		RasterInspectionInPage	*PData=dynamic_cast<RasterInspectionInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdGenerateRasterInspection	Cmd(this);
 			Cmd.LibList		=LibList;
@@ -201,7 +201,7 @@ void	GUICmdReqRasterInspectionInfoList::Receive(int32 localPage, int32 cmd ,QStr
 {
 	GUICmdSendRasterInspectionInfoList	*SendBack=GetSendBack(GUICmdSendRasterInspectionInfoList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	
-	RasterInspectionBase *BBase=(RasterInspectionBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RasterInspection");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RasterInspection");
 	if(BBase!=NULL){
 		BBase->EnumItems(SendBack->ItemIDList);
 	}

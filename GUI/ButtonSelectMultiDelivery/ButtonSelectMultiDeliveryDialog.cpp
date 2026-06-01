@@ -139,7 +139,7 @@ bool ButtonSelectMultiDeliveryDialog::ExecuteCreateNew(void)
 	if(RDLL!=NULL){
 		ResultDLL	*R=RDLL->GetResultDLL(/**/"Result",/**/"ResultXMLMultiDelivery");
 		if(R!=NULL){
-			RL=dynamic_cast<ResultXMLMultiDelivery *>(R->GetDLLPoint());
+			RL=static_cast<ResultXMLMultiDelivery *>(R->GetDLLPoint());
 		}
 	}
 	if(RL==NULL)
@@ -258,7 +258,7 @@ bool ButtonSelectMultiDeliveryDialog::SelectLotAction(void)
 	if(RDLL!=NULL){
 		ResultDLL	*Rd=RDLL->GetResultDLL(/**/"Result",/**/"ResultXMLMultiDelivery");
 		if(Rd!=NULL){
-			RL=dynamic_cast<ResultXMLMultiDelivery *>(Rd->GetDLLPoint());
+			RL=static_cast<ResultXMLMultiDelivery *>(Rd->GetDLLPoint());
 		}
 	}
 	if(RL==NULL)
@@ -316,7 +316,7 @@ bool	ButtonSelectMultiDeliveryDialog::RxSync(QIODevice &Buff)
 	if(RDLL!=NULL){
 		ResultDLL	*Rd=RDLL->GetResultDLL(/**/"Result",/**/"ResultXMLMultiDelivery");
 		if(Rd!=NULL){
-			RL=dynamic_cast<ResultXMLMultiDelivery *>(Rd->GetDLLPoint());
+			RL=static_cast<ResultXMLMultiDelivery *>(Rd->GetDLLPoint());
 		}
 	}
 	if(RL==NULL)

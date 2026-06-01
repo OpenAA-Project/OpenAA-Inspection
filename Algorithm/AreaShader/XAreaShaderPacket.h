@@ -76,5 +76,15 @@ public:
 	CmdClearTestAreaShaderPacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 
+class	CmdMakeAreaShaderListForPacketPack : public GUIDirectMessage
+{
+public:
+	AreaShaderListForPacketPack	*Area;
+
+	CmdMakeAreaShaderListForPacketPack(LayersBase *base):GUIDirectMessage(base){}
+	CmdMakeAreaShaderListForPacketPack(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
+
+	
 
 #endif

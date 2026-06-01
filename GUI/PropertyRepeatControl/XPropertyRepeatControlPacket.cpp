@@ -45,9 +45,9 @@ bool	GUICmdSendAddManualRepeatControl::Save(QIODevice *f)
 
 void	GUICmdSendAddManualRepeatControl::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	RepeatControlBase *RBBase=(RepeatControlBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RepeatControl");
+	AlgorithmBase *RBBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RepeatControl");
 	if(RBBase!=NULL){
-		RepeatControlInPage	*PData=dynamic_cast<RepeatControlInPage	*>(RBBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=RBBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdAddRepeatControlItemPacket	Cmd(GetLayersBase());
 			Cmd.RepeatCount		=RepeatCount	;
@@ -85,11 +85,11 @@ bool	GUICmdSendModifyRepeatControl::Save(QIODevice *f)
 
 void	GUICmdSendModifyRepeatControl::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	RepeatControlBase *RBBase=(RepeatControlBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RepeatControl");
+	AlgorithmBase *RBBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RepeatControl");
 	if(RBBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=RBBase->GetPageDataPhase(Index.Data.Phase);
 		if(Ph!=NULL){
-			RepeatControlInPage	*PData=dynamic_cast<RepeatControlInPage	*>(Ph->GetPageData(localPage));
+			AlgorithmInPageRoot	*PData=Ph->GetPageData(localPage);
 			if(PData!=NULL){
 				CmdModifyRepeatControlItemPacket	Cmd(GetLayersBase());
 				Cmd.RepeatCount		=RepeatCount	;
@@ -123,11 +123,11 @@ void	GUICmdReqRepeatControlInfoList::Receive(int32 localPage, int32 cmd ,QString
 {
 	GUICmdAckRepeatControlInfoList	*SendBack=GetSendBack(GUICmdAckRepeatControlInfoList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
-	RepeatControlBase *RBBase=(RepeatControlBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RepeatControl");
+	AlgorithmBase *RBBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RepeatControl");
 	if(RBBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=RBBase->GetPageDataPhase(Phase);
 		if(Ph!=NULL){
-			RepeatControlInPage	*PData=dynamic_cast<RepeatControlInPage	*>(Ph->GetPageData(localPage));
+			AlgorithmInPageRoot	*PData=Ph->GetPageData(localPage);
 			if(PData!=NULL){
 				CmdReqRepeatControlInfoList	Cmd(GetLayersBase());
 				PData->TransmitDirectly(&Cmd);
@@ -176,11 +176,11 @@ bool	GUICmdCreateWholeRepeatControl::Save(QIODevice *f)
 
 void	GUICmdCreateWholeRepeatControl::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)	
 {
-	RepeatControlBase *RBBase=(RepeatControlBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RepeatControl");
+	AlgorithmBase *RBBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RepeatControl");
 	if(RBBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=RBBase->GetPageDataPhase(Phase);
 		if(Ph!=NULL){
-			RepeatControlInPage	*PData=dynamic_cast<RepeatControlInPage	*>(Ph->GetPageData(localPage));
+			AlgorithmInPageRoot	*PData=Ph->GetPageData(localPage);
 			if(PData!=NULL){
 				CmdCreateWholeRepeatControl	Cmd(GetLayersBase());
 				Cmd.RepeatCount		=RepeatCount	;

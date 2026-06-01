@@ -316,6 +316,7 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Algorithm\VCutInspection\XVCutInspectionCommon.cpp" />
     <ClCompile Include="AddVCutAreaDialog.cpp" />
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />

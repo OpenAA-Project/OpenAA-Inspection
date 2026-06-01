@@ -156,7 +156,7 @@ void	GUICmdReqRotation::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 	AlgorithmBase	*AlignBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"MatchShiftRotation");
 	if(AlignBase==NULL)
 		return;
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(AlignBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=AlignBase->GetPageData(localPage);
 	if(PData!=NULL){
 		ReqShiftRotaionResult	RCmd(GetLayersBase());
 		RCmd.AreaID			=AreaID	;

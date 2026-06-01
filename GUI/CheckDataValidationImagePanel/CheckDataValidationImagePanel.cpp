@@ -163,9 +163,6 @@ void	CheckDataValidationImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"CheckDataValidation");
 	if(Ab==NULL)
 		return;
-	CheckDataValidationBase	*MBase=dynamic_cast<CheckDataValidationBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyCheckDataValidation" ,/**/"");
 	CmdCheckDataValidationDrawEnd	Da(GetLayersBase());
 	if(GProp!=NULL){

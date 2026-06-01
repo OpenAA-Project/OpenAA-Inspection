@@ -143,7 +143,7 @@ void EditLibraryColor::on_tableWidgetLibList_clicked(const QModelIndex &Index)
 			BBase->TransmitDirectly(&Packet);
 			if(Packet.Success==true){
 				ShowLibrary(*TempLib);
-				LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
+				LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
 				ColorThre.Cube=ALib->PickupColor;
 				ColorThre.Repaint();
 				ShowThresholdList();
@@ -159,13 +159,13 @@ void EditLibraryColor::on_tableWidgetLibList_clicked(const QModelIndex &Index)
 void	EditLibraryColor::SlotAddEliminated(void)
 {
 	ShowThresholdList();
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 }
 void	EditLibraryColor::SlotDelEliminated(void)
 {
 	ShowThresholdList();
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 }
 
@@ -178,7 +178,7 @@ void	EditLibraryColor::SlotColorSampleSelectOne()
 	ColorThre.Cube=*ColorSamples.CData.GetColorLogic();
 	ColorThre.InitializedDoneCube();
 	ColorThre.Repaint();
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 }
 
@@ -189,7 +189,7 @@ void EditLibraryColor::on_pushButtonAddColorArea_clicked()
 	ColorThre.Cube.Add(*Sample.GetColorLogic(),0);
 
 	ColorThre.Repaint();
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -201,7 +201,7 @@ void EditLibraryColor::on_pushButtonEliminateColorArea_clicked()
 	ColorThre.Cube.Eliminate(*Sample.GetColorLogic(),0);
 
 	ColorThre.Repaint();
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -210,7 +210,7 @@ void EditLibraryColor::on_pushButtonAddPickupColor_clicked()
 {
 	ColorThre.Cube.Add(PickupColor.rgb(),ui.spinBoxMerginAddPickupColor->value());
 	ColorThre.Repaint();
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -219,7 +219,7 @@ void EditLibraryColor::on_pushButtonSubPickupColor_clicked()
 {
 	ColorThre.Cube.Eliminame(PickupColor.rgb(),ui.spinBoxMerginSubPickupColor->value());
 	ColorThre.Repaint();
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -228,7 +228,7 @@ void EditLibraryColor::on_pushButtonAddColor_clicked()
 {
 	ColorThre.Cube.Add(*ColorSamples.CData.GetColorLogic());
 	ColorThre.Repaint();
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -237,7 +237,7 @@ void EditLibraryColor::on_pushButtonEliminateColor_clicked()
 {
 	ColorThre.Cube.Eliminate(*ColorSamples.CData.GetColorLogic());
 	ColorThre.Repaint();
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -252,7 +252,7 @@ void EditLibraryColor::on_listWidgetBaseColor_doubleClicked(QModelIndex)
 		ColorThre.Cube.RemoveBase(c);
 		delete	c;
 		if(TempLib!=NULL){
-			LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
+			LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
 			ALib->PickupColor=ColorThre.Cube;
 		}
 	}
@@ -270,7 +270,7 @@ void EditLibraryColor::on_listWidgetEliminatedColor_doubleClicked(QModelIndex)
 		ColorThre.Cube.RemoveEliminated(c);
 		delete	c;
 		if(TempLib!=NULL){
-			LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
+			LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
 			ALib->PickupColor=ColorThre.Cube;
 		}
 	}
@@ -282,7 +282,7 @@ void EditLibraryColor::on_pushButtonAddAllColor_clicked()
 {
 	ColorThre.Cube.Add(qRgb(128,128,128),222);
 	ColorThre.Repaint();
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(TempLib->GetLibrary());
 	ALib->PickupColor=ColorThre.Cube;
 	ShowThresholdList();
 }
@@ -415,7 +415,7 @@ void	EditLibraryColor::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(data.GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(data.GetLibrary());
 	ui.EditMinDot			->setValue(ALib->MinDot);
 	ui.EditMaxDot			->setValue(ALib->MaxDot);
 	ui.EditMinSize			->setValue(ALib->MinSize);
@@ -434,7 +434,7 @@ void	EditLibraryColor::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data
 {
 	data.SetLibName(ui.EditLibName	->text());
 
-	LineEnhancerLibrary	*ALib=dynamic_cast<LineEnhancerLibrary *>(data.GetLibrary());
+	LineEnhancerLibrary	*ALib=static_cast<LineEnhancerLibrary *>(data.GetLibrary());
 	ALib->MinDot			=ui.EditMinDot			->value();
 	ALib->MaxDot			=ui.EditMaxDot			->value();
 	ALib->MinSize			=ui.EditMinSize			->value();

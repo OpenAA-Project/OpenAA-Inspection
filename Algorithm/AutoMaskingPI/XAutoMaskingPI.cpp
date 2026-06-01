@@ -755,6 +755,31 @@ void	AutoMaskingPIInPage::TransmitDirectly(GUIDirectMessage *packet)
 		BmpWithLib->BmpMap=Dst;
 		return;
 	}
+	CmdSendAutoMaskPIList *CmdSendAutoMaskPIListVar = dynamic_cast<CmdSendAutoMaskPIList *>(packet);
+	if(CmdSendAutoMaskPIListVar!=NULL){
+
+		for(AlgorithmItemPI *item=GetFirstData();item!=NULL;item=item->GetNext()){
+			AutoMaskingPIItem	*MItem=dynamic_cast<AutoMaskingPIItem *>(item);
+			if(MItem!=NULL && ((CmdSendAutoMaskPIListVar->EffectiveMode==true 
+								&& MItem->GetThresholdR()->Effective==true) 
+							  || (CmdSendAutoMaskPIListVar->IneffectiveMode==true 
+								&& MItem->GetThresholdR()->Effective==false))){
+				AutoMaskingPIListForPacket	*L=new AutoMaskingPIListForPacket();
+				L->Page=GetLayersBase()->GetGlobalPageFromLocal(GetPage());
+				L->Effective=MItem->GetThresholdR()->Effective;
+				int x1 ,y1 ,x2 ,y2;
+				MItem->GetXY(x1 ,y1 ,x2 ,y2);
+				L->ItemID=MItem->GetID();
+				L->x1=x1;
+				L->y1=y1;
+				L->x2=x2;
+				L->y2=y2;
+				L->LimitedLib=*((AlgorithmLibraryListContainer *)&MItem->GetThresholdR()->SelAreaID);
+				CmdSendAutoMaskPIListVar->MaskInfo->AppendList(L);				
+			}
+		}
+		return;
+	}
 }
 
 

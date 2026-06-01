@@ -158,9 +158,6 @@ void	ColorDifferenceImagePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
 	if(Ab==NULL)
 		return;
-	ColorDifferenceBase	*MBase=dynamic_cast<ColorDifferenceBase *>(Ab);
-	if(MBase==NULL)
-		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyColorDifference" ,/**/"");
 	CmdColorDifferenceDrawEnd	Da(GetLayersBase());
 	if(GProp!=NULL){

@@ -231,7 +231,7 @@ void ColorCreateManualBlockForm::on_tableWidgetLibList_clicked(const QModelIndex
 		if(Packet.Success==true){
 			ShowLibrary(TempLib);
 				
-			ColorBlockLibrary	*ALib=dynamic_cast<ColorBlockLibrary *>(TempLib->GetLibrary());
+			ColorBlockLibrary	*ALib=static_cast<ColorBlockLibrary *>(TempLib->GetLibrary());
 	
 			BItem->GetThresholdW()->InsR.NBrightWidthL	=ALib->InsR.NBrightWidthL;
 			BItem->GetThresholdW()->InsR.NBrightWidthH	=ALib->InsR.NBrightWidthH;
@@ -304,7 +304,7 @@ void ColorCreateManualBlockForm::ShowLibrary(AlgorithmLibraryLevelContainer	*tem
 	ui.EditLibID				->setText(QString::number(tempLib->GetLibID()));
 	ui.EditLibName				->setText(tempLib->GetLibName());
 
-	ColorBlockLibrary	*ALib=dynamic_cast<ColorBlockLibrary *>(tempLib->GetLibrary());
+	ColorBlockLibrary	*ALib=static_cast<ColorBlockLibrary *>(tempLib->GetLibrary());
 	if(ButtonR.isChecked()==true){
 		ui.EditNBrightWidthL	->setValue(ALib->InsR.NBrightWidthL);
 		ui.EditNBrightWidthH	->setValue(ALib->InsR.NBrightWidthH);

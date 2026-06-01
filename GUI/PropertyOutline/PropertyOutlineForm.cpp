@@ -372,7 +372,7 @@ void	PropertyOutlineForm::TransmitDirectly(GUIDirectMessage* packet)
 					,/**/"OutlineImagePanel"
 					,/**/"");
 				if (GProp != NULL) {
-					OutlineInspectLibrary	*ALib=dynamic_cast<OutlineInspectLibrary *>(TempLib->GetLibrary());
+					OutlineInspectLibrary	*ALib=static_cast<OutlineInspectLibrary *>(TempLib->GetLibrary());
 					int pickupL, pickupH;
 					ALib->PickupColor.GetMonoColorRange(pickupL, pickupH);
 					OutlinePickupMonoForm	D(BlockDEnd->Area
@@ -453,7 +453,7 @@ void	PropertyOutlineForm::TransmitDirectly(GUIDirectMessage* packet)
 					Items.AppendList(new ListLayerAndID(0, a->ID));
 				}
 			}
-			if (Items.GetNumber() != NULL) {
+			if (Items.GetNumber() != 0) {
 				GUICmdReqOutlineFromList	ReqCmd(GetLayersBase(), sRoot, sName, page);
 				GUICmdAckOutlineFromList	AckCmd(GetLayersBase(), sRoot, sName, page);
 				ReqCmd.CurrentItem = Items;
@@ -568,7 +568,7 @@ void	PropertyOutlineForm::ShowLibrary(AlgorithmLibraryLevelContainer& data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName->setText(data.GetLibName());
 
-	OutlineInspectLibrary	*ALib=dynamic_cast<OutlineInspectLibrary *>(data.GetLibrary());
+	OutlineInspectLibrary	*ALib=static_cast<OutlineInspectLibrary *>(data.GetLibrary());
 	ui->EditTransDot		->setValue(ALib->TransDot);
 	ui->EditInsideWidth		->setValue(ALib->InsideWidth);
 	ui->EditOutsideWidth	->setValue(ALib->OutsideWidth);
@@ -590,7 +590,7 @@ void	PropertyOutlineForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer& d
 {
 	data.SetLibName(ui->EditLibName->text());
 
-	OutlineInspectLibrary	*ALib=dynamic_cast<OutlineInspectLibrary *>(data.GetLibrary());
+	OutlineInspectLibrary	*ALib=static_cast<OutlineInspectLibrary *>(data.GetLibrary());
 	ALib->TransDot		= ui->EditTransDot->value();
 	ALib->InsideWidth	= ui->EditInsideWidth->value();
 	ALib->OutsideWidth	= ui->EditOutsideWidth->value();
@@ -703,7 +703,7 @@ void	PropertyOutlineForm::ShowSelectedLibList(void)
 		CmdCreateTempOutlineLibraryPacket	Packet(GetLayersBase());
 		BBase->TransmitDirectly(&Packet);
 		AlgorithmLibraryLevelContainer* SLib = Packet.Point;
-		OutlineInspectLibrary	*ALib=dynamic_cast<OutlineInspectLibrary *>(SLib->GetLibrary());
+		OutlineInspectLibrary	*ALib=static_cast<OutlineInspectLibrary *>(SLib->GetLibrary());
 		int	row = 0;
 		for (AlgorithmLibraryList* a = SelectedLibList.GetFirst(); a != NULL; a = a->GetNext(), row++) {
 			DDim[row].a = a;

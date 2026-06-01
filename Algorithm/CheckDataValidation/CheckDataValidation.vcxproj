@@ -107,6 +107,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Open\AlgorithmCommon.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
+    <ClCompile Include="XCheckDalidationCommon.cpp" />
     <ClCompile Include="XCheckDataValidation.cpp" />
     <ClCompile Include="XCheckDataValidationItem.cpp" />
     <ClCompile Include="XCheckDataValidationReport.cpp" />

@@ -605,7 +605,7 @@ void EditCompositeDefDialog::ShowDataToWindow(GerberCompositeDefLayer *Attr)
 		}
 	}
 	if(Success==true){
-		GerberFastLibrary	*ALib=dynamic_cast<GerberFastLibrary *>(TempLib->GetLibrary());
+		GerberFastLibrary	*ALib=static_cast<GerberFastLibrary *>(TempLib->GetLibrary());
 		ui->lineEditLibID				->setText(QString::number(TempLib->GetLibID()));
 		ui->lineEditLibName				->setText(TempLib->GetLibName());
 		ui->spinBoxMaxEnlargeDot		->setValue(ALib->MaxEnlargeDot);
@@ -645,7 +645,7 @@ void EditCompositeDefDialog::on_pushButtonSelectLib_clicked()
 			Packet.Point=TempLib;
 			Ab->TransmitDirectly(&Packet);
 			if(Packet.Success==true){
-				GerberFastLibrary	*ALib=dynamic_cast<GerberFastLibrary *>(TempLib->GetLibrary());
+				GerberFastLibrary	*ALib=static_cast<GerberFastLibrary *>(TempLib->GetLibrary());
 				ui->lineEditLibName				->setText (TempLib->GetLibName());
 				ui->spinBoxMaxEnlargeDot		->setValue(ALib->MaxEnlargeDot);
 				ui->spinBoxMaxShrinkageDot		->setValue(ALib->MaxShrinkDot);

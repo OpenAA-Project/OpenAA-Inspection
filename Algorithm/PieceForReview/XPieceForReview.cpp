@@ -444,9 +444,9 @@ bool	PieceForReviewBase::Name2LocalPos(QString Name ,int &Page ,int &XLocalPos, 
 }
 bool	PieceForReviewBase::LocalPos2Name(int Page ,int XLocalPos, int YLocalPos ,QString &Name)
 {
-	AlgorithmItemPI	*f=((PieceForReviewInPage *)GetPageData(Page))->GetItem(XLocalPos,YLocalPos);
+	AlgorithmItemRoot	*f=GetPageData(Page)->GetItem(XLocalPos,YLocalPos);
 	if(f!=NULL){
-		PieceForReviewItem	*N=(PieceForReviewItem *)f;
+		PieceForReviewItem	*N=static_cast<PieceForReviewItem *>(f);
 		Name=N->AreaName;
 		return true;
 	}

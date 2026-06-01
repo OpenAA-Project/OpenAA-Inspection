@@ -137,8 +137,8 @@ public:
 
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet)	override;
 };
-//==================================================================================
 
+//==================================================================================
 
 class	CmdAddResultImportanceItemPacket : public GUIDirectMessage
 {
@@ -149,5 +149,46 @@ public:
 	CmdAddResultImportanceItemPacket(LayersBase *base):GUIDirectMessage(base){}
 };
 
+//==================================================================================
+
+class	ResultImportanceList : public NPList<ResultImportanceList>
+{
+public:
+	int		Page;
+	int		x1,y1,x2,y2;
+	int		ImportanceLevel;
+	int		ItemID;
+
+	ResultImportanceList(void){}
+
+	bool	Load(QIODevice *f);
+	bool	Save(QIODevice *f);
+};
+
+class	ResultImportanceListForPacketPack: public NPListPack<ResultImportanceList>
+{
+public:
+	ResultImportanceListForPacketPack(void){}
+
+	ResultImportanceListForPacketPack	&operator+=(ResultImportanceListForPacketPack &src);
+	bool	Load(QIODevice *f);
+	bool	Save(QIODevice *f);
+};
+
+class	CmdMakeResultImportanceList : public GUIDirectMessage
+{
+public:
+	ResultImportanceListForPacketPack	*ResultImportanceInfo;
+
+	CmdMakeResultImportanceList(LayersBase *base):GUIDirectMessage(base){}
+};
+
+class	CmdSelectResultImportance : public GUIDirectMessage
+{
+public:
+	IntList	*ImportanceLevels;
+
+	CmdSelectResultImportance(LayersBase *base):GUIDirectMessage(base){}
+};
 
 #endif

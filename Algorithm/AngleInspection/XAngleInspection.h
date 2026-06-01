@@ -163,3 +163,21 @@ public:
 
 	CmdSetAngleInspection(LayersBase *Base):GUIDirectMessage(Base){}
 };
+
+class	CmdGetAngleInspection : public GUIDirectMessage
+{
+public:
+	double		OKAngleL;
+	double		OKAngleH;
+
+	CmdGetAngleInspection(LayersBase *Base):GUIDirectMessage(Base){}
+};
+
+class	CmdGetShowResultAngleInspection : public GUIDirectMessage
+{
+public:
+	double		ResultAngle;
+	bool3		Result;
+
+	CmdGetShowResultAngleInspection(LayersBase *Base):GUIDirectMessage(Base){}
+};

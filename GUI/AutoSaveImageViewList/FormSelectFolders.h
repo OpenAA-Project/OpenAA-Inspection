@@ -20,6 +20,7 @@
 #define FORMSELECTFOLDERS_H
 
 #include <QDialog>
+#include <QStringList>
 #include "ui_FormSelectFolders.h"
 #include "XServiceForLayers.h"
 

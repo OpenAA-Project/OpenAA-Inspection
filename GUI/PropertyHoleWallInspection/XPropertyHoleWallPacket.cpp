@@ -321,7 +321,7 @@ bool	GUICmdSendAddManualHoleWall::Save(QIODevice *f)
 
 void	GUICmdSendAddManualHoleWall::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	HoleWallBase *BBase=(HoleWallBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"HoleWall");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"HoleWall");
 	if(BBase!=NULL){
 		CmdAddByteHoleWallItemPacket	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -357,7 +357,7 @@ bool	GUICmdSendModifySelectedHoleWall::Save(QIODevice *f)
 
 void	GUICmdSendModifySelectedHoleWall::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	HoleWallBase *BBase=(HoleWallBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"HoleWall");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"HoleWall");
 	if(BBase!=NULL){
 		CmdModifySelectedHoleWallFromByteArray	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -395,9 +395,9 @@ GUICmdSendSelectedHoleWallItemAttr::GUICmdSendSelectedHoleWallItemAttr(LayersBas
 }
 void	GUICmdSendSelectedHoleWallItemAttr::Make(int localPage ,LayersBase *Base)
 {
-	HoleWallBase *BBase=(HoleWallBase *)Base->GetAlgorithmBase(/**/"Basic",/**/"HoleWall");
+	AlgorithmBase *BBase=Base->GetAlgorithmBase(/**/"Basic",/**/"HoleWall");
 	if(BBase!=NULL){
-		HoleWallInPage	*PData=dynamic_cast<HoleWallInPage *>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		CmdGetOneSelectedItem	Cmd(this);
 		PData->TransmitDirectly(&Cmd);
 		if(Cmd.ExistSelected==true){
@@ -484,7 +484,7 @@ void	GUICmdSendHoleWallInfoList::Receive(int32 localPage, int32 cmd ,QString &Em
 
 void	GUICmdSendHoleWallInfoList::Make(int localPage)
 {
-	HoleWallBase	*BBase=(HoleWallBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"HoleWall");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"HoleWall");
 	CmdHoleWallInfoListPacket	Cmd(this);
 	Cmd.HoleWallInfos=&HoleWallInfos;
 	BBase->GetPageData(localPage)->TransmitDirectly(&Cmd);
@@ -513,7 +513,7 @@ bool	GUICmdReqHoleWallFromList::Save(QIODevice *f)
 void	GUICmdReqHoleWallFromList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckHoleWallFromList	*SendBack=GetSendBack(GUICmdAckHoleWallFromList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	HoleWallBase	*BBase=(HoleWallBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"HoleWall");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"HoleWall");
 	if(BBase!=NULL){
 		int	N=0;
 		for(ListLayerAndID *a=CurrentItem.GetFirst();a!=NULL;a=a->GetNext()){
@@ -556,7 +556,7 @@ bool	GUICmdAckHoleWallFromList::Load(QIODevice *f)
 	int32	N;
 	if(::Load(f,N)==false)
 		return false;
-	HoleWallBase	*BBase=(HoleWallBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"HoleWall");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"HoleWall");
 	for(int i=0;i<N;i++){
 		CmdCreateHoleWallItem	Cmd(GetLayersBase());
 		BBase->TransmitDirectly(&Cmd);
@@ -705,7 +705,7 @@ void	GUICmdMakeBitBuff::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 {
 	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"HoleWall");
 	if(BBase!=NULL){
-		HoleWallInPage	*PData=dynamic_cast<HoleWallInPage *>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		CmdMakeBitBuff	Cmd(this);
 		PData->TransmitDirectly(&Cmd);
 	}

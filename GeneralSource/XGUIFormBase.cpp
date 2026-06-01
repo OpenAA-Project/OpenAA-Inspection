@@ -433,11 +433,13 @@ void	GUIFormBase::Set(GUIInitializer	*_GUIInitializerPoint ,GUIInstancePack	*_GU
 	GUIInitializerPoint	=_GUIInitializerPoint;
 	GUIInstancePackPoint=_GUIInstancePackPoint;
 	RootForm	=true;
+	ClassName = typeid(*this).name();
 }
 void	GUIFormBase::SetParent(GUIInitializer	*_GUIInitializerPoint ,GUIInstancePack	*_GUIInstancePackPoint)
 {
 	GUIInitializerPoint	=_GUIInitializerPoint;
 	GUIInstancePackPoint=_GUIInstancePackPoint;
+	ClassName = typeid(*this).name();
 }
 LayersBase	*GUIFormBase::GetLayersBase(void)	const
 {
@@ -623,6 +625,18 @@ GUIFormBase	*GUIFormBase::GetTopParent()	const
 bool	GUIFormBase::IsValid(int page ,int layer)const
 {
 	return GetParamGlobal()->IsValid(page ,layer);
+}
+
+bool	GUIFormBase::DoesIncludeInClassName(const QString &s)	const
+{
+	int	index=0;
+	index=ClassName.indexOf(s,index);
+	if(index<0){
+		return false;
+	}
+	else{
+		return true;
+	}
 }
 
 GUIFormBase	*GUIFormBase::GetTopSurfaceWidget(int x ,int y)

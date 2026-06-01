@@ -141,7 +141,7 @@ void	PropertyDynamicClassifyForm::TransmitDirectly(GUIDirectMessage *packet)
 			ColorGenerator.Cube=D.ColorPanel.Cube;
 			ColorGenerator.InitializedDoneCube();
 			ColorGenerator.Repaint();
-			DynamicClassifyLibrary	*ALib=dynamic_cast<DynamicClassifyLibrary *>(TempLib->GetLibrary());
+			DynamicClassifyLibrary	*ALib=static_cast<DynamicClassifyLibrary *>(TempLib->GetLibrary());
 			ALib->PickupColor	=D.ColorPanel.Cube;
 		}
 		return;
@@ -423,7 +423,7 @@ void	PropertyDynamicClassifyForm::ShowLibrary(AlgorithmLibraryLevelContainer &da
 		ui.EditLibID->setText(QString::number(data.GetLibID()));
 	ui.EditLibName	->setText(data.GetLibName());
 
-	DynamicClassifyLibrary	*ALib=dynamic_cast<DynamicClassifyLibrary *>(data.GetLibrary());
+	DynamicClassifyLibrary	*ALib=static_cast<DynamicClassifyLibrary *>(data.GetLibrary());
 	ColorGenerator.Cube=ALib->PickupColor;
 	ColorGenerator.InitializedDoneCube();
 	ColorGenerator.Repaint();
@@ -442,7 +442,7 @@ void	PropertyDynamicClassifyForm::ShowLibrary(AlgorithmLibraryLevelContainer &da
 void	PropertyDynamicClassifyForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
 	data.SetLibName(ui.EditLibName	->text());
-	DynamicClassifyLibrary	*ALib=dynamic_cast<DynamicClassifyLibrary *>(data.GetLibrary());
+	DynamicClassifyLibrary	*ALib=static_cast<DynamicClassifyLibrary *>(data.GetLibrary());
 
 	ALib->MinAreaSize		=ui.EditMinBlockSize		->value();
 	ALib->MaxAreaSize		=ui.EditMaxBlockSize		->value();

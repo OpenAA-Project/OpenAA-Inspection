@@ -204,7 +204,46 @@ public:
 	CmdRemoveMaskPIItem(LayersBase *base):GUIDirectMessage(base){}
 	CmdRemoveMaskPIItem(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
+//=================================================================================
 
+class	MaskingPIListForPacket : public NPList<MaskingPIListForPacket>
+{
+public:
+	int		ItemID;
+	int		Page;
+	int		x1,y1,x2,y2;
+	bool	Effective;
+	AlgorithmLibraryListContainer	LimitedLib;
+	
+	MaskingPIListForPacket(void){}
 
+	virtual	bool	Save(QIODevice *f);
+	virtual	bool	Load(QIODevice *f);
+
+	MaskingPIListForPacket	&operator=(MaskingPIListForPacket &src);
+};
+
+class	MaskingPIListForPacketPack : public NPListPack<MaskingPIListForPacket>
+{
+public:
+	MaskingPIListForPacketPack(void){}
+
+	virtual	bool	Save(QIODevice *f);
+	virtual	bool	Load(QIODevice *f);
+
+	MaskingPIListForPacketPack	&operator= (MaskingPIListForPacketPack &src);
+	MaskingPIListForPacketPack	&operator+=(MaskingPIListForPacketPack &src);
+};
+
+class	CmdMakeMaskPIList : public GUIDirectMessage
+{
+public:
+	bool	IneffectiveMode;
+	bool	EffectiveMode;
+	MaskingPIListForPacketPack	*MaskInfo;
+
+	CmdMakeMaskPIList(LayersBase *base):GUIDirectMessage(base){}
+	CmdMakeMaskPIList(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
 
 #endif

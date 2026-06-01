@@ -161,7 +161,7 @@ void EditLibraryDialog::on_ButtonAddSubtractLib_clicked()
 	SelectLibraryDialog	D(GetLayersBase(),this);
 	if(D.exec()==QDialog::Accepted){
 		int	LibID=D.SelectedID;
-		LinePatternLibrary	*ALib=dynamic_cast<LinePatternLibrary *>(TempLib->GetLibrary());
+		LinePatternLibrary	*ALib=static_cast<LinePatternLibrary *>(TempLib->GetLibrary());
 		if(ALib->SubtractBlock.IsInclude(LibID)==true)
 			return;
 		ALib->SubtractBlock.Add(LibID);
@@ -175,7 +175,7 @@ void EditLibraryDialog::on_ButtonDelSubtractLib_clicked()
 	if(RIndex.isValid()==false)
 		return;
 	int	R=RIndex.row();
-	LinePatternLibrary	*ALib=dynamic_cast<LinePatternLibrary *>(TempLib->GetLibrary());
+	LinePatternLibrary	*ALib=static_cast<LinePatternLibrary *>(TempLib->GetLibrary());
 	IntClass *c=ALib->SubtractBlock.GetItem(R);
 	if(c!=NULL){
 		ALib->SubtractBlock.RemoveList(c);
@@ -333,7 +333,7 @@ void	EditLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	LinePatternLibrary	*ALib=dynamic_cast<LinePatternLibrary *>(data.GetLibrary());
+	LinePatternLibrary	*ALib=static_cast<LinePatternLibrary *>(data.GetLibrary());
 	ShowSubtractList(*ALib);
 
 	ui->EditLineWidthInPattern	->setValue(ALib->LineWidthInPattern);
@@ -408,7 +408,7 @@ void	EditLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &dat
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	LinePatternLibrary	*ALib=dynamic_cast<LinePatternLibrary *>(data.GetLibrary());
+	LinePatternLibrary	*ALib=static_cast<LinePatternLibrary *>(data.GetLibrary());
 	ALib->LineWidthInPattern=ui->EditLineWidthInPattern	->value();
 	ALib->LineWidthOutside	=ui->EditLineWidthOutside	->value();
 	ALib->LimitLength		=ui->EditLimitLength		->value();

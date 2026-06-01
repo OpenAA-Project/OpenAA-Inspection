@@ -282,7 +282,7 @@ void	EditLibrary::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	LineEnhancer1LLibrary	*ALib=dynamic_cast<LineEnhancer1LLibrary *>(data.GetLibrary());
+	LineEnhancer1LLibrary	*ALib=static_cast<LineEnhancer1LLibrary *>(data.GetLibrary());
 	ui->EditPickupH					->setValue	(ALib->PickupColorH);
 	ui->EditPickupL					->setValue	(ALib->PickupColorL);
 	ui->checkBoxGenerateOverlap		->setChecked(ALib->GenerateOverlap);
@@ -361,7 +361,7 @@ void	EditLibrary::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	LineEnhancer1LLibrary	*ALib=dynamic_cast<LineEnhancer1LLibrary *>(data.GetLibrary());
+	LineEnhancer1LLibrary	*ALib=static_cast<LineEnhancer1LLibrary *>(data.GetLibrary());
 	ALib->PickupColorH		=ui->EditPickupH	->value();
 	ALib->PickupColorL		=ui->EditPickupL	->value();
 	ALib->GenerateOverlap	=ui->checkBoxGenerateOverlap->isChecked();

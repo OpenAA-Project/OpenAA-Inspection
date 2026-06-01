@@ -23,6 +23,7 @@
 #include "XDLLOnly.h"
 #include "XExecuteInspectBase.h"
 #include "XForWindows.h"
+#include "XMainGUIFormBase.h"
 #include <QMessageBox>
 #include "XGUI.h"
 #include <QGuiApplication>
@@ -93,28 +94,32 @@ ExpandMainInTab::~ExpandMainInTab(void)
 void	ExpandMainInTab::StartPage	(void)
 {
 	for(QWidget	*w=parentWidget();w!=NULL;w=w->parentWidget()){
-		MainGUIFormBase	*d=dynamic_cast<MainGUIFormBase	*>(w);
+		GUIFormBase	*d=dynamic_cast<GUIFormBase	*>(w);
 		if(d!=NULL){
-			SavedX1=d->geometry().left();
-			SavedY1=d->geometry().top();
-			SavedX2=d->geometry().right();
-			SavedY2=d->geometry().bottom();
+			if(d->DoesIncludeInClassName(/**/"MainGUIFormBase")==true){
+				SavedX1=d->geometry().left();
+				SavedY1=d->geometry().top();
+				SavedX2=d->geometry().right();
+				SavedY2=d->geometry().bottom();
 
-			QScreen	*Scr=qGuiApp->screens()[0];
-			d->move(0,0);
-			d->resize(Scr->geometry().width(),Scr->geometry().height());
-			return;
+				QScreen	*Scr=qGuiApp->screens()[0];
+				d->move(0,0);
+				d->resize(Scr->geometry().width(),Scr->geometry().height());
+				return;
+			}
 		}
 	}
 }
 void	ExpandMainInTab::LeavePage	(void)
 {
 	for(QWidget	*w=parentWidget();w!=NULL;w=w->parentWidget()){
-		MainGUIFormBase	*d=dynamic_cast<MainGUIFormBase	*>(w);
+		GUIFormBase	*d=dynamic_cast<GUIFormBase	*>(w);
 		if(d!=NULL){
-			d->move(SavedX1,SavedY1);
-			d->resize(SavedX2-SavedX1,SavedY2-SavedY1);
-			break;
+			if(d->DoesIncludeInClassName(/**/"MainGUIFormBase")==true){
+				d->move(SavedX1,SavedY1);
+				d->resize(SavedX2-SavedX1,SavedY2-SavedY1);
+				break;
+			}
 		}
 	}
 }

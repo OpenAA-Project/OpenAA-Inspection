@@ -111,7 +111,7 @@ void CreateManualEulerRingForm::on_tableWidgetLibList_clicked(const QModelIndex 
 		if(Packet.Success==true){
 			BlockLibID					=TempLib->GetLibID();
 
-			EulerRingLibrary	*ALib=dynamic_cast<EulerRingLibrary *>(TempLib->GetLibrary());
+			EulerRingLibrary	*ALib=static_cast<EulerRingLibrary *>(TempLib->GetLibrary());
 
 			ui.EditLibID		->setText(QString::number(ALib->GetLibID()));
 			ui.EditLibName		->setText(a->GetLibName());

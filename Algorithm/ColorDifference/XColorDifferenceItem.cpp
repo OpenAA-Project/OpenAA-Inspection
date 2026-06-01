@@ -307,6 +307,8 @@ ColorDifferenceItem::ColorDifferenceItem(void)
 	StatisticData.Vvh	=0;
 	Reference1			=NULL;
 	Reference2			=NULL;
+	ResultDeltaEOK=none3;
+	ResultDenseOK =none3;
 	ResultDx	=0;
 	ResultDy	=0;
 	MasterDense	=0.0;
@@ -330,6 +332,8 @@ AlgorithmItemPI	&ColorDifferenceItem::operator=(const AlgorithmItemRoot &src)
 		ResultDeltaE		=Item->ResultDeltaE;
 		MasterCx			=Item->MasterCx;
 		MasterCy			=Item->MasterCy;
+		ResultDeltaEOK		=Item->ResultDeltaEOK;
+		ResultDenseOK 		=Item->ResultDenseOK ;
 		ResultDx			=Item->ResultDx;
 		ResultDy			=Item->ResultDy;
 		MasterDense			=Item->MasterDense;
@@ -509,6 +513,39 @@ void	ColorDifferenceItem::DrawResultItem(ResultInItemRoot *Res,QImage &IData ,QP
 						+QString::number(D,'f',1));
 				}
 			}
+			else if(RThr->JudgeMethod==4){
+				bool	ok = false;
+				double	E=GetInterpolationDeltaE(ResultDense,ok);
+				if(ok==true){
+					PData.drawText(kx,ky+16,IData.width()-kx,IData.height()-ky
+						,Qt::AlignLeft | Qt::AlignTop
+						,QString(/**/"deltaE=")
+						+QString::number(ResultDeltaE,'f',1)
+						+QString(/**/",補正値=")+QString::number(E,'f',1));
+				}
+				else{
+					PData.drawText(kx,ky+16,IData.width()-kx,IData.height()-ky
+						,Qt::AlignLeft | Qt::AlignTop
+						,QString(/**/"deltaE=")
+						+QString::number(ResultDeltaE,'f',1));
+
+				}
+				ok = false;
+				double	D=GetInterpolationDense(ResultDense,ok);
+				if(ok==true){
+					PData.drawText(kx,ky+32,IData.width()-kx,IData.height()-ky
+						,Qt::AlignLeft | Qt::AlignTop
+						,QString(/**/"Dense=")
+						+QString::number(ResultDense,'f',1)
+						+QString(/**/",補正値=")+QString::number(D,'f',1));
+				}
+				else{
+					PData.drawText(kx,ky+32,IData.width()-kx,IData.height()-ky
+						,Qt::AlignLeft | Qt::AlignTop
+						,QString(/**/"Dense=")
+						+QString::number(ResultDense,'f',1));
+				}
+			}
 		}
 	}
 }
@@ -664,6 +701,8 @@ ExeResult	ColorDifferenceItem::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 							,MasterColor);
 	}
 	MasterDense=CalcDense(true);
+	ResultDeltaEOK=none3;
+	ResultDenseOK =none3;
 
 	return Ret;
 }
@@ -795,7 +834,8 @@ ExeResult	ColorDifferenceItem::ExecuteProcessing		(int ExeID ,int ThreadNo,Resul
 				ResultDeltaE=GetDeltaE76(mL,mA,mB,tL,tA,tB);
 
 			Res->SetResultDouble(ResultDeltaE);
-
+			ResultDeltaEOK	=none3;
+			ResultDenseOK	=none3;
 			if(RThr->JudgeMethod==0){
 				if(OKBrightness.GetCount()>0 && NGBrightness.GetCount()>0){
 					RGBSample	S(qRgb(R,G,B));
@@ -837,8 +877,10 @@ ExeResult	ColorDifferenceItem::ExecuteProcessing		(int ExeID ,int ThreadNo,Resul
 					RNG->result			=0x10100;
 					Res->AddPosList(RNG);
 					Res->SetError(2);
+					ResultDeltaEOK	=false3;
 				}
 				else{
+					ResultDeltaEOK	=true3;
 					Res->SetError(1);
 				}
 			}
@@ -896,6 +938,7 @@ ExeResult	ColorDifferenceItem::ExecuteProcessing		(int ExeID ,int ThreadNo,Resul
 				ResultDense	=CalcDense();
 				if(fabs(ResultDense-MasterDense)<=RThr->ThDense){
 					Res->SetError(1);
+					ResultDenseOK=true3;
 				}
 				else{
 					ColorDifferenceResultPosList	*RNG=new ColorDifferenceResultPosList(this,MasterCx,MasterCy);
@@ -903,8 +946,38 @@ ExeResult	ColorDifferenceItem::ExecuteProcessing		(int ExeID ,int ThreadNo,Resul
 					RNG->result			=0x10000+ResultDenseType;
 					Res->AddPosList(RNG);
 					Res->SetError(2);
+					ResultDenseOK=false3;
 				}
 			}
+			else if(RThr->JudgeMethod==4){
+				ResultDense	=CalcDense();
+				if(ResultDeltaE>RThr->THDeltaE){
+					ColorDifferenceResultPosList	*RNG=new ColorDifferenceResultPosList(this,MasterCx,MasterCy);
+					RNG->SetResult(ResultDeltaE);
+					RNG->result			=0x10100;
+					Res->AddPosList(RNG);
+					Res->SetError(2);
+					ResultDeltaEOK=false3;
+				}
+				else{
+					ResultDeltaEOK=true3;
+				}
+				if(fabs(ResultDense-MasterDense)>RThr->ThDense){
+					ColorDifferenceResultPosList	*RNG=new ColorDifferenceResultPosList(this,MasterCx,MasterCy);
+					RNG->SetResult(ResultDense);
+					RNG->result			=0x10000+ResultDenseType;
+					Res->AddPosList(RNG);
+					Res->SetError(2);
+					ResultDenseOK = false3;
+				}
+				else{
+					ResultDenseOK = true3;
+				}
+				if(ResultDeltaEOK==true3 && ResultDenseOK==true3){
+					Res->SetError(1);
+				}
+			}
+
 			if(OutputConstantly==true){
 				double	tH,tS,tV;
 				RGB2HSV(tH,tS,tV,R ,G ,B);
@@ -1068,7 +1141,7 @@ void	ColorDifferenceItem::SetIndependentItemData(int32 Command,int32 LocalPage,i
 	else if(Command==SetIndependentItemNameDataCommand_All){
 		ColorDifferenceItem *src=dynamic_cast<ColorDifferenceItem *>(Data);
 		if(src!=NULL){
-			if(GetLibID()==src->GetLibID()){
+			if(GetParentInPage()->GetPage()==LocalPage && GetID()==Data->GetID()){
 				ColorDifferenceInPage	*Pg=dynamic_cast<ColorDifferenceInPage *>(GetParentInPage());
 				UndoElement<ColorDifferenceInPage>	*UPointer=new UndoElement<ColorDifferenceInPage>(Pg,&ColorDifferenceInPage::UndoSetIndependentItemNameDataCommand);
 				::Save(UPointer->GetWritePointer(),GetID());

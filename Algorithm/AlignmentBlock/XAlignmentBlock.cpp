@@ -28,6 +28,7 @@
 #include "XDisplayBitImage.h"
 #include "XAlignmentBlockLibrary.h"
 #include "XCriticalFunc.h"
+#include "XAlignmentBlockCommon.h"
 
 extern	const	char	*sRoot;
 extern	const	char	*sName;
@@ -152,6 +153,20 @@ void	AlignmentBlockInPage::TransmitDirectly(GUIDirectMessage *packet)
 					}
 				}
 			}
+		}
+		return;
+	}
+	CmdMakeAlignmentBlockItemList *CmdMakeAlignmentBlockItemListVar = dynamic_cast<CmdMakeAlignmentBlockItemList *>(packet);
+	if(CmdMakeAlignmentBlockItemListVar!=NULL){
+		for(AlignmentBlockItem *item=tGetFirstData();item!=NULL;item=item->tGetNext()){
+			AlignmentBlockItemList	*a=new AlignmentBlockItemList();
+			a->ItemID	=item->GetID();
+			item->GetXY(a->X1,a->Y1,a->X2,a->Y2);
+			a->CurrentRotationPatternNo	=item->CurrentRotationPatternNo;
+			a->ResultRadian	=item->ResultRadian;
+			a->ResultDx		=item->ResultDx;
+			a->ResultDy		=item->ResultDy;
+			CmdMakeAlignmentBlockItemListVar->Items->AppendList(a);
 		}
 		return;
 	}

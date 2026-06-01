@@ -280,9 +280,9 @@ GUICmdSendSelectedProcess3DItemAttr::GUICmdSendSelectedProcess3DItemAttr(LayersB
 }
 void	GUICmdSendSelectedProcess3DItemAttr::Make(int localPage ,LayersBase *Base)
 {
-	Process3DBase *BBase=(Process3DBase *)Base->GetAlgorithmBase(/**/"Basic",/**/"Process3D");
+	AlgorithmBase *BBase=Base->GetAlgorithmBase(/**/"Basic",/**/"Process3D");
 	if(BBase!=NULL){
-		Process3DInPage	*PData=dynamic_cast<Process3DInPage *>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		CmdGetOneSelectedItem	Cmd(this);
 		PData->TransmitDirectly(&Cmd);
 		if(Cmd.ExistSelected==true){

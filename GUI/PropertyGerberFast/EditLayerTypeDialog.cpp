@@ -196,7 +196,7 @@ void EditLayerTypeDialog::on_pushButtonDelete_clicked()
 void EditLayerTypeDialog::ShowDataToWindow(AlgorithmLibraryLevelContainer *Attr)
 {
 	if(Attr!=NULL && Attr->GetLibID()>=0){
-		GerberFastLibrary	*ALib=dynamic_cast<GerberFastLibrary *>(Attr->GetLibrary());
+		GerberFastLibrary	*ALib=static_cast<GerberFastLibrary *>(Attr->GetLibrary());
 		ui->lineEditLibID				->setText (QString::number(Attr->GetLibID()));
 		ui->lineEditLibName				->setText (ALib->GetLibName());
 		ui->spinBoxMaxEnlargeDot		->setValue(ALib->MaxEnlargeDot);
@@ -218,7 +218,7 @@ void EditLayerTypeDialog::ShowDataToWindow(AlgorithmLibraryLevelContainer *Attr)
 void EditLayerTypeDialog::GetDataFromWindow(AlgorithmLibraryLevelContainer *Attr)
 {
 	if(Attr!=NULL){
-		GerberFastLibrary	*ALib=dynamic_cast<GerberFastLibrary *>(Attr->GetLibrary());
+		GerberFastLibrary	*ALib=static_cast<GerberFastLibrary *>(Attr->GetLibrary());
 		if(ALib!=NULL){
 			Attr->SetLibName		(ui->lineEditLibName			->text());
 			ALib->MaxEnlargeDot		=ui->spinBoxMaxEnlargeDot		->value();

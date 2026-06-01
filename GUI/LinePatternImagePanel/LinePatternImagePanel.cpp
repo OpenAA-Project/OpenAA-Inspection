@@ -120,7 +120,7 @@ void	LinePatternImagePanel::TransmitDirectly(GUIDirectMessage *packet)
 
 AlgorithmDrawAttr	*LinePatternImagePanel::CreateDrawAttrPointer(void)
 {
-	LinePatternBase	*a=dynamic_cast<LinePatternBase *>(GetAlgorithmBase());
+	LinePatternBase	*a=static_cast<LinePatternBase *>(GetAlgorithmBase());
 	if(a!=NULL){
 		LinePatternDrawAttr	*c=new LinePatternDrawAttr(a->ColorMask		,a->TransparentLevel
 											,  a->ColorSelected	,a->TransparentLevel

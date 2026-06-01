@@ -220,7 +220,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>CommonGUIDLL.lib;Component.lib;ServiceLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CommonGUIDLL.lib;Component.lib;ServiceLib.lib;DisplayImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>

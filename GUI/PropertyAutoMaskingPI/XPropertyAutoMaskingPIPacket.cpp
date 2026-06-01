@@ -59,9 +59,7 @@ void	GUICmdAddAutoMaskingPIArea::Receive(int32 localPage, int32 cmd ,QString &Em
 	Cmd.Area=MaskArea;
 	Cmd.Effective=Effective;
 	Cmd.LimitedLib=LimitedLib;
-	AutoMaskingPIInPage	*M=dynamic_cast<AutoMaskingPIInPage *>(PData);
-	if(M!=NULL)
-		M->TransmitDirectly(&Cmd);
+	PData->TransmitDirectly(&Cmd);
 }
 
 GUICmdChangeAutoMaskingPIAttr::GUICmdChangeAutoMaskingPIAttr(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
@@ -98,113 +96,16 @@ void	GUICmdChangeAutoMaskingPIAttr::Receive(int32 localPage, int32 cmd ,QString 
 	AlgorithmBase	*L=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AutoMaskingPI");
 	if(L==NULL)
 		return;
-	AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(L->GetPageData(localPage));
+	AlgorithmInPageRoot	*PData=L->GetPageData(localPage);
 	if(PData==NULL)
 		return;
-	AlgorithmItemPI		*Item=dynamic_cast<AlgorithmItemPI *>(PData->SearchIDItem(ItemID));
+	AlgorithmItemRoot	*Item=PData->SearchIDItem(ItemID);
 	if(Item==NULL)
 		return;
-	AutoMaskingPIItem	*M=dynamic_cast<AutoMaskingPIItem *>(Item);
-	if(M==NULL)
-		return;
+	AutoMaskingPIItem	*M=static_cast<AutoMaskingPIItem *>(Item);
 
 	M->GetThresholdW()->Effective=Effective;
 	M->GetThresholdW()->SelAreaID=LimitedLib;
-}
-
-bool	AutoMaskingPIListForPacket::Save(QIODevice *f)
-{
-	if(::Save(f,ItemID)==false)
-		return false;
-	if(::Save(f,Page)==false)
-		return false;
-	if(::Save(f,x1)==false)
-		return false;
-	if(::Save(f,y1)==false)
-		return false;
-	if(::Save(f,x2)==false)
-		return false;
-	if(::Save(f,y2)==false)
-		return false;
-	if(::Save(f,Effective)==false)
-		return false;
-	if(LimitedLib.Save(f)==false)
-		return false;
-	return true;
-}
-bool	AutoMaskingPIListForPacket::Load(QIODevice *f)
-{
-	if(::Load(f,ItemID)==false)
-		return false;
-	if(::Load(f,Page)==false)
-		return false;
-	if(::Load(f,x1)==false)
-		return false;
-	if(::Load(f,y1)==false)
-		return false;
-	if(::Load(f,x2)==false)
-		return false;
-	if(::Load(f,y2)==false)
-		return false;
-	if(::Load(f,Effective)==false)
-		return false;
-	if(LimitedLib.Load(f)==false)
-		return false;
-	return true;
-}
-AutoMaskingPIListForPacket	&AutoMaskingPIListForPacket::operator=(AutoMaskingPIListForPacket &src)
-{
-	ItemID	=src.ItemID;
-	Page	=src.Page;
-	x1		=src.x1;
-	y1		=src.y1;
-	x2		=src.x2;
-	y2		=src.y2;
-	Effective	=src.Effective;
-	LimitedLib	=src.LimitedLib;
-	return *this;
-}
-
-
-bool	AutoMaskingPIListForPacketPack::Save(QIODevice *f)
-{
-	int32	N=GetNumber();
-	if(::Save(f,N)==false)
-		return false;
-	for(AutoMaskingPIListForPacket *c=GetFirst();c!=NULL;c=c->GetNext()){
-		if(c->Save(f)==false)
-			return false;
-	}
-	return true;
-}
-bool	AutoMaskingPIListForPacketPack::Load(QIODevice *f)
-{
-	int32	N;
-	if(::Load(f,N)==false)
-		return false;
-	RemoveAll();
-	for(int i=0;i<N;i++){
-		AutoMaskingPIListForPacket	*c=new AutoMaskingPIListForPacket();
-		if(c->Load(f)==false)
-			return false;
-	}
-	return true;
-}
-
-AutoMaskingPIListForPacketPack	&AutoMaskingPIListForPacketPack::operator=(AutoMaskingPIListForPacketPack &src)
-{
-	RemoveAll();
-	operator+=(src);
-	return *this;
-}
-AutoMaskingPIListForPacketPack	&AutoMaskingPIListForPacketPack::operator+=(AutoMaskingPIListForPacketPack &src)
-{
-	for(AutoMaskingPIListForPacket *c=src.GetFirst();c!=NULL;c=c->GetNext()){
-		AutoMaskingPIListForPacket *d=new AutoMaskingPIListForPacket();
-		*d=*c;
-		AppendList(d);
-	}
-	return *this;
 }
 
 //==============================================================================================
@@ -256,26 +157,16 @@ void	GUICmdSendAutoMaskPIList::MakeMaskList(bool EffectiveMode,bool IneffectiveM
 	for(int phase=0;phase<PBase->GetPhaseNumb();phase++){
 		if(PBase->GetPhaseNumb()>1)
 			PBase->TF_SetCurrentScanPhaseNumber(phase); // phase function
-		AlgorithmInPagePI	*PData=dynamic_cast<AlgorithmInPagePI	*>(AutoMaskingPIBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=AutoMaskingPIBase->GetPageData(localPage);
 		if(PData==NULL)
 			continue;
-		for(AlgorithmItemPI *item=PData->GetFirstData();item!=NULL;item=item->GetNext()){
-			AutoMaskingPIItem	*MItem=dynamic_cast<AutoMaskingPIItem *>(item);
-			if(MItem!=NULL && ((EffectiveMode==true && MItem->GetThresholdR()->Effective==true) || (IneffectiveMode==true && MItem->GetThresholdR()->Effective==false))){
-				AutoMaskingPIListForPacket	*L=new AutoMaskingPIListForPacket();
-				L->Page=PBase->GetGlobalPageFromLocal(localPage);
-				L->Effective=MItem->GetThresholdR()->Effective;
-				int x1 ,y1 ,x2 ,y2;
-				MItem->GetXY(x1 ,y1 ,x2 ,y2);
-				L->ItemID=MItem->GetID();
-				L->x1=x1;
-				L->y1=y1;
-				L->x2=x2;
-				L->y2=y2;
-				L->LimitedLib=*((AlgorithmLibraryListContainer *)&MItem->GetThresholdR()->SelAreaID);
-				MaskInfo.AppendList(L);				
-			}
-		}
+
+		CmdSendAutoMaskPIList	Cmd(GetLayersBase());
+		Cmd.IneffectiveMode	=IneffectiveMode;
+		Cmd.EffectiveMode	=EffectiveMode	;
+		Cmd.MaskInfo = &MaskInfo;
+		PData->TransmitDirectly(&Cmd);
+
 ///////
 	}
 	if(PBase->GetPhaseNumb()>1)
@@ -346,7 +237,7 @@ void	GUICmdGenerateAutoMaskPIInSameColor::Receive(int32 localPage, int32 cmd ,QS
 	AlgorithmBase	*AutoMaskingBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"AutoMaskingPI");
 	if(AutoMaskingBase==NULL)
 		return;
-	AlgorithmInPagePI	*MaskPIPage=dynamic_cast<AlgorithmInPagePI *>(AutoMaskingBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*MaskPIPage=AutoMaskingBase->GetPageData(localPage);
 	if(MaskPIPage==NULL)
 		return;
 

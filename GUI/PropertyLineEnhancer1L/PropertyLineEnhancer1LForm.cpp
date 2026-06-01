@@ -324,7 +324,7 @@ void	PropertyLineEnhancer1LForm::TransmitDirectly(GUIDirectMessage *packet)
 		if(ui->radioButtonPickupArea->isChecked()==true){
 			if(TempLib->GetLibID()>=0){
 				//GlobalPickupArea+=BlockDEnd->Area;
-				LineEnhancer1LLibrary	*ALib=dynamic_cast<LineEnhancer1LLibrary *>(TempLib->GetLibrary());
+				LineEnhancer1LLibrary	*ALib=static_cast<LineEnhancer1LLibrary *>(TempLib->GetLibrary());
 				BrightHistgramForm	D(BlockDEnd->Area,BlockDEnd->ImagePanelPoint
 									  ,ALib->PickupColorL,ALib->PickupColorH,this);
 				D.Reflect(ALib->PickupColorL,ALib->PickupColorH);
@@ -504,7 +504,7 @@ void	PropertyLineEnhancer1LForm::ShowLibrary(AlgorithmLibraryLevelContainer &dat
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	LineEnhancer1LLibrary	*ALib=dynamic_cast<LineEnhancer1LLibrary *>(data.GetLibrary());
+	LineEnhancer1LLibrary	*ALib=static_cast<LineEnhancer1LLibrary *>(data.GetLibrary());
 	ui->EditSourceLayer		->setValue(ALib->SourceLayer);
 	ui->EditMinDot			->setValue(ALib->MinDot);
 	ui->EditMaxDot			->setValue(ALib->MaxDot);
@@ -521,7 +521,7 @@ void	PropertyLineEnhancer1LForm::GetLibraryFromWindow(AlgorithmLibraryLevelConta
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	LineEnhancer1LLibrary	*ALib=dynamic_cast<LineEnhancer1LLibrary *>(data.GetLibrary());
+	LineEnhancer1LLibrary	*ALib=static_cast<LineEnhancer1LLibrary *>(data.GetLibrary());
 	ALib->SourceLayer		=ui->EditSourceLayer	->value();
 	ALib->MinDot			=ui->EditMinDot			->value();
 	ALib->MaxDot			=ui->EditMaxDot			->value();

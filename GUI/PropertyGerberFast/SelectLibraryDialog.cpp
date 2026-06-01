@@ -173,7 +173,7 @@ void SelectLibraryDialog::ShowDataToWindow(AlgorithmLibraryLevelContainer *Attr)
 {
 	GerberFastLibrary	*ALib=NULL;
 	if(Attr!=NULL){
-		ALib=dynamic_cast<GerberFastLibrary *>(Attr->GetLibrary());
+		ALib=static_cast<GerberFastLibrary *>(Attr->GetLibrary());
 	}
 	if(Attr!=NULL && Attr->GetLibID()>=0 && ALib!=NULL){
 		ui->lineEditLayerTypeLibID		->setText(QString::number(Attr->GetLibID()));

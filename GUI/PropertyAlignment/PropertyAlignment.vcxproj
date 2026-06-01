@@ -322,6 +322,7 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Algorithm\Alignment\XAlignmentCommon.cpp" />
     <ClCompile Include="..\AlignmentImagePanel\AlignmentImagePropertyPacket.cpp" />
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp" />
     <ClCompile Include="InputAlignmentAreaForm.cpp" />

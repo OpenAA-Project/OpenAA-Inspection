@@ -49,9 +49,9 @@ void	GUICmdSendAddManualAlignmentBlock::Receive(int32 localPage, int32 cmd ,QStr
 {
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	AlignmentBlockBase *BBase=(AlignmentBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AlignmentBlock");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AlignmentBlock");
 	if(BBase!=NULL){
-		AlignmentBlockInPage	*PData=dynamic_cast<AlignmentBlockInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdAddAlignmentBlockItemPacket	Cmd(this);
 			Cmd.Area		=Area;
@@ -85,9 +85,9 @@ bool	GUICmdAutoGenerateAlignmentBlock::Save(QIODevice *f)
 
 void	GUICmdAutoGenerateAlignmentBlock::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	AlignmentBlockBase *BBase=(AlignmentBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AlignmentBlock");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AlignmentBlock");
 	if(BBase!=NULL){
-		AlignmentBlockInPage	*PData=dynamic_cast<AlignmentBlockInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdAutoGenerateAlignmentBlock	Cmd(this);
 			Cmd.LibID	=LibID	;
@@ -109,20 +109,13 @@ void	GUICmdReqAlignmentBlockItemList::Receive(int32 localPage, int32 cmd ,QStrin
 	GUICmdAckAlignmentBlockItemList	*SendBack=GetSendBack(GUICmdAckAlignmentBlockItemList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
 	SendBack->Items.RemoveAll();
-	AlignmentBlockBase *BBase=(AlignmentBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AlignmentBlock");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"AlignmentBlock");
 	if(BBase!=NULL){
-		AlignmentBlockInPage	*PData=dynamic_cast<AlignmentBlockInPage	*>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
-			for(AlignmentBlockItem *item=PData->tGetFirstData();item!=NULL;item=item->tGetNext()){
-				AlignmentBlockItemList	*a=new AlignmentBlockItemList();
-				a->ItemID	=item->GetID();
-				item->GetXY(a->X1,a->Y1,a->X2,a->Y2);
-				a->CurrentRotationPatternNo	=item->CurrentRotationPatternNo;
-				a->ResultRadian	=item->ResultRadian;
-				a->ResultDx		=item->ResultDx;
-				a->ResultDy		=item->ResultDy;
-				SendBack->Items.AppendList(a);
-			}
+			CmdMakeAlignmentBlockItemList	Cmd(GetLayersBase());
+			Cmd.Items = &SendBack->Items;
+			PData->TransmitDirectly(&Cmd);
 		}
 	}
 

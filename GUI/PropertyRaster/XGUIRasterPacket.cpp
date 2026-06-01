@@ -59,17 +59,17 @@ bool	GUICmdLoadRaster::Save(QIODevice *f)
 
 void	GUICmdLoadRaster::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	RasterBase	*PBase=(RasterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
+	RasterBase	*PBase=static_cast<RasterBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster"));
 	if(PBase==NULL)
 		return;
-	RasterInPage	*PPage;
+	AlgorithmInPageRoot	*PPage;
 	if(PBase->ModeDeliverAllPhasesInLoadRaster==true){
 		int	Phase=GetLayersBase()->GetCurrentPhase();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(Phase);
-		PPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+		PPage=Ah->GetPageData(localPage);
 	}
 	else{
-		PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+		PPage=PBase->GetPageData(localPage);
 	}
 	if(PPage!=NULL){
 		CmdLoadRaster	Da(GetLayersBase());
@@ -109,15 +109,15 @@ GUICmdDeliverRasterToOtherPhases::GUICmdDeliverRasterToOtherPhases(LayersBase *B
 
 void	GUICmdDeliverRasterToOtherPhases::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	RasterBase	*PBase=(RasterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
+	RasterBase	*PBase=static_cast<RasterBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster"));
 	if(PBase==NULL)
 		return;
 	if(PBase->ModeDeliverAllPhasesInLoadRaster==true){
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(0);
-		RasterInPage	*SrcPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+		RasterInPage	*SrcPage=static_cast<RasterInPage *>(Ah->GetPageData(localPage));
 		for(int phase=1;phase<GetPhaseNumb();phase++){
 			AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-			RasterInPage	*DestPPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+			AlgorithmInPageRoot	*DestPPage=Ah->GetPageData(localPage);
 		
 			CmdCopyPageAllFrom	Da(GetLayersBase());
 			Da.SourcePage	=SrcPage;
@@ -169,7 +169,7 @@ void	GUICmdReqRasterArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(PBase==NULL)
 		return;
-	RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqRasterArea	Da(GetLayersBase());
 		PPage->TransmitDirectly(&Da);
@@ -246,7 +246,7 @@ void	GUICmdClearRaster::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 		for(int phase=0;phase<GetPhaseNumb();phase++){
 			AlgorithmInPageInOnePhase	*H=PBase->GetPageDataPhase(phase);
 			if(H!=NULL){
-				RasterInPage	*PPage=dynamic_cast<RasterInPage *>(H->GetPageData(localPage));
+				AlgorithmInPageRoot	*PPage=H->GetPageData(localPage);
 				if(PPage!=NULL){
 					CmdClearRaster	Cmd(GetLayersBase());
 					PPage->TransmitDirectly(&Cmd);
@@ -255,7 +255,7 @@ void	GUICmdClearRaster::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 		}
 	}
 	else{
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdClearRaster	Cmd(GetLayersBase());
 			PPage->TransmitDirectly(&Cmd);
@@ -315,7 +315,7 @@ void	GUICmdRasterMove::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdRasterMove	Cmd(GetLayersBase());
 			Cmd.XDir=XDir;
@@ -378,7 +378,7 @@ void	GUICmdRasterRotate::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdRasterRotate	Cmd(GetLayersBase());
 			Cmd.Angle=Angle;
@@ -446,7 +446,7 @@ void	GUICmdRasterZoom::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdRasterZoom	Cmd(GetLayersBase());
 			Cmd.XZoomDir=XZoomDir;
@@ -515,7 +515,7 @@ void	GUICmdRasterShear::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdRasterShear	Cmd(GetLayersBase());
 			Cmd.XMode=XMode;
@@ -579,7 +579,7 @@ void	GUICmdRasterMirror::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdRasterMirror	Cmd(GetLayersBase());
 			Cmd.XMode=XMode;
@@ -650,7 +650,7 @@ void	GUICmdRasterCenterize::Receive(int32 localPage, int32 cmd ,QString &Emitter
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdRasterCenterize	Cmd(GetLayersBase());
 			Cmd.MovX=MovX;
@@ -718,7 +718,7 @@ void	GUICmdRasterCenterizeOnly::Receive(int32 localPage, int32 cmd ,QString &Emi
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(phase);
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdRasterCenterizeOnly	Cmd(GetLayersBase());
 			Cmd.MovX=MovX;
@@ -779,7 +779,7 @@ void	GUICmdSetDrawAttr::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 	}
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(PBase!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdSetDrawAttr	WCmd(GetLayersBase());
 			WCmd.ShownFileID		=ShownFileID;
@@ -824,7 +824,7 @@ void	GUICmdDrawAllSelected::Receive(int32 localPage, int32 cmd ,QString &Emitter
 	for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 		int phase=v->GetValue();
 		AlgorithmInPageInOnePhase	*Ah=Ab->GetPageDataPhase(phase);
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdDrawAllSelected	Cmd(GetLayersBase());
 			Cmd.ButtonsToOperateLayer	=ButtonsToOperateLayer;
@@ -862,7 +862,7 @@ void	GUICmdSelectLine::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(PBase!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdSelectLine	Cmd(GetLayersBase());
 			Cmd.FileLayerID		=FileLayerID;
@@ -898,7 +898,7 @@ void	GUICmdRemoveLine::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(PBase!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdRemoveLine	Cmd(GetLayersBase());
 			Cmd.LineNo		=LineNo;
@@ -934,7 +934,7 @@ void	GUICmdSwapNext::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QS
 {
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(PBase!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 		if(PPage!=NULL){
 			CmdSwapNext	Cmd(GetLayersBase());
 			Cmd.LineNo		=LineNo;
@@ -976,7 +976,7 @@ void	GUICmdDuplicateLine::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 		for(IntClass *v=PhaseList.GetFirst();v!=NULL;v=v->GetNext()){
 			int phase=v->GetValue();
 			AlgorithmInPageInOnePhase	*Ah=Ab->GetPageDataPhase(phase);
-			RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+			AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 			if(PPage!=NULL){
 				CmdDuplicateLine	Cmd(GetLayersBase());
 				Cmd.LineNo		=LineNo;
@@ -1303,7 +1303,7 @@ void	GUICmdRasterSendShowingLayerInfo::Receive(int32 localPage, int32 cmd ,QStri
 	if(localPage==0){
 		QString	AlgoRoot=/**/"Basic";
 		QString	AlgoName=/**/"Raster";
-		RasterBase	*Base=(RasterBase *)GetLayersBase()->GetAlgorithmBase(AlgoRoot ,AlgoName);
+		AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(AlgoRoot ,AlgoName);
 		if(Base!=NULL){
 			Base->TransmitDirectly(this);
 		}
@@ -1344,7 +1344,7 @@ void	GUICmdMakeImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(PBase==NULL)
 		return;
-	RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		PPage->TransmitDirectly(this);
 	}
@@ -1375,7 +1375,7 @@ void	GUICmdMakeImageInMask::Receive(int32 localPage, int32 cmd ,QString &Emitter
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(PBase==NULL)
 		return;
-	RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdCopyImageToMaster	Cmd(GetLayersBase());
 		Cmd.ChangeableAreas=ChangeableAreas;
@@ -1419,7 +1419,7 @@ void	GUICmdMakeBitImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(PBase==NULL)
 		return;
-	RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		PPage->TransmitDirectly(this);
 	}
@@ -1435,7 +1435,7 @@ void	GUICmdAlgoPipeOut::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(PBase==NULL)
 		return;
-	RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		PPage->TransmitDirectly(this);
 	}
@@ -1469,7 +1469,7 @@ void	GUICmdReqSaveConstruct::Receive(int32 localPage, int32 cmd ,QString &Emitte
 		return;
 	MsgSaveConstruct	Cmd(GetLayersBase());
 	AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(Phase);
-	RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 	if(PPage!=NULL){
 		PPage->TransmitDirectly(&Cmd);
 	}
@@ -1530,7 +1530,7 @@ void	GUICmdReqLoadConstruct::Receive(int32 localPage, int32 cmd ,QString &Emitte
 	MsgLoadConstruct	Cmd(GetLayersBase());
 	Cmd.Data=Data;
 	AlgorithmInPageInOnePhase	*Ah=PBase->GetPageDataPhase(Phase);
-	RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Ah->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=Ah->GetPageData(localPage);
 	if(PPage!=NULL){
 		PPage->TransmitDirectly(&Cmd);
 	}
@@ -1791,7 +1791,7 @@ bool	GUICmdRasterDrawMode::Load(QIODevice *f)
 void	GUICmdRasterDrawMode::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
-	RasterInPage	*GPage	=(RasterInPage *)Base->GetPageData(localPage);
+	RasterInPage	*GPage	=static_cast<RasterInPage *>(Base->GetPageData(localPage));
 
 	GPage->Mode					=Mode;
 	GPage->LastPosX				=LastPosX;
@@ -2189,7 +2189,7 @@ void	GUICmdRasterDrawArea::Receive(int32 localPage, int32 cmd ,QString &EmitterR
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(PBase==NULL)
 		return;
-	RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage==NULL)
 		return;
 	CmdRasterDrawArea	Cmd(this);
@@ -2255,7 +2255,7 @@ void	GUICmdRasterPickupByColor::Receive(int32 localPage, int32 cmd ,QString &Emi
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(PBase==NULL)
 		return;
-	RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage==NULL)
 		return;
 	CmdRasterPickupByColor	Cmd(GetLayersBase());
@@ -2334,7 +2334,7 @@ void	GUICmdRasterPickupByColorArea::Receive(int32 localPage, int32 cmd ,QString 
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(PBase==NULL)
 		return;
-	RasterInPage	*PPage=dynamic_cast<RasterInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage==NULL)
 		return;
 	CmdRasterPickupByColorArea	Cmd(GetLayersBase());
@@ -2658,7 +2658,7 @@ void	GUICmdReqPickRasterColor::Receive(int32 localPage, int32 cmd ,QString &Emit
 	GUICmdAckPickRasterColor	*SendBack=GetSendBack(GUICmdAckPickRasterColor,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdPickRasterColor	Cmd(GetLayersBase());
 		Cmd.LocalX		=LocalX;
 		Cmd.LocalY		=LocalY;
@@ -2709,7 +2709,7 @@ void	GUICmdSetPickupArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 {
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		RasterInPage	*PPage=static_cast<RasterInPage *>(Base->GetPageData(localPage));
 		PPage->LocalPickupArea=LocalPickupArea;
 	}
 }
@@ -2738,7 +2738,7 @@ void	GUICmdMoveElement::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 {
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdMoveElement	Cmd(GetLayersBase());
 		Cmd.MovX		=MovX;
 		Cmd.MovY		=MovY;
@@ -2770,7 +2770,7 @@ void	GUICmdReqPickRasterColorProfile::Receive(int32 localPage, int32 cmd ,QStrin
 {
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdPickRasterColorProfile	Cmd(GetLayersBase());
 		Cmd.LocalX		=LocalX;
 		Cmd.LocalY		=LocalY;
@@ -2785,7 +2785,7 @@ GUICmdReqRasterColorProfiles::GUICmdReqRasterColorProfiles(LayersBase *Base ,con
 void	GUICmdReqRasterColorProfiles::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckRasterColorProfiles	*SendBack=GetSendBack(GUICmdAckRasterColorProfiles,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	RasterBase	*Base=(RasterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
+	RasterBase	*Base=static_cast<RasterBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster"));
 	if(Base!=NULL){
 		SendBack->ColorProfiles=Base->ColorProfiles;
 	}
@@ -2829,7 +2829,7 @@ bool	GUICmdSetRasterColorProfiles::Save(QIODevice *f)
 
 void	GUICmdSetRasterColorProfiles::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	RasterBase	*Base=(RasterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
+	RasterBase	*Base=static_cast<RasterBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster"));
 	if(Base!=NULL){
 		Base->ColorProfiles	=ColorProfiles;
 		Base->ColorProfiles.MakeTable();
@@ -2844,7 +2844,7 @@ void	GUICmdConvertColorProfiles::Receive(int32 localPage, int32 cmd ,QString &Em
 {
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdConvertColorProfiles	Cmd(GetLayersBase());
 		PPage->TransmitDirectly(&Cmd);
 	}
@@ -2872,7 +2872,7 @@ void	GUICmdReqRasterProfileValue::Receive(int32 localPage, int32 cmd ,QString &E
 
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdReqRasterProfileValue	Cmd(GetLayersBase());
 		Cmd.LocalX		=LocalX;
 		Cmd.LocalY		=LocalY;
@@ -2919,7 +2919,7 @@ void	GUICmdSetPartialArea::Receive(int32 localPage, int32 cmd ,QString &EmitterR
 {
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdSetPartialArea	Cmd(GetLayersBase());
 		Cmd.Area=LocalArea;
 		PPage->TransmitDirectly(&Cmd);
@@ -2949,7 +2949,7 @@ void	GUICmdAddMaskArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 {
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdAddRasterMaskArea	Cmd(GetLayersBase());
 		Cmd.MaskArea=MaskArea;
 		Cmd.FileLayerID=FileLayerID;
@@ -2978,7 +2978,7 @@ void	GUICmdDelMaskArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 {
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdDelRasterMaskArea	Cmd(GetLayersBase());
 		Cmd.MaskID		=MaskID;
 		Cmd.FileLayerID	=FileLayerID;
@@ -3005,9 +3005,9 @@ void	GUICmdReqEnumMaskArea::Receive(int32 localPage, int32 cmd ,QString &Emitter
 {
 	GUICmdAckEnumMaskArea	*SendBack=GetSendBack(GUICmdAckEnumMaskArea,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
-	RasterBase	*Base=(RasterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
+	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdReqEnumMaskArea	Cmd(GetLayersBase());
 		Cmd.FileLayerID	=FileLayerID;
 		PPage->TransmitDirectly(&Cmd);
@@ -3052,7 +3052,7 @@ void	GUICmdSetPDFWithSelfTransform::Receive(int32 localPage, int32 cmd ,QString 
 {
 	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdSetPDFWithSelfTransform	Cmd(GetLayersBase());
 		Cmd.PDFData		=PDFData;
 		PPage->TransmitDirectly(&Cmd);
@@ -3071,9 +3071,9 @@ void	GUICmdReqRasterTransformInfo::Receive(int32 localPage, int32 cmd ,QString &
 {
 	GUICmdAckRasterTransformInfo	*SendBack=GetSendBack(GUICmdAckRasterTransformInfo,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
-	RasterBase	*Base=(RasterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
+	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdReqRasterTransformInfo	Cmd(GetLayersBase());
 		PPage->TransmitDirectly(&Cmd);
 		SendBack->TransformData=Cmd.TransformData;
@@ -3113,9 +3113,9 @@ bool	GUICmdSetRasterTransformInfo::Save(QIODevice *f)
 }
 void	GUICmdSetRasterTransformInfo::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	RasterBase	*Base=(RasterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
+	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdSetRasterTransformInfo	Cmd(GetLayersBase());
 		Cmd.TransformData=TransformData;
 		PPage->TransmitDirectly(&Cmd);
@@ -3142,9 +3142,9 @@ bool	GUICmdReqMakeProfileByImage::Save(QIODevice *f)
 
 void	GUICmdReqMakeProfileByImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	RasterBase	*Base=(RasterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
+	AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
 	if(Base!=NULL){
-		RasterInPage	*PPage=dynamic_cast<RasterInPage *>(Base->GetPageData(localPage));
+		AlgorithmInPageRoot	*PPage=Base->GetPageData(localPage);
 		CmdReqMakeProfileByImage	Cmd(GetLayersBase());
 		Cmd.Mastered=Mastered;
 		PPage->TransmitDirectly(&Cmd);
@@ -3169,7 +3169,7 @@ bool	GUICmdSetColorProfile::Save(QIODevice *f)
 
 void	GUICmdSetColorProfile::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	RasterBase	*Base=(RasterBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster");
+	RasterBase	*Base=static_cast<RasterBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"Raster"));
 	if(Base!=NULL){
 		QBuffer	Buff(&ColorProfileData);
 		if(Buff.open(QIODevice::ReadWrite)==true){

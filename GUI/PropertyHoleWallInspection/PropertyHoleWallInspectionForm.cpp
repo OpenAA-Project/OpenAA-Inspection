@@ -657,7 +657,7 @@ void PropertyHoleWallInspectionForm::on_tableWidgetBlockInfo_clicked(const QMode
 
 void	PropertyHoleWallInspectionForm::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	HoleWallLibrary	*d=dynamic_cast<HoleWallLibrary *>(data.GetLibrary());
+	HoleWallLibrary	*d=static_cast<HoleWallLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -675,7 +675,7 @@ void	PropertyHoleWallInspectionForm::ShowLibrary(AlgorithmLibraryLevelContainer 
 
 void	PropertyHoleWallInspectionForm::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	HoleWallLibrary	*d=dynamic_cast<HoleWallLibrary *>(data.GetLibrary());
+	HoleWallLibrary	*d=static_cast<HoleWallLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->MinBlockDots		=ui->EditMinBlockDots		->value();

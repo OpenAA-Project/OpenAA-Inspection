@@ -271,7 +271,7 @@ void	EditLibrary::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 		ui->EditLibID->setText(QString::number(data.GetLibID()));
 	ui->EditLibName	->setText(data.GetLibName());
 
-	AreaShaderLibrary	*ALib=dynamic_cast<AreaShaderLibrary *>(data.GetLibrary());
+	AreaShaderLibrary	*ALib=static_cast<AreaShaderLibrary *>(data.GetLibrary());
 	ui->EditPickupH				->setValue	(ALib->PickupColorH);
 	ui->EditPickupL				->setValue	(ALib->PickupColorL);
 	ui->checkBoxGenerateOverlap	->setChecked(ALib->GenerateOverlap);
@@ -332,7 +332,7 @@ void	EditLibrary::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
 	data.SetLibName(ui->EditLibName	->text());
 
-	AreaShaderLibrary	*ALib=dynamic_cast<AreaShaderLibrary *>(data.GetLibrary());
+	AreaShaderLibrary	*ALib=static_cast<AreaShaderLibrary *>(data.GetLibrary());
 	ALib->PickupColorH=ui->EditPickupH	->value();
 	ALib->PickupColorL=ui->EditPickupL	->value();
 	ALib->GenerateOverlap=ui->checkBoxGenerateOverlap->isChecked();

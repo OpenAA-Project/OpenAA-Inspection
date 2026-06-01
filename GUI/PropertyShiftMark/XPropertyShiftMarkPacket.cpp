@@ -43,7 +43,7 @@ GUICmdSendItemList::GUICmdSendItemList(LayersBase *Base ,const QString &EmitterR
 
 void	GUICmdSendItemList::MakeList(int localPage ,LayersBase *PBase)
 {
-	ShiftMarkBase *BBase=(ShiftMarkBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
 	if(BBase==NULL)
 		return;
 	AlgorithmInPageRoot		*PData=BBase->GetPageData(localPage);
@@ -127,7 +127,7 @@ bool	GUICmdSendAddManualShiftMark::Save(QIODevice *f)
 
 void	GUICmdSendAddManualShiftMark::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ShiftMarkBase *BBase=(ShiftMarkBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
 	if(BBase!=NULL){
 		AlgorithmInPageRoot		*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
@@ -181,7 +181,7 @@ bool	GUICmdSendAddEdgeMark::Save(QIODevice *f)
 
 void	GUICmdSendAddEdgeMark::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ShiftMarkBase *BBase=(ShiftMarkBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
 	if(BBase!=NULL){
 		AlgorithmInPageRoot		*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
@@ -219,14 +219,14 @@ void	GUICmdReqItemThreshold::Receive(int32 localPage, int32 cmd ,QString &Emitte
 {
 	GUICmdAckItemThreshold	*SendBack=GetSendBack(GUICmdAckItemThreshold,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
-	ShiftMarkBase *BBase=(ShiftMarkBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
 	if(BBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ah=BBase->GetPageDataPhase(Phase);
 		AlgorithmInPageRoot			*PData=Ah->GetPageData(localPage);
 		if(PData!=NULL){
-			ShiftMarkItem	*Item=dynamic_cast<ShiftMarkItem *>(PData->SearchIDItem(ItemID));
+			ShiftMarkItem	*Item=static_cast<ShiftMarkItem *>(PData->SearchIDItem(ItemID));
 			if(Item!=NULL){
-				const	ShiftMarkThreshold	*RThr=Item->GetThresholdR();
+				const	ShiftMarkThreshold	*RThr=static_cast<const ShiftMarkThreshold *>(Item->GetThresholdBaseReadable());
 				if(RThr!=NULL){
 					SendBack	->ItemName			=Item->GetItemName();
 					SendBack	->SearchDotEdge		=RThr->SearchDotEdge;
@@ -301,15 +301,15 @@ bool	GUICmdSetItemThreshold::Save(QIODevice *f)
 
 void	GUICmdSetItemThreshold::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ShiftMarkBase *BBase=(ShiftMarkBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
 	if(BBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ah=BBase->GetPageDataPhase(Phase);
 		AlgorithmInPageRoot			*PData=Ah->GetPageData(localPage);
 		if(PData!=NULL){
-			ShiftMarkItem	*Item=dynamic_cast<ShiftMarkItem *>(PData->SearchIDItem(ItemID));
+			ShiftMarkItem	*Item=static_cast<ShiftMarkItem *>(PData->SearchIDItem(ItemID));
 			if(Item!=NULL){
 				Item->SetItemName(ItemName);
-				ShiftMarkThreshold	*WThr=Item->GetThresholdW();
+				ShiftMarkThreshold	*WThr=static_cast<ShiftMarkThreshold *>(Item->GetThresholdBaseWritable());
 				if(WThr!=NULL){
 					WThr->SearchDotEdge		=SearchDotEdge	;
 					WThr->SearchDotMarkMin	=SearchDotMarkMin	;
@@ -341,12 +341,12 @@ bool	GUICmdChangeDirection::Save(QIODevice *f)
 
 void	GUICmdChangeDirection::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ShiftMarkBase *BBase=(ShiftMarkBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
 	if(BBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ah=BBase->GetPageDataPhase(Phase);
 		AlgorithmInPageRoot			*PData=Ah->GetPageData(localPage);
 		if(PData!=NULL){
-			ShiftMarkItem	*Item=dynamic_cast<ShiftMarkItem *>(PData->SearchIDItem(ItemID));
+			ShiftMarkItem	*Item=static_cast<ShiftMarkItem *>(PData->SearchIDItem(ItemID));
 			if(Item!=NULL){
 				VectorLineBase	*L=Item->GetVector();
 				if(L!=NULL){
@@ -385,12 +385,12 @@ void	GUICmdReqRotationPoint::Receive(int32 localPage, int32 cmd ,QString &Emitte
 {
 	GUICmdAckRotationPoint	*SendBack=GetSendBack(GUICmdAckRotationPoint,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 
-	ShiftMarkBase *BBase=(ShiftMarkBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ShiftMark");
 	if(BBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ah=BBase->GetPageDataPhase(Phase);
 		AlgorithmInPageRoot			*PData=Ah->GetPageData(localPage);
 		if(PData!=NULL){
-			ShiftMarkItem	*Item=dynamic_cast<ShiftMarkItem *>(PData->SearchIDItem(ItemID));
+			ShiftMarkItem	*Item=static_cast<ShiftMarkItem *>(PData->SearchIDItem(ItemID));
 			if(Item!=NULL){
 				SendBack	->EdgeArea	=Item->EdgeArea;
 				SendBack	->MarkArea	=Item->MarkArea;

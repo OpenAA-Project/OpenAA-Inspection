@@ -127,7 +127,7 @@ void	HoughInspectionImagePanel::TransmitDirectly(GUIDirectMessage *packet)
 
 AlgorithmDrawAttr	*HoughInspectionImagePanel::CreateDrawAttrPointer(void)
 {
-	HoughBase	*a=dynamic_cast<HoughBase *>(GetAlgorithmBase());
+	HoughBase	*a=static_cast<HoughBase *>(GetAlgorithmBase());
 	if(a!=NULL){
 		HoughDrawAttr	*c=new HoughDrawAttr(a->ColorMask		,a->TransparentLevel
 											,  a->ColorSelected	,a->TransparentLevel

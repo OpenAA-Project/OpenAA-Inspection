@@ -185,7 +185,7 @@ void	GUICmdReqCBInfo::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"CheckBrightness");
 	if(PBase==NULL)
 		return;
-	CheckBrightnessInPage	*PPage=dynamic_cast<CheckBrightnessInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqCBPanelInfo	Da(GetLayersBase());
 		Da.Layer	=Layer;
@@ -245,7 +245,7 @@ void	GUICmdReqCBResult::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 	AlgorithmBase	*PBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic" ,/**/"CheckBrightness");
 	if(PBase==NULL)
 		return;
-	CheckBrightnessInPage	*PPage=dynamic_cast<CheckBrightnessInPage *>(PBase->GetPageData(localPage));
+	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
 		CmdReqCBPanelResult	Da(GetLayersBase());
 		Da.Layer	=Layer;

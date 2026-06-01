@@ -58,13 +58,13 @@
     <ClCompile Include="VCutInspectionResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="ShowSettingVCutForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\GeneralSource\XDisplaySimPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XVCutInspectionCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -78,7 +78,6 @@
     <ClInclude Include="XVCutInspection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
     <ClInclude Include="VCutInspectionResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

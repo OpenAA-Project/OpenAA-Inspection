@@ -77,9 +77,9 @@ void	GUICmdSendAddManualCheckDataValidation::Receive(int32 localPage, int32 cmd 
 {
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	CheckDataValidationBase *BBase=(CheckDataValidationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"CheckDataValidation");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"CheckDataValidation");
 	if(BBase!=NULL){
-		CheckDataValidationInPage	*PData=dynamic_cast<CheckDataValidationInPage *>(BBase->GetPageData(localPage));
+		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
 			CmdAddByteCheckDataValidationItemPacket	Cmd(GetLayersBase());
 			Cmd.Buff		=BItem;
@@ -93,43 +93,6 @@ void	GUICmdSendAddManualCheckDataValidation::Receive(int32 localPage, int32 cmd 
 	}
 	SendAck(localPage);
 }
-
-//=============================================================================
-bool	CheckDataValidationGridList::Save(QIODevice *f)
-{
-	if(::Save(f,Page	)==false)	return false;
-	if(::Save(f,ItemID	)==false)	return false;
-	if(::Save(f,LibType	)==false)	return false;
-	if(::Save(f,LibID	)==false)	return false;
-	if(::Save(f,x1)==false)
-		return false;
-	if(::Save(f,y1)==false)
-		return false;
-	if(::Save(f,x2)==false)
-		return false;
-	if(::Save(f,y2)==false)
-		return false;
-
-	return true;
-}
-bool	CheckDataValidationGridList::Load(QIODevice *f)
-{
-	if(::Load(f,Page	)==false)	return false;
-	if(::Load(f,ItemID	)==false)	return false;
-	if(::Load(f,LibType	)==false)	return false;
-	if(::Load(f,LibID	)==false)	return false;
-	if(::Load(f,x1)==false)
-		return false;
-	if(::Load(f,y1)==false)
-		return false;
-	if(::Load(f,x2)==false)
-		return false;
-	if(::Load(f,y2)==false)
-		return false;
-
-	return true;
-}
-
 
 
 GUICmdReqGridList::GUICmdReqGridList(LayersBase *Base ,const QString &emitterRoot ,const QString &emitterName,int globalPage)
@@ -156,25 +119,16 @@ void	GUICmdReqGridList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 {
 	GUICmdAckGridList	*SendBack=GetSendBack(GUICmdAckGridList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	
-	CheckDataValidationBase *BBase=(CheckDataValidationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"CheckDataValidation");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"CheckDataValidation");
 	if(BBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=BBase->GetPageDataPhase(Phase);
 		if(Ph!=NULL){
-			CheckDataValidationInPage	*PData=dynamic_cast<CheckDataValidationInPage *>(Ph->GetPageData(localPage));
+			AlgorithmInPageRoot	*PData=Ph->GetPageData(localPage);
 			if(PData!=NULL){
-				for(AlgorithmItemPI *a=PData->GetFirstData();a!=NULL;a=a->GetNext()){
-					if(a->GetItemClassType()==VType){
-						CheckDataValidationGridList	*L=new CheckDataValidationGridList();
-						L->Page=GetLayersBase()->GetGlobalPageFromLocal(localPage);
-						L->ItemID=a->GetID();
-						const	AlgorithmThreshold	*r=a->GetThresholdBaseReadable(GetLayersBase());
-						const CheckDataValidationThresholdBase	*RThr=dynamic_cast<const CheckDataValidationThresholdBase *>(r);
-						L->LibType	=RThr->LibType;
-						L->LibID	=RThr->LibID;
-						a->GetXY(L->x1,L->y1,L->x2,L->y2);
-						SendBack->ListData.AppendList(L);
-					}
-				}
+				CmdReqGridList	Cmd(GetLayersBase());
+				Cmd.VType = VType;
+				Cmd.ListData = &SendBack->ListData;
+				PData->TransmitDirectly(&Cmd);
 			}
 		}
 	}
@@ -224,14 +178,14 @@ void	GUICmdReqCheckDataValidationItemData::Receive(int32 localPage, int32 cmd ,Q
 {
 	GUICmdAckCheckDataValidationItemData	*SendBack=GetSendBack(GUICmdAckCheckDataValidationItemData,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	
-	CheckDataValidationBase *BBase=(CheckDataValidationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"CheckDataValidation");
+	AlgorithmBase *BBase=(CheckDataValidationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"CheckDataValidation");
 	if(BBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=BBase->GetPageDataPhase(Phase);
 		if(Ph!=NULL){
-			CheckDataValidationInPage	*PData=dynamic_cast<CheckDataValidationInPage *>(Ph->GetPageData(localPage));
+			AlgorithmInPageRoot	*PData=Ph->GetPageData(localPage);
 			if(PData!=NULL){
 				AlgorithmItemRoot *a=PData->SearchIDItem(ItemID);
-				CheckDataValidationThresholdBase	*RThr=dynamic_cast<CheckDataValidationThresholdBase *>(a->GetThresholdBaseWritable(GetLayersBase()));
+				CheckDataValidationThresholdBase	*RThr=static_cast<CheckDataValidationThresholdBase *>(a->GetThresholdBaseWritable(GetLayersBase()));
 				QBuffer	Buff;
 				Buff.open(QIODevice::ReadWrite);
 				RThr->Save(&Buff);
@@ -296,14 +250,14 @@ bool	GUICmdSetCheckDataValidationItemData::Save(QIODevice *f)
 }
 void	GUICmdSetCheckDataValidationItemData::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	CheckDataValidationBase *BBase=(CheckDataValidationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"CheckDataValidation");
+	AlgorithmBase *BBase=(CheckDataValidationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"CheckDataValidation");
 	if(BBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=BBase->GetPageDataPhase(Phase);
 		if(Ph!=NULL){
-			CheckDataValidationInPage	*PData=dynamic_cast<CheckDataValidationInPage *>(Ph->GetPageData(localPage));
+			AlgorithmInPageRoot	*PData=Ph->GetPageData(localPage);
 			if(PData!=NULL){
 				AlgorithmItemRoot *a=PData->SearchIDItem(ItemID);
-				CheckDataValidationThresholdBase	*WThr=dynamic_cast<CheckDataValidationThresholdBase *>(a->GetThresholdBaseWritable(GetLayersBase()));
+				AlgorithmThreshold	*WThr=a->GetThresholdBaseWritable(GetLayersBase());
 				QBuffer	Buff(&BItem);
 				Buff.open(QIODevice::ReadWrite);
 				WThr->Load(&Buff);
@@ -332,14 +286,16 @@ bool	GUICmdDeleteCheckDataValidationItem::Save(QIODevice *f)
 
 void	GUICmdDeleteCheckDataValidationItem::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	CheckDataValidationBase *BBase=(CheckDataValidationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"CheckDataValidation");
+	AlgorithmBase *BBase=(CheckDataValidationBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"CheckDataValidation");
 	if(BBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=BBase->GetPageDataPhase(Phase);
 		if(Ph!=NULL){
-			CheckDataValidationInPage	*PData=dynamic_cast<CheckDataValidationInPage *>(Ph->GetPageData(localPage));
+			AlgorithmInPageRoot	*PData=Ph->GetPageData(localPage);
 			if(PData!=NULL){
 				AlgorithmItemRoot *a=PData->SearchIDItem(ItemID);
-				PData->RemoveItem(a);
+				AlgorithmItemPointerListContainer	AList;
+				AList.Add(a);
+				PData->RemoveItems(AList);
 			}
 		}
 	}
@@ -395,7 +351,7 @@ void	GUICmdReqThresholdMemberString::Receive(int32 localPage, int32 cmd ,QString
 {
 	GUICmdAckThresholdMemberString	*SendBack=GetSendBack(GUICmdAckThresholdMemberString,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
 	
-	CheckDataValidationBase *BBase=(CheckDataValidationBase *)GetLayersBase()->GetAlgorithmBase(LibType);
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(LibType);
 	if(BBase!=NULL){
 		int	Phase=GetLayersBase()->GetCurrentPhase();
 		AlgorithmInPageInOnePhase	*Ph=BBase->GetPageDataPhase(Phase);

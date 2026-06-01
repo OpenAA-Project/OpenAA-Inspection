@@ -44,31 +44,25 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="PropertyTreeMasterForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XTreeMasterPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="EditCatItemDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="AddAreaDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="SelectShapeTypeDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
     <ClCompile Include="AddAreaDialogResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Algorithm\TreeMaster\XTreeMasterCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -79,13 +73,9 @@
     <ClInclude Include="propertytreemaster_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
     <ClInclude Include="XTreeMasterPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    
-    
     <ClInclude Include="AddAreaDialogResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

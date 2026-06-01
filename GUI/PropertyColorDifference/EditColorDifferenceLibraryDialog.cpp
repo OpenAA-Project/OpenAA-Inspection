@@ -137,7 +137,7 @@ void EditColorDifferenceLibraryDialog::on_tableWidgetLibList_clicked(const QMode
 
 void	EditColorDifferenceLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data)
 {
-	ColorDifferenceLibrary	*d=dynamic_cast<ColorDifferenceLibrary *>(data.GetLibrary());
+	ColorDifferenceLibrary	*d=static_cast<ColorDifferenceLibrary *>(data.GetLibrary());
 	if(data.GetLibID()<0)
 		ui->EditLibID->setText(/**/"");
 	else
@@ -169,7 +169,7 @@ void	EditColorDifferenceLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContaine
 
 void	EditColorDifferenceLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
 {
-	ColorDifferenceLibrary	*d=dynamic_cast<ColorDifferenceLibrary *>(data.GetLibrary());
+	ColorDifferenceLibrary	*d=static_cast<ColorDifferenceLibrary *>(data.GetLibrary());
 	data.SetLibName(ui->EditLibName	->text());
 
 	d->GenDeltaE				=ui->doubleSpinBoxGenDeltaE		->value();

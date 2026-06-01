@@ -188,7 +188,7 @@ void CreateManualBlockForm::on_tableWidgetLibList_clicked(const QModelIndex &Ind
 
 		if(Packet.Success==true){
 			BlockLibID					=TempLib->GetLibID();
-			BlockLibrary	*ALib=dynamic_cast<BlockLibrary *>(TempLib->GetLibrary());
+			BlockLibrary	*ALib=static_cast<BlockLibrary *>(TempLib->GetLibrary());
 			ui.EditLibID				->setText(QString::number(TempLib->GetLibID()));
 			ui.EditLibName				->setText(a->GetLibName());
 

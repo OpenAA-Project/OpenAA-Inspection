@@ -281,6 +281,8 @@ public:
 	explicit	AlgorithmItemPLI(FlexArea *area);	//Use area memory
 	virtual	~AlgorithmItemPLI(void){}
 
+	virtual	AlgorithmItemRoot *GetNextItem(void)	override{ return NPList<AlgorithmItemPLI>::GetNext(); }
+
 	virtual	void	SetItemID(void)	override;
 	virtual	AlgorithmItemPLI	&operator=(const AlgorithmItemRoot &src)	override;
 
@@ -405,6 +407,8 @@ public:
 	virtual	bool		ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)	override;
 	virtual	bool		ReallocateMasterCount(int CountMaster)				override;
 
+	virtual	AlgorithmItemRoot *GetFirstItem(void)	const	override	{ return Data.GetFirst(); }
+
 	virtual	bool		CopyShadowAlgorithmLayer(ShadowTree *Child ,const AlgorithmInLayerRoot &SrcParent)	override;
 	virtual	bool		CopyShadowAlgorithmItem(ShadowTree *Child ,const AlgorithmItemRoot &ParentItem)	override	{	return true;	}
 
@@ -420,7 +424,7 @@ public:
 	virtual	void		RemoveAllDatasWithoutManual(void)						override;
 	virtual	int64		GetMaxItemID(void)		const	override;
 
-	virtual	AlgorithmItemRoot	*GetItem(int localX ,int localY)	const;
+	virtual	AlgorithmItemRoot	*GetItem(int localX ,int localY)	const	override;
 	virtual	AlgorithmItemRoot	*GetItemRoot(int number)	override	{	return Data.GetItem(number);	}
 	virtual	void				RemoveAllDatas(void)	override;
 	virtual	AlgorithmItemPLI	*GetFirstData(void)		const		{	return(Data.GetFirst());	}
@@ -690,6 +694,8 @@ public:
 	virtual	bool		ReallocateMasterCount(int CountMaster)	override;
 	virtual	bool		CopyShadowAlgorithmPage(ShadowTree *Child ,const AlgorithmInPageRoot &SrcParent)	override;
 	virtual	bool		CopyShadowAlgorithmItem(ShadowTree *Child , const AlgorithmItemRoot &ParentItem)	override	{	return false;	}
+
+	virtual	AlgorithmItemRoot *GetFirstItem(void)	const	override	{ return NULL; }
 
 	virtual	AlgorithmItemRoot	*SearchIDItem(int itemID)	const	override {	return NULL;	}
 	virtual	void	FastSearchIDItemStart(void)						override;

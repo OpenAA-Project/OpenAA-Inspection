@@ -191,6 +191,7 @@
     <ClCompile Include="ResultImportance.cpp" />
     <ClCompile Include="ResultImportanceResource.cpp" />
     <ClCompile Include="XResultImportance.cpp" />
+    <ClCompile Include="XResultImportanceCommon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ResultImportance.h" />

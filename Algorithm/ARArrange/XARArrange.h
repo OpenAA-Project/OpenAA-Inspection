@@ -16,9 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
-
-
 #ifndef XARArrangeH
 #define XARArrangeH
 
@@ -115,5 +112,44 @@ public:
 	CmdReqAddARArrange(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 
+//===========================================================================
+
+class	ARItemList : public NPList<ARItemList>
+{
+public:
+	int64						ItemID;
+	XDateTime					CreatedTime;
+	ARArrangeItem::ARResult		Result;
+	DualIntClass				Position;
+
+	ARItemList(void){}
+	ARItemList(ARArrangeItem *p);
+
+	bool	Save(QIODevice *f);
+	bool	Load(QIODevice *f);
+	
+	ARItemList	&operator=(ARItemList &src);
+};
+
+class	ARItemListContainer : public NPListPack<ARItemList>
+{
+public:
+	ARItemListContainer(void){}
+
+	bool	Save(QIODevice *f);
+	bool	Load(QIODevice *f);
+
+	ARItemListContainer	&operator+=(ARItemListContainer &src);
+};
+
+class	CmdMakeARArrangeList : public GUIDirectMessage
+{
+public:
+	XDateTime				CreatedTime;
+	ARItemListContainer		*ItemContainer;
+
+	CmdMakeARArrangeList(LayersBase *base):GUIDirectMessage(base){}
+	CmdMakeARArrangeList(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
 
 #endif

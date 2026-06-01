@@ -331,7 +331,6 @@ public:
 	CmdUpdateVCutInspectionLibraryPacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 
-
 class	VCutThresholdReq
 {
 public:
@@ -397,4 +396,42 @@ public:
 	bool	Save(QIODevice *f);
 	bool	Load(QIODevice *f);
 };
+
+//----------------------------------------------------------------------
+
+class	VCutInspectionList : public NPList<VCutInspectionList>
+{
+public:
+	int		Page;
+	int		x1,y1,x2,y2;
+	int		ThresholdShift;
+	double	ThresholdLevel;
+	int		ThresholdLength;
+
+	VCutInspectionList(void){}
+
+	bool	Load(QIODevice *f);
+	bool	Save(QIODevice *f);
+};
+
+class	VCutInspectionListForPacketPack: public NPListPack<VCutInspectionList>
+{
+public:
+	VCutInspectionListForPacketPack(void){}
+
+	VCutInspectionListForPacketPack	&operator+=(VCutInspectionListForPacketPack &src);
+	bool	Load(QIODevice *f);
+	bool	Save(QIODevice *f);
+};
+
+class	CmdMakeVCutInspectionList : public GUIDirectMessage
+{
+public:
+	VCutInspectionListForPacketPack	*VCutInfo;
+
+	CmdMakeVCutInspectionList(LayersBase *base):GUIDirectMessage(base){}
+	CmdMakeVCutInspectionList(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
+
+
 #endif
