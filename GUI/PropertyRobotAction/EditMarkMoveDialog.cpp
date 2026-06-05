@@ -38,7 +38,7 @@ EditMarkMoveDialog::~EditMarkMoveDialog()
 
 void    EditMarkMoveDialog::Initial(ActionMarkBase *src)
 {
-    ActionMarkMove  *a=dynamic_cast<ActionMarkMove *>(src);
+    ActionMarkMove  *a=static_cast<ActionMarkMove *>(src);
     if(a!=NULL){
         Speed=a->Speed;
         ui->doubleSpinBox->setValue(Speed);

@@ -155,7 +155,7 @@ void	CmdReqMemoryInfoToMaster::Receive(int32 slaveNo, int cmd ,QString &EmitterR
 {
 	CmdSendMemoryInfoToMaster	*SendBack=GetSendBackIntegration(CmdSendMemoryInfoToMaster,GetLayersBase(),EmitterRoot,EmitterName ,slaveNo);
 
-	ShowMemoryForm *f=dynamic_cast<ShowMemoryForm *>(GetLayersBase()->FindByName(/**/"General",/**/"ShowMemory",/**/""));
+	ShowMemoryForm *f=static_cast<ShowMemoryForm *>(GetLayersBase()->FindByName(/**/"General",/**/"ShowMemory",/**/""));
 	if(f!=NULL){
 		SendBack->ShowMemoryStruct	=f->ShowMemoryStruct;
 		SendBack->SlavePageNumb		=f->SlavePageNumb;

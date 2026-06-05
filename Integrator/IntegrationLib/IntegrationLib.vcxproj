@@ -268,97 +268,22 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CopyAlgorithmDialog.cpp" />
     <ClCompile Include="IntegrationLib.cpp" />
-    <ClCompile Include="SelectItemsDialog.cpp" />
-    <ClCompile Include="SetLineWidthDialog.cpp" />
     <ClCompile Include="XIntegrationBase.cpp" />
     <ClCompile Include="XIntegrationBasePacket.cpp" />
     <ClCompile Include="XIntegrationComm.cpp" />
     <ClCompile Include="XIntegrationPacketComm.cpp" />
     <ClCompile Include="XIntegrationReceiver.cpp" />
-    <ClCompile Include="XIntegrationSimpleImagePanel.cpp" />
-    <ClCompile Include="XIntegrationSimpleImagePanelCommon.cpp" />
-    <ClCompile Include="XIntegrationSimpleImagePanelPacket.cpp" />
-    <ClCompile Include="XIntegrationSimplePanelArea.cpp" />
     <ClCompile Include="XParamIntegrationMaster.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="CopyAlgorithmDialog.h" />
     <ClInclude Include="IntegrationLib.h" />
     <QtMoc Include="XIntegrationBase.h">
     </QtMoc>
-    <QtMoc Include="SelectItemsDialog.h">
-    </QtMoc>
-    <QtMoc Include="SetLineWidthDialog.h" />
     <ClInclude Include="XIntegrationBasePacket.h" />
     <QtMoc Include="XIntegrationComm.h" />
     <ClInclude Include="XIntegrationPacketComm.h" />
-    <QtMoc Include="XIntegrationSimpleImagePanel.h">
-    </QtMoc>
-    <ClInclude Include="XIntegrationSimpleImagePanelCommon.h" />
-    <ClInclude Include="XIntegrationSimpleImagePanelPacket.h" />
     <ClInclude Include="XParamIntegrationMaster.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtRcc Include="IntegrationLib.qrc">
-    </QtRcc>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AddModeN.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="Resources\CutItemN.png" />
-    <None Include="Resources\DeleteN.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="Resources\DeleteP.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="Resources\DrawWholeN.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="Resources\DrawWholeP.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="Resources\SelModeN.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="Resources\ZoomModeN.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="Resources\ZoomOutModeN.png" />
-    <QtUic Include="CopyAlgorithmDialog.ui" />
-    <QtUic Include="SelectItemsDialog.ui">
-    </QtUic>
-    <QtUic Include="SetLineWidthDialog.ui" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resources\CopyTransferN.png" />
-    <Image Include="Resources\CopyTransferP.png" />
-    <Image Include="Resources\UndoN.png" />
-    <Image Include="Resources\UndoP.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

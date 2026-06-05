@@ -329,4 +329,88 @@ bool	SetForegroundOtherWindow(int ProcessID)
 	return true;
 }
 
+#else
+
+#include <unistd.h>
+#include <limits.h>
+#include <dirent.h>
+#include <sys/types.h> // for opendir(), readdir(), closedir()
+#include <sys/stat.h> // for stat()
+
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <cstdarg>
+#include <signal.h>
+#include <time.h>
+#include "XGeneralFuncCore.h"
+
+#include <QString>
+#include <QProcess>
+#include <QCoreApplication>
+#include <QStorageInfo>
+#include <QByteArray>
+#include <sys/statvfs.h>
+#include <cstdint>
+
+int IsNumeric(const char* ccharptr_CharacterList);
+#define PROC_DIRECTORY "/proc/"
+
+
+bool GetProcessNames(QStringList &Processes)
+{
+    char chrarry_CommandLinePath[100];
+    char chrarry_NameOfProcess[300];
+    char* chrptr_StringToCompare = NULL;
+    struct dirent* de_DirEntity = NULL;
+    DIR* dir_proc = NULL;
+
+    dir_proc = opendir(PROC_DIRECTORY);
+    if (dir_proc == NULL)
+    {
+        perror("Couldn't open the " PROC_DIRECTORY " directory");
+        return false;
+    }
+
+    // Loop while not NULL
+    while ( (de_DirEntity = readdir(dir_proc)) )
+    {
+        if (de_DirEntity->d_type == DT_DIR)
+        {
+            if (IsNumeric(de_DirEntity->d_name))
+            {
+                strcpy(chrarry_CommandLinePath, PROC_DIRECTORY);
+                strcat(chrarry_CommandLinePath, de_DirEntity->d_name);
+                strcat(chrarry_CommandLinePath, "/cmdline");
+                
+                FILE* fd_CmdLineFile = fopen (chrarry_CommandLinePath, "rt");
+                if (fd_CmdLineFile) {
+                    // fscanfの戻り値をチェックして警告を回避
+                    if (fscanf(fd_CmdLineFile, "%s", chrarry_NameOfProcess) == 1) {
+                        if (strrchr(chrarry_NameOfProcess, '/'))
+                            chrptr_StringToCompare = strrchr(chrarry_NameOfProcess, '/') + 1;
+                        else
+                            chrptr_StringToCompare = chrarry_NameOfProcess;
+
+                        Processes.append(chrptr_StringToCompare);
+                    }
+                    fclose(fd_CmdLineFile);
+                    // 【修正】ここに記述されていた closedir(dir_proc); はループ破壊を招くため削除しました
+                }
+            }
+        }
+    }
+    closedir(dir_proc); // 正しいクローズ位置
+
+    return true;
+}
+
+bool	SetForegroundOtherWindow(int ProcessID)
+{
+    if (ProcessID <= 0) return false;
+    std::string command = "xdotool search --all --pid " + std::to_string(ProcessID) + " windowactivate 2>/dev/null";
+    int result = std::system(command.c_str());
+    return (result == 0);
+}
+
 #endif

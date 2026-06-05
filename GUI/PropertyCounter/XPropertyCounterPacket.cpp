@@ -494,7 +494,7 @@ bool	GUICmdSendFocusLevel::Save(QIODevice *f)
 }
 void	GUICmdSendFocusLevel::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	CounterBase *BBase=dynamic_cast<CounterBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter"));
+	CounterBase *BBase=static_cast<CounterBase *>(GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"Counter"));
 	if(BBase!=NULL){
 		BBase->FocusLevel=FocusLevel;
 		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);

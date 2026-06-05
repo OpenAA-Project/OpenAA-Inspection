@@ -60,7 +60,7 @@ void	RasterInPage::MakeImage(BoolList &ButtonsToOperateLayer
 					for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 						RasterItemAbstract	*Item=dynamic_cast<RasterItemAbstract *>(a);
 						if(Item!=NULL){
-							if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+							if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 								a->Draw(TmpImage,-xn*XDir+Overlap,-yn*YDir+Overlap,1.0,&Attr);
 							}
 						}
@@ -294,7 +294,7 @@ void	RasterInPage::MakeBitImage(BoolList &ButtonsToOperateLayer
 					for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 						RasterItemAbstract	*Item=dynamic_cast<RasterItemAbstract *>(a);
 						if(Item!=NULL){
-							if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+							if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 								a->Draw(TmpImage,-xn*XDir+Overlap,-yn*YDir+Overlap,1.0,&Attr);
 							}
 						}
@@ -350,7 +350,7 @@ void	RasterInPage::MakeImage(BYTE **CurrentBmp,int LayerCompositeID)
 		for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext(),KNumb++){
 			RasterItemAbstract	*Item=static_cast<RasterItemAbstract *>(a);
 			if(Item!=NULL){
-				if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+				if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 					Item->MakeImage(TmpImage,0,0,XByte,YLen);
 				}
 			}
@@ -386,7 +386,7 @@ void	RasterInPage::MakeImageEnlarge(BYTE **CurrentBmp
 			for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 				RasterItemAbstract	*Item=dynamic_cast<RasterItemAbstract *>(a);
 				if(Item!=NULL){
-					if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+					if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 						Item->MakeImage(TmpImage,0,0,XByte,YLen);
 					}
 				}
@@ -420,7 +420,7 @@ void	RasterInPage::MakeImageShiftable(BYTE **CurrentBmp
 			for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 				RasterItemAbstract	*Item=dynamic_cast<RasterItemAbstract *>(a);
 				if(Item!=NULL){
-					if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+					if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 						Item->MakeImage(TmpImage,0,0,XByte,YLen);
 					}
 				}
@@ -437,7 +437,7 @@ void	RasterInPage::MakeImageShiftable(BYTE **CurrentBmp
 			for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 				RasterItemAbstract	*Item=dynamic_cast<RasterItemAbstract *>(a);
 				if(Item!=NULL){
-					if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+					if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 						Item->MakeImage(TmpImage,0,0,XByte,YLen);
 					}
 				}
@@ -472,7 +472,7 @@ void	RasterInPage::MakeImageShrinked(BYTE **CurrentBmp
 			for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 				RasterItemAbstract	*Item=dynamic_cast<RasterItemAbstract *>(a);
 				if(Item!=NULL){
-					if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+					if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 						Item->MakeImage(TmpImage,0,0,XByte,YLen);
 					}
 				}
@@ -486,7 +486,7 @@ void	RasterInPage::MakeImageShrinked(BYTE **CurrentBmp
 			for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 				RasterItemAbstract	*Item=dynamic_cast<RasterItemAbstract *>(a);
 				if(Item!=NULL){
-					if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+					if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 						Item->MakeImage(TmpImage,0,0,XByte,YLen);
 					}
 				}

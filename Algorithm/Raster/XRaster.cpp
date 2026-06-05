@@ -1656,7 +1656,7 @@ bool	RasterBase::LoadOnlyBase(QIODevice *f,QString &ErrorMsg)
 
 void	RasterBase::TransmitDirectly(GUIDirectMessage *packet)
 {
-	GUICmdRasterSendShowingLayerInfo	*GInfo=dynamic_cast<GUICmdRasterSendShowingLayerInfo *>(packet);
+	CmdRasterSendShowingLayerInfo	*GInfo=dynamic_cast<CmdRasterSendShowingLayerInfo *>(packet);
 	if(GInfo!=NULL){
 		if(GetLibraryContainer()!=NULL){
 			IntList PhaseList;

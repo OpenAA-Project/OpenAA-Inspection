@@ -35,12 +35,10 @@ NewMasterDialog::NewMasterDialog(LayersBase *Base,IntegrationNewMaster *P,QWidge
 
 	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Integration",/**/"ShowName",/**/"");
 	if(f!=NULL){
-		IntegrationShowName	*Fs=dynamic_cast<IntegrationShowName *>(f);
-		if(Fs!=NULL){
-			ui->labelTitleNumber->setText(Fs->TitleMasterNumber);
-			ui->labelTitleName	->setText(Fs->TitleMasterName);
-			ui->labelTitleRemark->setText(Fs->TitleRemark);
-		}
+		IntegrationShowName	*Fs=static_cast<IntegrationShowName *>(f);
+		ui->labelTitleNumber->setText(Fs->TitleMasterNumber);
+		ui->labelTitleName	->setText(Fs->TitleMasterName);
+		ui->labelTitleRemark->setText(Fs->TitleRemark);
 	}
 	ui->doubleSpinBoxSizeX->setMaximum(Parent->MaxWidth );
 	ui->doubleSpinBoxSizeY->setMaximum(Parent->MaxLength);

@@ -361,7 +361,7 @@ void	GUICmdReqMakeShadingInfo::Receive(int32 localPage, int32 cmd ,QString &Emit
 	if(FilterInst!=NULL){
 		FilterInstanceList	*F=FilterInst->Search(/**/"LineShading");
 		if(F!=NULL){
-			FilterLineShading	*Filter=dynamic_cast<FilterLineShading *>(F->GetFilterHandle());
+			FilterLineShading	*Filter=static_cast<FilterLineShading *>(F->GetFilterHandle());
 			if(Filter!=NULL){
 				SendBack->MakeShadingInfoStructData.Phase=GetLayersBase()->GetCurrentPhase();
 				if(Filter->FValue!=NULL){
@@ -422,7 +422,7 @@ void	GUICmdSetMakeShadingInfo::Receive(int32 localPage, int32 cmd ,QString &Emit
 	if(FilterInst!=NULL){
 		FilterInstanceList	*F=FilterInst->Search(/**/"LineShading");
 		if(F!=NULL){
-			FilterLineShading	*Filter=dynamic_cast<FilterLineShading *>(F->GetFilterHandle());
+			FilterLineShading	*Filter=static_cast<FilterLineShading *>(F->GetFilterHandle());
 			if(Filter!=NULL){
 				if(Filter->FValue!=NULL){
 					for(int Layer=0;Layer<Filter->LayerNumb && Layer<3;Layer++){

@@ -166,7 +166,7 @@ void	PixelThresholdSend::ConstructList(PixelThresholdReq *reqPacket,PixelInspect
 	PixelItemID		=reqPacket->PixelItemID;
 	InspectResult	=0;
 	int	localPage=Base->GetLayersBase()->GetLocalPageFromGlobal(GlobalPage);
-	AlgorithmInPagePI	*Ap=dynamic_cast<AlgorithmInPagePI *>(Base->GetPageData(localPage));
+	AlgorithmInPageRoot	*Ap=Base->GetPageData(localPage);
 	if(Ap!=NULL){
 		AlgorithmItemRoot	*item	=Ap->SearchIDItem(PixelItemID);
 		if(item!=NULL){
@@ -415,7 +415,7 @@ void	PixelTryThresholdSend::ConstructList(PixelTryThresholdReq *reqPacket,PixelI
 	localY					=reqPacket->localY;
 	InspectResult			=0;
 	int	localPage=Base->GetLayersBase()->GetLocalPageFromGlobal(GlobalPage);
-	AlgorithmInPagePI	*Ap=dynamic_cast<AlgorithmInPagePI *>(Base->GetPageData(localPage));
+	AlgorithmInPageRoot	*Ap=Base->GetPageData(localPage);
 	if(Ap!=NULL){
 		AlgorithmItemRoot	*item	=Ap->SearchIDItem(PixelItemID);
 		if(item!=NULL){
@@ -770,7 +770,7 @@ bool	PixelInspectionThreshold::Load(QIODevice *f)
 	if(MBase==NULL){
 		return false;
 	}
-	PixelInspectionBase *PBase=dynamic_cast<PixelInspectionBase *>(MBase);
+	PixelInspectionBase *PBase=static_cast<PixelInspectionBase *>(MBase);
 	if(PBase==NULL){
 		return false;
 	}
@@ -811,7 +811,7 @@ bool	PixelInspectionThreshold::Load(QIODevice *f)
 
 void	PixelInspectionThreshold::FromLibrary(AlgorithmLibrary *src)
 {
-	PixelInspectionLibrary	*LSrc=dynamic_cast<PixelInspectionLibrary *>(src);
+	PixelInspectionLibrary	*LSrc=static_cast<PixelInspectionLibrary *>(src);
 	if(LSrc==NULL){
 		return;
 	}
@@ -4517,7 +4517,7 @@ ExeResult	PixelInspectionItem::ExecuteScanning(int ExeID ,int ThreadNo,ResultInI
 		if(ABase!=NULL){
 			AlgorithmInPageRoot	*APage=ABase->GetPageData(GetPage());
 			if(APage!=NULL){
-				pAlignPage=dynamic_cast<AutoAlignmentInPage *>(APage);
+				pAlignPage=static_cast<AutoAlignmentInPage *>(APage);
 			}
 		}
 		//?s?N?Z?????C?u?????I?A?e?}?X?N?d?a??
@@ -4714,7 +4714,7 @@ ExeResult	PixelInspectionItem::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 	if(ABase!=NULL){
 		AlgorithmInPageRoot	*APage=ABase->GetPageDataPhase(GetLayersBase()->GetCurrentPhase())->GetPageData(GetPage());
 		if(APage!=NULL){
-			pAlignPage=dynamic_cast<AutoAlignmentInPage *>(APage);
+			pAlignPage=static_cast<AutoAlignmentInPage *>(APage);
 		}
 	}
 
@@ -4723,7 +4723,7 @@ ExeResult	PixelInspectionItem::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 	if(ABase!=NULL){
 		AlgorithmInPageRoot	*APage=ABase->GetPageDataPhase(GetLayersBase()->GetCurrentPhase())->GetPageData(GetPage());
 		if(APage!=NULL){
-			pHoleAlignPage=dynamic_cast<AutoPCBHoleAlignerInPage *>(APage);
+			pHoleAlignPage=static_cast<AutoPCBHoleAlignerInPage *>(APage);
 		}
 	}
 
@@ -4732,7 +4732,7 @@ ExeResult	PixelInspectionItem::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 	if(ABase!=NULL){
 		AlgorithmInPageRoot	*APage=ABase->GetPageDataPhase(GetLayersBase()->GetCurrentPhase())->GetPageData(GetPage());
 		if(APage!=NULL){
-			pVCutPage=dynamic_cast<VCutInspectionInPage *>(APage);
+			pVCutPage=static_cast<VCutInspectionInPage *>(APage);
 		}
 	}
 
@@ -4788,7 +4788,7 @@ bool	PixelInspectionItem::ManualExecuteInitialAfterEdit(DWORD ExecuteInitialAfte
 	if(ABase!=NULL){
 		AlgorithmInPageRoot	*APage=ABase->GetPageData(GetPage());
 		if(APage!=NULL){
-			pAlignPage=dynamic_cast<AutoAlignmentInPage *>(APage);
+			pAlignPage=static_cast<AutoAlignmentInPage *>(APage);
 		}
 	}
 
@@ -4797,7 +4797,7 @@ bool	PixelInspectionItem::ManualExecuteInitialAfterEdit(DWORD ExecuteInitialAfte
 	if(ABase!=NULL){
 		AlgorithmInPageRoot	*APage=ABase->GetPageData(GetPage());
 		if(APage!=NULL){
-			pHoleAlignPage=dynamic_cast<AutoPCBHoleAlignerInPage *>(APage);
+			pHoleAlignPage=static_cast<AutoPCBHoleAlignerInPage *>(APage);
 		}
 	}
 
@@ -4806,7 +4806,7 @@ bool	PixelInspectionItem::ManualExecuteInitialAfterEdit(DWORD ExecuteInitialAfte
 	if(ABase!=NULL){
 		AlgorithmInPageRoot	*APage=ABase->GetPageData(GetPage());
 		if(APage!=NULL){
-			pVCutPage=dynamic_cast<VCutInspectionInPage *>(APage);
+			pVCutPage=static_cast<VCutInspectionInPage *>(APage);
 		}
 	}
 
@@ -17324,7 +17324,7 @@ bool	PixelInspectionInPage::LoadPixelLibrarySetting()
 	if(BaseButtonThreshold2==NULL){
 		return false;
 	}
-	ButtonThreshold2	*pButtonThreshold2=dynamic_cast<ButtonThreshold2 *>(BaseButtonThreshold2);
+	ButtonThreshold2	*pButtonThreshold2=static_cast<ButtonThreshold2 *>(BaseButtonThreshold2);
 	QString FileName=pButtonThreshold2->GetPixelLibSettingFileName();
 	QFile	File(FileName);
 	if(File.open(QIODevice::ReadOnly)==false){
@@ -17520,7 +17520,7 @@ bool	PixelInspectionInPage::ReExecMultiAlgorithmSupport()
 			//?s?N?Z?????C?u?????a?E?c?A???c?H?H?H
 			continue;
 		}
-		PixelInspectionLibrary	*ALib=dynamic_cast<PixelInspectionLibrary *>(LLib.GetLibrary());
+		AlgorithmLibrary	*ALib=LLib.GetLibrary();
 		//Narrow//Broad
 		((PixelInspectionItem *)GetItemData(0,i))->GetThresholdW()->FromLibrary(ALib);
 	}
@@ -17617,7 +17617,7 @@ bool	PixelInspectionInPage::CalcMultiAlgorithmSupport(int PixelLibID,const QStri
 						if(AlgorithmItemPIPointer!=NULL){
 							AlgorithmLibraryContainer	*Container=GetLibraryContainer();
 							if(AlgorithmBasePointer->GetLibraryContainer()->GetLibrary(AlgorithmItemPIPointer->GetLibID(),*AutoAlignmentLib)){
-								AutoAlignmentLibrary	*ALib=dynamic_cast<AutoAlignmentLibrary *>(AutoAlignmentLib->GetLibrary());
+								AutoAlignmentLibrary	*ALib=static_cast<AutoAlignmentLibrary *>(AutoAlignmentLib->GetLibrary());
 								AALib[AALibNumb].AutoAlignmentLibraryPointer=ALib;
 								AALib[AALibNumb].Priority					=ALib->Priority;
 								AALibNumb++;
@@ -18549,8 +18549,7 @@ void	PixelInspectionBase::TransmitDirectly(GUIDirectMessage *packet)
 			if(TargetImage==NULL){
 				return;
 			}
-			DisplayImage	*TargetImagePanel=dynamic_cast<DisplayImage *>(TargetImage);
-			TargetImagePanel->repaint();
+			TargetImage->Repaint();
 		}
 		//?A?`?a
 		TargetImage=GetLayersBase()->FindByName(/**/"Inspection" ,/**/"DisplayThumbnailImage" ,/**/"");

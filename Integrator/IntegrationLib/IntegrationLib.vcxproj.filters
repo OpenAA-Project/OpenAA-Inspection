@@ -50,31 +50,10 @@
     <ClCompile Include="XIntegrationPacketComm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XIntegrationSimpleImagePanel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="XIntegrationReceiver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XIntegrationBasePacket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XIntegrationSimplePanelArea.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectItemsDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XIntegrationSimpleImagePanelPacket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XIntegrationSimpleImagePanelCommon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CopyAlgorithmDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SetLineWidthDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -91,88 +70,13 @@
     <ClInclude Include="XIntegrationBasePacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="XIntegrationSimpleImagePanelPacket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="XIntegrationSimpleImagePanelCommon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="XIntegrationSimpleImagePanel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtRcc Include="IntegrationLib.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
     <QtMoc Include="XIntegrationBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtUic Include="SelectItemsDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtMoc Include="SelectItemsDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="CopyAlgorithmDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="SetLineWidthDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="XIntegrationComm.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AddModeN.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\DeleteN.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\DeleteP.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\DrawWholeN.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\DrawWholeP.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\SelModeN.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\ZoomModeN.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\CutItemN.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\ZoomOutModeN.png">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resources\UndoN.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\UndoP.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\CopyTransferN.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\CopyTransferP.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="CopyAlgorithmDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="SetLineWidthDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
   </ItemGroup>
 </Project>

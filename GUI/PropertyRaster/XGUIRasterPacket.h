@@ -424,15 +424,7 @@ class	GUICmdMakeImage: public GUICmdPacketBase
 public:
 	BoolList	ButtonsToOperateLayer;
 	QColor		LayerColor[MaxRasterLayer];
-	enum	MakeImageMode{
-		_MIM_ToMaster
-		,_MIM_ToDispatchMaster
-		,_MIM_Standard
-		,_MIM_Enlarge	=1
-		,_MIM_Shrinked	=2
-		,_MIM_Shiftable	=3
-		,_MIM_Clear		=6
-	}MIMode;
+	RasterBase::MakeImageMode	MIMode;
 
 	GUICmdMakeImage(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage=-1);
 

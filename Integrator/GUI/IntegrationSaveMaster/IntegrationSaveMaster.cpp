@@ -704,8 +704,8 @@ void	IntegrationCmdSaveMaster::Receive(int32 slaveNo, int cmd ,QString &EmitterR
 			Args.append(/**/"TRUE");	//Silent mode
 			f->ExecuteMacro(/**/"SaveMaster", Args, ExeReturn);
 		}
-		if(ExeReturn==false){
-			ButtonSaveMasterData	*GForm=dynamic_cast<ButtonSaveMasterData *>(f);
+		if(ExeReturn==false && f!=NULL){
+			ButtonSaveMasterData	*GForm=static_cast<ButtonSaveMasterData *>(f);
 			if(GForm!=NULL && MForm!=NULL){
 				MForm->ErrorMessageOfFalse=GForm->ErrorMessageOfFalse;
 			}
@@ -723,8 +723,8 @@ void	IntegrationCmdSaveMaster::Receive(int32 slaveNo, int cmd ,QString &EmitterR
 			Args.append(/**/"TRUE");	//Silent mode
 			f->ExecuteMacro(/**/"UpdateMaster", Args, ExeReturn);
 		}
-		if(ExeReturn==false){
-			ButtonUpdateMasterData	*GForm=dynamic_cast<ButtonUpdateMasterData *>(f);
+		if(ExeReturn==false && f!=NULL){
+			ButtonUpdateMasterData	*GForm=static_cast<ButtonUpdateMasterData *>(f);
 			if(GForm!=NULL && MForm!=NULL){
 				MForm->ErrorMessageOfFalse=GForm->ErrorMessageOfFalse;
 			}

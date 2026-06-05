@@ -510,7 +510,7 @@ bool	MtGetComputerName(QString &CName)
 	return true;
 }
 
-static	int IsNumeric(const char* ccharptr_CharacterList)
+int IsNumeric(const char* ccharptr_CharacterList)
 {
     for ( ; *ccharptr_CharacterList; ccharptr_CharacterList++)
         if (*ccharptr_CharacterList < '0' || *ccharptr_CharacterList > '9')
@@ -518,53 +518,6 @@ static	int IsNumeric(const char* ccharptr_CharacterList)
     return 1; // true
 }
 
-bool GetProcessNames(QStringList &Processes)
-{
-    char chrarry_CommandLinePath[100];
-    char chrarry_NameOfProcess[300];
-    char* chrptr_StringToCompare = NULL;
-    struct dirent* de_DirEntity = NULL;
-    DIR* dir_proc = NULL;
-
-    dir_proc = opendir(PROC_DIRECTORY);
-    if (dir_proc == NULL)
-    {
-        perror("Couldn't open the " PROC_DIRECTORY " directory");
-        return false;
-    }
-
-    // Loop while not NULL
-    while ( (de_DirEntity = readdir(dir_proc)) )
-    {
-        if (de_DirEntity->d_type == DT_DIR)
-        {
-            if (IsNumeric(de_DirEntity->d_name))
-            {
-                strcpy(chrarry_CommandLinePath, PROC_DIRECTORY);
-                strcat(chrarry_CommandLinePath, de_DirEntity->d_name);
-                strcat(chrarry_CommandLinePath, "/cmdline");
-                
-                FILE* fd_CmdLineFile = fopen (chrarry_CommandLinePath, "rt");
-                if (fd_CmdLineFile) {
-                    // fscanfの戻り値をチェックして警告を回避
-                    if (fscanf(fd_CmdLineFile, "%s", chrarry_NameOfProcess) == 1) {
-                        if (strrchr(chrarry_NameOfProcess, '/'))
-                            chrptr_StringToCompare = strrchr(chrarry_NameOfProcess, '/') + 1;
-                        else
-                            chrptr_StringToCompare = chrarry_NameOfProcess;
-
-                        Processes.append(chrptr_StringToCompare);
-                    }
-                    fclose(fd_CmdLineFile);
-                    // 【修正】ここに記述されていた closedir(dir_proc); はループ破壊を招くため削除しました
-                }
-            }
-        }
-    }
-    closedir(dir_proc); // 正しいクローズ位置
-
-    return true;
-}
 
 bool MTCopyFile(const QString &SourceFileName, const QString &DestFileName, bool failIfExist)
 {

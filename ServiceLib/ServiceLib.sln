@@ -51,6 +51,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServiceExecutionEditorWithS
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServiceExecutionShadow", "ServiceExecutionShadow\ServiceExecutionShadow.vcxproj", "{44C0762C-EA47-4947-BF11-4101139CB01C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IntegrationPanelLib", "..\Integrator\IntegrationPanelLib\IntegrationPanelLib.vcxproj", "{BF9608E5-F627-411F-9247-79FA9B1258CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -308,6 +310,18 @@ Global
 		{44C0762C-EA47-4947-BF11-4101139CB01C}.Template|Win32.Build.0 = Debug|x64
 		{44C0762C-EA47-4947-BF11-4101139CB01C}.Template|x64.ActiveCfg = Debug|x64
 		{44C0762C-EA47-4947-BF11-4101139CB01C}.Template|x64.Build.0 = Debug|x64
+		{BF9608E5-F627-411F-9247-79FA9B1258CE}.Debug|Win32.ActiveCfg = Debug|x64
+		{BF9608E5-F627-411F-9247-79FA9B1258CE}.Debug|Win32.Build.0 = Debug|x64
+		{BF9608E5-F627-411F-9247-79FA9B1258CE}.Debug|x64.ActiveCfg = Debug|x64
+		{BF9608E5-F627-411F-9247-79FA9B1258CE}.Debug|x64.Build.0 = Debug|x64
+		{BF9608E5-F627-411F-9247-79FA9B1258CE}.Release|Win32.ActiveCfg = Release|x64
+		{BF9608E5-F627-411F-9247-79FA9B1258CE}.Release|Win32.Build.0 = Release|x64
+		{BF9608E5-F627-411F-9247-79FA9B1258CE}.Release|x64.ActiveCfg = Release|x64
+		{BF9608E5-F627-411F-9247-79FA9B1258CE}.Release|x64.Build.0 = Release|x64
+		{BF9608E5-F627-411F-9247-79FA9B1258CE}.Template|Win32.ActiveCfg = Debug|x64
+		{BF9608E5-F627-411F-9247-79FA9B1258CE}.Template|Win32.Build.0 = Debug|x64
+		{BF9608E5-F627-411F-9247-79FA9B1258CE}.Template|x64.ActiveCfg = Debug|x64
+		{BF9608E5-F627-411F-9247-79FA9B1258CE}.Template|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -317,9 +331,9 @@ Global
 		{DCA5DA09-AC94-4F6E-9DED-9B5979564393} = {DCFAD182-254E-4BDB-9E9C-F60F28D48D30}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = $(DefaultQtVersion)
-		QtVersion = $(DefaultQtVersion)
 		SolutionGuid = {FBBDCDCC-8229-4739-8297-089151B7BA01}
+		QtVersion = $(DefaultQtVersion)
+		Qt5Version = $(DefaultQtVersion)
 	EndGlobalSection
 	GlobalSection(Qt) = preSolution
 		Integration = True

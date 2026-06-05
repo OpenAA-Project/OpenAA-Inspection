@@ -113,6 +113,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Open\AlgorithmCommon.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
+    <ClCompile Include="..\AutoAlignment\XAutoAlignmentCommon.cpp" />
     <ClCompile Include="PixelInspectionResource.cpp" />
     <ClCompile Include="XPixelInspection.cpp" />
     <ClInclude Include="XPixelInspection.h" />

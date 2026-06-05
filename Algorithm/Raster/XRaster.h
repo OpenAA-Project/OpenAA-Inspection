@@ -757,6 +757,16 @@ public:
 	QString	DefaultTransformFileName;
 	QString	DefaultColorProfileFileName;
 
+	enum	MakeImageMode{
+		 _MIM_ToMaster
+		,_MIM_ToDispatchMaster
+		,_MIM_Standard
+		,_MIM_Enlarge	=1
+		,_MIM_Shrinked	=2
+		,_MIM_Shiftable	=3
+		,_MIM_Clear		=6
+	};
+
 	ColorProfileContainerWithTable		ColorProfiles;
 
 	RasterBase(LayersBase *Base);
@@ -793,3 +803,4 @@ public:
 
 	ColorSamplingAverager(void){}
 };
+

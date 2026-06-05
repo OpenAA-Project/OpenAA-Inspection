@@ -1305,6 +1305,11 @@ void	GUICmdRasterSendShowingLayerInfo::Receive(int32 localPage, int32 cmd ,QStri
 		QString	AlgoName=/**/"Raster";
 		AlgorithmBase	*Base=GetLayersBase()->GetAlgorithmBase(AlgoRoot ,AlgoName);
 		if(Base!=NULL){
+			CmdRasterSendShowingLayerInfo	Cmd(GetLayersBase());
+			Cmd.ButtonsToShowLayer = ButtonsToShowLayer;
+			for(int i=0;i<MaxRasterLayer;i++){
+				Cmd.LayerColor[i]	=LayerColor[i];
+			}
 			Base->TransmitDirectly(this);
 		}
 	}
@@ -1346,7 +1351,13 @@ void	GUICmdMakeImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 		return;
 	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
-		PPage->TransmitDirectly(this);
+		CmdMakeImage	Cmd(GetLayersBase());
+		Cmd.ButtonsToOperateLayer = ButtonsToOperateLayer;
+		for(int i=0;i<MaxRasterLayer;i++){
+			Cmd.LayerColor[i]	=LayerColor[i];
+		}
+		Cmd.MIMode	=MIMode;
+		PPage->TransmitDirectly(&Cmd);
 	}
 }
 //===================================================================================
@@ -1421,7 +1432,12 @@ void	GUICmdMakeBitImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 		return;
 	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
-		PPage->TransmitDirectly(this);
+		CmdMakeBitImage	Cmd(GetLayersBase());
+		Cmd.ButtonsToOperateLayer = ButtonsToOperateLayer;
+		for(int i=0;i<MaxRasterLayer;i++){
+			Cmd.LayerColor[i]	=LayerColor[i];
+		}
+		PPage->TransmitDirectly(&Cmd);
 	}
 }
 //===================================================================================
@@ -1437,7 +1453,8 @@ void	GUICmdAlgoPipeOut::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot
 		return;
 	AlgorithmInPageRoot	*PPage=PBase->GetPageData(localPage);
 	if(PPage!=NULL){
-		PPage->TransmitDirectly(this);
+		CmdAlgoPipeOut	Cmd(GetLayersBase());
+		PPage->TransmitDirectly(&Cmd);
 	}
 	SendAck(localPage);
 }

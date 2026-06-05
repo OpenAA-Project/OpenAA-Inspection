@@ -45,6 +45,15 @@ void __G_XUpdateDatabase(QSqlDatabase &DBase ,QString HostName ,QString UserName
 	LockDB();
 	DBase=QSqlDatabase::addDatabase("QIBASE");
 
+	QStringList	DbgDrivers;
+	DbgDrivers=QSqlDatabase::drivers();
+	QString	ErrorStr;
+	QString	DatabaseText;
+	if (!DBase.isValid()) {
+	    ErrorStr	=DBase.lastError().driverText();
+	    DatabaseText=DBase.lastError().databaseText();
+	}
+
 	//QString	ConStr=QString("Regulus64Connection")+QString::number(ConnectionNumber);
 	//ConnectionNumber++;
 	//if(TransIP.isEmpty()==true){

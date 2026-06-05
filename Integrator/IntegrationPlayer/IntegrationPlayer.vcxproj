@@ -386,6 +386,7 @@
     <ClInclude Include="..\..\Open\XGUIDLL.h" />
     <QtMoc Include="..\..\Open\XGUIInExe.h">
     </QtMoc>
+    <QtMoc Include="..\..\Open\XMainGUIFormBase.h" />
     <ClInclude Include="..\..\Open\XParamBase.h" />
     <ClInclude Include="..\..\Open\XParamGlobal.h" />
     <ClInclude Include="..\..\Open\XResult.h" />

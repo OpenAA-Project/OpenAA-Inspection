@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(LIBPNG);$(XPDF)\xpdf;$(XPDF);$(XPDF)\fofi;$(XPDF)\splash;$(XPDF)\goo;$(XPDF)\xpdf-qt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(FREETYPE)include;$(LIBPNG);$(XPDF)\xpdf;$(XPDF);$(XPDF)\fofi;$(XPDF)\splash;$(XPDF)\goo;$(XPDF)\xpdf-qt;$(XPDF)\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeedHighLevel</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -105,7 +105,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\xpdf-qt\XpdfWidget.h" />
-    <ClInclude Include="pdfwidget_global.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\OpenAA-OtherLibrary\PDF\xpdf-4.06\splash\Splash.cc" />

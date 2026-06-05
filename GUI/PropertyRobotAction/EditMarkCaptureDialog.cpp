@@ -43,7 +43,7 @@ EditMarkCaptureDialog::~EditMarkCaptureDialog()
 }
 void    EditMarkCaptureDialog::Initial(ActionMarkBase *src)
 {
-    ActionMarkCapture  *a=dynamic_cast<ActionMarkCapture *>(src);
+    ActionMarkCapture  *a=static_cast<ActionMarkCapture *>(src);
     if(a!=NULL){
         int Row=0;
         for(LibraryTypeList *L=GetLayersBase()->GetInstalledLibType()->GetFirst();L!=NULL;L=L->GetNext(),Row++){

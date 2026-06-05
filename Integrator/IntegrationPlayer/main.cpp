@@ -62,6 +62,7 @@
 #include "Regulus64System.h"
 #include "XIntegrationComm.h"
 #include "XOpenAA.h"
+#include "XMainGUIFormBase.h"
 #include <omp.h>
 
 int	XDbg;

@@ -86,22 +86,18 @@ SaveMasterDialog::SaveMasterDialog(LayersBase *Base
 
 	GUIFormBase	*f=GetLayersBase()->FindByName(/**/"Integration",/**/"ShowRelationInfo",/**/"");
 	if(f!=NULL){
-		IntegrationShowRelationInfoForm	*Rf=dynamic_cast<IntegrationShowRelationInfoForm *>(f);
-		if(Rf!=NULL){
-			NumberStr=Rf->TitleMasterID;
-			NameStr	 =Rf->TitleMasterName;
-			RemarkStr=Rf->TitleLotName;
-		}
+		IntegrationShowRelationInfoForm	*Rf=static_cast<IntegrationShowRelationInfoForm *>(f);
+		NumberStr=Rf->TitleMasterID;
+		NameStr	 =Rf->TitleMasterName;
+		RemarkStr=Rf->TitleLotName;
 	}
 	else{
 		f=GetLayersBase()->FindByName(/**/"Integration",/**/"ShowName",/**/"");
 		if(f!=NULL){
-			IntegrationShowName	*Rf=dynamic_cast<IntegrationShowName *>(f);
-			if(Rf!=NULL){
-				NumberStr=Rf->TitleMasterNumber;
-				NameStr	 =Rf->TitleMasterName;
-				RemarkStr=Rf->TitleRemark;
-			}
+			IntegrationShowName	*Rf=static_cast<IntegrationShowName *>(f);
+			NumberStr=Rf->TitleMasterNumber;
+			NameStr	 =Rf->TitleMasterName;
+			RemarkStr=Rf->TitleRemark;
 		}
 	}
 	MModel->setHeaderData(0, Qt::Horizontal, MasterCodeStr	,Qt::DisplayRole);

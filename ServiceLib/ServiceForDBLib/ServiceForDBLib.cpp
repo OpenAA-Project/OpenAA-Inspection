@@ -2434,6 +2434,7 @@ bool	__S_IsValidDatabase(QSqlDatabase *DB)
 		return false;
 	}
 	if(DB->isOpen()==false){
+		QString	Err =DB->lastError().text();
 		UnlockDB();
 		return false;
 	}

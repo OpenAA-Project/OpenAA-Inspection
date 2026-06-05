@@ -1094,3 +1094,41 @@ public:
 	CmdCopyImageToMaster(LayersBase *base):GUIDirectMessage(base){}
 	CmdCopyImageToMaster(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
+
+class	CmdRasterSendShowingLayerInfo: public GUIDirectMessage
+{
+public:
+	BoolList	ButtonsToShowLayer;
+	QColor		LayerColor[MaxRasterLayer];
+
+	CmdRasterSendShowingLayerInfo(LayersBase *base):GUIDirectMessage(base){}
+	CmdRasterSendShowingLayerInfo(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}	
+};
+
+class	CmdMakeBitImage: public GUIDirectMessage
+{
+public:
+	BoolList	ButtonsToOperateLayer;
+	QColor		LayerColor[MaxRasterLayer];
+
+	CmdMakeBitImage(LayersBase *base):GUIDirectMessage(base){}
+	CmdMakeBitImage(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
+
+class	CmdMakeImage: public GUIDirectMessage
+{
+public:
+	BoolList	ButtonsToOperateLayer;
+	QColor		LayerColor[MaxRasterLayer];
+	RasterBase::MakeImageMode	MIMode;
+
+	CmdMakeImage(LayersBase *base):GUIDirectMessage(base){}
+	CmdMakeImage(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}	
+};
+
+class	CmdAlgoPipeOut: public GUIDirectMessage
+{
+public:
+	CmdAlgoPipeOut(LayersBase *base):GUIDirectMessage(base){}
+	CmdAlgoPipeOut(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}		
+};

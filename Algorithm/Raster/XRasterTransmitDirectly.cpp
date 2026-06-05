@@ -400,54 +400,54 @@ void	RasterInPage::TransmitDirectly(GUIDirectMessage *packet)
 		SelectAll(LayerList);
 		return;
 	}
-	GUICmdMakeImage	*GUICmdMakeImageVar=dynamic_cast<GUICmdMakeImage *>(packet);
-	if(GUICmdMakeImageVar!=NULL){
+	CmdMakeImage	*CmdMakeImageVar=dynamic_cast<CmdMakeImage *>(packet);
+	if(CmdMakeImageVar!=NULL){
 		MakeXY();
 		ReleaseAllSelectedItem();
-		if(GUICmdMakeImageVar->MIMode==GUICmdMakeImage::_MIM_ToMaster){
-			MakeImage(GUICmdMakeImageVar->ButtonsToOperateLayer
-					, GUICmdMakeImageVar->LayerColor);
+		if(CmdMakeImageVar->MIMode==RasterBase::_MIM_ToMaster){
+			MakeImage(CmdMakeImageVar->ButtonsToOperateLayer
+					, CmdMakeImageVar->LayerColor);
 		}
-		if(GUICmdMakeImageVar->MIMode==GUICmdMakeImage::_MIM_ToDispatchMaster){
+		if(CmdMakeImageVar->MIMode==RasterBase::_MIM_ToDispatchMaster){
 			MakeImage();
 		}
-		else if(GUICmdMakeImageVar->MIMode==GUICmdMakeImage::_MIM_Standard){
+		else if(CmdMakeImageVar->MIMode==RasterBase::_MIM_Standard){
 			CreateImagingBmpBuff();
 			int	LayerID=0;
-			for(BoolClass *b=GUICmdMakeImageVar->ButtonsToOperateLayer.GetFirst();b!=NULL;b=b->GetNext(),LayerID++){
+			for(BoolClass *b=CmdMakeImageVar->ButtonsToOperateLayer.GetFirst();b!=NULL;b=b->GetNext(),LayerID++){
 				if(b->GetValue()==true){
 					MakeImage(ImagingBmp,LayerID);
 				}
 			}
 		}
-		else if(GUICmdMakeImageVar->MIMode==GUICmdMakeImage::_MIM_Enlarge){
+		else if(CmdMakeImageVar->MIMode==RasterBase::_MIM_Enlarge){
 			CreateImagingBmpBuff();
 			int	LayerID=0;
-			for(BoolClass *b=GUICmdMakeImageVar->ButtonsToOperateLayer.GetFirst();b!=NULL;b=b->GetNext(),LayerID++){
+			for(BoolClass *b=CmdMakeImageVar->ButtonsToOperateLayer.GetFirst();b!=NULL;b=b->GetNext(),LayerID++){
 				if(b->GetValue()==true){
 					MakeImageEnlarge(ImagingBmp,LayerID);
 				}
 			}
 		}
-		else if(GUICmdMakeImageVar->MIMode==GUICmdMakeImage::_MIM_Shrinked){
+		else if(CmdMakeImageVar->MIMode==RasterBase::_MIM_Shrinked){
 			CreateImagingBmpBuff();
 			int	LayerID=0;
-			for(BoolClass *b=GUICmdMakeImageVar->ButtonsToOperateLayer.GetFirst();b!=NULL;b=b->GetNext(),LayerID++){
+			for(BoolClass *b=CmdMakeImageVar->ButtonsToOperateLayer.GetFirst();b!=NULL;b=b->GetNext(),LayerID++){
 				if(b->GetValue()==true){
 					MakeImageShrinked(ImagingBmp,LayerID);
 				}
 			}
 		}
-		else if(GUICmdMakeImageVar->MIMode==GUICmdMakeImage::_MIM_Shiftable){
+		else if(CmdMakeImageVar->MIMode==RasterBase::_MIM_Shiftable){
 			CreateImagingBmpBuff();
 			int	LayerID=0;
-			for(BoolClass *b=GUICmdMakeImageVar->ButtonsToOperateLayer.GetFirst();b!=NULL;b=b->GetNext(),LayerID++){
+			for(BoolClass *b=CmdMakeImageVar->ButtonsToOperateLayer.GetFirst();b!=NULL;b=b->GetNext(),LayerID++){
 				if(b->GetValue()==true){
 					MakeImageShiftable(ImagingBmp,LayerID);
 				}
 			}
 		}
-		else if(GUICmdMakeImageVar->MIMode==GUICmdMakeImage::_MIM_Clear){
+		else if(CmdMakeImageVar->MIMode==RasterBase::_MIM_Clear){
 			CreateImagingBmpBuff();
 			MatrixBuffClear	(ImagingBmp ,0,ImagingBmpXByte ,ImagingBmpYLen);
 		}
@@ -505,13 +505,12 @@ void	RasterInPage::TransmitDirectly(GUIDirectMessage *packet)
 		}
 		return;
 	}
-	GUICmdMakeBitImage	*GUICmdMakeBitImageVar=dynamic_cast<GUICmdMakeBitImage *>(packet);
-	if(GUICmdMakeBitImageVar!=NULL){
+	CmdMakeBitImage	*CmdMakeBitImageVar=dynamic_cast<CmdMakeBitImage *>(packet);
+	if(CmdMakeBitImageVar!=NULL){
 		MakeXY();
 		ReleaseAllSelectedItem();
-		MakeBitImage(GUICmdMakeBitImageVar->ButtonsToOperateLayer
-					,GUICmdMakeBitImageVar->LayerColor			 );
-	
+		MakeBitImage(CmdMakeBitImageVar->ButtonsToOperateLayer
+					,CmdMakeBitImageVar->LayerColor			 );
 		return;
 	}
 	CmdRasterExec3PointAlignment	*GExe3P=dynamic_cast<CmdRasterExec3PointAlignment *>(packet);
@@ -636,8 +635,8 @@ void	RasterInPage::TransmitDirectly(GUIDirectMessage *packet)
 		MakeXY();
 		return;
 	}
-	GUICmdAlgoPipeOut	*GUICmdMakeAlgoVar=dynamic_cast<GUICmdAlgoPipeOut *>(packet);
-	if(GUICmdMakeAlgoVar!=NULL){
+	CmdAlgoPipeOut	*CmdAlgoPipeOutVar=dynamic_cast<CmdAlgoPipeOut *>(packet);
+	if(CmdAlgoPipeOutVar!=NULL){
 		MakeXY();
 		MakeAlgo();
 		return;

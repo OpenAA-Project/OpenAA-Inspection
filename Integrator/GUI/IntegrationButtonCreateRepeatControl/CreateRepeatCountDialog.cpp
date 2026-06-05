@@ -96,11 +96,11 @@ void	IntegrationCmdReqRepeatCount::Receive(int32 slaveNo, int cmd ,QString &Emit
 	int	globalPage=GetLayersBase()->GetGlobalPageFromLocal(LocalPage);
 	IntegrationCmdAckRepeatCount	*SendBack=GetSendBackIntegration(IntegrationCmdAckRepeatCount,GetLayersBase(),EmitterRoot,EmitterName,slaveNo);
 
-	RepeatControlBase *RBBase=(RepeatControlBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RepeatControl");
+	AlgorithmBase *RBBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RepeatControl");
 	if(RBBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=RBBase->GetPageDataPhase(0);
 		if(Ph!=NULL){
-			RepeatControlInPage	*PData=dynamic_cast<RepeatControlInPage	*>(Ph->GetPageData(LocalPage));
+			AlgorithmInPageRoot	*PData=Ph->GetPageData(LocalPage);
 			if(PData!=NULL){
 				CmdReqWholeRepeatControl	Cmd(GetLayersBase());
 				PData->TransmitDirectly(&Cmd);
@@ -148,11 +148,11 @@ bool	IntegrationCmdSetRepeatCount::Save(QIODevice *f)
 void	IntegrationCmdSetRepeatCount::Receive(int32 slaveNo, int cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	int32	LocalPage=cmd;
-	RepeatControlBase *RBBase=(RepeatControlBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RepeatControl");
+	AlgorithmBase *RBBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"RepeatControl");
 	if(RBBase!=NULL){
 		AlgorithmInPageInOnePhase	*Ph=RBBase->GetPageDataPhase(0);
 		if(Ph!=NULL){
-			RepeatControlInPage	*PData=dynamic_cast<RepeatControlInPage	*>(Ph->GetPageData(LocalPage));
+			AlgorithmInPageRoot	*PData=Ph->GetPageData(LocalPage);
 			if(PData!=NULL){
 				CmdCreateWholeRepeatControl	Cmd(GetLayersBase());
 				Cmd.RepeatCount		=RepeatCount	;

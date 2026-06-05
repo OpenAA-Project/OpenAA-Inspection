@@ -1266,7 +1266,7 @@ void PropertyRasterForm::on_pushButtonToImage_clicked()
 	for(int page=0;page<GetPageNumb();page++){
 		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 		GUICmdMakeImage	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
-		RCmd.MIMode	=GUICmdMakeImage::_MIM_ToMaster;
+		RCmd.MIMode	=RasterBase::_MIM_ToMaster;
 		GetOperationalButton(RCmd.ButtonsToOperateLayer);
 		for(int i=0;i<MaxRasterLayer;i++){
 			if(Child[CurrentPhase][i]!=NULL){
@@ -1521,7 +1521,7 @@ void PropertyRasterForm::MakeImageToMaster(void)
 	for(int page=0;page<GetPageNumb();page++){
 		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 		GUICmdMakeImage	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
-		RCmd.MIMode	=GUICmdMakeImage::_MIM_ToMaster;
+		RCmd.MIMode	=RasterBase::_MIM_ToMaster;
 		GetOperationalButton(RCmd.ButtonsToOperateLayer);
 		for(int i=0;i<MaxRasterLayer;i++){
 			if(Child[CurrentPhase][i]!=NULL){
@@ -2058,7 +2058,7 @@ void PropertyRasterForm::on_pushButtonToDispatchImage_clicked()
 		for(int page=0;page<GetPageNumb();page++){
 			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 			GUICmdMakeImage	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
-			RCmd.MIMode	=GUICmdMakeImage::_MIM_ToDispatchMaster;
+			RCmd.MIMode	=RasterBase::_MIM_ToDispatchMaster;
 			GetOperationalButton(RCmd.ButtonsToOperateLayer);
 			for(int i=0;i<MaxRasterLayer;i++){
 				if(Child[CurrentPhase][i]!=NULL){
