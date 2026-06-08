@@ -71,6 +71,7 @@ int main(int argc, char *argv[])
 	QCoreApplication::addLibraryPath(AddedLibPath);
 
     QApplication a(argc, argv);
+	a.setWindowIcon(QIcon(":/EditParameter.png"));
 
 	a.setStyleSheet(R"(
         QSpinBox {

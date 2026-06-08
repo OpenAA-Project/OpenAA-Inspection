@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="EditParameter.ico" />
+    <Image Include="EditParameter.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

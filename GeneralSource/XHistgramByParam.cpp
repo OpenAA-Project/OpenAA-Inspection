@@ -497,7 +497,7 @@ HistStepClass::~HistStepClass(void)
 void	HistStepClass::Create(double mindata ,double maxdata ,double step)
 {
 	int	iAllocatedNumb=ceil(maxdata-mindata)+1;
-	if(AllocatedNumb!=NULL){
+	if(AllocatedNumb!=0){
 		iAllocatedNumb=ceil(max(MaxData,maxdata)-min(MinData,mindata))+1;
 	}
 	else{

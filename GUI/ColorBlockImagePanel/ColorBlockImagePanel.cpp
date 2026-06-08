@@ -131,7 +131,7 @@ void	ColorBlockImagePanel::SlotTouchItems(ListPageLayerIDPack *ItemInfo)
 
 AlgorithmDrawAttr	*ColorBlockImagePanel::CreateDrawAttrPointer(void)
 {
-	ColorBlockBase	*Base=(ColorBlockBase *)GetAlgorithmBase();
+	ColorBlockBase	*Base=static_cast<ColorBlockBase *>(GetAlgorithmBase());
 	if(Base!=NULL){
 		return new ColorBlockDrawAttr(GetLayersBase()
 									,Base->ColorBlockNormal,100
@@ -292,7 +292,7 @@ void	GUICmdSendColorBlockInfo::MakeData(int localPage, int localX, int localY ,L
 	AlgorithmBase	*AL=LocalLBase.GetAlgorithmBase(/**/"Basic" ,/**/"ColorBlockInspection");
 	if(AL==NULL)
 		return;
-	ColorBlockBase	*BL=dynamic_cast<ColorBlockBase *>(AL);
+	ColorBlockBase	*BL=static_cast<ColorBlockBase *>(AL);
 	if(BL==NULL)
 		return;
 	LocalX=localX;

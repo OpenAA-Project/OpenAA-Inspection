@@ -319,7 +319,7 @@ void	GUICmdSendAddManualColorBlock::Receive(int32 localPage, int32 cmd ,QString 
 {
 	GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
 
-	ColorBlockBase *BBase=(ColorBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorBlockInspection");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorBlockInspection");
 	if(BBase!=NULL){
 		CmdAddByteColorBlockItemPacket	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -358,7 +358,7 @@ bool	GUICmdSendModifySelectedColorBlock::Save(QIODevice *f)
 
 void	GUICmdSendModifySelectedColorBlock::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	ColorBlockBase *BBase=(ColorBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorBlockInspection");
+	AlgorithmBase *BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorBlockInspection");
 	if(BBase!=NULL){
 		CmdModifySelectedColorBlockFromByteArray	Cmd(this);
 		Cmd.Buff		=BItem;
@@ -401,7 +401,7 @@ GUICmdSendSelectedColorBlockItemAttr::GUICmdSendSelectedColorBlockItemAttr(Layer
 }
 void	GUICmdSendSelectedColorBlockItemAttr::Make(int localPage ,LayersBase *Base ,IntList &LayerList)
 {
-	ColorBlockBase *BBase=(ColorBlockBase *)Base->GetAlgorithmBase(/**/"Basic",/**/"ColorBlockInspection");
+	AlgorithmBase *BBase=Base->GetAlgorithmBase(/**/"Basic",/**/"ColorBlockInspection");
 	if(BBase!=NULL){
 		AlgorithmInPageRoot	*PData=BBase->GetPageData(localPage);
 		if(PData!=NULL){
@@ -492,7 +492,7 @@ void	GUICmdSendColorBlockInfoList::Receive(int32 localPage, int32 cmd ,QString &
 
 void	GUICmdSendColorBlockInfoList::Make(int localPage)
 {
-	ColorBlockBase	*BBase=(ColorBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorBlockInspection");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorBlockInspection");
 	CmdColorBlockInfoListPacket	Cmd(this);
 	Cmd.LocalPage=localPage;
 	Cmd.ColorBlockInfos=&ColorBlockInfos;
@@ -522,7 +522,7 @@ bool	GUICmdReqColorBlockFromList::Save(QIODevice *f)
 void	GUICmdReqColorBlockFromList::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
 	GUICmdAckColorBlockFromList	*SendBack=GetSendBack(GUICmdAckColorBlockFromList,GetLayersBase(),EmitterRoot,EmitterName ,localPage);
-	ColorBlockBase	*BBase=(ColorBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorBlockInspection");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorBlockInspection");
 	if(BBase!=NULL){
 		int	N=0;
 		for(IntClass *a=CurrentItem.GetFirst();a!=NULL;a=a->GetNext()){
@@ -566,7 +566,7 @@ bool	GUICmdAckColorBlockFromList::Load(QIODevice *f)
 	int32	N;
 	if(::Load(f,N)==false)
 		return false;
-	ColorBlockBase	*BBase=(ColorBlockBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorBlockInspection");
+	AlgorithmBase	*BBase=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorBlockInspection");
 	for(int i=0;i<N;i++){
 		CmdCreateColorBlockItem	Cmd(this);
 		BBase->TransmitDirectly(&Cmd);

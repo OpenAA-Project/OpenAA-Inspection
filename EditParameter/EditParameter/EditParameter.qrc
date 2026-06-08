@@ -1,4 +1,5 @@
 <RCC>
-    <qresource prefix="EditParameter">
+    <qresource prefix="/">
+    	<file>EditParameter.png</file>
     </qresource>
 </RCC>

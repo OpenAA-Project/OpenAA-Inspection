@@ -20,7 +20,7 @@
 #include "ui_EditOrderDialog.h"
 #include "XDataInLayer.h"
 #include "XGUI.h"
-#include "XGeneralFunc.h""
+#include "XGeneralFunc.h"
 
 int SortFuncGDim(const void *a ,const void *b)
 {

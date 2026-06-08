@@ -101,5 +101,8 @@
     <Image Include="EditParameter.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="EditParameter.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

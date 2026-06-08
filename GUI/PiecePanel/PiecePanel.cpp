@@ -177,7 +177,7 @@ AlgorithmDrawAttr	*PiecePanel::CreateDrawAttrPointer(void)
 {	
 	AlgorithmBase	*Ab=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"PieceArrange");
 	if(Ab!=NULL){
-		PieceArrangeBase	*M=(PieceArrangeBase *)Ab;
+		PieceArrangeBase	*M=static_cast<PieceArrangeBase *>(Ab);
 		PieceDrawAttr	*mattr=new PieceDrawAttr(GetLayersBase()
 								  ,M->ColorPiece		,M->TransparentLevel
 								  ,M->ColorSelected		,M->TransparentLevel
@@ -203,7 +203,7 @@ void	PiecePanel::DrawEndAfterOperation(FlexArea &area)
 	AlgorithmBase	*Ab=LBase->GetAlgorithmBase(/**/"Basic",/**/"PieceArrange");
 	if(Ab==NULL)
 		return;
-	PieceArrangeBase	*MBase=dynamic_cast<PieceArrangeBase *>(Ab);
+	PieceArrangeBase	*MBase=static_cast<PieceArrangeBase *>(Ab);
 	if(MBase==NULL)
 		return;
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PiecePropertyForm" ,/**/"");
@@ -340,18 +340,11 @@ void	PiecePanel::DrawInsideExpandedPaste( QPainter &pnt ,double movx,double movy
 	AlgorithmBase	*Ab=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"PieceArrange");
 	if(Ab==NULL)
 		return;
-	PieceArrangeBase	*MBase=dynamic_cast<PieceArrangeBase *>(Ab);
-	if(MBase==NULL)
-		return;
+
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PiecePropertyForm" ,/**/"");
 	if(GProp!=NULL){
 		CmdPieceSelectedAlgorithm	Da(GetLayersBase());
 		GProp->TransmitDirectly(&Da);
-		/*
-		IntList	MasterIDList;
-		MBase->ListupMasterID(MasterIDList);
-		GetLayersBase()->PieceStock->PrepareImage
-		*/
 
 		GUICmdReqPieceItemMasterCode	RCmd(GetLayersBase(),sRoot,sName,Page);
 		GUICmdSendPieceItemMasterCode	SCmd(GetLayersBase(),sRoot,sName,Page);
@@ -381,9 +374,7 @@ void	PiecePanel::ExpandedPasteExecute(ExpandedItemPosContainer &ExpandedItems)
 	AlgorithmBase	*Ab=GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"PieceArrange");
 	if(Ab==NULL)
 		return;
-	PieceArrangeBase	*MBase=dynamic_cast<PieceArrangeBase *>(Ab);
-	if(MBase==NULL)
-		return;
+
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PiecePropertyForm" ,/**/"");
 	if(GProp!=NULL){
 		CmdPieceSelectedMaster	DMaster(GetLayersBase());
@@ -415,7 +406,7 @@ void	PiecePanel::ExpandedPasteExecute(ExpandedItemPosContainer &ExpandedItems)
 					CmdPAdd.Y4	=Ly4;
 					CmdPAdd.MasterCode	=DMaster.MasterCode;
 					CmdPAdd.GlobalPage	=D->GetValue();
-					MBase->TransmitDirectly(&CmdPAdd);
+					Ab->TransmitDirectly(&CmdPAdd);
 				}
 			}
 		}			
