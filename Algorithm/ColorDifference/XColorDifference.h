@@ -214,7 +214,7 @@ class  ManualAdjustmentListContainer: public NPListPackSaveLoad<ManualAdjustment
 	virtual	ManualAdjustmentList	*Create(void)	override{	return new ManualAdjustmentList();	}
 	virtual	ManualAdjustmentListContainer	&operator=(const ManualAdjustmentListContainer &src);
 
-	double	GetInterpolation(double tValue,bool &ok);
+	double	GetInterpolation(ColorDifferenceItem *Item,double tValue,bool &ok);
 };
 
 
@@ -287,6 +287,8 @@ public:
 	virtual	void	MoveForAlignment(void)	override;
 
 	void	AddSampleColor(bool OK);
+
+	void	MakeIndependentItems(AlgorithmItemIndependent *AInd,int LocalX ,int LocalY);
 
 	void	SetStatisticThreshold(double SigmaH ,double SigmaS ,double SigmaV);
 	virtual	void	SetIndependentItemData(int32 Command,int32 LocalPage,int32 Layer

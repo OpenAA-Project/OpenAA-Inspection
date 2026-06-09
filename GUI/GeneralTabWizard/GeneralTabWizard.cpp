@@ -317,6 +317,8 @@ void	GeneralTabWizard::Prepare(void)
 		if(Msgs.count()>Buttons.count()){
 			for(int i=Buttons.count();i<Msgs.count();i++){
 				GTWToolButtonColoredForTab	*d=new GTWToolButtonColoredForTab(this);
+				d->setText(Msgs[i]);
+				d->show();
 				Buttons.append(d);
 				connect(d,SIGNAL(IDClicked(int)),this,SLOT(SlotIDClicked(int)));
 			}

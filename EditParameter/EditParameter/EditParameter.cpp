@@ -992,7 +992,7 @@ void EditParameter::resizeEvent(QResizeEvent *e)
 								  ,ui->tabWidget->height()-60);
 	ui->LoadButton->move(WB+ui->pushButtonEachPage->width()+WB+ui->SaveButton->width()+WB+ui->UpdateDefaultButton->width()+WB
 						 ,ui->tabWidget->height()-60);
-	WTab->resize(ui->frameGlobalParam->width(),ui->frameGlobalParam->height()-30);
+	WTab->resize(ui->frameGlobalParam->width()-15,ui->frameGlobalParam->height()-30);
 }
 
 void EditParameter::on_pushButtonOverWriteFileTransfer_clicked()

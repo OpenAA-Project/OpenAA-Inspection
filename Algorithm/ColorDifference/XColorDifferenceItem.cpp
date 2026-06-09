@@ -270,7 +270,7 @@ ManualAdjustmentListContainer	&ManualAdjustmentListContainer::operator=(const Ma
 	return *this;
 }
 
-double	ManualAdjustmentListContainer::GetInterpolation(double tValue,bool &ok)
+double	ManualAdjustmentListContainer::GetInterpolation(ColorDifferenceItem *Item,double tValue,bool &ok)
 {
 	if(GetCount()==0){
 		ok=false;
@@ -286,9 +286,18 @@ double	ManualAdjustmentListContainer::GetInterpolation(double tValue,bool &ok)
 		x.push_back(r->ImageValue);
 		y.push_back(r->ManualValue);
 	}
-	CubicSpline1D	SplineData(x,y);
+	double	Ret=0;
+	try{
+		CubicSpline1D	SplineData(x,y);
+		Ret=SplineData.interpolate(tValue);
+	}
+	catch(...){
+		//QMessageBox::critical(NULL,"Invalid Data"
+		//				,QString("Invalid data :")+QString::number(Item->GetID()));
+		Ret=-1;
+	}
 	ok=true;
-	return SplineData.interpolate(tValue);
+	return Ret;
 }
 
 //-----------------------------------------------------------------
@@ -552,11 +561,11 @@ void	ColorDifferenceItem::DrawResultItem(ResultInItemRoot *Res,QImage &IData ,QP
 
 double	ColorDifferenceItem::GetInterpolationDeltaE(double tValue,bool &ok)
 {
-	return ManualDeltaEList.GetInterpolation(tValue,ok);
+	return ManualDeltaEList.GetInterpolation(this,tValue,ok);
 }
 double	ColorDifferenceItem::GetInterpolationDense(double tValue,bool &ok)
 {
-	return ManualDenseList.GetInterpolation(tValue,ok);
+	return ManualDenseList.GetInterpolation(this,tValue,ok);
 }
 
 UFloatShort	MakeAverage(int BTable[],int AbandonDot)
@@ -951,22 +960,25 @@ ExeResult	ColorDifferenceItem::ExecuteProcessing		(int ExeID ,int ThreadNo,Resul
 			}
 			else if(RThr->JudgeMethod==4){
 				ResultDense	=CalcDense();
+				ColorDifferenceResultPosList	*RNG1=new ColorDifferenceResultPosList(this,MasterCx,MasterCy);
+				RNG1->SetResult(ResultDeltaE);
+				RNG1->result			=0x10100;
+				RNG1->result	=0;
+				Res->AddPosList(RNG1);
 				if(ResultDeltaE>RThr->THDeltaE){
-					ColorDifferenceResultPosList	*RNG=new ColorDifferenceResultPosList(this,MasterCx,MasterCy);
-					RNG->SetResult(ResultDeltaE);
-					RNG->result			=0x10100;
-					Res->AddPosList(RNG);
+					RNG1->result			=0x10100;
 					Res->SetError(2);
 					ResultDeltaEOK=false3;
 				}
 				else{
 					ResultDeltaEOK=true3;
 				}
+				ColorDifferenceResultPosList	*RNG2=new ColorDifferenceResultPosList(this,MasterCx,MasterCy);
+				RNG2->SetResult(ResultDense);
+				RNG2->result	=0x10000+ResultDenseType;
+				Res->AddPosList(RNG2);
 				if(fabs(ResultDense-MasterDense)>RThr->ThDense){
-					ColorDifferenceResultPosList	*RNG=new ColorDifferenceResultPosList(this,MasterCx,MasterCy);
-					RNG->SetResult(ResultDense);
-					RNG->result			=0x10000+ResultDenseType;
-					Res->AddPosList(RNG);
+					RNG2->result			=0x10000+ResultDenseType;
 					Res->SetError(2);
 					ResultDenseOK = false3;
 				}
@@ -1902,4 +1914,18 @@ void	ColorDifferenceItem::AddManualDense(double ManualDense)
 	WList->ImageValue = ResultDense;
 	WList->ManualValue = ManualDense;
 	ManualDenseList.AppendList(WList);
+}
+
+
+void	ColorDifferenceItem::MakeIndependentItems(AlgorithmItemIndependent *AInd,int LocalX ,int LocalY)
+{
+	QBuffer	Buff;
+	Buff.open(QIODevice::WriteOnly);
+	::Save(&Buff,ResultDeltaE);
+	::Save(&Buff,ResultDense);
+	::Save(&Buff,ResultDeltaEOK);
+	::Save(&Buff,ResultDenseOK);
+	::Save(&Buff,ResultDx);
+	::Save(&Buff,ResultDy);
+	AInd->Something=Buff.buffer();
 }

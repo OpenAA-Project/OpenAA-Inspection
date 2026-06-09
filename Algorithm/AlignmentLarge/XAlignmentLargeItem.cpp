@@ -1844,18 +1844,14 @@ bool    XAlignmentLarge::MakeArea(ImageBuffer &Buff ,ImageBuffer *specialData)
 	if(FPack.IsEmpty()==true)
 		return false;
 
+	MatrixBuffClear(TmpPtn,0,XByte,YLen);
 
-	PureFlexAreaList	*MaxSizeArea=FPack.GetFirst();
-	int64		MaxSize=MaxSizeArea->GetPatternByte();
-	for(PureFlexAreaList *f=MaxSizeArea->GetNext();f!=NULL;f=f->GetNext()){
+	for(PureFlexAreaList *f=FPack.GetFirst();f!=NULL;f=f->GetNext()){
 		int64	d=f->GetPatternByte();
-		if(d>MaxSize){
-			MaxSize=d;
-			MaxSizeArea=f;
+		if(d>10){
+			f->MakeBitData(TmpPtn,XLen,YLen);
 		}
 	}
-	MatrixBuffClear(TmpPtn,0,XByte,YLen);
-	MaxSizeArea->MakeBitData(TmpPtn,XLen,YLen);
 
 	MatrixBuffCopy(Tmp1,XByte,YLen ,(const BYTE **)TmpPtn,XByte,YLen);
 	MatrixBuffCopy(Tmp2,XByte,YLen ,(const BYTE **)TmpPtn,XByte,YLen);

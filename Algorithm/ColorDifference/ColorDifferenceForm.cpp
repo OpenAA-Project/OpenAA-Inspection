@@ -885,8 +885,18 @@ void ColorDifferenceForm::on_pushButtonManualAdjust_clicked()
 		if(DA==NULL)
 			continue;
 		{
+
 			ColorDifferenceItem	*nBData=dynamic_cast<ColorDifferenceItem *>(DA);
 			if(nBData!=NULL){
+				QBuffer	Buff(&D->Something);
+				if(Buff.open(QIODevice::ReadOnly)==true){
+					::Load(&Buff,nBData->ResultDeltaE);
+					::Load(&Buff,nBData->ResultDense);
+					::Load(&Buff,nBData->ResultDeltaEOK);
+					::Load(&Buff,nBData->ResultDenseOK);
+					::Load(&Buff,nBData->ResultDx);
+					::Load(&Buff,nBData->ResultDy);
+				}
 				EditManualInterpolateDialog	D(2,nBData,GetLayersBase());
 				D.exec();
 
@@ -921,6 +931,16 @@ void ColorDifferenceForm::on_pushButtonManualAdjustDeltaE_clicked()
 		{
 			ColorDifferenceItem	*nBData=dynamic_cast<ColorDifferenceItem *>(DA);
 			if(nBData!=NULL){
+				QBuffer	Buff(&D->Something);
+				if(Buff.open(QIODevice::ReadOnly)==true){
+					::Load(&Buff,nBData->ResultDeltaE);
+					::Load(&Buff,nBData->ResultDense);
+					::Load(&Buff,nBData->ResultDeltaEOK);
+					::Load(&Buff,nBData->ResultDenseOK);
+					::Load(&Buff,nBData->ResultDx);
+					::Load(&Buff,nBData->ResultDy);
+				}
+
 				EditManualInterpolateDialog	D(1,nBData,GetLayersBase());
 				D.exec();
 
