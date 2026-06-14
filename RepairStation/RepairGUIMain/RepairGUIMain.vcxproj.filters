@@ -108,6 +108,9 @@
     <QtMoc Include="..\..\Open\XGUI.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\Open\XMainGUIFormBase.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Open\Regulus64Version.h">

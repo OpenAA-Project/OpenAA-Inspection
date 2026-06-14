@@ -1929,3 +1929,6 @@ void	ColorDifferenceItem::MakeIndependentItems(AlgorithmItemIndependent *AInd,in
 	::Save(&Buff,ResultDy);
 	AInd->Something=Buff.buffer();
 }
+
+
+

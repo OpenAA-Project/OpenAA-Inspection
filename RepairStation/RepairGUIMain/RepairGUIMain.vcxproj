@@ -419,6 +419,7 @@
     <QtMoc Include="..\..\Open\XSingleExecuteBySocket.h">
     </QtMoc>
     <QtMoc Include="..\..\Open\XGUI.h" />
+    <QtMoc Include="..\..\Open\XMainGUIFormBase.h" />
     <ClInclude Include="..\..\Open\XTypeDef.h" />
     <QtMoc Include="..\RepairStation\XSequenceRepairLocal.h">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Intel_SSA|Win32'">false</DynamicSource>

@@ -119,7 +119,7 @@ bool AreaCamera::init()
 		//SetWindowText( "ICTest " + CString(m_cGrabber.getDev().c_str()));
 		m_cGrabber.startLive(false);
 	}else{
-		if(m_cGrabber.showDevicePage(m_paintWidget->winId()/*this->winId()*/)==true){
+		if(m_cGrabber.showDevicePage(reinterpret_cast<HWND>(m_paintWidget->winId())/*this->winId()*/)==true){
 			if( m_cGrabber.isDevValid() ){
 				m_cGrabber.saveDeviceStateToFile(/**/"AreaCamera_DFK31AF03.xml"/*confFileName.toStdString())*/);
 			}
@@ -403,7 +403,8 @@ bool AreaCamera::ShowSettingDialog(void)
 {
 	if( m_paintWidget!=NULL &&
 		m_cGrabber.isDevValid()==true &&
-		m_cGrabber.showVCDPropertyPage(m_paintWidget->winId()/*this->winId()*/, LangSolver.GetString(AreaCamera_LS,LID_5)/*"Setting Camera Form"*/)==true &&
+		m_cGrabber.showVCDPropertyPage(reinterpret_cast<HWND>(m_paintWidget->winId())
+									, LangSolver.GetString(AreaCamera_LS,LID_5).toStdString().c_str()/*"Setting Camera Form"*/)==true &&
 		m_cGrabber.saveDeviceStateToFile(/**/"AreaCamera_DFK31AF03.xml")==true){
 		return true;
 	}else{
@@ -437,10 +438,10 @@ void AreaCamera::grapWindow(WId id)
 	Close();
 	Open();
 
-	m_cGrabber.setHWND(id);
+	m_cGrabber.setHWND(reinterpret_cast<HWND>(id));
 
 	WINDOWINFO wi;
-	GetWindowInfo(id, &wi);
+	GetWindowInfo(reinterpret_cast<HWND>(id), &wi);
 	
 	int fmt_width = m_cGrabber.getAcqSizeMaxX();
 	int fmt_height = m_cGrabber.getAcqSizeMaxY();

@@ -52,6 +52,7 @@
 #include "XLogOut.h"
 #include "Regulus64System.h"
 #include "XOpenAA.h"
+#include "XMainGUIFormBase.h"
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
