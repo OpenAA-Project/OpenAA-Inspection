@@ -475,7 +475,7 @@ void	OCRInspectionBase::InitialAfterParamLoaded(void)
 	char *OCRLanguageCStr = new char[OCRLanguage.length() + 1];
 	std::strcpy(OCRLanguageCStr,OCRLanguage.toStdString().c_str());
 
-
+	QDir::setCurrent(GetLayersBase()->GetSystemPath());
     if (OcrApi->Init(OCRDataPathCStr, OCRLanguageCStr)) { 
         delete OcrApi;
 		OcrApi = NULL;

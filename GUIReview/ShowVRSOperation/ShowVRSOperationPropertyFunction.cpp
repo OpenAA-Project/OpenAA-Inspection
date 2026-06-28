@@ -23,13 +23,13 @@
 
 void ShowVRSOperation::setProperty(const ShowVRSOperationProperty &property)
 {
-	// �����Ƀp�����[�^�ύX�̑Ή����L�q����
+	// ??????p?????[?^??X???????L?q????
 	(*m_property) = property;
 }
 
 void ShowVRSOperation::setPropertyToUi(const ShowVRSOperationProperty &property)
 {
-	// �����Ƀp�����[�^�̓��e��Ui�ɔ��f�������L�q������
+	// ??????p?????[?^????e??Ui????f???????L?q??????
 	Ui::ShowVRSOperationPropertyClass *pui = getPropertyUi();
 
 	pui->sbInitialMoveLength->setValue(property.moveLength);
@@ -46,7 +46,7 @@ void ShowVRSOperation::setPropertyToUi()
 
 void ShowVRSOperation::setPropertyFromUi(ShowVRSOperationProperty &property)
 {
-	// ������Ui�̓��e���p�����[�^�ɔ��f�������L�q���s����
+	// ??????Ui????e???p?????[?^????f???????L?q???s????
 	Ui::ShowVRSOperationPropertyClass *pui = getPropertyUi();
 
 	property.moveLength = ui.sbMoveLength->value();
@@ -64,6 +64,7 @@ void ShowVRSOperation::slot_propertyModified()
 {
 	setPropertyFromUi();
 	updateProperty();
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().save();
 }
 
@@ -74,7 +75,7 @@ void ShowVRSOperation::initProperty()
 	setPropertyDialog(new QDialog);
 
 	getPropertyUi()->setupUi(getPropertyDialog());
-
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().load();
 	setPropertyToUi();
 

@@ -756,6 +756,16 @@ bool	LayersBase::ReallocXYPixels(int NewDotPerLine ,int NewMaxLines)
 		//GSleep(1000);
 		GetParamGlobal()->DotPerLine	=NewDotPerLine;
 		GetParamGlobal()->MaxLines		=NewMaxLines;
+
+		for(int i=0;i<GetParamGlobal()->CountOfPageLocal;i++){
+			if(GetParamGlobal()->PageLocalData!=NULL){
+				if(GetParamGlobal()->PageLocalData[i].UseEachPage==true){
+					GetParamGlobal()->PageLocalData[i].DotPerLine=NewDotPerLine;
+					GetParamGlobal()->PageLocalData[i].MaxLines	=NewMaxLines;
+				}
+			}
+		}
+
 		for(int i=0;i<AllocatedPhaseNumb;i++){
 			if(PageDataPhase[i]!=NULL){
 				PageDataPhase[i]->ReallocXYPixels(NewDotPerLine ,NewMaxLines);

@@ -23,17 +23,17 @@
 
 void WholeImageForReview::setProperty(const WholeImageForReviewProperty &property)
 {
-	//// �����Ƀp�����[�^�ύX�̑Ή����L�q����
-	//// �c���̕��ѐݒ�
+	//// ??????p?????[?^??X???????L?q????
+	//// ?c?????????
 	//setOrientation(property.viewFrontBackOrientation, property.viewPhaseOrientation);
 
-	//// ����NGNail�̒��S�ŏ\���\�������ݒ�
+	//// ????NGNail????S??\???\?????????
 	//setNGCrossView(property.viewNGNailCross);
 
-	//// NG�ӏ����\�������ݒ�
+	//// NG??????\?????????
 	//setNGPointView(property.viewNGPoint);
 
-	//// ����NGNail�̂ݕ\�������ݒ�
+	//// ????NGNail???\?????????
 	//setOnlyCurrentNGNailRectView(property.viewOnlyCurrentNail);
 
 	(*m_property) = property;
@@ -43,7 +43,7 @@ void WholeImageForReview::setProperty(const WholeImageForReviewProperty &propert
 
 void WholeImageForReview::setPropertyToUi(const WholeImageForReviewProperty &property)
 {
-	// �����Ƀp�����[�^�̓��e��Ui�ɔ��f�������L�q������
+	// ??????p?????[?^????e??Ui????f???????L?q??????
 	Ui::WholeImageForReviewPropertyClass *ui = getPropertyUi();
 	bool isHoriaontal = (property.viewFrontBackOrientation==Qt::Horizontal);
 	ui->rbFrontBackHoriaontal->setChecked(isHoriaontal);
@@ -67,7 +67,7 @@ void WholeImageForReview::setPropertyToUi()
 
 void WholeImageForReview::setPropertyFromUi(WholeImageForReviewProperty &property)
 {
-	// ������Ui�̓��e���p�����[�^�ɔ��f�������L�q���s����
+	// ??????Ui????e???p?????[?^????f???????L?q???s????
 	Ui::WholeImageForReviewPropertyClass *ui = getPropertyUi();
 	property.viewFrontBackOrientation = (ui->rbFrontBackHoriaontal->isChecked() ? Qt::Horizontal : Qt::Vertical);
 	property.viewPhaseOrientation = (ui->rbPhaseHoriaontal->isChecked() ? Qt::Horizontal : Qt::Vertical);
@@ -87,6 +87,7 @@ void WholeImageForReview::slot_propertyModified()
 {
 	setPropertyFromUi();
 	updateProperty();
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().save();
 	updateGUI();
 }
@@ -99,6 +100,7 @@ void WholeImageForReview::initProperty()
 
 	getPropertyUi()->setupUi(getPropertyDialog());
 
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().load();
 	setPropertyToUi();
 

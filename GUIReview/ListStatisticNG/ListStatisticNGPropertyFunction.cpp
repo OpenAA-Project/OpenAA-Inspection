@@ -24,13 +24,13 @@
 
 void ListStatisticNG::setProperty(const ListStatisticNGProperty &property)
 {
-	// �����Ƀp�����[�^�ύX�̑Ή����L�q����
+	// ??????p?????[?^??X???????L?q????
 	(*m_property) = property;
 }
 
 void ListStatisticNG::setPropertyToUi(const ListStatisticNGProperty &property)
 {
-	// �����Ƀp�����[�^�̓��e��Ui�ɔ��f�������L�q������
+	// ??????p?????[?^????e??Ui????f???????L?q??????
 	Ui::ListStatisticNGPropertyClass *ui = getPropertyUi();
 	ui->listFKeyPriority->clear();
 
@@ -51,7 +51,7 @@ void ListStatisticNG::setPropertyToUi()
 
 void ListStatisticNG::setPropertyFromUi(ListStatisticNGProperty &property)
 {
-	// ������Ui�̓��e���p�����[�^�ɔ��f�������L�q���s����
+	// ??????Ui????e???p?????[?^????f???????L?q???s????
 	Ui::ListStatisticNGPropertyClass *ui = getPropertyUi();
 
 	property.PriorityList.clear();
@@ -69,6 +69,7 @@ void ListStatisticNG::slot_propertyModified()
 {
 	setPropertyFromUi();
 	updateProperty();
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().save();
 }
 
@@ -79,7 +80,7 @@ void ListStatisticNG::initProperty()
 	setPropertyDialog(new QDialog);
 
 	getPropertyUi()->setupUi(getPropertyDialog());
-
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().load();
 	setPropertyToUi();
 

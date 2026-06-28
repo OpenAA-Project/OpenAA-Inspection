@@ -3948,7 +3948,7 @@ AlignmentLargeBase::AlignmentLargeBase(LayersBase *Base)
 	MakeAreaInInitialAfterEdit	=true;
 	UseBitBuff					=false;
 	TransparentLevelInBitBuff	=60;
-	SkipDotForRoughSearch		=8;
+	SkipDotForRoughSearch		=1;
 	AdoptLineDiff				=5;
 	Use3Lines					=true;
 	SkipOnMatchingLine			=4;

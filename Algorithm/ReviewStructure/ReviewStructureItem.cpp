@@ -25,7 +25,9 @@ HistoryItem::HistoryItem(ReviewPIBase *pBase)
 	PBase=pBase;
 	m_NGReader = new NGImageReaderOneFile(PBase->getProperty().NGImagePath
 										,pBase->GetParamGlobal()->TransDatabaseIP
-										,pBase->GetParamGlobal()->ImageFileCachePort,NULL);
+										,pBase->GetParamGlobal()->ImageFileCachePort
+										,pBase->ReplacedNGImagePath
+										,NULL);
 };
 
 void HistoryItem::createReader(void)
@@ -34,6 +36,7 @@ void HistoryItem::createReader(void)
 		m_NGReader = new NGImageReaderOneFile(PBase->getProperty().NGImagePath
 											,PBase->GetParamGlobal()->TransDatabaseIP
 											,PBase->GetParamGlobal()->ImageFileCachePort
+											,PBase->ReplacedNGImagePath			
 											,NULL);
 		m_NGReader->setFilename(m_Filename);
 		m_NGReader->setIDXList(m_IDXList);

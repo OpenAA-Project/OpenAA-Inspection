@@ -105,6 +105,7 @@ void ReviewPIBase::initProperty(void)
 
 	getPropertyUi()->setupUi(getPropertyDialog());
 
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().load();
 	updateProperty();
 

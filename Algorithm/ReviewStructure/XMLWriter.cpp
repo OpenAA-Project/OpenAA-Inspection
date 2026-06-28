@@ -142,25 +142,30 @@ void XMLWriter::run()
 		//qDebug() << "XMLWriter is running.";
 
 		{
-			QMutexLocker locker( &m_Mutex );
+			m_Mutex.lock();
 			if(m_ReqWriteList.isEmpty()==true){// �����ǉ��������܂ő҂�
+				m_Mutex.unlock();
 				msleep(20);
 				if(m_flash==true){
 					return;
 				}
 				continue;
 			}
+			m_Mutex.unlock();
 		}
 		
 		{
-			QMutexLocker locker( &m_Mutex );
+			m_Mutex.lock();
 			if(m_XMLServer->Open()==false){
 				if(m_XMLServer->GetState()==false){
+					m_Mutex.unlock();
 					break;
 				}
+				m_Mutex.unlock();
 				msleep(50);
 				continue;
 			}
+			m_Mutex.unlock();
 		}
 
 		ReqXMLWrite item;
@@ -200,9 +205,11 @@ void XMLWriter::run()
 		//}
 
 		{
-		QMutexLocker locker( &m_Mutex );
+		m_Mutex.lock();
 		m_ReqWriteList.removeAll(item);
 		}
+		m_Mutex.unlock();
+
 		msleep(1);
 
 		//m_Mutex.lock();

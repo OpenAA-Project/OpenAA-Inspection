@@ -23,13 +23,13 @@
 
 void LiveCameraAlgoNTSC::setProperty(const LiveCameraAlgoNTSCProperty &property)
 {
-	// �����Ƀp�����[�^�ύX�̑Ή����L�q����
+	// ??????p?????[?^??X???????L?q????
 	(*m_property) = property;
 }
 
 void LiveCameraAlgoNTSC::setPropertyToUi(const LiveCameraAlgoNTSCProperty &property)
 {
-	// �����Ƀp�����[�^�̓��e��Ui�ɔ��f�������L�q������
+	// ??????p?????[?^????e??Ui????f???????L?q??????
 	Ui::LiveCameraAlgoNTSCPropertyClass *ui = getPropertyUi();
 }
 
@@ -40,7 +40,7 @@ void LiveCameraAlgoNTSC::setPropertyToUi()
 
 void LiveCameraAlgoNTSC::setPropertyFromUi(LiveCameraAlgoNTSCProperty &property)
 {
-	// ������Ui�̓��e���p�����[�^�ɔ��f�������L�q���s����
+	// ??????Ui????e???p?????[?^????f???????L?q???s????
 	Ui::LiveCameraAlgoNTSCPropertyClass *ui = getPropertyUi();
 }
 
@@ -53,6 +53,7 @@ void LiveCameraAlgoNTSC::slot_propertyModified()
 {
 	setPropertyFromUi();
 	updateProperty();
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().save();
 }
 
@@ -63,7 +64,7 @@ void LiveCameraAlgoNTSC::initProperty()
 	setPropertyDialog(new QDialog);
 
 	getPropertyUi()->setupUi(getPropertyDialog());
-
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().load();
 	setPropertyToUi();
 

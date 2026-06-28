@@ -23,7 +23,7 @@
 
 void ShowThumbnail::setProperty(const ShowThumbnailProperty &property)
 {
-	// �����Ƀp�����[�^�ύX�̑Ή����L�q����
+	// ??????p?????[?^??X???????L?q????
 	
 	setRowCount(property.RowCount);
 	setColumnCount(property.ColumnCount);
@@ -42,7 +42,7 @@ void ShowThumbnail::setProperty(const ShowThumbnailProperty &property)
 
 void ShowThumbnail::setPropertyToUi(const ShowThumbnailProperty &property)
 {
-	// �����Ƀp�����[�^�̓��e��Ui�ɔ��f�������L�q������
+	// ??????p?????[?^????e??Ui????f???????L?q??????
 	Ui::ShowThumbnailPropertyClass *ui = getPropertyUi();
 
 	ui->sbRowCount->setValue( property.RowCount );
@@ -63,7 +63,7 @@ void ShowThumbnail::setPropertyToUi()
 
 void ShowThumbnail::setPropertyFromUi(ShowThumbnailProperty &property)
 {
-	// ������Ui�̓��e���p�����[�^�ɔ��f�������L�q���s����
+	// ??????Ui????e???p?????[?^????f???????L?q???s????
 	Ui::ShowThumbnailPropertyClass *ui = getPropertyUi();
 	
 	property.RowCount				= ui->sbRowCount->value();
@@ -85,6 +85,7 @@ void ShowThumbnail::slot_propertyModified()
 {
 	setPropertyFromUi();
 	updateProperty();
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().save();
 
 	updateGUI();
@@ -97,7 +98,7 @@ void ShowThumbnail::initProperty()
 	setPropertyDialog(new QDialog);
 
 	getPropertyUi()->setupUi(getPropertyDialog());
-
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().load();
 	setPropertyToUi();
 

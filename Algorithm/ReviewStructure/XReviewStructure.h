@@ -236,6 +236,9 @@ class	ReviewPIBase : public QObject, public AlgorithmBase
 	int	VRSOffsetX,VRSOffsetY;
 	int	VRSDiffX,VRSDiffY;
 public:// construct, destruct
+	QString	ReplacedNGImagePath;
+
+
 	ReviewPIBase(LayersBase *Base,EntryPointBase *EPoint);
 	~ReviewPIBase(void);
 
@@ -257,8 +260,8 @@ public:// manage master image buffer
 private:// manage at History
 	void OrganizeHistoryList(void);// ���\�̗������X�g�����A�܂Ƃ߂����X�g�𐶐����� (OrganizedHistoryList = (FrontHistoryList + BackHistoryList) �̂悤�Ȋ���)
 	OrganizedHistoryList::Iterator getOrganizedHistoryIterator(int GlobalIndex);
-	OrganizedHistoryList::Iterator getOrganizedHistoryIteratorBegin();
-	OrganizedHistoryList::Iterator getOrganizedHistoryIteratorEnd();
+	QList<OrganizedHistoryItem>::iterator	getOrganizedHistoryIteratorBegin();
+	QList<OrganizedHistoryItem>::iterator	getOrganizedHistoryIteratorEnd();
 
 	void setCurrentOrganizedHistory(Review::ListLocate locate, int GlobalIndex = -1);
 	void setCurrentOrganizedHistory(int GlobalIndex = 0);

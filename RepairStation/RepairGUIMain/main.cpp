@@ -119,25 +119,65 @@ int main(int argc, char *argv[])
 	bool	EditPasswordMode=false;
 	QString	UserPath;
 	bool	RemoveUselessGUI=false;
+	bool	StopForDebug=false;
 
 	QString	GUIFileName=/**/"RepairStation.gui";
+
 	for(int i=1;i<argc;i++){
 		if((*argv[i]=='A' || *argv[i]=='a') && *(argv[i]+1)!=':'){
 			char	*fp=argv[i]+1;
 			AbsPath	=fp;
 			QDir::setCurrent(AbsPath);
 		}
-		else if(stricmp(argv[i],"Single")==0){
-			DupOK=false;
-		}
-		else if((*argv[i]=='G' || *argv[i]=='g') && *(argv[i]+1)!=':'){
+		else if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
 			char	*fp=argv[i]+1;
-			GUIFileName=fp;
+			UserPath	=fp;
+		}
+		else if(strnicmp(argv[i],"StopForDebug",12)==0){
+			StopForDebug=true;
+		}
+		else if(stricmp(argv[i],/**/"NoCamDevice")==0){
+			NoCamDevice=true;
+		}
+		else if(stricmp(argv[i],/**/"Single")==0){
+			DupOK=false;
 		}
 		else if((*argv[i]=='S' || *argv[i]=='s') && *(argv[i]+1)!=':'){
 			char	*fp=argv[i]+1;
 			GlobalParmaFileName=fp;
 			PartsReEntrantMode=true;
+		}
+	}
+	if(StopForDebug==true){
+		QMessageBox::information(NULL,"Stop","Please push OK button to go",QMessageBox::Ok);
+	}
+    RepairGUIMain w;
+	/*
+    w.show();
+    a.connect(&a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()));
+	*/
+	if(AbsPath.isEmpty()==false)
+		QCoreApplication::addLibraryPath (AbsPath);
+	else
+		QCoreApplication::addLibraryPath (QCoreApplication::applicationDirPath());
+
+	QCoreApplication::processEvents();
+
+	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
+	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
+	EntryPointToFuncGlobal->SetLayersBase(Layers);
+	EntryPointToFuncGlobal->NoCamDevice=NoCamDevice;
+	GUIInitializer	*G=new GUIInitializer(Layers);
+	Layers->SetGUIInitializer(G);
+
+	if(PartsReEntrantMode==true){
+		Layers->GetParamGlobal()->SetDefaultFileName(GlobalParmaFileName);
+	}
+
+	for(int i=1;i<argc;i++){
+		if((*argv[i]=='G' || *argv[i]=='g') && *(argv[i]+1)!=':'){
+			char	*fp=argv[i]+1;
+			GUIFileName=fp;
 		}
 		else if((*argv[i]=='W' || *argv[i]=='w') && *(argv[i]+1)!=':'){
 			char	*fp=argv[i]+1;
@@ -145,13 +185,7 @@ int main(int argc, char *argv[])
 				WorkerIDEnabled=true;
 			}
 		}
-		else if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
-			char	*fp=argv[i]+1;
-			UserPath	=fp;
-		}
-		else if(stricmp(argv[i],/**/"NoCamDevice")==0){
-			NoCamDevice=true;
-		}
+
 		else if(stricmp(argv[i],/**/"NoPassword")==0){
 			UsePassword=false;
 		}
@@ -195,29 +229,6 @@ int main(int argc, char *argv[])
 	}
 	if(DupOK==false){
 		KillPreviousDupProcess();
-	}
-
-    RepairGUIMain w;
-	/*
-    w.show();
-    a.connect(&a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()));
-	*/
-	if(AbsPath.isEmpty()==false)
-		QCoreApplication::addLibraryPath (AbsPath);
-	else
-		QCoreApplication::addLibraryPath (QCoreApplication::applicationDirPath());
-
-	QCoreApplication::processEvents();
-
-	EntryPointBase	*EntryPointToFuncGlobal	=MakeEntryPointForGlobal();
-	LayersBase	*Layers	=new LayersBase(EntryPointToFuncGlobal,::GetUserPath(UserPath));
-	EntryPointToFuncGlobal->SetLayersBase(Layers);
-	EntryPointToFuncGlobal->NoCamDevice=NoCamDevice;
-	GUIInitializer	*G=new GUIInitializer(Layers);
-	Layers->SetGUIInitializer(G);
-
-	if(PartsReEntrantMode==true){
-		Layers->GetParamGlobal()->SetDefaultFileName(GlobalParmaFileName);
 	}
 
 	Layers->SetCurrentPath(QDir::currentPath());
@@ -328,6 +339,10 @@ int main(int argc, char *argv[])
 		return (-1);
 	}
 
+	QString StrSystemPath = Layers->GetSystemPath();
+	if(StrSystemPath.isEmpty()==false){
+		QDir::setCurrent(StrSystemPath);
+	}
 	GUIFormBase	*MainForm=NULL;
 	QFile	file(GUIFileName);
 	if(file.open(QIODevice::ReadOnly)==true){

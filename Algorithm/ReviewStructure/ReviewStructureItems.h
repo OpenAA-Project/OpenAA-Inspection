@@ -18,19 +18,6 @@
 
 #pragma once
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//  ReviewPIBase�Ŏg�p�����f�[�^���`
-//
-//  �ʏ��ł͈ȉ��̂悤�ȃZ�b�g�Œ��`������
-//    class ClassItem{...};
-//    typedef QList<ClassItem>	ClassList;
-//    typedef ClassList			*ClassListPtr;
-//    typedef ClassItem			*ClassIndex;
-//    typedef QList<ClassIndex>	ClassIndexList;
-//
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #include <QString>
 #include "XDateTime.h"
 #include <QImage>
@@ -549,7 +536,28 @@ typedef QList<PCEItem>	PCEList;
 class ReviewNGPoint
 {
 public:
-	ReviewNGPoint(void){clear();};
+	ReviewNGPoint(void){	clear();	}
+	ReviewNGPoint(const ReviewNGPoint &src){
+		x			= src.x			;
+		y			= src.y			;
+		TypeCode	= src.TypeCode	;
+		LibCode		= src.LibCode	;
+		ItemID		= src.ItemID	;
+		SmallPartsID= src.SmallPartsID;
+		Ly			= src.Ly		;
+		Ral			= src.Ral		;
+		result1		= src.result1	;	
+		result2		= src.result2	;	
+		Error		= src.Error		;
+		ItemSearchedX	=src.ItemSearchedX	;
+		ItemSearchedY	=src.ItemSearchedY	;
+		AlignedX		=src.AlignedX		;
+		AlignedY		=src.AlignedY		;
+		Ara				=src.Ara			;		
+
+		Tag			=src.Tag		;
+		PCEItems	=src.PCEItems	;
+	}
 	void clear(){
 		x = -1;
 		y = -1;
@@ -598,6 +606,30 @@ public:
 	QPoint getNGPos() const { return QPoint(x, y); };
 	QPoint getMasterPos() const { return QPoint(x - ItemSearchedX - AlignedX, y - ItemSearchedY - AlignedY); };
 
+	ReviewNGPoint& operator=(const ReviewNGPoint &src) {
+		if (this == &src) return *this;
+		
+		x            = src.x;
+		y            = src.y;
+		TypeCode     = src.TypeCode;
+		LibCode      = src.LibCode;
+		ItemID       = src.ItemID;
+		SmallPartsID = src.SmallPartsID;
+		Ly           = src.Ly;
+		Ral          = src.Ral;
+		result1      = src.result1;    
+		result2      = src.result2;    
+		Error        = src.Error;
+		ItemSearchedX= src.ItemSearchedX;
+		ItemSearchedY= src.ItemSearchedY;
+		AlignedX     = src.AlignedX;
+		AlignedY     = src.AlignedY;
+		Ara          = src.Ara;        
+		Tag          = src.Tag;
+		PCEItems     = src.PCEItems;
+		
+		return *this;
+	}
 public:
 	InsLibraryItem::TypeNameTag Tag;
 	PCEList						PCEItems;
@@ -616,12 +648,36 @@ typedef ReviewNGPoint				*ReviewNGPointIndex;
 typedef QList<ReviewNGPointIndex>	ReviewNGPointIndexList;
 
 
+
 class HistoryItem;
 
 class NGNailItemRef
 {
 public:
-	NGNailItemRef(){clear();};
+	NGNailItemRef(){		
+		TargetPosX = -1;
+		TargetPosY = -1;
+		MasterPosX = -1;
+		MasterPosY = -1;
+		phase = -1;
+		page = -1;
+		IDX = -1;
+		FKey = Review::NoFKey;
+		OutlineOffsetX	=0;
+		OutlineOffsetY	=0;
+	}
+	NGNailItemRef(const NGNailItemRef &src){
+		TargetPosX = src.TargetPosX ;
+		TargetPosY = src.TargetPosY ;
+		MasterPosX = src.MasterPosX ;
+		MasterPosY = src.MasterPosY ;
+		phase	= src.phase	;
+		page	= src.page	;
+		IDX		= src.IDX	;
+		FKey	= src.FKey	;
+		OutlineOffsetX	=src.OutlineOffsetX;
+		OutlineOffsetY	=src.OutlineOffsetY;
+	}
 	virtual void clear(){
 		TargetPosX = -1;
 		TargetPosY = -1;
@@ -634,7 +690,7 @@ public:
 		OutlineOffsetX	=0;
 		OutlineOffsetY	=0;
 
-	};
+	}
 public:
 	int		TargetPosX;
 	int		TargetPosY;
@@ -646,7 +702,7 @@ public:
 public:
 	int		page;
 	int		phase;
-	Review::FKey FKey;// F�L�[����
+	Review::FKey FKey;
 
 public:
 	int		IDX;
@@ -660,40 +716,60 @@ public:
 			(page == other.page) &&
 			(phase == other.phase) &&
 			(IDX == other.IDX);
-	};
+	}
+	NGNailItemRef &operator=(const NGNailItemRef &src)
+	{
+		TargetPosX = src.TargetPosX ;
+		TargetPosY = src.TargetPosY ;
+		MasterPosX = src.MasterPosX ;
+		MasterPosY = src.MasterPosY ;
+		phase	= src.phase	;
+		page	= src.page	;
+		IDX		= src.IDX	;
+		FKey	= src.FKey	;
+		OutlineOffsetX	=src.OutlineOffsetX;
+		OutlineOffsetY	=src.OutlineOffsetY;
+		return *this;
+	}
 };
 
 class NGNailItem : public NGNailItemRef
 {
 public:
-	NGNailItem()/*:NGImage(NULL)*/{clear();};
-	~NGNailItem(){};
+	NGNailItem()/*:NGImage(NULL)*/{	clear();	}
+	NGNailItem(const NGNailItem &src):NGNailItemRef(src){ 
+		NGReader		= src.NGReader;
+		NGImageWidth	= src.NGImageWidth ;
+		NGImageHeight	= src.NGImageHeight ;
+		isChecked		= src.isChecked ;
+		NGPointList		=src.NGPointList;
+		InspectID		= src.InspectID ;
+	}
+
+	virtual	~NGNailItem(){};
 	virtual void clear()
 	{
 		NGNailItemRef::clear();
 
-		//NGImage = QImage();
-		//deleteReader();
-		//NGImage = new NGImageReader;
-		NGReader = NULL;
-		NGImageWidth = -1;
-		NGImageHeight = -1;
-		isChecked = false;
-		NGPointList = ReviewNGPointList();
+		NGReader		= NULL;
+		NGImageWidth	= -1;
+		NGImageHeight	= -1;
+		isChecked		= false;
+		NGPointList.clear();
 		InspectID = -1;
-		//NGImageFilename = /**/"";
 	};
 
 public:
 
-	int		NGImageWidth;
-	int		NGImageHeight;
-	bool	isChecked;		
-	mutable QImage  Image;
-	QImage	DummyImage;
+	int		NGImageWidth	;
+	int		NGImageHeight	;
+	bool	isChecked		;		
+	mutable QImage  Image	;
+	QImage	DummyImage		;
 
 	ReviewNGPointList	NGPointList; // NG�摜�Ɋ܂܂���NG�̏W�܂�
 	int InspectID;// �ڑ�����HistoryItem�Őݒ肳����
+	mutable QMutex imageMutex;
 
 public:
 	void setNGReader(NGImageReaderOneFile *Reader){ NGReader = Reader; };
@@ -702,6 +778,7 @@ public:
 	bool hasNGReader(void) const { return (getNGReader()!=NULL); };
 	void setDummyImage(const QImage &image){ DummyImage = image; };
 	QImage image(void) const {
+		QMutexLocker locker(&imageMutex);
 		QImage ret;
 
 		if(DummyImage.isNull()==false){
@@ -724,6 +801,16 @@ public:
 
 		return ret;
 	};
+	NGNailItem	&operator=(const NGNailItem &src){
+		NGNailItemRef::operator=(src);
+		NGReader		= src.NGReader;
+		NGImageWidth	= src.NGImageWidth ;
+		NGImageHeight	= src.NGImageHeight ;
+		isChecked		= src.isChecked ;
+		NGPointList		=src.NGPointList;
+		InspectID		= src.InspectID ;
+		return *this;
+	}
 
 private:
 	mutable NGImageReaderOneFile *NGReader;
@@ -856,9 +943,13 @@ public:
 
 	void deleteReader(void){
 		if(m_NGReader!=NULL){
-			delete m_NGReader;
-			m_NGReader = NULL;
-		}
+        if(m_NGReader->isRunning()){
+            m_NGReader->requestInterruption(); // または quit()
+            m_NGReader->wait(); // スレッドの安全な停止を待つ
+        }
+        m_NGReader->deleteLater();;
+        m_NGReader = NULL;
+    }
 	};
 
 	void loadNGImage(void){
@@ -945,7 +1036,16 @@ public:
 	OrganizedHistoryItem(){
 		clear();
 	};
+	OrganizedHistoryItem(const OrganizedHistoryItem &other){
+		FrontItem = other.getFront();
+		BackItem = other.getBack();
+		updateIteratorList();
+		Type = other.getSideType();
+		FKey = other.getFKey();
+	}
 public:
+
+
 	void clear(){
 		FrontItem = NULL;
 		BackItem = NULL;
@@ -966,12 +1066,14 @@ public:
 		FrontBackNGNailList.clear();
 
 		if(FrontItem!=NULL){
-			for(NGNailList::Iterator it=FrontItem->getNGNails().begin(); it!=FrontItem->getNGNails().end(); it++){
+			NGNailList	&tNGNail=FrontItem->getNGNails();
+			for(NGNailList::Iterator it=tNGNail.begin(); it!=tNGNail.end(); it++){
 				FrontBackNGNailList.append(it);
 			}
 		}
 		if(BackItem!=NULL){
-			for(NGNailList::Iterator it=BackItem->getNGNails().begin(); it!=BackItem->getNGNails().end(); it++){
+			NGNailList	&tNGNail=BackItem->getNGNails();
+			for(NGNailList::Iterator it=tNGNail.begin(); it!=tNGNail.end(); it++){
 				FrontBackNGNailList.append(it);
 			}
 		}

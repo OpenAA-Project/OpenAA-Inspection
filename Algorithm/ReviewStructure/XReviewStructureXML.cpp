@@ -78,7 +78,7 @@ bool ReviewPIBase::XML_Open()
 		//		while(!xmlWriter->isFinished()){}
 		//		xmlWriter->setReady();
 		//	}
-		//	// �J���ĊJ�n
+		//	// ?J????J?n
 		//	xmlWriter->open(IPAddress, PortNo);
 		//	xmlWriter->start();
 		//	QTime timer;
@@ -96,7 +96,7 @@ bool ReviewPIBase::XML_Open()
 					return false;
 				}
 				GSleep(100);
-			}// �҂�
+			}// ???
 			qDebug() << /**/"XML_Open:EndStopAndRestart=" << time.elapsed();
 		}else{
 			qDebug() << /**/"XML_Open:EndRestart=" << time.elapsed();
@@ -159,6 +159,7 @@ bool ReviewPIBase::XML_Open()
 
 	getProperty().XMLServerIPAddress = ui.leAddress->text();
 	getProperty().XMLServerPortNo = ui.lePort->text().toInt();
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().save();
 	
 	time.restart();
@@ -177,12 +178,12 @@ bool ReviewPIBase::XML_Open(QString Address, int Port)
 	if(getXMLServerIPAddress()==Address && getXMLServerPortNo()==Port){
 		return XML_Open();
 	}else{
-		// ���~
+		// ???~
 		getXMLServerHandle()->Close();
 		getXMLWriter()->stop();
 		getXMLWriter()->setReady();
 
-		// �ݒ�
+		// ???
 		getXMLServerHandle()->Set(Address, Port);
 		getXMLWriter()->set(Address, Port);
 		setXMLServerState(Address, Port);
@@ -314,7 +315,7 @@ static	int	RemovedItem=0;
 
 bool ReviewPIBase::XML_SetLotToSide(QString lotFile, Review::SideType side)
 {
-	// ���b�g��NG�`�F�b�N���҂�
+	// ???b?g??NG?`?F?b?N?????
 	if(getXMLWriter()->isEmpty()==false){
 		int remainMax = getXMLWriter()->count();
 		QProgressDialog progressXML("", "", 0, 100, (QWidget*)GetLayersBase()->GetMainWidget());
@@ -356,24 +357,24 @@ bool ReviewPIBase::XML_SetLotToSide(QString lotFile, Review::SideType side)
 		return false;
 	}
 
-	// XML�t�@�C���ւ̃n���h���擾
+	// XML?t?@?C?????n???h???擾
 	XMLOperationHandle *xmlOperatorHdl = getXMLServerHandle()->OpenXMLOperation(lotItem.TableName);
 	if(xmlOperatorHdl==NULL){
 		return false;
 	}
 
-	// �o�̓t�H�[�}�b�g�A�����t�H�[�}�b�g����(�f�t�H���g)
+	// ?o??t?H?[?}?b?g?A?????t?H?[?}?b?g????(?f?t?H???g)
 	QString outputFormat = /**/"<* *>*</*>";
 	QString selectFormat = /**/"<*/>";
 	QString orderFormat = /**/"";
 
-	// XML�߂蕶�����o�b�t�@
+	// XML????????o?b?t?@
 	QString retStr;
 	QStringList strList;
 	
 	QString processStr;
 
-	// �ǂݍ��݃^�[�Q�b�g�ߑ�
+	// ??????^?[?Q?b?g???
 
 	XML_ClearLot(side);
 
@@ -407,94 +408,34 @@ bool ReviewPIBase::XML_SetLotToSide(QString lotFile, Review::SideType side)
 	// LIBCODE
 	//
 
-	// �o�b�t�@����
+	// ?o?b?t?@????
 
 	InsLibraryHash InsLibHash;
 
-	// �Ƃ肠�����N���A
+	// ????????N???A
 	InsLibHash.clear();
 
-	// �o�́A�����t�H�[�}�b�g�A�\�[�g�w�蕶�����ݒ�
+	// ?o??A?????t?H?[?}?b?g?A?\?[?g?w?????????
 	outputFormat = /**/"<INSLIB */>";
 	selectFormat = /**/"<INSLIB */>";
 	orderFormat = /**/"LIBCODE";
 	
-
-	// XMLServer�Ƃ̒ʐM
-	//strList.clear();
-	//xmlOperatorHdl->SelectFirst(outputFormat, selectFormat, orderFormat, retStr);
-	//if(retStr=="<BOF/>" || retStr=="<EOF/>"){
-	//	// clear();
-	//	return true;
-	//}else{
-	//	strList.append(retStr);
-	//	while(1){
-	//		xmlOperatorHdl->SelectNext(retStr);
-	//		if(retStr=="<BOF/>" || retStr=="<EOF/>"){
-	//			break;
-	//		}else{
-	//			strList.append(retStr);
-	//		}
-	//	}
-	//}
-
-	// SelectFirst,SelectNext�g�p
-	//int InsLibCount = 0;
-	//if(xmlOperatorHdl->Select(/**/"<Count/>", selectFormat, orderFormat, strList)==true){
-	//	if(strList.isEmpty()==false){
-	//		InsLibCount = XML_CountAnalyze(strList.first());
-	//	}else{
-	//		InsLibCount = -1;
-	//	}
-	//}
-	//if(InsLibCount==-1){
-	//	InsLibCount = 0;
-	//}
-
-	//strList.clear();
-	//
-	//GetLayersBase()->ShowProcessingForm(false, InsLibCount);
-	//if(xmlOperatorHdl->SelectFirst(outputFormat, selectFormat, orderFormat, retStr)==true && retStr!=/**/"<BOF/>" && retStr!=/**/"<EOF/>"){
-	//	// LIBCODE���p�p�[�T
-	//	LotXMLInsLibParser parser;
-	//	do{
-	//		// ���͐����������i�[
-	//		if(parser.setContent(retStr)==true){
-	//			// Success
-	//			if(InsLibHash.contains(parser.getData().Ral, parser.getData())==false){
-	//				InsLibHash.insert(parser.getData().Ral, parser.getData());//�Ȃ����Βǉ�
-	//			}
-	//		}else{
-	//			// Error
-	//			GetLayersBase()->StepProcessing("Receiving Library Data from XMLServer");
-	//			continue;
-	//		}
-	//		GetLayersBase()->StepProcessing("Receiving Library Data from XMLServer");
-	//		//strList.append(retStr);
-	//	}while(xmlOperatorHdl->SelectNext(retStr)==true && retStr!=/**/"<BOF/>" && retStr!=/**/"<EOF/>");
-	//}
-	//GetLayersBase()->CloseProcessingForm();
-	
-	// Select�g�p
 	if(xmlOperatorHdl->Select(outputFormat, selectFormat, orderFormat, strList)==true){
-		// LIBCODE���p�p�[�T
+		// LIBCODE???p?p?[?T
 		LotXMLInsLibParser parser;
 
 		GetLayersBase()->ShowProcessingForm("XML:Analyzing Library Infomation",false, strList.size());
 
-		// INSLIB���[�v
+		// INSLIB???[?v
 		GetLayersBase()->ShowProcessingForm("XML:Analyzing Library Infomation",false, strList.count());
 		for(QStringList::ConstIterator it=strList.constBegin(); it!=strList.constEnd(); it++){
 			GetLayersBase()->StepProcessing(-1,"XML:Analyzing Library Infomation");
-			// ���͐����������i�[
+			// ??????????????i?[
 			if(parser.setContent(*it)==true){
 				// Success
 				if(InsLibHash.contains(parser.getData().Ral, parser.getData())==false){
-					InsLibHash.insert(parser.getData().Ral, parser.getData());//�Ȃ����Βǉ�
-					//qDebug() << parser.getData().Ral << "," << parser.getData().LibCode;// << "," << parser.getData().TypeNameList;
-					//for(int i=0; i<parser.getData().TypeNameList.count(); i++){
-					//	qDebug() << "\t" << parser.getData().TypeNameList[i].value();
-					//}
+					InsLibHash.insert(parser.getData().Ral, parser.getData());//??????Β??
+
 				}
 			}else{
 				// Error
@@ -505,29 +446,21 @@ bool ReviewPIBase::XML_SetLotToSide(QString lotFile, Review::SideType side)
 		GetLayersBase()->CloseProcessingForm();
 	}
 
-	// �Z�b�g
+	// ?Z?b?g
 	setInsLibHash(side, InsLibHash);
 
 	//qDebug() << getInsLibHash(side).uniqueKeys();
 
 	updateInsLibSearchHash(side);
 
-	//qDebug() << getInsLibSearchHash(side).uniqueKeys();
-	//if(getInsLibSearchHash(side).uniqueKeys().isEmpty()==false){
-	//	qDebug() << getInsLibSearchHash(side)[getInsLibSearchHash(side).uniqueKeys().first()].uniqueKeys();
-	//}
-
-	//============================================================================================
-	// IST
-	//
 	
-	// �o�́A�����t�H�[�}�b�g�A�\�[�g�w�蕶�����ݒ�
+	// ?o??A?????t?H?[?}?b?g?A?\?[?g?w?????????
 	outputFormat = /**/"<* *>*</*>";
-	selectFormat = /**/"<IST */>";///**/"<IST><RES>NG</RES></IST>";// NG�̂�
+	selectFormat = /**/"<IST */>";///**/"<IST><RES>NG</RES></IST>";// NG???
 	orderFormat = /**/"EID<INSPECT/>";
 
-	// XMLServer�Ƃ̒ʐM
-	// FirstNext���[�h
+	// XMLServer????M
+	// FirstNext???[?h
 	xmlOperatorHdl->Select(/**/"<Count/>", selectFormat, /**/"", strList);
 
 	if(strList.isEmpty()==true){
@@ -556,53 +489,40 @@ bool ReviewPIBase::XML_SetLotToSide(QString lotFile, Review::SideType side)
 			strList.append(retStr);
 			GetLayersBase()->StepProcessing(-1,ISTStepStr);
 		}while(xmlOperatorHdl->SelectNext(retStr) && retStr!=/**/"<BOF/>" && retStr!=/**/"<EOF/>");
-		//while(1){
-		//	xmlOperatorHdl->SelectNext(retStr);
-		//	if(retStr==/**/"<BOF/>" || retStr==/**/"<EOF/>"){
-		//		break;
-		//	}else{
-		//		GetLayersBase()->StepProcessing(ISTStepStr);
-		//		strList.append(retStr);
-		//	}
-		//}
 	}
 
-	//// Select���[�h
-	//if(xmlOperatorHdl->Select(outputFormat, selectFormat, orderFormat, strList)==false)
-	//	return false;
-
-	// IST���p�p�[�T
+	// IST???p?p?[?T
 	LotXMLIstParser IstParser;
 
 	GetLayersBase()->ShowProcessingForm("XML:Analizing inspection data",false, strList.count());
 	processStr = "XML:Analyzing Inspection Data";
 
-	// IST���[�v
+	// IST???[?v
 	for(QStringList::Iterator ist_str=strList.begin(); ist_str!=strList.end(); ist_str++){
 		GetLayersBase()->StepProcessing(-1,processStr);
 		if(ist_str->isEmpty() || ist_str->isNull()){
 			continue;
 		}
 
-		// ���͐����������i�[
+		// ??????????????i?[
 		if(IstParser.setContent((*ist_str))==true){
 			// Success
-			// IST�O���[�o�����ڐݒ�
+			// IST?O???[?o????????
 			ISTInfomation ISTInfo = IstParser.getISTInfo();
 
-			// nail�f�[�^�쐬
+			// nail?f?[?^??
 			HistoryItem HItem(this);
 
-			// IST�̃f�[�^�i�[
-			HItem.InspectedTime = ISTInfo.ISTDay;// ����
-			HItem.Side = side;// ���\ //
-			HItem.setInspectID(ISTInfo.InspectID);// ����ID
-			HItem.Result = ISTInfo.result;// ����
+			// IST??f?[?^?i?[
+			HItem.InspectedTime = ISTInfo.ISTDay;// ????
+			HItem.Side = side;// ???\ //
+			HItem.setInspectID(ISTInfo.InspectID);// ????ID
+			HItem.Result = ISTInfo.result;// ????
 			HItem.InspectedMachine	=ISTInfo.MachineID;
 
-			// �ǂݍ��݂��K�v�ȃt�@�C����IDX�𒲂ׁA���łɑ�NG�����v�Z
-			HItem.NGCount = 0;// ������
-			QList<int> IDXList;// JDT�t�@�C�������o�����̂Ɏg��
+			// ????????K?v??t?@?C????IDX?　?A???????NG?????v?Z
+			HItem.NGCount = 0;// ??????
+			QList<int> IDXList;// JDT?t?@?C???????o???????g??
 			for(int phase=0; phase<IstParser.getPhaseCount(); phase++){
 				for(int page=0; page<IstParser.getPageCount(phase); page++){
 					HItem.NGCount += IstParser.getNGPCount(phase, page);
@@ -616,7 +536,7 @@ bool ReviewPIBase::XML_SetLotToSide(QString lotFile, Review::SideType side)
 				}
 			}
 
-			// XML�����̃t�@�C�����ƃp�X(*�t��)
+			// XML??????t?@?C??????p?X(*?t??)
 			ParamGlobal *param = GetLayersBase()->GetParamGlobal();
 			QString filepath;
 			//QString filepathhead = GetLayersBase()->GetParamGlobal()->KeepFilteredImage;
@@ -642,25 +562,12 @@ bool ReviewPIBase::XML_SetLotToSide(QString lotFile, Review::SideType side)
 				}
 			}
 
-			// JDT�t�@�C���̉���
-			//QList<JDTFile> files;
-			//for(int iIDX=0; iIDX<IDXList.count(); iIDX++){
-			//	QString repFilename = filepath;
-			//	repFilename.replace("*", QString::number(IDXList[iIDX]));
-			//	JDTFile onefile(repFilename, IDXList[iIDX]);
-			//	files.append(onefile);
-			//}
 			QStringList JDTFileNames;
 			for(int iIDX=0; iIDX<IDXList.count(); iIDX++){
 				QString repFilename = filepath;
 				repFilename.replace(/**/"*", QString::number(IDXList[iIDX]));
 				JDTFileNames.append(repFilename);
 				if(side==Review::Back){
-					//qDebug() << "[Back]";
-					//qDebug() << "LotName:" << lotFile;
-					//qDebug() << "MasterCode:" << BackMasterInfo.MasterCode;
-					//qDebug() << "MachineID:" << BackMasterInfo.MachineID;
-					//qDebug() << "Filename:" << repFilename;
 				}
 			}
 			HItem.setJDTFilename(filepath);
@@ -714,22 +621,10 @@ bool ReviewPIBase::XML_SetLotToSide(QString lotFile, Review::SideType side)
 						}
 					}
 
-					//if(side==Review::Front){
-					//	#pragma omp for
-					//	for(int i=0; i<NGPList.count(); i++){
-					//		NGPList[i].Tag = FrontInsLibSearchHash[NGPList[i].Ral][NGPList[i].LibCode][NGPList[i].TypeCode];
-					//	}
-					//}else{
-					//	#pragma omp for
-					//	for(int i=0; i<NGPList.count(); i++){
-					//		NGPList[i].Tag = BackInsLibSearchHash[NGPList[i].Ral][NGPList[i].LibCode][NGPList[i].TypeCode];
-					//	}
-					//}
-
 					for(QList<NGITagData>::ConstIterator it=NGIList.constBegin(); it!=NGIList.constEnd(); it++){
 						//JDTImage jdtItem;
-						//files[IDXList.indexOf(it->IDX)].findImage(it->x, it->y, jdtItem);// �摜�̃f�[�^���ێ����Ă����C���X�^���X
-						// �f�[�^�̊i�[
+						//files[IDXList.indexOf(it->IDX)].findImage(it->x, it->y, jdtItem);// ????f?[?^?????????????C???X?^???X
+						// ?f?[?^??i?[
 						NGNailItem nail;
 						nail.TargetPosX = it->x;
 						nail.TargetPosY = it->y;
@@ -753,7 +648,7 @@ bool ReviewPIBase::XML_SetLotToSide(QString lotFile, Review::SideType side)
 						//reader->setFilename(JDTFileNames[IDXList.indexOf(it->IDX)]);
 						//reader->setPos(it->x, it->y);
 
-						//nail.NGImage = reader;// �ǂݍ��݃X���b�h�̃C���X�^���X���Z�b�g
+						//nail.NGImage = reader;// ??????X???b?h??C???X?^???X???Z?b?g
 
 						//qDebug() << reader->filename();
 						//qDebug() << reader->pos();
@@ -792,7 +687,7 @@ bool ReviewPIBase::XML_SetLotToSide(QString lotFile, Review::SideType side)
 						}
 						}
 
-						// �A���S���Y���̃f�[�^�Ɋi�[
+						// ?A???S???Y????f?[?^??i?[
 						if(nail.NGPointList.count()>0){
 							bool	AllMatched=false;
 							for(int d=0;d<NGNails.count();d++){
@@ -835,7 +730,7 @@ bool ReviewPIBase::XML_SetLotToSide(QString lotFile, Review::SideType side)
 	}
 	GetLayersBase()->CloseProcessingForm();
 
-	std::sort(TagetHistoryList->begin(), TagetHistoryList->end());// ID���Ń\�[�g
+	std::sort(TagetHistoryList->begin(), TagetHistoryList->end());// ID????\?[?g
 	OrganizeHistoryList();
 	sortHistoryList();
 	sortNGNailList();

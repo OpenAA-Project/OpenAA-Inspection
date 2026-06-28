@@ -24,13 +24,13 @@
 
 void ButtonToShowTotalNGMap::setProperty(const ButtonToShowTotalNGMapProperty &property)
 {
-	// �����Ƀp�����[�^�ύX�̑Ή����L�q����
+	// ??????p?????[?^??X???????L?q????
 	(*m_property) = property;
 }
 
 void ButtonToShowTotalNGMap::setPropertyToUi(const ButtonToShowTotalNGMapProperty &property)
 {
-	// �����Ƀp�����[�^�̓��e��Ui�ɔ��f�������L�q������
+	// ??????p?????[?^????e??Ui????f???????L?q??????
 	Ui::ButtonToShowTotalNGMapPropertyClass *ui = getPropertyUi();
 
 	ui->sbSplitCountX->setValue(property.SplitCountX);
@@ -53,7 +53,7 @@ void ButtonToShowTotalNGMap::setPropertyToUi()
 
 void ButtonToShowTotalNGMap::setPropertyFromUi(ButtonToShowTotalNGMapProperty &property)
 {
-	// ������Ui�̓��e���p�����[�^�ɔ��f�������L�q���s����
+	// ??????Ui????e???p?????[?^????f???????L?q???s????
 	Ui::ButtonToShowTotalNGMapPropertyClass *ui = getPropertyUi();
 
 	property.SplitCountX = ui->sbSplitCountX->value();
@@ -78,6 +78,7 @@ void ButtonToShowTotalNGMap::slot_propertyModified()
 {
 	setPropertyFromUi();
 	updateProperty();
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().save();
 }
 
@@ -105,7 +106,7 @@ void ButtonToShowTotalNGMap::initProperty()
 	setPropertyDialog(new QDialog);
 
 	getPropertyUi()->setupUi(getPropertyDialog());
-
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().load();
 	setPropertyToUi();
 

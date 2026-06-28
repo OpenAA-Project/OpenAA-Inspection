@@ -3283,6 +3283,11 @@ bool ReviewPIBase::ReciveCmdLoadMaster(GUIDirectMessage *packet)
 		MasterListDim[0].MasterCode=cmd->MasterCode;
 		type = Review::FrontOnly;
 	}
+	if(MasterListDimCount==0){
+		MasterListDimCount=1;
+		MasterListDim[0].MasterCode=cmd->MasterCode;
+		type = Review::FrontOnly;
+	}
 	int	Phase=0;// �����t�F�C�Y��0
 
 	QList<CmdReqMasterInfoFromDataBase> MInfoList;

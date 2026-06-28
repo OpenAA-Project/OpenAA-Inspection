@@ -53,9 +53,7 @@ typedef enum {
 typedef unsigned int SeqMotorRequireFlags;
 	
 typedef enum {
-	// �쓮�v���s��
 	MotorIsLocked	=0,
-	// ���v���\ 
 	MotorIsIdle		=1
 } SeqMotorState;
 

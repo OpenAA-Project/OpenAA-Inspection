@@ -23,13 +23,13 @@
 
 void ShowHistoryListForReview::setProperty(const ShowHistoryListForReviewProperty &property)
 {
-	// �����Ƀp�����[�^�ύX�̑Ή����L�q����
+	// ??????p?????[?^??X???????L?q????
 	(*m_property) = property;
 }
 
 void ShowHistoryListForReview::setPropertyToUi(const ShowHistoryListForReviewProperty &property)
 {
-	// �����Ƀp�����[�^�̓��e��Ui�ɔ��f�������L�q������
+	// ??????p?????[?^????e??Ui????f???????L?q??????
 	Ui::ShowHistoryListForReviewPropertyClass *ui = getPropertyUi();
 }
 
@@ -40,7 +40,7 @@ void ShowHistoryListForReview::setPropertyToUi()
 
 void ShowHistoryListForReview::setPropertyFromUi(ShowHistoryListForReviewProperty &property)
 {
-	// ������Ui�̓��e���p�����[�^�ɔ��f�������L�q���s����
+	// ??????Ui????e???p?????[?^????f???????L?q???s????
 	Ui::ShowHistoryListForReviewPropertyClass *ui = getPropertyUi();
 }
 
@@ -53,6 +53,7 @@ void ShowHistoryListForReview::slot_propertyModified()
 {
 	setPropertyFromUi();
 	updateProperty();
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().save();
 }
 
@@ -63,7 +64,7 @@ void ShowHistoryListForReview::initProperty()
 	setPropertyDialog(new QDialog);
 
 	getPropertyUi()->setupUi(getPropertyDialog());
-
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().load();
 	setPropertyToUi();
 

@@ -23,13 +23,13 @@
 
 void SelectLotForReview::setProperty(const SelectLotForReviewProperty &property)
 {
-	// �����Ƀp�����[�^�ύX�̑Ή����L�q����
+	// ??????p?????[?^??X???????L?q????
 	(*m_property) = property;
 }
 
 void SelectLotForReview::setPropertyToUi(const SelectLotForReviewProperty &property)
 {
-	// �����Ƀp�����[�^�̓��e��Ui�ɔ��f�������L�q������
+	// ??????p?????[?^????e??Ui????f???????L?q??????
 	Ui::SelectLotForReviewPropertyClass *ui = getPropertyUi();
 	ui->gbAutoShowResultLotLoadForm->setChecked(property.autoShowResultLoadLotForm);
 	ui->cbShowOnlyError->setChecked(property.showOnlyHasError);
@@ -42,7 +42,7 @@ void SelectLotForReview::setPropertyToUi()
 
 void SelectLotForReview::setPropertyFromUi(SelectLotForReviewProperty &property)
 {
-	// ������Ui�̓��e���p�����[�^�ɔ��f�������L�q���s����
+	// ??????Ui????e???p?????[?^????f???????L?q???s????
 	Ui::SelectLotForReviewPropertyClass *ui = getPropertyUi();
 	property.autoShowResultLoadLotForm = ui->gbAutoShowResultLotLoadForm->isChecked();
 	property.showOnlyHasError = ui->cbShowOnlyError->isChecked();
@@ -57,6 +57,7 @@ void SelectLotForReview::slot_propertyModified()
 {
 	setPropertyFromUi();
 	updateProperty();
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().save();
 }
 
@@ -72,7 +73,7 @@ void SelectLotForReview::initProperty()
 	setPropertyDialog(new QDialog);
 
 	getPropertyUi()->setupUi(getPropertyDialog());
-
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().load();
 	setPropertyToUi();
 

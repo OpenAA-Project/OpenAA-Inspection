@@ -23,13 +23,13 @@
 
 void NGImageForReview::setProperty(const NGImageForReviewProperty &property)
 {
-	// �����Ƀp�����[�^�ύX�̑Ή����L�q����
+	// ??????p?????[?^??X???????L?q????
 	(*m_property) = property;
 }
 
 void NGImageForReview::setPropertyToUi(const NGImageForReviewProperty &property)
 {
-	// �����Ƀp�����[�^�̓��e��Ui�ɔ��f�������L�q������
+	// ??????p?????[?^????e??Ui????f???????L?q??????
 	Ui::NGImageForReviewPropertyClass *m_ui = getPropertyUi();
 	m_ui->cbRotate->setCurrentIndex(static_cast<int>(property.rotate));
 	m_ui->checkBoxBlankImageOnCopyMaster	->setChecked(property.BlankImageOnCopyMaster);
@@ -42,7 +42,7 @@ void NGImageForReview::setPropertyToUi()
 
 void NGImageForReview::setPropertyFromUi(NGImageForReviewProperty &property)
 {
-	// ������Ui�̓��e���p�����[�^�ɔ��f�������L�q���s����
+	// ??????Ui????e???p?????[?^????f???????L?q???s????
 	Ui::NGImageForReviewPropertyClass *m_ui = getPropertyUi();
 	property.rotate					= static_cast<Review::Rotate>(m_ui->cbRotate->currentIndex());
 	property.BlankImageOnCopyMaster	=m_ui->checkBoxBlankImageOnCopyMaster->isChecked();
@@ -57,6 +57,7 @@ void NGImageForReview::slot_propertyModified()
 {
 	setPropertyFromUi();
 	updateProperty();
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().save();
 }
 
@@ -69,7 +70,7 @@ void NGImageForReview::initProperty()
 	getPropertyUi()->setupUi(getPropertyDialog());
 
 	connect(getPropertyUi()->cbRotate, SIGNAL(currentIndexChanged(int)), this, SLOT(slot_propertyModified()));
-
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().load();
 	setPropertyToUi();
 

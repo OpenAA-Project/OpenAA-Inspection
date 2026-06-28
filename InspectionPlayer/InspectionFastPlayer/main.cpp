@@ -567,6 +567,11 @@ int main(int argc, char *argv[])
 		Layers->LoadOutlineOffsetForDatabase();
 	}
 
+	QString StrSystemPath = Layers->GetSystemPath();
+	if(StrSystemPath.isEmpty()==false){
+		QDir::setCurrent(StrSystemPath);
+	}
+
 	MainGUIFormBase	*MainForm=NULL;
 	QFile	file(GUIFileName);
 	if(file.open(QIODevice::ReadOnly)==true){

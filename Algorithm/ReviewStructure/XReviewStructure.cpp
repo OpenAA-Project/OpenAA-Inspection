@@ -166,25 +166,6 @@ ReviewPIBase::ReviewPIBase(LayersBase *Base,EntryPointBase *EPoint)
 
 	setSequenceThread(NULL);
 
-	//// �t�@�C���ǂݍ��� or �V�K����
-	//QFile file(CommSettingFile);
-	//if(QFile::exists(CommSettingFile)){
-	//	if(file.open(QIODevice::ReadOnly)){
-	//		QString	address;
-	//		int		port;
-	//		if(::Load(&file, address) && ::Load(&file, port)){
-	//			setXMLServerState(address, port);
-	//		}
-	//		file.close();
-	//	}else{
-	//		QMessageBox::warning(NULL, "Server access config file error", "file is exist. But it is not correctly. State was initialized.(IP Address:localhost, Port No:12345)");
-	//	}
-	//}else{
-	//	file.open(QIODevice::WriteOnly);
-	//	::Save(&file, getXMLServerIPAddress());
-	//	::Save(&file, getXMLServerPortNo());
-	//	file.close();
-	//}
 
 	m_xmlWriter = new XMLWriter(this);
 	m_xmlWriter->set(getXMLServerIPAddress(), getXMLServerPortNo());
@@ -227,6 +208,8 @@ ReviewPIBase::ReviewPIBase(LayersBase *Base,EntryPointBase *EPoint)
 	}else{
 		freeMasterBufferEnable = false;
 	}
+
+	SetParam(&ReplacedNGImagePath	, /**/"Path" ,/**/"ReplacedNGImagePath"	,"Replaced NGImage Path (ex: D:/NGImageNG)");
 
 	clearRoundCurrentOrganizedHistoryIterator();
 
@@ -1014,6 +997,7 @@ void ReviewPIBase::deleteHistoryNGImageReader(Review::SideType side)
 			}
 		}
 	}
+
 	//switch(side){
 	//case Review::Front:
 	//	#pragma omp for
@@ -1040,34 +1024,29 @@ void ReviewPIBase::deleteHistoryNGImageReader(Review::SideType side)
 
 void ReviewPIBase::OrganizeHistoryList(void)
 {
-	QList<OrganizedHistoryItem> Temp;
+	OrganizedHistoryList Temp;
 	
-	//qSort(FrontHistoryList.begin(), FrontHistoryList.end());// ID���Ń\�[�g
-	//qSort(BackHistoryList.begin(), BackHistoryList.end());// ID���Ń\�[�g
-
-	QList<HistoryItem>	Front = getHistoryList(Review::Front);
+	HistoryList &Front = getHistoryList(Review::Front);
 	std::sort(Front.begin(), Front.end());
-	QList<HistoryItem>	Back = getHistoryList(Review::Back);
+	
+	HistoryList &Back = getHistoryList(Review::Back);
 	std::sort(Back.begin(), Back.end());
 
-	for(QList<HistoryItem>::const_iterator itf=Front.constBegin()
-	, itb=Back.constBegin(); ;){
-		if(itf==Front.constEnd()){
-			while(itb!=Back.constEnd()){
+	for(HistoryList::iterator itf=Front.begin(), itb=Back.begin(); ;){
+		if(itf==Front.end()){
+			while(itb!=Back.end()){
 				OrganizedHistoryItem item;
-				HistoryItem	tb = *itb;
-				item.setHistoryItem(&tb, Review::Back);
+				// 修正: ローカル変数を作らず、イテレータの実体のアドレスを直接渡す
+				item.setHistoryItem(&(*itb), Review::Back);
 				item.setSide(Review::BackOnly);
 				Temp.append(item);
-				itf++;
 				itb++;
 			}
 			break;
-		}else if(itb==Back.constEnd()){
-			while(itf!=Front.constEnd()){
+		}else if(itb==Back.end()){
+			while(itf!=Front.end()){
 				OrganizedHistoryItem item;
-				HistoryItem	tf = *itf;
-				item.setHistoryItem(&tf, Review::Front);
+				item.setHistoryItem(&(*itf), Review::Front);
 				item.setSide(Review::FrontOnly);
 				Temp.append(item);
 				itf++;
@@ -1077,25 +1056,21 @@ void ReviewPIBase::OrganizeHistoryList(void)
 
 		if(itf->InspectID() == itb->InspectID()){
 			OrganizedHistoryItem item;
-			HistoryItem	tf = *itf;
-			HistoryItem	tb = *itb;
-			item.setHistoryItem(&tf, Review::Front);
-			item.setHistoryItem(&tb, Review::Back);
+			item.setHistoryItem(&(*itf), Review::Front);
+			item.setHistoryItem(&(*itb), Review::Back);
 			item.setSide(Review::Both);
 			Temp.append(item);
 			itf++;
 			itb++;
 		}else if(itf->InspectID() < itb->InspectID()){
 			OrganizedHistoryItem item;
-			HistoryItem	tf = *itf;
-			item.setHistoryItem(&tf, Review::Front);
+			item.setHistoryItem(&(*itf), Review::Front);
 			item.setSide(Review::FrontOnly);
 			Temp.append(item);
 			itf++;
 		}else{
 			OrganizedHistoryItem item;
-			HistoryItem	tb = *itb;
-			item.setHistoryItem(&tb, Review::Back);
+			item.setHistoryItem(&(*itb), Review::Back);
 			item.setSide(Review::BackOnly);
 			Temp.append(item);
 			itb++;
@@ -1110,19 +1085,28 @@ void ReviewPIBase::OrganizeHistoryList(void)
 	setCurrentOrganizedHistory(Review::First);
 }
 
+//OrganizedHistoryList::Iterator ReviewPIBase::getOrganizedHistoryIterator(int GlobalIndex)
+//{
+//	if(GlobalIndex<0 || GlobalIndex>=getOrganizedHistoryList().count())
+//		return OrganizedHistoryList::Iterator();
+//
+//	return (static_cast<OrganizedHistoryList::Iterator>(getOrganizedHistoryIteratorBegin() + GlobalIndex));
+//}
 OrganizedHistoryList::Iterator ReviewPIBase::getOrganizedHistoryIterator(int GlobalIndex)
 {
-	if(GlobalIndex<0 || GlobalIndex>=getOrganizedHistoryList().count())return OrganizedHistoryList::Iterator();
+    if ((GlobalIndex < 0) || (GlobalIndex >= m_HistoryPack.count())) {
+        return m_HistoryPack.end(); 
+    }
 
-	return (static_cast<OrganizedHistoryList::Iterator>(getOrganizedHistoryIteratorBegin() + GlobalIndex));
+    return m_HistoryPack.begin() + GlobalIndex;
 }
 
-OrganizedHistoryList::Iterator ReviewPIBase::getOrganizedHistoryIteratorBegin()
+QList<OrganizedHistoryItem>::iterator ReviewPIBase::getOrganizedHistoryIteratorBegin()
 {
 	return m_HistoryPack.begin();
 }
 
-OrganizedHistoryList::Iterator ReviewPIBase::getOrganizedHistoryIteratorEnd()
+QList<OrganizedHistoryItem>::iterator ReviewPIBase::getOrganizedHistoryIteratorEnd()
 {
 	return m_HistoryPack.end();
 }
@@ -1217,134 +1201,203 @@ void ReviewPIBase::loadNGImage(int OrgHistroyIndex)
 		return;
 	}
 
-	//QTime time = QTime::currentTime();
+	int histCount = getOrganizedHistoryList().count();
+	int preLoadLen = getProperty().PreLoadNGImageLength;
 
-	//time.start();
+	// ループ範囲を 0 ～ histCount の安全な範囲にクリップする
+	int unloadForwardEnd = qBound(0, OrgHistroyIndex - preLoadLen, histCount);
+	int loadStart = qBound(0, OrgHistroyIndex - preLoadLen, histCount);
+	int loadEnd = qBound(0, OrgHistroyIndex + preLoadLen, histCount);
+	int unloadBackwardStart = qBound(0, OrgHistroyIndex + preLoadLen, histCount);
 
-	//qDebug() << "Start Thread Load";
-
-	//if(HistoryPack[OrgHistroyIndex].hasFront()==true){
-	//	#pragma omp for
-	//	for(int i=0; i<HistoryPack[OrgHistroyIndex].getFront()->NGNails.count(); i++){
-	//		if(HistoryPack[OrgHistroyIndex].getFront()->NGNails[i].isLoaded()==false// �ǂݍ��܂��Ă��Ȃ��A�Ȃ����ǂݍ��ݒ��łȂ��ꍇ�ǂݍ��݂��J�n
-	//			&& HistoryPack[OrgHistroyIndex].getFront()->NGNails[i].NGImage->isRunning()==false){
-	//			HistoryPack[OrgHistroyIndex].getFront()->NGNails[i].loadImage();
-	//		}
-	//	}
-	//}
-
-	//if(HistoryPack[OrgHistroyIndex].hasBack()==true){
-	//	#pragma omp for
-	//	for(int i=0; i<HistoryPack[OrgHistroyIndex].getBack()->NGNails.count(); i++){
-	//		if(HistoryPack[OrgHistroyIndex].getBack()->NGNails[i].isLoaded()==false// �ǂݍ��܂��Ă��Ȃ��A�Ȃ����ǂݍ��ݒ��łȂ��ꍇ�ǂݍ��݂��J�n
-	//			&& HistoryPack[OrgHistroyIndex].getBack()->NGNails[i].NGImage->isRunning()==false){
-	//			HistoryPack[OrgHistroyIndex].getBack()->NGNails[i].loadImage();
-	//		}
-	//	}
-	//}
-
-//#pragma omp parallel
 	{
-	// �O�̍폜
-	//qDebug() << "unload forword";
-		//#pragma omp for
-		for(int t=0; t<OrgHistroyIndex-getProperty().PreLoadNGImageLength; t++){
-			//qDebug() << t;
+		// 前の不要な画像のアンロード
+		for(int t=0; t<unloadForwardEnd; t++){
 			OrganizedHistoryList::Iterator outIt = getOrganizedHistoryIterator(t);
-			if(outIt!=OrganizedHistoryList::Iterator()){
+			// 修正: 正しい終端イテレータと比較する
+			if(outIt != getOrganizedHistoryIteratorEnd()){
 				if(outIt->hasFront()==true){
-					//#pragma omp for
 					for(int i=0; i<outIt->getFront()->getNGNails().count(); i++){
-						//if(outIt->getFront()->NGNails[i].NGImage->isRunning()==true){
-						//	outIt->getFront()->NGNails[i].NGImage->terminate();
-						//	while(!outIt->getFront()->NGNails[i].NGImage->isFinished()){}
-						//}
 						outIt->getFront()->getNGNails()[i].unloadImage();
 					}
 				}
 				if(outIt->hasBack()==true){
-					//#pragma omp for
 					for(int i=0; i<outIt->getBack()->getNGNails().count(); i++){
-						//if(outIt->getBack()->NGNails[i].NGImage->isRunning()==true){
-						//	outIt->getBack()->NGNails[i].NGImage->terminate();
-						//	while(!outIt->getBack()->NGNails[i].NGImage->isFinished()){}
-						//}
 						outIt->getBack()->getNGNails()[i].unloadImage();
 					}
 				}
 			}
 		}
-	// ���ݎ��ӂ̃��[�h
-	//qDebug() << "load round current";
-		//#pragma omp for
-		for(int t=OrgHistroyIndex-getProperty().PreLoadNGImageLength; t<OrgHistroyIndex+getProperty().PreLoadNGImageLength; t++){
-			//qDebug() << t;
+
+		// 現在位置周辺の画像のロード
+		for(int t=loadStart; t<loadEnd; t++){
 			OrganizedHistoryList::Iterator nextIt = getOrganizedHistoryIterator(t);
-			if(nextIt!=OrganizedHistoryList::Iterator()){
+			// 修正: 正しい終端イテレータと比較する
+			if(nextIt != getOrganizedHistoryIteratorEnd()){
 				if(nextIt->hasFront()==true){
-					//#pragma omp for
-					//for(int i=0; i<nextIt->getFront()->NGNails.count(); i++){
-					//	if(nextIt->getFront()->NGNails[i].isLoaded()==false// �ǂݍ��܂��Ă��Ȃ��A�Ȃ����ǂݍ��ݒ��łȂ��ꍇ�ǂݍ��݂��J�n
-					//	&& nextIt->getFront()->NGNails[i].NGImage->isRunning()==false){
-					//		nextIt->getFront()->NGNails[i].loadImage();
-					//	}
-					//}
 					nextIt->getFront()->loadNGImage();
 				}
 				if(nextIt->hasBack()==true){
-					//#pragma omp for
-					//for(int i=0; i<nextIt->getBack()->NGNails.count(); i++){
-					//	if(nextIt->getBack()->NGNails[i].isLoaded()==false// �ǂݍ��܂��Ă��Ȃ��A�Ȃ����ǂݍ��ݒ��łȂ��ꍇ�ǂݍ��݂��J�n
-					//		&& nextIt->getBack()->NGNails[i].NGImage->isRunning()==false){
-					//		nextIt->getBack()->NGNails[i].loadImage();
-					//	}
-					//}
 					nextIt->getBack()->loadNGImage();
 				}
 			}
 		}
-	// ���̃A�����[�h
-	//qDebug() << "unload reword";
-		//#pragma omp for
-		for(int t=OrgHistroyIndex+getProperty().PreLoadNGImageLength; t<getOrganizedHistoryList().count(); t++){
-			//qDebug() << t;
+
+		// 後の不要な画像のアンロード
+		for(int t=unloadBackwardStart; t<histCount; t++){
 			OrganizedHistoryList::Iterator outIt = getOrganizedHistoryIterator(t);
-			if(outIt!=OrganizedHistoryList::Iterator()){
+			// 修正: 正しい終端イテレータと比較する
+			if(outIt != getOrganizedHistoryIteratorEnd()){
 				if(outIt->hasFront()==true){
-					//#pragma omp for
 					for(int i=0; i<outIt->getFront()->getNGNails().count(); i++){
-						//if(outIt->getFront()->NGNails[i].NGImage->isRunning()==true){
-						//	outIt->getFront()->NGNails[i].NGImage->terminate();
-						//	while(!outIt->getFront()->NGNails[i].NGImage->isFinished()){}
-						//}
 						outIt->getFront()->getNGNails()[i].unloadImage();
 					}
 				}
 				if(outIt->hasBack()==true){
-					//#pragma omp for
 					for(int i=0; i<outIt->getBack()->getNGNails().count(); i++){
-						//if(outIt->getBack()->NGNails[i].NGImage->isRunning()==true){
-						//	outIt->getBack()->NGNails[i].NGImage->terminate();
-						//	while(!outIt->getBack()->NGNails[i].NGImage->isFinished()){}
-						//}
 						outIt->getBack()->getNGNails()[i].unloadImage();
 					}
 				}
 			}
 		}
 	}
-
-
-	//qDebug() << "End Thread Load";
-
-	//qDebug() << "Thread moding elapsed is " << time.elapsed() << "[ms]";
 }
+
+//void ReviewPIBase::loadNGImage(int OrgHistroyIndex)
+//{
+//	if(getOrganizedHistoryList().isEmpty() || OrgHistroyIndex<0 || getOrganizedHistoryList().count()<=OrgHistroyIndex){
+//		return;
+//	}
+//
+//	//QTime time = QTime::currentTime();
+//
+//	//time.start();
+//
+//	//qDebug() << "Start Thread Load";
+//
+//	//if(HistoryPack[OrgHistroyIndex].hasFront()==true){
+//	//	#pragma omp for
+//	//	for(int i=0; i<HistoryPack[OrgHistroyIndex].getFront()->NGNails.count(); i++){
+//	//		if(HistoryPack[OrgHistroyIndex].getFront()->NGNails[i].isLoaded()==false// �ǂݍ��܂��Ă��Ȃ��A�Ȃ����ǂݍ��ݒ��łȂ��ꍇ�ǂݍ��݂��J�n
+//	//			&& HistoryPack[OrgHistroyIndex].getFront()->NGNails[i].NGImage->isRunning()==false){
+//	//			HistoryPack[OrgHistroyIndex].getFront()->NGNails[i].loadImage();
+//	//		}
+//	//	}
+//	//}
+//
+//	//if(HistoryPack[OrgHistroyIndex].hasBack()==true){
+//	//	#pragma omp for
+//	//	for(int i=0; i<HistoryPack[OrgHistroyIndex].getBack()->NGNails.count(); i++){
+//	//		if(HistoryPack[OrgHistroyIndex].getBack()->NGNails[i].isLoaded()==false// �ǂݍ��܂��Ă��Ȃ��A�Ȃ����ǂݍ��ݒ��łȂ��ꍇ�ǂݍ��݂��J�n
+//	//			&& HistoryPack[OrgHistroyIndex].getBack()->NGNails[i].NGImage->isRunning()==false){
+//	//			HistoryPack[OrgHistroyIndex].getBack()->NGNails[i].loadImage();
+//	//		}
+//	//	}
+//	//}
+//
+////#pragma omp parallel
+//	{
+//	// �O�̍폜
+//	//qDebug() << "unload forword";
+//		//#pragma omp for
+//		for(int t=0; t<OrgHistroyIndex-getProperty().PreLoadNGImageLength; t++){
+//			//qDebug() << t;
+//			OrganizedHistoryList::Iterator outIt = getOrganizedHistoryIterator(t);
+//			if(outIt!=OrganizedHistoryList::Iterator()){
+//				if(outIt->hasFront()==true){
+//					//#pragma omp for
+//					for(int i=0; i<outIt->getFront()->getNGNails().count(); i++){
+//						//if(outIt->getFront()->NGNails[i].NGImage->isRunning()==true){
+//						//	outIt->getFront()->NGNails[i].NGImage->terminate();
+//						//	while(!outIt->getFront()->NGNails[i].NGImage->isFinished()){}
+//						//}
+//						outIt->getFront()->getNGNails()[i].unloadImage();
+//					}
+//				}
+//				if(outIt->hasBack()==true){
+//					//#pragma omp for
+//					for(int i=0; i<outIt->getBack()->getNGNails().count(); i++){
+//						//if(outIt->getBack()->NGNails[i].NGImage->isRunning()==true){
+//						//	outIt->getBack()->NGNails[i].NGImage->terminate();
+//						//	while(!outIt->getBack()->NGNails[i].NGImage->isFinished()){}
+//						//}
+//						outIt->getBack()->getNGNails()[i].unloadImage();
+//					}
+//				}
+//			}
+//		}
+//	// ���ݎ��ӂ̃��[�h
+//	//qDebug() << "load round current";
+//		//#pragma omp for
+//		for(int t=OrgHistroyIndex-getProperty().PreLoadNGImageLength; t<OrgHistroyIndex+getProperty().PreLoadNGImageLength; t++){
+//			//qDebug() << t;
+//			OrganizedHistoryList::Iterator nextIt = getOrganizedHistoryIterator(t);
+//			if(nextIt!=OrganizedHistoryList::Iterator()){
+//				if(nextIt->hasFront()==true){
+//					//#pragma omp for
+//					//for(int i=0; i<nextIt->getFront()->NGNails.count(); i++){
+//					//	if(nextIt->getFront()->NGNails[i].isLoaded()==false// �ǂݍ��܂��Ă��Ȃ��A�Ȃ����ǂݍ��ݒ��łȂ��ꍇ�ǂݍ��݂��J�n
+//					//	&& nextIt->getFront()->NGNails[i].NGImage->isRunning()==false){
+//					//		nextIt->getFront()->NGNails[i].loadImage();
+//					//	}
+//					//}
+//					nextIt->getFront()->loadNGImage();
+//				}
+//				if(nextIt->hasBack()==true){
+//					//#pragma omp for
+//					//for(int i=0; i<nextIt->getBack()->NGNails.count(); i++){
+//					//	if(nextIt->getBack()->NGNails[i].isLoaded()==false// �ǂݍ��܂��Ă��Ȃ��A�Ȃ����ǂݍ��ݒ��łȂ��ꍇ�ǂݍ��݂��J�n
+//					//		&& nextIt->getBack()->NGNails[i].NGImage->isRunning()==false){
+//					//		nextIt->getBack()->NGNails[i].loadImage();
+//					//	}
+//					//}
+//					nextIt->getBack()->loadNGImage();
+//				}
+//			}
+//		}
+//	// ���̃A�����[�h
+//	//qDebug() << "unload reword";
+//		//#pragma omp for
+//		for(int t=OrgHistroyIndex+getProperty().PreLoadNGImageLength; t<getOrganizedHistoryList().count(); t++){
+//			//qDebug() << t;
+//			OrganizedHistoryList::Iterator outIt = getOrganizedHistoryIterator(t);
+//			if(outIt!=OrganizedHistoryList::Iterator()){
+//				if(outIt->hasFront()==true){
+//					//#pragma omp for
+//					for(int i=0; i<outIt->getFront()->getNGNails().count(); i++){
+//						//if(outIt->getFront()->NGNails[i].NGImage->isRunning()==true){
+//						//	outIt->getFront()->NGNails[i].NGImage->terminate();
+//						//	while(!outIt->getFront()->NGNails[i].NGImage->isFinished()){}
+//						//}
+//						outIt->getFront()->getNGNails()[i].unloadImage();
+//					}
+//				}
+//				if(outIt->hasBack()==true){
+//					//#pragma omp for
+//					for(int i=0; i<outIt->getBack()->getNGNails().count(); i++){
+//						//if(outIt->getBack()->NGNails[i].NGImage->isRunning()==true){
+//						//	outIt->getBack()->NGNails[i].NGImage->terminate();
+//						//	while(!outIt->getBack()->NGNails[i].NGImage->isFinished()){}
+//						//}
+//						outIt->getBack()->getNGNails()[i].unloadImage();
+//					}
+//				}
+//			}
+//		}
+//	}
+//
+//
+//	//qDebug() << "End Thread Load";
+//
+//	//qDebug() << "Thread moding elapsed is " << time.elapsed() << "[ms]";
+//}
 
 void ReviewPIBase::slot_propertyModified()
 {
 	ReviewStructureProperty pro;
 	getPropertyFromUi(pro);
 	setProperty(pro);
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().save();
 }
 

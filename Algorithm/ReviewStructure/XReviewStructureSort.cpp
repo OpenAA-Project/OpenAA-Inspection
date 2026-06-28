@@ -208,19 +208,20 @@ QList<int> ReviewPIBase::createNGNailListPhaseBorder(NGNailList &list)
 
 void ReviewPIBase::sortNGNailList()
 {
-	#pragma omp for
-	for(int i=0; i<getOrganizedHistoryList().count(); i++){
-		OrganizedHistoryList::Iterator it = getOrganizedHistoryIterator(i);
-		if(it->hasFront()==true){
-			std::stable_sort(it->getFront()->getNGNails().begin()
-							,it->getFront()->getNGNails().end(), CompPhaseGreater);
-		}
-		if(it->hasBack()==true){
-			std::stable_sort(it->getBack()->getNGNails().begin()
-							,it->getBack()->getNGNails().end(), CompPhaseGreater);
-		}
-	}
-
+	//#pragma omp for
+	int N = m_HistoryPack.count();
+    OrganizedHistoryList::Iterator it = m_HistoryPack.begin();
+    for(int i=0; i<N; i++, it++){
+        if(it->hasFront()==true){
+            NGNailList &F = it->getFront()->getNGNails();
+            std::stable_sort(F.begin(), F.end(), CompPhaseGreater);
+        }
+        if(it->hasBack()==true){
+            NGNailList &B = it->getBack()->getNGNails();
+            std::stable_sort(B.begin(), B.end(), CompPhaseGreater);
+        }
+        it->updateIteratorList();
+    }
 	bool (*compFunc)(const NGNailItem &, const NGNailItem &);
 
 	switch(getProperty().NGNailListSortOrder){
@@ -258,26 +259,26 @@ void ReviewPIBase::sortNGNailList()
 	}
 
 	int histryCount = getOrganizedHistoryList().count();
-	OrganizedHistoryList::Iterator it,beginIt,endIt;
-	beginIt = getOrganizedHistoryIteratorBegin();
-	endIt = getOrganizedHistoryIteratorEnd();
+	OrganizedHistoryList::Iterator beginIt = getOrganizedHistoryIteratorBegin();
+    OrganizedHistoryList::Iterator endIt = getOrganizedHistoryIteratorEnd();
 
-	for(OrganizedHistoryList::Iterator it=beginIt; it!=endIt; it++){
-		if(it->hasFront()==true){
-			QList<int> borderList = createNGNailListPhaseBorder(it->getFront()->getNGNails());
-			for(int i=0; i<borderList.count()-1; i++){
-				std::stable_sort(it->getFront()->getNGNails().begin() + borderList[i],
-					it->getFront()->getNGNails().begin() + borderList[i+1], compFunc);
-			}
-		}
-		if(it->hasBack()==true){
-			QList<int> borderList = createNGNailListPhaseBorder(it->getBack()->getNGNails());
-			for(int i=0; i<borderList.count()-1; i++){
-				std::stable_sort(it->getBack()->getNGNails().begin() + borderList[i],
-					it->getBack()->getNGNails().begin() + borderList[i+1], compFunc);
-			}
-		}
-	}
+    for(OrganizedHistoryList::Iterator it=beginIt; it!=endIt; it++){
+        if(it->hasFront()==true){
+            QList<int> borderList = createNGNailListPhaseBorder(it->getFront()->getNGNails());
+            for(int i=0; i<borderList.count()-1; i++){
+                std::stable_sort(it->getFront()->getNGNails().begin() + borderList[i],
+                    it->getFront()->getNGNails().begin() + borderList[i+1], compFunc);
+            }
+        }
+        if(it->hasBack()==true){
+            QList<int> borderList = createNGNailListPhaseBorder(it->getBack()->getNGNails());
+            for(int i=0; i<borderList.count()-1; i++){
+                std::stable_sort(it->getBack()->getNGNails().begin() + borderList[i],
+                    it->getBack()->getNGNails().begin() + borderList[i+1], compFunc);
+            }
+        }
+        it->updateIteratorList();
+    }
 
 	//switch(state().NGNailListSortOrder){
 	//case Review::OrderOfSortNG::_Order_FromBottomLeftToRight:
@@ -414,9 +415,8 @@ void ReviewPIBase::sortNGNailList()
 
 void ReviewPIBase::sortHistoryList()
 {
-	OrganizedHistoryList::Iterator beginIt,endIt;
-	beginIt = getOrganizedHistoryIteratorBegin();
-	endIt = getOrganizedHistoryIteratorEnd();
+	QList<OrganizedHistoryItem>::iterator	beginIt = getOrganizedHistoryIteratorBegin();
+	QList<OrganizedHistoryItem>::iterator	endIt	= getOrganizedHistoryIteratorEnd();
 
 	bool (*compFunc)(const OrganizedHistoryItem &, const OrganizedHistoryItem &);
 

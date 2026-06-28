@@ -395,7 +395,10 @@
     <ClCompile Include="..\..\GeneralSource\XDirectComm.cpp" />
     <ClCompile Include="..\..\GeneralSource\XEntryPointWithSequence.cpp" />
     <ClCompile Include="..\..\GeneralSource\XFastComm.cpp" />
-    <ClCompile Include="..\..\GeneralSource\XGUI.cpp" />
+    <ClCompile Include="..\..\GeneralSource\XGUI.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+      <InterproceduralOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoIPO</InterproceduralOptimization>
+    </ClCompile>
     <ClCompile Include="..\..\GeneralSource\XGUIEditor.cpp" />
     <ClCompile Include="..\..\GeneralSource\XGUIGlobal.cpp" />
     <ClCompile Include="..\..\Open\XShowVersion.cpp" />

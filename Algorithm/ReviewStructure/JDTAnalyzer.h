@@ -26,6 +26,9 @@
 #include <QFile>
 #include <QDebug>
 #include <QRunnable>
+#include <QFileInfo>
+#include <QRegularExpression>
+#include <QDir>
 
 class JDTInfo{
 public:
@@ -483,15 +486,19 @@ class NGImageReaderOneFile : public QThread
 	QString TransFileHost;
 	int		TransFilePort;
 
+	QString	ReplacedNGImagePath;
+
 public:
 	NGImageReaderOneFile(const QString &_NetDrivePath 
 						,const QString &_TransFileHost
 						, int _TransFilePort
+						,const QString &_ReplacedNGImagePath
 						,QObject *parent)
 						:QThread(parent)
 						,NetDrivePath(_NetDrivePath)
 						,TransFileHost(_TransFileHost)
 						,TransFilePort(_TransFilePort)
+						,ReplacedNGImagePath(_ReplacedNGImagePath)		
 						,m_Filename(/**/"")
 						,m_JDTList()
 						{};
@@ -520,6 +527,16 @@ public:
 			QString repFilename = Filename;
 			repFilename.replace(/**/'*', QString::number(IDXList[i]));
 
+			if(ReplacedNGImagePath.isEmpty()==false){
+				QFileInfo	FInfo(repFilename);
+				QRegularExpression re("[\\\\\"/:]");
+				QStringList	PathList=FInfo.path().split(re, Qt::SkipEmptyParts);
+				repFilename= ReplacedNGImagePath
+							+QDir::separator()
+							+PathList[PathList.count()-1]
+							+QDir::separator()
+							+FInfo.fileName();
+			}
 			JDTFile file(repFilename,TransFileHost,TransFilePort);
 
 			if(file.isSuccess()){

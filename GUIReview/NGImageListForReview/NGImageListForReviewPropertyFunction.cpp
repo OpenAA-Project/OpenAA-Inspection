@@ -23,13 +23,13 @@
 
 void NGImageListForReview::setProperty(const NGImageListForReviewProperty &property)
 {
-	// �����Ƀp�����[�^�ύX�̑Ή����L�q����
+	// ??????p?????[?^??X???????L?q????
 	(*m_property) = property;
 }
 
 void NGImageListForReview::setPropertyToUi(const NGImageListForReviewProperty &property)
 {
-	// �����Ƀp�����[�^�̓��e��Ui�ɔ��f�������L�q������
+	// ??????p?????[?^????e??Ui????f???????L?q??????
 	Ui::NGImageListForReviewPropertyClass *ui = getPropertyUi();
 
 	ui->gbMoveHistoryOnLeftRightKey			->setChecked(property.isMoveHistoryOnLeftRightKey);
@@ -47,7 +47,7 @@ void NGImageListForReview::setPropertyToUi()
 
 void NGImageListForReview::setPropertyFromUi(NGImageListForReviewProperty &property)
 {
-	// ������Ui�̓��e���p�����[�^�ɔ��f�������L�q���s����
+	// ??????Ui????e???p?????[?^????f???????L?q???s????
 	Ui::NGImageListForReviewPropertyClass *ui = getPropertyUi();
 
 	property.isMoveHistoryOnLeftRightKey			= ui->gbMoveHistoryOnLeftRightKey->isChecked();
@@ -67,6 +67,7 @@ void NGImageListForReview::slot_propertyModified()
 {
 	setPropertyFromUi();
 	updateProperty();
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().save();
 }
 
@@ -77,7 +78,7 @@ void NGImageListForReview::initProperty()
 	setPropertyDialog(new QDialog);
 
 	getPropertyUi()->setupUi(getPropertyDialog());
-
+	QDir::setCurrent(GetLayersBase()->GetUserPath());
 	getProperty().load();
 	setPropertyToUi();
 
