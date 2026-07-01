@@ -59,7 +59,7 @@ bool	ShrinkedInspection::InitialInShadow(void)
 	LBase->SetGUIInitializer(G);
 	DWORD	ErrorCode=0;
 	QString	ErrorMsg;
-	if(G->Initial(LBase,ErrorCode ,ErrorMsg,false)==false || ErrorCode!=0){
+	if(G->Initial(LBase,ErrorCode ,ErrorMsg,false,NULL)==false || ErrorCode!=0){
 		return false;
 	}
 	LBase->SetCurrentPath(GetParentLayersBase()->GetUserPath());
@@ -122,7 +122,7 @@ bool	ShrinkedInspection::InitialInShadow(void)
 			LBase->SetGUIFileName(GetShadowGUIFileName());
 			G->GetGUIInstanceRoot()->CloseAll();
 			QString ErrorMsg;
-			if(G->GetGUIInstanceRoot()->LoadInstances(&file,ErrorMsg)==false){
+			if(G->GetGUIInstanceRoot()->LoadInstances(&file,true,ErrorMsg)==false){
 				return false;
 			}
 			file.close();

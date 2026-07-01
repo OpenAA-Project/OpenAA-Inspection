@@ -379,7 +379,7 @@ int main(int argc, char *argv[])
 	DWORD	ErrorCode=0;
 	{
 		QString	ErrorMsg;
-		if(G->Initial(Layers,ErrorCode ,ErrorMsg,false)==false || ErrorCode!=0){
+		if(G->Initial(Layers,ErrorCode ,ErrorMsg,false,NULL)==false || ErrorCode!=0){
 			QString  msg=QString(/**/"GUI Error: ")
 				+QString::number(ErrorCode);
 			QMessageBox Q(msg
@@ -506,7 +506,7 @@ int main(int argc, char *argv[])
 			Layers->SetGUIFileName(GUIFileName);
 			G->GetGUIInstanceRoot()->CloseAll();
 			QString ErrorMsg;
-			if(G->GetGUIInstanceRoot()->LoadInstances(&file,ErrorMsg)==false){
+			if(G->GetGUIInstanceRoot()->LoadInstances(&file,true,ErrorMsg)==false){
 				QMessageBox::critical ( NULL, /**/"Loading Error", ErrorMsg, QMessageBox::Ok);
 				return(3);
 			}

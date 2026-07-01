@@ -163,6 +163,7 @@ QString	DetailResultValueList::GetResultValue(void)
 		case _ResultTypeDouble	:	return QString::number(ResultValueDouble,'f',3);
 		case _ResultTypeQString	:	return ResultValueString;
 	}
+	return /**/"";
 }
 
 DetailResultInfoList::DetailResultInfoList(void)

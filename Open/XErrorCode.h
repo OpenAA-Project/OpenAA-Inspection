@@ -44,6 +44,7 @@
 #define	Error_DLL_FalseInCopyright		(0x1000+0x000d)
 #define	Error_NoDLL_InitialQt			(0x1000+0x000e)
 #define	Error_NoDLL_GetSystemVersion	(0x1000+0x000f)
+#define	Error_NotInShouldLoadList		(0x1000+0x0010)
 
 #define	Error_DLLAnalyzeProperty		(0x1000+0x0100)
 

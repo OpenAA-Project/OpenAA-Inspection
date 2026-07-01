@@ -2425,16 +2425,18 @@ QSqlDatabase	*__S_CloseDatabase(QSqlDatabase *DB)
 
 bool	__S_IsValidDatabase(QSqlDatabase *DB)
 {
+	QString	Err;
 	if(DB==NULL){
 		return false;
 	}
 	LockDB();
 	if(DB->isValid()==false){
+		Err =DB->lastError().text();
 		UnlockDB();
 		return false;
 	}
 	if(DB->isOpen()==false){
-		QString	Err =DB->lastError().text();
+		Err =DB->lastError().text();
 		UnlockDB();
 		return false;
 	}

@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 	DWORD	ErrorCode;
 	Layers->SetLanguageCode();
 
-	G->Initial(Layers,ErrorCode,ErrorMsg,true);
+	G->Initial(Layers,ErrorCode,ErrorMsg,true,NULL);
 	QString Msg;
 	if(G->GetGUIInstanceRoot()->InitialLayers(Msg)==false){
 		QMessageBox Q(/**/"Error"

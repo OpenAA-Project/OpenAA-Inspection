@@ -15,10 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-
-
-
+#include "XResultBinderResource.h"
 #include "XAlgorithmDLL.h"
 #include "XResultBinder.h"
 #include "ShowResultForm.h"
@@ -51,7 +48,7 @@ DEFFUNCEX	const char	*DLL_GetExplain(void)
 }
 DEFFUNCEX	void	DLL_SetLanguage(LanguagePackage &Pkg ,int LanguageCode)
 {
-	//LangSolver.SetLanguage(Pkg,LanguageCode);
+	LangSolver.SetLanguage(Pkg,LanguageCode);
 }
 
 DEFFUNCEX	const char	*DLL_GetBlobName(void)

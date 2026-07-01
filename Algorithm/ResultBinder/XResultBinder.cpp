@@ -487,8 +487,8 @@ ResultBinderBase::ResultBinderBase(LayersBase *Base)
 {
 	ColorResultBinder		=Qt::green;
 	ColorSelected			=Qt::yellow;
-	ColorActive				=Qt::red;
-	TransparentLevel		=120;
+	ColorActive				=Qt::cyan;
+	TransparentLevel		=80;
 	NegColorResultBinder	=Qt::darkGreen;
 	NegColorSelected		=Qt::darkYellow;
 

@@ -17,7 +17,6 @@
  */
 
 
-
 #if	!defined(XGUIInterfaceDLL_H)
 #define	XGUIInterfaceDLL_H
 
@@ -88,7 +87,8 @@ public:
 	explicit	GuiDLLItem(LayersBase *Base);
 	~GuiDLLItem(void);
 
-	bool	LoadDLL(LayersBase *Base,const QString &filename ,DWORD &ErrorCode);
+	bool	LoadDLL(LayersBase *Base,const QString &filename ,DWORD &ErrorCode
+					,RootNameListContainer *ShouldLoadList);
 	bool	Close(void);
 	bool	SetLanguageCode(int LanguageCode);
 	bool	CheckSystemVersion(QStringList &Str);
@@ -99,6 +99,8 @@ public:
 	QString		GetDLLRoot(void)		{	return RootName;		}
 	QString		GetDLLName(void)		{	return Name;			}
 	const QString	GetExplain(void)	{	return Explain;			}
+
+	bool	IsExist(RootNameListContainer *ShouldLoadList);
 
 	GUIFormBase	*CreateInstance(LayersBase *Base,QWidget *parent);
 	void	DeleteInstance(GUIFormBase *Instance)	{	if(DLL_DeleteInstance!=NULL)	DLL_DeleteInstance(Instance);	}

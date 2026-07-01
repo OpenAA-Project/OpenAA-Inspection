@@ -166,6 +166,9 @@ public:
 	GuiDLLItem	*DLLAccess;
 	GUIFormBase	*Handle;
 	StructListPack	StructInstance;
+	QString			DLLRoot;
+	QString			DLLName;
+
 	int32			GUIPositionX1;
 	int32			GUIPositionY1;
 	int32			GUIPositionX2;
@@ -198,7 +201,7 @@ public:
 
 	void	ChangedValue(void);
 	bool	SaveInstance(QIODevice *f);
-	bool	LoadInstance(QIODevice *f ,QString &ErrorMsg);
+	bool	LoadInstance(QIODevice *f ,bool AllocateDLLAccess ,QString &ErrorMsg);
 	bool	SaveInstanceMessage(QIODevice *f);
 	bool	LoadInstanceMessage(QIODevice *f);
 	void	ReflectMessage(void);
@@ -276,12 +279,13 @@ public:
 	GUIInitializer	*GetParent(void)	{	return Parent;	}
 
 	bool	SaveInstances(QIODevice *f);
-	bool	LoadInstances(QIODevice *f ,QString &ErrorMsg);
+	bool	LoadInstances(QIODevice *f ,bool AllocateDLLAccess ,QString &ErrorMsg);
 	bool	LoadOnlyAlgorithm(QIODevice *f);
 	void	ReflectMessage(void);
 	void	SetAcceptDropsForAll(void);
 	int32	GetMaxInstanceID(void);
 	void	GetEntryAlgorithm(RootNameListContainer &List);
+	void	GetEntryGUI(RootNameListContainer &List);
 	virtual	void	AssociateComponent(ComponentListContainer &List);
 
 	GUIFormBase	*CreateMainForm(LayersBase *LayersBasePointer ,_FormPosition Pos 
@@ -387,7 +391,8 @@ public:
 
 	GUIInstancePack	*GetGUIInstanceRoot(void){	return GUIInstanceRoot.GetFirst();	}
 
-	bool	Initial(LayersBase *Base,DWORD &ErrorCode,QString &ErrorMsg,bool LoadAll);
+	bool	Initial(LayersBase *Base,DWORD &ErrorCode,QString &ErrorMsg
+					,bool LoadAll,RootNameListContainer *ShouldLoadList);
 	void	InitialMultiComputer(QObject * parent);
 	void	InitialMultiComputerAgain(QObject * parent);
 	void	InitialIntegration(void);
@@ -447,7 +452,8 @@ public:
 
 private:
 	bool	SearchAddDLL(LayersBase *Base,const QStringList &path
-						,DWORD &ErrorCode ,QString &ErrorMsg,bool LoadAll);
+						,DWORD &ErrorCode ,QString &ErrorMsg,bool LoadAll
+						,RootNameListContainer *ShouldLoadList);
 	bool	LoadExcludedFileList(const QString &GUIExcludedListFile,QStringList	&ExcludedFiles);
 
 	GUIFastComm	*CommRoot[10];

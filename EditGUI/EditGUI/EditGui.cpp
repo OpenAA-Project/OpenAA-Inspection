@@ -176,7 +176,7 @@ void EditGUI::OpenGUIFileFunc()
 		GUIInitializer	*GD	=GetLayersBase()->GetGuiInitializer();
 		GD->GetGUIInstanceRoot()->CloseAll();
 		QString ErrorMsg;
-		if(GD->GetGUIInstanceRoot()->LoadInstances(&file ,ErrorMsg)==false){
+		if(GD->GetGUIInstanceRoot()->LoadInstances(&file ,true,ErrorMsg)==false){
 			QMessageBox::critical ( NULL
 								, "Loading Error"
 								, ErrorMsg, QMessageBox::Ok);
@@ -424,7 +424,7 @@ void EditGUI::on_actionPaste_triggered()
 		DWORD	ErrorCode;
 		for(int i=0;i<N;i++){
 			GUIItemInstance	*k=new GUIItemInstance(GD->GetGUIInstanceRoot());
-			if(k->LoadInstance(&Buff,ErrorStr)==false)
+			if(k->LoadInstance(&Buff,true,ErrorStr)==false)
 				return;
 			k->Initial(GetLayersBase(),ParentInst,ErrorCode , k->DLLAccess);
 			k->InitialInPaste(10,10);

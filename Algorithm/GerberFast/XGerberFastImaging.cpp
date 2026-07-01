@@ -65,7 +65,7 @@ void	GerberFastInPage::MakeImage(BoolList &ButtonsToOperateLayer ,IntList &Opera
 					for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 						GerberFastItemBase	*Item=dynamic_cast<GerberFastItemBase *>(a);
 						if(Item!=NULL){
-							if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+							if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 								a->Draw(TmpImage,-xn*XDir+Overlap,-yn*YDir+Overlap,1.0,&Attr);
 							}
 						}
@@ -206,7 +206,7 @@ void	GerberFastInPage::MakeBitImage(BoolList &ButtonsToOperateLayer ,IntList &Op
 					for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 						GerberFastItemBase	*Item=dynamic_cast<GerberFastItemBase *>(a);
 						if(Item!=NULL){
-							if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+							if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 								a->Draw(TmpImage,-xn*XDir+Overlap,-yn*YDir+Overlap,1.0,&Attr);
 							}
 						}
@@ -484,7 +484,7 @@ void	GerberFastInPage::MakeImage(BYTE **CurrentBmp,int LayerCompositeID ,bool La
 			for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext(),KNumb++){
 				GerberFastItemBase	*Item=static_cast<GerberFastItemBase *>(a);
 				if(Item!=NULL){
-					if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+					if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 						Item->MakeImage(TmpImage,0,0,XByte,YLen);
 					}
 				}
@@ -543,7 +543,7 @@ void	GerberFastInPage::MakeImageEnlarge(BYTE **CurrentBmp
 				for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 					GerberFastItemBase	*Item=dynamic_cast<GerberFastItemBase *>(a);
 					if(Item!=NULL){
-						if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+						if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 							Item->MakeImage(TmpImage,0,0,XByte,YLen);
 						}
 					}
@@ -610,7 +610,7 @@ void	GerberFastInPage::MakeImageShiftable(BYTE **CurrentBmp
 				for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 					GerberFastItemBase	*Item=dynamic_cast<GerberFastItemBase *>(a);
 					if(Item!=NULL){
-						if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+						if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 							Item->MakeImage(TmpImage,0,0,XByte,YLen);
 						}
 					}
@@ -659,7 +659,7 @@ void	GerberFastInPage::MakeImageShiftable(BYTE **CurrentBmp
 				for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 					GerberFastItemBase	*Item=dynamic_cast<GerberFastItemBase *>(a);
 					if(Item!=NULL){
-						if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+						if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 							Item->MakeImage(TmpImage,0,0,XByte,YLen);
 						}
 					}
@@ -721,7 +721,7 @@ void	GerberFastInPage::MakeImageShrinked(BYTE **CurrentBmp
 				for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 					GerberFastItemBase	*Item=dynamic_cast<GerberFastItemBase *>(a);
 					if(Item!=NULL){
-						if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+						if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 							Item->MakeImage(TmpImage,0,0,XByte,YLen);
 						}
 					}
@@ -767,7 +767,7 @@ void	GerberFastInPage::MakeImageShrinked(BYTE **CurrentBmp
 				for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 					GerberFastItemBase	*Item=dynamic_cast<GerberFastItemBase *>(a);
 					if(Item!=NULL){
-						if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+						if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 							Item->MakeImage(TmpImage,0,0,XByte,YLen);
 						}
 					}
@@ -836,7 +836,7 @@ void	GerberFastInPage::MakeImageUnstable(BYTE **CurrentBmp
 				for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 					GerberFastItemBase	*Item=dynamic_cast<GerberFastItemBase *>(a);
 					if(Item!=NULL){
-						if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+						if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 							Item->MakeImage(TmpImage,0,0,XByte,YLen);
 						}
 					}
@@ -910,7 +910,7 @@ void	GerberFastInPage::MakeImageStable(BYTE **CurrentBmp
 				for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext()){
 					GerberFastItemBase	*Item=dynamic_cast<GerberFastItemBase *>(a);
 					if(Item!=NULL){
-						if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+						if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 							Item->MakeImage(TmpImage,0,0,XByte,YLen);
 						}
 					}
@@ -989,7 +989,7 @@ void	GerberFastInPage::MakeClusterContainer(BoolList &ButtonsToOperateLayer ,Int
 			for(AlgorithmItemPI	*a=GetFirstData();a!=NULL;a=a->GetNext(),KNumb++){
 				GerberFastItemBase	*Item=static_cast<GerberFastItemBase *>(a);
 				if(Item!=NULL){
-					if(Item->GetFileLayerID()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
+					if(Item->GetFileLayer()!=NULL && Item->GetFileLayerID()==F->GetFileLayerID()){
 						Item->MakeImage(TmpImage,0,0,XByte,YLen);
 					}
 				}

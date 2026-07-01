@@ -44,7 +44,7 @@ ShrinkingActionData::MaskInfo::~MaskInfo(void)
 {
 	MaskCount1=0;
 	MaskCount2=0;
-	AndMask3=NULL;
+	AndMask3=0;
 	MaskCount3=0;
 }
 bool	ShrinkingActionData::MaskInfo::Save(QIODevice *f)

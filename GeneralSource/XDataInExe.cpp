@@ -314,7 +314,7 @@ GUIFormBase	*EntryPointForGlobal::ShowOtherGUI(GUIFormBase *ChainedParent
 	GUIFormBase	*f=NULL;
 	if(file.open(QIODevice::ReadOnly)==true){
 		QString ErrorMsg;
-		if(NowPack->LoadInstances(&file ,ErrorMsg)==true){
+		if(NowPack->LoadInstances(&file ,true,ErrorMsg)==true){
 			f=NowPack->CreateMainForm(LayersBasePointer ,GUIInstancePack::_Center);
 			LayersBasePointer->SetGUIInstancePack(NowPack);
 			LayersBasePointer->SetMainForm(NowPack->GetFirstForm());

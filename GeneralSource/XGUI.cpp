@@ -1442,6 +1442,18 @@ bool	GuiDLLItemContainer::Close(void)
 	return Ret;
 }
 
+bool	GuiDLLItem::IsExist(RootNameListContainer *ShouldLoadList)
+{
+	if(ShouldLoadList!=NULL){
+		for(RootNameList *s=ShouldLoadList->GetFirst();s!=NULL;s=s->GetNext()){
+			if(s->DLLRoot==GetDLLRoot() && s->DLLName==GetDLLName()){
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
 #ifdef _MSC_VER
 #define	DEFFUNCINEXE		__declspec(dllexport)
 #endif
@@ -1570,7 +1582,8 @@ void	GUIIntegrationCommPack::SlotReceived(int ID ,int Cmd)
 	}	
 }
 
-bool	GuiDLLItem::LoadDLL(LayersBase *Base,const QString &filename ,DWORD &ErrorCode)
+bool	GuiDLLItem::LoadDLL(LayersBase *Base,const QString &filename ,DWORD &ErrorCode
+							,RootNameListContainer *ShouldLoadList)
 {
 	DllLib.setFileName(filename);
 	FileName=filename;
@@ -1621,6 +1634,13 @@ bool	GuiDLLItem::LoadDLL(LayersBase *Base,const QString &filename ,DWORD &ErrorC
 		return(false);
 	}
 	DLL_GetName(RootName ,Name);
+
+	if(ShouldLoadList!=NULL){
+		if(ShouldLoadList->Exists(RootName ,Name)==false){
+			ErrorCode=Error_NotInShouldLoadList;
+			return(false);
+		}
+	}
 
 	DLL_CreateInstance			=(GUIFormBase *(*)(LayersBase *,QWidget *))DllLib.resolve(/**/"DLL_CreateInstance");
 	if(DLL_CreateInstance==NULL){
@@ -2587,29 +2607,29 @@ bool	GUIItemInstance::SaveInstance(QIODevice *f)
 	}
 	return(true);
 }
-bool	GUIItemInstance::LoadInstance(QIODevice *f ,QString &ErrorMsg)
+bool	GUIItemInstance::LoadInstance(QIODevice *f ,bool AllocateDLLAccess ,QString &ErrorMsg)
 {
 	bool	DLLAccessExist;
 	if(f->read((char *)&DLLAccessExist,sizeof(DLLAccessExist))!=sizeof(DLLAccessExist)){
 		return(false);
 	}
 	if(DLLAccessExist==true){
-		QString	tRootName;
-		QString	tName;
-		if(::Load(f,tRootName)==false){
+		if(::Load(f,DLLRoot)==false){
 			return(false);
 		}
-		if(::Load(f,tName)==false){
+		if(::Load(f,DLLName)==false){
 			return(false);
 		}
-		DLLAccess=GetLayersBase()->GetGuiInitializer()->Search(tRootName,tName);
-		if(DLLAccess==NULL){
-			ErrorMsg=QString(/**/"Can not find DLL (Root:")+tRootName
-					+QString(/**/"  Name:")+tName
-					+QString(/**/")");
-			return(false);
+		if(AllocateDLLAccess==true){
+			DLLAccess=GetLayersBase()->GetGuiInitializer()->Search(DLLRoot,DLLName);
+			if(DLLAccess==NULL){
+				ErrorMsg=QString(/**/"Can not find DLL (Root:")+DLLRoot
+						+QString(/**/"  Name:")+DLLName
+						+QString(/**/")");
+				return(false);
+			}
+			DLLAccess->UsedInGUI=true;
 		}
-		DLLAccess->UsedInGUI=true;
 	}
 	else{
 		DLLAccess=NULL;
@@ -2835,7 +2855,7 @@ bool	GUIInstancePack::SaveInstances(QIODevice *f)
 	}
 	return(true);
 }
-bool	GUIInstancePack::LoadInstances(QIODevice *f ,QString &ErrorMsg)
+bool	GUIInstancePack::LoadInstances(QIODevice *f ,bool AllocateDLLAccess ,QString &ErrorMsg)
 {
 	int32	Ver;
 
@@ -2866,7 +2886,7 @@ bool	GUIInstancePack::LoadInstances(QIODevice *f ,QString &ErrorMsg)
 		}
 		for(int i=0;i<N;i++){
 			GUIItemInstance	*c=new GUIItemInstance(this);
-			if(c->LoadInstance(f ,ErrorMsg)==false){
+			if(c->LoadInstance(f ,AllocateDLLAccess,ErrorMsg)==false){
 				return(false);
 			}
 			AppendList(c);
@@ -2877,7 +2897,7 @@ bool	GUIInstancePack::LoadInstances(QIODevice *f ,QString &ErrorMsg)
 		RemoveAll();
 		for(int i=0;i<N;i++){
 			GUIItemInstance	*c=new GUIItemInstance(this);
-			if(c->LoadInstance(f ,ErrorMsg)==false){
+			if(c->LoadInstance(f ,AllocateDLLAccess,ErrorMsg)==false){
 				return(false);
 			}
 			AppendList(c);
@@ -2890,13 +2910,16 @@ bool	GUIInstancePack::LoadInstances(QIODevice *f ,QString &ErrorMsg)
 			}
 		}
 	}
-	RNext:;
-	int	Nk=0;
-	for(GUIItemInstance *c=NPListPack<GUIItemInstance>::GetFirst();c!=NULL;c=c->GetNext(),Nk++){
-		if(Nk!=0 && c->DLLAccess==NULL){
-			NPListPack<GUIItemInstance>::RemoveList(c);
-			delete	c;
-			goto	RNext;
+RNext:;
+
+	if(AllocateDLLAccess==true){
+		int	Nk=0;
+		for(GUIItemInstance *c=NPListPack<GUIItemInstance>::GetFirst();c!=NULL;c=c->GetNext(),Nk++){
+			if(Nk!=0 && c->DLLAccess==NULL){
+				NPListPack<GUIItemInstance>::RemoveList(c);
+				delete	c;
+				goto	RNext;
+			}
 		}
 	}
 
@@ -3320,7 +3343,9 @@ void	GUIInstancePack::CloseAll(void)
 {
 	GUIItemInstance	*v=NPListPack<GUIItemInstance>::GetFirst();
 	if(v!=NULL){
-		v->Handle->close();
+		if(v->Handle!=NULL){
+			v->Handle->close();
+		}
 	}
 }
 
@@ -3508,6 +3533,16 @@ void	GUIInstancePack::GetEntryAlgorithm(RootNameListContainer &List)
 	}
 }
 
+void	GUIInstancePack::GetEntryGUI(RootNameListContainer &List)
+{
+	for(GUIItemInstance *v=NPListPack<GUIItemInstance>::GetFirst();v!=NULL;v=v->GetNext()){
+		RootNameList *R = new RootNameList();
+		R->DLLRoot = v->DLLRoot;
+		R->DLLName = v->DLLName;
+		List.AppendList(R);
+	}
+}
+
 void	GUIInstancePack::AssociateComponent	 (ComponentListContainer &List)
 {
 	for(GUIItemInstance *v=NPListPack<GUIItemInstance>::GetFirst();v!=NULL;v=v->GetNext()){
@@ -3555,7 +3590,8 @@ void	GUIInitializer::Release(void)
 	}
 }
 
-bool	GUIInitializer::Initial(LayersBase *Base,DWORD &ErrorCode ,QString &ErrorMsg,bool LoadAll)
+bool	GUIInitializer::Initial(LayersBase *Base,DWORD &ErrorCode ,QString &ErrorMsg
+								,bool LoadAll,RootNameListContainer *ShouldLoadList)
 {
 	qRegisterMetaType<int64>(/**/"int64");
 
@@ -3564,9 +3600,10 @@ bool	GUIInitializer::Initial(LayersBase *Base,DWORD &ErrorCode ,QString &ErrorMs
 	GUIPath.append(DefIntegratorGUIPath);
 	GUIPath.append(DefRegulusWorldGUIPath);
 
-	if(SearchAddDLL(Base,GUIPath ,ErrorCode ,ErrorMsg,LoadAll)==false){
+	if(SearchAddDLL(Base,GUIPath ,ErrorCode ,ErrorMsg,LoadAll,ShouldLoadList)==false){
 		return false;
 	}
+	ErrorCode=0;
 
 	const	char	*LNameStr=/**/"Replace.def";
 	QString	LName=LNameStr;
@@ -3656,7 +3693,8 @@ bool	GUIInitializer::LoadExcludedFileList(const QString &GUIExcludedListFile,QSt
 }
 
 bool	GUIInitializer::SearchAddDLL(LayersBase *Base,const QStringList &pathlist
-									 ,DWORD &ErrorCode ,QString &ErrorMsg,bool LoadAll)
+									 ,DWORD &ErrorCode ,QString &ErrorMsg,bool LoadAll
+									 ,RootNameListContainer *ShouldLoadList)
 {
 	
 
@@ -3690,11 +3728,16 @@ bool	GUIInitializer::SearchAddDLL(LayersBase *Base,const QStringList &pathlist
 				if(QLibrary::isLibrary(FileName)==true){
 					DLL=new GuiDLLItem(Base);
 					QDir::setCurrent(NowD);
-					if(DLL->LoadDLL(Base,FileName,ErrorCode)==false){
+					if(DLL->LoadDLL(Base,FileName,ErrorCode,ShouldLoadList)==false){
+						if(ErrorCode!=Error_NotInShouldLoadList){
+							delete	DLL;
+							ErrorMsg=QString(/**/"GUI-DLL Error on loading : ")+FileName;
+							return(false);
+						}
 						delete	DLL;
-						ErrorMsg=QString(/**/"GUI-DLL Error on loading : ")+FileName;
-						return(false);
+						goto	LNext;
 					}
+					
 					GuiDLLPack->AppendList(DLL);
 					N++;
 				}

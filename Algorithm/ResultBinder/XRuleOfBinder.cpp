@@ -21,6 +21,8 @@
 #include "XDataInLayer.h"
 #include "XDataAlgorithm.h"
 #include "XCrossObj.h"
+#include "XDrawFunc.h"
+
 
 RuleOfBinderBase	*RuleOfBinderContainer::Create(int ID)
 {
@@ -252,19 +254,26 @@ void	RuleOfBinderBase::DrawRuleChild(QImage &pnt ,double ZoomRate ,int movx ,int
 
 void	RuleOfBinderBase::DrawArrow(QPainter &Pnt,int gx1,int gy1,int gx2,int gy2 ,double ZoomRate ,int movx ,int movy)
 {
-	int	x1=(gx1+movx)*ZoomRate;
-	int	y1=(gy1+movy)*ZoomRate;
-	int	x2=(gx2+movx)*ZoomRate;
-	int	y2=(gy2+movy)*ZoomRate;
-	Pnt.drawLine(x1,y1,x2,y2);
+	//int	x1=(gx1+movx)*ZoomRate;
+	//int	y1=(gy1+movy)*ZoomRate;
+	//int	x2=(gx2+movx)*ZoomRate;
+	//int	y2=(gy2+movy)*ZoomRate;
+	//Pnt.drawLine(x1,y1,x2,y2);
+	//
+	//double	s=::GetSita(gx2-gx1,gy2-gy1);
+	//double	s1=s+M_PI/6.0;
+	//double	s2=s-M_PI/6.0;
+	//int		LLen=10;
+	//
+	//Pnt.drawLine(LLen*cos(s1)+x1,LLen*sin(s1)+y1,x1,y1);
+	//Pnt.drawLine(LLen*cos(s2)+x1,LLen*sin(s2)+y1,x1,y1);
 
-	double	s=::GetSita(gx2-gx1,gy2-gy1);
-	double	s1=s+M_PI/6.0;
-	double	s2=s-M_PI/6.0;
-	int		LLen=20;
-
-	Pnt.drawLine(LLen*cos(s1)+x1,LLen*sin(s1)+y1,x1,y1);
-	Pnt.drawLine(LLen*cos(s2)+x1,LLen*sin(s2)+y1,x1,y1);
+	QPen	Pen(Qt::red);
+	Pen.setWidth(2);
+	Pnt.setPen(Pen);
+	Pnt.setBrush(qRgba(0,255,0,128));
+	::DrawArrow(gx2 ,gy2 ,gx1 ,gy1
+				 ,Pnt ,movx ,movy ,ZoomRate,30);
 }
 
 void	RuleOfBinderBase::GetCenter(int &cx ,int &cy,double ZoomRate)
@@ -505,18 +514,24 @@ void	ChildOfRuleAlgorithmItem::DrawRule(QImage &pnt ,double ZoomRate ,int movx ,
 	Pnt.setBrush(BackCol);
 	Pnt.drawRect(XPos	,YPos  ,W,H);
 
+	AlgorithmBase	*ItemABase=NULL;
+	if(Item!=NULL){
+		ItemABase=Item->GetLayersBase()->GetAlgorithmBase(AlgoRoot,AlgoName);
+	}
 	Pnt.setPen(Qt::cyan);
 
 	Pnt.drawText(XPos+5 ,YPos+5+CharaterHeight*1 , QString("Type   :AlgorithmItem"));
 	Pnt.drawText(XPos+5 ,YPos+5+CharaterHeight*2 , QString("DLLRoot:")+AlgoRoot);
 	Pnt.drawText(XPos+5 ,YPos+5+CharaterHeight*3 , QString("DLLName:")+AlgoName);
-	Pnt.drawText(XPos+5 ,YPos+5+CharaterHeight*4 , QString("Ph:")+QString::number(Phase)+QString(" Pg:")+QString::number(Page) +QString("Ly:")+QString::number(Layer));
-	Pnt.drawText(XPos+5 ,YPos+5+CharaterHeight*5 , QString("Item:")+QString::number(ItemID) +QString(" , ")+ItemName);
-	Pnt.drawText(XPos+5 ,YPos+5+CharaterHeight*6 , QString("Name:")+Name);
-	Pnt.drawText(XPos+5 ,YPos+5+CharaterHeight*7 , Remark);
+	if(ItemABase!=NULL){
+		Pnt.drawText(XPos+5 ,YPos+5+CharaterHeight*4 , ItemABase->GetNameByCurrentLanguage());
+	}
+	Pnt.drawText(XPos+5 ,YPos+5+CharaterHeight*5 , QString("Ph:")+QString::number(Phase)+QString(" Pg:")+QString::number(Page) +QString("Ly:")+QString::number(Layer));
+	Pnt.drawText(XPos+5 ,YPos+5+CharaterHeight*6 , QString("Item:")+QString::number(ItemID) +QString(" , ")+ItemName);
+	Pnt.drawText(XPos+5 ,YPos+5+CharaterHeight*7 , QString("Name:")+Name);
+	Pnt.drawText(XPos+5 ,YPos+5+CharaterHeight*8 , Remark);
 
-	DrawResult(Pnt ,XPos+5 ,YPos+5+CharaterHeight*8);
-
+	DrawResult(Pnt ,XPos+5 ,YPos+5+CharaterHeight*9);
 }
 
 void	ChildOfRuleAlgorithmItem::ReplaceOKInSource(void)

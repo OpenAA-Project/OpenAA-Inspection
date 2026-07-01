@@ -13318,6 +13318,7 @@ PureFlexAreaListContainer	&PureFlexAreaListContainer::operator=(FlexAreaFastDimP
 		}
 		AppendList(a);
 	}
+	return *this;
 }
 
 bool	PureFlexAreaListContainer::IsInclude(int x ,int y)	const
