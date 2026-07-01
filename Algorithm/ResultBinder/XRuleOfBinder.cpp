@@ -271,7 +271,8 @@ void	RuleOfBinderBase::DrawArrow(QPainter &Pnt,int gx1,int gy1,int gx2,int gy2 ,
 	QPen	Pen(Qt::red);
 	Pen.setWidth(2);
 	Pnt.setPen(Pen);
-	Pnt.setBrush(qRgba(0,255,0,128));
+	QColor	BrushColor(0,255,0,128);
+	Pnt.setBrush(BrushColor);
 	::DrawArrow(gx2 ,gy2 ,gx1 ,gy1
 				 ,Pnt ,movx ,movy ,ZoomRate,30);
 }

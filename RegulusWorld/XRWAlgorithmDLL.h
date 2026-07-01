@@ -28,11 +28,6 @@
 #include "XRegulusWorld.h"
 #include "XMacroFunction.h"
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
 
 class	LanguagePackage;
 
@@ -44,7 +39,6 @@ struct	DllToAppFuncs
 };
 
 
-#ifdef _MSC_VER
 DEFFUNCEX	bool		DLL_GetOrganization(QString &str);
 DEFFUNCEX	WORD		DLL_GetDLLType(void);
 DEFFUNCEX	bool		DLL_GetName(QString &Root ,QString &Name);
@@ -62,6 +56,5 @@ DEFFUNCEX	void		ReleaseAlgorithmBase(RW3DBaseRoot *handle);
 DEFFUNCEX	int32	DLL_RegistMacroFunction(ExportFuncForMacro Functions[],int MaxBuffer);
 
 DEFFUNCEX	void	DLL_AssociateComponent(LayersBase *Base,ComponentListContainer &List);
-#endif
 
 };

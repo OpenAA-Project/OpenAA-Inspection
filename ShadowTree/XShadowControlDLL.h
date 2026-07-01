@@ -27,12 +27,6 @@ class	QWidget;
 class	ShadowTree;
 class	LanguagePackage;
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
-
 extern	"C"
 {
 DEFFUNCEX	WORD		DLL_GetDLLType(void);

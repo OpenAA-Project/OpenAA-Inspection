@@ -956,17 +956,6 @@ double	AlignmentFlexAreaItem::MatchCross(ImageBuffer &Target ,ImageBuffer &TRTar
 	return RV*RH;
 }
 
-static	int	SortBestMatchFunc(const void *a , const void *b)
-{
-	struct	AlignmentFlexAreaShiftItemListStruct	*pa=(struct	AlignmentFlexAreaShiftItemListStruct	*)a;
-	struct	AlignmentFlexAreaShiftItemListStruct	*pb=(struct	AlignmentFlexAreaShiftItemListStruct	*)b;
-	if(pa->Match>pb->Match)
-		return -1;
-	else if(pa->Match<pb->Match)
-		return 1;
-	return 0;
-}
-
 int	FuncShiftList(const void *a ,const void *b)
 {
 	struct	AlignmentFlexAreaShiftListStruct	*pa=(struct	AlignmentFlexAreaShiftListStruct	*)a;

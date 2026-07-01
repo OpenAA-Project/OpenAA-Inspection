@@ -24,18 +24,12 @@
 #include "XDLLType.h"
 #include "NList.h"
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
 
 class	ArrangementItem;
 class	LayersBase;
 
 extern	"C"{
 
-#ifdef _MSC_VER
 DEFFUNCEX	bool		DLL_GetOrganization(QString &str);
 DEFFUNCEX	WORD		DLL_GetDLLType(void);
 DEFFUNCEX	bool		DLL_GetName(QString &Root ,QString &Name);
@@ -48,7 +42,6 @@ DEFFUNCEX	bool		DLL_GetFileExtType(QString &ExtTypeStr);
 DEFFUNCEX	bool		DLL_LoadFromFile  (QString &FileName ,NPListPack<ArrangementItem> &RetList);
 DEFFUNCEX	bool		DLL_LoadFromStream(QIODevice *DevStr,NPListPack<ArrangementItem> &RetList);
 
-#endif
 };
 
 #endif

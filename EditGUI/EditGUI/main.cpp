@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
 	QString	ErrorMsg;
 	DWORD	ErrorCode=0;
 
-	if(Layers->GetGuiInitializer()->Initial(Layers,ErrorCode ,ErrorMsg,true)==false || ErrorCode!=0){
+	if(Layers->GetGuiInitializer()->Initial(Layers,ErrorCode ,ErrorMsg,true,NULL)==false || ErrorCode!=0){
 		QString  msg=QString(/**/"GUI Error: ")
 			+QString::number(ErrorCode);
 		QMessageBox Q(msg

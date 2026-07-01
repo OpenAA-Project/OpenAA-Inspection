@@ -32,11 +32,6 @@
 #include "XGUIFormBase.h"
 #include "XDataComponent.h"
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
 
 struct	PropertyClass
 {
@@ -64,7 +59,6 @@ class	LanguagePackage;
 
 extern "C"{
 
-#ifdef _MSC_VER
 DEFFUNCEX	bool	DLL_GetName(QString &Root ,QString &Name);
 DEFFUNCEX	WORD	DLL_GetDLLType(void);
 DEFFUNCEX	WORD	DLL_GetVersion(void);
@@ -102,47 +96,6 @@ DEFFUNCEX	void	DLL_EntryAlgorithm	(LayersBase *Base,RootNameListContainer &List)
 DEFFUNCEX	void	DLL_AssociateComponent(LayersBase *Base,ComponentListContainer &List);
 
 DEFFUNCEX	int32	DLL_RegistMacroFunction(ExportFuncForMacro Functions[],int MaxBuffer);
-
-#else
-
-bool	DLL_GetName(QString &Root ,QString &Name);
-WORD	DLL_GetDLLType(void);
-WORD	DLL_GetVersion(void);
-const char	*DLL_GetSystemVersion(VersionType vtype);
-void	DLL_GetUsageFiles(QStringList &RelativeFilePath);
-
-const char	*DLL_GetExplain(void);
-void	DLL_SetLanguageCommon(LanguagePackage &Pkg ,int LanguageCode);
-void	DLL_SetLanguage		 (LanguagePackage &Pkg ,int LanguageCode);
-bool	DLL_CheckCopyright(QString &CopyrightString);
-bool	DLL_Initial(LayersBase *Base);
-void	DLL_Close(void);
-void	DLL_InitialQt(QApplication *AppBase);
-bool	DLL_ReceivePacket(LayersBase *Base,int32 cmd ,int32 globalPage ,const char *EmitterRoot ,const char *EmitterName ,const char *ClassName,QBuffer &buff,int32 IDForUndo,ErrorCodeList &ErrorData);
-bool	DLL_ReceivePacketDirectComm(LayersBase *Base
-												,int32 cmd ,int32 globalPage 
-												,const char *EmitterRoot ,const char *EmitterName ,const char *ClassName
-												,QBuffer &buff
-												,int32 IDForUndo
-												,ErrorCodeList &ErrorData);
-bool	DLL_ReceiveIntegrationPacket(LayersBase *Base,int32 cmd ,int32 SlaveNo 
-									  ,const char *EmitterRoot ,const char *EmitterName 
-									  ,const char *ClassName,QBuffer &buff
-									  ,int32 IDForUndo
-									  ,ErrorCodeList &ErrorData);
-
-GUIFormBase	*DLL_CreateInstance(LayersBase *Base,QWidget *parent);
-void	DLL_DeleteInstance(GUIFormBase *Instance);
-int32	DLL_GetPropertyString(void	*Instance ,struct	PropertyClass Data[] ,WORD maxDataDim);
-
-QIcon	*DLL_GetIcon(void);
-void	DLL_GetGuiAdditionalDatabase(NPListPack<GuiAdditionalDatabase> &Data);
-
-void	DLL_EntryAlgorithm(LayersBase *Base,RootNameListContainer &List);
-
-int32	DLL_RegistMacroFunction(ExportFuncForMacro Functions[],int MaxBuffer);
-#endif
-
 
 };
 

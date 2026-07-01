@@ -87,14 +87,17 @@ void ListSelectFixedPageForm::on_listWidgetPage_clicked(const QModelIndex &index
 bool	ListSelectFixedPageForm::Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb)
 {
     ShowPageList();
+    return true;
 }
 bool	ListSelectFixedPageForm::InsertPage(int IndexPage)	//Create page before Indexed page
 {
     ShowPageList();
+	return true;
 }
 bool	ListSelectFixedPageForm::RemovePage(int IndexPage)
 {
     ShowPageList();
+    return true;
 }
 void    ListSelectFixedPageForm::ShowPageList(void)
 {

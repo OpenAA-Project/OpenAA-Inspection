@@ -24,9 +24,7 @@
 #include "XDLLType.h"
 
 #ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
 #else
-#define	DEFFUNCEX
 #define _cdecl
 #endif
 

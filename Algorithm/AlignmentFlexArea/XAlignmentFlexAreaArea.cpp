@@ -1215,7 +1215,7 @@ bool	XAlignmentFlexAreaArea::CalcAlignment(ImagePointerContainer &Images,ImagePo
 			#pragma omp for
 			for(int i=0;i<n;i++){
 				ItemD[i]->ExecuteSmallSearch(Images,TRImages);
-				ItemD[i]->ExecutePreAlignment(0,NULL ,NULL);
+				ItemD[i]->ExecutePreAlignment(0,0 ,NULL);
 			}
 		}
 		if(ItemD!=ItemDim){
@@ -1227,7 +1227,7 @@ bool	XAlignmentFlexAreaArea::CalcAlignment(ImagePointerContainer &Images,ImagePo
 			for(AlgorithmItemPointerList *p=g->ItemPack.GetFirst();p!=NULL;p=p->GetNext()){
 				AlignmentFlexAreaItem	*Item=(AlignmentFlexAreaItem	*)p->GetItem();
 				Item->ExecuteSmallSearch(Images,TRImages);
-				p->GetItem()->ExecutePreAlignment(0,NULL ,NULL);
+				p->GetItem()->ExecutePreAlignment(0,0 ,NULL);
 			}
 		}
 	}

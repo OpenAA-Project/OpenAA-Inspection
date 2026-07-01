@@ -2235,7 +2235,6 @@ void	AlignmentFlexAreaBase::InitialAfterParamLoaded(void)
 }
 bool	AlignmentFlexAreaBase::ShowPasteCreateWithShape(QByteArray &templateData,int Layer)
 {
-	AlignmentFlexAreaItem	AItem();
 	GetSelectedAlignmentFlexAreaAreaPacket	SMode(GetLayersBase());
 	GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" 
 												,/**/"PropertyAlignmentFlexAreaForm" 

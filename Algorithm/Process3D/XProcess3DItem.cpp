@@ -454,16 +454,14 @@ void	Process3DItem::XYLineP3DContainer::CreateLines(BYTE **BmpMap , int XByte ,i
 	for(int y=0;y<YLen;y++){
 		BYTE	*s=BmpMap[y];
 		for(int xb=0;xb<XByte;xb++){
-			if(s[xb]!=NULL){
-				int	X=xb*8;
-				for(int i=0;i<8;i++){
-					if(GetBmpBitOnY(s,X+i)!=0){
-						XYLinesP3D	*L=new XYLinesP3D();
-						L->CreateOneLine(BmpMap , XByte*8 ,YLen
-										,X+i,y);
-						L->MoveTo(MapXPos,MapYPos);
-						AppendList(L);
-					}
+			int	X=xb*8;
+			for(int i=0;i<8;i++){
+				if(GetBmpBitOnY(s,X+i)!=0){
+					XYLinesP3D	*L=new XYLinesP3D();
+					L->CreateOneLine(BmpMap , XByte*8 ,YLen
+									,X+i,y);
+					L->MoveTo(MapXPos,MapYPos);
+					AppendList(L);
 				}
 			}
 		}

@@ -423,7 +423,7 @@ void	PropertyBlockForm::TransmitDirectly(GUIDirectMessage *packet)
 						Items.AppendList(new ListLayerAndID(a->Layer,a->ID));
 					}
 				}
-				if(Items.GetNumber()!=NULL){
+				if(Items.GetCount()!=0){
 					int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 					GUICmdReqBlockFromList	ReqCmd(GetLayersBase(),sRoot,sName,GlobalPage);
 					GUICmdAckBlockFromList	AckCmd(GetLayersBase(),sRoot,sName,GlobalPage);

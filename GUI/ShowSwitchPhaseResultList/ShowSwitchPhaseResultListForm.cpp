@@ -165,7 +165,7 @@ bool	GUICmdAckSwitchPhaseResult::Save(QIODevice *f)
 {
 	if(::Save(f,InspectionCountInPhaseNumb)==false)
 		return false;
-	if(InspectionCountInPhaseNumb!=NULL){
+	if(InspectionCountInPhaseNumb!=0){
 		if(f->write((const char *)InspectionCountInPhase,sizeof(int32)*InspectionCountInPhaseNumb)!=sizeof(int32)*InspectionCountInPhaseNumb){
 			return false;
 		}

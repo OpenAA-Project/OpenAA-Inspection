@@ -19,11 +19,6 @@
 #if	!defined(EVOBJDLL_H)
 #define	EVOBJDLL_H
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
 
 class	RunnerMap;
 class	LanguagePackage;

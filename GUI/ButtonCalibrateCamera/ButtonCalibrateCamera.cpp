@@ -126,7 +126,7 @@ void ButtonCalibrateCamera::SlotClicked (bool checked)
 {
 	int	page=0;
 	GUICmdCalibrateCamera	RCmd(GetLayersBase(),sRoot,sName,page);	
-	RCmd.SendOnly(NULL,page,0);
+	RCmd.SendOnly(page,0);
 }
 //=================================================================
 

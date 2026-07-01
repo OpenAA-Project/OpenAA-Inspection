@@ -23,12 +23,6 @@
 #include "XTypeDef.h"
 #include "XDLLType.h"
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
-
 class	LayersBase;
 class	RWDeviceBaseClass;
 

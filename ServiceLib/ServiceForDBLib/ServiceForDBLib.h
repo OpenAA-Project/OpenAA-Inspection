@@ -45,12 +45,6 @@ class	CommonDataInLibTypeListContainer;
 class	CommonDataInLibType;
 class	LearningInDB;
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
-
 extern	"C"{
 DEFFUNCEX	void	__G_LockDB(void);
 DEFFUNCEX	void	__G_UnlockDB(void);

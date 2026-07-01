@@ -27,6 +27,12 @@
 #define	FuncCall	
 #endif
 
+#ifdef _MSC_VER
+#define	DEFFUNCEX		__declspec(dllexport)
+#else
+#define	DEFFUNCEX		__attribute__((visibility("default")))
+#endif
+
 class	IdentifiedClass
 {
 public:

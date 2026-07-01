@@ -532,7 +532,7 @@ bool	FilterImageShadingDynamic::Execute1(ImageBuffer &Buff ,struct ShadingDynami
 				dDotPerLine++;
 			}
 		}
-		if(dDotPerLine!=NULL){
+		if(dDotPerLine!=0){
 			AvrK/=dDotPerLine;
 		}
 		else{

@@ -712,12 +712,14 @@ bool	ShadowTree::InsertPageShadow(int IndexPage)	//Create page before Indexed pa
 	for(ShadowControlInterface *c=Children->GetFirst();c!=NULL;c=c->GetNext()){
 		c->GetInstance()->InsertPageShadowInChild(IndexPage);
 	}
+	return true;
 }
 bool	ShadowTree::RemovePageShadow(int IndexPage)
 {
 	for(ShadowControlInterface *c=Children->GetFirst();c!=NULL;c=c->GetNext()){
 		c->GetInstance()->RemovePageShadowInChild(IndexPage);
 	}
+	return true;
 }
 
 bool	ShadowTree::ReallocateShadowInChild(int newPhaseNumb , int newPageNumb ,int newLayerNumb)

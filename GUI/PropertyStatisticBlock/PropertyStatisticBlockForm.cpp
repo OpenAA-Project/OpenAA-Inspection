@@ -286,7 +286,7 @@ void	PropertyStatisticBlockForm::TransmitDirectly(GUIDirectMessage *packet)
 						Items.AppendList(new ListLayerAndID(a->Layer,a->ID));
 					}
 				}
-				if(Items.GetNumber()!=NULL){
+				if(Items.GetCount()!=0){
 					GUICmdReqStatisticBlockFromList	ReqCmd(GetLayersBase(),sRoot,sName,page);
 					GUICmdAckStatisticBlockFromList	AckCmd(GetLayersBase(),sRoot,sName,page);
 					ReqCmd.CurrentItem=Items;

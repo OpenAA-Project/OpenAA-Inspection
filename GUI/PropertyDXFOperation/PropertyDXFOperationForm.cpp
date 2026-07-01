@@ -295,7 +295,7 @@ void	PropertyDXFOperationForm::TransmitDirectly(GUIDirectMessage *packet)
 			int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
 			GUICmdSetDXFWithSelfTransform	RCmd(GetLayersBase(),sRoot,sName,globalPage);
 			RCmd.DXFData=CmdSetDXFWithSelfTransformVar->DXFData;
-			RCmd.SendOnly(NULL,globalPage,0);
+			RCmd.SendOnly(globalPage,0);
 		}
 		return;
 	}

@@ -278,7 +278,7 @@ void ListHistoryForm::on_tableWidgetHistory_doubleClicked(QModelIndex)
 		if(EditMode==false){
 			for(int page=0;page<GetPageNumb();page++){
 				GUIReqRemoveHistry	RCmd(GetLayersBase(),sRoot,sName ,page);
-				RCmd.SendOnly(NULL,page,0);
+				RCmd.SendOnly(page,0);
 			}
 			GetLayersBase()->GetResultDLLBase()->RemoveResult(GetLayersBase()->GetMachineID() ,resultHistory->ResultTime,resultHistory->Result);
 			if(row==0){

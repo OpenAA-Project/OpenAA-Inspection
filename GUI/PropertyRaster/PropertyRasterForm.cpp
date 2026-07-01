@@ -695,7 +695,7 @@ void	PropertyRasterForm::TransmitDirectly(GUIDirectMessage *packet)
 			int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
 			GUICmdSetPDFWithSelfTransform	RCmd(GetLayersBase(),sRoot,sName,globalPage);
 			RCmd.PDFData=CmdSetPDFWithSelfTransformVar->PDFData;
-			RCmd.SendOnly(NULL,globalPage,0);
+			RCmd.SendOnly(globalPage,0);
 		}
 		on_pushButtonLoadTransformDefault_clicked();
 
@@ -743,7 +743,7 @@ void	PropertyRasterForm::TransmitDirectly(GUIDirectMessage *packet)
 			int	globalPage=GetParamComm()->GetGlobalPageFromLocal(*GetParamGlobal(),page);
 			GUICmdMakeImageInMask	RCmd(GetLayersBase(),sRoot,sName,globalPage);
 			RCmd.ChangeableAreas=CmdCopyImageToMasterVar->ChangeableAreas;
-			RCmd.SendOnly(NULL,globalPage,0);
+			RCmd.SendOnly(globalPage,0);
 		}
 		return;
 	}

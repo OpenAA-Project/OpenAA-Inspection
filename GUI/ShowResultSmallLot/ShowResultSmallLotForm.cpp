@@ -354,7 +354,7 @@ void ShowResultSmallLotForm::on_pushButtonChange_clicked()
 			int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 			GUICmdChangeLot	RCmd(GetLayersBase(),sRoot,sName ,GlobalPage);
 			RCmd.CurrentInspectTime	=CurrentInspectTime;
-			RCmd.SendOnly(NULL,GlobalPage,0);
+			RCmd.SendOnly(GlobalPage,0);
 		}
 
 		if(iAutoChangeLot!=NULL){

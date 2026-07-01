@@ -250,11 +250,11 @@ bool	DisplayTargetList::Reallocate(int newPhaseNumb , int newPageNumb ,int newLa
 }
 bool	DisplayTargetList::InsertPage(int IndexPage)	//Create page before Indexed page
 {
-	Reallocate(GetPhaseNumb(), GetPageNumb(),GetLayerNumb(0));
+	return Reallocate(GetPhaseNumb(), GetPageNumb(),GetLayerNumb(0));
 }
 bool	DisplayTargetList::RemovePage(int IndexPage)
 {
-	Reallocate(GetPhaseNumb(), GetPageNumb(),GetLayerNumb(0));
+	return Reallocate(GetPhaseNumb(), GetPageNumb(),GetLayerNumb(0));
 }
 void	DisplayTargetList::BuildForShow(void)
 {

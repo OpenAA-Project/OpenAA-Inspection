@@ -25,13 +25,6 @@
 #include "XTypeDef.h"
 
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
-
-
 class	LanguagePackage;
 class	PQSystemRunner;
 class	PQSystemParam;
@@ -39,9 +32,6 @@ class	PQSystemBase;
 
 extern	"C"{
 
-
-
-#ifdef _MSC_VER
 DEFFUNCEX	bool		DLL_GetOrganization(QString &str);
 DEFFUNCEX	WORD		DLL_GetDLLType(void);
 DEFFUNCEX	bool		DLL_GetName(QString &Root ,QString &Name);
@@ -55,7 +45,6 @@ DEFFUNCEX	void		DLL_SetLanguage		 (LanguagePackage &Pkg ,int LanguageCode);
 DEFFUNCEX	PQSystemRunner	*DLL_AllocateRunner(PQSystemBase *Base);
 DEFFUNCEX	bool		DLL_Release(PQSystemRunner *pointer);
 
-#endif
 
 };
 

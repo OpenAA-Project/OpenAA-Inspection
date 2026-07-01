@@ -317,7 +317,7 @@ void	PropertyTrueColorBlockForm::TransmitDirectly(GUIDirectMessage *packet)
 					Items.AppendList(new ListLayerAndID(0,a->ID));
 				}
 			}
-			if(Items.GetNumber()!=NULL){
+			if(Items.GetCount()!=0){
 				GUICmdReqTrueColorBlockFromList	ReqCmd(GetLayersBase(),sRoot,sName,page);
 				GUICmdAckTrueColorBlockFromList	AckCmd(GetLayersBase(),sRoot,sName,page);
 				ReqCmd.CurrentItem=Items;

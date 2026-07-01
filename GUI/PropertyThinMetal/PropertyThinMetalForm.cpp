@@ -306,7 +306,7 @@ void	PropertyThinMetalForm::TransmitDirectly(GUIDirectMessage *packet)
 						Items.AppendList(new ListLayerAndID(a->Layer,a->ID));
 					}
 				}
-				if(Items.GetNumber()!=NULL){
+				if(Items.GetCount()!=0){
 					int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 					GUICmdReqThinMetalFromList	ReqCmd(GetLayersBase(),sRoot,sName,GlobalPage);
 					GUICmdAckThinMetalFromList	AckCmd(GetLayersBase(),sRoot,sName,GlobalPage);

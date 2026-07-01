@@ -25,11 +25,6 @@
 #include "XDLLType.h"
 #include <QApplication>
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
 
 class	LayersBase;
 class	LanguagePackage;
@@ -39,7 +34,6 @@ class	PQSystemRunner;
 
 extern "C"{
 
-#ifdef _MSC_VER
 DEFFUNCEX	bool	DLL_GetName(QString &Root ,QString &Name);
 DEFFUNCEX	WORD	DLL_GetDLLType(void);
 DEFFUNCEX	WORD	DLL_GetVersion(void);
@@ -64,7 +58,6 @@ bool	DLL_CheckCopyright(QString &CopyrightString);
 PQSystemRunner	*DLL_InitialRunner(LayersBase *Base);
 void	DLL_CloseRunner(PQSystemRunner *handle);
 void	DLL_InitialQt(QApplication *AppBase);
-#endif
 
 
 };

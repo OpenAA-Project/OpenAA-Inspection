@@ -195,7 +195,7 @@ void	PropertyDotColorMatchingForm::TransmitDirectly(GUIDirectMessage *packet)
 						Items.AppendList(new ListLayerAndID(a->Layer,a->ID));
 					}
 				}
-				if(Items.GetNumber()!=NULL){
+				if(Items.GetCount()!=0){
 					int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 					GUICmdReqDotColorMatchingFromList	ReqCmd(GetLayersBase(),sRoot,sName,GlobalPage);
 					GUICmdAckDotColorMatchingFromList	AckCmd(GetLayersBase(),sRoot,sName,GlobalPage);
@@ -264,7 +264,7 @@ void	PropertyDotColorMatchingForm::TransmitDirectly(GUIDirectMessage *packet)
 			int	globalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 			GUICmdSetSpecialData	DCmd(GetLayersBase(),sRoot,sName,globalPage);
 			DCmd.SpecialData	=CmdSetSpecialDataVar->SpecialData;
-			DCmd.SendOnly(NULL,globalPage ,0);
+			DCmd.SendOnly(globalPage ,0);
 		}
 		return;
 	}
@@ -294,7 +294,7 @@ void	PropertyDotColorMatchingForm::TransmitDirectly(GUIDirectMessage *packet)
 			int	globalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 			GUICmdDeleteDotColorMatchingByName	DCmd(GetLayersBase(),sRoot,sName,globalPage);
 			DCmd.ItemName	=CmdDeleteDotColorMatchingByNameVar->ItemName;
-			DCmd.SendOnly(NULL,globalPage ,0);
+			DCmd.SendOnly(globalPage ,0);
 		}
 		return;
 	}

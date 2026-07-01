@@ -670,7 +670,7 @@ void PropertyMaskingForm::ReflectSelectList(void)
 				}
 			}
 			RCmd.Layer=Layer;
-			RCmd.SendOnly(NULL,GlobalPage,0);
+			RCmd.SendOnly(GlobalPage,0);
 		}
 	}
 	BroadcastRepaintAll();

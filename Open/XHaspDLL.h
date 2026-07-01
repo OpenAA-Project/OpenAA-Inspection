@@ -22,11 +22,6 @@
 #include <QtGui>
 #include "XTypeDef.h"
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
 
 class	LayersBase;
 class	HaspHandleContainer;

@@ -2650,7 +2650,7 @@ int		ConnectionInfo::GetPortNo(void)
 		return GUICommPort;
 	}
 	else{
-		return IPAddress.section(':',0,0),PortStr.toInt();
+		return IPAddress.section(':',0,0).toInt();
 	}
 }
 

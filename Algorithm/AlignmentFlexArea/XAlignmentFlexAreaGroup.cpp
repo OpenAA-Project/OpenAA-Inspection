@@ -113,7 +113,7 @@ void	AlignmentGroup::ExecuteStartByInspection(void)
 	}
 	GlobalShiftX=GlobalShiftY=0;
 	for(AlgorithmItemPointerList *p=ItemPack.GetFirst();p!=NULL;p=p->GetNext()){
-		p->GetItem()->ExecuteStartByInspection(0,NULL ,NULL);
+		p->GetItem()->ExecuteStartByInspection(0,0 ,NULL);
 	}
 }
 
@@ -331,49 +331,6 @@ void	AlignmentGroup::SetShiftByGlobal(int dx ,int dy)
 	}
 }
 
-static	int	SortMatchListFunc(const void *a ,const void *b)
-{
-	struct AlignmentMatchList	*pa=(struct AlignmentMatchList *)a;
-	struct AlignmentMatchList	*pb=(struct AlignmentMatchList *)b;
-	if(pa->MatchRate>pb->MatchRate)
-		return -1;
-	if(pa->MatchRate<pb->MatchRate)
-		return 1;
-	return 0;
-}
-
-static	int	SortMatchListFuncLow(const void *a ,const void *b)
-{
-	struct AlignmentMatchList	*pa=(struct AlignmentMatchList *)a;
-	struct AlignmentMatchList	*pb=(struct AlignmentMatchList *)b;
-	if(pa->MatchRate>pb->MatchRate)
-		return 1;
-	if(pa->MatchRate<pb->MatchRate)
-		return -1;
-	return 0;
-}
-
-static	int	SortMatchListIndexFunc(const void *a ,const void *b)
-{
-	struct AlignmentMatchList	*pa=(struct AlignmentMatchList *)a;
-	struct AlignmentMatchList	*pb=(struct AlignmentMatchList *)b;
-	if(pa->Index>pb->Index)
-		return 1;
-	if(pa->Index<pb->Index)
-		return -1;
-	return 0;
-}
-
-static	int	SortIntFunc(const void *a ,const void *b)
-{
-	int	*pa=(int *)a;
-	int	*pb=(int *)b;
-	if(*pa>*pb)
-		return 1;
-	if(*pa<*pb)
-		return -1;
-	return 0;
-}
 static	int	SortDoubleFunc(const void *a ,const void *b)
 {
 	double	*pa=(double *)a;

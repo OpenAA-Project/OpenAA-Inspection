@@ -25,11 +25,6 @@
 #include "XGeneralFunc.h"
 #include "Regulus64Version.h"
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
 
 extern "C"{
 

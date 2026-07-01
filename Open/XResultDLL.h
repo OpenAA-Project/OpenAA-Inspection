@@ -25,13 +25,6 @@
 #include "XDataInLayer.h"
 #include "XMacroFunction.h"
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
-
-
 class	AddedDataClass;
 class	ResultBaseForAlgorithm;
 class	ResultDLLBase;
@@ -48,7 +41,6 @@ struct	DllToAppFuncs
 	void		(*APP_MouseMove)(int gx ,int gy);
 };
 
-#ifdef _MSC_VER
 DEFFUNCEX	bool			DLL_GetOrganization(QString &str);
 DEFFUNCEX	WORD			DLL_GetDLLType(void);
 DEFFUNCEX	bool			DLL_GetName(QString &Root ,QString &Name);
@@ -109,8 +101,6 @@ DEFFUNCEX	ExeResult	DLL_ExecutePreScanning			(int ExeID ,ResultDLLBaseRoot *inst
 DEFFUNCEX	ExeResult	DLL_ExecuteScanning				(int ExeID ,ResultDLLBaseRoot *inst,ResultInspection *Res);
 DEFFUNCEX	ExeResult	DLL_ExecutePostScanning			(int ExeID ,ResultDLLBaseRoot *inst,ResultInspection *Res);
 DEFFUNCEX	ExeResult	DLL_ExecuteManageResult			(int ExeID ,ResultDLLBaseRoot *inst,ResultInspection *Res);
-
-#endif
 
 };
 

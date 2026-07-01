@@ -70,22 +70,6 @@
 
 int	XDbg;
 
-#ifdef HASP_ENABLE
-static	bool HaspCheck(QString strKey)
-{
-	QStringList RetList;
-	Hasplib Hasp;
-	if(Hasp.HaspExecute(RetList)==false)
-		return false;
-	for(int Cnt=0;Cnt<RetList.count();Cnt++){
-		if(RetList.at(Cnt)==strKey){
-			if(QDate::currentDate()<=QDate::fromString(RetList.at(Cnt-1),/**/"yyyyMMdd"))
-				return true;
-		}
-	}
-	return false;
-}
-#endif
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
@@ -731,21 +715,11 @@ int main(int argc, char *argv[])
 		Seq->AfterPrepare();
 	}
 
-	//Layers->InitialArrangementDLL();
-
 	G->GetGUIInstanceRoot()->GetFirstForm()->SetName(/**/"InspectionPlayer");
 	Layers->SetMainForm(MainForm);
 
-#ifdef _MSC_VER
-	if(_CrtCheckMemory()==false)
-		return(-1);
-#endif
-
 	Layers->GetParamGUI()->LoadDefault(Layers->GetUserPath());
-
-
 	Layers->InitialLight(true);
-	//G->GetGUIInstanceRoot()->GetFirstForm()->SetName(/**/"InspectionPlayer");
 
 	if(EntryPointToFuncGlobal->IsMasterPC()==true && Seq!=NULL){
 		QString	ErrorLine;
@@ -771,31 +745,6 @@ int main(int argc, char *argv[])
 	G->InitialMultiComputer(G->GetGUIInstanceRoot()->GetFirstForm());
 
 	if(EntryPointToFuncGlobal->IsMasterPC()==true){
-
-#ifdef HASP_ENABLE
-	/*
-		if(HaspCheck("je8398hw")==false){
-			Hasplib *hasplib = new Hasplib();
-			if(hasplib->HaspCheck(0)==false){
-				QMessageBox::critical ( NULL, "Hasp Error", "Mismatch Hasp code", QMessageBox::Ok);
-				delete hasplib;
-				return 0;
-			}
-			delete hasplib;
-		}
-	*/
-
-	Layers->SetApplicationCode(/**/"je8398hw");
-	if(Layers->AddInitialHasp(/**/"SentinelHasp")==false){
-		QMessageBox::critical(NULL,/**/"Error"
-						, /**/"No Security library");
-		return(10);
-	}
-	if(Layers->IsAuthenticationPassed(NULL)==false){
-		QMessageBox::critical ( NULL, "Hasp Error", "Mismatch Hasp code", QMessageBox::Ok);
-		return 10;
-	}
-#endif
 	}
 
 	if(WorkerIDEnabled==false){
@@ -816,39 +765,22 @@ int main(int argc, char *argv[])
 
 
 	Layers->InitialFinalize(G->GetGUIInstanceRoot()->GetFirstForm());
-#ifdef _MSC_VER
-	if(_CrtCheckMemory()==false)
-		return(-1);
-#endif
 
-	//QMessageBox::warning (NULL, "Test1", "Test1");
-
-	//G->GetGUIInstanceRoot()->GetFirstForm()->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
 	if(BootingLevel==0 && EntryPointToFuncGlobal->IsMasterPC()==true){
 		Layers->BroadcastMachineID();
 	}
-	//Layers->ReadAllSettingFiles(true);
 	Layers->ReadOtherSettingFiles(true);
 	Layers->InitialAfterParamLoaded();
-//#ifdef _MSC_VER
-//	if(_CrtCheckMemory()==false)
-//		return(-1);
-//#endif
 
 	Layers->InitialFilterBank();
 	Layers->InitialResultAnalizer();
 	Layers->InitialSyncGUI();
 	Layers->InitialPrinter();
-	//QMessageBox::warning (NULL, "Test", "Test");
-	//GSleep(3000);
-//#ifdef _MSC_VER
-//	if(_CrtCheckMemory()==false)
-//		return(-1);
-//#endif
-		ExecuteInitialAfterEditInfo EInfo;
-		EInfo.CalledInFirst=true;
-		Layers->ExecuteInitialAfterEdit(EInfo);
-	//}
+
+	ExecuteInitialAfterEditInfo EInfo;
+	EInfo.CalledInFirst=true;
+	Layers->ExecuteInitialAfterEdit(EInfo);
+
 
 	GUIFormBase	*B=G->GetGUIInstanceRoot()->GetFirstForm();
 	B->BroadcastDirectly(GUIFormBase::_BC_BuildForShow,0);
@@ -1052,3 +984,4 @@ int main(int argc, char *argv[])
 	}
 
 }
+

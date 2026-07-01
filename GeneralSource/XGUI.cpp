@@ -1452,11 +1452,12 @@ bool	GuiDLLItem::IsExist(RootNameListContainer *ShouldLoadList)
 		}
 		return false;
 	}
+	return true;
 }
 
-#ifdef _MSC_VER
-#define	DEFFUNCINEXE		__declspec(dllexport)
-#endif
+//#ifdef _MSC_VER
+//#define	DEFFUNCINEXE		__declspec(dllexport)
+//#endif
 
 void	GUIFastComm::SlotReceived(int ID ,int Cmd)
 {

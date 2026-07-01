@@ -326,11 +326,6 @@ public:
 	bool	Disconnect(void);
 };
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
 
 extern	"C"{
 

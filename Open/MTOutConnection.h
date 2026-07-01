@@ -22,12 +22,6 @@
 #define MTOUTCONNECTION_H
 
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
-
 typedef	void *	MTOCHandle;
 
 enum	MTOC_Operation

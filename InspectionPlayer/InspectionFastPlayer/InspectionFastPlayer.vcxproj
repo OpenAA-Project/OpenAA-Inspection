@@ -203,7 +203,7 @@
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\Integrator\IntegrationLib;..\..\ServiceLib\EditPasswordOnControl;..\..\Debug;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\ServiceLib\CommonGUIDLL;..\..\Hasplib\Hasplib;..\;..\..\PluginDLL\Camera;..\..\Open;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\Integrator\IntegrationLib;..\..\ServiceLib\EditPasswordOnControl;..\..\Debug;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\ServiceLib\CommonGUIDLL;..\..\Hasplib\Hasplib;..\;..\..\PluginDLL\Camera;..\..\GeneralSource;..\..\Open;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;_HASP_ENABLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <OpenMPSupport>true</OpenMPSupport>

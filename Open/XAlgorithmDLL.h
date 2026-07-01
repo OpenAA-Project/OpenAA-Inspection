@@ -29,12 +29,6 @@
 #include "XCSV.h"
 #include "XDataComponent.h"
 
-#ifdef _MSC_VER
-#define	DEFFUNCEX		__declspec(dllexport)
-#else
-#define	DEFFUNCEX
-#endif
-
 class	AddedDataClass;
 class	ResultBaseForAlgorithm;
 class	ResultByAlgorithm;
@@ -93,7 +87,6 @@ struct	DllToAppFuncs
 
 //------------------------------------------------------------
 
-#ifdef _MSC_VER
 DEFFUNCEX	bool		DLL_GetOrganization(QString &str);
 DEFFUNCEX	WORD		DLL_GetDLLType(void);
 DEFFUNCEX	bool		DLL_GetName(QString &Root ,QString &Name);
@@ -192,7 +185,6 @@ DEFFUNCEX	bool	DLL_GlobalPos2Name(AlgorithmBase *Base ,int XGlobalPos, int YGlob
 DEFFUNCEX	int32	DLL_RegistMacroFunction(ExportFuncForMacro Functions[],int MaxBuffer);
 
 DEFFUNCEX	void	DLL_AssociateComponent(LayersBase *Base,ComponentListContainer &List);
-#endif
 
 };
 

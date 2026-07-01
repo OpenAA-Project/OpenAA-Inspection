@@ -70,7 +70,7 @@ void	IntegrationShowMemoryForm::SlotTimeout()
 		IntegrationBase	*IBase=GetLayersBase()->GetIntegrationBasePointer();
 		int	N=IBase->GetParamIntegrationMaster()->GetIntegrationSlaveCount();
 		for(int i=0;i<N;i++){
-			if(IBase->IsConnected(i)!=NULL){
+			if(IBase->IsConnected(i)==true){
 				CmdReqMemoryInfoToMaster	RCmd(GetLayersBase(),sRoot,sName,i);
 				RCmd.Send(NULL,i,0);
 			}

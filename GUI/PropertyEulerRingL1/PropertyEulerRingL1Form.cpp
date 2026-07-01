@@ -466,7 +466,7 @@ void	PropertyEulerRingL1Form::TransmitDirectly(GUIDirectMessage *packet)
 						Items.AppendList(new ListLayerAndID(a->Layer,a->ID));
 					}
 				}
-				if(Items.GetNumber()!=NULL){
+				if(Items.GetCount()!=0){
 					int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
 					GUICmdReqEulerRingL1FromList	ReqCmd(GetLayersBase(),sRoot,sName,GlobalPage);
 					GUICmdAckEulerRingL1FromList	AckCmd(GetLayersBase(),sRoot,sName,GlobalPage);
