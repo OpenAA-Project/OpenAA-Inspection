@@ -146,7 +146,8 @@ DEFFUNCEX	bool	DLL_BindSpecialResult(ResultInItemRoot *ItemRes ,ErrorGroupPack &
 				int	LMinY=min(MinY,hy1);
 				int	LMaxX=max(MaxX,hx2);
 				int	LMaxY=max(MaxY,hy2);
-				if((LMaxX-LMinX)<(NGImageWidth-2*NGImageBevel) && (LMaxY-LMinY)<(NGImageHeight-2*NGImageBevel)){
+				if((LMaxX-LMinX)<(NGImageWidth-2*NGImageBevel)
+				&& (LMaxY-LMinY)<(NGImageHeight-2*NGImageBevel)){
 					hx1=LMinX;
 					hy1=LMinY;
 					hx2=LMaxX;
@@ -159,11 +160,20 @@ DEFFUNCEX	bool	DLL_BindSpecialResult(ResultInItemRoot *ItemRes ,ErrorGroupPack &
 				}
 			}
 			if(h==NULL){
-				h=new ErrorGroup(LBase);
-				h->SetRectangle(MinX,MinY,MaxX,MaxY);
-				h->SetPage(ItemRes->GetPage());
-				h->SetNGSize(f->GetPatternByte());
-				Dest.AppendList(h);
+				PureFlexAreaListContainer Piece;
+				f->ChopRectXY(Piece 
+								,NGImageWidth-2*NGImageBevel,NGImageHeight-2*NGImageBevel);
+				for(PureFlexAreaList *t=Piece.GetFirst();t!=NULL;t=t->GetNext()){
+					int	tMinX=t->GetMinX();
+					int	tMinY=t->GetMinY();
+					int	tMaxX=t->GetMaxX();
+					int	tMaxY=t->GetMaxY();
+					h=new ErrorGroup(LBase);
+					h->SetRectangle(tMinX,tMinY,tMaxX,tMaxY);
+					h->SetPage(ItemRes->GetPage());
+					h->SetNGSize(t->GetPatternByte());
+					Dest.AppendList(h);
+				}
 			}
 			List.AppendList(f);
 		}

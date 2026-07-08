@@ -52,12 +52,12 @@ DEFFUNCEX bool	DLL_CheckCopyright(QString &CopyrightString)
 	return true;
 }
 
-int _cdecl  AIP_IO_GetIOBoardNumb(void)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOBoardNumb(void)
 {
 	return(1);
 }
 
-int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	long Ret;
 	short InPortNum;
@@ -73,7 +73,7 @@ int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
 	return(InPortNum*8);
 }
 
-int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	long Ret;
 	short InPortNum;
@@ -89,12 +89,12 @@ int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 	return(OutPortNum*8);
 }
 
-bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
+DEFFUNCEX	bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 {
 	return(true);
 }
 
-PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+DEFFUNCEX	PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	long Ret;
 
@@ -135,7 +135,7 @@ PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *na
 	return TestFormDim;
 }
 
-BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
+DEFFUNCEX	BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
 {
 	BYTE InData;
 	TestForm	*PIO=(TestForm *)handle;
@@ -152,7 +152,7 @@ BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIn
 	return(InData);
 }
 
-BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
+DEFFUNCEX	BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	BYTE InData;
 	TestForm	*PIO=(TestForm *)handle;
@@ -169,7 +169,7 @@ BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byte
 	return(InData);
 }
 
-BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data)
+DEFFUNCEX	BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data)
 {
 	long Ret;
 	TestForm	*PIO=(TestForm *)handle;
@@ -180,7 +180,7 @@ BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byte
 	return(data);
 }
 
-int  _cdecl AIP_IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
+DEFFUNCEX	int  _cdecl AIP_IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	long Ret;
 	BYTE InData;
@@ -192,7 +192,7 @@ int  _cdecl AIP_IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE by
 	return(InData);
 }
 
-bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
 {
 	long Ret;
 	TestForm	*PIO=(TestForm *)handle;
@@ -206,7 +206,7 @@ bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
 	return(true);
 }
 
-bool  _cdecl AIP_IO_Release(void)
+DEFFUNCEX	bool  _cdecl AIP_IO_Release(void)
 {	
 	return(true);
 }

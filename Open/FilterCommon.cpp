@@ -27,13 +27,13 @@ const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
 	return NULL;
 }
-WORD	DLL_GetDLLType(void)
+DEFFUNCEX	WORD	DLL_GetDLLType(void)
 //	return	DLL type for FilterDLL
 {
 	return(DLLFilterMode);
 }
 
-bool		DLL_Close(void *handle)
+DEFFUNCEX	bool		DLL_Close(void *handle)
 //	Release handle and close DLL
 //	if process fails, it returns false
 {

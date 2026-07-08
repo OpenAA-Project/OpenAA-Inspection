@@ -34,7 +34,7 @@ DEFFUNCEX	char		*DLL_GetRelatedDLLSystemVersion(const QString &DLLFileName ,Vers
 };
 
 
-const char	*DLL_GetSystemVersion(VersionType vtype)
+DEFFUNCEX	const char	*DLL_GetSystemVersion(VersionType vtype)
 {
 	static	char	buff[10];
 	switch(vtype){

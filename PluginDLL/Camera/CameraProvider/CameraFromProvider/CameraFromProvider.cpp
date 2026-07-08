@@ -26,20 +26,20 @@
 #include "SettingDialog.h"
 
 //	return	DLL type for CameraDLL
-WORD	DLL_GetDLLType(void)
+DEFFUNCEX	WORD	DLL_GetDLLType(void)
 {
 	return(DLLCameraMode);
 }
 
 //	return DLL-Name. 
-bool	DLL_GetName(QString &str)
+DEFFUNCEX	bool	DLL_GetName(QString &str)
 {
 	str="CameraFromProvider";
 	return(true);
 }
 
 //	return Camera DLL version
-WORD	DLL_GetVersion(void)
+DEFFUNCEX	WORD	DLL_GetVersion(void)
 {
 	return(1);
 }

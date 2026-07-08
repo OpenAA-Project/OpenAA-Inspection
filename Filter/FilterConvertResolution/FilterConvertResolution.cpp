@@ -26,14 +26,14 @@
 #include "SettingResolutionDialog.h"
 #include "XPointer.h"
 
-bool		DLL_GetName(QString &str)
+DEFFUNCEX	bool		DLL_GetName(QString &str)
 //	return DLL-Name.
 {
 	str="ConvertResolution";
 	return(true);
 }
 
-WORD		DLL_GetVersion(void)
+DEFFUNCEX	WORD		DLL_GetVersion(void)
 //	return Filter DLL version
 {
 	return(1);
@@ -43,7 +43,7 @@ DEFFUNCEX	const char	*DLL_GetExplain(void)
 	return "Convert Resolution";
 }
 
-FilterClassBase	*DLL_Initial(LayersBase *base)
+DEFFUNCEX	FilterClassBase	*DLL_Initial(LayersBase *base)
 //	Initialize Filter DLL. 
 //		This function must create and open handle. 
 //	return:		Filter handle(memory block)
@@ -52,7 +52,7 @@ FilterClassBase	*DLL_Initial(LayersBase *base)
 	return new FilterConvertResolution(base);
 }
 
-bool		DLL_Load(FilterClassBase *handle ,QIODevice &str)
+DEFFUNCEX	bool		DLL_Load(FilterClassBase *handle ,QIODevice &str)
 //	Load filter attribution(setting) information of handle
 //	This function must load information from stream
 //	if process fails, it returns false
@@ -60,14 +60,14 @@ bool		DLL_Load(FilterClassBase *handle ,QIODevice &str)
 	return handle->Load(&str);
 }
 
-bool		DLL_Save(FilterClassBase *handle ,QIODevice &str)
+DEFFUNCEX	bool		DLL_Save(FilterClassBase *handle ,QIODevice &str)
 //	Save filter attribution(setting) information of handle
 //	This function must save information to stream
 //	if process fails, it returns false
 {
 	return handle->Save(&str);
 }
-bool		DLL_ShowSetting(FilterClassBase *handle, QWidget *parent)
+DEFFUNCEX	bool		DLL_ShowSetting(FilterClassBase *handle, QWidget *parent)
 //	This function shows dialog to set filter(handle) information
 //	if dialog can't be shown, it returns false
 {
@@ -82,7 +82,7 @@ bool		DLL_ShowSetting(FilterClassBase *handle, QWidget *parent)
 	v->Cy		=D.Cy;
 	return true;
 }
-bool		DLL_ExecuteImage(FilterClassBase *handle ,ImageBuffer *Buff[],int BufferDimCounts)
+DEFFUNCEX	bool		DLL_ExecuteImage(FilterClassBase *handle ,ImageBuffer *Buff[],int BufferDimCounts)
 //	Execute filtering image data
 //	if process fails, it returns false
 {

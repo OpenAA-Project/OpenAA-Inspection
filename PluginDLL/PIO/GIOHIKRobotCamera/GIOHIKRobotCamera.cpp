@@ -155,27 +155,27 @@ DEFFUNCEX bool	DLL_CheckCopyright(QString &CopyrightString)
 }
 
 
-int _cdecl  AIP_IO_GetIOBoardNumb(void)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOBoardNumb(void)
 {
 	return(1);
 }
 
-int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	return 1;
 }
 
-int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	return 1;
 }
 
-bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
+DEFFUNCEX	bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 {
 	return(true);
 }
 
-PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+DEFFUNCEX	PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	GIOHIKRobotCamera *GIO = new GIOHIKRobotCamera(Base);
 	GIO->DeviceNo =boardNumber;
@@ -183,7 +183,7 @@ PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *na
 	return(GIO);
 }
 
-BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
+DEFFUNCEX	BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
 {
 	GIOHIKRobotCamera *Handle = dynamic_cast<GIOHIKRobotCamera *>(handle);
 	if(Handle!=NULL){
@@ -204,7 +204,7 @@ BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIn
 	return 0;
 }
 
-BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
+DEFFUNCEX	BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	GIOHIKRobotCamera *Handle = dynamic_cast<GIOHIKRobotCamera *>(handle);
 	if(Handle!=NULL){
@@ -225,7 +225,7 @@ BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byte
 	return 0;
 }
 
-BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data)
+DEFFUNCEX	BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data)
 {
 	GIOHIKRobotCamera *Handle = dynamic_cast<GIOHIKRobotCamera *>(handle);
 	if(Handle!=NULL){
@@ -247,12 +247,12 @@ BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byte
 	return 0;
 }
 
-bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
 {
 	return true;
 }
 
-bool  _cdecl AIP_IO_Release(void)
+DEFFUNCEX	bool  _cdecl AIP_IO_Release(void)
 {	
 	return(true);
 }

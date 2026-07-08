@@ -50,12 +50,12 @@ DEFFUNCEX bool	DLL_CheckCopyright(QString &CopyrightString)
 }
 
 
-int _cdecl  AIP_IO_GetIOBoardNumb(void)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOBoardNumb(void)
 {
 	return(1);
 }
 
-int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	PIOAdapter	*PIO=(PIOAdapter *)handle;
 	if(PIO==NULL)
@@ -63,7 +63,7 @@ int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
 	return PIO->GetBitCountIn();
 }
 
-int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	PIOAdapter	*PIO=(PIOAdapter *)handle;
 	if(PIO==NULL)
@@ -71,12 +71,12 @@ int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 	return PIO->GetBitCountOut();
 }
 
-bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
+DEFFUNCEX	bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 {
 	return(true);
 }
 
-PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+DEFFUNCEX	PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	QStringList	List=Something.split(QChar(','));
 
@@ -106,14 +106,14 @@ PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *na
 	return(PIO);
 }
 
-BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
+DEFFUNCEX	BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
 {
 	PIOAdapter	*PIO=(PIOAdapter	*)handle;
 	if(PIO!=NULL && PIO->GetBitData(bitIndex)!=0)
 		return 1;
 	return 0;
 }
-void  _cdecl AIP_IO_SetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex ,BYTE data)
+DEFFUNCEX	void  _cdecl AIP_IO_SetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex ,BYTE data)
 {
 	PIOAdapter	*PIO=(PIOAdapter	*)handle;
 	if(PIO!=NULL){
@@ -121,7 +121,7 @@ void  _cdecl AIP_IO_SetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIn
 	}
 }
 
-int  _cdecl AIP_IO_GetOutBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
+DEFFUNCEX	int  _cdecl AIP_IO_GetOutBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
 {
 	PIOAdapter	*PIO=(PIOAdapter	*)handle;
 	if(PIO!=NULL && PIO->GetBitOutData(bitIndex)!=0)
@@ -129,7 +129,7 @@ int  _cdecl AIP_IO_GetOutBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bit
 	return 0;
 }
 
-bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
 {
 	PIOAdapter	*PIO=(PIOAdapter	*)handle;
 	delete	PIO;
@@ -138,7 +138,7 @@ bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
 	return(true);
 }
 
-bool  _cdecl AIP_IO_Release(void)
+DEFFUNCEX	bool  _cdecl AIP_IO_Release(void)
 {
 	return(true);
 }

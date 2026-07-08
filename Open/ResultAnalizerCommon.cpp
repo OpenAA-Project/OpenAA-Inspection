@@ -26,7 +26,7 @@ const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
 	return NULL;
 }
-WORD	DLL_GetDLLType(void)
+DEFFUNCEX	WORD	DLL_GetDLLType(void)
 //	return	DLL type for FilterDLL
 {
 	return(DLLResultAnalizerMode);

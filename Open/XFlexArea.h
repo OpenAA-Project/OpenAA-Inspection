@@ -413,6 +413,7 @@ class  FlexArea : public FlexAreaBasePure
 	void		SetFLineFromDirty(struct FlexLine *Src, int SrcLen);
 	bool		ChopRect(PureFlexAreaListContainer &Piece ,int ChopSize);
 	bool		ChopRect(PureFlexAreaListContainer &Piece ,int ChopSize ,int OverlapSize);
+    bool	    ChopRectXY(PureFlexAreaListContainer &Piece ,int ChopSizeX,int ChopSizeY);
 	void		Clusterize(PureFlexAreaListContainer &Piece);
 
     FlexArea    &operator=(const FlexArea &src);

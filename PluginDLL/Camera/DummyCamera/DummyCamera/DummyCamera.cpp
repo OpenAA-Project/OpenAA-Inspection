@@ -33,26 +33,26 @@ public:
 };
 
 
-WORD	DLL_GetDLLType(void)
+DEFFUNCEX	WORD	DLL_GetDLLType(void)
 //	return	DLL type for CameraDLL
 {
 	return(DLLCameraMode);
 }
 
-bool		_cdecl	DLL_GetName(QString &str)
+DEFFUNCEX	bool		_cdecl	DLL_GetName(QString &str)
 //	return DLL-Name. 
 {
 	str="Dummy Camera";
 	return(true);
 }
 
-WORD		_cdecl	DLL_GetVersion(void)
+DEFFUNCEX	WORD		_cdecl	DLL_GetVersion(void)
 //	return Camera DLL version
 {
 	return(1);
 }
 
-CameraHandle		*_cdecl	DLL_Initial(int CameraNoInThisComputer ,LayersBase *base,CameraReqInfo &CamInfo,const QString &CameraParameter)
+DEFFUNCEX	CameraHandle		*_cdecl	DLL_Initial(int CameraNoInThisComputer ,LayersBase *base,CameraReqInfo &CamInfo,const QString &CameraParameter)
 //	Initialize Camera DLL. 
 //		This function must create and open handle. 
 //	return:		Camera handle(memory block)
@@ -62,7 +62,7 @@ CameraHandle		*_cdecl	DLL_Initial(int CameraNoInThisComputer ,LayersBase *base,C
 	return(I);
 }
 
-bool		_cdecl	DLL_Close(CameraHandle *handle)
+DEFFUNCEX	bool		_cdecl	DLL_Close(CameraHandle *handle)
 //	Release handle and close DLL
 //	if process fails, it returns false
 {
@@ -70,7 +70,7 @@ bool		_cdecl	DLL_Close(CameraHandle *handle)
 	return(true);
 }
 
-bool		_cdecl	DLL_Load(CameraHandle *handle ,QIODevice &str)
+DEFFUNCEX	bool		_cdecl	DLL_Load(CameraHandle *handle ,QIODevice &str)
 //	Load camera attribution(setting) information of handle
 //	This function must load information from stream
 //	if process fails, it returns false
@@ -78,7 +78,7 @@ bool		_cdecl	DLL_Load(CameraHandle *handle ,QIODevice &str)
 	return(true);
 }
 
-bool		_cdecl	DLL_Save(CameraHandle *handle ,QIODevice &str)
+DEFFUNCEX	bool		_cdecl	DLL_Save(CameraHandle *handle ,QIODevice &str)
 //	Save camera attribution(setting) information of handle
 //	This function must save information to stream
 //	if process fails, it returns false
@@ -86,14 +86,14 @@ bool		_cdecl	DLL_Save(CameraHandle *handle ,QIODevice &str)
 	return(true);
 }
 
-bool		_cdecl	DLL_ShowSetting(CameraHandle *handle, QWidget *parent)
+DEFFUNCEX	bool		_cdecl	DLL_ShowSetting(CameraHandle *handle, QWidget *parent)
 //	This function shows dialog to set camera(handle) information
 //	if dialog can't be shown, it returns false
 {
 	return(true);
 }
 
-bool		_cdecl	DLL_PrepareCapture(CameraHandle *handle,CameraScanInfo *Info)
+DEFFUNCEX	bool		_cdecl	DLL_PrepareCapture(CameraHandle *handle,CameraScanInfo *Info)
 //	prepare to capture
 //	This function must return soon
 //	if process fails, it returns false
@@ -101,7 +101,7 @@ bool		_cdecl	DLL_PrepareCapture(CameraHandle *handle,CameraScanInfo *Info)
 	return(true);
 }
 
-bool		_cdecl	DLL_StartCapture(CameraHandle *handle,CameraScanInfo *Info)
+DEFFUNCEX	bool		_cdecl	DLL_StartCapture(CameraHandle *handle,CameraScanInfo *Info)
 //	Start capruting. 
 //	This function must return soon
 //	if process fails, it returns false
@@ -109,7 +109,7 @@ bool		_cdecl	DLL_StartCapture(CameraHandle *handle,CameraScanInfo *Info)
 	return(true);
 }
 
-bool		_cdecl	DLL_HaltCapture(CameraHandle *handle)
+DEFFUNCEX	bool		_cdecl	DLL_HaltCapture(CameraHandle *handle)
 //	Halt to capture
 //	This function must return soon
 //	if process fails, it returns false
@@ -117,7 +117,7 @@ bool		_cdecl	DLL_HaltCapture(CameraHandle *handle)
 	return(true);
 }
 
-int			_cdecl	DLL_GetStatus(CameraHandle *handle,CameraScanInfo *Info)
+DEFFUNCEX	int			_cdecl	DLL_GetStatus(CameraHandle *handle,CameraScanInfo *Info)
 //	Return camera status
 //		return :	Bit0		1:Preparing for capturing
 //					Bit1		1:Waiting for Frame(Line) trigger
@@ -128,14 +128,15 @@ int			_cdecl	DLL_GetStatus(CameraHandle *handle,CameraScanInfo *Info)
 	return(1);	//Wait
 }
 
-bool		_cdecl	DLL_ClearError(CameraHandle *handle)
+DEFFUNCEX	bool		_cdecl	DLL_ClearError(CameraHandle *handle)
 //	Clear error bit
 //	This function must return soon
 //	if process fails, it returns false
 {
 	return(true);
 }
-bool		_cdecl	DLL_GetImage(CameraHandle *handle ,ImageBuffer *Buff[],int BufferDimCounts,CameraScanInfo *Info)
+
+DEFFUNCEX	bool		_cdecl	DLL_GetImage(CameraHandle *handle ,ImageBuffer *Buff[],int BufferDimCounts,CameraScanInfo *Info)
 //	Transmit image data to Image buffer
 //	if process fails, it returns false
 {

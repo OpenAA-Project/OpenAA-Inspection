@@ -5689,8 +5689,8 @@ void	LayersBase::TestLoadDLL(const QString &FileName)
 		if(GetParamGlobal()->ModeToShowLoadingDLLWindow==true){
 			InstShowLoadingDLLForm->show();
 		}
-		QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
-		//InstShowLoadingDLLForm->update();
+		//QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
+		InstShowLoadingDLLForm->update();
 	}
 }
 void	LayersBase::InformToLoadDLL(const QString &FileName)

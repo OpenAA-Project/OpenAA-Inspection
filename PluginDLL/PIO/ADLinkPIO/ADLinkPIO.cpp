@@ -16,8 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
-
 #include "windows.h"
 #include "AIP_IO.h"
 #include "math.h"
@@ -32,25 +30,25 @@
 //static	I16	CardID;
 static	U32 OutData;
 
-IO_DLLFUNC WORD	DLL_GetDLLType(void)
+DEFFUNCEX	 WORD	DLL_GetDLLType(void)
 {
 	return(DLLPIOMode);
 }
 
-IO_DLLFUNC bool	DLL_GetName(QString &str)
+DEFFUNCEX	 bool	DLL_GetName(QString &str)
 {
 	str="ADLink PCI-7230";
 	return true;
 }
-IO_DLLFUNC const char	*DLL_GetExplain(void)
+DEFFUNCEX	 const char	*DLL_GetExplain(void)
 {
 	return "ADLink PCI-7230";
 }
-IO_DLLFUNC WORD	DLL_GetVersion(void)
+DEFFUNCEX	 WORD	DLL_GetVersion(void)
 {
 	return 1;
 }
-IO_DLLFUNC bool	DLL_CheckCopyright(QString &CopyrightString)
+DEFFUNCEX	 bool	DLL_CheckCopyright(QString &CopyrightString)
 {
 	CopyrightString="MEGATRADE (C) 2011";
 	return true;
@@ -62,27 +60,27 @@ public:
 	I16	CardID;
 };
 
-int _cdecl  AIP_IO_GetIOBoardNumb(void)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOBoardNumb(void)
 {
 	return(1);
 }
 
-int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	return 16;
 }
 
-int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	return 16;
 }
 
-bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
+DEFFUNCEX	bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 {
 	return(true);
 }
 
-PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+DEFFUNCEX	PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	bool	ok;
 	int	num=Something.toInt(&ok);
@@ -95,7 +93,7 @@ PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *na
 	return((void *)Handle);
 }
 
-BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
+DEFFUNCEX	BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
 {
 	PIOHandle	*Handle=(PIOHandle	*)handle;
 	U32 InData;
@@ -106,7 +104,7 @@ BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIn
 	return 0;
 }
 
-BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
+DEFFUNCEX	BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	PIOHandle	*Handle=(PIOHandle	*)handle;
 	U32 InData;
@@ -115,7 +113,7 @@ BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byte
 	return ((BYTE *)&InData)[byteIndex];
 }
 
-BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data)
+DEFFUNCEX	BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data)
 {
 	PIOHandle	*Handle=(PIOHandle	*)handle;
 	long Ret;
@@ -125,7 +123,7 @@ BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byte
 	return(data);
 }
 
-int  _cdecl AIP_IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
+DEFFUNCEX	int  _cdecl AIP_IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	PIOHandle	*Handle=(PIOHandle	*)handle;
 	U32 InData;
@@ -134,7 +132,7 @@ int  _cdecl AIP_IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE by
 	return ((BYTE *)&InData)[byteIndex];
 }
 
-bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
 {
 	PIOHandle	*Handle=(PIOHandle	*)handle;
 	I16 Release_Card (Handle->CardID);
@@ -142,7 +140,7 @@ bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
 	return(true);
 }
 
-bool  _cdecl AIP_IO_Release(void)
+DEFFUNCEX	bool  _cdecl AIP_IO_Release(void)
 {	
 
 	return(true);

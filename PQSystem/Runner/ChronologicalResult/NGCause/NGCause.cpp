@@ -24,47 +24,47 @@ const	char	*sRoot=/**/"ChronologicalResult";
 const	char	*sName=/**/"NGCause";
 
 
-bool	DLL_GetName(QString &Root ,QString &Name)
+DEFFUNCEX	bool	DLL_GetName(QString &Root ,QString &Name)
 {
 	Root=sRoot;
 	Name=sName;
 	return true;
 }
 
-WORD	DLL_GetDLLType(void)
+DEFFUNCEX	WORD	DLL_GetDLLType(void)
 {
 	return DLLPQSystemRunner;
 }
-WORD	DLL_GetVersion(void)
+DEFFUNCEX	WORD	DLL_GetVersion(void)
 {
 	return 1;
 }
 
-const const char	*DLL_GetExplain(void)
+DEFFUNCEX	const const char	*DLL_GetExplain(void)
 {
 	return /**/"Chronological Result - NGCause";
 }
 
-void	DLL_SetLanguage		 (LanguagePackage &Pkg ,int LanguageCode)
+DEFFUNCEX	void	DLL_SetLanguage		 (LanguagePackage &Pkg ,int LanguageCode)
 {
 	//LangSolver.SetLanguage(Pkg,LanguageCode);
 }
 
-bool	DLL_CheckCopyright(QString &CopyrightString)
+DEFFUNCEX	bool	DLL_CheckCopyright(QString &CopyrightString)
 {
 	CopyrightString="Copyright(c) MEGATRADE 2021.10";
 	return true;
 }
 
-PQSystemRunner	*DLL_CreateRunner(LayersBase *Base)
+DEFFUNCEX	PQSystemRunner	*DLL_CreateRunner(LayersBase *Base)
 {
 	return new NGCauseForm(Base,sRoot,sName);
 }
-void	DLL_CloseRunner(PQSystemRunner *handle)
+DEFFUNCEX	void	DLL_CloseRunner(PQSystemRunner *handle)
 {
 	delete	handle;
 }
-void	DLL_InitialQt(QApplication *AppBase)
+DEFFUNCEX	void	DLL_InitialQt(QApplication *AppBase)
 {
 	static	bool	Done=false;
 	if(qApp==NULL){

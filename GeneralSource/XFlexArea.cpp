@@ -5356,6 +5356,118 @@ bool	FlexArea::ChopRect(PureFlexAreaListContainer &Piece ,int ChopSize)
 }
 
 
+bool	FlexArea::ChopRectXY(PureFlexAreaListContainer &Piece ,int ChopSizeX,int ChopSizeY)
+{
+	if(ChopSizeX<=0 || ChopSizeY<=0){
+		return false;
+	}
+	int	XNumb=(GetWidth ()+ChopSizeX-1)/ChopSizeX;
+	int	YNumb=(GetHeight()+ChopSizeY-1)/ChopSizeY;
+
+	FlexLineStack	**PDim=new FlexLineStack*[YNumb];
+	for(int y=0;y<YNumb;y++){
+		PDim[y]=new FlexLineStack[XNumb];
+	}
+	int	X1=GetMinX();
+	int	Y1=GetMinY();
+
+	for(int i=0;i<GetFLineLen();i++){
+		int x1=GetFLineLeftX(i);
+		int x2=GetFLineRightX(i);
+		int y =GetFLineAbsY(i);
+		int	yn=(y-Y1)/ChopSizeY;
+		int	x1n=(x1-X1)/ChopSizeX;
+		int	x2n=(x2-X1)/ChopSizeX;
+		int	px1,px2;
+		if(0<=yn && yn<YNumb){
+			if(x1n<0){
+				x1n=0;
+			}
+			if(x1n>=XNumb){
+				x1n=XNumb-1;
+			}
+			if(x2n<0){
+				x2n=0;
+			}
+			if(x2n>=XNumb){
+				x2n=XNumb-1;
+			}
+
+			for(int xn=x1n;xn<=x2n && xn<XNumb;xn++){
+				if(xn==x1n){
+					px1=x1;
+				}
+				else{
+					px1=xn*ChopSizeX+X1;
+				}
+				if(xn==x2n){
+					px2=x2;
+				}
+				else{
+					px2=(xn+1)*ChopSizeX+X1;
+				}
+				PDim[yn][xn].Push(px1,px2,y);
+			}
+		}
+	}
+	if(YNumb*XNumb>200){
+		int	n=YNumb*XNumb;
+		XYClass	*xy=new XYClass[n];
+		int	t=0;
+		for(int yn=0;yn<YNumb;yn++){
+			for(int xn=0;xn<XNumb;xn++){
+				xy[t].x=xn;
+				xy[t].y=yn;
+				t++;
+			}
+		}
+
+		//Inpossible for OpenMP
+		#pragma omp parallel
+		{
+			#pragma omp for
+			for(int i=0;i<n;i++){
+				int xn=xy[i].x;
+				int yn=xy[i].y;
+				if(PDim[yn][xn].Len>0){
+					FlexArea	p;
+					p.SetFLine(PDim[yn][xn].Data ,PDim[yn][xn].Len);
+					PDim[yn][xn].Data=NULL;
+					p.Regulate();
+
+					PureFlexAreaListContainer Slices;
+					p.Clusterize(Slices);
+					#pragma omp critical
+					{
+						Piece.AddMove(Slices);
+					}
+				}
+			}
+		}
+		delete	[]xy;
+	}
+	else{
+		for(int yn=0;yn<YNumb;yn++){
+			for(int xn=0;xn<XNumb;xn++){
+				if(PDim[yn][xn].Len>0){
+					FlexArea	p;
+					p.SetFLine(PDim[yn][xn].Data ,PDim[yn][xn].Len);
+					PDim[yn][xn].Data=NULL;
+					p.Regulate();
+					PureFlexAreaListContainer Slices;
+					p.Clusterize(Slices);
+					Piece.AddMove(Slices);
+				}
+			}
+		}
+	}
+	for(int y=0;y<YNumb;y++){
+		delete	[]PDim[y];
+	}
+	delete	[]PDim;
+	return true;
+}
+
 bool	FlexArea::ChopRect(PureFlexAreaListContainer &Piece,int ChopSize,int OverlapSize)
 {
 	int	SlideLen=ChopSize-OverlapSize;

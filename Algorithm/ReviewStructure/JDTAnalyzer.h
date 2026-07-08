@@ -668,6 +668,17 @@ public:
 				}
 			}
 		}
+		for(int i=0; i<m_JDTList.count(); i++){
+			if(m_JDTList[i].top()<=top && m_JDTList[i].left()<=left
+			&& top<=m_JDTList[i].bottom() && left<=m_JDTList[i].right()){
+				if(m_JDTList[i].phase()!=-1 && m_JDTList[i].phase()!=phase){
+					continue;
+				}else{
+					ret = m_JDTList[i].image();
+					break;
+				}
+			}
+		}
 		return ret;
 	};
 	QString filename() const { return m_Filename; };

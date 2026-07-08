@@ -253,9 +253,23 @@ int main(int argc, char *argv[])
 	if(Layers->GetStatusController()!=NULL){
 		Layers->GetStatusController()->LoadDef();
 	}
+	GUIInstancePack	*GPack=G->GetGUIInstanceRoot();
+	RootNameListContainer	GUIRootNameList;
+	QFile	GGfile(GUIFileName);
+	if(GGfile.open(QIODevice::ReadOnly)==true){
+		Layers->SetGUIFileName(GUIFileName);
+		GPack->CloseAll();
+		QString ErrorMsg;
+		if(GPack->LoadInstances(&GGfile,false,ErrorMsg)==false){
+			QMessageBox::critical ( NULL, /**/"Loading Error", ErrorMsg, QMessageBox::Ok);
+			return(3);
+		}
+		GPack->GetEntryGUI(GUIRootNameList);
+	}
+
 	DWORD	ErrorCode=0;
 	QString	ErrorMsg;
-	if(G->Initial(Layers,ErrorCode ,ErrorMsg,false)==false || ErrorCode!=0){
+	if(G->Initial(Layers,ErrorCode ,ErrorMsg,false,&GUIRootNameList)==false || ErrorCode!=0){
 		QString  msg=QString(/**/"GUI Error: ")
 			+QString::number(ErrorCode);
 		QMessageBox Q(ErrorMsg
@@ -349,7 +363,7 @@ int main(int argc, char *argv[])
 		Layers->SetGUIFileName(GUIFileName);
 		G->GetGUIInstanceRoot()->CloseAll();
 		QString ErrorMsg;
-		if(G->GetGUIInstanceRoot()->LoadInstances(&file,ErrorMsg)==false){
+		if(G->GetGUIInstanceRoot()->LoadInstances(&file,true,ErrorMsg)==false){
 			QMessageBox::critical ( NULL, /**/"Loading Error", ErrorMsg, QMessageBox::Ok);
 			return(3);
 		}

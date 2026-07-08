@@ -651,20 +651,20 @@ void	CameraXtiumLinearHSMono::ExecuteInitialAfterEdit	(int ExeID ,LayersBase *ba
 /* ////////////////////////////////////////////////////////////////////////////////////////////////
  DLL FUNCTIONS
 //////////////////////////////////////////////////////////////////////////////////////////////// */
-WORD DLL_GetDLLType(void)
+DEFFUNCEX	WORD DLL_GetDLLType(void)
 //	return	DLL type for CameraDLL
 {
 	return(DLLCameraMode);
 }
 
-bool cdecl	DLL_GetName(QString &str)
+DEFFUNCEX	bool cdecl	DLL_GetName(QString &str)
 //	return DLL-Name. 
 {
 	str=/**/"Linear Color and Monochrome by FX8";
 	return(true);
 }
 
-WORD _cdecl	DLL_GetVersion(void)
+DEFFUNCEX	WORD _cdecl	DLL_GetVersion(void)
 //	return Camera DLL version
 {
 	return(1);
@@ -682,7 +682,7 @@ extern int cameraCallbackCount;
 
 CameraXtiumLinearHSColorMonoLineTrigger		*GlobalPx=NULL;
 
-CameraHandle *_cdecl	DLL_Initial(int CameraNoInThisComputer ,LayersBase *base,CameraReqInfo &CamInfo,const QString &CameraParameter)
+DEFFUNCEX	CameraHandle *_cdecl	DLL_Initial(int CameraNoInThisComputer ,LayersBase *base,CameraReqInfo &CamInfo,const QString &CameraParameter)
 //	Initialize Camera DLL. 
 //		This function must create and open handle. 
 //	return:		Camera handle(memory block)
@@ -711,7 +711,7 @@ CameraHandle *_cdecl	DLL_Initial(int CameraNoInThisComputer ,LayersBase *base,Ca
 /*
    make
    */
-bool _cdecl	DLL_Close(CameraHandle *handle)
+DEFFUNCEX	bool _cdecl	DLL_Close(CameraHandle *handle)
 //	Release handle and close DLL
 //	if process fails, it returns false
 {
@@ -724,7 +724,7 @@ bool _cdecl	DLL_Close(CameraHandle *handle)
 	return(true);
 }
 
-bool _cdecl	DLL_Load(CameraHandle *handle ,QIODevice &str)
+DEFFUNCEX	bool _cdecl	DLL_Load(CameraHandle *handle ,QIODevice &str)
 //	Load camera attribution(setting) information of handle
 //	This function must load information from stream
 //	if process fails, it returns false
@@ -739,7 +739,7 @@ bool _cdecl	DLL_Load(CameraHandle *handle ,QIODevice &str)
 	return Ret;
 }
 
-bool _cdecl	DLL_Save(CameraHandle *handle ,QIODevice &str)
+DEFFUNCEX	bool _cdecl	DLL_Save(CameraHandle *handle ,QIODevice &str)
 //	Save camera attribution(setting) information of handle
 //	This function must save information to stream
 //	if process fails, it returns false
@@ -765,7 +765,7 @@ DEFFUNCEX	bool	_cdecl	DLL_ChangeInfo(CameraHandle *handle ,CameraReqInfo &caminf
 }
 
 
-bool _cdecl	DLL_ShowSetting(CameraHandle *handle, QWidget *parent)
+DEFFUNCEX	bool _cdecl	DLL_ShowSetting(CameraHandle *handle, QWidget *parent)
 //	This function shows dialog to set camera(handle) information
 //	if dialog can't be shown, it returns false
 {
@@ -776,14 +776,14 @@ bool _cdecl	DLL_ShowSetting(CameraHandle *handle, QWidget *parent)
 	return(true);
 }
 
-bool	_cdecl	DLL_SetQuickProperty(CameraHandle *handle,CameraQuickProperty Attr, double RelativeValue)
+DEFFUNCEX	bool	_cdecl	DLL_SetQuickProperty(CameraHandle *handle,CameraQuickProperty Attr, double RelativeValue)
 {
 	CameraXtiumLinearHS		*Px=(CameraXtiumLinearHS *)handle;
 	return Px->SetQuickProperty(Attr, RelativeValue);
 }
 
 
-bool _cdecl	DLL_PrepareCapture(CameraHandle *handle,CameraScanInfo *Info)
+DEFFUNCEX	bool _cdecl	DLL_PrepareCapture(CameraHandle *handle,CameraScanInfo *Info)
 //	prepare to capture
 //	This function must return soon
 //	if process fails, it returns false
@@ -792,7 +792,7 @@ bool _cdecl	DLL_PrepareCapture(CameraHandle *handle,CameraScanInfo *Info)
 	return  Px->PrepareCapture();
 }
 
-bool _cdecl	DLL_StartCapture(CameraHandle *handle, CameraScanInfo *Info)
+DEFFUNCEX	bool _cdecl	DLL_StartCapture(CameraHandle *handle, CameraScanInfo *Info)
 //	Start capruting. 
 //	This function must return soon
 //	if process fails, it returns false
@@ -801,7 +801,7 @@ bool _cdecl	DLL_StartCapture(CameraHandle *handle, CameraScanInfo *Info)
 	return Px->StartCapture();
 }
 
-bool _cdecl	DLL_SetAutoRepeat(CameraHandle *handle ,bool RepeatON)
+DEFFUNCEX	bool _cdecl	DLL_SetAutoRepeat(CameraHandle *handle ,bool RepeatON)
 {
 	CameraXtiumLinearHS		*Px=(CameraXtiumLinearHS *)handle;
 	Px->SetAutoRepeat(RepeatON);
@@ -811,7 +811,7 @@ bool _cdecl	DLL_SetAutoRepeat(CameraHandle *handle ,bool RepeatON)
    make
    �����炭���̂܂�
    */
-bool _cdecl	DLL_HaltCapture(CameraHandle *handle)
+DEFFUNCEX	bool _cdecl	DLL_HaltCapture(CameraHandle *handle)
 //	Halt to capture
 //	This function must return soon
 //	if process fails, it returns false
@@ -835,7 +835,7 @@ DEFFUNCEX	int _cdecl	DLL_GetStatus(CameraHandle *handle,CameraScanInfo *Info)
 	return Ret;
 }
 
-bool _cdecl	DLL_ClearError(CameraHandle *handle)
+DEFFUNCEX	bool _cdecl	DLL_ClearError(CameraHandle *handle)
 //	Clear error bit
 //	This function must return soon
 //	if process fails, it returns false
@@ -843,7 +843,7 @@ bool _cdecl	DLL_ClearError(CameraHandle *handle)
 	return(true);
 }
 
-bool _cdecl	DLL_GetImageTR(CameraHandle *handle ,ImageBuffer *Buff[],ImageBuffer *TRBuff[],int BufferDimCounts,CameraScanInfo *Info)
+DEFFUNCEX	bool _cdecl	DLL_GetImageTR(CameraHandle *handle ,ImageBuffer *Buff[],ImageBuffer *TRBuff[],int BufferDimCounts,CameraScanInfo *Info)
 //	Transmit image data to Image buffer
 //	if process fails, it returns false
 {

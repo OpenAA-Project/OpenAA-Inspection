@@ -17,9 +17,6 @@
  */
 
 
-
-
-
 #include "AIP_IO.h"
 #include <QStringList>
 #include <QWidget>
@@ -232,12 +229,12 @@ DEFFUNCEX bool	DLL_CheckCopyright(QString &CopyrightString)
 }
 
 
-int _cdecl  AIP_IO_GetIOBoardNumb(void)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOBoardNumb(void)
 {
 	return(1);
 }
 
-int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	NetworkPIOClient	*PIO=(NetworkPIOClient	*)handle;
 	if(handle!=NULL && PIO!=NULL){
@@ -246,7 +243,7 @@ int _cdecl  AIP_IO_GetIOInBitCount(PIODLLBaseClass *handle ,int boardNumber)
 	return 0;
 }
 
-int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 {
 	NetworkPIOClient	*PIO=(NetworkPIOClient	*)handle;
 	if(handle!=NULL && PIO!=NULL){
@@ -256,31 +253,31 @@ int _cdecl  AIP_IO_GetIOOutBitCount(PIODLLBaseClass *handle ,int boardNumber)
 
 }
 
-bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
+DEFFUNCEX	bool  _cdecl AIP_IO_Initial(const QStringList &NameList)
 {
 	return(true);
 }
 
-PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
+DEFFUNCEX	PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber , char *name ,int maxbuffsize,const QString &Something)
 {
 	NetworkPIOClient	*PIO=new NetworkPIOClient(Base->GetMainWidget());
 	PIO->Initial(Something);
 	return(PIO);
 }
 
-BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
+DEFFUNCEX	BYTE  _cdecl AIP_IO_GetBit(PIODLLBaseClass *handle ,int boardNumber , BYTE bitIndex)
 {
 	NetworkPIOClient	*PIO=(NetworkPIOClient	*)handle;
 	return PIO->InBit(bitIndex);
 }
 
-BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
+DEFFUNCEX	BYTE  _cdecl AIP_IO_GetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	NetworkPIOClient	*PIO=(NetworkPIOClient	*)handle;
 	return PIO->InByte(byteIndex);
 }
 
-BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data)
+DEFFUNCEX	BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex , BYTE data)
 {
 	NetworkPIOClient	*PIO=(NetworkPIOClient	*)handle;
 	PIO->OutByte(byteIndex,data);
@@ -288,13 +285,13 @@ BYTE  _cdecl AIP_IO_SetByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byte
 	return(data);
 }
 
-int  _cdecl AIP_IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
+DEFFUNCEX	int  _cdecl AIP_IO_GetOutByte(PIODLLBaseClass *handle ,int boardNumber , BYTE byteIndex)
 {
 	NetworkPIOClient	*PIO=(NetworkPIOClient	*)handle;
 	return PIO->GetOutByte(byteIndex);
 }
 
-bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
 {
 	NetworkPIOClient	*PIO=(NetworkPIOClient	*)handle;
 	delete	PIO;
@@ -302,7 +299,7 @@ bool  _cdecl AIP_IO_Close(PIODLLBaseClass *handle ,int boardNumber)
 	return(true);
 }
 
-bool  _cdecl AIP_IO_Release(void)
+DEFFUNCEX	bool  _cdecl AIP_IO_Release(void)
 {
 	return(true);
 }
@@ -310,7 +307,7 @@ bool  _cdecl AIP_IO_Release(void)
 DWORD	DiffTimeDim[10000];
 int		DiffCounter=0;
 
-void  _cdecl AIP_IO_LoopOnIdle(PIODLLBaseClass *handle ,int boardNumber)
+DEFFUNCEX	void  _cdecl AIP_IO_LoopOnIdle(PIODLLBaseClass *handle ,int boardNumber)
 {
 	DWORD	CurrentTime=::GetComputerMiliSec();
 	DiffTimeDim[DiffCounter]=CurrentTime-StartOutTime;
