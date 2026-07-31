@@ -236,7 +236,9 @@ public:
 	PreciseColor	MasterColor;
 	PreciseColor	TargetColor;
 	ColorDifferenceRegulation	*Reference1;
+	int				Reference1ItemID;		
 	ColorDifferenceRegulation	*Reference2;
+	int				Reference2ItemID;
 	PreciseColor	ReferedCurrentColor;
 	double			ResultDeltaE;
 	double			ResultDense;
@@ -288,7 +290,7 @@ public:
 
 	void	AddSampleColor(bool OK);
 
-	void	MakeIndependentItems(AlgorithmItemIndependent *AInd,int LocalX ,int LocalY);
+	virtual	void	MakeIndependentItems(AlgorithmItemIndependent *AInd,int LocalX ,int LocalY)	override;
 
 	void	SetStatisticThreshold(double SigmaH ,double SigmaS ,double SigmaV);
 	virtual	void	SetIndependentItemData(int32 Command,int32 LocalPage,int32 Layer
@@ -299,6 +301,8 @@ public:
 
 	void	AddManualDeltaE(double ManualDeltaE);
 	void	AddManualDense(double ManualDense);
+
+	void	AllocateReference(void);
 
 private:
 	void	CalcFlowCenterColor(void);
@@ -318,6 +322,8 @@ public:
 	PreciseColor	TargetColor;
 
 	ColorDifferenceRegulation(void);
+	~ColorDifferenceRegulation(void);
+
 	virtual	AlgorithmItemRoot	*Clone(void)	override	{	return new ColorDifferenceRegulation();	}
 	virtual	int32		GetItemClassType(void)		override{		return 1;		}
 
@@ -399,6 +405,8 @@ public:
 
 	void	MakeBlocks(ColorDifferenceLibrary &Lib ,ImagePointerContainer &Images);
 
+	virtual	bool    Load(QIODevice *f)	override;
+	void	RemoveReference(ColorDifferenceRegulation *Item);
 private:
 
 };
@@ -1093,5 +1101,14 @@ public:
 
 	CmdSetColorDifferenceManualDense(LayersBase *base):GUIDirectMessage(base){}
 	CmdSetColorDifferenceManualDense(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
+
+class	CmdSetRegulation: public GUIDirectMessage
+{
+public:
+	int	RegulationNo;
+
+	CmdSetRegulation(LayersBase *base):GUIDirectMessage(base){}
+	CmdSetRegulation(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 #endif

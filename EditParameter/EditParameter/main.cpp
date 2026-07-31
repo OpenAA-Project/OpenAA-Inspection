@@ -27,7 +27,9 @@
 #include "XDataInExe.h"
 #include "XGUI.h"
 #include <QMessageBox>
+#include <QSqlDatabase>
 #include "XOpenAA.h"
+#include <windows.h> // Windows API—p
 
 //#include "itemlistwindow.h"
 
@@ -171,6 +173,8 @@ int main(int argc, char *argv[])
 	if(CloseAfterSave==true){
 		return 0;
 	}
+
+	QStringList	SqlDatabaseList=QSqlDatabase::drivers();
 
     return a.exec();
 }

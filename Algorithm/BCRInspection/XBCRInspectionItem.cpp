@@ -362,20 +362,28 @@ bool	BCRInspectionItem::Calc1D(ImagePointerContainer &ImageList)
 						,/**/"TmpBCR.bmp",Result);
 
 		if(Result.isEmpty()==true && GetLayerNumb()>1){
-			for(int L=0;L<GetLayerNumb();L++){
-				QImage	Img(W*ZoomRate,H*ZoomRate,QImage::Format_RGB32);
-				MakeImage(Img,ZoomRate,1,L,ImageList);
-				Img.save(/**/"TmpBCRR.bmp",/**/"BMP");
+
+			for(int Threshold=20;Threshold<=220;Threshold+=10){
 				ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
-								,/**/"TmpBCRR.bmp",Result);
+								,/**/"TmpBCR.bmp",Result
+								,Threshold);
 				if(Result.isEmpty()==false)
 					break;
-				RMakeImage(Img,ZoomRate,1,L,ImageList);
-				Img.save(/**/"TmpBCRR.bmp",/**/"BMP");
-				ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
-								,/**/"TmpBCRR.bmp",Result);
-				if(Result.isEmpty()==false)
-					break;
+				for(int L=0;L<GetLayerNumb();L++){
+					QImage	Img(W*ZoomRate,H*ZoomRate,QImage::Format_RGB32);
+					MakeImage(Img,ZoomRate,1,L,ImageList);
+					Img.save(/**/"TmpBCRR.bmp",/**/"BMP");
+					ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
+									,/**/"TmpBCRR.bmp",Result);
+					if(Result.isEmpty()==false)
+						break;
+					RMakeImage(Img,ZoomRate,1,L,ImageList);
+					Img.save(/**/"TmpBCRR.bmp",/**/"BMP");
+					ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
+									,/**/"TmpBCRR.bmp",Result);
+					if(Result.isEmpty()==false)
+						break;
+				}
 			}
 		}
 	}

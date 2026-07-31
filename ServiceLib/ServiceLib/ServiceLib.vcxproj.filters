@@ -1020,9 +1020,6 @@
     <ClInclude Include="..\..\Open\XColorConvert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\GeneralSource\XMatrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Open\XLineMatching.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1042,6 +1039,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Open\XHistgramByParamTemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Open\XMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

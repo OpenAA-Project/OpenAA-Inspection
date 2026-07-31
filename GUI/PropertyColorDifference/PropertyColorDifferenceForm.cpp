@@ -645,3 +645,25 @@ void	PropertyColorDifferenceForm::AutoGenerate(int LibID)
 	}
 	GetLayersBase()->WaitAllAcknowledged(60*20);
 }
+
+void PropertyColorDifferenceForm::on_pushButtonRegulation1_clicked()
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){	
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdSetRegulation	ReqCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		ReqCmd.RegulationNo=0;
+		ReqCmd.Send(NULL,GlobalPage,0);
+	}
+}
+
+
+void PropertyColorDifferenceForm::on_pushButtonRegulation2_clicked()
+{
+	for(int page=0;page<GetLayersBase()->GetPageNumb();page++){	
+		int	GlobalPage=GetLayersBase()->GetGlobalPageFromLocal(page);
+		GUICmdSetRegulation	ReqCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+		ReqCmd.RegulationNo=1;
+		ReqCmd.Send(NULL,GlobalPage,0);
+	}
+}
+

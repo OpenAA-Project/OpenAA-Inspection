@@ -2397,6 +2397,8 @@ bool	__S_CheckAndCreateBlobInMasterPageTable(const QSqlDatabase &db ,QString &Bl
 }
 QSqlDatabase	*__S_OpenDatabase(QSqlDatabase *DB)
 {
+	QString	Err;
+
 	LockDB();
 //	BYTE	*TestS1=new BYTE[100];
 //	delete	[]TestS1;				Error occurs
@@ -2407,6 +2409,7 @@ QSqlDatabase	*__S_OpenDatabase(QSqlDatabase *DB)
 
 	if(DB->isOpen()==false){
 		DB->open();
+		Err =DB->lastError().text();
 	}
 	UnlockDB();
 	return DB;

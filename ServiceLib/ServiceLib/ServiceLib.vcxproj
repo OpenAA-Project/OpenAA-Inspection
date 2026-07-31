@@ -235,7 +235,7 @@
       <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
       <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -903,7 +903,6 @@
     <ClInclude Include="..\..\GeneralSource\XDataInLayerCmdLocal.h" />
     <ClInclude Include="..\..\GeneralSource\XGUIInterfaceDLL.h" />
     <ClInclude Include="..\..\GeneralSource\XLightInterfaceDLL.h" />
-    <ClInclude Include="..\..\GeneralSource\XMatrix.h" />
     <ClInclude Include="..\..\GeneralSource\XResultInterfaceDLL.h" />
     <QtMoc Include="..\..\GeneralSource\XTransferInterface.h" />
     <ClInclude Include="..\..\GeneralSource\XShadowControlInterface.h" />
@@ -962,6 +961,7 @@
     <ClInclude Include="..\..\Open\XManualExecuter.h" />
     <ClInclude Include="..\..\Open\XMapBuffer.h" />
     <ClInclude Include="..\..\Open\XMasterData.h" />
+    <ClInclude Include="..\..\Open\XMatrix.h" />
     <ClInclude Include="..\..\Open\XMemoryStream.h" />
     <ClInclude Include="..\..\Open\XMLGeneralFunc.h" />
     <ClInclude Include="..\..\Open\XMultiLayerColor.h" />

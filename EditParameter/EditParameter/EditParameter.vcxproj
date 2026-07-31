@@ -69,6 +69,14 @@
     <Link>
       <AdditionalLibraryDirectories>..\..\EditGUI;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ServiceLib.lib;CommonGUIDLL.lib;Component.lib;DisplayImage.lib;IntegrationLib.lib;EditGUILib.lib;ServiceExecutionEditor.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <HeapReserveSize>
+      </HeapReserveSize>
+      <HeapCommitSize>
+      </HeapCommitSize>
+      <StackReserveSize>
+      </StackReserveSize>
+      <StackCommitSize>
+      </StackCommitSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">

@@ -597,6 +597,38 @@ AlgorithmItemRoot	*ColorDifferenceInPage::CreateItem(int ItemClassType)
 	return NULL;
 }
 
+bool    ColorDifferenceInPage::Load(QIODevice *f)
+{
+	if(AlgorithmInPagePITemplate<ColorDifferenceItem,ColorDifferenceBase>::Load(f)==false){
+		return false;
+	}
+	for(AlgorithmItemPI	*L=GetFirstData();L!=NULL;L=L->GetNext()){
+		ColorDifferenceItem	*B=dynamic_cast<ColorDifferenceItem *>(L);
+		if(B!=NULL){
+			B->AllocateReference();
+		}
+	}
+
+	return true;
+}
+
+void	ColorDifferenceInPage::RemoveReference(ColorDifferenceRegulation *Item)
+{
+	for(AlgorithmItemPI	*L=GetFirstData();L!=NULL;L=L->GetNext()){
+		ColorDifferenceItem	*B=dynamic_cast<ColorDifferenceItem *>(L);
+		if(B!=NULL){
+			if(B->Reference1==Item){
+				B->Reference1=NULL;
+				B->Reference1ItemID=-1;
+			}
+			if(B->Reference2==Item){
+				B->Reference2=NULL;
+				B->Reference2ItemID=-1;
+			}
+		}
+	}
+}
+
 void	ColorDifferenceInPage::UndoSetIndependentItemDataCommand(QIODevice *f)
 {
 	int	ItemID;
@@ -966,6 +998,33 @@ void	ColorDifferenceInPage::TransmitDirectly(GUIDirectMessage *packet)
 		if(Item!=NULL){
 			Item->AddManualDense(CmdSetColorDifferenceManualDenseVar->Dense);
 		}
+		return;
+	}
+	CmdSetRegulation *CmdSetRegulationVar = dynamic_cast<CmdSetRegulation *>(packet);
+	if(CmdSetRegulationVar!=NULL){
+		ColorDifferenceRegulation	*Ref=NULL;
+		for(AlgorithmItemPI	*L=GetFirstData();L!=NULL;L=L->GetNext()){
+			ColorDifferenceRegulation	*Item=dynamic_cast<ColorDifferenceRegulation *>(L);
+			if(Item!=NULL && Item->GetSelected()==true){
+				Ref=Item;
+				break;
+			}
+		}
+		if(Ref!=NULL){
+			for(AlgorithmItemPI	*L=GetFirstData();L!=NULL;L=L->GetNext()){
+				ColorDifferenceItem	*Item=dynamic_cast<ColorDifferenceItem *>(L);
+				if(Item!=NULL && Item->GetSelected()==true){
+					if(CmdSetRegulationVar->RegulationNo==0){
+						Item->Reference1=Ref;
+					}
+					else if(CmdSetRegulationVar->RegulationNo==1){
+						Item->Reference2=Ref;
+					}
+					break;
+				}
+			}
+		}
+
 		return;
 	}
 }

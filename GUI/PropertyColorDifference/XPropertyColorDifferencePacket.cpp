@@ -746,3 +746,35 @@ void	GUICmdAutoGenerate::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 	}
 	SendAck(localPage);
 }
+
+//=============================================================================================
+GUICmdSetRegulation::GUICmdSetRegulation(LayersBase *Base ,const QString &emitterRoot ,const QString &emitterName,int globalPage)
+:GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
+{
+}
+bool	GUICmdSetRegulation::Load(QIODevice *f)
+{
+	if(::Load(f,RegulationNo)==false)
+		return false;
+	return true;
+}
+
+bool	GUICmdSetRegulation::Save(QIODevice *f)
+{
+	if(::Save(f,RegulationNo)==false)
+		return false;
+	return true;
+}
+
+void	GUICmdSetRegulation::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	AlgorithmBase	*BBase=(ColorDifferenceBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"ColorDifference");
+	if(BBase!=NULL){
+		AlgorithmInPageRoot	*BPage=BBase->GetPageData(localPage);
+		if(BPage!=NULL){
+			CmdSetRegulation	Cmd(GetLayersBase());
+			Cmd.RegulationNo=RegulationNo;
+			BPage->TransmitDirectly(&Cmd);
+		}
+	}
+}

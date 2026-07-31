@@ -29,6 +29,7 @@
 #include "XLearningRegist.h"
 #include "swap.h"
 #include "XSpline1D.h"
+#include "XDrawFunc.h"
 
 //=====================================================================================
 
@@ -315,7 +316,9 @@ ColorDifferenceItem::ColorDifferenceItem(void)
 	StatisticData.Vvl	=0;
 	StatisticData.Vvh	=0;
 	Reference1			=NULL;
+	Reference1ItemID	=-1;
 	Reference2			=NULL;
+	Reference2ItemID	=-1;
 	ResultDeltaEOK=none3;
 	ResultDenseOK =none3;
 	ResultDx	=0;
@@ -336,6 +339,7 @@ AlgorithmItemPI	&ColorDifferenceItem::operator=(const AlgorithmItemRoot &src)
 		MasterColor		=Item->MasterColor	;
 		TargetColor		=Item->TargetColor	;
 		Reference1		=Item->Reference1	;
+		Reference1ItemID=Item->Reference1ItemID;
 		Reference2		=Item->Reference2	;
 		ReferedCurrentColor	=Item->ReferedCurrentColor;
 		ResultDeltaE		=Item->ResultDeltaE;
@@ -370,7 +374,7 @@ bool    ColorDifferenceItem::Save(QIODevice *f)
 	if(AlgorithmItemPI::Save(f)==false)
 		return false;
 
-	WORD	Ver=4;
+	WORD	Ver=5;
 
 	if(f->write((const char *)&Ver,sizeof(Ver))!=sizeof(Ver))
 		return(false);
@@ -395,6 +399,23 @@ bool    ColorDifferenceItem::Save(QIODevice *f)
 	if(ManualDeltaEList.Save(f)==false)
 		return false;
 	if(ManualDenseList.Save(f)==false)
+		return false;
+
+	if(Reference1!=NULL){
+		Reference1ItemID=Reference1->GetID();
+	}
+	else{
+		Reference1ItemID=-1;
+	}
+	if(Reference2!=NULL){
+		Reference2ItemID=Reference2->GetID();
+	}
+	else{
+		Reference2ItemID=-1;
+	}
+	if(::Save(f,Reference1ItemID)==false)
+		return false;
+	if(::Save(f,Reference2ItemID)==false)
 		return false;
 
 	return true;
@@ -436,13 +457,37 @@ bool    ColorDifferenceItem::Load(QIODevice *f,LayersBase *LBase)
 		if(ManualDenseList.Load(f)==false)
 			return false;
 	}
+	if(Ver>=5){
+		if(::Load(f,Reference1ItemID)==false)
+			return false;
+		if(::Load(f,Reference2ItemID)==false)
+			return false;
+	}
 	return true;
+}
+
+void	ColorDifferenceItem::AllocateReference(void)
+{
+	if(Reference1ItemID>=0){
+		Reference1 = dynamic_cast<ColorDifferenceRegulation *>(GetParentInPage()->SearchIDItem(Reference1ItemID));
+	}
+	else{
+		Reference1 = NULL;
+	}
+	if(Reference2ItemID>=0){
+		Reference2 = dynamic_cast<ColorDifferenceRegulation *>(GetParentInPage()->SearchIDItem(Reference2ItemID));
+	}
+	else{
+		Reference2 = NULL;
+	}
 }
 
 void	ColorDifferenceItem::Draw(QImage &pnt, int movx ,int movy ,double ZoomRate ,AlgorithmDrawAttr *Attr)
 {
 	SetVisible(true);
-	AlgorithmItemPI::DrawAlpha(pnt, movx ,movy ,ZoomRate ,Attr,qRgba(255,160,0,80));
+
+	ColorDifferenceDrawAttr	*MAttr=dynamic_cast<ColorDifferenceDrawAttr *>(Attr);
+	AlgorithmItemPI::DrawAlpha(pnt, movx ,movy ,ZoomRate ,MAttr,qRgba(255,160,0,80));
 
 	int	kx=(MasterCx+movx)*ZoomRate;
 	int	ky=(MasterCy+movy)*ZoomRate;
@@ -458,6 +503,25 @@ void	ColorDifferenceItem::Draw(QImage &pnt, int movx ,int movy ,double ZoomRate 
 						,QString(/**/"Pg=")+QString::number(GetPage()) 
 						+QString(/**/",ID=")+QString::number(GetID()) 
 						,&rect);
+	}
+	if(MAttr->ModeShowRegulation==true && GetSelected()==true){
+		int	cx1,cy1;
+		GetCenter(cx1,cy1);
+		QPainter	Pnt(&pnt);
+		Pnt.setPen(Qt::black);
+		Pnt.setBrush(Qt::red);
+		if(Reference1!=NULL){
+			int	cx2,cy2;
+			Reference1->GetCenter(cx2,cy2);			
+			::DrawArrow(cx1,cy1 ,cx2,cy2
+				 ,Pnt ,movx ,movy ,ZoomRate);
+		}
+		if(Reference2!=NULL){
+			int	cx2,cy2;
+			Reference2->GetCenter(cx2,cy2);
+			::DrawArrow(cx1,cy1 ,cx2,cy2
+				 ,Pnt ,movx ,movy ,ZoomRate);
+		}
 	}
 }
 
@@ -524,7 +588,7 @@ void	ColorDifferenceItem::DrawResultItem(ResultInItemRoot *Res,QImage &IData ,QP
 			}
 			else if(RThr->JudgeMethod==4){
 				bool	ok = false;
-				double	E=GetInterpolationDeltaE(ResultDense,ok);
+				double	E=GetInterpolationDeltaE(ResultDeltaE,ok);
 				if(ok==true){
 					PData.drawText(kx,ky+16,IData.width()-kx,IData.height()-ky
 						,Qt::AlignLeft | Qt::AlignTop
@@ -561,7 +625,11 @@ void	ColorDifferenceItem::DrawResultItem(ResultInItemRoot *Res,QImage &IData ,QP
 
 double	ColorDifferenceItem::GetInterpolationDeltaE(double tValue,bool &ok)
 {
-	return ManualDeltaEList.GetInterpolation(this,tValue,ok);
+	double	E=ManualDeltaEList.GetInterpolation(this,tValue,ok);
+	if(E<0){
+		E=0;
+	}
+	return E;
 }
 double	ColorDifferenceItem::GetInterpolationDense(double tValue,bool &ok)
 {
@@ -661,25 +729,27 @@ ExeResult	ColorDifferenceItem::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 	Reference1	=NULL;
 	Reference2	=NULL;
 	ColorDifferenceInPage	*Pg=(ColorDifferenceInPage *)GetParentInPage();
-	for(AlgorithmItemPI	*L=Pg->GetFirstData();L!=NULL;L=L->GetNext()){
-		ColorDifferenceRegulation	*B=dynamic_cast<ColorDifferenceRegulation *>(L);
-		if(B!=NULL){
-			if(B->GetArea().GetMinX()<=MasterCx && MasterCx<=B->GetArea().GetMaxX()){
-				Reference1	=B;
-				break;
-			}
-		}
-	}
 	if(Reference1==NULL){
 		for(AlgorithmItemPI	*L=Pg->GetFirstData();L!=NULL;L=L->GetNext()){
 			ColorDifferenceRegulation	*B=dynamic_cast<ColorDifferenceRegulation *>(L);
 			if(B!=NULL){
-				Reference1	=B;
-				break;
+				if(B->GetArea().GetMinX()<=MasterCx && MasterCx<=B->GetArea().GetMaxX()){
+					Reference1	=B;
+					break;
+				}
+			}
+		}
+		if(Reference1==NULL){
+			for(AlgorithmItemPI	*L=Pg->GetFirstData();L!=NULL;L=L->GetNext()){
+				ColorDifferenceRegulation	*B=dynamic_cast<ColorDifferenceRegulation *>(L);
+				if(B!=NULL){
+					Reference1	=B;
+					break;
+				}
 			}
 		}
 	}
-	if(Reference1!=NULL){
+	if(Reference1!=NULL && Reference2==NULL){
 		for(AlgorithmItemPI	*L=Pg->GetFirstData();L!=NULL;L=L->GetNext()){
 			ColorDifferenceRegulation	*B=dynamic_cast<ColorDifferenceRegulation *>(L);
 			if(B!=NULL && Reference1!=B){
@@ -963,7 +1033,7 @@ ExeResult	ColorDifferenceItem::ExecuteProcessing		(int ExeID ,int ThreadNo,Resul
 				ColorDifferenceResultPosList	*RNG1=new ColorDifferenceResultPosList(this,MasterCx,MasterCy);
 				RNG1->SetResult(ResultDeltaE);
 				RNG1->result			=0x10100;
-				RNG1->result	=0;
+				//RNG1->result	=0;
 				Res->AddPosList(RNG1);
 				if(ResultDeltaE>RThr->THDeltaE){
 					RNG1->result			=0x10100;
@@ -973,6 +1043,7 @@ ExeResult	ColorDifferenceItem::ExecuteProcessing		(int ExeID ,int ThreadNo,Resul
 				else{
 					ResultDeltaEOK=true3;
 				}
+
 				ColorDifferenceResultPosList	*RNG2=new ColorDifferenceResultPosList(this,MasterCx,MasterCy);
 				RNG2->SetResult(ResultDense);
 				RNG2->result	=0x10000+ResultDenseType;
@@ -987,6 +1058,24 @@ ExeResult	ColorDifferenceItem::ExecuteProcessing		(int ExeID ,int ThreadNo,Resul
 				}
 				if(ResultDeltaEOK==true3 && ResultDenseOK==true3){
 					Res->SetError(1);
+				}
+
+				bool	ok = false;
+				double	E=GetInterpolationDeltaE(ResultDeltaE,ok);
+				if(ok==true){
+					ColorDifferenceResultPosList	*RNG1E=new ColorDifferenceResultPosList(this,MasterCx,MasterCy);
+					RNG1E->SetResult(E);
+					RNG1E->result			=0x10110;
+					//RNG1->result	=0;
+					Res->AddPosList(RNG1E);
+				}
+				double	D=GetInterpolationDense(ResultDense,ok);
+				if(ok==true){
+					ColorDifferenceResultPosList	*RNG2E=new ColorDifferenceResultPosList(this,MasterCx,MasterCy);
+					RNG2E->SetResult(D);
+					RNG2E->result			=0x10010+ResultDenseType;
+					//RNG1->result	=0;
+					Res->AddPosList(RNG2E);
 				}
 			}
 
@@ -1329,6 +1418,15 @@ ColorDifferenceRegulation::ColorDifferenceRegulation(void)
 {
 	AVector	=NULL;
 }
+
+ColorDifferenceRegulation::~ColorDifferenceRegulation(void)
+{
+	ColorDifferenceInPage	*Pg=dynamic_cast<ColorDifferenceInPage *>(GetParentInPage());
+	if(Pg!=NULL){
+		Pg->RemoveReference(this);
+	}
+}
+
 AlgorithmItemPI	&ColorDifferenceRegulation::operator=(const AlgorithmItemRoot &src)
 {
 	AlgorithmItemPI::operator=(src);

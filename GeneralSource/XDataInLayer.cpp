@@ -4409,8 +4409,10 @@ void	LayersBase::ShowProcessingForm (const QString &Title ,bool CancelMode,int M
 		GetOnProcessing()->Show();
 		GetOnProcessing()->update();
 		GetOnProcessing()->raise();
-		//QApplication::processEvents();
-		
+#ifdef _MSC_VER
+		QApplication::processEvents();
+#endif
+
 		TmpHidingProcessingForm=false;
 	}
 	ProcessingReEntrant--;

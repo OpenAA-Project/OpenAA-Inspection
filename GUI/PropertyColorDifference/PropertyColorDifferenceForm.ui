@@ -17,29 +17,29 @@
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>80</y>
+     <y>110</y>
      <width>161</width>
      <height>20</height>
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Shape::Panel</enum>
+    <enum>QFrame::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Shadow::Sunken</enum>
+    <enum>QFrame::Sunken</enum>
    </property>
    <property name="text">
     <string>今回使用する設定</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="labelLibFolderName">
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>40</y>
+     <y>70</y>
      <width>241</width>
      <height>31</height>
     </rect>
@@ -57,29 +57,29 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>80</y>
+     <y>110</y>
      <width>161</width>
      <height>20</height>
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Shape::Panel</enum>
+    <enum>QFrame::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Shadow::Sunken</enum>
+    <enum>QFrame::Sunken</enum>
    </property>
    <property name="text">
     <string>登録されているライブラリリスト</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter|Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+    <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonEditLibrary">
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>230</y>
+     <y>260</y>
      <width>161</width>
      <height>31</height>
     </rect>
@@ -101,9 +101,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>500</y>
+     <y>530</y>
      <width>381</width>
-     <height>191</height>
+     <height>161</height>
     </rect>
    </property>
    <column>
@@ -131,7 +131,7 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>230</y>
+     <y>260</y>
      <width>39</width>
      <height>23</height>
     </rect>
@@ -144,13 +144,13 @@
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>100</y>
+     <y>130</y>
      <width>161</width>
      <height>121</height>
     </rect>
    </property>
    <property name="selectionBehavior">
-    <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+    <enum>QAbstractItemView::SelectRows</enum>
    </property>
    <column>
     <property name="text">
@@ -167,7 +167,7 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>150</y>
+     <y>180</y>
      <width>39</width>
      <height>23</height>
     </rect>
@@ -180,7 +180,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>40</y>
+     <y>70</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -197,7 +197,7 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>120</y>
+     <y>150</y>
      <width>39</width>
      <height>23</height>
     </rect>
@@ -210,7 +210,7 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>200</y>
+     <y>230</y>
      <width>39</width>
      <height>23</height>
     </rect>
@@ -223,16 +223,16 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>100</y>
+     <y>130</y>
      <width>161</width>
      <height>161</height>
     </rect>
    </property>
    <property name="selectionMode">
-    <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+    <enum>QAbstractItemView::SingleSelection</enum>
    </property>
    <property name="selectionBehavior">
-    <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+    <enum>QAbstractItemView::SelectRows</enum>
    </property>
    <column>
     <property name="text">
@@ -251,14 +251,14 @@
      <x>20</x>
      <y>10</y>
      <width>371</width>
-     <height>31</height>
+     <height>51</height>
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Shape::StyledPanel</enum>
+    <enum>QFrame::StyledPanel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Shadow::Raised</enum>
+    <enum>QFrame::Raised</enum>
    </property>
    <widget class="QToolButton" name="toolButtonShowRegulation">
     <property name="geometry">
@@ -311,12 +311,38 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButtonRegulation1">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>30</y>
+      <width>56</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Set 1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonRegulation2">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>30</y>
+      <width>56</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Set 2</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QPushButton" name="pushButtonRegisterOK">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>280</y>
+     <y>310</y>
      <width>112</width>
      <height>34</height>
     </rect>
@@ -329,7 +355,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>320</y>
+     <y>350</y>
      <width>112</width>
      <height>34</height>
     </rect>
@@ -342,7 +368,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>270</y>
+     <y>300</y>
      <width>191</width>
      <height>41</height>
     </rect>
@@ -358,7 +384,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>320</y>
+     <y>350</y>
      <width>191</width>
      <height>41</height>
     </rect>
@@ -374,16 +400,16 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>370</y>
+     <y>400</y>
      <width>251</width>
      <height>121</height>
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Shape::Panel</enum>
+    <enum>QFrame::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Shadow::Sunken</enum>
+    <enum>QFrame::Sunken</enum>
    </property>
    <widget class="QToolButton" name="toolButtonClearFlow">
     <property name="geometry">
@@ -414,7 +440,7 @@
      <string>流動データ</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignmentFlag::AlignCenter</set>
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButtonSaveFlow">
@@ -448,7 +474,7 @@
    <property name="geometry">
     <rect>
      <x>280</x>
-     <y>370</y>
+     <y>400</y>
      <width>112</width>
      <height>111</height>
     </rect>

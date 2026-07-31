@@ -1281,6 +1281,7 @@ public:
 	int		GetNGCount(void)		const;
 	int		GetNGImageCount(void)	const;
 	int		GetNGPointCount(void)	const;
+	ResultBaseForAlgorithmRoot	*GetResultBaseForAlgorithm(const QString &DLLRoot ,const QString &DLLName)			const;
 	ResultBaseForAlgorithmRoot	*GetResultBaseForAlgorithm(AlgorithmBase *base)	const;
 	ResultBaseForAlgorithmRoot	*GetResultBaseForAlgorithm(int LibType)			const;
 

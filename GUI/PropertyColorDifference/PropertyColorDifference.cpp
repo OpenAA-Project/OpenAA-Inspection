@@ -88,6 +88,7 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	(*Base)=new GUICmdAckFlowData							(Base, QString(sRoot), QString(sName));
 	(*Base)=new GUICmdSendFlowData							(Base, QString(sRoot), QString(sName));
 	(*Base)=new GUICmdAutoGenerate							(Base, QString(sRoot), QString(sName));
+	(*Base)=new GUICmdSetRegulation							(Base, QString(sRoot), QString(sName));
 
 	return true;
 }

@@ -146,6 +146,15 @@ AlgorithmDrawAttr	*ColorDifferenceImagePanel::CreateDrawAttrPointer(void)
 								  ,M->ColorArea			,M->TransparentLevel
 								  ,M->ColorSelected		,M->TransparentLevel
 								  ,M->ColorActive		,M->TransparentLevel);
+
+		GUIFormBase	*GProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyColorDifference" ,/**/"");
+		CmdColorDifferenceDrawModePacket	Da(GetLayersBase());
+		if(GProp!=NULL){
+			GProp->TransmitDirectly(&Da);
+			mattr->ModeShowItem			=Da.ModeShowItem		;	
+			mattr->ModeShowRegulation	=Da.ModeShowRegulation	;
+			mattr->ModeShowDenseMark	=Da.ModeShowDenseMark	;
+		}
 		
 		return mattr;
 	}

@@ -36,7 +36,7 @@
 
 #define uabs(x) fabs(x)
 
-void    CError(const QString &msg)
+inline  void    CError(const QString &msg)
 {
     QMessageBox::warning(NULL, "Warning", msg);
 }
@@ -51,7 +51,7 @@ public:
              Vector();                          // Default constructor
              Vector(int);                       // Constructor
              ~Vector(void);                     // Destructor
-     T&      operator[](int)    const;                   // index operator
+     T&      operator[](int)    const;          // index operator
      void    Resize(int);                       // change the vector length
      // (compiler didn't accep constructor calling)
 };
@@ -120,17 +120,17 @@ template <class R>
 class Matrix {
 //--------------------------------------------------------------------------
 private:
-     Vector<R>* pMatrix;                        // pointer of matrix array
-     int     xsize, ysize;                      // sizes of matrix array
-     void    incomperr(const char*, const char*) const;           // matrix operands incomptbl
-     void    precerr(const char*) const;                    // Precision error
+     Vector<R>* pMatrix;                                // pointer of matrix array
+     int     xsize, ysize;                              // sizes of matrix array
+     void    incomperr(const char*, const char*) const; // matrix operands incomptbl
+     void    precerr(const char*) const;                // Precision error
 
 public:
 // Constuctors & Destructor
-    Matrix();                          // Default constructor
-    Matrix(int, int);                  // Constructor
-    Matrix(const Matrix&);                   // Copy Constructor
-    ~Matrix(void);                     // Destructor
+    Matrix();                           // Default constructor
+    Matrix(int, int);                   // Constructor
+    Matrix(const Matrix&);              // Copy Constructor
+    ~Matrix(void);                      // Destructor
 // Operator overloads
    // Unary operators
      Matrix  operator!();                       // Invert matrix

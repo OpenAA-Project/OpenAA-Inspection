@@ -6388,6 +6388,16 @@ bool	ResultInspection::GetResultInPhases(IntList &PhaseCodes
 	ResultOk=true;
 	return true;
 }
+ResultBaseForAlgorithmRoot	*ResultInspection::GetResultBaseForAlgorithm(const QString &DLLRoot ,const QString &DLLName)	const
+{
+	for(ResultBaseForAlgorithmRoot *r=ResultBaseDim.GetFirst();r!=NULL;r=r->GetNext()){
+		if(r->GetLogicDLL()->GetDLLRoot()==DLLRoot
+		&& r->GetLogicDLL()->GetDLLName()==DLLName){
+			return r;
+		}
+	}
+	return NULL;
+}
 ResultBaseForAlgorithmRoot	*ResultInspection::GetResultBaseForAlgorithm(AlgorithmBase *base)	const
 {
 	for(ResultBaseForAlgorithmRoot *r=ResultBaseDim.GetFirst();r!=NULL;r=r->GetNext()){

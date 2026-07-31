@@ -213,7 +213,8 @@ public:
 	bool	GetBCR2D(bool BarcodeIsOnlyDigit
 					,const QString &FileName ,QString &Result);
 	bool	GetBCR1D(bool BarcodeIsOnlyDigit
-					,const QString &FileName ,QString &Result);
+					,const QString &FileName ,QString &Result
+					,int Threshold=128);
 	virtual	QString	GetNameByCurrentLanguage(void)	override;
 
 	virtual	bool	GeneralDataRelease(int32 Command,void *data)			override;

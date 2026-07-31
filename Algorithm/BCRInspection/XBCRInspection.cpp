@@ -426,33 +426,73 @@ bool	BCRInspectionBase::GetBCR2D( bool BarcodeIsOnlyDigit
 	return Ret;
 }
 
+QImage prepareBrokenBarcodeImage(const QImage& original,int threshold = 200)
+{
+    QImage gray = original.convertToFormat(QImage::Format_Grayscale8);
+    gray.invertPixels();
 
+    int width = gray.width();
+    int height = gray.height();
+
+    QImage binaryImage = gray.copy();
+
+    for (int y = 0; y < height; ++y) {
+        uchar* line = binaryImage.scanLine(y);
+        for (int x = 0; x < width; ++x) {
+            // 反転後：白に近い(200以上)ピクセルは白(255)、それ以外(薄いグレーを含む)は真っ黒(0)に
+            if (line[x] >= threshold) {
+                line[x] = 255;
+            } else {
+                line[x] = 0;
+            }
+        }
+    }
+    
+    return binaryImage;
+}
 bool	BCRInspectionBase::GetBCR1D(bool BarcodeIsOnlyDigit
-				,const QString &FileName ,QString &Result)
+				,const QString &FileName ,QString &Result
+				,int Threshold)
 {
 	bool	Ret=false;
 
     QImage image(FileName); 
     //QImage image=image2.convertedTo(QImage::Format_Mono);
-    image = image.convertToFormat(QImage::Format_Grayscale8);
+	QImage	grayImage = prepareBrokenBarcodeImage(image,Threshold);
+    //QImage	grayImage = image.convertToFormat(QImage::Format_Grayscale8);
+	
+	grayImage.save(/**/"TmpBCRMono.bmp",/**/"BMP");
 
-    if (!image.isNull()) {
-        auto result = ZXing::ReadBarcode({
-            image.bits(), 
-            static_cast<int>(image.width()), 
-            static_cast<int>(image.height()), 
-            ZXing::ImageFormat::Lum,
-            static_cast<int>(image.bytesPerLine())
-        });
-		Result=QString::fromStdString(result.text());
-		if(BarcodeIsOnlyDigit==true){
-			bool	ok;
-			qlonglong r=Result.toLongLong (&ok);
-			if(ok==false){
-				Result.clear();
+	if(grayImage.isNull()==false){
+		ZXing::ImageView imageView(
+		    grayImage.constBits(), 
+		    grayImage.width(), 
+		    grayImage.height(), 
+		    ZXing::ImageFormat::Lum
+		);
+
+		ZXing::ReaderOptions options;
+		options.setFormats(ZXing::BarcodeFormat::AllLinear);
+		options.setTryHarder(true);
+		options.setTryRotate(true);
+		options.setTryDownscale(true);
+		options.setBinarizer(ZXing::Binarizer::GlobalHistogram);
+		options.setTryInvert(true);
+
+		auto results = ZXing::ReadBarcodes(imageView, options);
+		for (const auto& result : results) {
+			QString format = QString::fromStdString(ZXing::ToString(result.format()));
+            Result = QString::fromStdString(result.text());
+			if(BarcodeIsOnlyDigit==true){
+				bool	ok;
+				qlonglong r=Result.toLongLong (&ok);
+				if(ok==false){
+					Result.clear();
+				}
 			}
+			Ret=true;
+			break;
 		}
-		Ret=true;
 	}
 
 	return Ret;

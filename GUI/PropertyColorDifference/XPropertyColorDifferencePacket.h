@@ -75,6 +75,19 @@ public:
 	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
 };
 
+class	GUICmdSetRegulation : public GUICmdPacketBase
+{
+public:
+	int	RegulationNo;
+
+	GUICmdSetRegulation(LayersBase *Base ,const QString &emitterRoot ,const QString &emitterName,int globalPage=-1);
+
+	virtual	bool	Load(QIODevice *f);
+	virtual	bool	Save(QIODevice *f);
+
+	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
+};
+
 class	BrightnessMapList : public NPList<BrightnessMapList>
 {
 public:
