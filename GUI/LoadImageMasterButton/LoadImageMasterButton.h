@@ -49,6 +49,9 @@ public:
 
 	bool LoadImage(QString FileName1);
 
+	bool LoadImageFile(QIODevice *f);
+	bool LoadImageFileV3(QIODevice *f);
+
 private slots:
 	void	SlotClicked (bool checked);
 	void	ResizeAction();
@@ -66,6 +69,18 @@ public:
 	QByteArray	Data;
 
 	GUICmdSendLoadMasterImage(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage=-1);
+
+	virtual	bool	Load(QIODevice *f);
+	virtual	bool	Save(QIODevice *f);
+
+	virtual	void	Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName);	
+};
+class	GUICmdFinalizeLoadMasterImage : public GUICmdPacketBase
+{
+public:
+	int	Layer;
+
+	GUICmdFinalizeLoadMasterImage(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage=-1);
 
 	virtual	bool	Load(QIODevice *f);
 	virtual	bool	Save(QIODevice *f);

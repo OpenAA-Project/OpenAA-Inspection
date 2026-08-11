@@ -35,6 +35,8 @@
 class	BCRInspectionItem;
 struct	IBarcodeReader;
 
+class BarcodeEnhancer;
+
 class	BCRGradeList : public NPListSaveLoad<BCRGradeList>
 {
 public:
@@ -101,6 +103,7 @@ public:
 	double					QuilityGrade;
 	BCRGradeListContainer	GradeList;
 	bool					BarcodeIsOnlyDigit;
+	bool					UseEnhancer;	
 
 	BCRInspectionThreshold(BCRInspectionItem *parent);
 
@@ -127,10 +130,14 @@ private:
 	fftw_complex *FFT_out[4];
 	int			FFTLen[4];
 	fftw_plan	FPlan[4];
+
+
 public:
 	int			BCRType;
 	int			ResultMx,ResultMy;
 	QString		Result;
+	QImage		InputImageForEnhancer;
+	QImage		EnhancedImage;
 
 	BCRInspectionItem(void);
 	~BCRInspectionItem(void);
@@ -155,6 +162,9 @@ public:
 								   ,AlgorithmItemRoot *Data,IntList &EdittedMemberID,QByteArray &Something,QByteArray &AckData)	override;
 	void	CopyThresholdOnly(BCRInspectionItem *src);
 	virtual	void	MoveForAlignment(void)	override;
+
+	void	MakeMasterImage(void);
+	void	MakeTargetImage(void);
 private:
 	void	MakeImage (QImage &Img ,double ZoomRate ,int LayerNumb,int LNo,ImagePointerContainer &ImageList);
 	void	RMakeImage(QImage &Img ,double ZoomRate ,int LayerNumb,int LNo,ImagePointerContainer &ImageList);
@@ -181,6 +191,7 @@ class	BCRInspectionBase : public AlgorithmBase
 {
 	QLibrary	DTKLib;
 	IBarcodeReader * barReader;
+	BarcodeEnhancer *Enhancer;
 
 public:
 	QColor	ColorBCR;
@@ -199,6 +210,11 @@ public:
 
 	double	MinBarcodeImageDispersion;
 	bool	ResultOKWithoutBarcode;
+	bool	UseEnhancer;	
+	QString	ONNXSystemPath;
+	QString	ONNXRuntimeFileName;
+	QString	ONNXFileName;
+	bool	LoadedONNXSystem;
 
 	BCRInspectionBase(LayersBase *Base);
 	~BCRInspectionBase(void);
@@ -222,6 +238,9 @@ public:
 	virtual	bool	GeneralDataLoad(QIODevice *f,int32 Command,void *data)	override;
 	virtual	bool	GeneralDataSave(QIODevice *f,int32 Command,void *data)	override;
 	virtual	bool	GeneralDataReply(int32 Command,void *data)				override;
+
+	virtual	ExeResult	ExecuteInitialAfterEdit		(int ExeID ,ResultBaseForAlgorithmRoot *Res,ExecuteInitialAfterEditInfo &EInfo)	override;
+	virtual	ExeResult	ExecutePreProcessing		(int ExeID ,ResultBaseForAlgorithmRoot *Res)	override;
 private:
 	bool	GetBCR2D(QString &Result ,bool BarcodeIsOnlyDigit);
 	bool	GetBCR1D(QString &Result ,bool BarcodeIsOnlyDigit);

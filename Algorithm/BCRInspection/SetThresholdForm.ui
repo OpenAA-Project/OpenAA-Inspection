@@ -135,16 +135,16 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>品質割当表</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButtonAdd">
@@ -203,16 +203,16 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>参考データ</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="label_8">
@@ -225,16 +225,16 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>結果</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="labelResultQuality">
@@ -247,10 +247,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>XXXX</string>
@@ -282,6 +282,19 @@
      <string>読み取り 1D</string>
     </property>
    </item>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxUseEnhancer">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>140</y>
+     <width>81</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>バーコード鮮明化</string>
+   </property>
   </widget>
  </widget>
  <resources/>

@@ -45,6 +45,7 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 {
 	Q_INIT_RESOURCE(ServiceLib);
 	(*Base)=new GUICmdSendLoadMasterImage(Base,QString(sRoot),QString(sName));
+	(*Base)=new GUICmdFinalizeLoadMasterImage(Base,QString(sRoot),QString(sName));
 	return true;
 }
 DEFFUNCEX	void	DLL_Close(void)
@@ -163,34 +164,48 @@ void LoadImageMasterButton::SlotClicked (bool checked)
 	LoadImage(FileName1);
 	LastSelectedFile=FileName1;
 }
-bool LoadImageMasterButton::LoadImage(QString FileName1)
+
+bool LoadImageMasterButton::LoadImage(QString FileName)
 {
-	QFile	RFile(FileName1);
+	QFile	RFile(FileName);
 	if(RFile.open(QIODevice::ReadOnly)==false)
 		return false;
 
 	int	Ver;
 	if(::Load(&RFile,Ver)==false)
 		return false;
+	if(Ver==2){
+		if(LoadImageFile(&RFile)==false)
+			return false;
+	}
+	else
+	if(Ver==3){
+		if(LoadImageFileV3(&RFile)==false)
+			return false;
+	}
+	return true;
+}
+
+bool LoadImageMasterButton::LoadImageFile(QIODevice *f)
+{
 	int	iDotPerLine;
 	int	iMaxLines;
 	int	iPageNumb;
 	int	iLayerNumb;
 	int	iYCountBase;
 	int	iPhaseNumb=1;
-	if(Ver>=2){
-		if(::Load(&RFile,iPhaseNumb)==false)
-			return false;
-	}
-	if(::Load(&RFile,iPageNumb)==false)
+
+	if(::Load(f,iPhaseNumb)==false)
 		return false;
-	if(::Load(&RFile,iLayerNumb)==false)
+	if(::Load(f,iPageNumb)==false)
 		return false;
-	if(::Load(&RFile,iDotPerLine)==false)
+	if(::Load(f,iLayerNumb)==false)
 		return false;
-	if(::Load(&RFile,iMaxLines)==false)
+	if(::Load(f,iDotPerLine)==false)
 		return false;
-	if(::Load(&RFile,iYCountBase)==false)
+	if(::Load(f,iMaxLines)==false)
+		return false;
+	if(::Load(f,iYCountBase)==false)
 		return false;
 
 	int	ProcessCount[10000];
@@ -238,13 +253,13 @@ bool LoadImageMasterButton::LoadImage(QString FileName1)
 	for(int phase=0;phase<iPhaseNumb && phase<GetPhaseNumb();phase++){
 		for(int page=0;page<SkipPage && page<iPageNumb;page++){
 			int	YCount=iYCountBase;
-			int	TopY;
-			for(TopY=0;TopY<iMaxLines;TopY+=YCount){
-				if(TopY+YCount>iMaxLines)
-					YCount=iMaxLines-TopY;
+			int	tTopY;
+			for(tTopY=0;tTopY<iMaxLines;tTopY+=YCount){
+				if(tTopY+YCount>iMaxLines)
+					YCount=iMaxLines-tTopY;
 				int	Layer;
 				for(Layer=0;Layer<GetLayerNumb(page) && Layer<iLayerNumb;Layer++){
-					RFile.read(YCount*iDotPerLine);
+					f->read(YCount*iDotPerLine);
 				}
 			}
 			GetLayersBase()->StepProcessing(page);
@@ -252,10 +267,10 @@ bool LoadImageMasterButton::LoadImage(QString FileName1)
 			
 		for(int page=0;page<GetPageNumb() && page<iPageNumb;page++){
 			int	YCount=iYCountBase;
-			int	TopY;
-			for(TopY=0;TopY<GetMaxLines(page) && TopY<iMaxLines;TopY+=YCount){
-				if(TopY+YCount>iMaxLines)
-					YCount=iMaxLines-TopY;
+			int	rTopY;
+			for(rTopY=0;rTopY<GetMaxLines(page) && rTopY<iMaxLines;rTopY+=YCount){
+				if(rTopY+YCount>iMaxLines)
+					YCount=iMaxLines-rTopY;
 				int	Layer;
 				for(Layer=0;Layer<GetLayerNumb(page) && Layer<iLayerNumb;Layer++){
 					GUICmdSendLoadMasterImage	RCmd(GetLayersBase() ,sRoot,sName,page);
@@ -264,28 +279,28 @@ bool LoadImageMasterButton::LoadImage(QString FileName1)
 					else
 						RCmd.Phase		=GetLayersBase()->GetCurrentPhase();
 					RCmd.Layer		=Layer;
-					RCmd.TopY		=TopY;
+					RCmd.TopY		=rTopY;
 					RCmd.YCount		=YCount;
 					RCmd.iDotPerLine=iDotPerLine;
-					RCmd.Data=RFile.read(YCount*iDotPerLine);
+					RCmd.Data=f->read(YCount*iDotPerLine);
 					RCmd.SendOnly(page ,0);
 				}
 				if(Layer<iLayerNumb){
 					for(;Layer<iLayerNumb;Layer++){
 						GUICmdSendLoadMasterImage	RCmd(GetLayersBase() ,sRoot,sName,page);
-						RCmd.Data=RFile.read(YCount*iDotPerLine);
+						RCmd.Data=f->read(YCount*iDotPerLine);
 					}
 				}
 				GetLayersBase()->StepProcessing(page);
 			}
-			if(TopY<iMaxLines){
-				for(;TopY<iMaxLines;TopY+=YCount){
-					if(TopY+YCount>iMaxLines)
-						YCount=iMaxLines-TopY;
+			if(rTopY<iMaxLines){
+				for(;rTopY<iMaxLines;rTopY+=YCount){
+					if(rTopY+YCount>iMaxLines)
+						YCount=iMaxLines-rTopY;
 					int	Layer;
 					for(Layer=0;Layer<iLayerNumb;Layer++){
 						GUICmdSendLoadMasterImage	RCmd(GetLayersBase() ,sRoot,sName,page);
-						RCmd.Data=RFile.read(YCount*iDotPerLine);
+						RCmd.Data=f->read(YCount*iDotPerLine);
 					}
 					GetLayersBase()->StepProcessing(page);
 				}			
@@ -296,6 +311,131 @@ bool LoadImageMasterButton::LoadImage(QString FileName1)
 	GetLayersBase()->SetEdited(true);
 	GetLayersBase()->CloseProcessingForm ();
 	BroadcastDirectly(GUIFormBase::_BC_BuildForShow ,GetLayersBase()->GetCurrentInspectIDForDisplay());
+	return true;
+}
+
+
+bool LoadImageMasterButton::LoadImageFileV3(QIODevice *f)
+{
+	int	iDotPerLine[100][100];
+	int	iMaxLines[100][100];
+	int	iLayerNumb[100][100];
+	int	iYCountBase=100;
+	int	iPageNumb[100];
+	int	iPhaseNumb=1;
+	if(::Load(f,iPhaseNumb)==false)
+		return false;
+
+	GetLayersBase()->ShowProcessingForm ("Load PIX image in master buffer");
+
+	int	MaxCount=0;
+	for(int phase=0;phase<iPhaseNumb && phase<GetPhaseNumb();phase++){
+		PageDataInOnePhase	*Ph=GetLayersBase()->GetPageDataPhase(phase);
+		if(::Load(f,iPageNumb[phase])==false)
+			return false;
+		for(int page=0;page<iPageNumb[phase] && page<Ph->GetPageNumb();page++){
+			DataInPage *Dp=Ph->GetPageData(page);
+			if(::Load(f,iLayerNumb[phase][page])==false)
+				return false;
+			if(::Load(f,iDotPerLine[phase][page])==false)
+				return false;
+			if(::Load(f,iMaxLines[phase][page])==false)
+				return false;
+
+			int	ProcessCount=0;
+
+			int	YCount=iYCountBase;
+			int	TopY;
+			for(TopY=0;TopY<Dp->GetMaxLines() && TopY<iMaxLines[phase][page];TopY+=YCount){
+				if(TopY+YCount>iMaxLines[phase][page]){
+					YCount=iMaxLines[phase][page]-TopY;
+				}
+				ProcessCount++;
+			}
+			if(TopY<iMaxLines[phase][page]){
+				for(;TopY<iMaxLines[phase][page];TopY+=YCount){
+					if(TopY+YCount>iMaxLines[phase][page]){
+						YCount=iMaxLines[phase][page]-TopY;
+					}
+					ProcessCount++;
+				}			
+			}
+			ProcessCount++;
+
+			MaxCount=max(MaxCount,ProcessCount);
+		}
+	}
+	GetLayersBase()->SetMaxProcessing(MaxCount);
+
+	for(int phase=0;phase<iPhaseNumb && phase<GetPhaseNumb();phase++){
+		PageDataInOnePhase	*Ph=GetLayersBase()->GetPageDataPhase(phase);
+		for(int page=0;page<SkipPage && page<iPageNumb[phase];page++){
+			DataInPage *Dp=Ph->GetPageData(page);
+			int	YCount=iYCountBase;
+			int	TopY;
+			for(TopY=0;TopY<iMaxLines[phase][page];TopY+=YCount){
+				if(TopY+YCount>iMaxLines[phase][page])
+					YCount=iMaxLines[phase][page]-TopY;
+				int	Layer;
+				for(Layer=0;Layer<Dp->GetLayerNumb() && Layer<iLayerNumb[phase][page];Layer++){
+					f->read(YCount*iDotPerLine[phase][page]);
+				}
+			}
+			GetLayersBase()->StepProcessing(page);
+		}
+
+		for(int page=0;page<Ph->GetPageNumb() && page<iPageNumb[phase];page++){
+			DataInPage *Dp=Ph->GetPageData(page);
+			int	YCount=iYCountBase;
+			int	TopY;
+			for(TopY=0;TopY<Dp->GetMaxLines() && TopY<iMaxLines[phase][page];TopY+=YCount){
+				if(TopY+YCount>iMaxLines[phase][page])
+					YCount=iMaxLines[phase][page]-TopY;
+				int	Layer;
+				for(Layer=0;Layer<Dp->GetLayerNumb() && Layer<iLayerNumb[phase][page];Layer++){
+					GUICmdSendLoadMasterImage	RCmd(GetLayersBase() ,sRoot,sName,page);
+					if(iPhaseNumb!=1)
+						RCmd.Phase		=phase;
+					else
+						RCmd.Phase		=GetLayersBase()->GetCurrentPhase();
+					RCmd.Layer		=Layer;
+					RCmd.TopY		=TopY;
+					RCmd.YCount		=YCount;
+					RCmd.iDotPerLine=iDotPerLine[phase][page];
+					RCmd.Data=f->read(YCount*iDotPerLine[phase][page]);
+					RCmd.SendOnly(page ,0);
+				}
+				if(Layer<iLayerNumb[phase][page]){
+					for(;Layer<iLayerNumb[phase][page];Layer++){
+						GUICmdSendLoadMasterImage	RCmd(GetLayersBase() ,sRoot,sName,page);
+						RCmd.Data=f->read(YCount*iDotPerLine[phase][page]);
+					}
+				}
+				GetLayersBase()->StepProcessing(page);
+			}
+			if(TopY<iMaxLines[phase][page]){
+				for(;TopY<iMaxLines[phase][page];TopY+=YCount){
+					if(TopY+YCount>iMaxLines[phase][page])
+						YCount=iMaxLines[phase][page]-TopY;
+					int	Layer;
+					for(Layer=0;Layer<iLayerNumb[phase][page];Layer++){
+						GUICmdSendLoadMasterImage	RCmd(GetLayersBase() ,sRoot,sName,page);
+						RCmd.Data=f->read(YCount*iDotPerLine[phase][page]);
+					}
+					GetLayersBase()->StepProcessing(page);
+				}			
+			}
+			for(int Layer=0;Layer<Dp->GetLayerNumb() && Layer<iLayerNumb[phase][page];Layer++){
+				GUICmdFinalizeLoadMasterImage	RCmd(GetLayersBase() ,sRoot,sName,page);
+				RCmd.Layer		=Layer;
+				RCmd.SendOnly(page ,0);
+			}
+			GetLayersBase()->StepProcessing(page);
+		}
+	}
+	GetLayersBase()->CloseProcessingForm ();
+	//BroadcastDirectly(GUIFormBase::_BC_Show ,GetLayersBase()->GetCurrentInspectIDForDisplay());
+	BroadcastShowInEdit();
 	return true;
 }
 
@@ -367,5 +507,38 @@ void	GUICmdSendLoadMasterImage::Receive(int32 localPage, int32 cmd ,QString &Emi
 		}
 		L->GetMasterBuff().SetChanged(true);
 	}
+	SendAck(localPage);
+}
+
+
+GUICmdFinalizeLoadMasterImage::GUICmdFinalizeLoadMasterImage(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage)
+:GUICmdPacketBase(Base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
+{
+}
+
+bool	GUICmdFinalizeLoadMasterImage::Load(QIODevice *f)
+{
+
+	if(::Load(f,Layer)==false)
+		return false;
+
+	return true;
+}
+bool	GUICmdFinalizeLoadMasterImage::Save(QIODevice *f)
+{
+	if(::Save(f,Layer)==false)
+		return false;
+	return true;
+}
+
+void	GUICmdFinalizeLoadMasterImage::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
+{
+	DataInLayer	*L=GetLayersBase()->GetPageData(localPage)->GetLayerData(Layer);
+	if(GetParamGlobal()->AllocRawTargetBuffForNGImage==true){
+		L->CopyMasterImageToRaw();
+		L->CopyMasterToTransposition();		
+	}
+	L->CopyMasterToCameraBuff();
+
 	SendAck(localPage);
 }

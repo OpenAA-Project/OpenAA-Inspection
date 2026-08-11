@@ -30,6 +30,7 @@ BCRInspectionThreshold::BCRInspectionThreshold(BCRInspectionItem *parent)
 	CheckType			=0;
 	QuilityGrade		=10;
 	BarcodeIsOnlyDigit	=true;
+	UseEnhancer			= false;
 }
 	
 void	BCRInspectionThreshold::CopyFrom(const AlgorithmThreshold &src)
@@ -39,6 +40,7 @@ void	BCRInspectionThreshold::CopyFrom(const AlgorithmThreshold &src)
 	QuilityGrade		=s->QuilityGrade;
 	GradeList			=s->GradeList;
 	BarcodeIsOnlyDigit	=s->BarcodeIsOnlyDigit;
+	UseEnhancer			=s->UseEnhancer;
 }
 	
 bool	BCRInspectionThreshold::IsEqual(const AlgorithmThreshold &src)	const 
@@ -47,7 +49,8 @@ bool	BCRInspectionThreshold::IsEqual(const AlgorithmThreshold &src)	const
 	if(CheckType		==s->CheckType
 	&& QuilityGrade		==s->QuilityGrade
 	&& GradeList		==s->GradeList
-	&& BarcodeIsOnlyDigit==s->BarcodeIsOnlyDigit){
+	&& BarcodeIsOnlyDigit==s->BarcodeIsOnlyDigit
+	&& UseEnhancer		==s->UseEnhancer){
 		return true;
 	}
 	return false;
@@ -55,7 +58,7 @@ bool	BCRInspectionThreshold::IsEqual(const AlgorithmThreshold &src)	const
 	
 bool	BCRInspectionThreshold::Save(QIODevice *f)
 {
-	int	Ver=1;
+	int	Ver=2;
 
 	int	d=(Ver<<8);
 	if(::Save(f,d			)==false)	return false;
@@ -64,6 +67,7 @@ bool	BCRInspectionThreshold::Save(QIODevice *f)
 	if(::Save(f,QuilityGrade)==false)	return false;
 	if(GradeList.Save(f)	==false)	return false;
 	if(::Save(f,BarcodeIsOnlyDigit	)==false)	return false;
+	if(::Save(f,UseEnhancer	)==false)	return false;
 	return true;
 }
 	
@@ -81,11 +85,14 @@ bool	BCRInspectionThreshold::Load(QIODevice *f)
 		if(::Load(f,QuilityGrade)==false)	return false;
 		if(GradeList.Load(f)	==false)	return false;
 	}
-	else if(Ver==1){
+	else if(Ver>=1){
 		if(::Load(f,CheckType	)==false)	return false;
 		if(::Load(f,QuilityGrade)==false)	return false;
 		if(GradeList.Load(f)	==false)	return false;
 		if(::Load(f,BarcodeIsOnlyDigit	)==false)	return false;
+	}
+	if(Ver>=2){
+		if(::Load(f,UseEnhancer	)==false)	return false;
 	}
 	return true;
 }
@@ -132,9 +139,11 @@ ExeResult	BCRInspectionItem::ExecuteInitialAfterEdit	(int ExeID ,int ThreadNo
 	int	cx,cy;
 	GetCenter(cx,cy);
 	AVector=(AlignmentPacket2D *)GetAlignmentPointer(cx,cy);
-	if(AVector!=NULL)
+	if(AVector!=NULL){
 		AVector->Set(this);
-
+	}
+	const	BCRInspectionThreshold	*ThrR=GetThresholdR();
+	BCRInspectionBase		*ABase=(BCRInspectionBase *)GetParentBase();
 	int	x1,y1,x2,y2;
 	GetArea().GetXY(x1,y1,x2,y2);
 
@@ -155,10 +164,11 @@ ExeResult	BCRInspectionItem::ExecuteInitialAfterEdit	(int ExeID ,int ThreadNo
 		FPlan[i]=fftw_plan_dft_1d( FFTLen[i], FFT_in[i], FFT_out[i], FFTW_FORWARD, FFTW_ESTIMATE );
 	}
 
+
 	return _ER_true;
 }
 
-ExeResult	BCRInspectionItem::ExecuteProcessing		(int ExeID ,int ThreadNo,ResultInItemRoot *Res)
+ExeResult	BCRInspectionItem::ExecuteProcessing	(int ExeID ,int ThreadNo,ResultInItemRoot *Res)
 {
 	ImagePointerContainer ImageList;
 	GetTargetBuffList(ImageList);
@@ -272,6 +282,7 @@ void	BCRInspectionItem::CopyThresholdOnly(BCRInspectionItem *src)
 	W->QuilityGrade			=R->QuilityGrade;
 	W->GradeList			=R->GradeList;
 	W->BarcodeIsOnlyDigit	=R->BarcodeIsOnlyDigit;
+	W->UseEnhancer			=R->UseEnhancer;
 }
 
 void	BCRInspectionItem::SetIndependentItemData(int32 Command,int32 LocalPage,int32 Layer,AlgorithmItemRoot *Data,IntList &EdittedMemberID,QByteArray &Something,QByteArray &AckData)
@@ -335,54 +346,120 @@ bool	BCRInspectionItem::Calc2D(ImagePointerContainer &ImageList)
 	return true;
 }
 
+void	BCRInspectionItem::MakeMasterImage(void)
+{
+	int	W=GetArea().GetWidth();
+	int	H=GetArea().GetHeight();
+	int	IdealSize=((BCRInspectionBase *)GetParentBase())->IdealSize;
+	double	Wz=(double)W/(double)IdealSize;
+	double	Hz=(double)H/(double)IdealSize;
+	double	Z=min(Wz,Hz);
+	if(Z<1.0)
+		Z=1.0;
+	double	ZoomRate=1.0/Z;
+	try{
+		QImage	Img(W*ZoomRate,H*ZoomRate,QImage::Format_RGB32);
+		ImagePointerContainer ImageList;
+		GetMasterBuffList(ImageList);
+		MakeImage(Img,ZoomRate,GetLayerNumb(),0,ImageList);
+		InputImageForEnhancer=Img;
+		//Img.save(/**/"TmpBCRMaster.bmp",/**/"BMP");
+	}
+	catch(...){}
+}
+
+void	BCRInspectionItem::MakeTargetImage(void)
+{
+	int	W=GetArea().GetWidth();
+	int	H=GetArea().GetHeight();
+	int	IdealSize=((BCRInspectionBase *)GetParentBase())->IdealSize;
+	double	Wz=(double)W/(double)IdealSize;
+	double	Hz=(double)H/(double)IdealSize;
+	double	Z=min(Wz,Hz);
+	if(Z<1.0)
+		Z=1.0;
+	double	ZoomRate=1.0/Z;
+	try{
+		QImage	Img(W*ZoomRate,H*ZoomRate,QImage::Format_RGB32);
+		ImagePointerContainer ImageList;
+		GetTargetBuffList(ImageList);
+		MakeImage(Img,ZoomRate,GetLayerNumb(),0,ImageList);
+		InputImageForEnhancer=Img;
+		//Img.save(/**/"TmpBCRTarget.bmp",/**/"BMP");
+	}
+	catch(...){}
+}
+
 bool	BCRInspectionItem::Calc1D(ImagePointerContainer &ImageList)
 {
 	Result=/**/"";
 	BCRInspectionBase		*ABase=(BCRInspectionBase *)GetParentBase();
 	if(ABase!=NULL){
-		int	W=GetArea().GetWidth();
-		int	H=GetArea().GetHeight();
+		const BCRInspectionThreshold	*R=GetThresholdR(GetLayersBase());
+		if(R->UseEnhancer==true){
+			const	BCRInspectionThreshold	*RThr=GetThresholdR();
+			QString	ImageFileName = QString(/**/"TmpBCR-")
+									+QString::number(GetPage())
+									+QString(/**/"-")
+									+QString::number(GetID())
+									+QString(/**/".bmp");
+			EnhancedImage.save(ImageFileName,/**/"BMP");
 
-		int	IdealSize=ABase->IdealSize;
-		double	Wz=(double)W/(double)IdealSize;
-		double	Hz=(double)H/(double)IdealSize;
-		double	Z=min(Wz,Hz);
-		if(Z<1.0)
-			Z=1.0;
-		double	ZoomRate=1.0/Z;
-	
-		try{
-			QImage	Img(W*ZoomRate,H*ZoomRate,QImage::Format_RGB32);
-			MakeImage(Img,ZoomRate,GetLayerNumb(),0,ImageList);
-			Img.save(/**/"TmpBCR.bmp",/**/"BMP");
+			QString	ImageSourceFileName = QString(/**/"TmpBCR-Source-")
+									+QString::number(GetPage())
+									+QString(/**/"-")
+									+QString::number(GetID())
+									+QString(/**/".bmp");
+			InputImageForEnhancer.save(ImageSourceFileName,/**/"BMP");
+			
+			ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
+							,ImageFileName,Result);
 		}
-		catch(...){}
-		const	BCRInspectionThreshold	*RThr=GetThresholdR();
-		ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
-						,/**/"TmpBCR.bmp",Result);
+		else{
+			int	W=GetArea().GetWidth();
+			int	H=GetArea().GetHeight();
 
-		if(Result.isEmpty()==true && GetLayerNumb()>1){
+			int	IdealSize=ABase->IdealSize;
+			double	Wz=(double)W/(double)IdealSize;
+			double	Hz=(double)H/(double)IdealSize;
+			double	Z=min(Wz,Hz);
+			if(Z<1.0)
+				Z=1.0;
+			double	ZoomRate=1.0/Z;
+	
+			try{
+				QImage	Img(W*ZoomRate,H*ZoomRate,QImage::Format_RGB32);
+				MakeImage(Img,ZoomRate,GetLayerNumb(),0,ImageList);
+				Img.save(/**/"TmpBCR.bmp",/**/"BMP");
+			}
+			catch(...){}
+			const	BCRInspectionThreshold	*RThr=GetThresholdR();
+			ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
+							,/**/"TmpBCR.bmp",Result);
 
-			for(int Threshold=20;Threshold<=220;Threshold+=10){
-				ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
-								,/**/"TmpBCR.bmp",Result
-								,Threshold);
-				if(Result.isEmpty()==false)
-					break;
-				for(int L=0;L<GetLayerNumb();L++){
-					QImage	Img(W*ZoomRate,H*ZoomRate,QImage::Format_RGB32);
-					MakeImage(Img,ZoomRate,1,L,ImageList);
-					Img.save(/**/"TmpBCRR.bmp",/**/"BMP");
+			if(Result.isEmpty()==true && GetLayerNumb()>1){
+
+				for(int Threshold=20;Threshold<=220;Threshold+=10){
 					ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
-									,/**/"TmpBCRR.bmp",Result);
+									,/**/"TmpBCR.bmp",Result
+									,Threshold);
 					if(Result.isEmpty()==false)
 						break;
-					RMakeImage(Img,ZoomRate,1,L,ImageList);
-					Img.save(/**/"TmpBCRR.bmp",/**/"BMP");
-					ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
-									,/**/"TmpBCRR.bmp",Result);
-					if(Result.isEmpty()==false)
-						break;
+					for(int L=0;L<GetLayerNumb();L++){
+						QImage	Img(W*ZoomRate,H*ZoomRate,QImage::Format_RGB32);
+						MakeImage(Img,ZoomRate,1,L,ImageList);
+						Img.save(/**/"TmpBCRR.bmp",/**/"BMP");
+						ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
+										,/**/"TmpBCRR.bmp",Result);
+						if(Result.isEmpty()==false)
+							break;
+						RMakeImage(Img,ZoomRate,1,L,ImageList);
+						Img.save(/**/"TmpBCRR.bmp",/**/"BMP");
+						ABase->GetBCR1D(RThr->BarcodeIsOnlyDigit
+										,/**/"TmpBCRR.bmp",Result);
+						if(Result.isEmpty()==false)
+							break;
+					}
 				}
 			}
 		}

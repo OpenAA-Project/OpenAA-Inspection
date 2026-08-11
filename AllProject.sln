@@ -120055,8 +120055,8 @@ Global
 		{45F9309C-E156-4B8E-AA40-6B5FD54DBC4A} = {8215B1D4-8C5C-48F1-BE06-CC4C922D7078}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {0E43C324-ED2E-4336-84E4-73E34A583168}
 		QtVersion = 4.7.4
+		SolutionGuid = {0E43C324-ED2E-4336-84E4-73E34A583168}
 	EndGlobalSection
 	GlobalSection(Qt) = preSolution
 		Integration = True

@@ -71,7 +71,7 @@ DEFFUNCEX	AlgorithmLibraryContainer	*DLL_NewLibrary(LayersBase *Base)
 
 DEFFUNCEX	DWORD		DLL_GetAlgorithmType(void)
 {
-	return AlgorithmBit_TypeProcessing;
+	return AlgorithmBit_TypePreProcessing | AlgorithmBit_TypeProcessing;
 }
 DEFFUNCEX	AddedDataClass	*DLL_LoadAddedResultData (QIODevice *f ,int32 AddedDataType);
 DEFFUNCEX	bool			DLL_SaveAddedResultData  (QIODevice *f ,AddedDataClass *d ,int32 AddedDataType);

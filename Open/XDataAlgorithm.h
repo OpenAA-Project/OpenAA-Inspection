@@ -2175,7 +2175,7 @@ public:
 	virtual	ExeResult	ExecuteManageResult			(int ExeID ,ResultInspection *Res)			{	return _ER_true;	}
 
 	virtual	ExeResult	ExecuteRemoveResult(int32 MasterCode , LotBase *Lot , int64 InspectionID ,ResultBaseForAlgorithmRoot *Ref){	return _ER_true;	}
-	//	ExecuteRemoveResult?���Ă΂����̂́A�������ʂ��������܂ꂸ�Ƀo�b�t?�������菜�������Ƃ�
+	//	ExecuteRemoveResult
 
 	bool			GetEnableMoveForAlignment(void)		{	return EnableMoveForAlignment;	}
 	void			SetEnableMoveForAlignment(bool b)	{	EnableMoveForAlignment=b;		}

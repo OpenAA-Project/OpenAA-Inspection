@@ -213,7 +213,7 @@ bool    CameraMVSGigE::Initial(void)
     }
     QThread::msleep(200); // Open直後の安定化ウェイト
 
-    Cam.SetIntValue("GevHeartbeatTimeout", (unsigned int)3000);
+    //Cam.SetIntValue("GevHeartbeatTimeout", (unsigned int)3000);
 
     if (m_stDevList.pDeviceInfo[DevNo]->nTLayerType == MV_GIGE_DEVICE){
         unsigned int nPacketSize = 0;
@@ -703,8 +703,8 @@ bool	CameraMVSGigE::Load(QIODevice *f)
     //for(int i=0;i<3;i++){
         if(IsGrabbing==true){
             Cam.StopGrabbing();
+            Cam.ClearImageBuffer();
         }
-        Cam.ClearImageBuffer();
 
         //GSleep(20);
         SetExposure();

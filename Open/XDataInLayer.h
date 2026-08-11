@@ -580,6 +580,9 @@ public:
 	void	CopyTargetImageToRaw(void);
 	void	CopyTargetToTransposition(void);
 	void	CopyTargetToCameraBuff(void);
+	void	CopyMasterImageToRaw(void);
+	void	CopyMasterToTransposition(void);
+	void	CopyMasterToCameraBuff(void);
 	void	CopyBitBuffToTransposition(void);
 	void	RestoreTargetImageFromRaw(void);
 	void	CopyToDelayedView(void);
@@ -787,6 +790,7 @@ public:
 	void	SetEdited(bool edited);
 	void	SetCalcDone(bool calcdone);
 	void	CopyTargetImageToRaw(void);
+	void	CopyMasterImageToRaw(void);
 
 	int		GetStoringTargetCounter(void)	const;
 
@@ -845,6 +849,8 @@ public:
 	bool	TransformRealToImage(double realX ,double realY ,int &imagex ,int &imagey)	const	{	return XYRegulation.TransformRealToImage(realX ,realY ,imagex ,imagey);	}
 	void	CopyTargetToTransposition(void);
 	void	CopyTargetToCameraBuff(void);
+	void	CopyMasterToTransposition(void);
+	void	CopyMasterToCameraBuff(void);
 	void	CopyBitBuffToTransposition(void);
 	void	CopyTargetToTrial(void);
 

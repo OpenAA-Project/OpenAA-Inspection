@@ -80,7 +80,8 @@ void	SetThresholdForm::SetDataToWindow(const	BCRInspectionThreshold	*R)
 	ui->comboBoxCheckType			->setCurrentIndex(R->CheckType);
 	ui->doubleSpinBoxQuilityGrade	->setValue(R->QuilityGrade);
 
-	ui->checkBoxBarcodeIsOnlyDigit->setChecked(R->BarcodeIsOnlyDigit);
+	ui->checkBoxBarcodeIsOnlyDigit	->setChecked(R->BarcodeIsOnlyDigit);
+	ui->checkBoxUseEnhancer			->setChecked(R->UseEnhancer);
 	ShowGradeList(((BCRInspectionThreshold *)R)->GradeList);
 }
 
@@ -94,11 +95,14 @@ void	SetThresholdForm::GetDataFromWindow(void)
 		if(BData==NULL)
 			continue;
 
-		BData->GetThresholdW(GetLayersBase())->CheckType	=ui->comboBoxCheckType	->currentIndex();
-		BData->GetThresholdW(GetLayersBase())->QuilityGrade	=ui->doubleSpinBoxQuilityGrade	->value();
-		LoadGradeListFromWindow(BData->GetThresholdW()->GradeList);
+		BCRInspectionThreshold *WThr = BData->GetThresholdW(GetLayersBase());
 
-		BData->GetThresholdW(GetLayersBase())->BarcodeIsOnlyDigit	=ui->checkBoxBarcodeIsOnlyDigit->isChecked();
+		WThr->CheckType	=ui->comboBoxCheckType	->currentIndex();
+		WThr->QuilityGrade	=ui->doubleSpinBoxQuilityGrade	->value();
+		LoadGradeListFromWindow(WThr->GradeList);
+
+		WThr->BarcodeIsOnlyDigit	=ui->checkBoxBarcodeIsOnlyDigit->isChecked();
+		WThr->UseEnhancer			=ui->checkBoxUseEnhancer			->isChecked();
 		//return;
 	}
 }

@@ -166,7 +166,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;QT_LARGEFILE_SUPPORT;QT_NO_DEBUG;NDEBUG;BCRINSPECTION_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ZXING)\..\zxing-cpp.release\core;$(ZXING)\build\core;$(ZXING)\core\src;.\..\..\Open;$(FFTW)\api;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ZXING)\..\zxing-cpp.release\core;$(ZXING)\build\core;$(ZXING)\core\src;$(ONNX)\include;.\..\..\Open;$(FFTW)\api;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -186,9 +186,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(ZXING)\..\zxing-cpp.release\core\Release;$(ZXING)\build\core;$(ZXING)\build\core\Release;$(FFTW);$(FFTW)\..\vcpkg\installed\x64-windows-static\lib;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ZXING)\..\zxing-cpp.release\core\Release;$(ZXING)\build\core;$(ZXING)\build\core\Release;$(FFTW);$(FFTW)\..\vcpkg\installed\x64-windows-static\lib;$(ONNX)\lib;..\..\Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ModelPageItem.lib;ServiceLib.lib;Component.lib;EditPasswordOnControl.lib;ServiceForAlgorithm.lib;fftw3.lib;ZXing.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ModelPageItem.lib;ServiceLib.lib;Component.lib;EditPasswordOnControl.lib;ServiceForAlgorithm.lib;fftw3.lib;ZXing.lib;onnxruntime.lib;onnxruntime_providers_cuda.lib;onnxruntime_providers_shared.lib;onnxruntime_providers_tensorrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -204,12 +204,14 @@
     <ClCompile Include="XBCRInspectionLibrary.cpp" />
     <ClCompile Include="XBCRInspectionPacket.cpp" />
     <ClCompile Include="XBCRInspectionReport.cpp" />
+    <ClCompile Include="XOnnx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BCRInspection.h" />
     <ClInclude Include="BCRInspectionResource.h" />
     <ClInclude Include="bcrinspection_global.h" />
     <ClInclude Include="XBCRInspectionLibrary.h" />
+    <ClInclude Include="XOnnx.h" />
     <QtMoc Include="SetThresholdForm.h" />
     <ClInclude Include="XBCRInspection.h" />
   </ItemGroup>

@@ -191,7 +191,8 @@ bool LoadImageTargetButton::LoadImageFile(QString FileName)
 	if(Ver==3){
 		if(LoadImageFileV3(&RFile)==false)
 			return false;
-	}	return true;
+	}
+	return true;
 }
 bool LoadImageTargetButton::LoadImageFile(QIODevice *f)
 {

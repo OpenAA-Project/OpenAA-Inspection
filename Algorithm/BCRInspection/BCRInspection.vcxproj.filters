@@ -61,6 +61,9 @@
     <ClCompile Include="XBCRInspectionPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="XOnnx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BCRInspection.h">
@@ -76,6 +79,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="XBCRInspectionLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XOnnx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

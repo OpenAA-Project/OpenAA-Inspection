@@ -21,6 +21,10 @@
 #include "XBCRInspection.h"
 #include "XCriticalFunc.h"
 #include "ReadBarcode.h"
+#include "XOnnx.h"
+#include <windows.h>
+
+typedef const OrtApiBase* (ORT_API_CALL *OrtGetApiBase_t)();
 
 //=================================================================
 BCRInspectionInPage::BCRInspectionInPage(AlgorithmBase *parent):AlgorithmInPagePI(parent)
@@ -161,6 +165,8 @@ BCRInspectionBase::BCRInspectionBase(LayersBase *Base)
 {
 	ModeParallelForPhase.ModeParallelExecuteInitialAfterEdit=false;
 
+	Enhancer			=NULL;
+
 	ColorBCR			=Qt::green;
 	ColorSelected		=Qt::yellow;
 	ColorActive			=Qt::red;
@@ -176,7 +182,11 @@ BCRInspectionBase::BCRInspectionBase(LayersBase *Base)
 	IdealSize			=150;
 	MinBarcodeImageDispersion	=5.0;
 	ResultOKWithoutBarcode		=true;
-
+	UseEnhancer			= false;
+	ONNXSystemPath		=/**/"ONNX";
+	ONNXRuntimeFileName =/**/"onnxruntime.dll";
+	ONNXFileName		=/**/"ONNX\\RealESRGAN_x4.onnx";
+	LoadedONNXSystem	=false;
 
 	SetParam(&FixedMode			, /**/"Setting"		,/**/"FixedMode"		,LangSolver.GetString(XBCRInspection_LS,LID_0)/*"Fixed Mode"*/);
 	SetParam(&FixedValue		, /**/"Setting"		,/**/"FixedValue"		,LangSolver.GetString(XBCRInspection_LS,LID_1)/*"Fixed value"*/);
@@ -186,6 +196,11 @@ BCRInspectionBase::BCRInspectionBase(LayersBase *Base)
 	SetParam(&IdealSize			, /**/"Setting"		,/**/"IdealSize"		,LangSolver.GetString(XBCRInspection_LS,LID_14)/*"Ideal size insside"*/);
 	SetParam(&MinBarcodeImageDispersion	, /**/"Setting"	,/**/"MinBarcodeImageDispersion"	,"Minimum Barcode Image Dispersion");
 	SetParam(&ResultOKWithoutBarcode	, /**/"Setting"	,/**/"ResultOKWithoutBarcode"		,"OK result without Barcode");
+
+	SetParam(&UseEnhancer		, /**/"ONNX"	,/**/"UseEnhancer"			,"Use Enhancer by onnx");
+	SetParam(&ONNXSystemPath	, /**/"ONNX"	,/**/"ONNXSystemPath"		,"ONNX runtime system path");
+	SetParam(&ONNXRuntimeFileName, /**/"ONNX"	,/**/"ONNXRuntimeFileName"	,"ONNX runtime file name(onnxruntime.dll)");
+	SetParam(&ONNXFileName		, /**/"ONNX"	,/**/"ONNXFileName"			,"ONNX model FileName with path(ONNX\\RealESRGAN_x4.onnx)");
 }
 
 BCRInspectionBase::~BCRInspectionBase(void)
@@ -502,4 +517,116 @@ bool	BCRInspectionBase::GetBCR1D(bool BarcodeIsOnlyDigit
 QString	BCRInspectionBase::GetNameByCurrentLanguage(void)
 {
 	return LangSolver.GetString(XBCRInspection_LS,LID_16)/*"バーコード検査"*/;
+}
+
+bool MakeImageFunc(void *caller,AlgorithmItemRoot *item)
+{
+	BCRInspectionItem	*Item=dynamic_cast<BCRInspectionItem *>(item);
+	if(Item!=NULL){
+		const BCRInspectionThreshold *RThr = Item->GetThresholdR();
+		if(RThr->UseEnhancer==true){
+			return true;
+		}
+	}
+	return false;
+}
+
+ExeResult	BCRInspectionBase::ExecuteInitialAfterEdit		(int ExeID ,ResultBaseForAlgorithmRoot *Res,ExecuteInitialAfterEditInfo &EInfo)
+{
+	if(UseEnhancer==true && Enhancer==NULL && LoadedONNXSystem==false){
+		QString dllPath = GetLayersBase()->GetSystemPath() +QDir::separator()+ ONNXSystemPath;
+		wchar_t	dllPathName[1024];
+		memset(dllPathName,0,sizeof(dllPathName));
+		dllPath.toWCharArray(dllPathName);
+		//LPCWSTR dllDirectory = L"C:\\OpenAA\\dlls"; 
+		SetDllDirectoryW(dllPathName);
+
+		QString	OnnxRuntimeFileName =/**/"onnxruntime";
+		memset(dllPathName,0,sizeof(dllPathName));
+		ONNXRuntimeFileName.toWCharArray(dllPathName);		
+		HMODULE hOrtDll = LoadLibraryW(dllPathName); 
+		
+		SetDllDirectoryW(NULL);
+
+		if (!hOrtDll) {
+		    qDebug() << "Failed to load onnxruntime.dll (and its dependencies).";
+		    return;
+		}
+
+		OrtGetApiBase_t pOrtGetApiBase = (OrtGetApiBase_t)GetProcAddress(hOrtDll, "OrtGetApiBase");
+		if (!pOrtGetApiBase) {
+		    qDebug() << "Failed to find OrtGetApiBase in onnxruntime.dll";
+		    FreeLibrary(hOrtDll);
+		    return;
+		}
+
+		// API基盤を取得し初期化
+		const OrtApiBase* apiBase = pOrtGetApiBase();
+		const OrtApi* api = apiBase->GetApi(ORT_API_VERSION);
+		Ort::InitApi(api);
+		LoadedONNXSystem = true;
+	}
+	if(UseEnhancer==true){
+		if(Enhancer==NULL){
+			QString	ONNXFilePath=GetLayersBase()->GetSystemPath()
+								+QDir::separator()
+								+ONNXFileName;
+			Enhancer=new BarcodeEnhancer(GetLayersBase(),ONNXFilePath,ONNXSystemPath);
+		}
+	}
+	else{
+		if(Enhancer!=NULL){
+			delete Enhancer;
+			Enhancer=NULL;
+		}
+	}
+
+	ExeResult	Ret=AlgorithmBase::ExecuteInitialAfterEdit(ExeID,Res,EInfo);
+
+	if(UseEnhancer==true && Enhancer!=NULL){
+		AlgorithmItemPointerListContainer Items;
+		EnumItems(NULL,Items , MakeImageFunc);
+
+		std::vector<QImage>	InputImages;
+		for(AlgorithmItemPointerList *a=Items.GetFirst();a!=NULL;a=a->GetNext()){
+			BCRInspectionItem	*Item=dynamic_cast<BCRInspectionItem *>(a->GetItem());
+			if(Item!=NULL){
+				Item->MakeMasterImage();
+				InputImages.push_back(Item->InputImageForEnhancer);
+			}
+		}
+		Enhancer->enhanceBatch(InputImages);	//Try once for intialization
+	}
+
+	return Ret;
+}
+
+ExeResult	BCRInspectionBase::ExecutePreProcessing		(int ExeID ,ResultBaseForAlgorithmRoot *Res)
+{
+	if(UseEnhancer==true && Enhancer!=NULL){
+		AlgorithmItemPointerListContainer Items;
+		EnumItems(NULL,Items , MakeImageFunc);
+
+		std::vector<QImage>	InputImages;
+		for(AlgorithmItemPointerList *a=Items.GetFirst();a!=NULL;a=a->GetNext()){
+			BCRInspectionItem	*Item=dynamic_cast<BCRInspectionItem *>(a->GetItem());
+			if(Item!=NULL){
+				Item->MakeTargetImage();
+				InputImages.push_back(Item->InputImageForEnhancer);
+			}
+		}
+		std::vector<QImage> EnhancedImages=Enhancer->enhanceBatch(InputImages);
+
+		int	n=0;
+		for(AlgorithmItemPointerList *a=Items.GetFirst();a!=NULL;a=a->GetNext()){
+			BCRInspectionItem	*Item=dynamic_cast<BCRInspectionItem *>(a->GetItem());
+			if(Item!=NULL){
+				Item->EnhancedImage = EnhancedImages[n];
+				n++;
+			}
+		}
+	}
+
+	ExeResult	Ret=AlgorithmBase::ExecutePreProcessing(ExeID,Res);
+	return Ret;
 }

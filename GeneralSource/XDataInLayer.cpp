@@ -5709,7 +5709,9 @@ void	LayersBase::InformToLoadDLL(const QString &FileName)
 			InstShowLoadingDLLForm->show();
 			InstShowLoadingDLLForm->update();
 		}
-		//QCoreApplication::processEvents();
+#ifdef _MSC_VER
+		QCoreApplication::processEvents();
+#endif
 	}
 }
 

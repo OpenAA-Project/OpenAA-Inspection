@@ -2037,6 +2037,36 @@ void	DataInLayer::CopyTargetToCameraBuff(void)
 		*CamTargetBuff=*TargetBuffDim[TargetWPoint];
 	}
 }
+
+
+void	DataInLayer::CopyMasterImageToRaw(void)
+{
+	if((MasterBuff[0]!=NULL)
+	&& (RawTargetBuff!=NULL) 
+	&& (MasterBuff[0]->IsNull()==false) 
+	&& (RawTargetBuff->IsNull()==false)){
+		*RawTargetBuff= *MasterBuff[0];
+	}
+}
+void	DataInLayer::CopyMasterToTransposition(void)
+{
+	if((MasterBuff[0]!=NULL)
+	&& (TargetTRBuff!=NULL) 
+	&& (MasterBuff[0]->IsNull()==false)
+	&& (TargetTRBuff->IsNull()==false)){
+		if(TargetTRBuff->GetFlagCaptured()==false){
+			TargetTRBuff->TranspositionXY(*MasterBuff[0]);
+		}
+	}
+}
+void	DataInLayer::CopyMasterToCameraBuff(void)
+{
+	if((MasterBuff[0]!=NULL)
+	&& (MasterBuff[0]->IsNull()==false)
+	&& (CamTargetBuff->IsNull()==false)){
+		*CamTargetBuff=*MasterBuff[0];
+	}
+}
 void	DataInLayer::CopyBitBuffToTransposition(void)
 {
 	if((BitBuff!=NULL) && (TargetTRBuff!=NULL) && (BitBuff->IsNull()==false) && (TargetTRBuff->IsNull()==false)){
@@ -3307,6 +3337,61 @@ void	DataInPage::CopyTargetToCameraBuff(void)
 		for(IntClass *s=LayerList.GetFirst();s!=NULL;s=s->GetNext()){
 			int	Layer=s->GetValue();
 			GetLayerData(Layer)->CopyTargetToCameraBuff();
+		}
+	}
+}
+
+void	DataInPage::CopyMasterImageToRaw(void)
+{
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			GetLayerData(Layer)->CopyMasterImageToRaw();
+		}
+	}
+	else{
+		IntList	LayerList;
+		GetParamGlobal()->GetStrategyLayer(GetLayersBase()->GetCurrentStrategicNumberForCalc()
+						,GetPage(),LayerList);
+
+		for(IntClass *s=LayerList.GetFirst();s!=NULL;s=s->GetNext()){
+			int	Layer=s->GetValue();
+			GetLayerData(Layer)->CopyMasterImageToRaw();
+		}
+	}
+}
+void	DataInPage::CopyMasterToTransposition(void)
+{
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			GetLayerData(Layer)->CopyMasterToTransposition();
+		}
+	}
+	else{
+		IntList	LayerList;
+		GetParamGlobal()->GetStrategyLayer(GetLayersBase()->GetCurrentStrategicNumberForCalc()
+						,GetPage(),LayerList);
+
+		for(IntClass *s=LayerList.GetFirst();s!=NULL;s=s->GetNext()){
+			int	Layer=s->GetValue();
+			GetLayerData(Layer)->CopyMasterToTransposition();
+		}
+	}
+}
+void	DataInPage::CopyMasterToCameraBuff(void)
+{
+	if(GetParamGlobal()->GetMaxStrategyCount()<=1){
+		for(int Layer=0;Layer<GetLayerNumb();Layer++){
+			GetLayerData(Layer)->CopyMasterToCameraBuff();
+		}
+	}
+	else{
+		IntList	LayerList;
+		GetParamGlobal()->GetStrategyLayer(GetLayersBase()->GetCurrentStrategicNumberForCalc()
+						,GetPage(),LayerList);
+
+		for(IntClass *s=LayerList.GetFirst();s!=NULL;s=s->GetNext()){
+			int	Layer=s->GetValue();
+			GetLayerData(Layer)->CopyMasterToCameraBuff();
 		}
 	}
 }
