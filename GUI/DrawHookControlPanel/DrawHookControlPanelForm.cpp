@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2023
  * Author : Masatoshi Sasai ,MEGATRADE corporation
  *
@@ -992,6 +992,38 @@ void DrawHookControlPanelForm::on_toolButtonDelete_clicked()
 	TargetPanels.Repaint();
 }
 
+void	DrawHookControlPanelForm::SetCursor(void)
+{
+	int	ToolIndex = ui->toolBox->currentIndex();
+	if(ToolIndex==0){
+		for(DisplayImagePointer *a=TargetPanels.GetFirst();a!=NULL;a=a->GetNext()){
+			DisplayImage	*TargetPanel=a->GetPanel();
+			TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawLine.png"),2,2));
+		}
+	}
+	else if(ToolIndex==1){
+		int	DIndex=ui->comboBoxDrawType->currentIndex();
+		for(DisplayImagePointer *a=TargetPanels.GetFirst();a!=NULL;a=a->GetNext()){
+			DisplayImage	*TargetPanel=a->GetPanel();
+			if(DIndex==0){
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawRect.png"),2,2));
+			}
+			else if(DIndex==1){
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawEllipse.png"),2,2));
+			}
+			else if(DIndex==2){
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawPoly.png"),12,0));
+			}
+		}
+	}
+	else if(ToolIndex==2){
+		for(DisplayImagePointer *a=TargetPanels.GetFirst();a!=NULL;a=a->GetNext()){
+			DisplayImage	*TargetPanel=a->GetPanel();
+			TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawText.png"),0,0));
+		}
+	}
+}
+
 void	DrawHookControlPanelForm::TransmitDirectly(GUIDirectMessage *packet)
 {
 	CmdDHControlPanel_SetType	*CmdDHControlPanel_SetTypeVar=dynamic_cast<CmdDHControlPanel_SetType *>(packet);
@@ -1005,6 +1037,7 @@ void	DrawHookControlPanelForm::TransmitDirectly(GUIDirectMessage *packet)
 			ui->toolButtonNew->setChecked(false);
 		}
 		ui->toolButtonSelect->setChecked(false);
+		SetCursor();
 		return;
 	}
 	CmdDHControlPanel_MakeFlexArea *CmdDHControlPanel_MakeFlexAreaVar=dynamic_cast<CmdDHControlPanel_MakeFlexArea *>(packet);
@@ -1054,6 +1087,7 @@ void	DrawHookControlPanelForm::TransmitDirectly(GUIDirectMessage *packet)
 	CmdDHControlPanel_SetDrawType	*CmdDHControlPanel_SetDrawTypeVar=dynamic_cast<CmdDHControlPanel_SetDrawType *>(packet);
 	if(CmdDHControlPanel_SetDrawTypeVar!=NULL){
 		ui->comboBoxDrawType	->setCurrentIndex(CmdDHControlPanel_SetDrawTypeVar->DrawType);
+		SetCursor();
 		return;
 	}
 	CmdDHControlPanel_SetDrawLineWidth	*CmdDHControlPanel_SetDrawLineWidthVar=dynamic_cast<CmdDHControlPanel_SetDrawLineWidth *>(packet);
@@ -1077,6 +1111,16 @@ void	DrawHookControlPanelForm::TransmitDirectly(GUIDirectMessage *packet)
 						D->DrawLineColor=CmdDHControlPanel_SetDrawLineColorVar->DrawLineColor;
 					}
 				}
+			}
+		}
+		return;
+	}
+	CmdHookControlPanel_SetCursor *CmdHookControlPanel_SetCursorVar = dynamic_cast<CmdHookControlPanel_SetCursor *>(packet);
+	if (CmdHookControlPanel_SetCursorVar != NULL) {
+		for (DisplayImagePointer* a = TargetPanels.GetFirst(); a != NULL; a = a->GetNext()) {
+			DisplayImage* TargetPanel = a->GetPanel();
+			if(CmdHookControlPanel_SetCursorVar->CursorType==0){
+				TargetPanel->SetCursor(Qt::ArrowCursor);
 			}
 		}
 		return;
@@ -1246,6 +1290,7 @@ void	DrawHookControlPanelForm::TransmitDirectly(GUIDirectMessage *packet)
 	}
 	CmdHookControlPanel_GetLineProperty	*CmdHookControlPanel_GetLinePropertyVar=dynamic_cast<CmdHookControlPanel_GetLineProperty *>(packet);
 	if(CmdHookControlPanel_GetLinePropertyVar!=NULL){
+		CmdHookControlPanel_GetLinePropertyVar->LineColor	=ButtonLineColor		->color();
 		for(DrawerItemBase *a=DrawerItemDatas.GetFirst();a!=NULL;a=a->GetNext()){
 			if(a->ID==CmdHookControlPanel_GetLinePropertyVar->ID){
 				DrawItemLine	*L=dynamic_cast<DrawItemLine *>(a);
@@ -1265,6 +1310,9 @@ void	DrawHookControlPanelForm::TransmitDirectly(GUIDirectMessage *packet)
 	}
 	CmdHookControlPanel_GetDrawInfo	*CmdHookControlPanel_GetDrawInfoVar=dynamic_cast<CmdHookControlPanel_GetDrawInfo *>(packet);
 	if(CmdHookControlPanel_GetDrawInfoVar!=NULL){
+		CmdHookControlPanel_GetDrawInfoVar->DrawLineColor	=ButtonDrawLineColor	->color();
+		//ButtonLineColor		->setColor();
+		CmdHookControlPanel_GetDrawInfoVar->DrawInsideColor	=ButtonDrawInsideColor	->color();
 		for(DrawerItemBase *a=DrawerItemDatas.GetFirst();a!=NULL;a=a->GetNext()){
 			if(a->ID==CmdHookControlPanel_GetDrawInfoVar->ID){
 				DrawItemDraw	*D=dynamic_cast<DrawItemDraw *>(a);
@@ -1285,6 +1333,7 @@ void	DrawHookControlPanelForm::TransmitDirectly(GUIDirectMessage *packet)
 	}
 	CmdHookControlPanel_GetTextInfo	*CmdHookControlPanel_GetTextInfoVar=dynamic_cast<CmdHookControlPanel_GetTextInfo *>(packet);
 	if(CmdHookControlPanel_GetTextInfoVar!=NULL){
+		CmdHookControlPanel_GetTextInfoVar->TextColor	=ButtonTextColor	->color();
 		for(DrawerItemBase *a=DrawerItemDatas.GetFirst();a!=NULL;a=a->GetNext()){
 			if(a->ID==CmdHookControlPanel_GetTextInfoVar->ID){
 				DrawItemText	*T=dynamic_cast<DrawItemText *>(a);

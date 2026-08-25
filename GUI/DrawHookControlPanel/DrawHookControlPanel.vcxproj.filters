@@ -44,8 +44,6 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="DrawHookControlPanelForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,7 +58,6 @@
     <ClInclude Include="drawhookcontrolpanel_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
     <ClInclude Include="XDrawHookControlPanelCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -72,5 +69,27 @@
     <QtMoc Include="DrawHookControlPanelForm.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="DrawHookControlPanel.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Icon\IconDrawEllipse.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\IconDrawLine.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\IconDrawPoly.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\IconDrawRect.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\IconDrawText.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

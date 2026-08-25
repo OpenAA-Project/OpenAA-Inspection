@@ -105,6 +105,7 @@ private:
     Ui::HookMeasureForm *ui;
 
 	virtual	void	showEvent (QShowEvent * event)	override;
+	virtual void	closeEvent(QCloseEvent *event)	override;
 
 public:
 	class	MeasuredList : public NPList<MeasuredList>
@@ -178,6 +179,7 @@ private:
 	void	RedoMoveItem(QIODevice *f);
 	void	UndoDeleteItem(QIODevice *f);
 	void	RedoDeleteItem(QIODevice *f);
+
 public:
 	int				MoveStep;
 	int				GlobalMovX1,GlobalMovY1;
@@ -200,6 +202,8 @@ public:
 
 	bool	Save(QIODevice *f);
 	bool	Load(QIODevice *f);
+
+	void	SetCursor(MeasuredList::MLA_Action action);
 
 private slots:
 	void	ResizeAction();

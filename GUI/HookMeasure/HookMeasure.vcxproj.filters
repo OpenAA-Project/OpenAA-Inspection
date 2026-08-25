@@ -44,27 +44,20 @@
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="HookMeasureForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XHookMeasure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="SettingMeasureDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HookMeasure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    
     <ClInclude Include="hookmeasure_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -177,5 +170,37 @@
     <None Include="Resources\Select\StraightLineS.png">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Icon\IconAngle.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\IconBrokenLine.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\IconCircle1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\IconCircle2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\IconCircleTwoPoints.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\IconCrcularArc.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\IconMPolygon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\IconParallelLines.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\IconRectangle.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\IconStraightLine.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

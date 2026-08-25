@@ -252,6 +252,16 @@
     <QtUic Include="DrawHookControlPanelForm.ui">
     </QtUic>
   </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="DrawHookControlPanel.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Icon\IconDrawEllipse.png" />
+    <Image Include="Icon\IconDrawLine.png" />
+    <Image Include="Icon\IconDrawPoly.png" />
+    <Image Include="Icon\IconDrawRect.png" />
+    <Image Include="Icon\IconDrawText.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

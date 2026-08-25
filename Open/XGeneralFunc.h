@@ -24,6 +24,7 @@
 #include<QByteArray>
 #include<QThread>
 #include<QPushButton>
+#include<QToolButton>
 #include<QStringList>
 
 #include"XTypeDef.h"
@@ -166,6 +167,9 @@ bool			SetCurrentIndex(QStackedWidget* W, const QString& TabName);
 QStringList		GetDataFromListWidget(QListWidget* W);
 void			SetColumnWidthInTable(QTableWidget *table ,int column, int Percentage);
 void			SetColumnWidthInTable(QTableView *table ,int column, int Percentage);
+
+void SetToolButtonColors(QToolButton *button, const QColor &bgColor, const QColor &textColor);
+void SetPushButtonColors(QPushButton *button, const QColor &bgColor, const QColor &textColor);
 
 void	SetEnabledForChildren(QObject *b,bool flag);
 

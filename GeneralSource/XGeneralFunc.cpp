@@ -41,6 +41,7 @@
 #include<QHeaderView>
 #include<QScrollBar>
 #include <QSpinBox>
+#include <QToolButton>
 #include <QDoubleSpinBox>
 
 bool	FuncCall	Save(QIODevice *f,const QColor &d)
@@ -1452,4 +1453,52 @@ void	SetEnabledForChildren(QObject *b,bool flag)
 		}
 		SetEnabledForChildren(Q[i],flag);
 	}
+}
+
+
+void SetToolButtonColors(QToolButton *button, const QColor &bgColor, const QColor &textColor)
+{
+    if (!button) {
+        return;
+    }
+
+    QString styleSheet = QString(
+        "QToolButton {"
+        "   background-color: %1;"
+        "   color: %2;"
+        "}"
+    ).arg(bgColor.name(QColor::HexArgb))
+     .arg(textColor.name(QColor::HexArgb));
+
+	button->setAutoFillBackground(true);
+    button->setStyleSheet(styleSheet);
+}
+
+void SetPushButtonColors(QPushButton *button, const QColor &bgColor, const QColor &textColor)
+{
+    if (!button) {
+        return;
+    }
+
+    // QPushButton用のスタイルシート文字列を作成
+    QString styleSheet = QString(
+        "QPushButton {"
+        "   background-color: %1;"
+        "   color: %2;"
+        // QPushButtonで色を変更する場合、ネイティブの枠線を上書きするために
+        // borderの指定が必要になることが多いです（OSによる）
+        "   border: 1px solid #8f8f91;" 
+        "   border-radius: 4px;"
+        "   padding: 4px;"
+        "}"
+        // 押下時のスタイル（おまけ）
+        "QPushButton:pressed {"
+        "   background-color: %3;"
+        "}"
+    ).arg(bgColor.name(QColor::HexArgb))
+     .arg(textColor.name(QColor::HexArgb))
+     .arg(bgColor.darker(120).name(QColor::HexArgb)); // 押下時は少し暗くする
+
+	button->setAutoFillBackground(true);
+    button->setStyleSheet(styleSheet);
 }

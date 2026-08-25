@@ -1048,6 +1048,8 @@ void	DisplayImage::Prepare(void)
 	connect(MainCanvas,SIGNAL(SignalJustMouseRRelease(int,int))	,this,SLOT(SlotJustMouseRRelease(int,int)));
 	connect(MainCanvas,SIGNAL(SignalFitZoom())					,this,SLOT(SlotFitZoom()));
 
+	connect(MainCanvas,SIGNAL(SignalChangePositionZoom()),this,SLOT(SlotChangePositionZoom()));
+
 	MainCanvas->setParent(this);
 	SetMinZoomValue(GetParamGlobal()->ZoomMin);
 	SetMaxZoomValue(GetParamGlobal()->ZoomMax);

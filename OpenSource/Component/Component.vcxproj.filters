@@ -225,5 +225,26 @@
     <Image Include="Icon\RotRectangle1.PNG">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Icon\SArrow.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\Arrow.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\RingDraw.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\ArcDraw.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\ChoppedLine.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\SChoppedLine.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\InfiniteLine.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

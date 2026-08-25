@@ -35,6 +35,7 @@
 #include<QListWidget>
 #include<QTableWidget>
 
+
 //----------------------------------------------------------------
 
 void	FuncCall	AddAlphaChannel(QImage &image, int alpha)

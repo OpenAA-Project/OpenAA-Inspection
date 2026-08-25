@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="/">
+    <file>Icon/IconDrawEllipse.png</file>
+    <file>Icon/IconDrawLine.png</file>
+    <file>Icon/IconDrawPoly.png</file>
+    <file>Icon/IconDrawRect.png</file>
+    <file>Icon/IconDrawText.png</file>
+  </qresource>
+</RCC>

@@ -11,5 +11,12 @@
         <file>Icon/Polygon1.PNG</file>
         <file>Icon/RotEllipse1.PNG</file>
         <file>Icon/RotRectangle1.PNG</file>  
+        <file>Icon/InfiniteLine.PNG</file>
+        <file>Icon/SChoppedLine.PNG</file>
+        <file>Icon/ChoppedLine.PNG</file>
+        <file>Icon/RingDraw.PNG</file>
+        <file>Icon/ArcDraw.PNG</file>
+        <file>Icon/Arrow.PNG</file>
+        <file>Icon/SArrow.PNG</file>
     </qresource>
 </RCC>

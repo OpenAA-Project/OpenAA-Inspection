@@ -66,7 +66,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
       <UseProcessorExtensions>SSE42</UseProcessorExtensions>
       <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
       <OpenMP>GenerateParallelCode</OpenMP>
@@ -183,17 +183,24 @@
     <QtRcc Include="mtFrameDraw.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Icon\ArcDraw.PNG" />
+    <Image Include="Icon\Arrow.PNG" />
+    <Image Include="Icon\ChoppedLine.PNG" />
     <Image Include="Icon\Ellipse1.PNG" />
     <Image Include="Icon\Ellipse2.PNG" />
     <Image Include="Icon\Ellipse3.PNG" />
     <Image Include="Icon\EllipseTop.PNG" />
     <Image Include="Icon\Free1.PNG" />
+    <Image Include="Icon\InfiniteLine.PNG" />
     <Image Include="Icon\MoveItem1.PNG" />
     <Image Include="Icon\Polygon1.PNG" />
     <Image Include="Icon\Rectangle1.PNG" />
     <Image Include="Icon\Rectangle2.PNG" />
+    <Image Include="Icon\RingDraw.PNG" />
     <Image Include="Icon\RotEllipse1.PNG" />
     <Image Include="Icon\RotRectangle1.PNG" />
+    <Image Include="Icon\SArrow.PNG" />
+    <Image Include="Icon\SChoppedLine.PNG" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

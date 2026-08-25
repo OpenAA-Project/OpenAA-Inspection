@@ -232,7 +232,7 @@
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>MaxSpeedHighLevel</Optimization>
@@ -3572,6 +3572,14 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Icon\CopyRect.PNG" />
+    <Image Include="Icon\DrawDot.PNG" />
+    <Image Include="Icon\DrawRect.PNG" />
+    <Image Include="Icon\Measure.PNG" />
+    <Image Include="Icon\PickColor.PNG" />
+    <Image Include="Icon\SaveImageOnRect.PNG" />
+    <Image Include="Icon\ZoomIn.PNG" />
+    <Image Include="Icon\ZoomRect.PNG" />
     <Image Include="Resources\ItemMenu100.png" />
     <Image Include="Resources\ItemMenu32.png" />
     <Image Include="Resources\ItemMenu64.png" />

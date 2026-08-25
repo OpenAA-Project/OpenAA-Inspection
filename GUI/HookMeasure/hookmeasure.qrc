@@ -35,4 +35,16 @@
     <file>Resources/Select/RectangleS.png</file>
     <file>Resources/Select/StraightLineS.png</file>
   </qresource>
+  <qresource prefix="/">
+    <file>Icon/IconAngle.png</file>
+    <file>Icon/IconBrokenLine.png</file>
+    <file>Icon/IconCircle1.png</file>
+    <file>Icon/IconCircle2.png</file>
+    <file>Icon/IconCircleTwoPoints.png</file>
+    <file>Icon/IconCrcularArc.png</file>
+    <file>Icon/IconMPolygon.png</file>
+    <file>Icon/IconParallelLines.png</file>
+    <file>Icon/IconRectangle.png</file>
+    <file>Icon/IconStraightLine.png</file>
+  </qresource>
 </RCC>

@@ -472,6 +472,18 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Icon\IconAngle.png" />
+    <Image Include="Icon\IconBrokenLine.png" />
+    <Image Include="Icon\IconCircle1.png" />
+    <Image Include="Icon\IconCircle2.png" />
+    <Image Include="Icon\IconCircleTwoPoints.png" />
+    <Image Include="Icon\IconCrcularArc.png" />
+    <Image Include="Icon\IconMPolygon.png" />
+    <Image Include="Icon\IconParallelLines.png" />
+    <Image Include="Icon\IconRectangle.png" />
+    <Image Include="Icon\IconStraightLine.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

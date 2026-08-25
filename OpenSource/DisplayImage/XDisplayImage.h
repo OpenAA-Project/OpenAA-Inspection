@@ -330,6 +330,25 @@ public:
 		,_Other					=100
 	}DrawingShapeMode,SavedDrawingShapeMode;
 
+	enum	__DisplayImageAction
+	{
+		 _DisplayImageActionNone			=0
+		,_DisplayImageActionZoomIn			=1
+		,_DisplayImageActionZoomRect		=2
+		,_DisplayImageActionZoomWhole		=3
+		,_DisplayImageActionCopyRect		=4
+		,_DisplayImageActionPaste			=5
+		,_DisplayImageActionPickColor		=6
+		,_DisplayImageActionDrawRect		=7
+		,_DisplayImageActionDrawDot			=8
+		,_DisplayImageActionToolMenu		=9
+		,_DisplayImageActionDrawColorMessage=10
+		,_DisplayImageActionSaveImageOnRect	=11
+		,_DisplayImageActionSaveImageOnPoint= 12
+		,_DisplayImageActionRegulateBrightness	=13
+		,_DisplayImageActionMeasure			=14
+	};
+
 	struct	_Option{
 		bool	ZoomInButton;
 		bool	ZoomRectButton;
@@ -465,6 +484,10 @@ public:
 
 	void	SetCursor(DrawingMode mode);
 	void	SetCursor(__DrawingShapeMode mode);
+	void	SetCursor(__DisplayImageAction action);
+	void	SetCursor(const QCursor &cursor);
+	void	SaveCursor(void)	;
+	void	RestoreCursor(void)	;
 
 	void	ChangeDisplayType(DisplayType dtype);
 	DisplayType	GetDisplayType(void)const	{	return DType;	}
@@ -501,10 +524,10 @@ public:
 	int		GetMovy(void)				const	{	return(MainCanvas->GetMovy());			}
 	int		GetCanvasWidth(void)		const	{	return(MainCanvas->GetCanvasWidth());	}
 	int		GetCanvasHeight(void)		const	{	return(MainCanvas->GetCanvasHeight());	}
-	void	SetMovXY(int mx ,int my)			{	MainCanvas->SetMovXY(mx,my);			}
+	void	SetMovXY(int mx ,int my);
 	double	GetZoomRateForWhole(void)	const	{	return MainCanvas->GetZoomRateForWhole();	}	
 	double	GetZoomRateForFit(void)		const	{	return MainCanvas->GetZoomRateForFit();	}
-	void	SetZoomRate(double ZoomRate)		{	MainCanvas->SetZoomRate(ZoomRate);		}
+	void	SetZoomRate(double ZoomRate);
 	double	GetMaxZoomValue(void)		const	{	return MainCanvas->GetMaxZoomRate();	}
 	double	GetMinZoomValue(void)		const	{	return MainCanvas->GetMinZoomRate();	}
 	void	SetMaxZoomValue(double d)			{	MainCanvas->SetMaxZoomRate(d);			}
@@ -667,6 +690,9 @@ public:
 	DWORD	GetLastTimeToDraw(void)		const	{	return LastTimeToDraw;	}
 	DWORD	GetLastTimeToPaint(void)	const	{	return LastTimeToPaint;	}
 
+	bool	IsDrawWhole(void);
+	bool	IsDrawFixed(void);
+
 private:
 	bool	OnIdleFunc(void);
 
@@ -685,6 +711,7 @@ public slots:
 	void	ToolMenuBtnDown();
 	void	ExpandedPasteBtnDown(bool);
 	void	SlotMouseMove(int X,int Y);
+
 public:
 	void	ViewRefreshInPlayer(int64 shownInspectionID);
 	void	ViewRefreshInEdit(void);
@@ -747,7 +774,7 @@ private slots:
 	void	SlotSelectFreeHand();
 	void	SlotSelectPour();
 	void	SlotSelectReplaceColor();
-
+	void	SlotChangePositionZoom();
 signals:
 	void	SignalMeasure(double length);
 	void	SignalPointColor(int meterX, int meterY ,QColor &col);
@@ -769,6 +796,9 @@ signals:
 	void	SignalMouseRDownWithShift(int globalX,int globalY);
 	void	SignalMouseLDoubleClick(int globalX,int globalY);
 	void	SignalMouseRDoubleClick(int globalX,int globalY);
+
+	void	SignalChangePositionZoom();
+
 
 protected slots:
 	virtual	void	CanvasSlotDrawEnd(void);

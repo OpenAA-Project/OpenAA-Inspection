@@ -117,6 +117,9 @@ public:
 	void	GetMeterOffset(int &OffsetX ,int &OffsetY);
 	void	ZoomDrawWhole(void);
 	void	ZoomDrawFit(void);
+	bool	IsDrawWhole(void);
+	bool	IsDrawFixed(void);
+
 	void	SetEnableShiftImage(bool b);
 	bool	GetEnableShiftImage(void)	const;
 	void	SetScrollerWidth(int w);
@@ -154,6 +157,11 @@ public:
 	void	SetMode(DrawingMode mode);
 	DrawingMode GetMode(void)	const;
 	void	SetCursor(DrawingMode mode);
+	void	SetCursor(const QCursor &cursor);
+	void	SaveCursor(void)	;
+	void	RestoreCursor(void)	;
+
+	const QCursor &GetCursor(void)	const;
 	void	SetFrameColor(const QColor &col);
 	QColor	GetFrameColor(void)	const	;
 	QPoint	GetCursorPos(void)			;
@@ -232,6 +240,8 @@ signals:
 	void	SignalFitZoom();
 	void	SignalJustMouseLLongPress  (int UniversalDx,int UniversalDy);
 	void	SignalJustMouseRLongPress  (int UniversalDx,int UniversalDy);
+	void	SignalChangePositionZoom();
+
 protected:
 	virtual	void	resizeEvent ( QResizeEvent * event )	override;
 

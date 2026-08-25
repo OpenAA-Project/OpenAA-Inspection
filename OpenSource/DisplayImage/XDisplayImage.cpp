@@ -774,6 +774,24 @@ void	DisplayImage::ChangeDisplayType(DisplayType dtype)
 	}
 }
 
+void	DisplayImage::SetMovXY(int mx ,int my)
+{	
+	if(MainCanvas->GetMovx()!=mx || MainCanvas->GetMovy()!=my){
+		MainCanvas->SetMovXY(mx,my);
+	}
+}
+
+void	DisplayImage::SetZoomRate(double ZoomRate)
+{	
+	if(MainCanvas->GetZoomRate()!=ZoomRate){
+		MainCanvas->SetZoomRate(ZoomRate);
+	}
+}
+
+void	DisplayImage::SlotChangePositionZoom()
+{
+	emit	SignalChangePositionZoom();
+}
 
 void	DisplayImage::ResizeAction()
 {
@@ -813,6 +831,7 @@ void	DisplayImage::ZoomInButtonDown()
 {
 	if(MainCanvas!=NULL){
 		MainCanvas->SetMode(fdPoint);
+		SetCursor(_DisplayImageActionZoomIn);
 	}
 	AllUpToolButton();
 	SetAlterSomething();
@@ -827,6 +846,7 @@ void	DisplayImage::ZoomRectButtonDown()
 	if(MainCanvas!=NULL){
 		MainCanvas->SetMode(fdRectangle);
 		MainCanvas->SetFrameColor(FrameColor);
+		SetCursor(_DisplayImageActionZoomRect);
 	}
 	SetAlterSomething();
 	GetLayersBase()->SetStatusModes(this,/**/"ImageZoomRect");
@@ -840,6 +860,7 @@ void	DisplayImage::CopyRectButtonDown()
 	if(MainCanvas!=NULL){
 		MainCanvas->SetMode(fdRectangle);
 		MainCanvas->SetFrameColor(FrameColor);
+		SetCursor(_DisplayImageActionCopyRect);
 	}
 	//AllUpToolButton();
 	SetAlterSomething();
@@ -869,6 +890,7 @@ void	DisplayImage::MeasureButtonDown(bool checked)
 	if(checked==true){
 		if(MainCanvas!=NULL){
 			MainCanvas->SetMode(fdPoint);
+			SetCursor(_DisplayImageActionMeasure);
 		}
 		AllUpToolButton();
 		SetAlterSomething();
@@ -937,6 +959,7 @@ void	DisplayImage::PickColorButtonDown()
 {
 	if(MainCanvas!=NULL){
 		MainCanvas->SetMode(fdPoint);
+		SetCursor(_DisplayImageActionPickColor);
 	}
 	AllUpToolButton();
 	SetAlterSomething();
@@ -954,6 +977,7 @@ void	DisplayImage::DrawRectButtonDown()
 		//MainCanvas->SetMode(fdRectangle);
 		MainCanvas->Clear();
 		MainCanvas->SetMode(DrawRectMode);
+		SetCursor(_DisplayImageActionDrawRect);
 
 		//if((MainCanvas->GetMode()==fdPoint) || (MainCanvas->GetMode()==fdNone)){
 		//	SetModeToImagePanelTools(DrawRectMode ,FrameColor);
@@ -970,6 +994,7 @@ void	DisplayImage::DrawDotButtonDown()
 {
 	if(MainCanvas!=NULL){
 		MainCanvas->SetMode(fdPoint);
+		SetCursor(_DisplayImageActionDrawDot);
 	}
 	AllUpToolButton();
 	SetAlterSomething();
@@ -990,6 +1015,16 @@ void	DisplayImage::WholeButtonDown()
 	SetAlterSomething();
 
 	emit	SignalButtonClicked(ZoomWholeBtn->objectName());
+}
+
+bool	DisplayImage::IsDrawWhole(void)
+{
+	return (MainCanvas!=NULL && MainCanvas->IsDrawWhole()==true);
+}
+
+bool	DisplayImage::IsDrawFixed(void)
+{
+	return (MainCanvas!=NULL && MainCanvas->IsDrawFixed()==true);
 }
 
 void	DisplayImage::FitButtonDown()
@@ -2506,6 +2541,7 @@ void	DisplayImage::SaveImageOnRectBtnDown(bool)
 	if(MainCanvas!=NULL){
 		MainCanvas->SetMode(fdRectangle);
 		MainCanvas->SetFrameColor(FrameColor);
+		SetCursor(_DisplayImageActionSaveImageOnRect);
 	}
 	AllUpToolButton();
 	SetDrawingMode(_SaveImageOnRect);
@@ -2517,6 +2553,7 @@ void	DisplayImage::SaveImageOnPointBtnDown(bool)
 	if(MainCanvas!=NULL){
 		MainCanvas->SetMode(fdPoint);
 		MainCanvas->SetFrameColor(FrameColor);
+		SetCursor(_DisplayImageActionSaveImageOnPoint);
 	}
 	AllUpToolButton();
 	SetDrawingMode(_SaveImageOnPoint);
@@ -2529,6 +2566,7 @@ void	DisplayImage::RegulateBrightnessBtnDown(bool)
 	if(MainCanvas!=NULL){
 		MainCanvas->SetMode(fdRectangle);
 		MainCanvas->SetFrameColor(FrameColor);
+		SetCursor(_DisplayImageActionRegulateBrightness);
 	}
 	AllUpToolButton();
 	SetDrawingMode(_RegulateBrightness);
@@ -3787,7 +3825,64 @@ void	DisplayImage::SetCursor(DrawingMode mode)
 void	DisplayImage::SetCursor(DisplayImage::__DrawingShapeMode mode)
 {
 	if(mode==_MeasureFirst || mode==_MeasureSecond){
-		setCursor(QCursor(QPixmap(/**/":/Resources/Meassure1.PNG"),0,0));
+		MainCanvas->SetCursor(QCursor(QPixmap(/**/":/Resources/Meassure1.PNG"),0,0));
+	}
+}
+
+void	DisplayImage::SetCursor(const QCursor &cursor)
+{
+	MainCanvas->SetCursor(cursor);
+}
+
+void	DisplayImage::SetCursor(__DisplayImageAction action)
+{
+	if(MainCanvas!=NULL){
+		switch(action){
+		case _DisplayImageActionNone:
+			MainCanvas->SetCursor(QCursor(Qt::ArrowCursor));		break;
+		case _DisplayImageActionZoomIn	:
+			MainCanvas->SetCursor(QCursor(QPixmap(":/Icon/ZoomIn.PNG"),8,8));		break;
+		case _DisplayImageActionZoomRect	:	
+			MainCanvas->SetCursor(QCursor(QPixmap(":/Icon/ZoomRect.PNG"),1,1));		break;
+		case _DisplayImageActionZoomWhole	:	
+			break;
+		case _DisplayImageActionCopyRect	:	
+			MainCanvas->SetCursor(QCursor(QPixmap(":/Icon/CopyRect.PNG"),1,1));		break;
+		case _DisplayImageActionPaste		:	
+			break;
+		case _DisplayImageActionPickColor	:
+			MainCanvas->SetCursor(QCursor(QPixmap(":/Icon/PickColor.PNG"),0,15));		break;
+		case _DisplayImageActionDrawRect	:	
+			MainCanvas->SetCursor(QCursor(QPixmap(":/Icon/DrawRect.PNG"),1,1));		break;
+		case _DisplayImageActionDrawDot		:	
+			MainCanvas->SetCursor(QCursor(QPixmap(":/Icon/DrawDot.PNG"),8,8));		break;
+		case _DisplayImageActionToolMenu	:	
+			break;
+		case _DisplayImageActionDrawColorMessage:
+			break;
+		case _DisplayImageActionSaveImageOnRect	:
+			MainCanvas->SetCursor(QCursor(QPixmap(":/Icon/SaveImageOnRect.PNG"),2,2));		break;
+		case _DisplayImageActionSaveImageOnPoint:
+			MainCanvas->SetCursor(QCursor(QPixmap(":/Icon/SaveImageOnRect.PNG"),2,2));		break;
+		case _DisplayImageActionRegulateBrightness:
+			MainCanvas->SetCursor(QCursor(QPixmap(":/Icon/DrawRect.PNG"),8,8));		break;
+		case _DisplayImageActionMeasure:
+			MainCanvas->SetCursor(QCursor(QPixmap(":/Icon/Measure.PNG"),2,2));		break;
+		}
+	}
+}
+	
+void	DisplayImage::SaveCursor(void)
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->SaveCursor();
+	}
+}
+
+void	DisplayImage::RestoreCursor(void)
+{
+	if(MainCanvas!=NULL){
+		MainCanvas->RestoreCursor();
 	}
 }
 

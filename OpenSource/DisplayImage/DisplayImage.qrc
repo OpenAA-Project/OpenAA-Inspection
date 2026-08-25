@@ -291,5 +291,13 @@
         <file>Resources/ItemMenu32.png</file>
         <file>Resources/ItemMenu64.png</file>
         <file>Resources/ItemMenu100.png</file>
+        <file>Icon/ZoomIn.PNG</file>
+        <file>Icon/DrawRect.PNG</file>
+        <file>Icon/ZoomRect.PNG</file>
+        <file>Icon/CopyRect.PNG</file>
+        <file>Icon/PickColor.PNG</file>
+        <file>Icon/DrawDot.PNG</file>
+        <file>Icon/SaveImageOnRect.PNG</file>
+        <file>Icon/Measure.PNG</file>
     </qresource>
 </RCC>

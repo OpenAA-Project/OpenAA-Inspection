@@ -1328,5 +1328,29 @@
     <Image Include="Resources\SeparateItem100.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Icon\DrawRect.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\ZoomIn.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\CopyRect.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\DrawDot.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\Measure.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\PickColor.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\SaveImageOnRect.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Icon\ZoomRect.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

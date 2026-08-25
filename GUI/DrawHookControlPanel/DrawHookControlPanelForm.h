@@ -246,6 +246,8 @@ public:
 	bool	MouseFinishEdit(void);
 	bool	MouseFinishMove(void);
 
+	void	SetCursor(void);
+
 	void	UndoAddItem(QIODevice *f);
 	void	RedoAddItem(QIODevice *f);
 	void	UndoMoveItem(QIODevice *f);
@@ -411,6 +413,14 @@ public:
 	int		SelectedItemCount;
 
 	CmdHookControlPanel_GetSelectedItemCount(LayersBase *base):GUIDirectMessage(base){}
+};
+
+class	CmdHookControlPanel_SetCursor: public GUIDirectMessage
+{
+public:
+	int		CursorType;
+
+	CmdHookControlPanel_SetCursor(LayersBase *base):GUIDirectMessage(base){}
 };
 
 

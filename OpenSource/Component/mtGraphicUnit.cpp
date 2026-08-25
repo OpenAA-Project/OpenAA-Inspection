@@ -291,6 +291,7 @@ DrawingMode mtGraphicUnit::GetMode(void)	const		{	return(GetCanvas()->GetMode())
 void	mtGraphicUnit::SetFrameColor(const QColor &col)	{	GetCanvas()->SetFrameColor(col);	}
 QColor	mtGraphicUnit::GetFrameColor(void)	const		{	return(GetCanvas()->GetFrameColor());	}
 QPoint	mtGraphicUnit::GetCursorPos(void)				{	return 	GetCanvas()->GetCursorPos();	}
+const QCursor &mtGraphicUnit::GetCursor(void)	const	{	return GetCanvas()->GetCursor();	}
 QString	mtGraphicUnit::ToString(DrawingMode mode)		{	return FrDraw->ToString(mode);	}
 
 void	mtGraphicUnit::LockPaintMutex(void)				{	FrDraw->LockPaintMutex();		}
@@ -299,10 +300,18 @@ void	mtGraphicUnit::SetCancelClicked(bool b)			{	FrDraw->SetCancelClicked(b);	}
 bool	mtGraphicUnit::GetCancelClicked(void)	const	{	return FrDraw->GetCancelClicked();	}
 
 double	mtGraphicUnit::GetZoomRate(void)	const	{	return(FrDraw->GetZoomRate());	}
-void	mtGraphicUnit::SetZoomRate(double ZoomRate)	{	FrDraw->SetZoomRate(ZoomRate);	}
+void	mtGraphicUnit::SetZoomRate(double ZoomRate)
+{
+	FrDraw->SetZoomRate(ZoomRate);
+	emit	SignalChangePositionZoom();
+}
 int		mtGraphicUnit::GetMovx(void)		const	{	return(FrDraw->GetMovX());	}
 int		mtGraphicUnit::GetMovy(void)		const	{	return(FrDraw->GetMovY());	}
-void	mtGraphicUnit::SetMovXY(int mx ,int my)		{	FrDraw->SetMovXY(mx,my);	}
+void	mtGraphicUnit::SetMovXY(int mx ,int my)
+{	
+	FrDraw->SetMovXY(mx,my);
+	emit	SignalChangePositionZoom();
+}
 int		mtGraphicUnit::GetCanvasWidth(void) const	{	return(FrDraw->width());		}
 int		mtGraphicUnit::GetCanvasHeight(void) const	{	return(FrDraw->height());		}
 QSize	mtGraphicUnit::GetCanvasSize()		const	{	return FrDraw->size();		};
@@ -335,6 +344,8 @@ void	mtGraphicUnit::ZoomDrawFree(int movx, int movy, double zoomrate)
 	
 	SetSlider();
 	SetMeter();
+	emit	SignalChangePositionZoom();
+
 	GetCanvas()->RepaintAll();
 }
 
@@ -477,7 +488,26 @@ void	mtGraphicUnit::ZoomDrawWhole(void)
 	int	YSpare=(vH-GH)/2;
 
 	ZoomDraw(XSpare/ZoomRate+OffsetXForFit, YSpare/ZoomRate+OffsetYForFit, ZoomRate);
-}							 
+}
+
+bool	mtGraphicUnit::IsDrawWhole(void)
+{
+	int	vW=GetCanvas()->width();
+	int	vH=GetCanvas()->height();
+	double	ZoomRate=GetZoomRateForWhole();
+	int	GW=GetCanvas()->AreaSizeX*ZoomRate;
+	int	GH=GetCanvas()->AreaSizeY*ZoomRate;
+	int	XSpare=(vW-GW)/2;
+	int	YSpare=(vH-GH)/2;
+
+	if(FrDraw->GetMovX()==(int)(XSpare/ZoomRate+OffsetXForFit)
+	&& FrDraw->GetMovY()==(int)(YSpare/ZoomRate+OffsetYForFit)
+	&& FrDraw->GetZoomRate()==ZoomRate){
+		return true;
+	}
+	return false;
+}
+
 
 double	mtGraphicUnit::GetZoomRateForFit(void)	const
 {
@@ -506,6 +536,26 @@ void	mtGraphicUnit::ZoomDrawFit(void)
 
 	ZoomDraw(XSpare/ZoomRate, YSpare/ZoomRate, ZoomRate);
 }
+
+bool	mtGraphicUnit::IsDrawFixed(void)
+{
+	double	ZoomRate=GetZoomRateForFit();
+	int	vW=GetCanvas()->width();
+	int	vH=GetCanvas()->height();
+	int	GW=GetCanvas()->AreaSizeX*ZoomRate;
+	int	GH=GetCanvas()->AreaSizeY*ZoomRate;
+	int	XSpare=(vW-GW)/2;
+	int	YSpare=(vH-GH)/2;
+
+	if(FrDraw->GetMovX()==(int)(XSpare/ZoomRate)
+	&& FrDraw->GetMovY()==(int)(YSpare/ZoomRate)
+	&& FrDraw->GetZoomRate()==ZoomRate){
+		return true;
+	}
+	return false;
+}
+
+
 void	mtGraphicUnit::SetScrollerWidth(int w)
 {	
 	ScrollerWidth=w;
@@ -602,6 +652,7 @@ void	mtGraphicUnit::DrawAdd(int UOffx, int UOffy)
 	}
 
 	SetMeter();
+	emit	SignalChangePositionZoom();
 	GetCanvas()->RepaintAll();
 
 	InsideFunc--;
@@ -626,6 +677,7 @@ void	mtGraphicUnit::SetDrawOffset(int UMovx ,int UMovy)
 		VScroll->setValue(-GetMovy());
 	}
 	SetMeter();
+	emit	SignalChangePositionZoom();
 	GetCanvas()->RepaintAll();
 
 	InsideFunc--;
@@ -660,6 +712,18 @@ void	mtGraphicUnit::SetCancelDraw(void)
 void	mtGraphicUnit::SetCursor(DrawingMode mode)
 {
 	FrDraw->SetCursor(mode);
+}
+void	mtGraphicUnit::SetCursor(const QCursor &cursor)
+{
+	FrDraw->setCursor(cursor);
+}
+void	mtGraphicUnit::SaveCursor(void)
+{
+	FrDraw->SaveCursor();
+}
+void	mtGraphicUnit::RestoreCursor(void)
+{
+	FrDraw->RestoreCursor();
 }
 void	mtGraphicUnit::LaunchSignalMousePoint(QMouseEvent *Ev ,int x ,int y ,bool &valid)
 {
@@ -813,6 +877,7 @@ void	mtGraphicUnit::SlotUpPageButtonDown()
 	FrDraw->SetMovY(FrDraw->GetMovY()+movy);
 	SetSlider();
 	SetMeter();
+	emit	SignalChangePositionZoom();
 	GetCanvas()->RepaintAll();
 }
 void	mtGraphicUnit::SlotDownPageButtonDown()
@@ -821,6 +886,7 @@ void	mtGraphicUnit::SlotDownPageButtonDown()
 	FrDraw->SetMovY(FrDraw->GetMovY()-movy);
 	SetSlider();
 	SetMeter();
+	emit	SignalChangePositionZoom();
 	GetCanvas()->RepaintAll();
 }
 void	mtGraphicUnit::SlotLeftPageButtonDown()
@@ -829,6 +895,7 @@ void	mtGraphicUnit::SlotLeftPageButtonDown()
 	FrDraw->SetMovX(FrDraw->GetMovX()+movx);
 	SetSlider();
 	SetMeter();
+	emit	SignalChangePositionZoom();
 	GetCanvas()->RepaintAll();
 }
 void	mtGraphicUnit::SlotRightPageButtonDown()
@@ -837,6 +904,7 @@ void	mtGraphicUnit::SlotRightPageButtonDown()
 	FrDraw->SetMovX(FrDraw->GetMovX()-movx);
 	SetSlider();
 	SetMeter();
+	emit	SignalChangePositionZoom();
 	GetCanvas()->RepaintAll();
 }
 void	mtGraphicUnit::SlotFitZoomBtnDown()
@@ -852,6 +920,7 @@ void	mtGraphicUnit::SlotShiftCanvas(int UniversalDx,int UniversalDy)
 		FrDraw->SetMovY(FrDraw->GetMovY()+UniversalDy/GetZoomRate());
 		SetSlider();
 		SetMeter();
+		emit	SignalChangePositionZoom();
 		GetCanvas()->RepaintAll();
 		emit	SignalShiftAll();
 	}

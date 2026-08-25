@@ -52,6 +52,7 @@ mtFrameDraw::mtFrameDraw(QWidget *parent)
 	FCancelDraw				=false;
 	FOnDrawMode				=false;
 	FEnableShiftImage		=true;
+	CurrentCursorShape		= Qt::ArrowCursor;
 	//FCrossOnMoving		=false;
 	FArrowLength			=30;
 	setMouseTracking(true);
@@ -1976,6 +1977,9 @@ void	mtFrameDraw::mouseMoveEvent ( QMouseEvent * Ev )
 		if(abs(uX-LastMouseDownPointX)*ZoomRate>10 || abs(uY-LastMouseDownPointY)*ZoomRate>10 || ShiftingMode==true){
 			if(GetComputerMiliSec()-ClickedTime>ImageShiftDelay){
 				if(FEnableShiftImage==true){
+					CurrentCursor=Qt::ClosedHandCursor;
+					setCursor(CurrentCursor);
+					CurrentCursorShape = Qt::ClosedHandCursor;
 					int	Dx=X-LastShitX;
 					int	Dy=Y-LastShitY;
 					ShiftingMode=true;
@@ -2443,6 +2447,11 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 	if(CancelClicked==true){
 		return;
 	}
+	if(CurrentCursorShape==Qt::ClosedHandCursor){
+		CurrentCursorShape=Qt::ArrowCursor;
+		CurrentCursor=QCursor(CurrentCursorShape);
+		setCursor(CurrentCursorShape);
+	}
 
 	if(DblClickMode==false){
 		if(ShiftingMode==true){
@@ -2519,6 +2528,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdLine,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crLine2;
 						break;
 					case fdHalfLine:
@@ -2529,6 +2539,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdHalfLine,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crHalfLine2;
 						break;
 					case fdChoppedLine:
@@ -2540,6 +2551,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdChoppedLine,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crHalfLine2;
 						break;
 					case fdHChoppedLine:
@@ -2551,6 +2563,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdHChoppedLine,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crHalfLine2;
 						break;
 					case fdVChoppedLine:
@@ -2562,6 +2575,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdVChoppedLine,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crHalfLine2;
 						break;
 					case fdSingleArrow:
@@ -2573,6 +2587,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdSingleArrow,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crArrowLine2;
 						break;
 					case fdDualArrow:
@@ -2584,6 +2599,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdDualArrow,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crArrowLine2;
 						break;
 					case fdRectangle:
@@ -2595,6 +2611,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRectangle,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crRect2;
 						break;
 					case fdRotRectangle:
@@ -2607,6 +2624,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRotRectangle,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crRotRect2;
 						break;
 					case fdCircle:
@@ -2617,6 +2635,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdCircle,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crCircle2;
 						break;
 					case fdCircle3:
@@ -2626,6 +2645,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdCircle3,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crCircle2;
 						break;
 					case fdEllipse:
@@ -2637,6 +2657,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdEllipse,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crEllipse2;
 						break;
 					case fdEllipse4:
@@ -2650,6 +2671,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdEllipse4,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crEllipse2;
 						break;
 					case fdRotEllipse:
@@ -2662,6 +2684,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRotEllipse,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crEllipse2;
 						break;
 					case fdArc:
@@ -2674,6 +2697,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdArc,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crArc2;
 						break;
 					case fdArc3:
@@ -2683,6 +2707,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdArc3,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crCircle2;
 						break;
 					case fdFree:
@@ -2696,6 +2721,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdFree,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crFree2;
 						break;
 					case fdPoly:
@@ -2709,6 +2735,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdPoly,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crPoly2;
 						break;
 					/*
@@ -2735,6 +2762,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRing,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crRing2;
 						break;
 					case fdLongCircle:
@@ -2744,6 +2772,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdLongCircle,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crCircle2;
 						break;
 					case fdRingArc1:
@@ -2759,6 +2788,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRingArc1,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crArc2;
 						break;
 					case fdRingArc4:
@@ -2772,6 +2802,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRingArc4,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crEllipse2;
 						break;
 					}
@@ -2787,6 +2818,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crLine1;
 						break;
 					case fdHalfLine:
@@ -2798,6 +2830,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crHalfLine1;
 						break;
 					case fdChoppedLine:
@@ -2809,6 +2842,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crHalfLine1;
 						break;
 					case fdHChoppedLine:
@@ -2819,6 +2853,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crHalfLine1;
 						break;
 					case fdVChoppedLine:
@@ -2830,6 +2865,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crHalfLine1;
 						break;
 					case fdSingleArrow:
@@ -2841,6 +2877,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crArrowLine1;
 						break;
 					case fdDualArrow:
@@ -2852,6 +2889,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crArrowLine1;
 						break;
 					case fdRectangle:
@@ -2867,6 +2905,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crRect1;
 						break;
 					case fdRotRectangle:
@@ -2877,6 +2916,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRotRectangle,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crRotRect3;
 						break;
 					case fdCircle:
@@ -2888,6 +2928,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crCircle1;
 						break;
 					case fdCircle3:
@@ -2898,6 +2939,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdCircle,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crCircle2;
 						break;
 					case fdEllipse:
@@ -2910,6 +2952,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawEnd();
 						emit SignalDrawEnd();
 						//setCursor=(TCursor)crEllipse1;
+						ChangeCursor(CurrentMode ,DrawStage);
 						break;
 					case fdEllipse4:
 						FOnDrawMode=true;
@@ -2919,6 +2962,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdEllipse4,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crEllipse2;
 						break;
 					case fdRotEllipse:
@@ -2929,6 +2973,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRotEllipse,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crRotEllipse3;
 						break;
 					case fdArc:
@@ -2941,6 +2986,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdArc,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crArc3;
 						break;
 					case fdArc3:
@@ -2951,6 +2997,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdArc3,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crCircle2;
 						break;
 					case fdFree:
@@ -2969,6 +3016,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crFree1;
 						break;
 					case fdPoly:
@@ -2986,6 +3034,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						roty=uY;
 						DrawingOn();
 						emit SignalDrawing(fdPoly,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crPoly2;
 						break;
 					/*
@@ -3006,6 +3055,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRing,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crRing2;
 						break;
 					case fdLongCircle:
@@ -3016,6 +3066,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdLongCircle,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crCircle2;
 						break;	
 					case fdRingArc1:
@@ -3028,6 +3079,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRingArc1,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crArc3;
 						break;
 					case fdRingArc4:
@@ -3038,6 +3090,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRingArc4,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crEllipse2;
 						break;
 						}
@@ -3060,6 +3113,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crRotRect1;
 						break;
 					case fdEllipse4:
@@ -3070,6 +3124,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdEllipse4,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crEllipse2;
 						break;
 					case fdRotRectangle:
@@ -3081,6 +3136,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crRotRect1;
 						break;
 					case fdRotEllipse:
@@ -3092,6 +3148,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crEllipse1;
 						break;
 					case fdArc:
@@ -3104,6 +3161,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdArc,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crArc4;
 						break;
 					case fdArc3:
@@ -3135,6 +3193,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crRotRect1;
 						break;
 					case fdRing:
@@ -3146,6 +3205,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crRing1;
 						break;
 					case fdLongCircle:
@@ -3161,6 +3221,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawingOn();
 						emit SignalDrawing(fdLongCircle,DrawStage);
 						FOnDrawMode=false;
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crRotRect1;
 						break;
 					case fdRingArc1:
@@ -3173,6 +3234,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRingArc1,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crArc4;
 						break;
 					case fdRingArc4:
@@ -3183,6 +3245,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRingArc4,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crEllipse2;
 						break;
 					}
@@ -3200,6 +3263,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						break;
 					case fdArc:
 						mtMouseMove(Ev, X, Y);
@@ -3210,6 +3274,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crArc1;
 						break;
 					case fdLongCircle:
@@ -3221,6 +3286,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crRotRect1;
 						break;
 					//case fdFree:
@@ -3230,6 +3296,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRingArc1,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						break;
 					case fdRingArc4:
 						FOnDrawMode=true;
@@ -3241,6 +3308,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRingArc4,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						break;
 					}
 				}
@@ -3255,6 +3323,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crEllipse1;
 						break;
 					case fdRingArc4:
@@ -3267,6 +3336,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRingArc4,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crArc4;
 						break;
 					}
@@ -3281,6 +3351,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRingArc4,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						//setCursor=(TCursor)crEllipse2;
 						break;				}
 			}
@@ -3294,6 +3365,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						DrawStage++;
 						DrawingOn();
 						emit SignalDrawing(fdRingArc4,DrawStage);
+						ChangeCursor(CurrentMode ,DrawStage);
 						break;
 				}
 			}
@@ -3310,11 +3382,12 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 						FOnDrawMode=false;
 						DrawEnd();
 						emit SignalDrawEnd();
+						ChangeCursor(CurrentMode ,DrawStage);
 						break;
 				}
 			}
 
-			ChangeCursor(CurrentMode ,DrawStage);
+			//ChangeCursor(CurrentMode ,DrawStage);
 		}
 		else
 		if((Ev->buttons()&Qt::SHIFT)!=0
@@ -3364,7 +3437,7 @@ void mtFrameDraw::mouseReleaseEvent ( QMouseEvent * Ev )
 				CancelDraw();
 				emit SignalCancelDraw();
 			}
-			ChangeCursor(CurrentMode ,DrawStage);
+			//ChangeCursor(CurrentMode ,DrawStage);
 		}
 	}
 	else{	//When double click occurs
@@ -3663,140 +3736,135 @@ void	mtFrameDraw::SetCursor(DrawingMode mode)
 {
 	ChangeCursor(mode ,0);
 }
-
+void	mtFrameDraw::SetCursor(const QCursor &cursor)
+{
+	CurrentCursor=cursor;
+	setCursor(cursor);
+}
 void mtFrameDraw::ChangeCursor(DrawingMode newmode ,int CurrentDrawStage)
 {
 	switch(newmode){
 			case fdArc:
-				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(QPixmap(":/Icon/ArcDraw.PNG"),0,0);
 				break;
 			case fdArc3:
-				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(QPixmap(":/Icon/ArcDraw.PNG"),0,0);
 				break;
 			case fdChoppedLine:
-				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(QPixmap(":/Icon/ChoppedLine.PNG"),2,2);
 				break;
 			case fdHChoppedLine:
-				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(QPixmap(":/Icon/ChoppedLine.PNG"),2,2);
 				break;
 			case fdVChoppedLine:
-				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(QPixmap(":/Icon/ChoppedLine.PNG"),2,2);
 				break;
 			case fdCircle:
 				if(CurrentDrawStage==0)
-					setCursor(QCursor(QPixmap(":/Icon/Ellipse1.PNG"),7,7));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Ellipse1.PNG"),7,7);
 				else if(CurrentDrawStage==1)
-					setCursor(QCursor(QPixmap(":/Icon/Ellipse2.PNG"),12,8));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Ellipse2.PNG"),12,8);
 				break;
 			case fdCircle3:
 				if(CurrentDrawStage==0)
-					setCursor(QCursor(QPixmap(":/Icon/Ellipse2.PNG"),12,8));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Ellipse2.PNG"),12,8);
 				else if(CurrentDrawStage==1)
-					setCursor(QCursor(QPixmap(":/Icon/Ellipse3.PNG"),8,14));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Ellipse3.PNG"),8,14);
 				else if(CurrentDrawStage==2)
-					setCursor(QCursor(QPixmap(":/Icon/EllipseTop.PNG"),8,1));
+					CurrentCursor=QCursor(QPixmap(":/Icon/EllipseTop.PNG"),8,1);
 				break;
 			case fdDualArrow:
-				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(QPixmap(":/Icon/Arrow.PNG"));
 				break;
 			case fdEllipse:
 				if(CurrentDrawStage==0)
-					setCursor(QCursor(QPixmap(":/Icon/Ellipse1.PNG"),7,7));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Ellipse1.PNG"),7,7);
 				else if(CurrentDrawStage==1)
-					setCursor(QCursor(QPixmap(":/Icon/Ellipse2.PNG"),12,8));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Ellipse2.PNG"),12,8);
 				else if(CurrentDrawStage==2)
-					setCursor(QCursor(QPixmap(":/Icon/Ellipse3.PNG"),8,14));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Ellipse3.PNG"),8,14);
 				break;
 			case fdEllipse4:
 				if(CurrentDrawStage==0)
-					setCursor(QCursor(QPixmap(":/Icon/EllipseTop.PNG"),8,1));
+					CurrentCursor=QCursor(QPixmap(":/Icon/EllipseTop.PNG"),8,1);
 				else if(CurrentDrawStage==1)
-					setCursor(QCursor(QPixmap(":/Icon/Ellipse3.PNG"),8,14));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Ellipse3.PNG"),8,14);
 				else if(CurrentDrawStage==2)
-					setCursor(QCursor(QPixmap(":/Icon/Ellipse2.PNG"),12,8));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Ellipse2.PNG"),12,8);
 				break;
 			case fdFree:
 				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(QPixmap(":/Icon/Free1.PNG"),11,0));
+				CurrentCursor=QCursor(QPixmap(":/Icon/Free1.PNG"),11,0);
 				break;
 			case fdHalfLine:
-				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(QPixmap(":/Icon/SChoppedLine.PNG"),2,2);
 				break;
 			case fdLine:
-				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(QPixmap(":/Icon/InfiniteLine.PNG"),1,1);
 				break;
 			case fdMove:
 				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(QPixmap(":/Icon/MoveItem1.PNG"),7,7));
+				CurrentCursor=QCursor(QPixmap(":/Icon/MoveItem1.PNG"),7,7);
 				break;
 			case fdNone:
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(Qt::ArrowCursor);
 				break;
 			case fdPoint:
 				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(Qt::ArrowCursor);
 				break;
 			case fdPoly:
-				setCursor(QCursor(QPixmap(":/Icon/Polygon1.PNG"),9,9));
+				CurrentCursor=QCursor(QPixmap(":/Icon/Polygon1.PNG"),9,9);
 				break;
 			case fdRectangle:
 				if(CurrentDrawStage==0)
-					setCursor(QCursor(QPixmap(":/Icon/Rectangle1.PNG"),4,4));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Rectangle1.PNG"),4,4);
 				else if(CurrentDrawStage==1)
-					setCursor(QCursor(QPixmap(":/Icon/Rectangle2.PNG"),12,12));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Rectangle2.PNG"),12,12);
 				//setCursor(QCursor(Qt::ArrowCursor));
 				break;
 			case fdRing:
-				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(QPixmap(":/Icon/RingDraw.PNG"));
 				break;
 			case fdRotEllipse:
 				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
 				if(CurrentDrawStage==0)
-					setCursor(QCursor(QPixmap(":/Icon/Ellipse1.PNG"),7,7));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Ellipse1.PNG"),7,7);
 				else if(CurrentDrawStage==1)
-					setCursor(QCursor(QPixmap(":/Icon/Ellipse2.PNG"),12,8));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Ellipse2.PNG"),12,8);
 				else if(CurrentDrawStage==2)
-					setCursor(QCursor(QPixmap(":/Icon/Ellipse3.PNG"),8,14));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Ellipse3.PNG"),8,14);
 				else if(CurrentDrawStage==3)
-					setCursor(QCursor(QPixmap(":/Icon/RotEllipse1.PNG"),12,14));
+					CurrentCursor=QCursor(QPixmap(":/Icon/RotEllipse1.PNG"),12,14);
 				//setCursor(QCursor(Qt::ArrowCursor));
 				break;
 			case fdRotRectangle:
 				if(CurrentDrawStage==0)
-					setCursor(QCursor(QPixmap(":/Icon/Rectangle1.PNG"),4,4));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Rectangle1.PNG"),4,4);
 				else if(CurrentDrawStage==1)
-					setCursor(QCursor(QPixmap(":/Icon/Rectangle2.PNG"),12,12));
+					CurrentCursor=QCursor(QPixmap(":/Icon/Rectangle2.PNG"),12,12);
 				else if(CurrentDrawStage==2)
-					setCursor(QCursor(QPixmap(":/Icon/RotRectangle1.PNG"),12,14));
+					CurrentCursor=QCursor(QPixmap(":/Icon/RotRectangle1.PNG"),12,14);
 				break;
 			case fdSingleArrow:
-				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(QPixmap(":/Icon/SArrow.PNG"));
 				break;
 			case fdSpoint:
 				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(Qt::ArrowCursor);
 				break;
 			case fdRingArc1:
 				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(Qt::ArrowCursor);
 				break;
 			case fdRingArc4:
 				//setCursor(QCursor(QPixmap(":/Icon/***.png")));
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(Qt::ArrowCursor);
 				break;
 			default:
-				setCursor(QCursor(Qt::ArrowCursor));
+				CurrentCursor=QCursor(Qt::ArrowCursor);
 	}
+	setCursor(CurrentCursor);
 }
 
 void mtFrameDraw::enterEvent ( QEnterEvent * event )
@@ -3807,7 +3875,15 @@ void mtFrameDraw::leaveEvent ( QEvent * event )
 {
 	emit	SignalLeave();
 }
-
+void	mtFrameDraw::SaveCursor(void)
+{ 
+	SavedCursor = CurrentCursor;
+}
+void	mtFrameDraw::RestoreCursor(void)
+{ 
+	CurrentCursor = SavedCursor;
+	setCursor(CurrentCursor);
+}
 void	mtFrameDraw::DrawFromOutside(QStringList &data)
 {
 }

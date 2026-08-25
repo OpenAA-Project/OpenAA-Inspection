@@ -477,6 +477,41 @@ void	HookMeasureForm::ReadyParam(void)
 		}
 	}
 }
+
+void	HookMeasureForm::SetCursor(MeasuredList::MLA_Action action)
+{
+	for(int i=0;i<HookTargetListInst.count();i++){
+		QString	HookedPanelName=HookTargetListInst[i];
+		DisplayImage *TargetPanel=dynamic_cast<DisplayImage *>(GetLayersBase()->FindByName(HookedPanelName));
+		if(TargetPanel!=NULL){
+			switch(action){
+			case	MeasuredList::_MLA_Nothing		:
+				TargetPanel->SetCursor(QCursor(Qt::ArrowCursor));	break;
+			case	MeasuredList::_MLA_Point2Point	:
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconStraightLine.png"),0,0));	break;
+			case	MeasuredList::_MLA_FoldedLines	:
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconBrokenLine.png"),0,0));	break;
+			case	MeasuredList::_MLA_Arc			:
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCrcularArc.png"),0,0));	break;
+			case	MeasuredList::_MLA_CenterCircle	:
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCircleTwoPoints.png"),0,0));	break;
+			case	MeasuredList::_MLA_Angle		:
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconAngle.png"),0,0));	break;
+			case	MeasuredList::_MLA_Rectangle	:
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconRectangle.png"),0,0));	break;
+			case	MeasuredList::_MLA_PolyLine		:
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconMPolygon.png"),0,0));	break;
+			case	MeasuredList::_MLA_Circle		:
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCircle1.png"),0,0));	break;
+			case	MeasuredList::_MLA_Isolation	:
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconParallelLines.png"),0,0));	break;
+			case	MeasuredList::_MLA_Circle3		:
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCircle2.png"),0,0));	break;
+			}
+		}
+	}		
+}
+
 bool	HookMeasureForm::IsModeEnable(void)
 {
 	if(isHidden()==true)
@@ -498,8 +533,28 @@ bool	HookMeasureForm::IsModeEnable(void)
 
 void HookMeasureForm::showEvent ( QShowEvent * event )
 {
+	GUIFormBase::showEvent(event);
+
+	for(int i=0;i<HookTargetListInst.count();i++){
+		QString	HookedPanelName=HookTargetListInst[i];
+		DisplayImage *TargetPanel=dynamic_cast<DisplayImage *>(GetLayersBase()->FindByName(HookedPanelName));
+		if(TargetPanel!=NULL){
+			TargetPanel->SaveCursor();
+		}
+	}
 	ui->toolButtonPoint2Point->setChecked(true);
 	on_toolButtonPoint2Point_clicked();
+}
+void	HookMeasureForm::closeEvent(QCloseEvent *event)
+{
+	for(int i=0;i<HookTargetListInst.count();i++){
+		QString	HookedPanelName=HookTargetListInst[i];
+		DisplayImage *TargetPanel=dynamic_cast<DisplayImage *>(GetLayersBase()->FindByName(HookedPanelName));
+		if(TargetPanel!=NULL){
+			TargetPanel->RestoreCursor();
+		}
+	}
+	GUIFormBase::closeEvent(event);
 }
 
 void	HookMeasureForm::MouseLClick(int GlobalPosX,int GlobalPosY)
@@ -2037,6 +2092,7 @@ void HookMeasureForm::on_toolButtonPoint2Point_clicked()
 	BroadcastSpecifiedDirectly(&Cmd);
 	CurrentData.Step=0;
 	CurrentData.Action	=MeasuredList::_MLA_Point2Point;
+	SetCursor(CurrentData.Action);
 	emit	SignalChangeAction();
 }
 
@@ -2048,6 +2104,7 @@ void HookMeasureForm::on_toolButtonFoldedLines_clicked()
 	CurrentData.Step=0;
 	CurrentData.PN.clear();
 	CurrentData.Action	=MeasuredList::_MLA_FoldedLines;
+	SetCursor(CurrentData.Action);
 	emit	SignalChangeAction();
 }
 
@@ -2058,6 +2115,7 @@ void HookMeasureForm::on_toolButtonCenterCircle_clicked()
 	BroadcastSpecifiedDirectly(&Cmd);
 	CurrentData.Step=0;
 	CurrentData.Action	=MeasuredList::_MLA_CenterCircle;
+	SetCursor(CurrentData.Action);
 	emit	SignalChangeAction();
 }
 
@@ -2068,6 +2126,7 @@ void HookMeasureForm::on_toolButtonArc_clicked()
 	BroadcastSpecifiedDirectly(&Cmd);
 	CurrentData.Step=0;
 	CurrentData.Action	=MeasuredList::_MLA_Arc;
+	SetCursor(CurrentData.Action);
 	emit	SignalChangeAction();
 }
 
@@ -2078,6 +2137,7 @@ void HookMeasureForm::on_toolButtonAngle_clicked()
 	BroadcastSpecifiedDirectly(&Cmd);
 	CurrentData.Step=0;
 	CurrentData.Action	=MeasuredList::_MLA_Angle;
+	SetCursor(CurrentData.Action);
 	emit	SignalChangeAction();
 }
 
@@ -2088,6 +2148,7 @@ void HookMeasureForm::on_toolButtonRectangle_clicked()
 	BroadcastSpecifiedDirectly(&Cmd);
 	CurrentData.Step=0;
 	CurrentData.Action	=MeasuredList::_MLA_Rectangle;
+	SetCursor(CurrentData.Action);
 	emit	SignalChangeAction();
 }
 
@@ -2099,6 +2160,7 @@ void HookMeasureForm::on_toolButtonPolyLine_clicked()
 	CurrentData.Step=0;
 	CurrentData.PN.clear();
 	CurrentData.Action	=MeasuredList::_MLA_PolyLine;
+	SetCursor(CurrentData.Action);
 	emit	SignalChangeAction();
 }
 
@@ -2109,6 +2171,7 @@ void HookMeasureForm::on_toolButtonCircle_clicked()
 	BroadcastSpecifiedDirectly(&Cmd);
 	CurrentData.Step=0;
 	CurrentData.Action	=MeasuredList::_MLA_Circle;
+	SetCursor(CurrentData.Action);
 	emit	SignalChangeAction();
 }
 
@@ -2119,6 +2182,7 @@ void HookMeasureForm::on_toolButtonIsolation_clicked()
 	BroadcastSpecifiedDirectly(&Cmd);
 	CurrentData.Step=0;
 	CurrentData.Action	=MeasuredList::_MLA_Isolation;
+	SetCursor(CurrentData.Action);
 	emit	SignalChangeAction();
 }
 
@@ -2129,6 +2193,7 @@ void HookMeasureForm::on_toolButtonCircle3_clicked()
 	BroadcastSpecifiedDirectly(&Cmd);
     CurrentData.Step=0;
     CurrentData.Action	=MeasuredList::_MLA_Circle3;
+	SetCursor(CurrentData.Action);
 	emit	SignalChangeAction();
 }
 

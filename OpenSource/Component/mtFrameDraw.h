@@ -134,6 +134,9 @@ private:
 	double		movx,movy;		//Visual Matrix(Gx,Gy)
 								//Data Matrix(x,y)
 								//(Gx,Gy) = ( (x,y) + (movx,movy) )*ZoomRate
+	Qt::CursorShape	CurrentCursorShape;
+	QCursor		CurrentCursor;
+	QCursor		SavedCursor;
 public:
 	struct  _ShapeData  SData;
 
@@ -141,6 +144,11 @@ public:
 
 	void	DrawFromOutside(QStringList &data);
 	void	SetCursor(DrawingMode mode);
+	void	SetCursor(const QCursor &cursor);
+	const QCursor &GetCursor(void)	const	{ return CurrentCursor; }
+	void	SaveCursor(void)	;
+	void	RestoreCursor(void)	;
+
 	double	GetZoomRate(void)	const	{	return ZoomRate;	}
 	int		GetMovX(void)		const	{	return movx;		}
 	int		GetMovY(void)		const	{	return movy;		}
