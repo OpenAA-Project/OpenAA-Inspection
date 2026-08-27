@@ -266,7 +266,7 @@ public:
 	~FlexAreaColorImage(void);
 
 	virtual	void	Set(FlexArea &Area,ImageBuffer *Buffer[] ,int LayerNumb,int skip=0);
-	virtual	void	Set(FlexArea &Area,QImage &Img);
+	virtual	void	Set(FlexArea &Area,QImage &SrcImg);
 	virtual	void	AllocateOnly(int LayerNumb);
 
 	bool	GetPixel(int x ,int y ,BYTE RetData[],int LayerNumb)	const;

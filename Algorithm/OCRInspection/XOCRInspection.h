@@ -43,6 +43,15 @@ public:
 	bool		OKByFailingRecognition;
 	QStringList	CorrectList;
 
+	int			AngleDegree;
+	QString		Patterns;
+	bool		TextOneLine;
+	bool		Darker;
+	int			Layer;
+	int			ThresholdBrightness;
+	int			ReducedNoiseSize;
+	int			ShrinkImage;
+
 	OCRInspectionThreshold(OCRInspectionItem *parent);
 
 	virtual	void	CopyFrom(const AlgorithmThreshold &src)	override;
@@ -59,10 +68,16 @@ class	OCRInspectionItem : public AlgorithmItemPI
 	int		XByte;
 	int		XLen;	
 	int		YLen;
+	int		LW		;
+	int		LWByte	;
+	int		LH		;
 public:
 	AlignmentPacket2D	*AVector;
 	int			Mx,My;
 	QString		Result;
+	QImage		OCRImage;
+	BYTE		**TmpMap;
+	BYTE		**TmpMap2;
 
 	OCRInspectionItem(void);
 	~OCRInspectionItem(void);
@@ -125,7 +140,7 @@ public:
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet)	override;
 
 	bool	GetOCR(const QString &FileName ,QString &Result);
-	bool	GetOCR(const QImage &Image ,QString &Result);
+	bool	GetOCR(const QImage &Image ,const OCRInspectionThreshold *RThr ,QString &Result);
 
 private:
 
@@ -145,6 +160,15 @@ public:
 	bool			OKByFailingRecognition;
 	QStringList		CorrectList;
 
+	int			AngleDegree;
+	QString		Patterns;
+	bool		TextOneLine;
+	bool		Darker;
+	int			Layer;
+	int			ThresholdBrightness;
+	int			ReducedNoiseSize;
+	int			ShrinkImage;
+
 	AddOCRInspectionAreaPacket(LayersBase *base):GUIDirectMessage(base){}
 	AddOCRInspectionAreaPacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
@@ -160,6 +184,15 @@ public:
 	bool			SaveIntoResult;
 	bool			OKByFailingRecognition;
 	QStringList		CorrectList;
+
+	int			AngleDegree;
+	QString		Patterns;
+	bool		TextOneLine;
+	bool		Darker;
+	int			Layer;
+	int			ThresholdBrightness;
+	int			ReducedNoiseSize;
+	int			ShrinkImage;
 
 	UpdateOCRInspectionAreaPacket(LayersBase *base):GUIDirectMessage(base){}
 	UpdateOCRInspectionAreaPacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
@@ -187,11 +220,12 @@ public:
 class	CmdReqOCRTest : public GUIDirectMessage
 {
 public:
-	int				ItemID;
-	bool			Mastered;
+	int			ItemID;
+	bool		Mastered;
 
-	QString			Result;
-	bool			Matched;
+	QString		Result;
+	bool		Matched;
+	QImage		OCRImage;
 
 	CmdReqOCRTest(LayersBase *base):GUIDirectMessage(base){}
 	CmdReqOCRTest(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
@@ -255,6 +289,16 @@ public:
 	bool		SaveIntoResult;
 	bool		OKByFailingRecognition;
 	QStringList	CorrectList;
+
+	int			AngleDegree;
+	QString		Patterns;
+	bool		TextOneLine;
+	bool		Darker;
+	int			Layer;
+	int			ThresholdBrightness;
+	int			ReducedNoiseSize;
+	int			ShrinkImage;
+
 	int			x1,y1,x2,y2;
 
 	OCRList(void);
@@ -304,6 +348,23 @@ inline	bool	OCRList::Save(QIODevice *f)
 	if(::Save(f,CorrectList)==false)
 		return false;
 
+	if(::Save(f,AngleDegree)==false)
+		return false;
+	if(::Save(f,Patterns)==false)
+		return false;
+	if(::Save(f,TextOneLine)==false)
+		return false;
+	if(::Save(f,Darker)==false)
+		return false;
+	if(::Save(f,Layer)==false)
+		return false;
+	if(::Save(f,ThresholdBrightness)==false)
+		return false;
+	if(::Save(f,ReducedNoiseSize)==false)
+		return false;
+	if(::Save(f,ShrinkImage)==false)
+		return false;
+
 	if(::Save(f,x1)==false)
 		return false;
 	if(::Save(f,y1)==false)
@@ -338,6 +399,23 @@ inline	bool	OCRList::Load(QIODevice *f)
 	if(::Load(f,OKByFailingRecognition)==false)
 		return false;
 	if(::Load(f,CorrectList)==false)
+		return false;
+
+	if(::Load(f,AngleDegree)==false)
+		return false;
+	if(::Load(f,Patterns)==false)
+		return false;
+	if(::Load(f,TextOneLine)==false)
+		return false;
+	if(::Load(f,Darker)==false)
+		return false;
+	if(::Load(f,Layer)==false)
+		return false;
+	if(::Load(f,ThresholdBrightness)==false)
+		return false;
+	if(::Load(f,ReducedNoiseSize)==false)
+		return false;
+	if(::Load(f,ShrinkImage)==false)
 		return false;
 
 	if(::Load(f,x1)==false)

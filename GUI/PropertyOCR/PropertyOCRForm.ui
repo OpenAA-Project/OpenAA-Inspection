@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>381</width>
-     <height>571</height>
+     <height>261</height>
     </rect>
    </property>
    <property name="selectionMode">
@@ -52,8 +52,8 @@
   <widget class="QPushButton" name="pushButtonTest">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>590</y>
+     <x>130</x>
+     <y>280</y>
      <width>141</width>
      <height>41</height>
     </rect>
@@ -65,8 +65,8 @@
   <widget class="QLineEdit" name="lineEditResult">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>640</y>
+     <x>30</x>
+     <y>330</y>
      <width>281</width>
      <height>24</height>
     </rect>
@@ -75,14 +75,30 @@
   <widget class="QLabel" name="labelResultMatch">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>640</y>
+     <x>320</x>
+     <y>330</y>
      <width>75</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
     <string>Match</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelOCRImage">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>360</y>
+     <width>381</width>
+     <height>331</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>

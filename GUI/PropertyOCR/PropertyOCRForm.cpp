@@ -95,6 +95,16 @@ void	PropertyOCRForm::TransmitDirectly(GUIDirectMessage *packet)
 				Cmd.SaveIntoResult			=E.SaveIntoResult;
 				Cmd.OKByFailingRecognition	=E.OKByFailingRecognition;
 				Cmd.CorrectList				=E.CorrectList;
+
+				Cmd.AngleDegree			=E.AngleDegree			;
+				Cmd.Patterns			=E.Patterns				;
+				Cmd.TextOneLine			=E.TextOneLine			;
+				Cmd.Darker				=E.Darker				;
+				Cmd.Layer				=E.Layer				;
+				Cmd.ThresholdBrightness	=E.ThresholdBrightness	;
+				Cmd.ReducedNoiseSize	=E.ReducedNoiseSize		;
+				Cmd.ShrinkImage			=E.ShrinkImage		;
+
 				Cmd.SendOnly(GlobalPage,0);
 			}
 		}
@@ -187,13 +197,23 @@ void PropertyOCRForm::on_tableWidget_doubleClicked(const QModelIndex &index)
 		return;
 	EditOCRItemDialog	E(GetLayersBase());
 		
-	E.Mergin					= L->Mergin;	
+	E.Mergin					=L->Mergin;	
 	E.ItemName					=L->ItemName;
 	E.RegNumber					=L->RegNumber;
 	E.InspectMatching			=L->InspectMatching;
 	E.SaveIntoResult			=L->SaveIntoResult;
 	E.OKByFailingRecognition	=L->OKByFailingRecognition;
 	E.CorrectList				=L->CorrectList;
+
+	E.AngleDegree			=L->AngleDegree			;
+	E.Patterns				=L->Patterns			;
+	E.TextOneLine			=L->TextOneLine			;
+	E.Darker				=L->Darker				;
+	E.Layer					=L->Layer				;
+	E.ThresholdBrightness	=L->ThresholdBrightness	;
+	E.ReducedNoiseSize		=L->ReducedNoiseSize	;
+	E.ShrinkImage			=L->ShrinkImage			;
+
 	E.ReflectToWindow();
 	int	Ret=E.exec();
 	if(Ret==1){
@@ -212,6 +232,16 @@ void PropertyOCRForm::on_tableWidget_doubleClicked(const QModelIndex &index)
 			Cmd.SaveIntoResult			=E.SaveIntoResult;
 			Cmd.OKByFailingRecognition	=E.OKByFailingRecognition;
 			Cmd.CorrectList				=E.CorrectList;
+
+			Cmd.AngleDegree				=E.AngleDegree			;
+			Cmd.Patterns				=E.Patterns				;
+			Cmd.TextOneLine				=E.TextOneLine			;
+			Cmd.Darker					=E.Darker				;
+			Cmd.Layer					=E.Layer				;
+			Cmd.ThresholdBrightness		=E.ThresholdBrightness	;
+			Cmd.ReducedNoiseSize		=E.ReducedNoiseSize		;
+			Cmd.ShrinkImage				=E.ShrinkImage			;
+
 			Cmd.SendOnly(L->GlobalPage,0);
 		}
 	}
@@ -227,6 +257,16 @@ void PropertyOCRForm::on_tableWidget_doubleClicked(const QModelIndex &index)
 		Cmd.SaveIntoResult			=E.SaveIntoResult;
 		Cmd.OKByFailingRecognition	=E.OKByFailingRecognition;
 		Cmd.CorrectList				=E.CorrectList;
+
+		Cmd.AngleDegree				=E.AngleDegree			;
+		Cmd.Patterns				=E.Patterns				;
+		Cmd.TextOneLine				=E.TextOneLine			;
+		Cmd.Darker					=E.Darker				;
+		Cmd.Layer					=E.Layer				;
+		Cmd.ThresholdBrightness		=E.ThresholdBrightness	;
+		Cmd.ReducedNoiseSize		=E.ReducedNoiseSize		;
+		Cmd.ShrinkImage				=E.ShrinkImage			;
+
 		Cmd.SendOnly(L->GlobalPage,0);
 	}
 	else if(Ret==3){
@@ -253,5 +293,6 @@ void PropertyOCRForm::on_pushButtonTest_clicked()
 	if(RCmd.Send(L->GlobalPage,0,ACmd)==true){
 		ui->lineEditResult		->setText(ACmd.Result);
 		ui->labelResultMatch	->setText((ACmd.Matched==true)?/**/"OK":/**/"NG");
+		ui->labelOCRImage		->setPixmap(QPixmap::fromImage(ACmd.OCRImage));
 	}
 }

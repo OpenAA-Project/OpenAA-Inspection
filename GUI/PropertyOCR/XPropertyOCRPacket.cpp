@@ -109,6 +109,7 @@ void	GUICmdReqOCRTest::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 		SendBack->ItemID	=ItemID;
 		SendBack->Result	=D.Result;
 		SendBack->Matched	=D.Matched;
+		SendBack->OCRImage	=D.OCRImage;
 	}
 
 	SendBack->Send(this ,GetLayersBase()->GetGlobalPageFromLocal(localPage),0);
@@ -130,6 +131,8 @@ bool	GUICmdAckOCRTest::Load(QIODevice *f)
 		return false;
 	if(::Load(f,Matched)==false)
 		return false;
+	if(::Load(f,OCRImage)==false)
+		return false;
 	return true;
 }
 
@@ -140,6 +143,8 @@ bool	GUICmdAckOCRTest::Save(QIODevice *f)
 	if(::Save(f,Result)==false)
 		return false;
 	if(::Save(f,Matched)==false)
+		return false;
+	if(::Save(f,OCRImage)==false)
 		return false;
 	return true;
 }
@@ -175,6 +180,23 @@ bool	GUICmdAddOCRArea::Load(QIODevice *f)
 		return false;
 	if(::Load(f,CorrectList)==false)
 		return false;
+
+	if(::Load(f,AngleDegree)==false)
+		return false;
+	if(::Load(f,Patterns)==false)
+		return false;
+	if(::Load(f,TextOneLine)==false)
+		return false;
+	if(::Load(f,Darker)==false)
+		return false;
+	if(::Load(f,Layer)==false)
+		return false;
+	if(::Load(f,ThresholdBrightness)==false)
+		return false;
+	if(::Load(f,ReducedNoiseSize)==false)
+		return false;
+	if(::Load(f,ShrinkImage)==false)
+		return false;
 	return true;
 }
 
@@ -197,6 +219,23 @@ bool	GUICmdAddOCRArea::Save(QIODevice *f)
 		return false;
 	if(::Save(f,CorrectList)==false)
 		return false;
+
+	if(::Save(f,AngleDegree)==false)
+		return false;
+	if(::Save(f,Patterns)==false)
+		return false;
+	if(::Save(f,TextOneLine)==false)
+		return false;
+	if(::Save(f,Darker)==false)
+		return false;
+	if(::Save(f,Layer)==false)
+		return false;
+	if(::Save(f,ThresholdBrightness)==false)
+		return false;
+	if(::Save(f,ReducedNoiseSize)==false)
+		return false;
+	if(::Save(f,ShrinkImage)==false)
+		return false;
 	return true;
 }
 
@@ -218,6 +257,16 @@ void	GUICmdAddOCRArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 		Cmd.SaveIntoResult			=SaveIntoResult;
 		Cmd.OKByFailingRecognition	=OKByFailingRecognition;
 		Cmd.CorrectList				=CorrectList;
+
+		Cmd.AngleDegree				=AngleDegree			;
+		Cmd.Patterns				=Patterns				;
+		Cmd.TextOneLine				=TextOneLine			;
+		Cmd.Darker					=Darker					;
+		Cmd.Layer					=Layer					;
+		Cmd.ThresholdBrightness		=ThresholdBrightness	;
+		Cmd.ReducedNoiseSize		=ReducedNoiseSize		;
+		Cmd.ShrinkImage				=ShrinkImage			;
+
 		APage->TransmitDirectly(&Cmd);
 	}
 	SendAck(localPage);
@@ -256,6 +305,24 @@ bool	GUICmdUpdateOCRArea::Load(QIODevice *f)
 		return false;
 	if(::Load(f,CorrectList)==false)
 		return false;
+
+	if(::Load(f,AngleDegree)==false)
+		return false;
+	if(::Load(f,Patterns)==false)
+		return false;
+	if(::Load(f,TextOneLine)==false)
+		return false;
+	if(::Load(f,Darker)==false)
+		return false;
+	if(::Load(f,Layer)==false)
+		return false;
+	if(::Load(f,ThresholdBrightness)==false)
+		return false;
+	if(::Load(f,ReducedNoiseSize)==false)
+		return false;
+	if(::Load(f,ShrinkImage)==false)
+		return false;
+
 	return true;
 }
 
@@ -279,6 +346,24 @@ bool	GUICmdUpdateOCRArea::Save(QIODevice *f)
 		return false;
 	if(::Save(f,CorrectList)==false)
 		return false;
+
+	if(::Save(f,AngleDegree)==false)
+		return false;
+	if(::Save(f,Patterns)==false)
+		return false;
+	if(::Save(f,TextOneLine)==false)
+		return false;
+	if(::Save(f,Darker)==false)
+		return false;
+	if(::Save(f,Layer)==false)
+		return false;
+	if(::Save(f,ThresholdBrightness)==false)
+		return false;
+	if(::Save(f,ReducedNoiseSize)==false)
+		return false;
+	if(::Save(f,ShrinkImage)==false)
+		return false;
+
 	return true;
 }
 
@@ -300,6 +385,16 @@ void	GUICmdUpdateOCRArea::Receive(int32 localPage, int32 cmd ,QString &EmitterRo
 		Cmd.SaveIntoResult			=SaveIntoResult;
 		Cmd.OKByFailingRecognition	=OKByFailingRecognition;
 		Cmd.CorrectList				=CorrectList;
+
+		Cmd.AngleDegree				=AngleDegree			;
+		Cmd.Patterns				=Patterns				;
+		Cmd.TextOneLine				=TextOneLine			;
+		Cmd.Darker					=Darker					;
+		Cmd.Layer					=Layer					;
+		Cmd.ThresholdBrightness		=ThresholdBrightness	;
+		Cmd.ReducedNoiseSize		=ReducedNoiseSize		;
+		Cmd.ShrinkImage				=ShrinkImage			;
+
 		APage->TransmitDirectly(&Cmd);
 	}
 	SendAck(localPage);

@@ -329,7 +329,7 @@ public:
 
 	QColor	GetColor(int x ,int y)		const;
 	void	SetColor(int x ,int y,const QColor &col);
-	QColor	GetAverageColor(const FlexArea &Area)	const;
+	QColor	GetAverageColor(const FlexArea &Area,int mx=0,int my=0)	const;
 
 	QRgb	GetColorRgb(int x ,int y)	const;
 	void	SetColorRgb(int x ,int y,const QRgb &col);

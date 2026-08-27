@@ -74,6 +74,7 @@ public:
 	int			ItemID;
 	QString		Result;
 	bool		Matched;
+	QImage		OCRImage;
 
 	GUICmdAckOCRTest(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage=-1);
 
@@ -89,13 +90,22 @@ class	GUICmdAddOCRArea : public GUICmdPacketBase
 public:
 	int32		Mergin;
 
-	FlexArea		Area;
-	QString			ItemName;
-	int				RegNumber;
-	bool			InspectMatching;
-	bool			SaveIntoResult;
-	bool			OKByFailingRecognition;
-	QStringList		CorrectList;
+	FlexArea	Area;
+	QString		ItemName;
+	int			RegNumber;
+	bool		InspectMatching;
+	bool		SaveIntoResult;
+	bool		OKByFailingRecognition;
+	QStringList	CorrectList;
+
+	int			AngleDegree;
+	QString		Patterns;
+	bool		TextOneLine;
+	bool		Darker;
+	int			Layer;
+	int			ThresholdBrightness;
+	int			ReducedNoiseSize;
+	int			ShrinkImage;
 
 	GUICmdAddOCRArea(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage=-1);
 
@@ -118,6 +128,15 @@ public:
 	bool			SaveIntoResult;
 	bool			OKByFailingRecognition;
 	QStringList		CorrectList;
+
+	int				AngleDegree;
+	QString			Patterns;
+	bool			TextOneLine;
+	bool			Darker;
+	int				Layer;
+	int				ThresholdBrightness;
+	int				ReducedNoiseSize;
+	int				ShrinkImage;
 
 	GUICmdUpdateOCRArea(LayersBase *Base ,const QString &EmitterRoot,const QString &EmitterName ,int globalPage=-1);
 

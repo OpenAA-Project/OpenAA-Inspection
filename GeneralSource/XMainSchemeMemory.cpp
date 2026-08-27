@@ -3306,7 +3306,7 @@ void	ImagePointerContainer::SetColor(int x ,int y,const QColor &col)
 		L->GetImage()->SetPixel(x,y,Col[n]);
 	}
 }
-QColor	ImagePointerContainer::GetAverageColor(const FlexArea &area)	const
+QColor	ImagePointerContainer::GetAverageColor(const FlexArea &area,int mx,int my)	const
 {
 	int64	Col[100];
 	int		ColNum=GetCount();
@@ -3316,8 +3316,8 @@ QColor	ImagePointerContainer::GetAverageColor(const FlexArea &area)	const
 	int	Cn=0;
 	int	N=area.GetFLineLen();
 	for(int i=0;i<N;i++){
-		int	X1=area.GetFLineLeftX(i);
-		int Y =area.GetFLineAbsY(i);
+		int	X1=area.GetFLineLeftX(i)+mx;
+		int Y =area.GetFLineAbsY(i) +my;
 		int	Numb=area.GetFLineNumb(i);
 		int	n=0;
 		BYTE	*SPointer[100];

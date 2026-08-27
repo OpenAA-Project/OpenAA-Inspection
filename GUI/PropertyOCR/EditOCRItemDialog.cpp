@@ -43,6 +43,15 @@ EditOCRItemDialog::EditOCRItemDialog(LayersBase *Base, QWidget *parent) :
 	ui->checkBoxOKByFailingRecognition	->setChecked(ControlRememberer::GetBool(ui->checkBoxOKByFailingRecognition	,false));
 	ui->spinBoxRegNumber				->setValue	(ControlRememberer::GetInt(ui->spinBoxRegNumber,0));
 
+	ui->spinBoxAngleDegree				->setValue	(ControlRememberer::GetInt(ui->spinBoxAngleDegree,0));
+	ui->spinBoxLayer					->setValue	(ControlRememberer::GetInt(ui->spinBoxLayer,-1));
+	ui->lineEditPatterns				->setText	(ControlRememberer::GetString(ui->lineEditPatterns));
+	ui->checkBoxTextOneLine				->setChecked(ControlRememberer::GetBool(ui->checkBoxTextOneLine	,true));
+	ui->checkBoxDarker					->setChecked(ControlRememberer::GetBool(ui->checkBoxDarker	,true));
+	ui->spinBoxThresholdBrightness		->setValue	(ControlRememberer::GetInt(ui->spinBoxThresholdBrightness,-1));
+	ui->spinBoxReducedNoiseSize			->setValue	(ControlRememberer::GetInt(ui->spinBoxReducedNoiseSize,0));
+	ui->spinBoxShrinkImage				->setValue	(ControlRememberer::GetInt(ui->spinBoxShrinkImage,0));
+
 	ui->ButtonDeleteItem	->setVisible(false);
 	ui->ButtonSaveNewItem	->setVisible(true);
 	ui->ButtonUpdateItem	->setVisible(false);
@@ -64,6 +73,15 @@ void EditOCRItemDialog::ReflectToWindow(void)
 	ui->spinBoxRegNumber				->setValue	(RegNumber);
 	ui->listWidgetMatchingList			->addItems(CorrectList);
 
+	ui->spinBoxAngleDegree				->setValue	(AngleDegree		);
+	ui->spinBoxLayer					->setValue	(Layer				);
+	ui->lineEditPatterns				->setText	(Patterns			);
+	ui->checkBoxTextOneLine				->setChecked(TextOneLine		);
+	ui->checkBoxDarker					->setChecked(Darker				);
+	ui->spinBoxThresholdBrightness		->setValue	(ThresholdBrightness);
+	ui->spinBoxReducedNoiseSize			->setValue	(ReducedNoiseSize	);
+	ui->spinBoxShrinkImage				->setValue	(ShrinkImage		);
+																		
 	ui->ButtonDeleteItem	->setVisible(true);
 	ui->ButtonSaveNewItem	->setVisible(true);
 	ui->ButtonUpdateItem	->setVisible(true);
@@ -76,6 +94,15 @@ void EditOCRItemDialog::FromWindow(void)
 	OKByFailingRecognition	=ui->checkBoxOKByFailingRecognition	->isChecked();
 	RegNumber				=ui->spinBoxRegNumber				->value	();
 	CorrectList				=::GetDataFromListWidget(ui->listWidgetMatchingList);
+
+	AngleDegree			=ui->spinBoxAngleDegree				->value	();
+	Layer				=ui->spinBoxLayer					->value	();
+	Patterns			=ui->lineEditPatterns				->text	();
+	TextOneLine			=ui->checkBoxTextOneLine			->isChecked();
+	Darker				=ui->checkBoxDarker					->isChecked();
+	ThresholdBrightness	=ui->spinBoxThresholdBrightness		->value	();
+	ReducedNoiseSize	=ui->spinBoxReducedNoiseSize		->value	();
+	ShrinkImage			=ui->spinBoxShrinkImage				->value	();
 }
 
 void EditOCRItemDialog::on_listWidgetMatchingList_doubleClicked(const QModelIndex &index)

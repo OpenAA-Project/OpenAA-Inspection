@@ -46,6 +46,15 @@ public:
 	bool		OKByFailingRecognition;
 	QStringList		CorrectList;
 
+	int			AngleDegree;
+	QString		Patterns;
+	bool		TextOneLine;
+	bool		Darker;
+	int			Layer;
+	int			ThresholdBrightness;
+	int			ReducedNoiseSize;
+	int			ShrinkImage;
+
 	void	ReflectToWindow(void);
 	void	FromWindow(void);
 
