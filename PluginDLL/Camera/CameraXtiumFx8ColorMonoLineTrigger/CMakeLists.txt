@@ -1,0 +1,167 @@
+# CMakeLists.txt generated from CameraXtiumFx8ColorMonoLineTrigger.vcxproj
+# WARNING: This is an automatically generated file. Manual edits may be overwritten.
+# VCXPROJ-to-CMAKE limitations:
+# - MSBuild macros (e.g., $(SolutionDir)) may not be translated correctly.
+# - Complex conditions (custom platforms, etc.) are likely ignored.
+# - Linked libraries (e.g., system libs, other projects) may be incomplete.
+
+cmake_minimum_required(VERSION 3.16)
+
+project(CameraXtiumFx8ColorMonoLineTrigger LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+if(WIN32)
+    add_compile_definitions(WIN32 _WINDOWS)
+endif()
+
+if(UNIX)
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        # Linux / Raspberry Pi specific settings
+    endif()
+endif()
+
+# Find Qt6
+find_package(Qt6 REQUIRED COMPONENTS Sql Gui SerialPort Widgets Network Core5Compat Core)
+
+set(PROJECT_SOURCES
+    "../../../../OpenAA-OtherLibrary/Dalsa/featureCtrl.cpp"
+    "../../../../OpenAA-OtherLibrary/Dalsa/RunLen.Cpp"
+    "../../../Open/SystemVersion.cpp"
+    "camerasettingcolor.cpp"
+    "camerasettingmono.cpp"
+    "CLHS_PX8CommandCreater.cpp"
+    "SaperaColorOptimized.cpp"
+    "saperaCtrlColor.cpp"
+    "saperaCtrlMono.cpp"
+    "SaperaMonoOptimized.cpp"
+    "CameraXtiumFx8ColorMonoLineTrigger.cpp"
+)
+
+set(PROJECT_HEADERS
+    "CLHS_PX8CommandCreater.h"
+    "CLHS_PX8CommandManager.h"
+    "saperaCtrlColor.h"
+    "saperaCtrlMono.h"
+    "cameraxtiumfx8colormonolinetrigger_global.h"
+    "CameraXtiumFx8ColorMonoLineTrigger.h"
+)
+
+set(PROJECT_FORMS
+    "CameraSettingColor.ui"
+    "CameraSettingMono.ui"
+)
+
+qt_wrap_ui(PROJECT_SOURCES ${PROJECT_FORMS})
+
+# Define the target
+add_library(${PROJECT_NAME} SHARED
+    ${PROJECT_SOURCES}
+    ${PROJECT_HEADERS}
+)
+
+# === Configuration-specific sources ===
+if(DEFINED PROJECT_SOURCES_DEBUG)
+    target_sources(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:${PROJECT_SOURCES_DEBUG}>)
+endif()
+
+if(DEFINED PROJECT_SOURCES_RELEASE)
+    target_sources(${PROJECT_NAME} PRIVATE $<$<CONFIG:Release>:${PROJECT_SOURCES_RELEASE}>)
+endif()
+
+# === Configuration-specific settings ===
+
+if(MSVC)
+endif()
+
+# --- End of Debug ---
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/../../../PluginDLL"
+    LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/../../../PluginDLL"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/../../../PluginDLL"
+)
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release" OR NOT CMAKE_BUILD_TYPE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../../PluginDLL"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../../PluginDLL"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../../PluginDLL"
+    )
+endif()
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Release>:
+        "../../../InspectionPlayer"
+        "../../../Open"
+        "../../../OpenSource/Component"
+        "$(OpenAAUseLibrary)/Dalsa"
+        "../../../GeneralSource/Sequence"
+        "$(SAPERA)/Classes/Basic"
+        "$(SAPERA)/Classes/Gui"
+        "$(SAPERA)/Include"
+    >
+)
+
+target_link_directories(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Release>:
+        "$(SAPERA)/lib/Win64"
+        "../../../Lib/Release"
+    >
+)
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Release>:
+            "SeqLib.lib"
+            "SapClassBasic.lib"
+            "corapi.lib"
+            "Component.lib"
+            "ServiceLib.lib"
+        >
+    )
+elseif(UNIX)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Release>:
+            "libSeqLib.a"
+            "libSapClassBasic.a"
+            "libcorapi.a"
+            "libComponent.a"
+            "libServiceLib.a"
+        >
+    )
+endif()
+
+if(MSVC)
+endif()
+
+# --- End of Release ---
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt6::Sql
+    Qt6::Gui
+    Qt6::SerialPort
+    Qt6::Widgets
+    Qt6::Network
+    Qt6::Core5Compat
+    Qt6::Core
+)
+
+# === Additional Custom Settings ===
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+    "/home/megatrade/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/OpenXLSX"
+    "/home/megatrade/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/build/OpenXLSX/"
+)
+
+
+# =========================================================================
+# WARNING: The following MSBuild macros were not resolved during conversion:
+#   $(OpenAAUseLibrary)
+#   $(SAPERA)
+# Please define them in CMake or add them to the macro replacements list.
+# =========================================================================
