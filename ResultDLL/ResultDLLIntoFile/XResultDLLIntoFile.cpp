@@ -390,7 +390,7 @@ bool	ResultDLLIntoFile::OutputResult(ResultInspectionForStockPointerContainer &S
 	if(N!=0){
 		int Milisec;
 		QString	IFileName=Res->GetResultDLLBase()->CreateNGFileNameForSlaveMilisecWithDrive(localPage,Res,Milisec);
-		char	IFileNameStr[64];
+		char	IFileNameStr[1024];
 		::QString2Char(IFileName,IFileNameStr ,sizeof(IFileNameStr));
 		int16	FileNameLen=strlen(IFileNameStr)+1;
 		if(File.Save(FileNameLen)==false){
@@ -561,7 +561,7 @@ bool	ResultDLLIntoFile::OutputResult(ResultInspectionForStockPointerContainer &S
 	if(localPage==0 && N!=0){
 		int Milisec;
 		QString	IFileName=Res->GetResultDLLBase()->CreateNGFileNameForSlaveMilisecWithDrive(localPage,Res,Milisec);
-		char	IFileNameStr[64];
+		char	IFileNameStr[1024];
 		::QString2Char(IFileName,IFileNameStr ,sizeof(IFileNameStr));
 		int16	FileNameLen=strlen(IFileNameStr)+1;
 		if(::Save(&File,FileNameLen)==false){

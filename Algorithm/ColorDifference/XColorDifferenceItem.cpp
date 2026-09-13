@@ -726,8 +726,8 @@ ExeResult	ColorDifferenceItem::ExecuteInitialAfterEdit(int ExeID ,int ThreadNo
 	}
 	ResultDx	=0;
 	ResultDy	=0;
-	Reference1	=NULL;
-	Reference2	=NULL;
+	//Reference1	=NULL;
+	//Reference2	=NULL;
 	ColorDifferenceInPage	*Pg=(ColorDifferenceInPage *)GetParentInPage();
 	if(Reference1==NULL){
 		for(AlgorithmItemPI	*L=Pg->GetFirstData();L!=NULL;L=L->GetNext()){
