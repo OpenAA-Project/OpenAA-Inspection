@@ -2663,13 +2663,27 @@ bool	AlgorithmItemRoot::GeneralDataReply(int32 Command,void *data)
 
 AlignmentPacketBase	*AlgorithmItemRoot::GetAlignmentPointer(int localX ,int localY ,bool FromGlobal)
 {
+	AlgorithmBase	*ABase=GetParentBase();
 	AlignmentPacketBase	*Ret;
 	LogicDLLBaseClass	*LC=GetLayersBase()->GetLogicDLLBase();
 	LogicDLL	*L=LC->SearchByAlgorithmType(AlgorithmBit_TypeAlignment);
 	while(L!=NULL){
-		Ret=L->GetAlignmentPointer(GetPage(),localX,localY,this,FromGlobal);
-		if(Ret!=NULL){
-			return Ret;
+		if(L->GetInstance()!=ABase){
+			Ret=L->GetAlignmentPointer(GetPage(),localX,localY,this,FromGlobal);
+			if(Ret!=NULL){
+				return Ret;
+			}
+		}
+		L=LC->NextByAlgorithmType(L,AlgorithmBit_TypeAlignment);
+	}
+
+	L=LC->SearchByAlgorithmType(AlgorithmBit_TypeAlignment);
+	while(L!=NULL){
+		if(L->GetInstance()==ABase){
+			Ret=L->GetAlignmentPointer(GetPage(),localX,localY,this,FromGlobal);
+			if(Ret!=NULL){
+				return Ret;
+			}
 		}
 		L=LC->NextByAlgorithmType(L,AlgorithmBit_TypeAlignment);
 	}
@@ -6877,6 +6891,20 @@ void	AlgorithmBase::CopyFrom(AlgorithmBase *src
 						,PartsMaster ,PartsID
 						,ReferedThresholdMode);
 	}
+}
+
+QString	AlgorithmBase::GetLibraryName(int LibID ,bool *ok)
+{
+	if(GetLibraryContainer()!=NULL){
+		if(ok!=NULL){
+			*ok=true;
+		}
+		return GetLibraryContainer()->GetLibraryName(LibID);
+	}
+	if(ok!=NULL){
+		*ok=false;
+	}
+	return /**/"";
 }
 
 void	AlgorithmBase::InitializeFromParts(void)

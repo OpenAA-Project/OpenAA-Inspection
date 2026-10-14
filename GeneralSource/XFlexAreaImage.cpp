@@ -1934,6 +1934,19 @@ void	FlexAreaColorImage::Set(FlexArea &Area,ImageBuffer *Buffer[] ,int _LayerNum
 		CopyData(*Buffer[i],i);
 	}
 }
+void	FlexAreaColorImage::Set(FlexArea &Area,ImageBufferListContainer &Buffer,int skip)
+{
+	FlexArea::operator =(Area);
+	if(Buffer.GetCount()>0){
+		FlexArea::ClipArea(0,0,Buffer[0]->GetWidth(),Buffer[0]->GetHeight());
+	}
+	if(DataLen!=GetPatternByte() || LayerNumb!=Buffer.GetCount()){
+		AllocateOnly(Buffer.GetCount());
+	}
+	for(int i=0;i<LayerNumb;i++){
+		CopyData(*Buffer[i],i);
+	}
+}
 void	FlexAreaColorImage::Set(FlexArea &Area,QImage &Img)
 {
 	FlexArea::operator =(Area);

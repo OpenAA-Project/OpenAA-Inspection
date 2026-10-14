@@ -22,6 +22,7 @@
 #include "XFlexArea.h"
 
 class	ImageBuffer;
+class	ImageBufferListContainer;
 
 class	FlexAreaImage : public FlexArea
 {
@@ -266,6 +267,7 @@ public:
 	~FlexAreaColorImage(void);
 
 	virtual	void	Set(FlexArea &Area,ImageBuffer *Buffer[] ,int LayerNumb,int skip=0);
+	virtual	void	Set(FlexArea &Area,ImageBufferListContainer &Buffer,int skip=0);
 	virtual	void	Set(FlexArea &Area,QImage &SrcImg);
 	virtual	void	AllocateOnly(int LayerNumb);
 

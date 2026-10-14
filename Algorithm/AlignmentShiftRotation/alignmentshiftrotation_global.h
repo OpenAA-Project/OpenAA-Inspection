@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(ALIGNMENTSHIFTROTATION_LIB)
+#  define ALIGNMENTSHIFTROTATION_EXPORT Q_DECL_EXPORT
+# else
+#  define ALIGNMENTSHIFTROTATION_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define ALIGNMENTSHIFTROTATION_EXPORT
+#endif

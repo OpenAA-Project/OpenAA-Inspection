@@ -213,6 +213,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RobotAction", "RobotAction\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlignmentBlock", "AlignmentBlock\AlignmentBlock.vcxproj", "{7DB41C15-6D4D-458C-A69F-E31C96E88806}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlignmentShiftRotation", "AlignmentShiftRotation\AlignmentShiftRotation.vcxproj", "{8A4052AA-1AA2-46F1-A1EF-835FA5C36303}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1439,6 +1441,18 @@ Global
 		{7DB41C15-6D4D-458C-A69F-E31C96E88806}.Template|Win32.Build.0 = Debug|x64
 		{7DB41C15-6D4D-458C-A69F-E31C96E88806}.Template|x64.ActiveCfg = Debug|x64
 		{7DB41C15-6D4D-458C-A69F-E31C96E88806}.Template|x64.Build.0 = Debug|x64
+		{8A4052AA-1AA2-46F1-A1EF-835FA5C36303}.Debug|Win32.ActiveCfg = Debug|x64
+		{8A4052AA-1AA2-46F1-A1EF-835FA5C36303}.Debug|Win32.Build.0 = Debug|x64
+		{8A4052AA-1AA2-46F1-A1EF-835FA5C36303}.Debug|x64.ActiveCfg = Debug|x64
+		{8A4052AA-1AA2-46F1-A1EF-835FA5C36303}.Debug|x64.Build.0 = Debug|x64
+		{8A4052AA-1AA2-46F1-A1EF-835FA5C36303}.Release|Win32.ActiveCfg = Release|x64
+		{8A4052AA-1AA2-46F1-A1EF-835FA5C36303}.Release|Win32.Build.0 = Release|x64
+		{8A4052AA-1AA2-46F1-A1EF-835FA5C36303}.Release|x64.ActiveCfg = Release|x64
+		{8A4052AA-1AA2-46F1-A1EF-835FA5C36303}.Release|x64.Build.0 = Release|x64
+		{8A4052AA-1AA2-46F1-A1EF-835FA5C36303}.Template|Win32.ActiveCfg = Debug|x64
+		{8A4052AA-1AA2-46F1-A1EF-835FA5C36303}.Template|Win32.Build.0 = Debug|x64
+		{8A4052AA-1AA2-46F1-A1EF-835FA5C36303}.Template|x64.ActiveCfg = Debug|x64
+		{8A4052AA-1AA2-46F1-A1EF-835FA5C36303}.Template|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1450,9 +1464,9 @@ Global
 		{318FFD8F-2911-45AE-B31B-D76B019E1503} = {5A557281-C7AC-43B0-B7B4-719693967BFB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = $(DefaultQtVersion)
-		SolutionGuid = {172C4C78-CF47-438A-89DB-99C09BEBB21D}
 		QtVersion = $(DefaultQtVersion)
+		SolutionGuid = {172C4C78-CF47-438A-89DB-99C09BEBB21D}
+		Qt5Version = $(DefaultQtVersion)
 	EndGlobalSection
 	GlobalSection(Qt) = preSolution
 		Integration = True

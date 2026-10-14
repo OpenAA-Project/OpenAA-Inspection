@@ -2246,6 +2246,8 @@ public:
 	AlgorithmLibraryLevelContainer	*FindLibFromManagedCacheLib(int LibID);
 	AlgorithmLibraryLevelContainer	*FindOrLoadLibFromManagedCacheLib(int LibID);
 
+	QString	GetLibraryName(int LibID ,bool *ok=nullptr);
+
 	void	ClearHistgram(void);
 	void	RegistHistgram(AlgorithmItemRoot *item ,const QString &Name ,int id);
 	void	EnumHistgram(QStringList &HistNames);

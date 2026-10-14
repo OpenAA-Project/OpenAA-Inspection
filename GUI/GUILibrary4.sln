@@ -263,6 +263,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PropertyColorCorrector", "P
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ColorCorrectorImagePanel", "ColorCorrectorImagePanel\ColorCorrectorImagePanel.vcxproj", "{CA290599-C21B-4C6F-8726-82DE1792A08B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AlignmentShiftRotation", "AlignmentShiftRotation", "{DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlignmentShiftRotationImagePanel", "AlignmentShiftRotationImagePanel\AlignmentShiftRotationImagePanel.vcxproj", "{126EB524-94CE-48D1-8001-CBB6485C076B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PropertyAlignmentShiftRotation", "PropertyAlignmentShiftRotation\PropertyAlignmentShiftRotation.vcxproj", "{76535EC0-0F53-46E8-BD27-44007D07B709}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1025,6 +1031,22 @@ Global
 		{CA290599-C21B-4C6F-8726-82DE1792A08B}.Release|Win32.Build.0 = Release|x64
 		{CA290599-C21B-4C6F-8726-82DE1792A08B}.Release|x64.ActiveCfg = Release|x64
 		{CA290599-C21B-4C6F-8726-82DE1792A08B}.Release|x64.Build.0 = Release|x64
+		{126EB524-94CE-48D1-8001-CBB6485C076B}.Debug|Win32.ActiveCfg = Debug|x64
+		{126EB524-94CE-48D1-8001-CBB6485C076B}.Debug|Win32.Build.0 = Debug|x64
+		{126EB524-94CE-48D1-8001-CBB6485C076B}.Debug|x64.ActiveCfg = Debug|x64
+		{126EB524-94CE-48D1-8001-CBB6485C076B}.Debug|x64.Build.0 = Debug|x64
+		{126EB524-94CE-48D1-8001-CBB6485C076B}.Release|Win32.ActiveCfg = Release|x64
+		{126EB524-94CE-48D1-8001-CBB6485C076B}.Release|Win32.Build.0 = Release|x64
+		{126EB524-94CE-48D1-8001-CBB6485C076B}.Release|x64.ActiveCfg = Release|x64
+		{126EB524-94CE-48D1-8001-CBB6485C076B}.Release|x64.Build.0 = Release|x64
+		{76535EC0-0F53-46E8-BD27-44007D07B709}.Debug|Win32.ActiveCfg = Debug|x64
+		{76535EC0-0F53-46E8-BD27-44007D07B709}.Debug|Win32.Build.0 = Debug|x64
+		{76535EC0-0F53-46E8-BD27-44007D07B709}.Debug|x64.ActiveCfg = Debug|x64
+		{76535EC0-0F53-46E8-BD27-44007D07B709}.Debug|x64.Build.0 = Debug|x64
+		{76535EC0-0F53-46E8-BD27-44007D07B709}.Release|Win32.ActiveCfg = Release|x64
+		{76535EC0-0F53-46E8-BD27-44007D07B709}.Release|Win32.Build.0 = Release|x64
+		{76535EC0-0F53-46E8-BD27-44007D07B709}.Release|x64.ActiveCfg = Release|x64
+		{76535EC0-0F53-46E8-BD27-44007D07B709}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1141,9 +1163,12 @@ Global
 		{90991AB5-FEE2-4C26-9B7A-D5B14E279226} = {5C8385DC-84F4-4F53-9A8C-A3A19310CD18}
 		{2C0845F6-3B33-4060-B6F5-47F6F37AB9F6} = {90991AB5-FEE2-4C26-9B7A-D5B14E279226}
 		{CA290599-C21B-4C6F-8726-82DE1792A08B} = {90991AB5-FEE2-4C26-9B7A-D5B14E279226}
+		{DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97} = {5C8385DC-84F4-4F53-9A8C-A3A19310CD18}
+		{126EB524-94CE-48D1-8001-CBB6485C076B} = {DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}
+		{76535EC0-0F53-46E8-BD27-44007D07B709} = {DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5D647C56-794B-41C0-B7BB-5DCC9322526A}
 		Qt5Version = $(DefaultQtVersion)
+		SolutionGuid = {5D647C56-794B-41C0-B7BB-5DCC9322526A}
 	EndGlobalSection
 EndGlobal
