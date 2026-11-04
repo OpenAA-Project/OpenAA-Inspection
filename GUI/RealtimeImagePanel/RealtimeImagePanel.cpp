@@ -224,7 +224,7 @@ void	RealtimeImagePanel::ResizeAction()
 }
 void	RealtimeImagePanel::SlotTimeout()
 {
-	if(Cam!=NULL){
+	if(Cam!=NULL && IsShown()==true){
 		for(int i=0;i<CountCamera;i++){
 			if(IBuff[i].IBuff[0]!=NULL && Cam[i]!=NULL){
 				Cam[i]->StartCaptureContinuously(IBuff[i].IBuff,GetLayerNumb(i),NULL);

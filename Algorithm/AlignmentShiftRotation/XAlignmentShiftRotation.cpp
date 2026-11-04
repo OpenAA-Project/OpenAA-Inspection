@@ -101,14 +101,28 @@ ExeResult	AlignmentShiftRotationInPage::ExecuteStartByInspection(int ExeID ,Resu
 }
 ExeResult	AlignmentShiftRotationInPage::ExecutePreAlignment(int ExeID ,ResultInPageRoot *R)
 {
-	ExeResult	Ret=AlgorithmInPagePI::ExecuteAlignment	(ExeID ,R);
+	ExeResult	Ret=AlgorithmInPagePI::ExecutePreAlignment	(ExeID ,R);
 
 	return Ret;
 }
 
 ExeResult	AlignmentShiftRotationInPage::ExecuteAlignment	(int ExeID ,ResultInPageRoot *Res)
 {
+	for(AlignmentPacket2DList *p=AlignmentPacket2DContainer.GetFirst();p!=NULL;p=p->GetNext()){
+		p->ShiftX=99999999;
+		p->ShiftY=99999999;
+		p->Calculated=false;
+	}
+
 	ExeResult	Ret=AlgorithmInPagePI::ExecuteAlignment	(ExeID ,Res);
+
+	for(AlignmentPacket2DList *p=AlignmentPacket2DContainer.GetFirst();p!=NULL;p=p->GetNext()){
+		if(p->ShiftX==99999999 && p->ShiftY==99999999){
+			p->ShiftX	=p->Item->ShiftByGlobalX+p->Item->ResultDx;
+			p->ShiftY	=p->Item->ShiftByGlobalY+p->Item->ResultDy;
+			p->Rotation	=p->Item->ResultRotation;
+		}
+	}
 
 	return Ret;
 }
@@ -701,6 +715,35 @@ bool	AlignmentShiftRotationInPage::PipeGeneration(GeneralPipeInfo &Info)
 }
 AlignmentPacket2D	*AlignmentShiftRotationInPage::AppendAlignmentShiftRotationPacket2D(AlgorithmItemRoot *Item ,int localX ,int localY ,bool FromGlobal)
 {
+	int	LibType	=Item->GetParentBase()->GetLibType();
+	int	LibID	=Item->GetLibID();
+	for(AlignmentPacket2DList *a=AlignmentPacket2DContainer.GetFirst();a!=NULL;a=a->GetNext()){
+		if(a->PosXOnTarget==localX && a->PosYOnTarget==localY
+		&& a->LibType==LibType && a->LibID==LibID){	// && a->SourceID==SourceID){
+			AlignmentPacket2DCreaterMutex.unlock();
+			return a;
+		}
+	}
+	AlignmentPacket2DCreaterMutex.lock();
+	for(AlgorithmItemPI *k=GetFirstData();k!=NULL;k=k->GetNext()){
+		AlignmentShiftRotationItem	*a=dynamic_cast<AlignmentShiftRotationItem *>(k);
+		if(a!=NULL){
+			if(a->GetArea().IsInclude(localX,localY)==true){
+				AlignmentPacket2DList	*L=new AlignmentPacket2DList();
+				L->LibType		=LibType;
+				L->LibID		=LibID;
+				L->SourceID		=Item->GetID();
+				L->PosXOnTarget	=localX;
+				L->PosYOnTarget	=localY;
+				L->Item			=a;
+				AlignmentPacket2DContainer.AppendList(L);
+				AlignmentPacket2DCreaterMutex.unlock();
+
+				return L;
+			}
+		}
+	}
+	AlignmentPacket2DCreaterMutex.unlock();
 	return NULL;
 }
 

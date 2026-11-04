@@ -446,7 +446,9 @@ void	ExecuteInspectFast::SpecifiedDirectly(SpecifiedBroadcaster *v)
 			}
 		}
 	}
-	GetLayersBase()->GetLightBase()->SpecifiedDirectly(v);
+	if(GetLayersBase()->GetLightBase()!=NULL){
+		GetLayersBase()->GetLightBase()->SpecifiedDirectly(v);
+	}
 	CmdReqInspectionRefresh	*CmdReqInspectionRefreshVar=dynamic_cast<CmdReqInspectionRefresh *>(v);
 	if(CmdReqInspectionRefreshVar!=NULL){
 		emit	SignalInspectionRefresh(GetLayersBase(),CmdReqInspectionRefreshVar->InspectionID);

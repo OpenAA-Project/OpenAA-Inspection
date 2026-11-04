@@ -93,7 +93,9 @@ DEFFUNCEX	AlignmentPacketBase	*DLL_GetAlignmentPointer(AlgorithmBase *base ,int 
 DEFFUNCEX	int			DLL_GetPriority(int AlgorithmBit_Type)
 {
 	if(AlgorithmBit_Type==PriorityType_ExecuteInitialAfterEdit)
-		return 10;
+		return 100000;
+	if(AlgorithmBit_Type==PriorityType_ExecuteAlignment)
+		return 100000;
 	return 100;
 }
 DEFFUNCEX	void	DLL_GetAlignmentForProcessing(AlgorithmBase *base ,int localPage, AlignmentPacketBase &Packet)

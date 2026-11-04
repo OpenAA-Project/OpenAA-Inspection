@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include <QStringList>
 #include "XGeneralFunc.h"
-#include "Regulus64Version.h"
+
 
 
 extern "C"{

@@ -23,10 +23,10 @@
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Shape::Panel</enum>
+    <enum>QFrame::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Shadow::Sunken</enum>
+    <enum>QFrame::Sunken</enum>
    </property>
    <property name="text">
     <string>Device</string>
@@ -42,10 +42,10 @@
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Shape::Panel</enum>
+    <enum>QFrame::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Shadow::Sunken</enum>
+    <enum>QFrame::Sunken</enum>
    </property>
    <property name="text">
     <string>Exposure time</string>
@@ -64,10 +64,10 @@
     <bool>true</bool>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Shape::StyledPanel</enum>
+    <enum>QFrame::StyledPanel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Shadow::Raised</enum>
+    <enum>QFrame::Raised</enum>
    </property>
    <widget class="QPushButton" name="pushButtonCancel">
     <property name="geometry">
@@ -135,10 +135,10 @@
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Shape::Panel</enum>
+    <enum>QFrame::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Shadow::Sunken</enum>
+    <enum>QFrame::Sunken</enum>
    </property>
    <property name="text">
     <string>Exposure Auto</string>
@@ -154,10 +154,10 @@
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Shape::Panel</enum>
+    <enum>QFrame::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Shadow::Sunken</enum>
+    <enum>QFrame::Sunken</enum>
    </property>
    <property name="text">
     <string>Exposure mode</string>
@@ -218,10 +218,10 @@
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Shape::Panel</enum>
+    <enum>QFrame::Panel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Shadow::Sunken</enum>
+    <enum>QFrame::Sunken</enum>
    </property>
    <property name="text">
     <string>Line rate (Hz)</string>
@@ -448,7 +448,7 @@
      </item>
      <item>
       <property name="text">
-       <string>Line2</string>
+       <string>Line3</string>
       </property>
      </item>
     </widget>
@@ -496,7 +496,7 @@
      </item>
      <item>
       <property name="text">
-       <string>Line2</string>
+       <string>Line3</string>
       </property>
      </item>
     </widget>
@@ -656,10 +656,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>Decimation</string>
@@ -700,10 +700,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>Binning</string>
@@ -792,7 +792,7 @@
    </widget>
    <widget class="QWidget" name="tab_5">
     <attribute name="title">
-     <string>AOI</string>
+     <string>ROI</string>
     </attribute>
     <widget class="QSpinBox" name="spinBoxAOIOffsetX">
      <property name="geometry">
@@ -826,17 +826,20 @@
        <x>10</x>
        <y>10</y>
        <width>111</width>
-       <height>31</height>
+       <height>71</height>
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
-      <string>AOI</string>
+      <string>ROI</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="label_15">
@@ -849,16 +852,16 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>Width</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="label_13">
@@ -871,16 +874,16 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::Panel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
       <string>Offset X</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>

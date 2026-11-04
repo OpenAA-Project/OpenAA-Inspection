@@ -2664,33 +2664,91 @@ bool	AlgorithmItemRoot::GeneralDataReply(int32 Command,void *data)
 AlignmentPacketBase	*AlgorithmItemRoot::GetAlignmentPointer(int localX ,int localY ,bool FromGlobal)
 {
 	AlgorithmBase	*ABase=GetParentBase();
-	AlignmentPacketBase	*Ret;
-	LogicDLLBaseClass	*LC=GetLayersBase()->GetLogicDLLBase();
-	LogicDLL	*L=LC->SearchByAlgorithmType(AlgorithmBit_TypeAlignment);
-	while(L!=NULL){
-		if(L->GetInstance()!=ABase){
-			Ret=L->GetAlignmentPointer(GetPage(),localX,localY,this,FromGlobal);
+	if((ABase->GetLogicDLL()->GetAlgorithmType() & AlgorithmBit_TypeAlignment)!=0){
+		int	CurrentPriority=ABase->GetLogicDLL()->GetPriority(AlgorithmBit_TypeAlignment);
+		AlignmentPacketBase	*Ret;
+		LogicDLLBaseClass	*LC=GetLayersBase()->GetLogicDLLBase();
+		
+		LogicDLL	*LDim[256];
+		int			LDimNumb=0;
+		for(LogicDLL *L=LC->SearchByAlgorithmType(AlgorithmBit_TypeAlignment);L!=NULL;L=LC->NextByAlgorithmType(L,AlgorithmBit_TypeAlignment)){
+			if(L->GetInstance()!=ABase && L->GetPriority(AlgorithmBit_TypeAlignment)<=CurrentPriority){
+				LDim[LDimNumb]=L;
+				LDimNumb++;
+				if(LDimNumb>=sizeof(LDim)/sizeof(LDim[0])){
+					break;
+				}
+			}
+		}
+		if(LDimNumb==NULL){
+			return NULL;
+		}
+		if(LDimNumb==1){
+			Ret=LDim[0]->GetAlignmentPointer(GetPage(),localX,localY,this,FromGlobal);
+			return Ret;
+		}
+		qsort(LDim, LDimNumb, sizeof(LDim[0]), [](const void* a, const void* b) -> int {
+		    // voidポインタから元の型へキャストして値を取得
+		    LogicDLL *arg1 = *((LogicDLL**)a);
+		    LogicDLL *arg2 = *((LogicDLL**)b);
+
+		    // 昇順ソートのロジック
+		    if (arg1->GetPriority(AlgorithmBit_TypeAlignment) < arg2->GetPriority(AlgorithmBit_TypeAlignment))
+				return 1;
+		    if (arg1->GetPriority(AlgorithmBit_TypeAlignment) > arg2->GetPriority(AlgorithmBit_TypeAlignment)) 
+				return -1;
+		    return 0;
+		});
+		for(int i=0;i<LDimNumb;i++){
+			Ret=LDim[i]->GetAlignmentPointer(GetPage(),localX,localY,this,FromGlobal);
 			if(Ret!=NULL){
 				return Ret;
 			}
 		}
-		L=LC->NextByAlgorithmType(L,AlgorithmBit_TypeAlignment);
+	}
+	else{
+		AlignmentPacketBase	*Ret;
+		LogicDLLBaseClass	*LC=GetLayersBase()->GetLogicDLLBase();
+		
+		LogicDLL	*LDim[256];
+		int			LDimNumb=0;
+		for(LogicDLL *L=LC->SearchByAlgorithmType(AlgorithmBit_TypeAlignment);L!=NULL;L=LC->NextByAlgorithmType(L,AlgorithmBit_TypeAlignment)){
+			LDim[LDimNumb]=L;
+			LDimNumb++;
+			if(LDimNumb>=sizeof(LDim)/sizeof(LDim[0])){
+				break;
+			}
+		}
+		if(LDimNumb==NULL){
+			return NULL;
+		}
+		if(LDimNumb==1){
+			Ret=LDim[0]->GetAlignmentPointer(GetPage(),localX,localY,this,FromGlobal);
+			return Ret;
+		}
+		qsort(LDim, LDimNumb, sizeof(LDim[0]), [](const void* a, const void* b) -> int {
+		    // voidポインタから元の型へキャストして値を取得
+		    LogicDLL *arg1 = *((LogicDLL**)a);
+		    LogicDLL *arg2 = *((LogicDLL**)b);
+
+		    // 昇順ソートのロジック
+		    if (arg1->GetPriority(AlgorithmBit_TypeAlignment) < arg2->GetPriority(AlgorithmBit_TypeAlignment))
+				return 1;
+		    if (arg1->GetPriority(AlgorithmBit_TypeAlignment) > arg2->GetPriority(AlgorithmBit_TypeAlignment)) 
+				return -1;
+		    return 0;
+		});
+		for(int i=0;i<LDimNumb;i++){
+			Ret=LDim[i]->GetAlignmentPointer(GetPage(),localX,localY,this,FromGlobal);
+			if(Ret!=NULL){
+				return Ret;
+			}
+		}
 	}
 
-	L=LC->SearchByAlgorithmType(AlgorithmBit_TypeAlignment);
-	while(L!=NULL){
-		if(L->GetInstance()==ABase){
-			Ret=L->GetAlignmentPointer(GetPage(),localX,localY,this,FromGlobal);
-			if(Ret!=NULL){
-				return Ret;
-			}
-		}
-		L=LC->NextByAlgorithmType(L,AlgorithmBit_TypeAlignment);
-	}
 	return(NULL);
-
 }
-void			AlgorithmItemRoot::GetAlignmentForProcessing(AlignmentPacketBase &Packet)
+void	AlgorithmItemRoot::GetAlignmentForProcessing(AlignmentPacketBase &Packet)
 {
 	LogicDLLBaseClass	*LC=GetLayersBase()->GetLogicDLLBase();
 	LogicDLL	*L=LC->SearchByAlgorithmType(AlgorithmBit_TypeAlignment);

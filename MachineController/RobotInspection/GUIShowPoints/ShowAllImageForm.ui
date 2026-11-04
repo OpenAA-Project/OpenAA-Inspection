@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShowAllImageForm</class>
+ <widget class="QWidget" name="ShowAllImageForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>451</width>
+    <height>398</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>451</width>
+     <height>381</height>
+    </rect>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+   </property>
+   <column>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Y</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Z</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>P</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Q</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>R</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

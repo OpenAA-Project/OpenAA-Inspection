@@ -226,6 +226,7 @@ public:
 		AlignmentPacket2DList(void){	Item=NULL;	}
 	};
 	NPListPack<AlignmentPacket2DList>	AlignmentPacket2DContainer;
+	QMutex	AlignmentPacket2DCreaterMutex;
 
 	AlignmentShiftRotationInPage(AlgorithmBase *parent);
 	~AlignmentShiftRotationInPage(void);

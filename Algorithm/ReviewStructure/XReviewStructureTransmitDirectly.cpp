@@ -3111,16 +3111,17 @@ bool ReviewPIBase::ReciveCmdLoadMasterImage(GUIDirectMessage *packet)
 		}
 		for(int i=0; i<PageCOunt; i++){
 			int layer=getMasterInfo(cmd->side).LayerNumb;
+			int imageCount = ImageByPage[i].count();
 			QImage	image;
-			if(layer==0){
+			if(layer==0 || imageCount==0){
 				continue;
-			}else if(layer==1){
+			}else if(layer==1 || imageCount==1){
 				image = Review::toRGBImage(ImageByPage[i].first(), QImage(), QImage(), true);
 				//ImageByPage[i].first().save("C:\\Tmp\\FrontImage.bmp","BMP");
 				//image				  .save("C:\\Tmp\\FrontImage.bmp","BMP");
-			}else if(layer==2){
+			}else if(layer==2 || imageCount==2){
 				image = Review::toRGBImage(ImageByPage[i][0], ImageByPage[i][1], QImage(), true);
-			}else if(layer==3){
+			}else if(layer==3 || imageCount==3){
 				image = Review::toRGBImage(ImageByPage[i][0], ImageByPage[i][1], ImageByPage[i][2], true);
 			}
 			if(imageList.count()>cmd->imgDataList[i].phase && imageList.at(cmd->imgDataList[i].phase).count()>cmd->imgDataList[i].page){

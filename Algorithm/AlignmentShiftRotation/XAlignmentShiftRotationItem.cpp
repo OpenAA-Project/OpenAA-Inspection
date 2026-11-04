@@ -1196,7 +1196,7 @@ void	AlignmentShiftRotationItem::DrawResultItem(ResultInItemRoot *Res,QImage &ID
 	QColor	ce=Qt::red;
 	ce.setAlpha(180);
 
-	GetArea().Draw(ResultDx,ResultDy,&IData ,ce.rgba()
+	GetArea().Draw(ShiftByGlobalX+ResultDx,ShiftByGlobalY+ResultDy,&IData ,ce.rgba()
 							,ZoomRate ,MovX ,MovY);
 
 	if(ZoomRate>=1.0){
@@ -1206,8 +1206,8 @@ void	AlignmentShiftRotationItem::DrawResultItem(ResultInItemRoot *Res,QImage &ID
 			,QString(/**/"MasterX=") +QString::number((int)MasterCx)
 			+QString(/**/",MasterY=")+QString::number((int)MasterCy));
 		PData.drawText((MasterCx+MovX)*ZoomRate,(MasterCy+MovY)*ZoomRate+32
-			,QString(/**/ "dx=")+QString::number((int)(ResultDx))	//-MasterX))
-			+QString(/**/",dy=")+QString::number((int)(ResultDy))
+			,QString(/**/ "dx=")+QString::number((int)(ShiftByGlobalX+ResultDx))	//-MasterX))
+			+QString(/**/",dy=")+QString::number((int)(ShiftByGlobalY+ResultDy))
 			+QString(/**/",Rot=")+QString::number(ResultRotation*180.0/M_PI,'f',2));
 	}
 

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShowPointsDialog</class>
+ <widget class="QDialog" name="ShowPointsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1095</width>
+    <height>421</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>369</y>
+     <width>1091</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="pushButtonOK">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>10</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>OK</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonCancel">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>10</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cancel</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidgetHome">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>851</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <row>
+     <property name="text">
+      <string>Home</string>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>X</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Y</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Z</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>P</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Q</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>R</string>
+     </property>
+    </column>
+   </widget>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1091</width>
+     <height>371</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Y</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Z</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>P</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Q</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>R</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Light</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Vel</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

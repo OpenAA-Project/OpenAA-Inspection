@@ -6050,6 +6050,16 @@ bool	ResultInspection::Reallocate(int newPhaseNumb , int newPageNumb ,int newLay
 			}
 		}
 	}
+	if(AllocatedSpecializedGroup!=GetPageNumb()){
+		if(SpecializedGroup!=NULL){
+			delete	[]SpecializedGroup;
+			SpecializedGroup=NULL;
+		}
+	}
+	if(SpecializedGroup==NULL){
+		AllocatedSpecializedGroup=GetPageNumb();
+		SpecializedGroup=new ErrorGroupPack[AllocatedSpecializedGroup];
+	}
 	ReallocateTmpRect();
 	return true;
 }
@@ -6111,6 +6121,17 @@ bool	ResultInspection::InsertPage(int IndexPage)	//Create page before Indexed pa
 			ph->InsertPage(IndexPage);
 		}
 	}
+	if(AllocatedSpecializedGroup!=GetPageNumb()){
+		if(SpecializedGroup!=NULL){
+			delete	[]SpecializedGroup;
+			SpecializedGroup=NULL;
+		}
+	}
+	if(SpecializedGroup==NULL){
+		AllocatedSpecializedGroup=GetPageNumb();
+		SpecializedGroup=new ErrorGroupPack[AllocatedSpecializedGroup];
+	}
+
 	ReallocateTmpRect();
 	return true;
 }
@@ -6124,6 +6145,17 @@ bool	ResultInspection::RemovePage(int IndexPage)
 			ph->RemovePage(IndexPage);
 		}
 	}
+	if(AllocatedSpecializedGroup!=GetPageNumb()){
+		if(SpecializedGroup!=NULL){
+			delete	[]SpecializedGroup;
+			SpecializedGroup=NULL;
+		}
+	}
+	if(SpecializedGroup==NULL){
+		AllocatedSpecializedGroup=GetPageNumb();
+		SpecializedGroup=new ErrorGroupPack[AllocatedSpecializedGroup];
+	}
+
 	ReallocateTmpRect();
 	return true;
 }
