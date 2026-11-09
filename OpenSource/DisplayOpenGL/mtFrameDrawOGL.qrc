@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Icon/Rectangle1.PNG</file>
+        <file>Icon/Rectangle2.PNG</file>
+        <file>Icon/Ellipse1.PNG</file>
+        <file>Icon/Ellipse2.PNG</file>
+        <file>Icon/Ellipse3.PNG</file>
+        <file>Icon/EllipseTop.PNG</file>
+        <file>Icon/Free1.PNG</file>
+        <file>Icon/MoveItem1.PNG</file>
+        <file>Icon/Polygon1.PNG</file>
+        <file>Icon/RotEllipse1.PNG</file>
+        <file>Icon/RotRectangle1.PNG</file>  
+    </qresource>
+</RCC>
