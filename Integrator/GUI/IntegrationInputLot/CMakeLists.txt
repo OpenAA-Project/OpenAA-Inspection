@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat Widgets Gui Sql Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -90,16 +90,16 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../IntegrationLib"
         "../../../ServiceLib/ServiceLib"
-        "../../../ServiceLib/ServiceLib/GeneratedFiles"
-        "."
-        "../../../InspectionPlayer"
         "./GeneratedFiles"
-        "./GeneratedFiles/"
-        "../../../Open"
-        "../../../GeneralSource"
         "../../../OpenSource/InputInTouchPanel"
+        "./GeneratedFiles/"
+        "../../../GeneralSource"
+        "."
+        "../../IntegrationLib"
+        "../../../InspectionPlayer"
+        "../../../ServiceLib/ServiceLib/GeneratedFiles"
+        "../../../Open"
     >
 )
 
@@ -111,19 +111,19 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "QT_LARGEFILE_SUPPORT"
         "INTEGRATIONINPUTLOT_LIB"
         "UNICODE"
+        "QT_LARGEFILE_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:"DisplayImage.lib">
-        $<$<CONFIG:Debug>:"IntegrationLib.lib">
         $<$<CONFIG:Debug>:"InputInTouchPanel.lib">
-        $<$<CONFIG:Debug>:"Component.lib">
+        $<$<CONFIG:Debug>:"IntegrationLib.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"Component.lib">
     )
 elseif(UNIX)
     # --- Dynamic Library Linking for DisplayImage (Debug) ---
@@ -139,22 +139,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for IntegrationLib (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(INTEGRATIONLIB_SHARED_LIB_DEBUG NAMES IntegrationLib PATHS "../../../Lib/Debug")
-    if(INTEGRATIONLIB_SHARED_LIB_DEBUG)
-        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES libIntegrationLib.a PATHS "../../../Lib/Debug")
-        if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
-            set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
         endif()
     endif()
 
@@ -174,19 +158,19 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for Component (Debug) ---
+    # --- Dynamic Library Linking for IntegrationLib (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../../Lib/Debug")
-    if(COMPONENT_SHARED_LIB_DEBUG)
-        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
+    find_library(INTEGRATIONLIB_SHARED_LIB_DEBUG NAMES IntegrationLib PATHS "../../../Lib/Debug")
+    if(INTEGRATIONLIB_SHARED_LIB_DEBUG)
+        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../../Lib/Debug")
-        if(COMPONENT_STATIC_LIB_DEBUG)
-            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
+        find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES libIntegrationLib.a PATHS "../../../Lib/Debug")
+        if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
+            set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
         else()
             # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_DEBUG Component)
+            set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
         endif()
     endif()
 
@@ -206,13 +190,29 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for Component (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../../Lib/Debug")
+    if(COMPONENT_SHARED_LIB_DEBUG)
+        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../../Lib/Debug")
+        if(COMPONENT_STATIC_LIB_DEBUG)
+            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_DEBUG Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
         $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${INPUTINTOUCHPANEL_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -238,14 +238,14 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../IntegrationLib"
-        "."
-        "../../../InspectionPlayer"
         "./GeneratedFiles"
-        "./GeneratedFiles/"
-        "../../../Open"
-        "../../../GeneralSource"
         "../../../OpenSource/InputInTouchPanel"
+        "./GeneratedFiles/"
+        "../../../GeneralSource"
+        "."
+        "../../IntegrationLib"
+        "../../../InspectionPlayer"
+        "../../../Open"
     >
 )
 
@@ -257,38 +257,22 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_LARGEFILE_SUPPORT"
         "NDEBUG"
-        "QT_NO_DEBUG"
         "INTEGRATIONINPUTLOT_LIB"
+        "QT_NO_DEBUG"
         "UNICODE"
+        "QT_LARGEFILE_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"IntegrationLib.lib">
         $<$<CONFIG:Release>:"InputInTouchPanel.lib">
-        $<$<CONFIG:Release>:"Component.lib">
+        $<$<CONFIG:Release>:"IntegrationLib.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"Component.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for IntegrationLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(INTEGRATIONLIB_SHARED_LIB_RELEASE NAMES IntegrationLib PATHS "../../../Lib/Release")
-    if(INTEGRATIONLIB_SHARED_LIB_RELEASE)
-        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES libIntegrationLib.a PATHS "../../../Lib/Release")
-        if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
-            set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for InputInTouchPanel (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(INPUTINTOUCHPANEL_SHARED_LIB_RELEASE NAMES InputInTouchPanel PATHS "../../../Lib/Release")
@@ -305,19 +289,19 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for Component (Release) ---
+    # --- Dynamic Library Linking for IntegrationLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../../Lib/Release")
-    if(COMPONENT_SHARED_LIB_RELEASE)
-        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    find_library(INTEGRATIONLIB_SHARED_LIB_RELEASE NAMES IntegrationLib PATHS "../../../Lib/Release")
+    if(INTEGRATIONLIB_SHARED_LIB_RELEASE)
+        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../../Lib/Release")
-        if(COMPONENT_STATIC_LIB_RELEASE)
-            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES libIntegrationLib.a PATHS "../../../Lib/Release")
+        if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
+            set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
         else()
             # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_RELEASE Component)
+            set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
         endif()
     endif()
 
@@ -337,12 +321,28 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for Component (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../../Lib/Release")
+    if(COMPONENT_SHARED_LIB_RELEASE)
+        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../../Lib/Release")
+        if(COMPONENT_STATIC_LIB_RELEASE)
+            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_RELEASE Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${INPUTINTOUCHPANEL_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -353,12 +353,12 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
-    Qt6::Core5Compat
-    Qt6::Widgets
     Qt6::Gui
+    Qt6::Core5Compat
     Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===

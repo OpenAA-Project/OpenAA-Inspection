@@ -66,8 +66,10 @@ DEFFUNCEX	int32	DLL_GetPropertyString(void	*Instance ,struct	PropertyClass Data[
 	Data[0].Type				 =/**/"QStringList";
 	Data[0].VariableNameWithRoute=/**/"HookTargetListInst";
 	Data[0].Pointer				 =&((HookMeasureForm *)Instance)->HookTargetListInst;
-
-	return(1);
+	Data[1].Type				 =/**/"CustomCursors,Cross,Arrow";
+	Data[1].VariableNameWithRoute=/**/"CursorType";
+	Data[1].Pointer				 =&((HookMeasureForm *)Instance)->CursorType;	
+	return(2);
 }
 
 DEFFUNCEX	QIcon	*DLL_GetIcon(void)

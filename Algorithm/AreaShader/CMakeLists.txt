@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat Widgets Gui Sql Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -97,17 +97,17 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "./GeneratedFiles"
+        "../../GeneralSource"
         "../../ServiceLib/ServiceLib/GeneratedFiles"
         "../../OpenSource/DisplayImage"
-        "../../ServiceLib/ServiceLib"
-        "../../Open"
-        "../../OpenSource/Component"
         "./GeneratedFiles/$(Configuration)"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
-        "./GeneratedFiles"
-        "../../Algorithm/DynamicMaskingPI"
+        "../../Open"
         "./GeneratedFiles/"
-        "../../GeneralSource"
+        "../../OpenSource/Component"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
+        "../../ServiceLib/ServiceLib"
+        "../../Algorithm/DynamicMaskingPI"
     >
 )
 
@@ -127,44 +127,12 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"DisplayImage.lib">
-        $<$<CONFIG:Debug>:"Component.lib">
         $<$<CONFIG:Debug>:"ModelPageLayerItem.lib">
+        $<$<CONFIG:Debug>:"DisplayImage.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"Component.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayImage (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
-        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for Component (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
-    if(COMPONENT_SHARED_LIB_DEBUG)
-        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
-        if(COMPONENT_STATIC_LIB_DEBUG)
-            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_DEBUG Component)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ModelPageLayerItem (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(MODELPAGELAYERITEM_SHARED_LIB_DEBUG NAMES ModelPageLayerItem PATHS "../../Lib/Debug")
@@ -178,6 +146,22 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ModelPageLayerItem)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for DisplayImage (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
+    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
+        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug")
+        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
         endif()
     endif()
 
@@ -197,12 +181,28 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for Component (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
+    if(COMPONENT_SHARED_LIB_DEBUG)
+        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
+        if(COMPONENT_STATIC_LIB_DEBUG)
+            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_DEBUG Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${MODELPAGELAYERITEM_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -228,13 +228,13 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../OpenSource/DisplayImage"
-        "../../Open"
-        "../../OpenSource/Component"
-        "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
-        "../../Algorithm/DynamicMaskingPI"
+        "../../OpenSource/DisplayImage"
+        "./GeneratedFiles/$(Configuration)"
+        "../../Open"
         "./GeneratedFiles/"
+        "../../OpenSource/Component"
+        "../../Algorithm/DynamicMaskingPI"
     >
 )
 
@@ -246,9 +246,9 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "QT_THREAD_SUPPORT"
         "NDEBUG"
         "QT_NO_DEBUG"
-        "QT_THREAD_SUPPORT"
         "AREASHADER_LIB"
         "UNICODE"
     >
@@ -256,44 +256,12 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"ServiceForAlgorithm.lib">
-        $<$<CONFIG:Release>:"Component.lib">
         $<$<CONFIG:Release>:"ModelPageLayerItem.lib">
+        $<$<CONFIG:Release>:"ServiceForAlgorithm.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"Component.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for ServiceForAlgorithm (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICEFORALGORITHM_SHARED_LIB_RELEASE NAMES ServiceForAlgorithm PATHS "../../Lib/Release")
-    if(SERVICEFORALGORITHM_SHARED_LIB_RELEASE)
-        set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ${SERVICEFORALGORITHM_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICEFORALGORITHM_STATIC_LIB_RELEASE NAMES libServiceForAlgorithm.a PATHS "../../Lib/Release")
-        if(SERVICEFORALGORITHM_STATIC_LIB_RELEASE)
-            set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ${SERVICEFORALGORITHM_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ServiceForAlgorithm)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for Component (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release")
-    if(COMPONENT_SHARED_LIB_RELEASE)
-        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release")
-        if(COMPONENT_STATIC_LIB_RELEASE)
-            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_RELEASE Component)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ModelPageLayerItem (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(MODELPAGELAYERITEM_SHARED_LIB_RELEASE NAMES ModelPageLayerItem PATHS "../../Lib/Release")
@@ -307,6 +275,22 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(MODELPAGELAYERITEM_FINAL_LIB_RELEASE ModelPageLayerItem)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ServiceForAlgorithm (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICEFORALGORITHM_SHARED_LIB_RELEASE NAMES ServiceForAlgorithm PATHS "../../Lib/Release")
+    if(SERVICEFORALGORITHM_SHARED_LIB_RELEASE)
+        set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ${SERVICEFORALGORITHM_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICEFORALGORITHM_STATIC_LIB_RELEASE NAMES libServiceForAlgorithm.a PATHS "../../Lib/Release")
+        if(SERVICEFORALGORITHM_STATIC_LIB_RELEASE)
+            set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ${SERVICEFORALGORITHM_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ServiceForAlgorithm)
         endif()
     endif()
 
@@ -326,12 +310,28 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for Component (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release")
+    if(COMPONENT_SHARED_LIB_RELEASE)
+        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release")
+        if(COMPONENT_STATIC_LIB_RELEASE)
+            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_RELEASE Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${SERVICEFORALGORITHM_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${MODELPAGELAYERITEM_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICEFORALGORITHM_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -354,12 +354,12 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
-    Qt6::Core5Compat
-    Qt6::Widgets
     Qt6::Gui
+    Qt6::Core5Compat
     Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===

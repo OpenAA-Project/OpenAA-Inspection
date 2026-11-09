@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS OpenGL Core Network Widgets OpenGLWidgets Core5Compat Gui Sql)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat OpenGL Sql Widgets Core Network OpenGLWidgets)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -112,17 +112,17 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../GUI/DisplayMasterImage/DisplayMasterImage"
-        "./GeneratedFiles/"
-        "../../Open"
-        "./GeneratedFiles/$(Configuration)"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
-        "../../GUI/TargetImageControlTools/GeneratedFiles"
         "./GeneratedFiles"
         "../../GeneralSource"
         "../../OpenSource/DisplayImage"
         "../../GUI/TargetImageControlTools"
+        "./GeneratedFiles/$(Configuration)"
+        "../../Open"
+        "./GeneratedFiles/"
         "../../OpenSource/Component"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
+        "../../GUI/TargetImageControlTools/GeneratedFiles"
+        "../../GUI/DisplayMasterImage/DisplayMasterImage"
     >
 )
 
@@ -134,35 +134,19 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "UNICODE"
-        "DISPLAYTARGETIMAGE_LIB"
         "QT_THREAD_SUPPORT"
+        "DISPLAYTARGETIMAGE_LIB"
+        "UNICODE"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"Component.lib">
         $<$<CONFIG:Debug>:"DisplayImage.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"Component.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for Component (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
-    if(COMPONENT_SHARED_LIB_DEBUG)
-        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
-        if(COMPONENT_STATIC_LIB_DEBUG)
-            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_DEBUG Component)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for DisplayImage (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
@@ -195,11 +179,27 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for Component (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
+    if(COMPONENT_SHARED_LIB_DEBUG)
+        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
+        if(COMPONENT_STATIC_LIB_DEBUG)
+            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_DEBUG Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -225,14 +225,14 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../GUI/DisplayMasterImage/DisplayMasterImage"
-        "./GeneratedFiles/"
-        "../../Open"
-        "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
         "../../OpenSource/DisplayImage"
         "../../GUI/TargetImageControlTools"
+        "./GeneratedFiles/$(Configuration)"
+        "../../Open"
+        "./GeneratedFiles/"
         "../../OpenSource/Component"
+        "../../GUI/DisplayMasterImage/DisplayMasterImage"
     >
 )
 
@@ -244,37 +244,21 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "UNICODE"
+        "QT_THREAD_SUPPORT"
+        "NDEBUG"
         "DISPLAYTARGETIMAGE_LIB"
         "QT_NO_DEBUG"
-        "NDEBUG"
-        "QT_THREAD_SUPPORT"
+        "UNICODE"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"Component.lib">
         $<$<CONFIG:Release>:"DisplayImage.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"Component.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for Component (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release")
-    if(COMPONENT_SHARED_LIB_RELEASE)
-        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release")
-        if(COMPONENT_STATIC_LIB_RELEASE)
-            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_RELEASE Component)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for DisplayImage (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(DISPLAYIMAGE_SHARED_LIB_RELEASE NAMES DisplayImage PATHS "../../Lib/Release")
@@ -307,11 +291,27 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for Component (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release")
+    if(COMPONENT_SHARED_LIB_RELEASE)
+        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release")
+        if(COMPONENT_STATIC_LIB_RELEASE)
+            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_RELEASE Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -323,8 +323,8 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Template>:
-        "./GeneratedFiles/"
         "./GeneratedFiles"
+        "./GeneratedFiles/"
     >
 )
 
@@ -334,14 +334,14 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt6::Gui
+    Qt6::Core5Compat
     Qt6::OpenGL
+    Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
     Qt6::Network
-    Qt6::Widgets
     Qt6::OpenGLWidgets
-    Qt6::Core5Compat
-    Qt6::Gui
-    Qt6::Sql
 )
 
 # === Additional Custom Settings ===
@@ -360,8 +360,12 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
-    -O0
-    -g
+    -ffunction-sections -fdata-sections
+)
+
+target_link_options(${PROJECT_NAME} PRIVATE
+    "-Wl,--no-undefined"
+    "-Wl,--gc-sections"
 )
 
     # --- Dynamic Library Linking for ForWindows ---

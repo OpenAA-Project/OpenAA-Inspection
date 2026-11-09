@@ -189,9 +189,9 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\OpenSource\DisplayImage;..\..\OpenSource\DisplayImage3D;..\..\OpenSource\Component;..\..\ServiceLib\ServiceLib;..\..\Open;..\..\EditGUI\EditGUI;..\..\GeneralSource;.;.\GeneratedFiles\$(Configuration);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;MODELPAGELAYERITEM_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -203,14 +203,14 @@
       <Parallelization>true</Parallelization>
       <OpenMP>GenerateParallelCode</OpenMP>
       <GenerateAlternateCodePaths>SSE3</GenerateAlternateCodePaths>
-      <UseProcessorExtensions>None</UseProcessorExtensions>
-      <Optimization>Disabled</Optimization>
-      <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
+      <UseProcessorExtensions>SSE42</UseProcessorExtensions>
+      <Optimization>MaxSpeedHighLevel</Optimization>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>

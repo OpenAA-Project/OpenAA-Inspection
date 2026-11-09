@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Widgets Sql Core5Compat Network Core)
+find_package(Qt6 REQUIRED COMPONENTS Sql Gui Network Core5Compat Widgets Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -112,16 +112,16 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/goo"
         "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/build"
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf-qt"
         "../../GUI/PropertyRaster"
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/"
-        "../../OpenSource/DisplayImage"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/goo"
         "../../Open"
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/splash"
         "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf"
         "../../OpenSource/Component"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/splash"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf-qt"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/"
+        "../../OpenSource/DisplayImage"
     >
 )
 
@@ -141,34 +141,18 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"ServiceForAlgorithm.lib">
         $<$<CONFIG:Release>:"fofi_objs.lib">
-        $<$<CONFIG:Release>:"ModelPageItem.lib">
-        $<$<CONFIG:Release>:"freetype.lib">
-        $<$<CONFIG:Release>:"PDFWidget.lib">
-        $<$<CONFIG:Release>:"goo_objs.lib">
-        $<$<CONFIG:Release>:"ServiceLib.lib">
-        $<$<CONFIG:Release>:"Component.lib">
         $<$<CONFIG:Release>:"xpdf_objs.lib">
         $<$<CONFIG:Release>:"EditPasswordOnControl.lib">
+        $<$<CONFIG:Release>:"ServiceForAlgorithm.lib">
+        $<$<CONFIG:Release>:"freetype.lib">
+        $<$<CONFIG:Release>:"PDFWidget.lib">
+        $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"Component.lib">
+        $<$<CONFIG:Release>:"goo_objs.lib">
+        $<$<CONFIG:Release>:"ModelPageItem.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for ServiceForAlgorithm (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICEFORALGORITHM_SHARED_LIB_RELEASE NAMES ServiceForAlgorithm PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-    if(SERVICEFORALGORITHM_SHARED_LIB_RELEASE)
-        set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ${SERVICEFORALGORITHM_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICEFORALGORITHM_STATIC_LIB_RELEASE NAMES libServiceForAlgorithm.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-        if(SERVICEFORALGORITHM_STATIC_LIB_RELEASE)
-            set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ${SERVICEFORALGORITHM_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ServiceForAlgorithm)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for fofi_objs (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(FOFI_OBJS_SHARED_LIB_RELEASE NAMES fofi_objs PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
@@ -182,102 +166,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(FOFI_OBJS_FINAL_LIB_RELEASE fofi_objs)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ModelPageItem (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MODELPAGEITEM_SHARED_LIB_RELEASE NAMES ModelPageItem PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-    if(MODELPAGEITEM_SHARED_LIB_RELEASE)
-        set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGEITEM_STATIC_LIB_RELEASE NAMES libModelPageItem.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-        if(MODELPAGEITEM_STATIC_LIB_RELEASE)
-            set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MODELPAGEITEM_FINAL_LIB_RELEASE ModelPageItem)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for freetype (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(FREETYPE_SHARED_LIB_RELEASE NAMES freetype PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-    if(FREETYPE_SHARED_LIB_RELEASE)
-        set(FREETYPE_FINAL_LIB_RELEASE ${FREETYPE_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(FREETYPE_STATIC_LIB_RELEASE NAMES libfreetype.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-        if(FREETYPE_STATIC_LIB_RELEASE)
-            set(FREETYPE_FINAL_LIB_RELEASE ${FREETYPE_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(FREETYPE_FINAL_LIB_RELEASE freetype)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for PDFWidget (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(PDFWIDGET_SHARED_LIB_RELEASE NAMES PDFWidget PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-    if(PDFWIDGET_SHARED_LIB_RELEASE)
-        set(PDFWIDGET_FINAL_LIB_RELEASE ${PDFWIDGET_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(PDFWIDGET_STATIC_LIB_RELEASE NAMES libPDFWidget.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-        if(PDFWIDGET_STATIC_LIB_RELEASE)
-            set(PDFWIDGET_FINAL_LIB_RELEASE ${PDFWIDGET_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(PDFWIDGET_FINAL_LIB_RELEASE PDFWidget)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for goo_objs (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(GOO_OBJS_SHARED_LIB_RELEASE NAMES goo_objs PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-    if(GOO_OBJS_SHARED_LIB_RELEASE)
-        set(GOO_OBJS_FINAL_LIB_RELEASE ${GOO_OBJS_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(GOO_OBJS_STATIC_LIB_RELEASE NAMES libgoo_objs.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-        if(GOO_OBJS_STATIC_LIB_RELEASE)
-            set(GOO_OBJS_FINAL_LIB_RELEASE ${GOO_OBJS_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(GOO_OBJS_FINAL_LIB_RELEASE goo_objs)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ServiceLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-    if(SERVICELIB_SHARED_LIB_RELEASE)
-        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-        if(SERVICELIB_STATIC_LIB_RELEASE)
-            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for Component (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-    if(COMPONENT_SHARED_LIB_RELEASE)
-        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
-        if(COMPONENT_STATIC_LIB_RELEASE)
-            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_RELEASE Component)
         endif()
     endif()
 
@@ -313,18 +201,130 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for ServiceForAlgorithm (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICEFORALGORITHM_SHARED_LIB_RELEASE NAMES ServiceForAlgorithm PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+    if(SERVICEFORALGORITHM_SHARED_LIB_RELEASE)
+        set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ${SERVICEFORALGORITHM_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICEFORALGORITHM_STATIC_LIB_RELEASE NAMES libServiceForAlgorithm.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+        if(SERVICEFORALGORITHM_STATIC_LIB_RELEASE)
+            set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ${SERVICEFORALGORITHM_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ServiceForAlgorithm)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for freetype (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(FREETYPE_SHARED_LIB_RELEASE NAMES freetype PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+    if(FREETYPE_SHARED_LIB_RELEASE)
+        set(FREETYPE_FINAL_LIB_RELEASE ${FREETYPE_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(FREETYPE_STATIC_LIB_RELEASE NAMES libfreetype.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+        if(FREETYPE_STATIC_LIB_RELEASE)
+            set(FREETYPE_FINAL_LIB_RELEASE ${FREETYPE_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(FREETYPE_FINAL_LIB_RELEASE freetype)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for PDFWidget (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(PDFWIDGET_SHARED_LIB_RELEASE NAMES PDFWidget PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+    if(PDFWIDGET_SHARED_LIB_RELEASE)
+        set(PDFWIDGET_FINAL_LIB_RELEASE ${PDFWIDGET_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(PDFWIDGET_STATIC_LIB_RELEASE NAMES libPDFWidget.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+        if(PDFWIDGET_STATIC_LIB_RELEASE)
+            set(PDFWIDGET_FINAL_LIB_RELEASE ${PDFWIDGET_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(PDFWIDGET_FINAL_LIB_RELEASE PDFWidget)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ServiceLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+    if(SERVICELIB_SHARED_LIB_RELEASE)
+        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+        if(SERVICELIB_STATIC_LIB_RELEASE)
+            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for Component (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+    if(COMPONENT_SHARED_LIB_RELEASE)
+        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+        if(COMPONENT_STATIC_LIB_RELEASE)
+            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_RELEASE Component)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for goo_objs (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(GOO_OBJS_SHARED_LIB_RELEASE NAMES goo_objs PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+    if(GOO_OBJS_SHARED_LIB_RELEASE)
+        set(GOO_OBJS_FINAL_LIB_RELEASE ${GOO_OBJS_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(GOO_OBJS_STATIC_LIB_RELEASE NAMES libgoo_objs.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+        if(GOO_OBJS_STATIC_LIB_RELEASE)
+            set(GOO_OBJS_FINAL_LIB_RELEASE ${GOO_OBJS_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(GOO_OBJS_FINAL_LIB_RELEASE goo_objs)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ModelPageItem (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(MODELPAGEITEM_SHARED_LIB_RELEASE NAMES ModelPageItem PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+    if(MODELPAGEITEM_SHARED_LIB_RELEASE)
+        set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(MODELPAGEITEM_STATIC_LIB_RELEASE NAMES libModelPageItem.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/build/Release")
+        if(MODELPAGEITEM_STATIC_LIB_RELEASE)
+            set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(MODELPAGEITEM_FINAL_LIB_RELEASE ModelPageItem)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${SERVICEFORALGORITHM_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${FOFI_OBJS_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${MODELPAGEITEM_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${FREETYPE_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${PDFWIDGET_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${GOO_OBJS_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${XPDF_OBJS_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICEFORALGORITHM_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${FREETYPE_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${PDFWIDGET_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${GOO_OBJS_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${MODELPAGEITEM_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -335,11 +335,11 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
-    Qt6::Widgets
     Qt6::Sql
-    Qt6::Core5Compat
+    Qt6::Gui
     Qt6::Network
+    Qt6::Core5Compat
+    Qt6::Widgets
     Qt6::Core
 )
 

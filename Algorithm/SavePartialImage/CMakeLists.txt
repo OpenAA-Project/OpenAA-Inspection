@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat Widgets Gui Sql Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -93,19 +93,19 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../Open"
-        "."
         "./GeneratedFiles"
+        "../../Open"
         "./GeneratedFiles/"
+        "."
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "QT_LARGEFILE_SUPPORT"
-        "QT_DLL"
         "SAVEPARTIALIMAGE_LIB"
+        "QT_DLL"
         "UNICODE"
+        "QT_LARGEFILE_SUPPORT"
     >
 )
 
@@ -130,12 +130,12 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "./GeneratedFiles"
+        "../../Open"
+        "./GeneratedFiles/"
+        "."
         "../../GUI/MaskingImagePanel/SelectLibraryInMask"
         "../../ServiceLib/ServiceLib"
-        "../../Open"
-        "."
-        "./GeneratedFiles"
-        "./GeneratedFiles/"
     >
 )
 
@@ -147,37 +147,21 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_LARGEFILE_SUPPORT"
-        "NDEBUG"
-        "QT_NO_DEBUG"
-        "QT_DLL"
         "SAVEPARTIALIMAGE_LIB"
+        "NDEBUG"
+        "QT_DLL"
+        "QT_NO_DEBUG"
         "UNICODE"
+        "QT_LARGEFILE_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"ModelPageItem.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"ModelPageItem.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for ModelPageItem (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MODELPAGEITEM_SHARED_LIB_RELEASE NAMES ModelPageItem PATHS "../../Lib/Release")
-    if(MODELPAGEITEM_SHARED_LIB_RELEASE)
-        set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGEITEM_STATIC_LIB_RELEASE NAMES libModelPageItem.a PATHS "../../Lib/Release")
-        if(MODELPAGEITEM_STATIC_LIB_RELEASE)
-            set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MODELPAGEITEM_FINAL_LIB_RELEASE ModelPageItem)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
@@ -194,10 +178,26 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for ModelPageItem (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(MODELPAGEITEM_SHARED_LIB_RELEASE NAMES ModelPageItem PATHS "../../Lib/Release")
+    if(MODELPAGEITEM_SHARED_LIB_RELEASE)
+        set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(MODELPAGEITEM_STATIC_LIB_RELEASE NAMES libModelPageItem.a PATHS "../../Lib/Release")
+        if(MODELPAGEITEM_STATIC_LIB_RELEASE)
+            set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(MODELPAGEITEM_FINAL_LIB_RELEASE ModelPageItem)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${MODELPAGEITEM_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${MODELPAGEITEM_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -208,12 +208,12 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
-    Qt6::Core5Compat
-    Qt6::Widgets
     Qt6::Gui
+    Qt6::Core5Compat
     Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===

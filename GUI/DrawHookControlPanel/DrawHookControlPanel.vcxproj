@@ -256,6 +256,7 @@
     <QtRcc Include="DrawHookControlPanel.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Icon\IconCross.png" />
     <Image Include="Icon\IconDrawEllipse.png" />
     <Image Include="Icon\IconDrawLine.png" />
     <Image Include="Icon\IconDrawPoly.png" />

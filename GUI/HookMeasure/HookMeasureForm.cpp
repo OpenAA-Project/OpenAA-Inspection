@@ -59,6 +59,7 @@ HookMeasureForm::HookMeasureForm(LayersBase *Base ,QWidget *parent) :
 	MoveStep	=0;
 	DistanceSelection	=10;
 	Active		=true;
+	CursorType =/**/"Cross";
 
 	QWidget	*W=ui->stackedWidget	->widget(0);
 
@@ -480,36 +481,80 @@ void	HookMeasureForm::ReadyParam(void)
 
 void	HookMeasureForm::SetCursor(MeasuredList::MLA_Action action)
 {
-	for(int i=0;i<HookTargetListInst.count();i++){
-		QString	HookedPanelName=HookTargetListInst[i];
-		DisplayImage *TargetPanel=dynamic_cast<DisplayImage *>(GetLayersBase()->FindByName(HookedPanelName));
-		if(TargetPanel!=NULL){
-			switch(action){
-			case	MeasuredList::_MLA_Nothing		:
-				TargetPanel->SetCursor(QCursor(Qt::ArrowCursor));	break;
-			case	MeasuredList::_MLA_Point2Point	:
-				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconStraightLine.png"),0,0));	break;
-			case	MeasuredList::_MLA_FoldedLines	:
-				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconBrokenLine.png"),0,0));	break;
-			case	MeasuredList::_MLA_Arc			:
-				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCrcularArc.png"),0,0));	break;
-			case	MeasuredList::_MLA_CenterCircle	:
-				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCircleTwoPoints.png"),0,0));	break;
-			case	MeasuredList::_MLA_Angle		:
-				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconAngle.png"),0,0));	break;
-			case	MeasuredList::_MLA_Rectangle	:
-				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconRectangle.png"),0,0));	break;
-			case	MeasuredList::_MLA_PolyLine		:
-				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconMPolygon.png"),0,0));	break;
-			case	MeasuredList::_MLA_Circle		:
-				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCircle1.png"),0,0));	break;
-			case	MeasuredList::_MLA_Isolation	:
-				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconParallelLines.png"),0,0));	break;
-			case	MeasuredList::_MLA_Circle3		:
-				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCircle2.png"),0,0));	break;
+	if(CursorType=="Cross"){
+		for(int i=0;i<HookTargetListInst.count();i++){
+			QString	HookedPanelName=HookTargetListInst[i];
+			DisplayImage *TargetPanel=dynamic_cast<DisplayImage *>(GetLayersBase()->FindByName(HookedPanelName));
+			if(TargetPanel!=NULL){
+				switch(action){
+				case	MeasuredList::_MLA_Nothing		:
+					TargetPanel->SetCursor(QCursor(Qt::ArrowCursor));	break;
+				case	MeasuredList::_MLA_Point2Point	:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCross.png"),16,15));	break;
+				case	MeasuredList::_MLA_FoldedLines	:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCross.png"),16,15));	break;
+				case	MeasuredList::_MLA_Arc			:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCross.png"),16,15));	break;
+				case	MeasuredList::_MLA_CenterCircle	:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCross.png"),16,15));	break;
+				case	MeasuredList::_MLA_Angle		:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCross.png"),16,15));	break;
+				case	MeasuredList::_MLA_Rectangle	:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCross.png"),16,15));	break;
+				case	MeasuredList::_MLA_PolyLine		:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCross.png"),16,15));	break;
+				case	MeasuredList::_MLA_Circle		:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCross.png"),16,15));	break;
+				case	MeasuredList::_MLA_Isolation	:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCross.png"),16,15));	break;
+				case	MeasuredList::_MLA_Circle3		:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCross.png"),16,15));	break;
+				}
 			}
 		}
-	}		
+		return;
+	}
+	else if(CursorType=="CustomCursors"){
+		for(int i=0;i<HookTargetListInst.count();i++){
+			QString	HookedPanelName=HookTargetListInst[i];
+			DisplayImage *TargetPanel=dynamic_cast<DisplayImage *>(GetLayersBase()->FindByName(HookedPanelName));
+			if(TargetPanel!=NULL){
+				switch(action){
+				case	MeasuredList::_MLA_Nothing		:
+					TargetPanel->SetCursor(QCursor(Qt::ArrowCursor));	break;
+				case	MeasuredList::_MLA_Point2Point	:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconStraightLine.png"),0,0));	break;
+				case	MeasuredList::_MLA_FoldedLines	:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconBrokenLine.png"),0,0));	break;
+				case	MeasuredList::_MLA_Arc			:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCrcularArc.png"),0,0));	break;
+				case	MeasuredList::_MLA_CenterCircle	:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCircleTwoPoints.png"),0,0));	break;
+				case	MeasuredList::_MLA_Angle		:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconAngle.png"),0,0));	break;
+				case	MeasuredList::_MLA_Rectangle	:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconRectangle.png"),0,0));	break;
+				case	MeasuredList::_MLA_PolyLine		:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconMPolygon.png"),0,0));	break;
+				case	MeasuredList::_MLA_Circle		:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCircle1.png"),0,0));	break;
+				case	MeasuredList::_MLA_Isolation	:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconParallelLines.png"),0,0));	break;
+				case	MeasuredList::_MLA_Circle3		:
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCircle2.png"),0,0));	break;
+				}
+			}
+		}
+	}
+	else{
+		for(int i=0;i<HookTargetListInst.count();i++){
+			QString	HookedPanelName=HookTargetListInst[i];
+			DisplayImage *TargetPanel=dynamic_cast<DisplayImage *>(GetLayersBase()->FindByName(HookedPanelName));
+			if(TargetPanel!=NULL){
+				TargetPanel->SetCursor(QCursor(Qt::ArrowCursor));
+			}
+		}
+	}
 }
 
 bool	HookMeasureForm::IsModeEnable(void)

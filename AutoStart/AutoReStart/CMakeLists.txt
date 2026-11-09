@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Core5Compat Widgets Gui Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Widgets Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -147,9 +147,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_NAME}" AND IS_DIRECTORY "
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt6::Gui
     Qt6::Core5Compat
     Qt6::Widgets
-    Qt6::Gui
     Qt6::Core
 )
 

@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat Widgets Gui OpenGL Sql Core OpenGLWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat OpenGL Sql Widgets Core Network OpenGLWidgets)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -44,7 +44,6 @@ set(PROJECT_SOURCES
     "../../Open/SystemVersion.cpp"
     "../PropertyColorBlock/XPropertyColorBlockPacket.cpp"
     "ColorBlockImagePanelResource.cpp"
-    "GeneratedFiles/qrc_ColorBlockImagePanel.cpp"
 )
 
 set(PROJECT_HEADERS
@@ -93,23 +92,23 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../GUI/ImageControlTools/GeneratedFiles"
-        "../../OpenSource/DisplayImage"
-        "../../GUI/ImagePanelTools"
         "./GeneratedFiles"
-        "../../Algorithm/ColorBlockInspection"
-        "../../GUI/ImageControlTools"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
-        "../../Open"
-        "./GeneratedFiles/$(Configuration)"
-        "../../GUI/PropertyColorBlock/GeneratedFiles"
-        "../../GUI/ImagePanelTools/GeneratedFiles"
-        "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "../../OpenSource/Component"
-        "../../GUI/PropertyColorBlock"
-        "../../ServiceLib/ServiceLib"
+        "../../GUI/ImageControlTools/GeneratedFiles"
         "../../GeneralSource"
+        "../../OpenSource/DisplayImage"
+        "../../ServiceLib/ServiceLib/GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "../../GUI/ImagePanelTools/GeneratedFiles"
+        "../../Open"
+        "../../GUI/ImageControlTools"
         "./GeneratedFiles/"
+        "../../Algorithm/ColorBlockInspection"
+        "../../OpenSource/Component"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
+        "../../GUI/ImagePanelTools"
+        "../../GUI/PropertyColorBlock"
+        "../../GUI/PropertyColorBlock/GeneratedFiles"
+        "../../ServiceLib/ServiceLib"
     >
 )
 
@@ -121,32 +120,32 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "QT_THREAD_SUPPORT"
         "COLORBLOCKIMAGEPANEL_LIB"
         "UNICODE"
-        "QT_THREAD_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"Component.lib">
-        $<$<CONFIG:Debug>:"ServiceLib.lib">
         $<$<CONFIG:Debug>:"DisplayImage.lib">
+        $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"Component.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for Component (Debug) ---
+    # --- Dynamic Library Linking for DisplayImage (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
-    if(COMPONENT_SHARED_LIB_DEBUG)
-        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
+    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
+    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
+        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
-        if(COMPONENT_STATIC_LIB_DEBUG)
-            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
+        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug")
+        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
         else()
             # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_DEBUG Component)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
         endif()
     endif()
 
@@ -166,27 +165,27 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for DisplayImage (Debug) ---
+    # --- Dynamic Library Linking for Component (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
-        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
+    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
+    if(COMPONENT_SHARED_LIB_DEBUG)
+        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
+        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
+        if(COMPONENT_STATIC_LIB_DEBUG)
+            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
         else()
             # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
+            set(COMPONENT_FINAL_LIB_DEBUG Component)
         endif()
     endif()
 
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -212,17 +211,17 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../OpenSource/DisplayImage"
-        "../../GUI/ImagePanelTools"
         "./GeneratedFiles"
-        "../../Algorithm/ColorBlockInspection"
-        "../../GUI/ImageControlTools"
-        "../../Open"
+        "../../OpenSource/DisplayImage"
         "./GeneratedFiles/$(Configuration)"
-        "../../GUI/PropertyColorBlock/GeneratedFiles"
-        "../../OpenSource/Component"
-        "../../GUI/PropertyColorBlock"
+        "../../Open"
+        "../../GUI/ImageControlTools"
         "./GeneratedFiles/"
+        "../../Algorithm/ColorBlockInspection"
+        "../../OpenSource/Component"
+        "../../GUI/ImagePanelTools"
+        "../../GUI/PropertyColorBlock"
+        "../../GUI/PropertyColorBlock/GeneratedFiles"
     >
 )
 
@@ -234,52 +233,36 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_NO_DEBUG"
+        "QT_THREAD_SUPPORT"
         "NDEBUG"
+        "LINKFREE"
+        "QT_NO_DEBUG"
         "COLORBLOCKIMAGEPANEL_LIB"
         "UNICODE"
-        "LINKFREE"
-        "QT_THREAD_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"Component.lib">
-        $<$<CONFIG:Release>:"DisplayOpenGL.lib">
-        $<$<CONFIG:Release>:"ServiceLib.lib">
         $<$<CONFIG:Release>:"DisplayImage.lib">
+        $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"DisplayOpenGL.lib">
+        $<$<CONFIG:Release>:"Component.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for Component (Release) ---
+    # --- Dynamic Library Linking for DisplayImage (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release")
-    if(COMPONENT_SHARED_LIB_RELEASE)
-        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    find_library(DISPLAYIMAGE_SHARED_LIB_RELEASE NAMES DisplayImage PATHS "../../Lib/Release")
+    if(DISPLAYIMAGE_SHARED_LIB_RELEASE)
+        set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release")
-        if(COMPONENT_STATIC_LIB_RELEASE)
-            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        find_library(DISPLAYIMAGE_STATIC_LIB_RELEASE NAMES libDisplayImage.a PATHS "../../Lib/Release")
+        if(DISPLAYIMAGE_STATIC_LIB_RELEASE)
+            set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_STATIC_LIB_RELEASE})
         else()
             # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_RELEASE Component)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for DisplayOpenGL (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYOPENGL_SHARED_LIB_RELEASE NAMES DisplayOpenGL PATHS "../../Lib/Release")
-    if(DISPLAYOPENGL_SHARED_LIB_RELEASE)
-        set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYOPENGL_STATIC_LIB_RELEASE NAMES libDisplayOpenGL.a PATHS "../../Lib/Release")
-        if(DISPLAYOPENGL_STATIC_LIB_RELEASE)
-            set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYOPENGL_FINAL_LIB_RELEASE DisplayOpenGL)
+            set(DISPLAYIMAGE_FINAL_LIB_RELEASE DisplayImage)
         endif()
     endif()
 
@@ -299,28 +282,44 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for DisplayImage (Release) ---
+    # --- Dynamic Library Linking for DisplayOpenGL (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_RELEASE NAMES DisplayImage PATHS "../../Lib/Release")
-    if(DISPLAYIMAGE_SHARED_LIB_RELEASE)
-        set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_SHARED_LIB_RELEASE})
+    find_library(DISPLAYOPENGL_SHARED_LIB_RELEASE NAMES DisplayOpenGL PATHS "../../Lib/Release")
+    if(DISPLAYOPENGL_SHARED_LIB_RELEASE)
+        set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_RELEASE NAMES libDisplayImage.a PATHS "../../Lib/Release")
-        if(DISPLAYIMAGE_STATIC_LIB_RELEASE)
-            set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_STATIC_LIB_RELEASE})
+        find_library(DISPLAYOPENGL_STATIC_LIB_RELEASE NAMES libDisplayOpenGL.a PATHS "../../Lib/Release")
+        if(DISPLAYOPENGL_STATIC_LIB_RELEASE)
+            set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_STATIC_LIB_RELEASE})
         else()
             # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_RELEASE DisplayImage)
+            set(DISPLAYOPENGL_FINAL_LIB_RELEASE DisplayOpenGL)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for Component (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release")
+    if(COMPONENT_SHARED_LIB_RELEASE)
+        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release")
+        if(COMPONENT_STATIC_LIB_RELEASE)
+            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_RELEASE Component)
         endif()
     endif()
 
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${DISPLAYOPENGL_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${DISPLAYOPENGL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -336,13 +335,13 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
-    Qt6::Core5Compat
-    Qt6::Widgets
     Qt6::Gui
+    Qt6::Core5Compat
     Qt6::OpenGL
     Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
     Qt6::OpenGLWidgets
 )
 

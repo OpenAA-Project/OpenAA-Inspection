@@ -215,6 +215,7 @@ public:
 		,Mode_Append	=4
 	};
 	EnumOperationMode	OperationMode;
+	QString	CursorType;
 
     explicit DrawHookControlPanelForm(LayersBase *Base,QWidget *parent = 0);
     ~DrawHookControlPanelForm();

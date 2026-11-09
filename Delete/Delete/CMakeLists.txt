@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat OpenGL Widgets Gui Sql Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat OpenGL Sql Widgets Core Network)
 
 # Find OpenGL / GLFW / GLEW
 find_package(OpenGL REQUIRED)
@@ -55,6 +55,10 @@ set(PROJECT_FORMS
     "delete.ui"
 )
 
+set(PROJECT_RESOURCES
+    "delete.qrc"
+)
+
 # Other resource files (icons, images)
 set(PROJECT_OTHER_RESOURCES
     "Delete.rc"
@@ -65,6 +69,7 @@ add_executable(${PROJECT_NAME}
     ${PROJECT_SOURCES}
     ${PROJECT_HEADERS}
     ${PROJECT_FORMS}
+    ${PROJECT_RESOURCES}
 )
 
 # === Configuration-specific sources ===
@@ -94,9 +99,9 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../Open"
-        "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "../../Open"
         "./GeneratedFiles/"
     >
 )
@@ -129,8 +134,8 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Intel_SSA>:
-        "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles/"
     >
 )
@@ -163,9 +168,9 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../Open"
-        "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "../../Open"
         "./GeneratedFiles/"
     >
 )
@@ -178,9 +183,9 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "QT_THREAD_SUPPORT"
         "NDEBUG"
         "QT_NO_DEBUG"
-        "QT_THREAD_SUPPORT"
         "UNICODE"
     >
 )
@@ -202,13 +207,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_NAME}" AND IS_DIRECTORY "
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
+    Qt6::Gui
     Qt6::Core5Compat
     Qt6::OpenGL
-    Qt6::Widgets
-    Qt6::Gui
     Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===

@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Widgets Core Sql Core5Compat Gui)
+find_package(Qt6 REQUIRED COMPONENTS Sql Gui Widgets Network Core Core5Compat)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -101,15 +101,15 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../../OpenSource/InputInTouchPanel"
-        "../../IntegrationLib"
-        "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/include"
-        "."
         "../../../OpenSource/Component"
-        "../../../Open"
-        "./GeneratedFiles/"
-        "./GeneratedFiles"
+        "../../../OpenSource/InputInTouchPanel"
         "../../../OpenSource/DisplayImage"
+        "."
+        "../../../Open"
+        "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/include"
+        "./GeneratedFiles"
+        "../../IntegrationLib"
+        "./GeneratedFiles/"
     >
 )
 
@@ -130,8 +130,8 @@ if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:"InputInTouchPanel.lib">
         $<$<CONFIG:Release>:"IntegrationLib.lib">
-        $<$<CONFIG:Release>:"xlsxwriter.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"xlsxwriter.lib">
     )
 elseif(UNIX)
     # --- Exact/Static Library Linking for InputInTouchPanel (Release) ---
@@ -154,16 +154,6 @@ elseif(UNIX)
         set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
     endif()
 
-    # --- Exact/Static Library Linking for xlsxwriter (Release) ---
-    # 1. Search for the exact library or static library
-    find_library(XLSXWRITER_STATIC_LIB_RELEASE NAMES "libxlsxwriter.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../../Lib/Release")
-    if(XLSXWRITER_STATIC_LIB_RELEASE)
-        set(XLSXWRITER_FINAL_LIB_RELEASE ${XLSXWRITER_STATIC_LIB_RELEASE})
-    else()
-        # Fallback if not found (e.g. system library)
-        set(XLSXWRITER_FINAL_LIB_RELEASE xlsxwriter)
-    endif()
-
     # --- Exact/Static Library Linking for ServiceLib (Release) ---
     # 1. Search for the exact library or static library
     find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES "libServiceLib.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../../Lib/Release")
@@ -174,12 +164,22 @@ elseif(UNIX)
         set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
     endif()
 
+    # --- Exact/Static Library Linking for xlsxwriter (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(XLSXWRITER_STATIC_LIB_RELEASE NAMES "libxlsxwriter.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../../Lib/Release")
+    if(XLSXWRITER_STATIC_LIB_RELEASE)
+        set(XLSXWRITER_FINAL_LIB_RELEASE ${XLSXWRITER_STATIC_LIB_RELEASE})
+    else()
+        # Fallback if not found (e.g. system library)
+        set(XLSXWRITER_FINAL_LIB_RELEASE xlsxwriter)
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
         $<$<CONFIG:Release>:${INPUTINTOUCHPANEL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${XLSXWRITER_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${XLSXWRITER_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -190,12 +190,12 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
-    Qt6::Widgets
-    Qt6::Core
     Qt6::Sql
-    Qt6::Core5Compat
     Qt6::Gui
+    Qt6::Widgets
+    Qt6::Network
+    Qt6::Core
+    Qt6::Core5Compat
 )
 
 # === Additional Custom Settings ===

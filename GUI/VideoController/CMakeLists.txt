@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat OpenGL OpenGLWidgets Widgets Gui Sql MultimediaWidgets Multimedia Core)
+find_package(Qt6 REQUIRED COMPONENTS Multimedia Gui Core5Compat OpenGL Sql Widgets Core Network OpenGLWidgets MultimediaWidgets)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -94,10 +94,10 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../PlayVideoWidget../../Open"
-        "."
         "./GeneratedFiles"
+        "../PlayVideoWidget../../Open"
         "./GeneratedFiles/"
+        "."
     >
 )
 
@@ -117,9 +117,9 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:"DisplayImage.lib">
+        $<$<CONFIG:Debug>:"ServiceLib.lib">
         $<$<CONFIG:Debug>:"CommonGUIDLL.lib">
         $<$<CONFIG:Debug>:"Component.lib">
-        $<$<CONFIG:Debug>:"ServiceLib.lib">
     )
 elseif(UNIX)
     # --- Dynamic Library Linking for DisplayImage (Debug) ---
@@ -135,6 +135,22 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ServiceLib (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../Lib/Debug")
+    if(SERVICELIB_SHARED_LIB_DEBUG)
+        set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES libServiceLib.a PATHS "../../Lib/Debug")
+        if(SERVICELIB_STATIC_LIB_DEBUG)
+            set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICELIB_FINAL_LIB_DEBUG ServiceLib)
         endif()
     endif()
 
@@ -170,28 +186,12 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for ServiceLib (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../Lib/Debug")
-    if(SERVICELIB_SHARED_LIB_DEBUG)
-        set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES libServiceLib.a PATHS "../../Lib/Debug")
-        if(SERVICELIB_STATIC_LIB_DEBUG)
-            set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICELIB_FINAL_LIB_DEBUG ServiceLib)
-        endif()
-    endif()
-
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
         $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMMONGUIDLL_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -217,11 +217,11 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../Open"
-        "."
         "./GeneratedFiles"
+        "../../Open"
         "./GeneratedFiles/"
         "../PlayVideoWidget"
+        "."
     >
 )
 
@@ -242,12 +242,28 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Release>:"ServiceLib.lib">
         $<$<CONFIG:Release>:"DisplayOpenGL.lib">
         $<$<CONFIG:Release>:"CommonGUIDLL.lib">
         $<$<CONFIG:Release>:"Component.lib">
-        $<$<CONFIG:Release>:"ServiceLib.lib">
     )
 elseif(UNIX)
+    # --- Dynamic Library Linking for ServiceLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
+    if(SERVICELIB_SHARED_LIB_RELEASE)
+        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release")
+        if(SERVICELIB_STATIC_LIB_RELEASE)
+            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for DisplayOpenGL (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(DISPLAYOPENGL_SHARED_LIB_RELEASE NAMES DisplayOpenGL PATHS "../../Lib/Release")
@@ -296,28 +312,12 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for ServiceLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
-    if(SERVICELIB_SHARED_LIB_RELEASE)
-        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release")
-        if(SERVICELIB_STATIC_LIB_RELEASE)
-            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
-        endif()
-    endif()
-
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
+        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${DISPLAYOPENGL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -328,16 +328,16 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
+    Qt6::Multimedia
+    Qt6::Gui
     Qt6::Core5Compat
     Qt6::OpenGL
-    Qt6::OpenGLWidgets
-    Qt6::Widgets
-    Qt6::Gui
     Qt6::Sql
-    Qt6::MultimediaWidgets
-    Qt6::Multimedia
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
+    Qt6::OpenGLWidgets
+    Qt6::MultimediaWidgets
 )
 
 # === Additional Custom Settings ===

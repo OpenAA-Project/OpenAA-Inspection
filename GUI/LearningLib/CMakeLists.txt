@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat OpenGL OpenGLWidgets Widgets Gui Sql Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat OpenGL Sql Widgets Core Network OpenGLWidgets)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -96,20 +96,20 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./../../Open"
-        "../../OpenSource/Component"
-        "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
-        "../../OpenSource/Component/GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "./../../Open"
         "./GeneratedFiles/"
+        "../../OpenSource/Component"
+        "../../OpenSource/Component/GeneratedFiles"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "QT_THREAD_SUPPORT"
-        "UNICODE"
         "LEARNINGLIB_LIB"
+        "UNICODE"
     >
 )
 
@@ -134,21 +134,21 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./../../Open"
-        "../../OpenSource/Component"
-        "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "./../../Open"
         "./GeneratedFiles/"
+        "../../OpenSource/Component"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "QT_THREAD_SUPPORT"
         "NDEBUG"
         "QT_NO_DEBUG"
-        "QT_THREAD_SUPPORT"
-        "UNICODE"
         "LEARNINGLIB_LIB"
+        "UNICODE"
     >
 )
 
@@ -163,14 +163,14 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
+    Qt6::Gui
     Qt6::Core5Compat
     Qt6::OpenGL
-    Qt6::OpenGLWidgets
-    Qt6::Widgets
-    Qt6::Gui
     Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
+    Qt6::OpenGLWidgets
 )
 
 # === Additional Custom Settings ===

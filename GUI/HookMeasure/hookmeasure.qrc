@@ -46,5 +46,6 @@
     <file>Icon/IconParallelLines.png</file>
     <file>Icon/IconRectangle.png</file>
     <file>Icon/IconStraightLine.png</file>
+    <file>Icon/IconCross.png</file>
   </qresource>
 </RCC>

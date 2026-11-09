@@ -11,6 +11,7 @@ project(HaspChosaku_2 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -20,13 +21,22 @@ if(WIN32)
 endif()
 
 if(UNIX)
+    # Dead code stripping (remove unused functions/data)
+    add_compile_options(-ffunction-sections -fdata-sections)
+    add_link_options("-Wl,--gc-sections")
+    # Allow multiple definitions to mimic MSVC static library linking behavior
+    add_link_options("-Wl,--allow-multiple-definition")
+
     if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
         # Linux / Raspberry Pi specific settings
     endif()
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Gui Widgets Network Core5Compat Xml Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network Xml)
+
+# Find OpenMP
+find_package(OpenMP REQUIRED)
 
 set(PROJECT_SOURCES
     "haspchosaku_2.cpp"
@@ -35,6 +45,7 @@ set(PROJECT_SOURCES
 
 set(PROJECT_HEADERS
     "hasp_vcode.h"
+    "haspchosaku_2.h"
 )
 
 set(PROJECT_FORMS
@@ -45,13 +56,12 @@ set(PROJECT_RESOURCES
     "HaspChosaku_2.qrc"
 )
 
-qt_wrap_ui(PROJECT_SOURCES ${PROJECT_FORMS})
-qt_add_resources(PROJECT_SOURCES ${PROJECT_RESOURCES})
-
 # Define the target
 add_executable(${PROJECT_NAME}
     ${PROJECT_SOURCES}
     ${PROJECT_HEADERS}
+    ${PROJECT_FORMS}
+    ${PROJECT_RESOURCES}
 )
 
 # === Configuration-specific sources ===
@@ -82,14 +92,21 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "./GeneratedFiles"
-        "./GeneratedFiles/"
         "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "C:/Program Files (x86)/Intel/Composer XE 2011 SP1/compiler/lib/intel64"
+    >
+)
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:
+        "QT_THREAD_SUPPORT"
+        "UNICODE"
     >
 )
 
@@ -115,33 +132,72 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "./GeneratedFiles"
-        "./GeneratedFiles/"
         "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
+        "$ENV{HOME}/OpenAA-OtherLibrary/HASP/Sentinel"
         "../../../Hasplib/Hasplib"
-        "$(OpenAAUseLibrary)/HASP/Sentinel"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "C:/Program Files (x86)/Intel/Composer XE 2011 SP1/compiler/lib/intel64"
-        "$(OpenAAUseLibrary)/HASP/Sentinel"
+        "$ENV{HOME}/OpenAA-OtherLibrary/HASP/Sentinel"
+    >
+)
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Release>:
+        "QT_THREAD_SUPPORT"
+        "NDEBUG"
+        "QT_NO_DEBUG"
+        "UNICODE"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:
-            "libhasp_windows_x64_demo.lib"
-            "hasp_windows_x64_demo.lib"
-        >
+        $<$<CONFIG:Release>:"libhasp_windows_x64_demo.lib">
+        $<$<CONFIG:Release>:"hasp_windows_x64_demo.lib">
     )
 elseif(UNIX)
+    # --- Dynamic Library Linking for hasp_windows_x64_demo (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(HASP_WINDOWS_X64_DEMO_SHARED_LIB_RELEASE NAMES hasp_windows_x64_demo PATHS "C:/Program Files (x86)/Intel/Composer XE 2011 SP1/compiler/lib/intel64" "$ENV{HOME}/OpenAA-OtherLibrary/HASP/Sentinel")
+    if(HASP_WINDOWS_X64_DEMO_SHARED_LIB_RELEASE)
+        set(HASP_WINDOWS_X64_DEMO_FINAL_LIB_RELEASE ${HASP_WINDOWS_X64_DEMO_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(HASP_WINDOWS_X64_DEMO_STATIC_LIB_RELEASE NAMES libhasp_windows_x64_demo.a PATHS "C:/Program Files (x86)/Intel/Composer XE 2011 SP1/compiler/lib/intel64" "$ENV{HOME}/OpenAA-OtherLibrary/HASP/Sentinel")
+        if(HASP_WINDOWS_X64_DEMO_STATIC_LIB_RELEASE)
+            set(HASP_WINDOWS_X64_DEMO_FINAL_LIB_RELEASE ${HASP_WINDOWS_X64_DEMO_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(HASP_WINDOWS_X64_DEMO_FINAL_LIB_RELEASE hasp_windows_x64_demo)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for hasp_windows_x64_demo (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(HASP_WINDOWS_X64_DEMO_SHARED_LIB_RELEASE NAMES hasp_windows_x64_demo PATHS "C:/Program Files (x86)/Intel/Composer XE 2011 SP1/compiler/lib/intel64" "$ENV{HOME}/OpenAA-OtherLibrary/HASP/Sentinel")
+    if(HASP_WINDOWS_X64_DEMO_SHARED_LIB_RELEASE)
+        set(HASP_WINDOWS_X64_DEMO_FINAL_LIB_RELEASE ${HASP_WINDOWS_X64_DEMO_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(HASP_WINDOWS_X64_DEMO_STATIC_LIB_RELEASE NAMES libhasp_windows_x64_demo.a PATHS "C:/Program Files (x86)/Intel/Composer XE 2011 SP1/compiler/lib/intel64" "$ENV{HOME}/OpenAA-OtherLibrary/HASP/Sentinel")
+        if(HASP_WINDOWS_X64_DEMO_STATIC_LIB_RELEASE)
+            set(HASP_WINDOWS_X64_DEMO_FINAL_LIB_RELEASE ${HASP_WINDOWS_X64_DEMO_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(HASP_WINDOWS_X64_DEMO_FINAL_LIB_RELEASE hasp_windows_x64_demo)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:
-            "liblibhasp_windows_x64_demo.a"
-            "libhasp_windows_x64_demo.a"
-        >
+        $<$<CONFIG:Release>:-Wl,--start-group>
+        $<$<CONFIG:Release>:${HASP_WINDOWS_X64_DEMO_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${HASP_WINDOWS_X64_DEMO_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
 
@@ -162,26 +218,100 @@ endif()
 
 # --- End of Template ---
 
+# Avoid "Is a directory" linker error by appending "App" to the output name
+# if a directory with the same name as the target already exists in the output path.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../..//${PROJECT_NAME}" AND IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../..//${PROJECT_NAME}")
+    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}App")
+endif()
+
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Sql
     Qt6::Gui
-    Qt6::Widgets
-    Qt6::Network
     Qt6::Core5Compat
-    Qt6::Xml
+    Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
+    Qt6::Xml
 )
 
 # === Additional Custom Settings ===
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-    "/home/megatrade/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/OpenXLSX"
-    "/home/megatrade/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/build/OpenXLSX/"
+    "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/OpenXLSX"
+    "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/build/OpenXLSX/"
+    "x64/Release/qt"
+    "x64/Release/qt/uic"
 )
 
+target_link_directories(${PROJECT_NAME} PRIVATE
+    "/usr/local/lib/"
+    "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/"
+    "$ENV{HOME}/OpenAA6/Lib/Release"
+)
 
-# =========================================================================
-# WARNING: The following MSBuild macros were not resolved during conversion:
-#   $(OpenAAUseLibrary)
-# Please define them in CMake or add them to the macro replacements list.
-# =========================================================================
+target_compile_options(${PROJECT_NAME} PRIVATE
+    -ffunction-sections -fdata-sections
+)
+
+target_link_options(${PROJECT_NAME} PRIVATE
+    "-Wl,--no-undefined"
+    "-Wl,--gc-sections"
+)
+
+    # --- Dynamic Library Linking for ForWindows ---
+    # 1. First, search for the shared library (.so)
+    find_library(FORWINDOWS_SHARED_LIB NAMES ForWindows PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+
+    if(FORWINDOWS_SHARED_LIB)
+        message(STATUS "Found Shared Library: ${FORWINDOWS_SHARED_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${FORWINDOWS_SHARED_LIB})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(FORWINDOWS_STATIC_LIB NAMES libForWindows.a PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+        if(FORWINDOWS_STATIC_LIB)
+            message(STATUS "Found Static Library: ${FORWINDOWS_STATIC_LIB}")
+            target_link_libraries(${PROJECT_NAME} PRIVATE ${FORWINDOWS_STATIC_LIB})
+        else()
+            message(WARNING "Library ForWindows not found!")
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for NetworkDrive ---
+    # 1. First, search for the shared library (.so)
+    find_library(NETWORKDRIVE_SHARED_LIB NAMES NetworkDrive PATHS "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CMAKE_CURRENT_SOURCE_DIR}/../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." NO_DEFAULT_PATH)
+
+    if(NETWORKDRIVE_SHARED_LIB)
+        message(STATUS "Found Shared Library: ${NETWORKDRIVE_SHARED_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${NETWORKDRIVE_SHARED_LIB})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(NETWORKDRIVE_STATIC_LIB NAMES libNetworkDrive.a PATHS "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CMAKE_CURRENT_SOURCE_DIR}/../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." NO_DEFAULT_PATH)
+        if(NETWORKDRIVE_STATIC_LIB)
+            message(STATUS "Found Static Library: ${NETWORKDRIVE_STATIC_LIB}")
+            target_link_libraries(${PROJECT_NAME} PRIVATE ${NETWORKDRIVE_STATIC_LIB})
+        else()
+            message(WARNING "Library NetworkDrive not found!")
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for png16 ---
+    # 1. First, search for the shared library (.so)
+    find_library(PNG16_SHARED_LIB NAMES png16 PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+
+    if(PNG16_SHARED_LIB)
+        message(STATUS "Found Shared Library: ${PNG16_SHARED_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${PNG16_SHARED_LIB})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(PNG16_STATIC_LIB NAMES libpng16.a PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+        if(PNG16_STATIC_LIB)
+            message(STATUS "Found Static Library: ${PNG16_STATIC_LIB}")
+            target_link_libraries(${PROJECT_NAME} PRIVATE ${PNG16_STATIC_LIB})
+        else()
+            message(WARNING "Library png16 not found!")
+        endif()
+    endif()
+
+# Link OpenMP
+target_link_libraries(${PROJECT_NAME} PRIVATE OpenMP::OpenMP_CXX)
+

@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat Widgets Gui Sql Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -56,6 +56,10 @@ set(PROJECT_FORMS
     "FileRegistryEditor.ui"
 )
 
+set(PROJECT_RESOURCES
+    "FileRegistryEditor.qrc"
+)
+
 # Other resource files (icons, images)
 set(PROJECT_OTHER_RESOURCES
     "FileRegistryEditor.rc"
@@ -66,6 +70,7 @@ add_executable(${PROJECT_NAME}
     ${PROJECT_SOURCES}
     ${PROJECT_HEADERS}
     ${PROJECT_FORMS}
+    ${PROJECT_RESOURCES}
 )
 
 # === Configuration-specific sources ===
@@ -95,17 +100,17 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../OpenSource/Component/GeneratedFiles"
-        "../Open"
-        "../EditGUI/EditGUI"
         "../GeneralSource"
+        "./GeneratedFiles"
+        "../EditGUI/EditGUI/GeneratedFiles"
+        "../Open"
+        "./GeneratedFiles/$(Configuration)"
+        "../OpenSource/Component"
+        "../EditGUI/EditGUI"
+        "./GeneratedFiles/"
         "../Integrator/IntegrationLib"
         "../ServiceLib/ServiceLib"
-        "./GeneratedFiles/$(Configuration)"
-        "./GeneratedFiles"
-        "./GeneratedFiles/"
-        "../OpenSource/Component"
-        "../EditGUI/EditGUI/GeneratedFiles"
+        "../OpenSource/Component/GeneratedFiles"
     >
 )
 
@@ -126,8 +131,8 @@ if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:"DisplayImage.lib">
         $<$<CONFIG:Debug>:"IntegrationLib.lib">
-        $<$<CONFIG:Debug>:"Component.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"Component.lib">
     )
 elseif(UNIX)
     # --- Dynamic Library Linking for DisplayImage (Debug) ---
@@ -162,22 +167,6 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for Component (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../Lib/Debug")
-    if(COMPONENT_SHARED_LIB_DEBUG)
-        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../Lib/Debug")
-        if(COMPONENT_STATIC_LIB_DEBUG)
-            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_DEBUG Component)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../Lib/Debug")
@@ -194,12 +183,28 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for Component (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../Lib/Debug")
+    if(COMPONENT_SHARED_LIB_DEBUG)
+        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../Lib/Debug")
+        if(COMPONENT_STATIC_LIB_DEBUG)
+            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_DEBUG Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
         $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -225,10 +230,10 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Intel_SSA>:
-        "../Open"
         "../GeneralSource"
-        "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
+        "../Open"
+        "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles/"
     >
 )
@@ -249,8 +254,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Intel_SSA>:"fbclient_static.lib">
-        $<$<CONFIG:Intel_SSA>:"common_static.lib">
         $<$<CONFIG:Intel_SSA>:"common.lib">
+        $<$<CONFIG:Intel_SSA>:"common_static.lib">
     )
 elseif(UNIX)
     # --- Dynamic Library Linking for fbclient_static (Intel_SSA) ---
@@ -266,22 +271,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(FBCLIENT_STATIC_FINAL_LIB_INTEL_SSA fbclient_static)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for common_static (Intel_SSA) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMMON_STATIC_SHARED_LIB_INTEL_SSA NAMES common_static PATHS "../Win64Lib/Debug")
-    if(COMMON_STATIC_SHARED_LIB_INTEL_SSA)
-        set(COMMON_STATIC_FINAL_LIB_INTEL_SSA ${COMMON_STATIC_SHARED_LIB_INTEL_SSA})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMMON_STATIC_STATIC_LIB_INTEL_SSA NAMES libcommon_static.a PATHS "../Win64Lib/Debug")
-        if(COMMON_STATIC_STATIC_LIB_INTEL_SSA)
-            set(COMMON_STATIC_FINAL_LIB_INTEL_SSA ${COMMON_STATIC_STATIC_LIB_INTEL_SSA})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMMON_STATIC_FINAL_LIB_INTEL_SSA common_static)
         endif()
     endif()
 
@@ -301,11 +290,27 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for common_static (Intel_SSA) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMMON_STATIC_SHARED_LIB_INTEL_SSA NAMES common_static PATHS "../Win64Lib/Debug")
+    if(COMMON_STATIC_SHARED_LIB_INTEL_SSA)
+        set(COMMON_STATIC_FINAL_LIB_INTEL_SSA ${COMMON_STATIC_SHARED_LIB_INTEL_SSA})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMMON_STATIC_STATIC_LIB_INTEL_SSA NAMES libcommon_static.a PATHS "../Win64Lib/Debug")
+        if(COMMON_STATIC_STATIC_LIB_INTEL_SSA)
+            set(COMMON_STATIC_FINAL_LIB_INTEL_SSA ${COMMON_STATIC_STATIC_LIB_INTEL_SSA})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMMON_STATIC_FINAL_LIB_INTEL_SSA common_static)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Intel_SSA>:-Wl,--start-group>
         $<$<CONFIG:Intel_SSA>:${FBCLIENT_STATIC_FINAL_LIB_INTEL_SSA}>
-        $<$<CONFIG:Intel_SSA>:${COMMON_STATIC_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:${COMMON_FINAL_LIB_INTEL_SSA}>
+        $<$<CONFIG:Intel_SSA>:${COMMON_STATIC_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:-Wl,--end-group>
     )
 endif()
@@ -331,17 +336,17 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../OpenSource/Component/GeneratedFiles"
-        "../Open"
-        "../EditGUI/EditGUI"
         "../GeneralSource"
+        "./GeneratedFiles"
+        "../EditGUI/EditGUI/GeneratedFiles"
+        "../Open"
+        "./GeneratedFiles/$(Configuration)"
+        "../OpenSource/Component"
+        "../EditGUI/EditGUI"
+        "./GeneratedFiles/"
         "../Integrator/IntegrationLib"
         "../ServiceLib/ServiceLib"
-        "./GeneratedFiles/$(Configuration)"
-        "./GeneratedFiles"
-        "./GeneratedFiles/"
-        "../OpenSource/Component"
-        "../EditGUI/EditGUI/GeneratedFiles"
+        "../OpenSource/Component/GeneratedFiles"
     >
 )
 
@@ -353,37 +358,21 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "QT_THREAD_SUPPORT"
         "NDEBUG"
         "QT_NO_DEBUG"
-        "QT_THREAD_SUPPORT"
         "UNICODE"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"ServiceExecutionEditor.lib">
         $<$<CONFIG:Release>:"IntegrationLib.lib">
-        $<$<CONFIG:Release>:"Component.lib">
+        $<$<CONFIG:Release>:"ServiceExecutionEditor.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"Component.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for ServiceExecutionEditor (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE NAMES ServiceExecutionEditor PATHS "../Lib/Release")
-    if(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE)
-        set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE NAMES libServiceExecutionEditor.a PATHS "../Lib/Release")
-        if(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE)
-            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ServiceExecutionEditor)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for IntegrationLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(INTEGRATIONLIB_SHARED_LIB_RELEASE NAMES IntegrationLib PATHS "../Lib/Release")
@@ -400,19 +389,19 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for Component (Release) ---
+    # --- Dynamic Library Linking for ServiceExecutionEditor (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../Lib/Release")
-    if(COMPONENT_SHARED_LIB_RELEASE)
-        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    find_library(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE NAMES ServiceExecutionEditor PATHS "../Lib/Release")
+    if(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE)
+        set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../Lib/Release")
-        if(COMPONENT_STATIC_LIB_RELEASE)
-            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        find_library(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE NAMES libServiceExecutionEditor.a PATHS "../Lib/Release")
+        if(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE)
+            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE})
         else()
             # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_RELEASE Component)
+            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ServiceExecutionEditor)
         endif()
     endif()
 
@@ -432,12 +421,28 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for Component (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../Lib/Release")
+    if(COMPONENT_SHARED_LIB_RELEASE)
+        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../Lib/Release")
+        if(COMPONENT_STATIC_LIB_RELEASE)
+            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_RELEASE Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -459,12 +464,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../${PROJECT_NAME}" AND IS_DIRECTORY "${C
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
-    Qt6::Core5Compat
-    Qt6::Widgets
     Qt6::Gui
+    Qt6::Core5Compat
     Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===

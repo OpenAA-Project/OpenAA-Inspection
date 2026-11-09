@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Core Network Widgets Core5Compat Gui Sql)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -100,8 +100,8 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./../../Filter"
         "./../../Open"
+        "./../../Filter"
     >
 )
 
@@ -151,12 +151,12 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt6::Gui
+    Qt6::Core5Compat
+    Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
     Qt6::Network
-    Qt6::Widgets
-    Qt6::Core5Compat
-    Qt6::Gui
-    Qt6::Sql
 )
 
 # === Additional Custom Settings ===
@@ -175,8 +175,12 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
-    -O0
-    -g
+    -ffunction-sections -fdata-sections
+)
+
+target_link_options(${PROJECT_NAME} PRIVATE
+    "-Wl,--no-undefined"
+    "-Wl,--gc-sections"
 )
 
     # --- Dynamic Library Linking for ForWindows ---

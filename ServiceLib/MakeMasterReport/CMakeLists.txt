@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Widgets Core Sql Xml Core5Compat Gui)
+find_package(Qt6 REQUIRED COMPONENTS Xml Sql Gui Widgets Network Core Core5Compat)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -104,25 +104,25 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../GUI/ButtonSelectMachine/GeneratedFiles"
-        "../../EditGUI/EditGUILib/GeneratedFiles"
-        "./"
-        "../../OpenSource/Component"
-        "../../GUI/ButtonSelectMachine"
-        "../../ServiceLib/EXCEL/include_cpp"
-        "../../Integrator/IntegrationLib"
-        "../../ServiceLib/ServiceLib"
-        "../../GeneralSource"
-        "../../Hasplib/Hasplib"
-        "../../EditGUI/EditGUI/GeneratedFiles"
-        "./GeneratedFiles/"
-        "../../EditGUI/EditGUI"
-        "../../ServiceLib/CommonGUIDLL"
-        "./GeneratedFiles"
-        "../../ServiceLib/ServiceLib/GeneratedFiles"
         "./../../Open"
-        "../../EditGUI/EditGUILib"
         "../../ServiceLib/CommonGUIDLL/GeneratedFiles"
+        "../../EditGUI/EditGUILib"
+        "../../Hasplib/Hasplib"
+        "../../Integrator/IntegrationLib"
+        "../../EditGUI/EditGUILib/GeneratedFiles"
+        "../../ServiceLib/CommonGUIDLL"
+        "./"
+        "../../GUI/ButtonSelectMachine"
+        "../../ServiceLib/ServiceLib/GeneratedFiles"
+        "../../GUI/ButtonSelectMachine/GeneratedFiles"
+        "../../EditGUI/EditGUI/GeneratedFiles"
+        "../../EditGUI/EditGUI"
+        "../../OpenSource/Component"
+        "../../GeneralSource"
+        "./GeneratedFiles"
+        "../../ServiceLib/ServiceLib"
+        "../../ServiceLib/EXCEL/include_cpp"
+        "./GeneratedFiles/"
     >
 )
 
@@ -134,20 +134,30 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "UNICODE"
         "QT_LARGEFILE_SUPPORT"
+        "UNICODE"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"DisplayImage.lib">
-        $<$<CONFIG:Debug>:"IntegrationLib.lib">
-        $<$<CONFIG:Debug>:"Component.lib">
         $<$<CONFIG:Debug>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Debug>:"DisplayImage.lib">
+        $<$<CONFIG:Debug>:"Component.lib">
+        $<$<CONFIG:Debug>:"IntegrationLib.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
     )
 elseif(UNIX)
+    # --- Exact/Static Library Linking for CommonGUIDLL (Debug) ---
+    # 1. Search for the exact library or static library
+    find_library(COMMONGUIDLL_STATIC_LIB_DEBUG NAMES "libCommonGUIDLL.a" PATHS "../../Lib/Debug")
+    if(COMMONGUIDLL_STATIC_LIB_DEBUG)
+        set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_STATIC_LIB_DEBUG})
+    else()
+        # Fallback if not found (e.g. system library)
+        set(COMMONGUIDLL_FINAL_LIB_DEBUG CommonGUIDLL)
+    endif()
+
     # --- Exact/Static Library Linking for DisplayImage (Debug) ---
     # 1. Search for the exact library or static library
     find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES "libDisplayImage.a" PATHS "../../Lib/Debug")
@@ -156,16 +166,6 @@ elseif(UNIX)
     else()
         # Fallback if not found (e.g. system library)
         set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-    endif()
-
-    # --- Exact/Static Library Linking for IntegrationLib (Debug) ---
-    # 1. Search for the exact library or static library
-    find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES "libIntegrationLib.a" PATHS "../../Lib/Debug")
-    if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
-        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
-    else()
-        # Fallback if not found (e.g. system library)
-        set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
     endif()
 
     # --- Exact/Static Library Linking for Component (Debug) ---
@@ -178,14 +178,14 @@ elseif(UNIX)
         set(COMPONENT_FINAL_LIB_DEBUG Component)
     endif()
 
-    # --- Exact/Static Library Linking for CommonGUIDLL (Debug) ---
+    # --- Exact/Static Library Linking for IntegrationLib (Debug) ---
     # 1. Search for the exact library or static library
-    find_library(COMMONGUIDLL_STATIC_LIB_DEBUG NAMES "libCommonGUIDLL.a" PATHS "../../Lib/Debug")
-    if(COMMONGUIDLL_STATIC_LIB_DEBUG)
-        set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_STATIC_LIB_DEBUG})
+    find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES "libIntegrationLib.a" PATHS "../../Lib/Debug")
+    if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
+        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
     else()
         # Fallback if not found (e.g. system library)
-        set(COMMONGUIDLL_FINAL_LIB_DEBUG CommonGUIDLL)
+        set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
     endif()
 
     # --- Exact/Static Library Linking for ServiceLib (Debug) ---
@@ -200,10 +200,10 @@ elseif(UNIX)
 
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMMONGUIDLL_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
@@ -230,101 +230,51 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../GUI/ButtonSelectMachine/GeneratedFiles"
-        "./"
-        "../../OpenSource/Component"
-        "../../GUI/ButtonSelectMachine"
-        "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/include"
-        "../../Integrator/IntegrationLib"
-        "../../GeneralSource"
-        "./GeneratedFiles/"
-        "../../ServiceLib/CommonGUIDLL"
-        "./GeneratedFiles"
         "./../../Open"
+        "../../Integrator/IntegrationLib"
+        "../../ServiceLib/CommonGUIDLL"
+        "./"
+        "../../GUI/ButtonSelectMachine"
+        "../../GUI/ButtonSelectMachine/GeneratedFiles"
+        "../../OpenSource/Component"
+        "../../GeneralSource"
+        "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/include"
+        "./GeneratedFiles"
+        "./GeneratedFiles/"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../Lib/Release"
-        "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib"
         "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib"
+        "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib"
+        "../../Lib/Release"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "QT_LARGEFILE_SUPPORT"
+        "UNICODE"
         "QT_NO_DEBUG"
         "NDEBUG"
-        "UNICODE"
-        "QT_LARGEFILE_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"ServiceExecutionEditor.lib">
-        $<$<CONFIG:Release>:"IntegrationLib.lib">
-        $<$<CONFIG:Release>:"Component.lib">
-        $<$<CONFIG:Release>:"xlsxwriter.lib">
-        $<$<CONFIG:Release>:"OpenXLSX.lib">
         $<$<CONFIG:Release>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Release>:"ServiceExecutionEditor.lib">
+        $<$<CONFIG:Release>:"Component.lib">
+        $<$<CONFIG:Release>:"IntegrationLib.lib">
+        $<$<CONFIG:Release>:"OpenXLSX.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"xlsxwriter.lib">
     )
 elseif(UNIX)
-    # --- Exact/Static Library Linking for ServiceExecutionEditor (Release) ---
-    # 1. Search for the exact library or static library
-    find_library(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE NAMES "libServiceExecutionEditor.a" PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
-    if(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE)
-        set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE})
-    else()
-        # Fallback if not found (e.g. system library)
-        set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ServiceExecutionEditor)
-    endif()
-
-    # --- Exact/Static Library Linking for IntegrationLib (Release) ---
-    # 1. Search for the exact library or static library
-    find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES "libIntegrationLib.a" PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
-    if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
-        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
-    else()
-        # Fallback if not found (e.g. system library)
-        set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
-    endif()
-
-    # --- Exact/Static Library Linking for Component (Release) ---
-    # 1. Search for the exact library or static library
-    find_library(COMPONENT_STATIC_LIB_RELEASE NAMES "libComponent.a" PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
-    if(COMPONENT_STATIC_LIB_RELEASE)
-        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
-    else()
-        # Fallback if not found (e.g. system library)
-        set(COMPONENT_FINAL_LIB_RELEASE Component)
-    endif()
-
-    # --- Exact/Static Library Linking for xlsxwriter (Release) ---
-    # 1. Search for the exact library or static library
-    find_library(XLSXWRITER_STATIC_LIB_RELEASE NAMES "libxlsxwriter.a" PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
-    if(XLSXWRITER_STATIC_LIB_RELEASE)
-        set(XLSXWRITER_FINAL_LIB_RELEASE ${XLSXWRITER_STATIC_LIB_RELEASE})
-    else()
-        # Fallback if not found (e.g. system library)
-        set(XLSXWRITER_FINAL_LIB_RELEASE xlsxwriter)
-    endif()
-
-    # --- Exact/Static Library Linking for OpenXLSX (Release) ---
-    # 1. Search for the exact library or static library
-    find_library(OPENXLSX_STATIC_LIB_RELEASE NAMES "libOpenXLSX.a" PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
-    if(OPENXLSX_STATIC_LIB_RELEASE)
-        set(OPENXLSX_FINAL_LIB_RELEASE ${OPENXLSX_STATIC_LIB_RELEASE})
-    else()
-        # Fallback if not found (e.g. system library)
-        set(OPENXLSX_FINAL_LIB_RELEASE OpenXLSX)
-    endif()
-
     # --- Exact/Static Library Linking for CommonGUIDLL (Release) ---
     # 1. Search for the exact library or static library
-    find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES "libCommonGUIDLL.a" PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
+    find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES "libCommonGUIDLL.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../../Lib/Release")
     if(COMMONGUIDLL_STATIC_LIB_RELEASE)
         set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
     else()
@@ -332,9 +282,49 @@ elseif(UNIX)
         set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
     endif()
 
+    # --- Exact/Static Library Linking for ServiceExecutionEditor (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE NAMES "libServiceExecutionEditor.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../../Lib/Release")
+    if(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE)
+        set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE})
+    else()
+        # Fallback if not found (e.g. system library)
+        set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ServiceExecutionEditor)
+    endif()
+
+    # --- Exact/Static Library Linking for Component (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(COMPONENT_STATIC_LIB_RELEASE NAMES "libComponent.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../../Lib/Release")
+    if(COMPONENT_STATIC_LIB_RELEASE)
+        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+    else()
+        # Fallback if not found (e.g. system library)
+        set(COMPONENT_FINAL_LIB_RELEASE Component)
+    endif()
+
+    # --- Exact/Static Library Linking for IntegrationLib (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES "libIntegrationLib.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../../Lib/Release")
+    if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
+        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
+    else()
+        # Fallback if not found (e.g. system library)
+        set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
+    endif()
+
+    # --- Exact/Static Library Linking for OpenXLSX (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(OPENXLSX_STATIC_LIB_RELEASE NAMES "libOpenXLSX.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../../Lib/Release")
+    if(OPENXLSX_STATIC_LIB_RELEASE)
+        set(OPENXLSX_FINAL_LIB_RELEASE ${OPENXLSX_STATIC_LIB_RELEASE})
+    else()
+        # Fallback if not found (e.g. system library)
+        set(OPENXLSX_FINAL_LIB_RELEASE OpenXLSX)
+    endif()
+
     # --- Exact/Static Library Linking for ServiceLib (Release) ---
     # 1. Search for the exact library or static library
-    find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES "libServiceLib.a" PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
+    find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES "libServiceLib.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../../Lib/Release")
     if(SERVICELIB_STATIC_LIB_RELEASE)
         set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
     else()
@@ -342,15 +332,25 @@ elseif(UNIX)
         set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
     endif()
 
+    # --- Exact/Static Library Linking for xlsxwriter (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(XLSXWRITER_STATIC_LIB_RELEASE NAMES "libxlsxwriter.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../../Lib/Release")
+    if(XLSXWRITER_STATIC_LIB_RELEASE)
+        set(XLSXWRITER_FINAL_LIB_RELEASE ${XLSXWRITER_STATIC_LIB_RELEASE})
+    else()
+        # Fallback if not found (e.g. system library)
+        set(XLSXWRITER_FINAL_LIB_RELEASE xlsxwriter)
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${XLSXWRITER_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${OPENXLSX_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${OPENXLSX_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${XLSXWRITER_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -367,13 +367,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_NAME}" AND IS_DIRECTORY "
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
-    Qt6::Widgets
-    Qt6::Core
-    Qt6::Sql
     Qt6::Xml
-    Qt6::Core5Compat
+    Qt6::Sql
     Qt6::Gui
+    Qt6::Widgets
+    Qt6::Network
+    Qt6::Core
+    Qt6::Core5Compat
 )
 
 # === Additional Custom Settings ===

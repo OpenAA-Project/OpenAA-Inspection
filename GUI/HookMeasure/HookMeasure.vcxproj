@@ -479,6 +479,7 @@
     <Image Include="Icon\IconCircle2.png" />
     <Image Include="Icon\IconCircleTwoPoints.png" />
     <Image Include="Icon\IconCrcularArc.png" />
+    <Image Include="Icon\IconCross.png" />
     <Image Include="Icon\IconMPolygon.png" />
     <Image Include="Icon\IconParallelLines.png" />
     <Image Include="Icon\IconRectangle.png" />

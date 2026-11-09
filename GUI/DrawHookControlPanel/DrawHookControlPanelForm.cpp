@@ -38,6 +38,7 @@ DrawHookControlPanelForm::DrawHookControlPanelForm(LayersBase *Base,QWidget *par
 	GlobalMovX2=GlobalMovY2=0;
 	Active	=true;
 	OperationMode = Mode_None;
+	CursorType =/**/"Cross";
 
     connect(this,SIGNAL(SignalResize()), this ,SLOT(ResizeAction()));
 
@@ -995,31 +996,48 @@ void DrawHookControlPanelForm::on_toolButtonDelete_clicked()
 void	DrawHookControlPanelForm::SetCursor(void)
 {
 	int	ToolIndex = ui->toolBox->currentIndex();
-	if(ToolIndex==0){
-		for(DisplayImagePointer *a=TargetPanels.GetFirst();a!=NULL;a=a->GetNext()){
-			DisplayImage	*TargetPanel=a->GetPanel();
-			TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawLine.png"),2,2));
-		}
-	}
-	else if(ToolIndex==1){
-		int	DIndex=ui->comboBoxDrawType->currentIndex();
-		for(DisplayImagePointer *a=TargetPanels.GetFirst();a!=NULL;a=a->GetNext()){
-			DisplayImage	*TargetPanel=a->GetPanel();
-			if(DIndex==0){
-				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawRect.png"),2,2));
-			}
-			else if(DIndex==1){
-				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawEllipse.png"),2,2));
-			}
-			else if(DIndex==2){
-				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawPoly.png"),12,0));
+
+	if(CursorType=="Cross"){
+		if(ToolIndex==0 || ToolIndex==1 || ToolIndex==2){
+			for(DisplayImagePointer *a=TargetPanels.GetFirst();a!=NULL;a=a->GetNext()){
+				DisplayImage	*TargetPanel=a->GetPanel();
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconCross.png"),16,15));
 			}
 		}
 	}
-	else if(ToolIndex==2){
+	else if(CursorType=="CustomCursors"){
+		if(ToolIndex==0){
+			for(DisplayImagePointer *a=TargetPanels.GetFirst();a!=NULL;a=a->GetNext()){
+				DisplayImage	*TargetPanel=a->GetPanel();
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawLine.png"),2,2));
+			}
+		}
+		else if(ToolIndex==1){
+			int	DIndex=ui->comboBoxDrawType->currentIndex();
+			for(DisplayImagePointer *a=TargetPanels.GetFirst();a!=NULL;a=a->GetNext()){
+				DisplayImage	*TargetPanel=a->GetPanel();
+				if(DIndex==0){
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawRect.png"),2,2));
+				}
+				else if(DIndex==1){
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawEllipse.png"),2,2));
+				}
+				else if(DIndex==2){
+					TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawPoly.png"),12,0));
+				}
+			}
+		}
+		else if(ToolIndex==2){
+			for(DisplayImagePointer *a=TargetPanels.GetFirst();a!=NULL;a=a->GetNext()){
+				DisplayImage	*TargetPanel=a->GetPanel();
+				TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawText.png"),0,0));
+			}
+		}
+	}
+	else{
 		for(DisplayImagePointer *a=TargetPanels.GetFirst();a!=NULL;a=a->GetNext()){
 			DisplayImage	*TargetPanel=a->GetPanel();
-			TargetPanel->SetCursor(QCursor(QPixmap(":/Icon/IconDrawText.png"),0,0));
+			TargetPanel->SetCursor(Qt::ArrowCursor);
 		}
 	}
 }

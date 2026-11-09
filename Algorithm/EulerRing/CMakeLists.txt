@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat Widgets Gui Sql Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -100,22 +100,22 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "../../ServiceLib/CommonGUIDLL"
+        "./GeneratedFiles"
+        "../../GUI/ImageControlTools/GeneratedFiles"
+        "../../GeneralSource"
         "../../ServiceLib/ServiceLib/GeneratedFiles"
         "../../OpenSource/DisplayImage"
-        "../../ServiceLib/ServiceLib"
-        "../../GUI/ImagePanelTools/GeneratedFiles"
-        "../../ServiceLib/CommonGUIDLL/GeneratedFiles"
-        "../../Open"
-        "../../OpenSource/Component"
-        "../../GUI/ImageControlTools/GeneratedFiles"
         "./GeneratedFiles/$(Configuration)"
+        "../../GUI/ImagePanelTools/GeneratedFiles"
+        "../../Open"
         "../../GUI/ImageControlTools"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
-        "./GeneratedFiles"
-        "../../OpenSource/Component/GeneratedFiles"
         "./GeneratedFiles/"
-        "../../GeneralSource"
+        "../../OpenSource/Component"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
         "../../GUI/ImagePanelTools"
+        "../../ServiceLib/CommonGUIDLL/GeneratedFiles"
+        "../../OpenSource/Component/GeneratedFiles"
+        "../../ServiceLib/ServiceLib"
     >
 )
 
@@ -127,8 +127,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "EULERRING_LIB"
         "QT_THREAD_SUPPORT"
+        "EULERRING_LIB"
         "UNICODE"
     >
 )
@@ -136,10 +136,10 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:"DisplayImage.lib">
-        $<$<CONFIG:Debug>:"CommonGUIDLL.lib">
-        $<$<CONFIG:Debug>:"ModelPageItem.lib">
-        $<$<CONFIG:Debug>:"Component.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"ModelPageItem.lib">
+        $<$<CONFIG:Debug>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Debug>:"Component.lib">
     )
 elseif(UNIX)
     # --- Dynamic Library Linking for DisplayImage (Debug) ---
@@ -155,54 +155,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for CommonGUIDLL (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMMONGUIDLL_SHARED_LIB_DEBUG NAMES CommonGUIDLL PATHS "../../Lib/Debug")
-    if(COMMONGUIDLL_SHARED_LIB_DEBUG)
-        set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMMONGUIDLL_STATIC_LIB_DEBUG NAMES libCommonGUIDLL.a PATHS "../../Lib/Debug")
-        if(COMMONGUIDLL_STATIC_LIB_DEBUG)
-            set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMMONGUIDLL_FINAL_LIB_DEBUG CommonGUIDLL)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ModelPageItem (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MODELPAGEITEM_SHARED_LIB_DEBUG NAMES ModelPageItem PATHS "../../Lib/Debug")
-    if(MODELPAGEITEM_SHARED_LIB_DEBUG)
-        set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGEITEM_STATIC_LIB_DEBUG NAMES libModelPageItem.a PATHS "../../Lib/Debug")
-        if(MODELPAGEITEM_STATIC_LIB_DEBUG)
-            set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MODELPAGEITEM_FINAL_LIB_DEBUG ModelPageItem)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for Component (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
-    if(COMPONENT_SHARED_LIB_DEBUG)
-        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
-        if(COMPONENT_STATIC_LIB_DEBUG)
-            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_DEBUG Component)
         endif()
     endif()
 
@@ -222,13 +174,61 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for ModelPageItem (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(MODELPAGEITEM_SHARED_LIB_DEBUG NAMES ModelPageItem PATHS "../../Lib/Debug")
+    if(MODELPAGEITEM_SHARED_LIB_DEBUG)
+        set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(MODELPAGEITEM_STATIC_LIB_DEBUG NAMES libModelPageItem.a PATHS "../../Lib/Debug")
+        if(MODELPAGEITEM_STATIC_LIB_DEBUG)
+            set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(MODELPAGEITEM_FINAL_LIB_DEBUG ModelPageItem)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for CommonGUIDLL (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMMONGUIDLL_SHARED_LIB_DEBUG NAMES CommonGUIDLL PATHS "../../Lib/Debug")
+    if(COMMONGUIDLL_SHARED_LIB_DEBUG)
+        set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMMONGUIDLL_STATIC_LIB_DEBUG NAMES libCommonGUIDLL.a PATHS "../../Lib/Debug")
+        if(COMMONGUIDLL_STATIC_LIB_DEBUG)
+            set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMMONGUIDLL_FINAL_LIB_DEBUG CommonGUIDLL)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for Component (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
+    if(COMPONENT_SHARED_LIB_DEBUG)
+        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
+        if(COMPONENT_STATIC_LIB_DEBUG)
+            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_DEBUG Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
         $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${COMMONGUIDLL_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${MODELPAGEITEM_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${MODELPAGEITEM_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMMONGUIDLL_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -255,13 +255,13 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "../../ServiceLib/CommonGUIDLL"
-        "../../OpenSource/DisplayImage"
-        "../../Open"
-        "../../OpenSource/Component"
-        "./GeneratedFiles/$(Configuration)"
-        "../../GUI/ImageControlTools"
         "./GeneratedFiles"
+        "../../OpenSource/DisplayImage"
+        "./GeneratedFiles/$(Configuration)"
+        "../../Open"
+        "../../GUI/ImageControlTools"
         "./GeneratedFiles/"
+        "../../OpenSource/Component"
         "../../GUI/ImagePanelTools"
     >
 )
@@ -274,10 +274,10 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "QT_THREAD_SUPPORT"
         "NDEBUG"
         "EULERRING_LIB"
         "QT_NO_DEBUG"
-        "QT_THREAD_SUPPORT"
         "UNICODE"
     >
 )
@@ -286,10 +286,10 @@ if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:"DisplayImage.lib">
         $<$<CONFIG:Release>:"ServiceForAlgorithm.lib">
-        $<$<CONFIG:Release>:"CommonGUIDLL.lib">
-        $<$<CONFIG:Release>:"ModelPageItem.lib">
-        $<$<CONFIG:Release>:"Component.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"ModelPageItem.lib">
+        $<$<CONFIG:Release>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Release>:"Component.lib">
     )
 elseif(UNIX)
     # --- Dynamic Library Linking for DisplayImage (Release) ---
@@ -324,19 +324,19 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
+    # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "../../Lib/Release")
-    if(COMMONGUIDLL_SHARED_LIB_RELEASE)
-        set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_SHARED_LIB_RELEASE})
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
+    if(SERVICELIB_SHARED_LIB_RELEASE)
+        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "../../Lib/Release")
-        if(COMMONGUIDLL_STATIC_LIB_RELEASE)
-            set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release")
+        if(SERVICELIB_STATIC_LIB_RELEASE)
+            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
         else()
             # Fallback if not found (e.g. system library)
-            set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
+            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
         endif()
     endif()
 
@@ -356,6 +356,22 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "../../Lib/Release")
+    if(COMMONGUIDLL_SHARED_LIB_RELEASE)
+        set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "../../Lib/Release")
+        if(COMMONGUIDLL_STATIC_LIB_RELEASE)
+            set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for Component (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release")
@@ -372,30 +388,14 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for ServiceLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
-    if(SERVICELIB_SHARED_LIB_RELEASE)
-        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release")
-        if(SERVICELIB_STATIC_LIB_RELEASE)
-            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
-        endif()
-    endif()
-
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
         $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICEFORALGORITHM_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${MODELPAGEITEM_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${MODELPAGEITEM_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -411,12 +411,12 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
-    Qt6::Core5Compat
-    Qt6::Widgets
     Qt6::Gui
+    Qt6::Core5Compat
     Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===

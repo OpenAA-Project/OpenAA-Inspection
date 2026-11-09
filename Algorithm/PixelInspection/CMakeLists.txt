@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui OpenGL OpenGLWidgets Core5Compat Network Sql Core Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat OpenGL Sql Widgets Core Network OpenGLWidgets)
 
 # Find OpenGL / GLFW / GLEW
 find_package(OpenGL REQUIRED)
@@ -111,18 +111,18 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "../../OpenSource/DisplayImage"
+        "../AutoAlignment"
         "../AutoMaskingPI"
         "../../Open"
-        "../VCutInspection"
-        "../AutoAlignment"
-        "../../GUI/PropertyResultImportance"
-        "../ResultImportance"
-        "../../OpenSource/DisplayImage"
-        "../StatisticImager"
         "../../OpenSource/Component"
-        "../AutoPCBHoleAligner"
+        "../../GUI/PropertyResultImportance"
         "../../GUI/PropertyPixel"
         "../../GUI-DeskMachine/ButtonThreshold2"
+        "../ResultImportance"
+        "../StatisticImager"
+        "../VCutInspection"
+        "../AutoPCBHoleAligner"
     >
 )
 
@@ -140,11 +140,27 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Release>:"ServiceLib.lib">
         $<$<CONFIG:Release>:"ModelPageItem.lib">
         $<$<CONFIG:Release>:"Component.lib">
-        $<$<CONFIG:Release>:"ServiceLib.lib">
     )
 elseif(UNIX)
+    # --- Dynamic Library Linking for ServiceLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
+    if(SERVICELIB_SHARED_LIB_RELEASE)
+        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release")
+        if(SERVICELIB_STATIC_LIB_RELEASE)
+            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for ModelPageItem (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(MODELPAGEITEM_SHARED_LIB_RELEASE NAMES ModelPageItem PATHS "../../Lib/Release")
@@ -177,27 +193,11 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for ServiceLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
-    if(SERVICELIB_SHARED_LIB_RELEASE)
-        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release")
-        if(SERVICELIB_STATIC_LIB_RELEASE)
-            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
-        endif()
-    endif()
-
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
+        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${MODELPAGEITEM_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -209,13 +209,13 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Gui
-    Qt6::OpenGL
-    Qt6::OpenGLWidgets
     Qt6::Core5Compat
-    Qt6::Network
+    Qt6::OpenGL
     Qt6::Sql
-    Qt6::Core
     Qt6::Widgets
+    Qt6::Core
+    Qt6::Network
+    Qt6::OpenGLWidgets
 )
 
 # === Additional Custom Settings ===

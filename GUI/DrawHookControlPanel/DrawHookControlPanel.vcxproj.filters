@@ -91,5 +91,8 @@
     <Image Include="Icon\IconDrawText.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Icon\IconCross.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat Widgets Gui Sql Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -121,8 +121,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:"IntegrationLib.lib">
-        $<$<CONFIG:Release>:"EditPasswordOnControl.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"EditPasswordOnControl.lib">
     )
 elseif(UNIX)
     # --- Dynamic Library Linking for IntegrationLib (Release) ---
@@ -138,22 +138,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for EditPasswordOnControl (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE NAMES EditPasswordOnControl PATHS "../../../Lib/Release")
-    if(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE)
-        set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE NAMES libEditPasswordOnControl.a PATHS "../../../Lib/Release")
-        if(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE)
-            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE EditPasswordOnControl)
         endif()
     endif()
 
@@ -173,11 +157,27 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for EditPasswordOnControl (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE NAMES EditPasswordOnControl PATHS "../../../Lib/Release")
+    if(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE)
+        set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE NAMES libEditPasswordOnControl.a PATHS "../../../Lib/Release")
+        if(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE)
+            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE EditPasswordOnControl)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
         $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -188,12 +188,12 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
-    Qt6::Core5Compat
-    Qt6::Widgets
     Qt6::Gui
+    Qt6::Core5Compat
     Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===

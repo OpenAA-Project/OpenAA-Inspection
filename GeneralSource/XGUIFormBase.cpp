@@ -1098,32 +1098,61 @@ static	GUIFormBase	*GetFormByName(QObject *f,QString &name)
 	}
 	return NULL;
 }
-bool	GUIFormBase::IsShown(void)
-{
-	const	QRect	R=geometry();
-	if(R.bottom()<0 || R.right()<0){
-		return false;
-	}
-	QWidget	*XP=parentWidget();
-	if(XP!=NULL){
-		int	W=XP->width();
-		int	H=XP->height();
-		if(R.top()>=H || R.left()>=W){
-			return false;
-		}
-	}
 
-	QWidget	*p=this;
-	for(;;){
-		p=p->parentWidget();
-		if(p==NULL){
-			return true;
-		}
-		GUIFormBase	*f=dynamic_cast<GUIFormBase *>(p);
-		if(f!=NULL){
-			return f->IsShown();
-		}
-	}	
+bool GUIFormBase::IsShown(void)
+{
+    // Get the geometry (global for top-level windows, relative to parent for child controls)
+    QRect targetGeo = this->geometry();
+
+    // If it's a top-level window, subtract the monitor's offset to get screen-local coordinates
+    if (this->isWindow()) {
+        QScreen *currentScreen = this->screen(); 
+        if (currentScreen) {
+            QRect screenGeo = currentScreen->geometry();
+            targetGeo = targetGeo.translated(-screenGeo.topLeft());
+        }
+    }
+
+    // 1. Check if it's completely out of bounds to the top or left (common for windows/controls)
+    if (targetGeo.bottom() < 0 || targetGeo.right() < 0) {
+        return false;
+    }
+
+    // 2. Check if it's out of bounds to the bottom or right
+    QWidget *XP = parentWidget();
+    if (XP != nullptr) {
+        // For child controls: check if it exceeds the parent widget's size
+        int W = XP->width();
+        int H = XP->height();
+        if (targetGeo.top() >= H || targetGeo.left() >= W) {
+            return false;
+        }
+    } else {
+        // For top-level windows: check if it exceeds the current screen's size
+        QScreen *currentScreen = this->screen();
+        if (currentScreen) {
+            int W = currentScreen->geometry().width();
+            int H = currentScreen->geometry().height();
+            if (targetGeo.top() >= H || targetGeo.left() >= W) {
+                return false;
+            }
+        }
+    }
+
+    // 3. Recursively check visibility by traversing the parent widgets
+    QWidget *p = this;
+    for (;;) {
+        p = p->parentWidget();
+        if (p == nullptr) {
+            return true;
+        }
+        GUIFormBase *f = dynamic_cast<GUIFormBase *>(p);
+        if (f != nullptr) {
+            return f->IsShown();
+        }
+    }
+
+    return false;
 }
 
 QString	GUIFormBase::GetDLLRoot(void)	const

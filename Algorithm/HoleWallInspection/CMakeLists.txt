@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat Widgets Gui Sql Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -102,25 +102,25 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../DynamicMaskingPI"
         "../../ServiceLib/CommonGUIDLL"
-        "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "../../GUI/PropertyHoleWallInspection"
-        "../../OpenSource/DisplayImage"
-        "../../ServiceLib/ServiceLib"
-        "../../GUI/ImagePanelTools/GeneratedFiles"
-        "../../ServiceLib/CommonGUIDLL/GeneratedFiles"
-        "../../Open"
-        "."
-        "../../OpenSource/Component"
-        "../../GUI/ImageControlTools/GeneratedFiles"
-        "../../GUI/ImageControlTools"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
         "./GeneratedFiles"
-        "../../OpenSource/Component/GeneratedFiles"
-        "./GeneratedFiles/"
+        "../../GUI/ImageControlTools/GeneratedFiles"
         "../../GeneralSource"
+        "../../ServiceLib/ServiceLib/GeneratedFiles"
+        "../../OpenSource/DisplayImage"
+        "../../GUI/PropertyHoleWallInspection"
+        "../../GUI/ImagePanelTools/GeneratedFiles"
+        "../../Open"
+        "../../GUI/ImageControlTools"
+        "./GeneratedFiles/"
+        "../../OpenSource/Component"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
+        "../DynamicMaskingPI"
+        "."
         "../../GUI/ImagePanelTools"
+        "../../ServiceLib/CommonGUIDLL/GeneratedFiles"
+        "../../OpenSource/Component/GeneratedFiles"
+        "../../ServiceLib/ServiceLib"
     >
 )
 
@@ -132,86 +132,22 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "QT_LARGEFILE_SUPPORT"
         "HOLEWALLINSPECTION_LIB"
         "UNICODE"
+        "QT_LARGEFILE_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"DisplayImage.lib">
-        $<$<CONFIG:Debug>:"CommonGUIDLL.lib">
-        $<$<CONFIG:Debug>:"EditPasswordOnControl.lib">
-        $<$<CONFIG:Debug>:"Component.lib">
         $<$<CONFIG:Debug>:"ModelPageLayerItem.lib">
+        $<$<CONFIG:Debug>:"DisplayImage.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"EditPasswordOnControl.lib">
+        $<$<CONFIG:Debug>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Debug>:"Component.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayImage (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
-        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for CommonGUIDLL (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMMONGUIDLL_SHARED_LIB_DEBUG NAMES CommonGUIDLL PATHS "../../Lib/Debug")
-    if(COMMONGUIDLL_SHARED_LIB_DEBUG)
-        set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMMONGUIDLL_STATIC_LIB_DEBUG NAMES libCommonGUIDLL.a PATHS "../../Lib/Debug")
-        if(COMMONGUIDLL_STATIC_LIB_DEBUG)
-            set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMMONGUIDLL_FINAL_LIB_DEBUG CommonGUIDLL)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for EditPasswordOnControl (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG NAMES EditPasswordOnControl PATHS "../../Lib/Debug")
-    if(EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG)
-        set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG ${EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG NAMES libEditPasswordOnControl.a PATHS "../../Lib/Debug")
-        if(EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG)
-            set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG ${EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG EditPasswordOnControl)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for Component (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
-    if(COMPONENT_SHARED_LIB_DEBUG)
-        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
-        if(COMPONENT_STATIC_LIB_DEBUG)
-            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_DEBUG Component)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ModelPageLayerItem (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(MODELPAGELAYERITEM_SHARED_LIB_DEBUG NAMES ModelPageLayerItem PATHS "../../Lib/Debug")
@@ -225,6 +161,22 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ModelPageLayerItem)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for DisplayImage (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
+    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
+        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug")
+        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
         endif()
     endif()
 
@@ -244,14 +196,62 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for EditPasswordOnControl (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG NAMES EditPasswordOnControl PATHS "../../Lib/Debug")
+    if(EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG)
+        set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG ${EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG NAMES libEditPasswordOnControl.a PATHS "../../Lib/Debug")
+        if(EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG)
+            set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG ${EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG EditPasswordOnControl)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for CommonGUIDLL (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMMONGUIDLL_SHARED_LIB_DEBUG NAMES CommonGUIDLL PATHS "../../Lib/Debug")
+    if(COMMONGUIDLL_SHARED_LIB_DEBUG)
+        set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMMONGUIDLL_STATIC_LIB_DEBUG NAMES libCommonGUIDLL.a PATHS "../../Lib/Debug")
+        if(COMMONGUIDLL_STATIC_LIB_DEBUG)
+            set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMMONGUIDLL_FINAL_LIB_DEBUG CommonGUIDLL)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for Component (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
+    if(COMPONENT_SHARED_LIB_DEBUG)
+        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
+        if(COMPONENT_STATIC_LIB_DEBUG)
+            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_DEBUG Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${COMMONGUIDLL_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${MODELPAGELAYERITEM_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMMONGUIDLL_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -277,16 +277,16 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../DynamicMaskingPI"
         "../../ServiceLib/CommonGUIDLL"
-        "../../GUI/PropertyHoleWallInspection"
-        "../../OpenSource/DisplayImage"
-        "../../Open"
-        "."
-        "../../OpenSource/Component"
-        "../../GUI/ImageControlTools"
         "./GeneratedFiles"
+        "../../OpenSource/DisplayImage"
+        "../../GUI/PropertyHoleWallInspection"
+        "../../Open"
+        "../../GUI/ImageControlTools"
         "./GeneratedFiles/"
+        "../../OpenSource/Component"
+        "../DynamicMaskingPI"
+        "."
         "../../GUI/ImagePanelTools"
     >
 )
@@ -299,88 +299,24 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_LARGEFILE_SUPPORT"
         "NDEBUG"
         "QT_NO_DEBUG"
         "HOLEWALLINSPECTION_LIB"
         "UNICODE"
+        "QT_LARGEFILE_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"ServiceForAlgorithm.lib">
-        $<$<CONFIG:Release>:"CommonGUIDLL.lib">
-        $<$<CONFIG:Release>:"EditPasswordOnControl.lib">
-        $<$<CONFIG:Release>:"Component.lib">
         $<$<CONFIG:Release>:"ModelPageLayerItem.lib">
+        $<$<CONFIG:Release>:"ServiceForAlgorithm.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"EditPasswordOnControl.lib">
+        $<$<CONFIG:Release>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Release>:"Component.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for ServiceForAlgorithm (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICEFORALGORITHM_SHARED_LIB_RELEASE NAMES ServiceForAlgorithm PATHS "../../Lib/Release")
-    if(SERVICEFORALGORITHM_SHARED_LIB_RELEASE)
-        set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ${SERVICEFORALGORITHM_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICEFORALGORITHM_STATIC_LIB_RELEASE NAMES libServiceForAlgorithm.a PATHS "../../Lib/Release")
-        if(SERVICEFORALGORITHM_STATIC_LIB_RELEASE)
-            set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ${SERVICEFORALGORITHM_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ServiceForAlgorithm)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "../../Lib/Release")
-    if(COMMONGUIDLL_SHARED_LIB_RELEASE)
-        set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "../../Lib/Release")
-        if(COMMONGUIDLL_STATIC_LIB_RELEASE)
-            set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for EditPasswordOnControl (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE NAMES EditPasswordOnControl PATHS "../../Lib/Release")
-    if(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE)
-        set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE NAMES libEditPasswordOnControl.a PATHS "../../Lib/Release")
-        if(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE)
-            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE EditPasswordOnControl)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for Component (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release")
-    if(COMPONENT_SHARED_LIB_RELEASE)
-        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release")
-        if(COMPONENT_STATIC_LIB_RELEASE)
-            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_RELEASE Component)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ModelPageLayerItem (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(MODELPAGELAYERITEM_SHARED_LIB_RELEASE NAMES ModelPageLayerItem PATHS "../../Lib/Release")
@@ -394,6 +330,22 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(MODELPAGELAYERITEM_FINAL_LIB_RELEASE ModelPageLayerItem)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ServiceForAlgorithm (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICEFORALGORITHM_SHARED_LIB_RELEASE NAMES ServiceForAlgorithm PATHS "../../Lib/Release")
+    if(SERVICEFORALGORITHM_SHARED_LIB_RELEASE)
+        set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ${SERVICEFORALGORITHM_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICEFORALGORITHM_STATIC_LIB_RELEASE NAMES libServiceForAlgorithm.a PATHS "../../Lib/Release")
+        if(SERVICEFORALGORITHM_STATIC_LIB_RELEASE)
+            set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ${SERVICEFORALGORITHM_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICEFORALGORITHM_FINAL_LIB_RELEASE ServiceForAlgorithm)
         endif()
     endif()
 
@@ -413,14 +365,62 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for EditPasswordOnControl (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE NAMES EditPasswordOnControl PATHS "../../Lib/Release")
+    if(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE)
+        set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE NAMES libEditPasswordOnControl.a PATHS "../../Lib/Release")
+        if(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE)
+            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE EditPasswordOnControl)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "../../Lib/Release")
+    if(COMMONGUIDLL_SHARED_LIB_RELEASE)
+        set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "../../Lib/Release")
+        if(COMMONGUIDLL_STATIC_LIB_RELEASE)
+            set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for Component (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release")
+    if(COMPONENT_SHARED_LIB_RELEASE)
+        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release")
+        if(COMPONENT_STATIC_LIB_RELEASE)
+            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_RELEASE Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${SERVICEFORALGORITHM_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${MODELPAGELAYERITEM_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICEFORALGORITHM_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -431,12 +431,12 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
-    Qt6::Core5Compat
-    Qt6::Widgets
     Qt6::Gui
+    Qt6::Core5Compat
     Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===

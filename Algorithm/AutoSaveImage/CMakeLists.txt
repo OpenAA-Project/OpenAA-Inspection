@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Core Network Gui Core5Compat)
+find_package(Qt6 REQUIRED COMPONENTS Network Widgets Sql Core5Compat Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -90,13 +90,13 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles/$(Configuration)"
-        "./GeneratedFiles/"
-        "../../GUI/PanelSaveImage"
+        "./GeneratedFiles"
         "../../Open"
         "../../GeneralSource"
+        "./GeneratedFiles/$(Configuration)"
+        "../../GUI/PanelSaveImage"
+        "./GeneratedFiles/"
         "../../OpenSource/ZLib/zlib-1.2.8"
-        "./GeneratedFiles"
     >
 )
 
@@ -108,20 +108,36 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "UNICODE"
-        "AUTOSAVEIMAGE_LIB"
         "QT_THREAD_SUPPORT"
+        "AUTOSAVEIMAGE_LIB"
+        "UNICODE"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:"ModelPageLayerItem.lib">
         $<$<CONFIG:Debug>:"DisplayImage.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
         $<$<CONFIG:Debug>:"Component.lib">
-        $<$<CONFIG:Debug>:"ModelPageLayerItem.lib">
     )
 elseif(UNIX)
+    # --- Dynamic Library Linking for ModelPageLayerItem (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(MODELPAGELAYERITEM_SHARED_LIB_DEBUG NAMES ModelPageLayerItem PATHS "../../Lib/Debug")
+    if(MODELPAGELAYERITEM_SHARED_LIB_DEBUG)
+        set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ${MODELPAGELAYERITEM_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(MODELPAGELAYERITEM_STATIC_LIB_DEBUG NAMES libModelPageLayerItem.a PATHS "../../Lib/Debug")
+        if(MODELPAGELAYERITEM_STATIC_LIB_DEBUG)
+            set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ${MODELPAGELAYERITEM_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ModelPageLayerItem)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for DisplayImage (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
@@ -170,28 +186,12 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for ModelPageLayerItem (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MODELPAGELAYERITEM_SHARED_LIB_DEBUG NAMES ModelPageLayerItem PATHS "../../Lib/Debug")
-    if(MODELPAGELAYERITEM_SHARED_LIB_DEBUG)
-        set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ${MODELPAGELAYERITEM_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGELAYERITEM_STATIC_LIB_DEBUG NAMES libModelPageLayerItem.a PATHS "../../Lib/Debug")
-        if(MODELPAGELAYERITEM_STATIC_LIB_DEBUG)
-            set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ${MODELPAGELAYERITEM_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ModelPageLayerItem)
-        endif()
-    endif()
-
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
+        $<$<CONFIG:Debug>:${MODELPAGELAYERITEM_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${MODELPAGELAYERITEM_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -217,12 +217,12 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "./GeneratedFiles"
+        "../../Open"
         "./GeneratedFiles/$(Configuration)"
+        "../../GUI/PanelSaveImage"
         "../../../../OpenAA-OtherLibrary/zlib/zlib-1.3.1"
         "./GeneratedFiles/"
-        "../../GUI/PanelSaveImage"
-        "../../Open"
-        "./GeneratedFiles"
     >
 )
 
@@ -235,21 +235,37 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "NDEBUG"
-        "UNICODE"
-        "AUTOSAVEIMAGE_LIB"
-        "QT_NO_DEBUG"
         "QT_THREAD_SUPPORT"
+        "QT_NO_DEBUG"
+        "AUTOSAVEIMAGE_LIB"
+        "UNICODE"
+        "NDEBUG"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Release>:"ModelPageLayerItem.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
         $<$<CONFIG:Release>:"Component.lib">
-        $<$<CONFIG:Release>:"ModelPageLayerItem.lib">
     )
 elseif(UNIX)
+    # --- Dynamic Library Linking for ModelPageLayerItem (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(MODELPAGELAYERITEM_SHARED_LIB_RELEASE NAMES ModelPageLayerItem PATHS "../../Lib/Release" "/contrib/vstudio/vc17/x64/ZlibStatRelease")
+    if(MODELPAGELAYERITEM_SHARED_LIB_RELEASE)
+        set(MODELPAGELAYERITEM_FINAL_LIB_RELEASE ${MODELPAGELAYERITEM_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(MODELPAGELAYERITEM_STATIC_LIB_RELEASE NAMES libModelPageLayerItem.a PATHS "../../Lib/Release" "/contrib/vstudio/vc17/x64/ZlibStatRelease")
+        if(MODELPAGELAYERITEM_STATIC_LIB_RELEASE)
+            set(MODELPAGELAYERITEM_FINAL_LIB_RELEASE ${MODELPAGELAYERITEM_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(MODELPAGELAYERITEM_FINAL_LIB_RELEASE ModelPageLayerItem)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release" "/contrib/vstudio/vc17/x64/ZlibStatRelease")
@@ -282,27 +298,11 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for ModelPageLayerItem (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MODELPAGELAYERITEM_SHARED_LIB_RELEASE NAMES ModelPageLayerItem PATHS "../../Lib/Release" "/contrib/vstudio/vc17/x64/ZlibStatRelease")
-    if(MODELPAGELAYERITEM_SHARED_LIB_RELEASE)
-        set(MODELPAGELAYERITEM_FINAL_LIB_RELEASE ${MODELPAGELAYERITEM_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGELAYERITEM_STATIC_LIB_RELEASE NAMES libModelPageLayerItem.a PATHS "../../Lib/Release" "/contrib/vstudio/vc17/x64/ZlibStatRelease")
-        if(MODELPAGELAYERITEM_STATIC_LIB_RELEASE)
-            set(MODELPAGELAYERITEM_FINAL_LIB_RELEASE ${MODELPAGELAYERITEM_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MODELPAGELAYERITEM_FINAL_LIB_RELEASE ModelPageLayerItem)
-        endif()
-    endif()
-
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
+        $<$<CONFIG:Release>:${MODELPAGELAYERITEM_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${MODELPAGELAYERITEM_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -318,12 +318,12 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt6::Network
     Qt6::Widgets
     Qt6::Sql
-    Qt6::Core
-    Qt6::Network
-    Qt6::Gui
     Qt6::Core5Compat
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===

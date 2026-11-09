@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat Sql Core Gui Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -117,14 +117,14 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../ServiceLib/ServiceLib"
-        "../../OpenSource/DisplayImage"
-        "../../EditGUI/EditGUI"
         "../../Integrator/IntegrationLib"
-        "../../OpenSource/Component"
-        "../../Open"
         "../../GeneralSource"
+        "../../OpenSource/DisplayImage"
+        "../../Open"
+        "../../OpenSource/Component"
+        "../../EditGUI/EditGUI"
         "../../EditGUI/EditGUILib"
+        "../../ServiceLib/ServiceLib"
     >
 )
 
@@ -137,31 +137,15 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"ServiceExecutionEditor.lib">
         $<$<CONFIG:Release>:"DisplayImage.lib">
-        $<$<CONFIG:Release>:"ServiceLib.lib">
-        $<$<CONFIG:Release>:"Component.lib">
-        $<$<CONFIG:Release>:"EditGUILib.lib">
         $<$<CONFIG:Release>:"IntegrationLib.lib">
+        $<$<CONFIG:Release>:"ServiceExecutionEditor.lib">
+        $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"EditGUILib.lib">
         $<$<CONFIG:Release>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Release>:"Component.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for ServiceExecutionEditor (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE NAMES ServiceExecutionEditor PATHS "../../Lib/Release" "../../EditGUI")
-    if(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE)
-        set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE NAMES libServiceExecutionEditor.a PATHS "../../Lib/Release" "../../EditGUI")
-        if(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE)
-            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ServiceExecutionEditor)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for DisplayImage (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(DISPLAYIMAGE_SHARED_LIB_RELEASE NAMES DisplayImage PATHS "../../Lib/Release" "../../EditGUI")
@@ -175,54 +159,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(DISPLAYIMAGE_FINAL_LIB_RELEASE DisplayImage)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ServiceLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release" "../../EditGUI")
-    if(SERVICELIB_SHARED_LIB_RELEASE)
-        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release" "../../EditGUI")
-        if(SERVICELIB_STATIC_LIB_RELEASE)
-            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for Component (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release" "../../EditGUI")
-    if(COMPONENT_SHARED_LIB_RELEASE)
-        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release" "../../EditGUI")
-        if(COMPONENT_STATIC_LIB_RELEASE)
-            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_RELEASE Component)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for EditGUILib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(EDITGUILIB_SHARED_LIB_RELEASE NAMES EditGUILib PATHS "../../Lib/Release" "../../EditGUI")
-    if(EDITGUILIB_SHARED_LIB_RELEASE)
-        set(EDITGUILIB_FINAL_LIB_RELEASE ${EDITGUILIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(EDITGUILIB_STATIC_LIB_RELEASE NAMES libEditGUILib.a PATHS "../../Lib/Release" "../../EditGUI")
-        if(EDITGUILIB_STATIC_LIB_RELEASE)
-            set(EDITGUILIB_FINAL_LIB_RELEASE ${EDITGUILIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(EDITGUILIB_FINAL_LIB_RELEASE EditGUILib)
         endif()
     endif()
 
@@ -242,6 +178,54 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for ServiceExecutionEditor (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE NAMES ServiceExecutionEditor PATHS "../../Lib/Release" "../../EditGUI")
+    if(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE)
+        set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE NAMES libServiceExecutionEditor.a PATHS "../../Lib/Release" "../../EditGUI")
+        if(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE)
+            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ServiceExecutionEditor)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ServiceLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release" "../../EditGUI")
+    if(SERVICELIB_SHARED_LIB_RELEASE)
+        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release" "../../EditGUI")
+        if(SERVICELIB_STATIC_LIB_RELEASE)
+            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for EditGUILib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(EDITGUILIB_SHARED_LIB_RELEASE NAMES EditGUILib PATHS "../../Lib/Release" "../../EditGUI")
+    if(EDITGUILIB_SHARED_LIB_RELEASE)
+        set(EDITGUILIB_FINAL_LIB_RELEASE ${EDITGUILIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(EDITGUILIB_STATIC_LIB_RELEASE NAMES libEditGUILib.a PATHS "../../Lib/Release" "../../EditGUI")
+        if(EDITGUILIB_STATIC_LIB_RELEASE)
+            set(EDITGUILIB_FINAL_LIB_RELEASE ${EDITGUILIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(EDITGUILIB_FINAL_LIB_RELEASE EditGUILib)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "../../Lib/Release" "../../EditGUI")
@@ -258,15 +242,31 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for Component (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release" "../../EditGUI")
+    if(COMPONENT_SHARED_LIB_RELEASE)
+        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release" "../../EditGUI")
+        if(COMPONENT_STATIC_LIB_RELEASE)
+            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_RELEASE Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${EDITGUILIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${EDITGUILIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -283,12 +283,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_NAME}" AND IS_DIRECTORY "
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
+    Qt6::Gui
     Qt6::Core5Compat
     Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
     Qt6::Widgets
+    Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===
@@ -307,8 +307,12 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
-    -O0
-    -g
+    -ffunction-sections -fdata-sections
+)
+
+target_link_options(${PROJECT_NAME} PRIVATE
+    "-Wl,--no-undefined"
+    "-Wl,--gc-sections"
 )
 
     # --- Dynamic Library Linking for ForWindows ---

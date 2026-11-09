@@ -81,6 +81,7 @@ public:
 	int		DistanceSelection;
 	__LineType	LineType;
 	bool	Active;
+	QString	CursorType;
 
     explicit HookMeasureForm(LayersBase *Base ,QWidget *parent = 0);
     ~HookMeasureForm();

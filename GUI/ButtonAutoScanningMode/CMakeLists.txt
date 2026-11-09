@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat Widgets Gui Sql SerialPort Core)
+find_package(Qt6 REQUIRED COMPONENTS SerialPort Gui Core5Compat Sql Widgets Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -93,9 +93,9 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../InspectionPlayer"
         "../ButtonAutoMode"
         "../../Open"
+        "../../InspectionPlayer"
     >
 )
 
@@ -163,13 +163,13 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
-    Qt6::Core5Compat
-    Qt6::Widgets
-    Qt6::Gui
-    Qt6::Sql
     Qt6::SerialPort
+    Qt6::Gui
+    Qt6::Core5Compat
+    Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===

@@ -5,5 +5,6 @@
     <file>Icon/IconDrawPoly.png</file>
     <file>Icon/IconDrawRect.png</file>
     <file>Icon/IconDrawText.png</file>
+    <file>Icon/IconCross.png</file>
   </qresource>
 </RCC>

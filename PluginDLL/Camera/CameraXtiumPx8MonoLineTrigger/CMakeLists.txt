@@ -11,6 +11,7 @@ project(CameraXtiumPx8MonoLineTrigger LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -20,13 +21,22 @@ if(WIN32)
 endif()
 
 if(UNIX)
+    # Dead code stripping (remove unused functions/data)
+    add_compile_options(-ffunction-sections -fdata-sections)
+    add_link_options("-Wl,--gc-sections")
+    # Allow multiple definitions to mimic MSVC static library linking behavior
+    add_link_options("-Wl,--allow-multiple-definition")
+
     if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
         # Linux / Raspberry Pi specific settings
     endif()
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Gui SerialPort Widgets Network Core5Compat Core)
+find_package(Qt6 REQUIRED COMPONENTS SerialPort Gui Core5Compat Sql Widgets Core Network)
+
+# Find OpenMP
+find_package(OpenMP REQUIRED)
 
 set(PROJECT_SOURCES
     "../../../../OpenAA-OtherLibrary/Dalsa/featureCtrl.cpp"
@@ -48,18 +58,18 @@ set(PROJECT_HEADERS
     "settingMan.h"
     "cameraxtiumpx8monolinetrigger_global.h"
     "CameraXtiumPx8MonoLineTrigger.h"
+    "CameraSetting.h"
 )
 
 set(PROJECT_FORMS
     "CameraSetting.ui"
 )
 
-qt_wrap_ui(PROJECT_SOURCES ${PROJECT_FORMS})
-
 # Define the target
 add_library(${PROJECT_NAME} SHARED
     ${PROJECT_SOURCES}
     ${PROJECT_HEADERS}
+    ${PROJECT_FORMS}
 )
 
 # === Configuration-specific sources ===
@@ -72,6 +82,12 @@ if(DEFINED PROJECT_SOURCES_RELEASE)
 endif()
 
 # === Configuration-specific settings ===
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:
+        "CAMERAXTIUMPX8MONOLINETRIGGER_LIB"
+    >
+)
 
 if(MSVC)
 endif()
@@ -94,45 +110,144 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "$ENV{HOME}/OpenAA-OtherLibrary/Dalsa"
+        "/Include"
+        "../../../GeneralSource/Sequence"
+        "/Classes/Basic"
+        "../../../OpenSource/Component"
         "../../../InspectionPlayer"
         "../../../Open"
-        "../../../OpenSource/Component"
-        "$(OpenAAUseLibrary)/Dalsa"
-        "../../../GeneralSource/Sequence"
-        "$(SAPERA)/Classes/Basic"
-        "$(SAPERA)/Include"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "$(Qt_LIBPATH_)"
-        "$(SAPERA)/lib/Win64"
+        "/lib/Win64"
         "../../../Lib/Release"
+    >
+)
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Release>:
+        "CAMERAXTIUMPX8MONOLINETRIGGER_LIB"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:
-            "SeqLib.lib"
-            "SapClassBasic.lib"
-            "corapi.lib"
-            "$(Qt_LIBS_)"
-            "Component.lib"
-            "ServiceLib.lib"
-        >
+        $<$<CONFIG:Release>:"corapi.lib">
+        $<$<CONFIG:Release>:"SapClassBasic.lib">
+        $<$<CONFIG:Release>:"SeqLib.lib">
+        $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"">
+        $<$<CONFIG:Release>:"Component.lib">
     )
 elseif(UNIX)
+    # --- Dynamic Library Linking for corapi (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(CORAPI_SHARED_LIB_RELEASE NAMES corapi PATHS "/lib/Win64" "../../../Lib/Release")
+    if(CORAPI_SHARED_LIB_RELEASE)
+        set(CORAPI_FINAL_LIB_RELEASE ${CORAPI_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(CORAPI_STATIC_LIB_RELEASE NAMES libcorapi.a PATHS "/lib/Win64" "../../../Lib/Release")
+        if(CORAPI_STATIC_LIB_RELEASE)
+            set(CORAPI_FINAL_LIB_RELEASE ${CORAPI_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(CORAPI_FINAL_LIB_RELEASE corapi)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for SapClassBasic (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SAPCLASSBASIC_SHARED_LIB_RELEASE NAMES SapClassBasic PATHS "/lib/Win64" "../../../Lib/Release")
+    if(SAPCLASSBASIC_SHARED_LIB_RELEASE)
+        set(SAPCLASSBASIC_FINAL_LIB_RELEASE ${SAPCLASSBASIC_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SAPCLASSBASIC_STATIC_LIB_RELEASE NAMES libSapClassBasic.a PATHS "/lib/Win64" "../../../Lib/Release")
+        if(SAPCLASSBASIC_STATIC_LIB_RELEASE)
+            set(SAPCLASSBASIC_FINAL_LIB_RELEASE ${SAPCLASSBASIC_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SAPCLASSBASIC_FINAL_LIB_RELEASE SapClassBasic)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for SeqLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SEQLIB_SHARED_LIB_RELEASE NAMES SeqLib PATHS "/lib/Win64" "../../../Lib/Release")
+    if(SEQLIB_SHARED_LIB_RELEASE)
+        set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SEQLIB_STATIC_LIB_RELEASE NAMES libSeqLib.a PATHS "/lib/Win64" "../../../Lib/Release")
+        if(SEQLIB_STATIC_LIB_RELEASE)
+            set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SEQLIB_FINAL_LIB_RELEASE SeqLib)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ServiceLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "/lib/Win64" "../../../Lib/Release")
+    if(SERVICELIB_SHARED_LIB_RELEASE)
+        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "/lib/Win64" "../../../Lib/Release")
+        if(SERVICELIB_STATIC_LIB_RELEASE)
+            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for  (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(_SHARED_LIB_RELEASE NAMES  PATHS "${CMAKE_CURRENT_SOURCE_DIR}/" NO_DEFAULT_PATH)
+    if(_SHARED_LIB_RELEASE)
+        set(_FINAL_LIB_RELEASE ${_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(_STATIC_LIB_RELEASE NAMES lib.a PATHS "${CMAKE_CURRENT_SOURCE_DIR}/" NO_DEFAULT_PATH)
+        if(_STATIC_LIB_RELEASE)
+            set(_FINAL_LIB_RELEASE ${_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(_FINAL_LIB_RELEASE )
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for Component (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "/lib/Win64" "../../../Lib/Release")
+    if(COMPONENT_SHARED_LIB_RELEASE)
+        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "/lib/Win64" "../../../Lib/Release")
+        if(COMPONENT_STATIC_LIB_RELEASE)
+            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_RELEASE Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:
-            "libSeqLib.a"
-            "libSapClassBasic.a"
-            "libcorapi.a"
-            "$(Qt_LIBS_)"
-            "libComponent.a"
-            "libServiceLib.a"
-        >
+        $<$<CONFIG:Release>:-Wl,--start-group>
+        $<$<CONFIG:Release>:${CORAPI_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SAPCLASSBASIC_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SEQLIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
 
@@ -142,28 +257,93 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Sql
-    Qt6::Gui
     Qt6::SerialPort
-    Qt6::Widgets
-    Qt6::Network
+    Qt6::Gui
     Qt6::Core5Compat
+    Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-    "/home/megatrade/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/OpenXLSX"
-    "/home/megatrade/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/build/OpenXLSX/"
+    "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/OpenXLSX"
+    "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/build/OpenXLSX/"
+    "x64/Release/qt"
+    "x64/Release/qt/uic"
 )
 
+target_link_directories(${PROJECT_NAME} PRIVATE
+    "/usr/local/lib/"
+    "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/"
+    "$ENV{HOME}/OpenAA6/Lib/Release"
+)
 
-# =========================================================================
-# WARNING: The following MSBuild macros were not resolved during conversion:
-#   $(OpenAAUseLibrary)
-#   $(Qt_LIBPATH_)
-#   $(Qt_LIBS_)
-#   $(SAPERA)
-# Please define them in CMake or add them to the macro replacements list.
-# =========================================================================
+target_compile_options(${PROJECT_NAME} PRIVATE
+    -ffunction-sections -fdata-sections
+)
+
+target_link_options(${PROJECT_NAME} PRIVATE
+    "-Wl,--no-undefined"
+    "-Wl,--gc-sections"
+)
+
+    # --- Dynamic Library Linking for ForWindows ---
+    # 1. First, search for the shared library (.so)
+    find_library(FORWINDOWS_SHARED_LIB NAMES ForWindows PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+
+    if(FORWINDOWS_SHARED_LIB)
+        message(STATUS "Found Shared Library: ${FORWINDOWS_SHARED_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${FORWINDOWS_SHARED_LIB})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(FORWINDOWS_STATIC_LIB NAMES libForWindows.a PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+        if(FORWINDOWS_STATIC_LIB)
+            message(STATUS "Found Static Library: ${FORWINDOWS_STATIC_LIB}")
+            target_link_libraries(${PROJECT_NAME} PRIVATE ${FORWINDOWS_STATIC_LIB})
+        else()
+            message(WARNING "Library ForWindows not found!")
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for NetworkDrive ---
+    # 1. First, search for the shared library (.so)
+    find_library(NETWORKDRIVE_SHARED_LIB NAMES NetworkDrive PATHS "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CMAKE_CURRENT_SOURCE_DIR}/../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." NO_DEFAULT_PATH)
+
+    if(NETWORKDRIVE_SHARED_LIB)
+        message(STATUS "Found Shared Library: ${NETWORKDRIVE_SHARED_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${NETWORKDRIVE_SHARED_LIB})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(NETWORKDRIVE_STATIC_LIB NAMES libNetworkDrive.a PATHS "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CMAKE_CURRENT_SOURCE_DIR}/../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." NO_DEFAULT_PATH)
+        if(NETWORKDRIVE_STATIC_LIB)
+            message(STATUS "Found Static Library: ${NETWORKDRIVE_STATIC_LIB}")
+            target_link_libraries(${PROJECT_NAME} PRIVATE ${NETWORKDRIVE_STATIC_LIB})
+        else()
+            message(WARNING "Library NetworkDrive not found!")
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for png16 ---
+    # 1. First, search for the shared library (.so)
+    find_library(PNG16_SHARED_LIB NAMES png16 PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+
+    if(PNG16_SHARED_LIB)
+        message(STATUS "Found Shared Library: ${PNG16_SHARED_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${PNG16_SHARED_LIB})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(PNG16_STATIC_LIB NAMES libpng16.a PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+        if(PNG16_STATIC_LIB)
+            message(STATUS "Found Static Library: ${PNG16_STATIC_LIB}")
+            target_link_libraries(${PROJECT_NAME} PRIVATE ${PNG16_STATIC_LIB})
+        else()
+            message(WARNING "Library png16 not found!")
+        endif()
+    endif()
+
+# Link OpenMP
+target_link_libraries(${PROJECT_NAME} PRIVATE OpenMP::OpenMP_CXX)
+

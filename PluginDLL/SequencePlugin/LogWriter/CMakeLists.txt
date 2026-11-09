@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat Widgets Gui Sql Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -85,12 +85,12 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../../GeneralSource/Sequence"
-        "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "../../../GeneralSource/Sequence"
         "./GeneratedFiles/"
-        "../../../Open"
         "../../../GeneralSource"
+        "../../../Open"
     >
 )
 
@@ -102,8 +102,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "LOGWRITER_LIB"
         "QT_THREAD_SUPPORT"
+        "LOGWRITER_LIB"
         "UNICODE"
     >
 )
@@ -157,9 +157,9 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../../GeneralSource/Sequence"
-        "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "../../../GeneralSource/Sequence"
         "./GeneratedFiles/"
         "../../../Open"
     >
@@ -173,10 +173,10 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "LOGWRITER_LIB"
-        "NDEBUG"
-        "QT_NO_DEBUG"
         "QT_THREAD_SUPPORT"
+        "NDEBUG"
+        "LOGWRITER_LIB"
+        "QT_NO_DEBUG"
         "UNICODE"
     >
 )
@@ -220,12 +220,12 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
-    Qt6::Core5Compat
-    Qt6::Widgets
     Qt6::Gui
+    Qt6::Core5Compat
     Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===

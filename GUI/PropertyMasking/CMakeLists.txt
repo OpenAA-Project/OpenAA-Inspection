@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat Widgets Gui Sql Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -51,7 +51,6 @@ set(PROJECT_SOURCES
     "SelectByBindedLimitedDialog.cpp"
     "SelectMaskingLibraryForm.cpp"
     "XPropertyMaskingPacket.cpp"
-    "GeneratedFiles/qrc_PropertyMasking.cpp"
 )
 
 set(PROJECT_HEADERS
@@ -118,24 +117,24 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../GUI/MaskingImagePanel/SelectLibraryInMask"
-        "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "../../OpenSource/DisplayImage"
-        "../../ServiceLib/ServiceLib"
+        "./GeneratedFiles"
         "./"
-        "../../Open"
-        "../../Algorithm/Masking"
-        "../../OpenSource/Component"
         "../../GUI/ImageControlTools/GeneratedFiles"
-        "../../GUI/MaskingImagePanel/GeneratedFiles"
+        "../../GeneralSource"
+        "../../OpenSource/DisplayImage"
+        "../../ServiceLib/ServiceLib/GeneratedFiles"
         "./GeneratedFiles/$(Configuration)"
-        "../../GUI/MaskingImagePanel/SelectLibraryInMask/GeneratedFiles"
+        "../../Open"
+        "../../GUI/MaskingImagePanel/GeneratedFiles"
         "../../GUI/ImageControlTools"
+        "./GeneratedFiles/"
+        "../../OpenSource/Component"
+        "../../GUI/MaskingImagePanel/SelectLibraryInMask/GeneratedFiles"
         "../../OpenSource/DisplayImage/GeneratedFiles"
         "../../GUI/MaskingImagePanel"
-        "./GeneratedFiles"
-        "./GeneratedFiles/"
-        "../../GeneralSource"
+        "../../GUI/MaskingImagePanel/SelectLibraryInMask"
+        "../../ServiceLib/ServiceLib"
+        "../../Algorithm/Masking"
     >
 )
 
@@ -147,8 +146,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "PROPERTYMASKING_LIB"
         "QT_THREAD_SUPPORT"
+        "PROPERTYMASKING_LIB"
         "UNICODE"
     >
 )
@@ -156,8 +155,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:"DisplayImage.lib">
-        $<$<CONFIG:Debug>:"Component.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"Component.lib">
     )
 elseif(UNIX)
     # --- Dynamic Library Linking for DisplayImage (Debug) ---
@@ -173,22 +172,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for Component (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
-    if(COMPONENT_SHARED_LIB_DEBUG)
-        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
-        if(COMPONENT_STATIC_LIB_DEBUG)
-            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_DEBUG Component)
         endif()
     endif()
 
@@ -208,11 +191,27 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for Component (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
+    if(COMPONENT_SHARED_LIB_DEBUG)
+        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
+        if(COMPONENT_STATIC_LIB_DEBUG)
+            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_DEBUG Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
         $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -238,19 +237,19 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../GUI/MaskingImagePanel/SelectLibraryInMask"
-        "../../OpenSource/DisplayImage"
-        "./"
-        "../../Open"
-        "../../Algorithm/Masking"
-        "../../OpenSource/Component"
-        "../../GUI/MaskingImagePanel/GeneratedFiles"
-        "./GeneratedFiles/$(Configuration)"
-        "../../GUI/MaskingImagePanel/SelectLibraryInMask/GeneratedFiles"
-        "../../GUI/ImageControlTools"
-        "../../GUI/MaskingImagePanel"
         "./GeneratedFiles"
+        "./"
+        "../../OpenSource/DisplayImage"
+        "./GeneratedFiles/$(Configuration)"
+        "../../Open"
+        "../../GUI/MaskingImagePanel/GeneratedFiles"
+        "../../GUI/ImageControlTools"
         "./GeneratedFiles/"
+        "../../OpenSource/Component"
+        "../../GUI/MaskingImagePanel/SelectLibraryInMask/GeneratedFiles"
+        "../../GUI/MaskingImagePanel"
+        "../../GUI/MaskingImagePanel/SelectLibraryInMask"
+        "../../Algorithm/Masking"
     >
 )
 
@@ -263,10 +262,10 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "PROPERTYMASKING_LIB"
-        "NDEBUG"
-        "QT_NO_DEBUG"
         "QT_THREAD_SUPPORT"
+        "NDEBUG"
+        "PROPERTYMASKING_LIB"
+        "QT_NO_DEBUG"
         "UNICODE"
     >
 )
@@ -274,10 +273,10 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:"DisplayImage.lib">
-        $<$<CONFIG:Release>:"SelectLibraryInMask.lib">
         $<$<CONFIG:Release>:"ServiceForAlgorithm.lib">
-        $<$<CONFIG:Release>:"Component.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"SelectLibraryInMask.lib">
+        $<$<CONFIG:Release>:"Component.lib">
     )
 elseif(UNIX)
     # --- Dynamic Library Linking for DisplayImage (Release) ---
@@ -293,22 +292,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(DISPLAYIMAGE_FINAL_LIB_RELEASE DisplayImage)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for SelectLibraryInMask (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SELECTLIBRARYINMASK_SHARED_LIB_RELEASE NAMES SelectLibraryInMask PATHS "../../Lib/Release" "../../GUI")
-    if(SELECTLIBRARYINMASK_SHARED_LIB_RELEASE)
-        set(SELECTLIBRARYINMASK_FINAL_LIB_RELEASE ${SELECTLIBRARYINMASK_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SELECTLIBRARYINMASK_STATIC_LIB_RELEASE NAMES libSelectLibraryInMask.a PATHS "../../Lib/Release" "../../GUI")
-        if(SELECTLIBRARYINMASK_STATIC_LIB_RELEASE)
-            set(SELECTLIBRARYINMASK_FINAL_LIB_RELEASE ${SELECTLIBRARYINMASK_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SELECTLIBRARYINMASK_FINAL_LIB_RELEASE SelectLibraryInMask)
         endif()
     endif()
 
@@ -328,22 +311,6 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for Component (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release" "../../GUI")
-    if(COMPONENT_SHARED_LIB_RELEASE)
-        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release" "../../GUI")
-        if(COMPONENT_STATIC_LIB_RELEASE)
-            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_RELEASE Component)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release" "../../GUI")
@@ -360,13 +327,45 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for SelectLibraryInMask (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SELECTLIBRARYINMASK_SHARED_LIB_RELEASE NAMES SelectLibraryInMask PATHS "../../Lib/Release" "../../GUI")
+    if(SELECTLIBRARYINMASK_SHARED_LIB_RELEASE)
+        set(SELECTLIBRARYINMASK_FINAL_LIB_RELEASE ${SELECTLIBRARYINMASK_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SELECTLIBRARYINMASK_STATIC_LIB_RELEASE NAMES libSelectLibraryInMask.a PATHS "../../Lib/Release" "../../GUI")
+        if(SELECTLIBRARYINMASK_STATIC_LIB_RELEASE)
+            set(SELECTLIBRARYINMASK_FINAL_LIB_RELEASE ${SELECTLIBRARYINMASK_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SELECTLIBRARYINMASK_FINAL_LIB_RELEASE SelectLibraryInMask)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for Component (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release" "../../GUI")
+    if(COMPONENT_SHARED_LIB_RELEASE)
+        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release" "../../GUI")
+        if(COMPONENT_STATIC_LIB_RELEASE)
+            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_RELEASE Component)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
         $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SELECTLIBRARYINMASK_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICEFORALGORITHM_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SELECTLIBRARYINMASK_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -389,12 +388,12 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
-    Qt6::Core5Compat
-    Qt6::Widgets
     Qt6::Gui
+    Qt6::Core5Compat
     Qt6::Sql
+    Qt6::Widgets
     Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===

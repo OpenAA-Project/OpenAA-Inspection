@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core5Compat Widgets Gui MultimediaWidgets Multimedia Core)
+find_package(Qt6 REQUIRED COMPONENTS Multimedia Gui Core5Compat Widgets Core Network MultimediaWidgets)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -150,13 +150,13 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
+    Qt6::Multimedia
+    Qt6::Gui
     Qt6::Core5Compat
     Qt6::Widgets
-    Qt6::Gui
-    Qt6::MultimediaWidgets
-    Qt6::Multimedia
     Qt6::Core
+    Qt6::Network
+    Qt6::MultimediaWidgets
 )
 
 # === Additional Custom Settings ===
