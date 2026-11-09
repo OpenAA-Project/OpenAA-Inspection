@@ -25,12 +25,10 @@
 #include "XGUI.h"
 #include "XPointer.h"
 #include "XBlockLibrary.h"
-#include "XPropertyBlockPacket.h"
 #include "XDisplayBitImage.h"
 #include "XImageProcess.h"
 #include <omp.h>
 #include "ChangeCreateBlockForm.h"
-//#include "XMasking.h"
 #include "XPieceArchitect.h"
 #include "XMaskingFromGeneral.h"
 #include "XDynamicMaskingPICommon.h"
@@ -40,12 +38,12 @@
 #include "XAlignmentCommon.h"
 #include "XAlgorithmDLL.h"
 #include "XDisplaySimPanel.h"
-#include "XPropertyBlockCommon.h"
 #include "XBlockManualExecuter.h"
 #include <QPen>
 #include <QPainter>
 #include "XLearningRegist.h"
 #include "XCriticalFunc.h"
+#include "XBlockInspectionCommon.h"
 
 extern	const	char	*sRoot;
 extern	const	char	*sName;

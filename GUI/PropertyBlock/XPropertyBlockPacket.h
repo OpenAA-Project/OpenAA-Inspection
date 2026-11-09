@@ -28,6 +28,7 @@
 #include "XServiceForLayers.h"
 #include "XGeneralFunc.h"
 #include "XPropertyBlockCommon.h"
+#include "XBlockInspectionCommon.h"
 
 class	GUICmdPickupTestList : public GUICmdPacketBase
 {
@@ -72,31 +73,6 @@ public:
 };
 
 
-class	CmdBlockDrawModePacket : public GUIDirectMessage
-{
-public:
-	enum	DrawMode{
-		_None
-		,_LibTest
-		,_CreatedBlock
-	}Mode;
-	enum	DrawType{
-		_Area
-		,_Edge
-		,_Inside
-		,_BeforeShrink
-	}DType;
-	bool	DrawDirUp;
-	bool	DrawDirLeft;
-	bool	DrawDirRight;
-	bool	DrawDirBottom;
-	bool	DrawDirSkip;
-	bool	DrawOmitMatchLineArea;
-
-	CmdBlockDrawModePacket(LayersBase *base):GUIDirectMessage(base){}
-	CmdBlockDrawModePacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
-};
-
 class	BlockImagePanel;
 class	CmdBlockDrawEnd : public GUIDirectMessage
 {
@@ -120,109 +96,6 @@ public:
 	CmdBlockShowAttrPacket(LayersBase *base):GUIDirectMessage(base){}
 	CmdBlockShowAttrPacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
-
-class	BlockDrawAttr : public AlgorithmDrawAttr , public ServiceForLayers
-{
-public:
-	CmdBlockDrawModePacket::DrawMode	Mode;
-	CmdBlockDrawModePacket::DrawType	DType;
-	bool	DrawDirUp;
-	bool	DrawDirLeft;
-	bool	DrawDirRight;
-	bool	DrawDirBottom;
-	bool	DrawDirSkip;
-	bool	DrawOmitMatchLineArea;
-
-	QColor		ColorPickup;
-	QColor		BlockColor0;
-	QColor		BlockColor1;
-	QColor		BlockColor2;
-	QColor		BlockColor3;
-	QColor		BlockColor4;
-	QColor		BlockColor5;
-	QColor		BlockColor6;
-	QColor		BlockColor7;
-
-	BlockDrawAttr(void):ServiceForLayers(NULL){}
-	BlockDrawAttr(LayersBase *Base,QColor ncol,QColor scol ,QColor acol);
-	BlockDrawAttr(LayersBase *Base
-				, QColor ncol ,int ntranparentLevel
-				, QColor scol ,int stranparentLevel
-				, QColor acol ,int atranparentLevel
-				, QColor pickupcol ,int ptranparentLevel
-				, QColor &blockColor0
-				, QColor &blockColor1
-				, QColor &blockColor2
-				, QColor &blockColor3
-				, QColor &blockColor4
-				, QColor &blockColor5
-				, QColor &blockColor6
-				, QColor &blockColor7);
-
-	void	Initial(void);
-
-	BlockDrawAttr	&operator=(BlockDrawAttr &src);
-	virtual	bool	Save(QIODevice *f);
-	virtual	bool	Load(QIODevice *f);
-};
-
-inline	BlockDrawAttr	&BlockDrawAttr::operator=(BlockDrawAttr &src)
-{
-	AlgorithmDrawAttr::operator=(*((AlgorithmDrawAttr *)&src));
-	ServiceForLayers::Copy(this);
-	Mode			=src.Mode;
-	DrawDirUp		=src.DrawDirUp		;
-	DrawDirLeft		=src.DrawDirLeft	;	
-	DrawDirRight	=src.DrawDirRight	;
-	DrawDirBottom	=src.DrawDirBottom	;
-	DrawDirSkip		=src.DrawDirSkip	;
-	ColorPickup		=src.ColorPickup;
-	BlockColor0		=src.BlockColor0;
-	BlockColor1		=src.BlockColor1;
-	BlockColor2		=src.BlockColor2;
-	BlockColor3		=src.BlockColor3;
-	BlockColor4		=src.BlockColor4;
-	BlockColor5		=src.BlockColor5;
-	BlockColor6		=src.BlockColor6;
-	BlockColor7		=src.BlockColor7;
-	return *this;
-}
-inline	bool	BlockDrawAttr::Save(QIODevice *f)
-{
-	if(f->write((const char *)&Mode,sizeof(Mode))!=sizeof(Mode))
-		return false;
-	if(::Save(f,ColorPickup)==false)
-		return false;
-	if(::Save(f,DrawDirUp)==false)
-		return false;
-	if(::Save(f,DrawDirLeft)==false)
-		return false;
-	if(::Save(f,DrawDirRight)==false)
-		return false;
-	if(::Save(f,DrawDirBottom)==false)
-		return false;
-	if(::Save(f,DrawDirSkip)==false)
-		return false;
-	return true;
-}
-inline	bool	BlockDrawAttr::Load(QIODevice *f)
-{
-	if(f->read((char *)&Mode,sizeof(Mode))!=sizeof(Mode))
-		return false;
-	if(::Load(f,ColorPickup)==false)
-		return false;
-	if(::Load(f,DrawDirUp)==false)
-		return false;
-	if(::Load(f,DrawDirLeft)==false)
-		return false;
-	if(::Load(f,DrawDirRight)==false)
-		return false;
-	if(::Load(f,DrawDirBottom)==false)
-		return false;
-	if(::Load(f,DrawDirSkip)==false)
-		return false;
-	return true;
-}
 
 class	GUICmdReqAreaHistgramInMaster : public GUICmdPacketBase
 {
@@ -379,39 +252,6 @@ public:
 };
 
 //==========================================================================
-class	BlockInfoList : public NPList<BlockInfoList>
-{
-public:
-	int		LibID;
-	IntList	BlockCount;
-	int		Page;
-
-	int		GetLibID(void){		return LibID;	}
-
-	bool	Save(QIODevice *f);
-	bool	Load(QIODevice *f);
-};
-
-inline	bool	BlockInfoList::Save(QIODevice *f)
-{
-	if(::Save(f,LibID)==false)
-		return false;
-	if(BlockCount.Save(f)==false)
-		return false;
-	if(::Save(f,Page)==false)
-		return false;
-	return true;
-}
-inline	bool	BlockInfoList::Load(QIODevice *f)
-{
-	if(::Load(f,LibID)==false)
-		return false;
-	if(BlockCount.Load(f)==false)
-		return false;
-	if(::Load(f,Page)==false)
-		return false;
-	return true;
-}
 
 
 

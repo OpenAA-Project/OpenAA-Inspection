@@ -24,12 +24,12 @@
 #include "XFlexArea.h"
 #include "XMainSchemeMemory.h"
 #include "XDataInLayer.h"
-//#include "XPropertyBlockPacket.h"
 #include "XBlockLibrary.h"
 #include "XBlockSearchWay.h"
 #include "XResult.h"
 #include "XLineInBlock.h"
 #include "XStandardCommand.h"
+#include "XGeneralFunc.h"
 
 #define	BlockInspectionVersion	10029
 #define	Hist_BlockInspection_CenterBright	1
@@ -1661,5 +1661,15 @@ public:
 	CmdTryProcess(LayersBase *base):GUIDirectMessage(base){}
 	CmdTryProcess(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
+
+class	CmdSelectBlockLibraryDialog : public GUIDirectMessage
+{
+public:
+	int		LibID;
+
+	CmdSelectBlockLibraryDialog(LayersBase *base):GUIDirectMessage(base)		{	LibID=-1;	}
+	CmdSelectBlockLibraryDialog(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){	LibID=-1;	}
+};
+
 
 #endif

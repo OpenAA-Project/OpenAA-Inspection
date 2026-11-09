@@ -49,7 +49,7 @@ public:
 	bool	IsIncluded(int LibID);
 };
 
-//���̃X���[�u�Ō����}�X�N�Ń��C�u�������g�p���Ă��邩�ǂ���
+
 class	SlaveCommReqLibraryInMaskOfBlock : public DirectCommPacketBase
 {
 public:

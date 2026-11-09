@@ -132,6 +132,9 @@
     <ClInclude Include="XBlockManualExecuter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="XBlockInspectionCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ChangeCreateBlockForm.h">

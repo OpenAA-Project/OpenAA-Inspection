@@ -22,10 +22,10 @@
 #include "XBlockLibrary.h"
 #include "ChangeCreateBlockForm.h"
 #include "XDLLOnly.h"
-#include "SelectBlockLibraryForm.h"
 #include "ImageControlTools.h"
 #include "XGUI.h"
 #include "XGeneralDialog.h"
+#include "XBlockInspectionCommon.h"
 
 ChangeCreateBlockForm::ChangeCreateBlockForm(BlockBase *base ,int Layer ,QWidget *parent)
 	: QDialog(parent),ServiceForLayers(base->GetLayersBase())
