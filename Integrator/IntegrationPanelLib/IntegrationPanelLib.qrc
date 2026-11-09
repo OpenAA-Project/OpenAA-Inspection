@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/AddModeN.png</file>
+        <file>Resources/DeleteN.png</file>
+        <file>Resources/DeleteP.png</file>
+        <file>Resources/DrawWholeN.png</file>
+        <file>Resources/DrawWholeP.png</file>
+        <file>Resources/SelModeN.png</file>
+        <file>Resources/ZoomModeN.png</file>
+        <file>Resources/ZoomOutModeN.png</file>
+        <file>Resources/CutItemN.png</file>
+        <file>Resources/AddRectModeN.png</file>
+        <file>Resources/UndoN.png</file>
+        <file>Resources/UndoP.png</file>
+        <file>Resources/CopyTransferN.png</file>
+        <file>Resources/CopyTransferP.png</file>
+        <file>Resources/AddLineModeN.png</file>
+    </qresource>
+</RCC>

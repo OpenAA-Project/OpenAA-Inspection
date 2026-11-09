@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="integrationpanellib_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IntegrationPanelLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IntegrationLib\XIntegrationSimpleImagePanelCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IntegrationLib\XIntegrationSimpleImagePanelPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="XIntegrationSimpleImagePanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XIntegrationSimpleImagePanelCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XIntegrationSimpleImagePanelPacket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XIntegrationSimplePanelArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CopyAlgorithmDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectItemsDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SetLineWidthDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="IntegrationPanelLib.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\AddLineModeN.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\AddModeN.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\AddRectModeN.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\CopyTransferN.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\CopyTransferP.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\CutItemN.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\DeleteN.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\DeleteP.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\DrawWholeN.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\DrawWholeP.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\SelModeN.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\UndoN.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\UndoP.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\ZoomModeN.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\ZoomOutModeN.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="..\IntegrationLib\XIntegrationSimpleImagePanel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CopyAlgorithmDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SelectItemsDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SetLineWidthDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="CopyAlgorithmDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SelectItemsDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SetLineWidthDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+</Project>
