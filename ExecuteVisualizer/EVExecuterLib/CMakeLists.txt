@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Sql Network Core Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Gui Sql Network Widgets Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -99,18 +99,18 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "./GeneratedFiles"
-        "../../Open"
         "../"
-        "./"
         "./GeneratedFiles/"
+        "./"
+        "../../Open"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "EVEXECUTERLIB_LIB"
-        "UNICODE"
         "QT_LARGEFILE_SUPPORT"
+        "UNICODE"
+        "EVEXECUTERLIB_LIB"
     >
 )
 
@@ -136,21 +136,21 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "./GeneratedFiles"
+        "../"
+        "./GeneratedFiles/"
+        "./"
         "../../Open"
         "../../GeneralSource"
-        "../"
-        "./"
-        "./GeneratedFiles/"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "EVEXECUTERLIB_LIB"
-        "UNICODE"
-        "NDEBUG"
         "QT_NO_DEBUG"
+        "NDEBUG"
         "QT_LARGEFILE_SUPPORT"
+        "UNICODE"
+        "EVEXECUTERLIB_LIB"
     >
 )
 
@@ -163,8 +163,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Gui
     Qt6::Sql
     Qt6::Network
-    Qt6::Core
     Qt6::Widgets
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===

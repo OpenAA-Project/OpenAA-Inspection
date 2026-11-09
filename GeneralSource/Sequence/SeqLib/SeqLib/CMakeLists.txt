@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS SerialPort Gui Network Core Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Gui SerialPort Network Widgets Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -152,25 +152,25 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
-        "../../../../OpenSource/Component"
-        "../../../../PluginDLL/PIO"
         "../../../../GeneralSource/PIO"
-        "../../../../GeneralSource/Sequence"
-        "./"
+        "./GeneratedFiles"
         "../../../../OpenSource/Component/GeneratedFiles"
-        "../../../../Open"
+        "../../../../GeneralSource/Sequence"
         "./GeneratedFiles/"
-        "../../../../GeneralSource"
+        "../../../../OpenSource/Component"
+        "../../../../Open"
+        "./"
         "./GeneratedFiles/$(Configuration)"
+        "../../../../PluginDLL/PIO"
+        "../../../../GeneralSource"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "UNICODE"
-        "SEQLIB_LIB"
         "QT_THREAD_SUPPORT"
+        "SEQLIB_LIB"
     >
 )
 
@@ -196,24 +196,24 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "./GeneratedFiles"
-        "../../../../OpenSource/Component"
-        "../../../../PluginDLL/PIO"
         "../../../../GeneralSource/Sequence"
-        "./"
-        "../../../../Open"
         "./GeneratedFiles/"
-        "../../../../GeneralSource"
+        "../../../../OpenSource/Component"
+        "../../../../Open"
+        "./"
         "./GeneratedFiles/$(Configuration)"
+        "../../../../PluginDLL/PIO"
+        "../../../../GeneralSource"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "UNICODE"
-        "SEQLIB_LIB"
-        "QT_THREAD_SUPPORT"
-        "NDEBUG"
         "QT_NO_DEBUG"
+        "NDEBUG"
+        "UNICODE"
+        "QT_THREAD_SUPPORT"
+        "SEQLIB_LIB"
     >
 )
 
@@ -228,11 +228,11 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::SerialPort
     Qt6::Gui
+    Qt6::SerialPort
     Qt6::Network
-    Qt6::Core
     Qt6::Widgets
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===

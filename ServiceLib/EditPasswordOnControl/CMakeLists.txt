@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Sql Network Core Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Sql Gui Network Widgets Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -105,10 +105,10 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "./GeneratedFiles"
-        "../../Open"
-        "."
         "./GeneratedFiles/"
         "./GeneratedFiles/$(Configuration)"
+        "."
+        "../../Open"
     >
 )
 
@@ -142,20 +142,20 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "./GeneratedFiles"
-        "../../Open"
-        "."
         "./GeneratedFiles/"
         "./GeneratedFiles/$(Configuration)"
+        "."
+        "../../Open"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "QT_NO_DEBUG"
+        "NDEBUG"
         "EDITPASSWORDONCONTROL_LIB"
         "UNICODE"
         "QT_THREAD_SUPPORT"
-        "NDEBUG"
-        "QT_NO_DEBUG"
     >
 )
 
@@ -177,11 +177,11 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
     Qt6::Sql
+    Qt6::Gui
     Qt6::Network
-    Qt6::Core
     Qt6::Widgets
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===

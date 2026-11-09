@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Sql Network Core Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Gui Sql Network Widgets Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -81,8 +81,8 @@ endif()
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "SERVICEEXECUTIONSHADOW_LIB"
         "BUILD_STATIC"
+        "SERVICEEXECUTIONSHADOW_LIB"
     >
 )
 
@@ -116,8 +116,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "SERVICEEXECUTIONSHADOW_LIB"
         "BUILD_STATIC"
+        "SERVICEEXECUTIONSHADOW_LIB"
     >
 )
 
@@ -130,8 +130,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Gui
     Qt6::Sql
     Qt6::Network
-    Qt6::Core
     Qt6::Widgets
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===

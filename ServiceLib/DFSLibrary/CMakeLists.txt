@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Sql Network Core Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Gui Sql Network Widgets Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -84,19 +84,19 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "./GeneratedFiles"
-        "../DFSExplorer"
-        "../../Open"
-        "."
-        "../DFSServer"
         "./GeneratedFiles/"
+        "../DFSServer"
+        "."
+        "../../Open"
+        "../DFSExplorer"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "DFSLIBRARY_LIB"
-        "UNICODE"
         "QT_LARGEFILE_SUPPORT"
+        "UNICODE"
     >
 )
 
@@ -122,21 +122,21 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "./GeneratedFiles"
-        "../DFSExplorer"
-        "../../Open"
-        "."
-        "../DFSServer"
         "./GeneratedFiles/"
+        "../DFSServer"
+        "."
+        "../../Open"
+        "../DFSExplorer"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "DFSLIBRARY_LIB"
-        "UNICODE"
-        "NDEBUG"
         "QT_NO_DEBUG"
+        "NDEBUG"
+        "DFSLIBRARY_LIB"
         "QT_LARGEFILE_SUPPORT"
+        "UNICODE"
     >
 )
 
@@ -149,8 +149,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Gui
     Qt6::Sql
     Qt6::Network
-    Qt6::Core
     Qt6::Widgets
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===

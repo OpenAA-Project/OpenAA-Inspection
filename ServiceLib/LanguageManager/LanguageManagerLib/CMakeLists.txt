@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Sql Core Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Gui Sql Widgets Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -82,20 +82,20 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../EXCEL/include_cpp"
         "./GeneratedFiles"
         "../"
-        "."
-        "../../../Open"
+        "../../EXCEL/include_cpp"
         "./GeneratedFiles/"
+        "../../../Open"
+        "."
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "LANGUAGEMANAGERLIB_LIB"
-        "UNICODE"
         "QT_LARGEFILE_SUPPORT"
+        "UNICODE"
     >
 )
 
@@ -121,22 +121,22 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "./GeneratedFiles"
-        "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/include"
         "../"
-        "."
-        "../../../Open"
+        "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/include"
         "./GeneratedFiles/"
+        "../../../Open"
+        "."
         "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/include/OpenXLSX"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "LANGUAGEMANAGERLIB_LIB"
-        "UNICODE"
-        "NDEBUG"
         "QT_NO_DEBUG"
+        "NDEBUG"
+        "LANGUAGEMANAGERLIB_LIB"
         "QT_LARGEFILE_SUPPORT"
+        "UNICODE"
     >
 )
 
@@ -148,8 +148,8 @@ endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Gui
     Qt6::Sql
-    Qt6::Core
     Qt6::Widgets
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===

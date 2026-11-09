@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Core5Compat Gui Core Xml Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Widgets Core Xml)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -84,10 +84,10 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "./GeneratedFiles"
-        "../../GeneralSource"
-        "../../../Open"
         "./GeneratedFiles/"
+        "../../../Open"
         "../../MTXMLServer/MTXMLLib"
+        "../../GeneralSource"
     >
 )
 
@@ -120,22 +120,22 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
-        "../../../Open"
         "../../../GeneralSource"
+        "./GeneratedFiles"
         "./GeneratedFiles/"
-        "./GeneratedFiles/$(Configuration)"
         "../../../MTXMLServer/MTXMLLib"
+        "../../../Open"
+        "./GeneratedFiles/$(Configuration)"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "QT_NO_DEBUG"
+        "NDEBUG"
         "MTXMLLIB_LIB"
         "UNICODE"
         "QT_THREAD_SUPPORT"
-        "NDEBUG"
-        "QT_NO_DEBUG"
     >
 )
 
@@ -150,11 +150,11 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Core5Compat
     Qt6::Gui
+    Qt6::Core5Compat
+    Qt6::Widgets
     Qt6::Core
     Qt6::Xml
-    Qt6::Widgets
 )
 
 # === Additional Custom Settings ===

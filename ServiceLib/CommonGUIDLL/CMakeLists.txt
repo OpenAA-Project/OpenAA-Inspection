@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Sql Network Core Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Sql Gui Network Widgets Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -141,23 +141,23 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../OpenSource/Component/GeneratedFiles"
         "./GeneratedFiles"
-        "../../Open"
-        "../../GeneralSource"
+        "../../OpenSource/Interbase"
+        "./GeneratedFiles/"
+        "../../OpenSource/Component/GeneratedFiles"
         "../../OpenSource/Component"
         "./"
-        "./GeneratedFiles/"
-        "../../OpenSource/Interbase"
         "./GeneratedFiles/$(Configuration)"
+        "../../Open"
+        "../../GeneralSource"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "COMMONGUIDLL_LIB"
         "UNICODE"
         "QT_THREAD_SUPPORT"
-        "COMMONGUIDLL_LIB"
     >
 )
 
@@ -183,26 +183,26 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "./GeneratedFiles"
+        "../../OpenSource/DisplayImage"
+        "../../OpenSource/Interbase"
+        "../../ServiceLib/CommonGUIDLL"
+        "../../ServiceLib/ServiceLib"
+        "./GeneratedFiles/"
+        "../../OpenSource/Component"
+        "./"
+        "./GeneratedFiles/$(Configuration)"
         "../../Open"
         "../../GeneralSource"
-        "../../ServiceLib/CommonGUIDLL"
-        "../../OpenSource/Component"
-        "../../OpenSource/DisplayImage"
-        "../../ServiceLib/ServiceLib"
-        "./"
-        "./GeneratedFiles/"
-        "../../OpenSource/Interbase"
-        "./GeneratedFiles/$(Configuration)"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "QT_NO_DEBUG"
+        "NDEBUG"
+        "COMMONGUIDLL_LIB"
         "UNICODE"
         "QT_THREAD_SUPPORT"
-        "NDEBUG"
-        "QT_NO_DEBUG"
-        "COMMONGUIDLL_LIB"
     >
 )
 
@@ -224,11 +224,11 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
     Qt6::Sql
+    Qt6::Gui
     Qt6::Network
-    Qt6::Core
     Qt6::Widgets
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
