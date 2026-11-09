@@ -38,9 +38,6 @@
     <ClInclude Include="XAlignmentShiftRotation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AlignmentShiftRotationCommon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="XAlignmentShiftRotationCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>

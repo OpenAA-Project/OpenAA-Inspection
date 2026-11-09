@@ -112,7 +112,6 @@
     <ClCompile Include="XAlignmentShiftRotationCommon.cpp" />
     <ClCompile Include="XAlignmentShiftRotationItem.cpp" />
     <ClCompile Include="XAlignmentShiftRotationLibrary.cpp" />
-    <ClInclude Include="AlignmentShiftRotationCommon.h" />
     <ClInclude Include="alignmentshiftrotation_global.h" />
     <ClInclude Include="AlignmentShiftRotation.h" />
     <ClCompile Include="..\..\Open\AlgorithmCommon.cpp" />

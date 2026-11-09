@@ -269,6 +269,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlignmentShiftRotationImage
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PropertyAlignmentShiftRotation", "PropertyAlignmentShiftRotation\PropertyAlignmentShiftRotation.vcxproj", "{76535EC0-0F53-46E8-BD27-44007D07B709}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EdgeMatching", "EdgeMatching", "{A3E4E442-146E-42F8-B9CE-95C7F81661AA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EdgeMatchingImagePanel", "EdgeMatchingImagePanel\EdgeMatchingImagePanel.vcxproj", "{B4757FC7-CC34-4974-B468-02A5C986848A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EdgeMatchingProperty", "EdgeMatchingProperty\EdgeMatchingProperty.vcxproj", "{4257D09D-A705-45F9-B770-01ECEF91F244}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1047,6 +1053,22 @@ Global
 		{76535EC0-0F53-46E8-BD27-44007D07B709}.Release|Win32.Build.0 = Release|x64
 		{76535EC0-0F53-46E8-BD27-44007D07B709}.Release|x64.ActiveCfg = Release|x64
 		{76535EC0-0F53-46E8-BD27-44007D07B709}.Release|x64.Build.0 = Release|x64
+		{B4757FC7-CC34-4974-B468-02A5C986848A}.Debug|Win32.ActiveCfg = Debug|x64
+		{B4757FC7-CC34-4974-B468-02A5C986848A}.Debug|Win32.Build.0 = Debug|x64
+		{B4757FC7-CC34-4974-B468-02A5C986848A}.Debug|x64.ActiveCfg = Debug|x64
+		{B4757FC7-CC34-4974-B468-02A5C986848A}.Debug|x64.Build.0 = Debug|x64
+		{B4757FC7-CC34-4974-B468-02A5C986848A}.Release|Win32.ActiveCfg = Release|x64
+		{B4757FC7-CC34-4974-B468-02A5C986848A}.Release|Win32.Build.0 = Release|x64
+		{B4757FC7-CC34-4974-B468-02A5C986848A}.Release|x64.ActiveCfg = Release|x64
+		{B4757FC7-CC34-4974-B468-02A5C986848A}.Release|x64.Build.0 = Release|x64
+		{4257D09D-A705-45F9-B770-01ECEF91F244}.Debug|Win32.ActiveCfg = Debug|x64
+		{4257D09D-A705-45F9-B770-01ECEF91F244}.Debug|Win32.Build.0 = Debug|x64
+		{4257D09D-A705-45F9-B770-01ECEF91F244}.Debug|x64.ActiveCfg = Debug|x64
+		{4257D09D-A705-45F9-B770-01ECEF91F244}.Debug|x64.Build.0 = Debug|x64
+		{4257D09D-A705-45F9-B770-01ECEF91F244}.Release|Win32.ActiveCfg = Release|x64
+		{4257D09D-A705-45F9-B770-01ECEF91F244}.Release|Win32.Build.0 = Release|x64
+		{4257D09D-A705-45F9-B770-01ECEF91F244}.Release|x64.ActiveCfg = Release|x64
+		{4257D09D-A705-45F9-B770-01ECEF91F244}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1166,9 +1188,12 @@ Global
 		{DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97} = {5C8385DC-84F4-4F53-9A8C-A3A19310CD18}
 		{126EB524-94CE-48D1-8001-CBB6485C076B} = {DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}
 		{76535EC0-0F53-46E8-BD27-44007D07B709} = {DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}
+		{A3E4E442-146E-42F8-B9CE-95C7F81661AA} = {5C8385DC-84F4-4F53-9A8C-A3A19310CD18}
+		{B4757FC7-CC34-4974-B468-02A5C986848A} = {A3E4E442-146E-42F8-B9CE-95C7F81661AA}
+		{4257D09D-A705-45F9-B770-01ECEF91F244} = {A3E4E442-146E-42F8-B9CE-95C7F81661AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = $(DefaultQtVersion)
 		SolutionGuid = {5D647C56-794B-41C0-B7BB-5DCC9322526A}
+		Qt5Version = $(DefaultQtVersion)
 	EndGlobalSection
 EndGlobal
