@@ -238,7 +238,6 @@
     <ClCompile Include="contec64dll2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CIoLib.h" />
     <ClInclude Include="contec64dll2.h" />
     <ClInclude Include="contec64dll2_global.h" />
   </ItemGroup>

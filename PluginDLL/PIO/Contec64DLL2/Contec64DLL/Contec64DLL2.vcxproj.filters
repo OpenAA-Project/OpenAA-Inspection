@@ -33,9 +33,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CIoLib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="contec64dll2.h">
       <Filter>Header Files</Filter>
     </ClInclude>

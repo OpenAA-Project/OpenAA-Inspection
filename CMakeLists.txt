@@ -3227,11 +3227,11 @@ add_custom_target(PluginDLL_PIO_Contec64DLL_Contec64DLL_build ALL
 )
 add_dependencies(PluginDLL_PIO_Contec64DLL_Contec64DLL_build PluginDLL_Light_LightDLL_LEDControl32_build)
 
-add_custom_target(PluginDLL_PIO_Contec64DLL_2_Contec64DLL_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64DLL-2/Contec64DLL" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64DLL-2/Contec64DLL/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64DLL-2/Contec64DLL/build" --config ${CMAKE_BUILD_TYPE} -- -k
+add_custom_target(PluginDLL_PIO_Contec64DLL2_Contec64DLL_build ALL
+    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64DLL2/Contec64DLL" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64DLL2/Contec64DLL/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64DLL2/Contec64DLL/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building PluginDLL/PIO/Contec64DLL-2/Contec64DLL sequentially..."
+    COMMENT "[Meta-Build] Configuring and Building PluginDLL/PIO/Contec64DLL2/Contec64DLL sequentially..."
 )
 add_dependencies(PluginDLL_PIO_Contec64DLL_2_Contec64DLL_build PluginDLL_PIO_Contec64DLL_Contec64DLL_build)
 

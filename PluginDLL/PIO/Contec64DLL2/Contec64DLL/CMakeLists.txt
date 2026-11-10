@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Core Network Widgets Sql Gui Core5Compat)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core Core5Compat Network Widgets Sql)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -44,7 +44,6 @@ set(PROJECT_SOURCES
 )
 
 set(PROJECT_HEADERS
-    "CIoLib.h"
     "contec64dll2.h"
     "contec64dll2_global.h"
 )
@@ -82,11 +81,11 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
-        "./GeneratedFiles/"
         "../../../../Open"
-        "../../../../PluginDLL/PIO"
+        "./GeneratedFiles/"
         "./GeneratedFiles/$(Configuration)"
+        "../../../../PluginDLL/PIO"
+        "./GeneratedFiles"
     >
 )
 
@@ -98,8 +97,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "QT_THREAD_SUPPORT"
         "CONTEC64DLL2_LIB"
+        "QT_THREAD_SUPPORT"
         "UNICODE"
     >
 )
@@ -153,12 +152,12 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
+        "../../../../Open"
         "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Inc"
         "./GeneratedFiles/"
-        "../../../../Open"
-        "../../../../PluginDLL/PIO"
         "./GeneratedFiles/$(Configuration)"
+        "../../../../PluginDLL/PIO"
+        "./GeneratedFiles"
     >
 )
 
@@ -171,36 +170,20 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_THREAD_SUPPORT"
-        "NDEBUG"
         "CONTEC64DLL2_LIB"
-        "UNICODE"
         "QT_NO_DEBUG"
+        "NDEBUG"
+        "QT_THREAD_SUPPORT"
+        "UNICODE"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"ServiceLib.lib">
         $<$<CONFIG:Release>:"cdio.lib">
+        $<$<CONFIG:Release>:"ServiceLib.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for ServiceLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
-    if(SERVICELIB_SHARED_LIB_RELEASE)
-        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
-        if(SERVICELIB_STATIC_LIB_RELEASE)
-            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for cdio (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(CDIO_SHARED_LIB_RELEASE NAMES cdio PATHS "../../../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
@@ -217,10 +200,26 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for ServiceLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
+    if(SERVICELIB_SHARED_LIB_RELEASE)
+        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
+        if(SERVICELIB_STATIC_LIB_RELEASE)
+            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${CDIO_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -236,12 +235,12 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt6::Gui
     Qt6::Core
+    Qt6::Core5Compat
     Qt6::Network
     Qt6::Widgets
     Qt6::Sql
-    Qt6::Gui
-    Qt6::Core5Compat
 )
 
 # === Additional Custom Settings ===
