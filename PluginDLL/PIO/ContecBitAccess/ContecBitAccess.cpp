@@ -17,10 +17,16 @@
  */
 
 #include "ContecBitAccess.h"
+
+#ifdef _MSC_VER
 #include "windows.h"
+#include "CDio.h"
+#else
+#include "cdio.h"
+#endif
+
 #include "AIP_IO.h"
 #include "math.h"
-#include "CDio.h"
 #include <QStringList>
 #include <QFile>
 #include <QTextStream>

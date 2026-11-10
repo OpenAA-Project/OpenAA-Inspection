@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Core Network Widgets Sql Gui Core5Compat)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -82,10 +82,10 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "./GeneratedFiles"
-        "./../../../Open"
         "./GeneratedFiles/"
-        "./../../../PluginDLL/PIO"
         "."
+        "./../../../Open"
+        "./../../../PluginDLL/PIO"
     >
 )
 
@@ -97,9 +97,9 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "QT_LARGEFILE_SUPPORT"
         "CONTECBITACCESS_LIB"
         "UNICODE"
-        "QT_LARGEFILE_SUPPORT"
     >
 )
 
@@ -153,61 +153,45 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "./GeneratedFiles"
-        "./../../../Open"
-        "./GeneratedFiles/"
-        "./../../../PluginDLL/PIO"
         "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Inc"
+        "./GeneratedFiles/"
         "."
+        "./../../../Open"
+        "./../../../PluginDLL/PIO"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../../Lib/Release"
         "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64"
+        "../../../Lib/Release"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "QT_LARGEFILE_SUPPORT"
         "NDEBUG"
-        "QT_NO_DEBUG"
         "CONTECBITACCESS_LIB"
         "UNICODE"
-        "QT_LARGEFILE_SUPPORT"
+        "QT_NO_DEBUG"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"CDIO.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"cdio.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for CDIO (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(CDIO_SHARED_LIB_RELEASE NAMES CDIO PATHS "../../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
-    if(CDIO_SHARED_LIB_RELEASE)
-        set(CDIO_FINAL_LIB_RELEASE ${CDIO_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(CDIO_STATIC_LIB_RELEASE NAMES libCDIO.a PATHS "../../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
-        if(CDIO_STATIC_LIB_RELEASE)
-            set(CDIO_FINAL_LIB_RELEASE ${CDIO_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(CDIO_FINAL_LIB_RELEASE CDIO)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64" "../../../Lib/Release")
     if(SERVICELIB_SHARED_LIB_RELEASE)
         set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64" "../../../Lib/Release")
         if(SERVICELIB_STATIC_LIB_RELEASE)
             set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
         else()
@@ -216,10 +200,26 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for cdio (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(CDIO_SHARED_LIB_RELEASE NAMES cdio PATHS "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64" "../../../Lib/Release")
+    if(CDIO_SHARED_LIB_RELEASE)
+        set(CDIO_FINAL_LIB_RELEASE ${CDIO_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(CDIO_STATIC_LIB_RELEASE NAMES libcdio.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64" "../../../Lib/Release")
+        if(CDIO_STATIC_LIB_RELEASE)
+            set(CDIO_FINAL_LIB_RELEASE ${CDIO_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(CDIO_FINAL_LIB_RELEASE cdio)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${CDIO_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${CDIO_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -230,12 +230,12 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
-    Qt6::Core5Compat
-    Qt6::Sql
-    Qt6::Widgets
     Qt6::Core
     Qt6::Network
+    Qt6::Widgets
+    Qt6::Sql
+    Qt6::Gui
+    Qt6::Core5Compat
 )
 
 # === Additional Custom Settings ===
