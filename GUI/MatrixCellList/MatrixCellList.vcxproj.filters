@@ -43,13 +43,6 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
-    
-    
-    
-    
     <ClCompile Include="CreateMatrixCellListResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -67,10 +60,10 @@
     <ClInclude Include="..\..\Open\XGUIDLL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    
-    
     <ClInclude Include="CreateMatrixCellListResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMatrixCellPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

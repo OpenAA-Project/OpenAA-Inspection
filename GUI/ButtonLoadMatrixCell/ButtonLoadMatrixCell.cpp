@@ -22,7 +22,7 @@
 #include "XGeneralFunc.h"
 #include <QFileDialog>
 #include "XMacroFunction.h"
-#include "MatrixCellListForm.h"
+#include "XMatrixCellPacket.h"
 #include "XDataInLayer.h"
 #include "XAlgorithmBase.h"
 

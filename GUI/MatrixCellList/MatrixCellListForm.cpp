@@ -27,6 +27,7 @@
 #include "GeneralDisplayWholeImage.h"
 #include "XGeneralStocker.h"
 #include "swap.h"
+#include "XMatrixCellPacket.h"
 
 MatrixCell::~MatrixCell(void)
 {
