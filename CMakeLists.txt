@@ -3555,21 +3555,13 @@ add_custom_target(CopyMultiple_build ALL
 )
 add_dependencies(CopyMultiple_build ServiceLib_LanguageMergeXLSX_build)
 
-add_custom_target(HASP_HaspViewer_HaspViewer_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/HASP/HaspViewer/HaspViewer" -B "${CMAKE_CURRENT_SOURCE_DIR}/HASP/HaspViewer/HaspViewer/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/HASP/HaspViewer/HaspViewer/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building HASP/HaspViewer/HaspViewer sequentially..."
-)
-add_dependencies(HASP_HaspViewer_HaspViewer_build CopyMultiple_build)
-
 add_custom_target(LightingManager_TesterLightDLL_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/LightingManager/TesterLightDLL" -B "${CMAKE_CURRENT_SOURCE_DIR}/LightingManager/TesterLightDLL/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/LightingManager/TesterLightDLL/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building LightingManager/TesterLightDLL sequentially..."
 )
-add_dependencies(LightingManager_TesterLightDLL_build HASP_HaspViewer_HaspViewer_build)
+add_dependencies(LightingManager_TesterLightDLL_build CopyMultiple_build)
 
 add_custom_target(LightingManager_RemoteLightController_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/LightingManager/RemoteLightController" -B "${CMAKE_CURRENT_SOURCE_DIR}/LightingManager/RemoteLightController/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -3643,37 +3635,13 @@ add_custom_target(ServiceLib_ForceRebooter_build ALL
 )
 add_dependencies(ServiceLib_ForceRebooter_build ServiceLib_WatchdogRebooter_build)
 
-add_custom_target(HASP_HaspCereal_1_HaspCereal_1_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/HASP/HaspCereal_1/HaspCereal_1" -B "${CMAKE_CURRENT_SOURCE_DIR}/HASP/HaspCereal_1/HaspCereal_1/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/HASP/HaspCereal_1/HaspCereal_1/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building HASP/HaspCereal_1/HaspCereal_1 sequentially..."
-)
-add_dependencies(HASP_HaspCereal_1_HaspCereal_1_build ServiceLib_ForceRebooter_build)
-
-add_custom_target(HASP_HaspChosaku_2_HaspChosaku_2_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/HASP/HaspChosaku_2/HaspChosaku_2" -B "${CMAKE_CURRENT_SOURCE_DIR}/HASP/HaspChosaku_2/HaspChosaku_2/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/HASP/HaspChosaku_2/HaspChosaku_2/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building HASP/HaspChosaku_2/HaspChosaku_2 sequentially..."
-)
-add_dependencies(HASP_HaspChosaku_2_HaspChosaku_2_build HASP_HaspCereal_1_HaspCereal_1_build)
-
-add_custom_target(HASP_HaspWrite_3_HaspWrite_3_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/HASP/HaspWrite_3/HaspWrite_3" -B "${CMAKE_CURRENT_SOURCE_DIR}/HASP/HaspWrite_3/HaspWrite_3/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/HASP/HaspWrite_3/HaspWrite_3/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building HASP/HaspWrite_3/HaspWrite_3 sequentially..."
-)
-add_dependencies(HASP_HaspWrite_3_HaspWrite_3_build HASP_HaspChosaku_2_HaspChosaku_2_build)
-
 add_custom_target(Messager_DiskManager_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/Messager/DiskManager" -B "${CMAKE_CURRENT_SOURCE_DIR}/Messager/DiskManager/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/Messager/DiskManager/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building Messager/DiskManager sequentially..."
 )
-add_dependencies(Messager_DiskManager_build HASP_HaspWrite_3_HaspWrite_3_build)
+add_dependencies(Messager_DiskManager_build ServiceLib_ForceRebooter_build)
 
 add_custom_target(Data_management_Data_management_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/Data management/Data management" -B "${CMAKE_CURRENT_SOURCE_DIR}/Data management/Data management/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -5499,37 +5467,13 @@ add_custom_target(GUI_ButtonShowResultAnalizer_build ALL
 )
 add_dependencies(GUI_ButtonShowResultAnalizer_build GUI_StartScanningAgain_build)
 
-add_custom_target(HASP_LockStar_LockStarDLL_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/HASP/LockStar/LockStarDLL" -B "${CMAKE_CURRENT_SOURCE_DIR}/HASP/LockStar/LockStarDLL/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/HASP/LockStar/LockStarDLL/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building HASP/LockStar/LockStarDLL sequentially..."
-)
-add_dependencies(HASP_LockStar_LockStarDLL_build GUI_ButtonShowResultAnalizer_build)
-
-add_custom_target(HASP_SentinelHasp_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/HASP/SentinelHasp" -B "${CMAKE_CURRENT_SOURCE_DIR}/HASP/SentinelHasp/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/HASP/SentinelHasp/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building HASP/SentinelHasp sequentially..."
-)
-add_dependencies(HASP_SentinelHasp_build HASP_LockStar_LockStarDLL_build)
-
-add_custom_target(HASP_TrialTerm_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/HASP/TrialTerm" -B "${CMAKE_CURRENT_SOURCE_DIR}/HASP/TrialTerm/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/HASP/TrialTerm/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building HASP/TrialTerm sequentially..."
-)
-add_dependencies(HASP_TrialTerm_build HASP_SentinelHasp_build)
-
 add_custom_target(GUI_ShowTrialInformation_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ShowTrialInformation" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ShowTrialInformation/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ShowTrialInformation/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building GUI/ShowTrialInformation sequentially..."
 )
-add_dependencies(GUI_ShowTrialInformation_build HASP_TrialTerm_build)
+add_dependencies(GUI_ShowTrialInformation_build GUI_ButtonShowResultAnalizer_build)
 
 add_custom_target(ServiceLib_StartCloseOnce_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/ServiceLib/StartCloseOnce" -B "${CMAKE_CURRENT_SOURCE_DIR}/ServiceLib/StartCloseOnce/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -5715,21 +5659,13 @@ add_custom_target(GUI_SavePartialImagePanel_build ALL
 )
 add_dependencies(GUI_SavePartialImagePanel_build Algorithm_SavePartialImage_build)
 
-add_custom_target(HASP_LockStar_MakeLockStarKey_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/HASP/LockStar/MakeLockStarKey" -B "${CMAKE_CURRENT_SOURCE_DIR}/HASP/LockStar/MakeLockStarKey/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/HASP/LockStar/MakeLockStarKey/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building HASP/LockStar/MakeLockStarKey sequentially..."
-)
-add_dependencies(HASP_LockStar_MakeLockStarKey_build GUI_SavePartialImagePanel_build)
-
 add_custom_target(PluginDLL_Camera_CameraXtiumPx8MonoLineTrigger_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumPx8MonoLineTrigger" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumPx8MonoLineTrigger/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumPx8MonoLineTrigger/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building PluginDLL/Camera/CameraXtiumPx8MonoLineTrigger sequentially..."
 )
-add_dependencies(PluginDLL_Camera_CameraXtiumPx8MonoLineTrigger_build HASP_LockStar_MakeLockStarKey_build)
+add_dependencies(PluginDLL_Camera_CameraXtiumPx8MonoLineTrigger_build GUI_SavePartialImagePanel_build)
 
 add_custom_target(GUI_ButtonShadowToShow_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ButtonShadowToShow" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ButtonShadowToShow/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -5747,21 +5683,13 @@ add_custom_target(ShadowTree_ShrinkedInspection_build ALL
 )
 add_dependencies(ShadowTree_ShrinkedInspection_build GUI_ButtonShadowToShow_build)
 
-add_custom_target(HASP_ActivatedLicense_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/HASP/ActivatedLicense" -B "${CMAKE_CURRENT_SOURCE_DIR}/HASP/ActivatedLicense/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/HASP/ActivatedLicense/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building HASP/ActivatedLicense sequentially..."
-)
-add_dependencies(HASP_ActivatedLicense_build ShadowTree_ShrinkedInspection_build)
-
 add_custom_target(ResultAnalizer_ResultCategorizer_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/ResultAnalizer/ResultCategorizer" -B "${CMAKE_CURRENT_SOURCE_DIR}/ResultAnalizer/ResultCategorizer/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/ResultAnalizer/ResultCategorizer/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building ResultAnalizer/ResultCategorizer sequentially..."
 )
-add_dependencies(ResultAnalizer_ResultCategorizer_build HASP_ActivatedLicense_build)
+add_dependencies(ResultAnalizer_ResultCategorizer_build ShadowTree_ShrinkedInspection_build)
 
 add_custom_target(GUI_DisplayNGListCategorized_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/DisplayNGListCategorized" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/DisplayNGListCategorized/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -6691,21 +6619,13 @@ add_custom_target(GUI_ButtonUpdateAllByHistogram_build ALL
 )
 add_dependencies(GUI_ButtonUpdateAllByHistogram_build PluginDLL_Camera_CameraQtUSBStandard_build)
 
-add_custom_target(HASP_LicenseKey_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/HASP/LicenseKey" -B "${CMAKE_CURRENT_SOURCE_DIR}/HASP/LicenseKey/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/HASP/LicenseKey/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building HASP/LicenseKey sequentially..."
-)
-add_dependencies(HASP_LicenseKey_build GUI_ButtonUpdateAllByHistogram_build)
-
 add_custom_target(GUI_ShowFPSInCamera_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ShowFPSInCamera" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ShowFPSInCamera/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ShowFPSInCamera/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building GUI/ShowFPSInCamera sequentially..."
 )
-add_dependencies(GUI_ShowFPSInCamera_build HASP_LicenseKey_build)
+add_dependencies(GUI_ShowFPSInCamera_build GUI_ButtonUpdateAllByHistogram_build)
 
 add_custom_target(GUI_RecordMoiveWinExe_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/RecordMoiveWinExe" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/RecordMoiveWinExe/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
