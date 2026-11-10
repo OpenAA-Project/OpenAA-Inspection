@@ -569,7 +569,7 @@ ExeResult	BCRInspectionBase::ExecuteInitialAfterEdit		(int ExeID ,ResultBaseForA
 		if (!ortLib.load()) {
 		    // QLibrary::errorString() を使うと、ロードに失敗した具体的な理由（依存ライブラリ不足など）が出力されます
 		    qDebug() << "Failed to load onnxruntime library (and its dependencies):" << ortLib.errorString();
-		    return;
+		    return _ER_false;
 		}
 		
 		// 関数のアドレスを取得（GetProcAddress に相当）
@@ -579,7 +579,7 @@ ExeResult	BCRInspectionBase::ExecuteInitialAfterEdit		(int ExeID ,ResultBaseForA
 		if (!pOrtGetApiBase) {
 		    qDebug() << "Failed to find OrtGetApiBase in onnxruntime library:" << ortLib.errorString();
 		    ortLib.unload(); // FreeLibrary に相当
-		    return;
+		    return _ER_false;
 		}
 
 

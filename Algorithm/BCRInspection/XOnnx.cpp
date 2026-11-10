@@ -5,7 +5,9 @@
 #include <QDir>
 #include <omp.h> // Required for OpenMP
 #include "XDataInLayer.h"
+#ifdef Q_OS_WIN
 #include <windows.h>
+#endif
 
 BarcodeEnhancer::BarcodeEnhancer(LayersBase *base,const QString& modelPath,const QString& ONNXSystemPath, bool useCUDA)
     : ServiceForLayers(base),
@@ -13,11 +15,20 @@ BarcodeEnhancer::BarcodeEnhancer(LayersBase *base,const QString& modelPath,const
       m_memoryInfo(Ort::MemoryInfo::CreateCpu(OrtArenaAllocator, OrtMemTypeDefault))
 {
 	DllPath = GetLayersBase()->GetSystemPath() +QDir::separator()+ ONNXSystemPath;
-	wchar_t	dllPathName[1024];
-	memset(dllPathName,0,sizeof(dllPathName));
-	DllPath.toWCharArray(dllPathName);
-	SetDllDirectoryW(dllPathName);
-
+#ifdef Q_OS_WIN
+    wchar_t dllPathName[1024];
+    memset(dllPathName, 0, sizeof(dllPathName));
+    DllPath.toWCharArray(dllPathName);
+    SetDllDirectoryW(dllPathName);
+#else
+    // Linux等の場合、LD_LIBRARY_PATHを実行時に上書きして検索パスを追加する
+    QByteArray currentLdPath = qgetenv("LD_LIBRARY_PATH");
+    QByteArray newLdPath = DllPath.toUtf8();
+    if (!currentLdPath.isEmpty()) {
+        newLdPath = currentLdPath + ":" + newLdPath; // 既存のパスがある場合はコロンで結合
+    }
+    qputenv("LD_LIBRARY_PATH", newLdPath);
+#endif
 
     // Suppress unnecessary CPU thread creation
     m_sessionOptions.SetIntraOpNumThreads(1);
@@ -56,7 +67,7 @@ BarcodeEnhancer::BarcodeEnhancer(LayersBase *base,const QString& modelPath,const
     }
 
     // Safely convert model path via std::wstring
-#ifdef _WIN32
+#ifdef Q_OS_WIN
     const wchar_t* final_model_path = reinterpret_cast<const wchar_t*>(modelPath.utf16());
 #else
     const char* final_model_path = modelPath.toStdString().c_str();
@@ -77,7 +88,12 @@ BarcodeEnhancer::BarcodeEnhancer(LayersBase *base,const QString& modelPath,const
     m_outputName = m_session.GetOutputNameAllocated(0, allocator).get();
     m_outputNames.push_back(m_outputName.c_str());
 
+#ifdef Q_OS_WIN
     SetDllDirectoryW(NULL);
+#else
+    // Linuxの場合は元に戻す
+    qputenv("LD_LIBRARY_PATH", currentLdPath);
+#endif
 }
 
 BarcodeEnhancer::~BarcodeEnhancer()
@@ -91,10 +107,19 @@ std::vector<QImage> BarcodeEnhancer::enhanceBatch(const std::vector<QImage>& inp
     // Execute enhancement in parallel.
     // Ort::Session::Run is inherently thread-safe for inference tasks.
     
-	wchar_t	dllPathName[1024];
-	memset(dllPathName,0,sizeof(dllPathName));
-	DllPath.toWCharArray(dllPathName);
-	SetDllDirectoryW(dllPathName);
+#ifdef Q_OS_WIN
+    wchar_t dllPathName[1024];
+    memset(dllPathName, 0, sizeof(dllPathName));
+    DllPath.toWCharArray(dllPathName);
+    SetDllDirectoryW(dllPathName);
+#else
+    QByteArray currentLdPath = qgetenv("LD_LIBRARY_PATH");
+    QByteArray newLdPath = DllPath.toUtf8();
+    if (!currentLdPath.isEmpty()) {
+        newLdPath = currentLdPath + ":" + newLdPath;
+    }
+    qputenv("LD_LIBRARY_PATH", newLdPath);
+#endif
 
     int Len=inputImages.size();
     if(Len==1){
@@ -106,7 +131,11 @@ std::vector<QImage> BarcodeEnhancer::enhanceBatch(const std::vector<QImage>& inp
             outputImages[i] = enhance(inputImages[i]);
         }
     }
+#ifdef Q_OS_WIN
     SetDllDirectoryW(NULL);
+#else
+    qputenv("LD_LIBRARY_PATH", currentLdPath);
+#endif
     return outputImages;
 }
 
