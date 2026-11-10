@@ -18,12 +18,15 @@
 
 #ifdef _MSC_VER
 #include "windows.h"
+#include "CDio.h"
+#else
+#include "cdio.h"
 #endif
 
 #include "contec64dll.h"
 #include "AIP_IO.h"
 #include "math.h"
-#include "CDio.h"
+
 #include <QStringList>
 #include <QFile>
 #include <QTextStream>
@@ -34,6 +37,7 @@
 //#define	PIO_NAME	"IOLIB_PIO64"
 #define	PIO_NAME	"IOLIB_PIO32"
 //#define	PIO_NAME	"IOLIB_PIO16"
+
 
 class	PIOHandle :public PIODLLBaseClass
 {
