@@ -15,32 +15,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-#include "DesktopMachineMenuResource.h"
-
 #include "NextMasterForm.h"
+#include "ui_NextMasterForm.h"
 #include "XGeneralFunc.h"
 
 NextMasterForm::NextMasterForm(LayersBase *base, QWidget *parent)
-	: QDialog(parent),ServiceForLayers(base)
+    : QDialog(parent),ServiceForLayers(base)
+    , ui(new Ui::NextMasterForm)
 {
-	ui.setupUi(this);
+    ui->setupUi(this);
 	SetWidgetCenter(this);
 	InstallOperationLog(this);
 }
 
 NextMasterForm::~NextMasterForm()
 {
-
+    delete ui;
 }
-
 
 void NextMasterForm::on_pushButtonStartNext_clicked()
 {
 	done((int)true);
 }
 
+
 void NextMasterForm::on_pushButtonFinish_clicked()
 {
 	done((int)false);
 }
+

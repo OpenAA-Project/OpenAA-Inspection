@@ -37,9 +37,6 @@
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NextMasterForm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\StartCaptureButton\StartCaptureButtonForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,8 +55,8 @@
     <ClCompile Include="..\StartCaptureButton\XPushCmdPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="generatedfiles\qrc_DesktopMachineMenu.cpp">
-      <Filter>Generated Files</Filter>
+    <ClCompile Include="NextMasterForm.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,10 +72,10 @@
     <ClInclude Include="..\StartCaptureButton\XPushCmdPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="generatedfiles\ui_NextMasterForm.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="DesktopMachineMenuResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NextMasterForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -94,16 +91,10 @@
     <QtMoc Include="DesktopStartStatisticScan.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="NextMasterForm.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\StartCaptureButton\StartCaptureButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtUic Include="DesktopMachineMenuProperty.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="NextMasterForm.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtRcc Include="DesktopMachineMenu.qrc">
@@ -112,5 +103,10 @@
     <QtMoc Include="..\StartInspectionButton\StartInspectionButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="NextMasterForm.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

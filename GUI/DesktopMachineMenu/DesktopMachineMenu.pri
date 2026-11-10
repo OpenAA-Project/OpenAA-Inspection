@@ -14,20 +14,17 @@ HEADERS += ./DesktopMachineMenu.h \
     ../StartCaptureButton/XPushCmdPacket.h \
     ./DesktopMachineMenuProperty.h \
     ./DesktopStartStatisticScan.h \
-    ./NextMasterForm.h \
     ../StartCaptureButton/StartCaptureButton.h \
     ../StartInspectionButton/StartInspectionButton.h
 SOURCES += ./DesktopMachineMenu.cpp \
     ./DesktopMachineMenuProperty.cpp \
     ./DesktopStartStatisticScan.cpp \
     ../../Open/GUIDllCommon.cpp \
-    ./NextMasterForm.cpp \
     ../StartCaptureButton/StartCaptureButtonForm.cpp \
     ../StartInspectionButton/StartInspectionButtonForm.cpp \
     ../StartInspectionButton/StartInspectionButtonFormResource.cpp \
     ../StartStatisticScanButton/StartStatisticScanBase.cpp \
     ../../Open/SystemVersion.cpp \
     ../StartCaptureButton/XPushCmdPacket.cpp
-FORMS += ./DesktopMachineMenuProperty.ui \
-    ./NextMasterForm.ui
+FORMS += ./DesktopMachineMenuProperty.ui
 RESOURCES += DesktopMachineMenu.qrc

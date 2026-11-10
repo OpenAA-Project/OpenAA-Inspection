@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>NextMasterFormClass</class>
- <widget class="QDialog" name="NextMasterFormClass">
+ <class>NextMasterForm</class>
+ <widget class="QDialog" name="NextMasterForm">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>348</width>
-    <height>146</height>
+    <width>330</width>
+    <height>118</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>NextMasterForm</string>
+   <string>Dialog</string>
   </property>
+  <widget class="QPushButton" name="pushButtonFinish">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>60</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>登録終了</string>
+   </property>
+   <property name="icon">
+    <iconset resource="DesktopMachineMenu.qrc">
+     <normaloff>:/Qtres/Close.png</normaloff>:/Qtres/Close.png</iconset>
+   </property>
+  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>30</y>
+     <x>0</x>
+     <y>0</y>
      <width>331</width>
      <height>31</height>
     </rect>
@@ -25,7 +42,6 @@
    <property name="font">
     <font>
      <pointsize>16</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -39,8 +55,8 @@
   <widget class="QPushButton" name="pushButtonStartNext">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>90</y>
+     <x>30</x>
+     <y>60</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -56,25 +72,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButtonFinish">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>90</y>
-     <width>91</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>登録終了</string>
-   </property>
-   <property name="icon">
-    <iconset resource="DesktopMachineMenu.qrc">
-     <normaloff>:/Qtres/Close.png</normaloff>:/Qtres/Close.png</iconset>
-   </property>
-  </widget>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
  <resources>
   <include location="DesktopMachineMenu.qrc"/>
  </resources>

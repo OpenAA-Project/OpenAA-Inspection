@@ -304,16 +304,16 @@
     <ClCompile Include="DesktopMachineMenuProperty.cpp" />
     <ClCompile Include="DesktopStartStatisticScan.cpp" />
     <ClCompile Include="..\..\Open\GUIDllCommon.cpp" />
-    <ClCompile Include="NextMasterForm.cpp" />
     <ClCompile Include="..\StartCaptureButton\StartCaptureButtonForm.cpp" />
     <ClCompile Include="..\StartInspectionButton\StartInspectionButtonForm.cpp" />
     <ClCompile Include="..\StartInspectionButton\StartInspectionButtonFormResource.cpp" />
     <ClCompile Include="..\StartStatisticScanButton\StartStatisticScanBase.cpp" />
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="..\StartCaptureButton\XPushCmdPacket.cpp" />
-    <ClCompile Include="generatedfiles\qrc_DesktopMachineMenu.cpp" />
+    <ClCompile Include="NextMasterForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NextMasterForm.h" />
     <QtMoc Include="..\StartInspectionButton\StartInspectionButton.h" />
     <ClInclude Include="DesktopMachineMenu.h" />
     <ClInclude Include="DesktopMachineMenuResource.h" />
@@ -326,26 +326,20 @@
       <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
       <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
     </QtMoc>
-    <QtMoc Include="NextMasterForm.h">
-      <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
-      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
-    </QtMoc>
     <QtMoc Include="..\StartCaptureButton\StartCaptureButton.h">
       <QtMocDir>.\GeneratedFiles\$(Configuration)</QtMocDir>
       <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
     </QtMoc>
     <ClInclude Include="..\StartStatisticScanButton\StartStatisticScanBase.h" />
     <ClInclude Include="..\StartCaptureButton\XPushCmdPacket.h" />
-    <ClInclude Include="generatedfiles\ui_NextMasterForm.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="DesktopMachineMenuProperty.ui">
     </QtUic>
-    <QtUic Include="NextMasterForm.ui">
-    </QtUic>
     <None Include="Resources\DesktopMachineMenu.png" />
     <QtRcc Include="DesktopMachineMenu.qrc">
     </QtRcc>
+    <QtUic Include="NextMasterForm.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
