@@ -3233,7 +3233,7 @@ add_custom_target(PluginDLL_PIO_Contec64DLL2_Contec64DLL_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building PluginDLL/PIO/Contec64DLL2/Contec64DLL sequentially..."
 )
-add_dependencies(PluginDLL_PIO_Contec64DLL_2_Contec64DLL_build PluginDLL_PIO_Contec64DLL_Contec64DLL_build)
+add_dependencies(PluginDLL_PIO_Contec64DLL2_Contec64DLL_build PluginDLL_PIO_Contec64DLL_Contec64DLL_build)
 
 add_custom_target(PluginDLL_PIO_Contec64Multi_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64Multi" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64Multi/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -3241,7 +3241,7 @@ add_custom_target(PluginDLL_PIO_Contec64Multi_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building PluginDLL/PIO/Contec64Multi sequentially..."
 )
-add_dependencies(PluginDLL_PIO_Contec64Multi_build PluginDLL_PIO_Contec64DLL_2_Contec64DLL_build)
+add_dependencies(PluginDLL_PIO_Contec64Multi_build PluginDLL_PIO_Contec64DLL2_Contec64DLL_build)
 
 add_custom_target(PluginDLL_PIO_NetworkContec64_PIOClient_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/NetworkContec64/PIOClient" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/NetworkContec64/PIOClient/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
