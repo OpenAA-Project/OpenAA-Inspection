@@ -16,7 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "windows.h"
 #include "AIP_IO.h"
 #include "math.h"
 #include <QStringList>
