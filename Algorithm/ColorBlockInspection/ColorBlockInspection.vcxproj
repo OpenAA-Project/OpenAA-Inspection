@@ -204,7 +204,7 @@
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\Algorithm\ColorBlockInspection;..\..\GUI\PropertyColorBlock\GeneratedFiles;..\..\GUI\PropertyColorBlock;..\..\GUI\ImageControlTools;..\..\Open;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\Algorithm\ColorBlockInspection;..\..\GUI\ImageControlTools;..\..\Open;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;COLORBLOCKINSPECTION_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -426,6 +426,7 @@
     </QtMoc>
     <ClInclude Include="XColorBlockAlgoPacket.h" />
     <ClInclude Include="XColorBlockInspection.h" />
+    <ClInclude Include="XColorBlockInspectionCommon.h" />
     <ClInclude Include="XColorBlockLibrary.h" />
     <ClInclude Include="..\..\Open\XDLLOnly.h" />
     <ClInclude Include="..\..\Open\XDLLType.h" />

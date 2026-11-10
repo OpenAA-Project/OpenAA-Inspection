@@ -29,7 +29,6 @@
 #include "XImageProcess.h"
 #include <omp.h>
 #include "XPieceArchitect.h"
-#include "XPropertyTrueColorBlockPacket.h"
 #include "TrueColorChangeCreateBlockForm.h"
 #include "XMaskingFromGeneral.h"
 #include "XTrueColorBlockAlgoPacket.h"

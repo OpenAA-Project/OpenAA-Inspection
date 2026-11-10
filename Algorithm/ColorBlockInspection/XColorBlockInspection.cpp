@@ -26,7 +26,6 @@
 #include "XGUI.h"
 #include "XPointer.h"
 #include "XColorBlockLibrary.h"
-#include "XPropertyColorBlockPacket.h"
 #include "XDisplayBitImage.h"
 #include "XImageProcess.h"
 #include <omp.h>

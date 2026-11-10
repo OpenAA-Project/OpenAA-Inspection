@@ -117,6 +117,9 @@
     <ClInclude Include="XColorBlockAlgoPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="XColorBlockInspectionCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ColorChangeCreateBlockForm.h">

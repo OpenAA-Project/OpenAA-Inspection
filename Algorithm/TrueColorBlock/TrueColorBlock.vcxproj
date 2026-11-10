@@ -197,7 +197,7 @@
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\ServiceLib\CommonGUIDLL;..\..\GUI\PropertyTrueColorBlock;..\..\GUI\ImageControlTools;..\..\Open;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;..\..\OpenSource\Component;..\..\OpenSource\DisplayImage;..\..\ServiceLib\CommonGUIDLL;..\..\GUI\ImageControlTools;..\..\Open;.\GeneratedFiles\$(Configuration);.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;TRUECOLORBLOCK_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -399,6 +399,7 @@
     <ClCompile Include="XTrueColorNGAnalyze.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="XTrueColorCommon.h" />
     <QtMoc Include="NGTypeDialog.h">
     </QtMoc>
     <ClInclude Include="TrueColorBlock.h" />

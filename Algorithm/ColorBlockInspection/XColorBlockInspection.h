@@ -28,9 +28,9 @@
 #include "XColorSpace.h"
 #include "XDataModelPageItem.h"
 #include "XAlgorithmLibrary.h"
-#include "XPropertyColorBlockPacket.h"
 #include "XColorBlockLibrary.h"
 #include "XStandardCommand.h"
+#include "XColorBlockInspectionCommon.h"
 
 #define	ColorBlockInspectionVersion	10004
 

@@ -27,7 +27,7 @@
 #include "XTrueColorBlockLibrary.h"
 #include "XServiceForLayers.h"
 #include "XGeneralFunc.h"
-
+#include "XTrueColorCommon.h"
 
 class	GUICmdPickupTestList : public GUICmdPacketBase
 {
@@ -71,24 +71,6 @@ public:
 };
 
 
-class	CmdTrueColorBlockDrawModePacket : public GUIDirectMessage
-{
-public:
-	enum	DrawMode{
-		_None
-		,_LibTest
-		,_CreatedBlock
-	}Mode;
-	enum	DrawType{
-		_Area
-		,_Edge
-		,_Inside
-	}DType;
-
-	CmdTrueColorBlockDrawModePacket(LayersBase *base):GUIDirectMessage(base){}
-	CmdTrueColorBlockDrawModePacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
-};
-
 class	TrueColorBlockImagePanel;
 class	CmdTrueColorBlockDrawEnd : public GUIDirectMessage
 {
@@ -110,77 +92,6 @@ public:
 	CmdTrueColorBlockShowAttrPacket(LayersBase *base):GUIDirectMessage(base){}
 	CmdTrueColorBlockShowAttrPacket(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
-
-class	TrueColorBlockDrawAttr : public AlgorithmDrawAttr , public ServiceForLayers
-{
-public:
-	CmdTrueColorBlockDrawModePacket::DrawMode	Mode;
-	CmdTrueColorBlockDrawModePacket::DrawType	DType;
-	QColor		ColorPickup	;
-	QColor		BlockColor0;
-	QColor		BlockColor1;
-	QColor		BlockColor2;
-	QColor		BlockColor3;
-	QColor		BlockColor4;
-	QColor		BlockColor5;
-	QColor		BlockColor6;
-	QColor		BlockColor7;
-
-	TrueColorBlockDrawAttr(void):ServiceForLayers(NULL){}
-	TrueColorBlockDrawAttr(LayersBase *Base,QColor ncol,QColor scol ,QColor acol);
-	TrueColorBlockDrawAttr(LayersBase *Base
-				, QColor ncol ,int ntranparentLevel
-				, QColor scol ,int stranparentLevel
-				, QColor acol ,int atranparentLevel
-				, QColor pickupcol ,int ptranparentLevel
-				, QColor &blockColor0
-				, QColor &blockColor1
-				, QColor &blockColor2
-				, QColor &blockColor3
-				, QColor &blockColor4
-				, QColor &blockColor5
-				, QColor &blockColor6
-				, QColor &blockColor7);
-
-	void	Initial(void);
-
-	TrueColorBlockDrawAttr	&operator=(TrueColorBlockDrawAttr &src);
-	virtual	bool	Save(QIODevice *f);
-	virtual	bool	Load(QIODevice *f);
-};
-
-inline	TrueColorBlockDrawAttr	&TrueColorBlockDrawAttr::operator=(TrueColorBlockDrawAttr &src)
-{
-	AlgorithmDrawAttr::operator=(*((AlgorithmDrawAttr *)&src));
-	ServiceForLayers::Copy(this);
-	Mode		=src.Mode;
-	ColorPickup	=src.ColorPickup;
-	BlockColor0	=src.BlockColor0;
-	BlockColor1	=src.BlockColor1;
-	BlockColor2	=src.BlockColor2;
-	BlockColor3	=src.BlockColor3;
-	BlockColor4	=src.BlockColor4;
-	BlockColor5	=src.BlockColor5;
-	BlockColor6	=src.BlockColor6;
-	BlockColor7	=src.BlockColor7;
-	return *this;
-}
-inline	bool	TrueColorBlockDrawAttr::Save(QIODevice *f)
-{
-	if(f->write((const char *)&Mode,sizeof(Mode))!=sizeof(Mode))
-		return false;
-	if(::Save(f,ColorPickup)==false)
-		return false;
-	return true;
-}
-inline	bool	TrueColorBlockDrawAttr::Load(QIODevice *f)
-{
-	if(f->read((char *)&Mode,sizeof(Mode))!=sizeof(Mode))
-		return false;
-	if(::Load(f,ColorPickup)==false)
-		return false;
-	return true;
-}
 
 class	GUICmdReqAreaHistgramInMaster : public GUICmdPacketBase
 {
@@ -291,34 +202,6 @@ public:
 };
 
 //==========================================================================
-class	TrueColorBlockInfoList : public NPList<TrueColorBlockInfoList>
-{
-public:
-	int		LibID;
-	IntList	TrueColorBlockCount;
-
-	int		GetLibID(void){		return LibID;	}
-	bool	Save(QIODevice *f);
-	bool	Load(QIODevice *f);
-};
-
-inline	bool	TrueColorBlockInfoList::Save(QIODevice *f)
-{
-	if(::Save(f,LibID)==false)
-		return false;
-	if(TrueColorBlockCount.Save(f)==false)
-		return false;
-	return true;
-}
-inline	bool	TrueColorBlockInfoList::Load(QIODevice *f)
-{
-	if(::Load(f,LibID)==false)
-		return false;
-	if(TrueColorBlockCount.Load(f)==false)
-		return false;
-	return true;
-}
-
 
 
 class	GUICmdReqTrueColorBlockInfoList : public GUICmdPacketBase

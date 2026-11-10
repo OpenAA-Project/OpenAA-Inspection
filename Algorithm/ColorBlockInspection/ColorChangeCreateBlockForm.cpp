@@ -19,10 +19,10 @@
 #include "ColorBlockFormResource.h"
 #include "ColorChangeCreateBlockForm.h"
 #include "XDLLOnly.h"
-#include "ColorSelectBlockLibraryForm.h"
 #include "ImageControlTools.h"
 #include "XGUI.h"
 #include "XGeneralDialog.h"
+#include "XColorBlockInspectionCommon.h"
 
 ColorChangeCreateBlockForm::ColorChangeCreateBlockForm(ColorBlockBase *base ,QWidget *parent)
 	: QDialog(parent),ServiceForLayers(base->GetLayersBase())

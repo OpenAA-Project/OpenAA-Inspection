@@ -28,8 +28,8 @@
 #include "XColorSpace.h"
 #include "XDataModelPageItem.h"
 #include "XAlgorithmLibrary.h"
-#include "XPropertyTrueColorBlockPacket.h"
 #include "XStandardCommand.h"
+#include "XTrueColorCommon.h"
 
 #define	TrueColorBlockVersion	20004
 
@@ -39,6 +39,7 @@ class	XAlignmentArea;
 class	TrueColorBlockLibrary;
 class	TrueColorBlockBase;
 class	TrueColorBlockItem;
+class	TrueColorBlockLibNGTypeItem;
 
 class	ShowAndSetItemsTrueColor : public ShowAndSetItemsBaseClass
 {

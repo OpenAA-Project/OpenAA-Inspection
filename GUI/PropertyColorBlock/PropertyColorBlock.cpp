@@ -24,6 +24,8 @@
 #include "XDisplayImagePacket.h"
 #include "XDisplaySimPanel.h"
 #include "XGUIPacketGeneral.h"
+#include "XColorBlockInspectionCommon.h"
+#include "XPropertyColorBlockPacket.h"
 
 const	char	*sRoot=/**/"Button";
 const	char	*sName=/**/"PropertyColorBlockForm";
@@ -48,20 +50,20 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 	//new GUICmdAddLimitedMask(QString(sRoot),QString(sName));
 	Q_INIT_RESOURCE(ServiceLib);
 
-	(*Base)=new GUICmdPickupTestList					(Base, QString(sRoot), QString(sName));
+	(*Base)=new GUICmdPickupTestList				(Base, QString(sRoot), QString(sName));
 	(*Base)=new GUICmdTestClear						(Base, QString(sRoot), QString(sName));
-	(*Base)=new GUICmdGenerateColorBlocks				(Base, QString(sRoot), QString(sName));
-	(*Base)=new GUICmdReqAreaHistgramInMaster			(Base, QString(sRoot), QString(sName));
+	(*Base)=new GUICmdGenerateColorBlocks			(Base, QString(sRoot), QString(sName));
+	(*Base)=new GUICmdReqAreaHistgramInMaster		(Base, QString(sRoot), QString(sName));
 	(*Base)=new GUICmdSendAreaHistgramInMaster		(Base, QString(sRoot), QString(sName));
-	(*Base)=new GUICmdSendAddManualColorBlock			(Base, QString(sRoot), QString(sName));
+	(*Base)=new GUICmdSendAddManualColorBlock		(Base, QString(sRoot), QString(sName));
 	(*Base)=new GUICmdSendModifySelectedColorBlock	(Base, QString(sRoot), QString(sName));
 	(*Base)=new GUICmdReqSelectedColorBlockItemAttr	(Base, QString(sRoot), QString(sName));
-	(*Base)=new GUICmdSendSelectedColorBlockItemAttr	(Base, QString(sRoot), QString(sName));
+	(*Base)=new GUICmdSendSelectedColorBlockItemAttr(Base, QString(sRoot), QString(sName));
 	(*Base)=new GUICmdReqColorBlockInfoList			(Base, QString(sRoot), QString(sName));
-	(*Base)=new GUICmdSendColorBlockInfoList			(Base, QString(sRoot), QString(sName));
+	(*Base)=new GUICmdSendColorBlockInfoList		(Base, QString(sRoot), QString(sName));
 	(*Base)=new GUICmdReqColorBlockFromList			(Base, QString(sRoot), QString(sName));
 	(*Base)=new GUICmdAckColorBlockFromList			(Base, QString(sRoot), QString(sName));
-	(*Base)=new GUICmdReleaseSelectImagePanel			(Base, QString(sRoot), QString(sName));
+	(*Base)=new GUICmdReleaseSelectImagePanel		(Base, QString(sRoot), QString(sName));
 	(*Base)=new GUICmdReqSetButtonMode				(Base, QString(sRoot), QString(sName));
 
 	(*Base)=new GUICmdReqDSimPanelImage	(Base, QString(sRoot), QString(sName));

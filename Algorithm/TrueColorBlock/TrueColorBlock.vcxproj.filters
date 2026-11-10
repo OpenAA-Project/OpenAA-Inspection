@@ -76,18 +76,9 @@
     <ClCompile Include="XTrueColorBlockResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
-    
-    
-    
     <ClCompile Include="XTrueColorBlockAlgoPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="NGTypeDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -97,7 +88,6 @@
     <ClCompile Include="XTrueColorNGAnalyze.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TrueColorBlock.h">
@@ -124,13 +114,12 @@
     <ClInclude Include="XTrueColorBlockResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    
-    
     <ClInclude Include="XTrueColorBlockAlgoPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
+    <ClInclude Include="XTrueColorCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="TrueColorChangeCreateBlockForm.h">
