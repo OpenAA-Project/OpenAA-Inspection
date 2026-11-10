@@ -194,7 +194,7 @@
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>CDIO.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cdio.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(OpenAAUseLibrary)\CONTEC\DIO\DIOWDM\Sample\Lib_amd64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>

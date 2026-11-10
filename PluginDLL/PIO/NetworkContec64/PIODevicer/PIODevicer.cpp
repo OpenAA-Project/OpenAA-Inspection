@@ -18,8 +18,14 @@
 
 #include "PIODevicer.h"
 #include "NetworkPIO.h"
+
+#ifdef _MSC_VER
 #include "windows.h"
 #include "CDio.h"
+#else
+#include "cdio.h"
+#endif
+
 
 
 ClientSocket::ClientSocket(PIODevicer *parent)
