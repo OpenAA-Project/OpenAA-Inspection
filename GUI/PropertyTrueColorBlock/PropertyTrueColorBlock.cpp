@@ -23,6 +23,7 @@
 #include "XDisplayImage.h"
 #include "XDisplayImagePacket.h"
 #include "XGUIPacketGeneral.h"
+#include "XPropertyTrueColorBlockPacket.h"
 
 const	char	*sRoot=/**/"Button";
 const	char	*sName=/**/"PropertyTrueColorBlockForm";

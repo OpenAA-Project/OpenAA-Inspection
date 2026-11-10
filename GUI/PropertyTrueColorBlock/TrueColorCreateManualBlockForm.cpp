@@ -21,6 +21,7 @@
 #include "TrueColorCreateManualBlockForm.h"
 #include "XDLLOnly.h"
 #include "XTrueColorBlock.h"
+#include "XTrueColorBlockLibrary.h"
 #include <QMessageBox>
 #include "XGeneralDialog.h"
 
