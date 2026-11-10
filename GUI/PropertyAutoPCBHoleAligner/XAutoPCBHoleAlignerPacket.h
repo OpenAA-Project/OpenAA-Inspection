@@ -21,7 +21,7 @@
 #define XAutoPCBHoleAlignerPACKET_H
 
 #include "XGUIFormBase.h"
-#include "ui_PropertyAutoPCBHoleAlignerForm.h"
+//#include "ui_PropertyAutoPCBHoleAlignerForm.h"
 #include "XAutoPCBHoleAligner.h"
 
 
