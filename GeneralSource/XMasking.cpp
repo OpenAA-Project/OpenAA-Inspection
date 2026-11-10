@@ -20,7 +20,6 @@
 #include "XMasking.h"
 #include "XPointer.h"
 #include "XImageProcess.h"
-#include "SelectLibraryInMaskForm.h"
 #include "XGeneralDialog.h"
 #include "XGeneralFunc.h"
 #include "XMaskingFromGeneral.h"
@@ -31,6 +30,7 @@
 #include "XMaskingLibrary.h"
 #include "XBitImageProcessor.h"
 #include "XFlexAreaHough.h"
+#include "SelectLibraryInMaskForm.h"
 
 static	void	GenerateMask(LayersBase *Base
 						,BYTE **BMap ,int iXByte ,int YLen

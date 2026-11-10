@@ -16,24 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 #ifndef SELECTLIBRARYINMASKFORM_H
 #define SELECTLIBRARYINMASKFORM_H
 
 #include <QWidget>
-#include "ui_SelectLibraryInMaskForm.h"
 #include "XAlgorithmLibrary.h"
 #include "XServiceForLayers.h"
 
+namespace Ui {
+class SelectLibraryInMaskForm;
+}
 class SelectLibrariesForAnyType;
 
 class SelectLibraryInMaskForm : public QWidget ,public ServiceForLayers
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	SelectLibraryInMaskForm(bool NewMode ,LayersBase *Base ,QWidget *parent = 0);
-	~SelectLibraryInMaskForm();
+    explicit SelectLibraryInMaskForm(bool NewMode ,LayersBase *Base ,QWidget *parent = nullptr);
+    ~SelectLibraryInMaskForm();
 
 	SelectLibrariesForAnyType		*Libs;
 	bool	RetOK;
@@ -41,18 +42,20 @@ public:
 	bool	DeleteMode;
 	void	SetSelected(AlgorithmLibraryListContainer &selectedList);
 	AlgorithmLibraryListContainer		GetSelectedList(void);
-private:
-	Ui::SelectLibraryInMaskFormClass ui;
 
-	virtual	void resizeEvent(QResizeEvent *event)	override;
+private slots:
+    void on_ButtonEffective_clicked();
+    void on_ButtonNotEffective_clicked();
+    void on_pushButtonDelete_clicked();
+    void on_ButtonCancel_clicked();
+
 signals:
 	void	SignalClose(void);
 
-private slots:
-	void on_ButtonCancel_clicked();
-	void on_ButtonNotEffective_clicked();
-	void on_ButtonEffective_clicked();
-    void on_pushButtonDelete_clicked();
+private:
+    Ui::SelectLibraryInMaskForm *ui;
+    
+    virtual	void resizeEvent(QResizeEvent *event)	override;
 };
 
 #endif // SELECTLIBRARYINMASKFORM_H

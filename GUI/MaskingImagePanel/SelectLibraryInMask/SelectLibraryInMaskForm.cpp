@@ -15,21 +15,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 #include "SelectLibraryInMaskResource.h"
 #include "SelectLibraryInMaskForm.h"
+#include "ui_SelectLibraryInMaskForm.h"
 #include "XDLLOnly.h"
 #include "XParamDatabase.h"
 #include "SelectLibrariesForAnyType.h"
 
 SelectLibraryInMaskForm::SelectLibraryInMaskForm(bool NewMode ,LayersBase *Base ,QWidget *parent)
-	: QWidget(parent),ServiceForLayers(Base)
+    : QWidget(parent),ServiceForLayers(Base)
+    , ui(new Ui::SelectLibraryInMaskForm)
 {
-	ui.setupUi(this);
+    ui->setupUi(this);
 	
 	Libs=new SelectLibrariesForAnyType(Base,this);
-	Libs->setParent(ui.frameLibrary);
-	Libs->setGeometry(0,0,ui.frameLibrary->width(),ui.frameLibrary->height());
+	Libs->setParent(ui->frameLibrary);
+	Libs->setGeometry(0,0,ui->frameLibrary->width(),ui->frameLibrary->height());
 
 	QIODevice	*Buff=GetLayersBase()->GetLocalParamStocker()->CreateIODevice(objectName());
 	Libs->Load(Buff);
@@ -37,25 +38,26 @@ SelectLibraryInMaskForm::SelectLibraryInMaskForm(bool NewMode ,LayersBase *Base 
 	RetOK		=false;
 	DeleteMode	=false;
 	if(NewMode==true){
-		ui.pushButtonDelete->setVisible(false);
+		ui->pushButtonDelete->setVisible(false);
 	}
 	else{
-		ui.pushButtonDelete->setVisible(true);
+		ui->pushButtonDelete->setVisible(true);
 	}
 	InstallOperationLog(this);
 }
 
 SelectLibraryInMaskForm::~SelectLibraryInMaskForm()
 {
+    delete ui;
 	delete	Libs;
 	Libs=NULL;
 }
 void SelectLibraryInMaskForm::resizeEvent(QResizeEvent *event)
 {
-	ui.frame->setGeometry(0,height()-ui.frame->height()
-							,width(),ui.frame->height());
-	ui.frameLibrary->resize(width(),height()-ui.frame->height());
-	Libs->setGeometry(0,0,ui.frameLibrary->width(),ui.frameLibrary->height());
+	ui->frame->setGeometry(0,height()-ui->frame->height()
+							,width(),ui->frame->height());
+	ui->frameLibrary->resize(width(),height()-ui->frame->height());
+	Libs->setGeometry(0,0,ui->frameLibrary->width(),ui->frameLibrary->height());
 }
 
 void	SelectLibraryInMaskForm::SetSelected(AlgorithmLibraryListContainer &selectedList)
@@ -72,7 +74,11 @@ void SelectLibraryInMaskForm::on_ButtonEffective_clicked()
 	QIODevice	*Buff=GetLayersBase()->GetLocalParamStocker()->CreateIODevice(objectName());
 	Libs->Save(Buff);
 	GetLayersBase()->GetLocalParamStocker()->DeleteIODevice(Buff);
-	emit	SignalClose();		
+	emit	SignalClose();	
+}
+AlgorithmLibraryListContainer	SelectLibraryInMaskForm::GetSelectedList(void)
+{
+	return Libs->SelectedList;
 }
 
 void SelectLibraryInMaskForm::on_ButtonNotEffective_clicked()
@@ -86,20 +92,7 @@ void SelectLibraryInMaskForm::on_ButtonNotEffective_clicked()
 	emit	SignalClose();
 }
 
-void SelectLibraryInMaskForm::on_ButtonCancel_clicked()
-{
-	RetOK=false;
-	DeleteMode=false;
-	QIODevice	*Buff=GetLayersBase()->GetLocalParamStocker()->CreateIODevice(objectName());
-	Libs->Save(Buff);
-	GetLayersBase()->GetLocalParamStocker()->DeleteIODevice(Buff);
-	emit	SignalClose();		
-}
 
-AlgorithmLibraryListContainer	SelectLibraryInMaskForm::GetSelectedList(void)
-{
-	return Libs->SelectedList;
-}
 void SelectLibraryInMaskForm::on_pushButtonDelete_clicked()
 {
 	DeleteMode=true;
@@ -109,3 +102,15 @@ void SelectLibraryInMaskForm::on_pushButtonDelete_clicked()
 	GetLayersBase()->GetLocalParamStocker()->DeleteIODevice(Buff);
 	emit	SignalClose();	
 }
+
+
+void SelectLibraryInMaskForm::on_ButtonCancel_clicked()
+{
+	RetOK=false;
+	DeleteMode=false;
+	QIODevice	*Buff=GetLayersBase()->GetLocalParamStocker()->CreateIODevice(objectName());
+	Libs->Save(Buff);
+	GetLayersBase()->GetLocalParamStocker()->DeleteIODevice(Buff);
+	emit	SignalClose();	
+}
+

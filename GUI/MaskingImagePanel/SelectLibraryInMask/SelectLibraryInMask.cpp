@@ -24,14 +24,3 @@ DEFFUNCEX	void	DLL_SetLanguage(LanguagePackage &Pkg ,int LanguageCode)
 {
 	LangSolver.SetLanguage(Pkg,LanguageCode);
 }
-
-
-SelectLibraryInMask::SelectLibraryInMask()
-{
-
-}
-
-SelectLibraryInMask::~SelectLibraryInMask()
-{
-
-}

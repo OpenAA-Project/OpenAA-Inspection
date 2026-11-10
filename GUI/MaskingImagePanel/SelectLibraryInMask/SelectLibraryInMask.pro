@@ -15,3 +15,18 @@ UI_DIR += GeneratedFiles
 RCC_DIR += GeneratedFiles
 include(SelectLibraryInMask.pri)
 TRANSLATIONS += selectlibraryinmask_ja.ts
+
+FORMS += \
+    GenerateMaskOnSelectedItemsEdgeDialog.ui \
+    GeneratePatternEdgeOnSelectedDialog.ui \
+    SelectLibraryInMaskForm.ui
+
+HEADERS += \
+    GenerateMaskOnSelectedItemsEdgeDialog.h \
+    GeneratePatternEdgeOnSelectedDialog.h \
+    SelectLibraryInMaskForm.h
+
+SOURCES += \
+    GenerateMaskOnSelectedItemsEdgeDialog.cpp \
+    GeneratePatternEdgeOnSelectedDialog.cpp \
+    SelectLibraryInMaskForm.cpp

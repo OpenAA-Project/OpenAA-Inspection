@@ -7,17 +7,6 @@
 message("You are running qmake on a generated .pro file. This may not work!")
 
 
-HEADERS += ./SelectLibraryInMaskResource.h \
-    $$PWD/GeneratePatternEdgeOnSelectedDialog.h \
-    ./selectlibraryinmask_global.h \
-    ./SelectLibraryInMaskForm.h \
-    ./GenerateMaskOnSelectedItemsEdgeDialog.h
-SOURCES += ./SelectLibraryInMaskForm.cpp \
-    $$PWD/GeneratePatternEdgeOnSelectedDialog.cpp \
-    ./SelectLibraryInMaskResource.cpp \
-    ./GenerateMaskOnSelectedItemsEdgeDialog.cpp
-FORMS += ./SelectLibraryInMaskForm.ui \
-    $$PWD/GeneratePatternEdgeOnSelectedDialog.ui \
-    ./GenerateMaskOnSelectedItemsEdgeDialog.ui
-TRANSLATIONS += ./selectlibraryinmask_ja.ts
+HEADERS += ./SelectLibraryInMaskResource.h
+SOURCES += ./SelectLibraryInMaskResource.cpp
 RESOURCES += SelectLibraryInMask.qrc

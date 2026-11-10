@@ -16,11 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
-#ifndef SELECTLIBRARYINMASK_H
-#define SELECTLIBRARYINMASK_H
+#pragma once
 
 #include "selectlibraryinmask_global.h"
 
 
-#endif // SELECTLIBRARYINMASK_H
