@@ -22,7 +22,7 @@
 #include "XCriticalFunc.h"
 #include "ReadBarcode.h"
 #include "XOnnx.h"
-#include <windows.h>
+//#include <windows.h>
 
 typedef const OrtApiBase* (ORT_API_CALL *OrtGetApiBase_t)();
 
@@ -539,26 +539,49 @@ ExeResult	BCRInspectionBase::ExecuteInitialAfterEdit		(int ExeID ,ResultBaseForA
 		memset(dllPathName,0,sizeof(dllPathName));
 		dllPath.toWCharArray(dllPathName);
 		//LPCWSTR dllDirectory = L"C:\\OpenAA\\dlls"; 
-		SetDllDirectoryW(dllPathName);
+		//SetDllDirectoryW(dllPathName);
+		//
+		//QString	OnnxRuntimeFileName =/**/"onnxruntime";
+		//memset(dllPathName,0,sizeof(dllPathName));
+		//ONNXRuntimeFileName.toWCharArray(dllPathName);		
+		//HMODULE hOrtDll = LoadLibraryW(dllPathName); 
+		//
+		//SetDllDirectoryW(NULL);
+		//
+		//if (!hOrtDll) {
+		//    qDebug() << "Failed to load onnxruntime.dll (and its dependencies).";
+		//    return;
+		//}
+		//
+		//OrtGetApiBase_t pOrtGetApiBase = (OrtGetApiBase_t)GetProcAddress(hOrtDll, "OrtGetApiBase");
+		//if (!pOrtGetApiBase) {
+		//    qDebug() << "Failed to find OrtGetApiBase in onnxruntime.dll";
+		//    FreeLibrary(hOrtDll);
+		//    return;
+		//}
 
-		QString	OnnxRuntimeFileName =/**/"onnxruntime";
-		memset(dllPathName,0,sizeof(dllPathName));
-		ONNXRuntimeFileName.toWCharArray(dllPathName);		
-		HMODULE hOrtDll = LoadLibraryW(dllPathName); 
+		QString libPath = QDir(ONNXSystemPath).filePath("onnxruntime");
 		
-		SetDllDirectoryW(NULL);
-
-		if (!hOrtDll) {
-		    qDebug() << "Failed to load onnxruntime.dll (and its dependencies).";
+		// パスが通っている場所（システムディレクトリ等）にある場合は、直接 "onnxruntime" だけでも可
+		QLibrary ortLib(libPath);
+		
+		// ライブラリのロード（LoadLibraryW に相当）
+		if (!ortLib.load()) {
+		    // QLibrary::errorString() を使うと、ロードに失敗した具体的な理由（依存ライブラリ不足など）が出力されます
+		    qDebug() << "Failed to load onnxruntime library (and its dependencies):" << ortLib.errorString();
 		    return;
 		}
-
-		OrtGetApiBase_t pOrtGetApiBase = (OrtGetApiBase_t)GetProcAddress(hOrtDll, "OrtGetApiBase");
+		
+		// 関数のアドレスを取得（GetProcAddress に相当）
+		// resolve() は関数ポインタを返すので、適切な型にキャストします
+		OrtGetApiBase_t pOrtGetApiBase = (OrtGetApiBase_t)ortLib.resolve("OrtGetApiBase");
+		
 		if (!pOrtGetApiBase) {
-		    qDebug() << "Failed to find OrtGetApiBase in onnxruntime.dll";
-		    FreeLibrary(hOrtDll);
+		    qDebug() << "Failed to find OrtGetApiBase in onnxruntime library:" << ortLib.errorString();
+		    ortLib.unload(); // FreeLibrary に相当
 		    return;
 		}
+
 
 		// API基盤を取得し初期化
 		const OrtApiBase* apiBase = pOrtGetApiBase();
