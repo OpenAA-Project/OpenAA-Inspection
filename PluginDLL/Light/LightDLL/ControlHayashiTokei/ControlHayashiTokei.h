@@ -48,7 +48,7 @@ public:
 	bool	Get(void);
 };
 
-class	LightControlHayashiTokei : public LightDLLBaseClass ,public QWidget
+class	LightControlHayashiTokei : public LightDLLBaseClass
 {
 	bool	Opened;
 	QString Param;

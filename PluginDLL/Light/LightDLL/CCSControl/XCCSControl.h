@@ -31,7 +31,7 @@
 class	HidCommand;
 
 
-class	LightCCSControl : public LightDLLBaseClass ,public QWidget
+class	LightCCSControl : public LightDLLBaseClass
 {
 	HidCommand	*Commander;
 	bool	Opened;

@@ -46,7 +46,7 @@ public:
 };
 
 
-class	LightCCSControlByPIO2Ch : public LightDLLBaseClass ,public QWidget
+class	LightCCSControlByPIO2Ch : public LightDLLBaseClass
 {
 	bool	Opened;
 	QString Param;
