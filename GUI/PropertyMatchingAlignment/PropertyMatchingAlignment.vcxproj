@@ -316,6 +316,7 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="XPropertyMatchingAlignmentPacket.h" />
     <QtMoc Include="AddManualItemForm.h">
     </QtMoc>
     <ClInclude Include="AddManualItemFormResource.h" />

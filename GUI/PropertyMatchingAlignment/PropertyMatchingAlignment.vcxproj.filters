@@ -40,11 +40,6 @@
     <ClCompile Include="..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    
-    
-    
     <ClCompile Include="AddManualItemFormResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -65,9 +60,10 @@
     <ClInclude Include="..\..\Open\XGUIDLL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
-    
     <ClInclude Include="AddManualItemFormResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XPropertyMatchingAlignmentPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

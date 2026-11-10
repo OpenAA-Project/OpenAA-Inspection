@@ -51,12 +51,6 @@ private slots:
 
 //=================================================================================
 
-class	DisplayModeOfMatchingAlignment : public GUIDirectMessage
-{
-public:
-	bool	ModeSpecified;
-	DisplayModeOfMatchingAlignment(LayersBase *base):GUIDirectMessage(base){}
-};
 
 class	GUICmdAddMatchingAlignmentArea : public GUICmdPacketBase
 {

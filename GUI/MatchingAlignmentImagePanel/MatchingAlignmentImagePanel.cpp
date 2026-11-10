@@ -25,7 +25,7 @@
 #include "ImageControlTools.h"
 #include "XGeneralDialog.h"
 #include "ImagePanelTools.h"
-#include "PropertyMatchingAlignmentForm.h"
+#include "XPropertyMatchingAlignmentPacket.h"
 
 static	const	char	*sRoot=/**/"Inspection";
 static	const	char	*sName=/**/"MatchingAlignmentImagePanel";

@@ -23,6 +23,7 @@
 #include "XMatchingAlignment.h"
 #include "XGeneralFunc.h"
 #include "XRememberer.h"
+#include "XPropertyMatchingAlignmentPacket.h"
 
 extern	const	char	*sRoot;
 extern	const	char	*sName;
