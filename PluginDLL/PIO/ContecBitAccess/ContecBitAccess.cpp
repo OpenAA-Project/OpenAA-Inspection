@@ -111,7 +111,12 @@ DEFFUNCEX	PIODLLBaseClass  _cdecl *AIP_IO_Open(LayersBase *Base,int boardNumber 
 	char Device[256];
 
 	Ret = DioQueryDeviceName ( BoardNo , DeviceName , Device );
+
+#ifdef _MSC_VER
 	if(Ret==DIO_ERR_INI_NO_MATCH_DRV_VERSION){
+#else
+	if(Ret==DIO_ERR_DLL_CALL_DRIVER){
+#endif
 		QMessageBox::critical(NULL,"Error"
 							  ,"Driver/CDIO.dll and software version is mismatched");
 		return NULL;
