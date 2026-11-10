@@ -18,6 +18,7 @@
 
 #include "NetworkSIOServer.h"
 #include <QApplication>
+#include <QByteArray>
 
 int main(int argc, char *argv[])
 {
@@ -27,7 +28,7 @@ int main(int argc, char *argv[])
 	int	ComPort	=1;
 
 	for(int i=1;i<argc;i++){
-		if(strnicmp(argv[i],"COM",3)==0){
+		if(qstrnicmp(argv[i],"COM",3)==0){
 			char	*fp=argv[i]+3;
 			QString	s(fp);
 			bool	ok;
@@ -36,7 +37,7 @@ int main(int argc, char *argv[])
 				ComPort=1;
 			}
 		}
-		if(strnicmp(argv[i],"P",1)==0){
+		if(qstrnicmp(argv[i],"P",1)==0){
 			char	*fp=argv[i]+1;
 			QString	s(fp);
 			bool	ok;
