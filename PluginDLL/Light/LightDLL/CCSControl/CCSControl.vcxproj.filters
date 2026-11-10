@@ -44,12 +44,10 @@
     <ClCompile Include="XCCSControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\GeneralSource\XHidCommand.cpp">
+    <ClCompile Include="SettingDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    
-    
-    <ClCompile Include="SettingDialog.cpp">
+    <ClCompile Include="..\..\..\..\GeneralSource\XHidCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -66,7 +64,6 @@
     <ClInclude Include="..\..\..\..\Open\XHidCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="SettingDialog.ui">
