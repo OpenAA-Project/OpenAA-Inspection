@@ -132,9 +132,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Data management.rc" />
+    <ResourceCompile Include="DataManagement.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Data management.ico" />
+    <Image Include="DataManagement.ico" />
   </ItemGroup>
 </Project>

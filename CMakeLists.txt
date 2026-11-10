@@ -3644,10 +3644,10 @@ add_custom_target(Messager_DiskManager_build ALL
 add_dependencies(Messager_DiskManager_build ServiceLib_ForceRebooter_build)
 
 add_custom_target(Data_management_Data_management_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/Data management/Data management" -B "${CMAKE_CURRENT_SOURCE_DIR}/Data management/Data management/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/Data management/Data management/build" --config ${CMAKE_BUILD_TYPE} -- -k
+    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/DataManagement" -B "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/DataManagement/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/DataManagement/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building Data management/Data management sequentially..."
+    COMMENT "[Meta-Build] Configuring and Building DataManagement/DataManagement sequentially..."
 )
 add_dependencies(Data_management_Data_management_build Messager_DiskManager_build)
 
@@ -5052,10 +5052,10 @@ add_custom_target(GUI_ShowMemory_build ALL
 add_dependencies(GUI_ShowMemory_build PluginDLL_PIO_RelayLCUS2_build)
 
 add_custom_target(Data_management_Maintainer_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/Data management/Maintainer" -B "${CMAKE_CURRENT_SOURCE_DIR}/Data management/Maintainer/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/Data management/Maintainer/build" --config ${CMAKE_BUILD_TYPE} -- -k
+    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/Maintainer" -B "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/Maintainer/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/Maintainer/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building Data management/Maintainer sequentially..."
+    COMMENT "[Meta-Build] Configuring and Building DataManagement/Maintainer sequentially..."
 )
 add_dependencies(Data_management_Maintainer_build GUI_ShowMemory_build)
 

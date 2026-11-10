@@ -9,6 +9,6 @@ message("You are running qmake on a generated .pro file. This may not work!")
 
 TEMPLATE = subdirs
 SUBDIRS += ManageMasterConnection/ManageMasterConnection.pro \
-    Data management/Data management.pro \
+    DataManagement/DataMmanagement.pro \
     ResultDataManager/ResultDataManager.pro \
     Maintainer/Maintainer.pro

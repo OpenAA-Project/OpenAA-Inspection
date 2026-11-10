@@ -140,10 +140,10 @@
     <None Include="Qtres\flash_swf_64.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Data management.rc" />
+    <ResourceCompile Include="DataManagement.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Data management.ico" />
+    <Image Include="DataManagement.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
