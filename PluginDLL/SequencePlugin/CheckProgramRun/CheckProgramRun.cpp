@@ -20,20 +20,53 @@
 #include "XSeqDLLGlobal.h"
 #include <string.h>
 #include <QFileInfo>
+#include <QProcess>
 #include "XDateTime.h"
 #include "XGeneralFunc.h"
-#include "XForWindows.h"
 
 
+// Cross-platform function to get running process names using Qt
+static bool GetProcessNames(QStringList &Processes)
+{
+	Processes.clear();
+	QProcess process;
+
+#ifdef Q_OS_WIN
+	// Windows environment: use tasklist command
+	process.start("tasklist", QStringList() << "/FO" << "CSV" << "/NH");
+	process.waitForFinished();
+
+	QString output = QString::fromLocal8Bit(process.readAllStandardOutput());
+	QStringList lines = output.split("\n", Qt::SkipEmptyParts);
+
+	for (const QString &line : lines) {
+		QStringList tokens = line.split("\",\"");
+		if (!tokens.isEmpty()) {
+			QString name = tokens.first().remove("\"");
+			Processes.append(name.trimmed());
+		}
+	}
+#else
+	// Linux/macOS environment: use ps command
+	process.start("ps", QStringList() << "-e" << "-o" << "comm=");
+	process.waitForFinished();
+
+	QString output = QString::fromUtf8(process.readAllStandardOutput());
+	QStringList lines = output.split("\n", Qt::SkipEmptyParts);
+
+	for (const QString &line : lines) {
+		Processes.append(line.trimmed());
+	}
+#endif
+
+	return !Processes.isEmpty();
+}
 
 void	DLLSeq_GetDLLVersion(char *buff)
-/*
-    �o�[�W�������Ԃ�
-    buff�͂Q�T�U�o�C�g�ȓ�
-*/
 {
 	strcpy(buff,"Check program to run");
 }
+
 WORD	DLL_GetDLLType(void)
 //	return	DLL type for LightDLL
 {
@@ -60,26 +93,17 @@ bool	DLL_CheckCopyright(QString &CopyrightString)
 	return true;
 }
 
-
 DEFFUNCEX	const char	*DLL_GetExplain(void)
 {
 	return "Check program to run";
 }
 
 DEFFUNCEX		void	DLLSeq_Close(void *handle)
-/*
-    �I������
-*/
 {
 
 }
+
 bool	DLLSeq_CmdStr(void *handle ,QApplication &App ,const QString &cmdstr , const QByteArray &datastr)
-/*
-    ���߂𑗂�
-    DLLCmd   dllVar,CommandString,Cxx
-    �ł��̊֐����Ă΂���
-    ���̊֐��̖߂��l���ADLLCmd�̌��ʃt���O�ɔ��f������
-*/
 {
 	if(cmdstr=="Check"){
 		QString	Program=datastr;
