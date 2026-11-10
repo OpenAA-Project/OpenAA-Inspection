@@ -1,4 +1,4 @@
-# CMakeLists.txt generated from Data management.vcxproj
+# CMakeLists.txt generated from DataManagement.vcxproj
 # WARNING: This is an automatically generated file. Manual edits may be overwritten.
 # VCXPROJ-to-CMAKE limitations:
 # - MSBuild macros (e.g., $(SolutionDir)) may not be translated correctly.
@@ -7,7 +7,7 @@
 
 cmake_minimum_required(VERSION 3.16)
 
-project(Data management LANGUAGES CXX)
+project(DataManagement LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core Core5Compat Network Widgets Sql)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -79,8 +79,8 @@ set(PROJECT_RESOURCES
 
 # Other resource files (icons, images)
 set(PROJECT_OTHER_RESOURCES
-    "Data management.rc"
-    "Data management.ico"
+    "DataManagement.rc"
+    "DataManagement.ico"
 )
 
 # Define the target
@@ -123,21 +123,21 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../GeneralSource"
-        "../../ServiceLib/TransDatabaseLib"
-        "../../Open"
-        "../../OpenSource/Component"
         "../../Hasplib/Hasplib"
-        "../../OpenSource/Firebird_2_1/include"
+        "../../ServiceLib/TransDatabaseLib"
         "../../ServiceLib/ServiceForDBLib"
+        "../../OpenSource/Firebird_2_1/include"
+        "../../Open"
+        "../../GeneralSource"
+        "../../OpenSource/Component"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "../../OpenSource/Firebird_2_1/lib"
         "../../Lib/Release"
         "../../Win64Lib/release"
-        "../../OpenSource/Firebird_2_1/lib"
     >
 )
 
@@ -154,12 +154,12 @@ if(WIN32)
 elseif(UNIX)
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release" "../../Win64Lib/release" "../../OpenSource/Firebird_2_1/lib")
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../OpenSource/Firebird_2_1/lib" "../../Lib/Release" "../../Win64Lib/release")
     if(SERVICELIB_SHARED_LIB_RELEASE)
         set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release" "../../Win64Lib/release" "../../OpenSource/Firebird_2_1/lib")
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../OpenSource/Firebird_2_1/lib" "../../Lib/Release" "../../Win64Lib/release")
         if(SERVICELIB_STATIC_LIB_RELEASE)
             set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
         else()
@@ -188,11 +188,11 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Gui
-    Qt6::Core5Compat
-    Qt6::Sql
-    Qt6::Widgets
     Qt6::Core
+    Qt6::Core5Compat
     Qt6::Network
+    Qt6::Widgets
+    Qt6::Sql
 )
 
 # === Additional Custom Settings ===

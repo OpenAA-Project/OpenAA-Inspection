@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core Core5Compat Network Widgets Sql)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -110,18 +110,18 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
+        "../../Hasplib/Hasplib"
+        "."
+        "../../ServiceLib/ServiceLib/GeneratedFiles"
+        "./GeneratedFiles/"
+        "../../EditGUI/EditGUI"
         "../../Integrator/IntegrationLib"
         "../../GeneralSource"
-        "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "./../../Open"
-        "./GeneratedFiles/"
-        "../../OpenSource/Component"
-        "../../Hasplib/Hasplib"
-        "../../EditGUI/EditGUI"
-        "."
-        "../../EditGUI/EditGUI/GeneratedFiles"
         "../../ServiceLib/ServiceLib"
+        "./GeneratedFiles"
+        "../../EditGUI/EditGUI/GeneratedFiles"
+        "./../../Open"
+        "../../OpenSource/Component"
     >
 )
 
@@ -140,13 +140,13 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:"DisplayImage.lib">
-        $<$<CONFIG:Debug>:"Hasp.lib">
-        $<$<CONFIG:Debug>:"Sentinel.lib">
-        $<$<CONFIG:Debug>:"IntegrationLib.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
-        $<$<CONFIG:Debug>:"EditPasswordOnControl.lib">
-        $<$<CONFIG:Debug>:"CommonGUIDLL.lib">
         $<$<CONFIG:Debug>:"Component.lib">
+        $<$<CONFIG:Debug>:"IntegrationLib.lib">
+        $<$<CONFIG:Debug>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Debug>:"Sentinel.lib">
+        $<$<CONFIG:Debug>:"Hasp.lib">
+        $<$<CONFIG:Debug>:"EditPasswordOnControl.lib">
     )
 elseif(UNIX)
     # --- Dynamic Library Linking for DisplayImage (Debug) ---
@@ -162,54 +162,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for Hasp (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(HASP_SHARED_LIB_DEBUG NAMES Hasp PATHS "../../Lib/Debug")
-    if(HASP_SHARED_LIB_DEBUG)
-        set(HASP_FINAL_LIB_DEBUG ${HASP_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(HASP_STATIC_LIB_DEBUG NAMES libHasp.a PATHS "../../Lib/Debug")
-        if(HASP_STATIC_LIB_DEBUG)
-            set(HASP_FINAL_LIB_DEBUG ${HASP_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(HASP_FINAL_LIB_DEBUG Hasp)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for Sentinel (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SENTINEL_SHARED_LIB_DEBUG NAMES Sentinel PATHS "../../Lib/Debug")
-    if(SENTINEL_SHARED_LIB_DEBUG)
-        set(SENTINEL_FINAL_LIB_DEBUG ${SENTINEL_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SENTINEL_STATIC_LIB_DEBUG NAMES libSentinel.a PATHS "../../Lib/Debug")
-        if(SENTINEL_STATIC_LIB_DEBUG)
-            set(SENTINEL_FINAL_LIB_DEBUG ${SENTINEL_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SENTINEL_FINAL_LIB_DEBUG Sentinel)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for IntegrationLib (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(INTEGRATIONLIB_SHARED_LIB_DEBUG NAMES IntegrationLib PATHS "../../Lib/Debug")
-    if(INTEGRATIONLIB_SHARED_LIB_DEBUG)
-        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES libIntegrationLib.a PATHS "../../Lib/Debug")
-        if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
-            set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
         endif()
     endif()
 
@@ -229,19 +181,35 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for EditPasswordOnControl (Debug) ---
+    # --- Dynamic Library Linking for Component (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG NAMES EditPasswordOnControl PATHS "../../Lib/Debug")
-    if(EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG)
-        set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG ${EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG})
+    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
+    if(COMPONENT_SHARED_LIB_DEBUG)
+        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG NAMES libEditPasswordOnControl.a PATHS "../../Lib/Debug")
-        if(EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG)
-            set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG ${EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG})
+        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
+        if(COMPONENT_STATIC_LIB_DEBUG)
+            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
         else()
             # Fallback if not found (e.g. system library)
-            set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG EditPasswordOnControl)
+            set(COMPONENT_FINAL_LIB_DEBUG Component)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for IntegrationLib (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(INTEGRATIONLIB_SHARED_LIB_DEBUG NAMES IntegrationLib PATHS "../../Lib/Debug")
+    if(INTEGRATIONLIB_SHARED_LIB_DEBUG)
+        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES libIntegrationLib.a PATHS "../../Lib/Debug")
+        if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
+            set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
         endif()
     endif()
 
@@ -261,32 +229,64 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for Component (Debug) ---
+    # --- Dynamic Library Linking for Sentinel (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
-    if(COMPONENT_SHARED_LIB_DEBUG)
-        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
+    find_library(SENTINEL_SHARED_LIB_DEBUG NAMES Sentinel PATHS "../../Lib/Debug")
+    if(SENTINEL_SHARED_LIB_DEBUG)
+        set(SENTINEL_FINAL_LIB_DEBUG ${SENTINEL_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
-        if(COMPONENT_STATIC_LIB_DEBUG)
-            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
+        find_library(SENTINEL_STATIC_LIB_DEBUG NAMES libSentinel.a PATHS "../../Lib/Debug")
+        if(SENTINEL_STATIC_LIB_DEBUG)
+            set(SENTINEL_FINAL_LIB_DEBUG ${SENTINEL_STATIC_LIB_DEBUG})
         else()
             # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_DEBUG Component)
+            set(SENTINEL_FINAL_LIB_DEBUG Sentinel)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for Hasp (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(HASP_SHARED_LIB_DEBUG NAMES Hasp PATHS "../../Lib/Debug")
+    if(HASP_SHARED_LIB_DEBUG)
+        set(HASP_FINAL_LIB_DEBUG ${HASP_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(HASP_STATIC_LIB_DEBUG NAMES libHasp.a PATHS "../../Lib/Debug")
+        if(HASP_STATIC_LIB_DEBUG)
+            set(HASP_FINAL_LIB_DEBUG ${HASP_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(HASP_FINAL_LIB_DEBUG Hasp)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for EditPasswordOnControl (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG NAMES EditPasswordOnControl PATHS "../../Lib/Debug")
+    if(EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG)
+        set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG ${EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG NAMES libEditPasswordOnControl.a PATHS "../../Lib/Debug")
+        if(EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG)
+            set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG ${EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG EditPasswordOnControl)
         endif()
     endif()
 
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
         $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${HASP_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${SENTINEL_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${COMMONGUIDLL_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMMONGUIDLL_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${SENTINEL_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${HASP_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -312,18 +312,18 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
+        "../../Hasplib/Hasplib"
+        "."
+        "../../ServiceLib/ServiceLib/GeneratedFiles"
+        "./GeneratedFiles/"
+        "../../EditGUI/EditGUI"
         "../../Integrator/IntegrationLib"
         "../../GeneralSource"
-        "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "./../../Open"
-        "./GeneratedFiles/"
-        "../../OpenSource/Component"
-        "../../Hasplib/Hasplib"
-        "../../EditGUI/EditGUI"
-        "."
-        "../../EditGUI/EditGUI/GeneratedFiles"
         "../../ServiceLib/ServiceLib"
+        "./GeneratedFiles"
+        "../../EditGUI/EditGUI/GeneratedFiles"
+        "./../../Open"
+        "../../OpenSource/Component"
     >
 )
 
@@ -335,36 +335,20 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "NDEBUG"
         "QT_NO_DEBUG"
+        "NDEBUG"
         "UNICODE"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"IntegrationLib.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
-        $<$<CONFIG:Release>:"EditPasswordOnControl.lib">
+        $<$<CONFIG:Release>:"IntegrationLib.lib">
         $<$<CONFIG:Release>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Release>:"EditPasswordOnControl.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for IntegrationLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(INTEGRATIONLIB_SHARED_LIB_RELEASE NAMES IntegrationLib PATHS "../../Lib/Release")
-    if(INTEGRATIONLIB_SHARED_LIB_RELEASE)
-        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES libIntegrationLib.a PATHS "../../Lib/Release")
-        if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
-            set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
@@ -381,19 +365,19 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for EditPasswordOnControl (Release) ---
+    # --- Dynamic Library Linking for IntegrationLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE NAMES EditPasswordOnControl PATHS "../../Lib/Release")
-    if(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE)
-        set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE})
+    find_library(INTEGRATIONLIB_SHARED_LIB_RELEASE NAMES IntegrationLib PATHS "../../Lib/Release")
+    if(INTEGRATIONLIB_SHARED_LIB_RELEASE)
+        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE NAMES libEditPasswordOnControl.a PATHS "../../Lib/Release")
-        if(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE)
-            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE})
+        find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES libIntegrationLib.a PATHS "../../Lib/Release")
+        if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
+            set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
         else()
             # Fallback if not found (e.g. system library)
-            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE EditPasswordOnControl)
+            set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
         endif()
     endif()
 
@@ -413,12 +397,28 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for EditPasswordOnControl (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE NAMES EditPasswordOnControl PATHS "../../Lib/Release")
+    if(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE)
+        set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE NAMES libEditPasswordOnControl.a PATHS "../../Lib/Release")
+        if(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE)
+            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE EditPasswordOnControl)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -436,11 +436,11 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Gui
-    Qt6::Core5Compat
-    Qt6::Sql
-    Qt6::Widgets
     Qt6::Core
+    Qt6::Core5Compat
     Qt6::Network
+    Qt6::Widgets
+    Qt6::Sql
 )
 
 # === Additional Custom Settings ===
