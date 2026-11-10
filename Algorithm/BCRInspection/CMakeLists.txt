@@ -290,38 +290,6 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for onnxruntime_providers_cuda (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(ONNXRUNTIME_PROVIDERS_CUDA_SHARED_LIB_RELEASE NAMES onnxruntime_providers_cuda PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/../vcpkg/installed/x64-windows-static/lib" "$(ONNX)/lib" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/../zxing-cpp.release/core/Release")
-    if(ONNXRUNTIME_PROVIDERS_CUDA_SHARED_LIB_RELEASE)
-        set(ONNXRUNTIME_PROVIDERS_CUDA_FINAL_LIB_RELEASE ${ONNXRUNTIME_PROVIDERS_CUDA_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(ONNXRUNTIME_PROVIDERS_CUDA_STATIC_LIB_RELEASE NAMES libonnxruntime_providers_cuda.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/../vcpkg/installed/x64-windows-static/lib" "$(ONNX)/lib" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/../zxing-cpp.release/core/Release")
-        if(ONNXRUNTIME_PROVIDERS_CUDA_STATIC_LIB_RELEASE)
-            set(ONNXRUNTIME_PROVIDERS_CUDA_FINAL_LIB_RELEASE ${ONNXRUNTIME_PROVIDERS_CUDA_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(ONNXRUNTIME_PROVIDERS_CUDA_FINAL_LIB_RELEASE onnxruntime_providers_cuda)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for onnxruntime_providers_shared (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(ONNXRUNTIME_PROVIDERS_SHARED_SHARED_LIB_RELEASE NAMES onnxruntime_providers_shared PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/../vcpkg/installed/x64-windows-static/lib" "$(ONNX)/lib" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/../zxing-cpp.release/core/Release")
-    if(ONNXRUNTIME_PROVIDERS_SHARED_SHARED_LIB_RELEASE)
-        set(ONNXRUNTIME_PROVIDERS_SHARED_FINAL_LIB_RELEASE ${ONNXRUNTIME_PROVIDERS_SHARED_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(ONNXRUNTIME_PROVIDERS_SHARED_STATIC_LIB_RELEASE NAMES libonnxruntime_providers_shared.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/../vcpkg/installed/x64-windows-static/lib" "$(ONNX)/lib" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/../zxing-cpp.release/core/Release")
-        if(ONNXRUNTIME_PROVIDERS_SHARED_STATIC_LIB_RELEASE)
-            set(ONNXRUNTIME_PROVIDERS_SHARED_FINAL_LIB_RELEASE ${ONNXRUNTIME_PROVIDERS_SHARED_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(ONNXRUNTIME_PROVIDERS_SHARED_FINAL_LIB_RELEASE onnxruntime_providers_shared)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceForAlgorithm (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICEFORALGORITHM_SHARED_LIB_RELEASE NAMES ServiceForAlgorithm PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/../vcpkg/installed/x64-windows-static/lib" "$(ONNX)/lib" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/../zxing-cpp.release/core/Release")
@@ -402,22 +370,6 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for onnxruntime_providers_tensorrt (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(ONNXRUNTIME_PROVIDERS_TENSORRT_SHARED_LIB_RELEASE NAMES onnxruntime_providers_tensorrt PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/../vcpkg/installed/x64-windows-static/lib" "$(ONNX)/lib" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/../zxing-cpp.release/core/Release")
-    if(ONNXRUNTIME_PROVIDERS_TENSORRT_SHARED_LIB_RELEASE)
-        set(ONNXRUNTIME_PROVIDERS_TENSORRT_FINAL_LIB_RELEASE ${ONNXRUNTIME_PROVIDERS_TENSORRT_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(ONNXRUNTIME_PROVIDERS_TENSORRT_STATIC_LIB_RELEASE NAMES libonnxruntime_providers_tensorrt.a PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/../vcpkg/installed/x64-windows-static/lib" "$(ONNX)/lib" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/../zxing-cpp.release/core/Release")
-        if(ONNXRUNTIME_PROVIDERS_TENSORRT_STATIC_LIB_RELEASE)
-            set(ONNXRUNTIME_PROVIDERS_TENSORRT_FINAL_LIB_RELEASE ${ONNXRUNTIME_PROVIDERS_TENSORRT_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(ONNXRUNTIME_PROVIDERS_TENSORRT_FINAL_LIB_RELEASE onnxruntime_providers_tensorrt)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for EditPasswordOnControl (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE NAMES EditPasswordOnControl PATHS "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core/Release" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/" "$ENV{HOME}/OpenAA-OtherLibrary/FFTW/fftw-3.3.10/../vcpkg/installed/x64-windows-static/lib" "$(ONNX)/lib" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/build/core" "$ENV{HOME}/OpenAA-OtherLibrary/Barcode/zxing-cpp/../zxing-cpp.release/core/Release")
@@ -453,14 +405,11 @@ elseif(UNIX)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
         $<$<CONFIG:Release>:${ONNXRUNTIME_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${ONNXRUNTIME_PROVIDERS_CUDA_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${ONNXRUNTIME_PROVIDERS_SHARED_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICEFORALGORITHM_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${FFTW3_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${ZXING_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${MODELPAGEITEM_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${ONNXRUNTIME_PROVIDERS_TENSORRT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
