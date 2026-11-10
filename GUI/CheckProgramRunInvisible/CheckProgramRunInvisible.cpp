@@ -22,9 +22,9 @@
 #include "XDataInLayer.h"
 #include "XDLLOnly.h"
 #include "XExecuteInspectBase.h"
-#include "XForWindows.h"
 #include <QMessageBox>
 #include "XEntryPoint.h"
+#include <QProcess>
 
 static	const	char	*sRoot=/**/"Check";
 static	const	char	*sName=/**/"CheckProgramRunInvisible";
@@ -118,6 +118,40 @@ CheckProgramRunInvisible::~CheckProgramRunInvisible(void)
 	MClient.Close();
 }
 
+bool tGetProcessNames(QStringList &Processes)
+{
+    Processes.clear();
+    QProcess process;
+
+#ifdef Q_OS_WIN
+    process.start("tasklist", QStringList() << "/FO" << "CSV" << "/NH");
+    process.waitForFinished();
+    
+    QString output = QString::fromLocal8Bit(process.readAllStandardOutput());
+    QStringList lines = output.split("\n", Qt::SkipEmptyParts);
+    
+    for (const QString &line : lines) {
+        QStringList tokens = line.split("\",\""); // CSVフォーマットのパース
+        if (!tokens.isEmpty()) {
+            QString name = tokens.first().remove("\"");
+            Processes.append(name.trimmed());
+        }
+    }
+#else
+    process.start("ps", QStringList() << "-e" << "-o" << "comm=");
+    process.waitForFinished();
+    
+    QString output = QString::fromUtf8(process.readAllStandardOutput());
+    QStringList lines = output.split("\n", Qt::SkipEmptyParts);
+    
+    for (const QString &line : lines) {
+        Processes.append(line.trimmed());
+    }
+#endif
+
+    return !Processes.isEmpty();
+}
+
 void	CheckProgramRunInvisible::SlotMessageOutFunc(void)
 {
 	NowOnMessageOut=true;
@@ -139,7 +173,7 @@ void ThreadCheckProgramRun::run ()
 
 		if(CheckProgramRunInvisibleVar!=NULL && CheckProgramRunInvisibleVar->ProcessName.isEmpty()==false){
 			QStringList Processes;
-			if(GetProcessNames(Processes)==true){
+			if(::tGetProcessNames(Processes)==true){
 				if(FinMode==true){
 					break;
 				}
