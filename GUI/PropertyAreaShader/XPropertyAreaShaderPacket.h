@@ -26,7 +26,6 @@
 #include "XAreaShader.h"
 #include "XServiceForLayers.h"
 #include "XGeneralFunc.h"
-#include "PropertyAreaShaderForm.h"
 
 class	GUICmdReqAreaShaderList : public GUICmdPacketBase
 {
