@@ -44,7 +44,6 @@ set(PROJECT_SOURCES
 )
 
 set(PROJECT_HEADERS
-    "CDio.h"
     "PIODevicer.h"
 )
 

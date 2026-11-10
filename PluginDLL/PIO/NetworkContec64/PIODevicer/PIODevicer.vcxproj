@@ -280,7 +280,6 @@
     <ClCompile Include="PIODevicer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CDio.h" />
     <QtMoc Include="PIODevicer.h">
     </QtMoc>
   </ItemGroup>
