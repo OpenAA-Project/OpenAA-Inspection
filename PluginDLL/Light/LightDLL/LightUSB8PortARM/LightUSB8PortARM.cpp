@@ -29,6 +29,12 @@
 
 //=================================================================================================
 
+#ifdef _MSC_VER
+#pragma comment(lib, "hid.lib")
+#pragma comment(lib, "setupapi.lib")
+#endif
+
+
 WORD	DLL_GetDLLType(void)
 //	return	DLL type for LightDLL
 {
