@@ -29,7 +29,7 @@
 #include <QMessageBox>
 #include <QSqlDatabase>
 #include "XOpenAA.h"
-#include <windows.h> // Windows API—p
+
 
 //#include "itemlistwindow.h"
 
