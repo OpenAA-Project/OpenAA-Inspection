@@ -16,10 +16,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+
+#ifdef _MSC_VER
 #include "windows.h"
+#include "CDio.h"
+#else
+#include "cdio.h"
+#endif
+
 #include "AIP_IO.h"
 #include "math.h"
-#include "CDio.h"
 #include "TestPIODLL.h"
 #include <QStringList>
 #include <QFile>

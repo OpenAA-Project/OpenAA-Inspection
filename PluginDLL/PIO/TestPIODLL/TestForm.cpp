@@ -19,8 +19,14 @@
 #include "TestForm.h"
 #include "ui_TestForm.h"
 #include "swap.h"
+
+#ifdef _MSC_VER
 #include "windows.h"
 #include "CDio.h"
+#else
+#include "cdio.h"
+#endif
+
 #include "XCriticalFunc.h"
 QMutex		TestForm::IOAccess;
 
