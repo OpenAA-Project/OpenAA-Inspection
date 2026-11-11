@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Core Core5Compat Network Widgets Sql)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network Core5Compat Sql)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -98,8 +98,8 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../Open"
         "../AlignmentLarge"
+        "../../Open"
     >
 )
 
@@ -117,13 +117,45 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Release>:"ModelPageItem.lib">
+        $<$<CONFIG:Release>:"EditPasswordOnControl.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
         $<$<CONFIG:Release>:"Component.lib">
-        $<$<CONFIG:Release>:"ModelPageItem.lib">
         $<$<CONFIG:Release>:"ServiceForAlgorithm.lib">
-        $<$<CONFIG:Release>:"EditPasswordOnControl.lib">
     )
 elseif(UNIX)
+    # --- Dynamic Library Linking for ModelPageItem (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(MODELPAGEITEM_SHARED_LIB_RELEASE NAMES ModelPageItem PATHS "../../Lib/Release")
+    if(MODELPAGEITEM_SHARED_LIB_RELEASE)
+        set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(MODELPAGEITEM_STATIC_LIB_RELEASE NAMES libModelPageItem.a PATHS "../../Lib/Release")
+        if(MODELPAGEITEM_STATIC_LIB_RELEASE)
+            set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(MODELPAGEITEM_FINAL_LIB_RELEASE ModelPageItem)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for EditPasswordOnControl (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE NAMES EditPasswordOnControl PATHS "../../Lib/Release")
+    if(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE)
+        set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE NAMES libEditPasswordOnControl.a PATHS "../../Lib/Release")
+        if(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE)
+            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE EditPasswordOnControl)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
@@ -156,22 +188,6 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for ModelPageItem (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MODELPAGEITEM_SHARED_LIB_RELEASE NAMES ModelPageItem PATHS "../../Lib/Release")
-    if(MODELPAGEITEM_SHARED_LIB_RELEASE)
-        set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGEITEM_STATIC_LIB_RELEASE NAMES libModelPageItem.a PATHS "../../Lib/Release")
-        if(MODELPAGEITEM_STATIC_LIB_RELEASE)
-            set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MODELPAGEITEM_FINAL_LIB_RELEASE ModelPageItem)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceForAlgorithm (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICEFORALGORITHM_SHARED_LIB_RELEASE NAMES ServiceForAlgorithm PATHS "../../Lib/Release")
@@ -188,29 +204,13 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for EditPasswordOnControl (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE NAMES EditPasswordOnControl PATHS "../../Lib/Release")
-    if(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE)
-        set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE NAMES libEditPasswordOnControl.a PATHS "../../Lib/Release")
-        if(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE)
-            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE EditPasswordOnControl)
-        endif()
-    endif()
-
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
+        $<$<CONFIG:Release>:${MODELPAGEITEM_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${MODELPAGEITEM_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICEFORALGORITHM_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -221,11 +221,11 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
     Qt6::Core
-    Qt6::Core5Compat
-    Qt6::Network
+    Qt6::Gui
     Qt6::Widgets
+    Qt6::Network
+    Qt6::Core5Compat
     Qt6::Sql
 )
 
