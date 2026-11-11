@@ -20,7 +20,6 @@
 
 #include <QWidget>
 #include <QString>
-#include "windows.h"
 #include "AIP_IO.h"
 #include "math.h"
 #include <QStringList>
