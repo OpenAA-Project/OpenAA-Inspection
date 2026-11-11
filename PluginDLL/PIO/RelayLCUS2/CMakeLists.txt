@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS SerialPort Gui Sql Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Gui Core Core5Compat SerialPort Network Widgets Sql)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -81,12 +81,12 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "./../../../PluginDLL/PIO"
+        "../../../../GeneralSource/Sequence"
+        "."
+        "./GeneratedFiles/"
         "./GeneratedFiles"
         "./../../../Open"
-        "./GeneratedFiles/"
-        "./../../../PluginDLL/PIO"
-        "."
-        "../../../../GeneralSource/Sequence"
     >
 )
 
@@ -118,12 +118,12 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
-        "../../../GeneralSource/Sequence"
-        "./../../../Open"
-        "./GeneratedFiles/"
         "./../../../PluginDLL/PIO"
         "."
+        "./GeneratedFiles/"
+        "../../../GeneralSource/Sequence"
+        "./GeneratedFiles"
+        "./../../../Open"
     >
 )
 
@@ -135,9 +135,9 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "NDEBUG"
-        "QT_NO_DEBUG"
         "RELAYLCUS2_LIB"
+        "QT_NO_DEBUG"
+        "NDEBUG"
         "UNICODE"
     >
 )
@@ -176,12 +176,13 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::SerialPort
     Qt6::Gui
-    Qt6::Sql
-    Qt6::Widgets
     Qt6::Core
+    Qt6::Core5Compat
+    Qt6::SerialPort
     Qt6::Network
+    Qt6::Widgets
+    Qt6::Sql
 )
 
 # === Additional Custom Settings ===
