@@ -33,13 +33,13 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network Core5Compat Sql)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
 
 set(PROJECT_SOURCES
-    "../../Algorithm/CheckDataValidation/XCheckDalidationCommon.cpp"
+    "../../Algorithm/CheckDataValidation/XCheckDataValidationCommon.cpp"
     "ExistItemAreaDialog.cpp"
     "ExistItemVectorDialog.cpp"
     "MinMaxDialog.cpp"
@@ -122,13 +122,13 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "../../OpenSource/DisplayImage"
-        "../../Open"
-        "../../GUI/ImageControlTools"
         "../../OpenSource/Component"
         "."
         "../../GUI/ImagePanelTools"
+        "../../GUI/ImageControlTools"
         "../../ServiceLib/ServiceLib"
         "../../Algorithm/CheckDataValidation"
+        "../../Open"
     >
 )
 
@@ -196,12 +196,12 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt6::Core
     Qt6::Gui
+    Qt6::Widgets
+    Qt6::Network
     Qt6::Core5Compat
     Qt6::Sql
-    Qt6::Widgets
-    Qt6::Core
-    Qt6::Network
 )
 
 # === Additional Custom Settings ===

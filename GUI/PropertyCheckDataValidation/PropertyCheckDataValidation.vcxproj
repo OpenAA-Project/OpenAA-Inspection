@@ -105,7 +105,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Algorithm\CheckDataValidation\XCheckDalidationCommon.cpp" />
+    <ClCompile Include="..\..\Algorithm\CheckDataValidation\XCheckDataValidationCommon.cpp" />
     <ClCompile Include="ExistItemAreaDialog.cpp" />
     <ClCompile Include="ExistItemVectorDialog.cpp" />
     <ClCompile Include="MinMaxDialog.cpp" />

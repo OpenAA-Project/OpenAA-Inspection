@@ -67,7 +67,7 @@
     <ClCompile Include="ShowNGMessageForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Algorithm\CheckDataValidation\XCheckDalidationCommon.cpp">
+    <ClCompile Include="..\..\Algorithm\CheckDataValidation\XCheckDataValidationCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
