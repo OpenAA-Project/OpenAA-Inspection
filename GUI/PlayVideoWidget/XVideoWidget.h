@@ -29,13 +29,22 @@
 #include <QBasicTimer>
 #include <QThread>
 #include <QMutex>
+#include <vector>
+#include <atomic>
 
+#ifdef Q_OS_WIN
+class IMFAttributes;
+class IMFSourceReader;
+class IMFDXGIDeviceManager;
+class ID3D11Device;
+class ID3D11DeviceContext;
+#else
+struct AVFormatContext;
+struct AVCodecContext;
+struct SwsContext;
+#endif
 
-class IMFAttributes			;
-class IMFSourceReader			;
-class IMFDXGIDeviceManager	;
-class ID3D11Device			;
-class ID3D11DeviceContext		;
+class PlayVideoWidget;
 
 class MediaVideoWidget : public QVideoWidget
 {
@@ -44,8 +53,7 @@ class MediaVideoWidget : public QVideoWidget
 	friend	class PlayVideoWidget;
 
 public:
-	MediaVideoWidget(PlayVideoWidget* player, QWidget* parent = 0);
-
+	MediaVideoWidget(PlayVideoWidget* player, QWidget* parent = nullptr);
 
 public slots:
 	// Over-riding non-virtual Phonon::VideoWidget slot
@@ -63,14 +71,15 @@ protected:
 	virtual	void dragEnterEvent(QDragEnterEvent* e)		override;
 
 private:
-	PlayVideoWidget		* m_player;
+	PlayVideoWidget		*m_player;
 	QBasicTimer			m_timer;
 	QAction				m_action;
 };
 
 
 // ---------------------------------------------------------
-// MFDecoderThread: 動画デコードを行いウィジェットに生データを渡す
+// MFDecoderThread: Decodes video and passes raw pixel data to the widget
+// (Windows: Media Foundation / Linux & Raspberry Pi: FFmpeg)
 // ---------------------------------------------------------
 class MFDecoderThread : public QThread
 {
@@ -80,7 +89,9 @@ class MFDecoderThread : public QThread
 
 public:
     MFDecoderThread(MMFVideoWidget* widget, QObject *parent = nullptr);
-    void setSource(const QString &path);
+    ~MFDecoderThread();
+
+    void	setSource(const QString &path);
     void	stop();
 	void	pause();
 	void	restart();
@@ -89,29 +100,40 @@ public:
 
 	void	seekTo(qint64 ms);
 	void	setPlaybackRate(double rate);
+
 signals:
     void	durationChanged(qint64 totalMs);
     void	positionChanged(qint64 currentMs);
 	void	playbackFinished();
+
 protected:
     void run() override;
 
 private:
+    void cleanupDecoder();
+
     QString			m_filePath;
-	bool			m_playing;
-    bool			m_stop;
-	bool			m_pause;
+	std::atomic<bool>	m_playing;
+    std::atomic<bool>	m_stop;
+	std::atomic<bool>	m_pause;
     MMFVideoWidget	*m_glWidget;
 
-	bool	m_seekRequest = false;
-    qint64	m_seekTargetMs = 0;
-	double	m_requestedRate = 1.0;
+	std::atomic<bool>	m_seekRequest;
+    std::atomic<qint64>	m_seekTargetMs;
+	std::atomic<double>	m_requestedRate;
 
-	IMFAttributes			*pAttributes	;
-	IMFSourceReader			*pReader		;
-	IMFDXGIDeviceManager	*pDXGIManager	;
-    ID3D11Device			*pD3D11Device	;
-    ID3D11DeviceContext		*pContext		;
+#ifdef Q_OS_WIN
+	IMFAttributes			*pAttributes	= nullptr;
+	IMFSourceReader			*pReader		= nullptr;
+	IMFDXGIDeviceManager	*pDXGIManager	= nullptr;
+    ID3D11Device			*pD3D11Device	= nullptr;
+    ID3D11DeviceContext		*pContext		= nullptr;
+#else
+	AVFormatContext			*m_formatCtx	= nullptr;
+	AVCodecContext			*m_codecCtx		= nullptr;
+	SwsContext				*m_swsCtx		= nullptr;
+	int						m_videoStreamIdx = -1;
+#endif
 };
 
 class MMFVideoWidget : public QOpenGLWidget, protected QOpenGLFunctions
@@ -126,8 +148,9 @@ public:
     MMFVideoWidget(PlayVideoWidget* player, QWidget *parent = nullptr);
     ~MMFVideoWidget();
 
-    // デコーダースレッドから呼ばれる: データをバックバッファにコピー
-    void updateFrame(const uchar* data, int width, int height, int stride);
+    // Called from the decoder thread: copies frame data to the back buffer.
+    // If isBGRA is true, channels are swizzled to RGBA during copy for OpenGL ES compatibility.
+    void updateFrame(const uchar* data, int width, int height, int stride, bool isBGRA = false);
 
 	void setSource(const QString &path);
 
@@ -143,11 +166,13 @@ public:
     void	forward();
     void	rewind(qint64 ms = 5000);
 	void	setPlaybackRate(double rate);
+	double	playbackRate() const;
 
 	qint64	duration();
 	qint64	position();
+
 protected:
-	double GetVideoDuration(const std::wstring& filename);
+	double GetVideoDuration(const QString& filename);
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
@@ -155,19 +180,21 @@ protected:
 signals:
 	void	SignalPositionChanged(qint64 currentMs);
 	void	SignalBlaybackFinished();
+
 private slots:
-	void SlotPositionChanged(qint64 currentMs);
+	void	SlotPositionChanged(qint64 currentMs);
 	void	SlotBlaybackFinished();
+
 private:
     QOpenGLShaderProgram *m_program = nullptr;
     QOpenGLTexture *m_texture = nullptr;
     
     QMutex m_mutex;
-    std::vector<uchar> m_buffer; // Raw Pixel Data
+    std::vector<uchar> m_buffer; // Raw Pixel Data (RGBA 32bit)
     int m_videoWidth = 0;
     int m_videoHeight = 0;
     bool m_newFrameAvailable = false;
 
-	qint64 totalDuration;
-	qint64 CurrentMs;
+	qint64 totalDuration = 0;
+	qint64 CurrentMs = 0;
 };

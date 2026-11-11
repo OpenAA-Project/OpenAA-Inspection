@@ -29,7 +29,14 @@
 const   char* sRoot =/**/"Video";
 const   char* sName =/**/"PlayWidget";
 
-
+#ifdef _MSC_VER
+#pragma comment(lib, "mf.lib")
+#pragma comment(lib, "mfplat.lib")
+#pragma comment(lib, "mfreadwrite.lib")
+#pragma comment(lib, "mfuuid.lib")
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "dxgi.lib")
+#endif
 
 DEFFUNCEX	bool	DLL_GetName(QString& Root, QString& Name)
 {
@@ -95,9 +102,10 @@ MediaVideoWidget::MediaVideoWidget(PlayVideoWidget* player, QWidget* parent) :
     setAcceptDrops(true);
 }
 
+
 void MediaVideoWidget::setFullScreen(bool enabled)
 {
-    setFullScreen(enabled);
+    QVideoWidget::setFullScreen(enabled);
     emit fullScreenChanged(enabled);
 }
 
@@ -295,7 +303,8 @@ void PlayVideoWidget::playPause()
     }
     else if(glWidget!=NULL){
         if(glWidget->IsPlaying()==true){
-            glWidget->play();
+            //glWidget->play();
+            glWidget->pause();
         }
         else{
             if(glWidget->IsPausing()==true){
@@ -417,10 +426,9 @@ qint64 PlayVideoWidget::openFile(QString& fileName)
     }
     else if(glWidget!=NULL){
         glWidget->setSource(fileName);
-        
         return glWidget->duration();
     }
-
+    return 0;
 }
 
 void PlayVideoWidget::finished()
@@ -520,7 +528,10 @@ void	PlayVideoWidget::TransmitDirectly(GUIDirectMessage* packet)
     CmdVideo_GetPlaybackRate* CmdVideo_GetPlaybackRateVar = dynamic_cast<CmdVideo_GetPlaybackRate*>(packet);
     if (CmdVideo_GetPlaybackRateVar != NULL) {
         if(Player!=NULL){
-            CmdVideo_GetPlaybackRateVar->PlaybackRate= Player->playbackRate();
+            CmdVideo_GetPlaybackRateVar->PlaybackRate = Player->playbackRate();
+        }
+        else if(glWidget!=NULL){
+            CmdVideo_GetPlaybackRateVar->PlaybackRate = glWidget->playbackRate();
         }
         return;
     }

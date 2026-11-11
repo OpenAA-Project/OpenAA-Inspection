@@ -23,23 +23,17 @@
 #include <QDebug>
 #include <QElapsedTimer>
 
+#ifdef Q_OS_WIN
 // Windows / Media Foundation Headers
 #include <windows.h>
 #include <mfapi.h>
 #include <mfidl.h>       
 #include <mfreadwrite.h> 
-//#include <mf.h>          
 #include <d3d11.h>
 #include <d3d11_4.h>
-#include <propvarutil.h> // PROPVARIANT操作用
+#include <propvarutil.h> // For PROPVARIANT operations
 
-#include "PlayVideoWidget.h"
-#include "XVideoWidget.h"
-#include "XGeneralDialog.h"
-#include "XGeneralFunc.h"
-#include "XCriticalFunc.h"
-
-// リンク設定
+// Linker settings
 #pragma comment(lib, "mf.lib")
 #pragma comment(lib, "mfplat.lib")
 #pragma comment(lib, "mfreadwrite.lib")
@@ -47,19 +41,35 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "opengl32.lib")
 
-
 template <class T> void SafeRelease(T **ppT) {
     if (*ppT) { (*ppT)->Release(); *ppT = NULL; }
 }
+#else
+// Linux / Raspberry Pi: FFmpeg Headers
+extern "C" {
+#include <libavformat/avformat.h>
+#include <libavcodec/avcodec.h>
+#include <libswscale/swscale.h>
+#include <libavutil/imgutils.h>
+#include <libavutil/time.h>
+}
+#endif
+
+#include "PlayVideoWidget.h"
+#include "XVideoWidget.h"
+#include "XGeneralDialog.h"
+#include "XGeneralFunc.h"
+#include "XCriticalFunc.h"
+
 
 MMFVideoWidget::MMFVideoWidget(PlayVideoWidget* player, QWidget *parent)
-    : QOpenGLWidget(parent) ,Parent(player),Player(this)
+    : QOpenGLWidget(parent), Parent(player), Player(this)
 {
-    connect(&Player, &MFDecoderThread::durationChanged, [&](qint64 totalMs){
+    connect(&Player, &MFDecoderThread::durationChanged, this, [&](qint64 totalMs){
         totalDuration = totalMs;
     });
-    connect(&Player, SIGNAL(positionChanged(qint64)), this, SLOT(SlotPositionChanged(qint64)),Qt::QueuedConnection);
-    connect(&Player, SIGNAL(playbackFinished()), this, SLOT(SlotBlaybackFinished()),Qt::QueuedConnection);
+    connect(&Player, SIGNAL(positionChanged(qint64)), this, SLOT(SlotPositionChanged(qint64)), Qt::QueuedConnection);
+    connect(&Player, SIGNAL(playbackFinished()), this, SLOT(SlotBlaybackFinished()), Qt::QueuedConnection);
 }
 
 MMFVideoWidget::~MMFVideoWidget()
@@ -76,168 +86,189 @@ MMFVideoWidget::~MMFVideoWidget()
 
 void MMFVideoWidget::SlotPositionChanged(qint64 currentMs)
 {
-    CurrentMs=currentMs;
-    emit    SignalPositionChanged(currentMs);
-}
-void	MMFVideoWidget::SlotBlaybackFinished()
-{
-    emit	SignalBlaybackFinished();
+    CurrentMs = currentMs;
+    emit SignalPositionChanged(currentMs);
 }
 
-bool	MMFVideoWidget::IsPlaying()
+void MMFVideoWidget::SlotBlaybackFinished()
 {
-    if(Player.m_playing==true && Player.m_stop==false && Player.m_pause==false){
-        return true;
-    }
-    return false;
-}
-bool	MMFVideoWidget::IsPausing()
-{
-    if(Player.m_playing==true && Player.m_stop==false && Player.m_pause==true){
-        return true;
-    }
-    return false;
+    emit SignalBlaybackFinished();
 }
 
-qint64	MMFVideoWidget::duration()
+bool MMFVideoWidget::IsPlaying()
+{
+    return (Player.m_playing.load() && !Player.m_stop.load() && !Player.m_pause.load());
+}
+
+bool MMFVideoWidget::IsPausing()
+{
+    return (Player.m_playing.load() && !Player.m_stop.load() && Player.m_pause.load());
+}
+
+qint64 MMFVideoWidget::duration()
 {
     return totalDuration;
 }
-qint64	MMFVideoWidget::position()
+
+qint64 MMFVideoWidget::position()
 {
     return CurrentMs;
 }
-// 指定位置へシーク
+
+// Seek to the specified position in milliseconds
 void MMFVideoWidget::seek(qint64 ms)
 {
-    // 範囲チェック (0 ～ 総時間)
+    // Clamp to valid range (0 to totalDuration)
     if (ms < 0) ms = 0;
     if (totalDuration > 0 && ms > totalDuration) ms = totalDuration;
 
-    // 現在位置を更新（即座にスライダー等を反応させたい場合）
+    // Update current position immediately for UI responsiveness
     CurrentMs = ms;
     emit SignalPositionChanged(CurrentMs);
 
-    // デコードスレッドへ要求
+    // Send seek request to the decoder thread
     Player.seekTo(ms);
 }
 
-void MMFVideoWidget::rewind(qint64 ms)
+void MMFVideoWidget::rewind(qint64 /*ms*/)
 {
-    //seek(CurrentMs - ms);
     seek(0);
 }
+
 void MMFVideoWidget::setPlaybackRate(double rate)
 {
-    // スレッドへ通知
+    // Notify the decoder thread
     Player.setPlaybackRate(rate);
 }
 
-// 早送りボタン用: 2倍速に設定する
+double MMFVideoWidget::playbackRate() const
+{
+    return Player.m_requestedRate.load();
+}
+
+// For fast-forward button: toggles between 1.0x and 2.0x speed
 void MMFVideoWidget::forward()
 {
-    // 現在の速度を確認してトグル動作にする例
-    // 既に2倍速なら1倍に戻す、そうでなければ2倍にする
-    if (Player.m_requestedRate == 2.0) {
+    if (Player.m_requestedRate.load() == 2.0) {
         setPlaybackRate(1.0);
     } else {
         setPlaybackRate(2.0);
     }
 }
 
-
-// デコーダースレッドから呼ばれる: データをバックバッファにコピー
-void MMFVideoWidget::updateFrame(const uchar* data, int width, int height, int stride)
+// Called from the decoder thread: copies frame data to the back buffer
+void MMFVideoWidget::updateFrame(const uchar* data, int width, int height, int stride, bool isBGRA)
 {
     QMutexLocker locker(&m_mutex);
     
-    // バッファサイズ調整
-    if (m_buffer.size() != width * height * 4) {
+    // Resize buffer if dimensions changed
+    if (m_buffer.size() != static_cast<size_t>(width * height * 4)) {
         m_buffer.resize(width * height * 4);
     }
     
     m_videoWidth = width;
     m_videoHeight = height;
     
-    // 行ごとにコピー (Stride考慮)
-    // OpenGLは下から上へ描画する場合があるが、ここではUV座標で調整するため上から下へコピー
-    // データが密(packed)なら一括コピー可能だが、安全のため行コピー
+    // Copy row by row considering stride.
+    // Top-to-bottom order is preserved since UV coordinates handle orientation.
     const uchar* src = data;
     uchar* dst = m_buffer.data();
     int lineBytes = width * 4; // RGBA 32bit
     
-    if (stride == lineBytes) {
-         memcpy(dst, src, m_buffer.size());
+    if (!isBGRA) {
+        // Already in RGBA order (Linux / FFmpeg)
+        if (stride == lineBytes) {
+            memcpy(dst, src, m_buffer.size());
+        } else {
+            for (int y = 0; y < height; ++y) {
+                memcpy(dst, src, lineBytes);
+                src += stride;
+                dst += lineBytes;
+            }
+        }
     } else {
-         for (int y = 0; y < height; ++y) {
-             memcpy(dst, src, lineBytes);
-             src += stride;
-             dst += lineBytes;
-         }
+        // Convert BGRA to RGBA (for Windows Media Foundation RGB32)
+        for (int y = 0; y < height; ++y) {
+            const uchar* sLine = src;
+            uchar* dLine = dst;
+            for (int x = 0; x < width; ++x) {
+                dLine[0] = sLine[2]; // R
+                dLine[1] = sLine[1]; // G
+                dLine[2] = sLine[0]; // B
+                dLine[3] = sLine[3]; // A
+                sLine += 4;
+                dLine += 4;
+            }
+            src += stride;
+            dst += lineBytes;
+        }
     }
     
     m_newFrameAvailable = true;
-    // UIスレッドで update() を呼ぶように依頼
+    // Request update() on the UI thread
     QMetaObject::invokeMethod(this, "update", Qt::QueuedConnection);
 }
+
 void MMFVideoWidget::setSource(const QString &path)
 {
     Player.setSource(path);
-	totalDuration=GetVideoDuration(path.toStdWString());
+    totalDuration = static_cast<qint64>(GetVideoDuration(path) * 1000.0);
 }
-double MMFVideoWidget::GetVideoDuration(const std::wstring& filename)
-{
-    IMFSourceReader* pReader = nullptr;
-    HRESULT hr = S_OK;
 
-    // 1. Source Reader の作成
-    hr = MFCreateSourceReaderFromURL(filename.c_str(), nullptr, &pReader);
+double MMFVideoWidget::GetVideoDuration(const QString& filename)
+{
+    if (filename.isEmpty()) return 0.0;
+
+#ifdef Q_OS_WIN
+    IMFSourceReader* pReader = nullptr;
+    HRESULT hr = MFStartup(MF_VERSION);
     if (FAILED(hr)) return 0.0;
 
-    // 2. プレゼンテーション属性の取得
-    // Presentation Descriptor の代わりとして Source Reader から取得可能
-    IMFAttributes* pAttributes = nullptr;
-    double durationSec = 0.0;
-
-    // MF_SOURCE_READER_MEDIASOURCE キャラクタリスティックを取得
-    // 注: SourceReader内部のMediaSourceからDurationを取るのが確実です
-    IMFMediaSource* pMediaSource = nullptr;
-    hr = pReader->GetServiceForStream(
-        MF_SOURCE_READER_MEDIASOURCE, 
-        GUID_NULL, 
-        IID_PPV_ARGS(&pMediaSource)
-    );
-
-    if (SUCCEEDED(hr)) {
-        IMFPresentationDescriptor* pPD = nullptr;
-        hr = pMediaSource->CreatePresentationDescriptor(&pPD);
-        if (SUCCEEDED(hr)) {
-            UINT64 durationVal = 0;
-            // MF_PD_DURATION は 100ナノ秒単位 (10^-7 秒)
-            hr = pPD->GetUINT64(MF_PD_DURATION, &durationVal);
-            if (SUCCEEDED(hr)) {
-                durationSec = (double)durationVal / 10000000.0;
-            }
-            pPD->Release();
-        }
-        pMediaSource->Release();
-    } else {
-        // フォールバック: SourceReader自体が持っている属性を試す (稀なケース)
-        // 通常は上記 ServiceForStream で取れるはずです
+    // 1. Create Source Reader
+    std::wstring wfilename = filename.toStdWString();
+    hr = MFCreateSourceReaderFromURL(wfilename.c_str(), nullptr, &pReader);
+    if (FAILED(hr)) {
+        MFShutdown();
+        return 0.0;
     }
 
+    // 2. Retrieve presentation duration attribute (in 100-nanosecond units)
+    double durationSec = 0.0;
+    PROPVARIANT var;
+    PropVariantInit(&var);
+    if (SUCCEEDED(pReader->GetPresentationAttribute(MF_SOURCE_READER_MEDIASOURCE, MF_PD_DURATION, &var))) {
+        durationSec = (double)var.uhVal.QuadPart / 10000000.0;
+    }
+    PropVariantClear(&var);
     pReader->Release();
+    MFShutdown();
     return durationSec;
+#else
+    AVFormatContext* fmtCtx = nullptr;
+    QByteArray utf8Path = filename.toUtf8();
+    if (avformat_open_input(&fmtCtx, utf8Path.constData(), nullptr, nullptr) != 0) {
+        return 0.0;
+    }
+    double durationSec = 0.0;
+    if (avformat_find_stream_info(fmtCtx, nullptr) >= 0) {
+        if (fmtCtx->duration != AV_NOPTS_VALUE) {
+            durationSec = static_cast<double>(fmtCtx->duration) / AV_TIME_BASE;
+        }
+    }
+    avformat_close_input(&fmtCtx);
+    return durationSec;
+#endif
 }
+
 void MMFVideoWidget::initializeGL()
 {
     initializeOpenGLFunctions();
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     
-    // シェーダーの作成
+    // Create shader program
     m_program = new QOpenGLShaderProgram();
     
-    // 頂点シェーダー: 単純な全画面Quad
+    // Vertex shader: simple full-screen quad
     m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, R"(
         attribute vec4 position;
         attribute vec2 texCoord;
@@ -248,12 +279,14 @@ void MMFVideoWidget::initializeGL()
         }
     )");
     
-    // フラグメントシェーダー: テクスチャサンプリング
+    // Fragment shader: texture sampling (includes precision qualifier for OpenGL ES)
     m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, R"(
+        #ifdef GL_ES
+        precision mediump float;
+        #endif
         uniform sampler2D texture;
         varying vec2 vTexCoord;
         void main() {
-            // BGRA -> RGBA のスウィズルはglTexImage2Dのフォーマット指定で行うため、ここはそのまま
             gl_FragColor = texture2D(texture, vTexCoord);
         }
     )");
@@ -265,12 +298,13 @@ void MMFVideoWidget::resizeGL(int w, int h)
 {
     glViewport(0, 0, w, h);
 }
+
 void MMFVideoWidget::paintGL()
 {
-    // 背景をクリア (initializeGLで設定した黒色になります)
+    // Clear background to black
     glClear(GL_COLOR_BUFFER_BIT);
     
-    // 動画サイズが未確定、またはウィンドウの高さが0の場合は描画しない
+    // Do not render if video dimensions or widget height are zero
     if (m_videoWidth == 0 || m_videoHeight == 0 || height() == 0) return;
     
     QMutexLocker locker(&m_mutex);
@@ -278,9 +312,12 @@ void MMFVideoWidget::paintGL()
     if (!m_program) return;
     m_program->bind();
     
-    // テクスチャの初期化または更新
+    // Initialize or recreate texture if dimensions changed
     if (!m_texture || m_texture->width() != m_videoWidth || m_texture->height() != m_videoHeight) {
-        if (m_texture) delete m_texture;
+        if (m_texture) {
+            m_texture->destroy();
+            delete m_texture;
+        }
         m_texture = new QOpenGLTexture(QOpenGLTexture::Target2D);
         m_texture->setSize(m_videoWidth, m_videoHeight);
         m_texture->setFormat(QOpenGLTexture::RGBA8_UNorm);
@@ -289,16 +326,16 @@ void MMFVideoWidget::paintGL()
         m_texture->setWrapMode(QOpenGLTexture::ClampToEdge);
     }
     
-    // 新しいフレームがあればGPUへアップロード
+    // Upload new frame to GPU if available (unified as RGBA for OpenGL / OpenGL ES)
     if (m_newFrameAvailable) {
-        m_texture->setData(QOpenGLTexture::BGRA, QOpenGLTexture::UInt8, m_buffer.data());
+        m_texture->setData(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, m_buffer.data());
         m_newFrameAvailable = false;
     }
     
     m_texture->bind();
     
     // ---------------------------------------------------------
-    // アスペクト比計算 (ここが変更点です)
+    // Aspect ratio calculation (letterboxing / pillarboxing)
     // ---------------------------------------------------------
     float windowRatio = (float)width() / (float)height();
     float videoRatio = (float)m_videoWidth / (float)m_videoHeight;
@@ -307,19 +344,19 @@ void MMFVideoWidget::paintGL()
     float scaleY = 1.0f;
     
     if (windowRatio > videoRatio) {
-        // ウィンドウの方が横長 -> 左右に黒帯を入れる (幅を縮小)
+        // Window is wider than video -> add black bars on left and right
         scaleX = videoRatio / windowRatio;
     } else {
-        // ウィンドウの方が縦長 -> 上下に黒帯を入れる (高さを縮小)
+        // Window is taller than video -> add black bars on top and bottom
         scaleY = windowRatio / videoRatio;
     }
 
-    // 計算したスケールを頂点座標に適用 (-1.0 ～ 1.0 の範囲を調整)
+    // Apply calculated scale to vertex coordinates (-1.0 to 1.0)
     float vertices[] = {
-        -scaleX, -scaleY,  0.0f, 1.0f, // 左下
-         scaleX, -scaleY,  1.0f, 1.0f, // 右下
-        -scaleX,  scaleY,  0.0f, 0.0f, // 左上
-         scaleX,  scaleY,  1.0f, 0.0f  // 右上
+        -scaleX, -scaleY,  0.0f, 1.0f, // Bottom-left
+         scaleX, -scaleY,  1.0f, 1.0f, // Bottom-right
+        -scaleX,  scaleY,  0.0f, 0.0f, // Top-left
+         scaleX,  scaleY,  1.0f, 0.0f  // Top-right
     };
     // ---------------------------------------------------------
     
@@ -329,7 +366,6 @@ void MMFVideoWidget::paintGL()
     m_program->enableAttributeArray(posLoc);
     m_program->enableAttributeArray(texLoc);
     
-    // データサイズは変更なし (float 4つ * 4頂点)
     m_program->setAttributeArray(posLoc, GL_FLOAT, vertices, 2, 4 * sizeof(float));
     m_program->setAttributeArray(texLoc, GL_FLOAT, vertices + 2, 2, 4 * sizeof(float));
     
@@ -341,85 +377,118 @@ void MMFVideoWidget::paintGL()
     m_texture->release();
     m_program->release();
 }
-void	MMFVideoWidget::play()
+
+void MMFVideoWidget::play()
 {
-    if(IsPlaying()==true){
+    if (IsPlaying()) {
         Player.stop();
         Player.wait(2000);
     }
-    if(Player.PreparePlay()==true){
+    if (Player.PreparePlay()) {
         Player.start();
     }
 }
-void	MMFVideoWidget::stop()
+
+void MMFVideoWidget::stop()
 {
     Player.stop();
 }
-void	MMFVideoWidget::pause()
+
+void MMFVideoWidget::pause()
 {
     Player.pause();
 }
-void	MMFVideoWidget::restart()
+
+void MMFVideoWidget::restart()
 {
     Player.restart();
 }
 
 //======================================================================
 // ---------------------------------------------------------
-// MFDecoderThread: 動画デコードを行いウィジェットに生データを渡す
+// MFDecoderThread: Decodes video and passes raw pixel data to the widget
 // ---------------------------------------------------------
 
 MFDecoderThread::MFDecoderThread(MMFVideoWidget* widget, QObject *parent) 
- : QThread(parent), m_glWidget(widget)
+    : QThread(parent), m_glWidget(widget)
 {
-    m_pause=false;
-    m_playing=false;
+    m_pause = false;
+    m_playing = false;
+    m_stop = false;
     m_seekRequest = false;
     m_seekTargetMs = 0;
     m_requestedRate = 1.0;
+}
 
-    pAttributes	=NULL;
-    pReader		=NULL;
-    pDXGIManager	=NULL;
-    pD3D11Device	=NULL;
-    pContext		=NULL;
+MFDecoderThread::~MFDecoderThread()
+{
+    stop();
+    cleanupDecoder();
 }
     
-void    MFDecoderThread::setSource(const QString &path) { m_filePath = path; }
-void    MFDecoderThread::stop()     { m_stop = true; wait();    }
-void    MFDecoderThread::pause()    {   m_pause=true;           }
-void	MFDecoderThread::restart()  {   m_pause=false;          }
+void MFDecoderThread::setSource(const QString &path) { m_filePath = path; }
+void MFDecoderThread::stop()    { m_stop = true; wait(); }
+void MFDecoderThread::pause()   { m_pause = true; }
+void MFDecoderThread::restart() { m_pause = false; }
 
-void    MFDecoderThread::seekTo(qint64 ms)
+void MFDecoderThread::seekTo(qint64 ms)
 {
     m_seekTargetMs = ms;
     m_seekRequest = true;
 }
-void    MFDecoderThread::setPlaybackRate(double rate)
+
+void MFDecoderThread::setPlaybackRate(double rate)
 {
     if (rate > 0.0) {
         m_requestedRate = rate;
     }
 }
 
-bool	MFDecoderThread::PreparePlay()
+void MFDecoderThread::cleanupDecoder()
 {
-    if (m_filePath.isEmpty()){
+#ifdef Q_OS_WIN
+    SafeRelease(&pReader);
+    SafeRelease(&pAttributes);
+    SafeRelease(&pDXGIManager);
+    SafeRelease(&pContext);
+    SafeRelease(&pD3D11Device);
+#else
+    if (m_swsCtx) {
+        sws_freeContext(m_swsCtx);
+        m_swsCtx = nullptr;
+    }
+    if (m_codecCtx) {
+        avcodec_free_context(&m_codecCtx);
+        m_codecCtx = nullptr;
+    }
+    if (m_formatCtx) {
+        avformat_close_input(&m_formatCtx);
+        m_formatCtx = nullptr;
+    }
+    m_videoStreamIdx = -1;
+#endif
+}
+
+bool MFDecoderThread::PreparePlay()
+{
+    if (m_filePath.isEmpty()) {
         return false;
     }
+    stop();
+    cleanupDecoder();
+
     m_stop = false;
-    m_pause=false;
-    m_seekRequest = false; // 初期化
-    m_requestedRate = 1.0; // デフォルト1倍速
-   
+    m_pause = false;
+    m_seekRequest = false;
+    m_requestedRate = 1.0; // Default 1.0x speed
+
+#ifdef Q_OS_WIN
     HRESULT hr = MFStartup(MF_VERSION);
-    if (FAILED(hr)){
+    if (FAILED(hr)) {
         return false;
     }
     
     // D3D11 Init
-    pD3D11Device = nullptr;
-    pContext = nullptr;
     UINT creationFlags = D3D11_CREATE_DEVICE_VIDEO_SUPPORT | D3D11_CREATE_DEVICE_BGRA_SUPPORT;
     D3D11CreateDevice(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, creationFlags, NULL, 0, D3D11_SDK_VERSION, &pD3D11Device, NULL, &pContext);
     
@@ -429,23 +498,20 @@ bool	MFDecoderThread::PreparePlay()
         if (pMultithread) { pMultithread->SetMultithreadProtected(TRUE); pMultithread->Release(); }
     }
     
-    pDXGIManager = nullptr;
     UINT token = 0;
     MFCreateDXGIDeviceManager(&token, &pDXGIManager);
-    if(pDXGIManager && pD3D11Device) pDXGIManager->ResetDevice(pD3D11Device, token);
+    if (pDXGIManager && pD3D11Device) pDXGIManager->ResetDevice(pD3D11Device, token);
     
-    pAttributes = nullptr;
     MFCreateAttributes(&pAttributes, 0);
-    if(pDXGIManager) pAttributes->SetUnknown(MF_SOURCE_READER_D3D_MANAGER, pDXGIManager);
+    if (pDXGIManager) pAttributes->SetUnknown(MF_SOURCE_READER_D3D_MANAGER, pDXGIManager);
     pAttributes->SetUINT32(MF_READWRITE_ENABLE_HARDWARE_TRANSFORMS, TRUE);
     pAttributes->SetUINT32(MF_SOURCE_READER_ENABLE_ADVANCED_VIDEO_PROCESSING, TRUE);
     
-    pReader = nullptr;
     hr = MFCreateSourceReaderFromURL(reinterpret_cast<LPCWSTR>(m_filePath.utf16()), pAttributes, &pReader);
     SafeRelease(&pAttributes);
     
     if (FAILED(hr)) {
-        SafeRelease(&pDXGIManager); SafeRelease(&pContext); SafeRelease(&pD3D11Device);
+        cleanupDecoder();
         MFShutdown();
         return false;
     }
@@ -465,62 +531,107 @@ bool	MFDecoderThread::PreparePlay()
     pReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, NULL, pType);
     SafeRelease(&pType);
     
-    m_playing=true;
+    m_playing = true;
     return true;
+
+#else
+    QByteArray utf8Path = m_filePath.toUtf8();
+    if (avformat_open_input(&m_formatCtx, utf8Path.constData(), nullptr, nullptr) != 0) {
+        return false;
+    }
+    if (avformat_find_stream_info(m_formatCtx, nullptr) < 0) {
+        cleanupDecoder();
+        return false;
+    }
+
+    if (m_formatCtx->duration != AV_NOPTS_VALUE) {
+        emit durationChanged((m_formatCtx->duration * 1000) / AV_TIME_BASE);
+    }
+
+    const AVCodec* codec = nullptr;
+    m_videoStreamIdx = av_find_best_stream(m_formatCtx, AVMEDIA_TYPE_VIDEO, -1, -1, &codec, 0);
+    if (m_videoStreamIdx < 0 || !codec) {
+        cleanupDecoder();
+        return false;
+    }
+
+    AVStream* videoStream = m_formatCtx->streams[m_videoStreamIdx];
+    m_codecCtx = avcodec_alloc_context3(codec);
+    if (!m_codecCtx) {
+        cleanupDecoder();
+        return false;
+    }
+
+    if (avcodec_parameters_to_context(m_codecCtx, videoStream->codecpar) < 0) {
+        cleanupDecoder();
+        return false;
+    }
+
+    // Automatically select thread count for multi-core CPUs (e.g., Raspberry Pi)
+    m_codecCtx->thread_count = 0;
+
+    if (avcodec_open2(m_codecCtx, codec, nullptr) < 0) {
+        cleanupDecoder();
+        return false;
+    }
+
+    m_playing = true;
+    return true;
+#endif
 }
+
 void MFDecoderThread::run()
 {
+    QElapsedTimer clock;
+    bool isFirstFrame = true;
+
+    // Pause duration tracking
+    QElapsedTimer pauseClock;     // Timer to measure pause duration
+    qint64 totalPausedTime = 0;   // Cumulative paused time in milliseconds
+    bool wasPaused = false;       // Whether the thread was paused in the previous iteration
+    
+    // Playback rate control: anchor point management
+    double currentRate = 1.0;
+    qint64 anchorPts = 0;         // Video PTS at the moment of rate change
+    qint64 anchorRealTime = 0;    // Real elapsed time at the moment of rate change
+
+#ifdef Q_OS_WIN
     HRESULT hr;
 
-    QElapsedTimer clock;
-    LONGLONG startPts = -1;
-    bool    isFirstFrame = true;
-
-    // 一時停止時間の管理用
-    QElapsedTimer pauseClock;     // 一時停止中の時間を計るタイマー
-    qint64 totalPausedTime = 0;   // 累積の一時停止時間 (ミリ秒)
-    bool wasPaused = false;       // 直前までポーズしていたか   
-    
-    // 速度制御用: 「基準点」管理
-    double currentRate = 1.0;
-    qint64 anchorPts = 0;       // 速度変更時点の動画内時間 (PTS)
-    qint64 anchorRealTime = 0;  // 速度変更時点の実時間 (Real Time)
-
     while (!m_stop) {
-        // --- 1. シーク処理 ---
+        // --- 1. Seek handling ---
         if (m_seekRequest) {
             PROPVARIANT posVar;
             PropVariantInit(&posVar);
             posVar.vt = VT_I8;
-            posVar.hVal.QuadPart = m_seekTargetMs * 10000; // to 100ns
+            posVar.hVal.QuadPart = m_seekTargetMs.load() * 10000; // Convert ms to 100ns units
             
             hr = pReader->SetCurrentPosition(GUID_NULL, posVar);
             PropVariantClear(&posVar);
             
             if (SUCCEEDED(hr)) {
-                // シーク成功時は同期変数をリセット
+                // Reset synchronization variables on successful seek.
+                // Setting isFirstFrame = true ensures one frame is rendered even while paused.
                 isFirstFrame = true;
                 totalPausedTime = 0;
                 wasPaused = false;
-                // m_pauseがtrueでも、後続の処理で1フレームだけ描画させるために
-                // isFirstFrame = true にしているのが重要
             }
             m_seekRequest = false;
         }
 
-        // --- 2. ポーズ処理 ---
+        // --- 2. Pause handling ---
         if (m_pause) {
-            // シーク直後などの1フレーム目以外は待機
+            // Wait if paused, except for the first frame right after a seek
             if (!isFirstFrame) {
                 if (!wasPaused) {
                     pauseClock.start();
                     wasPaused = true;
                 }
                 msleep(50);
-                continue; // 次のループへ
+                continue;
             }
         } else {
-            // ポーズ解除
+            // Resumed from pause
             if (wasPaused) {
                 totalPausedTime += pauseClock.elapsed();
                 pauseClock.invalidate();
@@ -528,67 +639,57 @@ void MFDecoderThread::run()
             }
         }
  
-        // --- 3. フレーム読み込み ---
+        // --- 3. Read frame ---
         IMFSample *pSample = nullptr;
         DWORD flags = 0;
         LONGLONG llSampleTime = 0;
         
         hr = pReader->ReadSample(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, NULL, &flags, &llSampleTime, &pSample);
-        
         if (FAILED(hr)) {
-            break; // エラー時は終了
+            break; // Exit on error
         }
 
-        // --- 動画の末尾に来た場合 ---
+        // --- End of stream ---
         if (flags & MF_SOURCE_READERF_ENDOFSTREAM) {
-            // 自動的にポーズ状態に移行する
-            //m_pause = true;
-            
-            // シグナルを出してUI側のボタン表記を「Play」に戻すなどの連携も可能
             emit playbackFinished(); 
-            
-            break; // ループの先頭に戻る（先頭のポーズ待機ロジックに入ります）
+            break;
         }
 
         if (pSample) {
             qint64 currentPtsMs = llSampleTime / 10000;
             emit positionChanged(currentPtsMs);
             
-            // --- 4. 同期ロジック (速度可変対応) ---
+            // --- 4. Synchronization logic (variable playback rate support) ---
             if (isFirstFrame) {
                 clock.start();
-                currentRate = m_requestedRate;
+                currentRate = m_requestedRate.load();
                 anchorPts = currentPtsMs;
                 anchorRealTime = 0;
                 isFirstFrame = false;
+            } else if (!m_pause) {
+                qint64 currentRealTime = clock.elapsed() - totalPausedTime;
+                double reqRate = m_requestedRate.load();
                 
-                // もしポーズ中のシークなら、このフレームを描画した後に
-                // 次回ループからポーズ待機に入る
-            } else {
-                if (!m_pause) {
-                    qint64 currentRealTime = clock.elapsed() - totalPausedTime;
-                    
-                    // 速度変更検知 -> アンカー更新
-                    if (m_requestedRate != currentRate) {
-                        currentRate = m_requestedRate;
-                        anchorPts = currentPtsMs;
-                        anchorRealTime = currentRealTime;
-                    }
+                // Detect playback rate change and update anchor
+                if (reqRate != currentRate) {
+                    currentRate = reqRate;
+                    anchorPts = currentPtsMs;
+                    anchorRealTime = currentRealTime;
+                }
 
-                    // 基準点からの経過時間で同期
-                    qint64 timeSinceAnchor = currentRealTime - anchorRealTime;
-                    qint64 expectedPts = anchorPts + (qint64)(timeSinceAnchor * currentRate);
-                    
-                    qint64 diffPts = currentPtsMs - expectedPts;
-                    if (diffPts > 0) {
-                        qint64 waitMs = (qint64)(diffPts / currentRate);
-                        if (waitMs > 0)
-                            msleep(waitMs);
-                    }
+                // Synchronize based on elapsed time from anchor point
+                qint64 timeSinceAnchor = currentRealTime - anchorRealTime;
+                qint64 expectedPts = anchorPts + (qint64)(timeSinceAnchor * currentRate);
+                
+                qint64 diffPts = currentPtsMs - expectedPts;
+                if (diffPts > 0) {
+                    qint64 waitMs = (qint64)(diffPts / currentRate);
+                    if (waitMs > 0)
+                        msleep(waitMs);
                 }
             }
             
-            // --- 5. 描画転送 ---
+            // --- 5. Transfer frame for rendering ---
             IMFMediaBuffer *pBuffer = nullptr;
             pSample->ConvertToContiguousBuffer(&pBuffer);
             
@@ -602,7 +703,6 @@ void MFDecoderThread::run()
                 UINT32 width = 0, height = 0;
                 MFGetAttributeSize(pCurrentType, MF_MT_FRAME_SIZE, &width, &height);
                 UINT32 stride = 0;
-                // ヘルパー関数ではなくメンバ関数を使う(コンパイルエラー対策)
                 pCurrentType->GetUINT32(MF_MT_DEFAULT_STRIDE, &stride);
                 SafeRelease(&pCurrentType);
                 
@@ -612,7 +712,7 @@ void MFDecoderThread::run()
                     if (lStride < 0) lStride = -lStride;
 
                     if (m_glWidget) {
-                        m_glWidget->updateFrame(pData, width, height, lStride);
+                        m_glWidget->updateFrame(pData, width, height, lStride, true);
                     }
                 }
                 pBuffer->Unlock();
@@ -622,13 +722,139 @@ void MFDecoderThread::run()
         }
     }
     
-    SafeRelease(&pReader);
-    SafeRelease(&pDXGIManager);
-    SafeRelease(&pContext);
-    SafeRelease(&pD3D11Device);
-    
-    m_playing=false;
+    cleanupDecoder();
+    m_playing = false;
     emit positionChanged(0);
-
     MFShutdown();
+
+#else
+    // Linux / Raspberry Pi (FFmpeg decoding loop)
+    AVPacket* packet = av_packet_alloc();
+    AVFrame* frame = av_frame_alloc();
+    AVStream* videoStream = m_formatCtx->streams[m_videoStreamIdx];
+    double timeBaseMs = av_q2d(videoStream->time_base) * 1000.0;
+
+    std::vector<uint8_t> rgbaBuffer;
+    int lastWidth = 0;
+    int lastHeight = 0;
+
+    while (!m_stop) {
+        // --- 1. Seek handling ---
+        if (m_seekRequest) {
+            qint64 targetMs = m_seekTargetMs.load();
+            int64_t seekTarget = static_cast<int64_t>(targetMs / timeBaseMs);
+            if (av_seek_frame(m_formatCtx, m_videoStreamIdx, seekTarget, AVSEEK_FLAG_BACKWARD) >= 0) {
+                avcodec_flush_buffers(m_codecCtx);
+                isFirstFrame = true;
+                totalPausedTime = 0;
+                wasPaused = false;
+            }
+            m_seekRequest = false;
+        }
+
+        // --- 2. Pause handling ---
+        if (m_pause) {
+            if (!isFirstFrame) {
+                if (!wasPaused) {
+                    pauseClock.start();
+                    wasPaused = true;
+                }
+                msleep(50);
+                continue;
+            }
+        } else {
+            if (wasPaused) {
+                totalPausedTime += pauseClock.elapsed();
+                pauseClock.invalidate();
+                wasPaused = false;
+            }
+        }
+
+        // --- 3. Read packet & decode frame ---
+        int ret = av_read_frame(m_formatCtx, packet);
+        if (ret < 0) {
+            if (ret == AVERROR_EOF) {
+                emit playbackFinished();
+            }
+            break;
+        }
+
+        if (packet->stream_index == m_videoStreamIdx) {
+            if (avcodec_send_packet(m_codecCtx, packet) == 0) {
+                while (avcodec_receive_frame(m_codecCtx, frame) == 0) {
+                    int64_t pts = (frame->best_effort_timestamp != AV_NOPTS_VALUE)
+                                  ? frame->best_effort_timestamp : frame->pts;
+                    qint64 currentPtsMs = (pts != AV_NOPTS_VALUE)
+                                          ? static_cast<qint64>(pts * timeBaseMs) : 0;
+
+                    emit positionChanged(currentPtsMs);
+
+                    // --- 4. Synchronization logic ---
+                    if (isFirstFrame) {
+                        clock.start();
+                        currentRate = m_requestedRate.load();
+                        anchorPts = currentPtsMs;
+                        anchorRealTime = 0;
+                        isFirstFrame = false;
+                    } else if (!m_pause) {
+                        qint64 currentRealTime = clock.elapsed() - totalPausedTime;
+                        double reqRate = m_requestedRate.load();
+                        if (reqRate != currentRate) {
+                            currentRate = reqRate;
+                            anchorPts = currentPtsMs;
+                            anchorRealTime = currentRealTime;
+                        }
+
+                        qint64 timeSinceAnchor = currentRealTime - anchorRealTime;
+                        qint64 expectedPts = anchorPts + static_cast<qint64>(timeSinceAnchor * currentRate);
+
+                        qint64 diffPts = currentPtsMs - expectedPts;
+                        if (diffPts > 0) {
+                            qint64 waitMs = static_cast<qint64>(diffPts / currentRate);
+                            if (waitMs > 0)
+                                msleep(waitMs);
+                        }
+                    }
+
+                    // --- 5. Convert to RGBA & transfer frame for rendering ---
+                    int width = frame->width;
+                    int height = frame->height;
+                    if (width > 0 && height > 0) {
+                        if (!m_swsCtx || width != lastWidth || height != lastHeight) {
+                            if (m_swsCtx) sws_freeContext(m_swsCtx);
+                            m_swsCtx = sws_getContext(
+                                width, height, static_cast<AVPixelFormat>(frame->format),
+                                width, height, AV_PIX_FMT_RGBA,
+                                SWS_BILINEAR, nullptr, nullptr, nullptr
+                            );
+                            rgbaBuffer.resize(width * height * 4);
+                            lastWidth = width;
+                            lastHeight = height;
+                        }
+
+                        if (m_swsCtx) {
+                            uint8_t* dest[4] = { rgbaBuffer.data(), nullptr, nullptr, nullptr };
+                            int destLinesize[4] = { width * 4, 0, 0, 0 };
+                            sws_scale(m_swsCtx, frame->data, frame->linesize, 0, height, dest, destLinesize);
+
+                            if (m_glWidget) {
+                                m_glWidget->updateFrame(rgbaBuffer.data(), width, height, width * 4, false);
+                            }
+                        }
+                    }
+
+                    if (m_stop || m_seekRequest) break;
+                }
+            }
+        }
+        av_packet_unref(packet);
+    }
+
+    av_frame_free(&frame);
+    av_packet_free(&packet);
+    cleanupDecoder();
+
+    m_playing = false;
+    emit positionChanged(0);
+#endif
 }

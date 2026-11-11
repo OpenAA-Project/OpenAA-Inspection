@@ -1,13 +1,14 @@
 # CMakeLists.txt generated from PlayVideoWidget.vcxproj
 # WARNING: This is an automatically generated file. Manual edits may be overwritten.
-# VCXPROJ-to-CMAKE limitations:
-# - MSBuild macros (e.g., $(SolutionDir)) may not be translated correctly.
-# - Complex conditions (custom platforms, etc.) are likely ignored.
-# - Linked libraries (e.g., system libs, other projects) may be incomplete.
 
 cmake_minimum_required(VERSION 3.16)
 
 project(PlayVideoWidget LANGUAGES CXX)
+
+# Set default build type to Release if not specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build." FORCE)
+endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -27,9 +28,14 @@ if(UNIX)
     # Allow multiple definitions to mimic MSVC static library linking behavior
     add_link_options("-Wl,--allow-multiple-definition")
 
-    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-        # Linux / Raspberry Pi specific settings
-    endif()
+    # Find FFmpeg libraries for Linux / Raspberry Pi
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(FFMPEG REQUIRED IMPORTED_TARGET
+        libavformat
+        libavcodec
+        libswscale
+        libavutil
+    )
 endif()
 
 # Find Qt6
@@ -70,239 +76,101 @@ endif()
 # === Configuration-specific settings ===
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
-    $<$<CONFIG:Debug>:
-        "PLAYVIDEOWIDGET_LIB"
-    >
+    "PLAYVIDEOWIDGET_LIB"
 )
 
-if(MSVC)
-endif()
-
-# --- End of Debug ---
-
 set_target_properties(${PROJECT_NAME} PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../GUI"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../GUI"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../GUI"
     ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/../../GUI"
     LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/../../GUI"
     RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/../../GUI"
 )
 
-if(CMAKE_BUILD_TYPE STREQUAL "Release" OR NOT CMAKE_BUILD_TYPE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../GUI"
-        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../GUI"
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../GUI"
-    )
-endif()
-
 target_include_directories(${PROJECT_NAME} PRIVATE
-    $<$<CONFIG:Release>:
-        "../../Open"
-    >
+    "../../Open"
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
-    $<$<CONFIG:Release>:
-        "../../Lib/Release"
-    >
-)
-
-target_compile_definitions(${PROJECT_NAME} PRIVATE
-    $<$<CONFIG:Release>:
-        "PLAYVIDEOWIDGET_LIB"
-    >
+    "../../Lib/Release"
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"dxgi.lib">
-        $<$<CONFIG:Release>:"mfreadwrite.lib">
-        $<$<CONFIG:Release>:"mfplat.lib">
-        $<$<CONFIG:Release>:"ServiceLib.lib">
-        $<$<CONFIG:Release>:"d3d11.lib">
-        $<$<CONFIG:Release>:"mfuuid.lib">
-        $<$<CONFIG:Release>:"mf.lib">
-        $<$<CONFIG:Release>:"DisplayOpenGL.lib">
-        $<$<CONFIG:Release>:"CommonGUIDLL.lib">
-        $<$<CONFIG:Release>:"Component.lib">
+        dxgi.lib
+        mfreadwrite.lib
+        mfplat.lib
+        ServiceLib.lib
+        d3d11.lib
+        mfuuid.lib
+        mf.lib
+        DisplayOpenGL.lib
+        CommonGUIDLL.lib
+        Component.lib
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for dxgi (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DXGI_SHARED_LIB_RELEASE NAMES dxgi PATHS "../../Lib/Release")
-    if(DXGI_SHARED_LIB_RELEASE)
-        set(DXGI_FINAL_LIB_RELEASE ${DXGI_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DXGI_STATIC_LIB_RELEASE NAMES libdxgi.a PATHS "../../Lib/Release")
-        if(DXGI_STATIC_LIB_RELEASE)
-            set(DXGI_FINAL_LIB_RELEASE ${DXGI_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DXGI_FINAL_LIB_RELEASE dxgi)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for mfreadwrite (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MFREADWRITE_SHARED_LIB_RELEASE NAMES mfreadwrite PATHS "../../Lib/Release")
-    if(MFREADWRITE_SHARED_LIB_RELEASE)
-        set(MFREADWRITE_FINAL_LIB_RELEASE ${MFREADWRITE_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MFREADWRITE_STATIC_LIB_RELEASE NAMES libmfreadwrite.a PATHS "../../Lib/Release")
-        if(MFREADWRITE_STATIC_LIB_RELEASE)
-            set(MFREADWRITE_FINAL_LIB_RELEASE ${MFREADWRITE_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MFREADWRITE_FINAL_LIB_RELEASE mfreadwrite)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for mfplat (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MFPLAT_SHARED_LIB_RELEASE NAMES mfplat PATHS "../../Lib/Release")
-    if(MFPLAT_SHARED_LIB_RELEASE)
-        set(MFPLAT_FINAL_LIB_RELEASE ${MFPLAT_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MFPLAT_STATIC_LIB_RELEASE NAMES libmfplat.a PATHS "../../Lib/Release")
-        if(MFPLAT_STATIC_LIB_RELEASE)
-            set(MFPLAT_FINAL_LIB_RELEASE ${MFPLAT_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MFPLAT_FINAL_LIB_RELEASE mfplat)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Release) ---
-    # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
     if(SERVICELIB_SHARED_LIB_RELEASE)
         set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
     else()
-        # 2. If not found, search for the static library (.a)
         find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release")
         if(SERVICELIB_STATIC_LIB_RELEASE)
             set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
         else()
-            # Fallback if not found (e.g. system library)
             set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for d3d11 (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(D3D11_SHARED_LIB_RELEASE NAMES d3d11 PATHS "../../Lib/Release")
-    if(D3D11_SHARED_LIB_RELEASE)
-        set(D3D11_FINAL_LIB_RELEASE ${D3D11_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(D3D11_STATIC_LIB_RELEASE NAMES libd3d11.a PATHS "../../Lib/Release")
-        if(D3D11_STATIC_LIB_RELEASE)
-            set(D3D11_FINAL_LIB_RELEASE ${D3D11_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(D3D11_FINAL_LIB_RELEASE d3d11)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for mfuuid (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MFUUID_SHARED_LIB_RELEASE NAMES mfuuid PATHS "../../Lib/Release")
-    if(MFUUID_SHARED_LIB_RELEASE)
-        set(MFUUID_FINAL_LIB_RELEASE ${MFUUID_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MFUUID_STATIC_LIB_RELEASE NAMES libmfuuid.a PATHS "../../Lib/Release")
-        if(MFUUID_STATIC_LIB_RELEASE)
-            set(MFUUID_FINAL_LIB_RELEASE ${MFUUID_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MFUUID_FINAL_LIB_RELEASE mfuuid)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for mf (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MF_SHARED_LIB_RELEASE NAMES mf PATHS "../../Lib/Release")
-    if(MF_SHARED_LIB_RELEASE)
-        set(MF_FINAL_LIB_RELEASE ${MF_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MF_STATIC_LIB_RELEASE NAMES libmf.a PATHS "../../Lib/Release")
-        if(MF_STATIC_LIB_RELEASE)
-            set(MF_FINAL_LIB_RELEASE ${MF_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MF_FINAL_LIB_RELEASE mf)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for DisplayOpenGL (Release) ---
-    # 1. First, search for the shared library (.so)
     find_library(DISPLAYOPENGL_SHARED_LIB_RELEASE NAMES DisplayOpenGL PATHS "../../Lib/Release")
     if(DISPLAYOPENGL_SHARED_LIB_RELEASE)
         set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_SHARED_LIB_RELEASE})
     else()
-        # 2. If not found, search for the static library (.a)
         find_library(DISPLAYOPENGL_STATIC_LIB_RELEASE NAMES libDisplayOpenGL.a PATHS "../../Lib/Release")
         if(DISPLAYOPENGL_STATIC_LIB_RELEASE)
             set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_STATIC_LIB_RELEASE})
         else()
-            # Fallback if not found (e.g. system library)
             set(DISPLAYOPENGL_FINAL_LIB_RELEASE DisplayOpenGL)
         endif()
     endif()
 
     # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
-    # 1. First, search for the shared library (.so)
     find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "../../Lib/Release")
     if(COMMONGUIDLL_SHARED_LIB_RELEASE)
         set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_SHARED_LIB_RELEASE})
     else()
-        # 2. If not found, search for the static library (.a)
         find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "../../Lib/Release")
         if(COMMONGUIDLL_STATIC_LIB_RELEASE)
             set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
         else()
-            # Fallback if not found (e.g. system library)
             set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
         endif()
     endif()
 
     # --- Dynamic Library Linking for Component (Release) ---
-    # 1. First, search for the shared library (.so)
     find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release")
     if(COMPONENT_SHARED_LIB_RELEASE)
         set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
     else()
-        # 2. If not found, search for the static library (.a)
         find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release")
         if(COMPONENT_STATIC_LIB_RELEASE)
             set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
         else()
-            # Fallback if not found (e.g. system library)
             set(COMPONENT_FINAL_LIB_RELEASE Component)
         endif()
     endif()
 
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${DXGI_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${MFREADWRITE_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${MFPLAT_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${D3D11_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${MFUUID_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${MF_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${DISPLAYOPENGL_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:-Wl,--end-group>
+        -Wl,--start-group
+        ${SERVICELIB_FINAL_LIB_RELEASE}
+        ${DISPLAYOPENGL_FINAL_LIB_RELEASE}
+        ${COMMONGUIDLL_FINAL_LIB_RELEASE}
+        ${COMPONENT_FINAL_LIB_RELEASE}
+        -Wl,--end-group
+        PkgConfig::FFMPEG
     )
-endif()
-
-if(MSVC)
 endif()
 
 # --- End of Release ---
@@ -335,69 +203,61 @@ target_link_directories(${PROJECT_NAME} PRIVATE
     "$ENV{HOME}/OpenAA6/Lib/Release"
 )
 
-target_compile_options(${PROJECT_NAME} PRIVATE
-    -ffunction-sections -fdata-sections
-)
+if(UNIX)
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        -ffunction-sections -fdata-sections
+    )
 
-target_link_options(${PROJECT_NAME} PRIVATE
-    "-Wl,--no-undefined"
-    "-Wl,--gc-sections"
-)
+    target_link_options(${PROJECT_NAME} PRIVATE
+        "-Wl,--no-undefined"
+        "-Wl,--gc-sections"
+    )
+endif()
 
-    # --- Dynamic Library Linking for ForWindows ---
-    # 1. First, search for the shared library (.so)
-    find_library(FORWINDOWS_SHARED_LIB NAMES ForWindows PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
-
-    if(FORWINDOWS_SHARED_LIB)
-        message(STATUS "Found Shared Library: ${FORWINDOWS_SHARED_LIB}")
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${FORWINDOWS_SHARED_LIB})
+# --- Dynamic Library Linking for ForWindows ---
+find_library(FORWINDOWS_SHARED_LIB NAMES ForWindows PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+if(FORWINDOWS_SHARED_LIB)
+    message(STATUS "Found Shared Library: ${FORWINDOWS_SHARED_LIB}")
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${FORWINDOWS_SHARED_LIB})
+else()
+    find_library(FORWINDOWS_STATIC_LIB NAMES libForWindows.a PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+    if(FORWINDOWS_STATIC_LIB)
+        message(STATUS "Found Static Library: ${FORWINDOWS_STATIC_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${FORWINDOWS_STATIC_LIB})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(FORWINDOWS_STATIC_LIB NAMES libForWindows.a PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
-        if(FORWINDOWS_STATIC_LIB)
-            message(STATUS "Found Static Library: ${FORWINDOWS_STATIC_LIB}")
-            target_link_libraries(${PROJECT_NAME} PRIVATE ${FORWINDOWS_STATIC_LIB})
-        else()
-            message(WARNING "Library ForWindows not found!")
-        endif()
+        message(WARNING "Library ForWindows not found!")
     endif()
+endif()
 
-    # --- Dynamic Library Linking for NetworkDrive ---
-    # 1. First, search for the shared library (.so)
-    find_library(NETWORKDRIVE_SHARED_LIB NAMES NetworkDrive PATHS "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CMAKE_CURRENT_SOURCE_DIR}/../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." NO_DEFAULT_PATH)
-
-    if(NETWORKDRIVE_SHARED_LIB)
-        message(STATUS "Found Shared Library: ${NETWORKDRIVE_SHARED_LIB}")
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${NETWORKDRIVE_SHARED_LIB})
+# --- Dynamic Library Linking for NetworkDrive ---
+find_library(NETWORKDRIVE_SHARED_LIB NAMES NetworkDrive PATHS "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CMAKE_CURRENT_SOURCE_DIR}/../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." NO_DEFAULT_PATH)
+if(NETWORKDRIVE_SHARED_LIB)
+    message(STATUS "Found Shared Library: ${NETWORKDRIVE_SHARED_LIB}")
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${NETWORKDRIVE_SHARED_LIB})
+else()
+    find_library(NETWORKDRIVE_STATIC_LIB NAMES libNetworkDrive.a PATHS "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CMAKE_CURRENT_SOURCE_DIR}/../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." NO_DEFAULT_PATH)
+    if(NETWORKDRIVE_STATIC_LIB)
+        message(STATUS "Found Static Library: ${NETWORKDRIVE_STATIC_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${NETWORKDRIVE_STATIC_LIB})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(NETWORKDRIVE_STATIC_LIB NAMES libNetworkDrive.a PATHS "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CMAKE_CURRENT_SOURCE_DIR}/../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." NO_DEFAULT_PATH)
-        if(NETWORKDRIVE_STATIC_LIB)
-            message(STATUS "Found Static Library: ${NETWORKDRIVE_STATIC_LIB}")
-            target_link_libraries(${PROJECT_NAME} PRIVATE ${NETWORKDRIVE_STATIC_LIB})
-        else()
-            message(WARNING "Library NetworkDrive not found!")
-        endif()
+        message(WARNING "Library NetworkDrive not found!")
     endif()
+endif()
 
-    # --- Dynamic Library Linking for png16 ---
-    # 1. First, search for the shared library (.so)
-    find_library(PNG16_SHARED_LIB NAMES png16 PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
-
-    if(PNG16_SHARED_LIB)
-        message(STATUS "Found Shared Library: ${PNG16_SHARED_LIB}")
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${PNG16_SHARED_LIB})
+# --- Dynamic Library Linking for png16 ---
+find_library(PNG16_SHARED_LIB NAMES png16 PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+if(PNG16_SHARED_LIB)
+    message(STATUS "Found Shared Library: ${PNG16_SHARED_LIB}")
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${PNG16_SHARED_LIB})
+else()
+    find_library(PNG16_STATIC_LIB NAMES libpng16.a PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+    if(PNG16_STATIC_LIB)
+        message(STATUS "Found Static Library: ${PNG16_STATIC_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${PNG16_STATIC_LIB})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(PNG16_STATIC_LIB NAMES libpng16.a PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
-        if(PNG16_STATIC_LIB)
-            message(STATUS "Found Static Library: ${PNG16_STATIC_LIB}")
-            target_link_libraries(${PROJECT_NAME} PRIVATE ${PNG16_STATIC_LIB})
-        else()
-            message(WARNING "Library png16 not found!")
-        endif()
+        message(WARNING "Library png16 not found!")
     endif()
+endif()
 
 # Link OpenMP
 target_link_libraries(${PROJECT_NAME} PRIVATE OpenMP::OpenMP_CXX)
-
