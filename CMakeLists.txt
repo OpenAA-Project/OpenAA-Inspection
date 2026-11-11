@@ -4555,21 +4555,13 @@ add_custom_target(GUI_ButtonSaveBmpJpg_build ALL
 )
 add_dependencies(GUI_ButtonSaveBmpJpg_build GUI_GeneralStackForm_build)
 
-add_custom_target(PluginDLL_Camera_CameraXtumiPx8LineTrigger_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtumiPx8LineTrigger" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtumiPx8LineTrigger/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtumiPx8LineTrigger/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building PluginDLL/Camera/CameraXtumiPx8LineTrigger sequentially..."
-)
-add_dependencies(PluginDLL_Camera_CameraXtumiPx8LineTrigger_build GUI_ButtonSaveBmpJpg_build)
-
 add_custom_target(GUI_ChangeTurnTop_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ChangeTurnTop" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ChangeTurnTop/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ChangeTurnTop/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building GUI/ChangeTurnTop sequentially..."
 )
-add_dependencies(GUI_ChangeTurnTop_build PluginDLL_Camera_CameraXtumiPx8LineTrigger_build)
+add_dependencies(GUI_ChangeTurnTop_build GUI_ButtonSaveBmpJpg_build)
 
 add_custom_target(Algorithm_NickInspection_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/NickInspection" -B "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/NickInspection/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -4595,21 +4587,13 @@ add_custom_target(GUI_PropertyNickInspection_build ALL
 )
 add_dependencies(GUI_PropertyNickInspection_build GUI_NickInspectionImagePanel_build)
 
-add_custom_target(PluginDLL_Camera_CameraXtumiPx8LineTrigger_DalsaLoadImage_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtumiPx8LineTrigger/DalsaLoadImage" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtumiPx8LineTrigger/DalsaLoadImage/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtumiPx8LineTrigger/DalsaLoadImage/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building PluginDLL/Camera/CameraXtumiPx8LineTrigger/DalsaLoadImage sequentially..."
-)
-add_dependencies(PluginDLL_Camera_CameraXtumiPx8LineTrigger_DalsaLoadImage_build GUI_PropertyNickInspection_build)
-
 add_custom_target(GUI_PanelHidable_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/PanelHidable" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/PanelHidable/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/GUI/PanelHidable/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building GUI/PanelHidable sequentially..."
 )
-add_dependencies(GUI_PanelHidable_build PluginDLL_Camera_CameraXtumiPx8LineTrigger_DalsaLoadImage_build)
+add_dependencies(GUI_PanelHidable_build GUI_PropertyNickInspection_build)
 
 add_custom_target(PluginDLL_PIO_NetworkPIOClient_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/NetworkPIOClient" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/NetworkPIOClient/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
