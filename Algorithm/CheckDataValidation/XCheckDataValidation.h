@@ -18,13 +18,18 @@
 
 #pragma once
 
+#include "XTypeDef.h"
 #include "XDataInLayer.h"
 #include "XDataModelPageItem.h"
 #include "XAlgorithmLibrary.h"
 #include <QColor>
 #include <QPainter>
 #include <QByteArray>
-#include "XTypeDef.h"
+#include <QIODevice>
+#include "XServiceForLayers.h"
+#include "XDataAlgorithmThreshold.h"
+
+
 
 #define	CheckDataValidationVersion	1
 
@@ -39,19 +44,6 @@ class	CheckDataValidationLibrary;
 
 class	CheckDataValidationInPage;
 
-/*
-	ExistItemArea
-		�w���̈��ɑ��̃A���S���Y���̃A�C�e�������݂��邩�ǂ���
-			�}�X�N�̈���A%�ȏ��Ƀ��C�u����B�̃A�C�e�������݂��邩
-			�w�肷�镔���Ɏw�肷�郉�C�u�����̃A�C�e�������݂��邩
-	ExistItemVector
-		�v���x�N�g���A�C�e�����w���͈͂ɑ��݂��邩
-	CheckMinMax
-		���݂��鑼�̃A���S���Y���̎w�肷�郉�C�u�����́A�������l�p�����[�^�̏����A�����l�̃`���b�N
-	ProhibiteItem
-		�w���̈��ɑ��̃A���S���Y���̎w�肷���郉�C�u���������݂��Ă͂����Ȃ�
-
-*/
 
 enum CheckDataValidationType
 {
