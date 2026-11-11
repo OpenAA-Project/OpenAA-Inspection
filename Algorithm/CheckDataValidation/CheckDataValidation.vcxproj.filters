@@ -49,7 +49,7 @@
     <ClCompile Include="XCheckDataValidationReport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XCheckDalidationCommon.cpp">
+    <ClCompile Include="XCheckDataValidationCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
