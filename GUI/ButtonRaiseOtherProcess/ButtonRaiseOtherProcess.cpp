@@ -21,8 +21,12 @@
 #include "XGeneralDialog.h"
 #include "XGeneralFunc.h"
 #include "XMacroFunction.h"
-#include "XForWindows.h"
+#include <QProcess>
 
+// OS-specific header inclusion
+#ifdef Q_OS_WIN
+#include "XForWindows.h"
+#endif
 
 const	char	*sRoot=/**/"Button";
 const	char	*sName=/**/"RaiseOtherProcess";
@@ -152,17 +156,37 @@ void	ButtonRaiseOtherProcess::ResizeAction()
 
 void ButtonRaiseOtherProcess::SlotClicked (bool checked)
 {
+	if (RaisedProcessName.isEmpty()) {
+		return;
+	}
+
+#ifdef Q_OS_WIN
+	// Windows environment: Use existing API integration
 	DWORD ProcessID[1000];
 	int		N=MtEnumProcess(ProcessID, sizeof(ProcessID)/sizeof(ProcessID[0]));
 	
 	for(int i=0;i<N;i++){
 		QString ProcessName;
 		if(GetProcessName(ProcessID[i],ProcessName)==true){
-			if(ProcessName==RaisedProcessName){
+			// Compare case-insensitively
+			if(ProcessName.compare(RaisedProcessName, Qt::CaseInsensitive) == 0){
 				::SetForegroundOtherWindow(ProcessID[i]);
 				break;
 			}
 		}
 	}
+#else
+	// Linux environment: Execute the wmctrl command using QProcess
+	QProcess process;
+	
+	// 1. Try to match by the window's "class name" (-x option)
+	process.start("wmctrl", QStringList() << "-x" << "-a" << RaisedProcessName);
+	process.waitForFinished(1000);
+	
+	// 2. If it fails, try to match by the window's "title string"
+	if (process.exitCode() != 0) {
+		process.start("wmctrl", QStringList() << "-a" << RaisedProcessName);
+		process.waitForFinished(1000);
+	}
+#endif
 }
-
