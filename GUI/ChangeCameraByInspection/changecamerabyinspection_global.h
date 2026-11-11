@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(CHANGECAMERABYINSPECTION_LIB)
+#  define CHANGECAMERABYINSPECTION_EXPORT Q_DECL_EXPORT
+# else
+#  define CHANGECAMERABYINSPECTION_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define CHANGECAMERABYINSPECTION_EXPORT
+#endif
