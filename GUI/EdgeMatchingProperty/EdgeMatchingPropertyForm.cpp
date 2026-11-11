@@ -10,6 +10,9 @@
 extern const char *sRoot;
 extern const char *sName;
 
+
+-------
+
 EdgeMatchingPropertyForm::EdgeMatchingPropertyForm(LayersBase *Base, QWidget *parent)
     : GUIFormBase(Base, parent),
       ui(new Ui::EdgeMatchingPropertyForm)
