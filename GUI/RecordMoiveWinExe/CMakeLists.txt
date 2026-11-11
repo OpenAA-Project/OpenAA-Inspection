@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Core5Compat Sql Gui Network Core Widgets)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -77,6 +77,102 @@ endif()
 
 # === Configuration-specific settings ===
 
+target_include_directories(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:
+        "../RecordMovie"
+        "../../Open"
+        "."
+    >
+)
+
+target_link_directories(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:
+        "../../Lib/Release"
+    >
+)
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:"Component.lib">
+        $<$<CONFIG:Debug>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Debug>:"DisplayOpenGL.lib">
+        $<$<CONFIG:Debug>:"ServiceLib.lib">
+    )
+elseif(UNIX)
+    # --- Dynamic Library Linking for Component (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Release")
+    if(COMPONENT_SHARED_LIB_DEBUG)
+        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Release")
+        if(COMPONENT_STATIC_LIB_DEBUG)
+            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_DEBUG Component)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for CommonGUIDLL (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMMONGUIDLL_SHARED_LIB_DEBUG NAMES CommonGUIDLL PATHS "../../Lib/Release")
+    if(COMMONGUIDLL_SHARED_LIB_DEBUG)
+        set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMMONGUIDLL_STATIC_LIB_DEBUG NAMES libCommonGUIDLL.a PATHS "../../Lib/Release")
+        if(COMMONGUIDLL_STATIC_LIB_DEBUG)
+            set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMMONGUIDLL_FINAL_LIB_DEBUG CommonGUIDLL)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for DisplayOpenGL (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYOPENGL_SHARED_LIB_DEBUG NAMES DisplayOpenGL PATHS "../../Lib/Release")
+    if(DISPLAYOPENGL_SHARED_LIB_DEBUG)
+        set(DISPLAYOPENGL_FINAL_LIB_DEBUG ${DISPLAYOPENGL_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYOPENGL_STATIC_LIB_DEBUG NAMES libDisplayOpenGL.a PATHS "../../Lib/Release")
+        if(DISPLAYOPENGL_STATIC_LIB_DEBUG)
+            set(DISPLAYOPENGL_FINAL_LIB_DEBUG ${DISPLAYOPENGL_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYOPENGL_FINAL_LIB_DEBUG DisplayOpenGL)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ServiceLib (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../Lib/Release")
+    if(SERVICELIB_SHARED_LIB_DEBUG)
+        set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES libServiceLib.a PATHS "../../Lib/Release")
+        if(SERVICELIB_STATIC_LIB_DEBUG)
+            set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICELIB_FINAL_LIB_DEBUG ServiceLib)
+        endif()
+    endif()
+
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:-Wl,--start-group>
+        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMMONGUIDLL_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${DISPLAYOPENGL_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:-Wl,--end-group>
+    )
+endif()
+
 if(MSVC)
 endif()
 
@@ -98,9 +194,9 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "../RecordMovie"
         "../../Open"
         "."
-        "../RecordMovie"
     >
 )
 
@@ -112,160 +208,25 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"dxgi.lib">
-        $<$<CONFIG:Release>:"mfreadwrite.lib">
-        $<$<CONFIG:Release>:"mfplat.lib">
-        $<$<CONFIG:Release>:"ServiceLib.lib">
-        $<$<CONFIG:Release>:"d3d11.lib">
-        $<$<CONFIG:Release>:"mfuuid.lib">
-        $<$<CONFIG:Release>:"mf.lib">
-        $<$<CONFIG:Release>:"Vfw32.Lib">
-        $<$<CONFIG:Release>:"DisplayOpenGL.lib">
-        $<$<CONFIG:Release>:"CommonGUIDLL.lib">
         $<$<CONFIG:Release>:"Component.lib">
+        $<$<CONFIG:Release>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Release>:"DisplayOpenGL.lib">
+        $<$<CONFIG:Release>:"ServiceLib.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for dxgi (Release) ---
+    # --- Dynamic Library Linking for Component (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(DXGI_SHARED_LIB_RELEASE NAMES dxgi PATHS "../../Lib/Release")
-    if(DXGI_SHARED_LIB_RELEASE)
-        set(DXGI_FINAL_LIB_RELEASE ${DXGI_SHARED_LIB_RELEASE})
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release")
+    if(COMPONENT_SHARED_LIB_RELEASE)
+        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(DXGI_STATIC_LIB_RELEASE NAMES libdxgi.a PATHS "../../Lib/Release")
-        if(DXGI_STATIC_LIB_RELEASE)
-            set(DXGI_FINAL_LIB_RELEASE ${DXGI_STATIC_LIB_RELEASE})
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release")
+        if(COMPONENT_STATIC_LIB_RELEASE)
+            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
         else()
             # Fallback if not found (e.g. system library)
-            set(DXGI_FINAL_LIB_RELEASE dxgi)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for mfreadwrite (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MFREADWRITE_SHARED_LIB_RELEASE NAMES mfreadwrite PATHS "../../Lib/Release")
-    if(MFREADWRITE_SHARED_LIB_RELEASE)
-        set(MFREADWRITE_FINAL_LIB_RELEASE ${MFREADWRITE_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MFREADWRITE_STATIC_LIB_RELEASE NAMES libmfreadwrite.a PATHS "../../Lib/Release")
-        if(MFREADWRITE_STATIC_LIB_RELEASE)
-            set(MFREADWRITE_FINAL_LIB_RELEASE ${MFREADWRITE_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MFREADWRITE_FINAL_LIB_RELEASE mfreadwrite)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for mfplat (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MFPLAT_SHARED_LIB_RELEASE NAMES mfplat PATHS "../../Lib/Release")
-    if(MFPLAT_SHARED_LIB_RELEASE)
-        set(MFPLAT_FINAL_LIB_RELEASE ${MFPLAT_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MFPLAT_STATIC_LIB_RELEASE NAMES libmfplat.a PATHS "../../Lib/Release")
-        if(MFPLAT_STATIC_LIB_RELEASE)
-            set(MFPLAT_FINAL_LIB_RELEASE ${MFPLAT_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MFPLAT_FINAL_LIB_RELEASE mfplat)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ServiceLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
-    if(SERVICELIB_SHARED_LIB_RELEASE)
-        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release")
-        if(SERVICELIB_STATIC_LIB_RELEASE)
-            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for d3d11 (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(D3D11_SHARED_LIB_RELEASE NAMES d3d11 PATHS "../../Lib/Release")
-    if(D3D11_SHARED_LIB_RELEASE)
-        set(D3D11_FINAL_LIB_RELEASE ${D3D11_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(D3D11_STATIC_LIB_RELEASE NAMES libd3d11.a PATHS "../../Lib/Release")
-        if(D3D11_STATIC_LIB_RELEASE)
-            set(D3D11_FINAL_LIB_RELEASE ${D3D11_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(D3D11_FINAL_LIB_RELEASE d3d11)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for mfuuid (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MFUUID_SHARED_LIB_RELEASE NAMES mfuuid PATHS "../../Lib/Release")
-    if(MFUUID_SHARED_LIB_RELEASE)
-        set(MFUUID_FINAL_LIB_RELEASE ${MFUUID_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MFUUID_STATIC_LIB_RELEASE NAMES libmfuuid.a PATHS "../../Lib/Release")
-        if(MFUUID_STATIC_LIB_RELEASE)
-            set(MFUUID_FINAL_LIB_RELEASE ${MFUUID_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MFUUID_FINAL_LIB_RELEASE mfuuid)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for mf (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MF_SHARED_LIB_RELEASE NAMES mf PATHS "../../Lib/Release")
-    if(MF_SHARED_LIB_RELEASE)
-        set(MF_FINAL_LIB_RELEASE ${MF_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MF_STATIC_LIB_RELEASE NAMES libmf.a PATHS "../../Lib/Release")
-        if(MF_STATIC_LIB_RELEASE)
-            set(MF_FINAL_LIB_RELEASE ${MF_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MF_FINAL_LIB_RELEASE mf)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for Vfw32 (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(VFW32_SHARED_LIB_RELEASE NAMES Vfw32 PATHS "../../Lib/Release")
-    if(VFW32_SHARED_LIB_RELEASE)
-        set(VFW32_FINAL_LIB_RELEASE ${VFW32_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(VFW32_STATIC_LIB_RELEASE NAMES libVfw32.a PATHS "../../Lib/Release")
-        if(VFW32_STATIC_LIB_RELEASE)
-            set(VFW32_FINAL_LIB_RELEASE ${VFW32_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(VFW32_FINAL_LIB_RELEASE Vfw32)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for DisplayOpenGL (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYOPENGL_SHARED_LIB_RELEASE NAMES DisplayOpenGL PATHS "../../Lib/Release")
-    if(DISPLAYOPENGL_SHARED_LIB_RELEASE)
-        set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYOPENGL_STATIC_LIB_RELEASE NAMES libDisplayOpenGL.a PATHS "../../Lib/Release")
-        if(DISPLAYOPENGL_STATIC_LIB_RELEASE)
-            set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYOPENGL_FINAL_LIB_RELEASE DisplayOpenGL)
+            set(COMPONENT_FINAL_LIB_RELEASE Component)
         endif()
     endif()
 
@@ -285,35 +246,44 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for Component (Release) ---
+    # --- Dynamic Library Linking for DisplayOpenGL (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../../Lib/Release")
-    if(COMPONENT_SHARED_LIB_RELEASE)
-        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    find_library(DISPLAYOPENGL_SHARED_LIB_RELEASE NAMES DisplayOpenGL PATHS "../../Lib/Release")
+    if(DISPLAYOPENGL_SHARED_LIB_RELEASE)
+        set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../../Lib/Release")
-        if(COMPONENT_STATIC_LIB_RELEASE)
-            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
+        find_library(DISPLAYOPENGL_STATIC_LIB_RELEASE NAMES libDisplayOpenGL.a PATHS "../../Lib/Release")
+        if(DISPLAYOPENGL_STATIC_LIB_RELEASE)
+            set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_STATIC_LIB_RELEASE})
         else()
             # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_RELEASE Component)
+            set(DISPLAYOPENGL_FINAL_LIB_RELEASE DisplayOpenGL)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ServiceLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
+    if(SERVICELIB_SHARED_LIB_RELEASE)
+        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release")
+        if(SERVICELIB_STATIC_LIB_RELEASE)
+            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
         endif()
     endif()
 
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${DXGI_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${MFREADWRITE_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${MFPLAT_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${D3D11_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${MFUUID_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${MF_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${VFW32_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${DISPLAYOPENGL_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${DISPLAYOPENGL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -330,12 +300,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_NAME}" AND IS_DIRECTORY "
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
     Qt6::Core5Compat
     Qt6::Sql
-    Qt6::Widgets
-    Qt6::Core
+    Qt6::Gui
     Qt6::Network
+    Qt6::Core
+    Qt6::Widgets
 )
 
 # === Additional Custom Settings ===
