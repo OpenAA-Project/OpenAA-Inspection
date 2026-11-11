@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/ButtonSaveInitialLoadGUIData.png</file>
+    </qresource>
+</RCC>
