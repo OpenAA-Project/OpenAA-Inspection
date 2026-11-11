@@ -4355,21 +4355,13 @@ add_custom_target(Filter_FilterBrightnessLogConvert_build ALL
 )
 add_dependencies(Filter_FilterBrightnessLogConvert_build GUI_PropertyAlignmentFlexArea_build)
 
-add_custom_target(PluginDLL_Camera_CameraXtium_CLHS_PX8_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtium-CLHS_PX8" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtium-CLHS_PX8/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtium-CLHS_PX8/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building PluginDLL/Camera/CameraXtium-CLHS_PX8 sequentially..."
-)
-add_dependencies(PluginDLL_Camera_CameraXtium_CLHS_PX8_build Filter_FilterBrightnessLogConvert_build)
-
 add_custom_target(GUI_PanelInputInformation_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/PanelInputInformation" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/PanelInputInformation/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/GUI/PanelInputInformation/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building GUI/PanelInputInformation sequentially..."
 )
-add_dependencies(GUI_PanelInputInformation_build PluginDLL_Camera_CameraXtium_CLHS_PX8_build)
+add_dependencies(GUI_PanelInputInformation_build Filter_FilterBrightnessLogConvert_build)
 
 add_custom_target(GUI_ShortcutKeyInvisible_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ShortcutKeyInvisible" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ShortcutKeyInvisible/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -5659,21 +5651,13 @@ add_custom_target(GUI_SavePartialImagePanel_build ALL
 )
 add_dependencies(GUI_SavePartialImagePanel_build Algorithm_SavePartialImage_build)
 
-add_custom_target(PluginDLL_Camera_CameraXtiumPx8MonoLineTrigger_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumPx8MonoLineTrigger" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumPx8MonoLineTrigger/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumPx8MonoLineTrigger/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building PluginDLL/Camera/CameraXtiumPx8MonoLineTrigger sequentially..."
-)
-add_dependencies(PluginDLL_Camera_CameraXtiumPx8MonoLineTrigger_build GUI_SavePartialImagePanel_build)
-
 add_custom_target(GUI_ButtonShadowToShow_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ButtonShadowToShow" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ButtonShadowToShow/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ButtonShadowToShow/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building GUI/ButtonShadowToShow sequentially..."
 )
-add_dependencies(GUI_ButtonShadowToShow_build PluginDLL_Camera_CameraXtiumPx8MonoLineTrigger_build)
+add_dependencies(GUI_ButtonShadowToShow_build GUI_SavePartialImagePanel_build)
 
 add_custom_target(ShadowTree_ShrinkedInspection_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/ShadowTree/ShrinkedInspection" -B "${CMAKE_CURRENT_SOURCE_DIR}/ShadowTree/ShrinkedInspection/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -5915,21 +5899,13 @@ add_custom_target(GUI_ShowSelectLayer_build ALL
 )
 add_dependencies(GUI_ShowSelectLayer_build GUI_PropertyMultiSpectral_build)
 
-add_custom_target(PluginDLL_Camera_CameraXtiumSpectral_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumSpectral" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumSpectral/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumSpectral/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building PluginDLL/Camera/CameraXtiumSpectral sequentially..."
-)
-add_dependencies(PluginDLL_Camera_CameraXtiumSpectral_build GUI_ShowSelectLayer_build)
-
 add_custom_target(GUI_ButtonResetCamera_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ButtonResetCamera" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ButtonResetCamera/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ButtonResetCamera/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building GUI/ButtonResetCamera sequentially..."
 )
-add_dependencies(GUI_ButtonResetCamera_build PluginDLL_Camera_CameraXtiumSpectral_build)
+add_dependencies(GUI_ButtonResetCamera_build GUI_ShowSelectLayer_build)
 
 add_custom_target(Algorithm_RasterInspection_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/RasterInspection" -B "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/RasterInspection/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -6291,21 +6267,13 @@ add_custom_target(PluginDLL_Light_LightDLL_CCSControlByLANVer2_build ALL
 )
 add_dependencies(PluginDLL_Light_LightDLL_CCSControlByLANVer2_build Integrator_GUI_IntegrationSettingLight_build)
 
-add_custom_target(PluginDLL_Camera_CameraXtiumFx8ColorMonoLineTrigger_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumFx8ColorMonoLineTrigger" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumFx8ColorMonoLineTrigger/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumFx8ColorMonoLineTrigger/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building PluginDLL/Camera/CameraXtiumFx8ColorMonoLineTrigger sequentially..."
-)
-add_dependencies(PluginDLL_Camera_CameraXtiumFx8ColorMonoLineTrigger_build PluginDLL_Light_LightDLL_CCSControlByLANVer2_build)
-
 add_custom_target(Algorithm_CheckDataValidation_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/CheckDataValidation" -B "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/CheckDataValidation/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/CheckDataValidation/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building Algorithm/CheckDataValidation sequentially..."
 )
-add_dependencies(Algorithm_CheckDataValidation_build PluginDLL_Camera_CameraXtiumFx8ColorMonoLineTrigger_build)
+add_dependencies(Algorithm_CheckDataValidation_build PluginDLL_Light_LightDLL_CCSControlByLANVer2_build)
 
 add_custom_target(GUI_CheckDataValidationImagePanel_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/CheckDataValidationImagePanel" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/CheckDataValidationImagePanel/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -6459,21 +6427,13 @@ add_custom_target(GUI_PropertyAlignmentBlock_build ALL
 )
 add_dependencies(GUI_PropertyAlignmentBlock_build GUI_AlignmentBlockImagePanel_build)
 
-add_custom_target(PluginDLL_Camera_CameraXtiumCISVienex_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumCISVienex" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumCISVienex/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumCISVienex/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building PluginDLL/Camera/CameraXtiumCISVienex sequentially..."
-)
-add_dependencies(PluginDLL_Camera_CameraXtiumCISVienex_build GUI_PropertyAlignmentBlock_build)
-
 add_custom_target(GUI_ShowThresholdSlideBar_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ShowThresholdSlideBar" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ShowThresholdSlideBar/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ShowThresholdSlideBar/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building GUI/ShowThresholdSlideBar sequentially..."
 )
-add_dependencies(GUI_ShowThresholdSlideBar_build PluginDLL_Camera_CameraXtiumCISVienex_build)
+add_dependencies(GUI_ShowThresholdSlideBar_build GUI_PropertyAlignmentBlock_build)
 
 add_custom_target(Integrator_GUI_IntegrationLocalBind_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/Integrator/GUI/IntegrationLocalBind" -B "${CMAKE_CURRENT_SOURCE_DIR}/Integrator/GUI/IntegrationLocalBind/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -6523,21 +6483,13 @@ add_custom_target(Filter_FilterMatchColorBandDynamically_build ALL
 )
 add_dependencies(Filter_FilterMatchColorBandDynamically_build Integrator_GUI_IntegrationStackMultiNGThumbnail_build)
 
-add_custom_target(PluginDLL_Camera_CameraXtiumLinearHSColorMonoLineTrigger_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumLinearHSColorMonoLineTrigger" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumLinearHSColorMonoLineTrigger/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraXtiumLinearHSColorMonoLineTrigger/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building PluginDLL/Camera/CameraXtiumLinearHSColorMonoLineTrigger sequentially..."
-)
-add_dependencies(PluginDLL_Camera_CameraXtiumLinearHSColorMonoLineTrigger_build Filter_FilterMatchColorBandDynamically_build)
-
 add_custom_target(PluginDLL_Camera_CameraMVSGigE_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraMVSGigE" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraMVSGigE/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/Camera/CameraMVSGigE/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building PluginDLL/Camera/CameraMVSGigE sequentially..."
 )
-add_dependencies(PluginDLL_Camera_CameraMVSGigE_build PluginDLL_Camera_CameraXtiumLinearHSColorMonoLineTrigger_build)
+add_dependencies(PluginDLL_Camera_CameraMVSGigE_build Filter_FilterMatchColorBandDynamically_build)
 
 add_custom_target(GUI_FlatInspectionImagePanel_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/FlatInspectionImagePanel" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/FlatInspectionImagePanel/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
