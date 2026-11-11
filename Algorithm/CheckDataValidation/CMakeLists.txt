@@ -16,6 +16,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
+
 if(WIN32)
     add_compile_definitions(WIN32 _WINDOWS)
 endif()
