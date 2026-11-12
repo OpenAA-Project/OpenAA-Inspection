@@ -244,10 +244,10 @@ void EdgeMatchingItem::Draw(QImage &pnt, int movx, int movy, double ZoomRate, Al
 		int y1 = GetArea().GetMinY();
 		int x2 = GetArea().GetMaxX();
 		int y2 = GetArea().GetMaxY();
-		int Gx1 = (x1 + movx) * ZoomRate;
-		int Gy1 = (y1 + movy) * ZoomRate;
-		int Gx2 = (x2 + movx) * ZoomRate;
-		int Gy2 = (y2 + movy) * ZoomRate;
+		int Gx1 = ceil((x1 + movx) * ZoomRate);
+		int Gy1 = ceil((y1 + movy) * ZoomRate);
+		int Gx2 = floor((x2 + movx) * ZoomRate);
+		int Gy2 = floor((y2 + movy) * ZoomRate);
 
 		Gx1 = std::max(Gx1,0);
 		Gy1 = std::max(Gy1,0);
