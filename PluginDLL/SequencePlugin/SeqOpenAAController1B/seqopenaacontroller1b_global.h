@@ -1,0 +1,13 @@
+#pragma once
+
+#include <QtCore/qglobal.h>
+
+#ifndef BUILD_STATIC
+# if defined(SEQOPENAACONTROLLER1B_LIB)
+#  define SEQOPENAACONTROLLER1B_EXPORT Q_DECL_EXPORT
+# else
+#  define SEQOPENAACONTROLLER1B_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define SEQOPENAACONTROLLER1B_EXPORT
+#endif
