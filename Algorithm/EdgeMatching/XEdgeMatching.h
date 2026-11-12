@@ -64,9 +64,10 @@ public:
 
 public:
 	AlignmentPacket2D	*AVector;
-	float		**VMap;
-	float		**RMap;
+	float		**VMap;	//differential value
+	float		**RMap;	//Rotation
 	int			MapXLen,MapYLen;
+	int			AdoptedLayer;
 
 	double		MasterCx,MasterCy;
 	double      ResultDx,ResultDy;	//Calculated position

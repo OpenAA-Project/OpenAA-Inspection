@@ -10,9 +10,6 @@
 extern const char *sRoot;
 extern const char *sName;
 
-
--------
-
 EdgeMatchingPropertyForm::EdgeMatchingPropertyForm(LayersBase *Base, QWidget *parent)
     : GUIFormBase(Base, parent),
       ui(new Ui::EdgeMatchingPropertyForm)
@@ -48,17 +45,14 @@ EdgeMatchingBase *EdgeMatchingPropertyForm::GetEdgeMatchingBase(void)
 
 void EdgeMatchingPropertyForm::on_toolButtonArea_clicked()
 {
-    // Area描画時の処理（必要に応じて実装）
 }
 
 void EdgeMatchingPropertyForm::on_toolButtonDirection_clicked()
 {
-    // Direction描画時の処理（必要に応じて実装）
 }
 
 void EdgeMatchingPropertyForm::on_toolButtonEdge_clicked()
 {
-    // Edge描画時の処理（必要に応じて実装）
 }
 
 void EdgeMatchingPropertyForm::on_pushButtonEditLibFolder_clicked()

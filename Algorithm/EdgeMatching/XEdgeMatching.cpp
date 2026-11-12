@@ -8,8 +8,6 @@
 extern const char *sRoot;
 extern const char *sName;
 
-AAAAAAA
-
 //==========================================================================================
 // EdgeMatchingInPage
 //==========================================================================================
@@ -115,7 +113,7 @@ void EdgeMatchingBase::MakeReportedTopics(ReportedTopicContainer &RetContainer) 
 
 void EdgeMatchingBase::TransmitDirectly(GUIDirectMessage *packet)
 {
-    // ライブラリ操作や名称取得のパケット処理（AlignmentShiftRotationBase::TransmitDirectlyを参考に実装）
+    // ライブラリ操作や名称取得のパケット処理（EdgeMatchingBase::TransmitDirectlyを参考に実装）
     CmdGetEdgeMatchingLibraryNamePacket *CmdGetName = dynamic_cast<CmdGetEdgeMatchingLibraryNamePacket *>(packet);
     if (CmdGetName != NULL) {
         AlgorithmLibraryLevelContainer LibData(this);
@@ -131,4 +129,53 @@ void EdgeMatchingBase::TransmitDirectly(GUIDirectMessage *packet)
         CmdCreateTempItem->Point = new EdgeMatchingItem();
         return;
     }
+
+	CmdCreateTempEdgeMatchingLibraryPacket *CmdCreateTempLib = dynamic_cast<CmdCreateTempEdgeMatchingLibraryPacket *>(packet);
+    if (CmdCreateTempLib != NULL) {
+        CmdCreateTempLib->Point = new AlgorithmLibraryLevelContainer(this);
+        return;
+	}
+	CmdGetEdgeMatchingLibraryListPacket *CmdGetLibList = dynamic_cast<CmdGetEdgeMatchingLibraryListPacket *>(packet);
+    if (CmdGetLibList != NULL) {
+		if(GetLibraryContainer()!=NULL){
+			GetLibraryContainer()->EnumLibrary(GetLibType(),CmdGetLibList->LibFolderID 
+												,CmdGetLibList->AList);
+		}
+        return;
+	}
+	CmdLoadEdgeMatchingLibraryPacket	*BLoadLib=dynamic_cast<CmdLoadEdgeMatchingLibraryPacket *>(packet);
+	if(BLoadLib!=NULL){
+		if(GetLibraryContainer()!=NULL){
+			BLoadLib->Success=GetLibraryContainer()->Load(*BLoadLib->Point);
+		}
+		return;
+	}
+	CmdClearEdgeMatchingLibraryPacket	*CmdClearBlockLibraryPacketVar=dynamic_cast<CmdClearEdgeMatchingLibraryPacket *>(packet);
+	if(CmdClearBlockLibraryPacketVar!=NULL){
+		CmdClearBlockLibraryPacketVar->Point->Clear();
+		return;
+	}
+	CmdDeleteEdgeMatchingLibraryPacket 	*BDeleteLib=dynamic_cast<CmdDeleteEdgeMatchingLibraryPacket  *>(packet);
+	if(BDeleteLib!=NULL){
+		if(GetLibraryContainer()!=NULL){
+			GetLibraryContainer()->Delete(BDeleteLib->Point->GetLibID());
+		}
+		return;
+	}
+	CmdInsertEdgeMatchingLibraryPacket	*BInsLib=dynamic_cast<CmdInsertEdgeMatchingLibraryPacket *>(packet);
+	if(BInsLib!=NULL){
+		BInsLib->Point->SetDataVersion(EdgeMatchingVersion);
+		if(GetLibraryContainer()!=NULL){
+			GetLibraryContainer()->SaveNew(*BInsLib->Point);
+		}
+		return;
+	}
+	CmdUpdateEdgeMatchingLibraryPacket	*BUpdLib=dynamic_cast<CmdUpdateEdgeMatchingLibraryPacket *>(packet);
+	if(BUpdLib!=NULL){
+		BUpdLib->Point->SetDataVersion(EdgeMatchingVersion);
+		if(GetLibraryContainer()!=NULL){
+			GetLibraryContainer()->Update(*BUpdLib->Point);
+		}
+		return;
+	}
 }

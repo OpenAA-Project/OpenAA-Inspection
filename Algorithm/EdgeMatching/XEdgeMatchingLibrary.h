@@ -9,7 +9,7 @@
 #include "XDataModelPageItem.h"
 #include "XServiceForLayers.h"
 
-#define	DefLibTypeEdgeMatching		73
+#define	DefLibTypeEdgeMatching		75
 
 class	EdgeMatchingLibrary : public AlgorithmLibrary , public ServiceForLayers
 {

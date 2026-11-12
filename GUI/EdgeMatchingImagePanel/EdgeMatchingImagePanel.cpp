@@ -160,5 +160,5 @@ void	EdgeMatchingImagePanel::StartPage(void)
 
 void	EdgeMatchingImagePanel::TransmitDirectly(GUIDirectMessage *packet)
 {
-	----
+
 }
