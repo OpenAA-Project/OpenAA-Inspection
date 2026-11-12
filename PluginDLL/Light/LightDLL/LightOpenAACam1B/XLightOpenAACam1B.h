@@ -26,7 +26,7 @@
 #include "XGUIPacketForDLL.h"
 #include "XLightClass.h"
 #include <QTcpSocket>
-#include "XSocket.h"
+#include "XSocketPacket.h"
 
 class	XLightOpenAACam1B : public LightDLLBaseClass
 {

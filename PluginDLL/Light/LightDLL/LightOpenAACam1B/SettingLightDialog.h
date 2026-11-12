@@ -2,7 +2,7 @@
 #define SETTINGLIGHTDIALOG_H
 
 #include <QDialog>
-#include "XSocket.h"
+#include "XSocketPacket.h"
 #include "XServiceForLayers.h"
 
 namespace Ui {

@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(OpenAAProject)/GeneralCamera/RaspberryPi;.\..\..\..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\..\..\..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
@@ -110,6 +110,7 @@
     <ClCompile Include="SettingLightDialog.cpp" />
     <ClCompile Include="XLightOpenAACam1B.cpp" />
     <ClInclude Include="lightopenaacam1b_global.h" />
+    <ClInclude Include="XSocketPacket.h" />
     <QtMoc Include="SettingLightDialog.h" />
     <QtMoc Include="XLightOpenAACam1B.h" />
     <ClInclude Include="LightOpenAACam1B.h" />
