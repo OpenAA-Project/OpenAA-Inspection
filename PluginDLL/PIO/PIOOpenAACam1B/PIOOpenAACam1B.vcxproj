@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(OpenAAProject)/GeneralCamera/RaspberryPi;..\..\Light\LightDLL\LightOpenAACam1B;..\..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Light\LightDLL\LightOpenAACam1B;..\..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
     </ClCompile>

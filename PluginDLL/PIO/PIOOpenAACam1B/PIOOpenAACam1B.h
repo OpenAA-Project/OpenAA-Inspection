@@ -3,7 +3,7 @@
 #include "XIODLL.h"
 #include "XServiceForLayers.h"
 #include <QMutex>
-#include "XSocket.h"
+#include "XSocketPacket.h"
 
 class	XLightOpenAACam1B;
 
