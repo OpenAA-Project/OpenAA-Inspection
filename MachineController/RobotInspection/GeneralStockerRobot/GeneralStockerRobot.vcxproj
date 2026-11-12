@@ -74,7 +74,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\OpenAA6M\Robot\DobotNova2\DobotController;..\CaptureHIKCameraButton;..\..\..\..\OpenAA6M\Robot\;..\..\..\GUI\ButtonAutoMode;..\..\..\GUI\ListSelectFixedPage;..\..\..\PluginDLL\Camera\CameraHIKRobotGigE;..\..\..\GUI\ButtonAddSubPage;..\..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\CaptureHIKCameraButton;..\..\..\..\OpenAA6M\Robot\;..\..\..\GUI\ButtonAutoMode;..\..\..\GUI\ListSelectFixedPage;..\..\..\PluginDLL\Camera\CameraHIKRobotGigE;..\..\..\GUI\ButtonAddSubPage;..\..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>

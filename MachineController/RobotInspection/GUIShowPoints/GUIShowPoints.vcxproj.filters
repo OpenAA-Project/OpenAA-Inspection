@@ -32,6 +32,12 @@
     <ClInclude Include="GUIShowPoints.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Open\X6AxisCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ControlRobotCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="GUIShowPointsButtonForm.ui">
@@ -71,7 +77,7 @@
     <ClCompile Include="..\..\..\Open\SystemVersion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\OpenAA6M\Robot\DobotNova2\DobotController\X6AxisCommon.cpp">
+    <ClCompile Include="..\..\..\GeneralSource\X6AxisCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

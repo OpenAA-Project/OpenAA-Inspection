@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\OpenAA6M\Robot\DobotNova2\DobotController;..\..\..\GUI\ListSelectFixedPage;..\..\..\PluginDLL\Camera\CameraHIKRobotGigE;..\GeneralStockerRobot;..\..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\..\..\GUI\ListSelectFixedPage;..\..\..\PluginDLL\Camera\CameraHIKRobotGigE;..\GeneralStockerRobot;..\..\..\Open;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <InterproceduralOptimization>NoIPO</InterproceduralOptimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
@@ -107,7 +107,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\OpenAA6M\Robot\DobotNova2\DobotController\X6AxisCommon.cpp" />
+    <ClCompile Include="..\..\..\GeneralSource\X6AxisCommon.cpp" />
     <ClCompile Include="..\..\..\Open\GUIDllCommon.cpp" />
     <ClCompile Include="..\..\..\Open\SystemVersion.cpp" />
     <ClCompile Include="GUIShowPointsButtonForm.cpp" />
@@ -116,6 +116,8 @@
     <QtMoc Include="ShowAllImageForm.h" />
     <QtMoc Include="ShowPointsDialog.h" />
     <QtMoc Include="GUIShowPointsButtonForm.h" />
+    <ClInclude Include="..\..\..\Open\X6AxisCommon.h" />
+    <ClInclude Include="..\ControlRobotCommon.h" />
     <ClInclude Include="guishowpoints_global.h" />
     <ClInclude Include="GUIShowPoints.h" />
     <ClCompile Include="GUIShowPoints.cpp" />

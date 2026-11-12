@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Network Core Core5Compat Widgets Gui)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -66,11 +66,71 @@ endif()
 
 # === Configuration-specific settings ===
 
+target_include_directories(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:
+        "../../../Open"
+        "../../../PluginDLL/Camera/CameraHIKRobotGigE"
+        "../../../GUI/ListSelectFixedPage"
+    >
+)
+
+target_link_directories(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:
+        "../../../Lib/Release"
+    >
+)
+
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "CAPTUREHIKCAMERABUTTON_LIB"
     >
 )
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"Component.lib">
+    )
+elseif(UNIX)
+    # --- Dynamic Library Linking for ServiceLib (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../../Lib/Release")
+    if(SERVICELIB_SHARED_LIB_DEBUG)
+        set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES libServiceLib.a PATHS "../../../Lib/Release")
+        if(SERVICELIB_STATIC_LIB_DEBUG)
+            set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICELIB_FINAL_LIB_DEBUG ServiceLib)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for Component (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../../Lib/Release")
+    if(COMPONENT_SHARED_LIB_DEBUG)
+        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../../Lib/Release")
+        if(COMPONENT_STATIC_LIB_DEBUG)
+            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMPONENT_FINAL_LIB_DEBUG Component)
+        endif()
+    endif()
+
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:-Wl,--start-group>
+        $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:-Wl,--end-group>
+    )
+endif()
 
 if(MSVC)
 endif()
@@ -93,9 +153,9 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../../GUI/ListSelectFixedPage"
-        "../../../PluginDLL/Camera/CameraHIKRobotGigE"
         "../../../Open"
+        "../../../PluginDLL/Camera/CameraHIKRobotGigE"
+        "../../../GUI/ListSelectFixedPage"
     >
 )
 
@@ -163,11 +223,11 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
+    Qt6::Network
+    Qt6::Core
     Qt6::Core5Compat
     Qt6::Widgets
-    Qt6::Core
-    Qt6::Network
+    Qt6::Gui
 )
 
 # === Additional Custom Settings ===
