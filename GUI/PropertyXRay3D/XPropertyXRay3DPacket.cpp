@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2026
+ * Author : Masatoshi Sasai ,MEGATRADE corporation
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "XPropertyXRay3DPacket.h"
 #include "XXRay3D.h"
 #include "XGeneralFunc.h"
@@ -23,11 +41,14 @@ void	GUICmdLoadImages::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,
 {
 	XRay3DBase *RBBase=(XRay3DBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"XRay3D");
 	if(RBBase!=NULL){
-		XRay3DInPage	*PData=dynamic_cast<XRay3DInPage	*>(RBBase->GetPageData(localPage));
-		if(PData!=NULL){
-			CmdLoadImages	Cmd(GetLayersBase());
-			Cmd.ImageFileNames		=ImageFileNames	;	;
-			PData->TransmitDirectly(&Cmd);
+		AlgorithmInPageInOnePhase	*Ph=RBBase->GetPageDataPhase(0);
+		if(Ph!=NULL){
+			AlgorithmInPageRoot	*AP=Ph->GetPageData(localPage);
+			if(AP!=NULL){
+				CmdLoadImages	Cmd(GetLayersBase());
+				Cmd.ImageFileNames		=ImageFileNames	;	;
+				AP->TransmitDirectly(&Cmd);
+			}
 		}
 	}
 }
@@ -51,11 +72,14 @@ void	GUICmdSetPointY::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 {
 	XRay3DBase *RBBase=(XRay3DBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"XRay3D");
 	if(RBBase!=NULL){
-		XRay3DInPage	*PData=dynamic_cast<XRay3DInPage	*>(RBBase->GetPageData(localPage));
-		if(PData!=NULL){
-			CmdSetPointY	Cmd(GetLayersBase());
-			Cmd.PointToDraw		=PointToDraw	;	;
-			PData->TransmitDirectly(&Cmd);
+		AlgorithmInPageInOnePhase	*Ph=RBBase->GetPageDataPhase(0);
+		if(Ph!=NULL){
+			AlgorithmInPageRoot	*AP=Ph->GetPageData(localPage);
+			if(AP!=NULL){
+				CmdSetPointY	Cmd(GetLayersBase());
+				Cmd.PointToDraw		=PointToDraw	;	;
+				AP->TransmitDirectly(&Cmd);
+			}
 		}
 	}
 }
@@ -79,10 +103,13 @@ void	GUICmdReqSmooth::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,Q
 {
 	XRay3DBase *RBBase=(XRay3DBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"XRay3D");
 	if(RBBase!=NULL){
-		XRay3DInPage	*PData=dynamic_cast<XRay3DInPage	*>(RBBase->GetPageData(localPage));
-		if(PData!=NULL){
-			CmdReqSmooth	Cmd(GetLayersBase());
-			PData->TransmitDirectly(&Cmd);
+		AlgorithmInPageInOnePhase	*Ph=RBBase->GetPageDataPhase(0);
+		if(Ph!=NULL){
+			AlgorithmInPageRoot	*AP=Ph->GetPageData(localPage);
+			if(AP!=NULL){
+				CmdReqSmooth	Cmd(GetLayersBase());
+				AP->TransmitDirectly(&Cmd);
+			}
 		}
 	}
 }
@@ -106,10 +133,13 @@ void	GUICmdReqEmphasize::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 {
 	XRay3DBase *RBBase=(XRay3DBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"XRay3D");
 	if(RBBase!=NULL){
-		XRay3DInPage	*PData=dynamic_cast<XRay3DInPage	*>(RBBase->GetPageData(localPage));
-		if(PData!=NULL){
-			CmdReqEmphasize	Cmd(GetLayersBase());
-			PData->TransmitDirectly(&Cmd);
+		AlgorithmInPageInOnePhase	*Ph=RBBase->GetPageDataPhase(0);
+		if(Ph!=NULL){
+			AlgorithmInPageRoot	*AP=Ph->GetPageData(localPage);
+			if(AP!=NULL){
+				CmdReqEmphasize	Cmd(GetLayersBase());
+				AP->TransmitDirectly(&Cmd);
+			}
 		}
 	}
 }
@@ -136,14 +166,17 @@ void	GUICmdReqMatchFile::Receive(int32 localPage, int32 cmd ,QString &EmitterRoo
 
 	XRay3DBase *RBBase=(XRay3DBase *)GetLayersBase()->GetAlgorithmBase(/**/"Basic",/**/"XRay3D");
 	if(RBBase!=NULL){
-		XRay3DInPage	*PData=dynamic_cast<XRay3DInPage	*>(RBBase->GetPageData(localPage));
-		if(PData!=NULL){
-			CmdMatchFile	Cmd(GetLayersBase());
-			Cmd.FileName		=FileName	;	;
-			PData->TransmitDirectly(&Cmd);
-			SendBack->RetFileNo = Cmd.RetFileNo;
-			SendBack->RetX = Cmd.RetX;
-			SendBack->RetY = Cmd.RetY;
+		AlgorithmInPageInOnePhase	*Ph=RBBase->GetPageDataPhase(0);
+		if(Ph!=NULL){
+			AlgorithmInPageRoot	*AP=Ph->GetPageData(localPage);
+			if(AP!=NULL){
+				CmdMatchFile	Cmd(GetLayersBase());
+				Cmd.FileName		=FileName	;	;
+				AP->TransmitDirectly(&Cmd);
+				SendBack->RetFileNo = Cmd.RetFileNo;
+				SendBack->RetX = Cmd.RetX;
+				SendBack->RetY = Cmd.RetY;
+			}
 		}
 	}
 
