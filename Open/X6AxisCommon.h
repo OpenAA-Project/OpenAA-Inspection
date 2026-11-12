@@ -1,6 +1,6 @@
 #pragma once
 
-#include "XTypedef.h"
+#include "XTypeDef.h"
 
 struct AxisInfo
 {
