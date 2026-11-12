@@ -10,6 +10,13 @@
 #include <omp.h>
 #include "XCameraRobotCommon.h"
 
+#ifndef _MSC_VER
+#include <cstdio>
+#include <cstring>
+#define sprintf_s snprintf
+#define strcpy_s(dest, destsz, src) strncpy(dest, src, destsz)
+#endif
+
 //=========================================================
 
 DEFFUNCEX   WORD DLL_GetDLLType(void)
@@ -332,22 +339,23 @@ bool	CameraHIKRobotGigE::Initial(int AllocCount,const QString &_IPAddress)
 		    int nIp3 = ((m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0x0000ff00) >> 8);
 		    int nIp4 = (m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0x000000ff);
 
+
 		    if (strcmp("", (const char *)(pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName)) != 0)
 		    {
 				memset(strUserName,0,256);
-				sprintf_s(strUserName, 256, "%s (%s)", pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName,
+				snprintf(strUserName, 256, "%s (%s)", pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName,
 					pDeviceInfo->SpecialInfo.stGigEInfo.chSerialNumber);
 		        UserName=strUserName;
 		    }
 		    else
 		    {
 		        memset(strUserName,0,256);
-		        sprintf_s(strUserName, 256, "%s (%s)", pDeviceInfo->SpecialInfo.stGigEInfo.chModelName,
+		        snprintf(strUserName, 256, "%s (%s)", pDeviceInfo->SpecialInfo.stGigEInfo.chModelName,
 		            pDeviceInfo->SpecialInfo.stGigEInfo.chSerialNumber);
 		        UserName=strUserName;
 		    }
 			char strBuff[256];
-		    sprintf_s(strBuff, 256, "%d.%d.%d.%d", nIp1, nIp2, nIp3, nIp4);
+		    snprintf(strBuff, 256, "%d.%d.%d.%d", nIp1, nIp2, nIp3, nIp4);
 			IPAddress=strBuff;
 			if(_IPAddress.isEmpty()==true){
 				DevNo=i;
@@ -909,7 +917,8 @@ int CameraHIKRobotGigE::GetPixelFormat()
         return nRet;
     }
 
-    strcpy_s(m_chPixelFormat, MV_MAX_SYMBOLIC_LEN, stPixelFormatInfo.chSymbolic);
+    strncpy(m_chPixelFormat, stPixelFormatInfo.chSymbolic, MV_MAX_SYMBOLIC_LEN - 1);
+    m_chPixelFormat[MV_MAX_SYMBOLIC_LEN - 1] = '\0';
 
     return MV_OK;
 }
