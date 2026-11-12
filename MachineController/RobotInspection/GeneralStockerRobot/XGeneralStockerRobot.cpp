@@ -71,7 +71,7 @@ void	GeneralStockerRobot::InitialAfterParamLoaded(void)
 	GUIFormBase *GUIInst[100];
 	int	N=GetLayersBase()->EnumGUIInst(/**/"Button",/**/"CaptureHIKCamera",GUIInst,sizeof(GUIInst)/sizeof(GUIInst[0]));
 	for(int i=0;i<N;i++){
-		CaptureHIKCameraButton	*f=dynamic_cast<CaptureHIKCameraButton *>(GUIInst[i]);
+		CaptureHIKCameraButton	*f=static_cast<CaptureHIKCameraButton *>(GUIInst[i]);
 		if(f!=NULL){
 			if(f->MasterImage==true){
 				FormCaptureHIKMaster=f;
