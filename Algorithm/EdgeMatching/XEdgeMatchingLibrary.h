@@ -21,6 +21,8 @@ public:
 	double		ThresholdDirection;
 	WORD		FocusRadius	;
 	short		Layer;		//-1:Automatic,0~:Layer
+	DWORD		BlockSizeX,BlockSizeY;
+	bool		UseDivided;
 public:
 
 	EdgeMatchingLibrary(int LibType,LayersBase *Base);

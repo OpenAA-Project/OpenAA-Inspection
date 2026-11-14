@@ -353,6 +353,56 @@ public:
 	CmdExecBaseMatch(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
 };
 
+class	CmdReqEdgeMatchingByPoint : public GUIDirectMessage
+{
+public:
+	int LocalX;
+	int LocalY;
+    float   V,R;
+	int	    ItemID;
+
+	CmdReqEdgeMatchingByPoint(LayersBase *base):GUIDirectMessage(base){}
+	CmdReqEdgeMatchingByPoint(GUICmdPacketBase *gbase):GUIDirectMessage(gbase){}
+};
+
+class	EdgeMatchingReqTryThreshold
+{
+public:
+	int32	GlobalPage;
+	int32	Layer;
+	int		EdgeMatchingItemID;	
+	EdgeMatchingItem	Threshold;
+
+	EdgeMatchingReqTryThreshold(void);
+
+	bool	Save(QIODevice *f);
+	bool	Load(QIODevice *f,LayersBase *LBase);
+};
+
+class	EdgeMatchingSendTryThreshold : public AddedDataClass
+{
+public:
+	ResultInItemRoot	*Result;
+	double		ResultValue;
+	int			ResultDx,ResultDy;	//Calculated position
+	double		ResultRotation;
+	int			ShiftByGlobalX;
+	int			ShiftByGlobalY;
+	int			Error;
+	DoubleList		CoefList;
+
+	EdgeMatchingSendTryThreshold(void);
+	EdgeMatchingSendTryThreshold(const EdgeMatchingSendTryThreshold &src);
+	~EdgeMatchingSendTryThreshold(void);
+
+	EdgeMatchingSendTryThreshold &operator=(const EdgeMatchingSendTryThreshold &src);
+	void	ConstructList(EdgeMatchingReqTryThreshold *reqPacket,EdgeMatchingBase *Base);
+	void	Calc(EdgeMatchingItem *Target,EdgeMatchingItem *Src,EdgeMatchingBase *Base);
+
+	bool	Save(QIODevice *f);
+	bool	Load(QIODevice *f);
+};
+
 //===========================================================================
 class	AlignmentPointList : public NPListSaveLoad<AlignmentPointList>
 {

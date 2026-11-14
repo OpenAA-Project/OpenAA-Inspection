@@ -45,7 +45,7 @@ DEFFUNCEX const char *DLL_GetBlobName(void)
 
 DEFFUNCEX DWORD DLL_GetAlgorithmType(void)
 {
-    return AlgorithmBit_TypePreAlignment | AlgorithmBit_TypeAlignment;
+    return AlgorithmBit_TypeProcessing | AlgorithmBit_TypePostProcessing;
 }
 
 DEFFUNCEX AlgorithmBase *DLL_InitialAlloc(LayersBase *Base)

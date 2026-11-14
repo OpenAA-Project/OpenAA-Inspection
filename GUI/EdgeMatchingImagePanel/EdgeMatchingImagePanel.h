@@ -27,4 +27,6 @@ public:
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet)	override;
 
 	virtual void	StartPage	(void)	override;
+private:
+	virtual	void	MouseMoveEvent(int globalX ,int globalY)		override;
 };

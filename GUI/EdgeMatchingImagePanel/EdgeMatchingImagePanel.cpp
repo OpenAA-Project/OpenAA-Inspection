@@ -158,6 +158,18 @@ void	EdgeMatchingImagePanel::StartPage(void)
 	DisplayImageWithAlgorithm::StartPage();
 }
 
+void	EdgeMatchingImagePanel::MouseMoveEvent(int globalX ,int globalY)
+{
+	DisplayImageWithAlgorithm::MouseMoveEvent(globalX ,globalY);
+
+	GUIFormBase	*DProp=GetLayersBase()->FindByName(/**/"Button" ,/**/"PropertyEdgeMatching" ,/**/"");
+	if(DProp!=NULL){
+		CmdMouseMoveEdgeMatchingImagePanel	VCmd(GetLayersBase());
+		VCmd.GlobalX = globalX;
+		VCmd.GlobalY = globalY;
+		DProp->TransmitDirectly(&VCmd);
+	}
+}
 void	EdgeMatchingImagePanel::TransmitDirectly(GUIDirectMessage *packet)
 {
 

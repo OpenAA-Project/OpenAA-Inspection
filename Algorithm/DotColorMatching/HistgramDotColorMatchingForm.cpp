@@ -816,7 +816,6 @@ void	HistgramDotColorMatchingForm::Initial(AlgorithmBase *InstBase ,AlgorithmIte
 
 	for(AlgorithmItemIndependent	*D=IData->Items.GetFirst();D!=NULL;D=D->GetNext()){
 		LButtonList[D->Layer]->setChecked(true);
-		//SimPanel.SetLayer(D->Layer);
 		SimPanel.SetLayer(-1);
 		AlgorithmItemRoot	*DA=D->Data;
 		if(DA!=NULL){

@@ -250,6 +250,32 @@ void EdgeMatchingPropertyForm::ShowSelectedLibList(void)
 
 void EdgeMatchingPropertyForm::TransmitDirectly(GUIDirectMessage *packet)
 {
+	CmdMouseMoveEdgeMatchingImagePanel *MouseMovePacket = dynamic_cast<CmdMouseMoveEdgeMatchingImagePanel *>(packet);
+    if(MouseMovePacket!=NULL){
+		IntList PageList;
+		GetLayersBase()->GetGlobalPage(MouseMovePacket->GlobalX ,MouseMovePacket->GlobalY,PageList);
+		for(IntClass *c=PageList.GetFirst();c!=NULL;c=c->GetNext()){
+			int	GlobalPage=c->GetValue();
+			if(GetLayersBase()->GetLocalPageFromGlobal	(GlobalPage)>=0){
+				GUICmdReqEdgeMatchingByPoint	RCmd(GetLayersBase(),sRoot,sName,GlobalPage);
+				GUICmdAckEdgeMatchingByPoint	ACmd(GetLayersBase(),sRoot,sName,GlobalPage);
+				int	localX,localY;
+				if(GetLayersBase()->GetLocalMatrixFromGlobal(MouseMovePacket->GlobalX ,MouseMovePacket->GlobalY
+                                                            ,localX,localY)>=0){
+					RCmd.Phase = GetLayersBase()->GetCurrentPhase();
+					RCmd.LocalX=localX;
+					RCmd.LocalY=localY;
+					if(RCmd.Send(GlobalPage,0,ACmd)==true){
+						ui->labelInfo->setText(QString("ItemID:")+QString::number(ACmd.ItemID)
+                                              +QString("  V:")+QString::number(ACmd.V));
+                        
+                        return;
+					}
+				}
+			}	
+		}
+        return;
+	}
     CmdEdgeMatchingDrawModePacket *DrawModePacket = dynamic_cast<CmdEdgeMatchingDrawModePacket *>(packet);
     if (DrawModePacket != NULL) {
         if (ui->toolButtonArea->isChecked() == true) {

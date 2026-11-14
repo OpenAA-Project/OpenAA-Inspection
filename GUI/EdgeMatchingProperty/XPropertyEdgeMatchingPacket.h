@@ -27,6 +27,15 @@ public:
     CmdEdgeMatchingDrawEnd(LayersBase *base) : GUIDirectMessage(base) { ImagePanelPoint = NULL; }
     CmdEdgeMatchingDrawEnd(GUICmdPacketBase *gbase) : GUIDirectMessage(gbase) { ImagePanelPoint = NULL; }
 };
+class CmdMouseMoveEdgeMatchingImagePanel : public GUIDirectMessage
+{
+public:
+    int GlobalX;
+    int GlobalY;
+
+    CmdMouseMoveEdgeMatchingImagePanel(LayersBase *base) : GUIDirectMessage(base) {}
+    CmdMouseMoveEdgeMatchingImagePanel(GUICmdPacketBase *gbase) : GUIDirectMessage(gbase) {}
+};
 
 class GUICmdAddEdgeMatching : public GUICmdPacketBase
 {
@@ -87,6 +96,33 @@ public:
     EdgeMatchingItemListPack ItemList;
 
     GUICmdSendEdgeMatchingItemList(LayersBase *Base, const QString &emitterRoot, const QString &emitterName, int globalPage = -1);
+    virtual bool Load(QIODevice *f);
+    virtual bool Save(QIODevice *f);
+    virtual void Receive(int32 localPage, int32 cmd, QString &EmitterRoot, QString &EmitterName) {}
+};
+//==============================================================================
+
+class GUICmdReqEdgeMatchingByPoint : public GUICmdPacketBase
+{
+public:
+    int Phase;
+	int LocalX;
+	int LocalY;
+
+    GUICmdReqEdgeMatchingByPoint(LayersBase *Base, const QString &emitterRoot, const QString &emitterName, int globalPage = -1);
+
+    virtual bool Load(QIODevice *f);
+    virtual bool Save(QIODevice *f);
+    virtual void Receive(int32 localPage, int32 cmd, QString &EmitterRoot, QString &EmitterName);
+};
+
+class GUICmdAckEdgeMatchingByPoint : public GUICmdPacketBase
+{
+public:
+    float   V,R;
+	int	    ItemID;
+
+    GUICmdAckEdgeMatchingByPoint(LayersBase *Base, const QString &emitterRoot, const QString &emitterName, int globalPage = -1);
     virtual bool Load(QIODevice *f);
     virtual bool Save(QIODevice *f);
     virtual void Receive(int32 localPage, int32 cmd, QString &EmitterRoot, QString &EmitterName) {}

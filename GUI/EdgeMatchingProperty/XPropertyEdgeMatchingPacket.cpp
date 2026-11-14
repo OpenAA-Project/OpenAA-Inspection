@@ -158,3 +158,72 @@ bool GUICmdSendEdgeMatchingItemList::Save(QIODevice *f)
     return true;
 }
 
+//==============================================================================
+
+GUICmdReqEdgeMatchingByPoint::GUICmdReqEdgeMatchingByPoint(LayersBase *Base, const QString &emitterRoot, const QString &emitterName, int globalPage)
+    : GUICmdPacketBase(Base, emitterRoot, emitterName, typeid(this).name(), globalPage)
+{
+}
+
+bool GUICmdReqEdgeMatchingByPoint::Load(QIODevice *f)
+{
+    if (::Load(f, Phase) == false) return false;
+    if (::Load(f, LocalX) == false) return false;
+    if (::Load(f, LocalY) == false) return false;
+    return true;
+}
+
+bool GUICmdReqEdgeMatchingByPoint::Save(QIODevice *f)
+{
+    if (::Save(f, Phase) == false) return false;
+    if (::Save(f, LocalX) == false) return false;
+    if (::Save(f, LocalY) == false) return false;
+    return true;
+}
+
+void GUICmdReqEdgeMatchingByPoint::Receive(int32 localPage, int32 cmd, QString &EmitterRoot, QString &EmitterName)
+{
+    GUICmdAckEdgeMatchingByPoint *SendBack = GetSendBack(GUICmdAckEdgeMatchingByPoint, GetLayersBase(), EmitterRoot, EmitterName, localPage);
+
+    AlgorithmBase *AlignBase = GetLayersBase()->GetAlgorithmBase("Basic", "EdgeMatching");
+    if (AlignBase == NULL)
+        return;
+    AlgorithmInPageInOnePhase *Ph = AlignBase->GetPageDataPhase(Phase);
+    if (Ph == NULL)
+        return;
+    AlgorithmInPageRoot *AP = Ph->GetPageData(localPage);
+    if (AP == NULL)
+        return;
+
+    CmdReqEdgeMatchingByPoint DPacket(GetLayersBase());
+	DPacket.LocalX = LocalX;
+	DPacket.LocalY = LocalY;
+    AP->TransmitDirectly(&DPacket);
+
+    SendBack->V = DPacket.V;           
+    SendBack->R = DPacket.R;           
+    SendBack->ItemID = DPacket.ItemID; 
+
+    SendBack->Send(this, GetLayersBase()->GetGlobalPageFromLocal(localPage), 0);
+    CloseSendBack(SendBack);
+}
+
+GUICmdAckEdgeMatchingByPoint::GUICmdAckEdgeMatchingByPoint(LayersBase *Base, const QString &emitterRoot, const QString &emitterName, int globalPage)
+	: GUICmdPacketBase(Base,emitterRoot,emitterName,typeid(this).name(),globalPage)
+{
+}
+bool GUICmdAckEdgeMatchingByPoint::Load(QIODevice *f)
+{
+    if(::Load(f,V)==false) return false;
+    if(::Load(f,R)==false) return false;
+    if(::Load(f,ItemID)==false) return false;
+    return true;
+}
+
+bool GUICmdAckEdgeMatchingByPoint::Save(QIODevice *f)
+{
+    if(::Save(f,V)==false) return false;
+    if(::Save(f,R)==false) return false;
+    if(::Save(f,ItemID)==false) return false;
+    return true;
+}

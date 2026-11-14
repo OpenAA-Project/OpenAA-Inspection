@@ -50,12 +50,13 @@ DEFFUNCEX	bool	DLL_Initial(LayersBase *Base)
 {
 	Q_INIT_RESOURCE(ServiceLib);
 
-	(*Base)=new GUICmdAddEdgeMatching				(Base, QString(sRoot), QString(sName));
+	(*Base)=new GUICmdAddEdgeMatching			(Base, QString(sRoot), QString(sName));
 	(*Base)=new GUICmdSendEdgeMatching			(Base, QString(sRoot), QString(sName));
 	(*Base)=new GUICmdReqModifyEdgeMatching		(Base, QString(sRoot), QString(sName));
-	(*Base)=new GUICmdReqEdgeMatchingItemList		(Base, QString(sRoot), QString(sName));
+	(*Base)=new GUICmdReqEdgeMatchingItemList	(Base, QString(sRoot), QString(sName));
 	(*Base)=new GUICmdSendEdgeMatchingItemList	(Base, QString(sRoot), QString(sName));
-
+	(*Base)=new GUICmdReqEdgeMatchingByPoint	(Base, QString(sRoot), QString(sName));
+	(*Base)=new GUICmdAckEdgeMatchingByPoint	(Base, QString(sRoot), QString(sName));
 	return true;
 }
 DEFFUNCEX	void	DLL_Close(void)

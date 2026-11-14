@@ -223,13 +223,16 @@ void EdgeMatchingLibraryDialog::ShowLibrary(AlgorithmLibraryLevelContainer &data
 
     EdgeMatchingLibrary *ALib = static_cast<EdgeMatchingLibrary *>(data.GetLibrary());
 
-    ui->EditFocusRadius->setValue(ALib->FocusRadius);
-    ui->EditLayer->setValue(ALib->Layer);
-    ui->EditSearchDotX->setValue(ALib->SearchDotX);
-    ui->EditSearchDotY->setValue(ALib->SearchDotY);
-    ui->EditSearchByPixel->setValue(ALib->SearchByPixel);
-    ui->EditThresholdDiv->setValue(ALib->ThresholdDiv);
-    ui->EditThresholdDirection->setValue(ALib->ThresholdDirection);
+    ui->EditFocusRadius         ->setValue(ALib->FocusRadius);
+    ui->EditLayer               ->setValue(ALib->Layer);
+    ui->EditSearchDotX          ->setValue(ALib->SearchDotX);
+    ui->EditSearchDotY          ->setValue(ALib->SearchDotY);
+    ui->EditSearchByPixel       ->setValue(ALib->SearchByPixel);
+    ui->EditThresholdDiv        ->setValue(ALib->ThresholdDiv);
+    ui->EditThresholdDirection  ->setValue(ALib->ThresholdDirection);
+    ui->EditBlockSizeX          ->setValue(ALib->BlockSizeX);
+    ui->EditBlockSizeY          ->setValue(ALib->BlockSizeY);
+	ui->checkBoxUseDivided      ->setChecked(ALib->UseDivided);
 }
 
 void EdgeMatchingLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContainer &data)
@@ -238,13 +241,16 @@ void EdgeMatchingLibraryDialog::GetLibraryFromWindow(AlgorithmLibraryLevelContai
 
     EdgeMatchingLibrary *ALib = static_cast<EdgeMatchingLibrary *>(data.GetLibrary());
 
-    ALib->FocusRadius = ui->EditFocusRadius->value();
-    ALib->Layer = ui->EditLayer->value();
-    ALib->SearchDotX = ui->EditSearchDotX->value();
-    ALib->SearchDotY = ui->EditSearchDotY->value();
+    ALib->FocusRadius   = ui->EditFocusRadius->value();
+    ALib->Layer         = ui->EditLayer->value();
+    ALib->SearchDotX    = ui->EditSearchDotX->value();
+    ALib->SearchDotY    = ui->EditSearchDotY->value();
     ALib->SearchByPixel = ui->EditSearchByPixel->value();
-    ALib->ThresholdDiv = ui->EditThresholdDiv->value();
+    ALib->ThresholdDiv  = ui->EditThresholdDiv->value();
     ALib->ThresholdDirection = ui->EditThresholdDirection->value();
+    ALib->BlockSizeX    = ui->EditBlockSizeX->value();
+    ALib->BlockSizeY    = ui->EditBlockSizeY->value();
+    ALib->UseDivided    = ui->checkBoxUseDivided->isChecked();
 }
 
 void EdgeMatchingLibraryDialog::on_pushButtonClose_clicked()

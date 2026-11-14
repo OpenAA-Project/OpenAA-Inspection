@@ -15,7 +15,7 @@
 #include "XEdgeMatchingLibrary.h"
 #include "XStandardCommand.h"
 
-#define	EdgeMatchingVersion	1
+#define	EdgeMatchingVersion	10000
 
 class	EdgeMatchingItem;
 class	EdgeMatchingInPage;
@@ -33,6 +33,8 @@ public:
 	double		ThresholdDirection;
 	WORD		FocusRadius	;
 	short		Layer;		//-1:Automatic,0~:Layer
+	DWORD		BlockSizeX,BlockSizeY;
+	bool		UseDivided;
 
 	EdgeMatchingThreshold(EdgeMatchingItem *parent);
 	~EdgeMatchingThreshold(void);
@@ -51,16 +53,18 @@ public:
 };
 
 
-#define	Hist_AlighmentLargeShiftX	1
-#define	Hist_AlighmentLargeShiftY	2
-#define	SetIndependentItemDataCommand_OnlyOne	10
-#define	SetIndependentItemDataCommand_All		12
-
-
 
 class   EdgeMatchingItem : public AlgorithmItemPI
 {
 public:
+	class DividedArea : public NPList<DividedArea>
+	{
+	public:
+		FlexArea	Area;
+		double		ResultCoef;
+		double		AA,A;
+	};
+	NPListPack<DividedArea>		DividedAreas;
 
 public:
 	AlignmentPacket2D	*AVector;
@@ -69,9 +73,17 @@ public:
 	int			MapXLen,MapYLen;
 	int			AdoptedLayer;
 
+	float		**TargetMap;	//differential value
+	int			TargetMapXLen,TargetMapYLen;
+	int			TargetX1,TargetY1;
+
+	double		AA,A;
 	double		MasterCx,MasterCy;
-	double      ResultDx,ResultDy;	//Calculated position
+	int			ResultDx,ResultDy;	//Calculated position
 	double		ResultRotation;
+	int			ShiftByGlobalX;
+	int			ShiftByGlobalY;
+	double		GlobalRotation;
 
 
 	EdgeMatchingItem(void);
@@ -102,7 +114,8 @@ public:
 	virtual	void	DrawResultItem(ResultInItemRoot *Res,QImage &IData ,QPainter &PData ,int MovX ,int MovY ,double ZoomRate ,bool OnlyNG) override;
 	virtual	ExeResult	ExecuteInitialAfterEdit	(int ExeID ,int ThreadNo,ResultInItemRoot *Res,ExecuteInitialAfterEditInfo &EInfo) override;
 	virtual	ExeResult	ExecuteStartByInspection(int ExeID ,int ThreadNo,ResultInItemRoot *Res) override;
-	virtual	ExeResult	ExecuteAlignment		(int ExeID ,int ThreadNo,ResultInItemRoot *Res) override;
+	virtual	ExeResult	ExecuteProcessing		(int ExeID ,int ThreadNo,ResultInItemRoot *Res)	override;
+	virtual	ExeResult	ExecutePostProcessing	(int ExeID ,int ThreadNo,ResultInItemRoot *Res)	override;
 
 	void	CopyThresholdOnly(EdgeMatchingItem *src);
 
@@ -113,6 +126,13 @@ public:
 						,int dx,int dy,int N
 						,int DotPerLine,int MaxLines);
 	bool	IsImageChanged(void);
+
+private:
+	void	MakeDividedArea(void);
+	qint64	GetVArea(FlexArea *A,double  AvrV);
+	double	GetVSum(FlexArea *A);
+	void    CalcAA(EdgeMatchingItem::DividedArea *d);
+	double	CalcDividedCoef(EdgeMatchingItem::DividedArea &DArea,int dx,int dy);
 };
 
 
@@ -126,7 +146,7 @@ public:
 	virtual	AlgorithmItemRoot	*CreateItem(int ItemClassType) override;
 
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet) override;
-
+	virtual	void	UndoSetIndependentItemDataCommand(QIODevice *f);
 private:
 };
 
@@ -152,6 +172,19 @@ public:
 	virtual	void	MakeReportedTopics(ReportedTopicContainer &RetContainer)	 const	override;
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet)	 override;
 
+	virtual	bool	GeneralDataRelease(int32 Command,void *data)			override;
+	virtual	void	*GeneralDataCreate(int32 Command,void *reqData)			override;
+	virtual	bool	GeneralDataLoad(QIODevice *f,int32 Command,void *data)	override;
+	virtual	bool	GeneralDataSave(QIODevice *f,int32 Command,void *data)	override;
+	virtual	bool	GeneralDataReply(int32 Command,void *data)				override;
+
 };
+
+#define	Hist_AlighmentLargeShiftX					1
+#define	Hist_AlighmentLargeShiftY					2
+#define	SetIndependentItemDataCommand_OnlyOne		10
+#define	SetIndependentItemDataCommand_All			12
+#define	EdgeMatchingReqTryThresholdCommand			7
+#define	EdgeMatchingSendTryThresholdCommand			8
 
 //==========================================================================
