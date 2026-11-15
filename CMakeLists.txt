@@ -28,20 +28,12 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-add_custom_target(GUI_MaskingImagePanel_SelectLibraryInMask_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/MaskingImagePanel/SelectLibraryInMask" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/MaskingImagePanel/SelectLibraryInMask/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/GUI/MaskingImagePanel/SelectLibraryInMask/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building GUI/MaskingImagePanel/SelectLibraryInMask sequentially..."
-)
-
 add_custom_target(GUI_LearningLib_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/LearningLib" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/LearningLib/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/GUI/LearningLib/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building GUI/LearningLib sequentially..."
 )
-add_dependencies(GUI_LearningLib_build GUI_MaskingImagePanel_SelectLibraryInMask_build)
 
 add_custom_target(PluginDLL_PIO_NetworkSIOClientLib_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/NetworkSIOClientLib" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/NetworkSIOClientLib/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -67,13 +59,21 @@ add_custom_target(PluginDLL_PIO_SharedPIOLib_build ALL
 )
 add_dependencies(PluginDLL_PIO_SharedPIOLib_build PluginDLL_PIO_NetworkPIOLib_build)
 
+add_custom_target(GUI_MaskingImagePanel_SelectLibraryInMask_build ALL
+    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/MaskingImagePanel/SelectLibraryInMask" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/MaskingImagePanel/SelectLibraryInMask/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/GUI/MaskingImagePanel/SelectLibraryInMask/build" --config ${CMAKE_BUILD_TYPE} -- -k
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    COMMENT "[Meta-Build] Configuring and Building GUI/MaskingImagePanel/SelectLibraryInMask sequentially..."
+)
+add_dependencies(GUI_MaskingImagePanel_SelectLibraryInMask_build PluginDLL_PIO_SharedPIOLib_build)
+
 add_custom_target(Algorithm_ReviewStructure_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/ReviewStructure" -B "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/ReviewStructure/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/ReviewStructure/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building Algorithm/ReviewStructure sequentially..."
 )
-add_dependencies(Algorithm_ReviewStructure_build PluginDLL_PIO_SharedPIOLib_build)
+add_dependencies(Algorithm_ReviewStructure_build GUI_MaskingImagePanel_SelectLibraryInMask_build)
 
 add_custom_target(Algorithm_BlockInspection_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/BlockInspection" -B "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/BlockInspection/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -3227,21 +3227,13 @@ add_custom_target(PluginDLL_PIO_Contec64DLL_Contec64DLL_build ALL
 )
 add_dependencies(PluginDLL_PIO_Contec64DLL_Contec64DLL_build PluginDLL_Light_LightDLL_LEDControl32_build)
 
-add_custom_target(PluginDLL_PIO_Contec64DLL2_Contec64DLL_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64DLL2/Contec64DLL" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64DLL2/Contec64DLL/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64DLL2/Contec64DLL/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building PluginDLL/PIO/Contec64DLL2/Contec64DLL sequentially..."
-)
-add_dependencies(PluginDLL_PIO_Contec64DLL2_Contec64DLL_build PluginDLL_PIO_Contec64DLL_Contec64DLL_build)
-
 add_custom_target(PluginDLL_PIO_Contec64Multi_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64Multi" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64Multi/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64Multi/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building PluginDLL/PIO/Contec64Multi sequentially..."
 )
-add_dependencies(PluginDLL_PIO_Contec64Multi_build PluginDLL_PIO_Contec64DLL2_Contec64DLL_build)
+add_dependencies(PluginDLL_PIO_Contec64Multi_build PluginDLL_PIO_Contec64DLL_Contec64DLL_build)
 
 add_custom_target(PluginDLL_PIO_NetworkContec64_PIOClient_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/NetworkContec64/PIOClient" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/NetworkContec64/PIOClient/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -3643,21 +3635,13 @@ add_custom_target(Messager_DiskManager_build ALL
 )
 add_dependencies(Messager_DiskManager_build ServiceLib_ForceRebooter_build)
 
-add_custom_target(Data_management_Data_management_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/DataManagement" -B "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/DataManagement/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/DataManagement/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building DataManagement/DataManagement sequentially..."
-)
-add_dependencies(Data_management_Data_management_build Messager_DiskManager_build)
-
 add_custom_target(PluginDLL_SequencePlugin_SampleDLL_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/SequencePlugin/SampleDLL" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/SequencePlugin/SampleDLL/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/SequencePlugin/SampleDLL/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building PluginDLL/SequencePlugin/SampleDLL sequentially..."
 )
-add_dependencies(PluginDLL_SequencePlugin_SampleDLL_build Data_management_Data_management_build)
+add_dependencies(PluginDLL_SequencePlugin_SampleDLL_build Messager_DiskManager_build)
 
 add_custom_target(PluginDLL_SequencePlugin_LogWriter_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/SequencePlugin/LogWriter" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/SequencePlugin/LogWriter/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -5027,21 +5011,13 @@ add_custom_target(GUI_ShowMemory_build ALL
 )
 add_dependencies(GUI_ShowMemory_build PluginDLL_PIO_RelayLCUS2_build)
 
-add_custom_target(Data_management_Maintainer_build ALL
-    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/Maintainer" -B "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/Maintainer/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/Maintainer/build" --config ${CMAKE_BUILD_TYPE} -- -k
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    COMMENT "[Meta-Build] Configuring and Building DataManagement/Maintainer sequentially..."
-)
-add_dependencies(Data_management_Maintainer_build GUI_ShowMemory_build)
-
 add_custom_target(ResultDLL_ResultSaveTargetImage_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/ResultDLL/ResultSaveTargetImage" -B "${CMAKE_CURRENT_SOURCE_DIR}/ResultDLL/ResultSaveTargetImage/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/ResultDLL/ResultSaveTargetImage/build" --config ${CMAKE_BUILD_TYPE} -- -k
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     COMMENT "[Meta-Build] Configuring and Building ResultDLL/ResultSaveTargetImage sequentially..."
 )
-add_dependencies(ResultDLL_ResultSaveTargetImage_build Data_management_Maintainer_build)
+add_dependencies(ResultDLL_ResultSaveTargetImage_build GUI_ShowMemory_build)
 
 add_custom_target(GUI_ButtonShowStockedImage_build ALL
     COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ButtonShowStockedImage" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/ButtonShowStockedImage/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -6762,4 +6738,52 @@ add_custom_target(Tutorial_TutrialExecuter_build ALL
     COMMENT "[Meta-Build] Configuring and Building Tutorial/TutrialExecuter sequentially..."
 )
 add_dependencies(Tutorial_TutrialExecuter_build MachineController_RobotInspection_GeneralStockerRobot_build)
+
+add_custom_target(PluginDLL_PIO_Contec64DLL2_Contec64DLL_build ALL
+    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64DLL2/Contec64DLL" -B "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64DLL2/Contec64DLL/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/PluginDLL/PIO/Contec64DLL2/Contec64DLL/build" --config ${CMAKE_BUILD_TYPE} -- -k
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    COMMENT "[Meta-Build] Configuring and Building PluginDLL/PIO/Contec64DLL2/Contec64DLL sequentially..."
+)
+add_dependencies(PluginDLL_PIO_Contec64DLL2_Contec64DLL_build Tutorial_TutrialExecuter_build)
+
+add_custom_target(DataManagement_DataManagement_build ALL
+    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/DataManagement" -B "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/DataManagement/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/DataManagement/build" --config ${CMAKE_BUILD_TYPE} -- -k
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    COMMENT "[Meta-Build] Configuring and Building DataManagement/DataManagement sequentially..."
+)
+add_dependencies(DataManagement_DataManagement_build PluginDLL_PIO_Contec64DLL2_Contec64DLL_build)
+
+add_custom_target(DataManagement_Maintainer_build ALL
+    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/Maintainer" -B "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/Maintainer/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/DataManagement/Maintainer/build" --config ${CMAKE_BUILD_TYPE} -- -k
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    COMMENT "[Meta-Build] Configuring and Building DataManagement/Maintainer sequentially..."
+)
+add_dependencies(DataManagement_Maintainer_build DataManagement_DataManagement_build)
+
+add_custom_target(Algorithm_EdgeMatching_build ALL
+    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/EdgeMatching" -B "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/EdgeMatching/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/Algorithm/EdgeMatching/build" --config ${CMAKE_BUILD_TYPE} -- -k
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    COMMENT "[Meta-Build] Configuring and Building Algorithm/EdgeMatching sequentially..."
+)
+add_dependencies(Algorithm_EdgeMatching_build DataManagement_Maintainer_build)
+
+add_custom_target(GUI_EdgeMatchingImagePanel_build ALL
+    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/EdgeMatchingImagePanel" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/EdgeMatchingImagePanel/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/GUI/EdgeMatchingImagePanel/build" --config ${CMAKE_BUILD_TYPE} -- -k
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    COMMENT "[Meta-Build] Configuring and Building GUI/EdgeMatchingImagePanel sequentially..."
+)
+add_dependencies(GUI_EdgeMatchingImagePanel_build Algorithm_EdgeMatching_build)
+
+add_custom_target(GUI_EdgeMatchingProperty_build ALL
+    COMMAND ${CMAKE_COMMAND} -S "${CMAKE_CURRENT_SOURCE_DIR}/GUI/EdgeMatchingProperty" -B "${CMAKE_CURRENT_SOURCE_DIR}/GUI/EdgeMatchingProperty/build" -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_SOURCE_DIR}/GUI/EdgeMatchingProperty/build" --config ${CMAKE_BUILD_TYPE} -- -k
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    COMMENT "[Meta-Build] Configuring and Building GUI/EdgeMatchingProperty sequentially..."
+)
+add_dependencies(GUI_EdgeMatchingProperty_build GUI_EdgeMatchingImagePanel_build)
 
