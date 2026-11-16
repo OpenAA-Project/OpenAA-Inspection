@@ -1,4 +1,4 @@
-#define _USE_MATH_DEFINES
+ï»¿#define _USE_MATH_DEFINES
 #include <math.h>
 #include "XEdgeMatching.h"
 #include "XEdgeMatchingPacket.h"
@@ -176,7 +176,7 @@ void EdgeMatchingBase::MakeReportedTopics(ReportedTopicContainer &RetContainer) 
 
 void EdgeMatchingBase::TransmitDirectly(GUIDirectMessage *packet)
 {
-    // ƒ‰ƒCƒuƒ‰ƒŠ‘€ì‚â–¼Ìæ“¾‚ÌƒpƒPƒbƒgˆ—iEdgeMatchingBase::TransmitDirectly‚ğQl‚ÉÀ‘•j
+    // ãƒ©ã‚¤ãƒ–ãƒ©ãƒªæ“ä½œã‚„åç§°å–å¾—ã®ãƒ‘ã‚±ãƒƒãƒˆå‡¦ç†ï¼ˆEdgeMatchingBase::TransmitDirectlyã‚’å‚è€ƒã«å®Ÿè£…ï¼‰
     CmdGetEdgeMatchingLibraryNamePacket *CmdGetName = dynamic_cast<CmdGetEdgeMatchingLibraryNamePacket *>(packet);
     if (CmdGetName != NULL) {
         AlgorithmLibraryLevelContainer LibData(this);
@@ -242,7 +242,10 @@ void EdgeMatchingBase::TransmitDirectly(GUIDirectMessage *packet)
 		return;
 	}
 }
-
+QString	EdgeMatchingBase::GetNameByCurrentLanguage(void)
+{
+	return "ã‚¨ãƒƒã‚¸ãƒãƒƒãƒãƒ³ã‚°";
+}
 bool	EdgeMatchingBase::GeneralDataRelease(int32 Command,void *data)
 {
 	if(Command==EdgeMatchingReqTryThresholdCommand){

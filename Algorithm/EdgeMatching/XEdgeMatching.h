@@ -172,6 +172,8 @@ public:
 	virtual	void	MakeReportedTopics(ReportedTopicContainer &RetContainer)	 const	override;
 	virtual	void	TransmitDirectly(GUIDirectMessage *packet)	 override;
 
+	virtual	QString	GetNameByCurrentLanguage(void)	override;
+
 	virtual	bool	GeneralDataRelease(int32 Command,void *data)			override;
 	virtual	void	*GeneralDataCreate(int32 Command,void *reqData)			override;
 	virtual	bool	GeneralDataLoad(QIODevice *f,int32 Command,void *data)	override;
