@@ -528,18 +528,4 @@ target_link_options(${PROJECT_NAME} PRIVATE
 # Link OpenMP
 target_link_libraries(${PROJECT_NAME} PRIVATE OpenMP::OpenMP_CXX)
 
-# =========================================================================
-# .desktop file configuration and installation
-# =========================================================================
-if(UNIX AND NOT APPLE)
-    configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/EditParameter.desktop.in"
-        "${CMAKE_CURRENT_BINARY_DIR}/EditParameter.desktop"
-        @ONLY
-    )
-    install(
-        FILES "${CMAKE_CURRENT_BINARY_DIR}/EditParameter.desktop"
-        DESTINATION "$ENV{HOME}/.local/share/applications"
-    )
-endif()
 
