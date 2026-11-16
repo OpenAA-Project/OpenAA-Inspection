@@ -100,12 +100,19 @@ void TutrialExecuter::onStart()
     // Build arguments list:
     // 1. G + gui file name
     // 2. Q + config folder name
-    // 3. NDM
-    // 4. W1
-    // 5. -R
+    // 3. NoCamDevice (optional, if camera is NOT used)
+    // 4. NDM
+    // 5. W1
+    // 6. -R
     QStringList arguments;
     arguments << QString("G%1").arg(guiFile);
     arguments << QString("Q%1").arg(configDir);
+
+    // カメラを使用しない場合はパラメーターを追加
+    if (!ui.checkBoxUseCamera->isChecked()) {
+        arguments << "NoCamDevice";
+    }
+
     arguments << "NDM";
     arguments << "W1";
     arguments << "-R";
