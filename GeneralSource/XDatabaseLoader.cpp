@@ -349,7 +349,7 @@ bool	DatabaseLoader::DatabaseInitialLoad(const QString &PathAndFileName)
 	S_DeleteLight					=(bool (*)(QSqlDatabase &DB ,int MachineID,int LightID))DllLib.resolve("__S_DeleteLight");
 
 	S_CheckAndCreateBlobInMasterPageTable	=(bool (*)(const QSqlDatabase &db ,QString &BlobName))DllLib.resolve("__S_CheckAndCreateBlobInMasterPageTable");
-	S_OpenDatabase					=(QSqlDatabase *(*)(QSqlDatabase *DB))DllLib.resolve("__S_OpenDatabase");
+	S_OpenDatabase					=(QSqlDatabase *(*)(QSqlDatabase *DB,bool &IsOpened ,QString &RetErr ,QStringList &RetDrvList))DllLib.resolve("__S_OpenDatabase");
 	S_CloseDatabase					=(QSqlDatabase *(*)(QSqlDatabase *DB))DllLib.resolve("__S_CloseDatabase");
 	S_IsValidDatabase				=(bool (*)(QSqlDatabase *DB))DllLib.resolve("__S_IsValidDatabase");
 

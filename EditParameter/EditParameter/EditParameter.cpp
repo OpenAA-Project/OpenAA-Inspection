@@ -174,7 +174,7 @@ EditParameter::EditParameter(LayersBase *base
     connect(ui->bgRedBrightnessGraph,SIGNAL(SignalChanged(void))	,this,SLOT(SlotChanged(void)));
 
     QString    path=GetLayersBase()->GetParamGlobal()->GetDefaultFileName();
-    setWindowTitle(GetLayersBase()->GetUserPath()+QDir::separator()+path);
+    setWindowTitle(QString("EditParameter : ")+GetLayersBase()->GetUserPath()+QDir::separator()+path);
 }
 
 EditParameter::~EditParameter()
@@ -411,9 +411,15 @@ void EditParameter::on_pushButtonConnectOutlineOffset_clicked()
         Q.exec();
         return;
     }
-    if(GetLayersBase()->OpenDatabase(*KDatabase)==false){
+	bool		IsOpened;
+	QString		RetErr;
+	QStringList	RetDrvList;
+    if(GetLayersBase()->OpenDatabase(*KDatabase,IsOpened ,RetErr ,RetDrvList)==false){
         QMessageBox Q( /**/"Error"
-                    , LangEPSolver.GetString(EditParameter_LS,LID_14)/*"Could not open database"*/, QMessageBox::Critical
+                    , LangEPSolver.GetString(EditParameter_LS,LID_14)/*"Could not open database"*/
+            		 +String(/**/":")
+					 +RetErr
+                    , QMessageBox::Critical
                     , QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
         Q.exec();
         return;

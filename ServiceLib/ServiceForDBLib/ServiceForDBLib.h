@@ -196,7 +196,7 @@ DEFFUNCEX	bool	__S_UpdateLight(QSqlDatabase &DB ,int MachineCode,int LightID ,QS
 DEFFUNCEX	bool	__S_DeleteLight(QSqlDatabase &DB ,int MachineCode,int LightID);
 
 DEFFUNCEX	bool	__S_CheckAndCreateBlobInMasterPageTable(const QSqlDatabase &db ,QString &BlobName);
-DEFFUNCEX	QSqlDatabase	*__S_OpenDatabase(QSqlDatabase *DB);
+DEFFUNCEX	QSqlDatabase	*__S_OpenDatabase(QSqlDatabase *DB,bool &IsOpened ,QString &RetErr ,QStringList &RetDrvList);
 DEFFUNCEX	QSqlDatabase	*__S_CloseDatabase(QSqlDatabase *DB);
 DEFFUNCEX	bool	__S_IsValidDatabase(QSqlDatabase *DB);
 

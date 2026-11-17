@@ -338,9 +338,12 @@ int main(int argc, char *argv[])
 	if(KDatabase->LoadFromDDL(Layers->GetParamGlobal()->DatabaseDDL_FileName)==true){
 		KDatabase->Check(&EList);
 	}
-	if(Layers->OpenDatabase(*KDatabase)==false){
+	bool		IsOpened;
+	QString		RetErr;
+	QStringList	RetDrvList;	
+	if(Layers->OpenDatabase(*KDatabas,IsOpened ,RetErr ,RetDrvListe)==false){
 			QMessageBox::warning (NULL, /**/"Error"
-									, /**/"Could not open database");
+									, QString(/**/"Could not open database :")+RetErr);
 			return(2);
 	}
 	Layers->LoadLevelFolderContainerFromDB();

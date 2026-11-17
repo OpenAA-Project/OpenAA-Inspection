@@ -282,7 +282,7 @@ ParamGlobal::ParamGlobal(LayersBase *base)
 	LocalDatabase_FileName	=/**/"D:/Data/Regulus64.fdb";
 	DatabaseDDL_FileName	=/**/"Regulus64Local.DDL";
 	LocalDatabase_Port		=3051;
-	LocalDatabase_HostName	=/**/"localhost";
+	LocalDatabase_HostName	=/**/"127.1.1.1";
 	LayerDefaultFileName	=/**/"LayerAttr.dat";
 	ShadowTreeDefFileName	=/**/"";
 	CameraResolutionBit		=8;

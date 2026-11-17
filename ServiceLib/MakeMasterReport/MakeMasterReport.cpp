@@ -336,10 +336,13 @@ void MakeMasterReport::on_pushButtonOpenDatabase_clicked()
 		if(KDatabase->IsExistDatabase()==false){
 			return;
 		}
-		if(GetLayersBase()->OpenDatabase(*KDatabase)==false){
+		bool		IsOpened;
+		QString		RetErr;
+		QStringList	RetDrvList;	
+		if(GetLayersBase()->OpenDatabase(*KDatabase,IsOpened ,RetErr ,RetDrvList)==false){
 			QMessageBox::critical(NULL
 						, "Error"
-						, "Could not open database"
+						, QString(/**/"Could not open database :")+RetErr
 						, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
 			return;
 		}

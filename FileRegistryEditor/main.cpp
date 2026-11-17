@@ -26,9 +26,15 @@
 #include "XGUI.h"
 #include "XOpenAA.h"
 
-
-//ItemListWindow	*MainItem;
-//PropertyList	*MainProperty;
+/*
+	Arguments:
+		A[path]	: Set current path to [path]
+		Q[path]	: Set user path to [path] for data 
+		Mn		: n- Set MachineID
+		Ln		: n- Set Language Code
+		C		: Close after save
+		StopForDebug : Stop for debug
+*/
 
 const	char	*LayersBase::GetLanguageSolutionFileName(void)
 {
@@ -43,6 +49,7 @@ int main(int argc, char *argv[])
 		return 1;
 	char	TBuff[256];
 	strcpy(TBuff,"-platformpluginpath");
+	int	targc=argc;
 	argv[argc] = TBuff;
 	argc++;
 
@@ -58,8 +65,12 @@ int main(int argc, char *argv[])
 
 	QString	AbsPath;
 	QString	UserPath;
+	bool	StopForDebug	=false;
+	bool	CloseAfterSave	= false;
+	int		ParamMachineID=-1;
+	int		ParamLanguageCode=-1;
 
-	for(int i=0;i<argc;i++){
+	for(int i=0;i<targc;i++){
 		if(*argv[i]=='A' || *argv[i]=='a'){
 			char	*fp=argv[i]+1;
 			AbsPath	=fp;
@@ -68,6 +79,26 @@ int main(int argc, char *argv[])
 		else if((*argv[i]=='Q' || *argv[i]=='q') && *(argv[i]+1)!=':'){
 			char	*fp=argv[i]+1;
 			UserPath	=fp;
+		}
+		else if(*argv[i]=='C' || *argv[i]=='c'){
+			CloseAfterSave = true;
+		}
+		else if(strnicmp(argv[i],"StopForDebug",12)==0){
+			StopForDebug=true;
+		}
+		else if((*argv[i]=='M' || *argv[i]=='m')){
+			char	*pp=argv[i]+1;
+			int	n=atoi(pp);
+			if(n>=0){
+				ParamMachineID=n;
+			}
+		}
+		else if((*argv[i]=='L' || *argv[i]=='l')){
+			char	*pp=argv[i]+1;
+			int	n=atoi(pp);
+			if(n>=0){
+				ParamLanguageCode=n;
+			}
 		}
 	}
 
@@ -90,6 +121,21 @@ int main(int argc, char *argv[])
 	Layers->GetParamGlobal()->LoadDefault(Layers->GetUserPath());
 	Layers->GetParamComm()->LoadDefault(Layers->GetUserPath());
 
+
+	if(ParamLanguageCode>=0){
+		Layers->SetLanguageCode(ParamLanguageCode);
+		FileRegistry	*FRegistry=Layers->GetFRegistry();
+		FRegistry->Save(/**/"Language",ParamLanguageCode);
+	}
+	if(ParamMachineID>=0){
+		Layers->SetMachineID(ParamMachineID);
+		FileRegistry	*FRegistry=Layers->GetFRegistry();
+		FRegistry->Save(/**/"MachineID",ParamMachineID);
+	}
+
+	if(CloseAfterSave==true){
+		return 0;
+	}
 
 	QApplication a(argc, argv);
 

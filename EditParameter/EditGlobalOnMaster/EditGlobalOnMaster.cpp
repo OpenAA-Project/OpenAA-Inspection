@@ -322,11 +322,15 @@ void EditGlobalOnMaster::on_pushButtonOpenDatabase_clicked()
 		if(KDatabase->IsExistDatabase()==false){
 			return;
 		}
-		if(LBase->OpenDatabase(*KDatabase)==false){
+		bool		IsOpened;
+		QString		RetErr;
+		QStringList	RetDrvList;
+		if(LBase->OpenDatabase(*KDatabase,IsOpened ,RetErr ,RetDrvList)==false){
 			QMessageBox::critical(NULL
 						, /**/"Error"
-						, /**/"Could not open database"
-						, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
+						, QString(/**/"Could not open database :")+RetErr
+						, QMessageBox::Ok 
+						, QMessageBox::NoButton, QMessageBox::NoButton);
 			return;
 		}
 		LBase->LoadLevelFolderContainerFromDB();

@@ -86,9 +86,14 @@ void SelectDatabaseForm::on_pushButtonOk_clicked()
 		Q.exec();
 		return;
 	}
-	if(GetLayersBase()->OpenDatabase(KDatabase)==false){
+	bool		IsOpened;
+	QString		RetErr;
+	QStringList	RetDrvList;
+	if(GetLayersBase()->OpenDatabase(KDatabase,IsOpened ,RetErr ,RetDrvList)==false){
 		QMessageBox Q( LangSolver.GetString(SelectDatabaseForm_LS,LID_4)/*"Error"*/
 					, LangSolver.GetString(SelectDatabaseForm_LS,LID_5)/*"Could not open database"*/
+					 +String(/**/":")
+					 +RetErr
 					, QMessageBox::Critical
 					, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
 		Q.exec();

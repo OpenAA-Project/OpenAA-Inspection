@@ -109,10 +109,14 @@ int main(int argc, char *argv[])
 		Q.exec();
 		return(1);
 	}
-	if(Layers->OpenDatabase(*KDatabase)==false){
+	bool		IsOpened;
+	QString		RetErr;
+	QStringList	RetDrvList;
+	if(Layers->OpenDatabase(*KDatabase,IsOpened ,RetErr ,RetDrvList)==false){
 		DatabaseError:;
 		QMessageBox Q( /**/"Error"
-					, /**/"Could not open database", QMessageBox::Critical
+					, QString(/**/"Could not open database :")+RetErr
+					, QMessageBox::Critical
 					, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
 		Q.exec();
 		return(2);

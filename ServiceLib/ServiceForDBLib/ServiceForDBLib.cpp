@@ -2395,11 +2395,8 @@ bool	__S_CheckAndCreateBlobInMasterPageTable(const QSqlDatabase &db ,QString &Bl
 	//delete	R;
 	return Ret;
 }
-QSqlDatabase	*__S_OpenDatabase(QSqlDatabase *DB)
+QSqlDatabase	*__S_OpenDatabase(QSqlDatabase *DB ,bool &IsOpened ,QString &Err ,QStringList &DrvList)
 {
-	QString			Err;
-	QStringList		DrvList;
-
 	LockDB();
 //	BYTE	*TestS1=new BYTE[100];
 //	delete	[]TestS1;				Error occurs
@@ -2407,11 +2404,14 @@ QSqlDatabase	*__S_OpenDatabase(QSqlDatabase *DB)
 	if(DB==NULL){
 		DB=new QSqlDatabase();
 	}
-
+	DrvList=QSqlDatabase::drivers();
 	if(DB->isOpen()==false){
 		DB->open();
 		Err =DB->lastError().text();
-		DrvList=QSqlDatabase::drivers();
+		IsOpened=false;
+	}
+	else{
+		IsOpened=true;
 	}
 	UnlockDB();
 	return DB;

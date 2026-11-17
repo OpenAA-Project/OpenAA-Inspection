@@ -1488,7 +1488,7 @@ public:
 	void	LockZonedStructureW(void)			{	MutexZonedStructure.lockForWrite();			}
 	void	UnlockZonedStructure(void)			{	MutexZonedStructure.unlock();			}
 
-    bool    OpenDatabase(XUpdateDatabase &dbase);
+    bool    OpenDatabase(XUpdateDatabase &dbase,bool &IsOpened ,QString &RetErr ,QStringList &RetDrvList);
     bool    CloseDatabase(void);
 	void	SetDatabase(QSqlDatabase *dbase);
 	bool	IsValidDatabase(void);

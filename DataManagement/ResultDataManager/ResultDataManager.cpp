@@ -93,10 +93,15 @@ bool	ResultDataManager::ConnectDatabase(void)
 		if(KDatabase->IsExistDatabase()==false){
 			return false;
 		}
-		if(GetLayersBase()->OpenDatabase(*KDatabase)==false){
+		bool		IsOpened;
+		QString		RetErr;
+		QStringList	RetDrvList;
+		if(GetLayersBase()->OpenDatabase(*KDatabase,IsOpened ,RetErr ,RetDrvList)==false){
 			QMessageBox::critical(NULL
 						, /**/"Database Error"
-						, LangSolver.GetString(ResultDataManager_LS,LID_0)/*"�f�[�^�x�[�X�̐ڑ��Ɏ��s���܂���"*/
+						, LangSolver.GetString(ResultDataManager_LS,LID_0)
+						  +String(/**/":")
+						  +RetErr
 						, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
 			return false;
 		}

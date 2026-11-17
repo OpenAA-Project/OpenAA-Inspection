@@ -452,10 +452,12 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
-
-	if(Layers->OpenDatabase(*KDatabase)==false){
+	bool		IsOpened;
+	QString		RetErr;
+	QStringList	RetDrvList;	
+	if(Layers->OpenDatabase(*KDatabase,IsOpened ,RetErr ,RetDrvList)==false){
 			QMessageBox::warning (NULL, /**/"Error"
-									, /**/"Could not open database");
+									, QString(/**/"Could not open database :")+RetErr);
 			return(2);
 	}
 	Layers->LoadLevelFolderContainerFromDB();

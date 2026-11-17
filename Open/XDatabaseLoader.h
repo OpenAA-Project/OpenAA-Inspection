@@ -290,7 +290,7 @@ public:
 	bool	(*G_LocalDatabaseBasicClassDisconnect)(QSqlDatabase &DBase);
 
 	bool	(*S_CheckAndCreateBlobInMasterPageTable)(const QSqlDatabase &db ,QString &BlobName);
-	QSqlDatabase	*(*S_OpenDatabase)(QSqlDatabase *DB);
+	QSqlDatabase	*(*S_OpenDatabase)(QSqlDatabase *DB,bool &IsOpened ,QString &RetErr ,QStringList &RetDrvList);
 	QSqlDatabase	*(*S_CloseDatabase)(QSqlDatabase *DB);
 	bool	(*S_IsValidDatabase)(QSqlDatabase *DB);
 

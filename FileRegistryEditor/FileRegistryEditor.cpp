@@ -42,6 +42,10 @@ FileRegistryEditor::FileRegistryEditor(LayersBase *base,QWidget *parent, Qt::Win
 	FRegistry=GetLayersBase()->GetFRegistry();
 	SetWidgetCenter(this);
 	ShowInfo();
+
+	//QString	UserPath=GetLayersBase()->GetUserPath();
+	QString	FileName=FRegistry->GetFileName();
+	setWindowTitle(QString("FileRegistryEditor : ")+FileName);
 }
 
 FileRegistryEditor::~FileRegistryEditor()
@@ -116,9 +120,13 @@ bool	FileRegistryEditor::SQLLoadMachine(void)
 		Q.exec();
 		return false;
 	}
-	if(GetLayersBase()->OpenDatabase(*KDatabase)==false){
+	bool		IsOpened;
+	QString		RetErr;
+	QStringList	RetDrvList;
+	if(GetLayersBase()->OpenDatabase(*KDatabase,IsOpened ,RetErr ,RetDrvList)==false){
 		QMessageBox Q( /**/"Error"
-					, "Could not open database", QMessageBox::Critical
+					, QString(/**/"Could not open database :")+RetErr
+					, QMessageBox::Critical
 					, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
 		Q.exec();
 		return false;

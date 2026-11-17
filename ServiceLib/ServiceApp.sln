@@ -1396,9 +1396,9 @@ Global
 		{161422E5-7223-4D96-AC8F-F38031E7A228} = {61351281-236F-43F0-B8CD-5EBC7ACBAFDB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = $(DefaultQtVersion)
-		SolutionGuid = {879F862C-1929-4F66-A331-B7651A279746}
 		QtVersion = $(DefaultQtVersion)
+		SolutionGuid = {879F862C-1929-4F66-A331-B7651A279746}
+		Qt5Version = $(DefaultQtVersion)
 	EndGlobalSection
 	GlobalSection(Qt) = preSolution
 		Integration = True

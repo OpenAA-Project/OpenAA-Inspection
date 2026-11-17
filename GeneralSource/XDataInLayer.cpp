@@ -2039,17 +2039,21 @@ std::shared_ptr<DatabaseLoader>	&LayersBase::GetDatabaseLoader(bool CheckDB)	con
 	//return (IsDatabaseOk()==true)?DBLoader:NULL;
 }
 
-bool    LayersBase::OpenDatabase(XUpdateDatabase &dbase)
+bool    LayersBase::OpenDatabase(XUpdateDatabase &dbase,bool &IsOpened ,QString &RetErr ,QStringList &RetDrvList)
 {
 	SetDatabase(&dbase.DBase);
 	if(GetDatabaseLoader()){
-		QSqlDatabase	*d=GetDatabaseLoader()->S_OpenDatabase(RootDBase);
+		QSqlDatabase	*d=GetDatabaseLoader()->S_OpenDatabase(RootDBase,IsOpened ,RetErr ,RetDrvList);
 		RootDBase=d;
 		OriginalRootDBase=true;
+		if(IsOpened==false){
+			return false;
+		}
 		if(GetDatabaseLoader()->S_IsValidDatabase(RootDBase)==false){
 			return false;
 		}
 	}
+	IsOpened=true;
 	return true;
 }
 bool    LayersBase::CloseDatabase(void)

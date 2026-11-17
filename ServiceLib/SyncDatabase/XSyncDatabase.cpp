@@ -226,7 +226,10 @@ bool	DBAccessInfo::Open(void)
 		return false;
 	}
 	if(Opened==false){
-		if(GetLayersBase()->OpenDatabase(*DB)==false){
+		bool		IsOpened;
+		QString		RetErr;
+		QStringList	RetDrvList;		
+		if(GetLayersBase()->OpenDatabase(*DB,IsOpened ,RetErr ,RetDrvList)==false){
 			return false;
 		}
 		std::shared_ptr<DatabaseLoader>	Loader=GetLayersBase()->GetDatabaseLoader();

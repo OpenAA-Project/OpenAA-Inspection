@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
 	if(CheckExeVersion(argc, argv)==false)
 		return 1;
 
+	int	targc=argc;
 	char	TBuff[256];
 	strcpy(TBuff,"-platformpluginpath");
 	argv[argc] = TBuff;
@@ -95,7 +96,7 @@ int main(int argc, char *argv[])
 	NPListPack<ParamClass>	ParamList;
 	bool	SaveAsDefault = false;
 
-	for(int i=1;i<argc;i++){
+	for(int i=1;i<targc;i++){
 		if(*argv[i]=='A' || *argv[i]=='a'){
 			char	*fp=argv[i]+1;
 			AbsPath	=fp;
