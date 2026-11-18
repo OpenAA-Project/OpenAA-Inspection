@@ -49,6 +49,7 @@
 #include "XAlgorithmBase.h"
 #include "ComponentParameterDialog.h"
 #include "EditEachPageLocalDialog.h"
+#include "ErrorDatabaseDialog.h"
 
 extern	int	LanguageCode;
 extern	LangSolverNew	LangSolverGUILib;
@@ -397,6 +398,7 @@ int		EditParameter::GetCurrentPhaseInOutlineOffset(void)
 
 void EditParameter::on_pushButtonConnectOutlineOffset_clicked()
 {
+    WTab->LoadFromWindow();
     LocalDatabaseBasicClass	*KDatabase=new LocalDatabaseBasicClass(GetLayersBase()->GetDatabaseLoader(false)
                                                                     ,GetParamGlobal()->LocalDatabase_FileName
                                                                     ,GetParamGlobal()->LocalDatabase_HostName
@@ -415,13 +417,15 @@ void EditParameter::on_pushButtonConnectOutlineOffset_clicked()
 	QString		RetErr;
 	QStringList	RetDrvList;
     if(GetLayersBase()->OpenDatabase(*KDatabase,IsOpened ,RetErr ,RetDrvList)==false){
-        QMessageBox Q( /**/"Error"
-                    , LangEPSolver.GetString(EditParameter_LS,LID_14)/*"Could not open database"*/
-            		 +QString(/**/":")
-					 +RetErr
-                    , QMessageBox::Critical
-                    , QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
-        Q.exec();
+        ErrorDatabaseDialog D(RetErr, RetDrvList);
+        D.exec();
+        //QMessageBox Q( /**/"Error"
+        //            , LangEPSolver.GetString(EditParameter_LS,LID_14)/*"Could not open database"*/
+        //    		 +QString(/**/":")
+		//			 +RetErr
+        //            , QMessageBox::Critical
+        //            , QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
+        //Q.exec();
         return;
     }
     GetLayersBase()->LoadLevelFolderContainerFromDB();

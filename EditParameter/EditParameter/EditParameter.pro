@@ -26,14 +26,17 @@ win32:RC_FILE = EditParameter.rc
 FORMS += \
     ChooseSelectCameraDialog.ui \
     ComponentParameterDialog.ui \
-    EditEachPageLocalDialog.ui
+    EditEachPageLocalDialog.ui \
+    ErrorDatabaseDialog.ui
 
 HEADERS += \
     ChooseSelectCameraDialog.h \
     ComponentParameterDialog.h \
-    EditEachPageLocalDialog.h
+    EditEachPageLocalDialog.h \
+    ErrorDatabaseDialog.h
 
 SOURCES += \
     ChooseSelectCameraDialog.cpp \
     ComponentParameterDialog.cpp \
-    EditEachPageLocalDialog.cpp
+    EditEachPageLocalDialog.cpp \
+    ErrorDatabaseDialog.cpp

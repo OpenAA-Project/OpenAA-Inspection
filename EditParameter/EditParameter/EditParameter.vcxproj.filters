@@ -58,6 +58,9 @@
     <ClCompile Include="EditEachPageLocalDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ErrorDatabaseDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="..\..\EditGUI\EditGUI\EditSyncGUIForm.ui">
@@ -67,6 +70,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="EditEachPageLocalDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ErrorDatabaseDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -84,6 +90,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="EditEachPageLocalDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ErrorDatabaseDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
