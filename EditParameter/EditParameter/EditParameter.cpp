@@ -417,7 +417,7 @@ void EditParameter::on_pushButtonConnectOutlineOffset_clicked()
     if(GetLayersBase()->OpenDatabase(*KDatabase,IsOpened ,RetErr ,RetDrvList)==false){
         QMessageBox Q( /**/"Error"
                     , LangEPSolver.GetString(EditParameter_LS,LID_14)/*"Could not open database"*/
-            		 +String(/**/":")
+            		 +QString(/**/":")
 					 +RetErr
                     , QMessageBox::Critical
                     , QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);

@@ -100,7 +100,7 @@ bool	ResultDataManager::ConnectDatabase(void)
 			QMessageBox::critical(NULL
 						, /**/"Database Error"
 						, LangSolver.GetString(ResultDataManager_LS,LID_0)
-						  +String(/**/":")
+						  +QString(/**/":")
 						  +RetErr
 						, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
 			return false;
