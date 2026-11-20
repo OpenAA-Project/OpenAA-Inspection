@@ -266,7 +266,8 @@ void SelectColorSample::on_pushButtonUpdate_clicked()
 
 int	SelectColorSample::ShowAllNodes(void)
 {
-    if(GetLayersBase()->IsValidDatabase()==false){
+	QString Err;
+    if(GetLayersBase()->IsValidDatabase(Err)==false){
         return(0);
     }
     int	N=0;
@@ -300,7 +301,8 @@ int	SelectColorSample::ShowAllNodes(void)
 
 void	SelectColorSample::ShowAllNodes(ColorFolderNode *parentNode ,int parentID)
 {
-    if(GetLayersBase()->IsValidDatabase()==false)
+	QString Err;
+    if(GetLayersBase()->IsValidDatabase(Err)==false)
         return;
     if(GetLayersBase()->GetDatabaseLoader()){
         QSqlQuery *query=GetLayersBase()->GetDatabaseLoader()->S_ColorFolderFindFirstByParentID(GetLayersBase()->GetDatabase(),parentID);

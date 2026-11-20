@@ -209,7 +209,8 @@ void	LibFolderForm::resizeEvent ( QResizeEvent * event )
 
 int	LibFolderForm::ShowAllNodes(void)
 {
-    if(GetLayersBase()->IsValidDatabase()==false){
+	QString Err;
+    if(GetLayersBase()->IsValidDatabase(Err)==false){
         return(0);
     }
     treeWidget.clear();
@@ -243,7 +244,8 @@ int	LibFolderForm::ShowAllNodes(void)
 
 void	LibFolderForm::ShowAllNodes(LibFolderNode *parentNode ,int parentID)
 {
-    if(GetLayersBase()->IsValidDatabase()==false){
+	QString Err;
+    if(GetLayersBase()->IsValidDatabase(Err)==false){
         return;
     }
     if(GetLayersBase()->GetDatabaseLoader()){

@@ -103,7 +103,8 @@ bool	ShrinkedInspection::InitialInShadow(void)
 	LBase->InitialAlgorithmBlob();
 	LBase->InitialAlgorithmLibrary();
 	{
-		if(LBase->IsValidDatabase()==true){
+		QString Err;
+		if(LBase->IsValidDatabase(Err)==true){
 			QString	ErrorMsg;
 			if(G->InitialAdditionalFieldFromGUI(LBase->GetDatabase(),ErrorMsg)==false){
 				QString  msg=QString(/**/"Database Error");
