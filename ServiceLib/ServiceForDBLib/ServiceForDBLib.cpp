@@ -2428,10 +2428,10 @@ QSqlDatabase	*__S_CloseDatabase(QSqlDatabase *DB)
 	return DB;
 }
 
-bool	__S_IsValidDatabase(QSqlDatabase *DB)
+bool	__S_IsValidDatabase(QSqlDatabase *DB ,QString &Err)
 {
-	QString	Err;
 	if(DB==NULL){
+		Err=/**/"QSqlDatabase:NULL";
 		return false;
 	}
 	LockDB();

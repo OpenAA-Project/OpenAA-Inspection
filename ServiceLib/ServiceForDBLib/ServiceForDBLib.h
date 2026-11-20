@@ -198,7 +198,7 @@ DEFFUNCEX	bool	__S_DeleteLight(QSqlDatabase &DB ,int MachineCode,int LightID);
 DEFFUNCEX	bool	__S_CheckAndCreateBlobInMasterPageTable(const QSqlDatabase &db ,QString &BlobName);
 DEFFUNCEX	QSqlDatabase	*__S_OpenDatabase(QSqlDatabase *DB,bool &IsOpened ,QString &RetErr ,QStringList &RetDrvList);
 DEFFUNCEX	QSqlDatabase	*__S_CloseDatabase(QSqlDatabase *DB);
-DEFFUNCEX	bool	__S_IsValidDatabase(QSqlDatabase *DB);
+DEFFUNCEX	bool	__S_IsValidDatabase(QSqlDatabase *DB,QString &Err);
 
 DEFFUNCEX	int		__G_EnumColorSample		(QSqlDatabase &DB ,int SelectedColorFolder,ColorSampleList EnumData[] ,int MaxNumb);
 DEFFUNCEX	bool	__G_SaveNewColorSample	(QSqlDatabase &DB ,ColorSampleList &Data);

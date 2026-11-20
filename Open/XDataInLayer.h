@@ -1491,7 +1491,7 @@ public:
     bool    OpenDatabase(XUpdateDatabase &dbase,bool &IsOpened ,QString &RetErr ,QStringList &RetDrvList);
     bool    CloseDatabase(void);
 	void	SetDatabase(QSqlDatabase *dbase);
-	bool	IsValidDatabase(void);
+	bool	IsValidDatabase(QString &Err);
     void    Release(void);
 	void    ReleaseLogger(void);
 	void    ReleaseBeforeReleasingGUI(void);

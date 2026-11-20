@@ -351,7 +351,7 @@ bool	DatabaseLoader::DatabaseInitialLoad(const QString &PathAndFileName)
 	S_CheckAndCreateBlobInMasterPageTable	=(bool (*)(const QSqlDatabase &db ,QString &BlobName))DllLib.resolve("__S_CheckAndCreateBlobInMasterPageTable");
 	S_OpenDatabase					=(QSqlDatabase *(*)(QSqlDatabase *DB,bool &IsOpened ,QString &RetErr ,QStringList &RetDrvList))DllLib.resolve("__S_OpenDatabase");
 	S_CloseDatabase					=(QSqlDatabase *(*)(QSqlDatabase *DB))DllLib.resolve("__S_CloseDatabase");
-	S_IsValidDatabase				=(bool (*)(QSqlDatabase *DB))DllLib.resolve("__S_IsValidDatabase");
+	S_IsValidDatabase				=(bool (*)(QSqlDatabase *DB,QString &Err))DllLib.resolve("__S_IsValidDatabase");
 
 	G_XUpdateDatabase				=(void (*)(QSqlDatabase &DBase ,QString HostName ,QString UserName ,QString Password ,QString DBName,int32 Port
 											  ,QString TransIP ,int TransPort))DllLib.resolve("__G_XUpdateDatabase");

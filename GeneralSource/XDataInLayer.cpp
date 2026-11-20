@@ -2049,7 +2049,7 @@ bool    LayersBase::OpenDatabase(XUpdateDatabase &dbase,bool &IsOpened ,QString 
 		if(IsOpened==false){
 			return false;
 		}
-		if(GetDatabaseLoader()->S_IsValidDatabase(RootDBase)==false){
+		if(GetDatabaseLoader()->S_IsValidDatabase(RootDBase,RetErr)==false){
 			return false;
 		}
 	}
@@ -2181,10 +2181,10 @@ bool	LayersBase::ChangeGUI(const QString &GUIFileData)
 	return true;
 }
 
-bool	LayersBase::IsValidDatabase(void)
+bool	LayersBase::IsValidDatabase(QString &Err)
 {
 	if(GetDatabaseLoader()){
-		return GetDatabaseLoader()->S_IsValidDatabase(RootDBase);
+		return GetDatabaseLoader()->S_IsValidDatabase(RootDBase,Err);
 	}
 	return true;
 }

@@ -292,7 +292,7 @@ public:
 	bool	(*S_CheckAndCreateBlobInMasterPageTable)(const QSqlDatabase &db ,QString &BlobName);
 	QSqlDatabase	*(*S_OpenDatabase)(QSqlDatabase *DB,bool &IsOpened ,QString &RetErr ,QStringList &RetDrvList);
 	QSqlDatabase	*(*S_CloseDatabase)(QSqlDatabase *DB);
-	bool	(*S_IsValidDatabase)(QSqlDatabase *DB);
+	bool	(*S_IsValidDatabase)(QSqlDatabase *DB,QString &Err);
 
 	int		(*G_EnumColorSample		)(QSqlDatabase &DB ,int SelectedColorFolder,ColorSampleList EnumData[] ,int MaxNumb);
 	bool	(*G_SaveNewColorSample	)(QSqlDatabase &DB ,ColorSampleList &Data);

@@ -1,6 +1,8 @@
 #ifndef XCOMMUNICATIONDATA_H
 #define XCOMMUNICATIONDATA_H
 
+#include <stdint.h>
+
 #pragma pack(push, 1)
 
 struct CommDataCam1BMoSi
@@ -17,8 +19,10 @@ struct CommDataCam1BMoSi
 
     short   CamTriggerMode;
 
-    unsigned short  Light0Value;
-    unsigned short  Light1Value;
+    uint16_t        Light0Value;
+    uint16_t        Light1Value;
+    unsigned char   LightFlashMode;    //0:Follow enable   1-:Flash by Inp0-3
+    uint32_t        LightFlashPeriod;
 };
 
 struct CommDataCam1BMiSo
