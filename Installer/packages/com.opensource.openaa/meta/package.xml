@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <Name>com.opensource.openaa</Name>
+    <DisplayName>OpenAA</DisplayName>
+    <Description>OpenAA main inspection software (GNU GPL version3)</Description>
+    <Version>6.2.0</Version>
+    <ReleaseDate>2025-12-20</ReleaseDate>
+    <Default>true</Default>
+    <ForcedInstallation>true</ForcedInstallation>
+    <Script>installscript.qs</Script>  
+    <UserInterfaces>
+        <UserInterface>firebirdpage.ui</UserInterface>
+        <UserInterface>datapathpage.ui</UserInterface>
+        <UserInterface>WorkingDirPage.ui</UserInterface>
+    </UserInterfaces>
+    <Translations>
+        <Translation>ja.qm</Translation>
+        <Translation>zh_CN.qm</Translation>
+    </Translations>
+    <Licenses>
+        <License name="OpenAA License Agreement (GNU GPL version3)" file="license.txt" />
+    </Licenses>
+</Package>

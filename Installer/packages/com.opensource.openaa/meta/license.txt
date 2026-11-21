@@ -1,0 +1,53 @@
+﻿License Agreement (English)
+OpenAA License Agreement
+
+This software, OpenAA, is free software distributed under the terms of the
+GNU General Public License, Version 3 (GPLv3).
+
+You are permitted to use, study, modify, and redistribute this software under the conditions of the GPLv3.
+
+Important Notices
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+You must provide the source code and retain this license notice when redistributing the software or any modified versions.
+
+Any derivative work must also be licensed under the GNU GPL Version 3.
+
+A copy of the GNU General Public License Version 3 should have been provided with this software.
+If not, you can obtain it from the Free Software Foundation at:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+By installing, copying, or using this software, you agree to be bound by the terms of the GNU General Public License Version 3.
+
+
+ライセンス契約書（日本語）
+OpenAA ライセンス契約
+
+本ソフトウェア OpenAA は、
+GNU General Public License Version 3（以下 GPLv3） の条件の下で配布されるフリーソフトウェアです。
+
+本ソフトウェアは、GPLv3 に従う限りにおいて、使用、改変、複製、再配布することができます。
+
+重要事項
+
+本ソフトウェアは有用であることを期待して配布されていますが、
+明示的または黙示的な保証は一切ありません。
+
+商品性や特定目的への適合性についての保証も行いません。
+
+再配布または改変したソフトウェアを配布する場合は、
+ソースコードを公開し、本ライセンス表示を保持する必要があります。
+
+派生物（改変版を含む）は、GNU GPL Version 3 の下でのみ配布できます。
+
+GNU General Public License Version 3 の全文は、本ソフトウェアに同梱されています。
+同梱されていない場合は、以下から入手できます。
+https://www.gnu.org/licenses/gpl-3.0.html
+
+
+本ソフトウェアをインストール、複製、または使用することにより、
+利用者は GNU General Public License Version 3 のすべての条件に同意したものとみなされます。
+
