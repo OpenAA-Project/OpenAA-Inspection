@@ -2404,15 +2404,23 @@ QSqlDatabase	*__S_OpenDatabase(QSqlDatabase *DB ,bool &IsOpened ,QString &Err ,Q
 	if(DB==NULL){
 		DB=new QSqlDatabase();
 	}
+	IsOpened=true;
 	DrvList=QSqlDatabase::drivers();
 	if(DB->isOpen()==false){
 		DB->open();
-		Err =DB->lastError().text();
-		IsOpened=false;
+		if(DB->isOpen()==false){
+			qDebug()<<"__S_OpenDatabase::isOpen\n";
+			qDebug()<<QString("UserName::")<<DB->userName()<<"\n";
+			qDebug()<<QString("Password::")<<DB->password()<<"\n";
+			qDebug()<<QString("HostName::")<<DB->hostName()<<"\n";
+			qDebug()<<QString("DriverName::")<<DB->driverName()<<"\n";
+			qDebug()<<QString("DatabaseName::")<<DB->databaseName()<<"\n";
+			qDebug()<<QString("ConnectionName::")<<DB->connectionName()<<"\n";
+			Err =DB->lastError().text();
+			IsOpened=false;
+		}
 	}
-	else{
-		IsOpened=true;
-	}
+
 	UnlockDB();
 	return DB;
 }
@@ -2437,11 +2445,13 @@ bool	__S_IsValidDatabase(QSqlDatabase *DB ,QString &Err)
 	LockDB();
 	if(DB->isValid()==false){
 		Err =DB->lastError().text();
+		qDebug()<<"__S_IsValidDatabase::isValid";
 		UnlockDB();
 		return false;
 	}
 	if(DB->isOpen()==false){
 		Err =DB->lastError().text();
+		qDebug()<<"__S_IsValidDatabase::isOpen";
 		UnlockDB();
 		return false;
 	}
