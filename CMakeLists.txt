@@ -23,7 +23,7 @@ if(UNIX)
 endif()
 
 # === Meta-Build Configuration ===
-# デフォルトのビルドタイプを Release に設定 (指定されていない場合)
+# Default build type is Release if not specified
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
@@ -91,7 +91,7 @@ if(MODE STREQUAL "INIT")
     message(STATUS "========================================================================")
 
 elseif(MODE STREQUAL "STEP")
-    # ロックを取得してビルド番号のカウントアップと進捗ヘッダー出力を原子的に実行
+    # Acquire lock to atomically increment counter and print progress header
     file(LOCK "${LOCK_FILE}" TIMEOUT 10)
     if(EXISTS "${START_EPOCH_FILE}")
         file(READ "${START_EPOCH_FILE}" START_EPOCH)
@@ -129,14 +129,14 @@ elseif(MODE STREQUAL "STEP")
     message(STATUS "------------------------------------------------------------------------\n-- [${CURRENT_COUNT}/${TOTAL_PROJECTS}] Building: ${PROJ_REL_DIR}\n--   Build Start : ${NOW_STR} (Total Start: ${TOTAL_START_STR})\n--   Elapsed     : ${ELAPSED_STR}\n-- ------------------------------------------------------------------------")
     file(LOCK "${LOCK_FILE}" RELEASE)
 
-    # 親の MAKEFLAGS による jobserver 干渉を回避
+    # Avoid parent MAKEFLAGS jobserver interference
     unset(ENV{MAKEFLAGS})
     unset(ENV{MFLAGS})
 
     set(SUB_SRC_DIR "${META_SRC_DIR}/${PROJ_REL_DIR}")
     set(SUB_BIN_DIR "${SUB_SRC_DIR}/build")
 
-    # Configure（初回、Build Type 変更時、または FORCE_RECONFIGURE=ON 時のみ実行）
+    # Configure only on first run, build type change, or FORCE_RECONFIGURE=ON
     set(NEED_CONFIGURE TRUE)
     if(EXISTS "${SUB_BIN_DIR}/CMakeCache.txt" AND EXISTS "${SUB_BIN_DIR}/.meta_build_type" AND NOT FORCE_RECONFIGURE)
         file(READ "${SUB_BIN_DIR}/.meta_build_type" LAST_BUILD_TYPE)
@@ -237,6 +237,7 @@ add_custom_target(GUI_LearningLib_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_NetworkSIOClientLib_build
     COMMAND ${CMAKE_COMMAND}
@@ -253,6 +254,7 @@ add_custom_target(PluginDLL_PIO_NetworkSIOClientLib_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_NetworkPIOLib_build
     COMMAND ${CMAKE_COMMAND}
@@ -269,6 +271,7 @@ add_custom_target(PluginDLL_PIO_NetworkPIOLib_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_SharedPIOLib_build
     COMMAND ${CMAKE_COMMAND}
@@ -285,6 +288,7 @@ add_custom_target(PluginDLL_PIO_SharedPIOLib_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MaskingImagePanel_SelectLibraryInMask_build
     COMMAND ${CMAKE_COMMAND}
@@ -301,6 +305,7 @@ add_custom_target(GUI_MaskingImagePanel_SelectLibraryInMask_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(StaticLibs_all)
 add_dependencies(StaticLibs_all
@@ -327,6 +332,7 @@ add_custom_target(Algorithm_ReviewStructure_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_BlockInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -343,6 +349,7 @@ add_custom_target(Algorithm_BlockInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_Masking_build
     COMMAND ${CMAKE_COMMAND}
@@ -359,6 +366,7 @@ add_custom_target(Algorithm_Masking_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_Alignment_build
     COMMAND ${CMAKE_COMMAND}
@@ -375,6 +383,7 @@ add_custom_target(Algorithm_Alignment_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_ColorBlockInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -391,6 +400,7 @@ add_custom_target(Algorithm_ColorBlockInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_PieceArchitect_build
     COMMAND ${CMAKE_COMMAND}
@@ -407,6 +417,7 @@ add_custom_target(Algorithm_PieceArchitect_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_OutlineInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -423,6 +434,7 @@ add_custom_target(Algorithm_OutlineInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_ImageProcessor_build
     COMMAND ${CMAKE_COMMAND}
@@ -439,6 +451,7 @@ add_custom_target(Algorithm_ImageProcessor_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_Naming_build
     COMMAND ${CMAKE_COMMAND}
@@ -455,6 +468,7 @@ add_custom_target(Algorithm_Naming_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_TrueColorBlock_build
     COMMAND ${CMAKE_COMMAND}
@@ -471,6 +485,7 @@ add_custom_target(Algorithm_TrueColorBlock_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_MaskingPI_build
     COMMAND ${CMAKE_COMMAND}
@@ -487,6 +502,7 @@ add_custom_target(Algorithm_MaskingPI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_StatisticImager_build
     COMMAND ${CMAKE_COMMAND}
@@ -503,6 +519,7 @@ add_custom_target(Algorithm_StatisticImager_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_AutoAlignment_build
     COMMAND ${CMAKE_COMMAND}
@@ -519,6 +536,7 @@ add_custom_target(Algorithm_AutoAlignment_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_AreaFilter_build
     COMMAND ${CMAKE_COMMAND}
@@ -535,6 +553,7 @@ add_custom_target(Algorithm_AreaFilter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_AutoMaskingPI_build
     COMMAND ${CMAKE_COMMAND}
@@ -551,6 +570,7 @@ add_custom_target(Algorithm_AutoMaskingPI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_AutoSaveImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -567,6 +587,7 @@ add_custom_target(Algorithm_AutoSaveImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_StatisticBlock_build
     COMMAND ${CMAKE_COMMAND}
@@ -583,6 +604,7 @@ add_custom_target(Algorithm_StatisticBlock_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_Learning_build
     COMMAND ${CMAKE_COMMAND}
@@ -599,6 +621,7 @@ add_custom_target(Algorithm_Learning_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_DynamicMaskingPI_build
     COMMAND ${CMAKE_COMMAND}
@@ -615,6 +638,7 @@ add_custom_target(Algorithm_DynamicMaskingPI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_MeasureHole_build
     COMMAND ${CMAKE_COMMAND}
@@ -631,6 +655,7 @@ add_custom_target(Algorithm_MeasureHole_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_MeasureLineMove_build
     COMMAND ${CMAKE_COMMAND}
@@ -647,6 +672,7 @@ add_custom_target(Algorithm_MeasureLineMove_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_EulerRing_build
     COMMAND ${CMAKE_COMMAND}
@@ -663,6 +689,7 @@ add_custom_target(Algorithm_EulerRing_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_MeasureHolePos_build
     COMMAND ${CMAKE_COMMAND}
@@ -679,6 +706,7 @@ add_custom_target(Algorithm_MeasureHolePos_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_AreaShader_build
     COMMAND ${CMAKE_COMMAND}
@@ -695,6 +723,7 @@ add_custom_target(Algorithm_AreaShader_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_ImageChecker_build
     COMMAND ${CMAKE_COMMAND}
@@ -711,6 +740,7 @@ add_custom_target(Algorithm_ImageChecker_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_SpotReducer_build
     COMMAND ${CMAKE_COMMAND}
@@ -727,6 +757,7 @@ add_custom_target(Algorithm_SpotReducer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_MatchingAlignment_build
     COMMAND ${CMAKE_COMMAND}
@@ -743,6 +774,7 @@ add_custom_target(Algorithm_MatchingAlignment_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_AutoPCBHoleAligner_build
     COMMAND ${CMAKE_COMMAND}
@@ -759,6 +791,7 @@ add_custom_target(Algorithm_AutoPCBHoleAligner_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_ZAxisRegulation_build
     COMMAND ${CMAKE_COMMAND}
@@ -775,6 +808,7 @@ add_custom_target(Algorithm_ZAxisRegulation_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_DotRegulation_build
     COMMAND ${CMAKE_COMMAND}
@@ -791,6 +825,7 @@ add_custom_target(Algorithm_DotRegulation_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_AutoClassify_build
     COMMAND ${CMAKE_COMMAND}
@@ -807,6 +842,7 @@ add_custom_target(Algorithm_AutoClassify_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_CategorizedShader_build
     COMMAND ${CMAKE_COMMAND}
@@ -823,6 +859,7 @@ add_custom_target(Algorithm_CategorizedShader_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_VCutInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -839,6 +876,7 @@ add_custom_target(Algorithm_VCutInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_CacheTargetImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -855,6 +893,7 @@ add_custom_target(Algorithm_CacheTargetImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_LineEnhancer_build
     COMMAND ${CMAKE_COMMAND}
@@ -871,6 +910,7 @@ add_custom_target(Algorithm_LineEnhancer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_ARArrange_build
     COMMAND ${CMAKE_COMMAND}
@@ -887,6 +927,7 @@ add_custom_target(Algorithm_ARArrange_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_DynamicClassify_build
     COMMAND ${CMAKE_COMMAND}
@@ -903,6 +944,7 @@ add_custom_target(Algorithm_DynamicClassify_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_PieceForReview_build
     COMMAND ${CMAKE_COMMAND}
@@ -919,6 +961,7 @@ add_custom_target(Algorithm_PieceForReview_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_PieceReviewSide_build
     COMMAND ${CMAKE_COMMAND}
@@ -935,6 +978,7 @@ add_custom_target(Algorithm_PieceReviewSide_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_LineEnhancer1L_build
     COMMAND ${CMAKE_COMMAND}
@@ -951,6 +995,7 @@ add_custom_target(Algorithm_LineEnhancer1L_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_OCRInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -967,6 +1012,7 @@ add_custom_target(Algorithm_OCRInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_ResultImportance_build
     COMMAND ${CMAKE_COMMAND}
@@ -983,6 +1029,7 @@ add_custom_target(Algorithm_ResultImportance_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_TreeMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -999,6 +1046,7 @@ add_custom_target(Algorithm_TreeMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_BuslineInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -1015,6 +1063,7 @@ add_custom_target(Algorithm_BuslineInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_MakeDifferencialImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -1031,6 +1080,7 @@ add_custom_target(Algorithm_MakeDifferencialImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_ResultBinder_build
     COMMAND ${CMAKE_COMMAND}
@@ -1047,6 +1097,7 @@ add_custom_target(Algorithm_ResultBinder_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_AlignmentLarge_build
     COMMAND ${CMAKE_COMMAND}
@@ -1063,6 +1114,7 @@ add_custom_target(Algorithm_AlignmentLarge_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_BCRInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -1079,6 +1131,7 @@ add_custom_target(Algorithm_BCRInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_PieceDef_build
     COMMAND ${CMAKE_COMMAND}
@@ -1095,6 +1148,7 @@ add_custom_target(Algorithm_PieceDef_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_CheckBrightness_build
     COMMAND ${CMAKE_COMMAND}
@@ -1111,6 +1165,7 @@ add_custom_target(Algorithm_CheckBrightness_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_GerberFast_build
     COMMAND ${CMAKE_COMMAND}
@@ -1127,6 +1182,7 @@ add_custom_target(Algorithm_GerberFast_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_VIAInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -1143,6 +1199,7 @@ add_custom_target(Algorithm_VIAInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_CheckEveryday_build
     COMMAND ${CMAKE_COMMAND}
@@ -1159,6 +1216,7 @@ add_custom_target(Algorithm_CheckEveryday_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_MultiFileMap_build
     COMMAND ${CMAKE_COMMAND}
@@ -1175,6 +1233,7 @@ add_custom_target(Algorithm_MultiFileMap_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_ThinMetal_build
     COMMAND ${CMAKE_COMMAND}
@@ -1191,6 +1250,7 @@ add_custom_target(Algorithm_ThinMetal_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Camera_DummyCamera_DummyCamera_build
     COMMAND ${CMAKE_COMMAND}
@@ -1207,6 +1267,7 @@ add_custom_target(PluginDLL_Camera_DummyCamera_DummyCamera_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Camera_CameraProvider_build
     COMMAND ${CMAKE_COMMAND}
@@ -1223,6 +1284,7 @@ add_custom_target(PluginDLL_Camera_CameraProvider_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Camera_CameraProvider_CameraFromProvider_build
     COMMAND ${CMAKE_COMMAND}
@@ -1239,6 +1301,7 @@ add_custom_target(PluginDLL_Camera_CameraProvider_CameraFromProvider_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterSmoothing_build
     COMMAND ${CMAKE_COMMAND}
@@ -1255,6 +1318,7 @@ add_custom_target(Filter_FilterSmoothing_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterEdgeEmphasize_build
     COMMAND ${CMAKE_COMMAND}
@@ -1271,6 +1335,7 @@ add_custom_target(Filter_FilterEdgeEmphasize_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterMedianSmooth_build
     COMMAND ${CMAKE_COMMAND}
@@ -1287,6 +1352,7 @@ add_custom_target(Filter_FilterMedianSmooth_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterReverseLens_build
     COMMAND ${CMAKE_COMMAND}
@@ -1303,6 +1369,7 @@ add_custom_target(Filter_FilterReverseLens_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterShrinkImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -1319,6 +1386,7 @@ add_custom_target(Filter_FilterShrinkImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterOneLayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -1335,6 +1403,7 @@ add_custom_target(Filter_FilterOneLayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterHSV_build
     COMMAND ${CMAKE_COMMAND}
@@ -1351,6 +1420,7 @@ add_custom_target(Filter_FilterHSV_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterNothing_build
     COMMAND ${CMAKE_COMMAND}
@@ -1367,6 +1437,7 @@ add_custom_target(Filter_FilterNothing_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterMoveImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -1383,6 +1454,7 @@ add_custom_target(Filter_FilterMoveImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterReverseLensOneSide_build
     COMMAND ${CMAKE_COMMAND}
@@ -1399,6 +1471,7 @@ add_custom_target(Filter_FilterReverseLensOneSide_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterReverseCosineRing_build
     COMMAND ${CMAKE_COMMAND}
@@ -1415,6 +1488,7 @@ add_custom_target(Filter_FilterReverseCosineRing_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterUpsideDown_build
     COMMAND ${CMAKE_COMMAND}
@@ -1431,6 +1505,7 @@ add_custom_target(Filter_FilterUpsideDown_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterSmoothLarge_build
     COMMAND ${CMAKE_COMMAND}
@@ -1447,6 +1522,7 @@ add_custom_target(Filter_FilterSmoothLarge_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterReverseLensOneLayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -1463,6 +1539,7 @@ add_custom_target(Filter_FilterReverseLensOneLayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterUDColorShift_build
     COMMAND ${CMAKE_COMMAND}
@@ -1479,6 +1556,7 @@ add_custom_target(Filter_FilterUDColorShift_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterReverseLensSomeLayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -1495,6 +1573,7 @@ add_custom_target(Filter_FilterReverseLensSomeLayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterImageShading_build
     COMMAND ${CMAKE_COMMAND}
@@ -1511,6 +1590,7 @@ add_custom_target(Filter_FilterImageShading_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterReverseLensOneSide2_build
     COMMAND ${CMAKE_COMMAND}
@@ -1527,6 +1607,7 @@ add_custom_target(Filter_FilterReverseLensOneSide2_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterEvenOdd_build
     COMMAND ${CMAKE_COMMAND}
@@ -1543,6 +1624,7 @@ add_custom_target(Filter_FilterEvenOdd_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterMultiConvertBrightness_build
     COMMAND ${CMAKE_COMMAND}
@@ -1559,6 +1641,7 @@ add_custom_target(Filter_FilterMultiConvertBrightness_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterRotationMirror_build
     COMMAND ${CMAKE_COMMAND}
@@ -1575,6 +1658,7 @@ add_custom_target(Filter_FilterRotationMirror_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterHResolution_build
     COMMAND ${CMAKE_COMMAND}
@@ -1591,6 +1675,7 @@ add_custom_target(Filter_FilterHResolution_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterVBand_build
     COMMAND ${CMAKE_COMMAND}
@@ -1607,6 +1692,7 @@ add_custom_target(Filter_FilterVBand_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterHorizontalLinear_build
     COMMAND ${CMAKE_COMMAND}
@@ -1623,6 +1709,7 @@ add_custom_target(Filter_FilterHorizontalLinear_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterHorizontalBand_build
     COMMAND ${CMAKE_COMMAND}
@@ -1639,6 +1726,7 @@ add_custom_target(Filter_FilterHorizontalBand_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterVerticalLinear_build
     COMMAND ${CMAKE_COMMAND}
@@ -1655,6 +1743,7 @@ add_custom_target(Filter_FilterVerticalLinear_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterVerticalReverse_build
     COMMAND ${CMAKE_COMMAND}
@@ -1671,6 +1760,7 @@ add_custom_target(Filter_FilterVerticalReverse_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSaveMasterData_build
     COMMAND ${CMAKE_COMMAND}
@@ -1687,6 +1777,7 @@ add_custom_target(GUI_ButtonSaveMasterData_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLoadMasterData_build
     COMMAND ${CMAKE_COMMAND}
@@ -1703,6 +1794,7 @@ add_custom_target(GUI_ButtonLoadMasterData_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AlignmentImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -1719,6 +1811,7 @@ add_custom_target(GUI_AlignmentImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSequence_build
     COMMAND ${CMAKE_COMMAND}
@@ -1735,6 +1828,7 @@ add_custom_target(GUI_ButtonSequence_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSettingParameters_build
     COMMAND ${CMAKE_COMMAND}
@@ -1751,6 +1845,7 @@ add_custom_target(GUI_ButtonSettingParameters_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CameraSettingButton_build
     COMMAND ${CMAKE_COMMAND}
@@ -1767,6 +1862,7 @@ add_custom_target(GUI_CameraSettingButton_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayGrayLower_build
     COMMAND ${CMAKE_COMMAND}
@@ -1783,6 +1879,7 @@ add_custom_target(GUI_DisplayGrayLower_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayGrayUpper_build
     COMMAND ${CMAKE_COMMAND}
@@ -1799,6 +1896,7 @@ add_custom_target(GUI_DisplayGrayUpper_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayMasterImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -1815,6 +1913,7 @@ add_custom_target(GUI_DisplayMasterImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayNGList_build
     COMMAND ${CMAKE_COMMAND}
@@ -1831,6 +1930,7 @@ add_custom_target(GUI_DisplayNGList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayTargetImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -1847,6 +1947,7 @@ add_custom_target(GUI_DisplayTargetImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GeneralDisplayWholeImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -1863,6 +1964,7 @@ add_custom_target(GUI_GeneralDisplayWholeImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GeneralLabel_build
     COMMAND ${CMAKE_COMMAND}
@@ -1879,6 +1981,7 @@ add_custom_target(GUI_GeneralLabel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GeneralTabSheet_build
     COMMAND ${CMAKE_COMMAND}
@@ -1895,6 +1998,7 @@ add_custom_target(GUI_GeneralTabSheet_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ListboxAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
@@ -1911,6 +2015,7 @@ add_custom_target(GUI_ListboxAlgorithm_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_LoadImageMasterButton_build
     COMMAND ${CMAKE_COMMAND}
@@ -1927,6 +2032,7 @@ add_custom_target(GUI_LoadImageMasterButton_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyAlignment_build
     COMMAND ${CMAKE_COMMAND}
@@ -1943,6 +2049,7 @@ add_custom_target(GUI_PropertyAlignment_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SaveImageMasterButton_build
     COMMAND ${CMAKE_COMMAND}
@@ -1959,6 +2066,7 @@ add_custom_target(GUI_SaveImageMasterButton_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_StartCaptureButton_build
     COMMAND ${CMAKE_COMMAND}
@@ -1975,6 +2083,7 @@ add_custom_target(GUI_StartCaptureButton_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonUpdateMasterData_build
     COMMAND ${CMAKE_COMMAND}
@@ -1991,6 +2100,7 @@ add_custom_target(GUI_ButtonUpdateMasterData_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_BlockImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -2007,6 +2117,7 @@ add_custom_target(GUI_BlockImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MaskingImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -2023,6 +2134,7 @@ add_custom_target(GUI_MaskingImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSaveAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
@@ -2039,6 +2151,7 @@ add_custom_target(GUI_ButtonSaveAlgorithm_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLoadAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
@@ -2055,6 +2168,7 @@ add_custom_target(GUI_ButtonLoadAlgorithm_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ImageControlTools_build
     COMMAND ${CMAKE_COMMAND}
@@ -2071,6 +2185,7 @@ add_custom_target(GUI_ImageControlTools_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_StartInspectionButton_build
     COMMAND ${CMAKE_COMMAND}
@@ -2087,6 +2202,7 @@ add_custom_target(GUI_StartInspectionButton_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_LoadImageTargetButton_build
     COMMAND ${CMAKE_COMMAND}
@@ -2103,6 +2219,7 @@ add_custom_target(GUI_LoadImageTargetButton_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_StartProcessAgainButton_build
     COMMAND ${CMAKE_COMMAND}
@@ -2119,6 +2236,7 @@ add_custom_target(GUI_StartProcessAgainButton_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ListboxAlgorithmCount_build
     COMMAND ${CMAKE_COMMAND}
@@ -2135,6 +2253,7 @@ add_custom_target(GUI_ListboxAlgorithmCount_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonExit_build
     COMMAND ${CMAKE_COMMAND}
@@ -2151,6 +2270,7 @@ add_custom_target(GUI_ButtonExit_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_TargetImageControlTools_build
     COMMAND ${CMAKE_COMMAND}
@@ -2167,6 +2287,7 @@ add_custom_target(GUI_TargetImageControlTools_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowNGCount_build
     COMMAND ${CMAKE_COMMAND}
@@ -2183,6 +2304,7 @@ add_custom_target(GUI_ShowNGCount_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SaveImageTargetButton_build
     COMMAND ${CMAKE_COMMAND}
@@ -2199,6 +2321,7 @@ add_custom_target(GUI_SaveImageTargetButton_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ColorBlockImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -2215,6 +2338,7 @@ add_custom_target(GUI_ColorBlockImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PixelImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -2231,6 +2355,7 @@ add_custom_target(GUI_PixelImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyPixel_build
     COMMAND ${CMAKE_COMMAND}
@@ -2247,6 +2372,7 @@ add_custom_target(GUI_PropertyPixel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GeneralTabWizard_build
     COMMAND ${CMAKE_COMMAND}
@@ -2263,6 +2389,7 @@ add_custom_target(GUI_GeneralTabWizard_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PanelOkNg_build
     COMMAND ${CMAKE_COMMAND}
@@ -2279,6 +2406,7 @@ add_custom_target(GUI_PanelOkNg_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonRepeatMode_build
     COMMAND ${CMAKE_COMMAND}
@@ -2295,6 +2423,7 @@ add_custom_target(GUI_ButtonRepeatMode_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonAutoMode_build
     COMMAND ${CMAKE_COMMAND}
@@ -2311,6 +2440,7 @@ add_custom_target(GUI_ButtonAutoMode_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ListHistory_build
     COMMAND ${CMAKE_COMMAND}
@@ -2327,6 +2457,7 @@ add_custom_target(GUI_ListHistory_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowMasterNames_build
     COMMAND ${CMAKE_COMMAND}
@@ -2343,6 +2474,7 @@ add_custom_target(GUI_ShowMasterNames_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSetTactTime_build
     COMMAND ${CMAKE_COMMAND}
@@ -2359,6 +2491,7 @@ add_custom_target(GUI_ButtonSetTactTime_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GeneralTabWizardNext_build
     COMMAND ${CMAKE_COMMAND}
@@ -2375,6 +2508,7 @@ add_custom_target(GUI_GeneralTabWizardNext_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonInspectionID_build
     COMMAND ${CMAKE_COMMAND}
@@ -2391,6 +2525,7 @@ add_custom_target(GUI_ButtonInspectionID_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_LabelForMeasuring_build
     COMMAND ${CMAKE_COMMAND}
@@ -2407,6 +2542,7 @@ add_custom_target(GUI_LabelForMeasuring_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PiecePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -2423,6 +2559,7 @@ add_custom_target(GUI_PiecePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonMonoBitmapForAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
@@ -2439,6 +2576,7 @@ add_custom_target(GUI_ButtonMonoBitmapForAlgorithm_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowStockedResult_build
     COMMAND ${CMAKE_COMMAND}
@@ -2455,6 +2593,7 @@ add_custom_target(GUI_ShowStockedResult_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonReDrawAll_build
     COMMAND ${CMAKE_COMMAND}
@@ -2471,6 +2610,7 @@ add_custom_target(GUI_ButtonReDrawAll_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonCopyrightVersion_build
     COMMAND ${CMAKE_COMMAND}
@@ -2487,6 +2627,7 @@ add_custom_target(GUI_ButtonCopyrightVersion_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonCalcFinalization_build
     COMMAND ${CMAKE_COMMAND}
@@ -2503,6 +2644,7 @@ add_custom_target(GUI_ButtonCalcFinalization_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_OutlineImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -2519,6 +2661,7 @@ add_custom_target(GUI_OutlineImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ChangeDrawTurn_build
     COMMAND ${CMAKE_COMMAND}
@@ -2535,6 +2678,7 @@ add_custom_target(GUI_ChangeDrawTurn_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_LoadImageFor32Regulus_build
     COMMAND ${CMAKE_COMMAND}
@@ -2551,6 +2695,7 @@ add_custom_target(GUI_LoadImageFor32Regulus_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSelectLightDB_build
     COMMAND ${CMAKE_COMMAND}
@@ -2567,6 +2712,7 @@ add_custom_target(GUI_ButtonSelectLightDB_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_NamingImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -2583,6 +2729,7 @@ add_custom_target(GUI_NamingImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyNaming_build
     COMMAND ${CMAKE_COMMAND}
@@ -2599,6 +2746,7 @@ add_custom_target(GUI_PropertyNaming_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowStrategicNumber_build
     COMMAND ${CMAKE_COMMAND}
@@ -2615,6 +2763,7 @@ add_custom_target(GUI_ShowStrategicNumber_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonChangeOverlap_build
     COMMAND ${CMAKE_COMMAND}
@@ -2631,6 +2780,7 @@ add_custom_target(GUI_ButtonChangeOverlap_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MaskingImagePanelPI_build
     COMMAND ${CMAKE_COMMAND}
@@ -2647,6 +2797,7 @@ add_custom_target(GUI_MaskingImagePanelPI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyMaskingPI_build
     COMMAND ${CMAKE_COMMAND}
@@ -2663,6 +2814,7 @@ add_custom_target(GUI_PropertyMaskingPI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_TrueColorBlockImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -2679,6 +2831,7 @@ add_custom_target(GUI_TrueColorBlockImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSetRailWidth_build
     COMMAND ${CMAKE_COMMAND}
@@ -2695,6 +2848,7 @@ add_custom_target(GUI_ButtonSetRailWidth_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_StartStatisticScanButton_build
     COMMAND ${CMAKE_COMMAND}
@@ -2711,6 +2865,7 @@ add_custom_target(GUI_StartStatisticScanButton_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLoadBmpJpg_build
     COMMAND ${CMAKE_COMMAND}
@@ -2727,6 +2882,7 @@ add_custom_target(GUI_ButtonLoadBmpJpg_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ListboxErrorMessage_build
     COMMAND ${CMAKE_COMMAND}
@@ -2743,6 +2899,7 @@ add_custom_target(GUI_ListboxErrorMessage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ListboxAlgorithmItemProperty_build
     COMMAND ${CMAKE_COMMAND}
@@ -2759,6 +2916,7 @@ add_custom_target(GUI_ListboxAlgorithmItemProperty_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ImageProcessorPanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -2775,6 +2933,7 @@ add_custom_target(GUI_ImageProcessorPanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyImageProcessor_build
     COMMAND ${CMAKE_COMMAND}
@@ -2791,6 +2950,7 @@ add_custom_target(GUI_PropertyImageProcessor_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DesktopMachineMenu_build
     COMMAND ${CMAKE_COMMAND}
@@ -2807,6 +2967,7 @@ add_custom_target(GUI_DesktopMachineMenu_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonToShowOtherGUI_build
     COMMAND ${CMAKE_COMMAND}
@@ -2823,6 +2984,7 @@ add_custom_target(GUI_ButtonToShowOtherGUI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonWhichImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -2839,6 +3001,7 @@ add_custom_target(GUI_ButtonWhichImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AutoAlignmentImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -2855,6 +3018,7 @@ add_custom_target(GUI_AutoAlignmentImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonCloseOnly_build
     COMMAND ${CMAKE_COMMAND}
@@ -2871,6 +3035,7 @@ add_custom_target(GUI_ButtonCloseOnly_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PixelInspectionNGList_build
     COMMAND ${CMAKE_COMMAND}
@@ -2887,6 +3052,7 @@ add_custom_target(GUI_PixelInspectionNGList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonEditFilterBank_build
     COMMAND ${CMAKE_COMMAND}
@@ -2903,6 +3069,7 @@ add_custom_target(GUI_ButtonEditFilterBank_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonExecuteFilterImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -2919,6 +3086,7 @@ add_custom_target(GUI_ButtonExecuteFilterImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AreaFilterImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -2935,6 +3103,7 @@ add_custom_target(GUI_AreaFilterImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyAreaFilter_build
     COMMAND ${CMAKE_COMMAND}
@@ -2951,6 +3120,7 @@ add_custom_target(GUI_PropertyAreaFilter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonExecuteAreaFilter_build
     COMMAND ${CMAKE_COMMAND}
@@ -2967,6 +3137,7 @@ add_custom_target(GUI_ButtonExecuteAreaFilter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PieceLevelIndicator_build
     COMMAND ${CMAKE_COMMAND}
@@ -2983,6 +3154,7 @@ add_custom_target(GUI_PieceLevelIndicator_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AutoMaskingPIImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -2999,6 +3171,7 @@ add_custom_target(GUI_AutoMaskingPIImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GraphicPanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -3015,6 +3188,7 @@ add_custom_target(GUI_GraphicPanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowPointerMessage_build
     COMMAND ${CMAKE_COMMAND}
@@ -3031,6 +3205,7 @@ add_custom_target(GUI_ShowPointerMessage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GeneralHairLine_build
     COMMAND ${CMAKE_COMMAND}
@@ -3047,6 +3222,7 @@ add_custom_target(GUI_GeneralHairLine_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SaveNewMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -3063,6 +3239,7 @@ add_custom_target(GUI_SaveNewMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSelectMachine_build
     COMMAND ${CMAKE_COMMAND}
@@ -3079,6 +3256,7 @@ add_custom_target(GUI_ButtonSelectMachine_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PanelSaveImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -3095,6 +3273,7 @@ add_custom_target(GUI_PanelSaveImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SaveAlgorithmWithMachine_build
     COMMAND ${CMAKE_COMMAND}
@@ -3111,6 +3290,7 @@ add_custom_target(GUI_SaveAlgorithmWithMachine_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_LoadAlgorithmWithMachine_build
     COMMAND ${CMAKE_COMMAND}
@@ -3127,6 +3307,7 @@ add_custom_target(GUI_LoadAlgorithmWithMachine_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyStatisticBlock_build
     COMMAND ${CMAKE_COMMAND}
@@ -3143,6 +3324,7 @@ add_custom_target(GUI_PropertyStatisticBlock_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_StatisticBlockImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -3159,6 +3341,7 @@ add_custom_target(GUI_StatisticBlockImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CompressImageList_build
     COMMAND ${CMAKE_COMMAND}
@@ -3175,6 +3358,7 @@ add_custom_target(GUI_CompressImageList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_LearningImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -3191,6 +3375,7 @@ add_custom_target(GUI_LearningImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyLearning_build
     COMMAND ${CMAKE_COMMAND}
@@ -3207,6 +3392,7 @@ add_custom_target(GUI_PropertyLearning_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyDynamicMaskingPI_build
     COMMAND ${CMAKE_COMMAND}
@@ -3223,6 +3409,7 @@ add_custom_target(GUI_PropertyDynamicMaskingPI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DynamicMaskingPIImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -3239,6 +3426,7 @@ add_custom_target(GUI_DynamicMaskingPIImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLearningSaveMode_build
     COMMAND ${CMAKE_COMMAND}
@@ -3255,6 +3443,7 @@ add_custom_target(GUI_ButtonLearningSaveMode_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_NGNamingList_build
     COMMAND ${CMAKE_COMMAND}
@@ -3271,6 +3460,7 @@ add_custom_target(GUI_NGNamingList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_EulerRingImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -3287,6 +3477,7 @@ add_custom_target(GUI_EulerRingImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyEulerRing_build
     COMMAND ${CMAKE_COMMAND}
@@ -3303,6 +3494,7 @@ add_custom_target(GUI_PropertyEulerRing_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonToShowDialogOnGeneralStocker_build
     COMMAND ${CMAKE_COMMAND}
@@ -3319,6 +3511,7 @@ add_custom_target(GUI_ButtonToShowDialogOnGeneralStocker_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AreaShaderImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -3335,6 +3528,7 @@ add_custom_target(GUI_AreaShaderImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyAreaShader_build
     COMMAND ${CMAKE_COMMAND}
@@ -3351,6 +3545,7 @@ add_custom_target(GUI_PropertyAreaShader_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AutoSaveImageViewList_build
     COMMAND ${CMAKE_COMMAND}
@@ -3367,6 +3562,7 @@ add_custom_target(GUI_AutoSaveImageViewList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AutoSaveImageViewPanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -3383,6 +3579,7 @@ add_custom_target(GUI_AutoSaveImageViewPanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ListboxProcessTime_build
     COMMAND ${CMAKE_COMMAND}
@@ -3399,6 +3596,7 @@ add_custom_target(GUI_ListboxProcessTime_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ManualDesktopMachineMenu_build
     COMMAND ${CMAKE_COMMAND}
@@ -3415,6 +3613,7 @@ add_custom_target(GUI_ManualDesktopMachineMenu_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ManualPropertyPixel_build
     COMMAND ${CMAKE_COMMAND}
@@ -3431,6 +3630,7 @@ add_custom_target(GUI_ManualPropertyPixel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ManualPixelImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -3447,6 +3647,7 @@ add_custom_target(GUI_ManualPixelImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ManualPixelInspectionNGList_build
     COMMAND ${CMAKE_COMMAND}
@@ -3463,6 +3664,7 @@ add_custom_target(GUI_ManualPixelInspectionNGList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonStartLearning_build
     COMMAND ${CMAKE_COMMAND}
@@ -3479,6 +3681,7 @@ add_custom_target(GUI_ButtonStartLearning_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLoadPWAFile_build
     COMMAND ${CMAKE_COMMAND}
@@ -3495,6 +3698,7 @@ add_custom_target(GUI_ButtonLoadPWAFile_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSavePWAFile_build
     COMMAND ${CMAKE_COMMAND}
@@ -3511,6 +3715,7 @@ add_custom_target(GUI_ButtonSavePWAFile_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSelectMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -3527,6 +3732,7 @@ add_custom_target(GUI_ButtonSelectMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSelectDatabase_build
     COMMAND ${CMAKE_COMMAND}
@@ -3543,6 +3749,7 @@ add_custom_target(GUI_ButtonSelectDatabase_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonShutdown_build
     COMMAND ${CMAKE_COMMAND}
@@ -3559,6 +3766,7 @@ add_custom_target(GUI_ButtonShutdown_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ImageCheckerPanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -3575,6 +3783,7 @@ add_custom_target(GUI_ImageCheckerPanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyImageChecker_build
     COMMAND ${CMAKE_COMMAND}
@@ -3591,6 +3800,7 @@ add_custom_target(GUI_PropertyImageChecker_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowResultImageChecker_build
     COMMAND ${CMAKE_COMMAND}
@@ -3607,6 +3817,7 @@ add_custom_target(GUI_ShowResultImageChecker_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowInspectionNumber_build
     COMMAND ${CMAKE_COMMAND}
@@ -3623,6 +3834,7 @@ add_custom_target(GUI_ShowInspectionNumber_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SendMessenger_build
     COMMAND ${CMAKE_COMMAND}
@@ -3639,6 +3851,7 @@ add_custom_target(GUI_SendMessenger_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SpotReducerImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -3655,6 +3868,7 @@ add_custom_target(GUI_SpotReducerImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertySpotReducer_build
     COMMAND ${CMAKE_COMMAND}
@@ -3671,6 +3885,7 @@ add_custom_target(GUI_PropertySpotReducer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ChangeCameraSettingInvisible_build
     COMMAND ${CMAKE_COMMAND}
@@ -3687,6 +3902,7 @@ add_custom_target(GUI_ChangeCameraSettingInvisible_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonShrinkImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -3703,6 +3919,7 @@ add_custom_target(GUI_ButtonShrinkImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MatchingAlignmentImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -3719,6 +3936,7 @@ add_custom_target(GUI_MatchingAlignmentImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyMatchingAlignment_build
     COMMAND ${CMAKE_COMMAND}
@@ -3735,6 +3953,7 @@ add_custom_target(GUI_PropertyMatchingAlignment_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MatrixCellList_build
     COMMAND ${CMAKE_COMMAND}
@@ -3751,6 +3970,7 @@ add_custom_target(GUI_MatrixCellList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLoadMonoBmpInAnyPageLayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -3767,6 +3987,7 @@ add_custom_target(GUI_ButtonLoadMonoBmpInAnyPageLayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ExecuteMacroList_build
     COMMAND ${CMAKE_COMMAND}
@@ -3783,6 +4004,7 @@ add_custom_target(GUI_ExecuteMacroList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSaveResultWithAll_build
     COMMAND ${CMAKE_COMMAND}
@@ -3799,6 +4021,7 @@ add_custom_target(GUI_ButtonSaveResultWithAll_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLoadResultWithAll_build
     COMMAND ${CMAKE_COMMAND}
@@ -3815,6 +4038,7 @@ add_custom_target(GUI_ButtonLoadResultWithAll_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ChangeCameraSetting_build
     COMMAND ${CMAKE_COMMAND}
@@ -3831,6 +4055,7 @@ add_custom_target(GUI_ChangeCameraSetting_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSaveMatrixCell_build
     COMMAND ${CMAKE_COMMAND}
@@ -3847,6 +4072,7 @@ add_custom_target(GUI_ButtonSaveMatrixCell_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLoadMatrixCell_build
     COMMAND ${CMAKE_COMMAND}
@@ -3863,6 +4089,7 @@ add_custom_target(GUI_ButtonLoadMatrixCell_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSetMachine_build
     COMMAND ${CMAKE_COMMAND}
@@ -3879,6 +4106,7 @@ add_custom_target(GUI_ButtonSetMachine_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AutoSaveImageSelectLot_build
     COMMAND ${CMAKE_COMMAND}
@@ -3895,6 +4123,7 @@ add_custom_target(GUI_AutoSaveImageSelectLot_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonToSaveCopiedItemDirectly_build
     COMMAND ${CMAKE_COMMAND}
@@ -3911,6 +4140,7 @@ add_custom_target(GUI_ButtonToSaveCopiedItemDirectly_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CheckProgramRunInvisible_build
     COMMAND ${CMAKE_COMMAND}
@@ -3927,6 +4157,7 @@ add_custom_target(GUI_CheckProgramRunInvisible_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonChangeCurrentPhase_build
     COMMAND ${CMAKE_COMMAND}
@@ -3943,6 +4174,7 @@ add_custom_target(GUI_ButtonChangeCurrentPhase_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GeneralMenu_build
     COMMAND ${CMAKE_COMMAND}
@@ -3959,6 +4191,7 @@ add_custom_target(GUI_GeneralMenu_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AutoPCBHoleAlignerImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -3975,6 +4208,7 @@ add_custom_target(GUI_AutoPCBHoleAlignerImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyAutoPCBHoleAligner_build
     COMMAND ${CMAKE_COMMAND}
@@ -3991,6 +4225,7 @@ add_custom_target(GUI_PropertyAutoPCBHoleAligner_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_StacksToSwitchMasterTarget_build
     COMMAND ${CMAKE_COMMAND}
@@ -4007,6 +4242,7 @@ add_custom_target(GUI_StacksToSwitchMasterTarget_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SlaveIndicatorInvisible_build
     COMMAND ${CMAKE_COMMAND}
@@ -4023,6 +4259,7 @@ add_custom_target(GUI_SlaveIndicatorInvisible_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ListboxGUITime_build
     COMMAND ${CMAKE_COMMAND}
@@ -4039,6 +4276,7 @@ add_custom_target(GUI_ListboxGUITime_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLearningOK_build
     COMMAND ${CMAKE_COMMAND}
@@ -4055,6 +4293,7 @@ add_custom_target(GUI_ButtonLearningOK_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLearningNG_build
     COMMAND ${CMAKE_COMMAND}
@@ -4071,6 +4310,7 @@ add_custom_target(GUI_ButtonLearningNG_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayStatus_build
     COMMAND ${CMAKE_COMMAND}
@@ -4087,6 +4327,7 @@ add_custom_target(GUI_DisplayStatus_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowCurrentOpinion_build
     COMMAND ${CMAKE_COMMAND}
@@ -4103,6 +4344,7 @@ add_custom_target(GUI_ShowCurrentOpinion_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSaveAllOpinions_build
     COMMAND ${CMAKE_COMMAND}
@@ -4119,6 +4361,7 @@ add_custom_target(GUI_ButtonSaveAllOpinions_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonCalcAlignment_build
     COMMAND ${CMAKE_COMMAND}
@@ -4135,6 +4378,7 @@ add_custom_target(GUI_ButtonCalcAlignment_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonCopyLibrary_build
     COMMAND ${CMAKE_COMMAND}
@@ -4151,6 +4395,7 @@ add_custom_target(GUI_ButtonCopyLibrary_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GeneralDividedPanels_build
     COMMAND ${CMAKE_COMMAND}
@@ -4167,6 +4412,7 @@ add_custom_target(GUI_GeneralDividedPanels_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GeneralPanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -4183,6 +4429,7 @@ add_custom_target(GUI_GeneralPanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ListboxUncoveredArea_build
     COMMAND ${CMAKE_COMMAND}
@@ -4199,6 +4446,7 @@ add_custom_target(GUI_ListboxUncoveredArea_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonClearStockedResult_build
     COMMAND ${CMAKE_COMMAND}
@@ -4215,6 +4463,7 @@ add_custom_target(GUI_ButtonClearStockedResult_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ExpandMainInTab_build
     COMMAND ${CMAKE_COMMAND}
@@ -4231,6 +4480,7 @@ add_custom_target(GUI_ExpandMainInTab_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonAppendAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
@@ -4247,6 +4497,7 @@ add_custom_target(GUI_ButtonAppendAlgorithm_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSetZ_build
     COMMAND ${CMAKE_COMMAND}
@@ -4263,6 +4514,7 @@ add_custom_target(GUI_ButtonSetZ_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_RemoteControlForServer_build
     COMMAND ${CMAKE_COMMAND}
@@ -4279,6 +4531,7 @@ add_custom_target(GUI_RemoteControlForServer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayServer_build
     COMMAND ${CMAKE_COMMAND}
@@ -4295,6 +4548,7 @@ add_custom_target(GUI_DisplayServer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyOutline_build
     COMMAND ${CMAKE_COMMAND}
@@ -4311,6 +4565,7 @@ add_custom_target(GUI_PropertyOutline_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyMasking_build
     COMMAND ${CMAKE_COMMAND}
@@ -4327,6 +4582,7 @@ add_custom_target(GUI_PropertyMasking_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLoadOutlineOffset_build
     COMMAND ${CMAKE_COMMAND}
@@ -4343,6 +4599,7 @@ add_custom_target(GUI_ButtonLoadOutlineOffset_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonMoveAll_build
     COMMAND ${CMAKE_COMMAND}
@@ -4359,6 +4616,7 @@ add_custom_target(GUI_ButtonMoveAll_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyColorBlock_build
     COMMAND ${CMAKE_COMMAND}
@@ -4375,6 +4633,7 @@ add_custom_target(GUI_PropertyColorBlock_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyTrueColorBlock_build
     COMMAND ${CMAKE_COMMAND}
@@ -4391,6 +4650,7 @@ add_custom_target(GUI_PropertyTrueColorBlock_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyAutoMaskingPI_build
     COMMAND ${CMAKE_COMMAND}
@@ -4407,6 +4667,7 @@ add_custom_target(GUI_PropertyAutoMaskingPI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyAutoAlignment_build
     COMMAND ${CMAKE_COMMAND}
@@ -4423,6 +4684,7 @@ add_custom_target(GUI_PropertyAutoAlignment_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSelectLearningTargetImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -4439,6 +4701,7 @@ add_custom_target(GUI_ButtonSelectLearningTargetImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonShowLightForm_build
     COMMAND ${CMAKE_COMMAND}
@@ -4455,6 +4718,7 @@ add_custom_target(GUI_ButtonShowLightForm_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyStatisticImager_build
     COMMAND ${CMAKE_COMMAND}
@@ -4471,6 +4735,7 @@ add_custom_target(GUI_PropertyStatisticImager_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_StatisticImagerImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -4487,6 +4752,7 @@ add_custom_target(GUI_StatisticImagerImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PieceProperty_build
     COMMAND ${CMAKE_COMMAND}
@@ -4503,6 +4769,7 @@ add_custom_target(GUI_PieceProperty_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GeneralGroup_build
     COMMAND ${CMAKE_COMMAND}
@@ -4519,6 +4786,7 @@ add_custom_target(GUI_GeneralGroup_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyBlock_build
     COMMAND ${CMAKE_COMMAND}
@@ -4535,6 +4803,7 @@ add_custom_target(GUI_PropertyBlock_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLoadMasterDataWithoutMachine_build
     COMMAND ${CMAKE_COMMAND}
@@ -4551,6 +4820,7 @@ add_custom_target(GUI_ButtonLoadMasterDataWithoutMachine_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AutoSaveImageListForSearch_build
     COMMAND ${CMAKE_COMMAND}
@@ -4567,6 +4837,7 @@ add_custom_target(GUI_AutoSaveImageListForSearch_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AutoSaveImageButtonSave_build
     COMMAND ${CMAKE_COMMAND}
@@ -4583,6 +4854,7 @@ add_custom_target(GUI_AutoSaveImageButtonSave_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AutoSaveImageButtonAuto_build
     COMMAND ${CMAKE_COMMAND}
@@ -4599,6 +4871,7 @@ add_custom_target(GUI_AutoSaveImageButtonAuto_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonCopyImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -4615,6 +4888,7 @@ add_custom_target(GUI_ButtonCopyImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_StartInspectionWithoutCapture_build
     COMMAND ${CMAKE_COMMAND}
@@ -4631,6 +4905,7 @@ add_custom_target(GUI_StartInspectionWithoutCapture_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_VCutImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -4647,6 +4922,7 @@ add_custom_target(GUI_VCutImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_VCutProperty_build
     COMMAND ${CMAKE_COMMAND}
@@ -4663,6 +4939,7 @@ add_custom_target(GUI_VCutProperty_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ListCachTargetImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -4679,6 +4956,7 @@ add_custom_target(GUI_ListCachTargetImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_LineEnhancerImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -4695,6 +4973,7 @@ add_custom_target(GUI_LineEnhancerImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyLineEnhancer_build
     COMMAND ${CMAKE_COMMAND}
@@ -4711,6 +4990,7 @@ add_custom_target(GUI_PropertyLineEnhancer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DynamicClassifyImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -4727,6 +5007,7 @@ add_custom_target(GUI_DynamicClassifyImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyDynamicClassify_build
     COMMAND ${CMAKE_COMMAND}
@@ -4743,6 +5024,7 @@ add_custom_target(GUI_PropertyDynamicClassify_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ARArrangeImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -4759,6 +5041,7 @@ add_custom_target(GUI_ARArrangeImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyARArrange_build
     COMMAND ${CMAKE_COMMAND}
@@ -4775,6 +5058,7 @@ add_custom_target(GUI_PropertyARArrange_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayPointingMessage_build
     COMMAND ${CMAKE_COMMAND}
@@ -4791,6 +5075,7 @@ add_custom_target(GUI_DisplayPointingMessage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ProgressOnIdle_build
     COMMAND ${CMAKE_COMMAND}
@@ -4807,6 +5092,7 @@ add_custom_target(GUI_ProgressOnIdle_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayRealtimeGraph_build
     COMMAND ${CMAKE_COMMAND}
@@ -4823,6 +5109,7 @@ add_custom_target(GUI_DisplayRealtimeGraph_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyRealtimeGraph_build
     COMMAND ${CMAKE_COMMAND}
@@ -4839,6 +5126,7 @@ add_custom_target(GUI_PropertyRealtimeGraph_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_RealtimeGraphMeasure1_build
     COMMAND ${CMAKE_COMMAND}
@@ -4855,6 +5143,7 @@ add_custom_target(GUI_RealtimeGraphMeasure1_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowMinMaxButton_build
     COMMAND ${CMAKE_COMMAND}
@@ -4871,6 +5160,7 @@ add_custom_target(GUI_ShowMinMaxButton_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSwitchDelayedView_build
     COMMAND ${CMAKE_COMMAND}
@@ -4887,6 +5177,7 @@ add_custom_target(GUI_ButtonSwitchDelayedView_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ExecuteVisualizer_build
     COMMAND ${CMAKE_COMMAND}
@@ -4903,6 +5194,7 @@ add_custom_target(GUI_ExecuteVisualizer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowTopBottomSideInfo_build
     COMMAND ${CMAKE_COMMAND}
@@ -4919,6 +5211,7 @@ add_custom_target(GUI_ShowTopBottomSideInfo_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PieceForReviewImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -4935,6 +5228,7 @@ add_custom_target(GUI_PieceForReviewImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyPieceForReview_build
     COMMAND ${CMAKE_COMMAND}
@@ -4951,6 +5245,7 @@ add_custom_target(GUI_PropertyPieceForReview_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_LineEnhancer1LImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -4967,6 +5262,7 @@ add_custom_target(GUI_LineEnhancer1LImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyLineEnhancer1L_build
     COMMAND ${CMAKE_COMMAND}
@@ -4983,6 +5279,7 @@ add_custom_target(GUI_PropertyLineEnhancer1L_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayLibFolder_build
     COMMAND ${CMAKE_COMMAND}
@@ -4999,6 +5296,7 @@ add_custom_target(GUI_DisplayLibFolder_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSelectLot_build
     COMMAND ${CMAKE_COMMAND}
@@ -5015,6 +5313,7 @@ add_custom_target(GUI_ButtonSelectLot_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowHistgramTotal_build
     COMMAND ${CMAKE_COMMAND}
@@ -5031,6 +5330,7 @@ add_custom_target(GUI_ShowHistgramTotal_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSaveHistogramData_build
     COMMAND ${CMAKE_COMMAND}
@@ -5047,6 +5347,7 @@ add_custom_target(GUI_ButtonSaveHistogramData_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLoadHistogramData_build
     COMMAND ${CMAKE_COMMAND}
@@ -5063,6 +5364,7 @@ add_custom_target(GUI_ButtonLoadHistogramData_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonClearHistogram_build
     COMMAND ${CMAKE_COMMAND}
@@ -5079,6 +5381,7 @@ add_custom_target(GUI_ButtonClearHistogram_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_LoadImageInAnyPage_build
     COMMAND ${CMAKE_COMMAND}
@@ -5095,6 +5398,7 @@ add_custom_target(GUI_LoadImageInAnyPage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonRewindInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -5111,6 +5415,7 @@ add_custom_target(GUI_ButtonRewindInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayScanPhaseNumber_build
     COMMAND ${CMAKE_COMMAND}
@@ -5127,6 +5432,7 @@ add_custom_target(GUI_DisplayScanPhaseNumber_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ResultImportanceImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -5143,6 +5449,7 @@ add_custom_target(GUI_ResultImportanceImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyResultImportance_build
     COMMAND ${CMAKE_COMMAND}
@@ -5159,6 +5466,7 @@ add_custom_target(GUI_PropertyResultImportance_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PieceListReviewSide_build
     COMMAND ${CMAKE_COMMAND}
@@ -5175,6 +5483,7 @@ add_custom_target(GUI_PieceListReviewSide_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowPieceResultList_build
     COMMAND ${CMAKE_COMMAND}
@@ -5191,6 +5500,7 @@ add_custom_target(GUI_ShowPieceResultList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonImageTransformer_build
     COMMAND ${CMAKE_COMMAND}
@@ -5207,6 +5517,7 @@ add_custom_target(GUI_ButtonImageTransformer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MeasureHoleImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -5223,6 +5534,7 @@ add_custom_target(GUI_MeasureHoleImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyMeasureHole_build
     COMMAND ${CMAKE_COMMAND}
@@ -5239,6 +5551,7 @@ add_custom_target(GUI_PropertyMeasureHole_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MeasureLineMoveImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -5255,6 +5568,7 @@ add_custom_target(GUI_MeasureLineMoveImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyMeasureLineMove_build
     COMMAND ${CMAKE_COMMAND}
@@ -5271,6 +5585,7 @@ add_custom_target(GUI_PropertyMeasureLineMove_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MeasureHolePosImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -5287,6 +5602,7 @@ add_custom_target(GUI_MeasureHolePosImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyMeasureHolePos_build
     COMMAND ${CMAKE_COMMAND}
@@ -5303,6 +5619,7 @@ add_custom_target(GUI_PropertyMeasureHolePos_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ImagePanelTools_build
     COMMAND ${CMAKE_COMMAND}
@@ -5319,6 +5636,7 @@ add_custom_target(GUI_ImagePanelTools_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonShowPlayerInside_build
     COMMAND ${CMAKE_COMMAND}
@@ -5335,6 +5653,7 @@ add_custom_target(GUI_ButtonShowPlayerInside_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MeasureShowGrid_build
     COMMAND ${CMAKE_COMMAND}
@@ -5351,6 +5670,7 @@ add_custom_target(GUI_MeasureShowGrid_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_TreeMasterImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -5367,6 +5687,7 @@ add_custom_target(GUI_TreeMasterImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyTreeMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -5383,6 +5704,7 @@ add_custom_target(GUI_PropertyTreeMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_TreeMasterShowResultList_build
     COMMAND ${CMAKE_COMMAND}
@@ -5399,6 +5721,7 @@ add_custom_target(GUI_TreeMasterShowResultList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonForMarkingON_build
     COMMAND ${CMAKE_COMMAND}
@@ -5415,6 +5738,7 @@ add_custom_target(GUI_ButtonForMarkingON_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowOldNGNaming_build
     COMMAND ${CMAKE_COMMAND}
@@ -5431,6 +5755,7 @@ add_custom_target(GUI_ShowOldNGNaming_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayOldImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -5447,6 +5772,7 @@ add_custom_target(GUI_DisplayOldImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SetMechanicalOffset_build
     COMMAND ${CMAKE_COMMAND}
@@ -5463,6 +5789,7 @@ add_custom_target(GUI_SetMechanicalOffset_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonAnyMode_build
     COMMAND ${CMAKE_COMMAND}
@@ -5479,6 +5806,7 @@ add_custom_target(GUI_ButtonAnyMode_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowResultAlarm_build
     COMMAND ${CMAKE_COMMAND}
@@ -5495,6 +5823,7 @@ add_custom_target(GUI_ShowResultAlarm_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowSeqMessage_build
     COMMAND ${CMAKE_COMMAND}
@@ -5511,6 +5840,7 @@ add_custom_target(GUI_ShowSeqMessage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_BuslineImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -5527,6 +5857,7 @@ add_custom_target(GUI_BuslineImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyBusline_build
     COMMAND ${CMAKE_COMMAND}
@@ -5543,6 +5874,7 @@ add_custom_target(GUI_PropertyBusline_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_WindUpImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -5559,6 +5891,7 @@ add_custom_target(GUI_WindUpImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AlignmentLargeImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -5575,6 +5908,7 @@ add_custom_target(GUI_AlignmentLargeImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyAlignmentLarge_build
     COMMAND ${CMAKE_COMMAND}
@@ -5591,6 +5925,7 @@ add_custom_target(GUI_PropertyAlignmentLarge_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyResultBinder_build
     COMMAND ${CMAKE_COMMAND}
@@ -5607,6 +5942,7 @@ add_custom_target(GUI_PropertyResultBinder_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_BCRImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -5623,6 +5959,7 @@ add_custom_target(GUI_BCRImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyBCR_build
     COMMAND ${CMAKE_COMMAND}
@@ -5639,6 +5976,7 @@ add_custom_target(GUI_PropertyBCR_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowBarCode_build
     COMMAND ${CMAKE_COMMAND}
@@ -5655,6 +5993,7 @@ add_custom_target(GUI_ShowBarCode_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowTotalNGNaming_build
     COMMAND ${CMAKE_COMMAND}
@@ -5671,6 +6010,7 @@ add_custom_target(GUI_ShowTotalNGNaming_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SetSpetialValue_build
     COMMAND ${CMAKE_COMMAND}
@@ -5687,6 +6027,7 @@ add_custom_target(GUI_SetSpetialValue_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonFilterUpsideDown_build
     COMMAND ${CMAKE_COMMAND}
@@ -5703,6 +6044,7 @@ add_custom_target(GUI_ButtonFilterUpsideDown_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLightON_build
     COMMAND ${CMAKE_COMMAND}
@@ -5719,6 +6061,7 @@ add_custom_target(GUI_ButtonLightON_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowSumTimer_build
     COMMAND ${CMAKE_COMMAND}
@@ -5735,6 +6078,7 @@ add_custom_target(GUI_ShowSumTimer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonPasswordEnabler_build
     COMMAND ${CMAKE_COMMAND}
@@ -5751,6 +6095,7 @@ add_custom_target(GUI_ButtonPasswordEnabler_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonFilterUDColorShift_build
     COMMAND ${CMAKE_COMMAND}
@@ -5767,6 +6112,7 @@ add_custom_target(GUI_ButtonFilterUDColorShift_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_FixedImageSize_build
     COMMAND ${CMAKE_COMMAND}
@@ -5783,6 +6129,7 @@ add_custom_target(GUI_FixedImageSize_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonPasswordOpener_build
     COMMAND ${CMAKE_COMMAND}
@@ -5799,6 +6146,7 @@ add_custom_target(GUI_ButtonPasswordOpener_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PieceDefImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -5815,6 +6163,7 @@ add_custom_target(GUI_PieceDefImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyPieceDef_build
     COMMAND ${CMAKE_COMMAND}
@@ -5831,6 +6180,7 @@ add_custom_target(GUI_PropertyPieceDef_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowResultSmallLot_build
     COMMAND ${CMAKE_COMMAND}
@@ -5847,6 +6197,7 @@ add_custom_target(GUI_ShowResultSmallLot_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSelectSmallLot_build
     COMMAND ${CMAKE_COMMAND}
@@ -5863,6 +6214,7 @@ add_custom_target(GUI_ButtonSelectSmallLot_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ListCondition_build
     COMMAND ${CMAKE_COMMAND}
@@ -5879,6 +6231,7 @@ add_custom_target(GUI_ListCondition_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowStrategicAllNumber_build
     COMMAND ${CMAKE_COMMAND}
@@ -5895,6 +6248,7 @@ add_custom_target(GUI_ShowStrategicAllNumber_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonChangeServerForMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -5911,6 +6265,7 @@ add_custom_target(GUI_ButtonChangeServerForMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GeneralPanelFromSeq_build
     COMMAND ${CMAKE_COMMAND}
@@ -5927,6 +6282,7 @@ add_custom_target(GUI_GeneralPanelFromSeq_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CheckCycleTime_build
     COMMAND ${CMAKE_COMMAND}
@@ -5943,6 +6299,7 @@ add_custom_target(GUI_CheckCycleTime_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CheckBrightnessImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -5959,6 +6316,7 @@ add_custom_target(GUI_CheckBrightnessImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyCheckBrightness_build
     COMMAND ${CMAKE_COMMAND}
@@ -5975,6 +6333,7 @@ add_custom_target(GUI_PropertyCheckBrightness_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowCheckBrightnessPanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -5991,6 +6350,7 @@ add_custom_target(GUI_ShowCheckBrightnessPanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyGerberFast_build
     COMMAND ${CMAKE_COMMAND}
@@ -6007,6 +6367,7 @@ add_custom_target(GUI_PropertyGerberFast_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GerberFastImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -6023,6 +6384,7 @@ add_custom_target(GUI_GerberFastImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyViaInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -6039,6 +6401,7 @@ add_custom_target(GUI_PropertyViaInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_VIAInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -6055,6 +6418,7 @@ add_custom_target(GUI_VIAInspectionImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyCheckEveryday_build
     COMMAND ${CMAKE_COMMAND}
@@ -6071,6 +6435,7 @@ add_custom_target(GUI_PropertyCheckEveryday_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowCheckEveryday_build
     COMMAND ${CMAKE_COMMAND}
@@ -6087,6 +6452,7 @@ add_custom_target(GUI_ShowCheckEveryday_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CheckEverydayImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -6103,6 +6469,7 @@ add_custom_target(GUI_CheckEverydayImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PanelXYSize_build
     COMMAND ${CMAKE_COMMAND}
@@ -6119,6 +6486,7 @@ add_custom_target(GUI_PanelXYSize_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SetFilterToMoveXY_build
     COMMAND ${CMAKE_COMMAND}
@@ -6135,6 +6503,7 @@ add_custom_target(GUI_SetFilterToMoveXY_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonToSetFilter_build
     COMMAND ${CMAKE_COMMAND}
@@ -6151,6 +6520,7 @@ add_custom_target(GUI_ButtonToSetFilter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AdjustMoveAllAfterLoadMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -6167,6 +6537,7 @@ add_custom_target(GUI_AdjustMoveAllAfterLoadMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyMultiFileMap_build
     COMMAND ${CMAKE_COMMAND}
@@ -6183,6 +6554,7 @@ add_custom_target(GUI_PropertyMultiFileMap_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MultiFileMapImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -6199,6 +6571,7 @@ add_custom_target(GUI_MultiFileMapImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonGeneralStocker_build
     COMMAND ${CMAKE_COMMAND}
@@ -6215,6 +6588,7 @@ add_custom_target(GUI_ButtonGeneralStocker_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ExecuteBatch_build
     COMMAND ${CMAKE_COMMAND}
@@ -6231,6 +6605,7 @@ add_custom_target(GUI_ExecuteBatch_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SaveMasterImageInInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -6247,6 +6622,7 @@ add_custom_target(GUI_SaveMasterImageInInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CheckEverydayResultHistory_build
     COMMAND ${CMAKE_COMMAND}
@@ -6263,6 +6639,7 @@ add_custom_target(GUI_CheckEverydayResultHistory_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_HookAlgorithmImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -6279,6 +6656,7 @@ add_custom_target(GUI_HookAlgorithmImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSynchronizeImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -6295,6 +6673,7 @@ add_custom_target(GUI_ButtonSynchronizeImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SaveTargetInNG_build
     COMMAND ${CMAKE_COMMAND}
@@ -6311,6 +6690,7 @@ add_custom_target(GUI_SaveTargetInNG_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SaveOutlineOffsetInMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -6327,6 +6707,7 @@ add_custom_target(GUI_SaveOutlineOffsetInMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_LoadOutlineOffsetInMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -6343,6 +6724,7 @@ add_custom_target(GUI_LoadOutlineOffsetInMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ThinMetalImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -6359,6 +6741,7 @@ add_custom_target(GUI_ThinMetalImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyThinMetal_build
     COMMAND ${CMAKE_COMMAND}
@@ -6375,6 +6758,7 @@ add_custom_target(GUI_PropertyThinMetal_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DistinguishPix_build
     COMMAND ${CMAKE_COMMAND}
@@ -6391,6 +6775,7 @@ add_custom_target(GUI_DistinguishPix_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonToStoreSamplesThinMetal_build
     COMMAND ${CMAKE_COMMAND}
@@ -6407,6 +6792,7 @@ add_custom_target(GUI_ButtonToStoreSamplesThinMetal_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(InspectionEditor_build
     COMMAND ${CMAKE_COMMAND}
@@ -6423,6 +6809,7 @@ add_custom_target(InspectionEditor_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(InspectionPlayer_InspectionPlayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -6439,6 +6826,7 @@ add_custom_target(InspectionPlayer_InspectionPlayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Light_LightDLL_CCSControl_build
     COMMAND ${CMAKE_COMMAND}
@@ -6455,6 +6843,7 @@ add_custom_target(PluginDLL_Light_LightDLL_CCSControl_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Light_LightDLL_CCSControl2_build
     COMMAND ${CMAKE_COMMAND}
@@ -6471,6 +6860,7 @@ add_custom_target(PluginDLL_Light_LightDLL_CCSControl2_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_Light_CCSControlGUI_build
     COMMAND ${CMAKE_COMMAND}
@@ -6487,6 +6877,7 @@ add_custom_target(GUI_Light_CCSControlGUI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_Light_CCSControl2GUI_build
     COMMAND ${CMAKE_COMMAND}
@@ -6503,6 +6894,7 @@ add_custom_target(GUI_Light_CCSControl2GUI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Light_LightDLL_ControlHayashiTokei_build
     COMMAND ${CMAKE_COMMAND}
@@ -6519,6 +6911,7 @@ add_custom_target(PluginDLL_Light_LightDLL_ControlHayashiTokei_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_Light_ControlHayashiTokeiGUI_build
     COMMAND ${CMAKE_COMMAND}
@@ -6535,6 +6928,7 @@ add_custom_target(GUI_Light_ControlHayashiTokeiGUI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Light_LightDLL_CCSControlByPIO_build
     COMMAND ${CMAKE_COMMAND}
@@ -6551,6 +6945,7 @@ add_custom_target(PluginDLL_Light_LightDLL_CCSControlByPIO_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Light_LightDLL_LightUSB8PortARM_build
     COMMAND ${CMAKE_COMMAND}
@@ -6567,6 +6962,7 @@ add_custom_target(PluginDLL_Light_LightDLL_LightUSB8PortARM_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Light_LightDLL_LightDLLRemoteController_build
     COMMAND ${CMAKE_COMMAND}
@@ -6583,6 +6979,7 @@ add_custom_target(PluginDLL_Light_LightDLL_LightDLLRemoteController_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Light_LightDLL_CCSControlByPIO2Ch_build
     COMMAND ${CMAKE_COMMAND}
@@ -6599,6 +6996,7 @@ add_custom_target(PluginDLL_Light_LightDLL_CCSControlByPIO2Ch_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Light_LightDLL_LEDControl32_build
     COMMAND ${CMAKE_COMMAND}
@@ -6615,6 +7013,7 @@ add_custom_target(PluginDLL_Light_LightDLL_LEDControl32_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_Contec64DLL_Contec64DLL_build
     COMMAND ${CMAKE_COMMAND}
@@ -6631,6 +7030,7 @@ add_custom_target(PluginDLL_PIO_Contec64DLL_Contec64DLL_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_Contec64Multi_build
     COMMAND ${CMAKE_COMMAND}
@@ -6647,6 +7047,7 @@ add_custom_target(PluginDLL_PIO_Contec64Multi_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_NetworkContec64_PIOClient_build
     COMMAND ${CMAKE_COMMAND}
@@ -6663,6 +7064,7 @@ add_custom_target(PluginDLL_PIO_NetworkContec64_PIOClient_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_NetworkContec64_PIODevicer_build
     COMMAND ${CMAKE_COMMAND}
@@ -6679,6 +7081,7 @@ add_custom_target(PluginDLL_PIO_NetworkContec64_PIODevicer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_DummyPIO_build
     COMMAND ${CMAKE_COMMAND}
@@ -6695,6 +7098,7 @@ add_custom_target(PluginDLL_PIO_DummyPIO_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_TestPIODLL_build
     COMMAND ${CMAKE_COMMAND}
@@ -6711,6 +7115,7 @@ add_custom_target(PluginDLL_PIO_TestPIODLL_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_ContecBitAccess_build
     COMMAND ${CMAKE_COMMAND}
@@ -6727,6 +7132,7 @@ add_custom_target(PluginDLL_PIO_ContecBitAccess_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_VirtualPIOServer_build
     COMMAND ${CMAKE_COMMAND}
@@ -6743,6 +7149,7 @@ add_custom_target(PluginDLL_PIO_VirtualPIOServer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_VirtualPIOAdapter_build
     COMMAND ${CMAKE_COMMAND}
@@ -6759,6 +7166,7 @@ add_custom_target(PluginDLL_PIO_VirtualPIOAdapter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ResultDLL_ResultXMLV3_build
     COMMAND ${CMAKE_COMMAND}
@@ -6775,6 +7183,7 @@ add_custom_target(ResultDLL_ResultXMLV3_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ResultDLL_ResultXMLForPiece_build
     COMMAND ${CMAKE_COMMAND}
@@ -6791,6 +7200,7 @@ add_custom_target(ResultDLL_ResultXMLForPiece_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ResultDLL_ResultXMLSmallLot_build
     COMMAND ${CMAKE_COMMAND}
@@ -6807,6 +7217,7 @@ add_custom_target(ResultDLL_ResultXMLSmallLot_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Delete_Delete_build
     COMMAND ${CMAKE_COMMAND}
@@ -6823,6 +7234,7 @@ add_custom_target(Delete_Delete_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(EditGUI_EditGUI_build
     COMMAND ${CMAKE_COMMAND}
@@ -6839,6 +7251,7 @@ add_custom_target(EditGUI_EditGUI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(EditParameter_EditParameter_build
     COMMAND ${CMAKE_COMMAND}
@@ -6855,6 +7268,7 @@ add_custom_target(EditParameter_EditParameter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(EditStatusComment_build
     COMMAND ${CMAKE_COMMAND}
@@ -6871,6 +7285,7 @@ add_custom_target(EditStatusComment_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(FileRegistryEditor_build
     COMMAND ${CMAKE_COMMAND}
@@ -6887,6 +7302,7 @@ add_custom_target(FileRegistryEditor_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(LearningServer_build
     COMMAND ${CMAKE_COMMAND}
@@ -6903,6 +7319,7 @@ add_custom_target(LearningServer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Messager_build
     COMMAND ${CMAKE_COMMAND}
@@ -6919,6 +7336,7 @@ add_custom_target(Messager_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Messager_ReportDisk_ReportDisk_build
     COMMAND ${CMAKE_COMMAND}
@@ -6935,6 +7353,7 @@ add_custom_target(Messager_ReportDisk_ReportDisk_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PIOWatch_PIOWatch_build
     COMMAND ${CMAKE_COMMAND}
@@ -6951,6 +7370,7 @@ add_custom_target(PIOWatch_PIOWatch_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_DLLChecker_build
     COMMAND ${CMAKE_COMMAND}
@@ -6967,6 +7387,7 @@ add_custom_target(ServiceLib_DLLChecker_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_ServiceForDBLib_build
     COMMAND ${CMAKE_COMMAND}
@@ -6983,6 +7404,7 @@ add_custom_target(ServiceLib_ServiceForDBLib_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_SlaveIndicator_build
     COMMAND ${CMAKE_COMMAND}
@@ -6999,6 +7421,7 @@ add_custom_target(ServiceLib_SlaveIndicator_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(AutoStart_AutoStartPlayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -7015,6 +7438,7 @@ add_custom_target(AutoStart_AutoStartPlayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(AutoStartList_build
     COMMAND ${CMAKE_COMMAND}
@@ -7031,6 +7455,7 @@ add_custom_target(AutoStartList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_EditSequence_build
     COMMAND ${CMAKE_COMMAND}
@@ -7047,6 +7472,7 @@ add_custom_target(ServiceLib_EditSequence_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ChangeServer_build
     COMMAND ${CMAKE_COMMAND}
@@ -7063,6 +7489,7 @@ add_custom_target(ChangeServer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_EditAnyDataInLibrary_build
     COMMAND ${CMAKE_COMMAND}
@@ -7079,6 +7506,7 @@ add_custom_target(ServiceLib_EditAnyDataInLibrary_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(XmlServer_XMLExplorer_build
     COMMAND ${CMAKE_COMMAND}
@@ -7095,6 +7523,7 @@ add_custom_target(XmlServer_XMLExplorer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ExecuteVisualizer_EditExecuteVisualizer_build
     COMMAND ${CMAKE_COMMAND}
@@ -7111,6 +7540,7 @@ add_custom_target(ExecuteVisualizer_EditExecuteVisualizer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(JDTUnpacker_build
     COMMAND ${CMAKE_COMMAND}
@@ -7127,6 +7557,7 @@ add_custom_target(JDTUnpacker_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PIOWatch_PIOViewer_build
     COMMAND ${CMAKE_COMMAND}
@@ -7143,6 +7574,7 @@ add_custom_target(PIOWatch_PIOViewer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(EditParameter_EditGlobalOnMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -7159,6 +7591,7 @@ add_custom_target(EditParameter_EditGlobalOnMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_MakeMasterReport_build
     COMMAND ${CMAKE_COMMAND}
@@ -7175,6 +7608,7 @@ add_custom_target(ServiceLib_MakeMasterReport_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_LanguageManager_build
     COMMAND ${CMAKE_COMMAND}
@@ -7191,6 +7625,7 @@ add_custom_target(ServiceLib_LanguageManager_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(LanguageSolver_LanguageNewSolver_build
     COMMAND ${CMAKE_COMMAND}
@@ -7207,6 +7642,7 @@ add_custom_target(LanguageSolver_LanguageNewSolver_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ChangeServer_CloseProcess_build
     COMMAND ${CMAKE_COMMAND}
@@ -7223,6 +7659,7 @@ add_custom_target(ChangeServer_CloseProcess_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ChangeServer_RemoteControlToClose_build
     COMMAND ${CMAKE_COMMAND}
@@ -7239,6 +7676,7 @@ add_custom_target(ChangeServer_RemoteControlToClose_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_LanguageMergeXLSX_build
     COMMAND ${CMAKE_COMMAND}
@@ -7255,6 +7693,7 @@ add_custom_target(ServiceLib_LanguageMergeXLSX_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(CopyMultiple_build
     COMMAND ${CMAKE_COMMAND}
@@ -7271,6 +7710,7 @@ add_custom_target(CopyMultiple_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(LightingManager_TesterLightDLL_build
     COMMAND ${CMAKE_COMMAND}
@@ -7287,6 +7727,7 @@ add_custom_target(LightingManager_TesterLightDLL_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(LightingManager_RemoteLightController_build
     COMMAND ${CMAKE_COMMAND}
@@ -7303,6 +7744,7 @@ add_custom_target(LightingManager_RemoteLightController_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_ScreenLock_build
     COMMAND ${CMAKE_COMMAND}
@@ -7319,6 +7761,7 @@ add_custom_target(ServiceLib_ScreenLock_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_DelayExe_build
     COMMAND ${CMAKE_COMMAND}
@@ -7335,6 +7778,7 @@ add_custom_target(ServiceLib_DelayExe_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(LightingManager_RemoteLightExecuter_build
     COMMAND ${CMAKE_COMMAND}
@@ -7351,6 +7795,7 @@ add_custom_target(LightingManager_RemoteLightExecuter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_Booter_build
     COMMAND ${CMAKE_COMMAND}
@@ -7367,6 +7812,7 @@ add_custom_target(ServiceLib_Booter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_SyncMasterFiles_build
     COMMAND ${CMAKE_COMMAND}
@@ -7383,6 +7829,7 @@ add_custom_target(ServiceLib_SyncMasterFiles_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_SyncDatabase_build
     COMMAND ${CMAKE_COMMAND}
@@ -7399,6 +7846,7 @@ add_custom_target(ServiceLib_SyncDatabase_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_WatchdogRebooter_build
     COMMAND ${CMAKE_COMMAND}
@@ -7415,6 +7863,7 @@ add_custom_target(ServiceLib_WatchdogRebooter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_ForceRebooter_build
     COMMAND ${CMAKE_COMMAND}
@@ -7431,6 +7880,7 @@ add_custom_target(ServiceLib_ForceRebooter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Messager_DiskManager_build
     COMMAND ${CMAKE_COMMAND}
@@ -7447,6 +7897,7 @@ add_custom_target(Messager_DiskManager_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_SequencePlugin_SampleDLL_build
     COMMAND ${CMAKE_COMMAND}
@@ -7463,6 +7914,7 @@ add_custom_target(PluginDLL_SequencePlugin_SampleDLL_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_SequencePlugin_LogWriter_build
     COMMAND ${CMAKE_COMMAND}
@@ -7479,6 +7931,7 @@ add_custom_target(PluginDLL_SequencePlugin_LogWriter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_SequencePlugin_SeqFor64Connector_build
     COMMAND ${CMAKE_COMMAND}
@@ -7495,6 +7948,7 @@ add_custom_target(PluginDLL_SequencePlugin_SeqFor64Connector_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_SequencePlugin_IOLogger_build
     COMMAND ${CMAKE_COMMAND}
@@ -7511,6 +7965,7 @@ add_custom_target(PluginDLL_SequencePlugin_IOLogger_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_SequencePlugin_OutputMessager_build
     COMMAND ${CMAKE_COMMAND}
@@ -7527,6 +7982,7 @@ add_custom_target(PluginDLL_SequencePlugin_OutputMessager_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_SequencePlugin_CheckProgramRun_build
     COMMAND ${CMAKE_COMMAND}
@@ -7543,6 +7999,7 @@ add_custom_target(PluginDLL_SequencePlugin_CheckProgramRun_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_SequencePlugin_ShutDownDLL_build
     COMMAND ${CMAKE_COMMAND}
@@ -7559,6 +8016,7 @@ add_custom_target(PluginDLL_SequencePlugin_ShutDownDLL_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_SequencePlugin_PlaySound_build
     COMMAND ${CMAKE_COMMAND}
@@ -7575,6 +8033,7 @@ add_custom_target(PluginDLL_SequencePlugin_PlaySound_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ChangeWindowSizeInvisible_build
     COMMAND ${CMAKE_COMMAND}
@@ -7591,6 +8050,7 @@ add_custom_target(GUI_ChangeWindowSizeInvisible_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CopyItemsBetweenPhase_build
     COMMAND ${CMAKE_COMMAND}
@@ -7607,6 +8067,7 @@ add_custom_target(GUI_CopyItemsBetweenPhase_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_FixedWindowSize_build
     COMMAND ${CMAKE_COMMAND}
@@ -7623,6 +8084,7 @@ add_custom_target(GUI_FixedWindowSize_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_ProjectedInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -7639,6 +8101,7 @@ add_custom_target(Algorithm_ProjectedInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyProjectedInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -7655,6 +8118,7 @@ add_custom_target(GUI_PropertyProjectedInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ProjectedInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -7671,6 +8135,7 @@ add_custom_target(GUI_ProjectedInspectionImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_VirtualPIOClient_build
     COMMAND ${CMAKE_COMMAND}
@@ -7687,6 +8152,7 @@ add_custom_target(PluginDLL_PIO_VirtualPIOClient_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ResultDLL_ResultWriteCSV_build
     COMMAND ${CMAKE_COMMAND}
@@ -7703,6 +8169,7 @@ add_custom_target(ResultDLL_ResultWriteCSV_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLightShortCut_build
     COMMAND ${CMAKE_COMMAND}
@@ -7719,6 +8186,7 @@ add_custom_target(GUI_ButtonLightShortCut_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterReplaceColor_build
     COMMAND ${CMAKE_COMMAND}
@@ -7735,6 +8203,7 @@ add_custom_target(Filter_FilterReplaceColor_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ResultBinderImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -7751,6 +8220,7 @@ add_custom_target(GUI_ResultBinderImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterDifferencialHV_build
     COMMAND ${CMAKE_COMMAND}
@@ -7767,6 +8237,7 @@ add_custom_target(Filter_FilterDifferencialHV_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CompressImageIndicator_build
     COMMAND ${CMAKE_COMMAND}
@@ -7783,6 +8254,7 @@ add_custom_target(GUI_CompressImageIndicator_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowMatrixImageCenter_build
     COMMAND ${CMAKE_COMMAND}
@@ -7799,6 +8271,7 @@ add_custom_target(GUI_ShowMatrixImageCenter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_HoughInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -7815,6 +8288,7 @@ add_custom_target(GUI_HoughInspectionImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyHoughInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -7831,6 +8305,7 @@ add_custom_target(GUI_PropertyHoughInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_HoughInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -7847,6 +8322,7 @@ add_custom_target(Algorithm_HoughInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_ConvertPixImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -7863,6 +8339,7 @@ add_custom_target(ServiceLib_ConvertPixImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ResetCameraSeq_build
     COMMAND ${CMAKE_COMMAND}
@@ -7879,6 +8356,7 @@ add_custom_target(GUI_ResetCameraSeq_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_DFSServer_build
     COMMAND ${CMAKE_COMMAND}
@@ -7895,6 +8373,7 @@ add_custom_target(ServiceLib_DFSServer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_DFSProvider_build
     COMMAND ${CMAKE_COMMAND}
@@ -7911,6 +8390,7 @@ add_custom_target(ServiceLib_DFSProvider_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_DFSExplorer_build
     COMMAND ${CMAKE_COMMAND}
@@ -7927,6 +8407,7 @@ add_custom_target(ServiceLib_DFSExplorer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_DFSProvider_DFSFilterMJC_build
     COMMAND ${CMAKE_COMMAND}
@@ -7943,6 +8424,7 @@ add_custom_target(ServiceLib_DFSProvider_DFSFilterMJC_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_ChangeAttribute_build
     COMMAND ${CMAKE_COMMAND}
@@ -7959,6 +8441,7 @@ add_custom_target(ServiceLib_ChangeAttribute_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_CheckKeyCode_build
     COMMAND ${CMAKE_COMMAND}
@@ -7975,6 +8458,7 @@ add_custom_target(ServiceLib_CheckKeyCode_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_PartialImaging_build
     COMMAND ${CMAKE_COMMAND}
@@ -7991,6 +8475,7 @@ add_custom_target(Algorithm_PartialImaging_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PartialImagingImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -8007,6 +8492,7 @@ add_custom_target(GUI_PartialImagingImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyPartialImaging_build
     COMMAND ${CMAKE_COMMAND}
@@ -8023,6 +8509,7 @@ add_custom_target(GUI_PropertyPartialImaging_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowPartialImagingList_build
     COMMAND ${CMAKE_COMMAND}
@@ -8039,6 +8526,7 @@ add_custom_target(GUI_ShowPartialImagingList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowPartialImagingPanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -8055,6 +8543,7 @@ add_custom_target(GUI_ShowPartialImagingPanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CameraBuffer_build
     COMMAND ${CMAKE_COMMAND}
@@ -8071,6 +8560,7 @@ add_custom_target(GUI_CameraBuffer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_SkipMark_build
     COMMAND ${CMAKE_COMMAND}
@@ -8087,6 +8577,7 @@ add_custom_target(Algorithm_SkipMark_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertySkipMark_build
     COMMAND ${CMAKE_COMMAND}
@@ -8103,6 +8594,7 @@ add_custom_target(GUI_PropertySkipMark_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SkipMarkImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -8119,6 +8611,7 @@ add_custom_target(GUI_SkipMarkImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSelectMultiDelivery_build
     COMMAND ${CMAKE_COMMAND}
@@ -8135,6 +8628,7 @@ add_custom_target(GUI_ButtonSelectMultiDelivery_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowResultMultiDelivery_build
     COMMAND ${CMAKE_COMMAND}
@@ -8151,6 +8645,7 @@ add_custom_target(GUI_ShowResultMultiDelivery_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ResultDLL_ResultXMLMultiDelivery_build
     COMMAND ${CMAKE_COMMAND}
@@ -8167,6 +8662,7 @@ add_custom_target(ResultDLL_ResultXMLMultiDelivery_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowBlockList_build
     COMMAND ${CMAKE_COMMAND}
@@ -8183,6 +8679,7 @@ add_custom_target(GUI_ShowBlockList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_EulerRingL1ImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -8199,6 +8696,7 @@ add_custom_target(GUI_EulerRingL1ImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyEulerRingL1_build
     COMMAND ${CMAKE_COMMAND}
@@ -8215,6 +8713,7 @@ add_custom_target(GUI_PropertyEulerRingL1_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_EulerRingL1_build
     COMMAND ${CMAKE_COMMAND}
@@ -8231,6 +8730,7 @@ add_custom_target(Algorithm_EulerRingL1_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonTransferPushGUI_build
     COMMAND ${CMAKE_COMMAND}
@@ -8247,6 +8747,7 @@ add_custom_target(GUI_ButtonTransferPushGUI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonTransferRequireMasterData_build
     COMMAND ${CMAKE_COMMAND}
@@ -8263,6 +8764,7 @@ add_custom_target(GUI_ButtonTransferRequireMasterData_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonTransferSendMasterData_build
     COMMAND ${CMAKE_COMMAND}
@@ -8279,6 +8781,7 @@ add_custom_target(GUI_ButtonTransferSendMasterData_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonTransferRequireGlobalParam_build
     COMMAND ${CMAKE_COMMAND}
@@ -8295,6 +8798,7 @@ add_custom_target(GUI_ButtonTransferRequireGlobalParam_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonTransferSendGlobalParam_build
     COMMAND ${CMAKE_COMMAND}
@@ -8311,6 +8815,7 @@ add_custom_target(GUI_ButtonTransferSendGlobalParam_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonTransferLoadGUI_build
     COMMAND ${CMAKE_COMMAND}
@@ -8327,6 +8832,7 @@ add_custom_target(GUI_ButtonTransferLoadGUI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_ProjectPropertyManager_build
     COMMAND ${CMAKE_COMMAND}
@@ -8343,6 +8849,7 @@ add_custom_target(ServiceLib_ProjectPropertyManager_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PanelXYCalc_build
     COMMAND ${CMAKE_COMMAND}
@@ -8359,6 +8866,7 @@ add_custom_target(GUI_PanelXYCalc_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Camera_CameraSharer_build
     COMMAND ${CMAKE_COMMAND}
@@ -8375,6 +8883,7 @@ add_custom_target(PluginDLL_Camera_CameraSharer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Camera_CameraSharerDLL_build
     COMMAND ${CMAKE_COMMAND}
@@ -8391,6 +8900,7 @@ add_custom_target(PluginDLL_Camera_CameraSharerDLL_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_FrameDef_build
     COMMAND ${CMAKE_COMMAND}
@@ -8407,6 +8917,7 @@ add_custom_target(Algorithm_FrameDef_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_FrameDefImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -8423,6 +8934,7 @@ add_custom_target(GUI_FrameDefImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyFrameDef_build
     COMMAND ${CMAKE_COMMAND}
@@ -8439,6 +8951,7 @@ add_custom_target(GUI_PropertyFrameDef_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SelectResultLotFrame_build
     COMMAND ${CMAKE_COMMAND}
@@ -8455,6 +8968,7 @@ add_custom_target(GUI_SelectResultLotFrame_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowResultFrame_build
     COMMAND ${CMAKE_COMMAND}
@@ -8471,6 +8985,7 @@ add_custom_target(GUI_ShowResultFrame_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ResultDLL_ResultFrameDLL_build
     COMMAND ${CMAKE_COMMAND}
@@ -8487,6 +9002,7 @@ add_custom_target(ResultDLL_ResultFrameDLL_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSwapIn_build
     COMMAND ${CMAKE_COMMAND}
@@ -8503,6 +9019,7 @@ add_custom_target(GUI_ButtonSwapIn_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSwapOut_build
     COMMAND ${CMAKE_COMMAND}
@@ -8519,6 +9036,7 @@ add_custom_target(GUI_ButtonSwapOut_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonInitialize_build
     COMMAND ${CMAKE_COMMAND}
@@ -8535,6 +9053,7 @@ add_custom_target(GUI_ButtonInitialize_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_NetworkSIOServer_build
     COMMAND ${CMAKE_COMMAND}
@@ -8551,6 +9070,7 @@ add_custom_target(PluginDLL_PIO_NetworkSIOServer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_NetworkSIOTestClient_build
     COMMAND ${CMAKE_COMMAND}
@@ -8567,6 +9087,7 @@ add_custom_target(PluginDLL_PIO_NetworkSIOTestClient_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_OCRImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -8583,6 +9104,7 @@ add_custom_target(GUI_OCRImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyOCR_build
     COMMAND ${CMAKE_COMMAND}
@@ -8599,6 +9121,7 @@ add_custom_target(GUI_PropertyOCR_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLoadRelease_build
     COMMAND ${CMAKE_COMMAND}
@@ -8615,6 +9138,7 @@ add_custom_target(GUI_ButtonLoadRelease_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterImageShadingArea_build
     COMMAND ${CMAKE_COMMAND}
@@ -8631,6 +9155,7 @@ add_custom_target(Filter_FilterImageShadingArea_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PushToSavePix_build
     COMMAND ${CMAKE_COMMAND}
@@ -8647,6 +9172,7 @@ add_custom_target(GUI_PushToSavePix_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_Process3D_build
     COMMAND ${CMAKE_COMMAND}
@@ -8663,6 +9189,7 @@ add_custom_target(Algorithm_Process3D_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_Process3DImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -8679,6 +9206,7 @@ add_custom_target(GUI_Process3DImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyProcess3D_build
     COMMAND ${CMAKE_COMMAND}
@@ -8695,6 +9223,7 @@ add_custom_target(GUI_PropertyProcess3D_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonModeAutoIncScanNumber_build
     COMMAND ${CMAKE_COMMAND}
@@ -8711,6 +9240,7 @@ add_custom_target(GUI_ButtonModeAutoIncScanNumber_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonOutlineOffsetWindow_build
     COMMAND ${CMAKE_COMMAND}
@@ -8727,6 +9257,7 @@ add_custom_target(GUI_ButtonOutlineOffsetWindow_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterRemoveNoiseLine_build
     COMMAND ${CMAKE_COMMAND}
@@ -8743,6 +9274,7 @@ add_custom_target(Filter_FilterRemoveNoiseLine_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_LinePatternInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -8759,6 +9291,7 @@ add_custom_target(Algorithm_LinePatternInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_LinePatternImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -8775,6 +9308,7 @@ add_custom_target(GUI_LinePatternImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyLinePattern_build
     COMMAND ${CMAKE_COMMAND}
@@ -8791,6 +9325,7 @@ add_custom_target(GUI_PropertyLinePattern_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_AlignmentFlexArea_build
     COMMAND ${CMAKE_COMMAND}
@@ -8807,6 +9342,7 @@ add_custom_target(Algorithm_AlignmentFlexArea_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AlignmentFlexAreaImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -8823,6 +9359,7 @@ add_custom_target(GUI_AlignmentFlexAreaImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyAlignmentFlexArea_build
     COMMAND ${CMAKE_COMMAND}
@@ -8839,6 +9376,7 @@ add_custom_target(GUI_PropertyAlignmentFlexArea_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterBrightnessLogConvert_build
     COMMAND ${CMAKE_COMMAND}
@@ -8855,6 +9393,7 @@ add_custom_target(Filter_FilterBrightnessLogConvert_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PanelInputInformation_build
     COMMAND ${CMAKE_COMMAND}
@@ -8871,6 +9410,7 @@ add_custom_target(GUI_PanelInputInformation_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShortcutKeyInvisible_build
     COMMAND ${CMAKE_COMMAND}
@@ -8887,6 +9427,7 @@ add_custom_target(GUI_ShortcutKeyInvisible_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_PIOForCameraExecuter_build
     COMMAND ${CMAKE_COMMAND}
@@ -8903,6 +9444,7 @@ add_custom_target(PluginDLL_PIO_PIOForCameraExecuter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PanelXYZSize_build
     COMMAND ${CMAKE_COMMAND}
@@ -8919,6 +9461,7 @@ add_custom_target(GUI_PanelXYZSize_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PanelMaxStock_build
     COMMAND ${CMAKE_COMMAND}
@@ -8935,6 +9478,7 @@ add_custom_target(GUI_PanelMaxStock_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterVBandOneLayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -8951,6 +9495,7 @@ add_custom_target(Filter_FilterVBandOneLayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonAlignmentLargeTransform_build
     COMMAND ${CMAKE_COMMAND}
@@ -8967,6 +9512,7 @@ add_custom_target(GUI_ButtonAlignmentLargeTransform_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowAlignmentResult_build
     COMMAND ${CMAKE_COMMAND}
@@ -8983,6 +9529,7 @@ add_custom_target(GUI_ShowAlignmentResult_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonExecuteMacro_build
     COMMAND ${CMAKE_COMMAND}
@@ -8999,6 +9546,7 @@ add_custom_target(GUI_ButtonExecuteMacro_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SetThresholdByHistogram_build
     COMMAND ${CMAKE_COMMAND}
@@ -9015,6 +9563,7 @@ add_custom_target(GUI_SetThresholdByHistogram_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_MakeShrinkingTable_build
     COMMAND ${CMAKE_COMMAND}
@@ -9031,6 +9580,7 @@ add_custom_target(ServiceLib_MakeShrinkingTable_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ListGenerateChildLibrary_build
     COMMAND ${CMAKE_COMMAND}
@@ -9047,6 +9597,7 @@ add_custom_target(GUI_ListGenerateChildLibrary_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonStartCaptureContinuousLy_build
     COMMAND ${CMAKE_COMMAND}
@@ -9063,6 +9614,7 @@ add_custom_target(GUI_ButtonStartCaptureContinuousLy_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_RealtimeImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -9079,6 +9631,7 @@ add_custom_target(GUI_RealtimeImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Light_LightDLL_CCSControlByLAN_build
     COMMAND ${CMAKE_COMMAND}
@@ -9095,6 +9648,7 @@ add_custom_target(PluginDLL_Light_LightDLL_CCSControlByLAN_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Light_LightDLL_ImacControlByLAN_build
     COMMAND ${CMAKE_COMMAND}
@@ -9111,6 +9665,7 @@ add_custom_target(PluginDLL_Light_LightDLL_ImacControlByLAN_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_MatchShiftRotation_build
     COMMAND ${CMAKE_COMMAND}
@@ -9127,6 +9682,7 @@ add_custom_target(Algorithm_MatchShiftRotation_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MatchShiftRotationImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -9143,6 +9699,7 @@ add_custom_target(GUI_MatchShiftRotationImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyMatchShiftRotation_build
     COMMAND ${CMAKE_COMMAND}
@@ -9159,6 +9716,7 @@ add_custom_target(GUI_PropertyMatchShiftRotation_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DrawHookControlPanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -9175,6 +9733,7 @@ add_custom_target(GUI_DrawHookControlPanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_HookOverlapImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -9191,6 +9750,7 @@ add_custom_target(GUI_HookOverlapImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_HookMeasure_build
     COMMAND ${CMAKE_COMMAND}
@@ -9207,6 +9767,7 @@ add_custom_target(GUI_HookMeasure_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_HookPeaking_build
     COMMAND ${CMAKE_COMMAND}
@@ -9223,6 +9784,7 @@ add_custom_target(GUI_HookPeaking_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_GeneralStackForm_build
     COMMAND ${CMAKE_COMMAND}
@@ -9239,6 +9801,7 @@ add_custom_target(GUI_GeneralStackForm_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSaveBmpJpg_build
     COMMAND ${CMAKE_COMMAND}
@@ -9255,6 +9818,7 @@ add_custom_target(GUI_ButtonSaveBmpJpg_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ChangeTurnTop_build
     COMMAND ${CMAKE_COMMAND}
@@ -9271,6 +9835,7 @@ add_custom_target(GUI_ChangeTurnTop_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_NickInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -9287,6 +9852,7 @@ add_custom_target(Algorithm_NickInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_NickInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -9303,6 +9869,7 @@ add_custom_target(GUI_NickInspectionImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyNickInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -9319,6 +9886,7 @@ add_custom_target(GUI_PropertyNickInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PanelHidable_build
     COMMAND ${CMAKE_COMMAND}
@@ -9335,6 +9903,7 @@ add_custom_target(GUI_PanelHidable_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_NetworkPIOClient_build
     COMMAND ${CMAKE_COMMAND}
@@ -9351,6 +9920,7 @@ add_custom_target(PluginDLL_PIO_NetworkPIOClient_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DotColorMatchingImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -9367,6 +9937,7 @@ add_custom_target(GUI_DotColorMatchingImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyDotColorMatching_build
     COMMAND ${CMAKE_COMMAND}
@@ -9383,6 +9954,7 @@ add_custom_target(GUI_PropertyDotColorMatching_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_DotColorMatching_build
     COMMAND ${CMAKE_COMMAND}
@@ -9399,6 +9971,7 @@ add_custom_target(Algorithm_DotColorMatching_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowMatchShiftRotation_build
     COMMAND ${CMAKE_COMMAND}
@@ -9415,6 +9988,7 @@ add_custom_target(GUI_ShowMatchShiftRotation_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowCurrentLightName_build
     COMMAND ${CMAKE_COMMAND}
@@ -9431,6 +10005,7 @@ add_custom_target(GUI_ShowCurrentLightName_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterBrightnessThresholdConvert_build
     COMMAND ${CMAKE_COMMAND}
@@ -9447,6 +10022,7 @@ add_custom_target(Filter_FilterBrightnessThresholdConvert_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ExecutorOfPixList_build
     COMMAND ${CMAKE_COMMAND}
@@ -9463,6 +10039,7 @@ add_custom_target(GUI_ExecutorOfPixList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ResultDLL_ResultXMLPrintFast_build
     COMMAND ${CMAKE_COMMAND}
@@ -9479,6 +10056,7 @@ add_custom_target(ResultDLL_ResultXMLPrintFast_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_SwitchPhase_build
     COMMAND ${CMAKE_COMMAND}
@@ -9495,6 +10073,7 @@ add_custom_target(Algorithm_SwitchPhase_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertySwitchPhase_build
     COMMAND ${CMAKE_COMMAND}
@@ -9511,6 +10090,7 @@ add_custom_target(GUI_PropertySwitchPhase_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SwitchPhaseImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -9527,6 +10107,7 @@ add_custom_target(GUI_SwitchPhaseImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonToShowCrossLine_build
     COMMAND ${CMAKE_COMMAND}
@@ -9543,6 +10124,7 @@ add_custom_target(GUI_ButtonToShowCrossLine_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowCycleTime_build
     COMMAND ${CMAKE_COMMAND}
@@ -9559,6 +10141,7 @@ add_custom_target(GUI_ShowCycleTime_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_HookDrawRegulationLine_build
     COMMAND ${CMAKE_COMMAND}
@@ -9575,6 +10158,7 @@ add_custom_target(GUI_HookDrawRegulationLine_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLoadMasterDataInPhase_build
     COMMAND ${CMAKE_COMMAND}
@@ -9591,6 +10175,7 @@ add_custom_target(GUI_ButtonLoadMasterDataInPhase_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CopyMirroredTransfer_build
     COMMAND ${CMAKE_COMMAND}
@@ -9607,6 +10192,7 @@ add_custom_target(GUI_CopyMirroredTransfer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowImageList_build
     COMMAND ${CMAKE_COMMAND}
@@ -9623,6 +10209,7 @@ add_custom_target(GUI_ShowImageList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ResultDLL_ResultDLLIntoFile_build
     COMMAND ${CMAKE_COMMAND}
@@ -9639,6 +10226,7 @@ add_custom_target(ResultDLL_ResultDLLIntoFile_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_HoleWallInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -9655,6 +10243,7 @@ add_custom_target(GUI_HoleWallInspectionImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyHoleWallInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -9671,6 +10260,7 @@ add_custom_target(GUI_PropertyHoleWallInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_HoleWallInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -9687,6 +10277,7 @@ add_custom_target(Algorithm_HoleWallInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonGenerateFromGerber_build
     COMMAND ${CMAKE_COMMAND}
@@ -9703,6 +10294,7 @@ add_custom_target(GUI_ButtonGenerateFromGerber_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_RecordMovie_build
     COMMAND ${CMAKE_COMMAND}
@@ -9719,6 +10311,7 @@ add_custom_target(GUI_RecordMovie_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonToSnapImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -9735,6 +10328,7 @@ add_custom_target(GUI_ButtonToSnapImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowItemNameResultSeq_build
     COMMAND ${CMAKE_COMMAND}
@@ -9751,6 +10345,7 @@ add_custom_target(GUI_ShowItemNameResultSeq_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonChange_build
     COMMAND ${CMAKE_COMMAND}
@@ -9767,6 +10362,7 @@ add_custom_target(GUI_ButtonChange_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowThinMetalResultList_build
     COMMAND ${CMAKE_COMMAND}
@@ -9783,6 +10379,7 @@ add_custom_target(GUI_ShowThinMetalResultList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(EditStatusComment_ShowStatusComment_build
     COMMAND ${CMAKE_COMMAND}
@@ -9799,6 +10396,7 @@ add_custom_target(EditStatusComment_ShowStatusComment_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonToShowStatusComment_build
     COMMAND ${CMAKE_COMMAND}
@@ -9815,6 +10413,7 @@ add_custom_target(GUI_ButtonToShowStatusComment_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DentImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -9831,6 +10430,7 @@ add_custom_target(GUI_DentImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyDent_build
     COMMAND ${CMAKE_COMMAND}
@@ -9847,6 +10447,7 @@ add_custom_target(GUI_PropertyDent_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_DentInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -9863,6 +10464,7 @@ add_custom_target(Algorithm_DentInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSelectStackedPage_build
     COMMAND ${CMAKE_COMMAND}
@@ -9879,6 +10481,7 @@ add_custom_target(GUI_ButtonSelectStackedPage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowMultiImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -9895,6 +10498,7 @@ add_custom_target(GUI_ShowMultiImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PanelHide_build
     COMMAND ${CMAKE_COMMAND}
@@ -9911,6 +10515,7 @@ add_custom_target(GUI_PanelHide_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ResultAnalizer_DustReducer_build
     COMMAND ${CMAKE_COMMAND}
@@ -9927,6 +10532,7 @@ add_custom_target(ResultAnalizer_DustReducer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_CopyAndExecute_build
     COMMAND ${CMAKE_COMMAND}
@@ -9943,6 +10549,7 @@ add_custom_target(ServiceLib_CopyAndExecute_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ResultAnalizer_DustReducerAI_build
     COMMAND ${CMAKE_COMMAND}
@@ -9959,6 +10566,7 @@ add_custom_target(ResultAnalizer_DustReducerAI_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonClearMasterInfo_build
     COMMAND ${CMAKE_COMMAND}
@@ -9975,6 +10583,7 @@ add_custom_target(GUI_ButtonClearMasterInfo_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_HookLearningRegistOkNg_build
     COMMAND ${CMAKE_COMMAND}
@@ -9991,6 +10600,7 @@ add_custom_target(GUI_HookLearningRegistOkNg_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(InspectionPlayer_InspectionFastPlayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -10007,6 +10617,7 @@ add_custom_target(InspectionPlayer_InspectionFastPlayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_NetworkPIOVirtual_build
     COMMAND ${CMAKE_COMMAND}
@@ -10023,6 +10634,7 @@ add_custom_target(PluginDLL_PIO_NetworkPIOVirtual_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_NetworkPIOVirtualCommunicator_build
     COMMAND ${CMAKE_COMMAND}
@@ -10039,6 +10651,7 @@ add_custom_target(PluginDLL_PIO_NetworkPIOVirtualCommunicator_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_VideoController_build
     COMMAND ${CMAKE_COMMAND}
@@ -10055,6 +10668,7 @@ add_custom_target(GUI_VideoController_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PlayVideoWidget_build
     COMMAND ${CMAKE_COMMAND}
@@ -10071,6 +10685,7 @@ add_custom_target(GUI_PlayVideoWidget_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonAutoGenerateMeasureLineMove_build
     COMMAND ${CMAKE_COMMAND}
@@ -10087,6 +10702,7 @@ add_custom_target(GUI_ButtonAutoGenerateMeasureLineMove_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyDXFOperation_build
     COMMAND ${CMAKE_COMMAND}
@@ -10103,6 +10719,7 @@ add_custom_target(GUI_PropertyDXFOperation_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DXFOperationImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -10119,6 +10736,7 @@ add_custom_target(GUI_DXFOperationImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_DXFOperation_build
     COMMAND ${CMAKE_COMMAND}
@@ -10135,6 +10753,7 @@ add_custom_target(Algorithm_DXFOperation_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowFileListBrowser_build
     COMMAND ${CMAKE_COMMAND}
@@ -10151,6 +10770,7 @@ add_custom_target(GUI_ShowFileListBrowser_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonExecuteCommand_build
     COMMAND ${CMAKE_COMMAND}
@@ -10167,6 +10787,7 @@ add_custom_target(GUI_ButtonExecuteCommand_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_RelayLCUS2_build
     COMMAND ${CMAKE_COMMAND}
@@ -10183,6 +10804,7 @@ add_custom_target(PluginDLL_PIO_RelayLCUS2_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowMemory_build
     COMMAND ${CMAKE_COMMAND}
@@ -10199,6 +10821,7 @@ add_custom_target(GUI_ShowMemory_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ResultDLL_ResultSaveTargetImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -10215,6 +10838,7 @@ add_custom_target(ResultDLL_ResultSaveTargetImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonShowStockedImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -10231,6 +10855,7 @@ add_custom_target(GUI_ButtonShowStockedImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_SharedPIO_build
     COMMAND ${CMAKE_COMMAND}
@@ -10247,6 +10872,7 @@ add_custom_target(PluginDLL_PIO_SharedPIO_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonShowSnapImageFileName_build
     COMMAND ${CMAKE_COMMAND}
@@ -10263,6 +10889,7 @@ add_custom_target(GUI_ButtonShowSnapImageFileName_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonResetThresholdDotColorMatching_build
     COMMAND ${CMAKE_COMMAND}
@@ -10279,6 +10906,7 @@ add_custom_target(GUI_ButtonResetThresholdDotColorMatching_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowCurrentTime_build
     COMMAND ${CMAKE_COMMAND}
@@ -10295,6 +10923,7 @@ add_custom_target(GUI_ShowCurrentTime_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonCopyAnyPhasePageLayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -10311,6 +10940,7 @@ add_custom_target(GUI_ButtonCopyAnyPhasePageLayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_ColorDifference_build
     COMMAND ${CMAKE_COMMAND}
@@ -10327,6 +10957,7 @@ add_custom_target(Algorithm_ColorDifference_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ColorDifferenceImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -10343,6 +10974,7 @@ add_custom_target(GUI_ColorDifferenceImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyColorDifference_build
     COMMAND ${CMAKE_COMMAND}
@@ -10359,6 +10991,7 @@ add_custom_target(GUI_PropertyColorDifference_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_AlignmentProjection_build
     COMMAND ${CMAKE_COMMAND}
@@ -10375,6 +11008,7 @@ add_custom_target(Algorithm_AlignmentProjection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AlignmentProjectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -10391,6 +11025,7 @@ add_custom_target(GUI_AlignmentProjectionImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyAlignmentProjection_build
     COMMAND ${CMAKE_COMMAND}
@@ -10407,6 +11042,7 @@ add_custom_target(GUI_PropertyAlignmentProjection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SelectStackedWindows_build
     COMMAND ${CMAKE_COMMAND}
@@ -10423,6 +11059,7 @@ add_custom_target(GUI_SelectStackedWindows_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_InsertTelop_build
     COMMAND ${CMAKE_COMMAND}
@@ -10439,6 +11076,7 @@ add_custom_target(GUI_InsertTelop_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ImageBank_build
     COMMAND ${CMAKE_COMMAND}
@@ -10455,6 +11093,7 @@ add_custom_target(GUI_ImageBank_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationResultList_build
     COMMAND ${CMAKE_COMMAND}
@@ -10471,6 +11110,7 @@ add_custom_target(Integrator_GUI_IntegrationResultList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_IntegrationPlayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -10487,6 +11127,7 @@ add_custom_target(Integrator_IntegrationPlayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_EditParamIntegrationMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -10503,6 +11144,7 @@ add_custom_target(Integrator_EditParamIntegrationMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationInputLot_build
     COMMAND ${CMAKE_COMMAND}
@@ -10519,6 +11161,7 @@ add_custom_target(Integrator_GUI_IntegrationInputLot_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationLoadMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -10535,6 +11178,7 @@ add_custom_target(Integrator_GUI_IntegrationLoadMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationSaveMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -10551,6 +11195,7 @@ add_custom_target(Integrator_GUI_IntegrationSaveMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationHistory_build
     COMMAND ${CMAKE_COMMAND}
@@ -10567,6 +11212,7 @@ add_custom_target(Integrator_GUI_IntegrationHistory_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationShowOKNG_build
     COMMAND ${CMAKE_COMMAND}
@@ -10583,6 +11229,7 @@ add_custom_target(Integrator_GUI_IntegrationShowOKNG_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationShowTotal_build
     COMMAND ${CMAKE_COMMAND}
@@ -10599,6 +11246,7 @@ add_custom_target(Integrator_GUI_IntegrationShowTotal_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationThumbnail_build
     COMMAND ${CMAKE_COMMAND}
@@ -10615,6 +11263,7 @@ add_custom_target(Integrator_GUI_IntegrationThumbnail_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationShowSavedImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -10631,6 +11280,7 @@ add_custom_target(Integrator_GUI_IntegrationShowSavedImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationShowHistoryLoadImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -10647,6 +11297,7 @@ add_custom_target(Integrator_GUI_IntegrationShowHistoryLoadImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationSelectLot_build
     COMMAND ${CMAKE_COMMAND}
@@ -10663,6 +11314,7 @@ add_custom_target(Integrator_GUI_IntegrationSelectLot_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationSelectMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -10679,6 +11331,7 @@ add_custom_target(Integrator_GUI_IntegrationSelectMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationShowRelationInfo_build
     COMMAND ${CMAKE_COMMAND}
@@ -10695,6 +11348,7 @@ add_custom_target(Integrator_GUI_IntegrationShowRelationInfo_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationShowNGArrow_build
     COMMAND ${CMAKE_COMMAND}
@@ -10711,6 +11365,7 @@ add_custom_target(Integrator_GUI_IntegrationShowNGArrow_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationDisplayMasterImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -10727,6 +11382,7 @@ add_custom_target(Integrator_GUI_IntegrationDisplayMasterImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_OperateThroughNet_build
     COMMAND ${CMAKE_COMMAND}
@@ -10743,6 +11399,7 @@ add_custom_target(Integrator_GUI_OperateThroughNet_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationShowConnectionState_build
     COMMAND ${CMAKE_COMMAND}
@@ -10759,6 +11416,7 @@ add_custom_target(Integrator_GUI_IntegrationShowConnectionState_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationUpdateHistoryList_build
     COMMAND ${CMAKE_COMMAND}
@@ -10775,6 +11433,7 @@ add_custom_target(Integrator_GUI_IntegrationUpdateHistoryList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationShowName_build
     COMMAND ${CMAKE_COMMAND}
@@ -10791,6 +11450,7 @@ add_custom_target(Integrator_GUI_IntegrationShowName_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationStackNGThumbnail_build
     COMMAND ${CMAKE_COMMAND}
@@ -10807,6 +11467,7 @@ add_custom_target(Integrator_GUI_IntegrationStackNGThumbnail_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_SignalResultDoneToMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -10823,6 +11484,7 @@ add_custom_target(Integrator_GUI_SignalResultDoneToMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationNewMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -10839,6 +11501,7 @@ add_custom_target(Integrator_GUI_IntegrationNewMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationClose_build
     COMMAND ${CMAKE_COMMAND}
@@ -10855,6 +11518,7 @@ add_custom_target(Integrator_GUI_IntegrationClose_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationChangePhase_build
     COMMAND ${CMAKE_COMMAND}
@@ -10871,6 +11535,7 @@ add_custom_target(Integrator_GUI_IntegrationChangePhase_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationCopyImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -10887,6 +11552,7 @@ add_custom_target(Integrator_GUI_IntegrationCopyImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationShowNGMap_build
     COMMAND ${CMAKE_COMMAND}
@@ -10903,6 +11569,7 @@ add_custom_target(Integrator_GUI_IntegrationShowNGMap_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationShowRunningTrend_build
     COMMAND ${CMAKE_COMMAND}
@@ -10919,6 +11586,7 @@ add_custom_target(Integrator_GUI_IntegrationShowRunningTrend_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationShowMemory_build
     COMMAND ${CMAKE_COMMAND}
@@ -10935,6 +11603,7 @@ add_custom_target(Integrator_GUI_IntegrationShowMemory_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationClearNGThumbnail_build
     COMMAND ${CMAKE_COMMAND}
@@ -10951,6 +11620,7 @@ add_custom_target(Integrator_GUI_IntegrationClearNGThumbnail_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowSwitchPhaseResultList_build
     COMMAND ${CMAKE_COMMAND}
@@ -10967,6 +11637,7 @@ add_custom_target(GUI_ShowSwitchPhaseResultList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_StartCaptureOnlyTarget_build
     COMMAND ${CMAKE_COMMAND}
@@ -10983,6 +11654,7 @@ add_custom_target(GUI_StartCaptureOnlyTarget_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_StartScanningAgain_build
     COMMAND ${CMAKE_COMMAND}
@@ -10999,6 +11671,7 @@ add_custom_target(GUI_StartScanningAgain_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonShowResultAnalizer_build
     COMMAND ${CMAKE_COMMAND}
@@ -11015,6 +11688,7 @@ add_custom_target(GUI_ButtonShowResultAnalizer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowTrialInformation_build
     COMMAND ${CMAKE_COMMAND}
@@ -11031,6 +11705,7 @@ add_custom_target(GUI_ShowTrialInformation_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_StartCloseOnce_build
     COMMAND ${CMAKE_COMMAND}
@@ -11047,6 +11722,7 @@ add_custom_target(ServiceLib_StartCloseOnce_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShiftImsgeInLayerPage_build
     COMMAND ${CMAKE_COMMAND}
@@ -11063,6 +11739,7 @@ add_custom_target(GUI_ShiftImsgeInLayerPage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSwitchPhaseSynchronize_build
     COMMAND ${CMAKE_COMMAND}
@@ -11079,6 +11756,7 @@ add_custom_target(GUI_ButtonSwitchPhaseSynchronize_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonTransferRequireImageData_build
     COMMAND ${CMAKE_COMMAND}
@@ -11095,6 +11773,7 @@ add_custom_target(GUI_ButtonTransferRequireImageData_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(XmlServer_XMLServerV3_XMLServerV3_build
     COMMAND ${CMAKE_COMMAND}
@@ -11111,6 +11790,7 @@ add_custom_target(XmlServer_XMLServerV3_XMLServerV3_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_LoadImageInAnyPageLayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -11127,6 +11807,7 @@ add_custom_target(GUI_LoadImageInAnyPageLayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_Splitter_build
     COMMAND ${CMAKE_COMMAND}
@@ -11143,6 +11824,7 @@ add_custom_target(GUI_Splitter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PanelResolutionSize_build
     COMMAND ${CMAKE_COMMAND}
@@ -11159,6 +11841,7 @@ add_custom_target(GUI_PanelResolutionSize_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonTransferSendImageData_build
     COMMAND ${CMAKE_COMMAND}
@@ -11175,6 +11858,7 @@ add_custom_target(GUI_ButtonTransferSendImageData_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_MakeAverageImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -11191,6 +11875,7 @@ add_custom_target(Algorithm_MakeAverageImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MakeAverageImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -11207,6 +11892,7 @@ add_custom_target(GUI_MakeAverageImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyMakeAverageImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -11223,6 +11909,7 @@ add_custom_target(GUI_PropertyMakeAverageImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonAutoScanningMode_build
     COMMAND ${CMAKE_COMMAND}
@@ -11239,6 +11926,7 @@ add_custom_target(GUI_ButtonAutoScanningMode_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowThresholdLevel_build
     COMMAND ${CMAKE_COMMAND}
@@ -11255,6 +11943,7 @@ add_custom_target(GUI_ShowThresholdLevel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationShowThresholdLevel_build
     COMMAND ${CMAKE_COMMAND}
@@ -11271,6 +11960,7 @@ add_custom_target(Integrator_GUI_IntegrationShowThresholdLevel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_Counter_build
     COMMAND ${CMAKE_COMMAND}
@@ -11287,6 +11977,7 @@ add_custom_target(Algorithm_Counter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CounterImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -11303,6 +11994,7 @@ add_custom_target(GUI_CounterImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyCounter_build
     COMMAND ${CMAKE_COMMAND}
@@ -11319,6 +12011,7 @@ add_custom_target(GUI_PropertyCounter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationChangeCameraSetting_build
     COMMAND ${CMAKE_COMMAND}
@@ -11335,6 +12028,7 @@ add_custom_target(Integrator_GUI_IntegrationChangeCameraSetting_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSaveScreenCapture_build
     COMMAND ${CMAKE_COMMAND}
@@ -11351,6 +12045,7 @@ add_custom_target(GUI_ButtonSaveScreenCapture_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowBindNGNamingList_build
     COMMAND ${CMAKE_COMMAND}
@@ -11367,6 +12062,7 @@ add_custom_target(GUI_ShowBindNGNamingList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_SavePartialImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -11383,6 +12079,7 @@ add_custom_target(Algorithm_SavePartialImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SavePartialImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -11399,6 +12096,7 @@ add_custom_target(GUI_SavePartialImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonShadowToShow_build
     COMMAND ${CMAKE_COMMAND}
@@ -11415,6 +12113,7 @@ add_custom_target(GUI_ButtonShadowToShow_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ShadowTree_ShrinkedInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -11431,6 +12130,7 @@ add_custom_target(ShadowTree_ShrinkedInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ResultAnalizer_ResultCategorizer_build
     COMMAND ${CMAKE_COMMAND}
@@ -11447,6 +12147,7 @@ add_custom_target(ResultAnalizer_ResultCategorizer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayNGListCategorized_build
     COMMAND ${CMAKE_COMMAND}
@@ -11463,6 +12164,7 @@ add_custom_target(GUI_DisplayNGListCategorized_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_Raster_build
     COMMAND ${CMAKE_COMMAND}
@@ -11479,6 +12181,7 @@ add_custom_target(Algorithm_Raster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyRaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -11495,6 +12198,7 @@ add_custom_target(GUI_PropertyRaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_RasterImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -11511,6 +12215,7 @@ add_custom_target(GUI_RasterImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ShadowTree_ShrinkLowHigh_build
     COMMAND ${CMAKE_COMMAND}
@@ -11527,6 +12232,7 @@ add_custom_target(ShadowTree_ShrinkLowHigh_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationNGCategorizedList_build
     COMMAND ${CMAKE_COMMAND}
@@ -11543,6 +12249,7 @@ add_custom_target(Integrator_GUI_IntegrationNGCategorizedList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ChangeServer_CheckPort_build
     COMMAND ${CMAKE_COMMAND}
@@ -11559,6 +12266,7 @@ add_custom_target(ChangeServer_CheckPort_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationImageBank_build
     COMMAND ${CMAKE_COMMAND}
@@ -11575,6 +12283,7 @@ add_custom_target(Integrator_GUI_IntegrationImageBank_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonCreateThresholdLevel_build
     COMMAND ${CMAKE_COMMAND}
@@ -11591,6 +12300,7 @@ add_custom_target(GUI_ButtonCreateThresholdLevel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationCreateThreshold_build
     COMMAND ${CMAKE_COMMAND}
@@ -11607,6 +12317,7 @@ add_custom_target(Integrator_GUI_IntegrationCreateThreshold_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CameraChangeQuickProperty_build
     COMMAND ${CMAKE_COMMAND}
@@ -11623,6 +12334,7 @@ add_custom_target(GUI_CameraChangeQuickProperty_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationCameraChangeQuickProperty_build
     COMMAND ${CMAKE_COMMAND}
@@ -11639,6 +12351,7 @@ add_custom_target(Integrator_GUI_IntegrationCameraChangeQuickProperty_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MakeShading_build
     COMMAND ${CMAKE_COMMAND}
@@ -11655,6 +12368,7 @@ add_custom_target(GUI_MakeShading_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterLineShading_build
     COMMAND ${CMAKE_COMMAND}
@@ -11671,6 +12385,7 @@ add_custom_target(Filter_FilterLineShading_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CopyByControlPoints_build
     COMMAND ${CMAKE_COMMAND}
@@ -11687,6 +12402,7 @@ add_custom_target(GUI_CopyByControlPoints_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSettingControlPointsForPages_build
     COMMAND ${CMAKE_COMMAND}
@@ -11703,6 +12419,7 @@ add_custom_target(GUI_ButtonSettingControlPointsForPages_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonFilterSwitch_build
     COMMAND ${CMAKE_COMMAND}
@@ -11719,6 +12436,7 @@ add_custom_target(GUI_ButtonFilterSwitch_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonLoadFilterConfig_build
     COMMAND ${CMAKE_COMMAND}
@@ -11735,6 +12453,7 @@ add_custom_target(GUI_ButtonLoadFilterConfig_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterImageShadingDynamic_build
     COMMAND ${CMAKE_COMMAND}
@@ -11751,6 +12470,7 @@ add_custom_target(Filter_FilterImageShadingDynamic_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_Palletize_build
     COMMAND ${CMAKE_COMMAND}
@@ -11767,6 +12487,7 @@ add_custom_target(Algorithm_Palletize_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PalletizeImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -11783,6 +12504,7 @@ add_custom_target(GUI_PalletizeImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyPalletize_build
     COMMAND ${CMAKE_COMMAND}
@@ -11799,6 +12521,7 @@ add_custom_target(GUI_PropertyPalletize_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayProductivity_build
     COMMAND ${CMAKE_COMMAND}
@@ -11815,6 +12538,7 @@ add_custom_target(GUI_DisplayProductivity_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSaveGUILanguage_build
     COMMAND ${CMAKE_COMMAND}
@@ -11831,6 +12555,7 @@ add_custom_target(GUI_ButtonSaveGUILanguage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_MultiSpectral_build
     COMMAND ${CMAKE_COMMAND}
@@ -11847,6 +12572,7 @@ add_custom_target(Algorithm_MultiSpectral_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_MultiSpectralImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -11863,6 +12589,7 @@ add_custom_target(GUI_MultiSpectralImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyMultiSpectral_build
     COMMAND ${CMAKE_COMMAND}
@@ -11879,6 +12606,7 @@ add_custom_target(GUI_PropertyMultiSpectral_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowSelectLayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -11895,6 +12623,7 @@ add_custom_target(GUI_ShowSelectLayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonResetCamera_build
     COMMAND ${CMAKE_COMMAND}
@@ -11911,6 +12640,7 @@ add_custom_target(GUI_ButtonResetCamera_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_RasterInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -11927,6 +12657,7 @@ add_custom_target(Algorithm_RasterInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyRasterInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -11943,6 +12674,7 @@ add_custom_target(GUI_PropertyRasterInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_RasterInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -11959,6 +12691,7 @@ add_custom_target(GUI_RasterInspectionImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_RepeatControl_build
     COMMAND ${CMAKE_COMMAND}
@@ -11975,6 +12708,7 @@ add_custom_target(Algorithm_RepeatControl_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyRepeatControl_build
     COMMAND ${CMAKE_COMMAND}
@@ -11991,6 +12725,7 @@ add_custom_target(GUI_PropertyRepeatControl_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_RepeatControlImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -12007,6 +12742,7 @@ add_custom_target(GUI_RepeatControlImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationButtonCreateRepeatControl_build
     COMMAND ${CMAKE_COMMAND}
@@ -12023,6 +12759,7 @@ add_custom_target(Integrator_GUI_IntegrationButtonCreateRepeatControl_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationCalibrateCamera_build
     COMMAND ${CMAKE_COMMAND}
@@ -12039,6 +12776,7 @@ add_custom_target(Integrator_GUI_IntegrationCalibrateCamera_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonCalibrateCamera_build
     COMMAND ${CMAKE_COMMAND}
@@ -12055,6 +12793,7 @@ add_custom_target(GUI_ButtonCalibrateCamera_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonShiftImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -12071,6 +12810,7 @@ add_custom_target(GUI_ButtonShiftImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationStopUpdateThumbnail_build
     COMMAND ${CMAKE_COMMAND}
@@ -12087,6 +12827,7 @@ add_custom_target(Integrator_GUI_IntegrationStopUpdateThumbnail_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationCameraAdjustment_build
     COMMAND ${CMAKE_COMMAND}
@@ -12103,6 +12844,7 @@ add_custom_target(Integrator_GUI_IntegrationCameraAdjustment_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterShiftVBand_build
     COMMAND ${CMAKE_COMMAND}
@@ -12119,6 +12861,7 @@ add_custom_target(Filter_FilterShiftVBand_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowMeasureHolePosResultList_build
     COMMAND ${CMAKE_COMMAND}
@@ -12135,6 +12878,7 @@ add_custom_target(GUI_ShowMeasureHolePosResultList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowResultDetail_build
     COMMAND ${CMAKE_COMMAND}
@@ -12151,6 +12895,7 @@ add_custom_target(GUI_ShowResultDetail_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_LearningCommandPanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -12167,6 +12912,7 @@ add_custom_target(GUI_LearningCommandPanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterConvertResolution_build
     COMMAND ${CMAKE_COMMAND}
@@ -12183,6 +12929,7 @@ add_custom_target(Filter_FilterConvertResolution_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonEnableFilter_build
     COMMAND ${CMAKE_COMMAND}
@@ -12199,6 +12946,7 @@ add_custom_target(GUI_ButtonEnableFilter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonConvertColorDistribution_build
     COMMAND ${CMAKE_COMMAND}
@@ -12215,6 +12963,7 @@ add_custom_target(GUI_ButtonConvertColorDistribution_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonAlignmentOffset_build
     COMMAND ${CMAKE_COMMAND}
@@ -12231,6 +12980,7 @@ add_custom_target(GUI_ButtonAlignmentOffset_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_AngleInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -12247,6 +12997,7 @@ add_custom_target(Algorithm_AngleInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SetAngleInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -12263,6 +13014,7 @@ add_custom_target(GUI_SetAngleInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowResultAngleInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -12279,6 +13031,7 @@ add_custom_target(GUI_ShowResultAngleInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_ReplaceImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -12295,6 +13048,7 @@ add_custom_target(Algorithm_ReplaceImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonReplaceImageControl_build
     COMMAND ${CMAKE_COMMAND}
@@ -12311,6 +13065,7 @@ add_custom_target(GUI_ButtonReplaceImageControl_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyReplaceImage_build
     COMMAND ${CMAKE_COMMAND}
@@ -12327,6 +13082,7 @@ add_custom_target(GUI_PropertyReplaceImage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ReplaceImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -12343,6 +13099,7 @@ add_custom_target(GUI_ReplaceImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_AutoGenerator_build
     COMMAND ${CMAKE_COMMAND}
@@ -12359,6 +13116,7 @@ add_custom_target(Integrator_GUI_AutoGenerator_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterShiftByLayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -12375,6 +13133,7 @@ add_custom_target(Filter_FilterShiftByLayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyRasterReference_build
     COMMAND ${CMAKE_COMMAND}
@@ -12391,6 +13150,7 @@ add_custom_target(GUI_PropertyRasterReference_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_RasterReferenceImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -12407,6 +13167,7 @@ add_custom_target(GUI_RasterReferenceImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(AutoStart_AutoReStart_build
     COMMAND ${CMAKE_COMMAND}
@@ -12423,6 +13184,7 @@ add_custom_target(AutoStart_AutoReStart_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_ShiftMark_build
     COMMAND ${CMAKE_COMMAND}
@@ -12439,6 +13201,7 @@ add_custom_target(Algorithm_ShiftMark_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterDynamicBrightness_build
     COMMAND ${CMAKE_COMMAND}
@@ -12455,6 +13218,7 @@ add_custom_target(Filter_FilterDynamicBrightness_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyShiftMark_build
     COMMAND ${CMAKE_COMMAND}
@@ -12471,6 +13235,7 @@ add_custom_target(GUI_PropertyShiftMark_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShiftMarkImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -12487,6 +13252,7 @@ add_custom_target(GUI_ShiftMarkImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationButtonCopyAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
@@ -12503,6 +13269,7 @@ add_custom_target(Integrator_GUI_IntegrationButtonCopyAlgorithm_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationButtonLoadAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
@@ -12519,6 +13286,7 @@ add_custom_target(Integrator_GUI_IntegrationButtonLoadAlgorithm_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationButtonSaveAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
@@ -12535,6 +13303,7 @@ add_custom_target(Integrator_GUI_IntegrationButtonSaveAlgorithm_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonShowInPlayer_build
     COMMAND ${CMAKE_COMMAND}
@@ -12551,6 +13320,7 @@ add_custom_target(GUI_ButtonShowInPlayer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterMergeColor_build
     COMMAND ${CMAKE_COMMAND}
@@ -12567,6 +13337,7 @@ add_custom_target(Filter_FilterMergeColor_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonAddSubPage_build
     COMMAND ${CMAKE_COMMAND}
@@ -12583,6 +13354,7 @@ add_custom_target(GUI_ButtonAddSubPage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterReduceVStripe_build
     COMMAND ${CMAKE_COMMAND}
@@ -12599,6 +13371,7 @@ add_custom_target(Filter_FilterReduceVStripe_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationSettingLight_build
     COMMAND ${CMAKE_COMMAND}
@@ -12615,6 +13388,7 @@ add_custom_target(Integrator_GUI_IntegrationSettingLight_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Light_LightDLL_CCSControlByLANVer2_build
     COMMAND ${CMAKE_COMMAND}
@@ -12631,6 +13405,7 @@ add_custom_target(PluginDLL_Light_LightDLL_CCSControlByLANVer2_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_CheckDataValidation_build
     COMMAND ${CMAKE_COMMAND}
@@ -12647,6 +13422,7 @@ add_custom_target(Algorithm_CheckDataValidation_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_CheckDataValidationImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -12663,6 +13439,7 @@ add_custom_target(GUI_CheckDataValidationImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyCheckDataValidation_build
     COMMAND ${CMAKE_COMMAND}
@@ -12679,6 +13456,7 @@ add_custom_target(GUI_PropertyCheckDataValidation_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_DisplayTargetList_build
     COMMAND ${CMAKE_COMMAND}
@@ -12695,6 +13473,7 @@ add_custom_target(GUI_DisplayTargetList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_World3D_build
     COMMAND ${CMAKE_COMMAND}
@@ -12711,6 +13490,7 @@ add_custom_target(Algorithm_World3D_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_RobotActionEditPanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -12727,6 +13507,7 @@ add_custom_target(GUI_RobotActionEditPanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyRobotAction_build
     COMMAND ${CMAKE_COMMAND}
@@ -12743,6 +13524,7 @@ add_custom_target(GUI_PropertyRobotAction_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowRobotActivity_build
     COMMAND ${CMAKE_COMMAND}
@@ -12759,6 +13541,7 @@ add_custom_target(GUI_ShowRobotActivity_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_ColorCorrector_build
     COMMAND ${CMAKE_COMMAND}
@@ -12775,6 +13558,7 @@ add_custom_target(Algorithm_ColorCorrector_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ColorCorrectorImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -12791,6 +13575,7 @@ add_custom_target(GUI_ColorCorrectorImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyColorCorrector_build
     COMMAND ${CMAKE_COMMAND}
@@ -12807,6 +13592,7 @@ add_custom_target(GUI_PropertyColorCorrector_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationButtonGeneral_build
     COMMAND ${CMAKE_COMMAND}
@@ -12823,6 +13609,7 @@ add_custom_target(Integrator_GUI_IntegrationButtonGeneral_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyWorld3D_build
     COMMAND ${CMAKE_COMMAND}
@@ -12839,6 +13626,7 @@ add_custom_target(GUI_PropertyWorld3D_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_World3DImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -12855,6 +13643,7 @@ add_custom_target(GUI_World3DImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ListSelectFixedPage_build
     COMMAND ${CMAKE_COMMAND}
@@ -12871,6 +13660,7 @@ add_custom_target(GUI_ListSelectFixedPage_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SetAlignmentLargeHeadLine_build
     COMMAND ${CMAKE_COMMAND}
@@ -12887,6 +13677,7 @@ add_custom_target(GUI_SetAlignmentLargeHeadLine_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonGenerateMaskFromBackGround_build
     COMMAND ${CMAKE_COMMAND}
@@ -12903,6 +13694,7 @@ add_custom_target(GUI_ButtonGenerateMaskFromBackGround_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_AlignmentBlock_build
     COMMAND ${CMAKE_COMMAND}
@@ -12919,6 +13711,7 @@ add_custom_target(Algorithm_AlignmentBlock_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AlignmentBlockImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -12935,6 +13728,7 @@ add_custom_target(GUI_AlignmentBlockImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyAlignmentBlock_build
     COMMAND ${CMAKE_COMMAND}
@@ -12951,6 +13745,7 @@ add_custom_target(GUI_PropertyAlignmentBlock_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowThresholdSlideBar_build
     COMMAND ${CMAKE_COMMAND}
@@ -12967,6 +13762,7 @@ add_custom_target(GUI_ShowThresholdSlideBar_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationLocalBind_build
     COMMAND ${CMAKE_COMMAND}
@@ -12983,6 +13779,7 @@ add_custom_target(Integrator_GUI_IntegrationLocalBind_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonRaiseOtherProcess_build
     COMMAND ${CMAKE_COMMAND}
@@ -12999,6 +13796,7 @@ add_custom_target(GUI_ButtonRaiseOtherProcess_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonReplaceColorInLibID_build
     COMMAND ${CMAKE_COMMAND}
@@ -13015,6 +13813,7 @@ add_custom_target(GUI_ButtonReplaceColorInLibID_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationModifyMaster_build
     COMMAND ${CMAKE_COMMAND}
@@ -13031,6 +13830,7 @@ add_custom_target(Integrator_GUI_IntegrationModifyMaster_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Integrator_GUI_IntegrationStackMultiNGThumbnail_build
     COMMAND ${CMAKE_COMMAND}
@@ -13047,6 +13847,7 @@ add_custom_target(Integrator_GUI_IntegrationStackMultiNGThumbnail_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Filter_FilterMatchColorBandDynamically_build
     COMMAND ${CMAKE_COMMAND}
@@ -13063,6 +13864,7 @@ add_custom_target(Filter_FilterMatchColorBandDynamically_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Camera_CameraMVSGigE_build
     COMMAND ${CMAKE_COMMAND}
@@ -13079,6 +13881,7 @@ add_custom_target(PluginDLL_Camera_CameraMVSGigE_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_FlatInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -13095,6 +13898,7 @@ add_custom_target(GUI_FlatInspectionImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyFlatInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -13111,6 +13915,7 @@ add_custom_target(GUI_PropertyFlatInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Camera_CameraFromLoadedImages_build
     COMMAND ${CMAKE_COMMAND}
@@ -13127,6 +13932,7 @@ add_custom_target(PluginDLL_Camera_CameraFromLoadedImages_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonSaveInitialLoadGUIData_build
     COMMAND ${CMAKE_COMMAND}
@@ -13143,6 +13949,7 @@ add_custom_target(GUI_ButtonSaveInitialLoadGUIData_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_SetAutoThresholdByHistogram_build
     COMMAND ${CMAKE_COMMAND}
@@ -13159,6 +13966,7 @@ add_custom_target(GUI_SetAutoThresholdByHistogram_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_FlatInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -13175,6 +13983,7 @@ add_custom_target(Algorithm_FlatInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Camera_CameraMVSUSB_build
     COMMAND ${CMAKE_COMMAND}
@@ -13191,6 +14000,7 @@ add_custom_target(PluginDLL_Camera_CameraMVSUSB_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ServiceLib_CheckBoard_build
     COMMAND ${CMAKE_COMMAND}
@@ -13207,6 +14017,7 @@ add_custom_target(ServiceLib_CheckBoard_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Camera_CameraQtUSBStandard_build
     COMMAND ${CMAKE_COMMAND}
@@ -13223,6 +14034,7 @@ add_custom_target(PluginDLL_Camera_CameraQtUSBStandard_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ButtonUpdateAllByHistogram_build
     COMMAND ${CMAKE_COMMAND}
@@ -13239,6 +14051,7 @@ add_custom_target(GUI_ButtonUpdateAllByHistogram_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowFPSInCamera_build
     COMMAND ${CMAKE_COMMAND}
@@ -13255,6 +14068,7 @@ add_custom_target(GUI_ShowFPSInCamera_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_RecordMoiveWinExe_build
     COMMAND ${CMAKE_COMMAND}
@@ -13271,6 +14085,7 @@ add_custom_target(GUI_RecordMoiveWinExe_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowOCR_build
     COMMAND ${CMAKE_COMMAND}
@@ -13287,6 +14102,7 @@ add_custom_target(GUI_ShowOCR_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Camera_CameraMVSLinear_build
     COMMAND ${CMAKE_COMMAND}
@@ -13303,6 +14119,7 @@ add_custom_target(PluginDLL_Camera_CameraMVSLinear_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Light_LightDLL_LightHIKRobotLAN_build
     COMMAND ${CMAKE_COMMAND}
@@ -13319,6 +14136,7 @@ add_custom_target(PluginDLL_Light_LightDLL_LightHIKRobotLAN_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_GIOHIKRobotCamera_build
     COMMAND ${CMAKE_COMMAND}
@@ -13335,6 +14153,7 @@ add_custom_target(PluginDLL_PIO_GIOHIKRobotCamera_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ChangeCameraByInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -13351,6 +14170,7 @@ add_custom_target(GUI_ChangeCameraByInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_PixelInspection_build
     COMMAND ${CMAKE_COMMAND}
@@ -13367,6 +14187,7 @@ add_custom_target(Algorithm_PixelInspection_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowColorDifferenceResultList_build
     COMMAND ${CMAKE_COMMAND}
@@ -13383,6 +14204,7 @@ add_custom_target(GUI_ShowColorDifferenceResultList_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_XRay3D_build
     COMMAND ${CMAKE_COMMAND}
@@ -13399,6 +14221,7 @@ add_custom_target(Algorithm_XRay3D_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_XRay3DImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -13415,6 +14238,7 @@ add_custom_target(GUI_XRay3DImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyXRay3D_build
     COMMAND ${CMAKE_COMMAND}
@@ -13431,6 +14255,7 @@ add_custom_target(GUI_PropertyXRay3D_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_ShowColorDifferenceEditManual_build
     COMMAND ${CMAKE_COMMAND}
@@ -13447,6 +14272,7 @@ add_custom_target(GUI_ShowColorDifferenceEditManual_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(ResultDLL_ResultWriteCSVBarcodeLine_build
     COMMAND ${CMAKE_COMMAND}
@@ -13463,6 +14289,7 @@ add_custom_target(ResultDLL_ResultWriteCSVBarcodeLine_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_RobotAction_build
     COMMAND ${CMAKE_COMMAND}
@@ -13479,6 +14306,7 @@ add_custom_target(Algorithm_RobotAction_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Light_LightDLL_LightOpenAACam1B_build
     COMMAND ${CMAKE_COMMAND}
@@ -13495,6 +14323,7 @@ add_custom_target(PluginDLL_Light_LightDLL_LightOpenAACam1B_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_PIOOpenAACam1B_build
     COMMAND ${CMAKE_COMMAND}
@@ -13511,6 +14340,7 @@ add_custom_target(PluginDLL_PIO_PIOOpenAACam1B_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_AlignmentShiftRotation_build
     COMMAND ${CMAKE_COMMAND}
@@ -13527,6 +14357,7 @@ add_custom_target(Algorithm_AlignmentShiftRotation_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_AlignmentShiftRotationImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -13543,6 +14374,7 @@ add_custom_target(GUI_AlignmentShiftRotationImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_PropertyAlignmentShiftRotation_build
     COMMAND ${CMAKE_COMMAND}
@@ -13559,6 +14391,7 @@ add_custom_target(GUI_PropertyAlignmentShiftRotation_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_SequencePlugin_SeqOpenAAController1B_build
     COMMAND ${CMAKE_COMMAND}
@@ -13575,6 +14408,7 @@ add_custom_target(PluginDLL_SequencePlugin_SeqOpenAAController1B_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(MachineController_RobotInspection_CaptureHIKCameraButton_build
     COMMAND ${CMAKE_COMMAND}
@@ -13591,6 +14425,7 @@ add_custom_target(MachineController_RobotInspection_CaptureHIKCameraButton_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_Camera_CameraHIKRobotGigE_build
     COMMAND ${CMAKE_COMMAND}
@@ -13607,6 +14442,7 @@ add_custom_target(PluginDLL_Camera_CameraHIKRobotGigE_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(MachineController_RobotInspection_GUIShowPoints_build
     COMMAND ${CMAKE_COMMAND}
@@ -13623,6 +14459,7 @@ add_custom_target(MachineController_RobotInspection_GUIShowPoints_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(MachineController_RobotInspection_GeneralStockerRobot_build
     COMMAND ${CMAKE_COMMAND}
@@ -13639,6 +14476,7 @@ add_custom_target(MachineController_RobotInspection_GeneralStockerRobot_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Tutorial_TutrialExecuter_build
     COMMAND ${CMAKE_COMMAND}
@@ -13655,6 +14493,7 @@ add_custom_target(Tutorial_TutrialExecuter_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(PluginDLL_PIO_Contec64DLL2_Contec64DLL_build
     COMMAND ${CMAKE_COMMAND}
@@ -13671,6 +14510,7 @@ add_custom_target(PluginDLL_PIO_Contec64DLL2_Contec64DLL_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(DataManagement_DataManagement_build
     COMMAND ${CMAKE_COMMAND}
@@ -13687,6 +14527,7 @@ add_custom_target(DataManagement_DataManagement_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(DataManagement_Maintainer_build
     COMMAND ${CMAKE_COMMAND}
@@ -13703,6 +14544,7 @@ add_custom_target(DataManagement_Maintainer_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(Algorithm_EdgeMatching_build
     COMMAND ${CMAKE_COMMAND}
@@ -13719,6 +14561,7 @@ add_custom_target(Algorithm_EdgeMatching_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_EdgeMatchingImagePanel_build
     COMMAND ${CMAKE_COMMAND}
@@ -13735,6 +14578,7 @@ add_custom_target(GUI_EdgeMatchingImagePanel_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(GUI_EdgeMatchingProperty_build
     COMMAND ${CMAKE_COMMAND}
@@ -13751,6 +14595,7 @@ add_custom_target(GUI_EdgeMatchingProperty_build
         "-DFORCE_RECONFIGURE=${FORCE_RECONFIGURE}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 add_custom_target(OtherProjects_all)
 add_dependencies(OtherProjects_all
@@ -14627,5 +15472,6 @@ add_custom_target(MetaBuild_All ALL
         "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
         -P "${META_HELPER_SCRIPT}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERBATIM
 )
 
