@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Core Sql Widgets Core5Compat Gui Network)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Gui Core5Compat Sql Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -503,26 +503,26 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../GUI/ImagePanelTools/GeneratedFiles"
         "../../GeneralSource"
-        "../../ServiceLib/ServiceLib"
-        "../../OpenSource/LibPNG"
+        "../../EditGUI/EditGUILib/GeneratedFiles"
+        "./GeneratedFiles"
         "../../GUI/ImageControlTools/GeneratedFiles"
-        "../../Open"
-        "./GeneratedFiles/"
-        "../../EditGUI/EditGUI"
+        "../../EditGUI/EditGUI/GeneratedFiles"
+        "./"
+        "../../OpenSource/LibPNG"
         "../../OpenSource/eigen"
-        "./GeneratedFiles/$(Configuration)"
+        "../../EditGUI/EditGUI"
+        "../../GUI/ImagePanelTools/GeneratedFiles"
+        "../../Integrator/IntegrationLib"
+        "../../GUI/ImagePanelTools"
+        "../../ServiceLib/ServiceLib"
+        "../../OpenSource/Component"
+        "../../Open"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
         "../../GUI/ImageControlTools"
         "../../OpenSource/DisplayImage"
-        "../../EditGUI/EditGUILib/GeneratedFiles"
-        "../../GUI/ImagePanelTools"
-        "../../Integrator/IntegrationLib"
-        "../../OpenSource/Component"
-        "./"
-        "../../EditGUI/EditGUI/GeneratedFiles"
-        "./GeneratedFiles"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
     >
 )
 
@@ -556,30 +556,30 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "../../GeneralSource"
-        "../../ServiceLib/ServiceLib"
-        "../../Open"
-        "../ServiceForAlgorithm"
-        "./GeneratedFiles/"
-        "../../EditGUI/EditGUI"
-        "./GeneratedFiles/$(Configuration)"
-        "../../OpenSource/DisplayImage"
-        "../../../OpenAA-OtherLibrary/eigen/eigen-5.0.0/Eigen"
-        "../../Integrator/IntegrationLib"
-        "../../OpenSource/Component"
-        "./"
-        "../../../OpenAA-OtherLibrary/LibPNG/lpng1653"
         "./GeneratedFiles"
+        "./"
+        "../ServiceForAlgorithm"
+        "../../EditGUI/EditGUI"
+        "../../Integrator/IntegrationLib"
+        "../../ServiceLib/ServiceLib"
+        "../../../OpenAA-OtherLibrary/eigen/eigen-5.0.0/Eigen"
+        "../../OpenSource/Component"
+        "../../Open"
+        "../../../OpenAA-OtherLibrary/LibPNG/lpng1653"
+        "../../OpenSource/DisplayImage"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_NO_DEBUG"
         "SERVICELIB_LIB"
-        "NO_INLINE_ASSEMBLER"
         "NDEBUG"
+        "QT_NO_DEBUG"
         "QT_THREAD_SUPPORT"
         "UNICODE"
+        "NO_INLINE_ASSEMBLER"
     >
 )
 
@@ -590,8 +590,8 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Template>:
-        "./GeneratedFiles/"
         "./GeneratedFiles"
+        "./GeneratedFiles/"
     >
 )
 
@@ -601,11 +601,11 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Core
-    Qt6::Sql
     Qt6::Widgets
-    Qt6::Core5Compat
     Qt6::Gui
+    Qt6::Core5Compat
+    Qt6::Sql
+    Qt6::Core
     Qt6::Network
 )
 
@@ -625,12 +625,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
-    -ffunction-sections -fdata-sections
-)
-
-target_link_options(${PROJECT_NAME} PRIVATE
-    "-Wl,--no-undefined"
-    "-Wl,--gc-sections"
+    -O0
+    -g
 )
 
     # --- Dynamic Library Linking for ForWindows ---

@@ -9,10 +9,12 @@
     <Banner>banner.png</Banner>
 
     <InstallerApplicationIcon>installer_OpenAAIcon</InstallerApplicationIcon>
-    
+
     <StartMenuDir>OpenAA</StartMenuDir>
-    <TargetDir>@RootDir@/OpenAA</TargetDir>
+    <TargetDir>@RootDir@OpenAA</TargetDir>
     <RemoveTargetDir>false</RemoveTargetDir>
-    
+    <AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
+    <AllowSpaceInPath>true</AllowSpaceInPath>
+
     <ControlScript>controlscript.qs</ControlScript>
 </Installer>

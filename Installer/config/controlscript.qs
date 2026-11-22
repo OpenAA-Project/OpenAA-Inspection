@@ -3,6 +3,7 @@
         installer.setValue("RemoveTargetDir", "false");
         installer.setMessageBoxAutomaticAnswer("OverwriteTargetDirectory", QMessageBox.Yes);
         installer.setMessageBoxAutomaticAnswer("stopProcessesForUpdates", QMessageBox.Ignore);
+        installer.setDefaultPageVisible(QInstaller.ComponentSelection, false);
     }
 }
 
@@ -10,7 +11,7 @@ function isWindows() {
     return (systemInfo.productType === "windows" || systemInfo.kernelType === "winnt");
 }
 
-// 既存インストール管理ファイル（components.xml等）をクリアして再インストール可能にする関数
+// Clear existing installation metadata files (components.xml, etc.) to allow reinstallation
 function clearExistingInstallationMetadata(dirPath) {
     if (!installer.isInstaller() || !dirPath || dirPath === "") {
         return;
@@ -18,7 +19,7 @@ function clearExistingInstallationMetadata(dirPath) {
     var sep = isWindows() ? "\\" : "/";
     var targetDir = isWindows()
         ? dirPath.replace(/\//g, "\\").replace(/\\+$/, "")
-        : dirPath.replace(/\\/g, "/").replace(/\/+$/, "");
+        : dirPath.replace(/\\/g, "/").replace(/\/+/g, "/").replace(/\/+$/, "");
     var compXml = targetDir + sep + "components.xml";
 
     if (installer.fileExists(compXml)) {
@@ -31,7 +32,8 @@ function clearExistingInstallationMetadata(dirPath) {
             "InstallationLog.txt",
             "network.xml",
             "finalize.ps1",
-            "finalize.sh"
+            "finalize.sh",
+            "root_setup.sh"
         ];
         for (var i = 0; i < metaFiles.length; i++) {
             var filePath = targetDir + sep + metaFiles[i];
@@ -50,10 +52,6 @@ Controller.prototype.IntroductionPageCallback = function() {
     if (installer.isInstaller()) {
         installer.setValue("RemoveTargetDir", "false");
         clearExistingInstallationMetadata(installer.value("TargetDir"));
-    }
-    var widget = gui.pageWidgetByObjectName("ComponentSelectionPage");
-    if (widget) {
-        gui.rejectWithoutClick(buttons.NextButton);
     }
 }
 
@@ -76,5 +74,7 @@ Controller.prototype.TargetDirectoryPageCallback = function() {
 }
 
 Controller.prototype.ComponentSelectionPageCallback = function() {
-    gui.clickButton(buttons.NextButton);
+    if (installer.isInstaller()) {
+        gui.clickButton(buttons.NextButton);
+    }
 }

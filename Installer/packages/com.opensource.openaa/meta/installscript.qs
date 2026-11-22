@@ -303,7 +303,7 @@ function buildWindowsFinalizeScript(targetDir, dbDir, setDir, overwriteDB, homeD
         "    Create-AppShortcut (Join-Path $MgmtFolder ($app + '.lnk')) (Join-Path $InstallDir ($app + '.exe')) ''\r\n" +
         "}\r\n" +
         "$editParamExe = Join-Path $InstallDir 'EditParameter.exe'\r\n" +
-        "if ($globalDatCreated -and (Test-Path -LiteralPath $editParamExe)) {\r\n" +
+        "if (($globalDatCreated -or ($OverwriteDB -eq 'true')) -and (Test-Path -LiteralPath $editParamExe)) {\r\n" +
         "    $dbFile = Join-Path $DatabaseDir 'OpenAA.FDB'\r\n" +
         "    Start-Process -FilePath $editParamExe -ArgumentList \"PLocalDatabase_FileName=$dbFile C V $qParam\" -WorkingDirectory $InstallDir -Wait\r\n" +
         "}\r\n" +
@@ -314,7 +314,7 @@ function buildWindowsFinalizeScript(targetDir, dbDir, setDir, overwriteDB, homeD
 
 function buildLinuxFinalizeScript() {
     return "#!/bin/bash\n" +
-        "exec < /dev/null\n" +
+        "exec < /dev/null > /tmp/openaa_finalize.log 2>&1\n" +
         "INSTALL_DIR=\"${1%/}\"\n" +
         "DB_DIR=\"${2%/}\"\n" +
         "SET_DIR=\"${3%/}\"\n" +
@@ -322,7 +322,8 @@ function buildLinuxFinalizeScript() {
         "HOME_DIR=\"${5%/}\"\n" +
         "UPDATE_FB=\"$6\"\n" +
         "INSTALL_FB5=\"$7\"\n\n" +
-        "shopt -s nullglob\n\n" +
+        "shopt -s nullglob\n" +
+        "echo \"Starting finalize.sh: INSTALL_DIR=$INSTALL_DIR, DB_DIR=$DB_DIR, SET_DIR=$SET_DIR, OVERWRITE_DB=$OVERWRITE_DB, HOME_DIR=$HOME_DIR, DISPLAY=${DISPLAY:-}, WAYLAND_DISPLAY=${WAYLAND_DISPLAY:-}\"\n\n" +
         "REAL_USER=$(stat -c '%U' \"$HOME_DIR\" 2>/dev/null || echo \"${SUDO_USER:-$(whoami)}\")\n\n" +
         "resolve_exe() {\n" +
         "    local base=\"$1\"\n" +
@@ -331,7 +332,7 @@ function buildLinuxFinalizeScript() {
         "    elif [ -f \"$INSTALL_DIR/$base\" ]; then\n" +
         "        echo \"$INSTALL_DIR/$base\"\n" +
         "    else\n" +
-        "        local found=$(find \"$INSTALL_DIR\" -maxdepth 1 -type f \\( -iname \"${base}App\" -o -iname \"$base\" \\) | head -n 1)\n" +
+        "        local found=$(find \"$INSTALL_DIR\" -maxdepth 1 \\( -type f -o -type l \\) \\( -iname \"${base}App\" -o -iname \"$base\" \\) | head -n 1)\n" +
         "        if [ -n \"$found\" ]; then echo \"$found\"; else echo \"$INSTALL_DIR/$base\"; fi\n" +
         "    fi\n" +
         "}\n\n" +
@@ -354,10 +355,18 @@ function buildLinuxFinalizeScript() {
         "    done\n" +
         "    echo \"application-x-executable\"\n" +
         "}\n\n" +
-        "# 2-B: Database directory & OpenAA.FDB copy\n" +
-        "mkdir -p \"$DB_DIR\"\n" +
+        "# Load state left by root_setup from user-writable SET_DIR\n" +
+        "GLOBAL_DAT_CREATED=false\n" +
+        "STATE_FILE=\"$SET_DIR/.openaa_post_state.env\"\n" +
+        "if [ -f \"$STATE_FILE\" ]; then\n" +
+        "    source \"$STATE_FILE\" 2>/dev/null || true\n" +
+        "    rm -f \"$STATE_FILE\" 2>/dev/null || true\n" +
+        "fi\n" +
+        "echo \"State after root_setup: GLOBAL_DAT_CREATED=$GLOBAL_DAT_CREATED\"\n\n" +
+        "# Fallback 2-B: Database directory & OpenAA.FDB copy\n" +
+        "mkdir -p \"$DB_DIR\" 2>/dev/null || true\n" +
         "if [ ! -f \"$DB_DIR/OpenAA.FDB\" ] || [ \"$OVERWRITE_DB\" = \"true\" ]; then\n" +
-        "    [ -f \"$INSTALL_DIR/OpenAA.FDB\" ] && cp -f \"$INSTALL_DIR/OpenAA.FDB\" \"$DB_DIR/OpenAA.FDB\"\n" +
+        "    [ -f \"$INSTALL_DIR/OpenAA.FDB\" ] && cp -f \"$INSTALL_DIR/OpenAA.FDB\" \"$DB_DIR/OpenAA.FDB\" 2>/dev/null || true\n" +
         "fi\n" +
         "chmod a+x \"$HOME_DIR\" 2>/dev/null || true\n" +
         "CUR_PATH=\"$DB_DIR\"\n" +
@@ -367,23 +376,29 @@ function buildLinuxFinalizeScript() {
         "done\n" +
         "chmod -R 777 \"$DB_DIR\" 2>/dev/null || true\n" +
         "[ -f \"$DB_DIR/OpenAA.FDB\" ] && chmod 666 \"$DB_DIR/OpenAA.FDB\" 2>/dev/null || true\n\n" +
-        "# 2-C: Setting directory and .NEW files\n" +
-        "mkdir -p \"$SET_DIR\" \"$SET_DIR/.config\"\n" +
-        "GLOBAL_DAT_CREATED=false\n" +
-        "for newfile in \"$INSTALL_DIR\"/*.NEW; do\n" +
+        "# Fallback 2-C: Copy and rename any remaining .NEW/.new files if root_setup did not process them\n" +
+        "mkdir -p \"$SET_DIR\" \"$SET_DIR/.config\" 2>/dev/null || true\n" +
+        "while IFS= read -r -d '' newfile; do\n" +
         "    filename=$(basename \"$newfile\")\n" +
-        "    basename_no_new=\"${filename%.NEW}\"\n" +
-        "    if [ \"$newfile\" != \"$SET_DIR/$filename\" ]; then\n" +
-        "        cp -f \"$newfile\" \"$SET_DIR/$filename\"\n" +
+        "    basename_no_new=\"${filename%.[Nn][Ee][Ww]}\"\n" +
+        "    if [ ! \"$newfile\" -ef \"$SET_DIR/$filename\" ]; then\n" +
+        "        cp -f \"$newfile\" \"$SET_DIR/$filename\" 2>/dev/null || true\n" +
         "    fi\n" +
         "    if [ ! -f \"$SET_DIR/$basename_no_new\" ]; then\n" +
-        "        mv -f \"$SET_DIR/$filename\" \"$SET_DIR/$basename_no_new\"\n" +
-        "        [ \"${basename_no_new,,}\" = \"global.dat\" ] && GLOBAL_DAT_CREATED=true\n" +
+        "        if mv -f \"$SET_DIR/$filename\" \"$SET_DIR/$basename_no_new\" 2>/dev/null; then\n" +
+        "            echo \"Fallback created setting file: $SET_DIR/$basename_no_new\"\n" +
+        "            [ \"${basename_no_new,,}\" = \"global.dat\" ] && GLOBAL_DAT_CREATED=true\n" +
+        "        fi\n" +
         "    else\n" +
         "        rm -f \"$SET_DIR/$filename\" 2>/dev/null || true\n" +
         "    fi\n" +
-        "done\n" +
-        "chmod -R 777 \"$SET_DIR\" 2>/dev/null || true\n\n" +
+        "    if [ ! \"$newfile\" -ef \"$SET_DIR/$filename\" ]; then\n" +
+        "        rm -f \"$newfile\" 2>/dev/null || true\n" +
+        "    fi\n" +
+        "done < <(find \"$INSTALL_DIR\" -maxdepth 1 \\( -type f -o -type l \\) -iname \"*.new\" -print0 2>/dev/null)\n" +
+        "if [ ! \"$SET_DIR\" -ef \"$INSTALL_DIR\" ]; then\n" +
+        "    chmod -R 777 \"$SET_DIR\" 2>/dev/null || true\n" +
+        "fi\n\n" +
         "# Use launch_openaa.sh created by elevated setup; fallback to SET_DIR only if missing\n" +
         "LAUNCHER=\"$INSTALL_DIR/launch_openaa.sh\"\n" +
         "if [ ! -x \"$LAUNCHER\" ]; then\n" +
@@ -496,27 +511,64 @@ function buildLinuxFinalizeScript() {
         "else\n" +
         "    printf '\\n[config]\\nquick_exec=1\\n' >> \"$LIBFM_CONF\"\n" +
         "fi\n\n" +
+        "# 100 & 101: Run EditParameter in user desktop session with fallback QPA backends\n" +
+        "run_edit_param_user() {\n" +
+        "    local exe=\"$1\"\n" +
+        "    shift\n" +
+        "    local rc=1\n" +
+        "    local global_dat=\"$SET_DIR/Global.dat\"\n" +
+        "    local before_hash=\"\"\n" +
+        "    [ -f \"$global_dat\" ] && before_hash=$(sha256sum \"$global_dat\" 2>/dev/null | awk '{print $1}')\n" +
+        "    for qpa in \"\" \"xcb\" \"offscreen\"; do\n" +
+        "        echo \"Executing EditParameter (qpa='${qpa}'): $exe $*\"\n" +
+        "        (\n" +
+        "            cd \"$INSTALL_DIR\" || exit 1\n" +
+        "            export HOME=\"$HOME_DIR\"\n" +
+        "            export XDG_CONFIG_HOME=\"$SET_DIR/.config\"\n" +
+        "            mkdir -p \"$XDG_CONFIG_HOME\"\n" +
+        "            export LD_LIBRARY_PATH=\"$INSTALL_DIR/qtlib:$INSTALL_DIR:$INSTALL_DIR/lib:/opt/firebird/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"\n" +
+        "            if [ -d \"$INSTALL_DIR/plugins\" ]; then\n" +
+        "                export QT_PLUGIN_PATH=\"$INSTALL_DIR/plugins\"\n" +
+        "            elif [ -d \"$INSTALL_DIR/platforms\" ]; then\n" +
+        "                export QT_PLUGIN_PATH=\"$INSTALL_DIR\"\n" +
+        "            fi\n" +
+        "            if [ -n \"$qpa\" ]; then export QT_QPA_PLATFORM=\"$qpa\"; else unset QT_QPA_PLATFORM; fi\n" +
+        "            if command -v timeout >/dev/null 2>&1; then\n" +
+        "                timeout 30 \"$exe\" \"$@\" < /dev/null\n" +
+        "            else\n" +
+        "                \"$exe\" \"$@\" < /dev/null\n" +
+        "            fi\n" +
+        "        )\n" +
+        "        rc=$?\n" +
+        "        local after_hash=\"\"\n" +
+        "        [ -f \"$global_dat\" ] && after_hash=$(sha256sum \"$global_dat\" 2>/dev/null | awk '{print $1}')\n" +
+        "        echo \"EditParameter result (qpa='${qpa}'): rc=$rc, Global.dat hash before=${before_hash:-none} after=${after_hash:-none}\"\n" +
+        "        [ \"$rc\" -eq 0 ] && return 0\n" +
+        "    done\n" +
+        "    return \"$rc\"\n" +
+        "}\n\n" +
         "EDIT_PARAM_EXE=$(resolve_exe \"EditParameter\")\n" +
+        "echo \"Resolved EditParameter binary: $EDIT_PARAM_EXE (GLOBAL_DAT_CREATED=$GLOBAL_DAT_CREATED, OVERWRITE_DB=$OVERWRITE_DB)\"\n" +
         "if [ -x \"$EDIT_PARAM_EXE\" ]; then\n" +
-        "    export HOME=\"$HOME_DIR\"\n" +
-        "    export XDG_CONFIG_HOME=\"$SET_DIR/.config\"\n" +
-        "    mkdir -p \"$XDG_CONFIG_HOME\"\n" +
-        "    export LD_LIBRARY_PATH=\"$INSTALL_DIR/qtlib:$INSTALL_DIR:$INSTALL_DIR/lib:/opt/firebird/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"\n" +
-        "    if [ -d \"$INSTALL_DIR/plugins\" ]; then\n" +
-        "        export QT_PLUGIN_PATH=\"$INSTALL_DIR/plugins\"\n" +
-        "    elif [ -d \"$INSTALL_DIR/platforms\" ]; then\n" +
-        "        export QT_PLUGIN_PATH=\"$INSTALL_DIR\"\n" +
+        "    if [ \"$GLOBAL_DAT_CREATED\" = \"true\" ] || [ \"$OVERWRITE_DB\" = \"true\" ]; then\n" +
+        "        run_edit_param_user \"$EDIT_PARAM_EXE\" \"PLocalDatabase_FileName=$DB_DIR/OpenAA.FDB\" C V \"$Q_PARAM\" || true\n" +
+        "    else\n" +
+        "        echo \"Skipping EditParameter (100): Global.dat already existed in $SET_DIR and OVERWRITE_DB is false.\"\n" +
         "    fi\n" +
-        "    if [ \"$GLOBAL_DAT_CREATED\" = \"true\" ]; then\n" +
-        "        (cd \"$INSTALL_DIR\" && \"$EDIT_PARAM_EXE\" \"PLocalDatabase_FileName=$DB_DIR/OpenAA.FDB\" C V \"$Q_PARAM\" < /dev/null)\n" +
-        "    fi\n" +
-        "    (cd \"$INSTALL_DIR\" && \"$EDIT_PARAM_EXE\" \"PImageFilePath=$DB_DIR\" C V \"$Q_PARAM\" < /dev/null)\n" +
+        "    run_edit_param_user \"$EDIT_PARAM_EXE\" \"PImageFilePath=$DB_DIR\" C V \"$Q_PARAM\" || true\n" +
+        "else\n" +
+        "    echo \"Warning: EditParameter executable not found or not executable: $EDIT_PARAM_EXE\"\n" +
         "fi\n\n" +
         "chown -R \"$REAL_USER\":firebird \"$DB_DIR\" 2>/dev/null || chown -R \"$REAL_USER\":\"$REAL_USER\" \"$DB_DIR\" 2>/dev/null || true\n" +
-        "chown -R \"$REAL_USER\":\"$REAL_USER\" \"$SET_DIR\" \"$TUTRIAL_DIR\" \"$MGMT_DIR\" \"$HOME_DIR/.config/kiorc\" \"$HOME_DIR/.config/libfm\" \"$HOME_DIR/.local/share/applications\" 2>/dev/null || true\n" +
+        "if [ ! \"$SET_DIR\" -ef \"$INSTALL_DIR\" ]; then\n" +
+        "    chown -R \"$REAL_USER\":\"$REAL_USER\" \"$SET_DIR\" 2>/dev/null || true\n" +
+        "    chmod -R 777 \"$SET_DIR\" 2>/dev/null || true\n" +
+        "fi\n" +
+        "chown -R \"$REAL_USER\":\"$REAL_USER\" \"$TUTRIAL_DIR\" \"$MGMT_DIR\" \"$HOME_DIR/.config/kiorc\" \"$HOME_DIR/.config/libfm\" \"$HOME_DIR/.local/share/applications\" 2>/dev/null || true\n" +
         "chown \"$REAL_USER\":\"$REAL_USER\" \"$DESKTOP_DIR\"/*.desktop 2>/dev/null || true\n" +
-        "chmod -R 777 \"$DB_DIR\" \"$SET_DIR\" 2>/dev/null || true\n" +
-        "[ -f \"$DB_DIR/OpenAA.FDB\" ] && chmod 666 \"$DB_DIR/OpenAA.FDB\" 2>/dev/null || true\n";
+        "chmod -R 777 \"$DB_DIR\" 2>/dev/null || true\n" +
+        "[ -f \"$DB_DIR/OpenAA.FDB\" ] && chmod 666 \"$DB_DIR/OpenAA.FDB\" 2>/dev/null || true\n" +
+        "echo \"finalize.sh completed.\"\n";
 }
 
 Component.prototype.createOperations = function() {
@@ -573,8 +625,7 @@ Component.prototype.createOperations = function() {
     installer.setValue("OpenAA_InstallFB5", installFb5);
 
     // 200: Uninstall cleanup
-    // Do NOT delete installerResources or extracted files synchronously while maintenancetool is still running,
-    // otherwise QtIFW emits "Cannot open file .../installerResources/.../*.txt" warnings.
+    // Do NOT delete installerResources or extracted files synchronously while maintenancetool is still running.
     if (isWindows()) {
         var escapedTargetDir = targetDir.replace(/'/g, "''");
         var undoPsCmd =
@@ -620,7 +671,7 @@ Component.prototype.createOperations = function() {
     component.createOperations();
 
     if (!isWindows()) {
-        // 2.1.2 & 2.1.3: Linux x64 / Raspberry Pi 64bit elevated setup script
+        // 2.1.2 & 2.1.3 & 2-B & 2-C: Linux x64 / Raspberry Pi 64bit elevated setup script
         // Run via temporary /tmp script without Delete/AppendFile operations so uninstall never attempts backup restore
         var rootSh = "#!/bin/bash\n" +
         "exec < /dev/null > /tmp/openaa_fb_install.log 2>&1\n" +
@@ -631,8 +682,10 @@ Component.prototype.createOperations = function() {
         "DB_DIR=\"${4%/}\"\n" +
         "SET_DIR=\"${5%/}\"\n" +
         "HOME_DIR=\"${6%/}\"\n" +
+        "OVERWRITE_DB=\"$7\"\n" +
         "export DEBIAN_FRONTEND=noninteractive\n\n" +
-        "echo \"Starting root_setup: UPDATE_FB=$UPDATE_FB, INSTALL_FB5=$INSTALL_FB5, INSTALL_DIR=$INSTALL_DIR, DB_DIR=$DB_DIR, SET_DIR=$SET_DIR\"\n" +
+        "echo \"Starting root_setup: UPDATE_FB=$UPDATE_FB, INSTALL_FB5=$INSTALL_FB5, INSTALL_DIR=$INSTALL_DIR, DB_DIR=$DB_DIR, SET_DIR=$SET_DIR, OVERWRITE_DB=$OVERWRITE_DB\"\n" +
+        "rm -f /tmp/openaa_post_state.env 2>/dev/null || true\n" +
         "chmod -R a+rX \"$INSTALL_DIR\" 2>/dev/null || true\n\n" +
         "# Generate launch_openaa.sh directly with root privileges\n" +
         "cat <<EOF_LAUNCH > \"$INSTALL_DIR/launch_openaa.sh\"\n" +
@@ -840,8 +893,11 @@ Component.prototype.createOperations = function() {
         "    fi\n" +
         "    chown -R firebird:firebird /opt/firebird/security5.fdb /tmp/firebird 2>/dev/null || true\n" +
         "fi\n\n" +
-        "# Configure parent directory traversal and DB directory permissions for Firebird server\n" +
+        "# 2-B: Copy OpenAA.FDB and configure permissions for Firebird server\n" +
         "mkdir -p \"$DB_DIR\"\n" +
+        "if [ ! -f \"$DB_DIR/OpenAA.FDB\" ] || [ \"$OVERWRITE_DB\" = \"true\" ]; then\n" +
+        "    [ -f \"$INSTALL_DIR/OpenAA.FDB\" ] && cp -f \"$INSTALL_DIR/OpenAA.FDB\" \"$DB_DIR/OpenAA.FDB\"\n" +
+        "fi\n" +
         "REAL_USER=$(stat -c '%U' \"$HOME_DIR\" 2>/dev/null || echo \"${SUDO_USER:-$(whoami)}\")\n" +
         "if id firebird >/dev/null 2>&1 && [ -n \"$REAL_USER\" ]; then\n" +
         "    usermod -aG \"$REAL_USER\" firebird 2>/dev/null || true\n" +
@@ -853,20 +909,60 @@ Component.prototype.createOperations = function() {
         "    chmod a+x \"$CUR_PATH\" 2>/dev/null || true\n" +
         "    CUR_PATH=$(dirname \"$CUR_PATH\")\n" +
         "done\n" +
-        "chown -R \"$REAL_USER\":firebird \"$DB_DIR\" 2>/dev/null || true\n" +
+        "chown -R \"$REAL_USER\":firebird \"$DB_DIR\" 2>/dev/null || chown -R \"$REAL_USER\":\"$REAL_USER\" \"$DB_DIR\" 2>/dev/null || true\n" +
         "chmod -R 777 \"$DB_DIR\" 2>/dev/null || true\n" +
-        "systemctl restart firebird.service 2>/dev/null || systemctl restart firebird-superserver.service 2>/dev/null || /opt/firebird/bin/fbguard -daemon -forever 2>/dev/null || true\n";
+        "[ -f \"$DB_DIR/OpenAA.FDB\" ] && chmod 666 \"$DB_DIR/OpenAA.FDB\" 2>/dev/null || true\n" +
+        "systemctl restart firebird.service 2>/dev/null || systemctl restart firebird-superserver.service 2>/dev/null || /opt/firebird/bin/fbguard -daemon -forever 2>/dev/null || true\n\n" +
+        "# 2-C: Copy .NEW/.new setting files to SET_DIR, strip .NEW extension, and remove source .NEW files from INSTALL_DIR\n" +
+        "mkdir -p \"$SET_DIR\" \"$SET_DIR/.config\"\n" +
+        "GLOBAL_DAT_CREATED=false\n" +
+        "NEW_COUNT=0\n" +
+        "while IFS= read -r -d '' newfile; do\n" +
+        "    NEW_COUNT=$((NEW_COUNT + 1))\n" +
+        "    filename=$(basename \"$newfile\")\n" +
+        "    basename_no_new=\"${filename%.[Nn][Ee][Ww]}\"\n" +
+        "    if [ ! \"$newfile\" -ef \"$SET_DIR/$filename\" ]; then\n" +
+        "        cp -f \"$newfile\" \"$SET_DIR/$filename\"\n" +
+        "    fi\n" +
+        "    if [ ! -f \"$SET_DIR/$basename_no_new\" ]; then\n" +
+        "        mv -f \"$SET_DIR/$filename\" \"$SET_DIR/$basename_no_new\"\n" +
+        "        echo \"Created setting file: $SET_DIR/$basename_no_new\"\n" +
+        "        if [ \"${basename_no_new,,}\" = \"global.dat\" ]; then\n" +
+        "            GLOBAL_DAT_CREATED=true\n" +
+        "        fi\n" +
+        "    else\n" +
+        "        echo \"Kept existing setting file: $SET_DIR/$basename_no_new\"\n" +
+        "        rm -f \"$SET_DIR/$filename\"\n" +
+        "    fi\n" +
+        "    if [ ! \"$newfile\" -ef \"$SET_DIR/$filename\" ]; then\n" +
+        "        rm -f \"$newfile\"\n" +
+        "    fi\n" +
+        "    chown \"$REAL_USER\":\"$REAL_USER\" \"$SET_DIR/$basename_no_new\" 2>/dev/null || true\n" +
+        "    chmod 666 \"$SET_DIR/$basename_no_new\" 2>/dev/null || true\n" +
+        "done < <(find \"$INSTALL_DIR\" -maxdepth 1 \\( -type f -o -type l \\) -iname \"*.new\" -print0 2>/dev/null)\n" +
+        "echo \"Processed .NEW files count: $NEW_COUNT (GLOBAL_DAT_CREATED=$GLOBAL_DAT_CREATED)\"\n" +
+        "chown -R \"$REAL_USER\":\"$REAL_USER\" \"$SET_DIR/.config\" 2>/dev/null || true\n" +
+        "if [ ! \"$SET_DIR\" -ef \"$INSTALL_DIR\" ]; then\n" +
+        "    chown -R \"$REAL_USER\":\"$REAL_USER\" \"$SET_DIR\" 2>/dev/null || true\n" +
+        "    chmod -R 777 \"$SET_DIR\" 2>/dev/null || true\n" +
+        "fi\n" +
+        "# Pass state to finalize.sh via user-owned file in SET_DIR\n" +
+        "STATE_FILE=\"$SET_DIR/.openaa_post_state.env\"\n" +
+        "printf \"GLOBAL_DAT_CREATED=%s\\n\" \"$GLOBAL_DAT_CREATED\" > \"$STATE_FILE\"\n" +
+        "chown \"$REAL_USER\":\"$REAL_USER\" \"$STATE_FILE\" 2>/dev/null || true\n" +
+        "chmod 666 \"$STATE_FILE\" 2>/dev/null || true\n" +
+        "echo \"root_setup completed.\"\n";
 
         var rootShB64 = toUtf8Base64(rootSh);
         var runRootCmd =
             "TMP_SH=$(mktemp /tmp/openaa_root_setup.XXXXXX.sh) && " +
             "printf '%s' '" + rootShB64 + "' | base64 -d > \"$TMP_SH\" && " +
-            "/bin/bash \"$TMP_SH\" \"$1\" \"$2\" \"$3\" \"$4\" \"$5\" \"$6\"; " +
+            "/bin/bash \"$TMP_SH\" \"$1\" \"$2\" \"$3\" \"$4\" \"$5\" \"$6\" \"$7\"; " +
             "RC=$?; rm -f \"$TMP_SH\"; exit $RC";
 
         component.addElevatedOperation(
             "Execute", "/bin/bash", "-c", runRootCmd,
-            "root_setup", updateFb, installFb5, targetDir, dbDir, setDir, homeDir
+            "root_setup", updateFb, installFb5, targetDir, dbDir, setDir, homeDir, overwriteDB
         );
     }
 }

@@ -262,8 +262,9 @@ int main(int argc, char *argv[])
 	GUIInitializer	*G=new GUIInitializer(Layers);
 	Layers->SetGUIInitializer(G);
 
+	ParamGlobal	*ParamG=Layers->GetParamGlobal();
 	if(PartsReEntrantMode==true){
-		Layers->GetParamGlobal()->SetDefaultFileName(GlobalParmaFileName);
+		ParamG->SetDefaultFileName(GlobalParmaFileName);
 	}
 
 	for(int i=1;i<argc;i++){
@@ -387,7 +388,7 @@ int main(int argc, char *argv[])
 
 	//Layers->SetCurrentPath(QDir::currentPath());
 	//Layers->SetUserPath(UserPath);
-	if(Layers->GetParamGlobal()->LoadDefault(Layers->GetUserPath())==false){
+	if(ParamG->LoadDefault(Layers->GetUserPath())==false){
 		QMessageBox Q(/**/"Load error"
 					, /**/"Load error of GlobalParam", QMessageBox::Critical
 					, QMessageBox::Ok , QMessageBox::NoButton, QMessageBox::NoButton);
@@ -396,15 +397,15 @@ int main(int argc, char *argv[])
 	Layers->SetModeInspectionPlayer(true);
 
 	if(DisallocateTarget==true3)
-		Layers->GetParamGlobal()->AllocateTargetBuff=false;
+		ParamG->AllocateTargetBuff=false;
 	else
 	if(DisallocateTarget==false3)
-		Layers->GetParamGlobal()->AllocateTargetBuff=true;
+		ParamG->AllocateTargetBuff=true;
 	if(DisallocateMaster==true3)
-		Layers->GetParamGlobal()->AllocateMasterBuff=false;
+		ParamG->AllocateMasterBuff=false;
 	else
 	if(DisallocateMaster==false3)
-		Layers->GetParamGlobal()->AllocateMasterBuff=true;
+		ParamG->AllocateMasterBuff=true;
 	
 	GUIInstancePack	*GPack=G->GetGUIInstanceRoot();
 	RootNameListContainer	GUIRootNameList;
@@ -431,7 +432,7 @@ int main(int argc, char *argv[])
 		Q.exec();
 		return(1);
 	}
-	Layers->LoadGUILanguage(Layers->GetParamGlobal()->GUILanguageFileName);
+	Layers->LoadGUILanguage(ParamG->GUILanguageFileName);
 
 	Layers->SetGUIFileName(GUIFileName);
 	RootNameListContainer	AlgorithmRootNameList;
@@ -473,11 +474,11 @@ int main(int argc, char *argv[])
 	QStringList	SqlDatabaseList=QSqlDatabase::drivers();
 
 	LocalDatabaseBasicClass	*KDatabase=new LocalDatabaseBasicClass(Layers->GetDatabaseLoader(false)
-																, Layers->GetParamGlobal()->LocalDatabase_FileName
-																, Layers->GetParamGlobal()->LocalDatabase_HostName
-																, Layers->GetParamGlobal()->LocalDatabase_Port
-																, Layers->GetParamGlobal()->TransDatabaseIP
-																, Layers->GetParamGlobal()->TransDatabasePort);
+																, ParamG->LocalDatabase_FileName
+																, ParamG->LocalDatabase_HostName
+																, ParamG->LocalDatabase_Port
+																, ParamG->TransDatabaseIP
+																, ParamG->TransDatabasePort);
 	if(KDatabase->IsExistDatabase()==false){
 		QString  msg=QString(/**/"Not exist Database file! Create database?");
 		int	ret=QMessageBox::question(NULL, /**/"Choose"
@@ -500,7 +501,7 @@ int main(int argc, char *argv[])
 	Layers->GetGeneralStocker()->CreateExcludedList(EList);
 
 	if(NoDatabaseMessage==false){
-		if(KDatabase->LoadFromDDL(Layers->GetParamGlobal()->DatabaseDDL_FileName)==true){
+		if(KDatabase->LoadFromDDL(ParamG->DatabaseDDL_FileName)==true){
 			if(KDatabase->Check(&EList)==false){
 				IDatabaseMessageDialog	M(Layers->GetMainWidget());
 				if(M.SetMessages(KDatabase->GetMessageList())==true){
@@ -657,7 +658,7 @@ int main(int argc, char *argv[])
 			CameraCount=ExeIns->GetCameraCount();
 	
 			if(CameraCount>0){
-				Layers->GetParamGlobal()->TotalCameraNumb=CameraCount;
+				ParamG->TotalCameraNumb=CameraCount;
 				//Layers->Reallocate(-1,CameraCount,-1);
 			}
 
@@ -722,15 +723,15 @@ int main(int argc, char *argv[])
 
 	Layers->GetParamGUI()->LoadDefault(Layers->GetUserPath());
 	Layers->InitialLight(true);
-
+	
 	if(EntryPointToFuncGlobal->IsMasterPC()==true && Seq!=NULL){
 		QString	ErrorLine;
 		if(Seq->LoadStartSequenceFile(G->GetGUIInstanceRoot()->GetFirstForm()
-				,Layers->GetParamGlobal()->Sequence_FileName
-				,Layers->GetParamGlobal()->IODLL_FileName
-				,Layers->GetParamGlobal()->IODefine_FileName
+				,ParamG->Sequence_FileName
+				,ParamG->IODLL_FileName
+				,ParamG->IODefine_FileName
 				,ErrorLine
-				,Layers->GetParamGlobal()->IOSomething
+				,ParamG->IOSomething
 				)==false){
 			QString  msg=QString(/**/"Sequence Error:Line ")
 						+ErrorLine;

@@ -520,11 +520,12 @@ bool	CameraInterface::InitialLater(ParamGlobal *param ,const QString &CameraPara
 
 	ScanInfo.CurrentScanNumber=0;
 	ScanInfo.ScanMastered=true;
-	GetParamGlobal()->GetStrategy(GetLayersBase()->GetCurrentStrategicNumber(),ScanInfo.StrategicList);
+	LayersBase	*LBase=GetLayersBase();
+	GetParamGlobal()->GetStrategy(LBase->GetCurrentStrategicNumber(),ScanInfo.StrategicList);
 
 	bool	Ret=false;
 	if(DLL_Initial!=NULL){
-		Handle=DLL_Initial(CamNo,GetLayersBase(),CamInfo,CameraParameter);
+		Handle=DLL_Initial(CamNo,LBase,CamInfo,CameraParameter);
 		if(Handle!=NULL){
 			connect(Handle,SIGNAL(CameraHandleSignalCaptured()),this,SLOT(SlotCaptured()));
 			Ret=true;
