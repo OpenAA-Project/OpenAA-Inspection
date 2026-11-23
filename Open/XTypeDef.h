@@ -40,19 +40,23 @@ public:
 	virtual	~IdentifiedClass(void){}
 };
 
-typedef	unsigned char		BYTE;
-typedef	unsigned char		byte;
-typedef	signed char			int8;
-typedef	short				int16;
-typedef	qint32				int32;
-typedef	qint64				int64;
-typedef	unsigned short		uint16;
-typedef	unsigned int		uint32;
-typedef	quint64				uint64;
-#ifndef	_WINDEF_
-typedef	unsigned long		DWORD;
-typedef	quint64				QWORD;
-typedef	unsigned short		WORD;
+typedef unsigned char	BYTE;   // 1 byte
+typedef unsigned char	byte;   // 1 byte
+typedef signed char		int8;   // 1 byte
+typedef qint16			int16;  // 2 byte
+typedef qint32			int32;  // 4 byte
+typedef qint64			int64;  // 8 byte
+typedef quint16			uint16; // 2 byte
+typedef quint32			uint32; // 4 byte
+typedef quint64			uint64; // 8 byte
+#ifndef _WINDEF_
+#ifdef Q_OS_WIN
+typedef unsigned long   DWORD;  // 4 byte
+#else
+typedef quint32         DWORD;  // 4 byte
+#endif
+typedef quint64         QWORD;  // 8 byte
+typedef unsigned short  WORD;   // 2 byte
 #endif
 
 #define	Saturation256(x)	(((x)<0)?0:((x)<256)?(x):255)

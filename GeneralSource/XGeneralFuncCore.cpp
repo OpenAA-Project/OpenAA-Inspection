@@ -107,6 +107,7 @@ bool	FuncCall	Save(QIODevice *f,short d)
 	}
 	return true;
 }
+#ifdef Q_OS_WIN
 bool	FuncCall	Save(QIODevice *f,DWORD d)
 {
 	if(f->write((const char *)&d,sizeof(d))!=sizeof(d)){
@@ -114,6 +115,7 @@ bool	FuncCall	Save(QIODevice *f,DWORD d)
 	}
 	return true;
 }
+#endif
 bool	FuncCall	Save(QIODevice *f,BYTE d)
 {
 	if(f->write((const char *)&d,sizeof(d))!=sizeof(d)){
@@ -545,6 +547,7 @@ bool	FuncCall	Load(QIODevice *f,short &d)
 	}
 	return true;
 }
+#ifdef Q_OS_WIN
 bool	FuncCall	Load(QIODevice *f,DWORD &d)
 {
 	if(f->read((char *)&d,sizeof(d))!=sizeof(d)){
@@ -552,6 +555,7 @@ bool	FuncCall	Load(QIODevice *f,DWORD &d)
 	}
 	return true;
 }
+#endif
 bool	FuncCall	Load(QIODevice *f,float &d)
 {
 	if(f->read((char *)&d,sizeof(d))!=sizeof(d)){

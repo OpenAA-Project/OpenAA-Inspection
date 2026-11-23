@@ -96,11 +96,13 @@ bool	FileThread::Save(WORD d)
 	Data.append(QByteArray((const char *)&d,sizeof(d)));
 	return true;
 }
+#ifdef Q_OS_WIN
 bool	FileThread::Save(DWORD d)
 {
 	Data.append(QByteArray((const char *)&d,sizeof(d)));
 	return true;
 }
+#endif
 bool	FileThread::Save(float d)
 {
 	Data.append(QByteArray((const char *)&d,sizeof(d)));

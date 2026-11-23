@@ -16,6 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <QCoreApplication>
+#include <QMetaObject>
+
 #include "DisplayImageResource.h"
 #include "XDisplayImage.h"
 #include "XDataInLayer.h"
@@ -1683,8 +1686,14 @@ GUICmdSendItemsBmp::GUICmdSendItemsBmp(AlgorithmBase *base
 GUICmdSendItemsBmp::~GUICmdSendItemsBmp(void)
 {
 	if(IData!=NULL){
-		delete	IData;
-		IData=NULL;
+		////delete	IData;
+		//IData=NULL;
+		QImage *oldImg = IData;
+		IData = NULL;
+		DeleteImageLater(oldImg);
+		////QMetaObject::invokeMethod(qApp, [oldImg]() {
+		////    delete oldImg;
+		////}, Qt::QueuedConnection);
 	}
 }
 
@@ -1706,7 +1715,13 @@ bool	GUICmdSendItemsBmp::Load(QIODevice *f)
 	}
 	if(IData==NULL || IData->width()!=W || IData->height()!=H){
 		if(IData!=NULL){
-			delete	IData;
+			////delete	IData;
+			QImage *oldImg = IData;
+			IData = NULL;
+			DeleteImageLater(oldImg);
+			////QMetaObject::invokeMethod(qApp, [oldImg]() {
+			////    delete oldImg;
+			////}, Qt::QueuedConnection);
 		}
 		//IData=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
 		IData=new QImage(W,H,QImage::Format_ARGB32);
@@ -1768,8 +1783,13 @@ void	GUICmdSendItemsBmp::MakeImage(AlgorithmDrawAttr	*ModePoint
 		return;
 	}
 	if(IData!=NULL && (IData->width()!=LGx || IData->height()!=LGy)){
-		delete	IData;
-		IData=NULL;
+		////delete	IData;
+		QImage *oldImg = IData;
+		IData = NULL;
+		DeleteImageLater(oldImg);
+		////QMetaObject::invokeMethod(qApp, [oldImg]() {
+		////    delete oldImg;
+		////}, Qt::QueuedConnection);
 	}
 	if(IData==NULL){
 		//IData=new QImage(LGx,LGy,QImage::Format_ARGB32_Premultiplied);

@@ -41,7 +41,15 @@ PIOOpenAACam1B::PIOOpenAACam1B(LayersBase *base)
 
 bool	PIOOpenAACam1B::FindLight(void)
 {
-	LightDLLBaseClass	*s=GetLayersBase()->GetLightBase()->GetLight(0 ,/**/"LightOpenAACam1B");
+	LayersBase	*LBase=GetLayersBase();
+	if(LBase==nullptr)
+		return false;
+	LightClassPack	*Lp=LBase->GetLightBase();
+	if(Lp==nullptr)
+		return false;
+	LightDLLBaseClass	*s=Lp->GetLight(0 ,/**/"LightOpenAACam1B");
+	if(s==nullptr)
+		return false;
 	LightPointer=(XLightOpenAACam1B *)s;
 	return (LightPointer!=nullptr);
 }

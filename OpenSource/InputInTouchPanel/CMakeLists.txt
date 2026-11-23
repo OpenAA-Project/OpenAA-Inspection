@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Core Core5Compat Widgets Gui)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Core5Compat Gui)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -86,8 +86,8 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "./GeneratedFiles/"
-        "./GeneratedFiles"
         "."
+        "./GeneratedFiles"
     >
 )
 
@@ -120,21 +120,21 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "./GeneratedFiles/"
-        "../../OpenSource/include"
+        "../../OpenSource/Component"
+        "."
         "./GeneratedFiles"
         "./GeneratedFiles/$(Configuration)"
-        "."
-        "../../OpenSource/Component"
-        "./"
         "../../Open"
+        "../../OpenSource/include"
+        "./"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "QT_NO_DEBUG"
-        "INPUTINTOUCHPANEL_LIB"
         "NDEBUG"
+        "INPUTINTOUCHPANEL_LIB"
         "UNICODE"
     >
 )
@@ -146,8 +146,8 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Core
-    Qt6::Core5Compat
     Qt6::Widgets
+    Qt6::Core5Compat
     Qt6::Gui
 )
 

@@ -1502,3 +1502,24 @@ void SetPushButtonColors(QPushButton *button, const QColor &bgColor, const QColo
 	button->setAutoFillBackground(true);
     button->setStyleSheet(styleSheet);
 }
+
+void DeleteImageLater(QImage *img, int delayMs)
+{
+    if (img == nullptr) {
+        return;
+    }
+    if (qApp == nullptr) {
+        delete img;
+        return;
+    }
+
+    bool queued = QMetaObject::invokeMethod(qApp, [img, delayMs]() {
+        QTimer::singleShot(delayMs, qApp, [img]() {
+            delete img;
+        });
+    }, Qt::QueuedConnection);
+
+    if (!queued) {
+        delete img;
+    }
+}

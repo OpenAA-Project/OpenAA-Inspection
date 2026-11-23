@@ -80,10 +80,29 @@ bool	GUICmdSendBmp::MakeImage( DisplayType dtype
 			delete	PntFromNGData;
 			PntFromNGData=NULL;
 		}
-		delete	IData;
-		delete	NGData;
-		IData=NULL;
-		NGData=NULL;
+		{
+			QImage *oldImg = IData;
+			////delete	IData;
+			IData = NULL;
+			DeleteImageLater(oldImg);
+			////QMetaObject::invokeMethod(qApp, [oldImg]() {
+			////    delete oldImg;
+			////}, Qt::QueuedConnection);
+		}
+		{
+			////delete	NGData;
+			QImage *oldImg = NGData;
+			NGData = NULL;
+			DeleteImageLater(oldImg);
+			////QMetaObject::invokeMethod(qApp, [oldImg]() {
+			////    delete oldImg;
+			////}, Qt::QueuedConnection);
+		}
+
+		//delete	IData;
+		//delete	NGData;
+		//IData=NULL;
+		//NGData=NULL;
 	}
 	if(IData==NULL){
 		IData =new QImage(LGx,LGy,QImage::Format_ARGB32);

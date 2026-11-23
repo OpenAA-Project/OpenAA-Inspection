@@ -61,7 +61,9 @@ public:
 	bool	Save(int64 d);
 	bool	Save(short d);
 	bool	Save(WORD d);
+#ifdef Q_OS_WIN
 	bool	Save(DWORD d);
+#endif
 	bool	Save(float d);
 	bool	Save(double d);
 	bool	Save(BYTE d);

@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Core OpenGLWidgets Network OpenGL Widgets Sql Gui)
+find_package(Qt6 REQUIRED COMPONENTS Network OpenGLWidgets Core Widgets Sql OpenGL Gui)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -83,6 +83,13 @@ endif()
 
 # === Configuration-specific settings ===
 
+target_include_directories(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:
+        "../../OpenSource/Component"
+        "../../Open"
+    >
+)
+
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "DISPLAYOPENGL_LIB"
@@ -127,12 +134,12 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Core
-    Qt6::OpenGLWidgets
     Qt6::Network
-    Qt6::OpenGL
+    Qt6::OpenGLWidgets
+    Qt6::Core
     Qt6::Widgets
     Qt6::Sql
+    Qt6::OpenGL
     Qt6::Gui
 )
 

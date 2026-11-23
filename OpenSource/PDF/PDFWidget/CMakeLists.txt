@@ -147,6 +147,20 @@ endif()
 
 # === Configuration-specific settings ===
 
+target_include_directories(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:
+        "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/include"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/splash"
+        "$(LIBPNG)"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf-qt"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/goo"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/build"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/fofi"
+    >
+)
+
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "PDFWIDGET_LIB"
@@ -174,15 +188,15 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/build"
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/goo"
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/fofi"
         "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/include"
-        "$(LIBPNG)"
         "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/splash"
+        "$(LIBPNG)"
         "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/"
         "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf-qt"
         "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/goo"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/build"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/fofi"
     >
 )
 

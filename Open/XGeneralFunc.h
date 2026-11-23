@@ -195,6 +195,9 @@ inline  int GetHalfUpDown(double k)
     return((k>0)?(int)(k+0.5):(int)(k-0.5));
 }
 
+void DeleteImageLater(QImage *img, int delayMs = 3000);
+
+
 class	QThreadForWait : public QThread
 {
 public:

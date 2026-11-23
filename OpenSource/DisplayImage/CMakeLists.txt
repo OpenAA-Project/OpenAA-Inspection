@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Core Network Widgets Sql Gui)
+find_package(Qt6 REQUIRED COMPONENTS Gui Network Widgets Core Sql)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -184,6 +184,14 @@ set(PROJECT_RESOURCES
 
 # Other resource files (icons, images)
 set(PROJECT_OTHER_RESOURCES
+    "Icon/CopyRect.PNG"
+    "Icon/DrawDot.PNG"
+    "Icon/DrawRect.PNG"
+    "Icon/Measure.PNG"
+    "Icon/PickColor.PNG"
+    "Icon/SaveImageOnRect.PNG"
+    "Icon/ZoomIn.PNG"
+    "Icon/ZoomRect.PNG"
     "Resources/ItemMenu100.png"
     "Resources/ItemMenu32.png"
     "Resources/ItemMenu64.png"
@@ -227,19 +235,19 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles/"
-        "./GeneratedFiles"
         "./GeneratedFiles/$(Configuration)"
-        "../../OpenSource/Component"
+        "./GeneratedFiles"
         "./"
+        "./GeneratedFiles/"
         "../../Open"
+        "../../OpenSource/Component"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "DISPLAYIMAGE_LIB"
         "QT_THREAD_SUPPORT"
+        "DISPLAYIMAGE_LIB"
         "UNICODE"
     >
 )
@@ -265,22 +273,22 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles/"
-        "../../OpenSource/include"
-        "./GeneratedFiles"
         "./GeneratedFiles/$(Configuration)"
-        "../../OpenSource/Component"
-        "../../ServiceLib/ServiceLib"
+        "./GeneratedFiles"
         "./"
+        "./GeneratedFiles/"
+        "../../ServiceLib/ServiceLib"
         "../../Open"
+        "../../OpenSource/include"
+        "../../OpenSource/Component"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "QT_NO_DEBUG"
-        "DISPLAYIMAGE_LIB"
         "QT_THREAD_SUPPORT"
+        "DISPLAYIMAGE_LIB"
         "NDEBUG"
         "UNICODE"
     >
@@ -293,8 +301,8 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Template>:
-        "./GeneratedFiles/"
         "./GeneratedFiles"
+        "./GeneratedFiles/"
     >
 )
 
@@ -304,11 +312,11 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Core
+    Qt6::Gui
     Qt6::Network
     Qt6::Widgets
+    Qt6::Core
     Qt6::Sql
-    Qt6::Gui
 )
 
 # === Additional Custom Settings ===
@@ -327,12 +335,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
-    -ffunction-sections -fdata-sections
-)
-
-target_link_options(${PROJECT_NAME} PRIVATE
-    "-Wl,--no-undefined"
-    "-Wl,--gc-sections"
+    -O0
+    -g
 )
 
     # --- Dynamic Library Linking for ForWindows ---

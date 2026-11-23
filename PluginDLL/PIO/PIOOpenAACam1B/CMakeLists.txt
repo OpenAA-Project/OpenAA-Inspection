@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Network Widgets Gui Core Core5Compat)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Gui Core5Compat Sql Core Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -184,12 +184,12 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Sql
-    Qt6::Network
     Qt6::Widgets
     Qt6::Gui
-    Qt6::Core
     Qt6::Core5Compat
+    Qt6::Sql
+    Qt6::Core
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===
@@ -208,12 +208,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
-    -ffunction-sections -fdata-sections
-)
-
-target_link_options(${PROJECT_NAME} PRIVATE
-    "-Wl,--no-undefined"
-    "-Wl,--gc-sections"
+    -O0
+    -g
 )
 
     # --- Dynamic Library Linking for ForWindows ---

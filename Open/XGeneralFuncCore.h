@@ -43,7 +43,9 @@ bool	FuncCall	Save(QIODevice* f, uint32 d);
 bool	FuncCall	Save(QIODevice* f, int64 d);
 bool	FuncCall	Save(QIODevice* f, short d);
 bool	FuncCall	Save(QIODevice* f, WORD d);
+#ifdef Q_OS_WIN
 bool	FuncCall	Save(QIODevice* f, DWORD d);
+#endif
 bool	FuncCall	Save(QIODevice* f, float d);
 bool	FuncCall	Save(QIODevice* f, double d);
 bool	FuncCall	Save(QIODevice* f, BYTE d);
@@ -79,7 +81,9 @@ bool	FuncCall	Load(QIODevice* f, WORD& d);
 bool	FuncCall	Load(QIODevice* f, float& d);
 bool	FuncCall	Load(QIODevice* f, double& d);
 bool	FuncCall	Load(QIODevice* f, QChar& d);
+#ifdef Q_OS_WIN
 bool	FuncCall	Load(QIODevice* f, DWORD& d);
+#endif
 bool	FuncCall	Load(QIODevice* f, BYTE& d);
 bool	FuncCall	Load(QIODevice* f, char& d);
 bool	FuncCall	Load(QIODevice* f, bool& d);
