@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Network Widgets Core Sql)
+find_package(Qt6 REQUIRED COMPONENTS Network Sql Gui Core Widgets)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -235,20 +235,20 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "./GeneratedFiles/"
         "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
-        "./"
-        "./GeneratedFiles/"
         "../../Open"
         "../../OpenSource/Component"
+        "./"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "QT_THREAD_SUPPORT"
-        "DISPLAYIMAGE_LIB"
         "UNICODE"
+        "DISPLAYIMAGE_LIB"
+        "QT_THREAD_SUPPORT"
     >
 )
 
@@ -273,24 +273,24 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "./GeneratedFiles/"
         "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
-        "./"
-        "./GeneratedFiles/"
-        "../../ServiceLib/ServiceLib"
         "../../Open"
-        "../../OpenSource/include"
         "../../OpenSource/Component"
+        "../../OpenSource/include"
+        "../../ServiceLib/ServiceLib"
+        "./"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "UNICODE"
         "QT_NO_DEBUG"
-        "QT_THREAD_SUPPORT"
         "DISPLAYIMAGE_LIB"
         "NDEBUG"
-        "UNICODE"
+        "QT_THREAD_SUPPORT"
     >
 )
 
@@ -301,8 +301,8 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Template>:
-        "./GeneratedFiles"
         "./GeneratedFiles/"
+        "./GeneratedFiles"
     >
 )
 
@@ -312,11 +312,11 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
     Qt6::Network
-    Qt6::Widgets
-    Qt6::Core
     Qt6::Sql
+    Qt6::Gui
+    Qt6::Core
+    Qt6::Widgets
 )
 
 # === Additional Custom Settings ===
@@ -335,8 +335,13 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
-    -O0
-    -g
+    -ffunction-sections -fdata-sections
+    -O3
+)
+
+target_link_options(${PROJECT_NAME} PRIVATE
+    "-Wl,--no-undefined"
+    "-Wl,--gc-sections"
 )
 
     # --- Dynamic Library Linking for ForWindows ---
