@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include "contec64dll2.h"
 
 #ifdef _MSC_VER
 #include "windows.h"
@@ -24,7 +25,6 @@
 #include "cdio.h"
 #endif
 
-#include "contec64dll2.h"
 #include "AIP_IO.h"
 #include "math.h"
 #include <QStringList>

@@ -16,6 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include "contec64dll.h"
+#include "XIODLL.h"
+
 #ifdef _MSC_VER
 #include "windows.h"
 #include "CDio.h"
@@ -23,14 +26,12 @@
 #include "cdio.h"
 #endif
 
-#include "contec64dll.h"
 #include "AIP_IO.h"
 #include "math.h"
 
 #include <QStringList>
 #include <QFile>
 #include <QTextStream>
-#include "XIODLL.h"
 
 //static short Id;
 

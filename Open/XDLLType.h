@@ -16,11 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 #if	!defined(XDLLTYPE_H)
 #define	XDLLTYPE_H
 
 #include "NList.h"
+#include "XTypeDef.h"
 #include <QString>
 #include <QStringList>
 #include <QColor>

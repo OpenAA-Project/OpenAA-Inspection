@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include "Contec64Multi.h"
 
 #ifdef _MSC_VER
 #include "windows.h"
@@ -26,7 +27,6 @@
 
 #include "AIP_IO.h"
 #include "math.h"
-#include "Contec64Multi.h"
 #include <QStringList>
 #include <QFile>
 #include <QTextStream>

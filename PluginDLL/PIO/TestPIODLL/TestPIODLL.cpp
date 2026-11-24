@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include "TestPIODLL.h"
+#include "TestForm.h"
 
 #ifdef _MSC_VER
 #include "windows.h"
@@ -26,11 +28,9 @@
 
 #include "AIP_IO.h"
 #include "math.h"
-#include "TestPIODLL.h"
 #include <QStringList>
 #include <QFile>
 #include <QTextStream>
-#include "TestForm.h"
 
 //static	TestForm	*TestFormDim;
 
