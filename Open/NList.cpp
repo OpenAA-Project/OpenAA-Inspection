@@ -106,27 +106,27 @@ inline	void NPListPack<T>::AppendListPack(NPListPack<T> &s)
 	s.Count=0;
 }
 template<class T>
-inline	unsigned long NPList<T>::GetNumber(void)	const
+inline	DWORD NPList<T>::GetNumber(void)	const
 {
 	NPList<T>	 *n;
-	unsigned long	i;
+	DWORD	i;
 	n = GetRoot();
 	for(i=0;n!=NULL;n=n->GetNext(),i++);
 	return(i);
 }
 
 template<class T>
-inline	unsigned long NPList<T>::GetNumberFrom(void)
+inline	DWORD NPList<T>::GetNumberFrom(void)
 {
 	NPList<T>	 *n;
-	unsigned long	i;
+	DWORD	i;
 	n = this;
 	for(i=0;n!=NULL;n=n->GetNext(),i++);
 	return(i);
 }
 
 template<class T>
-inline	void	NPListPack<T>::InsertList(long index ,T *additem)
+inline	void	NPListPack<T>::InsertList(DWORD index ,T *additem)
 {
 	if((Base==NULL) && (index==0)){
 		Base=Last=additem;
@@ -150,7 +150,7 @@ template<class T>
 inline	unsigned int	NPListPack<T>::GetPointNumber(T *indexitem)	const
 {
 	NPList<T>	 *n;
-	unsigned long	i;
+	DWORD	i;
 	n = indexitem;
 	for(i=0;n!=NULL;n=n->GetPrev(),i++);
 	return(i-1);
@@ -234,7 +234,7 @@ inline	void NPListPack<T>::UpsideDown(void)
 
 
 template<class T>
-inline	T *NPListPack<T>::GetItem(unsigned long index)	const
+inline	T *NPListPack<T>::GetItem(DWORD index)	const
 {
 	T	*n=Base;
 	for(;index>0 && n!=NULL;index--){
@@ -510,20 +510,20 @@ inline	T *NList<T>::Dimension(int n)
 }
 
 template<class T>
-inline	unsigned long NList<T>::GetNumber(void)	const
+inline	DWORD NList<T>::GetNumber(void)	const
 {
 	NList<T>	*n;
-	unsigned long	i;
+	DWORD	i;
 	n = this;
 	for(i=0;n!=NULL;n=n->GetNext(),i++);
 	return(i);
 }
 
 template<class T>
-inline	unsigned long NList<T>::GetNumberFrom(void)
+inline	DWORD NList<T>::GetNumberFrom(void)
 {
 	NList<T>	*n;
-	unsigned long	i;
+	DWORD	i;
 	n = this;
 	for(i=0;n!=NULL;n=n->GetNext(),i++);
 	return(i);
@@ -533,9 +533,9 @@ template<class T>
 inline	NList<T>::~NList(void)
 {
 	if(_next!=NULL){
-		unsigned long	p;
+		DWORD	p;
 		NList<T>	*n;
-		unsigned long	i;
+		DWORD	i;
 		while((p=this->GetNumberFrom())>RecursiveTurns){
 			p-=RecursiveTurns;
 			n = this;
@@ -574,7 +574,7 @@ inline	T *NListPack<T>::RemoveList(T *point)
 }
 
 template<class T>
-inline	T *NListPack<T>::GetItem(unsigned long index)	const
+inline	T *NListPack<T>::GetItem(DWORD index)	const
 {
 	T	*n=Base;
 	for(;index>0;index--){

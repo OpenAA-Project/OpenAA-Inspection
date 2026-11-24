@@ -94,16 +94,18 @@ class DetailResultValueList : public NPList<DetailResultValueList>
 		 _ResultTypeNone		=0
 		,_ResultTypeBool		=1
 		,_ResultTypeInt			=2
-		,_ResultTypeULong		=3
-		,_ResultTypeDouble		=4
-		,_ResultTypeQString		=5
+		,_ResultTypeDWORD		=3
+		,_ResultTypeQWORD		=4
+		,_ResultTypeDouble		=5
+		,_ResultTypeQString		=6
 	};
 	_ResultType	ResultType;
 public:
 	QString			MessageString;
 	bool			ResultValueBool;
 	int				ResultValueInt;
-	unsigned long	ResultValueULong;
+	DWORD			ResultValueDWORD;
+	QWORD			ResultValueQWORD;
 	double			ResultValueDouble;
 	QString			ResultValueString;
 
@@ -113,7 +115,8 @@ public:
 	void	SetMessage(const QString &s){	MessageString=s;	}
 	void	SetResultValue(bool b)			;
 	void	SetResultValue(int d)			;
-	void	SetResultValue(unsigned long d)	;
+	void	SetResultValue(DWORD d)			;
+	void	SetResultValue(QWORD d)			;
 	void	SetResultValue(double d)		;
 	void	SetResultValue(const QString &s);
 
@@ -139,7 +142,8 @@ public:
 	void	Add(DetailResultValueList *L);
 	void	Add(const QString &msg ,bool b);
 	void	Add(const QString &msg ,int d);
-	void	Add(const QString &msg ,unsigned long d);
+	void	Add(const QString &msg ,DWORD d);
+	void	Add(const QString &msg ,QWORD d);
 	void	Add(const QString &msg ,double d);
 	void	Add(const QString &msg ,const QString &s);
 

@@ -53,12 +53,12 @@ public:
 	T *Insert(T *child);
 	bool	Remove(void);
 	T *Dimension(int n);
-	unsigned long GetNumber(void)	const;
+	DWORD GetNumber(void)	const;
 	void	SwapLink(void){	T	*p=_next;	_next=_prev;	_prev=p;	}
 	virtual	int	Compare(T &src)	{	return 0;	}
 
 private:
-	unsigned long GetNumberFrom(void);
+	DWORD GetNumberFrom(void);
 };
 
 template<class T>
@@ -160,7 +160,7 @@ public:
 		Last=(T *)additem->GetLastEnd();
 		Count++;
 		}
-	void	InsertList(long index ,T *additem);
+	void	InsertList(DWORD index ,T *additem);
 	void	InsertLater(T *indexitem ,T *additem);
 	void	InsertForward(T *indexitem ,T *additem);
 
@@ -201,14 +201,14 @@ public:
 			delete	p;
 		}
 	}
-	unsigned long GetNumber(void) const{
+	DWORD GetNumber(void) const{
 		return Count;
 	}
-	unsigned long count(void)	const	{	return GetNumber();	}
-	unsigned long GetCount(void) const	{	return GetNumber();	}
+	DWORD count(void)	const	{	return GetNumber();	}
+	DWORD GetCount(void) const	{	return GetNumber();	}
 
-	T *GetItem(unsigned long index)		const;
-	T *operator[](unsigned long index)	const	{	return GetItem(index);	}
+	T *GetItem(DWORD index)		const;
+	T *operator[](DWORD index)	const	{	return GetItem(index);	}
     bool    IsExist(T *point)	const;
 	bool	IsEmpty(void) const	{	return (GetFirst()==NULL)?true:false;	}
 	bool	IsNull(void) const	{	return IsEmpty();	}
@@ -271,10 +271,10 @@ class	NList
 	T *AppendLast(T *child);
 	T *Insert(T *child);
 	T *Dimension(int n);
-	unsigned long GetNumber(void)	const;
+	DWORD GetNumber(void)	const;
 
     private:
-	unsigned long GetNumberFrom(void);
+	DWORD GetNumberFrom(void);
 };
 
 template<class T>
@@ -345,11 +345,11 @@ class	NListPack
 		delete  Base;
 		Base=Last=NULL;
 		}
-	unsigned long GetNumber(void){
+	DWORD GetNumber(void){
 		if(Base==NULL)	return(0);
 		return(Base->GetNumber());
 		}
-	T *GetItem(unsigned long index)	const;
+	T *GetItem(DWORD index)	const;
 
 	NListPack<T> & operator+=(NListPack<T> &s1);
    private:
@@ -384,10 +384,10 @@ public:
 template<class T>
 class	DimListPack
 {
-	T	*Base;
-	int	AllocatedCount;
-	int	Count;
-    int	BaseID;
+	T		*Base;
+	int		AllocatedCount;
+	DWORD	Count;
+    int		BaseID;
 public:
 	DimListPack(void){		Base=NULL;	Count=0;	AllocatedCount=0;	BaseID=0;	}
 	DimListPack(const DimListPack<T> &src){
@@ -435,7 +435,7 @@ public:
 		Base[Count].SetID(BaseID++);
 		Count++;
 	}
-	void	Insert(long index ,T &additem){
+	void	Insert(DWORD index ,T &additem){
 		if(Count>=AllocatedCount){
 			AllocatedCount+=GetAllocationBlockCount();
 			T *Tmp=new T[AllocatedCount];
@@ -490,11 +490,11 @@ public:
 		Count=0;
 		AllocatedCount=0;
 		}
-	unsigned long count(void)	const	{	return Count;	}
-	unsigned long GetCount(void) const	{	return Count;	}
+	DWORD count(void)	const	{	return Count;	}
+	DWORD GetCount(void) const	{	return Count;	}
 
-	T *GetItem(unsigned long index)		const	{	return (0<=index && index<Count)?&Base[index]:NULL;	}
-	T *operator[](unsigned long index)	const	{	return GetItem(index);	}
+	T *GetItem(DWORD index)		const	{	return (0<=index && index<Count)?&Base[index]:NULL;	}
+	T *operator[](DWORD index)	const	{	return GetItem(index);	}
     bool    IsExist(T *point)	const
 	{
 		if(Base==NULL){  return false;	}

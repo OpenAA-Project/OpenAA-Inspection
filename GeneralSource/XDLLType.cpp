@@ -131,14 +131,16 @@ DetailResultValueList::DetailResultValueList(const DetailResultValueList &src)
 	MessageString		=src.MessageString		;
 	ResultValueBool		=src.ResultValueBool	;
 	ResultValueInt		=src.ResultValueInt		;
-	ResultValueULong	=src.ResultValueULong	;
+	ResultValueDWORD	=src.ResultValueDWORD	;
+	ResultValueQWORD	=src.ResultValueQWORD	;
 	ResultValueDouble	=src.ResultValueDouble	;
 	ResultValueString	=src.ResultValueString	;
 }
 
 void	DetailResultValueList::SetResultValue(bool b)			{	ResultValueBool=b;	ResultType=_ResultTypeBool;		}
 void	DetailResultValueList::SetResultValue(int d)			{	ResultValueInt=d;	ResultType=_ResultTypeInt;		}
-void	DetailResultValueList::SetResultValue(unsigned long d)	{	ResultValueULong=d;	ResultType=_ResultTypeULong;		}
+void	DetailResultValueList::SetResultValue(DWORD d)			{	ResultValueDWORD=d;	ResultType=_ResultTypeDWORD;		}
+void	DetailResultValueList::SetResultValue(QWORD d)			{	ResultValueQWORD=d;	ResultType=_ResultTypeQWORD;		}
 void	DetailResultValueList::SetResultValue(double d)			{	ResultValueDouble=d;ResultType=_ResultTypeDouble;	}
 void	DetailResultValueList::SetResultValue(const QString &s)	{	ResultValueString=s;ResultType=_ResultTypeQString;	}
 
@@ -148,7 +150,8 @@ DetailResultValueList	&DetailResultValueList::operator=(const DetailResultValueL
 	MessageString		=src.MessageString		;
 	ResultValueBool		=src.ResultValueBool	;
 	ResultValueInt		=src.ResultValueInt		;
-	ResultValueULong	=src.ResultValueULong	;
+	ResultValueDWORD	=src.ResultValueDWORD	;
+	ResultValueQWORD	=src.ResultValueQWORD	;
 	ResultValueDouble	=src.ResultValueDouble	;
 	ResultValueString	=src.ResultValueString	;
 	return *this;
@@ -159,7 +162,8 @@ QString	DetailResultValueList::GetResultValue(void)
 		case _ResultTypeNone	:	return /**/"";
 		case _ResultTypeBool	:	return QString((ResultValueBool==true)?/**/"true":/**/"false");
 		case _ResultTypeInt		:	return QString::number(ResultValueInt);
-		case _ResultTypeULong	:	return QString::number(ResultValueULong);
+		case _ResultTypeDWORD	:	return QString::number(ResultValueDWORD);
+		case _ResultTypeQWORD	:	return QString::number(ResultValueQWORD);
 		case _ResultTypeDouble	:	return QString::number(ResultValueDouble,'f',3);
 		case _ResultTypeQString	:	return ResultValueString;
 	}
@@ -213,7 +217,14 @@ void	DetailResultInfoList::Add(const QString &msg ,int d)
 	L->SetResultValue(d);
 	ResultValueContainer.AppendList(L);
 }
-void	DetailResultInfoList::Add(const QString &msg ,unsigned long d)
+void	DetailResultInfoList::Add(const QString &msg ,DWORD d)
+{
+	DetailResultValueList	*L=new DetailResultValueList();
+	L->SetMessage(msg);
+	L->SetResultValue(d);
+	ResultValueContainer.AppendList(L);
+}
+void	DetailResultInfoList::Add(const QString &msg ,QWORD d)
 {
 	DetailResultValueList	*L=new DetailResultValueList();
 	L->SetMessage(msg);
