@@ -185,7 +185,7 @@ bool	AutoSaveImageInLayer::SaveLayerTarget(ImageBuffer *SavedImage, QString File
 			DWORD len		= BandByte;
 			DWORD comprLen	=CompressBuffSize;
 			DWORD uncomprLen=CompressBuffSize;
-			int err = compress(CompressBuff2, &comprLen, (const BYTE *)CompressBuff, len);
+			int err = compress(CompressBuff2, &comprLen, (const BYTE *)CompressBuff, (uLong)len);
 			if(err!=0){
 				return false;
 			}
@@ -274,7 +274,7 @@ bool	AutoSaveImageInLayer::LoadLayerTarget(ImageBuffer *Dest, QString FileName
 				if(File.read((char *)CompressBuff,comprLen)!=comprLen){
 					return false;
 				}
-				int err = uncompress(CompressBuff2, &uncomprLen, (const BYTE*)CompressBuff, comprLen);
+				int err = uncompress(CompressBuff2, &uncomprLen, (const BYTE*)CompressBuff, (uLong)comprLen);
 
 				for(int y=0;y<NYLen;y++){
 					int	Y=b*NYLen+y;
