@@ -665,20 +665,30 @@ static  char    *GetTopString(char *fp)
 //  6.備考
 //
 /*----------------------------------------------------------------------------*/
-static  char    *GetWordCut(char *fp ,char buff[])
+static  char    *GetWordCut(char *fp ,char buff[] ,int buffSize)
 {
+    if(fp==NULL || buff==NULL || buffSize<=0){
+        return(NULL);
+    }
     fp=GetTopString(fp);
     int i;
-    for(i=0;i<100;i++){
-        if(strchr(Dellimiter,*fp)!=0 || *fp==0)
+    int maxLen=buffSize-1;
+    for(i=0;i<maxLen;i++){
+        if(*fp==0 || strchr(Dellimiter,*fp)!=NULL)
             break;
         buff[i]=*fp;
         fp++;
-        }
+    }
     buff[i]=0;
     if(i==0)
         return(NULL);
     return(fp);
+}
+
+template <size_t N>
+static  char    *GetWordCut(char *fp ,char (&buff)[N])
+{
+    return GetWordCut(fp, buff, static_cast<int>(N));
 }
 
 static	void	CutComment(char *Buff)
