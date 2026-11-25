@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Core Network Widgets Sql Gui Core5Compat)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -92,12 +92,12 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
-        "./GeneratedFiles/"
         "./../../../../Open"
-        "./../../../../GeneralSource"
+        "./GeneratedFiles/"
         "./../../../../GeneralSource/Sequence"
         "."
+        "./../../../../GeneralSource"
+        "./GeneratedFiles"
     >
 )
 
@@ -110,52 +110,36 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "CCSCONTROL_LIB"
-        "QT_LARGEFILE_SUPPORT"
-        "_MM_FUNCTIONALITY"
         "UNICODE"
+        "QT_LARGEFILE_SUPPORT"
+        "CCSCONTROL_LIB"
+        "_MM_FUNCTIONALITY"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"hid.lib">
-        $<$<CONFIG:Debug>:"DisplayImage.lib">
-        $<$<CONFIG:Debug>:"ServiceLib.lib">
-        $<$<CONFIG:Debug>:"setupapi.lib">
         $<$<CONFIG:Debug>:"SeqLib.lib">
+        $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"hid.lib">
+        $<$<CONFIG:Debug>:"setupapi.lib">
         $<$<CONFIG:Debug>:"Component.lib">
+        $<$<CONFIG:Debug>:"DisplayImage.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for hid (Debug) ---
+    # --- Dynamic Library Linking for SeqLib (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(HID_SHARED_LIB_DEBUG NAMES hid PATHS "/lib/win7/amd64" "../../../../Lib/Debug")
-    if(HID_SHARED_LIB_DEBUG)
-        set(HID_FINAL_LIB_DEBUG ${HID_SHARED_LIB_DEBUG})
+    find_library(SEQLIB_SHARED_LIB_DEBUG NAMES SeqLib PATHS "/lib/win7/amd64" "../../../../Lib/Debug")
+    if(SEQLIB_SHARED_LIB_DEBUG)
+        set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(HID_STATIC_LIB_DEBUG NAMES libhid.a PATHS "/lib/win7/amd64" "../../../../Lib/Debug")
-        if(HID_STATIC_LIB_DEBUG)
-            set(HID_FINAL_LIB_DEBUG ${HID_STATIC_LIB_DEBUG})
+        find_library(SEQLIB_STATIC_LIB_DEBUG NAMES libSeqLib.a PATHS "/lib/win7/amd64" "../../../../Lib/Debug")
+        if(SEQLIB_STATIC_LIB_DEBUG)
+            set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_STATIC_LIB_DEBUG})
         else()
             # Fallback if not found (e.g. system library)
-            set(HID_FINAL_LIB_DEBUG hid)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for DisplayImage (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "/lib/win7/amd64" "../../../../Lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
-        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "/lib/win7/amd64" "../../../../Lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
+            set(SEQLIB_FINAL_LIB_DEBUG SeqLib)
         endif()
     endif()
 
@@ -175,6 +159,22 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for hid (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(HID_SHARED_LIB_DEBUG NAMES hid PATHS "/lib/win7/amd64" "../../../../Lib/Debug")
+    if(HID_SHARED_LIB_DEBUG)
+        set(HID_FINAL_LIB_DEBUG ${HID_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(HID_STATIC_LIB_DEBUG NAMES libhid.a PATHS "/lib/win7/amd64" "../../../../Lib/Debug")
+        if(HID_STATIC_LIB_DEBUG)
+            set(HID_FINAL_LIB_DEBUG ${HID_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(HID_FINAL_LIB_DEBUG hid)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for setupapi (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(SETUPAPI_SHARED_LIB_DEBUG NAMES setupapi PATHS "/lib/win7/amd64" "../../../../Lib/Debug")
@@ -188,22 +188,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(SETUPAPI_FINAL_LIB_DEBUG setupapi)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for SeqLib (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SEQLIB_SHARED_LIB_DEBUG NAMES SeqLib PATHS "/lib/win7/amd64" "../../../../Lib/Debug")
-    if(SEQLIB_SHARED_LIB_DEBUG)
-        set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SEQLIB_STATIC_LIB_DEBUG NAMES libSeqLib.a PATHS "/lib/win7/amd64" "../../../../Lib/Debug")
-        if(SEQLIB_STATIC_LIB_DEBUG)
-            set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SEQLIB_FINAL_LIB_DEBUG SeqLib)
         endif()
     endif()
 
@@ -223,14 +207,30 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for DisplayImage (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "/lib/win7/amd64" "../../../../Lib/Debug")
+    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
+        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "/lib/win7/amd64" "../../../../Lib/Debug")
+        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${HID_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${SETUPAPI_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SEQLIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${HID_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${SETUPAPI_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -256,63 +256,47 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
-        "./GeneratedFiles/"
         "./../../../../Open"
-        "./../../../../GeneralSource"
+        "./GeneratedFiles/"
         "./../../../../GeneralSource/Sequence"
         "."
+        "./../../../../GeneralSource"
+        "./GeneratedFiles"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../../../Lib/Release"
         "/lib/win7/amd64"
+        "../../../../Lib/Release"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "CCSCONTROL_LIB"
-        "QT_LARGEFILE_SUPPORT"
-        "NDEBUG"
-        "_MM_FUNCTIONALITY"
         "UNICODE"
         "QT_NO_DEBUG"
+        "QT_LARGEFILE_SUPPORT"
+        "CCSCONTROL_LIB"
+        "_MM_FUNCTIONALITY"
+        "NDEBUG"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"ServiceLib.lib">
         $<$<CONFIG:Release>:"SeqLib.lib">
+        $<$<CONFIG:Release>:"ServiceLib.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for ServiceLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../../../Lib/Release" "/lib/win7/amd64")
-    if(SERVICELIB_SHARED_LIB_RELEASE)
-        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../../../Lib/Release" "/lib/win7/amd64")
-        if(SERVICELIB_STATIC_LIB_RELEASE)
-            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for SeqLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(SEQLIB_SHARED_LIB_RELEASE NAMES SeqLib PATHS "../../../../Lib/Release" "/lib/win7/amd64")
+    find_library(SEQLIB_SHARED_LIB_RELEASE NAMES SeqLib PATHS "/lib/win7/amd64" "../../../../Lib/Release")
     if(SEQLIB_SHARED_LIB_RELEASE)
         set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SEQLIB_STATIC_LIB_RELEASE NAMES libSeqLib.a PATHS "../../../../Lib/Release" "/lib/win7/amd64")
+        find_library(SEQLIB_STATIC_LIB_RELEASE NAMES libSeqLib.a PATHS "/lib/win7/amd64" "../../../../Lib/Release")
         if(SEQLIB_STATIC_LIB_RELEASE)
             set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_STATIC_LIB_RELEASE})
         else()
@@ -321,10 +305,26 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for ServiceLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "/lib/win7/amd64" "../../../../Lib/Release")
+    if(SERVICELIB_SHARED_LIB_RELEASE)
+        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "/lib/win7/amd64" "../../../../Lib/Release")
+        if(SERVICELIB_STATIC_LIB_RELEASE)
+            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SEQLIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -335,12 +335,12 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Core
-    Qt6::Network
-    Qt6::Widgets
     Qt6::Sql
+    Qt6::Core
     Qt6::Gui
+    Qt6::Widgets
     Qt6::Core5Compat
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===
@@ -360,6 +360,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

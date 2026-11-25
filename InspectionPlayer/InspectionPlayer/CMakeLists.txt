@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS SerialPort Gui Core5Compat Sql Widgets Core Network Xml)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Xml Gui Widgets Core5Compat SerialPort Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -108,81 +108,65 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../ServiceLib/CommonGUIDLL"
-        "./GeneratedFiles"
-        "../../Integrator/IntegrationLib"
-        "../../GeneralSource/Sequence"
-        "../../Debug"
-        "../../GeneralSource"
         "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "../../OpenSource/DisplayImage"
-        "./GeneratedFiles/$(Configuration)"
-        "../../Open"
-        "./GeneratedFiles/"
         "../../OpenSource/Component"
         "../"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
-        "../../PluginDLL/Camera"
-        "../../Hasplib/Hasplib"
-        "../../ServiceLib/EditPasswordOnControl"
-        "../../EditGUI/EditGUI"
-        "../../ServiceLib/EditPasswordOnControl/GeneratedFiles"
         "../../ServiceLib/CommonGUIDLL/GeneratedFiles"
+        "../../ServiceLib/EditPasswordOnControl/GeneratedFiles"
+        "../../ServiceLib/CommonGUIDLL"
         "../../EditGUI/EditGUI/GeneratedFiles"
+        "../../Hasplib/Hasplib"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
+        "./GeneratedFiles/"
         "../../ServiceLib/ServiceLib"
+        "../../Debug"
+        "../../GeneralSource"
+        "../../Integrator/IntegrationLib"
+        "../../ServiceLib/EditPasswordOnControl"
+        "./GeneratedFiles/$(Configuration)"
+        "../../EditGUI/EditGUI"
+        "../../OpenSource/DisplayImage"
+        "../../GeneralSource/Sequence"
+        "../../Open"
+        "../../PluginDLL/Camera"
+        "./GeneratedFiles"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "PlatformSDK/Lib/AMD64"
         "../../Lib/Debug"
+        "PlatformSDK/Lib/AMD64"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "UNICODE"
         "QT_THREAD_SUPPORT"
         "_DEBUG"
-        "UNICODE"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"DisplayImage.lib">
         $<$<CONFIG:Debug>:"SeqLib.lib">
-        $<$<CONFIG:Debug>:"IntegrationLib.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"IntegrationLib.lib">
         $<$<CONFIG:Debug>:"EditPasswordOnControl.lib">
-        $<$<CONFIG:Debug>:"CommonGUIDLL.lib">
         $<$<CONFIG:Debug>:"Component.lib">
+        $<$<CONFIG:Debug>:"DisplayImage.lib">
+        $<$<CONFIG:Debug>:"CommonGUIDLL.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayImage (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
-        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for SeqLib (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(SEQLIB_SHARED_LIB_DEBUG NAMES SeqLib PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
+    find_library(SEQLIB_SHARED_LIB_DEBUG NAMES SeqLib PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
     if(SEQLIB_SHARED_LIB_DEBUG)
         set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SEQLIB_STATIC_LIB_DEBUG NAMES libSeqLib.a PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
+        find_library(SEQLIB_STATIC_LIB_DEBUG NAMES libSeqLib.a PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
         if(SEQLIB_STATIC_LIB_DEBUG)
             set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_STATIC_LIB_DEBUG})
         else()
@@ -191,30 +175,14 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for IntegrationLib (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(INTEGRATIONLIB_SHARED_LIB_DEBUG NAMES IntegrationLib PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
-    if(INTEGRATIONLIB_SHARED_LIB_DEBUG)
-        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES libIntegrationLib.a PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
-        if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
-            set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
+    find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
     if(SERVICELIB_SHARED_LIB_DEBUG)
         set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES libServiceLib.a PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
+        find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES libServiceLib.a PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
         if(SERVICELIB_STATIC_LIB_DEBUG)
             set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_STATIC_LIB_DEBUG})
         else()
@@ -223,14 +191,30 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for IntegrationLib (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(INTEGRATIONLIB_SHARED_LIB_DEBUG NAMES IntegrationLib PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
+    if(INTEGRATIONLIB_SHARED_LIB_DEBUG)
+        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES libIntegrationLib.a PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
+        if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
+            set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for EditPasswordOnControl (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG NAMES EditPasswordOnControl PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
+    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG NAMES EditPasswordOnControl PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
     if(EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG)
         set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG ${EDITPASSWORDONCONTROL_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG NAMES libEditPasswordOnControl.a PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
+        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG NAMES libEditPasswordOnControl.a PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
         if(EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG)
             set(EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG ${EDITPASSWORDONCONTROL_STATIC_LIB_DEBUG})
         else()
@@ -239,30 +223,14 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for CommonGUIDLL (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMMONGUIDLL_SHARED_LIB_DEBUG NAMES CommonGUIDLL PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
-    if(COMMONGUIDLL_SHARED_LIB_DEBUG)
-        set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMMONGUIDLL_STATIC_LIB_DEBUG NAMES libCommonGUIDLL.a PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
-        if(COMMONGUIDLL_STATIC_LIB_DEBUG)
-            set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMMONGUIDLL_FINAL_LIB_DEBUG CommonGUIDLL)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for Component (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
+    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
     if(COMPONENT_SHARED_LIB_DEBUG)
         set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Debug")
+        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
         if(COMPONENT_STATIC_LIB_DEBUG)
             set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
         else()
@@ -271,15 +239,47 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for DisplayImage (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
+    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
+        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
+        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for CommonGUIDLL (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMMONGUIDLL_SHARED_LIB_DEBUG NAMES CommonGUIDLL PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
+    if(COMMONGUIDLL_SHARED_LIB_DEBUG)
+        set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMMONGUIDLL_STATIC_LIB_DEBUG NAMES libCommonGUIDLL.a PATHS "../../Lib/Debug" "PlatformSDK/Lib/AMD64")
+        if(COMMONGUIDLL_STATIC_LIB_DEBUG)
+            set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMMONGUIDLL_FINAL_LIB_DEBUG CommonGUIDLL)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SEQLIB_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${COMMONGUIDLL_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMMONGUIDLL_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -305,59 +305,59 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../ServiceLib/CommonGUIDLL"
-        "./GeneratedFiles"
-        "../../Integrator/IntegrationLib"
-        "./"
-        "../../Debug"
-        "../../OpenSource/DisplayImage"
-        "./GeneratedFiles/$(Configuration)"
-        "../../Open"
-        "./GeneratedFiles/"
         "../../OpenSource/Component"
         "../"
-        "../../PluginDLL/Camera"
-        "../../Hasplib/Hasplib"
-        "../../ServiceLib/EditPasswordOnControl"
         "../../ServiceLib/EditPasswordOnControl/GeneratedFiles"
+        "../../ServiceLib/CommonGUIDLL"
+        "../../Hasplib/Hasplib"
+        "./GeneratedFiles/"
+        "./"
+        "../../Debug"
+        "../../Integrator/IntegrationLib"
+        "../../ServiceLib/EditPasswordOnControl"
+        "./GeneratedFiles/$(Configuration)"
+        "../../OpenSource/DisplayImage"
+        "../../Open"
+        "../../PluginDLL/Camera"
+        "./GeneratedFiles"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../Lib/Release"
         "PlatformSDK/Lib/AMD64"
+        "../../Lib/Release"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_THREAD_SUPPORT"
-        "NDEBUG"
+        "UNICODE"
         "_HASP_ENABLE"
         "QT_NO_DEBUG"
-        "UNICODE"
+        "NDEBUG"
+        "QT_THREAD_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:"SeqLib.lib">
-        $<$<CONFIG:Release>:"IntegrationLib.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"IntegrationLib.lib">
         $<$<CONFIG:Release>:"EditPasswordOnControl.lib">
-        $<$<CONFIG:Release>:"ServiceExecutionPlayer.lib">
         $<$<CONFIG:Release>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Release>:"ServiceExecutionPlayer.lib">
     )
 elseif(UNIX)
     # --- Dynamic Library Linking for SeqLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(SEQLIB_SHARED_LIB_RELEASE NAMES SeqLib PATHS "../../Lib/Release" "PlatformSDK/Lib/AMD64")
+    find_library(SEQLIB_SHARED_LIB_RELEASE NAMES SeqLib PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Release")
     if(SEQLIB_SHARED_LIB_RELEASE)
         set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SEQLIB_STATIC_LIB_RELEASE NAMES libSeqLib.a PATHS "../../Lib/Release" "PlatformSDK/Lib/AMD64")
+        find_library(SEQLIB_STATIC_LIB_RELEASE NAMES libSeqLib.a PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Release")
         if(SEQLIB_STATIC_LIB_RELEASE)
             set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_STATIC_LIB_RELEASE})
         else()
@@ -366,30 +366,14 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for IntegrationLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(INTEGRATIONLIB_SHARED_LIB_RELEASE NAMES IntegrationLib PATHS "../../Lib/Release" "PlatformSDK/Lib/AMD64")
-    if(INTEGRATIONLIB_SHARED_LIB_RELEASE)
-        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES libIntegrationLib.a PATHS "../../Lib/Release" "PlatformSDK/Lib/AMD64")
-        if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
-            set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release" "PlatformSDK/Lib/AMD64")
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Release")
     if(SERVICELIB_SHARED_LIB_RELEASE)
         set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release" "PlatformSDK/Lib/AMD64")
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Release")
         if(SERVICELIB_STATIC_LIB_RELEASE)
             set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
         else()
@@ -398,14 +382,30 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for IntegrationLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(INTEGRATIONLIB_SHARED_LIB_RELEASE NAMES IntegrationLib PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Release")
+    if(INTEGRATIONLIB_SHARED_LIB_RELEASE)
+        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES libIntegrationLib.a PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Release")
+        if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
+            set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for EditPasswordOnControl (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE NAMES EditPasswordOnControl PATHS "../../Lib/Release" "PlatformSDK/Lib/AMD64")
+    find_library(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE NAMES EditPasswordOnControl PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Release")
     if(EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE)
         set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE NAMES libEditPasswordOnControl.a PATHS "../../Lib/Release" "PlatformSDK/Lib/AMD64")
+        find_library(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE NAMES libEditPasswordOnControl.a PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Release")
         if(EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE)
             set(EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE ${EDITPASSWORDONCONTROL_STATIC_LIB_RELEASE})
         else()
@@ -414,30 +414,14 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for ServiceExecutionPlayer (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICEEXECUTIONPLAYER_SHARED_LIB_RELEASE NAMES ServiceExecutionPlayer PATHS "../../Lib/Release" "PlatformSDK/Lib/AMD64")
-    if(SERVICEEXECUTIONPLAYER_SHARED_LIB_RELEASE)
-        set(SERVICEEXECUTIONPLAYER_FINAL_LIB_RELEASE ${SERVICEEXECUTIONPLAYER_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICEEXECUTIONPLAYER_STATIC_LIB_RELEASE NAMES libServiceExecutionPlayer.a PATHS "../../Lib/Release" "PlatformSDK/Lib/AMD64")
-        if(SERVICEEXECUTIONPLAYER_STATIC_LIB_RELEASE)
-            set(SERVICEEXECUTIONPLAYER_FINAL_LIB_RELEASE ${SERVICEEXECUTIONPLAYER_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICEEXECUTIONPLAYER_FINAL_LIB_RELEASE ServiceExecutionPlayer)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "../../Lib/Release" "PlatformSDK/Lib/AMD64")
+    find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Release")
     if(COMMONGUIDLL_SHARED_LIB_RELEASE)
         set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "../../Lib/Release" "PlatformSDK/Lib/AMD64")
+        find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Release")
         if(COMMONGUIDLL_STATIC_LIB_RELEASE)
             set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
         else()
@@ -446,14 +430,30 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for ServiceExecutionPlayer (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICEEXECUTIONPLAYER_SHARED_LIB_RELEASE NAMES ServiceExecutionPlayer PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Release")
+    if(SERVICEEXECUTIONPLAYER_SHARED_LIB_RELEASE)
+        set(SERVICEEXECUTIONPLAYER_FINAL_LIB_RELEASE ${SERVICEEXECUTIONPLAYER_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICEEXECUTIONPLAYER_STATIC_LIB_RELEASE NAMES libServiceExecutionPlayer.a PATHS "PlatformSDK/Lib/AMD64" "../../Lib/Release")
+        if(SERVICEEXECUTIONPLAYER_STATIC_LIB_RELEASE)
+            set(SERVICEEXECUTIONPLAYER_FINAL_LIB_RELEASE ${SERVICEEXECUTIONPLAYER_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICEEXECUTIONPLAYER_FINAL_LIB_RELEASE ServiceExecutionPlayer)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
         $<$<CONFIG:Release>:${SEQLIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SERVICEEXECUTIONPLAYER_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICEEXECUTIONPLAYER_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -465,8 +465,8 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Template>:
-        "./GeneratedFiles"
         "./GeneratedFiles/"
+        "./GeneratedFiles"
     >
 )
 
@@ -482,14 +482,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_NAME}" AND IS_DIRECTORY "
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::SerialPort
-    Qt6::Gui
-    Qt6::Core5Compat
     Qt6::Sql
-    Qt6::Widgets
     Qt6::Core
-    Qt6::Network
     Qt6::Xml
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core5Compat
+    Qt6::SerialPort
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===
@@ -509,6 +509,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

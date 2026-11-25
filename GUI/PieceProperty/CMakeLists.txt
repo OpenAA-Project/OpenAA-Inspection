@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -102,18 +102,18 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
-        "../../Algorithm/PieceArchitect"
-        "../../GeneralSource"
-        "../../OpenSource/DisplayImage"
         "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "./GeneratedFiles/$(Configuration)"
-        "../../Open"
-        "./GeneratedFiles/"
         "../../OpenSource/Component"
-        "../../OpenSource/Interbase"
+        "../../Algorithm/PieceArchitect"
         "../../OpenSource/DisplayImage/GeneratedFiles"
+        "./GeneratedFiles/"
         "../../ServiceLib/ServiceLib"
+        "../../GeneralSource"
+        "./GeneratedFiles/$(Configuration)"
+        "../../OpenSource/Interbase"
+        "../../OpenSource/DisplayImage"
+        "../../Open"
+        "./GeneratedFiles"
     >
 )
 
@@ -125,35 +125,19 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "QT_THREAD_SUPPORT"
-        "PIECEPROPERTY_LIB"
         "UNICODE"
+        "PIECEPROPERTY_LIB"
+        "QT_THREAD_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"DisplayImage.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
         $<$<CONFIG:Debug>:"Component.lib">
+        $<$<CONFIG:Debug>:"DisplayImage.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayImage (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
-        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../Lib/Debug")
@@ -186,11 +170,27 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for DisplayImage (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
+    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
+        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug")
+        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -216,15 +216,15 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../ServiceLib/CommonGUIDLL"
-        "./GeneratedFiles"
-        "../../Algorithm/PieceArchitect"
-        "../../OpenSource/DisplayImage"
-        "./GeneratedFiles/$(Configuration)"
-        "../../Open"
-        "./GeneratedFiles/"
         "../../OpenSource/Component"
+        "../../Algorithm/PieceArchitect"
+        "../../ServiceLib/CommonGUIDLL"
+        "./GeneratedFiles/"
+        "./GeneratedFiles/$(Configuration)"
         "../../OpenSource/Interbase"
+        "../../OpenSource/DisplayImage"
+        "../../Open"
+        "./GeneratedFiles"
     >
 )
 
@@ -236,38 +236,22 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_THREAD_SUPPORT"
+        "UNICODE"
+        "QT_NO_DEBUG"
         "NDEBUG"
         "PIECEPROPERTY_LIB"
-        "QT_NO_DEBUG"
-        "UNICODE"
+        "QT_THREAD_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"DisplayImage.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
-        $<$<CONFIG:Release>:"CommonGUIDLL.lib">
         $<$<CONFIG:Release>:"Component.lib">
+        $<$<CONFIG:Release>:"DisplayImage.lib">
+        $<$<CONFIG:Release>:"CommonGUIDLL.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayImage (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_RELEASE NAMES DisplayImage PATHS "../../Lib/Release")
-    if(DISPLAYIMAGE_SHARED_LIB_RELEASE)
-        set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_RELEASE NAMES libDisplayImage.a PATHS "../../Lib/Release")
-        if(DISPLAYIMAGE_STATIC_LIB_RELEASE)
-            set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_RELEASE DisplayImage)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
@@ -281,22 +265,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "../../Lib/Release")
-    if(COMMONGUIDLL_SHARED_LIB_RELEASE)
-        set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "../../Lib/Release")
-        if(COMMONGUIDLL_STATIC_LIB_RELEASE)
-            set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
         endif()
     endif()
 
@@ -316,12 +284,44 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for DisplayImage (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_RELEASE NAMES DisplayImage PATHS "../../Lib/Release")
+    if(DISPLAYIMAGE_SHARED_LIB_RELEASE)
+        set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_RELEASE NAMES libDisplayImage.a PATHS "../../Lib/Release")
+        if(DISPLAYIMAGE_STATIC_LIB_RELEASE)
+            set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_RELEASE DisplayImage)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "../../Lib/Release")
+    if(COMMONGUIDLL_SHARED_LIB_RELEASE)
+        set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "../../Lib/Release")
+        if(COMMONGUIDLL_STATIC_LIB_RELEASE)
+            set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -333,8 +333,8 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Template>:
-        "./GeneratedFiles"
         "./GeneratedFiles/"
+        "./GeneratedFiles"
     >
 )
 
@@ -344,11 +344,11 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
-    Qt6::Core5Compat
     Qt6::Sql
-    Qt6::Widgets
     Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core5Compat
     Qt6::Network
 )
 
@@ -369,6 +369,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

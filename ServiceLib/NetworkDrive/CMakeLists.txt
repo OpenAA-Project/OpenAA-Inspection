@@ -121,6 +121,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

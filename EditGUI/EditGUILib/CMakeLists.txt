@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Gui Network Core5Compat Widgets Core)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -129,22 +129,22 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
+        "../../OpenSource/Component"
         "../../EditGUI/EditGUI/GeneratedFiles"
         "./GeneratedFiles/"
-        "../../OpenSource/Component"
         "./"
-        "./GeneratedFiles/$(Configuration)"
-        "../../Open"
-        "../../EditGUI/EditGUI"
         "../../GeneralSource"
+        "./GeneratedFiles/$(Configuration)"
+        "../../EditGUI/EditGUI"
+        "../../Open"
+        "./GeneratedFiles"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "EDITGUILIB_LIB"
         "UNICODE"
+        "EDITGUILIB_LIB"
         "QT_THREAD_SUPPORT"
     >
 )
@@ -170,23 +170,23 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
-        "./GeneratedFiles/"
         "../../OpenSource/Component"
+        "./GeneratedFiles/"
         "./"
-        "./GeneratedFiles/$(Configuration)"
-        "../../Open"
-        "../../EditGUI/EditGUI"
         "../../GeneralSource"
+        "./GeneratedFiles/$(Configuration)"
+        "../../EditGUI/EditGUI"
+        "../../Open"
+        "./GeneratedFiles"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "EDITGUILIB_LIB"
-        "QT_NO_DEBUG"
-        "NDEBUG"
         "UNICODE"
+        "QT_NO_DEBUG"
+        "EDITGUILIB_LIB"
+        "NDEBUG"
         "QT_THREAD_SUPPORT"
     >
 )
@@ -198,8 +198,8 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Template>:
-        "./GeneratedFiles"
         "./GeneratedFiles/"
+        "./GeneratedFiles"
     >
 )
 
@@ -210,11 +210,11 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Sql
-    Qt6::Gui
-    Qt6::Network
-    Qt6::Core5Compat
-    Qt6::Widgets
     Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core5Compat
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===
@@ -234,6 +234,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

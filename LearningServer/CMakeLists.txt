@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -115,18 +115,18 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
-        "./"
-        "./../GeneralSource"
-        "./../EditGUI/EditGUI/GeneratedFiles"
-        "./GeneratedFiles/$(Configuration)"
-        "./GeneratedFiles/"
-        "./../OpenSource/Component"
         "./../EditGUI/EditGUI"
         "./../Open"
         "../Integrator/IntegrationLib"
+        "./GeneratedFiles/"
+        "./../OpenSource/Component"
+        "./"
         "./../OpenSource/Component/generatedfiles"
+        "./../EditGUI/EditGUI/GeneratedFiles"
+        "./../GeneralSource"
+        "./GeneratedFiles/$(Configuration)"
         "../ServiceLib/ServiceLib"
+        "./GeneratedFiles"
     >
 )
 
@@ -139,104 +139,24 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "QT_THREAD_SUPPORT"
         "UNICODE"
+        "QT_THREAD_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"fbclient_static.lib">
-        $<$<CONFIG:Debug>:"ModelPageLayerItem.lib">
-        $<$<CONFIG:Debug>:"DisplayImage.lib">
-        $<$<CONFIG:Debug>:"common.lib">
-        $<$<CONFIG:Debug>:"IntegrationLib.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
-        $<$<CONFIG:Debug>:"ModelPageItem.lib">
         $<$<CONFIG:Debug>:"common_static.lib">
+        $<$<CONFIG:Debug>:"IntegrationLib.lib">
         $<$<CONFIG:Debug>:"Component.lib">
+        $<$<CONFIG:Debug>:"common.lib">
+        $<$<CONFIG:Debug>:"DisplayImage.lib">
+        $<$<CONFIG:Debug>:"ModelPageLayerItem.lib">
+        $<$<CONFIG:Debug>:"fbclient_static.lib">
+        $<$<CONFIG:Debug>:"ModelPageItem.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for fbclient_static (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(FBCLIENT_STATIC_SHARED_LIB_DEBUG NAMES fbclient_static PATHS "../Lib/Debug" "../Win64Lib/Debug")
-    if(FBCLIENT_STATIC_SHARED_LIB_DEBUG)
-        set(FBCLIENT_STATIC_FINAL_LIB_DEBUG ${FBCLIENT_STATIC_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(FBCLIENT_STATIC_STATIC_LIB_DEBUG NAMES libfbclient_static.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
-        if(FBCLIENT_STATIC_STATIC_LIB_DEBUG)
-            set(FBCLIENT_STATIC_FINAL_LIB_DEBUG ${FBCLIENT_STATIC_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(FBCLIENT_STATIC_FINAL_LIB_DEBUG fbclient_static)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ModelPageLayerItem (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MODELPAGELAYERITEM_SHARED_LIB_DEBUG NAMES ModelPageLayerItem PATHS "../Lib/Debug" "../Win64Lib/Debug")
-    if(MODELPAGELAYERITEM_SHARED_LIB_DEBUG)
-        set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ${MODELPAGELAYERITEM_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGELAYERITEM_STATIC_LIB_DEBUG NAMES libModelPageLayerItem.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
-        if(MODELPAGELAYERITEM_STATIC_LIB_DEBUG)
-            set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ${MODELPAGELAYERITEM_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ModelPageLayerItem)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for DisplayImage (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../Lib/Debug" "../Win64Lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
-        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for common (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMMON_SHARED_LIB_DEBUG NAMES common PATHS "../Lib/Debug" "../Win64Lib/Debug")
-    if(COMMON_SHARED_LIB_DEBUG)
-        set(COMMON_FINAL_LIB_DEBUG ${COMMON_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMMON_STATIC_LIB_DEBUG NAMES libcommon.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
-        if(COMMON_STATIC_LIB_DEBUG)
-            set(COMMON_FINAL_LIB_DEBUG ${COMMON_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMMON_FINAL_LIB_DEBUG common)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for IntegrationLib (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(INTEGRATIONLIB_SHARED_LIB_DEBUG NAMES IntegrationLib PATHS "../Lib/Debug" "../Win64Lib/Debug")
-    if(INTEGRATIONLIB_SHARED_LIB_DEBUG)
-        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES libIntegrationLib.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
-        if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
-            set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../Lib/Debug" "../Win64Lib/Debug")
@@ -250,22 +170,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(SERVICELIB_FINAL_LIB_DEBUG ServiceLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ModelPageItem (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MODELPAGEITEM_SHARED_LIB_DEBUG NAMES ModelPageItem PATHS "../Lib/Debug" "../Win64Lib/Debug")
-    if(MODELPAGEITEM_SHARED_LIB_DEBUG)
-        set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGEITEM_STATIC_LIB_DEBUG NAMES libModelPageItem.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
-        if(MODELPAGEITEM_STATIC_LIB_DEBUG)
-            set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MODELPAGEITEM_FINAL_LIB_DEBUG ModelPageItem)
         endif()
     endif()
 
@@ -285,6 +189,22 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for IntegrationLib (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(INTEGRATIONLIB_SHARED_LIB_DEBUG NAMES IntegrationLib PATHS "../Lib/Debug" "../Win64Lib/Debug")
+    if(INTEGRATIONLIB_SHARED_LIB_DEBUG)
+        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES libIntegrationLib.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
+        if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
+            set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for Component (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../Lib/Debug" "../Win64Lib/Debug")
@@ -301,17 +221,97 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for common (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMMON_SHARED_LIB_DEBUG NAMES common PATHS "../Lib/Debug" "../Win64Lib/Debug")
+    if(COMMON_SHARED_LIB_DEBUG)
+        set(COMMON_FINAL_LIB_DEBUG ${COMMON_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMMON_STATIC_LIB_DEBUG NAMES libcommon.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
+        if(COMMON_STATIC_LIB_DEBUG)
+            set(COMMON_FINAL_LIB_DEBUG ${COMMON_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMMON_FINAL_LIB_DEBUG common)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for DisplayImage (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../Lib/Debug" "../Win64Lib/Debug")
+    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
+        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
+        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ModelPageLayerItem (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(MODELPAGELAYERITEM_SHARED_LIB_DEBUG NAMES ModelPageLayerItem PATHS "../Lib/Debug" "../Win64Lib/Debug")
+    if(MODELPAGELAYERITEM_SHARED_LIB_DEBUG)
+        set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ${MODELPAGELAYERITEM_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(MODELPAGELAYERITEM_STATIC_LIB_DEBUG NAMES libModelPageLayerItem.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
+        if(MODELPAGELAYERITEM_STATIC_LIB_DEBUG)
+            set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ${MODELPAGELAYERITEM_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(MODELPAGELAYERITEM_FINAL_LIB_DEBUG ModelPageLayerItem)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for fbclient_static (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(FBCLIENT_STATIC_SHARED_LIB_DEBUG NAMES fbclient_static PATHS "../Lib/Debug" "../Win64Lib/Debug")
+    if(FBCLIENT_STATIC_SHARED_LIB_DEBUG)
+        set(FBCLIENT_STATIC_FINAL_LIB_DEBUG ${FBCLIENT_STATIC_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(FBCLIENT_STATIC_STATIC_LIB_DEBUG NAMES libfbclient_static.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
+        if(FBCLIENT_STATIC_STATIC_LIB_DEBUG)
+            set(FBCLIENT_STATIC_FINAL_LIB_DEBUG ${FBCLIENT_STATIC_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(FBCLIENT_STATIC_FINAL_LIB_DEBUG fbclient_static)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ModelPageItem (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(MODELPAGEITEM_SHARED_LIB_DEBUG NAMES ModelPageItem PATHS "../Lib/Debug" "../Win64Lib/Debug")
+    if(MODELPAGEITEM_SHARED_LIB_DEBUG)
+        set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(MODELPAGEITEM_STATIC_LIB_DEBUG NAMES libModelPageItem.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
+        if(MODELPAGEITEM_STATIC_LIB_DEBUG)
+            set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(MODELPAGEITEM_FINAL_LIB_DEBUG ModelPageItem)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${FBCLIENT_STATIC_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${MODELPAGELAYERITEM_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${COMMON_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${MODELPAGEITEM_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMMON_STATIC_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMMON_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${MODELPAGELAYERITEM_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${FBCLIENT_STATIC_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${MODELPAGEITEM_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -337,14 +337,14 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Intel_SSA>:
-        "./GeneratedFiles"
-        "./"
-        "./../GeneralSource"
-        "./GeneratedFiles/$(Configuration)"
+        "./../Open"
         "./GeneratedFiles/"
         "./../OpenSource/Component"
-        "./../Open"
+        "./"
         "./../OpenSource/Component/generatedfiles"
+        "./../GeneralSource"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles"
     >
 )
 
@@ -357,87 +357,23 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Intel_SSA>:
-        "QT_THREAD_SUPPORT"
         "UNICODE"
+        "QT_THREAD_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Intel_SSA>:"fbclient_static.lib">
-        $<$<CONFIG:Intel_SSA>:"ModelPageLayerItem.lib">
-        $<$<CONFIG:Intel_SSA>:"DisplayImage.lib">
-        $<$<CONFIG:Intel_SSA>:"common.lib">
         $<$<CONFIG:Intel_SSA>:"ServiceLib.lib">
-        $<$<CONFIG:Intel_SSA>:"ModelPageItem.lib">
         $<$<CONFIG:Intel_SSA>:"common_static.lib">
         $<$<CONFIG:Intel_SSA>:"Component.lib">
+        $<$<CONFIG:Intel_SSA>:"common.lib">
+        $<$<CONFIG:Intel_SSA>:"DisplayImage.lib">
+        $<$<CONFIG:Intel_SSA>:"ModelPageLayerItem.lib">
+        $<$<CONFIG:Intel_SSA>:"fbclient_static.lib">
+        $<$<CONFIG:Intel_SSA>:"ModelPageItem.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for fbclient_static (Intel_SSA) ---
-    # 1. First, search for the shared library (.so)
-    find_library(FBCLIENT_STATIC_SHARED_LIB_INTEL_SSA NAMES fbclient_static PATHS "../Lib/Debug" "../Win64Lib/Debug")
-    if(FBCLIENT_STATIC_SHARED_LIB_INTEL_SSA)
-        set(FBCLIENT_STATIC_FINAL_LIB_INTEL_SSA ${FBCLIENT_STATIC_SHARED_LIB_INTEL_SSA})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(FBCLIENT_STATIC_STATIC_LIB_INTEL_SSA NAMES libfbclient_static.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
-        if(FBCLIENT_STATIC_STATIC_LIB_INTEL_SSA)
-            set(FBCLIENT_STATIC_FINAL_LIB_INTEL_SSA ${FBCLIENT_STATIC_STATIC_LIB_INTEL_SSA})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(FBCLIENT_STATIC_FINAL_LIB_INTEL_SSA fbclient_static)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ModelPageLayerItem (Intel_SSA) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MODELPAGELAYERITEM_SHARED_LIB_INTEL_SSA NAMES ModelPageLayerItem PATHS "../Lib/Debug" "../Win64Lib/Debug")
-    if(MODELPAGELAYERITEM_SHARED_LIB_INTEL_SSA)
-        set(MODELPAGELAYERITEM_FINAL_LIB_INTEL_SSA ${MODELPAGELAYERITEM_SHARED_LIB_INTEL_SSA})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGELAYERITEM_STATIC_LIB_INTEL_SSA NAMES libModelPageLayerItem.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
-        if(MODELPAGELAYERITEM_STATIC_LIB_INTEL_SSA)
-            set(MODELPAGELAYERITEM_FINAL_LIB_INTEL_SSA ${MODELPAGELAYERITEM_STATIC_LIB_INTEL_SSA})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MODELPAGELAYERITEM_FINAL_LIB_INTEL_SSA ModelPageLayerItem)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for DisplayImage (Intel_SSA) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_INTEL_SSA NAMES DisplayImage PATHS "../Lib/Debug" "../Win64Lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_INTEL_SSA)
-        set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA ${DISPLAYIMAGE_SHARED_LIB_INTEL_SSA})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_INTEL_SSA NAMES libDisplayImage.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_INTEL_SSA)
-            set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA ${DISPLAYIMAGE_STATIC_LIB_INTEL_SSA})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA DisplayImage)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for common (Intel_SSA) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMMON_SHARED_LIB_INTEL_SSA NAMES common PATHS "../Lib/Debug" "../Win64Lib/Debug")
-    if(COMMON_SHARED_LIB_INTEL_SSA)
-        set(COMMON_FINAL_LIB_INTEL_SSA ${COMMON_SHARED_LIB_INTEL_SSA})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMMON_STATIC_LIB_INTEL_SSA NAMES libcommon.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
-        if(COMMON_STATIC_LIB_INTEL_SSA)
-            set(COMMON_FINAL_LIB_INTEL_SSA ${COMMON_STATIC_LIB_INTEL_SSA})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMMON_FINAL_LIB_INTEL_SSA common)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Intel_SSA) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_INTEL_SSA NAMES ServiceLib PATHS "../Lib/Debug" "../Win64Lib/Debug")
@@ -451,22 +387,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(SERVICELIB_FINAL_LIB_INTEL_SSA ServiceLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ModelPageItem (Intel_SSA) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MODELPAGEITEM_SHARED_LIB_INTEL_SSA NAMES ModelPageItem PATHS "../Lib/Debug" "../Win64Lib/Debug")
-    if(MODELPAGEITEM_SHARED_LIB_INTEL_SSA)
-        set(MODELPAGEITEM_FINAL_LIB_INTEL_SSA ${MODELPAGEITEM_SHARED_LIB_INTEL_SSA})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGEITEM_STATIC_LIB_INTEL_SSA NAMES libModelPageItem.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
-        if(MODELPAGEITEM_STATIC_LIB_INTEL_SSA)
-            set(MODELPAGEITEM_FINAL_LIB_INTEL_SSA ${MODELPAGEITEM_STATIC_LIB_INTEL_SSA})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MODELPAGEITEM_FINAL_LIB_INTEL_SSA ModelPageItem)
         endif()
     endif()
 
@@ -502,16 +422,96 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for common (Intel_SSA) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMMON_SHARED_LIB_INTEL_SSA NAMES common PATHS "../Lib/Debug" "../Win64Lib/Debug")
+    if(COMMON_SHARED_LIB_INTEL_SSA)
+        set(COMMON_FINAL_LIB_INTEL_SSA ${COMMON_SHARED_LIB_INTEL_SSA})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMMON_STATIC_LIB_INTEL_SSA NAMES libcommon.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
+        if(COMMON_STATIC_LIB_INTEL_SSA)
+            set(COMMON_FINAL_LIB_INTEL_SSA ${COMMON_STATIC_LIB_INTEL_SSA})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMMON_FINAL_LIB_INTEL_SSA common)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for DisplayImage (Intel_SSA) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_INTEL_SSA NAMES DisplayImage PATHS "../Lib/Debug" "../Win64Lib/Debug")
+    if(DISPLAYIMAGE_SHARED_LIB_INTEL_SSA)
+        set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA ${DISPLAYIMAGE_SHARED_LIB_INTEL_SSA})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_INTEL_SSA NAMES libDisplayImage.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
+        if(DISPLAYIMAGE_STATIC_LIB_INTEL_SSA)
+            set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA ${DISPLAYIMAGE_STATIC_LIB_INTEL_SSA})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA DisplayImage)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ModelPageLayerItem (Intel_SSA) ---
+    # 1. First, search for the shared library (.so)
+    find_library(MODELPAGELAYERITEM_SHARED_LIB_INTEL_SSA NAMES ModelPageLayerItem PATHS "../Lib/Debug" "../Win64Lib/Debug")
+    if(MODELPAGELAYERITEM_SHARED_LIB_INTEL_SSA)
+        set(MODELPAGELAYERITEM_FINAL_LIB_INTEL_SSA ${MODELPAGELAYERITEM_SHARED_LIB_INTEL_SSA})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(MODELPAGELAYERITEM_STATIC_LIB_INTEL_SSA NAMES libModelPageLayerItem.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
+        if(MODELPAGELAYERITEM_STATIC_LIB_INTEL_SSA)
+            set(MODELPAGELAYERITEM_FINAL_LIB_INTEL_SSA ${MODELPAGELAYERITEM_STATIC_LIB_INTEL_SSA})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(MODELPAGELAYERITEM_FINAL_LIB_INTEL_SSA ModelPageLayerItem)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for fbclient_static (Intel_SSA) ---
+    # 1. First, search for the shared library (.so)
+    find_library(FBCLIENT_STATIC_SHARED_LIB_INTEL_SSA NAMES fbclient_static PATHS "../Lib/Debug" "../Win64Lib/Debug")
+    if(FBCLIENT_STATIC_SHARED_LIB_INTEL_SSA)
+        set(FBCLIENT_STATIC_FINAL_LIB_INTEL_SSA ${FBCLIENT_STATIC_SHARED_LIB_INTEL_SSA})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(FBCLIENT_STATIC_STATIC_LIB_INTEL_SSA NAMES libfbclient_static.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
+        if(FBCLIENT_STATIC_STATIC_LIB_INTEL_SSA)
+            set(FBCLIENT_STATIC_FINAL_LIB_INTEL_SSA ${FBCLIENT_STATIC_STATIC_LIB_INTEL_SSA})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(FBCLIENT_STATIC_FINAL_LIB_INTEL_SSA fbclient_static)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ModelPageItem (Intel_SSA) ---
+    # 1. First, search for the shared library (.so)
+    find_library(MODELPAGEITEM_SHARED_LIB_INTEL_SSA NAMES ModelPageItem PATHS "../Lib/Debug" "../Win64Lib/Debug")
+    if(MODELPAGEITEM_SHARED_LIB_INTEL_SSA)
+        set(MODELPAGEITEM_FINAL_LIB_INTEL_SSA ${MODELPAGEITEM_SHARED_LIB_INTEL_SSA})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(MODELPAGEITEM_STATIC_LIB_INTEL_SSA NAMES libModelPageItem.a PATHS "../Lib/Debug" "../Win64Lib/Debug")
+        if(MODELPAGEITEM_STATIC_LIB_INTEL_SSA)
+            set(MODELPAGEITEM_FINAL_LIB_INTEL_SSA ${MODELPAGEITEM_STATIC_LIB_INTEL_SSA})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(MODELPAGEITEM_FINAL_LIB_INTEL_SSA ModelPageItem)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Intel_SSA>:-Wl,--start-group>
-        $<$<CONFIG:Intel_SSA>:${FBCLIENT_STATIC_FINAL_LIB_INTEL_SSA}>
-        $<$<CONFIG:Intel_SSA>:${MODELPAGELAYERITEM_FINAL_LIB_INTEL_SSA}>
-        $<$<CONFIG:Intel_SSA>:${DISPLAYIMAGE_FINAL_LIB_INTEL_SSA}>
-        $<$<CONFIG:Intel_SSA>:${COMMON_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:${SERVICELIB_FINAL_LIB_INTEL_SSA}>
-        $<$<CONFIG:Intel_SSA>:${MODELPAGEITEM_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:${COMMON_STATIC_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:${COMPONENT_FINAL_LIB_INTEL_SSA}>
+        $<$<CONFIG:Intel_SSA>:${COMMON_FINAL_LIB_INTEL_SSA}>
+        $<$<CONFIG:Intel_SSA>:${DISPLAYIMAGE_FINAL_LIB_INTEL_SSA}>
+        $<$<CONFIG:Intel_SSA>:${MODELPAGELAYERITEM_FINAL_LIB_INTEL_SSA}>
+        $<$<CONFIG:Intel_SSA>:${FBCLIENT_STATIC_FINAL_LIB_INTEL_SSA}>
+        $<$<CONFIG:Intel_SSA>:${MODELPAGEITEM_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:-Wl,--end-group>
     )
 endif()
@@ -537,103 +537,55 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
-        "./"
-        "./../GeneralSource"
-        "./../EditGUI/EditGUI/GeneratedFiles"
-        "./GeneratedFiles/$(Configuration)"
-        "./GeneratedFiles/"
-        "./../OpenSource/Component"
         "./../EditGUI/EditGUI"
         "./../Open"
         "../Integrator/IntegrationLib"
+        "./GeneratedFiles/"
+        "./../OpenSource/Component"
+        "./"
         "./../OpenSource/Component/generatedfiles"
+        "./../EditGUI/EditGUI/GeneratedFiles"
+        "./../GeneralSource"
+        "./GeneratedFiles/$(Configuration)"
         "../ServiceLib/ServiceLib"
+        "./GeneratedFiles"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../Lib/Release"
         "../Win64Lib/Release"
+        "../Lib/Release"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_THREAD_SUPPORT"
-        "NDEBUG"
-        "QT_NO_DEBUG"
         "UNICODE"
+        "QT_NO_DEBUG"
+        "NDEBUG"
+        "QT_THREAD_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"DisplayImage.lib">
-        $<$<CONFIG:Release>:"IntegrationLib.lib">
-        $<$<CONFIG:Release>:"ServiceExecution.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
-        $<$<CONFIG:Release>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Release>:"ServiceExecution.lib">
+        $<$<CONFIG:Release>:"IntegrationLib.lib">
         $<$<CONFIG:Release>:"Component.lib">
+        $<$<CONFIG:Release>:"DisplayImage.lib">
+        $<$<CONFIG:Release>:"CommonGUIDLL.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayImage (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_RELEASE NAMES DisplayImage PATHS "../Lib/Release" "../Win64Lib/Release")
-    if(DISPLAYIMAGE_SHARED_LIB_RELEASE)
-        set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_RELEASE NAMES libDisplayImage.a PATHS "../Lib/Release" "../Win64Lib/Release")
-        if(DISPLAYIMAGE_STATIC_LIB_RELEASE)
-            set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_RELEASE DisplayImage)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for IntegrationLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(INTEGRATIONLIB_SHARED_LIB_RELEASE NAMES IntegrationLib PATHS "../Lib/Release" "../Win64Lib/Release")
-    if(INTEGRATIONLIB_SHARED_LIB_RELEASE)
-        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES libIntegrationLib.a PATHS "../Lib/Release" "../Win64Lib/Release")
-        if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
-            set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ServiceExecution (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICEEXECUTION_SHARED_LIB_RELEASE NAMES ServiceExecution PATHS "../Lib/Release" "../Win64Lib/Release")
-    if(SERVICEEXECUTION_SHARED_LIB_RELEASE)
-        set(SERVICEEXECUTION_FINAL_LIB_RELEASE ${SERVICEEXECUTION_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICEEXECUTION_STATIC_LIB_RELEASE NAMES libServiceExecution.a PATHS "../Lib/Release" "../Win64Lib/Release")
-        if(SERVICEEXECUTION_STATIC_LIB_RELEASE)
-            set(SERVICEEXECUTION_FINAL_LIB_RELEASE ${SERVICEEXECUTION_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICEEXECUTION_FINAL_LIB_RELEASE ServiceExecution)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../Lib/Release" "../Win64Lib/Release")
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../Win64Lib/Release" "../Lib/Release")
     if(SERVICELIB_SHARED_LIB_RELEASE)
         set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../Lib/Release" "../Win64Lib/Release")
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../Win64Lib/Release" "../Lib/Release")
         if(SERVICELIB_STATIC_LIB_RELEASE)
             set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
         else()
@@ -642,30 +594,46 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
+    # --- Dynamic Library Linking for ServiceExecution (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "../Lib/Release" "../Win64Lib/Release")
-    if(COMMONGUIDLL_SHARED_LIB_RELEASE)
-        set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_SHARED_LIB_RELEASE})
+    find_library(SERVICEEXECUTION_SHARED_LIB_RELEASE NAMES ServiceExecution PATHS "../Win64Lib/Release" "../Lib/Release")
+    if(SERVICEEXECUTION_SHARED_LIB_RELEASE)
+        set(SERVICEEXECUTION_FINAL_LIB_RELEASE ${SERVICEEXECUTION_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "../Lib/Release" "../Win64Lib/Release")
-        if(COMMONGUIDLL_STATIC_LIB_RELEASE)
-            set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
+        find_library(SERVICEEXECUTION_STATIC_LIB_RELEASE NAMES libServiceExecution.a PATHS "../Win64Lib/Release" "../Lib/Release")
+        if(SERVICEEXECUTION_STATIC_LIB_RELEASE)
+            set(SERVICEEXECUTION_FINAL_LIB_RELEASE ${SERVICEEXECUTION_STATIC_LIB_RELEASE})
         else()
             # Fallback if not found (e.g. system library)
-            set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
+            set(SERVICEEXECUTION_FINAL_LIB_RELEASE ServiceExecution)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for IntegrationLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(INTEGRATIONLIB_SHARED_LIB_RELEASE NAMES IntegrationLib PATHS "../Win64Lib/Release" "../Lib/Release")
+    if(INTEGRATIONLIB_SHARED_LIB_RELEASE)
+        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES libIntegrationLib.a PATHS "../Win64Lib/Release" "../Lib/Release")
+        if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
+            set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
         endif()
     endif()
 
     # --- Dynamic Library Linking for Component (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../Lib/Release" "../Win64Lib/Release")
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "../Win64Lib/Release" "../Lib/Release")
     if(COMPONENT_SHARED_LIB_RELEASE)
         set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../Lib/Release" "../Win64Lib/Release")
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "../Win64Lib/Release" "../Lib/Release")
         if(COMPONENT_STATIC_LIB_RELEASE)
             set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
         else()
@@ -674,14 +642,46 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for DisplayImage (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_RELEASE NAMES DisplayImage PATHS "../Win64Lib/Release" "../Lib/Release")
+    if(DISPLAYIMAGE_SHARED_LIB_RELEASE)
+        set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_RELEASE NAMES libDisplayImage.a PATHS "../Win64Lib/Release" "../Lib/Release")
+        if(DISPLAYIMAGE_STATIC_LIB_RELEASE)
+            set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_RELEASE DisplayImage)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "../Win64Lib/Release" "../Lib/Release")
+    if(COMMONGUIDLL_SHARED_LIB_RELEASE)
+        set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "../Win64Lib/Release" "../Lib/Release")
+        if(COMMONGUIDLL_STATIC_LIB_RELEASE)
+            set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SERVICEEXECUTION_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICEEXECUTION_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -703,11 +703,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../${PROJECT_NAME}" AND IS_DIRECTORY "${C
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
-    Qt6::Core5Compat
     Qt6::Sql
-    Qt6::Widgets
     Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core5Compat
     Qt6::Network
 )
 
@@ -728,6 +728,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

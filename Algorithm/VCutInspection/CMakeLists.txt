@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -97,13 +97,13 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
-        "../../OpenSource/DisplayImage"
-        "./GeneratedFiles/$(Configuration)"
         "./../../Open"
-        "./GeneratedFiles/"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
         "./../../GeneralSource"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
+        "./GeneratedFiles/"
+        "./GeneratedFiles/$(Configuration)"
+        "../../OpenSource/DisplayImage"
+        "./GeneratedFiles"
     >
 )
 
@@ -115,37 +115,21 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "UNICODE"
         "QT_THREAD_SUPPORT"
         "VCUTINSPECTION_LIB"
-        "UNICODE"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"DisplayImage.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
-        $<$<CONFIG:Debug>:"ModelPageItem.lib">
         $<$<CONFIG:Debug>:"EditPasswordOnControl.lib">
         $<$<CONFIG:Debug>:"Component.lib">
+        $<$<CONFIG:Debug>:"DisplayImage.lib">
+        $<$<CONFIG:Debug>:"ModelPageItem.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayImage (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
-        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../Lib/Debug")
@@ -159,22 +143,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(SERVICELIB_FINAL_LIB_DEBUG ServiceLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ModelPageItem (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MODELPAGEITEM_SHARED_LIB_DEBUG NAMES ModelPageItem PATHS "../../Lib/Debug")
-    if(MODELPAGEITEM_SHARED_LIB_DEBUG)
-        set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGEITEM_STATIC_LIB_DEBUG NAMES libModelPageItem.a PATHS "../../Lib/Debug")
-        if(MODELPAGEITEM_STATIC_LIB_DEBUG)
-            set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MODELPAGEITEM_FINAL_LIB_DEBUG ModelPageItem)
         endif()
     endif()
 
@@ -210,13 +178,45 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for DisplayImage (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
+    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
+        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug")
+        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ModelPageItem (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(MODELPAGEITEM_SHARED_LIB_DEBUG NAMES ModelPageItem PATHS "../../Lib/Debug")
+    if(MODELPAGEITEM_SHARED_LIB_DEBUG)
+        set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(MODELPAGEITEM_STATIC_LIB_DEBUG NAMES libModelPageItem.a PATHS "../../Lib/Debug")
+        if(MODELPAGEITEM_STATIC_LIB_DEBUG)
+            set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(MODELPAGEITEM_FINAL_LIB_DEBUG ModelPageItem)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${MODELPAGEITEM_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${EDITPASSWORDONCONTROL_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${MODELPAGEITEM_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -242,10 +242,10 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
-        "./GeneratedFiles/$(Configuration)"
         "./../../Open"
         "./GeneratedFiles/"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles"
     >
 )
 
@@ -257,20 +257,20 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_THREAD_SUPPORT"
-        "NDEBUG"
-        "VCUTINSPECTION_LIB"
-        "QT_NO_DEBUG"
         "UNICODE"
+        "QT_NO_DEBUG"
+        "NDEBUG"
+        "QT_THREAD_SUPPORT"
+        "VCUTINSPECTION_LIB"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:"ServiceLib.lib">
-        $<$<CONFIG:Release>:"ModelPageItem.lib">
         $<$<CONFIG:Release>:"EditPasswordOnControl.lib">
         $<$<CONFIG:Release>:"Component.lib">
+        $<$<CONFIG:Release>:"ModelPageItem.lib">
     )
 elseif(UNIX)
     # --- Dynamic Library Linking for ServiceLib (Release) ---
@@ -286,22 +286,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ModelPageItem (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(MODELPAGEITEM_SHARED_LIB_RELEASE NAMES ModelPageItem PATHS "../../Lib/Release")
-    if(MODELPAGEITEM_SHARED_LIB_RELEASE)
-        set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGEITEM_STATIC_LIB_RELEASE NAMES libModelPageItem.a PATHS "../../Lib/Release")
-        if(MODELPAGEITEM_STATIC_LIB_RELEASE)
-            set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(MODELPAGEITEM_FINAL_LIB_RELEASE ModelPageItem)
         endif()
     endif()
 
@@ -337,12 +321,28 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for ModelPageItem (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(MODELPAGEITEM_SHARED_LIB_RELEASE NAMES ModelPageItem PATHS "../../Lib/Release")
+    if(MODELPAGEITEM_SHARED_LIB_RELEASE)
+        set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(MODELPAGEITEM_STATIC_LIB_RELEASE NAMES libModelPageItem.a PATHS "../../Lib/Release")
+        if(MODELPAGEITEM_STATIC_LIB_RELEASE)
+            set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(MODELPAGEITEM_FINAL_LIB_RELEASE ModelPageItem)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${MODELPAGEITEM_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${EDITPASSWORDONCONTROL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${MODELPAGEITEM_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -354,8 +354,8 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Template>:
-        "./GeneratedFiles"
         "./GeneratedFiles/"
+        "./GeneratedFiles"
     >
 )
 
@@ -365,11 +365,11 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
-    Qt6::Core5Compat
     Qt6::Sql
-    Qt6::Widgets
     Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core5Compat
     Qt6::Network
 )
 
@@ -390,6 +390,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

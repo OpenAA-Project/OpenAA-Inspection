@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Widgets Sql Core5Compat Gui Core)
+find_package(Qt6 REQUIRED COMPONENTS Network Gui Widgets Core Sql Core5Compat)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -90,11 +90,11 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
-        "../../../Open"
-        "../../IntegrationLib"
-        "."
         "../../../ServiceLib/EXCEL/include_cpp"
+        "../../IntegrationLib"
+        "../../../Open"
+        "."
+        "./GeneratedFiles"
         "./GeneratedFiles/"
     >
 )
@@ -107,34 +107,34 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "INTEGRATIONSHOWTOTAL_LIB"
-        "QT_LARGEFILE_SUPPORT"
         "UNICODE"
+        "QT_LARGEFILE_SUPPORT"
+        "INTEGRATIONSHOWTOTAL_LIB"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"CommonGUIDLL.lib">
-        $<$<CONFIG:Debug>:"IntegrationLib.lib">
         $<$<CONFIG:Debug>:"DisplayImage.lib">
+        $<$<CONFIG:Debug>:"IntegrationLib.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"CommonGUIDLL.lib">
         $<$<CONFIG:Debug>:"Component.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for CommonGUIDLL (Debug) ---
+    # --- Dynamic Library Linking for DisplayImage (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMMONGUIDLL_SHARED_LIB_DEBUG NAMES CommonGUIDLL PATHS "../../../Lib/Debug")
-    if(COMMONGUIDLL_SHARED_LIB_DEBUG)
-        set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_SHARED_LIB_DEBUG})
+    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../../Lib/Debug")
+    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
+        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMMONGUIDLL_STATIC_LIB_DEBUG NAMES libCommonGUIDLL.a PATHS "../../../Lib/Debug")
-        if(COMMONGUIDLL_STATIC_LIB_DEBUG)
-            set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_STATIC_LIB_DEBUG})
+        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../../Lib/Debug")
+        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
         else()
             # Fallback if not found (e.g. system library)
-            set(COMMONGUIDLL_FINAL_LIB_DEBUG CommonGUIDLL)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
         endif()
     endif()
 
@@ -154,22 +154,6 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for DisplayImage (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../../Lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
-        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../../Lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../../Lib/Debug")
@@ -183,6 +167,22 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(SERVICELIB_FINAL_LIB_DEBUG ServiceLib)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for CommonGUIDLL (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMMONGUIDLL_SHARED_LIB_DEBUG NAMES CommonGUIDLL PATHS "../../../Lib/Debug")
+    if(COMMONGUIDLL_SHARED_LIB_DEBUG)
+        set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMMONGUIDLL_STATIC_LIB_DEBUG NAMES libCommonGUIDLL.a PATHS "../../../Lib/Debug")
+        if(COMMONGUIDLL_STATIC_LIB_DEBUG)
+            set(COMMONGUIDLL_FINAL_LIB_DEBUG ${COMMONGUIDLL_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMMONGUIDLL_FINAL_LIB_DEBUG CommonGUIDLL)
         endif()
     endif()
 
@@ -204,10 +204,10 @@ elseif(UNIX)
 
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${COMMONGUIDLL_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMMONGUIDLL_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
@@ -234,10 +234,10 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
-        "../../../Open"
         "../../IntegrationLib"
+        "../../../Open"
         "."
+        "./GeneratedFiles"
         "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/include"
         "./GeneratedFiles/"
     >
@@ -252,37 +252,21 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "INTEGRATIONSHOWTOTAL_LIB"
-        "QT_LARGEFILE_SUPPORT"
-        "QT_NO_DEBUG"
         "UNICODE"
+        "QT_LARGEFILE_SUPPORT"
+        "INTEGRATIONSHOWTOTAL_LIB"
+        "QT_NO_DEBUG"
         "NDEBUG"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"xlsxwriter.lib">
         $<$<CONFIG:Release>:"IntegrationLib.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"xlsxwriter.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for xlsxwriter (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(XLSXWRITER_SHARED_LIB_RELEASE NAMES xlsxwriter PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../../Lib/Release")
-    if(XLSXWRITER_SHARED_LIB_RELEASE)
-        set(XLSXWRITER_FINAL_LIB_RELEASE ${XLSXWRITER_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(XLSXWRITER_STATIC_LIB_RELEASE NAMES libxlsxwriter.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../../Lib/Release")
-        if(XLSXWRITER_STATIC_LIB_RELEASE)
-            set(XLSXWRITER_FINAL_LIB_RELEASE ${XLSXWRITER_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(XLSXWRITER_FINAL_LIB_RELEASE xlsxwriter)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for IntegrationLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(INTEGRATIONLIB_SHARED_LIB_RELEASE NAMES IntegrationLib PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../../Lib/Release")
@@ -315,11 +299,27 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for xlsxwriter (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(XLSXWRITER_SHARED_LIB_RELEASE NAMES xlsxwriter PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../../Lib/Release")
+    if(XLSXWRITER_SHARED_LIB_RELEASE)
+        set(XLSXWRITER_FINAL_LIB_RELEASE ${XLSXWRITER_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(XLSXWRITER_STATIC_LIB_RELEASE NAMES libxlsxwriter.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../../Lib/Release")
+        if(XLSXWRITER_STATIC_LIB_RELEASE)
+            set(XLSXWRITER_FINAL_LIB_RELEASE ${XLSXWRITER_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(XLSXWRITER_FINAL_LIB_RELEASE xlsxwriter)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${XLSXWRITER_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${XLSXWRITER_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -331,11 +331,11 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Network
+    Qt6::Gui
     Qt6::Widgets
+    Qt6::Core
     Qt6::Sql
     Qt6::Core5Compat
-    Qt6::Gui
-    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -355,6 +355,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

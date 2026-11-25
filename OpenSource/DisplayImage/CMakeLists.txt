@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Sql Gui Core Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -235,12 +235,12 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles/"
-        "./GeneratedFiles/$(Configuration)"
-        "./GeneratedFiles"
-        "../../Open"
         "../../OpenSource/Component"
+        "./GeneratedFiles/"
         "./"
+        "./GeneratedFiles/$(Configuration)"
+        "../../Open"
+        "./GeneratedFiles"
     >
 )
 
@@ -273,14 +273,14 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles/"
-        "./GeneratedFiles/$(Configuration)"
-        "./GeneratedFiles"
-        "../../Open"
         "../../OpenSource/Component"
         "../../OpenSource/include"
+        "./GeneratedFiles/"
         "../../ServiceLib/ServiceLib"
         "./"
+        "./GeneratedFiles/$(Configuration)"
+        "../../Open"
+        "./GeneratedFiles"
     >
 )
 
@@ -288,8 +288,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "UNICODE"
         "QT_NO_DEBUG"
-        "DISPLAYIMAGE_LIB"
         "NDEBUG"
+        "DISPLAYIMAGE_LIB"
         "QT_THREAD_SUPPORT"
     >
 )
@@ -312,11 +312,11 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
     Qt6::Sql
-    Qt6::Gui
     Qt6::Core
+    Qt6::Gui
     Qt6::Widgets
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===
@@ -336,7 +336,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
-    -O3
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

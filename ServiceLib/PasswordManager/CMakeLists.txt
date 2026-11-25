@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Gui Widgets Core)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -102,17 +102,17 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
         "./GeneratedFiles/"
         "./GeneratedFiles/$(Configuration)"
         "."
+        "./GeneratedFiles"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "PASSWORDMANAGER_LIB"
         "UNICODE"
+        "PASSWORDMANAGER_LIB"
         "QT_THREAD_SUPPORT"
     >
 )
@@ -138,20 +138,20 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
         "./GeneratedFiles/"
         "./GeneratedFiles/$(Configuration)"
         "."
         "../../Open"
+        "./GeneratedFiles"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_NO_DEBUG"
-        "NDEBUG"
-        "PASSWORDMANAGER_LIB"
         "UNICODE"
+        "QT_NO_DEBUG"
+        "PASSWORDMANAGER_LIB"
+        "NDEBUG"
         "QT_THREAD_SUPPORT"
     >
 )
@@ -168,9 +168,9 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Sql
+    Qt6::Core
     Qt6::Gui
     Qt6::Widgets
-    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -190,6 +190,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Network Core Core5Compat Widgets Gui)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Core5Compat Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -68,12 +68,12 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "../../../../OpenAA6M/Robot/"
+        "../../../GUI/ButtonAutoMode"
+        "../"
+        "../../../GUI/ButtonAddSubPage"
         "../CaptureHIKCameraButton"
         "../../../Open"
-        "../"
-        "../../../GUI/ButtonAutoMode"
         "../../../PluginDLL/Camera/CameraHIKRobotGigE"
-        "../../../GUI/ButtonAddSubPage"
         "../../../GUI/ListSelectFixedPage"
     >
 )
@@ -140,12 +140,12 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "../../../../OpenAA6M/Robot/"
+        "../../../GUI/ButtonAutoMode"
+        "../"
+        "../../../GUI/ButtonAddSubPage"
         "../CaptureHIKCameraButton"
         "../../../Open"
-        "../"
-        "../../../GUI/ButtonAutoMode"
         "../../../PluginDLL/Camera/CameraHIKRobotGigE"
-        "../../../GUI/ButtonAddSubPage"
         "../../../GUI/ListSelectFixedPage"
     >
 )
@@ -196,11 +196,11 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Network
     Qt6::Core
-    Qt6::Core5Compat
-    Qt6::Widgets
     Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core5Compat
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===
@@ -220,6 +220,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Xml Sql Gui Widgets Network Core Core5Compat)
+find_package(Qt6 REQUIRED COMPONENTS Sql Network Widgets Gui Xml Core5Compat Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -113,16 +113,16 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../ServiceLib/LanguageManager"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
-        "./"
-        "../../OpenSource/DisplayImage"
+        "../../ServiceLib/EXCEL/include_cpp"
         "../../Open"
         "../../OpenSource/Component"
+        "./"
         "../../GeneralSource"
-        "./GeneratedFiles"
-        "../../ServiceLib/EXCEL/include_cpp"
+        "../../ServiceLib/LanguageManager"
         "./GeneratedFiles/"
+        "./GeneratedFiles"
+        "../../OpenSource/DisplayImage"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
     >
 )
 
@@ -135,8 +135,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "QT_LARGEFILE_SUPPORT"
         "UNICODE"
+        "QT_LARGEFILE_SUPPORT"
     >
 )
 
@@ -195,44 +195,54 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../ServiceLib/LanguageManager"
-        "./"
-        "../../OpenSource/DisplayImage"
+        "../../ServiceLib/EXCEL/include_cpp"
         "../../Open"
         "../../OpenSource/Component"
-        "./GeneratedFiles"
-        "../../ServiceLib/EXCEL/include_cpp"
+        "./"
+        "../../ServiceLib/LanguageManager"
         "./GeneratedFiles/"
+        "./GeneratedFiles"
+        "../../OpenSource/DisplayImage"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib"
         "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib"
         "../../Lib/Release"
+        "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_LARGEFILE_SUPPORT"
+        "NDEBUG"
         "UNICODE"
         "QT_NO_DEBUG"
-        "NDEBUG"
+        "QT_LARGEFILE_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Release>:"xlsxwriter.lib">
         $<$<CONFIG:Release>:"LanguageManagerLib.lib">
         $<$<CONFIG:Release>:"OpenXLSX.lib">
-        $<$<CONFIG:Release>:"xlsxwriter.lib">
     )
 elseif(UNIX)
+    # --- Exact/Static Library Linking for xlsxwriter (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(XLSXWRITER_STATIC_LIB_RELEASE NAMES "libxlsxwriter.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
+    if(XLSXWRITER_STATIC_LIB_RELEASE)
+        set(XLSXWRITER_FINAL_LIB_RELEASE ${XLSXWRITER_STATIC_LIB_RELEASE})
+    else()
+        # Fallback if not found (e.g. system library)
+        set(XLSXWRITER_FINAL_LIB_RELEASE xlsxwriter)
+    endif()
+
     # --- Exact/Static Library Linking for LanguageManagerLib (Release) ---
     # 1. Search for the exact library or static library
-    find_library(LANGUAGEMANAGERLIB_STATIC_LIB_RELEASE NAMES "libLanguageManagerLib.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../../Lib/Release")
+    find_library(LANGUAGEMANAGERLIB_STATIC_LIB_RELEASE NAMES "libLanguageManagerLib.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
     if(LANGUAGEMANAGERLIB_STATIC_LIB_RELEASE)
         set(LANGUAGEMANAGERLIB_FINAL_LIB_RELEASE ${LANGUAGEMANAGERLIB_STATIC_LIB_RELEASE})
     else()
@@ -242,7 +252,7 @@ elseif(UNIX)
 
     # --- Exact/Static Library Linking for OpenXLSX (Release) ---
     # 1. Search for the exact library or static library
-    find_library(OPENXLSX_STATIC_LIB_RELEASE NAMES "libOpenXLSX.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../../Lib/Release")
+    find_library(OPENXLSX_STATIC_LIB_RELEASE NAMES "libOpenXLSX.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
     if(OPENXLSX_STATIC_LIB_RELEASE)
         set(OPENXLSX_FINAL_LIB_RELEASE ${OPENXLSX_STATIC_LIB_RELEASE})
     else()
@@ -250,21 +260,11 @@ elseif(UNIX)
         set(OPENXLSX_FINAL_LIB_RELEASE OpenXLSX)
     endif()
 
-    # --- Exact/Static Library Linking for xlsxwriter (Release) ---
-    # 1. Search for the exact library or static library
-    find_library(XLSXWRITER_STATIC_LIB_RELEASE NAMES "libxlsxwriter.a" PATHS "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../../Lib/Release")
-    if(XLSXWRITER_STATIC_LIB_RELEASE)
-        set(XLSXWRITER_FINAL_LIB_RELEASE ${XLSXWRITER_STATIC_LIB_RELEASE})
-    else()
-        # Fallback if not found (e.g. system library)
-        set(XLSXWRITER_FINAL_LIB_RELEASE xlsxwriter)
-    endif()
-
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
+        $<$<CONFIG:Release>:${XLSXWRITER_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${LANGUAGEMANAGERLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${OPENXLSX_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${XLSXWRITER_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -281,13 +281,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_NAME}" AND IS_DIRECTORY "
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Xml
     Qt6::Sql
-    Qt6::Gui
-    Qt6::Widgets
     Qt6::Network
-    Qt6::Core
+    Qt6::Widgets
+    Qt6::Gui
+    Qt6::Xml
     Qt6::Core5Compat
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -303,6 +303,10 @@ target_link_directories(${PROJECT_NAME} PRIVATE
     "/usr/local/lib/"
     "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib/"
     "$ENV{HOME}/OpenAA6/Lib/Release"
+)
+
+target_compile_options(${PROJECT_NAME} PRIVATE
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

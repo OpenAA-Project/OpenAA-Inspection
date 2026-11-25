@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat OpenGL Sql Widgets Core Network OpenGLWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat OpenGLWidgets OpenGL Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -96,20 +96,20 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
-        "./GeneratedFiles/$(Configuration)"
         "./../../Open"
-        "./GeneratedFiles/"
         "../../OpenSource/Component"
+        "./GeneratedFiles/"
         "../../OpenSource/Component/GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "UNICODE"
         "QT_THREAD_SUPPORT"
         "LEARNINGLIB_LIB"
-        "UNICODE"
     >
 )
 
@@ -134,21 +134,21 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
-        "./GeneratedFiles/$(Configuration)"
         "./../../Open"
-        "./GeneratedFiles/"
         "../../OpenSource/Component"
+        "./GeneratedFiles/"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_THREAD_SUPPORT"
-        "NDEBUG"
-        "QT_NO_DEBUG"
-        "LEARNINGLIB_LIB"
         "UNICODE"
+        "QT_NO_DEBUG"
+        "NDEBUG"
+        "QT_THREAD_SUPPORT"
+        "LEARNINGLIB_LIB"
     >
 )
 
@@ -163,14 +163,14 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
-    Qt6::Core5Compat
-    Qt6::OpenGL
     Qt6::Sql
-    Qt6::Widgets
     Qt6::Core
-    Qt6::Network
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core5Compat
     Qt6::OpenGLWidgets
+    Qt6::OpenGL
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===
@@ -190,6 +190,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

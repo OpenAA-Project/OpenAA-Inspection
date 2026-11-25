@@ -27,11 +27,11 @@
 struct	ShrinkingActionData
 {
 	struct MaskInfo{
-		char	OffsetX;
+		int8	OffsetX;
 		BYTE	MaskCount1;
 		BYTE	MaskCount2;		//Continuously more than 1 bytes
 		BYTE	MaskCount3;
-		BYTE	AndMask1;
+		BYTE	AndMask1[2];
 		BYTE	AndMask3;
 
 		MaskInfo(void);

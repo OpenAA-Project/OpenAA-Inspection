@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Gui Network Widgets Core)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -82,30 +82,30 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
+        "../../ServiceLib/ServiceLib/GeneratedFiles"
+        "../../OpenSource/Component"
         "../../GUI/ImageControlTools/GeneratedFiles"
         "../../EditGUI/EditGUI/GeneratedFiles"
-        "../../OpenSource/DisplayImage"
-        "../../ServiceLib/ServiceLib"
-        "../../GUI/ImageControlTools"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
         "./GeneratedFiles/"
         "../../OpenSource/Component/GeneratedFiles"
-        "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
-        "../../OpenSource/Component"
+        "../../ServiceLib/ServiceLib"
+        "../../GUI/ImageControlTools"
+        "../../GeneralSource"
         "./GeneratedFiles/$(Configuration)"
         "."
-        "../../Open"
         "../../EditGUI/EditGUI"
-        "../../GeneralSource"
+        "../../OpenSource/DisplayImage"
+        "../../Open"
+        "./GeneratedFiles"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "UNICODE"
-        "QT_THREAD_SUPPORT"
         "MODELPAGELAYERITEM_LIB"
+        "QT_THREAD_SUPPORT"
     >
 )
 
@@ -130,27 +130,27 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../OpenSource/DisplayImage3D"
-        "./GeneratedFiles"
-        "../../OpenSource/DisplayImage"
-        "../../ServiceLib/ServiceLib"
-        "./GeneratedFiles/"
         "../../OpenSource/Component"
+        "../../OpenSource/DisplayImage3D"
+        "./GeneratedFiles/"
+        "../../ServiceLib/ServiceLib"
+        "../../GeneralSource"
         "./GeneratedFiles/$(Configuration)"
         "."
-        "../../Open"
         "../../EditGUI/EditGUI"
-        "../../GeneralSource"
+        "../../OpenSource/DisplayImage"
+        "../../Open"
+        "./GeneratedFiles"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_NO_DEBUG"
-        "NDEBUG"
         "UNICODE"
-        "QT_THREAD_SUPPORT"
+        "QT_NO_DEBUG"
         "MODELPAGELAYERITEM_LIB"
+        "NDEBUG"
+        "QT_THREAD_SUPPORT"
     >
 )
 
@@ -166,10 +166,10 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Sql
-    Qt6::Gui
-    Qt6::Network
-    Qt6::Widgets
     Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===
@@ -189,6 +189,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

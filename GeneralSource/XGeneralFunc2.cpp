@@ -1402,7 +1402,7 @@ QColor	FuncCall	QString2QColor(const QString &str)
 		return QColor();
 	}
 	QString2Char(str ,Buff,sizeof(Buff));
-	int	r,g,b,a;
+	int	r=0,g=0,b=0,a=255;
 	matchscanf(Buff,"%d,%d,%d,%d",&r,&g,&b,&a);
 	return(QColor(r,g,b,a));
 }

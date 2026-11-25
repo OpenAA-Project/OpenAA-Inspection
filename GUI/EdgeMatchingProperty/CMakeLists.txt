@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS OpenGLWidgets Sql Network Core Gui OpenGL Widgets Core5Compat)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat OpenGLWidgets OpenGL Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -80,11 +80,11 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../Algorithm/EdgeMatching"
-        "../../Open"
-        "../../OpenSource/DisplayImage"
         "../../OpenSource/Component"
+        "../../Algorithm/EdgeMatching"
         "../../ServiceLib/ServiceLib"
+        "../../OpenSource/DisplayImage"
+        "../../Open"
     >
 )
 
@@ -167,11 +167,11 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../Algorithm/EdgeMatching"
-        "../../Open"
-        "../../OpenSource/DisplayImage"
         "../../OpenSource/Component"
+        "../../Algorithm/EdgeMatching"
         "../../ServiceLib/ServiceLib"
+        "../../OpenSource/DisplayImage"
+        "../../Open"
     >
 )
 
@@ -239,14 +239,14 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::OpenGLWidgets
     Qt6::Sql
-    Qt6::Network
     Qt6::Core
     Qt6::Gui
-    Qt6::OpenGL
     Qt6::Widgets
     Qt6::Core5Compat
+    Qt6::OpenGLWidgets
+    Qt6::OpenGL
+    Qt6::Network
 )
 
 # === Additional Custom Settings ===
@@ -266,6 +266,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

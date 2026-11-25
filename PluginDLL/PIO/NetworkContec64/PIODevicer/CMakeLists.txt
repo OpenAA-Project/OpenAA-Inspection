@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Core Core5Compat Network Widgets Sql)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -96,19 +96,53 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "./../../../../Open"
+        "./.."
         "./GeneratedFiles/"
         "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
-        "./.."
+    >
+)
+
+target_link_directories(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:
+        "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "QT_THREAD_SUPPORT"
         "UNICODE"
+        "QT_THREAD_SUPPORT"
     >
 )
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:"cdio.lib">
+    )
+elseif(UNIX)
+    # --- Dynamic Library Linking for cdio (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(CDIO_SHARED_LIB_DEBUG NAMES cdio PATHS "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
+    if(CDIO_SHARED_LIB_DEBUG)
+        set(CDIO_FINAL_LIB_DEBUG ${CDIO_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(CDIO_STATIC_LIB_DEBUG NAMES libcdio.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
+        if(CDIO_STATIC_LIB_DEBUG)
+            set(CDIO_FINAL_LIB_DEBUG ${CDIO_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(CDIO_FINAL_LIB_DEBUG cdio)
+        endif()
+    endif()
+
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:-Wl,--start-group>
+        $<$<CONFIG:Debug>:${CDIO_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:-Wl,--end-group>
+    )
+endif()
 
 if(MSVC)
 endif()
@@ -133,10 +167,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Inc"
         "./../../../../Open"
+        "./.."
         "./GeneratedFiles/"
         "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
-        "./.."
     >
 )
 
@@ -148,10 +182,10 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "UNICODE"
         "QT_NO_DEBUG"
         "NDEBUG"
         "QT_THREAD_SUPPORT"
-        "UNICODE"
     >
 )
 
@@ -200,12 +234,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../../../${PROJECT_NAME}" AND IS_DIREC
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
+    Qt6::Sql
     Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
     Qt6::Core5Compat
     Qt6::Network
-    Qt6::Widgets
-    Qt6::Sql
 )
 
 # === Additional Custom Settings ===
@@ -225,6 +259,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

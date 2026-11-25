@@ -55,7 +55,7 @@ signed int strtoi(char *s,int &numb)
 		s++;
 		}
 	else if(*s=='+'){
-		j=-1;
+		j=1;
 		s++;
 		}
 	else if(isdigit(*s)==0){
@@ -455,7 +455,6 @@ int matchscanf(char *buff,char *form,...)
 			"%c" ,"%f" ,"%e" ,"%lf","%le","%F","%E",
 			"%lF","%lE",
 			"%s","%0x","%0X"
-			""
 			};
 	char	*fp,c;
 	va_list ap;
@@ -470,9 +469,16 @@ int matchscanf(char *buff,char *form,...)
 	fp=form;
 	va_start(ap,form);
 	for(tnumb=0;;){
-		for(i=0;i<32;i++){
-			if(memcmp(fp,formmaster[i],strlen(formmaster[i]))==0){
-				break;
+		if(*fp==0){
+			va_end(ap);
+			return(tnumb);
+		}
+		i=32;
+		if(*fp=='%'){
+			for(i=0;i<32;i++){
+				if(strncmp(fp,formmaster[i],strlen(formmaster[i]))==0){
+					break;
+				}
 			}
 		}
 		if(i<32){
@@ -489,29 +495,26 @@ int matchscanf(char *buff,char *form,...)
 				unsigned char *a = va_arg(ap,unsigned char *);
 				if(buff[0]=='0'){
 					if(buff[1]=='x' || buff[1]=='X'){
-					//if(memcmp(buff,"0x",2)==0 || memcmp(buff,"0X",2)==0){
 						buff+=2;
 						i3=strtox(buff,n);
 						}
 					else if(buff[1]=='d' || buff[1]=='D'){
-					//else if(memcmp(buff,"0d",2)==0 || memcmp(buff,"0D",2)==0){
 						buff+=2;
 						i1=strtoi(buff,n);
 						i3=i1;
 						}
 					else{
-					//else if(memcmp(buff,"0",1)==0){
 						buff++;
 						i3=strtoo(buff,n);
 						}
 					}
 				else{
 					i3=strtox(buff,n);
-					if(*(fp+n)!='h' && *(fp+n)!='H'){
+					if(*(buff+n)!='h' && *(buff+n)!='H'){
 						i3=strtoo(buff,n);
-						if(*(fp+n)!='O' && *(fp+n)!='o'){
+						if(*(buff+n)!='O' && *(buff+n)!='o'){
 							i1=strtoi(buff,n);
-							if(*(fp+n)=='D' || *(fp+n)=='d'){
+							if(*(buff+n)=='D' || *(buff+n)=='d'){
 								n++;
 							}
 							i3=i1;
@@ -592,29 +595,26 @@ int matchscanf(char *buff,char *form,...)
 				unsigned int *a = va_arg(ap,unsigned int *);
 				if(buff[0]=='0'){
 					if(buff[1]=='x' || buff[1]=='X'){
-					//if(memcmp(buff,"0x",2)==0 || memcmp(buff,"0X",2)==0){
 						buff+=2;
 						i3=strtox(buff,n);
 						}
 					else if(buff[1]=='d' || buff[1]=='D'){
-					//else if(memcmp(buff,"0d",2)==0 || memcmp(buff,"0D",2)==0){
 						buff+=2;
 						i1=strtoi(buff,n);
 						i3=i1;
 						}
 					else{
-					//else if(memcmp(buff,"0",1)==0){
 						buff++;
 						i3=strtoo(buff,n);
 						}
 					}
 				else{
 					i3=strtox(buff,n);
-					if(*(fp+n)!='h' && *(fp+n)!='H'){
+					if(*(buff+n)!='h' && *(buff+n)!='H'){
 						i3=strtoo(buff,n);
-						if(*(fp+n)!='O' && *(fp+n)!='o'){
+						if(*(buff+n)!='O' && *(buff+n)!='o'){
 							i1=strtoi(buff,n);
-							if(*(fp+n)=='D' || *(fp+n)=='d'){
+							if(*(buff+n)=='D' || *(buff+n)=='d'){
 								n++;
 							}
 							i3=i1;
@@ -673,29 +673,26 @@ int matchscanf(char *buff,char *form,...)
 				unsigned long *a = va_arg(ap,unsigned long *);
 				if(buff[0]=='0'){
 					if(buff[1]=='x' || buff[1]=='X'){
-					//if(memcmp(buff,"0x",2)==0 || memcmp(buff,"0X",2)==0){
 						buff+=2;
 						i4=strtoX(buff,n);
 						}
 					else if(buff[1]=='d' || buff[1]=='D'){
-					//else if(memcmp(buff,"0d",2)==0 || memcmp(buff,"0D",2)==0){
 						buff+=2;
 						i2=strtol(buff,n);
 						i4=i2;
 						}
 					else{
-					//else if(memcmp(buff,"0",1)==0){
 						buff++;
 						i4=strtoO(buff,n);
 						}
 					}
 				else{
 					i4=strtoX(buff,n);
-					if(*(fp+n)!='h' && *(fp+n)!='H'){
+					if(*(buff+n)!='h' && *(buff+n)!='H'){
 						i4=strtoO(buff,n);
-						if(*(fp+n)!='O' && *(fp+n)!='o'){
+						if(*(buff+n)!='O' && *(buff+n)!='o'){
 							i2=strtol(buff,n);
-							if(*(fp+n)=='D' || *(fp+n)=='d'){
+							if(*(buff+n)=='D' || *(buff+n)=='d'){
 								n++;
 							}
 							i4=i2;
@@ -828,6 +825,7 @@ int matchscanf(char *buff,char *form,...)
 			}
 		else if(*fp==' '){
 			if(*buff!=' ' && *buff!='\t'){
+				va_end(ap);
 				return(-tnumb-1);
 				}
 			while(*buff==' ' || *buff=='\t'){
@@ -845,10 +843,6 @@ int matchscanf(char *buff,char *form,...)
 				fp++;
 			}
 		}
-		else if(*fp==0){
-			va_end(ap);
-			return(tnumb);
-			}
 		else if(matchscanattr==0){
 			if(*fp!=*buff || *buff==0){
 				va_end(ap);
@@ -867,7 +861,7 @@ int matchscanf(char *buff,char *form,...)
 			}
 		}
 	va_end(ap);
-
+	return(tnumb);
 }
 
 

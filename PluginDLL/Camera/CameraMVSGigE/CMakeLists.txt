@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Widgets Gui Core5Compat Sql Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -79,19 +79,19 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "/opt/MVS/include"
         "/opt/MVS/Includes"
         "../../../Open"
         "$ENV{HOME}/OpenAA-OtherLibrary/HIKRobot/MVS"
-        "/opt/MVS/include"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "/opt/MVS/lib/aarch64"
         "/opt/MVS/lib/64"
         "../../../Lib/Release"
         "/opt/MVS/Libraries/win64"
-        "/opt/MVS/lib/aarch64"
     >
 )
 
@@ -109,12 +109,12 @@ if(WIN32)
 elseif(UNIX)
     # --- Dynamic Library Linking for ServiceLib (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64" "/opt/MVS/lib/aarch64")
+    find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "/opt/MVS/lib/aarch64" "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64")
     if(SERVICELIB_SHARED_LIB_DEBUG)
         set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES libServiceLib.a PATHS "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64" "/opt/MVS/lib/aarch64")
+        find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES libServiceLib.a PATHS "/opt/MVS/lib/aarch64" "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64")
         if(SERVICELIB_STATIC_LIB_DEBUG)
             set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_STATIC_LIB_DEBUG})
         else()
@@ -125,12 +125,12 @@ elseif(UNIX)
 
     # --- Dynamic Library Linking for MvCameraControl (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(MVCAMERACONTROL_SHARED_LIB_DEBUG NAMES MvCameraControl PATHS "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64" "/opt/MVS/lib/aarch64")
+    find_library(MVCAMERACONTROL_SHARED_LIB_DEBUG NAMES MvCameraControl PATHS "/opt/MVS/lib/aarch64" "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64")
     if(MVCAMERACONTROL_SHARED_LIB_DEBUG)
         set(MVCAMERACONTROL_FINAL_LIB_DEBUG ${MVCAMERACONTROL_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(MVCAMERACONTROL_STATIC_LIB_DEBUG NAMES libMvCameraControl.a PATHS "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64" "/opt/MVS/lib/aarch64")
+        find_library(MVCAMERACONTROL_STATIC_LIB_DEBUG NAMES libMvCameraControl.a PATHS "/opt/MVS/lib/aarch64" "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64")
         if(MVCAMERACONTROL_STATIC_LIB_DEBUG)
             set(MVCAMERACONTROL_FINAL_LIB_DEBUG ${MVCAMERACONTROL_STATIC_LIB_DEBUG})
         else()
@@ -168,19 +168,19 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "/opt/MVS/include"
         "/opt/MVS/Includes"
         "../../../Open"
         "$ENV{HOME}/OpenAA-OtherLibrary/HIKRobot/MVS"
-        "/opt/MVS/include"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "/opt/MVS/lib/aarch64"
         "/opt/MVS/lib/64"
         "../../../Lib/Release"
         "/opt/MVS/Libraries/win64"
-        "/opt/MVS/lib/aarch64"
     >
 )
 
@@ -198,12 +198,12 @@ if(WIN32)
 elseif(UNIX)
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64" "/opt/MVS/lib/aarch64")
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "/opt/MVS/lib/aarch64" "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64")
     if(SERVICELIB_SHARED_LIB_RELEASE)
         set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64" "/opt/MVS/lib/aarch64")
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "/opt/MVS/lib/aarch64" "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64")
         if(SERVICELIB_STATIC_LIB_RELEASE)
             set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
         else()
@@ -214,12 +214,12 @@ elseif(UNIX)
 
     # --- Dynamic Library Linking for MvCameraControl (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(MVCAMERACONTROL_SHARED_LIB_RELEASE NAMES MvCameraControl PATHS "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64" "/opt/MVS/lib/aarch64")
+    find_library(MVCAMERACONTROL_SHARED_LIB_RELEASE NAMES MvCameraControl PATHS "/opt/MVS/lib/aarch64" "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64")
     if(MVCAMERACONTROL_SHARED_LIB_RELEASE)
         set(MVCAMERACONTROL_FINAL_LIB_RELEASE ${MVCAMERACONTROL_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(MVCAMERACONTROL_STATIC_LIB_RELEASE NAMES libMvCameraControl.a PATHS "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64" "/opt/MVS/lib/aarch64")
+        find_library(MVCAMERACONTROL_STATIC_LIB_RELEASE NAMES libMvCameraControl.a PATHS "/opt/MVS/lib/aarch64" "/opt/MVS/lib/64" "../../../Lib/Release" "/opt/MVS/Libraries/win64")
         if(MVCAMERACONTROL_STATIC_LIB_RELEASE)
             set(MVCAMERACONTROL_FINAL_LIB_RELEASE ${MVCAMERACONTROL_STATIC_LIB_RELEASE})
         else()
@@ -242,11 +242,11 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Widgets
-    Qt6::Gui
-    Qt6::Core5Compat
     Qt6::Sql
     Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core5Compat
     Qt6::Network
 )
 
@@ -266,8 +266,13 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
-    -O0
-    -g
+    -ffunction-sections -fdata-sections
+    -fsigned-char
+)
+
+target_link_options(${PROJECT_NAME} PRIVATE
+    "-Wl,--no-undefined"
+    "-Wl,--gc-sections"
 )
 
     # --- Dynamic Library Linking for ForWindows ---

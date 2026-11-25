@@ -24,38 +24,45 @@
 #include "XDot.h"
 #define	_USE_MATH_DEFINES
 #include <math.h>
+#include <string.h>
 #include "swap.h"
 #include <omp.h>
 #include "XImageExpand.h"
 #include "XGeneralFunc.h"
-#include <omp.h>
 
 /*
-	8�r�b�g�~2�r�b�g���`�̈��ł̌v�Z
-	�J�n���W�͍���
+	8ビット×2ビット矩形領域での計算
+	開始座標は左上
 */
 ShrinkingActionData::MaskInfo::MaskInfo(void)
 {
+	OffsetX		=0;
 	MaskCount1	=0;
 	MaskCount2	=0;
 	MaskCount3	=0;
+	AndMask1[0]	=0xFF;
+	AndMask1[1]	=0xFF;
+	AndMask3	=0xFF;
 }
 ShrinkingActionData::MaskInfo::~MaskInfo(void)
 {
-	MaskCount1=0;
-	MaskCount2=0;
-	AndMask3=0;
-	MaskCount3=0;
+	OffsetX		=0;
+	MaskCount1	=0;
+	MaskCount2	=0;
+	MaskCount3	=0;
+	AndMask1[0]	=0;
+	AndMask1[1]	=0;
+	AndMask3	=0;
 }
 bool	ShrinkingActionData::MaskInfo::Save(QIODevice *f)
 {
 	BYTE	D[7];
-	D[0]=OffsetX;
+	D[0]=(BYTE)OffsetX;
 	D[1]=MaskCount1;
 	D[2]=MaskCount2;
 	D[3]=MaskCount3;
-	D[4]=AndMask1;
-	D[5]=0;
+	D[4]=AndMask1[0];
+	D[5]=AndMask1[1];
 	D[6]=AndMask3;
 
 	if(f->write((const char *)D,7)!=7)
@@ -69,12 +76,12 @@ bool	ShrinkingActionData::MaskInfo::Load(QIODevice *f)
 
 	if(f->read((char *)D,7)!=7)
 		return false;
-	OffsetX		=D[0];
+	OffsetX		=(int8)D[0];
 	MaskCount1	=D[1];
 	MaskCount2	=D[2];
 	MaskCount3	=D[3];
-	AndMask1	=D[4];
-	//AndMask1[1]	=D[5];
+	AndMask1[0]	=D[4];
+	AndMask1[1]	=D[5];
 	AndMask3	=D[6];
 
 	return true;
@@ -131,7 +138,128 @@ ShrinkingPack::~ShrinkingPack(void)
 		delete	[]MaskData;
 	MaskData=NULL;
 }
-static	int	TestDbgC=0;
+
+static	void	BuildMaskInfoFromBuff(BYTE **Buff, int X1, int XByte, int YLen, struct ShrinkingActionData &Dst)
+{
+	int	LastNonZeroY=-1;
+	for(int y=YLen-1;y>=0;y--){
+		for(int x=0;x<XByte;x++){
+			if(Buff[y][x]!=0){
+				LastNonZeroY=y;
+				break;
+			}
+		}
+		if(LastNonZeroY>=0){
+			break;
+		}
+	}
+	if(LastNonZeroY<0){
+		Dst.Mask=NULL;
+		Dst.MaskNumb=0;
+		return;
+	}
+
+	int	ValidYLen=LastNonZeroY+1;
+	Dst.Mask=new struct ShrinkingActionData::MaskInfo[ValidYLen];
+	Dst.MaskNumb=(unsigned short)ValidYLen;
+
+	for(int y=0;y<ValidYLen;y++){
+		int	xa;
+		for(xa=0;xa<XByte;xa++){
+			if(Buff[y][xa]!=0){
+				break;
+			}
+		}
+		int	xb;
+		for(xb=XByte-1;xb>=0;xb--){
+			if(Buff[y][xb]!=0){
+				break;
+			}
+		}
+		ShrinkingActionData::MaskInfo	&Info=Dst.Mask[y];
+		if(xa>xb){
+			Info.OffsetX	=0;
+			Info.MaskCount1	=0;
+			Info.MaskCount2	=0;
+			Info.MaskCount3	=0;
+			Info.AndMask1[0]=0xFF;
+			Info.AndMask1[1]=0xFF;
+			Info.AndMask3	=0xFF;
+			continue;
+		}
+
+		int		C1=-1,C2=-1;
+		bool	Found=false;
+		for(int t=xa;t<=xb;t++){
+			if(Buff[y][t]==0xFF){
+				C1=t;
+				Found=true;
+				break;
+			}
+		}
+		if(Found==true){
+			for(int t=C1;t<=xb;t++){
+				if(Buff[y][t]!=0xFF){
+					break;
+				}
+				C2=t;
+			}
+		}
+
+		Info.OffsetX=(int8)(xa+X1);
+		if(Found==false){
+			int	TotalCount=xb-xa+1;
+			Info.MaskCount2=0;
+			if(TotalCount==1){
+				Info.MaskCount1	=1;
+				Info.MaskCount3	=0;
+				Info.AndMask1[0]=(BYTE)(~Buff[y][xa]);
+				Info.AndMask1[1]=0xFF;
+				Info.AndMask3	=0xFF;
+			}
+			else if(TotalCount==2){
+				Info.MaskCount1	=1;
+				Info.MaskCount3	=1;
+				Info.AndMask1[0]=(BYTE)(~Buff[y][xa]);
+				Info.AndMask1[1]=0xFF;
+				Info.AndMask3	=(BYTE)(~Buff[y][xa+1]);
+			}
+			else{
+				// TotalCount == 3
+				Info.MaskCount1	=2;
+				Info.MaskCount3	=1;
+				Info.AndMask1[0]=(BYTE)(~Buff[y][xa]);
+				Info.AndMask1[1]=(BYTE)(~Buff[y][xa+1]);
+				Info.AndMask3	=(BYTE)(~Buff[y][xa+2]);
+			}
+		}
+		else{
+			int	Count1=C1-xa;
+			if(Count1>2){
+				Count1=2;
+			}
+			Info.MaskCount1=(BYTE)Count1;
+			Info.AndMask1[0]=0xFF;
+			Info.AndMask1[1]=0xFF;
+			for(int t=0;t<Count1;t++){
+				Info.AndMask1[t]=(BYTE)(~Buff[y][xa+t]);
+			}
+			Info.MaskCount2=(BYTE)(C2-C1+1);
+			int	Count3=xb-C2;
+			if(Count3>1){
+				Count3=1;
+			}
+			Info.MaskCount3=(BYTE)Count3;
+			if(Count3>0){
+				Info.AndMask3=(BYTE)(~Buff[y][C2+1]);
+			}
+			else{
+				Info.AndMask3=0xFF;
+			}
+		}
+	}
+}
+
 void	ShrinkingPackInternalFunc16(int i ,int Len ,struct	ShrinkingActionData *MaskData)
 {
 	int	X1=(-((Len+7)>>3));
@@ -147,14 +275,14 @@ void	ShrinkingPackInternalFunc16(int i ,int Len ,struct	ShrinkingActionData *Mas
 	BYTE    **Buff=MakeMatrixBuff(XByte,YLen,BuffTmp,16384);
 	MatrixBuffClear	(Buff ,0 ,XByte,YLen);
 
-	BYTE	M1=i;
-	BYTE	M2=i>>8;
+	BYTE	M1=(BYTE)(i & 0xFF);
+	BYTE	M2=(BYTE)((i>>8) & 0xFF);
 	for(int x=0;x<8;x++){
 		for(int y=0;y<2;y++){
 			if((y==0 && ((M1&(0x80>>x))==0))
 			|| (y==1 && ((M2&(0x80>>x))==0))){
 				for(int L=0;L<=Len;L++){
-					int	x1=-sqrt((double)(Len*Len-L*L));
+					int	x1=-(int)sqrt((double)(Len*Len-L*L));
 					int	x2=-x1;
 
 					BYTE	*B1=Buff[Len+y-L];
@@ -169,81 +297,7 @@ void	ShrinkingPackInternalFunc16(int i ,int Len ,struct	ShrinkingActionData *Mas
 			}
 		}
 	}
-	MaskData[i].Mask=new struct ShrinkingActionData::MaskInfo[YLen];
-	MaskData[i].MaskNumb=0;
-	for(int y=0;y<YLen;y++){
-		int xa;
-		for(xa=0;xa<XByte;xa++){
-			if(Buff[y][xa]!=0){
-				break;
-			}
-		}
-		int	xb;
-		for(xb=XByte-1;xb>=0;xb--){
-			if(Buff[y][xb]!=0){
-				break;
-			}
-		}
-		if(xa<=xb){
-			int	C1=-1,C2=-1;
-			bool	Found=false;
-			for(int t=xa;t<=xb;t++){
-				if(Buff[y][t]==0xFF){
-					C1=t;
-					Found=true;
-					break;
-				}
-			}
-			if(Found==true){
-				for(int t=C1;t<=xb;t++){
-					if(Buff[y][t]!=0xFF){
-						break;
-					}
-					C2=t;
-				}
-			}
-
-			int	s=MaskData[i].MaskNumb;
-			//MaskData[i].Mask[s].OffsetY=y-Len;
-			if(Found==false){
-				MaskData[i].Mask[s].OffsetX=xa+X1;
-				MaskData[i].Mask[s].MaskCount1=xb-xa+1;
-				MaskData[i].Mask[s].MaskCount2=0;
-				MaskData[i].Mask[s].MaskCount3=0;
-				if(MaskData[i].Mask[s].MaskCount1==2){
-					MaskData[i].Mask[s].MaskCount1=1;
-					MaskData[i].Mask[s].MaskCount3=1;
-					MaskData[i].Mask[s].AndMask1=~Buff[y][xa+0];
-					MaskData[i].Mask[s].AndMask3=~Buff[y][xa+1];
-				}
-				else{
-					for(int t=0;t<MaskData[i].Mask[s].MaskCount1 && t<2;t++){
-						MaskData[i].Mask[s].AndMask1=~Buff[y][xa+t];
-					}
-					if(MaskData[i].Mask[s].MaskCount1==3){
-						MaskData[i].Mask[s].MaskCount1=2;
-						MaskData[i].Mask[s].MaskCount3=1;
-						MaskData[i].Mask[s].AndMask3=~Buff[y][xa+2];
-					}
-				}
-			}
-			else{
-				MaskData[i].Mask[s].OffsetX=xa+X1;
-				MaskData[i].Mask[s].MaskCount1=C1-xa;
-				if(MaskData[i].Mask[s].MaskCount1>0){
-					for(int t=0;t<MaskData[i].Mask[s].MaskCount1 && t<2;t++){
-						MaskData[i].Mask[s].AndMask1=~Buff[y][xa+t];
-					}
-				}
-				MaskData[i].Mask[s].MaskCount2=C2-C1+1;
-				MaskData[i].Mask[s].MaskCount3=xb-C2;
-				if(MaskData[i].Mask[s].MaskCount3>0){
-					MaskData[i].Mask[s].AndMask3=~Buff[y][xa+MaskData[i].Mask[s].MaskCount1+MaskData[i].Mask[s].MaskCount2];
-				}
-			}
-			MaskData[i].MaskNumb++;
-		}
-	}
+	BuildMaskInfoFromBuff(Buff, X1, XByte, YLen, MaskData[i]);
 	DeleteMatrixBuff(Buff,BuffTmp,YLen);
 }
 
@@ -252,7 +306,7 @@ void	ShrinkingPackInternalFunc8(int i ,int Len ,struct	ShrinkingActionData *Mask
 	int	X1=(-((Len+7)>>3));
 	int	Y1=-Len;
 	int	X2=((Len+7)>>3);
-	int	Y2=Len+1;
+	int	Y2=Len;
 
 	int	XByte=(X2-X1+1);
 	int	YLen=Y2-Y1+1;
@@ -262,11 +316,11 @@ void	ShrinkingPackInternalFunc8(int i ,int Len ,struct	ShrinkingActionData *Mask
 	BYTE    **Buff=MakeMatrixBuff(XByte,YLen,BuffTmp,16384);
 	MatrixBuffClear	(Buff ,0 ,XByte,YLen);
 
-	BYTE	M1=i;
+	BYTE	M1=(BYTE)(i & 0xFF);
 	for(int x=0;x<8;x++){
 		if((M1&(0x80>>x))==0){
 			for(int L=0;L<=Len;L++){
-				int	x1=-sqrt((double)(Len*Len-L*L));
+				int	x1=-(int)sqrt((double)(Len*Len-L*L));
 				int	x2=-x1;
 
 				BYTE	*B1=Buff[Len-L];
@@ -280,73 +334,7 @@ void	ShrinkingPackInternalFunc8(int i ,int Len ,struct	ShrinkingActionData *Mask
 			}
 		}
 	}
-	MaskData[i].Mask=new struct ShrinkingActionData::MaskInfo[YLen];
-	MaskData[i].MaskNumb=0;
-	for(int y=0;y<YLen;y++){
-		int xa;
-		for(xa=0;xa<XByte;xa++){
-			if(Buff[y][xa]!=0){
-				break;
-			}
-		}
-		int	xb;
-		for(xb=XByte-1;xb>=0;xb--){
-			if(Buff[y][xb]!=0){
-				break;
-			}
-		}
-		if(xa<=xb){
-			int	C1=-1,C2=-1;
-			bool	Found=false;
-			for(int t=xa;t<=xb;t++){
-				if(Buff[y][t]==0xFF){
-					C1=t;
-					Found=true;
-					break;
-				}
-			}
-			if(Found==true){
-				for(int t=C1;t<=xb;t++){
-					if(Buff[y][t]!=0xFF){
-						break;
-					}
-					C2=t;
-				}
-			}
-
-			int	s=MaskData[i].MaskNumb;
-			//MaskData[i].Mask[s].OffsetY=y-Len;
-			if(Found==false){
-				MaskData[i].Mask[s].OffsetX=xa+X1;
-				MaskData[i].Mask[s].MaskCount1=xb-xa+1;
-				MaskData[i].Mask[s].MaskCount2=0;
-				MaskData[i].Mask[s].MaskCount3=0;
-				for(int t=0;t<MaskData[i].Mask[s].MaskCount1 && t<2;t++){
-					MaskData[i].Mask[s].AndMask1=~Buff[y][xa+t];
-				}
-				if(MaskData[i].Mask[s].MaskCount1==3){
-					MaskData[i].Mask[s].MaskCount1=2;
-					MaskData[i].Mask[s].MaskCount3=1;
-					MaskData[i].Mask[s].AndMask3=~Buff[y][xa+2];
-				}
-			}
-			else{
-				MaskData[i].Mask[s].OffsetX=xa+X1;
-				MaskData[i].Mask[s].MaskCount1=C1-xa;
-				if(MaskData[i].Mask[s].MaskCount1>0){
-					for(int t=0;t<MaskData[i].Mask[s].MaskCount1 && t<2;t++){
-						MaskData[i].Mask[s].AndMask1=~Buff[y][xa+t];
-					}
-				}
-				MaskData[i].Mask[s].MaskCount2=C2-C1+1;
-				MaskData[i].Mask[s].MaskCount3=xb-C2;
-				if(MaskData[i].Mask[s].MaskCount3>0){
-					MaskData[i].Mask[s].AndMask3=~Buff[y][xa+MaskData[i].Mask[s].MaskCount1+MaskData[i].Mask[s].MaskCount2];
-				}
-			}
-			MaskData[i].MaskNumb++;
-		}
-	}
+	BuildMaskInfoFromBuff(Buff, X1, XByte, YLen, MaskData[i]);
 	DeleteMatrixBuff(Buff,BuffTmp,YLen);
 }
 
@@ -355,7 +343,7 @@ void	ShrinkingPackInternalFunc4(int i ,int Len ,struct	ShrinkingActionData *Mask
 	int	X1=(-((Len+7)>>3));
 	int	Y1=-Len;
 	int	X2=((Len+7)>>3);
-	int	Y2=Len+1;
+	int	Y2=Len;
 
 	int	XByte=(X2-X1+1);
 	int	YLen=Y2-Y1+1;
@@ -366,11 +354,11 @@ void	ShrinkingPackInternalFunc4(int i ,int Len ,struct	ShrinkingActionData *Mask
 	MatrixBuffClear	(Buff ,0 ,XByte,YLen);
 
 	if(i<16){
-		BYTE	M1=i<<4;
+		BYTE	M1=(BYTE)(i<<4);
 		for(int x=0;x<4;x++){
 			if((M1&(0x80>>x))==0){
 				for(int L=0;L<=Len;L++){
-					int	x1=-sqrt((double)(Len*Len-L*L));
+					int	x1=-(int)sqrt((double)(Len*Len-L*L));
 					int	x2=-x1;
 
 					BYTE	*B1=Buff[Len-L];
@@ -386,11 +374,11 @@ void	ShrinkingPackInternalFunc4(int i ,int Len ,struct	ShrinkingActionData *Mask
 		}
 	}
 	else{
-		BYTE	M1=i&0xF;
+		BYTE	M1=(BYTE)(i&0xF);
 		for(int x=4;x<8;x++){
 			if((M1&(0x80>>x))==0){
 				for(int L=0;L<=Len;L++){
-					int	x1=-sqrt((double)(Len*Len-L*L));
+					int	x1=-(int)sqrt((double)(Len*Len-L*L));
 					int	x2=-x1;
 
 					BYTE	*B1=Buff[Len-L];
@@ -406,73 +394,7 @@ void	ShrinkingPackInternalFunc4(int i ,int Len ,struct	ShrinkingActionData *Mask
 		}
 	}
 
-	MaskData[i].Mask=new struct ShrinkingActionData::MaskInfo[YLen];
-	MaskData[i].MaskNumb=0;
-	for(int y=0;y<YLen;y++){
-		int xa;
-		for(xa=0;xa<XByte;xa++){
-			if(Buff[y][xa]!=0){
-				break;
-			}
-		}
-		int	xb;
-		for(xb=XByte-1;xb>=0;xb--){
-			if(Buff[y][xb]!=0){
-				break;
-			}
-		}
-		if(xa<=xb){
-			int	C1=-1,C2=-1;
-			bool	Found=false;
-			for(int t=xa;t<=xb;t++){
-				if(Buff[y][t]==0xFF){
-					C1=t;
-					Found=true;
-					break;
-				}
-			}
-			if(Found==true){
-				for(int t=C1;t<=xb;t++){
-					if(Buff[y][t]!=0xFF){
-						break;
-					}
-					C2=t;
-				}
-			}
-
-			int	s=MaskData[i].MaskNumb;
-			//MaskData[i].Mask[s].OffsetY=y-Len;
-			if(Found==false){
-				MaskData[i].Mask[s].OffsetX=xa+X1;
-				MaskData[i].Mask[s].MaskCount1=xb-xa+1;
-				MaskData[i].Mask[s].MaskCount2=0;
-				MaskData[i].Mask[s].MaskCount3=0;
-				for(int t=0;t<MaskData[i].Mask[s].MaskCount1 && t<2;t++){
-					MaskData[i].Mask[s].AndMask1=~Buff[y][xa+t];
-				}
-				if(MaskData[i].Mask[s].MaskCount1==3){
-					MaskData[i].Mask[s].MaskCount1=2;
-					MaskData[i].Mask[s].MaskCount3=1;
-					MaskData[i].Mask[s].AndMask3=~Buff[y][xa+2];
-				}
-			}
-			else{
-				MaskData[i].Mask[s].OffsetX=xa+X1;
-				MaskData[i].Mask[s].MaskCount1=C1-xa;
-				if(MaskData[i].Mask[s].MaskCount1>0){
-					for(int t=0;t<MaskData[i].Mask[s].MaskCount1 && t<2;t++){
-						MaskData[i].Mask[s].AndMask1=~Buff[y][xa+t];
-					}
-				}
-				MaskData[i].Mask[s].MaskCount2=C2-C1+1;
-				MaskData[i].Mask[s].MaskCount3=xb-C2;
-				if(MaskData[i].Mask[s].MaskCount3>0){
-					MaskData[i].Mask[s].AndMask3=~Buff[y][xa+MaskData[i].Mask[s].MaskCount1+MaskData[i].Mask[s].MaskCount2];
-				}
-			}
-			MaskData[i].MaskNumb++;
-		}
-	}
+	BuildMaskInfoFromBuff(Buff, X1, XByte, YLen, MaskData[i]);
 	DeleteMatrixBuff(Buff,BuffTmp,YLen);
 }
 
@@ -481,7 +403,7 @@ void	ShrinkingPackInternalFunc2(int i ,int Len ,struct	ShrinkingActionData *Mask
 	int	X1=(-((Len+7)>>3));
 	int	Y1=-Len;
 	int	X2=((Len+7)>>3);
-	int	Y2=Len+1;
+	int	Y2=Len;
 
 	int	XByte=(X2-X1+1);
 	int	YLen=Y2-Y1+1;
@@ -493,11 +415,11 @@ void	ShrinkingPackInternalFunc2(int i ,int Len ,struct	ShrinkingActionData *Mask
 
 	int	SNumb=i/4;
 	int	LeftBit=SNumb*2;
-	BYTE	M1=(i&0x03)<<(6-LeftBit);
+	BYTE	M1=(BYTE)((i&0x03)<<(6-LeftBit));
 	for(int x=LeftBit;x<(LeftBit+2);x++){
 		if((M1&(0x80>>x))==0){
 			for(int L=0;L<=Len;L++){
-				int	x1=-sqrt((double)(Len*Len-L*L));
+				int	x1=-(int)sqrt((double)(Len*Len-L*L));
 				int	x2=-x1;
 				BYTE	*B1=Buff[Len-L];
 				for(int t=x1;t<=x2;t++){
@@ -511,74 +433,7 @@ void	ShrinkingPackInternalFunc2(int i ,int Len ,struct	ShrinkingActionData *Mask
 		}
 	}
 
-
-	MaskData[i].Mask=new struct ShrinkingActionData::MaskInfo[YLen];
-	MaskData[i].MaskNumb=0;
-	for(int y=0;y<YLen;y++){
-		int xa;
-		for(xa=0;xa<XByte;xa++){
-			if(Buff[y][xa]!=0){
-				break;
-			}
-		}
-		int	xb;
-		for(xb=XByte-1;xb>=0;xb--){
-			if(Buff[y][xb]!=0){
-				break;
-			}
-		}
-		if(xa<=xb){
-			int	C1=-1,C2=-1;
-			bool	Found=false;
-			for(int t=xa;t<=xb;t++){
-				if(Buff[y][t]==0xFF){
-					C1=t;
-					Found=true;
-					break;
-				}
-			}
-			if(Found==true){
-				for(int t=C1;t<=xb;t++){
-					if(Buff[y][t]!=0xFF){
-						break;
-					}
-					C2=t;
-				}
-			}
-
-			int	s=MaskData[i].MaskNumb;
-			//MaskData[i].Mask[s].OffsetY=y-Len;
-			if(Found==false){
-				MaskData[i].Mask[s].OffsetX=xa+X1;
-				MaskData[i].Mask[s].MaskCount1=xb-xa+1;
-				MaskData[i].Mask[s].MaskCount2=0;
-				MaskData[i].Mask[s].MaskCount3=0;
-				for(int t=0;t<MaskData[i].Mask[s].MaskCount1 && t<2;t++){
-					MaskData[i].Mask[s].AndMask1=~Buff[y][xa+t];
-				}
-				if(MaskData[i].Mask[s].MaskCount1==3){
-					MaskData[i].Mask[s].MaskCount1=2;
-					MaskData[i].Mask[s].MaskCount3=1;
-					MaskData[i].Mask[s].AndMask3=~Buff[y][xa+2];
-				}
-			}
-			else{
-				MaskData[i].Mask[s].OffsetX=xa+X1;
-				MaskData[i].Mask[s].MaskCount1=C1-xa;
-				if(MaskData[i].Mask[s].MaskCount1>0){
-					for(int t=0;t<MaskData[i].Mask[s].MaskCount1 && t<2;t++){
-						MaskData[i].Mask[s].AndMask1=~Buff[y][xa+t];
-					}
-				}
-				MaskData[i].Mask[s].MaskCount2=C2-C1+1;
-				MaskData[i].Mask[s].MaskCount3=xb-C2;
-				if(MaskData[i].Mask[s].MaskCount3>0){
-					MaskData[i].Mask[s].AndMask3=~Buff[y][xa+MaskData[i].Mask[s].MaskCount1+MaskData[i].Mask[s].MaskCount2];
-				}
-			}
-			MaskData[i].MaskNumb++;
-		}
-	}
+	BuildMaskInfoFromBuff(Buff, X1, XByte, YLen, MaskData[i]);
 	DeleteMatrixBuff(Buff,BuffTmp,YLen);
 }
 
@@ -587,7 +442,7 @@ void	ShrinkingPackInternalFunc1(int i ,int Len ,struct	ShrinkingActionData *Mask
 	int	X1=(-((Len+7)>>3));
 	int	Y1=-Len;
 	int	X2=((Len+7)>>3);
-	int	Y2=Len+1;
+	int	Y2=Len;
 
 	int	XByte=(X2-X1+1);
 	int	YLen=Y2-Y1+1;
@@ -598,9 +453,9 @@ void	ShrinkingPackInternalFunc1(int i ,int Len ,struct	ShrinkingActionData *Mask
 	MatrixBuffClear	(Buff ,0 ,XByte,YLen);
 
 	int	LeftBit=i;
-	int x=LeftBit;
+	int	x=LeftBit;
 	for(int L=0;L<=Len;L++){
-		int	x1=-sqrt((double)(Len*Len-L*L));
+		int	x1=-(int)sqrt((double)(Len*Len-L*L));
 		int	x2=-x1;
 		BYTE	*B1=Buff[Len-L];
 		for(int t=x1;t<=x2;t++){
@@ -612,81 +467,21 @@ void	ShrinkingPackInternalFunc1(int i ,int Len ,struct	ShrinkingActionData *Mask
 		}
 	}
 
-	MaskData[i].Mask=new struct ShrinkingActionData::MaskInfo[YLen];
-	MaskData[i].MaskNumb=0;
-	for(int y=0;y<YLen;y++){
-		int xa;
-		for(xa=0;xa<XByte;xa++){
-			if(Buff[y][xa]!=0){
-				break;
-			}
-		}
-		int	xb;
-		for(xb=XByte-1;xb>=0;xb--){
-			if(Buff[y][xb]!=0){
-				break;
-			}
-		}
-		if(xa<=xb){
-			int	C1=-1,C2=-1;
-			bool	Found=false;
-			for(int t=xa;t<=xb;t++){
-				if(Buff[y][t]==0xFF){
-					C1=t;
-					Found=true;
-					break;
-				}
-			}
-			if(Found==true){
-				for(int t=C1;t<=xb;t++){
-					if(Buff[y][t]!=0xFF){
-						break;
-					}
-					C2=t;
-				}
-			}
-
-			int	s=MaskData[i].MaskNumb;
-			//MaskData[i].Mask[s].OffsetY=y-Len;
-			if(Found==false){
-				MaskData[i].Mask[s].OffsetX=xa+X1;
-				MaskData[i].Mask[s].MaskCount1=xb-xa+1;
-				MaskData[i].Mask[s].MaskCount2=0;
-				MaskData[i].Mask[s].MaskCount3=0;
-				for(int t=0;t<MaskData[i].Mask[s].MaskCount1 && t<2;t++){
-					MaskData[i].Mask[s].AndMask1=~Buff[y][xa+t];
-				}
-				if(MaskData[i].Mask[s].MaskCount1==3){
-					MaskData[i].Mask[s].MaskCount1=2;
-					MaskData[i].Mask[s].MaskCount3=1;
-					MaskData[i].Mask[s].AndMask3=~Buff[y][xa+2];
-				}
-			}
-			else{
-				MaskData[i].Mask[s].OffsetX=xa+X1;
-				MaskData[i].Mask[s].MaskCount1=C1-xa;
-				if(MaskData[i].Mask[s].MaskCount1>0){
-					for(int t=0;t<MaskData[i].Mask[s].MaskCount1 && t<2;t++){
-						MaskData[i].Mask[s].AndMask1=~Buff[y][xa+t];
-					}
-				}
-				MaskData[i].Mask[s].MaskCount2=C2-C1+1;
-				MaskData[i].Mask[s].MaskCount3=xb-C2;
-				if(MaskData[i].Mask[s].MaskCount3>0){
-					MaskData[i].Mask[s].AndMask3=~Buff[y][xa+MaskData[i].Mask[s].MaskCount1+MaskData[i].Mask[s].MaskCount2];
-				}
-			}
-			MaskData[i].MaskNumb++;
-		}
-	}
+	BuildMaskInfoFromBuff(Buff, X1, XByte, YLen, MaskData[i]);
 	DeleteMatrixBuff(Buff,BuffTmp,YLen);
 }
 
 void	ShrinkingPack::Initial(int len)
 {
 	Len=len;
-	if(MaskData!=NULL)
+	if(MaskData!=NULL){
 		delete	[]MaskData;
+		MaskData=NULL;
+	}
+	if(Len<=0){
+		BitNumb=0;
+		return;
+	}
 
 	int	N;
 	if(Len<60){
@@ -802,8 +597,9 @@ bool	ShrinkingPack::Load(QIODevice *f)
 		return false;
 	if(MaskData!=NULL){
 		delete	[]MaskData;
+		MaskData=NULL;
 	}
-	if(N==0){
+	if(N<=0){
 		MaskData=NULL;
 	}
 	else{
@@ -811,12 +607,6 @@ bool	ShrinkingPack::Load(QIODevice *f)
 		for(int i=0;i<N;i++){
 			if(MaskData[i].Load(f)==false)
 				return false;
-			//for(int j=0;j<MaskData[i].MaskNumb;j++){
-			//	if(MaskData[i].Mask[j].MaskCount1>1){
-			//		MaskData[i].Mask[j].MaskCount2+=MaskData[i].Mask[j].MaskCount1-1;
-			//		MaskData[i].Mask[j].MaskCount1=1;
-			//	}
-			//}
 		}
 	}
 	return true;
@@ -843,22 +633,24 @@ ShrinkingPack	*ShrinkingPackContainer::Create(void)
 }
 void	ShrinkingPackContainer::AppendListItem(ShrinkingPack *item)
 {
-	if(item->Len<DimNumb){
-		Dim[item->Len]=item;
-	}
-	else{
-		int	Len=item->Len*2;
-		ShrinkingPack	**DimSub=new ShrinkingPack*[Len];
-		for(int i=0;i<Len;i++){
-			DimSub[i]=NULL;
+	if(item!=NULL && item->Len>=0){
+		if(item->Len<DimNumb){
+			Dim[item->Len]=item;
 		}
-		for(int i=0;i<DimNumb;i++){
-			DimSub[i]=Dim[i];
+		else{
+			int	NewLen=max(item->Len+1, DimNumb*2);
+			ShrinkingPack	**DimSub=new ShrinkingPack*[NewLen];
+			for(int i=0;i<NewLen;i++){
+				DimSub[i]=NULL;
+			}
+			for(int i=0;i<DimNumb;i++){
+				DimSub[i]=Dim[i];
+			}
+			DimSub[item->Len]=item;
+			delete	[]Dim;
+			Dim=DimSub;
+			DimNumb=NewLen;
 		}
-		DimSub[item->Len]=item;
-		delete	[]Dim;
-		Dim=DimSub;
-		DimNumb=Len;
 	}
 	NPListPackSaveLoad<ShrinkingPack>::AppendListItem(item);
 }
@@ -871,7 +663,7 @@ void	ShrinkingPackContainer::Clear(void)
 }
 bool	ShrinkingPackContainer::IsLoaded(int Numb)
 {
-	if(Numb<DimNumb && Dim[Numb]!=NULL){
+	if(0<=Numb && Numb<DimNumb && Dim[Numb]!=NULL){
 		return true;
 	}
 	return false;
@@ -895,34 +687,18 @@ bool   ShrinkingPackContainer::ThinAreaN(BYTE **bmpdata
 				,FlexArea *ForceZone
 				,bool EnableThread)
 {
-	if(IsLoaded(Numb)==false){
-		ShrinkingPack	*s=new ShrinkingPack;
-		s->Initial(Numb);
-		AppendListItem(s);
+	if(Numb<=0){
+		return true;
 	}
-	/*
-	int	MaxD1=0;
-	int	MaxD2=0;
-	int	MaxD3=0;
-	for(int i=1;i<DimNumb;i++){
-		if(Dim[i]!=NULL){
-			ShrinkingPack	&M=*Dim[i];
-			for(int k=0;k<M.Len;k++){
-				for(int h=0;h<M.MaskData[k].MaskNumb;h++){
-					MaxD1=max(MaxD1,M.MaskData[k].Mask[h].MaskCount1);
-					MaxD2=max(MaxD2,M.MaskData[k].Mask[h].MaskCount2);
-					MaxD3=max(MaxD3,M.MaskData[k].Mask[h].MaskCount3);
-				}
-			}
-		}
+	ShrinkingPack	*P=GetPack(Numb);
+	if(P==NULL){
+		return false;
 	}
-	*/
-
 	::ThinAreaN(bmpdata
 				,bitoperation
 				,xbyte ,YLenDot 
 				,Numb
-				,*GetPack(Numb)
+				,*P
 				,ForceZone
 				,EnableThread);
 	return true;
@@ -934,16 +710,18 @@ bool    ShrinkingPackContainer::FatAreaN(BYTE **bmpdata
 				,FlexArea *ForceZone
 				,bool EnableThread)
 {
-	if(IsLoaded(Numb)==false){
-		ShrinkingPack	*s=new ShrinkingPack;
-		s->Initial(Numb);
-		AppendListItem(s);
+	if(Numb<=0){
+		return true;
+	}
+	ShrinkingPack	*P=GetPack(Numb);
+	if(P==NULL){
+		return false;
 	}
 	::FatAreaN(bmpdata
 				,bitoperation
 				,xbyte ,YLenDot 
 				,Numb
-				,*GetPack(Numb)
+				,*P
 				,ForceZone
 				,EnableThread);
 	return true;
@@ -1046,7 +824,7 @@ void    ThinAreaN(BYTE **bmpdata
 				,FlexArea *ForceZone
 				,bool EnableThread)
 {
-	if(Numb<=0){
+	if(Numb<=0 || xbyte<=0 || YLenDot<=0){
 		return;
 	}
 	if(Numb==1){
@@ -1061,7 +839,7 @@ void    ThinAreaN(BYTE **bmpdata
 				,bitoperation
 				,xbyte ,YLenDot
 				,2
-			 ,ForceZone
+				,ForceZone
 				,EnableThread);
 		return;
 	}
@@ -1072,7 +850,7 @@ void    ThinAreaN(BYTE **bmpdata
 		Allocbitoperation=true;
 	}
 
-    MatrixBuffCopy(bitoperation				,xbyte,YLenDot
+	MatrixBuffCopy(bitoperation				,xbyte,YLenDot
                   ,(const BYTE **)bmpdata	,xbyte,YLenDot);
 
 	if(PTable.BitNumb==16){
@@ -1129,52 +907,22 @@ void    ThinAreaN(BYTE **bmpdata
 
 inline	int	ForAnd(int Count, BYTE *d ,BYTE *s,int XByte, int X)
 {
-	int	Start;
+	int	Start=0;
 	if(X<0){
 		Start=-X;
-		X=0;
 		Count-=Start;
+		X=0;
 	}
-	else{
-		Start=0;
+	if(X>=XByte || Count<=0){
+		return X;
 	}
-	if(X>=XByte){
-		int	Dif=X-XByte;
-		Count-=Dif;
+	if(X+Count>XByte){
+		Count=XByte-X;
 	}
-
-	BYTE	*dw=(BYTE	*)&(d[X]);
-	BYTE	*sw=(BYTE	*)&(s[Start]);
-	if(Count>=8){
-		int	n=Count>>3;
-		for(int i=0;i<n;i++){
-			*((uint64 *)dw) &= *((uint64 *)sw);
-			dw+=8;
-			sw+=8;
-		}
-		n=n<<3;
-		X+=n;
-		Count-=n;
+	for(int i=0;i<Count;i++){
+		d[X+i] &= s[Start+i];
 	}
-	if(Count>=4){
-		*((DWORD *)dw) &= *((DWORD *)sw);
-		sw+=4;
-		dw+=4;
-		X+=4;
-		Count-=4;
-	}
-	if(Count>=2){
-		*((WORD *)dw) &= *((WORD *)sw);
-		sw+=2;
-		dw+=2;
-		X+=2;
-		Count-=2;
-	}
-	if(Count>=1){
-		*dw &= *sw;
-		X++;
-	}
-	return X;
+	return X+Count;
 }
 
 
@@ -1184,38 +932,205 @@ inline	int	For0(int Count, BYTE *d ,int XByte, int X)
 		Count+=X;
 		X=0;
 	}
-	if(X>=XByte){
-		int	Dif=X-XByte;
-		Count-=Dif;
+	if(X>=XByte || Count<=0){
+		return X;
 	}
-	BYTE	*dw=(BYTE	*)&(d[X]);
-	if(Count>=8){
-		int	n=Count>>3;
-		for(int i=0;i<n;i++){
-			*((uint64*)dw) = 0;
-			dw+=8;
+	if(X+Count>XByte){
+		Count=XByte-X;
+	}
+	memset(&d[X],0,Count);
+	return X+Count;
+}
+
+static inline void	ApplyThinMaskFast(BYTE **bmpdata, int baseY, int xb, const ShrinkingActionData &M)
+{
+	const ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
+	for(int i=0;i<M.MaskNumb;i++,MInfo++){
+		int	Counter1=MInfo->MaskCount1;
+		int	Counter2=MInfo->MaskCount2;
+		int	Counter3=MInfo->MaskCount3;
+		if((Counter1 | Counter2 | Counter3)==0){
+			continue;
 		}
-		n=n<<3;
-		X+=n;
-		Count-=n;
+		BYTE	*d=bmpdata[baseY+i];
+		int		X=xb+(int)MInfo->OffsetX;
+		for(int t=0;t<Counter1;t++){
+			d[X] &= MInfo->AndMask1[t];
+			X++;
+		}
+		if(Counter2>0){
+			memset(&d[X],0,Counter2);
+			X+=Counter2;
+		}
+		if(Counter3>0){
+			d[X] &= MInfo->AndMask3;
+		}
 	}
-	if(Count>=4){
-		*((DWORD *)dw) = 0;
-		dw+=4;
-		X+=4;
-		Count-=4;
+}
+
+static inline void	ApplyThinMaskSafe(BYTE **bmpdata, int xbyte, int YLenDot, int baseY, int xb, const ShrinkingActionData &M)
+{
+	const ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
+	for(int i=0;i<M.MaskNumb;i++,MInfo++){
+		int	Y=baseY+i;
+		if(Y<0){
+			continue;
+		}
+		if(Y>=YLenDot){
+			break;
+		}
+		int	Counter1=MInfo->MaskCount1;
+		int	Counter2=MInfo->MaskCount2;
+		int	Counter3=MInfo->MaskCount3;
+		if((Counter1 | Counter2 | Counter3)==0){
+			continue;
+		}
+		BYTE	*d=bmpdata[Y];
+		int		X=xb+(int)MInfo->OffsetX;
+		for(int t=0;t<Counter1;t++){
+			if(0<=X && X<xbyte){
+				d[X] &= MInfo->AndMask1[t];
+			}
+			X++;
+		}
+		if(Counter2>0){
+			int	XStart=(X<0)?0:X;
+			int	XEnd  =((X+Counter2)>xbyte)?xbyte:(X+Counter2);
+			if(XStart<XEnd){
+				memset(&d[XStart],0,XEnd-XStart);
+			}
+			X+=Counter2;
+		}
+		if(Counter3>0){
+			if(0<=X && X<xbyte){
+				d[X] &= MInfo->AndMask3;
+			}
+		}
 	}
-	if(Count>=2){
-		*((WORD *)dw) = 0;
-		dw+=2;
-		X+=2;
-		Count-=2;
+}
+
+static inline void	ApplyFatMaskFast(BYTE **bmpdata, int baseY, int xb, const ShrinkingActionData &M)
+{
+	const ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
+	for(int i=0;i<M.MaskNumb;i++,MInfo++){
+		int	Counter1=MInfo->MaskCount1;
+		int	Counter2=MInfo->MaskCount2;
+		int	Counter3=MInfo->MaskCount3;
+		if((Counter1 | Counter2 | Counter3)==0){
+			continue;
+		}
+		BYTE	*d=bmpdata[baseY+i];
+		int		X=xb+(int)MInfo->OffsetX;
+		for(int t=0;t<Counter1;t++){
+			d[X] |= (BYTE)(~MInfo->AndMask1[t]);
+			X++;
+		}
+		if(Counter2>0){
+			memset(&d[X],0xFF,Counter2);
+			X+=Counter2;
+		}
+		if(Counter3>0){
+			d[X] |= (BYTE)(~MInfo->AndMask3);
+		}
 	}
-	if(Count>=1){
-		*dw = 0;
-		X++;
+}
+
+static inline void	ApplyFatMaskSafe(BYTE **bmpdata, int xbyte, int YLenDot, int baseY, int xb, const ShrinkingActionData &M)
+{
+	const ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
+	for(int i=0;i<M.MaskNumb;i++,MInfo++){
+		int	Y=baseY+i;
+		if(Y<0){
+			continue;
+		}
+		if(Y>=YLenDot){
+			break;
+		}
+		int	Counter1=MInfo->MaskCount1;
+		int	Counter2=MInfo->MaskCount2;
+		int	Counter3=MInfo->MaskCount3;
+		if((Counter1 | Counter2 | Counter3)==0){
+			continue;
+		}
+		BYTE	*d=bmpdata[Y];
+		int		X=xb+(int)MInfo->OffsetX;
+		for(int t=0;t<Counter1;t++){
+			if(0<=X && X<xbyte){
+				d[X] |= (BYTE)(~MInfo->AndMask1[t]);
+			}
+			X++;
+		}
+		if(Counter2>0){
+			int	XStart=(X<0)?0:X;
+			int	XEnd  =((X+Counter2)>xbyte)?xbyte:(X+Counter2);
+			if(XStart<XEnd){
+				memset(&d[XStart],0xFF,XEnd-XStart);
+			}
+			X+=Counter2;
+		}
+		if(Counter3>0){
+			if(0<=X && X<xbyte){
+				d[X] |= (BYTE)(~MInfo->AndMask3);
+			}
+		}
 	}
-	return X;
+}
+
+static	void    ThinAreaN16RowRange(BYTE **bmpdata
+				,BYTE **bitoperation
+				,int xbyte ,int YLenDot 
+				,int Numb
+				,ShrinkingPack &PTable
+				,int rStart, int rEnd
+				,int SafeStartR, int SafeEndR
+				,int MerginByte)
+{
+	int	LeftEndX	=min(MerginByte, xbyte);
+	int	RightStartX	=max(MerginByte, xbyte-MerginByte);
+
+	for(int r=rStart;r<rEnd;r++){
+		int	y=r*2;
+		if(SafeStartR<=r && r<SafeEndR){
+			const BYTE	*s0=bitoperation[y];
+			const BYTE	*s1=bitoperation[y+1];
+			int			baseY=y-Numb;
+
+			for(int xb=0;xb<LeftEndX;xb++){
+				unsigned short	Index=(unsigned short)s0[xb] | (((unsigned short)s1[xb])<<8);
+				if(Index==0xFFFFu)
+					continue;
+				ApplyThinMaskSafe(bmpdata, xbyte, YLenDot, baseY, xb, PTable.MaskData[Index]);
+			}
+			for(int xb=MerginByte;xb<RightStartX;xb++){
+				unsigned short	Index=(unsigned short)s0[xb] | (((unsigned short)s1[xb])<<8);
+				if(Index==0xFFFFu)
+					continue;
+				ApplyThinMaskFast(bmpdata, baseY, xb, PTable.MaskData[Index]);
+			}
+			for(int xb=RightStartX;xb<xbyte;xb++){
+				unsigned short	Index=(unsigned short)s0[xb] | (((unsigned short)s1[xb])<<8);
+				if(Index==0xFFFFu)
+					continue;
+				ApplyThinMaskSafe(bmpdata, xbyte, YLenDot, baseY, xb, PTable.MaskData[Index]);
+			}
+		}
+		else{
+			const BYTE	*s0=bitoperation[y];
+			const BYTE	*s1=(y+1<YLenDot)?bitoperation[y+1]:NULL;
+			int			baseY=y-Numb;
+
+			for(int xb=0;xb<xbyte;xb++){
+				unsigned short	Index=(unsigned short)s0[xb];
+				if(s1!=NULL)
+					Index |= (((unsigned short)s1[xb])<<8);
+				else
+					Index |= 0xFF00u;
+				if(Index==0xFFFFu)
+					continue;
+				ApplyThinMaskSafe(bmpdata, xbyte, YLenDot, baseY, xb, PTable.MaskData[Index]);
+			}
+		}
+	}
 }
 
 static	void    ThinAreaN16(BYTE **bmpdata
@@ -1227,298 +1142,84 @@ static	void    ThinAreaN16(BYTE **bmpdata
 				,bool EnableThread)
 {
 	int	MerginByte=(Numb+7)>>3;
+	int	TotalR=(YLenDot+1)/2;
+	int	SafeStartR=min(TotalR, (Numb+1)/2);
+	int	SafeEndR  =max(SafeStartR, min(TotalR, (YLenDot-Numb-1)/2));
 
-	for(int y=0;y<Numb;y+=2){
-		for(int xb=xbyte-MerginByte;xb<xbyte-MerginByte;xb++){
-			unsigned short	Index=(unsigned short)(bitoperation[y][xb])+(((unsigned short)bitoperation[y+1][xb])<<8);
-			struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-			ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-			for(int i=0;i<M.MaskNumb;i++,MInfo++){
-				int	Y=y-Numb+i;
-				if(Y<0 || YLenDot<=Y)
-					continue;
-				BYTE	*d=bmpdata[Y];
-				int		Counter1=MInfo->MaskCount1;
-				int		X=xb+MInfo->OffsetX;
-				//X=ForAnd(Counter1, d ,s,xbyte, X);
-				if(Counter1>0){
-					d[X] &= MInfo->AndMask1;
-					X++;
-				}
-				int		Counter2=MInfo->MaskCount2;
-				//X=For0(Counter2, d ,xbyte, X);
-				for(int k=0;k<Counter2;k++){
-					d[X]=0;
-					X++;
-				}
-				int		Counter3=MInfo->MaskCount3;
-				if(Counter3>0){
-					d[X] &= MInfo->AndMask3;
-				}
-			}
-		}
-	}
-	for(int y=YLenDot-Numb-2;y<Numb;y+=2){
-		for(int xb=xbyte-MerginByte;xb<xbyte-MerginByte;xb++){
-			unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-			if(y+1<YLenDot)
-				Index+=(((unsigned short)bitoperation[y+1][xb])<<8);
-			else
-				Index+=0xFF00;
-			struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-			ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-			for(int i=0;i<M.MaskNumb;i++,MInfo++){
-				int	Y=y-Numb+i;
-				if(Y<0 || YLenDot<=Y)
-					continue;
-				BYTE	*d=bmpdata[Y];
-				int		Counter1=MInfo->MaskCount1;
-				int		X=xb+MInfo->OffsetX;
-				if(Counter1>0){
-					d[X] &= MInfo->AndMask1;
-					X++;
-				}
-				int		Counter2=MInfo->MaskCount2;
-				for(int k=0;k<Counter2;k++){
-					d[X]=0;
-					X++;
-				}
-				int		Counter3=MInfo->MaskCount3;
-				if(Counter3>0){
-					d[X] &= MInfo->AndMask3;
-				}
-			}
-		}
-	}		
-	int	N=(YLenDot-Numb-Numb-2)/2;
-	if(N<32 || EnableThread==false){
-		for(int y=0;y<YLenDot;y+=2){
-			for(int xb=0;xb<MerginByte && xb<xbyte;xb++){
-				unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-				if(y+1<YLenDot)
-					Index+=(((unsigned short)bitoperation[y+1][xb])<<8);
-				else
-					Index+=0xFF00;
-				struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-				ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-				for(int i=0;i<M.MaskNumb;i++,MInfo++){
-					int	Y=y-Numb+i;
-					if(Y<0 || YLenDot<=Y)
-						continue;
-					BYTE	*d=bmpdata[Y];
-					int		Counter1=MInfo->MaskCount1;
-					int		X=xb+MInfo->OffsetX;
-					if(Counter1>0){
-						if(0<=X && X<xbyte)
-							d[X] &= MInfo->AndMask1;
-						X++;
-					}
-					int		Counter2=MInfo->MaskCount2;
-					for(int k=0;k<Counter2;k++){
-						if(0<=X && X<xbyte)
-							d[X]=0;
-						X++;
-					}
-					int		Counter3=MInfo->MaskCount3;
-					if(Counter3>0){
-						if(0<=X && X<xbyte)
-							d[X] &= MInfo->AndMask3;
-					}
-				}
-			}
-			for(int xb=xbyte-MerginByte;xb<xbyte;xb++){
-				unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-				if(y+1<YLenDot)
-					Index+=(((unsigned short)bitoperation[y+1][xb])<<8);
-				else
-					Index+=0xFF00;
-				struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-				ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-				for(int i=0;i<M.MaskNumb;i++,MInfo++){
-					int	Y=y-Numb+i;
-					if(Y<0 || YLenDot<=Y)
-						continue;
-					BYTE	*d=bmpdata[Y];
-					int		Counter1=MInfo->MaskCount1;
-					int		X=xb+MInfo->OffsetX;
-					if(Counter1>0){
-						if(0<=X && X<xbyte)
-							d[X] &= MInfo->AndMask1;
-						X++;
-					}
-					int		Counter2=MInfo->MaskCount2;
-					for(int k=0;k<Counter2;k++){
-						if(0<=X && X<xbyte)
-							d[X]=0;
-						X++;
-					}
-					int		Counter3=MInfo->MaskCount3;
-					if(Counter3>0){
-						if(0<=X && X<xbyte)
-							d[X] &= MInfo->AndMask3;
-					}
-				}
-			}
-		}
-		for(int y=Numb;y<YLenDot-Numb-2;y+=2){
-			for(int xb=MerginByte;xb<xbyte-MerginByte;xb++){
-				unsigned short	Index=(unsigned short)(bitoperation[y][xb])+(((unsigned short)bitoperation[y+1][xb])<<8);
-				struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-				ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-				for(int i=0;i<M.MaskNumb;i++,MInfo++){
-					BYTE	*d=bmpdata[y-Numb+i];
-					int		Counter1=MInfo->MaskCount1;
-					int		X=xb+MInfo->OffsetX;
-					if(Counter1>0){
-						d[X] &= MInfo->AndMask1;
-						X++;
-					}
-					int		Counter2=MInfo->MaskCount2;
-					for(int k=0;k<Counter2;k++){
-						d[X]=0;
-						X++;
-					}
-					int		Counter3=MInfo->MaskCount3;
-					if(Counter3>0){
-						d[X] &= MInfo->AndMask3;
-					}
-				}
-			}
-		}
+	int	BandR=max(Numb+2, 16);
+	int	BandCount=(TotalR+BandR-1)/BandR;
+
+	if(BandCount<4 || EnableThread==false){
+		ThinAreaN16RowRange(bmpdata, bitoperation, xbyte, YLenDot, Numb, PTable
+							,0, TotalR, SafeStartR, SafeEndR, MerginByte);
 	}
 	else{
+		// 2-pass striped parallelization to guarantee zero write-overlap between threads
 		#pragma omp parallel
 		{
 			#pragma omp for schedule(static)
-			for(int r=0;r<N;r++){
-			//for(int r=0;r<N;r++){
-				int	y=r*2;
-				int	StartY=(y-Numb>=0)?0:-(y-Numb);
-				for(int xb=0;xb<MerginByte && xb<xbyte;xb++){
-					unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-					if(y+1<YLenDot)
-						Index+=(((unsigned short)bitoperation[y+1][xb])<<8);
-					else
-						Index+=0xFF00;
-					struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-					ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-					for(int i=StartY;i<M.MaskNumb;i++,MInfo++){
-						int	Y=y-Numb+i;
-						if(YLenDot<=Y)
-							break;
-						int		X=xb+MInfo->OffsetX;
-						BYTE	*d=bmpdata[Y];
-						int		Counter1=MInfo->MaskCount1;
-						//X=ForAnd(Counter1, d ,s,xbyte, X);
-						if(Counter1>0){
-							if(0<=X && X<xbyte)
-								d[X] &= MInfo->AndMask1;
-							X++;
-						}
-						int		Counter2=MInfo->MaskCount2;
-						//X=For0(Counter2, d ,xbyte, X);
-						for(int k=0;k<Counter2;k++){
-							if(0<=X && X<xbyte)
-								d[X]=0;
-							X++;
-						}
-						int		Counter3=MInfo->MaskCount3;
-						if(Counter3>0){
-							if(0<=X && X<xbyte)
-								d[X] &= MInfo->AndMask3;
-						}
-					}
-				}
-				for(int xb=xbyte-MerginByte;xb<xbyte;xb++){
-					unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-					if(y+1<YLenDot)
-						Index+=(((unsigned short)bitoperation[y+1][xb])<<8);
-					else
-						Index+=0xFF00;
-					struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-					ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-					for(int i=StartY;i<M.MaskNumb;i++,MInfo++){
-						int	Y=y-Numb+i;
-						if(YLenDot<=Y)
-							break;
-						int		X=xb+MInfo->OffsetX;
-						BYTE	*d=bmpdata[Y];
-						int		Counter1=MInfo->MaskCount1;
-						//X=ForAnd(Counter1, d ,s,xbyte, X);
-						if(Counter1>0){
-							if(0<=X && X<xbyte)
-								d[X] &= MInfo->AndMask1;
-							X++;
-						}
-						int		Counter2=MInfo->MaskCount2;
-						//X=For0(Counter2, d ,xbyte, X);
-						for(int k=0;k<Counter2;k++){
-							if(0<=X && X<xbyte)
-								d[X]=0;
-							X++;
-						}
-						int		Counter3=MInfo->MaskCount3;
-						if(Counter3>0){
-							if(0<=X && X<xbyte)
-								d[X] &= MInfo->AndMask3;
-						}
-					}
-				}
+			for(int b=0;b<BandCount;b+=2){
+				int	rStart=b*BandR;
+				int	rEnd  =min(TotalR, rStart+BandR);
+				ThinAreaN16RowRange(bmpdata, bitoperation, xbyte, YLenDot, Numb, PTable
+									,rStart, rEnd, SafeStartR, SafeEndR, MerginByte);
 			}
-		}
-		#pragma omp parallel
-		{
 			#pragma omp for schedule(static)
-			for(int r=0;r<N;r++){
-				int	y=r*2+Numb;
-				for(int xb=MerginByte;xb<xbyte-MerginByte;xb++){
-					unsigned short	Index=(unsigned short)(bitoperation[y][xb])+(((unsigned short)bitoperation[y+1][xb])<<8);
-					struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-					ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-					for(int i=0;i<M.MaskNumb;i++,MInfo++){
-						int		X=xb+MInfo->OffsetX;
-						BYTE	*d=bmpdata[y-Numb+i];
-						int		Counter1=MInfo->MaskCount1;
-						//X=ForAnd(Counter1, d ,s,xbyte, X);
-						if(Counter1>0){
-							d[X] &= MInfo->AndMask1;
-							X++;
-						}
-						int		Counter2=MInfo->MaskCount2;
-						//X=For0(Counter2, d ,xbyte, X);
-						//for(int k=0;k<Counter2;k++){
-						//	d[X]=0;
-						//	X++;
-						//}
-						switch(Counter2){
-						case 0:	break;
-						case 1:	d[X]=0;	X++;	break;
-						case 2:	*((WORD *)&d[X])=0;	X+=2;	break;
-						case 3:	*((WORD *)&d[X])=0;	d[X+2]=0;	X+=3;		break;
-						case 4:	*((DWORD *)&d[X])=0;	X+=4;	break;
-						case 5:	*((DWORD *)&d[X])=0;	d[X+4]=0;	X+=5;		break;
-						case 6:	*((DWORD *)&d[X])=0;	*((WORD *)&d[X+4])=0;	X+=6;		break;
-						case 7:	*((DWORD *)&d[X])=0;	*((WORD *)&d[X+4])=0;	d[X+6]=0;	X+=7;		break;
-						case 8:	*((uint64*)&d[X])=0;	X+=8;		break;
-						default:
-							memset(&d[X],0,Counter2);
-							X+=Counter2;
-							//for(int k=0;k<Counter2;k++){
-							//	d[X]=0;
-							//	X++;
-							//}
-						}
-						int		Counter3=MInfo->MaskCount3;
-						if(Counter3>0){
-							d[X] &= MInfo->AndMask3;
-						}
-					}
-				}
+			for(int b=1;b<BandCount;b+=2){
+				int	rStart=b*BandR;
+				int	rEnd  =min(TotalR, rStart+BandR);
+				ThinAreaN16RowRange(bmpdata, bitoperation, xbyte, YLenDot, Numb, PTable
+									,rStart, rEnd, SafeStartR, SafeEndR, MerginByte);
 			}
 		}
 	}
 }
 
+static	void    ThinAreaN8RowRange(BYTE **bmpdata
+				,BYTE **bitoperation
+				,int xbyte ,int YLenDot 
+				,int Numb
+				,ShrinkingPack &PTable
+				,int yStart, int yEnd
+				,int SafeStartY, int SafeEndY
+				,int MerginByte)
+{
+	int	LeftEndX	=min(MerginByte, xbyte);
+	int	RightStartX	=max(MerginByte, xbyte-MerginByte);
+
+	for(int y=yStart;y<yEnd;y++){
+		const BYTE	*s0=bitoperation[y];
+		int			baseY=y-Numb;
+		if(SafeStartY<=y && y<SafeEndY){
+			for(int xb=0;xb<LeftEndX;xb++){
+				unsigned short	Index=(unsigned short)s0[xb];
+				if(Index==0xFFu)
+					continue;
+				ApplyThinMaskSafe(bmpdata, xbyte, YLenDot, baseY, xb, PTable.MaskData[Index]);
+			}
+			for(int xb=MerginByte;xb<RightStartX;xb++){
+				unsigned short	Index=(unsigned short)s0[xb];
+				if(Index==0xFFu)
+					continue;
+				ApplyThinMaskFast(bmpdata, baseY, xb, PTable.MaskData[Index]);
+			}
+			for(int xb=RightStartX;xb<xbyte;xb++){
+				unsigned short	Index=(unsigned short)s0[xb];
+				if(Index==0xFFu)
+					continue;
+				ApplyThinMaskSafe(bmpdata, xbyte, YLenDot, baseY, xb, PTable.MaskData[Index]);
+			}
+		}
+		else{
+			for(int xb=0;xb<xbyte;xb++){
+				unsigned short	Index=(unsigned short)s0[xb];
+				if(Index==0xFFu)
+					continue;
+				ApplyThinMaskSafe(bmpdata, xbyte, YLenDot, baseY, xb, PTable.MaskData[Index]);
+			}
+		}
+	}
+}
 
 static	void    ThinAreaN8(BYTE **bmpdata
 				,BYTE **bitoperation
@@ -1529,276 +1230,37 @@ static	void    ThinAreaN8(BYTE **bmpdata
 				,bool EnableThread)
 {
 	int	MerginByte=(Numb+7)>>3;
+	int	SafeStartY=min(YLenDot, Numb);
+	int	SafeEndY  =max(SafeStartY, min(YLenDot, YLenDot-Numb));
 
-	for(int y=0;y<Numb;y++){
-		int	StartY=-(y-Numb);
-		for(int xb=xbyte-MerginByte;xb<xbyte-MerginByte;xb++){
-			unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-			struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-			ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-			for(int i=StartY;i<M.MaskNumb;i++,MInfo++){
-				int	Y=y-Numb+i;
-				if(YLenDot<=Y)
-					break;
-				BYTE	*d=bmpdata[Y];
-				int		Counter1=MInfo->MaskCount1;
-				int		X=xb+MInfo->OffsetX;
-				if(Counter1>0){
-					d[X] &= MInfo->AndMask1;
-					X++;
-				}
-				int		Counter2=MInfo->MaskCount2;
-				for(int k=0;k<Counter2;k++){
-					d[X]=0;
-					X++;
-				}
-				int		Counter3=MInfo->MaskCount3;
-				if(Counter3>0){
-					d[X] &= MInfo->AndMask3;
-				}
-			}
-		}
-	}
-	for(int y=YLenDot-Numb-1;y<Numb;y++){
-		int	StartY=(y-Numb>=0)?0:-(y-Numb);
-		for(int xb=xbyte-MerginByte;xb<xbyte-MerginByte;xb++){
-			unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-			struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-			ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-			for(int i=StartY;i<M.MaskNumb;i++,MInfo++){
-				int	Y=y-Numb+i;
-				if(YLenDot<=Y)
-					break;
-				BYTE	*d=bmpdata[Y];
-				int		Counter1=MInfo->MaskCount1;
-				int		X=xb+MInfo->OffsetX;
-				if(Counter1>0){
-					d[X] &= MInfo->AndMask1;
-					X++;
-				}
-				int		Counter2=MInfo->MaskCount2;
-				for(int k=0;k<Counter2;k++){
-					d[X]=0;
-					X++;
-				}
-				int		Counter3=MInfo->MaskCount3;
-				if(Counter3>0){
-					d[X] &= MInfo->AndMask3;
-				}
-			}
-		}
-	}		
-	int	N=YLenDot-Numb-Numb-1;
-	if(N<32 || EnableThread==false){
-		for(int y=0;y<YLenDot;y++){
-			for(int xb=0;xb<MerginByte && xb<xbyte;xb++){
-				unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-				struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-				ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-				for(int i=max(y-Numb,0);i<M.MaskNumb;i++,MInfo++){
-					int	Y=y-Numb+i;
-					if(Y<0 || YLenDot<=Y)
-						continue;
-					BYTE	*d=bmpdata[Y];
-					int		Counter1=MInfo->MaskCount1;
-					int		X=xb+MInfo->OffsetX;
-					if(Counter1>0){
-						if(0<=X && X<xbyte)
-							d[X] &= MInfo->AndMask1;
-						X++;
-					}
-					int		Counter2=MInfo->MaskCount2;
-					for(int k=0;k<Counter2;k++){
-						if(0<=X && X<xbyte)
-							d[X]=0;
-						X++;
-					}
-					int		Counter3=MInfo->MaskCount3;
-					if(Counter3>0){
-						if(0<=X && X<xbyte)
-							d[X] &= MInfo->AndMask3;
-					}
-				}
-			}
-			for(int xb=xbyte-MerginByte;xb<xbyte;xb++){
-				unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-				struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-				ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-				for(int i=0;i<M.MaskNumb;i++,MInfo++){
-					int	Y=y-Numb+i;
-					if(Y<0 || YLenDot<=Y)
-						continue;
-					BYTE	*d=bmpdata[Y];
-					int		Counter1=MInfo->MaskCount1;
-					int		X=xb+MInfo->OffsetX;
-					if(Counter1>0){
-						if(0<=X && X<xbyte)
-							d[X] &= MInfo->AndMask1;
-						X++;
-					}
-					int		Counter2=MInfo->MaskCount2;
-					for(int k=0;k<Counter2;k++){
-						if(0<=X && X<xbyte)
-							d[X]=0;
-						X++;
-					}
-					int		Counter3=MInfo->MaskCount3;
-					if(Counter3>0){
-						if(0<=X && X<xbyte)
-							d[X] &= MInfo->AndMask3;
-					}
-				}
-			}
-		}
-		for(int y=Numb;y<YLenDot-Numb-2;y++){
-			for(int xb=MerginByte;xb<xbyte-MerginByte;xb++){
-				unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-				struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-				ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-				for(int i=0;i<M.MaskNumb;i++,MInfo++){
-					BYTE	*d=bmpdata[y-Numb+i];
-					int		Counter1=MInfo->MaskCount1;
-					int		X=xb+MInfo->OffsetX;
-					if(Counter1>0){
-						d[X] &= MInfo->AndMask1;
-						X++;
-					}
-					int		Counter2=MInfo->MaskCount2;
-					for(int k=0;k<Counter2;k++){
-						d[X]=0;
-						X++;
-					}
-					int		Counter3=MInfo->MaskCount3;
-					if(Counter3>0){
-						d[X] &= MInfo->AndMask3;
-					}
-				}
-			}
-		}
+	int	BandY=max(2*Numb+2, 32);
+	int	BandCount=(YLenDot+BandY-1)/BandY;
+
+	if(BandCount<4 || EnableThread==false){
+		ThinAreaN8RowRange(bmpdata, bitoperation, xbyte, YLenDot, Numb, PTable
+							,0, YLenDot, SafeStartY, SafeEndY, MerginByte);
 	}
 	else{
 		#pragma omp parallel
 		{
 			#pragma omp for schedule(static)
-			for(int r=0;r<N;r++){
-			//for(int r=0;r<N;r++){
-				int	y=r;
-				int	StartY=(y-Numb>=0)?0:-(y-Numb);
-				for(int xb=0;xb<MerginByte && xb<xbyte;xb++){
-					unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-					struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-					ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-					for(int i=StartY;i<M.MaskNumb;i++,MInfo++){
-						int	Y=y-Numb+i;
-						if(YLenDot<=Y)
-							break;
-						BYTE	*d=bmpdata[Y];
-						int		Counter1=MInfo->MaskCount1;
-						int		X=xb+MInfo->OffsetX;
-						//X=ForAnd(Counter1, d ,s,xbyte, X);
-						if(Counter1>0){
-							if(0<=X && X<xbyte)
-								d[X] &= MInfo->AndMask1;
-							X++;
-						}
-						int		Counter2=MInfo->MaskCount2;
-						//X=For0(Counter2, d ,xbyte, X);
-						for(int k=0;k<Counter2;k++){
-							if(0<=X && X<xbyte)
-								d[X]=0;
-							X++;
-						}
-						int		Counter3=MInfo->MaskCount3;
-						if(Counter3>0){
-							if(0<=X && X<xbyte)
-								d[X] &= MInfo->AndMask3;
-						}
-					}
-				}
-				for(int xb=xbyte-MerginByte;xb<xbyte;xb++){
-					unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-					struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-					ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-					for(int i=StartY;i<M.MaskNumb;i++,MInfo++){
-						int	Y=y-Numb+i;
-						if(YLenDot<=Y)
-							break;
-						BYTE	*d=bmpdata[Y];
-						int		Counter1=MInfo->MaskCount1;
-						int		X=xb+MInfo->OffsetX;
-						//X=ForAnd(Counter1, d ,s,xbyte, X);
-						if(Counter1>0){
-							if(0<=X && X<xbyte)
-								d[X] &= MInfo->AndMask1;
-							X++;
-						}
-						int		Counter2=MInfo->MaskCount2;
-						//X=For0(Counter2, d ,xbyte, X);
-						for(int k=0;k<Counter2;k++){
-							if(0<=X && X<xbyte)
-								d[X]=0;
-							X++;
-						}
-						int		Counter3=MInfo->MaskCount3;
-						if(Counter3>0){
-							if(0<=X && X<xbyte)
-								d[X] &= MInfo->AndMask3;
-						}
-					}
-				}
+			for(int b=0;b<BandCount;b+=2){
+				int	yStart=b*BandY;
+				int	yEnd  =min(YLenDot, yStart+BandY);
+				ThinAreaN8RowRange(bmpdata, bitoperation, xbyte, YLenDot, Numb, PTable
+									,yStart, yEnd, SafeStartY, SafeEndY, MerginByte);
 			}
-		}
-		#pragma omp parallel
-		{
 			#pragma omp for schedule(static)
-			for(int r=0;r<N;r++){
-				int	y=r+Numb;
-				for(int xb=MerginByte;xb<xbyte-MerginByte;xb++){
-					unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-					struct	ShrinkingActionData	&M=PTable.MaskData[Index];
-					ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-					for(int i=0;i<M.MaskNumb;i++,MInfo++){
-						BYTE	*d=bmpdata[y-Numb+i];
-						int		Counter1=MInfo->MaskCount1;
-						int		X=xb+MInfo->OffsetX;
-						//X=ForAnd(Counter1, d ,s,xbyte, X);
-						if(Counter1>0){
-							d[X] &= MInfo->AndMask1;
-							X++;
-						}
-						int		Counter2=MInfo->MaskCount2;
-						//for(int k=0;k<Counter2;k++){
-						//	d[X]=0;
-						//	X++;
-						//}
-						switch(Counter2){
-						case 0:	break;
-						case 1:	d[X]=0;	X++;	break;
-						case 2:	*((WORD *)&d[X])=0;	X+=2;	break;
-						case 3:	*((WORD *)&d[X])=0;	d[X+2]=0;	X+=3;		break;
-						case 4:	*((DWORD *)&d[X])=0;	X+=4;	break;
-						case 5:	*((DWORD *)&d[X])=0;	d[X+4]=0;	X+=5;		break;
-						case 6:	*((DWORD *)&d[X])=0;	*((WORD *)&d[X+4])=0;	X+=6;		break;
-						case 7:	*((DWORD *)&d[X])=0;	*((WORD *)&d[X+4])=0;	d[X+6]=0;	X+=7;		break;
-						case 8:	*((uint64*)&d[X])=0;	X+=8;		break;
-						default:
-							memset(&d[X],0,Counter2);
-							X+=Counter2;
-							//for(int k=0;k<Counter2;k++){
-							//	d[X]=0;
-							//	X++;
-							//}
-						}
-						int		Counter3=MInfo->MaskCount3;
-						if(Counter3>0){
-							d[X] &= MInfo->AndMask3;
-						}
-					}
-				}
+			for(int b=1;b<BandCount;b+=2){
+				int	yStart=b*BandY;
+				int	yEnd  =min(YLenDot, yStart+BandY);
+				ThinAreaN8RowRange(bmpdata, bitoperation, xbyte, YLenDot, Numb, PTable
+									,yStart, yEnd, SafeStartY, SafeEndY, MerginByte);
 			}
 		}
 	}
 }
+
 static	void    ThinAreaN4(BYTE **bmpdata
 				,BYTE **bitoperation
 				,int xbyte ,int YLenDot 
@@ -1807,6 +1269,7 @@ static	void    ThinAreaN4(BYTE **bmpdata
 				,FlexArea *ForceZone
 				,bool EnableThread)
 {
+	::ThinAreaN(bmpdata, bitoperation, xbyte, YLenDot, Numb, ForceZone, EnableThread);
 }
 static	void    ThinAreaN2(BYTE **bmpdata
 				,BYTE **bitoperation
@@ -1816,6 +1279,7 @@ static	void    ThinAreaN2(BYTE **bmpdata
 				,FlexArea *ForceZone
 				,bool EnableThread)
 {
+	::ThinAreaN(bmpdata, bitoperation, xbyte, YLenDot, Numb, ForceZone, EnableThread);
 }
 static	void    ThinAreaN1(BYTE **bmpdata
 				,BYTE **bitoperation
@@ -1825,6 +1289,7 @@ static	void    ThinAreaN1(BYTE **bmpdata
 				,FlexArea *ForceZone
 				,bool EnableThread)
 {
+	::ThinAreaN(bmpdata, bitoperation, xbyte, YLenDot, Numb, ForceZone, EnableThread);
 }
 
 void    FatAreaN(BYTE **bmpdata
@@ -1835,7 +1300,7 @@ void    FatAreaN(BYTE **bmpdata
 				,FlexArea *ForceZone
 				,bool EnableThread)
 {
-	if(Numb<=0){
+	if(Numb<=0 || xbyte<=0 || YLenDot<=0){
 		return;
 	}
 	if(Numb==1){
@@ -1850,7 +1315,7 @@ void    FatAreaN(BYTE **bmpdata
 				,bitoperation
 				,xbyte ,YLenDot
 				,2
-			 ,ForceZone
+				,ForceZone
 				,EnableThread);
 		return;
 	}
@@ -1861,23 +1326,50 @@ void    FatAreaN(BYTE **bmpdata
 		Allocbitoperation=true;
 	}
 
-    MatrixBuffCopy(bitoperation				,xbyte,YLenDot
+	MatrixBuffCopy(bitoperation				,xbyte,YLenDot
                   ,(const BYTE **)bmpdata	,xbyte,YLenDot);
 
 	if(PTable.BitNumb==16){
 		FatAreaN16(bmpdata
 				,bitoperation
 				,xbyte ,YLenDot 
-				, Numb
+				,Numb
 				,PTable
 				,ForceZone
 				,EnableThread);
 	}
-	if(PTable.BitNumb==8){
+	else if(PTable.BitNumb==8){
 		FatAreaN8(bmpdata
 				,bitoperation
 				,xbyte ,YLenDot 
-				, Numb
+				,Numb
+				,PTable
+				,ForceZone
+				,EnableThread);
+	}
+	else if(PTable.BitNumb==4){
+		FatAreaN4(bmpdata
+				,bitoperation
+				,xbyte ,YLenDot 
+				,Numb
+				,PTable
+				,ForceZone
+				,EnableThread);
+	}
+	else if(PTable.BitNumb==2){
+		FatAreaN2(bmpdata
+				,bitoperation
+				,xbyte ,YLenDot 
+				,Numb
+				,PTable
+				,ForceZone
+				,EnableThread);
+	}
+	else if(PTable.BitNumb==1){
+		FatAreaN1(bmpdata
+				,bitoperation
+				,xbyte ,YLenDot 
+				,Numb
 				,PTable
 				,ForceZone
 				,EnableThread);
@@ -1885,6 +1377,61 @@ void    FatAreaN(BYTE **bmpdata
 	if(Allocbitoperation==true){
 		DeleteMatrixBuff(bitoperation,YLenDot);
 		bitoperation=NULL;
+	}
+}
+
+static	void	FatAreaN16RowRange(BYTE **bmpdata
+				,BYTE **bitoperation
+				,int xbyte ,int YLenDot 
+				,int Numb
+				,ShrinkingPack &PTable
+				,int rStart, int rEnd
+				,int SafeStartR, int SafeEndR
+				,int MerginByte)
+{
+	int	LeftEndX	=min(MerginByte, xbyte);
+	int	RightStartX	=max(MerginByte, xbyte-MerginByte);
+
+	for(int r=rStart;r<rEnd;r++){
+		int	y=r*2;
+		if(SafeStartR<=r && r<SafeEndR){
+			const BYTE	*s0=bitoperation[y];
+			const BYTE	*s1=bitoperation[y+1];
+			int			baseY=y-Numb;
+
+			for(int xb=0;xb<LeftEndX;xb++){
+				unsigned short	Index=(unsigned short)s0[xb] | (((unsigned short)s1[xb])<<8);
+				if(Index==0x0000u)
+					continue;
+				ApplyFatMaskSafe(bmpdata, xbyte, YLenDot, baseY, xb, PTable.MaskData[(unsigned short)(~Index)]);
+			}
+			for(int xb=MerginByte;xb<RightStartX;xb++){
+				unsigned short	Index=(unsigned short)s0[xb] | (((unsigned short)s1[xb])<<8);
+				if(Index==0x0000u)
+					continue;
+				ApplyFatMaskFast(bmpdata, baseY, xb, PTable.MaskData[(unsigned short)(~Index)]);
+			}
+			for(int xb=RightStartX;xb<xbyte;xb++){
+				unsigned short	Index=(unsigned short)s0[xb] | (((unsigned short)s1[xb])<<8);
+				if(Index==0x0000u)
+					continue;
+				ApplyFatMaskSafe(bmpdata, xbyte, YLenDot, baseY, xb, PTable.MaskData[(unsigned short)(~Index)]);
+			}
+		}
+		else{
+			const BYTE	*s0=bitoperation[y];
+			const BYTE	*s1=(y+1<YLenDot)?bitoperation[y+1]:NULL;
+			int			baseY=y-Numb;
+
+			for(int xb=0;xb<xbyte;xb++){
+				unsigned short	Index=(unsigned short)s0[xb];
+				if(s1!=NULL)
+					Index |= (((unsigned short)s1[xb])<<8);
+				if(Index==0x0000u)
+					continue;
+				ApplyFatMaskSafe(bmpdata, xbyte, YLenDot, baseY, xb, PTable.MaskData[(unsigned short)(~Index)]);
+			}
+		}
 	}
 }
 
@@ -1897,284 +1444,79 @@ static	void	FatAreaN16(BYTE **bmpdata
 				,bool EnableThread)
 {
 	int	MerginByte=(Numb+7)>>3;
+	int	TotalR=(YLenDot+1)/2;
+	int	SafeStartR=min(TotalR, (Numb+1)/2);
+	int	SafeEndR  =max(SafeStartR, min(TotalR, (YLenDot-Numb-1)/2));
 
-	for(int y=0;y<Numb;y+=2){
-		for(int xb=xbyte-MerginByte;xb<xbyte-MerginByte;xb++){
-			unsigned short	Index=(unsigned short)(bitoperation[y][xb])+(((unsigned short)bitoperation[y+1][xb])<<8);
-			struct	ShrinkingActionData	&M=PTable.MaskData[(unsigned short)(~Index)];
-			ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-			for(int i=0;i<M.MaskNumb;i++,MInfo++){
-				int	Y=y-Numb+i;
-				if(Y<0 || YLenDot<=Y)
-					continue;
-				BYTE	*d=bmpdata[Y];
-				int		Counter1=MInfo->MaskCount1;
-				int		X=xb+MInfo->OffsetX;
-				if(Counter1>0){
-					d[X] |= ~MInfo->AndMask1;
-					X++;
-				}
-				int		Counter2=MInfo->MaskCount2;
-				for(int k=0;k<Counter2;k++){
-					d[X]=0xFF;
-					X++;
-				}
-				int		Counter3=MInfo->MaskCount3;
-				if(Counter3>0){
-					d[X] |= ~MInfo->AndMask3;
-				}
-			}
-		}
-	}
-	for(int y=YLenDot-Numb-2;y<Numb;y+=2){
-		for(int xb=xbyte-MerginByte;xb<xbyte-MerginByte;xb++){
-			unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-			if(y+1<YLenDot)
-				Index+=(((unsigned short)bitoperation[y+1][xb])<<8);
-			else
-				Index+=0xFF00;
-			struct	ShrinkingActionData	&M=PTable.MaskData[(unsigned short)(~Index)];
-			ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-			for(int i=0;i<M.MaskNumb;i++,MInfo++){
-				int	Y=y-Numb+i;
-				if(Y<0 || YLenDot<=Y)
-					continue;
-				BYTE	*d=bmpdata[Y];
-				int		Counter1=MInfo->MaskCount1;
-				int		X=xb+MInfo->OffsetX;
-				if(Counter1>0){
-					d[X] |= ~MInfo->AndMask1;
-					X++;
-				}
-				int		Counter2=MInfo->MaskCount2;
-				for(int k=0;k<Counter2;k++){
-					d[X]=0xFF;
-					X++;
-				}
-				int		Counter3=MInfo->MaskCount3;
-				if(Counter3>0){
-					d[X] |= ~MInfo->AndMask3;
-				}
-			}
-		}
-	}		
-	int	N=(YLenDot-Numb-Numb-2)/2;
-	if(N<32 || EnableThread==false){
-	//if(EnableThread==true){
-		for(int y=0;y<YLenDot;y+=2){
-			for(int xb=0;xb<MerginByte && xb<xbyte;xb++){
-				unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-				if(y+1<YLenDot)
-					Index+=(((unsigned short)bitoperation[y+1][xb])<<8);
-				else
-					Index+=0xFF00;
-				struct	ShrinkingActionData	&M=PTable.MaskData[(unsigned short)(~Index)];
-				ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-				for(int i=0;i<M.MaskNumb;i++,MInfo++){
-					int	Y=y-Numb+i;
-					if(Y<0 || YLenDot<=Y)
-						continue;
-					BYTE	*d=bmpdata[Y];
-					int		Counter1=MInfo->MaskCount1;
-					int		X=xb+MInfo->OffsetX;
-					if(Counter1>0){
-						if(0<=X && X<xbyte)
-							d[X] |= ~MInfo->AndMask1;
-						X++;
-					}
-					int		Counter2=MInfo->MaskCount2;
-					for(int k=0;k<Counter2;k++){
-						if(0<=X && X<xbyte)
-							d[X]=0xFF;
-						X++;
-					}
-					int		Counter3=MInfo->MaskCount3;
-					if(Counter3>0){
-						if(0<=X && X<xbyte)
-							d[X] |= ~MInfo->AndMask3;
-					}
-				}
-			}
-			for(int xb=xbyte-MerginByte;xb<xbyte;xb++){
-				unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-				if(y+1<YLenDot)
-					Index+=(((unsigned short)bitoperation[y+1][xb])<<8);
-				else
-					Index+=0xFF00;
-				struct	ShrinkingActionData	&M=PTable.MaskData[(unsigned short)(~Index)];
-				ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-				for(int i=0;i<M.MaskNumb;i++,MInfo++){
-					int	Y=y-Numb+i;
-					if(Y<0 || YLenDot<=Y)
-						continue;
-					BYTE	*d=bmpdata[Y];
-					int		Counter1=MInfo->MaskCount1;
-					int		X=xb+MInfo->OffsetX;
-					if(Counter1>0){
-						if(0<=X && X<xbyte)
-							d[X] |= ~MInfo->AndMask1;
-						X++;
-					}
-					int		Counter2=MInfo->MaskCount2;
-					for(int k=0;k<Counter2;k++){
-						if(0<=X && X<xbyte)
-							d[X]=0xFF;
-						X++;
-					}
-					int		Counter3=MInfo->MaskCount3;
-					if(Counter3>0){
-						if(0<=X && X<xbyte)
-							d[X] |= ~MInfo->AndMask3;
-					}
-				}
-			}
-		}
-		for(int y=Numb;y<YLenDot-Numb-2;y+=2){
-			for(int xb=MerginByte;xb<xbyte-MerginByte;xb++){
-				unsigned short	Index=(unsigned short)(bitoperation[y][xb])+(((unsigned short)bitoperation[y+1][xb])<<8);
-				struct	ShrinkingActionData	&M=PTable.MaskData[(unsigned short)(~Index)];
-				ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-				for(int i=0;i<M.MaskNumb;i++,MInfo++){
-					BYTE	*d=bmpdata[y-Numb+i];
-					int		Counter1=MInfo->MaskCount1;
-					int		X=xb+MInfo->OffsetX;
-					if(Counter1>0){
-						d[X] |= ~MInfo->AndMask1;
-						X++;
-					}
-					int		Counter2=MInfo->MaskCount2;
-					for(int k=0;k<Counter2;k++){
-						d[X]=0xFF;
-						X++;
-					}
-					int		Counter3=MInfo->MaskCount3;
-					if(Counter3>0){
-						d[X] |= ~MInfo->AndMask3;
-					}
-				}
-			}
-		}
+	int	BandR=max(Numb+2, 16);
+	int	BandCount=(TotalR+BandR-1)/BandR;
+
+	if(BandCount<4 || EnableThread==false){
+		FatAreaN16RowRange(bmpdata, bitoperation, xbyte, YLenDot, Numb, PTable
+							,0, TotalR, SafeStartR, SafeEndR, MerginByte);
 	}
 	else{
 		#pragma omp parallel
 		{
 			#pragma omp for schedule(static)
-			for(int r=0;r<N;r++){
-			//for(int r=0;r<N;r++){
-				int	y=r*2;
-				for(int xb=0;xb<MerginByte && xb<xbyte;xb++){
-					unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-					if(y+1<YLenDot)
-						Index+=(((unsigned short)bitoperation[y+1][xb])<<8);
-					else
-						Index+=0xFF00u;
-					struct	ShrinkingActionData	&M=PTable.MaskData[(unsigned short)(~Index)];
-					ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-					for(int i=0;i<M.MaskNumb;i++,MInfo++){
-						int	Y=y-Numb+i;
-						if(Y<0 || YLenDot<=Y)
-							continue;
-						BYTE	*d=bmpdata[Y];
-						int		Counter1=MInfo->MaskCount1;
-						int		X=xb+MInfo->OffsetX;
-						if(Counter1>0){
-							if(0<=X && X<xbyte)
-								d[X] |= ~MInfo->AndMask1;
-							X++;
-						}
-						int		Counter2=MInfo->MaskCount2;
-						for(int k=0;k<Counter2;k++){
-							if(0<=X && X<xbyte)
-								d[X]=0xFF;
-							X++;
-						}
-						int		Counter3=MInfo->MaskCount3;
-						if(Counter3>0){
-							if(0<=X && X<xbyte)
-								d[X] |= ~MInfo->AndMask3;
-						}
-					}
-				}
-				for(int xb=xbyte-MerginByte;xb<xbyte;xb++){
-					unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-					if(y+1<YLenDot)
-						Index+=(((unsigned short)bitoperation[y+1][xb])<<8);
-					else
-						Index+=0xFF00;
-					struct	ShrinkingActionData	&M=PTable.MaskData[(unsigned short)(~Index)];
-					ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-					for(int i=0;i<M.MaskNumb;i++,MInfo++){
-						int	Y=y-Numb+i;
-						if(Y<0 || YLenDot<=Y)
-							continue;
-						BYTE	*d=bmpdata[Y];
-						int		Counter1=MInfo->MaskCount1;
-						int		X=xb+MInfo->OffsetX;
-						if(Counter1>0){
-							if(0<=X && X<xbyte)
-								d[X] |= ~MInfo->AndMask1;
-							X++;
-						}
-						int		Counter2=MInfo->MaskCount2;
-						for(int k=0;k<Counter2;k++){
-							if(0<=X && X<xbyte)
-								d[X]=0xFF;
-							X++;
-						}
-						int		Counter3=MInfo->MaskCount3;
-						if(Counter3>0){
-							if(0<=X && X<xbyte)
-								d[X] |= ~MInfo->AndMask3;
-						}
-					}
-				}
+			for(int b=0;b<BandCount;b+=2){
+				int	rStart=b*BandR;
+				int	rEnd  =min(TotalR, rStart+BandR);
+				FatAreaN16RowRange(bmpdata, bitoperation, xbyte, YLenDot, Numb, PTable
+									,rStart, rEnd, SafeStartR, SafeEndR, MerginByte);
+			}
+			#pragma omp for schedule(static)
+			for(int b=1;b<BandCount;b+=2){
+				int	rStart=b*BandR;
+				int	rEnd  =min(TotalR, rStart+BandR);
+				FatAreaN16RowRange(bmpdata, bitoperation, xbyte, YLenDot, Numb, PTable
+									,rStart, rEnd, SafeStartR, SafeEndR, MerginByte);
 			}
 		}
-		#pragma omp parallel
-		{
-			#pragma omp for schedule(static)
-			for(int r=0;r<N;r++){
-				int	y=r*2+Numb;
-				for(int xb=MerginByte;xb<xbyte-MerginByte;xb++){
-					unsigned short	Index=(unsigned short)(bitoperation[y][xb])+(((unsigned short)bitoperation[y+1][xb])<<8);
-					struct	ShrinkingActionData	&M=PTable.MaskData[(unsigned short)(~Index)];
-					ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-					for(int i=0;i<M.MaskNumb;i++,MInfo++){
-						BYTE	*d=bmpdata[y-Numb+i];
-						int		Counter1=MInfo->MaskCount1;
-						int		X=xb+MInfo->OffsetX;
-						if(Counter1>0){
-							d[X] |= ~MInfo->AndMask1;
-							X++;
-						}
-						int		Counter2=MInfo->MaskCount2;
-						//for(int k=0;k<Counter2;k++){
-						//	d[X]=0xFF;
-						//	X++;
-						//}
-						
-						switch(Counter2){
-						case 0:	break;
-						case 1:	d[X]=0xFF;	X++;	break;
-						case 2:	*((WORD *)&d[X])=0xFFFF;	X+=2;	break;
-						case 3:	*((WORD *)&d[X])=0xFFFF;	d[X+2]=0xFF;	X+=3;		break;
-						case 4:	*((DWORD *)&d[X])=0xFFFFFFFFuL;	X+=4;	break;
-						case 5:	*((DWORD *)&d[X])=0xFFFFFFFFuL;	d[X+4]=0xFF;	X+=5;		break;
-						case 6:	*((DWORD *)&d[X])=0xFFFFFFFFuL;	*((WORD *)&d[X+4])=0xFFFF;	X+=6;		break;
-						case 7:	*((DWORD *)&d[X])=0xFFFFFFFFuL;	*((WORD *)&d[X+4])=0xFFFF;	d[X+6]=0xFF;	X+=7;		break;
-						case 8:	*((uint64*)&d[X])=0xFFFFFFFFFFFFFFFFuLL;	X+=8;		break;
-						default:
-							memset(&d[X],0xFF,Counter2);
-							X+=Counter2;
-						}
-						
-			
-						int		Counter3=MInfo->MaskCount3;
-						if(Counter3>0){
-							d[X] |= ~MInfo->AndMask3;
-						}
-					}
-				}
+	}
+}
+
+static	void	FatAreaN8RowRange(BYTE **bmpdata
+				,BYTE **bitoperation
+				,int xbyte ,int YLenDot 
+				,int Numb
+				,ShrinkingPack &PTable
+				,int yStart, int yEnd
+				,int SafeStartY, int SafeEndY
+				,int MerginByte)
+{
+	int	LeftEndX	=min(MerginByte, xbyte);
+	int	RightStartX	=max(MerginByte, xbyte-MerginByte);
+
+	for(int y=yStart;y<yEnd;y++){
+		const BYTE	*s0=bitoperation[y];
+		int			baseY=y-Numb;
+		if(SafeStartY<=y && y<SafeEndY){
+			for(int xb=0;xb<LeftEndX;xb++){
+				unsigned short	Index=(unsigned short)s0[xb];
+				if(Index==0x00u)
+					continue;
+				ApplyFatMaskSafe(bmpdata, xbyte, YLenDot, baseY, xb, PTable.MaskData[((unsigned short)(~Index))&0xFFu]);
+			}
+			for(int xb=MerginByte;xb<RightStartX;xb++){
+				unsigned short	Index=(unsigned short)s0[xb];
+				if(Index==0x00u)
+					continue;
+				ApplyFatMaskFast(bmpdata, baseY, xb, PTable.MaskData[((unsigned short)(~Index))&0xFFu]);
+			}
+			for(int xb=RightStartX;xb<xbyte;xb++){
+				unsigned short	Index=(unsigned short)s0[xb];
+				if(Index==0x00u)
+					continue;
+				ApplyFatMaskSafe(bmpdata, xbyte, YLenDot, baseY, xb, PTable.MaskData[((unsigned short)(~Index))&0xFFu]);
+			}
+		}
+		else{
+			for(int xb=0;xb<xbyte;xb++){
+				unsigned short	Index=(unsigned short)s0[xb];
+				if(Index==0x00u)
+					continue;
+				ApplyFatMaskSafe(bmpdata, xbyte, YLenDot, baseY, xb, PTable.MaskData[((unsigned short)(~Index))&0xFFu]);
 			}
 		}
 	}
@@ -2189,266 +1531,37 @@ static	void	FatAreaN8(BYTE **bmpdata
 				,bool EnableThread)
 {
 	int	MerginByte=(Numb+7)>>3;
+	int	SafeStartY=min(YLenDot, Numb);
+	int	SafeEndY  =max(SafeStartY, min(YLenDot, YLenDot-Numb));
 
-	for(int y=0;y<Numb;y++){
-		for(int xb=xbyte-MerginByte;xb<xbyte-MerginByte;xb++){
-			unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-			struct	ShrinkingActionData	&M=PTable.MaskData[((unsigned short)(~Index))&0xFF];
-			ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-			for(int i=0;i<M.MaskNumb;i++,MInfo++){
-				int	Y=y-Numb+i;
-				if(Y<0 || YLenDot<=Y)
-					continue;
-				BYTE	*d=bmpdata[Y];
-				int		Counter1=MInfo->MaskCount1;
-				int		X=xb+MInfo->OffsetX;
-				if(Counter1>0){
-					d[X] |= ~MInfo->AndMask1;
-					X++;
-				}
-				int		Counter2=MInfo->MaskCount2;
-				for(int k=0;k<Counter2;k++){
-					d[X]=0xFF;
-					X++;
-				}
-				int		Counter3=MInfo->MaskCount3;
-				if(Counter3>0){
-					d[X] |= ~MInfo->AndMask3;
-				}
-			}
-		}
-	}
-	for(int y=YLenDot-Numb-2;y<Numb;y++){
-		for(int xb=xbyte-MerginByte;xb<xbyte-MerginByte;xb++){
-			unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-			struct	ShrinkingActionData	&M=PTable.MaskData[((unsigned short)(~Index))&0xFF];
-			ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-			for(int i=0;i<M.MaskNumb;i++,MInfo++){
-				int	Y=y-Numb+i;
-				if(Y<0 || YLenDot<=Y)
-					continue;
-				BYTE	*d=bmpdata[Y];
-				int		Counter1=MInfo->MaskCount1;
-				int		X=xb+MInfo->OffsetX;
-				if(Counter1>0){
-					d[X] |= ~MInfo->AndMask1;
-					X++;
-				}
-				int		Counter2=MInfo->MaskCount2;
-				for(int k=0;k<Counter2;k++){
-					d[X]=0xFF;
-					X++;
-				}
-				int		Counter3=MInfo->MaskCount3;
-				if(Counter3>0){
-					d[X] |= ~MInfo->AndMask3;
-				}
-			}
-		}
-	}		
-	int	N=YLenDot-Numb-Numb-1;
-	if(N<32 || EnableThread==false){
-	//if(EnableThread==true){
-		for(int y=0;y<YLenDot;y++){
-			for(int xb=0;xb<MerginByte && xb<xbyte;xb++){
-				unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-				struct	ShrinkingActionData	&M=PTable.MaskData[((unsigned short)(~Index))&0xFF];
-				ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-				for(int i=0;i<M.MaskNumb;i++,MInfo++){
-					int	Y=y-Numb+i;
-					if(Y<0 || YLenDot<=Y)
-						continue;
-					BYTE	*d=bmpdata[Y];
-					int		Counter1=MInfo->MaskCount1;
-					int		X=xb+MInfo->OffsetX;
-					if(Counter1>0){
-						if(0<=X && X<xbyte)
-							d[X] |= ~MInfo->AndMask1;
-						X++;
-					}
-					int		Counter2=MInfo->MaskCount2;
-					for(int k=0;k<Counter2;k++){
-						if(0<=X && X<xbyte)
-							d[X]=0xFF;
-						X++;
-					}
-					int		Counter3=MInfo->MaskCount3;
-					if(Counter3>0){
-						if(0<=X && X<xbyte)
-							d[X] |= ~MInfo->AndMask3;
-					}
-				}
-			}
-			for(int xb=xbyte-MerginByte;xb<xbyte;xb++){
-				unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-				struct	ShrinkingActionData	&M=PTable.MaskData[((unsigned short)(~Index))&0xFF];
-				ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-				for(int i=0;i<M.MaskNumb;i++,MInfo++){
-					int	Y=y-Numb+i;
-					if(Y<0 || YLenDot<=Y)
-						continue;
-					BYTE	*d=bmpdata[Y];
-					int		Counter1=MInfo->MaskCount1;
-					int		X=xb+MInfo->OffsetX;
-					if(Counter1>0){
-						if(0<=X && X<xbyte)
-							d[X] |= ~MInfo->AndMask1;
-						X++;
-					}
-					int		Counter2=MInfo->MaskCount2;
-					for(int k=0;k<Counter2;k++){
-						if(0<=X && X<xbyte)
-							d[X]=0xFF;
-						X++;
-					}
-					int		Counter3=MInfo->MaskCount3;
-					if(Counter3>0){
-						if(0<=X && X<xbyte)
-							d[X] |= ~MInfo->AndMask3;
-					}
-				}
-			}
-		}
-		for(int y=Numb;y<YLenDot-Numb-2;y++){
-			for(int xb=MerginByte;xb<xbyte-MerginByte;xb++){
-				unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-				struct	ShrinkingActionData	&M=PTable.MaskData[((unsigned short)(~Index))&0xFF];
-				ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-				for(int i=0;i<M.MaskNumb;i++,MInfo++){
-					BYTE	*d=bmpdata[y-Numb+i];
-					int		Counter1=MInfo->MaskCount1;
-					int		X=xb+MInfo->OffsetX;
-					if(Counter1>0){
-						d[X] |= ~MInfo->AndMask1;
-						X++;
-					}
-					int		Counter2=MInfo->MaskCount2;
-					for(int k=0;k<Counter2;k++){
-						d[X]=0xFF;
-						X++;
-					}
-					int		Counter3=MInfo->MaskCount3;
-					if(Counter3>0){
-						d[X] |= ~MInfo->AndMask3;
-					}
-				}
-			}
-		}
+	int	BandY=max(2*Numb+2, 32);
+	int	BandCount=(YLenDot+BandY-1)/BandY;
+
+	if(BandCount<4 || EnableThread==false){
+		FatAreaN8RowRange(bmpdata, bitoperation, xbyte, YLenDot, Numb, PTable
+							,0, YLenDot, SafeStartY, SafeEndY, MerginByte);
 	}
 	else{
 		#pragma omp parallel
 		{
 			#pragma omp for schedule(static)
-			for(int r=0;r<N;r++){
-			//for(int r=0;r<N;r++){
-				int	y=r;
-				for(int xb=0;xb<MerginByte && xb<xbyte;xb++){
-					unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-					struct	ShrinkingActionData	&M=PTable.MaskData[((unsigned short)(~Index))&0xFF];
-					ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-					for(int i=0;i<M.MaskNumb;i++,MInfo++){
-						int	Y=y-Numb+i;
-						if(Y<0 || YLenDot<=Y)
-							continue;
-						BYTE	*d=bmpdata[Y];
-						int		Counter1=MInfo->MaskCount1;
-						int		X=xb+MInfo->OffsetX;
-						if(Counter1>0){
-							if(0<=X && X<xbyte)
-								d[X] |= ~MInfo->AndMask1;
-							X++;
-						}
-						int		Counter2=MInfo->MaskCount2;
-						for(int k=0;k<Counter2;k++){
-							if(0<=X && X<xbyte)
-								d[X]=0xFF;
-							X++;
-						}
-						int		Counter3=MInfo->MaskCount3;
-						if(Counter3>0){
-							if(0<=X && X<xbyte)
-								d[X] |= ~MInfo->AndMask3;
-						}
-					}
-				}
-				for(int xb=xbyte-MerginByte;xb<xbyte;xb++){
-					unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-					struct	ShrinkingActionData	&M=PTable.MaskData[((unsigned short)(~Index))&0xFF];
-					ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-					for(int i=0;i<M.MaskNumb;i++,MInfo++){
-						int	Y=y-Numb+i;
-						if(Y<0 || YLenDot<=Y)
-							continue;
-						BYTE	*d=bmpdata[Y];
-						int		Counter1=MInfo->MaskCount1;
-						int		X=xb+MInfo->OffsetX;
-						if(Counter1>0){
-							if(0<=X && X<xbyte)
-								d[X] |= ~MInfo->AndMask1;
-							X++;
-						}
-						int		Counter2=MInfo->MaskCount2;
-						for(int k=0;k<Counter2;k++){
-							if(0<=X && X<xbyte)
-								d[X]=0xFF;
-							X++;
-						}
-						int		Counter3=MInfo->MaskCount3;
-						if(Counter3>0){
-							if(0<=X && X<xbyte)
-								d[X] |= ~MInfo->AndMask3;
-						}
-					}
-				}
+			for(int b=0;b<BandCount;b+=2){
+				int	yStart=b*BandY;
+				int	yEnd  =min(YLenDot, yStart+BandY);
+				FatAreaN8RowRange(bmpdata, bitoperation, xbyte, YLenDot, Numb, PTable
+									,yStart, yEnd, SafeStartY, SafeEndY, MerginByte);
 			}
-		}
-		#pragma omp parallel
-		{
 			#pragma omp for schedule(static)
-			for(int r=0;r<N;r++){
-				int	y=r+Numb;
-				for(int xb=MerginByte;xb<xbyte-MerginByte;xb++){
-					unsigned short	Index=(unsigned short)(bitoperation[y][xb]);
-					struct	ShrinkingActionData	&M=PTable.MaskData[((unsigned short)(~Index))&0xFF];
-					ShrinkingActionData::MaskInfo	*MInfo=M.Mask;
-					for(int i=0;i<M.MaskNumb;i++,MInfo++){
-						BYTE	*d=bmpdata[y-Numb+i];
-						int		Counter1=MInfo->MaskCount1;
-						int		X=xb+MInfo->OffsetX;
-						if(Counter1>0){
-							d[X] |= ~MInfo->AndMask1;
-							X++;
-						}
-						int		Counter2=MInfo->MaskCount2;
-						//for(int k=0;k<Counter2;k++){
-						//	d[X]=0xFF;
-						//	X++;
-						//}
-						
-						switch(Counter2){
-						case 0:	break;
-						case 1:	d[X]=0xFF;	X++;	break;
-						case 2:	*((WORD *)&d[X])=0xFFFF;	X+=2;	break;
-						case 3:	*((WORD *)&d[X])=0xFFFF;	d[X+2]=0xFF;	X+=3;		break;
-						case 4:	*((DWORD *)&d[X])=0xFFFFFFFFuL;	X+=4;	break;
-						case 5:	*((DWORD *)&d[X])=0xFFFFFFFFuL;	d[X+4]=0xFF;	X+=5;		break;
-						case 6:	*((DWORD *)&d[X])=0xFFFFFFFFuL;	*((WORD *)&d[X+4])=0xFFFF;	X+=6;		break;
-						case 7:	*((DWORD *)&d[X])=0xFFFFFFFFuL;	*((WORD *)&d[X+4])=0xFFFF;	d[X+6]=0xFF;	X+=7;		break;
-						case 8:	*((uint64*)&d[X])=0xFFFFFFFFFFFFFFFFuLL;	X+=8;		break;
-						default:
-							memset(&d[X],0xFF,Counter2);
-							X+=Counter2;
-						}
-						int		Counter3=MInfo->MaskCount3;
-						if(Counter3>0){
-							d[X] |= ~MInfo->AndMask3;
-						}
-					}
-				}
+			for(int b=1;b<BandCount;b+=2){
+				int	yStart=b*BandY;
+				int	yEnd  =min(YLenDot, yStart+BandY);
+				FatAreaN8RowRange(bmpdata, bitoperation, xbyte, YLenDot, Numb, PTable
+									,yStart, yEnd, SafeStartY, SafeEndY, MerginByte);
 			}
 		}
 	}
 }
+
 static	void	FatAreaN4(BYTE **bmpdata
 				,BYTE **bitoperation
 				,int xbyte ,int YLenDot 
@@ -2457,6 +1570,7 @@ static	void	FatAreaN4(BYTE **bmpdata
 				,FlexArea *ForceZone
 				,bool EnableThread)
 {
+	::FatAreaN(bmpdata, bitoperation, xbyte, YLenDot, Numb, ForceZone, EnableThread);
 }
 static	void	FatAreaN2(BYTE **bmpdata
 				,BYTE **bitoperation
@@ -2466,6 +1580,7 @@ static	void	FatAreaN2(BYTE **bmpdata
 				,FlexArea *ForceZone
 				,bool EnableThread)
 {
+	::FatAreaN(bmpdata, bitoperation, xbyte, YLenDot, Numb, ForceZone, EnableThread);
 }
 static	void	FatAreaN1(BYTE **bmpdata
 				,BYTE **bitoperation
@@ -2475,4 +1590,5 @@ static	void	FatAreaN1(BYTE **bmpdata
 				,FlexArea *ForceZone
 				,bool EnableThread)
 {
+	::FatAreaN(bmpdata, bitoperation, xbyte, YLenDot, Numb, ForceZone, EnableThread);
 }

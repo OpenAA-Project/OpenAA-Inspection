@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Core5Compat Sql Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -89,10 +89,10 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
-        "./"
         "./GeneratedFiles/"
+        "./"
         "../../../Open"
+        "./GeneratedFiles"
     >
 )
 
@@ -104,8 +104,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "DUMMYPIO_LIB"
         "UNICODE"
+        "DUMMYPIO_LIB"
         "QT_LARGEFILE_SUPPORT"
     >
 )
@@ -159,10 +159,10 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
-        "./"
         "./GeneratedFiles/"
+        "./"
         "../../../Open"
+        "./GeneratedFiles"
     >
 )
 
@@ -174,11 +174,11 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "NDEBUG"
+        "UNICODE"
         "DUMMYPIO_LIB"
         "QT_NO_DEBUG"
-        "UNICODE"
         "QT_LARGEFILE_SUPPORT"
+        "NDEBUG"
     >
 )
 
@@ -216,11 +216,11 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Gui
-    Qt6::Core5Compat
     Qt6::Sql
-    Qt6::Widgets
     Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core5Compat
     Qt6::Network
 )
 
@@ -241,6 +241,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS SerialPort Gui Core5Compat Sql Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat SerialPort Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -89,14 +89,14 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
-        "./../../GeneralSource/Sequence"
-        "../ButtonAutoMode"
-        "./../../Open"
-        "./GeneratedFiles/"
-        "./../../GeneralSource"
         "./../../InspectionPlayer"
+        "./../../Open"
+        "./../../GeneralSource"
+        "../ButtonAutoMode"
+        "./GeneratedFiles/"
+        "./../../GeneralSource/Sequence"
         "."
+        "./GeneratedFiles"
     >
 )
 
@@ -199,12 +199,12 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
-        "../ButtonAutoMode"
-        "./../../Open"
-        "./GeneratedFiles/"
         "./../../InspectionPlayer"
+        "./../../Open"
+        "../ButtonAutoMode"
+        "./GeneratedFiles/"
         "."
+        "./GeneratedFiles"
     >
 )
 
@@ -216,11 +216,11 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "NDEBUG"
-        "QT_NO_DEBUG"
         "UNICODE"
+        "QT_NO_DEBUG"
         "SHOWALIGNMENTRESULT_LIB"
         "QT_LARGEFILE_SUPPORT"
+        "NDEBUG"
     >
 )
 
@@ -294,12 +294,12 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::SerialPort
-    Qt6::Gui
-    Qt6::Core5Compat
     Qt6::Sql
-    Qt6::Widgets
     Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core5Compat
+    Qt6::SerialPort
     Qt6::Network
 )
 
@@ -320,6 +320,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

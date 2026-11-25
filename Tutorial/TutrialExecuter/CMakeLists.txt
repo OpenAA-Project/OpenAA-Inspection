@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Gui Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -110,9 +110,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_NAME}" AND IS_DIRECTORY "
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt6::Core
     Qt6::Gui
     Qt6::Widgets
-    Qt6::Core
     Qt6::Network
 )
 
@@ -133,6 +133,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

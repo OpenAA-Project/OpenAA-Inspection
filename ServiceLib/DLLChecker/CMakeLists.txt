@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS SerialPort Gui Core5Compat Sql Widgets Core Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat SerialPort Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -117,24 +117,24 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles"
-        "../../Integrator/IntegrationLib"
-        "../../GeneralSource/Sequence"
-        "../../GeneralSource/Sequence/SeqLib/SeqLib"
-        "../../GeneralSource"
         "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "./GeneratedFiles/$(Configuration)"
-        "../../Open"
-        "./GeneratedFiles/"
-        "../../OpenSource/Component"
-        "../../GeneralSource/Sequence/SeqLib"
-        "../../ExecuteVisualizer/EVExecuterLib"
-        "../../EditGUI/EditGUI"
         "../../GeneralSource/Sequence/SeqLib/SeqLib/GeneratedFiles"
-        "../../OpenSource/Component/GeneratedFiles"
+        "../../OpenSource/Component"
+        "../../ExecuteVisualizer/EVExecuterLib"
+        "../../GeneralSource/Sequence/SeqLib/SeqLib"
         "../../EditGUI/EditGUI/GeneratedFiles"
-        "../../ServiceLib/ServiceLib"
         "../../ExecuteVisualizer"
+        "./GeneratedFiles/"
+        "../../OpenSource/Component/GeneratedFiles"
+        "../../ServiceLib/ServiceLib"
+        "../../GeneralSource"
+        "../../Integrator/IntegrationLib"
+        "./GeneratedFiles/$(Configuration)"
+        "../../EditGUI/EditGUI"
+        "../../GeneralSource/Sequence"
+        "../../GeneralSource/Sequence/SeqLib"
+        "../../Open"
+        "./GeneratedFiles"
     >
 )
 
@@ -146,38 +146,22 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "QT_THREAD_SUPPORT"
         "UNICODE"
+        "QT_THREAD_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"DisplayImage.lib">
         $<$<CONFIG:Debug>:"SeqLib.lib">
-        $<$<CONFIG:Debug>:"IntegrationLib.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
-        $<$<CONFIG:Debug>:"EVObjectLib.lib">
+        $<$<CONFIG:Debug>:"IntegrationLib.lib">
         $<$<CONFIG:Debug>:"EVExecuterLib.lib">
+        $<$<CONFIG:Debug>:"EVObjectLib.lib">
         $<$<CONFIG:Debug>:"Component.lib">
+        $<$<CONFIG:Debug>:"DisplayImage.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayImage (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
-        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for SeqLib (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(SEQLIB_SHARED_LIB_DEBUG NAMES SeqLib PATHS "../../lib/Debug")
@@ -191,22 +175,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(SEQLIB_FINAL_LIB_DEBUG SeqLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for IntegrationLib (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(INTEGRATIONLIB_SHARED_LIB_DEBUG NAMES IntegrationLib PATHS "../../lib/Debug")
-    if(INTEGRATIONLIB_SHARED_LIB_DEBUG)
-        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES libIntegrationLib.a PATHS "../../lib/Debug")
-        if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
-            set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
         endif()
     endif()
 
@@ -226,19 +194,19 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for EVObjectLib (Debug) ---
+    # --- Dynamic Library Linking for IntegrationLib (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(EVOBJECTLIB_SHARED_LIB_DEBUG NAMES EVObjectLib PATHS "../../lib/Debug")
-    if(EVOBJECTLIB_SHARED_LIB_DEBUG)
-        set(EVOBJECTLIB_FINAL_LIB_DEBUG ${EVOBJECTLIB_SHARED_LIB_DEBUG})
+    find_library(INTEGRATIONLIB_SHARED_LIB_DEBUG NAMES IntegrationLib PATHS "../../lib/Debug")
+    if(INTEGRATIONLIB_SHARED_LIB_DEBUG)
+        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(EVOBJECTLIB_STATIC_LIB_DEBUG NAMES libEVObjectLib.a PATHS "../../lib/Debug")
-        if(EVOBJECTLIB_STATIC_LIB_DEBUG)
-            set(EVOBJECTLIB_FINAL_LIB_DEBUG ${EVOBJECTLIB_STATIC_LIB_DEBUG})
+        find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES libIntegrationLib.a PATHS "../../lib/Debug")
+        if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
+            set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
         else()
             # Fallback if not found (e.g. system library)
-            set(EVOBJECTLIB_FINAL_LIB_DEBUG EVObjectLib)
+            set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
         endif()
     endif()
 
@@ -258,6 +226,22 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for EVObjectLib (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(EVOBJECTLIB_SHARED_LIB_DEBUG NAMES EVObjectLib PATHS "../../lib/Debug")
+    if(EVOBJECTLIB_SHARED_LIB_DEBUG)
+        set(EVOBJECTLIB_FINAL_LIB_DEBUG ${EVOBJECTLIB_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(EVOBJECTLIB_STATIC_LIB_DEBUG NAMES libEVObjectLib.a PATHS "../../lib/Debug")
+        if(EVOBJECTLIB_STATIC_LIB_DEBUG)
+            set(EVOBJECTLIB_FINAL_LIB_DEBUG ${EVOBJECTLIB_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(EVOBJECTLIB_FINAL_LIB_DEBUG EVObjectLib)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for Component (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../lib/Debug")
@@ -274,15 +258,31 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for DisplayImage (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../lib/Debug")
+    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
+        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../lib/Debug")
+        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SEQLIB_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${EVOBJECTLIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${EVEXECUTERLIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${EVOBJECTLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -308,17 +308,17 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Intel_SSA>:
-        "./GeneratedFiles"
-        "../../GeneralSource"
         "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "./GeneratedFiles/$(Configuration)"
-        "../../Open"
-        "./GeneratedFiles/"
         "../../OpenSource/Component"
-        "../../EditGUI/EditGUI"
-        "../../OpenSource/Component/GeneratedFiles"
         "../../EditGUI/EditGUI/GeneratedFiles"
+        "./GeneratedFiles/"
+        "../../OpenSource/Component/GeneratedFiles"
         "../../ServiceLib/ServiceLib"
+        "../../GeneralSource"
+        "./GeneratedFiles/$(Configuration)"
+        "../../EditGUI/EditGUI"
+        "../../Open"
+        "./GeneratedFiles"
     >
 )
 
@@ -330,34 +330,18 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Intel_SSA>:
-        "QT_THREAD_SUPPORT"
         "UNICODE"
+        "QT_THREAD_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Intel_SSA>:"DisplayImage.lib">
         $<$<CONFIG:Intel_SSA>:"ServiceLib.lib">
         $<$<CONFIG:Intel_SSA>:"Component.lib">
+        $<$<CONFIG:Intel_SSA>:"DisplayImage.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayImage (Intel_SSA) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_INTEL_SSA NAMES DisplayImage PATHS "../../lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_INTEL_SSA)
-        set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA ${DISPLAYIMAGE_SHARED_LIB_INTEL_SSA})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_INTEL_SSA NAMES libDisplayImage.a PATHS "../../lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_INTEL_SSA)
-            set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA ${DISPLAYIMAGE_STATIC_LIB_INTEL_SSA})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA DisplayImage)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Intel_SSA) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_INTEL_SSA NAMES ServiceLib PATHS "../../lib/Debug")
@@ -390,11 +374,27 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for DisplayImage (Intel_SSA) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_INTEL_SSA NAMES DisplayImage PATHS "../../lib/Debug")
+    if(DISPLAYIMAGE_SHARED_LIB_INTEL_SSA)
+        set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA ${DISPLAYIMAGE_SHARED_LIB_INTEL_SSA})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_INTEL_SSA NAMES libDisplayImage.a PATHS "../../lib/Debug")
+        if(DISPLAYIMAGE_STATIC_LIB_INTEL_SSA)
+            set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA ${DISPLAYIMAGE_STATIC_LIB_INTEL_SSA})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA DisplayImage)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Intel_SSA>:-Wl,--start-group>
-        $<$<CONFIG:Intel_SSA>:${DISPLAYIMAGE_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:${SERVICELIB_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:${COMPONENT_FINAL_LIB_INTEL_SSA}>
+        $<$<CONFIG:Intel_SSA>:${DISPLAYIMAGE_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:-Wl,--end-group>
     )
 endif()
@@ -420,17 +420,17 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles"
-        "../../Integrator/IntegrationLib"
-        "../../GeneralSource/Sequence"
-        "../../GeneralSource"
-        "./GeneratedFiles/$(Configuration)"
-        "../../Open"
-        "./GeneratedFiles/"
         "../../OpenSource/Component"
         "../../ExecuteVisualizer/EVExecuterLib"
-        "../../EditGUI/EditGUI"
         "../../ExecuteVisualizer"
+        "./GeneratedFiles/"
+        "../../GeneralSource"
+        "../../Integrator/IntegrationLib"
+        "./GeneratedFiles/$(Configuration)"
+        "../../EditGUI/EditGUI"
+        "../../GeneralSource/Sequence"
+        "../../Open"
+        "./GeneratedFiles"
     >
 )
 
@@ -442,42 +442,26 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_THREAD_SUPPORT"
-        "NDEBUG"
-        "QT_NO_DEBUG"
         "UNICODE"
+        "QT_NO_DEBUG"
+        "NDEBUG"
+        "QT_THREAD_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"DisplayImage.lib">
         $<$<CONFIG:Release>:"SeqLib.lib">
-        $<$<CONFIG:Release>:"IntegrationLib.lib">
-        $<$<CONFIG:Release>:"ServiceExecutionEditor.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
-        $<$<CONFIG:Release>:"EVObjectLib.lib">
+        $<$<CONFIG:Release>:"IntegrationLib.lib">
         $<$<CONFIG:Release>:"EVExecuterLib.lib">
-        $<$<CONFIG:Release>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Release>:"EVObjectLib.lib">
+        $<$<CONFIG:Release>:"ServiceExecutionEditor.lib">
         $<$<CONFIG:Release>:"Component.lib">
+        $<$<CONFIG:Release>:"DisplayImage.lib">
+        $<$<CONFIG:Release>:"CommonGUIDLL.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayImage (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_RELEASE NAMES DisplayImage PATHS "../../Lib/Release")
-    if(DISPLAYIMAGE_SHARED_LIB_RELEASE)
-        set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_RELEASE NAMES libDisplayImage.a PATHS "../../Lib/Release")
-        if(DISPLAYIMAGE_STATIC_LIB_RELEASE)
-            set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_RELEASE DisplayImage)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for SeqLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SEQLIB_SHARED_LIB_RELEASE NAMES SeqLib PATHS "../../Lib/Release")
@@ -491,38 +475,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(SEQLIB_FINAL_LIB_RELEASE SeqLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for IntegrationLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(INTEGRATIONLIB_SHARED_LIB_RELEASE NAMES IntegrationLib PATHS "../../Lib/Release")
-    if(INTEGRATIONLIB_SHARED_LIB_RELEASE)
-        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES libIntegrationLib.a PATHS "../../Lib/Release")
-        if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
-            set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ServiceExecutionEditor (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE NAMES ServiceExecutionEditor PATHS "../../Lib/Release")
-    if(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE)
-        set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE NAMES libServiceExecutionEditor.a PATHS "../../Lib/Release")
-        if(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE)
-            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ServiceExecutionEditor)
         endif()
     endif()
 
@@ -542,19 +494,19 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for EVObjectLib (Release) ---
+    # --- Dynamic Library Linking for IntegrationLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(EVOBJECTLIB_SHARED_LIB_RELEASE NAMES EVObjectLib PATHS "../../Lib/Release")
-    if(EVOBJECTLIB_SHARED_LIB_RELEASE)
-        set(EVOBJECTLIB_FINAL_LIB_RELEASE ${EVOBJECTLIB_SHARED_LIB_RELEASE})
+    find_library(INTEGRATIONLIB_SHARED_LIB_RELEASE NAMES IntegrationLib PATHS "../../Lib/Release")
+    if(INTEGRATIONLIB_SHARED_LIB_RELEASE)
+        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(EVOBJECTLIB_STATIC_LIB_RELEASE NAMES libEVObjectLib.a PATHS "../../Lib/Release")
-        if(EVOBJECTLIB_STATIC_LIB_RELEASE)
-            set(EVOBJECTLIB_FINAL_LIB_RELEASE ${EVOBJECTLIB_STATIC_LIB_RELEASE})
+        find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES libIntegrationLib.a PATHS "../../Lib/Release")
+        if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
+            set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
         else()
             # Fallback if not found (e.g. system library)
-            set(EVOBJECTLIB_FINAL_LIB_RELEASE EVObjectLib)
+            set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
         endif()
     endif()
 
@@ -574,19 +526,35 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
+    # --- Dynamic Library Linking for EVObjectLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "../../Lib/Release")
-    if(COMMONGUIDLL_SHARED_LIB_RELEASE)
-        set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_SHARED_LIB_RELEASE})
+    find_library(EVOBJECTLIB_SHARED_LIB_RELEASE NAMES EVObjectLib PATHS "../../Lib/Release")
+    if(EVOBJECTLIB_SHARED_LIB_RELEASE)
+        set(EVOBJECTLIB_FINAL_LIB_RELEASE ${EVOBJECTLIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "../../Lib/Release")
-        if(COMMONGUIDLL_STATIC_LIB_RELEASE)
-            set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
+        find_library(EVOBJECTLIB_STATIC_LIB_RELEASE NAMES libEVObjectLib.a PATHS "../../Lib/Release")
+        if(EVOBJECTLIB_STATIC_LIB_RELEASE)
+            set(EVOBJECTLIB_FINAL_LIB_RELEASE ${EVOBJECTLIB_STATIC_LIB_RELEASE})
         else()
             # Fallback if not found (e.g. system library)
-            set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
+            set(EVOBJECTLIB_FINAL_LIB_RELEASE EVObjectLib)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for ServiceExecutionEditor (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE NAMES ServiceExecutionEditor PATHS "../../Lib/Release")
+    if(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE)
+        set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE NAMES libServiceExecutionEditor.a PATHS "../../Lib/Release")
+        if(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE)
+            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ServiceExecutionEditor)
         endif()
     endif()
 
@@ -606,17 +574,49 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for DisplayImage (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_RELEASE NAMES DisplayImage PATHS "../../Lib/Release")
+    if(DISPLAYIMAGE_SHARED_LIB_RELEASE)
+        set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_RELEASE NAMES libDisplayImage.a PATHS "../../Lib/Release")
+        if(DISPLAYIMAGE_STATIC_LIB_RELEASE)
+            set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_RELEASE DisplayImage)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "../../Lib/Release")
+    if(COMMONGUIDLL_SHARED_LIB_RELEASE)
+        set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "../../Lib/Release")
+        if(COMMONGUIDLL_STATIC_LIB_RELEASE)
+            set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SEQLIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${EVOBJECTLIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${EVEXECUTERLIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${EVOBJECTLIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -628,8 +628,8 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Template>:
-        "./GeneratedFiles"
         "./GeneratedFiles/"
+        "./GeneratedFiles"
     >
 )
 
@@ -645,12 +645,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_NAME}" AND IS_DIRECTORY "
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::SerialPort
-    Qt6::Gui
-    Qt6::Core5Compat
     Qt6::Sql
-    Qt6::Widgets
     Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Core5Compat
+    Qt6::SerialPort
     Qt6::Network
 )
 
@@ -671,6 +671,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

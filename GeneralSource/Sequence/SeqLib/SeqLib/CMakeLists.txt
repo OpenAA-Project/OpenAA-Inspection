@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS SerialPort Gui Widgets Network Core)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets SerialPort Network)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -152,25 +152,25 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../../../GeneralSource/PIO"
-        "./GeneratedFiles/$(Configuration)"
         "../../../../GeneralSource"
-        "../../../../PluginDLL/PIO"
         "../../../../GeneralSource/Sequence"
-        "../../../../Open"
-        "./"
-        "./GeneratedFiles"
-        "./GeneratedFiles/"
-        "../../../../OpenSource/Component"
         "../../../../OpenSource/Component/GeneratedFiles"
+        "./GeneratedFiles/"
+        "../../../../GeneralSource/PIO"
+        "../../../../PluginDLL/PIO"
+        "../../../../OpenSource/Component"
+        "./"
+        "./GeneratedFiles/$(Configuration)"
+        "../../../../Open"
+        "./GeneratedFiles"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "QT_THREAD_SUPPORT"
-        "SEQLIB_LIB"
         "UNICODE"
+        "SEQLIB_LIB"
+        "QT_THREAD_SUPPORT"
     >
 )
 
@@ -195,25 +195,25 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles/$(Configuration)"
         "../../../../GeneralSource"
-        "../../../../PluginDLL/PIO"
         "../../../../GeneralSource/Sequence"
-        "../../../../Open"
-        "./"
-        "./GeneratedFiles"
         "./GeneratedFiles/"
+        "../../../../PluginDLL/PIO"
         "../../../../OpenSource/Component"
+        "./"
+        "./GeneratedFiles/$(Configuration)"
+        "../../../../Open"
+        "./GeneratedFiles"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "QT_THREAD_SUPPORT"
-        "NDEBUG"
-        "SEQLIB_LIB"
         "UNICODE"
         "QT_NO_DEBUG"
+        "SEQLIB_LIB"
+        "NDEBUG"
+        "QT_THREAD_SUPPORT"
     >
 )
 
@@ -228,11 +228,11 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::SerialPort
+    Qt6::Core
     Qt6::Gui
     Qt6::Widgets
+    Qt6::SerialPort
     Qt6::Network
-    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -252,7 +252,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
-    -O3
+    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE
