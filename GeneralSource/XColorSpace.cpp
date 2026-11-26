@@ -404,13 +404,8 @@ ColorCube::ColorCube(void)
 }
 ColorCube::ColorCube(const ColorCube &src)
 {
-	if (PlaneCounts > src.PlaneCounts) {
-		PlaneCounts = src.PlaneCounts;
-		if (Planes != NULL) {
-			delete[]Planes;
-		}
-		Planes = new ColorPlane[PlaneCounts];
-	}
+	PlaneCounts = src.PlaneCounts;
+	Planes = new ColorPlane[PlaneCounts];
 	for (int i = 0; i < PlaneCounts; i++) {
 		Planes[i] = src.Planes[i];
 	}
@@ -1025,9 +1020,11 @@ bool	ColorLogic::Load(QIODevice *f)
 		}
 		ColorSpace *b=ColorSpace::GetNew(id);
 		if(b==NULL){
+			delete	b;
 			return false;
 		}
 		if(b->Load(f)==false){
+			delete	b;
 			return false;
 		}
 		Base.AppendList(b);
@@ -1046,6 +1043,7 @@ bool	ColorLogic::Load(QIODevice *f)
 			return false;
 		}
 		if(e->Load(f)==false){
+			delete	e;
 			return false;
 		}
 		Eliminated.AppendList(e);
@@ -1633,6 +1631,7 @@ bool	RgbStocker::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		RgbList *a=new RgbList();
 		if(a->Load(f)==false){
+			delete	a;
 			return false;
 		}
 		AppendList(a);
@@ -1739,6 +1738,7 @@ bool	RGBStock::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		RGBSample *c=new RGBSample();
 		if(c->Load(f)==false){
+			delete	c;
 			return false;
 		}
 		AppendList(c);
@@ -1854,7 +1854,20 @@ double		RGBStock::GetClosedLength(const RGBSample &Col)	const
 }
 
 //===============================================================
-
+ColorSampleList::~ColorSampleList(void)
+{
+	if(Data!=NULL){
+		if(DataType==TypeColorLogic){
+			ColorLogic	*L=(ColorLogic *)Data;
+			delete	L;
+		}
+		else if(DataType==TypeRGBStock){
+			RGBStock	*L=(RGBStock *)Data;
+			delete	L;
+		}
+		Data=NULL;
+	}
+}
 bool	ColorSampleList::SaveData(QIODevice *f)
 {
 	switch(DataType){

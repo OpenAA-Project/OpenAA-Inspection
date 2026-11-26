@@ -136,6 +136,7 @@ public:
 	XDateTime	EventTime;
 
 	FifoWriteBase(void){}
+	virtual	~FifoWriteBase(void){}
 };
 
 class	FifoWriteOldest : public FifoWriteBase

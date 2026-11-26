@@ -317,11 +317,13 @@ int		FlexAreaBasePure::FindIndex(int AbsY ,int &IndexStart ,int &IndexEnd)
 	}
 	//int L=(FLines-k)/sizeof(struct FlexLine);
 	int L=k-GetFLinePoint();
-	while(L>0){
-		if(GetFLineAbsY(L+1)!=AbsY){
-			break;
+	if(L+1<Len){
+		while(L>0){
+			if(GetFLineAbsY(L+1)!=AbsY){
+				break;
+			}
+			L--;
 		}
-		L--;
 	}
 	IndexStart=L;
 
@@ -975,7 +977,7 @@ bool	  FlexAreaBasePure::WriteBaseVer106(QIODevice *str)
 		}
 
 	}
-	bool	OwningFLines;
+	bool	OwningFLines=true;
 	if(str->write((const char *)&OwningFLines,sizeof(OwningFLines))!=sizeof(OwningFLines)){
 		return(false);
 	}
@@ -3576,7 +3578,7 @@ uchar	*FlexArea::MakeBitData(int &Px ,int &Py ,int &Lx ,int &Ly ,int &xbyte,int 
 	Lx=GetWidth();
 	Ly=GetHeight();
 
-	uchar	*d=new uchar[Lx*xbyte];
+	uchar	*d=new uchar[Ly*xbyte];
 	memset(d,0,Lx*xbyte);
 	for(int i=0;i<GetFLineLen();i++){
 		if(GetFLineAbsY(i)<0 || GetFLineAbsY(i)>=MaxLines){
@@ -6737,7 +6739,7 @@ void    FlexArea::ClipByMask(BYTE **Mask,int DotPerLine, int MaxLines)
 			if(FLIndex>=MaxLen){
 				int	MaxLen2=MaxLen*2;
 				struct  FlexLine    *FL2=new struct  FlexLine[MaxLen2];
-				memcpy(FL,FL2,FLIndex*sizeof(struct  FlexLine));
+				memcpy(FL2,FL,FLIndex*sizeof(struct  FlexLine));
 				delete	[]FL;
 				FL=FL2;
 				MaxLen=MaxLen2;
@@ -6750,7 +6752,7 @@ void    FlexArea::ClipByMask(BYTE **Mask,int DotPerLine, int MaxLines)
 		if(FLIndex>=MaxLen){
 			int	MaxLen2=MaxLen*2;
 			struct  FlexLine    *FL2=new struct  FlexLine[MaxLen2];
-			memcpy(FL,FL2,FLIndex*sizeof(struct  FlexLine));
+			memcpy(FL2,FL,FLIndex*sizeof(struct  FlexLine));
 			delete	[]FL;
 			FL=FL2;
 			MaxLen=MaxLen2;
@@ -10490,9 +10492,9 @@ PNext:;
 					}
 				}
 				PreCnt=NowCnt;
-				memcpy(Px1,Nx1,sizeof(int)*NowCnt);
-				memcpy(Px2,Nx2,sizeof(int)*NowCnt);
-				memcpy(Py2,Ny2,sizeof(int)*NowCnt);
+				memcpy(Px1,Nx1,sizeof(int16)*NowCnt);
+				memcpy(Px2,Nx2,sizeof(int16)*NowCnt);
+				memcpy(Py2,Ny2,sizeof(int16)*NowCnt);
 				NowCnt=1;
 			}
 			//最後
@@ -11385,13 +11387,13 @@ void	FlexArea::CreateZoom(double ZoomRate ,int Cx,int Cy)
 					for(int k=j+1;k<LastXNumb;){
 						if(LastXLine[j].X1<=LastXLine[k].X1 && LastXLine[k].X1<=LastXLine[j].X2){
 							if(LastXLine[k].X2<=LastXLine[j].X2){
-								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k));
+								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k-1));
 								LastXNumb--;
 								goto	SkipKPP1;
 							}
 							else{
 								LastXLine[j].X2=LastXLine[k].X2;
-								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k));
+								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k-1));
 								LastXNumb--;
 								goto	SkipKPP1;
 							}
@@ -11399,13 +11401,13 @@ void	FlexArea::CreateZoom(double ZoomRate ,int Cx,int Cy)
 						else if(LastXLine[k].X1<=LastXLine[j].X1 && LastXLine[j].X1<=LastXLine[k].X2){
 							LastXLine[j].X1=LastXLine[k].X1;
 							if(LastXLine[k].X2<=LastXLine[j].X2){
-								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k));
+								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k-1));
 								LastXNumb--;
 								goto	SkipKPP1;
 							}
 							else{
 								LastXLine[j].X2=LastXLine[k].X2;
-								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k));
+								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k-1));
 								LastXNumb--;
 								goto	SkipKPP1;
 							}
@@ -11507,13 +11509,13 @@ BYTE	*FlexArea::GetZoomPattern(double ZoomRate,int Cx,int Cy
 					for(int k=j+1;k<LastXNumb;){
 						if(LastXLine[j].X1<=LastXLine[k].X1 && LastXLine[k].X1<=LastXLine[j].X2){
 							if(LastXLine[k].X2<=LastXLine[j].X2){
-								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k));
+								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k-1));
 								LastXNumb--;
 								goto	SkipKPP1;
 							}
 							else{
 								LastXLine[j].X2=LastXLine[k].X2;
-								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k));
+								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k-1));
 								LastXNumb--;
 								goto	SkipKPP1;
 							}
@@ -11521,13 +11523,13 @@ BYTE	*FlexArea::GetZoomPattern(double ZoomRate,int Cx,int Cy
 						else if(LastXLine[k].X1<=LastXLine[j].X1 && LastXLine[j].X1<=LastXLine[k].X2){
 							LastXLine[j].X1=LastXLine[k].X1;
 							if(LastXLine[k].X2<=LastXLine[j].X2){
-								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k));
+								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k-1));
 								LastXNumb--;
 								goto	SkipKPP1;
 							}
 							else{
 								LastXLine[j].X2=LastXLine[k].X2;
-								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k));
+								memmove(&LastXLine[k],&LastXLine[k+1],sizeof(LastXLine[0])*(LastXNumb-k-1));
 								LastXNumb--;
 								goto	SkipKPP1;
 							}
@@ -12560,8 +12562,8 @@ void    FlexArea::PaintWithColor(QImage &Dest, const QRgb &Col,int dx ,int dy)
 			if(x1<0){
 				x1=0;
 			}
-			if(x1>=YLen){
-				x1=YLen-1;
+			if(x1>=XLen){
+				x1=XLen-1;
 			}
 			if(x2<0){
 				x2=0;
@@ -13294,8 +13296,10 @@ bool    PureFlexAreaListContainer::Load(QIODevice *f)
 	MaxY=INT_MIN;
 	for(int i=0;i<N;i++){
 		PureFlexAreaList	*a=new PureFlexAreaList();
-		if(a->Load(f)==false)
+		if(a->Load(f)==false){
+			delete	a;
 			return false;
+		}
 		AppendList(a);
 	}
 	return true;

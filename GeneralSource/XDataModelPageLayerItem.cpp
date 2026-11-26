@@ -2714,7 +2714,8 @@ bool    AlgorithmInLayerPLI::Load(QIODevice *f)
 		((AlgorithmItemPLI *)c)->SetParent(this);
 		if(c->Load(f,GetLayersBase())==false){
 			::SendErrorMessage(QString(/**/"Item->Load returns false in AlgorithmInLayerPLI::Load : ")+QString(typeid(*this).name())+QString(/**/" Turn : ")+QString::number(i));
-            return(false);
+            delete	c;
+			return(false);
 		}
 		AppendItemFromLoad(c);
 		if(c->GetID()>=StartItemID){
@@ -2767,7 +2768,8 @@ bool    AlgorithmInLayerPLI::LoadAppend(QIODevice *f)
 		((AlgorithmItemPLI *)c)->SetParent(this);
 		if(c->Load(f,GetLayersBase())==false){
 			::SendErrorMessage(QString(/**/"Item->Load returns false in AlgorithmInLayerPLI::LoadAppend : ")+QString(typeid(*this).name())+QString(/**/" Turn : ")+QString::number(i));
-            return(false);
+            delete	c;
+			return(false);
 		}
 		for(AlgorithmItemPLI *a=GetFirstData();a!=NULL;a=a->GetNext()){
 			if(a->GetID()==c->GetID()){
@@ -2902,9 +2904,11 @@ bool	AlgorithmInLayerPLI::LoadOnlyThreshold(QIODevice *f)
 				return false;
 			}
 			if(t->Load(f)==false){
+				delete	t;
 				delete	d;
 				return false;
 			}
+			delete	t;
 			delete	d;
 		}
 	}
@@ -3557,6 +3561,7 @@ ExeResult	AlgorithmInLayerPLI::ExecuteInitialAfterEditPrev(int ExeID ,ResultInLa
 	}
 
 	do{
+		RetryMode=false;
 		for(AlgorithmItemPLI *c=RentalData.GetFirst();c!=NULL;c=c->GetNext()){
 			ExeResult	RR=c->ExecuteInitialAfterEditPrev(ExeID ,0,c->GetCurrentResult(),EInfo);
 			if(RR==_ER_ReqRetryLater){
@@ -3664,6 +3669,7 @@ ExeResult	AlgorithmInLayerPLI::ExecuteInitialAfterEdit	(int ExeID ,ResultInLayer
 	}
 
 	do{
+		RetryMode=false;
 		for(AlgorithmItemPLI *c=RentalData.GetFirst();c!=NULL;c=c->GetNext()){
 			ExeResult	RR=c->ExecuteInitialAfterEdit(ExeID ,0,c->GetCurrentResult(),EInfo);
 			if(RR==_ER_ReqRetryLater){
@@ -3779,6 +3785,7 @@ ExeResult	AlgorithmInLayerPLI::ExecuteInitialAfterEditPost(int ExeID ,ResultInLa
 	}
 
 	do{
+		RetryMode=false;
 		for(AlgorithmItemPLI *c=RentalData.GetFirst();c!=NULL;c=c->GetNext()){
 			ExeResult	RR=c->ExecuteInitialAfterEditPost(ExeID ,0,c->GetCurrentResult(),EInfo);
 			if(RR==_ER_ReqRetryLater){
@@ -4579,7 +4586,7 @@ ExeResult	AlgorithmInLayerPLI::ExecuteScanning	(int ExeID ,ResultInLayerRoot *R)
 			RetryMode=false;
 
 			for(AlgorithmItemPLI *c=RentalData.GetFirst();c!=NULL && n<Res->GetItemCount();c=c->GetNext(),n++){
-				ExeResult	RR=c->ExecutePreScanning(ExeID,0,Res->GetResultItem(n));
+				ExeResult	RR=c->ExecuteScanning(ExeID,0,Res->GetResultItem(n));
 				if(RR==_ER_ReqRetryLater){
 					RetryMode=true;
 				}
@@ -4652,7 +4659,7 @@ ExeResult	AlgorithmInLayerPLI::ExecutePostScanning	(int ExeID ,ResultInLayerRoot
 			RetryMode=false;
 
 			for(AlgorithmItemPLI *c=RentalData.GetFirst();c!=NULL && n<Res->GetItemCount();c=c->GetNext(),n++){
-				ExeResult	RR=c->ExecutePreScanning(ExeID,0,Res->GetResultItem(n));
+				ExeResult	RR=c->ExecutePostScanning(ExeID,0,Res->GetResultItem(n));
 				if(RR==_ER_ReqRetryLater){
 					RetryMode=true;
 				}
@@ -4824,7 +4831,7 @@ void	AlgorithmInLayerPLI::CutArea(FlexArea &localArea,bool MultiSelect,const QBy
 		//	#pragma omp for schedule(dynamic)
 			for(int i=0;i<N;i++){
 				AlgorithmItemPLI *L=Pointer[i];
-				bool	_Changed;
+				bool	_Changed=false;
 				int	cx,cy;
 				L->GetMultiSelectOrign(cx,cy);
 				L->CutArea(localArea,_Changed);
@@ -4849,7 +4856,7 @@ void	AlgorithmInLayerPLI::CutArea(FlexArea &localArea,bool MultiSelect,const QBy
 			for(int i=0;i<N;i++){
 				AlgorithmItemPLI *L=Pointer[i];
 				if(L->GetSelected()==true && L->GetArea().CheckOverlap(&localArea)==true){
-					bool	_Changed;
+					bool	_Changed=false;
 					int	cx,cy;
 					L->GetMultiSelectOrign(cx,cy);
 					L->CutArea(localArea,_Changed);
@@ -4889,7 +4896,7 @@ void	AlgorithmInLayerPLI::CutArea(FlexArea &localArea,bool MultiSelect,const QBy
 							FlexArea	A=localArea;
 							A.MoveToNoClip(cx-c->Cx,cy-c->Cy);
 
-							bool	_Changed;
+							bool	_Changed=false;
 							L->CutArea(A,_Changed);
 							if(_Changed==true){
 								Changed=true;
@@ -6364,6 +6371,7 @@ bool	AlgorithmInLayerPLI::LoadItemsForLearning(ItemDataListWithIDContainer &Buff
 		}
 		AlgorithmItemRoot *m=CreateItem(c->ItemClassType);
 		if(m->LoadForLearning(&HBuff,GetLayersBase())==false){
+			delete	m;
 			return false;
 		}
 		int64	ItemID=m->GetID();
@@ -6521,7 +6529,7 @@ void	AlgorithmInLayerPLI::MakeBindedThreshold(BindedThresholdContainer &Containe
 {
 	AlgorithmItemPLI	**List=new AlgorithmItemPLI*[GetItemCount()];
 	int	n=0;
-	for(AlgorithmItemPLI *item=GetFirstData();item!=NULL;item=item->GetNext()){
+	for(AlgorithmItemPLI *item=GetFirstData();item!=NULL;item=item->GetNext(),n++){
 		List[n]=item;
 	}
 	for(int i=0;i<n;i++){
@@ -6724,6 +6732,7 @@ bool	AlgorithmInPagePLI::Reallocate(int newLayerNumb)
 			}
 			tLayerData[Ly]=LayerData[Ly];
 		}
+		delete	[]LayerData;
 		LayerData=tLayerData;
 		for(;Ly<newLayerNumb;Ly++){
 			LayerData[Ly]=(AlgorithmInLayerPLI *)NewChild(this);
@@ -6879,6 +6888,7 @@ bool	AlgorithmInPagePLI::Load(QIODevice *f)
 			L->SetLayer(Layer);
 			L->SetEntryPoint(GetEntryPoint());
 			if(L->Load(f)==false){
+				delete	L;
                 return(false);
 			}
 			delete	L;
@@ -6952,6 +6962,7 @@ bool	AlgorithmInPagePLI::LoadByTransform(QIODevice *f ,TransformBase &Param)
 			L->SetLayer(Layer);
 			L->SetEntryPoint(GetEntryPoint());
 			if(L->LoadByTransform(f,Param)==false){
+				delete	L;
                 return(false);
 			}
 			delete	L;
@@ -7005,6 +7016,7 @@ bool	AlgorithmInPagePLI::LoadAppend(QIODevice *f)
 			L->SetLayer(i);
 			L->SetEntryPoint(GetEntryPoint());
 			if(L->LoadAppend(f)==false){
+				delete	L;
 				return(false);
 			}
 			delete	L;
@@ -7052,6 +7064,7 @@ bool		AlgorithmInPagePLI::LoadHistgram(QIODevice *f)
 		L->SetLayer(i);
 		L->SetEntryPoint(GetEntryPoint());
 		if(L->LoadHistgram(f)==false){
+			delete	L;
             return(false);
 		}
 		delete	L;

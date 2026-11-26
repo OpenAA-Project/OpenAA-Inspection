@@ -25,6 +25,11 @@ ListOfQImage::ListOfQImage(QImage &img)
 	Img=new QImage();
 	*Img=img;
 }
+ListOfQImage::ListOfQImage(const ListOfQImage &src)
+{
+	Img=new QImage();
+	*Img=*src.Img;
+}
 ListOfQImage::ListOfQImage(const QString &resourcename)
 {
 	ResourceName	=resourcename;

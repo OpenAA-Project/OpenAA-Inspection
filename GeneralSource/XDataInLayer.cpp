@@ -310,16 +310,7 @@ int		LayersBase::GetCountOnlyBackGroundBuff(void)	const
 	}
 	return N;
 }
-int		LayersBase::GetCountDispatchMasterBuff(void)const
-{
-	int	N=0;
-	for(int i=0;i<AllocatedBufferInfoCount;i++){
-		if(BufferInfoListDim[i].OriginCode>0){
-			N++;
-		}
-	}
-	return N;
-}
+
 int		LayersBase::SetBufferInfo(const QString &BuffName ,int OriginCode ,int Pos)
 {
 	if(BufferInfoListDim==NULL){
@@ -437,10 +428,7 @@ void	LayersBase::RemoveBufferInfo(int OriginCode)
 		TF_RemoveBufferInfo(OriginCode);
 		return;
 	}
-	for(int phase=0;phase<AllocatedPhaseNumb;phase++){
-		PageDataInOnePhase	*Ph=GetPageDataPhase(phase);
-		Ph->RemoveDispatchMaster(Pos);
-	}
+
 	TF_RemoveBufferInfo(OriginCode);
 	int	tAllocatedBufferInfoCount=0;
 	for(int i=0;i<AllocatedBufferInfoCount;i++){
@@ -5265,16 +5253,17 @@ void	LayersBase::ClearErrorCount(void)
 	ErrorMutex.unlock();
 }
 
-bool	LayersBase::GetError(int index ,ErrorCodeList &Ret)
+bool	LayersBase::GetError(int index ,ErrorCodeList &RetError)
 {
+	bool	Ret=false;
+	ErrorMutex.lock();
 	if((0<=index) && (index<GetErrorContainer()->GetNumber())){
-		ErrorMutex.lock();
 		ErrorCodeList	*r=GetErrorContainer()->GetItem(index);
-		Ret= *r;
-		ErrorMutex.unlock();
-		return true;
+		RetError= *r;
+		Ret=true;
 	}
-	return false;
+	ErrorMutex.unlock();
+	return Ret;
 }
 
 ErrorCodeList	*LayersBase::PopError(void)
@@ -6413,7 +6402,7 @@ void	LayersBase::SetThresholdLevel(int LevelParentID ,int LevelID)
 {	
 	if(GetShadowLevel()==0){
 		if(ThresholdLevelID!=LevelID){
-			bool	ReEntrant=false;
+			static	bool	ReEntrant=false;
 			if(ReEntrant==true){
 				return;
 			}

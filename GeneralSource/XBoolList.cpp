@@ -168,6 +168,7 @@ bool    BoolList::Load(QIODevice *file)
 	for(int i=0;i<N;i++){
 		BoolClass	*d=new BoolClass();
 		if(d->Load(file)==false){
+			delete	d;
 			return false;
 		}
 		AppendList(d);
@@ -320,6 +321,7 @@ bool    Bool3List::Load(QIODevice *file)
 	for(int i=0;i<N;i++){
 		Bool3Class	*d=new Bool3Class();
 		if(d->Load(file)==false){
+			delete	d;
 			return false;
 		}
 		AppendList(d);

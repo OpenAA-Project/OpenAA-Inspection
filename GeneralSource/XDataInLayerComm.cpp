@@ -234,6 +234,9 @@ bool	LayersBase::PacketSender(NPListPack<GUICmdPacketDim> &Dim ,int32 MaxWaitMil
 				if(C->Receiver->IsReceived()==false){
 					if(C->Sender->SentRealSocket==false){
 						if(GetComputerMiliSec()-NowTime>MaxWaitMiliSec){
+							if(CDimPoint!=CDim){
+								delete	[]CDimPoint;
+							}
 							return false;
 						}
 					}
@@ -242,12 +245,18 @@ bool	LayersBase::PacketSender(NPListPack<GUICmdPacketDim> &Dim ,int32 MaxWaitMil
 						//	return(false);
 						C->Receiver->WaitForReadyRead(C->GlobalPage,MaxWaitMiliSec/(2*N));
 						if(GetComputerMiliSec()-NowTime>MaxWaitMiliSec){
+							if(CDimPoint!=CDim){
+								delete	[]CDimPoint;
+							}
 							return false;
 						//if(_CrtCheckMemory()==false)
 						//	return(false);
 						}
 					}
 					if(OnTerminating==true){
+						if(CDimPoint!=CDim){
+							delete	[]CDimPoint;
+						}
 						return false;
 					}
 					Numb++;
@@ -279,6 +288,9 @@ bool	LayersBase::PacketSender(NPListPack<GUICmdPacketDim> &Dim ,int32 MaxWaitMil
 				while(C->Receiver->IsReceived()==false){
 					if(C->Sender->SentRealSocket==false){
 						if(GetComputerMiliSec()-NowTime>MaxWaitMiliSec){
+							if(CDimPoint!=CDim){
+								delete	[]CDimPoint;
+							}
 							return false;
 						}
 					}
@@ -286,10 +298,16 @@ bool	LayersBase::PacketSender(NPListPack<GUICmdPacketDim> &Dim ,int32 MaxWaitMil
 						C->Receiver->WaitForReadyRead(C->GlobalPage,MaxWaitMiliSec/(2*N));
 						//C->Receiver->WaitForReadyRead(C->GlobalPage,0);
 						if(GetComputerMiliSec()-NowTime>MaxWaitMiliSec){
+							if(CDimPoint!=CDim){
+								delete	[]CDimPoint;
+							}
 							return false;
 						}
 					}
 					if(OnTerminating==true){
+						if(CDimPoint!=CDim){
+							delete	[]CDimPoint;
+						}
 						return false;
 					}
 				}

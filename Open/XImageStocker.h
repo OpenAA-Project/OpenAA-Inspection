@@ -35,6 +35,7 @@ class	ListOfQImage : public NPList<ListOfQImage>
 	QImage	*Img;
 public:
 	explicit	ListOfQImage(QImage &img);
+	explicit	ListOfQImage(const ListOfQImage &src);
 	explicit	ListOfQImage(const QString &resourcename);
 	virtual	~ListOfQImage(void);
 

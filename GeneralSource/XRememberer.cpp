@@ -207,7 +207,7 @@ double	ControlRemembererList::GetDouble(void)
 	if(Value!=NULL && RType==__Double){
 		return *((double *)Value);
 	}
-	return true;
+	return 0.0;
 }
 QStringList	ControlRemembererList::GetStringList(void)
 {
@@ -688,7 +688,7 @@ void	ControlRemembererListContainer::GetValue(QWidget *W)
 		if(e!=NULL){
 			int	Ret;
 			if(GetValue(W,Ret)==true){
-				if(Ret<e->rowCount()){
+				if(0<=Ret && Ret<e->rowCount()){
 					::SetCurrentRow(e,Ret);
 				}
 			}
@@ -700,7 +700,7 @@ void	ControlRemembererListContainer::GetValue(QWidget *W)
 		if(e!=NULL){
 			int	Ret;
 			if(GetValue(W,Ret)==true){
-				if(Ret<e->count()){
+				if(0<=Ret && Ret<e->count()){
 					e->setCurrentIndex(Ret);
 				}
 			}
@@ -886,6 +886,7 @@ bool	ControlRemembererListContainer::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		ControlRemembererList	*L=new ControlRemembererList(Rememberer);
 		if(L->Load(f)==false){
+			delete	L;
 			return false;
 		}
 		AppendList(L);

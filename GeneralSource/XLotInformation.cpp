@@ -184,6 +184,7 @@ bool	LotBase::Load(QIODevice *f)
 	LotDim=new LotInformation[AllocatedLotDeliveryCount];
 
 	for(int i=0;i<AllocatedLotDeliveryCount;i++){
+		GetLot(i)->SetLayersBase(GetLayersBase());
 		if(GetLot(i)->Load(f)==false)
 			return false;
 	}

@@ -27,6 +27,12 @@ OutlineOffsetInBlobPage::OutlineOffsetInBlobPage(void)
 	OutlineOffsetInPageDimNumb	=0;
 	OutlineOffsetInPageDim		=NULL;
 }
+OutlineOffsetInBlobPage::OutlineOffsetInBlobPage(const OutlineOffsetInBlobPage &src)
+{
+	OutlineOffsetInPageDimNumb=src.OutlineOffsetInPageDimNumb;
+	OutlineOffsetInPageDim=new OutlineOffsetInPage[OutlineOffsetInPageDimNumb];
+	Copy(src);
+}
 OutlineOffsetInBlobPage::~OutlineOffsetInBlobPage(void)
 {
 	if(OutlineOffsetInPageDim!=NULL)
@@ -211,10 +217,12 @@ bool	OutlineOffsetInBlob::Load(QIODevice *f)
 		return false;
 	if(Ver==1){
 		f->seek(0);
-		if(OutlineOffsetInPhaseDim!=NULL)
+		if(OutlineOffsetInPhaseDim!=NULL){
 			if(OutlineOffsetInPhaseDim[0].Load(f)==false){
 				return false;
 			}
+		}
+		return true;
 	}
 
 	int32	iOutlineOffsetInPhaseDimNumb;

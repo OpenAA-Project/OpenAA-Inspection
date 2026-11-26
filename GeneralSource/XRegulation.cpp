@@ -553,18 +553,22 @@ bool	XYRegPointContainer::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		XYRegPointLoader	*a=new XYRegPointLoader();
 		if(a->Load(f)==false){
+			delete	a;
 			return false;
 		}
 		if(a->LoadLink(f)==false){
+			delete	a;
 			return false;
 		}
 		AppendList(a);
 	}
-	if(::Load(f,UnitIndex)==false)
+	if(::Load(f,UnitIndex)==false){
 		return false;
+	}
 	if(Ver>=2){
-		if(::Load(f,UnitFigure)==false)
+		if(::Load(f,UnitFigure)==false){
 			return false;
+		}
 	}
 	MakeLinkByLoader();
 	return true;
@@ -730,10 +734,12 @@ bool	XYRegPointContainer::TransformRealToImage(double realX ,double realY ,int &
 			MaxImageX=MinImageX+W/2;
 			MaxImageY=MinImageY+H/2;
 		}
+		else
 		if(D01<=D00 && D01<=D10 && D01<=D11){
 			MinImageX=MinImageX+W/2;
 			MaxImageY=MinImageY+H/2;
 		}
+		else
 		if(D10<=D01 && D10<=D00 && D10<=D11){
 			MaxImageX=MinImageX+W/2;
 			MinImageY=MinImageY+H/2;

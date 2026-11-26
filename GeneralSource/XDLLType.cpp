@@ -192,6 +192,7 @@ DetailResultInfoList	&DetailResultInfoList::operator=(const DetailResultInfoList
 {
 	MessageString		=src.MessageString		;
 	NGColor				=src.NGColor			;
+	ResultValueContainer.RemoveAll();
 	for(DetailResultValueList *L=src.ResultValueContainer.GetFirst();L!=NULL;L=L->GetNext()){
 		DetailResultValueList	*d=new DetailResultValueList(*L);
 		ResultValueContainer.AppendList(d);

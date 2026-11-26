@@ -162,8 +162,8 @@ bool			GeneralStocker::OpenDLL(const QString &DLLFileName)
 		Prop.SynchronizeToSlave	=false;
 		DLL_ReturnProperty(Prop);
 
-		Prop.SaveInMasterData	=SaveInMasterData;
-		Prop.SynchronizeToSlave	=SynchronizeToSlave;
+		SaveInMasterData	=Prop.SaveInMasterData	;
+		SynchronizeToSlave	=Prop.SynchronizeToSlave;
 	}
 	return true;
 }
@@ -173,6 +173,7 @@ void	GeneralStocker::CloseDLL(void)
 {
 	if(DLL_Release!=NULL){
 		DLL_Release(Handle);
+		DLL_Release=NULL;
 	}
 	if(DllLib.isLoaded ()==true){
 		DllLib.unload();
@@ -748,15 +749,23 @@ bool			GeneralStockerContainer::Save(QIODevice *f,struct	PropertyGeneralStocker 
 	}
 
 	for(GeneralStocker *s=GetFirst();s!=NULL;s=s->GetNext()){
-		if((Prop.SaveInMasterData==true && s->GetSynchronizeToSlave()==false)
-		|| (Prop.SynchronizeToSlave==true && s->GetSynchronizeToSlave()==false))
-			continue;
 		QString	NameStr=s->GetName();
 		if(::Save(f,NameStr)==false){
 			return false;
 		}
-		if(s->Save(f)==false){
-			return false;
+		if((Prop.SaveInMasterData==true && s->GetSynchronizeToSlave()==false)
+		|| (Prop.SynchronizeToSlave==true && s->GetSynchronizeToSlave()==false)){
+			if(::Save(f,false)==false){
+				return false;
+			}
+		}
+		else{
+			if(::Save(f,true)==false){
+				return false;
+			}
+			if(s->Save(f)==false){
+				return false;
+			}
 		}
 	}
 	return true;
@@ -776,11 +785,18 @@ bool			GeneralStockerContainer::Load(QIODevice *f,struct	PropertyGeneralStocker 
 		GeneralStocker *s;
 		for(s=GetFirst();s!=NULL;s=s->GetNext()){
 			if(s->GetName()==NameStr){
-				if((Prop.SaveInMasterData==true && s->GetSynchronizeToSlave()==false)
-				|| (Prop.SynchronizeToSlave==true && s->GetSynchronizeToSlave()==false))
-					break;
-				if(s->Load(f)==false){
+				bool	Flag;
+				if(::Load(f,Flag)==false){
 					return false;
+				}
+				if(Flag==true){
+					if((Prop.SaveInMasterData==true && s->GetSynchronizeToSlave()==false)
+					|| (Prop.SynchronizeToSlave==true && s->GetSynchronizeToSlave()==false)){
+						return false;
+					}
+					if(s->Load(f)==false){
+						return false;
+					}
 				}
 				break;
 			}

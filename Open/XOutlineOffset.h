@@ -36,6 +36,7 @@ class	OutlineOffsetInBlobPage
 	OutlineOffsetInPage	*OutlineOffsetInPageDim;
 public:
 	explicit	OutlineOffsetInBlobPage(void);
+	explicit	OutlineOffsetInBlobPage(const OutlineOffsetInBlobPage &src);
 	virtual	~OutlineOffsetInBlobPage(void);
 
 	void	Initial(int PageCount);

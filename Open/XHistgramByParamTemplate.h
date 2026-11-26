@@ -189,8 +189,10 @@ template<class T>
 inline bool	HistgramDimStocker<T>::SaveText(QIODevice *f)
 {
 	QTextStream	Txt(f);
-	for(int n=0;n<GetCount();n++){
-		Txt<<QString::number(n)<<QString("\t,\t")+QString::number((int)GetPointer()[n])<<QString("\r\n");
+	for(int n=0;n<GetCount() && n<GetAllocatedCount();n++){
+		Txt	<<QString::number(n)
+			<<QString("\t,\t")+QString::number((int)GetPointer()[n])
+			<<QString("\r\n");
 	}
 	return true;
 }
@@ -326,7 +328,7 @@ inline bool	ValueDimStocker<T>::Load(QIODevice *f)
 			delete []Dim;
 		}
 		if(AllocatedCount>0){
-			Dim=new T[AllocatedCount];
+			Dim=new T[iAllocatedCount];
 			AllocatedCount=iAllocatedCount;
 		}
 	}
@@ -355,7 +357,7 @@ template<class T>
 inline bool	ValueDimStocker<T>::SaveText(QIODevice *f)
 {
 	QTextStream	Txt(f);
-	for(int n=0;n<GetCount();n++){
+	for(int n=0;n<GetCount() && n<GetAllocatedCount();n++){
 		Txt<<QString::number((int)GetPointer()[n])<<QString("\r\n");
 	}
 	return true;

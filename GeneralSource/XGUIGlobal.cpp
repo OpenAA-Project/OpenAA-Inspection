@@ -157,6 +157,7 @@ GUIFormBase		*EntryPointForGlobal::GUIMouseLeftDownInEdit(GUIFormBase *Current ,
 			}
 			DWORD ErrorCode;
 			if(Inst->Initial(Current->GetLayersBase(),Current,ErrorCode ,G)==false){
+				delete	Inst;
 				return(NULL);
 			}
 			GUIFormBase	*f=Inst->Handle;

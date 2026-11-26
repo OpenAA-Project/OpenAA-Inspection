@@ -621,11 +621,11 @@ bool	GUICmdMultiAck(  GUICmdPacketBaseContainer &RCmdContainer
 		if((t-LastTime)>WaitingMilisec){
 			if(ShowingPanel==true){
 				Base->CloseProcessingForm();
-				for(int i=0;i<CmdNumb;i++){
-					delete	ACmd[i];
-				}
-				return false;
 			}
+			for(int i=0;i<CmdNumb;i++){
+				delete	ACmd[i];
+			}
+			return false;
 		}
 		int	UnReceived=0;
 		for(int i=0;i<CmdNumb;i++){

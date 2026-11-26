@@ -118,7 +118,7 @@ void	PickupLinesByHough(PureFlexAreaListContainer &FPack
 	double	SinTable[MapSize];
 
 	for(int s=0;s<MapSize;s++){
-		double	hs=2*M_PI/MapSize;
+		double	hs=2*M_PI*s/MapSize;
 		CosTable[s]=cos(hs);
 		SinTable[s]=sin(hs);
 	}

@@ -84,6 +84,7 @@ public:
 	T		GetData(int n)		{	return Dim[n];	}
 	T		GetLastData(int n)	{	return Dim[n];	}
 	virtual	int		GetCount(void)	{	return CurrentCount;	}
+	int		GetAllocatedCount(void)	{	return AllocatedCount;	}
 	bool	AddTo(HistStepClass *Dest);
 
 	double	GetAverage(void);
@@ -133,7 +134,8 @@ public:
 	virtual	void	Clear(void);
 	virtual	int		GetCount(void);
 	bool	AddTo(HistStepClass *Dest);
-	uint	*GetPointer(void)	{	return Dim;	}
+	int32	GetAllocatedCount(void)	{	return AllocatedCount;	}
+	uint	*GetPointer(void)		{	return Dim;	}
 
 	double	GetAverage(void);
 	double	GetDispersion(void);
@@ -741,6 +743,7 @@ public:
 	ValueDimStockerBase	*Data;
 
 	GUICmdAckInfoForHistDirect(LayersBase *base,const QString &EmitterRoot ,const QString &EmitterName ,int globalPage=-1);
+	~GUICmdAckInfoForHistDirect(void);
 
 	virtual	bool	Load(QIODevice *f);
 	virtual	bool	Save(QIODevice *f);

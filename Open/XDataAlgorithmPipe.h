@@ -119,6 +119,7 @@ protected:
 	ShadowTree	*Own;
 public:
 	explicit	PipeShadowTree(ShadowTree *own);
+	PipeShadowTree(const PipeShadowTree &src);
 	virtual	~PipeShadowTree();
 
 	virtual	TransformBase	&MakeTransformFromMain(void);

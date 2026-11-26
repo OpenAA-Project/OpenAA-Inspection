@@ -288,6 +288,7 @@ bool    ResultInPagePI::Load(QIODevice *f)
 		ResultInItemPI	*r=(ResultInItemPI *)CreateItem();
 		r->SetParent(this);
 		if(r->Load(f)==false){
+			delete	r;
 			return(false);
 		}
 		Result.AppendList(r);
@@ -2554,7 +2555,8 @@ bool	AlgorithmInPagePI::Load(QIODevice *f)
 			((AlgorithmItemPI *)c)->SetParent(this);
 			if(c->Load(f,GetLayersBase())==false){
 				::SendErrorMessage(QString(/**/"Item->Load returns false in AlgorithmInPagePI::Load : ")+QString(typeid(*this).name())+QString(/**/" Turn : ")+QString::number(i));
-                return(false);
+                delete	c;
+				return(false);
 			}
 			AppendItemFromLoad(c);
 			if(c->GetID()>=StartItemID){
@@ -2747,9 +2749,11 @@ bool	AlgorithmInPagePI::LoadOnlyThreshold(QIODevice *f)
 				return false;
 			}
 			if(t->Load(f)==false){
+				delete	t;
 				delete	d;
 				return false;
 			}
+			delete	t;
 			delete	d;
 		}
 	}
@@ -4510,7 +4514,7 @@ void	AlgorithmInPagePI::CutArea(FlexArea &localArea ,const IntList &LayerList,bo
 		//	#pragma omp for schedule(dynamic)
 			for(int i=0;i<N;i++){
 				AlgorithmItemPI *L=Pointer[i];
-				bool	_Changed;
+				bool	_Changed=false;
 				int	cx,cy;
 				L->GetMultiSelectOrign(cx,cy);
 				L->CutArea(localArea,_Changed);
@@ -4535,7 +4539,7 @@ void	AlgorithmInPagePI::CutArea(FlexArea &localArea ,const IntList &LayerList,bo
 			for(int i=0;i<N;i++){
 				AlgorithmItemPI *L=Pointer[i];
 				if(L->GetSelected()==true && L->GetArea().CheckOverlap(&localArea)==true){
-					bool	_Changed;
+					bool	_Changed=false;
 					int	cx,cy;
 					L->GetMultiSelectOrign(cx,cy);
 					L->CutArea(localArea,_Changed);
@@ -4575,7 +4579,7 @@ void	AlgorithmInPagePI::CutArea(FlexArea &localArea ,const IntList &LayerList,bo
 							FlexArea	A=localArea;
 							A.MoveToNoClip(cx-c->Cx,cy-c->Cy);
 
-							bool	_Changed;
+							bool	_Changed=false;
 							L->CutArea(A,_Changed);
 							if(_Changed==true){
 								Changed=true;
@@ -6508,7 +6512,7 @@ void	AlgorithmInPagePI::MakeBindedThreshold(BindedThresholdContainer &Container)
 {
 	AlgorithmItemPI	**List=new AlgorithmItemPI*[GetItemCount()];
 	int	n=0;
-	for(AlgorithmItemPI *item=GetFirstData();item!=NULL;item=item->GetNext()){
+	for(AlgorithmItemPI *item=GetFirstData();item!=NULL;item=item->GetNext(),n++){
 		List[n]=item;
 	}
 	for(int i=0;i<n;i++){

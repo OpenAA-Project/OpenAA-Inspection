@@ -1738,9 +1738,12 @@ bool	PickupFlexOneArea(BYTE **Bmp ,int XByte ,int XLen,int YLen
 		YPointer	=YPointerDim;
 	}
 
-	if(LocalX<0 || XLen<=LocalX || LocalY<0 || YLen<=LocalY)
+	if(LocalX<0 || XLen<=LocalX || LocalY<0 || YLen<=LocalY){
+		if(YPointer!=YPointerDim){
+			delete	[]YPointer;
+		}
 		return false;
-
+	}
 
 	LDimCount=0;
 	for(int y=0;y<YLen;y++){
@@ -1814,9 +1817,18 @@ FoundBitEnd:
 			break;
 		}
 	}
-	if(IndexI>=LDimCount)
+	if(IndexI>=LDimCount){
+		if(LDimPointer!=LDim){
+			delete	[]LDimPointer;
+		}
+		if(YPointer!=YPointerDim){
+			delete	[]YPointer;
+		}
+		if(FPointer!=FPointerDim){
+			delete	[]FPointer;
+		}
 		return false;
-
+	}
 
 	int	AreaCode=0;
 
@@ -2592,8 +2604,12 @@ bool	PickupFlexOneArea_s(BYTE **Bmp ,int XByte ,int XLen,int YLen
 		YPointer	=YPointerDim;
 	}
 
-	if(LocalX<0 || XLen<=LocalX || LocalY<0 || YLen<=LocalY)
+	if(LocalX<0 || XLen<=LocalX || LocalY<0 || YLen<=LocalY){
+		if(YPointer!=YPointerDim){
+			delete	[]YPointer;
+		}
 		return false;
+	}
 
 
 	LDimCount=0;
@@ -2668,9 +2684,18 @@ FoundBitEnd:
 			break;
 		}
 	}
-	if(IndexI>=LDimCount)
+	if(IndexI>=LDimCount){
+		if(LDimPointer!=LDim){
+			delete	[]LDimPointer;
+		}
+		if(YPointer!=YPointerDim){
+			delete	[]YPointer;
+		}
+		if(FPointer!=FPointerDim){
+			delete	[]FPointer;
+		}
 		return false;
-
+	}
 
 	int	AreaCode=0;
 

@@ -34,9 +34,9 @@ class	QColor;
 
 #define	IsNullPointer(v)	((v==NULL)?true:false)
 
-#define	GetBmpBit(BmpMap,x,y)	((BmpMap[y])[(x)>>3]&(0x80>>((x)&7)))
-#define	SetBmpBit1(BmpMap,x,y)	((BmpMap[y])[(x)>>3]|=(0x80>>((x)&7)))
-#define	SetBmpBit0(BmpMap,x,y)	((BmpMap[y])[(x)>>3]&=~(0x80>>((x)&7)))
+#define	GetBmpBit(BmpMap,x,y)	((BmpMap[(y)])[(x)>>3]&(0x80>>((x)&7)))
+#define	SetBmpBit1(BmpMap,x,y)	((BmpMap[(y)])[(x)>>3]|=(0x80>>((x)&7)))
+#define	SetBmpBit0(BmpMap,x,y)	((BmpMap[(y)])[(x)>>3]&=~(0x80>>((x)&7)))
 
 #define	GetBmpBitOnY(BmpMapOnY,x)	(BmpMapOnY[(x)>>3]&(0x80>>((x)&7)))
 #define	SetBmpBitOnY1(BmpMapOnY,x)	(BmpMapOnY[(x)>>3]|=(0x80>>((x)&7)))

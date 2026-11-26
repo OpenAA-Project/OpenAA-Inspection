@@ -1023,35 +1023,6 @@ int	DataInLayer::SetDispatchMaster(const QString &MasterBuffName, int OriginCode
 
 	return pos;
 }
-bool	DataInLayer::RemoveDispatchMaster(int Pos)
-{
-	if(GetLayersBase()!=NULL){
-		if(0<=Pos){
-			MasterBuff[Pos]=NULL;
-		}
-		int	tAllocatedCountMasterBuff=0;
-		for(int i=0;i<AllocatedCountMasterBuff;i++){
-			if(MasterBuff[i]!=NULL){
-				tAllocatedCountMasterBuff++;
-			}
-		}
-		ImageBuffer	**tMasterBuff=new ImageBuffer*[tAllocatedCountMasterBuff];
-		int	k=0;
-		for(int i=0;i<AllocatedCountMasterBuff;i++){
-			if(MasterBuff[i]!=NULL){
-				tMasterBuff[k]=MasterBuff[i];
-				k++;
-			}
-		}
-		if(MasterBuff!=NULL){
-			delete	[]MasterBuff;
-		}
-		MasterBuff=tMasterBuff;
-		AllocatedCountMasterBuff=tAllocatedCountMasterBuff;
-		return true;
-	}
-	return false;
-}
 void	DataInLayer::SetEnableCapture(bool b)
 {
 	EnableCapture=b;
@@ -1515,23 +1486,27 @@ void	DataInLayer::ReleaseTargetTRBuff(void)
 bool	DataInLayer::ReallocateMasterCount(int CountMaster)
 {
 	int	CountOnlyMasterBuff=GetCountOnlyMasterBuff();
-	if(CountOnlyMasterBuff!=CountMaster && 0<=CountMaster){
-		int	TmpAllocatedCountMasterBuff=CountMaster+GetCountDispatchMasterBuff();
-		ImageBuffer     **iMasterBuff=new ImageBuffer*[TmpAllocatedCountMasterBuff];
-		int	i;
-		for(i=0;i<CountMaster && i<CountOnlyMasterBuff;i++){
+	if(CountOnlyMasterBuff<CountMaster){
+		ImageBuffer     **iMasterBuff=new ImageBuffer*[CountMaster];
+		for(int i=0;i<CountOnlyMasterBuff;i++){
 			iMasterBuff[i]=MasterBuff[i];
 		}
-		int	DispatchPoint=i;
-		for(i=0;i<CountMaster;i++){
+		for(int i=CountOnlyMasterBuff;i<CountMaster;i++){
 			iMasterBuff[i]=new ImageBuffer();
 			connect(iMasterBuff[i],SIGNAL(SignalChanged()),this,SLOT(SlotChangedMasterImage()));
 			iMasterBuff[i]->Set(GetPage()
 								,ImageBufferMaster
 								,GetDotPerLine(),GetMaxLines());
 		}
-		for(i=0;i<CountOnlyMasterBuff;i++){
-			iMasterBuff[i]=MasterBuff[DispatchPoint];
+		ImageBuffer     **tMasterBuff=MasterBuff;
+		MasterBuff=iMasterBuff;
+		delete	[]tMasterBuff;
+		AllocatedCountMasterBuff=CountMaster;
+	}
+	else if(CountOnlyMasterBuff>CountMaster){
+		ImageBuffer     **iMasterBuff=new ImageBuffer*[CountMaster];
+		for(int i=0;i<CountMaster;i++){
+			iMasterBuff[i]=MasterBuff[i];
 		}
 		for(int j=CountMaster;j<CountOnlyMasterBuff;j++){
 			BufferInfoList	*B=GetLayersBase()->GetBufferInfo(j);
@@ -1539,46 +1514,49 @@ bool	DataInLayer::ReallocateMasterCount(int CountMaster)
 				delete	MasterBuff[j];
 			}
 		}
-
 		ImageBuffer     **tMasterBuff=MasterBuff;
 		MasterBuff=iMasterBuff;
 		delete	[]tMasterBuff;
-		AllocatedCountMasterBuff=TmpAllocatedCountMasterBuff;
+		AllocatedCountMasterBuff=CountMaster;
 	}
+
 	return true;
 }
 
 bool	DataInLayer::ReallocateBackGroundCount(int CountBackGround)
 {
 	int	CountOnlyBackGroundBuff=GetCountOnlyBackGroundBuff();
-	if(CountOnlyBackGroundBuff!=CountBackGround && 0<=CountBackGround){
-		int	TmpAllocatedCountBackGroundBuff=CountBackGround;
-		ImageBuffer     **iBackGroundBuff=new ImageBuffer*[TmpAllocatedCountBackGroundBuff];
-		int	i;
-		for(i=0;i<CountBackGround && i<CountOnlyBackGroundBuff;i++){
+	if(CountOnlyBackGroundBuff<CountBackGround){
+		ImageBuffer     **iBackGroundBuff=new ImageBuffer*[CountBackGround];
+		for(int i=0;i<CountOnlyBackGroundBuff;i++){
 			iBackGroundBuff[i]=BackGroundBuff[i];
 		}
-		int	DispatchPoint=i;
-		for(i=0;i<CountBackGround;i++){
+		for(int i=CountOnlyBackGroundBuff;i<CountBackGround;i++){
 			iBackGroundBuff[i]=new ImageBuffer();
 			iBackGroundBuff[i]->Set(GetPage()
 								,ImageBufferBackGround
 								,GetDotPerLine(),GetMaxLines());
 		}
-		for(i=0;i<CountBackGround;i++){
-			iBackGroundBuff[i]=BackGroundBuff[DispatchPoint];
+		ImageBuffer     **tBackGroundBuff=BackGroundBuff;
+		BackGroundBuff=iBackGroundBuff;
+		delete	[]tBackGroundBuff;
+		AllocatedCountMasterBuff=CountBackGround;
+	}
+	else if(CountOnlyBackGroundBuff>CountBackGround){
+		ImageBuffer     **iBackGroundBuff=new ImageBuffer*[CountBackGround];
+		for(int i=0;i<CountBackGround;i++){
+			iBackGroundBuff[i]=BackGroundBuff[i];
 		}
 		for(int j=CountBackGround;j<CountOnlyBackGroundBuff;j++){
 			BufferInfoList	*B=GetLayersBase()->GetBufferInfo(j);
 			if(B!=NULL && B->OriginCode<=0){
-				delete	BackGroundBuff[j];
+				delete	MasterBuff[j];
 			}
 		}
-
-		ImageBuffer     **tBackGroundBuff=MasterBuff;
-		MasterBuff=iBackGroundBuff;
+		ImageBuffer     **tBackGroundBuff=BackGroundBuff;
+		BackGroundBuff=iBackGroundBuff;
 		delete	[]tBackGroundBuff;
-		AllocatedCountMasterBuff=TmpAllocatedCountBackGroundBuff;
+		AllocatedCountMasterBuff=CountBackGround;
 	}
 	return true;
 }
@@ -1589,7 +1567,7 @@ void	DataInLayer::Mirror(bool XMode ,bool YMode)
 		if(GetMasterBuffPointer(i)!=NULL)		GetMasterBuffPointer(i)		->Mirror(XMode,YMode);
 	}
 	for(int i=0;i<AllocatedCountBackGroundBuff;i++){
-		if(GetBackGroundBuffPointer(i)!=NULL)		GetMasterBuffPointer(i)		->Mirror(XMode,YMode);
+		if(GetBackGroundBuffPointer(i)!=NULL)	GetBackGroundBuffPointer(i)	->Mirror(XMode,YMode);
 	}
 	if(GetTargetBuffPointer()!=NULL)		GetTargetBuffPointer()		->Mirror(XMode,YMode);
 	if(GetTargetTRBuffPointer()!=NULL)		GetTargetTRBuffPointer()	->Mirror(YMode,XMode);
@@ -1648,6 +1626,7 @@ ImageBuffer	&DataInLayer::GetBackGroundBuff(int n)	const
 	else{
 		qCritical(/**/"Out of dim for MasterBuff[%d]",n);
 	}
+	return *BackGroundBuff[0];
 }
 
 		
@@ -1718,25 +1697,7 @@ ImageBuffer	*DataInLayer::GetMasterBuffPointer(int n)	const
 	}
 	return TargetBuffDim[TargetWPoint];
 }
-ImageBuffer	*DataInLayer::GetDispatchMasterBuffPointer(int n)			const
-{
-	if(0<=n && n<AllocatedCountMasterBuff){
-		return MasterBuff[n];
-	}
-	return NULL;
-}
-ImageBuffer	*DataInLayer::FindDispatchMasterBuffPointer(int OriginCode)	const
-{
-	LayersBase	*LBase=GetLayersBase();
-	for(int i=0;i<LBase->AllocatedBufferInfoCount;i++){
-		if(MasterBuff[i]!=NULL){
-			if(LBase->BufferInfoListDim[i].OriginCode==OriginCode){
-				return MasterBuff[i];
-			}
-		}
-	}
-	return NULL;
-}
+
 
 ImageBuffer	*DataInLayer::GetBackGroundBuffPointer(void)	const
 {	
@@ -1746,10 +1707,10 @@ ImageBuffer	*DataInLayer::GetBackGroundBuffPointer(void)	const
 ImageBuffer	*DataInLayer::GetBackGroundBuffPointer(int n)	const
 {	
 	if(0<=n && n<AllocatedCountBackGroundBuff){
-		return MasterBuff[n];
+		return BackGroundBuff[n];
 	}
 	else if(n<0){
-		return MasterBuff[0];
+		return BackGroundBuff[0];
 	}
 	else{
 		return NULL;
@@ -3269,7 +3230,7 @@ bool	DataInPage::IsCalcDone(void)	const
 			return false;
 		}
 	}
-	return false;
+	return true;
 }
 void	DataInPage::SetEdited(bool edited)
 {
@@ -3780,7 +3741,7 @@ void	DataInPage::GetMasterPixel(MultiLayerColor &R ,int X,int Y)	const
 }
 void	DataInPage::SetMasterPixel(MultiLayerColor &R ,int X,int Y)
 {
-	for(int Layer=0;Layer<GetLayerNumb() && R.GetLayerNumb();Layer++){
+	for(int Layer=0;Layer<GetLayerNumb() && Layer<R.GetLayerNumb();Layer++){
 		DataInLayer	*Ly=GetLayerData(Layer);
 		if(Ly->GetMasterBuff().IsNull()==false){
 			Ly->GetMasterBuff().SetPixel(X,Y,R.GetBrightness(Layer));
@@ -3800,7 +3761,7 @@ void	DataInPage::GetTargetPixel(MultiLayerColor &R ,int X,int Y)	const
 }
 void	DataInPage::SetTargetPixel(MultiLayerColor &R ,int X,int Y)
 {
-	for(int Layer=0;Layer<GetLayerNumb() && R.GetLayerNumb();Layer++){
+	for(int Layer=0;Layer<GetLayerNumb() && Layer<R.GetLayerNumb();Layer++){
 		DataInLayer	*Ly=GetLayerData(Layer);
 		if(Ly->GetTargetBuff().IsNull()==false){
 			Ly->GetTargetBuff().SetPixel(X,Y,R.GetBrightness(Layer));
@@ -3819,13 +3780,7 @@ int	DataInPage::SetDispatchMaster(const QString &MasterBuffName, int OriginCode
 	}
 	return Ret;
 }
-void	DataInPage::RemoveDispatchMaster(int pos)
-{
-	for(int Layer=0;Layer<GetLayerNumb();Layer++){
-		DataInLayer	*Ly=GetLayerData(Layer);
-		Ly->RemoveDispatchMaster(pos);
-	}
-}
+
 
 bool	DataInPage::GetReflectionMap(ReflectionMode Mode ,ConstMapBufferListContainer &Map ,AlgorithmLibrary *LibData ,void *Anything)
 {
@@ -4259,7 +4214,7 @@ bool	PageDataInOnePhase::InsertPage(int IndexPage)	//Create page before Indexed 
 		tPageData[dpage]=new DataInPage(dpage,this);
 		tPageData[dpage]->Initial(true);
 		tPageData[dpage]->Page=dpage;
-		connect(PageData[dpage],SIGNAL(SignalChangedMasterImage(int ,int)),this,SLOT(SlotChangedMasterImage(int,int)));
+		connect(tPageData[dpage],SIGNAL(SignalChangedMasterImage(int ,int)),this,SLOT(SlotChangedMasterImage(int,int)));
 		dpage++;
 		for(;spage<AllocatedPageNumb && dpage<sPageNumb+1;dpage++,spage++){
 			tPageData[dpage]=PageData[spage];
@@ -4280,7 +4235,7 @@ bool	PageDataInOnePhase::InsertPage(int IndexPage)	//Create page before Indexed 
 		tPageData[dpage]=new DataInPage(dpage,this);
 		tPageData[dpage]->Initial(true);
 		tPageData[dpage]->Page=dpage;
-		connect(PageData[dpage],SIGNAL(SignalChangedMasterImage(int ,int)),this,SLOT(SlotChangedMasterImage(int,int)));
+		connect(tPageData[dpage],SIGNAL(SignalChangedMasterImage(int ,int)),this,SLOT(SlotChangedMasterImage(int,int)));
 		delete	[]PageData;
 		PageData=tPageData;
 	}
@@ -4364,13 +4319,6 @@ bool	PageDataInOnePhase::ReallocateBackGroundCount(int CountBackGround)
 	return Ret;
 }
 
-void	PageDataInOnePhase::RemoveDispatchMaster(int pos)
-{
-	for(int page=0;page<AllocatedPageNumb;page++){
-		DataInPage *Pg=GetPageData(page);
-		Pg->RemoveDispatchMaster(pos);
-	}
-}
 void	PageDataInOnePhase::ResetSize(void)
 {
 	for(int page=0;page<AllocatedPageNumb;page++){

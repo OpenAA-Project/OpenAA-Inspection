@@ -161,7 +161,7 @@ bool	GUICmdReqAlgorithmItemIndependentPack::Save(QIODevice *f)
 
 void	GUICmdReqAlgorithmItemIndependentPack::Receive(int32 localPage, int32 cmd ,QString &EmitterRoot,QString &EmitterName)
 {
-	GUICmdAckAlgorithmItemIndependentPack *SendBack=(GUICmdAckAlgorithmItemIndependentPack *)((GetSendBackPacket()==NULL)?new GUICmdSendAlgorithmGeneralData(GetLayersBase(),EmitterRoot,EmitterName) : GetSendBackPacket())->SetLocalPage(localPage);
+	GUICmdAckAlgorithmItemIndependentPack *SendBack=(GUICmdAckAlgorithmItemIndependentPack *)((GetSendBackPacket()==NULL)?new GUICmdAckAlgorithmItemIndependentPack(GetLayersBase(),EmitterRoot,EmitterName) : GetSendBackPacket())->SetLocalPage(localPage);
 
 	if(NeedInitializerOfUndo==true){
 		GetLayersBase()->GetUndoStocker().SetLocalTopic(GetIDForUndo());
@@ -899,7 +899,7 @@ bool	GUICmdSendParameters::Initial(void)
 		}
 	}
 	if(GetParamGUI()!=NULL){
-		if(::Save(&Buff,"ParamGUI",16)==false){
+		if(::Save(&Buff,"ParamGUI",9)==false){
 				return false;
 		}
 		if(GetLayersBase()->GetParamGUI()->SaveParam(&Buff)==false){
@@ -2578,6 +2578,9 @@ void	GUICmdReflectThresholdInstanceOne::Receive(int32 localPage, int32 cmd ,QStr
 					Thr->Reflect(SrcThr,ChangedMapInThreshold);
 				}
 			}
+		}
+		if(SrcThr!=NULL){
+			delete	SrcThr;
 		}
 	}
 }

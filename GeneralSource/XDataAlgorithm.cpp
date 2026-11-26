@@ -268,7 +268,7 @@ bool	AlignmentPacket2D::Save(QIODevice *f)
 	if(::Save(f,Priority)==false){
 		return false;
 	}
-	return false;
+	return true;
 }
 bool	AlignmentPacket2D::Load(QIODevice *f)
 {
@@ -293,7 +293,7 @@ bool	AlignmentPacket2D::Load(QIODevice *f)
 	if(::Load(f,Priority)==false){
 		return false;
 	}
-	return false;
+	return true;
 }
 
 //========================================================================================
@@ -345,6 +345,7 @@ SubtractItemContainer::SubtractItemContainer(const SubtractItemContainer &src)
 }
 SubtractItemContainer	&SubtractItemContainer::operator=(const SubtractItemContainer &src)
 {
+	RemoveAll();
 	for(SubtractItem *s=src.GetFirst();s!=NULL;s=s->GetNext()){
 		SubtractItem	*d=new SubtractItem(*s);
 		AppendList(d);
@@ -1204,6 +1205,7 @@ bool    AlgorithmItemRoot::Load(QIODevice *f ,LayersBase *LBase)
 		for(int i=0;i<N;i++){
 			SubtractItem *a=new SubtractItem();
 			if(a->Load(f)==false){
+				delete	a;
 				return false;
 			}
 			SubBlock.AppendList(a);
@@ -1227,6 +1229,7 @@ bool    AlgorithmItemRoot::Load(QIODevice *f ,LayersBase *LBase)
 				if(EnabledThreshold==true){
 					AlgorithmThreshold	*Threshold=CreateThresholdInstance();
 					if(Threshold->Load(f)==false){
+						delete	Threshold;
 						return false;
 					}
 					Threshold->SetThresholdLevelID(LBase->GetThresholdLevelID());
@@ -1240,6 +1243,7 @@ bool    AlgorithmItemRoot::Load(QIODevice *f ,LayersBase *LBase)
 					ThresholdStocker.AppendList(Threshold);
 				}
 				if(Threshold->Load(f)==false){
+					delete	Threshold;
 					return false;
 				}
 				Threshold->SetThresholdLevelID(LBase->GetThresholdLevelID());
@@ -1359,6 +1363,7 @@ bool    AlgorithmItemRoot::Load(QIODevice *f ,LayersBase *LBase)
 		for(int i=0;i<ItemData11.CountOfSubBlock;i++){
 			SubtractItem *a=new SubtractItem();
 			if(a->Load(f)==false){
+				delete	a;
 				return false;
 			}
 			SubBlock.AppendList(a);
@@ -1366,6 +1371,7 @@ bool    AlgorithmItemRoot::Load(QIODevice *f ,LayersBase *LBase)
 		if(ItemData11.EnabledThreshold==true){
 			AlgorithmThreshold	*Threshold=GetThresholdBaseWritable();
 			if(Threshold->Load(f)==false){
+				delete	Threshold;
 				return false;
 			}
 			Threshold->SetThresholdLevelID(LBase->GetThresholdLevelID());
@@ -1461,6 +1467,7 @@ bool    AlgorithmItemRoot::Load(QIODevice *f ,LayersBase *LBase)
 		for(int i=0;i<ItemData14.CountOfSubBlock;i++){
 			SubtractItem *a=new SubtractItem();
 			if(a->Load(f)==false){
+				delete	a;
 				return false;
 			}
 			SubBlock.AppendList(a);
@@ -1494,7 +1501,7 @@ bool    AlgorithmItemRoot::Load(QIODevice *f ,LayersBase *LBase)
 			GetParentBase()->SetLoadedVersion(ItemData14.CreatedVer);
 		}
 	}
-	else if (LoadedVersion>=16) {
+	else if (LoadedVersion>=15) {
 		struct	AlgorithmItemRootStructVer15	ItemData15;
 		if(f->read((char *)&ItemData15,sizeof(ItemData15))!=sizeof(ItemData15))
 			return false;
@@ -1548,6 +1555,7 @@ bool    AlgorithmItemRoot::Load(QIODevice *f ,LayersBase *LBase)
 		for(int i=0;i<ItemData15.CountOfSubBlock;i++){
 			SubtractItem *a=new SubtractItem();
 			if(a->Load(f)==false){
+				delete	a;
 				return false;
 			}
 			SubBlock.AppendList(a);
@@ -2108,6 +2116,7 @@ ItemDataListWithID	*AlgorithmItemRoot::MakeItemForLearning(int AddedX,int AddedY
 	h->ItemID	=GetID();
 	h->ItemClassType=GetItemClassType();
 	if(::Save(&HBuff,h->ItemClassType)==false){
+		delete	h;
 		return NULL;
 	}
 	AlgorithmItemRoot *Dmy=Clone();
@@ -2895,6 +2904,7 @@ bool	AlgorithmItemRoot::ReloadFromLibrary(void)
 			delete	Lv;
 			return true;
 		}
+		delete	Lv;
 	}
 	return false;
 }
@@ -3414,8 +3424,6 @@ void	MakeLinkItemClosed(const AlgorithmItemPointerListContainer &Src ,const Algo
 			}
 		}
 	}
-	double	Cx;
-	double	Cy;
 
 	int	SDimCount=Src.GetCount();
 	AlgorithmItemPointerList **SDim=new AlgorithmItemPointerList *[SDimCount];
@@ -3458,6 +3466,8 @@ void	MakeLinkItemClosed(const AlgorithmItemPointerListContainer &Src ,const Algo
 			}
 			double	MinLen;
 			AlgorithmItemPointerList	*ClosedItem;
+			double	Cx;
+			double	Cy;
 			{
 				Cx=(X1+X2)/2;
 				Cy=(Y1+Y2)/2;
@@ -4342,8 +4352,10 @@ void	AlgorithmInPageRoot::MirrorItems(AlgorithmItemRoot::_MirrorMode MirrorMode,
 			AlgorithmItemRoot	*Item=CreateItem(ItemClassType);
 			if(Item==NULL)
 				break;
-			if(Item->Load(&Buff,GetLayersBase())==false)
+			if(Item->Load(&Buff,GetLayersBase())==false){
+				delete	Item;
 				break;
+			}
 			//Item->MoveTo(XY->x,XY->y);
 			int	x1,y1,x2,y2;
 			Item->GetXY(x1,y1,x2,y2);
@@ -5040,6 +5052,7 @@ bool	AlgorithmInPageInOnePhase::Reallocate(int newPageNumb ,int newLayerNumb)
 			PageData[i]->Set(this);
 			PageData[i]->Initial(this,ParentBase->GetLayersBase());
 		}
+		AllocatedPageNumb = newPageNumb;
 	}
 	else if(AllocatedPageNumb>newPageNumb){
 		for(int i=0;i<newPageNumb;i++){
@@ -5666,7 +5679,7 @@ bool	AlgorithmInPageInOnePhase::SaveCSVMasterReport(QStringListListCSV &CSVData)
 	for(int page=0;page<ParentBase->GetPageNumb();page++){
 		AlgorithmInPageRoot		*d=GetPageData(page);
 		QStringListListCSV CSVDataInPage;
-		if(d!=NULL && d->SaveCSVMasterReport(CSVDataInPage)==true){
+		if(d!=NULL && d->SaveCSVMasterReport(CSVDataInPage)==false){
 			return false;
 		}
 		if(CSVDataInPage.count()!=0){
@@ -6243,8 +6256,10 @@ AlgorithmLibraryLevelContainer	*AlgorithmBase::ReloadManagedCacheLib(int LibID)
 		AlgorithmLibraryLevelContainer	*Lib=ManagedCacheLib->FindLib(GetLibraryContainer()->GetLibType(), LibID);
 		if(Lib==NULL){
 			Lib=new AlgorithmLibraryLevelContainer(this);
-			if(GetLibraryContainer()->GetLibrary(LibID,*Lib)==false)
+			if(GetLibraryContainer()->GetLibrary(LibID,*Lib)==false){
+				delete	Lib;
 				return NULL;
+			}
 			AlgorithmLibraryStockerList	*p=new AlgorithmLibraryStockerList(Lib);
 			ManagedCacheLib->AppendList(p);
 			return Lib;
@@ -7282,6 +7297,7 @@ bool	AlgorithmBase::GetDrawResultDetail(AlgorithmItemRoot *Item ,ResultPosList *
 			RetList.Data.LibID	=Item->GetLibID();
 			Pos->GetPosInTarget(Item->GetCurrentResult(),RetList.Data.PosX,RetList.Data.PosY);
 		}
+		return Ret;
 	}
 	return false;
 }

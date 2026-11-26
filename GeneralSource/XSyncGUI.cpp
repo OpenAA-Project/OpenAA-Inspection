@@ -38,7 +38,17 @@ SyncGUIPipe::SyncGUIPipe(std::shared_ptr<SyncGUIPack> parent ,LayersBase *Base)
 
 	connect(this,SIGNAL(SignalReceive()),this,SLOT(SlotReceive()),Qt::QueuedConnection);
 }
-
+SyncGUIPipe::~SyncGUIPipe(void)
+{
+	if(Receiver!=NULL){
+		Receiver->deleteLater();
+		Receiver=NULL;
+	}
+	if(RxBuff!=NULL){
+		delete	[]RxBuff;
+		RxBuff=NULL;
+	}
+}
 bool	SyncGUIPipe::Save(QIODevice *f)
 {
 	if(::Save(f,IPAddress)==false){

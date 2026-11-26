@@ -811,6 +811,7 @@ bool	FilterInstanceContainer::Load(QIODevice *f)
 				continue;
 			}
 			if(a->Load(f)==false){
+				delete	a;
 				return false;
 			}
 			if(a->Initial(Str,ErrorCode)==true){
@@ -837,6 +838,7 @@ bool	FilterInstanceContainer::Load(QIODevice *f)
 			}
 			QByteArray	AData;
 			if(::Load(f,AData)==false){
+				delete	a;
 				return false;
 			}
 			QBuffer	Buff(&AData);
@@ -870,11 +872,13 @@ bool	FilterInstanceContainer::Load(QIODevice *f)
 			}
 			int32	V=0;
 			if(::Load(f,V)==false){
+				delete	a;
 				return false;
 			}
 			a->SetLoadedDLLVersion(V);
 			QByteArray	AData;
 			if(::Load(f,AData)==false){
+				delete	a;
 				return false;
 			}
 			QBuffer	Buff(&AData);

@@ -42,6 +42,7 @@ ResultStock::~ResultStock(void)
 void	ResultStock::Initial(LayersBase *Base)
 {
 	//ResultBaseDim.RemoveAll();
+	FlagMutex.lock();
 	AllocatedNumb=GetParamGlobal()->NGCacheNumb;
 	CurrentRPoint=0;
 	CurrentWPoint=0;
@@ -67,6 +68,7 @@ void	ResultStock::Initial(LayersBase *Base)
 	}
 
 	GetLayersBase()->InitialExecuter();
+	FlagMutex.unlock();
 }
 bool	ResultStock::Reallocate(int newPhaseNumb , int newPageNumb ,int newLayerNumb)
 {
@@ -121,27 +123,33 @@ bool	ResultStock::RemovePage(int IndexPage)
 }
 ResultInspection *ResultStock::NeedDeleteResultOnCurrent(void)
 {
+	FlagMutex.lock();
 	ResultInspectionForStock *r=ResultBaseDim.GetItem(CurrentWPoint);
 	bool	enabled,onWrite;
 	GetFlag(r,enabled,onWrite);
 	if(enabled==true || onWrite==true){
 		SetFlag(r ,false,false);
+		FlagMutex.unlock();
 		return r;
 	}
+	FlagMutex.unlock();
 	return NULL;
 }
 
 ResultInspection *ResultStock::NeedDeleteResult(void)
 {
+	FlagMutex.lock();
 	for(int i=0;i<AllocatedNumb;i++){
 		ResultInspectionForStock *r=ResultBaseDim.GetItem(i);
 		bool	enabled,onWrite;
 		GetFlag(r,enabled,onWrite);
 		if(enabled==true || onWrite==true){
 			SetFlag(r ,false,false);
+			FlagMutex.unlock();
 			return r;
 		}
 	}
+	FlagMutex.unlock();
 	return NULL;
 }
 void	ResultStock::ExecuteInitialAfterEdit	(int ExeID)
@@ -623,6 +631,7 @@ ResultInspection	*ResultStock::GetBufferedOlderResult(int64 inspectionID, int Ge
 }
 void	ResultStock::CastAll(void)
 {
+	FlagMutex.lock();
 	for(ResultInspectionForStock *e=ResultBaseDim.GetFirst();e!=NULL;e=e->GetNext()){
 		bool	enabled,onWrite;
 		GetFlag(e,enabled,onWrite);
@@ -630,6 +639,7 @@ void	ResultStock::CastAll(void)
 			SetFlag(e ,false,false);
 		}
 	}
+	FlagMutex.unlock();
 }
 int64	ResultStock::GetUnsavedMinimumID(void)
 {
@@ -653,6 +663,7 @@ int64	ResultStock::GetUnsavedMinimumID(void)
 
 ResultInspectionForStock	*ResultStock::Ineffective(int CountFromOlder)
 {
+	FlagMutex.lock();
 	ResultInspectionForStock	*r=GetOldest();
 	if(r!=NULL){
 		int	FirstID=r->GetID();
@@ -671,15 +682,18 @@ ResultInspectionForStock	*ResultStock::Ineffective(int CountFromOlder)
 					}
 				}
 				if(r->GetID()==FirstID){
+					FlagMutex.unlock();
 					return NULL;
 				}
 			}
 			if(r->GetEnabled()==false){
+				FlagMutex.unlock();
 				return NULL;
 			}
 			r->SetEnabled(false);
 		}
 	}
+	FlagMutex.unlock();
 	return r;
 }
 void	ResultStock::ClearAllErrorGroup(void)
@@ -803,18 +817,17 @@ WriteResultThread::WriteResultThread(LayersBase *base ,bool StartThreadWriteMode
 }
 WriteResultThread::~WriteResultThread(void)
 {
+	if(SlaveWriteThreadInst!=NULL){
+		SlaveWriteThreadInst->CmdFinish=true;
+		SlaveWriteThreadInst->wait(2000);
+		SlaveWriteThreadInst->terminate();
+		SlaveWriteThreadInst->deleteLater();
+		SlaveWriteThreadInst=NULL;
+	}
 	if(ResultCache!=NULL){
 		delete	ResultCache;
 		ResultCache=NULL;
 	}
-	if(SlaveWriteThreadInst!=NULL){
-		SlaveWriteThreadInst->CmdFinish=true;
-		SlaveWriteThreadInst->wait(500);
-		SlaveWriteThreadInst->terminate();
-		delete	SlaveWriteThreadInst;
-		SlaveWriteThreadInst=NULL;
-	}
-
 }
 void	WriteResultThread::Initial(LayersBase *Base)
 {
@@ -1036,6 +1049,7 @@ void WriteResultThread::run()
 																	  ,b->LotName
 																	  ,b->Remark);
 						emit	SignalChangeLotInfo(b->DeliveryNo);
+						delete	b;
 					}
 					else{
 						FifoWriteOldest	*a=dynamic_cast<FifoWriteOldest *>(abase);

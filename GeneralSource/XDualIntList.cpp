@@ -186,6 +186,7 @@ bool    DualIntList::Load(QIODevice *file)
 	for(int i=0;i<N;i++){
 		DualIntClass	*d=new DualIntClass();
 		if(d->Load(file)==false){
+			delete	d;
 			return false;
 		}
 		AppendList(d);

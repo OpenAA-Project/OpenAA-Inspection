@@ -104,6 +104,20 @@ ImageBuffer::ImageBuffer(BYTE **data,int idcode ,int xlen ,int ylen ,bool noRele
 ImageBuffer::ImageBuffer(const ImageBuffer &src)
 {
 	Set(src.Page,src.MemoryType,src.AllocX,src.AllocY);
+
+	Page		=src.Page;
+	MemoryType	=src.MemoryType;
+	NoRelease	=false;
+	Original	=true;
+	Indexed		=false;
+	Depended	=NULL;
+	MaxX=AllocX=src.AllocX;
+	MaxY=AllocY=src.AllocY;
+	if(YBuff==NULL){
+		YBuff		=MakeMatrixBuff(AllocX,AllocY);
+	}
+	MatrixBuffClear(YBuff,0,AllocX,AllocY);
+
 	operator=(src);
 }
 
@@ -375,12 +389,7 @@ void    ImageBuffer::TopsideBottom(int Shift)
 			for(int y=0;y<MaxY2;y++){
 			    BYTE    *s1=GetY(y+Shift);
 			    BYTE    *s2=GetY(GetHeight()-y-1);
-				/*
-				BYTE	TmpBuff[20000];
-				memcpy(TmpBuff,s1,MaxX);
-				memcpy(s1,s2,MaxX);
-				memcpy(s2,TmpBuff,MaxX);
-				*/
+
 				for(int x=0;x<XLen;x++){
 					BYTE	tmp=*(s1+x);
 					*(s1+x)=*(s2+x);
@@ -841,18 +850,20 @@ void	ImageBuffer::PartialCopy(ImageBuffer &Src ,int SrcLeft ,int SrcTop)
 	int	LenD=dx2-dx1;
 	int	Len=min(LenS,LenD);
 
-	int	YLen=GetHeight();
-	if(IsNull()==false && Src.IsNull()==false){
-		#pragma omp parallel                             
-		{                                                
-			#pragma omp for
-			for(int y=0;y<YLen;y++){
-				int	sy=y+SrcTop;
-				if(sy<0){
-					continue;
-				}
-				if(sy<Src.GetHeight()){
-					memcpy(GetY(y)+dx1 ,Src.GetY(sy)+sx1,Len);
+	if(Len>0){
+		int	YLen=GetHeight();
+		if(IsNull()==false && Src.IsNull()==false){
+			#pragma omp parallel                             
+			{                                                
+				#pragma omp for
+				for(int y=0;y<YLen;y++){
+					int	sy=y+SrcTop;
+					if(sy<0){
+						continue;
+					}
+					if(sy<Src.GetHeight()){
+						memcpy(GetY(y)+dx1 ,Src.GetY(sy)+sx1,Len);
+					}
 				}
 			}
 		}
@@ -2996,7 +3007,7 @@ void	ImageBuffer::RotateMirrorImage(ImageBuffer &Src ,int Degree ,bool MirrorX ,
 				BYTE	*s=Src.GetY(y);
 				int	X=DstXLen-y-1;
 				for(int x=0;x<SrcXLen;x++){
-					int	Y=SrcYLen-x-1;
+					int	Y=DstYLen-x-1;
 					BYTE	*d=GetY(Y);
 					d[X]=s[x];
 				}
@@ -3008,7 +3019,7 @@ void	ImageBuffer::RotateMirrorImage(ImageBuffer &Src ,int Degree ,bool MirrorX ,
 				BYTE	*s=Src.GetY(y);
 				int	X=y;
 				for(int x=0;x<SrcXLen;x++){
-					int	Y=SrcYLen-x-1;
+					int	Y=DstYLen-x-1;
 					BYTE	*d=GetY(Y);
 					d[X]=s[x];
 				}

@@ -78,6 +78,11 @@ PipeShadowTree::PipeShadowTree(ShadowTree *own)
 {
 	TransformData=new TransformAffin;
 }
+PipeShadowTree::PipeShadowTree(const PipeShadowTree &src)
+{
+	TransformData=new TransformAffin;
+	*TransformData=*src.TransformData;
+}
 PipeShadowTree::~PipeShadowTree()
 {
 	delete	TransformData;

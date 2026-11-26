@@ -50,7 +50,6 @@ public:
 
 	int				GetCountAllMasterBuff(void)		const;
 	int				GetCountOnlyMasterBuff(void)	const;
-	int				GetCountDispatchMasterBuff(void)const;
 
 	ParamGlobal		*GetParamGlobal(void)		const;
 	ParamComm		*GetParamComm(void)			const;

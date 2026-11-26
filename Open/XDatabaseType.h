@@ -27,6 +27,7 @@ enum	FieldType{
 	,ftFixedChar
 	,ftDateTime
 	,ftFloat
+	,ftDouble
 	,ftVarBytes
 	,ftString
 	,ftBlob

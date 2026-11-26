@@ -31,7 +31,7 @@ class	VectorItemBase : public NPList<VectorItemBase>
 {
 public:
 	VectorItemBase(void){}
-	~VectorItemBase(void){}
+	virtual	~VectorItemBase(void){}
 
 	virtual	VectorItemBase	*Clone(void)	=0;
 	virtual VectorItemBase	*CreateItem(void)	=0;
@@ -176,7 +176,7 @@ public:
 
 	virtual	VectorLineBase	*Clone(void)	override;
 	VectorLineDouble	&operator=(const VectorLineDouble &src);
-	virtual	int	GetID(void)		const	override		{	return 1;	}
+	virtual	int	GetID(void)		const	override		{	return 11;	}
 	virtual	VectorItemBase	*CreateItem(void)	override{	return new VectorItemDouble();	}
 	virtual	VectorLineBase	*CreateEmpty(void)	override{	return new VectorLineDouble();	}
 	virtual	bool	CheckOverlapRectangle(double x1 ,double y1 ,double x2 ,double y2)	const	override;
@@ -204,7 +204,7 @@ public:
 	virtual	int		GetXInt(void)	const	override{	return X;	}
 	virtual	int		GetYInt(void)	const	override{	return Y;	}
 
-	virtual	void	MoveTo(double dx ,double dy)	override	{	X+=dx;	Y=dy;	}
+	virtual	void	MoveTo(double dx ,double dy)	override	{	X+=dx;	Y+=dy;	}
 	virtual	void	Copy(VectorItemBase *src)		override;
 	VectorItemVDouble	&operator=(const VectorItemVDouble &src);
 	virtual	void	Transform(TransformBase &Param)	override;

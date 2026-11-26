@@ -921,7 +921,7 @@ bool	FuncCall	RemoveAllInFolder(const QString& folder, bool DeleteSubFolder)
 	return Ret;
 }
 
-char *ItoA(int value,char *str,int radix)
+void	ItoA(int value,char *str,int radix)
 {
 	if(value<0){
 		value=-value;
@@ -944,5 +944,5 @@ char *ItoA(int value,char *str,int radix)
 		str++;
 		Comp/=radix;
 	}
-	return str;
+	*str=0;
 }

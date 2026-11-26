@@ -398,7 +398,7 @@ bool	LayersBase::SQLUpdateMasterDataHeader(QBuffer &GeneralBuff ,QBuffer	&Settin
 		int	Dx1	=P->GetOutlineOffset()->x;
 		int	Dy1	=P->GetOutlineOffset()->y;
 		int	Dx2	=P->GetOutlineOffset()->x+P->GetDotPerLine();
-		int	Dy2	=P->GetOutlineOffset()->x+P->GetMaxLines();
+		int	Dy2	=P->GetOutlineOffset()->y+P->GetMaxLines();
 		int	Gx1=Dx1*ZoomRate;
 		int	Gy1=Dy1*ZoomRate;
 		int	Gx2=Dx2*ZoomRate;
@@ -1455,7 +1455,7 @@ QString	DataInPage::GetLogicFileName(int masterCode ,LogicDLL *p ,int machineID 
 	int	ShadowNumber=LBase->GetShadowNumber();
 	LogicFileName=CreateLogicFileName(masterCode,p,machineID,ImagePath
 										,ShadowLevel,ShadowNumber);
-	if(QFile::exists(LogicFileName)==true){
+	if(QFile::exists(LogicFileName)==false){
 		LogicFileName=CreateLogicFileName(masterCode,p,Parent->GetMachineID(),ImagePath
 											,ShadowLevel,ShadowNumber);
 		if(QFile::exists(LogicFileName)==false){

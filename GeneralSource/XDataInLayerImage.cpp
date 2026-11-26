@@ -199,7 +199,7 @@ void	DataInPage::DrawImage(QImage &Img, int movx ,int movy ,double ZoomRate
 	double	IZoomRate=1.0/ZoomRate;
 	int64	AddX=(int64)(0x100000000*IZoomRate);
 	ImageBuffer	*SBuff[3];
-	for(int Layer=0;Layer<GetLayerNumb();Layer++){
+	for(int Layer=0;Layer<GetLayerNumb() && Layer<3;Layer++){
 		if(Mastered==true){
 			SBuff[Layer]=&GetLayerData(Layer)->GetMasterBuff();
 		}
@@ -379,6 +379,7 @@ bool    LayersBase::SaveMasterImage(const QString &filename)
                 }
             }
         }
+		return(true);
 	}
     return(false);
 }
@@ -739,7 +740,7 @@ bool    LayersBase::SaveBitmapFromMaster(int page ,QIODevice *f)
 	if(GetLayerNumb(page)>=3){
 		DataInLayer *L1=P->GetLayerData(0);
 		DataInLayer *L2=P->GetLayerData(1);
-		DataInLayer *L3=P->GetLayerData(1);
+		DataInLayer *L3=P->GetLayerData(2);
 		for(int y=0;y<P->GetMaxLines();y++){
 			BYTE    *p1=L1->GetMasterBuff().GetY(y);
 			BYTE    *p2=L2->GetMasterBuff().GetY(y);
@@ -811,7 +812,7 @@ bool    LayersBase::SaveBitmapFromTarget(int page ,QIODevice *f)
 	if(GetLayerNumb(page)>=3){
 		DataInLayer *L1=P->GetLayerData(0);
 		DataInLayer *L2=P->GetLayerData(1);
-		DataInLayer *L3=P->GetLayerData(1);
+		DataInLayer *L3=P->GetLayerData(2);
 		for(int y=0;y<P->GetMaxLines();y++){
 			BYTE    *p1=L1->GetTargetBuff().GetY(y);
 			BYTE    *p2=L2->GetTargetBuff().GetY(y);
@@ -826,7 +827,7 @@ bool    LayersBase::SaveBitmapFromTarget(int page ,QIODevice *f)
 }
 
 bool	LayersBase::LoadPIX(QIODevice &RFile ,ImageBuffer ***Buff,int PageCount ,int LayerCount)
-//	*Buff[Layer][Page]
+//	*Buff[Page][Layer]
 {
 	if(RFile.isOpen()==false){
 		if(RFile.open(QIODevice::ReadOnly)==false){

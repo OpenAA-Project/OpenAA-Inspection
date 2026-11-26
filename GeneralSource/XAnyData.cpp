@@ -532,7 +532,7 @@ bool	AnyDataContainer::Save(QIODevice *f)
 		if(::Save(f,a->GetKeyword())==false){
 			return false;
 		}
-		const	char	*CName=typeid(a).name();
+		const	char	*CName=typeid(*a).name();
 		int32	Len=strlen(CName)+1;
 		if(::Save(f,Len)==false){
 			return false;

@@ -44,7 +44,7 @@ UFloatShort	&UFloatShort::operator+=(const UFloatShort &src)
 		Integer+=src.Integer+1;
 	}
 	else{
-		Integer+=src.Integer+1;
+		Integer+=src.Integer;
 	}
 	Decimal+=src.Decimal;
 	return *this;

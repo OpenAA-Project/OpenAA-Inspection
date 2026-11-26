@@ -178,6 +178,7 @@ bool	LevelFolderContainer::BuildFromDB(int ParentID)
 				f->ParentID		=LocalParentID	;
 				f->Remark		=Remark		;
 				if(f->Children.BuildFromDB(f->LevelID)==false){
+					delete	f;
 					return false;
 				}
 				AppendList(f);

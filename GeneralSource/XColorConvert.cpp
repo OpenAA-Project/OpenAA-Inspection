@@ -363,7 +363,7 @@ ColorProfileContainerWithTable::ColorProfileContainerWithTable(const ColorProfil
 	:ColorProfileContainer(src)
 {
 	ColTable=new QRgb[256*256*256];
-	memcpy(ColTable,src.ColTable,256*256*256);
+	memcpy(ColTable,src.ColTable,256*256*256*sizeof(QRgb));
 }
 ColorProfileContainerWithTable::~ColorProfileContainerWithTable(void)
 {
@@ -376,7 +376,7 @@ ColorProfileContainerWithTable::~ColorProfileContainerWithTable(void)
 ColorProfileContainerWithTable	&ColorProfileContainerWithTable::operator=(const ColorProfileContainerWithTable &src)
 {
 	ColorProfileContainer::operator=(src);
-	memcpy(ColTable,src.ColTable,256*256*256);
+	memcpy(ColTable,src.ColTable,256*256*256*sizeof(QRgb));
 	return *this;
 }
 
@@ -861,6 +861,7 @@ void	ColorCountListContainer::Append(ColorCountList *s)
 }
 ColorCountListContainer	&ColorCountListContainer::operator=(const ColorCountListContainer &src)
 {
+	RemoveAll();
 	for(ColorCountList *s=src.GetFirst();s!=NULL;s=s->GetNext()){
 		ColorCountList *d=new ColorCountList(*s);
 		Append(d);

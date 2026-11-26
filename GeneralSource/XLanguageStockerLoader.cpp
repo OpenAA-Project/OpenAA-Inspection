@@ -85,9 +85,14 @@ bool	LanguagePackage::LanguageComponent::CompString::Save(QIODevice *f)
 	if(::Save(f,AllocStrCount)==false){
 		return false;
 	}
-	for(int i=0;i<AllocStrCount;i++){
-		if(::Save(f,Str[i],strlen(Str[i])+1)==false){
-			return false;
+	if(Str!=NULL){
+		for(int i=0;i<AllocStrCount;i++){
+			if(Str[i]==NULL){
+				return false;
+			}
+			if(::Save(f,Str[i],strlen(Str[i])+1)==false){
+				return false;
+			}
 		}
 	}
 	return true;
@@ -111,6 +116,7 @@ bool	LanguagePackage::LanguageComponent::CompString::Load(QIODevice *f)
 			delete	[]Str[i];
 		}
 		delete	[]Str;
+		Str=NULL;
 	}
 	if(::Load(f,AllocStrCount)==false){
 		return false;
@@ -283,9 +289,14 @@ bool	LanguagePackage::LanguageComponent::UIString::Save(QIODevice *f)
 	if(::Save(f,AllocStrCount)==false){
 		return false;
 	}
-	for(int i=0;i<AllocStrCount;i++){
-		if(::Save(f,Str[i],strlen(Str[i])+1)==false){
-			return false;
+	if(Str!=NULL){
+		for(int i=0;i<AllocStrCount;i++){
+			if(Str[i]==NULL){
+				return false;
+			}
+			if(::Save(f,Str[i],strlen(Str[i])+1)==false){
+				return false;
+			}
 		}
 	}
 	return true;
@@ -347,13 +358,14 @@ bool	LanguagePackage::LanguageComponent::UIString::Load(QIODevice *f)
 			delete	[]Str[i];
 		}
 		delete	[]Str;
+		Str=NULL;
 	}
 	if(::Load(f,AllocStrCount)==false){
 		return false;
 	}
 	Str=new char *[AllocStrCount];
 	for(int i=0;i<AllocStrCount;i++){
-		if(::Load(f,Buff,Len,sizeof(Buff))==false){
+		if(::Load(f,Buff,Len,sizeof(Buff)-1)==false){
 			return false;
 		}
 		Str[i]=new char[strlen(Buff)+2];
@@ -396,6 +408,9 @@ void	LanguagePackage::LanguageComponent::SetUIInner(QWidget *W ,const QString &U
 				else{
 					continue;
 				}
+			}
+			if(Str==NULL){
+				continue;
 			}
 			if(strlen(Str)==0){
 				if(a->Str!=NULL){
@@ -554,8 +569,10 @@ LanguagePackage::CodecList::~CodecList(void)
 }
 bool	LanguagePackage::CodecList::Save(QIODevice *f)
 {
-	if(::Save(f,CodecStr,strlen(CodecStr)+1)==false){
-		return false;
+	if(CodecStr!=NULL){
+		if(::Save(f,CodecStr,strlen(CodecStr)+1)==false){
+			return false;
+		}
 	}
 	return true;
 }
@@ -709,7 +726,9 @@ bool	LanguagePackage::InitialCodec(void)
 			return false;
 		}
 		CodecList	*CurrentC	=CodecStocker[LanguageCode];
-			
+		if(FirstC==NULL || CurrentC==NULL){
+			return false;
+		}
 		FirstCodec	= FirstC	->CurrentCodec;
 		CurrentCodec= CurrentC	->CurrentCodec;
 		QTextCodec* C = NULL;

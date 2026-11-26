@@ -35,6 +35,7 @@ public:
 	ManualExecuterItem(void)	{	Command=0;	LibID=-1;	}
 	explicit	ManualExecuterItem(int cmd)					{	Command=cmd;	}
 	ManualExecuterItem(const ManualExecuterItem &src)	{	Command=src.Command;	LibID=src.LibID;	}
+	virtual	~ManualExecuterItem(void){}
 
 	bool	SaveData(QIODevice *f);
 	bool	LoadData(QIODevice *f);

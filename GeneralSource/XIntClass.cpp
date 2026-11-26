@@ -1196,7 +1196,7 @@ void	ListPageLayerIDPack::MakeLinearDim(void)
 
 	for(ListPageLayerID *a=GetFirst();a!=NULL;a=a->GetNext()){
 		int	Index=(a->Page-MinPage)*(MaxLayer-MinLayer+1)*(MaxID-MinLayer+1)
-				+ (a->Layer-MinLayer)*(MaxID-MinLayer+1)
+				+ (a->Layer-MinLayer)*(MaxID-MinID+1)
 				+ (a->ID-MinID);
 		Table[Index]=true;
 	}
@@ -1210,7 +1210,7 @@ bool	ListPageLayerIDPack::IsIncludeByLinear(int Page, int Layer ,int ID)
 		return false;
 
 	int	Index=(Page-MinPage)*(MaxLayer-MinLayer+1)*(MaxID-MinLayer+1)
-			+ (Layer-MinLayer)*(MaxID-MinLayer+1)
+			+ (Layer-MinLayer)*(MaxID-MinID+1)
 			+ (ID-MinID);
 	return Table[Index];
 }
@@ -1753,13 +1753,15 @@ IntListFast	&IntListFast::operator=(const IntListFast &src)
 IntListFast	&IntListFast::operator+=(const IntListFast &src)
 {
 	IntList::operator+=(*((IntList *)&src));
-	if(AllocatedByte<src.AllocatedByte){
+
+	int	oldAllocatedByte=AllocatedByte;
+	AllocatedByte+=src.AllocatedByte;
+	if(Dim!=NULL){
 		delete	[]Dim;
-		AllocatedByte=src.AllocatedByte;
-		Dim=new BYTE[AllocatedByte];
 	}
-	memcpy(Dim,src.Dim,src.AllocatedByte);
-	memset(&Dim[src.AllocatedByte],0,AllocatedByte-src.AllocatedByte);
+	Dim=new BYTE[AllocatedByte];
+	
+	memcpy(&Dim[oldAllocatedByte],src.Dim,src.AllocatedByte);
 	return *this;
 }
 bool	IntListFast::operator==(IntListFast &src) const

@@ -58,7 +58,7 @@ ShadowControlInterface::ShadowControlInterface(const ShadowControlInterface &src
 
 	if(src.Inst!=NULL){
 		int32	ErrorCode;
-		LoadDLL(LibraryFileName,ErrorCode);
+		LoadDLL(src.LibraryFileName,ErrorCode);
 
 		Initial(src.Inst->GetShadowNumber(),src.Inst->GetParentLayersBase()
 											,src.Inst->GetShadowGlobalFileName()
@@ -71,9 +71,17 @@ ShadowControlInterface::~ShadowControlInterface(void)
 		return;
 	ReEntrantDLL=true;
 
-	if(Inst!=NULL){
-		delete	Inst;
-		Inst=NULL;
+	if(DLL_Close!=NULL){
+		if(DLL_Close(Inst)==true){
+			Inst=NULL;
+			DLL_Close=NULL;
+		}
+		else{
+			if(Inst!=NULL){
+				delete	Inst;
+				Inst=NULL;
+			}
+		}
 	}
 	if(DllLib.isLoaded()==true){
 		DllLib.unload();	//Error occurs in final DLL unload
@@ -84,7 +92,7 @@ ShadowControlInterface	&ShadowControlInterface::operator=(const ShadowControlInt
 {
 	if(src.Inst!=NULL){
 		int32	ErrorCode;
-		LoadDLL(LibraryFileName,ErrorCode);
+		LoadDLL(src.LibraryFileName,ErrorCode);
 
 		Initial(src.Inst->GetShadowNumber(),src.Inst->GetParentLayersBase()
 											,src.Inst->GetShadowGlobalFileName()
@@ -296,10 +304,14 @@ bool	ShadowControlInterfaceContainer::InitialDLL(void)
 										,s->ShadowGlobalFileName
 										,s->ShadowGUIFileName);
 			if(t!=NULL){
+				c->SetLanguageCode(GetLayersBase()->GetLanguageCode());
 				t->SetShadowDLLFileName(s->ShadowControlDLLFileName);
 				t->SetInterface(c);
 				t->SetParam	(*s);
 				AppendList(c);
+			}
+			else{
+				delete	t;
 			}
 		}
 		else{
@@ -319,7 +331,12 @@ bool	ShadowControlInterfaceContainer::InitialDLL(void)
 }
 bool	ShadowControlInterfaceContainer::SaveShadowParam(QIODevice *f)
 {
-	int32	N=GetCount();
+	int32	N=0;
+	for(ShadowControlInterface *c=GetFirst();c!=NULL;c=c->GetNext()){
+		if(c->GetInstance()!=NULL){
+			N++;
+		}
+	}
 	if(::Save(f,N)==false){
 		return false;
 	}

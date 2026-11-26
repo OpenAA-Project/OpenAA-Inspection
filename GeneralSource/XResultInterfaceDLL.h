@@ -51,7 +51,7 @@ protected:
 	const	char	*(*DLL_GetParamName)(void);
 
 	ResultDLLBaseRoot *(*DLL_Initial)(LayersBase *Base);
-	void			(*DLL_Release)(ResultDLLBaseRoot *Handle);
+	bool			(*DLL_Release)(ResultDLLBaseRoot *Handle);
 
 	bool			(*DLL_OutputResultCommon)(ResultDLLBaseRoot	*handle
 												,ResultInspection *RBase 
@@ -127,7 +127,7 @@ public:
 
 	void		Prepare(void);
 
-	int64	OutputResultCommon(ResultInspection *RBase 
+	bool	OutputResultCommon(ResultInspection *RBase 
 								,ResultInspectionForStockPointerContainer	&ShadowResStocks
 								,EntryPointBase &entryPoint);
 	bool	OutputResultSlave (ResultInspectionForStockPointerContainer &ShadowResStocks

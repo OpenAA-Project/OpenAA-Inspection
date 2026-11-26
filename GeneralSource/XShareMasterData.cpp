@@ -161,6 +161,7 @@ bool	ShareMasterContainer::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		ShareMasterDestination	*d=new ShareMasterDestination(GetLayersBase());
 		if(d->Load(f)==false){
+			delete	d;
 			return false;
 		}
 		AppendList(d);

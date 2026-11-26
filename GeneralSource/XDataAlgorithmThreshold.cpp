@@ -354,6 +354,7 @@ bool	ThresholdMemberModifierContainer::Load(QIODevice *f)
 			return false;		
 		ThresholdMemberModifierBase	*w=Create(ClassID);
 		if(w->Load(f)==false){
+			delete	w;
 			return false;
 		}
 		for(ThresholdMemberModifierBase *p=GetFirst();p!=NULL;p=p->GetNext()){
@@ -1113,6 +1114,7 @@ bool	AlgorithmThresholdContainer::Load(QIODevice *f)
 	for(int i=0;i<n;i++){
 		AlgorithmThreshold *a=Parent->CreateThresholdInstance();
 		if(a->Load(f)==false){
+			delete	a;
 			return false;
 		}
 		AppendList(a);

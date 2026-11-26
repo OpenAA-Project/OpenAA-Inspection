@@ -97,8 +97,10 @@ bool	ResultDetailStocker::Load(QIODevice *f)
 	RemoveAll();
 	for(int i=0;i<N;i++){
 		ResultDetailItem	*item=new ResultDetailItem(this);
-		if(item->Load(f)==false)
+		if(item->Load(f)==false){
+			delete	item;
 			return false;
+		}
 		AppendList(item);
 	}
 	DataVersion=ResultDetailVersion;
@@ -122,9 +124,10 @@ void	ResultDetailStocker::EnumAlgorithm	(QStringList &AlgorithmNames)
 	for(ResultDetailItem *item=GetFirst();item!=NULL;item=item->GetNext()){
 		bool	Found=false;
 		for(int i=0;i<AlgorithmNames.count();i++){
-			if(AlgorithmNames[i]==item->GetAlgorithmName())
+			if(AlgorithmNames[i]==item->GetAlgorithmName()){
 				Found=true;
 				break;
+			}
 		}
 		if(Found==false){
 			AlgorithmNames.append(item->GetAlgorithmName());

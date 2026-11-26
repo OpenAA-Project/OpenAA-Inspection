@@ -41,7 +41,7 @@ StrategicListContainer	&StrategicListContainer::operator=(const StrategicListCon
 		for(;s!=NULL && d!=NULL;s=s->GetNext(),d=d->GetNext()){
 			*d=*s;
 		}
-		for(;d!=NULL;d=d->GetNext()){
+		for(;s!=NULL;s=s->GetNext()){
 			StrategicList	*b=new StrategicList();
 			*b=*s;
 			AppendList(b);
@@ -188,17 +188,27 @@ ShadowParameter	*ShadowParameterContainer::Create(void)
 bool	ShadowParameterContainer::operator==(const ShadowParameterContainer &src)	const
 {
 	for(ShadowParameter *d=GetFirst();d!=NULL;d=d->GetNext()){
+		bool	Match=false;
 		for(ShadowParameter *s=src.GetFirst();s!=NULL;s=s->GetNext()){
-			if(*d!=*s){
-				return false;
+			if(*d==*s){
+				Match=true;
+				break;
 			}
+		}
+		if(Match==false){
+			return false;
 		}
 	}
 	for(ShadowParameter *s=src.GetFirst();s!=NULL;s=s->GetNext()){
+		bool	Match=false;
 		for(ShadowParameter *d=GetFirst();d!=NULL;d=d->GetNext()){
-			if(*d!=*s){
-				return false;
+			if(*d==*s){
+				Match=true;
+				break;
 			}
+		}
+		if(Match==false){
+			return false;
 		}
 	}
 	return true;
@@ -899,96 +909,108 @@ int32	ParamGlobal::GetStrategyCode(int page ,int layer)
 {	
 	if(StrategyDim!=NULL){
 		int	n=page*LayerNumb+layer;
-		if(n<StrategyDimAllocNumb){
+		if(0<=n && n<StrategyDimAllocNumb){
 			return(StrategyDim[n]);
 		}
 		ReallocStrategy();
-		return(StrategyDim[n]);
+		if(0<=n && n<StrategyDimAllocNumb){
+			return(StrategyDim[n]);
+		}
 	}
 	return(0);
 }
 void	ParamGlobal::SetStrategyCode(int page ,int layer ,int strategycode)
 {
+	int	n=page*LayerNumb+layer;
 	if(StrategyDim!=NULL){
-		int	n=page*LayerNumb+layer;
-		if(n<StrategyDimAllocNumb){
+		if(0<=n && n<StrategyDimAllocNumb){
 			StrategyDim[n]=strategycode;
 		}
 		else{
 			ReallocStrategy();
-			StrategyDim[n]=strategycode;
+			if(0<=n && n<StrategyDimAllocNumb){
+				StrategyDim[n]=strategycode;
+			}
 		}
 	}
 	else{
 		ReallocStrategy();
-		int	n=page*LayerNumb+layer;
-		StrategyDim[n]=strategycode;
+		if(0<=n && n<StrategyDimAllocNumb){
+			StrategyDim[n]=strategycode;
+		}
 	}
 }
-
 int32	ParamGlobal::GetCalcStrategyCode(int page ,int layer)
 {	
 	if(CalcStrategyDim!=NULL){
 		int	n=page*LayerNumb+layer;
-		if(n<CalcStrategyDimAllocNumb){
+		if(0<=n && n<CalcStrategyDimAllocNumb){
 			return(CalcStrategyDim[n]);
 		}
 		ReallocStrategy();
-		return(CalcStrategyDim[n]);
+		if(0<=n && n<CalcStrategyDimAllocNumb){
+			return(CalcStrategyDim[n]);
+		}
 	}
 	return(0);
 }
 void	ParamGlobal::SetCalcStrategyCode(int page ,int layer ,int strategycode)
 {
+	int	n=page*LayerNumb+layer;
 	if(CalcStrategyDim!=NULL){
-		int	n=page*LayerNumb+layer;
-		if(n<CalcStrategyDimAllocNumb){
+		if(0<=n && n<CalcStrategyDimAllocNumb){
 			CalcStrategyDim[n]=strategycode;
 		}
 		else{
 			ReallocStrategy();
-			CalcStrategyDim[n]=strategycode;
+			if(0<=n && n<CalcStrategyDimAllocNumb){
+				CalcStrategyDim[n]=strategycode;
+			}
 		}
 	}
 	else{
 		ReallocStrategy();
-		int	n=page*LayerNumb+layer;
-		CalcStrategyDim[n]=strategycode;
+		if(0<=n && n<CalcStrategyDimAllocNumb){
+			CalcStrategyDim[n]=strategycode;
+		}
 	}
 }
-
 void	ParamGlobal::ReallocStrategy(void)
 {
+	int	n=PageNumb*LayerNumb;
+	if(n<=0){
+		return;
+	}
 	if(StrategyDim!=NULL){
-		int	n=PageNumb*LayerNumb;
 		if(StrategyDimAllocNumb!=n){
 			int32	*D=new int32[n];
 			memset(D,0,sizeof(int32)*n);
-			memcpy(D,StrategyDim,sizeof(int32)*min(n,StrategyDimAllocNumb));
+			if(StrategyDimAllocNumb>0){
+				memcpy(D,StrategyDim,sizeof(int32)*min(n,StrategyDimAllocNumb));
+			}
 			delete	[]StrategyDim;
 			StrategyDim=D;
 			StrategyDimAllocNumb=n;
 		}
 	}
 	else{
-		int	n=PageNumb*LayerNumb;
 		StrategyDim=new int32[n];
 		StrategyDimAllocNumb=n;
 		memset(StrategyDim,0,sizeof(int32)*n);
 	}
 	if(CalcStrategyDim!=NULL){
-		int	n=PageNumb*LayerNumb;
 		if(CalcStrategyDimAllocNumb!=n){
 			int32	*D=new int32[n];
 			memset(D,0,sizeof(int32)*n);
-			memcpy(D,CalcStrategyDim,sizeof(int32)*min(n,CalcStrategyDimAllocNumb));
+			if(CalcStrategyDimAllocNumb>0){
+				memcpy(D,CalcStrategyDim,sizeof(int32)*min(n,CalcStrategyDimAllocNumb));
+			}
 			delete	[]CalcStrategyDim;
 			CalcStrategyDim=D;
 			CalcStrategyDimAllocNumb=n;
 		}
 	}
 	else{
-		int	n=PageNumb*LayerNumb;
 		CalcStrategyDim=new int32[n];
 		CalcStrategyDimAllocNumb=n;
 		memset(CalcStrategyDim,0,sizeof(int32)*n);
@@ -1396,19 +1418,30 @@ bool	ParamGlobal::LoadCameraAlloc(QIODevice *f ,int EnableCondition)
 			if(f->read((char *)&iCamAllocInPagesDimNumb,sizeof(iCamAllocInPagesDimNumb))!=sizeof(iCamAllocInPagesDimNumb)){
 				return(false);
 			}
-			if(iCamAllocInPagesDimNumb<PageNumb){
-				iCamAllocInPagesDimNumb=PageNumb;
+			if(iCamAllocInPagesDimNumb<=CamAllocInPagesDimNumb){
+				memset(CamAllocInPagesDim,0,sizeof(int32)*CamAllocInPagesDimNumb);
+				if(f->read((char *)CamAllocInPagesDim,sizeof(int32)*iCamAllocInPagesDimNumb)!=sizeof(int32)*iCamAllocInPagesDimNumb){
+					return(false);
+				}
 			}
-			if(CamAllocInPagesDimNumb!=iCamAllocInPagesDimNumb){
+			else{
 				CamAllocInPagesDimNumb=iCamAllocInPagesDimNumb;
 				if(CamAllocInPagesDim!=NULL){
 					delete	[]CamAllocInPagesDim;
 				}
 				CamAllocInPagesDim=new int32[CamAllocInPagesDimNumb];
 				memset(CamAllocInPagesDim,0,sizeof(int32)*CamAllocInPagesDimNumb);
+				if(f->read((char *)CamAllocInPagesDim,sizeof(int32)*iCamAllocInPagesDimNumb)!=sizeof(int32)*CamAllocInPagesDimNumb){
+					return(false);
+				}
 			}
-			if(f->read((char *)CamAllocInPagesDim,sizeof(int32)*CamAllocInPagesDimNumb)!=sizeof(int32)*CamAllocInPagesDimNumb){
-				return(false);
+			if(CamAllocInPagesDimNumb!=PageNumb){
+				int32	*tCamAllocInPagesDim=new int32[PageNumb];
+				memset(tCamAllocInPagesDim,0,sizeof(int32)*PageNumb);
+				memcpy(tCamAllocInPagesDim,CamAllocInPagesDim,sizeof(int32)*min(PageNumb,CamAllocInPagesDimNumb));
+				delete	[]CamAllocInPagesDim;
+				CamAllocInPagesDim=tCamAllocInPagesDim;
+				CamAllocInPagesDimNumb=PageNumb;
 			}
 		}
 		else{
@@ -1434,16 +1467,31 @@ bool	ParamGlobal::LoadCameraAlloc(QIODevice *f ,int EnableCondition)
 			if(f->read((char *)&iCamAllocInPagesDimNumb,sizeof(iCamAllocInPagesDimNumb))!=sizeof(iCamAllocInPagesDimNumb)){
 				return(false);
 			}
-			if(iCamAllocInPagesDimNumb<PageNumb){
-				iCamAllocInPagesDimNumb=PageNumb;
+			if(iCamAllocInPagesDimNumb<=CamAllocInPagesDimNumb){
+				memset(CamAllocInPagesDim,0,sizeof(int32)*CamAllocInPagesDimNumb);
+				if(f->read((char *)CamAllocInPagesDim,sizeof(int32)*iCamAllocInPagesDimNumb)!=sizeof(int32)*iCamAllocInPagesDimNumb){
+					return(false);
+				}
 			}
-			int32	*iCamAllocInPagesDim=new int32[iCamAllocInPagesDimNumb];
-
-			if(f->read((char *)iCamAllocInPagesDim,sizeof(int32)*iCamAllocInPagesDimNumb)!=sizeof(int32)*iCamAllocInPagesDimNumb){
-				delete	[]iCamAllocInPagesDim;
-				return(false);
+			else{
+				CamAllocInPagesDimNumb=iCamAllocInPagesDimNumb;
+				if(CamAllocInPagesDim!=NULL){
+					delete	[]CamAllocInPagesDim;
+				}
+				CamAllocInPagesDim=new int32[CamAllocInPagesDimNumb];
+				memset(CamAllocInPagesDim,0,sizeof(int32)*CamAllocInPagesDimNumb);
+				if(f->read((char *)CamAllocInPagesDim,sizeof(int32)*iCamAllocInPagesDimNumb)!=sizeof(int32)*CamAllocInPagesDimNumb){
+					return(false);
+				}
 			}
-			delete	[]iCamAllocInPagesDim;
+			if(CamAllocInPagesDimNumb!=PageNumb){
+				int32	*tCamAllocInPagesDim=new int32[PageNumb];
+				memset(tCamAllocInPagesDim,0,sizeof(int32)*PageNumb);
+				memcpy(tCamAllocInPagesDim,CamAllocInPagesDim,sizeof(int32)*min(PageNumb,CamAllocInPagesDimNumb));
+				delete	[]CamAllocInPagesDim;
+				CamAllocInPagesDim=tCamAllocInPagesDim;
+				CamAllocInPagesDimNumb=PageNumb;
+			}
 		}
 
 		if(DataVersion>=2){
@@ -2047,11 +2095,18 @@ int		ParamGlobal::GetMaxStrategyCount(void)
 void	ParamGlobal::GetStrategy(int strategycode ,StrategicListContainer &SList)
 {
 	if(GetLayersBase()->GetShadowLevel()==0){
+		if(StrategyDim==NULL){
+			return;
+		}
+		if(StrategyDimAllocNumb<PageNumb*LayerNumb){
+			ReallocStrategy();
+		}
 		for(int page=0;page<PageNumb;page++){
 			int	n=page*LayerNumb;
-			if(n<StrategyDimAllocNumb){
-				for(int L=0;L<LayerNumb;L++){
-					if(StrategyDim[n+L]==strategycode){
+			for(int L=0;L<LayerNumb;L++){
+				int	idx=n+L;
+				if(0<=idx && idx<StrategyDimAllocNumb){
+					if(StrategyDim[idx]==strategycode){
 						StrategicList	*s=new StrategicList();
 						s->Page=page;
 						s->Layer=L;
@@ -2069,10 +2124,16 @@ void	ParamGlobal::GetStrategy(int strategycode ,StrategicListContainer &SList)
 void	ParamGlobal::GetStrategyPage (int strategycode ,IntList &PageList)
 {
 	if(GetLayersBase()->GetShadowLevel()==0){
+		if(StrategyDim==NULL){
+			return;
+		}
+		if(StrategyDimAllocNumb<PageNumb*LayerNumb){
+			ReallocStrategy();
+		}
 		for(int page=0;page<PageNumb;page++){
 			for(int layer=0;layer<LayerNumb;layer++){
 				int	n=page*LayerNumb+layer;
-				if(n<StrategyDimAllocNumb){
+				if(0<=n && n<StrategyDimAllocNumb){
 					if(StrategyDim[n]==strategycode){
 						PageList.Add(page);
 						goto	PNext;
@@ -2090,9 +2151,15 @@ void	ParamGlobal::GetStrategyPage (int strategycode ,IntList &PageList)
 void	ParamGlobal::GetStrategyLayer(int strategycode ,int page ,IntList &LayerList)
 {
 	if(GetLayersBase()->GetShadowLevel()==0){
+		if(StrategyDim==NULL){
+			return;
+		}
+		if(StrategyDimAllocNumb<PageNumb*LayerNumb){
+			ReallocStrategy();
+		}
 		for(int layer=0;layer<LayerNumb;layer++){
 			int	n=page*LayerNumb+layer;
-			if(n<StrategyDimAllocNumb){
+			if(0<=n && n<StrategyDimAllocNumb){
 				if(StrategyDim[n]==strategycode){
 					LayerList.Add(layer);
 				}
@@ -2107,11 +2174,18 @@ void	ParamGlobal::GetStrategyLayer(int strategycode ,int page ,IntList &LayerLis
 void	ParamGlobal::GetCalcStrategy(int strategycode ,StrategicListContainer &SList)
 {
 	if(GetLayersBase()->GetShadowLevel()==0){
+		if(CalcStrategyDim==NULL){
+			return;
+		}
+		if(CalcStrategyDimAllocNumb<PageNumb*LayerNumb){
+			ReallocStrategy();
+		}
 		for(int page=0;page<PageNumb;page++){
 			int	n=page*LayerNumb;
-			if(n<CalcStrategyDimAllocNumb){
-				for(int L=0;L<LayerNumb;L++){
-					if(CalcStrategyDim[n+L]==strategycode){
+			for(int L=0;L<LayerNumb;L++){
+				int	idx=n+L;
+				if(0<=idx && idx<CalcStrategyDimAllocNumb){
+					if(CalcStrategyDim[idx]==strategycode){
 						StrategicList	*s=new StrategicList();
 						s->Page=page;
 						s->Layer=L;
@@ -2129,10 +2203,16 @@ void	ParamGlobal::GetCalcStrategy(int strategycode ,StrategicListContainer &SLis
 void	ParamGlobal::GetCalcStrategyPage (int strategycode ,IntList &PageList)
 {
 	if(GetLayersBase()->GetShadowLevel()==0){
+		if(CalcStrategyDim==NULL){
+			return;
+		}
+		if(CalcStrategyDimAllocNumb<PageNumb*LayerNumb){
+			ReallocStrategy();
+		}
 		for(int page=0;page<PageNumb;page++){
 			for(int layer=0;layer<LayerNumb;layer++){
 				int	n=page*LayerNumb+layer;
-				if(n<CalcStrategyDimAllocNumb){
+				if(0<=n && n<CalcStrategyDimAllocNumb){
 					if(CalcStrategyDim[n]==strategycode){
 						PageList.Add(page);
 						goto	PNext;
@@ -2150,9 +2230,15 @@ void	ParamGlobal::GetCalcStrategyPage (int strategycode ,IntList &PageList)
 void	ParamGlobal::GetCalcStrategyLayer(int strategycode ,int page ,IntList &LayerList)
 {
 	if(GetLayersBase()->GetShadowLevel()==0){
+		if(CalcStrategyDim==NULL){
+			return;
+		}
+		if(CalcStrategyDimAllocNumb<PageNumb*LayerNumb){
+			ReallocStrategy();
+		}
 		for(int layer=0;layer<LayerNumb;layer++){
 			int	n=page*LayerNumb+layer;
-			if(n<CalcStrategyDimAllocNumb){
+			if(0<=n && n<CalcStrategyDimAllocNumb){
 				if(CalcStrategyDim[n]==strategycode){
 					LayerList.Add(layer);
 				}
@@ -2255,7 +2341,7 @@ void	ParamGlobal::CopyPageDirFrom(ParamGlobal &src)
 		PageDirection	*TmpPDirData=new PageDirection[GetPageNumb()];
 		if(PDirDataAllocNumb!=0 && PDirData!=NULL){
 			for(int i=0;i<PDirDataAllocNumb && i<GetPageNumb();i++){
-				PDirData[i]=TmpPDirData[i];
+				TmpPDirData[i]=PDirData[i];
 			}
 			delete	[]PDirData;
 			PDirData=NULL;
@@ -2630,7 +2716,9 @@ int32		ConnectionInfo::GetGlobalCameraNo(int localCamNo)
 			if(GlobalCameraNoNumb>localCamNo){
 				return(GlobalCameraNo[localCamNo]);
 			}
-			return(GlobalCameraNo[GlobalCameraNoNumb-1]+localCamNo-(GlobalCameraNoNumb-1));
+			if(0<=GlobalCameraNoNumb-1){
+				return(GlobalCameraNo[GlobalCameraNoNumb-1]+localCamNo-(GlobalCameraNoNumb-1));
+			}
 		}
 	}
 	return(0);

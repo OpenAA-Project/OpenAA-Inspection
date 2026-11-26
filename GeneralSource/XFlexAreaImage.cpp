@@ -276,7 +276,7 @@ void	FlexAreaImage::CopyToBuffer(ImageBuffer &Dst,int dx,int dy)
 			if(iDataLen<0){
 				return;
 			}
-			if(0<=y && y<Dst.GetHeight()){
+			if(0<=(y+dy) && (y+dy)<Dst.GetHeight()){
 				BYTE	*d=Dst.GetY(y+dy);
 				int	iNumb=Numb;
 				if(x1+iNumb+dx>Dst.GetWidth()){
@@ -601,7 +601,8 @@ void	FlexAreaImageListCoeff::Set(ImageBuffer& Buffer ,int Skip)
 }
 double	FlexAreaImageListCoeff::CalcCoeff(int dx ,int dy ,ImageBuffer &Buffer)	const
 {
-	if(0<=(GetMinX()+dx) && 0<=(GetMinY()+dy) && (GetMaxX()+dx)<Buffer.GetWidth() && (GetMaxY()+dy)<Buffer.GetHeight()){
+	if(0<=(GetMinX()+dx) && 0<=(GetMinY()+dy) 
+	&& (GetMaxX()+dx)<Buffer.GetWidth() && (GetMaxY()+dy)<Buffer.GetHeight()){
 		BYTE	*d=Data;
 		unsigned	int		SumB=0;
 		double	SumB2=0;
@@ -611,32 +612,47 @@ double	FlexAreaImageListCoeff::CalcCoeff(int dx ,int dy ,ImageBuffer &Buffer)	co
 			int x1  =GetFLineLeftX(i);
 	        int Numb=GetFLineNumb(i);
 			int	y	=GetFLineAbsY(i);
-			BYTE	*s=&Buffer.GetY(y+dy)[x1+dx];
-			unsigned	int		S2Sum=0;
-			unsigned	int		SDSum=0;
-			if(Numb<256){
-				unsigned short	tSumB=0;
-				for(int j=0;j<Numb;j++){
-					BYTE	k=*(s++);
-					BYTE	c=*(d++);
-					tSumB+=k;
-					S2Sum+=k*k;
-					SDSum+=k*c;
+			if(0<=(y+dy) && (y+dy)<Buffer.GetHeight()){
+				int	X1=x1+dx;
+				if(X1<0){
+					d-=X1;
+					Numb+=X1;
+					X1=0;
 				}
-				SumB+=tSumB;
-			}
-			else{
-				for(int j=0;j<Numb;j++){
-					BYTE	k=*(s++);
-					BYTE	c=*(d++);
-					SumB+=k;
-					S2Sum+=k*k;
-					SDSum+=k*c;
+				int	Remain=0;
+				if(Buffer.GetWidth()<=(X1+Numb)){
+					int	iNumb=Buffer.GetWidth()-X1;
+					Remain+=Numb-iNumb;
+					Numb=iNumb;
 				}
+				BYTE	*s=&Buffer.GetY(y+dy)[X1];
+				unsigned	int		S2Sum=0;
+				unsigned	int		SDSum=0;
+				if(Numb<256){
+					unsigned short	tSumB=0;
+					for(int j=0;j<Numb;j++){
+						BYTE	k=*(s++);
+						BYTE	c=*(d++);
+						tSumB+=k;
+						S2Sum+=k*k;
+						SDSum+=k*c;
+					}
+					SumB+=tSumB;
+				}
+				else{
+					for(int j=0;j<Numb;j++){
+						BYTE	k=*(s++);
+						BYTE	c=*(d++);
+						SumB+=k;
+						S2Sum+=k*k;
+						SDSum+=k*c;
+					}
+				}
+				d+=Remain;
+				SDCount+=Numb;
+				SumB2+=S2Sum;
+				SumAB+=SDSum;
 			}
-			SDCount+=Numb;
-			SumB2+=S2Sum;
-			SumAB+=SDSum;
 		}
 
 		if(SDCount==0){
@@ -721,7 +737,7 @@ double	FlexAreaImageListCoeff::CalcCoeff(double dx ,double dy	,ImageBuffer &Buff
 	int	DxN=floor(dx);
 	double	DxF=dx-DxN;
 	int	DyN=floor(dy);
-	double	DyF=dx-DyN;
+	double	DyF=dy-DyN;
 
 	int	NLen=GetFLineLen();
 	BYTE	*s=Data;
@@ -906,7 +922,7 @@ int		FlexAreaImageListCoeff::CalcCoeff(int dx	,int dy
 			int	y	=GetFLineAbsY(i);
 			if(0<=(y+dy) && (y+dy)<Buffer.GetHeight()){
 				BYTE	*s=Buffer.GetY(y+dy);
-				BYTE	*e=&d[x1];
+				BYTE	*e=d;
 				for(int j=0;j<Numb;j++){
 					int	x=x1+j+dx;
 					if(0<=x && x<Buffer.GetWidth()){
@@ -1142,8 +1158,11 @@ void	FlexAreaImageListSkipCoeff::MakeDivArea(FlexArea &Area,ImageBuffer &Buffer
 		AddedV+=LTable[i];
 		AddedVNumb++;
 	}
-	if(AddedVNumb==0)
+	if(AddedVNumb==0){
+		delete	[]LTable;
+		DeleteMatrixBuff((BYTE **)LL,H);
 		return;
+	}
 	double	AvrThr=AddedV/AddedVNumb*RateFromPeakV;
 	VThr=max(VThr,AvrThr);
 
@@ -1545,6 +1564,7 @@ bool	FlexAreaImageListContainer::Load(QIODevice *f)
 		//FlexAreaImageList *a=new FlexAreaImageList();
 		FlexAreaImageList *a=CreateNew();
 		if(a->Load(f)==false){
+			delete	a;
 			return false;
 		}
 		AppendList(a);
@@ -1676,6 +1696,7 @@ bool	FlexAreaImageListCoeffContainer::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		FlexAreaImageList *a=CreateNew();
 		if(a->Load(f)==false){
+			delete	a;
 			return false;
 		}
 		AppendList(a);
@@ -2022,7 +2043,7 @@ void	FlexAreaColorImage::Draw(ImagePointerContainer &DestImages ,int dx,int dy)
 				BYTE	*ts=s;
 				int		tNumb=Numb;
 				if(x1<0){
-					ts+=x1;
+					ts-=x1;
 					tNumb+=x1;
 					x1=0;
 				}
@@ -2707,7 +2728,7 @@ void	FlexAreaFastCoef::FlexAreaFastCoefSkipX::Set(int skipx ,ImageBuffer &SrcIma
 		int	X	=GetFLineLeftX(n);
 		int	Numb=GetFLineNumb(n);
 		BYTE	*s=SrcImage.GetY(Y);
-		for(int x=X;x<Numb;x+=SkipX){
+		for(int x=X;x<(X+Numb);x+=SkipX){
 			int	c=s[x];
 			Src[XYNumb]=c;
 			XYNumb++;
@@ -2740,7 +2761,7 @@ void	FlexAreaFastCoef::Initial(int skipx,int skipy ,ImageBuffer &SrcImage)
 		int	X1=GetFLineLeftX(n);
 		int	Numb=GetFLineNumb(n);
 		int	X2=X1+Numb;
-		for(int x=X1;x<Numb;x++){
+		for(int x=X1;x<X2;x++){
 			if((x%SkipX)!=0){
 				continue;
 			}
@@ -2838,7 +2859,7 @@ int64	FlexAreaFastCoef::Calc1st(int dx,int dy,ImageBuffer &DstImage,int64 &BB ,i
 		int	X	=ABArea.GetFLineLeftX(n);
 		int	Numb=ABArea.GetFLineNumb(n);
 		BYTE	*dst=DstImage.GetY(Y+dy);
-		for(int x=X;x<Numb;x+=SkipX){
+		for(int x=X;x<(X+Numb);x+=SkipX){
 			int	a=*s++;
 			int	b=dst[x];
 			AB+=a*b;
@@ -2860,7 +2881,7 @@ int64	FlexAreaFastCoef::CalcLowStep(int dx,int dy,ImageBuffer &DstImage,int64 &B
 			int	X	=CenterN.GetFLineLeftX(n);
 			int	Numb=CenterN.GetFLineNumb(n);
 			BYTE	*dst=DstImage.GetY(Y+dy);
-			for(int x=X;x<Numb;x+=SkipX){
+			for(int x=X;x<(X+Numb);x+=SkipX){
 				BYTE	a=*s++;
 				BYTE	b=dst[x+dx];
 				AB+=a*b;
@@ -2875,7 +2896,7 @@ int64	FlexAreaFastCoef::CalcLowStep(int dx,int dy,ImageBuffer &DstImage,int64 &B
 			int	X	=Lower1st.GetFLineLeftX(n);
 			int	Numb=Lower1st.GetFLineNumb(n);
 			BYTE	*dst=DstImage.GetY(Y+dy);
-			for(int x=X;x<Numb;x+=SkipX){
+			for(int x=X;x<(X+Numb);x+=SkipX){
 				BYTE	a=*s++;
 				BYTE	b=dst[x+dx];
 				AB+=a*b;
@@ -2891,7 +2912,7 @@ int64	FlexAreaFastCoef::CalcLowStep(int dx,int dy,ImageBuffer &DstImage,int64 &B
 			int	X	=Upper1st.GetFLineLeftX(n);
 			int	Numb=Upper1st.GetFLineNumb(n);
 			BYTE	*dst=DstImage.GetY(Y+dy);
-			for(int x=X;x<Numb;x+=SkipX){
+			for(int x=X;x<(X+Numb);x+=SkipX){
 				BYTE	b=dst[x+dx];
 				BB-=b*b;
 				B-=b;
@@ -2911,7 +2932,7 @@ int64	FlexAreaFastCoef::CalcRightStep(int dx,int dy,ImageBuffer &DstImage,int64 
 			int	X	=ABArea.GetFLineLeftX(n);
 			int	Numb=ABArea.GetFLineNumb(n);
 			BYTE	*dst=DstImage.GetY(Y+dy);
-			for(int x=X;x<Numb;x+=SkipX){
+			for(int x=X;x<(X+Numb);x+=SkipX){
 				BYTE	a=*s++;
 				BYTE	b=dst[x+dx];
 				AB+=a*b;
@@ -2926,7 +2947,7 @@ int64	FlexAreaFastCoef::CalcRightStep(int dx,int dy,ImageBuffer &DstImage,int64 
 			int	X	=Right1st.GetFLineLeftX(n);
 			int	Numb=Right1st.GetFLineNumb(n);
 			BYTE	*dst=DstImage.GetY(Y+dy);
-			for(int x=X;x<Numb;x+=SkipX){
+			for(int x=X;x<(X+Numb);x+=SkipX){
 				BYTE	a=*s++;
 				BYTE	b=dst[x+dx];
 				AB+=a*b;
@@ -2943,7 +2964,7 @@ int64	FlexAreaFastCoef::CalcRightStep(int dx,int dy,ImageBuffer &DstImage,int64 
 			int	X	=Left1st.GetFLineLeftX(n);
 			int	Numb=Left1st.GetFLineNumb(n);
 			BYTE	*dst=DstImage.GetY(Y+dy);
-			for(int x=X;x<Numb;x+=SkipX){
+			for(int x=X;x<(X+Numb);x+=SkipX){
 				BYTE	a=*s++;
 				BYTE	b=dst[x+dx];
 				AB-=a*b;
@@ -3066,7 +3087,7 @@ bool	FlexAreaColorRotatedImage::GetPixel(int x ,int y ,BYTE RetData[],int _Layer
 		int	Y	=GetFLineAbsY(i);
 		int	X1	=GetFLineLeftX(i);
 		int	Numb=GetFLineNumb(i);
-		if(Y!=y){
+		if(Y==y){
 			int	k=x-X1;
 			if(k<0){
 				return false;
@@ -3105,7 +3126,7 @@ void	FlexAreaColorRotatedImage::CopyToBuffer(ImagePointerContainer &DstCont,int 
 				if(iDataLen<0){
 					return;
 				}
-				if(0<=y && y<Dst->GetHeight()){
+				if(0<=(y+dy) && (y+dy)<Dst->GetHeight()){
 					BYTE	*d=Dst->GetY(y+dy);
 					int	iNumb=Numb;
 					if(x1+iNumb+dx>Dst->GetWidth()){

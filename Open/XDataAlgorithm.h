@@ -822,7 +822,6 @@ public:
 	int		GetCountOnlyMasterBuff(void)	const	{	return GetLayersBase()->GetCountOnlyMasterBuff();		}
 	int		GetCountAllBackGroundBuff(void)		const	{	return GetLayersBase()->GetCountAllBackGroundBuff();		}
 	int		GetCountOnlyBackGroundBuff(void)	const	{	return GetLayersBase()->GetCountOnlyBackGroundBuff();		}
-	int		GetCountDispatchMasterBuff(void)const	{	return GetLayersBase()->GetCountDispatchMasterBuff();	}
 	int		GetLayerNumb(void)		const;
 	int		GetPageNumb(void)		const	{	return (GetParamGlobal()==NULL)?0:GetParamGlobal()->PageNumb;		}
 	int		GetPhaseNumb(void)		const	{	return (GetParamGlobal()==NULL)?0:GetParamGlobal()->PhaseNumb;		}
@@ -1195,7 +1194,6 @@ public:
 	ParamComm		*GetParamComm(void)			{	return GetLayersBase()->GetParamComm();					}
 	int		GetCountAllMasterBuff(void)		const	{	return GetLayersBase()->GetCountAllMasterBuff();		}
 	int		GetCountOnlyMasterBuff(void)	const	{	return GetLayersBase()->GetCountOnlyMasterBuff();		}
-	int		GetCountDispatchMasterBuff(void)const	{	return GetLayersBase()->GetCountDispatchMasterBuff();	}	
 	int		GetLayerNumb(void);
 	int		GetPageNumb(void)			{	return GetLayersBase()->GetParamGlobal()->PageNumb;		}
 	int		GetPhaseNumb(void)			{	return GetLayersBase()->GetParamGlobal()->PhaseNumb;	}
@@ -1574,7 +1572,6 @@ public:
 	ParamComm	*GetParamComm(void)		const	{	return(GetLayersBase()->GetParamComm());		}
 	int		GetCountAllMasterBuff(void)		const	{	return GetLayersBase()->GetCountAllMasterBuff();		}
 	int		GetCountOnlyMasterBuff(void)	const	{	return GetLayersBase()->GetCountOnlyMasterBuff();		}
-	int		GetCountDispatchMasterBuff(void)const	{	return GetLayersBase()->GetCountDispatchMasterBuff();	}
 	int		GetLayerNumb(void)		const;
 	int		GetPageNumb(void)		const	{	return(GetLayersBase()->GetParamGlobal()->PageNumb);		}
 	int		GetPhaseNumb(void)		const	{	return(GetLayersBase()->GetParamGlobal()->PhaseNumb);		}
@@ -1913,7 +1910,6 @@ public:
 
 	int		GetCountAllMasterBuff(void)		const	{	return GetLayersBase()->GetCountAllMasterBuff();		}
 	int		GetCountOnlyMasterBuff(void)	const	{	return GetLayersBase()->GetCountOnlyMasterBuff();		}
-	int		GetCountDispatchMasterBuff(void)const	{	return GetLayersBase()->GetCountDispatchMasterBuff();	}
 
 	int		GetPhaseCode(void)	const	{	return PhaseCode;			}
 	void	SetPhaseCode(int phase)		{	PhaseCode=phase;			}

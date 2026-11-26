@@ -437,6 +437,7 @@ bool	TreesContainer::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		TreeLine *a=new TreeLine();
 		if(a->Load(f)==false){
+			delete	a;
 			return false;
 		}
 		AppendList(a);
@@ -448,7 +449,7 @@ bool	TreesContainer::Load(QIODevice *f)
 TreesContainer	&TreesContainer::operator=(const TreesContainer &src)
 {
 	RemoveAll();
-	for(TreeLine *a=GetFirst();a!=NULL;a=a->GetNext()){
+	for(TreeLine *a=src.GetFirst();a!=NULL;a=a->GetNext()){
 		TreeLine *b=new TreeLine();
 		*b=*a;
 		AppendList(b);

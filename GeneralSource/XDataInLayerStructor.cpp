@@ -308,6 +308,7 @@ void    LayersBase::Release(void)
 	if (PageDataPhase != NULL) {
 		for (int i = 0; i < AllocatedPhaseNumb; i++) {
 			PageDataPhase[i]->Release();
+			PageDataPhase[i]->deleteLater();
 		}
 		delete[]PageDataPhase;
 		PageDataPhase = NULL;
@@ -522,6 +523,7 @@ void    LayersBase::ReleaseAll(void)
 	if (PageDataPhase != NULL) {
 		for (int i = 0; i < AllocatedPhaseNumb; i++) {
 			PageDataPhase[i]->Release();
+			PageDataPhase[i]->deleteLater();
 		}
 		delete[]PageDataPhase;
 		PageDataPhase = NULL;

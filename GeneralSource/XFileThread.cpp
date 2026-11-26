@@ -361,7 +361,6 @@ bool	FileThreadListContainer::Append(FileThread *f)
 	if(WPoint>=MaxBufferedFileList){
 		WPoint=0;
 	}
-	Mutex.unlock();
 
 	FileThreadList	*t=FileThreadListDim[tWPoint];
 	t->FileName	=f->FileName;
@@ -369,7 +368,6 @@ bool	FileThreadListContainer::Append(FileThread *f)
 	t->Mode		=f->Mode;
 	t->Command	=0;
 
-	Mutex.lock();
 	StockedCount++;
 	Mutex.unlock();
 
@@ -454,7 +452,7 @@ void	FileThreadListContainer::run()
 		DWORD	CurrentTime=::GetComputerMiliSec();
 		for(FileStatusList *s=FileStatusContainer.GetFirst();s!=NULL;){
 			FileStatusList *NextS=s->GetNext();
-			if(s->LastAccessTime-CurrentTime>10000){
+			if(CurrentTime-s->LastAccessTime>10000){
 				FileStatusContainer.RemoveList(s);
 				delete	s;
 			}

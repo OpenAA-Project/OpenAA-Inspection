@@ -116,11 +116,6 @@ public:
 	virtual	void	MakeReportedTopics(ReportedTopicContainer &RetContainer)	const	override;
 };
 
-
-#define	SetIndependentItemDataCommand_OnlyOne	10
-#define	SetIndependentItemDataCommand_All		12
-
-
 class	BCRInspectionItem : public AlgorithmItemPI
 {
 public:

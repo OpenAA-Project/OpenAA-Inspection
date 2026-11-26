@@ -37,8 +37,12 @@ if(DETECTED_CORES EQUAL 0)
     set(DETECTED_CORES 4)
 endif()
 
-set(SLN_INNER_JOBS 1 CACHE STRING "Parallel compile jobs per subproject")
-set(META_MODE_DESC "Sequential SLN (Single-threaded)")
+set(TOTAL_PARALLEL_BUDGET ${DETECTED_CORES})
+set(DEFAULT_INNER_JOBS 1)
+set(DEFAULT_OUTER_JOBS ${TOTAL_PARALLEL_BUDGET})
+set(SLN_OUTER_JOBS ${DEFAULT_OUTER_JOBS} CACHE STRING "Number of subprojects to build concurrently")
+set(SLN_INNER_JOBS ${DEFAULT_INNER_JOBS} CACHE STRING "Parallel compile jobs per subproject")
+set(META_MODE_DESC "Parallel SLN (Outer: ${SLN_OUTER_JOBS} projects x Inner: ${SLN_INNER_JOBS} jobs)")
 
 # === Progress Display & Subproject Build Helper Script ===
 set(META_HELPER_SCRIPT "${CMAKE_BINARY_DIR}/_meta_build_helper.cmake")
@@ -217,18 +221,8 @@ elseif(MODE STREQUAL "FINISH")
 endif()
 ]===])
 
-add_custom_target(MetaBuild_Init ALL
-    COMMAND ${CMAKE_COMMAND}
-        -DMODE=INIT
-        "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
-        "-DTOTAL_PROJECTS=${TOTAL_PROJECTS}"
-        "-DMETA_MODE_DESC=${META_MODE_DESC}"
-        -P "${META_HELPER_SCRIPT}"
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    VERBATIM
-)
-
-add_custom_target(GUI_LearningLib_build ALL
+# === Phase 1: Static Libraries (Parallel) ===
+add_custom_target(GUI_LearningLib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -245,9 +239,7 @@ add_custom_target(GUI_LearningLib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LearningLib_build MetaBuild_Init)
-
-add_custom_target(PluginDLL_PIO_NetworkSIOClientLib_build ALL
+add_custom_target(PluginDLL_PIO_NetworkSIOClientLib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -264,9 +256,7 @@ add_custom_target(PluginDLL_PIO_NetworkSIOClientLib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_NetworkSIOClientLib_build GUI_LearningLib_build)
-
-add_custom_target(PluginDLL_PIO_NetworkPIOLib_build ALL
+add_custom_target(PluginDLL_PIO_NetworkPIOLib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -283,9 +273,7 @@ add_custom_target(PluginDLL_PIO_NetworkPIOLib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_NetworkPIOLib_build PluginDLL_PIO_NetworkSIOClientLib_build)
-
-add_custom_target(PluginDLL_PIO_SharedPIOLib_build ALL
+add_custom_target(PluginDLL_PIO_SharedPIOLib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -302,9 +290,7 @@ add_custom_target(PluginDLL_PIO_SharedPIOLib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_SharedPIOLib_build PluginDLL_PIO_NetworkPIOLib_build)
-
-add_custom_target(GUI_MaskingImagePanel_SelectLibraryInMask_build ALL
+add_custom_target(GUI_MaskingImagePanel_SelectLibraryInMask_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -321,9 +307,17 @@ add_custom_target(GUI_MaskingImagePanel_SelectLibraryInMask_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MaskingImagePanel_SelectLibraryInMask_build PluginDLL_PIO_SharedPIOLib_build)
+add_custom_target(StaticLibs_all)
+add_dependencies(StaticLibs_all
+    GUI_LearningLib_build
+    PluginDLL_PIO_NetworkSIOClientLib_build
+    PluginDLL_PIO_NetworkPIOLib_build
+    PluginDLL_PIO_SharedPIOLib_build
+    GUI_MaskingImagePanel_SelectLibraryInMask_build
+)
 
-add_custom_target(Algorithm_ReviewStructure_build ALL
+# === Phase 2: Other Projects / DLLs / EXEs (Parallel) ===
+add_custom_target(Algorithm_ReviewStructure_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -340,9 +334,7 @@ add_custom_target(Algorithm_ReviewStructure_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ReviewStructure_build GUI_MaskingImagePanel_SelectLibraryInMask_build)
-
-add_custom_target(Algorithm_BlockInspection_build ALL
+add_custom_target(Algorithm_BlockInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -359,9 +351,7 @@ add_custom_target(Algorithm_BlockInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_BlockInspection_build Algorithm_ReviewStructure_build)
-
-add_custom_target(Algorithm_Masking_build ALL
+add_custom_target(Algorithm_Masking_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -378,9 +368,7 @@ add_custom_target(Algorithm_Masking_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_Masking_build Algorithm_BlockInspection_build)
-
-add_custom_target(Algorithm_Alignment_build ALL
+add_custom_target(Algorithm_Alignment_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -397,9 +385,7 @@ add_custom_target(Algorithm_Alignment_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_Alignment_build Algorithm_Masking_build)
-
-add_custom_target(Algorithm_ColorBlockInspection_build ALL
+add_custom_target(Algorithm_ColorBlockInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -416,9 +402,7 @@ add_custom_target(Algorithm_ColorBlockInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ColorBlockInspection_build Algorithm_Alignment_build)
-
-add_custom_target(Algorithm_PieceArchitect_build ALL
+add_custom_target(Algorithm_PieceArchitect_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -435,9 +419,7 @@ add_custom_target(Algorithm_PieceArchitect_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_PieceArchitect_build Algorithm_ColorBlockInspection_build)
-
-add_custom_target(Algorithm_OutlineInspection_build ALL
+add_custom_target(Algorithm_OutlineInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -454,9 +436,7 @@ add_custom_target(Algorithm_OutlineInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_OutlineInspection_build Algorithm_PieceArchitect_build)
-
-add_custom_target(Algorithm_ImageProcessor_build ALL
+add_custom_target(Algorithm_ImageProcessor_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -473,9 +453,7 @@ add_custom_target(Algorithm_ImageProcessor_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ImageProcessor_build Algorithm_OutlineInspection_build)
-
-add_custom_target(Algorithm_Naming_build ALL
+add_custom_target(Algorithm_Naming_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -492,9 +470,7 @@ add_custom_target(Algorithm_Naming_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_Naming_build Algorithm_ImageProcessor_build)
-
-add_custom_target(Algorithm_TrueColorBlock_build ALL
+add_custom_target(Algorithm_TrueColorBlock_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -511,9 +487,7 @@ add_custom_target(Algorithm_TrueColorBlock_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_TrueColorBlock_build Algorithm_Naming_build)
-
-add_custom_target(Algorithm_MaskingPI_build ALL
+add_custom_target(Algorithm_MaskingPI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -530,9 +504,7 @@ add_custom_target(Algorithm_MaskingPI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_MaskingPI_build Algorithm_TrueColorBlock_build)
-
-add_custom_target(Algorithm_StatisticImager_build ALL
+add_custom_target(Algorithm_StatisticImager_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -549,9 +521,7 @@ add_custom_target(Algorithm_StatisticImager_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_StatisticImager_build Algorithm_MaskingPI_build)
-
-add_custom_target(Algorithm_AutoAlignment_build ALL
+add_custom_target(Algorithm_AutoAlignment_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -568,9 +538,7 @@ add_custom_target(Algorithm_AutoAlignment_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_AutoAlignment_build Algorithm_StatisticImager_build)
-
-add_custom_target(Algorithm_AreaFilter_build ALL
+add_custom_target(Algorithm_AreaFilter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -587,9 +555,7 @@ add_custom_target(Algorithm_AreaFilter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_AreaFilter_build Algorithm_AutoAlignment_build)
-
-add_custom_target(Algorithm_AutoMaskingPI_build ALL
+add_custom_target(Algorithm_AutoMaskingPI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -606,9 +572,7 @@ add_custom_target(Algorithm_AutoMaskingPI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_AutoMaskingPI_build Algorithm_AreaFilter_build)
-
-add_custom_target(Algorithm_AutoSaveImage_build ALL
+add_custom_target(Algorithm_AutoSaveImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -625,9 +589,7 @@ add_custom_target(Algorithm_AutoSaveImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_AutoSaveImage_build Algorithm_AutoMaskingPI_build)
-
-add_custom_target(Algorithm_StatisticBlock_build ALL
+add_custom_target(Algorithm_StatisticBlock_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -644,9 +606,7 @@ add_custom_target(Algorithm_StatisticBlock_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_StatisticBlock_build Algorithm_AutoSaveImage_build)
-
-add_custom_target(Algorithm_Learning_build ALL
+add_custom_target(Algorithm_Learning_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -663,9 +623,7 @@ add_custom_target(Algorithm_Learning_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_Learning_build Algorithm_StatisticBlock_build)
-
-add_custom_target(Algorithm_DynamicMaskingPI_build ALL
+add_custom_target(Algorithm_DynamicMaskingPI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -682,9 +640,7 @@ add_custom_target(Algorithm_DynamicMaskingPI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_DynamicMaskingPI_build Algorithm_Learning_build)
-
-add_custom_target(Algorithm_MeasureHole_build ALL
+add_custom_target(Algorithm_MeasureHole_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -701,9 +657,7 @@ add_custom_target(Algorithm_MeasureHole_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_MeasureHole_build Algorithm_DynamicMaskingPI_build)
-
-add_custom_target(Algorithm_MeasureLineMove_build ALL
+add_custom_target(Algorithm_MeasureLineMove_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -720,9 +674,7 @@ add_custom_target(Algorithm_MeasureLineMove_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_MeasureLineMove_build Algorithm_MeasureHole_build)
-
-add_custom_target(Algorithm_EulerRing_build ALL
+add_custom_target(Algorithm_EulerRing_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -739,9 +691,7 @@ add_custom_target(Algorithm_EulerRing_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_EulerRing_build Algorithm_MeasureLineMove_build)
-
-add_custom_target(Algorithm_MeasureHolePos_build ALL
+add_custom_target(Algorithm_MeasureHolePos_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -758,9 +708,7 @@ add_custom_target(Algorithm_MeasureHolePos_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_MeasureHolePos_build Algorithm_EulerRing_build)
-
-add_custom_target(Algorithm_AreaShader_build ALL
+add_custom_target(Algorithm_AreaShader_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -777,9 +725,7 @@ add_custom_target(Algorithm_AreaShader_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_AreaShader_build Algorithm_MeasureHolePos_build)
-
-add_custom_target(Algorithm_ImageChecker_build ALL
+add_custom_target(Algorithm_ImageChecker_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -796,9 +742,7 @@ add_custom_target(Algorithm_ImageChecker_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ImageChecker_build Algorithm_AreaShader_build)
-
-add_custom_target(Algorithm_SpotReducer_build ALL
+add_custom_target(Algorithm_SpotReducer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -815,9 +759,7 @@ add_custom_target(Algorithm_SpotReducer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_SpotReducer_build Algorithm_ImageChecker_build)
-
-add_custom_target(Algorithm_MatchingAlignment_build ALL
+add_custom_target(Algorithm_MatchingAlignment_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -834,9 +776,7 @@ add_custom_target(Algorithm_MatchingAlignment_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_MatchingAlignment_build Algorithm_SpotReducer_build)
-
-add_custom_target(Algorithm_AutoPCBHoleAligner_build ALL
+add_custom_target(Algorithm_AutoPCBHoleAligner_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -853,9 +793,7 @@ add_custom_target(Algorithm_AutoPCBHoleAligner_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_AutoPCBHoleAligner_build Algorithm_MatchingAlignment_build)
-
-add_custom_target(Algorithm_ZAxisRegulation_build ALL
+add_custom_target(Algorithm_ZAxisRegulation_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -872,9 +810,7 @@ add_custom_target(Algorithm_ZAxisRegulation_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ZAxisRegulation_build Algorithm_AutoPCBHoleAligner_build)
-
-add_custom_target(Algorithm_DotRegulation_build ALL
+add_custom_target(Algorithm_DotRegulation_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -891,9 +827,7 @@ add_custom_target(Algorithm_DotRegulation_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_DotRegulation_build Algorithm_ZAxisRegulation_build)
-
-add_custom_target(Algorithm_AutoClassify_build ALL
+add_custom_target(Algorithm_AutoClassify_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -910,9 +844,7 @@ add_custom_target(Algorithm_AutoClassify_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_AutoClassify_build Algorithm_DotRegulation_build)
-
-add_custom_target(Algorithm_CategorizedShader_build ALL
+add_custom_target(Algorithm_CategorizedShader_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -929,9 +861,7 @@ add_custom_target(Algorithm_CategorizedShader_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_CategorizedShader_build Algorithm_AutoClassify_build)
-
-add_custom_target(Algorithm_VCutInspection_build ALL
+add_custom_target(Algorithm_VCutInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -948,9 +878,7 @@ add_custom_target(Algorithm_VCutInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_VCutInspection_build Algorithm_CategorizedShader_build)
-
-add_custom_target(Algorithm_CacheTargetImage_build ALL
+add_custom_target(Algorithm_CacheTargetImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -967,9 +895,7 @@ add_custom_target(Algorithm_CacheTargetImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_CacheTargetImage_build Algorithm_VCutInspection_build)
-
-add_custom_target(Algorithm_LineEnhancer_build ALL
+add_custom_target(Algorithm_LineEnhancer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -986,9 +912,7 @@ add_custom_target(Algorithm_LineEnhancer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_LineEnhancer_build Algorithm_CacheTargetImage_build)
-
-add_custom_target(Algorithm_ARArrange_build ALL
+add_custom_target(Algorithm_ARArrange_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1005,9 +929,7 @@ add_custom_target(Algorithm_ARArrange_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ARArrange_build Algorithm_LineEnhancer_build)
-
-add_custom_target(Algorithm_DynamicClassify_build ALL
+add_custom_target(Algorithm_DynamicClassify_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1024,9 +946,7 @@ add_custom_target(Algorithm_DynamicClassify_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_DynamicClassify_build Algorithm_ARArrange_build)
-
-add_custom_target(Algorithm_PieceForReview_build ALL
+add_custom_target(Algorithm_PieceForReview_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1043,9 +963,7 @@ add_custom_target(Algorithm_PieceForReview_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_PieceForReview_build Algorithm_DynamicClassify_build)
-
-add_custom_target(Algorithm_PieceReviewSide_build ALL
+add_custom_target(Algorithm_PieceReviewSide_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1062,9 +980,7 @@ add_custom_target(Algorithm_PieceReviewSide_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_PieceReviewSide_build Algorithm_PieceForReview_build)
-
-add_custom_target(Algorithm_LineEnhancer1L_build ALL
+add_custom_target(Algorithm_LineEnhancer1L_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1081,9 +997,7 @@ add_custom_target(Algorithm_LineEnhancer1L_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_LineEnhancer1L_build Algorithm_PieceReviewSide_build)
-
-add_custom_target(Algorithm_OCRInspection_build ALL
+add_custom_target(Algorithm_OCRInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1100,9 +1014,7 @@ add_custom_target(Algorithm_OCRInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_OCRInspection_build Algorithm_LineEnhancer1L_build)
-
-add_custom_target(Algorithm_ResultImportance_build ALL
+add_custom_target(Algorithm_ResultImportance_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1119,9 +1031,7 @@ add_custom_target(Algorithm_ResultImportance_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ResultImportance_build Algorithm_OCRInspection_build)
-
-add_custom_target(Algorithm_TreeMaster_build ALL
+add_custom_target(Algorithm_TreeMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1138,9 +1048,7 @@ add_custom_target(Algorithm_TreeMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_TreeMaster_build Algorithm_ResultImportance_build)
-
-add_custom_target(Algorithm_BuslineInspection_build ALL
+add_custom_target(Algorithm_BuslineInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1157,9 +1065,7 @@ add_custom_target(Algorithm_BuslineInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_BuslineInspection_build Algorithm_TreeMaster_build)
-
-add_custom_target(Algorithm_MakeDifferencialImage_build ALL
+add_custom_target(Algorithm_MakeDifferencialImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1176,9 +1082,7 @@ add_custom_target(Algorithm_MakeDifferencialImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_MakeDifferencialImage_build Algorithm_BuslineInspection_build)
-
-add_custom_target(Algorithm_ResultBinder_build ALL
+add_custom_target(Algorithm_ResultBinder_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1195,9 +1099,7 @@ add_custom_target(Algorithm_ResultBinder_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ResultBinder_build Algorithm_MakeDifferencialImage_build)
-
-add_custom_target(Algorithm_AlignmentLarge_build ALL
+add_custom_target(Algorithm_AlignmentLarge_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1214,9 +1116,7 @@ add_custom_target(Algorithm_AlignmentLarge_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_AlignmentLarge_build Algorithm_ResultBinder_build)
-
-add_custom_target(Algorithm_BCRInspection_build ALL
+add_custom_target(Algorithm_BCRInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1233,9 +1133,7 @@ add_custom_target(Algorithm_BCRInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_BCRInspection_build Algorithm_AlignmentLarge_build)
-
-add_custom_target(Algorithm_PieceDef_build ALL
+add_custom_target(Algorithm_PieceDef_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1252,9 +1150,7 @@ add_custom_target(Algorithm_PieceDef_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_PieceDef_build Algorithm_BCRInspection_build)
-
-add_custom_target(Algorithm_CheckBrightness_build ALL
+add_custom_target(Algorithm_CheckBrightness_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1271,9 +1167,7 @@ add_custom_target(Algorithm_CheckBrightness_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_CheckBrightness_build Algorithm_PieceDef_build)
-
-add_custom_target(Algorithm_GerberFast_build ALL
+add_custom_target(Algorithm_GerberFast_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1290,9 +1184,7 @@ add_custom_target(Algorithm_GerberFast_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_GerberFast_build Algorithm_CheckBrightness_build)
-
-add_custom_target(Algorithm_VIAInspection_build ALL
+add_custom_target(Algorithm_VIAInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1309,9 +1201,7 @@ add_custom_target(Algorithm_VIAInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_VIAInspection_build Algorithm_GerberFast_build)
-
-add_custom_target(Algorithm_CheckEveryday_build ALL
+add_custom_target(Algorithm_CheckEveryday_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1328,9 +1218,7 @@ add_custom_target(Algorithm_CheckEveryday_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_CheckEveryday_build Algorithm_VIAInspection_build)
-
-add_custom_target(Algorithm_MultiFileMap_build ALL
+add_custom_target(Algorithm_MultiFileMap_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1347,9 +1235,7 @@ add_custom_target(Algorithm_MultiFileMap_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_MultiFileMap_build Algorithm_CheckEveryday_build)
-
-add_custom_target(Algorithm_ThinMetal_build ALL
+add_custom_target(Algorithm_ThinMetal_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1366,9 +1252,7 @@ add_custom_target(Algorithm_ThinMetal_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ThinMetal_build Algorithm_MultiFileMap_build)
-
-add_custom_target(PluginDLL_Camera_DummyCamera_DummyCamera_build ALL
+add_custom_target(PluginDLL_Camera_DummyCamera_DummyCamera_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1385,9 +1269,7 @@ add_custom_target(PluginDLL_Camera_DummyCamera_DummyCamera_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Camera_DummyCamera_DummyCamera_build Algorithm_ThinMetal_build)
-
-add_custom_target(PluginDLL_Camera_CameraProvider_build ALL
+add_custom_target(PluginDLL_Camera_CameraProvider_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1404,9 +1286,7 @@ add_custom_target(PluginDLL_Camera_CameraProvider_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Camera_CameraProvider_build PluginDLL_Camera_DummyCamera_DummyCamera_build)
-
-add_custom_target(PluginDLL_Camera_CameraProvider_CameraFromProvider_build ALL
+add_custom_target(PluginDLL_Camera_CameraProvider_CameraFromProvider_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1423,9 +1303,7 @@ add_custom_target(PluginDLL_Camera_CameraProvider_CameraFromProvider_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Camera_CameraProvider_CameraFromProvider_build PluginDLL_Camera_CameraProvider_build)
-
-add_custom_target(Filter_FilterSmoothing_build ALL
+add_custom_target(Filter_FilterSmoothing_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1442,9 +1320,7 @@ add_custom_target(Filter_FilterSmoothing_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterSmoothing_build PluginDLL_Camera_CameraProvider_CameraFromProvider_build)
-
-add_custom_target(Filter_FilterEdgeEmphasize_build ALL
+add_custom_target(Filter_FilterEdgeEmphasize_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1461,9 +1337,7 @@ add_custom_target(Filter_FilterEdgeEmphasize_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterEdgeEmphasize_build Filter_FilterSmoothing_build)
-
-add_custom_target(Filter_FilterMedianSmooth_build ALL
+add_custom_target(Filter_FilterMedianSmooth_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1480,9 +1354,7 @@ add_custom_target(Filter_FilterMedianSmooth_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterMedianSmooth_build Filter_FilterEdgeEmphasize_build)
-
-add_custom_target(Filter_FilterReverseLens_build ALL
+add_custom_target(Filter_FilterReverseLens_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1499,9 +1371,7 @@ add_custom_target(Filter_FilterReverseLens_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterReverseLens_build Filter_FilterMedianSmooth_build)
-
-add_custom_target(Filter_FilterShrinkImage_build ALL
+add_custom_target(Filter_FilterShrinkImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1518,9 +1388,7 @@ add_custom_target(Filter_FilterShrinkImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterShrinkImage_build Filter_FilterReverseLens_build)
-
-add_custom_target(Filter_FilterOneLayer_build ALL
+add_custom_target(Filter_FilterOneLayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1537,9 +1405,7 @@ add_custom_target(Filter_FilterOneLayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterOneLayer_build Filter_FilterShrinkImage_build)
-
-add_custom_target(Filter_FilterHSV_build ALL
+add_custom_target(Filter_FilterHSV_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1556,9 +1422,7 @@ add_custom_target(Filter_FilterHSV_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterHSV_build Filter_FilterOneLayer_build)
-
-add_custom_target(Filter_FilterNothing_build ALL
+add_custom_target(Filter_FilterNothing_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1575,9 +1439,7 @@ add_custom_target(Filter_FilterNothing_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterNothing_build Filter_FilterHSV_build)
-
-add_custom_target(Filter_FilterMoveImage_build ALL
+add_custom_target(Filter_FilterMoveImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1594,9 +1456,7 @@ add_custom_target(Filter_FilterMoveImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterMoveImage_build Filter_FilterNothing_build)
-
-add_custom_target(Filter_FilterReverseLensOneSide_build ALL
+add_custom_target(Filter_FilterReverseLensOneSide_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1613,9 +1473,7 @@ add_custom_target(Filter_FilterReverseLensOneSide_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterReverseLensOneSide_build Filter_FilterMoveImage_build)
-
-add_custom_target(Filter_FilterReverseCosineRing_build ALL
+add_custom_target(Filter_FilterReverseCosineRing_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1632,9 +1490,7 @@ add_custom_target(Filter_FilterReverseCosineRing_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterReverseCosineRing_build Filter_FilterReverseLensOneSide_build)
-
-add_custom_target(Filter_FilterUpsideDown_build ALL
+add_custom_target(Filter_FilterUpsideDown_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1651,9 +1507,7 @@ add_custom_target(Filter_FilterUpsideDown_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterUpsideDown_build Filter_FilterReverseCosineRing_build)
-
-add_custom_target(Filter_FilterSmoothLarge_build ALL
+add_custom_target(Filter_FilterSmoothLarge_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1670,9 +1524,7 @@ add_custom_target(Filter_FilterSmoothLarge_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterSmoothLarge_build Filter_FilterUpsideDown_build)
-
-add_custom_target(Filter_FilterReverseLensOneLayer_build ALL
+add_custom_target(Filter_FilterReverseLensOneLayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1689,9 +1541,7 @@ add_custom_target(Filter_FilterReverseLensOneLayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterReverseLensOneLayer_build Filter_FilterSmoothLarge_build)
-
-add_custom_target(Filter_FilterUDColorShift_build ALL
+add_custom_target(Filter_FilterUDColorShift_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1708,9 +1558,7 @@ add_custom_target(Filter_FilterUDColorShift_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterUDColorShift_build Filter_FilterReverseLensOneLayer_build)
-
-add_custom_target(Filter_FilterReverseLensSomeLayer_build ALL
+add_custom_target(Filter_FilterReverseLensSomeLayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1727,9 +1575,7 @@ add_custom_target(Filter_FilterReverseLensSomeLayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterReverseLensSomeLayer_build Filter_FilterUDColorShift_build)
-
-add_custom_target(Filter_FilterImageShading_build ALL
+add_custom_target(Filter_FilterImageShading_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1746,9 +1592,7 @@ add_custom_target(Filter_FilterImageShading_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterImageShading_build Filter_FilterReverseLensSomeLayer_build)
-
-add_custom_target(Filter_FilterReverseLensOneSide2_build ALL
+add_custom_target(Filter_FilterReverseLensOneSide2_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1765,9 +1609,7 @@ add_custom_target(Filter_FilterReverseLensOneSide2_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterReverseLensOneSide2_build Filter_FilterImageShading_build)
-
-add_custom_target(Filter_FilterEvenOdd_build ALL
+add_custom_target(Filter_FilterEvenOdd_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1784,9 +1626,7 @@ add_custom_target(Filter_FilterEvenOdd_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterEvenOdd_build Filter_FilterReverseLensOneSide2_build)
-
-add_custom_target(Filter_FilterMultiConvertBrightness_build ALL
+add_custom_target(Filter_FilterMultiConvertBrightness_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1803,9 +1643,7 @@ add_custom_target(Filter_FilterMultiConvertBrightness_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterMultiConvertBrightness_build Filter_FilterEvenOdd_build)
-
-add_custom_target(Filter_FilterRotationMirror_build ALL
+add_custom_target(Filter_FilterRotationMirror_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1822,9 +1660,7 @@ add_custom_target(Filter_FilterRotationMirror_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterRotationMirror_build Filter_FilterMultiConvertBrightness_build)
-
-add_custom_target(Filter_FilterHResolution_build ALL
+add_custom_target(Filter_FilterHResolution_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1841,9 +1677,7 @@ add_custom_target(Filter_FilterHResolution_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterHResolution_build Filter_FilterRotationMirror_build)
-
-add_custom_target(Filter_FilterVBand_build ALL
+add_custom_target(Filter_FilterVBand_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1860,9 +1694,7 @@ add_custom_target(Filter_FilterVBand_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterVBand_build Filter_FilterHResolution_build)
-
-add_custom_target(Filter_FilterHorizontalLinear_build ALL
+add_custom_target(Filter_FilterHorizontalLinear_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1879,9 +1711,7 @@ add_custom_target(Filter_FilterHorizontalLinear_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterHorizontalLinear_build Filter_FilterVBand_build)
-
-add_custom_target(Filter_FilterHorizontalBand_build ALL
+add_custom_target(Filter_FilterHorizontalBand_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1898,9 +1728,7 @@ add_custom_target(Filter_FilterHorizontalBand_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterHorizontalBand_build Filter_FilterHorizontalLinear_build)
-
-add_custom_target(Filter_FilterVerticalLinear_build ALL
+add_custom_target(Filter_FilterVerticalLinear_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1917,9 +1745,7 @@ add_custom_target(Filter_FilterVerticalLinear_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterVerticalLinear_build Filter_FilterHorizontalBand_build)
-
-add_custom_target(Filter_FilterVerticalReverse_build ALL
+add_custom_target(Filter_FilterVerticalReverse_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1936,9 +1762,7 @@ add_custom_target(Filter_FilterVerticalReverse_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterVerticalReverse_build Filter_FilterVerticalLinear_build)
-
-add_custom_target(GUI_ButtonSaveMasterData_build ALL
+add_custom_target(GUI_ButtonSaveMasterData_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1955,9 +1779,7 @@ add_custom_target(GUI_ButtonSaveMasterData_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSaveMasterData_build Filter_FilterVerticalReverse_build)
-
-add_custom_target(GUI_ButtonLoadMasterData_build ALL
+add_custom_target(GUI_ButtonLoadMasterData_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1974,9 +1796,7 @@ add_custom_target(GUI_ButtonLoadMasterData_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLoadMasterData_build GUI_ButtonSaveMasterData_build)
-
-add_custom_target(GUI_AlignmentImagePanel_build ALL
+add_custom_target(GUI_AlignmentImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1993,9 +1813,7 @@ add_custom_target(GUI_AlignmentImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AlignmentImagePanel_build GUI_ButtonLoadMasterData_build)
-
-add_custom_target(GUI_ButtonSequence_build ALL
+add_custom_target(GUI_ButtonSequence_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2012,9 +1830,7 @@ add_custom_target(GUI_ButtonSequence_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSequence_build GUI_AlignmentImagePanel_build)
-
-add_custom_target(GUI_ButtonSettingParameters_build ALL
+add_custom_target(GUI_ButtonSettingParameters_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2031,9 +1847,7 @@ add_custom_target(GUI_ButtonSettingParameters_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSettingParameters_build GUI_ButtonSequence_build)
-
-add_custom_target(GUI_CameraSettingButton_build ALL
+add_custom_target(GUI_CameraSettingButton_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2050,9 +1864,7 @@ add_custom_target(GUI_CameraSettingButton_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CameraSettingButton_build GUI_ButtonSettingParameters_build)
-
-add_custom_target(GUI_DisplayGrayLower_build ALL
+add_custom_target(GUI_DisplayGrayLower_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2069,9 +1881,7 @@ add_custom_target(GUI_DisplayGrayLower_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayGrayLower_build GUI_CameraSettingButton_build)
-
-add_custom_target(GUI_DisplayGrayUpper_build ALL
+add_custom_target(GUI_DisplayGrayUpper_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2088,9 +1898,7 @@ add_custom_target(GUI_DisplayGrayUpper_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayGrayUpper_build GUI_DisplayGrayLower_build)
-
-add_custom_target(GUI_DisplayMasterImage_build ALL
+add_custom_target(GUI_DisplayMasterImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2107,9 +1915,7 @@ add_custom_target(GUI_DisplayMasterImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayMasterImage_build GUI_DisplayGrayUpper_build)
-
-add_custom_target(GUI_DisplayNGList_build ALL
+add_custom_target(GUI_DisplayNGList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2126,9 +1932,7 @@ add_custom_target(GUI_DisplayNGList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayNGList_build GUI_DisplayMasterImage_build)
-
-add_custom_target(GUI_DisplayTargetImage_build ALL
+add_custom_target(GUI_DisplayTargetImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2145,9 +1949,7 @@ add_custom_target(GUI_DisplayTargetImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayTargetImage_build GUI_DisplayNGList_build)
-
-add_custom_target(GUI_GeneralDisplayWholeImage_build ALL
+add_custom_target(GUI_GeneralDisplayWholeImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2164,9 +1966,7 @@ add_custom_target(GUI_GeneralDisplayWholeImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GeneralDisplayWholeImage_build GUI_DisplayTargetImage_build)
-
-add_custom_target(GUI_GeneralLabel_build ALL
+add_custom_target(GUI_GeneralLabel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2183,9 +1983,7 @@ add_custom_target(GUI_GeneralLabel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GeneralLabel_build GUI_GeneralDisplayWholeImage_build)
-
-add_custom_target(GUI_GeneralTabSheet_build ALL
+add_custom_target(GUI_GeneralTabSheet_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2202,9 +2000,7 @@ add_custom_target(GUI_GeneralTabSheet_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GeneralTabSheet_build GUI_GeneralLabel_build)
-
-add_custom_target(GUI_ListboxAlgorithm_build ALL
+add_custom_target(GUI_ListboxAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2221,9 +2017,7 @@ add_custom_target(GUI_ListboxAlgorithm_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ListboxAlgorithm_build GUI_GeneralTabSheet_build)
-
-add_custom_target(GUI_LoadImageMasterButton_build ALL
+add_custom_target(GUI_LoadImageMasterButton_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2240,9 +2034,7 @@ add_custom_target(GUI_LoadImageMasterButton_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LoadImageMasterButton_build GUI_ListboxAlgorithm_build)
-
-add_custom_target(GUI_PropertyAlignment_build ALL
+add_custom_target(GUI_PropertyAlignment_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2259,9 +2051,7 @@ add_custom_target(GUI_PropertyAlignment_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyAlignment_build GUI_LoadImageMasterButton_build)
-
-add_custom_target(GUI_SaveImageMasterButton_build ALL
+add_custom_target(GUI_SaveImageMasterButton_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2278,9 +2068,7 @@ add_custom_target(GUI_SaveImageMasterButton_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SaveImageMasterButton_build GUI_PropertyAlignment_build)
-
-add_custom_target(GUI_StartCaptureButton_build ALL
+add_custom_target(GUI_StartCaptureButton_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2297,9 +2085,7 @@ add_custom_target(GUI_StartCaptureButton_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_StartCaptureButton_build GUI_SaveImageMasterButton_build)
-
-add_custom_target(GUI_ButtonUpdateMasterData_build ALL
+add_custom_target(GUI_ButtonUpdateMasterData_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2316,9 +2102,7 @@ add_custom_target(GUI_ButtonUpdateMasterData_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonUpdateMasterData_build GUI_StartCaptureButton_build)
-
-add_custom_target(GUI_BlockImagePanel_build ALL
+add_custom_target(GUI_BlockImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2335,9 +2119,7 @@ add_custom_target(GUI_BlockImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_BlockImagePanel_build GUI_ButtonUpdateMasterData_build)
-
-add_custom_target(GUI_MaskingImagePanel_build ALL
+add_custom_target(GUI_MaskingImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2354,9 +2136,7 @@ add_custom_target(GUI_MaskingImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MaskingImagePanel_build GUI_BlockImagePanel_build)
-
-add_custom_target(GUI_ButtonSaveAlgorithm_build ALL
+add_custom_target(GUI_ButtonSaveAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2373,9 +2153,7 @@ add_custom_target(GUI_ButtonSaveAlgorithm_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSaveAlgorithm_build GUI_MaskingImagePanel_build)
-
-add_custom_target(GUI_ButtonLoadAlgorithm_build ALL
+add_custom_target(GUI_ButtonLoadAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2392,9 +2170,7 @@ add_custom_target(GUI_ButtonLoadAlgorithm_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLoadAlgorithm_build GUI_ButtonSaveAlgorithm_build)
-
-add_custom_target(GUI_ImageControlTools_build ALL
+add_custom_target(GUI_ImageControlTools_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2411,9 +2187,7 @@ add_custom_target(GUI_ImageControlTools_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ImageControlTools_build GUI_ButtonLoadAlgorithm_build)
-
-add_custom_target(GUI_StartInspectionButton_build ALL
+add_custom_target(GUI_StartInspectionButton_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2430,9 +2204,7 @@ add_custom_target(GUI_StartInspectionButton_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_StartInspectionButton_build GUI_ImageControlTools_build)
-
-add_custom_target(GUI_LoadImageTargetButton_build ALL
+add_custom_target(GUI_LoadImageTargetButton_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2449,9 +2221,7 @@ add_custom_target(GUI_LoadImageTargetButton_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LoadImageTargetButton_build GUI_StartInspectionButton_build)
-
-add_custom_target(GUI_StartProcessAgainButton_build ALL
+add_custom_target(GUI_StartProcessAgainButton_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2468,9 +2238,7 @@ add_custom_target(GUI_StartProcessAgainButton_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_StartProcessAgainButton_build GUI_LoadImageTargetButton_build)
-
-add_custom_target(GUI_ListboxAlgorithmCount_build ALL
+add_custom_target(GUI_ListboxAlgorithmCount_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2487,9 +2255,7 @@ add_custom_target(GUI_ListboxAlgorithmCount_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ListboxAlgorithmCount_build GUI_StartProcessAgainButton_build)
-
-add_custom_target(GUI_ButtonExit_build ALL
+add_custom_target(GUI_ButtonExit_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2506,9 +2272,7 @@ add_custom_target(GUI_ButtonExit_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonExit_build GUI_ListboxAlgorithmCount_build)
-
-add_custom_target(GUI_TargetImageControlTools_build ALL
+add_custom_target(GUI_TargetImageControlTools_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2525,9 +2289,7 @@ add_custom_target(GUI_TargetImageControlTools_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_TargetImageControlTools_build GUI_ButtonExit_build)
-
-add_custom_target(GUI_ShowNGCount_build ALL
+add_custom_target(GUI_ShowNGCount_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2544,9 +2306,7 @@ add_custom_target(GUI_ShowNGCount_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowNGCount_build GUI_TargetImageControlTools_build)
-
-add_custom_target(GUI_SaveImageTargetButton_build ALL
+add_custom_target(GUI_SaveImageTargetButton_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2563,9 +2323,7 @@ add_custom_target(GUI_SaveImageTargetButton_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SaveImageTargetButton_build GUI_ShowNGCount_build)
-
-add_custom_target(GUI_ColorBlockImagePanel_build ALL
+add_custom_target(GUI_ColorBlockImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2582,9 +2340,7 @@ add_custom_target(GUI_ColorBlockImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ColorBlockImagePanel_build GUI_SaveImageTargetButton_build)
-
-add_custom_target(GUI_PixelImagePanel_build ALL
+add_custom_target(GUI_PixelImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2601,9 +2357,7 @@ add_custom_target(GUI_PixelImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PixelImagePanel_build GUI_ColorBlockImagePanel_build)
-
-add_custom_target(GUI_PropertyPixel_build ALL
+add_custom_target(GUI_PropertyPixel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2620,9 +2374,7 @@ add_custom_target(GUI_PropertyPixel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyPixel_build GUI_PixelImagePanel_build)
-
-add_custom_target(GUI_GeneralTabWizard_build ALL
+add_custom_target(GUI_GeneralTabWizard_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2639,9 +2391,7 @@ add_custom_target(GUI_GeneralTabWizard_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GeneralTabWizard_build GUI_PropertyPixel_build)
-
-add_custom_target(GUI_PanelOkNg_build ALL
+add_custom_target(GUI_PanelOkNg_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2658,9 +2408,7 @@ add_custom_target(GUI_PanelOkNg_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PanelOkNg_build GUI_GeneralTabWizard_build)
-
-add_custom_target(GUI_ButtonRepeatMode_build ALL
+add_custom_target(GUI_ButtonRepeatMode_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2677,9 +2425,7 @@ add_custom_target(GUI_ButtonRepeatMode_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonRepeatMode_build GUI_PanelOkNg_build)
-
-add_custom_target(GUI_ButtonAutoMode_build ALL
+add_custom_target(GUI_ButtonAutoMode_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2696,9 +2442,7 @@ add_custom_target(GUI_ButtonAutoMode_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonAutoMode_build GUI_ButtonRepeatMode_build)
-
-add_custom_target(GUI_ListHistory_build ALL
+add_custom_target(GUI_ListHistory_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2715,9 +2459,7 @@ add_custom_target(GUI_ListHistory_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ListHistory_build GUI_ButtonAutoMode_build)
-
-add_custom_target(GUI_ShowMasterNames_build ALL
+add_custom_target(GUI_ShowMasterNames_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2734,9 +2476,7 @@ add_custom_target(GUI_ShowMasterNames_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowMasterNames_build GUI_ListHistory_build)
-
-add_custom_target(GUI_ButtonSetTactTime_build ALL
+add_custom_target(GUI_ButtonSetTactTime_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2753,9 +2493,7 @@ add_custom_target(GUI_ButtonSetTactTime_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSetTactTime_build GUI_ShowMasterNames_build)
-
-add_custom_target(GUI_GeneralTabWizardNext_build ALL
+add_custom_target(GUI_GeneralTabWizardNext_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2772,9 +2510,7 @@ add_custom_target(GUI_GeneralTabWizardNext_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GeneralTabWizardNext_build GUI_ButtonSetTactTime_build)
-
-add_custom_target(GUI_ButtonInspectionID_build ALL
+add_custom_target(GUI_ButtonInspectionID_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2791,9 +2527,7 @@ add_custom_target(GUI_ButtonInspectionID_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonInspectionID_build GUI_GeneralTabWizardNext_build)
-
-add_custom_target(GUI_LabelForMeasuring_build ALL
+add_custom_target(GUI_LabelForMeasuring_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2810,9 +2544,7 @@ add_custom_target(GUI_LabelForMeasuring_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LabelForMeasuring_build GUI_ButtonInspectionID_build)
-
-add_custom_target(GUI_PiecePanel_build ALL
+add_custom_target(GUI_PiecePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2829,9 +2561,7 @@ add_custom_target(GUI_PiecePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PiecePanel_build GUI_LabelForMeasuring_build)
-
-add_custom_target(GUI_ButtonMonoBitmapForAlgorithm_build ALL
+add_custom_target(GUI_ButtonMonoBitmapForAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2848,9 +2578,7 @@ add_custom_target(GUI_ButtonMonoBitmapForAlgorithm_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonMonoBitmapForAlgorithm_build GUI_PiecePanel_build)
-
-add_custom_target(GUI_ShowStockedResult_build ALL
+add_custom_target(GUI_ShowStockedResult_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2867,9 +2595,7 @@ add_custom_target(GUI_ShowStockedResult_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowStockedResult_build GUI_ButtonMonoBitmapForAlgorithm_build)
-
-add_custom_target(GUI_ButtonReDrawAll_build ALL
+add_custom_target(GUI_ButtonReDrawAll_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2886,9 +2612,7 @@ add_custom_target(GUI_ButtonReDrawAll_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonReDrawAll_build GUI_ShowStockedResult_build)
-
-add_custom_target(GUI_ButtonCopyrightVersion_build ALL
+add_custom_target(GUI_ButtonCopyrightVersion_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2905,9 +2629,7 @@ add_custom_target(GUI_ButtonCopyrightVersion_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonCopyrightVersion_build GUI_ButtonReDrawAll_build)
-
-add_custom_target(GUI_ButtonCalcFinalization_build ALL
+add_custom_target(GUI_ButtonCalcFinalization_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2924,9 +2646,7 @@ add_custom_target(GUI_ButtonCalcFinalization_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonCalcFinalization_build GUI_ButtonCopyrightVersion_build)
-
-add_custom_target(GUI_OutlineImagePanel_build ALL
+add_custom_target(GUI_OutlineImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2943,9 +2663,7 @@ add_custom_target(GUI_OutlineImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_OutlineImagePanel_build GUI_ButtonCalcFinalization_build)
-
-add_custom_target(GUI_ChangeDrawTurn_build ALL
+add_custom_target(GUI_ChangeDrawTurn_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2962,9 +2680,7 @@ add_custom_target(GUI_ChangeDrawTurn_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ChangeDrawTurn_build GUI_OutlineImagePanel_build)
-
-add_custom_target(GUI_LoadImageFor32Regulus_build ALL
+add_custom_target(GUI_LoadImageFor32Regulus_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -2981,9 +2697,7 @@ add_custom_target(GUI_LoadImageFor32Regulus_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LoadImageFor32Regulus_build GUI_ChangeDrawTurn_build)
-
-add_custom_target(GUI_ButtonSelectLightDB_build ALL
+add_custom_target(GUI_ButtonSelectLightDB_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3000,9 +2714,7 @@ add_custom_target(GUI_ButtonSelectLightDB_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSelectLightDB_build GUI_LoadImageFor32Regulus_build)
-
-add_custom_target(GUI_NamingImagePanel_build ALL
+add_custom_target(GUI_NamingImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3019,9 +2731,7 @@ add_custom_target(GUI_NamingImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_NamingImagePanel_build GUI_ButtonSelectLightDB_build)
-
-add_custom_target(GUI_PropertyNaming_build ALL
+add_custom_target(GUI_PropertyNaming_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3038,9 +2748,7 @@ add_custom_target(GUI_PropertyNaming_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyNaming_build GUI_NamingImagePanel_build)
-
-add_custom_target(GUI_ShowStrategicNumber_build ALL
+add_custom_target(GUI_ShowStrategicNumber_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3057,9 +2765,7 @@ add_custom_target(GUI_ShowStrategicNumber_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowStrategicNumber_build GUI_PropertyNaming_build)
-
-add_custom_target(GUI_ButtonChangeOverlap_build ALL
+add_custom_target(GUI_ButtonChangeOverlap_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3076,9 +2782,7 @@ add_custom_target(GUI_ButtonChangeOverlap_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonChangeOverlap_build GUI_ShowStrategicNumber_build)
-
-add_custom_target(GUI_MaskingImagePanelPI_build ALL
+add_custom_target(GUI_MaskingImagePanelPI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3095,9 +2799,7 @@ add_custom_target(GUI_MaskingImagePanelPI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MaskingImagePanelPI_build GUI_ButtonChangeOverlap_build)
-
-add_custom_target(GUI_PropertyMaskingPI_build ALL
+add_custom_target(GUI_PropertyMaskingPI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3114,9 +2816,7 @@ add_custom_target(GUI_PropertyMaskingPI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyMaskingPI_build GUI_MaskingImagePanelPI_build)
-
-add_custom_target(GUI_TrueColorBlockImagePanel_build ALL
+add_custom_target(GUI_TrueColorBlockImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3133,9 +2833,7 @@ add_custom_target(GUI_TrueColorBlockImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_TrueColorBlockImagePanel_build GUI_PropertyMaskingPI_build)
-
-add_custom_target(GUI_ButtonSetRailWidth_build ALL
+add_custom_target(GUI_ButtonSetRailWidth_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3152,9 +2850,7 @@ add_custom_target(GUI_ButtonSetRailWidth_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSetRailWidth_build GUI_TrueColorBlockImagePanel_build)
-
-add_custom_target(GUI_StartStatisticScanButton_build ALL
+add_custom_target(GUI_StartStatisticScanButton_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3171,9 +2867,7 @@ add_custom_target(GUI_StartStatisticScanButton_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_StartStatisticScanButton_build GUI_ButtonSetRailWidth_build)
-
-add_custom_target(GUI_ButtonLoadBmpJpg_build ALL
+add_custom_target(GUI_ButtonLoadBmpJpg_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3190,9 +2884,7 @@ add_custom_target(GUI_ButtonLoadBmpJpg_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLoadBmpJpg_build GUI_StartStatisticScanButton_build)
-
-add_custom_target(GUI_ListboxErrorMessage_build ALL
+add_custom_target(GUI_ListboxErrorMessage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3209,9 +2901,7 @@ add_custom_target(GUI_ListboxErrorMessage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ListboxErrorMessage_build GUI_ButtonLoadBmpJpg_build)
-
-add_custom_target(GUI_ListboxAlgorithmItemProperty_build ALL
+add_custom_target(GUI_ListboxAlgorithmItemProperty_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3228,9 +2918,7 @@ add_custom_target(GUI_ListboxAlgorithmItemProperty_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ListboxAlgorithmItemProperty_build GUI_ListboxErrorMessage_build)
-
-add_custom_target(GUI_ImageProcessorPanel_build ALL
+add_custom_target(GUI_ImageProcessorPanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3247,9 +2935,7 @@ add_custom_target(GUI_ImageProcessorPanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ImageProcessorPanel_build GUI_ListboxAlgorithmItemProperty_build)
-
-add_custom_target(GUI_PropertyImageProcessor_build ALL
+add_custom_target(GUI_PropertyImageProcessor_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3266,9 +2952,7 @@ add_custom_target(GUI_PropertyImageProcessor_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyImageProcessor_build GUI_ImageProcessorPanel_build)
-
-add_custom_target(GUI_DesktopMachineMenu_build ALL
+add_custom_target(GUI_DesktopMachineMenu_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3285,9 +2969,7 @@ add_custom_target(GUI_DesktopMachineMenu_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DesktopMachineMenu_build GUI_PropertyImageProcessor_build)
-
-add_custom_target(GUI_ButtonToShowOtherGUI_build ALL
+add_custom_target(GUI_ButtonToShowOtherGUI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3304,9 +2986,7 @@ add_custom_target(GUI_ButtonToShowOtherGUI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonToShowOtherGUI_build GUI_DesktopMachineMenu_build)
-
-add_custom_target(GUI_ButtonWhichImage_build ALL
+add_custom_target(GUI_ButtonWhichImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3323,9 +3003,7 @@ add_custom_target(GUI_ButtonWhichImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonWhichImage_build GUI_ButtonToShowOtherGUI_build)
-
-add_custom_target(GUI_AutoAlignmentImagePanel_build ALL
+add_custom_target(GUI_AutoAlignmentImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3342,9 +3020,7 @@ add_custom_target(GUI_AutoAlignmentImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AutoAlignmentImagePanel_build GUI_ButtonWhichImage_build)
-
-add_custom_target(GUI_ButtonCloseOnly_build ALL
+add_custom_target(GUI_ButtonCloseOnly_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3361,9 +3037,7 @@ add_custom_target(GUI_ButtonCloseOnly_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonCloseOnly_build GUI_AutoAlignmentImagePanel_build)
-
-add_custom_target(GUI_PixelInspectionNGList_build ALL
+add_custom_target(GUI_PixelInspectionNGList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3380,9 +3054,7 @@ add_custom_target(GUI_PixelInspectionNGList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PixelInspectionNGList_build GUI_ButtonCloseOnly_build)
-
-add_custom_target(GUI_ButtonEditFilterBank_build ALL
+add_custom_target(GUI_ButtonEditFilterBank_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3399,9 +3071,7 @@ add_custom_target(GUI_ButtonEditFilterBank_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonEditFilterBank_build GUI_PixelInspectionNGList_build)
-
-add_custom_target(GUI_ButtonExecuteFilterImage_build ALL
+add_custom_target(GUI_ButtonExecuteFilterImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3418,9 +3088,7 @@ add_custom_target(GUI_ButtonExecuteFilterImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonExecuteFilterImage_build GUI_ButtonEditFilterBank_build)
-
-add_custom_target(GUI_AreaFilterImagePanel_build ALL
+add_custom_target(GUI_AreaFilterImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3437,9 +3105,7 @@ add_custom_target(GUI_AreaFilterImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AreaFilterImagePanel_build GUI_ButtonExecuteFilterImage_build)
-
-add_custom_target(GUI_PropertyAreaFilter_build ALL
+add_custom_target(GUI_PropertyAreaFilter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3456,9 +3122,7 @@ add_custom_target(GUI_PropertyAreaFilter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyAreaFilter_build GUI_AreaFilterImagePanel_build)
-
-add_custom_target(GUI_ButtonExecuteAreaFilter_build ALL
+add_custom_target(GUI_ButtonExecuteAreaFilter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3475,9 +3139,7 @@ add_custom_target(GUI_ButtonExecuteAreaFilter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonExecuteAreaFilter_build GUI_PropertyAreaFilter_build)
-
-add_custom_target(GUI_PieceLevelIndicator_build ALL
+add_custom_target(GUI_PieceLevelIndicator_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3494,9 +3156,7 @@ add_custom_target(GUI_PieceLevelIndicator_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PieceLevelIndicator_build GUI_ButtonExecuteAreaFilter_build)
-
-add_custom_target(GUI_AutoMaskingPIImagePanel_build ALL
+add_custom_target(GUI_AutoMaskingPIImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3513,9 +3173,7 @@ add_custom_target(GUI_AutoMaskingPIImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AutoMaskingPIImagePanel_build GUI_PieceLevelIndicator_build)
-
-add_custom_target(GUI_GraphicPanel_build ALL
+add_custom_target(GUI_GraphicPanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3532,9 +3190,7 @@ add_custom_target(GUI_GraphicPanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GraphicPanel_build GUI_AutoMaskingPIImagePanel_build)
-
-add_custom_target(GUI_ShowPointerMessage_build ALL
+add_custom_target(GUI_ShowPointerMessage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3551,9 +3207,7 @@ add_custom_target(GUI_ShowPointerMessage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowPointerMessage_build GUI_GraphicPanel_build)
-
-add_custom_target(GUI_GeneralHairLine_build ALL
+add_custom_target(GUI_GeneralHairLine_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3570,9 +3224,7 @@ add_custom_target(GUI_GeneralHairLine_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GeneralHairLine_build GUI_ShowPointerMessage_build)
-
-add_custom_target(GUI_SaveNewMaster_build ALL
+add_custom_target(GUI_SaveNewMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3589,9 +3241,7 @@ add_custom_target(GUI_SaveNewMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SaveNewMaster_build GUI_GeneralHairLine_build)
-
-add_custom_target(GUI_ButtonSelectMachine_build ALL
+add_custom_target(GUI_ButtonSelectMachine_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3608,9 +3258,7 @@ add_custom_target(GUI_ButtonSelectMachine_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSelectMachine_build GUI_SaveNewMaster_build)
-
-add_custom_target(GUI_PanelSaveImage_build ALL
+add_custom_target(GUI_PanelSaveImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3627,9 +3275,7 @@ add_custom_target(GUI_PanelSaveImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PanelSaveImage_build GUI_ButtonSelectMachine_build)
-
-add_custom_target(GUI_SaveAlgorithmWithMachine_build ALL
+add_custom_target(GUI_SaveAlgorithmWithMachine_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3646,9 +3292,7 @@ add_custom_target(GUI_SaveAlgorithmWithMachine_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SaveAlgorithmWithMachine_build GUI_PanelSaveImage_build)
-
-add_custom_target(GUI_LoadAlgorithmWithMachine_build ALL
+add_custom_target(GUI_LoadAlgorithmWithMachine_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3665,9 +3309,7 @@ add_custom_target(GUI_LoadAlgorithmWithMachine_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LoadAlgorithmWithMachine_build GUI_SaveAlgorithmWithMachine_build)
-
-add_custom_target(GUI_PropertyStatisticBlock_build ALL
+add_custom_target(GUI_PropertyStatisticBlock_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3684,9 +3326,7 @@ add_custom_target(GUI_PropertyStatisticBlock_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyStatisticBlock_build GUI_LoadAlgorithmWithMachine_build)
-
-add_custom_target(GUI_StatisticBlockImagePanel_build ALL
+add_custom_target(GUI_StatisticBlockImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3703,9 +3343,7 @@ add_custom_target(GUI_StatisticBlockImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_StatisticBlockImagePanel_build GUI_PropertyStatisticBlock_build)
-
-add_custom_target(GUI_CompressImageList_build ALL
+add_custom_target(GUI_CompressImageList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3722,9 +3360,7 @@ add_custom_target(GUI_CompressImageList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CompressImageList_build GUI_StatisticBlockImagePanel_build)
-
-add_custom_target(GUI_LearningImagePanel_build ALL
+add_custom_target(GUI_LearningImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3741,9 +3377,7 @@ add_custom_target(GUI_LearningImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LearningImagePanel_build GUI_CompressImageList_build)
-
-add_custom_target(GUI_PropertyLearning_build ALL
+add_custom_target(GUI_PropertyLearning_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3760,9 +3394,7 @@ add_custom_target(GUI_PropertyLearning_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyLearning_build GUI_LearningImagePanel_build)
-
-add_custom_target(GUI_PropertyDynamicMaskingPI_build ALL
+add_custom_target(GUI_PropertyDynamicMaskingPI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3779,9 +3411,7 @@ add_custom_target(GUI_PropertyDynamicMaskingPI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyDynamicMaskingPI_build GUI_PropertyLearning_build)
-
-add_custom_target(GUI_DynamicMaskingPIImagePanel_build ALL
+add_custom_target(GUI_DynamicMaskingPIImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3798,9 +3428,7 @@ add_custom_target(GUI_DynamicMaskingPIImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DynamicMaskingPIImagePanel_build GUI_PropertyDynamicMaskingPI_build)
-
-add_custom_target(GUI_ButtonLearningSaveMode_build ALL
+add_custom_target(GUI_ButtonLearningSaveMode_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3817,9 +3445,7 @@ add_custom_target(GUI_ButtonLearningSaveMode_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLearningSaveMode_build GUI_DynamicMaskingPIImagePanel_build)
-
-add_custom_target(GUI_NGNamingList_build ALL
+add_custom_target(GUI_NGNamingList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3836,9 +3462,7 @@ add_custom_target(GUI_NGNamingList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_NGNamingList_build GUI_ButtonLearningSaveMode_build)
-
-add_custom_target(GUI_EulerRingImagePanel_build ALL
+add_custom_target(GUI_EulerRingImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3855,9 +3479,7 @@ add_custom_target(GUI_EulerRingImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_EulerRingImagePanel_build GUI_NGNamingList_build)
-
-add_custom_target(GUI_PropertyEulerRing_build ALL
+add_custom_target(GUI_PropertyEulerRing_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3874,9 +3496,7 @@ add_custom_target(GUI_PropertyEulerRing_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyEulerRing_build GUI_EulerRingImagePanel_build)
-
-add_custom_target(GUI_ButtonToShowDialogOnGeneralStocker_build ALL
+add_custom_target(GUI_ButtonToShowDialogOnGeneralStocker_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3893,9 +3513,7 @@ add_custom_target(GUI_ButtonToShowDialogOnGeneralStocker_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonToShowDialogOnGeneralStocker_build GUI_PropertyEulerRing_build)
-
-add_custom_target(GUI_AreaShaderImagePanel_build ALL
+add_custom_target(GUI_AreaShaderImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3912,9 +3530,7 @@ add_custom_target(GUI_AreaShaderImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AreaShaderImagePanel_build GUI_ButtonToShowDialogOnGeneralStocker_build)
-
-add_custom_target(GUI_PropertyAreaShader_build ALL
+add_custom_target(GUI_PropertyAreaShader_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3931,9 +3547,7 @@ add_custom_target(GUI_PropertyAreaShader_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyAreaShader_build GUI_AreaShaderImagePanel_build)
-
-add_custom_target(GUI_AutoSaveImageViewList_build ALL
+add_custom_target(GUI_AutoSaveImageViewList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3950,9 +3564,7 @@ add_custom_target(GUI_AutoSaveImageViewList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AutoSaveImageViewList_build GUI_PropertyAreaShader_build)
-
-add_custom_target(GUI_AutoSaveImageViewPanel_build ALL
+add_custom_target(GUI_AutoSaveImageViewPanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3969,9 +3581,7 @@ add_custom_target(GUI_AutoSaveImageViewPanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AutoSaveImageViewPanel_build GUI_AutoSaveImageViewList_build)
-
-add_custom_target(GUI_ListboxProcessTime_build ALL
+add_custom_target(GUI_ListboxProcessTime_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -3988,9 +3598,7 @@ add_custom_target(GUI_ListboxProcessTime_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ListboxProcessTime_build GUI_AutoSaveImageViewPanel_build)
-
-add_custom_target(GUI_ManualDesktopMachineMenu_build ALL
+add_custom_target(GUI_ManualDesktopMachineMenu_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4007,9 +3615,7 @@ add_custom_target(GUI_ManualDesktopMachineMenu_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ManualDesktopMachineMenu_build GUI_ListboxProcessTime_build)
-
-add_custom_target(GUI_ManualPropertyPixel_build ALL
+add_custom_target(GUI_ManualPropertyPixel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4026,9 +3632,7 @@ add_custom_target(GUI_ManualPropertyPixel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ManualPropertyPixel_build GUI_ManualDesktopMachineMenu_build)
-
-add_custom_target(GUI_ManualPixelImagePanel_build ALL
+add_custom_target(GUI_ManualPixelImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4045,9 +3649,7 @@ add_custom_target(GUI_ManualPixelImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ManualPixelImagePanel_build GUI_ManualPropertyPixel_build)
-
-add_custom_target(GUI_ManualPixelInspectionNGList_build ALL
+add_custom_target(GUI_ManualPixelInspectionNGList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4064,9 +3666,7 @@ add_custom_target(GUI_ManualPixelInspectionNGList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ManualPixelInspectionNGList_build GUI_ManualPixelImagePanel_build)
-
-add_custom_target(GUI_ButtonStartLearning_build ALL
+add_custom_target(GUI_ButtonStartLearning_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4083,9 +3683,7 @@ add_custom_target(GUI_ButtonStartLearning_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonStartLearning_build GUI_ManualPixelInspectionNGList_build)
-
-add_custom_target(GUI_ButtonLoadPWAFile_build ALL
+add_custom_target(GUI_ButtonLoadPWAFile_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4102,9 +3700,7 @@ add_custom_target(GUI_ButtonLoadPWAFile_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLoadPWAFile_build GUI_ButtonStartLearning_build)
-
-add_custom_target(GUI_ButtonSavePWAFile_build ALL
+add_custom_target(GUI_ButtonSavePWAFile_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4121,9 +3717,7 @@ add_custom_target(GUI_ButtonSavePWAFile_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSavePWAFile_build GUI_ButtonLoadPWAFile_build)
-
-add_custom_target(GUI_ButtonSelectMaster_build ALL
+add_custom_target(GUI_ButtonSelectMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4140,9 +3734,7 @@ add_custom_target(GUI_ButtonSelectMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSelectMaster_build GUI_ButtonSavePWAFile_build)
-
-add_custom_target(GUI_ButtonSelectDatabase_build ALL
+add_custom_target(GUI_ButtonSelectDatabase_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4159,9 +3751,7 @@ add_custom_target(GUI_ButtonSelectDatabase_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSelectDatabase_build GUI_ButtonSelectMaster_build)
-
-add_custom_target(GUI_ButtonShutdown_build ALL
+add_custom_target(GUI_ButtonShutdown_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4178,9 +3768,7 @@ add_custom_target(GUI_ButtonShutdown_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonShutdown_build GUI_ButtonSelectDatabase_build)
-
-add_custom_target(GUI_ImageCheckerPanel_build ALL
+add_custom_target(GUI_ImageCheckerPanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4197,9 +3785,7 @@ add_custom_target(GUI_ImageCheckerPanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ImageCheckerPanel_build GUI_ButtonShutdown_build)
-
-add_custom_target(GUI_PropertyImageChecker_build ALL
+add_custom_target(GUI_PropertyImageChecker_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4216,9 +3802,7 @@ add_custom_target(GUI_PropertyImageChecker_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyImageChecker_build GUI_ImageCheckerPanel_build)
-
-add_custom_target(GUI_ShowResultImageChecker_build ALL
+add_custom_target(GUI_ShowResultImageChecker_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4235,9 +3819,7 @@ add_custom_target(GUI_ShowResultImageChecker_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowResultImageChecker_build GUI_PropertyImageChecker_build)
-
-add_custom_target(GUI_ShowInspectionNumber_build ALL
+add_custom_target(GUI_ShowInspectionNumber_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4254,9 +3836,7 @@ add_custom_target(GUI_ShowInspectionNumber_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowInspectionNumber_build GUI_ShowResultImageChecker_build)
-
-add_custom_target(GUI_SendMessenger_build ALL
+add_custom_target(GUI_SendMessenger_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4273,9 +3853,7 @@ add_custom_target(GUI_SendMessenger_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SendMessenger_build GUI_ShowInspectionNumber_build)
-
-add_custom_target(GUI_SpotReducerImagePanel_build ALL
+add_custom_target(GUI_SpotReducerImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4292,9 +3870,7 @@ add_custom_target(GUI_SpotReducerImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SpotReducerImagePanel_build GUI_SendMessenger_build)
-
-add_custom_target(GUI_PropertySpotReducer_build ALL
+add_custom_target(GUI_PropertySpotReducer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4311,9 +3887,7 @@ add_custom_target(GUI_PropertySpotReducer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertySpotReducer_build GUI_SpotReducerImagePanel_build)
-
-add_custom_target(GUI_ChangeCameraSettingInvisible_build ALL
+add_custom_target(GUI_ChangeCameraSettingInvisible_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4330,9 +3904,7 @@ add_custom_target(GUI_ChangeCameraSettingInvisible_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ChangeCameraSettingInvisible_build GUI_PropertySpotReducer_build)
-
-add_custom_target(GUI_ButtonShrinkImage_build ALL
+add_custom_target(GUI_ButtonShrinkImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4349,9 +3921,7 @@ add_custom_target(GUI_ButtonShrinkImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonShrinkImage_build GUI_ChangeCameraSettingInvisible_build)
-
-add_custom_target(GUI_MatchingAlignmentImagePanel_build ALL
+add_custom_target(GUI_MatchingAlignmentImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4368,9 +3938,7 @@ add_custom_target(GUI_MatchingAlignmentImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MatchingAlignmentImagePanel_build GUI_ButtonShrinkImage_build)
-
-add_custom_target(GUI_PropertyMatchingAlignment_build ALL
+add_custom_target(GUI_PropertyMatchingAlignment_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4387,9 +3955,7 @@ add_custom_target(GUI_PropertyMatchingAlignment_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyMatchingAlignment_build GUI_MatchingAlignmentImagePanel_build)
-
-add_custom_target(GUI_MatrixCellList_build ALL
+add_custom_target(GUI_MatrixCellList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4406,9 +3972,7 @@ add_custom_target(GUI_MatrixCellList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MatrixCellList_build GUI_PropertyMatchingAlignment_build)
-
-add_custom_target(GUI_ButtonLoadMonoBmpInAnyPageLayer_build ALL
+add_custom_target(GUI_ButtonLoadMonoBmpInAnyPageLayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4425,9 +3989,7 @@ add_custom_target(GUI_ButtonLoadMonoBmpInAnyPageLayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLoadMonoBmpInAnyPageLayer_build GUI_MatrixCellList_build)
-
-add_custom_target(GUI_ExecuteMacroList_build ALL
+add_custom_target(GUI_ExecuteMacroList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4444,9 +4006,7 @@ add_custom_target(GUI_ExecuteMacroList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ExecuteMacroList_build GUI_ButtonLoadMonoBmpInAnyPageLayer_build)
-
-add_custom_target(GUI_ButtonSaveResultWithAll_build ALL
+add_custom_target(GUI_ButtonSaveResultWithAll_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4463,9 +4023,7 @@ add_custom_target(GUI_ButtonSaveResultWithAll_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSaveResultWithAll_build GUI_ExecuteMacroList_build)
-
-add_custom_target(GUI_ButtonLoadResultWithAll_build ALL
+add_custom_target(GUI_ButtonLoadResultWithAll_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4482,9 +4040,7 @@ add_custom_target(GUI_ButtonLoadResultWithAll_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLoadResultWithAll_build GUI_ButtonSaveResultWithAll_build)
-
-add_custom_target(GUI_ChangeCameraSetting_build ALL
+add_custom_target(GUI_ChangeCameraSetting_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4501,9 +4057,7 @@ add_custom_target(GUI_ChangeCameraSetting_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ChangeCameraSetting_build GUI_ButtonLoadResultWithAll_build)
-
-add_custom_target(GUI_ButtonSaveMatrixCell_build ALL
+add_custom_target(GUI_ButtonSaveMatrixCell_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4520,9 +4074,7 @@ add_custom_target(GUI_ButtonSaveMatrixCell_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSaveMatrixCell_build GUI_ChangeCameraSetting_build)
-
-add_custom_target(GUI_ButtonLoadMatrixCell_build ALL
+add_custom_target(GUI_ButtonLoadMatrixCell_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4539,9 +4091,7 @@ add_custom_target(GUI_ButtonLoadMatrixCell_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLoadMatrixCell_build GUI_ButtonSaveMatrixCell_build)
-
-add_custom_target(GUI_ButtonSetMachine_build ALL
+add_custom_target(GUI_ButtonSetMachine_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4558,9 +4108,7 @@ add_custom_target(GUI_ButtonSetMachine_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSetMachine_build GUI_ButtonLoadMatrixCell_build)
-
-add_custom_target(GUI_AutoSaveImageSelectLot_build ALL
+add_custom_target(GUI_AutoSaveImageSelectLot_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4577,9 +4125,7 @@ add_custom_target(GUI_AutoSaveImageSelectLot_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AutoSaveImageSelectLot_build GUI_ButtonSetMachine_build)
-
-add_custom_target(GUI_ButtonToSaveCopiedItemDirectly_build ALL
+add_custom_target(GUI_ButtonToSaveCopiedItemDirectly_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4596,9 +4142,7 @@ add_custom_target(GUI_ButtonToSaveCopiedItemDirectly_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonToSaveCopiedItemDirectly_build GUI_AutoSaveImageSelectLot_build)
-
-add_custom_target(GUI_CheckProgramRunInvisible_build ALL
+add_custom_target(GUI_CheckProgramRunInvisible_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4615,9 +4159,7 @@ add_custom_target(GUI_CheckProgramRunInvisible_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CheckProgramRunInvisible_build GUI_ButtonToSaveCopiedItemDirectly_build)
-
-add_custom_target(GUI_ButtonChangeCurrentPhase_build ALL
+add_custom_target(GUI_ButtonChangeCurrentPhase_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4634,9 +4176,7 @@ add_custom_target(GUI_ButtonChangeCurrentPhase_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonChangeCurrentPhase_build GUI_CheckProgramRunInvisible_build)
-
-add_custom_target(GUI_GeneralMenu_build ALL
+add_custom_target(GUI_GeneralMenu_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4653,9 +4193,7 @@ add_custom_target(GUI_GeneralMenu_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GeneralMenu_build GUI_ButtonChangeCurrentPhase_build)
-
-add_custom_target(GUI_AutoPCBHoleAlignerImagePanel_build ALL
+add_custom_target(GUI_AutoPCBHoleAlignerImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4672,9 +4210,7 @@ add_custom_target(GUI_AutoPCBHoleAlignerImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AutoPCBHoleAlignerImagePanel_build GUI_GeneralMenu_build)
-
-add_custom_target(GUI_PropertyAutoPCBHoleAligner_build ALL
+add_custom_target(GUI_PropertyAutoPCBHoleAligner_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4691,9 +4227,7 @@ add_custom_target(GUI_PropertyAutoPCBHoleAligner_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyAutoPCBHoleAligner_build GUI_AutoPCBHoleAlignerImagePanel_build)
-
-add_custom_target(GUI_StacksToSwitchMasterTarget_build ALL
+add_custom_target(GUI_StacksToSwitchMasterTarget_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4710,9 +4244,7 @@ add_custom_target(GUI_StacksToSwitchMasterTarget_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_StacksToSwitchMasterTarget_build GUI_PropertyAutoPCBHoleAligner_build)
-
-add_custom_target(GUI_SlaveIndicatorInvisible_build ALL
+add_custom_target(GUI_SlaveIndicatorInvisible_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4729,9 +4261,7 @@ add_custom_target(GUI_SlaveIndicatorInvisible_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SlaveIndicatorInvisible_build GUI_StacksToSwitchMasterTarget_build)
-
-add_custom_target(GUI_ListboxGUITime_build ALL
+add_custom_target(GUI_ListboxGUITime_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4748,9 +4278,7 @@ add_custom_target(GUI_ListboxGUITime_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ListboxGUITime_build GUI_SlaveIndicatorInvisible_build)
-
-add_custom_target(GUI_ButtonLearningOK_build ALL
+add_custom_target(GUI_ButtonLearningOK_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4767,9 +4295,7 @@ add_custom_target(GUI_ButtonLearningOK_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLearningOK_build GUI_ListboxGUITime_build)
-
-add_custom_target(GUI_ButtonLearningNG_build ALL
+add_custom_target(GUI_ButtonLearningNG_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4786,9 +4312,7 @@ add_custom_target(GUI_ButtonLearningNG_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLearningNG_build GUI_ButtonLearningOK_build)
-
-add_custom_target(GUI_DisplayStatus_build ALL
+add_custom_target(GUI_DisplayStatus_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4805,9 +4329,7 @@ add_custom_target(GUI_DisplayStatus_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayStatus_build GUI_ButtonLearningNG_build)
-
-add_custom_target(GUI_ShowCurrentOpinion_build ALL
+add_custom_target(GUI_ShowCurrentOpinion_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4824,9 +4346,7 @@ add_custom_target(GUI_ShowCurrentOpinion_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowCurrentOpinion_build GUI_DisplayStatus_build)
-
-add_custom_target(GUI_ButtonSaveAllOpinions_build ALL
+add_custom_target(GUI_ButtonSaveAllOpinions_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4843,9 +4363,7 @@ add_custom_target(GUI_ButtonSaveAllOpinions_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSaveAllOpinions_build GUI_ShowCurrentOpinion_build)
-
-add_custom_target(GUI_ButtonCalcAlignment_build ALL
+add_custom_target(GUI_ButtonCalcAlignment_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4862,9 +4380,7 @@ add_custom_target(GUI_ButtonCalcAlignment_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonCalcAlignment_build GUI_ButtonSaveAllOpinions_build)
-
-add_custom_target(GUI_ButtonCopyLibrary_build ALL
+add_custom_target(GUI_ButtonCopyLibrary_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4881,9 +4397,7 @@ add_custom_target(GUI_ButtonCopyLibrary_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonCopyLibrary_build GUI_ButtonCalcAlignment_build)
-
-add_custom_target(GUI_GeneralDividedPanels_build ALL
+add_custom_target(GUI_GeneralDividedPanels_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4900,9 +4414,7 @@ add_custom_target(GUI_GeneralDividedPanels_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GeneralDividedPanels_build GUI_ButtonCopyLibrary_build)
-
-add_custom_target(GUI_GeneralPanel_build ALL
+add_custom_target(GUI_GeneralPanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4919,9 +4431,7 @@ add_custom_target(GUI_GeneralPanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GeneralPanel_build GUI_GeneralDividedPanels_build)
-
-add_custom_target(GUI_ListboxUncoveredArea_build ALL
+add_custom_target(GUI_ListboxUncoveredArea_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4938,9 +4448,7 @@ add_custom_target(GUI_ListboxUncoveredArea_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ListboxUncoveredArea_build GUI_GeneralPanel_build)
-
-add_custom_target(GUI_ButtonClearStockedResult_build ALL
+add_custom_target(GUI_ButtonClearStockedResult_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4957,9 +4465,7 @@ add_custom_target(GUI_ButtonClearStockedResult_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonClearStockedResult_build GUI_ListboxUncoveredArea_build)
-
-add_custom_target(GUI_ExpandMainInTab_build ALL
+add_custom_target(GUI_ExpandMainInTab_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4976,9 +4482,7 @@ add_custom_target(GUI_ExpandMainInTab_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ExpandMainInTab_build GUI_ButtonClearStockedResult_build)
-
-add_custom_target(GUI_ButtonAppendAlgorithm_build ALL
+add_custom_target(GUI_ButtonAppendAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -4995,9 +4499,7 @@ add_custom_target(GUI_ButtonAppendAlgorithm_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonAppendAlgorithm_build GUI_ExpandMainInTab_build)
-
-add_custom_target(GUI_ButtonSetZ_build ALL
+add_custom_target(GUI_ButtonSetZ_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5014,9 +4516,7 @@ add_custom_target(GUI_ButtonSetZ_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSetZ_build GUI_ButtonAppendAlgorithm_build)
-
-add_custom_target(GUI_RemoteControlForServer_build ALL
+add_custom_target(GUI_RemoteControlForServer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5033,9 +4533,7 @@ add_custom_target(GUI_RemoteControlForServer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_RemoteControlForServer_build GUI_ButtonSetZ_build)
-
-add_custom_target(GUI_DisplayServer_build ALL
+add_custom_target(GUI_DisplayServer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5052,9 +4550,7 @@ add_custom_target(GUI_DisplayServer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayServer_build GUI_RemoteControlForServer_build)
-
-add_custom_target(GUI_PropertyOutline_build ALL
+add_custom_target(GUI_PropertyOutline_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5071,9 +4567,7 @@ add_custom_target(GUI_PropertyOutline_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyOutline_build GUI_DisplayServer_build)
-
-add_custom_target(GUI_PropertyMasking_build ALL
+add_custom_target(GUI_PropertyMasking_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5090,9 +4584,7 @@ add_custom_target(GUI_PropertyMasking_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyMasking_build GUI_PropertyOutline_build)
-
-add_custom_target(GUI_ButtonLoadOutlineOffset_build ALL
+add_custom_target(GUI_ButtonLoadOutlineOffset_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5109,9 +4601,7 @@ add_custom_target(GUI_ButtonLoadOutlineOffset_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLoadOutlineOffset_build GUI_PropertyMasking_build)
-
-add_custom_target(GUI_ButtonMoveAll_build ALL
+add_custom_target(GUI_ButtonMoveAll_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5128,9 +4618,7 @@ add_custom_target(GUI_ButtonMoveAll_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonMoveAll_build GUI_ButtonLoadOutlineOffset_build)
-
-add_custom_target(GUI_PropertyColorBlock_build ALL
+add_custom_target(GUI_PropertyColorBlock_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5147,9 +4635,7 @@ add_custom_target(GUI_PropertyColorBlock_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyColorBlock_build GUI_ButtonMoveAll_build)
-
-add_custom_target(GUI_PropertyTrueColorBlock_build ALL
+add_custom_target(GUI_PropertyTrueColorBlock_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5166,9 +4652,7 @@ add_custom_target(GUI_PropertyTrueColorBlock_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyTrueColorBlock_build GUI_PropertyColorBlock_build)
-
-add_custom_target(GUI_PropertyAutoMaskingPI_build ALL
+add_custom_target(GUI_PropertyAutoMaskingPI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5185,9 +4669,7 @@ add_custom_target(GUI_PropertyAutoMaskingPI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyAutoMaskingPI_build GUI_PropertyTrueColorBlock_build)
-
-add_custom_target(GUI_PropertyAutoAlignment_build ALL
+add_custom_target(GUI_PropertyAutoAlignment_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5204,9 +4686,7 @@ add_custom_target(GUI_PropertyAutoAlignment_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyAutoAlignment_build GUI_PropertyAutoMaskingPI_build)
-
-add_custom_target(GUI_ButtonSelectLearningTargetImage_build ALL
+add_custom_target(GUI_ButtonSelectLearningTargetImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5223,9 +4703,7 @@ add_custom_target(GUI_ButtonSelectLearningTargetImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSelectLearningTargetImage_build GUI_PropertyAutoAlignment_build)
-
-add_custom_target(GUI_ButtonShowLightForm_build ALL
+add_custom_target(GUI_ButtonShowLightForm_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5242,9 +4720,7 @@ add_custom_target(GUI_ButtonShowLightForm_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonShowLightForm_build GUI_ButtonSelectLearningTargetImage_build)
-
-add_custom_target(GUI_PropertyStatisticImager_build ALL
+add_custom_target(GUI_PropertyStatisticImager_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5261,9 +4737,7 @@ add_custom_target(GUI_PropertyStatisticImager_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyStatisticImager_build GUI_ButtonShowLightForm_build)
-
-add_custom_target(GUI_StatisticImagerImagePanel_build ALL
+add_custom_target(GUI_StatisticImagerImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5280,9 +4754,7 @@ add_custom_target(GUI_StatisticImagerImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_StatisticImagerImagePanel_build GUI_PropertyStatisticImager_build)
-
-add_custom_target(GUI_PieceProperty_build ALL
+add_custom_target(GUI_PieceProperty_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5299,9 +4771,7 @@ add_custom_target(GUI_PieceProperty_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PieceProperty_build GUI_StatisticImagerImagePanel_build)
-
-add_custom_target(GUI_GeneralGroup_build ALL
+add_custom_target(GUI_GeneralGroup_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5318,9 +4788,7 @@ add_custom_target(GUI_GeneralGroup_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GeneralGroup_build GUI_PieceProperty_build)
-
-add_custom_target(GUI_PropertyBlock_build ALL
+add_custom_target(GUI_PropertyBlock_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5337,9 +4805,7 @@ add_custom_target(GUI_PropertyBlock_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyBlock_build GUI_GeneralGroup_build)
-
-add_custom_target(GUI_ButtonLoadMasterDataWithoutMachine_build ALL
+add_custom_target(GUI_ButtonLoadMasterDataWithoutMachine_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5356,9 +4822,7 @@ add_custom_target(GUI_ButtonLoadMasterDataWithoutMachine_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLoadMasterDataWithoutMachine_build GUI_PropertyBlock_build)
-
-add_custom_target(GUI_AutoSaveImageListForSearch_build ALL
+add_custom_target(GUI_AutoSaveImageListForSearch_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5375,9 +4839,7 @@ add_custom_target(GUI_AutoSaveImageListForSearch_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AutoSaveImageListForSearch_build GUI_ButtonLoadMasterDataWithoutMachine_build)
-
-add_custom_target(GUI_AutoSaveImageButtonSave_build ALL
+add_custom_target(GUI_AutoSaveImageButtonSave_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5394,9 +4856,7 @@ add_custom_target(GUI_AutoSaveImageButtonSave_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AutoSaveImageButtonSave_build GUI_AutoSaveImageListForSearch_build)
-
-add_custom_target(GUI_AutoSaveImageButtonAuto_build ALL
+add_custom_target(GUI_AutoSaveImageButtonAuto_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5413,9 +4873,7 @@ add_custom_target(GUI_AutoSaveImageButtonAuto_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AutoSaveImageButtonAuto_build GUI_AutoSaveImageButtonSave_build)
-
-add_custom_target(GUI_ButtonCopyImage_build ALL
+add_custom_target(GUI_ButtonCopyImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5432,9 +4890,7 @@ add_custom_target(GUI_ButtonCopyImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonCopyImage_build GUI_AutoSaveImageButtonAuto_build)
-
-add_custom_target(GUI_StartInspectionWithoutCapture_build ALL
+add_custom_target(GUI_StartInspectionWithoutCapture_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5451,9 +4907,7 @@ add_custom_target(GUI_StartInspectionWithoutCapture_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_StartInspectionWithoutCapture_build GUI_ButtonCopyImage_build)
-
-add_custom_target(GUI_VCutImagePanel_build ALL
+add_custom_target(GUI_VCutImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5470,9 +4924,7 @@ add_custom_target(GUI_VCutImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_VCutImagePanel_build GUI_StartInspectionWithoutCapture_build)
-
-add_custom_target(GUI_VCutProperty_build ALL
+add_custom_target(GUI_VCutProperty_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5489,9 +4941,7 @@ add_custom_target(GUI_VCutProperty_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_VCutProperty_build GUI_VCutImagePanel_build)
-
-add_custom_target(GUI_ListCachTargetImage_build ALL
+add_custom_target(GUI_ListCachTargetImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5508,9 +4958,7 @@ add_custom_target(GUI_ListCachTargetImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ListCachTargetImage_build GUI_VCutProperty_build)
-
-add_custom_target(GUI_LineEnhancerImagePanel_build ALL
+add_custom_target(GUI_LineEnhancerImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5527,9 +4975,7 @@ add_custom_target(GUI_LineEnhancerImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LineEnhancerImagePanel_build GUI_ListCachTargetImage_build)
-
-add_custom_target(GUI_PropertyLineEnhancer_build ALL
+add_custom_target(GUI_PropertyLineEnhancer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5546,9 +4992,7 @@ add_custom_target(GUI_PropertyLineEnhancer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyLineEnhancer_build GUI_LineEnhancerImagePanel_build)
-
-add_custom_target(GUI_DynamicClassifyImagePanel_build ALL
+add_custom_target(GUI_DynamicClassifyImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5565,9 +5009,7 @@ add_custom_target(GUI_DynamicClassifyImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DynamicClassifyImagePanel_build GUI_PropertyLineEnhancer_build)
-
-add_custom_target(GUI_PropertyDynamicClassify_build ALL
+add_custom_target(GUI_PropertyDynamicClassify_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5584,9 +5026,7 @@ add_custom_target(GUI_PropertyDynamicClassify_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyDynamicClassify_build GUI_DynamicClassifyImagePanel_build)
-
-add_custom_target(GUI_ARArrangeImagePanel_build ALL
+add_custom_target(GUI_ARArrangeImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5603,9 +5043,7 @@ add_custom_target(GUI_ARArrangeImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ARArrangeImagePanel_build GUI_PropertyDynamicClassify_build)
-
-add_custom_target(GUI_PropertyARArrange_build ALL
+add_custom_target(GUI_PropertyARArrange_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5622,9 +5060,7 @@ add_custom_target(GUI_PropertyARArrange_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyARArrange_build GUI_ARArrangeImagePanel_build)
-
-add_custom_target(GUI_DisplayPointingMessage_build ALL
+add_custom_target(GUI_DisplayPointingMessage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5641,9 +5077,7 @@ add_custom_target(GUI_DisplayPointingMessage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayPointingMessage_build GUI_PropertyARArrange_build)
-
-add_custom_target(GUI_ProgressOnIdle_build ALL
+add_custom_target(GUI_ProgressOnIdle_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5660,9 +5094,7 @@ add_custom_target(GUI_ProgressOnIdle_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ProgressOnIdle_build GUI_DisplayPointingMessage_build)
-
-add_custom_target(GUI_DisplayRealtimeGraph_build ALL
+add_custom_target(GUI_DisplayRealtimeGraph_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5679,9 +5111,7 @@ add_custom_target(GUI_DisplayRealtimeGraph_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayRealtimeGraph_build GUI_ProgressOnIdle_build)
-
-add_custom_target(GUI_PropertyRealtimeGraph_build ALL
+add_custom_target(GUI_PropertyRealtimeGraph_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5698,9 +5128,7 @@ add_custom_target(GUI_PropertyRealtimeGraph_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyRealtimeGraph_build GUI_DisplayRealtimeGraph_build)
-
-add_custom_target(GUI_RealtimeGraphMeasure1_build ALL
+add_custom_target(GUI_RealtimeGraphMeasure1_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5717,9 +5145,7 @@ add_custom_target(GUI_RealtimeGraphMeasure1_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_RealtimeGraphMeasure1_build GUI_PropertyRealtimeGraph_build)
-
-add_custom_target(GUI_ShowMinMaxButton_build ALL
+add_custom_target(GUI_ShowMinMaxButton_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5736,9 +5162,7 @@ add_custom_target(GUI_ShowMinMaxButton_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowMinMaxButton_build GUI_RealtimeGraphMeasure1_build)
-
-add_custom_target(GUI_ButtonSwitchDelayedView_build ALL
+add_custom_target(GUI_ButtonSwitchDelayedView_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5755,9 +5179,7 @@ add_custom_target(GUI_ButtonSwitchDelayedView_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSwitchDelayedView_build GUI_ShowMinMaxButton_build)
-
-add_custom_target(GUI_ExecuteVisualizer_build ALL
+add_custom_target(GUI_ExecuteVisualizer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5774,9 +5196,7 @@ add_custom_target(GUI_ExecuteVisualizer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ExecuteVisualizer_build GUI_ButtonSwitchDelayedView_build)
-
-add_custom_target(GUI_ShowTopBottomSideInfo_build ALL
+add_custom_target(GUI_ShowTopBottomSideInfo_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5793,9 +5213,7 @@ add_custom_target(GUI_ShowTopBottomSideInfo_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowTopBottomSideInfo_build GUI_ExecuteVisualizer_build)
-
-add_custom_target(GUI_PieceForReviewImagePanel_build ALL
+add_custom_target(GUI_PieceForReviewImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5812,9 +5230,7 @@ add_custom_target(GUI_PieceForReviewImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PieceForReviewImagePanel_build GUI_ShowTopBottomSideInfo_build)
-
-add_custom_target(GUI_PropertyPieceForReview_build ALL
+add_custom_target(GUI_PropertyPieceForReview_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5831,9 +5247,7 @@ add_custom_target(GUI_PropertyPieceForReview_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyPieceForReview_build GUI_PieceForReviewImagePanel_build)
-
-add_custom_target(GUI_LineEnhancer1LImagePanel_build ALL
+add_custom_target(GUI_LineEnhancer1LImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5850,9 +5264,7 @@ add_custom_target(GUI_LineEnhancer1LImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LineEnhancer1LImagePanel_build GUI_PropertyPieceForReview_build)
-
-add_custom_target(GUI_PropertyLineEnhancer1L_build ALL
+add_custom_target(GUI_PropertyLineEnhancer1L_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5869,9 +5281,7 @@ add_custom_target(GUI_PropertyLineEnhancer1L_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyLineEnhancer1L_build GUI_LineEnhancer1LImagePanel_build)
-
-add_custom_target(GUI_DisplayLibFolder_build ALL
+add_custom_target(GUI_DisplayLibFolder_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5888,9 +5298,7 @@ add_custom_target(GUI_DisplayLibFolder_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayLibFolder_build GUI_PropertyLineEnhancer1L_build)
-
-add_custom_target(GUI_ButtonSelectLot_build ALL
+add_custom_target(GUI_ButtonSelectLot_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5907,9 +5315,7 @@ add_custom_target(GUI_ButtonSelectLot_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSelectLot_build GUI_DisplayLibFolder_build)
-
-add_custom_target(GUI_ShowHistgramTotal_build ALL
+add_custom_target(GUI_ShowHistgramTotal_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5926,9 +5332,7 @@ add_custom_target(GUI_ShowHistgramTotal_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowHistgramTotal_build GUI_ButtonSelectLot_build)
-
-add_custom_target(GUI_ButtonSaveHistogramData_build ALL
+add_custom_target(GUI_ButtonSaveHistogramData_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5945,9 +5349,7 @@ add_custom_target(GUI_ButtonSaveHistogramData_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSaveHistogramData_build GUI_ShowHistgramTotal_build)
-
-add_custom_target(GUI_ButtonLoadHistogramData_build ALL
+add_custom_target(GUI_ButtonLoadHistogramData_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5964,9 +5366,7 @@ add_custom_target(GUI_ButtonLoadHistogramData_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLoadHistogramData_build GUI_ButtonSaveHistogramData_build)
-
-add_custom_target(GUI_ButtonClearHistogram_build ALL
+add_custom_target(GUI_ButtonClearHistogram_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -5983,9 +5383,7 @@ add_custom_target(GUI_ButtonClearHistogram_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonClearHistogram_build GUI_ButtonLoadHistogramData_build)
-
-add_custom_target(GUI_LoadImageInAnyPage_build ALL
+add_custom_target(GUI_LoadImageInAnyPage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6002,9 +5400,7 @@ add_custom_target(GUI_LoadImageInAnyPage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LoadImageInAnyPage_build GUI_ButtonClearHistogram_build)
-
-add_custom_target(GUI_ButtonRewindInspection_build ALL
+add_custom_target(GUI_ButtonRewindInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6021,9 +5417,7 @@ add_custom_target(GUI_ButtonRewindInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonRewindInspection_build GUI_LoadImageInAnyPage_build)
-
-add_custom_target(GUI_DisplayScanPhaseNumber_build ALL
+add_custom_target(GUI_DisplayScanPhaseNumber_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6040,9 +5434,7 @@ add_custom_target(GUI_DisplayScanPhaseNumber_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayScanPhaseNumber_build GUI_ButtonRewindInspection_build)
-
-add_custom_target(GUI_ResultImportanceImagePanel_build ALL
+add_custom_target(GUI_ResultImportanceImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6059,9 +5451,7 @@ add_custom_target(GUI_ResultImportanceImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ResultImportanceImagePanel_build GUI_DisplayScanPhaseNumber_build)
-
-add_custom_target(GUI_PropertyResultImportance_build ALL
+add_custom_target(GUI_PropertyResultImportance_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6078,9 +5468,7 @@ add_custom_target(GUI_PropertyResultImportance_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyResultImportance_build GUI_ResultImportanceImagePanel_build)
-
-add_custom_target(GUI_PieceListReviewSide_build ALL
+add_custom_target(GUI_PieceListReviewSide_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6097,9 +5485,7 @@ add_custom_target(GUI_PieceListReviewSide_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PieceListReviewSide_build GUI_PropertyResultImportance_build)
-
-add_custom_target(GUI_ShowPieceResultList_build ALL
+add_custom_target(GUI_ShowPieceResultList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6116,9 +5502,7 @@ add_custom_target(GUI_ShowPieceResultList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowPieceResultList_build GUI_PieceListReviewSide_build)
-
-add_custom_target(GUI_ButtonImageTransformer_build ALL
+add_custom_target(GUI_ButtonImageTransformer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6135,9 +5519,7 @@ add_custom_target(GUI_ButtonImageTransformer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonImageTransformer_build GUI_ShowPieceResultList_build)
-
-add_custom_target(GUI_MeasureHoleImagePanel_build ALL
+add_custom_target(GUI_MeasureHoleImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6154,9 +5536,7 @@ add_custom_target(GUI_MeasureHoleImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MeasureHoleImagePanel_build GUI_ButtonImageTransformer_build)
-
-add_custom_target(GUI_PropertyMeasureHole_build ALL
+add_custom_target(GUI_PropertyMeasureHole_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6173,9 +5553,7 @@ add_custom_target(GUI_PropertyMeasureHole_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyMeasureHole_build GUI_MeasureHoleImagePanel_build)
-
-add_custom_target(GUI_MeasureLineMoveImagePanel_build ALL
+add_custom_target(GUI_MeasureLineMoveImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6192,9 +5570,7 @@ add_custom_target(GUI_MeasureLineMoveImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MeasureLineMoveImagePanel_build GUI_PropertyMeasureHole_build)
-
-add_custom_target(GUI_PropertyMeasureLineMove_build ALL
+add_custom_target(GUI_PropertyMeasureLineMove_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6211,9 +5587,7 @@ add_custom_target(GUI_PropertyMeasureLineMove_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyMeasureLineMove_build GUI_MeasureLineMoveImagePanel_build)
-
-add_custom_target(GUI_MeasureHolePosImagePanel_build ALL
+add_custom_target(GUI_MeasureHolePosImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6230,9 +5604,7 @@ add_custom_target(GUI_MeasureHolePosImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MeasureHolePosImagePanel_build GUI_PropertyMeasureLineMove_build)
-
-add_custom_target(GUI_PropertyMeasureHolePos_build ALL
+add_custom_target(GUI_PropertyMeasureHolePos_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6249,9 +5621,7 @@ add_custom_target(GUI_PropertyMeasureHolePos_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyMeasureHolePos_build GUI_MeasureHolePosImagePanel_build)
-
-add_custom_target(GUI_ImagePanelTools_build ALL
+add_custom_target(GUI_ImagePanelTools_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6268,9 +5638,7 @@ add_custom_target(GUI_ImagePanelTools_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ImagePanelTools_build GUI_PropertyMeasureHolePos_build)
-
-add_custom_target(GUI_ButtonShowPlayerInside_build ALL
+add_custom_target(GUI_ButtonShowPlayerInside_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6287,9 +5655,7 @@ add_custom_target(GUI_ButtonShowPlayerInside_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonShowPlayerInside_build GUI_ImagePanelTools_build)
-
-add_custom_target(GUI_MeasureShowGrid_build ALL
+add_custom_target(GUI_MeasureShowGrid_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6306,9 +5672,7 @@ add_custom_target(GUI_MeasureShowGrid_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MeasureShowGrid_build GUI_ButtonShowPlayerInside_build)
-
-add_custom_target(GUI_TreeMasterImagePanel_build ALL
+add_custom_target(GUI_TreeMasterImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6325,9 +5689,7 @@ add_custom_target(GUI_TreeMasterImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_TreeMasterImagePanel_build GUI_MeasureShowGrid_build)
-
-add_custom_target(GUI_PropertyTreeMaster_build ALL
+add_custom_target(GUI_PropertyTreeMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6344,9 +5706,7 @@ add_custom_target(GUI_PropertyTreeMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyTreeMaster_build GUI_TreeMasterImagePanel_build)
-
-add_custom_target(GUI_TreeMasterShowResultList_build ALL
+add_custom_target(GUI_TreeMasterShowResultList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6363,9 +5723,7 @@ add_custom_target(GUI_TreeMasterShowResultList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_TreeMasterShowResultList_build GUI_PropertyTreeMaster_build)
-
-add_custom_target(GUI_ButtonForMarkingON_build ALL
+add_custom_target(GUI_ButtonForMarkingON_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6382,9 +5740,7 @@ add_custom_target(GUI_ButtonForMarkingON_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonForMarkingON_build GUI_TreeMasterShowResultList_build)
-
-add_custom_target(GUI_ShowOldNGNaming_build ALL
+add_custom_target(GUI_ShowOldNGNaming_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6401,9 +5757,7 @@ add_custom_target(GUI_ShowOldNGNaming_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowOldNGNaming_build GUI_ButtonForMarkingON_build)
-
-add_custom_target(GUI_DisplayOldImagePanel_build ALL
+add_custom_target(GUI_DisplayOldImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6420,9 +5774,7 @@ add_custom_target(GUI_DisplayOldImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayOldImagePanel_build GUI_ShowOldNGNaming_build)
-
-add_custom_target(GUI_SetMechanicalOffset_build ALL
+add_custom_target(GUI_SetMechanicalOffset_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6439,9 +5791,7 @@ add_custom_target(GUI_SetMechanicalOffset_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SetMechanicalOffset_build GUI_DisplayOldImagePanel_build)
-
-add_custom_target(GUI_ButtonAnyMode_build ALL
+add_custom_target(GUI_ButtonAnyMode_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6458,9 +5808,7 @@ add_custom_target(GUI_ButtonAnyMode_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonAnyMode_build GUI_SetMechanicalOffset_build)
-
-add_custom_target(GUI_ShowResultAlarm_build ALL
+add_custom_target(GUI_ShowResultAlarm_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6477,9 +5825,7 @@ add_custom_target(GUI_ShowResultAlarm_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowResultAlarm_build GUI_ButtonAnyMode_build)
-
-add_custom_target(GUI_ShowSeqMessage_build ALL
+add_custom_target(GUI_ShowSeqMessage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6496,9 +5842,7 @@ add_custom_target(GUI_ShowSeqMessage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowSeqMessage_build GUI_ShowResultAlarm_build)
-
-add_custom_target(GUI_BuslineImagePanel_build ALL
+add_custom_target(GUI_BuslineImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6515,9 +5859,7 @@ add_custom_target(GUI_BuslineImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_BuslineImagePanel_build GUI_ShowSeqMessage_build)
-
-add_custom_target(GUI_PropertyBusline_build ALL
+add_custom_target(GUI_PropertyBusline_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6534,9 +5876,7 @@ add_custom_target(GUI_PropertyBusline_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyBusline_build GUI_BuslineImagePanel_build)
-
-add_custom_target(GUI_WindUpImage_build ALL
+add_custom_target(GUI_WindUpImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6553,9 +5893,7 @@ add_custom_target(GUI_WindUpImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_WindUpImage_build GUI_PropertyBusline_build)
-
-add_custom_target(GUI_AlignmentLargeImagePanel_build ALL
+add_custom_target(GUI_AlignmentLargeImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6572,9 +5910,7 @@ add_custom_target(GUI_AlignmentLargeImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AlignmentLargeImagePanel_build GUI_WindUpImage_build)
-
-add_custom_target(GUI_PropertyAlignmentLarge_build ALL
+add_custom_target(GUI_PropertyAlignmentLarge_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6591,9 +5927,7 @@ add_custom_target(GUI_PropertyAlignmentLarge_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyAlignmentLarge_build GUI_AlignmentLargeImagePanel_build)
-
-add_custom_target(GUI_PropertyResultBinder_build ALL
+add_custom_target(GUI_PropertyResultBinder_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6610,9 +5944,7 @@ add_custom_target(GUI_PropertyResultBinder_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyResultBinder_build GUI_PropertyAlignmentLarge_build)
-
-add_custom_target(GUI_BCRImagePanel_build ALL
+add_custom_target(GUI_BCRImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6629,9 +5961,7 @@ add_custom_target(GUI_BCRImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_BCRImagePanel_build GUI_PropertyResultBinder_build)
-
-add_custom_target(GUI_PropertyBCR_build ALL
+add_custom_target(GUI_PropertyBCR_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6648,9 +5978,7 @@ add_custom_target(GUI_PropertyBCR_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyBCR_build GUI_BCRImagePanel_build)
-
-add_custom_target(GUI_ShowBarCode_build ALL
+add_custom_target(GUI_ShowBarCode_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6667,9 +5995,7 @@ add_custom_target(GUI_ShowBarCode_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowBarCode_build GUI_PropertyBCR_build)
-
-add_custom_target(GUI_ShowTotalNGNaming_build ALL
+add_custom_target(GUI_ShowTotalNGNaming_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6686,9 +6012,7 @@ add_custom_target(GUI_ShowTotalNGNaming_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowTotalNGNaming_build GUI_ShowBarCode_build)
-
-add_custom_target(GUI_SetSpetialValue_build ALL
+add_custom_target(GUI_SetSpetialValue_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6705,9 +6029,7 @@ add_custom_target(GUI_SetSpetialValue_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SetSpetialValue_build GUI_ShowTotalNGNaming_build)
-
-add_custom_target(GUI_ButtonFilterUpsideDown_build ALL
+add_custom_target(GUI_ButtonFilterUpsideDown_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6724,9 +6046,7 @@ add_custom_target(GUI_ButtonFilterUpsideDown_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonFilterUpsideDown_build GUI_SetSpetialValue_build)
-
-add_custom_target(GUI_ButtonLightON_build ALL
+add_custom_target(GUI_ButtonLightON_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6743,9 +6063,7 @@ add_custom_target(GUI_ButtonLightON_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLightON_build GUI_ButtonFilterUpsideDown_build)
-
-add_custom_target(GUI_ShowSumTimer_build ALL
+add_custom_target(GUI_ShowSumTimer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6762,9 +6080,7 @@ add_custom_target(GUI_ShowSumTimer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowSumTimer_build GUI_ButtonLightON_build)
-
-add_custom_target(GUI_ButtonPasswordEnabler_build ALL
+add_custom_target(GUI_ButtonPasswordEnabler_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6781,9 +6097,7 @@ add_custom_target(GUI_ButtonPasswordEnabler_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonPasswordEnabler_build GUI_ShowSumTimer_build)
-
-add_custom_target(GUI_ButtonFilterUDColorShift_build ALL
+add_custom_target(GUI_ButtonFilterUDColorShift_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6800,9 +6114,7 @@ add_custom_target(GUI_ButtonFilterUDColorShift_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonFilterUDColorShift_build GUI_ButtonPasswordEnabler_build)
-
-add_custom_target(GUI_FixedImageSize_build ALL
+add_custom_target(GUI_FixedImageSize_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6819,9 +6131,7 @@ add_custom_target(GUI_FixedImageSize_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_FixedImageSize_build GUI_ButtonFilterUDColorShift_build)
-
-add_custom_target(GUI_ButtonPasswordOpener_build ALL
+add_custom_target(GUI_ButtonPasswordOpener_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6838,9 +6148,7 @@ add_custom_target(GUI_ButtonPasswordOpener_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonPasswordOpener_build GUI_FixedImageSize_build)
-
-add_custom_target(GUI_PieceDefImagePanel_build ALL
+add_custom_target(GUI_PieceDefImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6857,9 +6165,7 @@ add_custom_target(GUI_PieceDefImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PieceDefImagePanel_build GUI_ButtonPasswordOpener_build)
-
-add_custom_target(GUI_PropertyPieceDef_build ALL
+add_custom_target(GUI_PropertyPieceDef_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6876,9 +6182,7 @@ add_custom_target(GUI_PropertyPieceDef_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyPieceDef_build GUI_PieceDefImagePanel_build)
-
-add_custom_target(GUI_ShowResultSmallLot_build ALL
+add_custom_target(GUI_ShowResultSmallLot_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6895,9 +6199,7 @@ add_custom_target(GUI_ShowResultSmallLot_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowResultSmallLot_build GUI_PropertyPieceDef_build)
-
-add_custom_target(GUI_ButtonSelectSmallLot_build ALL
+add_custom_target(GUI_ButtonSelectSmallLot_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6914,9 +6216,7 @@ add_custom_target(GUI_ButtonSelectSmallLot_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSelectSmallLot_build GUI_ShowResultSmallLot_build)
-
-add_custom_target(GUI_ListCondition_build ALL
+add_custom_target(GUI_ListCondition_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6933,9 +6233,7 @@ add_custom_target(GUI_ListCondition_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ListCondition_build GUI_ButtonSelectSmallLot_build)
-
-add_custom_target(GUI_ShowStrategicAllNumber_build ALL
+add_custom_target(GUI_ShowStrategicAllNumber_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6952,9 +6250,7 @@ add_custom_target(GUI_ShowStrategicAllNumber_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowStrategicAllNumber_build GUI_ListCondition_build)
-
-add_custom_target(GUI_ButtonChangeServerForMaster_build ALL
+add_custom_target(GUI_ButtonChangeServerForMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6971,9 +6267,7 @@ add_custom_target(GUI_ButtonChangeServerForMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonChangeServerForMaster_build GUI_ShowStrategicAllNumber_build)
-
-add_custom_target(GUI_GeneralPanelFromSeq_build ALL
+add_custom_target(GUI_GeneralPanelFromSeq_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -6990,9 +6284,7 @@ add_custom_target(GUI_GeneralPanelFromSeq_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GeneralPanelFromSeq_build GUI_ButtonChangeServerForMaster_build)
-
-add_custom_target(GUI_CheckCycleTime_build ALL
+add_custom_target(GUI_CheckCycleTime_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7009,9 +6301,7 @@ add_custom_target(GUI_CheckCycleTime_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CheckCycleTime_build GUI_GeneralPanelFromSeq_build)
-
-add_custom_target(GUI_CheckBrightnessImagePanel_build ALL
+add_custom_target(GUI_CheckBrightnessImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7028,9 +6318,7 @@ add_custom_target(GUI_CheckBrightnessImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CheckBrightnessImagePanel_build GUI_CheckCycleTime_build)
-
-add_custom_target(GUI_PropertyCheckBrightness_build ALL
+add_custom_target(GUI_PropertyCheckBrightness_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7047,9 +6335,7 @@ add_custom_target(GUI_PropertyCheckBrightness_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyCheckBrightness_build GUI_CheckBrightnessImagePanel_build)
-
-add_custom_target(GUI_ShowCheckBrightnessPanel_build ALL
+add_custom_target(GUI_ShowCheckBrightnessPanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7066,9 +6352,7 @@ add_custom_target(GUI_ShowCheckBrightnessPanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowCheckBrightnessPanel_build GUI_PropertyCheckBrightness_build)
-
-add_custom_target(GUI_PropertyGerberFast_build ALL
+add_custom_target(GUI_PropertyGerberFast_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7085,9 +6369,7 @@ add_custom_target(GUI_PropertyGerberFast_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyGerberFast_build GUI_ShowCheckBrightnessPanel_build)
-
-add_custom_target(GUI_GerberFastImagePanel_build ALL
+add_custom_target(GUI_GerberFastImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7104,9 +6386,7 @@ add_custom_target(GUI_GerberFastImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GerberFastImagePanel_build GUI_PropertyGerberFast_build)
-
-add_custom_target(GUI_PropertyViaInspection_build ALL
+add_custom_target(GUI_PropertyViaInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7123,9 +6403,7 @@ add_custom_target(GUI_PropertyViaInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyViaInspection_build GUI_GerberFastImagePanel_build)
-
-add_custom_target(GUI_VIAInspectionImagePanel_build ALL
+add_custom_target(GUI_VIAInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7142,9 +6420,7 @@ add_custom_target(GUI_VIAInspectionImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_VIAInspectionImagePanel_build GUI_PropertyViaInspection_build)
-
-add_custom_target(GUI_PropertyCheckEveryday_build ALL
+add_custom_target(GUI_PropertyCheckEveryday_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7161,9 +6437,7 @@ add_custom_target(GUI_PropertyCheckEveryday_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyCheckEveryday_build GUI_VIAInspectionImagePanel_build)
-
-add_custom_target(GUI_ShowCheckEveryday_build ALL
+add_custom_target(GUI_ShowCheckEveryday_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7180,9 +6454,7 @@ add_custom_target(GUI_ShowCheckEveryday_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowCheckEveryday_build GUI_PropertyCheckEveryday_build)
-
-add_custom_target(GUI_CheckEverydayImagePanel_build ALL
+add_custom_target(GUI_CheckEverydayImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7199,9 +6471,7 @@ add_custom_target(GUI_CheckEverydayImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CheckEverydayImagePanel_build GUI_ShowCheckEveryday_build)
-
-add_custom_target(GUI_PanelXYSize_build ALL
+add_custom_target(GUI_PanelXYSize_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7218,9 +6488,7 @@ add_custom_target(GUI_PanelXYSize_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PanelXYSize_build GUI_CheckEverydayImagePanel_build)
-
-add_custom_target(GUI_SetFilterToMoveXY_build ALL
+add_custom_target(GUI_SetFilterToMoveXY_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7237,9 +6505,7 @@ add_custom_target(GUI_SetFilterToMoveXY_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SetFilterToMoveXY_build GUI_PanelXYSize_build)
-
-add_custom_target(GUI_ButtonToSetFilter_build ALL
+add_custom_target(GUI_ButtonToSetFilter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7256,9 +6522,7 @@ add_custom_target(GUI_ButtonToSetFilter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonToSetFilter_build GUI_SetFilterToMoveXY_build)
-
-add_custom_target(GUI_AdjustMoveAllAfterLoadMaster_build ALL
+add_custom_target(GUI_AdjustMoveAllAfterLoadMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7275,9 +6539,7 @@ add_custom_target(GUI_AdjustMoveAllAfterLoadMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AdjustMoveAllAfterLoadMaster_build GUI_ButtonToSetFilter_build)
-
-add_custom_target(GUI_PropertyMultiFileMap_build ALL
+add_custom_target(GUI_PropertyMultiFileMap_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7294,9 +6556,7 @@ add_custom_target(GUI_PropertyMultiFileMap_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyMultiFileMap_build GUI_AdjustMoveAllAfterLoadMaster_build)
-
-add_custom_target(GUI_MultiFileMapImagePanel_build ALL
+add_custom_target(GUI_MultiFileMapImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7313,9 +6573,7 @@ add_custom_target(GUI_MultiFileMapImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MultiFileMapImagePanel_build GUI_PropertyMultiFileMap_build)
-
-add_custom_target(GUI_ButtonGeneralStocker_build ALL
+add_custom_target(GUI_ButtonGeneralStocker_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7332,9 +6590,7 @@ add_custom_target(GUI_ButtonGeneralStocker_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonGeneralStocker_build GUI_MultiFileMapImagePanel_build)
-
-add_custom_target(GUI_ExecuteBatch_build ALL
+add_custom_target(GUI_ExecuteBatch_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7351,9 +6607,7 @@ add_custom_target(GUI_ExecuteBatch_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ExecuteBatch_build GUI_ButtonGeneralStocker_build)
-
-add_custom_target(GUI_SaveMasterImageInInspection_build ALL
+add_custom_target(GUI_SaveMasterImageInInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7370,9 +6624,7 @@ add_custom_target(GUI_SaveMasterImageInInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SaveMasterImageInInspection_build GUI_ExecuteBatch_build)
-
-add_custom_target(GUI_CheckEverydayResultHistory_build ALL
+add_custom_target(GUI_CheckEverydayResultHistory_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7389,9 +6641,7 @@ add_custom_target(GUI_CheckEverydayResultHistory_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CheckEverydayResultHistory_build GUI_SaveMasterImageInInspection_build)
-
-add_custom_target(GUI_HookAlgorithmImagePanel_build ALL
+add_custom_target(GUI_HookAlgorithmImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7408,9 +6658,7 @@ add_custom_target(GUI_HookAlgorithmImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_HookAlgorithmImagePanel_build GUI_CheckEverydayResultHistory_build)
-
-add_custom_target(GUI_ButtonSynchronizeImagePanel_build ALL
+add_custom_target(GUI_ButtonSynchronizeImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7427,9 +6675,7 @@ add_custom_target(GUI_ButtonSynchronizeImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSynchronizeImagePanel_build GUI_HookAlgorithmImagePanel_build)
-
-add_custom_target(GUI_SaveTargetInNG_build ALL
+add_custom_target(GUI_SaveTargetInNG_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7446,9 +6692,7 @@ add_custom_target(GUI_SaveTargetInNG_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SaveTargetInNG_build GUI_ButtonSynchronizeImagePanel_build)
-
-add_custom_target(GUI_SaveOutlineOffsetInMaster_build ALL
+add_custom_target(GUI_SaveOutlineOffsetInMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7465,9 +6709,7 @@ add_custom_target(GUI_SaveOutlineOffsetInMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SaveOutlineOffsetInMaster_build GUI_SaveTargetInNG_build)
-
-add_custom_target(GUI_LoadOutlineOffsetInMaster_build ALL
+add_custom_target(GUI_LoadOutlineOffsetInMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7484,9 +6726,7 @@ add_custom_target(GUI_LoadOutlineOffsetInMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LoadOutlineOffsetInMaster_build GUI_SaveOutlineOffsetInMaster_build)
-
-add_custom_target(GUI_ThinMetalImagePanel_build ALL
+add_custom_target(GUI_ThinMetalImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7503,9 +6743,7 @@ add_custom_target(GUI_ThinMetalImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ThinMetalImagePanel_build GUI_LoadOutlineOffsetInMaster_build)
-
-add_custom_target(GUI_PropertyThinMetal_build ALL
+add_custom_target(GUI_PropertyThinMetal_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7522,9 +6760,7 @@ add_custom_target(GUI_PropertyThinMetal_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyThinMetal_build GUI_ThinMetalImagePanel_build)
-
-add_custom_target(GUI_DistinguishPix_build ALL
+add_custom_target(GUI_DistinguishPix_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7541,9 +6777,7 @@ add_custom_target(GUI_DistinguishPix_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DistinguishPix_build GUI_PropertyThinMetal_build)
-
-add_custom_target(GUI_ButtonToStoreSamplesThinMetal_build ALL
+add_custom_target(GUI_ButtonToStoreSamplesThinMetal_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7560,9 +6794,7 @@ add_custom_target(GUI_ButtonToStoreSamplesThinMetal_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonToStoreSamplesThinMetal_build GUI_DistinguishPix_build)
-
-add_custom_target(InspectionEditor_build ALL
+add_custom_target(InspectionEditor_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7579,9 +6811,7 @@ add_custom_target(InspectionEditor_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(InspectionEditor_build GUI_ButtonToStoreSamplesThinMetal_build)
-
-add_custom_target(InspectionPlayer_InspectionPlayer_build ALL
+add_custom_target(InspectionPlayer_InspectionPlayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7598,9 +6828,7 @@ add_custom_target(InspectionPlayer_InspectionPlayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(InspectionPlayer_InspectionPlayer_build InspectionEditor_build)
-
-add_custom_target(PluginDLL_Light_LightDLL_CCSControl_build ALL
+add_custom_target(PluginDLL_Light_LightDLL_CCSControl_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7617,9 +6845,7 @@ add_custom_target(PluginDLL_Light_LightDLL_CCSControl_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Light_LightDLL_CCSControl_build InspectionPlayer_InspectionPlayer_build)
-
-add_custom_target(PluginDLL_Light_LightDLL_CCSControl2_build ALL
+add_custom_target(PluginDLL_Light_LightDLL_CCSControl2_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7636,9 +6862,7 @@ add_custom_target(PluginDLL_Light_LightDLL_CCSControl2_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Light_LightDLL_CCSControl2_build PluginDLL_Light_LightDLL_CCSControl_build)
-
-add_custom_target(GUI_Light_CCSControlGUI_build ALL
+add_custom_target(GUI_Light_CCSControlGUI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7655,9 +6879,7 @@ add_custom_target(GUI_Light_CCSControlGUI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_Light_CCSControlGUI_build PluginDLL_Light_LightDLL_CCSControl2_build)
-
-add_custom_target(GUI_Light_CCSControl2GUI_build ALL
+add_custom_target(GUI_Light_CCSControl2GUI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7674,9 +6896,7 @@ add_custom_target(GUI_Light_CCSControl2GUI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_Light_CCSControl2GUI_build GUI_Light_CCSControlGUI_build)
-
-add_custom_target(PluginDLL_Light_LightDLL_ControlHayashiTokei_build ALL
+add_custom_target(PluginDLL_Light_LightDLL_ControlHayashiTokei_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7693,9 +6913,7 @@ add_custom_target(PluginDLL_Light_LightDLL_ControlHayashiTokei_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Light_LightDLL_ControlHayashiTokei_build GUI_Light_CCSControl2GUI_build)
-
-add_custom_target(GUI_Light_ControlHayashiTokeiGUI_build ALL
+add_custom_target(GUI_Light_ControlHayashiTokeiGUI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7712,9 +6930,7 @@ add_custom_target(GUI_Light_ControlHayashiTokeiGUI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_Light_ControlHayashiTokeiGUI_build PluginDLL_Light_LightDLL_ControlHayashiTokei_build)
-
-add_custom_target(PluginDLL_Light_LightDLL_CCSControlByPIO_build ALL
+add_custom_target(PluginDLL_Light_LightDLL_CCSControlByPIO_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7731,9 +6947,7 @@ add_custom_target(PluginDLL_Light_LightDLL_CCSControlByPIO_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Light_LightDLL_CCSControlByPIO_build GUI_Light_ControlHayashiTokeiGUI_build)
-
-add_custom_target(PluginDLL_Light_LightDLL_LightUSB8PortARM_build ALL
+add_custom_target(PluginDLL_Light_LightDLL_LightUSB8PortARM_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7750,9 +6964,7 @@ add_custom_target(PluginDLL_Light_LightDLL_LightUSB8PortARM_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Light_LightDLL_LightUSB8PortARM_build PluginDLL_Light_LightDLL_CCSControlByPIO_build)
-
-add_custom_target(PluginDLL_Light_LightDLL_LightDLLRemoteController_build ALL
+add_custom_target(PluginDLL_Light_LightDLL_LightDLLRemoteController_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7769,9 +6981,7 @@ add_custom_target(PluginDLL_Light_LightDLL_LightDLLRemoteController_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Light_LightDLL_LightDLLRemoteController_build PluginDLL_Light_LightDLL_LightUSB8PortARM_build)
-
-add_custom_target(PluginDLL_Light_LightDLL_CCSControlByPIO2Ch_build ALL
+add_custom_target(PluginDLL_Light_LightDLL_CCSControlByPIO2Ch_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7788,9 +6998,7 @@ add_custom_target(PluginDLL_Light_LightDLL_CCSControlByPIO2Ch_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Light_LightDLL_CCSControlByPIO2Ch_build PluginDLL_Light_LightDLL_LightDLLRemoteController_build)
-
-add_custom_target(PluginDLL_Light_LightDLL_LEDControl32_build ALL
+add_custom_target(PluginDLL_Light_LightDLL_LEDControl32_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7807,9 +7015,7 @@ add_custom_target(PluginDLL_Light_LightDLL_LEDControl32_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Light_LightDLL_LEDControl32_build PluginDLL_Light_LightDLL_CCSControlByPIO2Ch_build)
-
-add_custom_target(PluginDLL_PIO_Contec64DLL_Contec64DLL_build ALL
+add_custom_target(PluginDLL_PIO_Contec64DLL_Contec64DLL_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7826,9 +7032,7 @@ add_custom_target(PluginDLL_PIO_Contec64DLL_Contec64DLL_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_Contec64DLL_Contec64DLL_build PluginDLL_Light_LightDLL_LEDControl32_build)
-
-add_custom_target(PluginDLL_PIO_Contec64Multi_build ALL
+add_custom_target(PluginDLL_PIO_Contec64Multi_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7845,9 +7049,7 @@ add_custom_target(PluginDLL_PIO_Contec64Multi_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_Contec64Multi_build PluginDLL_PIO_Contec64DLL_Contec64DLL_build)
-
-add_custom_target(PluginDLL_PIO_NetworkContec64_PIOClient_build ALL
+add_custom_target(PluginDLL_PIO_NetworkContec64_PIOClient_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7864,9 +7066,7 @@ add_custom_target(PluginDLL_PIO_NetworkContec64_PIOClient_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_NetworkContec64_PIOClient_build PluginDLL_PIO_Contec64Multi_build)
-
-add_custom_target(PluginDLL_PIO_NetworkContec64_PIODevicer_build ALL
+add_custom_target(PluginDLL_PIO_NetworkContec64_PIODevicer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7883,9 +7083,7 @@ add_custom_target(PluginDLL_PIO_NetworkContec64_PIODevicer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_NetworkContec64_PIODevicer_build PluginDLL_PIO_NetworkContec64_PIOClient_build)
-
-add_custom_target(PluginDLL_PIO_DummyPIO_build ALL
+add_custom_target(PluginDLL_PIO_DummyPIO_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7902,9 +7100,7 @@ add_custom_target(PluginDLL_PIO_DummyPIO_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_DummyPIO_build PluginDLL_PIO_NetworkContec64_PIODevicer_build)
-
-add_custom_target(PluginDLL_PIO_TestPIODLL_build ALL
+add_custom_target(PluginDLL_PIO_TestPIODLL_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7921,9 +7117,7 @@ add_custom_target(PluginDLL_PIO_TestPIODLL_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_TestPIODLL_build PluginDLL_PIO_DummyPIO_build)
-
-add_custom_target(PluginDLL_PIO_ContecBitAccess_build ALL
+add_custom_target(PluginDLL_PIO_ContecBitAccess_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7940,9 +7134,7 @@ add_custom_target(PluginDLL_PIO_ContecBitAccess_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_ContecBitAccess_build PluginDLL_PIO_TestPIODLL_build)
-
-add_custom_target(PluginDLL_PIO_VirtualPIOServer_build ALL
+add_custom_target(PluginDLL_PIO_VirtualPIOServer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7959,9 +7151,7 @@ add_custom_target(PluginDLL_PIO_VirtualPIOServer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_VirtualPIOServer_build PluginDLL_PIO_ContecBitAccess_build)
-
-add_custom_target(PluginDLL_PIO_VirtualPIOAdapter_build ALL
+add_custom_target(PluginDLL_PIO_VirtualPIOAdapter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7978,9 +7168,7 @@ add_custom_target(PluginDLL_PIO_VirtualPIOAdapter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_VirtualPIOAdapter_build PluginDLL_PIO_VirtualPIOServer_build)
-
-add_custom_target(ResultDLL_ResultXMLV3_build ALL
+add_custom_target(ResultDLL_ResultXMLV3_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -7997,9 +7185,7 @@ add_custom_target(ResultDLL_ResultXMLV3_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ResultDLL_ResultXMLV3_build PluginDLL_PIO_VirtualPIOAdapter_build)
-
-add_custom_target(ResultDLL_ResultXMLForPiece_build ALL
+add_custom_target(ResultDLL_ResultXMLForPiece_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8016,9 +7202,7 @@ add_custom_target(ResultDLL_ResultXMLForPiece_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ResultDLL_ResultXMLForPiece_build ResultDLL_ResultXMLV3_build)
-
-add_custom_target(ResultDLL_ResultXMLSmallLot_build ALL
+add_custom_target(ResultDLL_ResultXMLSmallLot_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8035,9 +7219,7 @@ add_custom_target(ResultDLL_ResultXMLSmallLot_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ResultDLL_ResultXMLSmallLot_build ResultDLL_ResultXMLForPiece_build)
-
-add_custom_target(Delete_Delete_build ALL
+add_custom_target(Delete_Delete_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8054,9 +7236,7 @@ add_custom_target(Delete_Delete_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Delete_Delete_build ResultDLL_ResultXMLSmallLot_build)
-
-add_custom_target(EditGUI_EditGUI_build ALL
+add_custom_target(EditGUI_EditGUI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8073,9 +7253,7 @@ add_custom_target(EditGUI_EditGUI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(EditGUI_EditGUI_build Delete_Delete_build)
-
-add_custom_target(EditParameter_EditParameter_build ALL
+add_custom_target(EditParameter_EditParameter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8092,9 +7270,7 @@ add_custom_target(EditParameter_EditParameter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(EditParameter_EditParameter_build EditGUI_EditGUI_build)
-
-add_custom_target(EditStatusComment_build ALL
+add_custom_target(EditStatusComment_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8111,9 +7287,7 @@ add_custom_target(EditStatusComment_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(EditStatusComment_build EditParameter_EditParameter_build)
-
-add_custom_target(FileRegistryEditor_build ALL
+add_custom_target(FileRegistryEditor_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8130,9 +7304,7 @@ add_custom_target(FileRegistryEditor_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(FileRegistryEditor_build EditStatusComment_build)
-
-add_custom_target(LearningServer_build ALL
+add_custom_target(LearningServer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8149,9 +7321,7 @@ add_custom_target(LearningServer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(LearningServer_build FileRegistryEditor_build)
-
-add_custom_target(Messager_build ALL
+add_custom_target(Messager_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8168,9 +7338,7 @@ add_custom_target(Messager_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Messager_build LearningServer_build)
-
-add_custom_target(Messager_ReportDisk_ReportDisk_build ALL
+add_custom_target(Messager_ReportDisk_ReportDisk_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8187,9 +7355,7 @@ add_custom_target(Messager_ReportDisk_ReportDisk_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Messager_ReportDisk_ReportDisk_build Messager_build)
-
-add_custom_target(PIOWatch_PIOWatch_build ALL
+add_custom_target(PIOWatch_PIOWatch_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8206,9 +7372,7 @@ add_custom_target(PIOWatch_PIOWatch_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PIOWatch_PIOWatch_build Messager_ReportDisk_ReportDisk_build)
-
-add_custom_target(ServiceLib_DLLChecker_build ALL
+add_custom_target(ServiceLib_DLLChecker_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8225,9 +7389,7 @@ add_custom_target(ServiceLib_DLLChecker_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_DLLChecker_build PIOWatch_PIOWatch_build)
-
-add_custom_target(ServiceLib_ServiceForDBLib_build ALL
+add_custom_target(ServiceLib_ServiceForDBLib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8244,9 +7406,7 @@ add_custom_target(ServiceLib_ServiceForDBLib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_ServiceForDBLib_build ServiceLib_DLLChecker_build)
-
-add_custom_target(ServiceLib_SlaveIndicator_build ALL
+add_custom_target(ServiceLib_SlaveIndicator_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8263,9 +7423,7 @@ add_custom_target(ServiceLib_SlaveIndicator_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_SlaveIndicator_build ServiceLib_ServiceForDBLib_build)
-
-add_custom_target(AutoStart_AutoStartPlayer_build ALL
+add_custom_target(AutoStart_AutoStartPlayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8282,9 +7440,7 @@ add_custom_target(AutoStart_AutoStartPlayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(AutoStart_AutoStartPlayer_build ServiceLib_SlaveIndicator_build)
-
-add_custom_target(AutoStartList_build ALL
+add_custom_target(AutoStartList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8301,9 +7457,7 @@ add_custom_target(AutoStartList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(AutoStartList_build AutoStart_AutoStartPlayer_build)
-
-add_custom_target(ServiceLib_EditSequence_build ALL
+add_custom_target(ServiceLib_EditSequence_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8320,9 +7474,7 @@ add_custom_target(ServiceLib_EditSequence_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_EditSequence_build AutoStartList_build)
-
-add_custom_target(ChangeServer_build ALL
+add_custom_target(ChangeServer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8339,9 +7491,7 @@ add_custom_target(ChangeServer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ChangeServer_build ServiceLib_EditSequence_build)
-
-add_custom_target(ServiceLib_EditAnyDataInLibrary_build ALL
+add_custom_target(ServiceLib_EditAnyDataInLibrary_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8358,9 +7508,7 @@ add_custom_target(ServiceLib_EditAnyDataInLibrary_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_EditAnyDataInLibrary_build ChangeServer_build)
-
-add_custom_target(XmlServer_XMLExplorer_build ALL
+add_custom_target(XmlServer_XMLExplorer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8377,9 +7525,7 @@ add_custom_target(XmlServer_XMLExplorer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(XmlServer_XMLExplorer_build ServiceLib_EditAnyDataInLibrary_build)
-
-add_custom_target(ExecuteVisualizer_EditExecuteVisualizer_build ALL
+add_custom_target(ExecuteVisualizer_EditExecuteVisualizer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8396,9 +7542,7 @@ add_custom_target(ExecuteVisualizer_EditExecuteVisualizer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ExecuteVisualizer_EditExecuteVisualizer_build XmlServer_XMLExplorer_build)
-
-add_custom_target(JDTUnpacker_build ALL
+add_custom_target(JDTUnpacker_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8415,9 +7559,7 @@ add_custom_target(JDTUnpacker_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(JDTUnpacker_build ExecuteVisualizer_EditExecuteVisualizer_build)
-
-add_custom_target(PIOWatch_PIOViewer_build ALL
+add_custom_target(PIOWatch_PIOViewer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8434,9 +7576,7 @@ add_custom_target(PIOWatch_PIOViewer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PIOWatch_PIOViewer_build JDTUnpacker_build)
-
-add_custom_target(EditParameter_EditGlobalOnMaster_build ALL
+add_custom_target(EditParameter_EditGlobalOnMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8453,9 +7593,7 @@ add_custom_target(EditParameter_EditGlobalOnMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(EditParameter_EditGlobalOnMaster_build PIOWatch_PIOViewer_build)
-
-add_custom_target(ServiceLib_MakeMasterReport_build ALL
+add_custom_target(ServiceLib_MakeMasterReport_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8472,9 +7610,7 @@ add_custom_target(ServiceLib_MakeMasterReport_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_MakeMasterReport_build EditParameter_EditGlobalOnMaster_build)
-
-add_custom_target(ServiceLib_LanguageManager_build ALL
+add_custom_target(ServiceLib_LanguageManager_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8491,9 +7627,7 @@ add_custom_target(ServiceLib_LanguageManager_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_LanguageManager_build ServiceLib_MakeMasterReport_build)
-
-add_custom_target(LanguageSolver_LanguageNewSolver_build ALL
+add_custom_target(LanguageSolver_LanguageNewSolver_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8510,9 +7644,7 @@ add_custom_target(LanguageSolver_LanguageNewSolver_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(LanguageSolver_LanguageNewSolver_build ServiceLib_LanguageManager_build)
-
-add_custom_target(ChangeServer_CloseProcess_build ALL
+add_custom_target(ChangeServer_CloseProcess_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8529,9 +7661,7 @@ add_custom_target(ChangeServer_CloseProcess_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ChangeServer_CloseProcess_build LanguageSolver_LanguageNewSolver_build)
-
-add_custom_target(ChangeServer_RemoteControlToClose_build ALL
+add_custom_target(ChangeServer_RemoteControlToClose_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8548,9 +7678,7 @@ add_custom_target(ChangeServer_RemoteControlToClose_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ChangeServer_RemoteControlToClose_build ChangeServer_CloseProcess_build)
-
-add_custom_target(ServiceLib_LanguageMergeXLSX_build ALL
+add_custom_target(ServiceLib_LanguageMergeXLSX_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8567,9 +7695,7 @@ add_custom_target(ServiceLib_LanguageMergeXLSX_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_LanguageMergeXLSX_build ChangeServer_RemoteControlToClose_build)
-
-add_custom_target(CopyMultiple_build ALL
+add_custom_target(CopyMultiple_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8586,9 +7712,7 @@ add_custom_target(CopyMultiple_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(CopyMultiple_build ServiceLib_LanguageMergeXLSX_build)
-
-add_custom_target(LightingManager_TesterLightDLL_build ALL
+add_custom_target(LightingManager_TesterLightDLL_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8605,9 +7729,7 @@ add_custom_target(LightingManager_TesterLightDLL_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(LightingManager_TesterLightDLL_build CopyMultiple_build)
-
-add_custom_target(LightingManager_RemoteLightController_build ALL
+add_custom_target(LightingManager_RemoteLightController_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8624,9 +7746,7 @@ add_custom_target(LightingManager_RemoteLightController_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(LightingManager_RemoteLightController_build LightingManager_TesterLightDLL_build)
-
-add_custom_target(ServiceLib_ScreenLock_build ALL
+add_custom_target(ServiceLib_ScreenLock_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8643,9 +7763,7 @@ add_custom_target(ServiceLib_ScreenLock_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_ScreenLock_build LightingManager_RemoteLightController_build)
-
-add_custom_target(ServiceLib_DelayExe_build ALL
+add_custom_target(ServiceLib_DelayExe_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8662,9 +7780,7 @@ add_custom_target(ServiceLib_DelayExe_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_DelayExe_build ServiceLib_ScreenLock_build)
-
-add_custom_target(LightingManager_RemoteLightExecuter_build ALL
+add_custom_target(LightingManager_RemoteLightExecuter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8681,9 +7797,7 @@ add_custom_target(LightingManager_RemoteLightExecuter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(LightingManager_RemoteLightExecuter_build ServiceLib_DelayExe_build)
-
-add_custom_target(ServiceLib_Booter_build ALL
+add_custom_target(ServiceLib_Booter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8700,9 +7814,7 @@ add_custom_target(ServiceLib_Booter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_Booter_build LightingManager_RemoteLightExecuter_build)
-
-add_custom_target(ServiceLib_SyncMasterFiles_build ALL
+add_custom_target(ServiceLib_SyncMasterFiles_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8719,9 +7831,7 @@ add_custom_target(ServiceLib_SyncMasterFiles_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_SyncMasterFiles_build ServiceLib_Booter_build)
-
-add_custom_target(ServiceLib_SyncDatabase_build ALL
+add_custom_target(ServiceLib_SyncDatabase_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8738,9 +7848,7 @@ add_custom_target(ServiceLib_SyncDatabase_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_SyncDatabase_build ServiceLib_SyncMasterFiles_build)
-
-add_custom_target(ServiceLib_WatchdogRebooter_build ALL
+add_custom_target(ServiceLib_WatchdogRebooter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8757,9 +7865,7 @@ add_custom_target(ServiceLib_WatchdogRebooter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_WatchdogRebooter_build ServiceLib_SyncDatabase_build)
-
-add_custom_target(ServiceLib_ForceRebooter_build ALL
+add_custom_target(ServiceLib_ForceRebooter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8776,9 +7882,7 @@ add_custom_target(ServiceLib_ForceRebooter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_ForceRebooter_build ServiceLib_WatchdogRebooter_build)
-
-add_custom_target(Messager_DiskManager_build ALL
+add_custom_target(Messager_DiskManager_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8795,9 +7899,7 @@ add_custom_target(Messager_DiskManager_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Messager_DiskManager_build ServiceLib_ForceRebooter_build)
-
-add_custom_target(PluginDLL_SequencePlugin_SampleDLL_build ALL
+add_custom_target(PluginDLL_SequencePlugin_SampleDLL_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8814,9 +7916,7 @@ add_custom_target(PluginDLL_SequencePlugin_SampleDLL_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_SequencePlugin_SampleDLL_build Messager_DiskManager_build)
-
-add_custom_target(PluginDLL_SequencePlugin_LogWriter_build ALL
+add_custom_target(PluginDLL_SequencePlugin_LogWriter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8833,9 +7933,7 @@ add_custom_target(PluginDLL_SequencePlugin_LogWriter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_SequencePlugin_LogWriter_build PluginDLL_SequencePlugin_SampleDLL_build)
-
-add_custom_target(PluginDLL_SequencePlugin_SeqFor64Connector_build ALL
+add_custom_target(PluginDLL_SequencePlugin_SeqFor64Connector_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8852,9 +7950,7 @@ add_custom_target(PluginDLL_SequencePlugin_SeqFor64Connector_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_SequencePlugin_SeqFor64Connector_build PluginDLL_SequencePlugin_LogWriter_build)
-
-add_custom_target(PluginDLL_SequencePlugin_IOLogger_build ALL
+add_custom_target(PluginDLL_SequencePlugin_IOLogger_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8871,9 +7967,7 @@ add_custom_target(PluginDLL_SequencePlugin_IOLogger_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_SequencePlugin_IOLogger_build PluginDLL_SequencePlugin_SeqFor64Connector_build)
-
-add_custom_target(PluginDLL_SequencePlugin_OutputMessager_build ALL
+add_custom_target(PluginDLL_SequencePlugin_OutputMessager_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8890,9 +7984,7 @@ add_custom_target(PluginDLL_SequencePlugin_OutputMessager_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_SequencePlugin_OutputMessager_build PluginDLL_SequencePlugin_IOLogger_build)
-
-add_custom_target(PluginDLL_SequencePlugin_CheckProgramRun_build ALL
+add_custom_target(PluginDLL_SequencePlugin_CheckProgramRun_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8909,9 +8001,7 @@ add_custom_target(PluginDLL_SequencePlugin_CheckProgramRun_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_SequencePlugin_CheckProgramRun_build PluginDLL_SequencePlugin_OutputMessager_build)
-
-add_custom_target(PluginDLL_SequencePlugin_ShutDownDLL_build ALL
+add_custom_target(PluginDLL_SequencePlugin_ShutDownDLL_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8928,9 +8018,7 @@ add_custom_target(PluginDLL_SequencePlugin_ShutDownDLL_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_SequencePlugin_ShutDownDLL_build PluginDLL_SequencePlugin_CheckProgramRun_build)
-
-add_custom_target(PluginDLL_SequencePlugin_PlaySound_build ALL
+add_custom_target(PluginDLL_SequencePlugin_PlaySound_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8947,9 +8035,7 @@ add_custom_target(PluginDLL_SequencePlugin_PlaySound_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_SequencePlugin_PlaySound_build PluginDLL_SequencePlugin_ShutDownDLL_build)
-
-add_custom_target(GUI_ChangeWindowSizeInvisible_build ALL
+add_custom_target(GUI_ChangeWindowSizeInvisible_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8966,9 +8052,7 @@ add_custom_target(GUI_ChangeWindowSizeInvisible_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ChangeWindowSizeInvisible_build PluginDLL_SequencePlugin_PlaySound_build)
-
-add_custom_target(GUI_CopyItemsBetweenPhase_build ALL
+add_custom_target(GUI_CopyItemsBetweenPhase_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -8985,9 +8069,7 @@ add_custom_target(GUI_CopyItemsBetweenPhase_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CopyItemsBetweenPhase_build GUI_ChangeWindowSizeInvisible_build)
-
-add_custom_target(GUI_FixedWindowSize_build ALL
+add_custom_target(GUI_FixedWindowSize_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9004,9 +8086,7 @@ add_custom_target(GUI_FixedWindowSize_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_FixedWindowSize_build GUI_CopyItemsBetweenPhase_build)
-
-add_custom_target(Algorithm_ProjectedInspection_build ALL
+add_custom_target(Algorithm_ProjectedInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9023,9 +8103,7 @@ add_custom_target(Algorithm_ProjectedInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ProjectedInspection_build GUI_FixedWindowSize_build)
-
-add_custom_target(GUI_PropertyProjectedInspection_build ALL
+add_custom_target(GUI_PropertyProjectedInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9042,9 +8120,7 @@ add_custom_target(GUI_PropertyProjectedInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyProjectedInspection_build Algorithm_ProjectedInspection_build)
-
-add_custom_target(GUI_ProjectedInspectionImagePanel_build ALL
+add_custom_target(GUI_ProjectedInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9061,9 +8137,7 @@ add_custom_target(GUI_ProjectedInspectionImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ProjectedInspectionImagePanel_build GUI_PropertyProjectedInspection_build)
-
-add_custom_target(PluginDLL_PIO_VirtualPIOClient_build ALL
+add_custom_target(PluginDLL_PIO_VirtualPIOClient_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9080,9 +8154,7 @@ add_custom_target(PluginDLL_PIO_VirtualPIOClient_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_VirtualPIOClient_build GUI_ProjectedInspectionImagePanel_build)
-
-add_custom_target(ResultDLL_ResultWriteCSV_build ALL
+add_custom_target(ResultDLL_ResultWriteCSV_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9099,9 +8171,7 @@ add_custom_target(ResultDLL_ResultWriteCSV_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ResultDLL_ResultWriteCSV_build PluginDLL_PIO_VirtualPIOClient_build)
-
-add_custom_target(GUI_ButtonLightShortCut_build ALL
+add_custom_target(GUI_ButtonLightShortCut_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9118,9 +8188,7 @@ add_custom_target(GUI_ButtonLightShortCut_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLightShortCut_build ResultDLL_ResultWriteCSV_build)
-
-add_custom_target(Filter_FilterReplaceColor_build ALL
+add_custom_target(Filter_FilterReplaceColor_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9137,9 +8205,7 @@ add_custom_target(Filter_FilterReplaceColor_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterReplaceColor_build GUI_ButtonLightShortCut_build)
-
-add_custom_target(GUI_ResultBinderImagePanel_build ALL
+add_custom_target(GUI_ResultBinderImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9156,9 +8222,7 @@ add_custom_target(GUI_ResultBinderImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ResultBinderImagePanel_build Filter_FilterReplaceColor_build)
-
-add_custom_target(Filter_FilterDifferencialHV_build ALL
+add_custom_target(Filter_FilterDifferencialHV_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9175,9 +8239,7 @@ add_custom_target(Filter_FilterDifferencialHV_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterDifferencialHV_build GUI_ResultBinderImagePanel_build)
-
-add_custom_target(GUI_CompressImageIndicator_build ALL
+add_custom_target(GUI_CompressImageIndicator_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9194,9 +8256,7 @@ add_custom_target(GUI_CompressImageIndicator_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CompressImageIndicator_build Filter_FilterDifferencialHV_build)
-
-add_custom_target(GUI_ShowMatrixImageCenter_build ALL
+add_custom_target(GUI_ShowMatrixImageCenter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9213,9 +8273,7 @@ add_custom_target(GUI_ShowMatrixImageCenter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowMatrixImageCenter_build GUI_CompressImageIndicator_build)
-
-add_custom_target(GUI_HoughInspectionImagePanel_build ALL
+add_custom_target(GUI_HoughInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9232,9 +8290,7 @@ add_custom_target(GUI_HoughInspectionImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_HoughInspectionImagePanel_build GUI_ShowMatrixImageCenter_build)
-
-add_custom_target(GUI_PropertyHoughInspection_build ALL
+add_custom_target(GUI_PropertyHoughInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9251,9 +8307,7 @@ add_custom_target(GUI_PropertyHoughInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyHoughInspection_build GUI_HoughInspectionImagePanel_build)
-
-add_custom_target(Algorithm_HoughInspection_build ALL
+add_custom_target(Algorithm_HoughInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9270,9 +8324,7 @@ add_custom_target(Algorithm_HoughInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_HoughInspection_build GUI_PropertyHoughInspection_build)
-
-add_custom_target(ServiceLib_ConvertPixImage_build ALL
+add_custom_target(ServiceLib_ConvertPixImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9289,9 +8341,7 @@ add_custom_target(ServiceLib_ConvertPixImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_ConvertPixImage_build Algorithm_HoughInspection_build)
-
-add_custom_target(GUI_ResetCameraSeq_build ALL
+add_custom_target(GUI_ResetCameraSeq_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9308,9 +8358,7 @@ add_custom_target(GUI_ResetCameraSeq_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ResetCameraSeq_build ServiceLib_ConvertPixImage_build)
-
-add_custom_target(ServiceLib_DFSServer_build ALL
+add_custom_target(ServiceLib_DFSServer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9327,9 +8375,7 @@ add_custom_target(ServiceLib_DFSServer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_DFSServer_build GUI_ResetCameraSeq_build)
-
-add_custom_target(ServiceLib_DFSProvider_build ALL
+add_custom_target(ServiceLib_DFSProvider_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9346,9 +8392,7 @@ add_custom_target(ServiceLib_DFSProvider_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_DFSProvider_build ServiceLib_DFSServer_build)
-
-add_custom_target(ServiceLib_DFSExplorer_build ALL
+add_custom_target(ServiceLib_DFSExplorer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9365,9 +8409,7 @@ add_custom_target(ServiceLib_DFSExplorer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_DFSExplorer_build ServiceLib_DFSProvider_build)
-
-add_custom_target(ServiceLib_DFSProvider_DFSFilterMJC_build ALL
+add_custom_target(ServiceLib_DFSProvider_DFSFilterMJC_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9384,9 +8426,7 @@ add_custom_target(ServiceLib_DFSProvider_DFSFilterMJC_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_DFSProvider_DFSFilterMJC_build ServiceLib_DFSExplorer_build)
-
-add_custom_target(ServiceLib_ChangeAttribute_build ALL
+add_custom_target(ServiceLib_ChangeAttribute_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9403,9 +8443,7 @@ add_custom_target(ServiceLib_ChangeAttribute_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_ChangeAttribute_build ServiceLib_DFSProvider_DFSFilterMJC_build)
-
-add_custom_target(ServiceLib_CheckKeyCode_build ALL
+add_custom_target(ServiceLib_CheckKeyCode_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9422,9 +8460,7 @@ add_custom_target(ServiceLib_CheckKeyCode_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_CheckKeyCode_build ServiceLib_ChangeAttribute_build)
-
-add_custom_target(Algorithm_PartialImaging_build ALL
+add_custom_target(Algorithm_PartialImaging_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9441,9 +8477,7 @@ add_custom_target(Algorithm_PartialImaging_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_PartialImaging_build ServiceLib_CheckKeyCode_build)
-
-add_custom_target(GUI_PartialImagingImagePanel_build ALL
+add_custom_target(GUI_PartialImagingImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9460,9 +8494,7 @@ add_custom_target(GUI_PartialImagingImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PartialImagingImagePanel_build Algorithm_PartialImaging_build)
-
-add_custom_target(GUI_PropertyPartialImaging_build ALL
+add_custom_target(GUI_PropertyPartialImaging_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9479,9 +8511,7 @@ add_custom_target(GUI_PropertyPartialImaging_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyPartialImaging_build GUI_PartialImagingImagePanel_build)
-
-add_custom_target(GUI_ShowPartialImagingList_build ALL
+add_custom_target(GUI_ShowPartialImagingList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9498,9 +8528,7 @@ add_custom_target(GUI_ShowPartialImagingList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowPartialImagingList_build GUI_PropertyPartialImaging_build)
-
-add_custom_target(GUI_ShowPartialImagingPanel_build ALL
+add_custom_target(GUI_ShowPartialImagingPanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9517,9 +8545,7 @@ add_custom_target(GUI_ShowPartialImagingPanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowPartialImagingPanel_build GUI_ShowPartialImagingList_build)
-
-add_custom_target(GUI_CameraBuffer_build ALL
+add_custom_target(GUI_CameraBuffer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9536,9 +8562,7 @@ add_custom_target(GUI_CameraBuffer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CameraBuffer_build GUI_ShowPartialImagingPanel_build)
-
-add_custom_target(Algorithm_SkipMark_build ALL
+add_custom_target(Algorithm_SkipMark_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9555,9 +8579,7 @@ add_custom_target(Algorithm_SkipMark_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_SkipMark_build GUI_CameraBuffer_build)
-
-add_custom_target(GUI_PropertySkipMark_build ALL
+add_custom_target(GUI_PropertySkipMark_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9574,9 +8596,7 @@ add_custom_target(GUI_PropertySkipMark_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertySkipMark_build Algorithm_SkipMark_build)
-
-add_custom_target(GUI_SkipMarkImagePanel_build ALL
+add_custom_target(GUI_SkipMarkImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9593,9 +8613,7 @@ add_custom_target(GUI_SkipMarkImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SkipMarkImagePanel_build GUI_PropertySkipMark_build)
-
-add_custom_target(GUI_ButtonSelectMultiDelivery_build ALL
+add_custom_target(GUI_ButtonSelectMultiDelivery_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9612,9 +8630,7 @@ add_custom_target(GUI_ButtonSelectMultiDelivery_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSelectMultiDelivery_build GUI_SkipMarkImagePanel_build)
-
-add_custom_target(GUI_ShowResultMultiDelivery_build ALL
+add_custom_target(GUI_ShowResultMultiDelivery_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9631,9 +8647,7 @@ add_custom_target(GUI_ShowResultMultiDelivery_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowResultMultiDelivery_build GUI_ButtonSelectMultiDelivery_build)
-
-add_custom_target(ResultDLL_ResultXMLMultiDelivery_build ALL
+add_custom_target(ResultDLL_ResultXMLMultiDelivery_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9650,9 +8664,7 @@ add_custom_target(ResultDLL_ResultXMLMultiDelivery_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ResultDLL_ResultXMLMultiDelivery_build GUI_ShowResultMultiDelivery_build)
-
-add_custom_target(GUI_ShowBlockList_build ALL
+add_custom_target(GUI_ShowBlockList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9669,9 +8681,7 @@ add_custom_target(GUI_ShowBlockList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowBlockList_build ResultDLL_ResultXMLMultiDelivery_build)
-
-add_custom_target(GUI_EulerRingL1ImagePanel_build ALL
+add_custom_target(GUI_EulerRingL1ImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9688,9 +8698,7 @@ add_custom_target(GUI_EulerRingL1ImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_EulerRingL1ImagePanel_build GUI_ShowBlockList_build)
-
-add_custom_target(GUI_PropertyEulerRingL1_build ALL
+add_custom_target(GUI_PropertyEulerRingL1_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9707,9 +8715,7 @@ add_custom_target(GUI_PropertyEulerRingL1_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyEulerRingL1_build GUI_EulerRingL1ImagePanel_build)
-
-add_custom_target(Algorithm_EulerRingL1_build ALL
+add_custom_target(Algorithm_EulerRingL1_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9726,9 +8732,7 @@ add_custom_target(Algorithm_EulerRingL1_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_EulerRingL1_build GUI_PropertyEulerRingL1_build)
-
-add_custom_target(GUI_ButtonTransferPushGUI_build ALL
+add_custom_target(GUI_ButtonTransferPushGUI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9745,9 +8749,7 @@ add_custom_target(GUI_ButtonTransferPushGUI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonTransferPushGUI_build Algorithm_EulerRingL1_build)
-
-add_custom_target(GUI_ButtonTransferRequireMasterData_build ALL
+add_custom_target(GUI_ButtonTransferRequireMasterData_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9764,9 +8766,7 @@ add_custom_target(GUI_ButtonTransferRequireMasterData_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonTransferRequireMasterData_build GUI_ButtonTransferPushGUI_build)
-
-add_custom_target(GUI_ButtonTransferSendMasterData_build ALL
+add_custom_target(GUI_ButtonTransferSendMasterData_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9783,9 +8783,7 @@ add_custom_target(GUI_ButtonTransferSendMasterData_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonTransferSendMasterData_build GUI_ButtonTransferRequireMasterData_build)
-
-add_custom_target(GUI_ButtonTransferRequireGlobalParam_build ALL
+add_custom_target(GUI_ButtonTransferRequireGlobalParam_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9802,9 +8800,7 @@ add_custom_target(GUI_ButtonTransferRequireGlobalParam_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonTransferRequireGlobalParam_build GUI_ButtonTransferSendMasterData_build)
-
-add_custom_target(GUI_ButtonTransferSendGlobalParam_build ALL
+add_custom_target(GUI_ButtonTransferSendGlobalParam_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9821,9 +8817,7 @@ add_custom_target(GUI_ButtonTransferSendGlobalParam_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonTransferSendGlobalParam_build GUI_ButtonTransferRequireGlobalParam_build)
-
-add_custom_target(GUI_ButtonTransferLoadGUI_build ALL
+add_custom_target(GUI_ButtonTransferLoadGUI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9840,9 +8834,7 @@ add_custom_target(GUI_ButtonTransferLoadGUI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonTransferLoadGUI_build GUI_ButtonTransferSendGlobalParam_build)
-
-add_custom_target(ServiceLib_ProjectPropertyManager_build ALL
+add_custom_target(ServiceLib_ProjectPropertyManager_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9859,9 +8851,7 @@ add_custom_target(ServiceLib_ProjectPropertyManager_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_ProjectPropertyManager_build GUI_ButtonTransferLoadGUI_build)
-
-add_custom_target(GUI_PanelXYCalc_build ALL
+add_custom_target(GUI_PanelXYCalc_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9878,9 +8868,7 @@ add_custom_target(GUI_PanelXYCalc_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PanelXYCalc_build ServiceLib_ProjectPropertyManager_build)
-
-add_custom_target(PluginDLL_Camera_CameraSharer_build ALL
+add_custom_target(PluginDLL_Camera_CameraSharer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9897,9 +8885,7 @@ add_custom_target(PluginDLL_Camera_CameraSharer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Camera_CameraSharer_build GUI_PanelXYCalc_build)
-
-add_custom_target(PluginDLL_Camera_CameraSharerDLL_build ALL
+add_custom_target(PluginDLL_Camera_CameraSharerDLL_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9916,9 +8902,7 @@ add_custom_target(PluginDLL_Camera_CameraSharerDLL_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Camera_CameraSharerDLL_build PluginDLL_Camera_CameraSharer_build)
-
-add_custom_target(Algorithm_FrameDef_build ALL
+add_custom_target(Algorithm_FrameDef_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9935,9 +8919,7 @@ add_custom_target(Algorithm_FrameDef_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_FrameDef_build PluginDLL_Camera_CameraSharerDLL_build)
-
-add_custom_target(GUI_FrameDefImagePanel_build ALL
+add_custom_target(GUI_FrameDefImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9954,9 +8936,7 @@ add_custom_target(GUI_FrameDefImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_FrameDefImagePanel_build Algorithm_FrameDef_build)
-
-add_custom_target(GUI_PropertyFrameDef_build ALL
+add_custom_target(GUI_PropertyFrameDef_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9973,9 +8953,7 @@ add_custom_target(GUI_PropertyFrameDef_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyFrameDef_build GUI_FrameDefImagePanel_build)
-
-add_custom_target(GUI_SelectResultLotFrame_build ALL
+add_custom_target(GUI_SelectResultLotFrame_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -9992,9 +8970,7 @@ add_custom_target(GUI_SelectResultLotFrame_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SelectResultLotFrame_build GUI_PropertyFrameDef_build)
-
-add_custom_target(GUI_ShowResultFrame_build ALL
+add_custom_target(GUI_ShowResultFrame_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10011,9 +8987,7 @@ add_custom_target(GUI_ShowResultFrame_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowResultFrame_build GUI_SelectResultLotFrame_build)
-
-add_custom_target(ResultDLL_ResultFrameDLL_build ALL
+add_custom_target(ResultDLL_ResultFrameDLL_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10030,9 +9004,7 @@ add_custom_target(ResultDLL_ResultFrameDLL_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ResultDLL_ResultFrameDLL_build GUI_ShowResultFrame_build)
-
-add_custom_target(GUI_ButtonSwapIn_build ALL
+add_custom_target(GUI_ButtonSwapIn_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10049,9 +9021,7 @@ add_custom_target(GUI_ButtonSwapIn_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSwapIn_build ResultDLL_ResultFrameDLL_build)
-
-add_custom_target(GUI_ButtonSwapOut_build ALL
+add_custom_target(GUI_ButtonSwapOut_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10068,9 +9038,7 @@ add_custom_target(GUI_ButtonSwapOut_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSwapOut_build GUI_ButtonSwapIn_build)
-
-add_custom_target(GUI_ButtonInitialize_build ALL
+add_custom_target(GUI_ButtonInitialize_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10087,9 +9055,7 @@ add_custom_target(GUI_ButtonInitialize_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonInitialize_build GUI_ButtonSwapOut_build)
-
-add_custom_target(PluginDLL_PIO_NetworkSIOServer_build ALL
+add_custom_target(PluginDLL_PIO_NetworkSIOServer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10106,9 +9072,7 @@ add_custom_target(PluginDLL_PIO_NetworkSIOServer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_NetworkSIOServer_build GUI_ButtonInitialize_build)
-
-add_custom_target(PluginDLL_PIO_NetworkSIOTestClient_build ALL
+add_custom_target(PluginDLL_PIO_NetworkSIOTestClient_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10125,9 +9089,7 @@ add_custom_target(PluginDLL_PIO_NetworkSIOTestClient_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_NetworkSIOTestClient_build PluginDLL_PIO_NetworkSIOServer_build)
-
-add_custom_target(GUI_OCRImagePanel_build ALL
+add_custom_target(GUI_OCRImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10144,9 +9106,7 @@ add_custom_target(GUI_OCRImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_OCRImagePanel_build PluginDLL_PIO_NetworkSIOTestClient_build)
-
-add_custom_target(GUI_PropertyOCR_build ALL
+add_custom_target(GUI_PropertyOCR_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10163,9 +9123,7 @@ add_custom_target(GUI_PropertyOCR_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyOCR_build GUI_OCRImagePanel_build)
-
-add_custom_target(GUI_ButtonLoadRelease_build ALL
+add_custom_target(GUI_ButtonLoadRelease_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10182,9 +9140,7 @@ add_custom_target(GUI_ButtonLoadRelease_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLoadRelease_build GUI_PropertyOCR_build)
-
-add_custom_target(Filter_FilterImageShadingArea_build ALL
+add_custom_target(Filter_FilterImageShadingArea_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10201,9 +9157,7 @@ add_custom_target(Filter_FilterImageShadingArea_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterImageShadingArea_build GUI_ButtonLoadRelease_build)
-
-add_custom_target(GUI_PushToSavePix_build ALL
+add_custom_target(GUI_PushToSavePix_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10220,9 +9174,7 @@ add_custom_target(GUI_PushToSavePix_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PushToSavePix_build Filter_FilterImageShadingArea_build)
-
-add_custom_target(Algorithm_Process3D_build ALL
+add_custom_target(Algorithm_Process3D_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10239,9 +9191,7 @@ add_custom_target(Algorithm_Process3D_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_Process3D_build GUI_PushToSavePix_build)
-
-add_custom_target(GUI_Process3DImagePanel_build ALL
+add_custom_target(GUI_Process3DImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10258,9 +9208,7 @@ add_custom_target(GUI_Process3DImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_Process3DImagePanel_build Algorithm_Process3D_build)
-
-add_custom_target(GUI_PropertyProcess3D_build ALL
+add_custom_target(GUI_PropertyProcess3D_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10277,9 +9225,7 @@ add_custom_target(GUI_PropertyProcess3D_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyProcess3D_build GUI_Process3DImagePanel_build)
-
-add_custom_target(GUI_ButtonModeAutoIncScanNumber_build ALL
+add_custom_target(GUI_ButtonModeAutoIncScanNumber_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10296,9 +9242,7 @@ add_custom_target(GUI_ButtonModeAutoIncScanNumber_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonModeAutoIncScanNumber_build GUI_PropertyProcess3D_build)
-
-add_custom_target(GUI_ButtonOutlineOffsetWindow_build ALL
+add_custom_target(GUI_ButtonOutlineOffsetWindow_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10315,9 +9259,7 @@ add_custom_target(GUI_ButtonOutlineOffsetWindow_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonOutlineOffsetWindow_build GUI_ButtonModeAutoIncScanNumber_build)
-
-add_custom_target(Filter_FilterRemoveNoiseLine_build ALL
+add_custom_target(Filter_FilterRemoveNoiseLine_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10334,9 +9276,7 @@ add_custom_target(Filter_FilterRemoveNoiseLine_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterRemoveNoiseLine_build GUI_ButtonOutlineOffsetWindow_build)
-
-add_custom_target(Algorithm_LinePatternInspection_build ALL
+add_custom_target(Algorithm_LinePatternInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10353,9 +9293,7 @@ add_custom_target(Algorithm_LinePatternInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_LinePatternInspection_build Filter_FilterRemoveNoiseLine_build)
-
-add_custom_target(GUI_LinePatternImagePanel_build ALL
+add_custom_target(GUI_LinePatternImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10372,9 +9310,7 @@ add_custom_target(GUI_LinePatternImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LinePatternImagePanel_build Algorithm_LinePatternInspection_build)
-
-add_custom_target(GUI_PropertyLinePattern_build ALL
+add_custom_target(GUI_PropertyLinePattern_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10391,9 +9327,7 @@ add_custom_target(GUI_PropertyLinePattern_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyLinePattern_build GUI_LinePatternImagePanel_build)
-
-add_custom_target(Algorithm_AlignmentFlexArea_build ALL
+add_custom_target(Algorithm_AlignmentFlexArea_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10410,9 +9344,7 @@ add_custom_target(Algorithm_AlignmentFlexArea_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_AlignmentFlexArea_build GUI_PropertyLinePattern_build)
-
-add_custom_target(GUI_AlignmentFlexAreaImagePanel_build ALL
+add_custom_target(GUI_AlignmentFlexAreaImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10429,9 +9361,7 @@ add_custom_target(GUI_AlignmentFlexAreaImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AlignmentFlexAreaImagePanel_build Algorithm_AlignmentFlexArea_build)
-
-add_custom_target(GUI_PropertyAlignmentFlexArea_build ALL
+add_custom_target(GUI_PropertyAlignmentFlexArea_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10448,9 +9378,7 @@ add_custom_target(GUI_PropertyAlignmentFlexArea_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyAlignmentFlexArea_build GUI_AlignmentFlexAreaImagePanel_build)
-
-add_custom_target(Filter_FilterBrightnessLogConvert_build ALL
+add_custom_target(Filter_FilterBrightnessLogConvert_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10467,9 +9395,7 @@ add_custom_target(Filter_FilterBrightnessLogConvert_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterBrightnessLogConvert_build GUI_PropertyAlignmentFlexArea_build)
-
-add_custom_target(GUI_PanelInputInformation_build ALL
+add_custom_target(GUI_PanelInputInformation_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10486,9 +9412,7 @@ add_custom_target(GUI_PanelInputInformation_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PanelInputInformation_build Filter_FilterBrightnessLogConvert_build)
-
-add_custom_target(GUI_ShortcutKeyInvisible_build ALL
+add_custom_target(GUI_ShortcutKeyInvisible_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10505,9 +9429,7 @@ add_custom_target(GUI_ShortcutKeyInvisible_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShortcutKeyInvisible_build GUI_PanelInputInformation_build)
-
-add_custom_target(PluginDLL_PIO_PIOForCameraExecuter_build ALL
+add_custom_target(PluginDLL_PIO_PIOForCameraExecuter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10524,9 +9446,7 @@ add_custom_target(PluginDLL_PIO_PIOForCameraExecuter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_PIOForCameraExecuter_build GUI_ShortcutKeyInvisible_build)
-
-add_custom_target(GUI_PanelXYZSize_build ALL
+add_custom_target(GUI_PanelXYZSize_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10543,9 +9463,7 @@ add_custom_target(GUI_PanelXYZSize_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PanelXYZSize_build PluginDLL_PIO_PIOForCameraExecuter_build)
-
-add_custom_target(GUI_PanelMaxStock_build ALL
+add_custom_target(GUI_PanelMaxStock_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10562,9 +9480,7 @@ add_custom_target(GUI_PanelMaxStock_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PanelMaxStock_build GUI_PanelXYZSize_build)
-
-add_custom_target(Filter_FilterVBandOneLayer_build ALL
+add_custom_target(Filter_FilterVBandOneLayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10581,9 +9497,7 @@ add_custom_target(Filter_FilterVBandOneLayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterVBandOneLayer_build GUI_PanelMaxStock_build)
-
-add_custom_target(GUI_ButtonAlignmentLargeTransform_build ALL
+add_custom_target(GUI_ButtonAlignmentLargeTransform_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10600,9 +9514,7 @@ add_custom_target(GUI_ButtonAlignmentLargeTransform_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonAlignmentLargeTransform_build Filter_FilterVBandOneLayer_build)
-
-add_custom_target(GUI_ShowAlignmentResult_build ALL
+add_custom_target(GUI_ShowAlignmentResult_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10619,9 +9531,7 @@ add_custom_target(GUI_ShowAlignmentResult_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowAlignmentResult_build GUI_ButtonAlignmentLargeTransform_build)
-
-add_custom_target(GUI_ButtonExecuteMacro_build ALL
+add_custom_target(GUI_ButtonExecuteMacro_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10638,9 +9548,7 @@ add_custom_target(GUI_ButtonExecuteMacro_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonExecuteMacro_build GUI_ShowAlignmentResult_build)
-
-add_custom_target(GUI_SetThresholdByHistogram_build ALL
+add_custom_target(GUI_SetThresholdByHistogram_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10657,9 +9565,7 @@ add_custom_target(GUI_SetThresholdByHistogram_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SetThresholdByHistogram_build GUI_ButtonExecuteMacro_build)
-
-add_custom_target(ServiceLib_MakeShrinkingTable_build ALL
+add_custom_target(ServiceLib_MakeShrinkingTable_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10676,9 +9582,7 @@ add_custom_target(ServiceLib_MakeShrinkingTable_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_MakeShrinkingTable_build GUI_SetThresholdByHistogram_build)
-
-add_custom_target(GUI_ListGenerateChildLibrary_build ALL
+add_custom_target(GUI_ListGenerateChildLibrary_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10695,9 +9599,7 @@ add_custom_target(GUI_ListGenerateChildLibrary_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ListGenerateChildLibrary_build ServiceLib_MakeShrinkingTable_build)
-
-add_custom_target(GUI_ButtonStartCaptureContinuousLy_build ALL
+add_custom_target(GUI_ButtonStartCaptureContinuousLy_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10714,9 +9616,7 @@ add_custom_target(GUI_ButtonStartCaptureContinuousLy_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonStartCaptureContinuousLy_build GUI_ListGenerateChildLibrary_build)
-
-add_custom_target(GUI_RealtimeImagePanel_build ALL
+add_custom_target(GUI_RealtimeImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10733,9 +9633,7 @@ add_custom_target(GUI_RealtimeImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_RealtimeImagePanel_build GUI_ButtonStartCaptureContinuousLy_build)
-
-add_custom_target(PluginDLL_Light_LightDLL_CCSControlByLAN_build ALL
+add_custom_target(PluginDLL_Light_LightDLL_CCSControlByLAN_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10752,9 +9650,7 @@ add_custom_target(PluginDLL_Light_LightDLL_CCSControlByLAN_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Light_LightDLL_CCSControlByLAN_build GUI_RealtimeImagePanel_build)
-
-add_custom_target(PluginDLL_Light_LightDLL_ImacControlByLAN_build ALL
+add_custom_target(PluginDLL_Light_LightDLL_ImacControlByLAN_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10771,9 +9667,7 @@ add_custom_target(PluginDLL_Light_LightDLL_ImacControlByLAN_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Light_LightDLL_ImacControlByLAN_build PluginDLL_Light_LightDLL_CCSControlByLAN_build)
-
-add_custom_target(Algorithm_MatchShiftRotation_build ALL
+add_custom_target(Algorithm_MatchShiftRotation_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10790,9 +9684,7 @@ add_custom_target(Algorithm_MatchShiftRotation_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_MatchShiftRotation_build PluginDLL_Light_LightDLL_ImacControlByLAN_build)
-
-add_custom_target(GUI_MatchShiftRotationImagePanel_build ALL
+add_custom_target(GUI_MatchShiftRotationImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10809,9 +9701,7 @@ add_custom_target(GUI_MatchShiftRotationImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MatchShiftRotationImagePanel_build Algorithm_MatchShiftRotation_build)
-
-add_custom_target(GUI_PropertyMatchShiftRotation_build ALL
+add_custom_target(GUI_PropertyMatchShiftRotation_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10828,9 +9718,7 @@ add_custom_target(GUI_PropertyMatchShiftRotation_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyMatchShiftRotation_build GUI_MatchShiftRotationImagePanel_build)
-
-add_custom_target(GUI_DrawHookControlPanel_build ALL
+add_custom_target(GUI_DrawHookControlPanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10847,9 +9735,7 @@ add_custom_target(GUI_DrawHookControlPanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DrawHookControlPanel_build GUI_PropertyMatchShiftRotation_build)
-
-add_custom_target(GUI_HookOverlapImage_build ALL
+add_custom_target(GUI_HookOverlapImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10866,9 +9752,7 @@ add_custom_target(GUI_HookOverlapImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_HookOverlapImage_build GUI_DrawHookControlPanel_build)
-
-add_custom_target(GUI_HookMeasure_build ALL
+add_custom_target(GUI_HookMeasure_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10885,9 +9769,7 @@ add_custom_target(GUI_HookMeasure_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_HookMeasure_build GUI_HookOverlapImage_build)
-
-add_custom_target(GUI_HookPeaking_build ALL
+add_custom_target(GUI_HookPeaking_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10904,9 +9786,7 @@ add_custom_target(GUI_HookPeaking_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_HookPeaking_build GUI_HookMeasure_build)
-
-add_custom_target(GUI_GeneralStackForm_build ALL
+add_custom_target(GUI_GeneralStackForm_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10923,9 +9803,7 @@ add_custom_target(GUI_GeneralStackForm_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_GeneralStackForm_build GUI_HookPeaking_build)
-
-add_custom_target(GUI_ButtonSaveBmpJpg_build ALL
+add_custom_target(GUI_ButtonSaveBmpJpg_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10942,9 +9820,7 @@ add_custom_target(GUI_ButtonSaveBmpJpg_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSaveBmpJpg_build GUI_GeneralStackForm_build)
-
-add_custom_target(GUI_ChangeTurnTop_build ALL
+add_custom_target(GUI_ChangeTurnTop_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10961,9 +9837,7 @@ add_custom_target(GUI_ChangeTurnTop_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ChangeTurnTop_build GUI_ButtonSaveBmpJpg_build)
-
-add_custom_target(Algorithm_NickInspection_build ALL
+add_custom_target(Algorithm_NickInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10980,9 +9854,7 @@ add_custom_target(Algorithm_NickInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_NickInspection_build GUI_ChangeTurnTop_build)
-
-add_custom_target(GUI_NickInspectionImagePanel_build ALL
+add_custom_target(GUI_NickInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -10999,9 +9871,7 @@ add_custom_target(GUI_NickInspectionImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_NickInspectionImagePanel_build Algorithm_NickInspection_build)
-
-add_custom_target(GUI_PropertyNickInspection_build ALL
+add_custom_target(GUI_PropertyNickInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11018,9 +9888,7 @@ add_custom_target(GUI_PropertyNickInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyNickInspection_build GUI_NickInspectionImagePanel_build)
-
-add_custom_target(GUI_PanelHidable_build ALL
+add_custom_target(GUI_PanelHidable_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11037,9 +9905,7 @@ add_custom_target(GUI_PanelHidable_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PanelHidable_build GUI_PropertyNickInspection_build)
-
-add_custom_target(PluginDLL_PIO_NetworkPIOClient_build ALL
+add_custom_target(PluginDLL_PIO_NetworkPIOClient_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11056,9 +9922,7 @@ add_custom_target(PluginDLL_PIO_NetworkPIOClient_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_NetworkPIOClient_build GUI_PanelHidable_build)
-
-add_custom_target(GUI_DotColorMatchingImagePanel_build ALL
+add_custom_target(GUI_DotColorMatchingImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11075,9 +9939,7 @@ add_custom_target(GUI_DotColorMatchingImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DotColorMatchingImagePanel_build PluginDLL_PIO_NetworkPIOClient_build)
-
-add_custom_target(GUI_PropertyDotColorMatching_build ALL
+add_custom_target(GUI_PropertyDotColorMatching_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11094,9 +9956,7 @@ add_custom_target(GUI_PropertyDotColorMatching_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyDotColorMatching_build GUI_DotColorMatchingImagePanel_build)
-
-add_custom_target(Algorithm_DotColorMatching_build ALL
+add_custom_target(Algorithm_DotColorMatching_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11113,9 +9973,7 @@ add_custom_target(Algorithm_DotColorMatching_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_DotColorMatching_build GUI_PropertyDotColorMatching_build)
-
-add_custom_target(GUI_ShowMatchShiftRotation_build ALL
+add_custom_target(GUI_ShowMatchShiftRotation_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11132,9 +9990,7 @@ add_custom_target(GUI_ShowMatchShiftRotation_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowMatchShiftRotation_build Algorithm_DotColorMatching_build)
-
-add_custom_target(GUI_ShowCurrentLightName_build ALL
+add_custom_target(GUI_ShowCurrentLightName_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11151,9 +10007,7 @@ add_custom_target(GUI_ShowCurrentLightName_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowCurrentLightName_build GUI_ShowMatchShiftRotation_build)
-
-add_custom_target(Filter_FilterBrightnessThresholdConvert_build ALL
+add_custom_target(Filter_FilterBrightnessThresholdConvert_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11170,9 +10024,7 @@ add_custom_target(Filter_FilterBrightnessThresholdConvert_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterBrightnessThresholdConvert_build GUI_ShowCurrentLightName_build)
-
-add_custom_target(GUI_ExecutorOfPixList_build ALL
+add_custom_target(GUI_ExecutorOfPixList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11189,9 +10041,7 @@ add_custom_target(GUI_ExecutorOfPixList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ExecutorOfPixList_build Filter_FilterBrightnessThresholdConvert_build)
-
-add_custom_target(ResultDLL_ResultXMLPrintFast_build ALL
+add_custom_target(ResultDLL_ResultXMLPrintFast_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11208,9 +10058,7 @@ add_custom_target(ResultDLL_ResultXMLPrintFast_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ResultDLL_ResultXMLPrintFast_build GUI_ExecutorOfPixList_build)
-
-add_custom_target(Algorithm_SwitchPhase_build ALL
+add_custom_target(Algorithm_SwitchPhase_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11227,9 +10075,7 @@ add_custom_target(Algorithm_SwitchPhase_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_SwitchPhase_build ResultDLL_ResultXMLPrintFast_build)
-
-add_custom_target(GUI_PropertySwitchPhase_build ALL
+add_custom_target(GUI_PropertySwitchPhase_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11246,9 +10092,7 @@ add_custom_target(GUI_PropertySwitchPhase_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertySwitchPhase_build Algorithm_SwitchPhase_build)
-
-add_custom_target(GUI_SwitchPhaseImagePanel_build ALL
+add_custom_target(GUI_SwitchPhaseImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11265,9 +10109,7 @@ add_custom_target(GUI_SwitchPhaseImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SwitchPhaseImagePanel_build GUI_PropertySwitchPhase_build)
-
-add_custom_target(GUI_ButtonToShowCrossLine_build ALL
+add_custom_target(GUI_ButtonToShowCrossLine_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11284,9 +10126,7 @@ add_custom_target(GUI_ButtonToShowCrossLine_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonToShowCrossLine_build GUI_SwitchPhaseImagePanel_build)
-
-add_custom_target(GUI_ShowCycleTime_build ALL
+add_custom_target(GUI_ShowCycleTime_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11303,9 +10143,7 @@ add_custom_target(GUI_ShowCycleTime_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowCycleTime_build GUI_ButtonToShowCrossLine_build)
-
-add_custom_target(GUI_HookDrawRegulationLine_build ALL
+add_custom_target(GUI_HookDrawRegulationLine_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11322,9 +10160,7 @@ add_custom_target(GUI_HookDrawRegulationLine_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_HookDrawRegulationLine_build GUI_ShowCycleTime_build)
-
-add_custom_target(GUI_ButtonLoadMasterDataInPhase_build ALL
+add_custom_target(GUI_ButtonLoadMasterDataInPhase_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11341,9 +10177,7 @@ add_custom_target(GUI_ButtonLoadMasterDataInPhase_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLoadMasterDataInPhase_build GUI_HookDrawRegulationLine_build)
-
-add_custom_target(GUI_CopyMirroredTransfer_build ALL
+add_custom_target(GUI_CopyMirroredTransfer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11360,9 +10194,7 @@ add_custom_target(GUI_CopyMirroredTransfer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CopyMirroredTransfer_build GUI_ButtonLoadMasterDataInPhase_build)
-
-add_custom_target(GUI_ShowImageList_build ALL
+add_custom_target(GUI_ShowImageList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11379,9 +10211,7 @@ add_custom_target(GUI_ShowImageList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowImageList_build GUI_CopyMirroredTransfer_build)
-
-add_custom_target(ResultDLL_ResultDLLIntoFile_build ALL
+add_custom_target(ResultDLL_ResultDLLIntoFile_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11398,9 +10228,7 @@ add_custom_target(ResultDLL_ResultDLLIntoFile_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ResultDLL_ResultDLLIntoFile_build GUI_ShowImageList_build)
-
-add_custom_target(GUI_HoleWallInspectionImagePanel_build ALL
+add_custom_target(GUI_HoleWallInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11417,9 +10245,7 @@ add_custom_target(GUI_HoleWallInspectionImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_HoleWallInspectionImagePanel_build ResultDLL_ResultDLLIntoFile_build)
-
-add_custom_target(GUI_PropertyHoleWallInspection_build ALL
+add_custom_target(GUI_PropertyHoleWallInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11436,9 +10262,7 @@ add_custom_target(GUI_PropertyHoleWallInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyHoleWallInspection_build GUI_HoleWallInspectionImagePanel_build)
-
-add_custom_target(Algorithm_HoleWallInspection_build ALL
+add_custom_target(Algorithm_HoleWallInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11455,9 +10279,7 @@ add_custom_target(Algorithm_HoleWallInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_HoleWallInspection_build GUI_PropertyHoleWallInspection_build)
-
-add_custom_target(GUI_ButtonGenerateFromGerber_build ALL
+add_custom_target(GUI_ButtonGenerateFromGerber_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11474,9 +10296,7 @@ add_custom_target(GUI_ButtonGenerateFromGerber_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonGenerateFromGerber_build Algorithm_HoleWallInspection_build)
-
-add_custom_target(GUI_RecordMovie_build ALL
+add_custom_target(GUI_RecordMovie_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11493,9 +10313,7 @@ add_custom_target(GUI_RecordMovie_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_RecordMovie_build GUI_ButtonGenerateFromGerber_build)
-
-add_custom_target(GUI_ButtonToSnapImage_build ALL
+add_custom_target(GUI_ButtonToSnapImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11512,9 +10330,7 @@ add_custom_target(GUI_ButtonToSnapImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonToSnapImage_build GUI_RecordMovie_build)
-
-add_custom_target(GUI_ShowItemNameResultSeq_build ALL
+add_custom_target(GUI_ShowItemNameResultSeq_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11531,9 +10347,7 @@ add_custom_target(GUI_ShowItemNameResultSeq_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowItemNameResultSeq_build GUI_ButtonToSnapImage_build)
-
-add_custom_target(GUI_ButtonChange_build ALL
+add_custom_target(GUI_ButtonChange_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11550,9 +10364,7 @@ add_custom_target(GUI_ButtonChange_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonChange_build GUI_ShowItemNameResultSeq_build)
-
-add_custom_target(GUI_ShowThinMetalResultList_build ALL
+add_custom_target(GUI_ShowThinMetalResultList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11569,9 +10381,7 @@ add_custom_target(GUI_ShowThinMetalResultList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowThinMetalResultList_build GUI_ButtonChange_build)
-
-add_custom_target(EditStatusComment_ShowStatusComment_build ALL
+add_custom_target(EditStatusComment_ShowStatusComment_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11588,9 +10398,7 @@ add_custom_target(EditStatusComment_ShowStatusComment_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(EditStatusComment_ShowStatusComment_build GUI_ShowThinMetalResultList_build)
-
-add_custom_target(GUI_ButtonToShowStatusComment_build ALL
+add_custom_target(GUI_ButtonToShowStatusComment_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11607,9 +10415,7 @@ add_custom_target(GUI_ButtonToShowStatusComment_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonToShowStatusComment_build EditStatusComment_ShowStatusComment_build)
-
-add_custom_target(GUI_DentImagePanel_build ALL
+add_custom_target(GUI_DentImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11626,9 +10432,7 @@ add_custom_target(GUI_DentImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DentImagePanel_build GUI_ButtonToShowStatusComment_build)
-
-add_custom_target(GUI_PropertyDent_build ALL
+add_custom_target(GUI_PropertyDent_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11645,9 +10449,7 @@ add_custom_target(GUI_PropertyDent_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyDent_build GUI_DentImagePanel_build)
-
-add_custom_target(Algorithm_DentInspection_build ALL
+add_custom_target(Algorithm_DentInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11664,9 +10466,7 @@ add_custom_target(Algorithm_DentInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_DentInspection_build GUI_PropertyDent_build)
-
-add_custom_target(GUI_ButtonSelectStackedPage_build ALL
+add_custom_target(GUI_ButtonSelectStackedPage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11683,9 +10483,7 @@ add_custom_target(GUI_ButtonSelectStackedPage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSelectStackedPage_build Algorithm_DentInspection_build)
-
-add_custom_target(GUI_ShowMultiImage_build ALL
+add_custom_target(GUI_ShowMultiImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11702,9 +10500,7 @@ add_custom_target(GUI_ShowMultiImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowMultiImage_build GUI_ButtonSelectStackedPage_build)
-
-add_custom_target(GUI_PanelHide_build ALL
+add_custom_target(GUI_PanelHide_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11721,9 +10517,7 @@ add_custom_target(GUI_PanelHide_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PanelHide_build GUI_ShowMultiImage_build)
-
-add_custom_target(ResultAnalizer_DustReducer_build ALL
+add_custom_target(ResultAnalizer_DustReducer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11740,9 +10534,7 @@ add_custom_target(ResultAnalizer_DustReducer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ResultAnalizer_DustReducer_build GUI_PanelHide_build)
-
-add_custom_target(ServiceLib_CopyAndExecute_build ALL
+add_custom_target(ServiceLib_CopyAndExecute_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11759,9 +10551,7 @@ add_custom_target(ServiceLib_CopyAndExecute_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_CopyAndExecute_build ResultAnalizer_DustReducer_build)
-
-add_custom_target(ResultAnalizer_DustReducerAI_build ALL
+add_custom_target(ResultAnalizer_DustReducerAI_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11778,9 +10568,7 @@ add_custom_target(ResultAnalizer_DustReducerAI_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ResultAnalizer_DustReducerAI_build ServiceLib_CopyAndExecute_build)
-
-add_custom_target(GUI_ButtonClearMasterInfo_build ALL
+add_custom_target(GUI_ButtonClearMasterInfo_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11797,9 +10585,7 @@ add_custom_target(GUI_ButtonClearMasterInfo_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonClearMasterInfo_build ResultAnalizer_DustReducerAI_build)
-
-add_custom_target(GUI_HookLearningRegistOkNg_build ALL
+add_custom_target(GUI_HookLearningRegistOkNg_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11816,9 +10602,7 @@ add_custom_target(GUI_HookLearningRegistOkNg_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_HookLearningRegistOkNg_build GUI_ButtonClearMasterInfo_build)
-
-add_custom_target(InspectionPlayer_InspectionFastPlayer_build ALL
+add_custom_target(InspectionPlayer_InspectionFastPlayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11835,9 +10619,7 @@ add_custom_target(InspectionPlayer_InspectionFastPlayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(InspectionPlayer_InspectionFastPlayer_build GUI_HookLearningRegistOkNg_build)
-
-add_custom_target(PluginDLL_PIO_NetworkPIOVirtual_build ALL
+add_custom_target(PluginDLL_PIO_NetworkPIOVirtual_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11854,9 +10636,7 @@ add_custom_target(PluginDLL_PIO_NetworkPIOVirtual_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_NetworkPIOVirtual_build InspectionPlayer_InspectionFastPlayer_build)
-
-add_custom_target(PluginDLL_PIO_NetworkPIOVirtualCommunicator_build ALL
+add_custom_target(PluginDLL_PIO_NetworkPIOVirtualCommunicator_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11873,9 +10653,7 @@ add_custom_target(PluginDLL_PIO_NetworkPIOVirtualCommunicator_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_NetworkPIOVirtualCommunicator_build PluginDLL_PIO_NetworkPIOVirtual_build)
-
-add_custom_target(GUI_VideoController_build ALL
+add_custom_target(GUI_VideoController_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11892,9 +10670,7 @@ add_custom_target(GUI_VideoController_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_VideoController_build PluginDLL_PIO_NetworkPIOVirtualCommunicator_build)
-
-add_custom_target(GUI_PlayVideoWidget_build ALL
+add_custom_target(GUI_PlayVideoWidget_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11911,9 +10687,7 @@ add_custom_target(GUI_PlayVideoWidget_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PlayVideoWidget_build GUI_VideoController_build)
-
-add_custom_target(GUI_ButtonAutoGenerateMeasureLineMove_build ALL
+add_custom_target(GUI_ButtonAutoGenerateMeasureLineMove_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11930,9 +10704,7 @@ add_custom_target(GUI_ButtonAutoGenerateMeasureLineMove_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonAutoGenerateMeasureLineMove_build GUI_PlayVideoWidget_build)
-
-add_custom_target(GUI_PropertyDXFOperation_build ALL
+add_custom_target(GUI_PropertyDXFOperation_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11949,9 +10721,7 @@ add_custom_target(GUI_PropertyDXFOperation_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyDXFOperation_build GUI_ButtonAutoGenerateMeasureLineMove_build)
-
-add_custom_target(GUI_DXFOperationImagePanel_build ALL
+add_custom_target(GUI_DXFOperationImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11968,9 +10738,7 @@ add_custom_target(GUI_DXFOperationImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DXFOperationImagePanel_build GUI_PropertyDXFOperation_build)
-
-add_custom_target(Algorithm_DXFOperation_build ALL
+add_custom_target(Algorithm_DXFOperation_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -11987,9 +10755,7 @@ add_custom_target(Algorithm_DXFOperation_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_DXFOperation_build GUI_DXFOperationImagePanel_build)
-
-add_custom_target(GUI_ShowFileListBrowser_build ALL
+add_custom_target(GUI_ShowFileListBrowser_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12006,9 +10772,7 @@ add_custom_target(GUI_ShowFileListBrowser_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowFileListBrowser_build Algorithm_DXFOperation_build)
-
-add_custom_target(GUI_ButtonExecuteCommand_build ALL
+add_custom_target(GUI_ButtonExecuteCommand_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12025,9 +10789,7 @@ add_custom_target(GUI_ButtonExecuteCommand_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonExecuteCommand_build GUI_ShowFileListBrowser_build)
-
-add_custom_target(PluginDLL_PIO_RelayLCUS2_build ALL
+add_custom_target(PluginDLL_PIO_RelayLCUS2_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12044,9 +10806,7 @@ add_custom_target(PluginDLL_PIO_RelayLCUS2_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_RelayLCUS2_build GUI_ButtonExecuteCommand_build)
-
-add_custom_target(GUI_ShowMemory_build ALL
+add_custom_target(GUI_ShowMemory_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12063,9 +10823,7 @@ add_custom_target(GUI_ShowMemory_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowMemory_build PluginDLL_PIO_RelayLCUS2_build)
-
-add_custom_target(ResultDLL_ResultSaveTargetImage_build ALL
+add_custom_target(ResultDLL_ResultSaveTargetImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12082,9 +10840,7 @@ add_custom_target(ResultDLL_ResultSaveTargetImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ResultDLL_ResultSaveTargetImage_build GUI_ShowMemory_build)
-
-add_custom_target(GUI_ButtonShowStockedImage_build ALL
+add_custom_target(GUI_ButtonShowStockedImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12101,9 +10857,7 @@ add_custom_target(GUI_ButtonShowStockedImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonShowStockedImage_build ResultDLL_ResultSaveTargetImage_build)
-
-add_custom_target(PluginDLL_PIO_SharedPIO_build ALL
+add_custom_target(PluginDLL_PIO_SharedPIO_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12120,9 +10874,7 @@ add_custom_target(PluginDLL_PIO_SharedPIO_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_SharedPIO_build GUI_ButtonShowStockedImage_build)
-
-add_custom_target(GUI_ButtonShowSnapImageFileName_build ALL
+add_custom_target(GUI_ButtonShowSnapImageFileName_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12139,9 +10891,7 @@ add_custom_target(GUI_ButtonShowSnapImageFileName_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonShowSnapImageFileName_build PluginDLL_PIO_SharedPIO_build)
-
-add_custom_target(GUI_ButtonResetThresholdDotColorMatching_build ALL
+add_custom_target(GUI_ButtonResetThresholdDotColorMatching_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12158,9 +10908,7 @@ add_custom_target(GUI_ButtonResetThresholdDotColorMatching_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonResetThresholdDotColorMatching_build GUI_ButtonShowSnapImageFileName_build)
-
-add_custom_target(GUI_ShowCurrentTime_build ALL
+add_custom_target(GUI_ShowCurrentTime_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12177,9 +10925,7 @@ add_custom_target(GUI_ShowCurrentTime_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowCurrentTime_build GUI_ButtonResetThresholdDotColorMatching_build)
-
-add_custom_target(GUI_ButtonCopyAnyPhasePageLayer_build ALL
+add_custom_target(GUI_ButtonCopyAnyPhasePageLayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12196,9 +10942,7 @@ add_custom_target(GUI_ButtonCopyAnyPhasePageLayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonCopyAnyPhasePageLayer_build GUI_ShowCurrentTime_build)
-
-add_custom_target(Algorithm_ColorDifference_build ALL
+add_custom_target(Algorithm_ColorDifference_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12215,9 +10959,7 @@ add_custom_target(Algorithm_ColorDifference_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ColorDifference_build GUI_ButtonCopyAnyPhasePageLayer_build)
-
-add_custom_target(GUI_ColorDifferenceImagePanel_build ALL
+add_custom_target(GUI_ColorDifferenceImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12234,9 +10976,7 @@ add_custom_target(GUI_ColorDifferenceImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ColorDifferenceImagePanel_build Algorithm_ColorDifference_build)
-
-add_custom_target(GUI_PropertyColorDifference_build ALL
+add_custom_target(GUI_PropertyColorDifference_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12253,9 +10993,7 @@ add_custom_target(GUI_PropertyColorDifference_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyColorDifference_build GUI_ColorDifferenceImagePanel_build)
-
-add_custom_target(Algorithm_AlignmentProjection_build ALL
+add_custom_target(Algorithm_AlignmentProjection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12272,9 +11010,7 @@ add_custom_target(Algorithm_AlignmentProjection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_AlignmentProjection_build GUI_PropertyColorDifference_build)
-
-add_custom_target(GUI_AlignmentProjectionImagePanel_build ALL
+add_custom_target(GUI_AlignmentProjectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12291,9 +11027,7 @@ add_custom_target(GUI_AlignmentProjectionImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AlignmentProjectionImagePanel_build Algorithm_AlignmentProjection_build)
-
-add_custom_target(GUI_PropertyAlignmentProjection_build ALL
+add_custom_target(GUI_PropertyAlignmentProjection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12310,9 +11044,7 @@ add_custom_target(GUI_PropertyAlignmentProjection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyAlignmentProjection_build GUI_AlignmentProjectionImagePanel_build)
-
-add_custom_target(GUI_SelectStackedWindows_build ALL
+add_custom_target(GUI_SelectStackedWindows_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12329,9 +11061,7 @@ add_custom_target(GUI_SelectStackedWindows_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SelectStackedWindows_build GUI_PropertyAlignmentProjection_build)
-
-add_custom_target(GUI_InsertTelop_build ALL
+add_custom_target(GUI_InsertTelop_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12348,9 +11078,7 @@ add_custom_target(GUI_InsertTelop_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_InsertTelop_build GUI_SelectStackedWindows_build)
-
-add_custom_target(GUI_ImageBank_build ALL
+add_custom_target(GUI_ImageBank_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12367,9 +11095,7 @@ add_custom_target(GUI_ImageBank_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ImageBank_build GUI_InsertTelop_build)
-
-add_custom_target(Integrator_GUI_IntegrationResultList_build ALL
+add_custom_target(Integrator_GUI_IntegrationResultList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12386,9 +11112,7 @@ add_custom_target(Integrator_GUI_IntegrationResultList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationResultList_build GUI_ImageBank_build)
-
-add_custom_target(Integrator_IntegrationPlayer_build ALL
+add_custom_target(Integrator_IntegrationPlayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12405,9 +11129,7 @@ add_custom_target(Integrator_IntegrationPlayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_IntegrationPlayer_build Integrator_GUI_IntegrationResultList_build)
-
-add_custom_target(Integrator_EditParamIntegrationMaster_build ALL
+add_custom_target(Integrator_EditParamIntegrationMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12424,9 +11146,7 @@ add_custom_target(Integrator_EditParamIntegrationMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_EditParamIntegrationMaster_build Integrator_IntegrationPlayer_build)
-
-add_custom_target(Integrator_GUI_IntegrationInputLot_build ALL
+add_custom_target(Integrator_GUI_IntegrationInputLot_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12443,9 +11163,7 @@ add_custom_target(Integrator_GUI_IntegrationInputLot_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationInputLot_build Integrator_EditParamIntegrationMaster_build)
-
-add_custom_target(Integrator_GUI_IntegrationLoadMaster_build ALL
+add_custom_target(Integrator_GUI_IntegrationLoadMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12462,9 +11180,7 @@ add_custom_target(Integrator_GUI_IntegrationLoadMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationLoadMaster_build Integrator_GUI_IntegrationInputLot_build)
-
-add_custom_target(Integrator_GUI_IntegrationSaveMaster_build ALL
+add_custom_target(Integrator_GUI_IntegrationSaveMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12481,9 +11197,7 @@ add_custom_target(Integrator_GUI_IntegrationSaveMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationSaveMaster_build Integrator_GUI_IntegrationLoadMaster_build)
-
-add_custom_target(Integrator_GUI_IntegrationHistory_build ALL
+add_custom_target(Integrator_GUI_IntegrationHistory_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12500,9 +11214,7 @@ add_custom_target(Integrator_GUI_IntegrationHistory_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationHistory_build Integrator_GUI_IntegrationSaveMaster_build)
-
-add_custom_target(Integrator_GUI_IntegrationShowOKNG_build ALL
+add_custom_target(Integrator_GUI_IntegrationShowOKNG_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12519,9 +11231,7 @@ add_custom_target(Integrator_GUI_IntegrationShowOKNG_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationShowOKNG_build Integrator_GUI_IntegrationHistory_build)
-
-add_custom_target(Integrator_GUI_IntegrationShowTotal_build ALL
+add_custom_target(Integrator_GUI_IntegrationShowTotal_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12538,9 +11248,7 @@ add_custom_target(Integrator_GUI_IntegrationShowTotal_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationShowTotal_build Integrator_GUI_IntegrationShowOKNG_build)
-
-add_custom_target(Integrator_GUI_IntegrationThumbnail_build ALL
+add_custom_target(Integrator_GUI_IntegrationThumbnail_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12557,9 +11265,7 @@ add_custom_target(Integrator_GUI_IntegrationThumbnail_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationThumbnail_build Integrator_GUI_IntegrationShowTotal_build)
-
-add_custom_target(Integrator_GUI_IntegrationShowSavedImage_build ALL
+add_custom_target(Integrator_GUI_IntegrationShowSavedImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12576,9 +11282,7 @@ add_custom_target(Integrator_GUI_IntegrationShowSavedImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationShowSavedImage_build Integrator_GUI_IntegrationThumbnail_build)
-
-add_custom_target(Integrator_GUI_IntegrationShowHistoryLoadImage_build ALL
+add_custom_target(Integrator_GUI_IntegrationShowHistoryLoadImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12595,9 +11299,7 @@ add_custom_target(Integrator_GUI_IntegrationShowHistoryLoadImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationShowHistoryLoadImage_build Integrator_GUI_IntegrationShowSavedImage_build)
-
-add_custom_target(Integrator_GUI_IntegrationSelectLot_build ALL
+add_custom_target(Integrator_GUI_IntegrationSelectLot_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12614,9 +11316,7 @@ add_custom_target(Integrator_GUI_IntegrationSelectLot_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationSelectLot_build Integrator_GUI_IntegrationShowHistoryLoadImage_build)
-
-add_custom_target(Integrator_GUI_IntegrationSelectMaster_build ALL
+add_custom_target(Integrator_GUI_IntegrationSelectMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12633,9 +11333,7 @@ add_custom_target(Integrator_GUI_IntegrationSelectMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationSelectMaster_build Integrator_GUI_IntegrationSelectLot_build)
-
-add_custom_target(Integrator_GUI_IntegrationShowRelationInfo_build ALL
+add_custom_target(Integrator_GUI_IntegrationShowRelationInfo_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12652,9 +11350,7 @@ add_custom_target(Integrator_GUI_IntegrationShowRelationInfo_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationShowRelationInfo_build Integrator_GUI_IntegrationSelectMaster_build)
-
-add_custom_target(Integrator_GUI_IntegrationShowNGArrow_build ALL
+add_custom_target(Integrator_GUI_IntegrationShowNGArrow_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12671,9 +11367,7 @@ add_custom_target(Integrator_GUI_IntegrationShowNGArrow_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationShowNGArrow_build Integrator_GUI_IntegrationShowRelationInfo_build)
-
-add_custom_target(Integrator_GUI_IntegrationDisplayMasterImage_build ALL
+add_custom_target(Integrator_GUI_IntegrationDisplayMasterImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12690,9 +11384,7 @@ add_custom_target(Integrator_GUI_IntegrationDisplayMasterImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationDisplayMasterImage_build Integrator_GUI_IntegrationShowNGArrow_build)
-
-add_custom_target(Integrator_GUI_OperateThroughNet_build ALL
+add_custom_target(Integrator_GUI_OperateThroughNet_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12709,9 +11401,7 @@ add_custom_target(Integrator_GUI_OperateThroughNet_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_OperateThroughNet_build Integrator_GUI_IntegrationDisplayMasterImage_build)
-
-add_custom_target(Integrator_GUI_IntegrationShowConnectionState_build ALL
+add_custom_target(Integrator_GUI_IntegrationShowConnectionState_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12728,9 +11418,7 @@ add_custom_target(Integrator_GUI_IntegrationShowConnectionState_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationShowConnectionState_build Integrator_GUI_OperateThroughNet_build)
-
-add_custom_target(Integrator_GUI_IntegrationUpdateHistoryList_build ALL
+add_custom_target(Integrator_GUI_IntegrationUpdateHistoryList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12747,9 +11435,7 @@ add_custom_target(Integrator_GUI_IntegrationUpdateHistoryList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationUpdateHistoryList_build Integrator_GUI_IntegrationShowConnectionState_build)
-
-add_custom_target(Integrator_GUI_IntegrationShowName_build ALL
+add_custom_target(Integrator_GUI_IntegrationShowName_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12766,9 +11452,7 @@ add_custom_target(Integrator_GUI_IntegrationShowName_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationShowName_build Integrator_GUI_IntegrationUpdateHistoryList_build)
-
-add_custom_target(Integrator_GUI_IntegrationStackNGThumbnail_build ALL
+add_custom_target(Integrator_GUI_IntegrationStackNGThumbnail_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12785,9 +11469,7 @@ add_custom_target(Integrator_GUI_IntegrationStackNGThumbnail_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationStackNGThumbnail_build Integrator_GUI_IntegrationShowName_build)
-
-add_custom_target(Integrator_GUI_SignalResultDoneToMaster_build ALL
+add_custom_target(Integrator_GUI_SignalResultDoneToMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12804,9 +11486,7 @@ add_custom_target(Integrator_GUI_SignalResultDoneToMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_SignalResultDoneToMaster_build Integrator_GUI_IntegrationStackNGThumbnail_build)
-
-add_custom_target(Integrator_GUI_IntegrationNewMaster_build ALL
+add_custom_target(Integrator_GUI_IntegrationNewMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12823,9 +11503,7 @@ add_custom_target(Integrator_GUI_IntegrationNewMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationNewMaster_build Integrator_GUI_SignalResultDoneToMaster_build)
-
-add_custom_target(Integrator_GUI_IntegrationClose_build ALL
+add_custom_target(Integrator_GUI_IntegrationClose_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12842,9 +11520,7 @@ add_custom_target(Integrator_GUI_IntegrationClose_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationClose_build Integrator_GUI_IntegrationNewMaster_build)
-
-add_custom_target(Integrator_GUI_IntegrationChangePhase_build ALL
+add_custom_target(Integrator_GUI_IntegrationChangePhase_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12861,9 +11537,7 @@ add_custom_target(Integrator_GUI_IntegrationChangePhase_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationChangePhase_build Integrator_GUI_IntegrationClose_build)
-
-add_custom_target(Integrator_GUI_IntegrationCopyImage_build ALL
+add_custom_target(Integrator_GUI_IntegrationCopyImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12880,9 +11554,7 @@ add_custom_target(Integrator_GUI_IntegrationCopyImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationCopyImage_build Integrator_GUI_IntegrationChangePhase_build)
-
-add_custom_target(Integrator_GUI_IntegrationShowNGMap_build ALL
+add_custom_target(Integrator_GUI_IntegrationShowNGMap_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12899,9 +11571,7 @@ add_custom_target(Integrator_GUI_IntegrationShowNGMap_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationShowNGMap_build Integrator_GUI_IntegrationCopyImage_build)
-
-add_custom_target(Integrator_GUI_IntegrationShowRunningTrend_build ALL
+add_custom_target(Integrator_GUI_IntegrationShowRunningTrend_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12918,9 +11588,7 @@ add_custom_target(Integrator_GUI_IntegrationShowRunningTrend_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationShowRunningTrend_build Integrator_GUI_IntegrationShowNGMap_build)
-
-add_custom_target(Integrator_GUI_IntegrationShowMemory_build ALL
+add_custom_target(Integrator_GUI_IntegrationShowMemory_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12937,9 +11605,7 @@ add_custom_target(Integrator_GUI_IntegrationShowMemory_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationShowMemory_build Integrator_GUI_IntegrationShowRunningTrend_build)
-
-add_custom_target(Integrator_GUI_IntegrationClearNGThumbnail_build ALL
+add_custom_target(Integrator_GUI_IntegrationClearNGThumbnail_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12956,9 +11622,7 @@ add_custom_target(Integrator_GUI_IntegrationClearNGThumbnail_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationClearNGThumbnail_build Integrator_GUI_IntegrationShowMemory_build)
-
-add_custom_target(GUI_ShowSwitchPhaseResultList_build ALL
+add_custom_target(GUI_ShowSwitchPhaseResultList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12975,9 +11639,7 @@ add_custom_target(GUI_ShowSwitchPhaseResultList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowSwitchPhaseResultList_build Integrator_GUI_IntegrationClearNGThumbnail_build)
-
-add_custom_target(GUI_StartCaptureOnlyTarget_build ALL
+add_custom_target(GUI_StartCaptureOnlyTarget_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -12994,9 +11656,7 @@ add_custom_target(GUI_StartCaptureOnlyTarget_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_StartCaptureOnlyTarget_build GUI_ShowSwitchPhaseResultList_build)
-
-add_custom_target(GUI_StartScanningAgain_build ALL
+add_custom_target(GUI_StartScanningAgain_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13013,9 +11673,7 @@ add_custom_target(GUI_StartScanningAgain_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_StartScanningAgain_build GUI_StartCaptureOnlyTarget_build)
-
-add_custom_target(GUI_ButtonShowResultAnalizer_build ALL
+add_custom_target(GUI_ButtonShowResultAnalizer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13032,9 +11690,7 @@ add_custom_target(GUI_ButtonShowResultAnalizer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonShowResultAnalizer_build GUI_StartScanningAgain_build)
-
-add_custom_target(GUI_ShowTrialInformation_build ALL
+add_custom_target(GUI_ShowTrialInformation_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13051,9 +11707,7 @@ add_custom_target(GUI_ShowTrialInformation_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowTrialInformation_build GUI_ButtonShowResultAnalizer_build)
-
-add_custom_target(ServiceLib_StartCloseOnce_build ALL
+add_custom_target(ServiceLib_StartCloseOnce_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13070,9 +11724,7 @@ add_custom_target(ServiceLib_StartCloseOnce_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_StartCloseOnce_build GUI_ShowTrialInformation_build)
-
-add_custom_target(GUI_ShiftImsgeInLayerPage_build ALL
+add_custom_target(GUI_ShiftImsgeInLayerPage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13089,9 +11741,7 @@ add_custom_target(GUI_ShiftImsgeInLayerPage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShiftImsgeInLayerPage_build ServiceLib_StartCloseOnce_build)
-
-add_custom_target(GUI_ButtonSwitchPhaseSynchronize_build ALL
+add_custom_target(GUI_ButtonSwitchPhaseSynchronize_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13108,9 +11758,7 @@ add_custom_target(GUI_ButtonSwitchPhaseSynchronize_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSwitchPhaseSynchronize_build GUI_ShiftImsgeInLayerPage_build)
-
-add_custom_target(GUI_ButtonTransferRequireImageData_build ALL
+add_custom_target(GUI_ButtonTransferRequireImageData_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13127,9 +11775,7 @@ add_custom_target(GUI_ButtonTransferRequireImageData_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonTransferRequireImageData_build GUI_ButtonSwitchPhaseSynchronize_build)
-
-add_custom_target(XmlServer_XMLServerV3_XMLServerV3_build ALL
+add_custom_target(XmlServer_XMLServerV3_XMLServerV3_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13146,9 +11792,7 @@ add_custom_target(XmlServer_XMLServerV3_XMLServerV3_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(XmlServer_XMLServerV3_XMLServerV3_build GUI_ButtonTransferRequireImageData_build)
-
-add_custom_target(GUI_LoadImageInAnyPageLayer_build ALL
+add_custom_target(GUI_LoadImageInAnyPageLayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13165,9 +11809,7 @@ add_custom_target(GUI_LoadImageInAnyPageLayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LoadImageInAnyPageLayer_build XmlServer_XMLServerV3_XMLServerV3_build)
-
-add_custom_target(GUI_Splitter_build ALL
+add_custom_target(GUI_Splitter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13184,9 +11826,7 @@ add_custom_target(GUI_Splitter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_Splitter_build GUI_LoadImageInAnyPageLayer_build)
-
-add_custom_target(GUI_PanelResolutionSize_build ALL
+add_custom_target(GUI_PanelResolutionSize_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13203,9 +11843,7 @@ add_custom_target(GUI_PanelResolutionSize_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PanelResolutionSize_build GUI_Splitter_build)
-
-add_custom_target(GUI_ButtonTransferSendImageData_build ALL
+add_custom_target(GUI_ButtonTransferSendImageData_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13222,9 +11860,7 @@ add_custom_target(GUI_ButtonTransferSendImageData_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonTransferSendImageData_build GUI_PanelResolutionSize_build)
-
-add_custom_target(Algorithm_MakeAverageImage_build ALL
+add_custom_target(Algorithm_MakeAverageImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13241,9 +11877,7 @@ add_custom_target(Algorithm_MakeAverageImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_MakeAverageImage_build GUI_ButtonTransferSendImageData_build)
-
-add_custom_target(GUI_MakeAverageImagePanel_build ALL
+add_custom_target(GUI_MakeAverageImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13260,9 +11894,7 @@ add_custom_target(GUI_MakeAverageImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MakeAverageImagePanel_build Algorithm_MakeAverageImage_build)
-
-add_custom_target(GUI_PropertyMakeAverageImage_build ALL
+add_custom_target(GUI_PropertyMakeAverageImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13279,9 +11911,7 @@ add_custom_target(GUI_PropertyMakeAverageImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyMakeAverageImage_build GUI_MakeAverageImagePanel_build)
-
-add_custom_target(GUI_ButtonAutoScanningMode_build ALL
+add_custom_target(GUI_ButtonAutoScanningMode_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13298,9 +11928,7 @@ add_custom_target(GUI_ButtonAutoScanningMode_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonAutoScanningMode_build GUI_PropertyMakeAverageImage_build)
-
-add_custom_target(GUI_ShowThresholdLevel_build ALL
+add_custom_target(GUI_ShowThresholdLevel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13317,9 +11945,7 @@ add_custom_target(GUI_ShowThresholdLevel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowThresholdLevel_build GUI_ButtonAutoScanningMode_build)
-
-add_custom_target(Integrator_GUI_IntegrationShowThresholdLevel_build ALL
+add_custom_target(Integrator_GUI_IntegrationShowThresholdLevel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13336,9 +11962,7 @@ add_custom_target(Integrator_GUI_IntegrationShowThresholdLevel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationShowThresholdLevel_build GUI_ShowThresholdLevel_build)
-
-add_custom_target(Algorithm_Counter_build ALL
+add_custom_target(Algorithm_Counter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13355,9 +11979,7 @@ add_custom_target(Algorithm_Counter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_Counter_build Integrator_GUI_IntegrationShowThresholdLevel_build)
-
-add_custom_target(GUI_CounterImagePanel_build ALL
+add_custom_target(GUI_CounterImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13374,9 +11996,7 @@ add_custom_target(GUI_CounterImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CounterImagePanel_build Algorithm_Counter_build)
-
-add_custom_target(GUI_PropertyCounter_build ALL
+add_custom_target(GUI_PropertyCounter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13393,9 +12013,7 @@ add_custom_target(GUI_PropertyCounter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyCounter_build GUI_CounterImagePanel_build)
-
-add_custom_target(Integrator_GUI_IntegrationChangeCameraSetting_build ALL
+add_custom_target(Integrator_GUI_IntegrationChangeCameraSetting_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13412,9 +12030,7 @@ add_custom_target(Integrator_GUI_IntegrationChangeCameraSetting_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationChangeCameraSetting_build GUI_PropertyCounter_build)
-
-add_custom_target(GUI_ButtonSaveScreenCapture_build ALL
+add_custom_target(GUI_ButtonSaveScreenCapture_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13431,9 +12047,7 @@ add_custom_target(GUI_ButtonSaveScreenCapture_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSaveScreenCapture_build Integrator_GUI_IntegrationChangeCameraSetting_build)
-
-add_custom_target(GUI_ShowBindNGNamingList_build ALL
+add_custom_target(GUI_ShowBindNGNamingList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13450,9 +12064,7 @@ add_custom_target(GUI_ShowBindNGNamingList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowBindNGNamingList_build GUI_ButtonSaveScreenCapture_build)
-
-add_custom_target(Algorithm_SavePartialImage_build ALL
+add_custom_target(Algorithm_SavePartialImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13469,9 +12081,7 @@ add_custom_target(Algorithm_SavePartialImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_SavePartialImage_build GUI_ShowBindNGNamingList_build)
-
-add_custom_target(GUI_SavePartialImagePanel_build ALL
+add_custom_target(GUI_SavePartialImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13488,9 +12098,7 @@ add_custom_target(GUI_SavePartialImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SavePartialImagePanel_build Algorithm_SavePartialImage_build)
-
-add_custom_target(GUI_ButtonShadowToShow_build ALL
+add_custom_target(GUI_ButtonShadowToShow_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13507,9 +12115,7 @@ add_custom_target(GUI_ButtonShadowToShow_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonShadowToShow_build GUI_SavePartialImagePanel_build)
-
-add_custom_target(ShadowTree_ShrinkedInspection_build ALL
+add_custom_target(ShadowTree_ShrinkedInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13526,9 +12132,7 @@ add_custom_target(ShadowTree_ShrinkedInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ShadowTree_ShrinkedInspection_build GUI_ButtonShadowToShow_build)
-
-add_custom_target(ResultAnalizer_ResultCategorizer_build ALL
+add_custom_target(ResultAnalizer_ResultCategorizer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13545,9 +12149,7 @@ add_custom_target(ResultAnalizer_ResultCategorizer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ResultAnalizer_ResultCategorizer_build ShadowTree_ShrinkedInspection_build)
-
-add_custom_target(GUI_DisplayNGListCategorized_build ALL
+add_custom_target(GUI_DisplayNGListCategorized_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13564,9 +12166,7 @@ add_custom_target(GUI_DisplayNGListCategorized_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayNGListCategorized_build ResultAnalizer_ResultCategorizer_build)
-
-add_custom_target(Algorithm_Raster_build ALL
+add_custom_target(Algorithm_Raster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13583,9 +12183,7 @@ add_custom_target(Algorithm_Raster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_Raster_build GUI_DisplayNGListCategorized_build)
-
-add_custom_target(GUI_PropertyRaster_build ALL
+add_custom_target(GUI_PropertyRaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13602,9 +12200,7 @@ add_custom_target(GUI_PropertyRaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyRaster_build Algorithm_Raster_build)
-
-add_custom_target(GUI_RasterImagePanel_build ALL
+add_custom_target(GUI_RasterImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13621,9 +12217,7 @@ add_custom_target(GUI_RasterImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_RasterImagePanel_build GUI_PropertyRaster_build)
-
-add_custom_target(ShadowTree_ShrinkLowHigh_build ALL
+add_custom_target(ShadowTree_ShrinkLowHigh_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13640,9 +12234,7 @@ add_custom_target(ShadowTree_ShrinkLowHigh_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ShadowTree_ShrinkLowHigh_build GUI_RasterImagePanel_build)
-
-add_custom_target(Integrator_GUI_IntegrationNGCategorizedList_build ALL
+add_custom_target(Integrator_GUI_IntegrationNGCategorizedList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13659,9 +12251,7 @@ add_custom_target(Integrator_GUI_IntegrationNGCategorizedList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationNGCategorizedList_build ShadowTree_ShrinkLowHigh_build)
-
-add_custom_target(ChangeServer_CheckPort_build ALL
+add_custom_target(ChangeServer_CheckPort_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13678,9 +12268,7 @@ add_custom_target(ChangeServer_CheckPort_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ChangeServer_CheckPort_build Integrator_GUI_IntegrationNGCategorizedList_build)
-
-add_custom_target(Integrator_GUI_IntegrationImageBank_build ALL
+add_custom_target(Integrator_GUI_IntegrationImageBank_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13697,9 +12285,7 @@ add_custom_target(Integrator_GUI_IntegrationImageBank_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationImageBank_build ChangeServer_CheckPort_build)
-
-add_custom_target(GUI_ButtonCreateThresholdLevel_build ALL
+add_custom_target(GUI_ButtonCreateThresholdLevel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13716,9 +12302,7 @@ add_custom_target(GUI_ButtonCreateThresholdLevel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonCreateThresholdLevel_build Integrator_GUI_IntegrationImageBank_build)
-
-add_custom_target(Integrator_GUI_IntegrationCreateThreshold_build ALL
+add_custom_target(Integrator_GUI_IntegrationCreateThreshold_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13735,9 +12319,7 @@ add_custom_target(Integrator_GUI_IntegrationCreateThreshold_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationCreateThreshold_build GUI_ButtonCreateThresholdLevel_build)
-
-add_custom_target(GUI_CameraChangeQuickProperty_build ALL
+add_custom_target(GUI_CameraChangeQuickProperty_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13754,9 +12336,7 @@ add_custom_target(GUI_CameraChangeQuickProperty_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CameraChangeQuickProperty_build Integrator_GUI_IntegrationCreateThreshold_build)
-
-add_custom_target(Integrator_GUI_IntegrationCameraChangeQuickProperty_build ALL
+add_custom_target(Integrator_GUI_IntegrationCameraChangeQuickProperty_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13773,9 +12353,7 @@ add_custom_target(Integrator_GUI_IntegrationCameraChangeQuickProperty_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationCameraChangeQuickProperty_build GUI_CameraChangeQuickProperty_build)
-
-add_custom_target(GUI_MakeShading_build ALL
+add_custom_target(GUI_MakeShading_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13792,9 +12370,7 @@ add_custom_target(GUI_MakeShading_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MakeShading_build Integrator_GUI_IntegrationCameraChangeQuickProperty_build)
-
-add_custom_target(Filter_FilterLineShading_build ALL
+add_custom_target(Filter_FilterLineShading_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13811,9 +12387,7 @@ add_custom_target(Filter_FilterLineShading_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterLineShading_build GUI_MakeShading_build)
-
-add_custom_target(GUI_CopyByControlPoints_build ALL
+add_custom_target(GUI_CopyByControlPoints_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13830,9 +12404,7 @@ add_custom_target(GUI_CopyByControlPoints_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CopyByControlPoints_build Filter_FilterLineShading_build)
-
-add_custom_target(GUI_ButtonSettingControlPointsForPages_build ALL
+add_custom_target(GUI_ButtonSettingControlPointsForPages_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13849,9 +12421,7 @@ add_custom_target(GUI_ButtonSettingControlPointsForPages_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSettingControlPointsForPages_build GUI_CopyByControlPoints_build)
-
-add_custom_target(GUI_ButtonFilterSwitch_build ALL
+add_custom_target(GUI_ButtonFilterSwitch_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13868,9 +12438,7 @@ add_custom_target(GUI_ButtonFilterSwitch_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonFilterSwitch_build GUI_ButtonSettingControlPointsForPages_build)
-
-add_custom_target(GUI_ButtonLoadFilterConfig_build ALL
+add_custom_target(GUI_ButtonLoadFilterConfig_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13887,9 +12455,7 @@ add_custom_target(GUI_ButtonLoadFilterConfig_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonLoadFilterConfig_build GUI_ButtonFilterSwitch_build)
-
-add_custom_target(Filter_FilterImageShadingDynamic_build ALL
+add_custom_target(Filter_FilterImageShadingDynamic_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13906,9 +12472,7 @@ add_custom_target(Filter_FilterImageShadingDynamic_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterImageShadingDynamic_build GUI_ButtonLoadFilterConfig_build)
-
-add_custom_target(Algorithm_Palletize_build ALL
+add_custom_target(Algorithm_Palletize_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13925,9 +12489,7 @@ add_custom_target(Algorithm_Palletize_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_Palletize_build Filter_FilterImageShadingDynamic_build)
-
-add_custom_target(GUI_PalletizeImagePanel_build ALL
+add_custom_target(GUI_PalletizeImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13944,9 +12506,7 @@ add_custom_target(GUI_PalletizeImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PalletizeImagePanel_build Algorithm_Palletize_build)
-
-add_custom_target(GUI_PropertyPalletize_build ALL
+add_custom_target(GUI_PropertyPalletize_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13963,9 +12523,7 @@ add_custom_target(GUI_PropertyPalletize_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyPalletize_build GUI_PalletizeImagePanel_build)
-
-add_custom_target(GUI_DisplayProductivity_build ALL
+add_custom_target(GUI_DisplayProductivity_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -13982,9 +12540,7 @@ add_custom_target(GUI_DisplayProductivity_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayProductivity_build GUI_PropertyPalletize_build)
-
-add_custom_target(GUI_ButtonSaveGUILanguage_build ALL
+add_custom_target(GUI_ButtonSaveGUILanguage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14001,9 +12557,7 @@ add_custom_target(GUI_ButtonSaveGUILanguage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSaveGUILanguage_build GUI_DisplayProductivity_build)
-
-add_custom_target(Algorithm_MultiSpectral_build ALL
+add_custom_target(Algorithm_MultiSpectral_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14020,9 +12574,7 @@ add_custom_target(Algorithm_MultiSpectral_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_MultiSpectral_build GUI_ButtonSaveGUILanguage_build)
-
-add_custom_target(GUI_MultiSpectralImagePanel_build ALL
+add_custom_target(GUI_MultiSpectralImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14039,9 +12591,7 @@ add_custom_target(GUI_MultiSpectralImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_MultiSpectralImagePanel_build Algorithm_MultiSpectral_build)
-
-add_custom_target(GUI_PropertyMultiSpectral_build ALL
+add_custom_target(GUI_PropertyMultiSpectral_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14058,9 +12608,7 @@ add_custom_target(GUI_PropertyMultiSpectral_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyMultiSpectral_build GUI_MultiSpectralImagePanel_build)
-
-add_custom_target(GUI_ShowSelectLayer_build ALL
+add_custom_target(GUI_ShowSelectLayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14077,9 +12625,7 @@ add_custom_target(GUI_ShowSelectLayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowSelectLayer_build GUI_PropertyMultiSpectral_build)
-
-add_custom_target(GUI_ButtonResetCamera_build ALL
+add_custom_target(GUI_ButtonResetCamera_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14096,9 +12642,7 @@ add_custom_target(GUI_ButtonResetCamera_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonResetCamera_build GUI_ShowSelectLayer_build)
-
-add_custom_target(Algorithm_RasterInspection_build ALL
+add_custom_target(Algorithm_RasterInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14115,9 +12659,7 @@ add_custom_target(Algorithm_RasterInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_RasterInspection_build GUI_ButtonResetCamera_build)
-
-add_custom_target(GUI_PropertyRasterInspection_build ALL
+add_custom_target(GUI_PropertyRasterInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14134,9 +12676,7 @@ add_custom_target(GUI_PropertyRasterInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyRasterInspection_build Algorithm_RasterInspection_build)
-
-add_custom_target(GUI_RasterInspectionImagePanel_build ALL
+add_custom_target(GUI_RasterInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14153,9 +12693,7 @@ add_custom_target(GUI_RasterInspectionImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_RasterInspectionImagePanel_build GUI_PropertyRasterInspection_build)
-
-add_custom_target(Algorithm_RepeatControl_build ALL
+add_custom_target(Algorithm_RepeatControl_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14172,9 +12710,7 @@ add_custom_target(Algorithm_RepeatControl_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_RepeatControl_build GUI_RasterInspectionImagePanel_build)
-
-add_custom_target(GUI_PropertyRepeatControl_build ALL
+add_custom_target(GUI_PropertyRepeatControl_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14191,9 +12727,7 @@ add_custom_target(GUI_PropertyRepeatControl_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyRepeatControl_build Algorithm_RepeatControl_build)
-
-add_custom_target(GUI_RepeatControlImagePanel_build ALL
+add_custom_target(GUI_RepeatControlImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14210,9 +12744,7 @@ add_custom_target(GUI_RepeatControlImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_RepeatControlImagePanel_build GUI_PropertyRepeatControl_build)
-
-add_custom_target(Integrator_GUI_IntegrationButtonCreateRepeatControl_build ALL
+add_custom_target(Integrator_GUI_IntegrationButtonCreateRepeatControl_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14229,9 +12761,7 @@ add_custom_target(Integrator_GUI_IntegrationButtonCreateRepeatControl_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationButtonCreateRepeatControl_build GUI_RepeatControlImagePanel_build)
-
-add_custom_target(Integrator_GUI_IntegrationCalibrateCamera_build ALL
+add_custom_target(Integrator_GUI_IntegrationCalibrateCamera_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14248,9 +12778,7 @@ add_custom_target(Integrator_GUI_IntegrationCalibrateCamera_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationCalibrateCamera_build Integrator_GUI_IntegrationButtonCreateRepeatControl_build)
-
-add_custom_target(GUI_ButtonCalibrateCamera_build ALL
+add_custom_target(GUI_ButtonCalibrateCamera_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14267,9 +12795,7 @@ add_custom_target(GUI_ButtonCalibrateCamera_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonCalibrateCamera_build Integrator_GUI_IntegrationCalibrateCamera_build)
-
-add_custom_target(GUI_ButtonShiftImage_build ALL
+add_custom_target(GUI_ButtonShiftImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14286,9 +12812,7 @@ add_custom_target(GUI_ButtonShiftImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonShiftImage_build GUI_ButtonCalibrateCamera_build)
-
-add_custom_target(Integrator_GUI_IntegrationStopUpdateThumbnail_build ALL
+add_custom_target(Integrator_GUI_IntegrationStopUpdateThumbnail_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14305,9 +12829,7 @@ add_custom_target(Integrator_GUI_IntegrationStopUpdateThumbnail_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationStopUpdateThumbnail_build GUI_ButtonShiftImage_build)
-
-add_custom_target(Integrator_GUI_IntegrationCameraAdjustment_build ALL
+add_custom_target(Integrator_GUI_IntegrationCameraAdjustment_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14324,9 +12846,7 @@ add_custom_target(Integrator_GUI_IntegrationCameraAdjustment_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationCameraAdjustment_build Integrator_GUI_IntegrationStopUpdateThumbnail_build)
-
-add_custom_target(Filter_FilterShiftVBand_build ALL
+add_custom_target(Filter_FilterShiftVBand_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14343,9 +12863,7 @@ add_custom_target(Filter_FilterShiftVBand_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterShiftVBand_build Integrator_GUI_IntegrationCameraAdjustment_build)
-
-add_custom_target(GUI_ShowMeasureHolePosResultList_build ALL
+add_custom_target(GUI_ShowMeasureHolePosResultList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14362,9 +12880,7 @@ add_custom_target(GUI_ShowMeasureHolePosResultList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowMeasureHolePosResultList_build Filter_FilterShiftVBand_build)
-
-add_custom_target(GUI_ShowResultDetail_build ALL
+add_custom_target(GUI_ShowResultDetail_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14381,9 +12897,7 @@ add_custom_target(GUI_ShowResultDetail_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowResultDetail_build GUI_ShowMeasureHolePosResultList_build)
-
-add_custom_target(GUI_LearningCommandPanel_build ALL
+add_custom_target(GUI_LearningCommandPanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14400,9 +12914,7 @@ add_custom_target(GUI_LearningCommandPanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_LearningCommandPanel_build GUI_ShowResultDetail_build)
-
-add_custom_target(Filter_FilterConvertResolution_build ALL
+add_custom_target(Filter_FilterConvertResolution_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14419,9 +12931,7 @@ add_custom_target(Filter_FilterConvertResolution_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterConvertResolution_build GUI_LearningCommandPanel_build)
-
-add_custom_target(GUI_ButtonEnableFilter_build ALL
+add_custom_target(GUI_ButtonEnableFilter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14438,9 +12948,7 @@ add_custom_target(GUI_ButtonEnableFilter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonEnableFilter_build Filter_FilterConvertResolution_build)
-
-add_custom_target(GUI_ButtonConvertColorDistribution_build ALL
+add_custom_target(GUI_ButtonConvertColorDistribution_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14457,9 +12965,7 @@ add_custom_target(GUI_ButtonConvertColorDistribution_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonConvertColorDistribution_build GUI_ButtonEnableFilter_build)
-
-add_custom_target(GUI_ButtonAlignmentOffset_build ALL
+add_custom_target(GUI_ButtonAlignmentOffset_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14476,9 +12982,7 @@ add_custom_target(GUI_ButtonAlignmentOffset_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonAlignmentOffset_build GUI_ButtonConvertColorDistribution_build)
-
-add_custom_target(Algorithm_AngleInspection_build ALL
+add_custom_target(Algorithm_AngleInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14495,9 +12999,7 @@ add_custom_target(Algorithm_AngleInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_AngleInspection_build GUI_ButtonAlignmentOffset_build)
-
-add_custom_target(GUI_SetAngleInspection_build ALL
+add_custom_target(GUI_SetAngleInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14514,9 +13016,7 @@ add_custom_target(GUI_SetAngleInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SetAngleInspection_build Algorithm_AngleInspection_build)
-
-add_custom_target(GUI_ShowResultAngleInspection_build ALL
+add_custom_target(GUI_ShowResultAngleInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14533,9 +13033,7 @@ add_custom_target(GUI_ShowResultAngleInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowResultAngleInspection_build GUI_SetAngleInspection_build)
-
-add_custom_target(Algorithm_ReplaceImage_build ALL
+add_custom_target(Algorithm_ReplaceImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14552,9 +13050,7 @@ add_custom_target(Algorithm_ReplaceImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ReplaceImage_build GUI_ShowResultAngleInspection_build)
-
-add_custom_target(GUI_ButtonReplaceImageControl_build ALL
+add_custom_target(GUI_ButtonReplaceImageControl_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14571,9 +13067,7 @@ add_custom_target(GUI_ButtonReplaceImageControl_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonReplaceImageControl_build Algorithm_ReplaceImage_build)
-
-add_custom_target(GUI_PropertyReplaceImage_build ALL
+add_custom_target(GUI_PropertyReplaceImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14590,9 +13084,7 @@ add_custom_target(GUI_PropertyReplaceImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyReplaceImage_build GUI_ButtonReplaceImageControl_build)
-
-add_custom_target(GUI_ReplaceImagePanel_build ALL
+add_custom_target(GUI_ReplaceImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14609,9 +13101,7 @@ add_custom_target(GUI_ReplaceImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ReplaceImagePanel_build GUI_PropertyReplaceImage_build)
-
-add_custom_target(Integrator_GUI_AutoGenerator_build ALL
+add_custom_target(Integrator_GUI_AutoGenerator_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14628,9 +13118,7 @@ add_custom_target(Integrator_GUI_AutoGenerator_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_AutoGenerator_build GUI_ReplaceImagePanel_build)
-
-add_custom_target(Filter_FilterShiftByLayer_build ALL
+add_custom_target(Filter_FilterShiftByLayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14647,9 +13135,7 @@ add_custom_target(Filter_FilterShiftByLayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterShiftByLayer_build Integrator_GUI_AutoGenerator_build)
-
-add_custom_target(GUI_PropertyRasterReference_build ALL
+add_custom_target(GUI_PropertyRasterReference_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14666,9 +13152,7 @@ add_custom_target(GUI_PropertyRasterReference_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyRasterReference_build Filter_FilterShiftByLayer_build)
-
-add_custom_target(GUI_RasterReferenceImagePanel_build ALL
+add_custom_target(GUI_RasterReferenceImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14685,9 +13169,7 @@ add_custom_target(GUI_RasterReferenceImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_RasterReferenceImagePanel_build GUI_PropertyRasterReference_build)
-
-add_custom_target(AutoStart_AutoReStart_build ALL
+add_custom_target(AutoStart_AutoReStart_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14704,9 +13186,7 @@ add_custom_target(AutoStart_AutoReStart_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(AutoStart_AutoReStart_build GUI_RasterReferenceImagePanel_build)
-
-add_custom_target(Algorithm_ShiftMark_build ALL
+add_custom_target(Algorithm_ShiftMark_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14723,9 +13203,7 @@ add_custom_target(Algorithm_ShiftMark_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ShiftMark_build AutoStart_AutoReStart_build)
-
-add_custom_target(Filter_FilterDynamicBrightness_build ALL
+add_custom_target(Filter_FilterDynamicBrightness_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14742,9 +13220,7 @@ add_custom_target(Filter_FilterDynamicBrightness_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterDynamicBrightness_build Algorithm_ShiftMark_build)
-
-add_custom_target(GUI_PropertyShiftMark_build ALL
+add_custom_target(GUI_PropertyShiftMark_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14761,9 +13237,7 @@ add_custom_target(GUI_PropertyShiftMark_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyShiftMark_build Filter_FilterDynamicBrightness_build)
-
-add_custom_target(GUI_ShiftMarkImagePanel_build ALL
+add_custom_target(GUI_ShiftMarkImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14780,9 +13254,7 @@ add_custom_target(GUI_ShiftMarkImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShiftMarkImagePanel_build GUI_PropertyShiftMark_build)
-
-add_custom_target(Integrator_GUI_IntegrationButtonCopyAlgorithm_build ALL
+add_custom_target(Integrator_GUI_IntegrationButtonCopyAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14799,9 +13271,7 @@ add_custom_target(Integrator_GUI_IntegrationButtonCopyAlgorithm_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationButtonCopyAlgorithm_build GUI_ShiftMarkImagePanel_build)
-
-add_custom_target(Integrator_GUI_IntegrationButtonLoadAlgorithm_build ALL
+add_custom_target(Integrator_GUI_IntegrationButtonLoadAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14818,9 +13288,7 @@ add_custom_target(Integrator_GUI_IntegrationButtonLoadAlgorithm_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationButtonLoadAlgorithm_build Integrator_GUI_IntegrationButtonCopyAlgorithm_build)
-
-add_custom_target(Integrator_GUI_IntegrationButtonSaveAlgorithm_build ALL
+add_custom_target(Integrator_GUI_IntegrationButtonSaveAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14837,9 +13305,7 @@ add_custom_target(Integrator_GUI_IntegrationButtonSaveAlgorithm_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationButtonSaveAlgorithm_build Integrator_GUI_IntegrationButtonLoadAlgorithm_build)
-
-add_custom_target(GUI_ButtonShowInPlayer_build ALL
+add_custom_target(GUI_ButtonShowInPlayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14856,9 +13322,7 @@ add_custom_target(GUI_ButtonShowInPlayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonShowInPlayer_build Integrator_GUI_IntegrationButtonSaveAlgorithm_build)
-
-add_custom_target(Filter_FilterMergeColor_build ALL
+add_custom_target(Filter_FilterMergeColor_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14875,9 +13339,7 @@ add_custom_target(Filter_FilterMergeColor_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterMergeColor_build GUI_ButtonShowInPlayer_build)
-
-add_custom_target(GUI_ButtonAddSubPage_build ALL
+add_custom_target(GUI_ButtonAddSubPage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14894,9 +13356,7 @@ add_custom_target(GUI_ButtonAddSubPage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonAddSubPage_build Filter_FilterMergeColor_build)
-
-add_custom_target(Filter_FilterReduceVStripe_build ALL
+add_custom_target(Filter_FilterReduceVStripe_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14913,9 +13373,7 @@ add_custom_target(Filter_FilterReduceVStripe_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterReduceVStripe_build GUI_ButtonAddSubPage_build)
-
-add_custom_target(Integrator_GUI_IntegrationSettingLight_build ALL
+add_custom_target(Integrator_GUI_IntegrationSettingLight_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14932,9 +13390,7 @@ add_custom_target(Integrator_GUI_IntegrationSettingLight_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationSettingLight_build Filter_FilterReduceVStripe_build)
-
-add_custom_target(PluginDLL_Light_LightDLL_CCSControlByLANVer2_build ALL
+add_custom_target(PluginDLL_Light_LightDLL_CCSControlByLANVer2_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14951,9 +13407,7 @@ add_custom_target(PluginDLL_Light_LightDLL_CCSControlByLANVer2_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Light_LightDLL_CCSControlByLANVer2_build Integrator_GUI_IntegrationSettingLight_build)
-
-add_custom_target(Algorithm_CheckDataValidation_build ALL
+add_custom_target(Algorithm_CheckDataValidation_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14970,9 +13424,7 @@ add_custom_target(Algorithm_CheckDataValidation_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_CheckDataValidation_build PluginDLL_Light_LightDLL_CCSControlByLANVer2_build)
-
-add_custom_target(GUI_CheckDataValidationImagePanel_build ALL
+add_custom_target(GUI_CheckDataValidationImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -14989,9 +13441,7 @@ add_custom_target(GUI_CheckDataValidationImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_CheckDataValidationImagePanel_build Algorithm_CheckDataValidation_build)
-
-add_custom_target(GUI_PropertyCheckDataValidation_build ALL
+add_custom_target(GUI_PropertyCheckDataValidation_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15008,9 +13458,7 @@ add_custom_target(GUI_PropertyCheckDataValidation_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyCheckDataValidation_build GUI_CheckDataValidationImagePanel_build)
-
-add_custom_target(GUI_DisplayTargetList_build ALL
+add_custom_target(GUI_DisplayTargetList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15027,9 +13475,7 @@ add_custom_target(GUI_DisplayTargetList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_DisplayTargetList_build GUI_PropertyCheckDataValidation_build)
-
-add_custom_target(Algorithm_World3D_build ALL
+add_custom_target(Algorithm_World3D_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15046,9 +13492,7 @@ add_custom_target(Algorithm_World3D_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_World3D_build GUI_DisplayTargetList_build)
-
-add_custom_target(GUI_RobotActionEditPanel_build ALL
+add_custom_target(GUI_RobotActionEditPanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15065,9 +13509,7 @@ add_custom_target(GUI_RobotActionEditPanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_RobotActionEditPanel_build Algorithm_World3D_build)
-
-add_custom_target(GUI_PropertyRobotAction_build ALL
+add_custom_target(GUI_PropertyRobotAction_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15084,9 +13526,7 @@ add_custom_target(GUI_PropertyRobotAction_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyRobotAction_build GUI_RobotActionEditPanel_build)
-
-add_custom_target(GUI_ShowRobotActivity_build ALL
+add_custom_target(GUI_ShowRobotActivity_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15103,9 +13543,7 @@ add_custom_target(GUI_ShowRobotActivity_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowRobotActivity_build GUI_PropertyRobotAction_build)
-
-add_custom_target(Algorithm_ColorCorrector_build ALL
+add_custom_target(Algorithm_ColorCorrector_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15122,9 +13560,7 @@ add_custom_target(Algorithm_ColorCorrector_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_ColorCorrector_build GUI_ShowRobotActivity_build)
-
-add_custom_target(GUI_ColorCorrectorImagePanel_build ALL
+add_custom_target(GUI_ColorCorrectorImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15141,9 +13577,7 @@ add_custom_target(GUI_ColorCorrectorImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ColorCorrectorImagePanel_build Algorithm_ColorCorrector_build)
-
-add_custom_target(GUI_PropertyColorCorrector_build ALL
+add_custom_target(GUI_PropertyColorCorrector_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15160,9 +13594,7 @@ add_custom_target(GUI_PropertyColorCorrector_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyColorCorrector_build GUI_ColorCorrectorImagePanel_build)
-
-add_custom_target(Integrator_GUI_IntegrationButtonGeneral_build ALL
+add_custom_target(Integrator_GUI_IntegrationButtonGeneral_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15179,9 +13611,7 @@ add_custom_target(Integrator_GUI_IntegrationButtonGeneral_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationButtonGeneral_build GUI_PropertyColorCorrector_build)
-
-add_custom_target(GUI_PropertyWorld3D_build ALL
+add_custom_target(GUI_PropertyWorld3D_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15198,9 +13628,7 @@ add_custom_target(GUI_PropertyWorld3D_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyWorld3D_build Integrator_GUI_IntegrationButtonGeneral_build)
-
-add_custom_target(GUI_World3DImagePanel_build ALL
+add_custom_target(GUI_World3DImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15217,9 +13645,7 @@ add_custom_target(GUI_World3DImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_World3DImagePanel_build GUI_PropertyWorld3D_build)
-
-add_custom_target(GUI_ListSelectFixedPage_build ALL
+add_custom_target(GUI_ListSelectFixedPage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15236,9 +13662,7 @@ add_custom_target(GUI_ListSelectFixedPage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ListSelectFixedPage_build GUI_World3DImagePanel_build)
-
-add_custom_target(GUI_SetAlignmentLargeHeadLine_build ALL
+add_custom_target(GUI_SetAlignmentLargeHeadLine_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15255,9 +13679,7 @@ add_custom_target(GUI_SetAlignmentLargeHeadLine_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SetAlignmentLargeHeadLine_build GUI_ListSelectFixedPage_build)
-
-add_custom_target(GUI_ButtonGenerateMaskFromBackGround_build ALL
+add_custom_target(GUI_ButtonGenerateMaskFromBackGround_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15274,9 +13696,7 @@ add_custom_target(GUI_ButtonGenerateMaskFromBackGround_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonGenerateMaskFromBackGround_build GUI_SetAlignmentLargeHeadLine_build)
-
-add_custom_target(Algorithm_AlignmentBlock_build ALL
+add_custom_target(Algorithm_AlignmentBlock_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15293,9 +13713,7 @@ add_custom_target(Algorithm_AlignmentBlock_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_AlignmentBlock_build GUI_ButtonGenerateMaskFromBackGround_build)
-
-add_custom_target(GUI_AlignmentBlockImagePanel_build ALL
+add_custom_target(GUI_AlignmentBlockImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15312,9 +13730,7 @@ add_custom_target(GUI_AlignmentBlockImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AlignmentBlockImagePanel_build Algorithm_AlignmentBlock_build)
-
-add_custom_target(GUI_PropertyAlignmentBlock_build ALL
+add_custom_target(GUI_PropertyAlignmentBlock_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15331,9 +13747,7 @@ add_custom_target(GUI_PropertyAlignmentBlock_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyAlignmentBlock_build GUI_AlignmentBlockImagePanel_build)
-
-add_custom_target(GUI_ShowThresholdSlideBar_build ALL
+add_custom_target(GUI_ShowThresholdSlideBar_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15350,9 +13764,7 @@ add_custom_target(GUI_ShowThresholdSlideBar_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowThresholdSlideBar_build GUI_PropertyAlignmentBlock_build)
-
-add_custom_target(Integrator_GUI_IntegrationLocalBind_build ALL
+add_custom_target(Integrator_GUI_IntegrationLocalBind_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15369,9 +13781,7 @@ add_custom_target(Integrator_GUI_IntegrationLocalBind_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationLocalBind_build GUI_ShowThresholdSlideBar_build)
-
-add_custom_target(GUI_ButtonRaiseOtherProcess_build ALL
+add_custom_target(GUI_ButtonRaiseOtherProcess_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15388,9 +13798,7 @@ add_custom_target(GUI_ButtonRaiseOtherProcess_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonRaiseOtherProcess_build Integrator_GUI_IntegrationLocalBind_build)
-
-add_custom_target(GUI_ButtonReplaceColorInLibID_build ALL
+add_custom_target(GUI_ButtonReplaceColorInLibID_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15407,9 +13815,7 @@ add_custom_target(GUI_ButtonReplaceColorInLibID_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonReplaceColorInLibID_build GUI_ButtonRaiseOtherProcess_build)
-
-add_custom_target(Integrator_GUI_IntegrationModifyMaster_build ALL
+add_custom_target(Integrator_GUI_IntegrationModifyMaster_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15426,9 +13832,7 @@ add_custom_target(Integrator_GUI_IntegrationModifyMaster_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationModifyMaster_build GUI_ButtonReplaceColorInLibID_build)
-
-add_custom_target(Integrator_GUI_IntegrationStackMultiNGThumbnail_build ALL
+add_custom_target(Integrator_GUI_IntegrationStackMultiNGThumbnail_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15445,9 +13849,7 @@ add_custom_target(Integrator_GUI_IntegrationStackMultiNGThumbnail_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_GUI_IntegrationStackMultiNGThumbnail_build Integrator_GUI_IntegrationModifyMaster_build)
-
-add_custom_target(Filter_FilterMatchColorBandDynamically_build ALL
+add_custom_target(Filter_FilterMatchColorBandDynamically_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15464,9 +13866,7 @@ add_custom_target(Filter_FilterMatchColorBandDynamically_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Filter_FilterMatchColorBandDynamically_build Integrator_GUI_IntegrationStackMultiNGThumbnail_build)
-
-add_custom_target(PluginDLL_Camera_CameraMVSGigE_build ALL
+add_custom_target(PluginDLL_Camera_CameraMVSGigE_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15483,9 +13883,7 @@ add_custom_target(PluginDLL_Camera_CameraMVSGigE_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Camera_CameraMVSGigE_build Filter_FilterMatchColorBandDynamically_build)
-
-add_custom_target(GUI_FlatInspectionImagePanel_build ALL
+add_custom_target(GUI_FlatInspectionImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15502,9 +13900,7 @@ add_custom_target(GUI_FlatInspectionImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_FlatInspectionImagePanel_build PluginDLL_Camera_CameraMVSGigE_build)
-
-add_custom_target(GUI_PropertyFlatInspection_build ALL
+add_custom_target(GUI_PropertyFlatInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15521,9 +13917,7 @@ add_custom_target(GUI_PropertyFlatInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyFlatInspection_build GUI_FlatInspectionImagePanel_build)
-
-add_custom_target(PluginDLL_Camera_CameraFromLoadedImages_build ALL
+add_custom_target(PluginDLL_Camera_CameraFromLoadedImages_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15540,9 +13934,7 @@ add_custom_target(PluginDLL_Camera_CameraFromLoadedImages_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Camera_CameraFromLoadedImages_build GUI_PropertyFlatInspection_build)
-
-add_custom_target(GUI_ButtonSaveInitialLoadGUIData_build ALL
+add_custom_target(GUI_ButtonSaveInitialLoadGUIData_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15559,9 +13951,7 @@ add_custom_target(GUI_ButtonSaveInitialLoadGUIData_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonSaveInitialLoadGUIData_build PluginDLL_Camera_CameraFromLoadedImages_build)
-
-add_custom_target(GUI_SetAutoThresholdByHistogram_build ALL
+add_custom_target(GUI_SetAutoThresholdByHistogram_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15578,9 +13968,7 @@ add_custom_target(GUI_SetAutoThresholdByHistogram_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_SetAutoThresholdByHistogram_build GUI_ButtonSaveInitialLoadGUIData_build)
-
-add_custom_target(Algorithm_FlatInspection_build ALL
+add_custom_target(Algorithm_FlatInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15597,9 +13985,7 @@ add_custom_target(Algorithm_FlatInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_FlatInspection_build GUI_SetAutoThresholdByHistogram_build)
-
-add_custom_target(PluginDLL_Camera_CameraMVSUSB_build ALL
+add_custom_target(PluginDLL_Camera_CameraMVSUSB_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15616,9 +14002,7 @@ add_custom_target(PluginDLL_Camera_CameraMVSUSB_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Camera_CameraMVSUSB_build Algorithm_FlatInspection_build)
-
-add_custom_target(ServiceLib_CheckBoard_build ALL
+add_custom_target(ServiceLib_CheckBoard_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15635,9 +14019,7 @@ add_custom_target(ServiceLib_CheckBoard_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_CheckBoard_build PluginDLL_Camera_CameraMVSUSB_build)
-
-add_custom_target(PluginDLL_Camera_CameraQtUSBStandard_build ALL
+add_custom_target(PluginDLL_Camera_CameraQtUSBStandard_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15654,9 +14036,7 @@ add_custom_target(PluginDLL_Camera_CameraQtUSBStandard_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Camera_CameraQtUSBStandard_build ServiceLib_CheckBoard_build)
-
-add_custom_target(GUI_ButtonUpdateAllByHistogram_build ALL
+add_custom_target(GUI_ButtonUpdateAllByHistogram_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15673,9 +14053,7 @@ add_custom_target(GUI_ButtonUpdateAllByHistogram_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ButtonUpdateAllByHistogram_build PluginDLL_Camera_CameraQtUSBStandard_build)
-
-add_custom_target(GUI_ShowFPSInCamera_build ALL
+add_custom_target(GUI_ShowFPSInCamera_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15692,9 +14070,7 @@ add_custom_target(GUI_ShowFPSInCamera_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowFPSInCamera_build GUI_ButtonUpdateAllByHistogram_build)
-
-add_custom_target(GUI_RecordMoiveWinExe_build ALL
+add_custom_target(GUI_RecordMoiveWinExe_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15711,9 +14087,7 @@ add_custom_target(GUI_RecordMoiveWinExe_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_RecordMoiveWinExe_build GUI_ShowFPSInCamera_build)
-
-add_custom_target(GUI_ShowOCR_build ALL
+add_custom_target(GUI_ShowOCR_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15730,9 +14104,7 @@ add_custom_target(GUI_ShowOCR_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowOCR_build GUI_RecordMoiveWinExe_build)
-
-add_custom_target(PluginDLL_Camera_CameraMVSLinear_build ALL
+add_custom_target(PluginDLL_Camera_CameraMVSLinear_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15749,9 +14121,7 @@ add_custom_target(PluginDLL_Camera_CameraMVSLinear_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Camera_CameraMVSLinear_build GUI_ShowOCR_build)
-
-add_custom_target(PluginDLL_Light_LightDLL_LightHIKRobotLAN_build ALL
+add_custom_target(PluginDLL_Light_LightDLL_LightHIKRobotLAN_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15768,9 +14138,7 @@ add_custom_target(PluginDLL_Light_LightDLL_LightHIKRobotLAN_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Light_LightDLL_LightHIKRobotLAN_build PluginDLL_Camera_CameraMVSLinear_build)
-
-add_custom_target(PluginDLL_PIO_GIOHIKRobotCamera_build ALL
+add_custom_target(PluginDLL_PIO_GIOHIKRobotCamera_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15787,9 +14155,7 @@ add_custom_target(PluginDLL_PIO_GIOHIKRobotCamera_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_GIOHIKRobotCamera_build PluginDLL_Light_LightDLL_LightHIKRobotLAN_build)
-
-add_custom_target(GUI_ChangeCameraByInspection_build ALL
+add_custom_target(GUI_ChangeCameraByInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15806,9 +14172,7 @@ add_custom_target(GUI_ChangeCameraByInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ChangeCameraByInspection_build PluginDLL_PIO_GIOHIKRobotCamera_build)
-
-add_custom_target(Algorithm_PixelInspection_build ALL
+add_custom_target(Algorithm_PixelInspection_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15825,9 +14189,7 @@ add_custom_target(Algorithm_PixelInspection_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_PixelInspection_build GUI_ChangeCameraByInspection_build)
-
-add_custom_target(GUI_ShowColorDifferenceResultList_build ALL
+add_custom_target(GUI_ShowColorDifferenceResultList_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15844,9 +14206,7 @@ add_custom_target(GUI_ShowColorDifferenceResultList_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowColorDifferenceResultList_build Algorithm_PixelInspection_build)
-
-add_custom_target(Algorithm_XRay3D_build ALL
+add_custom_target(Algorithm_XRay3D_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15863,9 +14223,7 @@ add_custom_target(Algorithm_XRay3D_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_XRay3D_build GUI_ShowColorDifferenceResultList_build)
-
-add_custom_target(GUI_XRay3DImagePanel_build ALL
+add_custom_target(GUI_XRay3DImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15882,9 +14240,7 @@ add_custom_target(GUI_XRay3DImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_XRay3DImagePanel_build Algorithm_XRay3D_build)
-
-add_custom_target(GUI_PropertyXRay3D_build ALL
+add_custom_target(GUI_PropertyXRay3D_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15901,9 +14257,7 @@ add_custom_target(GUI_PropertyXRay3D_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyXRay3D_build GUI_XRay3DImagePanel_build)
-
-add_custom_target(GUI_ShowColorDifferenceEditManual_build ALL
+add_custom_target(GUI_ShowColorDifferenceEditManual_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15920,9 +14274,7 @@ add_custom_target(GUI_ShowColorDifferenceEditManual_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_ShowColorDifferenceEditManual_build GUI_PropertyXRay3D_build)
-
-add_custom_target(ResultDLL_ResultWriteCSVBarcodeLine_build ALL
+add_custom_target(ResultDLL_ResultWriteCSVBarcodeLine_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15939,9 +14291,7 @@ add_custom_target(ResultDLL_ResultWriteCSVBarcodeLine_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ResultDLL_ResultWriteCSVBarcodeLine_build GUI_ShowColorDifferenceEditManual_build)
-
-add_custom_target(Algorithm_RobotAction_build ALL
+add_custom_target(Algorithm_RobotAction_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15958,9 +14308,7 @@ add_custom_target(Algorithm_RobotAction_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_RobotAction_build ResultDLL_ResultWriteCSVBarcodeLine_build)
-
-add_custom_target(PluginDLL_Light_LightDLL_LightOpenAACam1B_build ALL
+add_custom_target(PluginDLL_Light_LightDLL_LightOpenAACam1B_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15977,9 +14325,7 @@ add_custom_target(PluginDLL_Light_LightDLL_LightOpenAACam1B_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Light_LightDLL_LightOpenAACam1B_build Algorithm_RobotAction_build)
-
-add_custom_target(PluginDLL_PIO_PIOOpenAACam1B_build ALL
+add_custom_target(PluginDLL_PIO_PIOOpenAACam1B_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -15996,9 +14342,7 @@ add_custom_target(PluginDLL_PIO_PIOOpenAACam1B_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_PIOOpenAACam1B_build PluginDLL_Light_LightDLL_LightOpenAACam1B_build)
-
-add_custom_target(Algorithm_AlignmentShiftRotation_build ALL
+add_custom_target(Algorithm_AlignmentShiftRotation_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16015,9 +14359,7 @@ add_custom_target(Algorithm_AlignmentShiftRotation_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_AlignmentShiftRotation_build PluginDLL_PIO_PIOOpenAACam1B_build)
-
-add_custom_target(GUI_AlignmentShiftRotationImagePanel_build ALL
+add_custom_target(GUI_AlignmentShiftRotationImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16034,9 +14376,7 @@ add_custom_target(GUI_AlignmentShiftRotationImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_AlignmentShiftRotationImagePanel_build Algorithm_AlignmentShiftRotation_build)
-
-add_custom_target(GUI_PropertyAlignmentShiftRotation_build ALL
+add_custom_target(GUI_PropertyAlignmentShiftRotation_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16053,9 +14393,7 @@ add_custom_target(GUI_PropertyAlignmentShiftRotation_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_PropertyAlignmentShiftRotation_build GUI_AlignmentShiftRotationImagePanel_build)
-
-add_custom_target(PluginDLL_SequencePlugin_SeqOpenAAController1B_build ALL
+add_custom_target(PluginDLL_SequencePlugin_SeqOpenAAController1B_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16072,9 +14410,7 @@ add_custom_target(PluginDLL_SequencePlugin_SeqOpenAAController1B_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_SequencePlugin_SeqOpenAAController1B_build GUI_PropertyAlignmentShiftRotation_build)
-
-add_custom_target(MachineController_RobotInspection_CaptureHIKCameraButton_build ALL
+add_custom_target(MachineController_RobotInspection_CaptureHIKCameraButton_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16091,9 +14427,7 @@ add_custom_target(MachineController_RobotInspection_CaptureHIKCameraButton_build
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(MachineController_RobotInspection_CaptureHIKCameraButton_build PluginDLL_SequencePlugin_SeqOpenAAController1B_build)
-
-add_custom_target(PluginDLL_Camera_CameraHIKRobotGigE_build ALL
+add_custom_target(PluginDLL_Camera_CameraHIKRobotGigE_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16110,9 +14444,7 @@ add_custom_target(PluginDLL_Camera_CameraHIKRobotGigE_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_Camera_CameraHIKRobotGigE_build MachineController_RobotInspection_CaptureHIKCameraButton_build)
-
-add_custom_target(MachineController_RobotInspection_GUIShowPoints_build ALL
+add_custom_target(MachineController_RobotInspection_GUIShowPoints_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16129,9 +14461,7 @@ add_custom_target(MachineController_RobotInspection_GUIShowPoints_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(MachineController_RobotInspection_GUIShowPoints_build PluginDLL_Camera_CameraHIKRobotGigE_build)
-
-add_custom_target(MachineController_RobotInspection_GeneralStockerRobot_build ALL
+add_custom_target(MachineController_RobotInspection_GeneralStockerRobot_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16148,9 +14478,7 @@ add_custom_target(MachineController_RobotInspection_GeneralStockerRobot_build AL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(MachineController_RobotInspection_GeneralStockerRobot_build MachineController_RobotInspection_GUIShowPoints_build)
-
-add_custom_target(Tutorial_TutrialExecuter_build ALL
+add_custom_target(Tutorial_TutrialExecuter_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16167,9 +14495,7 @@ add_custom_target(Tutorial_TutrialExecuter_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Tutorial_TutrialExecuter_build MachineController_RobotInspection_GeneralStockerRobot_build)
-
-add_custom_target(PluginDLL_PIO_Contec64DLL2_Contec64DLL_build ALL
+add_custom_target(PluginDLL_PIO_Contec64DLL2_Contec64DLL_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16186,9 +14512,7 @@ add_custom_target(PluginDLL_PIO_Contec64DLL2_Contec64DLL_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PluginDLL_PIO_Contec64DLL2_Contec64DLL_build Tutorial_TutrialExecuter_build)
-
-add_custom_target(DataManagement_DataManagement_build ALL
+add_custom_target(DataManagement_DataManagement_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16205,9 +14529,7 @@ add_custom_target(DataManagement_DataManagement_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(DataManagement_DataManagement_build PluginDLL_PIO_Contec64DLL2_Contec64DLL_build)
-
-add_custom_target(DataManagement_Maintainer_build ALL
+add_custom_target(DataManagement_Maintainer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16224,9 +14546,7 @@ add_custom_target(DataManagement_Maintainer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(DataManagement_Maintainer_build DataManagement_DataManagement_build)
-
-add_custom_target(Algorithm_EdgeMatching_build ALL
+add_custom_target(Algorithm_EdgeMatching_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16243,9 +14563,7 @@ add_custom_target(Algorithm_EdgeMatching_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Algorithm_EdgeMatching_build DataManagement_Maintainer_build)
-
-add_custom_target(GUI_EdgeMatchingImagePanel_build ALL
+add_custom_target(GUI_EdgeMatchingImagePanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16262,9 +14580,7 @@ add_custom_target(GUI_EdgeMatchingImagePanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_EdgeMatchingImagePanel_build Algorithm_EdgeMatching_build)
-
-add_custom_target(GUI_EdgeMatchingProperty_build ALL
+add_custom_target(GUI_EdgeMatchingProperty_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16281,9 +14597,876 @@ add_custom_target(GUI_EdgeMatchingProperty_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GUI_EdgeMatchingProperty_build GUI_EdgeMatchingImagePanel_build)
+add_custom_target(OtherProjects_all)
+add_dependencies(OtherProjects_all
+    Algorithm_ReviewStructure_build
+    Algorithm_BlockInspection_build
+    Algorithm_Masking_build
+    Algorithm_Alignment_build
+    Algorithm_ColorBlockInspection_build
+    Algorithm_PieceArchitect_build
+    Algorithm_OutlineInspection_build
+    Algorithm_ImageProcessor_build
+    Algorithm_Naming_build
+    Algorithm_TrueColorBlock_build
+    Algorithm_MaskingPI_build
+    Algorithm_StatisticImager_build
+    Algorithm_AutoAlignment_build
+    Algorithm_AreaFilter_build
+    Algorithm_AutoMaskingPI_build
+    Algorithm_AutoSaveImage_build
+    Algorithm_StatisticBlock_build
+    Algorithm_Learning_build
+    Algorithm_DynamicMaskingPI_build
+    Algorithm_MeasureHole_build
+    Algorithm_MeasureLineMove_build
+    Algorithm_EulerRing_build
+    Algorithm_MeasureHolePos_build
+    Algorithm_AreaShader_build
+    Algorithm_ImageChecker_build
+    Algorithm_SpotReducer_build
+    Algorithm_MatchingAlignment_build
+    Algorithm_AutoPCBHoleAligner_build
+    Algorithm_ZAxisRegulation_build
+    Algorithm_DotRegulation_build
+    Algorithm_AutoClassify_build
+    Algorithm_CategorizedShader_build
+    Algorithm_VCutInspection_build
+    Algorithm_CacheTargetImage_build
+    Algorithm_LineEnhancer_build
+    Algorithm_ARArrange_build
+    Algorithm_DynamicClassify_build
+    Algorithm_PieceForReview_build
+    Algorithm_PieceReviewSide_build
+    Algorithm_LineEnhancer1L_build
+    Algorithm_OCRInspection_build
+    Algorithm_ResultImportance_build
+    Algorithm_TreeMaster_build
+    Algorithm_BuslineInspection_build
+    Algorithm_MakeDifferencialImage_build
+    Algorithm_ResultBinder_build
+    Algorithm_AlignmentLarge_build
+    Algorithm_BCRInspection_build
+    Algorithm_PieceDef_build
+    Algorithm_CheckBrightness_build
+    Algorithm_GerberFast_build
+    Algorithm_VIAInspection_build
+    Algorithm_CheckEveryday_build
+    Algorithm_MultiFileMap_build
+    Algorithm_ThinMetal_build
+    PluginDLL_Camera_DummyCamera_DummyCamera_build
+    PluginDLL_Camera_CameraProvider_build
+    PluginDLL_Camera_CameraProvider_CameraFromProvider_build
+    Filter_FilterSmoothing_build
+    Filter_FilterEdgeEmphasize_build
+    Filter_FilterMedianSmooth_build
+    Filter_FilterReverseLens_build
+    Filter_FilterShrinkImage_build
+    Filter_FilterOneLayer_build
+    Filter_FilterHSV_build
+    Filter_FilterNothing_build
+    Filter_FilterMoveImage_build
+    Filter_FilterReverseLensOneSide_build
+    Filter_FilterReverseCosineRing_build
+    Filter_FilterUpsideDown_build
+    Filter_FilterSmoothLarge_build
+    Filter_FilterReverseLensOneLayer_build
+    Filter_FilterUDColorShift_build
+    Filter_FilterReverseLensSomeLayer_build
+    Filter_FilterImageShading_build
+    Filter_FilterReverseLensOneSide2_build
+    Filter_FilterEvenOdd_build
+    Filter_FilterMultiConvertBrightness_build
+    Filter_FilterRotationMirror_build
+    Filter_FilterHResolution_build
+    Filter_FilterVBand_build
+    Filter_FilterHorizontalLinear_build
+    Filter_FilterHorizontalBand_build
+    Filter_FilterVerticalLinear_build
+    Filter_FilterVerticalReverse_build
+    GUI_ButtonSaveMasterData_build
+    GUI_ButtonLoadMasterData_build
+    GUI_AlignmentImagePanel_build
+    GUI_ButtonSequence_build
+    GUI_ButtonSettingParameters_build
+    GUI_CameraSettingButton_build
+    GUI_DisplayGrayLower_build
+    GUI_DisplayGrayUpper_build
+    GUI_DisplayMasterImage_build
+    GUI_DisplayNGList_build
+    GUI_DisplayTargetImage_build
+    GUI_GeneralDisplayWholeImage_build
+    GUI_GeneralLabel_build
+    GUI_GeneralTabSheet_build
+    GUI_ListboxAlgorithm_build
+    GUI_LoadImageMasterButton_build
+    GUI_PropertyAlignment_build
+    GUI_SaveImageMasterButton_build
+    GUI_StartCaptureButton_build
+    GUI_ButtonUpdateMasterData_build
+    GUI_BlockImagePanel_build
+    GUI_MaskingImagePanel_build
+    GUI_ButtonSaveAlgorithm_build
+    GUI_ButtonLoadAlgorithm_build
+    GUI_ImageControlTools_build
+    GUI_StartInspectionButton_build
+    GUI_LoadImageTargetButton_build
+    GUI_StartProcessAgainButton_build
+    GUI_ListboxAlgorithmCount_build
+    GUI_ButtonExit_build
+    GUI_TargetImageControlTools_build
+    GUI_ShowNGCount_build
+    GUI_SaveImageTargetButton_build
+    GUI_ColorBlockImagePanel_build
+    GUI_PixelImagePanel_build
+    GUI_PropertyPixel_build
+    GUI_GeneralTabWizard_build
+    GUI_PanelOkNg_build
+    GUI_ButtonRepeatMode_build
+    GUI_ButtonAutoMode_build
+    GUI_ListHistory_build
+    GUI_ShowMasterNames_build
+    GUI_ButtonSetTactTime_build
+    GUI_GeneralTabWizardNext_build
+    GUI_ButtonInspectionID_build
+    GUI_LabelForMeasuring_build
+    GUI_PiecePanel_build
+    GUI_ButtonMonoBitmapForAlgorithm_build
+    GUI_ShowStockedResult_build
+    GUI_ButtonReDrawAll_build
+    GUI_ButtonCopyrightVersion_build
+    GUI_ButtonCalcFinalization_build
+    GUI_OutlineImagePanel_build
+    GUI_ChangeDrawTurn_build
+    GUI_LoadImageFor32Regulus_build
+    GUI_ButtonSelectLightDB_build
+    GUI_NamingImagePanel_build
+    GUI_PropertyNaming_build
+    GUI_ShowStrategicNumber_build
+    GUI_ButtonChangeOverlap_build
+    GUI_MaskingImagePanelPI_build
+    GUI_PropertyMaskingPI_build
+    GUI_TrueColorBlockImagePanel_build
+    GUI_ButtonSetRailWidth_build
+    GUI_StartStatisticScanButton_build
+    GUI_ButtonLoadBmpJpg_build
+    GUI_ListboxErrorMessage_build
+    GUI_ListboxAlgorithmItemProperty_build
+    GUI_ImageProcessorPanel_build
+    GUI_PropertyImageProcessor_build
+    GUI_DesktopMachineMenu_build
+    GUI_ButtonToShowOtherGUI_build
+    GUI_ButtonWhichImage_build
+    GUI_AutoAlignmentImagePanel_build
+    GUI_ButtonCloseOnly_build
+    GUI_PixelInspectionNGList_build
+    GUI_ButtonEditFilterBank_build
+    GUI_ButtonExecuteFilterImage_build
+    GUI_AreaFilterImagePanel_build
+    GUI_PropertyAreaFilter_build
+    GUI_ButtonExecuteAreaFilter_build
+    GUI_PieceLevelIndicator_build
+    GUI_AutoMaskingPIImagePanel_build
+    GUI_GraphicPanel_build
+    GUI_ShowPointerMessage_build
+    GUI_GeneralHairLine_build
+    GUI_SaveNewMaster_build
+    GUI_ButtonSelectMachine_build
+    GUI_PanelSaveImage_build
+    GUI_SaveAlgorithmWithMachine_build
+    GUI_LoadAlgorithmWithMachine_build
+    GUI_PropertyStatisticBlock_build
+    GUI_StatisticBlockImagePanel_build
+    GUI_CompressImageList_build
+    GUI_LearningImagePanel_build
+    GUI_PropertyLearning_build
+    GUI_PropertyDynamicMaskingPI_build
+    GUI_DynamicMaskingPIImagePanel_build
+    GUI_ButtonLearningSaveMode_build
+    GUI_NGNamingList_build
+    GUI_EulerRingImagePanel_build
+    GUI_PropertyEulerRing_build
+    GUI_ButtonToShowDialogOnGeneralStocker_build
+    GUI_AreaShaderImagePanel_build
+    GUI_PropertyAreaShader_build
+    GUI_AutoSaveImageViewList_build
+    GUI_AutoSaveImageViewPanel_build
+    GUI_ListboxProcessTime_build
+    GUI_ManualDesktopMachineMenu_build
+    GUI_ManualPropertyPixel_build
+    GUI_ManualPixelImagePanel_build
+    GUI_ManualPixelInspectionNGList_build
+    GUI_ButtonStartLearning_build
+    GUI_ButtonLoadPWAFile_build
+    GUI_ButtonSavePWAFile_build
+    GUI_ButtonSelectMaster_build
+    GUI_ButtonSelectDatabase_build
+    GUI_ButtonShutdown_build
+    GUI_ImageCheckerPanel_build
+    GUI_PropertyImageChecker_build
+    GUI_ShowResultImageChecker_build
+    GUI_ShowInspectionNumber_build
+    GUI_SendMessenger_build
+    GUI_SpotReducerImagePanel_build
+    GUI_PropertySpotReducer_build
+    GUI_ChangeCameraSettingInvisible_build
+    GUI_ButtonShrinkImage_build
+    GUI_MatchingAlignmentImagePanel_build
+    GUI_PropertyMatchingAlignment_build
+    GUI_MatrixCellList_build
+    GUI_ButtonLoadMonoBmpInAnyPageLayer_build
+    GUI_ExecuteMacroList_build
+    GUI_ButtonSaveResultWithAll_build
+    GUI_ButtonLoadResultWithAll_build
+    GUI_ChangeCameraSetting_build
+    GUI_ButtonSaveMatrixCell_build
+    GUI_ButtonLoadMatrixCell_build
+    GUI_ButtonSetMachine_build
+    GUI_AutoSaveImageSelectLot_build
+    GUI_ButtonToSaveCopiedItemDirectly_build
+    GUI_CheckProgramRunInvisible_build
+    GUI_ButtonChangeCurrentPhase_build
+    GUI_GeneralMenu_build
+    GUI_AutoPCBHoleAlignerImagePanel_build
+    GUI_PropertyAutoPCBHoleAligner_build
+    GUI_StacksToSwitchMasterTarget_build
+    GUI_SlaveIndicatorInvisible_build
+    GUI_ListboxGUITime_build
+    GUI_ButtonLearningOK_build
+    GUI_ButtonLearningNG_build
+    GUI_DisplayStatus_build
+    GUI_ShowCurrentOpinion_build
+    GUI_ButtonSaveAllOpinions_build
+    GUI_ButtonCalcAlignment_build
+    GUI_ButtonCopyLibrary_build
+    GUI_GeneralDividedPanels_build
+    GUI_GeneralPanel_build
+    GUI_ListboxUncoveredArea_build
+    GUI_ButtonClearStockedResult_build
+    GUI_ExpandMainInTab_build
+    GUI_ButtonAppendAlgorithm_build
+    GUI_ButtonSetZ_build
+    GUI_RemoteControlForServer_build
+    GUI_DisplayServer_build
+    GUI_PropertyOutline_build
+    GUI_PropertyMasking_build
+    GUI_ButtonLoadOutlineOffset_build
+    GUI_ButtonMoveAll_build
+    GUI_PropertyColorBlock_build
+    GUI_PropertyTrueColorBlock_build
+    GUI_PropertyAutoMaskingPI_build
+    GUI_PropertyAutoAlignment_build
+    GUI_ButtonSelectLearningTargetImage_build
+    GUI_ButtonShowLightForm_build
+    GUI_PropertyStatisticImager_build
+    GUI_StatisticImagerImagePanel_build
+    GUI_PieceProperty_build
+    GUI_GeneralGroup_build
+    GUI_PropertyBlock_build
+    GUI_ButtonLoadMasterDataWithoutMachine_build
+    GUI_AutoSaveImageListForSearch_build
+    GUI_AutoSaveImageButtonSave_build
+    GUI_AutoSaveImageButtonAuto_build
+    GUI_ButtonCopyImage_build
+    GUI_StartInspectionWithoutCapture_build
+    GUI_VCutImagePanel_build
+    GUI_VCutProperty_build
+    GUI_ListCachTargetImage_build
+    GUI_LineEnhancerImagePanel_build
+    GUI_PropertyLineEnhancer_build
+    GUI_DynamicClassifyImagePanel_build
+    GUI_PropertyDynamicClassify_build
+    GUI_ARArrangeImagePanel_build
+    GUI_PropertyARArrange_build
+    GUI_DisplayPointingMessage_build
+    GUI_ProgressOnIdle_build
+    GUI_DisplayRealtimeGraph_build
+    GUI_PropertyRealtimeGraph_build
+    GUI_RealtimeGraphMeasure1_build
+    GUI_ShowMinMaxButton_build
+    GUI_ButtonSwitchDelayedView_build
+    GUI_ExecuteVisualizer_build
+    GUI_ShowTopBottomSideInfo_build
+    GUI_PieceForReviewImagePanel_build
+    GUI_PropertyPieceForReview_build
+    GUI_LineEnhancer1LImagePanel_build
+    GUI_PropertyLineEnhancer1L_build
+    GUI_DisplayLibFolder_build
+    GUI_ButtonSelectLot_build
+    GUI_ShowHistgramTotal_build
+    GUI_ButtonSaveHistogramData_build
+    GUI_ButtonLoadHistogramData_build
+    GUI_ButtonClearHistogram_build
+    GUI_LoadImageInAnyPage_build
+    GUI_ButtonRewindInspection_build
+    GUI_DisplayScanPhaseNumber_build
+    GUI_ResultImportanceImagePanel_build
+    GUI_PropertyResultImportance_build
+    GUI_PieceListReviewSide_build
+    GUI_ShowPieceResultList_build
+    GUI_ButtonImageTransformer_build
+    GUI_MeasureHoleImagePanel_build
+    GUI_PropertyMeasureHole_build
+    GUI_MeasureLineMoveImagePanel_build
+    GUI_PropertyMeasureLineMove_build
+    GUI_MeasureHolePosImagePanel_build
+    GUI_PropertyMeasureHolePos_build
+    GUI_ImagePanelTools_build
+    GUI_ButtonShowPlayerInside_build
+    GUI_MeasureShowGrid_build
+    GUI_TreeMasterImagePanel_build
+    GUI_PropertyTreeMaster_build
+    GUI_TreeMasterShowResultList_build
+    GUI_ButtonForMarkingON_build
+    GUI_ShowOldNGNaming_build
+    GUI_DisplayOldImagePanel_build
+    GUI_SetMechanicalOffset_build
+    GUI_ButtonAnyMode_build
+    GUI_ShowResultAlarm_build
+    GUI_ShowSeqMessage_build
+    GUI_BuslineImagePanel_build
+    GUI_PropertyBusline_build
+    GUI_WindUpImage_build
+    GUI_AlignmentLargeImagePanel_build
+    GUI_PropertyAlignmentLarge_build
+    GUI_PropertyResultBinder_build
+    GUI_BCRImagePanel_build
+    GUI_PropertyBCR_build
+    GUI_ShowBarCode_build
+    GUI_ShowTotalNGNaming_build
+    GUI_SetSpetialValue_build
+    GUI_ButtonFilterUpsideDown_build
+    GUI_ButtonLightON_build
+    GUI_ShowSumTimer_build
+    GUI_ButtonPasswordEnabler_build
+    GUI_ButtonFilterUDColorShift_build
+    GUI_FixedImageSize_build
+    GUI_ButtonPasswordOpener_build
+    GUI_PieceDefImagePanel_build
+    GUI_PropertyPieceDef_build
+    GUI_ShowResultSmallLot_build
+    GUI_ButtonSelectSmallLot_build
+    GUI_ListCondition_build
+    GUI_ShowStrategicAllNumber_build
+    GUI_ButtonChangeServerForMaster_build
+    GUI_GeneralPanelFromSeq_build
+    GUI_CheckCycleTime_build
+    GUI_CheckBrightnessImagePanel_build
+    GUI_PropertyCheckBrightness_build
+    GUI_ShowCheckBrightnessPanel_build
+    GUI_PropertyGerberFast_build
+    GUI_GerberFastImagePanel_build
+    GUI_PropertyViaInspection_build
+    GUI_VIAInspectionImagePanel_build
+    GUI_PropertyCheckEveryday_build
+    GUI_ShowCheckEveryday_build
+    GUI_CheckEverydayImagePanel_build
+    GUI_PanelXYSize_build
+    GUI_SetFilterToMoveXY_build
+    GUI_ButtonToSetFilter_build
+    GUI_AdjustMoveAllAfterLoadMaster_build
+    GUI_PropertyMultiFileMap_build
+    GUI_MultiFileMapImagePanel_build
+    GUI_ButtonGeneralStocker_build
+    GUI_ExecuteBatch_build
+    GUI_SaveMasterImageInInspection_build
+    GUI_CheckEverydayResultHistory_build
+    GUI_HookAlgorithmImagePanel_build
+    GUI_ButtonSynchronizeImagePanel_build
+    GUI_SaveTargetInNG_build
+    GUI_SaveOutlineOffsetInMaster_build
+    GUI_LoadOutlineOffsetInMaster_build
+    GUI_ThinMetalImagePanel_build
+    GUI_PropertyThinMetal_build
+    GUI_DistinguishPix_build
+    GUI_ButtonToStoreSamplesThinMetal_build
+    InspectionEditor_build
+    InspectionPlayer_InspectionPlayer_build
+    PluginDLL_Light_LightDLL_CCSControl_build
+    PluginDLL_Light_LightDLL_CCSControl2_build
+    GUI_Light_CCSControlGUI_build
+    GUI_Light_CCSControl2GUI_build
+    PluginDLL_Light_LightDLL_ControlHayashiTokei_build
+    GUI_Light_ControlHayashiTokeiGUI_build
+    PluginDLL_Light_LightDLL_CCSControlByPIO_build
+    PluginDLL_Light_LightDLL_LightUSB8PortARM_build
+    PluginDLL_Light_LightDLL_LightDLLRemoteController_build
+    PluginDLL_Light_LightDLL_CCSControlByPIO2Ch_build
+    PluginDLL_Light_LightDLL_LEDControl32_build
+    PluginDLL_PIO_Contec64DLL_Contec64DLL_build
+    PluginDLL_PIO_Contec64Multi_build
+    PluginDLL_PIO_NetworkContec64_PIOClient_build
+    PluginDLL_PIO_NetworkContec64_PIODevicer_build
+    PluginDLL_PIO_DummyPIO_build
+    PluginDLL_PIO_TestPIODLL_build
+    PluginDLL_PIO_ContecBitAccess_build
+    PluginDLL_PIO_VirtualPIOServer_build
+    PluginDLL_PIO_VirtualPIOAdapter_build
+    ResultDLL_ResultXMLV3_build
+    ResultDLL_ResultXMLForPiece_build
+    ResultDLL_ResultXMLSmallLot_build
+    Delete_Delete_build
+    EditGUI_EditGUI_build
+    EditParameter_EditParameter_build
+    EditStatusComment_build
+    FileRegistryEditor_build
+    LearningServer_build
+    Messager_build
+    Messager_ReportDisk_ReportDisk_build
+    PIOWatch_PIOWatch_build
+    ServiceLib_DLLChecker_build
+    ServiceLib_ServiceForDBLib_build
+    ServiceLib_SlaveIndicator_build
+    AutoStart_AutoStartPlayer_build
+    AutoStartList_build
+    ServiceLib_EditSequence_build
+    ChangeServer_build
+    ServiceLib_EditAnyDataInLibrary_build
+    XmlServer_XMLExplorer_build
+    ExecuteVisualizer_EditExecuteVisualizer_build
+    JDTUnpacker_build
+    PIOWatch_PIOViewer_build
+    EditParameter_EditGlobalOnMaster_build
+    ServiceLib_MakeMasterReport_build
+    ServiceLib_LanguageManager_build
+    LanguageSolver_LanguageNewSolver_build
+    ChangeServer_CloseProcess_build
+    ChangeServer_RemoteControlToClose_build
+    ServiceLib_LanguageMergeXLSX_build
+    CopyMultiple_build
+    LightingManager_TesterLightDLL_build
+    LightingManager_RemoteLightController_build
+    ServiceLib_ScreenLock_build
+    ServiceLib_DelayExe_build
+    LightingManager_RemoteLightExecuter_build
+    ServiceLib_Booter_build
+    ServiceLib_SyncMasterFiles_build
+    ServiceLib_SyncDatabase_build
+    ServiceLib_WatchdogRebooter_build
+    ServiceLib_ForceRebooter_build
+    Messager_DiskManager_build
+    PluginDLL_SequencePlugin_SampleDLL_build
+    PluginDLL_SequencePlugin_LogWriter_build
+    PluginDLL_SequencePlugin_SeqFor64Connector_build
+    PluginDLL_SequencePlugin_IOLogger_build
+    PluginDLL_SequencePlugin_OutputMessager_build
+    PluginDLL_SequencePlugin_CheckProgramRun_build
+    PluginDLL_SequencePlugin_ShutDownDLL_build
+    PluginDLL_SequencePlugin_PlaySound_build
+    GUI_ChangeWindowSizeInvisible_build
+    GUI_CopyItemsBetweenPhase_build
+    GUI_FixedWindowSize_build
+    Algorithm_ProjectedInspection_build
+    GUI_PropertyProjectedInspection_build
+    GUI_ProjectedInspectionImagePanel_build
+    PluginDLL_PIO_VirtualPIOClient_build
+    ResultDLL_ResultWriteCSV_build
+    GUI_ButtonLightShortCut_build
+    Filter_FilterReplaceColor_build
+    GUI_ResultBinderImagePanel_build
+    Filter_FilterDifferencialHV_build
+    GUI_CompressImageIndicator_build
+    GUI_ShowMatrixImageCenter_build
+    GUI_HoughInspectionImagePanel_build
+    GUI_PropertyHoughInspection_build
+    Algorithm_HoughInspection_build
+    ServiceLib_ConvertPixImage_build
+    GUI_ResetCameraSeq_build
+    ServiceLib_DFSServer_build
+    ServiceLib_DFSProvider_build
+    ServiceLib_DFSExplorer_build
+    ServiceLib_DFSProvider_DFSFilterMJC_build
+    ServiceLib_ChangeAttribute_build
+    ServiceLib_CheckKeyCode_build
+    Algorithm_PartialImaging_build
+    GUI_PartialImagingImagePanel_build
+    GUI_PropertyPartialImaging_build
+    GUI_ShowPartialImagingList_build
+    GUI_ShowPartialImagingPanel_build
+    GUI_CameraBuffer_build
+    Algorithm_SkipMark_build
+    GUI_PropertySkipMark_build
+    GUI_SkipMarkImagePanel_build
+    GUI_ButtonSelectMultiDelivery_build
+    GUI_ShowResultMultiDelivery_build
+    ResultDLL_ResultXMLMultiDelivery_build
+    GUI_ShowBlockList_build
+    GUI_EulerRingL1ImagePanel_build
+    GUI_PropertyEulerRingL1_build
+    Algorithm_EulerRingL1_build
+    GUI_ButtonTransferPushGUI_build
+    GUI_ButtonTransferRequireMasterData_build
+    GUI_ButtonTransferSendMasterData_build
+    GUI_ButtonTransferRequireGlobalParam_build
+    GUI_ButtonTransferSendGlobalParam_build
+    GUI_ButtonTransferLoadGUI_build
+    ServiceLib_ProjectPropertyManager_build
+    GUI_PanelXYCalc_build
+    PluginDLL_Camera_CameraSharer_build
+    PluginDLL_Camera_CameraSharerDLL_build
+    Algorithm_FrameDef_build
+    GUI_FrameDefImagePanel_build
+    GUI_PropertyFrameDef_build
+    GUI_SelectResultLotFrame_build
+    GUI_ShowResultFrame_build
+    ResultDLL_ResultFrameDLL_build
+    GUI_ButtonSwapIn_build
+    GUI_ButtonSwapOut_build
+    GUI_ButtonInitialize_build
+    PluginDLL_PIO_NetworkSIOServer_build
+    PluginDLL_PIO_NetworkSIOTestClient_build
+    GUI_OCRImagePanel_build
+    GUI_PropertyOCR_build
+    GUI_ButtonLoadRelease_build
+    Filter_FilterImageShadingArea_build
+    GUI_PushToSavePix_build
+    Algorithm_Process3D_build
+    GUI_Process3DImagePanel_build
+    GUI_PropertyProcess3D_build
+    GUI_ButtonModeAutoIncScanNumber_build
+    GUI_ButtonOutlineOffsetWindow_build
+    Filter_FilterRemoveNoiseLine_build
+    Algorithm_LinePatternInspection_build
+    GUI_LinePatternImagePanel_build
+    GUI_PropertyLinePattern_build
+    Algorithm_AlignmentFlexArea_build
+    GUI_AlignmentFlexAreaImagePanel_build
+    GUI_PropertyAlignmentFlexArea_build
+    Filter_FilterBrightnessLogConvert_build
+    GUI_PanelInputInformation_build
+    GUI_ShortcutKeyInvisible_build
+    PluginDLL_PIO_PIOForCameraExecuter_build
+    GUI_PanelXYZSize_build
+    GUI_PanelMaxStock_build
+    Filter_FilterVBandOneLayer_build
+    GUI_ButtonAlignmentLargeTransform_build
+    GUI_ShowAlignmentResult_build
+    GUI_ButtonExecuteMacro_build
+    GUI_SetThresholdByHistogram_build
+    ServiceLib_MakeShrinkingTable_build
+    GUI_ListGenerateChildLibrary_build
+    GUI_ButtonStartCaptureContinuousLy_build
+    GUI_RealtimeImagePanel_build
+    PluginDLL_Light_LightDLL_CCSControlByLAN_build
+    PluginDLL_Light_LightDLL_ImacControlByLAN_build
+    Algorithm_MatchShiftRotation_build
+    GUI_MatchShiftRotationImagePanel_build
+    GUI_PropertyMatchShiftRotation_build
+    GUI_DrawHookControlPanel_build
+    GUI_HookOverlapImage_build
+    GUI_HookMeasure_build
+    GUI_HookPeaking_build
+    GUI_GeneralStackForm_build
+    GUI_ButtonSaveBmpJpg_build
+    GUI_ChangeTurnTop_build
+    Algorithm_NickInspection_build
+    GUI_NickInspectionImagePanel_build
+    GUI_PropertyNickInspection_build
+    GUI_PanelHidable_build
+    PluginDLL_PIO_NetworkPIOClient_build
+    GUI_DotColorMatchingImagePanel_build
+    GUI_PropertyDotColorMatching_build
+    Algorithm_DotColorMatching_build
+    GUI_ShowMatchShiftRotation_build
+    GUI_ShowCurrentLightName_build
+    Filter_FilterBrightnessThresholdConvert_build
+    GUI_ExecutorOfPixList_build
+    ResultDLL_ResultXMLPrintFast_build
+    Algorithm_SwitchPhase_build
+    GUI_PropertySwitchPhase_build
+    GUI_SwitchPhaseImagePanel_build
+    GUI_ButtonToShowCrossLine_build
+    GUI_ShowCycleTime_build
+    GUI_HookDrawRegulationLine_build
+    GUI_ButtonLoadMasterDataInPhase_build
+    GUI_CopyMirroredTransfer_build
+    GUI_ShowImageList_build
+    ResultDLL_ResultDLLIntoFile_build
+    GUI_HoleWallInspectionImagePanel_build
+    GUI_PropertyHoleWallInspection_build
+    Algorithm_HoleWallInspection_build
+    GUI_ButtonGenerateFromGerber_build
+    GUI_RecordMovie_build
+    GUI_ButtonToSnapImage_build
+    GUI_ShowItemNameResultSeq_build
+    GUI_ButtonChange_build
+    GUI_ShowThinMetalResultList_build
+    EditStatusComment_ShowStatusComment_build
+    GUI_ButtonToShowStatusComment_build
+    GUI_DentImagePanel_build
+    GUI_PropertyDent_build
+    Algorithm_DentInspection_build
+    GUI_ButtonSelectStackedPage_build
+    GUI_ShowMultiImage_build
+    GUI_PanelHide_build
+    ResultAnalizer_DustReducer_build
+    ServiceLib_CopyAndExecute_build
+    ResultAnalizer_DustReducerAI_build
+    GUI_ButtonClearMasterInfo_build
+    GUI_HookLearningRegistOkNg_build
+    InspectionPlayer_InspectionFastPlayer_build
+    PluginDLL_PIO_NetworkPIOVirtual_build
+    PluginDLL_PIO_NetworkPIOVirtualCommunicator_build
+    GUI_VideoController_build
+    GUI_PlayVideoWidget_build
+    GUI_ButtonAutoGenerateMeasureLineMove_build
+    GUI_PropertyDXFOperation_build
+    GUI_DXFOperationImagePanel_build
+    Algorithm_DXFOperation_build
+    GUI_ShowFileListBrowser_build
+    GUI_ButtonExecuteCommand_build
+    PluginDLL_PIO_RelayLCUS2_build
+    GUI_ShowMemory_build
+    ResultDLL_ResultSaveTargetImage_build
+    GUI_ButtonShowStockedImage_build
+    PluginDLL_PIO_SharedPIO_build
+    GUI_ButtonShowSnapImageFileName_build
+    GUI_ButtonResetThresholdDotColorMatching_build
+    GUI_ShowCurrentTime_build
+    GUI_ButtonCopyAnyPhasePageLayer_build
+    Algorithm_ColorDifference_build
+    GUI_ColorDifferenceImagePanel_build
+    GUI_PropertyColorDifference_build
+    Algorithm_AlignmentProjection_build
+    GUI_AlignmentProjectionImagePanel_build
+    GUI_PropertyAlignmentProjection_build
+    GUI_SelectStackedWindows_build
+    GUI_InsertTelop_build
+    GUI_ImageBank_build
+    Integrator_GUI_IntegrationResultList_build
+    Integrator_IntegrationPlayer_build
+    Integrator_EditParamIntegrationMaster_build
+    Integrator_GUI_IntegrationInputLot_build
+    Integrator_GUI_IntegrationLoadMaster_build
+    Integrator_GUI_IntegrationSaveMaster_build
+    Integrator_GUI_IntegrationHistory_build
+    Integrator_GUI_IntegrationShowOKNG_build
+    Integrator_GUI_IntegrationShowTotal_build
+    Integrator_GUI_IntegrationThumbnail_build
+    Integrator_GUI_IntegrationShowSavedImage_build
+    Integrator_GUI_IntegrationShowHistoryLoadImage_build
+    Integrator_GUI_IntegrationSelectLot_build
+    Integrator_GUI_IntegrationSelectMaster_build
+    Integrator_GUI_IntegrationShowRelationInfo_build
+    Integrator_GUI_IntegrationShowNGArrow_build
+    Integrator_GUI_IntegrationDisplayMasterImage_build
+    Integrator_GUI_OperateThroughNet_build
+    Integrator_GUI_IntegrationShowConnectionState_build
+    Integrator_GUI_IntegrationUpdateHistoryList_build
+    Integrator_GUI_IntegrationShowName_build
+    Integrator_GUI_IntegrationStackNGThumbnail_build
+    Integrator_GUI_SignalResultDoneToMaster_build
+    Integrator_GUI_IntegrationNewMaster_build
+    Integrator_GUI_IntegrationClose_build
+    Integrator_GUI_IntegrationChangePhase_build
+    Integrator_GUI_IntegrationCopyImage_build
+    Integrator_GUI_IntegrationShowNGMap_build
+    Integrator_GUI_IntegrationShowRunningTrend_build
+    Integrator_GUI_IntegrationShowMemory_build
+    Integrator_GUI_IntegrationClearNGThumbnail_build
+    GUI_ShowSwitchPhaseResultList_build
+    GUI_StartCaptureOnlyTarget_build
+    GUI_StartScanningAgain_build
+    GUI_ButtonShowResultAnalizer_build
+    GUI_ShowTrialInformation_build
+    ServiceLib_StartCloseOnce_build
+    GUI_ShiftImsgeInLayerPage_build
+    GUI_ButtonSwitchPhaseSynchronize_build
+    GUI_ButtonTransferRequireImageData_build
+    XmlServer_XMLServerV3_XMLServerV3_build
+    GUI_LoadImageInAnyPageLayer_build
+    GUI_Splitter_build
+    GUI_PanelResolutionSize_build
+    GUI_ButtonTransferSendImageData_build
+    Algorithm_MakeAverageImage_build
+    GUI_MakeAverageImagePanel_build
+    GUI_PropertyMakeAverageImage_build
+    GUI_ButtonAutoScanningMode_build
+    GUI_ShowThresholdLevel_build
+    Integrator_GUI_IntegrationShowThresholdLevel_build
+    Algorithm_Counter_build
+    GUI_CounterImagePanel_build
+    GUI_PropertyCounter_build
+    Integrator_GUI_IntegrationChangeCameraSetting_build
+    GUI_ButtonSaveScreenCapture_build
+    GUI_ShowBindNGNamingList_build
+    Algorithm_SavePartialImage_build
+    GUI_SavePartialImagePanel_build
+    GUI_ButtonShadowToShow_build
+    ShadowTree_ShrinkedInspection_build
+    ResultAnalizer_ResultCategorizer_build
+    GUI_DisplayNGListCategorized_build
+    Algorithm_Raster_build
+    GUI_PropertyRaster_build
+    GUI_RasterImagePanel_build
+    ShadowTree_ShrinkLowHigh_build
+    Integrator_GUI_IntegrationNGCategorizedList_build
+    ChangeServer_CheckPort_build
+    Integrator_GUI_IntegrationImageBank_build
+    GUI_ButtonCreateThresholdLevel_build
+    Integrator_GUI_IntegrationCreateThreshold_build
+    GUI_CameraChangeQuickProperty_build
+    Integrator_GUI_IntegrationCameraChangeQuickProperty_build
+    GUI_MakeShading_build
+    Filter_FilterLineShading_build
+    GUI_CopyByControlPoints_build
+    GUI_ButtonSettingControlPointsForPages_build
+    GUI_ButtonFilterSwitch_build
+    GUI_ButtonLoadFilterConfig_build
+    Filter_FilterImageShadingDynamic_build
+    Algorithm_Palletize_build
+    GUI_PalletizeImagePanel_build
+    GUI_PropertyPalletize_build
+    GUI_DisplayProductivity_build
+    GUI_ButtonSaveGUILanguage_build
+    Algorithm_MultiSpectral_build
+    GUI_MultiSpectralImagePanel_build
+    GUI_PropertyMultiSpectral_build
+    GUI_ShowSelectLayer_build
+    GUI_ButtonResetCamera_build
+    Algorithm_RasterInspection_build
+    GUI_PropertyRasterInspection_build
+    GUI_RasterInspectionImagePanel_build
+    Algorithm_RepeatControl_build
+    GUI_PropertyRepeatControl_build
+    GUI_RepeatControlImagePanel_build
+    Integrator_GUI_IntegrationButtonCreateRepeatControl_build
+    Integrator_GUI_IntegrationCalibrateCamera_build
+    GUI_ButtonCalibrateCamera_build
+    GUI_ButtonShiftImage_build
+    Integrator_GUI_IntegrationStopUpdateThumbnail_build
+    Integrator_GUI_IntegrationCameraAdjustment_build
+    Filter_FilterShiftVBand_build
+    GUI_ShowMeasureHolePosResultList_build
+    GUI_ShowResultDetail_build
+    GUI_LearningCommandPanel_build
+    Filter_FilterConvertResolution_build
+    GUI_ButtonEnableFilter_build
+    GUI_ButtonConvertColorDistribution_build
+    GUI_ButtonAlignmentOffset_build
+    Algorithm_AngleInspection_build
+    GUI_SetAngleInspection_build
+    GUI_ShowResultAngleInspection_build
+    Algorithm_ReplaceImage_build
+    GUI_ButtonReplaceImageControl_build
+    GUI_PropertyReplaceImage_build
+    GUI_ReplaceImagePanel_build
+    Integrator_GUI_AutoGenerator_build
+    Filter_FilterShiftByLayer_build
+    GUI_PropertyRasterReference_build
+    GUI_RasterReferenceImagePanel_build
+    AutoStart_AutoReStart_build
+    Algorithm_ShiftMark_build
+    Filter_FilterDynamicBrightness_build
+    GUI_PropertyShiftMark_build
+    GUI_ShiftMarkImagePanel_build
+    Integrator_GUI_IntegrationButtonCopyAlgorithm_build
+    Integrator_GUI_IntegrationButtonLoadAlgorithm_build
+    Integrator_GUI_IntegrationButtonSaveAlgorithm_build
+    GUI_ButtonShowInPlayer_build
+    Filter_FilterMergeColor_build
+    GUI_ButtonAddSubPage_build
+    Filter_FilterReduceVStripe_build
+    Integrator_GUI_IntegrationSettingLight_build
+    PluginDLL_Light_LightDLL_CCSControlByLANVer2_build
+    Algorithm_CheckDataValidation_build
+    GUI_CheckDataValidationImagePanel_build
+    GUI_PropertyCheckDataValidation_build
+    GUI_DisplayTargetList_build
+    Algorithm_World3D_build
+    GUI_RobotActionEditPanel_build
+    GUI_PropertyRobotAction_build
+    GUI_ShowRobotActivity_build
+    Algorithm_ColorCorrector_build
+    GUI_ColorCorrectorImagePanel_build
+    GUI_PropertyColorCorrector_build
+    Integrator_GUI_IntegrationButtonGeneral_build
+    GUI_PropertyWorld3D_build
+    GUI_World3DImagePanel_build
+    GUI_ListSelectFixedPage_build
+    GUI_SetAlignmentLargeHeadLine_build
+    GUI_ButtonGenerateMaskFromBackGround_build
+    Algorithm_AlignmentBlock_build
+    GUI_AlignmentBlockImagePanel_build
+    GUI_PropertyAlignmentBlock_build
+    GUI_ShowThresholdSlideBar_build
+    Integrator_GUI_IntegrationLocalBind_build
+    GUI_ButtonRaiseOtherProcess_build
+    GUI_ButtonReplaceColorInLibID_build
+    Integrator_GUI_IntegrationModifyMaster_build
+    Integrator_GUI_IntegrationStackMultiNGThumbnail_build
+    Filter_FilterMatchColorBandDynamically_build
+    PluginDLL_Camera_CameraMVSGigE_build
+    GUI_FlatInspectionImagePanel_build
+    GUI_PropertyFlatInspection_build
+    PluginDLL_Camera_CameraFromLoadedImages_build
+    GUI_ButtonSaveInitialLoadGUIData_build
+    GUI_SetAutoThresholdByHistogram_build
+    Algorithm_FlatInspection_build
+    PluginDLL_Camera_CameraMVSUSB_build
+    ServiceLib_CheckBoard_build
+    PluginDLL_Camera_CameraQtUSBStandard_build
+    GUI_ButtonUpdateAllByHistogram_build
+    GUI_ShowFPSInCamera_build
+    GUI_RecordMoiveWinExe_build
+    GUI_ShowOCR_build
+    PluginDLL_Camera_CameraMVSLinear_build
+    PluginDLL_Light_LightDLL_LightHIKRobotLAN_build
+    PluginDLL_PIO_GIOHIKRobotCamera_build
+    GUI_ChangeCameraByInspection_build
+    Algorithm_PixelInspection_build
+    GUI_ShowColorDifferenceResultList_build
+    Algorithm_XRay3D_build
+    GUI_XRay3DImagePanel_build
+    GUI_PropertyXRay3D_build
+    GUI_ShowColorDifferenceEditManual_build
+    ResultDLL_ResultWriteCSVBarcodeLine_build
+    Algorithm_RobotAction_build
+    PluginDLL_Light_LightDLL_LightOpenAACam1B_build
+    PluginDLL_PIO_PIOOpenAACam1B_build
+    Algorithm_AlignmentShiftRotation_build
+    GUI_AlignmentShiftRotationImagePanel_build
+    GUI_PropertyAlignmentShiftRotation_build
+    PluginDLL_SequencePlugin_SeqOpenAAController1B_build
+    MachineController_RobotInspection_CaptureHIKCameraButton_build
+    PluginDLL_Camera_CameraHIKRobotGigE_build
+    MachineController_RobotInspection_GUIShowPoints_build
+    MachineController_RobotInspection_GeneralStockerRobot_build
+    Tutorial_TutrialExecuter_build
+    PluginDLL_PIO_Contec64DLL2_Contec64DLL_build
+    DataManagement_DataManagement_build
+    DataManagement_Maintainer_build
+    Algorithm_EdgeMatching_build
+    GUI_EdgeMatchingImagePanel_build
+    GUI_EdgeMatchingProperty_build
+)
 
-add_custom_target(MetaBuild_Finish ALL
+# === Master Parallel Build Entrypoint ===
+add_custom_target(MetaBuild_All ALL
+    COMMAND ${CMAKE_COMMAND}
+        -DMODE=INIT
+        "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
+        "-DTOTAL_PROJECTS=${TOTAL_PROJECTS}"
+        "-DMETA_MODE_DESC=${META_MODE_DESC}"
+        -P "${META_HELPER_SCRIPT}"
+    COMMAND ${CMAKE_COMMAND}
+        -DMODE=RUN_PHASE
+        "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
+        "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
+        -DPHASE_TARGET=StaticLibs_all
+        "-DBUILD_TYPE=${CMAKE_BUILD_TYPE}"
+        "-DOUTER_JOBS=${SLN_OUTER_JOBS}"
+        "-DMETA_GENERATOR=${CMAKE_GENERATOR}"
+        -P "${META_HELPER_SCRIPT}"
+    COMMAND ${CMAKE_COMMAND}
+        -DMODE=RUN_PHASE
+        "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
+        "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
+        -DPHASE_TARGET=OtherProjects_all
+        "-DBUILD_TYPE=${CMAKE_BUILD_TYPE}"
+        "-DOUTER_JOBS=${SLN_OUTER_JOBS}"
+        "-DMETA_GENERATOR=${CMAKE_GENERATOR}"
+        -P "${META_HELPER_SCRIPT}"
     COMMAND ${CMAKE_COMMAND}
         -DMODE=FINISH
         "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
@@ -16291,5 +15474,4 @@ add_custom_target(MetaBuild_Finish ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(MetaBuild_Finish GUI_EdgeMatchingProperty_build)
 

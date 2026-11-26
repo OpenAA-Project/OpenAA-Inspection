@@ -49,6 +49,8 @@ MapBufferBase::MapBufferBase(int xlen ,int ylen,EnumMapFormat e)
 		XByte	=2*xlen;
 	else if(MapFormat==_DWordMap)
 		XByte	=4*xlen;
+	else
+		XByte	=0;
 	YLen	=ylen;
 	Map	=MakeMatrixBuff(XByte,YLen);
 }
@@ -67,6 +69,8 @@ MapBufferBase::MapBufferBase(const MapBufferBase &src)
 	XByte	=src.XByte;
 	YLen	=src.YLen;
 	Map		=MakeMatrixBuff(XByte,YLen);
+	MatrixBuffCopy	(Map		,XByte ,YLen
+					,(const BYTE **)src.Map ,src.XByte ,src.YLen);
 }
 MapBufferBase::~MapBufferBase(void)
 {

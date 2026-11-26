@@ -244,7 +244,7 @@ QString	LightClass::GetCopyright(void)
 {
 	QString	Copyright;
 	if(DLL_CheckCopyright!=NULL){
-		if(DLL_CheckCopyright(Copyright)==false){
+		if(DLL_CheckCopyright(Copyright)==true){
 			return Copyright;
 		}
 	}
@@ -273,7 +273,7 @@ bool	LightClass::CheckSystemVersion(QStringList &Str)
 
 bool	LightClass::IsLightDLL(void)
 {
-	if(DLL_GetVersion!=NULL){
+	if(DLL_GetDLLType!=NULL){
 		int	d=DLL_GetDLLType();
 		if((d&DLLModeMask)==DLLLightMode){
 			return(true);
@@ -732,6 +732,7 @@ bool	LightClassPack::Initial(int32 &ErrorCode ,bool OutputMode)
 	if(GetParamGlobal()->LightDLLFileName.isEmpty()==false){
 		LightAccessList	*a=new LightAccessList(GetLayersBase());
 		if(a->Initial(GetParamGlobal()->LightDLLFileName,GetParamGlobal()->LightParamStr,ErrorCode,OutputMode)==false){
+			delete	a;
 			ErrorCode=Error_Light_DLL_Initial1;
 			return false;
 		}
@@ -740,6 +741,7 @@ bool	LightClassPack::Initial(int32 &ErrorCode ,bool OutputMode)
 	if(GetParamGlobal()->LightDLLFileName2.isEmpty()==false){
 		LightAccessList	*a=new LightAccessList(GetLayersBase());
 		if(a->Initial(GetParamGlobal()->LightDLLFileName2,GetParamGlobal()->LightParamStr2,ErrorCode,OutputMode)==false){
+			delete	a;
 			ErrorCode=Error_Light_DLL_Initial2;
 			return false;
 		}
@@ -748,6 +750,7 @@ bool	LightClassPack::Initial(int32 &ErrorCode ,bool OutputMode)
 	if(GetParamGlobal()->LightDLLFileName3.isEmpty()==false){
 		LightAccessList	*a=new LightAccessList(GetLayersBase());
 		if(a->Initial(GetParamGlobal()->LightDLLFileName3,GetParamGlobal()->LightParamStr3,ErrorCode,OutputMode)==false){
+			delete	a;
 			ErrorCode=Error_Light_DLL_Initial3;
 			return false;
 		}
@@ -756,6 +759,7 @@ bool	LightClassPack::Initial(int32 &ErrorCode ,bool OutputMode)
 	if(GetParamGlobal()->LightDLLFileName4.isEmpty()==false){
 		LightAccessList	*a=new LightAccessList(GetLayersBase());
 		if(a->Initial(GetParamGlobal()->LightDLLFileName4,GetParamGlobal()->LightParamStr4,ErrorCode,OutputMode)==false){
+			delete	a;
 			ErrorCode=Error_Light_DLL_Initial4;
 			return false;
 		}

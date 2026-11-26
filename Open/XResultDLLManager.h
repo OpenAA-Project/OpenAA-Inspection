@@ -53,7 +53,7 @@ public:
 	void		AssociateComponent	(ComponentListContainer &List);
 	void		Prepare(void);
 
-	int64	OutputResultCommon(ResultInspection *RBase
+	bool	OutputResultCommon(ResultInspection *RBase
 								,ResultInspectionForStockPointerContainer &ShadowResStocks
 								,EntryPointBase &entryPoint);
 	bool	OutputResultSlave (ResultInspectionForStockPointerContainer &ShadowResStocks
@@ -125,7 +125,7 @@ public:
 
 	bool	SearchLotID(const QString &iLotID);
 
-	int64	OutputResultCommon(ResultInspection *RBase
+	bool	OutputResultCommon(ResultInspection *RBase
 								,ResultInspectionForStockPointerContainer	&ShadowResStocks);
 	bool	OutputResultSlave (ResultInspectionForStockPointerContainer &ShadowResStocks
 								,int32 MachineID ,XDateTime &InspectedTime

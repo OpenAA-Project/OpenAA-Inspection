@@ -57,6 +57,7 @@ public:
 	int		Port;
 
 	explicit    SyncGUIPipe(std::shared_ptr<SyncGUIPack> parent ,LayersBase *Base);
+	virtual	~SyncGUIPipe(void);
 
 	bool	Save(QIODevice *f);
 	bool	Load(QIODevice *f);

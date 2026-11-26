@@ -788,11 +788,13 @@ int	FuncCall	QString2Char(const QString &str ,char *buff ,int buffsize)
 			else{
 				*fp=*((char *)s);
 				fp++;
-				*fp=*(((char *)s)+1);
-				fp++;
 				j++;
 				if(j>=buffsize-1){
 					LoopOk=false;
+				}
+				else{
+					*fp=*(((char *)s)+1);
+					fp++;
 				}
 			}
 			j++;
@@ -1057,6 +1059,7 @@ void	FuncCall	SetListColor(QListWidget *W ,int row ,const QColor &Col)
 	if(t!=NULL){
 		QBrush	b=t->background();
 		b.setColor(Col);
+		t->setBackground(b);
 	}
 }
 
@@ -1174,7 +1177,7 @@ void	SetSelectedItemsInner(QTreeWidgetItem *W ,IntList &List ,IntListContainer &
 		else{
 			t->setSelected(false);
 		}
-		GetSelectedItemsInner(t, TmpList ,ItemNumber);
+		SetSelectedItemsInner(t, TmpList ,ItemNumber);
 	}
 }
 
@@ -1292,24 +1295,24 @@ char	* FuncCall	ToStr(char Text[] ,int N)
 		N=-N;
 	}
 	int	Base=0;
-	if(N>1000000000)
+	if(N>=1000000000)
 		Base=1000000000;
-	else if(N>100000000)
+	else if(N>=100000000)
 		Base=100000000;
-	else if(N>10000000)
+	else if(N>=10000000)
 		Base=10000000;
-	else if(N>1000000)
+	else if(N>=1000000)
 		Base=1000000;
-	else if(N>100000)
+	else if(N>=100000)
 		Base=100000;
-	else if(N>10000)
+	else if(N>=10000)
 		Base=10000;
-	else if(N>1000)
+	else if(N>=1000)
 		Base=1000;
-	else if(N>100)
+	else if(N>=100)
 		Base=100;
-	else if(N>10)
-		Base=100;
+	else if(N>=10)
+		Base=10;
 	else
 		Base=1;
 
@@ -1333,24 +1336,24 @@ char	* FuncCall	ToStr(char Text[] ,double N ,int Decimal)
 		N=-N;
 	}
 	int	Base=0;
-	if(N>1000000000)
+	if(N>=1000000000)
 		Base=1000000000;
-	else if(N>100000000)
+	else if(N>=100000000)
 		Base=100000000;
-	else if(N>10000000)
+	else if(N>=10000000)
 		Base=10000000;
-	else if(N>1000000)
+	else if(N>=1000000)
 		Base=1000000;
-	else if(N>100000)
+	else if(N>=100000)
 		Base=100000;
-	else if(N>10000)
+	else if(N>=10000)
 		Base=10000;
-	else if(N>1000)
+	else if(N>=1000)
 		Base=1000;
-	else if(N>100)
+	else if(N>=100)
 		Base=100;
-	else if(N>10)
-		Base=100;
+	else if(N>=10)
+		Base=10;
 	else
 		Base=1;
 

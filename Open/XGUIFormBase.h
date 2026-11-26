@@ -685,7 +685,6 @@ public:
 
 	int		GetCountAllMasterBuff(void)			const;
 	int		GetCountOnlyMasterBuff(void)		const;
-	int		GetCountDispatchMasterBuff(void)	const;
 
 	int			GetDotPerLine(int page)		const;
 	int			GetMaxLines(int page)		const;

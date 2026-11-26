@@ -1310,7 +1310,7 @@ static	void	MakeTextMessageList(QObject *obj,TextMessageContainer &TextMessageCo
 	}
 	QLabel	*QLabelVar	=dynamic_cast<QLabel *>(obj);
 	if(QLabelVar!=NULL){
-		if(QLabelVar->text()==/**/""){
+		if(QLabelVar->text()!=/**/""){
 			TextMessageList	*L=new TextMessageList();
 			L->PathAndName=GetPathForParent(obj);
 			L->Message=QLabelVar->text();
@@ -1990,7 +1990,7 @@ void	GUIFormBase::ResizeMain(void)
 void	GUIFormBase::GetGUIScale(double &XScale ,double &YScale)
 {
 	GUIFormBase	*f=GetTopParent();
-	if(f->IsTopForm()==true){
+	if(f->IsTopForm()==true && f!=this){
 		f->GetGUIScale(XScale ,YScale);
 	}
 }
@@ -2936,9 +2936,16 @@ static	void	InstallEventHandlerChild(QObject *c,LayersBase *Base,PasswordFilter 
 	if(STab!=NULL){
 		QTabBar *STabBar=STab->tabBar();
 		int	N=STabBar->count();
-		const QObjectList &Qb=STabBar->children();
+		//const QObjectList &Qb=STabBar->children();
 		for(int i=0;i<N;i++){
-			InstallEventHandlerChild(Qb[i],Base,f,PasswordFilterPointerData);
+			QWidget *t=STabBar->tabButton(i,QTabBar::LeftSide);
+			if(t!=NULL){
+				InstallEventHandlerChild(t,Base,f,PasswordFilterPointerData);
+			}
+			QWidget *w=STab->widget(i);
+			if(w!=NULL){
+				InstallEventHandlerChild(w,Base,f,PasswordFilterPointerData);
+			}
 		}
 	}
 }
@@ -3138,7 +3145,6 @@ int		GUIFormBase::GetPhaseNumb(void)			const	{	return GetLayersBase()->GetPhaseN
 int		GUIFormBase::GetLayerNumb(int page)		const	{	return GetLayersBase()->GetLayerNumb(page);		}
 int		GUIFormBase::GetCountAllMasterBuff(void)	const	{	return GetLayersBase()->GetCountAllMasterBuff();		}
 int		GUIFormBase::GetCountOnlyMasterBuff(void)	const	{	return GetLayersBase()->GetCountOnlyMasterBuff();		}
-int		GUIFormBase::GetCountDispatchMasterBuff(void)const	{	return GetLayersBase()->GetCountDispatchMasterBuff();	}
 int		GUIFormBase::GetDotPerLine(int page)	const
 {
 	return GetLayersBase()->GetDotPerLine(page);

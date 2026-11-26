@@ -320,6 +320,7 @@ ClipboardList::~ClipboardList(void)
 	ClipboardAlgorithm	*p;
 	while((p=GetFirst())!=NULL){
 		RemoveList(p);
+		delete	p;
 	}
 }
 
@@ -507,8 +508,10 @@ bool	PasteListMatrixContainer::Load(QIODevice *f)
 	RemoveAll();
 	for(int i=0;i<N;i++){
 		PasteListMatrix	*a=new PasteListMatrix();
-		if(a->Load(f)==false)
+		if(a->Load(f)==false){
+			delete	a;
 			return false;
+		}
 		AppendList(a);
 	}
 	return true;

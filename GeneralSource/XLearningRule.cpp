@@ -326,14 +326,17 @@ LearningRegListByLib::LearningRegListByLib(void)
 
 bool	LearningRegListByLib::Delete(LearningValueBase *data)
 {
-	for(LearningRegList *L=LearningRegDats.GetFirst();L!=NULL;L=L->GetNext()){
+	bool	Ret=false;
+	for(LearningRegList *L=LearningRegDats.GetFirst();L!=NULL;){
+		LearningRegList	*NextP=L->GetNext();
 		if(L->GetBase()==data){
 			LearningRegDats.RemoveList(L);
 			delete	L;
-			return true;
+			Ret=true;
 		}
+		L=NextP;
 	}
-	return false;
+	return Ret;
 }
 void	LearningRegListByLib::InitialChanged(void)
 {
@@ -469,7 +472,7 @@ bool	LearningRegListByLib::Save(LearningLeafForSaveContainer &LearnedDatabase)
 				break;
 			}
 		}
-		if(Found==true){
+		if(Found==false){
 			LearningLeafForSave	*d=new LearningLeafForSave();
 			d->LibType	=LibType;
 			d->LibID	=LibID;
@@ -512,13 +515,14 @@ bool	LearningRegListByLib::IsMatching(LearningRegListByLib *src)
 void	LearningRegListContainer::Delete(LearningValueBase *data)
 {
 	for(LearningRegListByLib *L=GetFirst();L!=NULL;L=L->GetNext()){
+		LearningRegListByLib	*NextP=L->GetNext();
 		if(L->Delete(data)==true){
 			if(L->LearningRegDats.GetFirst()==NULL){
 				RemoveList(L);
 				delete	L;
 			}
-			return;
 		}
+		L=NextP;
 	}	
 }
 
@@ -690,7 +694,7 @@ bool	LearningRegListContainer::Save(LearningLeafForSaveContainer &LearnedDatabas
 bool	LearningRegListContainer::Load(LearningLeafForSaveContainer &LearnedDatabase)
 {
 	for(LearningRegListByLib *dst=GetFirst();dst!=NULL;dst=dst->GetNext()){
-		if(dst->Load(LearnedDatabase)==true){
+		if(dst->Load(LearnedDatabase)==false){
 			return false;
 		}
 	}
@@ -798,6 +802,7 @@ LearningLeafForSave::~LearningLeafForSave(void)
 void	LearningLeafForSave::ReleaseData(void)
 {
 	if(Data!=NULL){
+		/*
 		if(DataType==LearningRegList::_LearnReg_Nothing	){
 			Data=NULL;
 		}
@@ -836,6 +841,8 @@ void	LearningLeafForSave::ReleaseData(void)
 			float	*p=(float *)Data;
 			delete	p;
 		}
+		*/
+		delete	[]Data;
 		Data=NULL;
 	}
 }
@@ -954,6 +961,7 @@ bool	LearningLeafForSaveContainer::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		LearningLeafForSave *c=new LearningLeafForSave();
 		if(c->Load(f)==false){
+			delete	c;
 			return false;
 		}
 		AppendList(c);

@@ -348,7 +348,7 @@ class	ColorLogicWithTable : public ColorLogic
 
 public:
 
-	ColorLogicWithTable(void){	OKTable=NULL;	}
+	ColorLogicWithTable(void){	OKTable=NULL;	OriginTable=false;	}
 	ColorLogicWithTable(const ColorLogicWithTable &src);
 	virtual	~ColorLogicWithTable(void);
 
@@ -461,6 +461,7 @@ private:
 
 public:
 	ColorSampleList(void){	AutoCount=-1;	Data=NULL;	}
+	~ColorSampleList(void);
 
 	bool	SaveData(QIODevice *f);
 	bool	LoadData(QIODevice *f);

@@ -126,6 +126,7 @@ bool	DotListContainer::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		DotList	*a=new DotList();
 		if(a->Load(f)==false){
+			delete	a;
 			return false;
 		}
 		AppendList(a);

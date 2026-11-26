@@ -200,6 +200,7 @@ bool	LearningImage::SetAllocImage(const XDateTime &_CreatedTime ,int _GlobalPage
 	GlobalPage=_GlobalPage;
 	if(LearningLayersBase!=NULL){
 		delete	LearningLayersBase;
+		LearningLayersBase=NULL;
 	}
 	
 	int	dx=0;
@@ -641,8 +642,10 @@ bool	LearningInPage::LoadLearning(QIODevice *f)
 	LearningImageStocker.RemoveAll();
 	for(int i=0;i<N;i++){
 		LearningImage *c=new LearningImage(GetLayersBase());
-		if(c->Load(f)==false)
+		if(c->Load(f)==false){
+			delete	c;
 			return false;
+		}
 		LearningImageStocker.AppendList(c);
 	}
 	return true;
@@ -1180,6 +1183,7 @@ int		LearningRegister::SaveForLearning(int GlobalX1 ,int GlobalY1 ,int GlobalX2 
 				}
 			}
 		}
+		break;
 	}
 	for(int page=0;page<GetPageNumb();page++){
 		DataInPage	*P=LBase->GetPageData(page);
@@ -1217,6 +1221,7 @@ int		LearningRegister::SaveForLearning(int GlobalX1 ,int GlobalY1 ,int GlobalX2 
 				}
 			}
 		}
+		break;
 	}
 	for(int page=0;page<GetPageNumb();page++){
 		DataInPage	*P=LBase->GetPageData(page);
@@ -1246,35 +1251,37 @@ int		LearningRegister::SaveForLearning(int GlobalX1 ,int GlobalY1 ,int GlobalX2 
 	QBuffer	ABuff;
 	ABuff.open(QIODevice::ReadWrite);
 
-	for(int Layer=0;Layer<LayerNumb;Layer++){
-		RMaster[Layer]->Save(&MBuff);
-		RTarget[Layer]->Save(&TBuff);
+	int	LearningID=0;
+	if(RMaster!=NULL && RTarget!=NULL){
+		for(int Layer=0;Layer<LayerNumb;Layer++){
+			RMaster[Layer]->Save(&MBuff);
+			RTarget[Layer]->Save(&TBuff);
+		}
+
+		QByteArray tMasterImage	=MBuff.buffer();
+		QByteArray tTargetImage	=TBuff.buffer();
+		QByteArray tPointData	=PBuff.buffer();
+		QByteArray tAlignment	=ABuff.buffer();
+
+		int	SampleType=(OkMode==true)?1:2;
+
+		LearningID=LBase->GetDatabaseLoader()->G_GetMaxLearningIDAndInsertEmpty(*LBase->GetDataBase());
+		bool   ret=LBase->GetDatabaseLoader()->G_UpdateLearning(*LBase->GetDataBase()
+									,LearningID
+									,LBase->GetMachineID()
+									,LBase->GetMasterCode()
+									,SampleType
+									,Priority
+									,1
+									,GlobalX2-GlobalX1,GlobalY2-GlobalY1
+									,GlobalX1,GlobalY1
+									,LayerNumb
+									,tMasterImage
+									,tTargetImage
+									,tPointData
+									,tAlignment);
+
 	}
-
-	QByteArray tMasterImage	=MBuff.buffer();
-	QByteArray tTargetImage	=TBuff.buffer();
-	QByteArray tPointData	=PBuff.buffer();
-	QByteArray tAlignment	=ABuff.buffer();
-
-	int	SampleType=(OkMode==true)?1:2;
-
-	int	LearningID=LBase->GetDatabaseLoader()->G_GetMaxLearningIDAndInsertEmpty(*LBase->GetDataBase());
-	bool	ret=LBase->GetDatabaseLoader()->G_UpdateLearning(*LBase->GetDataBase()
-								,LearningID
-								,LBase->GetMachineID()
-								,LBase->GetMasterCode()
-								,SampleType
-								,Priority
-								,1
-								,GlobalX2-GlobalX1,GlobalY2-GlobalY1
-								,GlobalX1,GlobalY1
-								,LayerNumb
-								,tMasterImage
-								,tTargetImage
-								,tPointData
-								,tAlignment);
-
-
 	for(int Layer=0;Layer<LayerNumb;Layer++){
 		if(RMaster!=NULL){
 			delete	RMaster[Layer];
@@ -1459,7 +1466,10 @@ LearningImagePointerList::LearningImagePointerList(LearningImage *p)
 	Pointer=p;	
 	GlobalPage=p->GetGlobalPage();	
 	CreatedTime=p->GetCreatedTime();
-	GetOrgLocalArea(OrgLocalX1 ,OrgLocalY1 ,OrgLocalX2 ,OrgLocalY2);
+	OrgLocalX1	=0;
+	OrgLocalY1	=0;
+	OrgLocalX2	=0;
+	OrgLocalY2	=0;
 }
 
 LearningImagePointerList	&LearningImagePointerList::operator=(LearningImagePointerList &src)
@@ -1581,6 +1591,7 @@ bool	LearningImagePointerContainer::Load(QIODevice *f,LayersBase *Base)
 	for(int i=0;i<N;i++){
 		LearningImagePointerList *a=new LearningImagePointerList();
 		if(a->Load(f,Base)==false){
+			delete	a;
 			return false;
 		}
 		AppendList(a);
@@ -1686,6 +1697,8 @@ LearningInDB::LearningInDB(const LearningInDB &src)
 	PointData	=src.PointData	;
 	Alignment	=src.Alignment	;
 	Result		=src.Result		;
+	LayerForCalc	=NULL;
+	EPointForCalc	=NULL;
 
 	for(LearningParamInDB *a=src.NPListPackSaveLoad<LearningParamInDB>::GetFirst();a!=NULL;a=a->GetNext()){
 		LearningParamInDB *d=new LearningParamInDB(*a);
@@ -1875,7 +1888,10 @@ bool	LearningInDBAll::Load(QIODevice *f)
 	RemoveAll();
 	for(int i=0;i<N;i++){
 		LearningInDB *a=new LearningInDB();
-		if(a->Load(f)==false)	return false;
+		if(a->Load(f)==false){
+			delete	a;
+			return false;
+		}
 		AppendList(a);
 	}
 	return true;
@@ -2189,6 +2205,7 @@ void	GUICmdAckPartialImageForLearn::BuildData(int LocalX1,int LocalY1,int LocalX
 											,int LocalPage,int Layer
 											,bool Mastered)
 {
+	ImageOK=false;
 	DataInPage	*P=GetLayersBase()->GetPageData(LocalPage);
 	if(P==NULL){
 		return;
@@ -2350,6 +2367,7 @@ bool	ItemDataListWithIDContainer::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		ItemDataListWithID	*c=new ItemDataListWithID();
 		if(c->Load(f)==false){
+			delete	c;
 			return false;
 		}
 		AppendList(c);
@@ -3005,6 +3023,7 @@ LibInfoListContainer::LibInfoListContainer(const LibInfoListContainer &src)
 
 LibInfoListContainer	&LibInfoListContainer::operator=(const LibInfoListContainer &src)
 {
+	RemoveAll();
 	for(LibInfoList *a=src.GetFirst();a!=NULL;a=a->GetNext()){
 		LibInfoList *b=new LibInfoList(*a);
 		AppendList(b);
@@ -3095,6 +3114,7 @@ LibDataListContainer::LibDataListContainer(const LibDataListContainer &src)
 
 LibDataListContainer	&LibDataListContainer::operator=(const LibDataListContainer &src)
 {
+	RemoveAll();
 	for(LibDataList *a=src.GetFirst();a!=NULL;a=a->GetNext()){
 		LibDataList *b=new LibDataList(*a);
 		AppendList(b);

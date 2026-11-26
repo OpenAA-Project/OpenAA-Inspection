@@ -227,8 +227,8 @@ bool	AuthenticationInComponent::IsAuthenticationPassed(GUIFormBase *f
 				&& a->Form->GetDLLName()==f->GetDLLName()
 				&& (a->AuthenticationName==_AuthenticationName || _AuthenticationName.isEmpty()==true)){
 					qint64	tmp=a->SpanSecFromInstall;
-					a->SpanSecFromInstall=SpanSecFromInstall;
 					Mutex.lock();
+					a->SpanSecFromInstall=SpanSecFromInstall;
 					bool	b=GetLayersBase()->GetAuthenticationInst()->IsAuthenticationPassed(*a
 																							,_CurrentVersion
 																							,FailMessage
@@ -252,8 +252,8 @@ bool	AuthenticationInComponent::IsAuthenticationPassed(qint64 SpanSecFromInstall
 	for(AuthenticationPaper *a=AuthenticationBook.GetFirst();a!=NULL;a=a->GetNext()){
 		if((a->Form!=NULL && a->AuthenticationName==_AuthenticationName) || _AuthenticationName.isEmpty()==true){
 			qint64	tmp=a->SpanSecFromInstall;
-			a->SpanSecFromInstall=SpanSecFromInstall;
 			Mutex.lock();
+			a->SpanSecFromInstall=SpanSecFromInstall;
 			bool	b=GetLayersBase()->GetAuthenticationInst()->IsAuthenticationPassed(*a
 																						,_CurrentVersion
 																						,FailMessage

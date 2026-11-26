@@ -29,18 +29,20 @@ void	LibTypeListContainer::LoadFromDatabase(LayersBase *Base)
 	if(Base->GetDatabaseLoader()){
 		RemoveAll();
 		QSqlQuery	*query=Base->GetDatabaseLoader()->S_GetLibraryTypeFirst(Base->GetDatabase());
-		if(Base->GetDatabaseLoader()->S_FindNext(query)==true){
-			do{
-				int		LibType;
-				QString	LibName;
-				Base->GetDatabaseLoader()->S_GetLibraryTypeData(query,LibType,LibName);
-				LibraryTypeList	*L=new LibraryTypeList();
-				L->SetLibType(LibType);
-				L->SetLibName(LibName);
-				AppendList(L);
-			}while(Base->GetDatabaseLoader()->S_FindNext(query)==true);
+		if(query!=NULL){
+			if(Base->GetDatabaseLoader()->S_FindNext(query)==true){
+				do{
+					int		LibType;
+					QString	LibName;
+					Base->GetDatabaseLoader()->S_GetLibraryTypeData(query,LibType,LibName);
+					LibraryTypeList	*L=new LibraryTypeList();
+					L->SetLibType(LibType);
+					L->SetLibName(LibName);
+					AppendList(L);
+				}while(Base->GetDatabaseLoader()->S_FindNext(query)==true);
+			}
+			Base->GetDatabaseLoader()->S_DeleteLibraryType(query);
 		}
-		Base->GetDatabaseLoader()->S_DeleteLibraryType(query);
 	}
 }
 void	LibTypeListContainer::LoadFromDatabaseInstalled(LayersBase *Base ,LogicDLLBaseClass *LContainer)
@@ -48,21 +50,23 @@ void	LibTypeListContainer::LoadFromDatabaseInstalled(LayersBase *Base ,LogicDLLB
 	if(Base->GetDatabaseLoader()){
 		RemoveAll();
 		QSqlQuery	*query=Base->GetDatabaseLoader()->S_GetLibraryTypeFirst(Base->GetDatabase());
-		if(Base->GetDatabaseLoader()->S_FindNext(query)==true){
-			do{
-				int		LibType;
-				QString	LibName;
-				Base->GetDatabaseLoader()->S_GetLibraryTypeData(query,LibType,LibName);
-				LogicDLL	*L=LContainer->SearchByLibType(LibType);
-				if(L!=NULL){
-					LibraryTypeList	*L=new LibraryTypeList();
-					L->SetLibType(LibType);
-					L->SetLibName(LibName);
-					AppendList(L);
-				}
-			}while(Base->GetDatabaseLoader()->S_FindNext(query)==true);
+		if(query!=NULL){
+			if(Base->GetDatabaseLoader()->S_FindNext(query)==true){
+				do{
+					int		LibType;
+					QString	LibName;
+					Base->GetDatabaseLoader()->S_GetLibraryTypeData(query,LibType,LibName);
+					LogicDLL	*L=LContainer->SearchByLibType(LibType);
+					if(L!=NULL){
+						LibraryTypeList	*L=new LibraryTypeList();
+						L->SetLibType(LibType);
+						L->SetLibName(LibName);
+						AppendList(L);
+					}
+				}while(Base->GetDatabaseLoader()->S_FindNext(query)==true);
+			}
+			Base->GetDatabaseLoader()->S_DeleteLibraryType(query);
 		}
-		Base->GetDatabaseLoader()->S_DeleteLibraryType(query);
 	}
 }
 

@@ -182,14 +182,15 @@ bool	AutoSaveImageInLayer::SaveLayerTarget(ImageBuffer *SavedImage, QString File
 				}
 				memcpy(&CompressBuff[y*GetDotPerLine()],SavedImage->GetY(Y),GetDotPerLine());
 			}
-			DWORD len		= BandByte;
-			DWORD comprLen	=CompressBuffSize;
-			DWORD uncomprLen=CompressBuffSize;
-			int err = compress(CompressBuff2, &comprLen, (const BYTE *)CompressBuff, (uLong)len);
+			uLong len		= BandByte;
+			uLong comprLen	=CompressBuffSize;
+			uLong uncomprLen=CompressBuffSize;
+			int err = compress(CompressBuff2, &comprLen, (const BYTE *)CompressBuff, len);
 			if(err!=0){
 				return false;
 			}
-			if(::Save(&File,comprLen)==false)
+			DWORD	wcomprLen=comprLen;
+			if(::Save(&File,wcomprLen)==false)
 				return false;
 			if(File.write((const char *)CompressBuff2,comprLen)!=comprLen){
 				return false;
@@ -265,12 +266,14 @@ bool	AutoSaveImageInLayer::LoadLayerTarget(ImageBuffer *Dest, QString FileName
 			int	NYBand=(GetMaxLines()+NYLen)/NYLen;
 			int	BandByte=NYLen*GetDotPerLine();
 			for(int b=0;b<NYBand;b++){
-				DWORD len		= BandByte;
-				DWORD comprLen	=CompressBuffSize;
-				DWORD uncomprLen=CompressBuffSize;
+				uLong len		= BandByte;
+				uLong comprLen	=CompressBuffSize;
+				uLong uncomprLen=CompressBuffSize;
 
-				if(::Load(&File,comprLen)==false)
+				DWORD	wcomprLen;
+				if(::Load(&File,wcomprLen)==false)
 					return false;
+				comprLen=wcomprLen;
 				if(File.read((char *)CompressBuff,comprLen)!=comprLen){
 					return false;
 				}

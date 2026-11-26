@@ -1329,6 +1329,16 @@ bool	GUICmdSendBmp::MakeImageMultiLayer( DisplayType dtype
 		}
 	}
 	if(GetLayersBase()->TryLockRChangingDataStructure()==false){
+		if(LockMaster==true){
+			for(int i=0;i<N;i++){
+				LayerBuff[i]->AccessMaster.unlock();
+			}
+		}
+		else if(LockTarget==true){
+			for(int i=0;i<N;i++){
+				LayerBuff[i]->AccessTarget.unlock();
+			}
+		}
 		return false;
 	}
 	if(Available==true){

@@ -41,6 +41,7 @@
 #include "Regulus64System.h"
 #include "XGeneralStocker.h"
 #include "XMainGUIFormBase.h"
+#include "swap.h"
 
 EntryPointBase	*MakeEntryPointForGlobal(void)
 {
@@ -165,6 +166,7 @@ bool	StructListPack::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		StructList *c=new StructList();
 		if(c->Load(f)==false){
+			delete	c;
 			return(false);
 		}
 		AppendList(c);
@@ -455,6 +457,7 @@ bool	StructList::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		StructList *p=new StructList();
 		if(p->Load(f)==false){
+			delete	p;
 			return(false);
 		}
 		StructInstance.AppendList(p);
@@ -1520,8 +1523,8 @@ void	GUIFastComm::SlotReceived(int ID ,int Cmd)
 				}
 			}
 		}
-		delete	R;
 		MiscatchPacket(R->GlobalPage ,EmitterRoot ,EmitterName ,CmdClass);
+		delete	R;
 	}	
 }
 
@@ -1947,6 +1950,9 @@ void	PropertyLeafInnerClass::Analyze(void)
 		if(LastWord.isEmpty()==false){
 			Member<<LastWord;
 		}
+		if(fp==NULL){
+			break;
+		}
 		LastWord=QString(nbuff);
 		fp=SkipSpace(fp);
 		if(*fp==0){
@@ -2065,6 +2071,9 @@ void	StructList::SetType(const QString &Type ,void *Pointer)
 			}
 			char	nbuff[100];
 			fp=CutWord(fp,nbuff,sizeof(nbuff));
+			if(fp==NULL){
+				break;
+			}
 			Enum.append(nbuff);
 			fp=SkipSpace(fp);
 			if(*fp==0){
@@ -2251,7 +2260,7 @@ bool	GUIItemInstance::Initial(LayersBase *Base,QWidget *parent ,DWORD &ErrorCode
 		}
 		if(j<n){
 			int	k;
-			for(k=j+1;j<n && k<n;j++){
+			for(k=j+1;j<n && k<n;k++){
 				if(D[i].Member==D[k].Member){
 					PropertyLeafInnerClass	Dummy;
 					Dummy=D[k];
@@ -2872,6 +2881,7 @@ bool	GUIInstancePack::LoadInstances(QIODevice *f ,bool AllocateDLLAccess ,QStrin
 		for(int i=0;i<ListNumb;i++){
 			RootNameList *a=new RootNameList();
 			if(::Load(f,a->DLLRoot)==false){
+				delete	a;
 				return false;
 			}
 			if(::Load(f,a->DLLName)==false){
@@ -2888,6 +2898,7 @@ bool	GUIInstancePack::LoadInstances(QIODevice *f ,bool AllocateDLLAccess ,QStrin
 		for(int i=0;i<N;i++){
 			GUIItemInstance	*c=new GUIItemInstance(this);
 			if(c->LoadInstance(f ,AllocateDLLAccess,ErrorMsg)==false){
+				delete	c;
 				return(false);
 			}
 			AppendList(c);
@@ -2899,6 +2910,7 @@ bool	GUIInstancePack::LoadInstances(QIODevice *f ,bool AllocateDLLAccess ,QStrin
 		for(int i=0;i<N;i++){
 			GUIItemInstance	*c=new GUIItemInstance(this);
 			if(c->LoadInstance(f ,AllocateDLLAccess,ErrorMsg)==false){
+				delete	c;
 				return(false);
 			}
 			AppendList(c);
@@ -2943,9 +2955,11 @@ bool	GUIInstancePack::LoadOnlyAlgorithm(QIODevice *f)
 		for(int i=0;i<ListNumb;i++){
 			RootNameList *a=new RootNameList();
 			if(::Load(f,a->DLLRoot)==false){
+				delete	a;
 				return false;
 			}
 			if(::Load(f,a->DLLName)==false){
+				delete	a;
 				return false;
 			}
 			AlgorithmList.AppendList(a);
@@ -3160,7 +3174,7 @@ void	GUIInstancePack::RemoveTimerFunc(void (*Func)(LayersBase *))
 PNext:;
 	for(TimerIdleFunctionList *f=TimerFuncList.GetFirst();f!=NULL;f=f->GetNext()){
 		if(f->Func==Func){
-			TimerFuncList.AppendList(f);
+			TimerFuncList.RemoveList(f);
 			delete	f;
 			goto	PNext;
 		}
@@ -3196,7 +3210,7 @@ GUIFormBase	*GetChildNumberWidget(QObject *base ,int matchNumber)
 static	int	GUIInstancePackError=0;
 void	GUIInstancePack::SetupInstance(LayersBase *LayersBasePointer ,GUIItemInstance *parent,int32 parentid ,ParamBase *PBase ,bool EditMode)
 {
-	GUIFormBase	*f;
+	GUIFormBase	*f=NULL;
 	GUIItemInstance	*v;
 	for(v=NPListPack<GUIItemInstance>::GetFirst();v!=NULL;v=v->GetNext()){
 		if(v->DLLAccess!=NULL && v->DLLAccess->Name=="ButtonExit"){
@@ -4016,7 +4030,9 @@ bool	GUIInitializer::LoadReplaceNameList(FILE *file)
 			kp--;
 		}
 		n=kp-fp;
-		strncpy(NewNameBuff,fp,n);
+		if(n>0){
+			strncpy(NewNameBuff,fp,min(n,(int)sizeof(NewNameBuff)));
+		}
 		NewNameBuff[n]=0;
 		
 		ReplaceNameList	*c=new ReplaceNameList();

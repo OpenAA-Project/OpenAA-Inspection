@@ -2363,7 +2363,7 @@ bool	IsInside(QPoint Source[], int SourcePointNumb ,int X,int Y)
 				}
 			}
 		}
-		else if(Source[i].y()==Source[i+1].y() && Source[i].y()==Y){
+		else if((i+1)<SourcePointNumb && Source[i].y()==Source[i+1].y() && Source[i].y()==Y){
 			XDim[XDimNumb]=Source[i].x();
 			XDimNumb++;
 		}
@@ -2449,7 +2449,7 @@ bool	IsIncludeYDim(QPoint Source[], int SourcePointNumb ,int X ,int Y)
 				}
 			}
 		}
-		else if(Source[i].x()==Source[i+1].x() && Source[i].x()==X){
+		else if((i+1)<SourcePointNumb && Source[i].x()==Source[i+1].x() && Source[i].x()==X){
 			YDim[YDimNumb]=Source[i].y();
 			YDimNumb++;
 		}

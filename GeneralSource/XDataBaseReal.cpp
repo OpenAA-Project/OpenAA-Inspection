@@ -138,7 +138,7 @@ bool    __G_XGetField(XTable *This ,QSqlQuery *QrField ,XField &Field)
 		Field.Size=4;
 	}
 	else if(TypeName=="DOUBLE"){
-		Field.dType=ftWord;
+		Field.dType=ftDouble;
 		Field.Size=8;
 	}
 	else if(TypeName=="DATE")
@@ -171,7 +171,7 @@ bool    __G_XFieldCheckType(XTable *p,QSqlQuery *QrField ,QStringList &MismatchL
     || (dType==ftInteger  && (TypeName=="LONG"))
     || (dType==ftWord     && (TypeName=="SHORT"))
     || (dType==ftFloat    && (TypeName=="FLOAT")  && Size==4)
-    || (dType==ftFloat    && (TypeName=="DOUBLE") && Size==8)
+    || (dType==ftDouble   && (TypeName=="DOUBLE") && Size==8)
     || (dType==ftDateTime && (TypeName=="DATE"))
     || (dType==ftDateTime && (TypeName=="TIMESTAMP"))
     || (dType==ftBlob     && (TypeName=="BLOB"))
@@ -535,10 +535,10 @@ bool    __G_XTableCheckIndex(QSqlDatabase &db ,QSqlQuery *QrField ,QStringList &
                 bool    tAscending;
                 if(QrField->record().value("RDB$INDEX_TYPE").isNull()==false
 				&& QrField->record().value("RDB$INDEX_TYPE").toInt()>0){
-                    tAscending=false;
+                    tAscending=true;
 				}
 				else{
-                    tAscending=true;
+                    tAscending=false;
 				}
 
                 bool    Found=false;
@@ -909,9 +909,11 @@ void    __G_XUpdateDatabaseSaveField(QSqlQuery *QrExe ,QSqlQuery *QrField
                     p=new XPocket(&k);
 				}
 			}
-            PocketList.AppendList(p);			
-			}while(QrExe->next()==true);			
-		}
+			if(p!=NULL){
+				PocketList.AppendList(p);
+			}
+		}while(QrExe->next()==true);			
+	}
 	UnlockDB();
 }
 

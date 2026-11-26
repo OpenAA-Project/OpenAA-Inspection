@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Network)
+find_package(Qt6 REQUIRED COMPONENTS Network Sql Widgets Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -81,30 +81,30 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "../../OpenSource/Component"
-        "../../GUI/ImageControlTools/GeneratedFiles"
-        "../../EditGUI/EditGUI/GeneratedFiles"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
         "./GeneratedFiles/"
-        "../../OpenSource/Component/GeneratedFiles"
-        "../../ServiceLib/ServiceLib"
-        "../../GUI/ImageControlTools"
-        "../../GeneralSource"
-        "./GeneratedFiles/$(Configuration)"
-        "."
-        "../../EditGUI/EditGUI"
-        "../../OpenSource/DisplayImage"
+        "../../OpenSource/Component"
         "../../Open"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
+        "../../ServiceLib/ServiceLib"
+        "../../ServiceLib/ServiceLib/GeneratedFiles"
+        "../../EditGUI/EditGUI"
+        "../../OpenSource/Component/GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "../../OpenSource/DisplayImage"
+        "../../GUI/ImageControlTools/GeneratedFiles"
+        "../../GUI/ImageControlTools"
         "./GeneratedFiles"
+        "."
+        "../../EditGUI/EditGUI/GeneratedFiles"
+        "../../GeneralSource"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "MODELPAGEITEM_LIB"
         "UNICODE"
         "QT_THREAD_SUPPORT"
-        "MODELPAGEITEM_LIB"
     >
 )
 
@@ -129,26 +129,26 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../OpenSource/Component"
-        "../../OpenSource/DisplayImage3D"
         "./GeneratedFiles/"
-        "../../ServiceLib/ServiceLib"
-        "../../GeneralSource"
-        "./GeneratedFiles/$(Configuration)"
-        "../../EditGUI/EditGUI"
-        "../../OpenSource/DisplayImage"
+        "../../OpenSource/Component"
         "../../Open"
+        "../../ServiceLib/ServiceLib"
+        "../../EditGUI/EditGUI"
+        "./GeneratedFiles/$(Configuration)"
+        "../../OpenSource/DisplayImage"
         "./GeneratedFiles"
+        "../../OpenSource/DisplayImage3D"
+        "../../GeneralSource"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "MODELPAGEITEM_LIB"
         "UNICODE"
+        "QT_THREAD_SUPPORT"
         "QT_NO_DEBUG"
         "NDEBUG"
-        "QT_THREAD_SUPPORT"
-        "MODELPAGEITEM_LIB"
     >
 )
 
@@ -163,11 +163,11 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Widgets
     Qt6::Network
+    Qt6::Sql
+    Qt6::Widgets
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -186,13 +186,15 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
-    -ffunction-sections -fdata-sections
+    -O0
+    -g
+    -fsanitize=address
+    -fno-omit-frame-pointer
     -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE
-    "-Wl,--no-undefined"
-    "-Wl,--gc-sections"
+    "-fsanitize=address"
 )
 
     # --- Dynamic Library Linking for ForWindows ---

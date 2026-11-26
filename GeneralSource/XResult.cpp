@@ -628,6 +628,7 @@ bool	NGAreaListContainer::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		NGAreaList *c=new NGAreaList();
 		if(c->Load(f)==false){
+			delete	c;
 			return false;
 		}
 		AppendList(c);
@@ -1058,6 +1059,7 @@ ResultInItemRoot  &ResultInItemRoot::operator=(const ResultInItemRoot &src)
 		AddedDataForRepairByte=src.AddedDataForRepairByte;
 		if(AddedDataForRepair!=NULL){
 			Logic->RemoveAddedResultData(AddedDataForRepair);
+			AddedDataForRepair=NULL;
 		}
 		if(src.AddedDataForRepair!=NULL){
 			QBuffer	buff;
@@ -1850,8 +1852,10 @@ NGImage &NGImage::operator=(const NGImage &src)
 	SrcImageXLen=src.SrcImageXLen;
 	SrcImageYLen=src.SrcImageYLen;
 	for(int i=0;i<3;i++){
-		SrcImage[i]=MakeMatrixBuff(SrcImageXLen ,SrcImageYLen);
-		 MatrixBuffCopy	(SrcImage[i]					,SrcImageXLen ,SrcImageYLen
+		if(SrcImage[i]==NULL){
+			SrcImage[i]=MakeMatrixBuff(SrcImageXLen ,SrcImageYLen);
+		}
+		MatrixBuffCopy	(SrcImage[i]					,SrcImageXLen ,SrcImageYLen
 						,(const BYTE **)src.SrcImage[i]	,SrcImageXLen ,SrcImageYLen);
 	}
 	return(*this);
@@ -2193,6 +2197,7 @@ bool    ErrorGroupPack::Load(QIODevice *f,LayersBase *Base)
 	for(int i=0;i<N;i++){
 		ErrorGroup *c=new ErrorGroup(Base);
 		if(c->Load(f)==false){
+			delete	c;
 			return false;
 		}
 		AppendList(c);
@@ -5414,17 +5419,19 @@ bool    NGImageContainerInPage::Load(QIODevice *file,LayersBase *Base)
 		return false;
 	}
 	LayersBase	*LBase=GetLayersBase();
-	NGImageAccessor.lockForRead();
+	NGImageAccessor.lockForWrite();
 	NGImageData.RemoveAll();
 	for(int i=0;i<N;i++){
 		NGImage *a=new NGImage(LBase);
 		if(a->Load(file)==false){
+			delete	a;
 			NGImageAccessor.unlock();
 			return false;
 		}
 		NGImageData.AppendList(a);
 	}
 	NGImageAccessor.unlock();
+
 	if(ErrorGroupData.Load(file,Base)==false){
 		return false;
 	}
@@ -5649,7 +5656,12 @@ bool	NGImageContainerInPhase::SaveNGImage(const FlexArea &OverlappedArea
 	}
 	NGImageContainerInPage	*s=NGImageInPage.GetItem(localPage);
 	if(s!=NULL){
-		int32	N=s->GetNGImageDataCount();
+		int32	N=0;
+		for(NGImage *c=s->GetNGImageDataFirst();c!=NULL;c=c->GetNext()){
+			if(c->IsOverlapped(OverlappedArea)==true){
+				N++;
+			}
+		}
 		if(::Save(OStr,N)==false){
 			return false;
 		}
@@ -5709,6 +5721,7 @@ bool	NGImageContainerInPhase::LoadOnlyPage(QIODevice *f,int page)
 															,LBase->GetGlobalPageFromLocal(page)
 															,LBase);
 		if(g->Load(f,LBase)==false){
+			delete	g;
 			return false;
 		}
 		NGImageInPage.AppendList(g);
@@ -5880,6 +5893,9 @@ ResultInspection::ResultInspection(LayersBase *base)
 	AliveTillPush=true;
 	OutputCode	=-1;
 	CriticalError	=_NoError;
+	AllocatedTmpRect=0;
+	TimeOutBreak	=false;
+	MaxErrorBreak	=false;
 }
 ResultInspection::ResultInspection(const ResultInspection &src)
 :ServiceForLayers(src.GetLayersBase())
@@ -8065,7 +8081,7 @@ void	ResultHistryContainer::AddHistry(int32 result
 
 void	ResultHistryContainer::SetWritten(const XDateTime &ResTime ,int64 inspectionID)
 {
-	lock.lockForRead();
+	lock.lockForWrite();
 	for(ResultHistry *L=GetFirst();L!=NULL;L=L->GetNext()){
 		if(L->ResultTime==ResTime
 			&& L->InspectionID==inspectionID){
@@ -8118,7 +8134,7 @@ ResultHistry *ResultHistryContainer::SetWritten(const XDateTime &ResTime)
 
 void	ResultHistryContainer::Reset(void)
 {	
-	lock.lockForRead();
+	lock.lockForWrite();
 	RemoveAll();	
 	for(ResultCounterList *C=ResultCounter.GetFirst();C!=NULL;C=C->GetNext()){
 		C->Count=0;
@@ -8172,6 +8188,7 @@ bool	ResultHistryContainer::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		ResultHistry *c=new ResultHistry();
 		if(c->Load(f)==false){
+			delete	c;
 			lock.unlock();
 			return false;
 		}
@@ -8182,6 +8199,7 @@ bool	ResultHistryContainer::Load(QIODevice *f)
 	for(int i=0;i<M;i++){
 		ResultCounterList *c=new ResultCounterList();
 		if(c->Load(f)==false){
+			delete	c;
 			lock.unlock();
 			return false;
 		}
@@ -8198,7 +8216,7 @@ ResultHistryContainer	&ResultHistryContainer::operator=(const ResultHistryContai
 
 	lock.lockForWrite();
 	RemoveAll();
-	for(ResultHistry *c=GetFirst();c!=NULL;c=c->GetNext()){
+	for(ResultHistry *c=src.GetFirst();c!=NULL;c=c->GetNext()){
 		ResultHistry	*d=new ResultHistry();
 		*d=*c;
 		AppendList(d);

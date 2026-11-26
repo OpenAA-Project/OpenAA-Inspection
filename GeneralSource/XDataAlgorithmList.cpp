@@ -238,6 +238,7 @@ AlgorithmItemPointerListContainer2D	&AlgorithmItemPointerListContainer2D::operat
 {
 	for(AlgorithmItemPointerListContainer1D *a=src.GetFirst();a!=NULL;a=a->GetNext()){
 		AlgorithmItemPointerListContainer1D	*b=new AlgorithmItemPointerListContainer1D();
+		*a=*b;
 		AppendList(b);
 	}
 	return *this;

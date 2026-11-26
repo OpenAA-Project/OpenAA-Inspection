@@ -1537,6 +1537,9 @@ int	AlgorithmDLLContainer::SearchAddDLL(RootNameListContainer &AlgoList
 									delete	DLL;
 								}
 							}
+							else{
+								delete	DLL;
+							}
 						}
 					}
 				}
@@ -3003,6 +3006,15 @@ ExeResult	LogicDLLBaseClass::ExecuteInitialAfterEditPrev	(int ExeID ,ResultInspe
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDimP!=LDimInStackP){
+						delete	[]LDimP;
+					}
+					if(LDimA!=LDimInStackA){
+						delete	[]LDimA;
+					}
+					if(LDimS!=LDimInStackS){
+						delete	[]LDimS;
+					}
 					return RR;
 				}
 				else{
@@ -3053,6 +3065,15 @@ ExeResult	LogicDLLBaseClass::ExecuteInitialAfterEditPrev	(int ExeID ,ResultInspe
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDimP!=LDimInStackP){
+						delete	[]LDimP;
+					}
+					if(LDimA!=LDimInStackA){
+						delete	[]LDimA;
+					}
+					if(LDimS!=LDimInStackS){
+						delete	[]LDimS;
+					}
 					return RR;
 				}
 				else{
@@ -3081,6 +3102,15 @@ ExeResult	LogicDLLBaseClass::ExecuteInitialAfterEditPrev	(int ExeID ,ResultInspe
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDimP!=LDimInStackP){
+						delete	[]LDimP;
+					}
+					if(LDimA!=LDimInStackA){
+						delete	[]LDimA;
+					}
+					if(LDimS!=LDimInStackS){
+						delete	[]LDimS;
+					}
 					return RR;
 				}
 				else{
@@ -3200,6 +3230,15 @@ ExeResult	LogicDLLBaseClass::ExecuteInitialAfterEdit	(int ExeID ,ResultInspectio
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDimP!=LDimInStackP){
+						delete	[]LDimP;
+					}
+					if(LDimA!=LDimInStackA){
+						delete	[]LDimA;
+					}
+					if(LDimS!=LDimInStackS){
+						delete	[]LDimS;
+					}
 					return RR;
 				}
 				else{
@@ -3250,6 +3289,15 @@ ExeResult	LogicDLLBaseClass::ExecuteInitialAfterEdit	(int ExeID ,ResultInspectio
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDimP!=LDimInStackP){
+						delete	[]LDimP;
+					}
+					if(LDimA!=LDimInStackA){
+						delete	[]LDimA;
+					}
+					if(LDimS!=LDimInStackS){
+						delete	[]LDimS;
+					}
 					return RR;
 				}
 				else{
@@ -3278,6 +3326,15 @@ ExeResult	LogicDLLBaseClass::ExecuteInitialAfterEdit	(int ExeID ,ResultInspectio
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDimP!=LDimInStackP){
+						delete	[]LDimP;
+					}
+					if(LDimA!=LDimInStackA){
+						delete	[]LDimA;
+					}
+					if(LDimS!=LDimInStackS){
+						delete	[]LDimS;
+					}
 					return RR;
 				}
 				else{
@@ -3397,6 +3454,15 @@ ExeResult	LogicDLLBaseClass::ExecuteInitialAfterEditPost(int ExeID ,ResultInspec
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDimP!=LDimInStackP){
+						delete	[]LDimP;
+					}
+					if(LDimA!=LDimInStackA){
+						delete	[]LDimA;
+					}
+					if(LDimS!=LDimInStackS){
+						delete	[]LDimS;
+					}
 					return RR;
 				}
 				else{
@@ -3447,6 +3513,15 @@ ExeResult	LogicDLLBaseClass::ExecuteInitialAfterEditPost(int ExeID ,ResultInspec
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDimP!=LDimInStackP){
+						delete	[]LDimP;
+					}
+					if(LDimA!=LDimInStackA){
+						delete	[]LDimA;
+					}
+					if(LDimS!=LDimInStackS){
+						delete	[]LDimS;
+					}
 					return RR;
 				}
 				else{
@@ -3475,6 +3550,15 @@ ExeResult	LogicDLLBaseClass::ExecuteInitialAfterEditPost(int ExeID ,ResultInspec
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDimP!=LDimInStackP){
+						delete	[]LDimP;
+					}
+					if(LDimA!=LDimInStackA){
+						delete	[]LDimA;
+					}
+					if(LDimS!=LDimInStackS){
+						delete	[]LDimS;
+					}
 					return RR;
 				}
 				else{
@@ -3572,6 +3656,9 @@ ExeResult	LogicDLLBaseClass::ExecuteCaptured	(int ExeID ,ResultInspection *Res,L
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDim!=LDimInStack){
+						delete	[]LDim;
+					}
 					return RR;
 				}
 			}
@@ -3615,6 +3702,9 @@ ExeResult	LogicDLLBaseClass::ExecutePreAlignment		(int ExeID ,ResultInspection *
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDim!=LDimInStack){
+						delete	[]LDim;
+					}
 					return RR;
 				}
 			}
@@ -3654,6 +3744,9 @@ ExeResult	LogicDLLBaseClass::ExecuteAlignment		(int ExeID ,ResultInspection *Res
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDim!=LDimInStack){
+						delete	[]LDim;
+					}
 					return RR;
 				}
 			}
@@ -3693,6 +3786,9 @@ ExeResult	LogicDLLBaseClass::ExecutePreProcessing	(int ExeID ,ResultInspection *
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDim!=LDimInStack){
+						delete	[]LDim;
+					}
 					return RR;
 				}
 			}
@@ -3732,6 +3828,9 @@ ExeResult	LogicDLLBaseClass::ExecuteProcessing		(int ExeID ,ResultInspection *Re
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDim!=LDimInStack){
+						delete	[]LDim;
+					}
 					return RR;
 				}
 			}
@@ -3771,6 +3870,9 @@ ExeResult	LogicDLLBaseClass::ExecuteProcessingRevived(int ExeID ,ResultInspectio
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDim!=LDimInStack){
+						delete	[]LDim;
+					}
 					return RR;
 				}
 			}
@@ -3809,6 +3911,9 @@ ExeResult	LogicDLLBaseClass::ExecutePostProcessing	(int ExeID ,ResultInspection 
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDim!=LDimInStack){
+						delete	[]LDim;
+					}
 					return RR;
 				}
 			}
@@ -3848,6 +3953,9 @@ ExeResult	LogicDLLBaseClass::ExecutePreScanning		(int ExeID ,ResultInspection *R
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDim!=LDimInStack){
+						delete	[]LDim;
+					}
 					return RR;
 				}
 			}
@@ -3887,6 +3995,9 @@ ExeResult	LogicDLLBaseClass::ExecuteScanning		(int ExeID ,ResultInspection *Res)
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDim!=LDimInStack){
+						delete	[]LDim;
+					}	
 					return RR;
 				}
 			}
@@ -3926,6 +4037,9 @@ ExeResult	LogicDLLBaseClass::ExecutePostScanning		(int ExeID ,ResultInspection *
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDim!=LDimInStack){
+						delete	[]LDim;
+					}
 					return RR;
 				}
 			}
@@ -3968,6 +4082,9 @@ ExeResult	LogicDLLBaseClass::ExecuteManageResult	(int ExeID ,ResultInspection *R
 					ReTryMode=true;
 				}
 				else if(RR!=_ER_true){
+					if(LDim!=LDimInStack){
+						delete	[]LDim;
+					}
 					return RR;
 				}
 			}

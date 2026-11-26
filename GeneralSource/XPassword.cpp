@@ -209,6 +209,7 @@ bool	PasswordManager::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		PasswordClass *a=new PasswordClass();
 		if(a->Load(f)==false){
+			delete	a;
 			return false;
 		}
 		PasswordClassData.AppendList(a);
@@ -221,6 +222,7 @@ bool	PasswordManager::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		PasswordPass *a=new PasswordPass();
 		if(a->Load(f)==false){
+			delete	a;
 			return false;
 		}
 		PasswordPassData.AppendList(a);
@@ -233,6 +235,7 @@ bool	PasswordManager::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		PasswordInControl *b=new PasswordInControl();
 		if(b->Load(f)==false){
+			delete	b;
 			return false;
 		}
 		PasswordInControlData.AppendList(b);
@@ -861,7 +864,7 @@ bool	PasswordManager::IsExpired(void)
 
 bool checkBootupPassword(LayersBase *Base, const QString Keyword ,const QString &PasswordFile)
 {
-	QDir::setCurrent(QCoreApplication::applicationFilePath());
+	QDir::setCurrent(QCoreApplication::applicationDirPath());
 	QFile	file(PasswordFile);
 	if(file.open(QIODevice::ReadOnly)==true){
 		QTextStream	Txt(&file);

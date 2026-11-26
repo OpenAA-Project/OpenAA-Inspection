@@ -37,7 +37,6 @@ bool	ServiceForLayers::IsValid(int page ,int layer)	const
 
 int	ServiceForLayers::GetCountAllMasterBuff(void)		const	{	return GetLayersBase()->GetCountAllMasterBuff();		}
 int	ServiceForLayers::GetCountOnlyMasterBuff(void)		const	{	return GetLayersBase()->GetCountOnlyMasterBuff();		}
-int	ServiceForLayers::GetCountDispatchMasterBuff(void)	const	{	return GetLayersBase()->GetCountDispatchMasterBuff();	}
 
 ParamGlobal	*ServiceForLayers::GetParamGlobal(void)		const	{	return (Base==NULL)?NULL:Base->GetParamGlobal();	}
 ParamComm	*ServiceForLayers::GetParamComm(void)		const	{	return (Base==NULL)?NULL:Base->GetParamComm();	}

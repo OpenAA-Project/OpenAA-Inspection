@@ -2283,7 +2283,9 @@ MultiplyPoint:;
 							mLen++;
 						}
 						if(mLen>=MaxLen){
-							delete	[]FL;
+							if(FL!=tmpDim){
+								delete	[]FL;
+							}
 							goto	MultiplyPoint;
 						}
 						x1=rx2;
@@ -2294,7 +2296,9 @@ MultiplyPoint:;
 						FL[mLen]. SetNumb (x2-x1);
 						mLen++;
 						if(mLen>=MaxLen){
-							delete	[]FL;
+							if(FL!=tmpDim){
+								delete	[]FL;
+							}
 							goto	MultiplyPoint;
 						}
 						x1=x2+1;
@@ -2314,7 +2318,9 @@ MultiplyPoint:;
 			FL[mLen]. SetNumb (x2-x1);
 			mLen++;
 			if(mLen>=MaxLen){
-				delete	[]FL;
+				if(FL!=tmpDim){
+					delete	[]FL;
+				}
 				goto	MultiplyPoint;
 
 			}
@@ -2465,24 +2471,28 @@ bool	FlexAreaFast::SubInside(const FlexArea &src, int dx ,int dy ,float Multiply
 							mLen++;
 							}
 						if(mLen>=MaxLen){
-							delete	[]FL;
-							return(false);
+							if(FL!=tmpDim){
+								delete	[]FL;
 							}
-						x1=rx2;
+							return(false);
 						}
+						x1=rx2;
+					}
 					else{
 						FL[mLen]._SetAbsY (GetFLineAbsY(i));
 						FL[mLen]._SetLeftX(x1);
 						FL[mLen]. SetNumb (x2-x1);
 						mLen++;
 						if(mLen>=MaxLen){
-							delete	[]FL;
-							return(false);
+							if(FL!=tmpDim){
+								delete	[]FL;
 							}
+							return(false);
+						}
 						x1=x2+1;
 						break;
-						}
 					}
+				}
 				MMNext:;
 				m++;
 				if(m>=src.GetFLineLen()){
@@ -2496,12 +2506,14 @@ bool	FlexAreaFast::SubInside(const FlexArea &src, int dx ,int dy ,float Multiply
 			FL[mLen]. SetNumb (x2-x1);
 			mLen++;
 			if(mLen>=MaxLen){
-				delete	[]FL;
-				return(false);
+				if(FL!=tmpDim){
+					delete	[]FL;
 				}
+				return(false);
 			}
-		LastY=GetFLineAbsY(i);
 		}
+		LastY=GetFLineAbsY(i);
+	}
 	if(FL!=tmpDim){
 		CopyFLine(FL,mLen);
 		delete[] FL;
@@ -2919,7 +2931,9 @@ void    FlexAreaFast::ClipArea(FlexAreaFast &BoundArea)
 		}
 	}
 	if(TopB==-1){
-		delete	[]FL;
+		if(FL!=tmpDim){
+			delete	[]FL;
+		}
 		return;
 	}
 
@@ -3049,8 +3063,10 @@ void    FlexAreaFast::ClipByMask(BYTE **Mask,int DotPerLine, int MaxLines)
 			if(FLIndex>=MaxLen){
 				int	MaxLen2=MaxLen*2;
 				struct  FlexLine    *FL2=new struct  FlexLine[MaxLen2];
-				memcpy(FL,FL2,FLIndex*sizeof(struct  FlexLine));
-				delete	[]FL;
+				memcpy(FL2,FL,FLIndex*sizeof(struct  FlexLine));
+				if(FL!=tmpDim){
+					delete	[]FL;
+				}
 				FL=FL2;
 				MaxLen=MaxLen2;
 			}
@@ -3062,8 +3078,10 @@ void    FlexAreaFast::ClipByMask(BYTE **Mask,int DotPerLine, int MaxLines)
 		if(FLIndex>=MaxLen){
 			int	MaxLen2=MaxLen*2;
 			struct  FlexLine    *FL2=new struct  FlexLine[MaxLen2];
-			memcpy(FL,FL2,FLIndex*sizeof(struct  FlexLine));
-			delete	[]FL;
+			memcpy(FL2,FL,FLIndex*sizeof(struct  FlexLine));
+			if(FL!=tmpDim){
+				delete	[]FL;
+			}
 			FL=FL2;
 			MaxLen=MaxLen2;
 		}

@@ -609,7 +609,7 @@ ExeResult	DataInExecuter::ExecutePreProcessing	(int ExeID)
 		else if(GetParamGlobal()->ModePhaseExecutePreProcessing==-2){
 			for(int Phase=0;Phase<GetPhaseNumb();Phase++){
 				PageDataInOnePhase	*Ph=LBase->GetPageDataPhase(Phase);
-				Ph->ExecuteFilterExecuteAlignment();
+				Ph->ExecuteFilterExecutePreProcessing();
 				int	iPageNumb=GetPageNumb();
 				for(int Page=0;Page<iPageNumb;Page++){
 					Ph->GetPageData(Page)->ExecutePreProcessing(false);
@@ -618,7 +618,7 @@ ExeResult	DataInExecuter::ExecutePreProcessing	(int ExeID)
 		}
 		else if(0<=GetParamGlobal()->ModePhaseExecutePreProcessing && GetParamGlobal()->ModePhaseExecutePreProcessing<GetPhaseNumb()){
 			PageDataInOnePhase	*Ph=LBase->GetPageDataPhase(GetParamGlobal()->ModePhaseExecutePreProcessing);
-			Ph->ExecuteFilterExecuteAlignment();
+			Ph->ExecuteFilterExecutePreProcessing();
 			int	iPageNumb=GetPageNumb();
 			for(int Page=0;Page<iPageNumb;Page++){
 				Ph->GetPageData(Page)->ExecutePreProcessing(false);
@@ -1165,7 +1165,7 @@ bool	DataInExecuter::IsResultMaxError(void)
 		}
 	}
 	if(Result==_Result_MaxNG){
-		return false;
+		return true;
 	}
 	return false;
 }

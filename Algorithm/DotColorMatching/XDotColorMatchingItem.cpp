@@ -2709,6 +2709,7 @@ ExeResult	DotColorMatchingItem::ExecuteInitialAfterEditPost(int ExeID ,int Threa
 
 		InitialScratch(ImageMasterList);
 	}
+	return Ret;
 }
 
 

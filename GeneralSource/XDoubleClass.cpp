@@ -175,6 +175,7 @@ bool    DoubleList::Load(QIODevice *file)
 	for(int i=0;i<N;i++){
 		DoubleClass	*d=new DoubleClass();
 		if(d->Load(file)==false){
+			delete	d;
 			return false;
 		}
 		AppendList(d);

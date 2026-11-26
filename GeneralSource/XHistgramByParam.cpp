@@ -37,7 +37,10 @@ ValueDimStockerBase	*ValueDimStockerBase::LoadNew(QIODevice *f)
 		return NULL;
 
 	Ret=Create(TypeCode ,ParamID);
-
+	if(Ret==NULL){
+		delete	Ret;
+		return NULL;
+	}
 	if(Ret->Load(f)==false){
 		delete	Ret;
 		return NULL;
@@ -929,8 +932,10 @@ bool	HistgramTypeListInAlgoContainer::Load(QIODevice *f)
 	RemoveAll();
 	for(int i=0;i<N;i++){
 		HistgramTypeListInAlgo	*a=new HistgramTypeListInAlgo();
-		if(a->Load(f)==false)
+		if(a->Load(f)==false){
+			delete	a;
 			return false;
+		}
 		AppendList(a);
 	}
 	return true;
@@ -1425,6 +1430,14 @@ GUICmdAckInfoForHistDirect::GUICmdAckInfoForHistDirect(LayersBase *base,const QS
 :GUICmdPacketBase(base,EmitterRoot,EmitterName ,typeid(this).name(),globalPage)
 {
 	Data=NULL;
+}
+
+GUICmdAckInfoForHistDirect::~GUICmdAckInfoForHistDirect(void)
+{
+	if(Data!=NULL){
+		delete	[]Data;
+		Data=NULL;
+	}
 }
 
 bool	GUICmdAckInfoForHistDirect::Load(QIODevice *f)

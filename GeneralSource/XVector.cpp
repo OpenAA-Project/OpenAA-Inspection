@@ -38,7 +38,7 @@ bool	VectorItemBase::IsEqual(VectorItemBase *src)	const
 
 VectorLineBase::VectorLineBase(VectorLineBase &src)
 {
-	for(VectorItemBase *a=Items.GetFirst();a!=NULL;a=a->GetNext()){
+	for(VectorItemBase *a=src.Items.GetFirst();a!=NULL;a=a->GetNext()){
 		VectorItemBase *b=a->CreateItem();
 		*b=*a;
 		Items.AppendList(b);
@@ -67,6 +67,7 @@ bool	VectorLineBase::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		VectorItemBase *c=CreateItem();
 		if(c->Load(f)==false){
+			delete	c;
 			return false;
 		}
 		Items.AppendList(c);
@@ -217,6 +218,9 @@ bool	VectorLineBase::DrawShift(int dx,int dy ,QImage &pnt ,QRgb Col	,double Zoom
 VectorLineBase	*VectorLineBase::Create(int ID)
 {
 	if(ID==1){
+		return new VectorLineInt();
+	}
+	else if(ID==11){
 		return new VectorLineDouble();
 	}
 	else if(ID==2){
@@ -502,62 +506,63 @@ ReStart:;
 		}
 		dh=dynamic_cast<VectorItemInt *>(d);
 		eh=dynamic_cast<VectorItemInt *>(e);
+		if(dh!=NULL && eh!=NULL){
+			X1=dh->GetX();
+			Y1=dh->GetY();
+			X2=eh->GetX();
+			Y2=eh->GetY();
 
-		X1=dh->GetX();
-		Y1=dh->GetY();
-		X2=eh->GetX();
-		Y2=eh->GetY();
+			double	X[4],Y[4];
+			int		Numb=0;
 
-		double	X[4],Y[4];
-		int		Numb=0;
-
-		if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx1,ry1,rx1,ry2, X[Numb] ,Y[Numb])==true){
-			Numb++;
-		}
-		if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx1,ry2,rx2,ry2, X[Numb] ,Y[Numb])==true){
-			Numb++;
-		}
-		if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx2,ry2,rx2,ry1, X[Numb] ,Y[Numb])==true){
-			Numb++;
-		}
-		if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx2,ry1,rx1,ry1, X[Numb] ,Y[Numb])==true){
-			Numb++;
-		}
-		if(rx1<=X1 && X1<rx2 && ry1<=Y1 && Y1<ry2){
-			if(Numb==0){
-				continue;
+			if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx1,ry1,rx1,ry2, X[Numb] ,Y[Numb])==true){
+				Numb++;
 			}
-			else if(Numb>=1){
-				eh->SetXY(X[0],Y[0]);
-				Ret=true;
-				continue;
+			if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx1,ry2,rx2,ry2, X[Numb] ,Y[Numb])==true){
+				Numb++;
 			}
-		}
-		else{
-			if(Numb==0){
-				Items.RemoveList(e);
-				Ret=true;
-				delete	e;
-				goto	ReStart;
+			if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx2,ry2,rx2,ry1, X[Numb] ,Y[Numb])==true){
+				Numb++;
 			}
-			else if(Numb==1){
-				dh->SetXY(X[0],Y[0]);
-				Ret=true;
-				continue;
+			if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx2,ry1,rx1,ry1, X[Numb] ,Y[Numb])==true){
+				Numb++;
 			}
-			else if(Numb==2){
-				dh->SetXY(X[0],Y[0]);
-				eh->SetXY(X[1],Y[1]);
-				Ret=true;
-			}
-			else if(Numb>=3){
-				dh->SetXY(X[0],Y[0]);
-				for(int i=1;i<Numb;i++){
-					if(X[0]!=X[i] || Y[0]!=Y[i]){
-						eh->SetXY(X[i],Y[i]);
-					}
+			if(rx1<=X1 && X1<rx2 && ry1<=Y1 && Y1<ry2){
+				if(Numb==0){
+					continue;
 				}
-				Ret=true;
+				else if(Numb>=1){
+					eh->SetXY(X[0],Y[0]);
+					Ret=true;
+					continue;
+				}
+			}
+			else{
+				if(Numb==0){
+					Items.RemoveList(e);
+					Ret=true;
+					delete	e;
+					goto	ReStart;
+				}
+				else if(Numb==1){
+					dh->SetXY(X[0],Y[0]);
+					Ret=true;
+					continue;
+				}
+				else if(Numb==2){
+					dh->SetXY(X[0],Y[0]);
+					eh->SetXY(X[1],Y[1]);
+					Ret=true;
+				}
+				else if(Numb>=3){
+					dh->SetXY(X[0],Y[0]);
+					for(int i=1;i<Numb;i++){
+						if(X[0]!=X[i] || Y[0]!=Y[i]){
+							eh->SetXY(X[i],Y[i]);
+						}
+					}
+					Ret=true;
+				}
 			}
 		}
 	}
@@ -579,12 +584,13 @@ void	VectorLineInt::Draw(QPainter &pnt, int movx ,int movy ,double ZoomRate)
 		}
 		dh=dynamic_cast<VectorItemInt *>(d);
 		eh=dynamic_cast<VectorItemInt *>(e);
-
-		X1=(dh->GetX()+movx)*ZoomRate;
-		Y1=(dh->GetY()+movy)*ZoomRate;
-		X2=(eh->GetX()+movx)*ZoomRate;
-		Y2=(eh->GetY()+movy)*ZoomRate;
-		pnt.drawLine(X1,Y1,X2,Y2);
+		if(eh!=NULL && dh!=NULL){
+			X1=(dh->GetX()+movx)*ZoomRate;
+			Y1=(dh->GetY()+movy)*ZoomRate;
+			X2=(eh->GetX()+movx)*ZoomRate;
+			Y2=(eh->GetY()+movy)*ZoomRate;
+			pnt.drawLine(X1,Y1,X2,Y2);
+		}
 	}
 }
 
@@ -708,62 +714,63 @@ ReStart:;
 		}
 		dh=dynamic_cast<VectorItemDouble *>(d);
 		eh=dynamic_cast<VectorItemDouble *>(e);
+		if(eh!=NULL && dh!=NULL){
+			X1=dh->GetX();
+			Y1=dh->GetY();
+			X2=eh->GetX();
+			Y2=eh->GetY();
 
-		X1=dh->GetX();
-		Y1=dh->GetY();
-		X2=eh->GetX();
-		Y2=eh->GetY();
+			double	X[4],Y[4];
+			int		Numb=0;
 
-		double	X[4],Y[4];
-		int		Numb=0;
-
-		if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx1,ry1,rx1,ry2, X[Numb] ,Y[Numb])==true){
-			Numb++;
-		}
-		if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx1,ry2,rx2,ry2, X[Numb] ,Y[Numb])==true){
-			Numb++;
-		}
-		if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx2,ry2,rx2,ry1, X[Numb] ,Y[Numb])==true){
-			Numb++;
-		}
-		if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx2,ry1,rx1,ry1, X[Numb] ,Y[Numb])==true){
-			Numb++;
-		}
-		if(rx1<=X1 && X1<rx2 && ry1<=Y1 && Y1<ry2){
-			if(Numb==0){
-				continue;
+			if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx1,ry1,rx1,ry2, X[Numb] ,Y[Numb])==true){
+				Numb++;
 			}
-			else if(Numb>=1){
-				eh->SetXY(X[0],Y[0]);
-				Ret=true;
-				continue;
+			if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx1,ry2,rx2,ry2, X[Numb] ,Y[Numb])==true){
+				Numb++;
 			}
-		}
-		else{
-			if(Numb==0){
-				Items.RemoveList(e);
-				Ret=true;
-				delete	e;
-				goto	ReStart;
+			if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx2,ry2,rx2,ry1, X[Numb] ,Y[Numb])==true){
+				Numb++;
 			}
-			else if(Numb==1){
-				dh->SetXY(X[0],Y[0]);
-				Ret=true;
-				continue;
+			if(GetCrossInnerPoint(X1,Y1,X2,Y2,rx2,ry1,rx1,ry1, X[Numb] ,Y[Numb])==true){
+				Numb++;
 			}
-			else if(Numb==2){
-				dh->SetXY(X[0],Y[0]);
-				eh->SetXY(X[1],Y[1]);
-				Ret=true;
-			}
-			else if(Numb>=3){
-				dh->SetXY(X[0],Y[0]);
-				for(int i=1;i<Numb;i++){
-					if(X[0]!=X[i] || Y[0]!=Y[i]){
-						eh->SetXY(X[i],Y[i]);
-					}
+			if(rx1<=X1 && X1<rx2 && ry1<=Y1 && Y1<ry2){
+				if(Numb==0){
+					continue;
 				}
-				Ret=true;
+				else if(Numb>=1){
+					eh->SetXY(X[0],Y[0]);
+					Ret=true;
+					continue;
+				}
+			}
+			else{
+				if(Numb==0){
+					Items.RemoveList(e);
+					Ret=true;
+					delete	e;
+					goto	ReStart;
+				}
+				else if(Numb==1){
+					dh->SetXY(X[0],Y[0]);
+					Ret=true;
+					continue;
+				}
+				else if(Numb==2){
+					dh->SetXY(X[0],Y[0]);
+					eh->SetXY(X[1],Y[1]);
+					Ret=true;
+				}
+				else if(Numb>=3){
+					dh->SetXY(X[0],Y[0]);
+					for(int i=1;i<Numb;i++){
+						if(X[0]!=X[i] || Y[0]!=Y[i]){
+							eh->SetXY(X[i],Y[i]);
+						}
+					}
+					Ret=true;
+				}
 			}
 		}
 	}
@@ -785,12 +792,13 @@ void	VectorLineDouble::Draw(QPainter &pnt, int movx ,int movy ,double ZoomRate)
 		}
 		dh=dynamic_cast<VectorItemDouble *>(d);
 		eh=dynamic_cast<VectorItemDouble *>(e);
-
-		X1=(dh->GetX()+movx)*ZoomRate;
-		Y1=(dh->GetY()+movy)*ZoomRate;
-		X2=(eh->GetX()+movx)*ZoomRate;
-		Y2=(eh->GetY()+movy)*ZoomRate;
-		pnt.drawLine(X1,Y1,X2,Y2);
+		if(eh!=NULL && dh!=NULL){
+			X1=(dh->GetX()+movx)*ZoomRate;
+			Y1=(dh->GetY()+movy)*ZoomRate;
+			X2=(eh->GetX()+movx)*ZoomRate;
+			Y2=(eh->GetY()+movy)*ZoomRate;
+			pnt.drawLine(X1,Y1,X2,Y2);
+		}
 	}
 }
 
@@ -1164,10 +1172,10 @@ void	VectorLineEllipse::SetPoints(double x1, double y1 ,double x2, double y2 ,do
 	double	Cx=(Left+Right)/2.0;
 	double	Cy=(Top+Bottom)/2.0;
 
-	VectorItemArc	*d1=new VectorItemArc(Cx,Top);
-	VectorItemArc	*d2=new VectorItemArc(Cx,Bottom);
-	VectorItemArc	*d3=new VectorItemArc(Left,Cy);
-	VectorItemArc	*d4=new VectorItemArc(Right,Cy);
+	VectorItemEllipse	*d1=new VectorItemEllipse(Cx,Top);
+	VectorItemEllipse	*d2=new VectorItemEllipse(Cx,Bottom);
+	VectorItemEllipse	*d3=new VectorItemEllipse(Left,Cy);
+	VectorItemEllipse	*d4=new VectorItemEllipse(Right,Cy);
 	AppendItemBase(d1);
 	AppendItemBase(d2);
 	AppendItemBase(d3);
@@ -1243,11 +1251,10 @@ void	VectorLineEllipse::SetEllipse(	double Cx, double Cy ,double Rx ,double Ry)
 {
 	Items.RemoveAll();
 
-
-	VectorItemArc	*d1=(VectorItemArc *)CreateItem();
-	VectorItemArc	*d2=(VectorItemArc *)CreateItem();
-	VectorItemArc	*d3=(VectorItemArc *)CreateItem();
-	VectorItemArc	*d4=(VectorItemArc *)CreateItem();
+	VectorItemEllipse	*d1=(VectorItemEllipse *)CreateItem();
+	VectorItemEllipse	*d2=(VectorItemEllipse *)CreateItem();
+	VectorItemEllipse	*d3=(VectorItemEllipse *)CreateItem();
+	VectorItemEllipse	*d4=(VectorItemEllipse *)CreateItem();
 	d1->SetXY(Cx-Rx	,Cy);
 	d2->SetXY(Cx	,Cy-Ry);
 	d3->SetXY(Cx+Rx	,Cy);

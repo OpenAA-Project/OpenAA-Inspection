@@ -112,6 +112,13 @@ bool	LayersBase::PickupGUILanguage(void)
 {
 	GUIFormBase *GUIRet[10000]; 
 	
+	if(GetLayersBase()==NULL)
+		return false;
+	if(GetLayersBase()->GetEntryPoint()==NULL)
+		return false;
+	if(GetLayersBase()->GetEntryPoint()->GetGUIInstancePack()==NULL)
+		return false;
+
 	int n=GetLayersBase()->GetEntryPoint()->GetGUIInstancePack()->EnumGUIInst(GUIRet,10000);
 
 	for(int i=0;i<n;i++){

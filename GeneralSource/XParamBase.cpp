@@ -230,7 +230,7 @@ ParamBase::ParamStruct::ParamStruct(ParamBase *parent,ParamBase::ParamStruct &sr
 	rType	=src.rType;
 	Name	=src.Name;
 	Category=src.Category;
-	Explain	=src.Category;
+	Explain	=src.Explain;
 	switch(rType){
 		case __int64__:
 				pVarInt64	=&VarInt64;

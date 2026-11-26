@@ -45,6 +45,11 @@ DisplaySimPanel::~DisplaySimPanel(void)
 		delete	ResultImage;
 	}
 	ResultImage=NULL;
+
+	if(Result!=NULL){
+		delete	Result;
+	}
+	Result=NULL;
 }
 
 void	DisplaySimPanel::SetModeShowBlock(bool b)

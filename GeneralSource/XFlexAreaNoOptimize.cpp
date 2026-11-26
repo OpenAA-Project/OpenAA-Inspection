@@ -230,7 +230,6 @@ void	FlexArea::PourFromImage(ImageBuffer &Img
 	if(StartY<0 || Img.GetHeight()<=StartY)
 		return;
 
-	int	L,R;
 	BYTE	*s=Img.GetY(StartY);
 	int	LMinX=StartX-MaxSizeXLen/2;
 	if(LMinX<0){
@@ -257,8 +256,8 @@ void	FlexArea::PourFromImage(ImageBuffer &Img
 		}
 	}
 
-	L=max(0,StartX);
-	R=min(StartX,Img.GetWidth());
+	int	L=max(0,StartX);
+	int	R=min(StartX,Img.GetWidth());
 	if(Mask!=NULL){
 		for(int l=StartX;l>=0 && l>=LMinX;l--){
 			if(0<=l && l<Img.GetWidth() && l<MaxSizeXLen){
@@ -368,7 +367,6 @@ void	FlexArea::PourFromImage(ImageBuffer &Img
 	if(StartY<0 || Img.GetHeight()<=StartY)
 		return;
 
-	int	L,R;
 	BYTE	*s=Img.GetY(StartY);
 	int	LMinX=StartX-MaxSizeXLen/2;
 	if(LMinX<0){
@@ -395,8 +393,8 @@ void	FlexArea::PourFromImage(ImageBuffer &Img
 		}
 	}
 
-	L=max(0,StartX);
-	R=min(StartX,Img.GetWidth());
+	int	L=max(0,StartX);
+	int	R=min(StartX,Img.GetWidth());
 	if(Mask!=NULL){
 		for(int l=StartX;l>=0 && l>=LMinX;l--){
 			if(0<=l && l<Img.GetWidth() && l<MaxSizeXLen){
@@ -626,7 +624,8 @@ void	FlexArea::PourFromImage(ImagePointerContainer &Images
 {
 	struct   FlexLine	*BuffLines=new struct FlexLine[MaxBuffCount];
 
-	int	L,R;
+	int	L=0;
+	int	R=0;
 	BYTE	*s[100];
 
 	int	LMinX=StartX-MaxSize/2;
@@ -1011,6 +1010,7 @@ void	FlexArea::PourFromImageLimitless(ImagePointerContainer &Images
 	}
 	DeleteMatrixBuff(TmpMap,YLen);
 
+	delete	[]PData;
 	QSort(FL,n,sizeof(FL[0]),YSortFunc);
 	SetFLine(FL,n);
 	//Restruct();
@@ -1250,6 +1250,7 @@ void	FlexArea::PourFromImageLimitless(ImageBuffer &Image
 		
 	}
 	DeleteMatrixBuff(TmpMap,YLen);
+	delete	[]PData;
 
 	QSort(FL,n,sizeof(FL[0]),YSortFunc);
 	SetFLine(FL,n);

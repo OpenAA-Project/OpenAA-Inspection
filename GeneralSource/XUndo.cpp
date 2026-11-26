@@ -170,11 +170,17 @@ int32	UndoStocker::SetNewTopic(const QString &UndoTopicMessage)
 {
 	MutexAboutUndoTopic.lock();
 	int N=GetCount();
-	while((N+1)>=GetParamGlobal()->MaxUndoCount){
-		UndoTopic	*L=GetFirst();
-		RemoveList(L);
-		delete	L;
-		N--;
+	if(GetParamGlobal()->MaxUndoCount>0){
+		while((N+1)>=GetParamGlobal()->MaxUndoCount){
+			for(UndoTopic *L=GetFirst();L!=NULL;L=L->GetNext()){
+				if(CurrentTopic!=L){
+					RemoveList(L);
+					delete	L;
+					N--;
+					break;
+				}
+			}
+		}
 	}
 	if(CurrentTopic!=NULL){
 		UndoTopic	*L;
@@ -246,7 +252,7 @@ UndoTopic	*UndoStocker::ExecuteRedo(void)
 		UndoTopic	*L=SearchTopic(CurrentTopic->GetIDForUndo());
 		if(L!=NULL){
 			L->ExecuteRedo();
-			CurrentTopic=CurrentTopic->GetPrev();
+			CurrentTopic=CurrentTopic->GetNext();
 			return L;
 		}
 	}

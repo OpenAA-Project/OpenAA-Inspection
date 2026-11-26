@@ -236,7 +236,7 @@ int matchscanf(char *buff,char *form,...);
 		数値が必要な場所に数値がある
 	    これらの条件が form の終わりまで満たされた場合、正常終了となる
 */
-char *ItoA(int value,char *string,int radix);
+void	ItoA(int value,char *string,int radix);
 
 #ifndef _MSC_VER
 #include <string.h>

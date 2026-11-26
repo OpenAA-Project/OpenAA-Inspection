@@ -500,7 +500,6 @@ public:
 
 	int		GetCountAllMasterBuff(void)		const;
 	int		GetCountOnlyMasterBuff(void)	const;
-	int		GetCountDispatchMasterBuff(void)const;
 	int		GetCountAllBackGroundBuff(void)		const;
 	int		GetCountOnlyBackGroundBuff(void)	const;
 	int		GetLayerNumb(void)			const;
@@ -538,9 +537,6 @@ public:
 	ImageBuffer	*GetCamTargetBuffPointer(void)		const;
 	ImageBuffer	*GetBitBuffPointer(void)			const;
 	ImageBuffer	*GetTrialTargetBuffPointer(void)	const;
-
-	ImageBuffer	*GetDispatchMasterBuffPointer(int n)			const;
-	ImageBuffer	*FindDispatchMasterBuffPointer(int OriginCode)	const;
 
 	void	SetToMasterBuff(ImageBuffer &Img);
 	void	SetToMasterBuff(int n,ImageBuffer &Img);
@@ -590,7 +586,6 @@ public:
 
 	int		SetDispatchMaster(const QString &MasterBuffName, int OriginCode
 							,ImageBuffer *s,int pos=-1);	//Return allocated position
-	bool	RemoveDispatchMaster(int pos);
 
 private:
 	QString	GetFileNameToSwapBuffer(void);
@@ -704,7 +699,6 @@ public:
 	ParamComm			*GetParamComm(void)		const;
 	int		GetCountAllMasterBuff(void)			const;
 	int		GetCountOnlyMasterBuff(void)		const;
-	int		GetCountDispatchMasterBuff(void)	const;
 	int		GetCountAllBackGroundBuff(void)		const;
 	int		GetCountOnlyBackGroundBuff(void)	const;
 	int		GetLayerNumb(void)		const;
@@ -861,7 +855,6 @@ public:
 
 	int	SetDispatchMaster(const QString &MasterBuffName, int OriginCode
 						,ImageBufferListContainer &s,int pos=-1);	//Return allocated position
-	void	RemoveDispatchMaster(int pos);
 
 	bool	GetReflectionMap(ReflectionMode Mode ,ConstMapBufferListContainer &Map ,AlgorithmLibrary *LibData ,void *Anything);
 
@@ -924,8 +917,6 @@ public:
 	bool	RemovePage(int IndexPage);
 	void	ResetSize(void);
 
-	void	RemoveDispatchMaster(int pos);
-
 	bool    SaveBrightTable(QIODevice *f);
 	bool    LoadBrightTable(QIODevice *f);
 	bool    SaveAttr(QIODevice *f);
@@ -933,7 +924,6 @@ public:
 
 	int		GetCountAllMasterBuff(void)		const;
 	int		GetCountOnlyMasterBuff(void)	const;
-	int		GetCountDispatchMasterBuff(void)const;
 	int		GetCountAllBackGroundBuff(void)		const;
 	int		GetCountOnlyBackGroundBuff(void)	const;
 	int		GetPageNumb(void)	{	return AllocatedPageNumb;	}
@@ -1547,7 +1537,6 @@ public:
 
 	int		GetCountAllMasterBuff(void)		const;
 	int		GetCountOnlyMasterBuff(void)	const;
-	int		GetCountDispatchMasterBuff(void)const;
 	int		GetCountAllBackGroundBuff(void)		const;
 	int		GetCountOnlyBackGroundBuff(void)	const;
 
@@ -2343,7 +2332,6 @@ inline ParamGlobal	*DataInLayer::GetParamGlobal(void)	const	{	return(GetLayersBa
 inline ParamComm	*DataInLayer::GetParamComm(void)	const	{	return(GetLayersBase()->GetParamComm());	}
 inline int	DataInLayer::GetCountAllMasterBuff(void)		const	{	return(GetLayersBase()->GetCountAllMasterBuff());		}
 inline int	DataInLayer::GetCountOnlyMasterBuff(void)		const	{	return(GetLayersBase()->GetCountOnlyMasterBuff());		}
-inline int	DataInLayer::GetCountDispatchMasterBuff(void)	const	{	return(GetLayersBase()->GetCountDispatchMasterBuff());	}
 inline int	DataInLayer::GetCountAllBackGroundBuff(void)	const	{	return(GetLayersBase()->GetCountAllBackGroundBuff());		}
 inline int	DataInLayer::GetCountOnlyBackGroundBuff(void)	const	{	return(GetLayersBase()->GetCountOnlyBackGroundBuff());		}
 inline int	DataInLayer::GetPageNumb(void)					const	{	return(GetLayersBase()->GetParamGlobal()->PageNumb);	}
@@ -2353,7 +2341,6 @@ inline int	DataInLayer::GetPhaseNumb(void)					const	{	return(GetLayersBase()->G
 inline PageDataInOnePhase	*DataInPage::GetParentPhase(void)	const{	return ParentPhase;		}
 inline int	PageDataInOnePhase::GetCountAllMasterBuff(void)		const	{	return(GetLayersBase()->GetCountAllMasterBuff());		}
 inline int	PageDataInOnePhase::GetCountOnlyMasterBuff(void)	const	{	return(GetLayersBase()->GetCountOnlyMasterBuff());		}
-inline int	PageDataInOnePhase::GetCountDispatchMasterBuff(void)const	{	return(GetLayersBase()->GetCountDispatchMasterBuff());	}
 inline int	PageDataInOnePhase::GetCountAllBackGroundBuff(void)	const	{	return(GetLayersBase()->GetCountAllBackGroundBuff());		}
 inline int	PageDataInOnePhase::GetCountOnlyBackGroundBuff(void)const	{	return(GetLayersBase()->GetCountOnlyBackGroundBuff());		}
 
@@ -2361,7 +2348,6 @@ inline ParamGlobal	*DataInPage::GetParamGlobal(void)	const	{	return(GetLayersBas
 inline ParamComm	*DataInPage::GetParamComm(void)		const	{	return(GetLayersBase()->GetParamComm());	}
 inline int	DataInPage::GetCountAllMasterBuff(void)		const	{	return(GetLayersBase()->GetCountAllMasterBuff());		}
 inline int	DataInPage::GetCountOnlyMasterBuff(void)		const	{	return(GetLayersBase()->GetCountOnlyMasterBuff());		}
-inline int	DataInPage::GetCountDispatchMasterBuff(void)	const	{	return(GetLayersBase()->GetCountDispatchMasterBuff());	}
 inline int	DataInPage::GetCountAllBackGroundBuff(void)		const	{	return(GetLayersBase()->GetCountAllBackGroundBuff());		}
 inline int	DataInPage::GetCountOnlyBackGroundBuff(void)	const	{	return(GetLayersBase()->GetCountOnlyBackGroundBuff());		}
 inline int	DataInPage::GetPageNumb(void)					const	{	return(GetLayersBase()->GetParamGlobal()->PageNumb);	}

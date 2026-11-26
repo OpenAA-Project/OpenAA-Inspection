@@ -92,6 +92,7 @@ public:
 	int32	MemberID;
 
 	ThresholdMemberModifierBase(int32 memberid)	:MemberID(memberid){}
+	virtual~ThresholdMemberModifierBase(void){}
 
 	virtual	int32	GetClassID(void)	=0;
 	virtual	bool	CopyFrom(const ThresholdMemberModifierBase &src)	=0;

@@ -108,6 +108,9 @@ AlgorithmComponentWindow::~AlgorithmComponentWindow()
 
 void	AlgorithmComponentWindow::RegisterComponent(int MemberID ,QSpinBox *e)
 {
+	if (e == nullptr) {
+        return;
+    }
 	MemberComponentList	*r=new MemberComponentList(MemberID,e);
 	MemberComponentContainer.AppendList(r);
 	connect(e,SIGNAL(valueChanged(int)),this,SLOT(SlotValueChangedInt(int)));
@@ -116,6 +119,9 @@ void	AlgorithmComponentWindow::RegisterComponent(int MemberID ,QSpinBox *e)
 }
 void	AlgorithmComponentWindow::RegisterComponent(int MemberID ,QDoubleSpinBox *e)
 {
+	if (e == nullptr) {
+        return;
+    }
 	MemberComponentList	*r=new MemberComponentList(MemberID,e);
 	MemberComponentContainer.AppendList(r);
 	connect(e,SIGNAL(valueChanged(double)),this,SLOT(SlotValueChangedDouble(double)));
@@ -124,6 +130,9 @@ void	AlgorithmComponentWindow::RegisterComponent(int MemberID ,QDoubleSpinBox *e
 }
 void	AlgorithmComponentWindow::RegisterComponent(int MemberID ,QLineEdit *e)
 {
+	if (e == nullptr) {
+        return;
+    }
 	MemberComponentList	*r=new MemberComponentList(MemberID,e);
 	MemberComponentContainer.AppendList(r);
 	connect(e,SIGNAL(textChanged(const QString &)),this,SLOT(SlotTextChanged(const QString &)));
@@ -133,6 +142,9 @@ void	AlgorithmComponentWindow::RegisterComponent(int MemberID ,QLineEdit *e)
 
 void	AlgorithmComponentWindow::RegisterComponent(int MemberID ,QCheckBox *e)
 {
+	if (e == nullptr) {
+        return;
+    }
 	MemberComponentList	*r=new MemberComponentList(MemberID,e);
 	MemberComponentContainer.AppendList(r);
 	connect(e,SIGNAL(stateChanged(int)),this,SLOT(SlotStateChanged(int)));
@@ -141,6 +153,9 @@ void	AlgorithmComponentWindow::RegisterComponent(int MemberID ,QCheckBox *e)
 }
 void	AlgorithmComponentWindow::RegisterComponent(int MemberID ,QComboBox *e)
 {
+	if (e == nullptr) {
+        return;
+    }
 	MemberComponentList	*r=new MemberComponentList(MemberID,e);
 	MemberComponentContainer.AppendList(r);
 	connect(e,SIGNAL(currentIndexChanged(int)),this,SLOT(SlotCurrentIndexChanged(int)));

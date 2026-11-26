@@ -214,7 +214,7 @@ short   XPocket::GetShort(XUpdateDatabase *p)
         }
     else if(p->SaveFieldType=="BLOB"){
         short k=0;
-		if(Len<sizeof(k)){
+		if(0<=Len && Len<sizeof(k)){
             memcpy(&k,Data,Len);
 		}
 		else{
@@ -273,7 +273,7 @@ int     XPocket::GetInt(XUpdateDatabase *p)
         }
     else if(p->SaveFieldType=="BLOB"){
         int k=0;
-		if(Len<sizeof(k)){
+		if(0<=Len && Len<sizeof(k)){
             memcpy(&k,Data,Len);
 		}
 		else{
@@ -341,7 +341,7 @@ float   XPocket::GetFloat(XUpdateDatabase *p)
     }
     else if(p->SaveFieldType=="BLOB"){
         float k=0;
-		if(Len<sizeof(k)){
+		if(0<=Len && Len<sizeof(k)){
             memcpy(&k,Data,Len);
 		}
 		else{
@@ -410,7 +410,7 @@ double  XPocket::GetDouble(XUpdateDatabase *p)
     }
     else if(p->SaveFieldType=="BLOB"){
         double k=0;
-		if(Len<sizeof(k)){
+		if(0<=Len && Len<sizeof(k)){
             memcpy(&k,Data,Len);
 		}
 		else{
@@ -485,7 +485,7 @@ XDateTime   XPocket::GetDateTime(XUpdateDatabase *p)
     }
     else if(p->SaveFieldType=="BLOB"){
         double k=0;
-		if(Len<sizeof(k)){
+		if(0<=Len && Len<sizeof(k)){
             memcpy(&k,Data,Len);
 		}
 		else{
@@ -544,12 +544,14 @@ QString  XPocket::GetString(XUpdateDatabase *p)
         return(k);
         }
     else if(p->SaveFieldType=="BLOB"){
-        char    *d=new char[Len+1];
-        d[Len]=0;
-        QString  A(d);
-        delete  []d;
-        return(A);
+        if(0<=Len){
+            char    *d=new char[Len+1];
+            d[Len]=0;
+            QString  A(d);
+            delete  []d;
+            return(A);
         }
+    }
     return(/**/"");
 }
 
@@ -617,9 +619,11 @@ void    XPocket::SetBlob(XUpdateDatabase *p,QSqlField *f)
         }
     else
     if(p->SaveFieldType=="BLOB"){
-		QByteArray	k((char *)Data,Len);
-        f->setValue(k);
+        if(0<=Len){
+		    QByteArray	k((char *)Data,Len);
+            f->setValue(k);
         }
+    }
 }
 
 
@@ -690,7 +694,9 @@ char  *CutWord(char *fp ,char Str[] ,int maxlen)
     if(len==0){
         Str[0]=*fp;
         Str[1]=0;
-        fp++;
+        if(*fp!=0){
+            fp++;
+        }
         return(fp);
         }
     char    *gp=fp+len;
@@ -1283,6 +1289,9 @@ char    *XProcedure::LoadFromBuff(char *fp)
         while(*fp!=')' && *fp!=0){
             XProcParameter  *x=new XProcParameter();
             fp=x->LoadFromBuff(this,fp);
+            if(fp==NULL){
+                return NULL;
+            }
             fp=CutSpace(fp);
 			if(*fp==','){
                 fp++;
@@ -1306,6 +1315,9 @@ char    *XProcedure::LoadFromBuff(char *fp)
             while(*fp!=')' && *fp!=0){
                 XProcParameter  *x=new XProcParameter();
                 fp=x->LoadFromBuff(this,fp);
+                if(fp==NULL){
+                    return NULL;
+                }
                 fp=CutSpace(fp);
 				if(*fp==','){
                     fp++;
@@ -1637,6 +1649,9 @@ bool    XTrigger::IsSameContents(const QString &Txt)
 	QString2Char(Txt,Buff,sizeof(Buff));
     char    *src=Buff;
     char    *dst=Contents;
+    if(Contents==NULL){
+        return false;
+    }
 
 	if(strnicmp(src,"AS",2)==0){
         src+=2;
@@ -1644,7 +1659,7 @@ bool    XTrigger::IsSameContents(const QString &Txt)
 	while(*src==' ' || *src=='\t' || *src=='\n'){
         src++;
 	}
-    while(*src!=0 && dst!=0){
+    while(*src!=0 && *dst!=0){
         if((*src==' ' || *src=='\t' || *src=='\n')
         && (*dst==' ' || *dst=='\t' || *dst=='\n')){
 			while(*src==' ' || *src=='\t' || *src=='\n'){

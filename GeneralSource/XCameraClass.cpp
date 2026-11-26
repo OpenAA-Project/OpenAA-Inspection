@@ -1024,7 +1024,7 @@ int		CameraInterface::GetCurrentLineCount(void)
 {
 	if(DLL_GetCurrentLineCount!=NULL){
 		MutexExeCam.lock();
-		bool	Ret=DLL_GetCurrentLineCount(Handle);
+		int	Ret=DLL_GetCurrentLineCount(Handle);
 		MutexExeCam.unlock();
 		return Ret;
 	}
@@ -1200,7 +1200,7 @@ bool	CameraInterface::GetImage(ImageBuffer *Buffer[] ,ImageBuffer *TRBuffer[] ,i
 
 		return Ret;
 	}
-	else{
+	else if(DLL_GetImage!=NULL){
 		if(MutexInDLL==false){
 			GetLayersBase()->LockRChangingDataStructure();
 		}
@@ -1263,7 +1263,7 @@ QString	CameraInterface::GetCopyright(void)	const
 {
 	QString	Copyright;
 	if(DLL_CheckCopyright!=NULL){
-		if(DLL_CheckCopyright(Copyright)==false){
+		if(DLL_CheckCopyright(Copyright)==true){
 			return Copyright;
 		}
 	}

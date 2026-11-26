@@ -86,7 +86,9 @@ LangSolverClass::LangSolverClass(struct LSStringResource _LSStrDictionary[]
 bool	LangSolverClass::SetLanguage(int LangCode)
 {
 	LanguageCode=LangCode;
-	return InitialCodec();
+	bool	Ret=InitialCodec();
+	InitializedCodec = false;
+	return Ret;
 }
 
 void	LangSolverClass::ErrorOut(void)

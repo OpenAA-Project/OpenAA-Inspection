@@ -767,6 +767,9 @@ QColor	GetAvrDivColor(const QImage &img ,double dispersion[])
 		}
 	}
 	int	PixelNumb = XLen*YLen;
+	if(PixelNumb==0){
+		return Qt::black;
+	}
 	double	AvrR = Rsum / PixelNumb;
 	double	AvrG = Gsum / PixelNumb;
 	double	AvrB = Bsum / PixelNumb;
@@ -1184,7 +1187,7 @@ void	DrawImageAlpha(QImage &Pnt
 		int	x1=(0+movx)*ZoomRate;
 		int	y1=(0+movy)*ZoomRate;
 		int	x2=(SMaxX+movx)*ZoomRate;
-		int	y2=(SMaxY+movx)*ZoomRate;
+		int	y2=(SMaxY+movy)*ZoomRate;
 
 		if(y1<0)
 			y1=0;
@@ -1449,10 +1452,17 @@ QByteArray	FuncCall	QString2ByteArray(const QString &str)
 	char	Buff[100000];
 	int		Len=sizeof(Buff);
 	QByteArray	RetArray;
-
+	Buff[0]=0;
+	Buff[1]=0;
+	Buff[2]=0;
+	Buff[3]=0;
+	Buff[4]=0;
+	Buff[5]=0;
+	Buff[6]=0;
+	Buff[7]=0;
 	QString2Char(str ,Buff,sizeof(Buff));
 	char	*fp=Buff;
-	DWORD	XByte=HexToByte(*(fp+0))
+	DWORD	XByte= HexToByte(*(fp+0))
 				 +(HexToByte(*(fp+1))<<4)
 				 +(HexToByte(*(fp+2))<<8)
 				 +(HexToByte(*(fp+3))<<12)
@@ -1832,9 +1842,9 @@ void    FuncCall	DeleteCornerDot(BYTE **bmpdata ,int xbyte ,int YLen)
 }
 
 void    FuncCall	DeleteManyArm(BYTE **data,int xbyte ,int YLen)
-//�֊s�h�b�g�̋ߖT�W�_�͂Q�_�ȉ��łȂ����΂Ȃ��Ȃ�
 {
-    for(int y=1;y<YLen-1;y++){
+	int	XLen=xbyte*8;
+    for(int y=1;y<YLen-2;y++){
         BYTE   *p=data[y];
         for(int x=0;x<xbyte;x++,p++){
             BYTE   mask=0x80;
@@ -1844,35 +1854,37 @@ void    FuncCall	DeleteManyArm(BYTE **data,int xbyte ,int YLen)
 				}
                 uchar   D=0;
                 int kx=(x<<3)+i;
-				if((data[(y-1)][((kx-1)>>3)]&(0x80>>((kx-1)&7)))!=0){
-                    D|=0x80;
+				if(0<=kx && kx<XLen){
+					if((data[(y-1)][((kx-1)>>3)]&(0x80>>((kx-1)&7)))!=0){
+					    D|=0x80;
+					}
+					if((data[(y-1)][((kx  )>>3)]&(0x80>>((kx  )&7)))!=0){
+					    D|=0x40;
+					}
+					if((data[(y-1)][((kx+1)>>3)]&(0x80>>((kx+1)&7)))!=0){
+					    D|=0x20;
+					}
+					if((data[(y)][ ((kx-1)>>3)]&(0x80>>((kx-1)&7)))!=0){
+					    D|=0x10;
+					}
+					if((data[(y)][ ((kx+1)>>3)]&(0x80>>((kx+1)&7)))!=0){
+					    D|=0x08;
+					}
+					if((data[(y+1)][ ((kx-1)>>3)]&(0x80>>((kx-1)&7)))!=0){
+					    D|=0x04;
+					}
+					if((data[(y+1)][ ((kx  )>>3)]&(0x80>>((kx  )&7)))!=0){
+					    D|=0x02;
+					}
+					if((data[(y+1)][ ((kx+1)>>3)]&(0x80>>((kx+1)&7)))!=0){
+					    D|=0x01;
+					}
+					if(GetBitCount(D)>=3){
+					}
 				}
-				if((data[(y-1)][((kx  )>>3)]&(0x80>>((kx  )&7)))!=0){
-                    D|=0x40;
-				}
-				if((data[(y-1)][((kx+1)>>3)]&(0x80>>((kx+1)&7)))!=0){
-                    D|=0x20;
-				}
-				if((data[(y)][ ((kx-1)>>3)]&(0x80>>((kx-1)&7)))!=0){
-                    D|=0x10;
-				}
-				if((data[(y)][ ((kx+1)>>3)]&(0x80>>((kx+1)&7)))!=0){
-                    D|=0x08;
-				}
-				if((data[(y+1)][ ((kx-1)>>3)]&(0x80>>((kx-1)&7)))!=0){
-                    D|=0x04;
-				}
-				if((data[(y+1)][ ((kx  )>>3)]&(0x80>>((kx  )&7)))!=0){
-                    D|=0x02;
-				}
-				if((data[(y+1)][ ((kx+1)>>3)]&(0x80>>((kx+1)&7)))!=0){
-                    D|=0x01;
-				}
-                if(GetBitCount(D)>=3){
-                    }
-                }
-            }
+			}
         }
+    }
 }
 
 static  BYTE    IsolatedDotPattern[]={

@@ -356,9 +356,9 @@ AlgorithmLibrary::AlgorithmLibrary(const AlgorithmLibrary &src)
 	ValidInLoad		=src.ValidInLoad;
 	QBuffer	Buff;
 	Buff.open(QIODevice::ReadWrite);
-	if(((AlgorithmLibrary *)&src)->LoadBlob(&Buff)==true){
+	if(((AlgorithmLibrary *)&src)->SaveBlob(&Buff)==true){
 		Buff.seek(0);
-		SaveBlob(&Buff);
+		LoadBlob(&Buff);
 	}
 }
 AlgorithmLibrary::~AlgorithmLibrary(void)
@@ -685,10 +685,10 @@ bool	AlgorithmLibraryLevelContainer::Load(QIODevice *f)
 		if(::Load(f,SourceID)==false){
 			return false;
 		}
-		if(AdaptedPickLayers.Save(f)==false){
+		if(AdaptedPickLayers.Load(f)==false){
 			return false;
 		}
-		if(AdaptedGenLayers.Save(f)==false){
+		if(AdaptedGenLayers.Load(f)==false){
 			return false;
 		}
 		
@@ -837,11 +837,13 @@ void	AlgorithmLibraryLevelContainer::Set(AlgorithmLibrary *lib ,int ThresholdLev
 		ThresholdLevelID=Parent->GetLayersBase()->GetThresholdLevelID();
 	}
 	lib->SetThresholdLevelID(ThresholdLevelID);
-	for(AlgorithmLibrary *a=GetFirst();a!=NULL;a=a->GetNext()){
+	for(AlgorithmLibrary *a=GetFirst();a!=NULL;){
+		AlgorithmLibrary	*NextA=a->GetNext();
 		if(a->ThresholdLevelID==ThresholdLevelID){
 			RemoveList(a);
 			delete	a;
 		}
+		a=NextA;
 	}
 	NPListPack<AlgorithmLibrary>::AppendList(lib);
 }
@@ -858,22 +860,26 @@ void	AlgorithmLibraryLevelContainer::Set(AlgorithmLibrary &lib ,int ThresholdLev
 	Buff.seek(0);
 	L->LoadBlob(&Buff);
 	L->SetThresholdLevelID(ThresholdLevelID);
-	for(AlgorithmLibrary *a=GetFirst();a!=NULL;a=a->GetNext()){
+	for(AlgorithmLibrary *a=GetFirst();a!=NULL;){
+		AlgorithmLibrary	*NextA=a->GetNext();
 		if(a->ThresholdLevelID==ThresholdLevelID){
 			RemoveList(a);
 			delete	a;
 		}
+		a=NextA;
 	}
 	NPListPack<AlgorithmLibrary>::AppendList(L);
 }
 
 void	AlgorithmLibraryLevelContainer::AppendList(AlgorithmLibrary *additem)
 {
-	for(AlgorithmLibrary *a=GetFirst();a!=NULL;a=a->GetNext()){
+	for(AlgorithmLibrary *a=GetFirst();a!=NULL;){
+		AlgorithmLibrary	*NextA=a->GetNext();
 		if(a->ThresholdLevelID==additem->ThresholdLevelID){
 			RemoveList(a);
 			delete	a;
 		}
+		a=NextA;
 	}
 	NPListPack<AlgorithmLibrary>::AppendList(additem);
 }
@@ -1229,7 +1235,7 @@ AlgorithmLibraryStockerList::AlgorithmLibraryStockerList(AlgorithmLibraryLevelCo
 }
 AlgorithmLibraryStockerList::~AlgorithmLibraryStockerList(void)
 {
-	delete	Point;
+	//delete	Point;
 }
 
 AlgorithmLibraryStockerList	&AlgorithmLibraryStockerList::operator=(const AlgorithmLibraryStockerList &src)

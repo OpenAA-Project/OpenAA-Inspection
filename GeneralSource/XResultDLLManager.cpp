@@ -77,6 +77,51 @@ ResultInterfaceDLL::ResultInterfaceDLL(LayersBase *Base)
 ResultInterfaceDLL::ResultInterfaceDLL(const ResultInterfaceDLL &src)
 	:ServiceForLayers((LayersBase *)src.GetLayersBase())
 {
+	Ver	=1;
+
+	DLL_GetOrganization		=NULL;
+	DLL_GetDLLType			=NULL;
+	DLL_GetName				=NULL;
+	DLL_GetVersion			=NULL;
+	DLL_GetExplain			=NULL;
+	DLL_CheckCopyright		=NULL;
+	DLL_AssociateComponent	=NULL;
+	DLL_GetParamName		=NULL;
+	DLL_SetLanguage			=NULL;
+
+	DLL_Initial				=NULL;
+	DLL_Release				=NULL;
+
+	DLL_OutputResultCommon	=NULL;
+	DLL_OutputResultSlave	=NULL;
+	DLL_OutputResultDirectly=NULL;
+	DLL_InputResult			=NULL;
+	DLLPoint				=NULL;
+	DLL_RemoveResult		=NULL;
+	DLL_GetLastInspectionID	=NULL;
+
+	DLL_OutputInLotChangedCommon	=NULL;
+	DLL_OutputInLotChangedSlave		=NULL;
+	DLL_SearchLotID					=NULL;
+	DLL_CheckConnection				=NULL;
+
+	DLLPoint=NULL;
+	DLL_RegistMacroFunction			=NULL;
+
+	DLL_ExecuteInitialAfterEdit		=NULL;
+	DLL_ExecuteStartByInspection	=NULL;
+	DLL_ExecuteCaptured				=NULL;
+	DLL_ExecutePreAlignment			=NULL;
+	DLL_ExecuteAlignment			=NULL;
+	DLL_ExecutePreProcessing		=NULL;
+	DLL_ExecuteProcessing			=NULL;
+	DLL_ExecuteProcessingRevived	=NULL;
+	DLL_ExecutePostProcessing		=NULL;
+	DLL_ExecutePreScanning			=NULL;
+	DLL_ExecuteScanning				=NULL;
+	DLL_ExecutePostScanning			=NULL;
+	DLL_ExecuteManageResult			=NULL;
+
 	if(src.DllLib.isLoaded()==true){
 		LoadDLL(src.DllLib.fileName());
 		Initial();
@@ -97,7 +142,9 @@ ResultInterfaceDLL::~ResultInterfaceDLL(void)
 bool		ResultInterfaceDLL::Release(void)
 {
 	if(DLL_Release!=NULL && DLLPoint!=NULL){
-		DLL_Release(DLLPoint);
+		if(DLL_Release(DLLPoint)==false){
+			return false;
+		}
 		DLLPoint=NULL;
 	}
 	return true;
@@ -134,7 +181,7 @@ bool	ResultInterfaceDLL::LoadDLL(const QString &filename)
 	DLL_GetParamName			=(const char *(*)(void))DllLib.resolve("DLL_GetParamName");
 	
 	DLL_Initial					=(ResultDLLBaseRoot *(*)(LayersBase *Base))DllLib.resolve("DLL_Initial");
-	DLL_Release					=(void (*)(ResultDLLBaseRoot *))DllLib.resolve("DLL_Release");
+	DLL_Release					=(bool (*)(ResultDLLBaseRoot *))DllLib.resolve("DLL_Release");
 
 	DLL_OutputResultCommon		=(bool (*)(ResultDLLBaseRoot *handle
 										,ResultInspection *RBase 
@@ -173,7 +220,7 @@ bool	ResultInterfaceDLL::LoadDLL(const QString &filename)
 
 	DLL_ExecuteInitialAfterEdit		=(ExeResult	(*)(int ExeID ,ResultDLLBaseRoot *inst,ResultInspection *Res))DllLib.resolve("DLL_ExecuteInitialAfterEdit");
 	DLL_ExecuteStartByInspection	=(ExeResult	(*)(int ExeID ,ResultDLLBaseRoot *inst,ResultInspection *Res))DllLib.resolve("DLL_ExecuteStartByInspection");
-	DLL_ExecuteCaptured				=(ExeResult	(*)(int ExeID ,ResultDLLBaseRoot *inst,ResultInspection *Res ,ListPhasePageLayerPack &CapturedList))DllLib.resolve("ExecuteCaptured");
+	DLL_ExecuteCaptured				=(ExeResult	(*)(int ExeID ,ResultDLLBaseRoot *inst,ResultInspection *Res ,ListPhasePageLayerPack &CapturedList))DllLib.resolve("DLL_ExecuteCaptured");
 	DLL_ExecutePreAlignment			=(ExeResult	(*)(int ExeID ,ResultDLLBaseRoot *inst,ResultInspection *Res))DllLib.resolve("DLL_ExecutePreAlignment");
 	DLL_ExecuteAlignment			=(ExeResult	(*)(int ExeID ,ResultDLLBaseRoot *inst,ResultInspection *Res))DllLib.resolve("DLL_ExecuteAlignment");
 	DLL_ExecutePreProcessing		=(ExeResult	(*)(int ExeID ,ResultDLLBaseRoot *inst,ResultInspection *Res))DllLib.resolve("DLL_ExecutePreProcessing");
@@ -282,14 +329,14 @@ void	ResultInterfaceDLL::Prepare(void)
 	GetDLLPoint()->Prepare();
 }
 
-int64	ResultInterfaceDLL::OutputResultCommon(ResultInspection *RBase 
+bool	ResultInterfaceDLL::OutputResultCommon(ResultInspection *RBase 
 												,ResultInspectionForStockPointerContainer &ShadowResStocks
 												,EntryPointBase &entryPoint)
 {
 	if(DLL_OutputResultCommon!=NULL){
 		return DLL_OutputResultCommon(DLLPoint,RBase ,ShadowResStocks,entryPoint);
 	}
-	return -1;
+	return false;
 }
 bool	ResultInterfaceDLL::OutputResultSlave (ResultInspectionForStockPointerContainer &ShadowResStocks
 									,int32 MachineID 
@@ -629,7 +676,7 @@ void		ResultDLL::Prepare(void)
 {
 	Interface->Prepare();
 }
-int64	ResultDLL::OutputResultCommon(ResultInspection *RBase 
+bool	ResultDLL::OutputResultCommon(ResultInspection *RBase 
 										,ResultInspectionForStockPointerContainer	&ShadowResStocks
 										,EntryPointBase &entryPoint)
 {
@@ -947,7 +994,7 @@ bool	ResultDLLBaseClass::SearchLotID(const QString &iLotID)
 	return false;
 }
 
-int64	ResultDLLBaseClass::OutputResultCommon(ResultInspection *RBase
+bool	ResultDLLBaseClass::OutputResultCommon(ResultInspection *RBase
 											  ,ResultInspectionForStockPointerContainer	&ShadowResStocks)
 {
 	if(GetParamGlobal()->OutputResult==true){

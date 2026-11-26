@@ -901,6 +901,7 @@ bool    XYClassCluster::Read(QIODevice *file)
     for(int i=0;i<N;i++){
         XYClassArea *a=new XYClassArea();
 		if(a->Read(file)==false){
+			delete	a;
             return(false);
 		}
         AppendList(a);
@@ -1122,7 +1123,7 @@ bool    XYClassArea::IsOverlapLine(int x1, int y1 ,int x2 ,int y2)	const
     long Y;
     for(XYClass *c=NPListPack<XYClass>::GetFirst();c!=NULL;c=c->GetNext()){
         XYClass *d=c->GetNext();
-		if(d!=NULL){
+		if(d==NULL){
             d=NPListPack<XYClass>::GetFirst();
 		}
         if(d!=NULL && GetCrossInnerPoint(x1,y1,x2,y2
@@ -1612,6 +1613,7 @@ void	XYClassArea::SearchOutline(const ImagePointerContainer &ImageList,const XYC
 	XYClassArea *b=new XYClassArea();
 	b->ClosedEdge(ImageList,&sOutline,MaxDx,MaxDy,SearchDot/2);
 	Move(*b);
+	delete	b;
 }
 
 double	XYClassArea::CalcEdge(const ImagePointerContainer &ImageList,int dx,int dy)	const
@@ -1927,6 +1929,7 @@ bool	RectClassContainer::Load(QIODevice *f)
 	for(int i=0;i<N;i++){
 		RectClass	*s=new RectClass();
 		if(s->Load(f)==false){
+			delete	s;
 			return false;
 		}
 		AppendList(s);
@@ -2145,10 +2148,10 @@ bool    XYLines::Read(QIODevice  *file)
         AppendList(c);
     }
 
-	MinX=-99999999;
-	MinY=-99999999;
-	MaxX=99999999;
-	MaxY=99999999;
+	MinX=99999999;
+	MinY=99999999;
+	MaxX=-99999999;
+	MaxY=-99999999;
 	for(XYClass *c=NPListPack<XYClass>::GetFirst();c!=NULL;c=c->GetNext()){
 		MinX=min(MinX,c->x);
 		MinY=min(MinY,c->y);
@@ -2294,10 +2297,10 @@ bool    XYLines::IsValid(void)	const
 }
 void    XYLines::Regulate(void)
 {
-	MinX=-99999999;
-	MinY=-99999999;
-	MaxX=99999999;
-	MaxY=99999999;
+	MinX=99999999;
+	MinY=99999999;
+	MaxX=-99999999;
+	MaxY=-99999999;
     for(XYClass *c=NPListPack<XYClass>::GetFirst();c!=NULL;){
         XYClass *c2=c->GetNext();
 		if(c2==NULL){
@@ -2490,6 +2493,10 @@ bool    XYLineContainer::Load(QIODevice  *file)
         return(false);
     for(int i=0;i<N;i++){
         XYLines *c=new XYLines();
+		if(c->Read(file)==false){
+			delete	c;
+			return false;
+		}
         AppendList(c);
     }
     return(true);
@@ -2507,6 +2514,7 @@ void	XYLineContainer::CreateLines(BYTE **BmpMap , int XByte ,int YLen)
 					XYLines	*L=new XYLines();
 					L->CreateOneLine(BmpMap , XByte*8 ,YLen
 									,X+i,y);
+					AppendList(L);
 				}
 			}
 		}

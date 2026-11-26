@@ -49,8 +49,10 @@ static	char	*CutWord(char *fp,const char *sep,QString &Ret)
 		}
 		hp=cp-1;
 		int	n=(int)(hp-fp);
-		strncpy(Buff,fp,n);
-		Buff[n]=0;
+		if(n>=0){
+			strncpy(Buff,fp,n);
+			Buff[n]=0;
+		}
 		Ret=Buff;
 		cp++;
 		cp=SkipSpace(cp);
@@ -72,8 +74,10 @@ static	char	*CutWord(char *fp,const char *sep,QString &Ret)
 			}
 		}
 		int	n=(int)(hp-fp+1);
-		strncpy(Buff,fp,n);
-		Buff[n]=0;
+		if(n>=0){
+			strncpy(Buff,fp,n);
+			Buff[n]=0;
+		}
 		Ret=Buff;
 		if(*cp!=0){
 			return cp+1;

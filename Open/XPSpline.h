@@ -44,7 +44,7 @@ class   XSplineBase
     XSplineBase(void);
     XSplineBase(XSplineBase &src);
     XSplineBase &operator=(XSplineBase &src);
-    ~XSplineBase(void);
+    virtual ~XSplineBase(void);
 
     void    Initial(void);
     bool  SetPoints(int count ,double X[] ,double Y[]);
