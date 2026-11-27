@@ -1,5 +1,6 @@
 #include "TutrialExecuter.h"
 #include <QDir>
+#include <QFileInfo>
 #include <QCoreApplication>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -9,6 +10,15 @@ TutrialExecuter::TutrialExecuter(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+
+#ifndef Q_OS_WIN
+    QDir appDir(QCoreApplication::applicationDirPath());
+    if (QFileInfo::exists(appDir.filePath("InspectionFastPlayerApp"))) {
+        ui.lineEditProgram->setText("InspectionFastPlayerApp");
+    } else {
+        ui.lineEditProgram->setText("InspectionFastPlayer");
+    }
+#endif
 
     populateGuiFiles();
     initDefaultConfigDir();
@@ -35,6 +45,7 @@ void TutrialExecuter::populateGuiFiles()
 
 void TutrialExecuter::initDefaultConfigDir()
 {
+#ifdef Q_OS_WIN
     // Retrieve current username (fallback to home dir name if USERNAME env is empty)
     QString userName = qEnvironmentVariable("USERNAME");
     if (userName.isEmpty()) {
@@ -43,27 +54,34 @@ void TutrialExecuter::initDefaultConfigDir()
 
     // Default path: \Users\<CurrentUserName>\OpenAA
     QString defaultPath = QString("\\Users\\%1\\OpenAA").arg(userName);
+#else
+    // Linux default path: $HOME/OpenAA
+    QString defaultPath = QDir::cleanPath(QDir::homePath() + "/OpenAA");
+#endif
     ui.lineEditConfigDir->setText(defaultPath);
 }
 
 void TutrialExecuter::onBrowseConfigDir()
 {
-    // Retrieve current username (fallback to home dir name if USERNAME env is empty)
+#ifdef Q_OS_WIN
     QString userName = qEnvironmentVariable("USERNAME");
     if (userName.isEmpty()) {
         userName = QDir::home().dirName();
     }
 
-    // Set the default browsing directory to \Users\<CurrentUserName>
     QString initialDir = QString("\\Users\\%1").arg(userName);
-
-    // Fall back to root/drive path if the user folder does not exist
     if (!QDir(initialDir).exists()) {
         initialDir = "\\Users";
         if (!QDir(initialDir).exists()) {
             initialDir = QDir::rootPath();
         }
     }
+#else
+    QString initialDir = ui.lineEditConfigDir->text().trimmed();
+    if (initialDir.isEmpty() || !QDir(initialDir).exists()) {
+        initialDir = QDir::homePath();
+    }
+#endif
 
     QString dir = QFileDialog::getExistingDirectory(
         this,
@@ -97,6 +115,23 @@ void TutrialExecuter::onStart()
         return;
     }
 
+    QString appDirPath = QCoreApplication::applicationDirPath();
+    QDir appDir(appDirPath);
+    QString execPath = program;
+
+    // Resolve executable path inside applicationDirPath() when a bare filename is specified
+    if (!QFileInfo(program).isAbsolute()) {
+        QString candidate = appDir.filePath(program);
+        if (QFileInfo::exists(candidate)) {
+            execPath = candidate;
+        }
+#ifndef Q_OS_WIN
+        else if (QFileInfo::exists(appDir.filePath(program + "App"))) {
+            execPath = appDir.filePath(program + "App");
+        }
+#endif
+    }
+
     // Build arguments list:
     // 1. G + gui file name
     // 2. Q + config folder name
@@ -108,7 +143,6 @@ void TutrialExecuter::onStart()
     arguments << QString("G%1").arg(guiFile);
     arguments << QString("Q%1").arg(configDir);
 
-    // カメラを使用しない場合はパラメーターを追加
     if (!ui.checkBoxUseCamera->isChecked()) {
         arguments << "NoCamDevice";
     }
@@ -118,8 +152,8 @@ void TutrialExecuter::onStart()
     arguments << "-R";
 
     // Launch the external process detached
-    bool started = QProcess::startDetached(program, arguments, QCoreApplication::applicationDirPath());
+    bool started = QProcess::startDetached(execPath, arguments, appDirPath);
     if (!started) {
-        QMessageBox::critical(this, tr("Error"), tr("Failed to start process:\n%1").arg(program));
+        QMessageBox::critical(this, tr("Error"), tr("Failed to start process:\n%1").arg(execPath));
     }
 }

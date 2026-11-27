@@ -24,6 +24,9 @@
 #include "XShowVersion.h"
 #include "XGUI.h"
 #include "XOpenAA.h"
+#include "XDataInLayer.h"
+#include "XParamGlobal.h"
+#include "XParamBase.h"
 
 int	LanguageCode;
 
@@ -88,8 +91,8 @@ int main(int argc, char *argv[])
 	Layers->SetGUIInitializer(new GUIInitializer(Layers));
 
 	Layers->SetCurrentPath(QDir::currentPath());
-	Layers->GetParamGlobal()->LoadDefault();
-	Layers->GetParamComm()->LoadDefault();
+	Layers->GetParamGlobal()->LoadDefault(UserPath);
+	Layers->GetParamComm()->LoadDefault(UserPath);
 	QString	ErrorMsg;
 	DWORD	ErrorCode=0;
 
@@ -105,8 +108,7 @@ int main(int argc, char *argv[])
 	Layers->CloseInformed();
 
 	EditWizardParameter w(Layers
-						,ParamGlobalFileName
-						,&ParamCommData);
+						,UserPath);
 	w.show();
 	return a.exec();
 }
