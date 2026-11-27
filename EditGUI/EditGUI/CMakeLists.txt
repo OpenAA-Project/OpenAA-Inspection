@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
+find_package(Qt6 REQUIRED COMPONENTS Core Core5Compat Gui Widgets Network Sql)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -138,21 +138,21 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "../../OpenSource/Component"
-        "../../EditGUI/EditGUILib"
+        "../../EditGUI/EditGUILib/GeneratedFiles"
         "../../OpenSource/DisplayImage/GeneratedFiles"
         "./GeneratedFiles/"
+        "../../GeneralSource"
+        "../../EditGUI/EditGUI"
+        "../../ServiceLib/ServiceLib/GeneratedFiles"
+        "./GeneratedFiles"
         "../../ServiceLib/ServiceLib"
         "./"
-        "../../GeneralSource"
-        "../../Integrator/IntegrationLib"
         "./GeneratedFiles/$(Configuration)"
-        "../../EditGUI/EditGUI"
-        "../../EditGUI/EditGUILib/GeneratedFiles"
-        "../../OpenSource/DisplayImage"
         "../../Open"
-        "./GeneratedFiles"
+        "../../Integrator/IntegrationLib"
+        "../../OpenSource/DisplayImage"
+        "../../OpenSource/Component"
+        "../../EditGUI/EditGUILib"
     >
 )
 
@@ -172,100 +172,70 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"SeqLib.lib">
-        $<$<CONFIG:Debug>:"ServiceLib.lib">
-        $<$<CONFIG:Debug>:"IntegrationLib.lib">
-        $<$<CONFIG:Debug>:"Component.lib">
         $<$<CONFIG:Debug>:"DisplayImage.lib">
+        $<$<CONFIG:Debug>:"Component.lib">
+        $<$<CONFIG:Debug>:"IntegrationLib.lib">
+        $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"SeqLib.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for SeqLib (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SEQLIB_SHARED_LIB_DEBUG NAMES SeqLib PATHS "../../Lib/Debug")
-    if(SEQLIB_SHARED_LIB_DEBUG)
-        set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_SHARED_LIB_DEBUG})
+    # --- Exact/Static Library Linking for DisplayImage (Debug) ---
+    # 1. Search for the exact library or static library
+    find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES "libDisplayImage.a" PATHS "../../Lib/Debug")
+    if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
+        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SEQLIB_STATIC_LIB_DEBUG NAMES libSeqLib.a PATHS "../../Lib/Debug")
-        if(SEQLIB_STATIC_LIB_DEBUG)
-            set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SEQLIB_FINAL_LIB_DEBUG SeqLib)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
     endif()
 
-    # --- Dynamic Library Linking for ServiceLib (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../Lib/Debug")
-    if(SERVICELIB_SHARED_LIB_DEBUG)
-        set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_SHARED_LIB_DEBUG})
+    # --- Exact/Static Library Linking for Component (Debug) ---
+    # 1. Search for the exact library or static library
+    find_library(COMPONENT_STATIC_LIB_DEBUG NAMES "libComponent.a" PATHS "../../Lib/Debug")
+    if(COMPONENT_STATIC_LIB_DEBUG)
+        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES libServiceLib.a PATHS "../../Lib/Debug")
-        if(SERVICELIB_STATIC_LIB_DEBUG)
-            set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICELIB_FINAL_LIB_DEBUG ServiceLib)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(COMPONENT_FINAL_LIB_DEBUG Component)
     endif()
 
-    # --- Dynamic Library Linking for IntegrationLib (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(INTEGRATIONLIB_SHARED_LIB_DEBUG NAMES IntegrationLib PATHS "../../Lib/Debug")
-    if(INTEGRATIONLIB_SHARED_LIB_DEBUG)
-        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_SHARED_LIB_DEBUG})
+    # --- Exact/Static Library Linking for IntegrationLib (Debug) ---
+    # 1. Search for the exact library or static library
+    find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES "libIntegrationLib.a" PATHS "../../Lib/Debug")
+    if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
+        set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(INTEGRATIONLIB_STATIC_LIB_DEBUG NAMES libIntegrationLib.a PATHS "../../Lib/Debug")
-        if(INTEGRATIONLIB_STATIC_LIB_DEBUG)
-            set(INTEGRATIONLIB_FINAL_LIB_DEBUG ${INTEGRATIONLIB_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(INTEGRATIONLIB_FINAL_LIB_DEBUG IntegrationLib)
     endif()
 
-    # --- Dynamic Library Linking for Component (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
-    if(COMPONENT_SHARED_LIB_DEBUG)
-        set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
+    # --- Exact/Static Library Linking for ServiceLib (Debug) ---
+    # 1. Search for the exact library or static library
+    find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES "libServiceLib.a" PATHS "../../Lib/Debug")
+    if(SERVICELIB_STATIC_LIB_DEBUG)
+        set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_STATIC_LIB_DEBUG})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug")
-        if(COMPONENT_STATIC_LIB_DEBUG)
-            set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_DEBUG Component)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(SERVICELIB_FINAL_LIB_DEBUG ServiceLib)
     endif()
 
-    # --- Dynamic Library Linking for DisplayImage (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
-        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
+    # --- Exact/Static Library Linking for SeqLib (Debug) ---
+    # 1. Search for the exact library or static library
+    find_library(SEQLIB_STATIC_LIB_DEBUG NAMES "libSeqLib.a" PATHS "../../Lib/Debug")
+    if(SEQLIB_STATIC_LIB_DEBUG)
+        set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_STATIC_LIB_DEBUG})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(SEQLIB_FINAL_LIB_DEBUG SeqLib)
     endif()
 
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${SEQLIB_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${SEQLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -291,20 +261,20 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Intel_SSA>:
-        "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "../../OpenSource/Component"
-        "../../EditGUI/EditGUILib"
+        "../../EditGUI/EditGUILib/GeneratedFiles"
         "./GeneratedFiles/"
+        "../../GeneralSource"
+        "../../EditGUI/EditGUI"
+        "../../ServiceLib/ServiceLib/GeneratedFiles"
+        "C:../../GeneralSource"
+        "./GeneratedFiles"
         "../../ServiceLib/ServiceLib"
         "./"
-        "../../GeneralSource"
         "./GeneratedFiles/$(Configuration)"
-        "C:../../GeneralSource"
-        "../../EditGUI/EditGUI"
-        "../../EditGUI/EditGUILib/GeneratedFiles"
-        "../../OpenSource/DisplayImage"
         "../../Open"
-        "./GeneratedFiles"
+        "../../OpenSource/DisplayImage"
+        "../../OpenSource/Component"
+        "../../EditGUI/EditGUILib"
     >
 )
 
@@ -324,82 +294,58 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Intel_SSA>:"SeqLib.lib">
-        $<$<CONFIG:Intel_SSA>:"ServiceLib.lib">
-        $<$<CONFIG:Intel_SSA>:"Component.lib">
         $<$<CONFIG:Intel_SSA>:"DisplayImage.lib">
+        $<$<CONFIG:Intel_SSA>:"Component.lib">
+        $<$<CONFIG:Intel_SSA>:"ServiceLib.lib">
+        $<$<CONFIG:Intel_SSA>:"SeqLib.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for SeqLib (Intel_SSA) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SEQLIB_SHARED_LIB_INTEL_SSA NAMES SeqLib PATHS "../../Lib/Debug")
-    if(SEQLIB_SHARED_LIB_INTEL_SSA)
-        set(SEQLIB_FINAL_LIB_INTEL_SSA ${SEQLIB_SHARED_LIB_INTEL_SSA})
+    # --- Exact/Static Library Linking for DisplayImage (Intel_SSA) ---
+    # 1. Search for the exact library or static library
+    find_library(DISPLAYIMAGE_STATIC_LIB_INTEL_SSA NAMES "libDisplayImage.a" PATHS "../../Lib/Debug")
+    if(DISPLAYIMAGE_STATIC_LIB_INTEL_SSA)
+        set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA ${DISPLAYIMAGE_STATIC_LIB_INTEL_SSA})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SEQLIB_STATIC_LIB_INTEL_SSA NAMES libSeqLib.a PATHS "../../Lib/Debug")
-        if(SEQLIB_STATIC_LIB_INTEL_SSA)
-            set(SEQLIB_FINAL_LIB_INTEL_SSA ${SEQLIB_STATIC_LIB_INTEL_SSA})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SEQLIB_FINAL_LIB_INTEL_SSA SeqLib)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA DisplayImage)
     endif()
 
-    # --- Dynamic Library Linking for ServiceLib (Intel_SSA) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_INTEL_SSA NAMES ServiceLib PATHS "../../Lib/Debug")
-    if(SERVICELIB_SHARED_LIB_INTEL_SSA)
-        set(SERVICELIB_FINAL_LIB_INTEL_SSA ${SERVICELIB_SHARED_LIB_INTEL_SSA})
+    # --- Exact/Static Library Linking for Component (Intel_SSA) ---
+    # 1. Search for the exact library or static library
+    find_library(COMPONENT_STATIC_LIB_INTEL_SSA NAMES "libComponent.a" PATHS "../../Lib/Debug")
+    if(COMPONENT_STATIC_LIB_INTEL_SSA)
+        set(COMPONENT_FINAL_LIB_INTEL_SSA ${COMPONENT_STATIC_LIB_INTEL_SSA})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_INTEL_SSA NAMES libServiceLib.a PATHS "../../Lib/Debug")
-        if(SERVICELIB_STATIC_LIB_INTEL_SSA)
-            set(SERVICELIB_FINAL_LIB_INTEL_SSA ${SERVICELIB_STATIC_LIB_INTEL_SSA})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICELIB_FINAL_LIB_INTEL_SSA ServiceLib)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(COMPONENT_FINAL_LIB_INTEL_SSA Component)
     endif()
 
-    # --- Dynamic Library Linking for Component (Intel_SSA) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_INTEL_SSA NAMES Component PATHS "../../Lib/Debug")
-    if(COMPONENT_SHARED_LIB_INTEL_SSA)
-        set(COMPONENT_FINAL_LIB_INTEL_SSA ${COMPONENT_SHARED_LIB_INTEL_SSA})
+    # --- Exact/Static Library Linking for ServiceLib (Intel_SSA) ---
+    # 1. Search for the exact library or static library
+    find_library(SERVICELIB_STATIC_LIB_INTEL_SSA NAMES "libServiceLib.a" PATHS "../../Lib/Debug")
+    if(SERVICELIB_STATIC_LIB_INTEL_SSA)
+        set(SERVICELIB_FINAL_LIB_INTEL_SSA ${SERVICELIB_STATIC_LIB_INTEL_SSA})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_INTEL_SSA NAMES libComponent.a PATHS "../../Lib/Debug")
-        if(COMPONENT_STATIC_LIB_INTEL_SSA)
-            set(COMPONENT_FINAL_LIB_INTEL_SSA ${COMPONENT_STATIC_LIB_INTEL_SSA})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_INTEL_SSA Component)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(SERVICELIB_FINAL_LIB_INTEL_SSA ServiceLib)
     endif()
 
-    # --- Dynamic Library Linking for DisplayImage (Intel_SSA) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_INTEL_SSA NAMES DisplayImage PATHS "../../Lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_INTEL_SSA)
-        set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA ${DISPLAYIMAGE_SHARED_LIB_INTEL_SSA})
+    # --- Exact/Static Library Linking for SeqLib (Intel_SSA) ---
+    # 1. Search for the exact library or static library
+    find_library(SEQLIB_STATIC_LIB_INTEL_SSA NAMES "libSeqLib.a" PATHS "../../Lib/Debug")
+    if(SEQLIB_STATIC_LIB_INTEL_SSA)
+        set(SEQLIB_FINAL_LIB_INTEL_SSA ${SEQLIB_STATIC_LIB_INTEL_SSA})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_INTEL_SSA NAMES libDisplayImage.a PATHS "../../Lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_INTEL_SSA)
-            set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA ${DISPLAYIMAGE_STATIC_LIB_INTEL_SSA})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_INTEL_SSA DisplayImage)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(SEQLIB_FINAL_LIB_INTEL_SSA SeqLib)
     endif()
 
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Intel_SSA>:-Wl,--start-group>
-        $<$<CONFIG:Intel_SSA>:${SEQLIB_FINAL_LIB_INTEL_SSA}>
-        $<$<CONFIG:Intel_SSA>:${SERVICELIB_FINAL_LIB_INTEL_SSA}>
-        $<$<CONFIG:Intel_SSA>:${COMPONENT_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:${DISPLAYIMAGE_FINAL_LIB_INTEL_SSA}>
+        $<$<CONFIG:Intel_SSA>:${COMPONENT_FINAL_LIB_INTEL_SSA}>
+        $<$<CONFIG:Intel_SSA>:${SERVICELIB_FINAL_LIB_INTEL_SSA}>
+        $<$<CONFIG:Intel_SSA>:${SEQLIB_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:-Wl,--end-group>
     )
 endif()
@@ -425,211 +371,157 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../OpenSource/Component"
-        "../../EditGUI/EditGUILib"
-        "./GeneratedFiles/"
-        "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/include/OpenXLSX"
-        "../../ServiceLib/LanguageManager"
         "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/include"
+        "./GeneratedFiles/"
+        "../../GeneralSource"
+        "../../EditGUI/EditGUI"
+        "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/include/OpenXLSX"
+        "./GeneratedFiles"
         "../../ServiceLib/ServiceLib"
         "./"
-        "../../GeneralSource"
-        "../../Integrator/IntegrationLib"
-        "./GeneratedFiles/$(Configuration)"
-        "../../EditGUI/EditGUI"
-        "../../OpenSource/DisplayImage"
+        "../../ServiceLib/LanguageManager"
         "../../Open"
-        "./GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "../../Integrator/IntegrationLib"
+        "../../OpenSource/DisplayImage"
+        "../../OpenSource/Component"
+        "../../EditGUI/EditGUILib"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib"
-        "../"
-        "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib"
         "../../Lib/Release"
+        "../"
+        "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib"
+        "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "UNICODE"
-        "QT_NO_DEBUG"
         "ModeEditGUI"
         "NDEBUG"
+        "QT_NO_DEBUG"
         "QT_THREAD_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"ServiceLib.lib">
-        $<$<CONFIG:Release>:"OpenXLSX.lib">
         $<$<CONFIG:Release>:"xlsxwriter.lib">
-        $<$<CONFIG:Release>:"IntegrationLib.lib">
-        $<$<CONFIG:Release>:"EditGUILib.lib">
         $<$<CONFIG:Release>:"ServiceExecutionEditor.lib">
-        $<$<CONFIG:Release>:"Component.lib">
         $<$<CONFIG:Release>:"DisplayImage.lib">
+        $<$<CONFIG:Release>:"OpenXLSX.lib">
+        $<$<CONFIG:Release>:"EditGUILib.lib">
+        $<$<CONFIG:Release>:"Component.lib">
+        $<$<CONFIG:Release>:"IntegrationLib.lib">
         $<$<CONFIG:Release>:"CommonGUIDLL.lib">
+        $<$<CONFIG:Release>:"ServiceLib.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for ServiceLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-    if(SERVICELIB_SHARED_LIB_RELEASE)
-        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
+    # --- Exact/Static Library Linking for xlsxwriter (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(XLSXWRITER_STATIC_LIB_RELEASE NAMES "libxlsxwriter.a" PATHS "../../Lib/Release" "../" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
+    if(XLSXWRITER_STATIC_LIB_RELEASE)
+        set(XLSXWRITER_FINAL_LIB_RELEASE ${XLSXWRITER_STATIC_LIB_RELEASE})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-        if(SERVICELIB_STATIC_LIB_RELEASE)
-            set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(XLSXWRITER_FINAL_LIB_RELEASE xlsxwriter)
     endif()
 
-    # --- Dynamic Library Linking for OpenXLSX (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(OPENXLSX_SHARED_LIB_RELEASE NAMES OpenXLSX PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-    if(OPENXLSX_SHARED_LIB_RELEASE)
-        set(OPENXLSX_FINAL_LIB_RELEASE ${OPENXLSX_SHARED_LIB_RELEASE})
+    # --- Exact/Static Library Linking for ServiceExecutionEditor (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE NAMES "libServiceExecutionEditor.a" PATHS "../../Lib/Release" "../" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
+    if(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE)
+        set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(OPENXLSX_STATIC_LIB_RELEASE NAMES libOpenXLSX.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-        if(OPENXLSX_STATIC_LIB_RELEASE)
-            set(OPENXLSX_FINAL_LIB_RELEASE ${OPENXLSX_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(OPENXLSX_FINAL_LIB_RELEASE OpenXLSX)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ServiceExecutionEditor)
     endif()
 
-    # --- Dynamic Library Linking for xlsxwriter (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(XLSXWRITER_SHARED_LIB_RELEASE NAMES xlsxwriter PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-    if(XLSXWRITER_SHARED_LIB_RELEASE)
-        set(XLSXWRITER_FINAL_LIB_RELEASE ${XLSXWRITER_SHARED_LIB_RELEASE})
+    # --- Exact/Static Library Linking for DisplayImage (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(DISPLAYIMAGE_STATIC_LIB_RELEASE NAMES "libDisplayImage.a" PATHS "../../Lib/Release" "../" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
+    if(DISPLAYIMAGE_STATIC_LIB_RELEASE)
+        set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_STATIC_LIB_RELEASE})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(XLSXWRITER_STATIC_LIB_RELEASE NAMES libxlsxwriter.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-        if(XLSXWRITER_STATIC_LIB_RELEASE)
-            set(XLSXWRITER_FINAL_LIB_RELEASE ${XLSXWRITER_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(XLSXWRITER_FINAL_LIB_RELEASE xlsxwriter)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(DISPLAYIMAGE_FINAL_LIB_RELEASE DisplayImage)
     endif()
 
-    # --- Dynamic Library Linking for IntegrationLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(INTEGRATIONLIB_SHARED_LIB_RELEASE NAMES IntegrationLib PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-    if(INTEGRATIONLIB_SHARED_LIB_RELEASE)
-        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_SHARED_LIB_RELEASE})
+    # --- Exact/Static Library Linking for OpenXLSX (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(OPENXLSX_STATIC_LIB_RELEASE NAMES "libOpenXLSX.a" PATHS "../../Lib/Release" "../" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
+    if(OPENXLSX_STATIC_LIB_RELEASE)
+        set(OPENXLSX_FINAL_LIB_RELEASE ${OPENXLSX_STATIC_LIB_RELEASE})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES libIntegrationLib.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-        if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
-            set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(OPENXLSX_FINAL_LIB_RELEASE OpenXLSX)
     endif()
 
-    # --- Dynamic Library Linking for EditGUILib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(EDITGUILIB_SHARED_LIB_RELEASE NAMES EditGUILib PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-    if(EDITGUILIB_SHARED_LIB_RELEASE)
-        set(EDITGUILIB_FINAL_LIB_RELEASE ${EDITGUILIB_SHARED_LIB_RELEASE})
+    # --- Exact/Static Library Linking for EditGUILib (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(EDITGUILIB_STATIC_LIB_RELEASE NAMES "libEditGUILib.a" PATHS "../../Lib/Release" "../" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
+    if(EDITGUILIB_STATIC_LIB_RELEASE)
+        set(EDITGUILIB_FINAL_LIB_RELEASE ${EDITGUILIB_STATIC_LIB_RELEASE})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(EDITGUILIB_STATIC_LIB_RELEASE NAMES libEditGUILib.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-        if(EDITGUILIB_STATIC_LIB_RELEASE)
-            set(EDITGUILIB_FINAL_LIB_RELEASE ${EDITGUILIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(EDITGUILIB_FINAL_LIB_RELEASE EditGUILib)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(EDITGUILIB_FINAL_LIB_RELEASE EditGUILib)
     endif()
 
-    # --- Dynamic Library Linking for ServiceExecutionEditor (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE NAMES ServiceExecutionEditor PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-    if(SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE)
-        set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_SHARED_LIB_RELEASE})
+    # --- Exact/Static Library Linking for Component (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(COMPONENT_STATIC_LIB_RELEASE NAMES "libComponent.a" PATHS "../../Lib/Release" "../" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
+    if(COMPONENT_STATIC_LIB_RELEASE)
+        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE NAMES libServiceExecutionEditor.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-        if(SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE)
-            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ${SERVICEEXECUTIONEDITOR_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE ServiceExecutionEditor)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(COMPONENT_FINAL_LIB_RELEASE Component)
     endif()
 
-    # --- Dynamic Library Linking for Component (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-    if(COMPONENT_SHARED_LIB_RELEASE)
-        set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
+    # --- Exact/Static Library Linking for IntegrationLib (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(INTEGRATIONLIB_STATIC_LIB_RELEASE NAMES "libIntegrationLib.a" PATHS "../../Lib/Release" "../" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
+    if(INTEGRATIONLIB_STATIC_LIB_RELEASE)
+        set(INTEGRATIONLIB_FINAL_LIB_RELEASE ${INTEGRATIONLIB_STATIC_LIB_RELEASE})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-        if(COMPONENT_STATIC_LIB_RELEASE)
-            set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMPONENT_FINAL_LIB_RELEASE Component)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(INTEGRATIONLIB_FINAL_LIB_RELEASE IntegrationLib)
     endif()
 
-    # --- Dynamic Library Linking for DisplayImage (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_RELEASE NAMES DisplayImage PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-    if(DISPLAYIMAGE_SHARED_LIB_RELEASE)
-        set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_SHARED_LIB_RELEASE})
+    # --- Exact/Static Library Linking for CommonGUIDLL (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES "libCommonGUIDLL.a" PATHS "../../Lib/Release" "../" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
+    if(COMMONGUIDLL_STATIC_LIB_RELEASE)
+        set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_RELEASE NAMES libDisplayImage.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-        if(DISPLAYIMAGE_STATIC_LIB_RELEASE)
-            set(DISPLAYIMAGE_FINAL_LIB_RELEASE ${DISPLAYIMAGE_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_RELEASE DisplayImage)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
     endif()
 
-    # --- Dynamic Library Linking for CommonGUIDLL (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(COMMONGUIDLL_SHARED_LIB_RELEASE NAMES CommonGUIDLL PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-    if(COMMONGUIDLL_SHARED_LIB_RELEASE)
-        set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_SHARED_LIB_RELEASE})
+    # --- Exact/Static Library Linking for ServiceLib (Release) ---
+    # 1. Search for the exact library or static library
+    find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES "libServiceLib.a" PATHS "../../Lib/Release" "../" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib")
+    if(SERVICELIB_STATIC_LIB_RELEASE)
+        set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(COMMONGUIDLL_STATIC_LIB_RELEASE NAMES libCommonGUIDLL.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib" "../" "$ENV{HOME}/OpenAA-OtherLibrary/LibXLSXWriter/libxlsxwriter/lib" "../../Lib/Release")
-        if(COMMONGUIDLL_STATIC_LIB_RELEASE)
-            set(COMMONGUIDLL_FINAL_LIB_RELEASE ${COMMONGUIDLL_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(COMMONGUIDLL_FINAL_LIB_RELEASE CommonGUIDLL)
-        endif()
+        # Fallback if not found (e.g. system library)
+        set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
     endif()
 
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${OPENXLSX_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${XLSXWRITER_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${EDITGUILIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICEEXECUTIONEDITOR_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${OPENXLSX_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${EDITGUILIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMMONGUIDLL_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -658,12 +550,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_NAME}" AND IS_DIRECTORY "
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Sql
     Qt6::Core
+    Qt6::Core5Compat
     Qt6::Gui
     Qt6::Widgets
-    Qt6::Core5Compat
     Qt6::Network
+    Qt6::Sql
 )
 
 # === Additional Custom Settings ===
@@ -677,73 +569,75 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     "/usr/local/lib/"
-    "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/"
+    "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib/"
     "$ENV{HOME}/OpenAA6/Lib/Release"
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
-    -ffunction-sections -fdata-sections
     -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE
     "-Wl,--no-undefined"
-    "-Wl,--gc-sections"
 )
 
-    # --- Dynamic Library Linking for ForWindows ---
-    # 1. First, search for the shared library (.so)
-    find_library(FORWINDOWS_SHARED_LIB NAMES ForWindows PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+    # --- Exact/Static Library Linking for ForWindows ---
+    find_library(FORWINDOWS_STATIC_LIB NAMES "libForWindows.a" PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib/" "$ENV{HOME}/OpenAA6/Lib/Release")
 
-    if(FORWINDOWS_SHARED_LIB)
-        message(STATUS "Found Shared Library: ${FORWINDOWS_SHARED_LIB}")
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${FORWINDOWS_SHARED_LIB})
+    if(FORWINDOWS_STATIC_LIB)
+        message(STATUS "Found Exact/Static Library: ${FORWINDOWS_STATIC_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${FORWINDOWS_STATIC_LIB})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(FORWINDOWS_STATIC_LIB NAMES libForWindows.a PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
-        if(FORWINDOWS_STATIC_LIB)
-            message(STATUS "Found Static Library: ${FORWINDOWS_STATIC_LIB}")
-            target_link_libraries(${PROJECT_NAME} PRIVATE ${FORWINDOWS_STATIC_LIB})
-        else()
-            message(WARNING "Library ForWindows not found!")
-        endif()
+        message(WARNING "Library libForWindows.a not found! Fallback to default linking.")
+        target_link_libraries(${PROJECT_NAME} PRIVATE "libForWindows.a")
     endif()
 
-    # --- Dynamic Library Linking for NetworkDrive ---
-    # 1. First, search for the shared library (.so)
-    find_library(NETWORKDRIVE_SHARED_LIB NAMES NetworkDrive PATHS "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CMAKE_CURRENT_SOURCE_DIR}/../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." NO_DEFAULT_PATH)
+    # --- Exact/Static Library Linking for NetworkDrive ---
+    find_library(NETWORKDRIVE_STATIC_LIB NAMES "libNetworkDrive.so" PATHS "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CMAKE_CURRENT_SOURCE_DIR}/../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." NO_DEFAULT_PATH)
 
-    if(NETWORKDRIVE_SHARED_LIB)
-        message(STATUS "Found Shared Library: ${NETWORKDRIVE_SHARED_LIB}")
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${NETWORKDRIVE_SHARED_LIB})
+    if(NETWORKDRIVE_STATIC_LIB)
+        message(STATUS "Found Exact/Static Library: ${NETWORKDRIVE_STATIC_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${NETWORKDRIVE_STATIC_LIB})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(NETWORKDRIVE_STATIC_LIB NAMES libNetworkDrive.a PATHS "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CMAKE_CURRENT_SOURCE_DIR}/../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../.." "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." NO_DEFAULT_PATH)
-        if(NETWORKDRIVE_STATIC_LIB)
-            message(STATUS "Found Static Library: ${NETWORKDRIVE_STATIC_LIB}")
-            target_link_libraries(${PROJECT_NAME} PRIVATE ${NETWORKDRIVE_STATIC_LIB})
-        else()
-            message(WARNING "Library NetworkDrive not found!")
-        endif()
+        message(WARNING "Library libNetworkDrive.so not found! Fallback to default linking.")
+        target_link_libraries(${PROJECT_NAME} PRIVATE "libNetworkDrive.so")
     endif()
 
-    # --- Dynamic Library Linking for png16 ---
-    # 1. First, search for the shared library (.so)
-    find_library(PNG16_SHARED_LIB NAMES png16 PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
+    # --- Exact/Static Library Linking for miniz ---
+    find_library(MINIZ_STATIC_LIB NAMES "libminiz.a" PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib/" "$ENV{HOME}/OpenAA6/Lib/Release")
 
-    if(PNG16_SHARED_LIB)
-        message(STATUS "Found Shared Library: ${PNG16_SHARED_LIB}")
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${PNG16_SHARED_LIB})
+    if(MINIZ_STATIC_LIB)
+        message(STATUS "Found Exact/Static Library: ${MINIZ_STATIC_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${MINIZ_STATIC_LIB})
     else()
-        # 2. If not found, search for the static library (.a)
-        find_library(PNG16_STATIC_LIB NAMES libpng16.a PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/" "$ENV{HOME}/OpenAA6/Lib/Release")
-        if(PNG16_STATIC_LIB)
-            message(STATUS "Found Static Library: ${PNG16_STATIC_LIB}")
-            target_link_libraries(${PROJECT_NAME} PRIVATE ${PNG16_STATIC_LIB})
-        else()
-            message(WARNING "Library png16 not found!")
-        endif()
+        message(WARNING "Library libminiz.a not found! Fallback to default linking.")
+        target_link_libraries(${PROJECT_NAME} PRIVATE miniz)
     endif()
+
+    # --- Exact/Static Library Linking for png16 ---
+    find_library(PNG16_STATIC_LIB NAMES "libpng16.so" PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib/" "$ENV{HOME}/OpenAA6/Lib/Release")
+
+    if(PNG16_STATIC_LIB)
+        message(STATUS "Found Exact/Static Library: ${PNG16_STATIC_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${PNG16_STATIC_LIB})
+    else()
+        message(WARNING "Library libpng16.so not found! Fallback to default linking.")
+        target_link_libraries(${PROJECT_NAME} PRIVATE "libpng16.so")
+    endif()
+
+    # --- Exact/Static Library Linking for pugixml ---
+    find_library(PUGIXML_STATIC_LIB NAMES "libpugixml.a" PATHS "/usr/local/lib/" "$ENV{HOME}/OpenAA-OtherLibrary/OpenXLSX/OpenXLSX/lib/" "$ENV{HOME}/OpenAA6/Lib/Release")
+
+    if(PUGIXML_STATIC_LIB)
+        message(STATUS "Found Exact/Static Library: ${PUGIXML_STATIC_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${PUGIXML_STATIC_LIB})
+    else()
+        message(WARNING "Library libpugixml.a not found! Fallback to default linking.")
+        target_link_libraries(${PROJECT_NAME} PRIVATE pugixml)
+    endif()
+
+    # --- System Library Linking for z ---
+    target_link_libraries(${PROJECT_NAME} PRIVATE z)
 
 # Link OpenMP
 target_link_libraries(${PROJECT_NAME} PRIVATE OpenMP::OpenMP_CXX)

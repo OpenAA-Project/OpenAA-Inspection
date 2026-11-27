@@ -37,8 +37,12 @@ if(DETECTED_CORES EQUAL 0)
     set(DETECTED_CORES 4)
 endif()
 
-set(SLN_INNER_JOBS 1 CACHE STRING "Parallel compile jobs per subproject")
-set(META_MODE_DESC "Sequential SLN (Single-threaded)")
+set(TOTAL_PARALLEL_BUDGET ${DETECTED_CORES})
+set(DEFAULT_INNER_JOBS 1)
+set(DEFAULT_OUTER_JOBS ${TOTAL_PARALLEL_BUDGET})
+set(SLN_OUTER_JOBS ${DEFAULT_OUTER_JOBS} CACHE STRING "Number of subprojects to build concurrently")
+set(SLN_INNER_JOBS ${DEFAULT_INNER_JOBS} CACHE STRING "Parallel compile jobs per subproject")
+set(META_MODE_DESC "Parallel SLN (Outer: ${SLN_OUTER_JOBS} projects x Inner: ${SLN_INNER_JOBS} jobs)")
 
 # === Progress Display & Subproject Build Helper Script ===
 set(META_HELPER_SCRIPT "${CMAKE_BINARY_DIR}/_meta_build_helper.cmake")
@@ -217,18 +221,8 @@ elseif(MODE STREQUAL "FINISH")
 endif()
 ]===])
 
-add_custom_target(MetaBuild_Init ALL
-    COMMAND ${CMAKE_COMMAND}
-        -DMODE=INIT
-        "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
-        "-DTOTAL_PROJECTS=${TOTAL_PROJECTS}"
-        "-DMETA_MODE_DESC=${META_MODE_DESC}"
-        -P "${META_HELPER_SCRIPT}"
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    VERBATIM
-)
-
-add_custom_target(DisplayImage_build ALL
+# === Phase 1: Static Libraries (Parallel) ===
+add_custom_target(DisplayImage_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -245,9 +239,7 @@ add_custom_target(DisplayImage_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(DisplayImage_build MetaBuild_Init)
-
-add_custom_target(Component_build ALL
+add_custom_target(Component_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -264,9 +256,7 @@ add_custom_target(Component_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Component_build DisplayImage_build)
-
-add_custom_target(DisplayOpenGL_build ALL
+add_custom_target(DisplayOpenGL_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -283,9 +273,7 @@ add_custom_target(DisplayOpenGL_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(DisplayOpenGL_build Component_build)
-
-add_custom_target(InputInTouchPanel_build ALL
+add_custom_target(InputInTouchPanel_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -302,9 +290,7 @@ add_custom_target(InputInTouchPanel_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(InputInTouchPanel_build DisplayOpenGL_build)
-
-add_custom_target(PDF_PDFWidget_build ALL
+add_custom_target(PDF_PDFWidget_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -321,9 +307,32 @@ add_custom_target(PDF_PDFWidget_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PDF_PDFWidget_build InputInTouchPanel_build)
+add_custom_target(StaticLibs_all)
+add_dependencies(StaticLibs_all
+    DisplayImage_build
+    Component_build
+    DisplayOpenGL_build
+    InputInTouchPanel_build
+    PDF_PDFWidget_build
+)
 
-add_custom_target(MetaBuild_Finish ALL
+# === Master Parallel Build Entrypoint ===
+add_custom_target(MetaBuild_All ALL
+    COMMAND ${CMAKE_COMMAND}
+        -DMODE=INIT
+        "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
+        "-DTOTAL_PROJECTS=${TOTAL_PROJECTS}"
+        "-DMETA_MODE_DESC=${META_MODE_DESC}"
+        -P "${META_HELPER_SCRIPT}"
+    COMMAND ${CMAKE_COMMAND}
+        -DMODE=RUN_PHASE
+        "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
+        "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
+        -DPHASE_TARGET=StaticLibs_all
+        "-DBUILD_TYPE=${CMAKE_BUILD_TYPE}"
+        "-DOUTER_JOBS=${SLN_OUTER_JOBS}"
+        "-DMETA_GENERATOR=${CMAKE_GENERATOR}"
+        -P "${META_HELPER_SCRIPT}"
     COMMAND ${CMAKE_COMMAND}
         -DMODE=FINISH
         "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
@@ -331,5 +340,4 @@ add_custom_target(MetaBuild_Finish ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(MetaBuild_Finish PDF_PDFWidget_build)
 

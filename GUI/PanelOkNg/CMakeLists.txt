@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat SerialPort Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql SerialPort Core5Compat Widgets Network Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -91,12 +91,12 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles/"
         "../../GeneralSource"
-        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles"
         "../../GeneralSource/Sequence"
         "../../Open"
-        "./GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
     >
 )
 
@@ -108,36 +108,20 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "UNICODE"
-        "PANELOKNG_LIB"
         "QT_THREAD_SUPPORT"
+        "PANELOKNG_LIB"
+        "UNICODE"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"SeqLib.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
         $<$<CONFIG:Debug>:"Component.lib">
         $<$<CONFIG:Debug>:"DisplayImage.lib">
+        $<$<CONFIG:Debug>:"SeqLib.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for SeqLib (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SEQLIB_SHARED_LIB_DEBUG NAMES SeqLib PATHS "../../Lib/Debug")
-    if(SEQLIB_SHARED_LIB_DEBUG)
-        set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SEQLIB_STATIC_LIB_DEBUG NAMES libSeqLib.a PATHS "../../Lib/Debug")
-        if(SEQLIB_STATIC_LIB_DEBUG)
-            set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SEQLIB_FINAL_LIB_DEBUG SeqLib)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../Lib/Debug")
@@ -186,12 +170,28 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for SeqLib (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SEQLIB_SHARED_LIB_DEBUG NAMES SeqLib PATHS "../../Lib/Debug")
+    if(SEQLIB_SHARED_LIB_DEBUG)
+        set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SEQLIB_STATIC_LIB_DEBUG NAMES libSeqLib.a PATHS "../../Lib/Debug")
+        if(SEQLIB_STATIC_LIB_DEBUG)
+            set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SEQLIB_FINAL_LIB_DEBUG SeqLib)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${SEQLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${SEQLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -217,10 +217,10 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles/"
-        "./GeneratedFiles/$(Configuration)"
-        "../../Open"
         "./GeneratedFiles"
+        "../../Open"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
     >
 )
 
@@ -232,37 +232,21 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "UNICODE"
-        "QT_NO_DEBUG"
-        "NDEBUG"
-        "PANELOKNG_LIB"
         "QT_THREAD_SUPPORT"
+        "PANELOKNG_LIB"
+        "QT_NO_DEBUG"
+        "UNICODE"
+        "NDEBUG"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"SeqLib.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
         $<$<CONFIG:Release>:"Component.lib">
+        $<$<CONFIG:Release>:"SeqLib.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for SeqLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SEQLIB_SHARED_LIB_RELEASE NAMES SeqLib PATHS "../../Lib/Release")
-    if(SEQLIB_SHARED_LIB_RELEASE)
-        set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SEQLIB_STATIC_LIB_RELEASE NAMES libSeqLib.a PATHS "../../Lib/Release")
-        if(SEQLIB_STATIC_LIB_RELEASE)
-            set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SEQLIB_FINAL_LIB_RELEASE SeqLib)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
@@ -295,11 +279,27 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for SeqLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SEQLIB_SHARED_LIB_RELEASE NAMES SeqLib PATHS "../../Lib/Release")
+    if(SEQLIB_SHARED_LIB_RELEASE)
+        set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SEQLIB_STATIC_LIB_RELEASE NAMES libSeqLib.a PATHS "../../Lib/Release")
+        if(SEQLIB_STATIC_LIB_RELEASE)
+            set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SEQLIB_FINAL_LIB_RELEASE SeqLib)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${SEQLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SEQLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -316,12 +316,12 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Widgets
-    Qt6::Core5Compat
     Qt6::SerialPort
+    Qt6::Core5Compat
+    Qt6::Widgets
     Qt6::Network
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -342,6 +342,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
     -fsigned-char
+    -O3
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

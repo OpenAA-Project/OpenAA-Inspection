@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core5Compat Widgets Network Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -99,17 +99,17 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "../../Algorithm/SwitchPhase"
-        "../../OpenSource/Component"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
-        "./GeneratedFiles/"
-        "../../OpenSource/Component/GeneratedFiles"
-        "../../ServiceLib/ServiceLib"
         "../../GeneralSource"
-        "."
-        "../../OpenSource/DisplayImage"
-        "../../Open"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
+        "../../OpenSource/Component/GeneratedFiles"
+        "../../OpenSource/Component"
         "./GeneratedFiles"
+        "../../ServiceLib/ServiceLib"
+        "../../Open"
+        "../../OpenSource/DisplayImage"
+        "../../Algorithm/SwitchPhase"
+        "."
+        "./GeneratedFiles/"
     >
 )
 
@@ -122,8 +122,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "UNICODE"
-        "QT_LARGEFILE_SUPPORT"
         "PROPERTYSWITCHPHASE_LIB"
+        "QT_LARGEFILE_SUPPORT"
     >
 )
 
@@ -212,14 +212,14 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../Algorithm/SwitchPhase"
         "../../OpenSource/Component"
-        "./GeneratedFiles/"
+        "./GeneratedFiles"
+        "../../Open"
+        "../../OpenSource/DisplayImage"
+        "../../Algorithm/SwitchPhase"
         "../../Integrator/IntegrationLib"
         "."
-        "../../OpenSource/DisplayImage"
-        "../../Open"
-        "./GeneratedFiles"
+        "./GeneratedFiles/"
     >
 )
 
@@ -231,11 +231,11 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "UNICODE"
         "QT_NO_DEBUG"
-        "QT_LARGEFILE_SUPPORT"
+        "UNICODE"
         "NDEBUG"
         "PROPERTYSWITCHPHASE_LIB"
+        "QT_LARGEFILE_SUPPORT"
     >
 )
 
@@ -292,11 +292,11 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Widgets
     Qt6::Core5Compat
+    Qt6::Widgets
     Qt6::Network
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -317,6 +317,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
     -fsigned-char
+    -O3
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

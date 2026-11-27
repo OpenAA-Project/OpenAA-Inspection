@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Widgets Network Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -141,22 +141,22 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../OpenSource/Component"
-        "./GeneratedFiles/"
-        "../../OpenSource/Component/GeneratedFiles"
-        "./"
-        "../../GeneralSource"
-        "./GeneratedFiles/$(Configuration)"
         "../../OpenSource/Interbase"
-        "../../Open"
+        "../../GeneralSource"
+        "./"
+        "../../OpenSource/Component/GeneratedFiles"
+        "../../OpenSource/Component"
         "./GeneratedFiles"
+        "../../Open"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "UNICODE"
         "QT_THREAD_SUPPORT"
+        "UNICODE"
         "COMMONGUIDLL_LIB"
     >
 )
@@ -182,26 +182,26 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "../../OpenSource/Interbase"
+        "../../GeneralSource"
+        "./"
         "../../OpenSource/Component"
         "../../ServiceLib/CommonGUIDLL"
-        "./GeneratedFiles/"
-        "../../ServiceLib/ServiceLib"
-        "./"
-        "../../GeneralSource"
-        "./GeneratedFiles/$(Configuration)"
-        "../../OpenSource/Interbase"
-        "../../OpenSource/DisplayImage"
-        "../../Open"
         "./GeneratedFiles"
+        "../../ServiceLib/ServiceLib"
+        "../../Open"
+        "../../OpenSource/DisplayImage"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "UNICODE"
-        "QT_NO_DEBUG"
-        "NDEBUG"
         "QT_THREAD_SUPPORT"
+        "QT_NO_DEBUG"
+        "UNICODE"
+        "NDEBUG"
         "COMMONGUIDLL_LIB"
     >
 )
@@ -213,8 +213,8 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Template>:
-        "./GeneratedFiles/"
         "./GeneratedFiles"
+        "./GeneratedFiles/"
     >
 )
 
@@ -225,10 +225,10 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
     Qt6::Widgets
     Qt6::Network
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -249,6 +249,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
     -fsigned-char
+    -O3
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

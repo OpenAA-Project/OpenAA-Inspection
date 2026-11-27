@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -149,15 +149,15 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/build"
         "$(LIBPNG)"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/fofi"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf"
+        "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/include"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/build"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf-qt"
         "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/goo"
         "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/splash"
-        "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/include"
         "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/"
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/fofi"
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf-qt"
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf"
     >
 )
 
@@ -188,15 +188,15 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/build"
         "$(LIBPNG)"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/fofi"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf"
+        "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/include"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/build"
+        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf-qt"
         "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/goo"
         "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/splash"
-        "$ENV{HOME}/OpenAA-OtherLibrary/FreeType/freetype-2.14.3/include"
         "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/"
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/fofi"
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf-qt"
-        "$ENV{HOME}/OpenAA-OtherLibrary/PDF/xpdf-4.06/xpdf"
     >
 )
 
@@ -212,9 +212,9 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Core
-    Qt6::Gui
     Qt6::Widgets
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -235,6 +235,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
     -fsigned-char
+    -O3
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

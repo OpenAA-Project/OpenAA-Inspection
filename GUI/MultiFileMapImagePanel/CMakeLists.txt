@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat OpenGLWidgets OpenGL Network)
+find_package(Qt6 REQUIRED COMPONENTS OpenGLWidgets OpenGL Sql Core5Compat Widgets Network Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -92,14 +92,14 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "./../../Open"
-        "./../../Algorithm/MultiFileMap"
-        "./../../OpenSource/Component"
-        "./../../OpenSource/DisplayImage/GeneratedFiles"
-        "./GeneratedFiles/"
-        "."
-        "./../../OpenSource/DisplayImage"
         "./../../GUI/PropertyMultiFileMap"
+        "./../../Algorithm/MultiFileMap"
+        "./../../OpenSource/DisplayImage/GeneratedFiles"
+        "./../../OpenSource/Component"
         "./GeneratedFiles"
+        "./../../OpenSource/DisplayImage"
+        "."
+        "./GeneratedFiles/"
     >
 )
 
@@ -111,8 +111,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "UNICODE"
         "MULTIFILEMAPIMAGEPANEL_LIB"
+        "UNICODE"
         "QT_LARGEFILE_SUPPORT"
     >
 )
@@ -221,13 +221,13 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "./../../Open"
+        "./../../GUI/PropertyMultiFileMap"
         "./../../Algorithm/MultiFileMap"
         "./../../OpenSource/Component"
-        "./GeneratedFiles/"
-        "."
-        "./../../OpenSource/DisplayImage"
-        "./../../GUI/PropertyMultiFileMap"
         "./GeneratedFiles"
+        "./../../OpenSource/DisplayImage"
+        "."
+        "./GeneratedFiles/"
     >
 )
 
@@ -239,38 +239,22 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "UNICODE"
         "MULTIFILEMAPIMAGEPANEL_LIB"
         "QT_NO_DEBUG"
-        "QT_LARGEFILE_SUPPORT"
+        "UNICODE"
         "NDEBUG"
+        "QT_LARGEFILE_SUPPORT"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"DisplayOpenGL.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"DisplayOpenGL.lib">
         $<$<CONFIG:Release>:"Component.lib">
         $<$<CONFIG:Release>:"DisplayImage.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayOpenGL (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYOPENGL_SHARED_LIB_RELEASE NAMES DisplayOpenGL PATHS "../../Lib/Release")
-    if(DISPLAYOPENGL_SHARED_LIB_RELEASE)
-        set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYOPENGL_STATIC_LIB_RELEASE NAMES libDisplayOpenGL.a PATHS "../../Lib/Release")
-        if(DISPLAYOPENGL_STATIC_LIB_RELEASE)
-            set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYOPENGL_FINAL_LIB_RELEASE DisplayOpenGL)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
@@ -284,6 +268,22 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for DisplayOpenGL (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYOPENGL_SHARED_LIB_RELEASE NAMES DisplayOpenGL PATHS "../../Lib/Release")
+    if(DISPLAYOPENGL_SHARED_LIB_RELEASE)
+        set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYOPENGL_STATIC_LIB_RELEASE NAMES libDisplayOpenGL.a PATHS "../../Lib/Release")
+        if(DISPLAYOPENGL_STATIC_LIB_RELEASE)
+            set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYOPENGL_FINAL_LIB_RELEASE DisplayOpenGL)
         endif()
     endif()
 
@@ -321,8 +321,8 @@ elseif(UNIX)
 
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${DISPLAYOPENGL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${DISPLAYOPENGL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
@@ -335,14 +335,14 @@ endif()
 # --- End of Release ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Widgets
-    Qt6::Core5Compat
     Qt6::OpenGLWidgets
     Qt6::OpenGL
+    Qt6::Sql
+    Qt6::Core5Compat
+    Qt6::Widgets
     Qt6::Network
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -363,6 +363,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
     -fsigned-char
+    -O3
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

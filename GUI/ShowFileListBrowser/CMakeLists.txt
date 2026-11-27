@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Core5Compat Core Widgets Sql Gui Network)
+find_package(Qt6 REQUIRED COMPONENTS Core5Compat Gui Sql Network Widgets Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -88,15 +88,15 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "./GeneratedFiles/"
-        "../../GeneralSource"
-        "."
-        "../../Open"
-        "../../OpenSource/JPeg/jpeg-9c"
-        "../ButtonLoadBmpJpg"
-        "../GUI/ButtonLoadBmpJpg"
         "../../GeneralSource/Sequence"
+        "../ButtonLoadBmpJpg"
+        "."
+        "../../GeneralSource"
         "./GeneratedFiles"
+        "./GeneratedFiles/"
+        "../../OpenSource/JPeg/jpeg-9c"
+        "../GUI/ButtonLoadBmpJpg"
+        "../../Open"
     >
 )
 
@@ -108,34 +108,18 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "SHOWFILELISTBROWSER_LIB"
         "UNICODE"
+        "SHOWFILELISTBROWSER_LIB"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"DisplayImage.lib">
         $<$<CONFIG:Debug>:"Component.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
+        $<$<CONFIG:Debug>:"DisplayImage.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayImage (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
-    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
-        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug")
-        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for Component (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug")
@@ -168,11 +152,27 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for DisplayImage (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug")
+    if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
+        set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug")
+        if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYIMAGE_FINAL_LIB_DEBUG DisplayImage)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -198,30 +198,30 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "./GeneratedFiles/"
-        "."
-        "../../Open"
         "../ButtonLoadBmpJpg"
-        "../GUI/ButtonLoadBmpJpg"
-        "../../../OpenAA-OtherLibrary/JPEG/jpeg-9d"
+        "."
         "./GeneratedFiles"
+        "./GeneratedFiles/"
+        "../../../OpenAA-OtherLibrary/JPEG/jpeg-9d"
+        "../GUI/ButtonLoadBmpJpg"
+        "../../Open"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/jpeg-9d/x64/Release"
         "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/JPEG/jpeg-9d/.libs"
         "../../Lib/Release"
+        "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/jpeg-9d/x64/Release"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "SHOWFILELISTBROWSER_LIB"
         "QT_NO_DEBUG"
-        "UNICODE"
         "NDEBUG"
+        "UNICODE"
+        "SHOWFILELISTBROWSER_LIB"
     >
 )
 
@@ -233,12 +233,12 @@ if(WIN32)
 elseif(UNIX)
     # --- Dynamic Library Linking for Component (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/jpeg-9d/x64/Release" "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/JPEG/jpeg-9d/.libs" "../../Lib/Release")
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/JPEG/jpeg-9d/.libs" "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/jpeg-9d/x64/Release")
     if(COMPONENT_SHARED_LIB_RELEASE)
         set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/jpeg-9d/x64/Release" "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/JPEG/jpeg-9d/.libs" "../../Lib/Release")
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/JPEG/jpeg-9d/.libs" "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/jpeg-9d/x64/Release")
         if(COMPONENT_STATIC_LIB_RELEASE)
             set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
         else()
@@ -249,12 +249,12 @@ elseif(UNIX)
 
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/jpeg-9d/x64/Release" "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/JPEG/jpeg-9d/.libs" "../../Lib/Release")
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/JPEG/jpeg-9d/.libs" "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/jpeg-9d/x64/Release")
     if(SERVICELIB_SHARED_LIB_RELEASE)
         set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/jpeg-9d/x64/Release" "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/JPEG/jpeg-9d/.libs" "../../Lib/Release")
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/JPEG/jpeg-9d/.libs" "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/JPEG/jpeg-9d/x64/Release")
         if(SERVICELIB_STATIC_LIB_RELEASE)
             set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
         else()
@@ -278,11 +278,11 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Core5Compat
-    Qt6::Core
-    Qt6::Widgets
-    Qt6::Sql
     Qt6::Gui
+    Qt6::Sql
     Qt6::Network
+    Qt6::Widgets
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -302,7 +302,6 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
-    -fsigned-char
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

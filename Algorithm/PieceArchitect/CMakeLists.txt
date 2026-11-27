@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core5Compat Widgets Network Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -102,17 +102,17 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../OpenSource/Component"
-        "../../Algorithm/PieceArchitect"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
-        "../../GUI/PieceProperty"
-        "./GeneratedFiles/"
-        "../../ServiceLib/ServiceLib"
         "../../GeneralSource"
-        "./GeneratedFiles/$(Configuration)"
-        "../../OpenSource/DisplayImage"
-        "../../Open"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
+        "../../OpenSource/Component"
+        "../../GUI/PieceProperty"
         "./GeneratedFiles"
+        "../../ServiceLib/ServiceLib"
+        "../../Open"
+        "../../OpenSource/DisplayImage"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
+        "../../Algorithm/PieceArchitect"
     >
 )
 
@@ -124,9 +124,9 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "UNICODE"
-        "PIECEARCHITECT_LIB"
         "QT_THREAD_SUPPORT"
+        "PIECEARCHITECT_LIB"
+        "UNICODE"
     >
 )
 
@@ -251,15 +251,15 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../OpenSource/Component"
-        "../../Algorithm/PieceArchitect"
-        "../../GUI/PieceProperty"
-        "./GeneratedFiles/"
         "../../GeneralSource"
-        "./GeneratedFiles/$(Configuration)"
-        "../../OpenSource/DisplayImage"
-        "../../Open"
+        "../../OpenSource/Component"
+        "../../GUI/PieceProperty"
         "./GeneratedFiles"
+        "../../Open"
+        "../../OpenSource/DisplayImage"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
+        "../../Algorithm/PieceArchitect"
     >
 )
 
@@ -271,11 +271,11 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "UNICODE"
-        "QT_NO_DEBUG"
-        "PIECEARCHITECT_LIB"
-        "NDEBUG"
         "QT_THREAD_SUPPORT"
+        "PIECEARCHITECT_LIB"
+        "QT_NO_DEBUG"
+        "UNICODE"
+        "NDEBUG"
     >
 )
 
@@ -373,11 +373,11 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Widgets
     Qt6::Core5Compat
+    Qt6::Widgets
     Qt6::Network
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -398,6 +398,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
     -fsigned-char
+    -O3
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

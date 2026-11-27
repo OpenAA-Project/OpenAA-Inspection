@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat SerialPort Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql SerialPort Core5Compat Widgets Network Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -109,17 +109,17 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../Open"
-        "../InspectionPlayer/InspectionPlayer"
-        "../Integrator/IntegrationLib"
-        "./GeneratedFiles/"
-        "./"
         "../OpenSource/DisplayImage"
-        "./GeneratedFiles/$(Configuration)"
-        "../GeneralSource"
-        "../ServiceLib/ServiceLib"
         "../InspectionPlayer/InspectionPlayer/GeneratedFiles"
+        "../Open"
+        "../Integrator/IntegrationLib"
+        "./"
+        "../GeneralSource"
         "./GeneratedFiles"
+        "../ServiceLib/ServiceLib"
+        "../InspectionPlayer/InspectionPlayer"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
     >
 )
 
@@ -132,36 +132,20 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "UNICODE"
         "QT_THREAD_SUPPORT"
+        "UNICODE"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:"SeqLib.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
         $<$<CONFIG:Debug>:"IntegrationLib.lib">
         $<$<CONFIG:Debug>:"Component.lib">
         $<$<CONFIG:Debug>:"DisplayImage.lib">
+        $<$<CONFIG:Debug>:"SeqLib.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for SeqLib (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SEQLIB_SHARED_LIB_DEBUG NAMES SeqLib PATHS "../Lib/Debug" "PlatformSDK/Lib/AMD64")
-    if(SEQLIB_SHARED_LIB_DEBUG)
-        set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SEQLIB_STATIC_LIB_DEBUG NAMES libSeqLib.a PATHS "../Lib/Debug" "PlatformSDK/Lib/AMD64")
-        if(SEQLIB_STATIC_LIB_DEBUG)
-            set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SEQLIB_FINAL_LIB_DEBUG SeqLib)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../Lib/Debug" "PlatformSDK/Lib/AMD64")
@@ -226,13 +210,29 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for SeqLib (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SEQLIB_SHARED_LIB_DEBUG NAMES SeqLib PATHS "../Lib/Debug" "PlatformSDK/Lib/AMD64")
+    if(SEQLIB_SHARED_LIB_DEBUG)
+        set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SEQLIB_STATIC_LIB_DEBUG NAMES libSeqLib.a PATHS "../Lib/Debug" "PlatformSDK/Lib/AMD64")
+        if(SEQLIB_STATIC_LIB_DEBUG)
+            set(SEQLIB_FINAL_LIB_DEBUG ${SEQLIB_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SEQLIB_FINAL_LIB_DEBUG SeqLib)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
-        $<$<CONFIG:Debug>:${SEQLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${COMPONENT_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${DISPLAYIMAGE_FINAL_LIB_DEBUG}>
+        $<$<CONFIG:Debug>:${SEQLIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -259,11 +259,11 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Intel_SSA>:
         "../Open"
-        "./GeneratedFiles/"
         "./"
-        "./GeneratedFiles/$(Configuration)"
         "../GeneralSource"
         "./GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
     >
 )
 
@@ -276,35 +276,19 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Intel_SSA>:
-        "UNICODE"
         "QT_THREAD_SUPPORT"
+        "UNICODE"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Intel_SSA>:"SeqLib.lib">
         $<$<CONFIG:Intel_SSA>:"ServiceLib.lib">
         $<$<CONFIG:Intel_SSA>:"Component.lib">
         $<$<CONFIG:Intel_SSA>:"DisplayImage.lib">
+        $<$<CONFIG:Intel_SSA>:"SeqLib.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for SeqLib (Intel_SSA) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SEQLIB_SHARED_LIB_INTEL_SSA NAMES SeqLib PATHS "../Lib/Debug" "PlatformSDK/Lib/AMD64")
-    if(SEQLIB_SHARED_LIB_INTEL_SSA)
-        set(SEQLIB_FINAL_LIB_INTEL_SSA ${SEQLIB_SHARED_LIB_INTEL_SSA})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SEQLIB_STATIC_LIB_INTEL_SSA NAMES libSeqLib.a PATHS "../Lib/Debug" "PlatformSDK/Lib/AMD64")
-        if(SEQLIB_STATIC_LIB_INTEL_SSA)
-            set(SEQLIB_FINAL_LIB_INTEL_SSA ${SEQLIB_STATIC_LIB_INTEL_SSA})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SEQLIB_FINAL_LIB_INTEL_SSA SeqLib)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Intel_SSA) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_INTEL_SSA NAMES ServiceLib PATHS "../Lib/Debug" "PlatformSDK/Lib/AMD64")
@@ -353,12 +337,28 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for SeqLib (Intel_SSA) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SEQLIB_SHARED_LIB_INTEL_SSA NAMES SeqLib PATHS "../Lib/Debug" "PlatformSDK/Lib/AMD64")
+    if(SEQLIB_SHARED_LIB_INTEL_SSA)
+        set(SEQLIB_FINAL_LIB_INTEL_SSA ${SEQLIB_SHARED_LIB_INTEL_SSA})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SEQLIB_STATIC_LIB_INTEL_SSA NAMES libSeqLib.a PATHS "../Lib/Debug" "PlatformSDK/Lib/AMD64")
+        if(SEQLIB_STATIC_LIB_INTEL_SSA)
+            set(SEQLIB_FINAL_LIB_INTEL_SSA ${SEQLIB_STATIC_LIB_INTEL_SSA})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SEQLIB_FINAL_LIB_INTEL_SSA SeqLib)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Intel_SSA>:-Wl,--start-group>
-        $<$<CONFIG:Intel_SSA>:${SEQLIB_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:${SERVICELIB_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:${COMPONENT_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:${DISPLAYIMAGE_FINAL_LIB_INTEL_SSA}>
+        $<$<CONFIG:Intel_SSA>:${SEQLIB_FINAL_LIB_INTEL_SSA}>
         $<$<CONFIG:Intel_SSA>:-Wl,--end-group>
     )
 endif()
@@ -384,15 +384,15 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../Open"
-        "../InspectionPlayer/InspectionPlayer"
-        "../Integrator/IntegrationLib"
-        "./GeneratedFiles/"
-        "./"
         "../OpenSource/DisplayImage"
-        "./GeneratedFiles/$(Configuration)"
         "../InspectionPlayer/InspectionPlayer/GeneratedFiles"
+        "../Open"
+        "../Integrator/IntegrationLib"
+        "./"
         "./GeneratedFiles"
+        "../InspectionPlayer/InspectionPlayer"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
     >
 )
 
@@ -405,38 +405,22 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "UNICODE"
-        "QT_NO_DEBUG"
-        "NDEBUG"
         "QT_THREAD_SUPPORT"
+        "QT_NO_DEBUG"
+        "UNICODE"
+        "NDEBUG"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"SeqLib.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
-        $<$<CONFIG:Release>:"ServiceExecution.lib">
         $<$<CONFIG:Release>:"IntegrationLib.lib">
+        $<$<CONFIG:Release>:"ServiceExecution.lib">
         $<$<CONFIG:Release>:"Component.lib">
+        $<$<CONFIG:Release>:"SeqLib.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for SeqLib (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SEQLIB_SHARED_LIB_RELEASE NAMES SeqLib PATHS "PlatformSDK/Lib/AMD64" "../Lib/Release")
-    if(SEQLIB_SHARED_LIB_RELEASE)
-        set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SEQLIB_STATIC_LIB_RELEASE NAMES libSeqLib.a PATHS "PlatformSDK/Lib/AMD64" "../Lib/Release")
-        if(SEQLIB_STATIC_LIB_RELEASE)
-            set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SEQLIB_FINAL_LIB_RELEASE SeqLib)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "PlatformSDK/Lib/AMD64" "../Lib/Release")
@@ -450,22 +434,6 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
-        endif()
-    endif()
-
-    # --- Dynamic Library Linking for ServiceExecution (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICEEXECUTION_SHARED_LIB_RELEASE NAMES ServiceExecution PATHS "PlatformSDK/Lib/AMD64" "../Lib/Release")
-    if(SERVICEEXECUTION_SHARED_LIB_RELEASE)
-        set(SERVICEEXECUTION_FINAL_LIB_RELEASE ${SERVICEEXECUTION_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICEEXECUTION_STATIC_LIB_RELEASE NAMES libServiceExecution.a PATHS "PlatformSDK/Lib/AMD64" "../Lib/Release")
-        if(SERVICEEXECUTION_STATIC_LIB_RELEASE)
-            set(SERVICEEXECUTION_FINAL_LIB_RELEASE ${SERVICEEXECUTION_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICEEXECUTION_FINAL_LIB_RELEASE ServiceExecution)
         endif()
     endif()
 
@@ -485,6 +453,22 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for ServiceExecution (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICEEXECUTION_SHARED_LIB_RELEASE NAMES ServiceExecution PATHS "PlatformSDK/Lib/AMD64" "../Lib/Release")
+    if(SERVICEEXECUTION_SHARED_LIB_RELEASE)
+        set(SERVICEEXECUTION_FINAL_LIB_RELEASE ${SERVICEEXECUTION_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICEEXECUTION_STATIC_LIB_RELEASE NAMES libServiceExecution.a PATHS "PlatformSDK/Lib/AMD64" "../Lib/Release")
+        if(SERVICEEXECUTION_STATIC_LIB_RELEASE)
+            set(SERVICEEXECUTION_FINAL_LIB_RELEASE ${SERVICEEXECUTION_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICEEXECUTION_FINAL_LIB_RELEASE ServiceExecution)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for Component (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "PlatformSDK/Lib/AMD64" "../Lib/Release")
@@ -501,13 +485,29 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for SeqLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SEQLIB_SHARED_LIB_RELEASE NAMES SeqLib PATHS "PlatformSDK/Lib/AMD64" "../Lib/Release")
+    if(SEQLIB_SHARED_LIB_RELEASE)
+        set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SEQLIB_STATIC_LIB_RELEASE NAMES libSeqLib.a PATHS "PlatformSDK/Lib/AMD64" "../Lib/Release")
+        if(SEQLIB_STATIC_LIB_RELEASE)
+            set(SEQLIB_FINAL_LIB_RELEASE ${SEQLIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SEQLIB_FINAL_LIB_RELEASE SeqLib)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${SEQLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SERVICEEXECUTION_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SERVICEEXECUTION_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SEQLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -530,12 +530,12 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Widgets
-    Qt6::Core5Compat
     Qt6::SerialPort
+    Qt6::Core5Compat
+    Qt6::Widgets
     Qt6::Network
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -556,6 +556,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
     -fsigned-char
+    -O3
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

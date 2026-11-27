@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core5Compat Widgets Network Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -82,10 +82,10 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "./../../../Open"
-        "./../../../PluginDLL/PIO"
-        "./GeneratedFiles/"
-        "./GeneratedFiles/$(Configuration)"
         "./GeneratedFiles"
+        "./../../../PluginDLL/PIO"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
     >
 )
 
@@ -97,9 +97,9 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "UNICODE"
-        "CONTEC64MULTI_LIB"
         "QT_THREAD_SUPPORT"
+        "CONTEC64MULTI_LIB"
+        "UNICODE"
     >
 )
 
@@ -153,29 +153,29 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "./../../../Open"
+        "./GeneratedFiles"
         "./../../../PluginDLL/PIO"
         "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Inc"
-        "./GeneratedFiles/"
-        "./GeneratedFiles/$(Configuration)"
         "."
-        "./GeneratedFiles"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../../Lib/Release"
         "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64"
+        "../../../Lib/Release"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "UNICODE"
-        "QT_NO_DEBUG"
-        "CONTEC64MULTI_LIB"
-        "NDEBUG"
         "QT_THREAD_SUPPORT"
+        "CONTEC64MULTI_LIB"
+        "QT_NO_DEBUG"
+        "UNICODE"
+        "NDEBUG"
     >
 )
 
@@ -187,12 +187,12 @@ if(WIN32)
 elseif(UNIX)
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64" "../../../Lib/Release")
     if(SERVICELIB_SHARED_LIB_RELEASE)
         set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64" "../../../Lib/Release")
         if(SERVICELIB_STATIC_LIB_RELEASE)
             set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
         else()
@@ -203,12 +203,12 @@ elseif(UNIX)
 
     # --- Dynamic Library Linking for cdio (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(CDIO_SHARED_LIB_RELEASE NAMES cdio PATHS "../../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
+    find_library(CDIO_SHARED_LIB_RELEASE NAMES cdio PATHS "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64" "../../../Lib/Release")
     if(CDIO_SHARED_LIB_RELEASE)
         set(CDIO_FINAL_LIB_RELEASE ${CDIO_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(CDIO_STATIC_LIB_RELEASE NAMES libcdio.a PATHS "../../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64")
+        find_library(CDIO_STATIC_LIB_RELEASE NAMES libcdio.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/CONTEC/DIO/DIOWDM/Sample/Lib_amd64" "../../../Lib/Release")
         if(CDIO_STATIC_LIB_RELEASE)
             set(CDIO_FINAL_LIB_RELEASE ${CDIO_STATIC_LIB_RELEASE})
         else()
@@ -237,11 +237,11 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Widgets
     Qt6::Core5Compat
+    Qt6::Widgets
     Qt6::Network
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -262,6 +262,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
     -fsigned-char
+    -O3
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

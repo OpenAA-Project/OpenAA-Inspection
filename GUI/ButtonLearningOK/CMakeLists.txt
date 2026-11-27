@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat OpenGLWidgets OpenGL Network)
+find_package(Qt6 REQUIRED COMPONENTS OpenGLWidgets OpenGL Sql Core5Compat Widgets Network Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -92,16 +92,16 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "./../../Open"
-        "../../OpenSource/Component"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
-        "./GeneratedFiles/"
-        "../../OpenSource/Component/GeneratedFiles"
         "./"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
+        "../../OpenSource/Component/GeneratedFiles"
+        "../../OpenSource/Component"
+        "./GeneratedFiles"
+        "../../OpenSource/DisplayImage"
         "../LearningLib"
         "../LearningLib/GeneratedFiles"
         "./GeneratedFiles/$(Configuration)"
-        "../../OpenSource/DisplayImage"
-        "./GeneratedFiles"
+        "./GeneratedFiles/"
     >
 )
 
@@ -113,9 +113,9 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "UNICODE"
-        "BUTTONLEARNINGOK_LIB"
         "QT_THREAD_SUPPORT"
+        "BUTTONLEARNINGOK_LIB"
+        "UNICODE"
     >
 )
 
@@ -205,13 +205,13 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
         "./../../Open"
-        "../../OpenSource/Component"
-        "./GeneratedFiles/"
         "./"
+        "../../OpenSource/Component"
+        "./GeneratedFiles"
+        "../../OpenSource/DisplayImage"
         "../LearningLib"
         "./GeneratedFiles/$(Configuration)"
-        "../../OpenSource/DisplayImage"
-        "./GeneratedFiles"
+        "./GeneratedFiles/"
     >
 )
 
@@ -223,39 +223,23 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "UNICODE"
-        "QT_NO_DEBUG"
-        "NDEBUG"
-        "BUTTONLEARNINGOK_LIB"
         "QT_THREAD_SUPPORT"
+        "BUTTONLEARNINGOK_LIB"
+        "QT_NO_DEBUG"
+        "UNICODE"
+        "NDEBUG"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"DisplayOpenGL.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
-        $<$<CONFIG:Release>:"LearningLib.lib">
+        $<$<CONFIG:Release>:"DisplayOpenGL.lib">
         $<$<CONFIG:Release>:"Component.lib">
         $<$<CONFIG:Release>:"DisplayImage.lib">
+        $<$<CONFIG:Release>:"LearningLib.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayOpenGL (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYOPENGL_SHARED_LIB_RELEASE NAMES DisplayOpenGL PATHS "../../Lib/Release")
-    if(DISPLAYOPENGL_SHARED_LIB_RELEASE)
-        set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYOPENGL_STATIC_LIB_RELEASE NAMES libDisplayOpenGL.a PATHS "../../Lib/Release")
-        if(DISPLAYOPENGL_STATIC_LIB_RELEASE)
-            set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYOPENGL_FINAL_LIB_RELEASE DisplayOpenGL)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
@@ -272,19 +256,19 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for LearningLib (Release) ---
+    # --- Dynamic Library Linking for DisplayOpenGL (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(LEARNINGLIB_SHARED_LIB_RELEASE NAMES LearningLib PATHS "../../Lib/Release")
-    if(LEARNINGLIB_SHARED_LIB_RELEASE)
-        set(LEARNINGLIB_FINAL_LIB_RELEASE ${LEARNINGLIB_SHARED_LIB_RELEASE})
+    find_library(DISPLAYOPENGL_SHARED_LIB_RELEASE NAMES DisplayOpenGL PATHS "../../Lib/Release")
+    if(DISPLAYOPENGL_SHARED_LIB_RELEASE)
+        set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(LEARNINGLIB_STATIC_LIB_RELEASE NAMES libLearningLib.a PATHS "../../Lib/Release")
-        if(LEARNINGLIB_STATIC_LIB_RELEASE)
-            set(LEARNINGLIB_FINAL_LIB_RELEASE ${LEARNINGLIB_STATIC_LIB_RELEASE})
+        find_library(DISPLAYOPENGL_STATIC_LIB_RELEASE NAMES libDisplayOpenGL.a PATHS "../../Lib/Release")
+        if(DISPLAYOPENGL_STATIC_LIB_RELEASE)
+            set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_STATIC_LIB_RELEASE})
         else()
             # Fallback if not found (e.g. system library)
-            set(LEARNINGLIB_FINAL_LIB_RELEASE LearningLib)
+            set(DISPLAYOPENGL_FINAL_LIB_RELEASE DisplayOpenGL)
         endif()
     endif()
 
@@ -320,13 +304,29 @@ elseif(UNIX)
         endif()
     endif()
 
+    # --- Dynamic Library Linking for LearningLib (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(LEARNINGLIB_SHARED_LIB_RELEASE NAMES LearningLib PATHS "../../Lib/Release")
+    if(LEARNINGLIB_SHARED_LIB_RELEASE)
+        set(LEARNINGLIB_FINAL_LIB_RELEASE ${LEARNINGLIB_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(LEARNINGLIB_STATIC_LIB_RELEASE NAMES libLearningLib.a PATHS "../../Lib/Release")
+        if(LEARNINGLIB_STATIC_LIB_RELEASE)
+            set(LEARNINGLIB_FINAL_LIB_RELEASE ${LEARNINGLIB_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(LEARNINGLIB_FINAL_LIB_RELEASE LearningLib)
+        endif()
+    endif()
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${DISPLAYOPENGL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${LEARNINGLIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${DISPLAYOPENGL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${LEARNINGLIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -342,14 +342,14 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Widgets
-    Qt6::Core5Compat
     Qt6::OpenGLWidgets
     Qt6::OpenGL
+    Qt6::Sql
+    Qt6::Core5Compat
+    Qt6::Widgets
     Qt6::Network
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -370,6 +370,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
     -fsigned-char
+    -O3
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

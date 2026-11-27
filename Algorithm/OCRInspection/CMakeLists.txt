@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core5Compat Widgets Network Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -85,24 +85,24 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
         "./../../Open"
-        "./GeneratedFiles/"
         "./"
-        "./GeneratedFiles"
         "../../ServiceLib/TOCR"
+        "./GeneratedFiles"
+        "./GeneratedFiles/"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../Lib/Debug"
         "../../ServiceLib/TOCR"
+        "../../Lib/Debug"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "UNICODE"
         "OCRINSPECTION_LIB"
+        "UNICODE"
         "QT_LARGEFILE_SUPPORT"
     >
 )
@@ -118,12 +118,12 @@ if(WIN32)
 elseif(UNIX)
     # --- Dynamic Library Linking for TOCRdll (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(TOCRDLL_SHARED_LIB_DEBUG NAMES TOCRdll PATHS "../../Lib/Debug" "../../ServiceLib/TOCR")
+    find_library(TOCRDLL_SHARED_LIB_DEBUG NAMES TOCRdll PATHS "../../ServiceLib/TOCR" "../../Lib/Debug")
     if(TOCRDLL_SHARED_LIB_DEBUG)
         set(TOCRDLL_FINAL_LIB_DEBUG ${TOCRDLL_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(TOCRDLL_STATIC_LIB_DEBUG NAMES libTOCRdll.a PATHS "../../Lib/Debug" "../../ServiceLib/TOCR")
+        find_library(TOCRDLL_STATIC_LIB_DEBUG NAMES libTOCRdll.a PATHS "../../ServiceLib/TOCR" "../../Lib/Debug")
         if(TOCRDLL_STATIC_LIB_DEBUG)
             set(TOCRDLL_FINAL_LIB_DEBUG ${TOCRDLL_STATIC_LIB_DEBUG})
         else()
@@ -134,12 +134,12 @@ elseif(UNIX)
 
     # --- Dynamic Library Linking for ServiceLib (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../Lib/Debug" "../../ServiceLib/TOCR")
+    find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../ServiceLib/TOCR" "../../Lib/Debug")
     if(SERVICELIB_SHARED_LIB_DEBUG)
         set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES libServiceLib.a PATHS "../../Lib/Debug" "../../ServiceLib/TOCR")
+        find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES libServiceLib.a PATHS "../../ServiceLib/TOCR" "../../Lib/Debug")
         if(SERVICELIB_STATIC_LIB_DEBUG)
             set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_STATIC_LIB_DEBUG})
         else()
@@ -150,12 +150,12 @@ elseif(UNIX)
 
     # --- Dynamic Library Linking for Component (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../Lib/Debug" "../../ServiceLib/TOCR")
+    find_library(COMPONENT_SHARED_LIB_DEBUG NAMES Component PATHS "../../ServiceLib/TOCR" "../../Lib/Debug")
     if(COMPONENT_SHARED_LIB_DEBUG)
         set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../Lib/Debug" "../../ServiceLib/TOCR")
+        find_library(COMPONENT_STATIC_LIB_DEBUG NAMES libComponent.a PATHS "../../ServiceLib/TOCR" "../../Lib/Debug")
         if(COMPONENT_STATIC_LIB_DEBUG)
             set(COMPONENT_FINAL_LIB_DEBUG ${COMPONENT_STATIC_LIB_DEBUG})
         else()
@@ -166,12 +166,12 @@ elseif(UNIX)
 
     # --- Dynamic Library Linking for DisplayImage (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../Lib/Debug" "../../ServiceLib/TOCR")
+    find_library(DISPLAYIMAGE_SHARED_LIB_DEBUG NAMES DisplayImage PATHS "../../ServiceLib/TOCR" "../../Lib/Debug")
     if(DISPLAYIMAGE_SHARED_LIB_DEBUG)
         set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../Lib/Debug" "../../ServiceLib/TOCR")
+        find_library(DISPLAYIMAGE_STATIC_LIB_DEBUG NAMES libDisplayImage.a PATHS "../../ServiceLib/TOCR" "../../Lib/Debug")
         if(DISPLAYIMAGE_STATIC_LIB_DEBUG)
             set(DISPLAYIMAGE_FINAL_LIB_DEBUG ${DISPLAYIMAGE_STATIC_LIB_DEBUG})
         else()
@@ -182,12 +182,12 @@ elseif(UNIX)
 
     # --- Dynamic Library Linking for ModelPageItem (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(MODELPAGEITEM_SHARED_LIB_DEBUG NAMES ModelPageItem PATHS "../../Lib/Debug" "../../ServiceLib/TOCR")
+    find_library(MODELPAGEITEM_SHARED_LIB_DEBUG NAMES ModelPageItem PATHS "../../ServiceLib/TOCR" "../../Lib/Debug")
     if(MODELPAGEITEM_SHARED_LIB_DEBUG)
         set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGEITEM_STATIC_LIB_DEBUG NAMES libModelPageItem.a PATHS "../../Lib/Debug" "../../ServiceLib/TOCR")
+        find_library(MODELPAGEITEM_STATIC_LIB_DEBUG NAMES libModelPageItem.a PATHS "../../ServiceLib/TOCR" "../../Lib/Debug")
         if(MODELPAGEITEM_STATIC_LIB_DEBUG)
             set(MODELPAGEITEM_FINAL_LIB_DEBUG ${MODELPAGEITEM_STATIC_LIB_DEBUG})
         else()
@@ -228,27 +228,27 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/include"
         "./../../Open"
         "./"
-        "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/include"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib"
         "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/build"
         "../../Lib/Release"
+        "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib"
     >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "UNICODE"
-        "QT_NO_DEBUG"
         "OCRINSPECTION_LIB"
-        "QT_LARGEFILE_SUPPORT"
+        "QT_NO_DEBUG"
+        "UNICODE"
         "NDEBUG"
+        "QT_LARGEFILE_SUPPORT"
     >
 )
 
@@ -262,12 +262,12 @@ if(WIN32)
 elseif(UNIX)
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/build" "../../Lib/Release")
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/build" "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib")
     if(SERVICELIB_SHARED_LIB_RELEASE)
         set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/build" "../../Lib/Release")
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/build" "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib")
         if(SERVICELIB_STATIC_LIB_RELEASE)
             set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
         else()
@@ -287,12 +287,12 @@ elseif(UNIX)
 
     # --- Dynamic Library Linking for Component (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/build" "../../Lib/Release")
+    find_library(COMPONENT_SHARED_LIB_RELEASE NAMES Component PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/build" "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib")
     if(COMPONENT_SHARED_LIB_RELEASE)
         set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/build" "../../Lib/Release")
+        find_library(COMPONENT_STATIC_LIB_RELEASE NAMES libComponent.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/build" "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib")
         if(COMPONENT_STATIC_LIB_RELEASE)
             set(COMPONENT_FINAL_LIB_RELEASE ${COMPONENT_STATIC_LIB_RELEASE})
         else()
@@ -303,12 +303,12 @@ elseif(UNIX)
 
     # --- Dynamic Library Linking for ModelPageItem (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(MODELPAGEITEM_SHARED_LIB_RELEASE NAMES ModelPageItem PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/build" "../../Lib/Release")
+    find_library(MODELPAGEITEM_SHARED_LIB_RELEASE NAMES ModelPageItem PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/build" "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib")
     if(MODELPAGEITEM_SHARED_LIB_RELEASE)
         set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(MODELPAGEITEM_STATIC_LIB_RELEASE NAMES libModelPageItem.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib" "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/build" "../../Lib/Release")
+        find_library(MODELPAGEITEM_STATIC_LIB_RELEASE NAMES libModelPageItem.a PATHS "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/build" "../../Lib/Release" "$ENV{HOME}/OpenAA-OtherLibrary/OCR/tesseract/lib")
         if(MODELPAGEITEM_STATIC_LIB_RELEASE)
             set(MODELPAGEITEM_FINAL_LIB_RELEASE ${MODELPAGEITEM_STATIC_LIB_RELEASE})
         else()
@@ -334,11 +334,11 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Widgets
     Qt6::Core5Compat
+    Qt6::Widgets
     Qt6::Network
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -359,6 +359,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
     -fsigned-char
+    -O3
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core5Compat Widgets Network Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -104,20 +104,20 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../OpenSource/Component"
-        "../../ServiceLib/ServiceForDBLib"
-        "../../Hasplib/Hasplib"
-        "../../ServiceLib/TransDatabaseLib"
-        "../../OpenSource/Firebird_2_1/include"
         "../../GeneralSource"
+        "../../OpenSource/Firebird_2_1/include"
+        "../../ServiceLib/TransDatabaseLib"
+        "../../OpenSource/Component"
         "../../Open"
+        "../../Hasplib/Hasplib"
+        "../../ServiceLib/ServiceForDBLib"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../Win64Lib/release"
         "../../Lib/Release"
+        "../../Win64Lib/release"
         "../../OpenSource/Firebird_2_1/lib"
     >
 )
@@ -129,12 +129,12 @@ if(WIN32)
 elseif(UNIX)
     # --- Dynamic Library Linking for ServiceLib (Debug) ---
     # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../Win64Lib/release" "../../Lib/Release" "../../OpenSource/Firebird_2_1/lib")
+    find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../Lib/Release" "../../Win64Lib/release" "../../OpenSource/Firebird_2_1/lib")
     if(SERVICELIB_SHARED_LIB_DEBUG)
         set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_SHARED_LIB_DEBUG})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES libServiceLib.a PATHS "../../Win64Lib/release" "../../Lib/Release" "../../OpenSource/Firebird_2_1/lib")
+        find_library(SERVICELIB_STATIC_LIB_DEBUG NAMES libServiceLib.a PATHS "../../Lib/Release" "../../Win64Lib/release" "../../OpenSource/Firebird_2_1/lib")
         if(SERVICELIB_STATIC_LIB_DEBUG)
             set(SERVICELIB_FINAL_LIB_DEBUG ${SERVICELIB_STATIC_LIB_DEBUG})
         else()
@@ -171,20 +171,20 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../OpenSource/Component"
-        "../../ServiceLib/ServiceForDBLib"
-        "../../Hasplib/Hasplib"
-        "../../ServiceLib/TransDatabaseLib"
-        "../../OpenSource/Firebird_2_1/include"
         "../../GeneralSource"
+        "../../OpenSource/Firebird_2_1/include"
+        "../../ServiceLib/TransDatabaseLib"
+        "../../OpenSource/Component"
         "../../Open"
+        "../../Hasplib/Hasplib"
+        "../../ServiceLib/ServiceForDBLib"
     >
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../Win64Lib/release"
         "../../Lib/Release"
+        "../../Win64Lib/release"
         "../../OpenSource/Firebird_2_1/lib"
     >
 )
@@ -202,12 +202,12 @@ if(WIN32)
 elseif(UNIX)
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
-    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Win64Lib/release" "../../Lib/Release" "../../OpenSource/Firebird_2_1/lib")
+    find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release" "../../Win64Lib/release" "../../OpenSource/Firebird_2_1/lib")
     if(SERVICELIB_SHARED_LIB_RELEASE)
         set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_SHARED_LIB_RELEASE})
     else()
         # 2. If not found, search for the static library (.a)
-        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Win64Lib/release" "../../Lib/Release" "../../OpenSource/Firebird_2_1/lib")
+        find_library(SERVICELIB_STATIC_LIB_RELEASE NAMES libServiceLib.a PATHS "../../Lib/Release" "../../Win64Lib/release" "../../OpenSource/Firebird_2_1/lib")
         if(SERVICELIB_STATIC_LIB_RELEASE)
             set(SERVICELIB_FINAL_LIB_RELEASE ${SERVICELIB_STATIC_LIB_RELEASE})
         else()
@@ -236,11 +236,11 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Widgets
     Qt6::Core5Compat
+    Qt6::Widgets
     Qt6::Network
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -261,6 +261,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
     -fsigned-char
+    -O3
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

@@ -37,8 +37,12 @@ if(DETECTED_CORES EQUAL 0)
     set(DETECTED_CORES 4)
 endif()
 
-set(SLN_INNER_JOBS 1 CACHE STRING "Parallel compile jobs per subproject")
-set(META_MODE_DESC "Sequential SLN (Single-threaded)")
+set(TOTAL_PARALLEL_BUDGET ${DETECTED_CORES})
+set(DEFAULT_INNER_JOBS 1)
+set(DEFAULT_OUTER_JOBS ${TOTAL_PARALLEL_BUDGET})
+set(SLN_OUTER_JOBS ${DEFAULT_OUTER_JOBS} CACHE STRING "Number of subprojects to build concurrently")
+set(SLN_INNER_JOBS ${DEFAULT_INNER_JOBS} CACHE STRING "Parallel compile jobs per subproject")
+set(META_MODE_DESC "Parallel SLN (Outer: ${SLN_OUTER_JOBS} projects x Inner: ${SLN_INNER_JOBS} jobs)")
 
 # === Progress Display & Subproject Build Helper Script ===
 set(META_HELPER_SCRIPT "${CMAKE_BINARY_DIR}/_meta_build_helper.cmake")
@@ -217,18 +221,8 @@ elseif(MODE STREQUAL "FINISH")
 endif()
 ]===])
 
-add_custom_target(MetaBuild_Init ALL
-    COMMAND ${CMAKE_COMMAND}
-        -DMODE=INIT
-        "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
-        "-DTOTAL_PROJECTS=${TOTAL_PROJECTS}"
-        "-DMETA_MODE_DESC=${META_MODE_DESC}"
-        -P "${META_HELPER_SCRIPT}"
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    VERBATIM
-)
-
-add_custom_target(CommonGUIDLL_build ALL
+# === Phase 1: Static Libraries (Parallel) ===
+add_custom_target(CommonGUIDLL_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -245,9 +239,7 @@ add_custom_target(CommonGUIDLL_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(CommonGUIDLL_build MetaBuild_Init)
-
-add_custom_target(EditGUI_EditGUILib_build ALL
+add_custom_target(EditGUI_EditGUILib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -264,9 +256,7 @@ add_custom_target(EditGUI_EditGUILib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(EditGUI_EditGUILib_build CommonGUIDLL_build)
-
-add_custom_target(EditPasswordOnControl_build ALL
+add_custom_target(EditPasswordOnControl_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -283,9 +273,7 @@ add_custom_target(EditPasswordOnControl_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(EditPasswordOnControl_build EditGUI_EditGUILib_build)
-
-add_custom_target(ModelPageItem_build ALL
+add_custom_target(ModelPageItem_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -302,9 +290,7 @@ add_custom_target(ModelPageItem_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ModelPageItem_build EditPasswordOnControl_build)
-
-add_custom_target(ModelPageLayerItem_build ALL
+add_custom_target(ModelPageLayerItem_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -321,9 +307,7 @@ add_custom_target(ModelPageLayerItem_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ModelPageLayerItem_build ModelPageItem_build)
-
-add_custom_target(XML_MTXMLServer_MTXMLLib_build ALL
+add_custom_target(XML_MTXMLServer_MTXMLLib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -340,9 +324,7 @@ add_custom_target(XML_MTXMLServer_MTXMLLib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(XML_MTXMLServer_MTXMLLib_build ModelPageLayerItem_build)
-
-add_custom_target(GeneralSource_Sequence_SeqLib_SeqLib_build ALL
+add_custom_target(GeneralSource_Sequence_SeqLib_SeqLib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -359,9 +341,7 @@ add_custom_target(GeneralSource_Sequence_SeqLib_SeqLib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(GeneralSource_Sequence_SeqLib_SeqLib_build XML_MTXMLServer_MTXMLLib_build)
-
-add_custom_target(ServiceLib_build ALL
+add_custom_target(ServiceLib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -378,9 +358,7 @@ add_custom_target(ServiceLib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceLib_build GeneralSource_Sequence_SeqLib_SeqLib_build)
-
-add_custom_target(PasswordManager_build ALL
+add_custom_target(PasswordManager_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -397,9 +375,7 @@ add_custom_target(PasswordManager_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(PasswordManager_build ServiceLib_build)
-
-add_custom_target(ExecuteVisualizer_EVExecuterLib_build ALL
+add_custom_target(ExecuteVisualizer_EVExecuterLib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -416,9 +392,7 @@ add_custom_target(ExecuteVisualizer_EVExecuterLib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ExecuteVisualizer_EVExecuterLib_build PasswordManager_build)
-
-add_custom_target(LanguageManager_LanguageManagerLib_build ALL
+add_custom_target(LanguageManager_LanguageManagerLib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -435,9 +409,7 @@ add_custom_target(LanguageManager_LanguageManagerLib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(LanguageManager_LanguageManagerLib_build ExecuteVisualizer_EVExecuterLib_build)
-
-add_custom_target(DFSLibrary_build ALL
+add_custom_target(DFSLibrary_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -454,9 +426,7 @@ add_custom_target(DFSLibrary_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(DFSLibrary_build LanguageManager_LanguageManagerLib_build)
-
-add_custom_target(ExecuteVisualizer_EVObjectLib_build ALL
+add_custom_target(ExecuteVisualizer_EVObjectLib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -473,9 +443,7 @@ add_custom_target(ExecuteVisualizer_EVObjectLib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ExecuteVisualizer_EVObjectLib_build DFSLibrary_build)
-
-add_custom_target(Integrator_IntegrationLib_build ALL
+add_custom_target(Integrator_IntegrationLib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -492,9 +460,7 @@ add_custom_target(Integrator_IntegrationLib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_IntegrationLib_build ExecuteVisualizer_EVObjectLib_build)
-
-add_custom_target(ServiceForAlgorithm_build ALL
+add_custom_target(ServiceForAlgorithm_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -511,9 +477,7 @@ add_custom_target(ServiceForAlgorithm_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceForAlgorithm_build Integrator_IntegrationLib_build)
-
-add_custom_target(ForWindows_build ALL
+add_custom_target(ForWindows_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -530,9 +494,7 @@ add_custom_target(ForWindows_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ForWindows_build ServiceForAlgorithm_build)
-
-add_custom_target(ServiceExecution_build ALL
+add_custom_target(ServiceExecution_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -549,9 +511,7 @@ add_custom_target(ServiceExecution_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceExecution_build ForWindows_build)
-
-add_custom_target(ServiceExecutionEditor_build ALL
+add_custom_target(ServiceExecutionEditor_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -568,9 +528,7 @@ add_custom_target(ServiceExecutionEditor_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceExecutionEditor_build ServiceExecution_build)
-
-add_custom_target(ServiceExecutionPlayer_build ALL
+add_custom_target(ServiceExecutionPlayer_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -587,9 +545,7 @@ add_custom_target(ServiceExecutionPlayer_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceExecutionPlayer_build ServiceExecutionEditor_build)
-
-add_custom_target(ServiceExecutionEditorWithSequence_build ALL
+add_custom_target(ServiceExecutionEditorWithSequence_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -606,9 +562,7 @@ add_custom_target(ServiceExecutionEditorWithSequence_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceExecutionEditorWithSequence_build ServiceExecutionPlayer_build)
-
-add_custom_target(ServiceExecutionShadow_build ALL
+add_custom_target(ServiceExecutionShadow_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -625,9 +579,7 @@ add_custom_target(ServiceExecutionShadow_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(ServiceExecutionShadow_build ServiceExecutionEditorWithSequence_build)
-
-add_custom_target(Integrator_IntegrationPanelLib_build ALL
+add_custom_target(Integrator_IntegrationPanelLib_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -644,9 +596,34 @@ add_custom_target(Integrator_IntegrationPanelLib_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(Integrator_IntegrationPanelLib_build ServiceExecutionShadow_build)
+add_custom_target(StaticLibs_all)
+add_dependencies(StaticLibs_all
+    CommonGUIDLL_build
+    EditGUI_EditGUILib_build
+    EditPasswordOnControl_build
+    ModelPageItem_build
+    ModelPageLayerItem_build
+    XML_MTXMLServer_MTXMLLib_build
+    GeneralSource_Sequence_SeqLib_SeqLib_build
+    ServiceLib_build
+    PasswordManager_build
+    ExecuteVisualizer_EVExecuterLib_build
+    LanguageManager_LanguageManagerLib_build
+    DFSLibrary_build
+    ExecuteVisualizer_EVObjectLib_build
+    Integrator_IntegrationLib_build
+    ServiceForAlgorithm_build
+    ForWindows_build
+    ServiceExecution_build
+    ServiceExecutionEditor_build
+    ServiceExecutionPlayer_build
+    ServiceExecutionEditorWithSequence_build
+    ServiceExecutionShadow_build
+    Integrator_IntegrationPanelLib_build
+)
 
-add_custom_target(NetworkDrive_build ALL
+# === Phase 2: Other Projects / DLLs / EXEs (Parallel) ===
+add_custom_target(NetworkDrive_build
     COMMAND ${CMAKE_COMMAND}
         -DMODE=STEP
         "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
@@ -663,9 +640,37 @@ add_custom_target(NetworkDrive_build ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(NetworkDrive_build Integrator_IntegrationPanelLib_build)
+add_custom_target(OtherProjects_all)
+add_dependencies(OtherProjects_all
+    NetworkDrive_build
+)
 
-add_custom_target(MetaBuild_Finish ALL
+# === Master Parallel Build Entrypoint ===
+add_custom_target(MetaBuild_All ALL
+    COMMAND ${CMAKE_COMMAND}
+        -DMODE=INIT
+        "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
+        "-DTOTAL_PROJECTS=${TOTAL_PROJECTS}"
+        "-DMETA_MODE_DESC=${META_MODE_DESC}"
+        -P "${META_HELPER_SCRIPT}"
+    COMMAND ${CMAKE_COMMAND}
+        -DMODE=RUN_PHASE
+        "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
+        "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
+        -DPHASE_TARGET=StaticLibs_all
+        "-DBUILD_TYPE=${CMAKE_BUILD_TYPE}"
+        "-DOUTER_JOBS=${SLN_OUTER_JOBS}"
+        "-DMETA_GENERATOR=${CMAKE_GENERATOR}"
+        -P "${META_HELPER_SCRIPT}"
+    COMMAND ${CMAKE_COMMAND}
+        -DMODE=RUN_PHASE
+        "-DMETA_SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
+        "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
+        -DPHASE_TARGET=OtherProjects_all
+        "-DBUILD_TYPE=${CMAKE_BUILD_TYPE}"
+        "-DOUTER_JOBS=${SLN_OUTER_JOBS}"
+        "-DMETA_GENERATOR=${CMAKE_GENERATOR}"
+        -P "${META_HELPER_SCRIPT}"
     COMMAND ${CMAKE_COMMAND}
         -DMODE=FINISH
         "-DMETA_BIN_DIR=${CMAKE_BINARY_DIR}"
@@ -673,5 +678,4 @@ add_custom_target(MetaBuild_Finish ALL
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     VERBATIM
 )
-add_dependencies(MetaBuild_Finish NetworkDrive_build)
 

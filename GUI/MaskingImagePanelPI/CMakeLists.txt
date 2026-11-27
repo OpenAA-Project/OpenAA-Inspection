@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat OpenGLWidgets OpenGL Network)
+find_package(Qt6 REQUIRED COMPONENTS OpenGLWidgets OpenGL Sql Core5Compat Widgets Network Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -90,23 +90,23 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
-        "../../GUI/PropertyMaskingPI"
         "../../ServiceLib/ServiceLib/GeneratedFiles"
-        "../../GUI/MaskingImagePanel/SelectLibraryInMask"
+        "../../GeneralSource"
+        "../../OpenSource/DisplayImage/GeneratedFiles"
         "../../OpenSource/Component"
         "../../GUI/ImageControlTools/GeneratedFiles"
-        "../../OpenSource/DisplayImage/GeneratedFiles"
-        "../../GUI/MaskingImagePanel/SelectLibraryInMask/GeneratedFiles"
-        "../../GUI/ImagePanelTools"
-        "./GeneratedFiles/"
-        "../../ServiceLib/ServiceLib"
-        "../../GUI/ImageControlTools"
-        "../../GeneralSource"
-        "../../GUI/ImagePanelTools/GeneratedFiles"
-        "./GeneratedFiles/$(Configuration)"
-        "../../OpenSource/DisplayImage"
-        "../../Open"
         "./GeneratedFiles"
+        "../../GUI/ImageControlTools"
+        "../../GUI/ImagePanelTools/GeneratedFiles"
+        "../../ServiceLib/ServiceLib"
+        "../../GUI/ImagePanelTools"
+        "../../GUI/PropertyMaskingPI"
+        "../../Open"
+        "../../GUI/MaskingImagePanel/SelectLibraryInMask/GeneratedFiles"
+        "../../GUI/MaskingImagePanel/SelectLibraryInMask"
+        "../../OpenSource/DisplayImage"
+        "./GeneratedFiles/$(Configuration)"
+        "./GeneratedFiles/"
     >
 )
 
@@ -118,9 +118,9 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "QT_THREAD_SUPPORT"
         "UNICODE"
         "MASKINGIMAGEPANELPI_LIB"
-        "QT_THREAD_SUPPORT"
     >
 )
 
@@ -209,19 +209,19 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "../../GUI/PropertyMaskingPI/GeneratedFiles"
-        "../../GUI/PropertyMaskingPI"
-        "../../GUI/MaskingImagePanel/SelectLibraryInMask"
         "../../OpenSource/Component"
-        "../../GUI/MaskingImagePanel/SelectLibraryInMask/GeneratedFiles"
-        "../../GUI/ImagePanelTools"
-        "./GeneratedFiles/"
-        "../../GUI/ImageControlTools"
-        "./GeneratedFiles/$(Configuration)"
-        "../../OpenSource/DisplayImage"
-        "../../Open"
         "./GeneratedFiles"
+        "../../GUI/ImageControlTools"
+        "../../GUI/ImagePanelTools"
+        "../../GUI/PropertyMaskingPI"
+        "../../Open"
+        "../../GUI/MaskingImagePanel/SelectLibraryInMask/GeneratedFiles"
+        "../../GUI/MaskingImagePanel/SelectLibraryInMask"
+        "../../OpenSource/DisplayImage"
         "../../Algorithm/MaskingPI"
+        "./GeneratedFiles/$(Configuration)"
+        "../../GUI/PropertyMaskingPI/GeneratedFiles"
+        "./GeneratedFiles/"
     >
 )
 
@@ -234,39 +234,23 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
-        "UNICODE"
-        "QT_NO_DEBUG"
-        "MASKINGIMAGEPANELPI_LIB"
-        "NDEBUG"
         "QT_THREAD_SUPPORT"
+        "QT_NO_DEBUG"
+        "UNICODE"
+        "NDEBUG"
+        "MASKINGIMAGEPANELPI_LIB"
     >
 )
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:"DisplayOpenGL.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
+        $<$<CONFIG:Release>:"SelectLibraryInMask.lib">
+        $<$<CONFIG:Release>:"DisplayOpenGL.lib">
         $<$<CONFIG:Release>:"Component.lib">
         $<$<CONFIG:Release>:"DisplayImage.lib">
-        $<$<CONFIG:Release>:"SelectLibraryInMask.lib">
     )
 elseif(UNIX)
-    # --- Dynamic Library Linking for DisplayOpenGL (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(DISPLAYOPENGL_SHARED_LIB_RELEASE NAMES DisplayOpenGL PATHS "../../GUI" "../../Lib/Release")
-    if(DISPLAYOPENGL_SHARED_LIB_RELEASE)
-        set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(DISPLAYOPENGL_STATIC_LIB_RELEASE NAMES libDisplayOpenGL.a PATHS "../../GUI" "../../Lib/Release")
-        if(DISPLAYOPENGL_STATIC_LIB_RELEASE)
-            set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(DISPLAYOPENGL_FINAL_LIB_RELEASE DisplayOpenGL)
-        endif()
-    endif()
-
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../GUI" "../../Lib/Release")
@@ -280,6 +264,38 @@ elseif(UNIX)
         else()
             # Fallback if not found (e.g. system library)
             set(SERVICELIB_FINAL_LIB_RELEASE ServiceLib)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for SelectLibraryInMask (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SELECTLIBRARYINMASK_SHARED_LIB_RELEASE NAMES SelectLibraryInMask PATHS "../../GUI" "../../Lib/Release")
+    if(SELECTLIBRARYINMASK_SHARED_LIB_RELEASE)
+        set(SELECTLIBRARYINMASK_FINAL_LIB_RELEASE ${SELECTLIBRARYINMASK_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SELECTLIBRARYINMASK_STATIC_LIB_RELEASE NAMES libSelectLibraryInMask.a PATHS "../../GUI" "../../Lib/Release")
+        if(SELECTLIBRARYINMASK_STATIC_LIB_RELEASE)
+            set(SELECTLIBRARYINMASK_FINAL_LIB_RELEASE ${SELECTLIBRARYINMASK_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SELECTLIBRARYINMASK_FINAL_LIB_RELEASE SelectLibraryInMask)
+        endif()
+    endif()
+
+    # --- Dynamic Library Linking for DisplayOpenGL (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(DISPLAYOPENGL_SHARED_LIB_RELEASE NAMES DisplayOpenGL PATHS "../../GUI" "../../Lib/Release")
+    if(DISPLAYOPENGL_SHARED_LIB_RELEASE)
+        set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(DISPLAYOPENGL_STATIC_LIB_RELEASE NAMES libDisplayOpenGL.a PATHS "../../GUI" "../../Lib/Release")
+        if(DISPLAYOPENGL_STATIC_LIB_RELEASE)
+            set(DISPLAYOPENGL_FINAL_LIB_RELEASE ${DISPLAYOPENGL_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(DISPLAYOPENGL_FINAL_LIB_RELEASE DisplayOpenGL)
         endif()
     endif()
 
@@ -315,29 +331,13 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for SelectLibraryInMask (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SELECTLIBRARYINMASK_SHARED_LIB_RELEASE NAMES SelectLibraryInMask PATHS "../../GUI" "../../Lib/Release")
-    if(SELECTLIBRARYINMASK_SHARED_LIB_RELEASE)
-        set(SELECTLIBRARYINMASK_FINAL_LIB_RELEASE ${SELECTLIBRARYINMASK_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SELECTLIBRARYINMASK_STATIC_LIB_RELEASE NAMES libSelectLibraryInMask.a PATHS "../../GUI" "../../Lib/Release")
-        if(SELECTLIBRARYINMASK_STATIC_LIB_RELEASE)
-            set(SELECTLIBRARYINMASK_FINAL_LIB_RELEASE ${SELECTLIBRARYINMASK_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SELECTLIBRARYINMASK_FINAL_LIB_RELEASE SelectLibraryInMask)
-        endif()
-    endif()
-
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
-        $<$<CONFIG:Release>:${DISPLAYOPENGL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${SELECTLIBRARYINMASK_FINAL_LIB_RELEASE}>
+        $<$<CONFIG:Release>:${DISPLAYOPENGL_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${COMPONENT_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${DISPLAYIMAGE_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SELECTLIBRARYINMASK_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -353,14 +353,14 @@ endif()
 # --- End of Template ---
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Widgets
-    Qt6::Core5Compat
     Qt6::OpenGLWidgets
     Qt6::OpenGL
+    Qt6::Sql
+    Qt6::Core5Compat
+    Qt6::Widgets
     Qt6::Network
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -381,6 +381,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
     -fsigned-char
+    -O3
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

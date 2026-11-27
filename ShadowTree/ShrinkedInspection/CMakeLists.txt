@@ -33,7 +33,7 @@ if(UNIX)
 endif()
 
 # Find Qt6
-find_package(Qt6 REQUIRED COMPONENTS Sql Core Gui Widgets Core5Compat Network)
+find_package(Qt6 REQUIRED COMPONENTS Sql Core5Compat Widgets Network Gui Core)
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
@@ -76,9 +76,9 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:
+        "../../Open"
         "../"
         "../../Integrator/IntegrationLib"
-        "../../Open"
     >
 )
 
@@ -96,11 +96,27 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:"ServiceExecutionShadow.lib">
         $<$<CONFIG:Debug>:"ServiceLib.lib">
         $<$<CONFIG:Debug>:"IntegrationLib.lib">
-        $<$<CONFIG:Debug>:"ServiceExecutionShadow.lib">
     )
 elseif(UNIX)
+    # --- Dynamic Library Linking for ServiceExecutionShadow (Debug) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICEEXECUTIONSHADOW_SHARED_LIB_DEBUG NAMES ServiceExecutionShadow PATHS "../../Lib/Release")
+    if(SERVICEEXECUTIONSHADOW_SHARED_LIB_DEBUG)
+        set(SERVICEEXECUTIONSHADOW_FINAL_LIB_DEBUG ${SERVICEEXECUTIONSHADOW_SHARED_LIB_DEBUG})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICEEXECUTIONSHADOW_STATIC_LIB_DEBUG NAMES libServiceExecutionShadow.a PATHS "../../Lib/Release")
+        if(SERVICEEXECUTIONSHADOW_STATIC_LIB_DEBUG)
+            set(SERVICEEXECUTIONSHADOW_FINAL_LIB_DEBUG ${SERVICEEXECUTIONSHADOW_STATIC_LIB_DEBUG})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICEEXECUTIONSHADOW_FINAL_LIB_DEBUG ServiceExecutionShadow)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for ServiceLib (Debug) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_DEBUG NAMES ServiceLib PATHS "../../Lib/Release")
@@ -133,27 +149,11 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for ServiceExecutionShadow (Debug) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICEEXECUTIONSHADOW_SHARED_LIB_DEBUG NAMES ServiceExecutionShadow PATHS "../../Lib/Release")
-    if(SERVICEEXECUTIONSHADOW_SHARED_LIB_DEBUG)
-        set(SERVICEEXECUTIONSHADOW_FINAL_LIB_DEBUG ${SERVICEEXECUTIONSHADOW_SHARED_LIB_DEBUG})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICEEXECUTIONSHADOW_STATIC_LIB_DEBUG NAMES libServiceExecutionShadow.a PATHS "../../Lib/Release")
-        if(SERVICEEXECUTIONSHADOW_STATIC_LIB_DEBUG)
-            set(SERVICEEXECUTIONSHADOW_FINAL_LIB_DEBUG ${SERVICEEXECUTIONSHADOW_STATIC_LIB_DEBUG})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICEEXECUTIONSHADOW_FINAL_LIB_DEBUG ServiceExecutionShadow)
-        endif()
-    endif()
-
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:-Wl,--start-group>
+        $<$<CONFIG:Debug>:${SERVICEEXECUTIONSHADOW_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${SERVICELIB_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:${INTEGRATIONLIB_FINAL_LIB_DEBUG}>
-        $<$<CONFIG:Debug>:${SERVICEEXECUTIONSHADOW_FINAL_LIB_DEBUG}>
         $<$<CONFIG:Debug>:-Wl,--end-group>
     )
 endif()
@@ -179,9 +179,9 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:
+        "../../Open"
         "../"
         "../../Integrator/IntegrationLib"
-        "../../Open"
     >
 )
 
@@ -199,11 +199,27 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Release>:"ServiceExecutionShadow.lib">
         $<$<CONFIG:Release>:"ServiceLib.lib">
         $<$<CONFIG:Release>:"IntegrationLib.lib">
-        $<$<CONFIG:Release>:"ServiceExecutionShadow.lib">
     )
 elseif(UNIX)
+    # --- Dynamic Library Linking for ServiceExecutionShadow (Release) ---
+    # 1. First, search for the shared library (.so)
+    find_library(SERVICEEXECUTIONSHADOW_SHARED_LIB_RELEASE NAMES ServiceExecutionShadow PATHS "../../Lib/Release")
+    if(SERVICEEXECUTIONSHADOW_SHARED_LIB_RELEASE)
+        set(SERVICEEXECUTIONSHADOW_FINAL_LIB_RELEASE ${SERVICEEXECUTIONSHADOW_SHARED_LIB_RELEASE})
+    else()
+        # 2. If not found, search for the static library (.a)
+        find_library(SERVICEEXECUTIONSHADOW_STATIC_LIB_RELEASE NAMES libServiceExecutionShadow.a PATHS "../../Lib/Release")
+        if(SERVICEEXECUTIONSHADOW_STATIC_LIB_RELEASE)
+            set(SERVICEEXECUTIONSHADOW_FINAL_LIB_RELEASE ${SERVICEEXECUTIONSHADOW_STATIC_LIB_RELEASE})
+        else()
+            # Fallback if not found (e.g. system library)
+            set(SERVICEEXECUTIONSHADOW_FINAL_LIB_RELEASE ServiceExecutionShadow)
+        endif()
+    endif()
+
     # --- Dynamic Library Linking for ServiceLib (Release) ---
     # 1. First, search for the shared library (.so)
     find_library(SERVICELIB_SHARED_LIB_RELEASE NAMES ServiceLib PATHS "../../Lib/Release")
@@ -236,27 +252,11 @@ elseif(UNIX)
         endif()
     endif()
 
-    # --- Dynamic Library Linking for ServiceExecutionShadow (Release) ---
-    # 1. First, search for the shared library (.so)
-    find_library(SERVICEEXECUTIONSHADOW_SHARED_LIB_RELEASE NAMES ServiceExecutionShadow PATHS "../../Lib/Release")
-    if(SERVICEEXECUTIONSHADOW_SHARED_LIB_RELEASE)
-        set(SERVICEEXECUTIONSHADOW_FINAL_LIB_RELEASE ${SERVICEEXECUTIONSHADOW_SHARED_LIB_RELEASE})
-    else()
-        # 2. If not found, search for the static library (.a)
-        find_library(SERVICEEXECUTIONSHADOW_STATIC_LIB_RELEASE NAMES libServiceExecutionShadow.a PATHS "../../Lib/Release")
-        if(SERVICEEXECUTIONSHADOW_STATIC_LIB_RELEASE)
-            set(SERVICEEXECUTIONSHADOW_FINAL_LIB_RELEASE ${SERVICEEXECUTIONSHADOW_STATIC_LIB_RELEASE})
-        else()
-            # Fallback if not found (e.g. system library)
-            set(SERVICEEXECUTIONSHADOW_FINAL_LIB_RELEASE ServiceExecutionShadow)
-        endif()
-    endif()
-
     target_link_libraries(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-Wl,--start-group>
+        $<$<CONFIG:Release>:${SERVICEEXECUTIONSHADOW_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${SERVICELIB_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:${INTEGRATIONLIB_FINAL_LIB_RELEASE}>
-        $<$<CONFIG:Release>:${SERVICEEXECUTIONSHADOW_FINAL_LIB_RELEASE}>
         $<$<CONFIG:Release>:-Wl,--end-group>
     )
 endif()
@@ -268,11 +268,11 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Sql
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Widgets
     Qt6::Core5Compat
+    Qt6::Widgets
     Qt6::Network
+    Qt6::Gui
+    Qt6::Core
 )
 
 # === Additional Custom Settings ===
@@ -293,6 +293,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 target_compile_options(${PROJECT_NAME} PRIVATE
     -ffunction-sections -fdata-sections
     -fsigned-char
+    -O3
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE
